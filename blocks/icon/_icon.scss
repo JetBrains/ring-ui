@@ -1,0 +1,77 @@
+$block_path: "blocks/icon";
+
+/* Icons */
+.icon_transition {
+  opacity: .3;
+
+  @include transition(opacity 0.15s linear);
+
+  &:hover {
+    opacity: .99;
+  }
+}
+
+.icon_any {
+  position: relative;
+  display: inline-block;
+  top: 1px;
+  width: 16px;
+  height: 16px;
+  margin-right: 2px;
+  background-repeat: no-repeat;
+  @include background-size(100% 100%);
+  vertical-align: text-bottom;
+}
+
+// http://www.opera.com/docs/specs/presto2.12/css/o-vendor/
+doesnotexist:-o-prefocus, .icon_any {
+  top: auto;
+  vertical-align: middle;
+}
+
+.icon_directory {
+  background-image: inline-image("#{$block_path}/path-directory.png");
+  @include background-size(100% 100%);
+}
+
+.icon_file {
+  background-image: inline-image("#{$block_path}/path-file.png");
+  @include background-size(100% 100%);
+}
+
+.icon_info {
+  background-image: inline-image("#{$block_path}/balloonInformation.png");
+  @include background-size(100% 100%);
+}
+
+.icon_warning {
+  background-image: inline-image("#{$block_path}/balloonWarning.png");
+  @include background-size(100% 100%);
+}
+
+.icon_error {
+  background-image: inline-image("#{$block_path}/balloonError.png");
+  @include background-size(100% 100%);
+}
+
+@include retina-ratio() {
+  .icon_directory {
+    background-image: inline-image("#{$block_path}/path-directory@2x.png");
+  }
+
+  .icon_file {
+    background-image: inline-image("#{$block_path}/path-file@2x.png");
+  }
+
+  .icon_info {
+    background-image: inline-image("#{$block_path}/balloonInformation@2x.png");
+  }
+
+  .icon_warning {
+    background-image: inline-image("#{$block_path}/balloonWarning@2x.png");
+  }
+
+  .icon_error {
+    background-image: inline-image("#{$block_path}/balloonError@2x.png");
+  }
+}

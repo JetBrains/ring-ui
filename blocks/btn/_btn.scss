@@ -1,0 +1,106 @@
+.btn {
+  cursor: pointer;
+  display: inline-block;
+
+  background-color: #e6e6e6;
+  background-repeat: no-repeat;
+  @include background-image(linear-gradient(#ffffff, #ffffff 25%, #e6e6e6));
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#e6e6e6', GradientType=0);
+  filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+
+  padding: 5px 14px 6px;
+  @include text-shadow(0 1px 1px rgba(255, 255, 255, 0.75));
+  @include text-color();
+  font-size: 13px;
+  line-height: normal;
+
+  border: 1px solid #ccc;
+  border-bottom-color: #bbb;
+  @include border-radius(4px);
+  @include box-shadow(inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05));
+
+  &,
+  &:hover {
+    text-decoration: none !important;
+  }
+}
+
+.btn_hover,
+.btn:hover {
+  background-position: 0 -15px;
+  @include text-color();
+  filter: none;
+
+  @include transition(background-position 0.1s linear);
+}
+
+.btn:focus {
+  outline: thin dotted;
+  outline: 5px auto -webkit-focus-ring-color;
+  outline-offset: -2px;
+}
+
+.btn:active {
+  @include box-shadow(inset 0 2px 4px rgba(0, 0, 0, 0.25), 0 1px 2px rgba(0, 0, 0, 0.05));
+  outline: 0;
+}
+
+.btn[disabled],
+.btn[disabled]:hover,
+.btn[disabled]:active {
+  background-color: #e6e6e6;
+  background-image: none;
+  background-position: 0 0;
+  filter: inherit;
+
+  color: #666;
+
+  @include box-shadow(inherit);
+}
+
+.btn_primary {
+  color: #FFF;
+
+  background-color: #2d5fb3;
+  background-repeat: repeat-x;
+  @include background-image(linear-gradient(to bottom, #438ed7, #2d5fb3));
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff438ed7', endColorstr='#ff2d5fb3', GradientType=0);
+  filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+
+  @include text-shadow(0 -1px 0 rgba(0, 0, 0, 0.25));
+
+  border-color: #2d5fb3 #2d5fb3 #003f81;
+  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+
+  &:hover {
+    color: #FFF;
+  }
+}
+
+.btn_mini {
+  padding: 0 .5em;
+}
+
+.btn_icon {
+  padding: .2em .5em;
+}
+
+.btn_icon:focus {
+  outline: none;
+}
+
+.btn_group .btn {
+  margin-left: -1px;
+
+  @include border-radius(0);
+
+  &:first-child {
+    margin-left: 0;
+
+    @include border-radius(4px 0 0 4px);
+  }
+
+  &:last-child {
+    @include border-radius(0 4px 4px 0);
+  }
+}

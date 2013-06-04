@@ -1,0 +1,22 @@
+/* Alerts */
+.alert {
+  margin: 10px;
+  padding: 8px 14px;
+
+  font-size: 120%;
+  @include text-shadow(0 1px 0 rgba(255, 255, 255, 0.5));
+
+  @include border-radius(4px);
+}
+
+.alert_error {
+  @include error-color();
+  background-color: #FFE6F2;
+  border-color: #FFEAF2;
+}
+
+.alert_warning {
+  @include warning-color();
+  background-color: #FFF9CC;
+  border-color: #FFFBD0;
+}
