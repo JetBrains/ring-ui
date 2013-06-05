@@ -1,0 +1,16 @@
+.tag {
+  display: inline-block;
+  position: relative;
+  top: -1px;
+  padding: 0 8px;
+
+  @include border-radius(8px);
+
+  color: #666;
+  background: #E5E5E5;
+  font-size: 10px;
+  font-weight: bold;
+  text-transform: uppercase;
+  vertical-align: text-bottom;
+  -webkit-font-smoothing: antialiased;
+}

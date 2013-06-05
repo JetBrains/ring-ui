@@ -1,0 +1,14 @@
+.expander {
+  padding: 0 7px;
+
+  border: 1px solid #C8C8C8;
+  @include border-radius(2px);
+
+  background: #F3F3F3;
+  color: #C8C8C8;
+
+  &:hover {
+    cursor: pointer;
+    background: #E3E3E3;
+  }
+}
