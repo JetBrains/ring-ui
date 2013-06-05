@@ -1,0 +1,33 @@
+.popup-panel {
+  @include background-clip(padding-box);
+  @include box-sizing(border-box);
+
+  padding: 5px 0;
+
+  border: 1px solid;
+  border-color: #ccc #666 #666 #ccc;
+  border-color: rgba(0, 0, 0, 0.2);
+  @include box-shadow(0 5px 10px rgba(0, 0, 0, 0.2));
+
+  z-index: 1000;
+}
+
+.popup-panel_scrollable {
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.popup-panel_dialog {
+  padding: 10px;
+}
+
+.popup-panel_generic {
+  padding: 0;
+}
+
+.popup-panel__section {
+}
+
+.popup-panel__section-separator .gwt-MenuBar {
+  margin-right: 5px;
+}
