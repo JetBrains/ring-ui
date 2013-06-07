@@ -1,0 +1,36 @@
+.ring-header {
+  padding: $x-unit/2 $x-unit*4;
+  background: #484848;
+  font: 11px Verdana, Arial, sans-serif;
+  line-height: 1.5;
+  text-rendering: optimizeLegibility;
+  position: relative;
+}
+
+.ring-header__link {
+  margin: 0 $x-unit;
+  color: #b4b4b4 !important;
+  font: 11px Verdana, Arial, sans-serif;
+  text-decoration: none;
+}
+
+.ring-header__link_login {
+  right: $x-unit*4;
+  position: absolute;
+}
+
+.ring-header__link_login .icon-triangle {
+  padding-left: 5px;
+  vertical-align: middle;
+  font-size: 12px;
+}
+
+.ring-header__link:hover,
+.ring-header__link_active {
+  text-decoration: none !important;
+  color: #FFF !important;
+}
+
+.ring-header__link_active {
+  font-weight: bold;
+}

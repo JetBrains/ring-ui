@@ -1,20 +1,77 @@
-.ring-links {
-  padding: 4px 0 3px;
+/* line 1, blocks/ring-header/_ring-header.scss */
+.ring-header {
+  padding: 4px 32px;
   background: #484848;
-  text-align: center;
   font: 11px Verdana, Arial, sans-serif;
   line-height: 1.5;
   text-rendering: optimizeLegibility;
+  position: relative;
 }
 
-.ring-links__link {
-  margin: 0 5px;
-  color: #909090 !important;
+/* line 10, blocks/ring-header/_ring-header.scss */
+.ring-header__link {
+  margin: 0 8px;
+  color: #b4b4b4 !important;
   font: 11px Verdana, Arial, sans-serif;
+  text-decoration: none;
 }
 
-.ring-links__link:hover,
-.ring-links__link_active {
+/* line 17, blocks/ring-header/_ring-header.scss */
+.ring-header__link_login {
+  right: 32px;
+  position: absolute;
+}
+
+/* line 22, blocks/ring-header/_ring-header.scss */
+.ring-header__link_login .icon-triangle {
+  padding-left: 5px;
+  vertical-align: middle;
+  font-size: 12px;
+}
+
+/* line 29, blocks/ring-header/_ring-header.scss */
+.ring-header__link:hover,
+.ring-header__link_active {
   text-decoration: none !important;
   color: #FFF !important;
+}
+
+/* line 34, blocks/ring-header/_ring-header.scss */
+.ring-header__link_active {
+  font-weight: bold;
+}
+
+@font-face {
+  font-family: 'custom-awesome';
+  src: url("blocks/font-icon/font-icon.eot");
+  src: url("blocks/font-icon/font-icon.eot?#iefix") format("embedded-opentype"), url("blocks/font-icon/font-icon.woff") format("woff"), url("blocks/font-icon/font-icon.ttf") format("truetype"), url("blocks/font-icon/font-icon.svg#custom-awesome") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* line 14, blocks/font-icon/_font-icon.scss */
+.font-icon {
+  font-family: 'custom-awesome';
+  speak: none;
+  font-style: normal;
+  font-size: 14px;
+  font-weight: normal;
+  font-variant: normal;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* line 25, blocks/font-icon/_font-icon.scss */
+.icon-cog:before {
+  content: "\f013";
+}
+
+/* line 28, blocks/font-icon/_font-icon.scss */
+.icon-question:before {
+  content: "\f128";
+}
+
+/* line 31, blocks/font-icon/_font-icon.scss */
+.icon-triangle:before {
+  content: "\f0d7";
 }

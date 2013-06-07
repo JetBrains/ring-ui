@@ -1,0 +1,16 @@
+This is JRuby with Compass CSS Framework built in.
+
+More information on using Compass in Java projects: http://caueguerra.com/tutorial-using-sass-in-a-java-project
+
+To rebuild, do the following:
+
+1) Download the "Complete .jar" distribution of JRuby
+
+2) Install Compass next to the JAR:
+   java -jar jruby-complete-X.Y.Z.jar -S gem install -i ./compass compass
+
+3) Pack Compass and related gems into the JAR:
+   jar uf jruby-complete-X.Y.Z.jar -C compass .
+
+4) Verify:
+   java -jar jruby-complete-X.Y.Z.jar -S gem list
