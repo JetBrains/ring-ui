@@ -58,7 +58,7 @@
       ring_link.appendTo(ring_links);
     }
 
-     $('<i class="ring-header__link ring-header__link_login">Nikolae Chaushesku<i class="font-icon icon-triangle"></i></i>').appendTo(ring_links);
+     $('<i class="ring-header__link ring-header__link_login">Nikolae Chaushesku<i class="font-icon font-icon_triangle"></i></i>').appendTo(ring_links);
 
 
      body.addClass('ring');
