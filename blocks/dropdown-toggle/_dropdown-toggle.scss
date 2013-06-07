@@ -1,0 +1,22 @@
+.dropdown-toggle {
+  $color: #b4b4b4;
+
+  display: inline-block;
+
+  height: 15px;
+  width: 12px;
+  padding: 1px 0 0 4px;
+  margin-left: 5px;
+
+  color: $color;
+  border: $color solid;
+  border-width: 0 0 0 1px;
+
+  &:hover {
+    $color: #ff5900;
+
+    color: $color;
+    border-color: $color;
+    border-width: 1px;
+  }
+}
