@@ -2,12 +2,13 @@
 ###################
 *.iws
 .idea/workspace.xml
+.idea/dictionaries/*.xml
 out/
 
 
 # OS generated files #
 ######################
-.DS_Store?
+.DS_Store
 ehthumbs.db
 Icon?
 Thumbs.db
@@ -16,5 +17,5 @@ Thumbs.db
 # Build files #
 ######################
 node_modules
-.tmp
 .sass-cache
+*.css
