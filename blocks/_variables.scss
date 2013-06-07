@@ -1,0 +1,49 @@
+// Header common unit
+$x-unit: 8px;
+
+@mixin text-color() {
+  color: #333;
+}
+
+@mixin link-color() {
+  color: #3881C9;
+}
+
+@mixin link-icon-color() {
+  color: #BCBDC0; // Color of main navigation icons
+}
+
+@mixin link-icon-hover-color() {
+  color: #64A7DB; // Color of main navigation icons
+}
+
+@mixin warning-color() {
+  color: #E3A948;
+}
+
+@mixin error-color() {
+  color: #DC6E5F;
+}
+
+@mixin monospace-font() {
+  font: 12px 'Menlo', 'Bitstream Vera Sans Mono', 'Courier New', 'Courier', monospace;
+}
+
+@mixin thin-font() {
+  font-weight: 200;
+  font-family: Helvetica Neue, Calibri, Arial, sans-serif;
+}
+
+@mixin retina-ratio($ratio: 2) {
+  $dpi: $ratio * 96;
+  $opera-ratio: $ratio * 100;
+  @media
+  only screen and (-webkit-min-device-pixel-ratio: #{$ratio}),
+  only screen and (   min--moz-device-pixel-ratio: #{$ratio}),
+  only screen and (     -o-min-device-pixel-ratio: '#{$opera-ratio}/100'),
+  only screen and (        min-device-pixel-ratio: #{$ratio}),
+  only screen and (                min-resolution: #{$dpi}dpi),
+  only screen and (                min-resolution: #{$ratio}dppx) {
+    @content;
+  }
+}

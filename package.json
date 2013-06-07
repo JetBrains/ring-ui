@@ -1,0 +1,16 @@
+{
+  "name": "ring-ui",
+  "version": "0.0.0",
+  "description": "JetBrains blocks library",
+  "repository": {
+    "type": "git",
+    "url": "ssh://github.com/JetBrains/ring-ui.git"
+  },
+  "readmeFilename": "README.md",
+  "devDependencies": {
+    "grunt": "~0.4.1",
+    "grunt-contrib-watch": "~0.4.4",
+    "grunt-shell": "~0.2.2",
+    "grunt-notify": "~0.2.4"
+  }
+}
