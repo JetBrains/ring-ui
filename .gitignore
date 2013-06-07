@@ -1,0 +1,20 @@
+# Per user settings #
+###################
+*.iws
+.idea/workspace.xml
+out/
+
+
+# OS generated files #
+######################
+.DS_Store?
+ehthumbs.db
+Icon?
+Thumbs.db
+
+
+# Build files #
+######################
+node_modules
+.tmp
+.sass-cache

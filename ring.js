@@ -44,21 +44,24 @@
     ];
 
     var body = $('body');
-    var ring_links = $('<div class="ring-links"/>');
+    var ring_links = $('<div class="ring-header"/>');
 
     for (var i=0; i<services.length; i++) {
-      var ring_link = $('<a class="ring-links__link"/>');
+      var ring_link = $('<a class="ring-header__link"/>');
       ring_link.html(services[i].name);
       ring_link.attr('href', services[i].url);
 
       if (window.location.toString().indexOf(services[i].url) > -1) {
-        ring_link.addClass('ring-links__link_active');
+        ring_link.addClass('ring-header__link_active');
       }
 
       ring_link.appendTo(ring_links);
     }
 
-    body.addClass('ring');
-    ring_links.insertBefore(body.get(0).firstChild);
+     $('<i class="ring-header__link ring-header__link_login">Nikolae Chaushesku<i class="font-icon icon-triangle"></i></i>').appendTo(ring_links);
+
+
+     body.addClass('ring');
+     ring_links.insertBefore(body.get(0).firstChild);
   });
 })(jQuery);
