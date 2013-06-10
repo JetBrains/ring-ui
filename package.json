@@ -9,8 +9,11 @@
   "readmeFilename": "README.md",
   "devDependencies": {
     "grunt": "~0.4.1",
+    "matchdep": "~0.1.2",
     "grunt-contrib-watch": "~0.4.4",
     "grunt-shell": "~0.2.2",
+    "grunt-dot-compiler": "~0.3.14",
+    "grunt-preprocess": "~2.3.0",
     "grunt-notify": "~0.2.4"
   }
 }

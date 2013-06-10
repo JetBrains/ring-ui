@@ -13,10 +13,8 @@
   border-width: 0 0 0 1px;
 
   &:hover {
-    $color: #ff5900;
-
-    color: $color;
-    border-color: $color;
+    color: $active-link-color;
+    border-color: $active-link-color;
     border-width: 1px;
   }
 }
