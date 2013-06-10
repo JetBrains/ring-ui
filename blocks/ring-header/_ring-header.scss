@@ -1,36 +1,52 @@
+$ring-link-color:  #b4b4b4;
+$ring-link-font: 11px Verdana, Arial, sans-serif;
+
 .ring-header {
   padding: $x-unit/2 $x-unit*4;
   background: #484848;
-  font: 11px Verdana, Arial, sans-serif;
+  font: $ring-link-font;
   line-height: 1.5;
   text-rendering: optimizeLegibility;
   position: relative;
 }
 
+// Link
 .ring-header__link {
   margin: 0 $x-unit;
-  color: #b4b4b4 !important;
-  font: 11px Verdana, Arial, sans-serif;
+  color: $ring-link-color;
+  font: $ring-link-font;
   text-decoration: none;
-}
-
-.ring-header__link_login {
-  right: $x-unit*4;
-  position: absolute;
-}
-
-.ring-header__link_login .font-icon {
-  padding-left: 5px;
-  vertical-align: middle;
-  font-size: 12px;
-}
-
-.ring-header__link:hover,
-.ring-header__link_active {
-  text-decoration: none !important;
-  color: #FFF !important;
 }
 
 .ring-header__link_active {
   font-weight: bold;
+  color: #fff;
+
+}
+
+// Personal
+.ring-header__personal {
+  right: $x-unit*4;
+  position: absolute;
+}
+
+.ring-header__personal .ring-header__link {
+  margin: 0 $x-unit/2;
+}
+
+.ring-header__personal .font-icon {
+  color: $ring-link-color;
+  vertical-align: middle;
+  font-size: 12px;
+}
+
+.ring-header__personal:hover .ring-header__link,
+.ring-header__link:hover {
+  text-decoration: underline;
+}
+
+.ring-header__link:hover,
+.ring-header__personal:hover .ring-header__link,
+.ring-header__personal:hover .font-icon {
+  color: $active-link-color;
 }
