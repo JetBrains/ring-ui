@@ -27,6 +27,22 @@ module.exports = function(grunt) {
                 }
             }
         },
+        dot: {
+            dist: {
+                options: {
+                    variable : 'templates',
+                    root     :  '.'
+                },
+                src  : ['blocks/**/*.html'],
+                dest : 'ring.templates.js'
+            }
+        },
+        preprocess: {
+            js : {
+                src : 'ring.js',
+                dest : 'ring.processed.js'
+            }
+        },
         watch: {
             ring: {
                 files: ['blocks/**/*.scss', '*.scss'],
@@ -35,9 +51,16 @@ module.exports = function(grunt) {
                     livereload: true
                 }
             },
-            js: {
+            reload: {
                 files: ['*.js', '*.html'],
                 tasks: ['notify:watch'],
+                options: {
+                    livereload: true
+                }
+            },
+            templates: {
+                files: ['blocks/**/*.html'],
+                tasks: ['templates'],
                 options: {
                     livereload: true
                 }
@@ -53,9 +76,8 @@ module.exports = function(grunt) {
         }
     });
 
-    grunt.loadNpmTasks('grunt-notify');
-    grunt.loadNpmTasks('grunt-shell');
-    grunt.loadNpmTasks('grunt-contrib-watch');
+    require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
 
-    grunt.registerTask('default', ['shell']);
+    grunt.registerTask('default', ['shell', 'dot', 'preprocess']);
+    grunt.registerTask('templates', ['dot', 'preprocess']);
 };

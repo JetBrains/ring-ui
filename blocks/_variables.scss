@@ -1,6 +1,8 @@
-// Header common unit
+// Global variables
 $x-unit: 8px;
+$active-link-color: #ff5900;
 
+// Mixins
 @mixin text-color() {
   color: #333;
 }

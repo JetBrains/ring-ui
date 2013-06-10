@@ -19,3 +19,4 @@ Thumbs.db
 node_modules
 .sass-cache
 *.css
+ring.*.js
