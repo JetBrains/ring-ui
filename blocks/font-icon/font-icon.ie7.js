@@ -1,30 +1,20 @@
-/* Load this script using conditional IE comments if you need to support IE 7 and IE 6. */
+;(function($) {
+    var icons = {
+        'font-icon_search' : '&#xf002;',
+        'font-icon_caret-down' : '&#xf0d7;',
+        'font-icon_help' : '&#xe001;',
+        'font-icon_cog' : '&#xf013;'
+    }
 
-window.onload = function() {
-	function addIcon(el, entity) {
-		var html = el.innerHTML;
-		el.innerHTML = '<span style="font-family: \'custom-awesome\'">' + entity + '</span>' + html;
-	}
-	var icons = {
-			'icon-cog' : '&#xf013;',
-			'icon-question' : '&#xf128;',
-			'icon-caret-down' : '&#xf0d7;'
-		},
-		els = document.getElementsByTagName('*'),
-		i, attr, html, c, el;
-	for (i = 0; ; i += 1) {
-		el = els[i];
-		if(!el) {
-			break;
-		}
-		attr = el.getAttribute('data-icon');
-		if (attr) {
-			addIcon(el, attr);
-		}
-		c = el.className;
-		c = c.match(/icon-[^\s'"]+/);
-		if (c && icons[c[0]]) {
-			addIcon(el, icons[c[0]]);
-		}
-	}
-};
+    $(function() {
+        $('.font-icon').each(function(index, el) {
+            var $el = $(el);
+            var cls = $el.attr('class').match(/font-icon_[^\s'"]+/);
+            var icon = cls && icons[cls[0]];
+
+            if (cls && icons[cls[0]]) {
+                $el.prepend('<span style="font-family: \'font-icon\'">' + icon + '</span>')
+            }
+        })
+    });
+}($));

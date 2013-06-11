@@ -1,0 +1,100 @@
+$header-link-color: #1752d7;
+$header-attention-color: #f50000;
+$header-controls-color: #376dc4;
+
+.header {
+  width: 100%;
+  height: $x-unit*7;
+  position: relative;
+  min-width: 900px;
+}
+
+.header__background {
+  position: absolute;
+  z-index: -1;
+
+  width: 100%;
+  height: $x-unit*7;
+
+  background: #f0f0f0;
+}
+
+.header_gradient .header__background {
+  height: $x-unit*14;
+  @include background-image(linear-gradient(to bottom, #e4e4e4, #fff));
+}
+
+.header__spacer {
+  display: inline-block;
+  height: $x-unit*7;
+  width: 0;
+  vertical-align: middle;
+}
+
+.header__logo {
+  margin-top: 3px;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.header__item,
+.header__search__input {
+  font: 13px "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Geneva, Verdana, sans-serif;
+}
+
+.header__logo,
+.header__item {
+  margin-left: $x-unit*4;
+}
+
+.header__item_link {
+  color: $header-link-color;
+  text-decoration: none;
+}
+
+.header__item_link:hover {
+  color: $active-link-color;
+  text-decoration: underline;
+}
+
+.header__item__counter {
+  color: #fff;
+  background-color: $header-link-color;
+  position: relative;
+  top: -10px;
+  left: 3px;
+  border-radius: 3px;
+  font-size: 9px;
+  padding: 1px 2px;
+}
+
+.header__item__counter_attention {
+  background-color: $header-attention-color;
+}
+
+.header__right {
+  height: $x-unit*7;
+  right: $x-unit*4;
+  top: 0;
+  position: absolute;
+}
+
+.header__right .header__item {
+  margin-left: $x-unit*2;
+  font-size: 16px;
+}
+
+.header__search__input {
+  padding: 0 $x-unit*2 0 $x-unit;
+  margin-top: 15px; // IE
+  border: 1px solid #cbcbcb;
+  height: $x-unit*3;
+  width: $x-unit*30;
+}
+
+.header__search__glass {
+  color: #d1d1d1;
+  font-size: 12px;
+  position: relative;
+  left: -20px;
+}
