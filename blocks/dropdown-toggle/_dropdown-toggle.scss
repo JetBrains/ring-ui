@@ -5,7 +5,7 @@
 
   height: 15px;
   width: 12px;
-  padding: 1px 0 0 4px;
+  padding: 1px 1px 0 4px;
   margin-left: 5px;
 
   color: $color;
@@ -16,5 +16,6 @@
     color: $active-link-color;
     border-color: $active-link-color;
     border-width: 1px;
+    padding: 1px 0 0 4px;
   }
 }

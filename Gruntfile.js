@@ -51,8 +51,15 @@ module.exports = function(grunt) {
                     livereload: true
                 }
             },
+            preprocess: {
+                files: ['blocks/**/*.js', '*.js'],
+                tasks: ['preprocess:js',  'notify:watch'],
+                options: {
+                    livereload: true
+                }
+            },
             reload: {
-                files: ['*.js', '*.html'],
+                files: ['*.html'],
                 tasks: ['notify:watch'],
                 options: {
                     livereload: true
