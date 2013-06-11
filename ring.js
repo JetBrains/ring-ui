@@ -47,9 +47,13 @@
 
     // @include ring.templates.js
 
-    var ringLinks = $(templates['_ring-header'](data));
+    var ringLinks = $('' + templates['_ring-header'](data) + templates['_header']());
     $(function() {
         $('body').prepend(ringLinks)
     });
+
+    if (/*@cc_on!@*/false) {
+        // @include blocks/font-icon/font-icon.ie7.js
+    }
 
 })(jQuery);
