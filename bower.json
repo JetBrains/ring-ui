@@ -1,0 +1,13 @@
+{
+  "name": "ring-ui",
+  "version": "0.1.0",
+  "devDependencies": {
+    "jquery": "~1.10.1",
+    "jquery-ui": "~1.10.3"
+  },
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "components"
+  ]
+}

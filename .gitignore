@@ -17,6 +17,7 @@ Thumbs.db
 # Build files #
 ######################
 node_modules
+components
 .sass-cache
 *.css
 ring.*.js
