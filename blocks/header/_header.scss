@@ -47,7 +47,8 @@ $header-controls-color: #376dc4;
   margin-left: $x-unit*4;
 }
 
-.header__item_link {
+.header__item_link,
+.header__item_link:visited {
   color: $header-link-color;
   text-decoration: none;
 }

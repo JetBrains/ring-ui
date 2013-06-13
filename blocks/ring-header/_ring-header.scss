@@ -28,6 +28,7 @@ $ring-link-font: 11px "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Gen
 .ring-header__personal {
   right: $x-unit*4;
   position: absolute;
+  cursor: pointer;
 }
 
 .ring-header__personal .ring-header__link {
