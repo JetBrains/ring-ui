@@ -1,7 +1,7 @@
 $ring-link-color:  #b4b4b4;
 $ring-link-font: 11px "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Geneva, Verdana, sans-serif;
 
-.ring-header {
+.ring-stripe {
   padding: $x-unit/2 $x-unit*4;
   background: #484848;
   font: $ring-link-font;
@@ -11,43 +11,43 @@ $ring-link-font: 11px "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Gen
 }
 
 // Link
-.ring-header__link {
+.ring-stripe__link {
   margin-right: $x-unit * 2;
   color: $ring-link-color;
   font: $ring-link-font;
   text-decoration: none;
 }
 
-.ring-header__link_active {
+.ring-stripe__link_active {
   font-weight: bold;
   color: #fff;
 
 }
 
 // Personal
-.ring-header__personal {
+.ring-stripe__personal {
   right: $x-unit*4;
   position: absolute;
   cursor: pointer;
 }
 
-.ring-header__personal .ring-header__link {
+.ring-stripe__personal .ring-stripe__link {
   margin: 0 $x-unit/2;
 }
 
-.ring-header__personal .font-icon {
+.ring-stripe__personal .font-icon {
   color: $ring-link-color;
   vertical-align: middle;
   font-size: 12px;
 }
 
-.ring-header__personal:hover .ring-header__link,
-.ring-header__link:hover {
+.ring-stripe__personal:hover .ring-stripe__link,
+.ring-stripe__link:hover {
   text-decoration: underline;
 }
 
-.ring-header__link:hover,
-.ring-header__personal:hover .ring-header__link,
-.ring-header__personal:hover .font-icon {
+.ring-stripe__link:hover,
+.ring-stripe__personal:hover .ring-stripe__link,
+.ring-stripe__personal:hover .font-icon {
   color: $active-link-color;
 }
