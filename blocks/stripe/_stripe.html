@@ -1,0 +1,9 @@
+<div class="ring-stripe">
+    {{~it.services :value:index}}
+        <a class="ring-stripe__link" href="{{=value.url}}">{{=value.name}}</a>
+    {{~}}
+    <span class="ring-stripe__personal component-dropdown">
+        <span class="ring-stripe__link">{{=it.username}}</span>
+        <span class="font-icon font-icon_caret-down"></span>
+    </span>
+</div>

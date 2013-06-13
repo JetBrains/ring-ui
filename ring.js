@@ -47,7 +47,7 @@
 
     // @include ring.templates.js
 
-    var ringLinks = $('' + templates['_ring-header'](data) + templates['_header']());
+    var ringLinks = $('' + templates['_stripe'](data) + templates['_header']());
     $(function() {
         $('body').prepend(ringLinks)
     });
