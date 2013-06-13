@@ -88,6 +88,14 @@ module.exports = function(grunt) {
                     message: 'Page reloaded'
                 }
             }
+        },
+        connect: {
+            server: {
+                options: {
+                    port: 8000,
+                    keepalive: true
+                }
+            }
         }
     });
 
