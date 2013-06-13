@@ -18,6 +18,14 @@ module.exports = function(grunt) {
                     stderr: true
                 }
             },
+            fastring: {
+                command: 'compass compile ring.scss',
+                options: {
+                    failOnError: true,
+                    stdout: true,
+                    stderr: true
+                }
+            },
             blocks: {
                 command: 'java -jar tools/jruby/jruby-complete-1.7.4.jar -S compile.rb compile blocks.scss',
                 options: {
@@ -46,13 +54,13 @@ module.exports = function(grunt) {
         watch: {
             ring: {
                 files: ['blocks/**/*.scss', '*.scss'],
-                tasks: ['shell:ring',  'notify:watch'],
+                tasks: ['shell:fastring',  'notify:watch'],
                 options: {
                     livereload: true
                 }
             },
             preprocess: {
-                files: ['blocks/**/*.js', '*.js'],
+                files: ['blocks/**/*.js', 'ring.js'],
                 tasks: ['preprocess:js',  'notify:watch'],
                 options: {
                     livereload: true
