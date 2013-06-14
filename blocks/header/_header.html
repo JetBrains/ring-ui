@@ -1,8 +1,11 @@
-<div class="ring-header ring-header_gradient">
+<div class="ring-header{{? it.gradient}} ring-header_gradient{{?}}">
     <span class="ring-header__background"></span>
     <span class="ring-header__spacer"></span>
-    <span class="ring-header__logo"><img src="blocks/header/tc.png"/></span>
-
+    {{? it.logo.url}}
+        <a href="{{=it.logo.url}}" class="ring-header__logo"><img class="ring-header__logo__img" src="{{=it.logo.src}}"/></a>
+    {{??}}
+        <span class="ring-header__logo"><img class="ring-header__logo__img" src="{{=it.logo.src}}"/></span>
+    {{?}}
     <span class="ring-header__item">Projects<span class="dropdown-toggle font-icon font-icon_caret-down"></span></span>
     <a href="#" class="ring-header__item ring-header__item_link">My changes</a>
     <a href="#" class="ring-header__item ring-header__item_link">Agents</a><span class=" ring-header__item__counter ring-header__item__counter_attention">123</span>
