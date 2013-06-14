@@ -60,7 +60,7 @@ module.exports = function(grunt) {
                 }
             },
             preprocess: {
-                files: ['blocks/**/*.js', 'ring.js'],
+                files: ['blocks/**/*.js', '*.json', 'ring.js'],
                 tasks: ['preprocess:js',  'notify:watch'],
                 options: {
                     livereload: true
@@ -93,6 +93,7 @@ module.exports = function(grunt) {
             server: {
                 options: {
                     port: 8000,
+                    hostname: '*',
                     keepalive: true
                 }
             }

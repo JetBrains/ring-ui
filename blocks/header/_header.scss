@@ -7,6 +7,7 @@ $header-controls-color: #376dc4;
   height: $x-unit*7;
   position: relative;
   min-width: 900px;
+  text-align: left;
 }
 
 .ring-header__background {
@@ -33,10 +34,15 @@ $header-controls-color: #376dc4;
 
 .ring-header__logo {
   margin-top: 3px;
+  height: 30px;
   display: inline-block;
   vertical-align: middle;
 }
 
+.ring-header__logo__img {
+  border: 0;
+  height: 30px;
+}
 .ring-header__item,
 .ring-header__search__input {
   font: 13px "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Geneva, Verdana, sans-serif;
