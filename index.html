@@ -11,6 +11,11 @@
   </style>
   <script src="components/jquery/jquery.js"></script>
   <script src="ring.processed.js"></script>
+  <script>
+      $.getJSON('test.json', function(data) {
+        ring.init(data);
+      });
+  </script>
 </head>
 <body>
 

@@ -1,6 +1,7 @@
 <div class="dropdown">
     <ul class="dropdown__i">
-        <li class="dropdown__item"><a class="dropdown__item__link" href="#">Profile</a></li>
-        <li class="dropdown__item"><a class="dropdown__item__link" href="#">Log out</a></li>
+        {{~it.links :value:index}}
+            <li class="dropdown__item"><a class="dropdown__item__link" href="{{=value.url}}">{{=value.title}}</a></li>
+        {{~}}
     </ul>
 </div>
