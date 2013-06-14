@@ -34,15 +34,21 @@
 
     var ring = {
         init: function(data) {
-            // FIXME
-            data.personal.links = JSON.stringify(data.personal.links);
+            data = data || global.ring.data;
 
-            var ringLinks = $('' + templates['_stripe'](data) + templates['_header']());
+            // FIXME
+            data.stripe.personal.links = JSON.stringify(data.stripe.personal.links);
+
+            var ringLinks = $('' + templates['_stripe'](data.stripe) + templates['_header'](data.header));
             $(function() {
                 $('body').prepend(ringLinks)
             });
         }
     };
+
+    // Youtrack test
+    ring.data = /* @include youtrack.json*/;
+    $('.header').hide();
 
     global.ring = ring;
 
