@@ -1,0 +1,31 @@
+{
+    "services": [
+        {
+            "title": "TeamCity",
+            "url": "//teamcity.jetbrains.com"
+        },
+        {
+            "title": "YouTrack",
+            "url": "//youtrack.jetbrains.com"
+        },
+        {
+            "title": "Upsource",
+            "url": "//upsource.jetbrains.com"
+        }
+    ],
+    "personal": {
+        "username": "Nikolae Chaushesku",
+        "links": {
+            "links": [
+                {
+                    "title": "Log out",
+                    "url": "/logout"
+                }
+            ]
+        }
+    },
+    "login": {
+        "title": "Log in",
+        "url": "/login"
+    }
+}
