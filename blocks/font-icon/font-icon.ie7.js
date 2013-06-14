@@ -1,4 +1,8 @@
 ;(function($) {
+    if (/*@cc_on!@*/true) {
+        return;
+    }
+
     var icons = {
         'font-icon_search' : '&#xf002;',
         'font-icon_caret-down' : '&#xf0d7;',
@@ -17,4 +21,4 @@
             }
         })
     });
-}($));
+}(jQuery));
