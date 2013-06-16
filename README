@@ -10,6 +10,11 @@ Ring UI: development environment setup
 
     npm install && bower install
 
+4. Start the watcher:
+
+    grunt watch
+
 4. Start the server:
 
     grunt connect
+
