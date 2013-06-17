@@ -1,0 +1,15 @@
+<div class="ring-stripe">
+  {{#services}}
+    <a class="ring-stripe__link" href="{{url}}">{{title}}</a>
+  {{/services}}
+  {{#if personal}}
+    <span class="ring-stripe__personal component-dropdown" data-component="{{stringify personal}}">
+            <span class="ring-stripe__link">{{personal.username}}</span>
+            <span class="font-icon font-icon_caret-down"></span>
+        </span>
+  {{else}}
+    <span class="ring-stripe__personal">
+            <a class="ring-stripe__link" href="{{login.url}}">{{login.title}}</a>
+        </span>
+  {{/if}}
+</div>

@@ -16,14 +16,12 @@
         ],
         "personal": {
             "username": "Nikolae Chaushesku",
-            "links": {
-                "links": [
-                    {
-                        "title": "Log out",
-                        "url": "/logout"
-                    }
-                ]
-            }
+            "items": [
+                {
+                    "title": "Log out",
+                    "url": "/logout"
+                }
+            ]
         },
         "login": {
             "title": "Log in",
@@ -48,6 +46,20 @@
             {
                 "title": "Reports",
                 "url": "/rest/reports"
+            }
+        ],
+        "right-items": [
+            {
+                "type": "cog",
+                "url": "/prefs"
+            },
+            {
+                "type": "help",
+                "url": "/help"
+            },
+            {
+                "type": "search",
+                "action": "/search"
             }
         ]
 

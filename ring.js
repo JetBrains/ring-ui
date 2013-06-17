@@ -29,27 +29,31 @@
     var head = document.getElementsByTagName('head')[0];
     head.insertBefore(stylesheet, head.firstChild);
 
-    // @include ring.templates.js
+
+    // @include node_modules/grunt-contrib-handlebars/node_modules/handlebars/dist/handlebars.runtime.js
+
+    Handlebars.registerHelper('stringify', function(items) {
+        return JSON.stringify(items);
+    });
+
+    // @include ring.hbs.js
+
     // @include blocks/dropdown/_dropdown.js
 
     var ring = {
         init: function(data) {
-            data = data || global.ring.data;
+            data = data || this.data;
 
-            // FIXME
-            data.stripe.personal.links = JSON.stringify(data.stripe.personal.links);
-
-            var ringLinks = $('' + templates['_stripe'](data.stripe) + templates['_header'](data.header));
+            var ringLinks = $(Handlebars.partials['full-header'](data));
             $(function() {
                 $('body').prepend(ringLinks)
             });
-        }
+        },
+        // Youtrack test
+        data: /* @include youtrack.json*/
     };
 
-    // Youtrack test
-    ring.data = /* @include youtrack.json*/;
     $('.header').hide();
-
     global.ring = ring;
 
 })(jQuery, this);

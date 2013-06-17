@@ -11,14 +11,6 @@ module.exports = function(grunt) {
                 }
             },
             ring: {
-                command: 'java -jar tools/jruby/jruby-complete-1.7.4.jar -S compile.rb compile ring.scss',
-                options: {
-                    failOnError: true,
-                    stdout: true,
-                    stderr: true
-                }
-            },
-            fastring: {
                 command: 'compass compile ring.scss',
                 options: {
                     failOnError: true,
@@ -27,7 +19,7 @@ module.exports = function(grunt) {
                 }
             },
             blocks: {
-                command: 'java -jar tools/jruby/jruby-complete-1.7.4.jar -S compile.rb compile blocks.scss',
+                command: 'compass compile blocks.scss',
                 options: {
                     failOnError: true,
                     stdout: true,
@@ -35,14 +27,15 @@ module.exports = function(grunt) {
                 }
             }
         },
-        dot: {
-            dist: {
+        handlebars: {
+            compile: {
                 options: {
-                    variable : 'templates',
-                    root     :  '.'
+                    namespace: false,
+                    node: false
                 },
-                src  : ['blocks/**/*.html'],
-                dest : 'ring.templates.js'
+                files: {
+                    "ring.hbs.js": ["blocks/**/*.hbs"]
+                }
             }
         },
         preprocess: {
@@ -54,7 +47,7 @@ module.exports = function(grunt) {
         watch: {
             ring: {
                 files: ['blocks/**/*.scss', '*.scss'],
-                tasks: ['shell:fastring',  'notify:watch'],
+                tasks: ['shell:ring',  'notify:watch'],
                 options: {
                     livereload: true
                 }
@@ -74,7 +67,7 @@ module.exports = function(grunt) {
                 }
             },
             templates: {
-                files: ['blocks/**/*.html'],
+                files: ['blocks/**/*.hbs'],
                 tasks: ['templates'],
                 options: {
                     livereload: true
@@ -103,5 +96,5 @@ module.exports = function(grunt) {
     require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
 
     grunt.registerTask('default', ['shell', 'dot', 'preprocess']);
-    grunt.registerTask('templates', ['dot', 'preprocess']);
+    grunt.registerTask('templates', ['dot', 'handlebars', 'preprocess']);
 };
