@@ -2,13 +2,13 @@ Ring UI: development environment setup
 
 1. Install node.js
 
-2: Install bower:
+2: Install grunt:
 
-    npm install bower -g
+    npm install grunt -g
 
 3. Install dependencies:
 
-    npm install && bower install
+    npm install && grunt install
 
 4. Start the watcher:
 

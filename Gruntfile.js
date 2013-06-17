@@ -25,6 +25,14 @@ module.exports = function(grunt) {
                     stdout: true,
                     stderr: true
                 }
+            },
+            bower: {
+                command: 'node_modules/bower/bin/bower install',
+                options: {
+                    failOnError: true,
+                    stdout: true,
+                    stderr: true
+                }
             }
         },
         handlebars: {
@@ -97,4 +105,5 @@ module.exports = function(grunt) {
 
     grunt.registerTask('default', ['shell', 'dot', 'preprocess']);
     grunt.registerTask('templates', ['dot', 'handlebars', 'preprocess']);
+    grunt.registerTask('install', ['shell:bower']);
 };
