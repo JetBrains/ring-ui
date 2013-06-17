@@ -16,14 +16,12 @@
         ],
         "personal": {
             "username": "Nikolae Chaushesku",
-            "links": {
-                "links": [
-                    {
-                        "title": "Log out",
-                        "url": "/logout"
-                    }
-                ]
-            }
+            "items": [
+                {
+                    "title": "Log out",
+                    "url": "/logout"
+                }
+            ]
         },
         "login": {
             "title": "Log in",
@@ -31,7 +29,53 @@
         }
     },
     "header": {
-        "logo": "blocks/header/tc.png"
+        "logo": {
+            "url": "/dashboard",
+            "src": "/blocks/header/tc.png"
+        },
+        "items": [
+            {
+                "title": "Issues",
+                "url": "/issues",
+                "items": [
+                    {
+                        "title": "Issues",
+                        "url": "/issues"
+                    },
+                    {
+                        "title": "Agile Board",
+                        "url": "/rest/agile"
+                    }
+                ]
+            },
+            {
+                "title": "Agile Board",
+                "url": "/rest/agile",
+                "counter": {
+                    "value": 666,
+                    "attention": 1
+                }
+
+            },
+            {
+                "title": "Reports",
+                "url": "/rest/reports"
+            }
+        ],
+        "right-items": [
+            {
+                "type": "cog",
+                "url": "/prefs"
+            },
+            {
+                "type": "help",
+                "url": "/help"
+            },
+            {
+                "type": "search",
+                "action": "/search"
+            }
+        ]
     }
 }
 
