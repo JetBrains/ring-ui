@@ -103,7 +103,7 @@ module.exports = function(grunt) {
 
     require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
 
-    grunt.registerTask('default', ['shell', 'dot', 'preprocess']);
-    grunt.registerTask('templates', ['dot', 'handlebars', 'preprocess']);
+    grunt.registerTask('default', ['shell', 'handlebars', 'preprocess']);
+    grunt.registerTask('templates', ['handlebars', 'preprocess']);
     grunt.registerTask('install', ['shell:bower']);
 };
