@@ -6,7 +6,31 @@ module.exports = function(grunt) {
             clean: {
                 command: [
                     'rm -rf ./dist',
-                    'rm -rf ./tmp',
+                    'rm -rf ./tmp'
+                ].join(';'),
+                options: {
+                    stdout: false,
+                    stderr: false
+                }
+            },
+            compass: {
+                command: 'compass compile --sass-dir bundles --css-dir dist --images-dir . -I blocks',
+                options: {
+                    failOnError: true,
+                    stdout: true,
+                    stderr: true
+                }
+            },
+            install: {
+                command: 'node_modules/bower/bin/bower install',
+                options: {
+                    failOnError: true,
+                    stdout: true,
+                    stderr: true
+                }
+            },
+            uninstall: {
+                command: [
                     'rm -rf ./node_modules',
                     'rm -rf ./components'
                 ].join(';'),
@@ -15,22 +39,6 @@ module.exports = function(grunt) {
                     stderr: false
                 }
             },
-            compass: {
-                command: 'compass compile --sass-dir bundles --css-dir dist',
-                options: {
-                    failOnError: true,
-                    stdout: true,
-                    stderr: true
-                }
-            },
-            bower: {
-                command: 'node_modules/bower/bin/bower install',
-                options: {
-                    failOnError: true,
-                    stdout: true,
-                    stderr: true
-                }
-            }
         },
         handlebars: {
             compile: {
@@ -100,7 +108,8 @@ module.exports = function(grunt) {
 
     require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
 
-    grunt.registerTask('install',   ['shell:bower']);
+    grunt.registerTask('install',   ['shell:install']);
+    grunt.registerTask('uninstall', ['shell:uninstall']);
     grunt.registerTask('clean',     ['shell:clean']);
 
     grunt.registerTask('default',   ['shell:compass', 'handlebars', 'preprocess']);
