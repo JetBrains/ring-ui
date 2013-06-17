@@ -6,7 +6,7 @@
 
     // Components
     //
-    // @include blocks/dropdown/_dropdown.js
+    // @include blocks/dropdown/dropdown.js
     // @include blocks/header/header.js
 
     // IE support
