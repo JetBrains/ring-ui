@@ -62,20 +62,21 @@
                 "url": "/rest/reports"
             }
         ],
-        "right-items": [
-            {
-                "type": "cog",
-                "url": "/prefs"
-            },
-            {
-                "type": "help",
-                "url": "/help"
-            },
-            {
-                "type": "search",
-                "action": "/search"
-            }
-        ]
+        "right" : {
+            "items": [
+                {
+                    "action": "/search"
+                },
+                {
+                    "type": "cog",
+                    "url": "/prefs"
+                },
+                {
+                    "type": "help",
+                    "url": "/help"
+                }
+            ]
+        }
     }
 }
 
