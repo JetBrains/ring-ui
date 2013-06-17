@@ -1,19 +1,51 @@
-;(function($) {
-    $(function() {
-        var $body = $('body');
-        var $dropdown;
+;(function($, Handlebars) {
+    var $body;
+    var $doc = $(document);
+    var $dropdown;
+    var target;
 
-        // Using delegate bacause of compability with Youtrack's jQuery 1.5.1
-        $body.delegate('.component-dropdown', 'click', function() {
-            if ($dropdown) {
-                return;
+    var remove = function() {
+        if ($dropdown) {
+
+            $dropdown.remove();
+            $dropdown = null;
+
+            target = null;
+
+            /* Rare case with opening dropdown from component's descendants nodes
+            while closing another dropdown */
+            var $thisDropdown = $(this).closest('.component-dropdown');
+            if ($thisDropdown[0] !== this) {
+                $thisDropdown.click();
             }
 
-            var $this = $(this);
-            var data = $this.data('component');
+            return false;
+        }
+    }
 
+    // Using delegate because of compability with Youtrack's jQuery 1.5.1
+
+    $doc.delegate(':not(.component-dropdown)', 'click.close-dropdown', remove);
+
+    $doc.delegate('.component-dropdown', 'click.open-dropdown', function() {
+        var $this = $(this);
+        var sameTarget = (target === this || target === $this.closest('.component-dropdown')[0]);
+
+        remove();
+
+        if (sameTarget) {
+            return false;
+        }
+
+        target = this;
+        var data = $this.data('component');
+
+        if (!$body) {
+            $body = $('body');
+        }
+
+        if (data) {
             $dropdown = $(Handlebars.partials['dropdown'](data));
-
             $dropdown.appendTo($body);
 
             var pos = $this.offset();
@@ -21,11 +53,10 @@
             pos.left += $this.outerWidth() / 2 - $dropdown.width() / 2;
 
             $dropdown.css(pos);
+        }
 
-            $body.one('click', function() {
-                $dropdown.remove();
-                $dropdown = null;
-            })
-        });
+        return false;
     });
-}(jQuery));
+
+
+}(jQuery, Handlebars));
