@@ -19,5 +19,5 @@ Thumbs.db
 node_modules
 components
 .sass-cache
-*.css
-ring.*.js
+tmp
+dist
