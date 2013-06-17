@@ -1,0 +1,7 @@
+{{#if this.url}}
+  <a href="{{this.url}}" class="ring-header__item ring-header__item_link">{{this.title}}</a>
+{{else}}
+  <span class="ring-header__item">{{this.title}}</span>
+{{/if}}
+{{> header__counter}}
+{{> dropdown-toggle}}
