@@ -2,7 +2,7 @@ Ring UI: development environment setup
 
 1. Install node.js
 
-2: Install grunt:
+2: Install grunt-cli:
 
     npm install grunt -g
 
@@ -14,7 +14,6 @@ Ring UI: development environment setup
 
     grunt
 
-
 5. Start the watcher:
 
     grunt watch
@@ -23,3 +22,10 @@ Ring UI: development environment setup
 
     grunt connect
 
+7. Clean generated files
+
+    grunt clean
+
+*. Uninstall dependencies
+
+    grunt uninstall
