@@ -48,6 +48,10 @@ $header-controls-color: #376dc4;
   font: 13px "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Geneva, Verdana, sans-serif;
 }
 
+.ring-header__item {
+  display: inline-block;
+}
+
 .ring-header__logo,
 .ring-header__item {
   margin-left: $x-unit*4;

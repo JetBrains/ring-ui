@@ -37,7 +37,22 @@
         "items": [
             {
                 "title": "Issues",
-                "url": "/issues"
+                "url": "/issues",
+                "addClass": "lol-tmp",
+                "items": [
+                    {
+                        "title": "Issues",
+                        "url": "/issues"
+                    },
+                    {
+                        "title": "Agile Board",
+                        "url": "/rest/agile"
+                    }
+                ],
+                "counter": {
+                    "value": 666,
+                    "attention": 1
+                }
             },
             {
                 "title": "Agile Board",
@@ -48,20 +63,17 @@
                 "url": "/rest/reports"
             }
         ],
-        "right-items": [
-            {
-                "type": "cog",
-                "url": "/prefs"
-            },
-            {
-                "type": "help",
-                "url": "/help"
-            },
-            {
-                "type": "search",
-                "action": "/search"
-            }
-        ]
-
+        "right" : {
+            "items": [
+                {
+                    "type": "cog",
+                    "url": "/prefs"
+                },
+                {
+                    "type": "help",
+                    "url": "/help"
+                }
+            ]
+        }
     }
 }
