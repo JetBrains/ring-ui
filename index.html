@@ -9,11 +9,11 @@
       margin: 0;
     }
   </style>
-  <link rel="stylesheet" type="text/css" href="ring.css">
   <script src="components/jquery/jquery.js"></script>
-  <script src="ring.processed.js"></script>
+  <script src="dist/ring/ring.js"></script>
+  <link rel="stylesheet" type="text/css" href="dist/ring/ring.css">
   <script>
-      $.getJSON('test.json', function(data) {
+      $.getJSON('blocks/full-header/tc.test.json', function(data) {
         ring.init(data);
       });
   </script>
