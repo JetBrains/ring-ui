@@ -4,22 +4,19 @@ module.exports = function(grunt) {
     grunt.initConfig({
         shell: {
             clean: {
-                command: 'rm *.css',
+                command: [
+                    'rm -rf ./dist',
+                    'rm -rf ./tmp',
+                    'rm -rf ./node_modules',
+                    'rm -rf ./components'
+                ].join(';'),
                 options: {
                     stdout: false,
                     stderr: false
                 }
             },
-            ring: {
-                command: 'compass compile ring.scss',
-                options: {
-                    failOnError: true,
-                    stdout: true,
-                    stderr: true
-                }
-            },
-            blocks: {
-                command: 'compass compile blocks.scss',
+            compass: {
+                command: 'compass compile --sass-dir bundles --css-dir dist',
                 options: {
                     failOnError: true,
                     stdout: true,
@@ -42,26 +39,26 @@ module.exports = function(grunt) {
                     node: false
                 },
                 files: {
-                    "ring.hbs.js": ["blocks/**/*.hbs"]
+                    "tmp/ring.hbs.js": ["blocks/**/*.hbs"]
                 }
             }
         },
         preprocess: {
             js : {
-                src : 'ring.js',
-                dest : 'ring.processed.js'
+                src : 'bundles/ring/ring.js',
+                dest : 'dist/ring/ring.js'
             }
         },
         watch: {
             ring: {
-                files: ['blocks/**/*.scss', '*.scss'],
-                tasks: ['shell:ring',  'notify:watch'],
+                files: ['blocks/**/*.scss', 'bundles/**/*.scss'],
+                tasks: ['shell:compass',  'notify:watch'],
                 options: {
                     livereload: true
                 }
             },
             preprocess: {
-                files: ['blocks/**/*.js', '*.json', 'ring.js'],
+                files: ['blocks/**/*.js', 'blocks/**/*.json', 'bundles/**/*.js'],
                 tasks: ['preprocess:js',  'notify:watch'],
                 options: {
                     livereload: true
@@ -76,7 +73,7 @@ module.exports = function(grunt) {
             },
             templates: {
                 files: ['blocks/**/*.hbs'],
-                tasks: ['templates'],
+                tasks: ['templates',  'notify:watch'],
                 options: {
                     livereload: true
                 }
@@ -85,7 +82,7 @@ module.exports = function(grunt) {
         notify: {
             watch: {
                 options: {
-                    title: 'OK',
+                    title: 'grunt',
                     message: 'Page reloaded'
                 }
             }
@@ -103,7 +100,9 @@ module.exports = function(grunt) {
 
     require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
 
-    grunt.registerTask('default', ['shell', 'handlebars', 'preprocess']);
+    grunt.registerTask('install',   ['shell:bower']);
+    grunt.registerTask('clean',     ['shell:clean']);
+
+    grunt.registerTask('default',   ['shell:compass', 'handlebars', 'preprocess']);
     grunt.registerTask('templates', ['handlebars', 'preprocess']);
-    grunt.registerTask('install', ['shell:bower']);
 };
