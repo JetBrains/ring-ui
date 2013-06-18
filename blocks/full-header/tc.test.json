@@ -1,82 +1,82 @@
 {
-    "stripe": {
-        "services": [
-            {
-                "title": "TeamCity",
-                "url": "//teamcity.jetbrains.com"
-            },
-            {
-                "title": "YouTrack",
-                "url": "//youtrack.jetbrains.com"
-            },
-            {
-                "title": "Upsource",
-                "url": "//upsource.jetbrains.com"
-            }
-        ],
-        "personal": {
-            "username": "Nikolae Chaushesku",
-            "items": [
-                {
-                    "title": "Log out",
-                    "url": "/logout"
-                }
-            ]
-        },
-        "login": {
-            "title": "Log in",
-            "url": "/login"
+  "stripe": {
+    "services": [
+      {
+        "title": "TeamCity",
+        "url": "//teamcity.jetbrains.com"
+      },
+      {
+        "title": "YouTrack",
+        "url": "//youtrack.jetbrains.com"
+      },
+      {
+        "title": "Upsource",
+        "url": "//upsource.jetbrains.com"
+      }
+    ],
+    "personal": {
+      "username": "Nikolae Chaushesku",
+      "items": [
+        {
+          "title": "Log out",
+          "url": "/logout"
         }
+      ]
     },
-    "header": {
-        "logo": {
-            "url": "/dashboard",
-            "src": "/blocks/header/tc.png"
-        },
-        "items": [
-            {
-                "title": "Issues",
-                "url": "/issues",
-                "items": [
-                    {
-                        "title": "Issues",
-                        "url": "/issues"
-                    },
-                    {
-                        "title": "Agile Board",
-                        "url": "/rest/agile"
-                    }
-                ]
-            },
-            {
-                "title": "Agile Board",
-                "url": "/rest/agile",
-                "counter": {
-                    "value": 666,
-                    "attention": 1
-                }
-
-            },
-            {
-                "title": "Reports",
-                "url": "/rest/reports"
-            }
-        ],
-        "right" : {
-            "items": [
-                {
-                    "action": "/search"
-                },
-                {
-                    "type": "cog",
-                    "url": "/prefs"
-                },
-                {
-                    "type": "help",
-                    "url": "/help"
-                }
-            ]
-        }
+    "login": {
+      "title": "Log in",
+      "url": "/login"
     }
+  },
+  "header": {
+    "logo": {
+      "url": "/dashboard",
+      "src": "/blocks/header/tc.png"
+    },
+    "items": [
+      {
+        "title": "Issues",
+        "url": "/issues",
+        "items": [
+          {
+            "title": "Issues",
+            "url": "/issues"
+          },
+          {
+            "title": "Agile Board",
+            "url": "/rest/agile"
+          }
+        ]
+      },
+      {
+        "title": "Agile Board",
+        "url": "/rest/agile",
+        "counter": {
+          "value": 666,
+          "attention": 1
+        }
+
+      },
+      {
+        "title": "Reports",
+        "url": "/rest/reports"
+      }
+    ],
+    "right" : {
+      "items": [
+        {
+          "action": "/search"
+        },
+        {
+          "type": "cog",
+          "url": "/prefs"
+        },
+        {
+          "type": "help",
+          "url": "/help"
+        }
+      ]
+    }
+  }
 }
 
