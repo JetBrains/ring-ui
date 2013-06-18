@@ -160,6 +160,6 @@ module.exports = function(grunt) {
     grunt.registerTask('clean',     ['shell:clean']);
 
     grunt.registerTask('default',   ['compass', 'handlebars', 'preprocess', 'copy:fonts']);
-    grunt.registerTask('build',     ['shell:build', 'copy:fonts', 'handlebars', 'preprocess']);
+    grunt.registerTask('build',     ['shell:build', 'copy:fonts', 'handlebars', 'preprocess', 'compress']);
     grunt.registerTask('templates', ['handlebars', 'preprocess']);
 };
