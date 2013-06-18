@@ -1,6 +1,7 @@
 $dropdown-background-color: #fff;
 @mixin dropdown-shadow {
-  @include box-shadow(0 0 5px 2px #adadad);
+  border: 1px solid #adadad;
+  @include box-shadow(0 1px 4px 0 #adadad);
 }
 
 .dropdown {

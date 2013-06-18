@@ -8,6 +8,7 @@ $header-controls-color: #376dc4;
   position: relative;
   min-width: 900px;
   text-align: left;
+  border-bottom: 1px solid #ccc;
 }
 
 .ring-header__background {
@@ -46,7 +47,7 @@ $header-controls-color: #376dc4;
 .ring-header__item,
 .ring-header__search__input {
   font-size: 13px;
-  @include  droid-font;
+  @include droid-font;
 }
 
 .ring-header__item {
