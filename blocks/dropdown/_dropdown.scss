@@ -37,7 +37,8 @@ $dropdown-background-color: #fff;
   margin-top: 13px;
   list-style-type: none;
   text-align: left;
-  font: 13px "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Geneva, Verdana, sans-serif;
+  font-size: 13px;
+  @include droid-font;
 }
 
 .dropdown__item:first-child {

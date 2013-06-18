@@ -1,10 +1,8 @@
 $ring-link-color:  #b4b4b4;
-$ring-link-font: 11px "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Geneva, Verdana, sans-serif;
 
 .ring-stripe {
   padding: $x-unit/2 $x-unit*4;
   background: #484848;
-  font: $ring-link-font;
   line-height: 1.5;
   text-rendering: optimizeLegibility;
   position: relative;
@@ -16,14 +14,14 @@ $ring-link-font: 11px "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Gen
 .ring-stripe__link:visited {
   margin-right: $x-unit * 2;
   color: $ring-link-color !important;
-  font: $ring-link-font;
+  font-size: 11px;
+  @include droid-font;
   text-decoration: none;
 }
 
 .ring-stripe__link_active {
   font-weight: bold;
   color: #fff;
-
 }
 
 // Personal

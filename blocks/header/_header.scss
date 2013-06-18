@@ -45,7 +45,8 @@ $header-controls-color: #376dc4;
 }
 .ring-header__item,
 .ring-header__search__input {
-  font: 13px "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Geneva, Verdana, sans-serif;
+  font-size: 13px;
+  @include  droid-font;
 }
 
 .ring-header__item {
