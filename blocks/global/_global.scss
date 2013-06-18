@@ -1,3 +1,16 @@
+$block_path: '../../blocks/global/';
+
+// Droid Sans
+@font-face {
+  font-family: "Droid Sans";
+  src:url($block_path + "DroidSans.eot?") format("eot"),
+      url($block_path + "DroidSans.woff") format("woff"),
+      url($block_path + "DroidSans.ttf") format("truetype"),
+      url($block_path + "DroidSans.svg#DroidSans") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+
 // Global variables
 $x-unit: 8px;
 $active-link-color: #ff5900;
@@ -29,6 +42,10 @@ $active-link-color: #ff5900;
 
 @mixin monospace-font() {
   font: 12px 'Menlo', 'Bitstream Vera Sans Mono', 'Courier New', 'Courier', monospace;
+}
+
+@mixin droid-font() {
+  font-family: "Droid Sans", Arial, Tahoma, Verdana, sans-serif;
 }
 
 @mixin thin-font() {
