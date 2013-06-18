@@ -6,14 +6,12 @@
 
   var remove = function() {
     if ($dropdown) {
-
       $dropdown.remove();
       $dropdown = null;
 
       target = null;
 
-      /* Rare case with opening dropdown from component's descendants nodes
-       while closing another dropdown */
+      /* Rare case with opening dropdown from component's descendants nodes while closing another dropdown */
       var $thisDropdown = $(this).closest('.component-dropdown');
       if ($thisDropdown[0] !== this) {
         $thisDropdown.click();
@@ -21,9 +19,11 @@
 
       return false;
     }
-  }
 
-  // Using delegate because of compability with Youtrack's jQuery 1.5.1
+    return true;
+  };
+
+  // Using delegate because of compatibility with YouTrack's jQuery 1.5.1
 
   $doc.delegate(':not(.component-dropdown)', 'click.close-dropdown', remove);
 
@@ -235,4 +235,4 @@
   Handlebars.registerHelper('stringify', function(items) {
     return $.toJSON(items);
   });
-}(jQuery, Handlebars))
+}(jQuery, Handlebars));
