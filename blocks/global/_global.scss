@@ -24,14 +24,6 @@ $active-link-color: #ff5900;
   color: #3881C9;
 }
 
-@mixin link-icon-color() {
-  color: #BCBDC0; // Color of main navigation icons
-}
-
-@mixin link-icon-hover-color() {
-  color: #64A7DB; // Color of main navigation icons
-}
-
 @mixin warning-color() {
   color: #E3A948;
 }
