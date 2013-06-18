@@ -13,14 +13,6 @@ module.exports = function(grunt) {
                     stderr: false
                 }
             },
-            compass: {
-                command: 'compass compile --sass-dir bundles --css-dir dist --images-dir . -I blocks',
-                options: {
-                    failOnError: true,
-                    stdout: true,
-                    stderr: true
-                }
-            },
             install: {
                 command: 'node_modules/bower/bin/bower install',
                 options: {
@@ -38,7 +30,17 @@ module.exports = function(grunt) {
                     stdout: false,
                     stderr: false
                 }
-            },
+            }
+        },
+        compass: {
+            dist: {
+                options: {
+                    sassDir: 'bundles',
+                    cssDir: 'dist',
+                    imagesDir: '.',
+                    importPath: 'blocks'
+                }
+            }
         },
         handlebars: {
             compile: {
@@ -112,6 +114,6 @@ module.exports = function(grunt) {
     grunt.registerTask('uninstall', ['shell:uninstall']);
     grunt.registerTask('clean',     ['shell:clean']);
 
-    grunt.registerTask('default',   ['shell:compass', 'handlebars', 'preprocess']);
+    grunt.registerTask('default',   ['compass', 'handlebars', 'preprocess']);
     grunt.registerTask('templates', ['handlebars', 'preprocess']);
 };
