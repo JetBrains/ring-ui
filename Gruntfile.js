@@ -1,7 +1,7 @@
 module.exports = function(grunt) {
 
-    // TODO Grunt plugin for compilation
     grunt.initConfig({
+        // Install & build
         shell: {
             clean: {
                 command: [
@@ -30,8 +30,51 @@ module.exports = function(grunt) {
                     stdout: false,
                     stderr: false
                 }
+            },
+            build: {
+                command: [
+                    'mkdir -p dist/ring',
+                    'mkdir -p dist/ring-lib',
+                    'java -jar tools/jruby/jruby-complete-1.7.4.jar -S compile.rb compile bundles/ring-lib/ring-lib.scss',
+                    'java -jar tools/jruby/jruby-complete-1.7.4.jar -S compile.rb compile bundles/ring/ring.scss',
+                    'mv bundles/ring/ring.css dist/ring',
+                    'mv bundles/ring-lib/ring-lib.css dist/ring-lib'
+                ].join(';'),
+                options: {
+                    failOnError: true,
+                    stdout: true,
+                    stderr: true
+                }
             }
         },
+        copy: {
+            fonts: {
+                files: [
+                    {expand: true, src: ['blocks/**/*.woff', 'blocks/**/*.eot', 'blocks/**/*.ttf', 'blocks/**/*.svg'], dest: 'dist/ring'},
+                    {expand: true, src: ['blocks/**/*.woff', 'blocks/**/*.eot', 'blocks/**/*.ttf', 'blocks/**/*.svg'], dest: 'dist/ring-lib'}
+                ]
+            }
+        },
+        compress: {
+            ring: {
+                options: {
+                    archive: './dist/ring.zip'
+                },
+                files: [
+                    {expand: true, cwd: './dist/ring/', src: ['**'], dest: 'ring'}
+                ]
+            },
+            'ring-lib': {
+                options: {
+                    archive: './dist/ring-lib.zip'
+                },
+                files: [
+                    {expand: true, cwd: './dist/ring-lib/', src: ['**'], dest: 'ring-lib'}
+                ]
+            }
+        },
+
+        // Process files
         compass: {
             dist: {
                 options: {
@@ -54,13 +97,15 @@ module.exports = function(grunt) {
             }
         },
         preprocess: {
-            js : {
+            js: {
                 src : 'bundles/ring/ring.js',
                 dest : 'dist/ring/ring.js'
             }
         },
+
+        // Development
         watch: {
-            ring: {
+            scss: {
                 files: ['blocks/**/*.scss', 'bundles/**/*.scss'],
                 tasks: ['compass',  'notify:watch'],
                 options: {
@@ -114,6 +159,7 @@ module.exports = function(grunt) {
     grunt.registerTask('uninstall', ['shell:uninstall']);
     grunt.registerTask('clean',     ['shell:clean']);
 
-    grunt.registerTask('default',   ['compass', 'handlebars', 'preprocess']);
+    grunt.registerTask('default',   ['compass', 'handlebars', 'preprocess', 'copy:fonts']);
+    grunt.registerTask('build',     ['shell:build', 'copy:fonts', 'handlebars', 'preprocess']);
     grunt.registerTask('templates', ['handlebars', 'preprocess']);
 };
