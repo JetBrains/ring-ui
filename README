@@ -22,10 +22,12 @@ Ring UI: development environment setup
 
     grunt connect
 
-7. Clean generated files
+=======================================
+
+Clean generated files:
 
     grunt clean
 
-*. Uninstall dependencies
+Uninstall dependencies:
 
     grunt uninstall

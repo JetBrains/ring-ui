@@ -1,14 +1,14 @@
 {{!--Search form--}}
 {{#if this.action}}
-    <form action="{{this.action}}" class="ring-header__item ring-header__search">
-        <input class="ring-header__search__input" /><span class="ring-header__search__glass font-icon font-icon_search"></span>
-    </form>
+  <form action="{{this.action}}" class="ring-header__item ring-header__search">
+    <input class="ring-header__search__input" /><span class="ring-header__search__glass font-icon font-icon_search"></span>
+  </form>
 {{!--Links--}}
 {{else}}
   {{#if this.url}}
-      <a href="{{this.url}}" class="ring-header__item ring-header__item_link{{> header__item__class}}">{{this.title}}</a>
+    <a href="{{this.url}}" class="ring-header__item ring-header__item_link{{> header__item__class}}">{{this.title}}</a>
   {{else}}
-      <span class="ring-header__item{{> header__item__class}}">{{this.title}}</span>
+    <span class="ring-header__item{{> header__item__class}}">{{this.title}}</span>
   {{/if}}
 {{/if}}
 
