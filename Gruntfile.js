@@ -62,7 +62,7 @@ module.exports = function(grunt) {
         watch: {
             ring: {
                 files: ['blocks/**/*.scss', 'bundles/**/*.scss'],
-                tasks: ['shell:compass',  'notify:watch'],
+                tasks: ['compass',  'notify:watch'],
                 options: {
                     livereload: true
                 }
