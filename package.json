@@ -19,6 +19,8 @@
     "grunt-contrib-handlebars": "~0.5.9",
     "grunt-contrib-compass": "~0.2.0",
     "grunt-contrib-compress": "~0.5.2",
-    "grunt-contrib-copy": "~0.4.1"
+    "grunt-contrib-copy": "~0.4.1",
+    "grunt-csso": "~0.5.0",
+    "grunt-contrib-uglify": "~0.2.2"
   }
 }

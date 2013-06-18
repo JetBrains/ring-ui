@@ -31,15 +31,8 @@ module.exports = function(grunt) {
                     stderr: false
                 }
             },
-            build: {
-                command: [
-                    'mkdir -p dist/ring',
-                    'mkdir -p dist/ring-lib',
-                    'java -jar tools/jruby/jruby-complete-1.7.4.jar -S compile.rb compile bundles/ring-lib/ring-lib.scss',
-                    'java -jar tools/jruby/jruby-complete-1.7.4.jar -S compile.rb compile bundles/ring/ring.scss',
-                    'mv bundles/ring/ring.css dist/ring',
-                    'mv bundles/ring-lib/ring-lib.css dist/ring-lib'
-                ].join(';'),
+            dist: {
+                command: 'java -jar tools/jruby/jruby-complete-1.7.4.jar -S compile.rb compile --sass-dir bundles --css-dir dist --images-dir . -I blocks',
                 options: {
                     failOnError: true,
                     stdout: true,
@@ -47,12 +40,22 @@ module.exports = function(grunt) {
                 }
             }
         },
-        copy: {
-            fonts: {
-                files: [
-                    {expand: true, src: ['blocks/**/*.woff', 'blocks/**/*.eot', 'blocks/**/*.ttf', 'blocks/**/*.svg'], dest: 'dist/ring'},
-                    {expand: true, src: ['blocks/**/*.woff', 'blocks/**/*.eot', 'blocks/**/*.ttf', 'blocks/**/*.svg'], dest: 'dist/ring-lib'}
-                ]
+        csso: {
+            dist: {
+                files: {
+                    'dist/ring/ring.min.css':         ['dist/ring/ring.css'],
+                    'dist/ring-lib/ring-lib.min.css': ['dist/ring-lib/ring-lib.css']
+                }
+            }
+        },
+        uglify: {
+            dist: {
+                options: {
+                    report: 'gzip'
+                },
+                files: {
+                    'dist/ring/ring.min.js': 'dist/ring/ring.js'
+                }
             }
         },
         compress: {
@@ -100,6 +103,17 @@ module.exports = function(grunt) {
             js: {
                 src : 'bundles/ring/ring.js',
                 dest : 'dist/ring/ring.js'
+            }
+        },
+        copy: {
+            fonts: {
+                options: {
+                    processContentExclude: '*.dev.svg'
+                },
+                files: [
+                    {expand: true, src: ['blocks/**/*.woff', 'blocks/**/*.eot', 'blocks/**/*.ttf', 'blocks/**/*.svg', '!blocks/**/*.dev.svg'], dest: 'dist/ring'},
+                    {expand: true, src: ['blocks/**/*.woff', 'blocks/**/*.eot', 'blocks/**/*.ttf', 'blocks/**/*.svg', '!blocks/**/*.dev.svg'], dest: 'dist/ring-lib'}
+                ]
             }
         },
 
@@ -160,6 +174,6 @@ module.exports = function(grunt) {
     grunt.registerTask('clean',     ['shell:clean']);
 
     grunt.registerTask('default',   ['compass', 'handlebars', 'preprocess', 'copy:fonts']);
-    grunt.registerTask('build',     ['shell:build', 'copy:fonts', 'handlebars', 'preprocess', 'compress']);
+    grunt.registerTask('build',     ['shell:dist', 'copy:fonts', 'handlebars', 'preprocess', 'csso', 'uglify', 'compress']);
     grunt.registerTask('templates', ['handlebars', 'preprocess']);
 };
