@@ -18,11 +18,11 @@
 
   var render = function(template, data) {
     return Handlebars.partials[template](data)
-  }
+  };
 
   var clean = function() {
     $(SELECTOR_PREFIX + template).remove();
-  }
+  };
 
   var updateHtml = function(cb) {
     if (!data) {
@@ -41,8 +41,7 @@
 
       $body.prepend(html);
     }
-
-  }
+  };
 
   var update = function(path, value) {
     var part;
