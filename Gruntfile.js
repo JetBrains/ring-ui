@@ -79,12 +79,9 @@ module.exports = function(grunt) {
     },
     copy: {
       fonts: {
-        options: {
-          processContentExclude: '*.dev.svg'
-        },
         files: [
-          {expand: true, src: ['blocks/**/*.woff', 'blocks/**/*.eot', 'blocks/**/*.ttf', 'blocks/**/*.svg', '!blocks/**/*.dev.svg'], dest: 'dist/ring'},
-          {expand: true, src: ['blocks/**/*.woff', 'blocks/**/*.eot', 'blocks/**/*.ttf', 'blocks/**/*.svg', '!blocks/**/*.dev.svg'], dest: 'dist/ring-lib'}
+          {expand: true, flatten: true, src: ['blocks/**/*.woff', 'blocks/**/*.eot', 'blocks/**/*.ttf', 'blocks/**/*.svg', '!blocks/**/*.dev.svg'], dest: 'dist/ring/fonts'},
+          {expand: true, flatten: true, src: ['blocks/**/*.woff', 'blocks/**/*.eot', 'blocks/**/*.ttf', 'blocks/**/*.svg', '!blocks/**/*.dev.svg'], dest: 'dist/ring-lib/fonts'}
         ]
       }
     },
