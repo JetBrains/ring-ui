@@ -161,6 +161,7 @@ module.exports = function(grunt) {
   require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
 
   grunt.registerTask('install',   ['bower']);
+  grunt.registerTask('hooks',     ['shell:hooks']);
   grunt.registerTask('uninstall', ['clean:modules']);
   grunt.registerTask('cleanup',   ['clean:generated']);
 
