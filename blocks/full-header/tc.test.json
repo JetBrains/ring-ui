@@ -6,8 +6,7 @@
         "url": "//teamcity.jetbrains.com"
       },
       {
-        "title": "YouTrack",
-        "url": "//youtrack.jetbrains.com"
+        "title": "YouTrack"
       },
       {
         "title": "Upsource",
@@ -35,8 +34,7 @@
     },
     "items": [
       {
-        "title": "Issues",
-        "url": "/issues",
+        "title": "Projects",
         "items": [
           {
             "title": "Issues",
@@ -49,17 +47,23 @@
         ]
       },
       {
-        "title": "Agile Board",
-        "url": "/rest/agile",
-        "counter": {
-          "value": 666,
-          "attention": 1
-        }
-
+        "title": "My Changes",
+        "url": "/rest/agile"
       },
       {
-        "title": "Reports",
-        "url": "/rest/reports"
+        "title": "Agents",
+        "url": "/rest/reports",
+        "counter": {
+          "value": 125,
+          "attention": 1
+        }
+      },
+      {
+        "title": "Build Queue",
+        "url": "/rest/reports",
+        "counter": {
+          "value": 72
+        }
       }
     ],
     "right" : {
