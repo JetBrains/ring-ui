@@ -21,6 +21,10 @@ $header-controls-color: #376dc4;
   background: #f0f0f0;
 }
 
+.ring-header_gradient {
+  border: 0;
+}
+
 .ring-header_gradient .ring-header__background {
   height: $x-unit*14;
   @include background-image(linear-gradient(to bottom, #e4e4e4, #fff));
