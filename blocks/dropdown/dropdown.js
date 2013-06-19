@@ -1,6 +1,8 @@
 (function($, Handlebars) {
-  var $body;
+  var COMPONENT_SELECTOR = '.component-dropdown';
+
   var $doc = $(document);
+  var $body;
   var $dropdown;
   var target;
 
@@ -11,8 +13,8 @@
 
       target = null;
 
-      /* Rare case with opening dropdown from component's descendants nodes while closing another dropdown */
-      var $thisDropdown = $(this).closest('.component-dropdown');
+      // Rare case with opening dropdown from component's descendants nodes while closing another dropdown
+      var $thisDropdown = $(this).closest(COMPONENT_SELECTOR);
       if ($thisDropdown[0] !== this) {
         $thisDropdown.click();
       }
@@ -29,7 +31,7 @@
 
   $doc.delegate('.component-dropdown', 'click.open-dropdown', function() {
     var $this = $(this);
-    var sameTarget = (target === this || target === $this.closest('.component-dropdown')[0]);
+    var sameTarget = (target === this || target === $this.closest(COMPONENT_SELECTOR)[0]);
 
     remove();
 
