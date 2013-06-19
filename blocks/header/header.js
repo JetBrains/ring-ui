@@ -14,6 +14,7 @@
 
     data = initData || this.data;
 
+    // Render on DOM ready
     $(updateHtml);
   };
 
@@ -42,7 +43,11 @@
 
       $body.prepend(html);
       $global.trigger('ring-updated');
+
+      return true;
     }
+
+    return false;
   };
 
   var update = function(path, value) {
@@ -62,7 +67,7 @@
 
     $.extend(true, data, newData);
 
-    updateHtml(clean);
+    return updateHtml(clean);
   };
 
   global.ring = {
