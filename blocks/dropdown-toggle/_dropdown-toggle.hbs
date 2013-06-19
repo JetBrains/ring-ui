@@ -1,3 +1,6 @@
 {{#if items}}
   <span class="dropdown-toggle font-icon font-icon_caret-down component-dropdown" data-component="{{stringify this}}"></span>
 {{/if}}
+{{#toggle}}
+  <span class="dropdown-toggle font-icon font-icon_caret-down{{> global__add-class}}"></span>
+{{/toggle}}
