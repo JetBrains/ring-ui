@@ -1,4 +1,4 @@
-;(function($) {
+;(function($, global) {
     if (/*@cc_on!@*/true) {
         return;
     }
@@ -10,7 +10,7 @@
         'font-icon_cog' : '&#xf013;'
     }
 
-    $(function() {
+    $(global).bind('ring-updated', function() {
         $('.font-icon').each(function(index, el) {
             var $el = $(el);
             var cls = $el.attr('class').match(/font-icon_[^\s'"]+/);
@@ -21,4 +21,4 @@
             }
         })
     });
-}(jQuery));
+}(jQuery, this));
