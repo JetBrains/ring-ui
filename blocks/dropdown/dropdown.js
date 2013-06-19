@@ -1,4 +1,4 @@
-;(function($, Handlebars) {
+(function($, Handlebars) {
   var $body;
   var $doc = $(document);
   var $dropdown;
@@ -45,7 +45,7 @@
     }
 
     if (data) {
-      $dropdown = $(Handlebars.partials['dropdown'](data));
+      $dropdown = $(Handlebars.partials.dropdown(data));
       $dropdown.appendTo($body);
 
       var pos = $this.offset();
