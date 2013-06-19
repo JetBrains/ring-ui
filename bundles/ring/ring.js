@@ -12,12 +12,6 @@
     // IE support
     //
     // @include ../../blocks/font-icon/font-icon.ie7.js
-
-    // Youtrack test
-    // FIXME
-    $('.header').hide();
-    global.ring.data = /* @include ../../blocks/full-header/yt.test.json*/
-
 })(jQuery, this);
 
 
