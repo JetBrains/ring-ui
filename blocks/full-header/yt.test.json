@@ -42,7 +42,8 @@
         "items": [
           {
             "title": "Issues",
-            "url": "/issues"
+            "url": "/issues",
+            "addClass": "lol-wut"
           },
           {
             "title": "Agile Board",
@@ -60,7 +61,10 @@
       },
       {
         "title": "Reports",
-        "url": "/rest/reports"
+        "url": "/rest/reports",
+        "toggle": {
+            "addClass": "yt__ty"
+        }
       }
     ],
     "right" : {
