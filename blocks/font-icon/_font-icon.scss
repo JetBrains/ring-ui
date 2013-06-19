@@ -1,12 +1,10 @@
-$block_path: 'blocks/font-icon/';
-
 @font-face {
   font-family: 'font-icon';
-  src:url($block_path + 'font-icon.eot');
-  src:url($block_path + 'font-icon.eot?#iefix') format('embedded-opentype'),
-      url($block_path + 'font-icon.woff') format('woff'),
-      url($block_path + 'font-icon.ttf') format('truetype'),
-      url($block_path + 'font-icon.svg#font-icon') format('svg');
+  src:url($fonts-dir + 'font-icon.eot');
+  src:url($fonts-dir + 'font-icon.eot?#iefix') format('embedded-opentype'),
+      url($fonts-dir + 'font-icon.woff') format('woff'),
+      url($fonts-dir + 'font-icon.ttf') format('truetype'),
+      url($fonts-dir + 'font-icon.svg#font-icon') format('svg');
   font-weight: normal;
   font-style: normal;
 }
