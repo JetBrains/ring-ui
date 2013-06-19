@@ -33,7 +33,7 @@ module.exports = function(grunt) {
     compress: {
       ring: {
         options: {
-          archive: './dist/ring.zip'
+          archive: './dist/ring-ui-common-headers.zip'
         },
         files: [
           {expand: true, cwd: './dist/ring/', src: ['**'], dest: 'ring'}
@@ -41,7 +41,7 @@ module.exports = function(grunt) {
       },
       'ring-lib': {
         options: {
-          archive: './dist/ring-lib.zip'
+          archive: './dist/ring-ui-blocks-library.zip'
         },
         files: [
           {expand: true, cwd: './dist/ring-lib/', src: ['**'], dest: 'ring-lib'}
