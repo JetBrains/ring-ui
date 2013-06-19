@@ -10,6 +10,12 @@ module.exports = function(grunt) {
           stdout: true,
           stderr: true
         }
+      },
+      hooks: {
+        command: [
+          'echo "grunt jshint" > .git/hooks/pre-commit',
+          'chmod +x .git/hooks/pre-commit'
+        ].join(' && ')
       }
     },
     csso: {
@@ -67,7 +73,7 @@ module.exports = function(grunt) {
           node: false
         },
         files: {
-          "tmp/ring.hbs.js": ["blocks/**/*.hbs"]
+          'tmp/ring.hbs.js': ['blocks/**/*.hbs']
         }
       }
     },
@@ -96,8 +102,8 @@ module.exports = function(grunt) {
       }
     },
     clean: {
-      generated: ["dist", "tmp"],
-      modules: ["node_modules", "components"]
+      generated: ['dist', 'tmp'],
+      modules: ['node_modules', 'components']
     },
     watch: {
       scss: {
@@ -146,6 +152,9 @@ module.exports = function(grunt) {
 
         }
       }
+    },
+    jshint: {
+      all: ['Gruntfile.js', 'blocks/**/*.js']
     }
   });
 
