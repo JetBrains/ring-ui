@@ -1,8 +1,8 @@
 {{#stripe}}
   <div class="ring-stripe">
-    {{#services}}
+    {{#items}}
       <a class="ring-stripe__link" href="{{url}}">{{title}}</a>
-    {{/services}}
+    {{/items}}
     {{#if personal}}
       <span class="ring-stripe__personal component-dropdown" data-component="{{stringify personal}}">
         <span class="ring-stripe__link">{{personal.username}}</span>

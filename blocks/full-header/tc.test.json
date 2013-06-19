@@ -1,6 +1,6 @@
 {
   "stripe": {
-    "services": [
+    "items": [
       {
         "title": "TeamCity",
         "url": "//teamcity.jetbrains.com"
