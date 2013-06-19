@@ -46,13 +46,13 @@ $ring-link-color:  #b4b4b4;
   font-size: 12px;
 }
 
-.ring-stripe__personal:hover .ring-stripe__item,
-.ring-stripe__item:hover {
+.ring-stripe__personal:hover .ring-stripe__item_link,
+.ring-stripe__item_link:hover {
   text-decoration: underline;
 }
 
-.ring-stripe__item:hover,
-.ring-stripe__personal:hover .ring-stripe__item,
+.ring-stripe__item_link:hover,
+.ring-stripe__personal:hover .ring-stripe__item_link,
 .ring-stripe__personal:hover .font-icon {
   color: $active-link-color !important;
 }
