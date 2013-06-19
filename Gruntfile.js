@@ -1,36 +1,8 @@
 module.exports = function(grunt) {
 
   grunt.initConfig({
-    // Install & build
+    // Build
     shell: {
-      clean: {
-        command: [
-          'rm -rf ./dist',
-          'rm -rf ./tmp'
-        ].join(';'),
-        options: {
-          stdout: false,
-          stderr: false
-        }
-      },
-      install: {
-        command: 'node_modules/bower/bin/bower install',
-        options: {
-          failOnError: true,
-          stdout: true,
-          stderr: true
-        }
-      },
-      uninstall: {
-        command: [
-          'rm -rf ./node_modules',
-          'rm -rf ./components'
-        ].join(';'),
-        options: {
-          stdout: false,
-          stderr: false
-        }
-      },
       dist: {
         command: 'java -jar tools/jruby/jruby-complete-1.7.4.jar -S compile.rb compile --sass-dir bundles --css-dir dist --images-dir . -I blocks',
         options: {
@@ -118,6 +90,18 @@ module.exports = function(grunt) {
     },
 
     // Development
+    bower: {
+      install: {
+        options: {
+          copy: false,
+          verbose: true
+        }
+      }
+    },
+    clean: {
+      generated: ["dist", "tmp"],
+      modules: ["node_modules", "components"]
+    },
     watch: {
       scss: {
         files: ['blocks/**/*.scss', 'bundles/**/*.scss'],
@@ -162,6 +146,7 @@ module.exports = function(grunt) {
           port: 8000,
           hostname: '*',
           keepalive: true
+
         }
       }
     }
@@ -169,9 +154,9 @@ module.exports = function(grunt) {
 
   require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
 
-  grunt.registerTask('install',   ['shell:install']);
-  grunt.registerTask('uninstall', ['shell:uninstall']);
-  grunt.registerTask('clean',     ['shell:clean']);
+  grunt.registerTask('install',   ['bower']);
+  grunt.registerTask('uninstall', ['clean:modules']);
+  grunt.registerTask('cleanup',   ['clean:generated']);
 
   grunt.registerTask('default',   ['compass', 'handlebars', 'preprocess', 'copy:fonts']);
   grunt.registerTask('build',     ['shell:dist', 'copy:fonts', 'handlebars', 'preprocess', 'csso', 'uglify', 'compress']);
