@@ -26,7 +26,7 @@ Ring UI: development environment setup
 
 Clean generated files:
 
-    grunt clean
+    grunt cleanup
 
 Uninstall dependencies:
 
