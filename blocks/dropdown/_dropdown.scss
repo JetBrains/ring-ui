@@ -36,7 +36,7 @@ $dropdown-background-color: #fff;
 
 .dropdown__item {
   margin-top: 13px;
-  list-style-type: none;
+  display: block;
   text-align: left;
   font-size: 13px;
   @include droid-font;
@@ -46,14 +46,14 @@ $dropdown-background-color: #fff;
   margin-top: 0;
 }
 
-.dropdown__item__link,
-.dropdown__item__link:link,
-.dropdown__item__link:visited {
+.dropdown__item,
+.dropdown__item:link,
+.dropdown__item:visited {
   color: #000;
   text-decoration: none;
 }
 
-.dropdown__item__link:hover {
+.dropdown__item:hover {
   color: $active-link-color;
   text-decoration: underline;
 }

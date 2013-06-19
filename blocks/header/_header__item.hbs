@@ -6,9 +6,9 @@
 {{!--Links--}}
 {{else}}
   {{#if this.url}}
-    <a href="{{this.url}}" class="ring-header__item ring-header__item_link{{> header__item__class}}">{{this.title}}</a>
+    <a href="{{this.url}}" class="ring-header__item ring-header__item_link{{> header__item__class}}{{> global__add-class}}">{{this.title}}</a>
   {{else}}
-    <span class="ring-header__item{{> header__item__class}}">{{this.title}}</span>
+    <span class="ring-header__item{{> header__item__class}}{{> global__add-class}}">{{this.title}}</span>
   {{/if}}
 {{/if}}
 
