@@ -3,6 +3,7 @@
   var data;
   var html;
 
+  var $global = $(global);
   var SELECTOR_PREFIX = '.ring-';
   var template = 'full-header'; // Default template
 
@@ -40,6 +41,7 @@
       }
 
       $body.prepend(html);
+      $global.trigger('ring-updated')
     }
   };
 
