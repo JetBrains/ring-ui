@@ -63,6 +63,11 @@ $header-controls-color: #376dc4;
   text-decoration: none;
 }
 
+.ring-header__item_link:hover {
+  color: $active-link-color;
+  text-decoration: underline;
+}
+
 .ring-header__item__counter {
   color: #fff;
   background-color: $header-link-color;
