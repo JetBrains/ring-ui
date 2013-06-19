@@ -24,6 +24,14 @@ Ring UI: development environment setup
 
 =======================================
 
+Lint code with jshint:
+
+    grunt jshint
+
+Setup pre-commit jshint hook:
+
+    grunt hooks
+
 Clean generated files:
 
     grunt cleanup
