@@ -1,0 +1,30 @@
+{
+  "globals": { "Handlebars": false },
+  "node": true,
+  "browser": true,
+  "jquery":true,
+
+  "es3": true,
+
+  "indent": 2,
+  "camelcase": true,
+  "curly": true,
+  "newcap": true,
+  "quotmark": true,
+  "trailing": true,
+  "sub": true,
+
+  "bitwise": true,
+  "eqeqeq": true,
+  "eqnull":true,
+  "immed": true,
+  "latedef": true,
+  "noarg": true,
+  "undef": true,
+  "unused": true,
+
+  "maxparams": 4,
+  "maxdepth": 4,
+
+  "white": false
+}

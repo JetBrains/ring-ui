@@ -1,4 +1,4 @@
-;(function($, Handlebars, global) {
+(function($, Handlebars, global) {
   var $body;
   var data;
   var html;
@@ -18,7 +18,7 @@
   };
 
   var render = function(template, data) {
-    return Handlebars.partials[template](data)
+    return Handlebars.partials[template](data);
   };
 
   var clean = function() {
@@ -36,12 +36,12 @@
 
     html = render(template, data);
     if (html) {
-      if (typeof cb == 'function') {
+      if (typeof cb === 'function') {
         cb();
       }
 
       $body.prepend(html);
-      $global.trigger('ring-updated')
+      $global.trigger('ring-updated');
     }
   };
 
@@ -50,7 +50,7 @@
     var newData = {};
     var pathParts = path.split('.');
 
-    while (part = pathParts.pop()) {
+    while ((part = pathParts.pop())) {
       if (isNaN(Number(part))) {
         newData = {};
       } else {
