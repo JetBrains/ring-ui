@@ -28,7 +28,7 @@
 
   var updateHtml = function(cb) {
     if (!data) {
-      return;
+      return false;
     }
 
     if (!$body) {
