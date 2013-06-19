@@ -4,7 +4,7 @@ $header-controls-color: #376dc4;
 
 .ring-header {
   width: 100%;
-  height: $x-unit*7;
+  height: $x-unit*7 - 1;
   position: relative;
   min-width: 900px;
   text-align: left;
@@ -34,29 +34,27 @@ $header-controls-color: #376dc4;
 }
 
 .ring-header__logo {
-  margin-top: 3px;
-  height: 30px;
+  margin-left: $x-unit*2;
+  height: 25px;
+  width: 28px;
   display: inline-block;
   vertical-align: middle;
 }
 
 .ring-header__logo__img {
   border: 0;
-  height: 30px;
+  height: 25px;
 }
 .ring-header__item,
 .ring-header__search__input {
   font-size: 13px;
   @include droid-font;
+  vertical-align: middle;
 }
 
 .ring-header__item {
   display: inline-block;
-}
-
-.ring-header__logo,
-.ring-header__item {
-  margin-left: $x-unit*4;
+  margin-left: $x-unit*3;
 }
 
 .ring-header__item_link,
@@ -65,20 +63,15 @@ $header-controls-color: #376dc4;
   text-decoration: none;
 }
 
-.ring-header__item_link:hover {
-  color: $active-link-color;
-  text-decoration: underline;
-}
-
 .ring-header__item__counter {
   color: #fff;
   background-color: $header-link-color;
   position: relative;
-  top: -10px;
-  left: 3px;
-  border-radius: 3px;
-  font-size: 9px;
+  top: -7px;
+  border-radius: 2px;
   padding: 1px 2px;
+  font-size: 10px;
+  @include droid-font;
 }
 
 .ring-header__item__counter_attention {
@@ -93,21 +86,41 @@ $header-controls-color: #376dc4;
 }
 
 .ring-header__right .ring-header__item {
-  margin-left: $x-unit*2;
+  margin-left: $x-unit*3;
   font-size: 16px;
 }
 
+.ring-header__right .font-icon_cog {
+  font-size: 18px !important;
+  width: 12px;
+}
+
+.ring-header__item_icon {
+  color: #3c74c2 !important;
+}
+
+.ring-header__item_icon:hover {
+  color: $active-link-color !important;
+}
+
+.ring-header__search {
+  position: relative;
+  display: inline;
+  zoom: 1;
+}
+
 .ring-header__search__input {
-  padding: 0 $x-unit*2 0 $x-unit;
-  margin-top: 15px; // IE
+  width: $x-unit*27 - 2;
+  height: $x-unit*3 - 2;
+
   border: 1px solid #cbcbcb;
-  height: $x-unit*3;
-  width: $x-unit*30;
+  padding: 0 $x-unit*2 0 $x-unit;
 }
 
 .ring-header__search__glass {
+  position: absolute;
+  top: $x-unit/2;
+  right: $x-unit;
+
   color: #d1d1d1;
-  font-size: 12px;
-  position: relative;
-  left: -20px;
 }
