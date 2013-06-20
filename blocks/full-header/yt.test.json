@@ -63,7 +63,8 @@
         "title": "Reports",
         "url": "/rest/reports",
         "toggle": {
-            "addClass": "yt__ty"
+            "addClass": "yt__ty",
+            "addTooltip": "Whooohoo"
         }
       }
     ],
