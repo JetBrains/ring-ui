@@ -6,9 +6,18 @@ $header-controls-color: #376dc4;
   width: 100%;
   height: $x-unit*7 - 1;
   position: relative;
-  min-width: 900px;
-  text-align: left;
+  text-align: center;
   border-bottom: 1px solid #ccc;
+}
+
+.ring-header__i {
+  // Use this when width limits needed
+  //max-width: 1100px;
+  width: 100%;
+  position: relative;
+  display: inline-block;
+  text-align: left;
+  white-space: nowrap;
 }
 
 .ring-header__background {
@@ -16,6 +25,8 @@ $header-controls-color: #376dc4;
   z-index: -1;
 
   width: 100%;
+  right: 0;
+  left: 0;
   height: $x-unit*7;
 
   background: #f0f0f0;
