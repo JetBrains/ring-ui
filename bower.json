@@ -5,7 +5,6 @@
     "jquery": "~1.10.1"
   },
   "ignore": [
-    "**/.*",
     "node_modules",
     "components"
   ]
