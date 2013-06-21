@@ -1,9 +1,11 @@
-(function($, Handlebars, global) {
+define(['jquery', 'handlebars', 'font-icon/font-icon'], function($, Handlebars) {
+  'use strict';
+
   var $body;
   var data;
   var html;
 
-  var $global = $(global);
+  var $global = $(document);
   var SELECTOR_PREFIX = '.ring-';
   var template = 'full-header'; // Default template
 
@@ -70,10 +72,10 @@
     return updateHtml(clean);
   };
 
-  global.ring = {
+  return {
     init: init,
     update: update,
     render: render
   };
 
-}(jQuery, Handlebars, this));
+});

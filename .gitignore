@@ -19,5 +19,6 @@ Thumbs.db
 node_modules
 components
 .sass-cache
-tmp
 dist
+shims/handlebars/handlebars.js
+shims/handlebars/templates.js
