@@ -44,7 +44,7 @@ define(['jquery', 'handlebars', 'dropdown/dropdown', 'font-icon/font-icon'], fun
       }
 
       $body.prepend(html);
-      $global.trigger('ring-updated');
+      $global.trigger('ring:header:updated');
 
       return true;
     }
