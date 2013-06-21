@@ -1,5 +1,8 @@
 {
-  "globals": { "Handlebars": false },
+  "globals": {
+    "define": false,
+    "require": false
+  },
   "node": true,
   "browser": true,
   "jquery":true,
