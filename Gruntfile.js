@@ -73,14 +73,30 @@ module.exports = function(grunt) {
           node: false
         },
         files: {
-          'tmp/ring.hbs.js': ['blocks/**/*.hbs']
+          'shims/handlebars/templates.js': ['blocks/**/*.hbs']
         }
       }
     },
     preprocess: {
-      js: {
-        src : 'bundles/ring/ring.js',
-        dest : 'dist/ring/ring.js'
+      handlebars: {
+        src: 'shims/handlebars/handlebars.tmpl.js',
+        dest: 'shims/handlebars/handlebars.js'
+      }
+    },
+    requirejs: {
+      compile: {
+        options: {
+          baseUrl: 'blocks',
+          name: '../components/almond/almond',
+          mainConfigFile: 'bundles/ring/ring.config.js',
+          include: 'ring',
+          out: 'dist/ring/ring.js',
+          optimize: 'none',
+          wrap: {
+            startFile: 'bundles/ring/ring-start.frag',
+            endFile: 'bundles/ring/ring-end.frag'
+          }
+        }
       }
     },
     copy: {
@@ -102,7 +118,7 @@ module.exports = function(grunt) {
       }
     },
     clean: {
-      generated: ['dist', 'tmp'],
+      generated: ['dist', 'shims/handlebars/handlebars.js', 'shims/handlebars/templates.js'],
       modules: ['node_modules', 'components']
     },
     watch: {
@@ -114,8 +130,8 @@ module.exports = function(grunt) {
         }
       },
       preprocess: {
-        files: ['blocks/**/*.js', 'blocks/**/*.json', 'bundles/**/*.js'],
-        tasks: ['preprocess:js',  'notify:watch'],
+        files: ['**/*.frag', '**/*.frag.js'],
+        tasks: ['preprocess', 'requirejs',  'notify:watch'],
         options: {
           livereload: true
         }
@@ -129,7 +145,7 @@ module.exports = function(grunt) {
       },
       templates: {
         files: ['blocks/**/*.hbs'],
-        tasks: ['templates',  'notify:watch'],
+        tasks: ['templates', 'notify:watch'],
         options: {
           livereload: true
         }

@@ -2,7 +2,9 @@
   "name": "ring-ui",
   "version": "0.1.0",
   "devDependencies": {
-    "jquery": "~1.10.1"
+    "jquery": "~1.10.1",
+    "requirejs": "~2.1.6",
+    "almond": "~0.2.5"
   },
   "ignore": [
     "node_modules",
