@@ -8,7 +8,7 @@
   {{#if this.url}}
     <a href="{{this.url}}" class="ring-header__item ring-header__item_link{{> header__item__class}}{{> global__add-class}}"{{> global__add-title}}>{{this.title}}</a>
   {{else}}
-    <span class="ring-header__item{{> header__item__class}}{{> global__add-class}}"{{> global__add-title}}>{{this.title}}</span>
+    <span class="ring-header__item{{> header__item__class}}{{> global__add-class}}{{#if items}} component-dropdown" data-component="{{stringify this}}{{/if}}"{{> global__add-title}}>{{this.title}}</span>
   {{/if}}
 {{/if}}
 

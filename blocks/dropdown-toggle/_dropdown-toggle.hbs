@@ -1,6 +1,3 @@
-{{#if items}}
-  <span class="dropdown-toggle font-icon font-icon_caret-down component-dropdown" data-component="{{stringify this}}"{{> global__add-title}}></span>
-{{/if}}
 {{#toggle}}
-  <span class="dropdown-toggle font-icon font-icon_caret-down{{> global__add-class}}"{{> global__add-title}}></span>
+  <span class="dropdown-toggle font-icon font-icon_caret-down{{#if items}} component-dropdown" data-component="{{stringify this}}{{/if}}"{{> global__add-title}}></span>
 {{/toggle}}
