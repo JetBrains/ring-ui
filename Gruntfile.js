@@ -182,6 +182,20 @@ module.exports = function(grunt) {
   grunt.registerTask('cleanup',   ['clean:generated']);
 
   grunt.registerTask('default',   ['compass', 'handlebars', 'preprocess', 'copy:fonts']);
-  grunt.registerTask('build',     ['shell:dist', 'copy:fonts', 'handlebars', 'preprocess', 'csso', 'uglify', 'compress']);
   grunt.registerTask('templates', ['handlebars', 'preprocess']);
+
+  grunt.registerTask('build', [
+    // Styles
+    'shell:dist',
+    'copy:fonts',
+    'csso',
+    // JS
+    'handlebars',
+    'preprocess',
+    'requirejs',
+    'uglify',
+    // Artifact
+    'compress'
+  ]);
+
 };
