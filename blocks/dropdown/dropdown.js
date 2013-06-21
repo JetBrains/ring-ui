@@ -3,10 +3,41 @@ define(['jquery', 'handlebars'], function($, Handlebars) {
 
   var COMPONENT_SELECTOR = '.component-dropdown';
 
-  var $doc = $(document);
+  var $document = $(document);
   var $body;
   var $dropdown;
   var target;
+
+  var create = function(data, $target, dontClean) {
+    if (data) {
+      if (!dontClean) {
+        remove();
+      }
+
+      if (!($target instanceof $)) {
+        $target = $($target);
+      }
+
+      if (!$body) {
+        $body = $('body');
+      }
+
+      $dropdown = $(Handlebars.partials.dropdown(data));
+      $dropdown.appendTo($body);
+
+      var pos   = $target.offset();
+      pos.top  += $target.outerHeight() + 15;
+      pos.left += $target.outerWidth() / 2 - $dropdown.width() / 2;
+
+      $dropdown.css(pos);
+
+      $document.trigger('ring:dropdown:created');
+
+      return true;
+    } else {
+      return false;
+    }
+  };
 
   var remove = function() {
     if ($dropdown) {
@@ -15,50 +46,29 @@ define(['jquery', 'handlebars'], function($, Handlebars) {
 
       target = null;
 
-      // Rare case with opening dropdown from component's descendants nodes while closing another dropdown
-      var $thisDropdown = $(this).closest(COMPONENT_SELECTOR);
-      if ($thisDropdown[0] !== this) {
-        $thisDropdown.click();
-      }
-
-      return false;
+      $document.trigger('ring:dropdown:removed');
     }
-
-    return true;
   };
 
   // Using delegate because of compatibility with YouTrack's jQuery 1.5.1
-
-  $doc.delegate(':not(.component-dropdown)', 'click.close-dropdown', remove);
-
-  $doc.delegate('.component-dropdown', 'click.open-dropdown', function() {
-    var $this = $(this);
-    var sameTarget = (target === this || target === $this.closest(COMPONENT_SELECTOR)[0]);
+  $document.delegate('*','click.ring.dropdown', function(e) {
+    var $currentTarget = $(this).closest(COMPONENT_SELECTOR);
+    var currentTarget = $currentTarget[0];
+    var sameTarget = (target === currentTarget);
 
     remove();
 
-    if (sameTarget) {
-      return false;
+    if (currentTarget && !sameTarget) {
+      target = currentTarget;
+      var data = $currentTarget.data('component');
+
+      return !create(data, $currentTarget, true);
     }
-
-    target = this;
-    var data = $this.data('component');
-
-    if (!$body) {
-      $body = $('body');
-    }
-
-    if (data) {
-      $dropdown = $(Handlebars.partials.dropdown(data));
-      $dropdown.appendTo($body);
-
-      var pos = $this.offset();
-      pos.top += $this.outerHeight() + 15;
-      pos.left += $this.outerWidth() / 2 - $dropdown.width() / 2;
-
-      $dropdown.css(pos);
-    }
-
-    return false;
   });
+
+  // Public methods
+  return {
+    create: create,
+    remove: remove
+  };
 });

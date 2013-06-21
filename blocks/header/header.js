@@ -1,4 +1,4 @@
-define(['jquery', 'handlebars', 'font-icon/font-icon'], function($, Handlebars) {
+define(['jquery', 'handlebars', 'dropdown/dropdown', 'font-icon/font-icon'], function($, Handlebars, dropdown) {
   'use strict';
 
   var $body;
@@ -75,7 +75,8 @@ define(['jquery', 'handlebars', 'font-icon/font-icon'], function($, Handlebars) 
   return {
     init: init,
     update: update,
-    render: render
+    render: render,
+    dropdown: dropdown
   };
 
 });
