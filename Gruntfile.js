@@ -185,6 +185,8 @@ module.exports = function(grunt) {
   grunt.registerTask('templates', ['handlebars', 'preprocess']);
 
   grunt.registerTask('build', [
+    // Deps
+    'bower',
     // Styles
     'shell:dist',
     'copy:fonts',
