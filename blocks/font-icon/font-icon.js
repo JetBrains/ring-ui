@@ -10,7 +10,7 @@ define(['jquery'], function($) {
     'font-icon_cog' : '&#xf013;'
   };
 
-  $(document).bind('ring-updated', function() {
+  $(document).bind('ring:header:updated', function() {
     $('.font-icon').each(function(index, el) {
       var $el = $(el);
       var cls = $el.attr('class').match(/font-icon_[^\s'"]+/);
