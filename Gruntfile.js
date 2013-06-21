@@ -137,7 +137,7 @@ module.exports = function(grunt) {
         }
       },
       reload: {
-        files: ['*.html'],
+        files: ['*.html', 'blocks/*/*.js', 'bundles/**/*.js'],
         tasks: ['notify:watch'],
         options: {
           livereload: true
