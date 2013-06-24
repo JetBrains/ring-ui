@@ -126,6 +126,7 @@ $header-controls-color: #376dc4;
 .ring-header__search {
   position: relative;
   display: inline;
+  top: -2px;
   zoom: 1;
 }
 
@@ -139,7 +140,7 @@ $header-controls-color: #376dc4;
 
 .ring-header__search__glass {
   position: absolute;
-  top: $x-unit/2;
+  top: 3px;
   right: $x-unit;
 
   color: #d1d1d1;
