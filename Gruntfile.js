@@ -174,26 +174,32 @@ module.exports = function(grunt) {
 
   require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
 
-  grunt.registerTask('server', ['connect','watch']);
-
   grunt.registerTask('install',   ['bower']);
-  grunt.registerTask('hooks',     ['shell:hooks']);
   grunt.registerTask('uninstall', ['clean:modules']);
   grunt.registerTask('cleanup',   ['clean:generated']);
 
-  grunt.registerTask('default',   ['compass', 'handlebars', 'preprocess', 'copy:fonts']);
+  grunt.registerTask('server',    ['connect','watch']);
+  grunt.registerTask('hooks',     ['shell:hooks']);
+
   grunt.registerTask('templates', ['handlebars', 'preprocess']);
+
+  grunt.registerTask('default',   [
+    'install',
+    'compass',
+    'copy:fonts',
+    'templates',
+    'requirejs'
+  ]);
 
   grunt.registerTask('build', [
     // Deps
-    'bower',
+    'install',
     // Styles
     'shell:dist',
     'copy:fonts',
     'csso',
     // JS
-    'handlebars',
-    'preprocess',
+    'templates',
     'requirejs',
     'uglify',
     // Artifact
