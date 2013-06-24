@@ -8,19 +8,15 @@ Ring UI: development environment setup
 
 3. Install dependencies:
 
-    npm install && grunt install
+    npm install 
 
 4. Build files:
 
     grunt
 
-5. Start the watcher:
+5. Start the watcher and the server:
 
-    grunt watch
-
-6. Start the server:
-
-    grunt connect
+    grunt server
 
 =======================================
 
