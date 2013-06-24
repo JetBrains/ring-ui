@@ -35,16 +35,18 @@
     "items": [
       {
         "title": "Projects",
-        "items": [
-          {
-            "title": "Issues",
-            "url": "/issues"
-          },
-          {
-            "title": "Agile Board",
-            "url": "/rest/agile"
-          }
-        ]
+        "toggle": {
+          "items": [
+            {
+              "title": "Issues",
+              "url": "/issues"
+            },
+            {
+              "title": "Agile Board",
+              "url": "/rest/agile"
+            }
+          ]
+        }
       },
       {
         "title": "My Changes",
