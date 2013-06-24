@@ -15,10 +15,9 @@
 
   <link rel="stylesheet" type="text/css" href="dist/ring/ring.css">
   <script>
-    console.time('ring');
     require(['jquery', 'ring'], function($, ring) {
       $.getJSON('blocks/full-header/tc.test.json', function(data) {
-        ring.init(data, true);
+        ring.init(data);
       });
     });
   </script>

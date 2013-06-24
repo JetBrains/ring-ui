@@ -4,7 +4,6 @@ define(['jquery', 'handlebars', 'dropdown/dropdown', 'font-icon/font-icon'], fun
   var $body;
   var data;
   var html;
-  var debug;
 
   var $global = $(window);
   var SELECTOR_PREFIX = '.ring-';
@@ -60,7 +59,6 @@ define(['jquery', 'handlebars', 'dropdown/dropdown', 'font-icon/font-icon'], fun
 
       $body.prepend(html);
       $global.trigger('ring:header:updated');
-      console.timeEnd('ring');
       return true;
     }
 
