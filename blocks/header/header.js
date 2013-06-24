@@ -5,7 +5,7 @@ define(['jquery', 'handlebars', 'dropdown/dropdown', 'font-icon/font-icon'], fun
   var data;
   var html;
 
-  var $global = $(document);
+  var $global = $(window);
   var SELECTOR_PREFIX = '.ring-';
   var template = 'full-header'; // Default template
 
