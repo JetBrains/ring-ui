@@ -163,9 +163,7 @@ module.exports = function(grunt) {
       server: {
         options: {
           port: 8000,
-          hostname: '*',
-          keepalive: true
-
+          hostname: '*'
         }
       }
     },
@@ -175,6 +173,8 @@ module.exports = function(grunt) {
   });
 
   require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
+
+  grunt.registerTask('server', ['connect','watch']);
 
   grunt.registerTask('install',   ['bower']);
   grunt.registerTask('hooks',     ['shell:hooks']);
