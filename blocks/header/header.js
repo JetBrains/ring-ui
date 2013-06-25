@@ -14,7 +14,7 @@ define(['jquery', 'handlebars', 'dropdown/dropdown', 'font-icon/font-icon'], fun
       template = component;
     }
 
-    data = initData || this.data;
+    data = initData || data;
 
     if (!dontWaitDom) {
       $(updateHtml);
