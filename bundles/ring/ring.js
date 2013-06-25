@@ -1,3 +1,3 @@
-define(['jquery', 'handlebars', 'header/header', 'dropdown/dropdown'], function($, Handlebars, header) {
+define(['header/header'], function(header) {
   return header;
 });
