@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Blocks demo</title>
+  <meta charset="utf-8">
+  <style type="text/css">
+    html, body {
+      padding: 0;
+      margin: 0;
+    }
+  </style>
+  <script src="components/jquery/jquery.js"></script>
+  <script src="components/requirejs/require.js"></script>
+  <script src="bundles/ring/ring.config.js"></script>
+
+  <link rel="stylesheet" type="text/css" href="dist/ring/ring.css">
+  <script>
+    require(['jquery', 'ring-oauth'], function ($, ring) {
+      var dataUrl = 'blocks/full-header/tc.test.json';
+      //TODO: load data from HUB correctly
+      ring.init({
+        client_id: "dafb2157-a3ac-4f8c-92fa-450c3c903189",
+        redirect_uri: "http://localhost:8000",
+        authorization: "http://localhost:8080/jetpass/rest/oauth2/auth",
+        headerDataUrl: dataUrl
+      });
+    });
+  </script>
+</head>
+<body>
+
+</body>
+</html>
