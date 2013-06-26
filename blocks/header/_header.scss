@@ -38,7 +38,7 @@ $header-controls-color: #376dc4;
 
 .ring-header_gradient .ring-header__background {
   height: $x-unit*14;
-  @include background-image(linear-gradient(to bottom, #e4e4e4, #fff));
+  @include background-image(linear-gradient(top, #e4e4e4, #fff));
 }
 
 .ring-header__spacer {
