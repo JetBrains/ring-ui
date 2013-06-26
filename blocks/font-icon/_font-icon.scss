@@ -9,7 +9,7 @@
   font-style: normal;
 }
 
-.font-icon {
+.ring-font-icon {
   font-family: 'font-icon';
   speak: none;
   font-style: normal;
@@ -22,18 +22,18 @@
   -webkit-font-smoothing: antialiased;
 }
 
-.font-icon_search:before {
+.ring-font-icon_search:before {
   content: "\f002";
 }
 
-.font-icon_caret-down:before {
+.ring-font-icon_caret-down:before {
   content: "\f0d7";
 }
 
-.font-icon_help:before {
+.ring-font-icon_help:before {
   content: "\e001";
 }
 
-.font-icon_cog:before {
+.ring-font-icon_cog:before {
   content: "\f013";
 }
