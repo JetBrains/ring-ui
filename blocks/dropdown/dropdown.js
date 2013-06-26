@@ -8,14 +8,23 @@ define(['jquery', 'handlebars'], function($, Handlebars) {
   var $dropdown;
   var target;
 
-  var create = function(data, $target, dontClean) {
+  var create = function(data, $target, currentTarget) {
+    data = data ||  $target.data('component');
+
     if (data) {
-      if (!dontClean) {
-        remove();
+      if (!($target instanceof $)) {
+        currentTarget = currentTarget || $target;
+        $target = $($target);
+      } else {
+        currentTarget = currentTarget || $target[0];
       }
 
-      if (!($target instanceof $)) {
-        $target = $($target);
+      remove();
+
+      target = currentTarget;
+
+      if (typeof data === 'string') {
+        data = {html: data};
       }
 
       if (!$body) {
@@ -52,17 +61,14 @@ define(['jquery', 'handlebars'], function($, Handlebars) {
 
   // Using delegate because of compatibility with YouTrack's jQuery 1.5.1
   $(document).delegate('*','click.ring.dropdown', function(e) {
-    var $currentTarget = $(this).closest(COMPONENT_SELECTOR);
+    var $currentTarget = $(e.currentTarget).closest(COMPONENT_SELECTOR);
     var currentTarget = $currentTarget[0];
-    var sameTarget = (target === currentTarget);
 
-    remove();
-
-    if (currentTarget && !sameTarget) {
-      target = currentTarget;
-      var data = $currentTarget.data('component');
-
-      return !create(data, $currentTarget, true);
+    if (currentTarget && target !== currentTarget) {
+      return !create(null, $currentTarget, currentTarget);
+    } else {
+      remove();
+      return false;
     }
   });
 
