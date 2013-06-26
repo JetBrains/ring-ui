@@ -4,14 +4,15 @@ define(['jquery', 'handlebars', 'dropdown/dropdown', 'font-icon/font-icon'], fun
   var $body;
   var data;
   var html;
+  var cb;
 
   var $global = $(window);
   var SELECTOR_PREFIX = '.ring-';
   var template = 'full-header'; // Default template
 
-  var init = function(initData, dontWaitDom, component) {
-    if (component) {
-      template = component;
+  var init = function(initData, dontWaitDom, initCb) {
+    if (typeof initCb === 'function') {
+      cb = initCb;
     }
 
     data = initData || data;
@@ -23,9 +24,10 @@ define(['jquery', 'handlebars', 'dropdown/dropdown', 'font-icon/font-icon'], fun
     }
   };
 
-  var bodyReady = function(cb) {
+  var bodyReady = function bodyReady(cb) {
     $body = $('body');
-    if ($body && $body[0] && $body[0].firstChild) {
+
+    if ($body[0]) {
       cb();
     } else {
       setTimeout(function() {
@@ -42,7 +44,7 @@ define(['jquery', 'handlebars', 'dropdown/dropdown', 'font-icon/font-icon'], fun
     $(SELECTOR_PREFIX + template).remove();
   };
 
-  var updateHtml = function(cb) {
+  var updateHtml = function() {
     if (!data) {
       return false;
     }
@@ -53,16 +55,23 @@ define(['jquery', 'handlebars', 'dropdown/dropdown', 'font-icon/font-icon'], fun
 
     html = render(template, data);
     if (html) {
-      if (typeof cb === 'function') {
+      if ($body[0].firstChild) {
+        $body.prepend(html);
+      } else {
+        $body.append(html);
+      }
+
+      $global.trigger('ring:header:updated');
+
+      if (cb) {
         cb();
       }
 
-      $body.prepend(html);
-      $global.trigger('ring:header:updated');
       return true;
+    } else {
+      return false;
     }
 
-    return false;
   };
 
   var update = function(path, value) {
