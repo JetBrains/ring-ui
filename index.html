@@ -16,8 +16,15 @@
   <link rel="stylesheet" type="text/css" href="dist/ring/ring.css">
   <script>
     require(['jquery', 'ring'], function($, ring) {
-      $.getJSON('blocks/full-header/tc.test.json', function(data) {
-        ring.init(data);
+      $.getJSON('blocks/full-header/yt.test.json', function(data) {
+        window.ring = ring;
+
+        ring.init(data, true);
+
+        $(document).on('click','.yt__ty', function() {
+          ring.dropdown.create('<b>Custom dropdown</b>', this);
+        });
+
       });
     });
   </script>
