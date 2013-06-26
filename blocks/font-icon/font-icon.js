@@ -11,7 +11,7 @@ define(['jquery'], function($) {
   };
 
   $(window).bind('ring:header:updated', function() {
-    $('.font-icon').each(function(index, el) {
+    $('.ring-font-icon').each(function(index, el) {
       var $el = $(el);
       var cls = $el.attr('class').match(/font-icon_[^\s'"]+/);
       var icon = cls && icons[cls[0]];
