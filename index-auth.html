@@ -27,10 +27,13 @@
         * scope: "bbb54677-70fd-47b5-b3cf-c9eeb51212d0"
         *}
        */
-      ring.init({
-        clientId: "dafb2157-a3ac-4f8c-92fa-450c3c903189",
-        redirectUri: "http://localhost:8000",
-        scope: "dafb2157-a3ac-4f8c-92fa-450c3c903189"
+      $.getJSON('blocks/full-header/tc.test.json', function(data){
+        ring.init({
+          clientId: "dafb2157-a3ac-4f8c-92fa-450c3c903189",
+          redirectUri: "http://localhost:8000",
+          serverUri: "http://localhost:8080/jetpass",
+          scope: "dafb2157-a3ac-4f8c-92fa-450c3c903189"
+        }, data);
       });
     });
   </script>
