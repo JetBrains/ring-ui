@@ -4,20 +4,20 @@ $dropdown-background-color: #fff;
   @include box-shadow(0 1px 4px 0 #adadad);
 }
 
-.dropdown {
+.ring-dropdown {
   position: absolute;
   top: 100px;
   z-index: 999;
   @include dropdown-shadow;
 }
 
-.dropdown__i {
+.ring-dropdown__i {
   margin: 0;
   padding: 13px;
   background-color: $dropdown-background-color;
 }
 
-.dropdown:before {
+.ring-dropdown:before {
   top: -5px;
   left: 45%;
 
@@ -34,7 +34,7 @@ $dropdown-background-color: #fff;
   @include transform(rotate(45deg));
 }
 
-.dropdown__item {
+.ring-dropdown__item {
   margin-top: 13px;
   display: block;
   text-align: left;
@@ -42,18 +42,18 @@ $dropdown-background-color: #fff;
   @include droid-font;
 }
 
-.dropdown__item:first-child {
+.ring-dropdown__item:first-child {
   margin-top: 0;
 }
 
-.dropdown__item,
-.dropdown__item:link,
-.dropdown__item:visited {
+.ring-dropdown__item,
+.ring-dropdown__item:link,
+.ring-dropdown__item:visited {
   color: #000;
   text-decoration: none;
 }
 
-.dropdown__item:hover {
+.ring-dropdown__item:hover {
   color: $active-link-color;
   text-decoration: underline;
 }
