@@ -19,12 +19,19 @@
       $.getJSON('blocks/full-header/yt.test.json', function(data) {
         window.ring = ring;
 
-        ring.init(data, true);
+        ring.init(data, true, function() {
+          // Will not close custom dropdown on click on the same target when binding with delegate
+          //
+          // $(document).on('click','.yt__ty', function() {
+          //   console.log(1, this)
+          //   return ring.dropdown.create('<b>Custom dropdown</b>', $(this));
+          // });
 
-        $(document).on('click','.yt__ty', function() {
-          ring.dropdown.create('<b>Custom dropdown</b>', this);
+          // Recommended method
+          $('.yt__ty').click(function() {
+            return ring.dropdown.create('<b>Custom dropdown</b>', $(this));
+          });
         });
-
       });
     });
   </script>
