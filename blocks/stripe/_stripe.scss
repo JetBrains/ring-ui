@@ -40,7 +40,7 @@ $ring-link-color:  #b4b4b4;
   margin: 0 $x-unit/2;
 }
 
-.ring-stripe__personal .font-icon {
+.ring-stripe__personal .ring-font-icon {
   color: $ring-link-color;
   vertical-align: middle;
   font-size: 12px;
@@ -53,6 +53,6 @@ $ring-link-color:  #b4b4b4;
 
 .ring-stripe__item_link:hover,
 .ring-stripe__personal:hover .ring-stripe__item_link,
-.ring-stripe__personal:hover .font-icon {
+.ring-stripe__personal:hover .ring-font-icon {
   color: $active-link-color !important;
 }
