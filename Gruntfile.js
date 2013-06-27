@@ -2,22 +2,6 @@ module.exports = function(grunt) {
 
   grunt.initConfig({
     // Build
-    shell: {
-      dist: {
-        command: 'java -jar tools/jruby/jruby-complete-1.7.4.jar -S compile.rb compile --sass-dir bundles --css-dir dist --images-dir . -I blocks',
-        options: {
-          failOnError: true,
-          stdout: true,
-          stderr: true
-        }
-      },
-      hooks: {
-        command: [
-          'echo "grunt jshint" > .git/hooks/pre-commit',
-          'chmod +x .git/hooks/pre-commit'
-        ].join(' && ')
-      }
-    },
     csso: {
       dist: {
         files: {
@@ -47,14 +31,24 @@ module.exports = function(grunt) {
     },
 
     // Process files
-    compass: {
+    sass: {
       dist: {
         options: {
-          sassDir: 'bundles',
-          cssDir: 'dist',
-          imagesDir: '.',
-          importPath: 'blocks'
+          includePaths: ['blocks/**/'],
+          outputStyle: 'nested'
+        },
+        files: {
+          'dist/ring.css': 'bundles/ring.scss'
         }
+      }
+    },
+    autoprefixer: {
+      options: {
+        browsers: ['last 3 versions', '> 1%', 'ie 8', 'ie 7']
+      },
+      files: {
+        src : 'dist/ring.css',
+        dest: 'dist/ring.css'
       }
     },
     handlebars: {
@@ -123,14 +117,7 @@ module.exports = function(grunt) {
     watch: {
       scss: {
         files: ['blocks/**/*.scss', 'bundles/**/*.scss'],
-        tasks: ['compass',  'notify:watch'],
-        options: {
-          livereload: true
-        }
-      },
-      preprocess: {
-        files: ['**/*.frag', '**/*.frag.js'],
-        tasks: ['preprocess', 'requirejs',  'notify:watch'],
+        tasks: ['styles',  'notify:watch'],
         options: {
           livereload: true
         }
@@ -177,32 +164,39 @@ module.exports = function(grunt) {
   grunt.registerTask('uninstall', ['clean:modules']);
   grunt.registerTask('cleanup',   ['clean:generated']);
 
-  grunt.registerTask('server',    ['connect','watch']);
-  grunt.registerTask('hooks',     ['shell:hooks']);
+  grunt.registerTask('styles', [
+    'sass',
+    'autoprefixer',
+    'copy:fonts'
+  ]);
 
-  grunt.registerTask('templates', ['handlebars', 'preprocess']);
+  grunt.registerTask('templates', [
+    'handlebars',
+    'preprocess'
+  ]);
 
-  grunt.registerTask('default',   [
+  grunt.registerTask('default', [
     'install',
-    'compass',
-    'copy:fonts',
-    'templates',
-    'requirejs'
+    'styles',
+    'templates'
+  ]);
+
+  grunt.registerTask('server', [
+    'default',
+    'connect',
+    'watch'
+  ]);
+
+  grunt.registerTask('minify', [
+    'csso',
+    'uglify',
+    'compress'
   ]);
 
   grunt.registerTask('build', [
-    // Deps
-    'install',
-    // Styles
-    'shell:dist',
-    'copy:fonts',
-    'csso',
-    // JS
-    'templates',
+    'default',
     'requirejs',
-    'uglify',
-    // Artifact
-    'compress'
+    'minify'
   ]);
 
 };
