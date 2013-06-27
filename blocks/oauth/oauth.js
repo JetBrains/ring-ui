@@ -1,4 +1,4 @@
-define(['jso', 'jquery', 'header/header'], function (jso, $, header) {
+define(['jso', 'jquery', 'full-header/full-header'], function (jso, $, header) {
   'use strict';
 
   var config;
