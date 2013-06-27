@@ -1,7 +1,7 @@
 $dropdown-background-color: #fff;
 @mixin dropdown-shadow {
   border: 1px solid #adadad;
-  @include box-shadow(0 1px 4px 0 #adadad);
+  box-shadow: 0 1px 4px 0 #adadad;
 }
 
 .ring-dropdown {
@@ -31,7 +31,7 @@ $dropdown-background-color: #fff;
 
   background-color: $dropdown-background-color;
   @include dropdown-shadow;
-  @include transform(rotate(45deg));
+  transform: rotate(45deg);
 }
 
 .ring-dropdown__item {

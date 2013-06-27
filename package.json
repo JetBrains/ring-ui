@@ -1,6 +1,6 @@
 {
   "name": "ring-ui",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "JetBrains blocks library",
   "repository": {
     "type": "git",
@@ -10,13 +10,11 @@
   "devDependencies": {
     "grunt": "~0.4.1",
     "matchdep": "~0.1.2",
-    "grunt-shell": "~0.2.2",
     "grunt-notify": "~0.2.4",
     "grunt-preprocess": "~2.3.0",
     "grunt-contrib-watch": "~0.4.4",
     "grunt-contrib-connect": "~0.3.0",
     "grunt-contrib-handlebars": "~0.5.9",
-    "grunt-contrib-compass": "~0.2.0",
     "grunt-contrib-compress": "~0.5.2",
     "grunt-contrib-copy": "~0.4.1",
     "grunt-csso": "~0.5.0",
@@ -24,6 +22,8 @@
     "grunt-bower-task": "~0.2.3",
     "grunt-contrib-clean": "~0.4.1",
     "grunt-contrib-jshint": "~0.6.0",
-    "grunt-contrib-requirejs": "~0.4.1"
+    "grunt-contrib-requirejs": "~0.4.1",
+    "grunt-sass": "~0.6.0",
+    "grunt-autoprefixer": "~0.1.20130615"
   }
 }
