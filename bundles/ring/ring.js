@@ -1,3 +1,3 @@
-define(['header/header'], function(header) {
+define(['full-header/full-header'], function(header) {
   return header;
 });
