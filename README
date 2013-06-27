@@ -10,23 +10,23 @@ Ring UI: development environment setup
 
     npm install 
 
-4. Build files:
+4. Prepare files:
 
     grunt
 
-5. Start the watcher and the server:
+or just start the watcher and the server:
 
     grunt server
 
 =======================================
 
+Build production files
+
+    grunt build
+
 Lint code with jshint:
 
     grunt jshint
-
-Setup pre-commit jshint hook:
-
-    grunt hooks
 
 Clean generated files:
 
