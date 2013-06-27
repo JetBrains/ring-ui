@@ -21,8 +21,7 @@ module.exports = function(grunt) {
     csso: {
       dist: {
         files: {
-          'dist/ring/ring.min.css':         ['dist/ring/ring.css'],
-          'dist/ring-lib/ring-lib.min.css': ['dist/ring-lib/ring-lib.css']
+          'dist/ring.min.css': ['dist/ring.css']
         }
       }
     },
@@ -32,25 +31,17 @@ module.exports = function(grunt) {
           report: 'gzip'
         },
         files: {
-          'dist/ring/ring.min.js': 'dist/ring/ring.js'
+          'dist/ring.min.js': 'dist/ring.js'
         }
       }
     },
     compress: {
       ring: {
         options: {
-          archive: './dist/ring-ui-common-headers.zip'
+          archive: './dist/ring-ui.zip'
         },
         files: [
-          {expand: true, cwd: './dist/ring/', src: ['**'], dest: 'ring'}
-        ]
-      },
-      'ring-lib': {
-        options: {
-          archive: './dist/ring-ui-blocks-library.zip'
-        },
-        files: [
-          {expand: true, cwd: './dist/ring-lib/', src: ['**'], dest: 'ring-lib'}
+          {expand: true, cwd: './dist/', src: ['**'], dest: 'ring'}
         ]
       }
     },
@@ -88,23 +79,31 @@ module.exports = function(grunt) {
         options: {
           baseUrl: 'blocks',
           name: '../components/almond/almond',
-          mainConfigFile: 'bundles/ring/ring.config.js',
+          mainConfigFile: 'bundles/ring.config.js',
           include: 'ring',
-          out: 'dist/ring/ring.js',
+          out: 'dist/ring.js',
           optimize: 'none',
           wrap: {
-            startFile: 'bundles/ring/ring-start.frag',
-            endFile: 'bundles/ring/ring-end.frag'
+            startFile: 'bundles/ring-start.frag',
+            endFile: 'bundles/ring-end.frag'
           }
         }
       }
     },
     copy: {
       fonts: {
-        files: [
-          {expand: true, flatten: true, src: ['blocks/**/*.woff', 'blocks/**/*.eot', 'blocks/**/*.ttf', 'blocks/**/*.svg', '!blocks/**/*.dev.svg'], dest: 'dist/ring/fonts'},
-          {expand: true, flatten: true, src: ['blocks/**/*.woff', 'blocks/**/*.eot', 'blocks/**/*.ttf', 'blocks/**/*.svg', '!blocks/**/*.dev.svg'], dest: 'dist/ring-lib/fonts'}
-        ]
+        files: [{
+          expand: true,
+          flatten: true,
+          src: [
+            'blocks/**/*.woff',
+            'blocks/**/*.eot',
+            'blocks/**/*.ttf',
+            'blocks/**/*.svg',
+            '!blocks/**/*.dev.svg'
+          ],
+          dest: 'dist/fonts'
+        }]
       }
     },
 
