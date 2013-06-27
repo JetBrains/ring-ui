@@ -17,6 +17,10 @@ define(['jso', 'jquery', 'full-header/full-header'], function (jso, $, header) {
     return items;
   }
 
+  function convertUserToProfile(user) {
+    return {'username': user.name};
+  }
+
   var oauthInit = function (initialConfig, baseData, dontWaitDom, component) {
 
     serverUrl = initialConfig.serverUri;
@@ -28,30 +32,43 @@ define(['jso', 'jquery', 'full-header/full-header'], function (jso, $, header) {
     config = jQuery.extend({
         client_id: "dafb2157-a3ac-4f8c-92fa-450c3c903189",
         redirect_uri: window.location.href,
-        authorization: serverUrl + '/rest/oauth2/auth'
+        authorization: serverUrl + '/rest/oauth2/auth',
+        scope: ['dafb2157-a3ac-4f8c-92fa-450c3c903189']
       }, {
         client_id: initialConfig.clientId,
-        redirect_uri: initialConfig.redirectUri
+        redirect_uri: initialConfig.redirectUri,
+        scope: initialConfig.scope
       }
     );
     console.log(config);
     jso.configure({
       'default': config
     });
-    $.oajax({url: serverUrl + '/rest/services',
-      jso_provider: 'default',
-      //TODO: use string scopes instead of ids
-      jso_scopes: ['dafb2157-a3ac-4f8c-92fa-450c3c903189'],
-      jso_allowia: true,
-      dataType: 'json',
-      success: function (servicePage) {
+    hubAjax(serverUrl + '/rest/services',
+      function (servicePage) {
         console.log("Response (default):");
         console.log(servicePage);
         var items = convertServicesToItems(servicePage.services);
-        defaultHeaderInit(jQuery.extend(baseData, {'stripe': {'items': items}}), dontWaitDom, component);
+        var data = jQuery.extend(baseData, {'stripe': {'items': items}});
+        hubAjax(serverUrl + '/rest/users/me', function (user) {
+          console.log(user);
+          data['stripe'] = jQuery.extend(data['stripe'], {'personal': convertUserToProfile(user)});
+            defaultHeaderInit(data, dontWaitDom, component);
+        });
       }
-    });
+    );
   };
+
+  function hubAjax(url, callback) {
+    $.oajax({url: url,
+      jso_provider: 'default',
+      //TODO: use string scopes instead of ids
+      jso_scopes: config.scope,
+      jso_allowia: true,
+      dataType: 'json',
+      success: callback
+    });
+  }
 
   header.init = oauthInit;
 
