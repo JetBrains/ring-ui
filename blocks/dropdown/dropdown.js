@@ -39,9 +39,11 @@ define(['jquery', 'handlebars'], function($, Handlebars) {
       $dropdown.css(pos);
 
       $global.trigger('ring:dropdown:created');
-    }
 
-    return false;
+      return false;
+    } else {
+      return true;
+    }
   };
 
   var remove = function() {
