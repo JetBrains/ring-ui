@@ -2,9 +2,9 @@
   font-family: 'font-icon';
   src:url('#{$fonts-dir}font-icon.eot');
   src:url('#{$fonts-dir}font-icon.eot?#iefix') format('embedded-opentype'),
+      url('#{$fonts-dir}font-icon.svg#font-icon') format('svg'),
       url('#{$fonts-dir}font-icon.woff') format('woff'),
-      url('#{$fonts-dir}font-icon.ttf') format('truetype'),
-      url('#{$fonts-dir}font-icon.svg#font-icon') format('svg');
+      url('#{$fonts-dir}font-icon.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
 }
