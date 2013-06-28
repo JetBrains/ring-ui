@@ -72,6 +72,10 @@ $header-controls-color: #376dc4;
   margin-left: $x-unit*3;
 }
 
+.ring-header__item_noselect {
+  user-select: none;
+}
+
 .ring-header__item_link,
 .ring-header__item_link:visited {
   color: $header-link-color;
