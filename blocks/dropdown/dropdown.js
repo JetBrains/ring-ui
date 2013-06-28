@@ -2,6 +2,7 @@ define(['jquery', 'handlebars'], function($, Handlebars) {
   'use strict';
 
   var COMPONENT_SELECTOR = '.component-dropdown';
+  var EDGE_OFFSET = 8;
 
   var $global = $(window);
   var $body;
@@ -36,9 +37,23 @@ define(['jquery', 'handlebars'], function($, Handlebars) {
       $dropdown = $(Handlebars.partials.dropdown(data));
       $dropdown.appendTo($body);
 
-      var pos   = $target.offset();
-      pos.top  += $target.outerHeight() + 15;
-      pos.left += $target.outerWidth() / 2 - $dropdown.width() / 2;
+      var pos = $target.offset();
+      var targetCenter = pos.left + $target.outerWidth() / 2;
+
+      var dropdownWidth = $dropdown.width();
+      var dropdownCenter = dropdownWidth / 2;
+
+      if (targetCenter < dropdownCenter) {
+        $dropdown.addClass('ring-dropdown_left');
+        pos.left -= EDGE_OFFSET;
+      } else if (targetCenter + dropdownCenter > $global.width()) {
+        $dropdown.addClass('ring-dropdown_right');
+        pos.left += $target.width() - dropdownWidth + EDGE_OFFSET;
+      } else {
+        pos.left = targetCenter - dropdownCenter;
+      }
+
+      pos.top += $target.outerHeight() + 15;
 
       $dropdown.css(pos);
 
