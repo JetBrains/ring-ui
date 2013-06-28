@@ -25,6 +25,10 @@ define(['jquery', 'handlebars'], function($, Handlebars) {
         data = {html: data};
       }
 
+      if (data instanceof $) {
+        data = {html: $('<div></div>').wrapInner(data.clone()).html()};
+      }
+
       if (!$body) {
         $body = $('body');
       }
