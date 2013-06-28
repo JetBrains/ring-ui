@@ -66,6 +66,9 @@ define(['jquery', 'handlebars'], function($, Handlebars) {
     return create(null, $(e.currentTarget).closest(COMPONENT_SELECTOR));
   });
 
+  // Remove on resize
+  $global.resize(remove);
+
   // Public methods
   return {
     create: create,
