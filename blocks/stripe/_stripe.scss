@@ -34,6 +34,7 @@ $ring-link-color:  #b4b4b4;
   right: $x-unit*4;
   position: absolute;
   cursor: pointer;
+  user-select: none;
 }
 
 .ring-stripe__personal .ring-stripe__item {

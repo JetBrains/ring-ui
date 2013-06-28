@@ -12,6 +12,8 @@
   border: $color solid;
   border-width: 0 0 0 1px;
 
+  user-select: none;
+
   &:hover {
     height: 15px;
     color: $active-link-color;
