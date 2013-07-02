@@ -40,11 +40,7 @@ define(['jquery', 'handlebars', 'dropdown/dropdown', 'font-icon/font-icon'], fun
     return Handlebars.partials[template](data);
   };
 
-  var clean = function() {
-    $(SELECTOR_PREFIX + template).remove();
-  };
-
-  var updateHtml = function() {
+  var updateHtml = function(clean) {
     if (!data) {
       return false;
     }
@@ -55,6 +51,10 @@ define(['jquery', 'handlebars', 'dropdown/dropdown', 'font-icon/font-icon'], fun
 
     html = render(template, data);
     if (html) {
+      if (clean) {
+        clean();
+      }
+
       if ($body[0].firstChild) {
         $body.prepend(html);
       } else {
@@ -91,7 +91,9 @@ define(['jquery', 'handlebars', 'dropdown/dropdown', 'font-icon/font-icon'], fun
 
     $.extend(true, data, newData);
 
-    return updateHtml(clean);
+    return updateHtml(function() {
+      $(SELECTOR_PREFIX + template).remove();
+    });
   };
 
   return {
