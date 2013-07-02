@@ -35,7 +35,7 @@ $btn-border-radius: 3px;
   color: #282828;
   @include btn-mixins;
   &:hover {
-    box-shadow: 0 1px 1px 0px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.2);
     @include btn-background-image(#e1e1e1, #fff);
   }
   &:active {
