@@ -40,6 +40,9 @@ $btn-border-radius: 3px;
     background-image: none;
   }
 }
+.ring-btn_disabled {
+  opacity: 0.5;
+}
 
 .ring-btn_primary {
   border: solid 1px #bc5600;
@@ -65,6 +68,20 @@ $btn-border-radius: 3px;
   }
   &:active {
     @include btn-background-image-active(#008fd6, #25b7ff);
+    @include btn-box-shadow-active(rgba(0, 0, 0, .2));
+  }
+}
+
+.ring-btn_black {
+  border: solid 1px rgba(0, 0, 0, 0.5);
+  @include btn-box-shadow(rgba(0, 0, 0, 0.1));
+  @include btn-background-image(#313131, #3c3c3c);
+  color: #b4b4b4;
+  &:hover {
+    @include btn-background-image-hover(#4a4a4a, #313131 24%, #3c3c3c);
+  }
+  &:active {
+    @include btn-background-image-active(#313131, #3c3c3c);
     @include btn-box-shadow-active(rgba(0, 0, 0, .2));
   }
 }
