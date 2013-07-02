@@ -44,6 +44,7 @@ $btn-border-radius: 3px;
     background-image: none;
   }
 }
+
 .ring-btn_disabled {
   opacity: 0.5;
   cursor: default;
@@ -140,6 +141,12 @@ $btn-border-radius: 3px;
   &:active {
     @include btn-mixins_black;
   }
+}
+
+.ring-btn_plus:before {
+  content: '?  ';
+  white-space: pre;
+  margin-left: -7px;
 }
 
 .btn-toolbar {
