@@ -20,6 +20,11 @@ $btn-border-radius: 3px;
   background-image: linear-gradient(to bottom, #{$bottom}, #{$top});
 }
 
+@mixin btn-mixins {
+  @include btn-box-shadow(#ffffff);
+  @include btn-background-image(#ebebeb, #fff);
+}
+
 .ring-btn {
   border-radius: $btn-border-radius;
   font-size: 11px;
@@ -27,9 +32,8 @@ $btn-border-radius: 3px;
   width: auto;
   height: 24px;
   border: solid 1px #b4b4b4;
-  @include btn-box-shadow(#ffffff);
-  @include btn-background-image(#ebebeb, #fff);
   color: #282828;
+  @include btn-mixins;
   &:hover {
     box-shadow: 0 1px 1px 0px rgba(0, 0, 0, 0.2);
     @include btn-background-image(#e1e1e1, #fff);
@@ -42,13 +46,24 @@ $btn-border-radius: 3px;
 }
 .ring-btn_disabled {
   opacity: 0.5;
+  cursor: default;
+  &:hover {
+    @include btn-mixins;
+  }
+  &:active {
+    @include btn-mixins;
+  }
+}
+
+@mixin btn-mixins_primary {
+  @include btn-box-shadow(#ffc594);
+  @include btn-background-image(#ff6600, #ff8620);
 }
 
 .ring-btn_primary {
   border: solid 1px #bc5600;
-  @include btn-box-shadow(#ffc594);
-  @include btn-background-image(#ff6600, #ff8620);
   color: #fff;
+  @include btn-mixins_primary;
   &:hover {
     @include btn-background-image-hover(#ffb373, #f60 29%, #ff8620);
   }
@@ -58,11 +73,26 @@ $btn-border-radius: 3px;
   }
 }
 
-.ring-btn_blue {
-  border: solid 1px #0084c5;
+.ring-btn_primary_disabled {
+  opacity: 0.5;
+  cursor: default;
+  &:hover {
+    @include btn-mixins_primary;
+  }
+  &:active {
+    @include btn-mixins_primary;
+  }
+}
+
+@mixin btn-mixins_blue {
   @include btn-box-shadow(rgba(255, 255, 255, 0.4));
   @include btn-background-image(#008fd6, #25b7ff);
+}
+
+.ring-btn_blue {
+  border: solid 1px #0084c5;
   color: #fff;
+  @include btn-mixins_blue;
   &:hover {
     @include btn-background-image-hover(#64ccff 2%, #008fd6 29%, #25b7ff);
   }
@@ -72,17 +102,43 @@ $btn-border-radius: 3px;
   }
 }
 
-.ring-btn_black {
-  border: solid 1px rgba(0, 0, 0, 0.5);
+.ring-btn_blue_disabled {
+  opacity: 0.5;
+  cursor: default;
+  &:hover {
+    @include btn-mixins_blue;
+  }
+  &:active {
+    @include btn-mixins_blue;
+  }
+}
+
+@mixin btn-mixins_black {
   @include btn-box-shadow(rgba(0, 0, 0, 0.1));
   @include btn-background-image(#313131, #3c3c3c);
+}
+
+.ring-btn_black {
+  border: solid 1px rgba(0, 0, 0, 0.5);
   color: #b4b4b4;
+  @include btn-mixins_black;
   &:hover {
     @include btn-background-image-hover(#4a4a4a, #313131 24%, #3c3c3c);
   }
   &:active {
     @include btn-background-image-active(#313131, #3c3c3c);
     @include btn-box-shadow-active(rgba(0, 0, 0, .2));
+  }
+}
+
+.ring-btn_black_disabled {
+  opacity: 0.5;
+  cursor: default;
+  &:hover {
+    @include btn-mixins_black;
+  }
+  &:active {
+    @include btn-mixins_black;
   }
 }
 
