@@ -35,25 +35,27 @@ $ring-link-color:  #b4b4b4;
   position: absolute;
   cursor: pointer;
   user-select: none;
+
+  .ring-stripe__item {
+    margin: 0 $x-unit/2;
+  }
+
+  .ring-font-icon {
+    color: $ring-link-color;
+    vertical-align: middle;
+    font-size: 12px;
+    display: inline-block;
+  }
 }
 
-.ring-stripe__personal .ring-stripe__item {
-  margin: 0 $x-unit/2;
-}
+.ring-stripe__personal:hover {
+  .ring-stripe__item_link {
+    color: $active-link-color !important;
+    text-decoration: underline;
+  }
 
-.ring-stripe__personal .ring-font-icon {
-  color: $ring-link-color;
-  vertical-align: middle;
-  font-size: 12px;
-}
-
-.ring-stripe__personal:hover .ring-stripe__item_link,
-.ring-stripe__item_link:hover {
-  text-decoration: underline;
-}
-
-.ring-stripe__item_link:hover,
-.ring-stripe__personal:hover .ring-stripe__item_link,
-.ring-stripe__personal:hover .ring-font-icon {
-  color: $active-link-color !important;
+  .ring-font-icon {
+    color: $active-link-color !important;
+    background-position: -66px -22px;
+  }
 }

@@ -127,6 +127,10 @@ $header-controls-color: #376dc4;
   color: #3c74c2 !important;
 }
 
+.no-font-antialiasing .ring-header__item_icon {
+  margin-left: $x-unit*3 - 6;
+}
+
 .ring-header__item_icon:hover {
   color: $active-link-color !important;
 }
@@ -148,8 +152,16 @@ $header-controls-color: #376dc4;
 
 .ring-header__search__glass {
   position: absolute;
-  top: 3px;
-  right: $x-unit;
+  top: 0;
+  width: 16px;
+  right: 6px;
 
   color: #d1d1d1;
+}
+
+/* No hover for search glass */
+.no-font-antialiasing .ring-header__search__glass,
+.no-font-antialiasing .ring-header__search__glass:hover {
+  right: 8px;
+  background-position: -39px -1px !important;
 }
