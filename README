@@ -14,7 +14,7 @@ Ring UI: development environment setup
 
     grunt
 
-or just start the watcher and the server:
+5. Start the watcher and the server:
 
     grunt server
 
