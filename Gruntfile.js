@@ -94,6 +94,7 @@ module.exports = function(grunt) {
             'blocks/**/*.eot',
             'blocks/**/*.ttf',
             'blocks/**/*.svg',
+            'blocks/**/*.png',
             '!blocks/**/*.dev.svg'
           ],
           dest: 'dist/fonts'
@@ -156,6 +157,29 @@ module.exports = function(grunt) {
     jshint: {
       all: ['Gruntfile.js', 'blocks/**/*.js']
     }
+  });
+
+  grunt.registerTask('sprite', 'Render font icons to png sprite', function() {
+    var phantomjs = require('phantomjs');
+
+    var done = this.async();
+
+    grunt.util.spawn({
+        cmd: phantomjs.path,
+        args: ['blocks/font-icon/font-icon.phantomjs.coffee']
+      },
+      function(err)
+      {
+        if (!err) {
+          grunt.log.ok('Sprite rendered');
+        } else {
+          grunt.log.error(err.stdout, err.stderr);
+        }
+
+        done();
+      }
+    );
+
   });
 
   require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);

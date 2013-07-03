@@ -24,6 +24,7 @@
     "grunt-contrib-jshint": "~0.6.0",
     "grunt-contrib-requirejs": "~0.4.1",
     "grunt-sass": "~0.6.0",
-    "grunt-autoprefixer": "~0.1.20130615"
+    "grunt-autoprefixer": "~0.1.20130615",
+    "phantomjs": "~1.9.1-0"
   }
 }
