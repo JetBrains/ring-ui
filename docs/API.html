@@ -261,6 +261,8 @@ pre .chunk {
       <li><a href="#many-modules">Many modules</a></li>
       <li><a href="#one-method-many-modules">One method, many modules</a></li>
     </ul></li>
+    <li><a href="#methods">Methods</a></li>
+    <li><a href="#events">Events</a></li>
     <li><a href="#modules">Modules</a>
     <ul>
       <li><a href="#header">Header</a>
@@ -293,6 +295,26 @@ pre .chunk {
         <li><a href="#ajax">ajax</a>
         <ul>
           <li><a href="#path-2">path</a></li>
+        </ul></li>
+      </ul></li>
+      <li><a href="#dropdown">Dropdown</a>
+      <ul>
+        <li><a href="#show">show</a>
+        <ul>
+          <li><a href="#data">data</a></li>
+          <li><a href="#target">target</a></li>
+        </ul></li>
+      </ul></li>
+      <li><a href="#footer">Footer</a>
+      <ul>
+        <li><a href="#init-4">init</a>
+        <ul>
+          <li><a href="#config-4">config</a></li>
+        </ul></li>
+        <li><a href="#update-2">update</a>
+        <ul>
+          <li><a href="#path-3">path</a></li>
+          <li><a href="#configpart-2">configPart</a></li>
         </ul></li>
       </ul></li>
     </ul></li>
@@ -375,6 +397,16 @@ init({
 });
 </code></pre>
 
+<h2 id="methods">Methods</h2>
+
+<p>All methods return <code>$.Deferred</code> if anything else isn't stated</p>
+
+<h2 id="events">Events</h2>
+
+<p><em>Do we need this?</em></p>
+
+<p>Any method fires events by scheme <code>ring:{module}:{method}:{done|fail}</code></p>
+
 <h2 id="modules">Modules</h2>
 
 <h3 id="header">Header</h3>
@@ -387,6 +419,8 @@ init({
 <h5 id="config">config</h5>
 
 <p>If <code>auth: true</code> stated all other data will extend data fetched from Hub</p>
+
+<p><code>Object</code></p>
 
 <pre><code>{
     "auth": true,
@@ -435,6 +469,8 @@ init({
 </code></pre>
 
 <h5 id="config-2">config</h5>
+
+<p><code>Object</code></p>
 
 <pre><code>{
   "type": "gradient",
@@ -501,13 +537,17 @@ init({
 
 <p>Dot-delimited string path to element</p>
 
-<pre><code>'items.left.projects.counter'
+<p><code>String</code></p>
+
+<pre><code>'left.projects.counter'
 </code></pre>
 
 <h5 id="configpart">configPart</h5>
 
 <p>Any part of initial config.
 Remove part using <code>null</code>.</p>
+
+<p><code>Object</code></p>
 
 <pre><code>{
     "counter": {
@@ -526,8 +566,7 @@ Remove part using <code>null</code>.</p>
 
 <h5 id="id">id</h5>
 
-<pre><code>'cog'
-</code></pre>
+<p><code>String</code></p>
 
 <h3 id="auth">Auth</h3>
 
@@ -537,6 +576,8 @@ Remove part using <code>null</code>.</p>
 </code></pre>
 
 <h5 id="config-3">config</h5>
+
+<p><code>Object</code></p>
 
 <pre><code>{
     "clientId": "bbb54677-70fd-47b5-b3cf-c9eeb51212d0",
@@ -548,21 +589,108 @@ Remove part using <code>null</code>.</p>
 
 <h4 id="ajax">ajax</h4>
 
-<pre><code>init(path)
+<p><code>String</code></p>
+
+<pre><code>ajax(path)
 </code></pre>
 
 <h5 id="path-2">path</h5>
 
 <p>Path to Hub resource</p>
 
+<p><code>String</code></p>
+
 <pre><code>'/rest/services'
+</code></pre>
+
+<h3 id="dropdown">Dropdown</h3>
+
+<h4 id="show">show</h4>
+
+<pre><code>show(data, target)
+</code></pre>
+
+<h5 id="data">data</h5>
+
+<p><code>Object</code> | <code>String</code> | <code>jQuery</code></p>
+
+<pre><code>{
+    "items": [
+        {
+          "label": "Issues",
+          "url": "/issues"
+        },
+        {
+          "label": "Agile Board",
+          "url": "/rest/agile"
+        }
+      ]
+}
+</code></pre>
+
+<h5 id="target">target</h5>
+
+<p><code>Node</code> | <code>jQuery</code></p>
+
+<h3 id="footer">Footer</h3>
+
+<h4 id="init-4">init</h4>
+
+<pre><code>init(config)
+</code></pre>
+
+<h5 id="config-4">config</h5>
+
+<p><code>Object</code></p>
+
+<pre><code>{
+  "left": {
+    "upsource": {
+      "label": "Upsource",
+      "url": "/",
+      "postfix": " by JetBrains"
+    }
+  },
+  "center": {
+    "copyright": {
+      "label": "© 2000—2013 JetBrains. All rights reserved"
+    }
+  }
+}
+</code></pre>
+
+<h4 id="update-2">update</h4>
+
+<pre><code>update(path, configPart)
+</code></pre>
+
+<h5 id="path-3">path</h5>
+
+<p>Dot-delimited string path to element</p>
+
+<p><code>String</code></p>
+
+<pre><code>'items.left.projects.counter'
+</code></pre>
+
+<h5 id="configpart-2">configPart</h5>
+
+<p>Any part of initial config.
+Remove part using <code>null</code>.</p>
+
+<p><code>Object</code></p>
+
+<pre><code>{
+    "counter": {
+        "color": "dark",
+        "label": 666
+    }
+}
 </code></pre>
 
 <h2 id="to-be-documented">To be documented</h2>
 
 <ul>
-<li>footer</li>
-<li>dropdown</li>
 <li>notifications</li>
 </ul>
 </body></html>
