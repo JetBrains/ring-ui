@@ -66,6 +66,15 @@ Run method
         }
     });
 
+## Methods
+
+All methods return `$.Deferred` if anything else isn't stated
+
+## Events
+*Do we need this?*
+
+Any method fires events by scheme `ring:{module}:{method}:{done|fail}`
+
 ## Modules
 
 ### Header
@@ -76,6 +85,8 @@ Run method
 
 ##### config
 If `auth: true` stated all other data will extend data fetched from Hub
+
+`Object`
 
     {
         "auth": true,
@@ -122,6 +133,7 @@ If `auth: true` stated all other data will extend data fetched from Hub
     init(config)
 
 ##### config
+`Object`
 
     {
       "type": "gradient",
@@ -185,11 +197,15 @@ If `auth: true` stated all other data will extend data fetched from Hub
 ##### path
 Dot-delimited string path to element
 
-    'items.left.projects.counter'
+`String`
+
+    'left.projects.counter'
 
 ##### configPart
 Any part of initial config.
 Remove part using `null`.
+
+`Object`
 
     {
         "counter": {
@@ -204,7 +220,7 @@ Set menu item from left and right active by id
     setActive(id)
 
 ##### id
-    'cog'
+`String`
 
 ### Auth
 
@@ -213,6 +229,7 @@ Set menu item from left and right active by id
     init(config)
 
 ##### config
+`Object`
 
     {
         "clientId": "bbb54677-70fd-47b5-b3cf-c9eeb51212d0",
@@ -222,15 +239,90 @@ Set menu item from left and right active by id
     }
 
 #### ajax
+`String`
 
-    init(path)
+    ajax(path)
 
 ##### path
 Path to Hub resource
 
+`String`
+
     '/rest/services'
 
+### Dropdown
+
+#### show
+
+    show(data, target)
+
+##### data
+`Object` | `String` | `jQuery`
+
+    {
+        "items": [
+            {
+              "label": "Issues",
+              "url": "/issues"
+            },
+            {
+              "label": "Agile Board",
+              "url": "/rest/agile"
+            }
+          ]
+    }
+
+##### target
+`Node` | `jQuery`
+
+### Footer
+
+#### init
+
+    init(config)
+
+##### config
+`Object`
+
+    {
+      "left": {
+        "upsource": {
+          "label": "Upsource",
+          "url": "/",
+          "postfix": " by JetBrains"
+        }
+      },
+      "center": {
+        "copyright": {
+          "label": "© 2000—2013 JetBrains. All rights reserved"
+        }
+      }
+    }
+
+#### update
+
+    update(path, configPart)
+
+##### path
+Dot-delimited string path to element
+
+`String`
+
+    'items.left.projects.counter'
+
+##### configPart
+Any part of initial config.
+Remove part using `null`.
+
+`Object`
+
+    {
+        "counter": {
+            "color": "dark",
+            "label": 666
+        }
+    }
+
+
 ## To be documented
- * footer
- * dropdown
  * notifications
