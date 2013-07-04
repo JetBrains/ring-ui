@@ -1,8 +1,10 @@
-# Ring API
-[toc]
-## Syntax
+Ring API
+========
 
-### One module
+[toc]
+# Syntax
+
+## Operate module
 
 Get module
 
@@ -20,7 +22,7 @@ or just
         key: 'value'
     });
 
-### One method
+## Operate method
 
 Get method
 
@@ -30,60 +32,71 @@ Get method
         key: 'value'
     });
 
-### Many modules
-
-Run method on bunch of modules (useful for initial init)
-
-Get modules
-
-    var modules = ring('ring');
-
-Or just
-
-    var modules = ring();
-
-Run method
-
-    modules.invoke('method', {
-        module1: {
-            key: 'value'
-        },
-        module2: {
-            key: 'value'
-        }
-    });
-
-### One method, many modules
-
-    var init = ring('ring', 'init');
-
-    init({
-        module1: {
-            key: 'value'
-        },
-        module2: {
-            key: 'value'
-        }
-    });
-
-## Methods
+# Methods
 
 All methods return `$.Deferred` if anything else isn't stated
 
-## Events
-*Do we need this?*
+# Modules
 
-Any method fires events by scheme `ring:{module}:{method}:{done|fail}`
+## Ring
+Default module, can be called without id
 
-## Modules
+    var modules = ring();
 
-### Header
-
-##### init
+#### init
+Init bunch of modules
 
     init(config)
 
 ##### config
+
+    {
+        "header": headerConfig,
+        "menu": menuConfig,
+        "footer": footerConfig
+    }
+
+#### render
+Render any avalaible template
+
+**Returns** `String`
+
+    render(template, data)
+
+##### template
+`String`
+
+##### data
+`Object`
+
+#### on
+Subscribe on ring events:
+* Any method fires events by scheme `{module}:{method}:{done|fail}`.
+* And also custom events from config like `{module}:{eventName}`.
+
+    on(event, handler)
+
+##### event
+`String`
+
+##### handler
+`Function`
+
+#### trigger
+Trigger ring event
+
+    trigger(event)
+
+##### event
+`String`
+
+## Header
+
+#### init
+
+    init(config)
+
+#### config
 If `auth: true` stated all other data will extend data fetched from Hub
 
 `Object`
@@ -117,22 +130,27 @@ If `auth: true` stated all other data will extend data fetched from Hub
         "authLinks": {
             "login": {
                 "label": "Log in",
-                "url": "/login"
+                "url": "/login",
+                "event": "login"
+            },
+            "relogin": {
+                "label": "Log in",
+                "url": "/relogin",
             },
             "logout": {
                 "label": "Log out",
-                "url": "/logout"
+                "event": "logout"
             }
         }
     }
 
-### Menu
+## Menu
 
-#### init
+### init
 
     init(config)
 
-##### config
+#### config
 `Object`
 
     {
@@ -190,18 +208,18 @@ If `auth: true` stated all other data will extend data fetched from Hub
       }
     }
 
-#### update
+### update
 
     update(path, configPart)
 
-##### path
+#### path
 Dot-delimited string path to element
 
 `String`
 
     'left.projects.counter'
 
-##### configPart
+#### configPart
 Any part of initial config.
 Remove part using `null`.
 
@@ -214,74 +232,21 @@ Remove part using `null`.
         }
     }
 
-#### setActive
+### setActive
 Set menu item from left and right active by id
 
     setActive(id)
 
-##### id
+#### id
 `String`
 
-### Auth
+## Footer
 
-#### init
+### init
 
     init(config)
 
-##### config
-`Object`
-
-    {
-        "clientId": "bbb54677-70fd-47b5-b3cf-c9eeb51212d0",
-        "redirectUri": "http://localhost:8000",
-        "serverUri": "http://localhost:8080/jetpass",
-        "scope": "bbb54677-70fd-47b5-b3cf-c9eeb51212d0"
-    }
-
-#### ajax
-`String`
-
-    ajax(path)
-
-##### path
-Path to Hub resource
-
-`String`
-
-    '/rest/services'
-
-### Dropdown
-
-#### show
-
-    show(data, target)
-
-##### data
-`Object` | `String` | `jQuery`
-
-    {
-        "items": [
-            {
-              "label": "Issues",
-              "url": "/issues"
-            },
-            {
-              "label": "Agile Board",
-              "url": "/rest/agile"
-            }
-          ]
-    }
-
-##### target
-`Node` | `jQuery`
-
-### Footer
-
-#### init
-
-    init(config)
-
-##### config
+#### config
 `Object`
 
     {
@@ -299,18 +264,18 @@ Path to Hub resource
       }
     }
 
-#### update
+### update
 
     update(path, configPart)
 
-##### path
+#### path
 Dot-delimited string path to element
 
 `String`
 
     'items.left.projects.counter'
 
-##### configPart
+#### configPart
 Any part of initial config.
 Remove part using `null`.
 
@@ -324,5 +289,91 @@ Remove part using `null`.
     }
 
 
-## To be documented
- * notifications
+## Auth
+
+### init
+
+    init(config)
+
+#### config
+`Object`
+
+    {
+        "clientId": "bbb54677-70fd-47b5-b3cf-c9eeb51212d0",
+        "redirectUri": "http://localhost:8000",
+        "serverUri": "http://localhost:8080/jetpass",
+        "scope": "bbb54677-70fd-47b5-b3cf-c9eeb51212d0"
+    }
+
+### ajax
+`String`
+
+    ajax(path)
+
+#### path
+Path to Hub resource
+
+`String`
+
+    '/rest/services'
+
+## Notifications
+
+### push
+
+    push(data)
+
+#### data
+`Object`
+
+    [
+        {
+          "label": "Issues",
+          "description": "Hello world"
+          "url": "/issues",
+          "image": "tc.png"
+        },
+        {
+          "label": "Grill party",
+          "event": "dance"
+        }
+    ]
+
+### markRead
+Mark all notifications as read
+
+    markRead()
+
+### flush
+Remove all notifications
+
+    flush()
+
+## Dropdown
+
+### show
+
+    show(data, target)
+
+#### data
+`Object` | `String` | `jQuery`
+
+    {
+        "items": [
+            {
+              "label": "Issues",
+              "url": "/issues"
+            },
+            {
+              "label": "Agile Board",
+              "url": "/rest/agile"
+            }
+          ]
+    }
+
+#### target
+`Node` | `jQuery`
+
+### hide
+
+    hide()

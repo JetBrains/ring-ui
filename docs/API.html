@@ -252,80 +252,105 @@ pre .chunk {
 </script><script>hljs.initHighlightingOnLoad();</script></head><body><h1 id="ring-api">Ring API</h1>
 
 <p><ul>
-  <li><a href="#ring-api">Ring API</a>
+  <li><a href="#ring-api">Ring API</a></li>
+  <li><a href="#syntax">Syntax</a>
   <ul>
-    <li><a href="#syntax">Syntax</a>
+    <li><a href="#operate-module">Operate module</a></li>
+    <li><a href="#operate-method">Operate method</a></li>
+  </ul></li>
+  <li><a href="#methods">Methods</a></li>
+  <li><a href="#modules">Modules</a>
+  <ul>
+    <li><a href="#ring">Ring</a>
     <ul>
-      <li><a href="#one-module">One module</a></li>
-      <li><a href="#one-method">One method</a></li>
-      <li><a href="#many-modules">Many modules</a></li>
-      <li><a href="#one-method-many-modules">One method, many modules</a></li>
-    </ul></li>
-    <li><a href="#methods">Methods</a></li>
-    <li><a href="#events">Events</a></li>
-    <li><a href="#modules">Modules</a>
-    <ul>
-      <li><a href="#header">Header</a>
+      <li><a href="#init">init</a>
       <ul>
-        <li><a href="#init">init</a></li>
         <li><a href="#config">config</a></li>
       </ul></li>
-      <li><a href="#menu">Menu</a>
+      <li><a href="#render">render</a>
       <ul>
-        <li><a href="#init-2">init</a>
-        <ul>
-          <li><a href="#config-2">config</a></li>
-        </ul></li>
-        <li><a href="#update">update</a>
-        <ul>
-          <li><a href="#path">path</a></li>
-          <li><a href="#configpart">configPart</a></li>
-        </ul></li>
-        <li><a href="#setactive">setActive</a>
-        <ul>
-          <li><a href="#id">id</a></li>
-        </ul></li>
+        <li><a href="#template">template</a></li>
+        <li><a href="#data">data</a></li>
       </ul></li>
-      <li><a href="#auth">Auth</a>
+      <li><a href="#on">on</a>
       <ul>
-        <li><a href="#init-3">init</a>
-        <ul>
-          <li><a href="#config-3">config</a></li>
-        </ul></li>
-        <li><a href="#ajax">ajax</a>
-        <ul>
-          <li><a href="#path-2">path</a></li>
-        </ul></li>
+        <li><a href="#event">event</a></li>
+        <li><a href="#handler">handler</a></li>
       </ul></li>
-      <li><a href="#dropdown">Dropdown</a>
+      <li><a href="#trigger">trigger</a>
       <ul>
-        <li><a href="#show">show</a>
-        <ul>
-          <li><a href="#data">data</a></li>
-          <li><a href="#target">target</a></li>
-        </ul></li>
-      </ul></li>
-      <li><a href="#footer">Footer</a>
-      <ul>
-        <li><a href="#init-4">init</a>
-        <ul>
-          <li><a href="#config-4">config</a></li>
-        </ul></li>
-        <li><a href="#update-2">update</a>
-        <ul>
-          <li><a href="#path-3">path</a></li>
-          <li><a href="#configpart-2">configPart</a></li>
-        </ul></li>
+        <li><a href="#event-2">event</a></li>
       </ul></li>
     </ul></li>
-    <li><a href="#to-be-documented">To be documented</a></li>
+    <li><a href="#header">Header</a>
+    <ul>
+      <li><a href="#init-2">init</a></li>
+      <li><a href="#config-2">config</a></li>
+    </ul></li>
+    <li><a href="#menu">Menu</a>
+    <ul>
+      <li><a href="#init-3">init</a>
+      <ul>
+        <li><a href="#config-3">config</a></li>
+      </ul></li>
+      <li><a href="#update">update</a>
+      <ul>
+        <li><a href="#path">path</a></li>
+        <li><a href="#configpart">configPart</a></li>
+      </ul></li>
+      <li><a href="#setactive">setActive</a>
+      <ul>
+        <li><a href="#id">id</a></li>
+      </ul></li>
+    </ul></li>
+    <li><a href="#footer">Footer</a>
+    <ul>
+      <li><a href="#init-4">init</a>
+      <ul>
+        <li><a href="#config-4">config</a></li>
+      </ul></li>
+      <li><a href="#update-2">update</a>
+      <ul>
+        <li><a href="#path-2">path</a></li>
+        <li><a href="#configpart-2">configPart</a></li>
+      </ul></li>
+    </ul></li>
+    <li><a href="#auth">Auth</a>
+    <ul>
+      <li><a href="#init-5">init</a>
+      <ul>
+        <li><a href="#config-5">config</a></li>
+      </ul></li>
+      <li><a href="#ajax">ajax</a>
+      <ul>
+        <li><a href="#path-3">path</a></li>
+      </ul></li>
+    </ul></li>
+    <li><a href="#notifications">Notifications</a>
+    <ul>
+      <li><a href="#push">push</a>
+      <ul>
+        <li><a href="#data-2">data</a></li>
+      </ul></li>
+      <li><a href="#markread">markRead</a></li>
+      <li><a href="#flush">flush</a></li>
+    </ul></li>
+    <li><a href="#dropdown">Dropdown</a>
+    <ul>
+      <li><a href="#show">show</a>
+      <ul>
+        <li><a href="#data-3">data</a></li>
+        <li><a href="#target">target</a></li>
+      </ul></li>
+      <li><a href="#hide">hide</a></li>
+    </ul></li>
   </ul></li>
 </ul>
 </p>
 
-<h2 id="syntax">Syntax</h2>
+<h1 id="syntax">Syntax</h1>
 
-<h3 id="one-module">One module</h3>
+<h2 id="operate-module">Operate module</h2>
 
 <p>Get module</p>
 
@@ -346,7 +371,7 @@ pre .chunk {
 });
 </code></pre>
 
-<h3 id="one-method">One method</h3>
+<h2 id="operate-method">Operate method</h2>
 
 <p>Get method</p>
 
@@ -357,66 +382,91 @@ method({
 });
 </code></pre>
 
-<h3 id="many-modules">Many modules</h3>
+<h1 id="methods">Methods</h1>
 
-<p>Run method on bunch of modules (useful for initial init)</p>
+<p>All methods return <code>$.Deferred</code> if anything else isn't stated</p>
 
-<p>Get modules</p>
+<h1 id="modules">Modules</h1>
 
-<pre><code>var modules = ring('ring');
-</code></pre>
+<h2 id="ring">Ring</h2>
 
-<p>Or just</p>
+<p>Default module, can be called without id</p>
 
 <pre><code>var modules = ring();
 </code></pre>
 
-<p>Run method</p>
+<h4 id="init">init</h4>
 
-<pre><code>modules.invoke('method', {
-    module1: {
-        key: 'value'
-    },
-    module2: {
-        key: 'value'
-    }
-});
-</code></pre>
-
-<h3 id="one-method-many-modules">One method, many modules</h3>
-
-<pre><code>var init = ring('ring', 'init');
-
-init({
-    module1: {
-        key: 'value'
-    },
-    module2: {
-        key: 'value'
-    }
-});
-</code></pre>
-
-<h2 id="methods">Methods</h2>
-
-<p>All methods return <code>$.Deferred</code> if anything else isn't stated</p>
-
-<h2 id="events">Events</h2>
-
-<p><em>Do we need this?</em></p>
-
-<p>Any method fires events by scheme <code>ring:{module}:{method}:{done|fail}</code></p>
-
-<h2 id="modules">Modules</h2>
-
-<h3 id="header">Header</h3>
-
-<h5 id="init">init</h5>
+<p>Init bunch of modules</p>
 
 <pre><code>init(config)
 </code></pre>
 
 <h5 id="config">config</h5>
+
+<pre><code>{
+    "header": headerConfig,
+    "menu": menuConfig,
+    "footer": footerConfig
+}
+</code></pre>
+
+<h4 id="render">render</h4>
+
+<p>Render any avalaible template</p>
+
+<p><strong>Returns</strong> <code>String</code></p>
+
+<pre><code>render(template, data)
+</code></pre>
+
+<h5 id="template">template</h5>
+
+<p><code>String</code></p>
+
+<h5 id="data">data</h5>
+
+<p><code>Object</code></p>
+
+<h4 id="on">on</h4>
+
+<p>Subscribe on ring events:</p>
+
+<ul>
+<li>Any method fires events by scheme <code>{module}:{method}:{done|fail}</code>.</li>
+<li>And also custom events from config like <code>{module}:{eventName}</code>.</li>
+</ul>
+
+<pre><code>on(event, handler)
+</code></pre>
+
+<h5 id="event">event</h5>
+
+<p><code>String</code></p>
+
+<h5 id="handler">handler</h5>
+
+<p><code>Function</code></p>
+
+<h4 id="trigger">trigger</h4>
+
+<p>Trigger ring event</p>
+
+<pre><code>trigger(event)
+</code></pre>
+
+<h5 id="event-2">event</h5>
+
+<p><code>String</code></p>
+
+<h2 id="header">Header</h2>
+
+<h4 id="init-2">init</h4>
+
+<pre><code>init(config)
+</code></pre>
+
+<h4 id="config-2">config</h4>
 
 <p>If <code>auth: true</code> stated all other data will extend data fetched from Hub</p>
 
@@ -451,24 +501,29 @@ init({
     "authLinks": {
         "login": {
             "label": "Log in",
-            "url": "/login"
+            "url": "/login",
+            "event": "login"
+        },
+        "relogin": {
+            "label": "Log in",
+            "url": "/relogin",
         },
         "logout": {
             "label": "Log out",
-            "url": "/logout"
+            "event": "logout"
         }
     }
 }
 </code></pre>
 
-<h3 id="menu">Menu</h3>
+<h2 id="menu">Menu</h2>
 
-<h4 id="init-2">init</h4>
+<h3 id="init-3">init</h3>
 
 <pre><code>init(config)
 </code></pre>
 
-<h5 id="config-2">config</h5>
+<h4 id="config-3">config</h4>
 
 <p><code>Object</code></p>
 
@@ -528,12 +583,12 @@ init({
 }
 </code></pre>
 
-<h4 id="update">update</h4>
+<h3 id="update">update</h3>
 
 <pre><code>update(path, configPart)
 </code></pre>
 
-<h5 id="path">path</h5>
+<h4 id="path">path</h4>
 
 <p>Dot-delimited string path to element</p>
 
@@ -542,7 +597,7 @@ init({
 <pre><code>'left.projects.counter'
 </code></pre>
 
-<h5 id="configpart">configPart</h5>
+<h4 id="configpart">configPart</h4>
 
 <p>Any part of initial config.
 Remove part using <code>null</code>.</p>
@@ -557,89 +612,25 @@ Remove part using <code>null</code>.</p>
 }
 </code></pre>
 
-<h4 id="setactive">setActive</h4>
+<h3 id="setactive">setActive</h3>
 
 <p>Set menu item from left and right active by id</p>
 
 <pre><code>setActive(id)
 </code></pre>
 
-<h5 id="id">id</h5>
+<h4 id="id">id</h4>
 
 <p><code>String</code></p>
 
-<h3 id="auth">Auth</h3>
+<h2 id="footer">Footer</h2>
 
-<h4 id="init-3">init</h4>
+<h3 id="init-4">init</h3>
 
 <pre><code>init(config)
 </code></pre>
 
-<h5 id="config-3">config</h5>
-
-<p><code>Object</code></p>
-
-<pre><code>{
-    "clientId": "bbb54677-70fd-47b5-b3cf-c9eeb51212d0",
-    "redirectUri": "http://localhost:8000",
-    "serverUri": "http://localhost:8080/jetpass",
-    "scope": "bbb54677-70fd-47b5-b3cf-c9eeb51212d0"
-}
-</code></pre>
-
-<h4 id="ajax">ajax</h4>
-
-<p><code>String</code></p>
-
-<pre><code>ajax(path)
-</code></pre>
-
-<h5 id="path-2">path</h5>
-
-<p>Path to Hub resource</p>
-
-<p><code>String</code></p>
-
-<pre><code>'/rest/services'
-</code></pre>
-
-<h3 id="dropdown">Dropdown</h3>
-
-<h4 id="show">show</h4>
-
-<pre><code>show(data, target)
-</code></pre>
-
-<h5 id="data">data</h5>
-
-<p><code>Object</code> | <code>String</code> | <code>jQuery</code></p>
-
-<pre><code>{
-    "items": [
-        {
-          "label": "Issues",
-          "url": "/issues"
-        },
-        {
-          "label": "Agile Board",
-          "url": "/rest/agile"
-        }
-      ]
-}
-</code></pre>
-
-<h5 id="target">target</h5>
-
-<p><code>Node</code> | <code>jQuery</code></p>
-
-<h3 id="footer">Footer</h3>
-
-<h4 id="init-4">init</h4>
-
-<pre><code>init(config)
-</code></pre>
-
-<h5 id="config-4">config</h5>
+<h4 id="config-4">config</h4>
 
 <p><code>Object</code></p>
 
@@ -659,12 +650,12 @@ Remove part using <code>null</code>.</p>
 }
 </code></pre>
 
-<h4 id="update-2">update</h4>
+<h3 id="update-2">update</h3>
 
 <pre><code>update(path, configPart)
 </code></pre>
 
-<h5 id="path-3">path</h5>
+<h4 id="path-2">path</h4>
 
 <p>Dot-delimited string path to element</p>
 
@@ -673,7 +664,7 @@ Remove part using <code>null</code>.</p>
 <pre><code>'items.left.projects.counter'
 </code></pre>
 
-<h5 id="configpart-2">configPart</h5>
+<h4 id="configpart-2">configPart</h4>
 
 <p>Any part of initial config.
 Remove part using <code>null</code>.</p>
@@ -688,9 +679,111 @@ Remove part using <code>null</code>.</p>
 }
 </code></pre>
 
-<h2 id="to-be-documented">To be documented</h2>
+<h2 id="auth">Auth</h2>
 
-<ul>
-<li>notifications</li>
-</ul>
+<h3 id="init-5">init</h3>
+
+<pre><code>init(config)
+</code></pre>
+
+<h4 id="config-5">config</h4>
+
+<p><code>Object</code></p>
+
+<pre><code>{
+    "clientId": "bbb54677-70fd-47b5-b3cf-c9eeb51212d0",
+    "redirectUri": "http://localhost:8000",
+    "serverUri": "http://localhost:8080/jetpass",
+    "scope": "bbb54677-70fd-47b5-b3cf-c9eeb51212d0"
+}
+</code></pre>
+
+<h3 id="ajax">ajax</h3>
+
+<p><code>String</code></p>
+
+<pre><code>ajax(path)
+</code></pre>
+
+<h4 id="path-3">path</h4>
+
+<p>Path to Hub resource</p>
+
+<p><code>String</code></p>
+
+<pre><code>'/rest/services'
+</code></pre>
+
+<h2 id="notifications">Notifications</h2>
+
+<h3 id="push">push</h3>
+
+<pre><code>push(data)
+</code></pre>
+
+<h4 id="data-2">data</h4>
+
+<p><code>Object</code></p>
+
+<pre><code>[
+    {
+      "label": "Issues",
+      "description": "Hello world"
+      "url": "/issues",
+      "image": "tc.png"
+    },
+    {
+      "label": "Grill party",
+      "event": "dance"
+    }
+]
+</code></pre>
+
+<h3 id="markread">markRead</h3>
+
+<p>Mark all notifications as read</p>
+
+<pre><code>markRead()
+</code></pre>
+
+<h3 id="flush">flush</h3>
+
+<p>Remove all notifications</p>
+
+<pre><code>flush()
+</code></pre>
+
+<h2 id="dropdown">Dropdown</h2>
+
+<h3 id="show">show</h3>
+
+<pre><code>show(data, target)
+</code></pre>
+
+<h4 id="data-3">data</h4>
+
+<p><code>Object</code> | <code>String</code> | <code>jQuery</code></p>
+
+<pre><code>{
+    "items": [
+        {
+          "label": "Issues",
+          "url": "/issues"
+        },
+        {
+          "label": "Agile Board",
+          "url": "/rest/agile"
+        }
+      ]
+}
+</code></pre>
+
+<h4 id="target">target</h4>
+
+<p><code>Node</code> | <code>jQuery</code></p>
+
+<h3 id="hide">hide</h3>
+
+<pre><code>hide()
+</code></pre>
 </body></html>
