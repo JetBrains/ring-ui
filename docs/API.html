@@ -255,11 +255,22 @@ pre .chunk {
   <li><a href="#ring-api">Ring API</a></li>
   <li><a href="#syntax">Syntax</a>
   <ul>
-    <li><a href="#operate-module">Operate module</a></li>
-    <li><a href="#operate-method">Operate method</a></li>
+    <li><a href="#modules">Modules</a></li>
+    <li><a href="#methods">Methods</a></li>
+    <li><a href="#events">Events</a>
+    <ul>
+      <li><a href="#on">on</a>
+      <ul>
+        <li><a href="#event">event</a></li>
+        <li><a href="#handler">handler</a></li>
+      </ul></li>
+      <li><a href="#trigger">trigger</a>
+      <ul>
+        <li><a href="#event-2">event</a></li>
+      </ul></li>
+    </ul></li>
   </ul></li>
-  <li><a href="#methods">Methods</a></li>
-  <li><a href="#modules">Modules</a>
+  <li><a href="#modules-2">Modules</a>
   <ul>
     <li><a href="#ring">Ring</a>
     <ul>
@@ -269,17 +280,8 @@ pre .chunk {
       </ul></li>
       <li><a href="#render">render</a>
       <ul>
-        <li><a href="#template">template</a></li>
+        <li><a href="#templatename">templateName</a></li>
         <li><a href="#data">data</a></li>
-      </ul></li>
-      <li><a href="#on">on</a>
-      <ul>
-        <li><a href="#event">event</a></li>
-        <li><a href="#handler">handler</a></li>
-      </ul></li>
-      <li><a href="#trigger">trigger</a>
-      <ul>
-        <li><a href="#event-2">event</a></li>
       </ul></li>
     </ul></li>
     <li><a href="#header">Header</a>
@@ -350,7 +352,7 @@ pre .chunk {
 
 <h1 id="syntax">Syntax</h1>
 
-<h2 id="operate-module">Operate module</h2>
+<h2 id="modules">Modules</h2>
 
 <p>Get module</p>
 
@@ -371,22 +373,63 @@ pre .chunk {
 });
 </code></pre>
 
-<h2 id="operate-method">Operate method</h2>
+<h2 id="methods">Methods</h2>
 
 <p>Get method</p>
 
 <pre><code>var method = ring('module', 'method');
+</code></pre>
 
-method({
+<p>Invoke method</p>
+
+<pre><code>method({
     key: 'value'
 });
 </code></pre>
 
-<h1 id="methods">Methods</h1>
-
 <p>All methods return <code>$.Deferred</code> if anything else isn't stated</p>
 
-<h1 id="modules">Modules</h1>
+<h2 id="events">Events</h2>
+
+<h4 id="on">on</h4>
+
+<p>Subscribe on ring events.</p>
+
+<pre><code>var module = ring('module');
+
+module.on(event, handler)
+</code></pre>
+
+<h5 id="event">event</h5>
+
+<p><code>String</code></p>
+
+<pre><code>'{module}:{method}:{done|fail|success}'
+'{module}:{customEvent}'
+</code></pre>
+
+<h5 id="handler">handler</h5>
+
+<p><code>Function</code></p>
+
+<h4 id="trigger">trigger</h4>
+
+<p>Trigger ring event</p>
+
+<pre><code>var module = ring('module');
+
+module.trigger(event);
+</code></pre>
+
+<h5 id="event-2">event</h5>
+
+<p><code>String</code></p>
+
+<pre><code>'{module}:{method}:{done|fail|success}'
+'{module}:{customEvent}'
+</code></pre>
+
+<h1 id="modules-2">Modules</h1>
 
 <h2 id="ring">Ring</h2>
 
@@ -417,47 +460,16 @@ method({
 
 <p><strong>Returns</strong> <code>String</code></p>
 
-<pre><code>render(template, data)
+<pre><code>render(templateName, data)
 </code></pre>
 
-<h5 id="template">template</h5>
+<h5 id="templatename">templateName</h5>
 
 <p><code>String</code></p>
 
 <h5 id="data">data</h5>
 
 <p><code>Object</code></p>
-
-<h4 id="on">on</h4>
-
-<p>Subscribe on ring events:</p>
-
-<ul>
-<li>Any method fires events by scheme <code>{module}:{method}:{done|fail}</code>.</li>
-<li>And also custom events from config like <code>{module}:{eventName}</code>.</li>
-</ul>
-
-<pre><code>on(event, handler)
-</code></pre>
-
-<h5 id="event">event</h5>
-
-<p><code>String</code></p>
-
-<h5 id="handler">handler</h5>
-
-<p><code>Function</code></p>
-
-<h4 id="trigger">trigger</h4>
-
-<p>Trigger ring event</p>
-
-<pre><code>trigger(event)
-</code></pre>
-
-<h5 id="event-2">event</h5>
-
-<p><code>String</code></p>
 
 <h2 id="header">Header</h2>
 
@@ -504,9 +516,9 @@ method({
             "url": "/login",
             "event": "login"
         },
-        "relogin": {
-            "label": "Log in",
-            "url": "/relogin",
+        "anotherExampleAuthLink": {
+            "label": "Example link with url only",
+            "url": "/example",
         },
         "logout": {
             "label": "Log out",
@@ -700,7 +712,9 @@ Remove part using <code>null</code>.</p>
 
 <h3 id="ajax">ajax</h3>
 
-<p><code>String</code></p>
+<p>Get hub resourse using config authorization.</p>
+
+<p><strong>Returns</strong> <code>jqXHR</code> (<a href="http://api.jquery.com/jQuery.ajax/#jqXHR">jQuery.ajax</a>)</p>
 
 <pre><code>ajax(path)
 </code></pre>

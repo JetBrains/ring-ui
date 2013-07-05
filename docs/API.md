@@ -4,7 +4,7 @@ Ring API
 [toc]
 # Syntax
 
-## Operate module
+## Modules
 
 Get module
 
@@ -22,19 +22,50 @@ or just
         key: 'value'
     });
 
-## Operate method
+## Methods
 
 Get method
 
     var method = ring('module', 'method');
 
+Invoke method
+
     method({
         key: 'value'
     });
 
-# Methods
-
 All methods return `$.Deferred` if anything else isn't stated
+
+## Events
+
+#### on
+Subscribe on ring events.
+
+    var module = ring('module');
+
+    module.on(event, handler)
+
+##### event
+`String`
+
+    '{module}:{method}:{done|fail|success}'
+    '{module}:{customEvent}'
+
+##### handler
+`Function`
+
+#### trigger
+Trigger ring event
+
+    var module = ring('module');
+
+    module.trigger(event);
+
+##### event
+`String`
+
+    '{module}:{method}:{done|fail|success}'
+    '{module}:{customEvent}'
 
 # Modules
 
@@ -61,34 +92,13 @@ Render any avalaible template
 
 **Returns** `String`
 
-    render(template, data)
+    render(templateName, data)
 
-##### template
+##### templateName
 `String`
 
 ##### data
 `Object`
-
-#### on
-Subscribe on ring events:
-* Any method fires events by scheme `{module}:{method}:{done|fail}`.
-* And also custom events from config like `{module}:{eventName}`.
-
-    on(event, handler)
-
-##### event
-`String`
-
-##### handler
-`Function`
-
-#### trigger
-Trigger ring event
-
-    trigger(event)
-
-##### event
-`String`
 
 ## Header
 
@@ -133,9 +143,9 @@ If `auth: true` stated all other data will extend data fetched from Hub
                 "url": "/login",
                 "event": "login"
             },
-            "relogin": {
-                "label": "Log in",
-                "url": "/relogin",
+            "anotherExampleAuthLink": {
+                "label": "Example link with url only",
+                "url": "/example",
             },
             "logout": {
                 "label": "Log out",
@@ -306,7 +316,9 @@ Remove part using `null`.
     }
 
 ### ajax
-`String`
+Get hub resourse using config authorization.
+
+**Returns** `jqXHR` ([jQuery.ajax](http://api.jquery.com/jQuery.ajax/#jqXHR))
 
     ajax(path)
 
