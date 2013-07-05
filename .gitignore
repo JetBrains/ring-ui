@@ -22,3 +22,4 @@ components
 dist
 shims/handlebars/handlebars.js
 shims/handlebars/templates.js
+docs/*.html
