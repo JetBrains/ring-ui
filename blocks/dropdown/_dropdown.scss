@@ -9,7 +9,7 @@ $dropdown-background-color: #fff;
   top: 100px;
   z-index: 999;
 
-  line-height: 1;
+  font-size: 13px;
 
   text-align: center;
 
@@ -17,15 +17,17 @@ $dropdown-background-color: #fff;
   background-color: $dropdown-background-color;
 }
 
-.ring-dropdown_left {
-  text-align: left;
+.ring-dropdown_left.ring-dropdown::before {
+  margin: 0;
+  left: 12px;
 }
-.ring-dropdown_right {
-  text-align: right;
+.ring-dropdown_right.ring-dropdown::before {
+  margin: 0;
+  left: auto;
+  right: 12px;
 }
 
 .ring-dropdown__i {
-  margin: -16px 0 0 0;
   padding: 13px;
   z-index: 1;
 
@@ -35,13 +37,13 @@ $dropdown-background-color: #fff;
   background-color: $dropdown-background-color;
 }
 
-.ring-dropdown:before {
-  top: -7px;
-
-  display: inline-block;
+.ring-dropdown::before {
+  display: block;
+  top: -6px;
+  left: 50%;
   content: '';
-  position: relative;
-  margin: 0 12px;
+  position: absolute;
+  margin-left: -6px;
 
   height: 10px;
   width: 10px;
