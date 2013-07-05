@@ -114,7 +114,7 @@ module.exports = function(grunt) {
       }
     },
     clean: {
-      generated: ['dist', 'shims/handlebars/handlebars.js', 'shims/handlebars/templates.js'],
+      generated: ['dist', 'shims/handlebars/handlebars.js', 'shims/handlebars/templates.js', 'docs/*.html'],
       modules: ['node_modules', 'components']
     },
     watch: {
