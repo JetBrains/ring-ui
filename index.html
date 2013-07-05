@@ -7,6 +7,12 @@
     html, body {
       padding: 0;
       margin: 0;
+      font-family: "Helvetica Neue", sans-serif;
+      font-size: 24px;
+    }
+
+    .docs {
+      margin: 60px;
     }
   </style>
   <script src="components/jquery/jquery.js"></script>
@@ -23,7 +29,6 @@
           // Will not close custom dropdown on click on the same target when binding with delegate
           //
           // $(document).on('click','.yt__ty', function() {
-          //   console.log(1, this)
           //   return ring.dropdown.create('<b>Custom dropdown</b>', $(this));
           // });
 
@@ -37,6 +42,6 @@
   </script>
 </head>
 <body>
-
+<div class="docs">Preview stage <a href="docs/API.html">API documentation</a></div>
 </body>
 </html>
