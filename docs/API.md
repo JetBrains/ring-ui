@@ -1,7 +1,6 @@
 Ring API
 ========
 
-[toc]
 # Syntax
 
 ## Modules

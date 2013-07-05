@@ -1,3 +1,5 @@
+var hljs = require('highlight.js');
+
 module.exports = function(grunt) {
 
   grunt.initConfig({
@@ -123,9 +125,9 @@ module.exports = function(grunt) {
           livereload: true
         }
       },
-      reload: {
-        files: ['*.html', 'blocks/*/*.js', 'bundles/**/*.js'],
-        tasks: ['notify:watch'],
+      markdown: {
+        files: ['docs/**/*.md'],
+        tasks: ['markdown', 'notify:watch'],
         options: {
           livereload: true
         }
@@ -156,6 +158,27 @@ module.exports = function(grunt) {
     },
     jshint: {
       all: ['Gruntfile.js', 'blocks/**/*.js']
+    },
+    markdown: {
+      all: {
+        files: [
+          {
+            expand: true,
+            src: 'docs/*.md',
+            dest: '',
+            ext: '.html'
+          }
+        ],
+        options: {
+          markdownOptions: {
+            gfm: true,
+            highlight: function (code) {
+              var lang = ['{','[', '\''].indexOf(code.substr(0,1)) !== -1 ? 'json' : 'javascript';
+              return hljs.highlight(lang,code).value;
+            }
+          }
+        }
+      }
     }
   });
 
