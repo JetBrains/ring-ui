@@ -125,6 +125,13 @@ module.exports = function(grunt) {
           livereload: true
         }
       },
+      reload: {
+        files: ['*.html', 'blocks/*/*.js', 'bundles/**/*.js'],
+        tasks: ['notify:watch'],
+        options: {
+          livereload: true
+        }
+      },
       markdown: {
         files: ['docs/**/*.md'],
         tasks: ['markdown', 'notify:watch'],
