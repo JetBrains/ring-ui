@@ -69,7 +69,11 @@ Trigger ring event
 # Modules
 
 ## Ring
-Default module, can be called without id
+Default module, can be called with or without id
+
+    var modules = ring('ring');
+
+or
 
     var modules = ring();
 
@@ -129,9 +133,11 @@ Render any avalaible template
 
 ## Header
 
+    var header = ring('header');
+
 #### init
 
-    init(config)
+    header('init', config)
 
 #### config
 If `auth: true` stated all other data will extend data fetched from Hub
@@ -183,8 +189,15 @@ If `auth: true` stated all other data will extend data fetched from Hub
 
 ## Menu
 
+    var menu = ring('nenu');
+
 ### init
 
+    menu('init', config)
+
+or
+
+    var init = ring('menu', 'init');
     init(config)
 
 #### config
@@ -247,6 +260,7 @@ If `auth: true` stated all other data will extend data fetched from Hub
 
 ### update
 
+    var update = ring('menu', 'update');
     update(path, configPart)
 
 #### path
@@ -272,6 +286,7 @@ Remove part using `null`.
 ### setActive
 Set menu item from left and right active by id
 
+    var setActive = ring('menu', 'setActive');
     setActive(id)
 
 #### id
@@ -281,6 +296,7 @@ Set menu item from left and right active by id
 
 ### init
 
+    var init = ring('footer', 'init');
     init(config)
 
 #### config
@@ -303,6 +319,7 @@ Set menu item from left and right active by id
 
 ### update
 
+    var update = ring('footer', 'update');
     update(path, configPart)
 
 #### path
@@ -330,6 +347,7 @@ Remove part using `null`.
 
 ### init
 
+    var init = ring('auth', 'init');
     init(config)
 
 #### config
@@ -347,6 +365,7 @@ Get hub resourse using config authorization.
 
 **Returns** `jqXHR` ([jQuery.ajax](http://api.jquery.com/jQuery.ajax/#jqXHR))
 
+    var ajax = ring('auth', 'ajax');
     ajax(path)
 
 #### path
@@ -360,6 +379,7 @@ Path to Hub resource
 
 ### push
 
+    var push = ring('notifications', 'push');
     push(data)
 
 #### data
@@ -381,17 +401,20 @@ Path to Hub resource
 ### markRead
 Mark all notifications as read
 
+    var markRead = ring('notifications', 'markRead');
     markRead()
 
 ### flush
 Remove all notifications
 
+    var flush = ring('notifications', 'flush');
     flush()
 
 ## Dropdown
 
 ### show
 
+    var show = ring('dropdown', 'show');
     show(data, target)
 
 #### data
@@ -415,4 +438,5 @@ Remove all notifications
 
 ### hide
 
+    var hide = ring('dropdown', 'hide');
     hide()
