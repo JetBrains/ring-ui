@@ -3,6 +3,8 @@ var hljs = require('highlight.js');
 module.exports = function(grunt) {
 
   grunt.initConfig({
+    pkg: grunt.file.readJSON('package.json'),
+
     // Build
     csso: {
       dist: {
@@ -21,8 +23,19 @@ module.exports = function(grunt) {
         }
       }
     },
+    usebanner: {
+      dist: {
+        options: {
+          position: 'top',
+          banner: '/* <%= pkg.version %>, <%= grunt.template.today("isoDateTime") %> */'
+        },
+        files: {
+          src: [ 'dist/**/*.js', 'dist/**/*.css' ]
+        }
+      }
+    },
     compress: {
-      ring: {
+      dist: {
         options: {
           archive: './dist/ring-ui.zip'
         },
@@ -243,6 +256,7 @@ module.exports = function(grunt) {
   grunt.registerTask('minify', [
     'csso',
     'uglify',
+    'usebanner',
     'compress'
   ]);
 
