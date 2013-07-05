@@ -25,6 +25,8 @@
     "grunt-contrib-requirejs": "~0.4.1",
     "grunt-sass": "~0.6.0",
     "grunt-autoprefixer": "~0.1.20130615",
-    "phantomjs": "~1.9.1-0"
+    "phantomjs": "~1.9.1-0",
+    "grunt-markdown": "~0.3.0",
+    "highlight.js": "~7.3.0"
   }
 }

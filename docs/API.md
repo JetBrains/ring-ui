@@ -1,7 +1,6 @@
 Ring API
 ========
 
-[toc]
 # Syntax
 
 ## Modules
@@ -74,10 +73,38 @@ Default module, can be called without id
 
     var modules = ring();
 
+
+#### config
+Basic ring configuration
+
+    modules.config(baseConfig)
+
+##### baseConfig
+    {
+      "services": [
+        {
+          "current": "boolean",
+          "id": "string",
+          "homeUrl": "string",
+          "name": "string",
+          "applicationName": "string",
+          "vendor": "string",
+          "version": "string"
+        }
+      ],
+      "user": {
+        "id": "string",
+        "name": "string",
+        "avatar": {
+          "puctureUrl": "string"
+        }
+      }
+    }
+
 #### init
 Init bunch of modules
 
-    init(config)
+    modules.init(config)
 
 ##### config
 
@@ -92,7 +119,7 @@ Render any avalaible template
 
 **Returns** `String`
 
-    render(templateName, data)
+    modules.render(templateName, data)
 
 ##### templateName
 `String`
