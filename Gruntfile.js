@@ -6,12 +6,12 @@ module.exports = function(grunt) {
     pkg: grunt.file.readJSON('package.json'),
     buildVersion: (function(option) {
       var build = option('build');
-      var rev   = option('rev').substr(0,7);
+      var rev   = option('rev');
 
       if (rev && build) {
-        return '.' + rev + '.' + build;
+        return '.' + rev.substr(0,7) + '.' + build;
       } else {
-        return '_' + grunt.template.today("yyyy-mm-dd_HH-MM-ss");
+        return '_' + grunt.template.today('yyyy-mm-dd_HH-MM-ss');
       }
 
     }(grunt.option)),
