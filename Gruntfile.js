@@ -6,7 +6,7 @@ module.exports = function(grunt) {
     pkg: grunt.file.readJSON('package.json'),
     buildVersion: (function(option) {
       var build = option('build');
-      var rev   = option('rev');
+      var rev   = option('rev').substr(0,7);
 
       if (rev && build) {
         return '.' + rev + '.' + build;
