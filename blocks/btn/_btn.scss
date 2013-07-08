@@ -56,129 +56,129 @@ $btn-border-radius: 3px;
   cursor: default;
 }
 
-  @mixin btn-mixins_primary {
-    @include btn-box-shadow(#ffc594);
-    @include btn-background-image(#ff6600, #ff8620);
+@mixin btn-mixins_primary {
+  @include btn-box-shadow(#ffc594);
+  @include btn-background-image(#ff6600, #ff8620);
+}
+
+.ring-btn_primary {
+  border: solid 1px #bc5600;
+  color: #fff;
+  @include btn-mixins_primary;
+
+  &:hover {
+    @include btn-background-image-hover(#ffb373, #f60 29%, #ff8620);
+  }
+  &:active {
+    @include btn-background-image-active(#f60, #ff8620);
+    @include btn-box-shadow-active(rgba(0, 0, 0, .2));
   }
 
-  .ring-btn_primary {
-    border: solid 1px #bc5600;
-    color: #fff;
-    @include btn-mixins_primary;
-
-    &:hover {
-      @include btn-background-image-hover(#ffb373, #f60 29%, #ff8620);
-    }
-    &:active {
-      @include btn-background-image-active(#f60, #ff8620);
-      @include btn-box-shadow-active(rgba(0, 0, 0, .2));
-    }
-
-    &[disabled], &.ring-btn_disabled {
-      &:hover, &:active {
-        @include btn-mixins_primary;
-      }
-    }
-  }
-
-  @mixin btn-mixins_blue {
-    @include btn-box-shadow(rgba(255, 255, 255, 0.4));
-    @include btn-background-image(#008fd6, #25b7ff);
-  }
-
-  .ring-btn_blue {
-    border: solid 1px #0084c5;
-    color: #fff;
-    @include btn-mixins_blue;
-    &:hover {
-      @include btn-background-image-hover(#64ccff 2%, #008fd6 29%, #25b7ff);
-    }
-    &:active {
-      @include btn-background-image-active(#008fd6, #25b7ff);
-      @include btn-box-shadow-active(rgba(0, 0, 0, .2));
-    }
-
-    &[disabled], &.ring-btn_disabled {
-      &:hover, &:active {
-        @include btn-mixins_blue;
-      }
+  &[disabled], &.ring-btn_disabled {
+    &:hover, &:active {
+      @include btn-mixins_primary;
     }
   }
+}
 
-  @mixin btn-mixins_black {
-    @include btn-box-shadow(rgba(0, 0, 0, 0.1));
-    @include btn-background-image(#313131, #3c3c3c);
+@mixin btn-mixins_blue {
+  @include btn-box-shadow(rgba(255, 255, 255, 0.4));
+  @include btn-background-image(#008fd6, #25b7ff);
+}
+
+.ring-btn_blue {
+  border: solid 1px #0084c5;
+  color: #fff;
+  @include btn-mixins_blue;
+  &:hover {
+    @include btn-background-image-hover(#64ccff 2%, #008fd6 29%, #25b7ff);
+  }
+  &:active {
+    @include btn-background-image-active(#008fd6, #25b7ff);
+    @include btn-box-shadow-active(rgba(0, 0, 0, .2));
   }
 
-  .ring-btn_black {
-    border: solid 1px rgba(0, 0, 0, 0.5);
-    color: #b4b4b4;
-    @include btn-mixins_black;
-    &:hover {
-      @include btn-background-image-hover(#4a4a4a, #313131 24%, #3c3c3c);
-    }
-    &:active {
-      @include btn-background-image-active(#313131, #3c3c3c);
-      @include btn-box-shadow-active(rgba(0, 0, 0, .2));
-    }
-
-    &[disabled], &.ring-btn_disabled {
-      &:hover, &:active {
-        @include btn-mixins_black;
-      }
-    }
-  }
-
-  .ring-btn_plus:before {
-    content: '+  ';
-    white-space: pre;
-    margin-left: -7px;
-  }
-
-  .ring-btn-toolbar {
-    font-size: 0;
-    display: inline-block;
-  }
-
-  .ring-btn-toolbar__group {
-    display: inline-block;
-    position: relative;
-  }
-
-  .ring-btn-toolbar__group > .ring-btn {
-    margin: 0 0 0 -1px;
-    border-radius: 0;
-  }
-
-  .ring-btn-toolbar__group > .ring-btn:first-child {
-    border-top-left-radius: $btn-border-radius;
-    border-bottom-left-radius: $btn-border-radius;
-  }
-
-  .ring-btn-toolbar__group > .ring-btn:last-child {
-    border-top-right-radius: $btn-border-radius;
-    border-bottom-right-radius: $btn-border-radius;
-  }
-
-  // TODO FIXME use font-icon here
-  @mixin ring-btn-arrow($direction: down) {
-    padding-right: 24px !important;
-    &:after {
-      content: '';
-      display: block;
-      background: url(/images/arrow-#{$direction}.png);
-      width: 5px;
-      height: 3px;
-      float: right;
-      margin-top: 5px;
-      margin-right: -12px;
+  &[disabled], &.ring-btn_disabled {
+    &:hover, &:active {
+      @include btn-mixins_blue;
     }
   }
+}
 
-  .ring-btn_arrow_down {
-    @include ring-btn-arrow(down);
+@mixin btn-mixins_black {
+  @include btn-box-shadow(rgba(0, 0, 0, 0.1));
+  @include btn-background-image(#313131, #3c3c3c);
+}
+
+.ring-btn_black {
+  border: solid 1px rgba(0, 0, 0, 0.5);
+  color: #b4b4b4;
+  @include btn-mixins_black;
+  &:hover {
+    @include btn-background-image-hover(#4a4a4a, #313131 24%, #3c3c3c);
+  }
+  &:active {
+    @include btn-background-image-active(#313131, #3c3c3c);
+    @include btn-box-shadow-active(rgba(0, 0, 0, .2));
   }
 
-  .ring-btn_arrow_up {
-    @include ring-btn-arrow(up);
+  &[disabled], &.ring-btn_disabled {
+    &:hover, &:active {
+      @include btn-mixins_black;
+    }
   }
+}
+
+.ring-btn_plus:before {
+  content: '+  ';
+  white-space: pre;
+  margin-left: -7px;
+}
+
+.ring-btn-toolbar {
+  font-size: 0;
+  display: inline-block;
+}
+
+.ring-btn-toolbar__group {
+  display: inline-block;
+  position: relative;
+}
+
+.ring-btn-toolbar__group > .ring-btn {
+  margin: 0 0 0 -1px;
+  border-radius: 0;
+}
+
+.ring-btn-toolbar__group > .ring-btn:first-child {
+  border-top-left-radius: $btn-border-radius;
+  border-bottom-left-radius: $btn-border-radius;
+}
+
+.ring-btn-toolbar__group > .ring-btn:last-child {
+  border-top-right-radius: $btn-border-radius;
+  border-bottom-right-radius: $btn-border-radius;
+}
+
+// TODO FIXME use font-icon here
+@mixin ring-btn-arrow($direction: down) {
+  padding-right: 24px !important;
+  &:after {
+    content: '';
+    display: block;
+    background: url(/images/arrow-#{$direction}.png);
+    width: 5px;
+    height: 3px;
+    float: right;
+    margin-top: 5px;
+    margin-right: -12px;
+  }
+}
+
+.ring-btn_arrow_down {
+  @include ring-btn-arrow(down);
+}
+
+.ring-btn_arrow_up {
+  @include ring-btn-arrow(up);
+}
