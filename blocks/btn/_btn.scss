@@ -43,16 +43,17 @@ $btn-border-radius: 3px;
     background-color: #e4e4e4;
     background-image: none;
   }
-  &[disabled] {
-    opacity: 0.5;
-    cursor: default;
-    &:hover {
-      @include btn-mixins;
-    }
-    &:active {
+  &[disabled], &.ring-btn_disabled {
+    &:hover, &:active {
       @include btn-mixins;
     }
   }
+}
+
+.ring-btn_disabled,
+.ring-btn[disabled] {
+  opacity: 0.5;
+  cursor: default;
 }
 
   @mixin btn-mixins_primary {
@@ -64,6 +65,7 @@ $btn-border-radius: 3px;
     border: solid 1px #bc5600;
     color: #fff;
     @include btn-mixins_primary;
+
     &:hover {
       @include btn-background-image-hover(#ffb373, #f60 29%, #ff8620);
     }
@@ -71,13 +73,9 @@ $btn-border-radius: 3px;
       @include btn-background-image-active(#f60, #ff8620);
       @include btn-box-shadow-active(rgba(0, 0, 0, .2));
     }
-    &[disabled] {
-      opacity: 0.5;
-      cursor: default;
-      &:hover {
-        @include btn-mixins_primary;
-      }
-      &:active {
+
+    &[disabled], &.ring-btn_disabled {
+      &:hover, &:active {
         @include btn-mixins_primary;
       }
     }
@@ -99,13 +97,9 @@ $btn-border-radius: 3px;
       @include btn-background-image-active(#008fd6, #25b7ff);
       @include btn-box-shadow-active(rgba(0, 0, 0, .2));
     }
-    &[disabled] {
-      opacity: 0.5;
-      cursor: default;
-      &:hover {
-        @include btn-mixins_blue;
-      }
-      &:active {
+
+    &[disabled], &.ring-btn_disabled {
+      &:hover, &:active {
         @include btn-mixins_blue;
       }
     }
@@ -127,13 +121,9 @@ $btn-border-radius: 3px;
       @include btn-background-image-active(#313131, #3c3c3c);
       @include btn-box-shadow-active(rgba(0, 0, 0, .2));
     }
-    &[disabled] {
-      opacity: 0.5;
-      cursor: default;
-      &:hover {
-        @include btn-mixins_black;
-      }
-      &:active {
+
+    &[disabled], &.ring-btn_disabled {
+      &:hover, &:active {
         @include btn-mixins_black;
       }
     }
@@ -150,26 +140,27 @@ $btn-border-radius: 3px;
     display: inline-block;
   }
 
-  .ring-btn-toolbar_group {
+  .ring-btn-toolbar__group {
     display: inline-block;
     position: relative;
   }
 
-  .ring-btn-toolbar_group > .ring-btn {
+  .ring-btn-toolbar__group > .ring-btn {
     margin: 0 0 0 -1px;
     border-radius: 0;
   }
 
-  .ring-btn-toolbar_group > .ring-btn:first-child {
+  .ring-btn-toolbar__group > .ring-btn:first-child {
     border-top-left-radius: $btn-border-radius;
     border-bottom-left-radius: $btn-border-radius;
   }
 
-  .ring-btn-toolbar_group > .ring-btn:last-child {
+  .ring-btn-toolbar__group > .ring-btn:last-child {
     border-top-right-radius: $btn-border-radius;
     border-bottom-right-radius: $btn-border-radius;
   }
 
+  // TODO FIXME use font-icon here
   @mixin ring-btn-arrow($direction: down) {
     padding-right: 24px !important;
     &:after {
