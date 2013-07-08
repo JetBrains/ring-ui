@@ -27,7 +27,7 @@ module.exports = function(grunt) {
       dist: {
         options: {
           position: 'top',
-          banner: '/* <%= pkg.version %>, <%= grunt.template.today("isoDateTime") %> */'
+          banner: '/* <%= pkg.name %> <%= pkg.version %>, <%= grunt.template.today("yyyy-mm-dd HH:MM:ss") %> */'
         },
         files: {
           src: [ 'dist/**/*.js', 'dist/**/*.css' ]
@@ -37,7 +37,7 @@ module.exports = function(grunt) {
     compress: {
       dist: {
         options: {
-          archive: './dist/ring-ui.zip'
+          archive: './dist/<%= pkg.name %>_<%= pkg.version %>_<%= grunt.template.today("yyyy-mm-dd_HH-MM") %>.zip'
         },
         files: [
           {expand: true, cwd: './dist/', src: ['**'], dest: 'ring'}
