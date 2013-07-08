@@ -3,7 +3,11 @@ Ring API
 
 # Syntax
 
-## Modules
+## Import modules
+
+Get root module
+
+    var root = ring();
 
 Get module
 
@@ -21,7 +25,7 @@ or just
         key: 'value'
     });
 
-## Methods
+## Import methods
 
 Get method
 
@@ -38,17 +42,30 @@ All methods return `$.Deferred` if anything else isn't stated
 ## Events
 
 #### on
-Subscribe on ring events.
+Subscribe on ring events on any modules.
+
+    var root = ring();
+
+    root.on(event, handler)
+
+Subscribe on certain module events
 
     var module = ring('module');
 
     module.on(event, handler)
 
-##### event
+
+##### event — modules list
 `String`
 
     '{module}:{method}:{done|fail|success}'
     '{module}:{customEvent}'
+
+##### event — certain module
+`String`
+
+    '{method}:{done|fail|success}'
+    '{customEvent}'
 
 ##### handler
 `Function`
@@ -63,25 +80,19 @@ Trigger ring event
 ##### event
 `String`
 
-    '{module}:{method}:{done|fail|success}'
-    '{module}:{customEvent}'
+Same as `on()` event param.
 
 # Modules
 
-## Ring
+## Root module
 Default module, can be called with or without id
 
-    var modules = ring('ring');
-
-or
-
-    var modules = ring();
-
+    var root = ring();
 
 #### config
 Basic ring configuration
 
-    modules.config(baseConfig)
+    root.config(baseConfig)
 
 ##### baseConfig
     {
@@ -108,7 +119,7 @@ Basic ring configuration
 #### init
 Init bunch of modules
 
-    modules.init(config)
+    root.init(config)
 
 ##### config
 
@@ -123,7 +134,7 @@ Render any avalaible template
 
 **Returns** `String`
 
-    modules.render(templateName, data)
+    root.render(templateName, data)
 
 ##### templateName
 `String`
