@@ -4,6 +4,17 @@ module.exports = function(grunt) {
 
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
+    buildVersion: (function(option) {
+      var build = option('build');
+      var rev   = option('rev');
+
+      if (rev && build) {
+        return '.' + rev + '.' + build;
+      } else {
+        return '_' + grunt.template.today("yyyy-mm-dd_HH-MM-ss");
+      }
+
+    }(grunt.option)),
 
     // Build
     csso: {
@@ -27,7 +38,7 @@ module.exports = function(grunt) {
       dist: {
         options: {
           position: 'top',
-          banner: '/* <%= pkg.name %> <%= pkg.version %>, <%= grunt.template.today("yyyy-mm-dd HH:MM:ss") %> */'
+          banner: '/* <%= pkg.name %> <%= pkg.version %><%= buildVersion %> */'
         },
         files: {
           src: [ 'dist/**/*.js', 'dist/**/*.css' ]
@@ -37,7 +48,7 @@ module.exports = function(grunt) {
     compress: {
       dist: {
         options: {
-          archive: './dist/<%= pkg.name %>_<%= pkg.version %>_<%= grunt.template.today("yyyy-mm-dd_HH-MM") %>.zip'
+          archive: './dist/<%= pkg.name %>-<%= pkg.version %><%= buildVersion %>.zip'
         },
         files: [
           {expand: true, cwd: './dist/', src: ['**'], dest: 'ring'}
