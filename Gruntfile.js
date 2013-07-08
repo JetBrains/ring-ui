@@ -120,10 +120,18 @@ module.exports = function(grunt) {
             'blocks/**/*.eot',
             'blocks/**/*.ttf',
             'blocks/**/*.svg',
-            'blocks/**/*.png',
+            'blocks/font-icon/*.png',
             '!blocks/**/*.dev.svg'
           ],
           dest: 'dist/fonts'
+        }]
+      },
+      docs: {
+        files: [{
+          expand: true,
+          flatten: true,
+          src: 'docs/*html',
+          dest: 'dist/docs'
         }]
       }
     },
@@ -254,10 +262,12 @@ module.exports = function(grunt) {
   ]);
 
   grunt.registerTask('default', [
+    'cleanup',
     'install',
     'styles',
     'jshint',
-    'templates'
+    'templates',
+    'markdown'
   ]);
 
   grunt.registerTask('server', [
@@ -275,6 +285,7 @@ module.exports = function(grunt) {
   grunt.registerTask('build', [
     'default',
     'requirejs',
+    'copy:docs',
     'minify'
   ]);
 
