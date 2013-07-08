@@ -52,7 +52,7 @@ define(['jso', 'jquery', 'full-header/full-header'], function (jso, $, header) {
         var data = jQuery.extend(baseData, {'stripe': {'items': items}});
         hubAjax(serverUrl + '/rest/users/me', function (user) {
           console.log(user);
-          data['stripe'] = jQuery.extend(data['stripe'], {'personal': convertUserToProfile(user)});
+          data.stripe = jQuery.extend(data.stripe, {'personal': convertUserToProfile(user)});
             defaultHeaderInit(data, dontWaitDom, component);
         });
       }
