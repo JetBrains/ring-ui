@@ -256,6 +256,7 @@ module.exports = function(grunt) {
   grunt.registerTask('default', [
     'install',
     'styles',
+    'jshint',
     'templates'
   ]);
 
