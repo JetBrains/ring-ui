@@ -1,10 +1,9 @@
 var hljs = require('highlight.js');
 
 module.exports = function(grunt) {
-  var pkg = grunt.file.readJSON('package.json');
 
   grunt.initConfig({
-    pkg: pkg,
+    pkg: grunt.file.readJSON('package.json'),
     buildVersion: (function(option) {
       var build = option('build');
       var rev   = option('rev');
@@ -134,8 +133,7 @@ module.exports = function(grunt) {
           src: 'docs/*html',
           dest: 'dist/docs'
         }]
-      },
-
+      }
     },
 
     // Development
@@ -246,10 +244,6 @@ module.exports = function(grunt) {
 
   });
 
-  grunt.registerTask('package-version', 'Set package version number in TeamCity', function() {
-    grunt.log.writeln('##teamcity[setParameter name=\'package-version\' value=\'' + pkg.version + '\']');
-  });
-
   require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
 
   grunt.registerTask('install',   ['bower']);
@@ -292,8 +286,7 @@ module.exports = function(grunt) {
     'default',
     'requirejs',
     'copy:docs',
-    'minify',
-    'package-version'
+    'minify'
   ]);
 
 };
