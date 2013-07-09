@@ -30,6 +30,7 @@ module.exports = function(grunt) {
   var _ = grunt.util._;
 
   grunt.initConfig({
+    // Configuration
     pkg: grunt.file.readJSON('package.json'),
     buildVersion: (function(option) {
       var build = option('build');
@@ -83,8 +84,57 @@ module.exports = function(grunt) {
         ]
       }
     },
+    teamcity: {
+      jshint: [
+        {
+          message: 'importData',
+          data: {
+            type: 'jslint',
+            path: '<%= path.jshintreport %>'
+          }
+        }
+      ]
+    },
 
-    // Process files
+    // Test
+    mocha: {
+      all: {
+        options: {
+          run: true,
+          reporter: 'Teamcity',
+          urls: ['http://localhost:<%= connect.options.port %>/index.html']
+        }
+      }
+    },
+    jshint: {
+      options: {
+        jshintrc: '.jshintrc'
+      },
+      dev: ['*.js', '<%= path.blocks %>**/*.js', '<%= path.bundles %>*.js'],
+      dist: {
+        options: {
+          reporter: 'jslint',
+          reporterOutput: '<%= path.jshintreport %>'
+        },
+        files: {
+          src: ['*.js', '<%= path.blocks %>**/*.js', '<%= path.bundles %>*.js']
+        }
+      }
+    },
+
+    // Process
+    clean: {
+      generated: ['<%= path.dist %>', '<%= path.tmp %>'],
+      modules: ['node_modules', 'components']
+    },
+    bower: {
+      install: {
+        options: {
+          copy: false,
+          verbose: true
+        }
+      }
+    },
     sass: {
       dist: {
         options: {
@@ -166,31 +216,29 @@ module.exports = function(grunt) {
         }]
       }
     },
-    teamcity: {
-      jshint: [
-        {
-          message: 'importData',
-          data: {
-            type: 'jslint',
-            path: '<%= path.jshintreport %>'
+    markdown: {
+      all: {
+        files: [
+          {
+            expand: true,
+            src: '<%= path.docs %>*.md',
+            dest: '<%= path.dist %>',
+            ext: '.html'
           }
-        }
-      ]
-    },
-
-    // Development
-    bower: {
-      install: {
+        ],
         options: {
-          copy: false,
-          verbose: true
+          markdownOptions: {
+            gfm: true,
+            highlight: function (code) {
+              var lang = ['{','[', '\''].indexOf(code.substr(0,1)) !== -1 ? 'json' : 'javascript';
+              return hljs.highlight(lang,code).value;
+            }
+          }
         }
       }
     },
-    clean: {
-      generated: ['<%= path.dist %>', '<%= path.tmp %>'],
-      modules: ['node_modules', 'components']
-    },
+
+    // Development
     watch: {
       scss: {
         files: ['<%= path.blocks %>**/*.scss', '<%= path.bundles %>**/*.scss'],
@@ -234,42 +282,6 @@ module.exports = function(grunt) {
         options: {
           port: 8000,
           hostname: '*'
-        }
-      }
-    },
-    jshint: {
-      options: {
-        jshintrc: '.jshintrc'
-      },
-      dev: ['*.js', '<%= path.blocks %>**/*.js', '<%= path.bundles %>*.js'],
-      dist: {
-        options: {
-          reporter: 'jslint',
-          reporterOutput: '<%= path.jshintreport %>'
-        },
-        files: {
-          src: ['*.js', '<%= path.blocks %>**/*.js', '<%= path.bundles %>*.js']
-        }
-      }
-    },
-    markdown: {
-      all: {
-        files: [
-          {
-            expand: true,
-            src: '<%= path.docs %>*.md',
-            dest: '<%= path.dist %>',
-            ext: '.html'
-          }
-        ],
-        options: {
-          markdownOptions: {
-            gfm: true,
-            highlight: function (code) {
-              var lang = ['{','[', '\''].indexOf(code.substr(0,1)) !== -1 ? 'json' : 'javascript';
-              return hljs.highlight(lang,code).value;
-            }
-          }
         }
       }
     }
@@ -336,7 +348,7 @@ module.exports = function(grunt) {
 
   grunt.registerTask('process', [
     'cleanup',
-    'install',
+    'bower',
     'styles',
     'templates',
     'requirejs',
