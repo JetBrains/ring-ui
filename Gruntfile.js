@@ -163,6 +163,17 @@ module.exports = function(grunt) {
         }]
       }
     },
+    teamcity: {
+      jshint: [
+        {
+          message: 'importData',
+          data: {
+            type: 'jslint',
+            path: 'jshintreport.xml'
+          }
+        }
+      ]
+    },
 
     // Development
     bower: {
@@ -224,7 +235,19 @@ module.exports = function(grunt) {
       }
     },
     jshint: {
-      all: ['Gruntfile.js', 'blocks/**/*.js']
+      options: {
+        jshintrc: '.jshintrc'
+      },
+      dev: ['*.js', 'blocks/**/*.js', 'bundles/*.js'],
+      dist: {
+        options: {
+          reporter: 'jslint',
+          reporterOutput: 'jshintreport.xml'
+        },
+        files: {
+          src: ['*.js', 'blocks/**/*.js', 'bundles/*.js']
+        }
+      }
     },
     markdown: {
       all: {
@@ -240,13 +263,27 @@ module.exports = function(grunt) {
           markdownOptions: {
             gfm: true,
             highlight: function (code) {
-              var lang = ['{','[', '\''].indexOf(code.substr(0,1)) !== -1 ? 'json' : 'javascript';
+              var lang = ['{','[', '\''].indexOf(code.substr(0,1)) != -1 ? 'json' : 'javascript';
               return hljs.highlight(lang,code).value;
             }
           }
         }
       }
     }
+  });
+
+  grunt.registerMultiTask('teamcity', 'TeamCity interaction', function() {
+    grunt.util._.each(this.data, function(item) {
+      var message = '##teamcity[' + item.message;
+
+      grunt.util._.forIn(item.data, function(value, key) {
+        message += ' ' + key + '=\'' + value + '\'';
+      });
+
+      message += ']';
+
+      grunt.log.writeln(message);
+    });
   });
 
   grunt.registerTask('sprite', 'Render font icons to png sprite', function() {
@@ -290,10 +327,14 @@ module.exports = function(grunt) {
   ]);
 
   grunt.registerTask('default', [
+    'jshint:dev',
+    'process'
+  ]);
+
+  grunt.registerTask('process', [
     'cleanup',
     'install',
     'styles',
-    'jshint',
     'templates',
     'markdown'
   ]);
@@ -311,7 +352,9 @@ module.exports = function(grunt) {
   ]);
 
   grunt.registerTask('build', [
-    'default',
+    'teamcity',
+    'jshint:dist',
+    'process',
     'requirejs',
     'copy:docs',
     'minify'
