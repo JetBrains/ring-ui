@@ -48,14 +48,12 @@ $ring-link-color:  #b4b4b4;
   }
 }
 
-.ring-stripe__personal:hover {
-  .ring-stripe__item_link {
+.ring-stripe__item_link:hover, .ring-stripe__personal:hover .ring-stripe__item_link {
     color: $active-link-color !important;
     text-decoration: underline;
-  }
+}
 
-  .ring-font-icon {
+.ring-stripe__personal:hover .ring-font-icon {
     color: $active-link-color !important;
     background-position: -66px -22px;
-  }
 }
