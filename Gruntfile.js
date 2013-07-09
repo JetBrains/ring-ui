@@ -2,6 +2,23 @@ var hljs = require('highlight.js');
 
 module.exports = function(grunt) {
 
+  var requireConfig = {
+    options: {
+      baseUrl: 'blocks',
+      name: '../components/almond/almond',
+      mainConfigFile: 'bundles/ring.config.js',
+      include: 'ring',
+      out: 'dist/ring.js',
+      optimize: 'none',
+      wrap: {
+        startFile: 'bundles/ring-start.frag',
+        endFile: 'bundles/ring-end.frag'
+      }
+    }
+  };
+
+  var _ = grunt.util._;
+
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
     buildVersion: (function(option) {
@@ -95,19 +112,30 @@ module.exports = function(grunt) {
       }
     },
     requirejs: {
-      compile: {
-        options: {
-          baseUrl: 'blocks',
-          name: '../components/almond/almond',
-          mainConfigFile: 'bundles/ring.config.js',
-          include: 'ring',
-          out: 'dist/ring.js',
-          optimize: 'none',
-          wrap: {
-            startFile: 'bundles/ring-start.frag',
-            endFile: 'bundles/ring-end.frag'
-          }
-        }
+      'ring': requireConfig,
+      'ring-oauth': {
+        options: _.extend(_.clone(requireConfig.options), {
+          paths: {
+            ring: '../bundles/ring-oauth'
+          },
+          out: 'dist/ring-oauth.js'
+        })
+      },
+      'ring-internal': {
+        options: _.extend(_.clone(requireConfig.options), {
+          paths: {
+            ring: '../bundles/ring-internal'
+          },
+          out: 'dist/ring-internal.js'
+        })
+      },
+      'ring-internal-oauth': {
+        options: _.extend(_.clone(requireConfig.options), {
+          paths: {
+            ring: '../bundles/ring-internal-oauth'
+          },
+          out: 'dist/ring-internal-oauth.js'
+        })
       }
     },
     copy: {
