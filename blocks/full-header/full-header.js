@@ -38,7 +38,7 @@ define(['jquery', 'handlebars', 'dropdown/dropdown', 'font-icon/font-icon'], fun
   };
 
   var addProcessor = function(processor) {
-    if (typeof processor == 'function') {
+    if (typeof processor === 'function') {
       processors.push(processor);
     }
   };

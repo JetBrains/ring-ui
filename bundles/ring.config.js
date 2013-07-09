@@ -13,8 +13,10 @@ require.config({
     },
     'jso': {
       deps: ['jquery'],
-      exports: "jso_configure",
+      exports: 'jso_configure',
       init: function(){
+        /* jshint camelcase:false */
+        /* globals jso_configure, jso_ensureTokens, jso_getToken */
         return {
           configure: jso_configure,
           ensure: jso_ensureTokens,
