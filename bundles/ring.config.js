@@ -3,8 +3,8 @@ require.config({
   paths: {
     'ring'       : '../bundles/ring',
     'jquery'     : '../shims/jquery/jquery',
-    'handlebars' : '../shims/handlebars/handlebars',
     'jquery-json': '../shims/jquery-json/jquery-json',
+    'handlebars' : '../tmp/handlebars',
     'jso'        : '../components/jso/jso'
   },
   shim: {
