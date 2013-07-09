@@ -263,7 +263,7 @@ module.exports = function(grunt) {
           markdownOptions: {
             gfm: true,
             highlight: function (code) {
-              var lang = ['{','[', '\''].indexOf(code.substr(0,1)) != -1 ? 'json' : 'javascript';
+              var lang = ['{','[', '\''].indexOf(code.substr(0,1)) !== -1 ? 'json' : 'javascript';
               return hljs.highlight(lang,code).value;
             }
           }
