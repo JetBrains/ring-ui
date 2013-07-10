@@ -103,13 +103,15 @@ module.exports = function(grunt) {
       dev: {
         options: {
           run: true,
-          reporter: 'Nyan',
+          bail: true,
+          reporter: 'Spec',
           urls: ['<%= path.tests %>index.html']
         }
       },
       dist: {
         options: {
           run: true,
+          bail: true,
           reporter: 'Teamcity',
           urls: ['<%= path.tests %>index.html']
         }
@@ -257,8 +259,15 @@ module.exports = function(grunt) {
         }
       },
       reload: {
-        files: ['*.html', '<%= path.blocks %>*/*.js', '<%= path.bundles %>**/*.js'],
+        files: ['<%= path.test %>*.html', '*.html'],
         tasks: ['notify:watch'],
+        options: {
+          livereload: true
+        }
+      },
+      js: {
+        files: ['<%= path.blocks %>**/*.js', '<%= path.bundles %>**/*.js', '<%= path.tests %>**/*.js'],
+        tasks: ['requirejs:ring', 'test', 'notify:watch'],
         options: {
           livereload: true
         }
