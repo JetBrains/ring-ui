@@ -1,3 +1,4 @@
+/*jshint scripturl:true */
 var hljs = require('highlight.js');
 
 module.exports = function(grunt) {
@@ -9,7 +10,8 @@ module.exports = function(grunt) {
     docs: 'docs/',
     tmp:  'tmp/',
     jshintreport: 'tmp/jshintreport.xml',
-    shims: 'shims/'
+    shims: 'shims/',
+    tests: 'tests/'
   };
 
   var requireConfig = {
@@ -98,11 +100,18 @@ module.exports = function(grunt) {
 
     // Test
     mocha: {
-      all: {
+      dev: {
+        options: {
+          run: true,
+          reporter: 'Nyan',
+          urls: ['<%= path.tests %>index.html']
+        }
+      },
+      dist: {
         options: {
           run: true,
           reporter: 'Teamcity',
-          urls: ['http://localhost:<%= connect.options.port %>/index.html']
+          urls: ['<%= path.tests %>index.html']
         }
       }
     },
@@ -368,10 +377,14 @@ module.exports = function(grunt) {
   ]);
 
   grunt.registerTask('build', [
-    'teamcity',
+    'teamcity:jshint',
     'jshint:dist',
+    'mocha:dist',
     'process',
     'minify'
   ]);
 
+  grunt.registerTask('test', [
+    'mocha:dev'
+  ]);
 };
