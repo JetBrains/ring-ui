@@ -2,6 +2,33 @@ var hljs = require('highlight.js');
 
 module.exports = function(grunt) {
 
+  var path = {
+    dist: 'dist/',
+    blocks: 'blocks/',
+    bundles: 'bundles/',
+    docs: 'docs/',
+    tmp:  'tmp/',
+    jshintreport: 'tmp/jshintreport.xml',
+    shims: 'shims/'
+  };
+
+  var requireConfig = {
+    options: {
+      baseUrl: 'blocks',
+      name: '../components/almond/almond',
+      mainConfigFile: path.bundles + 'ring.config.js',
+      include: 'ring',
+      out: path.dist + 'ring.js',
+      optimize: 'none',
+      wrap: {
+        startFile: path.bundles + 'ring-start.frag',
+        endFile: path.bundles + 'ring-end.frag'
+      }
+    }
+  };
+
+  var _ = grunt.util._;
+
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
     buildVersion: (function(option) {
@@ -15,12 +42,13 @@ module.exports = function(grunt) {
       }
 
     }(grunt.option)),
+    path: path,
 
     // Build
     csso: {
       dist: {
         files: {
-          'dist/ring.min.css': ['dist/ring.css']
+          '<%= path.dist %>ring.min.css': ['<%= path.dist %>ring.css']
         }
       }
     },
@@ -30,7 +58,7 @@ module.exports = function(grunt) {
           report: 'gzip'
         },
         files: {
-          'dist/ring.min.js': 'dist/ring.js'
+          '<%= path.dist %>ring.min.js': '<%= path.dist %>ring.js'
         }
       }
     },
@@ -41,17 +69,17 @@ module.exports = function(grunt) {
           banner: '/* <%= pkg.name %> <%= pkg.version %><%= buildVersion %> */'
         },
         files: {
-          src: [ 'dist/**/*.js', 'dist/**/*.css' ]
+          src: [ '<%= path.dist %>**/*.js', '<%= path.dist %>**/*.css' ]
         }
       }
     },
     compress: {
       dist: {
         options: {
-          archive: './dist/<%= pkg.name %>-<%= pkg.version %><%= buildVersion %>.zip'
+          archive: './<%= path.dist %><%= pkg.name %>-<%= pkg.version %><%= buildVersion %>.zip'
         },
         files: [
-          {expand: true, cwd: './dist/', src: ['**'], dest: 'ring'}
+          { expand: true, cwd: '<%= path.dist %>', src: ['**'], dest: 'ring'}
         ]
       }
     },
@@ -60,11 +88,11 @@ module.exports = function(grunt) {
     sass: {
       dist: {
         options: {
-          includePaths: ['blocks/**/'],
+          includePaths: ['<%= path.blocks %>**/'],
           outputStyle: 'nested'
         },
         files: {
-          'dist/ring.css': 'bundles/ring.scss'
+          '<%= path.dist %>ring.css': '<%= path.bundles %>ring.scss'
         }
       }
     },
@@ -73,8 +101,8 @@ module.exports = function(grunt) {
         browsers: ['last 3 versions', '> 1%', 'ie 8', 'ie 7']
       },
       files: {
-        src : 'dist/ring.css',
-        dest: 'dist/ring.css'
+        src : '<%= path.dist %>ring.css',
+        dest: '<%= path.dist %>ring.css'
       }
     },
     handlebars: {
@@ -84,30 +112,41 @@ module.exports = function(grunt) {
           node: false
         },
         files: {
-          'shims/handlebars/templates.js': ['blocks/**/*.hbs']
+          '<%= path.tmp %>/templates.js': ['<%= path.blocks %>**/*.hbs']
         }
       }
     },
     preprocess: {
       handlebars: {
-        src: 'shims/handlebars/handlebars.tmpl.js',
-        dest: 'shims/handlebars/handlebars.js'
+        src: '<%= path.shims %>handlebars/handlebars.js',
+        dest: '<%= path.tmp %>/handlebars.js'
       }
     },
     requirejs: {
-      compile: {
-        options: {
-          baseUrl: 'blocks',
-          name: '../components/almond/almond',
-          mainConfigFile: 'bundles/ring.config.js',
-          include: 'ring',
-          out: 'dist/ring.js',
-          optimize: 'none',
-          wrap: {
-            startFile: 'bundles/ring-start.frag',
-            endFile: 'bundles/ring-end.frag'
-          }
-        }
+      'ring': requireConfig,
+      'ring-oauth': {
+        options: _.extend(_.clone(requireConfig.options), {
+          paths: {
+            ring: '../<%= path.bundles %>ring-oauth'
+          },
+          out: '<%= path.dist %>ring-oauth.js'
+        })
+      },
+      'ring-internal': {
+        options: _.extend(_.clone(requireConfig.options), {
+          paths: {
+            ring: '../<%= path.bundles %>ring-internal'
+          },
+          out: '<%= path.dist %>ring-internal.js'
+        })
+      },
+      'ring-internal-oauth': {
+        options: _.extend(_.clone(requireConfig.options), {
+          paths: {
+            ring: '../<%= path.bundles %>ring-internal-oauth'
+          },
+          out: '<%= path.dist %>ring-internal-oauth.js'
+        })
       }
     },
     copy: {
@@ -116,24 +155,27 @@ module.exports = function(grunt) {
           expand: true,
           flatten: true,
           src: [
-            'blocks/**/*.woff',
-            'blocks/**/*.eot',
-            'blocks/**/*.ttf',
-            'blocks/**/*.svg',
-            'blocks/font-icon/*.png',
-            '!blocks/**/*.dev.svg'
+            '<%= path.blocks %>**/*.woff',
+            '<%= path.blocks %>**/*.eot',
+            '<%= path.blocks %>**/*.ttf',
+            '<%= path.blocks %>**/*.svg',
+            '<%= path.blocks %>font-icon/*.png',
+            '!<%= path.blocks %>**/*.dev.svg'
           ],
-          dest: 'dist/fonts'
-        }]
-      },
-      docs: {
-        files: [{
-          expand: true,
-          flatten: true,
-          src: 'docs/*html',
-          dest: 'dist/docs'
+          dest: '<%= path.dist %>fonts'
         }]
       }
+    },
+    teamcity: {
+      jshint: [
+        {
+          message: 'importData',
+          data: {
+            type: 'jslint',
+            path: '<%= path.jshintreport %>'
+          }
+        }
+      ]
     },
 
     // Development
@@ -146,33 +188,33 @@ module.exports = function(grunt) {
       }
     },
     clean: {
-      generated: ['dist', 'shims/handlebars/handlebars.js', 'shims/handlebars/templates.js', 'docs/*.html'],
+      generated: ['<%= path.dist %>', '<%= path.tmp %>'],
       modules: ['node_modules', 'components']
     },
     watch: {
       scss: {
-        files: ['blocks/**/*.scss', 'bundles/**/*.scss'],
+        files: ['<%= path.blocks %>**/*.scss', '<%= path.bundles %>**/*.scss'],
         tasks: ['styles',  'notify:watch'],
         options: {
           livereload: true
         }
       },
       reload: {
-        files: ['*.html', 'blocks/*/*.js', 'bundles/**/*.js'],
+        files: ['*.html', '<%= path.blocks %>*/*.js', '<%= path.bundles %>**/*.js'],
         tasks: ['notify:watch'],
         options: {
           livereload: true
         }
       },
       markdown: {
-        files: ['docs/**/*.md'],
+        files: ['<%= path.docs %>**/*.md'],
         tasks: ['markdown', 'notify:watch'],
         options: {
           livereload: true
         }
       },
       templates: {
-        files: ['blocks/**/*.hbs'],
+        files: ['<%= path.blocks %>**/*.hbs'],
         tasks: ['templates', 'notify:watch'],
         options: {
           livereload: true
@@ -196,15 +238,27 @@ module.exports = function(grunt) {
       }
     },
     jshint: {
-      all: ['Gruntfile.js', 'blocks/**/*.js']
+      options: {
+        jshintrc: '.jshintrc'
+      },
+      dev: ['*.js', '<%= path.blocks %>**/*.js', '<%= path.bundles %>*.js'],
+      dist: {
+        options: {
+          reporter: 'jslint',
+          reporterOutput: '<%= path.jshintreport %>'
+        },
+        files: {
+          src: ['*.js', '<%= path.blocks %>**/*.js', '<%= path.bundles %>*.js']
+        }
+      }
     },
     markdown: {
       all: {
         files: [
           {
             expand: true,
-            src: 'docs/*.md',
-            dest: '',
+            src: '<%= path.docs %>*.md',
+            dest: '<%= path.dist %>',
             ext: '.html'
           }
         ],
@@ -219,6 +273,20 @@ module.exports = function(grunt) {
         }
       }
     }
+  });
+
+  grunt.registerMultiTask('teamcity', 'TeamCity interaction', function() {
+    grunt.util._.each(this.data, function(item) {
+      var message = '##teamcity[' + item.message;
+
+      grunt.util._.forIn(item.data, function(value, key) {
+        message += ' ' + key + '=\'' + value + '\'';
+      });
+
+      message += ']';
+
+      grunt.log.writeln(message);
+    });
   });
 
   grunt.registerTask('sprite', 'Render font icons to png sprite', function() {
@@ -262,11 +330,16 @@ module.exports = function(grunt) {
   ]);
 
   grunt.registerTask('default', [
+    'jshint:dev',
+    'process'
+  ]);
+
+  grunt.registerTask('process', [
     'cleanup',
     'install',
     'styles',
-    'jshint',
     'templates',
+    'requirejs',
     'markdown'
   ]);
 
@@ -283,9 +356,9 @@ module.exports = function(grunt) {
   ]);
 
   grunt.registerTask('build', [
-    'default',
-    'requirejs',
-    'copy:docs',
+    'teamcity',
+    'jshint:dist',
+    'process',
     'minify'
   ]);
 

@@ -5,6 +5,7 @@ define(['jquery', 'handlebars', 'dropdown/dropdown', 'font-icon/font-icon'], fun
   var data;
   var html;
   var cb;
+  var processors = [];
 
   var $global = $(window);
   var SELECTOR_PREFIX = '.ring-';
@@ -18,9 +19,9 @@ define(['jquery', 'handlebars', 'dropdown/dropdown', 'font-icon/font-icon'], fun
     data = initData || data;
 
     if (!dontWaitDom) {
-      $(updateHtml);
+      $(initHtml);
     } else {
-      bodyReady(updateHtml);
+      bodyReady(initHtml);
     }
   };
 
@@ -36,8 +37,22 @@ define(['jquery', 'handlebars', 'dropdown/dropdown', 'font-icon/font-icon'], fun
     }
   };
 
+  var addProcessor = function(processor) {
+    if (typeof processor === 'function') {
+      processors.push(processor);
+    }
+  };
+
   var render = function(template, data) {
     return Handlebars.partials[template](data);
+  };
+
+  var initHtml = function() {
+    while (processors[0]) {
+      data = processors.shift()(data);
+    }
+
+    updateHtml();
   };
 
   var updateHtml = function(clean) {
@@ -100,6 +115,7 @@ define(['jquery', 'handlebars', 'dropdown/dropdown', 'font-icon/font-icon'], fun
     init: init,
     update: update,
     render: render,
+    addProcessor: addProcessor,
     dropdown: dropdown
   };
 

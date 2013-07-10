@@ -3,7 +3,6 @@
 *.iws
 .idea/workspace.xml
 .idea/dictionaries/*.xml
-out/
 
 
 # OS generated files #
@@ -20,6 +19,4 @@ node_modules
 components
 .sass-cache
 dist
-shims/handlebars/handlebars.js
-shims/handlebars/templates.js
-docs/*.html
+tmp
