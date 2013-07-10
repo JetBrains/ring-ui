@@ -84,6 +84,14 @@ module.exports = function(grunt) {
         files: [
           { expand: true, cwd: '<%= path.dist %>', src: ['**'], dest: 'ring'}
         ]
+      },
+      coverage: {
+        options: {
+          archive: './<%= path.dist %>coverage.zip'
+        },
+        files: [
+          { cwd: '<%= path.tmp %>/coverage/', src: ['index.html']}
+        ]
       }
     },
     teamcity: {
@@ -115,8 +123,17 @@ module.exports = function(grunt) {
           reporter: 'Teamcity',
           urls: ['<%= path.tests %>index.html']
         }
+      },
+      coverage: {
+        options: {
+          run: true,
+          bail: true,
+          reporter: 'HTMLCov',
+          urls: ['<%= path.tests %>index.html']
+        }
       }
     },
+    coverage: '<%= path.tmp %>coverage/index.html',
     jshint: {
       options: {
         jshintrc: '.jshintrc'
@@ -319,6 +336,46 @@ module.exports = function(grunt) {
     });
   });
 
+  grunt.registerTask('coverage', function (file) {
+    var fs = require('fs');
+    var mkdirp = require('mkdirp');
+
+    var done = this.async();
+
+    file = file || grunt.config('coverage') || 'coverage.html';
+
+    var dir = file.indexOf('/') === -1 ? null : file.replace(/\/[^/]*$/,'/');
+
+    grunt.util.spawn({
+      grunt: true,
+      args: ['mocha:coverage'],
+      opts: ['--no-color']
+    }, function (err, result) {
+
+      var writeDone = function(writeErr) {
+        if (writeErr) {
+          throw writeErr;
+        } else {
+          grunt.log.ok('Coverage report written to ' + file);
+          done();
+        }
+      };
+
+      var html = result.stdout.replace(/^[\S\s]*<!DOCTYPE html>/i, '<!DOCTYPE html>').replace(/<\/html>[\S\s]*$/i,'</html>');
+
+      if (err) {
+        throw err;
+      } else {
+        mkdirp(dir, function(err) {
+          if (err) {
+            throw err;
+          }
+          fs.writeFile(file, html, writeDone);
+        });
+      }
+    });
+  });
+
   grunt.registerTask('sprite', 'Render font icons to png sprite', function() {
     var phantomjs = require('phantomjs');
 
@@ -390,6 +447,7 @@ module.exports = function(grunt) {
     'jshint:dist',
     'process',
     'mocha:dist',
+    'coverage',
     'minify'
   ]);
 
