@@ -1,13 +1,18 @@
 /*global describe:false, it:false, assert:false, expect:false */
 'use strict';
 (function () {
-  describe('Give it some context', function () {
-    describe('maybe a bit more context here', function () {
-      it('should run here few assertions', function () {
-        var foo = 'test';
-        assert.equal(foo, 'test');
-        expect(foo).to.equal('test');
-        foo.should.equal('test');
+  describe('Global module', function () {
+    var ring = window.ring;
+
+    it('should be a function', function () {
+      ring.should.be.a('function');
+    });
+
+    describe('Basic methods', function () {
+      var o = ring();
+
+      it('should has invoke', function () {
+        o.should.have.property('invoke').and.be.a('function');
       });
     });
   });
