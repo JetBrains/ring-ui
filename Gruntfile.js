@@ -388,8 +388,8 @@ module.exports = function(grunt) {
   grunt.registerTask('build', [
     'teamcity:jshint',
     'jshint:dist',
-    'mocha:dist',
     'process',
+    'mocha:dist',
     'minify'
   ]);
 
