@@ -1,0 +1,25 @@
+<!doctype html>
+<head>
+  <meta charset="utf-8">>
+  <title>Mocha Spec Runner</title>
+  <link rel="stylesheet" href="../node_modules/grunt-mocha/node_modules/mocha/mocha.css">
+</head>
+<body>
+<div id="mocha"></div>
+<script src="../node_modules/grunt-mocha/node_modules/mocha/mocha.js"></script>
+<script>mocha.setup('bdd')</script>
+<!-- assertion framework -->
+<script src="../node_modules/chai/chai.js"></script>
+<script>var expect = chai.expect</script>
+<script>var assert = chai.assert</script>
+<script>var should = chai.should()</script>
+<!-- include source files here... -->
+<script src="../dist/ring.js"></script>
+<!-- include spec files here... -->
+<script src="spec/api.js"></script>
+
+<script type="text/javascript">
+  mocha.run();
+</script>
+</body>
+</html>
