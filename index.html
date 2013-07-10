@@ -11,17 +11,25 @@
       font-size: 24px;
     }
 
-    .docs {
-      margin: 60px;
+    .demo {
+      padding: 0 24px;
+      font-size: 13px;
+    }
+
+    .demo__header {
+      margin: 16px 0 8px 0;
+      font-size: 16px;
+      font-weight: normal;
     }
   </style>
+  <link rel="stylesheet" type="text/css" href="dist/ring.css">
+
   <script src="components/jquery/jquery.js"></script>
   <script src="components/requirejs/require.js"></script>
   <script src="bundles/ring.config.js"></script>
 
-  <link rel="stylesheet" type="text/css" href="dist/ring.css">
   <script>
-    require(['jquery', 'ring'], function($, ring) {
+    require(['jquery', 'ring', 'stripe/stripe__internal'], function($, ring) {
       $.getJSON('blocks/full-header/yt.test.json', function(data) {
         window.ring = ring;
 
@@ -43,9 +51,11 @@
 </head>
 <body>
 
-<div class="header__controls">
+<div class="demo">
+  <h2 class="demo__header">Buttons</h2>
+
   <button class="ring-btn ring-btn_primary ring-btn_plus">New user</button>
-  <div class="header__controls__actions ring-btn-toolbar">
+  <div class="ring-btn-toolbar">
     <div class="ring-btn-toolbar__group">
       <button class="ring-btn">add</button>
       <button class="ring-btn ring-btn_disabled">block</button>
@@ -59,9 +69,12 @@
   <button class="ring-btn ring-btn_black">New user</button>
   <button class="ring-btn ring-btn_black ring-btn_disabled">New user</button>
 
-  <button class="header__controls__find-dup ring-btn ring-btn_arrow_up">Find Duplicates</button>
+  <button class="ring-btn ring-btn_arrow_up">Find Duplicates</button>
+
+  <h2 class="demo__header">Docs</h2>
+
+  <a href="dist/docs/API.html">View API documentation</a>
 </div>
 
-<div class="docs">Preview stage <a href="docs/API.html">API documentation</a></div>
 </body>
 </html>
