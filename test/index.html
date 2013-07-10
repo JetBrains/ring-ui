@@ -20,7 +20,9 @@
 <script src="spec/api.js"></script>
 
 <script type="text/javascript">
-  mocha.run();
+  if (navigator.userAgent.indexOf('PhantomJS') < 0) {
+    mocha.run();
+  }
 </script>
 </body>
 </html>
