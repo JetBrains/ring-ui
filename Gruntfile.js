@@ -11,7 +11,7 @@ module.exports = function(grunt) {
     tmp:  'tmp/',
     jshintreport: 'tmp/jshintreport.xml',
     shims: 'shims/',
-    tests: 'tests/'
+    tests: 'test/'
   };
 
   var requireConfig = {
