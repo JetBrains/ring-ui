@@ -1,11 +1,7 @@
 $btn-border-radius: 3px;
 
-@mixin btn-box-shadow($color) {
-  box-shadow: inset 0 0 0 1px $color;
-}
-
 @mixin btn-box-shadow-active($color) {
-  box-shadow: inset 0 1px 1px $color;
+  box-shadow: inset 0 0 1px $color;
 }
 
 @mixin btn-background-image($dark, $light) {
@@ -21,7 +17,7 @@ $btn-border-radius: 3px;
 }
 
 @mixin btn-mixins {
-  @include btn-box-shadow(#ffffff);
+  box-shadow: inset 0 1px rgba(255, 255, 255, .4), inset 0 0 0 1px rgba(255, 255, 255, .2);
   @include btn-background-image(#ebebeb, #fff);
 }
 
@@ -35,7 +31,7 @@ $btn-border-radius: 3px;
   color: #282828;
   @include btn-mixins;
   &:hover {
-    box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.2);
+    box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.2), inset 0 1px rgba(255, 255, 255, .4), inset 0 0 0 1px rgba(255, 255, 255, .2);
     @include btn-background-image(#e1e1e1, #fff);
   }
   &:active {
@@ -57,19 +53,21 @@ $btn-border-radius: 3px;
 }
 
 @mixin btn-mixins_primary {
-  @include btn-box-shadow(#ffc594);
   @include btn-background-image(#ff6600, #ff8620);
 }
 
 .ring-btn_primary {
   border: solid 1px #bc5600;
   color: #fff;
+  background-color: #FF8620;
   @include btn-mixins_primary;
 
   &:hover {
+    background-color: #FF6600;
     @include btn-background-image-hover(#ffb373, #f60 29%, #ff8620);
   }
   &:active {
+    background-color: #FF8620;
     @include btn-background-image-active(#f60, #ff8620);
     @include btn-box-shadow-active(rgba(0, 0, 0, .2));
   }
@@ -82,18 +80,20 @@ $btn-border-radius: 3px;
 }
 
 @mixin btn-mixins_blue {
-  @include btn-box-shadow(rgba(255, 255, 255, 0.4));
   @include btn-background-image(#008fd6, #25b7ff);
 }
 
 .ring-btn_blue {
   border: solid 1px #0084c5;
   color: #fff;
+  background-color: #25B7FF;
   @include btn-mixins_blue;
   &:hover {
+    background-color: #008FD6;
     @include btn-background-image-hover(#64ccff 2%, #008fd6 29%, #25b7ff);
   }
   &:active {
+    background-color: #25B7FF;
     @include btn-background-image-active(#008fd6, #25b7ff);
     @include btn-box-shadow-active(rgba(0, 0, 0, .2));
   }
@@ -106,18 +106,20 @@ $btn-border-radius: 3px;
 }
 
 @mixin btn-mixins_black {
-  @include btn-box-shadow(rgba(0, 0, 0, 0.1));
   @include btn-background-image(#313131, #3c3c3c);
 }
 
 .ring-btn_black {
   border: solid 1px rgba(0, 0, 0, 0.5);
   color: #b4b4b4;
+  background-color: #3C3C3C;
   @include btn-mixins_black;
   &:hover {
+    background-color: #313131;
     @include btn-background-image-hover(#4a4a4a, #313131 24%, #3c3c3c);
   }
   &:active {
+    background-color: #3C3C3C;
     @include btn-background-image-active(#313131, #3c3c3c);
     @include btn-box-shadow-active(rgba(0, 0, 0, .2));
   }
