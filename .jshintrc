@@ -19,7 +19,7 @@
 
   "bitwise": true,
   "eqeqeq": true,
-  "eqnull":true,
+  "eqnull": true,
   "immed": true,
   "latedef": true,
   "noarg": true,
