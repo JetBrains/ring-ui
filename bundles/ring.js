@@ -1,3 +1,3 @@
-define(['full-header/full-header'], function(header) {
-  return header;
+define(['global/global'], function(ring) {
+  return ring;
 });
