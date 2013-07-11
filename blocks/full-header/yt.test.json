@@ -57,6 +57,7 @@
           "attention": 1
         }
       },
+      null,
       {
         "title": "Agile Board",
         "url": "/rest/agile"
