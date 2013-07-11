@@ -1,43 +1,52 @@
 @font-face {
   font-family: 'font-icon';
-  src:url('#{$fonts-dir}font-icon.eot');
-  src:url('#{$fonts-dir}font-icon.eot?#iefix') format('embedded-opentype'),
-      url('#{$fonts-dir}font-icon.svg#font-icon') format('svg'),
-      url('#{$fonts-dir}font-icon.woff') format('woff'),
-      url('#{$fonts-dir}font-icon.ttf') format('truetype');
+  src:url('fonts/font-icon.eot');
+  src:url('fonts/font-icon.eot?#iefix') format('embedded-opentype'),
+  url('fonts/font-icon.woff') format('woff'),
+  url('fonts/font-icon.ttf') format('truetype'),
+  url('fonts/font-icon.svg#font-icon') format('svg');
   font-weight: normal;
   font-style: normal;
 }
 
-.font-antialiasing .ring-font-icon {
+/* Use the following CSS code if you want to use data attributes for inserting your icons */
+[data-icon]:before {
+  font-family: 'font-icon';
+  content: attr(data-icon);
+  speak: none;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+}
+
+.ring-font-icon_search, .ring-font-icon_cog, .ring-font-icon_caret-down, .ring-font-icon_help, .ring-font-icon_caret-up {
   font-family: 'font-icon';
   speak: none;
   font-style: normal;
   font-weight: normal;
   font-variant: normal;
-  font-size: 14px;
   text-transform: none;
   line-height: 1;
-  text-decoration: none !important;
   -webkit-font-smoothing: antialiased;
 }
-
-.font-antialiasing .ring-font-icon_search:before {
+.ring-font-icon_search:before {
   content: "\f002";
 }
-
-.font-antialiasing .ring-font-icon_caret-down:before {
-  content: "\f0d7";
-  background-position: 48px 0;
-}
-
-.font-antialiasing .ring-font-icon_help:before {
-  content: "\e001";
-}
-
-.font-antialiasing .ring-font-icon_cog:before {
+.ring-font-icon_cog:before {
   content: "\f013";
 }
+.ring-font-icon_caret-down:before {
+  content: "\f0d7";
+}
+.ring-font-icon_help:before {
+  content: "\e001";
+}
+.ring-font-icon_caret-up:before {
+  content: "\f0d8";
+}
+
 
 /* Fallback for miserable Windows users */
 .no-font-antialiasing .ring-font-icon {
@@ -70,5 +79,15 @@
 }
 
 .no-font-antialiasing .ring-font-icon_caret-down:hover {
+  background-position: -66px -22px;
+}
+
+.no-font-antialiasing .ring-font-icon_caret-up {
+  background-position: -66px -4px;
+  width: 9px;
+  height: 10px;
+}
+
+.no-font-antialiasing .ring-font-icon_caret-up:hover {
   background-position: -66px -22px;
 }
