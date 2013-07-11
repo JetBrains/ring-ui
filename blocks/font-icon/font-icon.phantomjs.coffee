@@ -9,6 +9,7 @@ icons =
   'help'      : ['3c74c2', 14]
   'search'    : ['d1d1d1', 14]
   'caret-down': ['b4b4b4', 14]
+  'caret-up'  : ['b4b4b4', 14]
 
 iconSize = 20
 activeColor = 'ff5900'
