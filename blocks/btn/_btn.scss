@@ -113,9 +113,11 @@ $btn-border-radius: 3px;
   border: solid 1px rgba(0, 0, 0, 0.5);
   color: #b4b4b4;
   background-color: #3C3C3C;
+  box-shadow: inset 0 1px #505050;
   @include btn-mixins_black;
   &:hover {
     background-color: #313131;
+    box-shadow: inset 0 1px #505050;
     @include btn-background-image-hover(#4a4a4a, #313131 24%, #3c3c3c);
   }
   &:active {
