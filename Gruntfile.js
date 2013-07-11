@@ -362,4 +362,10 @@ module.exports = function(grunt) {
     'minify'
   ]);
 
+  grunt.registerTask('build-as-dep', [
+    'install',
+    'styles',
+    'templates',
+    'requirejs',
+  ]);
 };
