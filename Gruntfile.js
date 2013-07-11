@@ -351,8 +351,9 @@ module.exports = function(grunt) {
   grunt.registerTask('minify', [
     'csso',
     'uglify',
-    'usebanner',
-    'compress'
+    'usebanner'
+    // ,
+    // 'compress' Temporary compress on Teamcity
   ]);
 
   grunt.registerTask('build', [
