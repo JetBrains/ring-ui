@@ -366,6 +366,6 @@ module.exports = function(grunt) {
     'install',
     'styles',
     'templates',
-    'requirejs',
+    'requirejs'
   ]);
 };
