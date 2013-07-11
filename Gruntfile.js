@@ -99,20 +99,17 @@ module.exports = function(grunt) {
     },
 
     // Test
-    mocha: {
+    /* jshint camelcase:false */
+    mocha_phantomjs: {
+    /* jshint camelcase:true */
       dev: {
         options: {
-          run: true,
-          bail: true,
-          reporter: 'Spec',
           urls: ['<%= path.tests %>index.html']
         }
       },
       dist: {
         options: {
-          run: true,
-          bail: true,
-          reporter: 'Teamcity',
+          reporter: 'teamcity',
           urls: ['<%= path.tests %>index.html']
         }
       }
@@ -390,11 +387,11 @@ module.exports = function(grunt) {
     'teamcity:jshint',
     'jshint:dist',
     'process',
-    'mocha:dist',
+    'mocha_phantomjs:dist',
     'minify'
   ]);
 
   grunt.registerTask('test', [
-    'mocha:dev'
+    'mocha_phantomjs:dev'
   ]);
 };
