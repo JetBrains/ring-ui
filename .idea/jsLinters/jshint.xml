@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="JSHintConfiguration" version="2.1.3" use-config-file="true" default-config-file-path="$PROJECT_DIR$/.jshintrc">
+  <component name="JSHintConfiguration" version="2.1.4" use-config-file="true">
     <option bitwise="true" />
     <option camelcase="false" />
     <option curly="true" />
