@@ -1,16 +1,18 @@
+{{#this}}
 {{!--Search form--}}
-{{#if this.action}}
-  <form action="{{this.action}}" class="ring-header__item ring-header__search">
+{{#if action}}
+  <form action="{{action}}" class="ring-header__item ring-header__search">
     <input type="text" class="ring-header__search__input" /><span class="ring-header__search__glass ring-font-icon ring-font-icon_search"></span>
   </form>
 {{!--Links--}}
 {{else}}
-  {{#if this.url}}
-    <a href="{{this.url}}" class="ring-header__item ring-header__item_link{{> header__item__class}}{{> global__add-class}}"{{> global__add-title}}>{{this.title}}</a>
+  {{#if url}}
+    <a href="{{url}}" class="ring-header__item ring-header__item_link{{> header__item__class}}{{> global__add-class}}"{{> global__add-title}}>{{title}}</a>
   {{else}}
-    <span class="ring-header__item{{> header__item__class}}{{> global__add-class}}{{#if items}} ring-header__item_noselect component-dropdown" data-component="{{stringify this}}{{/if}}"{{> global__add-title}}>{{this.title}}</span>
+    <span class="ring-header__item{{> header__item__class}}{{> global__add-class}}{{#if items}} ring-header__item_noselect component-dropdown" data-component="{{stringify this}}{{/if}}"{{> global__add-title}}>{{title}}</span>
   {{/if}}
 {{/if}}
 
 {{> dropdown-toggle}}
 {{> header__counter}}
+{{/this}}
