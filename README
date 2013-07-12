@@ -24,10 +24,6 @@ Build production files
 
     grunt build
 
-Lint code with jshint:
-
-    grunt jshint
-
 Clean generated files:
 
     grunt cleanup
