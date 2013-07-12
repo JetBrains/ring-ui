@@ -5,11 +5,12 @@ tmpFile   = blockPath + 'tmp.html'
 styleFile = blockPath + '_font-icon.scss'
 
 icons =
-  'cog'       : ['3c74c2', 18]
-  'help'      : ['3c74c2', 14]
-  'search'    : ['d1d1d1', 14]
-  'caret-down': ['b4b4b4', 14]
-  'caret-up'  : ['b4b4b4', 14]
+  'cog'          : ['3c74c2', 18]
+  'help'         : ['3c74c2', 14]
+  'search'       : ['d1d1d1', 14]
+  'caret-down'   : ['b4b4b4', 14]
+  'caret-up'     : ['b4b4b4', 14]
+  'chevron-right': ['b4b4b4', 14]
 
 iconSize = 20
 activeColor = 'ff5900'
