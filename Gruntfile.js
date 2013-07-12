@@ -84,14 +84,6 @@ module.exports = function(grunt) {
         files: [
           { expand: true, cwd: '<%= path.dist %>', src: ['**'], dest: 'ring'}
         ]
-      },
-      site: {
-        options: {
-          archive: './ring-site-<%= pkg.version %><%= buildVersion %>.zip'
-        },
-        files: [
-          { expand: true, src: ['blocks/**', 'bundles/**', 'components/**', 'shims/**', 'tmp/**', 'index.html', 'dist/docs/**', 'dist/**'], dest: ''}
-        ]
       }
     },
     teamcity: {
