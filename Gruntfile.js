@@ -270,6 +270,13 @@ module.exports = function(grunt) {
           livereload: true
         }
       },
+      test: {
+        files: ['<%= path.blocks %>**/*.html'],
+        tasks: ['test', 'notify:watch'],
+        options: {
+          livereload: true
+        }
+      },
       markdown: {
         files: ['<%= path.docs %>**/*.md'],
         tasks: ['markdown', 'notify:watch'],

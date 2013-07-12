@@ -46,13 +46,13 @@ Subscribe on ring events on any modules.
 
     var root = ring();
 
-    root.on(event, handler)
+    root.on(event, handler);
 
 Subscribe on certain module events
 
     var module = ring('module');
 
-    module.on(event, handler)
+    module.on(event, handler);
 
 
 ##### event — modules list
@@ -68,7 +68,7 @@ Subscribe on certain module events
     '{customEvent}'
 
 ##### handler
-`Function`
+`Function` (handler function) | `String` (method name)
 
 #### trigger
 Trigger ring event
@@ -92,7 +92,7 @@ Default module, can be called with or without id
 #### config
 Basic ring configuration
 
-    root.config(baseConfig)
+    root('config', baseConfig)
 
 ##### baseConfig
     {
@@ -119,7 +119,7 @@ Basic ring configuration
 #### init
 Init bunch of modules
 
-    root.init(config)
+    root('init', config)
 
 ##### config
 
@@ -134,13 +134,49 @@ Render any avalaible template
 
 **Returns** `String`
 
-    root.render(templateName, data)
+    root('render', templateName, data);
 
 ##### templateName
 `String`
 
 ##### data
 `Object`
+
+#### add
+Add module. Returns success.
+
+**Returns** `Boolean`
+
+    var root = ring();
+
+    root('add', module, methods);
+
+##### module
+`String`
+
+##### methods
+`Object`
+
+    {
+      "method1": function() {
+
+      },
+      "method2": function() {
+      
+      }
+    }
+
+#### remove
+Remove module. Returns success.
+
+**Returns** `Boolean`
+
+    var root = ring();
+
+    root('remove', module);
+
+##### module
+`String`
 
 ## Header
 
