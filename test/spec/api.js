@@ -1,19 +1,38 @@
-/*global describe:false, it:false, assert:false, expect:false */
+/*global describe:false, it:false */
 'use strict';
 (function () {
-  describe('Global module', function () {
-    var ring = window.ring;
+  var ring = window.ring;
 
-    it('should be a function', function () {
-      ring.should.be.a('function');
-    });
+  describe('Public API', function () {
+    var moduleName = 'testModule';
 
-    describe('Basic methods', function () {
-      var o = ring();
+    var lol = function() {
+      return 'lol';
+    };
 
-      it('should has invoke', function () {
-        o.should.have.property('invoke').and.be.a('function');
-      });
-    });
+    var o = ring();
+
+//    describe('Add and remove', function () {
+//      it('new add should be true', function () {
+//        o('add', moduleName, {
+//          getLol: lol
+//        }).should.be.equal(true);
+//      });
+//
+//      it('dupe add should be false', function () {
+//        o('add', moduleName, {
+//          getLol: lol
+//        }).should.be.equal(false);
+//      });
+//
+//      it('remove should be true', function () {
+//        o('remove', moduleName).should.be.equal(true);
+//      });
+//
+//      it('dupe remove should be false', function () {
+//        o('remove', moduleName).should.be.equal(false);
+//      });
+//    });
   });
+
 })();
