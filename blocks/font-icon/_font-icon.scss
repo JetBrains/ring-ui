@@ -21,7 +21,13 @@
   -webkit-font-smoothing: antialiased;
 }
 
-.ring-font-icon_search, .ring-font-icon_cog, .ring-font-icon_caret-down, .ring-font-icon_help, .ring-font-icon_caret-up {
+/* Use the following CSS code if you want to have a class per icon */
+/*
+Instead of a list of all class selectors,
+you can use the generic selector below, but it's slower:
+[class*="ring-font-icon_"] {
+*/
+.ring-font-icon_search, .ring-font-icon_cog, .ring-font-icon_caret-down, .ring-font-icon_help, .ring-font-icon_chevron-right {
   font-family: 'font-icon';
   speak: none;
   font-style: normal;
@@ -43,10 +49,9 @@
 .ring-font-icon_help:before {
   content: "\e001";
 }
-.ring-font-icon_caret-up:before {
-  content: "\f0d8";
+.ring-font-icon_chevron-right:before {
+  content: "\f054";
 }
-
 
 /* Fallback for miserable Windows users */
 .no-font-antialiasing .ring-font-icon {
