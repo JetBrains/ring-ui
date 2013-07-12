@@ -338,12 +338,12 @@ module.exports = function(grunt) {
   ]);
 
   grunt.registerTask('default', [
+    'cleanup',
     'jshint:dev',
     'process'
   ]);
 
   grunt.registerTask('process', [
-    'cleanup',
     'install',
     'styles',
     'templates',
@@ -370,10 +370,5 @@ module.exports = function(grunt) {
     'minify'
   ]);
 
-  grunt.registerTask('build-as-dep', [
-    'install',
-    'styles',
-    'templates',
-    'requirejs'
-  ]);
+  grunt.registerTask('build-as-dep', ['process']);
 };
