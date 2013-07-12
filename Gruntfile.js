@@ -373,13 +373,13 @@ module.exports = function(grunt) {
   ]);
 
   grunt.registerTask('default', [
+    'cleanup',
     'jshint:dev',
     'process'
   ]);
 
   grunt.registerTask('process', [
-    'cleanup',
-    'bower',
+    'install',
     'styles',
     'templates',
     'requirejs',
@@ -412,7 +412,6 @@ module.exports = function(grunt) {
     'templates',
     'requirejs'
   ]);
-
 
   grunt.registerTask('test', [
     'mocha_phantomjs:dev'
