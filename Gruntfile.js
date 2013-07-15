@@ -95,9 +95,16 @@ module.exports = function(grunt) {
         options: {
           archive: '<%= path.dist %>coverage.zip'
         },
-        files: [
-          { expand: true, cwd: '<%= path.tmp %>/coverage/', src: ['*/**'], dest: ''}
-        ]
+        files: [{
+          expand: true,
+          cwd: '<%= path.tmp %>/coverage/',
+          src: ['*/**'],
+          dest: '',
+          rename: function(dest, matchedSrcPath) {
+            // Remove first level dir (e.g. "PhantomJS 1.9.1 (Mac OS X)") from path.
+            return matchedSrcPath.replace(/^[^\/]+\//,'./');
+          }
+        }]
       }
     },
     teamcity: {
