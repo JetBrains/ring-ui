@@ -27,7 +27,7 @@ Instead of a list of all class selectors,
 you can use the generic selector below, but it's slower:
 [class*="ring-font-icon_"] {
 */
-.ring-font-icon_search, .ring-font-icon_cog, .ring-font-icon_caret-down, .ring-font-icon_help, .ring-font-icon_caret-up, .ring-font-icon_ban-circle {
+.ring-font-icon_search, .ring-font-icon_cog, .ring-font-icon_caret-down, .ring-font-icon_help, .ring-font-icon_caret-up, .ring-font-icon_ban-circle, .ring-font-icon_pencil {
   font-family: 'font-icon';
   speak: none;
   font-style: normal;
@@ -55,6 +55,10 @@ you can use the generic selector below, but it's slower:
 .ring-font-icon_ban-circle:before {
   content: "\f05e";
 }
+.ring-font-icon_pencil:before {
+  content: "\f040";
+}
+
 
 /* Fallback for miserable Windows users */
 .no-font-antialiasing .ring-font-icon {
