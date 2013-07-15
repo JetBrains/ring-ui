@@ -77,12 +77,23 @@ module.exports = function(grunt) {
       }
     },
     compress: {
+      options: {
+        pretty: true
+      },
       dist: {
         options: {
-          archive: './<%= path.dist %><%= pkg.name %>-<%= pkg.version %><%= buildVersion %>.zip'
+          archive: '<%= path.dist %><%= pkg.name %>-<%= pkg.version %><%= buildVersion %>.zip'
         },
         files: [
           { expand: true, cwd: '<%= path.dist %>', src: ['**'], dest: 'ring'}
+        ]
+      },
+      coverage: {
+        options: {
+          archive: '<%= path.dist %>coverage.zip'
+        },
+        files: [
+          { expand: true, cwd: '<%= path.tmp %>/coverage/', src: ['*/**'], dest: ''}
         ]
       }
     },
@@ -99,22 +110,23 @@ module.exports = function(grunt) {
     },
 
     // Test
-    /* jshint camelcase:false */
-    mocha_phantomjs: {
-    /* jshint camelcase:true */
-      dev: {
-        options: {
-          urls: ['<%= path.tests %>index.html']
-        }
+    karma: {
+      options: {
+        configFile: 'karma.conf.js'
       },
       dist: {
-        options: {
-          reporter: 'teamcity',
-          urls: ['<%= path.tests %>index.html']
-        }
+        singleRun: true,
+        reporters: ['teamcity', 'coverage']
+      },
+      dev: {
+        background: true,
+        browsers: ['Chrome', 'Firefox']
+      },
+      test: {
+        singleRun: true,
+        reporters: 'spec'
       }
     },
-    coverage: '<%= path.tmp %>coverage/index.html',
     jshint: {
       options: {
         jshintrc: '.jshintrc'
@@ -265,7 +277,7 @@ module.exports = function(grunt) {
       },
       js: {
         files: ['<%= path.blocks %>**/*.js', '<%= path.bundles %>**/*.js', '<%= path.tests %>**/*.js'],
-        tasks: ['requirejs:ring', 'test', 'notify:watch'],
+        tasks: ['requirejs:ring', 'karma:dev:run', 'notify:watch'],
         options: {
           livereload: true
         }
@@ -379,6 +391,7 @@ module.exports = function(grunt) {
   ]);
 
   grunt.registerTask('server', [
+    'karma:dev',
     'connect',
     'watch'
   ]);
@@ -394,7 +407,7 @@ module.exports = function(grunt) {
     'teamcity:jshint',
     'jshint:dist',
     'process',
-    'mocha_phantomjs:dist',
+    'karma:dist',
     'minify'
   ]);
 
@@ -406,6 +419,6 @@ module.exports = function(grunt) {
   ]);
 
   grunt.registerTask('test', [
-    'mocha_phantomjs:dev'
+    'karma:test'
   ]);
 };
