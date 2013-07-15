@@ -11,6 +11,7 @@ icons =
   'caret-down'   : ['b4b4b4', 14]
   'caret-up'     : ['b4b4b4', 14]
   'chevron-right': ['b4b4b4', 14]
+  'ban-circle'   : ['b4b4b4', 14]
 
 iconSize = 20
 activeColor = 'ff5900'
