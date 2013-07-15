@@ -1,6 +1,9 @@
 /*jshint scripturl:true */
 var hljs = require('highlight.js');
 
+var LIVERELOAD_PORT = 35729;
+var lrSnippet = require('connect-livereload')({port: LIVERELOAD_PORT});
+
 module.exports = function(grunt) {
 
   var path = {
@@ -261,47 +264,32 @@ module.exports = function(grunt) {
 
     // Development
     watch: {
+      options: {
+        livereload: LIVERELOAD_PORT
+      },
       scss: {
         files: ['<%= path.blocks %>**/*.scss', '<%= path.bundles %>**/*.scss'],
-        tasks: ['styles',  'notify:watch'],
-        options: {
-          livereload: true
-        }
+        tasks: ['styles',  'notify:watch']
       },
       reload: {
         files: ['<%= path.test %>*.html', '*.html'],
-        tasks: ['notify:watch'],
-        options: {
-          livereload: true
-        }
+        tasks: ['notify:watch']
       },
       js: {
         files: ['<%= path.blocks %>**/*.js', '<%= path.bundles %>**/*.js', '<%= path.tests %>**/*.js'],
-        tasks: ['requirejs:ring', 'karma:dev:run', 'notify:watch'],
-        options: {
-          livereload: true
-        }
+        tasks: ['requirejs:ring', 'karma:dev:run', 'notify:watch']
       },
       test: {
         files: ['<%= path.blocks %>**/*.html'],
-        tasks: ['test', 'notify:watch'],
-        options: {
-          livereload: true
-        }
+        tasks: ['test', 'notify:watch']
       },
       markdown: {
         files: ['<%= path.docs %>**/*.md'],
-        tasks: ['markdown', 'notify:watch'],
-        options: {
-          livereload: true
-        }
+        tasks: ['markdown', 'notify:watch']
       },
       templates: {
         files: ['<%= path.blocks %>**/*.hbs'],
-        tasks: ['templates', 'notify:watch'],
-        options: {
-          livereload: true
-        }
+        tasks: ['templates', 'notify:watch']
       }
     },
     notify: {
@@ -316,7 +304,16 @@ module.exports = function(grunt) {
       server: {
         options: {
           port: 8000,
-          hostname: '*'
+          hostname: '*',
+          middleware: function (connect) {
+            var base = require('path').resolve('.');
+
+            return [
+              lrSnippet,
+              connect.static(base),
+              connect.directory(base)
+            ];
+          }
         }
       }
     }

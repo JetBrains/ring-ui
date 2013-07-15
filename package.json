@@ -37,7 +37,8 @@
     "karma-mocha": "0.0.3",
     "karma-spec-reporter": "0.0.1",
     "karma-coverage": "0.0.3",
-    "karma-teamcity-reporter": "0.0.1"
+    "karma-teamcity-reporter": "0.0.1",
+    "connect-livereload": "~0.2.0"
   },
   "scripts": {
     "test": "grunt test"
