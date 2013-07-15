@@ -52,6 +52,11 @@ $btn-border-radius: 3px;
   cursor: default;
 }
 
+.ring-btn_ico {
+  font-size: 16px;
+  color: #8C8C8C;
+}
+
 @mixin btn-mixins_primary {
   @include btn-background-image(#ff6600, #ff8620);
 }

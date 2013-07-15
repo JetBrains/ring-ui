@@ -1,13 +1,13 @@
-.custom-scroll::-webkit-scrollbar {
+.ring-scrollbar::-webkit-scrollbar {
   width: 8px;
   height: 8px;
 }
 
-.custom-scroll::-webkit-scrollbar-track-piece {
+.ring-scrollbar::-webkit-scrollbar-track-piece {
   background-color: transparent;
 }
 
-.custom-scroll::-webkit-scrollbar-thumb {
+.ring-scrollbar::-webkit-scrollbar-thumb {
   background-color: rgb(204, 204, 204);
 
   &:hover {
