@@ -4,35 +4,45 @@
   var ring = window.ring;
 
   describe('Public API', function () {
-    var moduleName = 'testModule';
+    var moduleName = 'test-API-Module';
+    var methodName = 'testMethod';
+    var moduleRet = 'lol';
 
-    var lol = function() {
-      return 'lol';
+    var data = {};
+    data[methodName] = function() {
+      return moduleRet;
     };
 
     var o = ring();
 
-//    describe('Add and remove', function () {
-//      it('new add should be true', function () {
-//        o('add', moduleName, {
-//          getLol: lol
-//        }).should.be.equal(true);
-//      });
-//
-//      it('dupe add should be false', function () {
-//        o('add', moduleName, {
-//          getLol: lol
-//        }).should.be.equal(false);
-//      });
-//
-//      it('remove should be true', function () {
-//        o('remove', moduleName).should.be.equal(true);
-//      });
-//
-//      it('dupe remove should be false', function () {
-//        o('remove', moduleName).should.be.equal(false);
-//      });
-//    });
+    describe('Add and remove', function () {
+      it('new add should be true', function () {
+        o('add', moduleName, data).should.be.equal(true);
+      });
+
+      it.skip('method should return right result on done and always', function () {
+        ring(moduleName, methodName)
+          .done(function(result) {
+            result.should.be.equal(moduleRet);
+          })
+          .always(function(result) {
+            result.should.be.equal(moduleRet);
+          });
+      });
+
+      it('dupe add should be false', function () {
+        o('add', moduleName, data).should.be.equal(false);
+      });
+
+      it('remove should be true', function () {
+        o('remove', moduleName).should.be.equal(true);
+      });
+
+      it('dupe remove should be false', function () {
+        o('remove', moduleName).should.be.equal(false);
+      });
+    });
+
   });
 
 })();
