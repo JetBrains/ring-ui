@@ -28,25 +28,42 @@
   <script src="components/requirejs/require.js"></script>
   <script src="bundles/ring.config.js"></script>
 
-  <script>
-    require(['jquery', 'ring', 'stripe/stripe__internal'], function($, ring) {
-      $.getJSON('blocks/full-header/yt.test.json', function(data) {
-        window.ring = ring;
+    <script>
+        require(['jquery', 'ring'], function($, ring) {
+            var moduleName = 'testModule';
+            var moduleRet = 'lol';
 
-        ring.init(data, true, function() {
-          // Will not close custom dropdown on click on the same target when binding with delegate
-          //
-          // $(document).on('click','.yt__ty', function() {
-          //   return ring.dropdown.create('<b>Custom dropdown</b>', $(this));
-          // });
+            ring.add(moduleName, {
+              getLol: function() {
+                console.log('aa');
+                return moduleRet;
+              }
+            });
 
-          // Recommended method
-          $('.yt__ty, .ring-header__logo').click(function() {
-            return ring.dropdown.create('<b>Custom dropdown</b>', $(this));
-          });
+            var method = ring(moduleName, 'getLol');
+            console.log(method());
         });
-      });
-    });
+    </script>
+
+  <script>
+//    require(['jquery', 'ring', 'stripe/stripe__internal'], function($, ring) {
+//      $.getJSON('blocks/full-header/yt.test.json', function(data) {
+//        window.ring = ring;
+//
+//        ring.init(data, true, function() {
+//          // Will not close custom dropdown on click on the same target when binding with delegate
+//          //
+//          // $(document).on('click','.yt__ty', function() {
+//          //   return ring.dropdown.create('<b>Custom dropdown</b>', $(this));
+//          // });
+//
+//          // Recommended method
+//          $('.yt__ty, .ring-header__logo').click(function() {
+//            return ring.dropdown.create('<b>Custom dropdown</b>', $(this));
+//          });
+//        });
+//      });
+//    });
   </script>
 </head>
 <body>

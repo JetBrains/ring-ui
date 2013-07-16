@@ -23,73 +23,100 @@
         o.should.have.property('on').and.be.a('function');
       });
 
+      it('should has off', function () {
+        o.should.have.property('off').and.be.a('function');
+      });
+
       it('should has trigger', function () {
         o.should.have.property('trigger').and.be.a('function');
       });
+    });
+
+    describe('Add and remove', function () {
+      var moduleName = 'test-AddRemove-Module';
 
       it('should has add', function () {
-        o.should.have.property('add').and.be.a('function');
+        ring.should.have.property('add').and.be.a('function');
       });
 
       it('should has remove', function () {
-        o.should.have.property('remove').and.be.a('function');
+        ring.should.have.property('remove').and.be.a('function');
+      });
+
+      it('new add should be true', function () {
+        ring.add(moduleName, {}).should.be.equal(true);
+      });
+
+      it('dupe add should be false', function () {
+        ring.add(moduleName, {}).should.be.equal(false);
+      });
+
+      it('remove should be true', function () {
+        ring.remove(moduleName).should.be.equal(true);
+      });
+
+      it('dupe remove should be false', function () {
+        ring.remove(moduleName).should.be.equal(false);
       });
     });
 
-//    var moduleName = 'testModule';
-//
-//    var lol = function() {
-//      return 'lol';
-//    };
-//
-//    describe('Add and remove', function () {
-//      it('new add should be true', function () {
-//        o.add(moduleName, {
-//          getLol: lol
-//        }).should.be.equal(true);
-//      });
-//
-//      it('dupe add should be false', function () {
-//        o.add(moduleName, {
-//          getLol: lol
-//        }).should.be.equal(false);
-//      });
-//
-//      it('remove should be true', function () {
-//        o.remove(moduleName).should.be.equal(true);
-//      });
-//
-//      it('dupe remove should be false', function () {
-//        o.remove(moduleName).should.be.equal(false);
-//      });
-//    });
-//
-//    describe('Import modules', function () {
-//      o.add(moduleName, {
-//        getLol: lol
-//      });
-//
-//      var module = ring(moduleName);
-//
-//      it('new add should be true', function () {
-//        o(moduleName, {
-//          getLol: lol
-//        }).should.be.equal(true);
-//      });
-//
-//      it('dupe add should be false', function () {
-//        o.add(moduleName, {
-//          getLol: lol
-//        }).should.be.equal(false);
-//      });
-//
-//      it('remove should be true', function () {
-//        o.remove(moduleName).should.be.equal(true);
-//      });
-//
-//      it('dupe remove should be false', function () {
-//        o.remove(moduleName).should.be.equal(false);
-//      });
-//    });
+    describe('Use methods', function () {
+      var moduleName = 'test-UseMethods-Module';
+      var methodName = 'testMethod';
+      var moduleRet = 'lol';
+
+      var data = {};
+      data[methodName] = function() {
+        return moduleRet;
+      };
+
+      ring.add(moduleName, data);
+
+      var module = ring(moduleName);
+
+      it('method should return $.Deferred', function () {
+        module.invoke(methodName).should.have.property('promise').and.be.a('function');
+      });
+
+      it('method should return right result on done and always', function () {
+        module.invoke(methodName)
+          .done(function(result) {
+            result.should.be.equal(moduleRet);
+          })
+          .always(function(result) {
+            result.should.be.equal(moduleRet);
+          });
+      });
+    });
+
+    describe('Use shorthand methods', function () {
+      var moduleName = 'test-UseShorthandMethods-Module';
+      var methodName = 'testMethod';
+      var moduleRet = 'lol';
+
+      var data = {};
+      data[methodName] = function() {
+        return moduleRet;
+      };
+
+      ring.add(moduleName, data);
+
+      var method = ring(moduleName, methodName);
+
+      it('method should return $.Deferred', function () {
+        method().should.have.property('promise').and.be.a('function');
+      });
+
+      it('method should return right result on done and always', function () {
+        method( )
+          .done(function(result) {
+            result.should.be.equal(moduleRet);
+          })
+          .always(function(result) {
+            result.should.be.equal(moduleRet);
+          });
+      });
+
+    });
   });
 })();
