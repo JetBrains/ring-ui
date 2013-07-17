@@ -20,8 +20,10 @@
         o('add', moduleName, data).should.be.equal(true);
       });
 
-      it.skip('method should return right result on done and always', function () {
-        ring(moduleName, methodName)
+      it('method should return right result on done and always', function () {
+        var method = ring(moduleName, methodName);
+
+        method()
           .done(function(result) {
             result.should.be.equal(moduleRet);
           })
