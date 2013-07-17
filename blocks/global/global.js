@@ -39,10 +39,11 @@ define(['jquery'], function($) {
     var set = function(props) {
       var method;
 
-      for (var prop in props) {
-        method = props[prop];
-        if (typeof method === 'function' || ($.isArray(method) && typeof method[0] === 'function')) {
-          methods[prop] = method;
+      for (var name in props) {
+        method = props[name];
+        if (typeof method === 'function' || typeof method.method === 'function') {
+          method.ringMethodName = name;
+          methods[name] = method;
         }
       }
     };
@@ -83,12 +84,17 @@ define(['jquery'], function($) {
   };
 
   Module.prototype.run = function(method, args) {
-    var dfd;
+    var dfd, ret;
 
-    var func = (typeof method === 'function') ? method : method[0];
-    var ret = func.apply(null, args);
+    var func = method.method || method;
+    var override = !!method.override;
 
-    var override = method[1] && !!method[1].override;
+    if (typeof func === 'function') {
+      ret = func.apply(null, args);
+    } else {
+      ret = null;
+      log('Method "' + method.ringMethodName + '" must be a function');
+    }
 
     if (util.isDeferred(ret) || override) {
       dfd = ret;
@@ -106,7 +112,7 @@ define(['jquery'], function($) {
     }
 
     if (typeof props !== 'object') {
-      log('Module name must be an object');
+      log('Module properties must be an object');
       return false;
     }
 
@@ -162,13 +168,15 @@ define(['jquery'], function($) {
   ring.add = addModule;
   ring.remove = removeModule;
 
-  var options = {
-    override: true
-  };
-
   ring.add(GLOBAL, {
-    add: [addModule, options],
-    remove: [removeModule, options]
+    add: {
+      method: addModule,
+      override: true
+    },
+    remove: {
+      method: removeModule,
+      override: true
+    }
   });
 
   var invoke = function(name) {
