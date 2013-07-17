@@ -30,18 +30,25 @@
 
     <script>
         require(['jquery', 'ring'], function($, ring) {
-            var moduleName = 'testModule';
+            var moduleName = 'lol';
+            var methodName = 'lol';
             var moduleRet = 'lol';
+            var log = 'console' in window && console.log.bind(console) || alert;
 
-            ring.add(moduleName, {
-              getLol: function() {
-                console.log('aa');
+            var module = {};
+            module[methodName] = function() {
                 return moduleRet;
-              }
+            };
+
+            ring()('add', moduleName, module);
+
+            ring(moduleName)(methodName).done(function(result) {
+                log(result);
             });
 
-            var method = ring(moduleName, 'getLol');
-            console.log(method());
+            ring(moduleName, methodName)().done(function(result) {
+                log(result);
+            });
         });
     </script>
 

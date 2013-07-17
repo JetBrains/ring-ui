@@ -21,9 +21,7 @@
       });
 
       it('method should return right result on done and always', function () {
-        var method = ring(moduleName, methodName);
-
-        method()
+        ring(moduleName)(methodName)
           .done(function(result) {
             result.should.be.equal(moduleRet);
           })
