@@ -1,6 +1,30 @@
 define(['jquery'], function($) {
   'use strict';
 
+  // bind polyfill
+  // TODO include as component
+  if (!Function.prototype.bind) {
+    Function.prototype.bind = function (oThis) {
+      if (typeof this !== 'function') {
+        // closest thing possible to the ECMAScript 5 internal IsCallable function
+        throw new TypeError('Function.prototype.bind - what is trying to be bound is not callable');
+      }
+
+      var aArgs = Array.prototype.slice.call(arguments, 1),
+        fToBind = this,
+        Noop = function () {},
+        fBound = function () {
+          return fToBind.apply(this instanceof Noop && oThis ? this: oThis,
+            aArgs.concat(Array.prototype.slice.call(arguments)));
+        };
+
+      Noop.prototype = this.prototype;
+      fBound.prototype = new Noop();
+
+      return fBound;
+    };
+  }
+
   // Utils
   var util = {};
 
@@ -28,72 +52,47 @@ define(['jquery'], function($) {
     }
   };
 
+  //
   // Modules
+  //
   var modules = {};
-  var GLOBAL = 'global';
 
   var Module = function(props, moduleName) {
-    var self = this;
     var methods = {};
 
-    var set = function(props) {
-      var method;
+    // True and evil encapsulation
+    this.set = this.set.bind(this, methods);
+    this.get = this.get.bind(this, methods);
 
-      for (var name in props) {
-        method = props[name];
-        if (typeof method === 'function' || typeof method.method === 'function') {
-          method.ringMethodName = name;
-          methods[name] = method;
-        }
-      }
-    };
+    // Always run invoke in module context
+    this.invoke = this.invoke.bind(this);
+    this.invoke.invoke = this.invoke;
 
-    var get = function(name) {
-      if (typeof name !== 'string') {
-        log('Method name must be a string');
-        return $.noop;
-      }
+    // Pretend invoke is module
+    $.extend(this.invoke, this);
 
-      var method;
-
-      if ((method = methods[name])) {
-        return method;
-      } else {
-        log('There is no method ' + name + ' in module "' + moduleName + '"');
-        return $.noop;
-      }
-    };
-
-    var invoke = function(name) {
-      return self.run(get(name), Array.prototype.slice.call(arguments, 1));
-    };
-
-    invoke.get = get;
-    invoke.set = set;
-    invoke.run = self.run;
-    invoke.invoke = invoke;
-
-    // TODO Events
-    invoke.on = $.noop;
-    invoke.off = $.noop;
-    invoke.trigger = $.noop;
-
-    set(props);
-
-    return invoke;
+    // Setup module
+    this.name = moduleName;
+    this.set(props);
   };
 
-  Module.prototype.run = function(method, args) {
+  // TODO Events
+  Module.prototype.on = $.noop;
+  Module.prototype.off = $.noop;
+  Module.prototype.trigger = $.noop;
+
+  Module.prototype.invoke = function(name) {
     var dfd, ret;
 
+    var method = this.get(name);
     var func = method.method || method;
     var override = !!method.override;
 
     if (typeof func === 'function') {
-      ret = func.apply(null, args);
+      ret = func.apply(null, Array.prototype.slice.call(arguments, 1));
     } else {
       ret = null;
-      log('Method "' + method.ringMethodName + '" must be a function');
+      log('Method "' + name + '" must be a function');
     }
 
     if (util.isDeferred(ret) || override) {
@@ -105,7 +104,34 @@ define(['jquery'], function($) {
     return dfd;
   };
 
-  var addModule = function(name, props) {
+  Module.prototype.set = function(methods, props) {
+    var method;
+
+    for (var name in props) {
+      method = props[name];
+      if (typeof method === 'function' || typeof method.method === 'function') {
+        methods[name] = method;
+      }
+    }
+  };
+
+  Module.prototype.get = function(methods, name) {
+    if (typeof name !== 'string') {
+      log('Method name must be a string');
+      return $.noop;
+    }
+
+    var method;
+
+    if ((method = methods[name])) {
+      return method;
+    } else {
+      log('There is no method ' + name + ' in module "' + moduleName + '"');
+      return $.noop;
+    }
+  };
+
+  Module.add = function(name, props) {
     if (typeof name !== 'string') {
       log('Module name must be a string');
       return false;
@@ -125,7 +151,7 @@ define(['jquery'], function($) {
     return true;
   };
 
-  var removeModule = function(name) {
+  Module.remove = function(name) {
     if (typeof name !== 'string') {
       log('Module name must be a string');
       return false;
@@ -144,49 +170,49 @@ define(['jquery'], function($) {
     return delete modules[name];
   };
 
-  // Definitions
-  var ring = function(moduleName, methodName) {
-    // Get method
-    if (moduleName && methodName) {
-      var module = invoke(moduleName);
-      var method = module.get(methodName);
-
-      return function() {
-        return module.run(method, arguments);
-      };
-
-    // Get module
-    } else if (moduleName) {
-      return invoke(moduleName);
-
-    // Get global
-    } else {
-      return invoke(GLOBAL);
-    }
-  };
-
-  ring.add = addModule;
-  ring.remove = removeModule;
-
-  ring.add(GLOBAL, {
-    add: {
-      method: addModule,
-      override: true
-    },
-    remove: {
-      method: removeModule,
-      override: true
-    }
-  });
-
-  var invoke = function(name) {
+  Module.get = function(name) {
     if (!modules[name]) {
       log('There is no module "' + name + '"');
       return $.noop;
     } else {
-      return modules[name];
+      return modules[name].invoke;
     }
   };
+
+  // Ring
+  var GLOBAL = 'global';
+
+  var ring = function(module, method) {
+    // Get method
+    if (module && method) {
+      return Module.get(module).bind({}, method);
+
+    // Get module
+    } else if (module) {
+      return Module.get(module);
+
+    // Get global module
+    } else {
+      return Module.get(GLOBAL);
+    }
+  };
+
+
+  // Basic methods
+  ring.add = Module.add;
+  ring.remove = Module.remove;
+
+  // Global module
+  ring.add(GLOBAL, {
+    add: {
+      method: Module.add,
+      override: true
+    },
+    remove: {
+      method: Module.remove,
+      override: true
+    }
+  });
 
   return ring;
 });
