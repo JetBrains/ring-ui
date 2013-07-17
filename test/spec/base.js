@@ -32,6 +32,16 @@
       });
     });
 
+    describe('Internal methods', function () {
+      it('should has get', function () {
+        o.should.have.property('get').and.be.a('function');
+      });
+
+      it('should has set', function () {
+        o.should.have.property('set').and.be.a('function');
+      });
+    });
+
     describe('Add and remove', function () {
       var moduleName = 'test-AddRemove-Module';
 
@@ -75,10 +85,24 @@
       var module = ring(moduleName);
 
       it('method should return $.Deferred', function () {
-        module.invoke(methodName).should.have.property('promise').and.be.a('function');
+        module(methodName).should.have.property('promise').and.be.a('function');
       });
 
       it('method should return right result on done and always', function () {
+        module(methodName)
+          .done(function(result) {
+            result.should.be.equal(moduleRet);
+          })
+          .always(function(result) {
+            result.should.be.equal(moduleRet);
+          });
+      });
+
+      it('module.invoke should return $.Deferred', function () {
+        module.invoke(methodName).should.have.property('promise').and.be.a('function');
+      });
+
+      it('module.invoke should return right result on done and always', function () {
         module.invoke(methodName)
           .done(function(result) {
             result.should.be.equal(moduleRet);
@@ -108,7 +132,21 @@
       });
 
       it('method should return right result on done and always', function () {
-        method( )
+        method()
+          .done(function(result) {
+            result.should.be.equal(moduleRet);
+          })
+          .always(function(result) {
+            result.should.be.equal(moduleRet);
+          });
+      });
+
+      it('method should return $.Deferred', function () {
+        method().should.have.property('promise').and.be.a('function');
+      });
+
+      it('method should return right result on done and always', function () {
+        method()
           .done(function(result) {
             result.should.be.equal(moduleRet);
           })
