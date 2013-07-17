@@ -77,6 +77,7 @@
           "type": "cog",
           "url": "/prefs"
         },
+        null,
         {
           "type": "help",
           "items": [
@@ -84,6 +85,7 @@
               "title": "TeamCity",
               "url": "//teamcity.jetbrains.com"
             },
+            null,
             {
               "title": "YouTrack",
               "url": "//youtrack.jetbrains.com"
