@@ -53,7 +53,7 @@ define(function() {
     if (param) {
       for (var i = subscriptions.length; i--; i > 0) {
         if (subscriptions[i][paramName] === param) {
-          subscriptions.splice(i);
+          subscriptions.splice(i, 1);
           ret = true;
         }
       }
