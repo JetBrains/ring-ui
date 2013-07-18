@@ -134,7 +134,7 @@ module.exports = function(grunt) {
       },
       test: {
         singleRun: true,
-        reporters: 'spec'
+        reporters: 'dots'
       }
     },
     jshint: {
