@@ -35,12 +35,12 @@
             var moduleRet = 'lol';
             var log = 'console' in window && console.log.bind(console) || alert;
 
-            var module = {};
-            module[methodName] = function() {
+            var data = {}, handler;
+            data[methodName] = handler = function() {
                 return moduleRet;
             };
 
-            ring()('add', moduleName, module);
+            ring()('add', moduleName, data);
 
             ring(moduleName)(methodName).done(function(result) {
                 log(result);
@@ -49,6 +49,10 @@
             ring(moduleName, methodName)().done(function(result) {
                 log(result);
             });
+
+            module = ring(moduleName);
+
+            module.on('test-1', handler);
         });
     </script>
 

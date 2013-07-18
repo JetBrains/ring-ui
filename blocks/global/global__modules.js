@@ -1,4 +1,4 @@
-define(['jquery'], function($) {
+define(['jquery', 'global/global__events'], function($, events) {
   'use strict';
 
   // bind polyfill
@@ -57,29 +57,35 @@ define(['jquery'], function($) {
   //
   var modules = {};
 
-  var Module = function(props, moduleName) {
-    var methods = {};
+  var Module = function(props, name) {
+    var scope = {
+      methods: {},
+      global: name === Module.GLOBAL,
+      name: name
+    };
 
     // True and evil encapsulation
-    this.set = this.set.bind(this, methods);
-    this.get = this.get.bind(this, methods);
+    for (var method in Module.prototype) {
+      if (method !== 'invoke') {
+        this[method] = this[method].bind(this, scope);
+      }
+    }
 
     // Always run invoke in module context
     this.invoke = this.invoke.bind(this);
-    this.invoke.invoke = this.invoke;
+
+    // Setup module
+    this.set(props);
 
     // Pretend invoke is module
     $.extend(this.invoke, this);
 
-    // Setup module
-    this.name = moduleName;
-    this.set(props);
+    // Explicit module.invoke
+    this.invoke.invoke = this.invoke;
   };
 
-  // TODO Events
-  Module.prototype.on = $.noop;
-  Module.prototype.off = $.noop;
-  Module.prototype.trigger = $.noop;
+  // Mixin events
+  $.extend(Module.prototype, events);
 
   // Instance
   Module.prototype.invoke = function(name) {
@@ -105,8 +111,9 @@ define(['jquery'], function($) {
     return dfd;
   };
 
-  Module.prototype.set = function(methods, props) {
+  Module.prototype.set = function(scope, props) {
     var method;
+    var methods = scope.methods;
 
     for (var name in props) {
       method = props[name];
@@ -116,13 +123,14 @@ define(['jquery'], function($) {
     }
   };
 
-  Module.prototype.get = function(methods, name) {
+  Module.prototype.get = function(scope, name) {
     if (typeof name !== 'string') {
       log('Method name must be a string');
       return $.noop;
     }
 
     var method;
+    var methods = scope.methods;
 
     if ((method = methods[name])) {
       return method;
