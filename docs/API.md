@@ -58,17 +58,32 @@ Subscribe on certain module events
 ##### event — modules list
 `String`
 
-    '{module}:{method}:{done|fail|success}'
-    '{module}:{customEvent}'
+    '{module}:{method}:{done|fail|success}[::{namespace}]'
+    '{module}:{customEvent}[::{namespace}]'
 
 ##### event — certain module
 `String`
 
-    '{method}:{done|fail|success}'
-    '{customEvent}'
+    '{method}:{done|fail|success}[::{namespace}]'
+    '{customEvent}[::{namespace}]'
 
 ##### handler
 `Function` (handler function) | `String` (method name)
+
+#### one
+Subscribe on event for only one time
+
+    var module = ring('module');
+
+    module.one(event, handler);
+
+#### off
+Unsubscribe from all or namespaced events
+
+    var module = ring('module');
+
+    module.off(event);
+
 
 #### trigger
 Trigger ring event
