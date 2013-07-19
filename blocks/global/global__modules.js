@@ -1,4 +1,4 @@
-define(['jquery', 'global/global__events'], function($, events) {
+define(['jquery', 'global/global__events'], function($, Event) {
   'use strict';
 
   // bind polyfill
@@ -82,11 +82,12 @@ define(['jquery', 'global/global__events'], function($, events) {
   };
 
   // Mixin events
-  $.extend(Module.prototype, events);
+  $.extend(Module.prototype, Event.events);
 
   // Instance
   Module.prototype.invoke = function(scope, name) {
-    var dfd, ret;
+    var dfd, ret, action;
+    var trigger = this.trigger || $.noop;
 
     var method = this.get(name);
     var func = method.method || method;
@@ -94,17 +95,41 @@ define(['jquery', 'global/global__events'], function($, events) {
 
     if (typeof func === 'function') {
       ret = func.apply(null, Array.prototype.slice.call(arguments, 2));
+      action = 'resolve';
     } else {
       ret = null;
+      action = 'reject';
       log('Method "' + name + '" must be a function');
     }
 
-    if (util.isDeferred(ret) || override) {
+    if (override) {
+      return ret;
+    }
+
+    var triggerOnState = function(state) {
+      var signature = name + Event.MODULE_DELIM + state;
+
+      return function(result) {
+        trigger(signature, result);
+      };
+    };
+
+    if (util.isDeferred(ret)) {
       dfd = ret;
+      action = null;
     } else {
       dfd = $.Deferred();
-      dfd.resolve(ret);
     }
+
+    dfd
+      .always(triggerOnState('always'))
+      .done(triggerOnState('done'))
+      .fail(triggerOnState('fail'));
+
+    if (action) {
+      dfd[action](ret);
+    }
+
     return dfd;
   };
 
