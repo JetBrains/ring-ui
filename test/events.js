@@ -5,8 +5,13 @@
 
   describe('Events', function () {
     var moduleName = 'test-Events-Module';
+    var moduleRet = 'lol';
 
-    ring()('add', moduleName, {});
+    ring()('add', moduleName, {
+      testMethod: function() {
+        return moduleRet;
+      }
+    });
     var module = ring(moduleName);
 
     describe('On and off', function () {
@@ -201,6 +206,70 @@
         toggle.should.be.equal(0);
       });
 
+    });
+
+    describe('Module generated events', function () {
+      var toggle;
+      var always = function() {
+        toggle += 1;
+      };
+      var done = function() {
+        toggle += 2;
+      };
+      var fail = function() {
+        toggle += 4;
+      };
+
+      var handler2 = function(ret) {
+        toggle = ret;
+      };
+
+      var brokenModule = {
+        brokenMethod: function() {}
+      };
+      brokenModule.brokenMethod.method = {};
+
+      ring()('add', 'brokenModule', brokenModule);
+
+      beforeEach(function(){
+        toggle = 0;
+        module.off('testMethod:done');
+        module.off('testMethod:always');
+        module.off('testMethod:fail');
+      });
+
+      it('method should trigger :done & :always events', function () {
+        module.on('testMethod:done', done);
+        module.on('testMethod:always', always);
+        module.on('testMethod:fail', fail);
+        module('testMethod');
+        toggle.should.be.equal(3);
+      });
+
+      it('multiple bound handler should return right result', function () {
+        module.on('testMethod:done', done);
+        module.on('testMethod:always', always);
+        module.on('testMethod:fail', fail);
+        module.on('testMethod:done', done);
+        module.on('testMethod:always', always);
+        module.on('testMethod:fail', fail);
+        module('testMethod');
+        toggle.should.be.equal(6);
+      });
+
+      it('method triggered event should return right result', function () {
+        module.on('testMethod:done', handler2);
+        module('testMethod');
+        toggle.should.be.equal(moduleRet);
+      });
+
+      it('broken method should trigger :fail events', function () {
+        ring().on('brokenModule:brokenMethod:done', done);
+        ring().on('brokenModule:brokenMethod:always', always);
+        ring().on('brokenModule:brokenMethod:fail', fail);
+        ring('brokenModule', 'brokenMethod')();
+        toggle.should.be.equal(5);
+      });
     });
 
   });

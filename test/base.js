@@ -1,4 +1,4 @@
-/*global describe:false, it:false */
+/*global describe:false, it:false, expect:false */
 'use strict';
 (function () {
   var ring = window.ring;
@@ -53,11 +53,25 @@
       };
 
       ring()('add', moduleName, data);
-
       var module = ring(moduleName);
+
+      var brokenModule = {
+        brokenMethod: function() {}
+      };
+      brokenModule.brokenMethod.method = {};
+
+      ring()('add', 'brokenModule', brokenModule);
 
       it('method should return $.Deferred', function () {
         module(methodName).should.have.property('promise').and.be.a('function');
+      });
+
+      it('broken method should return $.Deferred', function () {
+        ring('brokenModule', 'brokenMethod')().should.have.property('promise').and.be.a('function');
+      });
+
+      it('method should be resolved', function () {
+        module(methodName).state().should.be.equal('resolved');
       });
 
       it('method should return right result on done and always', function () {
@@ -67,6 +81,17 @@
           })
           .always(function(result) {
             result.should.be.equal(moduleRet);
+          });
+      });
+
+      it('broken method should be rejected', function () {
+        ring('brokenModule', 'brokenMethod')().state().should.be.equal('rejected');
+      });
+
+      it('broken method should return right result on fail', function () {
+        ring('brokenModule', 'brokenMethod')()
+          .fail(function(result) {
+            expect(result).to.be.equal(null);
           });
       });
 
