@@ -67,14 +67,15 @@ define(['jquery', 'global/global__events'], function($, events) {
     // Setup API defined module methods
     this.set(scope, props);
 
-    // Always run invoke in module context
-    this.invoke = this.invoke.bind(this);
+    // Base methods list
+    var methods = Object.keys(Module.prototype);
+    // Move invoke to the end of list
+    methods.push(methods.splice($.inArray('invoke', methods),1)[0]);
 
-    // Encapsulate scope in base methods
-    for (var method in this) {
-      if (method !== 'invoke') {
-        this[method] = this[method].bind(this, scope);
-      }
+    for (var i = methods.length, method; i--; i > 0) {
+      method = methods[i];
+      // Encapsulate scope in base methods
+      this[method] = this[method].bind(this, scope);
       // Pretend invoke is module itself
       this.invoke[method] = this[method];
     }
@@ -84,7 +85,7 @@ define(['jquery', 'global/global__events'], function($, events) {
   $.extend(Module.prototype, events);
 
   // Instance
-  Module.prototype.invoke = function(name) {
+  Module.prototype.invoke = function(scope, name) {
     var dfd, ret;
 
     var method = this.get(name);
@@ -92,7 +93,7 @@ define(['jquery', 'global/global__events'], function($, events) {
     var override = !!method.override;
 
     if (typeof func === 'function') {
-      ret = func.apply(null, Array.prototype.slice.call(arguments, 1));
+      ret = func.apply(null, Array.prototype.slice.call(arguments, 2));
     } else {
       ret = null;
       log('Method "' + name + '" must be a function');
