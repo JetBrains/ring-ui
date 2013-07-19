@@ -5,7 +5,12 @@ define(['global/global__modules'], function(Module) {
   var ring = function(module, method) {
     // Get method
     if (module && method) {
-      return Module.get(module).bind({}, method);
+      var mdl = Module.get(module);
+      // TODO figure best way
+      // return Module.get(module).bind({}, method);
+      return function() {
+        return mdl.apply(mdl, [method].concat(arguments));
+      };
 
     // Get module
     } else if (module) {
