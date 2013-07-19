@@ -28,20 +28,20 @@ module.exports = function(grunt) {
   };
 
   var _ = grunt.util._;
+  var pkg = grunt.file.readJSON('package.json');
+  var version = function() {
+    var DELIM = '.';
+
+    var ver = pkg.version.split(DELIM);
+    var oldVer = ver.pop();
+    ver.push(grunt.option('build') || ++oldVer);
+
+    return ver.join(DELIM);
+  };
 
   grunt.initConfig({
-    pkg: grunt.file.readJSON('package.json'),
-    buildVersion: (function(option) {
-      var build = option('build');
-      var rev   = option('rev');
-
-      if (rev && build) {
-        return '.' + rev.substr(0,7) + '.' + build;
-      } else {
-        return '_' + grunt.template.today('yyyy-mm-dd_HH-MM-ss');
-      }
-
-    }(grunt.option)),
+    pkg: pkg,
+    version: version(),
     path: path,
 
     // Build
@@ -64,11 +64,17 @@ module.exports = function(grunt) {
         }
       }
     },
+    bumpup: {
+      options: {
+        version: version
+      },
+      file: 'package.json'
+    },
     usebanner: {
       dist: {
         options: {
           position: 'top',
-          banner: '/* <%= pkg.name %> <%= pkg.version %><%= buildVersion %> */'
+          banner: '/* <%= pkg.name %> <%= version %> */'
         },
         files: {
           src: [ '<%= path.dist %>**/*.js', '<%= path.dist %>**/*.css' ]
@@ -78,12 +84,19 @@ module.exports = function(grunt) {
     compress: {
       dist: {
         options: {
-          archive: './<%= path.dist %><%= pkg.name %>-<%= pkg.version %><%= buildVersion %>.zip'
+          archive: './<%= path.dist %><%= pkg.name %>-<%= version %>.zip'
         },
         files: [
           { expand: true, cwd: '<%= path.dist %>', src: ['**'], dest: 'ring'}
         ]
       }
+    },
+    tagrelease: {
+      file: 'package.json',
+      commit:  true,
+      message: 'Release %version%',
+      prefix:  'v',
+      annotate: false
     },
 
     // Process files
@@ -291,6 +304,27 @@ module.exports = function(grunt) {
     });
   });
 
+  grunt.registerTask('push-tags', 'Push git tags', function() {
+    var done = this.async();
+
+    grunt.util.spawn({
+        cmd: 'git push',
+        args: ['--tags']
+      },
+      function(err)
+      {
+        if (!err) {
+          grunt.log.ok('Tags pushed');
+        } else {
+          grunt.log.error(err.stdout, err.stderr);
+        }
+
+        done();
+      }
+    );
+
+  });
+
   grunt.registerTask('sprite', 'Render font icons to png sprite', function() {
     var phantomjs = require('phantomjs');
 
@@ -353,8 +387,7 @@ module.exports = function(grunt) {
   grunt.registerTask('minify', [
     'csso',
     'uglify',
-    'usebanner',
-    'compress'
+    'usebanner'
   ]);
 
   grunt.registerTask('build', [
@@ -362,6 +395,15 @@ module.exports = function(grunt) {
     'jshint:dist',
     'process',
     'minify'
+  ]);
+
+  grunt.registerTask('release', [
+    'cleanup',
+    'bumpup',
+    'build',
+    'compress',
+    'tagrelease',
+    'push-tags'
   ]);
 
   grunt.registerTask('build-as-dep', ['process']);
