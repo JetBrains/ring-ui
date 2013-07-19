@@ -64,24 +64,20 @@ define(['jquery', 'global/global__events'], function($, events) {
       name: name
     };
 
-    // True and evil encapsulation
-    for (var method in Module.prototype) {
-      if (method !== 'invoke') {
-        this[method] = this[method].bind(this, scope);
-      }
-    }
+    // Setup API defined module methods
+    this.set(scope, props);
 
     // Always run invoke in module context
     this.invoke = this.invoke.bind(this);
 
-    // Setup module
-    this.set(props);
-
-    // Pretend invoke is module
-    $.extend(this.invoke, this);
-
-    // Explicit module.invoke
-    this.invoke.invoke = this.invoke;
+    // Encapsulate scope in base methods
+    for (var method in this) {
+      if (method !== 'invoke') {
+        this[method] = this[method].bind(this, scope);
+      }
+      // Pretend invoke is module itself
+      this.invoke[method] = this[method];
+    }
   };
 
   // Mixin events
@@ -190,7 +186,7 @@ define(['jquery', 'global/global__events'], function($, events) {
     }
   };
 
-  // Global module
+  // Global module name
   Module.GLOBAL = 'global';
 
   return Module;
