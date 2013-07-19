@@ -42,34 +42,6 @@
       });
     });
 
-    describe('Add and remove', function () {
-      var moduleName = 'test-AddRemove-Module';
-
-      it('should has add', function () {
-        ring.should.have.property('add').and.be.a('function');
-      });
-
-      it('should has remove', function () {
-        ring.should.have.property('remove').and.be.a('function');
-      });
-
-      it('new add should be true', function () {
-        ring.add(moduleName, {}).should.be.equal(true);
-      });
-
-      it('dupe add should be false', function () {
-        ring.add(moduleName, {}).should.be.equal(false);
-      });
-
-      it('remove should be true', function () {
-        ring.remove(moduleName).should.be.equal(true);
-      });
-
-      it('dupe remove should be false', function () {
-        ring.remove(moduleName).should.be.equal(false);
-      });
-    });
-
     describe('Use methods', function () {
       var moduleName = 'test-UseMethods-Module';
       var methodName = 'testMethod';
@@ -80,7 +52,7 @@
         return moduleRet;
       };
 
-      ring.add(moduleName, data);
+      ring()('add', moduleName, data);
 
       var module = ring(moduleName);
 
@@ -123,7 +95,7 @@
         return moduleRet;
       };
 
-      ring.add(moduleName, data);
+      ring()('add',moduleName, data);
 
       var method = ring(moduleName, methodName);
 
