@@ -2,9 +2,6 @@ define(function() {
   'use strict';
 
   // Event constructor
-  var NAMESPACE_DELIM = '::';
-  var MODULE_DELIM = ':';
-
   var uid = 1;
   var empty = {};
 
@@ -15,10 +12,10 @@ define(function() {
     }
 
     if (!module.global) {
-      signature = module.name + MODULE_DELIM + signature;
+      signature = module.name + Event.MODULE_DELIM + signature;
     }
 
-    var parts = signature.split(NAMESPACE_DELIM);
+    var parts = signature.split(Event.NAMESPACE_DELIM);
 
     this.name = parts[0];
     this.namespace = parts[1] || null;
@@ -26,6 +23,9 @@ define(function() {
 
     this.handler = one ? runAndRemove(this, handler) : handler;
   };
+
+  Event.NAMESPACE_DELIM = '::';
+  Event.MODULE_DELIM = ':';
 
   // Internal methods
   var cache = {};
@@ -102,7 +102,6 @@ define(function() {
     }
   };
 
-
   events.trigger = function(scope, signature, data) {
     var event = new Event(signature, scope);
     var subscriptions = cache[event.name];
@@ -118,5 +117,7 @@ define(function() {
     }
   };
 
-  return events;
+  Event.events = events;
+
+  return Event;
 });
