@@ -401,9 +401,9 @@ module.exports = function(grunt) {
     'cleanup',
     'bumpup',
     'build',
-    'compress',
-    'tagrelease',
-    'push-tags'
+    'compress'
+//    'tagrelease'
+//    'push-tags'
   ]);
 
   grunt.registerTask('build-as-dep', ['process']);
