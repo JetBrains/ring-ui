@@ -58,7 +58,9 @@ module.exports = function(grunt) {
           report: 'gzip'
         },
         files: {
-          '<%= path.dist %>ring.min.js': '<%= path.dist %>ring.js'
+          '<%= path.dist %>ring.min.js': '<%= path.dist %>ring.js',
+          '<%= path.dist %>ring-jetbrains-oauth.min.js': '<%= path.dist %>ring-jetbrains-oauth.js',
+          '<%= path.dist %>ring-jetbrains.min.js': '<%= path.dist %>ring-jetbrains.js'
         }
       }
     },
@@ -135,17 +137,17 @@ module.exports = function(grunt) {
       'ring-internal': {
         options: _.extend(_.clone(requireConfig.options), {
           paths: {
-            ring: '../<%= path.bundles %>ring-internal'
+            ring: '../<%= path.bundles %>ring-jetbrains'
           },
-          out: '<%= path.dist %>ring-internal.js'
+          out: '<%= path.dist %>ring-jetbrains.js'
         })
       },
       'ring-internal-oauth': {
         options: _.extend(_.clone(requireConfig.options), {
           paths: {
-            ring: '../<%= path.bundles %>ring-internal-oauth'
+            ring: '../<%= path.bundles %>ring-jetbrains-oauth'
           },
-          out: '<%= path.dist %>ring-internal-oauth.js'
+          out: '<%= path.dist %>ring-jetbrains-oauth.js'
         })
       }
     },
