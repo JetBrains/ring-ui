@@ -17,12 +17,8 @@ define(['global/global__modules'], function(Module) {
     }
   };
 
-  // Basic methods
-  ring.add = Module.add;
-  ring.remove = Module.remove;
-
   // Global module
-  ring.add(Module.GLOBAL, {
+  Module.add(Module.GLOBAL, {
     add: {
       method: Module.add,
       override: true
