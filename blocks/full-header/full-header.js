@@ -1,4 +1,4 @@
-define(['jquery', 'handlebars', 'dropdown/dropdown', 'font-icon/font-icon'], function($, Handlebars, dropdown) {
+define(['jquery', 'handlebars', 'font-icon/font-icon'], function($, Handlebars) {
   'use strict';
 
   var $body;
@@ -115,8 +115,7 @@ define(['jquery', 'handlebars', 'dropdown/dropdown', 'font-icon/font-icon'], fun
     init: init,
     update: update,
     render: render,
-    addProcessor: addProcessor,
-    dropdown: dropdown
+    addProcessor: addProcessor
   };
 
 });

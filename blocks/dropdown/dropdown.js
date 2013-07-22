@@ -1,7 +1,7 @@
-define(['jquery', 'handlebars'], function($, Handlebars) {
+define(['jquery', 'global/global__templates', 'global/global__modules'], function($, Template, Module) {
   'use strict';
 
-  var COMPONENT_SELECTOR = '.component-dropdown';
+  var COMPONENT_SELECTOR = '.ring-js-dropdown';
   var EDGE_OFFSET = 8;
 
   var $global = $(window);
@@ -12,9 +12,10 @@ define(['jquery', 'handlebars'], function($, Handlebars) {
   var create = function(data, $target) {
     var currentTarget = $target[0];
     var sameTarget = (currentTarget && target === currentTarget);
+    var dfd = $.Deferred;
 
     if (!data) {
-      data = $target.data('component');
+      data = $target.data('ring-dropdown');
     }
 
     remove();
@@ -34,7 +35,7 @@ define(['jquery', 'handlebars'], function($, Handlebars) {
         $body = $('body');
       }
 
-      $dropdown = $(Handlebars.partials.dropdown(data));
+      $dropdown = $(Template.render('dropdown', data));
       $dropdown.appendTo($body);
 
       var pos = $target.offset();
@@ -57,22 +58,24 @@ define(['jquery', 'handlebars'], function($, Handlebars) {
 
       $dropdown.css(pos);
 
-      $global.trigger('ring:dropdown:created');
-
-      return false;
+      dfd.resolve();
     } else {
-      return true;
+      dfd.reject();
     }
   };
 
   var remove = function() {
+    var dfd = $.Deferred;
+
     if ($dropdown) {
       $dropdown.remove();
       $dropdown = null;
 
       target = null;
 
-      $global.trigger('ring:dropdown:removed');
+      dfd.resolve();
+    } else {
+      dfd.reject();
     }
   };
 
@@ -85,8 +88,8 @@ define(['jquery', 'handlebars'], function($, Handlebars) {
   $global.resize(remove);
 
   // Public methods
-  return {
+  Module.add('dropdown', {
     create: create,
     remove: remove
-  };
+  });
 });
