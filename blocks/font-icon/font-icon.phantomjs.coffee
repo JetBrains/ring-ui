@@ -13,6 +13,7 @@ icons =
   'chevron-right': ['b4b4b4', 14]
   'ban-circle'   : ['b4b4b4', 14]
   'pencil'       : ['b4b4b4', 14]
+  'remove'       : ['b4b4b4', 14]
 
 iconSize = 20
 activeColor = 'ff5900'
