@@ -39,8 +39,7 @@
     "karma-spec-reporter": "0.0.1",
     "karma-coverage": "0.0.3",
     "karma-teamcity-reporter": "0.0.1",
-    "karma-ievms": "0.0.2",
-    "karma-safari-launcher": "0.0.3"
+    "karma-ievms": "0.0.2"
   },
   "scripts": {
     "test": "grunt test"
