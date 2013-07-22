@@ -1,7 +1,7 @@
 define(['jquery', 'global/global__events'], function($, Event) {
   'use strict';
 
-  // bind polyfill
+  // Function.prototype.bind polyfill
   // TODO include as component
   if (!Function.prototype.bind) {
     Function.prototype.bind = function (oThis) {
@@ -24,6 +24,42 @@ define(['jquery', 'global/global__events'], function($, Event) {
       return fBound;
     };
   }
+
+  // Object.keys polyfill
+  if (!Object.keys) {
+    Object.keys = (function () {
+      var hasOwnProperty = Object.prototype.hasOwnProperty,
+        hasDontEnumBug = !({toString: null}).propertyIsEnumerable('toString'),
+        dontEnums = [
+          'toString',
+          'toLocaleString',
+          'valueOf',
+          'hasOwnProperty',
+          'isPrototypeOf',
+          'propertyIsEnumerable',
+          'constructor'
+        ],
+        dontEnumsLength = dontEnums.length;
+
+      return function (obj) {
+        if (typeof obj !== 'object' && typeof obj !== 'function' || obj === null) throw new TypeError('Object.keys called on non-object');
+
+        var result = [];
+
+        for (var prop in obj) {
+          if (hasOwnProperty.call(obj, prop)) result.push(prop);
+        }
+
+        if (hasDontEnumBug) {
+          for (var i=0; i < dontEnumsLength; i++) {
+            if (hasOwnProperty.call(obj, dontEnums[i])) result.push(dontEnums[i]);
+          }
+        }
+        return result;
+      };
+    })();
+  }
+
 
   // Utils
   var util = {};
