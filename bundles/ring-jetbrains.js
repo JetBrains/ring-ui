@@ -1,3 +1,3 @@
-define(['full-header/full-header', 'stripe/stripe__internal'], function(header) {
+define(['full-header/full-header', 'header/header__internal'], function(header) {
   return header;
 });
