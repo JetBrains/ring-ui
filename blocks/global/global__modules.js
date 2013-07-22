@@ -167,7 +167,7 @@ define(['jquery', 'global/global__events'], function($, Event) {
       dfd[action](ret);
     }
 
-    return dfd;
+    return dfd.promise();
   };
 
   Module.prototype.set = function(scope, props) {
