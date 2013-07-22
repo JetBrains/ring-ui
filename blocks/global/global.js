@@ -1,4 +1,4 @@
-define(['global/global__modules', 'global/global__templates'], function(Module, Template) {
+define(['global/global__modules', 'global/global__root-module'], function(Module) {
   'use strict';
 
   // Ring
@@ -21,22 +21,6 @@ define(['global/global__modules', 'global/global__templates'], function(Module, 
       return Module.get(Module.GLOBAL);
     }
   };
-
-  // Global module
-  Module.add(Module.GLOBAL, {
-    add: {
-      method: Module.add,
-      override: true
-    },
-    remove: {
-      method: Module.remove,
-      override: true
-    },
-    render: {
-      method: Template.render,
-      override: true
-    }
-  });
 
   return ring;
 });

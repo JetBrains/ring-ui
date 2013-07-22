@@ -92,6 +92,7 @@ define(['jquery', 'global/global__events'], function($, Event) {
   // Modules
   //
   var modules = {};
+  var config = {};
 
   var Module = function(props, name) {
     var scope = {
@@ -248,8 +249,54 @@ define(['jquery', 'global/global__events'], function($, Event) {
     }
   };
 
+  Module.config = function(data) {
+    if (typeof data !== 'object') {
+      return config;
+    }
+
+    $.extend(config, data);
+    return config;
+  };
+
+  Module.init = function(list) {
+    var promises = [];
+
+    if (typeof list !== 'object') {
+      log('Modules list must be an object');
+      return $.Deferred().reject().promise();
+    }
+
+    $.each(function(name, data) {
+      var promise, ret;
+      var module = modules[name];
+
+      if (!module) {
+        log('There is no module "' + name + '"');
+      } else {
+        ret = module.invoke('init', data);
+
+        if (util.isDeferred(ret)) {
+          promise = ret;
+        } else {
+          promise = $.Deferred();
+          promise.resolve(ret);
+        }
+
+        promises.push(promise);
+      }
+    });
+
+    if (!promises.length) {
+      log('There is no modules in init object');
+      return $.Deferred().reject().promise();
+    }
+
+
+    return $.when.apply($, promises);
+  };
+
   // Global module name
-  Module.GLOBAL = 'global';
+  Module.GLOBAL = 'root';
 
   return Module;
 });
