@@ -1,4 +1,4 @@
-/*global describe:false, it:false, beforeEach:false */
+/*global describe:false, it:false, expect:false, beforeEach:false */
 'use strict';
 (function () {
   var ring = window.ring;
@@ -51,24 +51,24 @@
 
       it('trigger should run functions', function () {
         module.trigger('test-2', 1);
-        toggle.should.be.equal(1);
+        expect(toggle).to.be.equal(1);
       });
 
       it('second trigger should run functions', function () {
         module.trigger('test-2', 1);
-        toggle.should.be.equal(1);
+        expect(toggle).to.be.equal(1);
       });
 
       it('trigger should run all functions', function () {
         module.on('test-2', handler2);
         module.trigger('test-2', 1);
-        toggle.should.be.equal(2);
+        expect(toggle).to.be.equal(2);
       });
 
       it('trigger after unsubscribe should not run functions', function () {
         module.off('test-2');
         module.trigger('test-2', 1);
-        toggle.should.be.equal(0);
+        expect(toggle).to.be.equal(0);
       });
     });
 
@@ -180,12 +180,12 @@
 
       it('trigger w/o namespace should run functions', function () {
         module.trigger('test-5', 1);
-        toggle.should.be.equal(3);
+        expect(toggle).to.be.equal(3);
       });
 
       it('trigger w/ any namespace should run functions', function () {
         module.trigger('test-5::___', 1);
-        toggle.should.be.equal(3);
+        expect(toggle).to.be.equal(3);
       });
 
       it('unsubscribe from event w/ namespace should be true', function () {
@@ -194,7 +194,7 @@
 
       it('unsubscribe from event w/ namespace should unsubscribe from only namespaced handlers', function () {
         module.trigger('test-5', 1);
-        toggle.should.be.equal(2);
+        expect(toggle).to.be.equal(2);
       });
 
       it('unsubscribe from event w/o namespace should be true', function () {
@@ -203,7 +203,7 @@
 
       it('unsubscribe from event w/o namespace should unsubscribe from all handlers', function () {
         module.trigger('test-5', 1);
-        toggle.should.be.equal(0);
+        expect(toggle).to.be.equal(0);
       });
 
     });
@@ -243,7 +243,7 @@
         module.on('testMethod:always', always);
         module.on('testMethod:fail', fail);
         module('testMethod');
-        toggle.should.be.equal(3);
+        expect(toggle).to.be.equal(3);
       });
 
       it('multiple bound handler should return right result', function () {
@@ -254,13 +254,13 @@
         module.on('testMethod:always', always);
         module.on('testMethod:fail', fail);
         module('testMethod');
-        toggle.should.be.equal(6);
+        expect(toggle).to.be.equal(6);
       });
 
       it('method triggered event should return right result', function () {
         module.on('testMethod:done', handler2);
         module('testMethod');
-        toggle.should.be.equal(moduleRet);
+        expect(toggle).to.be.equal(moduleRet);
       });
 
       it('broken method should trigger :fail events', function () {
@@ -268,7 +268,7 @@
         ring().on('brokenModule:brokenMethod:always', always);
         ring().on('brokenModule:brokenMethod:fail', fail);
         ring('brokenModule', 'brokenMethod')();
-        toggle.should.be.equal(5);
+        expect(toggle).to.be.equal(5);
       });
     });
 
