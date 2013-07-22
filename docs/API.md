@@ -105,7 +105,9 @@ Default module, can be called with or without id
     var root = ring();
 
 #### config
-Basic ring configuration
+Basic ring configuration. Returns actualized config.
+
+**Returns** `Object`
 
     root('config', baseConfig)
 
