@@ -28,8 +28,6 @@
     "phantomjs": "~1.9.1-0",
     "grunt-markdown": "~0.3.0",
     "highlight.js": "~7.3.0",
-    "grunt-banner": "~0.1.4",
-    "grunt-tagrelease": "~0.2.0",
-    "grunt-bump": "git+https://github.com/princed/grunt-bump.git"
+    "grunt-banner": "~0.1.4"
   }
 }

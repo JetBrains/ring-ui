@@ -394,7 +394,7 @@ module.exports = function(grunt) {
 
   grunt.registerTask('release', [
     'cleanup',
-    'bump',
+//    'bump',
     'build',
     'compress'
   ]);
