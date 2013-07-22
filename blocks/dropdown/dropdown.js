@@ -89,7 +89,7 @@ define(['jquery', 'global/global__templates', 'global/global__modules'], functio
 
   // Public methods
   Module.add('dropdown', {
-    create: create,
-    remove: remove
+    show: create,
+    hide: remove
   });
 });
