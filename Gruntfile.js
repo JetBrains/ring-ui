@@ -34,19 +34,21 @@ module.exports = function(grunt) {
 
   var _ = grunt.util._;
   var pkg = grunt.file.readJSON('package.json');
-  var version = function() {
+
+  // Set version option form build option
+  (function(option) {
     var DELIM = '.';
 
     var ver = pkg.version.split(DELIM);
     var oldVer = ver.pop();
-    ver.push(grunt.option('build') || ++oldVer);
+    ver.push(option('build') || ++oldVer);
 
-    return ver.join(DELIM);
-  };
+    option('setversion', ver.join(DELIM));
+  }(grunt.option));
 
   grunt.initConfig({
     pkg: pkg,
-    version: version(),
+    version: grunt.option('setversion'),
     path: path,
 
     // Build
@@ -68,12 +70,6 @@ module.exports = function(grunt) {
           '<%= path.dist %>ring-jetbrains.min.js': '<%= path.dist %>ring-jetbrains.js'
         }
       }
-    },
-    bumpup: {
-      options: {
-        version: version
-      },
-      file: 'package.json'
     },
     usebanner: {
       dist: {
@@ -159,12 +155,11 @@ module.exports = function(grunt) {
         }
       }
     },
-    tagrelease: {
-      file: 'package.json',
-      commit:  true,
-      message: 'Release %version%',
-      prefix:  'v',
-      annotate: false
+    bump: {
+      options: {
+        createTag: false,
+        pushTo: 'origin'
+      }
     },
 
     // Process
@@ -455,11 +450,9 @@ module.exports = function(grunt) {
 
   grunt.registerTask('release', [
     'cleanup',
-    'bumpup',
+//    'bump',
     'build',
     'compress'
-//    'tagrelease'
-//    'push-tags'
   ]);
 
   grunt.registerTask('build-as-dep', ['process']);
