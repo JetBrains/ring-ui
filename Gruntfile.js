@@ -133,7 +133,8 @@ module.exports = function(grunt) {
       },
       dev: {
         background: true,
-        browsers: ['Chrome', 'Firefox']
+        reporters: 'dots',
+        browsers: ['Chrome', 'Firefox', 'Safari', 'IE9 - Win7', 'IE10 - Win7']
       },
       test: {
         singleRun: true,
