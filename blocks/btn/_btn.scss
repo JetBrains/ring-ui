@@ -30,11 +30,11 @@ $btn-border-radius: 3px;
   border: solid 1px #b4b4b4;
   color: #282828;
   @include btn-mixins;
-  &:hover {
+  &:hover, &.ring-btn_hover {
     box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.2), inset 0 1px rgba(255, 255, 255, .4), inset 0 0 0 1px rgba(255, 255, 255, .2);
     @include btn-background-image(#e1e1e1, #fff);
   }
-  &:active {
+  &:active, &.ring-btn_active {
     @include btn-box-shadow-active(#9f9f9f);
     background-color: #e4e4e4;
     background-image: none;
@@ -192,6 +192,18 @@ $btn-border-radius: 3px;
   @include ring-btn-arrow(up);
 }
 
+.ring-btn__icon {
+  margin-left: 11px;
+  display: inline-block;
+  cursor: pointer;
+  line-height: 22px;
+  height: 22px !important;
+  .ring-font-icon {
+    position: relative;
+    left: 6px;
+  }
+}
+
 .ring-btn-tag {
   position: relative;
   margin-right: 4px;
@@ -199,7 +211,7 @@ $btn-border-radius: 3px;
   border: 1px solid #D8D8D8;
   padding: 0 24px 0 16px;
   cursor: pointer;
-  line-height: 24px;
+  line-height: 20px;
   font-size: 13px;
   color: #1866C5;
   &:hover {
