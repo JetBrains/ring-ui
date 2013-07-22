@@ -20,6 +20,11 @@ Ring UI: development environment setup
 
 =======================================
 
+(Optional) Install VirtualBox and ievms to test run test on IE9+
+
+    VirtualBox — https://www.virtualbox.org/wiki/Downloads
+    ievms — https://github.com/xdissent/ievms#installation
+
 Build production files
 
     grunt build
