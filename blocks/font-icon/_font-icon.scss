@@ -53,12 +53,19 @@ you can use the generic selector below, but it's slower:
 .ring-font-icon_caret-up:before {
   content: "\f0d8";
 }
+.ring-font-icon_remove:before {
+  content: "\f00d";
+}
+.ring-font-icon_chevron-right:before {
+  content: "\f054";
+}
 .ring-font-icon_ban-circle:before {
   content: "\f05e";
 }
 .ring-font-icon_pencil:before {
   content: "\f040";
 }
+
 
 
 /* Fallback for miserable Windows users */
