@@ -1,4 +1,4 @@
-define(['global/global__modules'], function(Module) {
+define(['global/global__modules', 'global/global__templates'], function(Module, Template) {
   'use strict';
 
   // Ring
@@ -30,6 +30,10 @@ define(['global/global__modules'], function(Module) {
     },
     remove: {
       method: Module.remove,
+      override: true
+    },
+    render: {
+      method: Template.render,
       override: true
     }
   });
