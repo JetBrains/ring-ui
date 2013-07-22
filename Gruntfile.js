@@ -286,19 +286,15 @@ module.exports = function(grunt) {
       },
       scss: {
         files: ['<%= path.blocks %>**/*.scss', '<%= path.bundles %>**/*.scss'],
-        tasks: ['styles',  'notify:watch']
+        tasks: ['styles', 'notify:watch']
       },
       reload: {
-        files: ['<%= path.test %>*.html', '*.html'],
+        files: ['<%= path.blocks %>**/*.html', '*.html'],
         tasks: ['notify:watch']
       },
       js: {
         files: ['<%= path.blocks %>**/*.js', '<%= path.bundles %>**/*.js', '<%= path.tests %>**/*.js'],
-        tasks: ['requirejs:ring', 'karma:dev:run', 'notify:watch']
-      },
-      test: {
-        files: ['<%= path.blocks %>**/*.html'],
-        tasks: ['test', 'notify:watch']
+        tasks: ['jshint:dev', 'requirejs:ring', 'karma:dev:run', 'notify:watch']
       },
       markdown: {
         files: ['<%= path.docs %>**/*.md'],
