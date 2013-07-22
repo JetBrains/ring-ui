@@ -191,3 +191,33 @@ $btn-border-radius: 3px;
 .ring-btn_arrow_up {
   @include ring-btn-arrow(up);
 }
+
+.ring-btn-tag {
+  position: relative;
+  margin-right: 4px;
+  border-radius: 3px;
+  border: 1px solid #D8D8D8;
+  padding: 0 24px 0 16px;
+  cursor: pointer;
+  line-height: 24px;
+  font-size: 13px;
+  color: #1866C5;
+  &:hover {
+    color: #ff5a00;
+    text-decoration: underline;
+    border-color: #B4B4B5;
+  }
+}
+
+.ring-btn-tag__img {
+  position: relative;
+  top: 4px;
+  left: -8px;
+}
+
+.ring-btn-tag__last-icon {
+  position: absolute;
+  top: 2px;
+  right: 4px;
+  color: #b4b4b4;
+}
