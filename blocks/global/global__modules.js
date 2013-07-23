@@ -278,25 +278,20 @@ define(['jquery', 'global/global__events', 'global/global__templates'], function
 
       if (!module) {
         log('There is no module "' + name + '"');
+        ret = null;
       } else {
         ret = module.invoke('init', data);
-
-        if (util.isDeferred(ret)) {
-          promise = ret;
-        } else {
-          promise = $.Deferred();
-          promise.resolve(ret);
-        }
-
-        promises.push(promise);
       }
+
+      if (util.isDeferred(ret)) {
+        promise = ret;
+      } else {
+        promise = $.Deferred();
+        promise.resolve(ret);
+      }
+
+      promises.push(promise);
     });
-
-    if (!promises.length) {
-      log('There is no modules in init object');
-      return $.Deferred().reject().promise();
-    }
-
 
     return $.when.apply($, promises);
   };
