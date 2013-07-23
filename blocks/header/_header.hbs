@@ -2,10 +2,10 @@
   <div class="ring-stripe">
     {{#items}}
       {{#if url}}
-        <a class="ring-stripe__item ring-stripe__item_link" href="{{url}}">{{title}}</a>
+        <a class="ring-stripe__item ring-stripe__item_link" href="{{url}}">{{label}}</a>
       {{/if}}
       {{#unless url}}
-        <span class="ring-stripe__item ring-stripe__item_active">{{title}}</span>
+        <span class="ring-stripe__item ring-stripe__item_active">{{label}}</span>
       {{/unless}}
     {{/items}}
     {{#if personal}}
@@ -15,7 +15,7 @@
       </span>
     {{else}}
       <span class="ring-stripe__personal">
-        <a class="ring-stripe__item ring-stripe__item_link" href="{{login.url}}">{{login.title}}</a>
+        <a class="ring-stripe__item ring-stripe__item_link" href="{{login.url}}">{{login.label}}</a>
       </span>
     {{/if}}
   </div>
