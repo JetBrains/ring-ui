@@ -1,12 +1,12 @@
 {{#stripe}}
   <div class="ring-stripe">
     {{#items}}
-      {{#if url}}
-        <a class="ring-stripe__item ring-stripe__item_link" href="{{url}}">{{label}}</a>
-      {{/if}}
-      {{#unless url}}
-        <span class="ring-stripe__item ring-stripe__item_active">{{label}}</span>
+      {{#unless active}}
+        <a class="ring-stripe__item ring-stripe__item_link{{> global__class-name}}" href="{{url}}">{{label}}</a>
       {{/unless}}
+      {{#if active}}
+        <span class="ring-stripe__item ring-stripe__item_active{{> global__class-name}}">{{label}}</span>
+      {{/if}}
     {{/items}}
     {{#if personal}}
       <span class="ring-stripe__personal component-dropdown" data-component="{{stringify personal}}">
