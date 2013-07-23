@@ -1,4 +1,4 @@
-define(['global/global__modules', 'global/global__root-module'], function(Module) {
+define(['global/global__modules'], function(Module) {
   'use strict';
 
   // Ring
