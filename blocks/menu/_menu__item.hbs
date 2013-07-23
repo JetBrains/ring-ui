@@ -7,9 +7,9 @@
 {{!--Links--}}
 {{else}}
   {{#if url}}
-    <a href="{{url}}" class="ring-header__item ring-header__item_link{{> menu__item__class}}{{> global__add-class}}"{{> global__add-title}}>{{title}}</a>
+    <a href="{{url}}" class="ring-header__item ring-header__item_link{{> menu__item__class}}{{> global__class-name}}"{{> global__title}}>{{label}}</a>
   {{else}}
-    <span class="ring-header__item{{> menu__item__class}}{{> global__add-class}}{{#if items}} ring-header__item_noselect component-dropdown" data-component="{{stringify this}}{{/if}}"{{> global__add-title}}>{{title}}</span>
+    <span class="ring-header__item{{> menu__item__class}}{{> global__class-name}}{{#if items}} ring-header__item_noselect component-dropdown" data-component="{{stringify this}}{{/if}}"{{> global__title}}>{{label}}</span>
   {{/if}}
 {{/if}}
 
