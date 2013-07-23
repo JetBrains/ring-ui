@@ -18,19 +18,19 @@
       var handler = function() {};
 
       it('subscribe on event should be true', function () {
-        module.on('test-1', handler).should.be.equal(true);
+        expect(module.on('test-1', handler)).to.be(true);
       });
 
       it('dupe subscribe on event should be true', function () {
-        module.on('test-1', handler).should.be.equal(true);
+        expect(module.on('test-1', handler)).to.be(true);
       });
 
       it('unsubscribe from event should be true', function () {
-        module.off('test-1').should.be.equal(true);
+        expect(module.off('test-1')).to.be(true);
       });
 
       it('dupe unsubscribe from event should be false', function () {
-        module.off('test-1').should.be.equal(false);
+        expect(module.off('test-1')).to.be(false);
       });
     });
 
@@ -83,21 +83,21 @@
       });
 
       it('one time subscribe on event should be true', function () {
-        module.one('test-3', handler).should.be.equal(true);
+        expect(module.one('test-3', handler)).to.be(true);
       });
 
       it('one time trigger should run functions', function () {
         module.trigger('test-3', true);
-        toggle.should.be.equal(true);
+        expect(toggle).to.be(true);
       });
 
       it('one time unsubscribe from event should be false', function () {
-        module.off('test-3').should.be.equal(false);
+        expect(module.off('test-3')).to.be(false);
       });
 
       it('second one time trigger should not run functions', function () {
         module.trigger('test-3', true);
-        toggle.should.be.equal(false);
+        expect(toggle).to.be(false);
       });
 
     });
@@ -108,48 +108,51 @@
         toggle = ret;
       };
 
-      beforeEach(function(){
+      beforeEach(function(done){
         toggle = false;
+        setTimeout(done, 0); // IE7 "Out of stack space" workaround. See https://github.com/visionmedia/mocha/issues/502
       });
 
+      var o = ring();
+
       it('subscribe on event on global should be true', function () {
-        ring().on(moduleName + ':test-4', handler).should.be.equal(true);
+        expect(o.on(moduleName + ':test-4', handler)).to.be(true);
       });
 
       it('dupe subscribe on event on global should be true', function () {
-        ring().on(moduleName + ':test-4', handler).should.be.equal(true);
+        expect(o.on(moduleName + ':test-4', handler)).to.be(true);
       });
 
       it('trigger on global should run functions', function () {
         ring().trigger(moduleName + ':test-4', true);
-        toggle.should.be.equal(true);
+        expect(toggle).to.be(true);
       });
 
       it('trigger set on global should run functions', function () {
         module.trigger('test-4', true);
-        toggle.should.be.equal(true);
+        expect(toggle).to.be(true);
       });
 
       it('subscribe on event on global should be true', function () {
-        ring().on(moduleName + ':test-4', handler).should.be.equal(true);
+        expect(ring().on(moduleName + ':test-4', handler)).to.be(true);
       });
 
       it('unsubscribe from event on global should be true', function () {
-        ring().off(moduleName + ':test-4').should.be.equal(true);
+        expect(ring().off(moduleName + ':test-4')).to.be(true);
       });
 
       it('dupe unsubscribe from event on global should be false', function () {
-        ring().off(moduleName + ':test-4').should.be.equal(false);
+        expect(ring().off(moduleName + ':test-4')).to.be(false);
       });
 
       it('unsubscribe on event set on global should be true', function () {
         ring().on(moduleName + ':test-4', handler);
-        module.off('test-4').should.be.equal(true);
+        expect(module.off('test-4')).to.be(true);
       });
 
       it('global unsubscribe from local set event should be true', function () {
         module.on('test-4', handler);
-        ring().off(moduleName + ':test-4').should.be.equal(true);
+        expect(ring().off(moduleName + ':test-4')).to.be(true);
       });
     });
 
@@ -170,12 +173,12 @@
       });
 
       it('subscribe on event w/ namespace should be true', function () {
-        module.on('test-5::ns1', handler).should.be.equal(true);
+        expect(module.on('test-5::ns1', handler)).to.be(true);
       });
 
       it('subscribe on event w/ other namespace should be true', function () {
-        module.on('test-5::ns2', handler2).should.be.equal(true);
-        module.on('test-5::ns3', handler3).should.be.equal(true);
+        expect(module.on('test-5::ns2', handler2)).to.be(true);
+        expect(module.on('test-5::ns3', handler3)).to.be(true);
       });
 
       it('trigger w/o namespace should run functions', function () {
@@ -189,7 +192,7 @@
       });
 
       it('unsubscribe from event w/ namespace should be true', function () {
-        module.off('test-5::ns1').should.be.equal(true);
+        expect(module.off('test-5::ns1')).to.be(true);
       });
 
       it('unsubscribe from event w/ namespace should unsubscribe from only namespaced handlers', function () {
@@ -198,7 +201,7 @@
       });
 
       it('unsubscribe from event w/o namespace should be true', function () {
-        module.off('test-5').should.be.equal(true);
+        expect(module.off('test-5')).to.be(true);
       });
 
       it('unsubscribe from event w/o namespace should unsubscribe from all handlers', function () {

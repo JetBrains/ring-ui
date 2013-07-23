@@ -17,29 +17,29 @@
 
     describe('Add and remove', function () {
       it('new add should be true', function () {
-        o('add', moduleName, data).should.be.equal(true);
+        expect(o('add', moduleName, data)).be(true);
       });
 
       it('method should return right result on done and always', function () {
         ring(moduleName)(methodName)
           .done(function(result) {
-            result.should.be.equal(moduleRet);
+            expect(result).be.equal(moduleRet);
           })
           .always(function(result) {
-            result.should.be.equal(moduleRet);
+            expect(result).be.equal(moduleRet);
           });
       });
 
       it('dupe add should be false', function () {
-        o('add', moduleName, data).should.be.equal(false);
+        expect(o('add', moduleName, data)).be(false);
       });
 
       it('remove should be true', function () {
-        o('remove', moduleName).should.be.equal(true);
+        expect(o('remove', moduleName)).be(true);
       });
 
       it('dupe remove should be false', function () {
-        o('remove', moduleName).should.be.equal(false);
+        expect(o('remove', moduleName)).be(false);
       });
     });
 
