@@ -1,4 +1,4 @@
-define(['jquery', 'global/global__events'], function($, Event) {
+define(['jquery', 'global/global__events', 'global/global__templates'], function($, Event, Template) {
   'use strict';
 
   // Function.prototype.bind polyfill
@@ -303,6 +303,27 @@ define(['jquery', 'global/global__events'], function($, Event) {
 
   // Global module name
   Module.GLOBAL = 'root';
+
+  // Global module
+  Module.add(Module.GLOBAL, {
+    add: {
+      method: Module.add,
+      override: true
+    },
+    remove: {
+      method: Module.remove,
+      override: true
+    },
+    config: {
+      method: Module.config,
+      override: true
+    },
+    init: Module.init,
+    render: {
+      method: Template.render,
+      override: true
+    }
+  });
 
   return Module;
 });
