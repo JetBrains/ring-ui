@@ -2,11 +2,12 @@
   "name": "ring-ui",
   "version": "1.0.0",
   "description": "JetBrains blocks library",
+  "private": true,
   "repository": {
     "type": "git",
     "url": "ssh://github.com/JetBrains/ring-ui.git"
   },
-  "readmeFilename": "README.md",
+  "readmeFilename": "README",
   "devDependencies": {
     "connect-livereload": "~0.2.0",
     "grunt": "~0.4.1",
