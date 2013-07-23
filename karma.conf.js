@@ -9,7 +9,7 @@ module.exports = function(karma) {
 
 
     // frameworks to use
-    frameworks: ['mocha', 'chai'],
+    frameworks: ['mocha', 'expect'],
 
 
     // list of files / patterns to load in the browser
@@ -39,7 +39,7 @@ module.exports = function(karma) {
 
     // test results reporter to use
     // possible values: 'dots', 'progress', 'junit', 'growl', 'coverage'
-    reporters: ['spec'],
+    reporters: ['dots'],
 
 
     // web server port
