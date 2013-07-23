@@ -1,3 +1,3 @@
-define(['oauth/oauth', 'stripe/stripe__internal'], function(header) {
+define(['oauth/oauth', 'header/header__internal'], function(header) {
   return header;
 });
