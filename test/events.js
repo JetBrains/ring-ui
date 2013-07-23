@@ -2,12 +2,13 @@
 'use strict';
 (function () {
   var ring = window.ring;
+  var o = ring();
 
   describe('Events', function () {
     var moduleName = 'test-Events-Module';
     var moduleRet = 'lol';
 
-    ring()('add', moduleName, {
+    o('add', moduleName, {
       testMethod: function() {
         return moduleRet;
       }
@@ -110,10 +111,9 @@
 
       beforeEach(function(done){
         toggle = false;
-        setTimeout(done, 0); // IE7 "Out of stack space" workaround. See https://github.com/visionmedia/mocha/issues/502
+        setTimeout(done, 0); // IE7 "Out of stack space" workaround.
+                             // See https://github.com/visionmedia/mocha/issues/502
       });
-
-      var o = ring();
 
       it('subscribe on event on global should be true', function () {
         expect(o.on(moduleName + ':test-4', handler)).to.be(true);
@@ -124,7 +124,7 @@
       });
 
       it('trigger on global should run functions', function () {
-        ring().trigger(moduleName + ':test-4', true);
+        o.trigger(moduleName + ':test-4', true);
         expect(toggle).to.be(true);
       });
 
@@ -134,25 +134,25 @@
       });
 
       it('subscribe on event on global should be true', function () {
-        expect(ring().on(moduleName + ':test-4', handler)).to.be(true);
+        expect(o.on(moduleName + ':test-4', handler)).to.be(true);
       });
 
       it('unsubscribe from event on global should be true', function () {
-        expect(ring().off(moduleName + ':test-4')).to.be(true);
+        expect(o.off(moduleName + ':test-4')).to.be(true);
       });
 
       it('dupe unsubscribe from event on global should be false', function () {
-        expect(ring().off(moduleName + ':test-4')).to.be(false);
+        expect(o.off(moduleName + ':test-4')).to.be(false);
       });
 
       it('unsubscribe on event set on global should be true', function () {
-        ring().on(moduleName + ':test-4', handler);
+        o.on(moduleName + ':test-4', handler);
         expect(module.off('test-4')).to.be(true);
       });
 
       it('global unsubscribe from local set event should be true', function () {
         module.on('test-4', handler);
-        expect(ring().off(moduleName + ':test-4')).to.be(true);
+        expect(o.off(moduleName + ':test-4')).to.be(true);
       });
     });
 
@@ -232,7 +232,7 @@
       };
       brokenModule.brokenMethod.method = {};
 
-      ring()('add', 'brokenModule', brokenModule);
+      o('add', 'brokenModule', brokenModule);
 
       beforeEach(function(){
         toggle = 0;
@@ -267,9 +267,9 @@
       });
 
       it('broken method should trigger :fail events', function () {
-        ring().on('brokenModule:brokenMethod:done', done);
-        ring().on('brokenModule:brokenMethod:always', always);
-        ring().on('brokenModule:brokenMethod:fail', fail);
+        o.on('brokenModule:brokenMethod:done', done);
+        o.on('brokenModule:brokenMethod:always', always);
+        o.on('brokenModule:brokenMethod:fail', fail);
         ring('brokenModule', 'brokenMethod')();
         expect(toggle).to.be.equal(5);
       });
