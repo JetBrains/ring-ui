@@ -32,11 +32,10 @@
     "grunt-banner": "~0.1.4",
     "karma": "~0.9.4",
     "grunt-karma": "git+https://github.com/karma-runner/grunt-karma.git",
-    "karma-chai": "git+https://github.com/princed/karma-chai.git",
+    "karma-expect": "0.0.1",
     "karma-script-launcher": "0.0.2",
     "karma-phantomjs-launcher": "0.0.2",
     "karma-mocha": "0.0.3",
-    "karma-spec-reporter": "0.0.1",
     "karma-coverage": "0.0.3",
     "karma-teamcity-reporter": "0.0.1",
     "karma-ievms": "0.0.2"

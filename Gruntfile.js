@@ -133,12 +133,10 @@ module.exports = function(grunt) {
       },
       dev: {
         background: true,
-        reporters: 'dots',
-        browsers: ['Chrome', 'Firefox', 'Safari', 'IE9 - Win7', 'IE10 - Win7']
+        browsers: ['Chrome', 'Firefox', 'IE7 - WinXP', 'IE10 - Win7']
       },
       test: {
-        singleRun: true,
-        reporters: 'dots'
+        singleRun: true
       }
     },
     jshint: {
