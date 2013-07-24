@@ -1,27 +1,21 @@
-{{#header}}
-  <div class="ring-menu{{#gradient}} ring-menu_gradient{{/gradient}}">
-    <span class="ring-menu__background"></span>
+<div class="ring-menu{{#ifEqual type 'gradient'}} ring-menu_gradient{{/ifEqual}}">
+  <span class="ring-menu__background"></span>
 
-    <div class="ring-menu__i{{> global__class-name}}">
+  <div class="ring-menu__i{{> global__class-name}}">
+    {{#if left}}
       <span class="ring-menu__spacer"></span>
-      {{#if logo.url}}
-        <a href="{{logo.url}}" class="ring-menu__logo"><img class="ring-menu__logo__img" src="{{logo.src}}"/></a>
-      {{else}}
-        <span class="ring-menu__logo"><img class="ring-menu__logo__img" src="{{logo.src}}"/></span>
-      {{/if}}
+      {{#left}}
+        {{> menu__item}}
+      {{/left}}
+    {{/if}}
 
-      {{#items}}
-        {{> header__item}}
-      {{/items}}
-
-      {{#right}}
-        <div class="ring-menu__right">
-          <span class="ring-menu__spacer"></span>
-          {{#items}}
-            {{> menu__item}}
-          {{/items}}
-        </div>
-      {{/right}}
-    </div>
+    {{#if right}}
+      <div class="ring-menu__right">
+        <span class="ring-menu__spacer"></span>
+        {{#right}}
+          {{> menu__item}}
+        {{/right}}
+      </div>
+    {{/if}}
   </div>
-{{/header}}
+</div>

@@ -1,3 +1,3 @@
-define(['global/global'], function(ring) {
+define(['global/global', 'menu/menu', 'dropdown/dropdown'], function(ring) {
   return ring;
 });
