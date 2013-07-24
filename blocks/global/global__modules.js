@@ -25,48 +25,6 @@ define(['jquery', 'global/global__events', 'global/global__templates'], function
     };
   }
 
-  // Object.keys polyfill
-  if (!Object.keys) {
-    Object.keys = (function () {
-      var hasOwnProperty = Object.prototype.hasOwnProperty,
-        hasDontEnumBug = !({toString: null}).propertyIsEnumerable('toString'),
-        dontEnums = [
-          'toString',
-          'toLocaleString',
-          'valueOf',
-          'hasOwnProperty',
-          'isPrototypeOf',
-          'propertyIsEnumerable',
-          'constructor'
-        ],
-        dontEnumsLength = dontEnums.length;
-
-      return function (obj) {
-        if (typeof obj !== 'object' && typeof obj !== 'function' || obj === null) {
-          throw new TypeError('Object.keys called on non-object');
-        }
-
-        var result = [];
-
-        for (var prop in obj) {
-          if (hasOwnProperty.call(obj, prop)) {
-            result.push(prop);
-          }
-        }
-
-        if (hasDontEnumBug) {
-          for (var i=0; i < dontEnumsLength; i++) {
-            if (hasOwnProperty.call(obj, dontEnums[i])) {
-              result.push(dontEnums[i]);
-            }
-          }
-        }
-        return result;
-      };
-    })();
-  }
-
-
   // Utils
   var util = {};
 
@@ -100,6 +58,8 @@ define(['jquery', 'global/global__events', 'global/global__templates'], function
   var modules = {};
   var config = {};
 
+  var methodsList = [];
+
   var Module = function(props, name) {
     var scope = {
       methods: {},
@@ -110,13 +70,9 @@ define(['jquery', 'global/global__events', 'global/global__templates'], function
     // Setup API defined module methods
     this.set(scope, props);
 
-    // Base methods list
-    var methods = Object.keys(Module.prototype);
-    // Move invoke to the end of list
-    methods.push(methods.splice($.inArray('invoke', methods),1)[0]);
 
-    for (var i = methods.length, method; i--; i > 0) {
-      method = methods[i];
+    for (var i = methodsList.length, method; i--; i > 0) {
+      method = methodsList[i];
       // Encapsulate scope in base methods
       this[method] = this[method].bind(this, scope);
       // Pretend invoke is module itself
@@ -205,6 +161,18 @@ define(['jquery', 'global/global__events', 'global/global__templates'], function
     }
   };
 
+  // Form methods list
+  (function(obj, primary) {
+    // Collect methods
+    for (var method in obj) {
+      if (obj.hasOwnProperty(method)) {
+        methodsList.push(method);
+      }
+    }
+
+    // Move primary method to the end of list
+    methodsList.push(methodsList.splice($.inArray(primary, methodsList),1)[0]);
+  }(Module.prototype, 'invoke'));
 
   // Static
   Module.add = function(name, props) {
