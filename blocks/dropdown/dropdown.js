@@ -1,4 +1,4 @@
-define(['jquery', 'global/global__templates', 'global/global__modules'], function($, Template, Module) {
+define(['jquery', 'global/global__views', 'global/global__modules'], function($, View, Module) {
   'use strict';
 
   var COMPONENT_SELECTOR = '.ring-js-dropdown';
@@ -12,7 +12,6 @@ define(['jquery', 'global/global__templates', 'global/global__modules'], functio
   var create = function(data, $target) {
     var currentTarget = $target[0];
     var sameTarget = (currentTarget && target === currentTarget);
-    var dfd = $.Deferred;
 
     if (!data) {
       data = $target.data('ring-dropdown');
@@ -35,7 +34,7 @@ define(['jquery', 'global/global__templates', 'global/global__modules'], functio
         $body = $('body');
       }
 
-      $dropdown = $(Template.render('dropdown', data));
+      $dropdown = $(View.render('dropdown', data));
       $dropdown.appendTo($body);
 
       var pos = $target.offset();
@@ -58,24 +57,22 @@ define(['jquery', 'global/global__templates', 'global/global__modules'], functio
 
       $dropdown.css(pos);
 
-      dfd.resolve();
+      return false;
     } else {
-      dfd.reject();
+      return true;
     }
   };
 
   var remove = function() {
-    var dfd = $.Deferred;
-
     if ($dropdown) {
       $dropdown.remove();
       $dropdown = null;
 
       target = null;
 
-      dfd.resolve();
+      return true;
     } else {
-      dfd.reject();
+      return false;
     }
   };
 

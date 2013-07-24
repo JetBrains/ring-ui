@@ -1,18 +1,18 @@
 {{#this}}
 {{!--Search form--}}
-{{#if action}}
+{{#ifEqual type 'search'}}
   <form action="{{action}}" class="ring-menu__item ring-menu__search">
     <input type="text" class="ring-menu__search__input" /><span class="ring-menu__search__glass ring-font-icon ring-font-icon_search"></span>
   </form>
 {{!--Links--}}
 {{else}}
   {{#if url}}
-    <a href="{{url}}" class="ring-menu__item ring-menu__item_link{{> menu__item__class}}{{> global__class-name}}"{{> global__title}}>{{label}}</a>
+    <a href="{{url}}" class="ring-menu__item_link {{> menu__item__class}}{{> dropdown__component}}"{{> global__title}}>{{> menu__item__content}}</a>
   {{else}}
-    <span class="ring-menu__item{{> menu__item__class}}{{> global__class-name}}{{#if items}} ring-menu__item_noselect component-dropdown" data-component="{{stringify this}}{{/if}}"{{> global__title}}>{{label}}</span>
+    <span class="{{> menu__item__class}}{{> dropdown__component}}"{{> global__title}}>{{> menu__item__content}}</span>
   {{/if}}
-{{/if}}
+{{/ifEqual}}
 
 {{> dropdown-toggle}}
-{{> header__counter}}
+{{> menu__counter}}
 {{/this}}
