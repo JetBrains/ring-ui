@@ -1,13 +1,13 @@
 {{#header}}
-  <div class="ring-header{{#gradient}} ring-header_gradient{{/gradient}}">
-    <span class="ring-header__background"></span>
+  <div class="ring-menu{{#gradient}} ring-menu_gradient{{/gradient}}">
+    <span class="ring-menu__background"></span>
 
-    <div class="ring-header__i{{> global__class-name}}">
-      <span class="ring-header__spacer"></span>
+    <div class="ring-menu__i{{> global__class-name}}">
+      <span class="ring-menu__spacer"></span>
       {{#if logo.url}}
-        <a href="{{logo.url}}" class="ring-header__logo"><img class="ring-header__logo__img" src="{{logo.src}}"/></a>
+        <a href="{{logo.url}}" class="ring-menu__logo"><img class="ring-menu__logo__img" src="{{logo.src}}"/></a>
       {{else}}
-        <span class="ring-header__logo"><img class="ring-header__logo__img" src="{{logo.src}}"/></span>
+        <span class="ring-menu__logo"><img class="ring-menu__logo__img" src="{{logo.src}}"/></span>
       {{/if}}
 
       {{#items}}
@@ -15,8 +15,8 @@
       {{/items}}
 
       {{#right}}
-        <div class="ring-header__right">
-          <span class="ring-header__spacer"></span>
+        <div class="ring-menu__right">
+          <span class="ring-menu__spacer"></span>
           {{#items}}
             {{> menu__item}}
           {{/items}}

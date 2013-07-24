@@ -1,21 +1,21 @@
 {{#stripe}}
-  <div class="ring-stripe">
+  <div class="ring-header">
     {{#items}}
       {{#unless active}}
-        <a class="ring-stripe__item ring-stripe__item_link{{> global__class-name}}" href="{{url}}">{{label}}</a>
+        <a class="ring-header__item ring-header__item_link{{> global__class-name}}" href="{{url}}">{{label}}</a>
       {{/unless}}
       {{#if active}}
-        <span class="ring-stripe__item ring-stripe__item_active{{> global__class-name}}">{{label}}</span>
+        <span class="ring-header__item ring-header__item_active{{> global__class-name}}">{{label}}</span>
       {{/if}}
     {{/items}}
     {{#if personal}}
-      <span class="ring-stripe__personal component-dropdown" data-component="{{stringify personal}}">
-        <span class="ring-stripe__item ring-stripe__item_link">{{personal.username}}</span>
+      <span class="ring-header__personal component-dropdown" data-component="{{stringify personal}}">
+        <span class="ring-header__item ring-header__item_link">{{personal.username}}</span>
         <span class="ring-font-icon ring-font-icon_caret-down"></span>
       </span>
     {{else}}
-      <span class="ring-stripe__personal">
-        <a class="ring-stripe__item ring-stripe__item_link" href="{{login.url}}">{{login.label}}</a>
+      <span class="ring-header__personal">
+        <a class="ring-header__item ring-header__item_link" href="{{login.url}}">{{login.label}}</a>
       </span>
     {{/if}}
   </div>
