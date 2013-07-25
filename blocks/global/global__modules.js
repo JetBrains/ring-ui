@@ -29,7 +29,7 @@ define(['jquery', 'global/global__events', 'global/global__views'], function($, 
   var util = {};
 
   util.isDeferred = function(obj) {
-    return $.isFunction(obj) && obj.promise && $.isFunction(obj.promise);
+    return !!obj && typeof obj === 'object' && $.isFunction(obj.promise);
   };
 
   // Logging
@@ -232,7 +232,7 @@ define(['jquery', 'global/global__events', 'global/global__views'], function($, 
     return config;
   };
 
-  Module.init = function(list) {
+  Module.multi = function(method, list) {
     var promises = [];
 
     if (typeof list !== 'object') {
@@ -248,7 +248,7 @@ define(['jquery', 'global/global__events', 'global/global__views'], function($, 
         log('There is no module "' + name + '"');
         ret = null;
       } else {
-        ret = module.invoke('init', data);
+        ret = module.invoke(method, data);
       }
 
       if (util.isDeferred(ret)) {
@@ -281,7 +281,8 @@ define(['jquery', 'global/global__events', 'global/global__views'], function($, 
       method: Module.config,
       override: true
     },
-    init: Module.init,
+    init: Module.multi.bind(Module, 'init'),
+    update: Module.multi.bind(Module, 'update'),
     render: {
       method: View.render,
       override: true
