@@ -1,22 +1,21 @@
-{{#stripe}}
-  <div class="ring-header">
-    {{#items}}
-      {{#unless active}}
-        <a class="ring-header__item ring-header__item_link{{> global__class-name}}" href="{{url}}">{{label}}</a>
-      {{/unless}}
-      {{#if active}}
-        <span class="ring-header__item ring-header__item_active{{> global__class-name}}">{{label}}</span>
-      {{/if}}
-    {{/items}}
-    {{#if personal}}
-      <span class="ring-header__personal component-dropdown" data-component="{{stringify personal}}">
-        <span class="ring-header__item ring-header__item_link">{{personal.username}}</span>
-        <span class="ring-font-icon ring-font-icon_caret-down"></span>
-      </span>
+<div class="ring-header">
+  {{#services}}
+    {{#if active}}
+      <span class="ring-header__item ring-header__item_active{{> global__class-name}}">{{label}}</span>
     {{else}}
-      <span class="ring-header__personal">
-        <a class="ring-header__item ring-header__item_link" href="{{login.url}}">{{login.label}}</a>
-      </span>
+      <a class="ring-header__item ring-header__item_link{{> global__class-name}}" href="{{url}}">{{label}}</a>
     {{/if}}
-  </div>
-{{/stripe}}
+  {{/services}}
+  {{#personal}}
+    <span class="ring-header__personal{{> dropdown__component}}">
+      <span class="ring-header__item ring-header__item_link">{{username}}</span>
+      <span class="ring-font-icon ring-font-icon_caret-down"></span>
+    </span>
+  {{else}}
+    {{#authLinks/login}}
+    <span class="ring-header__personal">
+      <a class="ring-header__item ring-header__item_link" href="{{url}}">{{label}}</a>
+    </span>
+    {{/authLinks/login}}
+  {{/personal}}
+</div>
