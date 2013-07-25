@@ -22,6 +22,10 @@ define(['jquery', 'global/global__views', 'global/global__modules'], function($,
     if (data && !sameTarget) {
       target = currentTarget;
 
+      if (typeof data === 'object' && !data.html) {
+        data = {items: data};
+      }
+
       if (typeof data === 'string') {
         data = {html: data};
       }
