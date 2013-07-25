@@ -153,5 +153,46 @@
       });
 
     });
+
+    describe('Multi-methods', function () {
+      var moduleName = 'test-Multi-methods-Module';
+      var methodName = 'init';
+      var moduleRet = 'lol';
+
+      var data = {};
+      data[methodName] = function(ret) {
+        return ret;
+      };
+
+      o('add', moduleName, data);
+
+      it('multi-method should return $.Deferred', function () {
+        expect(o(methodName).promise).to.be.a('function');
+      });
+
+      it('complete multi-method call should be resolved', function () {
+        o(methodName, {
+          'test-Multi-methods-Module': moduleRet
+        })
+          .done(function(result) {
+            expect(result).to.be(moduleRet);
+          });
+      });
+
+      it('multi-method results should in right order', function () {
+        o(methodName, {
+          'inexistent method': null,
+          'test-Multi-methods-Module': moduleRet
+        })
+          .done(function(result1, result2) {
+            expect(result1).to.be(null);
+            expect(result2).to.be(moduleRet);
+          });
+      });
+
+      it('incomplete multi-method call should be rejected', function () {
+        expect(o(methodName).state()).to.be('rejected');
+      });
+    });
   });
 })();
