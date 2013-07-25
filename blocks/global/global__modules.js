@@ -1,4 +1,4 @@
-define(['jquery', 'global/global__events', 'global/global__views'], function($, Event, View) {
+define(['jquery', 'global/global__events'], function($, Event) {
   'use strict';
 
   // Function.prototype.bind polyfill
@@ -44,7 +44,7 @@ define(['jquery', 'global/global__events', 'global/global__views'], function($, 
 
   var DEBUG = false;
   var TEST = true;
-  var log = function(message) {
+  util.log = function(message) {
     if (DEBUG) {
       throw new RingError(message);
     } else if (console && !TEST) {
@@ -98,7 +98,7 @@ define(['jquery', 'global/global__events', 'global/global__views'], function($, 
     } else {
       ret = null;
       action = 'reject';
-      log('Method "' + name + '" must be a function');
+      util.log('Method "' + name + '" must be a function');
     }
 
     if (override) {
@@ -146,7 +146,7 @@ define(['jquery', 'global/global__events', 'global/global__views'], function($, 
 
   Module.prototype.get = function(scope, name) {
     if (typeof name !== 'string') {
-      log('Method name must be a string');
+      util.log('Method name must be a string');
       return $.noop;
     }
 
@@ -156,7 +156,7 @@ define(['jquery', 'global/global__events', 'global/global__views'], function($, 
     if ((method = methods[name])) {
       return method;
     } else {
-      log('There is no method ' + name + ' in module "' + this.name + '"');
+      util.log('There is no method ' + name + ' in module "' + this.name + '"');
       return $.noop;
     }
   };
@@ -177,12 +177,12 @@ define(['jquery', 'global/global__events', 'global/global__views'], function($, 
   // Static
   Module.add = function(name, props) {
     if (typeof name !== 'string') {
-      log('Module name must be a string');
+      util.log('Module name must be a string');
       return false;
     }
 
     if (typeof props !== 'object') {
-      log('Module properties must be an object');
+      util.log('Module properties must be an object');
       return false;
     }
 
@@ -197,17 +197,17 @@ define(['jquery', 'global/global__events', 'global/global__views'], function($, 
 
   Module.remove = function(name) {
     if (typeof name !== 'string') {
-      log('Module name must be a string');
+      util.log('Module name must be a string');
       return false;
     }
 
     if (!modules[name]) {
-      log('There is no module "' + name + '"');
+      util.log('There is no module "' + name + '"');
       return false;
     }
 
     if (name === Module.GLOBAL) {
-      log('Can not remove "' + name + '" module');
+      util.log('Can not remove "' + name + '" module');
       return false;
     }
 
@@ -216,27 +216,53 @@ define(['jquery', 'global/global__events', 'global/global__views'], function($, 
 
   Module.get = function(name) {
     if (!modules[name]) {
-      log('There is no module "' + name + '"');
+      util.log('There is no module "' + name + '"');
       return $.noop;
     } else {
       return modules[name].invoke;
     }
   };
 
-  Module.config = function(data) {
-    if (typeof data !== 'object') {
-      return config;
+  Module.config = function(module, data) {
+    var moduleConfig = config[module] = config[module] || {};
+
+    if (typeof data === 'object') {
+      $.extend(true, moduleConfig, data);
     }
 
-    $.extend(config, data);
-    return config;
+    return moduleConfig;
+  };
+
+  Module.configUpdate = function(module, path, data) {
+    var moduleConfig = Module.config(module);
+
+    if (moduleConfig) {
+      var part;
+      var newData = {};
+      var pathParts = path.split('.');
+
+      while ((part = pathParts.pop())) {
+        if (isNaN(Number(part))) {
+          newData = {};
+        } else {
+          newData = [];
+        }
+        newData[part] = data;
+        data = newData;
+      }
+      $.extend(true, moduleConfig, newData);
+    } else {
+      Module.util.log('There is nothing to update in module "' + module + '" config');
+    }
+
+    return moduleConfig;
   };
 
   Module.multi = function(method, list) {
     var promises = [];
 
     if (typeof list !== 'object') {
-      log('Modules list must be an object');
+      util.log('Modules list in multi-method "' + method + '" must be an object');
       return $.Deferred().reject().promise();
     }
 
@@ -245,7 +271,7 @@ define(['jquery', 'global/global__events', 'global/global__views'], function($, 
       var module = modules[name];
 
       if (!module) {
-        log('There is no module "' + name + '"');
+        util.log('There is no module "' + name + '"');
         ret = null;
       } else {
         ret = module.invoke(method, data);
@@ -267,6 +293,9 @@ define(['jquery', 'global/global__events', 'global/global__views'], function($, 
   // Global module name
   Module.GLOBAL = 'root';
 
+  // Provide utils
+  Module.util = util;
+
   // Global module
   Module.add(Module.GLOBAL, {
     add: {
@@ -278,15 +307,11 @@ define(['jquery', 'global/global__events', 'global/global__views'], function($, 
       override: true
     },
     config: {
-      method: Module.config,
+      method: Module.config.bind(Module, Module.GLOBAL),
       override: true
     },
     init: Module.multi.bind(Module, 'init'),
-    update: Module.multi.bind(Module, 'update'),
-    render: {
-      method: View.render,
-      override: true
-    }
+    update: Module.multi.bind(Module, 'update')
   });
 
   return Module;

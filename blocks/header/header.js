@@ -20,11 +20,11 @@ define(['jquery',  'global/global__modules', 'global/global__views'], function($
     return data;
   };
 
-  Module.add('header', {
-    'init': function(data) {
+  var module = 'header';
 
-      View.update('header', process(data));
-    }
+  Module.add(module, {
+    init: View.init.bind(View, module, process),
+    update: View.update.bind(View, module, process)
   });
 
 });
