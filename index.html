@@ -30,6 +30,8 @@
 
   <script>
     require(['jquery', 'ring'], function($, ring) {
+      window.ring = ring;
+
       ring()('init', {
         menu: {
           "type": "gradient",

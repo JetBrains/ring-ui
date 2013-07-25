@@ -271,7 +271,7 @@ or
       "type": "gradient",
       "left": {
         "projects": {
-          "dropdown-toggle": {
+          "toggle": {
             "items": [
               {
                 "className": "test-class",
@@ -296,6 +296,7 @@ or
           "url": "/rest/reports"
         },
         "logo": {
+          "order": 1,
           "image": "/blocks/header/tc.png",
           "url": "/dashboard"
         }
