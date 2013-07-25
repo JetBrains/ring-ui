@@ -1,6 +1,7 @@
 define(['jquery',  'global/global__modules', 'global/global__views'], function($, Module, View) {
   'use strict';
 
+  // Turn order value into elements order
   var processItems = function(obj) {
     var items = [];
     var orderedItems = [];
@@ -40,11 +41,12 @@ define(['jquery',  'global/global__modules', 'global/global__views'], function($
     return data;
   };
 
-  Module.add('menu', {
-    'init': function(data) {
+  var module = 'menu';
 
-      View.update('menu', process(data));
-    }
+  Module.add(module, {
+    init: View.init.bind(View, module, process),
+    update: View.update.bind(View, module, process),
+    setActive: function() {}
   });
 
 });
