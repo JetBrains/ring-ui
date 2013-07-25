@@ -240,7 +240,7 @@ define(['jquery', 'global/global__events', 'global/global__views'], function($, 
       return $.Deferred().reject().promise();
     }
 
-    $.each(function(name, data) {
+    $.each(list, function(name, data) {
       var promise, ret;
       var module = modules[name];
 

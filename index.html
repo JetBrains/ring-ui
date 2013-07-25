@@ -30,62 +30,101 @@
 
   <script>
     require(['jquery', 'ring'], function($, ring) {
-      ring('menu', 'init')({
-        "type": "gradient",
-        "left": {
-          "projects": {
-            "toggle": {
+      ring()('init', {
+        menu: {
+          "type": "gradient",
+          "left": {
+            "projects": {
+              "toggle": {
+                "items": [
+                  {
+                    "className": "test-class",
+                    "label": "Issues",
+                    "title": "Tilte attribute content",
+                    "url": "/issues"
+                  },
+                  {
+                    "label": "Agile Board",
+                    "url": "/rest/agile"
+                  }
+                ]
+              },
+              "label": "Projects"
+            },
+            "agents": {
+              "counter": {
+                "color": "red",
+                "label": 125
+              },
+              "label": "Agents",
+              "url": "/rest/reports"
+            },
+            "logo": {
+              "order": 1,
+              "image": "/blocks/header/tc.png",
+              "url": "/dashboard"
+            }
+          },
+          "right": {
+            "search": {
+              "type": "search",
+              "url": "/search"
+            },
+            "help": {
+              "type": "help",
+              "url": "/help"
+            },
+            "cog": {
               "items": [
                 {
-                  "className": "test-class",
                   "label": "Issues",
-                  "title": "Tilte attribute content",
                   "url": "/issues"
                 },
                 {
                   "label": "Agile Board",
                   "url": "/rest/agile"
                 }
-              ]
-            },
-            "label": "Projects"
-          },
-          "agents": {
-            "counter": {
-              "color": "red",
-              "label": 125
-            },
-            "label": "Agents",
-            "url": "/rest/reports"
-          },
-          "logo": {
-            "order": 1,
-            "image": "/blocks/header/tc.png",
-            "url": "/dashboard"
+              ],
+              "type": "cog",
+              "url": "/prefs"
+            }
           }
         },
-        "right": {
-          "search": {
-            "type": "search",
-            "url": "/search"
+        header: {
+          "services": [
+            {
+              "active": true,
+              "label": "TeamCity",
+              "url": "http://teamcity.jetbrains.com"
+            },
+            {
+              "label": "YouTrack",
+              "url": "//youtrack.jetbrains.com"
+            }
+          ],
+          "user": {
+            "name": "Display Name"
           },
-          "help": {
-            "type": "help",
-            "url": "/help"
-          },
-          "cog": {
-            "items": [
-              {
-                "label": "Issues",
-                "url": "/issues"
-              },
-              {
-                "label": "Agile Board",
-                "url": "/rest/agile"
-              }
-            ],
-            "type": "cog",
-            "url": "/prefs"
+          "personalLinks": [
+            {
+              "label": "Issues",
+              "url": "/issues"
+            },
+            {
+              "label": "Agile Board",
+              "url": "/rest/agile"
+            }
+          ],
+          "authLinks": {
+            "login": {
+              "label": "Log in",
+              "url": "/login",
+              "event": "login"
+            },
+            "logout": {
+              "label": "Log out",
+              "event": "logout"
+            }
           }
         }
       });
