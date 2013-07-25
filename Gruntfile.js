@@ -344,27 +344,6 @@ module.exports = function(grunt) {
     });
   });
 
-  grunt.registerTask('push-tags', 'Push git tags', function() {
-    var done = this.async();
-
-    grunt.util.spawn({
-        cmd: 'git push',
-        args: ['--tags']
-      },
-      function(err)
-      {
-        if (!err) {
-          grunt.log.ok('Tags pushed');
-        } else {
-          grunt.log.error(err.stdout, err.stderr);
-        }
-
-        done();
-      }
-    );
-
-  });
-
   grunt.registerTask('sprite', 'Render font icons to png sprite', function() {
     var phantomjs = require('phantomjs');
 
