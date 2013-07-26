@@ -117,6 +117,15 @@ define(function() {
     }
   };
 
+  events.stateTrigger = function(scope, method, state) {
+    var signature = method + Event.MODULE_DELIM + state;
+    var trigger = this.trigger;
+
+    return function(result) {
+      trigger(signature, result);
+    };
+  };
+
   Event.events = events;
 
   return Event;
