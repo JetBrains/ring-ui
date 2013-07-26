@@ -8,6 +8,10 @@ define(['jquery', 'handlebars', 'global/global__modules'], function($, Handlebar
   };
 
   View.prototype.update = function($element) {
+    if (!($element instanceof $)) {
+      $element = $($element);
+    }
+
     this.$element.replaceWith($element);
     this.$element = $element;
   };
@@ -45,8 +49,8 @@ define(['jquery', 'handlebars', 'global/global__modules'], function($, Handlebar
     var html = View.render(module, pipe(process, data));
 
     if (html) {
-      view.update($(html));
-      dfd.resolve();
+      view.update(html);
+      dfd.resolve(view.$element);
     } else {
       dfd.reject();
     }
