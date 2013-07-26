@@ -86,7 +86,6 @@ define(['jquery', 'global/global__events'], function($, Event) {
   // Instance
   Module.prototype.invoke = function(scope, name) {
     var dfd, ret, action;
-    var trigger = this.trigger || $.noop;
 
     var method = this.get(name);
     var func = method.method || method;
@@ -105,14 +104,6 @@ define(['jquery', 'global/global__events'], function($, Event) {
       return ret;
     }
 
-    var triggerOnState = function(state) {
-      var signature = name + Event.MODULE_DELIM + state;
-
-      return function(result) {
-        trigger(signature, result);
-      };
-    };
-
     if (util.isDeferred(ret)) {
       dfd = ret;
       action = null;
@@ -121,9 +112,9 @@ define(['jquery', 'global/global__events'], function($, Event) {
     }
 
     dfd
-      .always(triggerOnState('always'))
-      .done(triggerOnState('done'))
-      .fail(triggerOnState('fail'));
+      .always(this.stateTrigger(name, 'always'))
+      .done(this.stateTrigger(name, 'done'))
+      .fail(this.stateTrigger(name, 'fail'));
 
     if (action) {
       dfd[action](ret);
