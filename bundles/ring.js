@@ -1,9 +1,7 @@
 define([
   'global/global',
   'menu/menu',
-  'header/header',
-  'font-icon/font-icon',
-  'dropdown/dropdown'
+  'header/header'
 ], function(ring) {
   return ring;
 });
