@@ -136,9 +136,22 @@ Basic ring configuration. Returns actualized config.
 #### init
 Init bunch of modules
 
-    root('init', config)
+    root('init', moduleList)
 
-##### config
+##### moduleList
+
+    {
+        "header": headerConfig,
+        "menu": menuConfig,
+        "footer": footerConfig
+    }
+
+#### update
+Update bunch of modules
+
+    root('update', moduleList)
+
+##### moduleList
 
     {
         "header": headerConfig,
