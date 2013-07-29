@@ -45,7 +45,9 @@ define(['jquery', 'handlebars', 'global/global__modules'], function($, Handlebar
     }
 
     var module = Module.get(name);
-    data = module.update('view', path, data);
+    var args = Array.prototype.slice.call(arguments, 2);
+    args.unshift('view');
+    data = module.update.apply(module, args);
 
     var html = View.render(name, pipe(process, data));
 

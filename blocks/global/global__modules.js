@@ -138,26 +138,35 @@ define(['jquery', 'global/global__events'], function($, Event) {
     return true;
   };
 
-  Module.prototype.update = function(scope, name, path, data) {
+  Module.prototype.update = function(scope, name) {
+    var part, data, newData, pathParts;
     var props = this.get(name);
+    var args = Array.prototype.slice.call(arguments, 2);
 
     if (props) {
-      var part;
-      var newData = {};
-      var pathParts = path.split('.');
+      var extenders = [true, props];
 
-      while ((part = pathParts.pop())) {
-        if (isNaN(Number(part))) {
-          newData = {};
-        } else {
-          newData = [];
+      while (args.length) {
+        pathParts = args[0].split('.');
+        data = args[1];
+
+        while ((part = pathParts.pop())) {
+          if (isNaN(Number(part))) {
+            newData = {};
+          } else {
+            newData = [];
+          }
+          newData[part] = data;
+          data = newData;
         }
-        newData[part] = data;
-        data = newData;
+
+        extenders.push(newData);
+        args.splice(0, 2);
       }
-      $.extend(true, props, newData);
+
+      $.extend.apply($, extenders);
     } else {
-      Module.util.log('There is nothing to update in module "' + module + '" config');
+      Module.util.log('There is nothing to update in module "' + name + '" config');
     }
 
     return props;
