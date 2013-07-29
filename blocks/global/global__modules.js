@@ -29,7 +29,7 @@ define(['jquery', 'global/global__events'], function($, Event) {
   var util = {};
 
   util.isDeferred = function(obj) {
-    return !!obj && typeof obj === 'object' && $.isFunction(obj.promise);
+    return !!obj && typeof obj === 'object' && obj.hasOwnProperty('promise') && $.isFunction(obj.promise);
   };
 
   // Logging
@@ -56,20 +56,18 @@ define(['jquery', 'global/global__events'], function($, Event) {
   // Modules
   //
   var modules = {};
-  var config = {};
-
   var methodsList = [];
 
   var Module = function(props, name) {
     var scope = {
       methods: {},
+      properties: {},
       global: name === Module.GLOBAL,
       name: name
     };
 
     // Setup API defined module methods
     this.set(scope, props);
-
 
     for (var i = methodsList.length, method; i--; i > 0) {
       method = methodsList[i];
@@ -124,15 +122,45 @@ define(['jquery', 'global/global__events'], function($, Event) {
   };
 
   Module.prototype.set = function(scope, props) {
-    var method;
+    var field;
     var methods = scope.methods;
+    var properties = scope.properties;
 
     for (var name in props) {
-      method = props[name];
-      if (typeof method === 'function' || typeof method.method === 'function') {
-        methods[name] = method;
+      field = props[name];
+      if (typeof field === 'function' || typeof field.method === 'function') {
+        methods[name] = field;
+      } else {
+        properties[name] = field;
       }
     }
+
+    return true;
+  };
+
+  Module.prototype.update = function(scope, name, path, data) {
+    var props = this.get(name);
+
+    if (props) {
+      var part;
+      var newData = {};
+      var pathParts = path.split('.');
+
+      while ((part = pathParts.pop())) {
+        if (isNaN(Number(part))) {
+          newData = {};
+        } else {
+          newData = [];
+        }
+        newData[part] = data;
+        data = newData;
+      }
+      $.extend(true, props, newData);
+    } else {
+      Module.util.log('There is nothing to update in module "' + module + '" config');
+    }
+
+    return props;
   };
 
   Module.prototype.get = function(scope, name) {
@@ -141,13 +169,15 @@ define(['jquery', 'global/global__events'], function($, Event) {
       return $.noop;
     }
 
-    var method;
     var methods = scope.methods;
+    var properties = scope.properties;
 
-    if ((method = methods[name])) {
-      return method;
+    if (methods[name]) {
+      return methods[name];
+    } else if (properties[name]) {
+      return properties[name];
     } else {
-      util.log('There is no method ' + name + ' in module "' + this.name + '"');
+      util.log('There is no method or property' + name + ' in module "' + scope.name + '"');
       return $.noop;
     }
   };
@@ -214,41 +244,6 @@ define(['jquery', 'global/global__events'], function($, Event) {
     }
   };
 
-  Module.config = function(module, data) {
-    var moduleConfig = config[module] = config[module] || {};
-
-    if (typeof data === 'object') {
-      $.extend(true, moduleConfig, data);
-    }
-
-    return moduleConfig;
-  };
-
-  Module.configUpdate = function(module, path, data) {
-    var moduleConfig = Module.config(module);
-
-    if (moduleConfig) {
-      var part;
-      var newData = {};
-      var pathParts = path.split('.');
-
-      while ((part = pathParts.pop())) {
-        if (isNaN(Number(part))) {
-          newData = {};
-        } else {
-          newData = [];
-        }
-        newData[part] = data;
-        data = newData;
-      }
-      $.extend(true, moduleConfig, newData);
-    } else {
-      Module.util.log('There is nothing to update in module "' + module + '" config');
-    }
-
-    return moduleConfig;
-  };
-
   Module.multi = function(method, list) {
     var promises = [];
 
@@ -297,9 +292,10 @@ define(['jquery', 'global/global__events'], function($, Event) {
       method: Module.remove,
       override: true
     },
-    config: {
-      method: Module.config.bind(Module, Module.GLOBAL),
-      override: true
+    config: function(data) {
+      return Module.get(Module.GLOBAL).set({
+        config: data
+      });
     },
     init: Module.multi.bind(Module, 'init'),
     update: Module.multi.bind(Module, 'update')
