@@ -36,39 +36,43 @@ define(['jquery', 'handlebars', 'global/global__modules'], function($, Handlebar
     }
   };
 
-  View.update = function(module, process, path, data) {
-    var dfd = $.Deferred();
-    var view = views[module];
+  View.update = function(name, process, path, data) {
+    var view = views[name];
 
     if (!view) {
-      Module.util.log('There is no view for module "' + module + '"');
-      return dfd.reject().promise();
+      Module.util.log('There is no view for module "' + name + '"');
+      return null;
     }
 
-    data = Module.configUpdate(module, path, data);
-    var html = View.render(module, pipe(process, data));
+    var module = Module.get(name);
+    data = module.update('view', path, data);
+
+    var html = View.render(name, pipe(process, data));
 
     if (html) {
       view.update(html);
-      dfd.resolve(view.$element);
+      return(view.$element);
     } else {
-      dfd.reject();
+      return null;
     }
-
-    return dfd.promise();
   };
 
-  View.init = function(module, process, data) {
-    Module.config(module, data);
+  View.init = function(name, process, data) {
+    var module = Module.get(name);
+    module.set({
+      view: data
+    });
 
-    var html = View.render(module, pipe(process, data));
+    var html = View.render(name, pipe(process, data));
 
     if (html) {
       var $html = $(html);
       $html.prependTo($('body'));
-      views[module] = new View($html);
+      views[name] = new View($html);
+      return $html;
     } else {
       Module.util.log('Empty template for module "' + module + '"');
+      return null;
     }
   };
 
