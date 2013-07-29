@@ -23,7 +23,9 @@ define(['jquery',  'global/global__modules', 'global/global__views', 'dropdown/d
   var module = 'header';
 
   Module.add(module, {
-    init: View.init.bind(View, module, process),
+    init: function(data, element, method) {
+      return View.init(module, element || null, method || 'prepend', process, data);
+    },
     update: View.update.bind(View, module, process)
   });
 

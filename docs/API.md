@@ -214,7 +214,7 @@ Remove module. Returns success.
 
 #### init
 
-    header('init', config)
+    header('init', config[, element[, method]])
 
 #### config
 If `auth: true` stated all other data will extend data fetched from Hub
@@ -264,13 +264,29 @@ If `auth: true` stated all other data will extend data fetched from Hub
         }
     }
 
+
+#### element
+`jQuery` | `String` | `Node`
+
+#### method
+`String`
+
+Possible values:
+
+* append
+* prepend
+* before
+* after
+
+Default is **append**.
+
 ## Menu
 
-    var menu = ring('nenu');
+    var menu = ring('menu');
 
 ### init
 
-    menu('init', config)
+    menu('init', config[, element[, method]])
 
 or
 
@@ -336,6 +352,21 @@ or
       }
     }
 
+#### element
+`jQuery` | `String` | `Node`
+
+#### method
+`String`
+
+Possible values:
+
+* append
+* prepend
+* before
+* after
+
+Default is **append**.
+
 ### update
 
     var update = ring('menu', 'update');
@@ -349,8 +380,7 @@ Dot-delimited string path to element
     'left.projects.counter'
 
 #### configPart
-Any part of initial config.
-Remove part using `null`.
+Any part of initial config. Remove part using `null`.
 
 `Object`
 
