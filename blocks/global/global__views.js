@@ -3,6 +3,7 @@ define(['jquery', 'handlebars', 'global/global__modules'], function($, Handlebar
 
   var views = {};
 
+  // TODO Refactor
   var View = function($element) {
     this.$element = $element;
   };
@@ -37,6 +38,37 @@ define(['jquery', 'handlebars', 'global/global__modules'], function($, Handlebar
     }
   };
 
+  var $body;
+  var methods = {
+    append: 'appendTo',
+    prepend: 'prependTo',
+    before: 'insertBefore',
+    after: 'insertAfter',
+    'default': 'appendTo'
+  };
+
+  var addElement = function addElement($html, $element, method, counter) {
+    counter = counter || 0;
+    var $elem;
+    if (typeof $element === 'string' || $element instanceof Node) {
+      $elem = $($element);
+    } else if (!($element instanceof $)) {
+      $elem = $body || ($body = $('body'));
+    }
+
+    if (!$elem[0] && counter < 300) {
+      setTimeout(addElement.bind(null, $html, $element, method, ++counter), 10);
+      return;
+    } else if (counter >= 300) {
+      // give up
+      // TODO logging
+    }
+
+    method = methods[method] || methods['default'];
+
+    return $html[method]($elem);
+  };
+
   View.update = function(name, process, path, data) {
     var view = views[name];
 
@@ -46,8 +78,7 @@ define(['jquery', 'handlebars', 'global/global__modules'], function($, Handlebar
     }
 
     var module = Module.get(name);
-    var args = Array.prototype.slice.call(arguments, 2);
-    args.unshift('view');
+    var args = Array.prototype.slice.call(arguments, 2, 'view');
     data = module.update.apply(module, args);
 
     var html = View.render(name, pipe(process, data));
@@ -60,7 +91,7 @@ define(['jquery', 'handlebars', 'global/global__modules'], function($, Handlebar
     }
   };
 
-  View.init = function(name, process, data) {
+  View.init = function(name, $element, method, process, data) {
     var module = Module.get(name);
     module.set({
       view: data
@@ -70,9 +101,8 @@ define(['jquery', 'handlebars', 'global/global__modules'], function($, Handlebar
 
     if (html) {
       var $html = $(html);
-      $html.prependTo($('body'));
       views[name] = new View($html);
-      return $html;
+      return addElement($html, $element, method);
     } else {
       Module.util.log('Empty template for module "' + module + '"');
       return null;

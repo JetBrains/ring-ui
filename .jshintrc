@@ -26,7 +26,7 @@
   "undef": true,
   "unused": true,
 
-  "maxparams": 4,
+  "maxparams": 5,
   "maxdepth": 4,
 
   "white": false
