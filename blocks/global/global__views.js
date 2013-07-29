@@ -18,6 +18,7 @@ define(['jquery', 'handlebars', 'global/global__modules'], function($, Handlebar
 
   View.render = function(template, data) {
     var html = Handlebars.partials[template](data);
+
     if (html.replace(/\s+/, '') !== '') {
       return html;
     } else {
