@@ -6,11 +6,11 @@
   </form>
 {{!--Links--}}
 {{else}}
-  {{#if url}}
+  {{#unless active}}
     <a href="{{url}}" class="ring-menu__item_link {{> menu__item__class}}{{> dropdown__component}}"{{> global__title}}>{{> menu__item__content}}</a>
   {{else}}
     <span class="{{> menu__item__class}}{{> dropdown__component}}"{{> global__title}}>{{> menu__item__content}}</span>
-  {{/if}}
+  {{/unless}}
 {{/ifEqual}}
 
 {{> dropdown-toggle}}
