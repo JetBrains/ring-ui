@@ -69,7 +69,7 @@ define(['jquery', 'handlebars', 'global/global__modules'], function($, Handlebar
     return $html[method]($elem);
   };
 
-  View.update = function(name, process, path, data) {
+  View.update = function(name, path, data) {
     var view = views[name];
 
     if (!view) {
@@ -78,10 +78,11 @@ define(['jquery', 'handlebars', 'global/global__modules'], function($, Handlebar
     }
 
     var module = Module.get(name);
-    var args = Array.prototype.slice.call(arguments, 2, 'view');
+    var args = Array.prototype.slice.call(arguments, 1);
+    args.unshift('view');
     data = module.update.apply(module, args);
 
-    var html = View.render(name, pipe(process, data));
+    var html = View.render(name, pipe(module.get('process'), data));
 
     if (html) {
       view.update(html);
@@ -94,7 +95,8 @@ define(['jquery', 'handlebars', 'global/global__modules'], function($, Handlebar
   View.init = function(name, $element, method, process, data) {
     var module = Module.get(name);
     module.set({
-      view: data
+      view: data,
+      process: process
     });
 
     var html = View.render(name, pipe(process, data));
