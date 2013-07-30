@@ -2,7 +2,13 @@
   <div class="ring-dropdown__i">
     {{{html}}}
     {{#items}}
-      {{#this}}<a class="ring-dropdown__item{{> global__class-name}}" href="{{url}}">{{label}}</a>{{/this}}
+      {{#this}}
+        {{#if url}}
+          <a class="ring-dropdown__item{{> global__class}}" href="{{url}}" {{> global__attributes}}>{{label}}</a>
+        {{else}}
+          <span class="ring-dropdown__item{{> global__class}}" {{> global__attributes}}>{{label}}</span>
+        {{/if}}
+      {{/this}}
     {{/items}}
   </div>
 </div>

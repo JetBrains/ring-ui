@@ -251,7 +251,7 @@ If `auth: true` stated all other data will extend data fetched from Hub
             "login": {
                 "label": "Log in",
                 "url": "/login",
-                "event": "login"
+                "event": "{module}:{event}"
             },
             "anotherExampleAuthLink": {
                 "label": "Example link with url only",
@@ -259,7 +259,7 @@ If `auth: true` stated all other data will extend data fetched from Hub
             },
             "logout": {
                 "label": "Log out",
-                "event": "logout"
+                "event": "{module}:{event}"
             }
         }
     }

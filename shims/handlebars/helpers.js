@@ -1,6 +1,6 @@
 /* global Handlebars */
 Handlebars.registerHelper('stringify', function(items) {
-  return $.toJSON(items);
+  return typeof items === 'string' ? items : $.toJSON(items);
 });
 
 
