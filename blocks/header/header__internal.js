@@ -1,56 +1,57 @@
-define(['full-header/full-header'], function (header) {
+define(['global/global__views', 'global/global__modules'], function (View, Module) {
   'use strict';
 
   var internalServices = [
     {
-      'title': 'TeamCity',
-      'url': 'http://teamcity.jetbrains.com'
+      label: 'TeamCity',
+      url: 'http://teamcity.jetbrains.com'
     },
     {
-      'title': 'YouTrack',
-      'url': '//youtrack.jetbrains.com'
+      label: 'YouTrack',
+      url: '//youtrack.jetbrains.com'
     },
     {
-      'title': 'Upsource',
-      'url': 'http://upsource.jetbrains.com'
+      label: 'Upsource',
+      url: 'http://upsource.jetbrains.com'
     },
     {
-      'title': 'Confluence',
-      'url': 'http://confluence.jetbrains.com'
+      label: 'Confluence',
+      url: 'http://confluence.jetbrains.com'
     },
     {
-      'title': 'JetPeople',
-      'url': '//jetpeople.jetbrains.com'
+      label: 'JetPeople',
+      url: '//jetpeople.jetbrains.com'
     },
     {
-      'title': 'TeamFeed',
-      'url': '//jetbrains-feed.appspot.com'
+      label: 'TeamFeed',
+      url: '//jetbrains-feed.appspot.com'
     },
     {
-      'title': 'VC',
-      'url': '***REMOVED***'
+      label: 'VC',
+      url: '***REMOVED***'
     },
     {
-      'title': 'Forums',
-      'url': 'http://forum.jetbrains.com'
+      label: 'Forums',
+      url: 'http://forum.jetbrains.com'
     }
   ];
 
-  var location = window.location.href;
+  Module.get(Module.GLOBAL).on('header:init:done', function() {
+    var headerServices = Module.get('header').get('view').services || [];
+    var services = headerServices.concat(internalServices);
 
-  for (var i = internalServices.length; i--; i > 0) {
-    if (location.indexOf(internalServices[i].url) !== -1) {
-      delete internalServices[i].url;
-      break;
+    var location = window.location.href;
+    var url;
+
+    for (var i = services.length; i--; i > 0) {
+      url = services[i].url;
+      if (url && location.indexOf(url) !== -1) {
+        services[i].active = true;
+      } else {
+        delete services[i].active;
+      }
     }
-  }
 
-  var process = function(data) {
-    data.stripe = data.stripe || {};
-    data.stripe.items = internalServices;
-
-    return data;
-  };
-
-  header.addProcessor(process);
+    View.update('header', 'services', services);
+  });
 });
