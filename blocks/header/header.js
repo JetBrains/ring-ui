@@ -26,7 +26,7 @@ define(['jquery',  'global/global__modules', 'global/global__views', 'dropdown/d
     init: function(data, element, method) {
       return View.init(module, element || null, method || 'prepend', process, data);
     },
-    update: View.update.bind(View, module, process)
+    update: View.update.bind(View, module)
   });
 
 });
