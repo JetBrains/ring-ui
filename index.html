@@ -55,6 +55,10 @@
               },
               "active": 1,
               "url": "/projects",
+              "event": {
+                "name": "menu:test",
+                "data": "projects"
+              },
               "label": "Projects"
             },
             "agents": {
@@ -65,8 +69,8 @@
               "label": "Agents",
               "url": "/rest/reports",
               "event": {
-                "name": "header:test",
-                "data": "Hello!"
+                "name": "menu:test",
+                "data": "agents"
               }
             },
             "logo": {
@@ -129,7 +133,10 @@
             "login": {
               "label": "Log in",
               "url": "/login",
-              "event": "header:test"
+              "event": {
+                "name": "header:test",
+                "data": "Hello!"
+              }
             },
             "logout": {
               "label": "Log out",
@@ -141,6 +148,11 @@
 
       o.on('header:test', function(data) {
         alert(data || 'Logout');
+        return false;
+      });
+
+      o.on('menu:test', function(data) {
+        ring('menu', 'setActive')(data);
         return false;
       });
     });

@@ -66,7 +66,7 @@ define(['jquery',  'global/global__modules', 'global/global__views', 'dropdown/d
       return null;
     }
 
-    var update = [module, process, label, 1];
+    var update = [module, label, 1];
 
     if (activePath) {
       update.push(activePath, 0);
@@ -82,7 +82,7 @@ define(['jquery',  'global/global__modules', 'global/global__views', 'dropdown/d
     init: function(data, element, method) {
       return View.init(module, element || '.ring-header', method || 'after', process, data);
     },
-    update: View.update.bind(View, module, process),
+    update: View.update.bind(View, module),
     setActive: setActive
   });
 });
