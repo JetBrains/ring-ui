@@ -158,6 +158,10 @@ $btn-border-radius: 3px;
   max-height: 24px;
 }
 
+.ring-btn-toolbar > * {
+  margin-right: 16px;
+}
+
 .ring-btn-toolbar__group > .ring-btn {
   margin: 0 0 0 -1px;
   border-radius: 0;
@@ -204,7 +208,6 @@ $btn-border-radius: 3px;
 }
 
 .ring-btn__last-icon {
-  margin-left: 11px;
   display: inline-block;
   cursor: pointer;
   line-height: 22px;
