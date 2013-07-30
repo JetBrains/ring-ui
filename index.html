@@ -32,7 +32,9 @@
     require(['jquery', 'ring'], function($, ring) {
       window.ring = ring;
 
-      ring()('init', {
+      var o = ring();
+
+      o('init', {
         menu: {
           "type": "gradient",
           "left": {
@@ -61,7 +63,11 @@
                 "label": 125
               },
               "label": "Agents",
-              "url": "/rest/reports"
+              "url": "/rest/reports",
+              "event": {
+                "name": "header:test",
+                "data": "Hello!"
+              }
             },
             "logo": {
               "order": 1,
@@ -123,14 +129,19 @@
             "login": {
               "label": "Log in",
               "url": "/login",
-              "event": "login"
+              "event": "header:test"
             },
             "logout": {
               "label": "Log out",
-              "event": "logout"
+              "event": "header:test"
             }
           }
         }
+      });
+
+      o.on('header:test', function(data) {
+        alert(data || 'Logout');
+        return false;
       });
     });
   </script>

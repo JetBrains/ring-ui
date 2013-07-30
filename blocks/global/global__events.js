@@ -1,4 +1,4 @@
-define(function() {
+define(['jquery'], function($) {
   'use strict';
 
   // Event constructor
@@ -26,6 +26,8 @@ define(function() {
 
   Event.NAMESPACE_DELIM = '::';
   Event.MODULE_DELIM = ':';
+  Event.SELECTOR = '.ring-js-event';
+  Event.DATA = 'ring-event';
 
   // Internal methods
   var cache = {};
@@ -103,18 +105,17 @@ define(function() {
   };
 
   events.trigger = function(scope, signature, data) {
+    var ret = true;
     var event = new Event(signature, scope);
     var subscriptions = cache[event.name];
 
     if (subscriptions) {
       for (var i = subscriptions.length; i--; i > 0) {
-        subscriptions[i].handler(data);
+        ret = subscriptions[i].handler(data);
       }
-
-      return true;
-    } else {
-      return false;
     }
+
+    return ret;
   };
 
   events.stateTrigger = function(scope, method, state) {
@@ -127,6 +128,21 @@ define(function() {
   };
 
   Event.events = events;
+
+  // Events from DOM
+  var handler = function(e) {
+    var $target = $(e.currentTarget);
+    var event = $target.data(Event.DATA);
+
+    if (typeof event === 'object') {
+      return events.trigger({global: true}, event.name, event.data);
+    } else {
+      return events.trigger({global: true}, event);
+    }
+  };
+
+  // Using delegate because of compatibility with YouTrack's jQuery 1.5.1
+  $(document).delegate(Event.SELECTOR, 'click.ring.event', handler);
 
   return Event;
 });

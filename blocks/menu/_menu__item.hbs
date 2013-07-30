@@ -7,9 +7,9 @@
 {{!--Links--}}
 {{else}}
   {{#unless active}}
-    <a href="{{url}}" class="ring-menu__item_link {{> menu__item__class}}{{> dropdown__component}}"{{> global__title}}>{{> menu__item__content}}</a>
+    <a href="{{url}}" class="ring-menu__item_link {{> menu__item__class}}{{> dropdown__component}}"{{> global__attributes}}>{{> menu__item__content}}</a>
   {{else}}
-    <span class="{{> menu__item__class}}{{> dropdown__component}}"{{> global__title}}>{{> menu__item__content}}</span>
+    <span class="{{> menu__item__class}}{{> dropdown__component}}"{{> global__attributes}}>{{> menu__item__content}}</span>
   {{/unless}}
 {{/ifEqual}}
 
