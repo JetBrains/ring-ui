@@ -1,36 +1,45 @@
-define(['jso', 'jquery', 'full-header/full-header'], function (jso, $, header) {
+/* jshint camelcase:false */
+define(['jquery', 'jso', 'global/global__modules', 'global/global__views'], function ($, jso, Module, View) {
   'use strict';
 
   var config;
-  var defaultHeaderInit = header.init;
   var serverUrl;
+  var provider = 'hub';
+  var jsoConfig = {};
 
-  function convertServicesToItems(services) {
+  var get = function(url, callback) {
+    return $.oajax({url: serverUrl + url,
+      jso_provider: provider,
+      //TODO: use string scopes instead of ids
+      jso_scopes: config.scope,
+      jso_allowia: true,
+      dataType: 'json',
+      success: callback
+    });
+  };
+
+  var convertServices = function(services) {
     var items = [];
+
     for (var i = 0; i < services.length; ++i) {
       var service = services[i];
       items.push({
-        'title': service.name,
-        'url': service.homeUrl
+        label: service.name,
+        url: service.homeUrl
       });
     }
+
     return items;
-  }
+  };
 
-  function convertUserToProfile(user) {
-    return {'username': user.name};
-  }
-
-  var oauthInit = function (initialConfig, baseData, dontWaitDom, component) {
-
+  var init = function (initialConfig) {
     serverUrl = initialConfig.serverUri;
 
     if (!serverUrl) {
-      throw 'Server URI is not defined!';
+      Module.util.log('Server URI is not defined!');
     }
 
-    config = jQuery.extend({
-    /* jshint camelcase:false */
+    config = $.extend({
         client_id: 'dafb2157-a3ac-4f8c-92fa-450c3c903189',
         redirect_uri: window.location.href,
         authorization: serverUrl + '/rest/oauth2/auth',
@@ -41,38 +50,30 @@ define(['jso', 'jquery', 'full-header/full-header'], function (jso, $, header) {
         scope: initialConfig.scope
       }
     );
-    console.log(config);
-    jso.configure({
-      'default': config
+
+    jsoConfig[provider] = config;
+    jso.configure(jsoConfig);
+
+    var header = Module.get('header');
+    var headerServices = header.get('view').services || [];
+
+    $.when(
+      get('/rest/services'),
+      get('/rest/users/me'),
+      header.on('init')
+    ).then(function(services, me) {
+      var servicesUpdate = headerServices.concat(convertServices(services[0].services));
+
+      View.update('header', '.', {
+        services: servicesUpdate,
+        user: me[0]
+      });
     });
-    hubAjax(serverUrl + '/rest/services',
-      function (servicePage) {
-        console.log('Response (default):');
-        console.log(servicePage);
-        var items = convertServicesToItems(servicePage.services);
-        var data = jQuery.extend(baseData, {'stripe': {'items': items}});
-        hubAjax(serverUrl + '/rest/users/me', function (user) {
-          console.log(user);
-          data.stripe = jQuery.extend(data.stripe, {'personal': convertUserToProfile(user)});
-          defaultHeaderInit(data, dontWaitDom, component);
-        });
-      }
-    );
   };
 
-  function hubAjax(url, callback) {
-    $.oajax({url: url,
-      /* jshint camelcase:false */
-      jso_provider: 'default',
-      //TODO: use string scopes instead of ids
-      jso_scopes: config.scope,
-      jso_allowia: true,
-      dataType: 'json',
-      success: callback
-    });
-  }
-
-  header.init = oauthInit;
-
-  return header;
+  var module = 'auth';
+  Module.add(module, {
+    init: init,
+    ajax: get
+  });
 });
