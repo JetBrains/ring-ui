@@ -55,17 +55,17 @@ define(['jquery', 'jso', 'global/global__modules', 'global/global__views'], func
     jso.configure(jsoConfig);
 
     var header = Module.get('header');
-    var headerServices = header.get('view').services || [];
+    //var headerServices = header.get('view').services || [];
 
     $.when(
       get('/rest/services'),
       get('/rest/users/me'),
       header.on('init')
     ).then(function(services, me) {
-      var servicesUpdate = headerServices.concat(convertServices(services[0].services));
+      //var servicesUpdate = headerServices.concat(convertServices(services[0].services));
 
       View.update('header', '.', {
-        services: servicesUpdate,
+        services: convertServices(services[0].services),
         user: me[0]
       });
     });
