@@ -27,7 +27,7 @@
   "unused": true,
 
   "maxparams": 5,
-  "maxdepth": 4,
+  "maxdepth": 5,
 
   "white": false
 }
