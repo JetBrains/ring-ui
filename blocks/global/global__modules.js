@@ -109,6 +109,8 @@ define(['jquery', 'global/global__events'], function($, Event) {
       dfd = $.Deferred();
     }
 
+    this.trigger(name, dfd);
+
     dfd
       .always(this.stateTrigger(name, 'always'))
       .done(this.stateTrigger(name, 'done'))
