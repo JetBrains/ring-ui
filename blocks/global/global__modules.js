@@ -139,7 +139,7 @@ define(['jquery', 'global/global__events'], function($, Event) {
   };
 
   Module.prototype.update = function(scope, name) {
-    var part, data, newData, pathParts;
+    var part, path, data, newData, pathParts;
     var props = this.get(name);
     var args = Array.prototype.slice.call(arguments, 2);
 
@@ -147,17 +147,23 @@ define(['jquery', 'global/global__events'], function($, Event) {
       var extenders = [true, props];
 
       while (args.length) {
-        pathParts = args[0].split('.');
+        path = args[0];
         data = args[1];
 
-        while ((part = pathParts.pop())) {
-          if (isNaN(Number(part))) {
-            newData = {};
-          } else {
-            newData = [];
+        if (path ===  '.') {
+          newData = data;
+        } else {
+          pathParts = args[0].split('.');
+
+          while ((part = pathParts.pop())) {
+            if (isNaN(Number(part))) {
+              newData = {};
+            } else {
+              newData = [];
+            }
+            newData[part] = data;
+            data = newData;
           }
-          newData[part] = data;
-          data = newData;
         }
 
         extenders.push(newData);
