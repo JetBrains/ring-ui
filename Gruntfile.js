@@ -66,7 +66,7 @@ module.exports = function(grunt) {
         },
         files: {
           '<%= path.dist %>ring.min.js': '<%= path.dist %>ring.js',
-//          '<%= path.dist %>ring-jetbrains-oauth.min.js': '<%= path.dist %>ring-jetbrains-oauth.js',
+          '<%= path.dist %>ring-jetbrains-oauth.min.js': '<%= path.dist %>ring-jetbrains-oauth.js',
           '<%= path.dist %>ring-jetbrains.min.js': '<%= path.dist %>ring-jetbrains.js'
         }
       }
@@ -213,14 +213,14 @@ module.exports = function(grunt) {
     },
     requirejs: {
       'ring': requireConfig,
-//      'ring-oauth': {
-//        options: _.extend(_.clone(requireConfig.options), {
-//          paths: {
-//            ring: '../<%= path.bundles %>ring-oauth'
-//          },
-//          out: '<%= path.dist %>ring-oauth.js'
-//        })
-//      },
+      'ring-oauth': {
+        options: _.extend(_.clone(requireConfig.options), {
+          paths: {
+            ring: '../<%= path.bundles %>ring-oauth'
+          },
+          out: '<%= path.dist %>ring-oauth.js'
+        })
+      },
       'ring-internal': {
         options: _.extend(_.clone(requireConfig.options), {
           paths: {
@@ -228,14 +228,14 @@ module.exports = function(grunt) {
           },
           out: '<%= path.dist %>ring-jetbrains.js'
         })
-//      },
-//      'ring-internal-oauth': {
-//        options: _.extend(_.clone(requireConfig.options), {
-//          paths: {
-//            ring: '../<%= path.bundles %>ring-jetbrains-oauth'
-//          },
-//          out: '<%= path.dist %>ring-jetbrains-oauth.js'
-//        })
+      },
+      'ring-internal-oauth': {
+        options: _.extend(_.clone(requireConfig.options), {
+          paths: {
+            ring: '../<%= path.bundles %>ring-jetbrains-oauth'
+          },
+          out: '<%= path.dist %>ring-jetbrains-oauth.js'
+        })
       }
     },
     copy: {
