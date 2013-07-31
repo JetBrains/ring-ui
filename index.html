@@ -29,7 +29,7 @@
   <script src="bundles/ring.config.js"></script>
 
   <script>
-    require(['jquery', 'ring', 'header/header__internal'], function($, ring) {
+    require(['jquery', 'ring', 'header/header__internal', 'oauth/oauth'], function($, ring) {
       window.ring = ring;
 
       var o = ring();
@@ -139,6 +139,19 @@
               "event": "header:test"
             }
           }
+        },
+        // Use with hub on localhost
+        // auth: {
+        //   clientId: "bbb54677-70fd-47b5-b3cf-c9eeb51212d0",
+        //   redirectUri: "http://localhost:8000",
+        //   serverUri: "http://localhost:8080",
+        //   scope: ["bbb54677-70fd-47b5-b3cf-c9eeb51212d0"]
+        // }
+        auth: {
+          clientId: "4ba3d665-e492-48a2-960c-b3aacb2fe248",
+          redirectUri: "http://hub.jetbrains.com/1.0/",
+          serverUri: "http://hub.jetbrains.com:8080/accounts",
+          scope: ["4ba3d665-e492-48a2-960c-b3aacb2fe248"]
         }
       });
 
