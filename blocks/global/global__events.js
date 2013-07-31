@@ -109,6 +109,9 @@ define(['jquery'], function($) {
     var event = new Event(signature, scope);
     var subscriptions = cache[event.name];
 
+    // TODO debug logging
+    // console.log((scope.global && 'root:'|| '') + event.name);
+
     if (subscriptions) {
       for (var i = subscriptions.length; i--; i > 0) {
         ret = subscriptions[i].handler(data);
