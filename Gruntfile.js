@@ -275,7 +275,8 @@ module.exports = function(grunt) {
         files: [
           {
             expand: true,
-            src: '<%= path.docs %>*.md',
+            cwd: '<%= path.tmp %>',
+            src: '**/*.md',
             dest: '<%= path.dist %>',
             ext: '.html'
           }
@@ -289,6 +290,18 @@ module.exports = function(grunt) {
             }
           }
         }
+      }
+    },
+    toc: {
+      all: {
+        files: [
+          {
+            expand: true,
+            src: '<%= path.docs %>*.md',
+            dest: '<%= path.tmp %>',
+            ext: '.md'
+          }
+        ]
       }
     },
 
@@ -382,6 +395,26 @@ module.exports = function(grunt) {
 
   });
 
+  grunt.registerMultiTask('toc', 'Generate toc', function() {
+    var toc = require('md-toc-filter');
+
+    this.files.forEach(function(file) {
+      var contents = file.src.filter(function(filepath) {
+        if (!grunt.file.exists(filepath)) {
+          grunt.log.warn('Source file "' + filepath + '" not found.');
+          return false;
+        } else {
+          return true;
+        }
+      }).map(function(filepath) {
+          // Read and return the file's source.
+          return toc(grunt.file.read(filepath));
+        }).join('\n');
+      grunt.file.write(file.dest, contents);
+      grunt.log.writeln('File "' + file.dest + '" created.');
+    });
+  });
+
   require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
 
   grunt.registerTask('install',   ['bower']);
@@ -405,12 +438,17 @@ module.exports = function(grunt) {
     'process'
   ]);
 
+  grunt.registerTask('docs', [
+    'toc',
+    'markdown'
+  ]);
+
   grunt.registerTask('process', [
     'install',
     'styles',
     'templates',
     'requirejs',
-    'markdown'
+    'docs'
   ]);
 
   grunt.registerTask('server', [
