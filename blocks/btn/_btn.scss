@@ -22,6 +22,7 @@ $btn-border-radius: 3px;
 }
 
 .ring-btn {
+  display: inline-block;
   border-radius: $btn-border-radius;
   font-size: 11px;
   padding: 0 15px;
@@ -154,6 +155,11 @@ $btn-border-radius: 3px;
 .ring-btn-toolbar__group {
   display: inline-block;
   position: relative;
+  max-height: 24px;
+}
+
+.ring-btn-toolbar > * {
+  margin-right: 16px;
 }
 
 .ring-btn-toolbar__group > .ring-btn {
@@ -195,7 +201,13 @@ $btn-border-radius: 3px;
 }
 
 .ring-btn__icon {
-  margin-left: 11px;
+  display: inline-block;
+  cursor: pointer;
+  line-height: 22px;
+  height: 22px !important;
+}
+
+.ring-btn__last-icon {
   display: inline-block;
   cursor: pointer;
   line-height: 22px;
