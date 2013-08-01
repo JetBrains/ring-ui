@@ -1,6 +1,8 @@
 Ring API
 ========
 
+@@TOC@@
+
 # Syntax
 
 ## Import modules
@@ -41,7 +43,7 @@ All methods return `$.Deferred` if anything else isn't stated
 
 ## Events
 
-#### on
+### on
 Subscribe on ring events on any modules.
 
     var root = ring();
@@ -55,29 +57,29 @@ Subscribe on certain module events
     module.on(event, handler);
 
 
-##### event — modules list
+#### event — modules list
 `String`
 
     '{module}:{method}:{done|fail|success}[::{namespace}]'
     '{module}:{customEvent}[::{namespace}]'
 
-##### event — certain module
+#### event — certain module
 `String`
 
     '{method}:{done|fail|success}[::{namespace}]'
     '{customEvent}[::{namespace}]'
 
-##### handler
+#### handler
 `Function` (handler function) | `String` (method name)
 
-#### one
+### one
 Subscribe on event for only one time
 
     var module = ring('module');
 
     module.one(event, handler);
 
-#### off
+### off
 Unsubscribe from all or namespaced events
 
     var module = ring('module');
@@ -85,14 +87,14 @@ Unsubscribe from all or namespaced events
     module.off(event);
 
 
-#### trigger
+### trigger
 Trigger ring event
 
     var module = ring('module');
 
     module.trigger(event);
 
-##### event
+#### event
 `String`
 
 Same as `on()` event param.
@@ -104,14 +106,14 @@ Default module, can be called with or without id
 
     var root = ring();
 
-#### config
+### config
 Basic ring configuration. Returns actualized config.
 
 **Returns** `Object`
 
     root('config', baseConfig)
 
-##### baseConfig
+#### baseConfig
     {
       "services": [
         {
@@ -133,12 +135,12 @@ Basic ring configuration. Returns actualized config.
       }
     }
 
-#### init
+### init
 Init bunch of modules
 
     root('init', moduleList)
 
-##### moduleList
+#### moduleList
 
     {
         "header": headerConfig,
@@ -146,12 +148,12 @@ Init bunch of modules
         "footer": footerConfig
     }
 
-#### update
+### update
 Update bunch of modules
 
     root('update', moduleList)
 
-##### moduleList
+#### moduleList
 
     {
         "header": headerConfig,
@@ -159,17 +161,17 @@ Update bunch of modules
         "footer": footerConfig
     }
 
-#### render
+### render
 Render any avalaible template
 
 **Returns** `String`
 
     root('render', templateName, data);
 
-##### templateName
+#### templateName
 `String`
 
-##### data
+#### data
 `Object`
 
 #### add
@@ -212,7 +214,7 @@ Remove module. Returns success.
 
     var header = ring('header');
 
-#### init
+### init
 
     header('init', config[, element[, method]])
 
