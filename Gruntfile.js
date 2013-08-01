@@ -54,9 +54,13 @@ module.exports = function(grunt) {
     // Build
     csso: {
       dist: {
-        files: {
-          '<%= path.dist %>ring.min.css': ['<%= path.dist %>ring.css']
-        }
+        files: [{
+          expand: true,
+          cwd: '<%= path.dist %>',
+          src: ['*.css'],
+          ext: '.min.css',
+          dest: '<%= path.dist %>'
+        }]
       }
     },
     uglify: {
@@ -64,11 +68,13 @@ module.exports = function(grunt) {
         options: {
           report: 'gzip'
         },
-        files: {
-          '<%= path.dist %>ring.min.js': '<%= path.dist %>ring.js',
-          '<%= path.dist %>ring-jetbrains-oauth.min.js': '<%= path.dist %>ring-jetbrains-oauth.js',
-          '<%= path.dist %>ring-jetbrains.min.js': '<%= path.dist %>ring-jetbrains.js'
-        }
+        files: [{
+          expand: true,
+          cwd: '<%= path.dist %>',
+          src: ['*.js'],
+          ext: '.min.js',
+          dest: '<%= path.dist %>'
+        }]
       }
     },
     usebanner: {
