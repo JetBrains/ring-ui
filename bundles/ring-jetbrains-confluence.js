@@ -15,7 +15,7 @@ define([
   for (var i = scripts.length; i > 0; i--) {
     ringScript = scripts[i];
 
-    if (ringScript && ringScript && ringScript.src.indexOf('ring-jetbrains-confluence.js') > -1) {
+    if (ringScript && ringScript && ringScript.src.indexOf('ring-jetbrains-confluence.min.js') > -1) {
       break;
     } else {
       ringScript = null;
@@ -23,7 +23,7 @@ define([
   }
 
   // Stop if we could not find ourselves
-  if (!ringScript && !ringScript.src) {
+  if (!ringScript || !ringScript.src) {
     return ring;
   }
 
