@@ -227,7 +227,7 @@ module.exports = function(grunt) {
           out: '<%= path.dist %>ring-oauth.js'
         })
       },
-      'ring-internal': {
+      'ring-jetbrains': {
         options: _.extend(_.clone(requireConfig.options), {
           paths: {
             ring: '../<%= path.bundles %>ring-jetbrains'
@@ -235,7 +235,16 @@ module.exports = function(grunt) {
           out: '<%= path.dist %>ring-jetbrains.js'
         })
       },
-      'ring-internal-oauth': {
+      'ring-jetbrains-confluence': {
+        options: _.extend(_.clone(requireConfig.options), {
+          paths: {
+            ring: '../<%= path.bundles %>ring-jetbrains-confluence',
+            jquery: '../components/jquery/jquery'
+          },
+          out: '<%= path.dist %>ring-jetbrains-confluence.js'
+        })
+      },
+      'ring-jetbrains-oauth': {
         options: _.extend(_.clone(requireConfig.options), {
           paths: {
             ring: '../<%= path.bundles %>ring-jetbrains-oauth'
