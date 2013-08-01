@@ -3,7 +3,7 @@ define(['jquery', 'global/global__events'], function($, Event) {
 
   // Function.prototype.bind polyfill
   // TODO include as component
-  if (!Function.prototype.bind) {
+  if (!Function.prototype.bind || Function.prototype.bind.toString().indexOf('[native code]') === -1) {
     Function.prototype.bind = function (oThis) {
       if (typeof this !== 'function') {
         // closest thing possible to the ECMAScript 5 internal IsCallable function
