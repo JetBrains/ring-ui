@@ -54,6 +54,8 @@ define(['jquery', 'handlebars', 'global/global__modules'], function($, Handlebar
       $elem = $($element);
     } else if (!($element instanceof $)) {
       $elem = $body || ($body = $('body'));
+    } else {
+      $elem = $element;
     }
 
     if (!$elem[0] && counter < 300) {
