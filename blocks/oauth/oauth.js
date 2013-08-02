@@ -71,9 +71,25 @@ define(['jquery', 'jso', 'global/global__modules', 'global/global__views'], func
     });
   };
 
+  var getToken = function() {
+    var token = jso.getToken(provider);
+
+    if (token === null) {
+      var ensure = {};
+      ensure[provider] = config.scope;
+      jso.ensure(ensure);
+    } else {
+      return token;
+    }
+  };
+
   var module = 'auth';
   Module.add(module, {
     init: init,
-    ajax: get
+    ajax: get,
+    getToken: {
+      method: getToken,
+      override: true
+    }
   });
 });
