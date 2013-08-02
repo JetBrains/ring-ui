@@ -277,6 +277,7 @@ Possible values:
 * prepend
 * before
 * after
+* replace
 
 Default is **append**.
 

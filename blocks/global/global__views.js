@@ -44,6 +44,7 @@ define(['jquery', 'handlebars', 'global/global__modules'], function($, Handlebar
     prepend: 'prependTo',
     before: 'insertBefore',
     after: 'insertAfter',
+    replace: 'replaceWith',
     'default': 'appendTo'
   };
 
@@ -65,10 +66,17 @@ define(['jquery', 'handlebars', 'global/global__modules'], function($, Handlebar
       // give up
       // TODO logging
     }
-
     method = methods[method] || methods['default'];
 
-    return $html[method]($elem);
+    var ret;
+    if (method === 'replaceWith')  {
+      $elem[method]($html);
+      ret = $html;
+    } else {
+      ret = $html[method]($elem);
+    }
+
+    return ret;
   };
 
   View.update = function(name, path, data) {
