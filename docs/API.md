@@ -219,12 +219,10 @@ Remove module. Returns success.
     header('init', config[, element[, method]])
 
 #### config
-If `auth: true` stated all other data will extend data fetched from Hub
 
 `Object`
 
     {
-        "auth": true,
         "services": [
             {
                 "active": true,
@@ -469,6 +467,11 @@ Remove part using `null`.
         "serverUri": "http://localhost:8080/jetpass",
         "scope": "bbb54677-70fd-47b5-b3cf-c9eeb51212d0"
     }
+
+### getToken
+Return token or updates authorization if token is missing.
+
+**Returns** `String`
 
 ### ajax
 Get hub resourse using config authorization.
