@@ -175,7 +175,7 @@
           'test-Multi-methods-Module': moduleRet
         })
           .done(function(result) {
-            expect(result).to.be(moduleRet);
+            expect(result).to.be.equal(moduleRet);
           });
       });
 
@@ -185,13 +185,13 @@
           'test-Multi-methods-Module': moduleRet
         })
           .done(function(result1, result2) {
-            expect(result1).to.be(null);
-            expect(result2).to.be(moduleRet);
+            expect(result1).to.be.null;
+            expect(result2).to.be.equal(moduleRet);
           });
       });
 
       it('incomplete multi-method call should be rejected', function () {
-        expect(o(methodName).state()).to.be('rejected');
+        expect(o(methodName).state()).to.be.equal('rejected');
       });
     });
   });
