@@ -2,7 +2,6 @@
 define(['jquery', 'jso', 'global/global__modules', 'global/global__views'], function ($, jso, Module, View) {
   'use strict';
 
-  var config;
   var serverUrl;
   var provider = 'hub';
   var jsoConfig = {};
@@ -11,7 +10,7 @@ define(['jquery', 'jso', 'global/global__modules', 'global/global__views'], func
     return $.oajax({url: serverUrl + url,
       jso_provider: provider,
       //TODO: use string scopes instead of ids
-      jso_scopes: config.scope,
+      jso_scopes: jsoConfig[provider].scope,
       jso_allowia: true,
       dataType: 'json',
       success: callback
@@ -32,26 +31,22 @@ define(['jquery', 'jso', 'global/global__modules', 'global/global__views'], func
     return items;
   };
 
-  var init = function (initialConfig) {
-    serverUrl = initialConfig.serverUri;
+  var init = function (config) {
+    serverUrl = config.serverUri;
 
     if (!serverUrl) {
       Module.util.log('Server URI is not defined!');
     }
 
-    config = $.extend({
-        client_id: 'dafb2157-a3ac-4f8c-92fa-450c3c903189',
-        redirect_uri: window.location.href,
-        authorization: serverUrl + '/rest/oauth2/auth',
-        scope: ['dafb2157-a3ac-4f8c-92fa-450c3c903189']
+    jsoConfig[provider] = $.extend({
+        authorization: serverUrl + '/rest/oauth2/auth'
       }, {
-        client_id: initialConfig.clientId,
-        redirect_uri: initialConfig.redirectUri,
-        scope: initialConfig.scope
+        client_id: config.clientId,
+        redirect_uri: config.redirectUri,
+        scope: config.scope
       }
     );
 
-    jsoConfig[provider] = config;
     jso.configure(jsoConfig);
 
     var header = Module.get('header');
@@ -76,7 +71,7 @@ define(['jquery', 'jso', 'global/global__modules', 'global/global__views'], func
 
     if (token === null) {
       var ensure = {};
-      ensure[provider] = config.scope;
+      ensure[provider] = jsoConfig[provider].scope;
       jso.ensure(ensure);
     } else {
       return token;
