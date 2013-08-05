@@ -1,0 +1,26 @@
+.ring-breadcrumb {
+  margin-top: 20px;
+  list-style: none;
+}
+
+.ring-breadcrumb__element {
+  display: inline-block;
+  font-size: 19px;
+  color: #1866c5;
+}
+
+.ring-breadcrumb__element_active {
+  color: #1a1a1a;
+}
+
+.ring-breadcrumb__element__a {
+  color: #1866c5;
+  text-decoration: none;
+}
+
+.ring-breadcrumb__divider {
+  position: relative;
+  top: -2px;
+  font-size: 11px !important;
+  color: #949494;
+}
