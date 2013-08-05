@@ -82,9 +82,6 @@ define(['jquery', 'jso', 'global/global__modules', 'global/global__views'], func
   Module.add(module, {
     init: init,
     ajax: get,
-    getToken: {
-      method: getToken,
-      override: true
-    }
+    getToken: getToken
   });
 });
