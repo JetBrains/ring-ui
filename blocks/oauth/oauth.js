@@ -32,6 +32,7 @@ define(['jquery', 'jso', 'global/global__modules', 'global/global__views'], func
   };
 
   var init = function (config) {
+    var dfd = $.Deferred();
     serverUrl = config.serverUri;
 
     if (!serverUrl) {
@@ -47,7 +48,7 @@ define(['jquery', 'jso', 'global/global__modules', 'global/global__views'], func
       }
     );
 
-    jso.configure(jsoConfig);
+    jso.configure(jsoConfig, null, dfd.resolve.bind(dfd));
 
     var header = Module.get('header');
     //var headerServices = header.get('view').services || [];
@@ -64,6 +65,8 @@ define(['jquery', 'jso', 'global/global__modules', 'global/global__views'], func
         user: me[0]
       });
     });
+
+    return dfd;
   };
 
   var getToken = function() {
