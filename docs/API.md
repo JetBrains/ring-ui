@@ -401,7 +401,7 @@ Set menu item from left and right active by id
 #### id
 `String`
 
-## Footer
+## Footer (not implemented)
 
 ### init
 
@@ -489,7 +489,7 @@ Path to Hub resource
 
     '/rest/services'
 
-## Notifications
+## Notifications (not implemented)
 
 ### push
 
