@@ -472,8 +472,6 @@ Remove part using `null`.
 ### getToken
 Return token or updates authorization if token is missing.
 
-**Returns** `String`
-
 ### ajax
 Get hub resourse using config authorization.
 
