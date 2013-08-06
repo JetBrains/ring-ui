@@ -324,7 +324,7 @@ module.exports = function(grunt) {
       },
       markdown: {
         files: ['<%= path.docs %>**/*.md'],
-        tasks: ['markdown', 'notify:watch']
+        tasks: ['docs', 'notify:watch']
       },
       templates: {
         files: ['<%= path.blocks %>**/*.hbs'],
