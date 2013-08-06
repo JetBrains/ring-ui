@@ -55,7 +55,8 @@ define(['jquery', 'handlebars', 'global/global__modules'], function($, Handlebar
     if (typeof $element === 'string' || $element instanceof Node) {
       $target = $($element);
     } else if (!($element instanceof $)) {
-      $target = $body || ($body = $('body'));
+      // TODO Lazy DOM cache
+      $target = $body && $body[0] ? $body : ($body = $('body'));
     } else {
       $target = $element;
     }

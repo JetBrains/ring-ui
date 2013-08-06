@@ -9,7 +9,7 @@ define([
   $.noConflict();
 
   var header = ring('header');
-  header('init', {});
+  header('init');
 
   // Render header
   $(function(){
@@ -19,7 +19,9 @@ define([
       .hide()
       .next('.ajs-drop-down').css('top', 0);
 
-    header.update('user.name', $username.text());
+    header.one('init:done', function() {
+      header('update', 'user.name', $username.text());
+    });
 
     $(document).on('click.ring.personal', '.ring-header__personal', function() {
       $username.click();
