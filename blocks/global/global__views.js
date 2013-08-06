@@ -48,35 +48,39 @@ define(['jquery', 'handlebars', 'global/global__modules'], function($, Handlebar
     'default': 'appendTo'
   };
 
-  var addElement = function addElement($html, $element, method, counter) {
+  var addElement = function addElement($html, $element, method, dfd, counter) {
     counter = counter || 0;
-    var $elem;
+    var $target;
+
     if (typeof $element === 'string' || $element instanceof Node) {
-      $elem = $($element);
+      $target = $($element);
     } else if (!($element instanceof $)) {
-      $elem = $body || ($body = $('body'));
+      $target = $body || ($body = $('body'));
     } else {
-      $elem = $element;
+      $target = $element;
     }
 
-    if (!$elem[0] && counter < 300) {
-      setTimeout(addElement.bind(null, $html, $element, method, ++counter), 10);
+    if (!$target[0] && counter < 300) {
+      setTimeout(addElement.bind(null, $html, $element, method, dfd, ++counter), 10);
       return;
-    } else if (counter >= 300) {
+    } else if (!$target[0] && counter >= 300) {
       // give up
       // TODO logging
+      dfd.reject();
+      return;
     }
-    method = methods[method] || methods['default'];
 
+    method = methods[method] || methods['default'];
     var ret;
+
     if (method === 'replaceWith')  {
-      $elem[method]($html);
+      $target[method]($html);
       ret = $html;
     } else {
-      ret = $html[method]($elem);
+      ret = $html[method]($target);
     }
 
-    return ret;
+    dfd.resolve(ret);
   };
 
   View.update = function(name, path, data) {
@@ -103,6 +107,7 @@ define(['jquery', 'handlebars', 'global/global__modules'], function($, Handlebar
   };
 
   View.init = function(name, $element, method, process, data) {
+    var dfd = $.Deferred();
     var module = Module.get(name);
     module.set({
       view: data,
@@ -113,12 +118,19 @@ define(['jquery', 'handlebars', 'global/global__modules'], function($, Handlebar
 
     if (html) {
       var $html = $(html);
-      views[name] = new View($html);
-      return addElement($html, $element, method);
+
+      addElement($html, $element, method, dfd);
+
+      dfd.done(function(view) {
+        views[name] = new View(view);
+      });
+
     } else {
       Module.util.log('Empty template for module "' + module + '"');
-      return null;
+      dfd.reject();
     }
+
+    return dfd;
   };
 
   // Add render to global module
