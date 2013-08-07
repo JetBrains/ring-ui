@@ -51,19 +51,28 @@ define(['jquery', 'jso', 'global/global__modules', 'global/global__views'], func
     jso.configure(jsoConfig, null, dfd.resolve.bind(dfd));
 
     var header = Module.get('header');
-    //var headerServices = header.get('view').services || [];
 
     $.when(
       get('/rest/services'),
       get('/rest/users/me'),
       header.on('init')
     ).then(function(services, me) {
-      //var servicesUpdate = headerServices.concat(convertServices(services[0].services));
+      var update;
 
-      View.update('header', '.', {
-        services: convertServices(services[0].services),
-        user: me[0]
-      });
+      if (services && services[0] && services[0].services) {
+        update = {};
+        update['services'] = convertServices(services[0].services);
+      }
+
+      var user = header.get('view');
+      if (user && me && me[0]) {
+        update = update || {};
+        update['user'] = me[0];
+      }
+
+      if (update) {
+        View.update('header', '.', update);
+      }
     });
 
     return dfd;
