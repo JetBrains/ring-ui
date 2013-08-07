@@ -205,20 +205,11 @@
     });
 
     describe('Module generated events', function () {
-      var toggle;
-      var always = function() {
-        toggle += 1;
-      };
-      var done = function() {
-        toggle += 2;
-      };
-      var fail = function() {
-        toggle += 4;
-      };
-
-      var handler2 = function(ret) {
-        toggle = ret;
-      };
+      var always = sinon.spy();
+      var done = sinon.spy(function(ret) {
+        return ret;
+      });
+      var fail = sinon.spy();
 
       var brokenModule = {
         brokenMethod: function() {}
@@ -228,7 +219,9 @@
       o('add', 'brokenModule', brokenModule);
 
       beforeEach(function(){
-        toggle = 0;
+        always.reset();
+        done.reset();
+        fail.reset();
         module.off('testMethod:done');
         module.off('testMethod:always');
         module.off('testMethod:fail');
@@ -239,10 +232,12 @@
         module.on('testMethod:always', always);
         module.on('testMethod:fail', fail);
         module('testMethod');
-        expect(toggle).to.be.equal(3);
+        done.should.have.been.called;
+        always.should.have.been.called;
+        fail.should.not.have.been.called;
       });
 
-      it('multiple bound handler should return right result', function () {
+      it('multiple bound handler should trigger :done & :always events', function () {
         module.on('testMethod:done', done);
         module.on('testMethod:always', always);
         module.on('testMethod:fail', fail);
@@ -250,13 +245,16 @@
         module.on('testMethod:always', always);
         module.on('testMethod:fail', fail);
         module('testMethod');
-        expect(toggle).to.be.equal(6);
+        done.should.have.been.called;
+        always.should.have.been.called;
+        fail.should.not.have.been.called;
       });
 
-      it('method triggered event should return right result', function () {
-        module.on('testMethod:done', handler2);
-        module('testMethod');
-        expect(toggle).to.be.equal(moduleRet);
+
+      it.skip('method triggered event should return right result', function () {
+        module.on('testMethod:done', done);
+        module('testMethod', 'lol');
+        done.should.have.returned('lol');
       });
 
       it('broken method should trigger :fail events', function () {
@@ -264,7 +262,9 @@
         o.on('brokenModule:brokenMethod:always', always);
         o.on('brokenModule:brokenMethod:fail', fail);
         ring('brokenModule', 'brokenMethod')();
-        expect(toggle).to.be.equal(5);
+        done.should.not.have.been.called;
+        always.should.not.have.been.called;
+        fail.should.have.been.called;
       });
     });
 
