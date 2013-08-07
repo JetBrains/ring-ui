@@ -112,7 +112,7 @@ define(['jquery', 'global/global__events'], function($, Event) {
     this.trigger(name, dfd);
 
     dfd
-      .always(this.stateTrigger(name, 'always'))
+      .then(this.stateTrigger(name, 'always'))// always -> then for Youtrack's jQuery 1.5 compatibility
       .done(this.stateTrigger(name, 'done'))
       .fail(this.stateTrigger(name, 'fail'));
 
