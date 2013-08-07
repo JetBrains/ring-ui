@@ -1,4 +1,4 @@
-/*global describe:false, it:false, expect:false */
+/*global describe:false, it:false, expect:false, expectDeferred:false */
 'use strict';
 (function () {
   var ring = window.ring;
@@ -120,7 +120,7 @@
         return moduleRet;
       };
 
-      ring()('add',moduleName, data);
+      ring()('add', moduleName, data);
 
       var method = ring(moduleName, methodName);
 
@@ -141,17 +141,6 @@
       it('method should return $.Deferred', function () {
         expect(method().promise).to.be.a('function');
       });
-
-      it('method should return right result on done and always', function () {
-        method()
-          .done(function(result) {
-            expect(result).to.be.equal(moduleRet);
-          })
-          .always(function(result) {
-            expect(result).to.be.equal(moduleRet);
-          });
-      });
-
     });
 
     describe('Multi-methods', function () {
@@ -167,21 +156,18 @@
       o('add', moduleName, data);
 
       it('multi-method should return $.Deferred', function () {
-        expect(o(methodName).promise).to.be.a('function');
+        expect(o(methodName).then).to.be.a('function');
       });
 
       it('complete multi-method call should be resolved', function () {
-        o(methodName, {
+        expectDeferred(o(methodName, {
           'test-Multi-methods-Module': moduleRet
-        })
-          .done(function(result) {
-            expect(result).to.be.equal(moduleRet);
-          });
+        })).to.become(moduleRet);
       });
 
       it('multi-method results should in right order', function () {
         o(methodName, {
-          'inexistent method': null,
+          'inexistent method': {},
           'test-Multi-methods-Module': moduleRet
         })
           .done(function(result1, result2) {
@@ -191,7 +177,7 @@
       });
 
       it('incomplete multi-method call should be rejected', function () {
-        expect(o(methodName).state()).to.be.equal('rejected');
+        expectDeferred(o(methodName)).to.be.rejected;
       });
     });
   });

@@ -1,4 +1,4 @@
-/*global describe:false, it:false, expect:false, beforeEach:false */
+/*global describe:false, it:false, expect:false, beforeEach:false, sinon:false */
 'use strict';
 (function () {
   var ring = window.ring;
@@ -74,14 +74,7 @@
     });
 
     describe('One', function () {
-      var toggle;
-      var handler = function(ret) {
-        toggle = ret;
-      };
-
-      beforeEach(function(){
-        toggle = false;
-      });
+      var handler = sinon.spy();
 
       it('one time subscribe on event should be true', function () {
         expect(module.one('test-3', handler)).to.be.equal(true);
@@ -89,7 +82,7 @@
 
       it('one time trigger should run functions', function () {
         module.trigger('test-3', true);
-        expect(toggle).to.be.equal(true);
+        handler.should.have.been.called;
       });
 
       it('one time unsubscribe from event should be false', function () {
@@ -98,7 +91,7 @@
 
       it('second one time trigger should not run functions', function () {
         module.trigger('test-3', true);
-        expect(toggle).to.be.equal(false);
+        handler.should.have.been.calledOnce;
       });
 
     });

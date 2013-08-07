@@ -9,7 +9,7 @@ module.exports = function(karma) {
 
 
     // frameworks to use
-    frameworks: ['mocha', 'expect'],
+    frameworks: ['mocha', 'chai', 'sinon-chai', 'chai-jquery', 'chai-as-promised'],
 
 
     // list of files / patterns to load in the browser
