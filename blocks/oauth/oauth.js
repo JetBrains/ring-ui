@@ -37,6 +37,8 @@ define(['jquery', 'jso', 'global/global__modules', 'global/global__views'], func
 
     if (!serverUrl) {
       Module.util.log('Server URI is not defined!');
+    } else {
+      serverUrl = serverUrl.replace(/\/+$/, '');
     }
 
     jsoConfig[provider] = $.extend({
