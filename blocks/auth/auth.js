@@ -1,5 +1,5 @@
 /* jshint camelcase:false */
-define(['jquery', 'jso', 'global/global__modules', 'global/global__views'], function ($, jso, Module, View) {
+define(['jquery', 'jso', 'global/global__modules'], function ($, jso, Module) {
   'use strict';
 
   var serverUrl;
@@ -17,18 +17,16 @@ define(['jquery', 'jso', 'global/global__modules', 'global/global__views'], func
     });
   };
 
-  var convertServices = function(services) {
-    var items = [];
+  var getToken = function() {
+    var token = jso.getToken(provider);
 
-    for (var i = 0; i < services.length; ++i) {
-      var service = services[i];
-      items.push({
-        label: service.name,
-        url: service.homeUrl
-      });
+    if (token === null) {
+      var ensure = {};
+      ensure[provider] = jsoConfig[provider].scope;
+      jso.ensure(ensure);
+    } else {
+      return token;
     }
-
-    return items;
   };
 
   var init = function (config) {
@@ -50,52 +48,21 @@ define(['jquery', 'jso', 'global/global__modules', 'global/global__views'], func
       }
     );
 
+    // Configure jso
     jso.configure(jsoConfig, null, dfd.resolve.bind(dfd));
 
-    var header = Module.get('header');
+    // Authorize, if needed
+    getToken();
 
-    $.when(
-      get('/rest/services'),
-      get('/rest/users/me'),
-      header.on('init')
-    ).then(function(services, me) {
-      var update;
-
-      if (services && services[0] && services[0].services) {
-        update = {};
-        update['services'] = convertServices(services[0].services);
-      }
-
-      var user = header.get('view');
-      if (user && me && me[0]) {
-        update = update || {};
-        update['user'] = me[0];
-      }
-
-      if (update) {
-        View.update('header', '.', update);
-      }
-
+    // Resolve deferred, if configure didn't resolved it with state
+    if (dfd.state() === 'pending') {
       dfd.resolve();
-    });
+    }
 
     return dfd;
   };
 
-  var getToken = function() {
-    var token = jso.getToken(provider);
-
-    if (token === null) {
-      var ensure = {};
-      ensure[provider] = jsoConfig[provider].scope;
-      jso.ensure(ensure);
-    } else {
-      return token;
-    }
-  };
-
-  var module = 'auth';
-  Module.add(module, {
+  Module.add('auth', {
     init: init,
     ajax: get,
     getToken: {
