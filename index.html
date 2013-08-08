@@ -29,7 +29,7 @@
   <script src="bundles/ring.config.js"></script>
 
   <script>
-    require(['jquery', 'ring', 'header/header__internal', 'oauth/oauth'], function($, ring) {
+    require(['jquery', 'ring', 'auth/auth', 'header/header__hub-services'], function($, ring) {
       window.ring = ring;
 
       var o = ring();
@@ -105,39 +105,25 @@
           }
         },
         header: {
-          "services": [
-            {
-              "active": true,
-              "label": "Ring UI",
-              "url": "http://hub.jetbrains.com/1.0/"
-            }
-          ],
-          "user": {
-            "name": "Nikolae Chaushesku"
-          },
           "personalLinks": [
             {
-              "label": "Issues",
-              "url": "/issues"
-            },
-            {
-              "label": "Agile Board",
-              "url": "/rest/agile"
+              "label": "Profile",
+              "url": "http://hub.jetbrains.com:8080/accounts/jpapUser"
             }
           ],
           "authLinks": {
             "login": {
               "label": "Log in",
-              "url": "/login",
               "event": {
-                "name": "header:test",
+                "name": "header:login",
                 "data": "Hello!"
               }
-            },
-            "logout": {
-              "label": "Log out",
-              "event": "header:test"
             }
+//            ,
+//            "logout": {
+//              "label": "Log out",
+//              "event": "header:test"
+//            }
           }
         }
       });
@@ -149,19 +135,15 @@
             serverUri: "http://hub.jetbrains.com:8080/accounts",
             scope: ["22fe5b09-0849-4845-acb1-3c93fbc6c12c"]
         });
-        // Use with hub on localhost
-        // {
-        //   clientId: "bbb54677-70fd-47b5-b3cf-c9eeb51212d0",
-        //   redirectUri: "http://localhost:8000",
-        //   serverUri: "http://localhost:8080",
-        //   scope: ["bbb54677-70fd-47b5-b3cf-c9eeb51212d0"]
-        // }
+      } else if (false) {
+        ring('auth', 'init')({
+          clientId: "bbb54677-70fd-47b5-b3cf-c9eeb51212d0",
+          redirectUri: "http://localhost:8000",
+          serverUri: "http://localhost:8080",
+          scope: ["bbb54677-70fd-47b5-b3cf-c9eeb51212d0"]
+        });
       }
 
-      o.on('header:test', function(data) {
-        alert(data || 'Logout');
-        return false;
-      });
 
       o.on('menu:test', function(data) {
         ring('menu', 'setActive')(data);
