@@ -75,6 +75,8 @@ define(['jquery', 'jso', 'global/global__modules', 'global/global__views'], func
       if (update) {
         View.update('header', '.', update);
       }
+
+      dfd.resolve();
     });
 
     return dfd;
