@@ -109,7 +109,7 @@ define(['jquery', 'global/global__events'], function($, Event) {
       dfd = $.Deferred();
     }
 
-    this.trigger(name, dfd);
+    this.trigger(name);
 
     dfd
       .then(this.stateTrigger(name, 'always'))// always -> then for Youtrack's jQuery 1.5 compatibility
