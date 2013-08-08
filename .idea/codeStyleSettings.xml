@@ -6,7 +6,7 @@
         <option name="OTHER_INDENT_OPTIONS">
           <value>
             <option name="INDENT_SIZE" value="2" />
-            <option name="CONTINUATION_INDENT_SIZE" value="8" />
+            <option name="CONTINUATION_INDENT_SIZE" value="2" />
             <option name="TAB_SIZE" value="2" />
             <option name="USE_TAB_CHARACTER" value="false" />
             <option name="SMART_TABS" value="false" />
@@ -21,18 +21,19 @@
         <codeStyleSettings language="CSS">
           <indentOptions>
             <option name="INDENT_SIZE" value="2" />
+            <option name="CONTINUATION_INDENT_SIZE" value="2" />
             <option name="TAB_SIZE" value="2" />
+          </indentOptions>
+        </codeStyleSettings>
+        <codeStyleSettings language="HAML">
+          <indentOptions>
+            <option name="INDENT_SIZE" value="4" />
           </indentOptions>
         </codeStyleSettings>
         <codeStyleSettings language="HTML">
           <indentOptions>
             <option name="INDENT_SIZE" value="2" />
-            <option name="TAB_SIZE" value="2" />
-          </indentOptions>
-        </codeStyleSettings>
-        <codeStyleSettings language="JAVA">
-          <indentOptions>
-            <option name="INDENT_SIZE" value="2" />
+            <option name="CONTINUATION_INDENT_SIZE" value="2" />
             <option name="TAB_SIZE" value="2" />
           </indentOptions>
         </codeStyleSettings>
@@ -43,11 +44,39 @@
             <option name="TAB_SIZE" value="2" />
           </indentOptions>
         </codeStyleSettings>
+        <codeStyleSettings language="LESS">
+          <indentOptions>
+            <option name="CONTINUATION_INDENT_SIZE" value="2" />
+            <option name="TAB_SIZE" value="2" />
+          </indentOptions>
+        </codeStyleSettings>
+        <codeStyleSettings language="SASS">
+          <indentOptions>
+            <option name="CONTINUATION_INDENT_SIZE" value="2" />
+            <option name="TAB_SIZE" value="2" />
+          </indentOptions>
+        </codeStyleSettings>
+        <codeStyleSettings language="SCSS">
+          <indentOptions>
+            <option name="CONTINUATION_INDENT_SIZE" value="2" />
+            <option name="TAB_SIZE" value="2" />
+          </indentOptions>
+        </codeStyleSettings>
         <codeStyleSettings language="XML">
           <indentOptions>
             <option name="INDENT_SIZE" value="2" />
+            <option name="CONTINUATION_INDENT_SIZE" value="2" />
             <option name="TAB_SIZE" value="2" />
           </indentOptions>
+          <arrangement>
+            <rules>
+              <rule>
+                <match>
+                  <NAME>xmlns:.*</NAME>
+                </match>
+              </rule>
+            </rules>
+          </arrangement>
         </codeStyleSettings>
       </value>
     </option>

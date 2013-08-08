@@ -1,27 +1,25 @@
-{{#header}}
-  <div class="ring-header{{#gradient}} ring-header_gradient{{/gradient}}">
-    <span class="ring-header__background"></span>
-
-    <div class="ring-header__i{{> global__add-class}}">
-      <span class="ring-header__spacer"></span>
-      {{#if logo.url}}
-        <a href="{{logo.url}}" class="ring-header__logo"><img class="ring-header__logo__img" src="{{logo.src}}"/></a>
-      {{else}}
-        <span class="ring-header__logo"><img class="ring-header__logo__img" src="{{logo.src}}"/></span>
-      {{/if}}
-
-      {{#items}}
-        {{> header__item}}
-      {{/items}}
-
-      {{#right}}
-        <div class="ring-header__right">
-          <span class="ring-header__spacer"></span>
-          {{#items}}
-            {{> header__item}}
-          {{/items}}
-        </div>
-      {{/right}}
-    </div>
-  </div>
-{{/header}}
+<div class="ring-header">
+  {{#services}}
+    {{#if active}}
+      <span class="ring-header__item ring-header__item_active{{> global__class}}">{{label}}</span>
+    {{else}}
+      <a class="ring-header__item ring-header__item_link{{> global__class}}" href="{{url}}">{{label}}</a>
+    {{/if}}
+  {{/services}}
+  {{#personal}}
+    <span class="ring-header__personal{{> dropdown__component}}">
+      <span class="ring-header__item ring-header__item_link">{{username}}</span>
+      <span class="ring-font-icon ring-font-icon_caret-down"></span>
+    </span>
+  {{else}}
+    {{#authLinks/login}}
+      <span class="ring-header__personal">
+        {{#if url}}
+          <a class="ring-header__item ring-header__item_link{{> global__class}}" {{> global__attributes}} href="{{url}}">{{label}}</a>
+        {{else}}
+          <span class="ring-header__item ring-header__item_link{{> global__class}}" {{> global__attributes}}>{{label}}</span>
+        {{/if}}
+      </span>
+    {{/authLinks/login}}
+  {{/personal}}
+</div>

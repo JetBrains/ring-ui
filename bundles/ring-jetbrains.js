@@ -1,3 +1,8 @@
-define(['full-header/full-header', 'stripe/stripe__internal'], function(header) {
-  return header;
+define([
+  'global/global',
+  'menu/menu',
+  'header/header',
+  'header/header__internal'
+], function(ring) {
+  return ring;
 });

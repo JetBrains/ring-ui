@@ -1,4 +1,8 @@
+/*jshint scripturl:true*/
 var hljs = require('highlight.js');
+
+var LIVERELOAD_PORT = 35729;
+var lrSnippet = require('connect-livereload')({port: LIVERELOAD_PORT});
 
 module.exports = function(grunt) {
 
@@ -9,7 +13,8 @@ module.exports = function(grunt) {
     docs: 'docs/',
     tmp:  'tmp/',
     jshintreport: 'tmp/jshintreport.xml',
-    shims: 'shims/'
+    shims: 'shims/',
+    tests: 'test/'
   };
 
   var requireConfig = {
@@ -49,9 +54,13 @@ module.exports = function(grunt) {
     // Build
     csso: {
       dist: {
-        files: {
-          '<%= path.dist %>ring.min.css': ['<%= path.dist %>ring.css']
-        }
+        files: [{
+          expand: true,
+          cwd: '<%= path.dist %>',
+          src: ['*.css'],
+          ext: '.min.css',
+          dest: '<%= path.dist %>'
+        }]
       }
     },
     uglify: {
@@ -59,11 +68,13 @@ module.exports = function(grunt) {
         options: {
           report: 'gzip'
         },
-        files: {
-          '<%= path.dist %>ring.min.js': '<%= path.dist %>ring.js',
-          '<%= path.dist %>ring-jetbrains-oauth.min.js': '<%= path.dist %>ring-jetbrains-oauth.js',
-          '<%= path.dist %>ring-jetbrains.min.js': '<%= path.dist %>ring-jetbrains.js'
-        }
+        files: [{
+          expand: true,
+          cwd: '<%= path.dist %>',
+          src: ['*.js'],
+          ext: '.min.js',
+          dest: '<%= path.dist %>'
+        }]
       }
     },
     usebanner: {
@@ -78,6 +89,9 @@ module.exports = function(grunt) {
       }
     },
     compress: {
+      options: {
+        pretty: true
+      },
       dist: {
         options: {
           archive: './<%= path.dist %><%= pkg.name %>-<%= version %>.zip'
@@ -85,6 +99,65 @@ module.exports = function(grunt) {
         files: [
           { expand: true, cwd: '<%= path.dist %>', src: ['**'], dest: 'ring'}
         ]
+      },
+      coverage: {
+        options: {
+          archive: '<%= path.dist %>coverage.zip'
+        },
+        files: [{
+          expand: true,
+          cwd: '<%= path.tmp %>/coverage/',
+          src: ['*/**'],
+          dest: '',
+          rename: function(dest, matchedSrcPath) {
+            // Remove first level dir (e.g. "PhantomJS 1.9.1 (Mac OS X)") from path.
+            return matchedSrcPath.replace(/^[^\/]+\//,'./');
+          }
+        }]
+      }
+    },
+    teamcity: {
+      jshint: [
+        {
+          message: 'importData',
+          data: {
+            type: 'jslint',
+            path: '<%= path.jshintreport %>'
+          }
+        }
+      ]
+    },
+
+    // Test
+    karma: {
+      options: {
+        configFile: 'karma.conf.js'
+      },
+      dist: {
+        singleRun: true,
+        reporters: ['teamcity', 'coverage']
+      },
+      dev: {
+        background: true,
+        browsers: ['Chrome', 'PhantomJS', 'Firefox', 'IE10 - Win7']
+      },
+      test: {
+        singleRun: true
+      }
+    },
+    jshint: {
+      options: {
+        jshintrc: '.jshintrc'
+      },
+      dev: ['*.js', '<%= path.blocks %>**/*.js', '<%= path.bundles %>*.js'],
+      dist: {
+        options: {
+          reporter: 'jslint',
+          reporterOutput: '<%= path.jshintreport %>'
+        },
+        files: {
+          src: ['*.js', '<%= path.blocks %>**/*.js', '<%= path.bundles %>*.js']
+        }
       }
     },
     bump: {
@@ -94,7 +167,19 @@ module.exports = function(grunt) {
       }
     },
 
-    // Process files
+    // Process
+    clean: {
+      generated: ['<%= path.dist %>', '<%= path.tmp %>'],
+      modules: ['node_modules', 'components']
+    },
+    bower: {
+      install: {
+        options: {
+          copy: false,
+          verbose: true
+        }
+      }
+    },
     sass: {
       dist: {
         options: {
@@ -142,7 +227,7 @@ module.exports = function(grunt) {
           out: '<%= path.dist %>ring-oauth.js'
         })
       },
-      'ring-internal': {
+      'ring-jetbrains': {
         options: _.extend(_.clone(requireConfig.options), {
           paths: {
             ring: '../<%= path.bundles %>ring-jetbrains'
@@ -150,7 +235,16 @@ module.exports = function(grunt) {
           out: '<%= path.dist %>ring-jetbrains.js'
         })
       },
-      'ring-internal-oauth': {
+      'ring-jetbrains-confluence': {
+        options: _.extend(_.clone(requireConfig.options), {
+          paths: {
+            ring: '../<%= path.bundles %>ring-jetbrains-confluence',
+            jquery: '../components/jquery/jquery'
+          },
+          out: '<%= path.dist %>ring-jetbrains-confluence.js'
+        })
+      },
+      'ring-jetbrains-oauth': {
         options: _.extend(_.clone(requireConfig.options), {
           paths: {
             ring: '../<%= path.bundles %>ring-jetbrains-oauth'
@@ -176,59 +270,65 @@ module.exports = function(grunt) {
         }]
       }
     },
-    teamcity: {
-      jshint: [
-        {
-          message: 'importData',
-          data: {
-            type: 'jslint',
-            path: '<%= path.jshintreport %>'
+    markdown: {
+      all: {
+        files: [
+          {
+            expand: true,
+            cwd: '<%= path.tmp %>',
+            src: '**/*.md',
+            dest: '<%= path.dist %>',
+            ext: '.html'
           }
-        }
-      ]
-    },
-
-    // Development
-    bower: {
-      install: {
+        ],
         options: {
-          copy: false,
-          verbose: true
+          markdownOptions: {
+            gfm: true,
+            highlight: function (code) {
+              var lang = ['{','[', '\''].indexOf(code.substr(0,1)) !== -1 ? 'json' : 'javascript';
+              return hljs.highlight(lang,code).value;
+            }
+          }
         }
       }
     },
-    clean: {
-      generated: ['<%= path.dist %>', '<%= path.tmp %>'],
-      modules: ['node_modules', 'components']
+    toc: {
+      all: {
+        files: [
+          {
+            expand: true,
+            src: '<%= path.docs %>*.md',
+            dest: '<%= path.tmp %>',
+            ext: '.md'
+          }
+        ]
+      }
     },
+
+    // Development
     watch: {
+      options: {
+        livereload: LIVERELOAD_PORT
+      },
       scss: {
         files: ['<%= path.blocks %>**/*.scss', '<%= path.bundles %>**/*.scss'],
-        tasks: ['styles',  'notify:watch'],
-        options: {
-          livereload: true
-        }
+        tasks: ['styles', 'notify:watch']
       },
       reload: {
-        files: ['*.html', '<%= path.blocks %>*/*.js', '<%= path.bundles %>**/*.js'],
-        tasks: ['notify:watch'],
-        options: {
-          livereload: true
-        }
+        files: ['<%= path.blocks %>**/*.html', '*.html'],
+        tasks: ['notify:watch']
+      },
+      js: {
+        files: ['<%= path.blocks %>**/*.js', '<%= path.bundles %>**/*.js', '<%= path.tests %>**/*.js'],
+        tasks: ['jshint:dev', 'requirejs:ring', 'karma:dev:run', 'notify:watch']
       },
       markdown: {
         files: ['<%= path.docs %>**/*.md'],
-        tasks: ['markdown', 'notify:watch'],
-        options: {
-          livereload: true
-        }
+        tasks: ['docs', 'notify:watch']
       },
       templates: {
         files: ['<%= path.blocks %>**/*.hbs'],
-        tasks: ['templates', 'notify:watch'],
-        options: {
-          livereload: true
-        }
+        tasks: ['templates', 'notify:watch']
       }
     },
     notify: {
@@ -243,42 +343,15 @@ module.exports = function(grunt) {
       server: {
         options: {
           port: 8000,
-          hostname: '*'
-        }
-      }
-    },
-    jshint: {
-      options: {
-        jshintrc: '.jshintrc'
-      },
-      dev: ['*.js', '<%= path.blocks %>**/*.js', '<%= path.bundles %>*.js'],
-      dist: {
-        options: {
-          reporter: 'jslint',
-          reporterOutput: '<%= path.jshintreport %>'
-        },
-        files: {
-          src: ['*.js', '<%= path.blocks %>**/*.js', '<%= path.bundles %>*.js']
-        }
-      }
-    },
-    markdown: {
-      all: {
-        files: [
-          {
-            expand: true,
-            src: '<%= path.docs %>*.md',
-            dest: '<%= path.dist %>',
-            ext: '.html'
-          }
-        ],
-        options: {
-          markdownOptions: {
-            gfm: true,
-            highlight: function (code) {
-              var lang = ['{','[', '\''].indexOf(code.substr(0,1)) !== -1 ? 'json' : 'javascript';
-              return hljs.highlight(lang,code).value;
-            }
+          hostname: '*',
+          middleware: function (connect) {
+            var base = require('path').resolve('.');
+
+            return [
+              lrSnippet,
+              connect['static'](base),
+              connect.directory(base)
+            ];
           }
         }
       }
@@ -297,27 +370,6 @@ module.exports = function(grunt) {
 
       grunt.log.writeln(message);
     });
-  });
-
-  grunt.registerTask('push-tags', 'Push git tags', function() {
-    var done = this.async();
-
-    grunt.util.spawn({
-        cmd: 'git push',
-        args: ['--tags']
-      },
-      function(err)
-      {
-        if (!err) {
-          grunt.log.ok('Tags pushed');
-        } else {
-          grunt.log.error(err.stdout, err.stderr);
-        }
-
-        done();
-      }
-    );
-
   });
 
   grunt.registerTask('sprite', 'Render font icons to png sprite', function() {
@@ -343,6 +395,26 @@ module.exports = function(grunt) {
 
   });
 
+  grunt.registerMultiTask('toc', 'Generate toc', function() {
+    var toc = require('md-toc-filter');
+
+    this.files.forEach(function(file) {
+      var contents = file.src.filter(function(filepath) {
+        if (!grunt.file.exists(filepath)) {
+          grunt.log.warn('Source file "' + filepath + '" not found.');
+          return false;
+        } else {
+          return true;
+        }
+      }).map(function(filepath) {
+          // Read and return the file's source.
+          return toc(grunt.file.read(filepath));
+        }).join('\n');
+      grunt.file.write(file.dest, contents);
+      grunt.log.writeln('File "' + file.dest + '" created.');
+    });
+  });
+
   require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
 
   grunt.registerTask('install',   ['bower']);
@@ -366,15 +438,21 @@ module.exports = function(grunt) {
     'process'
   ]);
 
+  grunt.registerTask('docs', [
+    'toc',
+    'markdown'
+  ]);
+
   grunt.registerTask('process', [
     'install',
     'styles',
     'templates',
     'requirejs',
-    'markdown'
+    'docs'
   ]);
 
   grunt.registerTask('server', [
+    'karma:dev',
     'connect',
     'watch'
   ]);
@@ -386,10 +464,15 @@ module.exports = function(grunt) {
   ]);
 
   grunt.registerTask('build', [
-    'teamcity',
+    'teamcity:jshint',
     'jshint:dist',
     'process',
+    'karma:dist',
     'minify'
+  ]);
+
+  grunt.registerTask('test', [
+    'karma:test'
   ]);
 
   grunt.registerTask('release', [
