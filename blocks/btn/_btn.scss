@@ -141,10 +141,24 @@ $btn-border-radius: 3px;
   }
 }
 
+.ring-btn_plus {
+  padding-left: 24px !important;
+}
+
 .ring-btn_plus:before {
-  content: '+  ';
+  content: '+ ';
   white-space: pre;
   margin-left: -7px;
+  font-size: 20px;
+  position: absolute;
+  font-weight: 100;
+  left: 44px;
+  line-height: 20px;
+}
+
+.ring-btn__right-align {
+  height: 22px;
+  margin-left: 16px;
 }
 
 .ring-btn-toolbar {
@@ -160,6 +174,9 @@ $btn-border-radius: 3px;
 
 .ring-btn-toolbar > * {
   margin-right: 16px;
+  &:last-child {
+    margin-right: 0;
+  }
 }
 
 .ring-btn-toolbar__group > .ring-btn {
