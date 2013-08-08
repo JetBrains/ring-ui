@@ -9,7 +9,7 @@ define([
   $.noConflict();
 
   var header = ring('header');
-  header('init');
+  header('init', null, '.ring-header', 'replace');
 
   // Render header
   $(function(){
