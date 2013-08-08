@@ -5,7 +5,8 @@ require.config({
     'jquery'     : '../shims/jquery/jquery',
     'jquery-json': '../shims/jquery-json/jquery-json',
     'handlebars' : '../tmp/handlebars',
-    'jso'        : '../components/jso/jso'
+    'jso'        : '../components/jso/jso',
+    'codemirror' : '../components/codemirror/lib/codemirror'
   },
   shim: {
     'jquery': {
@@ -23,6 +24,9 @@ require.config({
           getToken: jso_getToken
         };
       }
+    },
+    'codemirror': {
+      'exports': 'CodeMirror'
     }
   }
 });
