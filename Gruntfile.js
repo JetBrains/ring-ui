@@ -186,9 +186,13 @@ module.exports = function(grunt) {
           includePaths: ['<%= path.blocks %>**/'],
           outputStyle: 'nested'
         },
-        files: {
-          '<%= path.dist %>ring.css': '<%= path.bundles %>ring.scss'
-        }
+        files: [{
+          expand: true,
+          cwd: '<%= path.bundles %>',
+          src: '*.scss',
+          dest: '<%= path.dist %>',
+          ext: '.css'
+        }]
       }
     },
     autoprefixer: {
