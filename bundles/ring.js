@@ -1,3 +1,7 @@
-define(['full-header/full-header'], function(header) {
-  return header;
+define([
+  'global/global',
+  'menu/menu',
+  'header/header'
+], function(ring) {
+  return ring;
 });
