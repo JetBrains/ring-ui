@@ -1,6 +1,6 @@
 define([
   'global/global',
-  'oauth/oauth',
+  'auth/auth',
   'menu/menu',
   'header/header',
   'header/header__internal'
