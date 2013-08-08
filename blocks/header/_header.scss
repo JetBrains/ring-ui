@@ -1,167 +1,59 @@
-$header-link-color: #1752d7;
-$header-attention-color: #f50000;
-$header-controls-color: #376dc4;
+$ring-link-color:  #b4b4b4;
 
 .ring-header {
-  width: 100%;
-  height: $x-unit*7 - 1;
+  padding: 0 $x-unit*3;
+  background: #484848;
+  font-size: 18px;
+  text-rendering: optimizeLegibility;
   position: relative;
-  text-align: center;
-  border-bottom: 1px solid #ccc;
-}
-
-.ring-header__i {
-  // Use this when width limits needed
-  //max-width: 1100px;
-  width: 100%;
-  position: relative;
-  display: inline-block;
   text-align: left;
-  white-space: nowrap;
+  border-bottom: 1px solid #000;
+  height: $x-unit*3 - 1;
 }
 
-.ring-header__background {
-  position: absolute;
-  z-index: -1;
-
-  width: 100%;
-  right: 0;
-  left: 0;
-  height: $x-unit*7;
-
-  background: #f0f0f0;
-}
-
-.ring-header_gradient {
-  border: 0;
-}
-
-.ring-header_gradient .ring-header__background {
-  height: $x-unit*14;
-  background-image: linear-gradient(to bottom, #e4e4e4, #fff);
-  -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='#e4e4e4', endColorstr='#ffffff',GradientType=0)";
-}
-
-.ring-header__spacer {
-  display: inline-block;
-  height: $x-unit*7;
-  width: 0;
-  vertical-align: middle;
-}
-
-.ring-header__logo {
-  margin-left: $x-unit*2;
-  height: 25px;
-  width: 28px;
-  display: inline-block;
-  vertical-align: middle;
-}
-
-.ring-header__logo__img {
-  border: 0;
-  height: 25px;
-}
-.ring-header__item,
-.ring-header__search__input {
-  font-size: 13px;
-  @include droid-font;
-  vertical-align: middle;
-}
-
+// Items
 .ring-header__item {
-  display: inline-block;
-  margin-left: $x-unit*3;
-}
-
-.ring-header__item_noselect {
-  user-select: none;
+  margin-right: $x-unit * 2;
+  font-size: 11px;
+  @include droid-font;
 }
 
 .ring-header__item_link,
 .ring-header__item_link:visited {
-  color: $header-link-color;
+  color: $ring-link-color !important;
   text-decoration: none;
 }
 
-.ring-header__item_link:hover {
-  color: $active-link-color;
-  text-decoration: underline;
-}
-
-.ring-header__item__counter {
+.ring-header__item_active {
   color: #fff;
-  background-color: $header-link-color;
-  position: relative;
-  top: -7px;
-  border-radius: 2px;
-  padding: 1px 2px;
-  font-size: 10px;
-  @include droid-font;
+  font-weight: bold;
 }
 
-.ring-header__item__counter_attention {
-  background-color: $header-attention-color;
-}
-
-.ring-header__right {
-  height: $x-unit*7;
+// Personal
+.ring-header__personal {
   right: $x-unit*4;
-  top: 0;
   position: absolute;
+  cursor: pointer;
+  user-select: none;
+
+  .ring-header__item {
+    margin: 0 $x-unit/2;
+  }
+
+  .ring-font-icon {
+    color: $ring-link-color;
+    vertical-align: middle;
+    font-size: 12px;
+    display: inline-block;
+  }
 }
 
-.ring-header__right .ring-header__item {
-  margin-left: $x-unit*3;
+.ring-header__item_link:hover, .ring-header__personal:hover .ring-header__item_link {
+    color: $active-link-color !important;
+    text-decoration: underline;
 }
 
-.ring-header__right .ring-font-icon {
-  font-size: 16px;
-}
-
-.ring-header__right .ring-font-icon_cog {
-  font-size: 18px !important;
-  width: 12px;
-}
-
-.ring-header__item_icon {
-  color: #3c74c2 !important;
-}
-
-.no-font-antialiasing .ring-header__item_icon {
-  margin-left: $x-unit*3 - 6;
-}
-
-.ring-header__item_icon:hover {
-  color: $active-link-color !important;
-}
-
-.ring-header__search {
-  position: relative;
-  display: inline;
-  top: -2px;
-  zoom: 1;
-}
-
-.ring-header__search__input {
-  width: $x-unit*27 - 2;
-  height: $x-unit*3 - 2;
-
-  border: 1px solid #cbcbcb;
-  padding: 0 $x-unit*2 0 $x-unit;
-}
-
-.ring-header__search__glass {
-  position: absolute;
-  top: 0;
-  width: 16px;
-  right: 6px;
-
-  color: #d1d1d1;
-}
-
-/* No hover for search glass */
-.no-font-antialiasing .ring-header__search__glass,
-.no-font-antialiasing .ring-header__search__glass:hover {
-  right: 8px;
-  background-position: -39px -1px !important;
+.ring-header__personal:hover .ring-font-icon {
+    color: $active-link-color !important;
+    background-position: -66px -22px;
 }

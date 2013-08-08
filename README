@@ -4,7 +4,7 @@ Ring UI: development environment setup
 
 2: Install grunt-cli:
 
-    npm install grunt -g
+    npm install -g grunt-cli
 
 3. Install dependencies:
 
@@ -19,6 +19,11 @@ Ring UI: development environment setup
     grunt server
 
 =======================================
+
+(Optional) Install VirtualBox and ievms to test run test on IE
+
+    VirtualBox — https://www.virtualbox.org/wiki/Downloads
+    ievms — https://github.com/xdissent/ievms#installation
 
 Build production files
 
