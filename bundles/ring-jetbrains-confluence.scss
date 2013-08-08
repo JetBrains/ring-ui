@@ -1,0 +1,19 @@
+@import "../blocks/global/global";
+@import "../blocks/header/header";
+@import "../blocks/font-icon/font-icon";
+
+#header {
+  background-color: #868F94;
+  padding: 0 24px;
+  border-bottom: none !important;
+  line-height: 2.1
+}
+
+#header .ajs-menu-bar li.ajs-menu-item.opened, #header .ajs-menu-bar li.ajs-menu-item.opened a.trigger {
+  background-color: #666;
+}
+
+#main {
+  padding-left: 24px;
+  padding-right: 24px;
+}
