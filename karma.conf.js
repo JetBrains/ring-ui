@@ -9,19 +9,21 @@ module.exports = function(karma) {
 
 
     // frameworks to use
-    frameworks: ['mocha', 'chai', 'sinon-chai', 'chai-jquery', 'chai-as-promised'],
+    frameworks: ['mocha', 'requirejs', 'chai', 'sinon-chai', 'chai-jquery', 'chai-as-promised'],
 
 
     // list of files / patterns to load in the browser
     files: [
       'components/jquery/jquery.js',
-      'dist/ring.js',
-      {pattern: 'test/**/*.js'}
+      {pattern: 'blocks/**/*.js', included: false},
+      {pattern: 'test/**/*.js', included: false},
+
+      'bundles/test.config.js'
     ],
 
 
     preprocessors: {
-      'dist/ring.js': 'coverage'
+      'blocks/**/*.js': 'coverage'
     },
 
 
@@ -71,7 +73,7 @@ module.exports = function(karma) {
     // - Safari (only Mac)
     // - PhantomJS — only installed
     // - IE (only Windows)
-    browsers: ['PhantomJS'],
+    // browsers: [],
 
 
     // If browser does not capture in given timeout [ms], kill it

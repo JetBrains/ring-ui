@@ -139,7 +139,7 @@ module.exports = function(grunt) {
       },
       dev: {
         background: true,
-        browsers: ['Chrome', 'PhantomJS', 'Firefox', 'IE10 - Win7']
+        browsers: ['Chrome', 'Firefox', 'IE10 - Win7']
       },
       test: {
         singleRun: true
@@ -329,7 +329,7 @@ module.exports = function(grunt) {
       },
       js: {
         files: ['<%= path.blocks %>**/*.js', '<%= path.bundles %>**/*.js', '<%= path.tests %>**/*.js'],
-        tasks: ['jshint:dev', 'requirejs', 'karma:dev:run', 'notify:watch']
+        tasks: ['jshint:dev', 'karma:dev:run', 'notify:watch']
       },
       markdown: {
         files: ['<%= path.docs %>**/*.md'],
