@@ -9,7 +9,7 @@ define([
   $.noConflict();
 
   var header = ring('header');
-  header('init');
+  var init = header('init', null, '.ring-header', 'replace');
 
   // Render header
   $(function(){
@@ -19,7 +19,7 @@ define([
       .hide()
       .next('.ajs-drop-down').css('top', 0);
 
-    header.one('init:done', function() {
+    init.done(function() {
       header('update', 'user.name', $username.text());
     });
 
