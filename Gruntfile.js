@@ -139,7 +139,7 @@ module.exports = function(grunt) {
       },
       dev: {
         background: true,
-        browsers: ['Chrome', 'Firefox', 'IE9 - Win7']
+        browsers: ['Chrome', 'PhantomJS', 'Firefox', 'IE10 - Win7']
       },
       test: {
         singleRun: true
@@ -186,18 +186,27 @@ module.exports = function(grunt) {
           includePaths: ['<%= path.blocks %>**/'],
           outputStyle: 'nested'
         },
-        files: {
-          '<%= path.dist %>ring.css': '<%= path.bundles %>ring.scss'
-        }
+        files: [{
+          expand: true,
+          cwd: '<%= path.bundles %>',
+          src: '*.scss',
+          dest: '<%= path.dist %>',
+          ext: '.css'
+        }]
       }
     },
     autoprefixer: {
       options: {
         browsers: ['last 3 versions', '> 1%', 'ie 8', 'ie 7']
       },
-      files: {
-        src : '<%= path.dist %>ring.css',
-        dest: '<%= path.dist %>ring.css'
+      dist: {
+        files: [{
+          expand: true,
+          cwd: '<%= path.dist %>',
+          src : '*.css',
+          dest: '<%= path.dist %>',
+          ext: '.css'
+        }]
       }
     },
     handlebars: {
@@ -320,7 +329,7 @@ module.exports = function(grunt) {
       },
       js: {
         files: ['<%= path.blocks %>**/*.js', '<%= path.bundles %>**/*.js', '<%= path.tests %>**/*.js'],
-        tasks: ['jshint:dev', 'requirejs:ring', 'karma:dev:run', 'notify:watch']
+        tasks: ['jshint:dev', 'requirejs', 'karma:dev:run', 'notify:watch']
       },
       markdown: {
         files: ['<%= path.docs %>**/*.md'],
