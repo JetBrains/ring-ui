@@ -1,8 +1,8 @@
-/*global describe:false, it:false, expect:false, beforeEach:false, sinon:false */
-'use strict';
-(function () {
-  var ring = window.ring;
+define(['global/global', 'chai'], function(ring, chai) {
+  'use strict';
   var o = ring();
+
+  var expect = chai.expect;
 
   describe('Events', function () {
     var moduleName = 'test-Events-Module';
@@ -102,10 +102,8 @@
         toggle = ret;
       };
 
-      beforeEach(function(done){
+      beforeEach(function(){
         toggle = false;
-        setTimeout(done, 0); // IE7 "Out of stack space" workaround.
-                             // See https://github.com/visionmedia/mocha/issues/502
       });
 
       it('subscribe on event on global should be true', function () {
@@ -270,4 +268,4 @@
 
   });
 
-})();
+});

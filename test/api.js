@@ -1,7 +1,7 @@
-/*global describe:false, it:false, expect:false */
-'use strict';
-(function () {
-  var ring = window.ring;
+define(['global/global', 'chai'], function(ring, chai) {
+  'use strict';
+
+  var expect = chai.expect;
 
   describe('Public API', function () {
     var moduleName = 'test-API-Module';
@@ -45,4 +45,4 @@
 
   });
 
-})();
+});
