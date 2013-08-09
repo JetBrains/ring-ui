@@ -11,11 +11,8 @@ define(function() {
    */
   var diffTool = {};
 
-  // todo(igor.alexeenko): Is there a reason to export some tools to global
-  // namespace? (or simply use underscore.js instead of those custom-made
-  // tools).
-
   /**
+   * Returns true if object is not undefined.
    * @param {*} obj
    * @return {boolean}
    */
@@ -39,6 +36,9 @@ define(function() {
   diffTool.nullFunction = function() {};
 
   /**
+   * Inheritance interface. Works through empty constructor, but unlike other
+   * inheritance methods, also creates link to a parent class in a child, to
+   * make child able to call methods of parent class from its own methods.
    * @param {Function} child
    * @param {Function} parent
    */
@@ -49,8 +49,6 @@ define(function() {
     child.prototype = new EmptyConstructor();
     child.prototype.constructor = child;
 
-    // Link to parent element to make possible to call methods of parent classes
-    // from methods of children.
     child._super = parent.prototype;
   };
 
