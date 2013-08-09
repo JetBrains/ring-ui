@@ -34,7 +34,6 @@
     "grunt-banner": "~0.1.4",
     "karma": "~0.10.1",
     "grunt-karma": "~0.6.1",
-    "karma-chai": "git+https://github.com/princed/karma-chai.git",
     "karma-chai-plugins": "~0.1.0",
     "karma-script-launcher": "~0.1.0",
     "karma-phantomjs-launcher": "~0.1.0",
