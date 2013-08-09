@@ -27,8 +27,7 @@
 
     // todo(igor.alekseenko): Solid way to check whether the function is empty.
     it('diffTool.nullFunction is an empty function', function() {
-      expect(diffTool.nullFunction.toString().replace(/\s/g, '')).to.equal(
-          'function(){}');
+      expect(diffTool.nullFunction()).to.equal(undefined);
     });
   });
 
