@@ -16,7 +16,7 @@
   require(['ring'], function(ring) {
     var diffToolModule = ring('diff');
     var DiffTool = diffToolModule.invoke('getDiffTool');
-    var diffTool = new DiffTool();
+    var diffToolUtils = diffToolModule.invoke('getDiffToolUtils');
   });
 </script>
 
