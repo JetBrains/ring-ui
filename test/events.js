@@ -6,10 +6,9 @@ define(['global/global', 'chai'], function(ring, chai) {
 
   describe('Events', function () {
     var moduleName = 'test-Events-Module';
-    var moduleRet = 'lol';
 
     o('add', moduleName, {
-      testMethod: function() {
+      testMethod: function(moduleRet) {
         return moduleRet;
       }
     });
@@ -36,40 +35,39 @@ define(['global/global', 'chai'], function(ring, chai) {
     });
 
     describe('Trigger', function () {
-      var toggle;
-      var handler = function(ret) {
-        toggle += ret;
-      };
-      var handler2 = function(ret) {
-        toggle += ret;
-      };
+      var handler = sinon.spy();
+      var handler2 = sinon.spy();
 
       beforeEach(function(){
-        toggle = 0;
+        handler.reset();
+        handler2.reset();
       });
 
       module.on('test-2', handler);
 
       it('trigger should run functions', function () {
-        module.trigger('test-2', 1);
-        expect(toggle).to.be.equal(1);
+        module.trigger('test-2');
+        handler.should.have.been.called;
       });
 
       it('second trigger should run functions', function () {
-        module.trigger('test-2', 1);
-        expect(toggle).to.be.equal(1);
+        module.trigger('test-2');
+        module.trigger('test-2');
+        module.trigger('test-2');
+        handler.should.have.been.calledThrice;
       });
 
       it('trigger should run all functions', function () {
         module.on('test-2', handler2);
-        module.trigger('test-2', 1);
-        expect(toggle).to.be.equal(2);
+        module.trigger('test-2');
+        handler.should.have.been.called;
+        handler2.should.have.been.called;
       });
 
       it('trigger after unsubscribe should not run functions', function () {
         module.off('test-2');
         module.trigger('test-2', 1);
-        expect(toggle).to.be.equal(0);
+        handler.should.not.have.been.called;
       });
     });
 
@@ -97,13 +95,10 @@ define(['global/global', 'chai'], function(ring, chai) {
     });
 
     describe('Events on global module', function () {
-      var toggle;
-      var handler = function(ret) {
-        toggle = ret;
-      };
+      var handler = sinon.spy();
 
       beforeEach(function(){
-        toggle = false;
+        handler.reset();
       });
 
       it('subscribe on event on global should be true', function () {
@@ -116,16 +111,12 @@ define(['global/global', 'chai'], function(ring, chai) {
 
       it('trigger on global should run functions', function () {
         o.trigger(moduleName + ':test-4', true);
-        expect(toggle).to.be.equal(true);
+        handler.should.have.been.called;
       });
 
       it('trigger set on global should run functions', function () {
         module.trigger('test-4', true);
-        expect(toggle).to.be.equal(true);
-      });
-
-      it('subscribe on event on global should be true', function () {
-        expect(o.on(moduleName + ':test-4', handler)).to.be.equal(true);
+        handler.should.have.been.called;
       });
 
       it('unsubscribe from event on global should be true', function () {
@@ -145,22 +136,23 @@ define(['global/global', 'chai'], function(ring, chai) {
         module.on('test-4', handler);
         expect(o.off(moduleName + ':test-4')).to.be.equal(true);
       });
+
+      it('unsubscribed trigger on global event should not run functions', function () {
+        o.trigger(moduleName + ':test-4', true);
+        handler.should.not.have.been.called;
+      });
+
+      it('unsubscribed local trigger on global vshould not run functions', function () {
+        module.trigger('test-4', true);
+        handler.should.not.have.been.called;
+      });
     });
 
     describe('Namespaces', function () {
-      var toggle;
-      var handler = function(ret) {
-        toggle += ret;
-      };
-      var handler2 = function(ret) {
-        toggle += ret;
-      };
-      var handler3 = function(ret) {
-        toggle += ret;
-      };
+      var handler = sinon.spy();
 
       beforeEach(function(){
-        toggle = 0;
+        handler.reset();
       });
 
       it('subscribe on event w/ namespace should be true', function () {
@@ -168,18 +160,18 @@ define(['global/global', 'chai'], function(ring, chai) {
       });
 
       it('subscribe on event w/ other namespace should be true', function () {
-        expect(module.on('test-5::ns2', handler2)).to.be.equal(true);
-        expect(module.on('test-5::ns3', handler3)).to.be.equal(true);
+        expect(module.on('test-5::ns2', handler)).to.be.equal(true);
+        expect(module.on('test-5::ns3', handler)).to.be.equal(true);
       });
 
       it('trigger w/o namespace should run functions', function () {
         module.trigger('test-5', 1);
-        expect(toggle).to.be.equal(3);
+        handler.should.have.been.calledThrice;
       });
 
       it('trigger w/ any namespace should run functions', function () {
         module.trigger('test-5::___', 1);
-        expect(toggle).to.be.equal(3);
+        handler.should.have.been.calledThrice;
       });
 
       it('unsubscribe from event w/ namespace should be true', function () {
@@ -188,7 +180,7 @@ define(['global/global', 'chai'], function(ring, chai) {
 
       it('unsubscribe from event w/ namespace should unsubscribe from only namespaced handlers', function () {
         module.trigger('test-5', 1);
-        expect(toggle).to.be.equal(2);
+        handler.should.have.been.calledTwice;
       });
 
       it('unsubscribe from event w/o namespace should be true', function () {
@@ -197,17 +189,17 @@ define(['global/global', 'chai'], function(ring, chai) {
 
       it('unsubscribe from event w/o namespace should unsubscribe from all handlers', function () {
         module.trigger('test-5', 1);
-        expect(toggle).to.be.equal(0);
+        handler.should.not.have.been.called;
       });
 
     });
 
     describe('Module generated events', function () {
       var always = sinon.spy();
+      var fail = sinon.spy();
       var done = sinon.spy(function(ret) {
         return ret;
       });
-      var fail = sinon.spy();
 
       var brokenModule = {
         brokenMethod: function() {}
@@ -249,10 +241,13 @@ define(['global/global', 'chai'], function(ring, chai) {
       });
 
 
-      it.skip('method triggered event should return right result', function () {
+      it('method triggered event should return right result', function () {
+        var ret = {};
         module.on('testMethod:done', done);
-        module('testMethod', 'lol');
-        done.should.have.returned('lol');
+        module('testMethod', ret);
+        done.should.have.returned(ret);
+        done.should.have.been.called;
+        fail.should.not.have.been.called;
       });
 
       it('broken method should trigger :fail events', function () {
@@ -261,7 +256,7 @@ define(['global/global', 'chai'], function(ring, chai) {
         o.on('brokenModule:brokenMethod:fail', fail);
         ring('brokenModule', 'brokenMethod')();
         done.should.not.have.been.called;
-        always.should.not.have.been.called;
+        always.should.have.been.called;
         fail.should.have.been.called;
       });
     });
