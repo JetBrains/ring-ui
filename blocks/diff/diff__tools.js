@@ -49,7 +49,7 @@ define(function() {
     child.prototype = new EmptyConstructor();
     child.prototype.constructor = child;
 
-    child._super = parent.prototype;
+    child.super_ = parent.prototype;
   };
 
   return diffTool;

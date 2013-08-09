@@ -4,7 +4,6 @@
   describe('DiffTool basics: loading, getting and creating ' +
       'instance', function() {
     it('DiffTool loads as ring module', function() {
-      expect(window.ring).to.be.a('function');
       expect(window.ring('diff')).to.be.a('function');
     });
 
@@ -49,7 +48,7 @@
     it('DiffTool constructor adds all required fields', function() {
       diffToolInstance = new DiffTool();
       expect(diffToolInstance.editable_).to.be.a('boolean');
-      expect(diffToolInstance.mode_).to.be.a(DiffTool.Mode);
+      expect(diffToolInstance.mode_).to.be.a('number');
       expect(diffToolInstance.element_).to.be.an.instanceof(Element);
     });
   });
@@ -60,7 +59,7 @@
 
     describe('DiffTool modes existence', function() {
       it('DiffTool has enumerable list of modes.', function() {
-        expect(DiffTool.Mode).to.be.a('object');
+        expect(DiffTool.Mode).to.be.an('object');
       });
 
       it('Every item of list DiffTool.Mode is a number and it bites ' +
