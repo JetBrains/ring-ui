@@ -13,9 +13,10 @@
 
 <div class="layout"></div>
 <script type="text/javascript">
-  require(['ring', 'diff/diff'], function(ring, DiffTool) {
+  require(['ring'], function(ring) {
     var diffToolModule = ring('diff');
-    var diffTool = diffToolModule.invoke('getDiffTool');
+    var DiffTool = diffToolModule.invoke('getDiffTool');
+    var diffTool = new DiffTool();
   });
 </script>
 
