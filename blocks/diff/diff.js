@@ -7,7 +7,7 @@
  * @author igor.alexeenko (Igor Alekseyenko)
  */
 
-define(['./diff__tools', 'jquery', 'global/global__modules'], function(diffTool,
+define(['diff/diff__tools', 'jquery', 'global/global__modules'], function(diffTool,
     $, Module) {
   'use strict';
 
@@ -16,11 +16,19 @@ define(['./diff__tools', 'jquery', 'global/global__modules'], function(diffTool,
   // object.
 
   /**
-   * @param {DiffTool.Mode=} opt_mode
    * @param {boolean=} opt_editable
+   * @param {DiffTool.Mode=} opt_mode
    * @constructor
    */
-  var DiffTool = function(opt_mode, opt_editable) {
+  var DiffTool = function(opt_editable, opt_mode) {
+    if (diffTool.isDef(opt_mode)) {
+      opt_mode = opt_mode & this.availableModes ? opt_mode : this.defaultMode;
+    }
+
+    if (diffTool.isDef(opt_editable)) {
+      opt_editable = Boolean(opt_editable);
+    }
+
     this.setMode(diffTool.isDef(opt_mode) ? opt_mode : this.defaultMode);
     this.setEditable(diffTool.isDef(opt_editable) ? opt_editable :
         this.editable_);
@@ -30,16 +38,6 @@ define(['./diff__tools', 'jquery', 'global/global__modules'], function(diffTool,
      * @private
      */
     this.element_ = document.createElement('div');
-  };
-
-  /**
-   * Creates instance of new {@link DiffTool}
-   * @param {DiffTool.Mode=} opt_mode
-   * @param {boolean=} opt_editable
-   * @return {DiffTool}
-   */
-  var DiffToolFactory = function(opt_mode, opt_editable) {
-    return /** @type {DiffTool} */ (new DiffTool(opt_mode, opt_editable));
   };
 
   /**
@@ -122,9 +120,7 @@ define(['./diff__tools', 'jquery', 'global/global__modules'], function(diffTool,
    * @param {DiffTool.Mode} mode
    * @protected
    */
-  DiffTool.prototype.setModeInternal = function(mode) {
-
-  };
+  DiffTool.prototype.setModeInternal = diffTool.nullFunction;
 
   /**
    * @return {DiffTool.Mode}
@@ -139,8 +135,15 @@ define(['./diff__tools', 'jquery', 'global/global__modules'], function(diffTool,
   DiffTool.prototype.setEditable = function(editable) {
     if (editable !== this.editable_) {
       this.editable_ = editable;
+      this.setEditableInternal(editable);
     }
   };
+
+  /**
+   * @param {boolean} editable
+   * @protected
+   */
+  DiffTool.prototype.setEditableInternal = diffTool.nullFunction;
 
   /**
    * @return {boolean}
@@ -174,11 +177,17 @@ define(['./diff__tools', 'jquery', 'global/global__modules'], function(diffTool,
    */
   DiffTool.prototype.init = diffTool.abstractMethod;
 
-  // NB! Export factory as method of module diff. Factory returns new instance
-  // of DiffTool, so it can be usable.
   Module.add('diff', {
     getDiffTool: {
-      method: DiffToolFactory,
+      method: function() {
+        return DiffTool;
+      },
+      override: true
+    },
+    getDiffToolUtils: {
+      method: function() {
+        return diffTool;
+      },
       override: true
     }
   });
