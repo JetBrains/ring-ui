@@ -59,6 +59,7 @@ define(function() {
     return obj;
   };
 
+  // todo(igor.alexeenko): Rename to inherit
   /**
    * Inheritance interface. Works through empty constructor, but unlike other
    * inheritance methods, also creates link to a parent class in a child, to
