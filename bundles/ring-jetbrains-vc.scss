@@ -1,0 +1,17 @@
+@import "../blocks/global/global";
+@import "../blocks/header/header";
+@import "../blocks/font-icon/font-icon";
+
+
+.ring-header {
+  position: absolute;
+  top: 0;
+  left: -1.1em;
+  width: 100%;
+}
+
+.ring-header__personal {
+  right: 62px;
+  font-size: 18px;
+  @include droid-font;
+}
