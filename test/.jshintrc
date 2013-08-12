@@ -1,0 +1,43 @@
+{
+  "globals": {
+    "define": false,
+    "require": false,
+    "describe": false,
+    "it": false,
+    "expect": false,
+    "expectDeferred": false,
+    "afterEach": false,
+    "beforeEach": false,
+    "sinon": false
+  },
+
+  "node": true,
+  "browser": true,
+  "jquery":true,
+
+  "es3": true,
+
+  "indent": 2,
+  "camelcase": true,
+  "curly": true,
+  "newcap": true,
+  "quotmark": true,
+  "trailing": true,
+  "sub": true,
+
+  "bitwise": true,
+  "eqeqeq": true,
+  "eqnull": true,
+  "immed": true,
+  "latedef": true,
+  "noarg": true,
+  "undef": true,
+  "unused": true,
+
+  "maxparams": 5,
+  "maxdepth": 5,
+
+  "white": false
+
+}
+
