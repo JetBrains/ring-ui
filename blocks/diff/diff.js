@@ -14,7 +14,6 @@ define(['diff/diff__tools', 'jquery', 'global/global__modules',
   // todo(igor.alexeenko): If number of arguments increases, replace
   // setting of parameters as listing of constructor arguments to typed
   // object.
-
   /**
    * @param {boolean=} opt_editable
    * @param {Element=} opt_element
@@ -206,6 +205,9 @@ define(['diff/diff__tools', 'jquery', 'global/global__modules',
       },
       override: true
     },
+
+    // NB! diffTool namespace is exporting only to make possible to test
+    // items from it.
     getDiffToolUtils: {
       method: function() {
         return diffTool;

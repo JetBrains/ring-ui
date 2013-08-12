@@ -8,6 +8,15 @@
 define(['diff/diff__tools'], function(diffTool) {
   'use strict';
 
+  // NB! Fragile code. Add EditorController class to utility namespace, which
+  // is defined in diff__tools.js. It means, that diff__tools.js should always
+  // called before this file. Not sure, how require.js resolves it, but it
+  // seems to me, that is is works fine. But if we had a tool, which resolves
+  // namespaces, it would be better.
+  if (!diffTool) {
+    diffTool = {};
+  }
+
   /**
    * @param {boolean=} opt_editable
    * @constructor
@@ -58,7 +67,16 @@ define(['diff/diff__tools'], function(diffTool) {
    */
   diffTool.EditorController.prototype.setContent = function(original,
                                                             modified) {
+    /**
+     * @type {string}
+     * @private
+     */
     this.contentOriginal_ = original;
+
+    /**
+     * @type {string}
+     * @private
+     */
     this.contentModified_ = modified;
 
     this.setContentInternal(original, modified);
@@ -87,4 +105,6 @@ define(['diff/diff__tools'], function(diffTool) {
    */
   diffTool.EditorController.prototype.setEnabledInternal =
       diffTool.nullFunction;
+
+  return diffTool.EditorController;
 });
