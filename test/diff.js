@@ -1,4 +1,4 @@
-define(['global/global', 'chai'], function(ring, chai) {
+define(['global/global', 'chai', 'diff/diff'], function(ring, chai) {
   'use strict';
 
   var expect = chai.expect;
