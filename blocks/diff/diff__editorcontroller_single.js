@@ -15,5 +15,5 @@ define(['diff/diff__tools', 'diff/diff__editorcontroller'], function(diffTool) {
           opt_editable);
     }
   };
-  diffTool.inherits(diffTool.SingleEditorController, diffTool.EditorController);
+  diffTool.inherit(diffTool.SingleEditorController, diffTool.EditorController);
 });
