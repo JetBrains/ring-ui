@@ -13,10 +13,6 @@ define(['diff/diff__tools'], function(diffTool) {
   // called before this file. Not sure, how require.js resolves it, but it
   // seems to me, that is is works fine. But if we had a tool, which resolves
   // namespaces, it would be better.
-  if (!diffTool) {
-    diffTool = {};
-  }
-
   /**
    * @param {boolean=} opt_editable
    * @constructor
