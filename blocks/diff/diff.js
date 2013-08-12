@@ -7,8 +7,8 @@
  * @author igor.alexeenko (Igor Alekseyenko)
  */
 
-define(['diff/diff__tools', 'jquery', 'global/global__modules'], function(diffTool,
-    $, Module) {
+define(['diff/diff__tools', 'jquery', 'global/global__modules'], function(
+    diffTool, $, Module) {
   'use strict';
 
   // todo(igor.alexeenko): If number of arguments increases, replace
@@ -33,10 +33,6 @@ define(['diff/diff__tools', 'jquery', 'global/global__modules'], function(diffTo
     this.setEditable(diffTool.isDef(opt_editable) ? opt_editable :
         this.editable_);
 
-    /**
-     * @type {Element}
-     * @private
-     */
     this.element_ = document.createElement('div');
   };
 
@@ -107,6 +103,12 @@ define(['diff/diff__tools', 'jquery', 'global/global__modules'], function(diffTo
   DiffTool.prototype.editable_ = false;
 
   /**
+   * @type {Element}
+   * @private
+   */
+  DiffTool.prototype.element_ = null;
+
+  /**
    * @param {DiffTool.Mode} mode
    */
   DiffTool.prototype.setMode = function(mode) {
@@ -170,12 +172,6 @@ define(['diff/diff__tools', 'jquery', 'global/global__modules'], function(diffTo
   DiffTool.prototype.unrender = function() {
     $(this.element_).remove();
   };
-
-  /**
-   * Initializes configuration of DiffTool, which is corresponding to selected
-   * mode.
-   */
-  DiffTool.prototype.init = diffTool.abstractMethod;
 
   Module.add('diff', {
     getDiffTool: {
