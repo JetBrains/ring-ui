@@ -1,14 +1,16 @@
-/*global describe:false, it:false, expect:false*/
-'use strict';
-(function() {
+define(['global/global', 'chai'], function(ring, chai) {
+  'use strict';
+
+  var expect = chai.expect;
+
   describe('DiffTool basics: loading, getting and creating ' +
       'instance', function() {
     it('DiffTool loads as ring module', function() {
-      expect(window.ring('diff')).to.be.a('function');
+      expect(ring('diff')).to.be.a('function');
     });
 
     it('Module returns constructor of DiffTool properly.', function() {
-      var DiffTool = window.ring('diff').invoke('getDiffTool');
+      var DiffTool = ring('diff').invoke('getDiffTool');
       var instance = new DiffTool();
 
       expect(DiffTool).to.be.a('function');
@@ -17,7 +19,7 @@
   });
 
   describe('DiffTool constructor', function() {
-    var DiffTool = window.ring('diff').invoke('getDiffTool');
+    var DiffTool = ring('diff').invoke('getDiffTool');
     var diffToolInstance;
 
     it('DiffTool creates instance without parameters and ' +
@@ -54,7 +56,7 @@
   });
 
   describe('DiffTool modes', function() {
-    var DiffTool = window.ring('diff').invoke('getDiffTool');
+    var DiffTool = ring('diff').invoke('getDiffTool');
     var diffToolInstance = new DiffTool();
 
     describe('DiffTool modes existence', function() {
@@ -126,7 +128,7 @@
   });
 
   describe('DiffTool.editable', function() {
-    var DiffTool = window.ring('diff').invoke('getDiffTool');
+    var DiffTool = ring('diff').invoke('getDiffTool');
     var diffToolInstance = new DiffTool();
 
     it('DiffTool.isEditable returns value correctly and ' +
