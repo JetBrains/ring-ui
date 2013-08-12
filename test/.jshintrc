@@ -18,14 +18,14 @@
   "es3": true,
 
   "indent": 2,
-  "camelcase": true,
+  "camelcase": false,
   "curly": true,
   "newcap": true,
   "quotmark": true,
   "trailing": true,
   "sub": true,
 
-  "bitwise": true,
+  "bitwise": false,
   "eqeqeq": true,
   "eqnull": true,
   "immed": true,
