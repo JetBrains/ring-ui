@@ -1,7 +1,14 @@
-/*global describe:false, it:false, expect:false, expectDeferred:false */
-'use strict';
-(function () {
-  var ring = window.ring;
+define(['global/global', 'chai', 'chai-as-promised'], function(ring, chai) {
+  'use strict';
+
+  var expect = chai.expect;
+  var expectDeferred = function(deferred) {
+    if ('pipe' in deferred) {
+      delete deferred.pipe;
+    }
+
+    return expect(deferred);
+  };
 
   describe('Global module', function () {
     var o = ring();
@@ -181,4 +188,4 @@
       });
     });
   });
-})();
+});
