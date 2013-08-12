@@ -36,6 +36,30 @@ define(function() {
   diffTool.nullFunction = function() {};
 
   /**
+   * Takes even number of arguments and use them as key-value pairs to create
+   * a new {@link Object}.
+   * @param {*...} var_args
+   * @return {Object}
+   */
+  diffTool.createObject = function(var_args) {
+    if (var_args instanceof Array) {
+      return diffTool.createObject.apply(null, var_args);
+    }
+
+    var args = Array.prototype.slice.call(arguments, 0);
+    if (args.length % 2 !== 0) {
+      throw new Error('Odd number of arguments.');
+    }
+
+    var obj = {};
+    for (var i = 0, l = args.length; i < l; i += 2) {
+      obj[args[i]] = args[i + 1];
+    }
+
+    return obj;
+  };
+
+  /**
    * Inheritance interface. Works through empty constructor, but unlike other
    * inheritance methods, also creates link to a parent class in a child, to
    * make child able to call methods of parent class from its own methods.

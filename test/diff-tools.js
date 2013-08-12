@@ -1,4 +1,5 @@
-define(['global/global', 'chai', 'diff/diff'], function(ring, chai) {
+define(['global/global', 'chai', 'diff/diff'], function(
+    ring, chai) {
   'use strict';
 
   var expect = chai.expect;
@@ -30,6 +31,30 @@ define(['global/global', 'chai', 'diff/diff'], function(ring, chai) {
     // todo(igor.alekseenko): Solid way to check whether the function is empty.
     it('diffTool.nullFunction is an empty function', function() {
       expect(diffTool.nullFunction()).to.equal(undefined);
+    });
+
+    describe('diffTool.createObject', function() {
+      it('diffTool.createObject creates object from list of ' +
+          'arguments', function() {
+        expect(diffTool.createObject('foo', 1, 'bar', 2)).to.deep.equal({
+          foo: 1,
+          bar: 2
+        });
+      });
+
+      it('diffTool.createObject creates object if first argument ' +
+          'is array', function() {
+        expect(diffTool.createObject(['foo', 1, 'bar', 2])).to.deep.equal({
+          foo: 1,
+          bar: 2
+        });
+      });
+
+      it('diffTool.createObject raises an Error if odd number of arguments ' +
+        'was given', function() {
+        expect(function() { diffTool.createObject('foo', 1, 'bar'); }).to.throw(
+            /Odd number of arguments\./);
+      });
     });
   });
 
