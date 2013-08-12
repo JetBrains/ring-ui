@@ -3,6 +3,6 @@
  * @author igor.alexeenko (Igor Alekseyenko)
  */
 
-define(['global/global', 'diff/diff'], function(global, DiffTool) {
-  return DiffTool;
+define(['global/global', 'diff/diff'], function(ring, DiffTool) {
+  return ring;
 });
