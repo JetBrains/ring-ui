@@ -150,7 +150,8 @@ define(['global/global', 'chai', 'diff/diff'], function(ring, chai) {
   });
 
   // todo(igor.alexeenko): tests for setModeInternal.
-  // check lookup table of states to controllers.
+  // check lookup table of states to controllers. Check whether method takes
+  // correct instance of controller in each case.
 
   // todo(igor.alexeenko): check, whether changes in DiffTool causes
   // changes of corresponding states in diffTool.EditorController and

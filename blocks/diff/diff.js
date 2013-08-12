@@ -8,7 +8,8 @@
  */
 
 define(['diff/diff__tools', 'jquery', 'global/global__modules',
-  'diff/diff__editorcontroller'], function(diffTool, $, Module) {
+  'diff/diff__editorcontroller_single',
+  'diff/diff__editorcontroller_double'], function(diffTool, $, Module) {
   'use strict';
 
   // todo(igor.alexeenko): If number of arguments increases, replace
@@ -131,8 +132,8 @@ define(['diff/diff__tools', 'jquery', 'global/global__modules',
    */
   DiffTool.prototype.setModeInternal = function(mode) {
     if (!this.modeToController_) {
-      var singleModeController = new diffTool.EditorController();
-      var doubleModeController = new diffTool.EditorController();
+      var singleModeController = new diffTool.SingleEditorController();
+      var doubleModeController = new diffTool.DoubleEditorController();
 
       /**
        * Lookup table of {@link DiffTool.Mode}s to {diffTool.EditorController}s.

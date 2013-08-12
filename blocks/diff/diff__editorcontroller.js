@@ -46,8 +46,8 @@ define(['diff/diff__tools'], function(diffTool) {
   };
 
   // NB!(igor.alexeenko): Tests runner does not allow to equal internal
-  // methods to nullFunctions, because it's always falls, when some method
-  // raises an exception.
+  // methods to {diffTool.abstractMethod}s, because it's always falls, when
+  // some method raises an exception.
   // todo(igor.alexeenko): Change all internal methods to nullFunction
   // when child classes implements.
   /**
