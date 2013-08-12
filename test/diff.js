@@ -141,4 +141,4 @@ define(['global/global', 'chai'], function(ring, chai) {
       expect(diffToolInstance.isEditable()).to.equal(true);
     });
   });
-})();
+});
