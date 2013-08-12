@@ -26,6 +26,8 @@ define(['global/global', 'chai', 'diff/diff'], function(ring, chai) {
         'set correct default values', function() {
       diffToolInstance = new DiffTool();
       expect(diffToolInstance.editable_).to.equal(false);
+      // todo(igor.alexeenko): Find out, how to test an empty <div/> element.
+      expect(diffToolInstance.element_.tagName).to.equal('DIV');
       expect(diffToolInstance.mode_).to.equal(DiffTool.Mode.SINGLE_PANE);
     });
 
@@ -34,16 +36,21 @@ define(['global/global', 'chai', 'diff/diff'], function(ring, chai) {
       expect(diffToolInstance.editable_).to.equal(true);
     });
 
-    it('DiffTool creates instance with both parameters', function() {
-      diffToolInstance = new DiffTool(true, DiffTool.Mode.DOUBLE_PANE);
+    it('DiffTool creates instance with all possible parameters — ' +
+        'editable, element and default mode', function() {
+      var element = document.createElement('div');
+
+      diffToolInstance = new DiffTool(true, element, DiffTool.Mode.DOUBLE_PANE);
       expect(diffToolInstance.editable_).to.equal(true);
+      expect(diffToolInstance.element_).to.equal(element);
       expect(diffToolInstance.mode_).to.equal(DiffTool.Mode.DOUBLE_PANE);
     });
 
     it('DiffTool normalizes given parameters and replace them to ' +
         'default values if they are not correct', function() {
-      diffToolInstance = new DiffTool(-1, DiffTool.Mode.ALL);
+      diffToolInstance = new DiffTool(-1, undefined, DiffTool.Mode.ALL);
       expect(diffToolInstance.editable_).to.equal(true);
+      expect(diffToolInstance.element_.tagName).to.equal('DIV');
       expect(diffToolInstance.mode_).to.equal(DiffTool.Mode.SINGLE_PANE);
     });
 

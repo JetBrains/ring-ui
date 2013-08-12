@@ -7,8 +7,8 @@
  * @author igor.alexeenko (Igor Alekseyenko)
  */
 
-define(['diff/diff__tools', 'jquery', 'global/global__modules'], function(
-    diffTool, $, Module) {
+define(['diff/diff__tools', 'jquery', 'global/global__modules',
+  'diff/diff__editorcontroller'], function(diffTool, $, Module) {
   'use strict';
 
   // todo(igor.alexeenko): If number of arguments increases, replace
@@ -17,10 +17,11 @@ define(['diff/diff__tools', 'jquery', 'global/global__modules'], function(
 
   /**
    * @param {boolean=} opt_editable
+   * @param {Element=} opt_element
    * @param {DiffTool.Mode=} opt_mode
    * @constructor
    */
-  var DiffTool = function(opt_editable, opt_mode) {
+  var DiffTool = function(opt_editable, opt_element, opt_mode) {
     if (diffTool.isDef(opt_mode)) {
       opt_mode = opt_mode & this.availableModes ? opt_mode : this.defaultMode;
     }
@@ -33,7 +34,8 @@ define(['diff/diff__tools', 'jquery', 'global/global__modules'], function(
     this.setEditable(diffTool.isDef(opt_editable) ? opt_editable :
         this.editable_);
 
-    this.element_ = document.createElement('div');
+    this.element_ = diffTool.isDef(opt_element) ? opt_element :
+        document.createElement('div');
   };
 
   /**
@@ -109,6 +111,12 @@ define(['diff/diff__tools', 'jquery', 'global/global__modules'], function(
   DiffTool.prototype.element_ = null;
 
   /**
+   * @type {diffTool.EditorController}
+   * @private
+   */
+  DiffTool.prototype.controller_ = null;
+
+  /**
    * @param {DiffTool.Mode} mode
    */
   DiffTool.prototype.setMode = function(mode) {
@@ -122,7 +130,32 @@ define(['diff/diff__tools', 'jquery', 'global/global__modules'], function(
    * @param {DiffTool.Mode} mode
    * @protected
    */
-  DiffTool.prototype.setModeInternal = diffTool.nullFunction;
+  DiffTool.prototype.setModeInternal = function(mode) {
+    if (!this.modeToController_) {
+      var singleModeController = new diffTool.EditorController();
+      var doubleModeController = new diffTool.EditorController();
+
+      /**
+       * Lookup table of {@link DiffTool.Mode}s to {diffTool.EditorController}s.
+       * @type {Object.<DiffTool.Mode, diffTool.EditorController>}
+       * @private
+       */
+      this.modeToController_ = diffTool.createObject(
+          DiffTool.Mode.SINGLE_PANE, singleModeController,
+          DiffTool.Mode.DOUBLE_PANE, doubleModeController);
+    }
+
+    if (this.controller_ !== null) {
+      this.controller_.setEnabled(false);
+    }
+
+    this.controller_ = this.modeToController_[mode];
+
+    // todo(igor.alexeenko): Implement those settings through states to
+    // prevent manual setting of every DiffTool state in EditorController.
+    this.controller_.setEnabled(true);
+    this.controller_.setEditable(this.isEditable());
+  };
 
   /**
    * @return {DiffTool.Mode}
@@ -137,15 +170,9 @@ define(['diff/diff__tools', 'jquery', 'global/global__modules'], function(
   DiffTool.prototype.setEditable = function(editable) {
     if (editable !== this.editable_) {
       this.editable_ = editable;
-      this.setEditableInternal(editable);
+      this.controller_.setEditable(editable);
     }
   };
-
-  /**
-   * @param {boolean} editable
-   * @protected
-   */
-  DiffTool.prototype.setEditableInternal = diffTool.nullFunction;
 
   /**
    * @return {boolean}
@@ -163,7 +190,6 @@ define(['diff/diff__tools', 'jquery', 'global/global__modules'], function(
     }
 
     opt_parentElement.appendChild(this.element_);
-    this.init();
   };
 
   /**
