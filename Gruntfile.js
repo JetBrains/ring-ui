@@ -253,6 +253,15 @@ module.exports = function(grunt) {
           out: '<%= path.dist %>ring-jetbrains-confluence.js'
         })
       },
+      'ring-jetbrains-vc': {
+        options: _.extend(_.clone(requireConfig.options), {
+          paths: {
+            ring: '../<%= path.bundles %>ring-jetbrains-vc',
+            jquery: '../components/jquery/jquery'
+          },
+          out: '<%= path.dist %>ring-jetbrains-vc.js'
+        })
+      },
       'ring-jetbrains-oauth': {
         options: _.extend(_.clone(requireConfig.options), {
           paths: {
