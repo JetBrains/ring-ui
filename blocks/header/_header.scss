@@ -3,7 +3,7 @@ $ring-link-color:  #b4b4b4;
 .ring-header {
   padding: 0 $x-unit*3;
   background: #484848;
-  font-size: 18px;
+  font-size: 18px !important;
   text-rendering: optimizeLegibility;
   position: relative;
   text-align: left;
@@ -14,7 +14,8 @@ $ring-link-color:  #b4b4b4;
 // Items
 .ring-header__item {
   margin-right: $x-unit * 2;
-  font-size: 11px;
+  font-size: 11px !important;
+  font-weight: normal !important;
   @include droid-font;
 }
 
@@ -26,7 +27,7 @@ $ring-link-color:  #b4b4b4;
 
 .ring-header__item_active {
   color: #fff;
-  font-weight: bold;
+  font-weight: bold !important;
 }
 
 // Personal
@@ -43,7 +44,7 @@ $ring-link-color:  #b4b4b4;
   .ring-font-icon {
     color: $ring-link-color;
     vertical-align: middle;
-    font-size: 12px;
+    font-size: 12px !important;
     display: inline-block;
   }
 }

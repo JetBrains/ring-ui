@@ -47,7 +47,7 @@ $active-link-color: #ff5900;
 }
 
 @mixin droid-font() {
-  font-family: "Droid Sans", Arial, Tahoma, Verdana, sans-serif;
+  font-family: "Droid Sans", Arial, Tahoma, Verdana, sans-serif !important;
 }
 
 @mixin thin-font() {
