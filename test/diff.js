@@ -148,4 +148,11 @@ define(['global/global', 'chai', 'diff/diff'], function(ring, chai) {
       expect(diffToolInstance.isEditable()).to.equal(true);
     });
   });
+
+  // todo(igor.alexeenko): tests for setModeInternal.
+  // check lookup table of states to controllers.
+
+  // todo(igor.alexeenko): check, whether changes in DiffTool causes
+  // changes of corresponding states in diffTool.EditorController and
+  // all states syncs correctly.
 });
