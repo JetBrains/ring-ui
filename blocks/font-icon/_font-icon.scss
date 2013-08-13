@@ -63,6 +63,10 @@
   width: 18px;
 }
 
+.no-font-antialiasing .ring-font-icon:before {
+  content: '';
+}
+
 .no-font-antialiasing .ring-font-icon_help {
   background-position: -20px 0;
 }
