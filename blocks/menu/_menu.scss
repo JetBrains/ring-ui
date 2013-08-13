@@ -8,6 +8,7 @@ $header-controls-color: #376dc4;
   position: relative;
   text-align: center;
   border-bottom: 1px solid #ccc;
+  @include droid-font();
 }
 
 .ring-menu__i {
@@ -64,7 +65,6 @@ $header-controls-color: #376dc4;
 .ring-menu__item,
 .ring-menu__search__input {
   font-size: 13px;
-  @include droid-font;
   vertical-align: middle;
 }
 
@@ -96,7 +96,6 @@ $header-controls-color: #376dc4;
   border-radius: 2px;
   padding: 1px 2px;
   font-size: 10px;
-  @include droid-font;
 }
 
 .ring-menu__item__counter_attention {
