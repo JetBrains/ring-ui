@@ -15,6 +15,8 @@ module.exports = function(karma) {
     // list of files / patterns to load in the browser
     files: [
       'components/jquery/jquery.js',
+      'components/codemirror/lib/codemirror.js',
+
       {pattern: 'blocks/**/*.js', included: false},
       {pattern: 'test/**/*.js', included: false},
 
