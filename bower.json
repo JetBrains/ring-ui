@@ -5,6 +5,8 @@
     "jquery": "~1.10.1",
     "requirejs": "~2.1.6",
     "almond": "~0.2.5",
+    "polyfill": "git@github.com:inexorabletash/polyfill.git",
+    "json3": "~3.2.5",
     "jso": "git://github.com/princed/jso.git"
   },
   "ignore": [

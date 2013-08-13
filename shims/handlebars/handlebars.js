@@ -1,4 +1,4 @@
-define(['jquery-json'], function() {
+define(['json3'], function() {
   /*global Handlebars*/
   // @include ../../node_modules/grunt-contrib-handlebars/node_modules/handlebars/dist/handlebars.runtime.js
   // @include ../../tmp/templates.js
