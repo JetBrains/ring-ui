@@ -9,25 +9,30 @@ define([
   $.noConflict(true);
 
   var header = ring('header');
-  var init = header('init', null, '.GM2S2EEBHN table:eq(0)', 'prepend');
+  var init = header('init', null, 'td:eq(0):not([class^=dialog])', 'prepend');
+  var PERSONAL_SELECTOR = '.ring-header__personal';
 
   init.done(function() {
     var $username = $('button:eq(3)').parents('div:eq(2)').hide();
-    console.log($username);
 
-    header('update', 'user.name', $username.text()).done(function($header) {
+    var adapt = function($header) {
       $header.after('<div style="height: 5px;"></div>');
-    });
 
-    $(document).on('click.ring.personal', '.ring-header__personal', function() {
-      $username.find('div:eq(1)').click();
+      var $personal = $(PERSONAL_SELECTOR);
+      var offset = $personal.offset();
 
-      $('.gwt-PopupPanel').css({
-        top: 26,
-        right: -62,
-        left: ''
+      offset.right = $header.width() - offset.left - $personal.width();
+      offset.left = '';
+      offset.top = 26;
+
+      $(document).on('click.ring.personal', PERSONAL_SELECTOR, function() {
+        $username.find('div:eq(1)').click();
+
+        $('.gwt-PopupPanel').css(offset);
       });
-    });
+    };
+
+    header('update', 'user.name', $username.text()).done(adapt);
   });
 
   return ring;
