@@ -106,6 +106,8 @@ define(['global/global', 'chai', 'diff/diff'], function(ring, chai) {
       it('DiffTool getMode returns current mode and default value is ' +
           'DiffTool.Mode.SINGLE_PANE', function() {
         expect(diffToolInstance.getMode()).to.equal(
+            diffToolInstance.defaultMode);
+        expect(diffToolInstance.getMode()).to.equal(
             DiffTool.Mode.SINGLE_PANE);
       });
 
