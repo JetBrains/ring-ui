@@ -16,8 +16,9 @@ requirejs.config({
   paths: {
     'ring'       : '../bundles/ring',
     'jquery'     : '../shims/jquery/jquery',
-    'jquery-json': '../shims/jquery-json/jquery-json',
     'handlebars' : '../tmp/handlebars',
+    'storage'    : '../components/polyfill/storage',
+    'json3'      : '../components/json3/lib/json3',
     'jso'        : '../components/jso/jso'
   },
   shim: {
@@ -25,7 +26,7 @@ requirejs.config({
       exports: '$'
     },
     'jso': {
-      deps: ['jquery'],
+      deps: ['jquery', 'json3', 'storage'],
       exports: 'jso_configure',
       init: function(){
         /* globals jso_configure, jso_ensureTokens, jso_getToken */
