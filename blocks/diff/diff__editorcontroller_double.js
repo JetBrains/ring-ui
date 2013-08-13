@@ -5,15 +5,13 @@
 
 define(['diff/diff__tools', 'diff/diff__editorcontroller'], function(diffTool) {
   /**
-   * @param {boolean=} opt_editable
+   * @param {Element} element
    * @constructor
    * @extends {diffTool.EditorController}
    */
-  diffTool.DoubleEditorController = function(opt_editable) {
-    if (diffTool.isDef(opt_editable)) {
-      diffTool.DoubleEditorController._super.constructor.call(this,
-          opt_editable);
-    }
+  diffTool.DoubleEditorController = function(element) {
+    diffTool.DoubleEditorController.super_.constructor.call(this, element,
+        true);
   };
   diffTool.inherit(diffTool.DoubleEditorController, diffTool.EditorController);
 });

@@ -4,6 +4,12 @@
   <title>DiffTools</title>
   <meta charset="utf-8">
   <link rel="stylesheet" type="text/css" href="dist/ring.css">
+  <link rel="stylesheet" type="text/css" href="components/codemirror/lib/codemirror.css">
+  <style type="text/css">
+    .CodeMirror {
+      border: solid 1px #ccc;
+    }
+  </style>
 
   <script src="components/jquery/jquery.js"></script>
   <script src="components/requirejs/require.js"></script>
@@ -12,12 +18,17 @@
 <body>
 
 <div class="layout"></div>
+
 <script type="text/javascript">
-  require(['ring'], function(ring) {
+  require(['jquery', 'ring', 'codemirror'], function($, ring, CodeMirror) {
     var diffToolModule = ring('diff');
     var DiffTool = diffToolModule.invoke('getDiffTool');
     var diffToolUtils = diffToolModule.invoke('getDiffToolUtils');
     var diffToolEditorController = diffToolUtils.EditorController;
+
+    var element = document.querySelector('.layout');
+
+    var singlepaneDiffTool = new DiffTool(element);
   });
 </script>
 
