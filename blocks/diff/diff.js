@@ -21,13 +21,6 @@ define(['diff/diff__tools', 'jquery', 'global/global__modules',
   // and then, calls method {@link DiffTool.setContent}, which fills
   // editor with required content.
 
-  // todo(igor.alexeenko): If number of arguments increases, replace
-  // setting of parameters as listing of constructor arguments to typed
-  // object.
-
-  // todo(igor.alexeenko): Remove editable parameter from constructor.
-  // At least, remove it as first parameter.
-
   /**
    * @param {Element=} opt_element
    * @param {DiffTool.Mode=} opt_mode
@@ -152,8 +145,6 @@ define(['diff/diff__tools', 'jquery', 'global/global__modules',
 
     this.controller_ = this.modeToController_[mode];
 
-    // todo(igor.alexeenko): Implement those settings through states to
-    // prevent manual setting of every DiffTool state in EditorController.
     this.controller_.setEnabled(true);
   };
 
