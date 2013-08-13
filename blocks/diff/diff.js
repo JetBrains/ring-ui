@@ -8,34 +8,40 @@
  */
 
 define(['diff/diff__tools', 'jquery', 'global/global__modules',
+  'diff/diff__editorcontroller',
   'diff/diff__editorcontroller_single',
   'diff/diff__editorcontroller_double'], function(diffTool, $, Module) {
   'use strict';
 
+  // NB! Now, when DiffTool creates, I expect, that DOM-element is already
+  // in DOM and I can start render {DiffTool} immediately. In other words,
+  // {DiffTool} rather decorates DOM, then renders its own element.
+  // It means, that initialization of {DiffTool} occurs in two steps:
+  // first, creates instance of class {DiffTool}, which decorates element,
+  // and then, calls method {@link DiffTool.setContent}, which fills
+  // editor with required content.
+
   // todo(igor.alexeenko): If number of arguments increases, replace
   // setting of parameters as listing of constructor arguments to typed
   // object.
+
+  // todo(igor.alexeenko): Remove editable parameter from constructor.
+  // At least, remove it as first parameter.
+
   /**
-   * @param {boolean=} opt_editable
    * @param {Element=} opt_element
    * @param {DiffTool.Mode=} opt_mode
    * @constructor
    */
-  var DiffTool = function(opt_editable, opt_element, opt_mode) {
+  var DiffTool = function(opt_element, opt_mode) {
     if (diffTool.isDef(opt_mode)) {
       opt_mode = opt_mode & this.availableModes ? opt_mode : this.defaultMode;
     }
 
-    if (diffTool.isDef(opt_editable)) {
-      opt_editable = Boolean(opt_editable);
-    }
-
-    this.setMode(diffTool.isDef(opt_mode) ? opt_mode : this.defaultMode);
-    this.setEditable(diffTool.isDef(opt_editable) ? opt_editable :
-        this.editable_);
-
     this.element_ = diffTool.isDef(opt_element) ? opt_element :
         document.createElement('div');
+
+    this.setMode(diffTool.isDef(opt_mode) ? opt_mode : this.defaultMode);
   };
 
   /**
@@ -98,13 +104,6 @@ define(['diff/diff__tools', 'jquery', 'global/global__modules',
   DiffTool.prototype.mode_ = DiffTool.Mode.NONE_;
 
   /**
-   * Whether code in editor is editable or not.
-   * @type {boolean}
-   * @private
-   */
-  DiffTool.prototype.editable_ = false;
-
-  /**
    * @type {Element}
    * @private
    */
@@ -132,8 +131,10 @@ define(['diff/diff__tools', 'jquery', 'global/global__modules',
    */
   DiffTool.prototype.setModeInternal = function(mode) {
     if (!this.modeToController_) {
-      var singleModeController = new diffTool.SingleEditorController();
-      var doubleModeController = new diffTool.DoubleEditorController();
+      var singleModeController = new diffTool.SingleEditorController(
+          this.element_);
+      var doubleModeController = new diffTool.DoubleEditorController(
+          this.element_);
 
       /**
        * Lookup table of {@link DiffTool.Mode}s to {diffTool.EditorController}s.
@@ -154,7 +155,6 @@ define(['diff/diff__tools', 'jquery', 'global/global__modules',
     // todo(igor.alexeenko): Implement those settings through states to
     // prevent manual setting of every DiffTool state in EditorController.
     this.controller_.setEnabled(true);
-    this.controller_.setEditable(this.isEditable());
   };
 
   /**
@@ -165,38 +165,10 @@ define(['diff/diff__tools', 'jquery', 'global/global__modules',
   };
 
   /**
-   * @param {boolean} editable
+   * @return {diffTool.EditorController}
    */
-  DiffTool.prototype.setEditable = function(editable) {
-    if (editable !== this.editable_) {
-      this.editable_ = editable;
-      this.controller_.setEditable(editable);
-    }
-  };
-
-  /**
-   * @return {boolean}
-   */
-  DiffTool.prototype.isEditable = function() {
-    return this.editable_;
-  };
-
-  /**
-   * @param {Element} opt_parentElement
-   */
-  DiffTool.prototype.render = function(opt_parentElement) {
-    if (!diffTool.isDef(opt_parentElement)) {
-      opt_parentElement = document.body;
-    }
-
-    opt_parentElement.appendChild(this.element_);
-  };
-
-  /**
-   * Removes component from document, clears all of its custom subscriptions.
-   */
-  DiffTool.prototype.unrender = function() {
-    $(this.element_).remove();
+  DiffTool.prototype.getController = function() {
+    return this.controller_;
   };
 
   Module.add('diff', {
@@ -208,7 +180,8 @@ define(['diff/diff__tools', 'jquery', 'global/global__modules',
     },
 
     // NB! diffTool namespace is exporting only to make possible to test
-    // items from it.
+    // items from it. diffTool namespace should be encapsulated by DiffTool,
+    // to leave only one entering point to application.
     getDiffToolUtils: {
       method: function() {
         return diffTool;

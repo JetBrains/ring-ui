@@ -14,13 +14,47 @@ define(['diff/diff__tools'], function(diffTool) {
   // seems to me, that is is works fine. But if we had a tool, which resolves
   // namespaces, it would be better.
   /**
+   * @param {Element} element
    * @param {boolean=} opt_editable
    * @constructor
    */
-  diffTool.EditorController = function(opt_editable) {
+  diffTool.EditorController = function(element, opt_editable) {
+    this.element_ = element;
+
     if (diffTool.isDef(opt_editable)) {
-      this.editable_ = opt_editable;
+      this.editable_ = /** @type {!boolean} */ (opt_editable);
     }
+  };
+
+  /**
+   * @param {boolean=} opt_editable
+   * @param {string=} opt_value
+   * @return {Object}
+   * @static
+   */
+  diffTool.EditorController.getCodeMirrorOptions = function(opt_editable,
+                                                            opt_value) {
+    var indentUnit = 4;
+    var indentWithTabs = false;
+    var tabSize = 4;
+    var readonly = diffTool.isDef(opt_editable) ? !opt_editable : true;
+
+    if (diffTool.isDef(opt_value)) {
+      indentWithTabs = Boolean(opt_value.match(/\n?(\t+)/g).length);
+
+      // todo(igor.alexeenko): In case, when text indented with spaces,
+      // count size of indentation (tabSize and indentUnit).
+    }
+
+    return {
+      indentUnit: indentUnit,
+      indentWithTabs: indentWithTabs,
+      lineNumbers: true,
+      readOnly: readonly,
+      smartIndent: true,
+      tabMode: 'indent',
+      tabSize: tabSize
+    };
   };
 
   /**
@@ -33,7 +67,13 @@ define(['diff/diff__tools'], function(diffTool) {
    * @type {boolean}
    * @private
    */
-  diffTool.EditorController.prototype.editable_ = false;
+  diffTool.EditorController.prototype.editable_ = true;
+
+  /**
+   * @type {Element}
+   * @private
+   */
+  diffTool.EditorController.prototype.element_ = null;
 
   /**
    * @param {boolean} editable
@@ -56,6 +96,13 @@ define(['diff/diff__tools'], function(diffTool) {
    */
   diffTool.EditorController.prototype.setEditableInternal =
       diffTool.nullFunction;
+
+  /**
+   * @return {boolean}
+   */
+  diffTool.EditorController.prototype.isEditable = function() {
+    return this.editable_;
+  };
 
   /**
    * @param {string} original
