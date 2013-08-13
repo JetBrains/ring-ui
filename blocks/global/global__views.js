@@ -52,7 +52,7 @@ define(['jquery', 'handlebars', 'global/global__modules'], function($, Handlebar
     counter = counter || 0;
     var $target;
 
-    if (typeof $element === 'string' || $element instanceof Node) {
+    if (typeof $element === 'string' || Module.util.isNode($element )) {
       $target = $($element);
     } else if (!($element instanceof $)) {
       // TODO Lazy DOM cache
