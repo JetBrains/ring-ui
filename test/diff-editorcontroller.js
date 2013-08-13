@@ -22,12 +22,14 @@ define(['global/global', 'chai', 'diff/diff',
 
       expect(diffToolInstance).to.be.an.instanceof(diffTool.EditorController);
       expect(diffToolInstance.enabled_).to.equal(false);
-      expect(diffToolInstance.editable_).to.equal(false);
+      expect(diffToolInstance.editable_).to.equal(true);
     });
 
     it('diffTool.EditorController creates new instance with ' +
         'overridden parameter', function() {
-      var diffToolInstance = new diffTool.EditorController(true);
+      var element = document.createElement('div');
+      var diffToolInstance = new diffTool.EditorController(element, true);
+      expect(diffToolInstance.element_).to.equal(element);
       expect(diffToolInstance.editable_).to.equal(true);
     });
   });
@@ -37,14 +39,14 @@ define(['global/global', 'chai', 'diff/diff',
       var diffTool = ring('diff').invoke('getDiffToolUtils');
       var diffToolInstance = new diffTool.EditorController();
 
-      expect(diffToolInstance.editable_).to.equal(false);
-      diffToolInstance.setEditable(true);
       expect(diffToolInstance.editable_).to.equal(true);
+      diffToolInstance.setEditable(false);
+      expect(diffToolInstance.editable_).to.equal(false);
     });
 
     it('diffTool.EditorController.setContent()', function() {
       var diffTool = ring('diff').invoke('getDiffToolUtils');
-      var diffToolInstance = new diffTool.EditorController(true);
+      var diffToolInstance = new diffTool.EditorController();
 
       expect(diffToolInstance.contentOriginal_).to.be.an('undefined');
       expect(diffToolInstance.contentModified_).to.be.an('undefined');
@@ -57,7 +59,7 @@ define(['global/global', 'chai', 'diff/diff',
 
     it('diffTool.EditorController.setEnabled()', function() {
       var diffTool = ring('diff').invoke('getDiffToolUtils');
-      var diffToolInstance = new diffTool.EditorController(true);
+      var diffToolInstance = new diffTool.EditorController();
 
       expect(diffToolInstance.enabled_).to.equal(false);
       diffToolInstance.setEnabled(true);
