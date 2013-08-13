@@ -149,5 +149,12 @@ define(['diff/diff__tools'], function(diffTool) {
   diffTool.EditorController.prototype.setEnabledInternal =
       diffTool.nullFunction;
 
+  /**
+   * @return {boolean}
+   */
+  diffTool.EditorController.prototype.isEnabled = function() {
+    return this.enabled_;
+  };
+
   return diffTool.EditorController;
 });

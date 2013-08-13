@@ -3,6 +3,9 @@ define(['global/global', 'chai', 'diff/diff'], function(ring, chai) {
 
   var expect = chai.expect;
 
+  // todo(igor.alexeenko): quit copying instantiation of {DiffTool} from test
+  // to test.
+
   describe('DiffTool basics: loading, getting and creating ' +
       'instance', function() {
     it('DiffTool loads as ring module', function() {
@@ -55,6 +58,7 @@ define(['global/global', 'chai', 'diff/diff'], function(ring, chai) {
 
   describe('DiffTool modes', function() {
     var DiffTool = ring('diff').invoke('getDiffTool');
+    var diffTool = ring('diff').invoke('getDiffToolUtils');
     var diffToolInstance = new DiffTool();
 
     describe('DiffTool modes existence', function() {
@@ -123,13 +127,72 @@ define(['global/global', 'chai', 'diff/diff'], function(ring, chai) {
         });
       });
     });
+
+    describe('DiffTool controller\'s for modes', function() {
+      it('DiffTool has a controller for every available mode', function() {
+        expect(diffToolInstance.modeToController_).to.be.an('object');
+      });
+
+      // todo(igor.alexeenko): Very complex test. It checks two cases. Simplify.
+      it('IDs of modes in DiffTool.modeToController_ are taken ' +
+          'from DiffTool.availableModes and each controller, ' +
+          'corresponding to mode inherited from ' +
+          'diffTool.EditorController.', function() {
+        var currentController;
+
+        for (var mode in diffToolInstance.modeToController_) {
+          expect(Boolean(mode & diffToolInstance.availableModes)).to.equal(
+              true);
+
+          currentController = diffToolInstance.modeToController_[mode];
+          expect(currentController).to.be.an.instanceof(
+              diffTool.EditorController);
+        }
+      });
+
+      it('DiffTool.setModeInternal changes instance of controller', function() {
+        diffToolInstance.setMode(DiffTool.Mode.SINGLE_PANE);
+        expect(diffToolInstance.getController()).to.be.an.instanceof(
+            diffTool.SingleEditorController);
+
+        diffToolInstance.setMode(DiffTool.Mode.DOUBLE_PANE);
+        expect(diffToolInstance.getController()).to.be.an.instanceof(
+            diffTool.DoubleEditorController);
+      });
+
+      it('DiffTool.setModeInternal enables active controller' +
+          'and disables inactive.', function() {
+        var activeController;
+        var disabledController;
+
+        diffToolInstance.setMode(DiffTool.Mode.SINGLE_PANE);
+        activeController = diffToolInstance.modeToController_[
+            DiffTool.Mode.SINGLE_PANE];
+        disabledController = diffToolInstance.modeToController_[
+            DiffTool.Mode.DOUBLE_PANE];
+        expect(activeController.isEnabled()).to.equal(true);
+        expect(disabledController.isEnabled()).to.equal(false);
+
+        diffToolInstance.setMode(DiffTool.Mode.DOUBLE_PANE);
+        activeController = diffToolInstance.modeToController_[
+            DiffTool.Mode.DOUBLE_PANE];
+        disabledController = diffToolInstance.modeToController_[
+            DiffTool.Mode.SINGLE_PANE];
+        expect(activeController.isEnabled()).to.equal(true);
+        expect(disabledController.isEnabled()).to.equal(false);
+      });
+    });
   });
 
-  // todo(igor.alexeenko): tests for setModeInternal.
-  // check lookup table of states to controllers. Check whether method takes
-  // correct instance of controller in each case.
+  describe('DiffTool.getController', function() {
+    var DiffTool = ring('diff').invoke('getDiffTool');
+    var diffTool = ring('diff').invoke('getDiffToolUtils');
+    var diffToolInstance = new DiffTool();
 
-  // todo(igor.alexeenko): check, whether changes in DiffTool causes
-  // changes of corresponding states in diffTool.EditorController and
-  // all states syncs correctly.
+    it('DiffTool.getController returns current controller', function() {
+      expect(diffToolInstance.getController).to.be.a('function');
+      expect(diffToolInstance.getController()).to.be.an.instanceof(
+          diffTool.EditorController);
+    });
+  });
 });
