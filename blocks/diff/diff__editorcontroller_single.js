@@ -59,8 +59,7 @@ define(['codemirror', 'diff/diff__tools',
    * @override
    */
   diffTool.SingleEditorController.prototype.setContentInternal = function(
-      original, modified) {
+      original) {
     this.codeMirror_.setValue(original);
-    modified = 2;
   };
 });
