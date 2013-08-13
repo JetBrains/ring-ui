@@ -21,7 +21,8 @@ define(['codemirror', 'diff/diff__tools',
   /**
    * @override
    */
-  diffTool.SingleEditorController.prototype.setEnabled = function(enabled) {
+  diffTool.SingleEditorController.prototype.setEnabledInternal = function(
+      enabled) {
     if (enabled) {
       var editorElement = document.createElement('div');
       var codeMirrorOptions = diffTool.EditorController.getCodeMirrorOptions(
@@ -40,7 +41,7 @@ define(['codemirror', 'diff/diff__tools',
       this.codeMirror_ = null;
 
       // todo(igor.alexeenko): solid way to cleanup element.
-      this.editor.innerHTML = '';
+      this.element_.innerHTML = '';
     }
   };
 
