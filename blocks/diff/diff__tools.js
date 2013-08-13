@@ -38,7 +38,7 @@ define(function() {
   /**
    * Takes even number of arguments and use them as key-value pairs to create
    * a new {@link Object}.
-   * @param {*...} var_args
+   * @param {...*} var_args
    * @return {Object}
    */
   diffTool.createObject = function(var_args) {
@@ -59,7 +59,7 @@ define(function() {
     return obj;
   };
 
-  // todo(igor.alexeenko): Rename to inherit
+  // todo(igor.alexeenko): Rename to inherits
   /**
    * Inheritance interface. Works through empty constructor, but unlike other
    * inheritance methods, also creates link to a parent class in a child, to

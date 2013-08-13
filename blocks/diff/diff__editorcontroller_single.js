@@ -3,17 +3,63 @@
  * @author igor.alexeenko (Igor Alexeenko)
  */
 
-define(['diff/diff__tools', 'diff/diff__editorcontroller'], function(diffTool) {
+define(['codemirror', 'diff/diff__tools',
+  'diff/diff__editorcontroller'], function(CodeMirror, diffTool) {
+  'use strict';
+
   /**
-   * @param {boolean=} opt_editable
+   * @param {Element} element
    * @constructor
    * @extends {diffTool.EditorController}
    */
-  diffTool.SingleEditorController = function(opt_editable) {
-    if (diffTool.isDef(opt_editable)) {
-      diffTool.SingleEditorController._super.constructor.call(this,
-          opt_editable);
-    }
+  diffTool.SingleEditorController = function(element) {
+    diffTool.SingleEditorController.super_.constructor.call(this, element,
+        false);
   };
   diffTool.inherit(diffTool.SingleEditorController, diffTool.EditorController);
+
+  /**
+   * @override
+   */
+  diffTool.SingleEditorController.prototype.setEnabled = function(enabled) {
+    if (enabled) {
+      var editorElement = document.createElement('div');
+      var codeMirrorOptions = diffTool.EditorController.getCodeMirrorOptions(
+          this.isEditable());
+
+      this.element_.appendChild(editorElement);
+
+      /**
+       * @type {CodeMirror}
+       * @private
+       */
+      this.codeMirror_ = new CodeMirror(editorElement, codeMirrorOptions);
+    } else {
+      // todo(igor.alexeenko): find out, how to destroy {@link CodeMirror}
+      // properly.
+      this.codeMirror_ = null;
+
+      // todo(igor.alexeenko): solid way to cleanup element.
+      this.editor.innerHTML = '';
+    }
+  };
+
+  /**
+   * @override
+   */
+  diffTool.SingleEditorController.prototype.setEditableInternal = function(
+      editable) {
+    if (this.codeMirror_) {
+      this.codeMirror_.setOption('readOnly', !editable);
+    }
+  };
+
+  /**
+   * @override
+   */
+  diffTool.SingleEditorController.prototype.setContentInternal = function(
+      original, modified) {
+    this.codeMirror_.setValue(original);
+    modified = 2;
+  };
 });

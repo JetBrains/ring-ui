@@ -25,38 +25,29 @@ define(['global/global', 'chai', 'diff/diff'], function(ring, chai) {
     it('DiffTool creates instance without parameters and ' +
         'set correct default values', function() {
       diffToolInstance = new DiffTool();
-      expect(diffToolInstance.editable_).to.equal(false);
       // todo(igor.alexeenko): Find out, how to test an empty <div/> element.
       expect(diffToolInstance.element_.tagName).to.equal('DIV');
       expect(diffToolInstance.mode_).to.equal(DiffTool.Mode.SINGLE_PANE);
-    });
-
-    it('DiffTool creates instance with one parameter', function() {
-      diffToolInstance = new DiffTool(true);
-      expect(diffToolInstance.editable_).to.equal(true);
     });
 
     it('DiffTool creates instance with all possible parameters — ' +
         'editable, element and default mode', function() {
       var element = document.createElement('div');
 
-      diffToolInstance = new DiffTool(true, element, DiffTool.Mode.DOUBLE_PANE);
-      expect(diffToolInstance.editable_).to.equal(true);
+      diffToolInstance = new DiffTool(element, DiffTool.Mode.DOUBLE_PANE);
       expect(diffToolInstance.element_).to.equal(element);
       expect(diffToolInstance.mode_).to.equal(DiffTool.Mode.DOUBLE_PANE);
     });
 
     it('DiffTool normalizes given parameters and replace them to ' +
         'default values if they are not correct', function() {
-      diffToolInstance = new DiffTool(-1, undefined, DiffTool.Mode.ALL);
-      expect(diffToolInstance.editable_).to.equal(true);
+      diffToolInstance = new DiffTool(undefined, DiffTool.Mode.ALL);
       expect(diffToolInstance.element_.tagName).to.equal('DIV');
       expect(diffToolInstance.mode_).to.equal(DiffTool.Mode.SINGLE_PANE);
     });
 
     it('DiffTool constructor adds all required fields', function() {
       diffToolInstance = new DiffTool();
-      expect(diffToolInstance.editable_).to.be.a('boolean');
       expect(diffToolInstance.mode_).to.be.a('number');
       expect(diffToolInstance.element_).to.be.an.instanceof(Element);
     });
@@ -131,21 +122,6 @@ define(['global/global', 'chai', 'diff/diff'], function(ring, chai) {
               DiffTool.Mode.SINGLE_PANE);
         });
       });
-    });
-  });
-
-  describe('DiffTool.editable', function() {
-    var DiffTool = ring('diff').invoke('getDiffTool');
-    var diffToolInstance = new DiffTool();
-
-    it('DiffTool.isEditable returns value correctly and ' +
-        'by default editable is false', function() {
-      expect(diffToolInstance.isEditable()).to.equal(false);
-    });
-
-    it('DiffTool.setEditable sets value correctly', function() {
-      diffToolInstance.setEditable(true);
-      expect(diffToolInstance.isEditable()).to.equal(true);
     });
   });
 
