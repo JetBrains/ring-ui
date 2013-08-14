@@ -9,10 +9,10 @@ $ring-link-color:  #b4b4b4;
   text-align: left;
   border-bottom: 1px solid #000;
   height: $x-unit*3 - 1;
-  line-height: 22px !important;
+  line-height: 20px !important;
 
   &::-moz-progress-bar, & {
-    line-height: 20px !important;
+    line-height: 18px !important;
   }
 }
 
