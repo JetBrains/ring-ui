@@ -6,14 +6,15 @@ define([
   'header/header__internal'
 ], function($, ring) {
   // Remove all jQuery variables from the global scope
-  $.noConflict();
+  $.noConflict(true);
 
   var header = ring('header');
   var init = header('init', null, '.ring-header', 'replace');
 
   // Render header
   $(function(){
-    var $username = $('#user-menu-link');
+    /* globals AJS */
+    var $username = AJS.$('#user-menu-link');
 
     $username
       .hide()
