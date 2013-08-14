@@ -59,6 +59,29 @@ define(function() {
     return obj;
   };
 
+  /**
+   * Simply appends values of fields of mixin into target object.
+   * @param {Object} target
+   * @param {Object} mixin
+   * @param {boolean=} opt_override
+   * @return {Object}
+   */
+  diffTool.mixin = function(target, mixin, opt_override) {
+    opt_override = diffTool.isDef(opt_override) ? opt_override : true;
+
+    for (var arg in mixin) {
+      if (mixin.hasOwnProperty(arg)) {
+        if (target[arg] && !opt_override) {
+          continue;
+        }
+
+        target[arg] = mixin[arg];
+      }
+    }
+
+    return target;
+  };
+
   // todo(igor.alexeenko): Rename to inherits
   /**
    * Inheritance interface. Works through empty constructor, but unlike other
