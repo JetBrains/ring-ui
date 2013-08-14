@@ -1,25 +1,27 @@
 <div class="ring-header">
-  {{#services}}
-    {{#if active}}
-      <span class="ring-header__item ring-header__item_active{{> global__class}}">{{label}}</span>
-    {{else}}
-      <a class="ring-header__item ring-header__item_link{{> global__class}}" href="{{url}}">{{label}}</a>
-    {{/if}}
-  {{/services}}
-  {{#personal}}
-    <span class="ring-header__personal{{> dropdown__component}}">
-      <span class="ring-header__item ring-header__item_link">{{username}}</span>
-      <span class="ring-font-icon ring-font-icon_caret-down"></span>
-    </span>
-  {{else}}
-    {{#authLinks/login}}
-      <span class="ring-header__personal">
-        {{#if url}}
-          <a class="ring-header__item ring-header__item_link{{> global__class}}" {{> global__attributes}} href="{{url}}">{{label}}</a>
-        {{else}}
-          <span class="ring-header__item ring-header__item_link{{> global__class}}" {{> global__attributes}}>{{label}}</span>
-        {{/if}}
+  <div class="ring-header__i">
+    {{#services}}
+      {{#if active}}
+        <span class="ring-header__item ring-header__item_active{{> global__class}}">{{label}}</span>
+      {{else}}
+        <a class="ring-header__item ring-header__item_link{{> global__class}}" href="{{url}}">{{label}}</a>
+      {{/if}}
+    {{/services}}
+    {{#personal}}
+      <span class="ring-header__personal{{> dropdown__component}}">
+        <span class="ring-header__item ring-header__item_link">{{username}}</span>
+        <span class="ring-font-icon ring-font-icon_caret-down"></span>
       </span>
-    {{/authLinks/login}}
-  {{/personal}}
+    {{else}}
+      {{#authLinks/login}}
+        <span class="ring-header__personal">
+          {{#if url}}
+            <a class="ring-header__item ring-header__item_link{{> global__class}}" {{> global__attributes}} href="{{url}}">{{label}}</a>
+          {{else}}
+            <span class="ring-header__item ring-header__item_link{{> global__class}}" {{> global__attributes}}>{{label}}</span>
+          {{/if}}
+        </span>
+      {{/authLinks/login}}
+    {{/personal}}
+  </div>
 </div>
