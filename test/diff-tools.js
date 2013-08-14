@@ -58,6 +58,28 @@ define(['global/global', 'chai', 'diff/diff'], function(
     });
   });
 
+  describe('DiffTool.mixin', function() {
+    var diffTool = ring('diff').invoke('getDiffToolUtils');
+
+    it('diffTool.mixin appends fields of mixin object to ' +
+      'target object', function() {
+      expect(diffTool.mixin({ foo: 1 }, { bar: 2 })).to.deep.equal(
+        { foo: 1, bar: 2 });
+    });
+
+    it('diffTool.mixin overrides fields with the same keys in ' +
+      'original object by values from mixin.', function() {
+      expect(diffTool.mixin({ bar: 1 }, { bar: 2 })).to.deep.equal(
+        { bar: 2 });
+    });
+
+    it('diffTool.mixin does not override fields with the same ' +
+      'keys if parameter override is false', function() {
+      expect(diffTool.mixin({ bar: 1 }, { bar: 2 }, false)).to.deep.equal(
+        { bar: 1 });
+    });
+  });
+
   describe('DiffTool utils inheritance', function() {
     var diffTool = ring('diff').invoke('getDiffToolUtils');
 

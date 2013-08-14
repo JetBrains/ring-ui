@@ -34,26 +34,37 @@ define(['diff/diff__tools'], function(diffTool) {
    */
   diffTool.EditorController.getCodeMirrorOptions = function(opt_editable,
                                                             opt_value) {
-    var indentUnit = 4;
-    var indentWithTabs = false;
-    var tabSize = 4;
-    var readonly = diffTool.isDef(opt_editable) ? !opt_editable : true;
+    var opts = {};
 
     if (diffTool.isDef(opt_value)) {
-      indentWithTabs = Boolean(opt_value.match(/\n?(\t+)/g).length);
-
-      // todo(igor.alexeenko): In case, when text indented with spaces,
-      // count size of indentation (tabSize and indentUnit).
+      // NB! Some parameters we could get by analyzing given piece of code.
+      opts = diffTool.EditorController.getCodeOptionsFromValue(opt_value);
     }
 
-    return {
-      indentUnit: indentUnit,
-      indentWithTabs: indentWithTabs,
+    return diffTool.mixin({
+      indentUnit: 4,
+      indentWithTabs: false,
       lineNumbers: true,
-      readOnly: readonly,
+      readOnly: Boolean(opt_editable),
       smartIndent: true,
       tabMode: 'indent',
-      tabSize: tabSize
+      tabSize: 4
+    }, opts);
+  };
+
+  // todo(igor.alexeenko): There is a problem with code analyze, because
+  // somehow, I have to find out what kind of line endings is used in
+  // given code and use this line endings instead of system default endings.
+
+  /**
+   * @param {string} value
+   * @return {Object}
+   */
+  diffTool.EditorController.getCodeOptionsFromValue = function(value) {
+    var indentWithTabs = /\n?\t+/.test(value);
+
+    return {
+      indentWithTabs: indentWithTabs
     };
   };
 
