@@ -32,6 +32,10 @@ define(['jquery', 'global/global__events'], function($, Event) {
     return !!obj && typeof obj === 'object' && obj.hasOwnProperty('promise') && $.isFunction(obj.promise);
   };
 
+  util.isNode = function(obj) {
+    return typeof Node === 'object' ? obj instanceof Node : obj && typeof obj === 'object' && typeof obj.nodeType === 'number';
+  };
+
   // Logging
   // TODO Proper logging
   var RingError = function(message) {
