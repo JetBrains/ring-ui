@@ -5,7 +5,7 @@
  * @author igor.alexeenko (Igor Alekseyenko)
  */
 
-define(['diff/diff__tools'], function(diffTool) {
+define(['diff/diff__tools', 'diff/diff__parser'], function(diffTool) {
   'use strict';
 
   // NB! Fragile code. Add EditorController class to utility namespace, which
@@ -27,48 +27,6 @@ define(['diff/diff__tools'], function(diffTool) {
   };
 
   /**
-   * @param {boolean=} opt_editable
-   * @param {string=} opt_value
-   * @return {Object}
-   * @static
-   */
-  diffTool.EditorController.getCodeMirrorOptions = function(opt_editable,
-                                                            opt_value) {
-    var opts = {};
-
-    if (diffTool.isDef(opt_value)) {
-      // NB! Some parameters we could get by analyzing given piece of code.
-      opts = diffTool.EditorController.getCodeOptionsFromValue(opt_value);
-    }
-
-    return diffTool.mixin({
-      indentUnit: 4,
-      indentWithTabs: false,
-      lineNumbers: true,
-      readOnly: Boolean(opt_editable),
-      smartIndent: true,
-      tabMode: 'indent',
-      tabSize: 4
-    }, opts);
-  };
-
-  // todo(igor.alexeenko): There is a problem with code analyze, because
-  // somehow, I have to find out what kind of line endings is used in
-  // given code and use this line endings instead of system default endings.
-
-  /**
-   * @param {string} value
-   * @return {Object}
-   */
-  diffTool.EditorController.getCodeOptionsFromValue = function(value) {
-    var indentWithTabs = /\n?\t+/.test(value);
-
-    return {
-      indentWithTabs: indentWithTabs
-    };
-  };
-
-  /**
    * @type {boolean}
    * @private
    */
@@ -87,6 +45,12 @@ define(['diff/diff__tools'], function(diffTool) {
   diffTool.EditorController.prototype.element_ = null;
 
   /**
+   * @type {diffTool.Parser}
+   * @private
+   */
+  diffTool.EditorController.prototype.codeParser_ = null;
+
+  /**
    * @param {boolean} editable
    */
   diffTool.EditorController.prototype.setEditable = function(editable) {
@@ -96,11 +60,6 @@ define(['diff/diff__tools'], function(diffTool) {
     }
   };
 
-  // NB!(igor.alexeenko): Tests runner does not allow to equal internal
-  // methods to {diffTool.abstractMethod}s, because it's always falls, when
-  // some method raises an exception.
-  // todo(igor.alexeenko): Change all internal methods to nullFunction
-  // when child classes implements.
   /**
    * @param {boolean} editable
    * @protected
@@ -118,7 +77,7 @@ define(['diff/diff__tools'], function(diffTool) {
   /**
    * @param {string} original
    * @param {string} modified
-   * @param {Array.<Object>} diff
+   * @param {diffTool.Parser.Diff} diff
    */
   diffTool.EditorController.prototype.setContent = function(original,
                                                             modified, diff) {
@@ -134,10 +93,9 @@ define(['diff/diff__tools'], function(diffTool) {
      */
     this.contentModified_ = modified;
 
-    // todo(igor.alexeenko): formalize data-type of this object.
     /**
      * Information about difference between original and modified content.
-     * @type {Array.<Object>}
+     * @type {diffTool.Parser.Diff}
      * @private
      */
     this.diff_ = diff;
@@ -148,7 +106,7 @@ define(['diff/diff__tools'], function(diffTool) {
   /**
    * @param {string} original
    * @param {string} modified
-   * @param {Array.<Object>} diff
+   * @param {diffTool.Parser.Diff} diff
    * @protected
    */
   diffTool.EditorController.prototype.setContentInternal =

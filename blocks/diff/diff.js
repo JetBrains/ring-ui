@@ -8,7 +8,6 @@
  */
 
 define(['diff/diff__tools', 'jquery', 'global/global__modules',
-  'diff/diff__editorcontroller',
   'diff/diff__editorcontroller_single',
   'diff/diff__editorcontroller_double'], function(diffTool, $, Module) {
   'use strict';
@@ -157,7 +156,7 @@ define(['diff/diff__tools', 'jquery', 'global/global__modules',
   /**
    * @param {string} original
    * @param {string} modified
-   * @param {Array.<Object>} diff
+   * @param {diffTool.Parser.Diff} diff
    */
   DiffTool.prototype.setContent = function(original, modified, diff) {
     this.controller_.setContent(original, modified, diff);
