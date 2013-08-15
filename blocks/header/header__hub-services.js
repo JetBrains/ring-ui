@@ -2,8 +2,6 @@
 define(['jquery', 'global/global__modules', 'global/global__views', 'header/header', 'auth/auth'], function ($, Module, View) {
   'use strict';
 
-  var dfd = $.Deferred();
-
   var convertServices = function(services) {
     var items = [];
 
@@ -22,30 +20,48 @@ define(['jquery', 'global/global__modules', 'global/global__views', 'header/head
   var auth = Module.get('auth');
 
   var update = function() {
-    $.when(auth('ajax', '/rest/services'), auth('ajax','/rest/users/me'))
-    .then(function(services, me) {
-      var update;
+    var getServices = $.Deferred();
+    var getMe = $.Deferred();
 
-      if (services && services[0] && services[0].services) {
-        update = {};
-        update['services'] = convertServices(services[0].services);
-      }
+    auth('ajax', '/rest/services')
+      .done(function(services) {
+        var list = services && services.services;
 
-      var user = header.get('view');
-      if (user && me && me[0]) {
-        update = update || {};
-        update['user'] = me[0];
-      }
+        if (list) {
+          getServices.resolve({services: convertServices(list)});
+        } else {
+          getServices.resolve({});
+        }
+      })
+      .fail(function() {
+        getServices.resolve({});
+      });
 
-      if (update) {
-        View.update('header', '.', update);
-      }
+    auth('ajax', '/rest/users/me')
+      .done(function(me) {
+        var user = header.get('view');
 
-      dfd.resolve();
-    });
+        if (user && me && me[0]) {
+          getMe.resolve({user: me[0]});
+        } else {
+          getMe.resolve({});
+        }
+      })
+      .fail(function() {
+        getMe.resolve({});
+      });
+
+    return $.when(getServices, getMe);
   };
 
-  auth.on('init', update);
+  var dfd = $.Deferred();
+
+  auth.on('init', function() {
+    update().then(function(services, me) {
+      View.update('header', '.', $.extend({}, services, me));
+      dfd.resolve();
+    });
+  });
 
   return dfd;
 });

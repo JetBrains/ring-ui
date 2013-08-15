@@ -128,21 +128,21 @@
         }
       });
 
-      if (window.location.host.indexOf('localhost') === -1) {
-        ring('auth', 'init')({
-          clientId: "4ba3d665-e492-48a2-960c-b3aacb2fe248",
-            redirectUri: "http://hub.jetbrains.com/master/",
-            serverUri: "http://hub.jetbrains.com:8080/accounts",
-            scope: ["22fe5b09-0849-4845-acb1-3c93fbc6c12c"]
-        });
-      } else if (false) {
+//      if (window.location.host.indexOf('localhost') === -1) {
+//        ring('auth', 'init')({
+//          clientId: "4ba3d665-e492-48a2-960c-b3aacb2fe248",
+//            redirectUri: "http://hub.jetbrains.com/master/",
+//            serverUri: "http://hub.jetbrains.com:8080/accounts",
+//            scope: ["22fe5b09-0849-4845-acb1-3c93fbc6c12c"]
+//        });
+//      } else if (false) {
         ring('auth', 'init')({
           clientId: "bbb54677-70fd-47b5-b3cf-c9eeb51212d0",
           redirectUri: "http://localhost:8000",
           serverUri: "http://localhost:8080",
           scope: ["bbb54677-70fd-47b5-b3cf-c9eeb51212d0"]
         });
-      }
+//      }
 
 
       o.on('menu:test', function(data) {
