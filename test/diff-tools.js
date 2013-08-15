@@ -58,7 +58,7 @@ define(['global/global', 'chai', 'diff/diff'], function(
     });
   });
 
-  describe('DiffTool.mixin', function() {
+  describe('diffTool.mixin', function() {
     var diffTool = ring('diff').invoke('getDiffToolUtils');
 
     it('diffTool.mixin appends fields of mixin object to ' +
@@ -80,7 +80,24 @@ define(['global/global', 'chai', 'diff/diff'], function(
     });
   });
 
-  describe('DiffTool utils inheritance', function() {
+  describe('diffTool.clamp', function() {
+    var diffTool = ring('diff').invoke('getDiffToolUtils');
+
+    it('diffTool.clamp does nothing with value if it is already ' +
+        'clamp inside min and max', function() {
+      expect(diffTool.clamp(10, -Infinity, Infinity)).to.equal(10);
+    });
+
+    it('diffTool.clamp corrects value if it is greater then max', function() {
+      expect(diffTool.clamp(Infinity, 0, 10)).to.equal(10);
+    });
+
+    it('diffTool.clamp corrects value if it is less then min', function() {
+      expect(diffTool.clamp(-Infinity, 0, Infinity)).to.equal(0);
+    });
+  });
+
+  describe('diffTool.inherit', function() {
     var diffTool = ring('diff').invoke('getDiffToolUtils');
 
     var ParentClass = function() {};
