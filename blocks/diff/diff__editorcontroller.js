@@ -118,9 +118,10 @@ define(['diff/diff__tools'], function(diffTool) {
   /**
    * @param {string} original
    * @param {string} modified
+   * @param {Array.<Object>} diff
    */
   diffTool.EditorController.prototype.setContent = function(original,
-                                                            modified) {
+                                                            modified, diff) {
     /**
      * @type {string}
      * @private
@@ -133,12 +134,21 @@ define(['diff/diff__tools'], function(diffTool) {
      */
     this.contentModified_ = modified;
 
-    this.setContentInternal(original, modified);
+    // todo(igor.alexeenko): formalize data-type of this object.
+    /**
+     * Information about difference between original and modified content.
+     * @type {Array.<Object>}
+     * @private
+     */
+    this.diff_ = diff;
+
+    this.setContentInternal(original, modified, diff);
   };
 
   /**
    * @param {string} original
    * @param {string} modified
+   * @param {Array.<Object>} diff
    * @protected
    */
   diffTool.EditorController.prototype.setContentInternal =

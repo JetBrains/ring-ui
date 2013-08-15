@@ -1,0 +1,213 @@
+package org.jetbrains.jing.git.importer;
+
+import com.google.common.collect.*;
+import org.jetbrains.annotations.*;
+import org.jetbrains.jing.common.*;
+import org.jetbrains.jing.common.async.*;
+import org.jetbrains.jing.common.util.*;
+import org.jetbrains.jing.git.*;
+import org.jetbrains.jing.repository.*;
+import org.jetbrains.jing.repository.impl.*;
+import org.jetbrains.jing.repository.impl.internalApi.*;
+import org.jetbrains.jing.repository.util.dump.*;
+import org.junit.*;
+import org.junit.rules.*;
+
+import java.nio.file.*;
+import java.util.*;
+
+public class GitImportTest extends BaseTestWithGoldDataAndInput {
+
+  private static final String BRANCH_MESS_1_B = "5601585d0d0d55daf061b4db1e0ee96246c41037";
+  private static final String BRANCH_MESS_1_A = "1e6870e0a0c6f5f94032bcafa5fcb3ffb2abc45a";
+  private static final String BRANCH_MESS_1_C = "fc43cdabff0d7c042e0b8b54bac9fc46cd58dfff";
+  private static final String BRANCH_MESS_1_B_LAST = "656e8cea50562fe00b0cf4c9d2fe3da6751e94fa";
+  private static final String BRANCH_MESS_1_A_LAST = "c889c35e3c65ab332eccbfd88d2b27ee241fc1da";
+  private static final String BRANCH_MESS_1_C_LAST = "a768489c75e260f4013eecc3c12e85766ff516aa";
+  private static final String BRANCH_MESS_1_MERGE_AB = "2cd822a1d1d207aed8132beaa0d4650aa93a5cf5";
+  private static final String BRANCH_MESS_1_MERGE_BC = "ac9a7ebc90fd47967d4ac0bcc0bbaafc61a242fb";
+  private Map<String, String> phase1Heads;
+  private Map<String, String> phase2Heads;
+
+  @Rule
+  public TestName testName = new TestName();
+
+  @Before
+  public void setUp() throws Exception {
+    phase1Heads = null;
+    phase2Heads = Collections.emptyMap();
+  }
+
+  @Test
+  public void testEmpty() {
+    doTest("empty", "empty");
+  }
+
+  @Test
+  public void testBare() {
+    doTest("bare", "bare");
+  }
+
+  @Test
+  public void test1() {
+    doTest("1", "1");
+  }
+
+  @Test
+  public void test2() {
+    doTest("2", "2");
+  }
+
+  @Test(expected = RuntimeException.class)
+  public void testNonExistentRepo() {
+    doTest("nonExistentRepo", "nonExistentRepo");
+  }
+
+  @Test
+  public void testNonLinear1() {
+    doTest("nonLinear1", "nonLinear1");
+  }
+
+  @Test
+  public void testWithSubmodule() {
+    doTest("withSubmodule", "withSubmodule");
+  }
+
+  private static final String COMMIT_C = "ba0881a58fc35fd51376b439088dedd8a7cf86bc";
+  private static final String COMMIT_B = "5998f9dbc625d5cb4c48fc86f8705ebf7ba27723";
+  private static final String MERGE_COMMIT = "3785004efc2dcc3aca5385d680c64eadb0e1b502";
+  private static final String COMMIT_D = "32e15a1e2cfad605f9501156641e2617cc8db123";
+
+  @Test
+  public void testPartialImport_nonLinear1() {
+    phase1Heads = ImmutableMap.of("master", COMMIT_C, "grandmaster", COMMIT_B);
+    doTest(testName.getMethodName(), "nonLinear1");
+  }
+
+  @Test
+  public void testPartialImport_nonLinear1_headCollision1() {
+    phase1Heads = ImmutableMap.of("master", COMMIT_C, "grandmaster", COMMIT_B);
+    phase2Heads = ImmutableMap.of("master", MERGE_COMMIT, "grandmaster", MERGE_COMMIT);
+    doTest(testName.getMethodName(), "nonLinear1");
+  }
+
+  @Test
+  public void testPartialImport_branchMess1() {
+    phase1Heads = ImmutableMap.of("master", BRANCH_MESS_1_B, "A", BRANCH_MESS_1_A, "C", BRANCH_MESS_1_C);
+    phase2Heads = ImmutableMap.of("master", BRANCH_MESS_1_B_LAST, "A", BRANCH_MESS_1_A_LAST, "C", BRANCH_MESS_1_C_LAST);
+    doTest(testName.getMethodName(), "branch-mess1");
+  }
+
+  @Test // same as above but heads are at different positions
+  public void testPartialImport_branchMess1_2() {
+    phase1Heads = ImmutableMap.of("master", BRANCH_MESS_1_MERGE_AB, "A", BRANCH_MESS_1_MERGE_AB, "C", BRANCH_MESS_1_MERGE_BC);
+    phase2Heads = ImmutableMap.of("master", BRANCH_MESS_1_B_LAST, "A", BRANCH_MESS_1_A_LAST, "C", BRANCH_MESS_1_C_LAST);
+    doTest(testName.getMethodName(), "branch-mess1");
+  }
+
+  @Test
+  public void testPartialImport_collisions() {
+    phase1Heads = ImmutableMap.of("master", "90573f06adf58cb4aebcbbb0bc947b982e5c2238", "A", "296040a00d84100b093a6b140adb828ea25302bf", "B", "6ba7d70ac1575696e29e70ae490f69b6d699ad60");
+    phase2Heads = ImmutableMap.of("master", "c2f81789672a04038b766f6a6eacaaaf64775c01", "A", "2e268cb9408492df8888f3f9232af11c7535220e", "B", "6ba7d70ac1575696e29e70ae490f69b6d699ad60");
+    doTest(testName.getMethodName(), "collisions");
+  }
+
+  @Test
+  public void testPartialImport_sideCommits() {
+    phase1Heads = ImmutableMap.of("master", "457a828952ce0988c11771201fb241eec39ff94a", "A", "c4cd2a9beb52d9d860253570878f736cac5f7c12", "B", "3237311ff30393ac01501a0cd1230fb4fa2100cb");
+    phase2Heads = ImmutableMap.of("master", "9029610e36c2bcc5c026dcdf2a0c008f34403295", "A", "c4cd2a9beb52d9d860253570878f736cac5f7c12", "B", "3237311ff30393ac01501a0cd1230fb4fa2100cb");
+    doTest(testName.getMethodName(), "side-commits");
+  }
+
+  @Test
+  public void testPartialImportAsFull_nonLinear1() {
+    phase1Heads = ImmutableMap.of("master", COMMIT_D, "grandmaster", COMMIT_B);
+    doTest(testName.getMethodName(), "nonLinear1");
+  }
+
+  @Test
+  public void testImport_gitignoreSpecs() {
+    doTest(testName.getMethodName(), "gitignore");
+  }
+
+  @Test
+  public void testImport_jingprop() {
+    doTest(testName.getMethodName(), "jingprop");
+  }
+
+  @Override
+  protected String relativeTestDataPath() {
+    return "git-import";
+  }
+
+  @Override
+  protected TestDataFile[] process(final String testName, final String... inputFileNames) {
+    try {
+      assert inputFileNames.length == 1;
+      final Path gitRepoPath = GitSyncTestUtil.prepareGitRepo(baseTestDataPath().resolve("git-repos").resolve(inputFileNames[0] + ".zip"));
+      final Path managerBaseDir = TempFileUtil.createTempDirectory();
+
+      final RepositoryUser user = new RepositoryUser("user");
+
+      if (phase1Heads == null || phase1Heads.isEmpty()) {
+        try (RepositoryManagerImpl repositoryManager = GitSyncTestUtil.createLocalRepoManagerSyncingWithGitRepo(managerBaseDir, gitRepoPath)) {
+          final Repository jingRepo = repositoryManager.createLocalRepository(testName, user);
+          GitImport.perform(gitRepoPath, jingRepo, NullOperationProgress.INSTANCE, TimeInterval.ZERO);
+          return TestDataFile.singleOutput(testName, dumpRepository(jingRepo));
+        }
+      }
+      else {
+        final String jingRepoId;
+        final String phase1Dump;
+
+        try (RepositoryManagerImpl repositoryManager = GitSyncTestUtil.createLocalRepoManagerSyncingWithGitRepo(managerBaseDir, gitRepoPath)) {
+          final Repository jingRepo = repositoryManager.createLocalRepository(testName, user);
+          jingRepoId = jingRepo.id();
+          try (final WritableRepositoryView view = jingRepo.createWritableView(TimeInterval.ZERO, RepositoryScope.PUBLIC)) {
+            final PersistentJingToGitMappingStorage persistentMapper = new PersistentJingToGitMappingStorage(((InternalRepositoryView)view));
+            GitImport.perform(
+                    gitRepoPath,
+                    view,
+                    GitUtil.headsFromStrings(Collections.<String, String>emptyMap()),
+                    GitUtil.headsFromStrings(phase1Heads),
+                    persistentMapper,
+                    NullOperationProgress.INSTANCE);
+            view.commitAndClose();
+          }
+
+          phase1Dump = dumpRepository(jingRepo);
+        }
+
+
+        try (RepositoryManagerImpl repositoryManager = GitSyncTestUtil.createLocalRepoManagerSyncingWithGitRepo(managerBaseDir, gitRepoPath)) {
+          final Repository jingRepo = repositoryManager.repository(jingRepoId);
+          assert jingRepo != null;
+          try (final WritableRepositoryView view = jingRepo.createWritableView(TimeInterval.ZERO, RepositoryScope.PUBLIC)) {
+            final PersistentJingToGitMappingStorage persistentMapper = new PersistentJingToGitMappingStorage(((InternalRepositoryView)view));
+            GitImport.perform(
+                    gitRepoPath,
+                    view,
+                    GitUtil.headsFromStrings(phase1Heads),
+                    GitUtil.headsFromStrings(phase2Heads),
+                    persistentMapper,
+                    NullOperationProgress.INSTANCE);
+            view.commitAndClose();
+          }
+          final String phase2Dump = dumpRepository(jingRepo);
+
+          return new TestDataFile[]{new TestDataFile(testName + "-phase1", phase1Dump), new TestDataFile(testName + "-phase2", phase2Dump)};
+        }
+      }
+    }
+    catch (Exception e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  @NotNull
+  private static String dumpRepository(@NotNull final Repository repo) throws Exception {
+    try (RepositoryView view = repo.createView()) {
+      return RepositoryDumpUtil.dumpRepository(view, new ContentIdDumper(), true);
+    }
+  }
+}
