@@ -6,7 +6,7 @@
     "requirejs": "~2.1.6",
     "almond": "~0.2.5",
     "polyfill": "git://github.com/inexorabletash/polyfill.git",
-    "json3": "~3.2.5",
+    "json2": "*",
     "jso": "git://github.com/princed/jso.git"
   },
   "ignore": [

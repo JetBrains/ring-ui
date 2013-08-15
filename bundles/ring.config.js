@@ -5,7 +5,7 @@ require.config({
     'jquery'     : '../shims/jquery/jquery',
     'handlebars' : '../tmp/handlebars',
     'storage'    : '../components/polyfill/storage',
-    'json3'      : '../components/json3/lib/json3',
+    'json'       : '../components/json2/json2',
     'jso'        : '../components/jso/jso'
   },
   shim: {
@@ -13,7 +13,7 @@ require.config({
       exports: '$'
     },
     'jso': {
-      deps: ['jquery', 'json3', 'storage'],
+      deps: ['jquery', 'json', 'storage'],
       exports: 'jso_configure',
       init: function(){
         /* jshint camelcase:false */
