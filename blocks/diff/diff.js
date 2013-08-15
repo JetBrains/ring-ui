@@ -13,14 +13,6 @@ define(['diff/diff__tools', 'jquery', 'global/global__modules',
   'diff/diff__editorcontroller_double'], function(diffTool, $, Module) {
   'use strict';
 
-  // NB! Now, when DiffTool creates, I expect, that DOM-element is already
-  // in DOM and I can start render {DiffTool} immediately. In other words,
-  // {DiffTool} rather decorates DOM, then renders its own element.
-  // It means, that initialization of {DiffTool} occurs in two steps:
-  // first, creates instance of class {DiffTool}, which decorates element,
-  // and then, calls method {@link DiffTool.setContent}, which fills
-  // editor with required content.
-
   /**
    * @param {Element=} opt_element
    * @param {DiffTool.Mode=} opt_mode
@@ -160,6 +152,15 @@ define(['diff/diff__tools', 'jquery', 'global/global__modules',
    */
   DiffTool.prototype.getController = function() {
     return this.controller_;
+  };
+
+  /**
+   * @param {string} original
+   * @param {string} modified
+   * @param {Array.<Object>} diff
+   */
+  DiffTool.prototype.setContent = function(original, modified, diff) {
+    this.controller_.setContent(original, modified, diff);
   };
 
   Module.add('diff', {
