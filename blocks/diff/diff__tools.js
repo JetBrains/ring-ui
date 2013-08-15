@@ -82,6 +82,17 @@ define(function() {
     return target;
   };
 
+  /**
+   * Clamps value within min and max values.
+   * @param {number} value
+   * @param {number} min
+   * @param {number} max
+   * @return {number}
+   */
+  diffTool.clamp = function(value, min, max) {
+    return Math.min(Math.max(value, min), max);
+  };
+
   // todo(igor.alexeenko): Rename to inherits
   /**
    * Inheritance interface. Works through empty constructor, but unlike other
