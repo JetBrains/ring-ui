@@ -68,11 +68,11 @@ $ring-link-color:  #b4b4b4;
 }
 
 .ring-header__item_link:hover, .ring-header__personal:hover .ring-header__item_link {
-    color: $active-link-color !important;
-    text-decoration: underline;
+  color: $active-link-color !important;
+  text-decoration: underline;
 }
 
 .ring-header__personal:hover .ring-font-icon {
-    color: $active-link-color !important;
-    background-position: -66px -22px;
+  color: $active-link-color !important;
+  background-position: -66px -22px;
 }
