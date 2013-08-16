@@ -59,8 +59,28 @@ define(['diff/diff__tools', 'diff/diff__editorcontroller',
     output.push('<pre>');
 
     parsedContent.forEach(function(line) {
-      output.push([line.lineNumber, codeTypeToSymbol[line.codeType],
-          line.line].join(' '));
+      if (typeof line.line === 'string') {
+        output.push([line.lineNumber, codeTypeToSymbol[line.codeType],
+            line.line].join(' '));
+      } else {
+        output.push([line.lineNumber, codeTypeToSymbol[line.codeType],
+            (function(line) {
+              var output = [];
+
+              line.forEach(function(charsGroup) {
+                if (charsGroup.codeType ===
+                    diffTool.ParserSinglePane.CodeType.MODIFIED) {
+                  output.push('|' + charsGroup.chars + '|');
+                } else {
+                  output.push(charsGroup.chars);
+                }
+              });
+
+              return output.join('');
+            })(line.line)].join(' '));
+      }
+
+      output.push('...');
     });
 
     output.push('</pre>');
