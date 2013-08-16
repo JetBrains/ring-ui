@@ -1,29 +1,6 @@
-$fonts-dir: 'fonts/';
-
-// Droid Sans
-@font-face {
-  font-family: 'Droid Sans';
-  src:url('#{$fonts-dir}DroidSans.eot?') format('eot'),
-      url('#{$fonts-dir}DroidSans.woff') format('woff'),
-      url('#{$fonts-dir}DroidSans.ttf') format('truetype'),
-      url('#{$fonts-dir}DroidSans.svg#DroidSans') format('svg');
-  font-weight: normal;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'Droid Sans Bold';
-  src:url('#{$fonts-dir}DroidSans-Bold.eot?') format("eot"),
-      url('#{$fonts-dir}DroidSans-Bold.woff') format('woff'),
-      url('#{$fonts-dir}DroidSans-Bold.ttf') format('truetype'),
-      url('#{$fonts-dir}DroidSans-Bold.svg#DroidSansBold') format('svg');
-  font-weight: normal;
-  font-style: normal;
-}
-
 // Global variables
 $x-unit: 8px;
-$active-link-color: #ff5900;
+$active-link-color: #ff5a00;
 
 // Mixins
 @mixin text-color() {
@@ -40,19 +17,6 @@ $active-link-color: #ff5900;
 
 @mixin error-color() {
   color: #DC6E5F;
-}
-
-@mixin monospace-font() {
-  font: 12px 'Menlo', 'Bitstream Vera Sans Mono', 'Courier New', 'Courier', monospace;
-}
-
-@mixin droid-font() {
-  font-family: "Droid Sans", Arial, Tahoma, Verdana, sans-serif !important;
-}
-
-@mixin thin-font() {
-  font-weight: 200;
-  font-family: Helvetica Neue, Calibri, Arial, sans-serif;
 }
 
 @mixin retina-ratio($ratio: 2) {

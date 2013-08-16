@@ -236,6 +236,14 @@ module.exports = function(grunt) {
           out: '<%= path.dist %>ring-oauth.js'
         })
       },
+      'ring-standalone': {
+        options: _.extend(_.clone(requireConfig.options), {
+          paths: {
+            ring: '../<%= path.bundles %>ring-standalone'
+          },
+          out: '<%= path.dist %>ring-standalone.js'
+        })
+      },
       'ring-jetbrains': {
         options: _.extend(_.clone(requireConfig.options), {
           paths: {
