@@ -54,6 +54,32 @@ define(['diff/diff__tools'], function(diffTool) {
   };
 
   /**
+   * @enum {RegExp}
+   */
+  diffTool.Parser.EOLRegex = {
+    /**
+     * Windows-style line-endings.
+     */
+    CR_LF: /\r\n/g,
+
+    /**
+     * UNIX- and OS X-style line-endings.
+     */
+    LF: /\n/g,
+
+    /**
+     * Classic Mac style of line-endings.
+     */
+    CR: /\r/g,
+
+    /**
+     * Used to split file by line endings, does not matter, which type of them
+     * it used.
+     */
+    UNIVERSAL: /\r\n|\n|\r/g
+  };
+
+  /**
    * @typedef {diffTool.ParserSinglePane.Buffer|Object}
    */
   diffTool.Parser.ParserOutput = {};
