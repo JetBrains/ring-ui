@@ -1,12 +1,14 @@
 <div class="ring-header">
   <div class="ring-header__i">
-    {{#services}}
-      {{#if active}}
-        <span class="ring-header__item ring-header__item_active{{> global__class}}">{{label}}</span>
-      {{else}}
-        <a class="ring-header__item ring-header__item_link{{> global__class}}" href="{{url}}">{{label}}</a>
-      {{/if}}
-    {{/services}}
+    <div class="ring-header__services">
+      {{#services}}
+        {{#if active}}
+          <span class="ring-header__item ring-header__item_active{{> global__class}}">{{label}}</span>
+        {{else}}
+          <a class="ring-header__item ring-header__item_link{{> global__class}}" href="{{url}}">{{label}}</a>
+        {{/if}}
+      {{/services}}
+    </div>
     {{#personal}}
       <span class="ring-header__personal{{> dropdown__component}}">
         <span class="ring-header__item ring-header__item_link">{{username}}</span>
