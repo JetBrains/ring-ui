@@ -19,7 +19,7 @@ requirejs.config({
     'handlebars' : '../tmp/handlebars',
     'codemirror' : '../components/codemirror/lib/codemirror',
     'storage'    : '../components/polyfill/storage',
-    'json3'      : '../components/json3/lib/json3',
+    'json'      : '../components/json2/json2',
     'jso'        : '../components/jso/jso'
   },
   shim: {
@@ -27,7 +27,7 @@ requirejs.config({
       exports: '$'
     },
     'jso': {
-      deps: ['jquery', 'json3', 'storage'],
+      deps: ['jquery', 'json', 'storage'],
       exports: 'jso_configure',
       init: function(){
         /* globals jso_configure, jso_ensureTokens, jso_getToken */
