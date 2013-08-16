@@ -1,0 +1,25 @@
+<div class="ring-footer">
+  {{#each this}}
+    <ul class="ring-footer__column ring-footer__column_{{@key}}">
+      {{#this}}
+        <li class="ring-footer__line">
+          {{#this}}
+            {{#if copyright}}
+              {{#if url}}
+                <a class="ring-link{{> global__class}}" {{> global__attributes}} href="{{url}}">{{copyright copyright}}{{#label}} {{this}}{{/label}}</a>
+              {{else}}
+                <span>{{copyright copyright}}{{#label}} {{this}}{{/label}}</span>
+              {{/if}}
+            {{else}}
+              {{#if url}}
+                <a class="ring-link{{> global__class}}" {{> global__attributes}} href="{{url}}">{{label}}</a>
+              {{else}}
+                <span>{{this}}</span>
+              {{/if}}
+            {{/if}}
+          {{/this}}
+        </li>
+      {{/this}}
+    </ul>
+  {{/each}}
+</div>
