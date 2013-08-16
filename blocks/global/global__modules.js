@@ -268,6 +268,10 @@ define(['jquery', 'global/global__events'], function($, Event) {
     }
   };
 
+  Module.has = function(name) {
+    return !!modules[name];
+  };
+
   Module.multi = function(method, list) {
     var promises = [];
 
