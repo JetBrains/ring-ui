@@ -86,23 +86,17 @@ define(['diff/diff__tools', 'diff/diff__parser'], function(diffTool) {
    */
   diffTool.ParserSinglePane.prototype.parse = function(original, modified,
                                                        diff) {
-    var originalEOLs = this.parseEOLTypes_(original);
-    var modifiedEOLs = this.parseEOLTypes_(modified);
+    diff = /** @type {Object} */ (diff);
 
-    var originalSeparator = Object.keys(originalEOLs).length === 1 ?
-        Object.keys(originalEOLs)[0] :
-        diffTool.Parser.EOLRegex.UNIVERSAL;
+    var originalLines = this.splitToLines_(original);
+    var modifiedLines = this.splitToLines_(modified);
 
-    var modifiedSeparator = Object.keys(modifiedEOLs).length === 1 ?
-        Object.keys(modifiedEOLs)[0] :
-        diffTool.Parser.EOLRegex.UNIVERSAL;
-
-    var originalLines = original.split(originalSeparator);
-    var modifiedLines = modified.split(modifiedSeparator);
+    console.log(originalLines, modifiedLines);
   };
 
-  // todo(igor.alexeenko): Move parsing of EOLs into base parser, cause
-  // both modes requires this functionality.
+  // todo(igor.alexeenko): move both methods below to base controller,
+  // because it is common functionality for each kind of controller.
+
   /**
    * @param {string} content
    * @return {Object.<string, number>}
@@ -121,14 +115,41 @@ define(['diff/diff__tools', 'diff/diff__parser'], function(diffTool) {
       if (diffTool.Parser.EOLRegex.hasOwnProperty(ID) &&
           !(ID in excludeRegex)) {
         regex = diffTool.Parser.EOLRegex[ID];
-        regex.global = true;
+        match = content.match(regex);
 
-        if (match = content.match(regex)) {
+        if (match) {
           EOLTypes[ID] = match.length;
         }
       }
     }
 
     return EOLTypes;
+  };
+
+  /**
+   * Splits content to line with line separators at ends.
+   * @param {string} content
+   * @return {Array.<string>}
+   * @private
+   */
+  diffTool.ParserSinglePane.prototype.splitToLines_ = function(content) {
+    var linesWithoutEOL;
+    var EOLs = this.parseEOLTypes_(content);
+
+    var regex = Object.keys(EOLs).length === 1 ?
+        diffTool.Parser.EOLRegex[Object.keys(EOLs)[0]] :
+        diffTool.Parser.EOLRegex.UNIVERSAL;
+
+    var lines = content.match(regex);
+    if (!lines) {
+      lines = [];
+    } else {
+      linesWithoutEOL = content.split(/\r\n|\r|\n/);
+      if (lines.length !== linesWithoutEOL.length) {
+        lines.push(linesWithoutEOL.slice(-1)[0]);
+      }
+    }
+
+    return lines;
   };
 });
