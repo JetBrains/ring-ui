@@ -58,6 +58,10 @@ define(['diff/diff__tools', 'diff/diff__editorcontroller',
 
     output.push('<pre>');
 
+    if (!parsedContent) {
+      return;
+    }
+
     parsedContent.forEach(function(line) {
       if (typeof line.line === 'string') {
         output.push([line.lineNumber, codeTypeToSymbol[line.codeType],

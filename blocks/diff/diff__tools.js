@@ -111,5 +111,23 @@ define(function() {
     child.super_ = parent.prototype;
   };
 
+
+  /**
+   * @param {number} from
+   * @param {number} to
+   * @constructor
+   */
+  diffTool.Range = function(from, to) {
+    /**
+     * @type {number}
+     */
+    this.from = from;
+
+    /**
+     * @type {number}
+     */
+    this.to = to;
+  };
+
   return diffTool;
 });
