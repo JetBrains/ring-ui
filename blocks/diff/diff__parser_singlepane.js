@@ -79,12 +79,14 @@ define(['diff/diff__tools', 'diff/diff__parser'], function(diffTool) {
    */
   diffTool.ParserSinglePane.prototype.parse = function(original, modified,
                                                        diff) {
+    var EOLRegexp = /\r\n|\n|\r/;
+
     // todo(igor.alexeenko): Not sure about this way of split lines.
     // Maybe there is a reason use match of regular expression in this case.
     // Also I can resolve currently used type of line separators in this
     // particular file.
-    var linesOriginal = original.split(/\n/);
-    var linesModified = modified.split(/\n/);
+    var linesOriginal = original.split(EOLRegexp);
+    var linesModified = modified.split(EOLRegexp);
 
     var output = /** @type {diffTool.ParserSinglePane.Buffer} */ ([]);
 
