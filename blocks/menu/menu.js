@@ -77,10 +77,17 @@ define(['jquery',  'global/global__modules', 'global/global__views', 'dropdown/d
     View.update.apply(View, update);
   };
 
+  var defaultElement = 'body';
+  var defaultMethod  = 'prepend';
+
+  if (Module.has('header')) {
+    defaultElement  = '.ring-header';
+    defaultMethod   = 'after';
+  }
 
   Module.add(module, {
     init: function(data, element, method) {
-      return View.init(module, element || '.ring-header', method || 'after', process, data);
+      return View.init(module, element || defaultElement, method || defaultMethod, process, data);
     },
     update: View.update.bind(View, module),
     setActive: setActive
