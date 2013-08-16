@@ -1,6 +1,4 @@
-$header-link-color: #1752d7;
-$header-attention-color: #f50000;
-$header-controls-color: #376dc4;
+$menu-attention-color: #f50000;
 
 .ring-menu {
   width: 100%;
@@ -79,18 +77,12 @@ $header-controls-color: #376dc4;
 
 .ring-menu__item_link,
 .ring-menu__item_link:visited {
-  color: $header-link-color;
-  text-decoration: none;
-}
-
-.ring-menu__item_link:hover {
-  color: $active-link-color;
-  text-decoration: underline;
+  color: $link-color !important;
 }
 
 .ring-menu__item__counter {
   color: #fff;
-  background-color: $header-link-color;
+  background-color: $link-color;
   position: relative;
   top: -7px;
   border-radius: 2px;
@@ -99,7 +91,7 @@ $header-controls-color: #376dc4;
 }
 
 .ring-menu__item__counter_attention {
-  background-color: $header-attention-color;
+  background-color: $menu-attention-color;
 }
 
 .ring-menu__right {
@@ -122,16 +114,12 @@ $header-controls-color: #376dc4;
   width: 12px;
 }
 
-.ring-menu__item_icon {
-  color: #3c74c2 !important;
-}
-
 .no-font-antialiasing .ring-menu__item_icon {
   margin-left: $x-unit*3 - 6;
 }
 
 .ring-menu__item_icon:hover {
-  color: $active-link-color !important;
+  color: $hover-link-color !important;
 }
 
 .ring-menu__search {
