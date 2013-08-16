@@ -1,0 +1,44 @@
+.ring-footer {
+  position: relative;
+  height: $x-unit*8;
+
+  margin: $x-unit*5  $x-unit*3 0 $x-unit*3;
+  padding-top: $x-unit*2;
+  border-top: 1px solid #e5e5e5;
+
+  color: #6e6e6e;
+  text-align: center;
+  font-size: 11px !important;
+  line-height: 11px !important;
+  @include droid-font();
+}
+
+.ring-footer__column {
+  padding: 0;
+  margin: 0;
+  width: 33%;
+}
+
+.ring-footer__column_left {
+  position: absolute;
+  text-align: left;
+}
+
+.ring-footer__column_center {
+  padding-left: 15%;
+  display: inline-block;
+  text-align: left;
+}
+
+.ring-footer__column_right {
+  position: absolute;
+  right: 0;
+  top: $x-unit*2;
+  text-align: right;
+}
+
+.ring-footer__line {
+  list-style: none;
+  padding: 0;
+  line-height: 16px !important;
+}
