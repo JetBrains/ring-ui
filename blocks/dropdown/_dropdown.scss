@@ -69,11 +69,5 @@ $dropdown-background-color: #fff;
 .ring-dropdown__item,
 .ring-dropdown__item:link,
 .ring-dropdown__item:visited {
-  color: #000;
-  text-decoration: none;
-}
-
-.ring-dropdown__item:hover {
-  color: $active-link-color;
-  text-decoration: underline;
+  color: #000 !important;
 }

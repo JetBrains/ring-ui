@@ -1,0 +1,13 @@
+$link-color:  #1866c5;
+$hover-link-color: #ff5a00;
+
+.ring-link {
+  color: $link-color !important;
+  text-decoration: none;
+
+  // body to redefine other :hovers w/ !important
+  body &:hover {
+    color: $hover-link-color !important;
+    text-decoration: underline !important;
+  }
+}
