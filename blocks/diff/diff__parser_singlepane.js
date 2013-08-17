@@ -91,7 +91,13 @@ define(['diff/diff__tools', 'diff/diff__parser'], function(diffTool) {
     var originalLines = this.splitToLines_(original);
     var modifiedLines = this.splitToLines_(modified);
 
-    console.log(originalLines, modifiedLines);
+    var originalHasNoEol = Boolean(diffTool.Parser.EOLRegex.UNIVERSAL.exec(
+        originalLines.slice(-1)[0]));
+    var modifiedHasNoEol = Boolean(diffTool.Parser.EOLRegex.UNIVERSAL.exec(
+        modifiedLines.slice(-1)[0]));
+
+    console.log(originalLines, originalHasNoEol);
+    console.log(originalLines, modifiedHasNoEol);
   };
 
   // todo(igor.alexeenko): move both methods below to base controller,
