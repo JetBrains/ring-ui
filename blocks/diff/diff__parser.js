@@ -60,23 +60,23 @@ define(['diff/diff__tools'], function(diffTool) {
     /**
      * Windows-style line-endings.
      */
-    CR_LF: /.*(\r\n|^)/g,
+    CR_LF: /.*(\r\n|$)/g,
 
     /**
      * UNIX- and OS X-style line-endings.
      */
-    LF: /.*(\n|^)/g,
+    LF: /.*(\n|$)/g,
 
     /**
      * Classic Mac style of line-endings.
      */
-    CR: /.*(\r|^)/g,
+    CR: /.*(\r|$)/g,
 
     /**
      * Used to split file by line endings, does not matter, which type of them
      * it used.
      */
-    UNIVERSAL: /.*(\r\n|\n|\r|^)/g
+    UNIVERSAL: /.*(\r\n|\n|\r|$)/g
   };
 
   /**
