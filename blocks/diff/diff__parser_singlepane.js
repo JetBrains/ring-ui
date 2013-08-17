@@ -98,6 +98,8 @@ define(['diff/diff__tools', 'diff/diff__parser'], function(diffTool) {
 
     console.log(originalLines, originalHasNoEol);
     console.log(originalLines, modifiedHasNoEol);
+
+    return [];
   };
 
   // todo(igor.alexeenko): move both methods below to base controller,
