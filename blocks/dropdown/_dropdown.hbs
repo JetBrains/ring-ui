@@ -4,9 +4,9 @@
     {{#items}}
       {{#this}}
         {{#if url}}
-          <a class="ring-dropdown__item{{> global__class}}" href="{{url}}" {{> global__attributes}}>{{label}}</a>
+          <a class="ring-link ring-dropdown__item{{> global__class}}" href="{{url}}" {{> global__attributes}}>{{label}}</a>
         {{else}}
-          <span class="ring-dropdown__item{{> global__class}}" {{> global__attributes}}>{{label}}</span>
+          <span class="ring-link ring-dropdown__item{{> global__class}}" {{> global__attributes}}>{{label}}</span>
         {{/if}}
       {{/this}}
     {{/items}}

@@ -1,4 +1,4 @@
-$ring-link-color:  #b4b4b4;
+$header-link-color:  #b4b4b4;
 
 .ring-header {
   padding: 0 $x-unit*2;
@@ -33,8 +33,7 @@ $ring-link-color:  #b4b4b4;
 
 .ring-header__item_link,
 .ring-header__item_link:visited {
-  color: $ring-link-color !important;
-  text-decoration: none;
+  color: $header-link-color !important;
 }
 
 .ring-header__item_active {
@@ -52,7 +51,7 @@ $ring-link-color:  #b4b4b4;
   user-select: none;
 
   .ring-font-icon {
-    color: $ring-link-color;
+    color: $header-link-color;
     font-size: 12px !important;
     vertical-align: top;
 
@@ -67,12 +66,12 @@ $ring-link-color:  #b4b4b4;
   }
 }
 
-.ring-header__item_link:hover, .ring-header__personal:hover .ring-header__item_link {
-  color: $active-link-color !important;
+.ring-header__personal:hover .ring-header__item_link {
+  color: $hover-link-color !important;
   text-decoration: underline;
 }
 
 .ring-header__personal:hover .ring-font-icon {
-  color: $active-link-color !important;
+  color: $hover-link-color !important;
   background-position: -66px -22px;
 }

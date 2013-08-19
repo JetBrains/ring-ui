@@ -94,8 +94,8 @@ define(['diff/diff__tools', 'diff/diff__parser'], function(diffTool) {
                                                        diff) {
     diff = /** @type {Object} */ (diff);
 
-    var originalLines = this.splitToLines_(original);
-    var modifiedLines = this.splitToLines_(modified);
+    var originalLines = this.splitToLines(original);
+    var modifiedLines = this.splitToLines(modified);
 
     var outputBuffer = [];
 
@@ -230,64 +230,5 @@ define(['diff/diff__tools', 'diff/diff__parser'], function(diffTool) {
       line: line,
       lineNumber: lineNumber
     };
-  };
-
-  // todo(igor.alexeenko): move both methods below to base controller,
-  // because it is common functionality for each kind of controller.
-
-  /**
-   * @param {string} content
-   * @return {Object.<string, number>}
-   * @private
-   */
-  diffTool.ParserSinglePane.prototype.parseEOLTypes_ = function(content) {
-    var EOLTypes = {};
-    var regex;
-    var match;
-
-    var excludeRegex = {
-      UNIVERSAL: true
-    };
-
-    for (var ID in diffTool.Parser.EOLRegex) {
-      if (diffTool.Parser.EOLRegex.hasOwnProperty(ID) &&
-          !(ID in excludeRegex)) {
-        regex = diffTool.Parser.EOLRegex[ID];
-        match = content.match(regex);
-
-        if (match) {
-          EOLTypes[ID] = match.length;
-        }
-      }
-    }
-
-    return EOLTypes;
-  };
-
-  /**
-   * Splits content to line with line separators at ends.
-   * @param {string} content
-   * @return {Array.<string>}
-   * @private
-   */
-  diffTool.ParserSinglePane.prototype.splitToLines_ = function(content) {
-    var linesWithoutEOL;
-    var EOLs = this.parseEOLTypes_(content);
-
-    var regex = Object.keys(EOLs).length === 1 ?
-        diffTool.Parser.EOLRegex[Object.keys(EOLs)[0]] :
-        diffTool.Parser.EOLRegex.UNIVERSAL;
-
-    var lines = content.match(regex);
-    if (!lines) {
-      lines = [];
-    } else {
-      linesWithoutEOL = content.split(/\r\n|\r|\n/);
-      if (lines.length !== linesWithoutEOL.length) {
-        lines.push(linesWithoutEOL.slice(-1)[0]);
-      }
-    }
-
-    return lines;
   };
 });

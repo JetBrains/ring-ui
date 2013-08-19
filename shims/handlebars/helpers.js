@@ -12,3 +12,17 @@ Handlebars.registerHelper('ifEqual', function(a, b, context) {
     return context.inverse(this);
   }
 });
+
+Handlebars.registerHelper('copyright', function(year, context) {
+  var currentYear = (new Date()).getUTCFullYear();
+
+  var ret = '© ';
+
+  if (currentYear === year) {
+    ret += currentYear;
+  } else {
+    ret += year + '—' + currentYear;
+  }
+
+  return ret;
+});
