@@ -69,10 +69,12 @@ define(['diff/diff__tools', 'diff/diff__editorcontroller',
       }
 
       if (typeof line.line === 'string') {
-        output.push([line.lineNumber, codeTypeToSymbol[line.codeType],
+        output.push([line.originalLineNumber, line.modifiedLineNumber,
+            codeTypeToSymbol[line.codeType],
             line.line].join(' '));
       } else {
-        output.push([line.lineNumber, codeTypeToSymbol[line.codeType],
+        output.push([line.originalLineNumber, line.modifiedLineNumber,
+            codeTypeToSymbol[line.codeType],
             (function(line) {
               var output = [];
 

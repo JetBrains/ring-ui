@@ -38,7 +38,8 @@ define(['diff/diff__tools', 'diff/diff__parser'], function(diffTool) {
    * @typedef {{
    *   codeType: diffTool.ParserSinglePane.LineType,
    *   line: string|Array.<diffTool.ParserSinglePane.BufferModifiedLine>,
-   *   lineNumber: number
+   *   modifiedLineNumber: string,
+   *   originalLineNumber: string
    * }}
    */
   diffTool.ParserSinglePane.BufferLine = {};
@@ -110,7 +111,7 @@ define(['diff/diff__tools', 'diff/diff__parser'], function(diffTool) {
             originalFileCursor, originalFileCursor + change.lines);
 
         lines = this.parseUnchangedLines(currentOriginalLines,
-            originalFileCursor);
+            originalFileCursor, modifiedFileCursor);
 
         originalFileCursor += change.lines;
         modifiedFileCursor += change.lines;
@@ -140,18 +141,19 @@ define(['diff/diff__tools', 'diff/diff__parser'], function(diffTool) {
   /**
    * @param {Array.<string>} lines
    * @param {number} originalLinesOffset
+   * @param {number} modifiedLinesOffset
    * @return {Array.<diffTool.ParserSinglePane.BufferLine>}
    * @protected
    */
   diffTool.ParserSinglePane.prototype.parseUnchangedLines = function(lines,
-      originalLinesOffset) {
+      originalLinesOffset, modifiedLinesOffset) {
     var bufferLines = [];
 
     if (lines.length <= diffTool.ParserSinglePane.FOLD_GAP) {
       lines.forEach(function(line, i) {
         bufferLines.push(this.getBufferLine_(
             diffTool.ParserSinglePane.LineType.UNCHANGED, line,
-            originalLinesOffset + i + 1));
+            originalLinesOffset + i + 1, modifiedLinesOffset + i));
       }, this);
     } else {
       bufferLines.push(this.getBufferLine_(
@@ -179,7 +181,7 @@ define(['diff/diff__tools', 'diff/diff__parser'], function(diffTool) {
 
       bufferLines.push(this.getBufferLine_(
           diffTool.ParserSinglePane.LineType.ORIGINAL, line,
-          originalLinesOffset + i + 1));
+          originalLinesOffset + i + 1, ''));
     }, this);
 
     modifiedLines.forEach(function(line, i) {
@@ -187,7 +189,7 @@ define(['diff/diff__tools', 'diff/diff__parser'], function(diffTool) {
 
       bufferLines.push(this.getBufferLine_(
           diffTool.ParserSinglePane.LineType.MODIFIED, line,
-          modifiedLinesOffset + i));
+          '', modifiedLinesOffset + i));
     }, this);
 
     return bufferLines;
@@ -238,16 +240,18 @@ define(['diff/diff__tools', 'diff/diff__parser'], function(diffTool) {
   /**
    * @param {diffTool.ParserSinglePane.LineType} codeType
    * @param {string|diffTool.ParserSinglePane.BufferModifiedLine} line
-   * @param {number} lineNumber
+   * @param {number} originalLineNumber
+   * @param {number} modifiedLineNumber
    * @return {diffTool.ParserSinglePane.BufferLine}
    * @private
    */
   diffTool.ParserSinglePane.prototype.getBufferLine_ = function(codeType,
-      line, lineNumber) {
+      line, originalLineNumber, modifiedLineNumber) {
     return /** @type {diffTool.ParserSinglePane.BufferLine} */ ({
       codeType: codeType,
       line: line,
-      lineNumber: lineNumber
+      modifiedLineNumber: modifiedLineNumber,
+      originalLineNumber: originalLineNumber
     });
   };
 
