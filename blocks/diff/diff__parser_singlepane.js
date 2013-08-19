@@ -157,7 +157,7 @@ define(['diff/diff__tools', 'diff/diff__parser'], function(diffTool) {
       }, this);
     } else {
       bufferLines.push(this.getBufferLine_(
-          diffTool.ParserSinglePane.LineType.FOLDED, '', null));
+          diffTool.ParserSinglePane.LineType.FOLDED, '', null, null));
     }
 
     return bufferLines;
