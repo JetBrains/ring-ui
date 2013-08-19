@@ -485,8 +485,8 @@ module.exports = function(grunt) {
   ]);
 
   grunt.registerTask('templates', [
-    'handlebars',
     'htmlmin',
+    'handlebars',
     'preprocess'
   ]);
 
