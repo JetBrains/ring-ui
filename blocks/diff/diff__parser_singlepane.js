@@ -23,7 +23,7 @@ define(['diff/diff__tools', 'diff/diff__parser'], function(diffTool) {
   diffTool.ParserSinglePane.UNCHANGED_GAP = 3;
 
   /**
-   * Number of lines between two diffs, which we can display unfolded.
+   * Number of lines between two diffs, which we can displayed unfolded.
    * @type {number}
    * @const
    */
@@ -36,7 +36,7 @@ define(['diff/diff__tools', 'diff/diff__parser'], function(diffTool) {
 
   /**
    * @typedef {{
-   *   codeType: diffTool.SingleEditorController.ModificationType,
+   *   codeType: diffTool.ParserSinglePane.LineType,
    *   line: string|Array.<diffTool.ParserSinglePane.BufferModifiedLine>,
    *   lineNumber: number
    * }}
@@ -45,17 +45,23 @@ define(['diff/diff__tools', 'diff/diff__parser'], function(diffTool) {
 
   /**
    * @typedef {{
-   *   codeType: diffTool.SingleEditorController.ModificationType,
+   *   codeType: diffTool.ParserSinglePane.LineType,
    *   chars: string
    * }}
    */
   diffTool.ParserSinglePane.BufferModifiedLine = {};
 
-
   /**
    * @enum {string}
    */
-  diffTool.ParserSinglePane.CodeType = {
+  diffTool.ParserSinglePane.LineType = {
+    /**
+     * Line, which is inserts instead of big part of code and shows
+     * that there are a lot of space in code between previous and next
+     * modifications.
+     */
+    FOLDED: 'folded',
+
     /**
      * Line or chars from original code.
      */
@@ -91,15 +97,79 @@ define(['diff/diff__tools', 'diff/diff__parser'], function(diffTool) {
     var originalLines = this.splitToLines_(original);
     var modifiedLines = this.splitToLines_(modified);
 
-    var originalHasNoEol = Boolean(diffTool.Parser.EOLRegex.UNIVERSAL.exec(
-        originalLines.slice(-1)[0]));
-    var modifiedHasNoEol = Boolean(diffTool.Parser.EOLRegex.UNIVERSAL.exec(
-        modifiedLines.slice(-1)[0]));
+    var outputBuffer = [];
 
-    console.log(originalLines, originalHasNoEol);
-    console.log(originalLines, modifiedHasNoEol);
+    var i = 0;
 
-    return [];
+    var originalFileCursor = 0;
+    var modifiedFileCursor = 0;
+
+    diff.forEach(function(change) {
+      if (change.lines) {
+        if (change.lines <= diffTool.ParserSinglePane.FOLD_GAP) {
+          for (i = originalFileCursor; i < originalFileCursor + change.lines;
+              i++) {
+            outputBuffer.push({
+              codeType: diffTool.ParserSinglePane.LineType.UNCHANGED,
+              line: originalLines[i],
+              lineNumber: i + 1
+            });
+          }
+        } else {
+          outputBuffer.push({
+            codeType: diffTool.ParserSinglePane.LineType.FOLDED,
+            line: '',
+            number: 0
+          });
+        }
+
+        originalFileCursor += change.lines;
+        modifiedFileCursor += change.lines;
+      }
+
+      if (change.oldLines) {
+        for (i = originalFileCursor; i < originalFileCursor + change.oldLines;
+            i++) {
+          outputBuffer.push({
+            codeType: diffTool.ParserSinglePane.LineType.ORIGINAL,
+            line: originalLines[i],
+            lineNumber: i + 1
+          });
+        }
+
+        originalFileCursor += change.oldLines;
+      }
+
+      if (change.newLines) {
+        for (i = modifiedFileCursor; i < modifiedFileCursor + change.newLines;
+             i++) {
+          outputBuffer.push({
+            codeType: diffTool.ParserSinglePane.LineType.MODIFIED,
+            line: modifiedLines[i],
+            lineNumber: i + 1
+          });
+        }
+
+        modifiedFileCursor += change.newLines;
+      }
+    });
+
+    return outputBuffer;
+  };
+
+  /**
+   * @param {diffTool.ParserSinglePane.LineType} codeType
+   * @param {diffTool.ParserSinglePane.BufferLine} line
+   * @param {number} lineNumber
+   * @private
+   */
+  diffTool.ParserSinglePane.prototype.getBufferLine_ = function(codeType,
+      line, lineNumber) {
+    return {
+      codeType: codeType,
+      line: line,
+      lineNumber: lineNumber
+    };
   };
 
   // todo(igor.alexeenko): move both methods below to base controller,
