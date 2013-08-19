@@ -9,29 +9,30 @@
   color: #6e6e6e;
   text-align: center;
   font-size: 11px !important;
-  line-height: 11px !important;
   @include droid-font();
 }
 
 .ring-footer__column {
-  padding: 0;
-  margin: 0;
+  position: absolute;
   width: 33%;
 }
 
+.ring-footer__column__i {
+  padding: 0;
+  margin: 0;
+  display: inline-block;
+}
+
 .ring-footer__column_left {
-  position: absolute;
   text-align: left;
+  left: 0; // IE7
 }
 
 .ring-footer__column_center {
-  padding-left: 15%;
-  display: inline-block;
-  text-align: left;
+  left: 33.6%;
 }
 
 .ring-footer__column_right {
-  position: absolute;
   right: 0;
   top: $x-unit*2;
   text-align: right;
@@ -41,4 +42,8 @@
   list-style: none;
   padding: 0;
   line-height: 16px !important;
+}
+
+.ring-footer__column_center .ring-footer__line {
+  text-align: left;
 }
