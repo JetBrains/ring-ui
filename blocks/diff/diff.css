@@ -1,0 +1,78 @@
+.diff_singlepane {
+  border: solid 1px #ccc;
+  font-family: 'Courier', monospace;
+  font-size: 12px;
+  line-height: 1.3;
+  position: relative;
+}
+
+.diff__gutterwrap,
+.diff__codewrap {
+  float: left;
+}
+
+.diff__gutter,
+.diff__code {
+  border: 0;
+  border-collapse: collapse;
+  empty-cells: show;
+  width: 100%;
+}
+
+.diff__codeline,
+.diff__gutterline {
+  height: 1em;
+}
+
+.diff__gutter {
+  border-right: dotted 1px #ccc;
+  color: #999;
+  cursor: default;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  text-align: right;
+  width: 80px;
+}
+
+.diff__codewrap {
+  bottom: 0;
+  left: 80px;
+  overflow: auto;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+.diff__codeline {
+  white-space: pre;
+  word-break: break-all;
+  word-wrap: normal;
+}
+
+.diff__codeline_original td {
+  background: #fcc;
+}
+
+.diff__codeline_modified td {
+  background: #cfc;
+}
+
+.diff__inline_modified {
+  font-weight: bold;
+}
+
+.diff__codeline_original .diff__inline_modified {
+  background: #f99;
+}
+
+.diff__codeline_modified .diff__inline_modified {
+  background: #9f9;
+}
+
+/* todo(igor.alexeenko): solid clearfix instead of this temporary. */
+.diff_singlepane:after,
+.diff__gutterline:after {
+  content: '';
+  display: block;
+  clear: both;
+}
