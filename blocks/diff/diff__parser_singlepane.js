@@ -105,6 +105,10 @@ define(['diff/diff__tools', 'diff/diff__parser'], function(diffTool) {
     var modifiedFileCursor = 0;
 
     diff.forEach(function(change) {
+      var line;
+      var sourceLine;
+      var inlineCursor;
+
       if (change.lines) {
         if (change.lines <= diffTool.ParserSinglePane.FOLD_GAP) {
           for (i = originalFileCursor; i < originalFileCursor + change.lines;
@@ -129,10 +133,38 @@ define(['diff/diff__tools', 'diff/diff__parser'], function(diffTool) {
 
       if (change.oldLines) {
         for (i = originalFileCursor; i < originalFileCursor + change.oldLines;
-            i++) {
+             i++) {
+          if (change.ranges) {
+            sourceLine = originalLines[i];
+            inlineCursor = 0;
+            line = [];
+
+            change.ranges.forEach(function(range) {
+              if (range.chars) {
+                line.push({
+                  codeType: diffTool.ParserSinglePane.LineType.UNCHANGED,
+                  chars: sourceLine.substr(inlineCursor, range.chars)
+                });
+
+                inlineCursor += range.chars;
+              }
+
+              if (range.oldChars) {
+                line.push({
+                  codeType: diffTool.ParserSinglePane.LineType.ORIGINAL,
+                  chars: sourceLine.substr(inlineCursor, range.oldChars)
+                });
+
+                inlineCursor += range.oldChars;
+              }
+            });
+          } else {
+            line = originalLines[i];
+          }
+
           outputBuffer.push({
             codeType: diffTool.ParserSinglePane.LineType.ORIGINAL,
-            line: originalLines[i],
+            line: line,
             lineNumber: i + 1
           });
         }
@@ -143,10 +175,38 @@ define(['diff/diff__tools', 'diff/diff__parser'], function(diffTool) {
       if (change.newLines) {
         for (i = modifiedFileCursor; i < modifiedFileCursor + change.newLines;
              i++) {
+          if (change.ranges) {
+            sourceLine = modifiedLines[i];
+            inlineCursor = 0;
+            line = [];
+
+            change.ranges.forEach(function(range) {
+              if (range.chars) {
+                line.push({
+                  codeType: diffTool.ParserSinglePane.LineType.UNCHANGED,
+                  chars: sourceLine.substr(inlineCursor, range.chars)
+                });
+
+                inlineCursor += range.chars;
+              }
+
+              if (range.newChars) {
+                line.push({
+                  codeType: diffTool.ParserSinglePane.LineType.MODIFIED,
+                  chars: sourceLine.substr(inlineCursor, range.newChars)
+                });
+
+                inlineCursor += range.newChars;
+              }
+            });
+          } else {
+            line = modifiedLines[i];
+          }
+
           outputBuffer.push({
             codeType: diffTool.ParserSinglePane.LineType.MODIFIED,
-            line: modifiedLines[i],
-            lineNumber: i + 1
+            line: line,
+            lineNumber: i
           });
         }
 
