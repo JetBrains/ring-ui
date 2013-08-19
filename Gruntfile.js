@@ -209,6 +209,17 @@ module.exports = function(grunt) {
         }]
       }
     },
+    htmlmin: {
+      compile: {
+        files: [{
+          expand: true,
+          cwd: '.',
+          src : 'blocks/**/*.hbs',
+          dest: '<%= path.tmp %>',
+          ext: '.hbs'
+        }]
+      }
+    },
     handlebars: {
       compile: {
         options: {
@@ -216,7 +227,7 @@ module.exports = function(grunt) {
           node: false
         },
         files: {
-          '<%= path.tmp %>/templates.js': ['<%= path.blocks %>**/*.hbs']
+          '<%= path.tmp %>/templates.js': ['<%= path.tmp %>**/*.hbs']
         }
       }
     },
@@ -421,6 +432,26 @@ module.exports = function(grunt) {
 
   });
 
+  grunt.registerMultiTask('htmlmin', 'Trim whitespace chars from Handlebars templates', function() {
+    var _s = require('underscore.string');
+
+    this.files.forEach(function(file) {
+      var contents = file.src.filter(function(filepath) {
+        if (!grunt.file.exists(filepath)) {
+          grunt.log.warn('Source file "' + filepath + '" not found.');
+          return false;
+        } else {
+          return true;
+        }
+      }).map(function(filepath) {
+          // Read and return the file's source.
+          return _s.clean(grunt.file.read(filepath));
+        }).join('\n');
+      grunt.file.write(file.dest, contents);
+      grunt.log.ok('File "' + file.dest + '" created.');
+    });
+  });
+
   grunt.registerMultiTask('toc', 'Generate toc', function() {
     var toc = require('md-toc-filter');
 
@@ -455,6 +486,7 @@ module.exports = function(grunt) {
 
   grunt.registerTask('templates', [
     'handlebars',
+    'htmlmin',
     'preprocess'
   ]);
 
