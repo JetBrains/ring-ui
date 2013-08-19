@@ -468,7 +468,7 @@ module.exports = function(grunt) {
           return toc(grunt.file.read(filepath));
         }).join('\n');
       grunt.file.write(file.dest, contents);
-      grunt.log.writeln('File "' + file.dest + '" created.');
+      grunt.log.ok('File "' + file.dest + '" created.');
     });
   });
 
