@@ -38,8 +38,8 @@ define(['diff/diff__tools', 'diff/diff__parser'], function(diffTool) {
    * @typedef {{
    *   codeType: diffTool.ParserSinglePane.LineType,
    *   line: string|Array.<diffTool.ParserSinglePane.BufferModifiedLine>,
-   *   modifiedLineNumber: string,
-   *   originalLineNumber: string
+   *   modifiedLineNumber: number?,
+   *   originalLineNumber: number?
    * }}
    */
   diffTool.ParserSinglePane.BufferLine = {};
@@ -157,7 +157,7 @@ define(['diff/diff__tools', 'diff/diff__parser'], function(diffTool) {
       }, this);
     } else {
       bufferLines.push(this.getBufferLine_(
-          diffTool.ParserSinglePane.LineType.FOLDED, '', 0));
+          diffTool.ParserSinglePane.LineType.FOLDED, '', null));
     }
 
     return bufferLines;
@@ -182,7 +182,7 @@ define(['diff/diff__tools', 'diff/diff__parser'], function(diffTool) {
 
       bufferLines.push(this.getBufferLine_(
           diffTool.ParserSinglePane.LineType.ORIGINAL, line,
-          originalLinesOffset + i + 1, ''));
+          originalLinesOffset + i + 1, null));
     }, this);
 
     modifiedLines.forEach(function(line, i) {
@@ -191,7 +191,7 @@ define(['diff/diff__tools', 'diff/diff__parser'], function(diffTool) {
 
       bufferLines.push(this.getBufferLine_(
           diffTool.ParserSinglePane.LineType.MODIFIED, line,
-          '', modifiedLinesOffset + i));
+          null, modifiedLinesOffset + i));
     }, this);
 
     return bufferLines;
