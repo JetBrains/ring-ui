@@ -52,9 +52,9 @@ define(['diff/diff__tools', 'diff/diff__editorcontroller',
     var parsedContent = this.codeParser_.parse(original, modified, diff);
     var output = [];
     var codeTypeToSymbol = diffTool.createObject(
-        diffTool.ParserSinglePane.CodeType.UNCHANGED, ' ',
-        diffTool.ParserSinglePane.CodeType.ORIGINAL, '-',
-        diffTool.ParserSinglePane.CodeType.MODIFIED, '+');
+        diffTool.ParserSinglePane.LineType.UNCHANGED, ' ',
+        diffTool.ParserSinglePane.LineType.ORIGINAL, '-',
+        diffTool.ParserSinglePane.LineType.MODIFIED, '+');
 
     output.push('<pre>');
 
@@ -63,6 +63,11 @@ define(['diff/diff__tools', 'diff/diff__editorcontroller',
     }
 
     parsedContent.forEach(function(line) {
+      if (line.codeType === diffTool.ParserSinglePane.LineType.FOLDED) {
+        output.push('...\n');
+        return;
+      }
+
       if (typeof line.line === 'string') {
         output.push([line.lineNumber, codeTypeToSymbol[line.codeType],
             line.line].join(' '));
@@ -73,7 +78,7 @@ define(['diff/diff__tools', 'diff/diff__editorcontroller',
 
               line.forEach(function(charsGroup) {
                 if (charsGroup.codeType ===
-                    diffTool.ParserSinglePane.CodeType.MODIFIED) {
+                    diffTool.ParserSinglePane.LineType.MODIFIED) {
                   output.push('|' + charsGroup.chars + '|');
                 } else {
                   output.push(charsGroup.chars);
@@ -83,12 +88,10 @@ define(['diff/diff__tools', 'diff/diff__editorcontroller',
               return output.join('');
             })(line.line)].join(' '));
       }
-
-      output.push('...');
     });
 
     output.push('</pre>');
 
-    this.element_.innerHTML = output.join('\n');
+    this.element_.innerHTML = output.join('');
   };
 });
