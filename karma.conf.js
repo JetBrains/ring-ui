@@ -16,7 +16,6 @@ module.exports = function(karma) {
     files: [
       'components/jquery/jquery.js',
       'components/codemirror/lib/codemirror.js',
-      'tmp/handlebars-test.js',
 
       {pattern: 'blocks/**/*.js', included: false},
       {pattern: 'test/**/*.js', included: false},
