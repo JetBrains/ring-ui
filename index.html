@@ -36,6 +36,31 @@
       var o = ring();
 
       o('init', {
+        header: {
+          user: {
+            name: "User"
+          },
+          "personalLinks": [
+            {
+              "label": "Profile",
+              "url": "http://hub.jetbrains.com:8080/accounts/jpapUser"
+            }
+          ],
+          "authLinks": {
+            "login": {
+              "label": "Log in",
+              "event": {
+                "name": "header:login",
+                "data": "Hello!"
+              }
+            }
+//            ,
+//            "logout": {
+//              "label": "Log out",
+//              "event": "header:test"
+//            }
+          }
+        },
         menu: {
           "type": "gradient",
           "left": {
@@ -108,31 +133,6 @@
               "type": "help",
               "url": "/help"
             }
-          }
-        },
-        header: {
-          user: {
-            name: "User"
-          },
-          "personalLinks": [
-            {
-              "label": "Profile",
-              "url": "http://hub.jetbrains.com:8080/accounts/jpapUser"
-            }
-          ],
-          "authLinks": {
-            "login": {
-              "label": "Log in",
-              "event": {
-                "name": "header:login",
-                "data": "Hello!"
-              }
-            }
-//            ,
-//            "logout": {
-//              "label": "Log out",
-//              "event": "header:test"
-//            }
           }
         },
         footer: {
