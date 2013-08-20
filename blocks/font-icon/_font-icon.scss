@@ -22,6 +22,18 @@
   -webkit-font-smoothing: antialiased;
 }
 
+.ring-font-icon_modified:before {
+  content: "\e002";
+}
+.ring-font-icon_removed:before {
+  content: "\e003";
+}
+.ring-font-icon_renamed:before {
+  content: "\e004";
+}
+.ring-font-icon_check:before {
+  content: "\e005";
+}
 .ring-font-icon_search:before {
   content: "\f002";
 }
@@ -52,8 +64,6 @@
 .ring-font-icon_plus:before {
   content: "\e000";
 }
-
-
 
 /* Fallback for miserable Windows users */
 .no-font-antialiasing .ring-font-icon {
