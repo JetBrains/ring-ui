@@ -6,6 +6,7 @@ $menu-attention-color: #f50000;
   position: relative;
   text-align: center;
   border-bottom: 1px solid #ccc;
+  font-size: 14px !important;
   @include droid-font();
 }
 
