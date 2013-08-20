@@ -1,25 +1,27 @@
 <div class="ring-footer">
   {{#each this}}
-    <ul class="ring-footer__column ring-footer__column_{{@key}}">
-      {{#this}}
-        <li class="ring-footer__line">
-          {{#this}}
-            {{#if copyright}}
-              {{#if url}}
-                <a class="ring-link{{> global__class}}" {{> global__attributes}} href="{{url}}">{{copyright copyright}}{{#label}} {{this}}{{/label}}</a>
+    <div class="ring-footer__column ring-footer__column_{{@key}}">
+      <ul class="ring-footer__column__i">
+        {{#this}}
+          <li class="ring-footer__line">
+            {{#this}}
+              {{#if copyright}}
+                {{#if url}}
+                  <a class="ring-link{{> global__class}}" {{> global__attributes}} href="{{url}}">{{copyright copyright}}{{#label}} {{this}}{{/label}}</a>
+                {{else}}
+                  {{copyright copyright}}{{#label}} {{this}}{{/label}}
+                {{/if}}
               {{else}}
-                <span>{{copyright copyright}}{{#label}} {{this}}{{/label}}</span>
+                {{#if url}}
+                  <a class="ring-link{{> global__class}}" {{> global__attributes}} href="{{url}}">{{label}}</a>
+                {{else}}
+                  {{this}}
+                {{/if}}
               {{/if}}
-            {{else}}
-              {{#if url}}
-                <a class="ring-link{{> global__class}}" {{> global__attributes}} href="{{url}}">{{label}}</a>
-              {{else}}
-                <span>{{this}}</span>
-              {{/if}}
-            {{/if}}
-          {{/this}}
-        </li>
-      {{/this}}
-    </ul>
+            {{/this}}
+          </li>
+        {{/this}}
+      </ul>
+    </div>
   {{/each}}
 </div>
