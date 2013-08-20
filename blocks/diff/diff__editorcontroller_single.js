@@ -145,15 +145,12 @@ define(['diff/diff__tools', 'handlebars', 'diff/diff__editorcontroller',
     }
 
     var lineCode = [];
-    var codeTypeToClassName = diffTool.createObject(
-        diffTool.ParserSinglePane.LineType.UNCHANGED, '',
-        diffTool.ParserSinglePane.LineType.MODIFIED, 'diff__inline_modified',
-        diffTool.ParserSinglePane.LineType.ORIGINAL, 'diff__inline_original');
 
     line.forEach(function(change) {
       var template = Handlebars.partials[
           diffTool.SingleEditorController.Template.CODE_LINE_MODIFIED]({
-        additionalClassName: codeTypeToClassName[change.codeType],
+        additionalClassName: this.getAdditionalClassName_(change.chars,
+            change.codeType),
         code: change.chars
       });
 
@@ -161,5 +158,28 @@ define(['diff/diff__tools', 'handlebars', 'diff/diff__editorcontroller',
     }, this);
 
     return lineCode.join('');
+  };
+
+  /**
+   * @param {string} chars
+   * @param {diffTool.ParserSinglePane.LineType} codeType
+   * @private
+   */
+  diffTool.SingleEditorController.getAdditionalClassName_ = function(chars,
+      codeType) {
+    var className = [];
+
+    var codeTypeToClassName = diffTool.createObject(
+        diffTool.ParserSinglePane.LineType.UNCHANGED, 'diff__inline_unchanged',
+        diffTool.ParserSinglePane.LineType.MODIFIED, 'diff__inline_modified',
+        diffTool.ParserSinglePane.LineType.ORIGINAL, 'diff__inline_original');
+
+    className.push(codeTypeToClassName[codeType]);
+
+    if (diffTool.isEmptyString(chars)) {
+      className.push('diff__inline_empty');
+    }
+
+    return className.join(' ');
   };
 });
