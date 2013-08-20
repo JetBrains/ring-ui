@@ -21,6 +21,14 @@ define(function() {
   };
 
   /**
+   * @param {string} str
+   * @return {boolean}
+   */
+  diffTool.isEmptyString = function(str) {
+    return (/$\s*^/).test(str);
+  };
+
+  /**
    * Abstract method. Use link to this method for unimplemented methods in
    * base classes.
    * @throws {Error}
