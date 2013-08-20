@@ -64,6 +64,9 @@
 .ring-font-icon_plus:before {
   content: "\e000";
 }
+.ring-font-icon_added:before {
+  content: "\e006";
+}
 
 /* Fallback for miserable Windows users */
 .no-font-antialiasing .ring-font-icon {
