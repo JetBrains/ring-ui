@@ -12,7 +12,11 @@
 </head>
 <body>
 
-<div class="layout"></div>
+<div class="layout_single"></div>
+
+<hr>
+
+<div class="layout_double"></div>
 
 <script type="text/javascript">
   require(['jquery', 'ring'], function($, ring) {
@@ -43,13 +47,24 @@
 
     $.when.apply($, deferredObjects).then(function(diff, original, modified) {
       /**
+       * Demo of single-paned {@link DiffTool}.
        * @type {DiffTool}
        */
       var diffTool = new DiffTool(
-          document.querySelector('.layout'),
+          document.querySelector('.layout_single'),
           DiffTool.Mode.SINGLE_PANE);
 
       diffTool.setContent(original[0], modified[0], diff[0]);
+
+      /**
+       * Demo of double-paned {@link DiffTool}
+       * @type {DiffTool}
+       */
+      var diffToolDoublePane = new DiffTool(
+          document.querySelector('.layout_double'),
+          DiffTool.Mode.DOUBLE_PANE);
+
+      diffToolDoublePane.setContent(original[0], modified[0], diff[0]);
     });
   });
 </script>

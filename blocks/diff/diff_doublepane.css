@@ -1,0 +1,11 @@
+.CodeMirror {
+  border: solid 1px #ccc;
+  font-family: 'Menlo', monospace;
+  font-size: 12px;
+}
+
+.diff__modified,
+.diff__original {
+  float: left;
+  width: 50%;
+}
