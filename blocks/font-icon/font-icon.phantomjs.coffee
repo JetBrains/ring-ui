@@ -9,12 +9,16 @@ icons =
   'help'         : ['3c74c2', 14]
   'search'       : ['d1d1d1', 14]
   'caret-down'   : ['b4b4b4', 14]
-  'caret-up'     : ['b4b4b4', 14]
-  'chevron-right': ['b4b4b4', 14]
-  'ban-circle'   : ['b4b4b4', 14]
-  'pencil'       : ['b4b4b4', 14]
-  'remove'       : ['b4b4b4', 14]
-  'plus'         : ['b4b4b4', 14]
+  'caret-up'     : ['000000', 14]
+  'chevron-right': ['000000', 14]
+  'ban-circle'   : ['000000', 14]
+  'pencil'       : ['000000', 14]
+  'remove'       : ['000000', 14]
+  'plus'         : ['000000', 14]
+  'modified'     : ['000000', 14]
+  'removed'      : ['000000', 14]
+  'renamed'      : ['000000', 14]
+  'check'        : ['000000', 32]
 
 iconSize = 20
 activeColor = 'ff5900'
@@ -31,8 +35,8 @@ length          = 0
 
 for icon, props of icons
   length++ # Count icons
-  htmlIcons       += "<span class='ring-font-icon ring-font-icon_#{icon}' style='color: \##{props[0]}; font-size: #{props[1]}px;'></span>"
-  htmlActiveIcons += "<span class='ring-font-icon ring-font-icon_#{icon}' style='color: \##{activeColor}; font-size: #{props[1]}px;'></span>"
+  htmlIcons       += "<span class='ring-font-icon ring-font-icon_#{icon}' style='color: \##{props[0]}; font-size: #{props[1]}px; line-height: 18px !important;'></span>"
+  htmlActiveIcons += "<span class='ring-font-icon ring-font-icon_#{icon}' style='color: \##{activeColor}; font-size: #{props[1]}px; line-height: 18px !important;'></span>"
 
 html = """
  <html class='font-antialiasing'>
