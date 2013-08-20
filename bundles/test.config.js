@@ -16,7 +16,7 @@ requirejs.config({
   paths: {
     'ring'       : '../bundles/ring',
     'jquery'     : '../shims/jquery/jquery',
-    'handlebars' : '../tmp/handlebars-test',
+    'handlebars' : '../tmp/handlebars',
     'codemirror' : '../components/codemirror/lib/codemirror',
     'storage'    : '../components/polyfill/storage',
     'json'      : '../components/json2/json2',
@@ -40,9 +40,6 @@ requirejs.config({
     },
     'codemirror': {
       'exports': 'CodeMirror'
-    },
-    'handlebars': {
-      'exports': 'Handlebars'
     }
   },
 
