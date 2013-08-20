@@ -13,6 +13,7 @@ define(['diff/diff__tools', 'diff/diff__parser'], function(diffTool) {
    */
   diffTool.ParserSinglePane = function() {};
   diffTool.inherit(diffTool.ParserSinglePane, diffTool.Parser);
+  diffTool.addSingletonGetter(diffTool.ParserSinglePane);
 
   /**
    * Number of lines, which will be taken before and after changed code to

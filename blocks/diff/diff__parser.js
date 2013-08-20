@@ -8,6 +8,7 @@ define(['diff/diff__tools'], function(diffTool) {
    * @constructor
    */
   diffTool.Parser = function() {};
+  diffTool.addSingletonGetter(diffTool.Parser);
 
   /**
    * @typedef {Array.<diffTool.Parser.LineModification>}
