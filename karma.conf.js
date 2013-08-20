@@ -19,6 +19,8 @@ module.exports = function(karma) {
 
       {pattern: 'blocks/**/*.js', included: false},
       {pattern: 'test/**/*.js', included: false},
+      {pattern: 'tmp/**/*.js', included: false},
+      {pattern: 'components/**/*.js', included: false},
 
       'bundles/test.config.js'
     ],
