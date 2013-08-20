@@ -51,7 +51,7 @@ define(['diff/diff__tools', 'codemirror', 'handlebars',
       this.codeMirrorModified_ = new CodeMirror(this.modifiedElement_);
     } else {
       this.codeMirrorOriginal_ = null;
-      this.codeMirrirModified_ = null;
+      this.codeMirrorModified_ = null;
 
       this.element_.innerHTML = '';
     }
