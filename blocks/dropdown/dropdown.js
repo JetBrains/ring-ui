@@ -31,7 +31,7 @@ define(['jquery', 'global/global__views', 'global/global__modules'], function($,
       }
 
       if (data instanceof $) {
-        data = {html: $('<div></div>').wrapInner(data.clone().show()).html()};
+        data = {html: $('<div></div>').wrapInner(data.clone()).html()};
       }
 
       if (!$body) {
