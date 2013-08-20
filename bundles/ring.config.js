@@ -28,6 +28,9 @@ require.config({
     },
     'codemirror': {
       'exports': 'CodeMirror'
+    },
+    'handlebars': {
+      'exports': 'Handlebars'
     }
   }
 });
