@@ -401,12 +401,12 @@ Set menu item from left and right active by id
 #### id
 `String`
 
-## Footer (not implemented)
+## Footer
 
 ### init
 
     var init = ring('footer', 'init');
-    init(config)
+    init(config[, element[, method]])
 
 #### config
 `Object`
@@ -425,6 +425,22 @@ Set menu item from left and right active by id
         }
       }
     }
+
+#### element
+`jQuery` | `String` | `Node`
+
+#### method
+`String`
+
+Possible values:
+
+* append
+* prepend
+* before
+* after
+* replace
+
+Default is **append**.
 
 ### update
 
