@@ -30,6 +30,7 @@
     "phantomjs": "~1.9.1-0",
     "grunt-markdown": "~0.3.0",
     "md-toc-filter": "git+https://github.com/princed/table-of-contents-preprocessor.git",
+    "underscore.string": "~2.3.3",
     "highlight.js": "~7.3.0",
     "grunt-banner": "~0.1.4",
     "karma": "~0.10.1",
