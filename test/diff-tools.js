@@ -126,4 +126,36 @@ define(['global/global', 'chai', 'diff/diff'], function(
       expect(ParentClass.prototype.parentProperty).to.equal(true);
     });
   });
+
+  describe('diffTool.addSingletonGetter', function() {
+    var diffTool = ring('diff').invoke('getDiffToolUtils');
+
+    /**
+     * @constructor
+     */
+    var SomeClass = function() {
+      this.classProperty = 'val';
+    };
+    diffTool.addSingletonGetter(SomeClass);
+
+    it('diffTool.addSingletonGetter adds function getInstance() ' +
+        'to constructor', function() {
+      expect(SomeClass.getInstance).to.be.a('function');
+    });
+
+    it('diffTool.getInstance() saves static private link to the ' +
+        'instance to constructor', function() {
+      expect(SomeClass.instance_).to.be.an('undefined');
+      SomeClass.getInstance();
+      expect(SomeClass.instance_).to.be.an.instanceof(SomeClass);
+    });
+
+    it('diffTool.getInstance() always returns the same instance', function() {
+      var instance = SomeClass.getInstance();
+      var anotherInstance = SomeClass.getInstance();
+
+      expect(instance).to.equal(anotherInstance);
+      expect(instance.classProperty).to.equal(anotherInstance.classProperty);
+    });
+  });
 });
