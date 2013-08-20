@@ -64,12 +64,12 @@ define(['diff/diff__tools', 'diff/diff__parser'], function(diffTool) {
     FOLDED: 'folded',
 
     /**
-     * Line or chars from original code.
+     * Line from original code.
      */
     ORIGINAL: 'original',
 
     /**
-     * Line or chars from modified code.
+     * Line from modified code.
      */
     MODIFIED: 'modified',
 

@@ -15,13 +15,14 @@
 .diff__code {
   border: 0;
   border-collapse: collapse;
+  border-spacing: 0;
   empty-cells: show;
   width: 100%;
 }
 
-.diff__codeline,
-.diff__gutterline {
-  height: 1em;
+.diff__codeline td,
+.diff__gutterline td {
+  height: 1.3em;
 }
 
 .diff__gutter {
@@ -51,22 +52,61 @@
 
 .diff__codeline_original td {
   background: #fcc;
+  font-weight: bold;
 }
 
 .diff__codeline_modified td {
   background: #cfc;
-}
-
-.diff__inline_modified {
   font-weight: bold;
 }
 
-.diff__codeline_original .diff__inline_modified {
+.diff__marker {
+  text-align: center;
+  width: 15px;
+}
+
+.diff__gutterline_modified .diff__marker:after {
+  content: "+";
+  color: #090;
+}
+
+.diff__gutterline_original .diff__marker:after {
+  content: "-";
+  color: #c00;
+}
+
+.diff__inline_original,
+.diff__inline_modified {
+  border: solid;
+  border-width: 0 1px;
+  font-weight: bold;
+  padding: 1px 0;
+  line-height: 1.3;
+}
+
+/*
+ todo(igor.alexeenko): Kind of hack. To display only changed parts
+ of code bold, I make unchanged normal. Maybe better way to do this
+ is mark whole line as changed inline and write separate styles
+ for it.
+ */
+.diff__inline_unchanged {
+  font-weight: normal;
+}
+
+.diff__codeline_original .diff__inline_original {
   background: #f99;
+  border-color: #f99;
 }
 
 .diff__codeline_modified .diff__inline_modified {
   background: #9f9;
+  border-color: #9f9;
+}
+
+.diff__gutterline_folded,
+.diff__codeline_folded {
+
 }
 
 /* todo(igor.alexeenko): solid clearfix instead of this temporary. */
