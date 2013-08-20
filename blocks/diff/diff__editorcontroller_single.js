@@ -14,13 +14,7 @@ define(['diff/diff__tools', 'handlebars', 'diff/diff__editorcontroller',
    */
   diffTool.SingleEditorController = function(element) {
     diffTool.SingleEditorController.super_.constructor.call(this, element,
-        false);
-
-    /**
-     * @type {diffTool.ParserSinglePane}
-     * @private
-     */
-    this.codeParser_ = new diffTool.ParserSinglePane();
+        false, diffTool.ParserSinglePane.getInstance());
   };
   diffTool.inherit(diffTool.SingleEditorController, diffTool.EditorController);
 
@@ -44,12 +38,6 @@ define(['diff/diff__tools', 'handlebars', 'diff/diff__editorcontroller',
       this.element_.innerHTML = '';
     }
   };
-
-  /**
-   * @override
-   */
-  diffTool.SingleEditorController.prototype.setEditableInternal =
-      diffTool.nullFunction;
 
   /**
    * @override
