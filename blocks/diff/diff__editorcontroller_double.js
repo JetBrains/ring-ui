@@ -24,13 +24,17 @@ define(['diff/diff__tools', 'codemirror', 'handlebars',
     BASE: 'diff__doublepane'
   };
 
+  // todo(igor.alexeenko): I don't like the idea of saving selectors
+  // in a format, which is used only by {@link querySelector} or
+  // {@link jQuery}. It should be just a plain strings, so I can use
+  // them any way I want.
   /**
    * @enum {string}
    */
-  diffTool.DoubleEditorController.CssClass = {
-    BASE: 'diff_doublepane',
-    ORIGINAL: 'diff__original',
-    MODIFIED: 'diff__modified'
+  diffTool.DoubleEditorController.CssSelector = {
+    BASE: '.diff_doublepane',
+    ORIGINAL: '.diff__original',
+    MODIFIED: '.diff__modified'
   };
 
   /**
@@ -43,9 +47,9 @@ define(['diff/diff__tools', 'codemirror', 'handlebars',
           diffTool.DoubleEditorController.Template.BASE]();
 
       this.originalElement_ = this.element_.querySelector(
-          '.' + diffTool.DoubleEditorController.CssClass.ORIGINAL);
+          diffTool.DoubleEditorController.CssSelector.ORIGINAL);
       this.modifiedElement_ = this.element_.querySelector(
-          '.' + diffTool.DoubleEditorController.CssClass.MODIFIED);
+          diffTool.DoubleEditorController.CssSelector.MODIFIED);
 
       this.codeMirrorOriginal_ = new CodeMirror(this.originalElement_);
       this.codeMirrorModified_ = new CodeMirror(this.modifiedElement_);
