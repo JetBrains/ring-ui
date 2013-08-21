@@ -25,7 +25,7 @@ define(function() {
    * @return {boolean}
    */
   diffTool.isEmptyString = function(str) {
-    return (/$\s*^/).test(str);
+    return (/^\s*$/).test(str);
   };
 
   /**

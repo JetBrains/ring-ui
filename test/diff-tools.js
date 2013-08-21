@@ -56,44 +56,49 @@ define(['global/global', 'chai', 'diff/diff'], function(
             /Odd number of arguments\./);
       });
     });
-  });
 
-  describe('diffTool.mixin', function() {
-    var diffTool = ring('diff').invoke('getDiffToolUtils');
+    describe('diffTool.mixin', function() {
+      it('diffTool.mixin appends fields of mixin object to ' +
+          'target object', function() {
+        expect(diffTool.mixin({ foo: 1 }, { bar: 2 })).to.deep.equal(
+            { foo: 1, bar: 2 });
+      });
 
-    it('diffTool.mixin appends fields of mixin object to ' +
-      'target object', function() {
-      expect(diffTool.mixin({ foo: 1 }, { bar: 2 })).to.deep.equal(
-        { foo: 1, bar: 2 });
+      it('diffTool.mixin overrides fields with the same keys in ' +
+          'original object by values from mixin.', function() {
+        expect(diffTool.mixin({ bar: 1 }, { bar: 2 })).to.deep.equal(
+            { bar: 2 });
+      });
+
+      it('diffTool.mixin does not override fields with the same ' +
+          'keys if parameter override is false', function() {
+        expect(diffTool.mixin({ bar: 1 }, { bar: 2 }, false)).to.deep.equal(
+            { bar: 1 });
+      });
     });
 
-    it('diffTool.mixin overrides fields with the same keys in ' +
-      'original object by values from mixin.', function() {
-      expect(diffTool.mixin({ bar: 1 }, { bar: 2 })).to.deep.equal(
-        { bar: 2 });
+    describe('diffTool.clamp', function() {
+      it('diffTool.clamp does nothing with value if it is already ' +
+          'clamp inside min and max', function() {
+        expect(diffTool.clamp(10, -Infinity, Infinity)).to.equal(10);
+      });
+
+      it('diffTool.clamp corrects value if it is greater then max', function() {
+        expect(diffTool.clamp(Infinity, 0, 10)).to.equal(10);
+      });
+
+      it('diffTool.clamp corrects value if it is less then min', function() {
+        expect(diffTool.clamp(-Infinity, 0, Infinity)).to.equal(0);
+      });
     });
 
-    it('diffTool.mixin does not override fields with the same ' +
-      'keys if parameter override is false', function() {
-      expect(diffTool.mixin({ bar: 1 }, { bar: 2 }, false)).to.deep.equal(
-        { bar: 1 });
-    });
-  });
-
-  describe('diffTool.clamp', function() {
-    var diffTool = ring('diff').invoke('getDiffToolUtils');
-
-    it('diffTool.clamp does nothing with value if it is already ' +
-        'clamp inside min and max', function() {
-      expect(diffTool.clamp(10, -Infinity, Infinity)).to.equal(10);
-    });
-
-    it('diffTool.clamp corrects value if it is greater then max', function() {
-      expect(diffTool.clamp(Infinity, 0, 10)).to.equal(10);
-    });
-
-    it('diffTool.clamp corrects value if it is less then min', function() {
-      expect(diffTool.clamp(-Infinity, 0, Infinity)).to.equal(0);
+    describe('diffTool.isEmptyString', function() {
+      it('diffTool.isEmptyString returns true if string contains only' +
+          'space characters and false if there are also other ' +
+          'symbols', function() {
+        expect(diffTool.isEmptyString('\n\n\t\r\n\r   ')).to.equal(true);
+        expect(diffTool.isEmptyString('Is not empty string')).to.equal(false);
+      });
     });
   });
 
