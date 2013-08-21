@@ -6,15 +6,16 @@
   <link rel="stylesheet" type="text/css" href="components/codemirror/lib/codemirror.css">
   <link rel="stylesheet" type="text/css" href="dist/ring-lib.css">
   <link rel="stylesheet" type="text/css" href="blocks/diff/diff.css">
+  <style type="text/css">
+    .layout_double .CodeMirror {
+      height: 450px;
+    }
+  </style>
   <script src="components/jquery/jquery.js"></script>
   <script src="components/requirejs/require.js"></script>
   <script src="bundles/ring.config.js"></script>
 </head>
 <body>
-
-<div class="layout_single"></div>
-
-<hr>
 
 <div class="layout_double"></div>
 
@@ -46,16 +47,6 @@
     });
 
     $.when.apply($, deferredObjects).then(function(diff, original, modified) {
-      /**
-       * Demo of single-paned {@link DiffTool}.
-       * @type {DiffTool}
-       */
-      var diffTool = new DiffTool(
-          document.querySelector('.layout_single'),
-          DiffTool.Mode.SINGLE_PANE);
-
-      diffTool.setContent(original[0], modified[0], diff[0]);
-
       /**
        * Demo of double-paned {@link DiffTool}
        * @type {DiffTool}
