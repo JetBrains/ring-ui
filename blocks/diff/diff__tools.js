@@ -134,5 +134,17 @@ define(function() {
     };
   };
 
+  /**
+   * Returns function, which always called with certain context.
+   * @param {function} fn
+   * @param {*} ctx
+   * @return {function}
+   */
+  diffTool.bindContext = function(fn, ctx) {
+    return function() {
+      return fn.apply(ctx, arguments);
+    };
+  };
+
   return diffTool;
 });
