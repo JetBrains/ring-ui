@@ -423,7 +423,7 @@ module.exports = function(grunt) {
         if (!err) {
           grunt.log.ok('Sprite rendered');
         } else {
-          grunt.log.error(err.stdout, err.stderr);
+          grunt.warn('Something went wrong.');
         }
 
         done();
