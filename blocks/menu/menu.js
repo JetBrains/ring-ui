@@ -1,4 +1,11 @@
-define(['jquery',  'global/global__modules', 'global/global__views', 'dropdown/dropdown', 'font-icon/font-icon'], function($, Module, View) {
+define([
+  'jquery',
+  'global/global__modules',
+  'global/global__views',
+  'global/global__utils',
+  'dropdown/dropdown',
+  'font-icon/font-icon'
+], function($, Module, View, utils) {
   'use strict';
 
   var activePath = '';
@@ -62,7 +69,7 @@ define(['jquery',  'global/global__modules', 'global/global__views', 'dropdown/d
     label = getActivePath(label);
 
     if (activePath === label) {
-      // TODO logging
+      utils.log('Menu: trying to set active already active item "' + label + '"');
       return null;
     }
 

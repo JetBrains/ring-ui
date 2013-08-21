@@ -71,7 +71,7 @@ module.exports = function(grunt) {
         files: [{
           expand: true,
           cwd: '<%= path.dist %>',
-          src: ['*.js'],
+          src: '*.min.js',
           ext: '.min.js',
           dest: '<%= path.dist %>'
         }]
@@ -235,6 +235,15 @@ module.exports = function(grunt) {
       handlebars: {
         src: '<%= path.shims %>handlebars/handlebars.js',
         dest: '<%= path.tmp %>/handlebars.js'
+      },
+      bundles: {
+        files: [{
+          expand: true,
+          cwd: '<%= path.dist %>',
+          src : '*.js',
+          ext: '.min.js',
+          dest: '<%= path.dist %>'
+        }]
       }
     },
     requirejs: {
@@ -487,7 +496,7 @@ module.exports = function(grunt) {
   grunt.registerTask('templates', [
     'htmlmin',
     'handlebars',
-    'preprocess'
+    'preprocess:handlebars'
   ]);
 
   grunt.registerTask('default', [
@@ -517,11 +526,13 @@ module.exports = function(grunt) {
 
   grunt.registerTask('minify', [
     'csso',
+    'preprocess:bundles',
     'uglify',
     'usebanner'
   ]);
 
   grunt.registerTask('build', [
+    'cleanup',
     'teamcity:jshint',
     'jshint:dist',
     'process',
