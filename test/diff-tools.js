@@ -163,4 +163,28 @@ define(['global/global', 'chai', 'diff/diff'], function(
       expect(instance.classProperty).to.equal(anotherInstance.classProperty);
     });
   });
+
+  describe('diffTool.bindContext()', function() {
+    var diffTool = ring('diff').invoke('getDiffToolUtils');
+    var ctx = { param: 1 };
+    var fn = function() {
+      return this;
+    };
+
+    var bindFunction = diffTool.bindContext(fn, ctx);
+
+    it('diffTool.bindContext does not change initial function', function() {
+      expect(fn()).to.be.an('undefined');
+    });
+
+    it('diffTool.bindContext always calls function with bind ' +
+        'context', function() {
+      expect(bindFunction()).to.equal(ctx);
+    });
+
+    it('diffTool.bindContext calls function with bind context ' +
+        'even if it was called by call/apply methods.', function() {
+      expect(bindFunction.call(null)).to.equal(ctx);
+    });
+  });
 });
