@@ -1,4 +1,4 @@
-define(['jquery', 'handlebars', 'global/global__modules'], function($, Handlebars, Module) {
+define(['jquery', 'handlebars', 'global/global__modules', 'global/global__utils'], function($, Handlebars, Module, utils) {
   'use strict';
 
   var views = {};
@@ -20,10 +20,10 @@ define(['jquery', 'handlebars', 'global/global__modules'], function($, Handlebar
   View.render = function(template, data) {
     var html = Handlebars.partials[template](data);
 
-    if (html.replace(/\s+/, '') !== '') {
+    if (!utils.isEmptyString(html)) {
       return html;
     } else {
-      Module.util.log('Empty template for module "' + module + '"');
+      utils.log('Empty template for module "' + template + '"');
       return '';
     }
   };
@@ -52,7 +52,7 @@ define(['jquery', 'handlebars', 'global/global__modules'], function($, Handlebar
     counter = counter || 0;
     var $target;
 
-    if (typeof $element === 'string' || Module.util.isNode($element )) {
+    if (typeof $element === 'string' || utils.isNode($element )) {
       $target = $($element);
     } else if (!($element instanceof $)) {
       // TODO Lazy DOM cache
@@ -66,7 +66,6 @@ define(['jquery', 'handlebars', 'global/global__modules'], function($, Handlebar
       return;
     } else if (!$target[0] && counter >= 300) {
       // give up
-      // TODO logging
       dfd.reject();
       return;
     }
@@ -88,7 +87,7 @@ define(['jquery', 'handlebars', 'global/global__modules'], function($, Handlebar
     var view = views[name];
 
     if (!view) {
-      Module.util.log('There is no view for module "' + name + '"');
+      utils.log('There is no view for module "' + name + '"');
       return null;
     }
 
@@ -126,8 +125,12 @@ define(['jquery', 'handlebars', 'global/global__modules'], function($, Handlebar
         views[name] = new View(view);
       });
 
+      dfd.fail(function() {
+        utils.log('Element for view "' + name + '" not for 3 seconds, aborting.');
+      });
+
     } else {
-      Module.util.log('Empty template for module "' + module + '"');
+      utils.log('Empty template for module "' + module + '"');
       dfd.reject();
     }
 
