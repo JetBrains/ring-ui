@@ -66,7 +66,7 @@ module.exports = function(grunt) {
     uglify: {
       dist: {
         options: {
-          report: 'gzip'
+          report: 'min'
         },
         files: [{
           expand: true,

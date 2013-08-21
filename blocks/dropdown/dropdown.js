@@ -90,7 +90,13 @@ define(['jquery', 'global/global__views', 'global/global__modules'], function($,
 
   // Public methods
   Module.add('dropdown', {
-    show: create,
-    hide: remove
+    show: {
+      method: create,
+      override: true
+    },
+    hide: {
+      method: remove,
+      override: true
+    }
   });
 });
