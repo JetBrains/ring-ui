@@ -1,5 +1,5 @@
 /**
- * @fileoverview Bundle which, exports DiffTool.
+ * @fileoverview Bundle that DiffTool.
  * @author igor.alexeenko (Igor Alekseyenko)
  */
 
