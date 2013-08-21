@@ -1,4 +1,5 @@
 define([
+  'global/global',
   'header/header',
   'menu/menu',
   'footer/footer'
