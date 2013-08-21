@@ -1,6 +1,6 @@
 .diff_singlepane {
   border: solid 1px #ccc;
-  font-family: 'Menlo', monospace;
+  @include monospace-font;
   font-size: 12px;
   line-height: 1.3;
   position: relative;
@@ -30,8 +30,7 @@
   border-right: dotted 1px #ccc;
   color: #999;
   cursor: default;
-  -moz-user-select: none;
-  -webkit-user-select: none;
+  user-select: none;
   text-align: right;
   width: 80px;
 }
@@ -111,12 +110,7 @@
 
 .diff__gutterline_folded td:before,
 .diff__codeline_folded td:before {
-  background:
-    -webkit-linear-gradient(135deg, transparent 50%, #ffffff 50%) 0 50%,
-    -webkit-linear-gradient(45deg, transparent 50%, #ffffff 50%) 0 50%,
-    -webkit-linear-gradient(45deg, #f3f3f3, #f3f3f3);
-
-  background:
+   background:
     linear-gradient(-45deg, transparent 50%, #ffffff 50%) 0 50%,
     linear-gradient(45deg, transparent 50%, #ffffff 50%) 0 50%,
     linear-gradient(45deg, #f3f3f3,#f3f3f3);
@@ -124,11 +118,6 @@
 
 .diff__gutterline_folded td:after,
 .diff__codeline_folded td:after {
-  background:
-    -webkit-linear-gradient(135deg, transparent 50%, #f3f3f3 50%) 0 50%,
-    -webkit-linear-gradient(45deg, transparent 50%, #f3f3f3 50%) 0 50%,
-    -webkit-linear-gradient(45deg, #ffffff, #ffffff);
-
   background:
     linear-gradient(-45deg, transparent 50%, #f3f3f3 50%) 0 50%,
     linear-gradient(45deg, transparent 50%, #f3f3f3 50%) 0 50%,
