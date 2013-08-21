@@ -15,7 +15,6 @@
   font-style: normal;
   font-weight: normal;
   font-variant: normal;
-  font-size: 14px;
   text-transform: none;
   line-height: 1 !important;
   text-decoration: none !important;
@@ -63,6 +62,9 @@
 }
 .ring-font-icon_plus:before {
   content: "\e000";
+}
+.ring-font-icon_added:before {
+  content: "\e006";
 }
 
 /* Fallback for miserable Windows users */
