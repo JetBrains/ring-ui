@@ -4,6 +4,12 @@
   font-size: 12px;
 }
 
+.diff_doublepane:after {
+  clear: both;
+  content: '';
+  display: block;
+}
+
 .diff__modified,
 .diff__original {
   float: left;

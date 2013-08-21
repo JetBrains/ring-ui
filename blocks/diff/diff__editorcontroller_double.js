@@ -29,6 +29,7 @@ define(['diff/diff__tools', 'codemirror', 'handlebars',
   // {@link jQuery}. It should be just a plain strings, so I can use
   // them any way I want.
   /**
+   * CSS-like selectors of editor DOM-elements.
    * @enum {string}
    */
   diffTool.DoubleEditorController.CssSelector = {
