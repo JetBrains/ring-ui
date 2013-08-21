@@ -35,13 +35,14 @@ define(['global/global', 'chai', 'diff/diff',
   });
 
   describe('diffTool.Editor controller setters and getters', function() {
-    it('diffTool.EditorController.setEditable()', function() {
+    it('diffTool.EditorController.setEditable()/' +
+        'diffTool.EditorController.isEditable()', function() {
       var diffTool = ring('diff').invoke('getDiffToolUtils');
       var diffToolInstance = new diffTool.EditorController();
 
-      expect(diffToolInstance.editable_).to.equal(true);
+      expect(diffToolInstance.isEditable()).to.equal(true);
       diffToolInstance.setEditable(false);
-      expect(diffToolInstance.editable_).to.equal(false);
+      expect(diffToolInstance.isEditable()).to.equal(false);
     });
 
     it('diffTool.EditorController.setContent()', function() {
