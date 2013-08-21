@@ -1,7 +1,11 @@
+// Base
 @import "../blocks/global/global";
-@import "../blocks/font/font";
 @import "../blocks/link/link";
+@import "../blocks/font/font";
+@import "../blocks/font-icon/font-icon";
+
+// Modules (w/o header)
 @import "../blocks/menu/menu";
+@import "../blocks/footer/footer";
 @import "../blocks/dropdown/dropdown";
 @import "../blocks/dropdown-toggle/dropdown-toggle";
-@import "../blocks/font-icon/font-icon";

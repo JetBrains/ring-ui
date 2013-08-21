@@ -1,10 +1,13 @@
+// Base
 @import "../blocks/global/global";
-@import "../blocks/font/font";
 @import "../blocks/link/link";
-@import "../blocks/header/header";
+@import "../blocks/font/font";
 @import "../blocks/font-icon/font-icon";
 
+// Modules
+@import "../blocks/header/header";
 
+// VC specific
 .ring-header {
   position: absolute;
   top: 0;
