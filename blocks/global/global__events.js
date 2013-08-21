@@ -1,13 +1,14 @@
-define(['jquery'], function($) {
+define(['jquery', 'global/global__utils'], function($, utils) {
   'use strict';
 
   // Event constructor
   var uid = 1;
   var empty = {};
 
+  // TODO Use separate signature parser
   var Event = function(signature, module, handler, one) {
     if (typeof signature !== 'string') {
-      // log here
+      utils.log('Event was not bound, signature is not string');
       return empty;
     }
 
@@ -33,17 +34,18 @@ define(['jquery'], function($) {
   var cache = {};
 
   var add = function(event) {
-    if (!(event instanceof Event)) {
+    if (event === empty) {
       return false;
-    } else {
-      if (!cache[event.name]) {
-        cache[event.name] = [];
-      }
-
-      cache[event.name].push(event);
-
-      return true;
     }
+
+    if (!cache[event.name]) {
+      cache[event.name] = [];
+    }
+
+    utils.log('Event "' + event.name + '" was bound');
+    cache[event.name].push(event);
+
+    return true;
   };
 
   var remove = function(event, useUid) {
@@ -82,10 +84,10 @@ define(['jquery'], function($) {
 
   events.on = function(scope, signature, handler, one) {
     if (typeof handler !== 'function') {
-      // log here
+      utils.log('Event "' + event.name + '" was not bound. Handler is not a function.');
       return false;
     } else {
-      return add(new Event(signature, scope, handler, one)) !== empty;
+      return add(new Event(signature, scope, handler, one));
     }
   };
 
@@ -97,9 +99,10 @@ define(['jquery'], function($) {
     var event = new Event(signature, scope);
 
     if (!cache[event.name]) {
-      // log here
+      utils.log('There is no event "' + event.name + '" to unbind');
       return false;
     } else {
+      utils.log('Event "' + event.name + '" was unbound');
       return remove(event, false);
     }
   };
@@ -109,8 +112,7 @@ define(['jquery'], function($) {
     var event = new Event(signature, scope);
     var subscriptions = cache[event.name];
 
-    // TODO debug logging
-    // console.log((scope.global && 'root:'|| '') + event.name);
+    utils.log('Event triggered: ' + (scope.global && 'root:'|| '') + event.name);
 
     if (subscriptions) {
       for (var i = subscriptions.length; i--; i > 0) {
