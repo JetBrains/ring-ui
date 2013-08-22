@@ -60,10 +60,6 @@ $header-link-color:  #b4b4b4;
     position: relative;
     width: $x-unit;
     top: 6px;
-
-    .no-font-antialiasing & {
-      top: 7px;
-    }
   }
 }
 

@@ -22,14 +22,4 @@
     border-width: 1px;
     padding: 1px 0 2px 4px;
   }
-
-  .no-font-antialiasing & {
-    padding: 3px 3px 4px 6px;
-    background-position: -62px -1px !important;
-  }
-
-  .no-font-antialiasing &:hover {
-    padding: 1px 2px 4px 6px;
-    background-position: -62px -20px !important;
-  }
 }
