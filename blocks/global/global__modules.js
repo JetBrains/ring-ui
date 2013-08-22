@@ -1,4 +1,4 @@
-define(['jquery', 'global/global__events', 'global/global__utils'], function($, Event, utils) {
+define(['jquery', 'global/global__events', 'global/global__utils'], function($, events, utils) {
   'use strict';
 
   // Function.prototype.bind polyfill
@@ -49,7 +49,7 @@ define(['jquery', 'global/global__events', 'global/global__utils'], function($, 
   };
 
   // Mixin events
-  $.extend(Module.prototype, Event.events);
+  $.extend(Module.prototype, events.methods);
 
   // Instance
   Module.prototype.invoke = function(scope, name) {
