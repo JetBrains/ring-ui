@@ -23,7 +23,7 @@ define(['diff/diff__tools', 'codemirror', 'handlebars',
    * @enum {string}
    */
   diffTool.DoubleEditorController.Template = {
-    BASE: 'diff__doublepane'
+    BASE: 'diff_doublepane'
   };
 
   // todo(igor.alexeenko): I don't like the idea of saving selectors
