@@ -10,7 +10,7 @@ define(function(require) {
     $('html').addClass('no-font-antialiasing');
   }
 
-  // IE7- generated content fallback
+  // IE7- generated content polyfill
   var ie = (function(){
     var v = 3;
     var div = document.createElement('div');
@@ -28,7 +28,7 @@ define(function(require) {
     return;
   }
 
-  // Icons w/ png fallback commented out
+  // Icons w/ png fallback are commented out
   var icons = {
     'ring-font-icon_modified' : '&#xe002;',
     'ring-font-icon_removed' : '&#xe003;',
@@ -48,15 +48,23 @@ define(function(require) {
   };
 
   var Module = require('global/global__modules');
+  var events = [
+    'header:init:done',
+    'menu:init:done',
+    'footer:init:done',
+    'header:update:done',
+    'menu:update:done',
+    'footer:update:done'
+  ].join(' ');
 
-  Module.get(Module.GLOBAL).on('menu:init:done', function() {
-    $('.ring-font-icon').each(function(index, el) {
+  Module.get(Module.GLOBAL).on(events, function() {
+    $('.ring-font-icon:not(:has(.ring-font-icon__before))').each(function(index, el) {
       var $el = $(el);
       var cls = $el.attr('class').match(/ring-font-icon_[^\s'"]+/);
       var icon = cls && icons[cls[0]];
 
       if (cls && icons[cls[0]]) {
-        $el.prepend('<span style="font-family: \'font-icon\'">' + icon + '</span>');
+        $el.prepend('<span class="ring-font-icon__before" style="font-family: \'font-icon\'">' + icon + '</span>');
       }
     });
   });
