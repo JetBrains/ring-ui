@@ -1,9 +1,13 @@
+// Base
 @import "../blocks/global/global";
-@import "../blocks/font/font";
 @import "../blocks/link/link";
-@import "../blocks/header/header";
+@import "../blocks/font/font";
 @import "../blocks/font-icon/font-icon";
 
+// Modules
+@import "../blocks/header/header";
+
+// Confluence specific
 #header {
   background-color: #868F94;
   padding: 0 24px;
@@ -11,7 +15,8 @@
   line-height: 2.1
 }
 
-#header .ajs-menu-bar li.ajs-menu-item.opened, #header .ajs-menu-bar li.ajs-menu-item.opened a.trigger {
+#header .ajs-menu-bar li.ajs-menu-item.opened,
+#header .ajs-menu-bar li.ajs-menu-item.opened a.trigger {
   background-color: #666;
 }
 

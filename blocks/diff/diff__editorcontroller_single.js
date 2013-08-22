@@ -23,10 +23,10 @@ define(['diff/diff__tools', 'handlebars', 'diff/diff__editorcontroller',
    * @enum {string}
    */
   diffTool.SingleEditorController.Template = {
-    LAYOUT: 'diff__singlepane',
-    GUTTER_LINE: 'diff__singlepane_gutterline',
-    CODE_LINE: 'diff__singlepane_codeline',
-    CODE_LINE_MODIFIED: 'diff__singlepane_inlinechange'
+    LAYOUT: 'diff_singlepane',
+    GUTTER_LINE: 'diff_singlepane__gutterline',
+    CODE_LINE: 'diff_singlepane__codeline',
+    CODE_LINE_MODIFIED: 'diff_singlepane__inlinechange'
   };
 
   /**
