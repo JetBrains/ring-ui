@@ -148,4 +148,6 @@ define(['diff/diff__tools'], function(diffTool) {
 
     return lines;
   };
+
+  return diffTool.Parser;
 });
