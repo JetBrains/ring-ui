@@ -3,47 +3,64 @@ define(['jquery', 'global/global__utils'], function($, utils) {
 
   // Event constructor
   var uid = 1;
-  var empty = {};
-
-  // TODO Use separate signature parser
-  var Event = function(signature, module, handler, one) {
-    if (typeof signature !== 'string') {
-      utils.log('Event was not bound, signature is not string');
-      return empty;
-    }
-
-    if (!module.global) {
-      signature = module.name + Event.MODULE_DELIM + signature;
-    }
-
-    var parts = signature.split(Event.NAMESPACE_DELIM);
-
-    this.name = parts[0];
-    this.namespace = parts[1] || null;
-    this.uid = uid++;
-
-    this.handler = one ? runAndRemove(this, handler) : handler;
+  var events = {
+    EVENTS_DELIM: ' ',
+    NAMESPACE_DELIM: '::',
+    MODULE_DELIM: ':',
+    SELECTOR: '.ring-js-event',
+    DATA_ATTR: 'ring-event'
   };
 
-  Event.NAMESPACE_DELIM = '::';
-  Event.MODULE_DELIM = ':';
-  Event.SELECTOR = '.ring-js-event';
-  Event.DATA = 'ring-event';
+
+  var parseSignature = function(signature, module, handler, one) {
+
+    if (typeof signature !== 'string') {
+      utils.log('Event was not bound, signature is not string');
+      return false;
+    }
+
+    var eventsList = $.map(signature.split(events.EVENTS_DELIM), function(eventSignature) {
+      var event = {};
+
+      if (!module.global) {
+        eventSignature = module.name + events.MODULE_DELIM + eventSignature;
+      }
+
+      var parts = eventSignature.split(events.NAMESPACE_DELIM);
+
+      event.name = parts[0];
+      event.namespace = parts[1] || null;
+      event.uid = uid++;
+
+      if (handler) {
+        event.handler = one ? runAndRemove(event, handler) : handler;
+      }
+
+      return event;
+    });
+
+    return eventsList;
+  };
+
 
   // Internal methods
   var cache = {};
 
-  var add = function(event) {
-    if (event === empty) {
+  var add = function(eventsList) {
+    if (!eventsList[0]) {
       return false;
     }
 
-    if (!cache[event.name]) {
-      cache[event.name] = [];
-    }
+    for (var event, i = eventsList.length - 1; i >= 0; i--) {
+      event = eventsList[i];
 
-    utils.log('Event "' + event.name + '" was bound');
-    cache[event.name].push(event);
+      if (!cache[event.name]) {
+        cache[event.name] = [];
+      }
+
+      utils.log('Event "' + event.name + '" was bound');
+      cache[event.name].push(event);
+    }
 
     return true;
   };
@@ -55,7 +72,7 @@ define(['jquery', 'global/global__utils'], function($, utils) {
     var subscriptions = cache[event.name];
 
     if (param) {
-      for (var i = subscriptions.length; i--; i > 0) {
+      for (var i = subscriptions.length - 1; i >= 0; i--) {
         if (subscriptions[i][paramName] === param) {
           subscriptions.splice(i, 1);
           ret = true;
@@ -80,36 +97,42 @@ define(['jquery', 'global/global__utils'], function($, utils) {
   };
 
   // Public
-  var events = {};
+  var methods = {};
 
-  events.on = function(scope, signature, handler, one) {
+  methods.on = function(scope, signature, handler, one) {
     if (typeof handler !== 'function') {
       utils.log('Event "' + event.name + '" was not bound. Handler is not a function.');
       return false;
     } else {
-      return add(new Event(signature, scope, handler, one));
+      return add(parseSignature(signature, scope, handler, one));
     }
   };
 
-  events.one = function(scope, signature, handler) {
+  methods.one = function(scope, signature, handler) {
     return this.on(signature, handler, true);
   };
 
-  events.off = function(scope, signature) {
-    var event = new Event(signature, scope);
+  methods.off = function(scope, signature) {
+    var ret = false;
+    var eventsList = parseSignature(signature, scope);
 
-    if (!cache[event.name]) {
-      utils.log('There is no event "' + event.name + '" to unbind');
-      return false;
-    } else {
-      utils.log('Event "' + event.name + '" was unbound');
-      return remove(event, false);
+    for (var event, i = eventsList.length - 1; i >= 0; i--) {
+      event = eventsList[i];
+
+      if (!cache[event.name]) {
+        utils.log('There is no event "' + event.name + '" to unbind');
+      } else {
+        utils.log('Event "' + event.name + '" was unbound');
+        ret = remove(event, false);
+      }
     }
+
+    return ret;
   };
 
-  events.trigger = function(scope, signature, data) {
+  methods.trigger = function(scope, signature, data) {
     var ret = true;
-    var event = new Event(signature, scope);
+    var event = parseSignature(signature, scope)[0];
     var subscriptions = cache[event.name];
 
     utils.log('Event triggered: ' + (scope.global && 'root:'|| '') + event.name);
@@ -123,8 +146,8 @@ define(['jquery', 'global/global__utils'], function($, utils) {
     return ret;
   };
 
-  events.stateTrigger = function(scope, method, state) {
-    var signature = method + Event.MODULE_DELIM + state;
+  methods.stateTrigger = function(scope, method, state) {
+    var signature = method + events.MODULE_DELIM + state;
     var trigger = this.trigger;
 
     return function(result) {
@@ -132,22 +155,22 @@ define(['jquery', 'global/global__utils'], function($, utils) {
     };
   };
 
-  Event.events = events;
+  events.methods = methods;
 
   // Events from DOM
   var handler = function(e) {
     var $target = $(e.currentTarget);
-    var event = $target.data(Event.DATA);
+    var event = $target.data(events.DATA_ATTR);
 
     if (typeof event === 'object') {
-      return events.trigger({global: true}, event.name, event.data);
+      return methods.trigger({global: true}, event.name, event.data);
     } else {
-      return events.trigger({global: true}, event);
+      return methods.trigger({global: true}, event);
     }
   };
 
   // Using delegate because of compatibility with YouTrack's jQuery 1.5.1
-  $(document).delegate(Event.SELECTOR, 'click.ring.event', handler);
+  $(document).delegate(events.SELECTOR, 'click.ring.event', handler);
 
-  return Event;
+  return events;
 });
