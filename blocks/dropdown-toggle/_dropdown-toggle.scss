@@ -10,7 +10,8 @@
   vertical-align: middle;
 
   color: $color;
-  border: $color solid;
+  border-color: $color;
+  border-style: solid;
   border-width: 0 0 0 1px;
 
   user-select: none;
