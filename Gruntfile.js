@@ -297,6 +297,14 @@ module.exports = function(grunt) {
           },
           out: '<%= path.dist %>ring-jetbrains-oauth.js'
         })
+      },
+      'ring-diff': {
+        options: _.extend(_.clone(requireConfig.options), {
+          paths: {
+            ring: '../<%= path.bundles %>ring-diff'
+          },
+          out: '<%= path.dist %>ring-diff.js'
+        })
       }
     },
     copy: {

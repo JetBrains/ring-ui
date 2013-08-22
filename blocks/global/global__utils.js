@@ -5,7 +5,7 @@ define(function() {
   var utils = {};
 
   utils.isDeferred = function(obj) {
-    return !!obj && typeof obj === 'object' && obj.hasOwnProperty('promise') && $.isFunction(obj.promise);
+    return !!obj && typeof obj === 'object' && obj.hasOwnProperty('promise') && typeof obj.promise === 'function';
   };
 
   utils.isNode = function(obj) {

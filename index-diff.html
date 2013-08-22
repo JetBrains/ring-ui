@@ -4,8 +4,7 @@
   <title>DiffTools</title>
   <meta charset="utf-8">
   <link rel="stylesheet" type="text/css" href="components/codemirror/lib/codemirror.css">
-  <link rel="stylesheet" type="text/css" href="dist/ring-lib.css">
-  <link rel="stylesheet" type="text/css" href="blocks/diff/diff.css">
+  <link rel="stylesheet" type="text/css" href="dist/ring-diff.css">
   <style type="text/css">
     .layout_double .CodeMirror {
       height: 450px;
@@ -20,7 +19,7 @@
 <div class="layout_double"></div>
 
 <script type="text/javascript">
-  require(['jquery', 'ring'], function($, ring) {
+  require(['jquery', 'ring', 'diff/diff'], function($, ring) {
     var DiffTool = /** @type {DiffTool} */ (
         ring('diff').invoke('getDiffTool'));
 
