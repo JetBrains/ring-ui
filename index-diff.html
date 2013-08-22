@@ -50,11 +50,11 @@
        * Demo of double-paned {@link DiffTool}
        * @type {DiffTool}
        */
-      var diffToolDoublePane = new DiffTool(
+      var diffTool = new DiffTool(
           document.querySelector('.layout_double'),
-          DiffTool.Mode.DOUBLE_PANE);
+          DiffTool.Mode.SINGLE_PANE);
 
-      diffToolDoublePane.setContent(original[0], modified[0], diff[0]);
+      diffTool.setContent(original[0], modified[0], diff[0]);
     });
   });
 </script>
