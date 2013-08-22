@@ -154,7 +154,8 @@ define(['diff/diff__tools', 'diff/diff__parser'], function(diffTool) {
       lines.forEach(function(line, i) {
         bufferLines.push(this.getBufferLine_(
             diffTool.ParserSinglePane.LineType.UNCHANGED, line,
-            originalLinesOffset + i + 1, modifiedLinesOffset + i));
+            originalLinesOffset + i + 1,
+            modifiedLinesOffset + i + 1));
       }, this);
     } else {
       bufferLines.push(this.getBufferLine_(
@@ -192,7 +193,7 @@ define(['diff/diff__tools', 'diff/diff__parser'], function(diffTool) {
 
       bufferLines.push(this.getBufferLine_(
           diffTool.ParserSinglePane.LineType.MODIFIED, line,
-          null, modifiedLinesOffset + i));
+          null, modifiedLinesOffset + i + 1));
     }, this);
 
     return bufferLines;
