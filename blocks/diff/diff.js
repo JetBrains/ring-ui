@@ -162,6 +162,20 @@ define(['diff/diff__tools', 'jquery', 'global/global__modules',
     this.controller_.setContent(original, modified, diff);
   };
 
+  /**
+   * Prepares to be deleted by disabling all controllers to remove event
+   * handlers from them and by removing all instance properties.
+   */
+  DiffTool.prototype.dispose = function() {
+    this.controller_.setEnabled(false);
+    this.controller_ = null;
+
+    this.element_.innerHTML = '';
+    this.element_ = null;
+
+    this.mode_ = null;
+  };
+
   Module.add('diff', {
     getDiffTool: {
       method: function() {
