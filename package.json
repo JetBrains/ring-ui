@@ -28,6 +28,7 @@
     "grunt-sass": "~0.6.0",
     "grunt-autoprefixer": "~0.1.20130615",
     "phantomjs": "~1.9.1-0",
+    "grunt-styleguide": "~0.2.6",
     "grunt-markdown": "~0.3.0",
     "md-toc-filter": "git+https://github.com/princed/table-of-contents-preprocessor.git",
     "underscore.string": "~2.3.3",

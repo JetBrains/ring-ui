@@ -358,6 +358,22 @@ module.exports = function(grunt) {
         ]
       }
     },
+    styleguide: {
+      dist: {
+        options: {
+          framework: {
+            name: 'kss'
+          },
+          template: {
+            src: '<%= path.docs %>template/'
+          }
+        },
+        files: {
+          '<%= path.dist %>styleguide/': '<%= path.blocks %>**/*.scss'
+        }
+      }
+    },
+
 
     // Development
     watch: {
@@ -365,8 +381,8 @@ module.exports = function(grunt) {
         livereload: LIVERELOAD_PORT
       },
       scss: {
-        files: ['<%= path.blocks %>**/*.scss', '<%= path.bundles %>**/*.scss'],
-        tasks: ['styles', 'notify:watch']
+        files: ['<%= path.blocks %>**/*.scss', '<%= path.bundles %>**/*.scss', '<%= path.blocks %>**/*.md'],
+        tasks: ['styles', 'styleguide', 'notify:watch']
       },
       reload: {
         files: ['<%= path.blocks %>**/*.html', '*.html'],
@@ -515,7 +531,8 @@ module.exports = function(grunt) {
 
   grunt.registerTask('docs', [
     'toc',
-    'markdown'
+    'markdown',
+    'styleguide'
   ]);
 
   grunt.registerTask('process', [
