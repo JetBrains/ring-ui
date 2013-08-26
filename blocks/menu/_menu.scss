@@ -42,6 +42,10 @@ $menu-attention-color: #f50000;
   -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='#e4e4e4', endColorstr='#ffffff',GradientType=0)";
 }
 
+.ring-menu_noborder {
+  border-bottom: none !important;
+}
+
 .ring-menu__spacer {
   display: inline-block;
   height: $x-unit*7;
@@ -110,13 +114,18 @@ $menu-attention-color: #f50000;
   font-size: 16px;
 }
 
-.font-antialiasing .ring-menu__right .ring-font-icon_cog {
+.ring-menu__right .ring-font-icon_cog {
   font-size: 18px !important;
   width: 12px;
 }
 
-.no-font-antialiasing .ring-menu__item_icon {
-  margin-left: $x-unit*3 - 6;
+.no-font-antialiasing .ring-menu__right .ring-font-icon_help {
+  background-position: -60px 1px;
+  margin-left: $x-unit*3 - 2;
+
+  &:hover {
+    background-position: -60px -19px;
+  }
 }
 
 .ring-menu__item_icon:hover {
@@ -141,15 +150,14 @@ $menu-attention-color: #f50000;
 .ring-menu__search__glass {
   position: absolute;
   top: 0;
+  *top: 10px; // IE7
   width: 16px;
   right: 6px;
 
   color: #d1d1d1;
 }
 
-/* No hover for search glass */
-.no-font-antialiasing .ring-menu__search__glass,
-.no-font-antialiasing .ring-menu__search__glass:hover {
-  right: 8px;
-  background-position: -39px -1px !important;
+/* Custom search glass */
+.no-font-antialiasing .ring-menu__search__glass {
+  background-position: -80px 0px !important;
 }

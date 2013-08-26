@@ -21,6 +21,29 @@ $btn-border-radius: 3px;
   @include btn-background-image(#ebebeb, #fff);
 }
 
+// Buttons
+//
+// A majority of buttons in the site are built from the same base class.
+//
+// Base variables:
+//
+//  * $btn-border-radius: 3px;
+//
+// Markup:
+// <button class="ring-btn {$modifiers}">Button Element</button>
+// <button class="ring-btn {$modifiers}"><span class="ring-font-icon ring-font-icon_cog"></span></button>
+// <button class="ring-btn ring-btn_last-icon {$modifiers}">Dropdown <span class="ring-font-icon ring-font-icon_caret-down"></span></button>
+//
+// .ring-btn_primary    - Indicate that the button is the primary feature of this form.
+// .ring-btn_blue       - Indicate that the button is the secondary feature of this form.
+// .ring-btn_black      - Indicate that the button is just black.
+// .ring-btn_plus       - Indicate that the button will add something.
+// :hover               - Highlight the button when hovered.
+// :disabled            - Make the button change appearance to reflect it being disabled, also available as `.ring-btn_disabled` selector
+// :active              - "Press" the button down when clicked, also available as `.ring-btn_active` selector
+//
+// Styleguide 3.1
+
 .ring-btn {
   display: inline-block;
   border-radius: $btn-border-radius;
@@ -50,14 +73,10 @@ $btn-border-radius: 3px;
 }
 
 .ring-btn_disabled,
+.ring-btn:disabled,
 .ring-btn[disabled] {
   opacity: 0.5;
   cursor: default;
-}
-
-.ring-btn_ico {
-  font-size: 16px;
-  color: #8C8C8C;
 }
 
 @mixin btn-mixins_primary {
@@ -156,85 +175,84 @@ $btn-border-radius: 3px;
   line-height: 20px;
 }
 
+// TODO move to hub
 .ring-btn__right-align {
   height: 22px;
   margin-left: 16px;
 }
+
+// Button groups
+//
+// Markup:
+// <div class="ring-btn-group">
+//   <button class="ring-btn">Button</button>
+//   <button class="ring-btn" disabled>Button</button>
+//   <button class="ring-btn">Button</button>
+// </div>
+//
+// Styleguide 3.2
+
+.ring-btn-group {
+  font-size: 0;
+  display: inline-block;
+  position: relative;
+  max-height: 24px;
+}
+
+.ring-btn-group .ring-btn {
+  margin: 0 0 0 -1px;
+  border-radius: 0;
+}
+
+.ring-btn-group .ring-btn:first-child {
+  border-top-left-radius: $btn-border-radius;
+  border-bottom-left-radius: $btn-border-radius;
+}
+
+.ring-btn-group .ring-btn:last-child {
+  border-top-right-radius: $btn-border-radius;
+  border-bottom-right-radius: $btn-border-radius;
+}
+
+// Toolbar
+//
+// Markup:
+// <div class="ring-btn-toolbar">
+//   <button class="ring-btn">Button 1</button>
+//   <div class="ring-btn-group">
+//     <button class="ring-btn" disabled>Button 2</button>
+//     <button class="ring-btn">Button 4</button>
+//     <button class="ring-btn">Button 3</button>
+//   </div>
+//   <button class="ring-btn">Button 5</button>
+// </div>
+//
+// Styleguide 3.3
 
 .ring-btn-toolbar {
   font-size: 0;
   display: inline-block;
 }
 
-.ring-btn-toolbar__group {
-  display: inline-block;
-  position: relative;
-  max-height: 24px;
-}
 
-.ring-btn-toolbar > * {
+.ring-btn-toolbar > .ring-btn,
+.ring-btn-toolbar > .ring-btn-group {
   margin-right: 16px;
+
   &:last-child {
     margin-right: 0;
   }
 }
 
-.ring-btn-toolbar__group > .ring-btn {
-  margin: 0 0 0 -1px;
-  border-radius: 0;
-}
 
-.ring-btn-toolbar__group > .ring-btn:first-child {
-  border-top-left-radius: $btn-border-radius;
-  border-bottom-left-radius: $btn-border-radius;
-}
-
-.ring-btn-toolbar__group > .ring-btn:last-child {
-  border-top-right-radius: $btn-border-radius;
-  border-bottom-right-radius: $btn-border-radius;
-}
-
-// TODO FIXME use font-icon here
-@mixin ring-btn-arrow($direction: down) {
-  padding-right: 24px !important;
-  &:after {
-    content: '';
-    display: block;
-    background: url(/images/arrow-#{$direction}.png);
-    width: 5px;
-    height: 3px;
-    float: right;
-    margin-top: 5px;
-    margin-right: -12px;
-  }
-}
-
-.ring-btn_arrow_down {
-  @include ring-btn-arrow(down);
-}
-
-.ring-btn_arrow_up {
-  @include ring-btn-arrow(up);
-}
-
-.ring-btn__icon {
-  display: inline-block;
-  cursor: pointer;
-  line-height: 22px;
-  height: 22px !important;
-}
-
-.ring-btn__last-icon {
-  display: inline-block;
-  cursor: pointer;
-  line-height: 22px;
-  height: 22px !important;
-  .ring-font-icon {
-    position: relative;
-    left: 6px;
-  }
-}
-
+// “Tag” buttons
+//
+// Markup:
+// <span class="ring-btn-tag {$modifiers}">Tag button</span>
+//
+// :hover               - Highlight the button when hovered.
+//
+// Styleguide 3.4
 .ring-btn-tag {
   position: relative;
   margin-right: 4px;
@@ -245,6 +263,7 @@ $btn-border-radius: 3px;
   line-height: 20px;
   font-size: 13px;
   color: #1866C5;
+
   &:hover {
     color: #ff5a00;
     text-decoration: underline;
@@ -252,6 +271,7 @@ $btn-border-radius: 3px;
   }
 }
 
+// TODO move to hub or make less specific
 .ring-btn-tag__img {
   position: relative;
   top: 4px;

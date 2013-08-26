@@ -9,7 +9,7 @@
   font-style: normal;
 }
 
-.font-antialiasing .ring-font-icon {
+body .ring-font-icon {
   font-family: 'font-icon' !important;
   speak: none;
   font-style: normal;
@@ -17,8 +17,11 @@
   font-variant: normal;
   text-transform: none;
   line-height: 1 !important;
-  text-decoration: none !important;
   -webkit-font-smoothing: antialiased;
+
+  &:hover {
+    text-decoration: none !important;
+  }
 }
 
 .ring-font-icon_modified:before {
@@ -68,49 +71,43 @@
 }
 
 /* Fallback for miserable Windows users */
-.no-font-antialiasing .ring-font-icon {
-  background-image: url('#{$fonts-dir}font-icon.png');
-  background-repeat: no-repeat;
-  height: 18px;
-  width: 18px;
-}
+.no-font-antialiasing {
 
-.no-font-antialiasing .ring-font-icon:before {
-  content: '';
-}
+  .ring-font-icon_help,
+  .ring-font-icon_search,
+  .ring-font-icon_ban-circle {
+    display: inline-block;
+    background-image: url('#{$fonts-dir}font-icon.png');
+    background-repeat: no-repeat;
+    height: 18px;
+    width: 18px;
 
-.no-font-antialiasing .ring-font-icon_help {
-  background-position: -20px 0;
-}
+    &:before {
+      content: ' ';
+    }
+  }
 
-.no-font-antialiasing .ring-font-icon_help:hover {
-  background-position: -20px -18px;
-}
+  .ring-font-icon_help {
+    background-position: 0 1px;
 
-.no-font-antialiasing .ring-font-icon_cog {
-  background-position: 0 0;
-}
+    &:hover{
+      background-position: 0 -19px;
+    }
+  }
 
-.no-font-antialiasing .ring-font-icon_cog:hover {
-  background-position: 0 -18px;
-}
+  .ring-font-icon_search {
+    background-position: -20px 1px;
 
-.no-font-antialiasing .ring-font-icon_caret-down {
-  background-position: -66px -4px;
-  width: 9px;
-  height: 10px;
-}
+    &:hover{
+      background-position: -20px -19px;
+    }
+  }
 
-.no-font-antialiasing .ring-font-icon_caret-down:hover {
-  background-position: -66px -22px;
-}
+  .ring-font-icon_ban-circle {
+    background-position: -40px 1px;
 
-.no-font-antialiasing .ring-font-icon_caret-up {
-  background-position: -66px -4px;
-  width: 9px;
-  height: 10px;
-}
-
-.no-font-antialiasing .ring-font-icon_caret-up:hover {
-  background-position: -66px -22px;
+    &:hover{
+      background-position: -40px -19px;
+    }
+  }
 }
