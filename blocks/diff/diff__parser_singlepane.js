@@ -141,6 +141,9 @@ define(['diff/diff__tools', 'diff/diff__parser'], function(diffTool) {
   };
 
   /**
+   * Displays some unchanged lines before and after changed code. Number of
+   * lines of context code is defined in the {@code CONTEXT_SIZE} constant.
+   * Collapses the rest of unchanged lines.
    * @param {Array.<string>} lines
    * @param {number} originalLinesOffset
    * @param {number} modifiedLinesOffset
@@ -152,13 +155,21 @@ define(['diff/diff__tools', 'diff/diff__parser'], function(diffTool) {
       originalLinesOffset, modifiedLinesOffset, opt_isLastChange) {
     var bufferLines = [];
 
+    // Lines, which should be folded.
     var fold = lines.slice(diffTool.ParserSinglePane.CONTEXT_SIZE,
         lines.length - diffTool.ParserSinglePane.CONTEXT_SIZE);
 
+    // NB! How many common lines does contextAfter and contextBefore have.
+    // This number is used to find index of last element, which should be
+    // included into contextBefore.
     var intersection = lines.length -
         diffTool.ParserSinglePane.CONTEXT_SIZE * 2 - fold.length;
 
+    // contextAfter is a part of code, which displays after changed lines
+    // of code. Should be hidden if it is a first iteration.
     var contextAfter = lines.slice(0, diffTool.ParserSinglePane.CONTEXT_SIZE);
+    // contextBefore is a part of code, which displays before changed lines
+    // of code. Hides at last iteration.
     var contextBefore = lines.slice(
         -1 * diffTool.ParserSinglePane.CONTEXT_SIZE - intersection);
 
