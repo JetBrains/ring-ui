@@ -42,6 +42,10 @@ $menu-attention-color: #f50000;
   -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='#e4e4e4', endColorstr='#ffffff',GradientType=0)";
 }
 
+.ring-menu_noborder {
+  border-bottom: none !important;
+}
+
 .ring-menu__spacer {
   display: inline-block;
   height: $x-unit*7;

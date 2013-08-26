@@ -80,7 +80,6 @@ define([
     }
 
     activePath = label;
-
     View.update.apply(View, update);
   };
 
