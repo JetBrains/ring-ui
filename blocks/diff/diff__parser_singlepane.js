@@ -165,7 +165,7 @@ define(['diff/diff__tools', 'diff/diff__parser'], function(diffTool) {
     var lineNumberOriginal, lineNumberModified;
 
     if (lines.length <= diffTool.ParserSinglePane.CONTEXT_SIZE) {
-      contextAfter = [];
+      contextBefore = [];
     }
 
     if (originalLinesOffset === 0 && modifiedLinesOffset === 0) {
