@@ -79,12 +79,7 @@ define(['diff/diff__tools'], function(diffTool) {
    * @protected
    */
   diffTool.Parser.prototype.splitToLines = function(content) {
-    var lines = content.match(diffTool.Parser.EOLRegex);
-    if (!lines) {
-      lines = [];
-    }
-
-    return lines;
+    return content.match(diffTool.Parser.EOLRegex);
   };
 
   return diffTool.Parser;
