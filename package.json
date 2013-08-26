@@ -30,7 +30,7 @@
     "phantomjs": "~1.9.1-0",
     "grunt-styleguide": "~0.2.6",
     "grunt-markdown": "~0.3.0",
-    "md-toc-filter": "git+https://github.com/princed/table-of-contents-preprocessor.git",
+    "md-toc": "~1.0.0",
     "underscore.string": "~2.3.3",
     "highlight.js": "~7.3.0",
     "grunt-banner": "~0.1.4",
@@ -45,7 +45,7 @@
     "mocha": "~1.12.0",
     "karma-coverage": "~0.1.0",
     "karma-requirejs": "~0.1.0",
-    "karma-teamcity-reporter": "git+https://github.com/karma-runner/karma-teamcity-reporter.git",
+    "karma-teamcity-reporter": "~0.1.0",
     "karma-ievms": "0.0.2"
   },
   "scripts": {

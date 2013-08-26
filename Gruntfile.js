@@ -486,7 +486,7 @@ module.exports = function(grunt) {
   });
 
   grunt.registerMultiTask('toc', 'Generate toc', function() {
-    var toc = require('md-toc-filter');
+    var toc = require('md-toc');
 
     this.files.forEach(function(file) {
       var contents = file.src.filter(function(filepath) {
