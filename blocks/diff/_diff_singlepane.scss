@@ -1,6 +1,15 @@
-//todo(igor.alexeenko): add variables of code-highlighting colors.
+$background: #fff;
+
+$deleted_background: #cfc;
+$deleted_highlight: #f99;
+$deleted_marker: #c00;
+
+$newline_background: #fcc;
+$newline_highlight: #9f9;
+$newline_marker: #060;
 
 .diff_singlepane {
+  background: #fff;
   border: solid 1px #ccc;
   @include monospace-font;
   font-size: 12px;
@@ -29,7 +38,7 @@
 }
 
 .diff__gutter {
-  border-right: dotted 1px #ccc;
+  border-right: solid 1px #ccc;
   color: #999;
   cursor: default;
   user-select: none;
@@ -53,12 +62,12 @@
 }
 
 .diff__codeline_original td {
-  background: #fcc;
+  background: $deleted_background;
   font-weight: bold;
 }
 
 .diff__codeline_modified td {
-  background: #cfc;
+  background: $newline_background;
   font-weight: bold;
 }
 
@@ -68,12 +77,12 @@
 
 .diff__gutterline_modified .diff__marker:after {
   content: "+";
-  color: #090;
+  color: $newline_marker;
 }
 
 .diff__gutterline_original .diff__marker:after {
   content: "-";
-  color: #c00;
+  color: $deleted_marker;
 }
 
 .diff__inline_original,
@@ -96,13 +105,13 @@
 }
 
 .diff__codeline_original .diff__inline_original {
-  background: #f99;
-  border-color: #f99;
+  background: $deleted_highlight;
+  border-color: $deleted_highlight;
 }
 
 .diff__codeline_modified .diff__inline_modified {
-  background: #9f9;
-  border-color: #9f9;
+  background: $newline_highlight;
+  border-color: $newline_highlight;
 }
 
 .diff__gutterline_folded td,
@@ -110,6 +119,7 @@
   height: 30px;
 }
 
+//todo(igor.alexeenko): replace to svg file.
 .diff__gutterline_folded td:before,
 .diff__codeline_folded td:before {
    background:
