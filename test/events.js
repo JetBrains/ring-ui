@@ -18,19 +18,35 @@ define(['global/global', 'chai'], function(ring, chai) {
       var handler = function() {};
 
       it('subscribe on event should be true', function () {
-        expect(module.on('test-1', handler)).to.be.equal(true);
+        module.on('onoff-test-1', handler).should.be.equal(true);
       });
 
-      it('dupe subscribe on event should be true', function () {
-        expect(module.on('test-1', handler)).to.be.equal(true);
+      it('subscribe on event should be true', function () {
+        module.on('onoff-test-1', handler).should.be.equal(true);
       });
 
-      it('unsubscribe from event should be true', function () {
-        expect(module.off('test-1')).to.be.equal(true);
+      it('scribe from event should be true', function () {
+        module.off('onoff-test-1').should.be.equal(true);
       });
 
-      it('dupe unsubscribe from event should be false', function () {
-        expect(module.off('test-1')).to.be.equal(false);
+      it('unsubscribe from event should be false', function () {
+        module.off('onoff-test-1').should.be.equal(false);
+      });
+
+      it('multiple subscribe on event should be true', function () {
+        module.on('onoff-test-1 onoff-test-2 onoff-test-3', handler).should.be.equal(true);
+      });
+
+      it('multiple unsubscribe from event should be true', function () {
+        module.off('onoff-test-1 onoff-test-2').should.be.equal(true);
+      });
+
+      it('unsubscribe from leaving event should be true', function () {
+        module.off('onoff-test-3').should.be.equal(true);
+      });
+
+      it('dupe unsubscribe from multiple bound event should be true', function () {
+        module.off('onoff-test-2').should.be.equal(false);
       });
     });
 
@@ -69,26 +85,42 @@ define(['global/global', 'chai'], function(ring, chai) {
         module.trigger('test-2', 1);
         handler.should.not.have.been.called;
       });
+
+      it('all multiple bound events should have been triggered', function () {
+        module.on('test-1 test-2 test-3', handler);
+        module.trigger('test-1');
+        module.trigger('test-2');
+        module.trigger('test-3');
+        handler.should.have.been.calledThrice;
+      });
+
+      it('all multiple unbound events should not have been triggered', function () {
+        module.off('test-1 test-3', handler);
+        module.trigger('test-1');
+        module.trigger('test-2');
+        module.trigger('test-3');
+        handler.should.have.been.calledOnce;
+      });
     });
 
     describe('One', function () {
       var handler = sinon.spy();
 
       it('one time subscribe on event should be true', function () {
-        expect(module.one('test-3', handler)).to.be.equal(true);
+        expect(module.one('one-test', handler)).to.be.equal(true);
       });
 
       it('one time trigger should run functions', function () {
-        module.trigger('test-3', true);
+        module.trigger('one-test', true);
         handler.should.have.been.called;
       });
 
       it('one time unsubscribe from event should be false', function () {
-        expect(module.off('test-3')).to.be.equal(false);
+        expect(module.off('one-test')).to.be.equal(false);
       });
 
       it('second one time trigger should not run functions', function () {
-        module.trigger('test-3', true);
+        module.trigger('one-test', true);
         handler.should.have.been.calledOnce;
       });
 
