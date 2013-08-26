@@ -21,7 +21,7 @@ define(['diff/diff__tools', 'diff/diff__parser'], function(diffTool) {
    * @type {number}
    * @const
    */
-  diffTool.ParserSinglePane.UNCHANGED_GAP = 3;
+  diffTool.ParserSinglePane.CONTEXT_SIZE = 3;
 
   /**
    * Number of lines between two diffs, which we can displayed unfolded.
@@ -102,17 +102,18 @@ define(['diff/diff__tools', 'diff/diff__parser'], function(diffTool) {
     var originalFileCursor = 0;
     var modifiedFileCursor = 0;
 
-    diff.forEach(function(change) {
+    diff.forEach(function(change, i) {
       var lines = [];
       var currentOriginalLines = [];
       var currentModifiedLines = [];
+      var noFold = i === diff.length - 1;
 
       if (change.type === diffTool.Parser.ModificationType.UNCHANGED) {
         currentOriginalLines = originalLines.slice(
             originalFileCursor, originalFileCursor + change.lines);
 
         lines = this.parseUnchangedLines(currentOriginalLines,
-            originalFileCursor, modifiedFileCursor);
+            originalFileCursor, modifiedFileCursor, noFold);
 
         originalFileCursor += change.lines;
         modifiedFileCursor += change.lines;
@@ -143,24 +144,56 @@ define(['diff/diff__tools', 'diff/diff__parser'], function(diffTool) {
    * @param {Array.<string>} lines
    * @param {number} originalLinesOffset
    * @param {number} modifiedLinesOffset
+   * @param {boolean=} opt_noFold
    * @return {Array.<diffTool.ParserSinglePane.BufferLine>}
    * @protected
    */
   diffTool.ParserSinglePane.prototype.parseUnchangedLines = function(lines,
-      originalLinesOffset, modifiedLinesOffset) {
+      originalLinesOffset, modifiedLinesOffset, opt_noFold) {
     var bufferLines = [];
 
-    if (lines.length <= diffTool.ParserSinglePane.FOLD_GAP) {
-      lines.forEach(function(line, i) {
-        bufferLines.push(this.getBufferLine_(
-            diffTool.ParserSinglePane.LineType.UNCHANGED, line,
-            originalLinesOffset + i + 1,
-            modifiedLinesOffset + i + 1));
-      }, this);
-    } else {
+    var fold = lines.slice(diffTool.ParserSinglePane.CONTEXT_SIZE,
+        lines.length - diffTool.ParserSinglePane.CONTEXT_SIZE);
+
+    var intersection = lines.length -
+        diffTool.ParserSinglePane.CONTEXT_SIZE * 2 - fold.length;
+
+    var contextAfter = lines.slice(0, diffTool.ParserSinglePane.CONTEXT_SIZE);
+    var contextBefore = lines.slice(
+        -1 * diffTool.ParserSinglePane.CONTEXT_SIZE - intersection);
+
+    if (lines.length <= diffTool.ParserSinglePane.CONTEXT_SIZE) {
+      contextAfter = [];
+    }
+
+    if (originalLinesOffset === 0 && modifiedLinesOffset === 0) {
+      contextAfter = [];
+      fold = [];
+    }
+
+    if (opt_noFold) {
+      contextBefore = [];
+      fold = [];
+    }
+
+    contextAfter.forEach(function(contextLine, i) {
+      bufferLines.push(this.getBufferLine_(
+          diffTool.ParserSinglePane.LineType.UNCHANGED, contextLine,
+          originalLinesOffset + i + 1,
+          modifiedLinesOffset + i + 1));
+    }, this);
+
+    if (fold.length) {
       bufferLines.push(this.getBufferLine_(
           diffTool.ParserSinglePane.LineType.FOLDED, '', null, null));
     }
+
+    contextBefore.forEach(function(contextLine, i) {
+      bufferLines.push(this.getBufferLine_(
+          diffTool.ParserSinglePane.LineType.UNCHANGED, contextLine,
+          originalLinesOffset + i + 1,
+          modifiedLinesOffset + i + 1));
+    }, this);
 
     return bufferLines;
   };
