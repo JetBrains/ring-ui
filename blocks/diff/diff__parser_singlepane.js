@@ -159,9 +159,9 @@ define(['diff/diff__tools', 'diff/diff__parser'], function(diffTool) {
     var fold = lines.slice(diffTool.ParserSinglePane.CONTEXT_SIZE,
         lines.length - diffTool.ParserSinglePane.CONTEXT_SIZE);
 
-    // NB! How many common lines does contextAfter and contextBefore have.
-    // This number is used to find index of last element, which should be
-    // included into contextBefore.
+    // How many common lines does contextAfter and contextBefore would have
+    // if they were intersected. This number is used to find index of last
+    // element, which should be included into contextBefore.
     var intersection = lines.length -
         diffTool.ParserSinglePane.CONTEXT_SIZE * 2 - fold.length;
 
@@ -326,4 +326,6 @@ define(['diff/diff__tools', 'diff/diff__parser'], function(diffTool) {
       chars: chars
     });
   };
+
+  return diffTool.ParserSinglePane;
 });
