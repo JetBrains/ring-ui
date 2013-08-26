@@ -13,7 +13,6 @@ define([
   'use strict';
 
   var expect = chai.expect;
-
   var diffTool = ring('diff').invoke('getDiffToolUtils');
 
   var Parser = diffTool.Parser.getInstance();
