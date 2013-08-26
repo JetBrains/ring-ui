@@ -84,6 +84,40 @@ define([
         expect(Parser.parseInlineChanges('string', undefined, undefined)).
             to.equal('string');
       });
+
+      it('diffTool.ParserSinglePane.parseInlineChanges returns valid' +
+          'line for output buffer.', function() {
+        var chars = 'The quick brown fox jumps over the lazy dog.';
+        var ranges = [
+          {
+            type: diffTool.Parser.ModificationType.UNCHANGED,
+            chars: 16
+          },
+          {
+            type: diffTool.Parser.ModificationType.MODIFIED,
+            newChars: 3
+          },
+          {
+            type: diffTool.Parser.ModificationType.UNCHANGED,
+            chars: 25
+          }
+        ];
+
+        var parsedLine = [
+          Parser.getBufferModifiedLine_(
+              diffTool.Parser.ModificationType.UNCHANGED,
+              'The quick brown '),
+          Parser.getBufferModifiedLine_(
+              diffTool.Parser.ModificationType.MODIFIED,
+              'fox'),
+          Parser.getBufferModifiedLine_(
+              diffTool.Parser.ModificationType.UNCHANGED,
+              ' jumps over the lazy dog.')
+        ];
+
+        expect(Parser.parseInlineChanges(chars, ranges,
+            diffTool.ParserSinglePane.LineType.MODIFIED)).to.eql(parsedLine);
+      });
     });
   });
 });
