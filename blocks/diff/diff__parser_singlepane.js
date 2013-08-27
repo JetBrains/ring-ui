@@ -2,7 +2,7 @@
  * @fileoverview Parser for single-paned mode of DiffTool. Parser transforms
  * original JSON response from server to JSON with code injections
  * and marks of way, how exactly those line were modified. Maybe, in future
- * this interactions will be performed on the server-side.
+ * some of this interactions will be performed on the server-side.
  * @author igor.alexeenko (Igor Alekseyenko)
  */
  
@@ -22,13 +22,6 @@ define(['diff/diff__tools', 'diff/diff__parser'], function(diffTool) {
    * @const
    */
   diffTool.ParserSinglePane.CONTEXT_SIZE = 3;
-
-  /**
-   * Number of lines between two diffs, which we can displayed unfolded.
-   * @type {number}
-   * @const
-   */
-  diffTool.ParserSinglePane.FOLD_GAP = 5;
 
   /**
    * @typedef {Array.<diffTool.SingleEditorController.BufferLine>}
@@ -54,6 +47,7 @@ define(['diff/diff__tools', 'diff/diff__parser'], function(diffTool) {
   diffTool.ParserSinglePane.BufferModifiedLine = {};
 
   /**
+   * Kinds of {@code BufferLine}s.
    * @enum {string}
    */
   diffTool.ParserSinglePane.LineType = {
@@ -89,6 +83,8 @@ define(['diff/diff__tools', 'diff/diff__parser'], function(diffTool) {
   };
 
   /**
+   * Iterates over {@code Array} of chanes and creates an {@code OutputBuffer} —
+   * {@code Array} of {@code BufferLine}s.
    * @return {diffTool.ParserSinglePane.Buffer}
    * @override
    */
@@ -141,9 +137,13 @@ define(['diff/diff__tools', 'diff/diff__parser'], function(diffTool) {
   };
 
   /**
-   * Displays some unchanged lines before and after changed code. Number of
-   * lines of context code is defined in the {@code CONTEXT_SIZE} constant.
-   * Collapses the rest of unchanged lines.
+   * Parses unchanged parts of code to display some lines from it as a context
+   * to changed code. Uses {@code CONTEXT_SIZE} constant to understand how
+   * many lines to use as a context. Tries to display lines of code, after
+   * previous changes, then folds unused code and then displays line of code
+   * before next changes. If there are few lines, does not fold and
+   * displays unchanged content entirely. Returns context and fold as
+   * an {@code Array} of {@code BufferLine}s.
    * @param {Array.<string>} lines
    * @param {number} originalLinesOffset
    * @param {number} modifiedLinesOffset
@@ -155,21 +155,13 @@ define(['diff/diff__tools', 'diff/diff__parser'], function(diffTool) {
       originalLinesOffset, modifiedLinesOffset, opt_isLastChange) {
     var bufferLines = [];
 
-    // Lines, which should be folded.
     var fold = lines.slice(diffTool.ParserSinglePane.CONTEXT_SIZE,
         lines.length - diffTool.ParserSinglePane.CONTEXT_SIZE);
 
-    // How many common lines does contextAfter and contextBefore would have
-    // if they were intersected. This number is used to find index of last
-    // element, which should be included into contextBefore.
     var intersection = lines.length -
         diffTool.ParserSinglePane.CONTEXT_SIZE * 2 - fold.length;
 
-    // contextAfter is a part of code, which displays after changed lines
-    // of code. Should be hidden if it is a first iteration.
     var contextAfter = lines.slice(0, diffTool.ParserSinglePane.CONTEXT_SIZE);
-    // contextBefore is a part of code, which displays before changed lines
-    // of code. Hides at last iteration.
     var contextBefore = lines.slice(
         -1 * diffTool.ParserSinglePane.CONTEXT_SIZE - intersection);
 
@@ -220,6 +212,8 @@ define(['diff/diff__tools', 'diff/diff__parser'], function(diffTool) {
   };
 
   /**
+   * Parses part of code to {@code Array} of {@code BufferLine}s. First it
+   * places lines of original code and after that, lines of modified code.
    * @param {Array.<string>} originalLines
    * @param {Array.<string>} modifiedLines
    * @param {number} originalLinesOffset
@@ -254,6 +248,8 @@ define(['diff/diff__tools', 'diff/diff__parser'], function(diffTool) {
   };
 
   /**
+   * Parses data of inline changes of some string and returns it as
+   * {@code BufferLine}.
    * @param {string} chars
    * @param {Array.<diffTool.ParserSinglePane.InlineModification>} ranges
    * @param {diffTool.ParserSinglePane.LineType} type
@@ -296,6 +292,12 @@ define(['diff/diff__tools', 'diff/diff__parser'], function(diffTool) {
   };
 
   /**
+   * Returns object, which represents line of code for output buffer and
+   * includes chars of line if there was no inline modifications, or
+   * {@code BufferModifiedLine}, which was returned by
+   * {@code getBufferModifiedLine_} if there was inline changes. Also includes
+   * number of line in original and modified code and type of changes: whether
+   * this line was deleted, added, or there was inline changes.
    * @param {diffTool.ParserSinglePane.LineType} codeType
    * @param {string|diffTool.ParserSinglePane.BufferModifiedLine} line
    * @param {number} originalLineNumber
@@ -314,6 +316,8 @@ define(['diff/diff__tools', 'diff/diff__parser'], function(diffTool) {
   };
 
   /**
+   * Returns object, which represents line of code with inline modifications
+   * for output buffer.
    * @param {diffTool.ParserSinglePane.LineType} codeType
    * @param {string} chars
    * @return {diffTool.ParserSinglePane.BufferModifiedLine}
