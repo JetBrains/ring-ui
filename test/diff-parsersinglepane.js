@@ -82,7 +82,9 @@ define([
   });
 
   describe('diffTool.ParserSinglePane parse methods', function() {
+
     // todo(igor.alexeenko): Add test cases for multiline ranges.
+
     describe('diffTool.ParserSinglePane.parseInlineChanges', function() {
       it('diffTool.ParserSinglePane.parseInlineChanges returns' +
           'initial string if range object has not been taken', function() {
@@ -350,7 +352,7 @@ define([
         expect(output).to.eql(parsedContent);
       });
 
-      it('diffTool.ParserSinglePane.parseUnchanged lines does not fold ' +
+      it('diffTool.ParserSinglePane.parseUnchangedLines does not fold ' +
           'unchanged lines if there are few of them', function() {
         var lines = ['all\n', 'lines\n', 'will\n', 'be\n', 'shown\n'];
         var originalLinesOffset = 10;
@@ -371,6 +373,25 @@ define([
               diffTool.ParserSinglePane.LineType.UNCHANGED, 'be\n', 14, 14),
           Parser.getBufferLine_(
               diffTool.ParserSinglePane.LineType.UNCHANGED, 'shown\n', 15, 15)
+        ];
+
+        expect(output).to.eql(parsedContent);
+      });
+
+      it('diffTool.ParserSinglePane.parseUnchangedLines works with' +
+          'tiny changes (number of lines is less then usual context ' +
+          'size) as with lines, which should not be collapsed', function() {
+        var lines = ['\n'];
+        var originalLinesOffset = 10;
+        var modifiedLinesOffset = 10;
+        var isLastChange = false;
+
+        var output = Parser.parseUnchangedLines(lines, originalLinesOffset,
+            modifiedLinesOffset, isLastChange);
+
+        var parsedContent = [
+          Parser.getBufferLine_(
+              diffTool.ParserSinglePane.LineType.UNCHANGED, '\n', 11, 11)
         ];
 
         expect(output).to.eql(parsedContent);
