@@ -1,5 +1,13 @@
 $btn-border-radius: 3px;
 
+@mixin btn-box-shadow($opacity) {
+  box-shadow: inset 0 1px rgba(255, 255, 255, .4), inset 0 0 0 1px rgba(255, 255, 255, $opacity);
+}
+
+@mixin btn-box-shadow-hover($opacity) {
+  box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.2), inset 0 1px rgba(255, 255, 255, .4), inset 0 0 0 1px rgba(255, 255, 255, $opacity);
+}
+
 @mixin btn-box-shadow-active($color) {
   box-shadow: inset 0 0 1px $color;
 }
@@ -16,8 +24,8 @@ $btn-border-radius: 3px;
   background-image: linear-gradient(to bottom, #{$bottom}, #{$top});
 }
 
-@mixin btn-mixins {
-  box-shadow: inset 0 1px rgba(255, 255, 255, .4), inset 0 0 0 1px rgba(255, 255, 255, .2);
+@mixin btn-mixins($opacity) {
+  @include btn-box-shadow($opacity);
   @include btn-background-image(#ebebeb, #fff);
 }
 
@@ -55,19 +63,21 @@ $btn-border-radius: 3px;
   border: solid 1px #b4b4b4;
   color: #282828;
   cursor: pointer;
-  @include btn-mixins;
+  outline:0;
+  @include btn-mixins(0.8);
   &:hover, &.ring-btn_hover {
-    box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.2), inset 0 1px rgba(255, 255, 255, .4), inset 0 0 0 1px rgba(255, 255, 255, .2);
+    @include btn-box-shadow-hover(0.8);
     @include btn-background-image(#e1e1e1, #fff);
   }
   &:active, &.ring-btn_active {
-    @include btn-box-shadow-active(#9f9f9f);
+    //@include btn-box-shadow-active(#9f9f9f);
+    box-shadow: inset 0 1px 0px 0px #D3D3D3;
     background-color: #e4e4e4;
     background-image: none;
   }
   &[disabled], &.ring-btn_disabled {
     &:hover, &:active {
-      @include btn-mixins;
+      @include btn-mixins(0.2);
     }
   }
 }
@@ -87,16 +97,18 @@ $btn-border-radius: 3px;
   border: solid 1px #bc5600;
   color: #fff;
   background-color: #FF8620;
+  @include btn-box-shadow(0.2);
   @include btn-mixins_primary;
 
   &:hover {
     background-color: #FF6600;
+    @include btn-box-shadow-hover(0.2);
     @include btn-background-image-hover(#ffb373, #f60 29%, #ff8620);
   }
   &:active {
     background-color: #FF8620;
     @include btn-background-image-active(#f60, #ff8620);
-    @include btn-box-shadow-active(rgba(0, 0, 0, .2));
+    box-shadow: inset 0 1px 1px 0px #d95801;
   }
 
   &[disabled], &.ring-btn_disabled {
@@ -114,9 +126,11 @@ $btn-border-radius: 3px;
   border: solid 1px #0084c5;
   color: #fff;
   background-color: #25B7FF;
+  @include btn-box-shadow(0.2);
   @include btn-mixins_blue;
   &:hover {
     background-color: #008FD6;
+    @include btn-box-shadow-hover(0.2);
     @include btn-background-image-hover(#64ccff 2%, #008fd6 29%, #25b7ff);
   }
   &:active {
@@ -140,7 +154,7 @@ $btn-border-radius: 3px;
   border: solid 1px rgba(0, 0, 0, 0.5);
   color: #b4b4b4;
   background-color: #3C3C3C;
-  box-shadow: inset 0 1px #505050;
+  box-shadow: inset 0 1px 1px #505050;
   @include btn-mixins_black;
   &:hover {
     background-color: #313131;
@@ -234,7 +248,6 @@ $btn-border-radius: 3px;
   display: inline-block;
 }
 
-
 .ring-btn-toolbar > .ring-btn,
 .ring-btn-toolbar > .ring-btn-group {
   margin-right: 16px;
@@ -243,7 +256,6 @@ $btn-border-radius: 3px;
     margin-right: 0;
   }
 }
-
 
 // “Tag” buttons
 //
