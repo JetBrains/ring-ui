@@ -78,6 +78,7 @@ define([
   });
 
   describe('diffTool.ParserSinglePane parse methods', function() {
+    // todo(igor.alexeenko): Add test cases for multiline ranges.
     describe('diffTool.ParserSinglePane.parseInlineChanges', function() {
       it('diffTool.ParserSinglePane.parseInlineChanges returns' +
           'initial string if range object has not been taken', function() {
@@ -181,6 +182,88 @@ define([
           expect(Parser.parseInlineChanges(chars, ranges,
               diffTool.ParserSinglePane.LineType.ORIGINAL)).to.eql(parsedLine);
         });
+      });
+    });
+
+    describe('diffTool.ParserSinglePane.parseLineChanges', function() {
+      it('diffTool.ParserSinglePane.parseLineChanges outputs' +
+          'original lines of code, then outputs modified lines.' +
+          'Number of lines are correct.', function() {
+        var originalLines = ['some\n', 'original\n', 'lines\n'];
+        var modifiedLines = ['this\n', 'lines\n', 'are\n', 'modified\n'];
+        var originalOffset = 0;
+        var modifiedOffset = 0;
+
+        var output = Parser.parseLineChanges(originalLines, modifiedLines,
+            originalOffset, modifiedOffset);
+
+        expect(output).to.eql([
+          Parser.getBufferLine_(diffTool.ParserSinglePane.LineType.ORIGINAL,
+              'some\n', 1, null),
+          Parser.getBufferLine_(diffTool.ParserSinglePane.LineType.ORIGINAL,
+              'original\n', 2, null),
+          Parser.getBufferLine_(diffTool.ParserSinglePane.LineType.ORIGINAL,
+              'lines\n', 3, null),
+          Parser.getBufferLine_(diffTool.ParserSinglePane.LineType.MODIFIED,
+              'this\n', null, 1),
+          Parser.getBufferLine_(diffTool.ParserSinglePane.LineType.MODIFIED,
+              'lines\n', null, 2),
+          Parser.getBufferLine_(diffTool.ParserSinglePane.LineType.MODIFIED,
+              'are\n', null, 3),
+          Parser.getBufferLine_(diffTool.ParserSinglePane.LineType.MODIFIED,
+              'modified\n', null, 4)
+        ]);
+      });
+
+      it('diffTool.ParserSinglePane.parseLineChanges returns two lines ' +
+          'of code with inline modifications: first line contains highlighted' +
+          'changed char and marked as line from original code, second line ' +
+          'contains highlighted new char, which was inserted instead ' +
+          'of changed and marked as line from modified code.', function() {
+        var original = ['original\n'];
+        var modified = ['originel\n'];
+        var originalOffset = 0;
+        var modifiedOffset = 0;
+        var ranges = [
+          {
+            chars: 6,
+            type: diffTool.Parser.ModificationType.UNCHANGED
+          },
+          {
+            oldChars: 1,
+            newChars: 1,
+            type: diffTool.Parser.ModificationType.MODIFIED
+          },
+          {
+            chars: 2,
+            type: diffTool.Parser.ModificationType.UNCHANGED
+          }
+        ];
+
+        var outputBuffer = [
+          Parser.getBufferLine_(diffTool.ParserSinglePane.LineType.ORIGINAL, [
+            Parser.getBufferModifiedLine_(
+                diffTool.ParserSinglePane.LineType.UNCHANGED, 'origin'),
+            Parser.getBufferModifiedLine_(
+                diffTool.ParserSinglePane.LineType.ORIGINAL, 'a'),
+            Parser.getBufferModifiedLine_(
+                diffTool.ParserSinglePane.LineType.UNCHANGED, 'l\n')
+          ], 1, null),
+          Parser.getBufferLine_(diffTool.ParserSinglePane.LineType.MODIFIED, [
+            Parser.getBufferModifiedLine_(
+                diffTool.ParserSinglePane.LineType.UNCHANGED, 'origin'),
+            Parser.getBufferModifiedLine_(
+                diffTool.ParserSinglePane.LineType.MODIFIED, 'e'),
+            Parser.getBufferModifiedLine_(
+                diffTool.ParserSinglePane.LineType.UNCHANGED, 'l\n')
+          ], null, 1)
+        ];
+
+        var parsedChanges = Parser.parseLineChanges(original, modified,
+            originalOffset, modifiedOffset, ranges);
+
+        expect(Parser.parseLineChanges(original, modified, originalOffset,
+            modifiedOffset, ranges)).to.eql(outputBuffer);
       });
     });
   });
