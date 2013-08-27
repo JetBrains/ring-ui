@@ -3,6 +3,10 @@
  * @author igor.alexeenko (Igor Alekseyenko)
  */
 
+// todo(igor.alexeenko): I don't like an idea that tests knows too much
+// about data-format. Maybe it is okay but it is not enough abstract, I
+// can't replace parser without rewriting tests.
+
 define([
   'global/global',
   'chai',
@@ -187,7 +191,7 @@ define([
 
     describe('diffTool.ParserSinglePane.parseLineChanges', function() {
       it('diffTool.ParserSinglePane.parseLineChanges outputs' +
-          'original lines of code, then outputs modified lines.' +
+          'original lines of code, then outputs modified lines' +
           'Number of lines are correct.', function() {
         var originalLines = ['some\n', 'original\n', 'lines\n'];
         var modifiedLines = ['this\n', 'lines\n', 'are\n', 'modified\n'];
@@ -219,7 +223,7 @@ define([
           'of code with inline modifications: first line contains highlighted' +
           'changed char and marked as line from original code, second line ' +
           'contains highlighted new char, which was inserted instead ' +
-          'of changed and marked as line from modified code.', function() {
+          'of changed and marked as line from modified code', function() {
         var original = ['original\n'];
         var modified = ['originel\n'];
         var originalOffset = 0;
@@ -259,11 +263,117 @@ define([
           ], null, 1)
         ];
 
-        var parsedChanges = Parser.parseLineChanges(original, modified,
-            originalOffset, modifiedOffset, ranges);
-
         expect(Parser.parseLineChanges(original, modified, originalOffset,
             modifiedOffset, ranges)).to.eql(outputBuffer);
+      });
+    });
+
+    describe('diffTool.ParserSinglePane.parseUnchangedLines', function() {
+      it('diffTool.ParserSinglePane.parseUnchangedLines does not' +
+          'add folded lines and first lines to output in the beginning' +
+          'of the file', function() {
+        var lines = ['some\n', 'lines\n', 'of this\n', 'code\n', 'will\n',
+          'not\n', 'be\n', 'shown\n'];
+        var originalLinesOffset = 0;
+        var modifiedLinesOffset = 0;
+        var isLastChange = false;
+
+        var output = Parser.parseUnchangedLines(lines, originalLinesOffset,
+            modifiedLinesOffset, isLastChange);
+
+        var parsedContent = [
+          Parser.getBufferLine_(
+              diffTool.ParserSinglePane.LineType.UNCHANGED, 'not\n', 6, 6),
+          Parser.getBufferLine_(
+              diffTool.ParserSinglePane.LineType.UNCHANGED, 'be\n', 7, 7),
+          Parser.getBufferLine_(
+              diffTool.ParserSinglePane.LineType.UNCHANGED, 'shown\n', 8, 8)
+        ];
+
+        expect(output).to.eql(parsedContent);
+      });
+
+      it('diffTool.ParserSinglePane.parseUnchangedLines does not ' +
+          'add folded lines and last lines to output in the end ' +
+          'of file', function() {
+        var lines = ['some\n', 'lines\n', 'of this\n', 'code\n', 'will\n',
+          'not\n', 'be\n', 'shown\n'];
+        var originalLinesOffset = 10;
+        var modifiedLinesOffset = 10;
+        var isLastChange = true;
+
+        var output = Parser.parseUnchangedLines(lines, originalLinesOffset,
+            modifiedLinesOffset, isLastChange);
+
+        var parsedContent = [
+          Parser.getBufferLine_(
+              diffTool.ParserSinglePane.LineType.UNCHANGED, 'some\n', 11, 11),
+          Parser.getBufferLine_(
+              diffTool.ParserSinglePane.LineType.UNCHANGED, 'lines\n', 12, 12),
+          Parser.getBufferLine_(
+              diffTool.ParserSinglePane.LineType.UNCHANGED, 'of this\n', 13, 13)
+        ];
+
+        expect(output).to.eql(parsedContent);
+      });
+
+      it('diffTool.ParserSinglePane.parseUnchangedLines adds ' +
+          'lines of code from beginning of chunk, then displays ' +
+          'fold, then lines of code from ending of chunk', function() {
+        var lines = ['some\n', 'lines\n', 'of this\n', 'code\n', 'will\n',
+          'not\n', 'be\n', 'shown\n'];
+        var originalLinesOffset = 10;
+        var modifiedLinesOffset = 10;
+        var isLastChange = false;
+
+        var output = Parser.parseUnchangedLines(lines, originalLinesOffset,
+            modifiedLinesOffset, isLastChange);
+
+        var parsedContent = [
+          Parser.getBufferLine_(
+              diffTool.ParserSinglePane.LineType.UNCHANGED, 'some\n', 11, 11),
+          Parser.getBufferLine_(
+              diffTool.ParserSinglePane.LineType.UNCHANGED, 'lines\n', 12, 12),
+          Parser.getBufferLine_(
+              diffTool.ParserSinglePane.LineType.UNCHANGED, 'of this\n',
+              13, 13),
+          Parser.getBufferLine_(
+              diffTool.ParserSinglePane.LineType.FOLDED, '', null, null),
+          Parser.getBufferLine_(
+              diffTool.ParserSinglePane.LineType.UNCHANGED, 'not\n', 16, 16),
+          Parser.getBufferLine_(
+              diffTool.ParserSinglePane.LineType.UNCHANGED, 'be\n', 17, 17),
+          Parser.getBufferLine_(
+              diffTool.ParserSinglePane.LineType.UNCHANGED, 'shown\n', 18, 18)
+        ];
+
+        expect(output).to.eql(parsedContent);
+      });
+
+      it('diffTool.ParserSinglePane.parseUnchanged lines does not fold ' +
+          'unchanged lines if there are few of them', function() {
+        var lines = ['all\n', 'lines\n', 'will\n', 'be\n', 'shown\n'];
+        var originalLinesOffset = 10;
+        var modifiedLinesOffset = 10;
+        var isLastChange = false;
+
+        var output = Parser.parseUnchangedLines(lines, originalLinesOffset,
+            modifiedLinesOffset, isLastChange);
+
+        var parsedContent = [
+          Parser.getBufferLine_(
+              diffTool.ParserSinglePane.LineType.UNCHANGED, 'all\n', 11, 11),
+          Parser.getBufferLine_(
+              diffTool.ParserSinglePane.LineType.UNCHANGED, 'lines\n', 12, 12),
+          Parser.getBufferLine_(
+              diffTool.ParserSinglePane.LineType.UNCHANGED, 'will\n', 13, 13),
+          Parser.getBufferLine_(
+              diffTool.ParserSinglePane.LineType.UNCHANGED, 'be\n', 14, 14),
+          Parser.getBufferLine_(
+              diffTool.ParserSinglePane.LineType.UNCHANGED, 'shown\n', 15, 15)
+        ];
+
+        expect(output).to.eql(parsedContent);
       });
     });
   });
