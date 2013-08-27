@@ -88,35 +88,99 @@ define([
       it('diffTool.ParserSinglePane.parseInlineChanges returns valid' +
           'line for output buffer.', function() {
         var chars = 'The quick brown fox jumps over the lazy dog.';
-        var ranges = [
-          {
-            type: diffTool.Parser.ModificationType.UNCHANGED,
-            chars: 16
-          },
-          {
-            type: diffTool.Parser.ModificationType.MODIFIED,
-            newChars: 3
-          },
-          {
-            type: diffTool.Parser.ModificationType.UNCHANGED,
-            chars: 25
-          }
-        ];
 
-        var parsedLine = [
-          Parser.getBufferModifiedLine_(
-              diffTool.Parser.ModificationType.UNCHANGED,
-              'The quick brown '),
-          Parser.getBufferModifiedLine_(
-              diffTool.Parser.ModificationType.MODIFIED,
-              'fox'),
-          Parser.getBufferModifiedLine_(
-              diffTool.Parser.ModificationType.UNCHANGED,
-              ' jumps over the lazy dog.')
-        ];
+        it('diffTool.ParserSinglePane.parseInlineChanges parses ' +
+            'original line, from which was deleted some chars', function() {
+          var ranges = [
+            {
+              type: diffTool.Parser.ModificationType.UNCHANGED,
+              chars: 16
+            },
+            {
+              type: diffTool.Parser.ModificationType.MODIFIED,
+              oldChars: 3
+            },
+            {
+              type: diffTool.Parser.ModificationType.UNCHANGED,
+              chars: 25
+            }
+          ];
 
-        expect(Parser.parseInlineChanges(chars, ranges,
-            diffTool.ParserSinglePane.LineType.MODIFIED)).to.eql(parsedLine);
+          var parsedLine = [
+            Parser.getBufferModifiedLine_(
+                diffTool.Parser.ModificationType.UNCHANGED,
+                'The quick brown '),
+            Parser.getBufferModifiedLine_(
+                diffTool.Parser.ModificationType.MODIFIED,
+                'fox'),
+            Parser.getBufferModifiedLine_(
+                diffTool.Parser.ModificationType.UNCHANGED,
+                ' jumps over the lazy dog.')
+          ];
+
+          expect(Parser.parseInlineChanges(chars, ranges,
+              diffTool.ParserSinglePane.LineType.ORIGINAL)).to.eql(parsedLine);
+        });
+
+        it('diffTool.ParserSinglePane.parseInlineChanges parses' +
+            'modified line with inserted chars.', function() {
+          var ranges = [
+            {
+              type: diffTool.Parser.ModificationType.UNCHANGED,
+              chars: 16
+            },
+            {
+              type: diffTool.Parser.ModificationType.MODIFIED,
+              newChars: 3
+            },
+            {
+              type: diffTool.Parser.ModificationType.UNCHANGED,
+              chars: 25
+            }
+          ];
+
+          var parsedLine = [
+            Parser.getBufferModifiedLine_(
+                diffTool.Parser.ModificationType.UNCHANGED,
+                'The quick brown '),
+            Parser.getBufferModifiedLine_(
+                diffTool.Parser.ModificationType.MODIFIED,
+                'fox'),
+            Parser.getBufferModifiedLine_(
+                diffTool.Parser.ModificationType.UNCHANGED,
+                ' jumps over the lazy dog.')
+          ];
+
+          expect(Parser.parseInlineChanges(chars, ranges,
+              diffTool.ParserSinglePane.LineType.MODIFIED)).to.eql(parsedLine);
+        });
+
+        it('diffTool.ParserSinglePane.parseInlineChanges returns an empty ' +
+            'string in place in original line, where some chars were ' +
+            'inserted, or in modified line, where some chars ' +
+            'were removed', function() {
+          var ranges = [
+            {
+              type: diffTool.Parser.ModificationType.MODIFIED,
+              oldChars: 0
+            }, {
+              type: diffTool.Parser.ModificationType.MODIFIED,
+              unchanged: 44
+            }
+          ];
+
+          var parsedLine = [
+            Parser.getBufferModifiedLine_(
+                diffTool.Parser.ModificationType.MODIFIED,
+                ''),
+            Parser.getBufferModifiedLine_(
+                diffTool.Parser.ModificationType.UNCHANGED,
+                'The quick brown fox jumps over the lazy dog.')
+          ];
+
+          expect(Parser.parseInlineChanges(chars, ranges,
+              diffTool.ParserSinglePane.LineType.ORIGINAL)).to.eql(parsedLine);
+        });
       });
     });
   });
