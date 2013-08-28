@@ -266,14 +266,14 @@ define([
           'about diff into objects for each line of code and calls' +
           'internal line parser.', function() {
         var original = ['original line without breaks\n'];
-        var modified = ['original\n', 'line\n', 'without\n', 'breaks\n'];
+        var modified = ['original\n', ' line\n', ' without\n', 'breaks\n'];
         var ranges = [
           {
             chars: 8,
             type: diffTool.Parser.ModificationType.UNCHANGED
           },
           {
-            newChars: 1,
+            newChars: 2,
             oldChars: 1,
             type: diffTool.Parser.ModificationType.MODIFIED
           },
@@ -282,7 +282,7 @@ define([
             type: diffTool.Parser.ModificationType.UNCHANGED
           },
           {
-            newChars: 1,
+            newChars: 2,
             oldChars: 1,
             type: diffTool.Parser.ModificationType.MODIFIED
           },
@@ -330,12 +330,16 @@ define([
 
           Parser.getBufferLine_(diffTool.ParserSinglePane.LineType.MODIFIED, [
             Parser.getBufferModifiedLine_(
+                diffTool.ParserSinglePane.LineType.MODIFIED, ' '),
+            Parser.getBufferModifiedLine_(
                 diffTool.ParserSinglePane.LineType.UNCHANGED, 'line'),
             Parser.getBufferModifiedLine_(
                 diffTool.ParserSinglePane.LineType.MODIFIED, '\n')
           ], null, 2),
 
           Parser.getBufferLine_(diffTool.ParserSinglePane.LineType.MODIFIED, [
+            Parser.getBufferModifiedLine_(
+                diffTool.ParserSinglePane.LineType.MODIFIED, ' '),
             Parser.getBufferModifiedLine_(
                 diffTool.ParserSinglePane.LineType.UNCHANGED, 'without'),
             Parser.getBufferModifiedLine_(
