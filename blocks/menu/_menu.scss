@@ -119,9 +119,14 @@ $menu-attention-color: #f50000;
   width: 12px;
 }
 
+.ring-menu__right .ring-font-icon_help {
+  position: relative;
+  top: -1px;
+}
+
 .no-font-antialiasing .ring-menu__right .ring-font-icon_help {
   background-position: -60px 1px;
-  margin-left: $x-unit*3 - 2;
+  left: $x-unit*3;
 
   &:hover {
     background-position: -60px -19px;
@@ -149,7 +154,7 @@ $menu-attention-color: #f50000;
 
 .ring-menu__search__glass {
   position: absolute;
-  top: 0;
+  top: -1px;
   *top: 10px; // IE7
   width: 16px;
   right: 6px;
@@ -159,5 +164,5 @@ $menu-attention-color: #f50000;
 
 /* Custom search glass */
 .no-font-antialiasing .ring-menu__search__glass {
-  background-position: -80px 0px !important;
+  background-position: -80px 0 !important;
 }

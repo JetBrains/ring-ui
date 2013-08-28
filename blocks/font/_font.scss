@@ -1,23 +1,25 @@
 $fonts-dir: 'fonts/';
 
-// Droid Sans
+//Droid Sans
 @font-face {
   font-family: 'Droid Sans';
-  src:url('#{$fonts-dir}DroidSans.eot?') format('eot'),
+  src: url('#{$fonts-dir}DroidSans.eot');
+  src: url('#{$fonts-dir}DroidSans.eot?#iefix') format('embedded-opentype'),
   url('#{$fonts-dir}DroidSans.woff') format('woff'),
   url('#{$fonts-dir}DroidSans.ttf') format('truetype'),
-  url('#{$fonts-dir}DroidSans.svg#DroidSans') format('svg');
-  font-weight: normal;
+  url('#{$fonts-dir}DroidSans.svg#droid_sansregular') format('svg');
+  font-weight: 400;
   font-style: normal;
 }
 
 @font-face {
-  font-family: 'Droid Sans Bold';
-  src:url('#{$fonts-dir}DroidSans-Bold.eot?') format("eot"),
+  font-family: 'Droid Sans';
+  src: url('#{$fonts-dir}DroidSans-Bold.eot');
+  src: url('#{$fonts-dir}DroidSans-Bold.eot?#iefix') format('embedded-opentype'),
   url('#{$fonts-dir}DroidSans-Bold.woff') format('woff'),
   url('#{$fonts-dir}DroidSans-Bold.ttf') format('truetype'),
-  url('#{$fonts-dir}DroidSans-Bold.svg#DroidSansBold') format('svg');
-  font-weight: normal;
+  url('#{$fonts-dir}DroidSans-Bold.svg#droid_sansbold') format('svg');
+  font-weight: 700;
   font-style: normal;
 }
 

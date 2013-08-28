@@ -1,5 +1,13 @@
 $btn-border-radius: 3px;
 
+@mixin btn-box-shadow($opacity) {
+  box-shadow: inset 0 1px rgba(255, 255, 255, .4), inset 0 0 0 1px rgba(255, 255, 255, $opacity);
+}
+
+@mixin btn-box-shadow-hover($opacity) {
+  box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.2), inset 0 1px rgba(255, 255, 255, .4), inset 0 0 0 1px rgba(255, 255, 255, $opacity);
+}
+
 @mixin btn-box-shadow-active($color) {
   box-shadow: inset 0 0 1px $color;
 }
@@ -16,14 +24,14 @@ $btn-border-radius: 3px;
   background-image: linear-gradient(to bottom, #{$bottom}, #{$top});
 }
 
-@mixin btn-mixins {
-  box-shadow: inset 0 1px rgba(255, 255, 255, .4), inset 0 0 0 1px rgba(255, 255, 255, .2);
+@mixin btn-mixins($opacity) {
+  @include btn-box-shadow($opacity);
   @include btn-background-image(#ebebeb, #fff);
 }
 
 // Buttons
 //
-// A majority of buttons in the site are built from the same base class.
+// Most buttons are based on the same base class – .ring-btn
 //
 // Base variables:
 //
@@ -34,13 +42,13 @@ $btn-border-radius: 3px;
 // <button class="ring-btn {$modifiers}"><span class="ring-font-icon ring-font-icon_cog"></span></button>
 // <button class="ring-btn ring-btn_last-icon {$modifiers}">Dropdown <span class="ring-font-icon ring-font-icon_caret-down"></span></button>
 //
-// .ring-btn_primary    - Indicate that the button is the primary feature of this form.
-// .ring-btn_blue       - Indicate that the button is the secondary feature of this form.
-// .ring-btn_black      - Indicate that the button is just black.
-// .ring-btn_plus       - Indicate that the button will add something.
-// :hover               - Highlight the button when hovered.
-// :disabled            - Make the button change appearance to reflect it being disabled, also available as `.ring-btn_disabled` selector
-// :active              - "Press" the button down when clicked, also available as `.ring-btn_active` selector
+// .ring-btn_primary    - Indicates that a button triggers the main action of a form.
+// .ring-btn_blue       - Indicates that a button triggers the secondary action of a form.
+// .ring-btn_black      - Indicates that a button is black. Should be used on dark backgrounds only!
+// .ring-btn_plus       - Indicates that a button will add something.
+// :hover               - Hovered state.
+// :disabled            - Disabled state, also available as the `.ring-btn_disabled` class name.
+// :active              - Active state, also available as the `.ring-btn_active` class name.
 //
 // Styleguide 3.1
 
@@ -55,19 +63,20 @@ $btn-border-radius: 3px;
   border: solid 1px #b4b4b4;
   color: #282828;
   cursor: pointer;
-  @include btn-mixins;
+  outline:0;
+  @include btn-mixins(0.8);
   &:hover, &.ring-btn_hover {
-    box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.2), inset 0 1px rgba(255, 255, 255, .4), inset 0 0 0 1px rgba(255, 255, 255, .2);
+    @include btn-box-shadow-hover(0.8);
     @include btn-background-image(#e1e1e1, #fff);
   }
   &:active, &.ring-btn_active {
-    @include btn-box-shadow-active(#9f9f9f);
+    box-shadow: inset 0 1px 0 0 #D3D3D3;
     background-color: #e4e4e4;
     background-image: none;
   }
   &[disabled], &.ring-btn_disabled {
     &:hover, &:active {
-      @include btn-mixins;
+      @include btn-background-image(#ebebeb, #fff);
     }
   }
 }
@@ -77,6 +86,7 @@ $btn-border-radius: 3px;
 .ring-btn[disabled] {
   opacity: 0.5;
   cursor: default;
+  @include btn-mixins(0.8);
 }
 
 @mixin btn-mixins_primary {
@@ -87,16 +97,18 @@ $btn-border-radius: 3px;
   border: solid 1px #bc5600;
   color: #fff;
   background-color: #FF8620;
+  @include btn-box-shadow(0.2);
   @include btn-mixins_primary;
 
   &:hover {
     background-color: #FF6600;
+    @include btn-box-shadow-hover(0.2);
     @include btn-background-image-hover(#ffb373, #f60 29%, #ff8620);
   }
   &:active {
     background-color: #FF8620;
     @include btn-background-image-active(#f60, #ff8620);
-    @include btn-box-shadow-active(rgba(0, 0, 0, .2));
+    box-shadow: inset 0 1px 1px 0 #d95801;
   }
 
   &[disabled], &.ring-btn_disabled {
@@ -114,9 +126,11 @@ $btn-border-radius: 3px;
   border: solid 1px #0084c5;
   color: #fff;
   background-color: #25B7FF;
+  @include btn-box-shadow(0.2);
   @include btn-mixins_blue;
   &:hover {
     background-color: #008FD6;
+    @include btn-box-shadow-hover(0.2);
     @include btn-background-image-hover(#64ccff 2%, #008fd6 29%, #25b7ff);
   }
   &:active {
@@ -140,7 +154,7 @@ $btn-border-radius: 3px;
   border: solid 1px rgba(0, 0, 0, 0.5);
   color: #b4b4b4;
   background-color: #3C3C3C;
-  box-shadow: inset 0 1px #505050;
+  box-shadow: inset 0 1px 1px #505050;
   @include btn-mixins_black;
   &:hover {
     background-color: #313131;
@@ -175,10 +189,8 @@ $btn-border-radius: 3px;
   line-height: 20px;
 }
 
-// TODO move to hub
-.ring-btn__right-align {
-  height: 22px;
-  margin-left: 16px;
+.ring-btn__last-icon {
+  margin-left: 4px;
 }
 
 // Button groups
@@ -234,7 +246,6 @@ $btn-border-radius: 3px;
   display: inline-block;
 }
 
-
 .ring-btn-toolbar > .ring-btn,
 .ring-btn-toolbar > .ring-btn-group {
   margin-right: 16px;
@@ -243,7 +254,6 @@ $btn-border-radius: 3px;
     margin-right: 0;
   }
 }
-
 
 // “Tag” buttons
 //
@@ -269,13 +279,6 @@ $btn-border-radius: 3px;
     text-decoration: underline;
     border-color: #B4B4B5;
   }
-}
-
-// TODO move to hub or make less specific
-.ring-btn-tag__img {
-  position: relative;
-  top: 4px;
-  left: -8px;
 }
 
 .ring-btn-tag__last-icon {
