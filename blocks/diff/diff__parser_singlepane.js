@@ -262,10 +262,6 @@ define(['diff/diff__tools', 'diff/diff__parser'], function(diffTool) {
     var rangeIndex = 0;
 
     lines.forEach(function(line) {
-      if (line.length < 50) {
-        debugger;
-      }
-
       if (!ranges) {
         bufferLines.push(this.parseInlineChanges(line, ranges, type));
         return;
