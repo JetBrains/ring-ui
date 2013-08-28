@@ -1,11 +1,44 @@
 [
   {
-    "lines": 52,
+    "lines": 9,
     "type": "unchanged"
   },
   {
-    "newLines": 1,
-    "oldLines": 0,
+    "newLines": 4,
+    "oldLines": 1,
+    "ranges": [
+      {
+        "chars": 8,
+        "type": "unchanged"
+      },
+      {
+        "newChars": 3,
+        "oldChars": 0,
+        "type": "modified"
+      },
+      {
+        "chars": 19,
+        "type": "unchanged"
+      },
+      {
+        "newChars": 3,
+        "oldChars": 0,
+        "type": "modified"
+      },
+      {
+        "chars": 10,
+        "type": "unchanged"
+      },
+      {
+        "newChars": 3,
+        "oldChars": 0,
+        "type": "modified"
+      },
+      {
+        "chars": 27,
+        "type": "unchanged"
+      }
+    ],
     "type": "modified"
   },
   {
@@ -13,54 +46,27 @@
     "type": "unchanged"
   },
   {
+    "newLines": 2,
+    "oldLines": 1,
     "ranges": [
       {
-        "chars": 146,
+        "chars": 38,
         "type": "unchanged"
       },
       {
-        "newChars": 28,
+        "newChars": 1,
         "oldChars": 0,
         "type": "modified"
       },
       {
-        "chars": 5,
+        "chars": 35,
         "type": "unchanged"
       }
     ],
-    "newLines": 1,
-    "oldLines": 1,
     "type": "modified"
   },
   {
-    "lines": 5,
-    "type": "unchanged"
-  },
-  {
-    "newLines": 1,
-    "oldLines": 0,
-    "type": "modified"
-  },
-  {
-    "lines": 14,
-    "type": "unchanged"
-  },
-  {
-    "newLines": 1,
-    "oldLines": 0,
-    "type": "modified"
-  },
-  {
-    "lines": 16,
-    "type": "unchanged"
-  },
-  {
-    "newLines": 1,
-    "oldLines": 0,
-    "type": "modified"
-  },
-  {
-    "lines": 4,
+    "lines": 187,
     "type": "unchanged"
   }
 ]
