@@ -29,16 +29,15 @@ Handlebars.registerHelper('copyright', function(year, context) {
 
 // Example: {{#typeof this 'string'}} {{this}}{{/typeof}}"
 Handlebars.registerHelper('ifOr', function() {
+  // Al arguments except content
   var args = Array.prototype.slice.call(arguments, 0, arguments.length - 1);
   var context = arguments[arguments.length - 1];
-  var ret = false;
 
   for (var i = args.length - 1; i >= 0; i--) {
     if (args[i]) {
-      ret = true;
-      break;
+      return context.fn(this);
     }
   }
 
-  return ret ? context.fn(this) : context.inverse(this);
+  return context.inverse(this);
 });
