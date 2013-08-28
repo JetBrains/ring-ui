@@ -411,19 +411,18 @@ Set menu item from left and right active by id
 #### config
 `Object`
 
-    {
-      "left": {
-        "upsource": {
-          "label": "Upsource",
-          "url": "/",
-          "postfix": " by JetBrains"
-        }
-      },
-      "center": {
-        "copyright": {
-          "label": "© 2000—2013 JetBrains. All rights reserved"
-        }
-      }
+    footer: {
+      left: [
+        [{url: 'http://www.jetbrains.com/teamcity/?fromServer', label: 'TeamCity'}, 'by JetBrains'],
+        'Enterprise 8.0.2 EAP (build 27448)'
+      ],
+      center: [
+        [{copyright: 2000, label: ' JetBrains'}, {middot: 1}, 'All rights reserved'],
+        {url: 'http://teamcity.jetbrains.com/showAgreement.html', label: 'License agreement', title: 'READ ME!'}
+      ],
+      right: [
+        {url: '#', label: 'Feedback'}
+      ]
     }
 
 #### element
