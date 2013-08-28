@@ -77,7 +77,7 @@ $btn-border-radius: 3px;
   }
   &[disabled], &.ring-btn_disabled {
     &:hover, &:active {
-      @include btn-mixins(0.2);
+      @include btn-background-image(#ebebeb, #fff);
     }
   }
 }
@@ -87,6 +87,7 @@ $btn-border-radius: 3px;
 .ring-btn[disabled] {
   opacity: 0.5;
   cursor: default;
+  @include btn-mixins(0.8);
 }
 
 @mixin btn-mixins_primary {
