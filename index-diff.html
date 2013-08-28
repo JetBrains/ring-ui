@@ -29,8 +29,8 @@
      */
     var requiredFiles = [
       'blocks/diff/json/diff.json',
-      'blocks/diff/json/original.java',
-      'blocks/diff/json/modified.java'
+      'blocks/diff/json/original.js',
+      'blocks/diff/json/modified.js'
     ];
 
     /**
@@ -47,7 +47,7 @@
 
     $.when.apply($, deferredObjects).then(function(diff, original, modified) {
       /**
-       * Demo of double-paned {@link DiffTool}
+       * Demo of {@link DiffTool}
        * @type {DiffTool}
        */
       var diffTool = new DiffTool(
