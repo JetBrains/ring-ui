@@ -3,10 +3,6 @@
  * @author igor.alexeenko (Igor Alekseyenko)
  */
 
-// todo(igor.alexeenko): I don't like an idea that tests knows too much
-// about data-format. Maybe it is okay but it is not enough abstract, I
-// can't replace parser without rewriting tests.
-
 define([
   'global/global',
   'chai',
@@ -82,9 +78,6 @@ define([
   });
 
   describe('diffTool.ParserSinglePane parse methods', function() {
-
-    // todo(igor.alexeenko): Add test cases for multiline ranges.
-
     describe('diffTool.ParserSinglePane.parseInlineChanges', function() {
       it('diffTool.ParserSinglePane.parseInlineChanges returns' +
           'initial string if range object has not been taken', function() {
@@ -267,6 +260,93 @@ define([
 
         expect(Parser.parseLineChanges(original, modified, originalOffset,
             modifiedOffset, ranges)).to.eql(outputBuffer);
+      });
+
+      it('diffTool.ParserSinglePane.parseLineChanges splits information' +
+          'about diff into objects for each line of code and calls' +
+          'internal line parser.', function() {
+        var original = ['original line without breaks\n'];
+        var modified = ['original\n', 'line\n', 'without\n', 'breaks\n'];
+        var ranges = [
+          {
+            chars: 8,
+            type: diffTool.Parser.ModificationType.UNCHANGED
+          },
+          {
+            newChars: 1,
+            oldChars: 1,
+            type: diffTool.Parser.ModificationType.MODIFIED
+          },
+          {
+            chars: 4,
+            type: diffTool.Parser.ModificationType.UNCHANGED
+          },
+          {
+            newChars: 1,
+            oldChars: 1,
+            type: diffTool.Parser.ModificationType.MODIFIED
+          },
+          {
+            chars: 7,
+            type: diffTool.Parser.ModificationType.UNCHANGED
+          },
+          {
+            newChars: 1,
+            oldChars: 1,
+            type: diffTool.Parser.ModificationType.MODIFIED
+          },
+          {
+            chars: 7, //NB! including EOL-symbol.
+            type: diffTool.Parser.ModificationType.UNCHANGED
+          }
+        ];
+
+        var output = Parser.parseLineChanges(original, modified, 0, 0, ranges);
+
+        expect(output).to.eql([
+          Parser.getBufferLine_(diffTool.ParserSinglePane.LineType.ORIGINAL, [
+            Parser.getBufferModifiedLine_(
+                diffTool.ParserSinglePane.LineType.UNCHANGED, 'original'),
+            Parser.getBufferModifiedLine_(
+                diffTool.ParserSinglePane.LineType.ORIGINAL, ' '),
+            Parser.getBufferModifiedLine_(
+                diffTool.ParserSinglePane.LineType.UNCHANGED, 'line'),
+            Parser.getBufferModifiedLine_(
+                diffTool.ParserSinglePane.LineType.ORIGINAL, ' '),
+            Parser.getBufferModifiedLine_(
+                diffTool.ParserSinglePane.LineType.UNCHANGED, 'without'),
+            Parser.getBufferModifiedLine_(
+                diffTool.ParserSinglePane.LineType.ORIGINAL, ' '),
+            Parser.getBufferModifiedLine_(
+                diffTool.ParserSinglePane.LineType.UNCHANGED, 'breaks\n'),
+          ], 1, null),
+
+          Parser.getBufferLine_(diffTool.ParserSinglePane.LineType.MODIFIED, [
+            Parser.getBufferModifiedLine_(
+                diffTool.ParserSinglePane.LineType.UNCHANGED, 'original'),
+            Parser.getBufferModifiedLine_(
+                diffTool.ParserSinglePane.LineType.MODIFIED, '\n')
+          ], null, 1),
+
+          Parser.getBufferLine_(diffTool.ParserSinglePane.LineType.MODIFIED, [
+            Parser.getBufferModifiedLine_(
+                diffTool.ParserSinglePane.LineType.UNCHANGED, 'line'),
+            Parser.getBufferModifiedLine_(
+                diffTool.ParserSinglePane.LineType.MODIFIED, '\n')
+          ], null, 2),
+
+          Parser.getBufferLine_(diffTool.ParserSinglePane.LineType.MODIFIED, [
+            Parser.getBufferModifiedLine_(
+                diffTool.ParserSinglePane.LineType.UNCHANGED, 'without'),
+            Parser.getBufferModifiedLine_(
+                diffTool.ParserSinglePane.LineType.MODIFIED, '\n')
+          ], null, 3),
+
+          Parser.getBufferLine_(diffTool.ParserSinglePane.LineType.MODIFIED, [
+            Parser.getBufferModifiedLine_(
+                diffTool.ParserSinglePane.LineType.UNCHANGED, 'breaks\n')
+          ], null, 4)
+        ]);
       });
     });
 
