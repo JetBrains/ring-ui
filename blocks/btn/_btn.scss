@@ -70,8 +70,7 @@ $btn-border-radius: 3px;
     @include btn-background-image(#e1e1e1, #fff);
   }
   &:active, &.ring-btn_active {
-    //@include btn-box-shadow-active(#9f9f9f);
-    box-shadow: inset 0 1px 0px 0px #D3D3D3;
+    box-shadow: inset 0 1px 0 0 #D3D3D3;
     background-color: #e4e4e4;
     background-image: none;
   }
@@ -109,7 +108,7 @@ $btn-border-radius: 3px;
   &:active {
     background-color: #FF8620;
     @include btn-background-image-active(#f60, #ff8620);
-    box-shadow: inset 0 1px 1px 0px #d95801;
+    box-shadow: inset 0 1px 1px 0 #d95801;
   }
 
   &[disabled], &.ring-btn_disabled {
