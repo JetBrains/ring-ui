@@ -31,7 +31,7 @@ $btn-border-radius: 3px;
 
 // Buttons
 //
-// A majority of buttons in the site are built from the same base class.
+// Most buttons are based on the same base class – .ring-btn
 //
 // Base variables:
 //
@@ -42,13 +42,13 @@ $btn-border-radius: 3px;
 // <button class="ring-btn {$modifiers}"><span class="ring-font-icon ring-font-icon_cog"></span></button>
 // <button class="ring-btn ring-btn_last-icon {$modifiers}">Dropdown <span class="ring-font-icon ring-font-icon_caret-down"></span></button>
 //
-// .ring-btn_primary    - Indicate that the button is the primary feature of this form.
-// .ring-btn_blue       - Indicate that the button is the secondary feature of this form.
-// .ring-btn_black      - Indicate that the button is just black. Use this buttons only on black ( #1a1a1a ) background
-// .ring-btn_plus       - Indicate that the button will add something.
-// :hover               - Highlight the button when hovered.
-// :disabled            - Make the button change appearance to reflect it being disabled, also available as `.ring-btn_disabled` selector
-// :active              - "Press" the button down when clicked, also available as `.ring-btn_active` selector
+// .ring-btn_primary    - Indicates that a button triggers the main action of a form.
+// .ring-btn_blue       - Indicates that a button triggers the secondary action of a form.
+// .ring-btn_black      - Indicates that a button is black. Should be used on dark backgrounds only!
+// .ring-btn_plus       - Indicates that a button will add something.
+// :hover               - Hovered state.
+// :disabled            - Disabled state, also available as the `.ring-btn_disabled` class name.
+// :active              - Active state, also available as the `.ring-btn_active` class name.
 //
 // Styleguide 3.1
 
