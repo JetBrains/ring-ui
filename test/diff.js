@@ -195,6 +195,33 @@ define(['global/global', 'chai', 'diff/diff'], function(ring, chai) {
     });
   });
 
+  describe('DiffTool.setContent', function() {
+    var DiffTool = ring('diff').invoke('getDiffTool');
+    var diffTool = ring('diff').invoke('getDiffToolUtils');
+    var diffToolInstance = new DiffTool();
+
+    it('DiffTool.setContent calls setContent of its controller', function() {
+      var original = 'original\n';
+      var modified = 'modified\n';
+      var diff = [
+        {
+          type: 'modified',
+          newLines: 1,
+          oldLines: 1
+        }
+      ];
+
+      diffToolInstance.setContent(original, modified, diff);
+
+      var controller = diffToolInstance.controller_;
+
+      expect(controller.enabled_).to.equal(true);
+      expect(controller.contentOriginal_).to.equal(original);
+      expect(controller.contentModified_).to.equal(modified);
+      expect(controller.diff_).to.equal(diff);
+    });
+  });
+
   describe('DiffTool.dispose', function() {
     var DiffTool = ring('diff').invoke('getDiffTool');
     var diffTool = ring('diff').invoke('getDiffToolUtils');
