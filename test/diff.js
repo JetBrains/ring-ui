@@ -3,9 +3,6 @@ define(['global/global', 'chai', 'diff/diff'], function(ring, chai) {
 
   var expect = chai.expect;
 
-  // todo(igor.alexeenko): quit copying instantiation of {DiffTool} from test
-  // to test.
-
   describe('DiffTool basics: loading, getting and creating ' +
       'instance', function() {
     it('DiffTool loads as ring module', function() {
