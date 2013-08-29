@@ -42,8 +42,8 @@ $btn-border-radius: 3px;
 // <button class="ring-btn {$modifiers}"><span class="ring-font-icon ring-font-icon_cog"></span></button>
 // <button class="ring-btn ring-btn_last-icon {$modifiers}">Dropdown <span class="ring-font-icon ring-font-icon_caret-down"></span></button>
 //
-// .ring-btn_primary    - Indicates that a button triggers the main action of a form.
-// .ring-btn_blue       - Indicates that a button triggers the secondary action of a form.
+// .ring-btn_primary    - Indicates that a button triggers the main action on the page. There should be only one such button per page, for example, "Create Issue".
+// .ring-btn_blue       - Indicates that a button triggers a secondary action on the page. For example, "Save changes" in a modal dialog.
 // .ring-btn_black      - Indicates that a button is black. Should be used on dark backgrounds only!
 // .ring-btn_plus       - Indicates that a button will add something.
 // :hover               - Hovered state.
