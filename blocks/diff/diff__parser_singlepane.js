@@ -126,8 +126,8 @@ define(['diff/diff__tools', 'diff/diff__parser'], function(diffTool) {
             modifiedFileCursor,
             change.ranges);
 
-        originalFileCursor += change.oldLines;
-        modifiedFileCursor += change.newLines;
+        originalFileCursor += change.oldLines || 0;
+        modifiedFileCursor += change.newLines || 0;
       }
 
       Array.prototype.push.apply(outputBuffer, lines);
@@ -172,6 +172,7 @@ define(['diff/diff__tools', 'diff/diff__parser'], function(diffTool) {
     }
 
     if (originalLinesOffset === 0 && modifiedLinesOffset === 0) {
+      contextBefore = lines.slice(-1 * diffTool.ParserSinglePane.CONTEXT_SIZE);
       contextAfter = [];
       fold = [];
     }
@@ -343,7 +344,7 @@ define(['diff/diff__tools', 'diff/diff__parser'], function(diffTool) {
 
       line.push(this.getBufferModifiedLine_(lineType, substr));
 
-      inlineCursor += charsOffset;
+      inlineCursor += charsOffset || 0;
     }, this);
 
     return line;
