@@ -7,6 +7,8 @@ define(['diff/diff__tools', 'handlebars', 'diff/diff__editorcontroller',
   'diff/diff__parser_singlepane'], function(diffTool, Handlebars) {
   'use strict';
 
+  // todo(igor.alexeenko): Do I need to add dispose() method to controllers?
+
   /**
    * @param {Element} element
    * @constructor
@@ -170,4 +172,6 @@ define(['diff/diff__tools', 'handlebars', 'diff/diff__editorcontroller',
 
     return className.join(' ');
   };
+
+  return diffTool.SingleEditorController;
 });
