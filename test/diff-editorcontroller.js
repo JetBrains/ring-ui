@@ -48,6 +48,7 @@ define(['global/global', 'chai', 'diff/diff',
     it('diffTool.EditorController.setContent()', function() {
       var diffTool = ring('diff').invoke('getDiffToolUtils');
       var diffToolInstance = new diffTool.EditorController();
+      diffToolInstance.setEnabled(true);
 
       expect(diffToolInstance.contentOriginal_).to.be.an('undefined');
       expect(diffToolInstance.contentModified_).to.be.an('undefined');
@@ -56,6 +57,17 @@ define(['global/global', 'chai', 'diff/diff',
 
       expect(diffToolInstance.contentOriginal_).to.equal('original');
       expect(diffToolInstance.contentModified_).to.equal('modified');
+    });
+
+    it('diffTool.EditorController.setContent() does not work ' +
+        'if element is disabled', function() {
+      var diffTool = ring('diff').invoke('getDiffToolUtils');
+      var diffToolInstance = new diffTool.EditorController();
+
+      diffToolInstance.setContent('original', 'modified');
+
+      expect(diffToolInstance.contentOriginal_).to.be.an('undefined');
+      expect(diffToolInstance.contentModified_).to.be.an('undefined');
     });
 
     it('diffTool.EditorController.setEnabled()', function() {
