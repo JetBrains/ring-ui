@@ -197,4 +197,40 @@ define(['global/global', 'chai', 'diff/diff'], function(ring, chai) {
           diffTool.EditorController);
     });
   });
+
+  describe('DiffTool.dispose', function() {
+    var DiffTool = ring('diff').invoke('getDiffTool');
+    var diffTool = ring('diff').invoke('getDiffToolUtils');
+    var diffToolInstance = new DiffTool();
+
+    it('DiffTool.dispose cleans memory — disables controller, equates its ' +
+        'link to null, cleans html and removes all instance properties ' +
+        'by equating them to null as well.', function() {
+      var diffToolController = diffToolInstance.controller_;
+      var diffToolElement = diffToolInstance.element_;
+
+      expect(diffToolController).to.be.an.instanceof(diffTool.EditorController);
+      expect(diffToolController.enabled_).to.equal(true);
+      expect(diffToolElement).to.be.an.instanceof(Element);
+      expect(diffToolInstance.mode_).to.equal(DiffTool.Mode.SINGLE_PANE);
+
+      diffToolInstance.dispose();
+
+      it('diffTool.EditorController is disabled after dispose of ' +
+          'DiffTool and its link is null.', function() {
+        expect(diffToolController.enabled_).to.equal(false);
+        expect(diffToolInstance.controller_).to.equal(null);
+      });
+
+      it('DiffTool.element_ is cleaned and its link is null ' +
+          'after dispose.', function() {
+        expect(diffToolElement.innerHTML).to.equal('');
+        expect(diffToolInstance.element_).to.equal(null);
+      });
+
+      it('DiffTool.mode_ is null after dispose.', function() {
+        expect(diffToolInstance.mode_).to.equal(null);
+      });
+    });
+  });
 });
