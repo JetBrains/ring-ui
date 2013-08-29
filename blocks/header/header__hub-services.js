@@ -36,8 +36,7 @@ define(['jquery', 'global/global__modules', 'global/global__views', 'header/head
         })
         .fail(function() {
           getServices.resolve({});
-        })
-    ,
+        }),
       auth('ajax', '/rest/users/me')
         .done(function(me) {
           if (me && me.name) {
