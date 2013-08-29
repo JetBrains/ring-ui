@@ -1,7 +1,7 @@
 /*jshint scripturl:true*/
 var hljs = require('highlight.js');
 
-var LIVERELOAD_PORT = 35729;
+var LIVERELOAD_PORT = 35730;
 var lrSnippet = require('connect-livereload')({port: LIVERELOAD_PORT});
 
 module.exports = function(grunt) {
@@ -390,7 +390,7 @@ module.exports = function(grunt) {
       },
       js: {
         files: ['<%= path.blocks %>**/*.js', '<%= path.bundles %>**/*.js', '<%= path.tests %>**/*.js'],
-        tasks: ['jshint:dev', 'karma:dev:run', 'notify:watch']
+        tasks: ['requirejs:ring-diff', 'notify:watch']
       },
       markdown: {
         files: ['<%= path.docs %>**/*.md'],
