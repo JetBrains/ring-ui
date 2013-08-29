@@ -481,5 +481,146 @@ define([
         expect(output).to.eql(parsedContent);
       });
     });
+
+    describe('diffTool.ParserSinglePane.parse', function() {
+      it ('Complex test, which tests all possible cases for ' +
+          'diff: displaying context, folding unchanged lines, ' +
+          'ranges, multiline ranges, added and deleted lines.', function() {
+        var original = '/**\n' +
+            ' * @fileoverview Test changed file\n' +
+            ' */\n' +
+            '\n' +
+            'function test() {\n' +
+            '\tvar unnecessaryChange = 1;\n' +
+            '\tunnecessaryChange = 2;\n' +
+            '\tunnecessaryChange = 3;\n' +
+            '\tunnecessaryChange = 4;\n' +
+            '\tunnecessaryChange = 5;\n' +
+            '\tunnecessaryChange = 6;\n' +
+            '\tunnecessaryChange = 7;\n' +
+            '\treturn this;\n' +
+            '}\n';
+        var modified = '/**\n' +
+            ' * @fileoverview Test changed file\n' +
+            ' */\n' +
+            '\n' +
+            'function test(param,\n' +
+            '              anotherParam) {\n' +
+            '\tthis.param = param;\n' +
+            '\tvar unnecessaryChange = 1;\n' +
+            '\tunnecessaryChange = 2;\n' +
+            '\tunnecessaryChange = 3;\n' +
+            '\tunnecessaryChange = 4;\n' +
+            '\tunnecessaryChange = 5;\n' +
+            '\tunnecessaryChange = 6;\n' +
+            '\tunnecessaryChange = 7;\n' +
+            '}\n';
+
+        var diff = [
+          {
+            type: 'unchanged',
+            lines: 4
+          },
+          {
+            type: 'modified',
+            oldLines: 1,
+            newLines: 2,
+            ranges: [
+              {
+                type: 'unchanged',
+                chars: 14
+              },
+              {
+                type: 'modified',
+                oldChars: 0,
+                newChars: 33
+              },
+              {
+                type: 'unchanged',
+                chars: 4
+              }
+            ]
+          },
+          {
+            type: 'modified',
+            newLines: 1,
+            oldLines: 0
+          },
+          {
+            type: 'unchanged',
+            lines: 7
+          },
+          {
+            type: 'modified',
+            oldLines: 1,
+            newLines: 0
+          },
+          {
+            type: 'unchanged',
+            lines: 1
+          }
+        ];
+
+        var parsedBuffer = [
+          Parser.getBufferLine_(diffTool.ParserSinglePane.LineType.UNCHANGED,
+              ' * @fileoverview Test changed file\n', 2, 2),
+          Parser.getBufferLine_(diffTool.ParserSinglePane.LineType.UNCHANGED,
+              ' */\n', 3, 3),
+          Parser.getBufferLine_(diffTool.ParserSinglePane.LineType.UNCHANGED,
+              '\n', 4, 4),
+          Parser.getBufferLine_(diffTool.ParserSinglePane.LineType.ORIGINAL, [
+            Parser.getBufferModifiedLine_(
+                diffTool.ParserSinglePane.LineType.UNCHANGED,
+                'function test('),
+            Parser.getBufferModifiedLine_(
+                diffTool.ParserSinglePane.LineType.ORIGINAL,
+                ''),
+            Parser.getBufferModifiedLine_(
+                diffTool.ParserSinglePane.LineType.UNCHANGED,
+                ') {\n')
+          ], 5, null),
+          Parser.getBufferLine_(diffTool.ParserSinglePane.LineType.MODIFIED, [
+            Parser.getBufferModifiedLine_(
+                diffTool.ParserSinglePane.LineType.UNCHANGED,
+                'function test('),
+            Parser.getBufferModifiedLine_(
+                diffTool.ParserSinglePane.LineType.MODIFIED,
+                'param,\n')
+          ], null, 5),
+          Parser.getBufferLine_(diffTool.ParserSinglePane.LineType.MODIFIED, [
+            Parser.getBufferModifiedLine_(
+                diffTool.ParserSinglePane.LineType.MODIFIED,
+                '              anotherParam'),
+            Parser.getBufferModifiedLine_(
+                diffTool.ParserSinglePane.LineType.UNCHANGED,
+                ') {\n')
+          ], null, 6),
+          Parser.getBufferLine_(diffTool.ParserSinglePane.LineType.MODIFIED,
+              '\tthis.param = param;\n', null, 7),
+          Parser.getBufferLine_(diffTool.ParserSinglePane.LineType.UNCHANGED,
+              '\tvar unnecessaryChange = 1;\n', 6, 8),
+          Parser.getBufferLine_(diffTool.ParserSinglePane.LineType.UNCHANGED,
+              '\tunnecessaryChange = 2;\n', 7, 9),
+          Parser.getBufferLine_(diffTool.ParserSinglePane.LineType.UNCHANGED,
+              '\tunnecessaryChange = 3;\n', 8, 10),
+          Parser.getBufferLine_(diffTool.ParserSinglePane.LineType.FOLDED,
+              '', null, null),
+          Parser.getBufferLine_(diffTool.ParserSinglePane.LineType.UNCHANGED,
+              '\tunnecessaryChange = 5;\n', 10, 12),
+          Parser.getBufferLine_(diffTool.ParserSinglePane.LineType.UNCHANGED,
+              '\tunnecessaryChange = 6;\n', 11, 13),
+          Parser.getBufferLine_(diffTool.ParserSinglePane.LineType.UNCHANGED,
+              '\tunnecessaryChange = 7;\n', 12, 14),
+          Parser.getBufferLine_(diffTool.ParserSinglePane.LineType.ORIGINAL,
+              '\treturn this;\n', 13, null),
+          Parser.getBufferLine_(diffTool.ParserSinglePane.LineType.UNCHANGED,
+              '}\n', 14, 15)
+        ];
+
+        var buffer = Parser.parse(original, modified, diff);
+
+        expect(buffer).to.eql(parsedBuffer);
+      });
+    });
   });
 });

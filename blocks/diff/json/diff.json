@@ -1,72 +1,41 @@
 [
   {
-    "lines": 9,
-    "type": "unchanged"
+    "type": "unchanged",
+    "lines": 4
   },
   {
-    "newLines": 4,
-    "oldLines": 1,
-    "ranges": [
-      {
-        "chars": 8,
-        "type": "unchanged"
-      },
-      {
-        "newChars": 3,
-        "oldChars": 0,
-        "type": "modified"
-      },
-      {
-        "chars": 19,
-        "type": "unchanged"
-      },
-      {
-        "newChars": 3,
-        "oldChars": 0,
-        "type": "modified"
-      },
-      {
-        "chars": 10,
-        "type": "unchanged"
-      },
-      {
-        "newChars": 3,
-        "oldChars": 0,
-        "type": "modified"
-      },
-      {
-        "chars": 27,
-        "type": "unchanged"
-      }
-    ],
-    "type": "modified"
-  },
-  {
-    "lines": 1,
-    "type": "unchanged"
-  },
-  {
+    "type": "modified",
     "newLines": 2,
     "oldLines": 1,
     "ranges": [
       {
-        "chars": 38,
-        "type": "unchanged"
+        "type": "unchanged",
+        "chars": 14
       },
       {
-        "newChars": 1,
-        "oldChars": 0,
-        "type": "modified"
+        "type": "modified",
+        "newChars": 33
       },
       {
-        "chars": 35,
-        "type": "unchanged"
+        "type": "unchanged",
+        "chars": 4
       }
-    ],
-    "type": "modified"
+    ]
   },
   {
-    "lines": 187,
-    "type": "unchanged"
+    "type": "modified",
+    "newLines": 1
+  },
+  {
+    "type": "unchanged",
+    "lines": 7
+  },
+  {
+    "type": "modified",
+    "oldLines": 1
+  },
+  {
+    "type": "unchanged",
+    "lines": 1
   }
 ]
