@@ -11,6 +11,7 @@ $newline_marker: #060;
 .diff_singlepane {
   background: #fff;
   border: solid 1px #ccc;
+  border-radius: 3px;
   @include monospace-font;
   font-size: 12px;
   line-height: 1.3;
