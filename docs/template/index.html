@@ -6,7 +6,7 @@
 <head>
   <meta charset="utf-8">
 
-  <title>JetBRains Ring Styleguide</title>
+  <title>Ring UI Library</title>
   <meta name="viewport" content="width=device-width">
 
   <link rel="stylesheet" href="public/kss.css">
@@ -15,13 +15,13 @@
 <body><div id="kss-wrapper">
   <div id="kss-nav">
     <header id="kss-header">
-      <hgroup><h1>JetBrains Ring Styleguide</h1></hgroup>
+      <hgroup><h1>Ring UI Library</h1></hgroup>
     </header>
     <aside>
       <nav><ul>
-        <li><a href="index.html">0.0: Overview</a></li>
+        <li><a href="index.html">1. Overview</a></li>
         {{#eachRoot}}
-          <li><a href="section-{{reference}}.html">{{reference}}.0: {{header}}</a></li>
+          <li><a href="section-{{reference}}.html">{{reference}}. {{header}}</a></li>
         {{/eachRoot}}
       </ul></nav>
     </aside>
@@ -42,10 +42,10 @@
         }}
         {{#eachSection rootNumber}}
           {{#whenDepth 1}}
-            <h1 class="kss-title"><span class="kss-ref">{{ reference }}.0</span> - {{ header }}</h1>
+            <h1 class="kss-title"><span class="kss-ref">{{ reference }}</span> – {{ header }}</h1>
           {{else}}
            <section class="kss-depth-{{ refDepth }}">
-            <h1 class="kss-title"><a href="#{{ reference }}" class="kss-ref" id="{{ reference }}">{{ reference }}</a> - {{ header }}</h1>
+            <h1 class="kss-title"><a href="#{{ reference }}" class="kss-ref" id="{{ reference }}">{{ reference }}</a> – {{ header }}</h1>
           {{/whenDepth}}
             {{#ifAny markup modifiers}}
                 <div class="kss-box">{{html description}}</div>
