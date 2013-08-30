@@ -16,6 +16,56 @@ define(['global/global', 'chai', 'diff/diff'], function(ring, chai) {
       expect(DiffTool).to.be.a('function');
       expect(instance).to.be.an.instanceof(DiffTool);
     });
+
+    describe('Shorthand initialization of DiffTool', function() {
+      var DiffTool = ring('diff').invoke('getDiffTool');
+
+      it('ring can init single-pane diff', function() {
+        var element = document.createElement('div');
+        var singlePaneDiff = ring('diff').invoke('singlePaneDiff', element,
+            'original', 'modified', [{
+          newLines: 1,
+          oldLines: 1,
+          type: 'modified'
+        }]);
+
+        expect(singlePaneDiff).to.be.an.instanceof(DiffTool);
+        expect(singlePaneDiff.mode_).to.equal(DiffTool.Mode.SINGLE_PANE);
+        expect(singlePaneDiff.getController().isEnabled()).to.equal(true);
+        expect(singlePaneDiff.getController().contentOriginal_).
+            to.equal('original');
+        expect(singlePaneDiff.getController().contentModified_).
+            to.equal('modified');
+        expect(singlePaneDiff.getController().diff_).to.eql([{
+          newLines: 1,
+          oldLines: 1,
+          type: 'modified'
+        }]);
+      });
+
+      it('ring can init double-pane diff', function() {
+        var element = document.createElement('div');
+        var singlePaneDiff = ring('diff').invoke('doublePaneDiff', element,
+            'original', 'modified', [{
+          newLines: 1,
+          oldLines: 1,
+          type: 'modified'
+        }]);
+
+        expect(singlePaneDiff).to.be.an.instanceof(DiffTool);
+        expect(singlePaneDiff.mode_).to.equal(DiffTool.Mode.DOUBLE_PANE);
+        expect(singlePaneDiff.getController().isEnabled()).to.equal(true);
+        expect(singlePaneDiff.getController().contentOriginal_).
+            to.equal('original');
+        expect(singlePaneDiff.getController().contentModified_).
+            to.equal('modified');
+        expect(singlePaneDiff.getController().diff_).to.eql([{
+          newLines: 1,
+          oldLines: 1,
+          type: 'modified'
+        }]);
+      });
+    });
   });
 
   describe('DiffTool constructor', function() {
