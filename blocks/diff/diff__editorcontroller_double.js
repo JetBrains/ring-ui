@@ -84,8 +84,6 @@ define(['diff/diff__tools', 'codemirror', 'handlebars',
       this.modifiedOffsets_ = null;
 
       this.element_.innerHTML = '';
-
-      this.lineToLine_ = null;
     }
   };
 
