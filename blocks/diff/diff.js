@@ -176,10 +176,43 @@ define(['diff/diff__tools', 'jquery', 'global/global__modules',
     this.mode_ = null;
   };
 
+  /**
+   * Factory, which creates {@code DiffTool} instance in a certain mode and
+   * automatically sets content.
+   * @param {Element} element
+   * @param {string} contentOriginal
+   * @param {string} contentModified
+   * @param {diffTool.Parser.Diff} diff
+   * @param {DiffTool.Mode} mode
+   */
+  function decorateDiffTool(element, contentOriginal, contentModified, diff,
+                            mode) {
+    var diffTool = new DiffTool(element, mode);
+    diffTool.setContent(contentOriginal, contentModified, diff);
+
+    return diffTool;
+  }
+
   Module.add('diff', {
     getDiffTool: {
       method: function() {
         return DiffTool;
+      },
+      override: true
+    },
+
+    singlePaneDiff: {
+      method: function(element, contentOriginal, contentModified, diff) {
+        return decorateDiffTool(element, contentOriginal, contentModified,
+            diff, DiffTool.Mode.SINGLE_PANE);
+      },
+      override: true
+    },
+
+    doublePaneDiff: {
+      method: function(element, contentOriginal, contentModified, diff) {
+        return decorateDiffTool(element, contentOriginal, contentModified,
+            diff, DiffTool.Mode.DOUBLE_PANE);
       },
       override: true
     },
