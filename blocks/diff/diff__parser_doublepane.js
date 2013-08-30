@@ -47,7 +47,7 @@ define(['diff/diff__tools', 'diff/diff__parser'], function(diffTool) {
       }
 
       if (!diffTool.isDef(usedLines)) {
-        usedLines = 1;
+        usedLines = 0;
       }
 
       offsets.push({
@@ -56,7 +56,7 @@ define(['diff/diff__tools', 'diff/diff__parser'], function(diffTool) {
         top: fileCursor
       });
 
-      fileCursor += usedLines + 1;
+      fileCursor += usedLines;
     }, this);
 
     return offsets;
