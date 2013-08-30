@@ -168,10 +168,14 @@ define(['diff/diff__tools', 'codemirror', 'handlebars',
     var currentOppositeOffset = oppositeElementOffsets[currentOffsetIndex];
 
     var targetPosition = (currentOppositeOffset.top - equatorOffset) +
-                         ratio * (currentOppositeOffset.bottom -
-                             currentOppositeOffset.top);
+        ratio * (currentOppositeOffset.bottom -
+            currentOppositeOffset.top);
 
-    oppositeElement.scrollTo(currentOffset.left, targetPosition);
+    var horizontalRatio = scrollPosition.left / scrollPosition.width;
+    var oppositeHorizontalOffset = Math.round(
+        oppositeElement.getScrollInfo().width * horizontalRatio);
+
+    oppositeElement.scrollTo(oppositeHorizontalOffset, scrollPosition.top);
   };
 
   /**
