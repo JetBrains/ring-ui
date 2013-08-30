@@ -20,9 +20,6 @@
 
 <script type="text/javascript">
   require(['jquery', 'ring', 'diff/diff'], function($, ring) {
-    var DiffTool = /** @type {DiffTool} */ (
-        ring('diff').invoke('getDiffTool'));
-
     /**
      * Paths to files to download.
      * @type {Array.<string>}
@@ -47,14 +44,14 @@
 
     $.when.apply($, deferredObjects).then(function(diff, original, modified) {
       /**
-       * Demo of {@link DiffTool}
+       * Demo-object of {@code DiffTool} inited through ring module.
        * @type {DiffTool}
        */
-      var diffTool = new DiffTool(
+      var diffTool = ring('diff').invoke('singlePaneDiff',
           document.querySelector('.layout_double'),
-          DiffTool.Mode.SINGLE_PANE);
-
-      diffTool.setContent(original[0], modified[0], diff[0]);
+          original[0],
+          modified[0],
+          diff[0]);
     });
   });
 </script>
