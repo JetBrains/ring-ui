@@ -141,35 +141,35 @@ define(['diff/diff__tools', 'codemirror', 'handlebars',
    */
   diffTool.DoubleEditorController.prototype.onScroll_ = function(target) {
     var oppositeElement;
-    var elementOffsets;
-    var oppositeElementOffsets;
+//    var elementOffsets;
+//    var oppositeElementOffsets;
 
     if (target === this.codeMirrorOriginal_) {
       oppositeElement = this.codeMirrorModified_;
-      elementOffsets = this.originalOffsets_;
-      oppositeElementOffsets = this.modifiedOffsets_;
+//      elementOffsets = this.originalOffsets_;
+//      oppositeElementOffsets = this.modifiedOffsets_;
     } else {
       oppositeElement = this.codeMirrorOriginal_;
-      elementOffsets = this.modifiedOffsets_;
-      oppositeElementOffsets = this.originalOffsets_;
+//      elementOffsets = this.modifiedOffsets_;
+//      oppositeElementOffsets = this.originalOffsets_;
     }
 
     var scrollPosition = target.getScrollInfo();
 
-    var equatorOffset = scrollPosition.clientHeight / 2;
-    var equator = scrollPosition.top + equatorOffset;
+//    var equatorOffset = scrollPosition.clientHeight / 2;
+//    var equator = scrollPosition.top + equatorOffset;
 
-    var currentOffsetIndex = this.getCurrentOffset_(equator, elementOffsets);
-    var currentOffset = elementOffsets[currentOffsetIndex];
+//    var currentOffsetIndex = this.getCurrentOffset_(equator, elementOffsets);
+//    var currentOffset = elementOffsets[currentOffsetIndex];
 
-    var ratio = (equator - currentOffset.top) /
-                (currentOffset.bottom - currentOffset.top);
+//    var ratio = (equator - currentOffset.top) /
+//                (currentOffset.bottom - currentOffset.top);
+//
+//    var currentOppositeOffset = oppositeElementOffsets[currentOffsetIndex];
 
-    var currentOppositeOffset = oppositeElementOffsets[currentOffsetIndex];
-
-    var targetPosition = (currentOppositeOffset.top - equatorOffset) +
-        ratio * (currentOppositeOffset.bottom -
-            currentOppositeOffset.top);
+//    var targetPosition = (currentOppositeOffset.top - equatorOffset) +
+//        ratio * (currentOppositeOffset.bottom -
+//            currentOppositeOffset.top);
 
     var horizontalRatio = scrollPosition.left / scrollPosition.width;
     var oppositeHorizontalOffset = Math.round(
