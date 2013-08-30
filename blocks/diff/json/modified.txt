@@ -1,15 +1,154 @@
-/**
- * @fileoverview Test changed file
- */
+package org.jetbrains.jing.common.storages.hybrid;
 
-function test(param,
-              anotherParam) {
-  this.param = param;
-  var unnecessaryChange = 1;
-  unnecessaryChange = 2;
-  unnecessaryChange = 3;
-  unnecessaryChange = 4;
-  unnecessaryChange = 5;
-  unnecessaryChange = 6;
-  unnecessaryChange = 7;
+import jetbrains.exodus.core.util.*;
+import jetbrains.exodus.database.persistence.*;
+import jetbrains.exodus.env.*;
+import jetbrains.exodus.exceptions.*;
+import jetbrains.exodus.log.*;
+import jetbrains.exodus.vfs.File;
+import jetbrains.exodus.vfs.*;
+import org.jetbrains.annotations.*;
+import org.jetbrains.jing.common.*;
+import org.jetbrains.jing.common.io.*;
+import org.jetbrains.jing.common.storages.*;
+
+import java.io.*;
+import java.nio.channels.*;
+import java.nio.file.*;
+
+public class ExodusVFSValueStorage implements ValueStorage {
+
+  private final Environment env;
+  private final VirtualFileSystem vfs;
+  private final ByteArraySpinAllocator byteArrayAllocator;
+
+  public ExodusVFSValueStorage(final HybridKeyValueStorage storage) {
+    env = Environments.newInstance(storage.getPath(), EnvironmentConfig.DEFAULT);
+    vfs = new VirtualFileSystem(env);
+    byteArrayAllocator = storage.getByteArrayAllocator();
+  }
+
+  @Nullable @Override
+  public KeyValueStorage.Value getValue(final long offset) {
+    return env.computeInTransaction(new TransactionalComputable<KeyValueStorage.Value>() {
+      @Override public KeyValueStorage.Value compute(@NotNull final Transaction txn) {
+        final LightByteArrayOutputStream inMemoryCopy = new LightByteArrayOutputStream();
+        try (final VfsInputStream input = vfs.readFile(txn, offset)) {
+          jetbrains.exodus.util.IOUtil.copyStreams(input, inMemoryCopy, byteArrayAllocator);
+        }
+        catch (IOException e) {
+          throw ExodusException.toRuntime(e);
+        }
+        return new KeyValueStorage.Value() {
+
+          @NotNull @Override public ReadableByteChannel createChannel() throws IOException {
+            return Channels.newChannel(toInputStream(inMemoryCopy));
+          }
+
+          @Override public long size() throws IOException {
+            return inMemoryCopy.size();
+          }
+        };
+      }
+    });
+  }
+
+  @Override
+  public long putValue(@NotNull final InputStream input) throws IOException {
+    if (input instanceof ByteArrayInputStream) {
+      final ByteArrayInputStream inMemoryCopy = (ByteArrayInputStream)input;
+      inMemoryCopy.mark(Integer.MAX_VALUE);
+      return env.computeInTransaction(new TransactionalComputable<Long>() {
+        @Override public Long compute(@NotNull final Transaction txn) {
+          try {
+            final File file = vfs.createFile(txn, "value%d");
+            final long result = file.getDescriptor();
+            try (final OutputStream output = vfs.writeFile(txn, file)) {
+              inMemoryCopy.reset();
+              jetbrains.exodus.util.IOUtil.copyStreams(inMemoryCopy, output, byteArrayAllocator);
+            }
+            return result;
+          }
+          catch (IOException e) {
+            throw ExodusException.toRuntime(e);
+          }
+        }
+      });
+    }
+    else {
+      final LightByteArrayOutputStream inMemoryCopy = new LightByteArrayOutputStream();
+      jetbrains.exodus.util.IOUtil.copyStreams(input, inMemoryCopy, byteArrayAllocator);
+      return env.computeInTransaction(new TransactionalComputable<Long>() {
+        @Override public Long compute(@NotNull final Transaction txn) {
+          try {
+            final File file = vfs.createFile(txn, "value%d");
+            final long result = file.getDescriptor();
+            try (final OutputStream output = vfs.writeFile(txn, file)) {
+              jetbrains.exodus.util.IOUtil.copyStreams(toInputStream(inMemoryCopy), output, byteArrayAllocator);
+            }
+            return result;
+          }
+          catch (IOException e) {
+            throw ExodusException.toRuntime(e);
+          }
+        }
+      });
+    }
+  }
+
+  @Override
+  public boolean deleteValue(final long offset) {
+    return env.computeInTransaction(new TransactionalComputable<Boolean>() {
+      @Override public Boolean compute(@NotNull final Transaction txn) {
+        return vfs.deleteFile(txn, "value" + offset) != null;
+      }
+    });
+  }
+
+  @Override
+  public void deleteValues(final long[] offsets) {
+    env.executeInTransaction(new TransactionalExecutable() {
+      @Override public void execute(@NotNull final Transaction txn) {
+        for (final long offset : offsets) {
+          vfs.deleteFile(txn, "value" + offset);
+        }
+      }
+    });
+  }
+
+  @Override
+  public void writeStorageState(@NotNull final CompoundWriter writer, final PathFromRoot basePath) throws IOException {
+    final IOException[] iox = new IOException[]{null};
+    // execute files' copying in txn in oder to avoid concurrent files deletions by txn-safe tasks
+    env.executeInTransaction(new TransactionalExecutable() {
+      @Override public void execute(@NotNull final Transaction txn) {
+        try {
+          final Path sourcePath = Paths.get(env.getLocation());
+          for (long address : ((EnvironmentImpl)env).getLog().getAllFileAddresses()) {
+            final String fileName = LogUtil.getLogFilename(address);
+            try (final WritableByteChannel output = writer.write(basePath.childPath(fileName));
+                 final FileChannel input = FileChannel.open(sourcePath.resolve(fileName))) {
+              IOUtil.transfer(input, output);
+            }
+          }
+        }
+        catch (IOException e) {
+          iox[0] = e;
+        }
+      }
+    });
+    if (iox[0] != null) {
+      throw iox[0];
+    }
+  }
+
+  @Override
+  public void close() {
+    vfs.shutdown();
+    env.close();
+  }
+
+  private static InputStream toInputStream(final LightByteArrayOutputStream inMemoryCopy) {
+    return new ByteArrayInputStream(inMemoryCopy.toByteArray(), 0, inMemoryCopy.size());
+  }
 }
