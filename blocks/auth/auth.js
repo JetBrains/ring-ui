@@ -49,15 +49,15 @@ define(['jquery', 'jso', 'global/global__modules'], function ($, jso, Module) {
     );
 
     // Configure jso
-    jso.configure(jsoConfig, null, dfd.resolve.bind(dfd));
+    jso.configure(jsoConfig, null, function(done, err) {
+      if (err) {
+        dfd.reject(err);
 
-    // Authorize, if needed
-    getToken();
-
-    // Resolve deferred, if configure didn't resolved it with state
-    if (dfd.state() === 'pending') {
-      dfd.resolve();
-    }
+      // Authorize, if needed or resolve dfd
+      } else if(getToken()) {
+        dfd.resolve(done);
+      }
+    });
 
     return dfd;
   };
