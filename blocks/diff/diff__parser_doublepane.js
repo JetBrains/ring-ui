@@ -46,6 +46,10 @@ define(['diff/diff__tools', 'diff/diff__parser'], function(diffTool) {
             change.newLines;
       }
 
+      if (!diffTool.isDef(usedLines)) {
+        usedLines = 1;
+      }
+
       offsets.push({
         bottom: fileCursor + usedLines,
         codeType: change.type,
