@@ -6,9 +6,18 @@
   <link rel="stylesheet" type="text/css" href="components/codemirror/lib/codemirror.css">
   <link rel="stylesheet" type="text/css" href="dist/ring-diff.css">
   <style type="text/css">
-    .layout_double .CodeMirror {
-      height: 400px;
-      max-height: 100%;
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+    }
+
+    .layout,
+    .diff,
+    .diff__original,
+    .diff__modified,
+    .CodeMirror {
+      height: 100%;
     }
   </style>
   <script src="components/jquery/jquery.js"></script>
@@ -17,7 +26,7 @@
 </head>
 <body>
 
-<div class="layout_double"></div>
+<div class="layout"></div>
 
 <script type="text/javascript">
   require(['jquery', 'ring', 'diff/diff'], function($, ring) {
@@ -49,7 +58,7 @@
        * @type {DiffTool}
        */
       var diffTool = ring('diff').invoke('doublePaneDiff',
-          document.querySelector('.layout_double'),
+          document.querySelector('.layout'),
           original[0],
           modified[0],
           diff[0]);
