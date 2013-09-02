@@ -49,8 +49,19 @@ define(['diff/diff__tools', 'codemirror', 'handlebars',
       lineNumbers: true,
       matchBrackets: true,
       mode: 'text/x-java',
-      readOnly: true
+      readOnly: true,
+      viewportMargin: 0
     };
+  };
+
+  /**
+   * Returns size of content of {@link CodeMirror}.
+   * @param {CodeMirror} editor
+   * @return {number}
+   */
+  diffTool.DoubleEditorController.getEditorContentWidth = function(editor) {
+    return editor.getScrollerElement().scrollWidth -
+        editor.getGutterElement().clientWidth;
   };
 
   /**
@@ -141,41 +152,40 @@ define(['diff/diff__tools', 'codemirror', 'handlebars',
    */
   diffTool.DoubleEditorController.prototype.onScroll_ = function(target) {
     var oppositeElement;
-//    var elementOffsets;
-//    var oppositeElementOffsets;
+    var elementOffsets;
+    var oppositeElementOffsets;
 
     if (target === this.codeMirrorOriginal_) {
       oppositeElement = this.codeMirrorModified_;
-//      elementOffsets = this.originalOffsets_;
-//      oppositeElementOffsets = this.modifiedOffsets_;
+      elementOffsets = this.originalOffsets_;
+      oppositeElementOffsets = this.modifiedOffsets_;
     } else {
       oppositeElement = this.codeMirrorOriginal_;
-//      elementOffsets = this.modifiedOffsets_;
-//      oppositeElementOffsets = this.originalOffsets_;
+      elementOffsets = this.modifiedOffsets_;
+      oppositeElementOffsets = this.originalOffsets_;
     }
 
     var scrollPosition = target.getScrollInfo();
+    var equator = Math.round(scrollPosition.clientHeight / 2);
 
-//    var equatorOffset = scrollPosition.clientHeight / 2;
-//    var equator = scrollPosition.top + equatorOffset;
+    var currentOffsetIndex = this.getCurrentOffset_(
+        scrollPosition.top + equator,
+        elementOffsets);
 
-//    var currentOffsetIndex = this.getCurrentOffset_(equator, elementOffsets);
-//    var currentOffset = elementOffsets[currentOffsetIndex];
+    var currentOffset = elementOffsets[currentOffsetIndex];
 
-//    var ratio = (equator - currentOffset.top) /
-//                (currentOffset.bottom - currentOffset.top);
-//
-//    var currentOppositeOffset = oppositeElementOffsets[currentOffsetIndex];
+    var offsetHeight = currentOffset.bottom - currentOffset.top;
+    var scrollTop = scrollPosition.top - currentOffset.top + equator;
 
-//    var targetPosition = (currentOppositeOffset.top - equatorOffset) +
-//        ratio * (currentOppositeOffset.bottom -
-//            currentOppositeOffset.top);
+    var ratio = scrollTop / offsetHeight;
 
-    var horizontalRatio = scrollPosition.left / scrollPosition.width;
-    var oppositeHorizontalOffset = Math.round(
-        oppositeElement.getScrollInfo().width * horizontalRatio);
+    var oppositeOffset = oppositeElementOffsets[currentOffsetIndex];
+    var oppositeOffsetHeight = oppositeOffset.bottom - oppositeOffset.top;
 
-    oppositeElement.scrollTo(oppositeHorizontalOffset, scrollPosition.top);
+    var oppositeScroll = Math.round(oppositeOffsetHeight * ratio);
+    var oppositeScrollTop = oppositeScroll + oppositeOffset.top - equator;
+
+    oppositeElement.scrollTo(scrollPosition.left, oppositeScrollTop);
   };
 
   /**
@@ -191,7 +201,7 @@ define(['diff/diff__tools', 'codemirror', 'handlebars',
     lines.forEach(function(line) {
       offsets.push({
         bottom: editor.heightAtLine(line.bottom, 'local'),
-        type: line.type,
+        type: line.codeType,
         top: editor.heightAtLine(line.top, 'local')
       });
     }, this);
@@ -208,16 +218,14 @@ define(['diff/diff__tools', 'codemirror', 'handlebars',
    */
   diffTool.DoubleEditorController.prototype.getCurrentOffset_ = function(
       scrollPosition, offsets) {
-    var currentOffset;
+    var offset;
 
-    offsets.forEach(function(offset, i) {
-      if (!diffTool.isDef(currentOffset) &&
-          offset.top <= scrollPosition &&
-          offset.bottom >= scrollPosition) {
-        currentOffset = i;
+    for (var i = 0, l = offsets.length; offset = offsets[i], i < l; i++) {
+      if (offset.top <= scrollPosition && offset.bottom >= scrollPosition) {
+        return i;
       }
-    });
+    }
 
-    return diffTool.isDef(currentOffset) ? currentOffset : -1;
+    return -1;
   };
 });

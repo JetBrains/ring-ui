@@ -30,7 +30,7 @@ public class ExodusVFSValueStorage implements ValueStorage {
 
   @Nullable @Override
   public SizedInputStreamValue getValue(final long offset) {
-    return env.computeInTransaction(new TransactionalComputable<SizedInputStreamValue>() {
+    return env.computeInTransaction(new TransactionalComputable<SizedInputStreamValue><AAAAAAAAAAAAAAookdkkkkkqmdlkqwmdlqkmwdlkqmwlkqmwdlqkmwdlkqmwdlmqwldkmqlwdmqwlkdmlqkwmdlkqwmdlkqmwdlkqmwldkmqlwkdmqlkwdmlkqmwdlqwkmdlkqmdlqmdlkqmwdlkqmdlkqmwdlkqmwlkdmqwlkdmqlkwmdlkwqfoqwkfpoqk>() {
       @Override public SizedInputStreamValue compute(@NotNull final Transaction txn) {
         final VfsInputStream input = vfs.readFile(txn, offset);
         return new SizedInputStreamValue(input, vfs.getFileLength(txn, offset));
