@@ -65,6 +65,18 @@ define(['diff/diff__tools', 'codemirror', 'handlebars',
   };
 
   /**
+   * Counts maximal value, which can be set to instance of {@link CodeMirror}
+   * without corrupting its scroll. Used to synchronize horizontal scroll.
+   * @param {CodeMirror} editor
+   * @return {number}
+   * @private
+   */
+  diffTool.DoubleEditorController.getMaxScroll_ = function(editor) {
+    return diffTool.DoubleEditorController.getEditorContentWidth(editor)  -
+        editor.getWrapperElement().clientWidth;
+  };
+
+  /**
    * @override
    */
   diffTool.DoubleEditorController.prototype.setEnabledInternal = function(
@@ -126,6 +138,20 @@ define(['diff/diff__tools', 'codemirror', 'handlebars',
     CodeMirror.on(this.codeMirrorModified_, 'scroll',
         diffTool.bindContext(this.onScroll_, this));
 
+    /**
+     * @type {number}
+     * @private
+     */
+    this.originalEditorMaxWidth_ = diffTool.DoubleEditorController.
+        getMaxScroll_(this.codeMirrorOriginal_);
+
+    /**
+     * @type {number}
+     * @private
+     */
+    this.modifiedEditorMaxWidth_ = diffTool.DoubleEditorController.
+        getMaxScroll_(this.codeMirrorModified_);
+
     this.originalLines_ = this.codeParser_.getLines(original, diff,
         diffTool.ParserDoublePane.CodeType.ORIGINAL);
     this.modifiedLines_ = this.codeParser_.getLines(modified, diff,
@@ -185,7 +211,17 @@ define(['diff/diff__tools', 'codemirror', 'handlebars',
     var oppositeScroll = Math.round(oppositeOffsetHeight * ratio);
     var oppositeScrollTop = oppositeScroll + oppositeOffset.top - equator;
 
-    oppositeElement.scrollTo(scrollPosition.left, oppositeScrollTop);
+    var isOriginalEditor = (target === this.codeMirrorOriginal_);
+
+    var editorMaxWidth = isOriginalEditor ? this.originalEditorMaxWidth_ :
+        this.modifiedEditorMaxWidth_;
+    var oppositeMaxWidth = isOriginalEditor ? this.modifiedEditorMaxWidth_ :
+        this.originalEditorMaxWidth_;
+
+    var scrollRatio = scrollPosition.left / editorMaxWidth;
+    var oppositeScrollLeft = Math.round(oppositeMaxWidth * scrollRatio);
+
+    oppositeElement.scrollTo(oppositeScrollLeft, oppositeScrollTop);
   };
 
   /**
