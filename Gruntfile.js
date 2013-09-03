@@ -1,7 +1,7 @@
 /*jshint scripturl:true*/
 var hljs = require('highlight.js');
 
-var LIVERELOAD_PORT = 35729;
+var LIVERELOAD_PORT = 35730;
 var lrSnippet = require('connect-livereload')({port: LIVERELOAD_PORT});
 
 module.exports = function(grunt) {

@@ -1,12 +1,12 @@
 [
   {
     "type": "unchanged",
-    "lines": 4
+    "lines": 1
   },
   {
     "type": "modified",
-    "newLines": 2,
     "oldLines": 1,
+    "newLines": 1,
     "ranges": [
       {
         "type": "unchanged",
@@ -14,25 +14,21 @@
       },
       {
         "type": "modified",
-        "newChars": 33
+        "oldChars": 1
       },
       {
         "type": "unchanged",
-        "chars": 4
+        "chars": 5
       }
     ]
   },
   {
-    "type": "modified",
-    "newLines": 1
-  },
-  {
     "type": "unchanged",
-    "lines": 7
+    "lines": 1
   },
   {
     "type": "modified",
-    "oldLines": 1
+    "newLines": 2
   },
   {
     "type": "unchanged",
