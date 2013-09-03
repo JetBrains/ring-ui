@@ -73,7 +73,7 @@ define(['diff/diff__tools', 'codemirror', 'handlebars',
    */
   diffTool.DoubleEditorController.getMaxScroll_ = function(editor) {
     return diffTool.DoubleEditorController.getEditorContentWidth(editor)  -
-        editor.getWrapperElement().clientWidth;
+        editor.getWrapperElement().offsetWidth;
   };
 
   /**
