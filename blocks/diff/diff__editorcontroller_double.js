@@ -181,6 +181,10 @@ define(['diff/diff__tools', 'codemirror', 'handlebars',
     var elementOffsets;
     var oppositeElementOffsets;
 
+    if (this.scrolledEditor_ === target) {
+      return;
+    }
+
     if (target === this.codeMirrorOriginal_) {
       oppositeElement = this.codeMirrorModified_;
       elementOffsets = this.originalOffsets_;
@@ -222,6 +226,27 @@ define(['diff/diff__tools', 'codemirror', 'handlebars',
     var oppositeScrollLeft = Math.round(oppositeMaxWidth * scrollRatio);
 
     oppositeElement.scrollTo(oppositeScrollLeft, oppositeScrollTop);
+
+    this.setScrolledEditor_(target);
+  };
+
+  /**
+   * @param {CodeMirror} editor
+   * @private
+   */
+  diffTool.DoubleEditorController.prototype.setScrolledEditor_ = function(
+      editor) {
+    /**
+     * Instance of {@link CodeMirror} which saved to prevent feedback loop
+     * by checking originally scrolled editor.
+     * @type {CodeMirror}
+     * @private
+     */
+    this.scrolledEditor_ = editor;
+
+    setTimeout(diffTool.bindContext(function() {
+      this.scrolledEditor_ = null;
+    }, this), 50);
   };
 
   /**
