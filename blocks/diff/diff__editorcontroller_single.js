@@ -156,6 +156,8 @@ define(['diff/diff__tools', 'handlebars', 'diff/diff__editorcontroller',
    * @private
    */
   diffTool.SingleEditorController.getInlineChange_ = function(chars, opt_type) {
+    chars = chars.replace(/\r?\n/, '');
+
     return Handlebars.partials[diffTool.SingleEditorController.Template.
         CODE_LINE_MODIFIED]({
       additionalClassName: this.getAdditionalClassName_(chars, opt_type),
