@@ -8,8 +8,7 @@
  */
 
 define(['diff/diff__tools', 'jquery', 'global/global__modules',
-  'diff/diff__editorcontroller_single',
-  'diff/diff__editorcontroller_double'], function(diffTool, $, Module) {
+  'diff/diff__editorcontroller_single'], function(diffTool, $, Module) {
   'use strict';
 
   /**
@@ -75,8 +74,7 @@ define(['diff/diff__tools', 'jquery', 'global/global__modules',
    * @protected
    */
   DiffTool.prototype.availableModes =
-      DiffTool.Mode.SINGLE_PANE |
-      DiffTool.Mode.DOUBLE_PANE;
+      DiffTool.Mode.SINGLE_PANE;
 
   /**
    * Bit mask of current mode of DiffTool. Default value is
@@ -117,8 +115,6 @@ define(['diff/diff__tools', 'jquery', 'global/global__modules',
     if (!this.modeToController_) {
       var singleModeController = new diffTool.SingleEditorController(
           this.element_);
-      var doubleModeController = new diffTool.DoubleEditorController(
-          this.element_);
 
       /**
        * Lookup table of {@link DiffTool.Mode}s to {diffTool.EditorController}s.
@@ -126,8 +122,7 @@ define(['diff/diff__tools', 'jquery', 'global/global__modules',
        * @private
        */
       this.modeToController_ = diffTool.createObject(
-          DiffTool.Mode.SINGLE_PANE, singleModeController,
-          DiffTool.Mode.DOUBLE_PANE, doubleModeController);
+          DiffTool.Mode.SINGLE_PANE, singleModeController);
     }
 
     if (this.controller_ !== null) {
@@ -205,14 +200,6 @@ define(['diff/diff__tools', 'jquery', 'global/global__modules',
       method: function(element, contentOriginal, contentModified, diff) {
         return decorateDiffTool(element, contentOriginal, contentModified,
             diff, DiffTool.Mode.SINGLE_PANE);
-      },
-      override: true
-    },
-
-    doublePaneDiff: {
-      method: function(element, contentOriginal, contentModified, diff) {
-        return decorateDiffTool(element, contentOriginal, contentModified,
-            diff, DiffTool.Mode.DOUBLE_PANE);
       },
       override: true
     },
