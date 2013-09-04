@@ -1,5 +1,99 @@
-<script>
-  var variable = 1;
-</script>
+GET http://localhost:8181/api/repositories/Test+repo/workingCopies/<working-copy-id>/changes
+200 OK
+ETAG present
+{
+  "id": "/repositories/Test+repo/workingCopies/<working-copy-id>/changes",
+  "changes": [
+    {
+      "id": "/repositories/Test+repo/workingCopies/<working-copy-id>/changes/*NewFile.txt",
+      "dir": "",
+      "relId": "*NewFile.txt",
+      "path": "NewFile.txt",
+      "filename": "NewFile.txt",
+      "operations": [{"type": "created"}],
+      "type": "file"
+    },
+    {
+      "id": "/repositories/Test+repo/workingCopies/<working-copy-id>/changes/*dir1",
+      "dir": "",
+      "relId": "*dir1",
+      "path": "dir1",
+      "filename": "dir1",
+      "operations": [{"type": "created"}],
+      "type": "directory"
+    },
+    {
+      "id": "/repositories/Test+repo/workingCopies/<working-copy-id>/changes/File1.txt*dir1%2FFile1.txt",
+      "dir": "dir1",
+      "relId": "File1.txt*dir1/File1.txt",
+      "path": "dir1/File1.txt",
+      "filename": "File1.txt",
+      "operations": [
+        {"type": "modified"},
+        {
+          "oldPath": "File1.txt",
+          "type": "moved"
+        }
+      ],
+      "type": "file"
+    },
+    {
+      "id": "/repositories/Test+repo/workingCopies/<working-copy-id>/changes/dir%2FFile.txt",
+      "dir": "dir",
+      "relId": "dir/File.txt",
+      "path": "dir/File.txt",
+      "filename": "File.txt",
+      "operations": [{"type": "modified"}],
+      "type": "file"
+    }
+  ]
+}
 
-<div class="domelement">asd</div>
+POST http://localhost:8181/api/repositories/Test+repo/workingCopies/<working-copy-id>/changes/commit
+changes[]=/repositories/Test+repo/workingCopies/<working-copy-id>/changes/*NewFile.txt&changes[]=/repositories/Test+repo/workingCopies/<working-copy-id>/changes/*dir1&message=Test commit
+200 OK
+{
+  "id": "/repositories/Test+repo/revisions/<new-commit-id>",
+  "message": "Test commit",
+  "author": "test",
+  "parents": ["/repositories/Test+repo/revisions/<revision-id>"],
+  "created": <new-commit-date>,
+  "relId": "<new-commit-id>",
+  "branch": "/repositories/Test+repo/branches/default",
+  "isPublic": false,
+  "committer": "test",
+  "revisionId": "<new-commit-id>"
+}
+
+GET http://localhost:8181/api/repositories/Test+repo/workingCopies/<working-copy-id>/changes
+200 OK
+ETAG present
+{
+  "id": "/repositories/Test+repo/workingCopies/<working-copy-id>/changes",
+  "changes": [
+    {
+      "id": "/repositories/Test+repo/workingCopies/<working-copy-id>/changes/File1.txt*dir1%2FFile1.txt",
+      "dir": "dir1",
+      "relId": "File1.txt*dir1/File1.txt",
+      "path": "dir1/File1.txt",
+      "filename": "File1.txt",
+      "operations": [
+        {"type": "modified"},
+        {
+          "oldPath": "File1.txt",
+          "type": "moved"
+        }
+      ],
+      "type": "file"
+    },
+    {
+      "id": "/repositories/Test+repo/workingCopies/<working-copy-id>/changes/dir%2FFile.txt",
+      "dir": "dir",
+      "relId": "dir/File.txt",
+      "path": "dir/File.txt",
+      "filename": "File.txt",
+      "operations": [{"type": "modified"}],
+      "type": "file"
+    }
+  ]
+}
