@@ -20,22 +20,6 @@ define([
   diffTool.DoubleEditorController = function(element) {
     diffTool.DoubleEditorController.super_.constructor.call(this, element,
         true, diffTool.ParserDoublePane.getInstance());
-
-    raphael();
-
-    /**
-     * Visualization of equator line.
-     * @type {Element}
-     * @private
-     */
-    this.line_ = document.createElement('div');
-
-    this.line_.style.borderTop = 'solid 1px red';
-    this.line_.style.boxShadow = '0 4px 4px rgba(128, 0, 0, 0.3)';
-    this.line_.style.left = '50%';
-    this.line_.style.marginLeft = '-40px';
-    this.line_.style.position = 'absolute';
-    this.line_.style.width = '80px';
   };
   diffTool.inherit(diffTool.DoubleEditorController, diffTool.EditorController);
 
@@ -78,7 +62,12 @@ define([
     /**
      * Element, which contains editor with modified code.
      */
-    MODIFIED: '.diff__modified'
+    MODIFIED: '.diff__modified',
+
+    /**
+     * Element between two editors on which draws connectors.
+     */
+    SPLITTER: '.diff__split'
   };
 
   /**
@@ -134,11 +123,7 @@ define([
           diffTool.DoubleEditorController.getEditorOptions());
       this.codeMirrorModified_ = new CodeMirror(this.modifiedElement_,
           diffTool.DoubleEditorController.getEditorOptions());
-
-      this.element_.appendChild(this.line_);
     } else {
-      this.line_.parentNode.removeChild(this.line_);
-
       this.element_.innerHTML = '';
 
       this.codeMirrorOriginal_ = null;
@@ -198,6 +183,8 @@ define([
         this.codeMirrorOriginal_);
     this.modifiedOffsets_ = this.getLinesOffset_(this.modifiedLines_,
         this.codeMirrorModified_);
+
+    this.drawConnectors_();
   };
 
   /**
@@ -244,6 +231,7 @@ define([
     }
 
     this.syncScroll_(target);
+    this.drawConnectors_();
 
     this.disableEditorTimeout_ = setTimeout(diffTool.bindContext(function() {
       this.setEditorEnabled_(this.disabledEditor_, true);
@@ -327,8 +315,6 @@ define([
           diffTool.DoubleEditorController.EQUATOR_RATIO);
     }
 
-    this.line_.style.top = equator + 'px';
-
     return equator;
   };
 
@@ -346,6 +332,24 @@ define([
         scrollInfo.clientHeight + (scrollInfo.clientHeight -
             scrollInfo.clientHeight *
                 diffTool.DoubleEditorController.EQUATOR_RATIO));
+  };
+
+  /**
+   * Draws graphics connectors from changed chunks in original code to
+   * corresponding chunks in modified code.
+   * @private
+   */
+  diffTool.DoubleEditorController.prototype.drawConnectors_ = function() {
+    if (!this.splitElement_) {
+      this.splitElement_ = this.element_.querySelector(
+          diffTool.DoubleEditorController.CssSelector.SPLITTER);
+    }
+
+    if (!this.connectorsCanvas_) {
+      this.connectorsCanvas_ = raphael(this.splitElement_,
+          this.splitElement_.clientWidth,
+          this.splitElement_.clientHeight);
+    }
   };
 
   /**
