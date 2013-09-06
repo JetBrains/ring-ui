@@ -3,9 +3,14 @@
  * @author igor.alexeenko (Igor Alexeenko)
  */
 
-define(['diff/diff__tools', 'codemirror', 'handlebars',
+define([
+  'diff/diff__tools',
+  'codemirror',
+  'handlebars',
+  'raphael',
   'diff/diff__editorcontroller',
-  'diff/diff__parser_doublepane'], function(diffTool, CodeMirror, Handlebars) {
+  'diff/diff__parser_doublepane'
+], function(diffTool, CodeMirror, Handlebars, raphael) {
 
   /**
    * @param {Element} element
@@ -15,6 +20,8 @@ define(['diff/diff__tools', 'codemirror', 'handlebars',
   diffTool.DoubleEditorController = function(element) {
     diffTool.DoubleEditorController.super_.constructor.call(this, element,
         true, diffTool.ParserDoublePane.getInstance());
+
+    raphael();
 
     /**
      * Visualization of equator line.
@@ -88,7 +95,9 @@ define(['diff/diff__tools', 'codemirror', 'handlebars',
     return {
       lineNumbers: true,
       matchBrackets: true,
-      mode: 'text/x-java',
+      mode: {
+        name: 'text/x-java'
+      },
       readOnly: true,
       viewportMargin: 0
     };
