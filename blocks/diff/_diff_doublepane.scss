@@ -2,6 +2,7 @@
   border: solid 1px #ccc;
   font-family: 'Menlo', monospace;
   font-size: 12px;
+  box-sizing: border-box;
 }
 
 .diff_doublepane:after {
@@ -13,5 +14,12 @@
 .diff__modified,
 .diff__original {
   float: left;
-  width: 50%;
+  width: 47%;
+}
+
+.diff__split {
+  float: left;
+  height: 100%;
+  position: relative;
+  width: 6%;
 }
