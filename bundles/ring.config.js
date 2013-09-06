@@ -7,7 +7,8 @@ require.config({
     'codemirror' : '../components/codemirror/lib/codemirror',
     'storage'    : '../components/polyfill/storage',
     'json'       : '../components/json2/json2',
-    'jso'        : '../components/jso/jso'
+    'jso'        : '../components/jso/jso',
+    'raphael'    : '../components/raphael/raphael-min'
   },
   shim: {
     'jquery': {
@@ -28,6 +29,9 @@ require.config({
     },
     'codemirror': {
       'exports': 'CodeMirror'
+    },
+    'raphael': {
+      'exports': 'Raphael'
     }
   }
 });
