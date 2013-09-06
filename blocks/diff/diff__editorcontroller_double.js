@@ -16,28 +16,29 @@ define(['diff/diff__tools', 'codemirror', 'handlebars',
     diffTool.DoubleEditorController.super_.constructor.call(this, element,
         true, diffTool.ParserDoublePane.getInstance());
 
-    this.equatorLine_ = document.createElement('div');
-    this.equatorLine_.style.borderTop = 'solid 1px red';
-    this.equatorLine_.style.boxShadow = '0 5px 4px rgba(128, 0, 0, 0.3)';
-    this.equatorLine_.style.height = 0;
-    this.equatorLine_.style.left = 0;
-    this.equatorLine_.style.position = 'absolute';
-    this.equatorLine_.style.top = 0;
-    this.equatorLine_.style.width = '100%';
-
     /**
-     * @type {CodeMirror}
+     * Visualization of equator line.
+     * @type {Element}
      * @private
      */
-    this.activeEditor_ = null;
+    this.line_ = document.createElement('div');
+
+    this.line_.style.borderTop = 'solid 1px red';
+    this.line_.style.boxShadow = '0 4px 4px rgba(128, 0, 0, 0.3)';
+    this.line_.style.left = '50%';
+    this.line_.style.marginLeft = '-40px';
+    this.line_.style.position = 'absolute';
+    this.line_.style.width = '80px';
   };
   diffTool.inherit(diffTool.DoubleEditorController, diffTool.EditorController);
 
   /**
+   * Equator ratio is a ratio of height of editor on which speed of scrolling
+   * of chunks of corresponding code in opposite editor changes.
    * @type {number}
    * @const
    */
-  diffTool.DoubleEditorController.EQUATOR_RATIO = 0.25;
+  diffTool.DoubleEditorController.EQUATOR_RATIO = 0.5;
 
   /**
    * IDs of templates for {@link Handlebars}.
@@ -57,23 +58,33 @@ define(['diff/diff__tools', 'codemirror', 'handlebars',
    * @enum {string}
    */
   diffTool.DoubleEditorController.CssSelector = {
+    /**
+     * Wrap element.
+     */
     BASE: '.diff_doublepane',
+
+    /**
+     * Element, which contains editor with original code.
+     */
     ORIGINAL: '.diff__original',
+
+    /**
+     * Element, which contains editor with modified code.
+     */
     MODIFIED: '.diff__modified'
   };
 
-  // todo(igor.alexeenko): As far as editors should not look alike
-  // (for example, original editor should have its gutter at right
-  // unlike modified editor, which has its gutter at left), this
-  // method should recognise, for which instance of editor it returns
-  // options object. Thus it does not have to be static and should
-  // take an instance of editor as argument.
   /**
    * Returns object which represents options for current instance of editor.
    * @static
+   * @param {boolean} opt_isOriginal
    * @return {Object}
    */
-  diffTool.DoubleEditorController.getEditorOptions = function() {
+  diffTool.DoubleEditorController.getEditorOptions = function(opt_isOriginal) {
+    if (!diffTool.isDef(opt_isOriginal)) {
+      opt_isOriginal = false;
+    }
+
     return {
       lineNumbers: true,
       matchBrackets: true,
@@ -115,18 +126,19 @@ define(['diff/diff__tools', 'codemirror', 'handlebars',
       this.codeMirrorModified_ = new CodeMirror(this.modifiedElement_,
           diffTool.DoubleEditorController.getEditorOptions());
 
-      this.element_.appendChild(this.equatorLine_);
+      this.element_.appendChild(this.line_);
     } else {
-      this.codeMirrorOriginal_ = null;
-      this.codeMirrorModified_ = null;
-
-      this.originalLines_ = null;
-      this.modifiedLines_ = null;
-
-      this.originalOffsets_ = null;
-      this.modifiedOffsets_ = null;
+      this.line_.parentNode.removeChild(this.line_);
 
       this.element_.innerHTML = '';
+
+      this.codeMirrorOriginal_ = null;
+      this.codeMirrorModified_ = null;
+      this.originalLines_ = null;
+      this.modifiedLines_ = null;
+      this.originalOffsets_ = null;
+      this.modifiedOffsets_ = null;
+      this.scrollHandler_ = null;
     }
   };
 
@@ -135,8 +147,6 @@ define(['diff/diff__tools', 'codemirror', 'handlebars',
    */
   diffTool.DoubleEditorController.prototype.setContentInternal = function(
       original, modified, diff) {
-    this.unbindEditors_();
-
     this.codeMirrorOriginal_.setValue(original);
     this.codeMirrorModified_.setValue(modified);
 
@@ -154,7 +164,7 @@ define(['diff/diff__tools', 'codemirror', 'handlebars',
   diffTool.DoubleEditorController.prototype.bindEditors_ = function(
       original, modified, diff) {
     this.setEditorEnabled_(this.codeMirrorOriginal_, true);
-    //this.setEditorEnabled_(this.codeMirrorModified_, true);
+    this.setEditorEnabled_(this.codeMirrorModified_, true);
 
     /**
      * @type {number}
@@ -191,15 +201,59 @@ define(['diff/diff__tools', 'codemirror', 'handlebars',
   };
 
   /**
+   * Approximate time, which needed to correctly scroll opposite editor.
+   * @type {number}
+   * @const
+   */
+  diffTool.DoubleEditorController.SCROLL_TIMEOUT = 200;
+
+  /**
+   * Disables opposite editor to prevent feedback loops from scroll event
    * @param {CodeMirror} target
    * @private
    */
   diffTool.DoubleEditorController.prototype.onScroll_ = function(target) {
+    var oppositeEditor = (target === this.codeMirrorOriginal_) ?
+        this.codeMirrorModified_ :
+        this.codeMirrorOriginal_;
+
+    if (this.disabledEditor_ && oppositeEditor !== this.disabledEditor_) {
+      return;
+    }
+
+    clearTimeout(this.disableEditorTimeout_);
+
+    if (!this.disabledEditor_ || oppositeEditor !== this.disabledEditor_) {
+      this.setEditorEnabled_(oppositeEditor, false);
+
+      /**
+       * Link to currently disabled editor.
+       * @type {CodeMirror}
+       * @private
+       */
+      this.disabledEditor_ = oppositeEditor;
+    }
+
+    this.syncScroll_(target);
+
+    this.disableEditorTimeout_ = setTimeout(diffTool.bindContext(function() {
+      this.setEditorEnabled_(this.disabledEditor_, true);
+      this.disabledEditor_ = null;
+    }, this), diffTool.DoubleEditorController.SCROLL_TIMEOUT);
+  };
+
+  /**
+   * @param {CodeMirror} editor
+   * @private
+   */
+  diffTool.DoubleEditorController.prototype.syncScroll_ = function(editor) {
     var oppositeElement;
     var elementOffsets;
     var oppositeElementOffsets;
 
-    if (target === this.codeMirrorOriginal_) {
+    var isOriginalEditor = (editor === this.codeMirrorOriginal_);
+
+    if (isOriginalEditor) {
       oppositeElement = this.codeMirrorModified_;
       elementOffsets = this.originalOffsets_;
       oppositeElementOffsets = this.modifiedOffsets_;
@@ -209,8 +263,10 @@ define(['diff/diff__tools', 'codemirror', 'handlebars',
       oppositeElementOffsets = this.originalOffsets_;
     }
 
-    var scrollPosition = target.getScrollInfo();
-    var equator = this.getEquator_(target);
+    var scrollPosition = editor.getScrollInfo();
+    // todo(igor.alexeenko): Update equator discretely, only when active chunk
+    // changes.
+    var equator = this.getEquator_(editor);
 
     var currentOffsetIndex = this.getCurrentOffset_(
         scrollPosition.top + equator,
@@ -229,8 +285,6 @@ define(['diff/diff__tools', 'codemirror', 'handlebars',
     var oppositeScroll = Math.round(oppositeOffsetHeight * ratio);
     var oppositeScrollTop = oppositeScroll + oppositeOffset.top - equator;
 
-    var isOriginalEditor = (target === this.codeMirrorOriginal_);
-
     var editorMaxWidth = isOriginalEditor ? this.originalEditorMaxWidth_ :
         this.modifiedEditorMaxWidth_;
     var oppositeMaxWidth = isOriginalEditor ? this.modifiedEditorMaxWidth_ :
@@ -239,17 +293,8 @@ define(['diff/diff__tools', 'codemirror', 'handlebars',
     var scrollRatio = scrollPosition.left / editorMaxWidth;
     var oppositeScrollLeft = Math.round(oppositeMaxWidth * scrollRatio);
 
-//    this.setEditorListenable_(oppositeElement, false);
     oppositeElement.scrollTo(oppositeScrollLeft, oppositeScrollTop);
-    //this.setEditorListenable_(oppositeElement, true);
   };
-
-  // todo(igor.alexeenko): Implement
-  /**
-   * @param {CodeMirror} editor
-   * @private
-   */
-  diffTool.DoubleEditorController.prototype.syncScroll_ = diffTool.nullFunction;
 
   /**
    * Equator is a line, on which speed of scrolling of chunk of code in opposite
@@ -273,12 +318,15 @@ define(['diff/diff__tools', 'codemirror', 'handlebars',
           diffTool.DoubleEditorController.EQUATOR_RATIO);
     }
 
-    this.equatorLine_.style.top = equator + 'px';
+    this.line_.style.top = equator + 'px';
 
     return equator;
   };
 
   /**
+   * Returns true if below height of code below the bottom line of editor
+   * is lower than offset to equator, which means that code below may not
+   * ever reach equator.
    * @return {boolean}
    * @private
    */
@@ -299,14 +347,25 @@ define(['diff/diff__tools', 'codemirror', 'handlebars',
   diffTool.DoubleEditorController.prototype.setEditorEnabled_ = function(
       editor, enabled) {
     if (enabled) {
-      CodeMirror.on(editor, 'scroll',
-          diffTool.bindContext(this.onScroll_, this));
+      if (!this.scrollHandler_) {
+        /**
+         * Scroll handler which calls method
+         * of {@code diffTool.DoubleEditorController} with bind context.
+         * @type {Function}
+         * @private
+         */
+        this.scrollHandler_ = diffTool.bindContext(this.onScroll_, this);
+      }
+
+      CodeMirror.on(editor, 'scroll', this.scrollHandler_);
     } else {
-      CodeMirror.off(editor, scroll);
+      CodeMirror.off(editor, 'scroll', this.scrollHandler_);
     }
   };
 
   /**
+   * Returns {@code Array} of objects, which represents offsets of chunks
+   * of code.
    * @param {Array.<Object>} lines
    * @param {CodeMirror} editor
    * @return {Array.<Object>}
@@ -328,7 +387,8 @@ define(['diff/diff__tools', 'codemirror', 'handlebars',
   };
 
   /**
-   * Returns number of used offset.
+   * Returns index of object which represents pixel offsets of current
+   * chunk of code.
    * @param {number} scrollPosition
    * @param {Array.<Object>} offsets
    * @return {number}
@@ -346,4 +406,6 @@ define(['diff/diff__tools', 'codemirror', 'handlebars',
 
     return l - 1;
   };
+
+  return diffTool.DoubleEditorController;
 });
