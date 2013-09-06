@@ -9,7 +9,7 @@
     "jso": "git://github.com/princed/jso.git",
     "polyfill": "git://github.com/inexorabletash/polyfill.git",
     "raphael": "*",
-    "requirejs": "~2.1.1"
+    "requirejs": "~2.1.6"
   },
   "ignore": [
     "node_modules",
