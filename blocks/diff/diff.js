@@ -7,9 +7,12 @@
  * @author igor.alexeenko (Igor Alekseyenko)
  */
 
-define(['diff/diff__tools', 'jquery', 'global/global__modules',
+define([
+  'diff/diff__tools',
+  'global/global__modules',
   'diff/diff__editorcontroller_single',
-  'diff/diff__editorcontroller_double'], function(diffTool, $, Module) {
+  'diff/diff__editorcontroller_double'
+], function(diffTool, Module) {
   'use strict';
 
   /**
