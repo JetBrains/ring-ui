@@ -20,6 +20,7 @@
 .diff__split {
   float: left;
   height: 100%;
+  overflow: hidden;
   position: relative;
   width: 6%;
 }
