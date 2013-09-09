@@ -146,5 +146,27 @@ define(function() {
     };
   };
 
+  /**
+   * @param {number} xFrom
+   * @param {number} yFrom
+   * @param {number} xModifierFrom
+   * @param {number} yModifierFrom
+   * @param {number} xModifierTo
+   * @param {number} yModifierTo
+   * @param {number} xTo
+   * @param {number} yTo
+   * @return {string}
+   */
+  diffTool.getBezierCurvePath = function(xFrom, yFrom, xModifierFrom,
+                                         yModifierFrom, xTo, yTo, xModifierTo,
+                                         yModifierTo) {
+    var paths = ['M', xFrom, yFrom, 'C', xModifierFrom, yModifierFrom,
+      xModifierTo, yModifierTo, xTo, yTo];
+
+    return paths.join('');
+  };
+
+  window.__getBezier = diffTool.getBezierCurvePath;
+
   return diffTool;
 });
