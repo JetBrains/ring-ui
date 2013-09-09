@@ -100,6 +100,7 @@ $menu-attention-color: #f50000;
 }
 
 .ring-menu__right {
+  font-size: 0;
   height: $x-unit*7;
   right: $x-unit*3;
   top: 0;
@@ -107,7 +108,14 @@ $menu-attention-color: #f50000;
 }
 
 .ring-menu__right .ring-menu__item {
-  margin-left: $x-unit*3;
+  margin-left: $x-unit*2;
+  display: inline-block;
+
+  *display: inline; // IE 7
+
+  &:hover {
+    text-decoration: none !important;
+  }
 }
 
 .ring-menu__right .ring-font-icon {
@@ -119,9 +127,8 @@ $menu-attention-color: #f50000;
   width: 12px;
 }
 
-.ring-menu__right .ring-font-icon_help {
-  position: relative;
-  top: -1px;
+.ring-menu__right .ring-menu__item_help {
+  height: $x-unit*4 + 3;
 }
 
 .no-font-antialiasing .ring-menu__right .ring-font-icon_help {
@@ -133,15 +140,28 @@ $menu-attention-color: #f50000;
   }
 }
 
-.ring-menu__item_icon:hover {
-  color: $hover-link-color !important;
+.ring-menu__item__i {
+  display: inline-block;
+
+  .no-font-antialiasing & {
+    margin-top: $x-unit;
+    vertical-align: top;
+  }
 }
 
-.ring-menu__search {
+.ring-menu__item_icon {
+  margin-right: 0;
+  margin-left: $x-unit*2;
+  height: $x-unit*4 + 2;
+  width: $x-unit*3;
+  text-align: right;
+  vertical-align: middle;
+}
+
+.ring-menu__right .ring-menu__search {
+  margin-left: $x-unit*3;
   position: relative;
-  display: inline;
   top: -2px;
-  zoom: 1;
 }
 
 .ring-menu__search__input {
@@ -154,8 +174,7 @@ $menu-attention-color: #f50000;
 
 .ring-menu__search__glass {
   position: absolute;
-  top: -1px;
-  *top: 10px; // IE7
+  top: 11px;
   width: 16px;
   right: 6px;
 
