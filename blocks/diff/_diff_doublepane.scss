@@ -14,7 +14,7 @@
 .diff__modified,
 .diff__original {
   float: left;
-  width: 47%;
+  width: 49%;
 }
 
 .diff__split {
@@ -22,23 +22,18 @@
   height: 100%;
   overflow: hidden;
   position: relative;
-  width: 6%;
+  width: 2%;
 }
 
 // todo(igor.alexeenko): Move to separate file.
 // todo(igor.alexeenko): Make variables.
-.diff__original .CodeMirror .line__modified {
-  background: rgba(255, 0, 0, 0.3);
+// todo(igor.alexeenko): Find out, how to display collapsed lines without
+// border.
+.CodeMirror .line__modified {
+  background: rgba(0, 90, 255, 0.3);
 }
 
-//.diff__original .CodeMirror .line__deleted {
-//  border-top: solid 2px rgba(255, 0, 0, 0.3);
-//}
-
-.diff__modified .CodeMirror .line__modified {
+.CodeMirror .line__added  {
+  box-sizing: border-box;
   background: rgba(0, 255, 90, 0.3);
 }
-
-//.diff__modified .CodeMirror .line__deleted  {
-//  border-top: solid 2px rgba(0, 255, 90, 0.3);
-//}
