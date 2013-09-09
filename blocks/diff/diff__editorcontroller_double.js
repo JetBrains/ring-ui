@@ -38,6 +38,14 @@ define([
    */
   diffTool.DoubleEditorController.EQUATOR_RATIO = 0.5;
 
+
+  /**
+   * Ratio of width of bezier curve, on which bezier modifier places.
+   * @type {number}
+   * @const
+   */
+  diffTool.DoubleEditorController.CONNECTOR_CURVE_RATIO = 0.2;
+
   /**
    * IDs of templates for {@link Handlebars}.
    * @enum {string}
@@ -370,7 +378,8 @@ define([
       this.lineTypeToClass_ = diffTool.createObject(
           diffTool.ParserDoublePane.LineType.UNCHANGED, '',
           diffTool.ParserDoublePane.LineType.MODIFIED, 'line__modified',
-          diffTool.ParserDoublePane.LineType.DELETED, 'line__deleted');
+          diffTool.ParserDoublePane.LineType.DELETED, 'line__deleted',
+          diffTool.ParserDoublePane.LineType.ADDED, 'line__added');
     }
 
     // todo(igor.alexeenko): dirty code.
@@ -384,13 +393,6 @@ define([
   };
 
   /**
-   * Ratio of width of bezier curve, on which bezier modifier places.
-   * @type {number}
-   * @const
-   */
-  diffTool.DoubleEditorController.CONNECTOR_CURVE_RATIO = 0.25;
-
-  /**
    * Draws graphics connectors from changed chunks in original code to
    * corresponding chunks in modified code.
    * @private
@@ -402,8 +404,6 @@ define([
     }
 
     var width = this.splitElement_.clientWidth;
-    var modifierOffset = width *
-        diffTool.DoubleEditorController.CONNECTOR_CURVE_RATIO;
     var originalScrollInfo = this.codeMirrorOriginal_.getScrollInfo();
     var modifiedScrollInfo = this.codeMirrorModified_.getScrollInfo();
 
@@ -416,17 +416,15 @@ define([
 
     this.connectorsCanvas_.clear();
 
-    var attrs = {
-      stroke: 'rgba(0, 0, 0, 0.3)',
-      'stroke-linecap': 'round',
-      'stroke-width': 1
-    };
+    if (!this.typeToFill_) {
+      this.typeToFill_ = diffTool.createObject(
+          diffTool.ParserDoublePane.LineType.MODIFIED, 'rgba(0, 90, 255, 0.3)',
+          diffTool.ParserDoublePane.LineType.DELETED, 'rgba(0, 255, 90, 0.3)');
+    }
 
     // todo(igor.alexeenko): Draw only visible offsets.
     this.originalOffsets_.forEach(function(offset, i) {
-      if (offset.type !== 'unchanged') {
-        console.log(offset.type);
-
+      if (offset.type !== diffTool.ParserDoublePane.LineType.UNCHANGED) {
         var oppositeOffset = this.modifiedOffsets_[i];
 
         var originalTop = offset.top - originalScrollInfo.top;
@@ -435,17 +433,35 @@ define([
         var originalBottom = offset.bottom - originalScrollInfo.top;
         var modifiedBottom = oppositeOffset.bottom - modifiedScrollInfo.top;
 
-        this.connectorsCanvas_.path(
-            [['M', 0, originalTop],
-            ['C', modifierOffset, originalTop,
-            modifierOffset, modifiedTop,
-            width, modifiedTop]]).attr(attrs);
+        var attrs = {
+          fill: this.typeToFill_[offset.type],
+          opacity: 1,
+          stroke: 'rgba(128, 128, 128, 0.2)',
+          'stroke-linecap': 'round',
+          'stroke-width': '1px'
+        };
 
         this.connectorsCanvas_.path(
-            [['M', 0, originalBottom],
-            ['C', modifierOffset, originalBottom,
-            modifierOffset, modifiedBottom,
-            width, modifiedBottom]]).attr(attrs);
+        [
+          ['M', 0, originalTop],
+          [
+            'C', width * 0.2, originalTop,
+            width * 0.8, modifiedTop,
+            width, modifiedTop
+          ],
+          [
+            'L', width, modifiedBottom
+          ],
+          [
+            'C',
+            width * 0.8, modifiedBottom,
+            width * 0.2, originalBottom,
+            0, originalBottom
+          ],
+          [
+            'L', 0, originalTop
+          ]
+        ]).attr(attrs);
       }
     }, this);
   };
