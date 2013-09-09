@@ -31,7 +31,12 @@ define([
    */
   diffTool.ParserDoublePane.LineType = {
     /**
-     * Line from original code.
+     * Line, which has not been added in modified code.
+     */
+    ADDED: 'added',
+
+    /**
+     * Line, which has been deleted in modified code.
      */
     DELETED: 'deleted',
 
@@ -69,6 +74,7 @@ define([
     diff.forEach(function(change) {
       change = /** @type {diffTool.Parser.LineModification} */ (change);
       var usedLines;
+      var oppositeLines;
       var codeType;
       var isOriginalCode;
 
@@ -85,16 +91,26 @@ define([
             change.oldLines || 0:
             change.newLines || 0;
 
-        codeType = (usedLines === 0) ?
-            diffTool.ParserDoublePane.LineType.DELETED :
-            diffTool.ParserDoublePane.LineType.MODIFIED;
+        oppositeLines = isOriginalCode ?
+            change.newLines || 0:
+            change.oldLines || 0;
+
+        if (usedLines === 0 && oppositeLines > 0) {
+          codeType = diffTool.ParserDoublePane.LineType.DELETED;
+        } else if (oppositeLines === 0 && usedLines > 0) {
+          codeType = diffTool.ParserDoublePane.LineType.ADDED;
+        } else {
+          codeType = diffTool.ParserDoublePane.LineType.MODIFIED;
+        }
       }
 
-      offsets.push({
+      var offset = {
         bottom: fileCursor + usedLines,
         codeType: codeType,
         top: fileCursor
-      });
+      };
+
+      offsets.push(offset);
 
       fileCursor += usedLines;
     }, this);
