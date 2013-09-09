@@ -384,6 +384,13 @@ define([
   };
 
   /**
+   * Ratio of width of bezier curve, on which bezier modifier places.
+   * @type {number}
+   * @const
+   */
+  diffTool.DoubleEditorController.CONNECTOR_CURVE_RATIO = 0.25;
+
+  /**
    * Draws graphics connectors from changed chunks in original code to
    * corresponding chunks in modified code.
    * @private
@@ -394,11 +401,53 @@ define([
           diffTool.DoubleEditorController.CssSelector.SPLITTER);
     }
 
+    var width = this.splitElement_.clientWidth;
+    var modifierOffset = width *
+        diffTool.DoubleEditorController.CONNECTOR_CURVE_RATIO;
+    var originalScrollInfo = this.codeMirrorOriginal_.getScrollInfo();
+    var modifiedScrollInfo = this.codeMirrorModified_.getScrollInfo();
+
     if (!this.connectorsCanvas_) {
+      // todo(igor.alexeenko): update size of canvas when window size changes.
       this.connectorsCanvas_ = raphael(this.splitElement_,
           this.splitElement_.clientWidth,
           this.splitElement_.clientHeight);
     }
+
+    this.connectorsCanvas_.clear();
+
+    var attrs = {
+      stroke: 'rgba(0, 0, 0, 0.3)',
+      'stroke-linecap': 'round',
+      'stroke-width': 1
+    };
+
+    // todo(igor.alexeenko): Draw only visible offsets.
+    this.originalOffsets_.forEach(function(offset, i) {
+      if (offset.type !== 'unchanged') {
+        console.log(offset.type);
+
+        var oppositeOffset = this.modifiedOffsets_[i];
+
+        var originalTop = offset.top - originalScrollInfo.top;
+        var modifiedTop = oppositeOffset.top - modifiedScrollInfo.top;
+
+        var originalBottom = offset.bottom - originalScrollInfo.top;
+        var modifiedBottom = oppositeOffset.bottom - modifiedScrollInfo.top;
+
+        this.connectorsCanvas_.path(
+            [['M', 0, originalTop],
+            ['C', modifierOffset, originalTop,
+            modifierOffset, modifiedTop,
+            width, modifiedTop]]).attr(attrs);
+
+        this.connectorsCanvas_.path(
+            [['M', 0, originalBottom],
+            ['C', modifierOffset, originalBottom,
+            modifierOffset, modifiedBottom,
+            width, modifiedBottom]]).attr(attrs);
+      }
+    }, this);
   };
 
   /**

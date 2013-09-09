@@ -31,14 +31,14 @@
   background: rgba(255, 0, 0, 0.3);
 }
 
-.diff__original .CodeMirror .line__deleted {
-  border-top: solid 2px rgba(255, 0, 0, 0.3);
-}
+//.diff__original .CodeMirror .line__deleted {
+//  border-top: solid 2px rgba(255, 0, 0, 0.3);
+//}
 
 .diff__modified .CodeMirror .line__modified {
   background: rgba(0, 255, 90, 0.3);
 }
 
-.diff__modified .CodeMirror .line__deleted  {
-  border-top: solid 2px rgba(0, 255, 90, 0.3);
-}
+//.diff__modified .CodeMirror .line__deleted  {
+//  border-top: solid 2px rgba(0, 255, 90, 0.3);
+//}
