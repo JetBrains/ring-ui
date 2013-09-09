@@ -24,6 +24,13 @@ define([
   diffTool.inherit(diffTool.DoubleEditorController, diffTool.EditorController);
 
   /**
+   * Approximate time, which needed to correctly scroll opposite editor.
+   * @type {number}
+   * @const
+   */
+  diffTool.DoubleEditorController.SCROLL_TIMEOUT = 200;
+
+  /**
    * Equator ratio is a ratio of height of editor on which speed of scrolling
    * of chunks of corresponding code in opposite editor changes.
    * @type {number}
@@ -124,6 +131,8 @@ define([
       this.codeMirrorModified_ = new CodeMirror(this.modifiedElement_,
           diffTool.DoubleEditorController.getEditorOptions());
     } else {
+      this.unbindEditors_();
+
       this.element_.innerHTML = '';
 
       this.codeMirrorOriginal_ = null;
@@ -184,6 +193,7 @@ define([
     this.modifiedOffsets_ = this.getLinesOffset_(this.modifiedLines_,
         this.codeMirrorModified_);
 
+    this.colorizeLines_();
     this.drawConnectors_();
   };
 
@@ -195,13 +205,6 @@ define([
     this.setEditorEnabled_(this.codeMirrorOriginal_, false);
     this.setEditorEnabled_(this.codeMirrorModified_, false);
   };
-
-  /**
-   * Approximate time, which needed to correctly scroll opposite editor.
-   * @type {number}
-   * @const
-   */
-  diffTool.DoubleEditorController.SCROLL_TIMEOUT = 200;
 
   /**
    * Disables opposite editor to prevent feedback loops from scroll event
@@ -335,6 +338,52 @@ define([
   };
 
   /**
+   * @private
+   */
+  diffTool.DoubleEditorController.prototype.colorizeLines_ = function() {
+    this.originalLines_.forEach(function(chunk, i) {
+      var oppositeChunk = this.modifiedLines_[i];
+
+      this.colorizeChunk_(chunk.top, chunk.bottom, chunk.codeType,
+          this.codeMirrorOriginal_);
+      this.colorizeChunk_(oppositeChunk.top, oppositeChunk.bottom,
+          oppositeChunk.codeType, this.codeMirrorModified_);
+    }, this);
+  };
+
+  /**
+   * Adds class, according to modification type, to bunch of lines in editor.
+   * @param {number} from
+   * @param {number} to
+   * @param {diffTool.DoubleEditorController.ModificationType} type
+   * @param {CodeMirror} editor
+   * @private
+   */
+  diffTool.DoubleEditorController.prototype.colorizeChunk_ = function(from, to,
+      type, editor) {
+    if (!this.lineTypeToClass_) {
+      /**
+       * @type {Object.<diffTool.DoubleEditorController.ModificationType,
+       *     string>}
+       * @private
+       */
+      this.lineTypeToClass_ = diffTool.createObject(
+          diffTool.ParserDoublePane.LineType.UNCHANGED, '',
+          diffTool.ParserDoublePane.LineType.MODIFIED, 'line__modified',
+          diffTool.ParserDoublePane.LineType.DELETED, 'line__deleted');
+    }
+
+    // todo(igor.alexeenko): dirty code.
+    if (from === to) {
+      editor.addLineClass(from, 'wrap', this.lineTypeToClass_[type]);
+    }
+
+    for (var i = from; i < to; i++) {
+      editor.addLineClass(i, 'wrap', this.lineTypeToClass_[type]);
+    }
+  };
+
+  /**
    * Draws graphics connectors from changed chunks in original code to
    * corresponding chunks in modified code.
    * @private
@@ -353,6 +402,8 @@ define([
   };
 
   /**
+   * Enables/disabled event listeners on editor, which causes correction
+   * of scroll position of opposite editor.
    * @param {CodeMirror} editor
    * @param {boolean} enabled
    * @private
