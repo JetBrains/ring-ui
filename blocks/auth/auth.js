@@ -1,10 +1,19 @@
 /* jshint camelcase:false */
-define(['jquery', 'jso', 'global/global__modules'], function ($, jso, Module) {
+define(['jquery', 'jso', 'global/global__modules', 'global/global__utils'], function ($, jso, Module, utils) {
   'use strict';
+
+  var defaultRedirectUri = window.location.protocol + '//' + window.location.host;
+  var defaultId = '0-0-0-0-0';
+  var defaultPath = '/rest/oauth2/auth';
 
   var serverUrl;
   var provider = 'hub';
   var jsoConfig = {};
+  var defaultConfig = {
+    scope: [defaultId],
+    redirect_uri: defaultRedirectUri,
+    client_id: defaultId
+  };
 
   var get = function(url, callback) {
     return $.oajax({url: serverUrl + url,
@@ -17,13 +26,17 @@ define(['jquery', 'jso', 'global/global__modules'], function ($, jso, Module) {
     });
   };
 
-  var getToken = function() {
+  var getToken = function(denyIA) {
     var token = jso.getToken(provider);
 
     if (token === null) {
       var ensure = {};
       ensure[provider] = jsoConfig[provider].scope;
-      jso.ensure(ensure);
+
+      if (!denyIA) {
+        jso.ensure(ensure);
+      }
+      return false;
     } else {
       return token;
     }
@@ -31,22 +44,29 @@ define(['jquery', 'jso', 'global/global__modules'], function ($, jso, Module) {
 
   var init = function (config) {
     var dfd = $.Deferred();
-    serverUrl = config.serverUri;
+    serverUrl = typeof config === 'string' ? config : config.serverUri;
 
     if (!serverUrl) {
-      Module.util.log('Server URI is not defined!');
+      utils.log('Server URI is not defined!');
     } else {
       serverUrl = serverUrl.replace(/\/+$/, '');
     }
 
-    jsoConfig[provider] = $.extend({
-        authorization: serverUrl + '/rest/oauth2/auth'
-      }, {
-        client_id: config.clientId,
-        redirect_uri: config.redirectUri,
-        scope: config.scope
-      }
-    );
+    jsoConfig[provider] = {authorization: serverUrl + defaultPath};
+
+    var cfg = $.extend(jsoConfig[provider], defaultConfig);
+
+    if (config.clientId) {
+      cfg.client_id = config.clientId;
+    }
+
+    if (config.redirect_uri) {
+      cfg.redirect_uri = config.redirectUri;
+    }
+
+    if (config.scope) {
+      cfg.scope = config.scope;
+    }
 
     // Configure jso
     jso.configure(jsoConfig, null, function(done, err) {
@@ -54,7 +74,7 @@ define(['jquery', 'jso', 'global/global__modules'], function ($, jso, Module) {
         dfd.reject(err);
 
       // Authorize, if needed or resolve dfd
-      } else if(getToken()) {
+      } else if(getToken(config.denyIA)) {
         dfd.resolve(done);
       }
     });
