@@ -30,7 +30,14 @@
   <script src="bundles/ring.config.js"></script>
 
   <script>
-    require(['jquery', 'ring', 'auth/auth', 'header/header__hub-services', 'json'], function($, ring) {
+    require([
+      'jquery',
+      'ring',
+      'auth/auth',
+      'header/header__hub-services',
+      'header/header__userinfo',
+      'json'],
+      function($, ring) {
       window.ring = ring;
 
       var authData = window.location.host.indexOf('hub-staging') > -1 ?
