@@ -2,7 +2,8 @@ $header-link-color:  #b4b4b4;
 
 .ring-header {
   padding: 0 $x-unit*2;
-  background-color: #484848; // IE9-
+  background-color: #35444b; // IE7-
+  -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='#24353d', endColorstr='#4a565c', GradientType=0)"; // IE8
   background-image: linear-gradient(to bottom, #24353d, #4a565c);
   letter-spacing: -5px;
   line-height: 11px !important;
