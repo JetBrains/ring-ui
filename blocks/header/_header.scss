@@ -19,10 +19,11 @@ $header-link-color:  #b4b4b4;
 .ring-header__item {
   position: relative;
   display: inline-block;
+  *display: inline; // IE7
   height: $x-unit*3 - 8;
 
-  padding: 7px $x-unit 0 $x-unit;
-  vertical-align: top;
+  padding: 6px $x-unit 0 $x-unit;
+  vertical-align: middle; // IE7
 
   letter-spacing: 0;
   font-size: 11px !important;
