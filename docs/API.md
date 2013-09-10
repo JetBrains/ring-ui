@@ -497,6 +497,15 @@ Get hub resourse using config authorization.
     var ajax = ring('auth', 'ajax');
     ajax(path)
 
+### get
+Get cached resourse using config authorization.
+
+**Returns** `$.Deferred` | `jqXHR` ([jQuery.ajax](http://api.jquery.com/jQuery.ajax/#jqXHR))
+
+
+    var get = ring('auth', 'get');
+    ajax(path)
+
 #### path
 Path to Hub resource
 

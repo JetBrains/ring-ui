@@ -3,7 +3,7 @@ define([
   'global/global',
   'menu/menu',
   'header/header',
-  'header/header__internal'
+  'header/header__jetbrains-services'
 ], function($, ring) {
   // Remove all jQuery variables from the global scope
   $.noConflict(true);
