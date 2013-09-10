@@ -81,7 +81,7 @@ define(['jquery', 'jso', 'global/global__modules', 'global/global__utils'], func
       cfg.client_id = config.clientId;
     }
 
-    if (config.redirect_uri) {
+    if (config.redirectUri) {
       cfg.redirect_uri = config.redirectUri;
     }
 
