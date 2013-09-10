@@ -5,13 +5,13 @@ Ring API
 
 # Syntax
 
-## Import modules
+## Importing modules
 
-Get root module
+Get the root module
 
     var root = ring();
 
-Get module
+Get module by name
 
     var module = ring('module');
 
@@ -21,7 +21,7 @@ Invoke module method
         key: 'value'
     });
 
-or just
+or simply
 
     module('method', {
         key: 'value'
@@ -29,7 +29,7 @@ or just
 
 ## Import methods
 
-Get method
+Get a method
 
     var method = ring('module', 'method');
 
@@ -39,18 +39,18 @@ Invoke method
         key: 'value'
     });
 
-All methods return `$.Deferred` if anything else isn't stated
+All methods return `$.Deferred` if not stated otherwise
 
 ## Events
 
 ### on
-Subscribe on ring events on any modules.
+Subscribe to Ring events on any module.
 
     var root = ring();
 
     root.on(event, handler);
 
-Subscribe on certain module events
+Subscribe to certain module events.
 
     var module = ring('module');
 
@@ -63,7 +63,7 @@ Subscribe on certain module events
     '{module}:{method}:{done|fail|success}[::{namespace}]'
     '{module}:{customEvent}[::{namespace}]'
 
-#### event — certain module
+#### event — specific module
 `String`
 
     '{method}:{done|fail|success}[::{namespace}]'
@@ -73,14 +73,14 @@ Subscribe on certain module events
 `Function` (handler function) | `String` (method name)
 
 ### one
-Subscribe on event for only one time
+Subscribe to an event, the handler is executed at most once per module
 
     var module = ring('module');
 
     module.one(event, handler);
 
 ### off
-Unsubscribe from all or namespaced events
+Remove an event handler
 
     var module = ring('module');
 
@@ -88,7 +88,7 @@ Unsubscribe from all or namespaced events
 
 
 ### trigger
-Trigger ring event
+Trigger Ring event
 
     var module = ring('module');
 
@@ -102,12 +102,12 @@ Same as `on()` event param.
 # Modules
 
 ## Root module
-Default module, can be called with or without id
+Default module, can be called with or without ID
 
     var root = ring();
 
 ### config
-Basic ring configuration. Returns actualized config.
+Basic Ring configuration. Returns the current configuration.
 
 **Returns** `Object`
 
@@ -136,7 +136,7 @@ Basic ring configuration. Returns actualized config.
     }
 
 ### init
-Init bunch of modules
+Initialize a list of modules
 
     root('init', moduleList)
 
@@ -149,7 +149,7 @@ Init bunch of modules
     }
 
 ### update
-Update bunch of modules
+Update a list of modules
 
     root('update', moduleList)
 
@@ -374,14 +374,14 @@ Default is **append**.
     update(path, configPart)
 
 #### path
-Dot-delimited string path to element
+Dot-delimited string that represents the path to an element
 
 `String`
 
     'left.projects.counter'
 
 #### configPart
-Any part of initial config. Remove part using `null`.
+Any part of initial config. To remove a part, pass `null`.
 
 `Object`
 
@@ -393,7 +393,7 @@ Any part of initial config. Remove part using `null`.
     }
 
 ### setActive
-Set menu item from left and right active by id
+Mark a menu item as active by ID.
 
     var setActive = ring('menu', 'setActive');
     setActive(id)
@@ -447,15 +447,14 @@ Default is **append**.
     update(path, configPart)
 
 #### path
-Dot-delimited string path to element
+Dot-delimited string that represents the path to an element
 
 `String`
 
     'items.left.projects.counter'
 
 #### configPart
-Any part of initial config.
-Remove part using `null`.
+Any part of initial config. To remove a part, pass `null`.
 
 `Object`
 
@@ -485,12 +484,12 @@ Remove part using `null`.
     }
 
 ### getToken
-Return token or updates authorization if token is missing.
+Returns token or updates authorization if token is missing.
 
 **Returns** `String`
 
 ### ajax
-Get hub resourse using config authorization.
+Get Hub resource using authorization config.
 
 **Returns** `jqXHR` ([jQuery.ajax](http://api.jquery.com/jQuery.ajax/#jqXHR))
 
@@ -498,7 +497,7 @@ Get hub resourse using config authorization.
     ajax(path)
 
 ### get
-Get cached resourse using config authorization.
+Get cached resource using authorization config.
 
 **Returns** `$.Deferred` | `jqXHR` ([jQuery.ajax](http://api.jquery.com/jQuery.ajax/#jqXHR))
 
