@@ -15,7 +15,20 @@ define(['jquery', 'jso', 'global/global__modules', 'global/global__utils'], func
     client_id: defaultId
   };
 
-  var get = function(url, callback) {
+  var CACHE_PERIOD = 30000;
+  var cacheData = {};
+  var cacheTime = {};
+
+  var now = function() {
+    return +(new Date());
+  };
+
+  var ajax = function(url, callback) {
+    var cache = function(data) {
+      cacheData[url] = data;
+      cacheTime[url] = now();
+    };
+
     return $.oajax({url: serverUrl + url,
       jso_provider: provider,
       //TODO: use string scopes instead of ids
@@ -23,7 +36,15 @@ define(['jquery', 'jso', 'global/global__modules', 'global/global__utils'], func
       jso_allowia: true,
       dataType: 'json',
       success: callback
-    });
+    }).done(cache);
+  };
+
+  var get = function(url) {
+    if (now() - cacheTime[url] < CACHE_PERIOD) {
+      return $.Deferred().resolve(cacheData[url]);
+    } else {
+      return ajax(url);
+    }
   };
 
   var getToken = function(denyIA) {
@@ -84,7 +105,8 @@ define(['jquery', 'jso', 'global/global__modules', 'global/global__utils'], func
 
   Module.add('auth', {
     init: init,
-    ajax: get,
+    ajax: ajax,
+    get: get,
     getToken: {
       method: getToken,
       override: true
