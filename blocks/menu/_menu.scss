@@ -80,11 +80,6 @@ $menu-attention-color: #f50000;
   user-select: none;
 }
 
-.ring-menu__item_link,
-.ring-menu__item_link:visited {
-  color: $link-color !important;
-}
-
 .ring-menu__item__counter {
   color: #fff;
   background-color: $link-color;
