@@ -7,6 +7,7 @@ $menu-attention-color: #f50000;
   text-align: center;
   border-bottom: 1px solid #ccc;
   font-size: 14px !important;
+  line-height: 24px;
   @include droid-font();
 }
 
@@ -139,7 +140,7 @@ $menu-attention-color: #f50000;
   display: inline-block;
 
   .no-font-antialiasing & {
-    margin-top: $x-unit;
+    margin-top: 1px;
     vertical-align: top;
   }
 }
@@ -147,7 +148,7 @@ $menu-attention-color: #f50000;
 .ring-menu__item_icon {
   margin-right: 0;
   margin-left: $x-unit*2;
-  height: $x-unit*4 + 2;
+  height: $x-unit*3 - 2;
   width: $x-unit*3;
   text-align: right;
   vertical-align: middle;
@@ -169,7 +170,7 @@ $menu-attention-color: #f50000;
 
 .ring-menu__search__glass {
   position: absolute;
-  top: 11px;
+  top: 6px;
   width: 16px;
   right: 6px;
 
