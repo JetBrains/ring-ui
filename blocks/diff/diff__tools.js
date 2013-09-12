@@ -101,6 +101,25 @@ define(function() {
     return Math.min(Math.max(value, min), max);
   };
 
+  /**
+   * @param {Array} arr
+   * @param {*} el
+   * @return {Array}
+   */
+  diffTool.deleteFromArray = function(arr, el) {
+    var elIndex = arr.indexOf(el);
+    var result = arr;
+
+    if (elIndex > -1) {
+      var leftSide = arr.slice(0, elIndex);
+      var rightSide = arr.slice(elIndex + 1, arr.length);
+
+      result = leftSide.concat(rightSide);
+    }
+
+    return result;
+  };
+
   // todo(igor.alexeenko): Rename to inherits
   /**
    * Inheritance interface. Works through empty constructor, but unlike other
