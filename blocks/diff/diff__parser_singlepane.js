@@ -272,12 +272,6 @@ define([
       type: diffTool.Parser.LineType.NULL
     });
 
-    var lineTypeToId = diffTool.createObject(
-        diffTool.Parser.LineType.UNCHANGED, 'unchanged',
-        diffTool.Parser.LineType.ADDED, 'added',
-        diffTool.Parser.LineType.DELETED, 'deleted',
-        diffTool.Parser.LineType.FOLDED, 'folded');
-
     this.enableLineType(lineContent, type, true);
 
     return lineContent;
