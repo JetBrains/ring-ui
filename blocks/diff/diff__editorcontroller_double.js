@@ -191,15 +191,8 @@ define([
     this.modifiedEditorMaxWidth_ = diffTool.DoubleEditorController.
         getMaxScroll_(this.codeMirrorModified_);
 
-    this.originalLines_ = this.codeParser_.getLines(original, diff,
-        diffTool.ParserDoublePane.CodeType.ORIGINAL);
-    this.modifiedLines_ = this.codeParser_.getLines(modified, diff,
-        diffTool.ParserDoublePane.CodeType.MODIFIED);
-
-    this.originalOffsets_ = this.getLinesOffset_(this.originalLines_,
-        this.codeMirrorOriginal_);
-    this.modifiedOffsets_ = this.getLinesOffset_(this.modifiedLines_,
-        this.codeMirrorModified_);
+    this.lines_ = this.codeParser_.parse(original, modified, diff);
+    this.offsets_ = this.getLinesOffset_(this.lines_);
 
     this.colorizeLines_();
     this.drawConnectors_();
@@ -255,21 +248,9 @@ define([
    * @private
    */
   diffTool.DoubleEditorController.prototype.syncScroll_ = function(editor) {
-    var oppositeElement;
-    var elementOffsets;
-    var oppositeElementOffsets;
-
     var isOriginalEditor = (editor === this.codeMirrorOriginal_);
-
-    if (isOriginalEditor) {
-      oppositeElement = this.codeMirrorModified_;
-      elementOffsets = this.originalOffsets_;
-      oppositeElementOffsets = this.modifiedOffsets_;
-    } else {
-      oppositeElement = this.codeMirrorOriginal_;
-      elementOffsets = this.modifiedOffsets_;
-      oppositeElementOffsets = this.originalOffsets_;
-    }
+    var oppositeElement = isOriginalEditor ? this.codeMirrorModified_ :
+        this.codeMirrorOriginal_;
 
     var scrollPosition = editor.getScrollInfo();
     // todo(igor.alexeenko): Update equator discretely, only when active chunk
@@ -278,20 +259,31 @@ define([
 
     var currentOffsetIndex = this.getCurrentOffset_(
         scrollPosition.top + equator,
-        elementOffsets);
+        this.offsets_,
+        isOriginalEditor);
 
-    var currentOffset = elementOffsets[currentOffsetIndex];
+    var currentOffset = this.offsets_[currentOffsetIndex];
 
-    var offsetHeight = currentOffset.bottom - currentOffset.top;
-    var scrollTop = scrollPosition.top - currentOffset.top + equator;
+    console.log(currentOffsetIndex, currentOffset);
+
+    var currentTop = isOriginalEditor ? currentOffset.topOriginal :
+        currentOffset.topModified;
+    var oppositeTop = isOriginalEditor ? currentOffset.topModified :
+        currentOffset.topOriginal;
+    var currentBottom = isOriginalEditor ? currentOffset.bottomOriginal :
+        currentOffset.bottomModified;
+    var oppositeBottom = isOriginalEditor ? currentOffset.bottomModified :
+        currentOffset.bottomOriginal;
+
+    var offsetHeight = currentBottom - currentTop;
+    var scrollTop = scrollPosition.top - currentTop + equator;
 
     var ratio = scrollTop / offsetHeight;
 
-    var oppositeOffset = oppositeElementOffsets[currentOffsetIndex];
-    var oppositeOffsetHeight = oppositeOffset.bottom - oppositeOffset.top;
+    var oppositeOffsetHeight = oppositeBottom - oppositeTop;
 
     var oppositeScroll = Math.round(oppositeOffsetHeight * ratio);
-    var oppositeScrollTop = oppositeScroll + oppositeOffset.top - equator;
+    var oppositeScrollTop = oppositeScroll + oppositeTop - equator;
 
     var editorMaxWidth = isOriginalEditor ? this.originalEditorMaxWidth_ :
         this.modifiedEditorMaxWidth_;
@@ -349,13 +341,11 @@ define([
    * @private
    */
   diffTool.DoubleEditorController.prototype.colorizeLines_ = function() {
-    this.originalLines_.forEach(function(chunk, i) {
-      var oppositeChunk = this.modifiedLines_[i];
-
-      this.colorizeChunk_(chunk.top, chunk.bottom, chunk.codeType,
+    this.lines_.forEach(function(chunk) {
+      this.colorizeChunk_(chunk.topOriginal, chunk.bottomOriginal, chunk.type,
           this.codeMirrorOriginal_);
-      this.colorizeChunk_(oppositeChunk.top, oppositeChunk.bottom,
-          oppositeChunk.codeType, this.codeMirrorModified_);
+      this.colorizeChunk_(chunk.topModified, chunk.bottomModified, chunk.type,
+          this.codeMirrorModified_);
     }, this);
   };
 
@@ -363,7 +353,7 @@ define([
    * Adds class, according to modification type, to bunch of lines in editor.
    * @param {number} from
    * @param {number} to
-   * @param {diffTool.DoubleEditorController.ModificationType} type
+   * @param {diffTool.Parser.LineType} type
    * @param {CodeMirror} editor
    * @private
    */
@@ -376,10 +366,10 @@ define([
        * @private
        */
       this.lineTypeToClass_ = diffTool.createObject(
-          diffTool.ParserDoublePane.LineType.UNCHANGED, '',
-          diffTool.ParserDoublePane.LineType.MODIFIED, 'line__modified',
-          diffTool.ParserDoublePane.LineType.DELETED, 'line__deleted',
-          diffTool.ParserDoublePane.LineType.ADDED, 'line__added');
+          diffTool.Parser.LineType.UNCHANGED, '',
+          diffTool.Parser.LineType.INLINE, 'line__modified',
+          diffTool.Parser.LineType.DELETED, 'line__deleted',
+          diffTool.Parser.LineType.ADDED, 'line__added');
     }
 
     // todo(igor.alexeenko): dirty code.
@@ -418,20 +408,20 @@ define([
 
     if (!this.typeToFill_) {
       this.typeToFill_ = diffTool.createObject(
-          diffTool.ParserDoublePane.LineType.MODIFIED, 'rgba(0, 90, 255, 0.3)',
-          diffTool.ParserDoublePane.LineType.DELETED, 'rgba(0, 255, 90, 0.3)');
+          diffTool.Parser.LineType.INLINE, 'rgba(0, 90, 255, 0.3)',
+          diffTool.Parser.LineType.DELETED, 'rgba(255, 0, 0, 0.3)',
+          diffTool.Parser.LineType.ADDED, 'rgba(0, 255, 90, 0.3)');
     }
 
     // todo(igor.alexeenko): Draw only visible offsets.
-    this.originalOffsets_.forEach(function(offset, i) {
-      if (offset.type !== diffTool.ParserDoublePane.LineType.UNCHANGED) {
-        var oppositeOffset = this.modifiedOffsets_[i];
+    this.offsets_.forEach(function(offset) {
+      if (!diffTool.Parser.lineHasType(offset,
+          diffTool.Parser.LineType.UNCHANGED)) {
+        var originalTop = offset.topOriginal - originalScrollInfo.top;
+        var modifiedTop = offset.topModified - modifiedScrollInfo.top;
 
-        var originalTop = offset.top - originalScrollInfo.top;
-        var modifiedTop = oppositeOffset.top - modifiedScrollInfo.top;
-
-        var originalBottom = offset.bottom - originalScrollInfo.top;
-        var modifiedBottom = oppositeOffset.bottom - modifiedScrollInfo.top;
+        var originalBottom = offset.bottomOriginal - originalScrollInfo.top;
+        var modifiedBottom = offset.bottomModified - modifiedScrollInfo.top;
 
         var attrs = {
           fill: this.typeToFill_[offset.type],
@@ -496,19 +486,21 @@ define([
    * Returns {@code Array} of objects, which represents offsets of chunks
    * of code.
    * @param {Array.<Object>} lines
-   * @param {CodeMirror} editor
    * @return {Array.<Object>}
    * @private
    */
-  diffTool.DoubleEditorController.prototype.getLinesOffset_ = function(lines,
-      editor) {
+  diffTool.DoubleEditorController.prototype.getLinesOffset_ = function(lines) {
     var offsets = [];
 
     lines.forEach(function(line) {
       offsets.push({
-        bottom: editor.heightAtLine(line.bottom, 'local'),
-        type: line.codeType,
-        top: editor.heightAtLine(line.top, 'local')
+        bottomModified: this.codeMirrorModified_.heightAtLine(
+            line.bottomModified),
+        bottomOriginal: this.codeMirrorOriginal_.heightAtLine(
+            line.bottomOriginal),
+        topModified: this.codeMirrorModified_.heightAtLine(line.topModified),
+        topOriginal: this.codeMirrorOriginal_.heightAtLine(line.topOriginal),
+        type: line.type
       });
     }, this);
 
@@ -520,15 +512,20 @@ define([
    * chunk of code.
    * @param {number} scrollPosition
    * @param {Array.<Object>} offsets
+   * @param {boolean} isOriginalCode
    * @return {number}
    * @private
    */
   diffTool.DoubleEditorController.prototype.getCurrentOffset_ = function(
-      scrollPosition, offsets) {
+      scrollPosition, offsets, isOriginalCode) {
     var offset;
+    var top, bottom;
 
     for (var i = 0, l = offsets.length; offset = offsets[i], i < l; i++) {
-      if (offset.top <= scrollPosition && offset.bottom >= scrollPosition) {
+      top = isOriginalCode ? offset.topOriginal : offset.topModified;
+      bottom = isOriginalCode ? offset.bottomOriginal : offset.bottomModified;
+
+      if (top <= scrollPosition && bottom >= scrollPosition) {
         return i;
       }
     }

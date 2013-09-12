@@ -42,15 +42,12 @@ define([
   diffTool.Parser.InlineModification = {};
 
   /**
-   * @typedef {function(
-   *     outputLine: diffTool.Parser.Line,
-   *     lines: Array.<string>,
-   *     change: diffTool.Parser.LineModification,
-   *     type: diffTool.Parser.ModificationType,
-   *     lineOffset: number
-   * ):diffTool.Parser.Line}
+   * @enum {string}
    */
-  diffTool.Parser.ParserFn = diffTool.nullFunction;
+  diffTool.Parser.CodeType = {
+    ORIGINAL: 'original',
+    MODIFIED: 'modified'
+  };
 
   /**
    * @enum {string}
@@ -78,14 +75,25 @@ define([
   diffTool.Parser.Output = {};
 
   /**
-   * @typedef {diffTool.ParserSinglePane.BufferLine|Object}
+   * @typedef {diffTool.ParserSinglePane.Line|
+   *     diffTool.ParserSinglePane.LineContent}
    */
   diffTool.Parser.OutputLine = {};
+
+  /**
+   * @typedef {Object}
+   */
+  diffTool.Parser.InlineChange = {};
 
   /**
    * @enum {number}
    */
   diffTool.Parser.LineType = {
+    /**
+     * Null state.
+     */
+    NULL: 0x00,
+
     /**
      * Line is unchanged.
      */
@@ -113,6 +121,15 @@ define([
   };
 
   /**
+   * @param {diffTool.Parser.OutputLine} line
+   * @param {diffTool.Parser.LineType} type
+   * @return {boolean}
+   */
+  diffTool.Parser.lineHasType = function(line, type) {
+    return Boolean(line.type & type);
+  };
+
+  /**
    * Splits content to line with line separators at ends.
    * @static
    * @param {string} content
@@ -124,29 +141,6 @@ define([
   };
 
   /**
-   * Adds or removes state from line.
-   * @static
-   * @param {diffTool.Parser.OutputLine} line
-   * @param {diffTool.Parser.LineType} type
-   * @param {boolean} enable
-   */
-  diffTool.Parser.enableLineType = function(line, type, enable) {
-    if (line.type | this.availableLineTypes) {
-      line.type = enable ? line.type | type : ~(line.type & type);
-    }
-  };
-
-  /**
-   * @static
-   * @param {diffTool.Parser.OutputLine} line
-   * @param {diffTool.Parser.LineType} type
-   * @return {boolean}
-   */
-  diffTool.Parser.lineHasType = function(line, type) {
-    return Boolean(line.type & type);
-  };
-
-  /**
    * Bit mask of {diffTool.Parser.LineType}s, used in parser.
    * @type {diffTool.Parser.LineType}
    * @protected
@@ -154,10 +148,17 @@ define([
   diffTool.Parser.prototype.availableLineTypes = 0x00;
 
   /**
-   * @type {Array.<diffTool.Parser.ParserFn>}
-   * @private
+   * Adds or removes state from line.
+   * @static
+   * @param {diffTool.Parser.OutputLine} line
+   * @param {diffTool.Parser.LineType} type
+   * @param {boolean} enable
    */
-  diffTool.Parser.prototype.registeredParsers_ = [];
+  diffTool.Parser.prototype.enableLineType = function(line, type, enable) {
+    if (line.type | this.availableLineTypes) {
+      line.type = enable ? line.type | type : ~(line.type & type);
+    }
+  };
 
   /**
    * @param {string} original
@@ -165,31 +166,50 @@ define([
    * @param {diffTool.Parser.Diff} diff
    * @return {diffTool.Parser.Output}
    */
-  diffTool.Parser.prototype.parse = diffTool.nullFunction;
+  diffTool.Parser.prototype.parse = function(original, modified,
+                                             diff) {
+    var originalCursor = 0;
+    var modifiedCursor = 0;
 
-  /**
-   * @param {Array.<string>} lines
-   * @param {Array.<diffTool.Parser.LineModification>} changes
-   * @param {diffTool.Parser.ModificationType} type
-   * @return {Array}
-   */
-  diffTool.Parser.prototype.parseLines = function(lines, changes, type) {
-    var lineCursor = 0;
+    var originalLines = diffTool.Parser.splitToLines(original);
+    var modifiedLines = diffTool.Parser.splitToLines(modified);
+
     var output = [];
 
-    changes.forEach(function(change) {
-      var usedLines = (change.type ===
-          diffTool.Parser.ModificationType.UNCHANGED) ?
-          change.lines :
-          type === diffTool.Parser.ModificationType.MODIFIED ?
-              change.newLines || 0 :
-              change.oldLines || 0;
+    diff.forEach(function(change, i) {
+      var isUnchanged = (change.type ===
+          diffTool.Parser.ModificationType.UNCHANGED);
+      var originalOffset, modifiedOffset;
+      var parsedContent;
 
-      var changeLines = lines.slice(lineCursor, lineCursor + usedLines);
-      var modification = this.parseModification(changeLines, change, type);
+      if (isUnchanged) {
+        originalOffset = change.lines;
+        modifiedOffset = change.lines;
 
-      output.push(modification);
-    });
+        var usedLines = originalLines.slice(originalCursor,
+            originalCursor + originalOffset);
+        var isLastChange = (i === change.length - 1);
+
+        parsedContent = this.parseUnchangedLines(usedLines, change,
+            originalCursor, modifiedCursor, isLastChange);
+      } else {
+        originalOffset = change.oldLines || 0;
+        modifiedOffset = change.newLines || 0;
+
+        var usedOriginalLines = originalLines.slice(originalCursor,
+            originalCursor + originalOffset);
+        var usedModifiedLines = modifiedLines.slice(modifiedCursor,
+            modifiedCursor + modifiedOffset);
+
+        parsedContent = this.parseModifiedLines(usedOriginalLines,
+            usedModifiedLines, change, originalCursor, modifiedCursor);
+      }
+
+      Array.prototype.push.apply(output, parsedContent);
+
+      originalCursor += originalOffset;
+      modifiedCursor += modifiedOffset;
+    }, this);
 
     return output;
   };
@@ -197,35 +217,44 @@ define([
   /**
    * @param {Array.<string>} lines
    * @param {diffTool.Parser.LineModification} change
-   * @param {diffTool.Parser.ModificationType} type
-   * @param {number} lineOffset
-   * @return {diffTool.Parser.Line}
-   */
-  diffTool.Parser.prototype.parseModification = function(lines, change, type,
-                                                         lineOffset) {
-    var outputLine = this.getLine();
-
-    this.registeredParsers_.forEach(function(parser) {
-      outputLine = parser(outputLine, lines, change, type, lineOffset);
-    });
-
-    return outputLine;
-  };
-
-  /**
-   * @param {string} code
-   * @param {diffTool.Parser.LineType} type
-   * @param {number} number
+   * @param {number} lineOriginal
+   * @param {number} lineModified
+   * @param {boolean=} opt_isLastChange
    * @return {diffTool.Parser.OutputLine}
    * @protected
    */
-  diffTool.Parser.prototype.getLine = function(code, type, number) {
-    return {
-      code: code,
-      number: number,
-      type: type
-    };
-  };
+  diffTool.Parser.prototype.parseUnchangedLines = diffTool.abstractMethod;
+
+  /**
+   * @param {Array.<string>} linesOriginal
+   * @param {Array.<string>} linesModified
+   * @param {diffTool.Parser.LineModification} change
+   * @param {number} lineOriginal
+   * @param {number} lineModified
+   * @return {diffTool.Parser.OutputLine}
+   * @protected
+   */
+  diffTool.Parser.prototype.parseModifiedLines = diffTool.abstractMethod;
+
+  /**
+   * @param {string} chars
+   * @param {Array.<diffTool.Parser.InlineModification>} ranges
+   * @param {diffTool.Parser.CodeType} type
+   * @return {diffTool.Parser.OutputLine}
+   */
+  diffTool.Parser.prototype.parseInlineChanges = diffTool.abstractMethod;
+
+  /**
+   * @return {diffTool.Parser.OutputLine}
+   * @protected
+   */
+  diffTool.Parser.prototype.getLine = diffTool.nullFunction;
+
+  /**
+   * @return {diffTool.ParserSinglePane.LineContent}
+   * @protected
+   */
+  diffTool.Parser.prototype.getLineContent = diffTool.nullFunction;
 
   return diffTool.Parser;
 });
