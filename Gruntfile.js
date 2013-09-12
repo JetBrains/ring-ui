@@ -92,12 +92,20 @@ module.exports = function(grunt) {
       options: {
         pretty: true
       },
+      component: {
+        options: {
+          archive: './<%= path.dist %><%= pkg.name %>-component.tar.gz'
+        },
+        files: [
+          { expand: true, cwd: '<%= path.dist %>', src: ['**']}
+        ]
+      },
       dist: {
         options: {
           archive: './<%= path.dist %><%= pkg.name %>-<%= version %>.zip'
         },
         files: [
-          { expand: true, cwd: '<%= path.dist %>', src: ['**'], dest: 'ring'}
+          { expand: true, cwd: '<%= path.dist %>', src: ['**', '!**.gz'], dest: 'ring'}
         ]
       },
       coverage: {
