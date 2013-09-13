@@ -264,8 +264,6 @@ define([
 
     var currentOffset = this.offsets_[currentOffsetIndex];
 
-    console.log(currentOffsetIndex, currentOffset);
-
     var currentTop = isOriginalEditor ? currentOffset.topOriginal :
         currentOffset.topModified;
     var oppositeTop = isOriginalEditor ? currentOffset.topModified :
@@ -342,10 +340,11 @@ define([
    */
   diffTool.DoubleEditorController.prototype.colorizeLines_ = function() {
     this.lines_.forEach(function(chunk) {
-      this.colorizeChunk_(chunk.topOriginal, chunk.bottomOriginal, chunk.type,
-          this.codeMirrorOriginal_);
-      this.colorizeChunk_(chunk.topModified, chunk.bottomModified, chunk.type,
-          this.codeMirrorModified_);
+      this.colorizeChunk_(chunk.topOriginal, chunk.bottomOriginal,
+          chunk.rangesOriginal,  chunk.type, this.codeMirrorOriginal_);
+
+      this.colorizeChunk_(chunk.topModified, chunk.bottomModified,
+          chunk.rangesModified, chunk.type, this.codeMirrorModified_);
     }, this);
   };
 
@@ -353,12 +352,13 @@ define([
    * Adds class, according to modification type, to bunch of lines in editor.
    * @param {number} from
    * @param {number} to
+   * @param {Array.<Object>} ranges
    * @param {diffTool.Parser.LineType} type
    * @param {CodeMirror} editor
    * @private
    */
   diffTool.DoubleEditorController.prototype.colorizeChunk_ = function(from, to,
-      type, editor) {
+      ranges, type, editor) {
     if (!this.lineTypeToClass_) {
       /**
        * @type {Object.<diffTool.DoubleEditorController.ModificationType,
@@ -377,8 +377,42 @@ define([
       editor.addLineClass(from, 'wrap', this.lineTypeToClass_[type]);
     }
 
-    for (var i = from; i < to; i++) {
+    for (var i = from, rangeIndex = 0; i < to; i++, rangeIndex++) {
       editor.addLineClass(i, 'wrap', this.lineTypeToClass_[type]);
+
+      if (ranges) {
+        this.colorizeLine_(i, ranges[rangeIndex], editor);
+      }
+    }
+  };
+
+  /**
+   * @param {number} line
+   * @param {Array.<Object>} ranges
+   * @param {CodeMirror} editor
+   * @private
+   */
+  diffTool.DoubleEditorController.prototype.colorizeLine_ = function(line,
+      ranges, editor) {
+    if (ranges)  {
+      if (!this.rangeTypeToClass_) {
+        this.rangeTypeToClass_ = diffTool.createObject(
+            diffTool.Parser.LineType.UNCHANGED, '',
+            diffTool.Parser.LineType.DELETED, 'chars__modified',
+            diffTool.Parser.LineType.ADDED, 'chars__modified');
+      }
+
+      ranges.forEach(function(range) {
+        editor.markText({
+          line: line,
+          ch: range.from
+        }, {
+          line: line,
+          ch: range.to
+        }, {
+          className: this.rangeTypeToClass_[range.type]
+        });
+      }, this);
     }
   };
 
