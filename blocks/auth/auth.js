@@ -2,6 +2,8 @@
 define(['jquery', 'jso', 'global/global__modules', 'global/global__utils'], function ($, jso, Module, utils) {
   'use strict';
 
+  var module = 'auth';
+
   var defaultRedirectUri = window.location.protocol + '//' + window.location.host;
   var defaultId = '0-0-0-0-0';
   var defaultPath = '/rest/oauth2/auth';
@@ -77,6 +79,8 @@ define(['jquery', 'jso', 'global/global__modules', 'global/global__utils'], func
 
     var cfg = $.extend(jsoConfig[provider], defaultConfig);
 
+    cfg.serverUrl = serverUrl;
+
     if (config.clientId) {
       cfg.client_id = config.clientId;
     }
@@ -100,10 +104,14 @@ define(['jquery', 'jso', 'global/global__modules', 'global/global__utils'], func
       }
     });
 
+    dfd.done(function() {
+      Module.get(module).set({config: jsoConfig[provider]});
+    });
+
     return dfd;
   };
 
-  Module.add('auth', {
+  Module.add(module, {
     init: init,
     ajax: ajax,
     get: get,
@@ -111,5 +119,9 @@ define(['jquery', 'jso', 'global/global__modules', 'global/global__utils'], func
       method: getToken,
       override: true
     }
+  });
+
+  Module.get(module).on('logout', function() {
+    jso.wipe();
   });
 });
