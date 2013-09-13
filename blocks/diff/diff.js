@@ -187,13 +187,20 @@ define([
    * @param {string} contentModified
    * @param {diffTool.Parser.Diff} diff
    * @param {DiffTool.Mode} mode
+   * @return {diffTool.EditorController}
    */
   function decorateDiffTool(element, contentOriginal, contentModified, diff,
                             mode) {
     var diffTool = new DiffTool(element, mode);
     diffTool.setContent(contentOriginal, contentModified, diff);
 
-    return diffTool;
+    // NB! This is reserve for future changes. I want to remove wrap class
+    // DiffTool, because there are no need in it: users of this class can
+    // initialize editor in certain mode by calling this method. Also, there
+    // is need to get an access to instances of {CodeMirror} to user in
+    // double-pane mode, so she should operate with controller, which
+    // creates this instances.
+    return diffTool.getController();
   }
 
   Module.add('diff', {
