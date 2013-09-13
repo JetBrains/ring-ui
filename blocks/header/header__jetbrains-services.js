@@ -42,14 +42,21 @@ define(['global/global__views', 'global/global__modules'], function (View, Modul
 
     var location = window.location.href;
     var url;
+    var active;
+    var currentActive;
 
     for (var i = services.length; i--; i > 0) {
       url = services[i].url;
       if (url && location.indexOf(url) !== -1) {
-        services[i].active = true;
-      } else {
-        delete services[i].active;
+        active = services[i];
+      } else if (services[i].active) {
+        currentActive = services[i];
       }
+    }
+
+    if (active) {
+      active.active = true;
+      delete currentActive.active;
     }
 
     View.update('header', 'services', services);
