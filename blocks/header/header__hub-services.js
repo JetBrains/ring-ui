@@ -30,9 +30,10 @@ define(['jquery', 'global/global__modules', 'global/global__views', 'header/head
     })
     .then(function(services) {
       var list = services && services.services;
+      var headerServices = header.get('view').services || [];
 
       if (list) {
-        View.update('header', 'services', convertServices(list));
+        View.update('header', 'services', headerServices.concat(convertServices(list)));
       }
     });
 });
