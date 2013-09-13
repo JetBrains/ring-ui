@@ -16,15 +16,23 @@ define(['jquery', 'global/global__modules', 'global/global__views', 'header/head
   };
 
   var auth = Module.get('auth');
+  var header = Module.get('header');
 
-  auth.on('init:done', function() {
-    auth('ajax', '/rest/services')
-      .done(function(services) {
-        var list = services && services.services;
+  var authInited = $.Deferred();
+  var headerInited = $.Deferred();
 
-        if (list) {
-          View.update('header', 'services', convertServices(list));
-        }
-      });
-  });
+  auth.on('init:done', authInited.resolve.bind(authInited));
+  header.on('init:done', headerInited.resolve.bind(headerInited));
+
+  $.when(headerInited, authInited)
+    .then(function() {
+      return auth('ajax', '/rest/services');
+    })
+    .then(function(services) {
+      var list = services && services.services;
+
+      if (list) {
+        View.update('header', 'services', convertServices(list));
+      }
+    });
 });
