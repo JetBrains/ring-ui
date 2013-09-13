@@ -18,6 +18,7 @@
 }
 
 .diff__split {
+  background: rgba(0, 0, 0, 0.1);
   float: left;
   height: 100%;
   overflow: hidden;
@@ -37,3 +38,10 @@
   box-sizing: border-box;
   background: rgba(0, 255, 90, 0.3);
 }
+
+.CodeMirror .chars__modified {
+  background: rgba(0, 30, 255, 0.3);
+  font-weight: bold;
+}
+
+
