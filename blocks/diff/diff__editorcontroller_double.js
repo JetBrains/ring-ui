@@ -9,7 +9,8 @@ define([
   'handlebars',
   'raphael',
   'diff/diff__editorcontroller',
-  'diff/diff__parser_doublepane'
+  'diff/diff__parser_doublepane',
+  'jquery'
 ], function(diffTool, CodeMirror, Handlebars, raphael) {
 
   /**
