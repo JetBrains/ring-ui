@@ -168,12 +168,6 @@ module.exports = function(grunt) {
         }
       }
     },
-    bump: {
-      options: {
-        createTag: false,
-        pushTo: 'origin'
-      }
-    },
 
     // Process
     clean: {
@@ -583,7 +577,6 @@ module.exports = function(grunt) {
 
   grunt.registerTask('release', [
     'cleanup',
-//    'bump',
     'build',
     'copy:blocks',
     'compress'
