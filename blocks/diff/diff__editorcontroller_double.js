@@ -535,10 +535,19 @@ define([
           diffTool.Parser.LineType.ADDED, '#c8f0c9');
     }
 
-    // todo(igor.alexeenko): Draw only visible offsets.
+    var editorOffset = this.codeMirrorOriginal_.getScrollInfo();
+    var editorOffsetTop = editorOffset.top;
+    var editorOffsetBottom = editorOffsetTop + editorOffset.clientHeight;
+
     this.offsets_.forEach(function(offset) {
+      var offsetHeight = offset.bottomOriginal - offset.topOriginal;
+      var topEdge = editorOffsetTop - offsetHeight;
+      var bottomEdge = editorOffsetBottom + offsetHeight;
+
       if (!diffTool.Parser.lineHasType(offset,
-          diffTool.Parser.LineType.UNCHANGED)) {
+          diffTool.Parser.LineType.UNCHANGED) &&
+          offset.topOriginal > topEdge &&
+          offset.bottomOriginal < bottomEdge) {
         var originalTop = offset.topOriginal - originalScrollInfo.top;
         var modifiedTop = offset.topModified - modifiedScrollInfo.top;
 
