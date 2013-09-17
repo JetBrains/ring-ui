@@ -585,8 +585,7 @@ module.exports = function(grunt) {
     'cleanup',
 //    'bump',
     'build',
+    'copy:blocks',
     'compress'
   ]);
-
-  grunt.registerTask('build-as-dep', ['process']);
 };
