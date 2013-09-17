@@ -47,6 +47,36 @@ define([
   diffTool.DoubleEditorController.CONNECTOR_CURVE_RATIO = 0.2;
 
   /**
+   * ID of coloring mode for {@link CodeMirror} in which we colorize lines.
+   * @type {string}
+   * @const
+   */
+  diffTool.DoubleEditorController.EDITOR_MODE = 'background';
+
+  /**
+   * Classes, which appends to lines in {@link CodeMirror}.
+   * @enum {string}
+   */
+  diffTool.DoubleEditorController.LineClass = {
+    ADDED: 'line__added',
+    BEFORE_ADDED: 'line__before_added',
+    BEFORE_DELETED: 'line__before_deleted',
+    DELETED: 'line__deleted',
+    FIRST: 'line__first',
+    LAST: 'line__last',
+    MODIFIED: 'line__modified'
+  };
+
+  // todo(igor.alexeenko): Add classes for deleted and inserted chars.
+  /**
+   * Classes, which appends to chars to highlight inline changes.
+   * @enum {string}
+   */
+  diffTool.DoubleEditorController.CharsClass = {
+    MODIFIED: 'chars__modified'
+  };
+
+  /**
    * IDs of templates for {@link Handlebars}.
    * @enum {string}
    */
@@ -145,10 +175,6 @@ define([
 
       this.codeMirrorOriginal_ = null;
       this.codeMirrorModified_ = null;
-      this.originalLines_ = null;
-      this.modifiedLines_ = null;
-      this.originalOffsets_ = null;
-      this.modifiedOffsets_ = null;
       this.scrollHandler_ = null;
     }
   };
@@ -339,12 +365,19 @@ define([
    * @private
    */
   diffTool.DoubleEditorController.prototype.colorizeLines_ = function() {
+    var previousIsChanged = false;
+
     this.lines_.forEach(function(chunk) {
       this.colorizeChunk_(chunk.topOriginal, chunk.bottomOriginal,
-          chunk.rangesOriginal,  chunk.type, this.codeMirrorOriginal_);
+          chunk.rangesOriginal,  chunk.type, this.codeMirrorOriginal_,
+          previousIsChanged);
 
       this.colorizeChunk_(chunk.topModified, chunk.bottomModified,
-          chunk.rangesModified, chunk.type, this.codeMirrorModified_);
+          chunk.rangesModified, chunk.type, this.codeMirrorModified_,
+          previousIsChanged);
+
+      previousIsChanged = !diffTool.Parser.lineHasType(chunk,
+          diffTool.Parser.LineType.UNCHANGED);
     }, this);
   };
 
@@ -355,30 +388,60 @@ define([
    * @param {Array.<Object>} ranges
    * @param {diffTool.Parser.LineType} type
    * @param {CodeMirror} editor
+   * @param {boolean=} opt_changesBefore
    * @private
    */
   diffTool.DoubleEditorController.prototype.colorizeChunk_ = function(from, to,
-      ranges, type, editor) {
+      ranges, type, editor, opt_changesBefore) {
     if (!this.lineTypeToClass_) {
       /**
+       * Lookup table of line states to
        * @type {Object.<diffTool.DoubleEditorController.ModificationType,
-       *     string>}
+       *     diffTool.DoubleEditorController.LineClass>}
        * @private
        */
       this.lineTypeToClass_ = diffTool.createObject(
           diffTool.Parser.LineType.UNCHANGED, '',
-          diffTool.Parser.LineType.INLINE, 'line__modified',
-          diffTool.Parser.LineType.DELETED, 'line__deleted',
-          diffTool.Parser.LineType.ADDED, 'line__added');
+          diffTool.Parser.LineType.INLINE,
+              diffTool.DoubleEditorController.LineClass.MODIFIED,
+          diffTool.Parser.LineType.DELETED,
+              diffTool.DoubleEditorController.LineClass.DELETED,
+          diffTool.Parser.LineType.ADDED,
+              diffTool.DoubleEditorController.LineClass.ADDED);
     }
 
-    // todo(igor.alexeenko): dirty code.
+    if (!this.collapsedLineTypeToClass_) {
+      /**
+       * @type {Object.<diffTool.DoubleEditorController.ModificationType,
+       *     diffTool.DoubleEditorController.LineClass>}
+       * @private
+       */
+      this.collapsedLineTypeToClass_ = diffTool.createObject(
+          diffTool.Parser.LineType.ADDED,
+              diffTool.DoubleEditorController.LineClass.BEFORE_ADDED,
+          diffTool.Parser.LineType.DELETED,
+              diffTool.DoubleEditorController.LineClass.BEFORE_DELETED);
+    }
+
     if (from === to) {
-      editor.addLineClass(from, 'wrap', this.lineTypeToClass_[type]);
+      editor.addLineClass(from - 1, diffTool.DoubleEditorController.EDITOR_MODE,
+          this.collapsedLineTypeToClass_[type]);
     }
 
     for (var i = from, rangeIndex = 0; i < to; i++, rangeIndex++) {
-      editor.addLineClass(i, 'wrap', this.lineTypeToClass_[type]);
+      if (i === from && type !== diffTool.Parser.LineType.UNCHANGED &&
+          !opt_changesBefore) {
+        editor.addLineClass(i, diffTool.DoubleEditorController.EDITOR_MODE,
+            diffTool.DoubleEditorController.LineClass.FIRST);
+      }
+
+      if (i === to - 1 && type !== diffTool.Parser.LineType.UNCHANGED) {
+        editor.addLineClass(i, diffTool.DoubleEditorController.EDITOR_MODE,
+            diffTool.DoubleEditorController.LineClass.LAST);
+      }
+
+      editor.addLineClass(i, diffTool.DoubleEditorController.EDITOR_MODE,
+          this.lineTypeToClass_[type]);
 
       if (ranges) {
         this.colorizeLine_(i, ranges[rangeIndex], editor);
@@ -387,6 +450,7 @@ define([
   };
 
   /**
+   * Highlights inline changes.
    * @param {number} line
    * @param {Array.<Object>} ranges
    * @param {CodeMirror} editor
@@ -398,8 +462,10 @@ define([
       if (!this.rangeTypeToClass_) {
         this.rangeTypeToClass_ = diffTool.createObject(
             diffTool.Parser.LineType.UNCHANGED, '',
-            diffTool.Parser.LineType.DELETED, 'chars__modified',
-            diffTool.Parser.LineType.ADDED, 'chars__modified');
+            diffTool.Parser.LineType.DELETED,
+                diffTool.DoubleEditorController.CharsClass.MODIFIED,
+            diffTool.Parser.LineType.ADDED,
+                diffTool.DoubleEditorController.CharsClass.MODIFIED);
       }
 
       ranges.forEach(function(range) {
@@ -441,10 +507,11 @@ define([
     this.connectorsCanvas_.clear();
 
     if (!this.typeToFill_) {
+      // todo(igor.alexeenko): Unify this colours with variables from css.
       this.typeToFill_ = diffTool.createObject(
-          diffTool.Parser.LineType.INLINE, 'rgba(0, 90, 255, 0.3)',
-          diffTool.Parser.LineType.DELETED, 'rgba(255, 0, 0, 0.3)',
-          diffTool.Parser.LineType.ADDED, 'rgba(0, 255, 90, 0.3)');
+          diffTool.Parser.LineType.INLINE, '#e9effc',
+          diffTool.Parser.LineType.DELETED, '#d6d6d6',
+          diffTool.Parser.LineType.ADDED, '#c8f0c9');
     }
 
     // todo(igor.alexeenko): Draw only visible offsets.
@@ -460,7 +527,7 @@ define([
         var attrs = {
           fill: this.typeToFill_[offset.type],
           opacity: 1,
-          stroke: 'rgba(128, 128, 128, 0.2)',
+          stroke: '#969696',
           'stroke-linecap': 'round',
           'stroke-width': '1px'
         };
@@ -508,6 +575,10 @@ define([
          * @private
          */
         this.scrollHandler_ = diffTool.bindContext(this.onScroll_, this);
+      }
+
+      if (!this.resizeHandler_) {
+        this.resizeHandler_ = diffTool.bindContext(this.onResize_, this);
       }
 
       CodeMirror.on(editor, 'scroll', this.scrollHandler_);

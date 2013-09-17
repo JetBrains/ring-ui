@@ -1,7 +1,5 @@
 package org.jetbrains.jing.common.storages.hybrid;
 
-import jetbrains.exodus.core.util.*;
-import jetbrains.exodus.database.persistence.*;
 import jetbrains.exodus.env.*;
 import jetbrains.exodus.exceptions.*;
 import jetbrains.exodus.log.*;
