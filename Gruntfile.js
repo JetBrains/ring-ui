@@ -330,6 +330,10 @@ module.exports = function(grunt) {
           ],
           dest: '<%= path.dist %>fonts'
         }]
+      },
+      blocks: {
+        src: '<%= path.blocks %>**/*.scss',
+        dest: '<%= path.dist %>'
       }
     },
     markdown: {
