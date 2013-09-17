@@ -27,21 +27,67 @@
 }
 
 // todo(igor.alexeenko): Move to separate file.
-// todo(igor.alexeenko): Make variables.
-// todo(igor.alexeenko): Find out, how to display collapsed lines without
-// border.
-.CodeMirror .line__modified {
-  background: rgba(0, 90, 255, 0.3);
+
+// NB! I took this colours from Intellij IDEA default colour scheme.
+$changeset_border: #969696;
+
+$modified_background: #e9effc;
+$modified_chars: #cad8f8;
+
+$deleted_background: #d6d6d6;
+
+$added_background: #c8f0c9;
+
+
+.CodeMirror {
+  line-height: 1.2;
 }
 
-.CodeMirror .line__added  {
+.CodeMirror .line__modified {
+  background: $modified_background;
+}
+
+.CodeMirror .line__added,
+.CodeMirror .line__deleted {
   box-sizing: border-box;
-  background: rgba(0, 255, 90, 0.3);
+}
+
+.CodeMirror .line__added {
+  background: $added_background;
+}
+
+.CodeMirror .line__before_deleted,
+.CodeMirror .line__before_added {
+  border-bottom: solid 1px $changeset_border;
+  z-index: 1;
+}
+
+.CodeMirror .line__before_deleted {
+  box-shadow: 0 1px 3px $deleted_background;
+}
+
+.CodeMirror .line__before_added {
+  box-shadow: 0 1px 3px $added_background;
+}
+
+.CodeMirror .line__deleted {
+  background: $deleted_background;
 }
 
 .CodeMirror .chars__modified {
-  background: rgba(0, 30, 255, 0.3);
+  background: $modified_chars;
   font-weight: bold;
 }
 
+.CodeMirror .line__collapsed {
+  border-bottom: solid 1px;
+  z-index: 3;
+}
 
+.CodeMirror .line__first {
+  border-top: solid 1px $changeset_border;
+}
+
+.CodeMirror .line__last {
+  border-bottom: solid 1px $changeset_border;
+}
