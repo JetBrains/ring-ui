@@ -38,7 +38,6 @@ define([
    */
   diffTool.DoubleEditorController.EQUATOR_RATIO = 0.5;
 
-
   /**
    * Ratio of width of bezier curve, on which bezier modifier places.
    * @type {number}
@@ -222,6 +221,12 @@ define([
 
     this.colorizeLines_();
     this.drawConnectors_();
+
+    if (!this.resizeHandler_) {
+      this.resizeHandler_ = diffTool.bindContext(this.onResize_, this);
+    }
+
+    $(window).on('resize', this.resizeHandler_);
   };
 
   /**
@@ -231,6 +236,16 @@ define([
   diffTool.DoubleEditorController.prototype.unbindEditors_ = function() {
     this.setEditorEnabled_(this.codeMirrorOriginal_, false);
     this.setEditorEnabled_(this.codeMirrorModified_, false);
+
+    $(window).off('resize', this.resizeHandler_);
+  };
+
+  /**
+   * Resizes canvas for connectors and redraws them.
+   * @private
+   */
+  diffTool.DoubleEditorController.prototype.onResize_ = function() {
+    this.drawConnectors_(true);
   };
 
   /**
@@ -485,9 +500,11 @@ define([
   /**
    * Draws graphics connectors from changed chunks in original code to
    * corresponding chunks in modified code.
+   * @param {boolean=} opt_redraw If true, resizes canvas.
    * @private
    */
-  diffTool.DoubleEditorController.prototype.drawConnectors_ = function() {
+  diffTool.DoubleEditorController.prototype.drawConnectors_ = function(
+      opt_redraw) {
     if (!this.splitElement_) {
       this.splitElement_ = this.element_.querySelector(
           diffTool.DoubleEditorController.CssSelector.SPLITTER);
@@ -498,8 +515,12 @@ define([
     var modifiedScrollInfo = this.codeMirrorModified_.getScrollInfo();
 
     if (!this.connectorsCanvas_) {
-      // todo(igor.alexeenko): update size of canvas when window size changes.
-      this.connectorsCanvas_ = raphael(this.splitElement_,
+      this.connectorsCanvas_ = raphael(this.splitElement_);
+      opt_redraw = true;
+    }
+
+    if (opt_redraw) {
+      this.connectorsCanvas_.setSize(
           this.splitElement_.clientWidth,
           this.splitElement_.clientHeight);
     }
@@ -575,10 +596,6 @@ define([
          * @private
          */
         this.scrollHandler_ = diffTool.bindContext(this.onScroll_, this);
-      }
-
-      if (!this.resizeHandler_) {
-        this.resizeHandler_ = diffTool.bindContext(this.onResize_, this);
       }
 
       CodeMirror.on(editor, 'scroll', this.scrollHandler_);
