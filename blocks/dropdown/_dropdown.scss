@@ -28,19 +28,10 @@ $dropdown-background-color: #fff;
   font-size: 13px;
 
   text-align: center;
+  border-radius: 5px;
 
   @include dropdown-shadow;
   background-color: $dropdown-background-color;
-}
-
-.ring-dropdown_left.ring-dropdown::before {
-  margin: 0;
-  left: 12px;
-}
-.ring-dropdown_right.ring-dropdown::before {
-  margin: 0;
-  left: auto;
-  right: 12px;
 }
 
 .ring-dropdown__i {
@@ -53,21 +44,6 @@ $dropdown-background-color: #fff;
   background-color: $dropdown-background-color;
 }
 
-.ring-dropdown::before {
-  display: block;
-  top: -6px;
-  left: 50%;
-  content: '';
-  position: absolute;
-  margin-left: -6px;
-
-  height: 10px;
-  width: 10px;
-
-  background-color: $dropdown-background-color;
-  @include dropdown-shadow;
-  transform: rotate(45deg);
-}
 
 .ring-dropdown__item {
   margin-top: 13px;
