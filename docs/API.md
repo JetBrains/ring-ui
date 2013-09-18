@@ -319,7 +319,7 @@ or
         },
         "agents": {
           "counter": {
-            "color": "red",
+            "attention": 1,
             "label": 125
           },
           "label": "Agents",
@@ -387,7 +387,7 @@ Any part of initial config. To remove a part, pass `null`.
 
     {
         "counter": {
-            "color": "dark",
+            "attention": 0,
             "label": 666
         }
     }
@@ -460,7 +460,7 @@ Any part of initial config. To remove a part, pass `null`.
 
     {
         "counter": {
-            "color": "dark",
+            "attention": 0,
             "label": 666
         }
     }
