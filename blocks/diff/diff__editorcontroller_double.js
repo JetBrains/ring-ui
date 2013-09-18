@@ -88,6 +88,19 @@ define([
     MODIFIED: 'chars__modified'
   };
 
+  // todo(igor.alexeenko): Check, whether old IE supports classes for VML
+  // elements or should I have implement this another way.
+  /**
+   * Classes, which applies to SVG connectors
+   * @enum {string}
+   */
+  diffTool.DoubleEditorController.ConnectorClass = {
+    ADDED: 'diff__connector_added',
+    BASE: 'diff__connector',
+    DELETED: 'diff__connector_deleted',
+    MODIFIED: 'diff__connector_modified'
+  };
+
   /**
    * IDs of templates for {@link Handlebars}.
    * @enum {string}
@@ -523,29 +536,38 @@ define([
           diffTool.DoubleEditorController.CssSelector.SPLITTER);
     }
 
-    var width = this.splitElement_.clientWidth;
+    var width = this.splitElement_.offsetWidth;
     var originalScrollInfo = this.codeMirrorOriginal_.getScrollInfo();
     var modifiedScrollInfo = this.codeMirrorModified_.getScrollInfo();
 
     if (!this.connectorsCanvas_) {
-      this.connectorsCanvas_ = raphael(this.splitElement_);
+      this.connectorsCanvas_ = raphael(this.splitElement_, 0, 0);
       opt_redraw = true;
     }
 
     if (opt_redraw) {
       this.connectorsCanvas_.setSize(
-          this.splitElement_.clientWidth,
-          this.splitElement_.clientHeight);
+          this.splitElement_.offsetWidth,
+          this.splitElement_.offsetHeight);
     }
 
     this.connectorsCanvas_.clear();
 
-    if (!this.typeToFill_) {
-      // todo(igor.alexeenko): Unify this colours with variables from css.
-      this.typeToFill_ = diffTool.createObject(
-          diffTool.Parser.LineType.INLINE, '#e9effc',
-          diffTool.Parser.LineType.DELETED, '#d6d6d6',
-          diffTool.Parser.LineType.ADDED, '#c8f0c9');
+    if (!this.typeToSvgClass_) {
+      /**
+       * Lookup table of types of line to css-classes for according connector
+       * elements.
+       * @type {Object.<diffTool.Parser.LineType,
+       *     diffTool.DoubleEditorController.ConnectorClass>}
+       * @private
+       */
+      this.typeToSvgClass_ = diffTool.createObject(
+          diffTool.Parser.LineType.ADDED,
+              diffTool.DoubleEditorController.ConnectorClass.ADDED,
+          diffTool.Parser.LineType.DELETED,
+              diffTool.DoubleEditorController.ConnectorClass.DELETED,
+          diffTool.Parser.LineType.INLINE,
+              diffTool.DoubleEditorController.ConnectorClass.INLINE);
     }
 
     var editorOffset = this.codeMirrorOriginal_.getScrollInfo();
@@ -567,15 +589,13 @@ define([
         var originalBottom = offset.bottomOriginal - originalScrollInfo.top;
         var modifiedBottom = offset.bottomModified - modifiedScrollInfo.top;
 
-        var attrs = {
-          fill: this.typeToFill_[offset.type],
-          opacity: 1,
-          stroke: '#969696',
-          'stroke-linecap': 'round',
-          'stroke-width': '1px'
-        };
+        // todo(igor.alexeenko): getConnectorClass(type)
+        var connectorClassName = [
+          diffTool.DoubleEditorController.ConnectorClass.BASE,
+          this.typeToSvgClass_[offset.type]
+        ].join(' ');
 
-        this.connectorsCanvas_.path(
+        var connector = this.connectorsCanvas_.path(
         [
           ['M', 0, originalTop],
           [
@@ -595,7 +615,8 @@ define([
           [
             'L', 0, originalTop
           ]
-        ]).attr(attrs);
+        ]);
+        connector.node.setAttribute('class', connectorClassName);
       }
     }, this);
   };
