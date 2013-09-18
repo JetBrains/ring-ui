@@ -13,6 +13,11 @@ define([
   'jquery'
 ], function(diffTool, CodeMirror, Handlebars, raphael) {
 
+  // todo(igor.alexeenko): Implement all DOM-specific, CodeMirror-
+  // specific and Raphael-specific logic in some kind of Renderer,
+  // because Raphael, CodeMirror and Handlebars has an issues and could be
+  // replaced by another.
+
   /**
    * @param {Element} element
    * @constructor
@@ -52,6 +57,13 @@ define([
    * @const
    */
   diffTool.DoubleEditorController.EDITOR_MODE = 'background';
+
+  /**
+   * ID of mode in which {@link CodeMirror} counts offsets of lines.
+   * @type {string}
+   * @const
+   */
+  diffTool.DoubleEditorController.EDITOR_SCREEN_MODE = 'local';
 
   /**
    * Classes, which appends to lines in {@link CodeMirror}.
@@ -627,11 +639,17 @@ define([
     lines.forEach(function(line) {
       offsets.push({
         bottomModified: this.codeMirrorModified_.heightAtLine(
-            line.bottomModified),
+            line.bottomModified,
+            diffTool.DoubleEditorController.EDITOR_SCREEN_MODE),
         bottomOriginal: this.codeMirrorOriginal_.heightAtLine(
-            line.bottomOriginal),
-        topModified: this.codeMirrorModified_.heightAtLine(line.topModified),
-        topOriginal: this.codeMirrorOriginal_.heightAtLine(line.topOriginal),
+            line.bottomOriginal,
+            diffTool.DoubleEditorController.EDITOR_SCREEN_MODE),
+        topModified: this.codeMirrorModified_.heightAtLine(
+            line.topModified,
+            diffTool.DoubleEditorController.EDITOR_SCREEN_MODE),
+        topOriginal: this.codeMirrorOriginal_.heightAtLine(
+            line.topOriginal,
+            diffTool.DoubleEditorController.EDITOR_SCREEN_MODE),
         type: line.type
       });
     }, this);
