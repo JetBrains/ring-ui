@@ -37,9 +37,15 @@
 
 .diff__split {
   background: rgba(0, 0, 0, 0.1);
+  border: solid rgba(0, 0, 0, 0.1);
+  border-width: 1px 0;
   left: 49%;
   overflow: hidden;
   right: 49%;
+}
+
+.diff__split > svg {
+  left: 0 !important;
 }
 
 // todo(igor.alexeenko): Move to separate file.
@@ -79,11 +85,11 @@ $added_background: #c8f0c9;
 }
 
 .CodeMirror .line__before_deleted {
-  box-shadow: 0 1px 3px $deleted_background;
+  box-shadow: 0 1px 0 $deleted_background;
 }
 
 .CodeMirror .line__before_added {
-  box-shadow: 0 1px 3px $added_background;
+  box-shadow: 0 1px 0 $added_background;
 }
 
 .CodeMirror .line__deleted {
@@ -93,6 +99,7 @@ $added_background: #c8f0c9;
 .CodeMirror .chars__modified {
   background: $modified_chars;
   font-weight: bold;
+  padding: 2px 0;
 }
 
 .CodeMirror .line__collapsed {
@@ -104,6 +111,30 @@ $added_background: #c8f0c9;
   border-top: solid 1px $changeset_border;
 }
 
+.CodeMirror .line__first .chars__modified {
+  padding-top: 1px;
+}
+
 .CodeMirror .line__last {
   border-bottom: solid 1px $changeset_border;
+}
+
+.CodeMirror .line__last .chars__modified {
+  padding-bottom: 1px;
+}
+
+.diff__connector {
+  stroke: $changeset_border;
+}
+
+.diff__connector_modified {
+  fill: $modified_background;
+}
+
+.diff__connector_deleted {
+  fill: $deleted_background;
+}
+
+.diff__connector_added {
+  fill: $added_background;
 }
