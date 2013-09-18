@@ -34,17 +34,13 @@ $menu-attention-color: #f50000;
   background: #f0f0f0;
 }
 
-.ring-menu_gradient {
-  border: 0;
-}
-
 .ring-menu_gradient .ring-menu__background {
   height: $x-unit*14;
   background-image: linear-gradient(to bottom, #e4e4e4, #fff);
   -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='#e4e4e4', endColorstr='#ffffff',GradientType=0)";
 }
 
-.ring-menu_noborder {
+.ring-menu_noborder, .ring-menu_gradient {
   border-bottom: none !important;
 }
 
