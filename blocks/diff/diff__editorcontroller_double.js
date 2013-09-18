@@ -213,6 +213,77 @@ define([
     this.codeMirrorModified_.setValue(modified);
 
     this.bindEditors_(original, modified, diff);
+
+    this.checkScroll_();
+  };
+
+  /**
+   * Checks, whether
+   * @private
+   */
+  diffTool.DoubleEditorController.prototype.checkScroll_ = function() {
+    // todo(igor.alexeenko): Get rid of this const, count line height and
+    // scroll to two lines before first changed.
+    /**
+     * @type {number}
+     * @const
+     */
+    var GAP = 50;
+    var firstChangedOffset = this.getFirstChanged_();
+
+    var firstChangedIsInViewport = (
+        diffTool.DoubleEditorController.isInEditorViewport(
+            firstChangedOffset.topOriginal, firstChangedOffset.topModified,
+            this.codeMirrorOriginal_) ||
+        diffTool.DoubleEditorController.isInEditorViewport(
+            firstChangedOffset.bottomModified, firstChangedOffset.bottomOriginal,
+            this.codeMirrorModified_));
+
+    if (!firstChangedIsInViewport) {
+      this.codeMirrorOriginal_.scrollTo(0,
+          firstChangedOffset.topOriginal - GAP);
+    }
+  };
+
+  /**
+   * Returns first offset which was marked as changed.
+   * @return {Object?}
+   * @private
+   */
+  diffTool.DoubleEditorController.prototype.getFirstChanged_ = function() {
+    /**
+     * @type {Object}
+     */
+    var currentOffset;
+
+    for (var i = 0, l = this.offsets_.length; i < l; i++) {
+      currentOffset = this.offsets_[i];
+
+      if (!diffTool.Parser.lineHasType(currentOffset,
+          diffTool.Parser.LineType.UNCHANGED)) {
+        return currentOffset;
+      }
+    }
+
+    return null;
+  };
+
+  /**
+   * @param {number} from
+   * @param {number} to
+   * @param {CodeMirror} editor
+   * @return {boolean}
+   */
+  diffTool.DoubleEditorController.isInEditorViewport = function(from, to,
+                                                                editor) {
+    var editorScrollInfo = editor.getScrollInfo();
+    var offsetHeight = to - from;
+
+    var topEdge = editorScrollInfo.top - offsetHeight;
+    var bottomEdge = editorScrollInfo.top + editorScrollInfo.clientHeight +
+        offsetHeight;
+
+    return from >= topEdge && to <= bottomEdge;
   };
 
   /**
