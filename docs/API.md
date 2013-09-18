@@ -329,6 +329,9 @@ or
           "order": 1,
           "image": "/blocks/header/tc.png",
           "url": "/dashboard"
+        },
+        "html": {
+          "html": "<b>HTML item</i>"
         }
       },
       "right": {
