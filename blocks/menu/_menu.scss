@@ -2,11 +2,10 @@ $menu-attention-color: #f50000;
 
 .ring-menu {
   width: 100%;
-  height: $x-unit*7 - 1;
+  height: $x-unit*7;
   position: relative;
   text-align: center;
   border-bottom: 1px solid #ccc;
-  font-size: 14px !important;
   line-height: 24px;
   @include droid-font();
 }
@@ -14,8 +13,10 @@ $menu-attention-color: #f50000;
 .ring-menu__i {
   // Use this when width limits needed
   //max-width: 1100px;
-  width: 100%;
-  position: relative;
+  font-size: 0 !important;
+  position: absolute;
+  left: $x-unit*3;
+  right: 0;
   display: inline-block;
   text-align: left;
   white-space: nowrap;
@@ -55,17 +56,16 @@ $menu-attention-color: #f50000;
 }
 
 .ring-menu__logo {
-  margin-left: $x-unit*2;
-  height: 25px;
-  width: 28px;
+  height: $x-unit*3;
   display: inline-block;
   vertical-align: middle;
 }
 
 .ring-menu__logo__img {
   border: 0;
-  height: 25px;
+  height: $x-unit*3;
 }
+
 .ring-menu__item,
 .ring-menu__search__input {
   font-size: 13px;
@@ -74,7 +74,8 @@ $menu-attention-color: #f50000;
 
 .ring-menu__item {
   display: inline-block;
-  margin-left: $x-unit*3;
+  font-size: 13px !important;
+  margin-left: $x-unit*4;
 }
 
 .ring-menu__item_noselect {
@@ -86,6 +87,7 @@ $menu-attention-color: #f50000;
   background-color: $link-color;
   position: relative;
   top: -7px;
+  left: 5px;
   border-radius: 2px;
   padding: 1px 2px;
   font-size: 10px;
