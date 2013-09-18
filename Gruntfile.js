@@ -307,6 +307,14 @@ module.exports = function(grunt) {
           },
           out: '<%= path.dist %>ring-diff.js'
         })
+      },
+      'ring-diff-oauth': {
+        options: _.extend(_.clone(requireConfig.options), {
+          paths: {
+            ring: '../<%= path.bundles %>ring-diff-oauth'
+          },
+          out: '<%= path.dist %>ring-diff-oauth.js'
+        })
       }
     },
     copy: {
