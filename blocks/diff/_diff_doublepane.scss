@@ -1,8 +1,13 @@
-.CodeMirror {
+.diff__doublepane {
+  height: 100%;
+}
+
+.diff_doublepane .CodeMirror {
   border: solid 1px #ccc;
+  box-sizing: border-box;
   font-family: 'Menlo', monospace;
   font-size: 12px;
-  box-sizing: border-box;
+  height: 100%;
 }
 
 .diff_doublepane:after {
@@ -12,18 +17,28 @@
 }
 
 .diff__modified,
+.diff__original,
+.diff__split {
+  bottom: 0;
+  position: absolute;
+  top: 0;
+}
+
+.diff__modified {
+  left: 51%;
+  right: 0;
+}
+
 .diff__original {
-  float: left;
-  width: 49%;
+  left: 0;
+  right: 51%;
 }
 
 .diff__split {
   background: rgba(0, 0, 0, 0.1);
-  float: left;
-  height: 100%;
+  left: 49%;
   overflow: hidden;
-  position: relative;
-  width: 2%;
+  right: 49%;
 }
 
 // todo(igor.alexeenko): Move to separate file.
