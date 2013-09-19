@@ -2,7 +2,6 @@ define(['jquery', 'global/global__views', 'global/global__modules'], function($,
   'use strict';
 
   var COMPONENT_SELECTOR = '.ring-js-dropdown';
-  var EDGE_OFFSET = 8;
 
   var $global = $(window);
   var $body;
@@ -47,17 +46,13 @@ define(['jquery', 'global/global__views', 'global/global__modules'], function($,
       var dropdownWidth = $dropdown.width();
       var dropdownCenter = dropdownWidth / 2;
 
-      if (targetCenter < dropdownCenter) {
-        $dropdown.addClass('ring-dropdown_left');
-        pos.left -= EDGE_OFFSET;
-      } else if (targetCenter + dropdownCenter > $global.width()) {
-        $dropdown.addClass('ring-dropdown_right');
-        pos.left += $target.width() - dropdownWidth + EDGE_OFFSET;
-      } else {
+      if (targetCenter + dropdownCenter > $global.width()) {
+        pos.left += $target.width() - dropdownWidth;
+      } else if(targetCenter >= dropdownCenter) {
         pos.left = targetCenter - dropdownCenter;
       }
 
-      pos.top += $target.outerHeight() + 15;
+      pos.top += $target.outerHeight() + 4;
 
       $dropdown.css(pos);
 
