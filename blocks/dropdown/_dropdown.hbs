@@ -3,11 +3,15 @@
     {{{html}}}
     {{#items}}
       {{#this}}
-        {{#if url}}
-          <a class="ring-link ring-dropdown__item{{> global__class}}" href="{{url}}" {{> global__attributes}}>{{label}}</a>
+        {{#ifEqual type 'separator'}}
+          <span class="ring-dropdown__separator"> </span>
         {{else}}
-          <span class="ring-link ring-dropdown__item{{> global__class}}" {{> global__attributes}}>{{label}}</span>
-        {{/if}}
+          {{#if url}}
+            <a class="{{> dropdown__class}}" href="{{url}}" {{> global__attributes}}>{{label}}</a>
+          {{else}}
+            <span class="{{> dropdown__class}}" {{> global__attributes}}>{{label}}</span>
+          {{/if}}
+        {{/ifEqual}}
       {{/this}}
     {{/items}}
   </div>
