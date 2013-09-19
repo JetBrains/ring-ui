@@ -638,7 +638,7 @@ define([
           diffTool.Parser.LineType.DELETED,
               diffTool.DoubleEditorController.ConnectorClass.DELETED,
           diffTool.Parser.LineType.INLINE,
-              diffTool.DoubleEditorController.ConnectorClass.INLINE);
+              diffTool.DoubleEditorController.ConnectorClass.MODIFIED);
     }
 
     var editorOffset = this.codeMirrorOriginal_.getScrollInfo();
