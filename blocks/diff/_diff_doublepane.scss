@@ -1,3 +1,5 @@
+@import '../../components/codemirror/lib/codemirror';
+
 .diff__doublepane {
   height: 100%;
 }
@@ -30,9 +32,17 @@
   right: 0;
 }
 
+.diff__modified .CodeMirror {
+  border-left-width: 0;
+}
+
 .diff__original {
   left: 0;
   right: 51%;
+}
+
+.diff__original .CodeMirror {
+  border-right-width: 0;
 }
 
 .diff__split {

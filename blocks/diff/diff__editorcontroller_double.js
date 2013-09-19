@@ -668,23 +668,23 @@ define([
 
         var connector = this.connectorsCanvas_.path(
         [
-          ['M', 0, originalTop],
+          ['M', -1, originalTop],
           [
             'C', width * 0.2, originalTop,
             width * 0.8, modifiedTop,
-            width, modifiedTop
+            width + 1, modifiedTop
           ],
           [
-            'L', width, modifiedBottom
+            'L', width + 1, modifiedBottom
           ],
           [
             'C',
             width * 0.8, modifiedBottom,
             width * 0.2, originalBottom,
-            0, originalBottom
+            -1, originalBottom
           ],
           [
-            'L', 0, originalTop
+            'L', -1, originalTop
           ]
         ]);
         connector.node.setAttribute('class', connectorClassName);
