@@ -336,6 +336,11 @@ module.exports = function(grunt) {
       blocks: {
         src: '<%= path.blocks %>**/*.scss',
         dest: '<%= path.dist %>'
+      },
+      // So ugly, but no other way
+      codemirror: {
+        src: 'components/codemirror/lib/codemirror.css',
+        dest: 'components/codemirror/lib/codemirror.scss'
       }
     },
     markdown: {
@@ -521,7 +526,7 @@ module.exports = function(grunt) {
 
   require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
 
-  grunt.registerTask('install',   ['bower']);
+  grunt.registerTask('install',   ['bower', 'copy:codemirror']);
   grunt.registerTask('uninstall', ['clean:modules']);
   grunt.registerTask('cleanup',   ['clean:generated']);
 
