@@ -8,7 +8,7 @@ define(['global/global__views', 'global/global__modules'], function (View, Modul
     },
     {
       label: 'YouTrack',
-      url: '//youtrack.jetbrains.com'
+      url: 'http://youtrack.jetbrains.com'
     },
     {
       label: 'Upsource',
