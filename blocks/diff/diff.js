@@ -78,8 +78,7 @@ define([
    * @protected
    */
   DiffTool.prototype.availableModes =
-      DiffTool.Mode.SINGLE_PANE |
-      DiffTool.Mode.DOUBLE_PANE;
+      DiffTool.Mode.SINGLE_PANE;
 
   /**
    * Bit mask of current mode of DiffTool. Default value is
@@ -120,8 +119,6 @@ define([
     if (!this.modeToController_) {
       var singleModeController = new diffTool.SingleEditorController(
           this.element_);
-      var doubleModeController = new diffTool.DoubleEditorController(
-          this.element_);
 
       /**
        * Lookup table of {@link DiffTool.Mode}s to {diffTool.EditorController}s.
@@ -129,8 +126,7 @@ define([
        * @private
        */
       this.modeToController_ = diffTool.createObject(
-          DiffTool.Mode.SINGLE_PANE, singleModeController,
-          DiffTool.Mode.DOUBLE_PANE, doubleModeController);
+          DiffTool.Mode.SINGLE_PANE, singleModeController);
     }
 
     if (this.controller_ !== null) {
@@ -215,14 +211,6 @@ define([
       method: function(element, contentOriginal, contentModified, diff) {
         return decorateDiffTool(element, contentOriginal, contentModified,
             diff, DiffTool.Mode.SINGLE_PANE);
-      },
-      override: true
-    },
-
-    doublePaneDiff: {
-      method: function(element, contentOriginal, contentModified, diff) {
-        return decorateDiffTool(element, contentOriginal, contentModified,
-            diff, DiffTool.Mode.DOUBLE_PANE);
       },
       override: true
     },

@@ -1,5 +1,5 @@
 {{#if image}}
   <img class="ring-menu__logo__img" src="{{image}}"/>
 {{else}}
-  {{label}}
+  <span class="ring-menu__item__i{{#if type}} ring-font-icon ring-font-icon_{{type}}{{/if}}">{{label}}</span>
 {{/if}}

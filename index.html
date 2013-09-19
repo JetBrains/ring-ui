@@ -24,35 +24,41 @@
     }
   </style>
   <link rel="stylesheet" type="text/css" href="dist/ring-lib.css">
+  <link rel="icon" type="image/x-icon" href="site/favicon.ico">
 
   <script src="components/jquery/jquery.js"></script>
   <script src="components/requirejs/require.js"></script>
   <script src="bundles/ring.config.js"></script>
 
   <script>
-    require(['jquery', 'ring', 'auth/auth', 'header/header__hub-services', 'json'], function($, ring) {
+    require([
+      'jquery',
+      'ring',
+      'auth/auth',
+      'header/header__hub-services',
+      'header/header__userinfo',
+      'json'],
+      function($, ring) {
       window.ring = ring;
+
+      var authData = window.location.host.indexOf('hub-staging') > -1 ?
+      {
+        redirectUri: "http://hub.jetbrains.com/master/",
+        serverUri: "http://hub.jetbrains.com:8080/accounts"
+      }
+        :
+      {
+        serverUri: 'http://localhost:8080'
+      };
 
       var o = ring();
 
       o('init', {
         header: {
-          user: {
-            name: "User"
-          },
-          "personalLinks": [
-            {
-              "label": "Profile",
-              "url": "http://hub.jetbrains.com:8080/accounts/jpapUser"
-            }
-          ],
           "authLinks": {
             "login": {
               "label": "Log in",
-              "event": {
-                "name": "header:login",
-                "data": "Hello!"
-              }
+              "event": "header:login"
             }
 //            ,
 //            "logout": {
@@ -106,8 +112,11 @@
             },
             "logo": {
               "order": 1,
-              "image": "blocks/menu/tc.png",
+              "image": "site/ring.png",
               "url": "/dashboard"
+            },
+            "html": {
+              "html": "<b>HTML item</i>"
             }
           },
           "right": {
@@ -150,21 +159,15 @@
         }
       });
 
-      if (window.location.host.indexOf('hub-staging') > -1) {
-        ring('auth', 'init')({
-          clientId: "4ba3d665-e492-48a2-960c-b3aacb2fe248",
-            redirectUri: "http://hub.jetbrains.com/master/",
-            serverUri: "http://hub.jetbrains.com:8080/accounts",
-            scope: ["22fe5b09-0849-4845-acb1-3c93fbc6c12c"]
-        });
-      } else if (false) {
-        ring('auth', 'init')({
-          clientId: "bbb54677-70fd-47b5-b3cf-c9eeb51212d0",
-          redirectUri: "http://localhost:8000",
-          serverUri: "http://localhost:8080",
-          scope: ["bbb54677-70fd-47b5-b3cf-c9eeb51212d0"]
-        });
-      }
+      var auth = ring('auth');
+
+      o.on('header:login', function() {
+        auth('init', authData);
+      });
+
+      auth('init', $.extend({
+        denyIA: true
+      }, authData));
 
       o.on('menu:test', function(data) {
         ring('menu', 'setActive')(data);
@@ -178,8 +181,8 @@
 <div class="demo">
   <h2 class="demo__header">Docs</h2>
 
-  <div><a href="dist/docs/API.html">View API documentation</a></div>
-  <div><a href="dist/styleguide/">CSS Styleguide</a></div>
+  <div><a class="ring-link" href="dist/docs/API.html">View API documentation</a></div>
+  <div><a class="ring-link" href="dist/styleguide/">CSS Styleguide</a></div>
 </div>
 
 </body>
