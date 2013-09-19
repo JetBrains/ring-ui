@@ -2,7 +2,9 @@ $header-link-color:  #b4b4b4;
 
 .ring-header {
   padding: 0 $x-unit*2;
-  background: #484848;
+  background-color: #35444b; // IE7-
+  -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='#24353d', endColorstr='#4a565c', GradientType=0)"; // IE8
+  background-image: linear-gradient(to bottom, #24353d, #4a565c);
   letter-spacing: -5px;
   line-height: 11px !important;
   font-size: 18px !important;
@@ -17,10 +19,11 @@ $header-link-color:  #b4b4b4;
 .ring-header__item {
   position: relative;
   display: inline-block;
+  *display: inline; // IE7
   height: $x-unit*3 - 8;
 
-  padding: 7px $x-unit 0 $x-unit;
-  vertical-align: top;
+  padding: 6px $x-unit 0 $x-unit;
+  vertical-align: middle; // IE7
 
   letter-spacing: 0;
   font-size: 11px !important;
@@ -29,7 +32,8 @@ $header-link-color:  #b4b4b4;
 }
 
 .ring-header__services .ring-header__item_link:hover {
-  background-color: #323232;
+  background-color: #000; // IE8-
+  background-color: rgba(0, 0, 0, 0.5);
 }
 
 .ring-header__item_link,

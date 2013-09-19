@@ -80,6 +80,8 @@ define(['diff/diff__tools', 'handlebars', 'diff/diff__editorcontroller',
    */
   diffTool.SingleEditorController.getGutterData_ = function(line) {
     var options = {};
+
+    // todo(igor.alexeenko): {@see :113}.
     /**
      * Lookup table of line types to css-classes for this lines in editor.
      * @type {Object.<diffTool.SingleEditorController.LineType, string>}
@@ -109,6 +111,8 @@ define(['diff/diff__tools', 'handlebars', 'diff/diff__editorcontroller',
   diffTool.SingleEditorController.getCodeLineData_ = function(line) {
     var options = {};
 
+    // todo(igor.alexeenko): is there a reason to move this method to instance
+    // and save lookup table as a private variable?
     /**
      * Lookup table of line types to css-classes for lines.
      * @type {Object.<diffTool.ParserSinglePane.LineType, string>}
@@ -133,7 +137,7 @@ define(['diff/diff__tools', 'handlebars', 'diff/diff__editorcontroller',
    */
   diffTool.SingleEditorController.getCodeLine_ = function(line) {
     if (typeof line === 'string') {
-      return line;
+      return this.getInlineChange_(line);
     }
 
     var lineCode = [];
@@ -155,6 +159,23 @@ define(['diff/diff__tools', 'handlebars', 'diff/diff__editorcontroller',
     }, this);
 
     return lineCode.join('');
+  };
+
+  /**
+   * @static
+   * @param {diffTool.ParserSinglePane.BufferModifiedLine|string} chars
+   * @param {diffTool.ParserSinglePane.LineType=} opt_type
+   * @return {string}
+   * @private
+   */
+  diffTool.SingleEditorController.getInlineChange_ = function(chars, opt_type) {
+    chars = chars.replace(/\r?\n/, '');
+
+    return Handlebars.partials[diffTool.SingleEditorController.Template.
+        CODE_LINE_MODIFIED]({
+      additionalClassName: this.getAdditionalClassName_(chars, opt_type),
+      code: chars
+    });
   };
 
   /**
