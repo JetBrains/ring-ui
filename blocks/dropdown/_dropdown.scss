@@ -1,23 +1,17 @@
-$dropdown-background-color: #fff;
-@mixin dropdown-shadow {
-  border: 1px solid #adadad;
-  box-shadow: 0 1px 4px 0 #adadad;
-}
-
 // Dropdown
 //
 // Markup:
-// <div style="position: relative; height: 60px;">
+// <div style="position: relative; height: 160px;">
 // <div class="ring-dropdown {$modifiers}">
 //   <div class="ring-dropdown__i">
 //     <a class="ring-link ring-dropdown__item" href="#">Profile</a>
+//     <span class="ring-dropdown__separator"></span>
 //     <span class="ring-link ring-dropdown__item">Log out</span>
+//     <span class="ring-dropdown__item ring-dropdown__item_action">Log out</span>
+//     <span class="ring-dropdown__item ring-dropdown__item_action">Log out</span>
 //   </div>
 // </div>
 // </div>
-//
-// .ring-dropdown_right - Right-aligned tail
-// .ring-dropdown_left  - Left-aligned tail
 //
 // Styleguide 5.1
 
@@ -26,40 +20,55 @@ $dropdown-background-color: #fff;
   z-index: 999;
 
   font-size: 13px;
-
   text-align: center;
-  border-radius: 5px;
 
-  @include dropdown-shadow;
-  background-color: $dropdown-background-color;
+  border: 1px solid #adadad; // IE8-
+  border-color: rgba(0, 0, 0, .3);
+
+  box-shadow: 0 2px 8px 0 rgba(0, 0, 0, .3);
+  border-radius: 3px;
 }
 
 .ring-dropdown__i {
-  padding: 13px;
+  padding: $x-unit/2 + 1 0 $x-unit/2 - 1;
   z-index: 1;
 
   line-height: normal;
 
   position: relative;
-  background-color: $dropdown-background-color;
+  border-radius: 3px;
+  background-color: #fff;
 }
 
+.ring-dropdown__separator {
+  width: 100%;
+  height: 1px;
+  display: block;
+  background-color: #adadad;
+  margin: 2px 0 5px;
+}
 
 .ring-dropdown__item {
-  margin-top: 13px;
+  padding: $x-unit/2 - 1 $x-unit*2 $x-unit/2 + 1;
   display: block;
   text-align: left;
   font-size: 13px;
+  line-height: 16px;
   cursor: pointer;
+  vertical-align: bottom;
+  text-decoration: none;
   @include droid-font;
+
+  .ring-dropdown &:hover {
+    text-decoration: none !important;
+  }
 }
 
-.ring-dropdown__item:first-child {
-  margin-top: 0;
-}
-
-.ring-dropdown__item,
-.ring-dropdown__item:link,
-.ring-dropdown__item:visited {
+.ring-dropdown__item_action {
   color: #000 !important;
+
+  &:hover {
+    color: #fff !important;
+    background-color: #25b7ff;
+  }
 }
