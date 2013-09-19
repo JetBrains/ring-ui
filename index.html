@@ -80,8 +80,24 @@
                     "url": "/issues"
                   },
                   {
-                    "label": "Agile Board",
-                    "url": "/rest/agile"
+                    "label": "dependent",
+                    "url": "/rest/agile",
+                    "type": "action"
+                  },
+                  {
+                    "label": "dependent",
+                    "url": "/rest/agile",
+                    "type": "action"
+                  },
+                  {
+                    "label": "dependent",
+                    "url": "/rest/agile",
+                    "type": "action"
+                  },
+                  {
+                    "label": "dependent",
+                    "url": "/rest/agile",
+                    "type": "action"
                   }
                 ]
               },
@@ -105,15 +121,73 @@
                 "data": "agents"
               },
               "toggle": {
-                "items": {
-                  html: '<b>Agents</b>'
-                }
+                "items": [
+                  {
+                    "className": "test-class",
+                    "label": "Issues",
+                    "title": "Tilte attribute content",
+                    "url": "/issues"
+                  },
+                  {
+                    "className": "test-class",
+                    "label": "Issues",
+                    "title": "Tilte attribute content",
+                    "url": "/issues"
+                  },
+                  {
+                    "type": "separator"
+                  },
+                  {
+                    "className": "test-class",
+                    "label": "Issues",
+                    "title": "Tilte attribute content",
+                    "url": "/issues"
+                  },
+                  {
+                    "className": "test-class",
+                    "label": "Issues",
+                    "title": "Tilte attribute content",
+                    "url": "/issues"
+                  },
+                  {
+                    "label": "Agile Board",
+                    "url": "/rest/agile"
+                  }
+                ]
               }
             },
             "logo": {
               "order": 1,
               "image": "site/ring.png",
-              "url": "/dashboard"
+              "url": "/dashboard",
+              "items": [
+//                  {
+//                    "className": "test-class",
+//                    "label": "Issues",
+//                    "title": "Tilte attribute content",
+//                    "url": "/issues"
+//                  },
+                {
+                  "label": "dependent",
+                  "url": "/rest/agile",
+                  "type": "action"
+                },
+                {
+                  "label": "dependent",
+                  "url": "/rest/agile",
+                  "type": "action"
+                },
+                {
+                  "label": "dependent",
+                  "url": "/rest/agile",
+                  "type": "action"
+                },
+                {
+                  "label": "dependent",
+                  "url": "/rest/agile",
+                  "type": "action"
+                }
+              ]
             },
             "html": {
               "html": "<b>HTML item</i>"
@@ -140,7 +214,19 @@
             },
             "help": {
               "type": "help",
-              "url": "/help"
+              "url": "/help",
+              "items": [
+                {
+                  "className": "test-class",
+                  "label": "Issues",
+                  "title": "Tilte attribute content",
+                  "url": "/issues"
+                },
+                {
+                  "label": "Agile Board",
+                  "url": "/rest/agile"
+                }
+              ]
             }
           }
         },
