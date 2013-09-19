@@ -1,7 +1,7 @@
 /*jshint scripturl:true*/
 var hljs = require('highlight.js');
 
-var LIVERELOAD_PORT = 35729;
+var LIVERELOAD_PORT = 35730;
 var lrSnippet = require('connect-livereload')({port: LIVERELOAD_PORT});
 
 module.exports = function(grunt) {
@@ -92,12 +92,20 @@ module.exports = function(grunt) {
       options: {
         pretty: true
       },
+      component: {
+        options: {
+          archive: './<%= path.dist %><%= pkg.name %>-component.tar.gz'
+        },
+        files: [
+          { expand: true, cwd: '<%= path.dist %>', src: ['**']}
+        ]
+      },
       dist: {
         options: {
           archive: './<%= path.dist %><%= pkg.name %>-<%= version %>.zip'
         },
         files: [
-          { expand: true, cwd: '<%= path.dist %>', src: ['**'], dest: 'ring'}
+          { expand: true, cwd: '<%= path.dist %>', src: ['**', '!**.gz'], dest: 'ring'}
         ]
       },
       coverage: {
@@ -158,12 +166,6 @@ module.exports = function(grunt) {
         files: {
           src: ['*.js', '<%= path.blocks %>**/*.js', '<%= path.bundles %>*.js']
         }
-      }
-    },
-    bump: {
-      options: {
-        createTag: false,
-        pushTo: 'origin'
       }
     },
 
@@ -305,6 +307,14 @@ module.exports = function(grunt) {
           },
           out: '<%= path.dist %>ring-diff.js'
         })
+      },
+      'ring-diff-oauth': {
+        options: _.extend(_.clone(requireConfig.options), {
+          paths: {
+            ring: '../<%= path.bundles %>ring-diff-oauth'
+          },
+          out: '<%= path.dist %>ring-diff-oauth.js'
+        })
       }
     },
     copy: {
@@ -322,6 +332,15 @@ module.exports = function(grunt) {
           ],
           dest: '<%= path.dist %>fonts'
         }]
+      },
+      blocks: {
+        src: '<%= path.blocks %>**/*.scss',
+        dest: '<%= path.dist %>'
+      },
+      // So ugly, but no other way
+      codemirror: {
+        src: 'components/codemirror/lib/codemirror.css',
+        dest: 'components/codemirror/lib/codemirror.scss'
       }
     },
     markdown: {
@@ -507,7 +526,7 @@ module.exports = function(grunt) {
 
   require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
 
-  grunt.registerTask('install',   ['bower']);
+  grunt.registerTask('install',   ['bower', 'copy:codemirror']);
   grunt.registerTask('uninstall', ['clean:modules']);
   grunt.registerTask('cleanup',   ['clean:generated']);
 
@@ -571,10 +590,8 @@ module.exports = function(grunt) {
 
   grunt.registerTask('release', [
     'cleanup',
-//    'bump',
     'build',
+    'copy:blocks',
     'compress'
   ]);
-
-  grunt.registerTask('build-as-dep', ['process']);
 };

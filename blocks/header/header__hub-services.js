@@ -1,4 +1,3 @@
-/* jshint camelcase:false */
 define(['jquery', 'global/global__modules', 'global/global__views', 'header/header', 'auth/auth'], function ($, Module, View) {
   'use strict';
 
@@ -17,54 +16,24 @@ define(['jquery', 'global/global__modules', 'global/global__views', 'header/head
   };
 
   var auth = Module.get('auth');
-  var dfd;
+  var header = Module.get('header');
 
-  var update = function() {
-    var getServices = $.Deferred();
-    var getMe = $.Deferred();
+  var authInited = $.Deferred();
+  var headerInited = $.Deferred();
 
-    dfd = $.when(
-      auth('ajax', '/rest/services')
-        .done(function(services) {
-          var list = services && services.services;
+  auth.on('init:done', authInited.resolve.bind(authInited));
+  header.on('init:done', headerInited.resolve.bind(headerInited));
 
-          if (list) {
-            getServices.resolve({services: convertServices(list)});
-          } else {
-            getServices.resolve({});
-          }
-        })
-        .fail(function() {
-          getServices.resolve({});
-        }),
-      auth('ajax', '/rest/users/me')
-        .done(function(me) {
-          if (me && me.name) {
-            getMe.resolve({user: {name: me.name}});
-          } else {
-            getMe.resolve({});
-          }
-        })
-        .fail(function() {
-          getMe.resolve({});
-        })
-    ).promise();
+  $.when(headerInited, authInited)
+    .then(function() {
+      return auth('ajax', '/rest/services');
+    })
+    .then(function(services) {
+      var list = services && services.services;
+      var headerServices = header.get('view').services || [];
 
-
-    return $.when(getServices, getMe);
-  };
-
-  auth.on('init:done', function() {
-    update().then(function(services, me) {
-      View.update('header', '.', $.extend({}, services, me));
+      if (list) {
+        View.update('header', 'services', headerServices.concat(convertServices(list)));
+      }
     });
-  });
-
-  Module.add('auth', {
-    hubData: function() {
-      return dfd;
-    }
-  });
-
-  return dfd;
 });
