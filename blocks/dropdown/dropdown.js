@@ -13,7 +13,6 @@ define(['jquery', 'global/global__views', 'global/global__modules'], function($,
   var create = function(data, $target) {
     var currentTarget = $target[0];
     var sameTarget = (currentTarget && target === currentTarget);
-    var menuToggle;
 
     if (!data) {
       data = $target.data('ring-dropdown');
@@ -43,8 +42,9 @@ define(['jquery', 'global/global__views', 'global/global__modules'], function($,
       $dropdown = $(View.render('dropdown', data));
       $dropdown.appendTo($body);
 
-
-      if ($target.is(TOGGLE_SELECTOR) && $target.prev().is(ITEM_SELECTOR)) {
+      var menuToggle;
+      var targetToggle = $target.is(TOGGLE_SELECTOR);
+      if (targetToggle && $target.prev().is(ITEM_SELECTOR)) {
         menuToggle = true;
         $target = $target.prev();
       }
@@ -57,7 +57,7 @@ define(['jquery', 'global/global__views', 'global/global__modules'], function($,
 
       if (targetCenter + dropdownCenter > $global.width()) {
         pos.left += $target.width() - dropdownWidth;
-      } else if(targetCenter >= dropdownCenter && !menuToggle) {
+      } else if(targetCenter >= dropdownCenter && targetToggle && !menuToggle) {
         pos.left = targetCenter - dropdownCenter;
       }
 
