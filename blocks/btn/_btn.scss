@@ -56,9 +56,9 @@ $btn-border-radius: 3px;
   display: inline-block;
   border-radius: $btn-border-radius;
   font-size: 11px;
-  padding: 0 15px;
+  padding: 0 $x-unit*2 - 1;
   width: auto;
-  height: 24px;
+  height: $x-unit*3;
   line-height: 22px;
   border: solid 1px #b4b4b4;
   color: #282828;
@@ -175,18 +175,16 @@ $btn-border-radius: 3px;
 }
 
 .ring-btn_plus {
-  padding-left: 24px !important;
+  padding-left: 5px !important;
 }
 
 .ring-btn_plus:before {
-  content: '+ ';
-  white-space: pre;
-  margin-left: -6px;
-  font-size: 20px;
-  position: absolute;
-  font-weight: 100;
-  left: 44px;
-  line-height: 20px;
+  content: '+';
+  margin-right: 3px;
+  font-size: 16px;
+  line-height: 16px;
+  position: relative;
+  top: 1px;
 }
 
 .ring-btn__last-icon {
