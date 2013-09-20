@@ -666,26 +666,25 @@ define([
           this.typeToSvgClass_[offset.type]
         ].join(' ');
 
-        var connector = this.connectorsCanvas_.path(
-        [
-          ['M', -1, originalTop],
-          [
-            'C', width * 0.2, originalTop,
-            width * 0.8, modifiedTop,
-            width + 1, modifiedTop
-          ],
-          [
-            'L', width + 1, modifiedBottom
-          ],
-          [
-            'C',
-            width * 0.8, modifiedBottom,
-            width * 0.2, originalBottom,
-            -1, originalBottom
-          ],
-          [
-            'L', -1, originalTop
-          ]
+        var leftEdge = -1;
+        var leftCorrPoint = Math.round(width *
+            diffTool.DoubleEditorController.CONNECTOR_CURVE_RATIO);
+        var rightCorrPoint = Math.round(width - width *
+            diffTool.DoubleEditorController.CONNECTOR_CURVE_RATIO);
+        var rightEdge = width + 1;
+
+        var connector = this.connectorsCanvas_.path([
+          ['M', leftEdge, originalTop],
+          ['C',
+            leftCorrPoint, originalTop,
+            rightCorrPoint, modifiedTop,
+            rightEdge, modifiedTop],
+          ['L', rightEdge, modifiedBottom],
+          ['C',
+            rightCorrPoint, modifiedBottom,
+            leftCorrPoint, originalBottom,
+            leftEdge, originalBottom],
+          ['L', leftEdge, originalTop, 'Z']
         ]);
         connector.node.setAttribute('class', connectorClassName);
       }
@@ -729,7 +728,7 @@ define([
     var offsets = [];
 
     lines.forEach(function(line) {
-      offsets.push({
+      var offset = {
         bottomModified: this.codeMirrorModified_.heightAtLine(
             line.bottomModified,
             diffTool.DoubleEditorController.EDITOR_SCREEN_MODE),
@@ -743,7 +742,9 @@ define([
             line.topOriginal,
             diffTool.DoubleEditorController.EDITOR_SCREEN_MODE),
         type: line.type
-      });
+      };
+
+      offsets.push(offset);
     }, this);
 
     return offsets;
