@@ -31,7 +31,7 @@ define([
         'of line-endings.\n' +
         'Even old-fashioned\r' +
         'Mac-classic styled lines.';
-      var splitLines = Parser.splitToLines(string);
+      var splitLines = diffTool.Parser.splitToLines(string);
 
       expect(splitLines).to.eql([
         'String, which contains\n',

@@ -4,11 +4,21 @@
   <title>DiffTools</title>
   <meta charset="utf-8">
   <link rel="icon" type="image/x-icon" href="site/favicon.ico">
-  <link rel="stylesheet" type="text/css" href="components/codemirror/lib/codemirror.css">
   <link rel="stylesheet" type="text/css" href="dist/ring-diff.css">
   <style type="text/css">
-    .layout_double .CodeMirror {
-      height: 450px;
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+    }
+
+    .layout {
+      bottom: 30px;
+      left: 30px;
+      top: 30px;
+      position: absolute;
+      right: 30px;
     }
   </style>
   <script src="components/jquery/jquery.js"></script>
@@ -17,7 +27,7 @@
 </head>
 <body>
 
-<div class="layout_double"></div>
+<div class="layout"></div>
 
 <script type="text/javascript">
   require(['jquery', 'ring', 'diff/diff'], function($, ring) {
@@ -48,8 +58,8 @@
        * Demo-object of {@code DiffTool} inited through ring module.
        * @type {DiffTool}
        */
-      var diffTool = ring('diff').invoke('singlePaneDiff',
-          document.querySelector('.layout_double'),
+      var diffTool = ring('diff').invoke('doublePaneDiff',
+          document.querySelector('.layout'),
           original[0],
           modified[0],
           diff[0]);
