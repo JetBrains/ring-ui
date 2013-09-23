@@ -56,7 +56,10 @@ define(['global/global__views', 'global/global__modules'], function (View, Modul
 
     if (active) {
       active.active = true;
-      delete currentActive.active;
+
+      if (currentActive && typeof currentActive === 'object') {
+        delete currentActive.active;
+      }
     }
 
     View.update('header', 'services', services);
