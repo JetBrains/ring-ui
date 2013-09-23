@@ -1,7 +1,16 @@
-.CodeMirror {
+@import '../../components/codemirror/lib/codemirror';
+
+.diff__doublepane {
+  height: 100%;
+}
+
+.diff_doublepane .CodeMirror {
   border: solid 1px #ccc;
+  box-sizing: border-box;
   font-family: 'Menlo', monospace;
   font-size: 12px;
+  height: 100%;
+  line-height: 1.5;
 }
 
 .diff_doublepane:after {
@@ -11,7 +20,131 @@
 }
 
 .diff__modified,
+.diff__original,
+.diff__split {
+  bottom: 0;
+  position: absolute;
+  top: 0;
+}
+
+.diff__modified {
+  left: 51%;
+  right: 0;
+}
+
+.diff__modified .CodeMirror {
+  border-left-width: 0;
+}
+
 .diff__original {
-  float: left;
-  width: 50%;
+  left: 0;
+  right: 51%;
+}
+
+.diff__original .CodeMirror {
+  border-right-width: 0;
+}
+
+.diff__split {
+  background: rgba(0, 0, 0, 0.1);
+  border: solid 1px rgba(0, 0, 0, 0.1);
+  left: 49%;
+  overflow: hidden;
+  right: 49%;
+}
+
+.diff__split > svg {
+  left: 0 !important;
+}
+
+// todo(igor.alexeenko): Move to separate file.
+
+// NB! I took this colours from Intellij IDEA default colour scheme.
+$changeset_border: #969696;
+
+$modified_background: #e9effc;
+$modified_chars: #cad8f8;
+
+$deleted_background: #d6d6d6;
+
+$added_background: #c8f0c9;
+
+
+.CodeMirror {
+  line-height: 1.2;
+}
+
+.CodeMirror .line__modified {
+  background: $modified_background;
+}
+
+.CodeMirror .line__added,
+.CodeMirror .line__deleted {
+  box-sizing: border-box;
+}
+
+.CodeMirror .line__added {
+  background: $added_background;
+}
+
+.CodeMirror .line__before_deleted,
+.CodeMirror .line__before_added {
+  border-bottom: solid 1px $changeset_border;
+  z-index: 1;
+}
+
+.CodeMirror .line__before_deleted {
+  box-shadow: 0 1px 0 $deleted_background;
+}
+
+.CodeMirror .line__before_added {
+  box-shadow: 0 1px 0 $added_background;
+}
+
+.CodeMirror .line__deleted {
+  background: $deleted_background;
+}
+
+.CodeMirror .chars__modified {
+  background: $modified_chars;
+  font-weight: bold;
+  padding: 2px 0;
+}
+
+.CodeMirror .line__collapsed {
+  border-bottom: solid 1px;
+  z-index: 3;
+}
+
+.CodeMirror .line__first {
+  border-top: solid 1px $changeset_border;
+}
+
+.CodeMirror .line__first .chars__modified {
+  padding-top: 1px;
+}
+
+.CodeMirror .line__last {
+  border-bottom: solid 1px $changeset_border;
+}
+
+.CodeMirror .line__last .chars__modified {
+  padding-bottom: 1px;
+}
+
+.diff__connector {
+  stroke: $changeset_border;
+  stroke-width: 1px;
+}
+
+.diff__connector_modified {
+  fill: $modified_background;
+}
+
+.diff__connector_deleted {
+  fill: $deleted_background;
+}
+
+.diff__connector_added {
+  fill: $added_background;
 }

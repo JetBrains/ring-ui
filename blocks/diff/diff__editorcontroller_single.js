@@ -7,9 +7,6 @@ define(['diff/diff__tools', 'handlebars', 'diff/diff__editorcontroller',
   'diff/diff__parser_singlepane'], function(diffTool, Handlebars) {
   'use strict';
 
-  // todo(igor.alexeenko): Do I need to add dispose() method to controllers
-  // instead of using setEnabled(false)?
-
   /**
    * @param {Element} element
    * @constructor
@@ -58,6 +55,10 @@ define(['diff/diff__tools', 'handlebars', 'diff/diff__editorcontroller',
     var gutterOutput = [];
     var codeOutput = [];
 
+    if (!parsedContent) {
+      return;
+    }
+
     parsedContent.forEach(function(line) {
       gutterOutput.push(Handlebars.partials[
           diffTool.SingleEditorController.Template.GUTTER_LINE](
@@ -86,17 +87,17 @@ define(['diff/diff__tools', 'handlebars', 'diff/diff__editorcontroller',
      * @type {Object.<diffTool.SingleEditorController.LineType, string>}
      */
     var codeTypeToClassName = diffTool.createObject(
-        diffTool.ParserSinglePane.LineType.UNCHANGED, '',
-        diffTool.ParserSinglePane.LineType.MODIFIED,
+        diffTool.Parser.LineType.UNCHANGED, '',
+        diffTool.Parser.LineType.ADDED,
             'diff__gutterline_modified',
-        diffTool.ParserSinglePane.LineType.ORIGINAL,
+        diffTool.Parser.LineType.DELETED,
             'diff__gutterline_original',
-        diffTool.ParserSinglePane.LineType.FOLDED,
+        diffTool.Parser.LineType.FOLDED,
             'diff__gutterline_folded');
 
-    options.additionalClassName = codeTypeToClassName[line.codeType];
-    options.originalLineNumber = line.originalLineNumber;
-    options.modifiedLineNumber = line.modifiedLineNumber;
+    options.additionalClassName = codeTypeToClassName[line.type];
+    options.originalLineNumber = line.lineOriginal;
+    options.modifiedLineNumber = line.lineModified;
 
     return options;
   };
@@ -116,14 +117,14 @@ define(['diff/diff__tools', 'handlebars', 'diff/diff__editorcontroller',
      * Lookup table of line types to css-classes for lines.
      * @type {Object.<diffTool.ParserSinglePane.LineType, string>}
      */
-    var codeTypeToClassName = diffTool.createObject(
-        diffTool.ParserSinglePane.LineType.UNCHANGED, '',
-        diffTool.ParserSinglePane.LineType.MODIFIED, 'diff__codeline_modified',
-        diffTool.ParserSinglePane.LineType.ORIGINAL, 'diff__codeline_original',
-        diffTool.ParserSinglePane.LineType.FOLDED, 'diff__codeline_folded');
+    var lineTypeToClassName = diffTool.createObject(
+        diffTool.Parser.LineType.UNCHANGED, '',
+        diffTool.Parser.LineType.ADDED, 'diff__codeline_modified',
+        diffTool.Parser.LineType.DELETED, 'diff__codeline_original',
+        diffTool.Parser.LineType.FOLDED, 'diff__codeline_folded');
 
-    options.additionalClassName = codeTypeToClassName[line.codeType];
-    options.line = this.getCodeLine_(line.line);
+    options.additionalClassName = lineTypeToClassName[line.type];
+    options.line = this.getCodeLine_(line.content);
 
     return options;
   };
@@ -141,8 +142,20 @@ define(['diff/diff__tools', 'handlebars', 'diff/diff__editorcontroller',
 
     var lineCode = [];
 
+    if (!line) {
+      return '';
+    }
+
     line.forEach(function(change) {
-      lineCode.push(this.getInlineChange_(change.chars, change.codeType));
+      var template = Handlebars.partials[
+          diffTool.SingleEditorController.Template.CODE_LINE_MODIFIED]({
+        additionalClassName: this.getAdditionalClassName_(
+            change.content,
+            change.type),
+        code: change.content
+      });
+
+      lineCode.push(template);
     }, this);
 
     return lineCode.join('');
@@ -167,25 +180,23 @@ define(['diff/diff__tools', 'handlebars', 'diff/diff__editorcontroller',
 
   /**
    * @param {string} chars
-   * @param {diffTool.ParserSinglePane.LineType=} opt_codeType
+   * @param {diffTool.Parser.LineType} lineType
    * @private
    */
   diffTool.SingleEditorController.getAdditionalClassName_ = function(chars,
-      opt_codeType) {
+      lineType) {
     var className = [];
 
-    if (diffTool.isDef(opt_codeType)) {
-      var codeTypeToClassName = diffTool.createObject(
-          diffTool.ParserSinglePane.LineType.UNCHANGED,
-              'diff__inline_unchanged',
-          diffTool.ParserSinglePane.LineType.MODIFIED, 'diff__inline_modified',
-          diffTool.ParserSinglePane.LineType.ORIGINAL, 'diff__inline_original');
+    var codeTypeToClassName = diffTool.createObject(
+        diffTool.Parser.LineType.UNCHANGED, 'diff__inline_unchanged',
+        // todo(igor.alexeenko): Change to bitwise or.
+        diffTool.Parser.LineType.ADDED, 'diff__inline_modified',
+        diffTool.Parser.LineType.DELETED, 'diff__inline_modified');
 
-      className.push(codeTypeToClassName[opt_codeType]);
+    className.push(codeTypeToClassName[lineType]);
 
-      if (diffTool.isEmptyString(chars)) {
-        className.push('diff__inline_empty');
-      }
+    if (diffTool.isEmptyString(chars)) {
+      className.push('diff__inline_empty');
     }
 
     return className.join(' ');
