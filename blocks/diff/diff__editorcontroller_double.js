@@ -594,6 +594,7 @@ define([
     }
   };
 
+  // todo(igor.alexeenko): Refactor: remove complexity.
   /**
    * Draws graphics connectors from changed chunks in original code to
    * corresponding chunks in modified code.
@@ -606,6 +607,12 @@ define([
       this.splitElement_ = this.element_.querySelector(
           diffTool.DoubleEditorController.CssSelector.SPLITTER);
     }
+
+    /**
+     * @type {number}
+     * @const
+     */
+    var SUBPIXEL_ERROR = 1;
 
     var width = this.splitElement_.offsetWidth;
     var originalScrollInfo = this.codeMirrorOriginal_.getScrollInfo();
@@ -645,6 +652,8 @@ define([
     var editorOffsetTop = editorOffset.top;
     var editorOffsetBottom = editorOffsetTop + editorOffset.clientHeight;
 
+    var previousOffset = null;
+
     this.offsets_.forEach(function(offset) {
       var offsetHeight = offset.bottomOriginal - offset.topOriginal;
       var topEdge = editorOffsetTop - offsetHeight;
@@ -657,8 +666,17 @@ define([
         var originalTop = offset.topOriginal - originalScrollInfo.top;
         var modifiedTop = offset.topModified - modifiedScrollInfo.top;
 
-        var originalBottom = offset.bottomOriginal - originalScrollInfo.top;
-        var modifiedBottom = offset.bottomModified - modifiedScrollInfo.top;
+        var originalBottom = offset.bottomOriginal - originalScrollInfo.top -
+            SUBPIXEL_ERROR;
+        var modifiedBottom = offset.bottomModified - modifiedScrollInfo.top -
+            SUBPIXEL_ERROR;
+
+        if (Boolean(previousOffset) &&
+            !diffTool.Parser.lineHasType(previousOffset, diffTool.Parser.LineType.UNCHANGED) &&
+            !diffTool.Parser.lineHasType(offset, diffTool.Parser.LineType.UNCHANGED)) {
+          originalTop -= SUBPIXEL_ERROR;
+          modifiedTop -= SUBPIXEL_ERROR;
+        }
 
         // todo(igor.alexeenko): getConnectorClass(type)
         var connectorClassName = [
@@ -687,7 +705,10 @@ define([
           ['L', leftEdge, originalTop, 'Z']
         ]);
         connector.node.setAttribute('class', connectorClassName);
+        connector.node.setAttribute('transform', 'translate(0.5, 0.5)');
       }
+
+      previousOffset = offset;
     }, this);
   };
 
