@@ -11,10 +11,12 @@
 // Styleguide 7.1
 
 .ring-input {
+  font-family: "Droid Sans",Arial,Tahoma,Verdana,sans-serif;
+  font-size: 13px;
   padding-left: 8px;
   padding-right: 8px;
-  width: 100% !important;
-  line-height: 22px;
+  width: 100%;
+  line-height: 20px;
   border: 1px solid #cccccc;
   margin-top: 8px;
   margin-bottom: 8px;
@@ -32,6 +34,9 @@
   &.ring-input_error {
     border: 1px solid #ff0000;
   }
+  &.ring-input_long {
+    width: 100%;
+  }
 }
 
 // Input error bubbles
@@ -44,6 +49,7 @@
 .ring-input__error-bubble {
   position: relative;
   top: -6px;
+  font-family: "Droid Sans",Arial,Tahoma,Verdana,sans-serif;
   background: red;
   display: inline-block;
   border-radius: 3px;
@@ -53,7 +59,7 @@
   padding-right: 16px;
   &:before {
     position: absolute;
-    top:-4px;
+    top: -4px;
     transform: rotate(45deg);
     left: calc(50% - 6px);
     content: "";
@@ -62,4 +68,85 @@
     height: 10px;
     background: red;
   }
+}
+
+//
+// Basic form
+//
+//Markup:
+//<form class="ring-form">
+//  <span class="ring-form__title">Lisence</span>
+//  <div class="ring-form__group">
+//    <label class="ring-form__label">License User Name</label>
+//    <div class="ring-form__control">
+//      <input class="ring-input" type="text">
+//    </div>
+//  </div>
+//  <div class="ring-form__group">
+//    <label class="ring-form__label">License Key</label>
+//    <div class="ring-form__control">
+//      <input class="ring-input" type="text">
+//    </div>
+//  </div>
+//  <div class="ring-form__group">
+//    <label class="ring-form__label">License Key</label>
+//    <div class="ring-form__control">
+//      <input class="ring-input ring-input_long" type="text">
+//      <div class="ring-input__error-bubble">Wrong value</div>
+//    </div>
+//  </div>
+//  <div class="ring-form__footer">
+//    <button class="ring-btn_blue ring-btn">Save</button>
+//    <button class="ring-btn">Cancel</button>
+//  </div>
+//</form>
+//
+// Styleguide 7.3
+
+.ring-form {
+  font-family: "Droid Sans", Arial, Tahoma, Verdana, sans-serif;
+  font-size: 13px;
+  margin: 0 0 20px;
+  & .ring-input {
+    width: 25 * $x-unit !important;
+    margin: 0;
+  }
+  & .ring-input__error-bubble {
+    color: red;
+    background: none;
+    top: 0px;
+    padding-left: 8px;
+    &:before {
+      display: none;
+    }
+  }
+}
+
+.ring-form__footer {
+  margin-top: 3 * $x-unit;
+  padding: 16px;
+  background-color: #dbeaf2;
+}
+
+.ring-form__title {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+}
+
+.ring-form__group {
+  margin-bottom: $x-unit;
+}
+
+.ring-form__label {
+  float: left;
+  width: 19 * $x-unit;
+  line-height: 24px;
+}
+
+.ring-form__control {
+  position: relative;
+  margin-left: 20 * $x-unit;
+  min-height: 3 * $x-unit;
+  line-height: 3 * $x-unit;
 }
