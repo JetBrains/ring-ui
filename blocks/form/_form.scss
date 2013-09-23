@@ -1,0 +1,42 @@
+// Forms
+//
+// Markup:
+//<input class="{$modifiers} ring-input " type="text" placeholder="placeholder">
+//
+// :disabled            - Disabled state, also available as the `.ring-btn_disabled` class name.
+// :active              - Active state, also available as the `.ring-btn_active` class name.
+// .ring-input_correct - The entered value is correct.
+// .ring-input_error - The entered value is incorrect.
+//
+// Styleguide 7.1
+
+.ring-input {
+  padding-left: 8px;
+  padding-right: 8px;
+  width: 100% !important;
+  line-height: 22px;
+  border: 1px solid #cccccc;
+  margin-top: 8px;
+  margin-bottom: 8px;
+  &:active, &:focus, .ring-btn_active, .ring-input_focus {
+    border: 1px solid #25b7ff;
+    outline: 0;
+  }
+  &:disabled {
+    border: 1px solid #dedede;
+    background-color: #f8f8f8;
+  }
+  &.ring-input_correct {
+    border: 1px solid #84ab28;
+  }
+  &.ring-input_error {
+    border: 1px solid #ff0000;
+  }
+}
+
+// Input error bubbles
+//
+// Markup:
+//<input class="ring-input ring-input_error" type="text">
+//
+// Styleguide 7.2
