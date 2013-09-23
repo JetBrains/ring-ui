@@ -2,13 +2,14 @@
   "name": "ring-ui",
   "version": "0.1.0",
   "devDependencies": {
+    "almond": "~0.2.5",
     "codemirror": "~3.15.0",
     "jquery": "~1.10.1",
-    "requirejs": "~2.1.6",
-    "almond": "~0.2.5",
-    "polyfill": "git://github.com/inexorabletash/polyfill.git",
     "json2": "*",
-    "jso": "git://github.com/princed/jso.git"
+    "jso": "git://github.com/princed/jso.git",
+    "polyfill": "git://github.com/inexorabletash/polyfill.git",
+    "raphael": "*",
+    "requirejs": "~2.1.6"
   },
   "ignore": [
     "node_modules",

@@ -7,8 +7,12 @@
  * @author igor.alexeenko (Igor Alekseyenko)
  */
 
-define(['diff/diff__tools', 'jquery', 'global/global__modules',
-  'diff/diff__editorcontroller_single'], function(diffTool, $, Module) {
+define([
+  'diff/diff__tools',
+  'global/global__modules',
+  'diff/diff__editorcontroller_single',
+  'diff/diff__editorcontroller_double'
+], function(diffTool, Module) {
   'use strict';
 
   /**
@@ -74,7 +78,8 @@ define(['diff/diff__tools', 'jquery', 'global/global__modules',
    * @protected
    */
   DiffTool.prototype.availableModes =
-      DiffTool.Mode.SINGLE_PANE;
+      DiffTool.Mode.SINGLE_PANE |
+      DiffTool.Mode.DOUBLE_PANE;
 
   /**
    * Bit mask of current mode of DiffTool. Default value is
@@ -115,6 +120,8 @@ define(['diff/diff__tools', 'jquery', 'global/global__modules',
     if (!this.modeToController_) {
       var singleModeController = new diffTool.SingleEditorController(
           this.element_);
+      var doubleModeController = new diffTool.DoubleEditorController(
+          this.element_);
 
       /**
        * Lookup table of {@link DiffTool.Mode}s to {diffTool.EditorController}s.
@@ -122,7 +129,8 @@ define(['diff/diff__tools', 'jquery', 'global/global__modules',
        * @private
        */
       this.modeToController_ = diffTool.createObject(
-          DiffTool.Mode.SINGLE_PANE, singleModeController);
+          DiffTool.Mode.SINGLE_PANE, singleModeController,
+          DiffTool.Mode.DOUBLE_PANE, doubleModeController);
     }
 
     if (this.controller_ !== null) {
@@ -179,13 +187,20 @@ define(['diff/diff__tools', 'jquery', 'global/global__modules',
    * @param {string} contentModified
    * @param {diffTool.Parser.Diff} diff
    * @param {DiffTool.Mode} mode
+   * @return {diffTool.EditorController}
    */
   function decorateDiffTool(element, contentOriginal, contentModified, diff,
                             mode) {
     var diffTool = new DiffTool(element, mode);
     diffTool.setContent(contentOriginal, contentModified, diff);
 
-    return diffTool;
+    // NB! This is reserve for future changes. I want to remove wrap class
+    // DiffTool, because there are no need in it: users of this class can
+    // initialize editor in certain mode by calling this method. Also, there
+    // is need to get an access to instances of {CodeMirror} to user in
+    // double-pane mode, so she should operate with controller, which
+    // creates this instances.
+    return diffTool.getController();
   }
 
   Module.add('diff', {
@@ -200,6 +215,14 @@ define(['diff/diff__tools', 'jquery', 'global/global__modules',
       method: function(element, contentOriginal, contentModified, diff) {
         return decorateDiffTool(element, contentOriginal, contentModified,
             diff, DiffTool.Mode.SINGLE_PANE);
+      },
+      override: true
+    },
+
+    doublePaneDiff: {
+      method: function(element, contentOriginal, contentModified, diff) {
+        return decorateDiffTool(element, contentOriginal, contentModified,
+            diff, DiffTool.Mode.DOUBLE_PANE);
       },
       override: true
     },
