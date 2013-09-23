@@ -805,5 +805,19 @@ define([
     return l - 1;
   };
 
+  /**
+   * @return {CodeMirror}
+   */
+  diffTool.DoubleEditorController.prototype.getOriginalEditor = function() {
+    return this.codeMirrorOriginal_;
+  };
+
+  /**
+   * @return {CodeMirror}
+   */
+  diffTool.DoubleEditorController.prototype.getModifiedEditor = function() {
+    return this.codeMirrorModified_;
+  };
+
   return diffTool.DoubleEditorController;
 });
