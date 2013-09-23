@@ -38,5 +38,28 @@
 //
 // Markup:
 //<input class="ring-input ring-input_error" type="text">
+//<div class="ring-input__error-bubble">Wrong value</div>
 //
 // Styleguide 7.2
+.ring-input__error-bubble {
+  position: relative;
+  top: -5px;
+  background: red;
+  display: inline-block;
+  border-radius: 3px;
+  color: white;
+  font-size: 13px;
+  padding-left: 16px;
+  padding-right: 16px;
+  &:before {
+    position: absolute;
+    top:-4px;
+    transform: rotate(45deg);
+    left: calc(50% - 6px);
+    content: "";
+    display: block;
+    width: 10px;
+    height: 10px;
+    background: red;
+  }
+}
