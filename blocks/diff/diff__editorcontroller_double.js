@@ -671,9 +671,17 @@ define([
         var modifiedBottom = offset.bottomModified - modifiedScrollInfo.top -
             SUBPIXEL_ERROR;
 
-        if (Boolean(previousOffset) &&
-            !diffTool.Parser.lineHasType(previousOffset, diffTool.Parser.LineType.UNCHANGED) &&
-            !diffTool.Parser.lineHasType(offset, diffTool.Parser.LineType.UNCHANGED)) {
+        if ((Boolean(previousOffset) &&
+            !diffTool.Parser.lineHasType(previousOffset,
+                diffTool.Parser.LineType.UNCHANGED) &&
+            !diffTool.Parser.lineHasType(offset,
+                diffTool.Parser.LineType.UNCHANGED)) ||
+            /*
+             * todo(igor.alexeenko): find out, why same condition does not
+             * work for opposite situation: when offset.topModified ===
+             * offset.bottomModified.
+             */
+            offset.topOriginal === offset.bottomOriginal) {
           originalTop -= SUBPIXEL_ERROR;
           modifiedTop -= SUBPIXEL_ERROR;
         }
