@@ -3,28 +3,28 @@
 // Markup:
 //<input class="{$modifiers} ring-input " type="text" placeholder="placeholder">
 //
-// :disabled            - Disabled state, also available as the `.ring-btn_disabled` class name.
-// :active              - Active state, also available as the `.ring-btn_active` class name.
+// :disabled            - Disabled state, also available as the `.ring-input_disabled` class name.
+// :active              - Active state, also available as the `.ring-input_active` class name.
 // .ring-input_correct - The entered value is correct.
 // .ring-input_error - The entered value is incorrect.
 //
 // Styleguide 7.1
 
 .ring-input {
-  font-family: "Droid Sans",Arial,Tahoma,Verdana,sans-serif;
+  @include droid-font;
   font-size: 13px;
-  padding-left: 8px;
-  padding-right: 8px;
+  padding-left: $ring-unit;
+  padding-right: $ring-unit;
   width: 100%;
   line-height: 20px;
   border: 1px solid #cccccc;
-  margin-top: 8px;
-  margin-bottom: 8px;
-  &:active, &:focus, .ring-btn_active, .ring-input_focus {
+  margin-top: $ring-unit;
+  margin-bottom: $ring-unit;
+  &:active, &:focus, .ring-input_active, .ring-input_focus {
     border: 1px solid #25b7ff;
     outline: 0;
   }
-  &:disabled {
+  &:disabled, .ring-input_disabled {
     border: 1px solid #dedede;
     background-color: #f8f8f8;
   }
@@ -108,14 +108,14 @@
   font-size: 13px;
   margin: 0 0 20px;
   & .ring-input {
-    width: 25 * $x-unit !important;
+    width: 25 * $ring-unit !important;
     margin: 0;
   }
   & .ring-input__error-bubble {
     color: red;
     background: none;
-    top: 0px;
-    padding-left: 8px;
+    top: 0;
+    padding-left: $ring-unit;
     &:before {
       display: none;
     }
@@ -123,30 +123,30 @@
 }
 
 .ring-form__footer {
-  margin-top: 3 * $x-unit;
+  margin-top: 3 * $ring-unit;
   padding: 16px;
   background-color: #dbeaf2;
 }
 
 .ring-form__title {
   display: block;
-  margin-bottom: 8px;
+  margin-bottom: $ring-unit;
   font-weight: bold;
 }
 
 .ring-form__group {
-  margin-bottom: $x-unit;
+  margin-bottom: $ring-unit;
 }
 
 .ring-form__label {
   float: left;
-  width: 19 * $x-unit;
+  width: 19 * $ring-unit;
   line-height: 24px;
 }
 
 .ring-form__control {
   position: relative;
-  margin-left: 20 * $x-unit;
-  min-height: 3 * $x-unit;
-  line-height: 3 * $x-unit;
+  margin-left: 20 * $ring-unit;
+  min-height: 3 * $ring-unit;
+  line-height: 3 * $ring-unit;
 }
