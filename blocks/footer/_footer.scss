@@ -1,9 +1,9 @@
 .ring-footer {
   position: relative;
-  height: $x-unit*8;
+  height: $ring-unit*8;
 
-  margin: $x-unit*5  $x-unit*3 0 $x-unit*3;
-  padding-top: $x-unit*2;
+  margin: $ring-unit*5  $ring-unit*3 0 $ring-unit*3;
+  padding-top: $ring-unit*2;
   border-top: 1px solid #e5e5e5;
 
   color: #6e6e6e;
@@ -35,7 +35,7 @@
 
 .ring-footer__column_right {
   right: 0;
-  top: $x-unit*2;
+  top: $ring-unit*2;
   text-align: right;
 }
 
