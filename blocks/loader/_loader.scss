@@ -1,0 +1,14 @@
+// Loader
+//
+// Markup:
+// <div class="ring-loader"></div>
+//
+// Styleguide 8.1
+
+.ring-loader {
+  //@ToDo refactor img url
+  display: inline-block;
+  background: url("http://youtrack.jetbrains.com/_persistent/loading_indicator.gif?file=74-136292&v=0&c=true&rw=16&rh=16");
+  width: 2 * $x-unit;
+  height: 2 * $x-unit;
+}
