@@ -4,5 +4,12 @@
     <option name="myLocal" value="false" />
     <inspection_tool class="BadExpressionStatementJS" enabled="false" level="WARNING" enabled_by_default="false" />
     <inspection_tool class="JSHint" enabled="true" level="ERROR" enabled_by_default="true" />
+    <inspection_tool class="TaskInspection" enabled="true" level="INFO" enabled_by_default="true">
+      <option name="suppressedTasks">
+        <set>
+          <option value="SCSS" />
+        </set>
+      </option>
+    </inspection_tool>
   </profile>
 </component>
