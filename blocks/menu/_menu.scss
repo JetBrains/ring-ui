@@ -13,6 +13,10 @@ $menu-attention-color: #f50000;
 .ring-menu__i {
   // Use this when width limits needed
   //max-width: 1100px;
+  //   Do not forget add
+  //       position: absolute;
+  //       min-width: 100%;
+  //   to body
   font-size: 0 !important;
   position: absolute;
   left: $x-unit*3;
