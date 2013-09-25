@@ -47,7 +47,8 @@
     "karma-coverage": "~0.1.0",
     "karma-requirejs": "~0.1.0",
     "karma-teamcity-reporter": "~0.1.0",
-    "karma-ievms": "0.0.3"
+    "karma-ievms": "0.0.3",
+    "grunt-remove-logging": "~0.1.1"
   },
   "scripts": {
     "test": "grunt test"
