@@ -21,7 +21,6 @@ $newline_fontcolor: #0b5d00;
   color: #333;
   @include monospace-font;
   font-size: 12px;
-  line-height: 1.3;
   position: relative;
 }
 
@@ -80,16 +79,32 @@ $newline_fontcolor: #0b5d00;
   word-wrap: normal;
 }
 
-.diff__codeline_original td {
-  background: $deleted_background;
-  color: $deleted_fontcolor;
+.diff__codeline_original td,
+.diff__codeline_modified td {
   font-weight: bold;
 }
 
+.diff__codeline_original td {
+  background: $deleted_highlight;
+  color: $deleted_fontcolor;
+}
+
 .diff__codeline_modified td {
-  background: $newline_background;
+  background: $newline_highlight;
   color: $newline_fontcolor;
-  font-weight: bold;
+}
+
+.diff__codeline_inline.diff__codeline_modified td,
+.diff__codeline_inline.diff__codeline_original td {
+  font-weight: normal;
+}
+
+.diff__codeline_inline.diff__codeline_original td {
+  background: $deleted_background;
+}
+
+.diff__codeline_inline.diff__codeline_modified td {
+  background: $newline_background;
 }
 
 .diff__marker {
@@ -111,17 +126,6 @@ $newline_fontcolor: #0b5d00;
   border-width: 0 1px;
   font-weight: bold;
   padding: 1px 0;
-  line-height: 1.3;
-}
-
-/*
- todo(igor.alexeenko): Kind of hack. To display only changed parts
- of code bold, I make unchanged normal. Maybe better way to do this
- is mark whole line as changed inline and write separate styles
- for it.
- */
-.diff__inline_unchanged {
-  font-weight: normal;
 }
 
 .diff__codeline_original .diff__inline_modified {
