@@ -39,7 +39,7 @@ $btn-border-radius: 3px;
 //
 // Markup:
 // <button style="margin: 0;" class="ring-btn {$modifiers}">Button Element</button>
-// <button style="margin: 0;" class="ring-btn {$modifiers}"><span class="ring-font-icon ring-font-icon_cog"></span></button>
+// <button style="margin: 0;" class="ring-btn ring-btn_icon {$modifiers}"><span class="ring-font-icon ring-font-icon_cog"></span></button>
 // <button style="margin: 0;" class="ring-btn ring-btn_last-icon {$modifiers}">Dropdown <span class="ring-font-icon ring-font-icon_caret-down"></span></button>
 //
 // .ring-btn_primary    - Indicates that a button triggers the main action on the page. There should be only one such button per page, for example, "Create Issue".
@@ -56,9 +56,9 @@ $btn-border-radius: 3px;
   display: inline-block;
   border-radius: $btn-border-radius;
   font-size: 11px;
-  padding: 0 $x-unit*2 - 1;
+  padding: 0 $ring-unit*2 - 1;
   width: auto;
-  height: $x-unit*3;
+  height: $ring-unit*3;
   line-height: 22px;
   border: solid 1px #b4b4b4;
   color: #282828;
@@ -176,29 +176,46 @@ $btn-border-radius: 3px;
 
 .ring-btn_plus {
   padding-left: 5px !important;
+
+  &:before {
+    content: '+';
+    margin-right: 3px;
+    font-size: 16px;
+    line-height: 16px;
+    position: relative;
+    top: 1px;
+  }
 }
 
-.ring-btn_plus:before {
-  content: '+';
-  margin-right: 3px;
-  font-size: 16px;
-  line-height: 16px;
-  position: relative;
-  top: 1px;
+.ring-btn_icon {
+  width: $ring-unit*3;
+  padding: 0 6px;
+
+  &:before {
+    content: '';
+  }
 }
 
 .ring-btn__last-icon {
   margin-left: 4px;
 }
 
-// Button groups
+// Button groups and split button
 //
 // Markup:
 // <div class="ring-btn-group">
-//   <button class="ring-btn">Button</button>
-//   <button class="ring-btn" disabled>Button</button>
-//   <button class="ring-btn">Button</button>
+//   <button class="ring-btn {$modifiers}">Button</button>
+//   <button class="ring-btn {$modifiers} ring-btn_disabled">Button</button>
+//   <button class="ring-btn {$modifiers}">Button</button>
 // </div>
+// <div class="ring-btn-group">
+//   <button class="ring-btn {$modifiers}">Button Element</button>
+//   <button class="ring-btn {$modifiers} ring-btn_icon"><span class="ring-font-icon ring-font-icon_caret-down"></span></button>
+// </div>
+//
+// .ring-btn_primary    - Indicates that a button triggers the main action on the page. There should be only one such button per page, for example, "Create Issue".
+// .ring-btn_blue       - Indicates that a button triggers a secondary action on the page. For example, "Save changes" in a modal dialog.
+// .ring-btn_black      - Indicates that a button is black. Should be used on dark backgrounds only!
 //
 // Styleguide 4.2
 

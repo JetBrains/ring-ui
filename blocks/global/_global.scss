@@ -1,5 +1,8 @@
 // Global variables
-$x-unit: 8px;
+$ring-unit: 8px;
+
+$ring-link-color:  #1866c5;
+$ring-link-hover-color: #ff5a00;
 
 // Mixins
 @mixin text-color() {
