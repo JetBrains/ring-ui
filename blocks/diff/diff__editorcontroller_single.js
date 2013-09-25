@@ -113,12 +113,18 @@ define(['diff/diff__tools', 'handlebars', 'diff/diff__editorcontroller',
 
     // todo(igor.alexeenko): is there a reason to move this method to instance
     // and save lookup table as a private variable?
+    // todo(igor.alexeenko): refactor this lookup table so to make one state
+    // refer to one class.
     /**
      * Lookup table of line types to css-classes for lines.
      * @type {Object.<diffTool.ParserSinglePane.LineType, string>}
      */
     var lineTypeToClassName = diffTool.createObject(
         diffTool.Parser.LineType.UNCHANGED, '',
+        diffTool.Parser.LineType.ADDED | diffTool.Parser.LineType.INLINE,
+            'diff__codeline_inline diff__codeline_modified',
+        diffTool.Parser.LineType.DELETED | diffTool.Parser.LineType.INLINE,
+            'diff__codeline_inline diff__codeline_original',
         diffTool.Parser.LineType.ADDED, 'diff__codeline_modified',
         diffTool.Parser.LineType.DELETED, 'diff__codeline_original',
         diffTool.Parser.LineType.FOLDED, 'diff__codeline_folded');
