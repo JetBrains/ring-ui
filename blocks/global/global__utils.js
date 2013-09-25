@@ -16,13 +16,17 @@ define(function() {
     return str.replace(/\s+/, '') === '';
   };
 
+  //@exclude
+  var debug = function() {
+    return window.location.toString().indexOf('ring-debug') !== -1;
+  };
+
   utils.log = function(message) {
-    //@exclude
-    if (window['console'] && window['console']['log']) {
+    if (debug() && window['console'] && window['console']['log']) {
       console.log(message);
     }
-    //@endexclude
   };
+  //@endexclude
 
   return utils;
 });

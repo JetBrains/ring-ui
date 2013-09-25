@@ -124,6 +124,21 @@ module.exports = function(grunt) {
         }]
       }
     },
+    removelogging: {
+      dist: {
+        files: [{
+          expand: true,
+          cwd: '<%= path.dist %>',
+          src: '*.min.js',
+          ext: '.min.js',
+          dest: '<%= path.dist %>'
+        }],
+
+        options: {
+          namespace: 'utils'
+        }
+      }
+    },
     teamcity: {
       jshint: [
         {
@@ -571,6 +586,7 @@ module.exports = function(grunt) {
   grunt.registerTask('minify', [
     'csso',
     'preprocess:bundles',
+    'removelogging',
     'uglify',
     'usebanner'
   ]);
