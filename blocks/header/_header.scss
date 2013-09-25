@@ -1,7 +1,7 @@
 $header-link-color:  #b4b4b4;
 
 .ring-header {
-  padding: 0 $x-unit*2;
+  padding: 0 $ring-unit*2;
   background-color: #35444b; // IE7-
   -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='#24353d', endColorstr='#4a565c', GradientType=0)"; // IE8
   background-image: linear-gradient(to bottom, #24353d, #4a565c);
@@ -12,7 +12,7 @@ $header-link-color:  #b4b4b4;
   position: relative;
   text-align: left;
   border-bottom: 1px solid #000;
-  height: $x-unit*3 - 1;
+  height: $ring-unit*3 - 1;
 }
 
 // Items
@@ -20,9 +20,9 @@ $header-link-color:  #b4b4b4;
   position: relative;
   display: inline-block;
   *display: inline; // IE7
-  height: $x-unit*3 - 8;
+  height: $ring-unit*3 - 8;
 
-  padding: 6px $x-unit 0 $x-unit;
+  padding: 6px $ring-unit 0 $ring-unit;
   vertical-align: middle; // IE7
 
   letter-spacing: 0;
@@ -50,7 +50,7 @@ $header-link-color:  #b4b4b4;
 .ring-header__personal {
   position: absolute;
   top: 0;
-  right: $x-unit*3;
+  right: $ring-unit*3;
 
   cursor: pointer;
   user-select: none;
@@ -62,17 +62,17 @@ $header-link-color:  #b4b4b4;
 
     display: inline-block;
     position: relative;
-    width: $x-unit;
+    width: $ring-unit;
     top: 6px;
   }
 }
 
 .ring-header__personal:hover .ring-header__item_link {
-  color: $hover-link-color !important;
+  color: $ring-link-hover-color !important;
   text-decoration: underline;
 }
 
 .ring-header__personal:hover .ring-font-icon {
-  color: $hover-link-color !important;
+  color: $ring-link-hover-color !important;
   background-position: -66px -22px;
 }

@@ -30,7 +30,7 @@
 }
 
 .ring-dropdown__i {
-  padding: $x-unit/2 + 1 0 $x-unit/2 - 1;
+  padding: $ring-unit/2 + 1 0 $ring-unit/2 - 1;
   z-index: 1;
 
   line-height: normal;
@@ -49,7 +49,7 @@
 }
 
 .ring-dropdown__item {
-  padding: $x-unit/2 - 1 $x-unit*2 $x-unit/2 + 1;
+  padding: $ring-unit/2 - 1 $ring-unit*2 $ring-unit/2 + 1;
   display: block;
   text-align: left;
   font-size: 13px;
