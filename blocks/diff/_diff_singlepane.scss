@@ -25,11 +25,6 @@ $newline_fontcolor: #0b5d00;
   position: relative;
 }
 
-.diff__gutterwrap,
-.diff__codewrap {
-  float: left;
-}
-
 .diff__gutter,
 .diff__code {
   border: 0;
@@ -45,7 +40,14 @@ $newline_fontcolor: #0b5d00;
   padding: 0;
 }
 
+.diff__gutterwrap {
+  left: 0;
+  position: absolute;
+  top: 0;
+}
+
 .diff__gutter {
+  background: $gutter_background;
   color: $gutter_fontcolor;
   cursor: default;
   user-select: none;
@@ -53,7 +55,6 @@ $newline_fontcolor: #0b5d00;
 }
 
 .diff__gutterline td {
-  backgorund: $gutter_background;
   border-right: solid 1px $gutter_border;
   padding: 0 2px;
   width: 34px;
@@ -65,12 +66,12 @@ $newline_fontcolor: #0b5d00;
 }
 
 .diff__codewrap {
-  bottom: 0;
-  left: 100px;
   overflow: auto;
-  position: absolute;
-  right: 0;
-  top: 0;
+  width: 100%;
+}
+
+.diff__code {
+  margin-left: 100px;
 }
 
 .diff__codeline {
