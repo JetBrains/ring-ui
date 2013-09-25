@@ -155,7 +155,7 @@ define([
    * @param {boolean} enable
    */
   diffTool.Parser.prototype.enableLineType = function(line, type, enable) {
-    if (line.type | this.availableLineTypes) {
+    if (type | this.availableLineTypes) {
       line.type = enable ? line.type | type : ~(line.type & type);
     }
   };

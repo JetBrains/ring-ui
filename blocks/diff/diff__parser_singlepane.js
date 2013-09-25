@@ -45,6 +45,7 @@ define([
       diffTool.Parser.LineType.UNCHANGED |
       diffTool.Parser.LineType.DELETED |
       diffTool.Parser.LineType.ADDED |
+      diffTool.Parser.LineType.INLINE |
       diffTool.Parser.LineType.FOLDED;
 
   /**
@@ -120,6 +121,7 @@ define([
 
     return output;
   };
+
   /**
    * Parses lines according to information, given in range parameter. Sometimes,
    * one range can describe multiple lines. In this case we change current range
@@ -239,7 +241,7 @@ define([
   };
 
   /**
-   * @param {string} content
+   * @param {string|diffTool.ParserSinglePane.LineContent} content
    * @param {number} lineOriginal
    * @param {number} lineModified
    * @param {diffTool.Parser.LineType} type
@@ -256,6 +258,10 @@ define([
     });
 
     this.enableLineType(line, type, true);
+
+    if (diffTool.ParserSinglePane.isLineContent(content)) {
+      this.enableLineType(line, diffTool.Parser.LineType.INLINE, true);
+    }
 
     return line;
   };
@@ -275,6 +281,18 @@ define([
     this.enableLineType(lineContent, type, true);
 
     return lineContent;
+  };
+
+  // todo(igor.alexeenko): Pretty naive way to check if line is valid content.
+  /**
+   * Returns true if given object has type
+   * {@code diffTool.ParserSinglePane.LineContent}.
+   * @static
+   * @param {*} content
+   * @return {boolean}
+   */
+  diffTool.ParserSinglePane.isLineContent = function(content) {
+    return Boolean(content instanceof Array);
   };
 
   return diffTool.ParserSinglePane;
