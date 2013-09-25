@@ -27,8 +27,8 @@
   user-select: none;
 
   &:hover {
-    color: $hover-link-color;
-    border-color: $hover-link-color;
+    color: $ring-link-hover-color;
+    border-color: $ring-link-hover-color;
     border-width: 1px;
     padding: 1px 0 2px 4px;
   }
