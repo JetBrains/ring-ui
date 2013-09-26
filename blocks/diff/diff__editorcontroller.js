@@ -82,24 +82,30 @@ define(['diff/diff__tools', 'diff/diff__parser'], function(diffTool) {
                                                             modified, diff) {
     // todo(igor.alexeenko): Do I need to throw an error here?
     if (this.isEnabled()) {
-      /**
-       * @type {string}
-       * @private
-       */
-      this.contentOriginal_ = original;
+      if (this.contentOriginal_ !== original) {
+        /**
+         * @type {string}
+         * @private
+         */
+        this.contentOriginal_ = original;
+      }
 
-      /**
-       * @type {string}
-       * @private
-       */
-      this.contentModified_ = modified;
+      if (this.contentModified_ !== modified) {
+        /**
+         * @type {string}
+         * @private
+         */
+        this.contentModified_ = modified;
+      }
 
-      /**
-       * Information about difference between original and modified content.
-       * @type {diffTool.Parser.Diff}
-       * @private
-       */
-      this.diff_ = diff;
+      if (this.diff_ !== diff) {
+        /**
+         * Information about difference between original and modified content.
+         * @type {diffTool.Parser.Diff}
+         * @private
+         */
+        this.diff_ = diff;
+      }
 
       this.setContentInternal(original, modified, diff);
     }

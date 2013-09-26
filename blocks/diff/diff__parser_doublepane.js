@@ -96,7 +96,7 @@ define([
         var usedRanges = [];
         var lineCursor = 0;
 
-        while (currentRangeIndex <= ranges.length) {
+        while (currentRangeIndex < ranges.length) {
           var usedSymbol = currentRange.chars ?
               'chars' :
               isOriginalCode ? 'oldChars' : 'newChars';

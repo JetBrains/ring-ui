@@ -89,7 +89,7 @@ define([
   };
 
   // todo(igor.alexeenko): Check, whether old IE supports classes for VML
-  // elements or should I have implement this another way.
+  // elements or should I have to implement this another way.
   /**
    * Classes, which applies to SVG connectors
    * @enum {string}
@@ -209,8 +209,15 @@ define([
    */
   diffTool.DoubleEditorController.prototype.setContentInternal = function(
       original, modified, diff) {
-    this.codeMirrorOriginal_.setValue(original);
-    this.codeMirrorModified_.setValue(modified);
+    this.unbindEditors_();
+
+    if (this.codeMirrorOriginal_.getValue() !== original) {
+      this.codeMirrorOriginal_.setValue(original);
+    }
+
+    if (this.codeMirrorModified_.getValue() !== modified) {
+      this.codeMirrorModified_.setValue(modified);
+    }
 
     this.bindEditors_(original, modified, diff);
 
@@ -218,7 +225,8 @@ define([
   };
 
   /**
-   * Checks, whether
+   * Checks, whether first change is outside viewport and scrolls editor
+   * to make it visible if so.
    * @private
    */
   diffTool.DoubleEditorController.prototype.checkScroll_ = function() {
@@ -479,14 +487,38 @@ define([
   diffTool.DoubleEditorController.prototype.colorizeLines_ = function() {
     var previousIsChanged = false;
 
-    this.lines_.forEach(function(chunk) {
-      this.colorizeChunk_(chunk.topOriginal, chunk.bottomOriginal,
-          chunk.rangesOriginal,  chunk.type, this.codeMirrorOriginal_,
-          previousIsChanged);
+    if (!this.colorizedLines_) {
+      /**
+       * {@code Array} of Objects, which contains numbers of lines in modified
+       * and original code to be marked. Used for clean-up editor before
+       * re-highlighting.
+       * @type {Array.<Object>}
+       * @private
+       */
+      this.colorizedLines_ = [];
 
-      this.colorizeChunk_(chunk.topModified, chunk.bottomModified,
-          chunk.rangesModified, chunk.type, this.codeMirrorModified_,
-          previousIsChanged);
+      /**
+       * {@code Array} of inline markers, which returned by {@code CodeMirror}.
+       * Used for clean-up editor.
+       * @type {Array.<CodeMirror.TextMarker>}
+       * @private
+       */
+      this.textMarkers_ = [];
+    }
+
+    this.cleanupColorized_();
+
+    this.lines_.forEach(function(chunk) {
+      if (!diffTool.Parser.lineHasType(chunk,
+          diffTool.Parser.LineType.UNCHANGED)) {
+        this.colorizeChunk_(chunk.topOriginal, chunk.bottomOriginal,
+            chunk.rangesOriginal,  chunk.type, this.codeMirrorOriginal_,
+            previousIsChanged);
+
+        this.colorizeChunk_(chunk.topModified, chunk.bottomModified,
+            chunk.rangesModified, chunk.type, this.codeMirrorModified_,
+            previousIsChanged);
+      }
 
       previousIsChanged = !diffTool.Parser.lineHasType(chunk,
           diffTool.Parser.LineType.UNCHANGED);
@@ -513,7 +545,6 @@ define([
        * @private
        */
       this.lineTypeToClass_ = diffTool.createObject(
-          diffTool.Parser.LineType.UNCHANGED, '',
           diffTool.Parser.LineType.INLINE,
               diffTool.DoubleEditorController.LineClass.MODIFIED,
           diffTool.Parser.LineType.DELETED,
@@ -535,9 +566,17 @@ define([
               diffTool.DoubleEditorController.LineClass.BEFORE_DELETED);
     }
 
+    // fixme(igor.alexeenko): There's no place for logic like that. This
+    // all should be inside following for loop.
     if (from === to) {
       editor.addLineClass(from - 1, diffTool.DoubleEditorController.EDITOR_MODE,
           this.collapsedLineTypeToClass_[type]);
+
+      this.colorizedLines_.push({
+        editor: editor,
+        from: from - 1,
+        to: from
+      });
     }
 
     for (var i = from, rangeIndex = 0; i < to; i++, rangeIndex++) {
@@ -559,6 +598,12 @@ define([
         this.colorizeLine_(i, ranges[rangeIndex], editor);
       }
     }
+
+    this.colorizedLines_.push({
+      editor: editor,
+      from: from,
+      to: to
+    });
   };
 
   /**
@@ -581,7 +626,7 @@ define([
       }
 
       ranges.forEach(function(range) {
-        editor.markText({
+        this.textMarkers_.push(editor.markText({
           line: line,
           ch: range.from
         }, {
@@ -589,9 +634,30 @@ define([
           ch: range.to
         }, {
           className: this.rangeTypeToClass_[range.type]
-        });
+        }));
       }, this);
     }
+  };
+
+  /**
+   * Removes markup of previously highlighted lines.
+   * @private
+   */
+  diffTool.DoubleEditorController.prototype.cleanupColorized_ = function() {
+    this.colorizedLines_.forEach(function(chunk) {
+      for (var i = chunk.from; i < chunk.to; i++) {
+        chunk.editor.removeLineClass(i,
+            diffTool.DoubleEditorController.EDITOR_MODE);
+      }
+    });
+
+    this.textMarkers_.forEach(function(marker) {
+      marker.clear();
+      marker = null;
+    });
+
+    this.colorizedLines_.length = 0;
+    this.textMarkers_.length = 0;
   };
 
   // todo(igor.alexeenko): Refactor: remove complexity.
@@ -729,17 +795,17 @@ define([
    */
   diffTool.DoubleEditorController.prototype.setEditorEnabled_ = function(
       editor, enabled) {
-    if (enabled) {
-      if (!this.scrollHandler_) {
-        /**
-         * Scroll handler which calls method
-         * of {@code diffTool.DoubleEditorController} with bind context.
-         * @type {Function}
-         * @private
-         */
-        this.scrollHandler_ = diffTool.bindContext(this.onScroll_, this);
-      }
+    if (!this.scrollHandler_) {
+      /**
+       * Scroll handler which calls method
+       * of {@code diffTool.DoubleEditorController} with bind context.
+       * @type {Function}
+       * @private
+       */
+      this.scrollHandler_ = diffTool.bindContext(this.onScroll_, this);
+    }
 
+    if (enabled) {
       CodeMirror.on(editor, 'scroll', this.scrollHandler_);
     } else {
       CodeMirror.off(editor, 'scroll', this.scrollHandler_);
