@@ -94,8 +94,12 @@ define([
      */
     NULL: 0x00,
 
+    // todo(igor.alexeenko): This state is no more required because it is
+    // strange to have a separate state for no-state. It could be
+    // diffTool.Parser.LineType.NULL instead.
     /**
      * Line is unchanged.
+     * @deprecated
      */
     UNCHANGED: 0x01,
 
