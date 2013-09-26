@@ -43,7 +43,7 @@ define(['global/global', 'chai', 'diff/diff'], function(ring, chai) {
         }]);
       });
 
-      it.skip('ring can init double-pane diff', function() {
+      it('ring can init double-pane diff', function() {
         var element = document.createElement('div');
         var singlePaneDiff = ring('diff').invoke('doublePaneDiff', element,
             'original', 'modified', [{
@@ -78,7 +78,7 @@ define(['global/global', 'chai', 'diff/diff'], function(ring, chai) {
       expect(diffToolInstance.mode_).to.equal(DiffTool.Mode.SINGLE_PANE);
     });
 
-    it.skip('DiffTool creates instance with all possible parameters — ' +
+    it('DiffTool creates instance with all possible parameters — ' +
         'editable, element and default mode', function() {
       var element = document.createElement('div');
 
@@ -157,7 +157,7 @@ define(['global/global', 'chai', 'diff/diff'], function(ring, chai) {
       });
 
       describe('DiffTool setMode', function() {
-        it.skip('DiffTool sets valid mode, which is one ' +
+        it('DiffTool sets valid mode, which is one ' +
             'of allowed modes', function() {
           diffToolInstance.setMode(DiffTool.Mode.DOUBLE_PANE);
           expect(diffToolInstance.getMode()).to.equal(
@@ -204,14 +204,14 @@ define(['global/global', 'chai', 'diff/diff'], function(ring, chai) {
               diffTool.SingleEditorController);
         });
 
-        it.skip('diffTool.setModeInternal sets DOUBLE_PANE mode', function() {
+        it('diffTool.setModeInternal sets DOUBLE_PANE mode', function() {
           diffToolInstance.setMode(DiffTool.Mode.DOUBLE_PANE);
           expect(diffToolInstance.getController()).to.be.an.instanceof(
               diffTool.DoubleEditorController);
         });
       });
 
-      it.skip('DiffTool.setModeInternal enables active controller' +
+      it('DiffTool.setModeInternal enables active controller' +
           'and disables inactive.', function() {
         var activeController;
         var disabledController;
