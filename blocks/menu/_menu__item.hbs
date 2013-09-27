@@ -15,11 +15,13 @@
       </form>
     {{!--Links--}}
     {{else}}
-      {{#unless active}}
-        <a href="{{url}}" class="ring-link {{> menu__item__class}}{{> dropdown__component}}"{{> global__attributes}}>{{> menu__item__content}}</a>
-      {{else}}
-        <span class="{{> menu__item__class}}{{> dropdown__component}}"{{> global__attributes}}>{{> menu__item__content}}</span>
-      {{/unless}}
+      <a href="{{url}}" class="ring-link{{> menu__item__class}}{{> dropdown__component}}"{{> global__attributes}}>
+        {{#if image}}
+            <img class="ring-menu__logo__img" src="{{image}}"/>
+        {{else}}
+            <span class="ring-menu__item__i{{#if type}} ring-font-icon ring-font-icon_{{type}}{{/if}}">{{label}}</span>
+        {{/if}}
+      </a>
     {{/ifEqual}}
   {{/ifEqual}}
 {{/html}}
