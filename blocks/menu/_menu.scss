@@ -151,6 +151,10 @@ $menu-attention-color: #f50000;
   }
 }
 
+.ring-menu__item_active {
+  color: #000 !important;
+}
+
 .ring-menu__item_icon {
   margin-right: 0;
   margin-left: $ring-unit*2;
