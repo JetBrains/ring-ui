@@ -5,10 +5,41 @@
 //
 // Styleguide 8.1
 
+@keyframes rotating {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes colors {
+  0% {
+    border-left-color: #ff0000;
+  }
+
+  20% {
+    border-left-color: #ff9800;
+  }
+
+  40% {
+    border-left-color: #ffff00;
+  }
+  60% {
+    border-left-color: green;
+  }
+  80% {
+    border-left-color: blue;
+  }
+
+  100% {
+    border-left-color: magenta;
+  }
+}
+
 .ring-loader {
-  //@ToDo refactor img url
-  display: inline-block;
-  background: url("http://youtrack.jetbrains.com/_persistent/loading_indicator.gif?file=74-136292&v=0&c=true&rw=16&rh=16");
-  width: 2 * $ring-unit;
-  height: 2 * $ring-unit;
+  margin: 20px auto;
+  border-radius: 50%;
+  border: solid 2px #D8D8D8;
+  width: 3 * $ring-unit;
+  height: 3 * $ring-unit;
+  animation: colors 6s linear infinite, rotating 0.7s linear infinite;
 }
