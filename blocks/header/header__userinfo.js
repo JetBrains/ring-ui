@@ -11,10 +11,7 @@ define(['jquery', 'global/global__modules', 'global/global__views', 'header/head
   auth.on('init:done', authInited.resolve.bind(authInited));
   header.on('init:done', headerInited.resolve.bind(headerInited));
 
-  header.on('logout', function() {
-    auth.trigger('logout');
-    View.update('header', 'user', null);
-  });
+  header.on('logout', auth.trigger.bind(auth, 'logout'));
 
   $.when(headerInited, authInited)
     .then(function() {
@@ -32,6 +29,7 @@ define(['jquery', 'global/global__modules', 'global/global__views', 'header/head
             },
             logout: {
               label: 'Log out',
+              url: config.serverUrl + '/rest/cas/logout?gateway=true&url=' + encodeURIComponent(window.location.href),
               event: 'header:logout'
             }
           },
