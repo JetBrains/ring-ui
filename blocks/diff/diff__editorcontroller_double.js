@@ -16,7 +16,7 @@ define([
   // todo(igor.alexeenko): Implement all DOM-specific, CodeMirror-
   // specific and Raphael-specific logic in some kind of Renderer,
   // because Raphael, CodeMirror and Handlebars has an issues and could be
-  // replaced by another.
+  // replaced by other solutions.
 
   /**
    * @param {Element} element
@@ -208,7 +208,7 @@ define([
    * @override
    */
   diffTool.DoubleEditorController.prototype.setContentInternal = function(
-      original, modified, diff) {
+      original, modified, diff, opt_refresh) {
     this.unbindEditors_();
 
     if (this.codeMirrorOriginal_.getValue() !== original) {
@@ -219,9 +219,11 @@ define([
       this.codeMirrorModified_.setValue(modified);
     }
 
-    this.bindEditors_(original, modified, diff);
+    this.bindEditors_(original, modified, diff, opt_refresh);
 
-    this.checkScroll_();
+    if (!Boolean(opt_refresh)) {
+      this.checkScroll_();
+    }
   };
 
   /**
@@ -660,7 +662,6 @@ define([
     this.textMarkers_.length = 0;
   };
 
-  // todo(igor.alexeenko): Refactor: remove complexity.
   /**
    * Draws graphics connectors from changed chunks in original code to
    * corresponding chunks in modified code.
