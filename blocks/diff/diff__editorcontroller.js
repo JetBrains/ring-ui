@@ -77,9 +77,11 @@ define(['diff/diff__tools', 'diff/diff__parser'], function(diffTool) {
    * @param {string} original
    * @param {string} modified
    * @param {diffTool.Parser.Diff} diff
+   * @param {boolean=} opt_refresh
    */
   diffTool.EditorController.prototype.setContent = function(original,
-                                                            modified, diff) {
+                                                            modified, diff,
+                                                            opt_refresh) {
     // todo(igor.alexeenko): Do I need to throw an error here?
     if (this.isEnabled()) {
       if (this.contentOriginal_ !== original) {
@@ -107,7 +109,7 @@ define(['diff/diff__tools', 'diff/diff__parser'], function(diffTool) {
         this.diff_ = diff;
       }
 
-      this.setContentInternal(original, modified, diff);
+      this.setContentInternal(original, modified, diff, opt_refresh);
     }
   };
 
@@ -115,6 +117,7 @@ define(['diff/diff__tools', 'diff/diff__parser'], function(diffTool) {
    * @param {string} original
    * @param {string} modified
    * @param {diffTool.Parser.Diff} diff
+   * @param {boolean=} opt_refresh
    * @protected
    */
   diffTool.EditorController.prototype.setContentInternal =

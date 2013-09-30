@@ -160,9 +160,11 @@ define([
    * @param {string} original
    * @param {string} modified
    * @param {diffTool.Parser.Diff} diff
+   * @param {boolean=} opt_refresh
    */
-  DiffTool.prototype.setContent = function(original, modified, diff) {
-    this.controller_.setContent(original, modified, diff);
+  DiffTool.prototype.setContent = function(original, modified, diff,
+                                           opt_refresh) {
+    this.controller_.setContent(original, modified, diff, opt_refresh);
   };
 
   /**
