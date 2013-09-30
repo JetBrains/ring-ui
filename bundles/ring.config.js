@@ -19,11 +19,13 @@ require.config({
       exports: 'jso_configure',
       init: function(){
         /* jshint camelcase:false */
-        /* globals jso_configure, jso_ensureTokens, jso_getToken, jso_wipe */
+        /* globals jso_configure, jso_ensureTokens, jso_getToken, jso_wipe, jso_registerRedirectHandler, jso_authrequest */
         return {
           configure: jso_configure,
           ensure: jso_ensureTokens,
           getToken: jso_getToken,
+          setRedirect: jso_registerRedirectHandler,
+          authRequest: jso_authrequest,
           wipe: jso_wipe
         };
       }
