@@ -1,0 +1,58 @@
+// 404 page
+//
+// Markup:
+//<!-- Styling for KSS docs, don't use -->
+//<div style="width: 800px; height: 300px; margin-bottom: 100px">
+//<!--  -->
+//<div class="ring-not-found">
+//  <div class="ring-not-found__textbox">
+//    <div class="ring-not-found__title">404: Nope, could't find it!</div>
+//I did my best but there's no one and no thing here with the URL you've requested. Probably the address was incorrect.
+//What would you like to do next?
+//Go back to the home page
+//    Report the problem to admin</div>
+//  </div>
+//<div class="ring-not-found__footer"></div>
+// <!-- Remove -->
+//</div>
+//
+// Styleguide 9.1
+
+.ring-not-found {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(-90deg, #000 14.28% * 1, #0000fe 14.28% * 1, #0000fe 14.28% * 2, #fe0000 14.28% * 2, #fe0000 14.28% * 3, #ff00fe 14.28% * 3, #ff00fe 14.28% * 4, #01ff01 14.28% * 4, #01ff01 14.28% * 5, #01ffff 14.28% * 5, #01ffff 14.28% * 6, #fffe01 14.28% * 6);
+
+  .ring-not-found__textbox {
+    position: absolute;
+    width: 73 * $ring-unit;
+    border: 1px solid #000;
+    background: white;
+    padding-top: 0;
+    padding-right: 2 * $ring-unit;
+    padding-bottom: 2 * $ring-unit;
+    padding-left: 2 * $ring-unit;
+    margin: 4 * $ring-unit;
+    border-radius: 3px;
+    opacity: 0.85;
+    font-family: "Droid Sans", Arial, Tahoma, Verdana, sans-serif !important;
+    font-size: 15px;
+    color: #000000;
+  }
+  .ring-not-found__title {
+    padding-top: 1 * $ring-unit;
+    padding-bottom: 2 * $ring-unit;
+    font-family: "Droid Sans", Arial, Tahoma, Verdana, sans-serif !important;
+    font-size: 21px;
+    font-weight: bold;
+    color: #000000;
+  }
+}
+
+.ring-not-found__footer {
+  width: 100%;
+  height: 50px;
+  background: linear-gradient(-90deg, #ffffff 14.28% * 1, #01ff01 14.28% * 1, #01ff01 14.28% * 2, #000 14.28% * 2, #000 14.28% * 3, #01ffff 14.28% * 3, #01ffff 14.28% * 4, #000 14.28% * 4, #000 14.28% * 5, #ff00fe 14.28% * 5, #ff00fe 14.28% * 6, #000 14.28% * 6);
+}
+
