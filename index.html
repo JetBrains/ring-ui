@@ -269,7 +269,8 @@
       });
 
       auth('init', $.extend({
-        denyIA: true
+        denyIA: true,
+        refresh: true
       }, authData));
 
       o.on('menu:test', function(data) {
