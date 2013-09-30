@@ -108,20 +108,108 @@ define(['jquery', 'jso', 'global/global__modules', 'global/global__utils'], func
       Module.get(module).set({config: jsoConfig[provider]});
     });
 
+    if (config.refresh) {
+      dfd.done(setRefresh);
+    }
+
     return dfd;
+  };
+
+
+  var POLL_INTERVAL = 30; // 30 ms
+  var POLL_TIME = 60 * 1000; // 1min
+
+  var REFRESH_BEFORE = 20 * 60 * 1000; // 20 min
+  var REFRESH_RETRY_INTERVAL = 4 * 60 * 1000; // 4 min
+  var REFRESH_RETRY_ATTEMPTS = 4;
+
+  var attempt;
+  var refreshDefer;
+
+  var refreshTime = window.refreshTime = function(token) {
+    return token.split('.')[0] - REFRESH_BEFORE;
+  };
+
+  var toBeRefreshed = function(token) {
+    if (!token) {
+      return true;
+    }
+
+    return now() >= refreshTime(token);
+  };
+
+  var defaultUrlHandler = function(url) {
+    window.location = url;
+  };
+
+  var setRefresh = function() {
+    setTimeout(refresh.bind(null, true), refreshTime(getToken()) - now());
+    attempt = 0;
+  };
+
+  var refresh = function(force) {
+    var token = getToken();
+
+    if (!force && refreshDefer && refreshDefer.state === 'pending') {
+      return refreshDefer;
+    }
+
+    refreshDefer = $.Deferred();
+
+    if (!force && !toBeRefreshed(token)) {
+      return refreshDefer.resolve(token);
+    }
+
+    var $iframe = $('<iframe style="display: none;"></iframe>').appendTo('body');
+
+    var poll = function(time) {
+      time = time || 0;
+      var checkToken = getToken(true);
+
+      if (token === checkToken && time < POLL_TIME) {
+        return setTimeout(poll.bind(null, time + POLL_INTERVAL), POLL_INTERVAL);
+      }
+
+      if (token !== checkToken) {
+        refreshDefer.resolve(checkToken);
+      } else {
+        refreshDefer.reject();
+      }
+
+      jso.setRedirect(defaultUrlHandler);
+      $iframe.remove();
+    };
+
+    jso.setRedirect(function(url) {
+      $iframe.attr('src', url + '&rnd=' + Math.random());
+    });
+
+    poll();
+
+    jso.authRequest(provider, jsoConfig[provider].scope);
+
+    return refreshDefer
+      .fail(function() {
+        if (attempt > REFRESH_RETRY_ATTEMPTS) {
+          setRefresh();
+        } else {
+          attempt++;
+          setTimeout(refresh.bind(null, true), REFRESH_RETRY_INTERVAL);
+        }
+      })
+      .done(setRefresh);
   };
 
   Module.add(module, {
     init: init,
     ajax: ajax,
     get: get,
+    refresh: refresh,
     getToken: {
       method: getToken,
       override: true
     }
   });
 
-  Module.get(module).on('logout', function() {
-    jso.wipe();
-  });
+  Module.get(module).on('logout', jso.wipe.bind(jso));
 });
