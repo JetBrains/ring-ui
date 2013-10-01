@@ -12,47 +12,52 @@
 //Go back to the home page
 //    Report the problem to admin</div>
 //  </div>
-//<div class="ring-not-found__footer"></div>
 // <!-- Remove -->
 //</div>
 //
 // Styleguide 9.1
 
+$ring-seventh: 14.28%;
+
 .ring-not-found {
   position: relative;
   width: 100%;
   height: 100%;
-  background: linear-gradient(-90deg, #000 14.28% * 1, #0000fe 14.28% * 1, #0000fe 14.28% * 2, #fe0000 14.28% * 2, #fe0000 14.28% * 3, #ff00fe 14.28% * 3, #ff00fe 14.28% * 4, #01ff01 14.28% * 4, #01ff01 14.28% * 5, #01ffff 14.28% * 5, #01ffff 14.28% * 6, #fffe01 14.28% * 6);
+  background: linear-gradient(-90deg, #000 $ring-seventh, #0000fe $ring-seventh, #0000fe $ring-seventh * 2, #fe0000 $ring-seventh * 2, #fe0000 $ring-seventh * 3, #ff00fe $ring-seventh * 3, #ff00fe $ring-seventh * 4, #01ff01 $ring-seventh * 4, #01ff01 $ring-seventh * 5, #01ffff $ring-seventh * 5, #01ffff $ring-seventh * 6, #fffe01 $ring-seventh * 6);
 
   .ring-not-found__textbox {
     position: absolute;
     width: 73 * $ring-unit;
-    border: 1px solid #000;
-    background: white;
-    padding-top: 0;
-    padding-right: 2 * $ring-unit;
-    padding-bottom: 2 * $ring-unit;
-    padding-left: 2 * $ring-unit;
+    padding: 0 2*$ring-unit 2*$ring-unit;
     margin: 4 * $ring-unit;
+
+    background: #fff;
+    background: rgba(255, 255, 255, 0.85);
+    border: 1px solid #000;
     border-radius: 3px;
-    opacity: 0.85;
-    font-family: "Droid Sans", Arial, Tahoma, Verdana, sans-serif !important;
+
+    @include droid-font;
     font-size: 15px;
     color: #000000;
   }
   .ring-not-found__title {
-    padding-top: 1 * $ring-unit;
-    padding-bottom: 2 * $ring-unit;
-    font-family: "Droid Sans", Arial, Tahoma, Verdana, sans-serif !important;
+    margin: 1 * $ring-unit 0 2 * $ring-unit;
+
+    @include droid-font;
     font-size: 21px;
     font-weight: bold;
-    color: #000000;
+    color: #000;
+  }
+
+  &:after {
+    content: '';
+    display: block;
+    position: absolute;
+
+    width: 100%;
+    height: 50px;
+    bottom: 0;
+
+    background: linear-gradient(-90deg, #ffffff $ring-seventh, #01ff01 $ring-seventh, #01ff01 $ring-seventh * 2, #000 $ring-seventh * 2, #000 $ring-seventh * 3, #01ffff $ring-seventh * 3, #01ffff $ring-seventh * 4, #000 $ring-seventh * 4, #000 $ring-seventh * 5, #ff00fe $ring-seventh * 5, #ff00fe $ring-seventh * 6, #000 $ring-seventh * 6);
   }
 }
-
-.ring-not-found__footer {
-  width: 100%;
-  height: 50px;
-  background: linear-gradient(-90deg, #ffffff 14.28% * 1, #01ff01 14.28% * 1, #01ff01 14.28% * 2, #000 14.28% * 2, #000 14.28% * 3, #01ffff 14.28% * 3, #01ffff 14.28% * 4, #000 14.28% * 4, #000 14.28% * 5, #ff00fe 14.28% * 5, #ff00fe 14.28% * 6, #000 14.28% * 6);
-}
-
