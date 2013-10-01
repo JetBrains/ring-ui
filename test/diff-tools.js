@@ -92,6 +92,45 @@ define(['global/global', 'chai', 'diff/diff'], function(
       });
     });
 
+    describe('diffTool.deleteFromArray', function() {
+      it('diffTool.deleteFromArray deletes element from an array', function() {
+        expect(diffTool.deleteFromArray([1, 2, 3], 1)).to.eql([2, 3]);
+
+        var obj1 = { foo: true };
+        var obj2 = { bar: true };
+        expect(diffTool.deleteFromArray([obj1, obj2], obj2)).to.eql([obj1]);
+      });
+
+      it('diffTool.deleteFromArray does not delete element from array ' +
+          'if it does not exist', function() {
+        expect(diffTool.deleteFromArray([1, 2, 3], 4)).to.eql([1, 2, 3]);
+      });
+    });
+
+    describe('diffTool.arraysAreEqual', function() {
+      it('diffTool.arraysAreEqual compares array, contains simple data-types as' +
+          'numbers, strings, etc.', function() {
+        expect(diffTool.arraysAreEqual([1, false, 'asd'], [1, false, 'asd'])).
+            to.be(true);
+        expect(diffTool.arraysAreEqual([1, false, 'asd'], [2, true, 'dsa'])).
+            to.be(false);
+        expect(diffTool.arraysAreEqual([1], [1, 2])).to.be(false);
+      });
+
+      it('diffTool.arraysAreEqual compares array, which contains link to the ' +
+          'same object.', function() {
+        var obj = { foo: 1 };
+
+        expect(diffTool.arraysAreEqual([obj], [obj])).to.be(true);
+        expect(diffTool.arraysAreEqual([obj], [{foo: 1}])).to.be(false);
+      });
+
+      it('diffTool.arraysAreEqual return true if compare ' +
+          'empty arrays', function() {
+        expect(diffTool.arraysAreEqual([], [])).to.be(true);
+      });
+    });
+
     describe('diffTool.isEmptyString', function() {
       it('diffTool.isEmptyString returns true if string contains only' +
           'space characters and false if there are also other ' +
