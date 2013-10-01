@@ -102,6 +102,8 @@ define(function() {
   };
 
   /**
+   * Deletes element from array and returns array without this element. Does
+   * not change initial array.
    * @param {Array} arr
    * @param {*} el
    * @return {Array}
@@ -118,6 +120,28 @@ define(function() {
     }
 
     return result;
+  };
+
+  /**
+   * Whether two arrays has same elements.
+   * @param {Array} arrA
+   * @param {Array} arrB
+   * @return {boolean}
+   */
+  diffTool.arraysAreEqual = function(arrA, arrB) {
+    if (arrA.length !== arrB.length) {
+      return false;
+    }
+
+    for (var i = 0, l = arrA.length; i < l; i++) {
+      // todo(igor.alexeenko): this comparsion works only for simple data-types.
+      // Make it work for objects, arrays, etc.
+      if (arrA !== arrB) {
+        return false;
+      }
+    }
+
+    return true;
   };
 
   // todo(igor.alexeenko): Rename to inherits
