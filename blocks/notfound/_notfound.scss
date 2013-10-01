@@ -4,7 +4,7 @@
 //<!-- Styling for KSS docs, don't use -->
 //<div style="width: 800px; height: 300px; margin-bottom: 100px">
 //<!--  -->
-//<div class="ring-not-found">
+//<div class="ring-not-found" style="width: 800px; height: 300px;">
 //  <div class="ring-not-found__textbox">
 //    <div class="ring-not-found__title">404: Nope, could't find it!</div>
 //I did my best but there's no one and no thing here with the URL you've requested. Probably the address was incorrect.
@@ -20,10 +20,14 @@
 $ring-seventh: 14.28%;
 
 .ring-not-found {
-  position: relative;
+  position: fixed;
   width: 100%;
   height: 100%;
   background: linear-gradient(-90deg, #000 $ring-seventh, #0000fe $ring-seventh, #0000fe $ring-seventh * 2, #fe0000 $ring-seventh * 2, #fe0000 $ring-seventh * 3, #ff00fe $ring-seventh * 3, #ff00fe $ring-seventh * 4, #01ff01 $ring-seventh * 4, #01ff01 $ring-seventh * 5, #01ffff $ring-seventh * 5, #01ffff $ring-seventh * 6, #fffe01 $ring-seventh * 6);
+
+  .ring-not-found_fullpage & {
+    position: fixed;
+  }
 
   .ring-not-found__textbox {
     position: absolute;
@@ -54,8 +58,12 @@ $ring-seventh: 14.28%;
     display: block;
     position: absolute;
 
+    .ring-not-found_fullpage & {
+      position: fixed;
+    }
+
     width: 100%;
-    height: 50px;
+    height: $ring-unit * 6;
     bottom: 0;
 
     background: linear-gradient(-90deg, #ffffff $ring-seventh, #01ff01 $ring-seventh, #01ff01 $ring-seventh * 2, #000 $ring-seventh * 2, #000 $ring-seventh * 3, #01ffff $ring-seventh * 3, #01ffff $ring-seventh * 4, #000 $ring-seventh * 4, #000 $ring-seventh * 5, #ff00fe $ring-seventh * 5, #ff00fe $ring-seventh * 6, #000 $ring-seventh * 6);
