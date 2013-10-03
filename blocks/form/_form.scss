@@ -49,7 +49,7 @@
 .ring-input__error-bubble {
   position: relative;
   top: -6px;
-  font-family: "Droid Sans",Arial,Tahoma,Verdana,sans-serif;
+  font-family: "Droid Sans", Arial, Tahoma, Verdana, sans-serif;
   background: red;
   display: inline-block;
   border-radius: 3px;
@@ -150,3 +150,45 @@
   min-height: 3 * $ring-unit;
   line-height: 3 * $ring-unit;
 }
+
+.ring-radio-btn[type="radio"] {
+  display: none;
+}
+
+.ring-radio-btn[type="radio"] + label {
+  cursor: pointer;
+  content: "";
+  display: inline-block;
+  height: 2 * $ring-unit - 2;
+  width: 2 * $ring-unit - 2;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  border-radius: 50%;
+  background: #fff;
+}
+
+.ring-radio-btn[type="radio"] + label:hover {
+  border: 1px solid #ff8620;
+}
+
+.ring-radio-btn[type="radio"]:checked + label:after {
+  position: relative;
+  top: -6px;
+  left: 3px;
+  content: "";
+  opacity: 1;
+  display: inline-block;
+  height: $ring-unit;
+  width: $ring-unit;
+  border-radius: 50%;
+  background-color: #25b7ff;
+}
+
+//Checkbox
+//
+// Markup:
+//<input class="ring-radio-btn" type="radio" name="test" checked id="checkbox-1"/>
+//<label for="checkbox-1"></label>
+//<input class="ring-radio-btn" type="radio" name="test"  id="checkbox-2"/>
+//<label for="checkbox-2"></label>
+//
+// Styleguide 7.4
