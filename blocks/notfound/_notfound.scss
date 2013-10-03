@@ -15,19 +15,17 @@
 // <!-- Remove -->
 //</div>
 //
+// .ring-not-found_fullpage - Bind block to viewport size.
+//
 // Styleguide 9.1
 
 $ring-seventh: 14.28%;
 
 .ring-not-found {
-  position: fixed;
+  position: relative;
   width: 100%;
   height: 100%;
   background: linear-gradient(-90deg, #000 $ring-seventh, #0000fe $ring-seventh, #0000fe $ring-seventh * 2, #fe0000 $ring-seventh * 2, #fe0000 $ring-seventh * 3, #ff00fe $ring-seventh * 3, #ff00fe $ring-seventh * 4, #01ff01 $ring-seventh * 4, #01ff01 $ring-seventh * 5, #01ffff $ring-seventh * 5, #01ffff $ring-seventh * 6, #fffe01 $ring-seventh * 6);
-
-  .ring-not-found_fullpage & {
-    position: fixed;
-  }
 
   .ring-not-found__textbox {
     position: absolute;
@@ -58,14 +56,15 @@ $ring-seventh: 14.28%;
     display: block;
     position: absolute;
 
-    .ring-not-found_fullpage & {
-      position: fixed;
-    }
-
     width: 100%;
     height: $ring-unit * 6;
     bottom: 0;
 
     background: linear-gradient(-90deg, #ffffff $ring-seventh, #01ff01 $ring-seventh, #01ff01 $ring-seventh * 2, #000 $ring-seventh * 2, #000 $ring-seventh * 3, #01ffff $ring-seventh * 3, #01ffff $ring-seventh * 4, #000 $ring-seventh * 4, #000 $ring-seventh * 5, #ff00fe $ring-seventh * 5, #ff00fe $ring-seventh * 6, #000 $ring-seventh * 6);
   }
+}
+
+.ring-not-found_fullpage,
+.ring-not-found_fullpage:after {
+  position: fixed;
 }
