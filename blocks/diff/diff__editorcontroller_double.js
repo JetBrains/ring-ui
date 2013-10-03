@@ -16,7 +16,7 @@ define([
   // todo(igor.alexeenko): Implement all DOM-specific, CodeMirror-
   // specific and Raphael-specific logic in some kind of Renderer,
   // because Raphael, CodeMirror and Handlebars has an issues and could be
-  // replaced by another.
+  // replaced by other solutions.
 
   /**
    * @param {Element} element
@@ -208,7 +208,7 @@ define([
    * @override
    */
   diffTool.DoubleEditorController.prototype.setContentInternal = function(
-      original, modified, diff) {
+      original, modified, diff, opt_refresh) {
     this.unbindEditors_();
 
     if (this.codeMirrorOriginal_.getValue() !== original) {
@@ -219,9 +219,11 @@ define([
       this.codeMirrorModified_.setValue(modified);
     }
 
-    this.bindEditors_(original, modified, diff);
+    this.bindEditors_(original, modified, diff, opt_refresh);
 
-    this.checkScroll_();
+    if (!Boolean(opt_refresh)) {
+      this.checkScroll_();
+    }
   };
 
   /**
@@ -487,26 +489,10 @@ define([
   diffTool.DoubleEditorController.prototype.colorizeLines_ = function() {
     var previousIsChanged = false;
 
-    if (!this.colorizedLines_) {
-      /**
-       * {@code Array} of Objects, which contains numbers of lines in modified
-       * and original code to be marked. Used for clean-up editor before
-       * re-highlighting.
-       * @type {Array.<Object>}
-       * @private
-       */
-      this.colorizedLines_ = [];
-
-      /**
-       * {@code Array} of inline markers, which returned by {@code CodeMirror}.
-       * Used for clean-up editor.
-       * @type {Array.<CodeMirror.TextMarker>}
-       * @private
-       */
-      this.textMarkers_ = [];
-    }
-
     this.cleanupColorized_();
+
+    this.usedOriginal_ = [];
+    this.usedModified_ = [];
 
     this.lines_.forEach(function(chunk) {
       if (!diffTool.Parser.lineHasType(chunk,
@@ -523,6 +509,20 @@ define([
       previousIsChanged = !diffTool.Parser.lineHasType(chunk,
           diffTool.Parser.LineType.UNCHANGED);
     }, this);
+
+    for (var i = 0, l = this.usedOriginal_.length; i < l; i++) {
+      if (!diffTool.isDef(this.usedOriginal_[i])) {
+        this.codeMirrorOriginal_.removeLineClass(i,
+            diffTool.DoubleEditorController.EDITOR_MODE);
+      }
+    }
+
+    for (i = 0, l = this.usedModified_.length; i < l; i++) {
+      if (!diffTool.isDef(this.usedModified_[i])) {
+        this.codeMirrorModified_.removeLineClass(i,
+            diffTool.DoubleEditorController.EDITOR_MODE);
+      }
+    }
   };
 
   /**
@@ -566,44 +566,63 @@ define([
               diffTool.DoubleEditorController.LineClass.BEFORE_DELETED);
     }
 
-    // fixme(igor.alexeenko): There's no place for logic like that. This
-    // all should be inside following for loop.
+    var isOriginal = editor === this.codeMirrorOriginal_;
+    var usedClasses = [];
+
+    if (!this.linesOriginal_) {
+      this.linesOriginal_ = [];
+    }
+
+    if (!this.linesModified_) {
+      this.linesModified_ = [];
+    }
+
+    var colorizedLines = isOriginal ? this.linesOriginal_ : this.linesModified_;
+    var usedLines = isOriginal ? this.usedOriginal_ : this.usedModified_;
+
     if (from === to) {
-      editor.addLineClass(from - 1, diffTool.DoubleEditorController.EDITOR_MODE,
-          this.collapsedLineTypeToClass_[type]);
+      if (!colorizedLines[from - 1] ||
+          !diffTool.arraysAreEqual(colorizedLines[from - 1],
+              [this.collapsedLineTypeToClass_[type]])) {
+        colorizedLines[from - 1] = [this.collapsedLineTypeToClass_[type]];
 
-      this.colorizedLines_.push({
-        editor: editor,
-        from: from - 1,
-        to: from
-      });
+        editor.addLineClass(from - 1, diffTool.DoubleEditorController.EDITOR_MODE);
+        editor.addLineClass(from - 1, diffTool.DoubleEditorController.EDITOR_MODE,
+            this.collapsedLineTypeToClass_[type]);
+
+        usedLines[from - 1] = true;
+      }
+    } else {
+      for (var i = from, rangeIndex = 0; i < to; i++, rangeIndex++) {
+        usedClasses = [];
+
+        if (i === from && type !== diffTool.Parser.LineType.UNCHANGED &&
+            !opt_changesBefore) {
+          usedClasses.push(diffTool.DoubleEditorController.LineClass.FIRST);
+        }
+
+        if (i === to - 1 && type !== diffTool.Parser.LineType.UNCHANGED) {
+          usedClasses.push(diffTool.DoubleEditorController.LineClass.LAST);
+        }
+
+        usedClasses.push(this.lineTypeToClass_[type]);
+
+        if (!colorizedLines[i] ||
+            !diffTool.arraysAreEqual(colorizedLines[i], usedClasses)) {
+          editor.removeLineClass(i,
+              diffTool.DoubleEditorController.EDITOR_MODE);
+          editor.addLineClass(i, diffTool.DoubleEditorController.EDITOR_MODE,
+              usedClasses.join(' '));
+          colorizedLines[i] = usedClasses;
+        }
+
+        usedLines[i] = true;
+
+        if (ranges) {
+          this.colorizeLine_(i, ranges[rangeIndex], editor);
+        }
+      }
     }
-
-    for (var i = from, rangeIndex = 0; i < to; i++, rangeIndex++) {
-      if (i === from && type !== diffTool.Parser.LineType.UNCHANGED &&
-          !opt_changesBefore) {
-        editor.addLineClass(i, diffTool.DoubleEditorController.EDITOR_MODE,
-            diffTool.DoubleEditorController.LineClass.FIRST);
-      }
-
-      if (i === to - 1 && type !== diffTool.Parser.LineType.UNCHANGED) {
-        editor.addLineClass(i, diffTool.DoubleEditorController.EDITOR_MODE,
-            diffTool.DoubleEditorController.LineClass.LAST);
-      }
-
-      editor.addLineClass(i, diffTool.DoubleEditorController.EDITOR_MODE,
-          this.lineTypeToClass_[type]);
-
-      if (ranges) {
-        this.colorizeLine_(i, ranges[rangeIndex], editor);
-      }
-    }
-
-    this.colorizedLines_.push({
-      editor: editor,
-      from: from,
-      to: to
-    });
   };
 
   /**
@@ -644,23 +663,18 @@ define([
    * @private
    */
   diffTool.DoubleEditorController.prototype.cleanupColorized_ = function() {
-    this.colorizedLines_.forEach(function(chunk) {
-      for (var i = chunk.from; i < chunk.to; i++) {
-        chunk.editor.removeLineClass(i,
-            diffTool.DoubleEditorController.EDITOR_MODE);
-      }
-    });
+    if (!this.textMarkers_) {
+      this.textMarkers_ = [];
+    }
 
     this.textMarkers_.forEach(function(marker) {
       marker.clear();
       marker = null;
     });
 
-    this.colorizedLines_.length = 0;
     this.textMarkers_.length = 0;
   };
 
-  // todo(igor.alexeenko): Refactor: remove complexity.
   /**
    * Draws graphics connectors from changed chunks in original code to
    * corresponding chunks in modified code.
