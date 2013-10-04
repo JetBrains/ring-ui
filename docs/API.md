@@ -528,7 +528,7 @@ Path to Hub resource
     [
         {
           "label": "Issues",
-          "description": "Hello world"
+          "description": "Hello world",
           "url": "/issues",
           "image": "tc.png"
         },
@@ -560,18 +560,16 @@ Remove all notifications
 #### data
 `Object` | `String` | `jQuery`
 
-    {
-        "items": [
-            {
-              "label": "Issues",
-              "url": "/issues"
-            },
-            {
-              "label": "Agile Board",
-              "url": "/rest/agile"
-            }
-          ]
-    }
+   [
+      {
+        "label": "Issues",
+        "url": "/issues"
+      },
+      {
+        "label": "Agile Board",
+        "url": "/rest/agile"
+      }
+    ]
 
 #### target
 `Node` | `jQuery`
