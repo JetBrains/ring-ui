@@ -349,7 +349,7 @@ module.exports = function(grunt) {
         }]
       },
       blocks: {
-        src: '<%= path.blocks %>**/*.scss',
+        src: '<%= path.blocks %>**/*.{ng.*,scss}',
         dest: '<%= path.dist %>'
       },
       // So ugly, but no other way

@@ -1,7 +1,8 @@
 {
   "globals": {
     "define": false,
-    "require": false
+    "require": false,
+    "angular": false
   },
   "node": true,
   "browser": true,
