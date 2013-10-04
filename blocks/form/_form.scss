@@ -128,6 +128,10 @@
   background-color: #dbeaf2;
 }
 
+.ring-form__footer_black {
+  border: 1px solid #000000;
+}
+
 .ring-form__title {
   display: block;
   margin-bottom: $ring-unit;
@@ -140,7 +144,6 @@
 
 .ring-form__label {
   float: left;
-  width: 19 * $ring-unit;
   line-height: 24px;
 }
 
@@ -184,6 +187,52 @@
   background-color: #25b7ff;
 }
 
+// Form for key-value data
+//
+// You can add "ring-form__group_short" to "ring-form__group" for make left column shorter
+//
+//Markup:
+//<form class="ring-form">
+//<div class="ring-form__group ring-form__group_short">
+//<div class="ring-form__label">
+//<input class="ring-radio-btn" type="radio" name="find-type" id="breakout-checkbox-1"/>
+//<label for="breakout-checkbox-1"></label>
+//</div>
+//<div class="ring-form__control">
+//<span>Users with same emails and similar names</span>
+//</div>
+//</div>
+//<div class="ring-form__group ring-form__group_short">
+//<div class="ring-form__label">
+//<input class="ring-radio-btn" type="radio" name="find-type" id="breakout-checkbox-2"/>
+//<label for="breakout-checkbox-2"></label>
+//</div>
+//<div class="ring-form__control">
+//<span>Users with same emails</span>
+//</div>
+//</div>
+//<div class="ring-form__group ring-form__group_short">
+//<div class="ring-form__label">
+//<input class="ring-radio-btn" type="radio" name="find-type" id="breakout-checkbox-3"/>
+//<label for="breakout-checkbox-3"></label>
+//</div>
+//<div class="ring-form__control">
+//<span>Users having at least something in common</span>
+//</div>
+//</div>
+//<div class="ring-form__footer">
+//<button class="ring-btn_blue ring-btn">Save</button>
+//<button class="ring-btn">Cancel</button>
+//</div>
+//</form>
+//
+// Styleguide 7.4
+.ring-form__group_short {
+    .ring-form__control {
+      margin-left: $ring-unit * 3;
+    }
+}
+
 //Checkbox
 //
 // Markup:
@@ -192,4 +241,4 @@
 //<input class="ring-radio-btn" type="radio" name="test"  id="checkbox-2"/>
 //<label for="checkbox-2"></label>
 //
-// Styleguide 7.4
+// Styleguide 7.5
