@@ -1,6 +1,6 @@
 <div>
-    <div class="ring-tabs">
-        <div ng-repeat="pane in panes" class="ring-tabs__btn" ng-class="{ring-tabs__btn_active:pane.selected}">{{pane.title}}</div>
+    <div class="ring-tabs ring-tabs_pointer">
+        <div ng-repeat="pane in panes" ng-click="select(pane)" class="ring-tabs__btn" ng-class="{'ring-tabs__btn_active':pane.selected}">{{pane.title}}</div>
     </div>
     <div class="ring-tabs__container" ng-transclude></div>
 </div>

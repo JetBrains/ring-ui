@@ -433,6 +433,10 @@ module.exports = function(grunt) {
       templates: {
         files: ['<%= path.blocks %>**/*.hbs'],
         tasks: ['templates', 'notify:watch']
+      },
+      angular: {
+        files: ['<%= path.blocks %>**/*.ng.*'],
+        tasks: ['copy:blocks', 'notify:watch']
       }
     },
     notify: {

@@ -36,9 +36,9 @@
         replace: true
       };
     }]).
-    directive('Ring.tabs-pane', function () {
+    directive('ringTabsPane', function () {
       return {
-        require: '^tabs',
+        require: '^ringTabs',
         restrict: 'E',
         transclude: true,
         scope: { title: '@' },
