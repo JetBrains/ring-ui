@@ -1,7 +1,7 @@
 .ring-tabs {
   position: relative;
-  margin: 14px 16px 22px 17px;
-  line-height: $ring-unit * 3;
+  margin: 13px 16px 22px 16px;
+  line-height: $ring-unit * 3 - 2;
 }
 
 .ring-tabs__btn {
@@ -9,7 +9,7 @@
   height: $ring-unit * 3;
 
   border-top: 1px solid transparent;
-  padding: 0px 15px;
+  padding: 0 $ring-unit * 2;
 
   color: #1866c5;
   font-size: 13px;
@@ -24,7 +24,6 @@
 
   position: relative;
   display: inline-block;
-  padding: 0px 15px;
 
   color: #1a1a1a;
   outline: 0;
@@ -44,7 +43,7 @@
   .ring-tabs_pointer &:after {
     display: block;
     position: relative;
-    top: 18px;
+    top: 19px;
     width: 10px;
     height: 10px;
     margin: 0 auto;
@@ -53,7 +52,7 @@
     transform: rotate(45deg);
     cursor: default;
     background-color: #f0f0f0;
-    box-shadow: inset 1px 1px 0px 0px #cbcbcb;
+    box-shadow: inset 1px 1px 0 0 #cbcbcb;
   }
 }
 

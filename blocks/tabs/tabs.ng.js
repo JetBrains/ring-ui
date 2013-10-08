@@ -2,7 +2,7 @@
   'use strict';
 
   angular.module('Ring.tabs', []).
-    directive('tabs', ['$location', '$routeParams', function ($location, $routeParams) {
+    directive('ringTabs', ['$location', '$routeParams', function ($location, $routeParams) {
       return {
         restrict: 'E',
         transclude: true,
@@ -36,9 +36,9 @@
         replace: true
       };
     }]).
-    directive('Ring.tabs-pane', function () {
+    directive('ringTabsPane', function () {
       return {
-        require: '^tabs',
+        require: '^ringTabs',
         restrict: 'E',
         transclude: true,
         scope: { title: '@' },
