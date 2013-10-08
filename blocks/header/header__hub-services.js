@@ -1,4 +1,4 @@
-define(['jquery', 'global/global__modules', 'global/global__views', 'header/header', 'auth/auth'], function ($, Module, View) {
+define(['jquery', 'global/global__modules', 'global/global__views', 'header/header', 'auth/auth'], function ($, Module) {
   'use strict';
 
   var convertServices = function(services) {
@@ -33,7 +33,7 @@ define(['jquery', 'global/global__modules', 'global/global__views', 'header/head
       var headerServices = header.get('view').services || [];
 
       if (list) {
-        View.update('header', 'services', headerServices.concat(convertServices(list)));
+        header('update', 'services', headerServices.concat(convertServices(list)));
       }
     });
 });
