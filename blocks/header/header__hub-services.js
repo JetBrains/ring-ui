@@ -1,4 +1,4 @@
-define(['jquery', 'global/global__modules', 'global/global__views', 'header/header', 'auth/auth'], function ($, Module) {
+define(['jquery', 'global/global__modules', 'header/header', 'auth/auth'], function ($, Module) {
   'use strict';
 
   var convertServices = function(services) {
@@ -26,6 +26,7 @@ define(['jquery', 'global/global__modules', 'global/global__views', 'header/head
 
   $.when(headerInited, authInited)
     .then(function() {
+      header.trigger('services');
       return auth('ajax', '/rest/services');
     })
     .then(function(services) {
@@ -34,6 +35,10 @@ define(['jquery', 'global/global__modules', 'global/global__views', 'header/head
 
       if (list) {
         header('update', 'services', headerServices.concat(convertServices(list)));
+        header.trigger('services:done');
+      } else {
+        header.trigger('services:fail');
       }
+      header.trigger('services:always');
     });
 });
