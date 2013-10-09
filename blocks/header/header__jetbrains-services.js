@@ -37,7 +37,8 @@ define(['global/global__views', 'global/global__modules'], function (View, Modul
   ];
 
   Module.get(Module.GLOBAL).on('header:init:done', function() {
-    var headerServices = Module.get('header').get('view').services || [];
+    var header = Module.get('header');
+    var headerServices = header.get('view').services || [];
     var services = headerServices.concat(internalServices);
 
     var location = window.location.href;
@@ -62,6 +63,8 @@ define(['global/global__views', 'global/global__modules'], function (View, Modul
       }
     }
 
-    View.update('header', 'services', services);
+    header('update', 'services', services);
+    header.trigger('services:done');
+    header.trigger('services:always');
   });
 });
