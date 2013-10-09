@@ -24,3 +24,9 @@
   padding-left: 24px;
   padding-right: 24px;
 }
+
+@media print {
+  .ring-header {
+    display: none;
+  }
+}
