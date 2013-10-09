@@ -1,3 +1,17 @@
+// Tabs
+//
+// Markup:
+// <div class="ring-tabs {$modifiers}">
+//   <div class="ring-tabs__btn">Tab 1</div>
+//   <div class="ring-tabs__btn ring-tabs__btn_active">Tab 2</div>
+//   <div class="ring-tabs__btn">Tab 3</div>
+// </div>
+// <div class="ring-tabs__container">Pane content</div>
+//
+// .ring-tabs_pointer - Tab with arrow
+//
+// Styleguide 11.1
+
 .ring-tabs {
   position: relative;
   margin: 13px 16px 22px 16px;

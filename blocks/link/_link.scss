@@ -1,3 +1,12 @@
+// Link
+//
+// Markup:
+// <a href="#" class="ring-link {$modifiers}">Click me!</a>
+//
+// :hover - hovered state
+//
+// Styleguide 10.1
+
 .ring-link {
   color: $ring-link-color !important;
   text-decoration: none;
