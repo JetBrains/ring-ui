@@ -10,7 +10,7 @@ define(['jquery', 'global/global__views', 'global/global__modules'], function($,
   var $dropdown;
   var target;
 
-  var MIN_RIGHT_PADDING = 5;
+  var MIN_RIGHT_PADDING = 8;
   var TOP_PADDING = 4;
 
   var create = function(data, $target) {
