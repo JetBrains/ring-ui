@@ -57,6 +57,8 @@ $btn-border-radius: 3px;
   border-radius: $btn-border-radius;
   font-size: 11px;
   padding: 0 $ring-unit*2 - 1;
+  text-decoration: none;
+  box-sizing: border-box;
   width: auto;
   height: $ring-unit*3;
   line-height: 22px;
