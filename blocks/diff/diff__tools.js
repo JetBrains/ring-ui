@@ -101,6 +101,7 @@ define(function() {
     return Math.min(Math.max(value, min), max);
   };
 
+  // todo(igor.alexeenko): Make deletion by index.
   /**
    * Deletes element from array and returns array without this element. Does
    * not change initial array.
@@ -187,6 +188,37 @@ define(function() {
     return function() {
       return fn.apply(ctx, arguments);
     };
+  };
+
+  /**
+   * @param {Element} el
+   * @param {function} fn
+   */
+  diffTool.addAnimationCallback = function(el, fn) {
+    var animationEndHandler = function() {
+      fn();
+
+      // todo(igor.alexeenko): Implement through diffTool.getAnimationEventType
+      // as soon as it ready.
+      $(el).off('animationend', animationEndHandler);
+      $(el).off('MSAnimationEnd', animationEndHandler);
+      $(el).off('oAnimationEnd', animationEndHandler);
+      $(el).off('webkitAnimationEnd', animationEndHandler);
+    };
+
+    $(el).one('animationend', animationEndHandler);
+    $(el).one('MSAnimationEnd', animationEndHandler);
+    $(el).one('oAnimationEnd', animationEndHandler);
+    $(el).one('webkitAnimationEnd', animationEndHandler);
+  };
+
+  /**
+   * @return {string}
+   */
+  diffTool.getAnimationEventType = function() {
+    // todo(igor.alexeenko): Detect in which browser user runs application
+    // and return corresponding event type.
+    return '';
   };
 
   return diffTool;
