@@ -1,7 +1,7 @@
 // Breadcrumbs
 //
 // Markup:
-// <ul class="ring-breadcrumb">
+// <ul class="ring-breadcrumb {$modifiers}">
 //   <li class="ring-breadcrumb__element">
 //     <a class="ring-breadcrumb__element__a" href="/groups">Groups</a>
 //     <span class="ring-breadcrumb__divider ring-font-icon ring-font-icon_chevron-right"></span>
@@ -10,8 +10,12 @@
 //     <a class="ring-breadcrumb__element__a" href="/groups">Admins</a>
 //     <span class="ring-breadcrumb__divider ring-font-icon ring-font-icon_chevron-right"></span>
 //   </li>
-//   <li class="ring-breadcrumb__element_active ring-breadcrumb__element">Admin</li>
+//   <li class="active ring-breadcrumb__element">Admin</li>
 // </ul>
+//
+// .ring-breadcrumb_small                    - font-size: 13px
+// .ring-tabs-pointer                        - tabs pointer
+// .ring-breadcrumb_small.ring-tabs-pointer - font-size: 13px and tabs pointer
 //
 // Styleguide 3.1
 
@@ -20,13 +24,24 @@
   list-style: none;
 }
 
+.ring-breadcrumb_small {
+  .ring-breadcrumb__element {
+    font-size: 13px;
+  }
+
+  .ring-breadcrumb__divider {
+    font-size: 9px !important;
+    top: 0;
+  }
+}
+
 .ring-breadcrumb__element {
   display: inline-block;
   font-size: 19px;
   color: #1866c5;
 }
 
-.ring-breadcrumb__element_active {
+.ring-breadcrumb__element_active, .ring-breadcrumb .active {
   color: #1a1a1a;
 }
 
