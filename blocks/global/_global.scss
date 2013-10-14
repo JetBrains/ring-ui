@@ -34,3 +34,14 @@ $ring-link-hover-color: #ff5a00;
     @content;
   }
 }
+
+// Constant values for z-indexes.
+
+// Invisible element is absolute-positioned element, which should be known
+// lower all other elements on page.
+$invisible-element-z-index: -1;
+// Elements, which should overlay all other elements on page.
+$overlay-z-index: 5;
+// Alerts, which can de displayed higher overlays and other elements, like
+// notifications element.
+$alert-z-index: 6;
