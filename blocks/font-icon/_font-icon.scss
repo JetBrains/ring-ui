@@ -52,45 +52,58 @@ body .ring-font-icon {
 .ring-font-icon_modified:before {
   content: "\e002";
 }
+
 .ring-font-icon_removed:before {
   content: "\e003";
 }
+
 .ring-font-icon_renamed:before {
   content: "\e004";
 }
-.ring-font-icon_check:before {
-  content: "\e005";
+
+.ring-font-icon_plus:before {
+  content: "\e000";
 }
+
 .ring-font-icon_search:before {
   content: "\f002";
 }
+
 .ring-font-icon_cog:before {
   content: "\f013";
 }
+
+.ring-font-icon_remove:before {
+  content: "\f00d";
+}
+
+.ring-font-icon_pencil:before {
+  content: "\f040";
+}
+
+.ring-font-icon_chevron-right:before {
+  content: "\f054";
+}
+
+.ring-font-icon_ban-circle:before {
+  content: "\f05e";
+}
+
 .ring-font-icon_caret-down:before {
   content: "\f0d7";
-}
-.ring-font-icon_help:before {
-  content: "\e001";
 }
 .ring-font-icon_caret-up:before {
   content: "\f0d8";
 }
-.ring-font-icon_remove:before {
-  content: "\f00d";
+
+.ring-font-icon_help:before {
+  content: "\e001";
 }
-.ring-font-icon_chevron-right:before {
-  content: "\f054";
+
+.ring-font-icon_check:before {
+  content: "\e005";
 }
-.ring-font-icon_ban-circle:before {
-  content: "\f05e";
-}
-.ring-font-icon_pencil:before {
-  content: "\f040";
-}
-.ring-font-icon_plus:before {
-  content: "\e000";
-}
+
 .ring-font-icon_added:before {
   content: "\e006";
 }
@@ -99,6 +112,18 @@ body .ring-font-icon {
 }
 .ring-font-icon_pushpin:before {
   content: "\f08d";
+}
+
+.ring-font-icon_minus:before {
+  content: "\e007";
+}
+
+.ring-font-icon_warning:before {
+  content: "\e009";
+}
+
+.ring-font-icon_ok:before {
+  content: "\f00c";
 }
 
 /* Fallback for miserable Windows users */
