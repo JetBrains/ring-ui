@@ -1,28 +1,155 @@
+$alert-padding: 8px;
+$alert-font-size: 13px;
+$alert-line-height: 1.3;
+$alert-height: ($alert-font-size * $alert-line-height) +
+    $alert-padding * 2;
+$alert-margin: 10px;
+
+
 // Alerts
 //
 // Markup:
-// <div class="ring-alert {$modifiers}">Alert text</div>
+// <div class="ring-alert ring-alert_inline {$modifiers}"><div class="ring-alert__icon"></div><div class="ring-alert__caption"></div><div class="ring-alert__close"></div></div>
 //
-// .ring-alert_error    - Error alert
+//                      - Base alert style.
+// .ring-alert_error    - Error. In this style alert's text color is red and there is an error icon. This alert used to alert user about error.
+// .ring-alert_success  - Success message. Green text and icon of tick. This alert used to say, that action completed successfully.
+// .ring-alert_warning  - Warning. Orange text and icon of minus sign. Used in situations where user, should pay attention to something important but not critical as in error case.
 //
-// Styleguide 2.1
+// Styleguide 2
+
+.ring-alerts {
+  left: 50%;
+  margin-left: -200px;
+  overflow: hidden;
+  padding: 0 10px 10px;
+  position: absolute;
+  top: -$alert-margin - 2;
+  width: 400px;
+  z-index: $alert-z-index;
+}
 
 .ring-alert {
-  margin: 10px;
-  padding: 8px 14px;
+  color: #1a1a1a;
+  font-size: $alert-font-size;
+  height: $alert-height;
+  line-height: $alert-line-height;
+  margin-top: $alert-margin;
+  position: relative;
 
-  font-size: 120%;
-  text-shadow: rgba(255, 255, 255, 0.5) 0 1px;
+  @include droid-font;
+}
 
-  border-radius: 4px;
+.ring-alert_shown {
+  animation-name: appearing;
+  animation-duration: 200ms;
+  animation-iteration-count: 1;
+}
 
-  @include warning-color();
-  background-color: #fff9cc;
-  border-color: #fffbd0;
+.ring-alert_hidden {
+  animation-name: hiding;
+  animation-duration: 300ms;
+  opacity: 0;
+}
+
+.ring-alert_inline {}
+
+.ring-alert__inner {
+  background: #fff;
+  border: solid 1px #979797;
+  border-radius: 2px;
+  bottom: 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  left: 0;
+  overflow: hidden;
+  padding: $alert-padding 40px $alert-padding 0;
+  position: absolute;
+  right: 0;
+}
+
+.ring-alert_inline {
+  margin-top: 0;
+
+  .ring-alert__caption {
+    padding: $alert-padding 0;
+  }
+}
+
+// todo(igor.alexeenko): Understand, what to do with default colors,
+// defined in _global.scss. Ask designer about it.
+
+.ring-alert_success {
+  color: #608900;
 }
 
 .ring-alert_error {
-  @include error-color();
-  background-color: #ffe6f2;
-  border-color: #ffeaf2;
+  color: #c10000;
+}
+
+.ring-alert_warning {
+  color: #ff5a00;
+}
+
+.ring-alert__icon {
+  bottom: 0;
+  left: 0;
+  position: absolute;
+  top: 0;
+  text-align: center;
+  vertical-align: middle;
+  width: 40px;
+}
+
+.ring-alert__caption {
+  margin-left: 10px;
+  margin-right: 30px;
+  padding-right: 5px;
+}
+
+.ring-alert_error,
+.ring-alert_success,
+.ring-alert_warning {
+  .ring-alert__caption {
+    margin-left: 40px;
+  }
+}
+
+// todo(igor.alexeenko): Overriding !important rule for font icons.
+// Not very clear solution, but I want to align my icon my the middle of
+// the first row of text in alert.
+.ring-alert__close {
+  color: #c0c0c0;
+  cursor: pointer;
+  font-size: 14px;
+  position: absolute;
+  right: 20px;
+  text-align: right;
+  top: 0;
+}
+
+body .ring-font-icon.ring-alert__icon,
+body .ring-font-icon.ring-alert__close {
+  line-height: $alert-height !important;
+}
+
+.ring-font-icon.ring-alert__icon:before,
+.ring-alert__close:before {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.ring-alert__link {
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+@keyframes appearing {
+  0% { height: 0; }
+  100% { height: $alert-height; }
+}
+
+@keyframes hiding {
+  0% { opacity: 1; }
+  70% { opacity: 0; }
+  100% { opacity: 0; }
 }
