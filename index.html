@@ -277,6 +277,15 @@
         ring('menu', 'setActive')(data);
         return false;
       });
+
+      var Alerts = ring('alerts').invoke('getAlerts');
+      var Alert = ring('alerts').invoke('getAlert');
+
+      var notificationsContainer = $('.demo')[0];
+      var alerts = new Alerts(notificationsContainer);
+
+      alerts.showAlert('Alert demo. Will hide automatically.',
+          Alert.Type.SUCCESS, 15000);
     });
   </script>
 </head>
