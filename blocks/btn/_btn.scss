@@ -77,7 +77,8 @@ $btn-border-radius: 3px;
     background-image: none;
   }
   &[disabled], &.ring-btn_disabled {
-    &:hover, &:active {
+    &, &:hover, &:active {
+      box-shadow: none;
       @include btn-background-image(#ebebeb, #fff);
     }
   }
@@ -114,7 +115,8 @@ $btn-border-radius: 3px;
   }
 
   &[disabled], &.ring-btn_disabled {
-    &:hover, &:active {
+    &, &:hover, &:active {
+      box-shadow: none;
       @include btn-mixins_primary;
     }
   }
@@ -142,7 +144,8 @@ $btn-border-radius: 3px;
   }
 
   &[disabled], &.ring-btn_disabled {
-    &:hover, &:active {
+    &, &:hover, &:active {
+      box-shadow: none;
       @include btn-mixins_blue;
     }
   }
@@ -170,7 +173,8 @@ $btn-border-radius: 3px;
   }
 
   &[disabled], &.ring-btn_disabled {
-    &:hover, &:active {
+    &, &:hover, &:active {
+      box-shadow: none;
       @include btn-mixins_black;
     }
   }
