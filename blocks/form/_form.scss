@@ -1,12 +1,12 @@
 // Forms
 //
 // Markup:
-//<input class="{$modifiers} ring-input " type="text" placeholder="placeholder">
+// <input class="{$modifiers} ring-input " type="text" placeholder="placeholder">
 //
 // :disabled            - Disabled state, also available as the `.ring-input_disabled` class name.
 // :active              - Active state, also available as the `.ring-input_active` class name.
-// .ring-input_correct - The entered value is correct.
-// .ring-input_error - The entered value is incorrect.
+// .ring-input_correct  - The entered value is correct.
+// .ring-input_error    - The entered value is incorrect.
 //
 // Styleguide 7.1
 
@@ -42,8 +42,8 @@
 // Input error bubbles
 //
 // Markup:
-//<input class="ring-input ring-input_error" type="text">
-//<div class="ring-input__error-bubble">Wrong value</div>
+// <input class="ring-input ring-input_error" type="text">
+// <div class="ring-input__error-bubble">Wrong value</div>
 //
 // Styleguide 7.2
 .ring-input__error-bubble {
@@ -73,9 +73,9 @@
 //
 // Basic form
 //
-//Markup:
-//<form class="ring-form">
-//  <span class="ring-form__title">Lisence</span>
+// Markup:
+// <form class="ring-form">
+//  <span class="ring-form__title">License</span>
 //  <div class="ring-form__group">
 //    <label class="ring-form__label">License User Name</label>
 //    <div class="ring-form__control">
@@ -99,7 +99,7 @@
 //    <button class="ring-btn_blue ring-btn">Save</button>
 //    <button class="ring-btn">Cancel</button>
 //  </div>
-//</form>
+// </form>
 //
 // Styleguide 7.3
 
@@ -189,44 +189,45 @@
 
 // Form for key-value data
 //
-// You can add "ring-form__group_short" to "ring-form__group" for make left column shorter
+// You can add "ring-form__group_short" to "ring-form__group" to make the left column shorter
 //
-//Markup:
-//<form class="ring-form">
-//<div class="ring-form__group ring-form__group_short">
-//<div class="ring-form__label">
-//<input class="ring-radio-btn" type="radio" name="find-type" id="breakout-checkbox-1"/>
-//<label for="breakout-checkbox-1"></label>
-//</div>
-//<div class="ring-form__control">
-//<span>Users with same emails and similar names</span>
-//</div>
-//</div>
-//<div class="ring-form__group ring-form__group_short">
-//<div class="ring-form__label">
-//<input class="ring-radio-btn" type="radio" name="find-type" id="breakout-checkbox-2"/>
-//<label for="breakout-checkbox-2"></label>
-//</div>
-//<div class="ring-form__control">
-//<span>Users with same emails</span>
-//</div>
-//</div>
-//<div class="ring-form__group ring-form__group_short">
-//<div class="ring-form__label">
-//<input class="ring-radio-btn" type="radio" name="find-type" id="breakout-checkbox-3"/>
-//<label for="breakout-checkbox-3"></label>
-//</div>
-//<div class="ring-form__control">
-//<span>Users having at least something in common</span>
-//</div>
-//</div>
-//<div class="ring-form__footer">
-//<button class="ring-btn_blue ring-btn">Save</button>
-//<button class="ring-btn">Cancel</button>
-//</div>
-//</form>
+// Markup:
+// <form class="ring-form">
+//  <div class="ring-form__group ring-form__group_short">
+//    <div class="ring-form__label">
+//      <input class="ring-radio-btn" type="radio" name="find-type" id="breakout-checkbox-1"/>
+//      <label for="breakout-checkbox-1"></label>
+//    </div>
+//    <div class="ring-form__control">
+//      <span>Users with same emails and similar names</span>
+//    </div>
+//  </div>
+//  <div class="ring-form__group ring-form__group_short">
+//    <div class="ring-form__label">
+//      <input class="ring-radio-btn" type="radio" name="find-type" id="breakout-checkbox-2"/>
+//      <label for="breakout-checkbox-2"></label>
+//    </div>
+//    <div class="ring-form__control">
+//      <span>Users with same emails</span>
+//    </div>
+//  </div>
+//  <div class="ring-form__group ring-form__group_short">
+//    <div class="ring-form__label">
+//      <input class="ring-radio-btn" type="radio" name="find-type" id="breakout-checkbox-3"/>
+//      <label for="breakout-checkbox-3"></label>
+//    </div>
+//    <div class="ring-form__control">
+//      <span>Users having at least something in common</span>
+//    </div>
+//  </div>
+//  <div class="ring-form__footer">
+//    <button class="ring-btn_blue ring-btn">Save</button>
+//    <button class="ring-btn">Cancel</button>
+//  </div>
+// </form>
 //
 // Styleguide 7.4
+
 .ring-form__group_short {
     .ring-form__control {
       margin-left: $ring-unit * 3;
@@ -234,13 +235,13 @@
 }
 
 
-//Radio button
+// Radio button
 //
 // Markup:
-//<input class="ring-radio-btn" type="radio" name="test" checked id="radio-1"/>
-//<label for="radio-1"></label>
-//<input class="ring-radio-btn" type="radio" name="test"  id="radio-2"/>
-//<label for="radio-2"></label>
+// <input class="ring-radio-btn" type="radio" name="test" checked id="radio-1"/>
+// <label for="radio-1"></label>
+// <input class="ring-radio-btn" type="radio" name="test"  id="radio-2"/>
+// <label for="radio-2"></label>
 //
 // Styleguide 7.5
 
@@ -285,12 +286,12 @@
   background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAALCAMAAACTbPdTAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyRpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoTWFjaW50b3NoKSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDowNzk5MjZGMzFBMjAxMUUzQjBFNkZFNUI0QkU4MDgwNiIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDowNzk5MjZGNDFBMjAxMUUzQjBFNkZFNUI0QkU4MDgwNiI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOjA3OTkyNkYxMUEyMDExRTNCMEU2RkU1QjRCRTgwODA2IiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjA3OTkyNkYyMUEyMDExRTNCMEU2RkU1QjRCRTgwODA2Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+iIdn6QAAAHJQTFRFr6+v6+vrk5OT4uLitbW1W1tbzMzMVFRUWVlZmpqa1dXVpqamZ2dn4eHh+/v76enp2trah4eHT09PUVFReHh4UlJSd3d3zc3N19fXlpaW0tLSmJiY5OTk7OzsYWFhTU1NgYGB9PT09vb2ycnJSUlJ////6rrIagAAACZ0Uk5T/////////////////////////////////////////////////wCneoG8AAAAW0lEQVR42kTNVQ7AMAwD0GzrmJk5vv8V147qD0svUmSCTmCQRuh1v+acCZ+GiE2AJj+TEC43h1Rc1qY1Mi+WPBIEqxQObiWb0vMvO7WZe3zCuVa7Flrj3bkEGAAdOxEvcOdezwAAAABJRU5ErkJggg==) no-repeat;
 }
 
-//Checkbox
+// Checkbox
 //
-//Markup:
-//<input id="checkbox-1" class="ring-checkbox" type="checkbox" name="example" checked>
-//<label for="checkbox-1"></label>
-//<input id="checkbox-2" class="ring-checkbox" type="checkbox" name="example">
-//<label for="checkbox-2"></label>
+// Markup:
+// <input id="checkbox-1" class="ring-checkbox" type="checkbox" name="example" checked>
+// <label for="checkbox-1"></label>
+// <input id="checkbox-2" class="ring-checkbox" type="checkbox" name="example">
+// <label for="checkbox-2"></label>
 //
 // Styleguide 7.6
