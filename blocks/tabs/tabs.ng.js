@@ -34,28 +34,36 @@
             return $scope.tabParameter || 'tab';
           };
 
+          var updateUrl = function(pane) {
+            $location.search(getTabParameterName(), pane.tabId);
+          };
+
           var selectedTab = $routeParams[getTabParameterName()];
 
-
+          // Exposed methods
           $scope.control = {};
 
           $scope.control.select = function (pane) {
             deselectAll();
             doSelect(pane);
-            $location.search(getTabParameterName(), pane.tabId);
+            updateUrl(pane);
           };
 
           $scope.control.next = function () {
             var next = deselectAll() + 1;
             var panes = $scope.panes.length - 1;
 
-            $scope.panes[next > panes ? panes : next].selected = true;
+            var pane = $scope.panes[next > panes ? panes : next];
+            pane.selected = true;
+            updateUrl(pane);
           };
 
           $scope.control.prev = function () {
             var prev = deselectAll() - 1;
 
-            $scope.panes[prev < 0 ? 0 : prev].selected = true;
+            var pane = $scope.panes[prev < 0 ? 0 : prev];
+            pane.selected = true;
+            updateUrl(pane);
           };
 
           this.addPane = function (pane) {
