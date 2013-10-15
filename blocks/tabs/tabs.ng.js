@@ -6,23 +6,56 @@
       return {
         restrict: 'E',
         transclude: true,
-        scope: { tabParameter: '@'},
+        scope: {
+          tabParameter: '@',
+          control: '='
+        },
         controller: ['$scope', function ($scope) {
           $scope.panes = [];
-          var doSelect = function (pane) {
-              angular.forEach($scope.panes, function (pane) {
-                pane.selected = false;
-              });
-              pane.selected = true;
-            },
-            getTabParameterName = function () {
-              return $scope.tabParameter || 'tab';
-            },
-            selectedTab = $routeParams[getTabParameterName()];
 
-          $scope.select = function (pane) {
-            $location.search(getTabParameterName(), pane.tabId);
+          var deselectAll = function() {
+            var current = 0;
+
+            angular.forEach($scope.panes, function (pane, index) {
+              if (pane.selected) {
+                current = index;
+                pane.selected = false;
+              }
+            });
+
+            return current;
+          };
+
+          var doSelect = function (pane) {
+            pane.selected = true;
+          };
+
+          var getTabParameterName = function () {
+            return $scope.tabParameter || 'tab';
+          };
+
+          var selectedTab = $routeParams[getTabParameterName()];
+
+
+          $scope.control = {};
+
+          $scope.control.select = function (pane) {
+            deselectAll();
             doSelect(pane);
+            $location.search(getTabParameterName(), pane.tabId);
+          };
+
+          $scope.control.next = function () {
+            var next = deselectAll() + 1;
+            var panes = $scope.panes.length - 1;
+
+            $scope.panes[next > panes ? panes : next].selected = true;
+          };
+
+          $scope.control.prev = function () {
+            var prev = deselectAll() - 1;
+
+            $scope.panes[prev < 0 ? 0 : prev].selected = true;
           };
 
           this.addPane = function (pane) {
