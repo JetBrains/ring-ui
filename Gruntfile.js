@@ -578,7 +578,8 @@ module.exports = function(grunt) {
     'styles',
     'templates',
     'requirejs',
-    'docs'
+    'docs',
+    'copy:blocks'
   ]);
 
   grunt.registerTask('server', [
@@ -611,7 +612,6 @@ module.exports = function(grunt) {
   grunt.registerTask('release', [
     'cleanup',
     'build',
-    'copy:blocks',
     'compress'
   ]);
 };
