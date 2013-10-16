@@ -12,38 +12,49 @@
         },
         controller: ['$scope', function ($scope) {
           $scope.panes = [];
+          $scope.current = 0;
 
-          var deselectAll = function() {
-            var current = 0;
+          var doSelect = function (newPane, skipUrlUpdate) {
+            if (typeof newPane === 'number') {
+              var panes = $scope.panes.length - 1;
+
+              if (newPane > panes) {
+                newPane = panes;
+              } else if (newPane < 0) {
+                newPane = 0;
+              }
+
+              newPane = $scope.panes[newPane];
+            }
 
             angular.forEach($scope.panes, function (pane, index) {
+              // Update current tab
+              if (pane === newPane) {
+                $scope.current = index;
+              }
+
+              // Deselect all selected
               if (pane.selected) {
-                current = index;
                 pane.selected = false;
               }
             });
 
-            return current;
-          };
+            newPane.selected = true;
 
-          var doSelect = function (pane) {
-            pane.selected = true;
+            if (!skipUrlUpdate) {
+              $location.search(getTabParameterName(), newPane.tabId);
+            }
           };
 
           var getTabParameterName = function () {
             return $scope.tabParameter || 'tab';
           };
 
-          var updateUrl = function(pane) {
-            $location.search(getTabParameterName(), pane.tabId);
-          };
-
           var selectedTab = $routeParams[getTabParameterName()];
 
           this.addPane = function (pane) {
             if ($scope.panes.length === 0 || pane.tabId === selectedTab) {
-              deselectAll();
-              doSelect(pane);
+              doSelect(pane, true);
             }
             $scope.panes.push(pane);
           };
@@ -51,27 +62,24 @@
           // Exposed methods
           $scope.control = {};
 
+          $scope.control.isLast = function() {
+            return $scope.current === $scope.panes.length - 1;
+          };
+
+          $scope.control.isFirst = function() {
+            return $scope.current === 0;
+          };
+
           $scope.control.select = function (pane) {
-            deselectAll();
             doSelect(pane);
-            updateUrl(pane);
           };
 
           $scope.control.next = function () {
-            var next = deselectAll() + 1;
-            var panes = $scope.panes.length - 1;
-
-            var pane = $scope.panes[next > panes ? panes : next];
-            pane.selected = true;
-            updateUrl(pane);
+            doSelect($scope.current + 1);
           };
 
           $scope.control.prev = function () {
-            var prev = deselectAll() - 1;
-
-            var pane = $scope.panes[prev < 0 ? 0 : prev];
-            pane.selected = true;
-            updateUrl(pane);
+            doSelect($scope.current - 1);
           };
         }],
         templateUrl: 'tabs/tabs.ng.html',
