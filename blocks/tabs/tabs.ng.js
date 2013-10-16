@@ -55,6 +55,7 @@
           this.addPane = function (pane) {
             if ($scope.panes.length === 0 || pane.tabId === selectedTab) {
               doSelect(pane, true);
+              $scope.current = $scope.panes.length;
             }
             $scope.panes.push(pane);
           };
