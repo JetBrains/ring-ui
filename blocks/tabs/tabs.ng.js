@@ -8,7 +8,7 @@
         transclude: true,
         scope: {
           tabParameter: '@',
-          control: '='
+          control: '=?'
         },
         controller: ['$scope', function ($scope) {
           $scope.panes = [];
