@@ -40,6 +40,14 @@
 
           var selectedTab = $routeParams[getTabParameterName()];
 
+          this.addPane = function (pane) {
+            if ($scope.panes.length === 0 || pane.tabId === selectedTab) {
+              deselectAll();
+              doSelect(pane);
+            }
+            $scope.panes.push(pane);
+          };
+
           // Exposed methods
           $scope.control = {};
 
@@ -64,13 +72,6 @@
             var pane = $scope.panes[prev < 0 ? 0 : prev];
             pane.selected = true;
             updateUrl(pane);
-          };
-
-          this.addPane = function (pane) {
-            if ($scope.panes.length === 0 || pane.tabId === selectedTab) {
-              doSelect(pane);
-            }
-            $scope.panes.push(pane);
           };
         }],
         templateUrl: 'tabs/tabs.ng.html',
