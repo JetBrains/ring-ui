@@ -31,7 +31,7 @@ $btn-border-radius: 3px;
 
 // Buttons
 //
-// Most buttons are based on the same base class – .ring-btn
+// Most buttons are based on the .ring-btn class
 //
 // Base variables:
 //
@@ -76,8 +76,10 @@ $btn-border-radius: 3px;
     background-color: #e4e4e4;
     background-image: none;
   }
-  &, &[disabled], &.ring-btn_disabled {
-    &:hover, &:active {
+
+  &[disabled], &.ring-btn_disabled {
+    &, &:hover, &:active {
+      box-shadow: inset 0 1px rgba(255, 255, 255, 0.4), inset 0 0 0 1px rgba(255, 255, 255, 0.2);
       @include btn-background-image(#ebebeb, #fff);
     }
   }
@@ -115,6 +117,7 @@ $btn-border-radius: 3px;
 
   &[disabled], &.ring-btn_disabled {
     &, &:hover, &:active {
+      box-shadow: inset 0 1px rgba(255, 255, 255, 0.4), inset 0 0 0 1px rgba(255, 255, 255, 0.2);
       @include btn-mixins_primary;
     }
   }
@@ -143,6 +146,7 @@ $btn-border-radius: 3px;
 
   &[disabled], &.ring-btn_disabled {
     &, &:hover, &:active {
+      box-shadow: inset 0 1px rgba(255, 255, 255, 0.4), inset 0 0 0 1px rgba(255, 255, 255, 0.2);
       @include btn-mixins_blue;
     }
   }
@@ -171,6 +175,7 @@ $btn-border-radius: 3px;
 
   &[disabled], &.ring-btn_disabled {
     &, &:hover, &:active {
+      box-shadow: inset 0 1px rgba(255, 255, 255, 0.4), inset 0 0 0 1px rgba(255, 255, 255, 0.2);
       @include btn-mixins_black;
     }
   }

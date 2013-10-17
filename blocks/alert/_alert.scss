@@ -1,22 +1,25 @@
 $alert-padding: 8px;
 $alert-font-size: 13px;
 $alert-line-height: 1.3;
-$alert-height: ($alert-font-size * $alert-line-height) +
-    $alert-padding * 2;
+$alert-height: ($alert-font-size * $alert-line-height) + $alert-padding * 2;
 $alert-margin: 10px;
 
 
 // Alerts
 //
 // Markup:
-// <div class="ring-alert ring-alert_inline {$modifiers}"><div class="ring-alert__icon"></div><div class="ring-alert__caption"></div><div class="ring-alert__close"></div></div>
+// <div class="ring-alert ring-alert_inline {$modifiers}">
+//  <div class="ring-alert__icon"></div>
+//  <div class="ring-alert__caption">Message text</div>
+//  <div class="ring-alert__close"></div>
+// </div>
 //
-//                      - Base alert style.
-// .ring-alert_error    - Error. In this style alert's text color is red and there is an error icon. This alert used to alert user about error.
-// .ring-alert_success  - Success message. Green text and icon of tick. This alert used to say, that action completed successfully.
-// .ring-alert_warning  - Warning. Orange text and icon of minus sign. Used in situations where user, should pay attention to something important but not critical as in error case.
+// .ring-alert          - Base class.
+// .ring-alert_error    - Error message, red with an error icon.
+// .ring-alert_warning  - Warning, orange with a warning icon. Calls users' attention to a non-critical condition.
+// .ring-alert_success  - Success message, green with a tick icon. Indicates a successfully completed action.
 //
-// Styleguide 2
+// Styleguide 2.1
 
 .ring-alerts {
   left: 50%;
