@@ -160,6 +160,7 @@
 
 .ring-radio-btn[type="radio"] + label {
   position: relative;
+  vertical-align: text-top;
   cursor: pointer;
   content: "";
   display: inline-block;
