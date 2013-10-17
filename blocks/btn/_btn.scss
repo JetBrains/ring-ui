@@ -67,16 +67,16 @@ $btn-border-radius: 3px;
   cursor: pointer;
   outline:0;
   @include btn-mixins(0.8);
-  &:hover, &.ring-btn_hover {
+  &:hover:not[disabled], &.ring-btn_hover:not[disabled] {
     @include btn-box-shadow-hover(0.8);
     @include btn-background-image(#e1e1e1, #fff);
   }
-  &:active, &.ring-btn_active {
+  &:active:not[disabled], &.ring-btn_active:not[disabled] {
     box-shadow: inset 0 1px 0 0 #D3D3D3;
     background-color: #e4e4e4;
     background-image: none;
   }
-  &[disabled], &.ring-btn_disabled {
+  &, &[disabled], &.ring-btn_disabled {
     &:hover, &:active {
       @include btn-background-image(#ebebeb, #fff);
     }
@@ -102,19 +102,19 @@ $btn-border-radius: 3px;
   @include btn-box-shadow(0.2);
   @include btn-mixins_primary;
 
-  &:hover {
+  &:hover:not[disabled] {
     background-color: #FF6600;
     @include btn-box-shadow-hover(0.2);
     @include btn-background-image-hover(#ffb373, #f60 29%, #ff8620);
   }
-  &:active {
+  &:active:not[disabled] {
     background-color: #FF8620;
     @include btn-background-image-active(#f60, #ff8620);
     box-shadow: inset 0 1px 1px 0 #d95801;
   }
 
   &[disabled], &.ring-btn_disabled {
-    &:hover, &:active {
+    &, &:hover, &:active {
       @include btn-mixins_primary;
     }
   }
@@ -130,19 +130,19 @@ $btn-border-radius: 3px;
   background-color: #25B7FF;
   @include btn-box-shadow(0.2);
   @include btn-mixins_blue;
-  &:hover {
+  &:hover:not[disabled] {
     background-color: #008FD6;
     @include btn-box-shadow-hover(0.2);
     @include btn-background-image-hover(#64ccff 2%, #008fd6 29%, #25b7ff);
   }
-  &:active {
+  &:active:not[disabled] {
     background-color: #25B7FF;
     @include btn-background-image-active(#008fd6, #25b7ff);
     @include btn-box-shadow-active(rgba(0, 0, 0, .2));
   }
 
   &[disabled], &.ring-btn_disabled {
-    &:hover, &:active {
+    &, &:hover, &:active {
       @include btn-mixins_blue;
     }
   }
@@ -158,19 +158,19 @@ $btn-border-radius: 3px;
   background-color: #3C3C3C;
   box-shadow: inset 0 1px 1px #505050;
   @include btn-mixins_black;
-  &:hover {
+  &:hover:not[disabled] {
     background-color: #313131;
     box-shadow: inset 0 1px #505050;
     @include btn-background-image-hover(#4a4a4a, #313131 24%, #3c3c3c);
   }
-  &:active {
+  &:active:not[disabled] {
     background-color: #3C3C3C;
     @include btn-background-image-active(#313131, #3c3c3c);
     @include btn-box-shadow-active(rgba(0, 0, 0, .2));
   }
 
   &[disabled], &.ring-btn_disabled {
-    &:hover, &:active {
+    &, &:hover, &:active {
       @include btn-mixins_black;
     }
   }
@@ -192,10 +192,6 @@ $btn-border-radius: 3px;
 .ring-btn_icon {
   width: $ring-unit*3;
   padding: 0 6px;
-
-  &:before {
-    content: '';
-  }
 }
 
 .ring-btn__last-icon {
