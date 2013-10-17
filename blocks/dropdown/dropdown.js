@@ -71,8 +71,10 @@ define(['jquery', 'global/global__views', 'global/global__modules'], function($,
 
       $dropdown.css(pos);
 
+      Module.get('dropdown').trigger('show:done');
       return false;
     } else {
+      Module.get('dropdown').trigger('show:fail');
       return true;
     }
   };
@@ -84,8 +86,10 @@ define(['jquery', 'global/global__views', 'global/global__modules'], function($,
 
       target = null;
 
+      Module.get('dropdown').trigger('hide:done');
       return true;
     } else {
+      Module.get('dropdown').trigger('hide:fail');
       return false;
     }
   };
