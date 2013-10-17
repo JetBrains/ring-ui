@@ -17,6 +17,14 @@ define(['jquery', 'handlebars', 'global/global__modules', 'global/global__utils'
     this.$element = $element;
   };
 
+  View.prototype.hide = function() {
+    this.$element.hide();
+  };
+
+  View.prototype.show = function() {
+    this.$element.show();
+  };
+
   View.render = function(template, data) {
     var html = Handlebars.partials[template](data);
 
@@ -104,6 +112,28 @@ define(['jquery', 'handlebars', 'global/global__modules', 'global/global__utils'
     } else {
       return null;
     }
+  };
+
+  View.hide = function(name) {
+    var view = views[name];
+
+    if (!view) {
+      utils.log('There is no view for module "' + name + '"');
+      return null;
+    }
+
+    view.hide();
+  };
+
+  View.show = function(name) {
+    var view = views[name];
+
+    if (!view) {
+      utils.log('There is no view for module "' + name + '"');
+      return null;
+    }
+
+    view.show();
   };
 
   View.init = function(name, $element, method, process, data) {
