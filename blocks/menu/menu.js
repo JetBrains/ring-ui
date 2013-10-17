@@ -96,6 +96,8 @@ define([
       return View.init(module, element || defaultElement(), method || defaultMethod(), process, data);
     },
     update: View.update.bind(View, module),
+    hide: View.hide.bind(View, module),
+    show: View.show.bind(View, module),
     setActive: setActive
   });
 });
