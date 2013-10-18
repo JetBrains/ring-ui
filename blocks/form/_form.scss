@@ -15,8 +15,8 @@
 .ring-input {
   @include droid-font;
   font-size: 13px;
-  padding-left: $ring-unit;
-  padding-right: $ring-unit;
+  padding-left: $ring-unit / 2;
+  padding-right: $ring-unit/ 2;
   width: 100%;
   line-height: 20px;
   border: 1px solid #cccccc;
