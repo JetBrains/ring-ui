@@ -92,6 +92,14 @@ define([
   };
 
   /**
+   * @enum {string}
+   */
+  Alert.EventType = {
+    SHOW: 'show',
+    HIDE: 'hide'
+  };
+
+  /**
    * @private
    */
   Alert.prototype.render_ = function() {
@@ -146,6 +154,8 @@ define([
     $(opt_parentEl).prepend(this.element_);
     $(this.element_).toggleClass(ClassName.HIDDEN, false);
     $(this.element_).toggleClass(ClassName.SHOWN, true);
+
+    $(this.element_).trigger(Alert.EventType.SHOW);
   };
 
   /**
@@ -173,6 +183,8 @@ define([
 
     $(this.element_).toggleClass(ClassName.SHOWN, false);
     $(this.element_).toggleClass(ClassName.HIDDEN, true);
+
+    $(this.element_).trigger(Alert.EventType.HIDE);
   };
 
   /**
