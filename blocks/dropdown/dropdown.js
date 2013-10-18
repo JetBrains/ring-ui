@@ -1,9 +1,10 @@
-define(['jquery', 'global/global__views', 'global/global__modules'], function($, View, Module) {
+define(['jquery', 'global/global__views', 'global/global__modules', 'global/global__utils'], function($, View, Module, utils) {
   'use strict';
 
   var COMPONENT_SELECTOR = '.ring-js-dropdown';
   var TOGGLE_SELECTOR = '.ring-dropdown-toggle';
   var ITEM_SELECTOR = '.ring-menu__item';
+  var INNER_SELECTOR = '.ring-dropdown__i';
 
   var $global = $(window);
   var $body;
@@ -26,23 +27,27 @@ define(['jquery', 'global/global__views', 'global/global__modules'], function($,
     if (data && !sameTarget) {
       target = currentTarget;
 
-      if (typeof data === 'object' && !data.html) {
-        data = {items: data};
-      }
+      if (data instanceof $ || utils.isNode(data)) {
+        $dropdown = $(View.render('dropdown', ''));
 
-      if (typeof data === 'string') {
-        data = {html: data};
-      }
+        $dropdown.find(INNER_SELECTOR).append(data);
+      } else {
 
-      if (data instanceof $) {
-        data = {html: $('<div></div>').wrapInner(data.clone()).html()};
+        if (typeof data === 'object' && !data.html) {
+          data = {items: data};
+        }
+
+        if (typeof data === 'string') {
+          data = {html: data};
+        }
+
+        $dropdown = $(View.render('dropdown', data));
       }
 
       if (!$body) {
         $body = $('body');
       }
 
-      $dropdown = $(View.render('dropdown', data));
       $dropdown.appendTo($body);
 
       var menuToggle;
