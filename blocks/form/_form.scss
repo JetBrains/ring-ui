@@ -266,6 +266,8 @@
 
 
 .ring-checkbox[type="checkbox"]:checked + label {
+  position: relative;
+  top: 2px;
   font-family: "Droid Sans",Arial,Tahoma,Verdana,sans-serif;
   font-size: 13px;
   line-height: normal;
