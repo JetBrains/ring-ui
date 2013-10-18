@@ -35,6 +35,22 @@ $ring-link-hover-color: #ff5a00;
   }
 }
 
+// Fonts
+@mixin monospace-font() {
+  font: 12px 'Menlo', 'Bitstream Vera Sans Mono', 'Courier New', 'Courier', monospace;
+}
+
+@mixin droid-font() {
+  font-family: "Droid Sans", Arial, Tahoma, Verdana, sans-serif !important;
+}
+
+@mixin thin-font() {
+  font-weight: 200;
+  font-family: Helvetica Neue, Calibri, Arial, sans-serif;
+}
+
+$fonts-dir: 'fonts/';
+
 // Constant values for z-indexes.
 
 // Invisible element is absolute-positioned element, which should be known
