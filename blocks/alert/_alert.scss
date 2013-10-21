@@ -4,20 +4,48 @@ $alert-line-height: 1.3;
 $alert-height: ($alert-font-size * $alert-line-height) + $alert-padding * 2;
 $alert-margin: 10px;
 
-
 // Alerts
+//
+// Alerts are being used to notify users about something.
+//
+// <blockquote>Actually this class could be called Notifications, but this
+// name conflicts with two different classes: browser notification API
+// (https://developer.mozilla.org/en-US/docs/Web/API/notification)
+// and ring notifications in header.</blockquote>
+//
+// There are four kinds of Alerts: regular notification, error, warning and
+// success. You can mark alert as alert of a certain kind by adding a
+// modifier-class to base element of notification.
+//
+// Alerts could be grouped to stacks in which they appears and hides one by
+// one. There is a js-module, which implements alerts stack, which is called
+// <code>alerts</code>. But if you want to make notification stack on your own,
+// you can wrap all notifications by element with class
+// <code>ring-alerts</code>.
+//
+// Hereinafter, you can find a markup example for notification, but note,
+// that markup can vary. For example, designer drawn this notifications
+// with icons, unique for each kind of notification, but I can't show them
+// here, because we use font-icon class to display them and you should couple
+// icon and markup on your own. Also, there is <code>ring-alert__close</code>
+// element, after click on which, notifiaction hides. But it is relevant only
+// for notifications in stack, but not for inline notifications.
+//
+// Note, that JavaScript class for this notifiaction can produce correct
+// notification element, so you could use it instead of creating it in
+// markup manually, it is much easier for cases when you use JavaScript
+// to generate page markup.
 //
 // Markup:
 // <div class="ring-alert ring-alert_inline {$modifiers}">
-//  <div class="ring-alert__icon"></div>
-//  <div class="ring-alert__caption">Message text</div>
-//  <div class="ring-alert__close"></div>
+//   <div class="ring-alert__icon ring-font-icon"></div>
+//   <div class="ring-alert__caption">Message text</div>
+//   <div class="ring-alert__close"></div>
 // </div>
 //
-// .ring-alert          - Base class.
-// .ring-alert_error    - Error message, red with an error icon.
-// .ring-alert_warning  - Warning, orange with a warning icon. Calls users' attention to a non-critical condition.
-// .ring-alert_success  - Success message, green with a tick icon. Indicates a successfully completed action.
+// .ring-alert_error    - Error message. Use <code>ring-font-icon_warning</code> as class for <code>ring-alert__icon</code>.
+// .ring-alert_warning  - Warning, orange. Pays users' attention to a non-critical condition. Use <code>ring-font-icon_minus</code> as class for <code>ring-alert__icon</code>.
+// .ring-alert_success  - Success message, green with a tick icon. Indicates successfully completed action.  Use <code>ring-font-icon_ok</code> as class for <code>ring-alert__icon</code>.
 //
 // Styleguide 2.1
 
@@ -53,8 +81,6 @@ $alert-margin: 10px;
   animation-duration: 300ms;
   opacity: 0;
 }
-
-.ring-alert_inline {}
 
 .ring-alert__inner {
   background: #fff;
