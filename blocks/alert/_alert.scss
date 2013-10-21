@@ -11,30 +11,26 @@ $alert-margin: 10px;
 // <blockquote>Actually this class could be called Notifications, but this
 // name conflicts with two different classes: browser notification API
 // (https://developer.mozilla.org/en-US/docs/Web/API/notification)
-// and ring notifications in header.</blockquote>
+// and Ring notifications in the header.</blockquote>
 //
 // There are four kinds of Alerts: regular notification, error, warning and
-// success. You can mark alert as alert of a certain kind by adding a
-// modifier-class to base element of notification.
+// success. A specific type of alert is defined by adding a
+// modifier class to the base element.
 //
-// Alerts could be grouped to stacks in which they appears and hides one by
-// one. There is a js-module, which implements alerts stack, which is called
-// <code>alerts</code>. But if you want to make notification stack on your own,
-// you can wrap all notifications by element with class
+// Alerts can be grouped into stacks in which they appear and disappear one by
+// one. There is a JS module which implements the alerts stack, that is called
+// <code>alerts</code>. If you want to create a notification stack on your own,
+// you can wrap all notifications into an element with a class
 // <code>ring-alerts</code>.
 //
-// Hereinafter, you can find a markup example for notification, but note,
-// that markup can vary. For example, designer drawn this notifications
-// with icons, unique for each kind of notification, but I can't show them
-// here, because we use font-icon class to display them and you should couple
-// icon and markup on your own. Also, there is <code>ring-alert__close</code>
-// element, after click on which, notifiaction hides. But it is relevant only
-// for notifications in stack, but not for inline notifications.
+// You will find a markup example for an alert below, but note,
+// that markup can vary. Optional elements include icons (from font-icon) and the
+// <code>ring-alert__close</code>
+// element that closes a notification. The latter is relevant only to stacked notifications,
+// not inline ones.
 //
-// Note, that JavaScript class for this notifiaction can produce correct
-// notification element, so you could use it instead of creating it in
-// markup manually, it is much easier for cases when you use JavaScript
-// to generate page markup.
+// Note that the JS component is able to produce all the necessary markup,
+// which comes handy in rich applications.
 //
 // Markup:
 // <div class="ring-alert ring-alert_inline {$modifiers}">
@@ -44,8 +40,8 @@ $alert-margin: 10px;
 // </div>
 //
 // .ring-alert_error    - Error message. Use <code>ring-font-icon_warning</code> as class for <code>ring-alert__icon</code>.
-// .ring-alert_warning  - Warning, orange. Pays users' attention to a non-critical condition. Use <code>ring-font-icon_minus</code> as class for <code>ring-alert__icon</code>.
-// .ring-alert_success  - Success message, green with a tick icon. Indicates successfully completed action.  Use <code>ring-font-icon_ok</code> as class for <code>ring-alert__icon</code>.
+// .ring-alert_warning  - Warning, orange. Turns users' attention to a non-critical condition. Use <code>ring-font-icon_minus</code> as class for <code>ring-alert__icon</code>.
+// .ring-alert_success  - Success message, green with a tick icon. Indicates a successfully completed action.  Use <code>ring-font-icon_ok</code> as class for <code>ring-alert__icon</code>.
 //
 // Styleguide 2.1
 
@@ -143,7 +139,7 @@ $alert-margin: 10px;
 }
 
 // todo(igor.alexeenko): Overriding !important rule for font icons.
-// Not very clear solution, but I want to align my icon my the middle of
+// Not very clear solution, but I want to align my icon to the middle of
 // the first row of text in alert.
 .ring-alert__close {
   color: #c0c0c0;
