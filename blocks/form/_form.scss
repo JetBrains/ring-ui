@@ -232,11 +232,10 @@
 // Styleguide 7.4
 
 .ring-form__group_short {
-    .ring-form__control {
-      margin-left: $ring-unit * 3;
-    }
+  .ring-form__control {
+    margin-left: $ring-unit * 3;
+  }
 }
-
 
 // Radio button
 //
@@ -264,11 +263,9 @@
   user-select: none;
 }
 
-
 .ring-checkbox[type="checkbox"]:checked + label {
   position: relative;
-  top: 2px;
-  font-family: "Droid Sans",Arial,Tahoma,Verdana,sans-serif;
+  font-family: "Droid Sans", Arial, Tahoma, Verdana, sans-serif;
   font-size: 13px;
   line-height: normal;
   cursor: pointer;
@@ -280,12 +277,13 @@
   border-radius: 3px;
   background: transparent;
 }
+
 .ring-checkbox[type="checkbox"]:checked + label::before {
   position: relative;
-  top:-5px;
-  left:1px;
+  top: -2px;
+  left: 1px;
   content: "";
-  display: inline-block;
+  display: block;
   height: 11px;
   width: 11px;
   background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAALCAMAAACTbPdTAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyRpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoTWFjaW50b3NoKSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDowNzk5MjZGMzFBMjAxMUUzQjBFNkZFNUI0QkU4MDgwNiIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDowNzk5MjZGNDFBMjAxMUUzQjBFNkZFNUI0QkU4MDgwNiI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOjA3OTkyNkYxMUEyMDExRTNCMEU2RkU1QjRCRTgwODA2IiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjA3OTkyNkYyMUEyMDExRTNCMEU2RkU1QjRCRTgwODA2Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+iIdn6QAAAHJQTFRFr6+v6+vrk5OT4uLitbW1W1tbzMzMVFRUWVlZmpqa1dXVpqamZ2dn4eHh+/v76enp2trah4eHT09PUVFReHh4UlJSd3d3zc3N19fXlpaW0tLSmJiY5OTk7OzsYWFhTU1NgYGB9PT09vb2ycnJSUlJ////6rrIagAAACZ0Uk5T/////////////////////////////////////////////////wCneoG8AAAAW0lEQVR42kTNVQ7AMAwD0GzrmJk5vv8V147qD0svUmSCTmCQRuh1v+acCZ+GiE2AJj+TEC43h1Rc1qY1Mi+WPBIEqxQObiWb0vMvO7WZe3zCuVa7Flrj3bkEGAAdOxEvcOdezwAAAABJRU5ErkJggg==) no-repeat;
@@ -300,3 +298,48 @@
 // <label for="checkbox-2"></label>
 //
 // Styleguide 7.6
+
+.ring-select {
+  position: relative;
+  display: inline-block;
+  border: 1px solid #CCC;
+  width: 100%;
+  outline: 0;
+  background: none;
+  -webkit-appearance: none;
+  border-radius: 0px;
+  line-height: 22px;
+  padding-left: 8px;
+}
+
+.ring-select + label {
+  position: relative;
+  display: block;
+  content: '';
+  top: -16px;
+  left: calc(100% - 18px);
+  width: 0;
+  height: 0;
+  border-top: 4px solid #1a1a1a;
+  border-right: 4px solid transparent;
+  border-bottom: 4px solid transparent;
+  border-left: 4px solid transparent;
+}
+
+.ring-select + label {
+  border: none\9;
+}
+
+// Select
+//
+//Markup:
+//<select id="ring-select" class="ring-select">
+//  <option>Global</option>
+//  <option>2</option>
+//  <option>3</option>
+//  <option>4</option>
+//  <option>5</option>
+//</select>
+//<label for="ring-select"></label>
+//
+// Styleguide 7.7
