@@ -232,11 +232,10 @@
 // Styleguide 7.4
 
 .ring-form__group_short {
-    .ring-form__control {
-      margin-left: $ring-unit * 3;
-    }
+  .ring-form__control {
+    margin-left: $ring-unit * 3;
+  }
 }
-
 
 // Radio button
 //
@@ -264,11 +263,10 @@
   user-select: none;
 }
 
-
 .ring-checkbox[type="checkbox"]:checked + label {
   position: relative;
   top: 2px;
-  font-family: "Droid Sans",Arial,Tahoma,Verdana,sans-serif;
+  font-family: "Droid Sans", Arial, Tahoma, Verdana, sans-serif;
   font-size: 13px;
   line-height: normal;
   cursor: pointer;
@@ -280,10 +278,11 @@
   border-radius: 3px;
   background: transparent;
 }
+
 .ring-checkbox[type="checkbox"]:checked + label::before {
   position: relative;
-  top:-5px;
-  left:1px;
+  top: -5px;
+  left: 1px;
   content: "";
   display: inline-block;
   height: 11px;
@@ -300,3 +299,47 @@
 // <label for="checkbox-2"></label>
 //
 // Styleguide 7.6
+
+.ring-select {
+  position: relative;
+  display: inline-block;
+  border: 1px solid #CCC;
+  width: 100%;
+  background: none;
+  -webkit-appearance: none;
+  border-radius: 0px;
+  line-height: 22px;
+  padding-left: 8px;
+}
+
+.ring-select + label {
+  position: relative;
+  display: block;
+  content: '';
+  top: -16px;
+  left: calc(100% - 18px);
+  width: 0;
+  height: 0;
+  border-top: 4px solid #1a1a1a;
+  border-right: 4px solid transparent;
+  border-bottom: 4px solid transparent;
+  border-left: 4px solid transparent;
+}
+
+.ring-select + label {
+  border: none\9;
+}
+
+// Select
+//
+//Markup:
+//<select id="ring-select" class="ring-select">
+//  <option>Global</option>
+//  <option>2</option>
+//  <option>3</option>
+//  <option>4</option>
+//  <option>5</option>
+//</select>
+//<label for="ring-select"></label>
+//
+// Styleguide 7.7
