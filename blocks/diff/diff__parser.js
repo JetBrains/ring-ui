@@ -65,9 +65,18 @@ define([
   };
 
   /**
+   * Matches a line.
+   * @const
    * @type {RegExp}
    */
   diffTool.Parser.EOLRegex = /^.*(\r\n|\r|\n|$)/mg;
+
+  /**
+   * Matches end-of-line symbol.
+   * @const
+   * @type {RegExp}
+   */
+  diffTool.Parser.EOLSymbolRegex = /\r\n|\r|\n|$/mg;
 
   /**
    * @typedef {diffTool.ParserSinglePane.Buffer|Object}
