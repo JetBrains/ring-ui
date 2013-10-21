@@ -250,6 +250,10 @@ define([
    */
   diffTool.ParserSinglePane.prototype.getLine = function(content,
       lineOriginal, lineModified, type) {
+    if (typeof content === 'string') {
+      content = diffTool.ParserSinglePane.removeEOL(content);
+    }
+
     var line = /** @type {diffTool.ParserSinglePane.Line} */ ({
       content: content,
       lineOriginal: lineOriginal,
@@ -274,7 +278,7 @@ define([
    */
   diffTool.ParserSinglePane.prototype.getLineContent = function(content, type) {
     var lineContent = /** @type {diffTool.ParserSinglePane.LineContent} */ ({
-      content: content,
+      content: diffTool.ParserSinglePane.removeEOL(content),
       type: diffTool.Parser.LineType.NULL
     });
 
@@ -293,6 +297,17 @@ define([
    */
   diffTool.ParserSinglePane.isLineContent = function(content) {
     return Boolean(content instanceof Array);
+  };
+
+  /**
+   * Removes EOL symbols from the end of the line to prevent errors
+   * on output.
+   * @static
+   * @param {string} content
+   * @return {string}
+   */
+  diffTool.ParserSinglePane.removeEOL = function(content) {
+    return content.replace(diffTool.Parser.EOLSymbolRegex, '');
   };
 
   return diffTool.ParserSinglePane;
