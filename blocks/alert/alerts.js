@@ -10,7 +10,7 @@ define([
   var CLASS_NAME = 'ring-alerts';
 
   /**
-   * @param {Element} opt_parent
+   * @param {Element=} opt_parent
    * @constructor
    */
   var Alerts = function(opt_parent) {
@@ -104,7 +104,7 @@ define([
       /**
        * ID of alert hide timeout to make it possible to prevent it.
        * @type {number}
-       * @pri`vate
+       * @private
        */
       this.hideTimeout_ = setTimeout(diffTool.bindContext(function() {
         this.remove(alert);
@@ -145,6 +145,35 @@ define([
 
   // todo(igor.alexeenko): Implement stack disposal.
 
+  var alerts = null;
+
+  /**
+   * Adds alert.
+   * @param {string} message
+   * @param {Alert.type} type
+   * @param {number=} opt_timeout
+   * @return {Alert}
+   */
+  var addAlert = function(message, type, opt_timeout) {
+    if (!alerts) {
+      alerts = new Alerts();
+    }
+
+    return alerts.showAlert(message, type, opt_timeout);
+  };
+
+  /**
+   * Removes alert.
+   * @param {Alert|number} alert
+   */
+  var removeAlert = function(alert) {
+    if (typeof alert === 'number') {
+      alerts.removeAt(alert);
+    } else {
+      alerts.remove(alert);
+    }
+  };
+
   Module.add('alerts', {
     getAlert: {
       method: function() {
@@ -157,6 +186,16 @@ define([
       method: function() {
         return Alerts;
       },
+      override: true
+    },
+
+    add: {
+      method: addAlert,
+      override: true
+    },
+
+    remove: {
+      method: removeAlert,
       override: true
     }
   });
