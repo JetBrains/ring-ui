@@ -69,7 +69,7 @@ $btn-border-radius: 3px;
   cursor: pointer;
   outline:0;
   @include btn-mixins(0.8);
-  &:hover:not[disabled], &.ring-btn_hover:not[disabled] {
+  &:hover, &.ring-btn_hover {
     @include btn-box-shadow-hover(0.8);
     @include btn-background-image(#e1e1e1, #fff);
   }
@@ -106,7 +106,7 @@ $btn-border-radius: 3px;
   @include btn-box-shadow(0.2);
   @include btn-mixins_primary;
 
-  &:hover:not[disabled] {
+  &:hover {
     background-color: #FF6600;
     @include btn-box-shadow-hover(0.2);
     @include btn-background-image-hover(#ffb373, #f60 29%, #ff8620);
@@ -135,7 +135,7 @@ $btn-border-radius: 3px;
   background-color: #25B7FF;
   @include btn-box-shadow(0.2);
   @include btn-mixins_blue;
-  &:hover:not[disabled] {
+  &:hover {
     background-color: #008FD6;
     @include btn-box-shadow-hover(0.2);
     @include btn-background-image-hover(#64ccff 2%, #008fd6 29%, #25b7ff);
@@ -164,7 +164,7 @@ $btn-border-radius: 3px;
   background-color: #3C3C3C;
   box-shadow: inset 0 1px 1px #505050;
   @include btn-mixins_black;
-  &:hover:not[disabled] {
+  &:hover {
     background-color: #313131;
     box-shadow: inset 0 1px #505050;
     @include btn-background-image-hover(#4a4a4a, #313131 24%, #3c3c3c);
