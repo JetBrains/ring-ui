@@ -157,6 +157,7 @@ define([
     return output;
   };
 
+  // todo(igor.alexeenko): Check if EOL changed.
   /**
    * Checks, if there are only deletions or only insertions inside this change.
    * @static

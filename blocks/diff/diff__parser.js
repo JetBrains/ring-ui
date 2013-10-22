@@ -65,9 +65,20 @@ define([
      */
     UNCHANGED: 'unchanged',
 
+    /**
+     * Line contains only insertions.
+     */
     INLINE_ADDED: 'inline_added',
 
-    INLINE_DELETED: 'inline_deleted'
+    /**
+     * Line contains only deletions.
+     */
+    INLINE_DELETED: 'inline_deleted',
+
+    /**
+     * Only EOL-symbol changed.
+     */
+    EOL_CHANGED: 'eol_changed'
   };
 
   /**
@@ -146,7 +157,12 @@ define([
     /**
      * Line contains only deletions.
      */
-    INLINE_DELETED: 0x100
+    INLINE_DELETED: 0x100,
+
+    /**
+     * End-of-line symbol changed.
+     */
+    EOL_CHANGED: 0x200
   };
 
   /**
