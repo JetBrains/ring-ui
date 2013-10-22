@@ -128,14 +128,20 @@ $newline_fontcolor: #0b5d00;
   padding: 1px 0;
 }
 
-.diff__codeline_original .diff__inline_modified {
+.diff__codeline_original .diff__inline_modified,
+.diff__codeline_inline-deleted .diff__inline_modified {
   background: $deleted_highlight;
   border-color: $deleted_highlight;
 }
 
-.diff__codeline_modified .diff__inline_modified {
+.diff__codeline_modified .diff__inline_modified,
+.diff__codeline_inline-added .diff__inline_modified {
   background: $newline_highlight;
   border-color: $newline_highlight;
+}
+
+.diff__codeline_inline-deleted .diff__inline_modified {
+  text-decoration: line-through;
 }
 
 .diff__gutterline_folded td,

@@ -9,7 +9,30 @@
     "type": "modified"
   },
   {
-    "lines": 27,
+    "lines": 3,
+    "type": "unchanged"
+  },
+  {
+    "oldLines": 1,
+    "newLines": 1,
+    "ranges": [
+      {
+        "chars": 28,
+        "type": "unchanged"
+      },
+      {
+        "oldChars": 4,
+        "newChars": 0,
+        "type": "modified"
+      },
+      {
+        "chars": 1,
+        "type": "unchanged"
+      }
+    ]
+  },
+  {
+    "lines": 23,
     "type": "unchanged"
   },
   {

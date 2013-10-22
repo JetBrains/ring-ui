@@ -46,6 +46,8 @@ define([
       diffTool.Parser.LineType.DELETED |
       diffTool.Parser.LineType.ADDED |
       diffTool.Parser.LineType.INLINE |
+      diffTool.Parser.LineType.INLINE_ADDED |
+      diffTool.Parser.LineType.INLINE_DELETED |
       diffTool.Parser.LineType.FOLDED;
 
   /**
@@ -109,17 +111,85 @@ define([
       linesOriginal, linesModified, change, lineOriginal, lineModified) {
     var output = [];
 
-    var originalLines = this.parseLineRange_(linesOriginal, change.ranges,
-        diffTool.Parser.CodeType.ORIGINAL, lineOriginal);
+    var modificationType = diffTool.ParserSinglePane.getModificationType(
+        change);
 
-    var modifiedLines = this.parseLineRange_(linesModified, change.ranges,
-        diffTool.Parser.CodeType.MODIFIED, lineModified);
+    var originalLines;
+    var modifiedLines;
+    var codeType;
+
+    if (!this.modificationTypeToCodeType_) {
+      /**
+       * @type {Object.<diffTool.Parser.ModificationType,
+       *     diffTool.Parser.CodeType>}
+       * @private
+       */
+      this.modificationTypeToCodeType_ = diffTool.createObject(
+          diffTool.Parser.ModificationType.INLINE_ADDED,
+              diffTool.Parser.CodeType.ADDED,
+          diffTool.Parser.ModificationType.INLINE_DELETED,
+              diffTool.Parser.CodeType.DELETED,
+          diffTool.Parser.ModificationType.MODIFIED, null);
+    }
+
+    if (modificationType === diffTool.Parser.ModificationType.MODIFIED ||
+        modificationType === diffTool.Parser.ModificationType.INLINE_DELETED) {
+      codeType = this.modificationTypeToCodeType_[modificationType] ||
+          diffTool.Parser.CodeType.ORIGINAL;
+
+      originalLines = this.parseLineRange_(linesOriginal, change.ranges,
+          codeType, lineOriginal);
+    }
+
+    if (modificationType === diffTool.Parser.ModificationType.MODIFIED ||
+        modificationType === diffTool.Parser.ModificationType.INLINE_ADDED) {
+      codeType = this.modificationTypeToCodeType_[modificationType] ||
+          diffTool.Parser.CodeType.MODIFIED;
+
+      modifiedLines = this.parseLineRange_(linesModified, change.ranges,
+          codeType, lineModified);
+    }
 
     // todo(igor.alexeenko): Find out, why does not work {Array.concat}.
     Array.prototype.push.apply(output, originalLines);
     Array.prototype.push.apply(output, modifiedLines);
 
     return output;
+  };
+
+  /**
+   * Checks, if there are only deletions or only insertions inside this change.
+   * @static
+   * @param {diffTool.Parser.LineModification} change
+   * @return {diffTool.Parser.ModificationType}
+   */
+  diffTool.ParserSinglePane.getModificationType = function(change) {
+    if (change.ranges) {
+      var onlyInsertions = [];
+      var onlyDeletions = [];
+
+      for (var i = 0, l = change.ranges.length; i < l; i++) {
+        var currentRange = change.ranges[i];
+
+        if (currentRange.oldChars === 0) {
+          onlyInsertions.push(currentRange);
+        }
+
+        if (currentRange.newChars === 0) {
+          onlyDeletions.push(currentRange);
+        }
+      }
+
+      if (onlyInsertions.length && !onlyDeletions.length) {
+        return diffTool.Parser.ModificationType.INLINE_ADDED;
+      }
+
+      if (onlyDeletions.length && !onlyInsertions.length) {
+        return diffTool.Parser.ModificationType.INLINE_DELETED;
+      }
+    }
+
+    return diffTool.Parser.ModificationType.MODIFIED;
   };
 
   /**
@@ -140,10 +210,17 @@ define([
     var currentRange;
     var currentRangeIndex;
 
-    var isOriginalCode = codeType === diffTool.Parser.CodeType.ORIGINAL;
-    var lineType = isOriginalCode ?
-        diffTool.Parser.LineType.DELETED :
-        diffTool.Parser.LineType.ADDED;
+    var isOriginalCode = (codeType === diffTool.Parser.CodeType.ORIGINAL ||
+        codeType === diffTool.Parser.CodeType.INLINE_DELETED);
+
+    var codeTypeToLineType = diffTool.createObject(
+        diffTool.Parser.CodeType.ORIGINAL, diffTool.Parser.LineType.DELETED,
+        diffTool.Parser.CodeType.MODIFIED, diffTool.Parser.LineType.ADDED,
+        diffTool.Parser.CodeType.ADDED, diffTool.Parser.LineType.INLINE_ADDED,
+        diffTool.Parser.CodeType.DELETED,
+            diffTool.Parser.LineType.INLINE_DELETED);
+
+    var lineType = codeTypeToLineType[codeType];
 
     currentRangeIndex = 0;
     if (ranges) {
@@ -216,7 +293,15 @@ define([
 
     var output = [];
     var inlineCursor = 0;
-    var isOriginalCode = (type === diffTool.Parser.CodeType.ORIGINAL);
+    var isOriginalCode = (type === diffTool.Parser.CodeType.ORIGINAL ||
+        type === diffTool.Parser.CodeType.DELETED);
+
+    var codeTypeToLineType = diffTool.createObject(
+        diffTool.Parser.CodeType.ORIGINAL, diffTool.Parser.LineType.DELETED,
+        diffTool.Parser.CodeType.MODIFIED, diffTool.Parser.LineType.ADDED,
+        diffTool.Parser.CodeType.ADDED, diffTool.Parser.LineType.INLINE_ADDED,
+        diffTool.Parser.CodeType.DELETED,
+            diffTool.Parser.LineType.INLINE_DELETED);
 
     ranges.forEach(function(range) {
       var isUnchanged = range.type ===
@@ -228,9 +313,7 @@ define([
       var substr = chars.substr(inlineCursor, charsOffset);
       var lineType =
           isUnchanged ? diffTool.Parser.LineType.UNCHANGED :
-          isOriginalCode ?
-              diffTool.Parser.LineType.ADDED :
-              diffTool.Parser.LineType.DELETED;
+          codeTypeToLineType[range.type];
 
       output.push(this.getLineContent(substr, lineType));
 
@@ -263,7 +346,9 @@ define([
 
     this.enableLineType(line, type, true);
 
-    if (diffTool.ParserSinglePane.isLineContent(content)) {
+    if (diffTool.ParserSinglePane.isLineContent(content) &&
+        !diffTool.Parser.lineHasType(diffTool.Parser.LineType.INLINE_DELETED |
+            diffTool.Parser.LineType.INLINE_ADDED)) {
       this.enableLineType(line, diffTool.Parser.LineType.INLINE, true);
     }
 
