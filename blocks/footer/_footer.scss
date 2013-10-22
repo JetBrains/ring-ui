@@ -4,7 +4,7 @@
   position: relative;
   height: $ring-unit*8;
 
-  margin: $ring-unit*5  $ring-unit*3 0 $ring-unit*3;
+  margin: $ring-unit*5 0 0 0;
   padding-top: $ring-unit*2;
   border-top: 1px solid #e5e5e5;
 
@@ -12,6 +12,10 @@
   text-align: center;
   font-size: 11px !important;
   @include droid-font();
+}
+
+.ring-footer_gray {
+  background-color: #F0F0F0;
 }
 
 .ring-footer__column {
@@ -27,6 +31,7 @@
 }
 
 .ring-footer__column_left {
+  padding-left: $ring-unit*3;
   text-align: left;
   left: 0; // IE7
 }
@@ -36,9 +41,14 @@
 }
 
 .ring-footer__column_right {
+  padding-right: $ring-unit*3;
   right: 0;
   top: $ring-unit*2;
   text-align: right;
+}
+
+.ring-footer__column_type {
+  display: none;
 }
 
 .ring-footer__line {
