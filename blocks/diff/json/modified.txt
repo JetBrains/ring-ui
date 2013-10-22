@@ -3,7 +3,7 @@ package org.jetbrains.jing.common.storages.hybrid;
 import jetbrains.exodus.env.*;
 import jetbrains.exodus.exceptions.*;
 import jetbrains.exodus.log.*;
-import jetbrains.exodus.vfs.File;
+import jetbrains.exodus.vfs.;
 import jetbrains.exodus.vfs.*;
 import org.jetbrains.annotations.*;
 import org.jetbrains.jing.common.*;

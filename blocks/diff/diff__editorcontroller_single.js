@@ -131,7 +131,12 @@ define([
             'diff__codeline_inline diff__codeline_original',
         diffTool.Parser.LineType.ADDED, 'diff__codeline_modified',
         diffTool.Parser.LineType.DELETED, 'diff__codeline_original',
-        diffTool.Parser.LineType.FOLDED, 'diff__codeline_folded');
+        diffTool.Parser.LineType.FOLDED, 'diff__codeline_folded',
+        diffTool.Parser.LineType.INLINE_ADDED | diffTool.Parser.LineType.INLINE,
+            'diff__codeline_inline-added',
+        diffTool.Parser.LineType.INLINE_DELETED |
+        diffTool.Parser.LineType.INLINE,
+            'diff__codeline_inline-deleted');
 
     options.additionalClassName = lineTypeToClassName[line.type];
     options.line = this.getCodeLine_(line.content);

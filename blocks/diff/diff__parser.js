@@ -45,6 +45,8 @@ define([
    * @enum {string}
    */
   diffTool.Parser.CodeType = {
+    ADDED: 'added',
+    DELETED: 'deleted',
     ORIGINAL: 'original',
     MODIFIED: 'modified'
   };
@@ -61,7 +63,11 @@ define([
     /**
      * Lines or chars was not changed.
      */
-    UNCHANGED: 'unchanged'
+    UNCHANGED: 'unchanged',
+
+    INLINE_ADDED: 'inline_added',
+
+    INLINE_DELETED: 'inline_deleted'
   };
 
   /**
@@ -130,7 +136,17 @@ define([
     /**
      * Unnecessary to display line.
      */
-    FOLDED: 0x40
+    FOLDED: 0x40,
+
+    /**
+     * There are only insertions to line.
+     */
+    INLINE_ADDED: 0x80,
+
+    /**
+     * Line contains only deletions.
+     */
+    INLINE_DELETED: 0x100
   };
 
   /**
