@@ -79,6 +79,12 @@ $menu-attention-color: #f50000;
   font-size: 13px !important;
   margin-left: $ring-unit*4;
 
+  // Fix visual margin
+  // See http://youtrack.jetbrains.com/issue/RG-87
+  .ring-dropdown-toggle + & {
+    margin-left: $ring-unit*4 - 5px;
+  }
+
   .ring-btn {
     font-size: 13px !important;
   }
@@ -161,7 +167,7 @@ $menu-attention-color: #f50000;
   margin-right: 0;
   margin-left: $ring-unit*2;
   height: $ring-unit*3 - 2;
-  width: $ring-unit*3;
+  width: $ring-unit*3 - 2;
   text-align: right;
   vertical-align: middle;
 }
