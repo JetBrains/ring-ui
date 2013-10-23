@@ -171,7 +171,10 @@
 
 .ring-form__label {
   float: left;
-  line-height: 24px;
+  display: table-cell;
+  vertical-align: middle;
+  height: 3 * $ring-unit;
+  line-height: normal !important;
 }
 
 .ring-form__control {
@@ -179,6 +182,7 @@
   margin-left: 20 * $ring-unit;
   min-height: 3 * $ring-unit;
   line-height: 3 * $ring-unit;
+  vertical-align: middle;
 }
 
 .ring-radio-btn[type="radio"] {
@@ -187,7 +191,6 @@
 
 .ring-radio-btn[type="radio"] + label {
   position: relative;
-  vertical-align: text-top;
   cursor: pointer;
   content: "";
   display: inline-block;
@@ -196,6 +199,8 @@
   border: 1px solid rgba(0, 0, 0, 0.3);
   border-radius: 50%;
   background: #fff;
+  line-height: $ring-unit * 3;
+  vertical-align: middle;
 }
 
 .ring-radio-btn[type="radio"] + label:hover {
@@ -227,7 +232,7 @@
 //      <label for="breakout-checkbox-1"></label>
 //    </div>
 //    <div class="ring-form__control">
-//      <span>Users with same emails and similar names</span>
+//      Users with same emails and similar names
 //    </div>
 //  </div>
 //  <div class="ring-form__group ring-form__group_short">
@@ -236,7 +241,7 @@
 //      <label for="breakout-checkbox-2"></label>
 //    </div>
 //    <div class="ring-form__control">
-//      <span>Users with same emails</span>
+//      Users with same emails
 //    </div>
 //  </div>
 //  <div class="ring-form__group ring-form__group_short">
@@ -245,7 +250,7 @@
 //      <label for="breakout-checkbox-3"></label>
 //    </div>
 //    <div class="ring-form__control">
-//      <span>Users having at least something in common</span>
+//      Users having at least something in common
 //    </div>
 //  </div>
 //  <div class="ring-form__footer">
@@ -286,6 +291,8 @@
   border-radius: 3px;
   background: transparent;
   user-select: none;
+  line-height: $ring-unit * 3;
+  vertical-align: middle;
 }
 
 .ring-checkbox[type="checkbox"]:checked + label {
