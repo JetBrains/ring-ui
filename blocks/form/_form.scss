@@ -83,6 +83,8 @@
   top: -$ring-unit * 4;
   left: calc(100% - 20px);
   color: #CCC;
+  font-size: $ring-unit * 2;
+  line-height: $ring-unit * 3 !important;
 }
 
 // Input with icon
