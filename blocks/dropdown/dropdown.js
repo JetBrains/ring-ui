@@ -59,13 +59,14 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'global/glob
 
       var pos = $target.offset();
       var targetCenter = pos.left + $target.outerWidth() / 2;
+      var targetWidth = $target.width();
 
       var dropdownWidth = $dropdown.width();
       var dropdownCenter = dropdownWidth / 2;
 
       // Right aligment
       if (pos.left + dropdownWidth > $global.width() - MIN_RIGHT_PADDING) {
-        pos.left += $target.width() - dropdownWidth;
+        pos.left += targetWidth - dropdownWidth;
 
       // Center aligment on toggle without menu item
       } else if(targetCenter >= dropdownCenter && targetToggle && !menuToggle) {
@@ -73,6 +74,10 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'global/glob
       }
 
       pos.top += $target.outerHeight() + TOP_PADDING;
+
+      if (dropdownWidth < targetWidth) {
+        pos.width = targetWidth;
+      }
 
       $dropdown.css(pos);
 
