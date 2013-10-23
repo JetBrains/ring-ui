@@ -1,20 +1,22 @@
 <div class="ring-footer{{#ifEqual type 'gray'}} ring-footer_gray{{/ifEqual}}">
     {{#each this}}
-        <div class="ring-footer__column ring-footer__column_{{@key}}">
-            <ul class="ring-footer__column__i">
-                {{#this}}
-                    <li class="ring-footer__line">
-                        {{#this}}
-                            {{#if url}}
-                                <a class="ring-link{{> global__class}}" {{> global__attributes}}
-                                   href="{{url}}">{{> footer__item}}</a>
-                            {{else}}
-                                {{> footer__item}}
-                            {{/if}}
-                        {{/this}}
-                    </li>
-                {{/this}}
-            </ul>
-        </div>
+        {{#ifEqual @key 'type'}}{{else}}
+            <div class="ring-footer__column ring-footer__column_{{@key}}">
+                <ul class="ring-footer__column__i">
+                    {{#this}}
+                        <li class="ring-footer__line">
+                            {{#this}}
+                                {{#if url}}
+                                    <a class="ring-link{{> global__class}}" {{> global__attributes}}
+                                       href="{{url}}">{{> footer__item}}</a>
+                                {{else}}
+                                    {{> footer__item}}
+                                {{/if}}
+                            {{/this}}
+                        </li>
+                    {{/this}}
+                </ul>
+            </div>
+      {{/ifEqual}}
     {{/each}}
 </div>
