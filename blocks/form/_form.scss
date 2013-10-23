@@ -1,6 +1,6 @@
 @import "../global/global";
 
-// Forms
+// Input
 //
 // Markup:
 // <input class="{$modifiers} ring-input " type="text" placeholder="placeholder">
@@ -72,6 +72,29 @@
   }
 }
 
+.ring-input_icon {
+  position: relative;
+  box-sizing: border-box;
+  padding-right: 22px !important;
+}
+
+.ring-input_icon + .ring-input_icon__span {
+  position: relative;
+  top: -$ring-unit * 4;
+  left: calc(100% - 20px);
+  color: #CCC;
+}
+
+// Input with icon
+//
+// Just change "ring-font-icon_caret-down" to your icon class.
+//
+// Markup:
+// <input class="ring-input ring-input_icon" type="text" placeholder="placeholder">
+// <span class="ring-font-icon_search ring-font-icon ring-input_icon__span"></span>
+//
+// Styleguide 7.3
+
 //
 // Basic form
 //
@@ -103,7 +126,7 @@
 //  </div>
 // </form>
 //
-// Styleguide 7.3
+// Styleguide 7.4
 
 .ring-form {
   font-family: "Droid Sans", Arial, Tahoma, Verdana, sans-serif;
@@ -229,7 +252,7 @@
 //  </div>
 // </form>
 //
-// Styleguide 7.4
+// Styleguide 7.5
 
 .ring-form__group_short {
   .ring-form__control {
@@ -245,7 +268,7 @@
 // <input class="ring-radio-btn" type="radio" name="test"  id="radio-2"/>
 // <label for="radio-2"></label>
 //
-// Styleguide 7.5
+// Styleguide 7.6
 
 .ring-checkbox[type="checkbox"] {
   display: none;
@@ -297,7 +320,7 @@
 // <input id="checkbox-2" class="ring-checkbox" type="checkbox" name="example">
 // <label for="checkbox-2"></label>
 //
-// Styleguide 7.6
+// Styleguide 7.7
 
 .ring-select {
   position: relative;
@@ -342,4 +365,4 @@
 //</select>
 //<label for="ring-select"></label>
 //
-// Styleguide 7.7
+// Styleguide 7.8
