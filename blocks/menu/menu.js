@@ -29,6 +29,10 @@ define([
     for (var id in obj) {
       item = obj[id];
 
+      if (item == null) {
+        continue;
+      }
+
       // Save current active path
       if (item.active) {
         activePath = getActivePath(id, name);

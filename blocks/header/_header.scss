@@ -53,6 +53,7 @@ $header-link-color:  #b4b4b4;
   position: absolute;
   top: 0;
   right: $ring-unit*3;
+  white-space: nowrap;
 
   cursor: pointer;
   user-select: none;
