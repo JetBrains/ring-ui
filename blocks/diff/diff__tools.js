@@ -3,7 +3,7 @@
  * @author igor.alexeenko (Igor Alekseyenko)
  */
 
-define(function() {
+define(['jquery'], function($) {
   'use strict';
 
   /**
