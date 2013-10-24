@@ -40,26 +40,32 @@
 }
 
 .ring-loader {
-  margin: 20px auto;
-  border-radius: 50%;
-  border: solid 2px #D8D8D8;
   width: 3 * $ring-unit;
   height: 3 * $ring-unit;
+  margin: 20px auto;
+
+  border-radius: 50%;
+  border: solid 2px #D8D8D8;
+  border: none\9;
+
   animation: colors 6s linear infinite, rotating 0.7s linear infinite;
+
   font-size: 0;
   font-size: 13px\9;
-  border: none\9;
 }
 
 @media screen and (min-width:0\0) {
   .ring-loader {
-    margin: 20px auto;
-    border-radius: 50%;
-    border: solid 2px #D8D8D8;
     width: 3 * $ring-unit;
     height: 3 * $ring-unit;
-    animation: colors 6s linear infinite, rotating 0.7s linear infinite;
+    margin: 20px auto;
+
+    border-radius: 50%;
+    border: solid 2px #D8D8D8;
+
     font-size: 0;
+
+    animation: colors 6s linear infinite, rotating 0.7s linear infinite;
   }
 }
 
