@@ -63,7 +63,7 @@ $alert-margin: 10px;
   position: relative;
   transform-origin: 50% 50%;
 
-  @include droid-font;
+  @include ring-font;
 }
 
 .ring-alert_shown {

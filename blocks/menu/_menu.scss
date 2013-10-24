@@ -10,7 +10,7 @@ $menu-attention-color: #f50000;
 
   text-align: center;
   line-height: 24px;
-  @include droid-font();
+  @include ring-font();
 }
 
 .ring-menu__i {

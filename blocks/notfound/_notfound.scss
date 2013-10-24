@@ -39,14 +39,14 @@ $ring-seventh: 14.28%;
     background: rgba(255, 255, 255, 0.85);
     border-radius: 3px;
 
-    @include droid-font;
+    @include ring-font;
     font-size: 15px;
     color: #000000;
   }
   .ring-not-found__title {
     margin: 1 * $ring-unit 0 2 * $ring-unit;
 
-    @include droid-font;
+    @include ring-font;
     font-size: 21px;
     font-weight: bold;
     color: #000;

@@ -1,7 +1,6 @@
 // Base
 @import "../blocks/global/global";
 @import "../blocks/link/link";
-@import "../blocks/font/font";
 @import "../blocks/font-icon/font-icon";
 
 // Modules
@@ -18,5 +17,5 @@
 .ring-header__personal {
   right: 62px;
   font-size: 18px;
-  @include droid-font;
+  @include ring-font;
 }

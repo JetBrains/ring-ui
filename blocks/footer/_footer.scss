@@ -10,7 +10,7 @@
   color: #6e6e6e;
   text-align: center;
   font-size: 11px !important;
-  @include droid-font();
+  @include ring-font();
 }
 
 .ring-footer_gray {
