@@ -172,6 +172,9 @@
   margin-top: 3 * $ring-unit;
   padding: 16px;
   background-color: #dbeaf2;
+  & .ring-btn {
+    margin-right: 16px;
+  }
 }
 
 .ring-form__footer_black {
