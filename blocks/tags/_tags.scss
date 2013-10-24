@@ -1,0 +1,38 @@
+// Tags
+//
+// Markup:
+// <span class="ring-tag {$modifiers}">Tag button<span class="ring-tag__last-icon ring-font-icon ring-font-icon_remove"></span></span>
+//
+// :hover               - Highlight the button when hovered.
+//
+// Styleguide 12.1
+
+.ring-tag {
+  position: relative;
+  display: inline-block;
+  margin-right: 4px;
+  border-radius: 3px;
+  border: 1px solid #D8D8D8;
+  padding: 0 3*$ring-unit 0 2*$ring-unit;
+  cursor: pointer;
+  line-height: 3 * $ring-unit;
+  height: 3 * $ring-unit - 2;
+  font-size: 13px;
+  color: #1866C5;
+
+  &:hover {
+    color: #ff5a00;
+    text-decoration: underline;
+    border-color: #B4B4B5;
+    .ring-tag__last-icon {
+      color: #ff5a00;
+    }
+  }
+}
+
+.ring-tag__last-icon {
+  position: absolute;
+  top: 4px;
+  right: 6px;
+  color: #b4b4b4;
+}
