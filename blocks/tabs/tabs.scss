@@ -24,8 +24,8 @@
   display: inline-block;
   height: $ring-unit * 3;
 
-  border-top: 1px solid transparent;
   padding: 0 $ring-unit * 2;
+  border-top: 1px solid transparent;
 
   color: #1866c5;
   font-size: 13px;
@@ -48,10 +48,9 @@
   border-radius: 3px;
 
   background: #1a1a1a;
-  background:
-    linear-gradient(to bottom, $border-color, rgba(0, 0, 0, 0)),
-    linear-gradient(to top, rgba(255, 255, 255, 0), $gradient-color),
-    linear-gradient(to bottom, $border-color, rgba(0, 0, 0, 0));
+  background: linear-gradient(to bottom, $border-color, rgba(0, 0, 0, 0)),
+              linear-gradient(to top, rgba(255, 255, 255, 0), $gradient-color),
+              linear-gradient(to bottom, $border-color, rgba(0, 0, 0, 0));
   background-size: 1px 100%, calc(100% - 2px) 100%, 1px 100%;
   background-position: 0 0, 1px 0, 100% 0;
   background-repeat: no-repeat;

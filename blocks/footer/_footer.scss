@@ -24,16 +24,18 @@
 }
 
 .ring-footer__column__i {
-  padding: 0;
-  margin: 0;
   display: inline-block;
+  margin: 0;
+  padding: 0;
+
   vertical-align: top;
 }
 
 .ring-footer__column_left {
-  padding-left: $ring-unit*3;
-  text-align: left;
   left: 0; // IE7
+  padding-left: $ring-unit*3;
+
+  text-align: left;
 }
 
 .ring-footer__column_center {
@@ -41,9 +43,10 @@
 }
 
 .ring-footer__column_right {
-  padding-right: $ring-unit*3;
-  right: 0;
   top: $ring-unit*2;
+  right: 0;
+  padding-right: $ring-unit*3;
+
   text-align: right;
 }
 
