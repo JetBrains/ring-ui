@@ -18,7 +18,7 @@
     directive('menu', [function () {
       return {
         scope: {
-          menu: "@menu"
+          'menu': '@menu'
         },
         controller: ['$scope', function ($scope) {
           var ctrl = this;
