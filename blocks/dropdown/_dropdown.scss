@@ -62,7 +62,7 @@
   cursor: pointer;
   vertical-align: bottom;
   text-decoration: none;
-  @include droid-font;
+  @include ring-font;
 
   .ring-dropdown &:hover {
     text-decoration: none !important;

@@ -20,7 +20,7 @@
   padding-right: $ring-unit/ 2;
   border: 1px solid #cccccc;
 
-  @include droid-font;
+  @include ring-font;
   font-size: 13px;
   line-height: 20px;
 
@@ -66,7 +66,7 @@
   background: red;
   color: white;
 
-  @include droid-font;
+  @include ring-font;
   font-size: 13px;
 
   &:before {
@@ -148,7 +148,7 @@
   margin: 0 0 20px;
 
   font-size: 13px;
-  @include droid-font;
+  @include ring-font;
 
   & .ring-input {
     width: 25 * $ring-unit !important;
@@ -331,7 +331,7 @@
   height: 11px;
 
   font-size: 13px;
-  @include droid-font;
+  @include ring-font;
 
   line-height: normal;
   cursor: pointer;
