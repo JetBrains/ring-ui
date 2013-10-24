@@ -33,9 +33,12 @@
 
 .ring-footer__column_left {
   left: 0; // IE7
-  padding-left: $ring-unit*3;
 
   text-align: left;
+}
+
+.ring-footer_gray .ring-footer__column_left {
+  padding-left: $ring-unit*3;
 }
 
 .ring-footer__column_center {
@@ -45,9 +48,12 @@
 .ring-footer__column_right {
   top: $ring-unit*2;
   right: 0;
-  padding-right: $ring-unit*3;
 
   text-align: right;
+}
+
+.ring-footer_gray .ring-footer__column_right {
+  padding-right: $ring-unit*3;
 }
 
 .ring-footer__line {
