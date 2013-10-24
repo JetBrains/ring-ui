@@ -1,6 +1,6 @@
 @import "../global/global";
 
-// Forms
+// Input
 //
 // Markup:
 // <input class="{$modifiers} ring-input " type="text" placeholder="placeholder">
@@ -13,29 +13,35 @@
 // Styleguide 7.1
 
 .ring-input {
-  @include droid-font;
-  font-size: 13px;
-  padding-left: $ring-unit / 2;
-  padding-right: $ring-unit/ 2;
   width: 100%;
-  line-height: 20px;
-  border: 1px solid #cccccc;
   margin-top: $ring-unit;
   margin-bottom: $ring-unit;
+  padding-left: $ring-unit / 2;
+  padding-right: $ring-unit/ 2;
+  border: 1px solid #cccccc;
+
+  @include droid-font;
+  font-size: 13px;
+  line-height: 20px;
+
   &:active, &:focus, .ring-input_active, .ring-input_focus {
     border: 1px solid #25b7ff;
     outline: 0;
   }
+
   &:disabled, .ring-input_disabled {
     border: 1px solid #dedede;
     background-color: #f8f8f8;
   }
+
   &.ring-input_correct {
     border: 1px solid #84ab28;
   }
+
   &.ring-input_error {
     border: 1px solid #ff0000;
   }
+
   &.ring-input_long {
     width: 100%;
   }
@@ -49,28 +55,61 @@
 //
 // Styleguide 7.2
 .ring-input__error-bubble {
+  display: inline-block;
   position: relative;
   top: -6px;
-  font-family: "Droid Sans", Arial, Tahoma, Verdana, sans-serif;
-  background: red;
-  display: inline-block;
-  border-radius: 3px;
-  color: white;
-  font-size: 13px;
   padding-left: 16px;
   padding-right: 16px;
+
+  border-radius: 3px;
+
+  background: red;
+  color: white;
+
+  @include droid-font;
+  font-size: 13px;
+
   &:before {
+    content: "";
+    transform: rotate(45deg);
+
     position: absolute;
     top: -4px;
-    transform: rotate(45deg);
     left: calc(50% - 6px);
-    content: "";
+
     display: block;
     width: 10px;
     height: 10px;
+
     background: red;
   }
 }
+
+.ring-input_icon {
+  position: relative;
+  box-sizing: border-box;
+  padding-right: 22px !important;
+}
+
+.ring-input_icon + .ring-input_icon__span {
+  position: relative;
+  top: -$ring-unit * 4;
+  left: calc(100% - 20px);
+
+  color: #CCC;
+  font-size: $ring-unit * 2;
+  line-height: $ring-unit * 3 !important;
+}
+
+// Input with icon
+//
+// Just change "ring-font-icon_caret-down" to your icon class.
+//
+// Markup:
+// <input class="ring-input ring-input_icon" type="text" placeholder="placeholder">
+// <span class="ring-font-icon_search ring-font-icon ring-input_icon__span"></span>
+//
+// Styleguide 7.3
 
 //
 // Basic form
@@ -103,21 +142,26 @@
 //  </div>
 // </form>
 //
-// Styleguide 7.3
+// Styleguide 7.4
 
 .ring-form {
-  font-family: "Droid Sans", Arial, Tahoma, Verdana, sans-serif;
-  font-size: 13px;
   margin: 0 0 20px;
+
+  font-size: 13px;
+  @include droid-font;
+
   & .ring-input {
     width: 25 * $ring-unit !important;
     margin: 0;
   }
+
   & .ring-input__error-bubble {
-    color: red;
-    background: none;
     top: 0;
     padding-left: $ring-unit;
+
+    color: red;
+    background: none;
+
     &:before {
       display: none;
     }
@@ -137,6 +181,7 @@
 .ring-form__title {
   display: block;
   margin-bottom: $ring-unit;
+
   font-weight: bold;
 }
 
@@ -146,14 +191,20 @@
 
 .ring-form__label {
   float: left;
-  line-height: 24px;
+  display: table-cell;
+  height: 3 * $ring-unit;
+
+  vertical-align: middle;
+  line-height: normal !important;
 }
 
 .ring-form__control {
   position: relative;
-  margin-left: 20 * $ring-unit;
   min-height: 3 * $ring-unit;
+  margin-left: 20 * $ring-unit;
+
   line-height: 3 * $ring-unit;
+  vertical-align: middle;
 }
 
 .ring-radio-btn[type="radio"] {
@@ -161,16 +212,18 @@
 }
 
 .ring-radio-btn[type="radio"] + label {
-  position: relative;
-  vertical-align: text-top;
-  cursor: pointer;
   content: "";
+  position: relative;
   display: inline-block;
-  height: 2 * $ring-unit - 2;
   width: 2 * $ring-unit - 2;
+  height: 2 * $ring-unit - 2;
+
+  cursor: pointer;
   border: 1px solid rgba(0, 0, 0, 0.3);
   border-radius: 50%;
   background: #fff;
+  line-height: $ring-unit * 3;
+  vertical-align: middle;
 }
 
 .ring-radio-btn[type="radio"] + label:hover {
@@ -178,14 +231,15 @@
 }
 
 .ring-radio-btn[type="radio"]:checked + label:after {
+  content: "";
   position: absolute;
   top: 3px;
   left: 3px;
-  content: "";
-  opacity: 1;
   display: inline-block;
-  height: $ring-unit;
   width: $ring-unit;
+  height: $ring-unit;
+
+  opacity: 1;
   border-radius: 50%;
   background-color: #25b7ff;
 }
@@ -202,7 +256,7 @@
 //      <label for="breakout-checkbox-1"></label>
 //    </div>
 //    <div class="ring-form__control">
-//      <span>Users with same emails and similar names</span>
+//      Users with same emails and similar names
 //    </div>
 //  </div>
 //  <div class="ring-form__group ring-form__group_short">
@@ -211,7 +265,7 @@
 //      <label for="breakout-checkbox-2"></label>
 //    </div>
 //    <div class="ring-form__control">
-//      <span>Users with same emails</span>
+//      Users with same emails
 //    </div>
 //  </div>
 //  <div class="ring-form__group ring-form__group_short">
@@ -220,7 +274,7 @@
 //      <label for="breakout-checkbox-3"></label>
 //    </div>
 //    <div class="ring-form__control">
-//      <span>Users having at least something in common</span>
+//      Users having at least something in common
 //    </div>
 //  </div>
 //  <div class="ring-form__footer">
@@ -229,7 +283,7 @@
 //  </div>
 // </form>
 //
-// Styleguide 7.4
+// Styleguide 7.5
 
 .ring-form__group_short {
   .ring-form__control {
@@ -245,47 +299,53 @@
 // <input class="ring-radio-btn" type="radio" name="test"  id="radio-2"/>
 // <label for="radio-2"></label>
 //
-// Styleguide 7.5
+// Styleguide 7.6
 
 .ring-checkbox[type="checkbox"] {
   display: none;
 }
 
 .ring-checkbox[type="checkbox"] + label {
-  cursor: pointer;
   content: "";
   display: inline-block;
-  height: 11px;
   width: 11px;
+  height: 11px;
+
+  cursor: pointer;
   border: 1px solid #CCCCCC;
   border-radius: 3px;
   background: transparent;
   user-select: none;
+  line-height: $ring-unit * 3;
+  vertical-align: middle;
 }
 
 .ring-checkbox[type="checkbox"]:checked + label {
+  content: "";
   position: relative;
-  font-family: "Droid Sans", Arial, Tahoma, Verdana, sans-serif;
+  display: inline-block;
+  width: 11px;
+  height: 11px;
+
   font-size: 13px;
+  @include droid-font;
+
   line-height: normal;
   cursor: pointer;
-  content: "";
-  display: inline-block;
-  height: 11px;
-  width: 11px;
   border: 1px solid #25b7ff;
   border-radius: 3px;
   background: transparent;
 }
 
 .ring-checkbox[type="checkbox"]:checked + label::before {
+  content: "";
   position: relative;
   top: -2px;
   left: 1px;
-  content: "";
   display: block;
-  height: 11px;
   width: 11px;
+  height: 11px;
+
   background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAALCAMAAACTbPdTAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyRpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoTWFjaW50b3NoKSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDowNzk5MjZGMzFBMjAxMUUzQjBFNkZFNUI0QkU4MDgwNiIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDowNzk5MjZGNDFBMjAxMUUzQjBFNkZFNUI0QkU4MDgwNiI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOjA3OTkyNkYxMUEyMDExRTNCMEU2RkU1QjRCRTgwODA2IiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjA3OTkyNkYyMUEyMDExRTNCMEU2RkU1QjRCRTgwODA2Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+iIdn6QAAAHJQTFRFr6+v6+vrk5OT4uLitbW1W1tbzMzMVFRUWVlZmpqa1dXVpqamZ2dn4eHh+/v76enp2trah4eHT09PUVFReHh4UlJSd3d3zc3N19fXlpaW0tLSmJiY5OTk7OzsYWFhTU1NgYGB9PT09vb2ycnJSUlJ////6rrIagAAACZ0Uk5T/////////////////////////////////////////////////wCneoG8AAAAW0lEQVR42kTNVQ7AMAwD0GzrmJk5vv8V147qD0svUmSCTmCQRuh1v+acCZ+GiE2AJj+TEC43h1Rc1qY1Mi+WPBIEqxQObiWb0vMvO7WZe3zCuVa7Flrj3bkEGAAdOxEvcOdezwAAAABJRU5ErkJggg==) no-repeat;
 }
 
@@ -297,27 +357,29 @@
 // <input id="checkbox-2" class="ring-checkbox" type="checkbox" name="example">
 // <label for="checkbox-2"></label>
 //
-// Styleguide 7.6
+// Styleguide 7.7
 
 .ring-select {
   position: relative;
   display: inline-block;
-  border: 1px solid #CCC;
   width: 100%;
+  padding-left: 8px;
+
+  border: 1px solid #CCC;
+  border-radius: 0;
   outline: 0;
   background: none;
-  -webkit-appearance: none;
-  border-radius: 0px;
   line-height: 22px;
-  padding-left: 8px;
+
+  -webkit-appearance: none;
 }
 
 .ring-select + label {
-  position: relative;
-  display: block;
   content: '';
+  position: relative;
   top: -16px;
   left: calc(100% - 18px);
+  display: block;
   width: 0;
   height: 0;
   border-top: 4px solid #1a1a1a;
@@ -342,4 +404,4 @@
 //</select>
 //<label for="ring-select"></label>
 //
-// Styleguide 7.7
+// Styleguide 7.8

@@ -3,11 +3,12 @@
 $menu-attention-color: #f50000;
 
 .ring-menu {
+  position: relative;
   width: 100%;
   height: $ring-unit*7;
-  position: relative;
-  text-align: center;
   border-bottom: 1px solid #ccc;
+
+  text-align: center;
   line-height: 24px;
   @include droid-font();
 }
@@ -19,11 +20,12 @@ $menu-attention-color: #f50000;
   //       position: absolute;
   //       min-width: 100%;
   //   to body
-  font-size: 0 !important;
   position: absolute;
   left: $ring-unit*3;
   right: 0;
   display: inline-block;
+
+  font-size: 0 !important;
   text-align: left;
   white-space: nowrap;
 }
@@ -33,9 +35,9 @@ $menu-attention-color: #f50000;
   z-index: -1;
 
   width: 100%;
-  right: 0;
-  left: 0;
   height: $ring-unit*7;
+  left: 0;
+  right: 0;
 
   background: #f0f0f0;
 }
@@ -52,20 +54,20 @@ $menu-attention-color: #f50000;
 
 .ring-menu__spacer {
   display: inline-block;
-  height: $ring-unit*7;
   width: 0;
+  height: $ring-unit*7;
   vertical-align: middle;
 }
 
 .ring-menu__logo {
-  height: $ring-unit*3;
   display: inline-block;
+  height: $ring-unit*3;
   vertical-align: middle;
 }
 
 .ring-menu__logo__img {
-  border: 0;
   height: $ring-unit*3;
+  border: 0;
 }
 
 .ring-menu__item,
@@ -76,8 +78,14 @@ $menu-attention-color: #f50000;
 
 .ring-menu__item {
   display: inline-block;
-  font-size: 13px !important;
   margin-left: $ring-unit*4;
+  font-size: 13px !important;
+
+  // Fix visual margin
+  // See http://youtrack.jetbrains.com/issue/RG-87
+  .ring-dropdown-toggle + & {
+    margin-left: $ring-unit*4 - 5px;
+  }
 
   .ring-btn {
     font-size: 13px !important;
@@ -89,13 +97,15 @@ $menu-attention-color: #f50000;
 }
 
 .ring-menu__item__counter {
-  color: #fff;
-  background-color: $ring-link-color;
   position: relative;
   top: -7px;
   left: 5px;
-  border-radius: 2px;
+
   padding: 1px 2px;
+  border-radius: 2px;
+
+  color: #fff;
+  background-color: $ring-link-color;
   font-size: 10px;
 }
 
@@ -104,16 +114,17 @@ $menu-attention-color: #f50000;
 }
 
 .ring-menu__right {
-  font-size: 0;
-  height: $ring-unit*7;
-  right: $ring-unit*3;
-  top: 0;
   position: absolute;
+  top: 0;
+  right: $ring-unit*3;
+  height: $ring-unit*7;
+
+  font-size: 0;
 }
 
 .ring-menu__right .ring-menu__item {
-  margin-left: $ring-unit*2;
   display: inline-block;
+  margin-left: $ring-unit*2;
 
   *display: inline; // IE 7
 
@@ -127,8 +138,8 @@ $menu-attention-color: #f50000;
 }
 
 .ring-menu__right .ring-font-icon_cog {
-  font-size: 18px !important;
   width: 12px;
+  font-size: 18px !important;
 }
 
 .ring-menu__right .ring-menu__item_help {
@@ -136,8 +147,8 @@ $menu-attention-color: #f50000;
 }
 
 .no-font-antialiasing .ring-menu__right .ring-font-icon_help {
-  background-position: -60px 1px;
   left: $ring-unit*3;
+  background-position: -60px 1px;
 
   &:hover {
     background-position: -60px -19px;
@@ -158,18 +169,19 @@ $menu-attention-color: #f50000;
 }
 
 .ring-menu__item_icon {
+  width: $ring-unit*3 - 2;
+  height: $ring-unit*3 - 2;
   margin-right: 0;
   margin-left: $ring-unit*2;
-  height: $ring-unit*3 - 2;
-  width: $ring-unit*3;
+
   text-align: right;
   vertical-align: middle;
 }
 
 .ring-menu__right .ring-menu__search {
-  margin-left: $ring-unit*3;
   position: relative;
   top: -2px;
+  margin-left: $ring-unit*3;
 }
 
 .ring-menu__search__input {

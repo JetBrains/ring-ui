@@ -4,7 +4,7 @@
   position: relative;
   height: $ring-unit*8;
 
-  margin: $ring-unit*5  $ring-unit*3 0 $ring-unit*3;
+  margin: $ring-unit*5 0 0 0;
   padding-top: $ring-unit*2;
   border-top: 1px solid #e5e5e5;
 
@@ -14,21 +14,28 @@
   @include droid-font();
 }
 
+.ring-footer_gray {
+  background-color: #f0f0f0;
+}
+
 .ring-footer__column {
   position: absolute;
   width: 33%;
 }
 
 .ring-footer__column__i {
-  padding: 0;
-  margin: 0;
   display: inline-block;
+  margin: 0;
+  padding: 0;
+
   vertical-align: top;
 }
 
 .ring-footer__column_left {
-  text-align: left;
   left: 0; // IE7
+  padding-left: $ring-unit*3;
+
+  text-align: left;
 }
 
 .ring-footer__column_center {
@@ -36,8 +43,10 @@
 }
 
 .ring-footer__column_right {
-  right: 0;
   top: $ring-unit*2;
+  right: 0;
+  padding-right: $ring-unit*3;
+
   text-align: right;
 }
 

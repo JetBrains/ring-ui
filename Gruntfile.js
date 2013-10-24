@@ -162,7 +162,7 @@ module.exports = function(grunt) {
       },
       dev: {
         background: true,
-        browsers: ['Chrome', 'Firefox']
+        browsers: ['phantomjs']
       },
       test: {
         singleRun: true
