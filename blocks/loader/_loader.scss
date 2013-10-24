@@ -3,7 +3,9 @@
 // Loader
 //
 // Markup:
-// <div class="ring-loader">Loading</div>
+// <div class="ring-loader {$modifiers}">Loading</div>
+//
+// .ring-loader_inline - A small spinner suited for using inline with body text (12px)
 //
 // Styleguide 8.1
 
@@ -59,4 +61,17 @@
     animation: colors 6s linear infinite, rotating 0.7s linear infinite;
     font-size: 0;
   }
+}
+
+.ring-loader_inline {
+  box-sizing: border-box;
+
+  position: relative;
+  top: 1px;
+
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+
+  margin: 0;
 }
