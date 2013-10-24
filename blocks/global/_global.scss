@@ -36,17 +36,17 @@ $ring-link-hover-color: #ff5a00;
 }
 
 // Fonts
-@mixin monospace-font() {
-  font: 12px 'Menlo', 'Bitstream Vera Sans Mono', 'Courier New', 'Courier', monospace;
+@mixin ring-font() {
+  font-family: "Helvetica Neue", Arial, sans-serif;
 }
 
-@mixin droid-font() {
-  font-family: "Droid Sans", Arial, Tahoma, Verdana, sans-serif !important;
-}
-
-@mixin thin-font() {
+@mixin ring-thin-font() {
   font-weight: 200;
-  font-family: Helvetica Neue, Calibri, Arial, sans-serif;
+  font-family: "Helvetica Neue", Calibri, Arial, sans-serif;
+}
+
+@mixin ring-monospace-font() {
+  font: 12px Menlo, "Bitstream Vera Sans Mono", "Ubuntu Mono", "Courier New", Courier, monospace;
 }
 
 $fonts-dir: 'fonts/';
