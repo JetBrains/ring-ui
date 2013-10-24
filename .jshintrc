@@ -2,6 +2,7 @@
   "globals": {
     "define": false,
     "require": false,
+    "ring": false,
     "angular": false
   },
   "node": true,
