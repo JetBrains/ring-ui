@@ -284,38 +284,3 @@ $btn-border-radius: 3px;
     margin-right: 0;
   }
 }
-
-// “Tag” buttons
-//
-// Markup:
-// <span class="ring-btn-tag {$modifiers}">Tag button</span>
-//
-// :hover               - Highlight the button when hovered.
-//
-// Styleguide 4.4
-.ring-btn-tag {
-  position: relative;
-  margin-right: 4px;
-  padding: 0 24px 0 16px;
-  border-radius: 3px;
-  border: 1px solid #D8D8D8;
-
-  line-height: 20px;
-  font-size: 13px;
-  color: #1866C5;
-  cursor: pointer;
-
-  &:hover {
-    color: #ff5a00;
-    text-decoration: underline;
-    border-color: #B4B4B5;
-  }
-}
-
-.ring-btn-tag__last-icon {
-  position: absolute;
-  top: 4px;
-  right: 6px;
-
-  color: #b4b4b4;
-}
