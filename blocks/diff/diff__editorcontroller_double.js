@@ -4,14 +4,14 @@
  */
 
 define([
-  'diff/diff__tools',
+  'jquery',
   'codemirror',
   'handlebars',
   'raphael',
+  'diff/diff__tools',
   'diff/diff__editorcontroller',
-  'diff/diff__parser_doublepane',
-  'jquery'
-], function(diffTool, CodeMirror, Handlebars, raphael) {
+  'diff/diff__parser_doublepane'
+], function($, CodeMirror, Handlebars, raphael, diffTool) {
 
   // todo(igor.alexeenko): Implement all DOM-specific, CodeMirror-
   // specific and Raphael-specific logic in some kind of Renderer,
