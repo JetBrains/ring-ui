@@ -32,27 +32,30 @@
 }
 
 .ring-dropdown__i {
+  position: relative;
+
   padding: $ring-unit/2 + 1 0 $ring-unit/2 - 1;
   z-index: 1;
 
   line-height: normal;
 
-  position: relative;
   border-radius: 3px;
   background-color: #fff;
 }
 
 .ring-dropdown__separator {
+  display: block;
   width: 100%;
   height: 1px;
-  display: block;
-  background-color: #adadad;
   margin: 2px 0 5px;
+
+  background-color: #adadad;
 }
 
 .ring-dropdown__item {
-  padding: $ring-unit/2 - 1 $ring-unit*2 $ring-unit/2 + 1;
   display: block;
+  padding: $ring-unit/2 - 1 $ring-unit*2 $ring-unit/2 + 1;
+
   text-align: left;
   font-size: 13px;
   line-height: 16px;
