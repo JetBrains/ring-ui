@@ -34,7 +34,7 @@
         authFuture = ring('auth', 'init')(authConfig);
       };
 
-      this.$get = function ($injector) {
+      this.$get = ['$injector', function ($injector) {
         return $injector.instantiate(['$location', '$http', function ($location, $http) {
           authFuture.done(function (absUrl) {
             if (absUrl) {
@@ -56,6 +56,6 @@
             }
           };
         }]);
-      };
+      }];
     }]);
 }());
