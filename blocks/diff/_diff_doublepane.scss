@@ -7,8 +7,7 @@
 .diff_doublepane .CodeMirror {
   border: solid 1px #ccc;
   box-sizing: border-box;
-  font-family: 'Menlo', monospace;
-  font-size: 12px;
+  @include ring-monospace-font;
   height: 100%;
   line-height: 1.5;
 }
@@ -68,11 +67,6 @@ $modified_chars: #cad8f8;
 $deleted_background: #d6d6d6;
 
 $added_background: #c8f0c9;
-
-
-.CodeMirror {
-  line-height: 1.2;
-}
 
 .CodeMirror .line__modified {
   background: $modified_background;
@@ -148,3 +142,39 @@ $added_background: #c8f0c9;
 .diff__connector_added {
   fill: $added_background;
 }
+
+/* Theme */
+.cm-s-default .cm-keyword {color: #00008B;}
+.cm-s-default .cm-number {color: #00F;}
+.cm-s-default .cm-def {color: #8B008B;}
+.cm-s-default .cm-variable {color: #8B008B;}
+.cm-s-default .cm-variable-2 {color: #8B008B;}
+.cm-s-default .cm-variable-3 {color: #8B008B;}
+.cm-s-default .cm-comment {color: #A9A9A9;}
+.cm-s-default .cm-string {color: #008D14;}
+.cm-s-default .cm-string-2 {color: #008D14;}
+.cm-s-default .cm-error {color: #FF2A1A;}
+
+/* "clike" mode doesn't support Java properly - the majority of tokens are marked as "variable" */
+.cm-s-default.CodeMirror-lang-java .cm-variable {color: #000;}
+
+/* Brackets highlighting */
+div.CodeMirror span.CodeMirror-matchingbracket {
+  background-color: #AAD7FD;
+  color: inherit;
+}
+
+div.CodeMirror span.CodeMirror-nonmatchingbracket {
+  background-color: #FFE3E3;
+  color: inherit;
+}
+
+/* Selection */
+.CodeMirror-selected {
+  background: #DDEAFE;
+}
+
+.CodeMirror-focused .CodeMirror-selected {
+  background: #DDEAFE;
+}
+
