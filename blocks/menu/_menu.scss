@@ -14,12 +14,12 @@ $menu-attention-color: #f50000;
 }
 
 .ring-menu__i {
-  // Use this when width limits needed
-  //max-width: 1100px;
-  //   Do not forget add
-  //       position: absolute;
-  //       min-width: 100%;
-  //   to body
+  // Use this when width limit is needed:
+  //    max-width: 1100px;
+  // Do not forget to add
+  //    position: absolute;
+  //    min-width: 100%;
+  // to <body>
   position: absolute;
   left: $ring-unit*3;
   right: 0;
