@@ -1,8 +1,7 @@
 # Config
-blockPath = 'blocks/font-icon/'
-outFile   = blockPath + 'font-icon.png'
-tmpFile   = blockPath + 'tmp.html'
-styleFile = blockPath + '_font-icon.scss'
+outFile   = 'blocks/font-icon/font-icon.png'
+tmpFile   = 'tmp/sprite.html'
+styleFile = '../dist/ring.css'
 
 icons = [
     name: 'help'
@@ -36,8 +35,6 @@ iconSize = 20
 # Prepare html and css
 fs = require 'fs'
 
-fontStyles = fs.read(styleFile).replace(/#\{\$fonts\-dir}/g, '')
-
 htmlIcons       = ''
 htmlActiveIcons = ''
 length          = 0
@@ -49,9 +46,10 @@ for icon in icons
 
 html = """
  <html>
+   <link rel='stylesheet' type='text/css' href='#{styleFile}' />
+
    <style>
-    html, body {
-      padding: 0;
+    body {
       margin: 0;
     }
     .ring-font-icon {
@@ -61,7 +59,6 @@ html = """
       height: #{iconSize}px;
       vertical-align: middle;
     }
-    #{fontStyles}
    </style>
    <div>#{htmlIcons}</div>
    <div>#{htmlActiveIcons}</div>
