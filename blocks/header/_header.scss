@@ -24,7 +24,7 @@ $header-link-color:  #b4b4b4;
   position: relative;
   display: inline-block;
   *display: inline; // IE7
-  height: $ring-unit*3 - 8;
+  height: $ring-unit*2 + 1;
 
   padding: 6px $ring-unit 0 $ring-unit;
   vertical-align: middle; // IE7
