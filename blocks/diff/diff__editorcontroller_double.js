@@ -157,8 +157,7 @@ define([
       mode: {
         name: 'text/x-java'
       },
-      readOnly: true,
-      viewportMargin: 0
+      readOnly: true
     };
   };
 
