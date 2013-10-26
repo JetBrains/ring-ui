@@ -187,9 +187,9 @@ $menu-attention-color: #f50000;
 .ring-menu__search__input {
   width: $ring-unit*27 - 2;
   height: $ring-unit*3 - 2;
+  padding: 0 $ring-unit*3 0 $ring-unit/2;
 
   border: 1px solid #cbcbcb;
-  padding: 0 $ring-unit*2 0 $ring-unit;
 }
 
 .ring-menu__search__glass {
