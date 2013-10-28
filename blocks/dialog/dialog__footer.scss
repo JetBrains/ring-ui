@@ -1,0 +1,20 @@
+.ring-dialog__footer {
+  border-top: 1px solid #b4b4b4;
+  background: #e9f8ff;
+  text-align: center;
+  height: 56px;
+}
+
+.ring-dialog__footer__spacer {
+  vertical-align: middle;
+  height: 100%;
+  display: inline-block;
+}
+
+.ring-dialog__footer__item {
+  display: inline-block;
+  margin-left: 16px;
+}
+.ring-dialog__footer__item:first-child {
+  margin-left: 0px;
+}
