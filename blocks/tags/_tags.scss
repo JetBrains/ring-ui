@@ -31,6 +31,13 @@
       color: #ff5a00;
     }
   }
+  & .ring-tag__img {
+    position: relative;
+    top: 2px;
+    left: -$ring-unit;
+    width: 2*$ring-unit;
+    height: 2*$ring-unit;
+  }
 }
 
 .ring-tag__last-icon {
