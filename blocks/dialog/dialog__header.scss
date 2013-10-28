@@ -1,22 +1,29 @@
+@import "../global/global";
+
 .ring-dialog__header {
   position: relative;
-  background-image: linear-gradient(to top, #EBEBEB, #FFF);
-  line-height: 24px;
+
   border-bottom: 1px solid #B4B4B4;
+  background-image: linear-gradient(to top, #EBEBEB, #FFF);
+
+  line-height: 24px;
 }
 
 .ring-dialog__header__title {
   display: block;
+
   text-align: center;
   font-weight: bold;
 }
 
 .ring-dialog__header__close-icon {
   position: absolute;
-  top: 4px;
-  right: 4px;
-  color: #b4b4b4;
+  top: $ring-unit/2;
+  right: $ring-unit/2;
+
+  color: #B4B4B4;
+
   &:hover {
-    color: #8c8c8c;
+    color: #8C8C8C;
   }
 }

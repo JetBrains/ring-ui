@@ -1,11 +1,15 @@
+@import "../global/global";
+
 .ring-dialog__wrapper {
   display: none;
-  width: 100%;
-  height: 100%;
+  position: absolute;
   top: 0;
   left: 0;
-  z-index: 1000000;
-  position: absolute;
+  width: 100%;
+  height: 100%;
+
+  z-index: 1000000; // TODO proper z-index
+
   &.active {
     display: block;
   }
@@ -13,35 +17,35 @@
 
 .ring-dialog__container {
   position: relative;
-  z-index: 2;
-  margin: 0 auto;
+  width: $ring-unit*50;
+  margin: 20% auto 0;
   padding: 0;
-  width: 400px;
-  border: none;
-  background: #fff;
-  margin-top: 20%;
-  box-shadow: 0px 0px 32px 8px rgba(0, 0, 0, 0.2);
   border: 1px solid #B4B4B4;
   border-radius: 3px;
+
+  background: #FFF;
+  box-shadow: 0px 0px $ring-unit*4 $ring-unit rgba(0, 0, 0, 0.2);
+
+  z-index: 2;
 }
 
 .ring-dialog__layer {
-  text-align: center;
   position: absolute;
-  left: 0;
   top: 0;
-  z-index: 1;
+  left: 0;
+  width: 100%;
+  height: 100%;
   margin: 0;
   padding: 0;
-  height: 100%;
-  width: 100%;
-  background-color: #fff;
-  -moz-opacity: 0.4;
-  -khtml-opacity: 0.4;
+
   opacity: 0.4;
+  background-color: #FFF;
+
+  text-align: center;
+
+  z-index: 1;
 }
 
 .ring-dialog__content {
-  padding: 32px 32px 0px 32px;
+  padding: $ring-unit*4 $ring-unit*4 0;
 }
-
