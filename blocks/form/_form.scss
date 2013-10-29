@@ -210,6 +210,10 @@
   vertical-align: middle;
 }
 
+.ring-form__control_small {
+  margin-left: 16*$ring-unit !important;
+}
+
 .ring-radio-btn[type="radio"] {
   display: none;
 }
