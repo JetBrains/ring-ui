@@ -4,8 +4,14 @@
             <span class="ring-dialog__header__title">{{ title }}</span>
             <span class="ring-dialog__header__close-icon ring-font-icon ring-btn_ico ring-font-icon_pencil form__control__ico"></span>
         </div>
-        <form class="ring-dialog__content form ">
+        <form name="dialogForm" class="ring-form ring-dialog__content">
             <ng-include src="content"></ng-include>
+
+            <div class="ring-form__group" ng-show="data.error">
+                <div class="ring-form__control ring-form__control_small">
+                    <div class="ring-alert_error">{{ error }}</div>
+                </div>
+            </div>
         </form>
         <div class="ring-dialog__footer">
             <div class="ring-dialog__footer__spacer"></div>
@@ -13,7 +19,8 @@
             <button ng-repeat="button in buttons"
                     ng-click="onButtonClick(button)"
                     class="ring-dialog__footer__item ring-btn"
-                    ng-class="{'ring-btn_blue': button['default']}">{{ button.label }}</button>
+                    ng-class="{'ring-btn_blue': button['default']}"
+                    ng-disabled="button.default && dialogForm.$invalid">{{ button.label }}</button>
         </div>
     </div>
     <div class="ring-dialog__layer">
