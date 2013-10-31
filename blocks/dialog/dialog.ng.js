@@ -49,13 +49,21 @@
             console.error('No dialog directive is found');
             return;
           }
-          dialogScope.active = true;
+
+          // Clear dialog errors
+          dialogScope.error = null;
+          if (dialogScope.dialogForm) {
+            dialogScope.dialogForm.$setPristine();
+          }
+
           if (config) {
             dialogScope.title = config.title;
             dialogScope.buttons = config.buttons;
             dialogScope.data = config.data || {};
             dialogScope.content = config.content;
           }
+
+          dialogScope.active = true;
         },
         /**
          * Hides dialog
