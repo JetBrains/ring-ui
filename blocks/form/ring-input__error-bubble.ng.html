@@ -1,0 +1,8 @@
+<div class="ring-input__error-bubble" ng-if="errorBubble().$invalid && errorBubble().$dirty">
+    <span ng-show="errorBubble().$error.required">Value is required</span>
+    <span ng-show="errorBubble().$error.url">Should be a valid URL</span>
+    <span ng-show="errorBubble().$error.email">Should be a valid email</span>
+    <span ng-show="errorBubble().$error.maxlength">Is too long</span>
+    <span ng-show="errorBubble().$error.minlength">Is too short</span>
+    <span ng-show="errorBubble().$error.pattern">Doesn't match the pattern</span>
+</div>
