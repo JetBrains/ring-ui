@@ -114,7 +114,7 @@ $added_background: #c8f0c9;
   border-top: solid 1px $changeset_border;
 }
 
-.CodeMirror .line__first .chars__modified {
+.CodeMirror .line__first + pre .chars__modified {
   padding-top: 1px;
 }
 
@@ -122,7 +122,7 @@ $added_background: #c8f0c9;
   border-bottom: solid 1px $changeset_border;
 }
 
-.CodeMirror .line__last .chars__modified {
+.CodeMirror .line__last + pre .chars__modified {
   padding-bottom: 1px;
 }
 
