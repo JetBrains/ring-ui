@@ -17,7 +17,7 @@
               }) === false;
             }
             if (!dontClose && (button.close !== false)) {
-              $scope.active = false;
+              dialog.hide();
             }
           };
           dialog.register($scope);
@@ -71,6 +71,7 @@
         'hide': function () {
           if (dialogScope) {
             dialogScope.active = false;
+            dialogScope.content = '';
           }
         },
         'register': function (scope) {
