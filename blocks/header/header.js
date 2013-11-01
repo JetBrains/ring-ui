@@ -20,7 +20,6 @@ define(['jquery',  'global/global__modules', 'global/global__views', 'dropdown/d
     }
 
     if (data.services && data.services.length > SERVICES_LIMIT) {
-      console.log(data);
       data.items = data.services.splice(SERVICES_LIMIT);
     }
 
