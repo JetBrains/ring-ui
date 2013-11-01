@@ -1,6 +1,8 @@
 define(['jquery',  'global/global__modules', 'global/global__views', 'dropdown/dropdown', 'font-icon/font-icon'], function($, Module, View) {
   'use strict';
 
+  var SERVICES_LIMIT = 10;
+
   var process = function(data) {
     if (data.user) {
       var links = data.personalLinks && data.personalLinks.length ? [].concat(data.personalLinks) : [];
@@ -15,6 +17,11 @@ define(['jquery',  'global/global__modules', 'global/global__views', 'dropdown/d
         username: data.user.name,
         items: links
       };
+    }
+
+    if (data.services && data.services.length > SERVICES_LIMIT) {
+      console.log(data);
+      data.items = data.services.splice(SERVICES_LIMIT);
     }
 
     return data;
