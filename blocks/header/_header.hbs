@@ -8,10 +8,16 @@
           <a class="ring-link ring-header__item ring-header__item_link{{> global__class}}" href="{{url}}">{{label}}</a>
         {{/if}}
       {{/services}}
+      {{#if items}}
+        <span class="ring-header__more{{> dropdown__component}}">
+          <span class="ring-header__item">more</span>
+          <span class="ring-font-icon ring-font-icon_caret-down"></span>
+        </span>
+      {{/if}}
     </div>
     {{#personal}}
       <span class="ring-header__personal{{> dropdown__component}}">
-        <span class="ring-header__item ring-header__item_link">{{username}}</span>
+        <span class="ring-header__item">{{username}}</span>
         <span class="ring-font-icon ring-font-icon_caret-down"></span>
       </span>
     {{else}}
