@@ -5,6 +5,7 @@
     "almond": "~0.2.6",
     "codemirror": "~3.19.0",
     "jquery": "~1.10.2",
+    "jquery-caret": "http://code.accursoft.com/caret/get/v1.1.0.tar.gz",
     "json2": "*",
     "jso": "git://github.com/princed/jso.git",
     "polyfill": "git://github.com/inexorabletash/polyfill.git",

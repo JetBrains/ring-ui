@@ -1,4 +1,4 @@
-define(['jquery',  'global/global__modules', 'global/global__views', 'dropdown/dropdown', 'font-icon/font-icon'], function($, Module, View) {
+define(['jquery',  'global/global__modules', 'global/global__views', 'dropdown/dropdown', 'dropdown/query-assist' , 'font-icon/font-icon'], function($, Module, View) {
   'use strict';
 
   var process = function(data) {
