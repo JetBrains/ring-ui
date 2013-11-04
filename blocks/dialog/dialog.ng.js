@@ -20,8 +20,19 @@
               dialog.hide();
             }
           };
+          this.setTitle = function (title) {
+            $scope.title = title;
+          };
           dialog.register($scope);
         }]
+      };
+    }]).
+    directive('dialogTitle', [function () {
+      return {
+        'require': '^dialog',
+        'link': function (scope, iElement, iAttrs, dialogCtrl) {
+          dialogCtrl.setTitle(iAttrs.dialogTitle);
+        }
       };
     }]).
     service('dialog', [function () {
