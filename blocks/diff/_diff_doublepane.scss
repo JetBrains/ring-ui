@@ -58,7 +58,7 @@
 
 // todo(igor.alexeenko): Move to separate file.
 
-// NB! I took this colours from Intellij IDEA default colour scheme.
+// NB: colours from IntelliJ IDEA default colour scheme.
 $changeset_border: #969696;
 
 $modified_background: #e9effc;
@@ -154,9 +154,6 @@ $added_background: #c8f0c9;
 .cm-s-default .cm-string {color: #008D14;}
 .cm-s-default .cm-string-2 {color: #008D14;}
 .cm-s-default .cm-error {color: #FF2A1A;}
-
-/* "clike" mode doesn't support Java properly - the majority of tokens are marked as "variable" */
-.cm-s-default.CodeMirror-lang-java .cm-variable {color: #000;}
 
 /* Brackets highlighting */
 div.CodeMirror span.CodeMirror-matchingbracket {
