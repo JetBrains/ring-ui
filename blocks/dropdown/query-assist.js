@@ -84,14 +84,13 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'auth/auth',
   };
 
   var init = function (config) {
-
     $el = $(config.el);
     url = config.url;
     $el.bind('focus', function () {
       _startListen();
       $queryContainer = $(View.render('query', ''));
-      $queryContainer.css('top', $('.ring-query-js').offset().top + 28);
-      $queryContainer.css('left', $('.ring-query-js').offset().left);
+      $queryContainer.css('top', $el.offset().top + 28);
+      $queryContainer.css('left', $el.offset().left);
       $queryContainer.appendTo('body');
     });
 
