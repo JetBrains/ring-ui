@@ -4,6 +4,7 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'auth/auth',
   var $el,
     $queryContainer,
     url,
+    $global = $(window),
     timeoutHandler,
     lastPolledCaretPosition,
     lastTriggeredCaretPosition,
@@ -11,11 +12,9 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'auth/auth',
     lastTriggeredValue;
 
   var destroy = function () {
-    if ($queryContainer) {
+    if($queryContainer) {
       $queryContainer.remove();
       $queryContainer = null;
-
-      //target = null;
 
       Module.get('query').trigger('hide:done');
       return true;
@@ -104,6 +103,7 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'auth/auth',
     if($el.is(':focus')) {
       _stopListen();
     }
+
   };
 
   var _startListen = function () {
@@ -116,6 +116,8 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'auth/auth',
       clearInterval(timeoutHandler);
     }
   };
+
+  $global.resize(destroy);
 
   Module.add('query', {
     init: {
