@@ -30,15 +30,25 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'auth/auth',
         var suggestions,
           styleRanges;
 
+        console.log(data);
         if(data.query === $el.text()) {
           suggestions = data.suggestions;
         } else {
           suggestions = [];
         }
         if(data.styleRanges) {
+          // render styleRanges
           styleRanges = data.styleRanges;
         }
-        // Here render box
+
+//        console.log(suggestions);
+        $queryContainer = $(View.render('query', data));
+        $queryContainer.css('top', $el.offset().top + 24);
+        $queryContainer.css('left', $el.offset().left);
+        $queryContainer.appendTo('body');
+        $queryContainer.on('click', function () {
+          console.log(arguments);
+        });
       });
 
     }
@@ -74,12 +84,12 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'auth/auth',
       lastTriggeredCaretPosition = caret;
       lastTriggeredValue = value;
       Module.get('query').trigger('delayedChange:done', {value: value, caret: caret});
-      _doAssist.call(null, value, caret);
+      _doAssist.call(null, value, caret, true);
     } else if(caret !== lastTriggeredCaretPosition) {
       lastTriggeredCaretPosition = caret;
       lastTriggeredValue = value;
       Module.get('query').trigger('delayedCaretMove:done', {value: value, caret: caret});
-      _doAssist.call(null, value, caret);
+      _doAssist.call(null, value, caret, true);
     }
   };
 
@@ -88,15 +98,16 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'auth/auth',
     url = config.url;
     $el.bind('focus', function () {
       _startListen();
-      $queryContainer = $(View.render('query', ''));
-      $queryContainer.css('top', $el.offset().top + 28);
-      $queryContainer.css('left', $el.offset().left);
-      $queryContainer.appendTo('body');
     });
 
     $el.bind('blur', function () {
       _stopListen();
-      destroy();
+    });
+    $global.on('click', function (ev) {
+      var target = $(ev.target);
+      if(!target.is($el) && !target.closest('.ring-query').length) {
+        destroy();
+      }
     });
 
     if($el.is(':focus')) {
