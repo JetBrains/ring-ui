@@ -5,7 +5,8 @@ define([
   'header/header',
   'header/header__userinfo',
   'header/header__hub-services',
-  'footer/footer'
+  'footer/footer',
+  'alert/alerts'
 ], function(ring) {
   return ring;
 });
