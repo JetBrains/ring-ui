@@ -2,6 +2,7 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'auth/auth',
   'use strict';
 
   var $el,
+    $query,
     $queryContainer,
     url,
     $global = $(window),
@@ -27,21 +28,23 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'auth/auth',
   var _doAssist = function (query, caret, requestHighlighting) {
     if(query && caret) {
       _getSuggestion.call(null, query, caret, requestHighlighting).then(function (data /* status, jqXHR*/) {
-        if($queryContainer) {
-          $queryContainer.remove();
+        if($query) {
+          $query.remove();
         }
 
         if(data.query === $el.text()) {
+          $query = $(View.render('query', data));
+          $query.css('top', $el.offset().top + 24);
+          $query.css('left', $el.offset().left);
+          $queryContainer.show().html($query);
           if(data.suggestions) {
-            $queryContainer = $(View.render('query', data));
-            $queryContainer.css('top', $el.offset().top + 24);
-            $queryContainer.css('left', $el.offset().left);
-            $queryContainer.appendTo('body');
-            $queryContainer.on('click', '.ring-query-el', function (ev) {
+            $query.on('click', '.ring-query-el', function (ev) {
               var target = $(ev.currentTarget),
                 suggestIndex = target.data('suggestIndex');
               _handleSuggest(data.suggestions[suggestIndex]);
             });
+          } else {
+            $queryContainer.hide();
           }
         } else {
           destroy();
@@ -85,8 +88,8 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'auth/auth',
       str = text + subStr;
 
     }
-    $el.text(str);
-    destroy();
+    $el.text(str).focus().caret(suggest.caret);
+//    destroy();
   };
 
   var pollCaretPosition = function () {
@@ -112,6 +115,12 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'auth/auth',
   var init = function (config) {
     $el = $(config.el);
     url = config.url;
+
+    $queryContainer = $(View.render('query-containter'));
+    $queryContainer.css('top', $el.offset().top + 24);
+    $queryContainer.css('left', $el.offset().left);
+    $queryContainer.appendTo('body');
+
     $el.bind('focus', function () {
       _startListen();
     });
