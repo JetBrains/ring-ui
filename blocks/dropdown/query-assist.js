@@ -27,9 +27,6 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'auth/auth',
   var _doAssist = function (query, caret, requestHighlighting) {
     if(query && caret) {
       _getSuggestion.call(null, query, caret, requestHighlighting).then(function (data /* status, jqXHR*/) {
-        var suggestions,
-          styleRanges;
-
         if($queryContainer) {
           $queryContainer.remove();
         }
@@ -43,7 +40,7 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'auth/auth',
             $queryContainer.on('click', '.ring-query-el', function (ev) {
               var target = $(ev.currentTarget),
                 suggestIndex = target.data('suggestIndex');
-              _handleSuggest(suggestions[suggestIndex]);
+              _handleSuggest(data.suggestions[suggestIndex]);
             });
           }
         } else {
@@ -51,7 +48,6 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'auth/auth',
         }
         if(data.styleRanges) {
           //@ToDo render styleRanges
-          styleRanges = data.styleRanges;
         }
 
       });
