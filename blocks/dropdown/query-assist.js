@@ -30,31 +30,30 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'auth/auth',
         var suggestions,
           styleRanges;
 
-        console.log(data);
+        if($queryContainer) {
+          $queryContainer.remove();
+        }
+
         if(data.query === $el.text()) {
-          suggestions = data.suggestions;
+          if(data.suggestions) {
+            $queryContainer = $(View.render('query', data));
+            $queryContainer.css('top', $el.offset().top + 24);
+            $queryContainer.css('left', $el.offset().left);
+            $queryContainer.appendTo('body');
+            $queryContainer.on('click', '.ring-query-el', function (ev) {
+              var target = $(ev.currentTarget),
+                suggestIndex = target.data('suggestIndex');
+              _handleSuggest(suggestions[suggestIndex]);
+            });
+          }
         } else {
-          suggestions = [];
+          destroy();
         }
         if(data.styleRanges) {
           //@ToDo render styleRanges
           styleRanges = data.styleRanges;
         }
 
-        if($queryContainer) {
-          $queryContainer.remove();
-        }
-        if(data.suggestions) {
-          $queryContainer = $(View.render('query', data));
-          $queryContainer.css('top', $el.offset().top + 24);
-          $queryContainer.css('left', $el.offset().left);
-          $queryContainer.appendTo('body');
-          $queryContainer.on('click', '.ring-query-el', function (ev) {
-            var target = $(ev.currentTarget),
-              suggestIndex = target.data('suggestIndex');
-            _handleSuggest(suggestions[suggestIndex]);
-          });
-        }
       });
 
     }
