@@ -14,7 +14,7 @@
     service('alert', [function () {
       var service = {};
 
-      ['message', 'error', 'warning', 'success'].forEach(function (type) {
+      $.each(ring('alerts', 'getAlertTypes')(), function (name, type) {
         service[type] = function (message, opt_timeout) {
           return ring('alerts', 'add')(message, type, opt_timeout);
         };
