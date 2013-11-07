@@ -49,7 +49,7 @@ $alert-margin: 10px;
 .ring-alerts {
   left: 50%;
   margin-left: -200px;
-  position: absolute;
+  position: fixed;
   top: -$alert-margin - 2;
   width: 400px;
   z-index: $alert-z-index;
