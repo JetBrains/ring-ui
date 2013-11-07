@@ -2,8 +2,8 @@
     <div class="ring-query__i">
         <ul class="ring-query__list">
             {{#suggestions }}
-                <li class="ring-query-el">
-                    <div class="ring-query-el__left">Command</div>
+                <li data-suggest-index="{{ @index }}" class="ring-query-el">
+                    <div class="ring-query-el__left">{{ description }}</div>
                     <div class="ring-query-el__right">{{ option }}</div>
                 </li>
             {{/suggestions }}
