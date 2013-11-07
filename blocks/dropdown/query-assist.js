@@ -37,18 +37,24 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'auth/auth',
           suggestions = [];
         }
         if(data.styleRanges) {
-          // render styleRanges
+          //@ToDo render styleRanges
           styleRanges = data.styleRanges;
         }
 
-//        console.log(suggestions);
-        $queryContainer = $(View.render('query', data));
-        $queryContainer.css('top', $el.offset().top + 24);
-        $queryContainer.css('left', $el.offset().left);
-        $queryContainer.appendTo('body');
-        $queryContainer.on('click', function () {
-          console.log(arguments);
-        });
+        if($queryContainer) {
+          $queryContainer.remove();
+        }
+        if(data.suggestions) {
+          $queryContainer = $(View.render('query', data));
+          $queryContainer.css('top', $el.offset().top + 24);
+          $queryContainer.css('left', $el.offset().left);
+          $queryContainer.appendTo('body');
+          $queryContainer.on('click', '.ring-query-el', function (ev) {
+            var target = $(ev.currentTarget),
+              suggestIndex = target.data('suggestIndex');
+            _handleSuggest(suggestions[suggestIndex]);
+          });
+        }
       });
 
     }
@@ -71,6 +77,21 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'auth/auth',
       defer.resolve(data, state, jqXHR);
     });
     return defer.promise();
+  };
+
+  var _handleSuggest = function (suggest) {
+    var text = $el.text(),
+      str,
+      subStr = suggest.prefix + suggest.option + suggest.suffix;
+
+    if(suggest.matchingStart !== suggest.matchingEnd) {
+      str = text.substr(0, suggest.completionStart) + subStr + text.substr(suggest.completionStart + subStr.length);
+    } else {
+      str = text + subStr;
+
+    }
+    $el.text(str);
+    destroy();
   };
 
   var pollCaretPosition = function () {
