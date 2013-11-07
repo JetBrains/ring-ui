@@ -189,6 +189,13 @@ define([
       override: true
     },
 
+    getAlertTypes: {
+      method: function() {
+        return Alert.Type;
+      },
+      override: true
+    },
+
     add: {
       method: addAlert,
       override: true
