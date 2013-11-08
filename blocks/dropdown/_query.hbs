@@ -1,27 +1,27 @@
 <div class="ring-query__i">
     <ul class="ring-query__list">
         {{#suggestions }}
-        <li data-suggest-index="{{ @index }}" class="ring-query-el">
-            {{> query__item }}
+            <li data-suggest-index="{{ @index }}" class="ring-query-el">
+                {{> query__item }}
+            </li>
+        {{/suggestions }}
+
+
+
+
+        <li class="ring-query-el ring-query-el_title">
+            <div class="ring-query-el__left"></div>
+            <div class="ring-query-el__title ring-query-el__right">
+                <span class="ring-query-el__title__inner-text">Recent commands</span>
+            </div>
         </li>
-    {{/suggestions }}
-
-
-
-
-        <!--<li class="ring-query-el ring-query-el_title">-->
-        <!--<div class="ring-query-el__left"></div>-->
-        <!--<div class="ring-query-el__title ring-query-el__right">-->
-        <!--<span class="ring-query-el__title__inner-text">Recent commands</span>-->
-        <!--</div>-->
-        <!--</li>-->
-        <!--<li class="ring-query-el">-->
-        <!--<div class="ring-query-el__left">21:15</div>-->
-        <!--<div class="ring-query-el__right">comment</div>-->
-        <!--</li>-->
-        <!--<li class="ring-query-el">-->
-        <!--<div class="ring-query-el__left">SEP 15</div>-->
-        <!--<div class="ring-query-el__right">for me</div>-->
-        <!--</li>-->
+        <li class="ring-query-el">
+            <div class="ring-query-el__left">21:15</div>
+            <div class="ring-query-el__right">comment</div>
+        </li>
+        <li class="ring-query-el">
+            <div class="ring-query-el__left">SEP 15</div>
+            <div class="ring-query-el__right">for me</div>
+        </li>
     </ul>
 </div>
