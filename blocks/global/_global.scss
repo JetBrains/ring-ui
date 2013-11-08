@@ -53,11 +53,10 @@ $fonts-dir: 'fonts/';
 
 // Constant values for z-indexes.
 
-// Invisible element is absolute-positioned element, which should be known
-// lower all other elements on page.
+// Invisible element is absolutely positioned element, which should be below
+// all other elements on the page.
 $invisible-element-z-index: -1;
-// Elements, which should overlay all other elements on page.
+// Elements which should overlay all other elements on the page.
 $overlay-z-index: 5;
-// Alerts, which can de displayed higher overlays and other elements, like
-// notifications element.
+// Alerts, which should de displayed above overlays.
 $alert-z-index: 6;
