@@ -28,6 +28,7 @@ $ring-seventh: 14.28%;
   width: 100%;
   height: 100%;
   background: linear-gradient(-90deg, #000 $ring-seventh, #0000fe $ring-seventh, #0000fe $ring-seventh * 2, #fe0000 $ring-seventh * 2, #fe0000 $ring-seventh * 3, #ff00fe $ring-seventh * 3, #ff00fe $ring-seventh * 4, #01ff01 $ring-seventh * 4, #01ff01 $ring-seventh * 5, #01ffff $ring-seventh * 5, #01ffff $ring-seventh * 6, #fffe01 $ring-seventh * 6);
+  @include ring-font;
 
   .ring-not-found__textbox {
     position: absolute;
@@ -39,14 +40,13 @@ $ring-seventh: 14.28%;
     background: rgba(255, 255, 255, 0.85);
     border-radius: 3px;
 
-    @include ring-font;
     font-size: 15px;
     color: #000000;
   }
+
   .ring-not-found__title {
     margin: 1 * $ring-unit 0 2 * $ring-unit;
 
-    @include ring-font;
     font-size: 21px;
     font-weight: bold;
     color: #000;

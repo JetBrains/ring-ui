@@ -22,7 +22,6 @@
     <option boss="false" />
     <option debug="false" />
     <option eqnull="false" />
-    <option es5="false" />
     <option esnext="false" />
     <option evil="false" />
     <option expr="false" />
