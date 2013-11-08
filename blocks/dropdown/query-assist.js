@@ -12,11 +12,44 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'auth/auth',
     lastPolledValue,
     lastTriggeredValue;
 
+  var init = function (config) {
+    $el = $(config.el);
+    url = config.url;
+
+    $queryContainer = $(View.render('query-containter'));
+    $queryContainer.css('top', $el.offset().top + 24);
+    $queryContainer.css('left', $el.offset().left);
+    $queryContainer.appendTo('body');
+
+    $el.bind('focus', function () {
+      _startListen();
+    });
+
+    $el.bind('blur', function () {
+      _stopListen();
+    });
+    $global.on('click', function (ev) {
+      var target = $(ev.target);
+      if(!target.is($el) && !target.closest('.ring-query').length) {
+        destroy();
+      }
+    });
+
+    if($el.is(':focus')) {
+      _stopListen();
+    }
+
+  };
+
   var destroy = function () {
     if($queryContainer) {
       $queryContainer.remove();
       $queryContainer = null;
 
+      if($query) {
+        $query.remove();
+        $query = null;
+      }
       Module.get('query').trigger('hide:done');
       return true;
     } else {
@@ -24,9 +57,9 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'auth/auth',
       return false;
     }
   };
-
   var _doAssist = function (query, caret, requestHighlighting) {
     if(query && caret) {
+
       _getSuggestion.call(null, query, caret, requestHighlighting).then(function (data /* status, jqXHR*/) {
         if($query) {
           $query.remove();
@@ -34,9 +67,8 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'auth/auth',
 
         if(data.query === $el.text()) {
           $query = $(View.render('query', data));
-          $query.css('top', $el.offset().top + 24);
-          $query.css('left', $el.offset().left);
-          $queryContainer.show().html($query);
+          _setContainerCoords();
+          $queryContainer.html($query).show();
           if(data.suggestions) {
             $query.on('click', '.ring-query-el', function (ev) {
               var target = $(ev.currentTarget),
@@ -44,18 +76,47 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'auth/auth',
               _handleSuggest(data.suggestions[suggestIndex]);
             });
           } else {
+            $query.remove();
             $queryContainer.hide();
           }
-        } else {
-          destroy();
         }
         if(data.styleRanges) {
           //@ToDo render styleRanges
         }
 
       });
-
     }
+  };
+
+  var _setContainerCoords = function () {
+    var coords = _getCoords();
+    $queryContainer.css('top', coords.top + 24);
+    $queryContainer.css('left', coords.left);
+  };
+
+  var _getCoords = function () {
+    var sel = document.selection, range;
+    var x = 0, y = 0;
+    if(sel) {
+      if(sel.type !== 'Control') {
+        range = sel.createRange();
+        range.collapse(true);
+        x = range.boundingLeft;
+        y = range.boundingTop;
+      }
+    } else if(window.getSelection) {
+      sel = window.getSelection();
+      if(sel.rangeCount) {
+        range = sel.getRangeAt(0).cloneRange();
+        if(range.getClientRects) {
+          range.collapse(true);
+          var rect = range.getClientRects()[0];
+          x = rect.left;
+          y = rect.top;
+        }
+      }
+    }
+    return { left: x, top: y };
   };
 
   var _getSuggestion = function (query, caret, requestHighlighting) {
@@ -89,7 +150,6 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'auth/auth',
 
     }
     $el.text(str).focus().caret(suggest.caret);
-//    destroy();
   };
 
   var pollCaretPosition = function () {
@@ -110,35 +170,6 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'auth/auth',
       Module.get('query').trigger('delayedCaretMove:done', {value: value, caret: caret});
       _doAssist.call(null, value, caret, true);
     }
-  };
-
-  var init = function (config) {
-    $el = $(config.el);
-    url = config.url;
-
-    $queryContainer = $(View.render('query-containter'));
-    $queryContainer.css('top', $el.offset().top + 24);
-    $queryContainer.css('left', $el.offset().left);
-    $queryContainer.appendTo('body');
-
-    $el.bind('focus', function () {
-      _startListen();
-    });
-
-    $el.bind('blur', function () {
-      _stopListen();
-    });
-    $global.on('click', function (ev) {
-      var target = $(ev.target);
-      if(!target.is($el) && !target.closest('.ring-query').length) {
-        destroy();
-      }
-    });
-
-    if($el.is(':focus')) {
-      _stopListen();
-    }
-
   };
 
   var _startListen = function () {
