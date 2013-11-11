@@ -15,21 +15,18 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'auth/auth',
 //    TOP_PADDING = 4;
 
   var init = function (config) {
+    console.log('init');
     $el = $(config.el);
     url = config.url;
 
     $queryContainer = $(View.render('query-containter'));
-    $queryContainer.css('top', $el.offset().top + 24);
-    $queryContainer.css('left', $el.offset().left);
     $queryContainer.appendTo('body');
 
-    $el.bind('focus', function () {
+    $el.bind('focus',function () {
       _startListen();
-    });
-
-    $el.bind('blur', function () {
-      _stopListen();
-    });
+    }).bind('blur', function () {
+        _stopListen();
+      });
     $global.on('click', function (ev) {
       var target = $(ev.target);
       if(!target.is($el) && !target.closest('.ring-query').length) {
@@ -44,14 +41,9 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'auth/auth',
   };
 
   var destroy = function () {
-    if($queryContainer) {
-      $queryContainer.remove();
-      $queryContainer = null;
-
-      if($query) {
-        $query.remove();
-        $query = null;
-      }
+    if($queryContainer && $query) {
+      $query.remove();
+      $query = null;
       Module.get('query').trigger('hide:done');
       return true;
     } else {
@@ -61,12 +53,10 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'auth/auth',
   };
   var _doAssist = function (query, caret, requestHighlighting) {
     if(query && caret) {
-
       _getSuggestion.call(null, query, caret, requestHighlighting).then(function (data /* status, jqXHR*/) {
         if($query) {
           $query.remove();
         }
-
         if(data.query === $el.text()) {
           $query = $(View.render('query', data));
           $queryContainer.html($query).show();
@@ -75,6 +65,7 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'auth/auth',
             $query.on('click', '.ring-query-el', function (ev) {
               var target = $(ev.currentTarget),
                 suggestIndex = target.data('suggestIndex');
+              $query.remove();
               _handleSuggest(data.suggestions[suggestIndex]);
             });
           } else {
@@ -87,21 +78,29 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'auth/auth',
         }
 
       });
+    } else {
+      _setContainerCoords(true);
     }
   };
 
-  var _setContainerCoords = function () {
+
+  // init - set position for el "by default"
+  var _setContainerCoords = function (init) {
     var coords = _getCoords(),
       top,
       left;
 
-    top = coords.top + 20;
-    left = coords.left - 98;
+    if(!init) {
+      top = coords.top + 20;
+      left = coords.left - 98;
 
-    if(left + $queryContainer.width() > $global.width() - MIN_RIGHT_PADDING) {
-      left = $global.width() - MIN_RIGHT_PADDING - $queryContainer.width();
+      if(left + $queryContainer.width() > $global.width() - MIN_RIGHT_PADDING) {
+        left = $global.width() - MIN_RIGHT_PADDING - $queryContainer.width();
+      }
+    } else {
+      top = $el.offset().top + 23;
+      left = $el.offset().left;
     }
-
     $queryContainer.css({
       top: top,
       left: left
