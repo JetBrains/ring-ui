@@ -25,20 +25,24 @@ define(['jquery', 'jso', 'global/global__modules', 'global/global__utils'], func
     return +(new Date());
   };
 
-  var ajax = function(url, callback) {
-    var cache = function(data) {
+  var ajax = function (url, callback) {
+    var cache = function (data) {
       cacheData[url] = data;
       cacheTime[url] = now();
     };
 
-    return $.oajax({url: serverUrl + url,
-      jso_provider: provider,
-      //TODO: use string scopes instead of ids
-      jso_scopes: jsoConfig[provider].scope,
-      jso_allowia: true,
-      dataType: 'json',
-      success: callback
-    }).done(cache);
+    if(/^[a-z]+:\/\//i.test(url)) {
+      return $.get(url);
+    } else {
+      return $.oajax({url: serverUrl + url,
+        jso_provider: provider,
+        //TODO: use string scopes instead of ids
+        jso_scopes: jsoConfig[provider].scope,
+        jso_allowia: true,
+        dataType: 'json',
+        success: callback
+      }).done(cache);
+    }
   };
 
   var get = function(url) {
