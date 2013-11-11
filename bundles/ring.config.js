@@ -3,6 +3,7 @@ require.config({
   paths: {
     'ring'       : '../bundles/ring',
     'jquery'     : '../shims/jquery/jquery',
+    'jquery-caret': '../components/jquery-caret/jquery.caret',
     'handlebars' : '../tmp/handlebars',
     'codemirror' : '../components/codemirror/lib/codemirror',
     'storage'    : '../components/polyfill/storage',
@@ -29,6 +30,9 @@ require.config({
           wipe: jso_wipe
         };
       }
+    },
+    'jquery-caret': {
+      deps:['jquery']
     },
     'codemirror': {
       'exports': 'CodeMirror'

@@ -82,7 +82,7 @@
 // Command box
 //
 // Markup:
-//  <div class="ring-query">
+//  <div class="ring-query__i">
 //    <ul class="ring-query__list">
 //      <li class="ring-query-el">
 //        <div class="ring-query-el__left">Command</div>
@@ -112,9 +112,15 @@
 // Styleguide 5.3
 
 .ring-query {
+  position: absolute;
+  transition: 0.3s;
+}
+
+.ring-query__i {
   border: 1px solid #a8a8a8;
   border-radius: 2px;
   width: $ring-unit*36;
+  background-color: #FFF
 }
 
 .ring-query__list {
