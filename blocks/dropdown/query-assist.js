@@ -141,7 +141,8 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'auth/auth',
   var _handleSuggest = function (suggest) {
     var text = $el.text(),
       str,
-      subStr = suggest.prefix + suggest.option + suggest.suffix;
+      prefix = text.substr(text.length - 1) === ' ' ? '' : suggest.prefix,
+      subStr = prefix + suggest.option + suggest.suffix;
 
     if(suggest.matchingStart !== suggest.matchingEnd) {
       str = text.substr(0, suggest.completionStart) + subStr + text.substr(suggest.completionStart + subStr.length);
