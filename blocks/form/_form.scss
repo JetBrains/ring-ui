@@ -169,6 +169,26 @@
   }
 }
 
+.ring-form_rows {
+  & .ring-form__label {
+    float: none;
+  }
+  & .ring-form__control {
+    & .ring-input {
+      width: inherit !important;
+    }
+    margin-left: 0;
+    width: 42 * $ring-unit;
+  }
+  & .ring-form__footer {
+    padding: 1*$ring-unit 3*$ring-unit 2*$ring-unit 3*$ring-unit;
+  }
+}
+
+.ring-form__wrap {
+  padding: 2*$ring-unit 4*$ring-unit 0  4*$ring-unit;
+}
+
 .ring-form__footer {
   margin-top: 3 * $ring-unit;
   padding: 16px;
@@ -176,6 +196,11 @@
   & .ring-btn {
     margin-right: 16px;
   }
+}
+
+.ring-form__footer__b-rem {
+  display: block;
+  margin-bottom: 1*$ring-unit;
 }
 
 .ring-form__footer_black {
@@ -195,11 +220,10 @@
 
 .ring-form__label {
   float: left;
-  display: table-cell;
+  display: inline;
   height: 3 * $ring-unit;
-
+  line-height: 3 * $ring-unit;
   vertical-align: middle;
-  line-height: normal !important;
 }
 
 .ring-form__control {
@@ -316,8 +340,8 @@
 .ring-checkbox[type="checkbox"] + label {
   content: "";
   display: inline-block;
-  width: 12px;
-  height: 12px;
+  width: 11px;
+  height: 11px;
 
   cursor: pointer;
   border: 1px solid #CCCCCC;
@@ -332,8 +356,8 @@
   content: "";
   position: relative;
   display: inline-block;
-  width: 12px;
-  height: 12px;
+  width: 11px;
+  height: 11px;
 
   font-size: 13px;
 
@@ -348,7 +372,7 @@
   content: "";
   position: relative;
   top: -2px;
-  left: 2px;
+  left: 1px;
   display: block;
   width: 11px;
   height: 11px;
