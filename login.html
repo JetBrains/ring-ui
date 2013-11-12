@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Blocks demo</title>
+    <meta charset="utf-8">
+    <style type="text/css">
+        html, body {
+            padding: 0;
+            margin: 0;
+            font-family: "Helvetica Neue", sans-serif;
+            font-size: 24px;
+            line-height: 1em;
+            height: 100%;
+            width: 100%;
+        }
+
+        .ring-form {
+            position: fixed;
+            top: calc(50%);
+            left: 50%;
+            margin-top: -200px !important;
+            margin-bottom: 0 !important;
+            margin-left: -185px !important;
+            border: 1px solid #cccccc;
+            border-radius: 2px;
+        }
+
+    </style>
+    <link rel="stylesheet" type="text/css" href="dist/ring-lib.css">
+    <link rel="icon" type="image/x-icon" href="site/favicon.ico">
+</head>
+<body>
+
+<!--<div class="demo">-->
+<form class="ring-form ring-form_rows">
+    <div class="ring-form__wrap">
+        <img class="ring-menu__logo__img" src="site/ring.png">
+
+        <div class="ring-form__group">
+            <label class="ring-form__label" for="name">Display Name</label>
+
+            <div class="ring-form__control">
+                <input class="ring-input " id="name" type="text" placeholder="placeholder">
+            </div>
+        </div>
+        <div class="ring-form__group">
+            <label class="ring-form__label" for="email">E-mail</label>
+
+            <div class="ring-form__control">
+                <input class="ring-input " id="email" type="text" placeholder="placeholder">
+            </div>
+        </div>
+        <div class="ring-form__group">
+            <label class="ring-form__label" for="password1">Password</label>
+
+            <div class="ring-form__control">
+                <input class="ring-input " id="password1" type="password" placeholder="placeholder">
+            </div>
+        </div>
+        <div class="ring-form__group">
+            <label class="ring-form__label" for="password2">Confirm Password</label>
+
+            <div class="ring-form__control">
+                <input class="ring-input " type="password" id="password2" placeholder="placeholder">
+            </div>
+        </div>
+    </div>
+    <div class="ring-form__footer">
+        <div class="ring-form__footer__b-rem">
+            <input id="checkbox-1" class="ring-checkbox" type="checkbox" name="example" checked>
+            <label for="checkbox-1"></label>
+            <label for="checkbox-1">Remember</label>
+        </div>
+        <button class="ring-btn">Sign up</button>
+        <a class="ring-link ring-link_right-align" href="#">Log in</a>
+    </div>
+</form>
+<!--</div>-->
+
+</body>
+</html>
