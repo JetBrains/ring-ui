@@ -157,16 +157,23 @@
   }
 
   & .ring-input__error-bubble {
-    top: 0;
+    position: absolute;
+    top: 3*$ring-unit+2;
     padding-left: $ring-unit;
-
-    color: red;
-    background: none;
+    //
+    //color: red;
+    //background: none;
 
     &:before {
-      display: none;
+      //display: none;
     }
   }
+}
+
+.ring-form_border {
+  width: 50*$ring-unit;
+  border: 1px solid #cccccc;
+  border-radius: 2px;
 }
 
 .ring-form_rows {
@@ -192,10 +199,35 @@
 .ring-form__footer {
   margin-top: 3 * $ring-unit;
   padding: 16px;
-  background-color: #dbeaf2;
+  background-color: #e9f8ff;
   & .ring-btn {
     margin-right: 16px;
   }
+}
+
+.ring-form__footer__icon-list {
+  position: relative;
+  top: 8px;
+  display: inline-block;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.ring-form__footer__icon-list + * {
+  position: relative;
+  top:8px;
+}
+
+.ring-form__footer__icon {
+  float: left;
+  margin-right: 16px;
+}
+
+.ring-form__footer__icon-img {
+  display: block;
+  background-color: red;
+  height: 24px;
+  width: 24px;
 }
 
 .ring-form__footer__b-rem {
@@ -205,6 +237,14 @@
 
 .ring-form__footer_black {
   border: 1px solid #000000;
+}
+
+.ring-form__summary {
+  display: block;
+  @include ring-font;
+  font-size: 13px;
+  text-align: center;
+  color: #888888;
 }
 
 .ring-form__title {
