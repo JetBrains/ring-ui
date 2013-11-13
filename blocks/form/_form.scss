@@ -185,6 +185,7 @@
 
 .ring-form__wrap {
   padding: 2*$ring-unit 4*$ring-unit 0  4*$ring-unit;
+  margin-bottom: 34px;
 }
 
 .ring-form__footer {
@@ -192,7 +193,7 @@
   padding: 2 * $ring-unit 4*$ring-unit;
   background-color: #e9f8ff;
   & .ring-btn {
-    margin-right: 16px;
+    margin-right: 2*$ring-unit;
   }
 }
 
@@ -271,6 +272,11 @@
 
   line-height: 3 * $ring-unit;
   vertical-align: middle;
+}
+
+.ring-form__control-link {
+  position: relative;
+  top: 6px;
 }
 
 .ring-form__control_small {
