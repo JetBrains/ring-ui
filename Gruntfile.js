@@ -480,7 +480,7 @@ module.exports = function(grunt) {
     });
   });
 
-  grunt.registerTask('generate-sprite', 'Render font icons to png sprite', function() {
+  grunt.registerTask('sprite', 'Render font icons to png sprite', function() {
     var phantomjs = require('phantomjs');
 
     var done = this.async();
@@ -548,13 +548,6 @@ module.exports = function(grunt) {
   grunt.registerTask('install',   ['bower', 'copy:codemirror']);
   grunt.registerTask('uninstall', ['clean:modules']);
   grunt.registerTask('cleanup',   ['clean:generated']);
-
-
-  grunt.registerTask('sprite', [
-    'sass',
-    'copy:fonts',
-    'generate-sprite'
-  ]);
 
   grunt.registerTask('styles', [
     'sass',
