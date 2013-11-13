@@ -229,6 +229,8 @@
   opacity: 0.5;
   transition: 0.2s;
   user-select:none;
+  border:0;
+  outline: 0;
   &:hover {
     opacity: 1;
   }
