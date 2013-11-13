@@ -188,6 +188,10 @@
   margin-bottom: 34px;
 }
 
+.ring-form__header {
+  min-height: 13px;
+}
+
 .ring-form__footer {
   margin-top: 3 * $ring-unit;
   padding: 2 * $ring-unit 4*$ring-unit;
@@ -242,8 +246,9 @@
 }
 
 .ring-form__title-img {
-  height: 32px;
+  height: 4*$ring-unit;
   border: 0;
+  margin-bottom: 2*$ring-unit;
 }
 
 .ring-form__title {
