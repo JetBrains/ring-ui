@@ -36,28 +36,27 @@ $ring-link-hover-color: #ff5a00;
 }
 
 // Fonts
-@mixin monospace-font() {
-  font: 12px 'Menlo', 'Bitstream Vera Sans Mono', 'Courier New', 'Courier', monospace;
+@mixin ring-font() {
+  font-family: "Helvetica Neue", Arial, sans-serif;
 }
 
-@mixin droid-font() {
-  font-family: "Droid Sans", Arial, Tahoma, Verdana, sans-serif !important;
-}
-
-@mixin thin-font() {
+@mixin ring-thin-font() {
   font-weight: 200;
-  font-family: Helvetica Neue, Calibri, Arial, sans-serif;
+  font-family: "Helvetica Neue", Calibri, Arial, sans-serif;
+}
+
+@mixin ring-monospace-font() {
+  font: 12px Menlo, "Bitstream Vera Sans Mono", "Ubuntu Mono", "Courier New", Courier, monospace;
 }
 
 $fonts-dir: 'fonts/';
 
 // Constant values for z-indexes.
 
-// Invisible element is absolute-positioned element, which should be known
-// lower all other elements on page.
+// Invisible element is absolutely positioned element, which should be below
+// all other elements on the page.
 $invisible-element-z-index: -1;
-// Elements, which should overlay all other elements on page.
+// Elements which should overlay all other elements on the page.
 $overlay-z-index: 5;
-// Alerts, which can de displayed higher overlays and other elements, like
-// notifications element.
+// Alerts, which should de displayed above overlays.
 $alert-z-index: 6;

@@ -10,16 +10,16 @@ $menu-attention-color: #f50000;
 
   text-align: center;
   line-height: 24px;
-  @include droid-font();
+  @include ring-font();
 }
 
 .ring-menu__i {
-  // Use this when width limits needed
-  //max-width: 1100px;
-  //   Do not forget add
-  //       position: absolute;
-  //       min-width: 100%;
-  //   to body
+  // Use this when width limit is needed:
+  //    max-width: 1100px;
+  // Do not forget to add
+  //    position: absolute;
+  //    min-width: 100%;
+  // to <body>
   position: absolute;
   left: $ring-unit*3;
   right: 0;
@@ -187,18 +187,17 @@ $menu-attention-color: #f50000;
 .ring-menu__search__input {
   width: $ring-unit*27 - 2;
   height: $ring-unit*3 - 2;
-
+  padding: 0 $ring-unit*3 0 $ring-unit/2;
+  white-space: pre;
   border: 1px solid #cbcbcb;
-  padding: 0 $ring-unit*2 0 $ring-unit;
 }
 
 .ring-menu__search__glass {
   position: absolute;
-  top: 6px;
+  top: 11px;
   width: 16px;
-  right: 6px;
-
-  color: #d1d1d1;
+  right: 4px;
+  color: #D1D1D1;
 }
 
 /* Custom search glass */

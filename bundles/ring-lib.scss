@@ -1,12 +1,12 @@
 // Base
 @import "../blocks/global/global";
 @import "../blocks/link/link";
-@import "../blocks/font/font";
 @import "../blocks/font-icon/font-icon";
 
 // Style-only modules
 @import "../blocks/breadcrumb/breadcrumb";
 @import "../blocks/btn/btn";
+@import "../blocks/tags/tags";
 @import "../blocks/form/form";
 @import "../blocks/loader/loader";
 @import "../blocks/scrollbar/scrollbar";
@@ -21,3 +21,4 @@
 @import "../blocks/dropdown/dropdown";
 @import "../blocks/dropdown-toggle/dropdown-toggle";
 @import "../blocks/alert/alert";
+@import "../blocks/dialog/dialog";

@@ -1,3 +1,5 @@
+/* global CodeMirror: true */
+
 /**
  * @fileoverview Controller for double-pane editor.
  * @author igor.alexeenko (Igor Alexeenko)
@@ -120,7 +122,7 @@ define([
    * @param {CodeMirror} editor
    * @return {Object}
    */
-  d.DoubleEditorController.getEditorOptions = function(editor) {
+  d.DoubleEditorController.getEditorOptions = function() {
     return {
       lineNumbers: true,
       matchBrackets: true,

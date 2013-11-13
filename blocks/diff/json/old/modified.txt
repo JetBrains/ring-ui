@@ -1,0 +1,641 @@
+package org.jetbrains.jing.repository.impl;
+
+import com.google.common.collect.*;
+import com.google.inject.*;
+import org.jetbrains.annotations.*;
+import org.jetbrains.jing.common.*;
+import org.jetbrains.jing.repository.*;
+import org.jetbrains.jing.repository.deltas.*;
+import org.jetbrains.jing.repository.impl.internalApi.*;
+import org.jetbrains.jing.repository.impl.internalApi.objectStorage.*;
+import org.jetbrains.jing.repository.impl.repository.*;
+import org.jetbrains.jing.textModifications.*;
+
+import javax.annotation.*;
+import java.io.*;
+import java.nio.file.*;
+import java.util.*;
+import java.util.concurrent.*;
+import java.util.logging.*;
+
+@Singleton
+public class RepositoryManagerImpl implements RepositoryManager, AutoCloseable {
+  private static final Logger LOG = Logger.getLogger(RepositoryManager.class.getName());
+  public static final String DEFAULT_CONFIG_FILE_NAME = "repositories.json";
+
+  protected @NotNull final RegionBehaviourRegistrar regionBehaviourRegistrar;
+  @NotNull protected final Path basePath;
+
+  @NotNull private final Collection<Listener> listeners = new CopyOnWriteArrayList<>();
+  @NotNull private final Collection<RepositoryComponentFactory> componentFactories;
+  @NotNull private final RepositoryManagerConfig config;
+  @Nullable private final Configuration mainConfig;
+  @NotNull private final ForeignRepositoryManager foreignRepositoryManager;
+  @NotNull private RepositoryIdGenerator idGenerator;
+
+  private boolean isOpen = true; // ideally should be atomic boolean
+
+
+  /**
+   * for tests
+   */
+  public RepositoryManagerImpl(@NotNull final RegionBehaviourRegistrar regionBehaviourRegistrar,
+                               @NotNull final Set<RepositoryComponentFactory> componentFactories,
+                               @NotNull final Path basePath) throws IOException {
+    this(regionBehaviourRegistrar,
+            componentFactories,
+            Sets.<ForeignRepositorySynchronizer>newHashSet(),
+            basePath,
+            new DefaultRepositoryManagerConfig(null),
+            null,
+            new RepositoryIdGenerator() {
+              @NotNull @Override public String generateId(@NotNull final Path repoPath, @NotNull final String repoName, @NotNull final ExistingIds existingIds) {
+                return repoPath.toString();
+              }
+            }
+    );
+    loadFromBasePath();
+  }
+
+  @Inject
+  public RepositoryManagerImpl(@NotNull final RegionBehaviourRegistrar regionBehaviourRegistrar,
+                               @NotNull final Set<RepositoryComponentFactory> componentFactories,
+                               @NotNull final Set<ForeignRepositorySynchronizer> foreignRepositorySynchronizers,
+                               @NotNull final Configuration conf) throws IOException {
+    this(regionBehaviourRegistrar,
+            componentFactories,
+            foreignRepositorySynchronizers,
+            conf.dataDirEnsureExists().resolve("repositories"),
+            new DefaultRepositoryManagerConfig(conf.dataDirEnsureExists().resolve(DEFAULT_CONFIG_FILE_NAME)), conf, new RandomIdGenerator());
+  }
+
+  private RepositoryManagerImpl(@NotNull final RegionBehaviourRegistrar regionBehaviourRegistrar,
+                                @NotNull final Set<RepositoryComponentFactory> componentFactories,
+                                @NotNull final Iterable<ForeignRepositorySynchronizer> foreignRepositorySynchronizers,
+                                @NotNull final Path basePath,
+                                @NotNull final RepositoryManagerConfig config,
+                                @Nullable final Configuration mainConfig,
+                                @NotNull final RepositoryIdGenerator idGenerator) throws IOException {
+    this.regionBehaviourRegistrar = regionBehaviourRegistrar;
+    this.componentFactories = new ArrayList<>(componentFactories);
+    this.basePath = Files.createDirectories(basePath).toRealPath();
+    this.config = config;
+    this.idGenerator = idGenerator;
+    this.foreignRepositoryManager = new ForeignRepositoryManagerImpl(foreignRepositorySynchronizers);
+    this.mainConfig = mainConfig;
+  }
+
+  public void addComponentFactory(@NotNull RepositoryComponentFactory factory) {
+    componentFactories.add(factory);
+  }
+
+  @NotNull public Path basePath() {
+    return basePath;
+  }
+
+  private Object lock() {
+    return config;
+  }
+
+  @NotNull
+  public Collection<Repository> repositories() throws IOException {
+    synchronized(lock()) {
+      final Collection<RepositoryConfigRecord> records = config.allValid();
+      ArrayList<Repository> result = new ArrayList<>(records.size());
+      for (RepositoryConfigRecord record : records) {
+        assert record.repository() != null;
+        result.add(record.repository());
+      }
+      return Collections.unmodifiableList(result);
+    }
+  }
+
+  @Nullable @Override public Repository repository(@NotNull final String id) throws IOException {
+    synchronized(lock()) {
+      return repositoryById(id);
+    }
+  }
+
+  @Nullable
+  private RepositoryImpl repositoryById(@NotNull final String id) {
+    final RepositoryConfigRecord record = config.recordById(id);
+    return repoFromRecord(record);
+  }
+
+  private void removeRepositoryRecord(@NotNull final String id) throws IOException {
+    final RepositoryImpl repository;
+
+    synchronized(lock()) {
+      final RepositoryConfigRecord recordToDelete = config.recordById(id);
+      if(recordToDelete != null && !recordToDelete.isPersistent()) {
+        throw new CannotDeleteRepositoryException("Cannot delete a repository since it's currently under construction");
+      }
+
+      repository = repositoryById(id);
+      config.remove(id);
+    }
+
+    if (repository != null) {
+      repository.close();
+      for (Listener listener : listeners) {
+        listener.repositoryClosed(repository);
+      }
+    }
+    // TODO should we physically remove repository files from disk?
+  }
+
+  private void registerRepository(@NotNull final RepositoryImpl repository) throws IOException {
+    assert repositoryById(repository.id()) == null;
+
+    config.addOrReplace(new RepositoryConfigRecord(repository));
+
+    for (Listener listener : listeners) {
+      listener.repositoryOpened(repository);
+    }
+  }
+
+  @PreDestroy public void close() {
+    if(!isOpen)
+      return;
+
+    isOpen = false;
+    final ArrayList<RepositoryImpl> repositories;
+
+    synchronized (lock()) {
+      repositories = new ArrayList<>();
+      for (RepositoryConfigRecord record: config.allValid()) {
+        final RepositoryImpl repository = record.repository();
+        if(repository != null) {
+          repositories.add(repository);
+        }
+      }
+    }
+
+    for (RepositoryImpl repository : repositories) {
+      try {
+        repository.close();
+      }
+      catch (IOException e) {
+        LOG.log(Level.WARNING, "Error closing repository:" + e.getMessage(), e);
+      }
+    }
+  }
+
+  @Override protected void finalize() throws Throwable {
+    if(isOpen)
+      close();
+    super.finalize();
+  }
+
+  @Override public void addListener(@NotNull final Listener listener) {
+    listeners.add(listener);
+  }
+
+  @Override public void removeListener(@NotNull final Listener listener) {
+    assert listeners.remove(listener) : "Listener to remove is not registered";
+  }
+
+  @Override @NotNull
+  public Repository createLocalRepository(@NotNull final String name, @NotNull final RepositoryUser user) throws IOException {
+    synchronized(lock()){
+      checkNameAvailable(name);
+      final Path repoPath = pathFromName(name);
+      final RepositoryImpl repository = createLocalRepositoryInt(name, user, repoPath);
+      registerRepository(repository);
+      return repository;
+    }
+  }
+
+  @NotNull @Override public ForeignRepositoryManager foreignRepositoryManager() {
+    return foreignRepositoryManager;
+  }
+
+  @NotNull @Override public Collection<RepositoryRecord> repositoryRecords(final boolean invalidOnly) {
+    synchronized (lock()) {
+      final Collection<RepositoryConfigRecord> configRecords = invalidOnly ? config.allInvalid() : config.all();
+      final ArrayList<RepositoryRecord> result = new ArrayList<>();
+      for (RepositoryConfigRecord record : configRecords) {
+        result.add(new MyRepositoryRecord(record));
+      }
+      return result;
+    }
+  }
+
+  @Nullable @Override public RepositoryRecord repositoryRecordById(@NotNull final String id) {
+    synchronized (lock()) {
+      final RepositoryConfigRecord configRecord = config.recordById(id);
+      if(configRecord == null)
+        return null;
+
+      return new MyRepositoryRecord(configRecord);
+    }
+  }
+
+  private boolean nameIsOccupied(@NotNull final String name) {
+    return config.recordByName(name) != null;
+  }
+
+  private boolean repoIdExists(@NotNull final String id) {
+    return config.recordById(id) != null;
+  }
+
+  @Override @NotNull
+  public Repository createCentralRepository(@NotNull final String name) throws IOException {
+    synchronized(lock()){
+      checkNameAvailable(name);
+      final Path repoPath = pathFromName(name);
+      final RepositoryImpl repository = createCentralRepositoryInt(name, repoPath);
+
+      registerRepository(repository);
+      return repository;
+    }
+  }
+
+  @NotNull @Override public InitRepositorySession createAndInitCentralRepository(@NotNull final String name) throws IOException {
+    synchronized(lock()){
+      checkNameAvailable(name);
+
+      final Path repoPath = pathFromName(name);
+      final RepositoryImpl repository = createCentralRepositoryInt(name, repoPath);
+
+      return new InitRepositorySessionImpl(repository);
+    }
+  }
+
+  private void checkNameAvailable(final String name) {
+    if(nameIsOccupied(name))
+      throw new RepositoryExistsException("Repository already exists");
+  }
+
+  @NotNull @Override
+  public InitRepositorySession createAndInitLocalRepository(@NotNull final String name, @NotNull final RepositoryUser user) throws IOException {
+    synchronized(lock()){
+      checkNameAvailable(name);
+
+      final Path repoPath = pathFromName(name);
+      final RepositoryImpl repository = createLocalRepositoryInt(name, user, repoPath);
+
+      return new InitRepositorySessionImpl(repository);
+    }
+  }
+
+  @NotNull
+  private RepositoryImpl createLocalRepositoryInt(@NotNull final String name, @NotNull final RepositoryUser user, @NotNull final Path repoPath) throws IOException {
+    return RepositoryImpl.createLocalRepository(
+            generateId(repoPath, name),
+            repoPath,
+            name,
+            new Sha1ObjectIdFactory(),
+            new StringPathHasher(),
+            regionBehaviourRegistrar,
+            user,
+            componentFactories,
+            mainConfig
+            );
+  }
+
+  private String generateId(@NotNull final Path repoPath, @NotNull final String repoName) {
+    return idGenerator.generateId(repoPath, repoName, new RepositoryIdGenerator.ExistingIds() {
+      @Override public boolean idExists(@NotNull final String id) {
+        return repoIdExists(id);
+      }
+    });
+  }
+
+  @NotNull
+  private RepositoryImpl createCentralRepositoryInt(@NotNull final String name, @NotNull final Path repoPath) throws IOException {
+    return RepositoryImpl.createCentralRepository(
+            generateId(repoPath, name),
+            repoPath,
+            name,
+            new Sha1ObjectIdFactory(),
+            new StringPathHasher(),
+            regionBehaviourRegistrar,
+            componentFactories,
+            mainConfig
+    );
+  }
+
+  @NotNull
+  private Path pathFromName(@NotNull final String name) {
+    String dirName = name;
+    for(int i=2;;++i) {
+      final Path dirPath = basePath.resolve(dirName);
+      if(!Files.exists(dirPath)) {
+        return dirPath;
+      }
+      dirName = name + '$' + i;
+    }
+  }
+
+  /**
+   * Adds the repository located at the given path or return the repository if it's already under management. Returns null if no repository found at the given location.
+   * <p/>
+   * TODO method is required for supporting a questionable feature of supporting repositories with custom locations. Needs discussion.
+   */
+  @Nullable public Repository addRepository(@NotNull final Path path, @NotNull final String name) throws IOException {
+    synchronized (lock()) {
+      assert !nameIsOccupied(name) : "Repository name already occupied";
+      final RepositoryImpl repository = openRepository(path, generateId(path, name), name);
+      if (repository != null) {
+        registerRepository(repository);
+      }
+      return repository;
+    }
+  }
+
+  @Nullable @Override public Repository repositoryByName(@NotNull final String name) throws IOException {
+    synchronized (lock()) {
+      final RepositoryConfigRecord record = config.recordByName(name);
+      return repoFromRecord(record);
+    }
+  }
+
+  @Nullable
+  private static RepositoryImpl repoFromRecord(@Nullable final RepositoryConfigRecord record) {
+    return record != null ? record.repository() : null;
+  }
+
+  @NotNull @Override public InjectRepositorySession injectRepository(@NotNull final String name) throws IOException {
+    synchronized (lock()) {
+      if(nameIsOccupied(name)) {
+        throw new IllegalArgumentException(String.format("Repository name \"%s\" already occupied", name));
+      }
+
+      final Path futureRepoPath = pathFromName(name);
+      assert !Files.exists(futureRepoPath) : "Path already exists: " + futureRepoPath;
+
+      Files.createDirectories(futureRepoPath);
+      final String generatedId = generateId(futureRepoPath, name);
+
+      final RepositoryConfigRecord repositoryRecord = new RepositoryConfigRecord(generatedId, name, futureRepoPath);
+      repositoryRecord.setPersistent(false);
+      config.addOrReplace(repositoryRecord);
+
+      return new InjectRepositorySession() {
+        private boolean finished = false;
+        private RepositoryImpl repository = null;
+
+        @NotNull @Override public Path path() {
+          return futureRepoPath;
+        }
+
+        @NotNull @Override public String name() {
+          return name;
+        }
+
+        @NotNull @Override public Repository openRepository() throws IOException {
+          synchronized (lock()) {
+            if (repository != null) {
+              throw new IllegalStateException("Repository was already opened");
+            }
+            repository = RepositoryManagerImpl.this.openRepository(futureRepoPath, generatedId, name);
+            if (repository == null) {
+              throw new IOException(String.format("Reserved space for repository name %s still doesn't contain a valid repository", name));
+            }
+            return repository;
+          }
+        }
+
+        @Override public void finish() throws IOException {
+          synchronized (lock()) {
+            if (repository == null) {
+              throw new IllegalStateException("Call openRepository first");
+            }
+            registerRepository(repository);
+            finished = true;
+          }
+        }
+
+        @Override public void close() throws IOException {
+          final boolean aborted = !finished;
+          finalizeSession(generatedId, futureRepoPath, aborted);
+        }
+
+        @Override protected void finalize() throws Throwable {
+          close();
+          super.finalize();
+        }
+      };
+    }
+  }
+
+  private void finalizeSession(@NotNull final String id, @NotNull final Path path, final boolean sessionAborted) throws IOException {
+    if(sessionAborted) {
+      synchronized (lock()) {
+        config.remove(id);
+      }
+      try {
+        FileUtil.deleteDirectoryWithContents(path);
+      }
+      catch (IOException e) {
+        LOG.warning("Unable to remove directory " + path +": " + e.getMessage());
+      }
+    }
+  }
+
+  @Nullable private RepositoryImpl openRepository(@NotNull Path path, @NotNull final String repoId, @NotNull final String repoName) throws IOException {
+    try {
+      path = path.toRealPath();
+    }
+    catch (IOException e) {
+      return null;
+    }
+
+    synchronized(lock()){
+
+      assert findOpenRepositoryByPath(path) == null : "repository already opened";
+
+      long time = System.currentTimeMillis();
+
+      RepositoryImpl repository = RepositoryImpl.openRepository(repoId, repoName, path,
+              Arrays.asList((ObjectIdFactory)new Sha1ObjectIdFactory()),
+              Arrays.asList((PathHasher)new StringPathHasher()),
+              regionBehaviourRegistrar,
+              componentFactories, mainConfig);
+
+      time = System.currentTimeMillis() - time;
+      LOG.info("Opened repository at " + path + " in " + time + " ms");
+
+      return repository;
+    }
+  }
+
+  @Nullable
+  private RepositoryImpl findOpenRepositoryByPath(@NotNull final Path path) {
+    synchronized (lock()) {
+      final RepositoryConfigRecord record = config.recordByPath(path);
+      return repoFromRecord(record);
+    }
+  }
+
+  private void openRepositories(@NotNull final Collection<RepositoryConfigRecord> repoInfo) {
+    synchronized (lock()) {
+      for (RepositoryConfigRecord info : repoInfo) {
+        try {
+          if(info.repository() == null) {
+            final RepositoryImpl repository = openRepository(info.path(), info.id(), info.name());
+            if (repository != null) {
+              registerRepository(repository);
+            }
+            else {
+              info.invalidate(RepositoryConfigRecord.ErrorKind.INVALID_PATH);
+            }
+          }
+        }
+        catch (RepositoryCorruptedException e) {
+          info.invalidate(RepositoryConfigRecord.ErrorKind.REPOSITORY_CORRUPTED);
+        }
+        catch (Exception e) {
+          info.invalidate(RepositoryConfigRecord.ErrorKind.OPEN_ERROR);
+          LOG.warning("Error loading repository from " + info.path() + ": " + ExceptionUtil.meaningfulMessage(e));
+          LOG.info(StackTraceUtil.getTextWithStackTrace(e));
+        }
+      }
+    }
+  }
+
+  public void initFromConfiguration() throws IOException {
+    if(config.load()) {
+      openRepositories(config.allValid());
+    }
+    else
+      LOG.fine("Repository list doesn't exist: " + config.configFilePath());
+
+  }
+
+  // used in tests only
+  private void loadFromBasePath() throws IOException {
+    ArrayList<RepositoryConfigRecord> repoInfo = new ArrayList<>();
+    try (final DirectoryStream<Path> directoryStream = Files.newDirectoryStream(basePath)) {
+      for (final Path repoPath : directoryStream) {
+        if (Files.isDirectory(repoPath)) {
+          final String id = repoPath.toRealPath().toString();
+          repoInfo.add(new RepositoryConfigRecord(id, repoPath.getFileName().toString(), repoPath));
+        }
+      }
+    }
+
+    openRepositories(repoInfo);
+  }
+
+  private class MyRepositoryRecord implements RepositoryRecord {
+    @NotNull private RepositoryConfigRecord configRecord;
+
+    @SuppressWarnings("NullableProblems")
+    public MyRepositoryRecord(@NotNull final RepositoryConfigRecord configRecord) {
+      this.configRecord = configRecord;
+    }
+
+    @NotNull @Override public String id() {
+      return configRecord.id();
+    }
+
+    @NotNull @Override public Path path() {
+      return configRecord.path();
+    }
+
+    @NotNull @Override public String name() {
+      return configRecord.name();
+    }
+
+    @Nullable @Override public Repository repository() {
+      return configRecord.repository();
+    }
+
+    @NotNull @Override public State state() {
+      final RepositoryConfigRecord.ErrorKind errorKind = configRecord.errorKind();
+      if(errorKind == null) {
+        return State.VALID;
+      }
+
+      final State result;
+      switch(errorKind) {
+        case INVALID_PATH:
+          result = State.MISSING;
+          break;
+        case WRONG_REPOSITORY_VERSION:
+        case REPOSITORY_CORRUPTED:
+        default:
+          result = State.CORRUPTED;
+      }
+      return result;
+    }
+
+    @Nullable @Override public Repository locate(@NotNull final Path newPath) throws IOException {
+      synchronized (lock()) {
+        checkActuality();
+
+        if(RepositoryConfigRecord.ErrorKind.INVALID_PATH != configRecord.errorKind()) {
+          throw new IllegalStateException("Cannot change path for repository in current state");
+        }
+
+        if(configRecord.repository() != null) {
+          throw new IllegalStateException("There is a valid repository for name: " + configRecord.name());
+        }
+
+        final RepositoryImpl repository = openRepository(newPath, configRecord.id(), configRecord.name());
+        if (repository == null) {
+          return null;
+        }
+
+        registerRepository(repository);
+
+        final RepositoryConfigRecord updatedRecord = config.recordById(repository.id());
+        assert updatedRecord != null;
+        this.configRecord = updatedRecord;
+
+        return repository;
+      }
+    }
+
+    @Override public void remove() throws IOException {
+      removeRepositoryRecord(configRecord.id());
+    }
+
+    private void checkActuality() {
+      final RepositoryConfigRecord managedRecord = config.recordById(configRecord.id());
+      if(configRecord != managedRecord) { // if not the same instance
+        throw new IllegalStateException("This repository record has been concurrently modified");
+      }
+    }
+  }
+
+  private class InitRepositorySessionImpl implements InitRepositorySession {
+    private final RepositoryImpl repository;
+    private boolean finished;
+
+    public InitRepositorySessionImpl(@NotNull final RepositoryImpl repository) throws IOException {
+      final RepositoryConfigRecord configRecord = new RepositoryConfigRecord(repository.id(), repository.name(), repository.path());
+      configRecord.setPersistent(false);
+      config.addOrReplace(configRecord);
+      this.repository = repository;
+      finished = false;
+    }
+
+    @NotNull @Override public Repository repository() {
+      return repository;
+    }
+
+    @Override public void finish() throws IOException {
+      synchronized (lock()) {
+        registerRepository(repository);
+      }
+      finished = true;
+    }
+
+    @Override public void close() throws IOException {
+      final String id = repository.id();
+      final Path path = repository.path();
+      if(!finished) {
+        repository.close();
+      }
+      finalizeSession(id, path, !finished);
+    }
+
+    @Override protected void finalize() throws Throwable {
+      close();
+      super.finalize();
+    }
+  }
+}

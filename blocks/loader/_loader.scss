@@ -42,7 +42,7 @@
 .ring-loader {
   width: 3 * $ring-unit;
   height: 3 * $ring-unit;
-  margin: 20px auto;
+  margin: $ring-unit*2 auto;
 
   border-radius: 50%;
   border: solid 2px #D8D8D8;
@@ -58,7 +58,7 @@
   .ring-loader {
     width: 3 * $ring-unit;
     height: 3 * $ring-unit;
-    margin: 20px auto;
+    margin: $ring-unit*2 auto;
 
     border-radius: 50%;
     border: solid 2px #D8D8D8;

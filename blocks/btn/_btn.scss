@@ -60,6 +60,7 @@ $btn-border-radius: 3px;
   height: $ring-unit*3;
   box-sizing: border-box;
 
+  margin: 0;
   padding: 0 $ring-unit*2 - 1;
   border: solid 1px #b4b4b4;
   border-radius: $btn-border-radius;
@@ -116,6 +117,7 @@ $btn-border-radius: 3px;
     @include btn-box-shadow-hover(0.2);
     @include btn-background-image-hover(#ffb373, #f60 29%, #ff8620);
   }
+
   &:active, &.ring-btn_active {
     background-color: #FF8620;
     @include btn-background-image-active(#f60, #ff8620);
@@ -140,11 +142,13 @@ $btn-border-radius: 3px;
   background-color: #25B7FF;
   @include btn-box-shadow(0.2);
   @include btn-mixins_blue;
+
   &:hover {
     background-color: #008FD6;
     @include btn-box-shadow-hover(0.2);
     @include btn-background-image-hover(#64ccff 2%, #008fd6 29%, #25b7ff);
   }
+
   &:active, &.ring-btn_active {
     background-color: #25B7FF;
     @include btn-background-image-active(#008fd6, #25b7ff);
@@ -169,11 +173,13 @@ $btn-border-radius: 3px;
   background-color: #3C3C3C;
   box-shadow: inset 0 1px 1px #505050;
   @include btn-mixins_black;
+
   &:hover {
     background-color: #313131;
     box-shadow: inset 0 1px #505050;
     @include btn-background-image-hover(#4a4a4a, #313131 24%, #3c3c3c);
   }
+
   &:active, &.ring-btn_active {
     background-color: #3C3C3C;
     @include btn-background-image-active(#313131, #3c3c3c);
@@ -283,39 +289,4 @@ $btn-border-radius: 3px;
   &:last-child {
     margin-right: 0;
   }
-}
-
-// “Tag” buttons
-//
-// Markup:
-// <span class="ring-btn-tag {$modifiers}">Tag button</span>
-//
-// :hover               - Highlight the button when hovered.
-//
-// Styleguide 4.4
-.ring-btn-tag {
-  position: relative;
-  margin-right: 4px;
-  padding: 0 24px 0 16px;
-  border-radius: 3px;
-  border: 1px solid #D8D8D8;
-
-  line-height: 20px;
-  font-size: 13px;
-  color: #1866C5;
-  cursor: pointer;
-
-  &:hover {
-    color: #ff5a00;
-    text-decoration: underline;
-    border-color: #B4B4B5;
-  }
-}
-
-.ring-btn-tag__last-icon {
-  position: absolute;
-  top: 4px;
-  right: 6px;
-
-  color: #b4b4b4;
 }
