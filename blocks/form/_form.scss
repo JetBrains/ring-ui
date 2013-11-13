@@ -19,8 +19,9 @@
   padding-left: $ring-unit / 2;
   padding-right: $ring-unit/ 2;
   border: 1px solid #cccccc;
+  background-color: #fff;
 
-  @include droid-font;
+  @include ring-font;
   font-size: 13px;
   line-height: 20px;
 
@@ -66,7 +67,7 @@
   background: red;
   color: white;
 
-  @include droid-font;
+  @include ring-font;
   font-size: 13px;
 
   &:before {
@@ -148,7 +149,7 @@
   margin: 0 0 20px;
 
   font-size: 13px;
-  @include droid-font;
+  @include ring-font;
 
   & .ring-input {
     width: 25 * $ring-unit !important;
@@ -156,26 +157,92 @@
   }
 
   & .ring-input__error-bubble {
-    top: 0;
+    position: absolute;
+    top: 3*$ring-unit+2;
     padding-left: $ring-unit;
-
-    color: red;
-    background: none;
-
-    &:before {
-      display: none;
-    }
   }
+}
+
+.ring-form_border {
+  width: 50*$ring-unit;
+  border: 1px solid #cccccc;
+  border-radius: 2px;
+}
+
+.ring-form_rows {
+  & .ring-form__label {
+    float: none;
+  }
+  & .ring-form__control {
+    & .ring-input {
+      width: inherit !important;
+    }
+    margin-left: 0;
+    width: 42 * $ring-unit;
+  }
+  & .ring-form__footer {
+    padding: 1*$ring-unit 3*$ring-unit 2*$ring-unit 3*$ring-unit;
+  }
+}
+
+.ring-form__wrap {
+  padding: 2*$ring-unit 4*$ring-unit 0  4*$ring-unit;
 }
 
 .ring-form__footer {
   margin-top: 3 * $ring-unit;
   padding: 16px;
-  background-color: #dbeaf2;
+  background-color: #e9f8ff;
+  & .ring-btn {
+    margin-right: 16px;
+  }
+}
+
+.ring-form__footer__icon-list {
+  position: relative;
+  top: 8px;
+  display: inline-block;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.ring-form__footer__icon-list + * {
+  position: relative;
+  top:8px;
+}
+
+.ring-form__footer__icon {
+  float: left;
+  margin-right: 16px;
+}
+
+.ring-form__footer__icon-img {
+  display: block;
+  background-color: red;
+  height: 24px;
+  width: 24px;
+}
+
+.ring-form__footer__b-rem {
+  display: block;
+  margin-bottom: 1*$ring-unit;
 }
 
 .ring-form__footer_black {
   border: 1px solid #000000;
+}
+
+.ring-form__summary {
+  display: block;
+  @include ring-font;
+  font-size: 13px;
+  text-align: center;
+  color: #888888;
+}
+
+.ring-form__title-img {
+  height: 32px;
+  border: 0;
 }
 
 .ring-form__title {
@@ -191,11 +258,10 @@
 
 .ring-form__label {
   float: left;
-  display: table-cell;
+  display: inline;
   height: 3 * $ring-unit;
-
+  line-height: 3 * $ring-unit;
   vertical-align: middle;
-  line-height: normal !important;
 }
 
 .ring-form__control {
@@ -205,6 +271,10 @@
 
   line-height: 3 * $ring-unit;
   vertical-align: middle;
+}
+
+.ring-form__control_small {
+  margin-left: 16*$ring-unit !important;
 }
 
 .ring-radio-btn[type="radio"] {
@@ -328,7 +398,6 @@
   height: 11px;
 
   font-size: 13px;
-  @include droid-font;
 
   line-height: normal;
   cursor: pointer;

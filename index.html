@@ -48,7 +48,11 @@
       }
         :
       {
-        serverUri: 'http://localhost:8080'
+          clientId: '0-0-0-0-0',
+          scope: ["0-0-0-0-0"],
+          serverUri: 'http://localhost:8080',
+          refresh: true
+
       };
 
       var o = ring();
@@ -248,7 +252,6 @@
           }
         },
         footer: {
-          type:"gray",
           left: [
             [{url: 'http://www.jetbrains.com/teamcity/?fromServer', label: 'TeamCity'}, 'by JetBrains'],
             'Enterprise 8.0.2 EAP (build 27448)'
@@ -281,6 +284,12 @@
 
       ring('alerts').invoke('add', 'Alerts demo. Will hide in 10 secs.', 'success',
           10000);
+
+      var query = ring('query');
+      query('init', {
+         el:'.ring-query-js',
+         url: '/rest/users/queryAssist?caret=#{caret}&fields=query,caret,suggestions#{styleRanges}&query=#{query}'
+      });
     });
   </script>
 </head>

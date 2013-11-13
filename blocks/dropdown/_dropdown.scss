@@ -29,6 +29,8 @@
 
   box-shadow: 0 2px 8px 0 rgba(0, 0, 0, .3);
   border-radius: 3px;
+
+  @include ring-font;
 }
 
 .ring-dropdown__i {
@@ -62,7 +64,6 @@
   cursor: pointer;
   vertical-align: bottom;
   text-decoration: none;
-  @include droid-font;
 
   .ring-dropdown &:hover {
     text-decoration: none !important;
@@ -75,5 +76,142 @@
   &:hover {
     color: #fff !important;
     background-color: #25b7ff;
+  }
+}
+
+// Command box
+//
+// Markup:
+//  <div class="ring-query__i">
+//    <ul class="ring-query__list">
+//      <li class="ring-query-el">
+//        <div class="ring-query-el__left">Command</div>
+//        <div class="ring-query-el__right">add</div>
+//      </li>
+//      <li class="ring-query-el">
+//        <div class="ring-query-el__left">Command</div>
+//        <div class="ring-query-el__right">comments</div>
+//      </li>
+//      <li class="ring-query-el ring-query-el_title">
+//        <div class="ring-query-el__left"></div>
+//        <div class="ring-query-el__title ring-query-el__right">
+//          <span class="ring-query-el__title__inner-text">Recent commands</span>
+//        </div>
+//      </li>
+//      <li class="ring-query-el">
+//        <div class="ring-query-el__left">21:15</div>
+//        <div class="ring-query-el__right">comment</div>
+//      </li>
+//      <li class="ring-query-el">
+//        <div class="ring-query-el__left">SEP 15</div>
+//        <div class="ring-query-el__right">for me</div>
+//      </li>
+//    </ul>
+//  </div>
+//
+// Styleguide 5.3
+
+.ring-query {
+  position: absolute;
+  transition: 0.3s;
+}
+
+.ring-query__i {
+  border: 1px solid #a8a8a8;
+  border-radius: 2px;
+  width: $ring-unit*36;
+  background-color: #FFF
+}
+
+.ring-query__list {
+  padding: 0;
+  margin: 0;
+}
+
+.ring-query-el {
+  height: 3*$ring-unit;
+  cursor: pointer;
+  list-style: none;
+  @include ring-font();
+  font-size: 13px;
+
+  &:hover:not(.ring-query-el_title) {
+    &, .ring-query-el__left, .ring-query-el__right {
+      background-color: #25b7ff;
+    }
+
+    & .ring-query-el__left {
+      color: #00699d;
+    }
+
+    & .ring-query-el__right {
+      color: #ffffff;
+    }
+  }
+
+  &:before,
+  &:after {
+    display: table;
+    content: "";
+  }
+
+  &:after {
+    clear: both;
+  }
+
+  &.ring-query-el_title:after {
+    position: relative;
+    top: -$ring-unit;
+    display: block;
+    content: '';
+    height: 1px;
+    background-color: #d9d9d9;
+    margin-left: 12*$ring-unit;
+  }
+}
+
+.ring-query-el__left {
+  float: left;
+  display: block;
+  padding: 0 $ring-unit 0 $ring-unit;
+  width: 8*$ring-unit;
+  height: 3*$ring-unit;
+  line-height: 3*$ring-unit;
+  text-align: right;
+  font-size: 13px;
+  color: #888888;
+  background-color: #f0f0f0;
+}
+
+.ring-query-el__right {
+  float: left;
+  display: block;
+  width: $ring-unit*22;
+  margin: 0 0 0 2*$ring-unit;
+  padding-right: 2*$ring-unit;
+  background-color: #fff;
+  line-height: 3*$ring-unit;
+  font-size: 13px;
+  color: #1a1a1a;
+}
+
+.ring-query-el__title {
+  z-index: 1;
+  font-size: 11px;
+  font-weight: bold;
+  color: #929292;
+
+  & .ring-query-el__title__inner-text {
+    position: relative;
+    display: inline-block;
+    padding-right: 4px;
+    background-color: #fff;
+    height: 3*$ring-unit;
+    line-height: 3*$ring-unit;
+    z-index: 3;
+  }
+
+  &:hover {
+    background-color: #fff;
   }
 }

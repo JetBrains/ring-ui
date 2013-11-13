@@ -1,0 +1,141 @@
+@import "../global/global";
+
+
+// Dialog
+//
+// Markup:
+//  <div class="ring-dialog__wrapper {$modifiers}">
+//    <div class="ring-dialog__container">
+//      <div class="ring-dialog__header">
+//        <span class="ring-dialog__header__title">New space</span>
+//        <span class="ring-dialog__header__close-icon ring-font-icon ring-btn_ico ring-font-icon_pencil form__control__ico"></span>
+//      </div>
+//      <form class="ring-dialog__content ring-form">
+//        <div class="ring-form__group">
+//          <label class="ring-form__label" for="dialog__key">Key</label>
+//          <div class="ring-form__control ring-form__control_small">
+//            <input id="dialog__key" class="ring-input " type="text">
+//            <div class="ring-input__error-bubble ng-binding ng-hide" ng-show="data.keyError"></div>
+//          </div>
+//         </div>
+//        <div class="ring-form__group">
+//          <label class="ring-form__label" for="dialog__name">Name</label>
+//          <div class="ring-form__control ring-form__control_small">
+//            <input id="dialog__name" class="ring-input " type="text">
+//            <div class="ring-input__error-bubble ng-binding ng-hide" ng-show="data.nameError"></div>
+//          </div>
+//        </div>
+//      </form>
+//      <div class="ring-dialog__footer">
+//        <div class="ring-dialog__footer__spacer"></div>
+//        <button class="ring-dialog__footer__item ring-btn ring-btn_blue">Create space</button>
+//        <button class="ring-dialog__footer__item ring-btn">Cancel</button>
+//      </div>
+//     </div>
+//    <div class="ring-dialog__layer">
+//  </div>
+//  </div>
+//
+// .active      - Indicates that a button is black. Should be used on dark backgrounds only!
+//
+// Styleguide 13.1
+
+.ring-dialog__wrapper {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+
+  z-index: 1000000; // TODO proper z-index
+
+  &.active {
+    display: block;
+  }
+}
+
+.ring-dialog__container {
+  position: relative;
+  width: $ring-unit*50;
+  margin: 20% auto 0;
+  padding: 0;
+  border: 1px solid #B4B4B4;
+  border-radius: 3px;
+
+  background: #FFF;
+  box-shadow: 0px 0px $ring-unit*4 $ring-unit rgba(0, 0, 0, 0.2);
+
+  z-index: 2;
+}
+
+.ring-dialog__layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+
+  opacity: 0.4;
+  background-color: #FFF;
+
+  text-align: center;
+
+  z-index: 1;
+}
+
+.ring-dialog__content {
+  padding: $ring-unit*4 $ring-unit*4 0;
+}
+
+.ring-dialog__footer {
+  height: $ring-unit*7;
+  border-top: 1px solid #B4B4B4;
+  background: #E9F8FF;
+  text-align: center;
+}
+
+.ring-dialog__footer__spacer {
+  display: inline-block;
+  height: 100%;
+  vertical-align: middle;
+}
+
+.ring-dialog__footer__item {
+  display: inline-block;
+  margin-left: $ring-unit*2;
+
+  &:first-child {
+    margin-left: 0;
+  }
+}
+
+.ring-dialog__header {
+  position: relative;
+
+  border-bottom: 1px solid #B4B4B4;
+  background-image: linear-gradient(to top, #EBEBEB, #FFF);
+
+  line-height: 24px;
+}
+
+.ring-dialog__header__title {
+  display: block;
+
+  text-align: center;
+  font-weight: bold;
+}
+
+.ring-dialog__header__close-icon {
+  position: absolute;
+  top: $ring-unit/2;
+  right: $ring-unit/2;
+
+  color: #B4B4B4;
+
+  &:hover {
+    color: #8C8C8C;
+  }
+}

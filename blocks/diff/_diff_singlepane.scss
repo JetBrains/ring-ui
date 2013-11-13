@@ -19,7 +19,7 @@ $newline_fontcolor: #0b5d00;
   border: solid 1px #cdcdcd;
   border-radius: 3px;
   color: #333;
-  @include monospace-font;
+  @include ring-monospace-font;
   font-size: 12px;
   position: relative;
 }

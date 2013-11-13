@@ -23,10 +23,6 @@ define(['global/global__views', 'global/global__modules'], function (View, Modul
       url: '//jetpeople.jetbrains.com'
     },
     {
-      label: 'TeamFeed',
-      url: '//jetbrains-feed.appspot.com'
-    },
-    {
       label: 'VC',
       url: '***REMOVED***'
     },
