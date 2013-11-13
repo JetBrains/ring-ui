@@ -203,14 +203,16 @@
   padding: 0;
   margin: 0;
 }
+
 .ring-form__footer__icon-list + * {
   position: relative;
-  top:8px;
+  top: $ring-unit;
+  line-height: 3*$ring-unit;
 }
 
 .ring-form__footer__icon {
   float: left;
-  margin-right: 16px;
+  margin-right: $ring-unit;
 }
 
 .ring-form__footer__icon-img {
