@@ -6,17 +6,24 @@
 define(['jquery'], function($) {
   'use strict';
 
+  // todo(igor.alexeenko): Remove, when all namespaces renamed.
   /**
    * Namespace for DiffTool utility methods.
+   * @deprecated Use d instead.
    */
   var diffTool = {};
+
+  /**
+   * New namespace for diffTool.
+   */
+  var d = diffTool;
 
   /**
    * Returns true if object is not undefined.
    * @param {*} obj
    * @return {boolean}
    */
-  diffTool.isDef = function(obj) {
+  d.isDef = function(obj) {
     return typeof obj !== 'undefined';
   };
 
@@ -24,8 +31,95 @@ define(['jquery'], function($) {
    * @param {string} str
    * @return {boolean}
    */
-  diffTool.isEmptyString = function(str) {
+  d.isEmptyString = function(str) {
     return (/^\s*$/).test(str);
+  };
+
+  /**
+   * ID's for different kinds of regular expressions.
+   * @enum {string}
+   */
+  d.EOLType = {
+    CR: 'cr',
+    LF: 'lf',
+    CR_LF: 'cr-lf'
+  };
+
+  /**
+   * Regular expressions to match end-of-line symbol.
+   * @enum {RegExp}
+   */
+  d.EOLRegex = {
+    ALL: /(\r\n|\r|\n)/mg,
+    CR: /\r/,
+    CR_LF: /\r\n/,
+    LF: /\n/
+  };
+
+  /**
+   * Check, whether given symbol is end-of-line.
+   * @param {string} str
+   * @return {boolean}
+   */
+  d.isEOL = function(str) {
+    return d.EOLRegex.ALL.test(str);
+  };
+
+  /**
+   * Returns ID of kind of end-of-line symbol.
+   * @param {string} str
+   * @return {d.EOLType?}
+   */
+  d.getEOLType = function(str) {
+    if (!d.EOLRegexToType_) {
+      /**
+       * Lookup table of regular expressions to match EOL symbol to its type ID.
+       * @type {Object.<d.EOLRegex, d.EOLType>}
+       * @private
+       */
+      d.EOLRegexToType_ = d.createObject(
+          d.EOLRegex.CR, d.EOLType.CR,
+          d.EOLRegex.LF, d.EOLType.LF,
+          d.EOLRegex.CR_LF, d.EOLType.CR_LF);
+    }
+
+    var regexps = Object.keys(d.EOLRegex);
+
+    for (var i = 0, l = regexps.length; i < l; i++) {
+      var regexID = regexps[i];
+      var regex = d.EOLRegex[regexID];
+
+      if (regex.test(str)) {
+        return d.EOLRegexToType_[regex];
+      }
+    }
+
+    return null;
+  };
+
+  /**
+   * Returns end-of-line symbol for given string.
+   * @param {string} str
+   * @return {string?}
+   */
+  d.getEOL = function(str) {
+    var regexsOrder = [d.EOLRegex.CR_LF, d.EOLRegex.CR, d.EOLRegex.LF];
+    var regex = regexsOrder.shift();
+    var EOL = null;
+    var match;
+
+    while (regex) {
+      match = str.match(regex);
+
+      if (match) {
+        EOL = match[0];
+        break;
+      }
+
+      regex = regexsOrder.shift();
+    }
+
+    return EOL;
   };
 
   /**
@@ -33,7 +127,7 @@ define(['jquery'], function($) {
    * base classes.
    * @throws {Error}
    */
-  diffTool.abstractMethod = function() {
+  d.abstractMethod = function() {
     throw new Error('This method is not implemented yet.');
   };
 
@@ -41,7 +135,7 @@ define(['jquery'], function($) {
    * Null function. Use link to this method, where should not be an interaction.
    * For example in interfaces.
    */
-  diffTool.nullFunction = function() {};
+  d.nullFunction = function() {};
 
   /**
    * Takes even number of arguments and use them as key-value pairs to create
@@ -49,9 +143,9 @@ define(['jquery'], function($) {
    * @param {...*} var_args
    * @return {Object}
    */
-  diffTool.createObject = function(var_args) {
+  d.createObject = function(var_args) {
     if (var_args instanceof Array) {
-      return diffTool.createObject.apply(null, var_args);
+      return d.createObject.apply(null, var_args);
     }
 
     var args = Array.prototype.slice.call(arguments, 0);
@@ -74,8 +168,8 @@ define(['jquery'], function($) {
    * @param {boolean=} opt_override
    * @return {Object}
    */
-  diffTool.mixin = function(target, mixin, opt_override) {
-    opt_override = diffTool.isDef(opt_override) ? opt_override : true;
+  d.mixin = function(target, mixin, opt_override) {
+    opt_override = d.isDef(opt_override) ? opt_override : true;
 
     for (var arg in mixin) {
       if (mixin.hasOwnProperty(arg)) {
@@ -97,7 +191,7 @@ define(['jquery'], function($) {
    * @param {number} max
    * @return {number}
    */
-  diffTool.clamp = function(value, min, max) {
+  d.clamp = function(value, min, max) {
     return Math.min(Math.max(value, min), max);
   };
 
@@ -109,7 +203,7 @@ define(['jquery'], function($) {
    * @param {*} el
    * @return {Array}
    */
-  diffTool.deleteFromArray = function(arr, el) {
+  d.deleteFromArray = function(arr, el) {
     var elIndex = arr.indexOf(el);
     var result = arr;
 
@@ -129,13 +223,13 @@ define(['jquery'], function($) {
    * @param {Array} arrB
    * @return {boolean}
    */
-  diffTool.arraysAreEqual = function(arrA, arrB) {
+  d.arraysAreEqual = function(arrA, arrB) {
     if (arrA.length !== arrB.length) {
       return false;
     }
 
     for (var i = 0, l = arrA.length; i < l; i++) {
-      // todo(igor.alexeenko): this comparsion works only for simple data-types.
+      // todo(igor.alexeenko): this comparison works only for simple data-types.
       // Make it work for objects, arrays, etc.
       if (arrA !== arrB) {
         return false;
@@ -143,6 +237,14 @@ define(['jquery'], function($) {
     }
 
     return true;
+  };
+
+  /**
+   * @param {Array} arr
+   * @return {Array}
+   */
+  d.copyArray = function(arr) {
+    return arr.slice(0);
   };
 
   // todo(igor.alexeenko): Rename to inherits
@@ -153,7 +255,7 @@ define(['jquery'], function($) {
    * @param {Function} child
    * @param {Function} parent
    */
-  diffTool.inherit = function(child, parent) {
+  d.inherit = function(child, parent) {
     var EmptyConstructor = function() {};
     EmptyConstructor.prototype = parent.prototype;
 
@@ -168,7 +270,7 @@ define(['jquery'], function($) {
    * which always return the same instance.
    * @param {Function} Constructor
    */
-  diffTool.addSingletonGetter = function(Constructor) {
+  d.addSingletonGetter = function(Constructor) {
     Constructor.getInstance = function() {
       if (!Constructor.instance_) {
         Constructor.instance_ = new Constructor();
@@ -184,21 +286,23 @@ define(['jquery'], function($) {
    * @param {*} ctx
    * @return {function}
    */
-  diffTool.bindContext = function(fn, ctx) {
+  d.bindContext = function(fn, ctx) {
     return function() {
       return fn.apply(ctx, arguments);
     };
   };
 
   /**
+   * Adds callback to end of keyframe animation. Allows to implement serial
+   * queue of keyframe animations.
    * @param {Element} el
    * @param {function} fn
    */
-  diffTool.addAnimationCallback = function(el, fn) {
+  d.addAnimationCallback = function(el, fn) {
     var animationEndHandler = function() {
       fn();
 
-      // todo(igor.alexeenko): Implement through diffTool.getAnimationEventType
+      // todo(igor.alexeenko): Implement through d.getAnimationEventType
       // as soon as it ready.
       $(el).off('animationend', animationEndHandler);
       $(el).off('MSAnimationEnd', animationEndHandler);
@@ -215,11 +319,22 @@ define(['jquery'], function($) {
   /**
    * @return {string}
    */
-  diffTool.getAnimationEventType = function() {
+  d.getAnimationEventType = function() {
     // todo(igor.alexeenko): Detect in which browser user runs application
     // and return corresponding event type.
     return '';
   };
 
-  return diffTool;
+  // todo(igor.alexeenko): Separate.
+  /**
+   * @param {number} from
+   * @param {number} to
+   * @constructor
+   */
+  d.Range = function(from, to) {
+    this.from = from;
+    this.to = to;
+  };
+
+  return d;
 });

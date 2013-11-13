@@ -5,17 +5,17 @@
 
 define([
   'diff/diff__tools'
-], function(diffTool) {
+], function(d) {
   /**
    * @constructor
    */
-  diffTool.Parser = function() {};
-  diffTool.addSingletonGetter(diffTool.Parser);
+  d.Parser = function() {};
+  d.addSingletonGetter(d.Parser);
 
   /**
-   * @typedef {Array.<diffTool.Parser.LineModification>}
+   * @typedef {Array.<d.Parser.LineModification>}
    */
-  diffTool.Parser.Diff = {};
+  d.Parser.Diff = {};
 
   /**
    * API response of number of changed lines and kinds of changes with them.
@@ -23,11 +23,11 @@ define([
    *   lines: number=,
    *   newLines: number=,
    *   oldLines: number=,
-   *   ranges: Array.<diffTool.SingleEditorController.InlineModification>,
-   *   type: diffTool.SingleEditorController.ModificationType
+   *   ranges: Array.<d.SingleEditorController.InlineModification>,
+   *   type: d.SingleEditorController.ModificationType
    * }}
    */
-  diffTool.Parser.LineModification = {};
+  d.Parser.LineModification = {};
 
   /**
    * Part of {@link LineModification}, which contains modifications with
@@ -36,25 +36,23 @@ define([
    *   chars: number=,
    *   newChars: number=,
    *   oldChars: number=,
-   *   type: diffTool.SingleEditorController.ModificationType
+   *   type: d.SingleEditorController.ModificationType
    * }}
    */
-  diffTool.Parser.InlineModification = {};
+  d.Parser.InlineModification = {};
+
+  /**
+   * @typedef {{
+   *   line: number,
+   *   char: number
+   * }}
+   */
+  d.Parser.InlinePosition = {};
 
   /**
    * @enum {string}
    */
-  diffTool.Parser.CodeType = {
-    ADDED: 'added',
-    DELETED: 'deleted',
-    ORIGINAL: 'original',
-    MODIFIED: 'modified'
-  };
-
-  /**
-   * @enum {string}
-   */
-  diffTool.Parser.ModificationType = {
+  d.Parser.ModificationType = {
     /**
      * Lines or chars was changed.
      */
@@ -63,22 +61,7 @@ define([
     /**
      * Lines or chars was not changed.
      */
-    UNCHANGED: 'unchanged',
-
-    /**
-     * Line contains only insertions.
-     */
-    INLINE_ADDED: 'inline_added',
-
-    /**
-     * Line contains only deletions.
-     */
-    INLINE_DELETED: 'inline_deleted',
-
-    /**
-     * Only EOL-symbol changed.
-     */
-    EOL_CHANGED: 'eol_changed'
+    UNCHANGED: 'unchanged'
   };
 
   /**
@@ -86,94 +69,59 @@ define([
    * @const
    * @type {RegExp}
    */
-  diffTool.Parser.EOLRegex = /^.*(\r\n|\r|\n|$)/mg;
+  d.Parser.LineRegex = /^.*(\r\n|\r|\n)/mg;
 
   /**
-   * Matches end-of-line symbol.
-   * @const
-   * @type {RegExp}
+   * @typedef {d.ParserSinglePane.Buffer|Object}
    */
-  diffTool.Parser.EOLSymbolRegex = /\r\n|\r|\n|$/mg;
-
-  /**
-   * @typedef {diffTool.ParserSinglePane.Buffer|Object}
-   */
-  diffTool.Parser.Output = {};
-
-  /**
-   * @typedef {diffTool.ParserSinglePane.Line|
-   *     diffTool.ParserSinglePane.LineContent}
-   */
-  diffTool.Parser.OutputLine = {};
+  d.Parser.Output = {};
 
   /**
    * @typedef {Object}
    */
-  diffTool.Parser.InlineChange = {};
+  d.Parser.OutputLine = {};
+
+  /**
+   * @typedef {Object}
+   */
+  d.Parser.OutputLineContent = {};
 
   /**
    * @enum {number}
    */
-  diffTool.Parser.LineType = {
+  d.Parser.LineType = {
     /**
      * Null state.
      */
     NULL: 0x00,
 
-    // todo(igor.alexeenko): This state is no more required because it is
-    // strange to have a separate state for no-state. It could be
-    // diffTool.Parser.LineType.NULL instead.
-    /**
-     * Line is unchanged.
-     * @deprecated
-     */
-    UNCHANGED: 0x01,
-
     /**
      * Line, deleted in modified code.
      */
-    DELETED: 0x08,
+    DELETED: 0x01,
 
     /**
      * Line, added to modified code.
      */
-    ADDED: 0x10,
+    ADDED: 0x02,
 
     /**
      * Line with inline changes.
      */
-    INLINE: 0x20,
-
-    /**
-     * Unnecessary to display line.
-     */
-    FOLDED: 0x40,
-
-    /**
-     * There are only insertions to line.
-     */
-    INLINE_ADDED: 0x80,
-
-    /**
-     * Line contains only deletions.
-     */
-    INLINE_DELETED: 0x100,
+    INLINE: 0x04,
 
     /**
      * End-of-line symbol changed.
      */
-    EOL_CHANGED: 0x200
+    EOL_CHANGED: 0x08,
+
+    /**
+     * Contains only whitespace changes.
+     */
+    WHITESPACE: 0x10
   };
 
-  /**
-   * @param {diffTool.Parser.OutputLine} line
-   * @param {diffTool.Parser.LineType} type
-   * @return {boolean}
-   */
-  diffTool.Parser.lineHasType = function(line, type) {
-    return Boolean(line.type & type);
-  };
-
+  // todo(igor.alexeenko): move this into diff__tools.js as utility method
   /**
    * Splits content to line with line separators at ends.
    * @static
@@ -181,125 +129,257 @@ define([
    * @return {Array.<string>}
    * @protected
    */
-  diffTool.Parser.splitToLines = function(content) {
-    return content.match(diffTool.Parser.EOLRegex);
+  d.Parser.splitToLines = function(content) {
+    return content.match(d.Parser.LineRegex);
   };
 
   /**
-   * Bit mask of {diffTool.Parser.LineType}s, used in parser.
-   * @type {diffTool.Parser.LineType}
+   * @param {d.Parser.OutputLine} line
+   * @param {d.Parser.LineType} type
+   * @return {boolean}
+   */
+  d.Parser.lineHasType = function(line, type) {
+    return Boolean(line.type & type);
+  };
+
+  /**
+   * Returns intersection of type with list of types, passed as argument.
+   * @static
+   * @param {d.Parser.LineType} type
+   * @param {Array.<d.Parser.LineType>} availableTypes
+   * @return {d.Parser.LineType}
+   */
+  d.Parser.normalizeType = function(type, availableTypes) {
+    var usedTypes = 0x00;
+
+    availableTypes.forEach(function(availableType) {
+      usedTypes = usedTypes | +availableType;
+    });
+
+    return /** @type {d.Parser.LineType} */ (type & usedTypes);
+  };
+
+  /**
+   * Bit mask of {d.Parser.LineType}s, used in parser.
+   * @type {d.Parser.LineType}
    * @protected
    */
-  diffTool.Parser.prototype.availableLineTypes = 0x00;
+  d.Parser.prototype.availableLineTypes = d.Parser.LineType.NULL;
 
   /**
    * Adds or removes state from line.
-   * @static
-   * @param {diffTool.Parser.OutputLine} line
-   * @param {diffTool.Parser.LineType} type
-   * @param {boolean} enable
+   * @param {d.Parser.OutputLine} line
+   * @param {d.Parser.LineType} type
+   * @param {boolean=} enable
    */
-  diffTool.Parser.prototype.enableLineType = function(line, type, enable) {
-    if (type | this.availableLineTypes) {
+  d.Parser.prototype.enableLineType = function(line, type, enable) {
+    // NB! Line neither should have type we try to add, nor shouldn't
+    // have type we try to remove.
+    if (Boolean(type & this.availableLineTypes) &&
+        d.Parser.lineHasType(line, type) ^ enable) {
       line.type = enable ? line.type | type : ~(line.type & type);
     }
   };
 
   /**
+   * Splits content of files to separate blocks of lines of original code
+   * and corresponding lines of modified code. After that, applies all
+   * available parsers to mark the state of each block.
    * @param {string} original
    * @param {string} modified
-   * @param {diffTool.Parser.Diff} diff
-   * @return {diffTool.Parser.Output}
+   * @param {d.Parser.Diff} diff
+   * @return {d.Parser.Output}
    */
-  diffTool.Parser.prototype.parse = function(original, modified,
-                                             diff) {
-    var originalCursor = 0;
-    var modifiedCursor = 0;
-
-    var originalLines = diffTool.Parser.splitToLines(original);
-    var modifiedLines = diffTool.Parser.splitToLines(modified);
-
+  d.Parser.prototype.parse = function(original, modified, diff) {
     var output = [];
 
-    diff.forEach(function(change, i) {
-      var isUnchanged = (change.type ===
-          diffTool.Parser.ModificationType.UNCHANGED);
-      var originalOffset, modifiedOffset;
-      var parsedContent;
+    var modificationTypeToParser = d.createObject(
+        d.Parser.ModificationType.UNCHANGED, this.unchangedParsers,
+        d.Parser.ModificationType.MODIFIED, this.modifiedParsers);
 
-      if (isUnchanged) {
-        originalOffset = change.lines;
-        modifiedOffset = change.lines;
+    var cursorOriginal = 0,
+        cursorModified = 0;
 
-        var usedLines = originalLines.slice(originalCursor,
-            originalCursor + originalOffset);
-        var isLastChange = (i === change.length - 1);
+    var linesOriginal = d.Parser.splitToLines(original);
+    var linesModified = d.Parser.splitToLines(modified);
 
-        parsedContent = this.parseUnchangedLines(usedLines, change,
-            originalCursor, modifiedCursor, isLastChange);
-      } else {
-        originalOffset = change.oldLines || 0;
-        modifiedOffset = change.newLines || 0;
+    diff.forEach(function(change) {
+      var parsers = modificationTypeToParser[change.type];
 
-        var usedOriginalLines = originalLines.slice(originalCursor,
-            originalCursor + originalOffset);
-        var usedModifiedLines = modifiedLines.slice(modifiedCursor,
-            modifiedCursor + modifiedOffset);
+      var shiftOriginal = change.oldLines || change.lines || 0;
+      var shiftModified = change.newLines || change.lines || 0;
 
-        parsedContent = this.parseModifiedLines(usedOriginalLines,
-            usedModifiedLines, change, originalCursor, modifiedCursor);
+      var originalChunk = linesOriginal.slice(cursorOriginal,
+          cursorOriginal + shiftOriginal);
+      var modifiedChunk = linesModified.slice(cursorModified,
+          cursorModified + shiftModified);
+
+      var chunk = d.Parser.getChunk(originalChunk, modifiedChunk,
+          cursorOriginal, cursorOriginal + shiftOriginal,
+          cursorModified, cursorModified + shiftModified,
+          d.Parser.LineType.NULL);
+
+      chunk = d.Parser.parseChunkInline(chunk, change.ranges);
+
+      for (var i = 0, l = parsers.length; i < l; i++) {
+        var parser = parsers[i];
+        chunk = parser.call(this, chunk, change);
       }
 
-      Array.prototype.push.apply(output, parsedContent);
+      cursorOriginal += shiftOriginal;
+      cursorModified += shiftModified;
 
-      originalCursor += originalOffset;
-      modifiedCursor += modifiedOffset;
+      output.push(chunk);
     }, this);
 
     return output;
   };
 
   /**
-   * @param {Array.<string>} lines
-   * @param {diffTool.Parser.LineModification} change
-   * @param {number} lineOriginal
-   * @param {number} lineModified
-   * @param {boolean=} opt_isLastChange
-   * @return {diffTool.Parser.OutputLine}
-   * @protected
+   * Splits chunk of code to little chunks, which are marks as changed, deleted,
+   * added or unchanged.
+   * @param {d.Parser.OutputLine} chunk
+   * @param {Array.<d.Parser.InlineModification>} ranges
+   * @return {d.Parser.OutputLine}
    */
-  diffTool.Parser.prototype.parseUnchangedLines = diffTool.abstractMethod;
+  d.Parser.parseChunkInline = function(chunk, ranges) {
+    var joinOriginal = chunk.original.join('');
+    var joinModified = chunk.modified.join('');
+
+    if (!ranges) {
+      // todo(igor.alexeenko): Hack.
+      // Trying to implement the same format for all kinds of changes.
+      ranges = /** @type {Array.<d.Parser.InlineModification>} */ ([{
+        type: chunk.type,
+        oldChars: joinOriginal.length || 0,
+        newChars: joinModified.length || 0
+      }]);
+    }
+
+    var chunkOriginal = [],
+        chunkModified = [];
+
+    var cursorOriginal = 0,
+        cursorModified = 0;
+
+    ranges.forEach(function(range) {
+      var shiftOriginal = range.oldChars || range.chars || 0;
+      var shiftModified = range.newChars || range.chars || 0;
+
+      var substrOriginal = joinOriginal.substr(cursorOriginal, shiftOriginal);
+      var substrModified = joinModified.substr(cursorModified, shiftModified);
+
+      var substrOriginalFrom = d.Parser.getInlinePosition(cursorOriginal,
+          chunk.original);
+      var substrOriginalTo = d.Parser.getInlinePosition(
+          cursorOriginal + shiftOriginal, chunk.original);
+
+      var substrModifiedFrom = d.Parser.getInlinePosition(cursorModified,
+          chunk.modified);
+      var substrModifiedTo = d.Parser.getInlinePosition(
+          cursorModified + shiftModified, chunk.modified);
+
+      chunkOriginal.push(
+          d.Parser.getInlineChunk(substrOriginal, d.Parser.LineType.NULL,
+              substrOriginalFrom, substrOriginalTo));
+      chunkModified.push(
+          d.Parser.getInlineChunk(substrModified, d.Parser.LineType.NULL,
+              substrModifiedFrom, substrModifiedTo));
+
+      cursorOriginal += shiftOriginal;
+      cursorModified += shiftModified;
+    });
+
+    chunk.original = chunkOriginal;
+    chunk.modified = chunkModified;
+
+    return chunk;
+  };
 
   /**
-   * @param {Array.<string>} linesOriginal
-   * @param {Array.<string>} linesModified
-   * @param {diffTool.Parser.LineModification} change
-   * @param {number} lineOriginal
-   * @param {number} lineModified
-   * @return {diffTool.Parser.OutputLine}
-   * @protected
+   * @param {number} charNumber
+   * @param {Array.<string>} codeLines
+   * @return {d.Parser.InlinePosition}
    */
-  diffTool.Parser.prototype.parseModifiedLines = diffTool.abstractMethod;
+  d.Parser.getInlinePosition = function(charNumber, codeLines) {
+    var cursor = 0;
+    var lineIndex = 0;
+    var inlineCharIndex = charNumber;
+
+    while (cursor < charNumber) {
+      var line = codeLines[lineIndex];
+
+      if (inlineCharIndex > line.length) {
+        lineIndex++;
+        cursor += line.length;
+        inlineCharIndex -= line.length;
+      } else {
+        cursor += inlineCharIndex;
+      }
+    }
+
+    return /** @type {d.Parser.InlinePosition} */ ({
+      line: lineIndex,
+      char: inlineCharIndex
+    });
+  };
 
   /**
-   * @param {string} chars
-   * @param {Array.<diffTool.Parser.InlineModification>} ranges
-   * @param {diffTool.Parser.CodeType} type
-   * @return {diffTool.Parser.OutputLine}
+   * Creates object, which represents chunk of code.
+   * @static
+   * @param {Array.<string>} original
+   * @param {Array.<string>} modified
+   * @param {number} originalFrom
+   * @param {number} originalTo
+   * @param {number} modifiedFrom
+   * @param {number} modifiedTo
+   * @param {d.Parser.LineType} type
+   * @return {d.Parser.OutputLine}
    */
-  diffTool.Parser.prototype.parseInlineChanges = diffTool.abstractMethod;
+  d.Parser.getChunk = function(original, modified, originalFrom, originalTo,
+      modifiedFrom, modifiedTo, type) {
+    return {
+      original: original,
+      modified: modified,
+      originalFrom: originalFrom,
+      originalTo: originalTo,
+      modifiedFrom: modifiedFrom,
+      modifiedTo: modifiedTo,
+      type: type
+    };
+  };
 
   /**
-   * @return {diffTool.Parser.OutputLine}
-   * @protected
+   * Returns object, which represents part of inline changes in chunk of code.
+   * @static
+   * @param {string} code
+   * @param {d.Parser.LineType} type
+   * @param {d.Parser.InlinePosition} from
+   * @param {d.Parser.InlinePosition} to
+   * @return {d.Parser.OutputLineContent}
    */
-  diffTool.Parser.prototype.getLine = diffTool.nullFunction;
+  d.Parser.getInlineChunk = function(code, type, from, to) {
+    return {
+      code: code,
+      type: type,
+      from: from,
+      to: to
+    };
+  };
 
   /**
-   * @return {diffTool.ParserSinglePane.LineContent}
+   * List of parsers, which will be applied to unchanged code.
+   * @type {Array}
    * @protected
    */
-  diffTool.Parser.prototype.getLineContent = diffTool.nullFunction;
+  d.Parser.prototype.unchangedParsers = [];
 
-  return diffTool.Parser;
+  /**
+   * List of parsers, which will be applied to modified code.
+   * @type {Array}
+   * @protected
+   */
+  d.Parser.prototype.modifiedParsers = [];
+
+  return d.Parser;
 });
