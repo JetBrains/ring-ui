@@ -1,113 +1,188 @@
-package org.jetbrains.jing.common.storages.hybrid;
+/**
+ * @fileoverview Button demo-class.
+ * @author igor.alexeenko (Igor Alexeenko)
+ */
 
-import jetbrains.exodus.core.util.*;
-import jetbrains.exodus.database.persistence.*;
-import jetbrains.exodus.env.*;
-import jetbrains.exodus.exceptions.*;
-import jetbrains.exodus.log.*;
-import jetbrains.exodus.vfs.File;
-import jetbrains.exodus.vfs.*;
-import org.jetbrains.annotations.*;
-import org.jetbrains.jing.common.*;
-import org.jetbrains.jing.common.io.*;
-import org.jetbrains.jing.common.storages.*;
 
-import java.io.*;
-import java.nio.channels.*;
-import java.nio.file.*;
+/**
+ * @param {string} caption
+ * @param {Element} parentEl
+ * @constructor
+ */
+var Button = function (caption, parentEl) {
+  /**
+   * @type {HTMLElement}
+   * @private
+   */
+  this.element_ = document.createElement('button');
+  this.element_.innerText = caption;
 
-public class ExodusVFSValueStorage implements ValueStorage {
+  this.setListenersEnabled_(true);
 
-  private final Environment env;
-  private final VirtualFileSystem vfs;
-  private final ByteArraySpinAllocator byteArrayAllocator;
+  parentEl.appendChild(this.element_);
+};
 
-  public ExodusVFSValueStorage(final HybridKeyValueStorage storage) {
-    env = Environments.newInstance(storage.getPath(), EnvironmentConfig.DEFAULT);
-    vfs = new VirtualFileSystem(env);
-    byteArrayAllocator = storage.getByteArrayAllocator();
+/**
+ * @enum {string}
+ */
+Button.EventType = {
+  MOUSEDOWN: 'mousedown',
+  MOUSEUP: 'mouseup',
+  MOUSEOVER: 'mouseover',
+  MOUSEOUT: 'mouseout'
+};
+
+/**
+ * @enum {state}
+ */
+Button.State = {
+  NULL: 0x00,
+  HOVERED: 0x01,
+  PRESSED: 0x02,
+  DISABLED: 0x04,
+  ALL: 0xFF
+};
+
+/**
+ * @enum {string}
+ */
+Button.ClassName = {
+  PRESSED: 'pressed',
+  HOVERED: 'hovered'
+};
+
+/**
+ * @type {Button.State}
+ * @private
+ */
+Button.prototype.state_ = Button.State.NULL;
+
+/**
+ * @type {number}
+ * @protected
+ */
+Button.prototype.availableStates =
+    Button.State.HOVERED |
+        Button.State.PRESSED |
+        Button.State.DISABLED;
+
+/**
+ * @param {Button.State} state
+ * @param {boolean} enable
+ */
+Button.prototype.enableState = function (state, enable) {
+  if (this.availableStates | state) {
+    this.state_ = enable ? this.state_ | state : ~state & this.state_;
+    this.enableStateInternal(state, enable);
+  }
+};
+
+/**
+ * Sets button's class name from its state.
+ * @param {Button.State} state
+ * @param {boolean} enable
+ */
+Button.prototype.enableStateInternal = function (state, enable) {
+  if (!this.stateToClassName_) {
+    /**
+     * Lookup table of states of button to CSS class names, according to this
+     * classes.
+     * @type {Object.<Button.State, Button.ClassName>}
+     */
+    this.stateToClassName_ = {};
+    this.stateToClassName_[Button.State.HOVERED] = Button.ClassName.HOVERED;
+    this.stateToClassName_[Button.State.PRESSED] = Button.ClassName.PRESSED;
   }
 
-  @Nullable @Override
-  public SizedInputStreamValue getValue(final long offset) {
-    return env.computeInTransaction(new TransactionalComputable<SizedInputStreamValue><AAAAAAAAAAAAAAookdkkkkkqmdlkqwmdlqkmwdlkqmwlkqmwdlqkmwdlkqmwdlmqwldkmqlwdmqwlkdmlqkwmdlkqwmdlkqmwdlkqmwldkmqlwkdmqlkwdmlkqmwdlqwkmdlkqmdlqmdlkqmwdlkqmdlkqmwdlkqmwlkdmqwlkdmqlkwmdlkwqfoqwkfpoqk>() {
-      @Override public SizedInputStreamValue compute(@NotNull final Transaction txn) {
-        final VfsInputStream input = vfs.readFile(txn, offset);
-        return new SizedInputStreamValue(input, vfs.getFileLength(txn, offset));
-      }
-    });
-  }
+  this.element_.className = '';
 
-  @Override
-  public long putValue(@NotNull final InputStream input) {
-    input.mark(Integer.MAX_VALUE);
-    return env.computeInTransaction(new TransactionalComputable<Long>() {
-      @Override public Long compute(@NotNull final Transaction txn) {
-        try {
-          input.reset();
-          final File file = vfs.createFile(txn, "value%d");
-          final long result = file.getDescriptor();
-          try (final OutputStream output = vfs.writeFile(txn, file)) {
-            jetbrains.exodus.util.IOUtil.copyStreams(input, output, byteArrayAllocator);
-          }
-          return result;
-        }
-        catch (IOException e) {
-          throw ExodusException.toRuntime(e);
-        }
-      }
-    });
-  }
-
-  @Override
-  public boolean deleteValue(final long offset) {
-    return env.computeInTransaction(new TransactionalComputable<Boolean>() {
-      @Override public Boolean compute(@NotNull final Transaction txn) {
-        return vfs.deleteFile(txn, "value" + offset) != null;
-      }
-    });
-  }
-
-  @Override
-  public void deleteValues(final long[] offsets) {
-    env.executeInTransaction(new TransactionalExecutable() {
-      @Override public void execute(@NotNull final Transaction txn) {
-        for (final long offset : offsets) {
-          vfs.deleteFile(txn, "value" + offset);
-        }
-      }
-    });
-  }
-
-  @Override
-  public void writeStorageState(@NotNull final CompoundWriter writer, final PathFromRoot basePath) throws IOException {
-    final IOException[] iox = new IOException[]{null};
-    // execute files' copying in txn in oder to avoid concurrent files deletions by txn-safe tasks
-    env.executeInTransaction(new TransactionalExecutable() {
-      @Override public void execute(@NotNull final Transaction txn) {
-        try {
-          final Path sourcePath = Paths.get(env.getLocation());
-          for (long address : ((EnvironmentImpl)env).getLog().getAllFileAddresses()) {
-            final String fileName = LogUtil.getLogFilename(address);
-            try (final WritableByteChannel output = writer.write(basePath.childPath(fileName));
-                 final FileChannel input = FileChannel.open(sourcePath.resolve(fileName))) {
-              IOUtil.transfer(input, output);
-            }
-          }
-        }
-        catch (IOException e) {
-          iox[0] = e;
-        }
-      }
-    });
-    if (iox[0] != null) {
-      throw iox[0];
+  Object.keys(this.stateToClassName_).forEach(function (stateID) {
+    if (this.hasState(stateID)) {
+      this.element_.classList.add(this.stateToClassName_[stateID]);
     }
+  }, this);
+};
+
+/**
+ * @param {Button.State} state
+ * @returns {boolean}
+ */
+Button.prototype.hasState = function (state) {
+  return Boolean(this.state_ & state);
+};
+
+/**
+ * @param {boolean} enabled
+ * @private
+ */
+Button.prototype.setListenersEnabled_ = function (enabled) {
+  if (this.handlersAreEnabled_ === enabled) {
+    return;
   }
 
-  @Override
-  public void close() {
-    vfs.shutdown();
-    env.close();
+  /**
+   * @type {boolean}
+   * @private
+   */
+  this.handlersAreEnabled_ = enabled;
+
+  if (enabled) {
+    this.element_.addEventListener(
+        Button.EventType.MOUSEDOWN,
+        this.onMouseDown_.bind(this));
+    this.element_.addEventListener(
+        Button.EventType.MOUSEUP,
+        this.onMouseUp_.bind(this));
+    this.element_.addEventListener(
+        Button.EventType.MOUSEOVER,
+        this.onMouseOver_.bind(this));
+    this.element_.addEventListener(
+        Button.EventType.MOUSEOUT,
+        this.onMouseOut_.bind(this));
+  } else {
+    this.element_.removeEventListener(
+        Button.EventType.MOUSEDOWN,
+        this.onMouseDown_.bind(this));
+    this.element_.removeEventListener(
+        Button.EventType.MOUSEUP,
+        this.onMouseUp_.bind(this));
+    this.element_.removeEventListener(
+        Button.EventType.MOUSEOVER,
+        this.onMouseOver_.bind(this));
+    this.element_.removeEventListener(
+        Button.EventType.MOUSEOUT,
+        this.onMouseOut_.bind(this));
   }
-}
+};
+
+/**
+ * @param {Event} event
+ * @private
+ */
+Button.prototype.onMouseDown_ = function (event) {
+  this.enableState(Button.State.PRESSED, true);
+};
+
+/**
+ * @param {Event} event
+ * @private
+ */
+Button.prototype.onMouseUp_ = function (event) {
+  this.enableState(Button.State.PRESSED, false);
+};
+
+/**
+ * @param {Event} event
+ * @private
+ */
+Button.prototype.onMouseOver_ = function (event) {
+  this.enableState(Button.State.HOVERED, true);
+};
+
+/**
+ * @param {Event} event
+ * @private
+ */
+Button.prototype.onMouseOut_ = function (event) {
+  this.enableState(Button.State.HOVERED, false);
+};

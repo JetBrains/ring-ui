@@ -5,13 +5,13 @@
 
 define([
   'jquery',
-  'codemirror',
   'handlebars',
   'raphael',
   'diff/diff__tools',
+  'global/global__codemirror-helper',
   'diff/diff__editorcontroller',
   'diff/diff__parser_doublepane'
-], function($, CodeMirror, Handlebars, raphael, diffTool) {
+], function($, Handlebars, raphael, d, CodeMirrorHelper) {
 
   // todo(igor.alexeenko): Implement all DOM-specific, CodeMirror-
   // specific and Raphael-specific logic in some kind of Renderer,
@@ -21,20 +21,20 @@ define([
   /**
    * @param {Element} element
    * @constructor
-   * @extends {diffTool.EditorController}
+   * @extends {d.EditorController}
    */
-  diffTool.DoubleEditorController = function(element) {
-    diffTool.DoubleEditorController.super_.constructor.call(this, element,
-        true, diffTool.ParserDoublePane.getInstance());
+  d.DoubleEditorController = function(element) {
+    d.DoubleEditorController.super_.constructor.call(this, element,
+        true, d.ParserDoublePane.getInstance());
   };
-  diffTool.inherit(diffTool.DoubleEditorController, diffTool.EditorController);
+  d.inherit(d.DoubleEditorController, d.EditorController);
 
   /**
    * Approximate time, which needed to correctly scroll opposite editor.
    * @type {number}
    * @const
    */
-  diffTool.DoubleEditorController.SCROLL_TIMEOUT = 200;
+  d.DoubleEditorController.SCROLL_TIMEOUT = 200;
 
   /**
    * Equator ratio is a ratio of height of editor on which speed of scrolling
@@ -42,34 +42,27 @@ define([
    * @type {number}
    * @const
    */
-  diffTool.DoubleEditorController.EQUATOR_RATIO = 0.5;
-
-  /**
-   * Ratio of width of bezier curve, on which bezier modifier places.
-   * @type {number}
-   * @const
-   */
-  diffTool.DoubleEditorController.CONNECTOR_CURVE_RATIO = 0.2;
+  d.DoubleEditorController.EQUATOR_RATIO = 0.5;
 
   /**
    * ID of coloring mode for {@link CodeMirror} in which we colorize lines.
    * @type {string}
    * @const
    */
-  diffTool.DoubleEditorController.EDITOR_MODE = 'background';
+  d.DoubleEditorController.EDITOR_MODE = 'background';
 
   /**
    * ID of mode in which {@link CodeMirror} counts offsets of lines.
    * @type {string}
    * @const
    */
-  diffTool.DoubleEditorController.EDITOR_SCREEN_MODE = 'local';
+  d.DoubleEditorController.EDITOR_SCREEN_MODE = 'local';
 
   /**
    * Classes, which appends to lines in {@link CodeMirror}.
    * @enum {string}
    */
-  diffTool.DoubleEditorController.LineClass = {
+  d.DoubleEditorController.LineClass = {
     ADDED: 'line__added',
     BEFORE_ADDED: 'line__before_added',
     BEFORE_DELETED: 'line__before_deleted',
@@ -79,12 +72,13 @@ define([
     MODIFIED: 'line__modified'
   };
 
-  // todo(igor.alexeenko): Add classes for deleted and inserted chars.
   /**
    * Classes, which appends to chars to highlight inline changes.
    * @enum {string}
    */
-  diffTool.DoubleEditorController.CharsClass = {
+  d.DoubleEditorController.CharsClass = {
+    ADDED: 'chars__added',
+    DELETED: 'chars__deleted',
     MODIFIED: 'chars__modified'
   };
 
@@ -94,7 +88,7 @@ define([
    * Classes, which applies to SVG connectors
    * @enum {string}
    */
-  diffTool.DoubleEditorController.ConnectorClass = {
+  d.DoubleEditorController.ConnectorClass = {
     ADDED: 'diff__connector_added',
     BASE: 'diff__connector',
     DELETED: 'diff__connector_deleted',
@@ -105,52 +99,28 @@ define([
    * IDs of templates for {@link Handlebars}.
    * @enum {string}
    */
-  diffTool.DoubleEditorController.Template = {
+  d.DoubleEditorController.Template = {
     BASE: 'diff_doublepane'
   };
 
-  // todo(igor.alexeenko): I don't like the idea of saving selectors
-  // in a format, which is used only by {@link querySelector} or
-  // {@link jQuery}. It should be just a plain strings, so I can use
-  // them any way I want, for example in a {@code getElementsByClassName}
-  // method.
   /**
-   * CSS-like selectors of editor DOM-elements.
+   * Selectors of editor DOM-elements.
    * @enum {string}
    */
-  diffTool.DoubleEditorController.CssSelector = {
-    /**
-     * Wrap element.
-     */
+  d.DoubleEditorController.CssSelector = {
     BASE: '.diff_doublepane',
-
-    /**
-     * Element, which contains editor with original code.
-     */
     ORIGINAL: '.diff__original',
-
-    /**
-     * Element, which contains editor with modified code.
-     */
     MODIFIED: '.diff__modified',
-
-    /**
-     * Element between two editors on which draws connectors.
-     */
     SPLITTER: '.diff__split'
   };
 
   /**
-   * Returns object which represents options for current instance of editor.
+   * Returns object which represents options for given instance of editor.
    * @static
-   * @param {boolean} opt_isOriginal
+   * @param {CodeMirror} editor
    * @return {Object}
    */
-  diffTool.DoubleEditorController.getEditorOptions = function(opt_isOriginal) {
-    if (!diffTool.isDef(opt_isOriginal)) {
-      opt_isOriginal = false;
-    }
-
+  d.DoubleEditorController.getEditorOptions = function(editor) {
     return {
       lineNumbers: true,
       matchBrackets: true,
@@ -158,7 +128,7 @@ define([
         name: 'text/x-java'
       },
       readOnly: true,
-      viewportMargin: 0
+      viewportMargin: 1
     };
   };
 
@@ -170,7 +140,7 @@ define([
    * @return {number}
    * @private
    */
-  diffTool.DoubleEditorController.getMaxScroll_ = function(editor) {
+  d.DoubleEditorController.getMaxScroll_ = function(editor) {
     var scrollInfo = editor.getScrollInfo();
     return scrollInfo.width - scrollInfo.clientWidth;
   };
@@ -178,21 +148,21 @@ define([
   /**
    * @override
    */
-  diffTool.DoubleEditorController.prototype.setEnabledInternal = function(
+  d.DoubleEditorController.prototype.setEnabledInternal = function(
       enabled) {
     if (enabled) {
       this.element_.innerHTML = Handlebars.partials[
-          diffTool.DoubleEditorController.Template.BASE]();
+          d.DoubleEditorController.Template.BASE]();
 
       this.originalElement_ = this.element_.querySelector(
-          diffTool.DoubleEditorController.CssSelector.ORIGINAL);
+          d.DoubleEditorController.CssSelector.ORIGINAL);
       this.modifiedElement_ = this.element_.querySelector(
-          diffTool.DoubleEditorController.CssSelector.MODIFIED);
+          d.DoubleEditorController.CssSelector.MODIFIED);
 
       this.codeMirrorOriginal_ = new CodeMirror(this.originalElement_,
-          diffTool.DoubleEditorController.getEditorOptions());
+          d.DoubleEditorController.getEditorOptions());
       this.codeMirrorModified_ = new CodeMirror(this.modifiedElement_,
-          diffTool.DoubleEditorController.getEditorOptions());
+          d.DoubleEditorController.getEditorOptions());
     } else {
       this.unbindEditors_();
 
@@ -207,7 +177,7 @@ define([
   /**
    * @override
    */
-  diffTool.DoubleEditorController.prototype.setContentInternal = function(
+  d.DoubleEditorController.prototype.setContentInternal = function(
       original, modified, diff, opt_refresh) {
     this.unbindEditors_();
 
@@ -231,9 +201,7 @@ define([
    * to make it visible if so.
    * @private
    */
-  diffTool.DoubleEditorController.prototype.checkScroll_ = function() {
-    // todo(igor.alexeenko): Get rid of this const, count line height and
-    // scroll to two lines before first changed.
+  d.DoubleEditorController.prototype.checkScroll_ = function() {
     /**
      * @type {number}
      * @const
@@ -242,16 +210,16 @@ define([
     var firstChangedOffset = this.getFirstChanged_();
 
     var firstChangedIsInViewport = (
-        diffTool.DoubleEditorController.isInEditorViewport(
-            firstChangedOffset.topOriginal, firstChangedOffset.topModified,
+        d.DoubleEditorController.isInEditorViewport(
+            firstChangedOffset.originalFrom, firstChangedOffset.modifiedFrom,
             this.codeMirrorOriginal_) ||
-        diffTool.DoubleEditorController.isInEditorViewport(
-            firstChangedOffset.bottomModified, firstChangedOffset.bottomOriginal,
+        d.DoubleEditorController.isInEditorViewport(
+            firstChangedOffset.modifiedTo, firstChangedOffset.originalTo,
             this.codeMirrorModified_));
 
     if (!firstChangedIsInViewport) {
       this.codeMirrorOriginal_.scrollTo(0,
-          firstChangedOffset.topOriginal - GAP);
+          firstChangedOffset.originalFrom - GAP);
     }
   };
 
@@ -260,17 +228,15 @@ define([
    * @return {Object?}
    * @private
    */
-  diffTool.DoubleEditorController.prototype.getFirstChanged_ = function() {
+  d.DoubleEditorController.prototype.getFirstChanged_ = function() {
     /**
      * @type {Object}
      */
-    var currentOffset;
-
     for (var i = 0, l = this.offsets_.length; i < l; i++) {
-      currentOffset = this.offsets_[i];
+      var currentOffset = this.offsets_[i];
+      var currentLine = this.lines_[i];
 
-      if (!diffTool.Parser.lineHasType(currentOffset,
-          diffTool.Parser.LineType.UNCHANGED)) {
+      if (currentLine.type !== d.Parser.LineType.UNCHANGED) {
         return currentOffset;
       }
     }
@@ -284,8 +250,7 @@ define([
    * @param {CodeMirror} editor
    * @return {boolean}
    */
-  diffTool.DoubleEditorController.isInEditorViewport = function(from, to,
-                                                                editor) {
+  d.DoubleEditorController.isInEditorViewport = function(from, to, editor) {
     var editorScrollInfo = editor.getScrollInfo();
     var offsetHeight = to - from;
 
@@ -301,57 +266,93 @@ define([
    * them.
    * @param {string} original
    * @param {string} modified
-   * @param {diffTool.Parser.Diff} diff
+   * @param {d.Parser.Diff} diff
    * @private
    */
-  diffTool.DoubleEditorController.prototype.bindEditors_ = function(
+  d.DoubleEditorController.prototype.bindEditors_ = function(
       original, modified, diff) {
-    this.setEditorEnabled_(this.codeMirrorOriginal_, true);
-    this.setEditorEnabled_(this.codeMirrorModified_, true);
+    /**
+     * @type {number}
+     * @private
+     */
+    this.originalEditorMaxWidth_ = d.DoubleEditorController.getMaxScroll_(
+        this.codeMirrorOriginal_);
 
     /**
      * @type {number}
      * @private
      */
-    this.originalEditorMaxWidth_ = diffTool.DoubleEditorController.
-        getMaxScroll_(this.codeMirrorOriginal_);
-
-    /**
-     * @type {number}
-     * @private
-     */
-    this.modifiedEditorMaxWidth_ = diffTool.DoubleEditorController.
+    this.modifiedEditorMaxWidth_ = d.DoubleEditorController.
         getMaxScroll_(this.codeMirrorModified_);
 
+    /**
+     * Parser output, which contains information about lines.
+     * @type {d.Parser.Output}
+     * @private
+     */
     this.lines_ = this.codeParser_.parse(original, modified, diff);
-    this.offsets_ = this.getLinesOffset_(this.lines_);
+
+    /**
+     * Object with coordinates of chunks of original code and corresponding
+     * chunks from modified code.
+     * @type {Array.<Object>}
+     * @private
+     */
+    this.offsets_ = this.getPxOffsets_(this.lines_);
+
+    this.setEditorScrollHandlerEnabled_(this.codeMirrorOriginal_, true);
+    this.setEditorScrollHandlerEnabled_(this.codeMirrorModified_, true);
 
     this.colorizeLines_();
     this.drawConnectors_();
 
     if (!this.resizeHandler_) {
-      this.resizeHandler_ = diffTool.bindContext(this.onResize_, this);
+      this.resizeHandler_ = d.bindContext(this.onResize_, this);
     }
 
     $(window).on('resize', this.resizeHandler_);
   };
 
   /**
+   * @param {Array.<Object>} offsets
+   * @return {Array.<Object>}
+   * @private
+   */
+  d.DoubleEditorController.prototype.getPxOffsets_ = function(offsets) {
+    var pxOffsets = [];
+
+    offsets.forEach(function(offset) {
+      pxOffsets.push({
+        originalFrom: this.codeMirrorOriginal_.heightAtLine(
+            offset.originalFrom, d.DoubleEditorController.EDITOR_SCREEN_MODE),
+        originalTo: this.codeMirrorOriginal_.heightAtLine(
+            offset.originalTo, d.DoubleEditorController.EDITOR_SCREEN_MODE),
+        modifiedFrom: this.codeMirrorModified_.heightAtLine(
+            offset.modifiedFrom, d.DoubleEditorController.EDITOR_SCREEN_MODE),
+        modifiedTo: this.codeMirrorModified_.heightAtLine(
+            offset.modifiedTo, d.DoubleEditorController.EDITOR_SCREEN_MODE)
+      });
+    }, this);
+
+    return pxOffsets;
+  };
+
+  /**
    * Remove scroll handlers and destroy connectors.
    * @private
    */
-  diffTool.DoubleEditorController.prototype.unbindEditors_ = function() {
-    this.setEditorEnabled_(this.codeMirrorOriginal_, false);
-    this.setEditorEnabled_(this.codeMirrorModified_, false);
+  d.DoubleEditorController.prototype.unbindEditors_ = function() {
+    this.setEditorScrollHandlerEnabled_(this.codeMirrorOriginal_, false);
+    this.setEditorScrollHandlerEnabled_(this.codeMirrorModified_, false);
 
     $(window).off('resize', this.resizeHandler_);
   };
 
   /**
-   * Resizes canvas for connectors and redraws them.
+   * Handles window resize.
    * @private
    */
-  diffTool.DoubleEditorController.prototype.onResize_ = function() {
+  d.DoubleEditorController.prototype.onResize_ = function() {
     this.drawConnectors_(true);
   };
 
@@ -360,7 +361,7 @@ define([
    * @param {CodeMirror} target
    * @private
    */
-  diffTool.DoubleEditorController.prototype.onScroll_ = function(target) {
+  d.DoubleEditorController.prototype.onScroll_ = function(target) {
     var oppositeEditor = (target === this.codeMirrorOriginal_) ?
         this.codeMirrorModified_ :
         this.codeMirrorOriginal_;
@@ -372,10 +373,9 @@ define([
     clearTimeout(this.disableEditorTimeout_);
 
     if (!this.disabledEditor_ || oppositeEditor !== this.disabledEditor_) {
-      this.setEditorEnabled_(oppositeEditor, false);
+      this.setEditorScrollHandlerEnabled_(oppositeEditor, false);
 
       /**
-       * Link to currently disabled editor.
        * @type {CodeMirror}
        * @private
        */
@@ -385,17 +385,17 @@ define([
     this.syncScroll_(target);
     this.drawConnectors_();
 
-    this.disableEditorTimeout_ = setTimeout(diffTool.bindContext(function() {
-      this.setEditorEnabled_(this.disabledEditor_, true);
+    this.disableEditorTimeout_ = setTimeout(d.bindContext(function() {
+      this.setEditorScrollHandlerEnabled_(this.disabledEditor_, true);
       this.disabledEditor_ = null;
-    }, this), diffTool.DoubleEditorController.SCROLL_TIMEOUT);
+    }, this), d.DoubleEditorController.SCROLL_TIMEOUT);
   };
 
   /**
    * @param {CodeMirror} editor
    * @private
    */
-  diffTool.DoubleEditorController.prototype.syncScroll_ = function(editor) {
+  d.DoubleEditorController.prototype.syncScroll_ = function(editor) {
     var isOriginalEditor = (editor === this.codeMirrorOriginal_);
     var oppositeElement = isOriginalEditor ? this.codeMirrorModified_ :
         this.codeMirrorOriginal_;
@@ -412,14 +412,14 @@ define([
 
     var currentOffset = this.offsets_[currentOffsetIndex];
 
-    var currentTop = isOriginalEditor ? currentOffset.topOriginal :
-        currentOffset.topModified;
-    var oppositeTop = isOriginalEditor ? currentOffset.topModified :
-        currentOffset.topOriginal;
-    var currentBottom = isOriginalEditor ? currentOffset.bottomOriginal :
-        currentOffset.bottomModified;
-    var oppositeBottom = isOriginalEditor ? currentOffset.bottomModified :
-        currentOffset.bottomOriginal;
+    var currentTop = isOriginalEditor ? currentOffset.originalFrom :
+        currentOffset.modifiedFrom;
+    var oppositeTop = isOriginalEditor ? currentOffset.modifiedFrom :
+        currentOffset.originalFrom;
+    var currentBottom = isOriginalEditor ? currentOffset.originalTo :
+        currentOffset.modifiedTo;
+    var oppositeBottom = isOriginalEditor ? currentOffset.modifiedTo :
+        currentOffset.originalTo;
 
     var offsetHeight = currentBottom - currentTop;
     var scrollTop = scrollPosition.top - currentTop + equator;
@@ -452,7 +452,7 @@ define([
    * @return {number}
    * @private
    */
-  diffTool.DoubleEditorController.prototype.getEquator_ = function(editor) {
+  d.DoubleEditorController.prototype.getEquator_ = function(editor) {
     var editorScrollInfo = editor.getScrollInfo();
     var equator;
 
@@ -461,343 +461,10 @@ define([
           editorScrollInfo.top - editorScrollInfo.clientHeight);
     } else {
       equator = Math.round(editorScrollInfo.clientHeight *
-          diffTool.DoubleEditorController.EQUATOR_RATIO);
+          d.DoubleEditorController.EQUATOR_RATIO);
     }
 
     return equator;
-  };
-
-  /**
-   * Returns true if below height of code below the bottom line of editor
-   * is lower than offset to equator, which means that code below may not
-   * ever reach equator.
-   * @return {boolean}
-   * @private
-   */
-  diffTool.DoubleEditorController.prototype.isLastScreen_ = function(editor) {
-    var scrollInfo = editor.getScrollInfo();
-
-    return (scrollInfo.height - scrollInfo.top <=
-        scrollInfo.clientHeight + (scrollInfo.clientHeight -
-            scrollInfo.clientHeight *
-                diffTool.DoubleEditorController.EQUATOR_RATIO));
-  };
-
-  /**
-   * @private
-   */
-  diffTool.DoubleEditorController.prototype.colorizeLines_ = function() {
-    var previousIsChanged = false;
-
-    this.cleanupColorized_();
-
-    this.usedOriginal_ = [];
-    this.usedModified_ = [];
-
-    this.lines_.forEach(function(chunk) {
-      if (!diffTool.Parser.lineHasType(chunk,
-          diffTool.Parser.LineType.UNCHANGED)) {
-        this.colorizeChunk_(chunk.topOriginal, chunk.bottomOriginal,
-            chunk.rangesOriginal,  chunk.type, this.codeMirrorOriginal_,
-            previousIsChanged);
-
-        this.colorizeChunk_(chunk.topModified, chunk.bottomModified,
-            chunk.rangesModified, chunk.type, this.codeMirrorModified_,
-            previousIsChanged);
-      }
-
-      previousIsChanged = !diffTool.Parser.lineHasType(chunk,
-          diffTool.Parser.LineType.UNCHANGED);
-    }, this);
-
-    for (var i = 0, l = this.usedOriginal_.length; i < l; i++) {
-      if (!diffTool.isDef(this.usedOriginal_[i])) {
-        this.codeMirrorOriginal_.removeLineClass(i,
-            diffTool.DoubleEditorController.EDITOR_MODE);
-      }
-    }
-
-    for (i = 0, l = this.usedModified_.length; i < l; i++) {
-      if (!diffTool.isDef(this.usedModified_[i])) {
-        this.codeMirrorModified_.removeLineClass(i,
-            diffTool.DoubleEditorController.EDITOR_MODE);
-      }
-    }
-  };
-
-  /**
-   * Adds class, according to modification type, to bunch of lines in editor.
-   * @param {number} from
-   * @param {number} to
-   * @param {Array.<Object>} ranges
-   * @param {diffTool.Parser.LineType} type
-   * @param {CodeMirror} editor
-   * @param {boolean=} opt_changesBefore
-   * @private
-   */
-  diffTool.DoubleEditorController.prototype.colorizeChunk_ = function(from, to,
-      ranges, type, editor, opt_changesBefore) {
-    if (!this.lineTypeToClass_) {
-      /**
-       * Lookup table of line states to
-       * @type {Object.<diffTool.DoubleEditorController.ModificationType,
-       *     diffTool.DoubleEditorController.LineClass>}
-       * @private
-       */
-      this.lineTypeToClass_ = diffTool.createObject(
-          diffTool.Parser.LineType.INLINE,
-              diffTool.DoubleEditorController.LineClass.MODIFIED,
-          diffTool.Parser.LineType.DELETED,
-              diffTool.DoubleEditorController.LineClass.DELETED,
-          diffTool.Parser.LineType.ADDED,
-              diffTool.DoubleEditorController.LineClass.ADDED);
-    }
-
-    if (!this.collapsedLineTypeToClass_) {
-      /**
-       * @type {Object.<diffTool.DoubleEditorController.ModificationType,
-       *     diffTool.DoubleEditorController.LineClass>}
-       * @private
-       */
-      this.collapsedLineTypeToClass_ = diffTool.createObject(
-          diffTool.Parser.LineType.ADDED,
-              diffTool.DoubleEditorController.LineClass.BEFORE_ADDED,
-          diffTool.Parser.LineType.DELETED,
-              diffTool.DoubleEditorController.LineClass.BEFORE_DELETED);
-    }
-
-    var isOriginal = editor === this.codeMirrorOriginal_;
-    var usedClasses = [];
-
-    if (!this.linesOriginal_) {
-      this.linesOriginal_ = [];
-    }
-
-    if (!this.linesModified_) {
-      this.linesModified_ = [];
-    }
-
-    var colorizedLines = isOriginal ? this.linesOriginal_ : this.linesModified_;
-    var usedLines = isOriginal ? this.usedOriginal_ : this.usedModified_;
-
-    if (from === to) {
-      if (!colorizedLines[from - 1] ||
-          !diffTool.arraysAreEqual(colorizedLines[from - 1],
-              [this.collapsedLineTypeToClass_[type]])) {
-        colorizedLines[from - 1] = [this.collapsedLineTypeToClass_[type]];
-
-        editor.addLineClass(from - 1, diffTool.DoubleEditorController.EDITOR_MODE);
-        editor.addLineClass(from - 1, diffTool.DoubleEditorController.EDITOR_MODE,
-            this.collapsedLineTypeToClass_[type]);
-
-        usedLines[from - 1] = true;
-      }
-    } else {
-      for (var i = from, rangeIndex = 0; i < to; i++, rangeIndex++) {
-        usedClasses = [];
-
-        if (i === from && type !== diffTool.Parser.LineType.UNCHANGED &&
-            !opt_changesBefore) {
-          usedClasses.push(diffTool.DoubleEditorController.LineClass.FIRST);
-        }
-
-        if (i === to - 1 && type !== diffTool.Parser.LineType.UNCHANGED) {
-          usedClasses.push(diffTool.DoubleEditorController.LineClass.LAST);
-        }
-
-        usedClasses.push(this.lineTypeToClass_[type]);
-
-        if (!colorizedLines[i] ||
-            !diffTool.arraysAreEqual(colorizedLines[i], usedClasses)) {
-          editor.removeLineClass(i,
-              diffTool.DoubleEditorController.EDITOR_MODE);
-          editor.addLineClass(i, diffTool.DoubleEditorController.EDITOR_MODE,
-              usedClasses.join(' '));
-          colorizedLines[i] = usedClasses;
-        }
-
-        usedLines[i] = true;
-
-        if (ranges) {
-          this.colorizeLine_(i, ranges[rangeIndex], editor);
-        }
-      }
-    }
-  };
-
-  /**
-   * Highlights inline changes.
-   * @param {number} line
-   * @param {Array.<Object>} ranges
-   * @param {CodeMirror} editor
-   * @private
-   */
-  diffTool.DoubleEditorController.prototype.colorizeLine_ = function(line,
-      ranges, editor) {
-    if (ranges)  {
-      if (!this.rangeTypeToClass_) {
-        this.rangeTypeToClass_ = diffTool.createObject(
-            diffTool.Parser.LineType.UNCHANGED, '',
-            diffTool.Parser.LineType.DELETED,
-                diffTool.DoubleEditorController.CharsClass.MODIFIED,
-            diffTool.Parser.LineType.ADDED,
-                diffTool.DoubleEditorController.CharsClass.MODIFIED);
-      }
-
-      ranges.forEach(function(range) {
-        this.textMarkers_.push(editor.markText({
-          line: line,
-          ch: range.from
-        }, {
-          line: line,
-          ch: range.to
-        }, {
-          className: this.rangeTypeToClass_[range.type]
-        }));
-      }, this);
-    }
-  };
-
-  /**
-   * Removes markup of previously highlighted lines.
-   * @private
-   */
-  diffTool.DoubleEditorController.prototype.cleanupColorized_ = function() {
-    if (!this.textMarkers_) {
-      this.textMarkers_ = [];
-    }
-
-    this.textMarkers_.forEach(function(marker) {
-      marker.clear();
-      marker = null;
-    });
-
-    this.textMarkers_.length = 0;
-  };
-
-  /**
-   * Draws graphics connectors from changed chunks in original code to
-   * corresponding chunks in modified code.
-   * @param {boolean=} opt_redraw If true, resizes canvas.
-   * @private
-   */
-  diffTool.DoubleEditorController.prototype.drawConnectors_ = function(
-      opt_redraw) {
-    if (!this.splitElement_) {
-      this.splitElement_ = this.element_.querySelector(
-          diffTool.DoubleEditorController.CssSelector.SPLITTER);
-    }
-
-    /**
-     * @type {number}
-     * @const
-     */
-    var SUBPIXEL_ERROR = 1;
-
-    var width = this.splitElement_.offsetWidth;
-    var originalScrollInfo = this.codeMirrorOriginal_.getScrollInfo();
-    var modifiedScrollInfo = this.codeMirrorModified_.getScrollInfo();
-
-    if (!this.connectorsCanvas_) {
-      this.connectorsCanvas_ = raphael(this.splitElement_, 0, 0);
-      opt_redraw = true;
-    }
-
-    if (opt_redraw) {
-      this.connectorsCanvas_.setSize(
-          this.splitElement_.offsetWidth,
-          this.splitElement_.offsetHeight);
-    }
-
-    this.connectorsCanvas_.clear();
-
-    if (!this.typeToSvgClass_) {
-      /**
-       * Lookup table of types of line to css-classes for according connector
-       * elements.
-       * @type {Object.<diffTool.Parser.LineType,
-       *     diffTool.DoubleEditorController.ConnectorClass>}
-       * @private
-       */
-      this.typeToSvgClass_ = diffTool.createObject(
-          diffTool.Parser.LineType.ADDED,
-              diffTool.DoubleEditorController.ConnectorClass.ADDED,
-          diffTool.Parser.LineType.DELETED,
-              diffTool.DoubleEditorController.ConnectorClass.DELETED,
-          diffTool.Parser.LineType.INLINE,
-              diffTool.DoubleEditorController.ConnectorClass.MODIFIED);
-    }
-
-    var editorOffset = this.codeMirrorOriginal_.getScrollInfo();
-    var editorOffsetTop = editorOffset.top;
-    var editorOffsetBottom = editorOffsetTop + editorOffset.clientHeight;
-
-    var previousOffset = null;
-
-    this.offsets_.forEach(function(offset) {
-      var offsetHeight = offset.bottomOriginal - offset.topOriginal;
-      var topEdge = editorOffsetTop - offsetHeight;
-      var bottomEdge = editorOffsetBottom + offsetHeight;
-
-      if (!diffTool.Parser.lineHasType(offset,
-          diffTool.Parser.LineType.UNCHANGED) &&
-          offset.topOriginal > topEdge &&
-          offset.bottomOriginal < bottomEdge) {
-        var originalTop = offset.topOriginal - originalScrollInfo.top;
-        var modifiedTop = offset.topModified - modifiedScrollInfo.top;
-
-        var originalBottom = offset.bottomOriginal - originalScrollInfo.top -
-            SUBPIXEL_ERROR;
-        var modifiedBottom = offset.bottomModified - modifiedScrollInfo.top -
-            SUBPIXEL_ERROR;
-
-        if ((Boolean(previousOffset) &&
-            !diffTool.Parser.lineHasType(previousOffset,
-                diffTool.Parser.LineType.UNCHANGED) &&
-            !diffTool.Parser.lineHasType(offset,
-                diffTool.Parser.LineType.UNCHANGED)) ||
-            /*
-             * todo(igor.alexeenko): find out, why same condition does not
-             * work for opposite situation: when offset.topModified ===
-             * offset.bottomModified.
-             */
-            offset.topOriginal === offset.bottomOriginal) {
-          originalTop -= SUBPIXEL_ERROR;
-          modifiedTop -= SUBPIXEL_ERROR;
-        }
-
-        // todo(igor.alexeenko): getConnectorClass(type)
-        var connectorClassName = [
-          diffTool.DoubleEditorController.ConnectorClass.BASE,
-          this.typeToSvgClass_[offset.type]
-        ].join(' ');
-
-        var leftEdge = -1;
-        var leftCorrPoint = Math.round(width *
-            diffTool.DoubleEditorController.CONNECTOR_CURVE_RATIO);
-        var rightCorrPoint = Math.round(width - width *
-            diffTool.DoubleEditorController.CONNECTOR_CURVE_RATIO);
-        var rightEdge = width + 1;
-
-        var connector = this.connectorsCanvas_.path([
-          ['M', leftEdge, originalTop],
-          ['C',
-            leftCorrPoint, originalTop,
-            rightCorrPoint, modifiedTop,
-            rightEdge, modifiedTop],
-          ['L', rightEdge, modifiedBottom],
-          ['C',
-            rightCorrPoint, modifiedBottom,
-            leftCorrPoint, originalBottom,
-            leftEdge, originalBottom],
-          ['L', leftEdge, originalTop, 'Z']
-        ]);
-        connector.node.setAttribute('class', connectorClassName);
-        connector.node.setAttribute('transform', 'translate(0.5, 0.5)');
-      }
-
-      previousOffset = offset;
-    }, this);
   };
 
   /**
@@ -807,16 +474,16 @@ define([
    * @param {boolean} enabled
    * @private
    */
-  diffTool.DoubleEditorController.prototype.setEditorEnabled_ = function(
+  d.DoubleEditorController.prototype.setEditorScrollHandlerEnabled_ = function(
       editor, enabled) {
     if (!this.scrollHandler_) {
       /**
        * Scroll handler which calls method
-       * of {@code diffTool.DoubleEditorController} with bind context.
+       * of {@code d.DoubleEditorController} with bind context.
        * @type {Function}
        * @private
        */
-      this.scrollHandler_ = diffTool.bindContext(this.onScroll_, this);
+      this.scrollHandler_ = d.bindContext(this.onScroll_, this);
     }
 
     if (enabled) {
@@ -827,36 +494,19 @@ define([
   };
 
   /**
-   * Returns {@code Array} of objects, which represents offsets of chunks
-   * of code.
-   * @param {Array.<Object>} lines
-   * @return {Array.<Object>}
+   * Returns true if below height of code below the bottom line of editor
+   * is lower than offset to equator, which means that code below may not
+   * ever reach equator.
+   * @return {boolean}
    * @private
    */
-  diffTool.DoubleEditorController.prototype.getLinesOffset_ = function(lines) {
-    var offsets = [];
+  d.DoubleEditorController.prototype.isLastScreen_ = function(editor) {
+    var scrollInfo = editor.getScrollInfo();
 
-    lines.forEach(function(line) {
-      var offset = {
-        bottomModified: this.codeMirrorModified_.heightAtLine(
-            line.bottomModified,
-            diffTool.DoubleEditorController.EDITOR_SCREEN_MODE),
-        bottomOriginal: this.codeMirrorOriginal_.heightAtLine(
-            line.bottomOriginal,
-            diffTool.DoubleEditorController.EDITOR_SCREEN_MODE),
-        topModified: this.codeMirrorModified_.heightAtLine(
-            line.topModified,
-            diffTool.DoubleEditorController.EDITOR_SCREEN_MODE),
-        topOriginal: this.codeMirrorOriginal_.heightAtLine(
-            line.topOriginal,
-            diffTool.DoubleEditorController.EDITOR_SCREEN_MODE),
-        type: line.type
-      };
-
-      offsets.push(offset);
-    }, this);
-
-    return offsets;
+    return (scrollInfo.height - scrollInfo.top <=
+        scrollInfo.clientHeight + (scrollInfo.clientHeight -
+            scrollInfo.clientHeight *
+                d.DoubleEditorController.EQUATOR_RATIO));
   };
 
   /**
@@ -868,14 +518,14 @@ define([
    * @return {number}
    * @private
    */
-  diffTool.DoubleEditorController.prototype.getCurrentOffset_ = function(
+  d.DoubleEditorController.prototype.getCurrentOffset_ = function(
       scrollPosition, offsets, isOriginalCode) {
     var offset;
     var top, bottom;
 
     for (var i = 0, l = offsets.length; offset = offsets[i], i < l; i++) {
-      top = isOriginalCode ? offset.topOriginal : offset.topModified;
-      bottom = isOriginalCode ? offset.bottomOriginal : offset.bottomModified;
+      top = isOriginalCode ? offset.originalFrom : offset.modifiedFrom;
+      bottom = isOriginalCode ? offset.originalTo : offset.modifiedTo;
 
       if (top <= scrollPosition && bottom >= scrollPosition) {
         return i;
@@ -886,18 +536,336 @@ define([
   };
 
   /**
+   * @private
+   */
+  d.DoubleEditorController.prototype.colorizeLines_ = function() {
+    var cmHelper = CodeMirrorHelper.getInstance();
+
+    this.lines_.forEach(function(chunk, index) {
+      if (!chunk.type) {
+        return;
+      }
+
+      var originalChunkSize = chunk.originalTo - chunk.originalFrom;
+      var modifiedChunkSize = chunk.modifiedTo - chunk.modifiedFrom;
+
+      var nextChunkType = this.lines_[index + 1] ? this.lines_[index + 1].type :
+          null;
+
+      var usedLine;
+      var lineClass;
+
+      // NB! I use post-test loop because some chunks contains only one
+      // lines and "from" and "to" numbers are equal.
+      var i = chunk.originalFrom;
+      do {
+        usedLine = (originalChunkSize === 0) ? i - 1 : i;
+        lineClass = d.DoubleEditorController.getLineClass(chunk.type, usedLine,
+            chunk.originalFrom, chunk.originalTo, nextChunkType);
+
+        d.DoubleEditorController.colorizeLine(this.codeMirrorOriginal_,
+            usedLine, lineClass);
+
+        i++;
+      } while (i < chunk.originalTo);
+
+      i = chunk.modifiedFrom;
+      do {
+        usedLine = (modifiedChunkSize === 0) ? i - 1 : i;
+        lineClass = d.DoubleEditorController.getLineClass(chunk.type, usedLine,
+            chunk.modifiedFrom, chunk.modifiedTo, nextChunkType);
+
+        d.DoubleEditorController.colorizeLine(this.codeMirrorModified_,
+            usedLine, lineClass);
+        i++;
+      } while (i < chunk.modifiedTo);
+    }, this);
+
+    cmHelper.executeOperationBuffer(this.codeMirrorOriginal_);
+    cmHelper.executeOperationBuffer(this.codeMirrorModified_);
+  };
+
+  /**
+   * Colorizes one line.
+   * @param {CodeMirror} editor
+   * @param {number} usedLine
+   * @param {string} lineClass
+   */
+  d.DoubleEditorController.colorizeLine = function(editor, usedLine,
+      lineClass) {
+    var cmHelper = CodeMirrorHelper.getInstance();
+
+    cmHelper.addOperation(editor, function() {
+      editor.addLineClass(usedLine,
+          d.DoubleEditorController.EDITOR_MODE, lineClass);
+    });
+  };
+
+  /**
+   * Returns list of line classes which should be added to line of given type.
+   * @static
+   * @param {d.Parser.LineType} type
+   * @param {number} lineIndex
+   * @param {number} from
+   * @param {number} to
+   * @param {d.Parser.LineType=} opt_nextType
+   * @return {string}
+   */
+  d.DoubleEditorController.getLineClass = function(type, lineIndex, from, to,
+      opt_nextType) {
+    var classes = [];
+
+    /**
+     * Array of types, which are used in detection of CSS-class for current
+     * line.
+     * @type {Array.<d.Parser.LineType>}
+     */
+    var usedTypes = [
+      d.Parser.LineType.NULL,
+      d.Parser.LineType.ADDED,
+      d.Parser.LineType.DELETED,
+      d.Parser.LineType.INLINE
+    ];
+
+    /**
+     * Lookup table of line-types to CSS-classes.
+     * @type {Object.<d.Parser.LineType, string>}
+     */
+    var typeToLineClass = d.createObject(
+        d.Parser.LineType.NULL, '',
+        d.Parser.LineType.ADDED, d.DoubleEditorController.LineClass.ADDED,
+        d.Parser.LineType.DELETED, d.DoubleEditorController.LineClass.DELETED,
+        d.Parser.LineType.INLINE, d.DoubleEditorController.LineClass.MODIFIED,
+        d.Parser.LineType.INLINE | d.Parser.LineType.ADDED,
+            d.DoubleEditorController.LineClass.MODIFIED,
+        d.Parser.LineType.INLINE | d.Parser.LineType.DELETED,
+            d.DoubleEditorController.LineClass.MODIFIED);
+
+    /**
+     * Lookup table of line-types to CSS-classes, which are used for lines
+     * before deleted or added line of code.
+     * @type {Object.<d.Parser.LineType, string>}
+     */
+    var collapsedLineTypeToClass = d.createObject(
+        d.Parser.LineType.ADDED,
+        d.DoubleEditorController.LineClass.BEFORE_ADDED,
+        d.Parser.LineType.DELETED,
+        d.DoubleEditorController.LineClass.BEFORE_DELETED);
+
+    var normalizedType = d.Parser.normalizeType(type, usedTypes);
+
+    if (from === to) {
+      classes.push(collapsedLineTypeToClass[normalizedType]);
+    } else {
+      classes.push(typeToLineClass[normalizedType]);
+
+      if (lineIndex === from) {
+        classes.push(d.DoubleEditorController.LineClass.FIRST);
+      }
+
+      if (lineIndex === to - 1 && !opt_nextType) {
+        classes.push(d.DoubleEditorController.LineClass.LAST);
+      }
+    }
+
+    return classes.join(' ');
+  };
+
+  /**
+   * Draws graphic connectors from changed chunks in original code to
+   * corresponding chunks in modified code.
+   * @param {boolean=} opt_resize If true, counts new size of canvas.
+   * @private
+   */
+  d.DoubleEditorController.prototype.drawConnectors_ = function(
+      opt_resize) {
+    if (!this.splitElement_) {
+      /**
+       * @type {Element}
+       * @private
+       */
+      this.splitElement_ = this.element_.querySelector(
+          d.DoubleEditorController.CssSelector.SPLITTER);
+    }
+
+    if (!this.connectorsCanvas_) {
+      this.connectorsCanvas_ = raphael(this.splitElement_, 0, 0);
+      opt_resize = true;
+    }
+
+    if (opt_resize) {
+      this.connectorsCanvas_.setSize(
+          this.splitElement_.offsetWidth,
+          this.splitElement_.offsetHeight);
+    }
+
+    this.connectorsCanvas_.clear();
+
+    var codeMirrorOriginalScrollInfo = this.codeMirrorOriginal_.getScrollInfo();
+    var verticalRangeLeft = new d.Range(
+        codeMirrorOriginalScrollInfo.top,
+        codeMirrorOriginalScrollInfo.top +
+            codeMirrorOriginalScrollInfo.clientHeight);
+
+    var codeMirrorModifiedScrollInfo = this.codeMirrorModified_.getScrollInfo();
+    var verticalRangeRight = new d.Range(
+        codeMirrorModifiedScrollInfo.top,
+        codeMirrorModifiedScrollInfo.top + codeMirrorModifiedScrollInfo.
+            clientHeight);
+
+    var horizontalRange = new d.Range(
+        0, this.splitElement_.clientWidth);
+
+    // todo(igor.alexeenko): Do I need to do something with this connectors?
+    var connectors = [];
+
+    this.offsets_.forEach(function(offset, index) {
+      var currentOffset = this.lines_[index];
+      var nextType = this.lines_[index + 1] ? this.lines_[index + 1].type :
+          null;
+
+      connectors.push(d.DoubleEditorController.getConnector(offset,
+          verticalRangeLeft, verticalRangeRight, horizontalRange,
+          currentOffset.type, this.connectorsCanvas_, nextType));
+    }, this);
+  };
+
+  // todo(igor.alexeenko): Find out, what types use for Raphaël classes.
+  /**
+   * Creates and returns vector shape for connector.
+   * @static
+   * @param {Object} offset
+   * @param {d.Range} verticalRangeLeft
+   * @param {d.Range} verticalRangeRight
+   * @param {d.Range} horizontalRange
+   * @param {d.Parser.LineType} type
+   * @param {Object} canvas Raphael.js canvas element
+   * @param {d.Parser.LineType?} opt_nextType
+   * @return {Object?}
+   */
+  d.DoubleEditorController.getConnector = function(offset, verticalRangeLeft,
+      verticalRangeRight, horizontalRange, type, canvas, opt_nextType) {
+    /**
+     * Ratio of connector width on witch positioned correction point of Bézier
+     * curve, which connects original and modified code.
+     * @type {number}
+     * @const
+     */
+    var CONNECTOR_CURVE_RATIO = 0.3;
+
+    /**
+     * Lookup table of line types to classes for connectors.
+     * @type {Object.<d.Parser.LineType,
+     *     d.DoubleEditorController.ConnectorClass>}
+     */
+    var typeToConnectorClass = d.createObject(
+        d.Parser.LineType.ADDED,
+            d.DoubleEditorController.ConnectorClass.ADDED,
+        d.Parser.LineType.DELETED,
+            d.DoubleEditorController.ConnectorClass.DELETED,
+        d.Parser.LineType.INLINE,
+            d.DoubleEditorController.ConnectorClass.MODIFIED,
+        d.Parser.LineType.INLINE | d.Parser.LineType.ADDED,
+            d.DoubleEditorController.ConnectorClass.MODIFIED,
+        d.Parser.LineType.INLINE | d.Parser.LineType.DELETED,
+            d.DoubleEditorController.ConnectorClass.MODIFIED);
+
+    var usedTypes = [
+      d.Parser.LineType.ADDED,
+      d.Parser.LineType.DELETED,
+      d.Parser.LineType.INLINE
+    ];
+
+    var connectorMaxHeight = Math.max(
+        Math.abs(offset.modifiedTo - offset.originalTo) + (offset.originalTo -
+            offset.originalFrom),
+        Math.abs(offset.originalTo - offset.modifiedTo) + (offset.modifiedTo -
+            offset.modifiedFrom));
+
+    var normalizedType = d.Parser.normalizeType(type, usedTypes);
+
+    if (offset.originalFrom >= verticalRangeLeft.from - connectorMaxHeight &&
+        offset.originalTo <= verticalRangeLeft.to + connectorMaxHeight &&
+        offset.modifiedFrom >= verticalRangeRight.from - connectorMaxHeight &&
+        offset.modifiedTo <= verticalRangeRight.to + connectorMaxHeight &&
+        normalizedType !== d.Parser.LineType.NULL) {
+
+      horizontalRange.from -= 1;
+      horizontalRange.to += 1;
+
+      var connectorClassName = [
+        d.DoubleEditorController.ConnectorClass.BASE,
+        typeToConnectorClass[normalizedType]
+      ].join(' ');
+
+      var yLeftTop = offset.originalFrom - verticalRangeLeft.from;
+      var xLeftTop = horizontalRange.from;
+
+      var yLeftTopCurve = offset.originalFrom - verticalRangeLeft.from;
+      var xLeftTopCurve = horizontalRange.to * CONNECTOR_CURVE_RATIO;
+
+      var yRightTopCurve = offset.modifiedFrom - verticalRangeRight.from;
+      var xRightTopCurve = horizontalRange.to * (1 - CONNECTOR_CURVE_RATIO);
+
+      var yRightTop = offset.modifiedFrom - verticalRangeRight.from;
+      var xRightTop = horizontalRange.to;
+
+      var yRightBottom = offset.modifiedTo - verticalRangeRight.from;
+      var xRightBottom = horizontalRange.to;
+
+      var yRightBottomCurve = offset.modifiedTo - verticalRangeRight.from;
+      var xRightBottomCurve = horizontalRange.to * (1 - CONNECTOR_CURVE_RATIO);
+
+      var yLeftBottomCurve = offset.originalTo - verticalRangeLeft.from;
+      var xLeftBottomCurve = horizontalRange.to * CONNECTOR_CURVE_RATIO;
+
+      var yLeftBottom = offset.originalTo - verticalRangeLeft.from;
+      var xLeftBottom = horizontalRange.from;
+
+      if (opt_nextType === d.Parser.LineType.NULL &&
+          yLeftBottom !== yLeftTop && yRightBottom !== yRightTop) {
+        yLeftBottom -= 1;
+        yLeftBottomCurve -= 1;
+        yRightBottom -= 1;
+        yRightBottomCurve -= 1;
+      }
+
+      var path = canvas.path([
+        'M', xLeftTop, yLeftTop,
+        ['C',
+          xLeftTopCurve, yLeftTopCurve,
+          xRightTopCurve, yRightTopCurve,
+          xRightTop, yRightTop],
+        'L', xRightBottom, yRightBottom,
+        ['C',
+          xRightBottomCurve, yRightBottomCurve,
+          xLeftBottomCurve, yLeftBottomCurve,
+          xLeftBottom, yLeftBottom],
+        ['L', xLeftTop, yLeftTop, 'Z']
+      ]);
+
+      path.node.setAttribute('class', connectorClassName);
+      path.node.setAttribute('transform', 'translate(0.5, 0.5)');
+
+      return path;
+    }
+
+    return null;
+  };
+
+  /**
    * @return {CodeMirror}
    */
-  diffTool.DoubleEditorController.prototype.getOriginalEditor = function() {
+  d.DoubleEditorController.prototype.getOriginalEditor = function() {
     return this.codeMirrorOriginal_;
   };
 
   /**
    * @return {CodeMirror}
    */
-  diffTool.DoubleEditorController.prototype.getModifiedEditor = function() {
+  d.DoubleEditorController.prototype.getModifiedEditor = function() {
     return this.codeMirrorModified_;
   };
 
-  return diffTool.DoubleEditorController;
+  return d.DoubleEditorController;
 });
