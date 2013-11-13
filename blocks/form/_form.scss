@@ -175,7 +175,8 @@
   }
   & .ring-form__control {
     & .ring-input {
-      width: inherit !important;
+      width: 100% !important;
+      box-sizing: border-box;
     }
     margin-left: 0;
     width: 42 * $ring-unit;
