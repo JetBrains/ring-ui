@@ -1,3 +1,5 @@
+/* global CodeMirror: true */
+
 /**
  * @fileoverview Controller for single-pane editor.
  * @author igor.alexeenko (Igor Alexeenko)
@@ -570,10 +572,10 @@ define([
             cmHelper.addOperation(editor, function() {
               editor.markText({
                 line: inline.from.line + originalLineNumber,
-                ch: inline.from.char
+                ch: inline.from['char']
               }, {
                 line: inline.to.line + originalLineNumber,
-                ch: inline.to.char
+                ch: inline.to['char']
               }, {
                 className: inlineChangeTypeToClass[inline.type]
               });

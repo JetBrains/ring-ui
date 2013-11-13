@@ -3,18 +3,20 @@
 $header-link-color:  #b4b4b4;
 
 .ring-header {
+  position: relative;
+  height: $ring-unit*3 - 1;
   padding: 0 $ring-unit*2;
+  border-bottom: 1px solid #000;
+
   background-color: #35444b; // IE7-
   -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='#24353d', endColorstr='#4a565c', GradientType=0)"; // IE8
   background-image: linear-gradient(to bottom, #24353d, #4a565c);
-  letter-spacing: -5px;
-  line-height: 11px !important;
-  font-size: 18px !important;
-  text-rendering: optimizeLegibility;
-  position: relative;
+
   text-align: left;
-  border-bottom: 1px solid #000;
-  height: $ring-unit*3 - 1;
+  letter-spacing: -5px;
+  font-size: 18px !important;
+  line-height: 12px !important;
+  text-rendering: optimizeLegibility;
 }
 
 // Items
@@ -22,7 +24,7 @@ $header-link-color:  #b4b4b4;
   position: relative;
   display: inline-block;
   *display: inline; // IE7
-  height: $ring-unit*3 - 8;
+  height: $ring-unit*2 + 1;
 
   padding: 6px $ring-unit 0 $ring-unit;
   vertical-align: middle; // IE7
@@ -30,10 +32,10 @@ $header-link-color:  #b4b4b4;
   letter-spacing: 0;
   font-size: 11px !important;
   font-weight: normal !important;
-  @include droid-font;
+  @include ring-font;
 }
 
-.ring-header__services .ring-header__item_link:hover {
+.ring-header__item_link:hover {
   background-color: #000; // IE8-
   background-color: rgba(0, 0, 0, 0.5);
 }
@@ -49,33 +51,37 @@ $header-link-color:  #b4b4b4;
 }
 
 // Personal
-.ring-header__personal {
+.ring-header__personal, .ring-header__more {
+  color: #b4b4b4;
   position: absolute;
   top: 0;
-  right: $ring-unit*3;
   white-space: nowrap;
 
   cursor: pointer;
   user-select: none;
 
   .ring-font-icon {
+    display: inline-block;
+    position: relative;
+    top: 6px;
+    width: $ring-unit;
+
     color: $header-link-color;
     font-size: 12px !important;
     vertical-align: top;
+  }
 
-    display: inline-block;
-    position: relative;
-    width: $ring-unit;
-    top: 6px;
+  &:hover  {
+    color: $ring-link-hover-color !important;
+    text-decoration: underline;
+  }
+
+  &:hover .ring-font-icon {
+    color: $ring-link-hover-color !important;
+    background-position: -66px -22px;
   }
 }
 
-.ring-header__personal:hover .ring-header__item_link {
-  color: $ring-link-hover-color !important;
-  text-decoration: underline;
-}
-
-.ring-header__personal:hover .ring-font-icon {
-  color: $ring-link-hover-color !important;
-  background-position: -66px -22px;
+.ring-header__personal {
+  right: $ring-unit*3;
 }

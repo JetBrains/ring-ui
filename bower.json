@@ -2,14 +2,15 @@
   "name": "ring-ui",
   "version": "0.1.0",
   "devDependencies": {
-    "almond": "~0.2.5",
-    "codemirror": "~3.15.0",
-    "jquery": "~1.10.1",
+    "almond": "~0.2.6",
+    "codemirror": "~3.19.0",
+    "jquery": "~1.10.2",
+    "jquery-caret": "http://code.accursoft.com/caret/get/v1.3.0.zip",
     "json2": "*",
     "jso": "git://github.com/princed/jso.git",
     "polyfill": "git://github.com/inexorabletash/polyfill.git",
     "raphael": "*",
-    "requirejs": "~2.1.6"
+    "requirejs": "~2.1.9"
   },
   "ignore": [
     "node_modules",

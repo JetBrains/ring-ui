@@ -318,10 +318,13 @@ define([
       }
     }
 
-    return /** @type {d.Parser.InlinePosition} */ ({
-      line: lineIndex,
-      char: inlineCharIndex
-    });
+    var result = {
+      line: lineIndex
+    };
+
+    result['char'] = inlineCharIndex;
+
+    return /** @type {d.Parser.InlinePosition} */ (result);
   };
 
   /**

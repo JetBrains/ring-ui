@@ -3,18 +3,18 @@
 .ring-footer {
   position: relative;
   height: $ring-unit*8;
-
-  margin: $ring-unit*5 0 0 0;
+  margin: $ring-unit*5  $ring-unit*3 0 $ring-unit*3;
   padding-top: $ring-unit*2;
   border-top: 1px solid #e5e5e5;
 
   color: #6e6e6e;
   text-align: center;
   font-size: 11px !important;
-  @include droid-font();
+  @include ring-font();
 }
 
 .ring-footer_gray {
+  margin: $ring-unit*5 0 0 0 !important;
   background-color: #f0f0f0;
 }
 
@@ -33,9 +33,12 @@
 
 .ring-footer__column_left {
   left: 0; // IE7
-  padding-left: $ring-unit*3;
 
   text-align: left;
+}
+
+.ring-footer_gray .ring-footer__column_left {
+  padding-left: $ring-unit*3;
 }
 
 .ring-footer__column_center {
@@ -45,9 +48,12 @@
 .ring-footer__column_right {
   top: $ring-unit*2;
   right: 0;
-  padding-right: $ring-unit*3;
 
   text-align: right;
+}
+
+.ring-footer_gray .ring-footer__column_right {
+  padding-right: $ring-unit*3;
 }
 
 .ring-footer__line {
