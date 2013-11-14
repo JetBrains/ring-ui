@@ -392,11 +392,13 @@
 
 .ring-checkbox[type="checkbox"] {
   display: none;
+  display: inline-block\9;
 }
 
 .ring-checkbox[type="checkbox"] + label {
   content: "";
   display: inline-block;
+  display: none\9;
   width: 11px;
   height: 11px;
 
