@@ -1,3 +1,4 @@
+/* ring-ui 1.0.764 */
 (function () {
   'use strict';
 
@@ -9,6 +10,9 @@
         'replace': true,
         'templateUrl': 'dialog/dialog.ng.html',
         'controller': ['$scope', 'dialog', function ($scope, dialog) {
+          $scope.close = function () {
+            dialog.hide();
+          };
           $scope.onButtonClick = function (button) {
             var dontClose = false;
             if (button.action) {
