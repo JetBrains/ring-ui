@@ -29,7 +29,7 @@ define(['jquery', 'global/global__modules', 'global/global__views', 'header/head
             },
             logout: {
               label: 'Log out',
-              url: config.serverUrl + '/rest/cas/logout?gateway=true&url=' + encodeURIComponent(window.location.href),
+              url: config.serverUrl + '/rest/oauth2/logout?redirect_uri=' + encodeURIComponent(config.redirect_uri),
               event: 'header:logout'
             }
           },
