@@ -136,12 +136,11 @@
   font-size: 13px;
 
   &:hover:not(.ring-query-el_title) {
-    &, .ring-query-el__left, .ring-query-el__right {
+    &, .ring-query-el__right {
       background-color: #25b7ff;
     }
-
-    & .ring-query-el__left {
-      color: #00699d;
+    & .ring-query-el__left:nth-child(n) {
+      background-color: #f0f0f0;
     }
 
     & .ring-query-el__right {
