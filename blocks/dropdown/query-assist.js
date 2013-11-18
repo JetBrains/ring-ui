@@ -57,19 +57,17 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'auth/auth',
           $query.remove();
         }
         if(data.query === $el.text()) {
-          console.log(data);
-          $query = $(View.render('query', data));
-          $queryContainer.html($query).show();
           if(data.suggestions) {
-            if(data.suggestions[0].matchingStart === data.suggestions[0].matchingEnd) {
-              _setContainerCoords();
-            }
+            data.suggestions = _getSelectionText(data.suggestions);
+            $query = $(View.render('query', data));
+            $queryContainer.html($query).show();
             $query.on('click', '.ring-query-el', function (ev) {
               var target = $(ev.currentTarget),
                 suggestIndex = target.data('suggestIndex');
               $query.remove();
               _handleSuggest(data.suggestions[suggestIndex]);
             });
+            _setContainerCoords();
           } else {
             $query.remove();
             $queryContainer.hide();
@@ -154,6 +152,20 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'auth/auth',
       defer.resolve(data, state, jqXHR);
     });
     return defer.promise();
+  };
+
+  var _getSelectionText = function (suggestions) {
+    suggestions.forEach(function (item, index) {
+      var val = item.option + item.suffix,
+        res = val;
+
+      if(item.matchingStart !== item.matchingEnd) {
+        res = '<span class="selection">' + val.substr(item.matchingStart, item.matchingEnd) + '</span>' +
+          '<span>' + val.substr(item.matchingEnd, val.length) + '</span>';
+      }
+      suggestions[index].text = res;
+    });
+    return suggestions;
   };
 
   var _handleSuggest = function (suggest) {
