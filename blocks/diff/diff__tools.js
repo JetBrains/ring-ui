@@ -3,20 +3,15 @@
  * @author igor.alexeenko (Igor Alekseyenko)
  */
 
-define(['jquery'], function($) {
+define([
+  'jquery'
+], function($) {
   'use strict';
-
-  // todo(igor.alexeenko): Remove, when all namespaces renamed.
-  /**
-   * Namespace for DiffTool utility methods.
-   * @deprecated Use d instead.
-   */
-  var diffTool = {};
 
   /**
    * New namespace for diffTool.
    */
-  var d = diffTool;
+  var d = {};
 
   /**
    * Returns true if object is not undefined.
@@ -120,6 +115,28 @@ define(['jquery'], function($) {
     }
 
     return EOL;
+  };
+
+  /**
+   * Appends script element to page to asynchronously download some logic,
+   * implemented in external JavaScript file. When file is loaded, callback
+   * called with given context. If context is not defined, callback called
+   * with global context.
+   * @param {string} path
+   * @param {function} callback
+   * @param {*} opt_context
+   */
+  d.addScriptElement = function(path, callback, opt_context) {
+    var scriptElement = document.createElement('script');
+    var scriptElements = document.querySelectorAll('script');
+
+    var lastScriptElement = d.peekArray(scriptElements);
+
+    $(scriptElement).on('load', d.bindContext(callback, opt_context));
+
+    lastScriptElement.parent.insertBefore(scriptElement, null);
+    scriptElement.async = true;
+    scriptElement.src = path;
   };
 
   /**
@@ -245,6 +262,15 @@ define(['jquery'], function($) {
    */
   d.copyArray = function(arr) {
     return arr.slice(0);
+  };
+
+  /**
+   * Returns last element from {@code Array}.
+   * @param {Array.<T>} arr
+   * @return {T}
+   */
+  d.peekArray = function(arr) {
+    return arr[arr.length - 1];
   };
 
   // todo(igor.alexeenko): Rename to inherits
