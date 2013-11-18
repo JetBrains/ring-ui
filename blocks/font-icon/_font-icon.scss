@@ -94,6 +94,7 @@ body .ring-font-icon {
 .ring-font-icon_caret-down:before {
   content: "\f0d7";
 }
+
 .ring-font-icon_caret-up:before {
   content: "\f0d8";
 }
@@ -109,9 +110,11 @@ body .ring-font-icon {
 .ring-font-icon_added:before {
   content: "\e006";
 }
+
 .ring-font-icon_add:before {
   content: "\e008";
 }
+
 .ring-font-icon_pushpin:before {
   content: "\f08d";
 }
@@ -126,6 +129,38 @@ body .ring-font-icon {
 
 .ring-font-icon_ok:before {
   content: "\f00c";
+}
+
+.ring-font-icon_global:before {
+  content: "\f0ac";
+}
+
+.ring-font-icon_permission:before {
+  content: "\f084";
+}
+
+.ring-font-icon_email:before {
+  content: "\f0e0";
+}
+
+.ring-font-icon_resource:before {
+  content: "\f0c2";
+}
+
+.ring-font-icon_delete:before {
+  content: "\f014";
+}
+
+.ring-font-icon_jabber:before {
+  content: "\f0eb";
+}
+
+.ring-font-icon_group:before {
+  content: "\f0c0";
+}
+
+.ring-font-icon_role:before {
+  content: "\e00a";
 }
 
 /* Fallback for miserable Windows users */
