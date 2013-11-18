@@ -48,6 +48,7 @@ $btn-border-radius: 3px;
 // .ring-btn_blue       - Indicates that a button triggers a secondary action on the page. For example, "Save changes" in a modal dialog.
 // .ring-btn_black      - Indicates that a button is black. Should be used on dark backgrounds only!
 // .ring-btn_plus       - Indicates that a button will add something.
+// .ring-btn_danger     - Indicates that a button will add something.
 // :hover               - Hovered state.
 // :disabled            - Disabled state, also available as the `.ring-btn_disabled` class name.
 // :active              - Active state, also available as the `.ring-btn_active` class name.
@@ -209,6 +210,10 @@ $btn-border-radius: 3px;
     font-size: 16px;
     line-height: 16px;
   }
+}
+
+.ring-btn_danger {
+  color: #c10000;
 }
 
 .ring-btn_icon {
