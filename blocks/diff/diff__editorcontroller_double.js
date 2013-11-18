@@ -1,5 +1,3 @@
-/* global CodeMirror: true */
-
 /**
  * @fileoverview Controller for double-pane editor.
  * @author igor.alexeenko (Igor Alexeenko)
@@ -10,10 +8,11 @@ define([
   'handlebars',
   'raphael',
   'diff/diff__tools',
+  'codemirror',
   'global/global__codemirror-helper',
   'diff/diff__editorcontroller',
   'diff/diff__parser_doublepane'
-], function($, Handlebars, raphael, d, CodeMirrorHelper) {
+], function($, Handlebars, raphael, d, CodeMirror, CodeMirrorHelper) {
 
   // todo(igor.alexeenko): Implement all DOM-specific, CodeMirror-
   // specific and Raphael-specific logic in some kind of Renderer,

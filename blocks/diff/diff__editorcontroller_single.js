@@ -1,5 +1,3 @@
-/* global CodeMirror: true */
-
 /**
  * @fileoverview Controller for single-pane editor.
  * @author igor.alexeenko (Igor Alexeenko)
@@ -7,10 +5,11 @@
 
 define([
   'diff/diff__tools',
+  'codemirror',
   'global/global__codemirror-helper',
   'diff/diff__editorcontroller',
   'diff/diff__parser_singlepane'
-], function(d, CodeMirrorHelper) {
+], function(d, CodeMirror, CodeMirrorHelper) {
   'use strict';
 
   /**
