@@ -4,18 +4,42 @@
  */
 
 define([
+  'jquery',
   'diff/diff__tools'
-], function(d) {
+], function($, d) {
+
   /**
    * @constructor
    */
-  var CodeMirrorHelper = function() {};
+  var CodeMirrorHelper = function() {
+    /**
+     * Event handler.
+     * @type {jQuery}
+     * @private
+     */
+    this.eventHandler_ = $();
+  };
   d.addSingletonGetter(CodeMirrorHelper);
+
+  /**
+   * @enum {string}
+   */
+  CodeMirrorHelper.EventType = {
+    MODULE_LOADED: 'moduleloaded',
+    MODULE_LOAD_ERROR: 'moduleloaderror'
+  };
 
   /**
    * @typedef {Array.<function>}
    */
   CodeMirrorHelper.Buffer = [];
+
+  /**
+   * @return {jQuery}
+   */
+  CodeMirrorHelper.prototype.getEventHandler = function() {
+    return this.eventHandler_;
+  };
 
   /**
    * Returns operation buffer.
