@@ -12,6 +12,7 @@
 .ring-link {
   color: $ring-link-color !important;
   text-decoration: none;
+  cursor: pointer;
 
   // body to redefine other :hovers w/ !important
   body &:hover {
