@@ -91,7 +91,7 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'auth/auth',
       left;
 
     if(!init && (coords.left - 98 > MIN_LEFT_PADDING)) {
-      top = coords.top + 20;
+      top = coords.top + 18;
       left = coords.left - 98;
       // Left
 
@@ -101,11 +101,11 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'auth/auth',
         left = $global.width() - MIN_RIGHT_PADDING - $queryContainer.width();
       }
     } else {
-      top = $el.offset().top + 23;
+      top = $el.offset().top + 21;
       left = $el.offset().left;
     }
     $queryContainer.css({
-      top: top,
+      top: parseInt(top,10),
       left: left
     });
   };
@@ -180,6 +180,7 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'auth/auth',
       str = text + subStr;
 
     }
+    console.log(str);
     $el.text(str).focus().caret(suggest.caret);
   };
 
