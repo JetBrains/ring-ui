@@ -11,11 +11,10 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'auth/auth',
     lastTriggeredCaretPosition,
     lastPolledValue,
     lastTriggeredValue,
+    MIN_LEFT_PADDING = 24,
     MIN_RIGHT_PADDING = 16;
-//    TOP_PADDING = 4;
 
   var init = function (config) {
-    console.log('init');
     $el = $(config.el);
     url = config.url;
 
@@ -58,10 +57,13 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'auth/auth',
           $query.remove();
         }
         if(data.query === $el.text()) {
+          console.log(data);
           $query = $(View.render('query', data));
           $queryContainer.html($query).show();
-          _setContainerCoords();
           if(data.suggestions) {
+            if(data.suggestions[0].matchingStart === data.suggestions[0].matchingEnd) {
+              _setContainerCoords();
+            }
             $query.on('click', '.ring-query-el', function (ev) {
               var target = $(ev.currentTarget),
                 suggestIndex = target.data('suggestIndex');
@@ -90,10 +92,13 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'auth/auth',
       top,
       left;
 
-    if(!init) {
+    if(!init && (coords.left - 98 > MIN_LEFT_PADDING)) {
       top = coords.top + 20;
       left = coords.left - 98;
+      // Left
 
+
+      // Right
       if(left + $queryContainer.width() > $global.width() - MIN_RIGHT_PADDING) {
         left = $global.width() - MIN_RIGHT_PADDING - $queryContainer.width();
       }
