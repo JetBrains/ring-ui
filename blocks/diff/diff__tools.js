@@ -27,7 +27,7 @@ define([
    * @return {boolean}
    */
   d.isEmptyString = function(str) {
-    return (/^\s*$/).test(str);
+    return !/\S/.test(str);
   };
 
   /**
