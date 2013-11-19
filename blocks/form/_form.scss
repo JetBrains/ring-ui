@@ -13,6 +13,7 @@
 // Styleguide 7.1
 
 .ring-input {
+  box-sizing: border-box;
   width: 100%;
   margin-top: $ring-unit;
   margin-bottom: $ring-unit;
@@ -196,6 +197,7 @@
   margin-top: 3 * $ring-unit;
   padding: 2 * $ring-unit 4*$ring-unit;
   background-color: #e9f8ff;
+  background-color: rgba(37, 183, 255, 0.1);
   & .ring-btn {
     margin-right: 2*$ring-unit;
   }
@@ -335,7 +337,7 @@
 
 // Form for key-value data
 //
-// You can add "ring-form__group_short" to "ring-form__group" to make the left column shorter
+// You can add "ring-form\__group_short" to "ring-form\__group" to make the left column shorter
 //
 // Markup:
 // <form class="ring-form">

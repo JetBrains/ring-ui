@@ -13,7 +13,7 @@
     }
 
     .demo {
-      padding: 0 24px;
+      padding: 0 32px;
       font-size: 13px;
     }
 
@@ -59,6 +59,7 @@
 
       o('init', {
         header: {
+          "type": "4x",
           "authLinks": {
             "login": {
               "label": "Log in",
@@ -72,7 +73,7 @@
           }
         },
         menu: {
-          "type": "gradient",
+          "type": ["gradient", "4x"],
           "left": {
             "projects": {
               "toggle": {
@@ -252,6 +253,7 @@
           }
         },
         footer: {
+          type: '4x',
           left: [
             [{url: 'http://www.jetbrains.com/teamcity/?fromServer', label: 'TeamCity'}, 'by JetBrains'],
             'Enterprise 8.0.2 EAP (build 27448)'
@@ -300,6 +302,9 @@
 
   <div><a class="ring-link" href="dist/docs/API.html">View API documentation</a></div>
   <div><a class="ring-link" href="dist/styleguide/">CSS Styleguide</a></div>
+  <div class="ring-query__containter">
+    <div class="ring-query-js ring-input" contenteditable="true"></div>
+  </div>
 </div>
 
 </body>
