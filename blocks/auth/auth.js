@@ -130,7 +130,7 @@ define(['jquery', 'jso', 'global/global__modules', 'global/global__utils'], func
   var attempt;
   var refreshDefer;
 
-  var refreshTime = window.refreshTime = function(token) {
+  var refreshTime = function(token) {
     return token.split('.')[0] - REFRESH_BEFORE;
   };
 
