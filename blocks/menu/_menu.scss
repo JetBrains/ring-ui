@@ -28,6 +28,11 @@ $menu-attention-color: #f50000;
   font-size: 0 !important;
   text-align: left;
   white-space: nowrap;
+
+  // TODO Make this default after TC update
+  .ring-menu_4x & {
+    left: $ring-unit*4;
+  }
 }
 
 .ring-menu__background {
@@ -120,6 +125,11 @@ $menu-attention-color: #f50000;
   height: $ring-unit*7;
 
   font-size: 0;
+
+  // TODO Make this default after TC update
+  .ring-menu_4x & {
+    right: $ring-unit*4;
+  }
 }
 
 .ring-menu__right .ring-menu__item {
