@@ -59,7 +59,7 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'global/glob
 
       var pos = $target.offset();
       var targetCenter = pos.left + $target.outerWidth() / 2;
-      var targetWidth = $target.width();
+      var targetWidth = $target.is(':input') ? $target.outerWidth() : $target.width();
 
       var dropdownWidth = $dropdown.width();
       var dropdownCenter = dropdownWidth / 2;
