@@ -19,7 +19,7 @@ define([
    */
   d.SingleEditorController = function(element) {
     d.SingleEditorController.super_.constructor.call(this, element,
-        false, d.ParserSinglePane.getInstance());
+        d.ParserSinglePane.getInstance());
   };
   d.inherit(d.SingleEditorController, d.EditorController);
 
