@@ -207,9 +207,9 @@ define([
     if (overriddenMode) {
       this.deactivateMode();
       this.setMode(overriddenMode);
-      this.activateMode();
     }
 
+    this.activateMode();
     this.controller_.setContent(original, modified, diff, opt_refresh);
   };
 

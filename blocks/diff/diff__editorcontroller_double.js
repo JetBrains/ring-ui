@@ -26,7 +26,7 @@ define([
    */
   d.DoubleEditorController = function(element) {
     d.DoubleEditorController.super_.constructor.call(this, element,
-        true, d.ParserDoublePane.getInstance());
+        d.ParserDoublePane.getInstance());
   };
   d.inherit(d.DoubleEditorController, d.EditorController);
 
