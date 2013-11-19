@@ -17,6 +17,10 @@ $header-link-color:  #b4b4b4;
   font-size: 18px !important;
   line-height: 12px !important;
   text-rendering: optimizeLegibility;
+
+  &.ring-header_4x {
+    padding: 0 $ring-unit*3;
+  }
 }
 
 // Items
@@ -84,4 +88,8 @@ $header-link-color:  #b4b4b4;
 
 .ring-header__personal {
   right: $ring-unit*3;
+
+  .ring-header_4x & {
+    right: $ring-unit*4;
+  }
 }
