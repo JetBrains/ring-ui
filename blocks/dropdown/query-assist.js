@@ -1,7 +1,8 @@
 define(['jquery', 'global/global__views', 'global/global__modules', 'auth/auth', 'jquery-caret'], function ($, View, Module) {
   'use strict';
 
-  var $el,
+  var queryModule = Module.get('query'),
+    $el,
     $query,
     $queryContainer,
     url,
@@ -73,6 +74,7 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'auth/auth',
     $queryContainer.appendTo('body');
 
     _bindEvents($el);
+    queryModule.trigger('init:done');
   };
 //*************************************
 // Destroy query container && trigger events
@@ -83,10 +85,10 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'auth/auth',
     if ($queryContainer && $query) {
       $query.remove();
       $query = null;
-      Module.get('query').trigger('hide:done');
+      queryModule.trigger('hide:done');
       return true;
     } else {
-      Module.get('query').trigger('hide:fail');
+      queryModule.trigger('hide:fail');
       return false;
     }
   };
@@ -135,13 +137,13 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'auth/auth',
       // Trigger event if value changed
       lastTriggeredCaretPosition = caret;
       lastTriggeredValue = value;
-      Module.get('query').trigger('delayedChange:done', {value: value, caret: caret});
+      queryModule.trigger('delayedChange:done', {value: value, caret: caret});
       _doAssist.call(null, value, caret, true);
     } else if (caret !== lastTriggeredCaretPosition) {
       // trigger event if just caret position changed
       lastTriggeredCaretPosition = caret;
       lastTriggeredValue = value;
-      Module.get('query').trigger('delayedCaretMove:done', {value: value, caret: caret});
+      queryModule.trigger('delayedCaretMove:done', {value: value, caret: caret});
       _doAssist.call(null, value, caret, true);
     }
   };
