@@ -11,24 +11,25 @@ define([
   'diff/diff__tools',
   'global/global__modules',
   'diff/diff__editorcontroller_single',
-  'diff/diff__editorcontroller_double'
-], function(diffTool, Module) {
-  'use strict';
-
+  'diff/diff__editorcontroller_double',
+  'diff/diff__editorcontroller_plain'
+], function(d, Module) {
   /**
    * @param {Element=} opt_element
    * @param {DiffTool.Mode=} opt_mode
    * @constructor
    */
   var DiffTool = function(opt_element, opt_mode) {
-    if (diffTool.isDef(opt_mode)) {
-      opt_mode = opt_mode & this.availableModes ? opt_mode : this.defaultMode;
+    if (d.isDef(opt_mode)) {
+      opt_mode = Boolean(opt_mode & this.availableModes) ?
+          opt_mode :
+          this.defaultMode;
     }
 
-    this.element_ = diffTool.isDef(opt_element) ? opt_element :
+    this.element_ = d.isDef(opt_element) ? opt_element :
         document.createElement('div');
 
-    this.setMode(diffTool.isDef(opt_mode) ? opt_mode : this.defaultMode);
+    this.setMode(d.isDef(opt_mode) ? opt_mode : this.defaultMode);
   };
 
   /**
@@ -62,7 +63,18 @@ define([
     /**
      * Not impletented yet.
      */
-    TRIPLE_PANE: 0x04
+    TRIPLE_PANE: 0x04,
+
+    /**
+     * If content of one of files is missing, shows content of file without
+     * any other marks.
+     */
+    PLAIN_FILE: 0x08,
+
+    /**
+     * Not implemented yet. Will show two contents of binary files.
+     */
+    BINARY: 0x10
   };
 
   /**
@@ -78,6 +90,7 @@ define([
    * @protected
    */
   DiffTool.prototype.availableModes =
+      DiffTool.Mode.PLAIN_FILE |
       DiffTool.Mode.SINGLE_PANE |
       DiffTool.Mode.DOUBLE_PANE;
 
@@ -97,10 +110,16 @@ define([
   DiffTool.prototype.element_ = null;
 
   /**
-   * @type {diffTool.EditorController}
+   * @type {d.EditorController}
    * @private
    */
   DiffTool.prototype.controller_ = null;
+
+  /**
+   * @type {boolean}
+   * @private
+   */
+  DiffTool.prototype.modeIsActive_ = false;
 
   /**
    * @param {DiffTool.Mode} mode
@@ -108,29 +127,33 @@ define([
   DiffTool.prototype.setMode = function(mode) {
     if (Boolean(this.availableModes & mode) && this.mode_ !== mode) {
       this.mode_ = mode;
-      this.setModeInternal(mode);
     }
   };
 
   /**
-   * @param {DiffTool.Mode} mode
+   * @throws {d.NoSuchModeException}
    * @protected
    */
-  DiffTool.prototype.setModeInternal = function(mode) {
-    if (!this.modeToController_) {
-      var singleModeController = new diffTool.SingleEditorController(
-          this.element_);
-      var doubleModeController = new diffTool.DoubleEditorController(
-          this.element_);
+  DiffTool.prototype.activateMode = function() {
+    if (this.modeIsActive_ === true) {
+      return;
+    }
 
+    this.modeIsActive_ = true;
+    var mode = this.mode_;
+
+    if (!this.modeToController_) {
       /**
-       * Lookup table of {@link DiffTool.Mode}s to {diffTool.EditorController}s.
-       * @type {Object.<DiffTool.Mode, diffTool.EditorController>}
+       * Lookup table of {@link DiffTool.Mode}s to {d.EditorController}s.
+       * @type {Object.<DiffTool.Mode, d.EditorController>}
        * @private
        */
-      this.modeToController_ = diffTool.createObject(
-          DiffTool.Mode.SINGLE_PANE, singleModeController,
-          DiffTool.Mode.DOUBLE_PANE, doubleModeController);
+      this.modeToController_ = d.createObject(
+          DiffTool.Mode.PLAIN_FILE, new d.PlainEditorController(this.element_),
+          DiffTool.Mode.SINGLE_PANE,
+              new d.SingleEditorController(this.element_),
+          DiffTool.Mode.DOUBLE_PANE,
+              new d.DoubleEditorController(this.element_));
     }
 
     if (this.controller_ !== null) {
@@ -139,7 +162,20 @@ define([
 
     this.controller_ = this.modeToController_[mode];
 
+    if (!d.isDef(this.controller_)) {
+      throw new d.NoSuchModeException(d.NoSuchModeException.getMessage(mode));
+    }
+
     this.controller_.setEnabled(true);
+  };
+
+  /**
+   * @protected
+   */
+  DiffTool.prototype.deactivateMode = function() {
+    if (this.modeIsActive_ !== false) {
+      this.modeIsActive_ = false;
+    }
   };
 
   /**
@@ -150,21 +186,50 @@ define([
   };
 
   /**
-   * @return {diffTool.EditorController}
+   * @return {d.EditorController}
    */
   DiffTool.prototype.getController = function() {
     return this.controller_;
   };
 
   /**
+   * Sets content to controller, but first, checks, whether selected mode
+   * is correct for given content. If not, changes mode and sets content
+   * to according controller.
    * @param {string} original
    * @param {string} modified
-   * @param {diffTool.Parser.Diff} diff
+   * @param {d.Parser.Diff} diff
    * @param {boolean=} opt_refresh
    */
   DiffTool.prototype.setContent = function(original, modified, diff,
                                            opt_refresh) {
+    var overriddenMode = DiffTool.getModeByContent_(original, modified);
+    if (overriddenMode) {
+      this.deactivateMode();
+      this.setMode(overriddenMode);
+      this.activateMode();
+    }
+
     this.controller_.setContent(original, modified, diff, opt_refresh);
+  };
+
+  /**
+   * Returns {@link DiffTool.Mode.NONE_} if content fits for selected mode.
+   * Otherwise, returns the best mode, which can be applied to editor.
+   * @static
+   * @param {string} original
+   * @param {string} modified
+   * @return {DiffTool.Mode}
+   * @private
+   */
+  DiffTool.getModeByContent_ = function(original, modified) {
+    var mode = DiffTool.Mode.NONE_;
+
+    if (d.isEmptyString(original) || d.isEmptyString(modified)) {
+      return DiffTool.Mode.PLAIN_FILE;
+    }
+
+    return mode;
   };
 
   /**
@@ -187,16 +252,16 @@ define([
    * @param {Element} element
    * @param {string} contentOriginal
    * @param {string} contentModified
-   * @param {diffTool.Parser.Diff} diff
+   * @param {d.Parser.Diff} diff
    * @param {DiffTool.Mode} mode
-   * @return {diffTool.EditorController}
+   * @return {d.EditorController}
    */
   function decorateDiffTool(element, contentOriginal, contentModified, diff,
                             mode) {
-    var diffTool = new DiffTool(element, mode);
-    diffTool.setContent(contentOriginal, contentModified, diff);
+    var d = new DiffTool(element, mode);
+    d.setContent(contentOriginal, contentModified, diff);
 
-    return diffTool.getController();
+    return d.getController();
   }
 
   Module.add('diff', {
@@ -223,16 +288,65 @@ define([
       override: true
     },
 
-    // NB! diffTool namespace is exporting only to make possible to test
-    // items from it. diffTool namespace should be encapsulated by DiffTool,
-    // to leave only one entering point to application.
+    // todo(igor.alexeenko): Remove d namespace as DiffTool part and move it
+    // to ring utils.
     getDiffToolUtils: {
       method: function() {
-        return diffTool;
+        return d;
       },
       override: true
     }
   });
+
+  /**
+   * Fired, when mode is not supported by {@link DiffTool}.
+   * @param {string} message
+   * @constructor
+   * @extends {Error}
+   */
+  d.NoSuchModeException = function(message) {
+    this.name = 'd.NoSuchModeException';
+    this.message = message;
+  };
+  d.inherit(d.NoSuchModeException, Error);
+
+  /**
+   * Returns mode string name by {@link DiffTool.Mode}.
+   * @param {DiffTool.Mode} mode
+   * @return {string}
+   */
+  d.NoSuchModeException.getModeName = function(mode) {
+    /**
+     * Lookup table of {@code DiffTool.Mode}s to their text description.
+     * @type {Object.<DiffTool.Mode, string>}
+     */
+    var modeToName = d.createObject(
+        DiffTool.Mode.ALL_, 'ALL',
+        DiffTool.Mode.BINARY, 'BINARY',
+        DiffTool.Mode.DOUBLE_PANE, 'DOUBLE_PANE',
+        DiffTool.Mode.NONE_, 'NONE_',
+        DiffTool.Mode.PLAIN_FILE, 'PLAIN_FILE',
+        DiffTool.Mode.SINGLE_PANE, 'SINGLE_PANE',
+        DiffTool.Mode.TRIPLE_PANE, 'TRIPLE_PANE');
+
+    var name = modeToName[mode];
+    if (!name) {
+      name = '';
+    }
+
+    return name;
+  };
+
+  /**
+   * @param {DiffTool.Mode} mode
+   * @return {string}
+   */
+  d.NoSuchModeException.getMessage = function(mode) {
+    return (
+        'Unsupported mode ' + d.NoSuchModeException.getModeName(mode) + '. ' +
+        'It does not exist or exists, but is not supported by this ' +
+        'DiffTool.');
+  };
 
   return DiffTool;
 });
