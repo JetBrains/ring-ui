@@ -81,6 +81,10 @@
     .CodeMirror-gutter.cm-gutter-symbol {
       width: 1em;
     }
+
+    .diff__plain-editor .CodeMirror {
+      height: 300px;
+    }
   </style>
   <script src="components/jquery/jquery.js"></script>
   <script src="components/requirejs/require.js"></script>
@@ -99,9 +103,9 @@
      * @type {Array.<string>}
      */
     var requiredFiles = [
-      'blocks/diff/json/old/diff.json',
-      'blocks/diff/json/old/original.txt',
-      'blocks/diff/json/old/modified.txt'
+      'blocks/diff/json/newfile/diff.json',
+      'blocks/diff/json/newfile/original.txt',
+      'blocks/diff/json/newfile/modified.txt'
     ];
 
     /**

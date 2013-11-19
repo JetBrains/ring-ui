@@ -5,128 +5,95 @@
  * @author igor.alexeenko (Igor Alekseyenko)
  */
 
-define(['diff/diff__tools', 'diff/diff__parser'], function(diffTool) {
-  'use strict';
-
+define([
+  'diff/diff__tools',
+  'diff/diff__parser'
+], function(d) {
   /**
    * @param {Element} element
-   * @param {boolean=} opt_editable
    * @param {function=} opt_parser
    * @constructor
    */
-  diffTool.EditorController = function(element, opt_editable, opt_parser) {
+  d.EditorController = function(element, opt_parser) {
     this.element_ = element;
 
-    if (diffTool.isDef(opt_editable)) {
-      this.editable_ = /** @type {!boolean} */ (opt_editable);
-    }
-
-    this.codeParser_ = diffTool.isDef(opt_parser) ? opt_parser :
-        diffTool.Parser.getInstance();
+    this.codeParser_ = d.isDef(opt_parser) ? opt_parser :
+        d.Parser.getInstance();
   };
 
   /**
    * @type {boolean}
    * @private
    */
-  diffTool.EditorController.prototype.enabled_ = false;
-
-  /**
-   * @type {boolean}
-   * @private
-   */
-  diffTool.EditorController.prototype.editable_ = true;
+  d.EditorController.prototype.enabled_ = false;
 
   /**
    * @type {Element}
    * @private
    */
-  diffTool.EditorController.prototype.element_ = null;
+  d.EditorController.prototype.element_ = null;
 
   /**
-   * @type {diffTool.Parser}
+   * @type {d.Parser}
    * @private
    */
-  diffTool.EditorController.prototype.codeParser_ = null;
+  d.EditorController.prototype.codeParser_ = null;
 
   /**
-   * @param {boolean} editable
+   * @param {string} original
+   * @param {string} modified
+   * @param {d.Parser.Diff} diff
+   * @param {boolean=} opt_refresh
    */
-  diffTool.EditorController.prototype.setEditable = function(editable) {
-    if (editable !== this.editable_) {
-      this.editable_ = editable;
-      this.setEditableInternal(editable);
+  d.EditorController.prototype.setContent = function(original, modified, diff,
+                                                     opt_refresh) {
+    if (!this.isEnabled()) {
+      throw new Error('Controller is not enabled. You can not set content ' +
+          'to deactivated controller.');
     }
-  };
 
-  /**
-   * @param {boolean} editable
-   * @protected
-   */
-  diffTool.EditorController.prototype.setEditableInternal =
-      diffTool.nullFunction;
+    if (this.contentOriginal_ !== original) {
+      /**
+       * @type {string}
+       * @private
+       */
+      this.contentOriginal_ = original;
+    }
 
-  /**
-   * @return {boolean}
-   */
-  diffTool.EditorController.prototype.isEditable = function() {
-    return this.editable_;
+    if (this.contentModified_ !== modified) {
+      /**
+       * @type {string}
+       * @private
+       */
+      this.contentModified_ = modified;
+    }
+
+    if (this.diff_ !== diff) {
+      /**
+       * Information about difference between original and modified content.
+       * @type {diffTool.Parser.Diff}
+       * @private
+       */
+      this.diff_ = diff;
+    }
+
+    this.setContentInternal(original, modified, diff, opt_refresh);
   };
 
   /**
    * @param {string} original
    * @param {string} modified
-   * @param {diffTool.Parser.Diff} diff
-   * @param {boolean=} opt_refresh
-   */
-  diffTool.EditorController.prototype.setContent = function(original,
-                                                            modified, diff,
-                                                            opt_refresh) {
-    // todo(igor.alexeenko): Do I need to throw an error here?
-    if (this.isEnabled()) {
-      if (this.contentOriginal_ !== original) {
-        /**
-         * @type {string}
-         * @private
-         */
-        this.contentOriginal_ = original;
-      }
-
-      if (this.contentModified_ !== modified) {
-        /**
-         * @type {string}
-         * @private
-         */
-        this.contentModified_ = modified;
-      }
-
-      if (this.diff_ !== diff) {
-        /**
-         * Information about difference between original and modified content.
-         * @type {diffTool.Parser.Diff}
-         * @private
-         */
-        this.diff_ = diff;
-      }
-
-      this.setContentInternal(original, modified, diff, opt_refresh);
-    }
-  };
-
-  /**
-   * @param {string} original
-   * @param {string} modified
-   * @param {diffTool.Parser.Diff} diff
+   * @param {d.Parser.Diff} diff
    * @param {boolean=} opt_refresh
    * @protected
    */
-  diffTool.EditorController.prototype.setContentInternal =
-      diffTool.nullFunction;
+  d.EditorController.prototype.setContentInternal =
+      d.nullFunction;
 
   /**
    * @param {boolean} enabled
    */
-  diffTool.EditorController.prototype.setEnabled = function(enabled) {
+  d.EditorController.prototype.setEnabled = function(enabled) {
     if (enabled !== this.enabled_) {
       this.enabled_ = enabled;
       this.setEnabledInternal(enabled);
@@ -136,15 +103,15 @@ define(['diff/diff__tools', 'diff/diff__parser'], function(diffTool) {
   /**
    * @param {boolean} enabled
    */
-  diffTool.EditorController.prototype.setEnabledInternal =
-      diffTool.nullFunction;
+  d.EditorController.prototype.setEnabledInternal =
+      d.nullFunction;
 
   /**
    * @return {boolean}
    */
-  diffTool.EditorController.prototype.isEnabled = function() {
+  d.EditorController.prototype.isEnabled = function() {
     return this.enabled_;
   };
 
-  return diffTool.EditorController;
+  return d.EditorController;
 });
