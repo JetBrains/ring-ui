@@ -11,11 +11,16 @@
   text-align: center;
   font-size: 11px !important;
   @include ring-font();
-}
 
-.ring-footer_gray {
-  margin: $ring-unit*5 0 0 0 !important;
-  background-color: #f0f0f0;
+  // TODO Make this default after TC update
+  &.ring-footer_4x {
+    margin: $ring-unit*5  $ring-unit*4 0 $ring-unit*4;
+  }
+
+  &.ring-footer_gray {
+    margin: $ring-unit*5 0 0 0;
+    background-color: #f0f0f0;
+  }
 }
 
 .ring-footer__column {

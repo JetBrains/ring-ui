@@ -121,16 +121,15 @@ define(['jquery', 'jso', 'global/global__modules', 'global/global__utils'], func
 
 
   var POLL_INTERVAL = 30; // 30 ms
-  var POLL_TIME = 60 * 1000; // 1min
+  var POLL_TIME = 60 * 1000; // 1 min
 
   var REFRESH_BEFORE = 20 * 60 * 1000; // 20 min
-  var REFRESH_RETRY_INTERVAL = 4 * 60 * 1000; // 4 min
-  var REFRESH_RETRY_ATTEMPTS = 4;
+  var REFRESH_RETRY_INTERVAL = 2 * 60 * 1000; // 4 min
 
-  var attempt;
+  var $iframe;
   var refreshDefer;
 
-  var refreshTime = window.refreshTime = function(token) {
+  var refreshTime = function(token) {
     return token.split('.')[0] - REFRESH_BEFORE;
   };
 
@@ -146,13 +145,16 @@ define(['jquery', 'jso', 'global/global__modules', 'global/global__utils'], func
     window.location = url;
   };
 
+  var refreshUrlHandler = function(url) {
+    $iframe.attr('src', url + '&rnd=' + Math.random());
+  };
+
   var setRefresh = function() {
     setTimeout(refresh.bind(null, true), refreshTime(getToken()) - now());
-    attempt = 0;
   };
 
   var refresh = function(force) {
-    var token = getToken();
+    var token = getToken(true);
 
     if (!force && refreshDefer && refreshDefer.state === 'pending') {
       return refreshDefer;
@@ -164,7 +166,7 @@ define(['jquery', 'jso', 'global/global__modules', 'global/global__utils'], func
       return refreshDefer.resolve(token);
     }
 
-    var $iframe = $('<iframe style="display: none;"></iframe>').appendTo('body');
+    $iframe = $('<iframe style="display: none;"></iframe>').appendTo('body');
 
     var poll = function(time) {
       time = time || 0;
@@ -184,9 +186,7 @@ define(['jquery', 'jso', 'global/global__modules', 'global/global__utils'], func
       $iframe.remove();
     };
 
-    jso.setRedirect(function(url) {
-      $iframe.attr('src', url + '&rnd=' + Math.random());
-    });
+    jso.setRedirect(refreshUrlHandler);
 
     poll();
 
@@ -194,12 +194,7 @@ define(['jquery', 'jso', 'global/global__modules', 'global/global__utils'], func
 
     return refreshDefer
       .fail(function() {
-        if (attempt > REFRESH_RETRY_ATTEMPTS) {
-          setRefresh();
-        } else {
-          attempt++;
-          setTimeout(refresh.bind(null, true), REFRESH_RETRY_INTERVAL);
-        }
+        setTimeout(refresh.bind(null, true), REFRESH_RETRY_INTERVAL);
       })
       .done(setRefresh);
   };
