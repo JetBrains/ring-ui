@@ -5,12 +5,13 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'auth/auth',
     $query,
     $queryContainer,
     url,
-    $global = $(window),
+    $global,
     timeoutHandler,
     lastPolledCaretPosition,
     lastTriggeredCaretPosition,
     lastPolledValue,
     lastTriggeredValue,
+    COMPONENT_SELECTOR,
     MIN_LEFT_PADDING,
     MIN_RIGHT_PADDING;
 
@@ -23,8 +24,10 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'auth/auth',
     }
     // default value && contants
     this.config = {
+      COMPONENT_SELECTOR: '.ring-query',
       MIN_LEFT_PADDING: 24,
-      MIN_RIGHT_PADDING: 16
+      MIN_RIGHT_PADDING: 16,
+      global: window
     };
 
     for (var item in config) {
@@ -55,37 +58,21 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'auth/auth',
 //*************************************
 // Init method
 // @ToDo
-// * setter/getter config
-// * bind events
 // * trigger method events
 //*************************************
   var init = function (config) {
     var queryConfig = new QueryConfig(config);
-
+    $global = queryConfig.getDom('global');
     $el = queryConfig.getDom('el');
     url = queryConfig.get('url');
+    COMPONENT_SELECTOR = queryConfig.get('COMPONENT_SELECTOR');
     MIN_LEFT_PADDING = queryConfig.get('MIN_LEFT_PADDING');
     MIN_RIGHT_PADDING = queryConfig.get('MIN_RIGHT_PADDING');
 
     $queryContainer = $(View.render('query-containter'));
     $queryContainer.appendTo('body');
 
-    $el.bind('focus',function () {
-      _startListen();
-    }).bind('blur', function () {
-        _stopListen();
-      });
-    $global.on('click', function (ev) {
-      var target = $(ev.target);
-      if (!target.is($el) && !target.closest('.ring-query').length) {
-        destroy();
-      }
-    });
-
-    if ($el.is(':focus')) {
-      _stopListen();
-    }
-
+    _bindEvents($el);
   };
 //*************************************
 // Destroy query container && trigger events
@@ -112,6 +99,25 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'auth/auth',
     if (timeoutHandler) {
       clearInterval(timeoutHandler);
     }
+  };
+
+  var _bindEvents = function ($el) {
+    $el.bind('focus',function () {
+      _startListen();
+    }).bind('blur', function () {
+        _stopListen();
+      });
+    $global.on('click', function (ev) {
+      var target = $(ev.target);
+      if (!target.is($el) && !target.closest().length) {
+        destroy();
+      }
+    });
+
+    if ($el.is(':focus')) {
+      _stopListen();
+    }
+    $global.resize(destroy);
   };
 //*************************************
 // polling caret position
@@ -295,8 +301,6 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'auth/auth',
     }
     $el.text(str).focus().caret(suggest.caret);
   };
-
-  $global.resize(destroy);
 
   Module.add('query', {
     init: {
