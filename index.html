@@ -287,11 +287,11 @@
       ring('alerts').invoke('add', 'Alerts demo. Will hide in 10 secs.', 'success',
           10000);
 
-      var query = ring('query');
-      query('init', {
-         el:'.ring-query-js',
-         url: '/rest/users/queryAssist?caret=#{caret}&fields=query,caret,suggestions#{styleRanges}&query=#{query}'
-      });
+        var query = ring('query');
+        query('init', {
+          el: '.ring-query-js',
+          url: '/rest/users/queryAssist?caret=#{caret}&fields=query,caret,suggestions#{styleRanges}&query=#{query}'
+        });
     });
   </script>
 </head>
