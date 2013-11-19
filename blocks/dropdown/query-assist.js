@@ -11,8 +11,47 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'auth/auth',
     lastTriggeredCaretPosition,
     lastPolledValue,
     lastTriggeredValue,
-    MIN_LEFT_PADDING = 24,
-    MIN_RIGHT_PADDING = 16;
+    MIN_LEFT_PADDING,
+    MIN_RIGHT_PADDING;
+
+//*************************************
+// Config wrapper for QueryAssist'а
+//*************************************
+  var QueryConfig = function (config) {
+    if (!config) {
+      throw new Error('QueryConfig: config is empty');
+    }
+    // default value && contants
+    this.config = {
+      MIN_LEFT_PADDING: 24,
+      MIN_RIGHT_PADDING: 16
+    };
+
+    for (var item in config) {
+      this.config[item] = config[item];
+    }
+  };
+  QueryConfig.prototype.get = function (name) {
+    if (!this.config.hasOwnProperty(name)) {
+      throw new Error('QueryConfig: prop isn\'t exist');
+    }
+    return this.config[name];
+  };
+
+  QueryConfig.prototype.getDom = function (name) {
+    $el = $(this.get(name));
+    return $el;
+  };
+
+  QueryConfig.prototype.set = function (name, prop) {
+    this.config[name] = prop;
+    return this.config[name];
+  };
+
+  QueryConfig.prototype.getAll = function () {
+    return this.config;
+  };
+
 //*************************************
 // Init method
 // @ToDo
@@ -21,8 +60,12 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'auth/auth',
 // * trigger method events
 //*************************************
   var init = function (config) {
-    $el = $(config.el);
-    url = config.url;
+    var queryConfig = new QueryConfig(config);
+
+    $el = queryConfig.getDom('el');
+    url = queryConfig.get('url');
+    MIN_LEFT_PADDING = queryConfig.get('MIN_LEFT_PADDING');
+    MIN_RIGHT_PADDING = queryConfig.get('MIN_RIGHT_PADDING');
 
     $queryContainer = $(View.render('query-containter'));
     $queryContainer.appendTo('body');
@@ -46,6 +89,8 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'auth/auth',
   };
 //*************************************
 // Destroy query container && trigger events
+// @ToDo
+// * cache Module
 //*************************************
   var destroy = function () {
     if ($queryContainer && $query) {
@@ -141,7 +186,7 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'auth/auth',
 // * detect && fix rare error "left isn't exist"
 // * comment && refactor code
 //*************************************
-  // init - set position for el "by default"
+// init - set position for el "by default"
   var _setContainerCoords = function (init) {
     // get caret coords in abs value
     var coords = __getCoords(),
@@ -263,4 +308,5 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'auth/auth',
       override: true
     }
   });
-});
+})
+;
