@@ -10,9 +10,13 @@
           tabParameter: '@',
           control: '=?'
         },
-        controller: ['$scope', function ($scope) {
+        controller: ['$scope', '$attrs', function ($scope, $attrs) {
           $scope.panes = [];
           $scope.current = 0;
+
+          if ('pointer' in $attrs) {
+            $scope.pointer = true;
+          }
 
           var doSelect = function (newPane, skipUrlUpdate) {
             if (typeof newPane === 'number') {
