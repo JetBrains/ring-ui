@@ -162,7 +162,6 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'auth/auth',
 //*************************************
 // init suggest handle
 // @ToDo
-// * decompose (event binding)
 // * render styleRanges
 //*************************************
   var _doAssist = function (query, caret, requestHighlighting) {
@@ -184,12 +183,7 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'auth/auth',
 
             queryModule.trigger('doAssist:done');
 
-            $query.on('click', ITEM_SELECTOR, function (ev) {
-              var target = $(ev.currentTarget),
-                suggestIndex = target.data('suggestIndex');
-              $query.remove();
-              _handleSuggest(data.suggestions[suggestIndex]);
-            });
+            _bindItemEvents($query, data);
             _setContainerCoords();
           } else {
             queryModule.trigger('hide:done');
@@ -202,6 +196,19 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'auth/auth',
     } else {
       _setContainerCoords(true);
     }
+  };
+//*************************************
+// Event binding for ITEM in COMPONENT
+//*************************************
+  var _bindItemEvents = function ($query, data) {
+    $query.on('click', ITEM_SELECTOR, function (ev) {
+      var target = $(ev.currentTarget),
+        suggestIndex = target.data('suggestIndex');
+      // reset current suggestion
+      $query.remove();
+      // add new suggestion
+      _handleSuggest(data.suggestions[suggestIndex]);
+    });
   };
 //*************************************
 // Position the suggestion for ring-query__container.
