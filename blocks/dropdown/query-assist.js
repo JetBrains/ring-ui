@@ -12,11 +12,12 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'auth/auth',
     lastPolledValue,
     lastTriggeredValue,
     COMPONENT_SELECTOR,
+    ITEM_SELECTOR,
     MIN_LEFT_PADDING,
     MIN_RIGHT_PADDING;
 
 //*************************************
-// Config wrapper for QueryAssist'а
+// Config wrapper for QueryAssist
 //*************************************
   var QueryConfig = function (config) {
     if (!config) {
@@ -25,6 +26,7 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'auth/auth',
     // default value && contants
     this.config = {
       COMPONENT_SELECTOR: '.ring-query',
+      ITEM_SELECTOR: '.ring-query-el',
       MIN_LEFT_PADDING: 24,
       MIN_RIGHT_PADDING: 16,
       global: window
@@ -65,6 +67,7 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'auth/auth',
     $el = queryConfig.getDom('el');
     url = queryConfig.get('url');
     COMPONENT_SELECTOR = queryConfig.get('COMPONENT_SELECTOR');
+    ITEM_SELECTOR = queryConfig.get('ITEM_SELECTOR');
     MIN_LEFT_PADDING = queryConfig.get('MIN_LEFT_PADDING');
     MIN_RIGHT_PADDING = queryConfig.get('MIN_RIGHT_PADDING');
 
@@ -159,9 +162,7 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'auth/auth',
 //*************************************
 // init suggest handle
 // @ToDo
-// * .ring-query-el goes to contants
 // * decompose (event binding)
-// * use constants for DOM entities
 // * render styleRanges
 //*************************************
   var _doAssist = function (query, caret, requestHighlighting) {
@@ -183,7 +184,7 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'auth/auth',
 
             queryModule.trigger('doAssist:done');
 
-            $query.on('click', '.ring-query-el', function (ev) {
+            $query.on('click', ITEM_SELECTOR, function (ev) {
               var target = $(ev.currentTarget),
                 suggestIndex = target.data('suggestIndex');
               $query.remove();
