@@ -32,7 +32,7 @@
         controller: ['$scope', function ($scope) {
           var ctrl = this;
           $scope.footer = {
-            'type': $scope.type,
+            'type': [$scope.type, '4x'],
             'left': [],
             'center': [],
             'right': []
