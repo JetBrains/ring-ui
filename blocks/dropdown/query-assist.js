@@ -63,6 +63,7 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'auth/auth',
   var init = function (config) {
     var queryModule = Module.get('query'),
       queryConfig = new QueryConfig(config);
+
     $global = queryConfig.getDom('global');
     $el = queryConfig.getDom('el');
     url = queryConfig.get('url');
@@ -98,7 +99,7 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'auth/auth',
 
     lastTriggeredCaretPosition = undefined;
     lastPolledCaretPosition = undefined;
-    timeoutHandler = setInterval(pollCaretPosition, 250);
+    timeoutHandler = setInterval(_pollCaretPosition, 250);
     queryModule.trigger('startListen:done');
   };
   var _stopListen = function () {
@@ -133,10 +134,9 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'auth/auth',
 //*************************************
 // polling caret position
 // @ToDo
-// * rename to _
 // * fix _doAssist call (requestHighlighting)
 //*************************************
-  var pollCaretPosition = function () {
+  var _pollCaretPosition = function () {
     var queryModule = Module.get('query');
 
     var caret = $el.caret();
