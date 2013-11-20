@@ -134,7 +134,7 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'auth/auth',
 //*************************************
 // polling caret position
 // @ToDo
-// * fix _doAssist call (requestHighlighting)
+// * styleRanges (requestHighlighting arg)
 //*************************************
   var _pollCaretPosition = function () {
     var queryModule = Module.get('query');
@@ -146,17 +146,17 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'auth/auth',
       lastPolledCaretPosition = caret;
       lastPolledValue = value;
     } else if (value !== lastTriggeredValue) {
+      lastTriggeredCaretPosition = caret;
+      lastTriggeredValue = value;
       // Trigger event if value changed
-      lastTriggeredCaretPosition = caret;
-      lastTriggeredValue = value;
       queryModule.trigger('delayedChange:done', {value: value, caret: caret});
-      _doAssist.call(null, value, caret, true);
+      _doAssist(value, caret, true);
     } else if (caret !== lastTriggeredCaretPosition) {
-      // trigger event if just caret position changed
       lastTriggeredCaretPosition = caret;
       lastTriggeredValue = value;
+      // trigger event if just caret position changed
       queryModule.trigger('delayedCaretMove:done', {value: value, caret: caret});
-      _doAssist.call(null, value, caret, true);
+      _doAssist(value, caret, true);
     }
   };
 //*************************************
