@@ -1,8 +1,7 @@
 define(['jquery', 'global/global__views', 'global/global__modules', 'auth/auth', 'jquery-caret'], function ($, View, Module) {
   'use strict';
 
-  var queryModule = Module.get('query'),
-    $el,
+  var $el,
     $query,
     $queryContainer,
     url,
@@ -58,11 +57,10 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'auth/auth',
 
 //*************************************
 // Init method
-// @ToDo
-// * trigger method events
 //*************************************
   var init = function (config) {
-    var queryConfig = new QueryConfig(config);
+    var queryModule = Module.get('query'),
+      queryConfig = new QueryConfig(config);
     $global = queryConfig.getDom('global');
     $el = queryConfig.getDom('el');
     url = queryConfig.get('url');
@@ -78,32 +76,40 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'auth/auth',
   };
 //*************************************
 // Destroy query container && trigger events
-// @ToDo
-// * cache Module
 //*************************************
   var destroy = function () {
+    var queryModule = Module.get('query');
+
     if ($queryContainer && $query) {
       $query.remove();
       $query = null;
-      queryModule.trigger('hide:done');
+      queryModule.trigger('destroy:done');
       return true;
     } else {
-      queryModule.trigger('hide:fail');
+      queryModule.trigger('destroy:fail');
       return false;
     }
   };
   var _startListen = function () {
+    var queryModule = Module.get('query');
+
     lastTriggeredCaretPosition = undefined;
     lastPolledCaretPosition = undefined;
     timeoutHandler = setInterval(pollCaretPosition, 250);
+    queryModule.trigger('startListen:done');
   };
   var _stopListen = function () {
+    var queryModule = Module.get('query');
+
     if (timeoutHandler) {
       clearInterval(timeoutHandler);
     }
+    queryModule.trigger('stopListen:done');
   };
 
   var _bindEvents = function ($el) {
+    var queryModule = Module.get('query');
+
     $el.bind('focus',function () {
       _startListen();
     }).bind('blur', function () {
@@ -115,18 +121,21 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'auth/auth',
         destroy();
       }
     });
-
     if ($el.is(':focus')) {
       _stopListen();
     }
     $global.resize(destroy);
+    queryModule.trigger('bindEvents:done');
   };
 //*************************************
 // polling caret position
 // @ToDo
+// * rename to _
 // * fix _doAssist call (requestHighlighting)
 //*************************************
   var pollCaretPosition = function () {
+    var queryModule = Module.get('query');
+
     var caret = $el.caret();
     var value = $el.text();
 
@@ -150,11 +159,13 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'auth/auth',
 //*************************************
 // init suggest handle
 // @ToDo
+// * .ring-query-el goes to contants
 // * decompose (event binding)
 // * use constants for DOM entities
 // * render styleRanges
 //*************************************
   var _doAssist = function (query, caret, requestHighlighting) {
+    var queryModule = Module.get('query');
     if (query && caret) {
       _getSuggestion.call(null, query, caret, requestHighlighting).then(function (data /* status, jqXHR*/) {
         // Reset previously suggestions
@@ -167,9 +178,11 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'auth/auth',
           if (data.suggestions) {
             data.suggestions = _getHighlightText(data.suggestions);
 
-
             $query = $(View.render('query', data));
             $queryContainer.html($query).show();
+
+            queryModule.trigger('doAssist:done');
+
             $query.on('click', '.ring-query-el', function (ev) {
               var target = $(ev.currentTarget),
                 suggestIndex = target.data('suggestIndex');
@@ -178,6 +191,7 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'auth/auth',
             });
             _setContainerCoords();
           } else {
+            queryModule.trigger('hide:done');
             $query.remove();
             $queryContainer.hide();
           }
@@ -247,12 +261,12 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'auth/auth',
   };
 //*************************************
 // Ajax get suggestion
-// @ToDo
-// * Module event trigger
 //*************************************
   var _getSuggestion = function (query, caret, requestHighlighting) {
-    var defer = $.Deferred(),
+    var queryModule = Module.get('query'),
+      defer = $.Deferred(),
       restUrl = url;
+
     if (url) {
       var substr = ['query', 'caret', 'styleRanges'],
         suggestArgs = [encodeURI(query), caret, (requestHighlighting ? ',styleRanges' : '')];
@@ -264,6 +278,7 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'auth/auth',
       restUrl = '/rest/users/queryAssist?caret=' + caret + '&fields=query,caret,suggestions' + (requestHighlighting ? ',styleRanges' : '') + '&query=' + encodeURI(query);
     }
     Module.get('auth')('ajax', restUrl).then(function (data, state, jqXHR) {
+      queryModule.trigger('ajax:done');
       defer.resolve(data, state, jqXHR);
     });
     return defer.promise();
@@ -286,15 +301,14 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'auth/auth',
   };
 //*************************************
 // autocomplete current text field
-// @ToDo
-// * trigger module events
 //*************************************
   var _handleSuggest = function (suggest) {
-
-    var text = $el.text(),
+    var queryModule = Module.get('query'),
+      text = $el.text(),
       str,
       prefix = text.substr(text.length - 1) === ' ' ? '' : suggest.prefix,
       subStr = prefix + suggest.option + suggest.suffix;
+
     if (suggest.matchingStart !== suggest.matchingEnd) {
       str = text.substr(0, suggest.completionStart) + subStr + text.substr(suggest.completionStart + subStr.length);
     } else {
@@ -302,6 +316,7 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'auth/auth',
       str = text + subStr;
     }
     $el.text(str).focus().caret(suggest.caret);
+    queryModule.trigger('suggest:done');
   };
 
   Module.add('query', {
