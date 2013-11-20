@@ -49,14 +49,14 @@ $ring-link-hover-color: #ff5a00;
   font: 12px Menlo, "Bitstream Vera Sans Mono", "Ubuntu Mono", "Courier New", Courier, monospace;
 }
 
-$fonts-dir: 'fonts/';
+$ring-fonts-dir: 'fonts/';
 
 // Constant values for z-indexes.
 
 // Invisible element is absolutely positioned element, which should be below
 // all other elements on the page.
-$invisible-element-z-index: -1;
+$ring-invisible-element-z-index: -1;
 // Elements which should overlay all other elements on the page.
-$overlay-z-index: 5;
+$ring-overlay-z-index: 5;
 // Alerts, which should de displayed above overlays.
-$alert-z-index: 6;
+$ring-alert-z-index: 6;
