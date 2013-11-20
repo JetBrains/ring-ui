@@ -18,6 +18,10 @@
             $scope.pointer = true;
           }
 
+          if ('breadcrumb' in $attrs) {
+            $scope.breadcrumb = true;
+          }
+
           var doSelect = function (newPane, skipUrlUpdate) {
             if (typeof newPane === 'number') {
               var panes = $scope.panes.length - 1;
