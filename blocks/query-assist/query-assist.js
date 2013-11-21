@@ -1,9 +1,9 @@
-define(['jquery', 'global/global__views', 'global/global__modules', 'auth/auth', 'jquery-caret'], function ($, View, Module) {
+define(['jquery', 'global/global__views', 'global/global__modules', 'dropdown/dropdown', 'auth/auth', 'jquery-caret'], function ($, View, Module) {
   'use strict';
 
   var $el,
     $query,
-    $queryContainer,
+//    $queryContainer,
     url,
     $global,
     timeoutHandler,
@@ -15,6 +15,8 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'auth/auth',
     ITEM_SELECTOR,
     MIN_LEFT_PADDING,
     MIN_RIGHT_PADDING;
+
+  var dropdown = Module.get('dropdown');
 
 //*************************************
 // Config wrapper for QueryAssist
@@ -72,8 +74,8 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'auth/auth',
     MIN_LEFT_PADDING = queryConfig.get('MIN_LEFT_PADDING');
     MIN_RIGHT_PADDING = queryConfig.get('MIN_RIGHT_PADDING');
 
-    $queryContainer = $(View.render('query-containter'));
-    $queryContainer.appendTo('body');
+//    $queryContainer = $(View.render('query-containter'));
+//    $queryContainer.appendTo('body');
 
     _bindEvents($el);
     queryModule.trigger('init:done');
@@ -84,7 +86,7 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'auth/auth',
   var destroy = function () {
     var queryModule = Module.get('query');
 
-    if ($queryContainer && $query) {
+    if (/*$queryContainer && */$query) {
       $query.remove();
       $query = null;
       queryModule.trigger('destroy:done');
@@ -178,23 +180,31 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'auth/auth',
           if (data.suggestions) {
             data.suggestions = _getHighlightText(data.suggestions);
 
-            $query = $(View.render('query', data));
-            $queryContainer.html($query).show();
+            $query = $(View.render('query-assist', data));
+//            $queryContainer.html($query).show();
+            var coords = __getCoords();
+            dropdown('hide');
+            dropdown('show', $query.html(), {
+              left: coords.left - 98,
+              width: 'auto',
+              target: $el
+            });
 
             queryModule.trigger('doAssist:done');
 
             _bindItemEvents($query, data);
-            _setContainerCoords();
+//            _setContainerCoords();
           } else {
             queryModule.trigger('hide:done');
-            $query.remove();
-            $queryContainer.hide();
+//            $query.remove();
+            dropdown('hide');
+//            $queryContainer.hide();
           }
         }
 
       });
     } else {
-      _setContainerCoords(true);
+//      _setContainerCoords(true);
     }
   };
 //*************************************
@@ -217,27 +227,27 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'auth/auth',
 // * comment && refactor code
 //*************************************
 // init - set position for el "by default"
-  var _setContainerCoords = function (init) {
-    // get caret coords in abs value
-    var coords = __getCoords(),
-      top,
-      left;
-    if (!init && (coords.left - 98 > MIN_LEFT_PADDING)) {
-      top = coords.top + 18;
-      left = coords.left - 98;
-
-      if (left + $queryContainer.width() > $global.width() - MIN_RIGHT_PADDING) {
-        left = $global.width() - MIN_RIGHT_PADDING - $queryContainer.width();
-      }
-    } else {
-      top = $el.offset().top + 21;
-      left = $el.offset().left;
-    }
-    $queryContainer.css({
-      top: parseInt(top, 10),
-      left: left
-    });
-  };
+//  var _setContainerCoords = function (init) {
+//    // get caret coords in abs value
+//    var coords = __getCoords(),
+//      top,
+//      left;
+//    if (!init && (coords.left - 98 > MIN_LEFT_PADDING)) {
+//      top = coords.top + 18;
+//      left = coords.left - 98;
+//
+//      if (left + $queryContainer.width() > $global.width() - MIN_RIGHT_PADDING) {
+//        left = $global.width() - MIN_RIGHT_PADDING - $queryContainer.width();
+//      }
+//    } else {
+//      top = $el.offset().top + 21;
+//      left = $el.offset().left;
+//    }
+//    $queryContainer.css({
+//      top: parseInt(top, 10),
+//      left: left
+//    });
+//  };
 //*************************************
 // get caret coords in abs value
 // @ToDo
