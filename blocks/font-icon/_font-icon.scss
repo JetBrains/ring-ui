@@ -27,11 +27,11 @@
 
 @font-face {
   font-family: 'font-icon';
-  src:url('#{$fonts-dir}font-icon.eot');
-  src:url('#{$fonts-dir}font-icon.eot?#iefix') format('embedded-opentype'),
-  url('#{$fonts-dir}font-icon.svg#font-icon') format('svg'),
-  url('#{$fonts-dir}font-icon.woff') format('woff'),
-  url('#{$fonts-dir}font-icon.ttf') format('truetype');
+  src:url('#{$ring-fonts-dir}font-icon.eot');
+  src:url('#{$ring-fonts-dir}font-icon.eot?#iefix') format('embedded-opentype'),
+  url('#{$ring-fonts-dir}font-icon.svg#font-icon') format('svg'),
+  url('#{$ring-fonts-dir}font-icon.woff') format('woff'),
+  url('#{$ring-fonts-dir}font-icon.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
 }
@@ -170,7 +170,7 @@ body .ring-font-icon {
   .ring-font-icon_search,
   .ring-font-icon_ban-circle {
     display: inline-block;
-    background-image: url('#{$fonts-dir}font-icon.png');
+    background-image: url('#{$ring-fonts-dir}font-icon.png');
     background-repeat: no-repeat;
     height: 18px;
     width: 18px;

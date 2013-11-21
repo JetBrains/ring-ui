@@ -14,6 +14,7 @@
         controller: ['$scope', function ($scope) {
           var ctrl = this;
           $scope.header = {
+            type: [$scope.header, '4x'],
             authLinks: []
           };
           ctrl.addAuthLink = function (key, link) {

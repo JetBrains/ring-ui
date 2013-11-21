@@ -5,21 +5,114 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'auth/auth',
     $query,
     $queryContainer,
     url,
-    $global = $(window),
+    $global,
     timeoutHandler,
     lastPolledCaretPosition,
     lastTriggeredCaretPosition,
     lastPolledValue,
     lastTriggeredValue,
-    MIN_LEFT_PADDING = 24,
-    MIN_RIGHT_PADDING = 16;
+    COMPONENT_SELECTOR,
+    ITEM_SELECTOR,
+    MIN_LEFT_PADDING,
+    MIN_RIGHT_PADDING;
 
+//*************************************
+// Config wrapper for QueryAssist
+//*************************************
+  var QueryConfig = function (config) {
+    if (!config) {
+      throw new Error('QueryConfig: config is empty');
+    }
+    // default value && contants
+    this.config = {
+      COMPONENT_SELECTOR: '.ring-query',
+      ITEM_SELECTOR: '.ring-query-el',
+      MIN_LEFT_PADDING: 24,
+      MIN_RIGHT_PADDING: 16,
+      global: window
+    };
+
+    for (var item in config) {
+      this.config[item] = config[item];
+    }
+  };
+  QueryConfig.prototype.get = function (name) {
+    if (!this.config.hasOwnProperty(name)) {
+      throw new Error('QueryConfig: prop isn\'t exist');
+    }
+    return this.config[name];
+  };
+
+  QueryConfig.prototype.getDom = function (name) {
+    $el = $(this.get(name));
+    return $el;
+  };
+
+  QueryConfig.prototype.set = function (name, prop) {
+    this.config[name] = prop;
+    return this.config[name];
+  };
+
+  QueryConfig.prototype.getAll = function () {
+    return this.config;
+  };
+
+//*************************************
+// Init method
+//*************************************
   var init = function (config) {
-    $el = $(config.el);
-    url = config.url;
+    var queryModule = Module.get('query'),
+      queryConfig = new QueryConfig(config);
+
+    $global = queryConfig.getDom('global');
+    $el = queryConfig.getDom('el');
+    url = queryConfig.get('url');
+    COMPONENT_SELECTOR = queryConfig.get('COMPONENT_SELECTOR');
+    ITEM_SELECTOR = queryConfig.get('ITEM_SELECTOR');
+    MIN_LEFT_PADDING = queryConfig.get('MIN_LEFT_PADDING');
+    MIN_RIGHT_PADDING = queryConfig.get('MIN_RIGHT_PADDING');
 
     $queryContainer = $(View.render('query-containter'));
     $queryContainer.appendTo('body');
+
+    _bindEvents($el);
+    queryModule.trigger('init:done');
+  };
+//*************************************
+// Destroy query container && trigger events
+//*************************************
+  var destroy = function () {
+    var queryModule = Module.get('query');
+
+    if ($queryContainer && $query) {
+      $query.remove();
+      $query = null;
+      queryModule.trigger('destroy:done');
+      return true;
+    } else {
+      queryModule.trigger('destroy:fail');
+      return false;
+    }
+  };
+  var _startListen = function () {
+    var queryModule = Module.get('query');
+
+    lastTriggeredCaretPosition = undefined;
+    lastPolledCaretPosition = undefined;
+    timeoutHandler = setInterval(_pollCaretPosition, 250);
+    queryModule.trigger('startListen:done');
+  };
+  var _stopListen = function () {
+    var queryModule = Module.get('query');
+
+    if (timeoutHandler) {
+      clearInterval(timeoutHandler);
+    }
+    queryModule.trigger('stopListen:done');
+  };
+
+  var _bindEvents = function ($el) {
+    var queryModule = Module.get('query');
 
     $el.bind('focus',function () {
       _startListen();
@@ -28,53 +121,75 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'auth/auth',
       });
     $global.on('click', function (ev) {
       var target = $(ev.target);
-      if(!target.is($el) && !target.closest('.ring-query').length) {
+      if (!target.is($el) && !target.closest().length) {
         destroy();
       }
     });
-
-    if($el.is(':focus')) {
+    if ($el.is(':focus')) {
       _stopListen();
     }
-
+    $global.resize(destroy);
+    queryModule.trigger('bindEvents:done');
   };
+//*************************************
+// polling caret position
+// @ToDo
+// * styleRanges (requestHighlighting arg)
+//*************************************
+  var _pollCaretPosition = function () {
+    var queryModule = Module.get('query');
 
-  var destroy = function () {
-    if($queryContainer && $query) {
-      $query.remove();
-      $query = null;
-      Module.get('query').trigger('hide:done');
-      return true;
-    } else {
-      Module.get('query').trigger('hide:fail');
-      return false;
+    var caret = $el.caret();
+    var value = $el.text();
+
+    if (lastPolledCaretPosition !== caret || lastPolledValue !== value) {
+      lastPolledCaretPosition = caret;
+      lastPolledValue = value;
+    } else if (value !== lastTriggeredValue) {
+      lastTriggeredCaretPosition = caret;
+      lastTriggeredValue = value;
+      // Trigger event if value changed
+      queryModule.trigger('delayedChange:done', {value: value, caret: caret});
+      _doAssist(value, caret, true);
+    } else if (caret !== lastTriggeredCaretPosition) {
+      lastTriggeredCaretPosition = caret;
+      lastTriggeredValue = value;
+      // trigger event if just caret position changed
+      queryModule.trigger('delayedCaretMove:done', {value: value, caret: caret});
+      _doAssist(value, caret, true);
     }
   };
+//*************************************
+// init suggest handle
+// @ToDo
+// * render styleRanges
+//*************************************
   var _doAssist = function (query, caret, requestHighlighting) {
-    if(query && caret) {
+    var queryModule = Module.get('query');
+    if (query && caret) {
       _getSuggestion.call(null, query, caret, requestHighlighting).then(function (data /* status, jqXHR*/) {
-        if($query) {
+        // Reset previously suggestions
+        if ($query) {
           $query.remove();
         }
-        if(data.query === $el.text()) {
-          if(data.suggestions) {
-            data.suggestions = _getSelectionText(data.suggestions);
+        // do js little bit more consistent
+        if (data.query === $el.text()) {
+          // if data isn't exist hide a suggest container
+          if (data.suggestions) {
+            data.suggestions = _getHighlightText(data.suggestions);
+
             $query = $(View.render('query', data));
             $queryContainer.html($query).show();
-            $query.on('click', '.ring-query-el', function (ev) {
-              var target = $(ev.currentTarget),
-                suggestIndex = target.data('suggestIndex');
-              $query.remove();
-              _handleSuggest(data.suggestions[suggestIndex]);
-            });
+
+            queryModule.trigger('doAssist:done');
+
+            _bindItemEvents($query, data);
             _setContainerCoords();
           } else {
+            queryModule.trigger('hide:done');
             $query.remove();
             $queryContainer.hide();
           }
-        }
-        if(data.styleRanges) {
-          //@ToDo render styleRanges
         }
 
       });
@@ -82,49 +197,67 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'auth/auth',
       _setContainerCoords(true);
     }
   };
-
-
-  // init - set position for el "by default"
+//*************************************
+// Event binding for ITEM in COMPONENT
+//*************************************
+  var _bindItemEvents = function ($query, data) {
+    $query.on('click', ITEM_SELECTOR, function (ev) {
+      var target = $(ev.currentTarget),
+        suggestIndex = target.data('suggestIndex');
+      // reset current suggestion
+      $query.remove();
+      // add new suggestion
+      _handleSuggest(data.suggestions[suggestIndex]);
+    });
+  };
+//*************************************
+// Position the suggestion for ring-query__container.
+// @ToDo
+// * detect && fix rare error "left isn't exist"
+// * comment && refactor code
+//*************************************
+// init - set position for el "by default"
   var _setContainerCoords = function (init) {
-    var coords = _getCoords(),
+    // get caret coords in abs value
+    var coords = __getCoords(),
       top,
       left;
-
-    if(!init && (coords.left - 98 > MIN_LEFT_PADDING)) {
-      top = coords.top + 20;
+    if (!init && (coords.left - 98 > MIN_LEFT_PADDING)) {
+      top = coords.top + 18;
       left = coords.left - 98;
-      // Left
 
-
-      // Right
-      if(left + $queryContainer.width() > $global.width() - MIN_RIGHT_PADDING) {
+      if (left + $queryContainer.width() > $global.width() - MIN_RIGHT_PADDING) {
         left = $global.width() - MIN_RIGHT_PADDING - $queryContainer.width();
       }
     } else {
-      top = $el.offset().top + 23;
+      top = $el.offset().top + 21;
       left = $el.offset().left;
     }
     $queryContainer.css({
-      top: top,
+      top: parseInt(top, 10),
       left: left
     });
   };
-
-  var _getCoords = function () {
+//*************************************
+// get caret coords in abs value
+// @ToDo
+// * fix left rare error
+//*************************************
+  var __getCoords = function () {
     var sel = document.selection, range;
     var x = 0, y = 0;
-    if(sel) {
-      if(sel.type !== 'Control') {
+    if (sel) {
+      if (sel.type !== 'Control') {
         range = sel.createRange();
         range.collapse(true);
         x = range.boundingLeft;
         y = range.boundingTop;
       }
-    } else if(window.getSelection) {
+    } else if (window.getSelection) {
       sel = window.getSelection();
-      if(sel.rangeCount) {
+      if (sel.rangeCount) {
         range = sel.getRangeAt(0).cloneRange();
-        if(range.getClientRects) {
+        if (range.getClientRects) {
           range.collapse(true);
           var rect = range.getClientRects()[0];
           x = rect.left;
@@ -134,11 +267,15 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'auth/auth',
     }
     return { left: x, top: y };
   };
-
+//*************************************
+// Ajax get suggestion
+//*************************************
   var _getSuggestion = function (query, caret, requestHighlighting) {
-    var defer = $.Deferred(),
+    var queryModule = Module.get('query'),
+      defer = $.Deferred(),
       restUrl = url;
-    if(url) {
+
+    if (url) {
       var substr = ['query', 'caret', 'styleRanges'],
         suggestArgs = [encodeURI(query), caret, (requestHighlighting ? ',styleRanges' : '')];
 
@@ -149,17 +286,20 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'auth/auth',
       restUrl = '/rest/users/queryAssist?caret=' + caret + '&fields=query,caret,suggestions' + (requestHighlighting ? ',styleRanges' : '') + '&query=' + encodeURI(query);
     }
     Module.get('auth')('ajax', restUrl).then(function (data, state, jqXHR) {
+      queryModule.trigger('ajax:done');
       defer.resolve(data, state, jqXHR);
     });
     return defer.promise();
   };
-
-  var _getSelectionText = function (suggestions) {
+//*************************************
+// get highlight text using suggest.matching{Start|End}
+//*************************************
+  var _getHighlightText = function (suggestions) {
     suggestions.forEach(function (item, index) {
       var val = item.option + item.suffix,
         res = val;
 
-      if(item.matchingStart !== item.matchingEnd) {
+      if (item.matchingStart !== item.matchingEnd) {
         res = '<span class="selection">' + val.substr(item.matchingStart, item.matchingEnd) + '</span>' +
           '<span>' + val.substr(item.matchingEnd, val.length) + '</span>';
       }
@@ -167,54 +307,25 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'auth/auth',
     });
     return suggestions;
   };
-
+//*************************************
+// autocomplete current text field
+//*************************************
   var _handleSuggest = function (suggest) {
-    var text = $el.text(),
+    var queryModule = Module.get('query'),
+      text = $el.text(),
       str,
       prefix = text.substr(text.length - 1) === ' ' ? '' : suggest.prefix,
       subStr = prefix + suggest.option + suggest.suffix;
 
-    if(suggest.matchingStart !== suggest.matchingEnd) {
+    if (suggest.matchingStart !== suggest.matchingEnd) {
       str = text.substr(0, suggest.completionStart) + subStr + text.substr(suggest.completionStart + subStr.length);
     } else {
-      str = text + subStr;
 
+      str = text + subStr;
     }
     $el.text(str).focus().caret(suggest.caret);
+    queryModule.trigger('suggest:done');
   };
-
-  var pollCaretPosition = function () {
-    var caret = $el.caret();
-    var value = $el.text();
-
-    if(lastPolledCaretPosition !== caret || lastPolledValue !== value) {
-      lastPolledCaretPosition = caret;
-      lastPolledValue = value;
-    } else if(value !== lastTriggeredValue) {
-      lastTriggeredCaretPosition = caret;
-      lastTriggeredValue = value;
-      Module.get('query').trigger('delayedChange:done', {value: value, caret: caret});
-      _doAssist.call(null, value, caret, true);
-    } else if(caret !== lastTriggeredCaretPosition) {
-      lastTriggeredCaretPosition = caret;
-      lastTriggeredValue = value;
-      Module.get('query').trigger('delayedCaretMove:done', {value: value, caret: caret});
-      _doAssist.call(null, value, caret, true);
-    }
-  };
-
-  var _startListen = function () {
-    lastTriggeredCaretPosition = undefined;
-    lastPolledCaretPosition = undefined;
-    timeoutHandler = setInterval(pollCaretPosition, 250);
-  };
-  var _stopListen = function () {
-    if(timeoutHandler) {
-      clearInterval(timeoutHandler);
-    }
-  };
-
-  $global.resize(destroy);
 
   Module.add('query', {
     init: {
@@ -226,4 +337,5 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'auth/auth',
       override: true
     }
   });
-});
+})
+;

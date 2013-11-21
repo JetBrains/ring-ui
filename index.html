@@ -287,11 +287,11 @@
       ring('alerts').invoke('add', 'Alerts demo. Will hide in 10 secs.', 'success',
           10000);
 
-      var query = ring('query');
-      query('init', {
-         el:'.ring-query-js',
-         url: '/rest/users/queryAssist?caret=#{caret}&fields=query,caret,suggestions#{styleRanges}&query=#{query}'
-      });
+        var query = ring('query');
+        query('init', {
+          el: '.ring-query-js',
+          url: '/rest/users/queryAssist?caret=#{caret}&fields=query,caret,suggestions#{styleRanges}&query=#{query}'
+        });
     });
   </script>
 </head>
@@ -303,7 +303,7 @@
   <div><a class="ring-link" href="dist/docs/API.html">View API documentation</a></div>
   <div><a class="ring-link" href="dist/styleguide/">CSS Styleguide</a></div>
   <div class="ring-query__containter">
-    <div class="ring-query-js ring-input" contenteditable="true"></div>
+    <div class="ring-query-js ring-query__input ring-input" contenteditable="true"></div>
   </div>
 </div>
 
