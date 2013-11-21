@@ -18,12 +18,12 @@
     directive('menu', [function () {
       return {
         scope: {
-          'menu': '@menu'
+          'type': '@menu'
         },
         controller: ['$scope', function ($scope) {
           var ctrl = this;
           $scope.menu = {
-            'type': $scope.menu,
+            'type': [$scope.type, '4x'],
             'left': {
               'logo': null,
               'items': []
