@@ -2,7 +2,8 @@
     <ul class="ring-query__list">
         {{#suggestions }}
             <li data-suggest-index="{{ @index }}" class="ring-query-el">
-                {{> query__item }}
+              <div class="ring-query-el__left">{{ description }}</div>
+              <div class="ring-query-el__right">{{{ text }}}</div>
             </li>
         {{/suggestions }}
         <li class="ring-query-el ring-query-el_title">
