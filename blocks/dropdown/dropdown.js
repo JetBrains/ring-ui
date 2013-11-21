@@ -5,18 +5,32 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'global/glob
   var TOGGLE_SELECTOR = '.ring-dropdown-toggle';
   var ITEM_SELECTOR = '.ring-menu__item';
   var INNER_SELECTOR = '.ring-dropdown__i';
+  var BOUND_CLASS = 'ring-dropdown_bound';
 
   var $global = $(window);
   var $body;
   var $dropdown;
-  var target;
+  var previousTarget;
 
   var MIN_RIGHT_PADDING = 8;
-  var TOP_PADDING = 4;
 
-  var create = function(data, $target) {
-    var currentTarget = $target[0];
-    var sameTarget = (currentTarget && target === currentTarget);
+  var create = function(data, config) {
+    var $target;
+    var dropdown = Module.get('dropdown');
+
+    if (typeof config === 'object' && !(config instanceof $) && !utils.isNode(config)) {
+      $target = config.target;
+    } else {
+      $target = config;
+      config = {};
+    }
+
+    if (utils.isNode($target) || typeof $target === 'string') {
+      $target = $($target);
+    }
+
+    var currentTarget = $target && $target[0];
+    var sameTarget = (currentTarget && previousTarget === currentTarget);
 
     if (!data) {
       data = $target.data('ring-dropdown');
@@ -24,32 +38,40 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'global/glob
 
     remove();
 
-    if (data && !sameTarget) {
-      target = currentTarget;
+    if (!data || sameTarget || !$target && (!config.left || !config.top)) {
+      dropdown.trigger('show:fail');
+      return true;
+    }
 
-      if (data instanceof $ || utils.isNode(data)) {
-        $dropdown = $(View.render('dropdown', ''));
+    previousTarget = currentTarget;
 
-        $dropdown.find(INNER_SELECTOR).append(data);
-      } else {
+    if (data instanceof $ || utils.isNode(data)) {
+      $dropdown = $(View.render('dropdown', ''));
 
-        if (typeof data === 'object' && !data.html) {
-          data = {items: data};
-        }
+      $dropdown.find(INNER_SELECTOR).append(data);
+    } else {
 
-        if (typeof data === 'string') {
-          data = {html: data};
-        }
-
-        $dropdown = $(View.render('dropdown', data));
+      if (typeof data === 'object' && !data.html) {
+        data = {items: data};
       }
 
-      if (!$body) {
-        $body = $('body');
+      if (typeof data === 'string') {
+        data = {html: data};
       }
 
-      $dropdown.appendTo($body);
+      $dropdown = $(View.render('dropdown', data));
+    }
 
+    if (!$body) {
+      $body = $('body');
+    }
+
+    $dropdown.appendTo($body);
+
+    var params;
+    var targetInput = 'input' in config ? config.input : $target && $target.is(':input');
+
+    if (previousTarget) {
       var menuToggle;
       var targetToggle = $target.is(TOGGLE_SELECTOR);
       if (targetToggle && $target.prev().is(ITEM_SELECTOR)) {
@@ -57,36 +79,50 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'global/glob
         $target = $target.prev();
       }
 
-      var pos = $target.offset();
-      var targetCenter = pos.left + $target.outerWidth() / 2;
-      var targetWidth = $target.is(':input') ? $target.outerWidth() : $target.width();
+      params = $target.offset();
+      var targetCenter = params.left + $target.outerWidth() / 2;
+      var targetWidth = targetInput ? $target.outerWidth() : $target.width();
 
       var dropdownWidth = $dropdown.width();
       var dropdownCenter = dropdownWidth / 2;
 
       // Right aligment
-      if (pos.left + dropdownWidth > $global.width() - MIN_RIGHT_PADDING) {
-        pos.left += targetWidth - dropdownWidth;
+      if (params.left + dropdownWidth > $global.width() - MIN_RIGHT_PADDING) {
+        params.left += targetWidth - dropdownWidth;
 
       // Center aligment on toggle without menu item
       } else if(targetCenter >= dropdownCenter && targetToggle && !menuToggle) {
-        pos.left = targetCenter - dropdownCenter;
+        params.left = targetCenter - dropdownCenter;
       }
 
-      pos.top += $target.outerHeight() + TOP_PADDING;
+      params.top += $target.outerHeight();
 
-      if (dropdownWidth < targetWidth) {
-        pos.width = targetWidth;
+      if (typeof config.left === 'number') {
+        params.left = config.left;
       }
 
-      $dropdown.css(pos);
+      if (typeof config.top === 'number') {
+        params.top = config.top;
+      }
 
-      Module.get('dropdown').trigger('show:done');
-      return false;
+      if (config.width) {
+        params.width = config.width;
+      } else if (dropdownWidth < targetWidth) {
+        params.width = targetWidth;
+      }
+
     } else {
-      Module.get('dropdown').trigger('show:fail');
-      return true;
+      params = config;
     }
+
+    $dropdown.css(params);
+
+    if (targetInput || $target.attr('contenteditable')) {
+      $dropdown.addClass(BOUND_CLASS);
+    }
+
+    dropdown.trigger('show:done');
+    return false;
   };
 
   var remove = function() {
@@ -94,7 +130,7 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'global/glob
       $dropdown.remove();
       $dropdown = null;
 
-      target = null;
+      previousTarget = null;
 
       Module.get('dropdown').trigger('hide:done');
       return true;
