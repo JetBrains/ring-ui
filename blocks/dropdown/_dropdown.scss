@@ -19,7 +19,8 @@
 
 .ring-dropdown {
   position: absolute;
-  z-index: 999;
+  margin-top: 4px;
+  z-index: $ring-overlay-z-index;
 
   font-size: 13px;
   text-align: center;
@@ -31,6 +32,16 @@
   border-radius: 3px;
 
   @include ring-font;
+}
+
+.ring-dropdown_bound {
+  margin-top: -1px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+
+  .ring-dropdown__i {
+    padding: 0;
+  }
 }
 
 .ring-dropdown__i {
