@@ -1,6 +1,6 @@
 @import "../global/global";
 
-$menu-attention-color: #f50000;
+$ring-menu-attention-color: #f50000;
 
 .ring-menu {
   position: relative;
@@ -115,7 +115,7 @@ $menu-attention-color: #f50000;
 }
 
 .ring-menu__item__counter_attention {
-  background-color: $menu-attention-color;
+  background-color: $ring-menu-attention-color;
 }
 
 .ring-menu__right {

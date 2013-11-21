@@ -4,20 +4,38 @@
 //
 // Markup:
 // <div class="ring-tabs {$modifiers}">
-//   <div class="ring-tabs__btn">Tab 1</div>
-//   <div class="ring-tabs__btn active">Tab 2</div>
-//   <div class="ring-tabs__btn">Tab 3</div>
+//  <div class="ring-tabs__tabs">
+//     <div class="ring-tabs__btn">Tab 1</div>
+//     <div class="ring-tabs__btn active">Tab 2</div>
+//     <div class="ring-tabs__btn">Tab 3</div>
+//   </div>
+//   <div class="ring-tabs__container">Pane content</div>
 // </div>
-// <div class="ring-tabs__container">Pane content</div>
 //
-// .ring-tabs-pointer - Tab with a pointer arrow
+// .ring-tabs_pointer - Tab with a pointer arrow
 //
 // Styleguide 11.1
 
-.ring-tabs {
+.ring-tabs__tabs {
   position: relative;
   margin: 13px 16px 22px 16px;
   line-height: $ring-unit * 3 - 2;
+}
+
+.ring-tabs_pointer .active:after,
+.ring-tabs_pointer .ring-tabs__btn_active:after {
+  display: block;
+  position: relative;
+  top: 19px;
+  width: 10px;
+  height: 10px;
+  margin: 0 auto;
+
+  content: '';
+  transform: rotate(45deg);
+  cursor: default;
+  background-color: #f0f0f0;
+  box-shadow: inset 1px 1px 0 0 #cbcbcb;
 }
 
 .ring-tabs__btn {
@@ -34,7 +52,7 @@
   cursor: pointer;
 }
 
-.ring-tabs__btn_active, .ring-tabs .active {
+.ring-tabs__btn_active, .ring-tabs__tabs .active {
   $border-color: #b4b4b4;
   $gradient-color: #dcdcdc;
 
