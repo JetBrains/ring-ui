@@ -116,6 +116,13 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'dropdown/dr
   var _bindEvents = function ($el) {
     var queryModule = Module.get('query');
 
+    $el.bind('keypress', function (e) {
+      if(e.which === 13) {
+        queryModule.trigger('suggest:done');
+        e.preventDefault();
+      }
+    });
+
     $el.bind('focus',function () {
       _startListen();
     }).bind('blur', function () {
