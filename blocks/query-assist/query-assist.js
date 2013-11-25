@@ -1,4 +1,4 @@
-define(['jquery', 'global/global__views', 'global/global__modules', 'dropdown/dropdown', 'auth/auth', 'jquery-caret'], function ($, View, Module) {
+define(['jquery', 'global/global__views', 'global/global__modules',  'global/global__utils', 'dropdown/dropdown', 'auth/auth', 'jquery-caret'], function ($, View, Module, utils) {
   'use strict';
 
   var $el,
@@ -179,20 +179,24 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'dropdown/dr
     if (query && caret) {
       _getSuggestion.call(null, query, caret, requestHighlighting).then(function (data /* status, jqXHR*/) {
         // Reset previously suggestions
-        if ($query) {
-          $query.remove();
-        }
+//        if ($query) {
+//          $query.remove();
+//        }
         // do js little bit more consistent
         if (data.query === $el.text()) {
           // if data isn't exist hide a suggest container
           if (data.suggestions) {
-            data.suggestions = _getHighlightText(data.suggestions);
+            var dropdownData = {
+              type: ['typed', 'bound']
+            };
+            console.log(dropdownData);
+            dropdownData.items = _getHighlightText(data.suggestions);
 
-            $query = $(View.render('query-assist', data));
+//            $query = $(View.render('query-assist', data));
 //            $queryContainer.html($query).show();
             var coords = __getCoords();
             dropdown('hide');
-            dropdown('show', $query.html(), {
+            dropdown('show', dropdownData, {
               left: coords.left - 98,
               width: 'auto',
               target: $el
@@ -200,7 +204,7 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'dropdown/dr
 
             queryModule.trigger('doAssist:done');
 
-            _bindItemEvents($query, data);
+//            _bindItemEvents($query, data);
 //            _setContainerCoords();
           } else {
             queryModule.trigger('hide:done');
@@ -234,16 +238,16 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'dropdown/dr
 //*************************************
 // Event binding for ITEM in COMPONENT
 //*************************************
-  var _bindItemEvents = function ($query, data) {
-    $query.on('click', ITEM_SELECTOR, function (ev) {
-      var target = $(ev.currentTarget),
-        suggestIndex = target.data('suggestIndex');
-      // reset current suggestion
-      $query.remove();
-      // add new suggestion
-      _handleSuggest(data.suggestions[suggestIndex]);
-    });
-  };
+//  var _bindItemEvents = function ($query, data) {
+//    $query.on('click', ITEM_SELECTOR, function (ev) {
+//      var target = $(ev.currentTarget),
+//        suggestIndex = target.data('suggestIndex');
+//      // reset current suggestion
+//      $query.remove();
+//      // add new suggestion
+//      _handleSuggest(data.suggestions[suggestIndex]);
+//    });
+//  };
 //*************************************
 // Position the suggestion for ring-query__container.
 // @ToDo
@@ -329,17 +333,47 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'dropdown/dr
 // get highlight text using suggest.matching{Start|End}
 //*************************************
   var _getHighlightText = function (suggestions) {
-    suggestions.forEach(function (item, index) {
-      var val = item.option + item.suffix,
-        res = val;
+    return $.isArray(suggestions) && suggestions.map(function (item) {
+      var label = [];
 
-      if (item.matchingStart !== item.matchingEnd) {
-        res = '<span class="selection">' + val.substr(item.matchingStart, item.matchingEnd) + '</span>' +
-          '<span>' + val.substr(item.matchingEnd, val.length) + '</span>';
+      if (utils.isEmptyString(item.prefix)) {
+        label.push(item.prefix);
+      } else {
+        label.push({
+          label: item.prefix,
+          type: 'service'
+        });
       }
-      suggestions[index].text = res;
-    });
-    return suggestions;
+
+      if (item.option && item.matchingStart !== item.matchingEnd) {
+        label.push(item.option.substring(0,item.matchingStart));
+        label.push({
+          label: item.option.substring(item.matchingStart,item.matchingEnd),
+          type: 'highlight'
+        });
+        label.push(item.option.substring(item.matchingEnd));
+      } else {
+        label.push(item.option);
+      }
+
+      if (utils.isEmptyString(item.suffix)) {
+        label.push(item.suffix);
+      } else {
+        label.push({
+          label: item.suffix,
+          type: 'service'
+        });
+      }
+
+      return {
+        label: label,
+        type: item.description,
+        event: {
+          name: 'dropdown:assist',
+          data: item
+        }
+      };
+    }) || [];
   };
 //*************************************
 // autocomplete current text field
@@ -360,6 +394,8 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'dropdown/dr
     $el.text(str).focus().caret(suggest.caret);
     queryModule.trigger('suggest:done');
   };
+
+  dropdown.on('assist', _handleSuggest);
 
   Module.add('query', {
     init: {

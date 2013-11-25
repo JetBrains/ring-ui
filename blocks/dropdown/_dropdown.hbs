@@ -1,4 +1,4 @@
-<div class="ring-dropdown{{#type}} ring-dropdown__item_{{this}}{{/type}}">
+<div class="ring-dropdown{{#type}} ring-dropdown_{{this}}{{/type}}">
   <div class="ring-dropdown__i">
     {{{html}}}
     {{#items}}
@@ -6,26 +6,28 @@
         {{#if separator}}
             <span class="ring-dropdown__separator"> </span>
         {{else}}
-          {{#ifOr type}}
-            <span class="{{> dropdown__class}}">
+          {{#if type}}
+            <span class="{{> dropdown__class}}" {{> global__attributes}}>
               <span class="ring-dropdown__item__type">{{type}}</span>
-              <span class="ring-dropdown__item__content">{{label}}</span>
+              <span class="ring-dropdown__item__content">{{> dropdown__content}}</span>
             </span>
           {{else}}
             {{#if url}}
-              <a class="{{> dropdown__class}}" href="{{url}}" {{> global__attributes}}>{{label}}</a>
+              <a class="{{> dropdown__class}}" href="{{url}}" {{> global__attributes}}>{{> dropdown__content}}</a>
             {{else}}
-              <span class="{{> dropdown__class}}" {{> global__attributes}}>{{label}}</span>
+              <span class="{{> dropdown__class}}" {{> global__attributes}}>{{> dropdown__content}}</span>
             {{/if}}
-          {{/ifOr}}
+          {{/if}}
         {{/if}}
       {{/this}}
     {{/items}}
-    {{#if typed}}
-      <span class="ring-dropdown__item">
-        <span class="ring-dropdown__item__type"></span>
-        <span class="ring-dropdown__item__hint">Use ↩ to complete selected item</span>
-      </span>
-    {{/if}}
+    {{#type}}
+      {{#ifEqual this 'typed'}}
+        <span class="ring-dropdown__item">
+          <span class="ring-dropdown__item__type"></span>
+          <span class="ring-dropdown__item__hint">Use ↩ to complete selected item</span>
+        </span>
+      {{/ifEqual}}
+    {{/type}}
   </div>
 </div>
