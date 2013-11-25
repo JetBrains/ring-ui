@@ -186,6 +186,7 @@ module.exports = function(grunt) {
 
     // Process
     clean: {
+      styles: '<%= path.dist %>/*.css',
       generated: ['<%= path.dist %>', '<%= path.tmp %>'],
       modules: ['node_modules', 'components']
     },
@@ -557,6 +558,7 @@ module.exports = function(grunt) {
   ]);
 
   grunt.registerTask('styles', [
+    'clean:styles',
     'sass',
     'autoprefixer',
     'copy:fonts'
