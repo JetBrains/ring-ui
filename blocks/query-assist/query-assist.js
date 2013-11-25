@@ -189,7 +189,6 @@ define(['jquery', 'global/global__views', 'global/global__modules',  'global/glo
             var dropdownData = {
               type: ['typed', 'bound']
             };
-            console.log(dropdownData);
             dropdownData.items = _getHighlightText(data.suggestions);
 
 //            $query = $(View.render('query-assist', data));
