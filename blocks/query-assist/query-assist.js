@@ -22,7 +22,7 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'dropdown/dr
 // Config wrapper for QueryAssist
 //*************************************
   var QueryConfig = function (config) {
-    if(!config) {
+    if (!config) {
       throw new Error('QueryConfig: config is empty');
     }
     // default value && contants
@@ -34,12 +34,12 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'dropdown/dr
       global: window
     };
 
-    for(var item in config) {
+    for (var item in config) {
       this.config[item] = config[item];
     }
   };
   QueryConfig.prototype.get = function (name) {
-    if(!this.config.hasOwnProperty(name)) {
+    if (!this.config.hasOwnProperty(name)) {
       throw new Error('QueryConfig: prop isn\'t exist');
     }
     return this.config[name];
@@ -86,7 +86,7 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'dropdown/dr
   var destroy = function () {
     var queryModule = Module.get('query');
 
-    if(/*$queryContainer && */$query) {
+    if (/*$queryContainer && */$query) {
       $query.remove();
       $query = null;
       queryModule.trigger('destroy:done');
@@ -107,7 +107,7 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'dropdown/dr
   var _stopListen = function () {
     var queryModule = Module.get('query');
 
-    if(timeoutHandler) {
+    if (timeoutHandler) {
       clearInterval(timeoutHandler);
     }
     queryModule.trigger('stopListen:done');
@@ -117,9 +117,10 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'dropdown/dr
     var queryModule = Module.get('query');
 
     $el.bind('keypress', function (e) {
-      if(e.which === 13) {
-        queryModule.trigger('suggest:done');
+      if (e.which === 13) {
         e.preventDefault();
+        queryModule.trigger('suggest:done');
+        destroy();
       }
     });
 
@@ -130,11 +131,11 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'dropdown/dr
       });
     $global.on('click', function (ev) {
       var target = $(ev.target);
-      if(!target.is($el) && !target.closest().length) {
+      if (!target.is($el) && !target.closest().length) {
         destroy();
       }
     });
-    if($el.is(':focus')) {
+    if ($el.is(':focus')) {
       _stopListen();
     }
     $global.resize(destroy);
@@ -151,16 +152,16 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'dropdown/dr
     var caret = $el.caret();
     var value = $el.text();
 
-    if(lastPolledCaretPosition !== caret || lastPolledValue !== value) {
+    if (lastPolledCaretPosition !== caret || lastPolledValue !== value) {
       lastPolledCaretPosition = caret;
       lastPolledValue = value;
-    } else if(value !== lastTriggeredValue) {
+    } else if (value !== lastTriggeredValue) {
       lastTriggeredCaretPosition = caret;
       lastTriggeredValue = value;
       // Trigger event if value changed
       queryModule.trigger('delayedChange:done', {value: value, caret: caret});
       _doAssist(value, caret, true);
-    } else if(caret !== lastTriggeredCaretPosition) {
+    } else if (caret !== lastTriggeredCaretPosition) {
       lastTriggeredCaretPosition = caret;
       lastTriggeredValue = value;
       // trigger event if just caret position changed
@@ -175,16 +176,16 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'dropdown/dr
 //*************************************
   var _doAssist = function (query, caret, requestHighlighting) {
     var queryModule = Module.get('query');
-    if(query && caret) {
+    if (query && caret) {
       _getSuggestion.call(null, query, caret, requestHighlighting).then(function (data /* status, jqXHR*/) {
         // Reset previously suggestions
-        if($query) {
+        if ($query) {
           $query.remove();
         }
         // do js little bit more consistent
-        if(data.query === $el.text()) {
+        if (data.query === $el.text()) {
           // if data isn't exist hide a suggest container
-          if(data.suggestions) {
+          if (data.suggestions) {
             data.suggestions = _getHighlightText(data.suggestions);
 
             $query = $(View.render('query-assist', data));
@@ -208,7 +209,7 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'dropdown/dr
 //            $queryContainer.hide();
           }
           // DEBUG CODE FOR WEEKEND WORK
-          if(data.styleRanges) {
+          if (data.styleRanges) {
             var text = $el.text(),
               res = '';
 
@@ -279,18 +280,18 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'dropdown/dr
   var __getCoords = function () {
     var sel = document.selection, range;
     var x = 0, y = 0;
-    if(sel) {
-      if(sel.type !== 'Control') {
+    if (sel) {
+      if (sel.type !== 'Control') {
         range = sel.createRange();
         range.collapse(true);
         x = range.boundingLeft;
         y = range.boundingTop;
       }
-    } else if(window.getSelection) {
+    } else if (window.getSelection) {
       sel = window.getSelection();
-      if(sel.rangeCount) {
+      if (sel.rangeCount) {
         range = sel.getRangeAt(0).cloneRange();
-        if(range.getClientRects) {
+        if (range.getClientRects) {
           range.collapse(true);
           var rect = range.getClientRects()[0];
           x = rect.left;
@@ -308,7 +309,7 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'dropdown/dr
       defer = $.Deferred(),
       restUrl = url;
 
-    if(url) {
+    if (url) {
       var substr = ['query', 'caret', 'styleRanges'],
         suggestArgs = [encodeURI(query), caret, (requestHighlighting ? ',styleRanges' : '')];
 
@@ -332,7 +333,7 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'dropdown/dr
       var val = item.option + item.suffix,
         res = val;
 
-      if(item.matchingStart !== item.matchingEnd) {
+      if (item.matchingStart !== item.matchingEnd) {
         res = '<span class="selection">' + val.substr(item.matchingStart, item.matchingEnd) + '</span>' +
           '<span>' + val.substr(item.matchingEnd, val.length) + '</span>';
       }
@@ -350,7 +351,7 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'dropdown/dr
       prefix = text.substr(text.length - 1) === ' ' ? '' : suggest.prefix,
       subStr = prefix + suggest.option + suggest.suffix;
 
-    if(suggest.matchingStart !== suggest.matchingEnd) {
+    if (suggest.matchingStart !== suggest.matchingEnd) {
       str = text.substr(0, suggest.completionStart) + subStr + text.substr(suggest.completionStart + subStr.length);
     } else {
 
