@@ -1,0 +1,38 @@
+.ring-avatar-editor {
+  position: relative;
+  width: 50px;
+  height: 50px;
+}
+
+.ring-avatar-editor_right {
+  float: right;
+}
+
+.ring-avatar-editor:hover:not(disabled) {
+  background-color: #000;
+  .ring-avatar-editor__ico {
+    visibility: visible;
+  }
+  .ring-avatar-editor__img {
+    outline: 0;
+    opacity: 0.4;
+  }
+}
+
+.ring-avatar-editor__img {
+  width: 50px;
+  height: 50px;
+  cursor: pointer;
+}
+
+.ring-avatar-editor__file-input {
+  visibility: hidden;
+}
+
+.ring-avatar-editor__ico {
+  visibility: hidden;
+  position: absolute;
+  top: 17px;
+  left: 20px;
+  color: #fff;
+}
