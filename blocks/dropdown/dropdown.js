@@ -51,7 +51,7 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'global/glob
       $dropdown.find(INNER_SELECTOR).append(data);
     } else {
 
-      if (typeof data === 'object' && !data.html) {
+      if ($.isArray(data)) {
         data = {items: data};
       }
 
