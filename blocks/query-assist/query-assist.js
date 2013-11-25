@@ -120,7 +120,7 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'dropdown/dr
       if (e.which === 13) {
         e.preventDefault();
         queryModule.trigger('suggest:done');
-        destroy();
+        dropdown('hide');
       }
     });
 
@@ -222,7 +222,7 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'dropdown/dr
 
 
             });
-            console.log(res);
+//            console.log(res);
           }
         }
 
