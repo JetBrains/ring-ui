@@ -1,10 +1,9 @@
-define(['jquery', 'global/global__views', 'global/global__modules',  'global/global__utils', 'dropdown/dropdown', 'auth/auth', 'jquery-caret'], function ($, View, Module, utils) {
+define(['jquery', 'global/global__views', 'global/global__modules', 'global/global__utils', 'dropdown/dropdown', 'auth/auth', 'jquery-caret'], function ($, View, Module, utils) {
   'use strict';
 
   var $el,
     $query,
-//    $queryContainer,
-    url,
+    dataSource,
     $global,
     timeoutHandler,
     lastPolledCaretPosition,
@@ -68,7 +67,9 @@ define(['jquery', 'global/global__views', 'global/global__modules',  'global/glo
 
     $global = queryConfig.getDom('global');
     $el = queryConfig.getDom('el');
-    url = queryConfig.get('url');
+//    url = queryConfig.get('url');
+
+    dataSource = queryConfig.get('dataSource');
     COMPONENT_SELECTOR = queryConfig.get('COMPONENT_SELECTOR');
     ITEM_SELECTOR = queryConfig.get('ITEM_SELECTOR');
     MIN_LEFT_PADDING = queryConfig.get('MIN_LEFT_PADDING');
@@ -177,7 +178,7 @@ define(['jquery', 'global/global__views', 'global/global__modules',  'global/glo
   var _doAssist = function (query, caret, requestHighlighting) {
     var queryModule = Module.get('query');
     if (query && caret) {
-      _getSuggestion.call(null, query, caret, requestHighlighting).then(function (data /* status, jqXHR*/) {
+      dataSource(query, caret, requestHighlighting).then(function (data /* status, jqXHR*/) {
         // Reset previously suggestions
 //        if ($query) {
 //          $query.remove();
@@ -307,26 +308,27 @@ define(['jquery', 'global/global__views', 'global/global__modules',  'global/glo
 //*************************************
 // Ajax get suggestion
 //*************************************
-  var _getSuggestion = function (query, caret, requestHighlighting) {
-    var queryModule = Module.get('query'),
-      defer = $.Deferred(),
-      restUrl = url;
+  var remoteDataSource = function (remoteDataSourceConfig) {
+    return function (query, caret, requestHighlighting) {
 
-    if (url) {
-      var substr = ['query', 'caret', 'styleRanges'],
+      var queryModule = Module.get('query'),
+        defer = $.Deferred(),
+        restUrl = remoteDataSourceConfig.url || '/rest/users/queryAssist?caret=#{caret}&fields=query,caret,suggestions#{styleRanges}&query=#{query}',
+        substr = ['query', 'caret', 'styleRanges'],
         suggestArgs = [encodeURI(query), caret, (requestHighlighting ? ',styleRanges' : '')];
 
       substr.forEach(function (item, index) {
         restUrl = restUrl.replace('#{' + item  + '}', suggestArgs[index] ? suggestArgs[index] : '');
       });
-    } else {
-      restUrl = '/rest/users/queryAssist?caret=' + caret + '&fields=query,caret,suggestions' + (requestHighlighting ? ',styleRanges' : '') + '&query=' + encodeURI(query);
-    }
-    Module.get('auth')('ajax', restUrl).then(function (data, state, jqXHR) {
-      queryModule.trigger('ajax:done');
-      defer.resolve(data, state, jqXHR);
-    });
-    return defer.promise();
+
+      Module.get('auth')('ajax', restUrl).then(function (data, state, jqXHR) {
+        queryModule.trigger('ajax:done', data);
+        defer.resolve(data, state, jqXHR);
+      }).fail(function () {
+          defer.reject.apply(defer, arguments);
+        });
+      return defer.promise();
+    };
   };
 //*************************************
 // get highlight text using suggest.matching{Start|End}
@@ -345,9 +347,9 @@ define(['jquery', 'global/global__views', 'global/global__modules',  'global/glo
       }
 
       if (item.option && item.matchingStart !== item.matchingEnd) {
-        label.push(item.option.substring(0,item.matchingStart));
+        label.push(item.option.substring(0, item.matchingStart));
         label.push({
-          label: item.option.substring(item.matchingStart,item.matchingEnd),
+          label: item.option.substring(item.matchingStart, item.matchingEnd),
           type: 'highlight'
         });
         label.push(item.option.substring(item.matchingEnd));
@@ -399,6 +401,10 @@ define(['jquery', 'global/global__views', 'global/global__modules',  'global/glo
   Module.add('query', {
     init: {
       method: init,
+      override: true
+    },
+    remoteDataSource: {
+      method: remoteDataSource,
       override: true
     },
     destroy: {
