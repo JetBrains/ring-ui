@@ -17,7 +17,7 @@
             model: "=ngModel",
             onSelect: "&onSelect"
           },
-          templateUrl: "avatar-edit/avatar-editor.ng.html",
+          templateUrl: "avatar-editor/avatar-editor.ng.html",
           controller: ["$scope", function ($scope) {
             var ctrl = this;
             var fileInput, ngModelCtrl;
