@@ -3,16 +3,20 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'global/glob
 
   var COMPONENT_SELECTOR = '.ring-js-dropdown';
   var TOGGLE_SELECTOR = '.ring-dropdown-toggle';
-  var ITEM_SELECTOR = '.ring-menu__item';
+  var ITEM_SELECTOR = '.ring-dropdown__item';
+  var MENU_ITEM_SELECTOR = '.ring-menu__item';
   var INNER_SELECTOR = '.ring-dropdown__i';
+
   var BOUND_CLASS = 'ring-dropdown_bound';
+  var ACTIVE_CLASS = 'active';
 
   var $global = $(window);
   var $body;
   var $dropdown;
   var previousTarget;
 
-  var MIN_RIGHT_PADDING = 8;
+  var DROPDOWN_MIN_RIGHT_MARGIN = 8;
+  var DROPDOWN_BORDER_WIDTH = 2;
 
   var create = function(data, config) {
     var $target;
@@ -74,7 +78,7 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'global/glob
     if (previousTarget) {
       var menuToggle;
       var targetToggle = $target.is(TOGGLE_SELECTOR);
-      if (targetToggle && $target.prev().is(ITEM_SELECTOR)) {
+      if (targetToggle && $target.prev().is(MENU_ITEM_SELECTOR)) {
         menuToggle = true;
         $target = $target.prev();
       }
@@ -87,7 +91,7 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'global/glob
       var dropdownCenter = dropdownWidth / 2;
 
       // Right aligment
-      if (params.left + dropdownWidth > $global.width() - MIN_RIGHT_PADDING) {
+      if (params.left + dropdownWidth > $global.width() - DROPDOWN_MIN_RIGHT_MARGIN) {
         params.left += targetWidth - dropdownWidth;
 
       // Center aligment on toggle without menu item
@@ -108,7 +112,7 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'global/glob
       if (config.width) {
         params.width = config.width;
       } else if (dropdownWidth < targetWidth) {
-        params.width = targetWidth;
+        params.width = targetWidth - DROPDOWN_BORDER_WIDTH;
       }
 
     } else {
@@ -143,6 +147,14 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'global/glob
   // Using delegate because of compatibility with YouTrack's jQuery 1.5.1
   $(document).delegate('*','click.ring.dropdown', function(e) {
     return create(null, $(e.currentTarget).closest(COMPONENT_SELECTOR));
+  });
+
+  // Using delegate because of compatibility with YouTrack's jQuery 1.5.1
+  $(document).delegate(ITEM_SELECTOR,'mouseenter.ring.dropdown', function(e) {
+    $(e.currentTarget)
+      .addClass(ACTIVE_CLASS)
+      .siblings()
+        .removeClass(ACTIVE_CLASS);
   });
 
   // Remove on resize

@@ -60,6 +60,8 @@
   background-color: #fff;
 
   .ring-dropdown_typed & {
+    display: table;
+    width: 100%;
     padding: 0;
   }
 }
@@ -98,12 +100,12 @@
   cursor: pointer;
   color: #000 !important;
 
-  &:hover {
+  &:hover, &.active {
     color: #fff !important;
     background-color: #25b7ff;
 
     .ring-dropdown__highlight, .ring-dropdown__service {
-      color: #fff;
+      color: inherit;
     }
   }
 }
@@ -219,8 +221,12 @@
 .ring-dropdown__item__type {
   display: table-cell;
   padding: 0 $ring-unit 0 $ring-unit*2;
+  width: 1px;
+
   text-align: right;
   font-size: 13px;
+  white-space: nowrap;
+
   color: #888888;
   background-color: #f0f0f0;
 
