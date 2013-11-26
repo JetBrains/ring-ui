@@ -176,6 +176,15 @@
   color: #b4b4b4;
 }
 
+.ring-dropdown__image {
+  height: $ring-unit*2;
+  width: $ring-unit*2;
+  float: right;
+  margin-right: -$ring-unit;
+  margin-left: $ring-unit;
+  margin-top: $ring-unit/2;
+}
+
 .ring-dropdown__item__title {
   padding-right: $ring-unit;
 
