@@ -69,7 +69,7 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'global/glob
     $dropdown.appendTo($body);
 
     var params;
-    var targetInput = 'input' in config ? config.input : $target && $target.is(':input');
+    var targetInput = 'input' in config ? config.input : $target && $target.is(':text');
 
     if (previousTarget) {
       var menuToggle;
