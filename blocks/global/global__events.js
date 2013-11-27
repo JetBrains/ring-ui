@@ -7,8 +7,10 @@ define(['jquery', 'global/global__utils'], function($, utils) {
     EVENTS_DELIM: ' ',
     NAMESPACE_DELIM: '::',
     MODULE_DELIM: ':',
-    SELECTOR: '.ring-js-event',
-    DATA_ATTR: 'ring-event'
+    CLICK_SELECTOR: '.ring-js-event, .ring-js-click',
+    HOVER_SELECTOR: '.ring-js-hover',
+    CLICK_DATA_ATTR: 'ring-click',
+    HOVER_DATA_ATTR: 'ring-hover'
   };
 
 
@@ -155,12 +157,10 @@ define(['jquery', 'global/global__utils'], function($, utils) {
     };
   };
 
-  events.methods = methods;
-
   // Events from DOM
-  var handler = function(e) {
+  var domEventHandler = function(e) {
     var $target = $(e.currentTarget);
-    var event = $target.data(events.DATA_ATTR);
+    var event = $target.data($target.is(events.CLICK_SELECTOR) ? events.CLICK_DATA_ATTR : events.HOVER_DATA_ATTR);
 
     if (typeof event === 'object') {
       return methods.trigger({global: true}, event.name, event.data);
@@ -170,7 +170,10 @@ define(['jquery', 'global/global__utils'], function($, utils) {
   };
 
   // Using delegate because of compatibility with YouTrack's jQuery 1.5.1
-  $(document).delegate(events.SELECTOR, 'click.ring.event', handler);
+  $(document).delegate(events.CLICK_SELECTOR, 'click.ring-event', domEventHandler);
+
+  events.methods = methods;
+  events.domEventHandler = domEventHandler;
 
   return events;
 });

@@ -85,8 +85,9 @@
                     "url": "/issues"
                   },
                   {
-                    "label": "dependent",
+                    "label": "test hover",
                     "url": "/rest/agile",
+                    "hover": "dropdown:hover",
                     "action": true
                   },
                   {
@@ -283,6 +284,10 @@
       o.on('menu:test', function(data) {
         ring('menu', 'setActive')(data);
         return false;
+      });
+
+      o.on('dropdown:hover', function() {
+        ring('alerts').invoke('add', 'Ho-ho-hover', 'success', 10000);
       });
 
       ring('alerts').invoke('add', 'Alerts demo. Will hide in 10 secs.', 'success',

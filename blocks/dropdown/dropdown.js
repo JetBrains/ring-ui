@@ -1,4 +1,4 @@
-define(['jquery', 'global/global__views', 'global/global__modules', 'global/global__utils'], function($, View, Module, utils) {
+define(['jquery', 'global/global__views', 'global/global__modules', 'global/global__events', 'global/global__utils'], function($, View, Module, events, utils) {
   'use strict';
 
   var COMPONENT_SELECTOR = '.ring-js-dropdown';
@@ -118,7 +118,17 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'global/glob
       params = config;
     }
 
-    $dropdown.css(params);
+    $dropdown
+      .css(params)
+      // Using delegate because of compatibility with YouTrack's jQuery 1.5.1
+      .delegate(ITEM_ACTION_SELECTOR,'mouseenter.ring-dropdown', function(e) {
+        events.domEventHandler(e);
+
+        $(e.currentTarget)
+          .addClass(ACTIVE_CLASS)
+          .siblings()
+          .removeClass(ACTIVE_CLASS);
+      });
 
     dropdown.trigger('show:done');
     return false;
@@ -140,16 +150,8 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'global/glob
   };
 
   // Using delegate because of compatibility with YouTrack's jQuery 1.5.1
-  $(document).delegate('*','click.ring.dropdown', function(e) {
+  $(document).delegate('*','click.ring-dropdown', function(e) {
     return create(null, $(e.currentTarget).closest(COMPONENT_SELECTOR));
-  });
-
-  // Using delegate because of compatibility with YouTrack's jQuery 1.5.1
-  $(document).delegate(ITEM_ACTION_SELECTOR,'mouseenter.ring.dropdown', function(e) {
-    $(e.currentTarget)
-      .addClass(ACTIVE_CLASS)
-      .siblings()
-        .removeClass(ACTIVE_CLASS);
   });
 
   // Remove on resize
