@@ -22,7 +22,7 @@
   line-height: $ring-unit * 3 - 2;
 }
 
-.ring-tabs_pointer .active:after,
+.ring-tabs_pointer .ring-tabs__tabs > .active:after,
 .ring-tabs_pointer .ring-tabs__btn_active:after {
   display: block;
   position: relative;
@@ -52,7 +52,7 @@
   cursor: pointer;
 }
 
-.ring-tabs__btn_active, .ring-tabs__tabs .active {
+.ring-tabs__btn_active, .ring-tabs__tabs > .active {
   $border-color: #b4b4b4;
   $gradient-color: #dcdcdc;
 
