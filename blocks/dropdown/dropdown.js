@@ -122,9 +122,13 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'global/glob
       .css(params)
       // Using delegate because of compatibility with YouTrack's jQuery 1.5.1
       .delegate(ITEM_ACTION_SELECTOR,'mouseenter.ring-dropdown', function(e) {
-        events.domEventHandler(e);
+        var $target = $(e.currentTarget);
 
-        $(e.currentTarget)
+        if ($target.is(event.HOVER_SELECTOR)) {
+          events.domEventHandler(e);
+        }
+
+        $target
           .addClass(ACTIVE_CLASS)
           .siblings()
           .removeClass(ACTIVE_CLASS);
