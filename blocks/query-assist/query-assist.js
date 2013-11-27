@@ -180,20 +180,21 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'global/glob
           };
           dropdownData.items = _getHighlightText(data.suggestions);
 
-          var coords = 0;
-          dropdown('hide');
-          dropdown('show', dropdownData, {
-            left: coords.left - 98,
-            width: 'auto',
-            target: $el
-          });
-
-          queryModule.trigger('doAssist:done');
+          var coords = __getCoords();
+          if (coords) {
+            dropdown('hide');
+            dropdown('show', dropdownData, {
+              left: coords.left - 98,
+              width: 'auto',
+              target: $el
+            });
+            queryModule.trigger('doAssist:done');
+          }
         } else {
           queryModule.trigger('hide:done');
           dropdown('hide');
         }
-        // DEBUG CODE
+
         if (data.styleRanges) {
           $el.html(_getHighlightedHtml(data.styleRanges, query));
           _placeCaret($el.find('span').eq(data.caret - 1));
@@ -257,30 +258,33 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'global/glob
 // @ToDo
 // * fix left rare error
 //*************************************
-//  var __getCoords = function () {
-//    var sel = document.selection, range;
-//    var x = 0, y = 0;
-//    if (sel) {
-//      if (sel.type !== 'Control') {
-//        range = sel.createRange();
-//        range.collapse(true);
-//        x = range.boundingLeft;
-//        y = range.boundingTop;
-//      }
-//    } else if (window.getSelection) {
-//      sel = window.getSelection();
-//      if (sel.rangeCount) {
-//        range = sel.getRangeAt(0).cloneRange();
-//        if (range.getClientRects) {
-//          range.collapse(true);
-//          var rect = range.getClientRects()[0];
-//          x = rect.left;
-//          y = rect.top;
-//        }
-//      }
-//    }
-//    return { left: x, top: y };
-//  };
+  var __getCoords = function () {
+    if ($el.is(':not(:focus)')) {
+      return false;
+    }
+    var sel = document.selection, range;
+    var x = 0, y = 0;
+    if (sel) {
+      if (sel.type !== 'Control') {
+        range = sel.createRange();
+        range.collapse(true);
+        x = range.boundingLeft;
+        y = range.boundingTop;
+      }
+    } else if (window.getSelection) {
+      sel = window.getSelection();
+      if (sel.rangeCount) {
+        range = sel.getRangeAt(0).cloneRange();
+        if (range.getClientRects) {
+          range.collapse(true);
+          var rect = range.getClientRects()[0];
+          x = rect.left;
+          y = rect.top;
+        }
+      }
+    }
+    return { left: x, top: y };
+  };
 //*************************************
 // Ajax get suggestion
 //*************************************
