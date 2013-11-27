@@ -238,14 +238,16 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'global/glob
   var _getHighlightedHtml = function (styleRanges, text) {
     var result = '',
       i;
+    var concatClasses = function (item) {
+      var className = item ? 'ring-query-style_' + item : '';
+      res = res + className + ' ';
+    };
 
     for(i = 0; i < text.length; i += 1) {
-      var res = '';
+      var res = '',
+        data = _getClassname(styleRanges, text, i);
 
-      _getClassname(styleRanges, text, i).forEach(function (item) {
-        var className = item ? 'ring-query-style_' + item : '';
-        res = res + className + ' ';
-      });
+      data.forEach(concatClasses);
       result = result + '<span class="' + res.trim() + '">' + text[i] + '</span>';
     }
     return result;
@@ -255,30 +257,30 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'global/glob
 // @ToDo
 // * fix left rare error
 //*************************************
-  var __getCoords = function () {
-    var sel = document.selection, range;
-    var x = 0, y = 0;
-    if (sel) {
-      if (sel.type !== 'Control') {
-        range = sel.createRange();
-        range.collapse(true);
-        x = range.boundingLeft;
-        y = range.boundingTop;
-      }
-    } else if (window.getSelection) {
-      sel = window.getSelection();
-      if (sel.rangeCount) {
-        range = sel.getRangeAt(0).cloneRange();
-        if (range.getClientRects) {
-          range.collapse(true);
-          var rect = range.getClientRects()[0];
-          x = rect.left;
-          y = rect.top;
-        }
-      }
-    }
-    return { left: x, top: y };
-  };
+//  var __getCoords = function () {
+//    var sel = document.selection, range;
+//    var x = 0, y = 0;
+//    if (sel) {
+//      if (sel.type !== 'Control') {
+//        range = sel.createRange();
+//        range.collapse(true);
+//        x = range.boundingLeft;
+//        y = range.boundingTop;
+//      }
+//    } else if (window.getSelection) {
+//      sel = window.getSelection();
+//      if (sel.rangeCount) {
+//        range = sel.getRangeAt(0).cloneRange();
+//        if (range.getClientRects) {
+//          range.collapse(true);
+//          var rect = range.getClientRects()[0];
+//          x = rect.left;
+//          y = rect.top;
+//        }
+//      }
+//    }
+//    return { left: x, top: y };
+//  };
 //*************************************
 // Ajax get suggestion
 //*************************************
