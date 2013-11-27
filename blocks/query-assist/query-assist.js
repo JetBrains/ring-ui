@@ -145,7 +145,7 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'global/glob
     var queryModule = Module.get('query');
 
     var caret = $el.caret();
-    var value = $el.text();
+    var value = $el.text().replace(/\s/g, ' ');
 
     if (lastPolledCaretPosition !== caret || lastPolledValue !== value) {
       lastPolledCaretPosition = caret;
