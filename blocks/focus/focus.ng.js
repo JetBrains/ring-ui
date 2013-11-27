@@ -10,9 +10,13 @@
           function focusSetter(value) {
             return function () {
               if (focusModel(scope) !== value) {
-                scope.$apply(function () {
+                if (scope.$root.$$phase) {
                   focusModel.assign(scope, value);
-                });
+                } else {
+                  scope.$apply(function () {
+                    focusModel.assign(scope, value);
+                  });
+                }
               }
             };
           }
