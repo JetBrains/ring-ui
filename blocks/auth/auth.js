@@ -4,7 +4,20 @@ define(['jquery', 'jso', 'global/global__modules', 'global/global__utils'], func
 
   var module = 'auth';
 
-  var defaultRedirectUri = window.location.protocol + '//' + window.location.host;
+  var getDefaultRedirectUri = function() {
+      var bases = document.getElementsByTagName('base');
+      var myBaseUrl = null;
+
+      if (bases.length > 0) {
+        myBaseUrl = bases[0].href;
+      } else {
+        myBaseUrl = window.location.protocol + '//' + window.location.host;
+      }
+
+      return myBaseUrl;
+  };
+
+  var defaultRedirectUri = getDefaultRedirectUri();
   var defaultId = '0-0-0-0-0';
   var defaultPath = '/rest/oauth2/auth';
 
