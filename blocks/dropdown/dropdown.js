@@ -3,11 +3,10 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'global/glob
 
   var COMPONENT_SELECTOR = '.ring-js-dropdown';
   var TOGGLE_SELECTOR = '.ring-dropdown-toggle';
-  var ITEM_SELECTOR = '.ring-dropdown__item';
+  var ITEM_ACTION_SELECTOR = '.ring-dropdown__item_action';
   var MENU_ITEM_SELECTOR = '.ring-menu__item';
   var INNER_SELECTOR = '.ring-dropdown__i';
 
-  var BOUND_CLASS = 'ring-dropdown_bound';
   var ACTIVE_CLASS = 'active';
 
   var $global = $(window);
@@ -73,7 +72,7 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'global/glob
     $dropdown.appendTo($body);
 
     var params;
-    var targetInput = 'input' in config ? config.input : $target && $target.is(':text');
+    var targetInput = typeof data === 'object' && ($.isArray(data.type) && $.inArray(data.type, 'bound') || data.type === 'bound');
 
     if (previousTarget) {
       var menuToggle;
@@ -121,10 +120,6 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'global/glob
 
     $dropdown.css(params);
 
-    if (targetInput || $target.attr('contenteditable')) {
-      $dropdown.addClass(BOUND_CLASS);
-    }
-
     dropdown.trigger('show:done');
     return false;
   };
@@ -150,7 +145,7 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'global/glob
   });
 
   // Using delegate because of compatibility with YouTrack's jQuery 1.5.1
-  $(document).delegate(ITEM_SELECTOR,'mouseenter.ring.dropdown', function(e) {
+  $(document).delegate(ITEM_ACTION_SELECTOR,'mouseenter.ring.dropdown', function(e) {
     $(e.currentTarget)
       .addClass(ACTIVE_CLASS)
       .siblings()
