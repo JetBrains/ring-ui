@@ -118,35 +118,35 @@
 //   <div class="ring-dropdown__i">
 //     <span class="ring-dropdown__item ring-dropdown__item_action">
 //        <span class="ring-dropdown__item__type">by tag</span>
-//        <span class="ring-dropdown__item__content"><span class="ring-dropdown__highlighted"><span class="ring-dropdown__highlighted">ta</span></span>g:</span>
+//        <span class="ring-dropdown__item__content"><span class="ring-dropdown__highlight">ta</span>g:</span>
 //     </span>
 //     <span class="ring-dropdown__item ring-dropdown__item_action">
 //        <span class="ring-dropdown__item__type">value in several bundles</span>
-//        <span class="ring-dropdown__item__content"><span class="ring-dropdown__service">#</span><span class="ring-dropdown__highlighted">Ta</span>sk</span>
+//        <span class="ring-dropdown__item__content"><span class="ring-dropdown__service">#</span><span class="ring-dropdown__highlight">Ta</span>sk</span>
 //     </span>
 //     <span class="ring-dropdown__item ring-dropdown__item_action">
 //        <span class="ring-dropdown__item__type">user group</span>
-//        <span class="ring-dropdown__item__content"><span class="ring-dropdown__service">#{</span>MAGE-<span class="ring-dropdown__highlighted">TA</span>B Admins<span class="ring-dropdown__service">}</span></span>
+//        <span class="ring-dropdown__item__content"><span class="ring-dropdown__service">#{</span>MAGE-<span class="ring-dropdown__highlight">TA</span>B Admins<span class="ring-dropdown__service">}</span></span>
 //     </span>
 //     <span class="ring-dropdown__item ring-dropdown__item_action">
 //        <span class="ring-dropdown__item__type">user group</span>
-//        <span class="ring-dropdown__item__content"><span class="ring-dropdown__service">#{</span>MAGE-<span class="ring-dropdown__highlighted">TA</span>B Developers<span class="ring-dropdown__service">}</span></span>
+//        <span class="ring-dropdown__item__content"><span class="ring-dropdown__service">#{</span>MAGE-<span class="ring-dropdown__highlight">TA</span>B Developers<span class="ring-dropdown__service">}</span></span>
 //     </span>
 //     <span class="ring-dropdown__item ring-dropdown__item_action">
 //        <span class="ring-dropdown__item__type">user group</span>
-//        <span class="ring-dropdown__item__content"><span class="ring-dropdown__service">#</span>resharper-<span class="ring-dropdown__highlighted">ta</span>p</span>
+//        <span class="ring-dropdown__item__content"><span class="ring-dropdown__service">#</span>resharper-<span class="ring-dropdown__highlight">ta</span>p</span>
 //     </span>
 //     <span class="ring-dropdown__item ring-dropdown__item_action">
 //        <span class="ring-dropdown__item__type">tag</span>
-//        <span class="ring-dropdown__item__content"><span class="ring-dropdown__service">#</span><span class="ring-dropdown__highlighted">ta</span>blet-pc</span>
+//        <span class="ring-dropdown__item__content"><span class="ring-dropdown__service">#</span><span class="ring-dropdown__highlight">ta</span>blet-pc</span>
 //     </span>
 //     <span class="ring-dropdown__item ring-dropdown__item_action">
 //        <span class="ring-dropdown__item__type">tag</span>
-//        <span class="ring-dropdown__item__content"><span class="ring-dropdown__service">#{</span>work with <span class="ring-dropdown__highlighted">ta</span>gs<span class="ring-dropdown__service">}</span></span>
+//        <span class="ring-dropdown__item__content"><span class="ring-dropdown__service">#{</span>work with <span class="ring-dropdown__highlight">ta</span>gs<span class="ring-dropdown__service">}</span></span>
 //     </span>
 //     <span class="ring-dropdown__item ring-dropdown__item_action">
 //        <span class="ring-dropdown__item__type">tag</span>
-//        <span class="ring-dropdown__item__content"><span class="ring-dropdown__service">#{</span><span class="ring-dropdown__highlighted">ta</span>sk connector<span class="ring-dropdown__service">}</span></span>
+//        <span class="ring-dropdown__item__content"><span class="ring-dropdown__service">#{</span><span class="ring-dropdown__highlight">ta</span>sk connector<span class="ring-dropdown__service">}</span></span>
 //     </span>
 //     <span class="ring-dropdown__item">
 //       <span class="ring-dropdown__item__type"></span>
@@ -154,15 +154,15 @@
 //     </span>
 //     <span class="ring-dropdown__item ring-dropdown__item_action">
 //        <span class="ring-dropdown__item__type"></span>
-//        <span class="ring-dropdown__item__content">Fix versions: 4.1 S<span class="ring-dropdown__highlighted">ta</span>te: Verified project: YouTrack</span>
+//        <span class="ring-dropdown__item__content">Fix versions: 4.1 S<span class="ring-dropdown__highlight">ta</span>te: Verified project: YouTrack</span>
 //     </span>
 //     <span class="ring-dropdown__item ring-dropdown__item_action">
 //        <span class="ring-dropdown__item__type"></span>
-//        <span class="ring-dropdown__item__content"><span class="ring-dropdown__highlighted">ta</span>g: S<span class="ring-dropdown__highlighted">ta</span>r</span>
+//        <span class="ring-dropdown__item__content"><span class="ring-dropdown__highlight">ta</span>g: S<span class="ring-dropdown__highlight">ta</span>r</span>
 //     </span>
-//     <span class="ring-dropdown__item ring-dropdown__item">
+//     <span class="ring-dropdown__item ring-dropdown__item_hint">
 //       <span class="ring-dropdown__item__type"></span>
-//       <span class="ring-dropdown__item__hint">Use ↩ to complete selected item</span>
+//       <span class="ring-dropdown__item__content">Use ↩ to complete selected item</span>
 //     </span>
 //   </div>
 // </div>
@@ -206,17 +206,17 @@
   margin-bottom: $ring-unit;
 }
 
-.ring-dropdown__item__content,
-.ring-dropdown__item__hint {
+.ring-dropdown__item__content {
   display: table-cell;
   padding: 0 $ring-unit*2 0 $ring-unit;
+
+  .ring-dropdown__item_hint & {
+    font-size: 11px;
+    background-color: #fff5cd;
+    border-top: 1px solid #e5dcb8;
+  }
 }
 
-.ring-dropdown__item__hint {
-  font-size: 11px;
-  background-color: #fff5cd;
-  border-top: 1px solid #e5dcb8;
-}
 
 .ring-dropdown__item__type {
   display: table-cell;
