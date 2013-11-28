@@ -119,21 +119,21 @@
 // <form class="ring-form">
 //  <span class="ring-form__title">License</span>
 //  <div class="ring-form__group">
-//    <label class="ring-form__label">License User Name</label>
+//    <label for="ring-form-1" class="ring-form__label">License User Name</label>
 //    <div class="ring-form__control">
-//      <input class="ring-input" type="text">
+//      <input class="ring-input" id="ring-form-1" type="text">
 //    </div>
 //  </div>
 //  <div class="ring-form__group">
-//    <label class="ring-form__label">License Key</label>
+//    <label for="ring-form-2" class="ring-form__label">License Key</label>
 //    <div class="ring-form__control">
-//      <input class="ring-input" type="text">
+//      <input class="ring-input" id="ring-form-2" type="text">
 //    </div>
 //  </div>
 //  <div class="ring-form__group">
-//    <label class="ring-form__label">License Key</label>
+//    <label for="ring-form-3" class="ring-form__label">License Key</label>
 //    <div class="ring-form__control">
-//      <input class="ring-input ring-input_long" type="text">
+//      <input class="ring-input ring-input_long" id="ring-form-3" type="text">
 //      <div class="ring-input__error-bubble">Wrong value</div>
 //    </div>
 //  </div>
@@ -342,28 +342,28 @@
 // Markup:
 // <form class="ring-form">
 //  <div class="ring-form__group ring-form__group_short">
-//    <div class="ring-form__label">
+//    <label class="ring-form__label">
 //      <input class="ring-radio-btn" type="radio" name="find-type" id="breakout-checkbox-1"/>
 //      <label for="breakout-checkbox-1"></label>
-//    </div>
+//    </label>
 //    <div class="ring-form__control">
 //      Users with same emails and similar names
 //    </div>
 //  </div>
 //  <div class="ring-form__group ring-form__group_short">
-//    <div class="ring-form__label">
+//    <label class="ring-form__label">
 //      <input class="ring-radio-btn" type="radio" name="find-type" id="breakout-checkbox-2"/>
 //      <label for="breakout-checkbox-2"></label>
-//    </div>
+//    </label>
 //    <div class="ring-form__control">
 //      Users with same emails
 //    </div>
 //  </div>
 //  <div class="ring-form__group ring-form__group_short">
-//    <div class="ring-form__label">
+//    <label class="ring-form__label">
 //      <input class="ring-radio-btn" type="radio" name="find-type" id="breakout-checkbox-3"/>
 //      <label for="breakout-checkbox-3"></label>
-//    </div>
+//    </label>
 //    <div class="ring-form__control">
 //      Users having at least something in common
 //    </div>
