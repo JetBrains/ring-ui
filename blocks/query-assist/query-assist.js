@@ -17,9 +17,9 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'global/glob
 
   var dropdown = Module.get('dropdown');
 
-//*************************************
-// Config wrapper for QueryAssist
-//*************************************
+  /**
+   * Config wrapper for QueryAssist
+   */
   var QueryConfig = function (config) {
     if (!config) {
       throw new Error('QueryConfig: config is empty');
@@ -58,9 +58,9 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'global/glob
     return this.config;
   };
 
-//*************************************
-// Init method
-//*************************************
+  /**
+   * Init method
+   */
   var init = function (config) {
     var queryModule = Module.get('query'),
       queryConfig = new QueryConfig(config);
@@ -77,9 +77,10 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'global/glob
     _bindEvents($el);
     queryModule.trigger('init:done');
   };
-//*************************************
-// Destroy query container && trigger events
-//*************************************
+
+  /**
+   * Destroy query container && trigger events
+   */
   var destroy = function () {
     var queryModule = Module.get('query');
 
@@ -93,6 +94,7 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'global/glob
       return false;
     }
   };
+
   var _startListen = function () {
     var queryModule = Module.get('query');
 
@@ -101,6 +103,7 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'global/glob
     timeoutHandler = setInterval(_pollCaretPosition, 250);
     queryModule.trigger('startListen:done');
   };
+
   var _stopListen = function () {
     var queryModule = Module.get('query');
 
@@ -138,9 +141,10 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'global/glob
     $global.resize(destroy);
     queryModule.trigger('bindEvents:done');
   };
-//*************************************
-// polling caret position
-//*************************************
+
+  /**
+   * polling caret position
+   */
   var _pollCaretPosition = function () {
     var queryModule = Module.get('query');
 
@@ -164,11 +168,12 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'global/glob
       _doAssist(value, caret, false);
     }
   };
-//*************************************
-// init suggest handle
-// @ToDo
-// * render styleRanges
-//*************************************
+
+  /**
+   * init suggest handle
+   * @ToDo
+   * render styleRanges
+   */
   var _doAssist = function (query, caret, requestHighlighting) {
     var queryModule = Module.get('query');
     if (query && caret) {
@@ -204,10 +209,11 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'global/glob
 //      _setContainerCoords(true);
     }
   };
-//**************************************************************************
-// Handle caret position in nested contenteditable element
-// @param jQuery element
-//**************************************************************************
+
+  /**
+   * Handle caret position in nested contenteditable element
+   * @param jQuery element
+   */
   var _placeCaret = function (el) {
     el.focus();
     if (typeof window.getSelection !== 'undefined' && typeof document.createRange !== 'undefined') {
@@ -233,9 +239,10 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'global/glob
     });
     return res;
   };
-//*************************************
-// Return highlighted html
-//*************************************
+
+  /**
+   * Return highlighted html
+   */
   var _getHighlightedHtml = function (styleRanges, text) {
     var result = '',
       i;
@@ -253,11 +260,12 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'global/glob
     }
     return result;
   };
-//*************************************
-// get caret coords in abs value
-// @ToDo
-// * fix left rare error
-//*************************************
+
+  /**
+   * get caret coords in abs value
+   * @ToDo
+   * fix left rare error
+   */
   var __getCoords = function () {
     if ($el.is(':not(:focus)')) {
       return false;
@@ -285,9 +293,10 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'global/glob
     }
     return { left: x, top: y };
   };
-//*************************************
-// Ajax get suggestion
-//*************************************
+
+  /**
+   * Ajax get suggestion
+   */
   var remoteDataSource = function (remoteDataSourceConfig) {
     return function (query, caret, requestHighlighting) {
 
@@ -310,9 +319,10 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'global/glob
       return defer.promise();
     };
   };
-//*************************************
-// get highlight text using suggest.matching{Start|End}
-//*************************************
+
+  /**
+   * get highlight text using suggest.matching{Start|End}
+   */
   var _getHighlightText = function (suggestions) {
     return $.isArray(suggestions) && suggestions.map(function (item) {
       var label = [];
@@ -356,9 +366,10 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'global/glob
       };
     }) || [];
   };
-//*************************************
-// autocomplete current text field
-//*************************************
+
+  /**
+   * autocomplete current text field
+   */
   var _handleSuggest = function (suggest) {
     var queryModule = Module.get('query'),
       text = $el.text(),
@@ -392,5 +403,4 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'global/glob
       override: true
     }
   });
-})
-;
+});
