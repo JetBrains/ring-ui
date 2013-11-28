@@ -183,7 +183,7 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'global/glob
           var dropdownData = {
             type: ['typed', 'bound']
           };
-          dropdownData.items = _getHighlightText(data.suggestions);
+          dropdownData.items = _getHighlightText(data);
 
           var coords = __getCoords();
           if (coords) {
@@ -323,45 +323,48 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'global/glob
   /**
    * get highlight text using suggest.matching{Start|End}
    */
-  var _getHighlightText = function (suggestions) {
-    return $.isArray(suggestions) && suggestions.map(function (item) {
+  var _getHighlightText = function (assistData) {
+    return $.isArray(assistData.suggestions) && assistData.suggestions.map(function (suggestion) {
       var label = [];
 
-      if (utils.isEmptyString(item.prefix)) {
-        label.push(item.prefix);
+      if (utils.isEmptyString(suggestion.prefix)) {
+        label.push(suggestion.prefix);
       } else {
         label.push({
-          label: item.prefix,
+          label: suggestion.prefix,
           type: 'service'
         });
       }
 
-      if (item.option && item.matchingStart !== item.matchingEnd) {
-        label.push(item.option.substring(0, item.matchingStart));
+      if (suggestion.option && suggestion.matchingStart !== suggestion.matchingEnd) {
+        label.push(suggestion.option.substring(0, suggestion.matchingStart));
         label.push({
-          label: item.option.substring(item.matchingStart, item.matchingEnd),
+          label: suggestion.option.substring(suggestion.matchingStart, suggestion.matchingEnd),
           type: 'highlight'
         });
-        label.push(item.option.substring(item.matchingEnd));
+        label.push(suggestion.option.substring(suggestion.matchingEnd));
       } else {
-        label.push(item.option);
+        label.push(suggestion.option);
       }
 
-      if (utils.isEmptyString(item.suffix)) {
-        label.push(item.suffix);
+      if (utils.isEmptyString(suggestion.suffix)) {
+        label.push(suggestion.suffix);
       } else {
         label.push({
-          label: item.suffix,
+          label: suggestion.suffix,
           type: 'service'
         });
       }
 
       return {
         label: label,
-        type: item.description,
+        type: suggestion.description,
         event: {
-          name: 'dropdown:assist',
-          data: item
+          name: 'dropdown:complete',
+          data: {
+            assistData: assistData,
+            suggestion: suggestion
+          }
         }
       };
     }) || [];
@@ -370,24 +373,17 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'global/glob
   /**
    * autocomplete current text field
    */
-  var _handleSuggest = function (suggest) {
+  var _handleComplete = function (data) {
     var queryModule = Module.get('query'),
-      text = $el.text(),
-      str,
-      prefix = text.substr(text.length - 1) === ' ' ? '' : suggest.prefix,
-      subStr = prefix + suggest.option + suggest.suffix;
+      input = data.assistData.query || '',
+      insText = (data.suggestion.prefix || '') + data.suggestion.option + (data.suggestion.suffix || ''),
+      output = input.substr(0, data.suggestion.completionStart) + insText + input.substr(data.suggestion.completionEnd);
 
-    if (suggest.matchingStart !== suggest.matchingEnd) {
-      str = text.substr(0, suggest.completionStart) + subStr + text.substr(suggest.completionStart + subStr.length);
-    } else {
-
-      str = text + subStr;
-    }
-    _doAssist(str, str.length, true);
+    _doAssist(output, data.suggestion.caret, true);
     queryModule.trigger('suggest:done');
   };
 
-  dropdown.on('assist', _handleSuggest);
+  dropdown.on('complete', _handleComplete);
 
   Module.add('query', {
     init: {
