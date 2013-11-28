@@ -14,6 +14,7 @@
 
 .ring-input {
   box-sizing: border-box;
+  height: 3*$ring-unit;
   width: 100%;
   margin: 0;
   padding-left: $ring-unit / 2;
