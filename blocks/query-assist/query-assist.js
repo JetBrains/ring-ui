@@ -11,7 +11,12 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'global/glob
     lastPolledValue,
     lastTriggeredValue,
     COMPONENT_SELECTOR,
+    CONTAINER_SELECTOR,
+    WRAPPER_SELECTOR,
     ITEM_SELECTOR,
+    ITEM_CONTENT_SELECTOR,
+    ITEM_CONTENT_SELECTOR_PADDING,
+    CONTAINER_TOP_PADDING,
     MIN_LEFT_PADDING,
     MIN_RIGHT_PADDING;
 
@@ -27,13 +32,18 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'global/glob
     // default value && contants
     this.config = {
       COMPONENT_SELECTOR: '.ring-query',
+      CONTAINER_SELECTOR: '.ring-dropdown',
+      WRAPPER_SELECTOR: '.ring-dropdown__i',
       ITEM_SELECTOR: '.ring-query-el',
+      ITEM_CONTENT_SELECTOR: '.ring-dropdown__item__content',
+      ITEM_CONTENT_SELECTOR_PADDING: 8,
       MIN_LEFT_PADDING: 24,
       MIN_RIGHT_PADDING: 16,
+      CONTAINER_TOP_PADDING: 19,
       global: window
     };
 
-    for (var item in config) {
+    for(var item in config) {
       this.config[item] = config[item];
     }
   };
@@ -70,7 +80,12 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'global/glob
 
     dataSource = queryConfig.get('dataSource');
     COMPONENT_SELECTOR = queryConfig.get('COMPONENT_SELECTOR');
+    WRAPPER_SELECTOR = queryConfig.get('WRAPPER_SELECTOR');
+    CONTAINER_SELECTOR = queryConfig.get('CONTAINER_SELECTOR');
     ITEM_SELECTOR = queryConfig.get('ITEM_SELECTOR');
+    ITEM_CONTENT_SELECTOR = queryConfig.get('ITEM_CONTENT_SELECTOR');
+    ITEM_CONTENT_SELECTOR_PADDING = queryConfig.get('ITEM_CONTENT_SELECTOR_PADDING');
+    CONTAINER_TOP_PADDING = queryConfig.get('CONTAINER_TOP_PADDING');
     MIN_LEFT_PADDING = queryConfig.get('MIN_LEFT_PADDING');
     MIN_RIGHT_PADDING = queryConfig.get('MIN_RIGHT_PADDING');
 
@@ -189,22 +204,22 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'global/glob
           };
 
 
-          dropdownData.items = _getHighlightText(data);
           var dropdownTextPosition = data.caret;
           if (data.suggestions[0]) {
             dropdownTextPosition -= data.suggestions[0].matchingEnd - data.suggestions[0].matchingStart;
           }
+          dropdownData.items = _getHighlightText(data);
 
+          dropdown('hide');
+          dropdown('show', dropdownData, {
+            width: 'auto',
+            target: $el
+          });
           var coords = __getCoords(dropdownTextPosition);
-          if (coords) {
-            dropdown('hide');
-            dropdown('show', dropdownData, {
-              left: coords.left,
-              width: 'auto',
-              target: $el
-            });
-            queryModule.trigger('doAssist:done');
-          }
+
+          $(CONTAINER_SELECTOR).css(coords);
+
+          queryModule.trigger('doAssist:done');
         } else {
           queryModule.trigger('hide:done');
           dropdown('hide');
@@ -212,7 +227,7 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'global/glob
 
       });
     } else {
-//      _setContainerCoords(true);
+      dropdown('hide');
     }
   };
 
@@ -257,7 +272,7 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'global/glob
       res = res + className + ' ';
     };
 
-    for (i = 0; i < text.length; i += 1) {
+    for(i = 0; i < text.length; i += 1) {
       var res = '',
         data = _getClassname(styleRanges, text, i);
 
@@ -273,7 +288,14 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'global/glob
    * fix left rare error
    */
   var __getCoords = function (textPos) {
-    return $el.find('span').eq(textPos).position();
+    textPos = textPos ? textPos : 1;
+    var widthItemType = ($(WRAPPER_SELECTOR).outerWidth() - $(ITEM_CONTENT_SELECTOR).outerWidth()) + ITEM_CONTENT_SELECTOR_PADDING,
+      pos = $el.find('span').eq(textPos - 1).position();
+
+    return {
+      top: pos.top + CONTAINER_TOP_PADDING,
+      left: pos.left - widthItemType
+    };
   };
 
   /**
