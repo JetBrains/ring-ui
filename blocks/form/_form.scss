@@ -407,11 +407,14 @@
 
   cursor: pointer;
   border: 1px solid #CCCCCC;
-  border-radius: 3px;
+  border-radius: 2px;
   background: transparent;
   user-select: none;
   line-height: $ring-unit * 3;
   vertical-align: middle;
+  &:hover {
+    border: 1px solid #ff8620;
+  }
 }
 
 .ring-checkbox[type="checkbox"]:checked + label {
@@ -426,14 +429,14 @@
   line-height: normal;
   cursor: pointer;
   border: 1px solid #25b7ff;
-  border-radius: 3px;
+  border-radius: 2px;
   background: transparent;
 }
 
 .ring-checkbox[type="checkbox"]:checked + label::before {
   content: "";
   position: relative;
-  top: -2px;
+  top: -1px;
   left: 1px;
   display: block;
   width: 11px;
