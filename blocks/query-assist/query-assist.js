@@ -185,7 +185,12 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'global/glob
           };
           dropdownData.items = _getHighlightText(data);
 
-          var coords = __getCoords();
+
+          var dropdownTextPosition = data.caret;
+          if (data.suggestions[0]) {
+            dropdownTextPosition -= data.suggestions[0].matchingEnd - data.suggestions[0].matchingStart;
+          }
+          var coords = __getCoords(dropdownTextPosition);
           if (coords) {
             dropdown('hide');
             dropdown('show', dropdownData, {
