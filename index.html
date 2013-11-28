@@ -85,24 +85,25 @@
                     "url": "/issues"
                   },
                   {
-                    "label": "dependent",
+                    "label": "test hover",
                     "url": "/rest/agile",
-                    "type": "action"
+                    "hover": "dropdown:hover",
+                    "action": true
                   },
                   {
                     "label": "dependent",
                     "url": "/rest/agile",
-                    "type": "action"
+                    "action": true
                   },
                   {
                     "label": "dependent",
                     "url": "/rest/agile",
-                    "type": "action"
+                    "action": true
                   },
                   {
                     "label": "dependent",
                     "url": "/rest/agile",
-                    "type": "action"
+                    "action": true
                   }
                 ]
               },
@@ -140,7 +141,7 @@
                     "url": "/issues"
                   },
                   {
-                    "type": "separator"
+                    "separator": true
                   },
                   {
                     "className": "test-class",
@@ -175,22 +176,23 @@
                 {
                   "label": "dependent",
                   "url": "/rest/agile",
-                  "type": "action"
+                  "image": "site/ring.png",
+                  "action": true
                 },
                 {
                   "label": "dependent",
                   "url": "/rest/agile",
-                  "type": "action"
+                  "action": true
                 },
                 {
                   "label": "dependent",
                   "url": "/rest/agile",
-                  "type": "action"
+                  "action": true
                 },
                 {
                   "label": "dependent",
                   "url": "/rest/agile",
-                  "type": "action"
+                  "action": true
                 }
               ]
             },
@@ -284,13 +286,19 @@
         return false;
       });
 
+      o.on('dropdown:hover', function() {
+        ring('alerts').invoke('add', 'Ho-ho-hover', 'success', 10000);
+      });
+
       ring('alerts').invoke('add', 'Alerts demo. Will hide in 10 secs.', 'success',
           10000);
 
         var query = ring('query');
         query('init', {
           el: '.ring-query-js',
-          url: '/rest/users/queryAssist?caret=#{caret}&fields=query,caret,suggestions#{styleRanges}&query=#{query}'
+          dataSource: query('remoteDataSource', {
+              url: '/rest/users/queryAssist?caret=#{caret}&fields=query,caret,suggestions#{styleRanges}&query=#{query}'
+          })
         });
     });
   </script>
@@ -302,8 +310,8 @@
 
   <div><a class="ring-link" href="dist/docs/API.html">View API documentation</a></div>
   <div><a class="ring-link" href="dist/styleguide/">CSS Styleguide</a></div>
-  <div class="ring-query__containter">
-    <div class="ring-query-js ring-query__input ring-input" contenteditable="true"></div>
+  <div class="ring-query__containter" style="width: 50%; margin: auto;">
+    <div class="ring-query-js ring-query-assist ring-input" spellcheck="false" contenteditable="true"></div>
   </div>
 </div>
 

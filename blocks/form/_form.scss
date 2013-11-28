@@ -15,8 +15,7 @@
 .ring-input {
   box-sizing: border-box;
   width: 100%;
-  margin-top: $ring-unit;
-  margin-bottom: $ring-unit;
+  margin: 0;
   padding-left: $ring-unit / 2;
   padding-right: $ring-unit/ 2;
   border: 1px solid #cccccc;
@@ -195,7 +194,7 @@
 
 .ring-form__footer {
   margin-top: 3 * $ring-unit;
-  padding: 2 * $ring-unit 4*$ring-unit;
+  padding: 2*$ring-unit 0 2*$ring-unit 2*$ring-unit;
   background-color: #e9f8ff;
   background-color: rgba(37, 183, 255, 0.1);
   & .ring-btn {
@@ -269,7 +268,8 @@
 }
 
 .ring-form__group {
-  margin-bottom: $ring-unit;
+  padding-top: $ring-unit;
+  padding-bottom: 2*$ring-unit;
 }
 
 .ring-form__label {

@@ -16,12 +16,17 @@
 // .ring-font-icon_caret-down      - caret-down
 // .ring-font-icon_caret-up        - caret-up
 // .ring-font-icon_remove          - remove
+// .ring-font-icon_chevron-left   - chevron-left
 // .ring-font-icon_chevron-right   - chevron-right
 // .ring-font-icon_ban-circle      - ban-circle
 // .ring-font-icon_pencil          - pencil
 // .ring-font-icon_plus            - plus
 // .ring-font-icon_add             - add
 // .ring-font-icon_pushpin         - pin
+// .ring-font-icon_merge_icon      - merge
+// .ring-font-icon_group_icone     - group
+// .ring-font-icon_trash_icon      - trash
+// .ring-font-icon_trash           - trash v2
 //
 // Styleguide 6.1
 
@@ -54,113 +59,98 @@ body .ring-font-icon {
 .ring-font-icon_modified:before {
   content: "\e002";
 }
-
 .ring-font-icon_removed:before {
   content: "\e003";
 }
-
 .ring-font-icon_renamed:before {
   content: "\e004";
 }
-
 .ring-font-icon_plus:before {
   content: "\e000";
 }
-
 .ring-font-icon_search:before {
   content: "\f002";
 }
-
 .ring-font-icon_cog:before {
   content: "\f013";
 }
-
 .ring-font-icon_remove:before {
   content: "\f00d";
 }
-
 .ring-font-icon_pencil:before {
   content: "\f040";
 }
-
 .ring-font-icon_chevron-right:before {
   content: "\f054";
 }
-
 .ring-font-icon_ban-circle:before {
   content: "\f05e";
 }
-
 .ring-font-icon_caret-down:before {
   content: "\f0d7";
 }
-
 .ring-font-icon_caret-up:before {
   content: "\f0d8";
 }
-
 .ring-font-icon_help:before {
   content: "\e001";
 }
-
 .ring-font-icon_check:before {
   content: "\e005";
 }
-
 .ring-font-icon_added:before {
   content: "\e006";
 }
-
-.ring-font-icon_add:before {
+.ring-font-icon_Add:before {
   content: "\e008";
 }
-
 .ring-font-icon_pushpin:before {
   content: "\f08d";
 }
-
 .ring-font-icon_minus:before {
   content: "\e007";
 }
-
 .ring-font-icon_warning:before {
   content: "\e009";
 }
-
 .ring-font-icon_ok:before {
   content: "\f00c";
 }
-
-.ring-font-icon_global:before {
+.ring-font-icon_globe:before {
   content: "\f0ac";
 }
-
-.ring-font-icon_permission:before {
+.ring-font-icon_key:before {
   content: "\f084";
 }
-
-.ring-font-icon_email:before {
+.ring-font-icon_envelope-alt:before {
   content: "\f0e0";
 }
-
-.ring-font-icon_resource:before {
+.ring-font-icon_cloud:before {
   content: "\f0c2";
 }
-
-.ring-font-icon_delete:before {
+.ring-font-icon_trash:before {
   content: "\f014";
 }
-
-.ring-font-icon_jabber:before {
+.ring-font-icon_lightbulb:before {
   content: "\f0eb";
 }
-
 .ring-font-icon_group:before {
   content: "\f0c0";
 }
-
 .ring-font-icon_role:before {
   content: "\e00a";
+}
+.ring-font-icon_trash_icon:before {
+  content: "\e00b";
+}
+.ring-font-icon_group_icone:before {
+  content: "\e00c";
+}
+.ring-font-icon_chevron-left:before {
+  content: "\f053";
+}
+.ring-font-icon_merge_icon:before {
+  content: "\e00d";
 }
 
 /* Fallback for miserable Windows users */
