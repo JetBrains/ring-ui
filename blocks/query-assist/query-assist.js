@@ -249,7 +249,7 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'global/glob
         data = _getClassname(styleRanges, text, i);
 
       data.forEach(concatClasses);
-      result = result + '<span class="' + res.trim() + '">' + text[i] + '</span>';
+      result = result + '<span class="' + res.trim() + '">' + (text[i] !== ' ' ? text[i] : '&nbsp;') + '</span>';
     }
     return result;
   };
