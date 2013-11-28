@@ -57,6 +57,8 @@ $ring-btn-border-radius: 3px;
 
 .ring-btn {
   display: inline-block;
+  *display: inline;
+  *zoom: 1;
   width: auto;
   height: $ring-unit*3;
   box-sizing: border-box;
@@ -294,4 +296,23 @@ $ring-btn-border-radius: 3px;
   &:last-child {
     margin-right: 0;
   }
+}
+
+// Icon-btn
+//
+//Markup:
+//<button class="ring-icon-btn ring-btn"><span class="ring-font-icon ring-font-icon_add"></span></button>
+//
+// Styleguide 4.4
+
+.ring-icon-btn {
+  position: relative;
+  width: 2*$ring-unit+1 !important;
+  height: 2*$ring-unit+1 !important;
+  border-radius: 2*$ring-unit;
+  padding: 0 !important;
+  font-size: 8px;
+  line-height: 2*$ring-unit;
+  display: inline;
+  color: #6E6E6E;
 }

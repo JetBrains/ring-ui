@@ -1,1 +1,1 @@
-ring-dropdown__item{{> global__class}} {{#type}}ring-dropdown__item_{{this}}{{else}}ring-link{{/type}}
+ring-dropdown__item{{> global__class}} {{#ifOr action type}}ring-dropdown__item_action{{else}}ring-link{{/ifOr}}{{#if active}} active{{/if}}
