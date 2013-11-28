@@ -33,7 +33,7 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'global/glob
       global: window
     };
 
-    for(var item in config) {
+    for (var item in config) {
       this.config[item] = config[item];
     }
   };
@@ -244,7 +244,7 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'global/glob
       res = res + className + ' ';
     };
 
-    for(i = 0; i < text.length; i += 1) {
+    for (i = 0; i < text.length; i += 1) {
       var res = '',
         data = _getClassname(styleRanges, text, i);
 

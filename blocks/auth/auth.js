@@ -4,17 +4,17 @@ define(['jquery', 'jso', 'global/global__modules', 'global/global__utils'], func
 
   var module = 'auth';
 
-  var getDefaultRedirectUri = function() {
-      var bases = document.getElementsByTagName('base');
-      var myBaseUrl = null;
+  var getDefaultRedirectUri = function () {
+    var bases = document.getElementsByTagName('base');
+    var myBaseUrl = null;
 
-      if (bases.length > 0) {
-        myBaseUrl = bases[0].href;
-      } else {
-        myBaseUrl = window.location.protocol + '//' + window.location.host;
-      }
+    if (bases.length > 0) {
+      myBaseUrl = bases[0].href;
+    } else {
+      myBaseUrl = window.location.protocol + '//' + window.location.host;
+    }
 
-      return myBaseUrl;
+    return myBaseUrl;
   };
 
   var defaultRedirectUri = getDefaultRedirectUri();
@@ -34,7 +34,7 @@ define(['jquery', 'jso', 'global/global__modules', 'global/global__utils'], func
   var cacheData = {};
   var cacheTime = {};
 
-  var now = function() {
+  var now = function () {
     return +(new Date());
   };
 
@@ -44,7 +44,7 @@ define(['jquery', 'jso', 'global/global__modules', 'global/global__utils'], func
       cacheTime[url] = now();
     };
 
-    if(/^[a-z]+:\/\//i.test(url)) {
+    if (/^[a-z]+:\/\//i.test(url)) {
       return $.get(url);
     } else {
       return $.oajax({url: serverUrl + url,
@@ -58,7 +58,7 @@ define(['jquery', 'jso', 'global/global__modules', 'global/global__utils'], func
     }
   };
 
-  var get = function(url) {
+  var get = function (url) {
     if (now() - cacheTime[url] < CACHE_PERIOD) {
       return $.Deferred().resolve(cacheData[url]);
     } else {
@@ -66,7 +66,7 @@ define(['jquery', 'jso', 'global/global__modules', 'global/global__utils'], func
     }
   };
 
-  var getToken = function(denyIA) {
+  var getToken = function (denyIA) {
     var token = jso.getToken(provider);
 
     if (token === null) {
@@ -111,17 +111,17 @@ define(['jquery', 'jso', 'global/global__modules', 'global/global__utils'], func
     }
 
     // Configure jso
-    jso.configure(jsoConfig, null, function(done, err) {
+    jso.configure(jsoConfig, null, function (done, err) {
       if (err) {
         dfd.reject(err);
 
-      // Authorize, if needed or resolve dfd
-      } else if(getToken(config.denyIA)) {
+        // Authorize, if needed or resolve dfd
+      } else if (getToken(config.denyIA)) {
         dfd.resolve(done);
       }
     });
 
-    dfd.done(function() {
+    dfd.done(function () {
       Module.get(module).set({config: jsoConfig[provider]});
     });
 
@@ -142,11 +142,11 @@ define(['jquery', 'jso', 'global/global__modules', 'global/global__utils'], func
   var $iframe;
   var refreshDefer;
 
-  var refreshTime = function(token) {
+  var refreshTime = function (token) {
     return token.split('.')[0] - REFRESH_BEFORE;
   };
 
-  var toBeRefreshed = function(token) {
+  var toBeRefreshed = function (token) {
     if (!token) {
       return true;
     }
@@ -154,19 +154,19 @@ define(['jquery', 'jso', 'global/global__modules', 'global/global__utils'], func
     return now() >= refreshTime(token);
   };
 
-  var defaultUrlHandler = function(url) {
+  var defaultUrlHandler = function (url) {
     window.location = url;
   };
 
-  var refreshUrlHandler = function(url) {
+  var refreshUrlHandler = function (url) {
     $iframe.attr('src', url + '&rnd=' + Math.random());
   };
 
-  var setRefresh = function() {
+  var setRefresh = function () {
     setTimeout(refresh.bind(null, true), refreshTime(getToken()) - now());
   };
 
-  var refresh = function(force) {
+  var refresh = function (force) {
     var token = getToken(true);
 
     if (!force && refreshDefer && refreshDefer.state === 'pending') {
@@ -181,7 +181,7 @@ define(['jquery', 'jso', 'global/global__modules', 'global/global__utils'], func
 
     $iframe = $('<iframe style="display: none;"></iframe>').appendTo('body');
 
-    var poll = function(time) {
+    var poll = function (time) {
       time = time || 0;
       var checkToken = getToken(true);
 
@@ -206,7 +206,7 @@ define(['jquery', 'jso', 'global/global__modules', 'global/global__utils'], func
     jso.authRequest(provider, jsoConfig[provider].scope);
 
     return refreshDefer
-      .fail(function() {
+      .fail(function () {
         setTimeout(refresh.bind(null, true), REFRESH_RETRY_INTERVAL);
       })
       .done(setRefresh);
