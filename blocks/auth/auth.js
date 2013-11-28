@@ -4,9 +4,9 @@ define(['jquery', 'jso', 'global/global__modules', 'global/global__utils'], func
 
   var module = 'auth';
 
-  var getDefaultRedirectUri = function () {
-    var bases = document.getElementsByTagName('base');
-    var myBaseUrl = null;
+  var defaultRedirectUri = (function () {
+    var bases = $('base');
+    var myBaseUrl;
 
     if (bases.length > 0) {
       myBaseUrl = bases[0].href;
@@ -15,9 +15,8 @@ define(['jquery', 'jso', 'global/global__modules', 'global/global__utils'], func
     }
 
     return myBaseUrl;
-  };
+  }());
 
-  var defaultRedirectUri = getDefaultRedirectUri();
   var defaultId = '0-0-0-0-0';
   var defaultPath = '/rest/oauth2/auth';
 
