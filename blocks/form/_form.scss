@@ -95,7 +95,7 @@
 
 .ring-input_icon + .ring-input_icon__span {
   position: relative;
-  top: -$ring-unit * 4;
+  top: -$ring-unit * 3 - 2;
   left: calc(100% - 20px);
 
   color: #CCC;
