@@ -9,8 +9,8 @@
    * and DataURIed file content as <code>data</code>.
    */
     directive("avatarEditor", [
-      "alert",
-      function (alert) {
+      "$injector",
+      function ($injector) {
         return {
           restrict: "E",
           scope: {
@@ -21,6 +21,7 @@
           controller: ["$scope", function ($scope) {
             var ctrl = this;
             var fileInput, ngModelCtrl;
+            var alert = $injector.has("alert") ? $injector.get("alert") : {error: angular.noop};
 
             ctrl.setNgModelCtrl = function (ngModel) {
               ngModelCtrl = ngModel;
