@@ -178,23 +178,28 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'global/glob
     var queryModule = Module.get('query');
     if (query && caret) {
       dataSource(query, caret, requestHighlighting).then(function (data /* status, jqXHR*/) {
+        if (data.styleRanges) {
+          $el.html(_getHighlightedHtml(data.styleRanges, query));
+          _placeCaret($el.find('span').eq(data.caret - 1));
+        }
         // if data isn't exist hide a suggest container
         if (data.suggestions) {
           var dropdownData = {
             type: ['typed', 'bound']
           };
+
+
           dropdownData.items = _getHighlightText(data);
-
-
           var dropdownTextPosition = data.caret;
           if (data.suggestions[0]) {
             dropdownTextPosition -= data.suggestions[0].matchingEnd - data.suggestions[0].matchingStart;
           }
+
           var coords = __getCoords(dropdownTextPosition);
           if (coords) {
             dropdown('hide');
             dropdown('show', dropdownData, {
-              left: coords.left - 98,
+              left: coords.left,
               width: 'auto',
               target: $el
             });
@@ -205,10 +210,6 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'global/glob
           dropdown('hide');
         }
 
-        if (data.styleRanges) {
-          $el.html(_getHighlightedHtml(data.styleRanges, query));
-          _placeCaret($el.find('span').eq(data.caret - 1));
-        }
       });
     } else {
 //      _setContainerCoords(true);
@@ -271,32 +272,36 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'global/glob
    * @ToDo
    * fix left rare error
    */
-  var __getCoords = function () {
-    if ($el.is(':not(:focus)')) {
-      return false;
-    }
-    var sel = document.selection, range;
-    var x = 0, y = 0;
-    if (sel) {
-      if (sel.type !== 'Control') {
-        range = sel.createRange();
-        range.collapse(true);
-        x = range.boundingLeft;
-        y = range.boundingTop;
-      }
-    } else if (window.getSelection) {
-      sel = window.getSelection();
-      if (sel.rangeCount) {
-        range = sel.getRangeAt(0).cloneRange();
-        if (range.getClientRects) {
-          range.collapse(true);
-          var rect = range.getClientRects()[0];
-          x = rect.left;
-          y = rect.top;
-        }
-      }
-    }
-    return { left: x, top: y };
+  var __getCoords = function (textPos) {
+//    console.log(textPos);
+//    if(textPos) {
+      return $el.find('span').eq(textPos).position();
+//    }
+//    if ($el.is(':not(:focus)')) {
+//      return false;
+//    }
+//    var sel = document.selection, range;
+//    var x = 0, y = 0;
+//    if (sel) {
+//      if (sel.type !== 'Control') {
+//        range = sel.createRange();
+//        range.collapse(true);
+//        x = range.boundingLeft;
+//        y = range.boundingTop;
+//      }
+//    } else if (window.getSelection) {
+//      sel = window.getSelection();
+//      if (sel.rangeCount) {
+//        range = sel.getRangeAt(0).cloneRange();
+//        if (range.getClientRects) {
+//          range.collapse(true);
+//          var rect = range.getClientRects()[0];
+//          x = rect.left;
+//          y = rect.top;
+//        }
+//      }
+//    }
+//    return { left: x, top: y };
   };
 
   /**
