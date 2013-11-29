@@ -219,8 +219,9 @@ $ring-btn-border-radius: 3px;
 }
 
 .ring-btn_icon {
+  position: relative;
+  top: 1px;
   font-size: 13px;
-  line-height: 0;
 }
 
 .ring-btn__last-icon {
