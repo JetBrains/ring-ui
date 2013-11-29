@@ -218,7 +218,7 @@ $ring-btn-border-radius: 3px;
   color: #c10000;
 }
 
-.ring-btn_icon {
+.ring-btn_icon:not([class*="ring-menu"]) {
   position: relative;
   top: 1px;
   font-size: 13px;
