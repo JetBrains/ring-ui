@@ -398,7 +398,7 @@
   display: inline-block\9;
 }
 
-.ring-checkbox[type="checkbox"] + label {
+.ring-checkbox[type="checkbox"] + label.ring-checkbox__label {
   content: "";
   display: inline-block;
   display: none\9;
@@ -417,7 +417,7 @@
   }
 }
 
-.ring-checkbox[type="checkbox"]:checked + label {
+.ring-checkbox[type="checkbox"]:checked + label.ring-checkbox__label {
   content: "";
   position: relative;
   display: inline-block;
@@ -433,7 +433,7 @@
   background: transparent;
 }
 
-.ring-checkbox[type="checkbox"]:checked + label::before {
+.ring-checkbox[type="checkbox"]:checked + label.ring-checkbox__label::before {
   content: "";
   position: relative;
   top: -1px;
@@ -449,9 +449,9 @@
 //
 // Markup:
 // <input id="checkbox-1" class="ring-checkbox" type="checkbox" name="example" checked>
-// <label for="checkbox-1"></label>
+// <label  class="ring-checkbox__label" for="checkbox-1"></label>
 // <input id="checkbox-2" class="ring-checkbox" type="checkbox" name="example">
-// <label for="checkbox-2"></label>
+// <label class="ring-checkbox__label" for="checkbox-2"></label>
 //
 // Styleguide 7.7
 
