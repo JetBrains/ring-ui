@@ -87,6 +87,12 @@
   }
 }
 
+.ring-input_wrapper {
+  position: relative;
+  box-sizing: border-box;
+  height: 3*$ring-unit;
+}
+
 .ring-input_icon {
   position: relative;
   box-sizing: border-box;
@@ -94,9 +100,12 @@
 }
 
 .ring-input_icon + .ring-input_icon__span {
-  position: relative;
-  top: -$ring-unit * 3 - 2;
-  left: calc(100% - 20px);
+  position: absolute;
+  top: -1px;
+  // IE fix
+  top: 2px\9;
+  right: 0;
+  padding-right: 6px;
 
   color: #CCC;
   font-size: $ring-unit * 2;
@@ -108,8 +117,10 @@
 // Just change "ring-font-icon_caret-down" to your icon class.
 //
 // Markup:
-// <input class="ring-input ring-input_icon" type="text" placeholder="placeholder">
-// <span class="ring-font-icon_search ring-font-icon ring-input_icon__span"></span>
+//<div class="ring-input_wrapper">
+//   <input class="ring-input ring-input_icon" type="text" placeholder="placeholder">
+//   <span class="ring-font-icon_search ring-font-icon ring-input_icon__span"></span>
+//</div>
 //
 // Styleguide 7.3
 
@@ -230,8 +241,8 @@
   width: 24px;
   opacity: 0.5;
   transition: 0.2s;
-  user-select:none;
-  border:0;
+  user-select: none;
+  border: 0;
   outline: 0;
   &:hover {
     opacity: 1;
@@ -442,7 +453,7 @@
   height: 11px;
 
   font-family: 'font-icon' !important;
-  content: '\e005';
+  content: '\e005' ring-font-icon_search;
 }
 
 // Checkbox
