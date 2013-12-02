@@ -14,6 +14,7 @@
 
 .ring-input {
   box-sizing: border-box;
+  height: 3*$ring-unit;
   width: 100%;
   margin: 0;
   padding-left: $ring-unit / 2;
@@ -94,7 +95,7 @@
 
 .ring-input_icon + .ring-input_icon__span {
   position: relative;
-  top: -$ring-unit * 4;
+  top: -$ring-unit * 3 - 2;
   left: calc(100% - 20px);
 
   color: #CCC;
@@ -119,21 +120,21 @@
 // <form class="ring-form">
 //  <span class="ring-form__title">License</span>
 //  <div class="ring-form__group">
-//    <label class="ring-form__label">License User Name</label>
+//    <label for="ring-form-1" class="ring-form__label">License User Name</label>
 //    <div class="ring-form__control">
-//      <input class="ring-input" type="text">
+//      <input class="ring-input" id="ring-form-1" type="text">
 //    </div>
 //  </div>
 //  <div class="ring-form__group">
-//    <label class="ring-form__label">License Key</label>
+//    <label for="ring-form-2" class="ring-form__label">License Key</label>
 //    <div class="ring-form__control">
-//      <input class="ring-input" type="text">
+//      <input class="ring-input" id="ring-form-2" type="text">
 //    </div>
 //  </div>
 //  <div class="ring-form__group">
-//    <label class="ring-form__label">License Key</label>
+//    <label for="ring-form-3" class="ring-form__label">License Key</label>
 //    <div class="ring-form__control">
-//      <input class="ring-input ring-input_long" type="text">
+//      <input class="ring-input ring-input_long" id="ring-form-3" type="text">
 //      <div class="ring-input__error-bubble">Wrong value</div>
 //    </div>
 //  </div>
@@ -342,28 +343,28 @@
 // Markup:
 // <form class="ring-form">
 //  <div class="ring-form__group ring-form__group_short">
-//    <div class="ring-form__label">
+//    <label class="ring-form__label">
 //      <input class="ring-radio-btn" type="radio" name="find-type" id="breakout-checkbox-1"/>
 //      <label for="breakout-checkbox-1"></label>
-//    </div>
+//    </label>
 //    <div class="ring-form__control">
 //      Users with same emails and similar names
 //    </div>
 //  </div>
 //  <div class="ring-form__group ring-form__group_short">
-//    <div class="ring-form__label">
+//    <label class="ring-form__label">
 //      <input class="ring-radio-btn" type="radio" name="find-type" id="breakout-checkbox-2"/>
 //      <label for="breakout-checkbox-2"></label>
-//    </div>
+//    </label>
 //    <div class="ring-form__control">
 //      Users with same emails
 //    </div>
 //  </div>
 //  <div class="ring-form__group ring-form__group_short">
-//    <div class="ring-form__label">
+//    <label class="ring-form__label">
 //      <input class="ring-radio-btn" type="radio" name="find-type" id="breakout-checkbox-3"/>
 //      <label for="breakout-checkbox-3"></label>
-//    </div>
+//    </label>
 //    <div class="ring-form__control">
 //      Users having at least something in common
 //    </div>
@@ -397,7 +398,7 @@
   display: inline-block\9;
 }
 
-.ring-checkbox[type="checkbox"] + label {
+.ring-checkbox[type="checkbox"] + label.ring-checkbox__label {
   content: "";
   display: inline-block;
   display: none\9;
@@ -406,14 +407,17 @@
 
   cursor: pointer;
   border: 1px solid #CCCCCC;
-  border-radius: 3px;
+  border-radius: 2px;
   background: transparent;
   user-select: none;
   line-height: $ring-unit * 3;
   vertical-align: middle;
+  &:hover {
+    border: 1px solid #ff8620;
+  }
 }
 
-.ring-checkbox[type="checkbox"]:checked + label {
+.ring-checkbox[type="checkbox"]:checked + label.ring-checkbox__label {
   content: "";
   position: relative;
   display: inline-block;
@@ -425,29 +429,29 @@
   line-height: normal;
   cursor: pointer;
   border: 1px solid #25b7ff;
-  border-radius: 3px;
+  border-radius: 2px;
   background: transparent;
 }
 
-.ring-checkbox[type="checkbox"]:checked + label::before {
-  content: "";
+.ring-checkbox[type="checkbox"]:checked + label.ring-checkbox__label::before {
   position: relative;
-  top: -2px;
+  top: -1px;
   left: 1px;
   display: block;
   width: 11px;
   height: 11px;
 
-  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAALCAMAAACTbPdTAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyRpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoTWFjaW50b3NoKSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDowNzk5MjZGMzFBMjAxMUUzQjBFNkZFNUI0QkU4MDgwNiIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDowNzk5MjZGNDFBMjAxMUUzQjBFNkZFNUI0QkU4MDgwNiI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOjA3OTkyNkYxMUEyMDExRTNCMEU2RkU1QjRCRTgwODA2IiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjA3OTkyNkYyMUEyMDExRTNCMEU2RkU1QjRCRTgwODA2Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+iIdn6QAAAHJQTFRFr6+v6+vrk5OT4uLitbW1W1tbzMzMVFRUWVlZmpqa1dXVpqamZ2dn4eHh+/v76enp2trah4eHT09PUVFReHh4UlJSd3d3zc3N19fXlpaW0tLSmJiY5OTk7OzsYWFhTU1NgYGB9PT09vb2ycnJSUlJ////6rrIagAAACZ0Uk5T/////////////////////////////////////////////////wCneoG8AAAAW0lEQVR42kTNVQ7AMAwD0GzrmJk5vv8V147qD0svUmSCTmCQRuh1v+acCZ+GiE2AJj+TEC43h1Rc1qY1Mi+WPBIEqxQObiWb0vMvO7WZe3zCuVa7Flrj3bkEGAAdOxEvcOdezwAAAABJRU5ErkJggg==) no-repeat;
+  font-family: 'font-icon' !important;
+  content: '\e005';
 }
 
 // Checkbox
 //
 // Markup:
 // <input id="checkbox-1" class="ring-checkbox" type="checkbox" name="example" checked>
-// <label for="checkbox-1"></label>
+// <label  class="ring-checkbox__label" for="checkbox-1"></label>
 // <input id="checkbox-2" class="ring-checkbox" type="checkbox" name="example">
-// <label for="checkbox-2"></label>
+// <label class="ring-checkbox__label" for="checkbox-2"></label>
 //
 // Styleguide 7.7
 

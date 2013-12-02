@@ -35,15 +35,12 @@
       };
 
       this.$get = ['$injector', function ($injector) {
-        return $injector.instantiate(['$location', '$http', function ($location, $http) {
+        return $injector.instantiate(['$window', '$http', function ($window, $http) {
           authFuture.done(function (absUrl) {
             if (absUrl) {
-              // Cut http://host:port from the url
-              var a = document.createElement('A');
-              a.href = absUrl;
-              var relativeUrl = a.pathname + a.search + a.hash;
-
-              $location.url(relativeUrl, true);
+              // The right way to set absolute url. According to http://docs.angularjs.org/guide/dev_guide.services.$location
+              // BC: if you want to set relative path don't forget about <base href/>
+              $window.location.href = absUrl;
             }
           });
 
