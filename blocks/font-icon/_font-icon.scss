@@ -27,6 +27,7 @@
 // .ring-font-icon_group_icone     - group
 // .ring-font-icon_trash_icon      - trash
 // .ring-font-icon_trash           - trash v2
+// .ring-font-icon_close           - close
 //
 // Styleguide 6.1
 
@@ -101,7 +102,7 @@ body .ring-font-icon {
 .ring-font-icon_added:before {
   content: "\e006";
 }
-.ring-font-icon_Add:before {
+.ring-font-icon_add:before {
   content: "\e008";
 }
 .ring-font-icon_pushpin:before {
@@ -152,6 +153,10 @@ body .ring-font-icon {
 .ring-font-icon_merge_icon:before {
   content: "\e00d";
 }
+.ring-font-icon_close:before {
+  content: "\e00e";
+}
+
 
 /* Fallback for miserable Windows users */
 .no-font-antialiasing {
