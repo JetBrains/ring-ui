@@ -218,9 +218,10 @@ $ring-btn-border-radius: 3px;
   color: #c10000;
 }
 
-.ring-btn_icon {
-  width: $ring-unit*3;
-  padding: 0 6px;
+.ring-btn_icon:not([class*="ring-menu"]) {
+  position: relative;
+  top: 1px;
+  font-size: 13px;
 }
 
 .ring-btn__last-icon {
