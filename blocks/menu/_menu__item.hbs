@@ -10,10 +10,12 @@
   {{else}}
     {{!--Search form--}}
     {{#ifEqual type 'search'}}
-      <form action="{{action}}" class="ring-menu__item ring-menu__search">
-        <input type="text" class="ring-input ring-menu__search__input"/>
-        <span class="ring-menu__search__glass ring-font-icon ring-font-icon_search"></span>
-      </form>
+        <form action="{{action}}" class="ring-menu__item ring-menu__search">
+            <div class="ring-input_wrapper">
+                <input class="ring-input ring-input_icon" type="text" placeholder="placeholder">
+                <span class="ring-font-icon_search ring-font-icon ring-input_icon__span"></span>
+            </div>
+        </form>
     {{!--Links--}}
     {{else}}
       <a href="{{url}}" class="ring-link{{> menu__item__class}}{{> dropdown__component}}"{{> global__attributes}}>
