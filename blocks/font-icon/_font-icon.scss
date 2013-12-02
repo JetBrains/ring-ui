@@ -25,6 +25,7 @@
 // .ring-font-icon_pushpin         - pin
 // .ring-font-icon_merge_icon      - merge
 // .ring-font-icon_group_icone     - group
+// .ring-font-icon_mail    - mail
 // .ring-font-icon_trash_icon      - trash
 // .ring-font-icon_trash           - trash v2
 // .ring-font-icon_close           - close
@@ -123,7 +124,7 @@ body .ring-font-icon {
 .ring-font-icon_key:before {
   content: "\f084";
 }
-.ring-font-icon_envelope-alt:before {
+.ring-font-icon_mail:before {
   content: "\f0e0";
 }
 .ring-font-icon_cloud:before {
@@ -155,6 +156,9 @@ body .ring-font-icon {
 }
 .ring-font-icon_close:before {
   content: "\e00e";
+}
+.ring-font-icon_drag:before {
+  content: "\e00f";
 }
 
 
