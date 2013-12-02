@@ -25,10 +25,10 @@
 // .ring-font-icon_pushpin         - pin
 // .ring-font-icon_merge_icon      - merge
 // .ring-font-icon_group_icone     - group
-// .ring-font-icon_mail    - mail
-// .ring-font-icon_trash_icon      - trash
-// .ring-font-icon_trash           - trash v2
+// .ring-font-icon_mail            - mail
+// .ring-font-icon_trash           - trash
 // .ring-font-icon_close           - close
+// .ring-font-icon_drag            - drag
 //
 // Styleguide 6.1
 
@@ -130,9 +130,6 @@ body .ring-font-icon {
 .ring-font-icon_cloud:before {
   content: "\f0c2";
 }
-.ring-font-icon_trash:before {
-  content: "\f014";
-}
 .ring-font-icon_lightbulb:before {
   content: "\f0eb";
 }
@@ -141,9 +138,6 @@ body .ring-font-icon {
 }
 .ring-font-icon_role:before {
   content: "\e00a";
-}
-.ring-font-icon_trash_icon:before {
-  content: "\e00b";
 }
 .ring-font-icon_group_icone:before {
   content: "\e00c";
@@ -160,6 +154,10 @@ body .ring-font-icon {
 .ring-font-icon_drag:before {
   content: "\e00f";
 }
+.ring-font-icon_trash:before {
+  content: "\e010";
+}
+
 
 
 /* Fallback for miserable Windows users */
