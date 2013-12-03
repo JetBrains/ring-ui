@@ -18,6 +18,9 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'global/glob
   var DROPDOWN_BORDER_WIDTH = 2;
 
   var create = function(data, config) {
+    if(!config.length) {
+      return;
+    }
     var $target;
     var dropdown = Module.get('dropdown');
 
