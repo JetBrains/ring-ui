@@ -101,14 +101,22 @@ define([
     alert.show(this.element_);
 
     if (diffTool.isDef(opt_timeout)) {
-      /**
-       * ID of alert hide timeout to make it possible to prevent it.
-       * @type {number}
-       * @private
-       */
-      this.hideTimeout_ = setTimeout(diffTool.bindContext(function() {
-        this.remove(alert);
-      }, this), opt_timeout);
+      var addTimeoutFn = diffTool.bindContext(function() {
+        /**
+         * ID of alert hide timeout to make it possible to prevent it.
+         * @type {number}
+         * @private
+         */
+        this.hideTimeout_ = setTimeout(diffTool.bindContext(function() {
+          this.remove(alert);
+        }, this), opt_timeout);
+      }, this);
+
+      if (diffTool.isDocumentHidden()) {
+        diffTool.addDocumentVisibilityChangeCallback(addTimeoutFn);
+      } else {
+        addTimeoutFn();
+      }
     }
   };
 
