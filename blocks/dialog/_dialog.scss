@@ -1,6 +1,5 @@
 @import "../global/global";
 
-
 // Dialog
 //
 // Markup:
@@ -28,7 +27,7 @@
 //      </form>
 //      <div class="ring-dialog__footer">
 //        <div class="ring-dialog__footer__spacer"></div>
-//        <button class="ring-dialog__footer__item ring-btn ring-btn_blue">Create space</button>
+//        <button class="ring-dialog__footer__item_first ring-dialog__footer__item ring-btn ring-btn_blue">Create space</button>
 //        <button class="ring-dialog__footer__item ring-btn">Cancel</button>
 //      </div>
 //     </div>
@@ -49,7 +48,6 @@
   height: 100%;
 
   z-index: 1000000; // TODO proper z-index
-
 
   &.active {
     display: block;
@@ -93,9 +91,11 @@
 
 .ring-dialog__footer {
   height: $ring-unit*7;
-  border-top: 1px solid #B4B4B4;
+  padding: 0 4*$ring-unit 0 4*$ring-unit;
+
   background: #E9F8FF;
-  text-align: center;
+  border-top: 1px solid #B4B4B4;
+  text-align: left;
 }
 
 .ring-dialog__footer__spacer {
@@ -106,9 +106,9 @@
 
 .ring-dialog__footer__item {
   display: inline-block;
-  margin-left: $ring-unit*2;
+  margin-left: 12px;
 
-  &:first-child {
+  &.ring-dialog__footer__item_first {
     margin-left: 0;
   }
 }
