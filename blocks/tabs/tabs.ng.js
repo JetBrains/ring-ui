@@ -100,7 +100,10 @@
         require: '^ringTabs',
         restrict: 'E',
         transclude: true,
-        scope: { title: '@' },
+        scope: {
+          title: '@',
+          counter: '@'
+        },
         link: function (scope, element, attrs, tabsCtrl) {
           scope.tabId = attrs.tabId || scope.title.toLowerCase();
           tabsCtrl.addPane(scope);
