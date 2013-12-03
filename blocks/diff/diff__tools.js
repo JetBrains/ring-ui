@@ -198,26 +198,75 @@ define(['jquery'], function($) {
   diffTool.addAnimationCallback = function(el, fn, opt_context) {
     var animationEndHandler = function() {
       fn.call(opt_context);
-
-      // todo(igor.alexeenko): Implement through diffTool.getAnimationEventType
-      // as soon as it ready.
-      $(el).off('animationend', animationEndHandler);
-      $(el).off('MSAnimationEnd', animationEndHandler);
-      $(el).off('oAnimationEnd', animationEndHandler);
-      $(el).off('webkitAnimationEnd', animationEndHandler);
     };
 
-    $(el).one('animationend', animationEndHandler);
-    $(el).one('MSAnimationEnd', animationEndHandler);
-    $(el).one('oAnimationEnd', animationEndHandler);
-    $(el).one('webkitAnimationEnd', animationEndHandler);
+    var animationEventType = diffTool.getAnimationEventType_();
+    $(el).one(animationEventType, animationEndHandler);
   };
 
   /**
-   * @return {string}
+   * @return {string=}
+   * @private
    */
-  diffTool.getAnimationEventType = function() {
-    return 'animationend';
+  diffTool.getAnimationEventType_ = function() {
+    if (!diffTool.isDef(diffTool.animationProperty_)) {
+      /**
+       * @enum {string}
+       */
+      diffTool.AnimationProperty = {
+        COMMON: 'animation',
+        OPERA: '-o-animation',
+        MOZILLA: '-moz-animation',
+        WEBKIT: '-webkit-animation'
+      };
+    }
+
+    if (!diffTool.isDef(diffTool.animationEventTyoe_)) {
+      /**
+       * @enum {string}
+       */
+      diffTool.AnimationEventType = {
+        COMMON: 'animationend',
+        OPERA: 'oAnimationEnd',
+        WEBKIT: 'webkitAnimationEnd'
+      };
+    }
+
+    if (!diffTool.isDef(diffTool.animationToEventType_)) {
+      /**
+       * Lookup table of animation properties to eventTypes in causes.
+       * @type {Object}
+       * @private
+       */
+      diffTool.animationToEventType_ = diffTool.createObject(
+          diffTool.AnimationProperty.COMMON, diffTool.AnimationEventType.COMMON,
+          diffTool.AnimationProperty.OPERA, diffTool.AnimationEventType.OPERA,
+          diffTool.AnimationProperty.MOZILLA, diffTool.AnimationEventType.OPERA,
+          diffTool.AnimationProperty.WEBKIT,
+              diffTool.AnimationEventType.WEBKIT);
+    }
+
+    if (!diffTool.isDef(diffTool.animationEventType_)) {
+      var element = document.createElement('div');
+      diffTool.animationEventType_ = null;
+
+      for (var propertyID in diffTool.AnimationProperty) {
+        var currentProperty = diffTool.AnimationProperty[propertyID];
+        if (diffTool.isDef(element.style[currentProperty])) {
+          /**
+           * Event type, which is actual for current implementation
+           * of key frame animation standard.
+           * @type {diffTool.AnimationEventType}
+           * @private
+           */
+          diffTool.animationEventType_ = diffTool.animationToEventType_[
+              currentProperty];
+          break;
+        }
+      }
+    }
+
+    return diffTool.animationEventType_;
   };
 
   // todo(o0): Time to split this file and move parts to global__utils.js.
