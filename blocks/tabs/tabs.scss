@@ -16,8 +16,6 @@
 //
 // Styleguide 11.1
 
-$ring-tab-attention-color: #f50000;
-
 .ring-tabs__tabs {
   position: relative;
   margin: 13px 16px 22px 16px;
@@ -78,18 +76,11 @@ $ring-tab-attention-color: #f50000;
 
 .ring-tabs__btn__counter {
   position: relative;
-  left: 5px;
-
+  top: -5px;
   padding: 1px 2px;
   border-radius: 2px;
-
-  color: #fff;
-  background-color: $ring-link-color;
+  color: black;
   font-size: 10px;
-}
-
-.ring-tabs__btn__counter_attention {
-  background-color: $ring-tab-attention-color;
 }
 
 .ring-tabs__container {
