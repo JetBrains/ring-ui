@@ -193,10 +193,11 @@ define(['jquery'], function($) {
   /**
    * @param {Element} el
    * @param {function} fn
+   * @param {Object=} opt_context
    */
-  diffTool.addAnimationCallback = function(el, fn) {
+  diffTool.addAnimationCallback = function(el, fn, opt_context) {
     var animationEndHandler = function() {
-      fn();
+      fn.call(opt_context);
 
       // todo(igor.alexeenko): Implement through diffTool.getAnimationEventType
       // as soon as it ready.
@@ -216,9 +217,127 @@ define(['jquery'], function($) {
    * @return {string}
    */
   diffTool.getAnimationEventType = function() {
-    // todo(igor.alexeenko): Detect in which browser user runs application
-    // and return corresponding event type.
-    return '';
+    return 'animationend';
+  };
+
+  // todo(o0): Time to split this file and move parts to global__utils.js.
+  /**
+   * Namespace.
+   */
+  diffTool.visibility = {};
+
+  /**
+   * @enum {string}
+   */
+  diffTool.visibility.VisibilityProperty = {
+    COMMON: 'hidden',
+    MOZILLA: 'mozHidden',
+    MS: 'msHidden',
+    WEBKIT: 'webkitHidden'
+  };
+
+  /**
+   * @enum {string}
+   */
+  diffTool.visibility.VisibilityChangeEventType = {
+    COMMON: 'visibilitychange',
+    MOZILLA: 'mozvisibilitychange',
+    MS: 'msvisibilitychange',
+    WEBKIT: 'webkitvisibilitychange'
+  };
+
+
+  /**
+   * @return {Object.<diffTool.visibility.VisibilityProperty,
+   *     diffTool.visibility.VisibilityChangeEventType>}
+   * @private
+   */
+  diffTool.visibility.getPropertyToEventType_ = function() {
+    if (!diffTool.isDef(diffTool.visibility.propertyToEventType_)) {
+      /**
+       * Lookup table of visibility properties to eventTypes of changing them.
+       * @type {Object.<diffTool.visibility.VisibilityProperty,
+       *     diffTool.visibility.VisibilityChangeEventType>}
+       * @private
+       */
+      diffTool.visibility.propertyToEventType_ = diffTool.createObject(
+          diffTool.visibility.VisibilityProperty.COMMON,
+              diffTool.visibility.VisibilityChangeEventType.COMMON,
+          diffTool.visibility.VisibilityProperty.MOZILLA,
+              diffTool.visibility.VisibilityChangeEventType.MOZILLA,
+          diffTool.visibility.VisibilityProperty.MS,
+              diffTool.visibility.VisibilityChangeEventType.MS,
+          diffTool.visibility.VisibilityProperty.WEBKIT,
+              diffTool.visibility.VisibilityChangeEventType.WEBKIT);
+    }
+
+    return diffTool.visibility.propertyToEventType_;
+  };
+
+  /**
+   * @return {diffTool.visibility.VisibilityProperty}
+   * @private
+   */
+  diffTool.visibility.getVisibilityProperty_ = function() {
+    if (!diffTool.isDef(diffTool.visibility.visibilityProperty_)) {
+      diffTool.visibility.visibilityProperty_ = null;
+
+      for (var propertyID in diffTool.visibility.VisibilityProperty) {
+        var currentProperty = diffTool.visibility.VisibilityProperty[
+            propertyID];
+
+        if (diffTool.isDef(document[currentProperty])) {
+          diffTool.visibility.visibilityProperty_ = currentProperty;
+          break;
+        }
+      }
+    }
+
+    return diffTool.visibility.visibilityProperty_;
+  };
+
+  /**
+   * @return {diffTool.visibility.VisibilityChangeEventType}
+   * @private
+   */
+  diffTool.visibility.getVisibilityChangeEventType_ = function() {
+    if (!diffTool.isDef(diffTool.visibility.eventType_)) {
+      var property = diffTool.visibility.getVisibilityProperty_();
+      var propertyToEventType = diffTool.visibility.getPropertyToEventType_();
+
+      diffTool.visibility.eventType_ = propertyToEventType[property];
+    }
+
+
+    return diffTool.visibility.eventType_;
+  };
+
+  /**
+   * Whether document page is visible or hidden. If browser doesn't support
+   * page visibility API, always returns true.
+   * @return {boolean}
+   */
+  diffTool.isDocumentHidden = function() {
+    var visibilityProperty = diffTool.visibility.getVisibilityProperty_();
+
+    if (visibilityProperty === null) {
+      return true;
+    }
+
+    return document[visibilityProperty];
+  };
+
+  /**
+   * Adds event listener to event of changing page visibility accordingly to
+   * current implementation of page visibility API.
+   * @param {function} fn
+   * @param {Object=} opt_ctx
+   */
+  diffTool.addDocumentVisibilityChangeCallback = function(fn, opt_ctx) {
+    var eventType = diffTool.visibility.getVisibilityChangeEventType_();
+    var callback = diffTool.bindContext(fn, opt_ctx);
+
+    $(document).on(eventType, callback);
   };
 
   return diffTool;
