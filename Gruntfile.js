@@ -92,17 +92,17 @@ module.exports = function(grunt) {
       options: {
         pretty: true
       },
-      component: {
-        options: {
-          archive: './<%= path.dist %><%= pkg.name %>-component.tar.gz'
-        },
-        files: [
-          { expand: true, cwd: '<%= path.dist %>', src: ['**']}
-        ]
-      },
+//      component: {
+//        options: {
+//          archive: './<%= path.dist %><%= pkg.name %>-component.tar.gz'
+//        },
+//        files: [
+//          { expand: true, cwd: '<%= path.dist %>', src: ['**']}
+//        ]
+//      },
       dist: {
         options: {
-          archive: './<%= path.dist %><%= pkg.name %>-<%= version %>.zip'
+          archive: '<%= pkg.name %>-<%= version %>.zip'
         },
         files: [
           { expand: true, cwd: '<%= path.dist %>', src: ['**', '!**.gz'], dest: 'ring'}
@@ -110,7 +110,7 @@ module.exports = function(grunt) {
       },
       coverage: {
         options: {
-          archive: '<%= path.dist %>coverage.zip'
+          archive: 'coverage.zip'
         },
         files: [{
           expand: true,
