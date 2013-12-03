@@ -8,7 +8,7 @@
 //    <div class="ring-dialog__container">
 //      <div class="ring-dialog__header">
 //        <span class="ring-dialog__header__title">New space</span>
-//        <span class="ring-dialog__header__close-icon ring-font-icon ring-btn_ico ring-font-icon_pencil form__control__ico"></span>
+//        <span class="ring-dialog__header__close-icon ring-font-icon ring-btn_ico ring-font-icon_remove form__control__ico"></span>
 //      </div>
 //      <form class="ring-dialog__content ring-form">
 //        <div class="ring-form__group">
@@ -134,6 +134,7 @@
   top: $ring-unit/2;
   right: $ring-unit/2;
 
+  cursor: pointer;
   color: #B4B4B4;
 
   &:hover {
