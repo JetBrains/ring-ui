@@ -224,6 +224,10 @@ $ring-btn-border-radius: 3px;
   font-size: 13px;
 }
 
+.ring-btn__dropdown-icon {
+  padding: 0 $ring-unit 0 $ring-unit;
+}
+
 .ring-btn__last-icon {
   margin-left: 4px;
 }
@@ -238,7 +242,7 @@ $ring-btn-border-radius: 3px;
 // </div>
 // <div class="ring-btn-group">
 //   <button class="ring-btn {$modifiers}">Button Element</button>
-//   <button class="ring-btn {$modifiers} ring-btn_icon"><span class="ring-font-icon ring-font-icon_caret-down"></span></button>
+//   <button class="ring-btn {$modifiers} ring-btn_icon ring-btn__dropdown-icon"><span class="ring-font-icon ring-font-icon_caret-down"></span></button>
 // </div>
 //
 // .ring-btn_primary    - Indicates that a button triggers the main action on the page. There should be only one such button per page, for example, "Create Issue".
