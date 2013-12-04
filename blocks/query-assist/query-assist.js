@@ -400,7 +400,7 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'global/glob
       output = input.substr(0, data.suggestion.completionStart) + insText + input.substr(data.suggestion.completionEnd);
 
     _doAssist(output, data.suggestion.caret, true);
-    queryModule.trigger('complete:done');
+    queryModule.trigger('complete:done', data);
   };
 
   dropdown.on('complete', _handleComplete);
