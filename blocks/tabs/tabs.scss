@@ -74,6 +74,15 @@
   background-repeat: no-repeat;
 }
 
+.ring-tabs__btn__counter {
+  position: relative;
+  top: -5px;
+  padding: 1px 2px;
+  border-radius: 2px;
+  color: black;
+  font-size: 10px;
+}
+
 .ring-tabs__container {
   border-top: 1px solid #b4b4b4;
 }

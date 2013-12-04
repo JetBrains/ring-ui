@@ -10,8 +10,8 @@ icons = [
     size: 16
   ,
     name: 'search'
-    color: '000000'
-    active: 'ff5900'
+    color: 'cccccc'
+    active: 'cccccc'
     size: 16
   ,
     name: 'ban-circle'
@@ -22,11 +22,6 @@ icons = [
     name: 'help'
     color: '3c74c2'
     active: 'ff5900'
-    size: 16
-  ,
-    name: 'search'
-    color: 'd1d1d1'
-    active: 'd1d1d1'
     size: 16
 ]
 
