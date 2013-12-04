@@ -19,7 +19,7 @@
   float: right;
 }
 
-.ring-avatar-editor:hover:not(disabled) {
+.ring-avatar-editor:hover:not(:disabled):not(.ring-avatar-editor_controlled) {
   background-color: #000;
 
   .ring-avatar-editor__ico {
