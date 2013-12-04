@@ -163,6 +163,10 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'global/glob
   var _pollCaretPosition = function () {
     var queryModule = Module.get('query');
 
+    if (!$el.is(':focus')) {
+      _stopListen();
+    }
+
     var caret = $el.caret();
     var value = $el.text().replace(/\s/g, ' ');
 
@@ -290,7 +294,7 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'global/glob
   var __getCoords = function (textPos) {
     textPos = textPos ? textPos : 1;
     var widthItemType = ($(WRAPPER_SELECTOR).outerWidth() - $(ITEM_CONTENT_SELECTOR).outerWidth()) + ITEM_CONTENT_SELECTOR_PADDING,
-      pos = $el.find('span').eq(textPos - 1).position();
+      pos = $el.find('span').eq(textPos - 1).offset();
 
     return {
       top: pos.top + CONTAINER_TOP_PADDING,

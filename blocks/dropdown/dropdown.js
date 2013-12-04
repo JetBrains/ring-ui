@@ -155,7 +155,13 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'global/glob
 
   // Using delegate because of compatibility with YouTrack's jQuery 1.5.1
   $(document).delegate('*','click.ring-dropdown', function(e) {
-    return create(null, $(e.currentTarget).closest(COMPONENT_SELECTOR));
+    var $target = $(e.currentTarget).closest(COMPONENT_SELECTOR);
+
+    if ($target.length) {
+      return create(null, $target);
+    } else {
+      return remove();
+    }
   });
 
   // Remove on resize
