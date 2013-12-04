@@ -80,7 +80,8 @@ define([
   d.DoubleEditorController.CharsClass = {
     ADDED: 'chars__added',
     DELETED: 'chars__deleted',
-    MODIFIED: 'chars__modified'
+    MODIFIED: 'chars__modified',
+    UNCHANGED: ''
   };
 
   // todo(igor.alexeenko): Check, whether old IE supports classes for VML
@@ -542,44 +543,52 @@ define([
   d.DoubleEditorController.prototype.colorizeLines_ = function() {
     var cmHelper = CodeMirrorHelper.getInstance();
 
-    this.lines_.forEach(function(chunk, index) {
-      if (!chunk.type) {
-        return;
-      }
+    var lineOriginal = 0,
+        lineModified = 0;
 
+    this.lines_.forEach(function(chunk, index) {
       var originalChunkSize = chunk.originalTo - chunk.originalFrom;
       var modifiedChunkSize = chunk.modifiedTo - chunk.modifiedFrom;
 
-      var nextChunkType = this.lines_[index + 1] ? this.lines_[index + 1].type :
-          null;
+      if (chunk.type) {
+        var nextChunkType = this.lines_[index + 1] ?
+            this.lines_[index + 1].type :
+            null;
 
-      var usedLine;
-      var lineClass;
+        var usedLine;
+        var lineClass;
+        var i;
 
-      // NB! I use post-test loop because some chunks contains only one
-      // lines and "from" and "to" numbers are equal.
-      var i = chunk.originalFrom;
-      do {
-        usedLine = (originalChunkSize === 0) ? i - 1 : i;
-        lineClass = d.DoubleEditorController.getLineClass(chunk.type, usedLine,
-            chunk.originalFrom, chunk.originalTo, nextChunkType);
+        i = chunk.originalFrom;
+        do {
+          usedLine = (originalChunkSize === 0) ? i - 1 : i;
+          lineClass = d.DoubleEditorController.getLineClass(chunk.type,
+              usedLine, chunk.originalFrom, chunk.originalTo, nextChunkType);
 
-        d.DoubleEditorController.colorizeLine(this.codeMirrorOriginal_,
-            usedLine, lineClass);
+          d.DoubleEditorController.colorizeLine(this.codeMirrorOriginal_,
+              usedLine, lineClass);
+          d.DoubleEditorController.colorizeInline(this.codeMirrorOriginal_,
+              chunk.original, lineOriginal);
 
-        i++;
-      } while (i < chunk.originalTo);
+          i++;
+        } while (i < chunk.originalTo);
 
-      i = chunk.modifiedFrom;
-      do {
-        usedLine = (modifiedChunkSize === 0) ? i - 1 : i;
-        lineClass = d.DoubleEditorController.getLineClass(chunk.type, usedLine,
-            chunk.modifiedFrom, chunk.modifiedTo, nextChunkType);
+        i = chunk.modifiedFrom;
+        do {
+          usedLine = (modifiedChunkSize === 0) ? i - 1 : i;
+          lineClass = d.DoubleEditorController.getLineClass(chunk.type,
+              usedLine, chunk.modifiedFrom, chunk.modifiedTo, nextChunkType);
 
-        d.DoubleEditorController.colorizeLine(this.codeMirrorModified_,
-            usedLine, lineClass);
-        i++;
-      } while (i < chunk.modifiedTo);
+          d.DoubleEditorController.colorizeLine(this.codeMirrorModified_,
+              usedLine, lineClass);
+          d.DoubleEditorController.colorizeInline(this.codeMirrorModified_,
+              chunk.modified, lineModified);
+          i++;
+        } while (i < chunk.modifiedTo);
+      }
+
+      lineOriginal += originalChunkSize;
+      lineModified += modifiedChunkSize;
     }, this);
 
     cmHelper.executeOperationBuffer(this.codeMirrorOriginal_);
@@ -649,9 +658,9 @@ define([
      */
     var collapsedLineTypeToClass = d.createObject(
         d.Parser.LineType.ADDED,
-        d.DoubleEditorController.LineClass.BEFORE_ADDED,
+            d.DoubleEditorController.LineClass.BEFORE_ADDED,
         d.Parser.LineType.DELETED,
-        d.DoubleEditorController.LineClass.BEFORE_DELETED);
+            d.DoubleEditorController.LineClass.BEFORE_DELETED);
 
     var normalizedType = d.Parser.normalizeType(type, usedTypes);
 
@@ -670,6 +679,39 @@ define([
     }
 
     return classes.join(' ');
+  };
+
+  /**
+   * @param {CodeMirror} editor
+   * @param {d.Parser} chunk
+   * @param {number} lineOffset
+   */
+  d.DoubleEditorController.colorizeInline = function(editor, inlineChunks,
+                                                     lineOffset) {
+    var cmHelper = CodeMirrorHelper.getInstance();
+    var typeToInlineClass = d.createObject(
+        d.Parser.LineType.ADDED, d.DoubleEditorController.CharsClass.ADDED,
+        d.Parser.LineType.DELETED, d.DoubleEditorController.CharsClass.DELETED,
+        d.Parser.LineType.INLINE, d.DoubleEditorController.CharsClass.MODIFIED,
+        d.Parser.LineType.NULL, d.DoubleEditorController.CharsClass.UNCHANGED);
+
+    inlineChunks.forEach(function(chunk) {
+      if (chunk.type) {
+        var className = typeToInlineClass[chunk.type];
+
+        cmHelper.addOperation(editor, function() {
+          editor.markText({
+            line: chunk.from.line + lineOffset,
+            ch: chunk.from['char']
+          }, {
+            line: chunk.to.line + lineOffset,
+            ch: chunk.to['char']
+          }, {
+            className: className
+          });
+        });
+      }
+    });
   };
 
   /**
