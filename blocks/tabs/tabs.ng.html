@@ -1,6 +1,8 @@
 <div class="ring-tabs" ng-class="{'ring-tabs_pointer':pointer}">
     <div class="ring-tabs__tabs" ng-if="!breadcrumb">
-        <div ng-repeat="pane in panes" ng-click="control.select(pane)" class="ring-tabs__btn"  ng-class="{active:pane.selected}">{{pane.title}}</div>
+        <div ng-repeat="pane in panes" ng-click="control.select(pane)" class="ring-tabs__btn"  ng-class="{active:pane.selected}">{{pane.title}}
+            <span class="ring-tabs__btn__counter" ng-show="pane.counter !== undefined">{{ pane.counter }}</span>
+        </div>
     </div>
     <div class="ring-breadcrumb ring-breadcrumb_small" ng-if="breadcrumb">
       <span ng-repeat="pane in panes">

@@ -323,32 +323,197 @@ define([
    * queue of keyframe animations.
    * @param {Element} el
    * @param {function} fn
+   * @param {Object=} opt_context
    */
-  d.addAnimationCallback = function(el, fn) {
+  d.addAnimationCallback = function(el, fn, opt_context) {
     var animationEndHandler = function() {
-      fn();
-
-      // todo(igor.alexeenko): Implement through d.getAnimationEventType
-      // as soon as it ready.
-      $(el).off('animationend', animationEndHandler);
-      $(el).off('MSAnimationEnd', animationEndHandler);
-      $(el).off('oAnimationEnd', animationEndHandler);
-      $(el).off('webkitAnimationEnd', animationEndHandler);
+      fn.call(opt_context);
     };
 
-    $(el).one('animationend', animationEndHandler);
-    $(el).one('MSAnimationEnd', animationEndHandler);
-    $(el).one('oAnimationEnd', animationEndHandler);
-    $(el).one('webkitAnimationEnd', animationEndHandler);
+    var animationEventType = d.getAnimationEventType_();
+    $(el).one(animationEventType, animationEndHandler);
   };
 
   /**
-   * @return {string}
+   * @return {string=}
+   * @private
    */
-  d.getAnimationEventType = function() {
-    // todo(igor.alexeenko): Detect in which browser user runs application
-    // and return corresponding event type.
-    return '';
+  d.getAnimationEventType_ = function() {
+    if (!d.isDef(d.animationProperty_)) {
+      /**
+       * @enum {string}
+       */
+      d.AnimationProperty = {
+        COMMON: 'animation',
+        OPERA: '-o-animation',
+        MOZILLA: '-moz-animation',
+        WEBKIT: '-webkit-animation'
+      };
+    }
+
+    if (!d.isDef(d.animationEventTyoe_)) {
+      /**
+       * @enum {string}
+       */
+      d.AnimationEventType = {
+        COMMON: 'animationend',
+        OPERA: 'oAnimationEnd',
+        WEBKIT: 'webkitAnimationEnd'
+      };
+    }
+
+    if (!d.isDef(d.animationToEventType_)) {
+      /**
+       * Lookup table of animation properties to eventTypes in causes.
+       * @type {Object}
+       * @private
+       */
+      d.animationToEventType_ = d.createObject(
+          d.AnimationProperty.COMMON, d.AnimationEventType.COMMON,
+          d.AnimationProperty.OPERA, d.AnimationEventType.OPERA,
+          d.AnimationProperty.MOZILLA, d.AnimationEventType.OPERA,
+          d.AnimationProperty.WEBKIT, d.AnimationEventType.WEBKIT);
+    }
+
+    if (!d.isDef(d.animationEventType_)) {
+      var element = document.createElement('div');
+      d.animationEventType_ = null;
+
+      for (var propertyID in d.AnimationProperty) {
+        var currentProperty = d.AnimationProperty[propertyID];
+        if (d.isDef(element.style[currentProperty])) {
+          /**
+           * Event type, which is actual for current implementation
+           * of key frame animation standard.
+           * @type {d.AnimationEventType}
+           * @private
+           */
+          d.animationEventType_ = d.animationToEventType_[currentProperty];
+          break;
+        }
+      }
+    }
+
+    return d.animationEventType_;
+  };
+
+  // todo(o0): Time to split this file and move parts to global__utils.js.
+  /**
+   * Namespace.
+   */
+  d.visibility = {};
+
+  /**
+   * @enum {string}
+   */
+  d.visibility.VisibilityProperty = {
+    COMMON: 'hidden',
+    MOZILLA: 'mozHidden',
+    MS: 'msHidden',
+    WEBKIT: 'webkitHidden'
+  };
+
+  /**
+   * @enum {string}
+   */
+  d.visibility.VisibilityChangeEventType = {
+    COMMON: 'visibilitychange',
+    MOZILLA: 'mozvisibilitychange',
+    MS: 'msvisibilitychange',
+    WEBKIT: 'webkitvisibilitychange'
+  };
+
+
+  /**
+   * @return {Object.<d.visibility.VisibilityProperty,
+   *     d.visibility.VisibilityChangeEventType>}
+   * @private
+   */
+  d.visibility.getPropertyToEventType_ = function() {
+    if (!d.isDef(d.visibility.propertyToEventType_)) {
+      /**
+       * Lookup table of visibility properties to eventTypes of changing them.
+       * @type {Object.<d.visibility.VisibilityProperty,
+       *     d.visibility.VisibilityChangeEventType>}
+       * @private
+       */
+      d.visibility.propertyToEventType_ = d.createObject(
+          d.visibility.VisibilityProperty.COMMON,
+              d.visibility.VisibilityChangeEventType.COMMON,
+          d.visibility.VisibilityProperty.MOZILLA,
+              d.visibility.VisibilityChangeEventType.MOZILLA,
+          d.visibility.VisibilityProperty.MS,
+              d.visibility.VisibilityChangeEventType.MS,
+          d.visibility.VisibilityProperty.WEBKIT,
+              d.visibility.VisibilityChangeEventType.WEBKIT);
+    }
+
+    return d.visibility.propertyToEventType_;
+  };
+
+  /**
+   * @return {d.visibility.VisibilityProperty}
+   * @private
+   */
+  d.visibility.getVisibilityProperty_ = function() {
+    if (!d.isDef(d.visibility.visibilityProperty_)) {
+      d.visibility.visibilityProperty_ = null;
+
+      for (var propertyID in d.visibility.VisibilityProperty) {
+        var currentProperty = d.visibility.VisibilityProperty[propertyID];
+
+        if (d.isDef(document[currentProperty])) {
+          d.visibility.visibilityProperty_ = currentProperty;
+          break;
+        }
+      }
+    }
+
+    return d.visibility.visibilityProperty_;
+  };
+
+  /**
+   * @return {d.visibility.VisibilityChangeEventType}
+   * @private
+   */
+  d.visibility.getVisibilityChangeEventType_ = function() {
+    if (!d.isDef(d.visibility.eventType_)) {
+      var property = d.visibility.getVisibilityProperty_();
+      var propertyToEventType = d.visibility.getPropertyToEventType_();
+
+      d.visibility.eventType_ = propertyToEventType[property];
+    }
+
+
+    return d.visibility.eventType_;
+  };
+
+  /**
+   * Whether document page is visible or hidden. If browser doesn't support
+   * page visibility API, always returns true.
+   * @return {boolean}
+   */
+  d.isDocumentHidden = function() {
+    var visibilityProperty = d.visibility.getVisibilityProperty_();
+
+    if (visibilityProperty === null) {
+      return true;
+    }
+
+    return document[visibilityProperty];
+  };
+
+  /**
+   * Adds event listener to event of changing page visibility accordingly to
+   * current implementation of page visibility API.
+   * @param {function} fn
+   * @param {Object=} opt_ctx
+   */
+  d.addDocumentVisibilityChangeCallback = function(fn, opt_ctx) {
+    var eventType = d.visibility.getVisibilityChangeEventType_();
+    var callback = d.bindContext(fn, opt_ctx);
+
+    $(document).on(eventType, callback);
   };
 
   // todo(igor.alexeenko): Separate.

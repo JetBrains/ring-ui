@@ -578,3 +578,87 @@ Remove all notifications
 
     var hide = ring('dropdown', 'hide');
     hide()
+
+## Alerts
+Alerts component is a way to notify user about something. There are four kinds
+of Alerts: regular notification, error, warning and success.
+
+There's an enumerable list of this types it could be accessed two ways: by
+calling method <code>getAlertTypes</code> or by accessing to static property
+<code>AlertType</code> of Alert class:
+
+    AlertType.ERROR
+    AlertType.MESSAGE
+    AlertType.SUCCESS
+    AlertType.WARNING
+
+Module automatically creates stack of notifications. The purpose of this stack
+is to manage multiple notifications. If some notifications needed to be shown,
+module will add them into a queue and show them one by one.
+
+Notifications could be added or removed.
+
+When something happens with alert, its DOM-element fires event. There are two
+kinds of events: show and hide. List of this events is also a static property
+of Alert class.
+
+    Alert.EventType.SHOW
+    Alert.EventType.HIDE
+
+Here's an example, how to manage show/hide events. Follwing example creates
+first alert and then shows second one when first hides.
+
+    var Alert = ring('alerts', 'getAlert');
+
+    var notification = ring('alerts', 'add', 'Message', Alert.AlertType.MESSAGE, 1000);
+    var callback = function() {
+      ring('alerts', 'add', 'Previous message is hidden', Alert.AlertType.MESSAGE);
+    };
+
+    $(notification.getElement()).on(Alert.EventType.HIDE, callback)
+
+### add
+Adds new notification to queue and returns its instance. Takes three arguments:
+message, type and optional lifetime.
+<div><b>message</b> <i>{string}</i> —  text, which will be shown inside notification.</div>
+<div><b>type</b> <i>{Alert.AlertType}</i> — value from enumerable list of available types of notification.
+<div><b>lifetime</b> <i>{number=}</i> — optional lifetime of notification in milliseconds. If this parameter is not passed, notification doesn't disappear, otherwise it will be hidden after defined time.</div>
+
+    var AlertType = ring('alerts', 'getAlertTypes');
+    var notification = ring('alerts', 'add', 'Hello world', AlertType.MESSAGE, 10000);
+
+Returned instance might be needed to delete notification. Also, there are some
+static properties of this class, which might be useful.
+
+It is enumerable list of kinds of alerts, which might be used as IDs of kinds
+of notification.
+
+Another static property is enum of eventTypes, which is being fired on
+notification DOM-element, when something happens. There are two types of events:
+show and hide.
+
+### getAlertTypes
+Returns list of available types of alerts.
+
+### getAlert
+Returns <code>Alert</code> class.
+
+### getAlerts
+Returns class, which manages multiple <code>Alerts</code> stacks.
+
+### remove
+Takes one argument: instance of alert or its index in alerts stack. For
+example, you could remove first notification by passing 0 to this method,
+or you could remove certain alert by passing its instance.
+
+<div><b>alert</b> <i>{Alert|number}</i> — instance or index of alert in stack.</div>
+
+    var AlertType = ring('alerts', 'getAlertTypes');
+
+    // Removal by passing instance.
+    var notification = ring('alerts', 'add', 'Notification', AlertType.MESSAGE);
+    ring.alerts('remove', notification);
+
+    // Removal by passing index of alert.
+    ring('alerts', 'add', 'Another notification', AlertType.MESSAGE);
+    ring.alerts('remove', 0);

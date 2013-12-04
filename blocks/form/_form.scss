@@ -87,6 +87,12 @@
   }
 }
 
+.ring-input_wrapper {
+  position: relative;
+  box-sizing: border-box;
+  height: 3*$ring-unit;
+}
+
 .ring-input_icon {
   position: relative;
   box-sizing: border-box;
@@ -94,9 +100,12 @@
 }
 
 .ring-input_icon + .ring-input_icon__span {
-  position: relative;
-  top: -$ring-unit * 3 - 2;
-  left: calc(100% - 20px);
+  position: absolute;
+  top: -1px;
+  // IE fix
+  top: 2px\9;
+  right: 0;
+  padding-right: 6px;
 
   color: #CCC;
   font-size: $ring-unit * 2;
@@ -108,8 +117,10 @@
 // Just change "ring-font-icon_caret-down" to your icon class.
 //
 // Markup:
-// <input class="ring-input ring-input_icon" type="text" placeholder="placeholder">
-// <span class="ring-font-icon_search ring-font-icon ring-input_icon__span"></span>
+//<div class="ring-input_wrapper">
+//   <input class="ring-input ring-input_icon" type="text" placeholder="placeholder">
+//   <span class="ring-font-icon_search ring-font-icon ring-input_icon__span"></span>
+//</div>
 //
 // Styleguide 7.3
 
@@ -195,7 +206,7 @@
 
 .ring-form__footer {
   margin-top: 3 * $ring-unit;
-  padding: 2*$ring-unit 0 2*$ring-unit 2*$ring-unit;
+  padding: 3*$ring-unit 4*$ring-unit;
   background-color: #e9f8ff;
   background-color: rgba(37, 183, 255, 0.1);
   & .ring-btn {
@@ -230,8 +241,8 @@
   width: 24px;
   opacity: 0.5;
   transition: 0.2s;
-  user-select:none;
-  border:0;
+  user-select: none;
+  border: 0;
   outline: 0;
   &:hover {
     opacity: 1;
@@ -270,15 +281,21 @@
 
 .ring-form__group {
   padding-top: $ring-unit;
-  padding-bottom: 2*$ring-unit;
+  padding-bottom: $ring-unit;
 }
 
 .ring-form__label {
-  float: left;
+  position: relative;
+  top: 0;
   display: inline;
+  float: left;
+
   height: 3 * $ring-unit;
   line-height: 3 * $ring-unit;
   vertical-align: middle;
+  & .ring-checkbox__label, & .ring-radio-btn__label {
+    top: -2px;
+  }
 }
 
 .ring-form__control {
@@ -303,7 +320,7 @@
   display: none;
 }
 
-.ring-radio-btn[type="radio"] + label {
+.ring-radio-btn[type="radio"] + label.ring-radio-btn__label {
   content: "";
   position: relative;
   display: inline-block;
@@ -318,11 +335,11 @@
   vertical-align: middle;
 }
 
-.ring-radio-btn[type="radio"] + label:hover {
+.ring-radio-btn[type="radio"] + .ring-radio-btn__label:hover {
   border: 1px solid #ff8620;
 }
 
-.ring-radio-btn[type="radio"]:checked + label:after {
+.ring-radio-btn[type="radio"]:checked + .ring-radio-btn__label:after {
   content: "";
   position: absolute;
   top: 3px;
@@ -345,28 +362,28 @@
 //  <div class="ring-form__group ring-form__group_short">
 //    <label class="ring-form__label">
 //      <input class="ring-radio-btn" type="radio" name="find-type" id="breakout-checkbox-1"/>
-//      <label for="breakout-checkbox-1"></label>
+//      <label class="ring-radio-btn__label" for="breakout-checkbox-1"></label>
 //    </label>
 //    <div class="ring-form__control">
-//      Users with same emails and similar names
+//      <label for="breakout-checkbox-1">Users with same emails and similar names</label>
 //    </div>
 //  </div>
 //  <div class="ring-form__group ring-form__group_short">
 //    <label class="ring-form__label">
 //      <input class="ring-radio-btn" type="radio" name="find-type" id="breakout-checkbox-2"/>
-//      <label for="breakout-checkbox-2"></label>
+//      <label class="ring-radio-btn__label" for="breakout-checkbox-2"></label>
 //    </label>
 //    <div class="ring-form__control">
-//      Users with same emails
+//      <label for="breakout-checkbox-2">Users with same emails</label>
 //    </div>
 //  </div>
 //  <div class="ring-form__group ring-form__group_short">
 //    <label class="ring-form__label">
-//      <input class="ring-radio-btn" type="radio" name="find-type" id="breakout-checkbox-3"/>
-//      <label for="breakout-checkbox-3"></label>
+//        <input id="short-checkbox-1" class="ring-checkbox" type="checkbox" name="example">
+//        <label class="ring-checkbox__label" for="short-checkbox-1"></label>
 //    </label>
 //    <div class="ring-form__control">
-//      Users having at least something in common
+//      <label for="breakout-checkbox-3">Users having at least something in common</label>
 //    </div>
 //  </div>
 //  <div class="ring-form__footer">
@@ -399,8 +416,10 @@
 }
 
 .ring-checkbox[type="checkbox"] + label.ring-checkbox__label {
-  content: "";
+  position: relative;
   display: inline-block;
+  content: "";
+  // IE hack
   display: none\9;
   width: 11px;
   height: 11px;
@@ -418,9 +437,9 @@
 }
 
 .ring-checkbox[type="checkbox"]:checked + label.ring-checkbox__label {
-  content: "";
   position: relative;
   display: inline-block;
+  content: "";
   width: 11px;
   height: 11px;
 
@@ -442,7 +461,7 @@
   height: 11px;
 
   font-family: 'font-icon' !important;
-  content: '\e005';
+  content: '\e005' ring-font-icon_search;
 }
 
 // Checkbox
@@ -470,9 +489,9 @@
   -webkit-appearance: none;
 }
 
-.ring-select + label {
-  content: '';
+.ring-select + label.ring-select__label {
   position: relative;
+  content: '';
   top: -16px;
   left: calc(100% - 18px);
   display: block;
@@ -484,7 +503,7 @@
   border-left: 4px solid transparent;
 }
 
-.ring-select + label {
+.ring-select + label.ring-select__label {
   border: none\9;
 }
 
@@ -498,6 +517,6 @@
 //  <option>4</option>
 //  <option>5</option>
 //</select>
-//<label for="ring-select"></label>
+//<label class="ring-select__label" for="ring-select"></label>
 //
 // Styleguide 7.8
