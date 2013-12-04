@@ -6,171 +6,82 @@ $gutter_background: rgba(249, 249, 252, 0.9);
 $gutter_border: rgba(205, 205, 205, 0.5);
 $gutter_fontcolor: #a7a7a7;
 
-$deleted_background: #ffe3e3;
-$deleted_highlight: #ffb0b0;
-$deleted_fontcolor: #630000;
+$deleted_background: #d6d6d6;
+$deleted_highlight: #909090;
 
 $newline_background: #e1ffdd;
-$newline_highlight: #b4ffaa;
-$newline_fontcolor: #0b5d00;
+$newline_highlight: #cbf4c6;
 
-.diff_singlepane {
-  background: $background;
-  border: solid 1px #cdcdcd;
-  border-radius: 3px;
-  color: #333;
-  @include ring-monospace-font;
-  font-size: 12px;
-  position: relative;
+$inline_background: #e2e6f4;
+$inline_highlighted: #ccd7f9;
+
+.ring-diff_single {
+  .CodeMirror {
+    background: $background;
+    border: solid 1px #ccc;
+    border-radius: 3px;
+    height: auto;
+
+    @include ring-monospace-font();
+  }
 }
 
-.diff__gutter,
-.diff__code {
-  border: 0;
-  border-collapse: collapse;
-  border-spacing: 0;
-  empty-cells: show;
-  width: 100%;
+.ring-diff__gutter_original,
+.ring-diff__gutter_modified {
+  width: 40px;
 }
 
-.diff__codeline td,
-.diff__gutterline td {
-  height: 1.3em;
-  padding: 0;
+.ring-diff__gutter-symbol {
+  width: 1em;
 }
 
-.diff__gutterwrap {
-  left: 0;
-  position: absolute;
-  top: 0;
-}
-
-.diff__gutter {
-  background: $gutter_background;
-  color: $gutter_fontcolor;
-  cursor: default;
-  user-select: none;
-  text-align: right;
-}
-
-.diff__gutterline td {
-  border-right: solid 1px $gutter_border;
-  padding: 0 2px;
-  width: 34px;
-}
-
-.diff__gutterline .diff__marker {
-  border-right: 0;
-  width: 18px;
-}
-
-.diff__codewrap {
-  overflow: auto;
-  width: 100%;
-}
-
-.diff__code {
-  margin-left: 100px;
-}
-
-.diff__codeline {
-  white-space: pre;
-  word-break: break-all;
-  word-wrap: normal;
-}
-
-.diff__codeline_original td,
-.diff__codeline_modified td {
-  font-weight: bold;
-}
-
-.diff__codeline_original td {
-  background: $deleted_highlight;
-  color: $deleted_fontcolor;
-}
-
-.diff__codeline_modified td {
+.ring-diff__line_added {
   background: $newline_highlight;
-  color: $newline_fontcolor;
 }
 
-.diff__codeline_inline.diff__codeline_modified td,
-.diff__codeline_inline.diff__codeline_original td {
-  font-weight: normal;
-}
-
-.diff__codeline_inline.diff__codeline_original td {
-  background: $deleted_background;
-}
-
-.diff__codeline_inline.diff__codeline_modified td {
+.ring-diff__line_added-inline {
   background: $newline_background;
 }
 
-.diff__marker {
-  text-align: center;
-}
-
-.diff__gutterline_modified .diff__marker:after {
-  content: "+";
-  color: $newline_fontcolor;
-}
-
-.diff__gutterline_original .diff__marker:after {
-  content: "-";
-  color: $deleted_fontcolor;
-}
-
-.diff__inline_modified {
-  border: solid;
-  border-width: 0 1px;
-  font-weight: bold;
-  padding: 1px 0;
-}
-
-.diff__codeline_original .diff__inline_modified,
-.diff__codeline_inline-deleted .diff__inline_modified {
+.ring-diff__line_deleted {
   background: $deleted_highlight;
-  border-color: $deleted_highlight;
 }
 
-.diff__codeline_modified .diff__inline_modified,
-.diff__codeline_inline-added .diff__inline_modified {
+.ring-diff__line_deleted-inline {
+  background: $deleted_background;
+}
+
+.ring-diff__line_inline {
+  background: $inline_background;
+}
+
+.ring-diff__change_added {
   background: $newline_highlight;
-  border-color: $newline_highlight;
+  font-weight: bold;
 }
 
-.diff__codeline_inline-deleted .diff__inline_modified {
-  text-decoration: line-through;
-}
-
-.diff__gutterline_folded td,
-.diff__codeline_folded td {
-  height: 30px;
-  padding: 0 0 6px;
+.ring-diff__change_deleted {
+  background: $deleted_highlight;
+  font-weight: bold;
 }
 
 //todo(igor.alexeenko): replace to svg file.
-.diff__gutterline_folded td:before,
-.diff__codeline_folded td:before {
+.ring-diff__line_folded:before {
    background:
     linear-gradient(-45deg, transparent 50%, $background 50%) 0 50%,
     linear-gradient(45deg, transparent 50%, $background 50%) 0 50%,
     linear-gradient(45deg, $fold_background, $fold_background);
 }
 
-.diff__gutterline_folded td:after,
-.diff__codeline_folded td:after {
+.ring-diff__line_folded:after {
   background:
     linear-gradient(-45deg, transparent 50%, $fold_background 50%) 0 50%,
     linear-gradient(45deg, transparent 50%, $fold_background 50%) 0 50%,
     linear-gradient(45deg, $background, $background);
 }
 
-.diff__gutterline_folded td:before,
-.diff__gutterline_folded td:after,
-.diff__codeline_folded td:before,
-.diff__codeline_folded td:after {
+.ring-diff__line_folded:before,
+.ring-diff__line_folded:after {
   background-repeat: repeat-x;
   background-size: 12px 12px, 12px 12px;
   content: '';
@@ -179,12 +90,4 @@ $newline_fontcolor: #0b5d00;
   margin: 0;
   padding: 0;
   width: 100%;
-}
-
-/* todo(igor.alexeenko): solid clearfix instead of this temporary solution. */
-.diff_singlepane:after,
-.diff__gutterline:after {
-  content: '';
-  display: block;
-  clear: both;
 }
