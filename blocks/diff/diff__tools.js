@@ -3,6 +3,8 @@
  * @author igor.alexeenko (Igor Alekseyenko)
  */
 
+// todo(igor.alexeenko): Get rid of jQuery.
+
 define([
   'jquery'
 ], function($) {
