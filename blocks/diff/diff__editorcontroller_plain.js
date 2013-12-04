@@ -19,16 +19,10 @@ define([
   d.inherit(d.PlainEditorController, d.EditorController);
 
   /**
-   * @type {number}
-   * @const
-   */
-  d.PlainEditorController.MAX_LINES = 15;
-
-  /**
    * @enum {string}
    */
   d.PlainEditorController.ClassName = {
-    EDITOR: 'diff__plain-editor'
+    BASE: 'ring-diff__plain-editor'
   };
 
   /**
@@ -47,7 +41,7 @@ define([
        * @private
        */
       this.editorElement_ = document.createElement('div');
-      this.editorElement_.className = d.PlainEditorController.ClassName.EDITOR;
+      this.editorElement_.className = d.PlainEditorController.ClassName.BASE;
       this.element_.appendChild(this.editorElement_);
 
       this.editor_ = new CodeMirror(this.editorElement_,
@@ -65,6 +59,13 @@ define([
       modified, diff) {
     var usedContent = diff[0].oldLines === 0 ? modified : original;
     this.editor_.setValue(usedContent);
+  };
+
+  /**
+   * @return {CodeMirror}
+   */
+  d.PlainEditorController.prototype.getCodeMirror = function() {
+    return this.editor_;
   };
 
   /**
