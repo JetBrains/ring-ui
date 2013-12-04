@@ -298,6 +298,10 @@ define([
     }
   });
 
+  // todo(igor.alexeenko): I should move this class to separate file
+  // I'll do it as soon as I realize how to get access to list of modes
+  // outside of this file.
+
   /**
    * Fired, when mode is not supported by {@link DiffTool}.
    * @param {string} message

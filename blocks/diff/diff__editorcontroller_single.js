@@ -34,9 +34,9 @@ define([
    * @enum {string}
    */
   d.SingleEditorController.Gutter = {
-    ORIGINAL: 'cm-gutter-original',
-    MODIFIED: 'cm-gutter-modified',
-    SYMBOL: 'cm-gutter-symbol'
+    ORIGINAL: 'ring-diff__gutter_original',
+    MODIFIED: 'ring-diff__gutter_modified',
+    SYMBOL: 'ring-diff__gutter-symbol'
   };
 
   /**
@@ -76,12 +76,21 @@ define([
   /**
    * @enum {string}
    */
+  d.SingleEditorController.ClassName = {
+    BASE: 'ring-diff',
+    MODIFIED: 'ring-diff_single'
+  };
+
+  /**
+   * @enum {string}
+   */
   d.SingleEditorController.LineClass = {
-    ADDED: 'cm-line-added',
-    DELETED: 'cm-line-deleted',
-    INLINE: 'cm-line-inline',
-    INLINE_ADDED: 'cm-line-inline-added',
-    INLINE_DELETED: 'cm-line-inline-deleted',
+    ADDED: 'ring-diff__line_added',
+    ADDED_INLINE: 'ring-diff__line_deleted-inline',
+    DELETED: 'ring-diff__line_deleted',
+    DELETED_INLINE: 'ring-diff__line_deleted-inline',
+    FOLDED: 'ring-diff__line_folded',
+    INLINE: 'ring-diff__line_inline',
     UNCHANGED: ''
   };
 
@@ -89,11 +98,13 @@ define([
    * @enum {string}
    */
   d.SingleEditorController.InlineClass = {
-    ADDED: 'cm-inline-change-added',
-    DELETED: 'cm-inline-change-deleted',
-    UNCHANGED: 'cm-inline-change-unchanged',
-    /** Reserve for future changes. */
-    WHITESPACE: 'cm-inline-change-whitespace'
+    ADDED: 'ring-diff__change_added',
+    DELETED: 'ring-diff__change_deleted',
+    UNCHANGED: '',
+    /**
+     * Reserve for future changes.
+     */
+    WHITESPACE: 'ring-diff__change_whitespace'
   };
 
   /**
@@ -115,11 +126,17 @@ define([
   /**
    * @override
    */
-  d.SingleEditorController.prototype.setEnabledInternal = function(
-      enabled) {
+  d.SingleEditorController.prototype.setEnabledInternal = function(enabled) {
     if (!enabled) {
       this.element_.innerHTML = '';
     }
+
+    var editorClass = [
+      d.SingleEditorController.ClassName.BASE,
+      d.SingleEditorController.ClassName.MODIFIED
+    ].join(' ');
+
+    $(this.element_).toggleClass(editorClass, enabled);
   };
 
   /**
@@ -503,13 +520,20 @@ define([
     var cmHelper = CodeMirrorHelper.getInstance();
 
     var codeTypeToLineClass = d.createObject(
-        d.SingleEditorController.CodeType.ADDED, 'added',
-        d.SingleEditorController.CodeType.ADDED_INLINE, 'inline-added',
-        d.SingleEditorController.CodeType.DELETED, 'deleted',
-        d.SingleEditorController.CodeType.DELETED_INLINE, 'inline-deleted',
-        d.SingleEditorController.CodeType.INLINE_INSERTIONS, 'inline',
-        d.SingleEditorController.CodeType.INLINE_DELETIONS, 'inline',
-        d.SingleEditorController.CodeType.UNCHANGED, '');
+        d.SingleEditorController.CodeType.ADDED,
+            d.SingleEditorController.LineClass.ADDED,
+        d.SingleEditorController.CodeType.ADDED_INLINE,
+            d.SingleEditorController.LineClass.ADDED_INLINE,
+        d.SingleEditorController.CodeType.DELETED,
+            d.SingleEditorController.LineClass.DELETED,
+        d.SingleEditorController.CodeType.DELETED_INLINE,
+            d.SingleEditorController.LineClass.DELETED_INLINE,
+        d.SingleEditorController.CodeType.INLINE_INSERTIONS,
+            d.SingleEditorController.LineClass.INLINE,
+        d.SingleEditorController.CodeType.INLINE_DELETIONS,
+            d.SingleEditorController.LineClass.INLINE,
+        d.SingleEditorController.CodeType.UNCHANGED,
+            d.SingleEditorController.LineClass.UNCHANGED);
 
     var codeTypeToGutterSymbol = d.createObject(
         d.SingleEditorController.CodeType.ADDED,
@@ -560,9 +584,12 @@ define([
         }
 
         var inlineChangeTypeToClass = d.createObject(
-            d.SingleEditorController.InlineCodeType.ADDED, 'inline-added',
-            d.SingleEditorController.InlineCodeType.DELETED, 'inline-deleted',
-            d.SingleEditorController.InlineCodeType.UNCHANGED, '');
+            d.SingleEditorController.InlineCodeType.ADDED,
+                d.SingleEditorController.InlineClass.ADDED,
+            d.SingleEditorController.InlineCodeType.DELETED,
+                d.SingleEditorController.InlineClass.DELETED,
+            d.SingleEditorController.InlineCodeType.UNCHANGED,
+                d.SingleEditorController.InlineClass.UNCHANGED);
 
         if (chunk.inlineChange) {
           var originalLineNumber = editorLine - chunkSize;
@@ -643,7 +670,7 @@ define([
     var cmHelper = CodeMirrorHelper.getInstance();
 
     var foldedLineElement = document.createElement('div');
-    foldedLineElement.className = 'folded';
+    foldedLineElement.className = d.SingleEditorController.LineClass.FOLDED;
 
     cmHelper.addOperation(editor, function() {
       editor.addLineWidget(editorLine - 1, foldedLineElement,
