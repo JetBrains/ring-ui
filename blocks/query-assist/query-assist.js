@@ -134,7 +134,7 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'global/glob
     $el.bind('keypress', function (e) {
       if (e.which === 13) {
         e.preventDefault();
-        queryModule.trigger('suggest:done');
+        queryModule.trigger('apply');
         dropdown('hide');
       }
     });
@@ -400,7 +400,7 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'global/glob
       output = input.substr(0, data.suggestion.completionStart) + insText + input.substr(data.suggestion.completionEnd);
 
     _doAssist(output, data.suggestion.caret, true);
-    queryModule.trigger('suggest:done');
+    queryModule.trigger('complete:done');
   };
 
   dropdown.on('complete', _handleComplete);
