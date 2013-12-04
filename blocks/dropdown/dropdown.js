@@ -158,11 +158,9 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'global/glob
     var $target = $(e.currentTarget).closest(COMPONENT_SELECTOR);
 
     if ($target.length) {
-      create(null, $target);
-      return;
+      return create(null, $target);
     } else {
       remove();
-      return;
     }
   });
 
