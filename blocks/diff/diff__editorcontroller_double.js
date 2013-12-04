@@ -237,7 +237,7 @@ define([
       var currentOffset = this.offsets_[i];
       var currentLine = this.lines_[i];
 
-      if (currentLine.type !== d.Parser.LineType.UNCHANGED) {
+      if (currentLine.type) {
         return currentOffset;
       }
     }
