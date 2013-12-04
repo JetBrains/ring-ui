@@ -61,12 +61,14 @@
 // NB: colours from IntelliJ IDEA default colour scheme.
 $changeset_border: #969696;
 
-$modified_background: #e9effc;
-$modified_chars: #cad8f8;
+$modified_background: #e2e6f4;
+$modified_chars: #ccd7f9;
 
 $deleted_background: #d6d6d6;
+$deleted_chars: #909090;
 
 $added_background: #c8f0c9;
+$added_chars: #cbf4c6;
 
 .CodeMirror .line__modified {
   background: $modified_background;
@@ -99,10 +101,19 @@ $added_background: #c8f0c9;
   background: $deleted_background;
 }
 
+.CodeMirror .chars__added {
+  background: $added_chars;
+  font-weight: bold;
+}
+
+.CodeMirror .chars__deleted {
+  background: $deleted_chars;
+  font-weight: bold;
+}
+
 .CodeMirror .chars__modified {
   background: $modified_chars;
   font-weight: bold;
-  padding: 2px 0;
 }
 
 .CodeMirror .line__collapsed {
