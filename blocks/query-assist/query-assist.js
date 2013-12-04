@@ -135,7 +135,8 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'global/glob
   };
 
   var _bindEvents = function ($el) {
-    var queryModule = Module.get('query');
+    var queryModule = Module.get('query'),
+      once = true;
 
     $el.bind('keypress', function (e) {
       if (e.which === 13) {
@@ -147,6 +148,15 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'global/glob
 
     $el.bind('focus',function () {
       _startListen();
+      // Enable highlight predefined text in Angular
+      if (once) {
+        once = false;
+        var isHighlighted = $el.find('span');
+        if (!isHighlighted.length) {
+          var textEl = $el.text();
+          _doAssist(textEl, textEl.length, true);
+        }
+      }
     }).bind('blur', function () {
         _stopListen();
       });
