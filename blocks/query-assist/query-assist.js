@@ -73,7 +73,8 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'global/glob
    */
   var init = function (config) {
     var queryModule = Module.get('query'),
-      queryConfig = new QueryConfig(config);
+      queryConfig = new QueryConfig(config),
+      text;
 
     $global = queryConfig.getDom('global');
     $el = queryConfig.getDom('el');
@@ -91,6 +92,11 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'global/glob
 
     _bindEvents($el);
     queryModule.trigger('init:done');
+
+    text = $el.text();
+    if (text.length) {
+      _doAssist(text, text.length, true);
+    }
   };
 
   /**
