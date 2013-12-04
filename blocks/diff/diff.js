@@ -186,6 +186,14 @@ define([
   };
 
   /**
+   * @param {DiffTool.Mode}
+   * @return {boolean}
+   */
+  DiffTool.prototype.hasMode = function(mode) {
+    return Boolean(this.mode_ & mode);
+  };
+
+  /**
    * @return {d.EditorController}
    */
   DiffTool.prototype.getController = function() {
@@ -210,6 +218,7 @@ define([
     }
 
     this.activateMode();
+
     this.controller_.setContent(original, modified, diff, opt_refresh);
   };
 
