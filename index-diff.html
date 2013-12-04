@@ -6,85 +6,20 @@
   <link rel="icon" type="image/x-icon" href="site/favicon.ico">
   <link rel="stylesheet" type="text/css" href="dist/ring-diff.css">
   <style type="text/css">
-    html, body {
-      height: 100%;
-      margin: 0;
-      padding: 0;
-      overflow: hidden;
-    }
+    /*html, body {*/
+      /*height: 100%;*/
+      /*margin: 0;*/
+      /*padding: 0;*/
+      /*overflow: hidden;*/
+    /*}*/
 
-    .layout {
-      bottom: 30px;
-      left: 30px;
-      top: 30px;
-      position: absolute;
-      right: 30px;
-    }
-
-    .CodeMirror {
-      border: solid 1px #ccc;
-      border-radius: 2px;
-      color: #333;
-      font-family: Menlo, "Bitstream Vera Sans Mono", monospace;
-      font-size: 12px;
-      height: auto;
-    }
-
-    .CodeMirror .deleted {
-      background: #d6d6d6;
-      font-weight: bold;
-    }
-
-    .CodeMirror .inline-deleted {
-      background: #c0c0c0;
-      font-weight: bold;
-    }
-
-    .CodeMirror .inline {
-      background: #ebeffc;
-    }
-
-    .CodeMirror .added {
-      background: #cbf4c6;
-      font-weight: bold;
-    }
-
-    .CodeMirror .inline-added {
-      background: #eafae8;
-      font-weight: bold;
-    }
-
-    .CodeMirror .folded {
-      height: 1em;
-      position: relative;
-    }
-
-    .CodeMirror .folded:after {
-      border-top: double 3px #eee;
-      content: '';
-      left: 0;
-      position: absolute;
-      right: 0;
-      top: 0.5em;
-    }
-
-    .CodeMirror .line-inline {
-      background: #c0cdda;
-      font-weight: bold;
-    }
-
-    .CodeMirror-gutter.cm-gutter-original,
-    .CodeMirror-gutter.cm-gutter-modified {
-      width: 40px;
-    }
-
-    .CodeMirror-gutter.cm-gutter-symbol {
-      width: 1em;
-    }
-
-    .diff__plain-editor .CodeMirror {
-      height: 300px;
-    }
+    /*.layout {*/
+      /*bottom: 30px;*/
+      /*left: 30px;*/
+      /*top: 30px;*/
+      /*position: absolute;*/
+      /*right: 30px;*/
+    /*}*/
   </style>
   <script src="components/jquery/jquery.js"></script>
   <script src="components/requirejs/require.js"></script>
@@ -126,7 +61,7 @@
        * @type {DiffTool}
        */
       console.time('invoke diff');
-      var diffTool = ring('diff').invoke('doublePaneDiff',
+      var diffTool = ring('diff').invoke('singlePaneDiff',
           document.querySelector('.layout'),
           original[0],
           modified[0],
