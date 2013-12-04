@@ -37,9 +37,9 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'global/glob
       ITEM_SELECTOR: '.ring-query-el',
       ITEM_CONTENT_SELECTOR: '.ring-dropdown__item__content',
       ITEM_CONTENT_SELECTOR_PADDING: 8,
-      MIN_LEFT_PADDING: 24,
-      MIN_RIGHT_PADDING: 16,
-      CONTAINER_TOP_PADDING: 19,
+      MIN_LEFT_PADDING: 32,
+      MIN_RIGHT_PADDING: 32,
+      CONTAINER_TOP_PADDING: 21,
       global: window
     };
 
@@ -288,18 +288,24 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'global/glob
 
   /**
    * get caret coords in abs value
-   * @ToDo
-   * fix left rare error
    */
   var __getCoords = function (textPos) {
-    textPos = textPos ? textPos : 1;
-    var widthItemType = ($(WRAPPER_SELECTOR).outerWidth() - $(ITEM_CONTENT_SELECTOR).outerWidth()) + ITEM_CONTENT_SELECTOR_PADDING,
-      pos = $el.find('span').eq(textPos - 1).offset();
+    textPos = textPos || 1;
 
-    return {
-      top: pos.top + CONTAINER_TOP_PADDING,
-      left: pos.left - widthItemType
-    };
+    var widthItemType = ($(WRAPPER_SELECTOR).outerWidth() - $(ITEM_CONTENT_SELECTOR).outerWidth()) + ITEM_CONTENT_SELECTOR_PADDING,
+      caretPos = $el.find('span').eq(textPos - 1).offset();
+
+    caretPos.top += CONTAINER_TOP_PADDING;
+    caretPos.left -= widthItemType;
+
+    if ((caretPos.left) < MIN_LEFT_PADDING) {
+      caretPos.left = MIN_LEFT_PADDING;
+    }
+
+    if (caretPos.left > $global.width() - ($(WRAPPER_SELECTOR).offset().left + $(WRAPPER_SELECTOR).outerWidth())) {
+      caretPos.left = $global.width() - MIN_RIGHT_PADDING - $(WRAPPER_SELECTOR).outerWidth() - 2;
+    }
+    return caretPos;
   };
 
   /**
