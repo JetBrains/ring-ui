@@ -6,20 +6,20 @@
   <link rel="icon" type="image/x-icon" href="site/favicon.ico">
   <link rel="stylesheet" type="text/css" href="dist/ring-diff.css">
   <style type="text/css">
-    html, body {
-      height: 100%;
-      margin: 0;
-      padding: 0;
-      overflow: hidden;
-    }
+    /*html, body {*/
+      /*height: 100%;*/
+      /*margin: 0;*/
+      /*padding: 0;*/
+      /*overflow: hidden;*/
+    /*}*/
 
-    .layout {
-      bottom: 30px;
-      left: 30px;
-      top: 30px;
-      position: absolute;
-      right: 30px;
-    }
+    /*.layout {*/
+      /*bottom: 30px;*/
+      /*left: 30px;*/
+      /*top: 30px;*/
+      /*position: absolute;*/
+      /*right: 30px;*/
+    /*}*/
   </style>
   <script src="components/jquery/jquery.js"></script>
   <script src="components/requirejs/require.js"></script>
@@ -61,7 +61,7 @@
        * @type {DiffTool}
        */
       console.time('invoke diff');
-      var diffTool = ring('diff').invoke('doublePaneDiff',
+      var diffTool = ring('diff').invoke('singlePaneDiff',
           document.querySelector('.layout'),
           original[0],
           modified[0],
