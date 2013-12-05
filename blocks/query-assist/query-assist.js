@@ -37,9 +37,9 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'global/glob
       ITEM_SELECTOR: '.ring-query-el',
       ITEM_CONTENT_SELECTOR: '.ring-dropdown__item__content',
       ITEM_CONTENT_SELECTOR_PADDING: 8,
-      MIN_LEFT_PADDING: 24,
-      MIN_RIGHT_PADDING: 16,
-      CONTAINER_TOP_PADDING: 19,
+      MIN_LEFT_PADDING: 32,
+      MIN_RIGHT_PADDING: 32,
+      CONTAINER_TOP_PADDING: 21,
       global: window
     };
 
@@ -73,7 +73,8 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'global/glob
    */
   var init = function (config) {
     var queryModule = Module.get('query'),
-      queryConfig = new QueryConfig(config);
+      queryConfig = new QueryConfig(config),
+      text;
 
     $global = queryConfig.getDom('global');
     $el = queryConfig.getDom('el');
@@ -91,6 +92,11 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'global/glob
 
     _bindEvents($el);
     queryModule.trigger('init:done');
+
+    text = $el.text();
+    if (text.length) {
+      _doAssist(text, text.length, true);
+    }
   };
 
   /**
@@ -129,18 +135,28 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'global/glob
   };
 
   var _bindEvents = function ($el) {
-    var queryModule = Module.get('query');
+    var queryModule = Module.get('query'),
+      once = true;
 
     $el.bind('keypress', function (e) {
       if (e.which === 13) {
         e.preventDefault();
-        queryModule.trigger('suggest:done');
+        queryModule.trigger('apply');
         dropdown('hide');
       }
     });
 
     $el.bind('focus',function () {
       _startListen();
+      // Enable highlight predefined text in Angular
+      if (once) {
+        once = false;
+        var isHighlighted = $el.find('span');
+        if (!isHighlighted.length) {
+          var textEl = $el.text();
+          _doAssist(textEl, textEl.length, true);
+        }
+      }
     }).bind('blur', function () {
         _stopListen();
       });
@@ -288,18 +304,30 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'global/glob
 
   /**
    * get caret coords in abs value
-   * @ToDo
-   * fix left rare error
    */
   var __getCoords = function (textPos) {
-    textPos = textPos ? textPos : 1;
-    var widthItemType = ($(WRAPPER_SELECTOR).outerWidth() - $(ITEM_CONTENT_SELECTOR).outerWidth()) + ITEM_CONTENT_SELECTOR_PADDING,
-      pos = $el.find('span').eq(textPos - 1).offset();
+    textPos = textPos || 1;
 
-    return {
-      top: pos.top + CONTAINER_TOP_PADDING,
-      left: pos.left - widthItemType
-    };
+    var itemWidth = $(ITEM_CONTENT_SELECTOR).outerWidth(),
+      caretPos = $el.find('span').eq(textPos - 1).offset(),
+      globalWidth = $global.width(),
+      wrapper = $(WRAPPER_SELECTOR),
+      widthItemType = (wrapper.outerWidth() - itemWidth) + ITEM_CONTENT_SELECTOR_PADDING;
+
+    // Omit under $el
+    caretPos.top += CONTAINER_TOP_PADDING;
+    // Follow caret position
+    caretPos.left -= widthItemType;
+
+    // Left edge
+    if ((caretPos.left) < MIN_LEFT_PADDING) {
+      caretPos.left = MIN_LEFT_PADDING;
+    }
+    // Right edge
+    if (caretPos.left > globalWidth - (wrapper.offset().left + wrapper.outerWidth())) {
+      caretPos.left = globalWidth - MIN_RIGHT_PADDING - wrapper.outerWidth() - 2;
+    }
+    return caretPos;
   };
 
   /**
@@ -388,7 +416,7 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'global/glob
       output = input.substr(0, data.suggestion.completionStart) + insText + input.substr(data.suggestion.completionEnd);
 
     _doAssist(output, data.suggestion.caret, true);
-    queryModule.trigger('suggest:done');
+    queryModule.trigger('complete:done', data);
   };
 
   dropdown.on('complete', _handleComplete);
