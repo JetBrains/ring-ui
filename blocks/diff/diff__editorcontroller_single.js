@@ -27,7 +27,7 @@ define([
    * @type {string}
    * @const
    */
-  d.SingleEditorController.EDITOR_MODE = 'background';
+  d.SingleEditorController.EDITOR_MODE = 'wrap';
 
   /**
    * {@link CodeMirror} gutters' IDs.
@@ -565,22 +565,26 @@ define([
       case d.SingleEditorController.CodeType.DELETED:
       case d.SingleEditorController.CodeType.DELETED_INLINE:
       case d.SingleEditorController.CodeType.INLINE_DELETIONS:
-        originalSize = chunk.rangeOriginal.to - chunk.rangeOriginal.from;
+        originalSize = d.clamp(
+            chunk.rangeOriginal.to - chunk.rangeOriginal.from - 1, 1, Infinity);
         chunkSize += originalSize;
         break;
 
       case d.SingleEditorController.CodeType.ADDED:
       case d.SingleEditorController.CodeType.ADDED_INLINE:
       case d.SingleEditorController.CodeType.INLINE_INSERTIONS:
-        modifiedSize = chunk.rangeModified.to - chunk.rangeModified.from;
+        modifiedSize = d.clamp(
+            chunk.rangeModified.to - chunk.rangeModified.from - 1, 1, Infinity);
         chunkSize += modifiedSize;
         break;
       }
 
       if (chunk.codeType !== d.SingleEditorController.CodeType.FOLDED) {
-        for (var i = 0; i < chunkSize; i++, editorLine++) {
+        for (var i = 0; i < chunkSize; i++) {
           d.SingleEditorController.highlightLine(editor, editorLine,
               lineClassName, lineGutterSymbol, i, chunk);
+
+          editorLine++;
         }
 
         var inlineChangeTypeToClass = d.createObject(
@@ -611,6 +615,7 @@ define([
 
       } else {
         d.SingleEditorController.addFoldedLine(editor, editorLine);
+        editorLine++;
       }
     });
 
