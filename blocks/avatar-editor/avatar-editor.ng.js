@@ -3,7 +3,7 @@
 
   angular.module("Ring.avatar-editor", []).
   /**
-   * <avatar-editor ng-model="entity.iconUrl" on-select="uploadFile(name, data)"></avatar-editor>
+   * <avatar-editor ng-model="entity.iconUrl" on-select="uploadFile(name, data)" default="default-picture-uri" controls="editor"></avatar-editor>
    *
    * Input to select small images for later upload as DataURI. On-select attribute gets filename as <code>name</code>
    * and DataURIed file content as <code>data</code>.
@@ -15,13 +15,19 @@
           restrict: "E",
           scope: {
             model: "=ngModel",
-            onSelect: "&onSelect"
+            onSelect: "&",
+            controls: "=?",
+            "default": "@"
           },
           templateUrl: "avatar-editor/avatar-editor.ng.html",
-          controller: ["$scope", function ($scope) {
+          controller: ["$scope", "$attrs", function ($scope, $attrs) {
             var ctrl = this;
             var fileInput, ngModelCtrl;
             var alert = $injector.has("alert") ? $injector.get("alert") : {error: angular.noop};
+
+            if ("controls" in $attrs) {
+              $scope.controlled = true;
+            }
 
             ctrl.setNgModelCtrl = function (ngModel) {
               ngModelCtrl = ngModel;
@@ -63,11 +69,25 @@
               });
             };
 
-            $scope.showFileDialog = function () {
+            $scope.controls = {};
+
+            $scope.controls.select = function () {
               if (!FileReader) {
                 alert.error("Sorry, your browser doesn't support File API");
               } else {
                 fileInput.click();
+              }
+            };
+
+            $scope.controls.remove = function () {
+              var data = "";
+              var result = $scope.onSelect({name: data, data: data});
+              if (result && result.then) {
+                result.then(function () {
+                  $scope.model = data;
+                });
+              } else if (result !== false) {
+                $scope.model = data;
               }
             };
           }],

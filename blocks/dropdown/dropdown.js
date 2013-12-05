@@ -160,7 +160,7 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'global/glob
     if ($target.length) {
       return create(null, $target);
     } else {
-      return remove();
+      remove();
     }
   });
 
