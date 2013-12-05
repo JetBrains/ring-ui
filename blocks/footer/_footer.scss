@@ -7,7 +7,7 @@
   padding-top: $ring-unit*2;
   border-top: 1px solid #e5e5e5;
 
-  color: #6e6e6e;
+  color: #6E6E6E;
   text-align: center;
   font-size: 11px !important;
   @include ring-font();
@@ -19,7 +19,7 @@
 
   &.ring-footer_gray {
     margin: $ring-unit*5 0 0 0;
-    background-color: #f0f0f0;
+    background-color: #F0F0F0;
   }
 }
 
