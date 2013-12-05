@@ -86,7 +86,7 @@ define([
    */
   d.SingleEditorController.LineClass = {
     ADDED: 'ring-diff__line_added',
-    ADDED_INLINE: 'ring-diff__line_deleted-inline',
+    ADDED_INLINE: 'ring-diff__line_added-inline',
     DELETED: 'ring-diff__line_deleted',
     DELETED_INLINE: 'ring-diff__line_deleted-inline',
     FOLDED: 'ring-diff__line_folded',
