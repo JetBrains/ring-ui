@@ -69,7 +69,7 @@ define([
    * @const
    * @type {RegExp}
    */
-  d.Parser.LineRegex = /^.*(\r\n|\r|\n)/mg;
+  d.Parser.LineRegex = /^.*(\r\n|\r|\n|$)/mg;
 
   /**
    * @typedef {d.ParserSinglePane.Buffer|Object}
