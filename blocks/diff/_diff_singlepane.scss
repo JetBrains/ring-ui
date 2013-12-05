@@ -37,6 +37,7 @@ $inline_highlighted: #ccd7f9;
 
 .ring-diff__line_added {
   background: $newline_highlight;
+  font-weight: bold;
 }
 
 .ring-diff__line_added-inline {
@@ -45,6 +46,7 @@ $inline_highlighted: #ccd7f9;
 
 .ring-diff__line_deleted {
   background: $deleted_highlight;
+  font-weight: bold;
 }
 
 .ring-diff__line_deleted-inline {
