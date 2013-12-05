@@ -1,82 +1,76 @@
-define(['global/global', 'chai', 'diff/diff',
-  'diff/diff__tools', 'diff/diff__editorcontroller'], function(ring, chai) {
+define([
+  'global/global',
+  'chai',
+  'diff/diff',
+  'diff/diff__tools',
+  'diff/diff__editorcontroller'
+], function(ring, chai) {
   'use strict';
 
   var expect = chai.expect;
 
-  describe('diffTool.EditorController base functionality', function() {
-    var diffTool = ring('diff').invoke('getDiffToolUtils');
-    var diffToolEditorController = diffTool.EditorController;
+  describe('d.EditorController base functionality', function() {
+    var d = ring('diff').invoke('getDiffToolUtils');
+    var dEditorController = d.EditorController;
 
-    it('diffTool.EditorController loads from ring module', function() {
-      expect(diffTool).to.be.an('object');
-      expect(diffToolEditorController).to.be.a('function');
+    it('d.EditorController loads from ring module', function() {
+      expect(d).to.be.an('object');
+      expect(dEditorController).to.be.a('function');
     });
   });
 
-  describe('diffTool.EditorController constructor', function() {
-    var diffTool = ring('diff').invoke('getDiffToolUtils');
+  describe('d.EditorController constructor', function() {
+    var d = ring('diff').invoke('getDiffToolUtils');
 
-    it('diffTool.EditorController creates new instance', function() {
-      var diffToolInstance = new diffTool.EditorController();
+    it('d.EditorController creates new instance', function() {
+      var dInstance = new d.EditorController();
 
-      expect(diffToolInstance).to.be.an.instanceof(diffTool.EditorController);
-      expect(diffToolInstance.enabled_).to.equal(false);
-      expect(diffToolInstance.editable_).to.equal(true);
+      expect(dInstance).to.be.an.instanceof(d.EditorController);
+      expect(dInstance.enabled_).to.equal(false);
     });
 
-    it('diffTool.EditorController creates new instance with ' +
+    it('d.EditorController creates new instance with ' +
         'overridden parameter', function() {
       var element = document.createElement('div');
-      var diffToolInstance = new diffTool.EditorController(element, true);
-      expect(diffToolInstance.element_).to.equal(element);
-      expect(diffToolInstance.editable_).to.equal(true);
+      var dInstance = new d.EditorController(element, true);
+      expect(dInstance.element_).to.equal(element);
     });
   });
 
-  describe('diffTool.Editor controller setters and getters', function() {
-    it('diffTool.EditorController.setEditable()/' +
-        'diffTool.EditorController.isEditable()', function() {
-      var diffTool = ring('diff').invoke('getDiffToolUtils');
-      var diffToolInstance = new diffTool.EditorController();
+  describe('d.Editor controller setters and getters', function() {
+    it('d.EditorController.setContent()', function() {
+      var d = ring('diff').invoke('getDiffToolUtils');
+      var dInstance = new d.EditorController();
+      dInstance.setEnabled(true);
 
-      expect(diffToolInstance.isEditable()).to.equal(true);
-      diffToolInstance.setEditable(false);
-      expect(diffToolInstance.isEditable()).to.equal(false);
+      expect(dInstance.contentOriginal_).to.be.an('undefined');
+      expect(dInstance.contentModified_).to.be.an('undefined');
+
+      dInstance.setContent('original', 'modified');
+
+      expect(dInstance.contentOriginal_).to.equal('original');
+      expect(dInstance.contentModified_).to.equal('modified');
     });
 
-    it('diffTool.EditorController.setContent()', function() {
-      var diffTool = ring('diff').invoke('getDiffToolUtils');
-      var diffToolInstance = new diffTool.EditorController();
-      diffToolInstance.setEnabled(true);
-
-      expect(diffToolInstance.contentOriginal_).to.be.an('undefined');
-      expect(diffToolInstance.contentModified_).to.be.an('undefined');
-
-      diffToolInstance.setContent('original', 'modified');
-
-      expect(diffToolInstance.contentOriginal_).to.equal('original');
-      expect(diffToolInstance.contentModified_).to.equal('modified');
-    });
-
-    it('diffTool.EditorController.setContent() does not work ' +
+    it('d.EditorController.setContent() does not work ' +
         'if element is disabled', function() {
-      var diffTool = ring('diff').invoke('getDiffToolUtils');
-      var diffToolInstance = new diffTool.EditorController();
+      var d = ring('diff').invoke('getDiffToolUtils');
+      var dInstance = new d.EditorController();
 
-      diffToolInstance.setContent('original', 'modified');
+      var setContentFn = function() {
+        dInstance.setContent('original', 'modified')
+      };
 
-      expect(diffToolInstance.contentOriginal_).to.be.an('undefined');
-      expect(diffToolInstance.contentModified_).to.be.an('undefined');
+      expect(setContentFn).to.throw(Error);
     });
 
-    it('diffTool.EditorController.setEnabled()', function() {
-      var diffTool = ring('diff').invoke('getDiffToolUtils');
-      var diffToolInstance = new diffTool.EditorController();
+    it('d.EditorController.setEnabled()', function() {
+      var d = ring('diff').invoke('getDiffToolUtils');
+      var dInstance = new d.EditorController();
 
-      expect(diffToolInstance.enabled_).to.equal(false);
-      diffToolInstance.setEnabled(true);
-      expect(diffToolInstance.enabled_).to.equal(true);
+      expect(dInstance.enabled_).to.equal(false);
+      dInstance.setEnabled(true);
+      expect(dInstance.enabled_).to.equal(true);
     });
   });
 });
