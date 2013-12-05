@@ -1,5 +1,6 @@
-<div class="ring-avatar-editor">
+<div class="ring-avatar-editor" ng-class="{'ring-avatar-editor_controlled': controlled}">
     <span class="ring-btn_ico ring-font-icon ring-font-icon_pencil ring-avatar-editor__ico"></span>
-    <img class="ring-avatar-editor__img" ng-src="{{ model }}" ng-click="showFileDialog()">
+    <img class="ring-avatar-editor__img" ng-src="{{ model }}" ng-show="model" ng-click="controls.select()">
+    <img class="ring-avatar-editor__img" ng-src="{{ default }}" ng-show="!model && default" ng-click="controls.select()">
     <input class="ring-avatar-editor__file-input" type="file" accept="image/*">
 </div>
