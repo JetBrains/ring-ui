@@ -211,6 +211,10 @@ define([
     var GAP = 50;
     var firstChangedOffset = this.getFirstChanged_();
 
+    if (!firstChangedOffset) {
+      return;
+    }
+
     var firstChangedIsInViewport = (
         d.DoubleEditorController.isInEditorViewport(
             firstChangedOffset.originalFrom, firstChangedOffset.modifiedFrom,
