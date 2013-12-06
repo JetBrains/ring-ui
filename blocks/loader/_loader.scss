@@ -17,25 +17,27 @@
 
 @keyframes colors {
   0% {
-    border-left-color: #ff0000;
+    border-left-color: #F00;
   }
 
   20% {
-    border-left-color: #ff9800;
+    border-left-color: #FF9800;
   }
 
   40% {
-    border-left-color: #ffff00;
+    border-left-color: #FF0;
   }
+
   60% {
-    border-left-color: green;
+    border-left-color: #008000;
   }
+
   80% {
-    border-left-color: blue;
+    border-left-color: #00F;
   }
 
   100% {
-    border-left-color: magenta;
+    border-left-color: #F0F;
   }
 }
 
