@@ -27,6 +27,13 @@ $inline_highlighted: #ccd7f9;
 }
 
 .ring-diff__gutter_original,
+.ring-diff__gutter_modified,
+.ring-diff__gutter_symbol {
+  background: $gutter_background;
+  color: $gutter_fontcolor;
+}
+
+.ring-diff__gutter_original,
 .ring-diff__gutter_modified {
   width: 40px;
 }
