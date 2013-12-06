@@ -19,29 +19,29 @@
   margin: 0;
   padding-left: $ring-unit / 2;
   padding-right: $ring-unit/ 2;
-  border: 1px solid #CCC;
-  background-color: #FFF;
+  border: 1px solid #cccccc;
+  background-color: #fff;
 
   @include ring-font;
   font-size: 13px;
   line-height: 20px;
 
   &:active, &:focus, .ring-input_active, .ring-input_focus {
-    border: 1px solid #25B7FF;
+    border: 1px solid #25b7ff;
     outline: 0;
   }
 
   &:disabled, .ring-input_disabled {
-    border: 1px solid #DEDEDE;
-    background-color: #F8F8F8;
+    border: 1px solid #dedede;
+    background-color: #f8f8f8;
   }
 
   &.ring-input_correct {
-    border: 1px solid #84AB28;
+    border: 1px solid #84ab28;
   }
 
   &.ring-input_error {
-    border: 1px solid #F00;
+    border: 1px solid #ff0000;
   }
 
   &.ring-input_long {
@@ -65,8 +65,8 @@
 
   border-radius: 3px;
 
-  background: #F00;
-  color: #FFF;
+  background: red;
+  color: white;
 
   @include ring-font;
   font-size: 13px;
@@ -177,7 +177,7 @@
 
 .ring-form_border {
   width: 50*$ring-unit;
-  border: 1px solid #CCC;
+  border: 1px solid #cccccc;
   border-radius: 2px;
 }
 
@@ -185,13 +185,11 @@
   & .ring-form__label {
     float: none;
   }
-
   & .ring-form__control {
     & .ring-input {
       width: 100% !important;
       box-sizing: border-box;
     }
-
     margin-left: 0;
     width: 42 * $ring-unit;
   }
@@ -209,9 +207,8 @@
 .ring-form__footer {
   margin-top: 3 * $ring-unit;
   padding: 2*$ring-unit 0 2*$ring-unit 2*$ring-unit;
-  background-color: #E9F8FF;
+  background-color: #e9f8ff;
   background-color: rgba(37, 183, 255, 0.1);
-
   & .ring-btn {
     margin-right: 2*$ring-unit;
   }
@@ -258,7 +255,7 @@
 }
 
 .ring-form__footer_black {
-  border: 1px solid #000;
+  border: 1px solid #000000;
 }
 
 .ring-form__summary {
@@ -266,7 +263,7 @@
   @include ring-font;
   font-size: 13px;
   text-align: center;
-  color: #888;
+  color: #888888;
 }
 
 .ring-form__title-img {
@@ -292,11 +289,10 @@
   top: 0;
   display: inline;
   float: left;
-  height: 3 * $ring-unit;
 
+  height: 3 * $ring-unit;
   line-height: 3 * $ring-unit;
   vertical-align: middle;
-
   & .ring-checkbox__label, & .ring-radio-btn__label {
     top: -2px;
   }
@@ -334,13 +330,13 @@
   cursor: pointer;
   border: 1px solid rgba(0, 0, 0, 0.3);
   border-radius: 50%;
-  background: #FFF;
+  background: #fff;
   line-height: $ring-unit * 3;
   vertical-align: middle;
 }
 
 .ring-radio-btn[type="radio"] + .ring-radio-btn__label:hover {
-  border: 1px solid #FF8620;
+  border: 1px solid #ff8620;
 }
 
 .ring-radio-btn[type="radio"]:checked + .ring-radio-btn__label:after {
@@ -354,7 +350,7 @@
 
   opacity: 1;
   border-radius: 50%;
-  background-color: #25B7FF;
+  background-color: #25b7ff;
 }
 
 // Form for key-value data
@@ -429,15 +425,14 @@
   height: 11px;
 
   cursor: pointer;
-  border: 1px solid #CCC;
+  border: 1px solid #CCCCCC;
   border-radius: 2px;
   background: transparent;
   user-select: none;
   line-height: $ring-unit * 3;
   vertical-align: middle;
-
   &:hover {
-    border: 1px solid #FF8620;
+    border: 1px solid #ff8620;
   }
 }
 
@@ -452,7 +447,7 @@
 
   line-height: normal;
   cursor: pointer;
-  border: 1px solid #25B7FF;
+  border: 1px solid #25b7ff;
   border-radius: 2px;
   background: transparent;
 }
@@ -502,7 +497,7 @@
   display: block;
   width: 0;
   height: 0;
-  border-top: 4px solid #1A1A1A;
+  border-top: 4px solid #1a1a1a;
   border-right: 4px solid transparent;
   border-bottom: 4px solid transparent;
   border-left: 4px solid transparent;
