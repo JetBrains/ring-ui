@@ -34,8 +34,8 @@
   content: '';
   transform: rotate(45deg);
   cursor: default;
-  background-color: #f0f0f0;
-  box-shadow: inset 1px 1px 0 0 #cbcbcb;
+  background-color: #F0F0F0;
+  box-shadow: inset 1px 1px 0 0 #CBCBCB;
 }
 
 .ring-tabs__btn {
@@ -45,7 +45,7 @@
   padding: 0 $ring-unit * 2;
   border-top: 1px solid transparent;
 
-  color: #1866c5;
+  color: #1866C5;
   font-size: 13px;
   @include ring-font;
 
@@ -53,19 +53,19 @@
 }
 
 .ring-tabs__btn_active, .ring-tabs__tabs > .active {
-  $border-color: #b4b4b4;
-  $gradient-color: #dcdcdc;
+  $border-color: #B4B4B4;
+  $gradient-color: #DCDCDC;
 
   position: relative;
   display: inline-block;
 
-  color: #1a1a1a;
+  color: #1A1A1A;
   outline: 0;
 
   border-top-color: $border-color;
   border-radius: 3px;
 
-  background: #1a1a1a;
+  background: #1A1A1A;
   background: linear-gradient(to bottom, $border-color, rgba(0, 0, 0, 0)),
               linear-gradient(to top, rgba(255, 255, 255, 0), $gradient-color),
               linear-gradient(to bottom, $border-color, rgba(0, 0, 0, 0));
@@ -84,7 +84,7 @@
 }
 
 .ring-tabs__container {
-  border-top: 1px solid #b4b4b4;
+  border-top: 1px solid #B4B4B4;
 }
 
 .ring-tabs__content {
