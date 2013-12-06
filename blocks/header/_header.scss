@@ -1,6 +1,6 @@
 @import "../global/global";
 
-$ring-header-link-color:  #B4B4B4;
+$ring-header-link-color:  #b4b4b4;
 
 .ring-header {
   position: relative;
@@ -8,9 +8,9 @@ $ring-header-link-color:  #B4B4B4;
   padding: 0 $ring-unit*2;
   border-bottom: 1px solid #000;
 
-  background-color: #35444B; // IE7-
-  -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='#24353D', endColorstr='#4A565C', GradientType=0)"; // IE8
-  background-image: linear-gradient(to bottom, #24353D, #4A565C);
+  background-color: #35444b; // IE7-
+  -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='#24353d', endColorstr='#4a565c', GradientType=0)"; // IE8
+  background-image: linear-gradient(to bottom, #24353d, #4a565c);
 
   text-align: left;
   letter-spacing: -5px;
@@ -50,13 +50,13 @@ $ring-header-link-color:  #B4B4B4;
 }
 
 .ring-header__item_active {
-  color: #FFF;
+  color: #fff;
   font-weight: bold !important;
 }
 
 // Personal
 .ring-header__personal, .ring-header__more {
-  color: #B4B4B4;
+  color: #b4b4b4;
   position: absolute;
   top: 0;
   white-space: nowrap;
