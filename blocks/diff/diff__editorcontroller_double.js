@@ -117,6 +117,13 @@ define([
   };
 
   /**
+   * @enum {string}
+   */
+  d.DoubleEditorController.ClassName = {
+    MAP: 'diff__changes-map'
+  };
+
+  /**
    * Returns object which represents options for given instance of editor.
    * @static
    * @param {CodeMirror} editor
@@ -308,6 +315,15 @@ define([
 
     this.setEditorScrollHandlerEnabled_(this.codeMirrorOriginal_, true);
     this.setEditorScrollHandlerEnabled_(this.codeMirrorModified_, true);
+
+    if (!this.splitElement_) {
+      /**
+       * @type {Element}
+       * @private
+       */
+      this.splitElement_ = this.element_.querySelector(
+          d.DoubleEditorController.CssSelector.SPLITTER);
+    }
 
     this.colorizeLines_();
     this.drawConnectors_();
@@ -726,15 +742,6 @@ define([
    */
   d.DoubleEditorController.prototype.drawConnectors_ = function(
       opt_resize) {
-    if (!this.splitElement_) {
-      /**
-       * @type {Element}
-       * @private
-       */
-      this.splitElement_ = this.element_.querySelector(
-          d.DoubleEditorController.CssSelector.SPLITTER);
-    }
-
     if (!this.connectorsCanvas_) {
       this.connectorsCanvas_ = raphael(this.splitElement_, 0, 0);
       opt_resize = true;
