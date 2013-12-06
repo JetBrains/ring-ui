@@ -28,7 +28,7 @@
   font-size: 13px;
   text-align: center;
 
-  border: 1px solid #ADADAD; // IE8-
+  border: 1px solid #adadad; // IE8-
   border-color: rgba(0, 0, 0, .3);
 
   box-shadow: 0 2px 8px 0 rgba(0, 0, 0, .3);
@@ -57,7 +57,7 @@
   line-height: normal;
 
   border-radius: 3px;
-  background-color: #FFF;
+  background-color: #fff;
 
   .ring-dropdown_typed & {
     display: table;
@@ -72,7 +72,7 @@
   height: 1px;
   margin: 2px 0 5px;
 
-  background-color: #ADADAD;
+  background-color: #adadad;
 }
 
 .ring-dropdown__item {
@@ -101,8 +101,8 @@
   color: #000 !important;
 
   &:hover, &.active {
-    color: #FFF !important;
-    background-color: #25B7FF;
+    color: #fff !important;
+    background-color: #25b7ff;
 
     .ring-dropdown__highlight, .ring-dropdown__service {
       color: inherit;
@@ -171,11 +171,11 @@
 // Styleguide 5.3
 
 .ring-dropdown__highlight {
-  color: #D800FF;
+  color: #d800ff;
 }
 
 .ring-dropdown__service {
-  color: #B4B4B4;
+  color: #b4b4b4;
 }
 
 .ring-dropdown__image {
@@ -195,7 +195,7 @@
   text-transform: uppercase;
 
   color: #929292;
-  background-color: #FFF;
+  background-color: #fff;
 }
 
 .ring-dropdown__item__underline {
@@ -212,8 +212,8 @@
 
   .ring-dropdown__item_hint & {
     font-size: 11px;
-    background-color: #FFF5CD;
-    border-top: 1px solid #E5DCB8;
+    background-color: #fff5cd;
+    border-top: 1px solid #e5dcb8;
   }
 }
 
@@ -228,9 +228,9 @@
   white-space: nowrap;
 
   color: #888888;
-  background-color: #F0F0F0;
+  background-color: #f0f0f0;
 
   .ring-dropdown__item:first-child & {
-    border-top: $ring-unit / 2 solid #F0F0F0;
+    border-top: $ring-unit / 2 solid #f0f0f0;
   }
 }

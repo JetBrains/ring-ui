@@ -1,12 +1,12 @@
 @import "../global/global";
 
-$ring-menu-attention-color: #F50000;
+$ring-menu-attention-color: #f50000;
 
 .ring-menu {
   position: relative;
   width: 100%;
   height: $ring-unit*7;
-  border-bottom: 1px solid #CCC;
+  border-bottom: 1px solid #ccc;
 
   text-align: center;
   line-height: 24px;
@@ -44,13 +44,13 @@ $ring-menu-attention-color: #F50000;
   left: 0;
   right: 0;
 
-  background: #F0F0F0;
+  background: #f0f0f0;
 }
 
 .ring-menu_gradient .ring-menu__background {
   height: $ring-unit*14;
-  background-image: linear-gradient(to bottom, #E4E4E4, #FFF);
-  -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='#E4E4E4', endColorstr='#FFF',GradientType=0)";
+  background-image: linear-gradient(to bottom, #e4e4e4, #fff);
+  -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='#e4e4e4', endColorstr='#ffffff',GradientType=0)";
 }
 
 .ring-menu_noborder, .ring-menu_gradient {
@@ -109,7 +109,7 @@ $ring-menu-attention-color: #F50000;
   padding: 1px 2px;
   border-radius: 2px;
 
-  color: #FFF;
+  color: #fff;
   background-color: $ring-link-color;
   font-size: 10px;
 }
@@ -199,7 +199,7 @@ $ring-menu-attention-color: #F50000;
   height: $ring-unit*3 - 2;
   padding: 0 $ring-unit*3 0 $ring-unit/2;
   white-space: pre;
-  border: 1px solid #CBCBCB;
+  border: 1px solid #cbcbcb;
 }
 
 .ring-menu__search__glass {
