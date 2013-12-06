@@ -565,16 +565,14 @@ define([
       case d.SingleEditorController.CodeType.DELETED:
       case d.SingleEditorController.CodeType.DELETED_INLINE:
       case d.SingleEditorController.CodeType.INLINE_DELETIONS:
-        originalSize = d.clamp(
-            chunk.rangeOriginal.to - chunk.rangeOriginal.from - 1, 1, Infinity);
+        originalSize = chunk.rangeOriginal.to - chunk.rangeOriginal.from;
         chunkSize += originalSize;
         break;
 
       case d.SingleEditorController.CodeType.ADDED:
       case d.SingleEditorController.CodeType.ADDED_INLINE:
       case d.SingleEditorController.CodeType.INLINE_INSERTIONS:
-        modifiedSize = d.clamp(
-            chunk.rangeModified.to - chunk.rangeModified.from - 1, 1, Infinity);
+        modifiedSize = chunk.rangeModified.to - chunk.rangeModified.from;
         chunkSize += modifiedSize;
         break;
       }
