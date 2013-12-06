@@ -28,7 +28,7 @@ $ring-btn-border-radius: 3px;
 
 @mixin btn-mixins($opacity) {
   @include btn-box-shadow($opacity);
-  @include btn-background-image(#EBEBEB, #FFF);
+  @include btn-background-image(#ebebeb, #fff);
 }
 
 // Buttons
@@ -66,7 +66,7 @@ $ring-btn-border-radius: 3px;
 
   margin: 0;
   padding: 0 $ring-unit*2 - 1;
-  border: solid 1px #B4B4B4;
+  border: solid 1px #b4b4b4;
   border-radius: $ring-btn-border-radius;
 
   font-size: 11px;
@@ -81,19 +81,19 @@ $ring-btn-border-radius: 3px;
 
   &:hover, &.ring-btn_hover {
     @include btn-box-shadow-hover(0.8);
-    @include btn-background-image(#E1E1E1, #FFF);
+    @include btn-background-image(#e1e1e1, #fff);
   }
 
   &:active, &.ring-btn_active {
     box-shadow: inset 0 1px 0 0 #D3D3D3;
-    background-color: #E4E4E4;
+    background-color: #e4e4e4;
     background-image: none;
   }
 
   &[disabled], &.ring-btn_disabled {
     &, &:hover, &:active {
       box-shadow: inset 0 1px rgba(255, 255, 255, 0.4), inset 0 0 0 1px rgba(255, 255, 255, 0.2);
-      @include btn-background-image(#EBEBEB, #FFF);
+      @include btn-background-image(#ebebeb, #fff);
     }
   }
 
@@ -114,11 +114,11 @@ $ring-btn-border-radius: 3px;
 }
 
 @mixin btn-mixins_primary {
-  @include btn-background-image(#FF6600, #FF8620);
+  @include btn-background-image(#ff6600, #ff8620);
 }
 
 .ring-btn_primary {
-  border: solid 1px #BC5600;
+  border: solid 1px #bc5600;
   color: #fff;
   background-color: #FF8620;
   @include btn-box-shadow(0.2);
@@ -127,13 +127,13 @@ $ring-btn-border-radius: 3px;
   &:hover {
     background-color: #FF6600;
     @include btn-box-shadow-hover(0.2);
-    @include btn-background-image-hover(#ffb373, #f60 29%, #FF8620);
+    @include btn-background-image-hover(#ffb373, #f60 29%, #ff8620);
   }
 
   &:active, &.ring-btn_active {
     background-color: #FF8620;
-    @include btn-background-image-active(#F60, #FF8620);
-    box-shadow: inset 0 1px 1px 0 #D95801;
+    @include btn-background-image-active(#f60, #ff8620);
+    box-shadow: inset 0 1px 1px 0 #d95801;
   }
 
   &[disabled], &.ring-btn_disabled {
@@ -145,12 +145,12 @@ $ring-btn-border-radius: 3px;
 }
 
 @mixin btn-mixins_blue {
-  @include btn-background-image(#008FD6, #25B7FF);
+  @include btn-background-image(#008fd6, #25b7ff);
 }
 
 .ring-btn_blue {
-  border: solid 1px #0084C5;
-  color: #FFF;
+  border: solid 1px #0084c5;
+  color: #fff;
   background-color: #25B7FF;
   @include btn-box-shadow(0.2);
   @include btn-mixins_blue;
@@ -158,12 +158,12 @@ $ring-btn-border-radius: 3px;
   &:hover {
     background-color: #008FD6;
     @include btn-box-shadow-hover(0.2);
-    @include btn-background-image-hover(#64CCFF 2%, #008FD6 29%, #25B7FF);
+    @include btn-background-image-hover(#64ccff 2%, #008fd6 29%, #25b7ff);
   }
 
   &:active, &.ring-btn_active {
     background-color: #25B7FF;
-    @include btn-background-image-active(#008FD6, #25B7FF);
+    @include btn-background-image-active(#008fd6, #25b7ff);
     @include btn-box-shadow-active(rgba(0, 0, 0, .2));
   }
 
@@ -176,12 +176,12 @@ $ring-btn-border-radius: 3px;
 }
 
 @mixin btn-mixins_black {
-  @include btn-background-image(#313131, #3C3C3C);
+  @include btn-background-image(#313131, #3c3c3c);
 }
 
 .ring-btn_black {
   border: solid 1px rgba(0, 0, 0, 0.5);
-  color: #B4B4B4;
+  color: #b4b4b4;
   background-color: #3C3C3C;
   box-shadow: inset 0 1px 1px #505050;
   @include btn-mixins_black;
@@ -189,12 +189,12 @@ $ring-btn-border-radius: 3px;
   &:hover {
     background-color: #313131;
     box-shadow: inset 0 1px #505050;
-    @include btn-background-image-hover(#4A4A4A, #313131 24%, #3C3C3C);
+    @include btn-background-image-hover(#4a4a4a, #313131 24%, #3c3c3c);
   }
 
   &:active, &.ring-btn_active {
     background-color: #3C3C3C;
-    @include btn-background-image-active(#313131, #3C3C3C);
+    @include btn-background-image-active(#313131, #3c3c3c);
     @include btn-box-shadow-active(rgba(0, 0, 0, .2));
   }
 
@@ -224,7 +224,7 @@ $ring-btn-border-radius: 3px;
 }
 
 .ring-btn_danger {
-  color: #C10000;
+  color: #c10000;
 }
 
 .ring-btn_icon:not([class*="ring-menu"]) {
