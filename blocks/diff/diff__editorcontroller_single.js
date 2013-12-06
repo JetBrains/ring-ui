@@ -613,7 +613,6 @@ define([
 
       } else {
         d.SingleEditorController.addFoldedLine(editor, editorLine);
-        editorLine++;
       }
     });
 
