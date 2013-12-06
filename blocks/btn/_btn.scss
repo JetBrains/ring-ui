@@ -40,9 +40,9 @@ $ring-btn-border-radius: 3px;
 //  * $btn-border-radius: 3px;
 //
 // Markup:
-// <button style="margin: 0;" class="ring-btn {$modifiers}">Button Element</button>
-// <button style="margin: 0;" class="ring-btn ring-btn_icon {$modifiers}"><span class="ring-font-icon ring-font-icon_cog"></span></button>
-// <button style="margin: 0;" class="ring-btn {$modifiers}">Dropdown <span class="ring-font-icon ring-btn__last-icon ring-font-icon_caret-down"></span></button>
+// <button style="margin: 0; margin-right: 20px;" class="ring-btn {$modifiers}">Button Element</button>
+// <button style="margin: 0; margin-right: 20px;" class="ring-btn ring-btn_icon {$modifiers}"><span class="ring-font-icon ring-font-icon_cog"></span></button>
+// <button style="margin: 0; margin-right: 20px;" class="ring-btn {$modifiers}">Dropdown <span class="ring-font-icon ring-btn__last-icon ring-font-icon_caret-down"></span></button>
 //
 // .ring-btn_primary    - Indicates that a button triggers the main action on the page. There should be only one such button per page, for example, "Create Issue".
 // .ring-btn_blue       - Indicates that a button triggers a secondary action on the page. For example, "Save changes" in a modal dialog.
@@ -52,6 +52,7 @@ $ring-btn-border-radius: 3px;
 // :hover               - Hovered state.
 // :disabled            - Disabled state, also available as the `.ring-btn_disabled` class name.
 // :active              - Active state, also available as the `.ring-btn_active` class name.
+// :focus               - Focus state
 //
 // Styleguide 4.1
 
@@ -75,6 +76,8 @@ $ring-btn-border-radius: 3px;
   cursor: pointer;
   outline: 0;
 
+
+  z-index: -1;
   @include btn-mixins(0.8);
 
   &:hover, &.ring-btn_hover {
@@ -93,6 +96,13 @@ $ring-btn-border-radius: 3px;
       box-shadow: inset 0 1px rgba(255, 255, 255, 0.4), inset 0 0 0 1px rgba(255, 255, 255, 0.2);
       @include btn-background-image(#ebebeb, #fff);
     }
+  }
+
+  &:focus {
+    outline: 4px solid #92DBFF\9;
+    border-radius: $ring-btn-border-radius !important;
+    box-shadow: 0 0 0 4px #92dbff;
+    z-index: 2;
   }
 }
 
