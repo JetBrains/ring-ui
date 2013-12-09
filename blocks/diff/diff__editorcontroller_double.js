@@ -98,6 +98,17 @@ define([
   };
 
   /**
+   * @enum {string}
+   */
+  d.DoubleEditorController.MapClass = {
+    ADDED: 'ring-diff__map-element_added',
+    BASE: 'ring-diff__map',
+    ELEMENT_BASE: 'ring-diff__map-element',
+    DELETED: 'ring-diff__map-element_deleted',
+    MODIFIED: 'ring-diff__map-element_modified'
+  };
+
+  /**
    * IDs of templates for {@link Handlebars}.
    * @enum {string}
    */
@@ -327,6 +338,7 @@ define([
 
     this.colorizeLines_();
     this.drawConnectors_();
+    this.drawMap_();
 
     if (!this.resizeHandler_) {
       this.resizeHandler_ = d.bindContext(this.onResize_, this);
@@ -905,6 +917,110 @@ define([
     }
 
     return null;
+  };
+
+  /**
+   * Draws changes map on a scrollbar.
+   * @private
+   */
+  d.DoubleEditorController.prototype.drawMap_ = function() {
+    if (!this.mapElements_) {
+      this.mapElements_ = [];
+    }
+
+    if (!this.mapElement_) {
+      this.mapElement_ = document.createElement('div');
+      this.mapElement_.className = d.DoubleEditorController.MapClass.BASE;
+      this.splitElement_.appendChild(this.mapElement_);
+    }
+
+
+    var editor = this.getModifiedEditor();
+    var documentSize = editor.getDoc().size;
+
+    this.offsets_.forEach(function(offset, index) {
+      var currentOffset = this.lines_[index];
+      var mapElement = d.DoubleEditorController.getMapElement(currentOffset,
+          documentSize);
+
+      this.mapElements_.push(mapElement);
+
+      if (mapElement) {
+        this.mapElement_.appendChild(mapElement);
+        $(mapElement).on('click', d.bindContext(this.onMapElementClick_, this));
+      }
+    }, this);
+  };
+
+  /**
+   * @static
+   * @param {Object} offset
+   * @param {number} documentSize
+   * @return {Element?}
+   */
+  d.DoubleEditorController.getMapElement = function(offset, documentSize) {
+    var mapElement = null;
+
+    var usedType = [
+      d.Parser.LineType.ADDED,
+      d.Parser.LineType.DELETED,
+      d.Parser.LineType.INLINE
+    ];
+
+    /**
+     * Lookup table of chunk types to classes.
+     * @type {Object.<d.Parser.LineType, string>}
+     */
+    var typeToElementClass = d.createObject(
+        d.Parser.LineType.ADDED, d.DoubleEditorController.MapClass.ADDED,
+        d.Parser.LineType.DELETED, d.DoubleEditorController.MapClass.DELETED,
+        d.Parser.LineType.INLINE, d.DoubleEditorController.MapClass.MODIFIED,
+        d.Parser.LineType.INLINE | d.Parser.LineType.ADDED,
+            d.DoubleEditorController.MapClass.MODIFIED,
+        d.Parser.LineType.INLINE | d.Parser.LineType.DELETED,
+            d.DoubleEditorController.MapClass.MODIFIED);
+
+    var normalizedType = d.Parser.normalizeType(offset.type, usedType);
+
+    if (normalizedType) {
+      mapElement = document.createElement('div');
+      mapElement.className = [
+        d.DoubleEditorController.MapClass.ELEMENT_BASE,
+        typeToElementClass[normalizedType]
+      ].join(' ');
+
+      var topOffset = Math.round(offset.modifiedFrom * 100 / documentSize);
+      var bottomOffset = Math.round(offset.modifiedTo * 100 / documentSize);
+      var height = d.clamp((bottomOffset - topOffset), 1, Infinity);
+
+      mapElement.style.top = topOffset + '%';
+      mapElement.style.height = height + '%';
+    }
+
+    return mapElement;
+  };
+
+  /**
+   * @param {jQuery.Event} evt
+   * @private
+   */
+  d.DoubleEditorController.prototype.onMapElementClick_ = function(evt) {
+
+    // todo(igor.alexeenko): More solid code.
+
+    var mapElement = evt.currentTarget;
+    var changeIndex = this.mapElements_.indexOf(mapElement);
+
+    /**
+     * @type {number}
+     * @const
+     */
+    var GAP = 50;
+
+    if (changeIndex > -1) {
+      var offset = this.offsets_[changeIndex];
+      this.codeMirrorModified_.scrollTo(0, offset.modifiedFrom - GAP);
+    }
   };
 
   /**
