@@ -91,8 +91,12 @@
                     "action": true
                   },
                   {
-                    "label": "dependent",
+                    "label": "test click",
                     "url": "/rest/agile",
+                    "click": {
+                      name: "dropdown:click",
+                      data: 'Clicked!'
+                    },
                     "action": true
                   },
                   {
@@ -204,16 +208,19 @@
               }, {
                 "className": "ring-btn_primary ring-btn_icon ring-btn__dropdown-icon",
                 "type": "caret-down",
-                "items": [
-                  {
-                    "label": "Issues",
-                    "url": "/issues"
-                  },
-                  {
-                    "label": "Agile Board",
-                    "url": "/rest/agile"
-                  }
-                ]
+                "dropdown": {
+                  "type": ["typed"],
+                  "items": [
+                    {
+                      "label": "Issues",
+                      "url": "/issues"
+                    },
+                    {
+                      "label": "Agile Board",
+                      "url": "/rest/agile"
+                    }
+                  ]
+                }
               }]
             }
           },
@@ -288,6 +295,10 @@
 
       o.on('dropdown:hover', function() {
         ring('alerts').invoke('add', 'Ho-ho-hover', 'success', 10000);
+      });
+
+      o.on('dropdown:click', function(message) {
+        ring('alerts').invoke('add', message, 'success', 10000);
       });
 
       // todo(igor.alexeenko): More impressive demo. Show all possibilities.

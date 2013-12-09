@@ -16,6 +16,10 @@ define(function() {
     return str.replace(/\s+/, '') === '';
   };
 
+  utils.now = function () {
+    return +(new Date());
+  };
+
   //@exclude
   var debug = function() {
     return window.location.toString().indexOf('ring-debug') !== -1;
