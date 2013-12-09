@@ -111,8 +111,10 @@
   font-weight: bold;
 }
 
-.ring-dropdown__item ~ .ring-dropdown__item:not(.ring-dropdown__item__controls) {
-  margin-left: 2*$ring-unit;
+.ring-dropdown__prop-manager {
+  .ring-dropdown__item ~ .ring-dropdown__item:not(.ring-dropdown__item__controls) {
+    margin-left: 2*$ring-unit;
+  }
 }
 
 .ring-dropdown__item_action {
