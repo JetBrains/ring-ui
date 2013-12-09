@@ -709,5 +709,12 @@ define([
     };
   };
 
+  /**
+   * @return {CodeMirror}
+   */
+  d.SingleEditorController.prototype.getEditor = function() {
+    return this.editor_;
+  };
+
   return d.SingleEditorController;
 });
