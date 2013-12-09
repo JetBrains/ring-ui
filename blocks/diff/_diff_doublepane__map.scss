@@ -1,0 +1,29 @@
+.ring-diff__map {
+  bottom: 0;
+  position: absolute;
+  right: 100%;
+  top: 0;
+  width: 50%;
+  z-index: 1;
+}
+
+.ring-diff__map-element {
+  border: solid 1px $changeset_border;
+  cursor: pointer;
+  position: absolute;
+  right: 20px;
+  width: 100%;
+}
+
+.ring-diff__map-element_added {
+  background: $added_background;
+}
+
+.ring-diff__map-element_deleted {
+  background: $deleted_background;
+}
+
+.ring-diff__map-element_modified {
+  background: $modified_background;
+}
+
