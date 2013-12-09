@@ -934,7 +934,6 @@ define([
       this.splitElement_.appendChild(this.mapElement_);
     }
 
-
     var editor = this.getModifiedEditor();
     var documentSize = editor.getDoc().size;
 
