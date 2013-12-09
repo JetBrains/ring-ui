@@ -1,8 +1,16 @@
 <div class="ring-dropdown{{#type}} ring-dropdown_{{this}}{{/type}}">
   <div class="ring-dropdown__i">
     {{{html}}}
-    {{#items}}
-      {{#this}}
+      {{#type}}
+        {{#ifEqual this 'prop-manager'}}
+          <span class="ring-dropdown__item ring-dropdown__item__controls">
+            <span class="ring-dropdown__item__controls__title">Add to:</span>
+            <input class="ring-input">
+          </span>
+        {{/ifEqual}}
+      {{/type}}
+      {{#items}}
+        {{#this}}
         {{#if separator}}
             <span class="ring-dropdown__separator"> </span>
         {{else}}
@@ -21,6 +29,14 @@
         {{/if}}
       {{/this}}
     {{/items}}
+    {{#type}}
+      {{#ifEqual this 'prop-manager'}}
+        <span class="ring-dropdown__separator"> </span>
+        <span class="ring-dropdown__item ring-dropdown__item__controls">
+          <span class="ring-dropdown__item__controls__title">Remove to...</span>
+        </span>
+      {{/ifEqual}}
+    {{/type}}
     {{#type}}
       {{#ifEqual this 'typed'}}
         <span class="ring-dropdown__item ring-dropdown__item_hint">
