@@ -23,14 +23,15 @@
   color: #1866C5;
 
   &:hover {
-    color: #ff5a00;
+    color: #FF5A00;
     text-decoration: underline;
     border-color: #B4B4B5;
 
     .ring-tag__last-icon {
-      color: #ff5a00;
+      color: #FF5A00;
     }
   }
+
   & .ring-tag__img {
     position: relative;
     top: 2px;
@@ -44,5 +45,5 @@
   position: absolute;
   top: 5px;
   right: 6px;
-  color: #b4b4b4;
+  color: #B4B4B4;
 }
