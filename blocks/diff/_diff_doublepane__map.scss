@@ -1,11 +1,15 @@
 .ring-diff__map {
   bottom: 0;
   position: absolute;
-  right: 100%;
+  right: 0;
   top: 0;
-  width: 50%;
+  width: 10px;
   z-index: 1;
 }
+
+// todo(igor.alexeenko): Add min-height.
+// todo(igor.alexeenko): z-index: 2 for elements in new editor.
+// todo(igor.alexeenko): Get styles from upsource.
 
 .ring-diff__map-element {
   border: solid 1px $changeset_border;
