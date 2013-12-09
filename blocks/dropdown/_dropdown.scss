@@ -96,6 +96,25 @@
   }
 }
 
+.ring-dropdown__item__controls {
+  margin-bottom: $ring-unit;
+  &:last-child {
+    margin-bottom: 0;
+    & .ring-dropdown__item__controls__title {
+      font-weight: normal;
+    }
+  }
+}
+
+.ring-dropdown__item__controls__title {
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.ring-dropdown__item ~ .ring-dropdown__item:not(.ring-dropdown__item__controls) {
+  margin-left: 2*$ring-unit;
+}
+
 .ring-dropdown__item_action {
   cursor: pointer;
   color: #000 !important;
