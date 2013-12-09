@@ -76,7 +76,7 @@ $ring-btn-border-radius: 3px;
   cursor: pointer;
   outline: 0;
 
-  z-index: -1;
+  z-index: 0;
   @include btn-mixins(0.8);
 
   &:hover, &.ring-btn_hover {
@@ -98,6 +98,7 @@ $ring-btn-border-radius: 3px;
   }
 
   &:focus {
+    position: relative;
     outline: 1px dotted #666\9;
     border-radius: $ring-btn-border-radius !important;
     box-shadow: 0 0 0 4px #92DBFF;
