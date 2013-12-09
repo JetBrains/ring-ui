@@ -211,7 +211,13 @@
                   "items": [
                     {
                       "label": "Issues",
-                      "url": "/issues"
+                      "url": "/issues",
+                      "event": {
+                        "name": "dropdown:test",
+                        "data":{
+                          "val":"prop"
+                        }
+                      }
                     },
                     {
                       "label": "Agile Board",
@@ -274,6 +280,11 @@
           ]
         }
       });
+
+        o.on('dropdown:test', function (e) {
+          console.log(arguments);
+          return false;
+        });
 
       var auth = ring('auth');
 
