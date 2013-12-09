@@ -64,7 +64,7 @@ define([
   /**
    * @return {CodeMirror}
    */
-  d.PlainEditorController.prototype.getCodeMirror = function() {
+  d.PlainEditorController.prototype.getEditor = function() {
     return this.editor_;
   };
 
