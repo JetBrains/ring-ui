@@ -1,5 +1,19 @@
 @import '../../components/codemirror/lib/codemirror';
 
+// NB: colours from IntelliJ IDEA default colour scheme.
+$changeset_border: #969696;
+
+$modified_background: #e2e6f4;
+$modified_chars: #ccd7f9;
+
+$deleted_background: #d6d6d6;
+$deleted_chars: #909090;
+
+$added_background: #c8f0c9;
+$added_chars: #cbf4c6;
+
+@import 'diff_doublepane__map';
+
 .diff__doublepane {
   height: 100%;
 }
@@ -48,27 +62,16 @@
   background: rgba(0, 0, 0, 0.1);
   border: solid 1px rgba(0, 0, 0, 0.1);
   left: 49%;
-  overflow: hidden;
   right: 49%;
+  z-index: 4;
 }
 
 .diff__split > svg {
   left: 0 !important;
+  overflow: hidden;
 }
 
 // todo(igor.alexeenko): Move to separate file.
-
-// NB: colours from IntelliJ IDEA default colour scheme.
-$changeset_border: #969696;
-
-$modified_background: #e2e6f4;
-$modified_chars: #ccd7f9;
-
-$deleted_background: #d6d6d6;
-$deleted_chars: #909090;
-
-$added_background: #c8f0c9;
-$added_chars: #cbf4c6;
 
 .CodeMirror .line__modified {
   background: $modified_background;
@@ -186,4 +189,3 @@ div.CodeMirror span.CodeMirror-nonmatchingbracket {
 .CodeMirror-focused .CodeMirror-selected {
   background: #DDEAFE;
 }
-
