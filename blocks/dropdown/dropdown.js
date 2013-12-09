@@ -124,7 +124,7 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'global/glob
       .delegate(ITEM_ACTION_SELECTOR,'mouseenter.ring-dropdown', function(e) {
         var $target = $(e.currentTarget);
 
-        if ($target.is(event.HOVER_SELECTOR)) {
+        if ($target.is(events.HOVER_SELECTOR)) {
           events.domEventHandler(e);
         }
 
