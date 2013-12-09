@@ -204,16 +204,19 @@
               }, {
                 "className": "ring-btn_primary ring-btn_icon ring-btn__dropdown-icon",
                 "type": "caret-down",
-                "items": [
-                  {
-                    "label": "Issues",
-                    "url": "/issues"
-                  },
-                  {
-                    "label": "Agile Board",
-                    "url": "/rest/agile"
-                  }
-                ]
+                "dropdown": {
+                  "type": ["typed"],
+                  "items": [
+                    {
+                      "label": "Issues",
+                      "url": "/issues"
+                    },
+                    {
+                      "label": "Agile Board",
+                      "url": "/rest/agile"
+                    }
+                  ]
+                }
               }]
             }
           },
