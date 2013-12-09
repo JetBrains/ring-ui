@@ -93,6 +93,7 @@ define(['jquery', 'jso', 'global/global__modules', 'global/global__utils'], func
 
     cfg.serverUrl = serverUrl;
 
+    // TODO Check config props types
     if (config.clientId) {
       cfg.client_id = config.clientId;
     }
@@ -103,6 +104,10 @@ define(['jquery', 'jso', 'global/global__modules', 'global/global__utils'], func
 
     if (config.scope) {
       cfg.scope = config.scope;
+    }
+
+    if ($.inArray(defaultId, cfg.scope) === -1) {
+      cfg.scope.push(defaultId);
     }
 
     // Configure jso
