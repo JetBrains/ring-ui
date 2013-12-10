@@ -43,7 +43,7 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'global/glob
       global: window
     };
 
-    for(var item in config) {
+    for (var item in config) {
       this.config[item] = config[item];
     }
   };
@@ -285,21 +285,20 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'global/glob
    * Return highlighted html
    */
   var _getHighlightedHtml = function (styleRanges, text) {
-    var result = '',
-      i;
-    var concatClasses = function (item) {
-      var className = item ? 'ring-query-style_' + item : '';
-      res = res + className + ' ';
-    };
-
-    for(i = 0; i < text.length; i += 1) {
-      var res = '',
-        data = _getClassname(styleRanges, text, i);
-
-      data.forEach(concatClasses);
-      result = result + '<span class="' + res.trim() + '">' + (text[i] !== ' ' ? text[i] : '&nbsp;') + '</span>';
+    function appendItemClass(currentClasses, item) {
+      if (item) {
+        return (currentClasses ? currentClasses + ' ' : '') + 'ring-query-style_' + item;
+      } else {
+        return currentClasses;
+      }
     }
-    return result;
+
+    function appendLetter(currentHtml, letter, index) {
+      var classes = _getClassname(styleRanges, text, index).reduce(appendItemClass, '');
+      return currentHtml + '<span class="' + classes + '">' + (letter !== ' ' ? letter : '&nbsp;') + '</span>';
+    }
+
+    return text.split('').reduce(appendLetter, '');
   };
 
   /**
