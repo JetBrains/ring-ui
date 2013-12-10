@@ -62,13 +62,13 @@ $added_chars: #cbf4c6;
   background: rgba(0, 0, 0, 0.1);
   border: solid 1px rgba(0, 0, 0, 0.1);
   left: 49%;
+  overflow: hidden;
   right: 49%;
   z-index: 4;
 }
 
 .diff__split > svg {
   left: 0 !important;
-  overflow: hidden;
 }
 
 // todo(igor.alexeenko): Move to separate file.
