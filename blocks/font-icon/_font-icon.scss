@@ -24,8 +24,12 @@
 // .ring-font-icon_add             - add
 // .ring-font-icon_pushpin         - pin
 // .ring-font-icon_merge_icon      - merge
-// .ring-font-icon_group_icon     - group
-// .ring-font-icon_mail            - mail
+// .ring-font-icon_global          - global
+// .ring-font-icon_group           - group
+// .ring-font-icon_email           - email
+// .ring-font-icon_permission      - permission
+// .ring-font-icon_delete          - delete
+// .ring-font-icon_jabber          - jabber
 // .ring-font-icon_trash           - trash
 // .ring-font-icon_close           - close
 // .ring-font-icon_drag            - drag
@@ -118,29 +122,11 @@ body .ring-font-icon {
 .ring-font-icon_ok:before {
   content: "\f00c";
 }
-.ring-font-icon_globe:before {
-  content: "\f0ac";
-}
-.ring-font-icon_key:before {
-  content: "\f084";
-}
-.ring-font-icon_mail:before {
-  content: "\f0e0";
-}
-.ring-font-icon_cloud:before {
-  content: "\f0c2";
-}
-.ring-font-icon_lightbulb:before {
-  content: "\f0eb";
-}
 .ring-font-icon_group:before {
-  content: "\f0c0";
+  content: "\e014";
 }
 .ring-font-icon_role:before {
   content: "\e00a";
-}
-.ring-font-icon_group_icon:before {
-  content: "\e00c";
 }
 .ring-font-icon_chevron-left:before {
   content: "\f053";
@@ -156,6 +142,21 @@ body .ring-font-icon {
 }
 .ring-font-icon_trash:before {
   content: "\e010";
+}
+.ring-font-icon_delete:before, .ring-font-icon_jabber:before{
+  content: "\e00b";
+}
+.ring-font-icon_resource:before {
+  content: "\e011";
+}
+.ring-font-icon_email:before {
+  content: "\e012";
+}
+.ring-font-icon_global:before {
+  content: "\e013";
+}
+.ring-font-icon_permission:before {
+  content: "\e015";
 }
 
 
