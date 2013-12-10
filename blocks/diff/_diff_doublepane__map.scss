@@ -7,13 +7,12 @@
   z-index: 1;
 }
 
-// todo(igor.alexeenko): Add min-height.
-// todo(igor.alexeenko): z-index: 2 for elements in new editor.
 // todo(igor.alexeenko): Get styles from upsource.
 
 .ring-diff__map-element {
   border: solid 1px $changeset_border;
   cursor: pointer;
+  min-height: 4px;
   position: absolute;
   right: 20px;
   width: 100%;
@@ -21,13 +20,16 @@
 
 .ring-diff__map-element_added {
   background: $added_background;
+  z-index: 2;
 }
 
 .ring-diff__map-element_deleted {
   background: $deleted_background;
+  z-index: 1;
 }
 
 .ring-diff__map-element_modified {
   background: $modified_background;
+  z-index: 2;
 }
 

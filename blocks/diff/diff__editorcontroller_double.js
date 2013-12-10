@@ -931,7 +931,7 @@ define([
     if (!this.mapElement_) {
       this.mapElement_ = document.createElement('div');
       this.mapElement_.className = d.DoubleEditorController.MapClass.BASE;
-      this.splitElement_.appendChild(this.mapElement_);
+      this.element_.appendChild(this.mapElement_);
     }
 
     var editor = this.getModifiedEditor();
