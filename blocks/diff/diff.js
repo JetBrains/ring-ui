@@ -263,14 +263,14 @@ define([
    * @param {string} contentModified
    * @param {d.Parser.Diff} diff
    * @param {DiffTool.Mode} mode
-   * @return {d.EditorController}
+   * @return {DiffTool}
    */
   function decorateDiffTool(element, contentOriginal, contentModified, diff,
                             mode) {
     var d = new DiffTool(element, mode);
     d.setContent(contentOriginal, contentModified, diff);
 
-    return d.getController();
+    return d;
   }
 
   Module.add('diff', {
