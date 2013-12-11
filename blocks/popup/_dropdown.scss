@@ -1,0 +1,257 @@
+@import "../global/global";
+
+// Dropdown
+//
+// Markup:
+// <div style="height: 160px;">
+// <div class="ring-dropdown {$modifiers}">
+//   <div class="ring-dropdown__i">
+//     <a class="ring-link ring-dropdown__item" href="#">Profile</a>
+//     <span class="ring-dropdown__separator"></span>
+//     <span class="ring-link ring-dropdown__item">Log out</span>
+//     <span class="ring-dropdown__item ring-dropdown__item_action">Log out</span>
+//     <span class="ring-dropdown__item ring-dropdown__item_action">Log out</span>
+//   </div>
+// </div>
+// </div>
+//
+// .ring-dropdown_bound - Dropdown bound to input, without upper border and shadow
+// .ring-dropdown_typed - See full example [below](#5.3)
+//
+// Styleguide 5.1
+
+.ring-dropdown {
+  position: absolute;
+  margin-top: 4px;
+  z-index: $ring-overlay-z-index;
+
+  font-size: 13px;
+  text-align: center;
+
+  border: 1px solid #ADADAD; // IE8-
+  border-color: rgba(0, 0, 0, .3);
+
+  box-shadow: 0 2px 8px 0 rgba(0, 0, 0, .3);
+  border-radius: 3px;
+
+  @include ring-font;
+}
+
+.ring-dropdown_bound {
+  margin-top: 0;
+
+  border-top: 0;
+  border-radius: 2px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+
+  box-shadow: 0 4px 6px 0 rgba(0, 0, 0, .3);
+}
+
+.ring-dropdown__i {
+  position: relative;
+
+  padding: $ring-unit/2 + 1 0 $ring-unit/2 - 1;
+  z-index: 1;
+
+  line-height: normal;
+
+  border-radius: 3px;
+  background-color: #FFF;
+
+  .ring-dropdown_typed & {
+    display: table;
+    width: 100%;
+    padding: 0;
+  }
+}
+
+.ring-dropdown__separator {
+  display: block;
+  width: 100%;
+  height: 1px;
+  margin: 2px 0 5px;
+
+  background-color: #ADADAD;
+}
+
+.ring-dropdown__item {
+  display: block;
+  padding: 0 $ring-unit*2;
+
+  text-align: left;
+  font-size: 13px;
+  line-height: $ring-unit*3;
+
+  vertical-align: bottom;
+  text-decoration: none;
+
+  .ring-dropdown_typed & {
+    padding-left: 0;
+    display: table-row;
+  }
+
+  .ring-dropdown &:hover {
+    text-decoration: none !important;
+  }
+}
+
+.ring-dropdown__item__controls {
+  margin-bottom: $ring-unit;
+  &:last-child {
+    margin-bottom: 0;
+    & .ring-dropdown__item__controls__title {
+      font-weight: normal;
+    }
+  }
+}
+
+.ring-dropdown__item__controls__title {
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.ring-dropdown__prop-manager {
+  .ring-dropdown__item ~ .ring-dropdown__item:not(.ring-dropdown__item__controls) {
+    margin-left: 2*$ring-unit;
+  }
+}
+
+.ring-dropdown__item_action {
+  cursor: pointer;
+  color: #000 !important;
+
+  &:hover, &.active {
+    color: #FFF !important;
+    background-color: #25B7FF;
+
+    .ring-dropdown__highlight, .ring-dropdown__service {
+      color: inherit;
+    }
+  }
+}
+
+// Typed dropdown
+//
+// markup:
+// <div style="height: 320px;">
+// <div class="ring-dropdown ring-dropdown_bound ring-dropdown_typed">
+//   <div class="ring-dropdown__i">
+//     <span class="ring-dropdown__item ring-dropdown__item_action">
+//        <span class="ring-dropdown__item__type">by tag</span>
+//        <span class="ring-dropdown__item__content"><span class="ring-dropdown__highlight">ta</span>g:</span>
+//     </span>
+//     <span class="ring-dropdown__item ring-dropdown__item_action">
+//        <span class="ring-dropdown__item__type">value in several bundles</span>
+//        <span class="ring-dropdown__item__content"><span class="ring-dropdown__service">#</span><span class="ring-dropdown__highlight">Ta</span>sk</span>
+//     </span>
+//     <span class="ring-dropdown__item ring-dropdown__item_action">
+//        <span class="ring-dropdown__item__type">user group</span>
+//        <span class="ring-dropdown__item__content"><span class="ring-dropdown__service">#{</span>MAGE-<span class="ring-dropdown__highlight">TA</span>B Admins<span class="ring-dropdown__service">}</span></span>
+//     </span>
+//     <span class="ring-dropdown__item ring-dropdown__item_action">
+//        <span class="ring-dropdown__item__type">user group</span>
+//        <span class="ring-dropdown__item__content"><span class="ring-dropdown__service">#{</span>MAGE-<span class="ring-dropdown__highlight">TA</span>B Developers<span class="ring-dropdown__service">}</span></span>
+//     </span>
+//     <span class="ring-dropdown__item ring-dropdown__item_action">
+//        <span class="ring-dropdown__item__type">user group</span>
+//        <span class="ring-dropdown__item__content"><span class="ring-dropdown__service">#</span>resharper-<span class="ring-dropdown__highlight">ta</span>p</span>
+//     </span>
+//     <span class="ring-dropdown__item ring-dropdown__item_action">
+//        <span class="ring-dropdown__item__type">tag</span>
+//        <span class="ring-dropdown__item__content"><span class="ring-dropdown__service">#</span><span class="ring-dropdown__highlight">ta</span>blet-pc</span>
+//     </span>
+//     <span class="ring-dropdown__item ring-dropdown__item_action">
+//        <span class="ring-dropdown__item__type">tag</span>
+//        <span class="ring-dropdown__item__content"><span class="ring-dropdown__service">#{</span>work with <span class="ring-dropdown__highlight">ta</span>gs<span class="ring-dropdown__service">}</span></span>
+//     </span>
+//     <span class="ring-dropdown__item ring-dropdown__item_action">
+//        <span class="ring-dropdown__item__type">tag</span>
+//        <span class="ring-dropdown__item__content"><span class="ring-dropdown__service">#{</span><span class="ring-dropdown__highlight">ta</span>sk connector<span class="ring-dropdown__service">}</span></span>
+//     </span>
+//     <span class="ring-dropdown__item">
+//       <span class="ring-dropdown__item__type"></span>
+//       <span class="ring-dropdown__item__content"><span class="ring-dropdown__item__underline"><span class="ring-dropdown__item__title">Recent searches</span></span></span>
+//     </span>
+//     <span class="ring-dropdown__item ring-dropdown__item_action">
+//        <span class="ring-dropdown__item__type"></span>
+//        <span class="ring-dropdown__item__content">Fix versions: 4.1 S<span class="ring-dropdown__highlight">ta</span>te: Verified project: YouTrack</span>
+//     </span>
+//     <span class="ring-dropdown__item ring-dropdown__item_action">
+//        <span class="ring-dropdown__item__type"></span>
+//        <span class="ring-dropdown__item__content"><span class="ring-dropdown__highlight">ta</span>g: S<span class="ring-dropdown__highlight">ta</span>r</span>
+//     </span>
+//     <span class="ring-dropdown__item ring-dropdown__item_hint">
+//       <span class="ring-dropdown__item__type"></span>
+//       <span class="ring-dropdown__item__content">Use ↩ to complete selected item</span>
+//     </span>
+//   </div>
+// </div>
+// </div>
+//
+// Styleguide 5.3
+
+.ring-dropdown__highlight {
+  color: #D800FF;
+}
+
+.ring-dropdown__service {
+  color: #B4B4B4;
+}
+
+.ring-dropdown__image {
+  height: $ring-unit*2;
+  width: $ring-unit*2;
+  float: right;
+  margin-right: -$ring-unit;
+  margin-left: $ring-unit;
+  margin-top: $ring-unit/2;
+}
+
+.ring-dropdown__item__title {
+  padding-right: $ring-unit;
+
+  font-size: 11px;
+  font-weight: bold;
+  text-transform: uppercase;
+
+  color: #929292;
+  background-color: #FFF;
+}
+
+.ring-dropdown__item__underline {
+  display: block;
+  height: $ring-unit*2 - 1;
+  border-bottom: 1px solid #929292;
+
+  margin-bottom: $ring-unit;
+}
+
+.ring-dropdown__item__content {
+  display: table-cell;
+  padding: 0 $ring-unit*2 0 $ring-unit;
+
+  .ring-dropdown__item_hint & {
+    font-size: 11px;
+    background-color: #FFF5CD;
+    border-top: 1px solid #E5DCB8;
+  }
+}
+
+
+.ring-dropdown__item__type {
+  display: table-cell;
+  padding: 0 $ring-unit 0 $ring-unit*2;
+  width: 1px;
+
+  text-align: right;
+  font-size: 13px;
+  white-space: nowrap;
+
+  color: #888888;
+  background-color: #F0F0F0;
+
+  .ring-dropdown__item:first-child & {
+    border-top: $ring-unit / 2 solid #F0F0F0;
+  }
+}
