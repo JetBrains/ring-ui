@@ -30,12 +30,12 @@ define(['global/global', 'chai', 'diff/diff'], function(ring, chai) {
           type: 'modified'
         }]);
 
-        expect(singlePaneDiff).to.be.an.instanceof(d.SingleEditorController);
-        expect(singlePaneDiff.isEnabled()).to.equal(true);
-        expect(singlePaneDiff.isEnabled()).to.equal(true);
-        expect(singlePaneDiff.contentOriginal_).to.equal('original');
-        expect(singlePaneDiff.contentModified_).to.equal('modified');
-        expect(singlePaneDiff.diff_).to.eql([{
+        expect(singlePaneDiff).to.be.an.instanceof(DiffTool);
+        expect(singlePaneDiff.getController().isEnabled()).to.equal(true);
+        expect(singlePaneDiff.getController().isEnabled()).to.equal(true);
+        expect(singlePaneDiff.getController().contentOriginal_).to.equal('original');
+        expect(singlePaneDiff.getController().contentModified_).to.equal('modified');
+        expect(singlePaneDiff.getController().diff_).to.eql([{
           newLines: 1,
           oldLines: 1,
           type: 'modified'
@@ -51,12 +51,11 @@ define(['global/global', 'chai', 'diff/diff'], function(ring, chai) {
           type: 'modified'
         }]);
 
-        expect(singlePaneDiff).to.be.an.instanceof(
-            d.DoubleEditorController);
-        expect(singlePaneDiff.isEnabled()).to.equal(true);
-        expect(singlePaneDiff.contentOriginal_).to.equal('original');
-        expect(singlePaneDiff.contentModified_).to.equal('modified');
-        expect(singlePaneDiff.diff_).to.eql([{
+        expect(singlePaneDiff).to.be.an.instanceof(DiffTool);
+        expect(singlePaneDiff.getController().isEnabled()).to.equal(true);
+        expect(singlePaneDiff.getController().contentOriginal_).to.equal('original');
+        expect(singlePaneDiff.getController().contentModified_).to.equal('modified');
+        expect(singlePaneDiff.getController().diff_).to.eql([{
           newLines: 1,
           oldLines: 1,
           type: 'modified'
