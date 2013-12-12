@@ -483,7 +483,7 @@
   position: relative;
   display: inline-block;
   width: 100%;
-  padding-left: 8px;
+  padding-left: $ring-unit;
 
   border: 1px solid #CCC;
   border-radius: 0;
@@ -497,11 +497,13 @@
 .ring-select + label.ring-select__label {
   position: relative;
   content: '';
-  top: -16px;
-  left: calc(100% - 18px);
+  top: -2*$ring-unit;
+  left: -$ring-unit;
   display: block;
+  float: right;
   width: 0;
   height: 0;
+
   border-top: 4px solid #696969;
   border-right: 4px solid transparent;
   border-bottom: 4px solid transparent;
@@ -515,13 +517,15 @@
 // Select
 //
 //Markup:
-//<select id="ring-select" class="ring-select">
-//  <option>Global</option>
-//  <option>2</option>
-//  <option>3</option>
-//  <option>4</option>
-//  <option>5</option>
-//</select>
-//<label class="ring-select__label" for="ring-select"></label>
+// <div class="ring-input_wrapper">
+//   <select id="ring-select" class="ring-select">
+//     <option>Global</option>
+//     <option>2</option>
+//     <option>3</option>
+//     <option>4</option>
+//     <option>5</option>
+//   </select>
+//   <label class="ring-select__label" for="ring-select"></label>
+// </div>
 //
 // Styleguide 7.8
