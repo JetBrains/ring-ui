@@ -97,7 +97,7 @@ $ring-btn-border-radius: 3px;
     }
   }
 
-  &:focus {
+  &:not(:hover):focus {
     position: relative;
     outline: 1px dotted #666\9;
     border-radius: $ring-btn-border-radius !important;
