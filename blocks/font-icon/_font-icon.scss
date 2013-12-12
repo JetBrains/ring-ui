@@ -16,7 +16,7 @@
 // .ring-font-icon_caret-down      - caret-down
 // .ring-font-icon_caret-up        - caret-up
 // .ring-font-icon_remove          - remove
-// .ring-font-icon_chevron-left   - chevron-left
+// .ring-font-icon_chevron-left    - chevron-left
 // .ring-font-icon_chevron-right   - chevron-right
 // .ring-font-icon_ban-circle      - ban-circle
 // .ring-font-icon_pencil          - pencil
@@ -33,6 +33,7 @@
 // .ring-font-icon_trash           - trash
 // .ring-font-icon_close           - close
 // .ring-font-icon_drag            - drag
+// .ring-font-icon_refresh         - refresh
 //
 // Styleguide 6.1
 
@@ -158,7 +159,9 @@ body .ring-font-icon {
 .ring-font-icon_trash:before {
   content: "\e010";
 }
-
+.ring-font-icon_refresh:before {
+  content: "\f021";
+}
 
 
 
