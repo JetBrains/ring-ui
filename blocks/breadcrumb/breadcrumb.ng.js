@@ -16,13 +16,15 @@
               var result = pe.href;
               var first = true;
               angular.forEach(pe.params, function (pValue, pName) {
-                if (first) {
-                  result += '?';
-                  first = false;
-                } else {
-                  result += '&';
+                if (pValue) {
+                  if (first) {
+                    result += '?';
+                    first = false;
+                  } else {
+                    result += '&';
+                  }
+                  result += pName + '=' + pValue;
                 }
-                result += pName + '=' + pValue;
               });
               pe.href = result;
             }
