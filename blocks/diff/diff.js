@@ -212,7 +212,7 @@ define([
   DiffTool.prototype.setContent = function(original, modified, diff,
                                            opt_refresh) {
     var overriddenMode = DiffTool.getModeByContent_(original, modified);
-    if (overriddenMode) {
+    if (overriddenMode && !this.hasMode(overriddenMode)) {
       this.deactivateMode();
       this.setMode(overriddenMode);
     }
