@@ -46,19 +46,16 @@ define([
    * @param {CodeMirror} editor
    */
   CodeMirrorHelper.prototype.getOperationBuffer = function(editor) {
-    if (!this.buffers_) {
+    // todo(igor.alexeenko): Temporary soluton. Monkey patch is not good.
+    if (!editor.codeMirrorHelperBuffer_) {
       /**
-       * @type {Object.<CodeMirror, CodeMirrorHelper.Buffer>}
+       * @type {Array}
        * @private
        */
-      this.buffers_ = {};
+      editor.codeMirrorHelperBuffer_ = [];
     }
 
-    if (!this.buffers_[editor]) {
-      this.buffers_[editor] = [];
-    }
-
-    return this.buffers_[editor];
+    return editor.codeMirrorHelperBuffer_;
   };
 
   /**
@@ -83,6 +80,15 @@ define([
         operation.call();
       });
     });
+
+    this.cleanBuffer(editor);
+  };
+
+  /**
+   * @param {CodeMirror} editor
+   */
+  CodeMirrorHelper.prototype.cleanBuffer = function(editor) {
+    editor.codeMirrorHelperBuffer_[editor] = [];
   };
 
   return CodeMirrorHelper;
