@@ -53,12 +53,14 @@
           'url': '@url',
           'type': '@type',
           'label': '@label',
+          'target': '@target',
           'sideName': '@side'
         },
         link: function (scope, iElement, iAttrs, menuCtrl) {
           menuCtrl.addMenuItem(scope.sideName, {
             'url': scope.url,
             'type': scope.type,
+            'target': scope.target,
             'label': scope.label
           });
         }
