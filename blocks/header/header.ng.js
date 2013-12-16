@@ -33,11 +33,13 @@
         scope: {
           'key': '@key',
           'url': '@url',
+          'target': '@target',
           'label': '@label'
         },
         link: function (scope, iElement, iAttrs, headerCtrl) {
           headerCtrl.addAuthLink(scope.key, {
             'url': scope.url,
+            'target': scope.target,
             'label': scope.label
           });
         }

@@ -62,6 +62,7 @@
           'label': '@label',
           'middot': '@middot',
           'copyright': '@copyright',
+          'target': '@target',
           'title': '@title'
         },
         link: function (scope, iElement, iAttrs, footerCtrl) {
@@ -70,6 +71,7 @@
             'label': scope.label,
             'middot': scope.middot !== undefined,
             'copyright': scope.copyright,
+            'target': scope.target,
             'title': scope.title
           });
         }
