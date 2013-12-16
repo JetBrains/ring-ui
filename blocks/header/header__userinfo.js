@@ -19,20 +19,27 @@ define(['jquery', 'global/global__modules', 'global/global__views', 'header/head
     })
     .then(function(me) {
       if (me && me.name) {
-        var config = auth.get('config');
+        var authConfig = auth.get('config');
+        var headerConfig = header.get('view');
+
+        var authLinks = {
+          profile: {
+            label: 'Profile',
+            url: authConfig.serverUrl + '/jpapUser'
+          },
+          logout: {
+            label: 'Log out',
+            url: authConfig.serverUrl + '/rest/cas/logout?gateway=true&url=' + encodeURIComponent(authConfig.redirect_uri),
+            event: 'header:logout'
+          }
+        };
+
+        if (headerConfig && headerConfig.authLinks) {
+          $.extend(true, authLinks, headerConfig.authLinks);
+        }
 
         var data = {
-          authLinks: {
-            profile: {
-              label: 'Profile',
-              url: config.serverUrl + '/jpapUser'
-            },
-            logout: {
-              label: 'Log out',
-              url: config.serverUrl + '/rest/cas/logout?gateway=true&url=' + encodeURIComponent(config.redirect_uri),
-              event: 'header:logout'
-            }
-          },
+          authLinks: authLinks,
           user: {
             name: me.name
           }
