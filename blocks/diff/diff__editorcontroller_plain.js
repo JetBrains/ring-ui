@@ -47,7 +47,7 @@ define([
       this.editor_ = new CodeMirror(this.editorElement_,
           d.PlainEditorController.getCodeMirrorOptions());
     } else {
-      this.editorElement_.parent.removeChild(this.editorElement_);
+      this.editorElement_.parentNode.removeChild(this.editorElement_);
       this.editorElement_ = null;
     }
   };
