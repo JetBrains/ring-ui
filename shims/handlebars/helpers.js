@@ -13,13 +13,13 @@ Handlebars.registerHelper('ifEqual', function(a, b, context) {
   }
 });
 
-Handlebars.registerHelper('copyright', function(year, context) {
+Handlebars.registerHelper('copyright', function(year) {
   var currentYear = (new Date()).getUTCFullYear();
 
   var ret = '© ';
 
-  if (currentYear === year) {
-    ret += currentYear;
+  if (year >= currentYear) {
+    ret += year;
   } else {
     ret += year + '—' + currentYear;
   }
