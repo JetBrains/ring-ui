@@ -1,4 +1,11 @@
-define(['jquery', 'global/global__views', 'global/global__modules', 'global/global__events', 'global/global__utils'], function($, View, Module, events, utils) {
+define([
+  'jquery',
+  'keymage',
+  'global/global__views',
+  'global/global__modules',
+  'global/global__events',
+  'global/global__utils'
+], function($, keymage, View, Module, events, utils) {
   'use strict';
 
   var COMPONENT_SELECTOR = '.ring-js-dropdown';
@@ -8,6 +15,7 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'global/glob
   var INNER_SELECTOR = '.ring-dropdown__i';
 
   var ACTIVE_CLASS = 'active';
+  var ACTIVE_SELECTOR = '.active';
 
   var $global = $(window);
   var $body;
@@ -17,9 +25,14 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'global/glob
   var DROPDOWN_MIN_RIGHT_MARGIN = 8;
   var DROPDOWN_BORDER_WIDTH = 2;
 
+  var MODULE = 'dropdown';
+  var KEYMAGE_PARAMS = {
+    preventDefault: true
+  };
+
   var create = function(data, config) {
     var $target;
-    var dropdown = Module.get('dropdown');
+    var dropdown = Module.get(MODULE);
 
     if (typeof config === 'object' && !(config instanceof $) && !utils.isNode(config)) {
       $target = config.target;
@@ -49,7 +62,7 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'global/glob
     previousTarget = currentTarget;
 
     if (data instanceof $ || utils.isNode(data)) {
-      $dropdown = $(View.render('dropdown', ''));
+      $dropdown = $(View.render(MODULE, ''));
 
       $dropdown.find(INNER_SELECTOR).append(data);
     } else {
@@ -62,7 +75,7 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'global/glob
         data = {html: data};
       }
 
-      $dropdown = $(View.render('dropdown', data));
+      $dropdown = $(View.render(MODULE, data));
     }
 
     if (!$body) {
@@ -135,6 +148,8 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'global/glob
       });
 
     dropdown.trigger('show:done');
+    keymage.pushScope(MODULE);
+
     return false;
   };
 
@@ -145,12 +160,31 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'global/glob
 
       previousTarget = null;
 
-      Module.get('dropdown').trigger('hide:done');
+      Module.get(MODULE).trigger('hide:done');
+      keymage.popScope(MODULE);
+
       return true;
     } else {
-      Module.get('dropdown').trigger('hide:fail');
+      Module.get(MODULE).trigger('hide:fail');
       return false;
     }
+  };
+
+  var navigate = function(up) {
+    var $active = $dropdown.find(ACTIVE_SELECTOR);
+    var $next = $active[up ? 'prev' : 'next']();
+
+    $active.removeClass(ACTIVE_CLASS);
+
+    if ($next.length) {
+      $next.addClass(ACTIVE_CLASS);
+    } else {
+      $dropdown.find(ITEM_ACTION_SELECTOR)[up ? 'last' : 'first']().addClass(ACTIVE_CLASS);
+    }
+  };
+
+  var action = function() {
+    $dropdown.find(ACTIVE_SELECTOR).click();
   };
 
   // Using delegate because of compatibility with YouTrack's jQuery 1.5.1
@@ -167,8 +201,15 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'global/glob
   // Remove on resize
   $global.resize(remove);
 
+  // Bind keys
+  keymage(MODULE, 'esc', remove);
+  keymage(MODULE, 'enter', action);
+  keymage(MODULE, 'up', navigate.bind(null, true), KEYMAGE_PARAMS);
+  keymage(MODULE, 'down', navigate.bind(null, false), KEYMAGE_PARAMS);
+
+
   // Public methods
-  Module.add('dropdown', {
+  Module.add(MODULE, {
     show: {
       method: create,
       override: true
