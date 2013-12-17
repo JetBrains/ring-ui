@@ -58,7 +58,10 @@ define([
   d.PlainEditorController.prototype.setContentInternal = function(original,
       modified, diff) {
     var usedContent = diff[0].oldLines === 0 ? modified : original;
-    this.editor_.setValue(usedContent);
+
+    if (this.editor_.getValue() !== usedContent) {
+      this.editor_.setValue(usedContent);
+    }
   };
 
   /**
