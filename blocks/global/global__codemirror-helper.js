@@ -8,6 +8,8 @@ define([
   'diff/diff__tools'
 ], function($, d) {
 
+  // todo(igor.alexeenko): I need a class for collections.
+
   /**
    * @constructor
    */
@@ -81,14 +83,51 @@ define([
       });
     });
 
-    this.cleanBuffer(editor);
+    this.cleanOperationBuffer(editor);
   };
 
   /**
    * @param {CodeMirror} editor
    */
-  CodeMirrorHelper.prototype.cleanBuffer = function(editor) {
-    editor.codeMirrorHelperBuffer_[editor] = [];
+  CodeMirrorHelper.prototype.cleanOperationBuffer = function(editor) {
+    editor.codeMirrorHelperBuffer_ = [];
+  };
+
+  /**
+   * @param {CodeMirror} editor
+   * @return {Array.<CodeMirror.LineHandle|CodeMirror.TextMarker>
+   */
+  CodeMirrorHelper.prototype.getSelectionsBuffer = function(editor) {
+    if (!editor.codeMirrorHelperSelectionBuffer_) {
+      /**
+       * @type {Array.<CodeMirror.LineHandle|CodeMirror.TextMarker>}
+       * @private
+       */
+      editor.codeMirrorHelperSelectionBuffer_ = [];
+    }
+
+    return editor.codeMirrorHelperSelectionBuffer_;
+  };
+
+  /**
+   * @param {CodeMirror} editor
+   * @param {CodeMirror.LineHandle} lineHandle
+   * @return {number}
+   * @throws {TypeError}
+   */
+  CodeMirrorHelper.prototype.addSelection = function(editor, lineHandle) {
+    var buffer = this.getSelectionsBuffer(editor);
+    buffer.push(lineHandle);
+
+    return buffer.length - 1;
+  };
+
+  /**
+   * @param {CodeMirror} editor
+   */
+  CodeMirrorHelper.prototype.cleanupSelections = function(editor) {
+    // todo(igor.alexeenko): Pretty rough way.
+    editor.codeMirrorHelperSelectionBuffer_ = [];
   };
 
   return CodeMirrorHelper;

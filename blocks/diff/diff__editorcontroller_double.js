@@ -575,6 +575,9 @@ define([
   d.DoubleEditorController.prototype.colorizeLines_ = function() {
     var cmHelper = CodeMirrorHelper.getInstance();
 
+    d.DoubleEditorController.cleanupEditor(this.codeMirrorOriginal_);
+    d.DoubleEditorController.cleanupEditor(this.codeMirrorModified_);
+
     var lineOriginal = 0,
         lineModified = 0;
 
@@ -628,7 +631,36 @@ define([
   };
 
   /**
+   * Removes all classes from selected lines and removes all text selections.
+   * @static
+   * @param {CodeMirror} editor
+   */
+  d.DoubleEditorController.cleanupEditor = function(editor) {
+    var cmHelper = CodeMirrorHelper.getInstance();
+    // todo(igor.alexeenko): var cleanupBuffer = new CMOperationBuffer(editor);
+    var lineHandleBuffer = cmHelper.getSelectionsBuffer(editor);
+
+    lineHandleBuffer.forEach(function(lineHandle) {
+      cmHelper.addOperation(editor, function() {
+        editor.removeLineClass(lineHandle,
+            d.DoubleEditorController.EDITOR_MODE);
+      });
+    });
+
+    var textSelectionsBuffer = editor.getDoc().getAllMarks();
+    textSelectionsBuffer.forEach(function(textSelection) {
+      cmHelper.addOperation(editor, function() {
+        textSelection.clear();
+      });
+    });
+
+    cmHelper.cleanupSelections(editor);
+    cmHelper.executeOperationBuffer(editor);
+  };
+
+  /**
    * Colorizes one line.
+   * @static
    * @param {CodeMirror} editor
    * @param {number} usedLine
    * @param {string} lineClass
@@ -638,8 +670,11 @@ define([
     var cmHelper = CodeMirrorHelper.getInstance();
 
     cmHelper.addOperation(editor, function() {
-      editor.addLineClass(usedLine,
+      var lineHandle = editor.getLineHandle(usedLine);
+      editor.addLineClass(lineHandle,
           d.DoubleEditorController.EDITOR_MODE, lineClass);
+
+      cmHelper.addSelection(editor, lineHandle);
     });
   };
 
