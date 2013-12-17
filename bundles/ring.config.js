@@ -9,7 +9,8 @@ require.config({
     'storage'    : '../components/polyfill/storage',
     'json'       : '../components/json2/json2',
     'jso'        : '../components/jso/jso',
-    'raphael'    : '../components/raphael/raphael-min'
+    'raphael'    : '../components/raphael/raphael-min',
+    'keymage'    : '../components/keymage/keymage'
   },
   shim: {
     'jquery': {

@@ -16,12 +16,14 @@ requirejs.config({
   paths: {
     'ring'       : '../bundles/ring',
     'jquery'     : '../shims/jquery/jquery',
+    'jquery-caret': '../components/jquery-caret/jquery.caret',
     'handlebars' : '../tmp/handlebars',
     'codemirror' : '../components/codemirror/lib/codemirror',
     'storage'    : '../components/polyfill/storage',
-    'json'      : '../components/json2/json2',
+    'json'       : '../components/json2/json2',
     'jso'        : '../components/jso/jso',
-    'raphael'    : '../components/raphael/raphael-min'
+    'raphael'    : '../components/raphael/raphael-min',
+    'keymage'    : '../components/keymage/keymage'
   },
   shim: {
     'jquery': {
