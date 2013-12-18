@@ -206,14 +206,18 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'global/glob
 
   /**
    * init suggest handle
-   * @ToDo
-   * render styleRanges
+   * @param {string} query Text for handle suggestion
+   * @param {number} caret Caret position
+   * @param {bool} requestHighlighting Is highlight required
    */
   var _doAssist = function (query, caret, requestHighlighting) {
     var queryModule = Module.get('query');
     if (query && caret) {
       dataSource(query, caret, requestHighlighting).then(function (data /* status, jqXHR*/) {
-        if (data.styleRanges) {
+        /**
+         * #{String}.replace(/\s+/g, ' ') needs for trim any whitespaces.
+         */
+        if (data.styleRanges && ($el.text().replace(/\s+/g, ' ') === query.replace(/\s+/g, ' '))) {
           $el.html(_getHighlightedHtml(data.styleRanges, query));
           _placeCaret($el.find('span').eq(data.caret - 1));
         }
