@@ -103,7 +103,7 @@
   position: absolute;
   top: -1px;
   // IE fix
-  top: 2px\9;
+  top: 2 px\9;
   right: 0;
   padding-right: 6px;
 
@@ -217,6 +217,10 @@
   }
 }
 
+.ring-form__footer-controls {
+  position: relative;
+}
+
 .ring-form__footer__icon-list {
   position: relative;
   top: 8px;
@@ -227,8 +231,11 @@
 }
 
 .ring-form__footer__icon-list + * {
-  position: relative;
+  position: absolute;
   top: $ring-unit;
+  right: 0;
+
+  margin-right: 2*$ring-unit;
   line-height: 3*$ring-unit;
 }
 
