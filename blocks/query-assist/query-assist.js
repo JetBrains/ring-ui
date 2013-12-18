@@ -116,7 +116,15 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'global/glob
     }
   };
 
+  // FIXME Workaround to prevent double binds
+  var listening;
+
   var _startListen = function () {
+    if (listening) {
+      return;
+    }
+    listening = true;
+
     var queryModule = Module.get('query');
 
     lastTriggeredCaretPosition = undefined;
@@ -126,6 +134,11 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'global/glob
   };
 
   var _stopListen = function () {
+    if (!listening) {
+      return;
+    }
+    listening = false;
+
     var queryModule = Module.get('query');
 
     if (timeoutHandler) {
