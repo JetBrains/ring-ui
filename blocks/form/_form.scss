@@ -452,6 +452,8 @@
   position: relative;
   display: inline-block;
   content: "";
+  // IE hack
+  display: none\9;
   width: 11px;
   height: 11px;
 
