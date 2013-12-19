@@ -622,10 +622,11 @@ Adds new notification to queue and returns its instance. Takes three arguments:
 message, type and optional lifetime.
 <div><b>message</b> <i>{string}</i> —  text, which will be shown inside notification.</div>
 <div><b>type</b> <i>{Alert.AlertType}</i> — value from enumerable list of available types of notification.
+<div><b>opt_closeable</b> <i>{boolean=}</i> — optional parameter, which sets alert closeable or not. By default is true.</div>
 <div><b>lifetime</b> <i>{number=}</i> — optional lifetime of notification in milliseconds. If this parameter is not passed, notification doesn't disappear, otherwise it will be hidden after defined time.</div>
 
     var AlertType = ring('alerts', 'getAlertTypes');
-    var notification = ring('alerts', 'add', 'Hello world', AlertType.MESSAGE, 10000);
+    var notification = ring('alerts', 'add', 'Hello world', AlertType.MESSAGE, true, 10000);
 
 Returned instance might be needed to delete notification. Also, there are some
 static properties of this class, which might be useful.

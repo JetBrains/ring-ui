@@ -50,15 +50,17 @@ define([
   /**
    * @param {string} message
    * @param {Alert.Type} opt_type
-   * @param {number} opt_timeout
+   * @param {boolean=} opt_closeable
+   * @param {number=} opt_timeout
    * @return {Alert}
    */
-  Alerts.prototype.showAlert = function(message, opt_type, opt_timeout) {
+  Alerts.prototype.showAlert = function(message, opt_type, opt_closeable,
+                                        opt_timeout) {
     if (!diffTool.isDef(opt_type)) {
       opt_type = Alert.Type.MESSAGE;
     }
 
-    var alert = new Alert(message, opt_type);
+    var alert = new Alert(message, opt_type, opt_closeable);
     this.add(alert, opt_timeout);
 
     return alert;
@@ -159,10 +161,11 @@ define([
    * Adds alert.
    * @param {string} message
    * @param {Alert.type} type
+   * @param {boolean=} opt_closeable
    * @param {number=} opt_timeout
    * @return {Alert}
    */
-  var addAlert = function(message, type, opt_timeout) {
+  var addAlert = function(message, type, opt_closeable, opt_timeout) {
     if (!alerts) {
       alerts = new Alerts();
     }
