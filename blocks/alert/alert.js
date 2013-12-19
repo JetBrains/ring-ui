@@ -9,7 +9,7 @@ define([
   'global/global__views',
   'global/global__utils',
   'diff/diff__tools'
-], function($, Handlebars, View, utils, diffTool) {
+], function($, Handlebars, View, utils, d) {
   /**
    * @enum {string}
    */
@@ -51,9 +51,10 @@ define([
   /**
    * @param {string=} opt_caption
    * @param {Alert.Type=} opt_type
+   * @param {boolean=} opt_closeable
    * @constructor
    */
-  var Alert = function(opt_caption, opt_type) {
+  var Alert = function(opt_caption, opt_type, opt_closeable) {
     /**
      * @type {View}
      * @private
@@ -70,12 +71,22 @@ define([
      * @type {Alert.Type}
      * @private
      */
-    this.type_ = diffTool.isDef(opt_type) ? opt_type :
+    this.type_ = d.isDef(opt_type) ? opt_type :
         Alert.Type.MESSAGE;
+
+    if (!d.isDef(opt_closeable)) {
+      opt_closeable = true;
+    }
+
+    /**
+     * @type {boolean}
+     * @private
+     */
+    this.closeable_ = opt_closeable;
 
     this.render_();
 
-    if (diffTool.isDef(opt_caption)) {
+    if (d.isDef(opt_caption)) {
       this.setCaption(opt_caption);
     }
   };
@@ -116,6 +127,10 @@ define([
 
     var icon = Alert.getIcon(this);
     $(icon).addClass(Alert.getIconClassNames(this).join(' '));
+
+    if (!this.closeable_) {
+      $(Alert.getCloseElement(this)).remove();
+    }
   };
 
   /**
@@ -128,28 +143,31 @@ define([
 
     this.shown_ = true;
 
-    if (!diffTool.isDef(opt_parentEl)) {
+    if (!d.isDef(opt_parentEl)) {
       opt_parentEl = document.body;
     }
 
-    if (!this.closeElement_) {
-      /**
-       * @type {Element=}
-       * @private
-       */
-      this.closeElement_ = Alert .getCloseElement(this);
-    }
+    // todo(igor.alexeenko): this.setCloseable(true);
+    if (this.closeable_) {
+      if (!this.closeElement_) {
+        /**
+         * @type {Element=}
+         * @private
+         */
+        this.closeElement_ = Alert.getCloseElement(this);
+      }
 
-    if (!this.onCloseClickHandler_) {
-      /**
-       * @type {function(this, evt: Event): undefined}
-       * @private
-       */
-      this.onCloseClickHandler_ = diffTool.bindContext(this.onCloseClick_,
-          this);
-    }
+      if (!this.onCloseClickHandler_) {
+        /**
+         * @type {function(this, evt: Event): undefined}
+         * @private
+         */
+        this.onCloseClickHandler_ = d.bindContext(this.onCloseClick_,
+            this);
+      }
 
-    $(this.closeElement_).on('click', this.onCloseClickHandler_);
+      $(this.closeElement_).on('click', this.onCloseClickHandler_);
+    }
 
     $(opt_parentEl).prepend(this.element_);
     $(this.element_).toggleClass(ClassName.HIDDEN, false);
@@ -168,18 +186,20 @@ define([
 
     this.shown_ = false;
 
-    $(this.closeElement_).off('click', this.onCloseClickHandler_);
+    if (this.closeable_) {
+      $(this.closeElement_).off('click', this.onCloseClickHandler_);
+    }
 
     if (!this.onAnimationEndHandler_) {
       /**
        * @type {function(this, evt: Event): undefined}
        * @private
        */
-      this.onAnimationEndHandler_ = diffTool.bindContext(this.onAnimationEnd_,
+      this.onAnimationEndHandler_ = d.bindContext(this.onAnimationEnd_,
           this);
     }
 
-    diffTool.addAnimationCallback(this.element_, this.onAnimationEndHandler_);
+    d.addAnimationCallback(this.element_, this.onAnimationEndHandler_);
 
     $(this.element_).toggleClass(ClassName.SHOWN, false);
     $(this.element_).toggleClass(ClassName.HIDDEN, true);
@@ -199,13 +219,13 @@ define([
      * @type {function(this, evt: Event): undefined}
      * @private
      */
-    this.hideAndDisposeHandler_ = diffTool.bindContext(this.onHideAnimationEnd_,
+    this.hideAndDisposeHandler_ = d.bindContext(this.onHideAnimationEnd_,
         this);
 
     // todo(igor.alexeenko): Check if callback always works even in corner
     // cases.
     this.hide();
-    diffTool.addAnimationCallback(this.element_, this.hideAndDisposeHandler_);
+    d.addAnimationCallback(this.element_, this.hideAndDisposeHandler_);
   };
 
   /**
@@ -330,7 +350,7 @@ define([
    */
   Alert.getClassNames = function(alert) {
     var classes = [];
-    var typesToClasses = diffTool.createObject(
+    var typesToClasses = d.createObject(
         Alert.Type.ERROR, ClassName.ERROR,
         Alert.Type.SUCCESS, ClassName.SUCCESS,
         Alert.Type.WARNING, ClassName.WARNING);
@@ -353,7 +373,7 @@ define([
    */
   Alert.getIconClassNames = function(alert) {
     var classes = [];
-    var typesToClasses = diffTool.createObject(
+    var typesToClasses = d.createObject(
         Alert.Type.ERROR, IconClassName.ERROR,
         Alert.Type.SUCCESS, IconClassName.SUCCESS,
         Alert.Type.WARNING, IconClassName.WARNING);
