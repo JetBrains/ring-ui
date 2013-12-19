@@ -26,9 +26,6 @@ define([
   var DROPDOWN_BORDER_WIDTH = 2;
 
   var MODULE = 'dropdown';
-  var KEYMAGE_PARAMS = {
-    preventDefault: true
-  };
 
   var create = function(data, config) {
     var $target;
@@ -181,10 +178,17 @@ define([
     } else {
       $dropdown.find(ITEM_ACTION_SELECTOR)[up ? 'last' : 'first']().addClass(ACTIVE_CLASS);
     }
+
+    return false;
   };
 
   var action = function() {
-    $dropdown.find(ACTIVE_SELECTOR).click();
+    var $active = $dropdown.find(ACTIVE_SELECTOR);
+
+    if ($active.length) {
+      $active.click();
+      return false;
+    }
   };
 
   // Using delegate because of compatibility with YouTrack's jQuery 1.5.1
@@ -204,8 +208,8 @@ define([
   // Bind keys
   keymage(MODULE, 'esc', remove);
   keymage(MODULE, 'enter', action);
-  keymage(MODULE, 'up', navigate.bind(null, true), KEYMAGE_PARAMS);
-  keymage(MODULE, 'down', navigate.bind(null, false), KEYMAGE_PARAMS);
+  keymage(MODULE, 'up', navigate.bind(null, true));
+  keymage(MODULE, 'down', navigate.bind(null, false));
 
 
   // Public methods

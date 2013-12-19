@@ -323,6 +323,11 @@
               url: '/rest/users/queryAssist?caret=#{caret}&fields=query,caret,suggestions#{styleRanges}&query=#{query}'
           })
         });
+
+        query.on('apply', function() {
+          ring('alerts', 'add')('Query submitted','success', 10000);
+        });
+
     });
   </script>
 </head>
