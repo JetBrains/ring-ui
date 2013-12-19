@@ -15,7 +15,7 @@ define(['jquery', 'global/global__modules', 'global/global__views', 'header/head
 
   $.when(headerInited, authInited)
     .then(function() {
-      return auth('ajax', '/rest/users/me');
+      return auth('ajax', '/api/rest/users/me');
     })
     .then(function(me) {
       if (me && me.name) {
@@ -29,7 +29,7 @@ define(['jquery', 'global/global__modules', 'global/global__views', 'header/head
           },
           logout: {
             label: 'Log out',
-            url: authConfig.serverUrl + '/rest/cas/logout?gateway=true&url=' + encodeURIComponent(authConfig.redirect_uri),
+            url: authConfig.serverUrl + '/api/rest/cas/logout?gateway=true&url=' + encodeURIComponent(authConfig.redirect_uri),
             event: 'header:logout'
           }
         };
