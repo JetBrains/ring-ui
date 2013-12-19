@@ -18,7 +18,7 @@ define(['jquery', 'jso', 'global/global__modules', 'global/global__utils'], func
   }());
 
   var defaultId = '0-0-0-0-0';
-  var defaultPath = '/rest/oauth2/auth';
+  var defaultPath = '/api/rest/oauth2/auth';
 
   var serverUrl;
   var provider = 'hub';
