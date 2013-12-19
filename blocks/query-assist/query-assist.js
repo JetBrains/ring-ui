@@ -354,7 +354,7 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'global/glob
 
       var queryModule = Module.get('query'),
         defer = $.Deferred(),
-        restUrl = remoteDataSourceConfig.url || '/rest/users/queryAssist?caret=#{caret}&fields=query,caret,suggestions#{styleRanges}&query=#{query}',
+        restUrl = remoteDataSourceConfig.url || '/api/rest/users/queryAssist?caret=#{caret}&fields=query,caret,suggestions#{styleRanges}&query=#{query}',
         substr = ['query', 'caret', 'styleRanges'],
         suggestArgs = [encodeURI(query), caret, (requestHighlighting ? ',styleRanges' : '')];
 
