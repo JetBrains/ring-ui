@@ -25,7 +25,7 @@ define(['jquery', 'global/global__modules', 'global/global__views', 'header/head
         var authLinks = {
           profile: {
             label: 'Profile',
-            url: authConfig.serverUrl + '/jpapUser'
+            url: authConfig.serverUrl + '/users/me'
           },
           logout: {
             label: 'Log out',
