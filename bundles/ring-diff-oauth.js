@@ -7,7 +7,8 @@ define([
   'header/header__hub-services',
   'footer/footer',
   'diff/diff',
-  'alert/alerts'
+  'alert/alerts',
+  'dialog/dialog'
 ], function(ring) {
   return ring;
 });

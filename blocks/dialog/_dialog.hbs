@@ -1,0 +1,26 @@
+<div class="ring-dialog__wrapper">
+    <div class="ring-dialog__container">
+        {{#if hasTitle}}
+        <div class="ring-dialog__header">
+            {{#if title}}
+            <span class="ring-dialog__header__title">{{ title }}</span>
+            {{/if}}
+            {{#if closeable}}
+            <span class="ring-dialog__header__close-icon ring-font-icon ring-btn_ico ring-font-icon_remove form__control__icon"></span>
+            {{/if}}
+        </div>
+        {{/if}}
+        <div class="ring-dialog__content">{{{ content }}}</div>
+        {{#if buttons}}
+        <div class="ring-dialog__footer">
+            <div class="ring-dialog__footer__spacer"></div>
+
+            {{#each buttons}}
+            <button class="ring-dialog__footer__item ring-btn">{{ this }}</button>
+            {{/each}}
+        </div>
+        {{/if}}
+    </div>
+    <div class="ring-dialog__layer">
+    </div>
+</div>
