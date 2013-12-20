@@ -11,7 +11,7 @@
     "polyfill": "git://github.com/inexorabletash/polyfill.git",
     "raphael": "*",
     "requirejs": "~2.1.9",
-    "keymage": "~1.0.1"
+    "mousetrap": "~1.4.6"
   },
   "ignore": [
     "node_modules",

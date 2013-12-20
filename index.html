@@ -50,7 +50,6 @@
         :
       { serverUri: "http://localhost:8080",
         refresh: true
-
       };
 
       var o = ring();
@@ -328,6 +327,12 @@
           ring('alerts', 'add')('Query submitted','success', 10000);
         });
 
+      ring('shortcuts')('bind', {
+        key: 'space',
+        handler: function() {
+          ring('alerts', 'add')('Shortcuts!','success', 10000);
+        }
+      });
     });
   </script>
 </head>
@@ -339,7 +344,7 @@
   <div><a class="ring-link" href="dist/docs/API.html">View API documentation</a></div>
   <div><a class="ring-link" href="dist/styleguide/">CSS Styleguide</a></div>
   <div class="ring-query__containter" style="width: 100%; margin: auto;">
-    <div class="ring-query-js ring-query-assist ring-input" spellcheck="false" contenteditable="true">name: admin or id: 1</div>
+    <div class="ring-query-js ring-query-assist ring-input ring-js-shortcuts" spellcheck="false" contenteditable="true">name: admin or id: 1</div>
   </div>
 </div>
 
