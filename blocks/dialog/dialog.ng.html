@@ -5,7 +5,7 @@
             <span class="ring-dialog__header__close-icon ring-font-icon ring-btn_ico ring-font-icon_remove form__control__ico"
                   ng-click="close()"></span>
         </div>
-        <form name="dialogForm" class="ring-form ring-dialog__content">
+        <form name="dialogForm" class="ring-form ring-js-shortcuts ring-dialog__content">
             <ng-include src="content"></ng-include>
 
             <div class="ring-form__group" ng-show="error">
@@ -18,7 +18,7 @@
             <div class="ring-dialog__footer__spacer"></div>
 
             <button ng-repeat="button in buttons"
-                    ng-click="onButtonClick(button)"
+                    ng-click="action(button)"
                     class="ring-dialog__footer__item ring-btn"
                     ng-class="{'ring-btn_blue': button['default']}"
                     ng-disabled="button.default && dialogForm.$invalid">{{ button.label }}</button>
