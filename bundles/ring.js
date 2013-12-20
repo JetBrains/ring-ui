@@ -4,7 +4,8 @@ define([
   'menu/menu',
   'popup/popup',
   'footer/footer',
-  'alert/alerts'
+  'alert/alerts',
+  'dialog/dialog'
 ], function(ring) {
   return ring;
 });
