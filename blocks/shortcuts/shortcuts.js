@@ -7,7 +7,7 @@ define([
 
   var MODULE = 'shortcuts';
   var ROOT_SCOPE = '';
-  var ALLOW_SHORTCUTS_CLASS = 'ring-js-shortcuts';
+  var ALLOW_SHORTCUTS_SELECTOR = '.ring-js-shortcuts';
 
   var scopes = {};
   var scopeChain;
@@ -45,7 +45,7 @@ define([
   /**
    * Binds events to key
    *
-   * @param Event params
+   * @params Event params
    * @params.key {string | Array.<string>) Keys to bind
    * @params.handler {Function} Events handle
    * @params.scope {string} Scope (optional)
@@ -144,8 +144,8 @@ define([
   var defaultFilter = function(e, element/*, key*/) {
     var $element = $(element);
 
-    // if the element has the class "ring-js-shortcut" then no need to stop
-    if ($element.hasClass(ALLOW_SHORTCUTS_CLASS)) {
+    // if the element or its parents have the class "ring-js-shortcuts" then no need to stop
+    if ($element.is(ALLOW_SHORTCUTS_SELECTOR) || $element.closest(ALLOW_SHORTCUTS_SELECTOR).length) {
       return false;
     }
 
