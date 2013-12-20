@@ -31,7 +31,12 @@ define([
       currentScope = scopes[scopeChain[i]];
 
       if (currentScope && currentScope[key]) {
-        return currentScope[key](e, key, scopeChain[i]);
+        var ret = currentScope[key](e, key, scopeChain[i]);
+
+        // Fall down in chain when returning true
+        if (ret !== true) {
+          return ret;
+        }
       }
     }
   };
