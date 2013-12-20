@@ -1,11 +1,11 @@
 define([
   'jquery',
-  'keymage',
   'global/global__views',
   'global/global__modules',
   'global/global__events',
-  'global/global__utils'
-], function($, keymage, View, Module, events, utils) {
+  'global/global__utils',
+  'shortcuts/shortcuts'
+], function($, View, Module, events, utils) {
   'use strict';
 
   var COMPONENT_SELECTOR = '.ring-js-dropdown';
@@ -26,6 +26,7 @@ define([
   var DROPDOWN_BORDER_WIDTH = 2;
 
   var MODULE = 'dropdown';
+  var shortcuts = Module.get('shortcuts');
 
   var create = function(data, config) {
     var $target;
@@ -145,7 +146,7 @@ define([
       });
 
     dropdown.trigger('show:done');
-    keymage.pushScope(MODULE);
+    shortcuts('pushScope', MODULE);
 
     return false;
   };
@@ -158,7 +159,7 @@ define([
       previousTarget = null;
 
       Module.get(MODULE).trigger('hide:done');
-      keymage.popScope(MODULE);
+      shortcuts('popScope', MODULE);
 
       return true;
     } else {
@@ -167,7 +168,9 @@ define([
     }
   };
 
-  var navigate = function(up) {
+  var navigate = function(e, key) {
+    var up = (key === 'up');
+
     var $active = $dropdown.find(ACTIVE_SELECTOR);
     var $next = $active[up ? 'prev' : 'next']();
 
@@ -206,11 +209,12 @@ define([
   $global.resize(remove);
 
   // Bind keys
-  keymage(MODULE, 'esc', remove);
-  keymage(MODULE, 'enter', action);
-  keymage(MODULE, 'up', navigate.bind(null, true));
-  keymage(MODULE, 'down', navigate.bind(null, false));
-
+  shortcuts('bindList', {scope: MODULE}, {
+    'esc': remove,
+    'enter': action,
+    'up': navigate,
+    'down': navigate
+  });
 
   // Public methods
   Module.add(MODULE, {

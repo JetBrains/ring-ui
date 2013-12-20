@@ -23,7 +23,7 @@ requirejs.config({
     'json'       : '../components/json2/json2',
     'jso'        : '../components/jso/jso',
     'raphael'    : '../components/raphael/raphael-min',
-    'keymage'    : '../components/keymage/keymage'
+    'mousetrap'  : '../components/mousetrap/mousetrap'
   },
   shim: {
     'jquery': {
