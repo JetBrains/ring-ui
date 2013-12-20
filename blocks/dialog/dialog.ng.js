@@ -1,6 +1,7 @@
-/* ring-ui 1.0.764 */
 (function () {
   'use strict';
+  var shortcuts = ring('shortcuts');
+  var DIALOG_KEY_SCOPE = 'dialog';
 
   angular.module('Ring.dialog', []).
     directive('dialog', [function () {
@@ -13,7 +14,7 @@
           $scope.close = function () {
             dialog.hide();
           };
-          $scope.onButtonClick = function (button) {
+          $scope.action = function (button) {
             var dontClose = false;
             if (button.action) {
               dontClose = button.action($scope.data, button, function (errorMessage) {
@@ -28,6 +29,22 @@
             $scope.title = title;
           };
           dialog.register($scope);
+
+          shortcuts('bindList', {scope: DIALOG_KEY_SCOPE}, {
+            'esc': function() {
+              $scope.close();
+              $scope.$apply();
+            },
+            'enter': function() {
+              $scope.buttons.every(function(button) {
+                if (button['default'] && $scope.dialogForm.$valid) {
+                  $scope.action(button);
+                  $scope.$apply();
+                  return false;
+                }
+              });
+            }
+          });
         }]
       };
     }]).
@@ -51,7 +68,7 @@
          *   <li>buttons — [required Array] collection of objects representing buttons in the footer of the dialog.
          *   Following fields are available for every button: <ul>
          *     <li>label — [required String] a text on a button</li>
-         *     <li>default — [optional Boolean, default false] if true then button is highlighted as default</li>
+         *     <li>default — [optional Boolean, default false] if true then button is highlighted as default and acts on Enter key press</li>
          *     <li>close — [optional Boolean, default true] if true then click on the button closes the dialog unless action of the button returned false</li>
          *     <li>action — [optional function(data, button, errorCallback(errorMessage))] is executed on button click. If returns false then window shouldn't be closed</li>
          *     <li>Also any field may be added to the button and later read in action function</li>
@@ -78,6 +95,7 @@
             dialogScope.content = config.content;
           }
 
+          shortcuts('setModalScope', DIALOG_KEY_SCOPE);
           dialogScope.active = true;
         },
         /**
@@ -87,6 +105,10 @@
           if (dialogScope) {
             dialogScope.active = false;
             dialogScope.content = '';
+
+            if (shortcuts('getModalScope') === DIALOG_KEY_SCOPE) {
+              shortcuts('setModalScope');
+            }
           }
         },
         'register': function (scope) {
