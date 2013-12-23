@@ -4,7 +4,13 @@ define(['jquery', 'jso', 'global/global__modules', 'global/global__utils'], func
 
   var module = 'auth';
 
-  var defaultRedirectUri = (function () {
+  var API_PATH = '/api/rest';
+  var API_AUTH_PATH = API_PATH + '/oauth2/auth';
+  var API_PROFILE_PATH = API_PATH + '/users/me';
+  var PROFILE_PATH = '/users/me';
+
+  var DEFAULT_ID = '0-0-0-0-0';
+  var DEFAULT_REDIRECT_URI = (function () {
     var bases = $('base');
     var myBaseUrl;
 
@@ -17,17 +23,18 @@ define(['jquery', 'jso', 'global/global__modules', 'global/global__utils'], func
     return myBaseUrl;
   }());
 
-  var defaultId = '0-0-0-0-0';
-  var defaultPath = '/api/rest/oauth2/auth';
   var absoluteUrlRE = /^[a-z]+:\/\//i;
+
+  var INVALID_TOKEN_ERR = 'invalid_grant';
+  var INVALID_SCOPE_ERR = 'invalid_scope';
 
   var serverUrl;
   var provider = 'hub';
   var jsoConfig = {};
   var defaultConfig = {
-    scope: [defaultId],
-    redirect_uri: defaultRedirectUri,
-    client_id: defaultId
+    scope: [DEFAULT_ID],
+    redirect_uri: DEFAULT_REDIRECT_URI,
+    client_id: DEFAULT_ID
   };
 
   var CACHE_PERIOD = 30000;
@@ -35,14 +42,9 @@ define(['jquery', 'jso', 'global/global__modules', 'global/global__utils'], func
   var cacheTime = {};
 
   var ajax = function (url, callback) {
-    url = absoluteUrlRE.test(url) ? url : serverUrl + url;
+    var absoluteUrl = absoluteUrlRE.test(url) ? url : serverUrl + url;
 
-    var cache = function (data) {
-      cacheData[url] = data;
-      cacheTime[url] = utils.now();
-    };
-
-    var dfd = $.oajax({url: url,
+    var dfd = $.oajax({url: absoluteUrl,
       jso_provider: provider,
       //TODO: use string scopes instead of ids
       jso_scopes: jsoConfig[provider].scope,
@@ -51,8 +53,19 @@ define(['jquery', 'jso', 'global/global__modules', 'global/global__utils'], func
       success: callback
      });
 
+    cacheTime[url] = utils.now();
+    cacheData[url] = dfd;
+
+    // Refresh invalid token
     if (utils.isDeferred(dfd)) {
-      dfd.done(cache);
+      dfd.fail(function(err) {
+        var errorCode = err && err.responseJSON && err.responseJSON.error;
+
+        if(errorCode === INVALID_TOKEN_ERR || errorCode === INVALID_SCOPE_ERR) {
+          jso.wipe();
+          getToken();
+        }
+      });
     }
 
     return dfd;
@@ -60,7 +73,7 @@ define(['jquery', 'jso', 'global/global__modules', 'global/global__utils'], func
 
   var get = function (url) {
     if (utils.now() - cacheTime[url] < CACHE_PERIOD) {
-      return $.Deferred().resolve(cacheData[url]);
+      return cacheData[url];
     } else {
       return ajax(url);
     }
@@ -92,7 +105,7 @@ define(['jquery', 'jso', 'global/global__modules', 'global/global__utils'], func
       serverUrl = serverUrl.replace(/\/+$/, '');
     }
 
-    jsoConfig[provider] = {authorization: serverUrl + defaultPath};
+    jsoConfig[provider] = {authorization: serverUrl + API_AUTH_PATH};
 
     var cfg = $.extend(jsoConfig[provider], defaultConfig);
 
@@ -111,8 +124,8 @@ define(['jquery', 'jso', 'global/global__modules', 'global/global__utils'], func
       cfg.scope = config.scope;
     }
 
-    if ($.inArray(defaultId, cfg.scope) === -1) {
-      cfg.scope.push(defaultId);
+    if ($.inArray(DEFAULT_ID, cfg.scope) === -1) {
+      cfg.scope.push(DEFAULT_ID);
     }
 
     // Configure jso
@@ -123,11 +136,21 @@ define(['jquery', 'jso', 'global/global__modules', 'global/global__utils'], func
         // Authorize, if needed or resolve dfd
       } else if (getToken(config.denyIA)) {
         dfd.resolve(done);
+
+        // Validate token
+        get(API_PROFILE_PATH);
       }
     });
 
     dfd.done(function () {
-      Module.get(module).set({config: jsoConfig[provider]});
+      var config = $.extend({}, jsoConfig[provider], {
+        apiPath: API_PATH,
+        apiProfilePath: API_PROFILE_PATH,
+        profilePath: cfg.serverUrl + PROFILE_PATH,
+        logoutPath: cfg.serverUrl + API_PATH + '/cas/logout?gateway=true&url=' + encodeURIComponent(cfg.redirect_uri)
+      });
+
+      Module.get(module).set({config: config});
     });
 
     if (config.refresh) {
@@ -137,7 +160,7 @@ define(['jquery', 'jso', 'global/global__modules', 'global/global__utils'], func
     return dfd;
   };
 
-
+  // Refreshing token
   var POLL_INTERVAL = 30; // 30 ms
   var POLL_TIME = 60 * 1000; // 1 min
 
