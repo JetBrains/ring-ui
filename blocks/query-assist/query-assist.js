@@ -351,8 +351,9 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'global/glob
    * Ajax get suggestion
    */
   var remoteDataSource = function (remoteDataSourceConfig) {
-    return function (query, caret, requestHighlighting) {
+    var auth = Module.get('auth');
 
+    return function (query, caret, requestHighlighting) {
       var queryModule = Module.get('query'),
         defer = $.Deferred(),
         restUrl = remoteDataSourceConfig.url || '/api/rest/users/queryAssist?caret=#{caret}&fields=query,caret,suggestions#{styleRanges}&query=#{query}',
@@ -363,7 +364,7 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'global/glob
         restUrl = restUrl.replace('#{' + item  + '}', suggestArgs[index] ? suggestArgs[index] : '');
       });
 
-      Module.get('auth')('ajax', restUrl).then(function (data, state, jqXHR) {
+      auth('get', restUrl).then(function (data, state, jqXHR) {
         queryModule.trigger('ajax:done', data);
         defer.resolve(data, state, jqXHR);
       }).fail(function () {
