@@ -13,23 +13,26 @@ define(['jquery', 'global/global__modules', 'global/global__views', 'header/head
 
   header.on('logout', auth.trigger.bind(auth, 'logout'));
 
+  var authConfig;
+  var headerConfig;
+
   $.when(headerInited, authInited)
     .then(function() {
-      return auth('ajax', '/api/rest/users/me');
+      authConfig = auth.get('config');
+      headerConfig = header.get('view');
+
+      return auth('get', authConfig.apiProfilePath);
     })
     .then(function(me) {
       if (me && me.name) {
-        var authConfig = auth.get('config');
-        var headerConfig = header.get('view');
-
         var authLinks = {
           profile: {
             label: 'Profile',
-            url: authConfig.serverUrl + '/users/me'
+            url: authConfig.profilePath
           },
           logout: {
             label: 'Log out',
-            url: authConfig.serverUrl + '/api/rest/cas/logout?gateway=true&url=' + encodeURIComponent(authConfig.redirect_uri),
+            url: authConfig.logoutPath,
             event: 'header:logout'
           }
         };
