@@ -230,12 +230,13 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'global/glob
         /**
          * #{String}.replace(/\s+/g, ' ') needs for trim any whitespaces.
          */
-        if (data.styleRanges && ($el.text().replace(/\s+/g, ' ') === query.replace(/\s+/g, ' '))) {
+        if (data && data.styleRanges && ($el.text().replace(/\s+/g, ' ') === query.replace(/\s+/g, ' '))) {
           $el.html(_getHighlightedHtml(data.styleRanges, query));
           _placeCaret($el.find('span').eq(data.caret - 1));
         }
+
         // if data isn't exist hide a suggest container
-        if (data.suggestions) {
+        if (data && data.suggestions) {
           var dropdownData = {
             type: ['typed', 'bound']
           };
