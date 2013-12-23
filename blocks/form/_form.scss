@@ -207,6 +207,7 @@
 }
 
 .ring-form__footer {
+  position: relative;
   margin-top: 3 * $ring-unit;
   padding: 2*$ring-unit 0 2*$ring-unit 2*$ring-unit;
   background-color: #E9F8FF;
@@ -215,6 +216,10 @@
   & .ring-btn {
     margin-right: 2*$ring-unit;
   }
+}
+
+.ring-form__footer_4x {
+  padding: 2*$ring-unit 4*$ring-unit;
 }
 
 .ring-form__footer-controls {
