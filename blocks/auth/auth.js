@@ -19,6 +19,7 @@ define(['jquery', 'jso', 'global/global__modules', 'global/global__utils'], func
 
   var defaultId = '0-0-0-0-0';
   var defaultPath = '/api/rest/oauth2/auth';
+  var absoluteUrlRE = /^[a-z]+:\/\//i;
 
   var serverUrl;
   var provider = 'hub';
@@ -34,23 +35,27 @@ define(['jquery', 'jso', 'global/global__modules', 'global/global__utils'], func
   var cacheTime = {};
 
   var ajax = function (url, callback) {
+    url = absoluteUrlRE.test(url) ? url : serverUrl + url;
+
     var cache = function (data) {
       cacheData[url] = data;
       cacheTime[url] = utils.now();
     };
 
-    if (/^[a-z]+:\/\//i.test(url)) {
-      return $.get(url);
-    } else {
-      return $.oajax({url: serverUrl + url,
-        jso_provider: provider,
-        //TODO: use string scopes instead of ids
-        jso_scopes: jsoConfig[provider].scope,
-        jso_allowia: true,
-        dataType: 'json',
-        success: callback
-      }).done(cache);
+    var dfd = $.oajax({url: url,
+      jso_provider: provider,
+      //TODO: use string scopes instead of ids
+      jso_scopes: jsoConfig[provider].scope,
+      jso_allowia: true,
+      dataType: 'json',
+      success: callback
+     });
+
+    if (utils.isDeferred(dfd)) {
+      dfd.done(cache);
     }
+
+    return dfd;
   };
 
   var get = function (url) {
