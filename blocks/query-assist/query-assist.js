@@ -65,10 +65,6 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'global/glob
     return this.config[name];
   };
 
-  QueryConfig.prototype.getAll = function () {
-    return this.config;
-  };
-
   /**
    * Init method
    */
@@ -77,7 +73,19 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'global/glob
     var text;
 
     $global = queryConfig.getDom('global');
-    $el = queryConfig.getDom('el');
+    var target = queryConfig.getDom('target');
+
+    View.init(module, target, 'prepend', {}, {}).done(function($result) {
+      $el = $result;
+
+      _bindEvents($el);
+      queryModule.trigger('init:done');
+
+      text = $el.text();
+      if (text.length) {
+        _doAssist(text, text.length, true);
+      }
+    });
 
     dataSource = queryConfig.get('dataSource');
     COMPONENT_SELECTOR = queryConfig.get('COMPONENT_SELECTOR');
@@ -89,14 +97,6 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'global/glob
     CONTAINER_TOP_PADDING = queryConfig.get('CONTAINER_TOP_PADDING');
     MIN_LEFT_PADDING = queryConfig.get('MIN_LEFT_PADDING');
     MIN_RIGHT_PADDING = queryConfig.get('MIN_RIGHT_PADDING');
-
-    _bindEvents($el);
-    queryModule.trigger('init:done');
-
-    text = $el.text();
-    if (text.length) {
-      _doAssist(text, text.length, true);
-    }
   };
 
   /**
@@ -295,7 +295,7 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'global/glob
   var _getHighlightedHtml = function (styleRanges, text) {
     function appendItemClass(currentClasses, item) {
       if (item) {
-        return (currentClasses ? currentClasses + ' ' : '') + 'ring-query-style_' + item;
+        return (currentClasses ? currentClasses + ' ' : '') + 'ring-query-assist__' + item.replace('_', '-');
       } else {
         return currentClasses;
       }
