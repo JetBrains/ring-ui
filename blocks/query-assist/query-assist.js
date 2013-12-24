@@ -2,7 +2,6 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'global/glob
   'use strict';
 
   var $el,
-    $query,
     dataSource,
     $global,
     timeoutHandler,
@@ -10,10 +9,8 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'global/glob
     lastTriggeredCaretPosition,
     lastPolledValue,
     lastTriggeredValue,
-    COMPONENT_SELECTOR,
     CONTAINER_SELECTOR,
     WRAPPER_SELECTOR,
-    ITEM_SELECTOR,
     ITEM_CONTENT_SELECTOR,
     ITEM_CONTENT_SELECTOR_PADDING,
     CONTAINER_TOP_PADDING,
@@ -32,10 +29,8 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'global/glob
     }
     // default value && contants
     this.config = {
-      COMPONENT_SELECTOR: '.ring-query',
       CONTAINER_SELECTOR: '.ring-dropdown',
       WRAPPER_SELECTOR: '.ring-dropdown__i',
-      ITEM_SELECTOR: '.ring-query-el',
       ITEM_CONTENT_SELECTOR: '.ring-dropdown__item__content',
       ITEM_CONTENT_SELECTOR_PADDING: 8,
       MIN_LEFT_PADDING: 32,
@@ -88,30 +83,13 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'global/glob
     });
 
     dataSource = queryConfig.get('dataSource');
-    COMPONENT_SELECTOR = queryConfig.get('COMPONENT_SELECTOR');
     WRAPPER_SELECTOR = queryConfig.get('WRAPPER_SELECTOR');
     CONTAINER_SELECTOR = queryConfig.get('CONTAINER_SELECTOR');
-    ITEM_SELECTOR = queryConfig.get('ITEM_SELECTOR');
     ITEM_CONTENT_SELECTOR = queryConfig.get('ITEM_CONTENT_SELECTOR');
     ITEM_CONTENT_SELECTOR_PADDING = queryConfig.get('ITEM_CONTENT_SELECTOR_PADDING');
     CONTAINER_TOP_PADDING = queryConfig.get('CONTAINER_TOP_PADDING');
     MIN_LEFT_PADDING = queryConfig.get('MIN_LEFT_PADDING');
     MIN_RIGHT_PADDING = queryConfig.get('MIN_RIGHT_PADDING');
-  };
-
-  /**
-   * Destroy query container && trigger events
-   */
-  var destroy = function () {
-    if (/*$queryContainer && */$query) {
-      $query.remove();
-      $query = null;
-      queryModule.trigger('destroy:done');
-      return true;
-    } else {
-      queryModule.trigger('destroy:fail');
-      return false;
-    }
   };
 
   // FIXME Workaround to prevent double binds
@@ -166,16 +144,11 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'global/glob
     }).bind('blur', function () {
         _stopListen();
       });
-    $global.on('click', function (ev) {
-      var target = $(ev.target);
-      if (!target.is($el) && !target.closest().length) {
-        destroy();
-      }
-    });
+
     if ($el.is(':focus')) {
       _stopListen();
     }
-    $global.resize(destroy);
+
     queryModule.trigger('bindEvents:done');
   };
 
@@ -435,10 +408,6 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'global/glob
     },
     remoteDataSource: {
       method: remoteDataSource,
-      override: true
-    },
-    destroy: {
-      method: destroy,
       override: true
     }
   });
