@@ -663,3 +663,35 @@ or you could remove certain alert by passing its instance.
     // Removal by passing index of alert.
     ring('alerts', 'add', 'Another notification', AlertType.MESSAGE);
     ring.alerts('remove', 0);
+
+##Dialog
+
+    var Dialog = ring('dialog', 'showDialog', 'Dialog message',
+        ['array', 'of', 'buttons', 'captions'], 'Optional title',
+        opt_closeable = true, opt_show = true)
+
+### getDialog
+Returns constructor of <code>Dialog</code> class.
+
+### createDialog
+Creates and returns instance of new <code>Dialog</code>.
+<div><b>content</b> <i>{string}</i> — Content of dialog window.</div>
+<div><b>opt_buttons</b> <i>{Array.<string>=}</i> — Optional array of buttons captions. If this argument is not passed, buttons will not be shown.</div>
+<div><b>opt_title</b> <i>{string=}</i> — Optional dialog window title.</div>
+<div><b>opt_closeable</b> <i>{boolean=}</i> — Whether this dialog can be closed.</div>
+<div><b>opt_show</b> <i>{boolean=}</i> — Whether to show this dialog immediately.</div>
+
+### on
+Adds event handler for <code>Dialog</code> element.
+<div><b>dialog</b> <i>{Dialog}</i></div>
+<div><b>eventType</b> <i>{string|Dialog.EventType}</i></div>
+<div><b>handler</b> <i>{function}</i></div>
+
+### off
+Removes event handler.
+<div><b>dialog</b> <i>{Dialog}</i></div>
+<div><b>opt_eventType</b> <i>{string|Dialog.EventType=}</i> — Optional event type. If not passed, all handlers for given instance of <code>Dialog</code> will be removed</div>
+<div><b>opt_handler</b> <i>{function=}</i> — Optional handler. If not passed, all subscriptions to given eventType will be removed.</div>
+
+### getEventTypes
+Returns enumerable list of available event types for <code>Dialog</code>.
