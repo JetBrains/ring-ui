@@ -21,6 +21,7 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'global/glob
     MIN_RIGHT_PADDING;
 
   var dropdown = Module.get('dropdown');
+  var module = 'query-assist';
 
   /**
    * Config wrapper for QueryAssist
@@ -72,9 +73,8 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'global/glob
    * Init method
    */
   var init = function (config) {
-    var queryModule = Module.get('query'),
-      queryConfig = new QueryConfig(config),
-      text;
+    var queryConfig = new QueryConfig(config);
+    var text;
 
     $global = queryConfig.getDom('global');
     $el = queryConfig.getDom('el');
@@ -103,8 +103,6 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'global/glob
    * Destroy query container && trigger events
    */
   var destroy = function () {
-    var queryModule = Module.get('query');
-
     if (/*$queryContainer && */$query) {
       $query.remove();
       $query = null;
@@ -125,8 +123,6 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'global/glob
     }
     listening = true;
 
-    var queryModule = Module.get('query');
-
     lastTriggeredCaretPosition = undefined;
     lastPolledCaretPosition = undefined;
     timeoutHandler = setInterval(_pollCaretPosition, 250);
@@ -139,8 +135,6 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'global/glob
     }
     listening = false;
 
-    var queryModule = Module.get('query');
-
     if (timeoutHandler) {
       clearInterval(timeoutHandler);
     }
@@ -148,8 +142,7 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'global/glob
   };
 
   var _bindEvents = function ($el) {
-    var queryModule = Module.get('query'),
-      once = true;
+    var once = true;
 
     $el.bind('keypress', function (e) {
       if (e.which === 13) {
@@ -190,8 +183,6 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'global/glob
    * polling caret position
    */
   var _pollCaretPosition = function () {
-    var queryModule = Module.get('query');
-
     if (!$el.is(':focus')) {
       _stopListen();
     }
@@ -224,7 +215,6 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'global/glob
    * @param {bool} requestHighlighting Is highlight required
    */
   var _doAssist = function (query, caret, requestHighlighting) {
-    var queryModule = Module.get('query');
     if (query && caret) {
       dataSource(query, caret, requestHighlighting).then(function (data /* status, jqXHR*/) {
         /**
@@ -354,11 +344,10 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'global/glob
     var auth = Module.get('auth');
 
     return function (query, caret, requestHighlighting) {
-      var queryModule = Module.get('query'),
-        defer = $.Deferred(),
-        restUrl = remoteDataSourceConfig.url || '/api/rest/users/queryAssist?caret=#{caret}&fields=query,caret,suggestions#{styleRanges}&query=#{query}',
-        substr = ['query', 'caret', 'styleRanges'],
-        suggestArgs = [encodeURI(query), caret, (requestHighlighting ? ',styleRanges' : '')];
+      var defer = $.Deferred();
+      var restUrl = remoteDataSourceConfig.url || '/api/rest/users/queryAssist?caret=#{caret}&fields=query,caret,suggestions#{styleRanges}&query=#{query}';
+      var substr = ['query', 'caret', 'styleRanges'];
+      var suggestArgs = [encodeURI(query), caret, (requestHighlighting ? ',styleRanges' : '')];
 
       substr.forEach(function (item, index) {
         restUrl = restUrl.replace('#{' + item  + '}', suggestArgs[index] ? suggestArgs[index] : '');
@@ -428,10 +417,9 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'global/glob
    * autocomplete current text field
    */
   var _handleComplete = function (data) {
-    var queryModule = Module.get('query'),
-      input = data.assistData.query || '',
-      insText = (data.suggestion.prefix || '') + data.suggestion.option + (data.suggestion.suffix || ''),
-      output = input.substr(0, data.suggestion.completionStart) + insText + input.substr(data.suggestion.completionEnd);
+    var input = data.assistData.query || '';
+    var insText = (data.suggestion.prefix || '') + data.suggestion.option + (data.suggestion.suffix || '');
+    var output = input.substr(0, data.suggestion.completionStart) + insText + input.substr(data.suggestion.completionEnd);
 
     $el.text(output);
     _doAssist(output, data.suggestion.caret, true);
@@ -440,7 +428,7 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'global/glob
 
   dropdown.on('complete', _handleComplete);
 
-  Module.add('query', {
+  Module.add(module, {
     init: {
       method: init,
       override: true
@@ -454,4 +442,6 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'global/glob
       override: true
     }
   });
+
+  var queryModule = Module.get(module);
 });
