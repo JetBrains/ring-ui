@@ -339,6 +339,34 @@ define([
         return Dialog;
       },
       override: true
+    },
+    createDialog: {
+      method: function(content, opt_buttons, opt_title, opt_closeable,
+                       opt_show) {
+        return new Dialog(content, opt_buttons, opt_title, opt_closeable,
+            opt_show);
+      },
+      override: true
+    },
+    on: {
+      method: function(dialog, eventType, handler) {
+        dialog.getEventHandler().on(eventType, handler);
+        return dialog.getEventHandler();
+      },
+      override: true
+    },
+    off: {
+      method: function(dialog, opt_eventType, opt_handler) {
+        dialog.getEventHandler().off(opt_eventType, opt_handler);
+        return dialog.getEventHandler();
+      },
+      override: true
+    },
+    getEventTypes: {
+      method: function() {
+        return Dialog.EventType;
+      },
+      override: true
     }
   });
 
