@@ -471,14 +471,15 @@
 
 .ring-checkbox[type="checkbox"]:checked + label.ring-checkbox__label::before {
   position: relative;
-  top: -1px;
-  left: 1px;
+  top: -4px;
+  left: -1px;
   display: block;
   width: 11px;
   height: 11px;
 
   font-family: 'font-icon' !important;
   content: '\e005' ring-font-icon_search;
+  font-size: 16px;
 }
 
 .ring-checkbox__label_i {
