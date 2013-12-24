@@ -22,6 +22,10 @@
       font-size: 16px;
       font-weight: normal;
     }
+
+    .demo__query-example {
+      width: 100%; margin: auto;
+    }
   </style>
   <link rel="stylesheet" type="text/css" href="dist/ring-lib.css">
   <link rel="icon" type="image/x-icon" href="site/favicon.ico">
@@ -313,19 +317,19 @@
       ring('alerts').invoke('add', 'Alerts demo. Will hide in 10 secs.',
           'success', true, 10000);
 
-        var query = ring('query-assist');
-        query('init', {
-          el: '.ring-query-js',
-          CONTAINER_TOP_PADDING:21,
-          MIN_LEFT_PADDING:32,
-          dataSource: query('remoteDataSource', {
-              url: '/rest/users/queryAssist?caret=#{caret}&fields=query,caret,suggestions#{styleRanges}&query=#{query}'
-          })
-        });
+      var query = ring('query-assist');
+      query('init', {
+        target: '.demo__query-example',
+        CONTAINER_TOP_PADDING:21,
+        MIN_LEFT_PADDING:32,
+        dataSource: query('remoteDataSource', {
+          url: '/rest/users/queryAssist?caret=#{caret}&fields=query,caret,suggestions#{styleRanges}&query=#{query}'
+        })
+      });
 
-        query.on('apply', function() {
-          ring('alerts', 'add')('Query submitted','success', 10000);
-        });
+      query.on('apply', function() {
+        ring('alerts', 'add')('Query submitted','success', 10000);
+      });
 
       ring('shortcuts')('bind', {
         key: 'space',
@@ -343,9 +347,7 @@
 
   <div><a class="ring-link" href="dist/docs/API.html">View API documentation</a></div>
   <div><a class="ring-link" href="dist/styleguide/">CSS Styleguide</a></div>
-  <div class="ring-query__containter" style="width: 100%; margin: auto;">
-    <div class="ring-query-js ring-query-assist ring-input ring-js-shortcuts" spellcheck="false" contenteditable="true">name: admin or id: 1</div>
-  </div>
+  <div class="demo__query-example"></div>
 </div>
 
 </body>
