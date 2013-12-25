@@ -27,7 +27,7 @@ define(['jquery', 'global/global__modules', 'header/header', 'auth/auth'], funct
   $.when(headerInited, authInited)
     .then(function() {
       header.trigger('services');
-      return auth('get', '/api/rest/services');
+      return auth('get', 'api/rest/services?query=is:+verified');
     })
     .then(function(services) {
       var list = services && services.services;
