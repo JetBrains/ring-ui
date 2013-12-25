@@ -48,7 +48,7 @@
       var authData = window.location.host.indexOf('hub-dev') > -1 ?
       {
         redirectUri: "***REMOVED***",
-        serverUri: "***REMOVED***",
+        serverUri: "***REMOVED***/",
         refresh: true
       }
         :
@@ -323,7 +323,7 @@
         CONTAINER_TOP_PADDING:21,
         MIN_LEFT_PADDING:32,
         dataSource: query('remoteDataSource', {
-          url: '/rest/users/queryAssist?caret=#{caret}&fields=query,caret,suggestions#{styleRanges}&query=#{query}'
+          url: 'api/rest/users/queryAssist?caret=#{caret}&fields=query,caret,suggestions#{styleRanges}&query=#{query}'
         })
       });
 
