@@ -199,7 +199,7 @@
 
 .ring-form__wrap {
   padding: 2*$ring-unit 4*$ring-unit 0  4*$ring-unit;
-  margin-bottom: 34px;
+  margin-bottom: 0;
 }
 
 .ring-form__header {
@@ -208,7 +208,7 @@
 
 .ring-form__footer {
   position: relative;
-  margin-top: 3 * $ring-unit;
+  margin-top: 2 * $ring-unit;
   padding: 2*$ring-unit 0 2*$ring-unit 2*$ring-unit;
   background-color: #E9F8FF;
   background-color: rgba(37, 183, 255, 0.1);
