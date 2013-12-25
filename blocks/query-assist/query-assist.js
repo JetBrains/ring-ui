@@ -4,7 +4,7 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'global/glob
   var $el,
     $target,
     dataSource,
-    timeoutHandler,
+    timeoutId,
     lastPolledCaretPosition,
     lastTriggeredCaretPosition,
     lastPolledValue,
@@ -18,6 +18,8 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'global/glob
   var MIN_LEFT_PADDING = 32;
   var MIN_RIGHT_PADDING = 32;
   var CONTAINER_TOP_PADDING = 21;
+
+  var POLL_INTERVAL = 250; // 250 ms
 
   var dropdown = Module.get('dropdown');
   var shortcuts = Module.get('shortcuts');
@@ -70,20 +72,21 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'global/glob
   };
 
   var _startListen = function () {
-    shortcuts('pushScope', MODULE);
+    if (!timeoutId) {
+      shortcuts('pushScope', MODULE);
 
-    lastTriggeredCaretPosition = undefined;
-    lastPolledCaretPosition = undefined;
-    timeoutHandler = setInterval(_pollCaretPosition, 250);
-    queryAssist.trigger('startListen:done');
+      lastTriggeredCaretPosition = undefined;
+      lastPolledCaretPosition = undefined;
+      timeoutId = setTimeout(_pollCaretPosition, POLL_INTERVAL);
+    }
   };
 
   var _stopListen = function () {
-    if (timeoutHandler) {
-      clearInterval(timeoutHandler);
+    if (timeoutId) {
+      clearTimeout(timeoutId);
+      timeoutId = null;
+      shortcuts('popScope', MODULE);
     }
-    queryAssist.trigger('stopListen:done');
-    shortcuts('popScope', MODULE);
   };
 
   /**
@@ -113,6 +116,8 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'global/glob
       queryAssist.trigger('delayedCaretMove:done', {value: value, caret: caret});
       _doAssist(value, caret, false);
     }
+
+    timeoutId = setTimeout(_pollCaretPosition, POLL_INTERVAL);
   };
 
   /**
