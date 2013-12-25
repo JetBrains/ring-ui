@@ -191,6 +191,8 @@ define([
     if ($active.length) {
       $active.click();
       return false;
+    } else {
+      return true;
     }
   };
 
