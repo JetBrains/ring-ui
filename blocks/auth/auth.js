@@ -4,7 +4,7 @@ define(['jquery', 'jso', 'global/global__modules', 'global/global__utils'], func
 
   var module = 'auth';
 
-  var API_PATH = '/api/rest';
+  var API_PATH = 'api/rest';
   var API_AUTH_PATH = API_PATH + '/oauth2/auth';
   var PROFILE_PATH = '/users/me';
   var API_PROFILE_PATH = API_PATH + PROFILE_PATH;
@@ -101,8 +101,6 @@ define(['jquery', 'jso', 'global/global__modules', 'global/global__utils'], func
 
     if (!serverUrl) {
       utils.log('Server URI is not defined!');
-    } else {
-      serverUrl = serverUrl.replace(/\/+$/, '');
     }
 
     jsoConfig[provider] = {authorization: serverUrl + API_AUTH_PATH};
