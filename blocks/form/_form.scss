@@ -319,6 +319,10 @@
 
   line-height: 3 * $ring-unit;
   vertical-align: middle;
+
+  & .ring-link {
+    font-size: 11px;
+  }
 }
 
 .ring-form__control-link {
