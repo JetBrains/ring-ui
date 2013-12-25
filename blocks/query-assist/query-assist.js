@@ -1,155 +1,89 @@
-define(['jquery', 'global/global__views', 'global/global__modules', 'global/global__utils', 'dropdown/dropdown', 'auth/auth', 'jquery-caret'], function ($, View, Module, utils) {
+define(['jquery', 'global/global__views', 'global/global__modules', 'global/global__utils', 'dropdown/dropdown', 'auth/auth', 'shortcuts/shortcuts', 'jquery-caret'], function ($, View, Module, utils) {
   'use strict';
 
   var $el,
+    $target,
     dataSource,
-    $global,
     timeoutHandler,
     lastPolledCaretPosition,
     lastTriggeredCaretPosition,
     lastPolledValue,
-    lastTriggeredValue,
-    CONTAINER_SELECTOR,
-    WRAPPER_SELECTOR,
-    ITEM_CONTENT_SELECTOR,
-    ITEM_CONTENT_SELECTOR_PADDING,
-    CONTAINER_TOP_PADDING,
-    MIN_LEFT_PADDING,
-    MIN_RIGHT_PADDING;
+    lastTriggeredValue;
+
+  var QUERY_ASSIST_SELECTOR = '.ring-query-assist';
+  var CONTAINER_SELECTOR = '.ring-dropdown';
+  var WRAPPER_SELECTOR = '.ring-dropdown__i';
+  var ITEM_CONTENT_SELECTOR = '.ring-dropdown__item__content';
+  var ITEM_CONTENT_SELECTOR_PADDING = 8;
+  var MIN_LEFT_PADDING = 32;
+  var MIN_RIGHT_PADDING = 32;
+  var CONTAINER_TOP_PADDING = 21;
 
   var dropdown = Module.get('dropdown');
-  var module = 'query-assist';
+  var shortcuts = Module.get('shortcuts');
 
-  /**
-   * Config wrapper for QueryAssist
-   */
-  var QueryConfig = function (config) {
-    if (!config) {
-      throw new Error('QueryConfig: config is empty');
-    }
-    // default value && contants
-    this.config = {
-      CONTAINER_SELECTOR: '.ring-dropdown',
-      WRAPPER_SELECTOR: '.ring-dropdown__i',
-      ITEM_CONTENT_SELECTOR: '.ring-dropdown__item__content',
-      ITEM_CONTENT_SELECTOR_PADDING: 8,
-      MIN_LEFT_PADDING: 32,
-      MIN_RIGHT_PADDING: 32,
-      CONTAINER_TOP_PADDING: 21,
-      global: window
-    };
-
-    for (var item in config) {
-      this.config[item] = config[item];
-    }
-  };
-  QueryConfig.prototype.get = function (name) {
-    if (!this.config.hasOwnProperty(name)) {
-      throw new Error('QueryConfig: prop isn\'t exist');
-    }
-    return this.config[name];
-  };
-
-  QueryConfig.prototype.getDom = function (name) {
-    $el = $(this.get(name));
-    return $el;
-  };
-
-  QueryConfig.prototype.set = function (name, prop) {
-    this.config[name] = prop;
-    return this.config[name];
-  };
+  var MODULE = 'query-assist';
+  var $global = $(document);
 
   /**
    * Init method
    */
   var init = function (config) {
-    var queryConfig = new QueryConfig(config);
-    var text;
+    if (!config || !config.targetElem || !config.dataSource) {
+      utils.log('query-assist init params missing');
+      return $.Deferred().fail();
+    }
 
-    $global = queryConfig.getDom('global');
-    var target = queryConfig.getDom('target');
+    $target = $(config.targetElem);
+    dataSource = config.dataSource;
 
-    View.init(module, target, 'prepend', {}, {}).done(function($result) {
-      $el = $result;
+    var dfd = View.init(MODULE, $target, config.method || 'prepend', {}, config);
 
-      _bindEvents($el);
-      queryModule.trigger('init:done');
+    dfd.done(function($view) {
+      $el = $view;
 
-      text = $el.text();
-      if (text.length) {
-        _doAssist(text, text.length, true);
-      }
+      updateQuery();
     });
 
-    dataSource = queryConfig.get('dataSource');
-    WRAPPER_SELECTOR = queryConfig.get('WRAPPER_SELECTOR');
-    CONTAINER_SELECTOR = queryConfig.get('CONTAINER_SELECTOR');
-    ITEM_CONTENT_SELECTOR = queryConfig.get('ITEM_CONTENT_SELECTOR');
-    ITEM_CONTENT_SELECTOR_PADDING = queryConfig.get('ITEM_CONTENT_SELECTOR_PADDING');
-    CONTAINER_TOP_PADDING = queryConfig.get('CONTAINER_TOP_PADDING');
-    MIN_LEFT_PADDING = queryConfig.get('MIN_LEFT_PADDING');
-    MIN_RIGHT_PADDING = queryConfig.get('MIN_RIGHT_PADDING');
+    return dfd;
   };
 
-  // FIXME Workaround to prevent double binds
-  var listening;
+  var updateQuery = function(query) {
+    if ($el) {
+      if (query) {
+        $el.text(query);
+      } else {
+        query = $el.text();
+      }
+    }
+
+    if (query && query.length) {
+      _doAssist(query, query.length, true, true);
+    }
+  };
+
+  var apply = function() {
+    queryAssist.trigger('apply', $el.text().replace(/\s/g, ' '));
+    dropdown('hide');
+
+    return false;
+  };
 
   var _startListen = function () {
-    if (listening) {
-      return;
-    }
-    listening = true;
+    shortcuts('pushScope', MODULE);
 
     lastTriggeredCaretPosition = undefined;
     lastPolledCaretPosition = undefined;
     timeoutHandler = setInterval(_pollCaretPosition, 250);
-    queryModule.trigger('startListen:done');
+    queryAssist.trigger('startListen:done');
   };
 
   var _stopListen = function () {
-    if (!listening) {
-      return;
-    }
-    listening = false;
-
     if (timeoutHandler) {
       clearInterval(timeoutHandler);
     }
-    queryModule.trigger('stopListen:done');
-  };
-
-  var _bindEvents = function ($el) {
-    var once = true;
-
-    $el.bind('keypress', function (e) {
-      if (e.which === 13) {
-        e.preventDefault();
-        queryModule.trigger('apply');
-        dropdown('hide');
-      }
-    });
-
-    $el.bind('focus',function () {
-      _startListen();
-      // Enable highlight predefined text in Angular
-      if (once) {
-        once = false;
-        var isHighlighted = $el.find('span');
-        if (!isHighlighted.length) {
-          var textEl = $el.text();
-          _doAssist(textEl, textEl.length, true);
-        }
-      }
-    }).bind('blur', function () {
-        _stopListen();
-      });
-
-    if ($el.is(':focus')) {
-      _stopListen();
-    }
-
-    queryModule.trigger('bindEvents:done');
+    queryAssist.trigger('stopListen:done');
+    shortcuts('popScope', MODULE);
   };
 
   /**
@@ -170,13 +104,13 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'global/glob
       lastTriggeredCaretPosition = caret;
       lastTriggeredValue = value;
       // Trigger event if value changed
-      queryModule.trigger('delayedChange:done', {value: value, caret: caret});
+      queryAssist.trigger('delayedChange:done', {value: value, caret: caret});
       _doAssist(value, caret, true);
     } else if (caret !== lastTriggeredCaretPosition) {
       lastTriggeredCaretPosition = caret;
       lastTriggeredValue = value;
       // trigger event if just caret position changed
-      queryModule.trigger('delayedCaretMove:done', {value: value, caret: caret});
+      queryAssist.trigger('delayedCaretMove:done', {value: value, caret: caret});
       _doAssist(value, caret, false);
     }
   };
@@ -187,7 +121,7 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'global/glob
    * @param {number} caret Caret position
    * @param {bool} requestHighlighting Is highlight required
    */
-  var _doAssist = function (query, caret, requestHighlighting) {
+  var _doAssist = function (query, caret, requestHighlighting, highlightOnly) {
     if (query && caret) {
       dataSource(query, caret, requestHighlighting).then(function (data /* status, jqXHR*/) {
         /**
@@ -199,7 +133,7 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'global/glob
         }
 
         // if data isn't exist hide a suggest container
-        if (data && data.suggestions) {
+        if (!highlightOnly && data && data.suggestions) {
           var dropdownData = {
             type: ['typed', 'bound']
           };
@@ -220,9 +154,9 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'global/glob
 
           $(CONTAINER_SELECTOR).css(coords);
 
-          queryModule.trigger('doAssist:done');
+          queryAssist.trigger('doAssist:done');
         } else {
-          queryModule.trigger('hide:done');
+          queryAssist.trigger('hide:done');
           dropdown('hide');
         }
 
@@ -327,7 +261,7 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'global/glob
       });
 
       auth('get', restUrl).then(function (data, state, jqXHR) {
-        queryModule.trigger('ajax:done', data);
+        queryAssist.trigger('ajax:done', data);
         defer.resolve(data, state, jqXHR);
       }).fail(function () {
           defer.reject.apply(defer, arguments);
@@ -396,21 +330,26 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'global/glob
 
     $el.text(output);
     _doAssist(output, data.suggestion.caret, true);
-    queryModule.trigger('complete:done', data);
+    queryAssist.trigger('complete:done', data);
   };
 
   dropdown.on('complete', _handleComplete);
+  shortcuts('bindList', {scope: MODULE}, {
+    'enter': apply,
+    'ctrl+space': _doAssist
+  });
 
-  Module.add(module, {
-    init: {
-      method: init,
-      override: true
-    },
+  $global.on('focusin', QUERY_ASSIST_SELECTOR, _startListen);
+  $global.on('focusout', QUERY_ASSIST_SELECTOR, _stopListen);
+
+  Module.add(MODULE, {
+    init: init,
+    updateQuery: updateQuery,
     remoteDataSource: {
       method: remoteDataSource,
       override: true
     }
   });
 
-  var queryModule = Module.get(module);
+  var queryAssist = Module.get(MODULE);
 });

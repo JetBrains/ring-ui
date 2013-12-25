@@ -319,9 +319,8 @@
 
       var query = ring('query-assist');
       query('init', {
-        target: '.demo__query-example',
-        CONTAINER_TOP_PADDING:21,
-        MIN_LEFT_PADDING:32,
+        targetElem: '.demo__query-example',
+        query: 'name: admin or id: 1',
         dataSource: query('remoteDataSource', {
           url: 'api/rest/users/queryAssist?caret=#{caret}&fields=query,caret,suggestions#{styleRanges}&query=#{query}'
         })
