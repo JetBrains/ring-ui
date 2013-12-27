@@ -226,12 +226,16 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'global/glob
    */
   var __getCoords = function (textPos) {
     textPos = textPos || 1;
+    var caretPos = $el.find('span').eq(textPos  -1).offset();
 
-    var itemWidth = $(ITEM_CONTENT_SELECTOR).outerWidth(),
-      caretPos = $el.find('span').eq(textPos - 1).offset(),
-      globalWidth = $global.width(),
-      wrapper = $(WRAPPER_SELECTOR),
-      widthItemType = (wrapper.outerWidth() - itemWidth) + ITEM_CONTENT_SELECTOR_PADDING;
+    if (!caretPos) {
+      return {};
+    }
+
+    var itemWidth = $(ITEM_CONTENT_SELECTOR).outerWidth();
+    var globalWidth = $global.width();
+    var wrapper = $(WRAPPER_SELECTOR);
+    var widthItemType = (wrapper.outerWidth() - itemWidth) + ITEM_CONTENT_SELECTOR_PADDING;
 
     // Omit under $el
     caretPos.top += CONTAINER_TOP_PADDING;
@@ -243,7 +247,7 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'global/glob
       caretPos.left = MIN_LEFT_PADDING;
     }
     // Right edge
-    if (caretPos.left > globalWidth - (wrapper.offset().left + wrapper.outerWidth())) {
+    if (wrapper.length && caretPos.left > globalWidth - (wrapper.offset().left + wrapper.outerWidth())) {
       caretPos.left = globalWidth - MIN_RIGHT_PADDING - wrapper.outerWidth() - 2;
     }
     return caretPos;
