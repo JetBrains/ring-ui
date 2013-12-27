@@ -25,6 +25,14 @@ define([
   };
 
   /**
+   * @param {*} obj
+   * @return {boolean}
+   */
+  d.isNull = function(obj) {
+    return obj === null;
+  };
+
+  /**
    * @param {string} str
    * @return {boolean}
    */
@@ -518,7 +526,8 @@ define([
     $(document).on(eventType, callback);
   };
 
-  // todo(igor.alexeenko): Separate.
+  // todo(igor.alexeenko): Move all helper classes into separate files.
+
   /**
    * @param {number} from
    * @param {number} to
@@ -527,6 +536,54 @@ define([
   d.Range = function(from, to) {
     this.from = from;
     this.to = to;
+  };
+
+
+  /**
+   * Namespace of Operation System detect utils.
+   */
+  d.os = {};
+
+  /**
+   * @enum {string}
+   */
+  d.os.OS = {
+    LINUX: 'linux',
+    MAC: 'mac',
+    UNIX: 'unix',
+    UNKNOWN: 'unknown',
+    WINDOWS: 'windows'
+  };
+
+  /**
+   * @return {d.os.OS}
+   */
+  d.os.getOS = function() {
+    if (!d.isDef(d.os.currentOS_)) {
+      /**
+       * @type {d.os.OS}
+       * @private
+       */
+      d.os.currentOS_ = d.os.OS.UNKNOWN;
+
+      if (navigator.appVersion.indexOf('Win') > -1) {
+        d.os.currentOS_ = 'Windows';
+      }
+
+      if (navigator.appVersion.indexOf('Mac') > -1) {
+        d.os.currentOS_ ='MacOS';
+      }
+
+      if (navigator.appVersion.indexOf('X11') > -1) {
+        d.os.currentOS_ ='UNIX';
+      }
+
+      if (navigator.appVersion.indexOf('Linux') > -1) {
+        d.os.currentOS_ ='Linux';
+      }
+    }
+
+    return d.os.currentOS_;
   };
 
   return d;
