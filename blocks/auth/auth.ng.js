@@ -54,14 +54,8 @@
                 return 'Bearer ' + ring('auth', 'getToken')();
               };
             },
-            'getUserId': function () {
-              var token = ring('auth', 'getToken')();
-              if (token) {
-                var parts = token.split('.');
-                return parts[2];
-              } else {
-                return null;
-              }
+            'getUser': function () {
+              return ring('auth', 'getUser')();
             }
           };
         }]);
