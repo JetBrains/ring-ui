@@ -40,6 +40,7 @@ define(['jquery', 'jso', 'global/global__modules', 'global/global__utils'], func
   var CACHE_PERIOD = 30000;
   var cacheData = {};
   var cacheTime = {};
+  var meUser;
 
   var ajax = function (url, callback) {
     var absoluteUrl = absoluteUrlRE.test(url) ? url : serverUrl + url;
@@ -136,7 +137,9 @@ define(['jquery', 'jso', 'global/global__modules', 'global/global__utils'], func
         dfd.resolve(done);
 
         // Validate token
-        get(API_PROFILE_PATH);
+        get(API_PROFILE_PATH).done(function (me) {
+          meUser = me;
+        });
       }
     });
 
@@ -245,6 +248,12 @@ define(['jquery', 'jso', 'global/global__modules', 'global/global__utils'], func
     refresh: refresh,
     getToken: {
       method: getToken,
+      override: true
+    },
+    getUser: {
+      method: function () {
+        return meUser;
+      },
       override: true
     }
   });
