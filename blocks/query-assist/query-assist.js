@@ -338,7 +338,7 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'global/glob
     var output = input.substr(0, data.suggestion.completionStart) + insText + input.substr(data.suggestion.completionEnd);
 
     $el.text(output);
-    _doAssist(output, data.suggestion.caret, true);
+    _doAssist(output, data.suggestion.caret, true, true);
     queryAssist.trigger('complete:done', data);
   };
 
