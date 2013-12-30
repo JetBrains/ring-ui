@@ -23,6 +23,9 @@ define(['jquery', 'jso', 'global/global__modules', 'global/global__utils'], func
     return myBaseUrl;
   }());
 
+  var TOKEN_ACCESS_FIELD = 'access_token';
+  var TOKEN_EXPIRE_FIELD = 'expires';
+
   var absoluteUrlRE = /^[a-z]+:\/\//i;
 
   var INVALID_TOKEN_ERR = 'invalid_grant';
@@ -169,7 +172,7 @@ define(['jquery', 'jso', 'global/global__modules', 'global/global__utils'], func
   var refreshDefer;
 
   var refreshTime = function (token) {
-    return typeof token === 'string' ? token.split('.')[0] - REFRESH_BEFORE : $.now() - 5000; // 5 seconds ago
+    return token[TOKEN_EXPIRE_FIELD] ? token[TOKEN_EXPIRE_FIELD] - REFRESH_BEFORE : $.now() - 5000; // 5 seconds ago
   };
 
   var toBeRefreshed = function (token) {
@@ -189,11 +192,12 @@ define(['jquery', 'jso', 'global/global__modules', 'global/global__utils'], func
   };
 
   var setRefresh = function () {
-    setTimeout(refresh.bind(null, true), refreshTime(getToken()) - $.now());
+    setTimeout(refresh.bind(null, true), refreshTime(getToken(true, true)) - $.now());
   };
 
   var refresh = function (force) {
-    var token = getToken(true);
+    var token = getToken(true, true);
+    var tokenAccess = token[TOKEN_ACCESS_FIELD];
 
     if (!force && refreshDefer && refreshDefer.state === 'pending') {
       return refreshDefer;
@@ -202,7 +206,7 @@ define(['jquery', 'jso', 'global/global__modules', 'global/global__utils'], func
     refreshDefer = $.Deferred();
 
     if (!force && !toBeRefreshed(token)) {
-      return refreshDefer.resolve(token);
+      return refreshDefer.resolve(tokenAccess);
     }
 
     $iframe = $('<iframe style="display: none;"></iframe>').appendTo('body');
@@ -211,11 +215,11 @@ define(['jquery', 'jso', 'global/global__modules', 'global/global__utils'], func
       time = time || 0;
       var checkToken = getToken(true);
 
-      if (token === checkToken && time < POLL_TIME) {
+      if (tokenAccess === checkToken && time < POLL_TIME) {
         return setTimeout(poll.bind(null, time + POLL_INTERVAL), POLL_INTERVAL);
       }
 
-      if (token !== checkToken) {
+      if (tokenAccess !== checkToken) {
         refreshDefer.resolve(checkToken);
       } else {
         refreshDefer.reject();
