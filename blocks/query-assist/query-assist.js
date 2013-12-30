@@ -1,4 +1,14 @@
-define(['jquery', 'global/global__views', 'global/global__modules', 'global/global__utils', 'dropdown/dropdown', 'auth/auth', 'shortcuts/shortcuts', 'jquery-caret'], function ($, View, Module, utils) {
+define([
+  'jquery',
+  'global/global__views',
+  'global/global__modules',
+  'global/global__utils',
+  'global/global__events',
+  'dropdown/dropdown',
+  'auth/auth',
+  'shortcuts/shortcuts',
+  'jquery-caret'
+], function ($, View, Module, utils) {
   'use strict';
 
   var $el,
@@ -25,6 +35,7 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'global/glob
   var shortcuts = Module.get('shortcuts');
 
   var MODULE = 'query-assist';
+  var COMPLETE_ACTION = 'replace';
   var $global = $(document);
 
   /**
@@ -318,13 +329,21 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'global/glob
       return {
         label: label,
         type: suggestion.description,
-        event: {
+        event: [{
           name: 'dropdown:complete',
           data: {
-            assistData: assistData,
+            action: COMPLETE_ACTION,
+            query: assistData.query,
             suggestion: suggestion
           }
-        }
+        },{
+          name: 'dropdown:replace',
+          type: 'replace',
+          data: {
+            query: assistData.query,
+            suggestion: suggestion
+          }
+        }]
       };
     }) || [];
   };
@@ -333,9 +352,18 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'global/glob
    * autocomplete current text field
    */
   var _handleComplete = function (data) {
-    var input = data.assistData.query || '';
+    var currentCaret = $el.caret();
+
+    var input = data.query || '';
+    console.log(data.suggestion, input.substr(0, data.suggestion.completionStart), input.substr(data.suggestion.completionStart));
     var insText = (data.suggestion.prefix || '') + data.suggestion.option + (data.suggestion.suffix || '');
-    var output = input.substr(0, data.suggestion.completionStart) + insText + input.substr(data.suggestion.completionEnd);
+    var output;
+
+    if (data.action === COMPLETE_ACTION) {
+      output = input.substr(0, data.suggestion.completionStart) + insText + input.substr(currentCaret);
+    } else {
+      output = input.substr(0, data.suggestion.completionStart) + insText + input.substr(data.suggestion.completionEnd);
+    }
 
     $el.text(output);
     _doAssist(output, data.suggestion.caret, true, true);
@@ -343,9 +371,17 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'global/glob
   };
 
   dropdown.on('complete', _handleComplete);
+  dropdown.on('replace', _handleComplete);
+
+  var showAssist = function() {
+    _doAssist($el.text(), $el.caret(), false, true);
+    return false;
+  };
+
   shortcuts('bindList', {scope: MODULE}, {
     'enter': apply,
-    'ctrl+space': _doAssist
+    'tab': showAssist,
+    'ctrl+space': showAssist
   });
 
   $global.on('focusin', QUERY_ASSIST_SELECTOR, _startListen);
