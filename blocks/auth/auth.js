@@ -79,7 +79,7 @@ define(['jquery', 'jso', 'global/global__modules', 'global/global__utils'], func
     }
   };
 
-  var getToken = function (denyIA) {
+  var getToken = function (denyIA, withProps) {
     var token = jso.getToken(provider);
 
     if (token === null) {
@@ -91,7 +91,7 @@ define(['jquery', 'jso', 'global/global__modules', 'global/global__utils'], func
       }
       return false;
     } else {
-      return token;
+      return withProps ? token : token[TOKEN_ACCESS_FIELD];
     }
   };
 
