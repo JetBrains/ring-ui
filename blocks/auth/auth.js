@@ -53,7 +53,7 @@ define(['jquery', 'jso', 'global/global__modules', 'global/global__utils'], func
       success: callback
      });
 
-    cacheTime[url] = utils.now();
+    cacheTime[url] = $.now();
     cacheData[url] = dfd;
 
     // Refresh invalid token
@@ -72,7 +72,7 @@ define(['jquery', 'jso', 'global/global__modules', 'global/global__utils'], func
   };
 
   var get = function (url) {
-    if (utils.now() - cacheTime[url] < CACHE_PERIOD) {
+    if ($.now() - cacheTime[url] < CACHE_PERIOD) {
       return cacheData[url];
     } else {
       return ajax(url);
@@ -169,7 +169,7 @@ define(['jquery', 'jso', 'global/global__modules', 'global/global__utils'], func
   var refreshDefer;
 
   var refreshTime = function (token) {
-    return typeof token === 'string' ? token.split('.')[0] - REFRESH_BEFORE : utils.now() - 5000; // 5 seconds ago
+    return typeof token === 'string' ? token.split('.')[0] - REFRESH_BEFORE : $.now() - 5000; // 5 seconds ago
   };
 
   var toBeRefreshed = function (token) {
@@ -177,7 +177,7 @@ define(['jquery', 'jso', 'global/global__modules', 'global/global__utils'], func
       return true;
     }
 
-    return utils.now() >= refreshTime(token);
+    return $.now() >= refreshTime(token);
   };
 
   var defaultUrlHandler = function (url) {
@@ -189,7 +189,7 @@ define(['jquery', 'jso', 'global/global__modules', 'global/global__utils'], func
   };
 
   var setRefresh = function () {
-    setTimeout(refresh.bind(null, true), refreshTime(getToken()) - utils.now());
+    setTimeout(refresh.bind(null, true), refreshTime(getToken()) - $.now());
   };
 
   var refresh = function (force) {
