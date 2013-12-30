@@ -88,21 +88,31 @@
                   {
                     "label": "test hover",
                     "url": "/rest/agile",
-                    "hover": "dropdown:hover",
+                    "event": {
+                      "type": "hover",
+                      "name":  "dropdown:hover"
+                    },
                     "action": true
                   },
                   {
                     "label": "test click",
                     "url": "/rest/agile",
-                    "click": {
+                    "event": {
                       name: "dropdown:click",
                       data: 'Clicked!'
                     },
                     "action": true
                   },
                   {
-                    "label": "dependent",
+                    "label": "two events",
                     "url": "/rest/agile",
+                    "event": [{
+                      name: "dropdown:click",
+                      data: 'Clicked!'
+                    },{
+                      "name":  "dropdown:hover",
+                      "type": "hover"
+                    }],
                     "action": true
                   },
                   {
