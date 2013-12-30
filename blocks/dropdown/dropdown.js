@@ -133,16 +133,15 @@ define([
       .css(params)
       // Using delegate because of compatibility with YouTrack's jQuery 1.5.1
       .delegate(ITEM_ACTION_SELECTOR,'mouseenter.ring-dropdown', function(e) {
-        var $target = $(e.currentTarget);
+        events.domEventHandler(e);
 
-        if ($target.is(events.HOVER_SELECTOR)) {
-          events.domEventHandler(e);
-        }
-
-        $target
+        $(e.currentTarget)
           .addClass(ACTIVE_CLASS)
           .siblings()
           .removeClass(ACTIVE_CLASS);
+      })
+      .delegate(ITEM_ACTION_SELECTOR,'replace.ring-dropdown', function(e) {
+        events.domEventHandler(e);
       });
 
     dropdown.trigger('show:done');
@@ -185,11 +184,11 @@ define([
     return false;
   };
 
-  var action = function() {
+  var action = function(e, key) {
     var $active = $dropdown.find(ACTIVE_SELECTOR);
 
     if ($active.length) {
-      $active.click();
+      $active.trigger(key === 'enter' ? 'click' : 'replace');
       return false;
     } else {
       return true;
@@ -214,6 +213,7 @@ define([
   shortcuts('bindList', {scope: MODULE}, {
     'esc': remove,
     'enter': action,
+    'tab': action,
     'up': navigate,
     'down': navigate
   });
