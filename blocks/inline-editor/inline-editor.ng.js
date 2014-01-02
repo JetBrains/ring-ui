@@ -73,7 +73,12 @@
 
           $scope.apply = function () {
             if ($scope.editMode) {
-              var value = input.text();
+              // Use .html() to avoid line-breaks eating that is done by .text()
+              var value = input.html().trim()
+                .replace(/<br\s*\/*>/ig, "\n") // replace single line-breaks
+                .replace(/(<(p|div))/ig, "\n$1") // add a line break before all div and p tags
+                .replace(/(<([^>]+)>)/ig, "");
+
               ngModelCtrl.$setViewValue(value);
               $scope.setEditMode(false);
               $scope.onApply({value: value});
