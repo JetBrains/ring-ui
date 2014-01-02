@@ -172,7 +172,7 @@ define(['jquery', 'jso', 'global/global__modules', 'global/global__utils'], func
   var refreshDefer;
 
   var refreshTime = function (token) {
-    return token[TOKEN_EXPIRE_FIELD] ? token[TOKEN_EXPIRE_FIELD] - REFRESH_BEFORE : $.now() - 5000; // 5 seconds ago
+    return token[TOKEN_EXPIRE_FIELD] ? token[TOKEN_EXPIRE_FIELD] * 1000 - REFRESH_BEFORE : $.now() - 5000; // 5 seconds ago
   };
 
   var toBeRefreshed = function (token) {
