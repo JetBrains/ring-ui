@@ -1,5 +1,6 @@
 <div>
     <span class="ring-inline-editor__input"
+          ng-class="{'ring-inline-editor__input_multiline': isMultiLine()}"
           ng-dblclick="setEditMode(true)"
           ng-blur="apply()"
           ng-keydown="inputKey($event)"></span>
