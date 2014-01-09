@@ -371,7 +371,7 @@ define([
   dropdown.on('replace', _handleComplete);
 
   var showAssist = function() {
-    _doAssist($el.text(), $el.caret(), false, true);
+    _doAssist($el.text().replace(/\s/g, ' '), $el.caret(), false, false);
     return false;
   };
 
