@@ -16,7 +16,8 @@ module.exports = function(karma) {
     files: [
       'components/jquery/jquery.js',
       'components/codemirror/lib/codemirror.js',
-      'components/raphael/raphael.min.js',
+// Disabled because of unholy AMD
+//      'components/raphael/raphael-min.js',
 
       {pattern: 'blocks/**/*.js', included: false},
       {pattern: 'test/**/*.js', included: false},
