@@ -118,13 +118,13 @@ define([
       lastTriggeredCaretPosition = caret;
       lastTriggeredValue = value;
       // Trigger event if value changed
-      queryAssist.trigger('delayedChange:done', {value: value, caret: caret});
+      queryAssist.trigger('change', {value: value, caret: caret});
       _doAssist(value, caret, true);
     } else if (caret !== lastTriggeredCaretPosition) {
       lastTriggeredCaretPosition = caret;
       lastTriggeredValue = value;
       // trigger event if just caret position changed
-      queryAssist.trigger('delayedCaretMove:done', {value: value, caret: caret});
+      queryAssist.trigger('caret-move', {value: value, caret: caret});
       _doAssist(value, caret, false);
     }
 
@@ -169,10 +169,7 @@ define([
           var coords = __getCoords(dropdownTextPosition);
 
           $(CONTAINER_SELECTOR).css(coords);
-
-          queryAssist.trigger('doAssist:done');
         } else {
-          queryAssist.trigger('hide:done');
           dropdown('hide');
         }
 
@@ -281,7 +278,6 @@ define([
       });
 
       auth('get', restUrl).then(function (data, state, jqXHR) {
-        queryAssist.trigger('ajax:done', data);
         defer.resolve(data, state, jqXHR);
       }).fail(function () {
           defer.reject.apply(defer, arguments);
@@ -365,7 +361,10 @@ define([
 
     $el.text(output);
     _doAssist(output, data.suggestion.caret, true, true);
-    queryAssist.trigger('complete:done', data);
+    queryAssist.trigger('change caret-move complete', {
+      value: output,
+      caret: data.suggestion.caret
+    });
   };
 
   dropdown.on('complete', _handleComplete);
