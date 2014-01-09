@@ -1,4 +1,14 @@
-define(['jquery', 'global/global__views', 'global/global__modules', 'global/global__utils', 'dropdown/dropdown', 'auth/auth', 'shortcuts/shortcuts', 'jquery-caret'], function ($, View, Module, utils) {
+define([
+  'jquery',
+  'global/global__views',
+  'global/global__modules',
+  'global/global__utils',
+  'global/global__events',
+  'dropdown/dropdown',
+  'auth/auth',
+  'shortcuts/shortcuts',
+  'jquery-caret'
+], function ($, View, Module, utils) {
   'use strict';
 
   var $el,
@@ -25,6 +35,7 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'global/glob
   var shortcuts = Module.get('shortcuts');
 
   var MODULE = 'query-assist';
+  var COMPLETE_ACTION = 'replace';
   var $global = $(document);
 
   /**
@@ -226,12 +237,16 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'global/glob
    */
   var __getCoords = function (textPos) {
     textPos = textPos || 1;
+    var caretPos = $el.find('span').eq(textPos  -1).offset();
 
-    var itemWidth = $(ITEM_CONTENT_SELECTOR).outerWidth(),
-      caretPos = $el.find('span').eq(textPos - 1).offset(),
-      globalWidth = $global.width(),
-      wrapper = $(WRAPPER_SELECTOR),
-      widthItemType = (wrapper.outerWidth() - itemWidth) + ITEM_CONTENT_SELECTOR_PADDING;
+    if (!caretPos) {
+      return {};
+    }
+
+    var itemWidth = $(ITEM_CONTENT_SELECTOR).outerWidth();
+    var globalWidth = $global.width();
+    var wrapper = $(WRAPPER_SELECTOR);
+    var widthItemType = (wrapper.outerWidth() - itemWidth) + ITEM_CONTENT_SELECTOR_PADDING;
 
     // Omit under $el
     caretPos.top += CONTAINER_TOP_PADDING;
@@ -243,7 +258,7 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'global/glob
       caretPos.left = MIN_LEFT_PADDING;
     }
     // Right edge
-    if (caretPos.left > globalWidth - (wrapper.offset().left + wrapper.outerWidth())) {
+    if (wrapper.length && caretPos.left > globalWidth - (wrapper.offset().left + wrapper.outerWidth())) {
       caretPos.left = globalWidth - MIN_RIGHT_PADDING - wrapper.outerWidth() - 2;
     }
     return caretPos;
@@ -314,13 +329,21 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'global/glob
       return {
         label: label,
         type: suggestion.description,
-        event: {
+        event: [{
           name: 'dropdown:complete',
           data: {
-            assistData: assistData,
+            action: COMPLETE_ACTION,
+            query: assistData.query,
             suggestion: suggestion
           }
-        }
+        },{
+          name: 'dropdown:replace',
+          type: 'replace',
+          data: {
+            query: assistData.query,
+            suggestion: suggestion
+          }
+        }]
       };
     }) || [];
   };
@@ -329,19 +352,36 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'global/glob
    * autocomplete current text field
    */
   var _handleComplete = function (data) {
-    var input = data.assistData.query || '';
+    var currentCaret = $el.caret();
+
+    var input = data.query || '';
+    console.log(data.suggestion, input.substr(0, data.suggestion.completionStart), input.substr(data.suggestion.completionStart));
     var insText = (data.suggestion.prefix || '') + data.suggestion.option + (data.suggestion.suffix || '');
-    var output = input.substr(0, data.suggestion.completionStart) + insText + input.substr(data.suggestion.completionEnd);
+    var output;
+
+    if (data.action === COMPLETE_ACTION) {
+      output = input.substr(0, data.suggestion.completionStart) + insText + input.substr(currentCaret);
+    } else {
+      output = input.substr(0, data.suggestion.completionStart) + insText + input.substr(data.suggestion.completionEnd);
+    }
 
     $el.text(output);
-    _doAssist(output, data.suggestion.caret, true);
+    _doAssist(output, data.suggestion.caret, true, true);
     queryAssist.trigger('complete:done', data);
   };
 
   dropdown.on('complete', _handleComplete);
+  dropdown.on('replace', _handleComplete);
+
+  var showAssist = function() {
+    _doAssist($el.text(), $el.caret(), false, true);
+    return false;
+  };
+
   shortcuts('bindList', {scope: MODULE}, {
     'enter': apply,
-    'ctrl+space': _doAssist
+    'tab': showAssist,
+    'ctrl+space': showAssist
   });
 
   $global.on('focusin', QUERY_ASSIST_SELECTOR, _startListen);

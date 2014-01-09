@@ -7,10 +7,9 @@ define(['jquery', 'global/global__utils'], function($, utils) {
     EVENTS_DELIM: ' ',
     NAMESPACE_DELIM: '::',
     MODULE_DELIM: ':',
-    CLICK_SELECTOR: '.ring-js-event, .ring-js-click',
-    HOVER_SELECTOR: '.ring-js-hover',
-    CLICK_DATA_ATTR: 'ring-click',
-    HOVER_DATA_ATTR: 'ring-hover'
+    EVENT_SELECTOR: '.ring-js-event',
+    EVENT_DATA_ATTR: 'ring-event',
+    DEFAULT_EVENT: 'click'
   };
 
 
@@ -157,20 +156,31 @@ define(['jquery', 'global/global__utils'], function($, utils) {
     };
   };
 
+  var eventsMap = {
+    'hover': 'mouseenter'
+  };
+
   // Events from DOM
   var domEventHandler = function(e) {
     var $target = $(e.currentTarget);
-    var event = $target.data($target.is(events.CLICK_SELECTOR) ? events.CLICK_DATA_ATTR : events.HOVER_DATA_ATTR);
+    var type = eventsMap[e.type] || e.type || events.DEFAULT_EVENT;
+    var storedEvents = $target.data(events.EVENT_DATA_ATTR);
 
-    if (typeof event === 'object') {
-      return methods.trigger({global: true}, event.name, event.data);
+    var fire = function(event) {
+      if (!event.type && type === events.DEFAULT_EVENT || event.type === type) {
+        return methods.trigger({global: true}, event.name || event, event.data);
+      }
+    };
+
+    if ($.isArray(storedEvents)) {
+      return $.map(storedEvents, fire).pop();
     } else {
-      return methods.trigger({global: true}, event);
+      return fire(storedEvents);
     }
   };
 
   // Using delegate because of compatibility with YouTrack's jQuery 1.5.1
-  $(document).delegate(events.CLICK_SELECTOR, 'click.ring-event', domEventHandler);
+  $(document).delegate(events.EVENT_SELECTOR, 'click.ring-event', domEventHandler);
 
   events.methods = methods;
   events.domEventHandler = domEventHandler;
