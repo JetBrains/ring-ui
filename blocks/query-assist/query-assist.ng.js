@@ -15,13 +15,17 @@
         },
         link: {
           pre: function ($scope, iElement) {
-            var APPLY_EVENT = 'apply::' + $scope.$id;
+            var APPLY_EVENT  = 'apply::' + $scope.$id;
+            var CHANGE_EVENT = 'change::' + $scope.$id;
 
             // Apply search
             queryAssist.on(APPLY_EVENT, function (query) {
-              $scope.query = query;
-              $scope.$apply();
               $scope.search({query: query});
+            });
+
+            queryAssist.on(CHANGE_EVENT, function (data) {
+              $scope.query = data.value;
+              $scope.$apply();
             });
 
             // Init
@@ -45,6 +49,7 @@
             // Proerly destroy scope
             $scope.$on('$destroy', function() {
               queryAssist.off(APPLY_EVENT);
+              queryAssist.off(CHANGE_EVENT);
               unWatchQuery();
             });
           }
