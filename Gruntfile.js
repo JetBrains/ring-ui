@@ -1,10 +1,13 @@
 /*jshint scripturl:true*/
 var hljs = require('highlight.js');
+var _ = require('lodash');
 
 var LIVERELOAD_PORT = 35730;
 var lrSnippet = require('connect-livereload')({port: LIVERELOAD_PORT});
 
 module.exports = function(grunt) {
+  require('load-grunt-tasks')(grunt);
+  require('time-grunt')(grunt);
 
   var path = {
     dist: 'dist/',
@@ -32,7 +35,6 @@ module.exports = function(grunt) {
     }
   };
 
-  var _ = grunt.util._;
   var pkg = grunt.file.readJSON('package.json');
 
   // Set version option form build option
@@ -135,7 +137,7 @@ module.exports = function(grunt) {
         }],
 
         options: {
-          namespace: 'utils'
+          namespace: ['utils']
         }
       }
     },
@@ -543,8 +545,6 @@ module.exports = function(grunt) {
       grunt.log.ok('File "' + file.dest + '" created.');
     });
   });
-
-  require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
 
   grunt.registerTask('install',   ['bower', 'copy:codemirror']);
   grunt.registerTask('uninstall', ['clean:modules']);
