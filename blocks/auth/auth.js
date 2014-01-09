@@ -23,6 +23,9 @@ define(['jquery', 'jso', 'global/global__modules', 'global/global__utils'], func
     return myBaseUrl;
   }());
 
+  var TOKEN_ACCESS_FIELD = 'access_token';
+  var TOKEN_EXPIRE_FIELD = 'expires';
+
   var absoluteUrlRE = /^[a-z]+:\/\//i;
 
   var INVALID_TOKEN_ERR = 'invalid_grant';
@@ -53,7 +56,7 @@ define(['jquery', 'jso', 'global/global__modules', 'global/global__utils'], func
       success: callback
      });
 
-    cacheTime[url] = utils.now();
+    cacheTime[url] = $.now();
     cacheData[url] = dfd;
 
     // Refresh invalid token
@@ -72,14 +75,14 @@ define(['jquery', 'jso', 'global/global__modules', 'global/global__utils'], func
   };
 
   var get = function (url) {
-    if (utils.now() - cacheTime[url] < CACHE_PERIOD) {
+    if ($.now() - cacheTime[url] < CACHE_PERIOD) {
       return cacheData[url];
     } else {
       return ajax(url);
     }
   };
 
-  var getToken = function (denyIA) {
+  var getToken = function (denyIA, withProps) {
     var token = jso.getToken(provider);
 
     if (token === null) {
@@ -91,7 +94,7 @@ define(['jquery', 'jso', 'global/global__modules', 'global/global__utils'], func
       }
       return false;
     } else {
-      return token;
+      return withProps ? token : token[TOKEN_ACCESS_FIELD];
     }
   };
 
@@ -169,7 +172,7 @@ define(['jquery', 'jso', 'global/global__modules', 'global/global__utils'], func
   var refreshDefer;
 
   var refreshTime = function (token) {
-    return typeof token === 'string' ? token.split('.')[0] - REFRESH_BEFORE : utils.now() - 5000; // 5 seconds ago
+    return token[TOKEN_EXPIRE_FIELD] ? token[TOKEN_EXPIRE_FIELD] * 1000 - REFRESH_BEFORE : $.now() - 5000; // 5 seconds ago
   };
 
   var toBeRefreshed = function (token) {
@@ -177,7 +180,7 @@ define(['jquery', 'jso', 'global/global__modules', 'global/global__utils'], func
       return true;
     }
 
-    return utils.now() >= refreshTime(token);
+    return $.now() >= refreshTime(token);
   };
 
   var defaultUrlHandler = function (url) {
@@ -189,11 +192,12 @@ define(['jquery', 'jso', 'global/global__modules', 'global/global__utils'], func
   };
 
   var setRefresh = function () {
-    setTimeout(refresh.bind(null, true), refreshTime(getToken()) - utils.now());
+    setTimeout(refresh.bind(null, true), refreshTime(getToken(true, true)) - $.now());
   };
 
   var refresh = function (force) {
-    var token = getToken(true);
+    var token = getToken(true, true);
+    var tokenAccess = token[TOKEN_ACCESS_FIELD];
 
     if (!force && refreshDefer && refreshDefer.state === 'pending') {
       return refreshDefer;
@@ -202,7 +206,7 @@ define(['jquery', 'jso', 'global/global__modules', 'global/global__utils'], func
     refreshDefer = $.Deferred();
 
     if (!force && !toBeRefreshed(token)) {
-      return refreshDefer.resolve(token);
+      return refreshDefer.resolve(tokenAccess);
     }
 
     $iframe = $('<iframe style="display: none;"></iframe>').appendTo('body');
@@ -211,11 +215,11 @@ define(['jquery', 'jso', 'global/global__modules', 'global/global__utils'], func
       time = time || 0;
       var checkToken = getToken(true);
 
-      if (token === checkToken && time < POLL_TIME) {
+      if (tokenAccess === checkToken && time < POLL_TIME) {
         return setTimeout(poll.bind(null, time + POLL_INTERVAL), POLL_INTERVAL);
       }
 
-      if (token !== checkToken) {
+      if (tokenAccess !== checkToken) {
         refreshDefer.resolve(checkToken);
       } else {
         refreshDefer.reject();
@@ -245,6 +249,12 @@ define(['jquery', 'jso', 'global/global__modules', 'global/global__utils'], func
     refresh: refresh,
     getToken: {
       method: getToken,
+      override: true
+    },
+    getUser: {
+      method: function () {
+        return get(API_PROFILE_PATH);
+      },
       override: true
     }
   });

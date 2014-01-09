@@ -491,6 +491,11 @@ Returns token or updates authorization if token is missing.
 
 **Returns** `String`
 
+### getUser
+Returns deferred logged in user.
+
+**Returns** Deferred that resolves to [User](http://confluence.jetbrains.com/display/HUB/JSON+Scheme#JSONScheme-user)
+
 ### ajax
 Get Hub resource using authorization config.
 

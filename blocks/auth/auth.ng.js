@@ -53,6 +53,9 @@
               $http.defaults.headers.common['Authorization'] = function () {
                 return 'Bearer ' + ring('auth', 'getToken')();
               };
+            },
+            'getUser': function () {
+              return ring('auth', 'getUser')();
             }
           };
         }]);
