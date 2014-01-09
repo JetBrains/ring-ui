@@ -1,12 +1,13 @@
 define(['jquery', 'global/global__modules', 'header/header', 'auth/auth'], function ($, Module) {
   'use strict';
 
-  var convertServices = function(services) {
+  var convertServices = function(services, activeServiceId) {
     var items = [];
 
     for (var i = 0; i < services.length; ++i) {
       var service = services[i];
       items.push({
+        active: service.id === activeServiceId,
         label: service.name,
         url: service.homeUrl
       });
@@ -34,7 +35,8 @@ define(['jquery', 'global/global__modules', 'header/header', 'auth/auth'], funct
       var headerServices = header.get('view').services || [];
 
       if (list) {
-        header('update', 'services', headerServices.concat(convertServices(list)));
+        var clientServiceId = (auth.get('config') || {}).client_id;
+        header('update', 'services', headerServices.concat(convertServices(list, clientServiceId)));
         header.trigger('services:done');
       } else {
         header.trigger('services:fail');
