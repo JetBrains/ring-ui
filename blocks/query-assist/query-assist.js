@@ -353,9 +353,7 @@ define([
    */
   var _handleComplete = function (data) {
     var currentCaret = $el.caret();
-
     var input = data.query || '';
-    console.log(data.suggestion, input.substr(0, data.suggestion.completionStart), input.substr(data.suggestion.completionStart));
     var insText = (data.suggestion.prefix || '') + data.suggestion.option + (data.suggestion.suffix || '');
     var output;
 
