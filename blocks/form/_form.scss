@@ -52,16 +52,20 @@
 // Input error bubbles
 //
 // Markup:
-// <input class="ring-input ring-input_error" type="text">
-// <div class="ring-input__error-bubble">Wrong value</div>
+// <div class="ring-input_wrapper">
+//   <input class="ring-input ring-input_error" type="text">
+//   <div class="ring-input__error-bubble active">Wrong value</div>
+// </div>
 //
 // Styleguide 7.2
 .ring-input__error-bubble {
-  display: inline-block;
-  position: relative;
-  top: -6px;
+  display: none;
+  position: absolute;
+  top: 26px;
+  left: 0;
   padding-left: 16px;
   padding-right: 16px;
+  z-index: 2;
 
   border-radius: 3px;
 
@@ -70,6 +74,10 @@
 
   @include ring-font;
   font-size: 13px;
+
+  &.active {
+    display: inline-block;
+  }
 
   &:before {
     content: "";
@@ -139,14 +147,14 @@
 //  <div class="ring-form__group">
 //    <label for="ring-form-2" class="ring-form__label">License Key</label>
 //    <div class="ring-form__control">
-//      <input class="ring-input" id="ring-form-2" type="text">
+//      <input class="ring-input ring-input_error" id="ring-form-2" type="text">
+//      <div class="ring-input__error-bubble">Wrong value</div>
 //    </div>
 //  </div>
 //  <div class="ring-form__group">
 //    <label for="ring-form-3" class="ring-form__label">License Key</label>
 //    <div class="ring-form__control">
 //      <input class="ring-input ring-input_long" id="ring-form-3" type="text">
-//      <div class="ring-input__error-bubble">Wrong value</div>
 //    </div>
 //  </div>
 //  <div class="ring-form__footer">
@@ -168,10 +176,8 @@
     margin: 0;
   }
 
-  & .ring-input__error-bubble {
-    position: absolute;
-    top: 3*$ring-unit+2;
-    padding-left: $ring-unit;
+  & .ring-input_error + .ring-input__error-bubble {
+    display: inline-block;
   }
 }
 
