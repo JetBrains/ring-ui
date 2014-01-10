@@ -2,8 +2,51 @@
 <html>
 <head>
   <title></title>
+  <style>
+    .selectable-list {
+      border: solid 1px #ddd;
+      font: 13px Helvetica;
+      -moz-user-select: none;
+      -o-user-select: none;
+      -webkit-user-select: none;
+      width: 200px;
+    }
+
+    .selectable-list__item_hovered {
+      background: #fff0cf;
+    }
+
+    .selectable-list__item_selected {
+      background: #def;
+    }
+
+    .selectable-list__item_hovered.selectable-list__item_selected {
+      background: #cde;
+    }
+  </style>
 </head>
 <body>
+
+<div class="layout">
+  <div class="selectable-list">
+    <div class="selectable-list__item"><input type="checkbox">&nbsp;First</div>
+    <div class="selectable-list__item"><input type="checkbox">&nbsp;Second</div>
+    <div class="selectable-list__item"><input type="checkbox">&nbsp;Fourth</div>
+    <div class="selectable-list__item"><input type="checkbox">&nbsp;Third</div>
+  </div>
+</div>
+
+<script src="components/requirejs/require.js"></script>
+<script src="components/jquery/jquery.js"></script>
+<script src="bundles/ring.config.js"></script>
+<script type="text/javascript">
+  require([
+    'selectable-list/selectable-list'
+  ], function(SelectableList) {
+    var element = document.querySelector('.selectable-list');
+    var selectableList = SelectableList.decorate(element, true);
+  });
+</script>
 
 </body>
 </html>
