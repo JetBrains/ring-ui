@@ -54,6 +54,7 @@
           'type': '@type',
           'label': '@label',
           'target': '@target',
+          'isActive': '&active',
           'sideName': '@side'
         },
         link: function (scope, iElement, iAttrs, menuCtrl) {
@@ -61,7 +62,8 @@
             'url': scope.url,
             'type': scope.type,
             'target': scope.target,
-            'label': scope.label
+            'label': scope.label,
+            'active': scope.isActive()
           });
         }
       };
