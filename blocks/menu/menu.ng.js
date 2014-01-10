@@ -24,19 +24,18 @@
           var ctrl = this;
           $scope.menu = {
             'type': [$scope.type, '4x'],
-            'left': {
-              'logo': null,
-              'items': []
-            },
-            'right': {
-              'logo': null,
-              'items': []
-            }
+            'left': {},
+            'right': {}
           };
+          var itemIdx = 1;
           ctrl.addMenuItem = function(sideName, item) {
-            $scope.menu[sideName].items.push(item);
+            item.order = itemIdx++;
+            var localId = 'item_' + item.order;
+            $scope.menu[sideName][localId] = item;
+            return sideName + '.' + localId;
           };
           ctrl.setMenuLogo = function (sideName, logo) {
+            logo.order = itemIdx++;
             $scope.menu[sideName].logo = logo;
           };
         }],
@@ -58,12 +57,18 @@
           'sideName': '@side'
         },
         link: function (scope, iElement, iAttrs, menuCtrl) {
-          menuCtrl.addMenuItem(scope.sideName, {
+          var menuItemId = menuCtrl.addMenuItem(scope.sideName, {
             'url': scope.url,
             'type': scope.type,
             'target': scope.target,
             'label': scope.label,
             'active': scope.isActive()
+          });
+
+          scope.$watch('isActive()', function (value) {
+            if (value) {
+              ring('menu', 'setActive')(menuItemId);
+            }
           });
         }
       };
