@@ -1,7 +1,10 @@
 .ring-diff__map {
+  background: #f7f7f7;
+  border-top: solid 1px #ccc;
+  border-bottom: solid 1px #ccc;
+  box-sizing: border-box;
   float: right;
   height: 100%;
-  margin-left: $map_offset;
   overflow: hidden;
   position: relative;
   user-select: none;
