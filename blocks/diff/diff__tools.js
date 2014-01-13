@@ -235,13 +235,22 @@ define([
     var result = arr;
 
     if (elIndex > -1) {
-      var leftSide = arr.slice(0, elIndex);
-      var rightSide = arr.slice(elIndex + 1, arr.length);
-
-      result = leftSide.concat(rightSide);
+      result = d.deleteFromArrayAt(arr, elIndex);
     }
 
     return result;
+  };
+
+  /**
+   * @param {Array} arr
+   * @param {number} index
+   * @return {Array}
+   */
+  d.deleteFromArrayAt = function(arr, index) {
+    var leftSide = arr.slice(0, index);
+    var rightSide = arr.slice(index + 1, arr.length);
+
+    return leftSide.concat(rightSide);
   };
 
   /**
