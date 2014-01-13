@@ -91,7 +91,7 @@ define(['jquery', 'handlebars', 'global/global__modules', 'global/global__utils'
     dfd.resolve(ret);
   };
 
-  View.update = function(name, path, data) {
+  View.update = function(name) {
     var view = views[name];
 
     if (!view) {
@@ -102,7 +102,7 @@ define(['jquery', 'handlebars', 'global/global__modules', 'global/global__utils'
     var module = Module.get(name);
     var args = Array.prototype.slice.call(arguments, 1);
     args.unshift('view');
-    data = module.update.apply(module, args);
+    var data = module.update.apply(module, args);
 
     var html = View.render(name, pipe(module.get('process'), data));
 
