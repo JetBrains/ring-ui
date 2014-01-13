@@ -179,6 +179,10 @@
   & .ring-input_error + .ring-input__error-bubble {
     display: inline-block;
   }
+
+  & .ring-input_error:focus + .ring-input__error-bubble {
+    display: none;
+  }
 }
 
 .ring-form_border {
