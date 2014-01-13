@@ -91,10 +91,10 @@ define([
    * @enum {string}
    */
   d.DoubleEditorController.ConnectorClass = {
-    ADDED: 'diff__connector_added',
-    BASE: 'diff__connector',
-    DELETED: 'diff__connector_deleted',
-    MODIFIED: 'diff__connector_modified'
+    ADDED: 'ring-diff__connector_added',
+    BASE: 'ring-diff__connector',
+    DELETED: 'ring-diff__connector_deleted',
+    MODIFIED: 'ring-diff__connector_modified'
   };
 
   /**
@@ -121,18 +121,18 @@ define([
    * @enum {string}
    */
   d.DoubleEditorController.CssSelector = {
-    BASE: '.diff_doublepane',
-    ORIGINAL: '.diff__original',
+    BASE: '.ring-diff_doublepane',
+    ORIGINAL: '.ring-diff__original',
     MAP: '.ring-diff__map',
-    MODIFIED: '.diff__modified',
-    SPLITTER: '.diff__split'
+    MODIFIED: '.ring-diff__modified',
+    SPLITTER: '.ring-diff__split'
   };
 
   /**
    * @enum {string}
    */
   d.DoubleEditorController.ClassName = {
-    MAP: 'diff__changes-map'
+    MAP: 'ring-diff__changes-map'
   };
 
   /**
