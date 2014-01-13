@@ -9,7 +9,7 @@
 //
 // Styleguide 10.1
 
-.ring-link {
+.ring-link, .ring-link:visited {
   color: $ring-link-color !important;
   text-decoration: none;
   cursor: pointer;
