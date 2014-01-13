@@ -7,9 +7,10 @@ define([
   'diff/diff__tools'
 ], function(d) {
   /**
+   * @param {string} caption
    * @constructor
    */
-  var SelectableListItem = function(caption, opt_data) {
+  var SelectableListItem = function(caption) {
     /**
      * @type {string}
      * @private
