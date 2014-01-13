@@ -12,10 +12,19 @@ $deleted_chars: #909090;
 $added_background: #c8f0c9;
 $added_chars: #cbf4c6;
 
+$map_offset: 3px;
+$map_size: 8px;
+
 @import 'diff_doublepane__map';
 
-.diff__doublepane {
+.diff_doublepane {
   height: 100%;
+}
+
+.diff__code {
+  height: 100%;
+  margin-right: $map_size + $map_offset;
+  position: relative;
 }
 
 .diff_doublepane .CodeMirror {

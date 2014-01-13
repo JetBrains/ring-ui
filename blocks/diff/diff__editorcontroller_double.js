@@ -123,6 +123,7 @@ define([
   d.DoubleEditorController.CssSelector = {
     BASE: '.diff_doublepane',
     ORIGINAL: '.diff__original',
+    MAP: '.ring-diff__map',
     MODIFIED: '.diff__modified',
     SPLITTER: '.diff__split'
   };
@@ -964,9 +965,8 @@ define([
     }
 
     if (!this.mapElement_) {
-      this.mapElement_ = document.createElement('div');
-      this.mapElement_.className = d.DoubleEditorController.MapClass.BASE;
-      this.element_.appendChild(this.mapElement_);
+      this.mapElement_ = this.element_.querySelector(
+          d.DoubleEditorController.CssSelector.MAP);
     }
 
     var editor = this.getModifiedEditor();
