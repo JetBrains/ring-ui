@@ -1,3 +1,7 @@
 @import 'diff_doublepane';
 @import 'diff_plain';
 @import 'diff_singlepane';
+
+.CodeMirror-lines {
+  padding: 0;
+}
