@@ -1,35 +1,46 @@
 .ring-diff__map {
-  bottom: 0;
-  position: absolute;
-  right: 0;
-  top: 0;
-  width: 10px;
+  float: right;
+  height: 100%;
+  margin-left: $map_offset;
+  overflow: hidden;
+  position: relative;
+  user-select: none;
+  width: $map_size;
   z-index: 2;
 }
 
 // todo(igor.alexeenko): Get styles from upsource.
 
 .ring-diff__map-element {
-  border: solid 1px $changeset_border;
+  border: solid 1px transparent;
+  box-sizing: border-box;
   cursor: pointer;
   min-height: 4px;
   position: absolute;
-  right: 20px;
-  width: 100%;
+  width: 8px;
 }
 
 .ring-diff__map-element_added {
-  background: $added_background;
+  background: scale-color($added_background, $lightness: -10%);
+  border-color: scale-color($added_background, $lightness: 15%);
+  border-bottom-color: scale-color($added_background, $lightness: -25%);
+  border-right-color: scale-color($added_background, $lightness: -25%);
   z-index: 2;
 }
 
 .ring-diff__map-element_deleted {
-  background: $deleted_background;
+  background: scale-color($deleted_background, $lightness: -10%);
+  border-color: scale-color($deleted_background, $lightness: 15%);
+  border-bottom-color: scale-color($deleted_background, $lightness: -25%);
+  border-right-color: scale-color($deleted_background, $lightness: -25%);
   z-index: 1;
 }
 
 .ring-diff__map-element_modified {
-  background: $modified_background;
+  background: scale-color($modified_background, $lightness: -10%);
+  border-color: scale-color($modified_background, $lightness: 15%);
+  border-bottom-color: scale-color($modified_background, $lightness: -25%);
+  border-right-color: scale-color($modified_background, $lightness: -25%);
   z-index: 2;
 }
 
