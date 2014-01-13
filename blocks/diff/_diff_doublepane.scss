@@ -17,57 +17,57 @@ $map_size: 8px;
 
 @import 'diff_doublepane__map';
 
-.diff_doublepane {
+.ring-diff_doublepane {
   height: 100%;
 }
 
-.diff__code {
+.ring-diff__code {
   height: 100%;
   margin-right: $map_size + $map_offset;
   position: relative;
 }
 
-.diff_doublepane .CodeMirror {
+.ring-diff_doublepane .CodeMirror {
   border: solid 1px #ccc;
   box-sizing: border-box;
-  @include ring-monospace-font;
+  @include ring-monospace-font();
   height: 100%;
   line-height: 1.5;
 }
 
-.diff_doublepane:after {
+.ring-diff_doublepane:after {
   clear: both;
   content: '';
   display: block;
 }
 
-.diff__modified,
-.diff__original,
-.diff__split {
+.ring-diff__modified,
+.ring-diff__original,
+.ring-diff__split {
   bottom: 0;
   position: absolute;
   top: 0;
 }
 
-.diff__modified {
+.ring-diff__modified {
   left: 51%;
   right: 0;
 }
 
-.diff__modified .CodeMirror {
+.ring-diff__modified .CodeMirror {
   border-left-width: 0;
 }
 
-.diff__original {
+.ring-diff__original {
   left: 0;
   right: 51%;
 }
 
-.diff__original .CodeMirror {
+.ring-diff__original .CodeMirror {
   border-right-width: 0;
 }
 
-.diff__split {
+.ring-diff__split {
   background: rgba(0, 0, 0, 0.1);
   border: solid 1px rgba(0, 0, 0, 0.1);
   left: 49%;
@@ -76,125 +76,129 @@ $map_size: 8px;
   z-index: 4;
 }
 
-.diff__split > svg {
+.ring-diff__split > svg {
   left: 0 !important;
 }
 
 // todo(igor.alexeenko): Move to separate file.
 
-.CodeMirror .line__modified {
-  background: $modified_background;
+.ring-diff_doublepane {
+  .CodeMirror .line__modified {
+    background: $modified_background;
+  }
+
+  .CodeMirror .line__added,
+  .CodeMirror .line__deleted {
+    box-sizing: border-box;
+  }
+
+  .CodeMirror .line__added {
+    background: $added_background;
+  }
+
+  .CodeMirror .line__before_deleted,
+  .CodeMirror .line__before_added {
+    border-bottom: solid 1px $changeset_border;
+    z-index: 1;
+  }
+
+  .CodeMirror .line__before_deleted {
+    box-shadow: 0 1px 0 $deleted_background;
+  }
+
+  .CodeMirror .line__before_added {
+    box-shadow: 0 1px 0 $added_background;
+  }
+
+  .CodeMirror .line__deleted {
+    background: $deleted_background;
+  }
+
+  .CodeMirror .chars__added {
+    background: $added_chars;
+    font-weight: bold;
+  }
+
+  .CodeMirror .chars__deleted {
+    background: $deleted_chars;
+    font-weight: bold;
+  }
+
+  .CodeMirror .chars__modified {
+    background: $modified_chars;
+    font-weight: bold;
+  }
+
+  .CodeMirror .line__collapsed {
+    border-bottom: solid 1px;
+    z-index: 3;
+  }
+
+  .CodeMirror .line__first {
+    border-top: solid 1px $changeset_border;
+  }
+
+  .CodeMirror .line__first + pre .chars__modified {
+    padding-top: 1px;
+  }
+
+  .CodeMirror .line__last {
+    border-bottom: solid 1px $changeset_border;
+  }
+
+  .CodeMirror .line__last + pre .chars__modified {
+    padding-bottom: 1px;
+  }
 }
 
-.CodeMirror .line__added,
-.CodeMirror .line__deleted {
-  box-sizing: border-box;
-}
-
-.CodeMirror .line__added {
-  background: $added_background;
-}
-
-.CodeMirror .line__before_deleted,
-.CodeMirror .line__before_added {
-  border-bottom: solid 1px $changeset_border;
-  z-index: 1;
-}
-
-.CodeMirror .line__before_deleted {
-  box-shadow: 0 1px 0 $deleted_background;
-}
-
-.CodeMirror .line__before_added {
-  box-shadow: 0 1px 0 $added_background;
-}
-
-.CodeMirror .line__deleted {
-  background: $deleted_background;
-}
-
-.CodeMirror .chars__added {
-  background: $added_chars;
-  font-weight: bold;
-}
-
-.CodeMirror .chars__deleted {
-  background: $deleted_chars;
-  font-weight: bold;
-}
-
-.CodeMirror .chars__modified {
-  background: $modified_chars;
-  font-weight: bold;
-}
-
-.CodeMirror .line__collapsed {
-  border-bottom: solid 1px;
-  z-index: 3;
-}
-
-.CodeMirror .line__first {
-  border-top: solid 1px $changeset_border;
-}
-
-.CodeMirror .line__first + pre .chars__modified {
-  padding-top: 1px;
-}
-
-.CodeMirror .line__last {
-  border-bottom: solid 1px $changeset_border;
-}
-
-.CodeMirror .line__last + pre .chars__modified {
-  padding-bottom: 1px;
-}
-
-.diff__connector {
+.ring-diff__connector {
   stroke: $changeset_border;
   stroke-width: 1px;
 }
 
-.diff__connector_modified {
+.ring-diff__connector_modified {
   fill: $modified_background;
 }
 
-.diff__connector_deleted {
+.ring-diff__connector_deleted {
   fill: $deleted_background;
 }
 
-.diff__connector_added {
+.ring-diff__connector_added {
   fill: $added_background;
 }
 
-/* Theme */
-.cm-s-default .cm-keyword {color: #00008B; font-weight: bold;}
-.cm-s-default .cm-number {color: #00F;}
-.cm-s-default .cm-def {color: #8B008B;}
-.cm-s-default .cm-variable {color: #8B008B;}
-.cm-s-default .cm-variable-2 {color: #8B008B;}
-.cm-s-default .cm-variable-3 {color: #8B008B;}
-.cm-s-default .cm-comment {color: #A9A9A9; font-style: italic;}
-.cm-s-default .cm-string {color: #008D14;}
-.cm-s-default .cm-string-2 {color: #008D14;}
-.cm-s-default .cm-error {color: #FF2A1A;}
-.cm-s-default .cm-meta {color: #808000;}
+.ring-diff__doublepane {
+  /* Theme */
+  .cm-s-default .cm-keyword {color: #00008B; font-weight: bold;}
+  .cm-s-default .cm-number {color: #00F;}
+  .cm-s-default .cm-def {color: #8B008B;}
+  .cm-s-default .cm-variable {color: #8B008B;}
+  .cm-s-default .cm-variable-2 {color: #8B008B;}
+  .cm-s-default .cm-variable-3 {color: #8B008B;}
+  .cm-s-default .cm-comment {color: #A9A9A9; font-style: italic;}
+  .cm-s-default .cm-string {color: #008D14;}
+  .cm-s-default .cm-string-2 {color: #008D14;}
+  .cm-s-default .cm-error {color: #FF2A1A;}
+  .cm-s-default .cm-meta {color: #808000;}
 
-/* Brackets highlighting */
-div.CodeMirror span.CodeMirror-matchingbracket {
-  background-color: #AAD7FD;
-  color: inherit;
-}
+  /* Brackets highlighting */
+  div.CodeMirror span.CodeMirror-matchingbracket {
+    background-color: #AAD7FD;
+    color: inherit;
+  }
 
-div.CodeMirror span.CodeMirror-nonmatchingbracket {
-  background-color: #FFE3E3;
-  color: inherit;
-}
+  div.CodeMirror span.CodeMirror-nonmatchingbracket {
+    background-color: #FFE3E3;
+    color: inherit;
+  }
 
-/* Selection */
-.CodeMirror-selected {
-  background: #DDEAFE;
-}
+  /* Selection */
+  .CodeMirror-selected {
+    background: #DDEAFE;
+  }
 
-.CodeMirror-focused .CodeMirror-selected {
-  background: #DDEAFE;
+  .CodeMirror-focused .CodeMirror-selected {
+    background: #DDEAFE;
+  }
 }
