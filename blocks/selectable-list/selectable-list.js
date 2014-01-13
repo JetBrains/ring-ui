@@ -23,6 +23,8 @@ define([
     this.deselectOnOutsideClick_ = Boolean(opt_deselectOnOutsideClick);
 
     this.setElement(element);
+
+    this.lastSelectedItem_ = 0;
   };
 
   /**
@@ -60,12 +62,17 @@ define([
    */
   SelectableList.prototype.items_ = [];
 
-  // todo(igor.alexeenko): Rename to SelectableList.prototype.lastSelectedRange_
   /**
-   * @type {d.Range}
+   * @type {Array.<number>}
    * @private
    */
-  SelectableList.prototype.selectedRange_ = null;
+  SelectableList.prototype.clickHistory_ = [];
+
+  /**
+   * @type {number?}
+   * @private
+   */
+  SelectableList.prototype.lastSelectedItem_ = null;
 
   /**
    * @param {SelectableListItem} item
@@ -152,27 +159,18 @@ define([
     var clickedItem = this.getItemByElement_(clickedElement);
 
     if (clickedItem) {
-      var clickedItemIndex = this.items_.indexOf(clickedItem);
+      var clickedItemIsSelected = clickedItem.hasState(
+          SelectableListItem.State.SELECTED);
 
       if (evt.shiftKey) {
         var itemFrom = this.getItemAt(
-            this.selectedRange_ ? this.selectedRange_.from : 0);
+            !d.isNull(this.lastSelectedItem_) ? this.lastSelectedItem_ : 0);
         this.setRangeSelected(itemFrom, clickedItem, true);
       } else if (evt.ctrlKey || evt.metaKey) {
-        // todo(igor.alexeenko): SelectableList.prototype.setItemSelected()
-        // todo(igor.alexeenko): SelectableList.prototype.checkSelectedRange_()
-        clickedItem.setState(
-            SelectableListItem.State.SELECTED,
-            !clickedItem.hasState(SelectableListItem.State.SELECTED));
-        this.selectedRange_ = new d.Range(clickedItemIndex, clickedItemIndex);
+        this.setItemSelected(clickedItem, !clickedItemIsSelected);
       } else {
         this.setAllSelected(false);
-        // todo(igor.alexeenko): SelectableList.prototype.setItemSelected()
-        // todo(igor.alexeenko): SelectableList.prototype.checkSelectedRange_()
-        clickedItem.setState(
-            SelectableListItem.State.SELECTED,
-            !clickedItem.hasState(SelectableListItem.State.SELECTED));
-        this.selectedRange_ = new d.Range(clickedItemIndex, clickedItemIndex);
+        this.setItemSelected(clickedItem, !clickedItemIsSelected);
       }
     }
   };
@@ -181,8 +179,22 @@ define([
    * @param {SelectableListItem} item
    * @param {boolean} selected
    */
-  SelectableList.prototype.setItemSelected = function() {
+  SelectableList.prototype.setItemSelected = function(item, selected) {
+    var itemIndex = this.items_.indexOf(item);
 
+    if (itemIndex === -1) {
+      return;
+    }
+
+    item.setState(SelectableListItem.State.SELECTED, selected);
+
+    if (selected) {
+      this.clickHistory_.push(itemIndex);
+      this.lastSelectedItem_ = itemIndex;
+    } else {
+      d.deleteFromArrayAt(this.clickHistory_, this.clickHistory_.length - 1);
+      this.lastSelectedItem_ = d.peekArray(this.clickHistory_) || 0;
+    }
   };
 
   /**
@@ -195,9 +207,9 @@ define([
     }
 
     if (selected) {
-      this.selectedRange_ = new d.Range(0, this.items_.length - 1);
+      this.lastSelectedItem_ = this.items_.length - 1;
     } else {
-      this.selectedRange_ = null;
+      this.lastSelectedItem_ = null;
     }
 
     this.eventHandler_.trigger(selected ?
@@ -226,17 +238,18 @@ define([
       toIndex = this.items_.length - 1;
     }
 
-    this.selectedRange_ = new d.Range(fromIndex, toIndex);
+    var currentItem, i;
 
     if (fromIndex > toIndex) {
-      var swapIndexesCacher = toIndex;
-      toIndex = fromIndex;
-      fromIndex = swapIndexesCacher;
-    }
-
-    for (var i = fromIndex; i <= toIndex; i++) {
-      var currentItem = this.items_[i];
-      currentItem.setState(SelectableListItem.State.SELECTED, selected);
+      for (i = fromIndex; i >= toIndex; i--) {
+        currentItem = this.items_[i];
+        this.setItemSelected(currentItem, selected);
+      }
+    } else {
+      for (i = fromIndex; i <= toIndex; i++) {
+        currentItem = this.items_[i];
+        this.setItemSelected(currentItem, selected);
+      }
     }
   };
 
