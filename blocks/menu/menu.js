@@ -8,16 +8,27 @@ define([
 ], function($, Module, View, utils) {
   'use strict';
 
-  var activePath = '';
+  var ACTIVE_CLASS = 'ring-menu__item_active';
+  var ACTIVE_SELECTOR =  '.' + ACTIVE_CLASS;
+
+  var currentActivePath = '';
   var module = 'menu';
 
-  var getActivePath = function(label, part) {
-    if (label.indexOf('.') === -1) {
-      label = ('left.' || part) + label;
-    }
-    label += '.active';
+  var getActivePath = function(label, side) {
+    var parts = label.split('.');
 
-    return label;
+    if (parts.length === 1) {
+      parts.unshift('left' || side);
+    }
+    parts.push('active');
+
+    return parts;
+  };
+
+  var getActivateSelector = function(parts) {
+    var parentElem = parts[0] === 'left' ?  'i' : 'right';
+
+    return '.ring-menu__' + parentElem + ' > .ring-menu__id_' + parts[1];
   };
 
   // Turn order value into elements order
@@ -33,9 +44,11 @@ define([
         continue;
       }
 
+      item.key = id;
+
       // Save current active path
       if (item.active) {
-        activePath = getActivePath(id, name);
+        currentActivePath = getActivePath(id, name).join('.');
       }
 
       if (item.order) {
@@ -70,21 +83,25 @@ define([
   };
 
   var setActive = function(label) {
-    label = getActivePath(label);
+    var parts = getActivePath(label);
+    var path = parts.join('.');
 
-    if (activePath === label) {
-      utils.log('Menu: trying to set active already active item "' + label + '"');
+    if (currentActivePath === path) {
+      utils.log('Menu: trying to set active already active item "' + path + '"');
       return null;
     }
 
-    var update = [module, label, 1];
+    var update = ['view', path, 1];
 
-    if (activePath) {
-      update.push(activePath, 0);
+    if (currentActivePath) {
+      update.push(currentActivePath, 0);
     }
 
-    View.update.apply(View, update);
-    activePath = label;
+    Module.get(module).update.apply(module, update);
+    currentActivePath = path;
+
+    $(ACTIVE_SELECTOR).removeClass(ACTIVE_CLASS);
+    $(getActivateSelector(parts)).addClass(ACTIVE_CLASS);
   };
 
   var defaultElement = function() {
