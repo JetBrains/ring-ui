@@ -1,5 +1,5 @@
 /**
- * @fileoverview
+ * @fileoverview Single item in {@link SelectableList}.
  * @author igor.alexeenko (Igor Alekseyenko)
  */
 
@@ -9,7 +9,7 @@ define([
   /**
    * @constructor
    */
-  var SelectableListItem = function(caption) {
+  var SelectableListItem = function(caption, opt_data) {
     /**
      * @type {string}
      * @private
@@ -38,16 +38,35 @@ define([
   };
 
   /**
-   * @type {SelectableListItem.State}
+   * @type {string}
    * @private
    */
-  SelectableListItem.prototype.state_ = SelectableListItem.State.NONE;
+  SelectableListItem.prototype.caption_ = null;
 
   /**
    * @type {Element}
    * @private
    */
   SelectableListItem.prototype.element_ = null;
+
+  /**
+   * @type {SelectableListItem.State}
+   * @private
+   */
+  SelectableListItem.prototype.state_ = SelectableListItem.State.NONE;
+
+  /**
+   * Creates DOM of element if this element is not decorated.
+   * @param {Element} parent
+   */
+  SelectableListItem.prototype.createDOM = function(parent) {
+    var element = document.createElement('div');
+    element.innerHTML = this.caption_ || '';
+
+    parent.appendChild(element);
+
+    this.setElement(element);
+  };
 
   /**
    * @param {SelectableListItem.State} state
