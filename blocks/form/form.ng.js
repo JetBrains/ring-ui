@@ -3,13 +3,16 @@
 
   angular.module('Ring.form', []).
   /**
-   * <div error-bubble="form.name"></div>
+   * <div submitted="submitted" error-bubble="form.name"></div>
+   * @param {bool} submitted Is form submitted
+   * @param {object} error-bubble Ng-model for this control
    *
    * Where form.name is a reference to angularJS form input
    */
     directive('errorBubble', [function () {
       return {
         scope: {
+          'submitted': '=submitted',
           'errorBubble': '&errorBubble'
         },
         replace: true,
@@ -43,16 +46,16 @@
       };
     }]).
   /**
-   * <input name="name" required type="text" ng-class="form.name | inputClass" ng-model="name">
+   * <input name="name" required type="text" ng-class="form.name | inputClass:submitted" ng-model="name">
    *
    * Is intended to be used for the value of ng-class. Accepts a reference to an angularJS form input
    */
     filter('inputClass', [function () {
-      return function (input) {
+      return function (input, submitted) {
         return {
-          'ring-input': true,
-          'ring-input_error': input.$invalid && input.$dirty,
-          'ring-input_correct': !input.$invalid && input.$dirty
+            'ring-input': true,
+            'ring-input_error': input.$invalid && (input.$dirty || submitted),
+            'ring-input_correct': !input.$invalid && (input.$dirty || submitted)
         };
       };
     }]);
