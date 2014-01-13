@@ -1,5 +1,6 @@
 /**
- * @fileoverview
+ * @fileoverview List of selectable items. Items could be selected one by one
+ * by clicking them, or multiple by clicking with pressed Cmd (Ctrl) or Shift.
  * @author igor.alexeenko (Igor Alekseyenko)
  */
 
@@ -40,6 +41,7 @@ define([
   SelectableList.EventType = {
     DESELECT: 'deselect',
     DESELECT_ALL: 'deselectall',
+    OUTSIDE_CLICK: 'outsideclick',
     SELECT: 'select',
     SELECT_ALL: 'selectall'
   };
@@ -114,7 +116,11 @@ define([
    */
   SelectableList.prototype.onDocumentClick_ = function(evt) {
     if (!this.element_.contains(evt.target)) {
-      this.setAllSelected(false);
+      if (this.deselectOnOutsideClick_) {
+        this.setAllSelected(false);
+      }
+
+      this.eventHandler_.trigger(SelectableList.EventType.OUTSIDE_CLICK);
     }
   };
 
@@ -270,10 +276,8 @@ define([
 
     this.element_ = element;
 
-    if (this.deselectOnOutsideClick_) {
-      this.onDocumentClick_ = d.bindContext(this.onDocumentClick_, this);
-      $(document).on('click', this.onDocumentClick_);
-    }
+    this.onDocumentClick_ = d.bindContext(this.onDocumentClick_, this);
+    $(document).on('click', this.onDocumentClick_);
 
     this.onItemMouseOver_ = d.bindContext(this.onItemMouseOver_, this);
     this.onItemMouseOut_ = d.bindContext(this.onItemMouseOut_, this);
@@ -338,9 +342,7 @@ define([
 
     delete this.deselectOnOutsideClick_;
 
-    if (this.deselectOnOutsideClick_) {
-      $(document).off('click', this.onDocumentClick_);
-    }
+    $(document).off('click', this.onDocumentClick_);
   };
 
   /**
