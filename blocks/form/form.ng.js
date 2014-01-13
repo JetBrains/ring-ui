@@ -56,7 +56,7 @@
             'ring-input': true,
             'ring-input_error': input.$invalid && (input.$dirty || submitted),
             'ring-input_correct': !input.$invalid && (input.$dirty || submitted)
-        };
+          };
       };
     }]);
 })();
