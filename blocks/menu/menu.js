@@ -83,8 +83,8 @@ define([
       update.push(activePath, 0);
     }
 
-    activePath = label;
     View.update.apply(View, update);
+    activePath = label;
   };
 
   var defaultElement = function() {
