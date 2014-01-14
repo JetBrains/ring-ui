@@ -18,7 +18,7 @@ define([
     var parts = label.split('.');
 
     if (parts.length === 1) {
-      parts.unshift('left' || side);
+      parts.unshift(side || 'left');
     }
     parts.push('active');
 
