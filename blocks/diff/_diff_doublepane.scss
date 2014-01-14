@@ -13,6 +13,7 @@ $added_background: #c8f0c9;
 $added_chars: #cbf4c6;
 
 $map_size: 8px;
+$map_borders: 1px;
 
 @import 'diff_doublepane__map';
 
@@ -22,7 +23,7 @@ $map_size: 8px;
 
 .ring-diff__code {
   height: 100%;
-  margin-right: $map_size;
+  margin-right: $map_size + $map_borders;
   position: relative;
 }
 
@@ -31,7 +32,6 @@ $map_size: 8px;
   box-sizing: border-box;
   @include ring-monospace-font();
   height: 100%;
-  line-height: 1.5;
 }
 
 .ring-diff_doublepane:after {
@@ -165,39 +165,4 @@ $map_size: 8px;
 
 .ring-diff__connector_added {
   fill: $added_background;
-}
-
-.ring-diff__doublepane {
-  /* Theme */
-  .cm-s-default .cm-keyword {color: #00008B; font-weight: bold;}
-  .cm-s-default .cm-number {color: #00F;}
-  .cm-s-default .cm-def {color: #8B008B;}
-  .cm-s-default .cm-variable {color: #8B008B;}
-  .cm-s-default .cm-variable-2 {color: #8B008B;}
-  .cm-s-default .cm-variable-3 {color: #8B008B;}
-  .cm-s-default .cm-comment {color: #A9A9A9; font-style: italic;}
-  .cm-s-default .cm-string {color: #008D14;}
-  .cm-s-default .cm-string-2 {color: #008D14;}
-  .cm-s-default .cm-error {color: #FF2A1A;}
-  .cm-s-default .cm-meta {color: #808000;}
-
-  /* Brackets highlighting */
-  div.CodeMirror span.CodeMirror-matchingbracket {
-    background-color: #AAD7FD;
-    color: inherit;
-  }
-
-  div.CodeMirror span.CodeMirror-nonmatchingbracket {
-    background-color: #FFE3E3;
-    color: inherit;
-  }
-
-  /* Selection */
-  .CodeMirror-selected {
-    background: #DDEAFE;
-  }
-
-  .CodeMirror-focused .CodeMirror-selected {
-    background: #DDEAFE;
-  }
 }

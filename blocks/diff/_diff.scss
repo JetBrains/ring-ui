@@ -2,6 +2,46 @@
 @import 'diff_plain';
 @import 'diff_singlepane';
 
-.CodeMirror-lines {
-  padding: 0;
+.ring-diff {
+  /* Theme */
+  .cm-s-default .cm-keyword {color: #00008B; font-weight: bold;}
+  .cm-s-default .cm-number {color: #00F;}
+  .cm-s-default .cm-def {color: #8B008B;}
+  .cm-s-default .cm-variable {color: #8B008B;}
+  .cm-s-default .cm-variable-2 {color: #8B008B;}
+  .cm-s-default .cm-variable-3 {color: #8B008B;}
+  .cm-s-default .cm-comment {color: #A9A9A9; font-style: italic;}
+  .cm-s-default .cm-string {color: #008D14;}
+  .cm-s-default .cm-string-2 {color: #008D14;}
+  .cm-s-default .cm-error {color: #FF2A1A;}
+  .cm-s-default .cm-meta {color: #808000;}
+
+  /* Brackets highlighting */
+  div.CodeMirror span.CodeMirror-matchingbracket {
+    background-color: #AAD7FD;
+    color: inherit;
+  }
+
+  div.CodeMirror span.CodeMirror-nonmatchingbracket {
+    background-color: #FFE3E3;
+    color: inherit;
+  }
+
+  .CodeMirror {
+    line-height: 1.5;
+  }
+
+  .CodeMirror-lines {
+    padding: 0;
+  }
+
+  /* Selection */
+  .CodeMirror-selected {
+    background: #DDEAFE;
+  }
+
+  .CodeMirror-focused .CodeMirror-selected {
+    background: #DDEAFE;
+  }
 }
+
