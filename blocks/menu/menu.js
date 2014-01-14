@@ -31,6 +31,10 @@ define([
     return '.ring-menu__' + parentElem + ' > .ring-menu__id_' + parts[1];
   };
 
+  var sortByOrder = function(a, b) {
+    return a.order - b.order;
+  };
+
   // Turn order value into elements order
   var processItems = function(obj, name) {
     var items = [];
@@ -52,7 +56,6 @@ define([
       }
 
       if (item.order) {
-        delete item.order;
         orderedItems.push(item);
       } else {
         items.push(item);
@@ -60,11 +63,9 @@ define([
     }
 
     if (orderedItems.length) {
-      orderedItems.sort(function(a, b) {
-        return a.order - b.order;
-      });
-
-      items = orderedItems.concat(items);
+      items = orderedItems
+        .sort(sortByOrder)
+        .concat(items);
     }
 
     return items;
