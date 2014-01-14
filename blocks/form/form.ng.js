@@ -69,7 +69,7 @@
         elem.prop('method', 'POST');
         if (attrs.ngSubmit) {
           setTimeout(function () {
-            elem.unbind('submit').bind('submit', function (e) {
+            elem.unbind('submit').bind('submit', function () {
               elem.find('input, textare§a, select').trigger('input').trigger('change').trigger('keydown');
               scope.$apply(attrs.ngSubmit);
             });
