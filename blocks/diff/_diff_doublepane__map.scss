@@ -1,8 +1,8 @@
 .ring-diff__map {
   background: #f7f7f7;
-  border-bottom: solid 1px #ccc;
-  border-right: solid 1px #ccc;
-  border-top: solid 1px #ccc;
+  border: solid 1px #ccc;
+  border-left: none;
+  box-sizing: border-box;
   float: right;
   height: 100%;
   overflow: hidden;
