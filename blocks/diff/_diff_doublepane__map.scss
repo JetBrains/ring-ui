@@ -17,9 +17,9 @@
   box-sizing: border-box;
   cursor: pointer;
   min-height: 4px;
-  left: 0;
+  left: 2px;
   position: absolute;
-  width: $map_size;
+  width: $map_size / 2 + 1;
 }
 
 .ring-diff__map-element_added {
