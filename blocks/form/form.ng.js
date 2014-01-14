@@ -53,10 +53,28 @@
     filter('inputClass', [function () {
       return function (input, submitted) {
         return {
-            'ring-input': true,
-            'ring-input_error': input.$invalid && (input.$dirty || submitted),
-            'ring-input_correct': !input.$invalid && (input.$dirty || submitted)
-          };
+          'ring-input': true,
+          'ring-input_error': input.$invalid && (input.$dirty || submitted),
+          'ring-input_correct': !input.$invalid && (input.$dirty || submitted)
+        };
       };
-    }]);
+    }])
+  /**
+   * <form form-autofill-fix ...>
+   *
+   * Fixes Chrome bug: https://groups.google.com/forum/#!topic/angular/6NlucSskQjY
+   */
+    .directive('formAutofillFix', function () {
+      return function (scope, elem, attrs) {
+        elem.prop('method', 'POST');
+        if (attrs.ngSubmit) {
+          setTimeout(function () {
+            elem.unbind('submit').bind('submit', function (e) {
+              elem.find('input, textare§a, select').trigger('input').trigger('change').trigger('keydown');
+              scope.$apply(attrs.ngSubmit);
+            });
+          }, 0);
+        }
+      };
+    });
 })();
