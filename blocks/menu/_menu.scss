@@ -174,7 +174,8 @@ $ring-menu-attention-color: #F50000;
   }
 }
 
-.ring-menu__item_active {
+.ring-menu__item_active,
+body .ring-menu__item_active.ring-menu__item:hover {
   color: #000 !important;
 }
 
