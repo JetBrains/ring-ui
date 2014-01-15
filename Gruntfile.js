@@ -414,7 +414,8 @@ module.exports = function(grunt) {
     // Development
     watch: {
       options: {
-        livereload: LIVERELOAD_PORT
+        livereload: LIVERELOAD_PORT,
+        spawn: false
       },
       scss: {
         files: ['<%= path.blocks %>**/*.scss', '<%= path.bundles %>**/*.scss', '<%= path.blocks %>**/*.md'],
