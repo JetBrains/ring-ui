@@ -16,6 +16,7 @@ $map_size: 16px;
 $map_borders: 1px;
 
 @import 'diff_doublepane__map';
+@import 'diff__doublepane-menu';
 
 .ring-diff_doublepane {
   height: 100%;
@@ -78,8 +79,6 @@ $map_borders: 1px;
 .ring-diff__split > svg {
   left: 0 !important;
 }
-
-// todo(igor.alexeenko): Move to separate file.
 
 .ring-diff_doublepane {
   .CodeMirror .line__modified {

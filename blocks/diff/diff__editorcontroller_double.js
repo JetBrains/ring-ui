@@ -11,13 +11,9 @@ define([
   'codemirror',
   'global/global__codemirror-helper',
   'diff/diff__editorcontroller',
-  'diff/diff__parser_doublepane'
+  'diff/diff__parser_doublepane',
+  'diff/diff__doublepane-menu'
 ], function($, Handlebars, raphael, d, CodeMirror, CodeMirrorHelper) {
-
-  // todo(igor.alexeenko): Implement all DOM-specific, CodeMirror-
-  // specific and Raphael-specific logic in some kind of Renderer,
-  // because Raphael, CodeMirror and Handlebars has an issues and could be
-  // replaced by other solutions.
 
   /**
    * @param {Element} element
@@ -27,6 +23,8 @@ define([
   d.DoubleEditorController = function(element) {
     d.DoubleEditorController.super_.constructor.call(this, element,
         d.ParserDoublePane.getInstance());
+
+    this.changes_ = [];
   };
   d.inherit(d.DoubleEditorController, d.EditorController);
 
@@ -124,6 +122,7 @@ define([
     BASE: '.ring-diff_doublepane',
     ORIGINAL: '.ring-diff__original',
     MAP: '.ring-diff__map',
+    MENU: '.ring-diff__menu',
     MODIFIED: '.ring-diff__modified',
     SPLITTER: '.ring-diff__split'
   };
@@ -184,6 +183,10 @@ define([
           d.DoubleEditorController.getEditorOptions());
       this.codeMirrorModified_ = new CodeMirror(this.modifiedElement_,
           d.DoubleEditorController.getEditorOptions());
+
+      var menuElement = this.element_.querySelector(
+          d.DoubleEditorController.CssSelector.MENU);
+      this.menu_ = new d.DoublePaneMenu(menuElement);
     } else {
       this.unbindEditors_();
 
@@ -192,6 +195,7 @@ define([
       this.codeMirrorOriginal_ = null;
       this.codeMirrorModified_ = null;
       this.scrollHandler_ = null;
+      this.menu_ = null;
     }
   };
 
@@ -213,77 +217,8 @@ define([
     this.bindEditors_(original, modified, diff, opt_refresh);
 
     if (!Boolean(opt_refresh)) {
-      this.checkScroll_();
+      this.setCurrentChange(0, true);
     }
-  };
-
-  /**
-   * Checks, whether first change is outside viewport and scrolls editor
-   * to make it visible if so.
-   * @private
-   */
-  d.DoubleEditorController.prototype.checkScroll_ = function() {
-    /**
-     * @type {number}
-     * @const
-     */
-    var GAP = 50;
-    var firstChangedOffset = this.getFirstChanged_();
-
-    if (!firstChangedOffset) {
-      return;
-    }
-
-    var firstChangedIsInViewport = (
-        d.DoubleEditorController.isInEditorViewport(
-            firstChangedOffset.originalFrom, firstChangedOffset.modifiedFrom,
-            this.codeMirrorOriginal_) ||
-        d.DoubleEditorController.isInEditorViewport(
-            firstChangedOffset.modifiedTo, firstChangedOffset.originalTo,
-            this.codeMirrorModified_));
-
-    if (!firstChangedIsInViewport) {
-      this.codeMirrorOriginal_.scrollTo(0,
-          firstChangedOffset.originalFrom - GAP);
-    }
-  };
-
-  /**
-   * Returns first offset which was marked as changed.
-   * @return {Object?}
-   * @private
-   */
-  d.DoubleEditorController.prototype.getFirstChanged_ = function() {
-    /**
-     * @type {Object}
-     */
-    for (var i = 0, l = this.offsets_.length; i < l; i++) {
-      var currentOffset = this.offsets_[i];
-      var currentLine = this.lines_[i];
-
-      if (currentLine.type) {
-        return currentOffset;
-      }
-    }
-
-    return null;
-  };
-
-  /**
-   * @param {number} from
-   * @param {number} to
-   * @param {CodeMirror} editor
-   * @return {boolean}
-   */
-  d.DoubleEditorController.isInEditorViewport = function(from, to, editor) {
-    var editorScrollInfo = editor.getScrollInfo();
-    var offsetHeight = to - from;
-
-    var topEdge = editorScrollInfo.top - offsetHeight;
-    var bottomEdge = editorScrollInfo.top + editorScrollInfo.clientHeight +
-        offsetHeight;
-
-    return from >= topEdge && to <= bottomEdge;
   };
 
   /**
@@ -318,6 +253,12 @@ define([
     this.lines_ = this.codeParser_.parse(original, modified, diff);
 
     /**
+     * @type {Array.<number>}
+     * @private
+     */
+    this.changes_ = this.getChanges_(this.lines_);
+
+    /**
      * Object with coordinates of chunks of original code and corresponding
      * chunks from modified code.
      * @type {Array.<Object>}
@@ -340,12 +281,30 @@ define([
     this.colorizeLines_();
     this.drawConnectors_();
     this.drawMap_();
+    this.setMenuEnabled(true);
 
     if (!this.resizeHandler_) {
       this.resizeHandler_ = d.bindContext(this.onResize_, this);
     }
 
     $(window).on('resize', this.resizeHandler_);
+  };
+
+  /**
+   * @param {Array.<Object>} offsets
+   * @return {Array.<number>}
+   * @private
+   */
+  d.DoubleEditorController.prototype.getChanges_ = function(offsets) {
+    var changes = [];
+
+    offsets.forEach(function(offset, index) {
+      if (offset.type) {
+        changes.push(index);
+      }
+    });
+
+    return changes;
   };
 
   /**
@@ -384,6 +343,24 @@ define([
   };
 
   /**
+   * @param {jQuery.Event} evt
+   * @private
+   */
+  d.DoubleEditorController.prototype.onMenuUpClick_ = function(evt) {
+    evt.preventDefault();
+    this.setCurrentChange(this.getCurrentChange() - 1, true);
+  };
+
+  /**
+   * @param {jQuery.Event} evt
+   * @private
+   */
+  d.DoubleEditorController.prototype.onMenuDownClick_ = function(evt) {
+    evt.preventDefault();
+    this.setCurrentChange(this.getCurrentChange() + 1, true);
+  };
+
+  /**
    * Handles window resize.
    * @private
    */
@@ -419,6 +396,10 @@ define([
 
     this.syncScroll_(target);
     this.drawConnectors_();
+
+    if (this.lines_[this.currentOffsetIndex_].type) {
+      this.setCurrentChange(this.currentOffsetIndex_);
+    }
 
     this.disableEditorTimeout_ = setTimeout(d.bindContext(function() {
       this.setEditorScrollHandlerEnabled_(this.disabledEditor_, true);
@@ -475,6 +456,8 @@ define([
     var oppositeScrollLeft = Math.round(oppositeMaxWidth * scrollRatio);
 
     oppositeElement.scrollTo(oppositeScrollLeft, oppositeScrollTop);
+
+    this.currentOffsetIndex_ = currentOffsetIndex;
   };
 
   /**
@@ -568,6 +551,95 @@ define([
     }
 
     return l - 1;
+  };
+
+  /**
+   * @param {boolean} enabled
+   */
+  d.DoubleEditorController.prototype.setMenuEnabled = function(enabled) {
+    if (this.menuIsEnabled_ === enabled) {
+      return;
+    }
+
+    this.menuIsEnabled_ = enabled;
+
+    if (enabled) {
+      this.onMenuUpClick_ = d.bindContext(this.onMenuUpClick_, this);
+      this.onMenuDownClick_ = d.bindContext(this.onMenuDownClick_, this);
+
+      this.menu_.setEnabled(true);
+      this.menu_.getHandler().
+          on(d.DoublePaneMenu.EventType.UP, this.onMenuUpClick_).
+          on(d.DoublePaneMenu.EventType.DOWN, this.onMenuDownClick_);
+    } else {
+      this.menu_.setEnabled(false);
+      this.menu_.getHandler().off();
+    }
+  };
+
+  /**
+   * @param {number} change
+   * @param {boolean=} opt_scrollTo
+   */
+  d.DoubleEditorController.prototype.setCurrentChange = function(change,
+      opt_scrollTo) {
+    if (this.currentChange_ === change) {
+      return;
+    }
+
+    this.currentChange_ = d.clamp(change, 0, this.changes_.length - 1);
+    this.setCurrentChangeInternal(change, opt_scrollTo);
+  };
+
+  /**
+   * @param {number} change
+   * @param {boolean=} opt_scrollTo
+   */
+  d.DoubleEditorController.prototype.setCurrentChangeInternal = function(
+      change, opt_scrollTo) {
+    if (!this.offsets_) {
+      return;
+    }
+
+    /**
+     * Pixels to leave to the editor edge from the scrolled element.
+     * @type {number}
+     * @const
+     */
+    var GAP = 50;
+
+    var offsetIndex = this.changes_[change];
+    var offset = this.offsets_[offsetIndex];
+
+    // todo(igor.alexeenko): Temporary measure.
+    if (!offset) {
+      return;
+    }
+
+    if (opt_scrollTo) {
+      var scrollPosition = d.clamp(offset.originalFrom - GAP, 0, Infinity);
+      this.codeMirrorOriginal_.scrollTo(0, scrollPosition);
+    }
+
+    this.checkMenu_();
+  };
+
+  /**
+   * Checks index of currently selected offset and makes some buttons disabled
+   * if needed.
+   * @private
+   */
+  d.DoubleEditorController.prototype.checkMenu_ = function() {
+    this.menu_.setButtonUpEnabled(this.currentChange_ > 0);
+    this.menu_.setButtonDownEnabled(
+        this.currentChange_ < this.changes_.length - 1);
+  };
+
+  /**
+   * @return {number}
+   */
+  d.DoubleEditorController.prototype.getCurrentChange = function() {
+    return this.currentChange_;
   };
 
   /**
@@ -977,9 +1049,8 @@ define([
       var mapElement = d.DoubleEditorController.getMapElement(currentOffset,
           documentSize);
 
-      this.mapElements_.push(mapElement);
-
       if (mapElement) {
+        this.mapElements_.push(mapElement);
         this.mapElement_.appendChild(mapElement);
         $(mapElement).on('click', d.bindContext(this.onMapElementClick_, this));
       }
@@ -1039,21 +1110,11 @@ define([
    * @private
    */
   d.DoubleEditorController.prototype.onMapElementClick_ = function(evt) {
-
-    // todo(igor.alexeenko): More solid code.
-
     var mapElement = evt.currentTarget;
     var changeIndex = this.mapElements_.indexOf(mapElement);
 
-    /**
-     * @type {number}
-     * @const
-     */
-    var GAP = 50;
-
     if (changeIndex > -1) {
-      var offset = this.offsets_[changeIndex];
-      this.codeMirrorModified_.scrollTo(0, offset.modifiedFrom - GAP);
+      this.setCurrentChange(changeIndex, true);
     }
   };
 
