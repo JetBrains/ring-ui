@@ -427,7 +427,7 @@ module.exports = function(grunt) {
       },
       js: {
         files: ['<%= path.blocks %>**/*.js', '<%= path.bundles %>**/*.js', '<%= path.tests %>**/*.js'],
-        tasks: ['jshint:dev', 'karma:dev:run', 'notify:watch']
+        tasks: ['jshint:dev', 'copy:blocks', 'karma:dev:run', 'notify:watch']
       },
       markdown: {
         files: ['<%= path.docs %>**/*.md'],
