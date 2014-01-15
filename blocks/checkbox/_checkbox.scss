@@ -1,0 +1,77 @@
+.ring-checkbox[type="checkbox"] {
+  display: none;
+  display: inline-block\9;
+}
+
+.ring-checkbox[type="checkbox"] + label.ring-checkbox__label {
+  position: relative;
+  display: inline-block;
+  content: "";
+  // IE hack
+  display: none\9;
+  width: 11px;
+  height: 11px;
+
+  cursor: pointer;
+  border: 1px solid #CCC;
+  border-radius: 2px;
+  background: transparent;
+  user-select: none;
+  line-height: $ring-unit * 3;
+  vertical-align: middle;
+
+  &:hover {
+    border: 1px solid #FF8620;
+  }
+}
+
+.ring-checkbox[type="checkbox"]:checked + label.ring-checkbox__label {
+  position: relative;
+  display: inline-block;
+  content: "";
+  // IE hack
+  display: none\9;
+  width: 11px;
+  height: 11px;
+
+  font-size: 13px;
+
+  line-height: normal;
+  cursor: pointer;
+  border: 1px solid #25B7FF;
+  border-radius: 2px;
+  background: transparent;
+}
+
+.ring-checkbox[type="checkbox"]:checked + label.ring-checkbox__label::before {
+  position: relative;
+  top: -4px;
+  left: -1px;
+  display: block;
+  width: 11px;
+  height: 11px;
+
+  font-family: 'font-icon' !important;
+  content: '\e005' ring-font-icon_search;
+  font-size: 16px;
+}
+
+.ring-checkbox__label_i {
+  position: relative;
+  left: 2px;
+
+  vertical-align: middle;
+  vertical-align: top\9;
+
+  -webkit-user-select: none;
+}
+
+// Checkbox
+//
+// Markup:
+// <input id="checkbox-1" class="ring-checkbox" type="checkbox" name="example" checked>
+// <label  class="ring-checkbox__label" for="checkbox-1"></label>
+// <input id="checkbox-2" class="ring-checkbox" type="checkbox" name="example">
+// <label class="ring-checkbox__label" for="checkbox-2"></label>
+//
+// Styleguide 15.1
