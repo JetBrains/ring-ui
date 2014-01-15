@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+<base href="">
   <title>Blocks demo</title>
   <meta charset="utf-8">
   <style type="text/css">
@@ -45,14 +46,8 @@
       function($, ring) {
       window.ring = ring;
 
-      var authData = window.location.host.indexOf('hub-dev') > -1 ?
-      {
-        redirectUri: "***REMOVED***",
+      var authData = {
         serverUri: "***REMOVED***/",
-        refresh: true
-      }
-        :
-      { serverUri: "http://localhost:8080",
         refresh: true
       };
 
@@ -322,13 +317,16 @@
           'success', true, 10000);
 
       var query = ring('query-assist');
-      query('init', {
-        targetElem: '.demo__query-example',
-        query: 'name: admin or id: 1',
-        dataSource: query('remoteDataSource', {
-          url: 'api/rest/users/queryAssist?caret=#{caret}&fields=query,caret,suggestions#{styleRanges}&query=#{query}'
-        })
-      });
+
+      if (auth('getToken', true)) {
+        query('init', {
+          targetElem: '.demo__query-example',
+          query: 'name: admin or id: 1',
+          dataSource: query('remoteDataSource', {
+            url: 'api/rest/users/queryAssist?caret=#{caret}&fields=query,caret,suggestions#{styleRanges}&query=#{query}'
+          })
+        });
+      };
 
       query.on('apply', function() {
         ring('alerts', 'add')('Query submitted','success', 10000);
