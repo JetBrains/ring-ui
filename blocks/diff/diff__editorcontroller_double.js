@@ -398,13 +398,33 @@ define([
     this.drawConnectors_();
 
     if (this.lines_[this.currentOffsetIndex_].type) {
-      this.setCurrentChange(this.currentOffsetIndex_);
+      var currentChangeIndex = this.getChangeByOffsetIndex(
+          this.currentOffsetIndex_);
+
+      this.setCurrentChange(currentChangeIndex);
     }
 
     this.disableEditorTimeout_ = setTimeout(d.bindContext(function() {
       this.setEditorScrollHandlerEnabled_(this.disabledEditor_, true);
       this.disabledEditor_ = null;
     }, this), d.DoubleEditorController.SCROLL_TIMEOUT);
+  };
+
+  /**
+   * @param {number} offsetIndex
+   */
+  d.DoubleEditorController.prototype.getChangeByOffsetIndex = function(
+      offsetIndex) {
+    var currentChangeIndex = 0;
+    this.changes_.some(function(change, changeIndex) {
+      if (change === offsetIndex) {
+        currentChangeIndex = changeIndex;
+      }
+
+      return change === offsetIndex;
+    });
+
+    return currentChangeIndex;
   };
 
   /**
