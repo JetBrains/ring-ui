@@ -84,6 +84,10 @@ define([
     });
   };
 
+  var unBindList = function(scope) {
+    scopes[scope] = null;
+  };
+
   var getModalScope = function() {
     return scopeModal;
   };
@@ -118,7 +122,7 @@ define([
       var position = $.inArray(scope, scopeChain);
 
       if (position !== -1) {
-        scopeChain.splice(position);
+        scopeChain.length = position;
       }
     }
   };
@@ -135,7 +139,15 @@ define([
 
   var setScope = function(scope) {
     if (scope) {
-      scopeChain = [ROOT_SCOPE, scope];
+      if (typeof scope === 'string') {
+        scope = [scope];
+      }
+
+      if (!$.isArray(scope)) {
+        return;
+      }
+
+      scopeChain = [ROOT_SCOPE].concat(scope);
     } else {
       scopeChain = [ROOT_SCOPE];
     }
@@ -166,6 +178,11 @@ define([
   Module.add(MODULE, {
     bind: bind,
     bindList: bindList,
+    unBindList: unBindList,
+    trigger: {
+      method: mousetrap.trigger,
+      override: true
+    },
     getModalScope: {
       method: getModalScope,
       override: true
