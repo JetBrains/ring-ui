@@ -90,6 +90,8 @@ define([
       lastPolledCaretPosition = undefined;
       timeoutId = setTimeout(_pollCaretPosition, POLL_INTERVAL);
     }
+
+    queryAssist.trigger('focus-change focusin', true);
   };
 
   var _stopListen = function () {
@@ -98,6 +100,8 @@ define([
       timeoutId = null;
       shortcuts('popScope', MODULE);
     }
+
+    queryAssist.trigger('focus-change focusout', false);
   };
 
   /**
@@ -394,4 +398,20 @@ define([
   });
 
   var queryAssist = Module.get(MODULE);
+
+  queryAssist.on('focus', function(focus) {
+    if ($el) {
+      if (focus) {
+        var offset = $el.offset();
+
+        // TODO More robust scroll
+        if ($global.scrollTop() > offset.top) {
+          window.scrollTo(offset.left, Math.max(offset.top - 100, 0));
+        }
+        $el.focus();
+      } else {
+        $el.blur();
+      }
+    }
+  });
 });
