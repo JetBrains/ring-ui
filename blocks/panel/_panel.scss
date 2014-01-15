@@ -23,6 +23,15 @@
   }
 }
 
+.ring-panel_transparent {
+  background: none;
+}
+
+.ring-panel_black, .ring-form__footer_black {
+  border: 1px solid #000;
+}
+
+
 .ring-panel__footer_4x, .ring-form__footer_4x {
   padding: 2*$ring-unit 4*$ring-unit;
 }
@@ -73,6 +82,3 @@
   margin-bottom: 1*$ring-unit;
 }
 
-.ring-panel_black, .ring-form__footer_black {
-  border: 1px solid #000;
-}
