@@ -214,43 +214,6 @@
   margin-left: 16*$ring-unit !important;
 }
 
-.ring-radio-btn[type="radio"] {
-  display: none;
-}
-
-.ring-radio-btn[type="radio"] + label.ring-radio-btn__label {
-  content: "";
-  position: relative;
-  display: inline-block;
-  width: 2 * $ring-unit - 2;
-  height: 2 * $ring-unit - 2;
-
-  cursor: pointer;
-  border: 1px solid rgba(0, 0, 0, 0.3);
-  border-radius: 50%;
-  background: #FFF;
-  line-height: $ring-unit * 3;
-  vertical-align: middle;
-}
-
-.ring-radio-btn[type="radio"] + .ring-radio-btn__label:hover {
-  border: 1px solid #FF8620;
-}
-
-.ring-radio-btn[type="radio"]:checked + .ring-radio-btn__label:after {
-  content: "";
-  position: absolute;
-  top: 3px;
-  left: 3px;
-  display: inline-block;
-  width: $ring-unit;
-  height: $ring-unit;
-
-  opacity: 1;
-  border-radius: 50%;
-  background-color: #25B7FF;
-}
-
 // Form for key-value data
 //
 // You can add "ring-form\__group_short" to "ring-form\__group" to make the left column shorter
@@ -297,13 +260,3 @@
     margin-left: $ring-unit * 3;
   }
 }
-
-// Radio button
-//
-// Markup:
-// <input class="ring-radio-btn" type="radio" name="test" checked id="radio-1"/>
-// <label for="radio-1"></label>
-// <input class="ring-radio-btn" type="radio" name="test"  id="radio-2"/>
-// <label for="radio-2"></label>
-//
-// Styleguide 7.6
