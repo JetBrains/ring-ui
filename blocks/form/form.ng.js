@@ -62,18 +62,20 @@
   /**
    * <form form-autofill-fix ...>
    *
-   * Fixes Chrome bug: https://groups.google.com/forum/#!topic/angular/6NlucSskQjY
+   * Fixes Chrome bug: https://github.com/angular/angular.js/issues/1460
    */
     .directive('formAutofillFix', function () {
-      return function (scope, elem, attrs) {
-        elem.prop('method', 'POST');
-        if (attrs.ngSubmit) {
-          setTimeout(function () {
-            elem.unbind('submit').bind('submit', function () {
-              elem.find('input, textare§a, select').trigger('input').trigger('change').trigger('keydown');
-              scope.$apply(attrs.ngSubmit);
-            });
-          }, 0);
+      return {
+        priority: 10,
+        link: function ($scope, element) {
+          element.on('submit', function () {
+            $('input[ng-model]', element).each(function () {
+                var el = angular.element(this);
+                if (el.attr('type') !== 'checkbox' && el.attr('type') !== 'radio') {
+                  el.controller('ngModel').$setViewValue($(this).val());
+                }
+              });
+          });
         }
       };
     });
