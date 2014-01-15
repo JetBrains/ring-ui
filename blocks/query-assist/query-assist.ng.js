@@ -9,6 +9,7 @@
         restrict: 'E',
         scope: {
           query: '=query',
+          focus: '=focus',
           dataSource: '=?source',
           search: '&onSearch',
           className: '@class'
@@ -17,6 +18,7 @@
           pre: function ($scope, iElement) {
             var APPLY_EVENT  = 'apply::' + $scope.$id;
             var CHANGE_EVENT = 'change::' + $scope.$id;
+            var FOCUS_CHANGE_EVENT = 'focus-change::' + $scope.$id;
 
             // Apply search
             queryAssist.on(APPLY_EVENT, function (query) {
@@ -26,6 +28,17 @@
             queryAssist.on(CHANGE_EVENT, function (data) {
               $scope.query = data.value;
               $scope.$apply();
+            });
+
+            queryAssist.on(FOCUS_CHANGE_EVENT, function (data) {
+              $scope.focus = data;
+              if (!$scope.$root.$$phase) {
+                $scope.$apply();
+              }
+            });
+
+            var unWatchFocus = $scope.$watch('focus', function(value) {
+              queryAssist.trigger('focus', value);
             });
 
             // Init
@@ -50,7 +63,9 @@
             $scope.$on('$destroy', function() {
               queryAssist.off(APPLY_EVENT);
               queryAssist.off(CHANGE_EVENT);
+              queryAssist.off(FOCUS_CHANGE_EVENT);
               unWatchQuery();
+              unWatchFocus();
             });
           }
         }
