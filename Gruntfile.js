@@ -163,8 +163,7 @@ module.exports = function(grunt) {
         reporters: ['teamcity', 'coverage']
       },
       dev: {
-        background: true,
-        browsers: ['phantomjs']
+        background: true
       },
       test: {
         singleRun: true
