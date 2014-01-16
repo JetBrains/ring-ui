@@ -15,7 +15,7 @@
   cursor: pointer;
 
   // body to redefine other :hovers w/ !important
-  body &:hover {
+  body &:hover, body &:focus {
     color: $ring-link-hover-color !important;
     text-decoration: underline !important;
   }
