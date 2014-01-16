@@ -72,73 +72,63 @@
 
       }];
     }])
-    .controller('shortcutsCtrl', ['$rootScope', '$scope', 'shortcuts', function ($scope, $rootScope, shortcuts) {
-      $scope.zones = [];
-
-      this.route = function(e, combo) {
-        // There is nowhere to navigate
-        if (!$scope.zones.length) {
-          return false;
-        }
-
-        var up = (combo === 'up');
-        var position = $scope.current && $.inArray($scope.current, $scope.zones);
-        var next;
-
-        if (position >= 0) {
-          next = up ? $scope.zones[position - 1] : $scope.zones[position + 1];
-        }
-
-        if (!next) {
-          next = up ? $scope.zones[$scope.zones.length - 1] : $scope.zones[0];
-        }
-
-        // The only zone
-        if (next === $scope.current) {
-          return false;
-        }
-
-        shortcuts.ring('popScope', $scope.current);
-        shortcuts.ring('pushScope', next);
-
-        shortcuts.ring('trigger', combo);
-
-        $scope.current = next;
-        return false;
-      };
-
-      shortcuts.bind('shortcuts', this);
-
-      shortcuts.ring('pushScope', 'shortcuts');
-
-      this.setup = function(name, keys) {
-        shortcuts.bind(name, keys);
-        $scope.zones.push(name);
-      };
-
-      this.destroy = function(name) {
-        shortcuts.ring('unbindList', name);
-
-        var position = $.inArray(name, $scope.zones);
-
-        if (position !== -1) {
-          $scope.zones.splice(position, 1);
-        }
-      };
-    }])
     .directive('shortcutsApp', [function () {
       return {
         restrict: 'A',
-        controller: 'shortcutsCtrl',
-        link: function(/*$scope, iElement, iAttrs, shortcutsCtrl*/) {
-          // Closest controller
-//          var ctrl = shortcutsCtrl[shortcutsCtrl.length - 1];
-//          ctrl.setup($scope.id, $scope.keys);
-//
-//          $scope.$on('$destroy', function() {
-//            ctrl.destroy($scope.id);
-//          });
-        }
+        controller: ['$rootScope', '$scope', 'shortcuts', function ($scope, $rootScope, shortcuts) {
+          $scope.zones = [];
+
+          this.route = function(e, combo) {
+            // There is nowhere to navigate
+            if (!$scope.zones.length) {
+              return false;
+            }
+
+            var up = (combo === 'up');
+            var position = $scope.current && $.inArray($scope.current, $scope.zones);
+            var next;
+
+            if (position >= 0) {
+              next = up ? $scope.zones[position - 1] : $scope.zones[position + 1];
+            }
+
+            if (!next) {
+              next = up ? $scope.zones[$scope.zones.length - 1] : $scope.zones[0];
+            }
+
+            // The only zone
+            if (next === $scope.current) {
+              return false;
+            }
+
+            shortcuts.ring('popScope', $scope.current);
+            shortcuts.ring('pushScope', next);
+
+            shortcuts.ring('trigger', combo);
+
+            $scope.current = next;
+            return false;
+          };
+
+          shortcuts.bind('shortcuts', this);
+
+          shortcuts.ring('pushScope', 'shortcuts');
+
+          this.setup = function(name, keys) {
+            shortcuts.bind(name, keys);
+            $scope.zones.push(name);
+          };
+
+          this.destroy = function(name) {
+            shortcuts.ring('unbindList', name);
+
+            var position = $.inArray(name, $scope.zones);
+
+            if (position !== -1) {
+              $scope.zones.splice(position, 1);
+            }
+          };
+        }]
       };
     }])
     .directive('shortcuts', [function () {
