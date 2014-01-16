@@ -159,11 +159,8 @@ define([
 
       Module.get(MODULE).trigger('hide:done');
       shortcuts('popScope', MODULE);
-
-      return true;
     } else {
       Module.get(MODULE).trigger('hide:fail');
-      return false;
     }
   };
 
