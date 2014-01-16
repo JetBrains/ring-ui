@@ -78,6 +78,13 @@ define([
   };
 
   /**
+   * @enum {string}
+   */
+  DiffTool.EventType = {
+    AFTER_RENDER: 'afterrender'
+  };
+
+  /**
    * Mode in which DiffTool initializes by default.
    * @type {number}
    * @protected
@@ -218,8 +225,9 @@ define([
     }
 
     this.activateMode();
-
     this.controller_.setContent(original, modified, diff, opt_refresh);
+
+    this.getHandler().trigger(DiffTool.EventType.AFTER_RENDER);
   };
 
   /**
@@ -242,6 +250,28 @@ define([
   };
 
   /**
+   * @return {jQuery}
+   */
+  DiffTool.prototype.getHandler = function() {
+    if (!this.eventHandler_) {
+      /**
+       * @type {jQuery}
+       * @private
+       */
+      this.eventHandler_ = $({});
+    }
+
+    return this.eventHandler_;
+  };
+
+  /**
+   * @return {Element}
+   */
+  DiffTool.prototype.getElement = function() {
+    return this.element_;
+  };
+
+  /**
    * Prepares to be deleted by disabling all controllers to remove event
    * handlers from them and by removing all instance properties.
    */
@@ -251,6 +281,9 @@ define([
 
     this.element_.innerHTML = '';
     this.element_ = null;
+
+    this.eventHandler_.off();
+    this.eventHandler_ = null;
 
     this.mode_ = null;
   };
