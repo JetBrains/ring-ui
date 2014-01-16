@@ -381,7 +381,6 @@ define([
 
   shortcuts('bindList', {scope: MODULE}, {
     'enter': apply,
-    'tab': showAssist,
     'ctrl+space': showAssist
   });
 
