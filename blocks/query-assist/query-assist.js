@@ -108,8 +108,9 @@ define([
    * polling caret position
    */
   var _pollCaretPosition = function () {
-    if (!$el.is(':focus')) {
+    if (!utils.isFocused($el)) {
       _stopListen();
+      return;
     }
 
     var caret = $el.caret();
