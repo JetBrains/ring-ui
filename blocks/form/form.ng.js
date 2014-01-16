@@ -69,10 +69,13 @@
         priority: 10,
         link: function ($scope, element) {
           element.on('submit', function () {
-            $('input[ng-model]', element).each(function () {
+            element.find('input').each(function () {
                 var el = angular.element(this);
                 if (el.attr('type') !== 'checkbox' && el.attr('type') !== 'radio') {
-                  el.controller('ngModel').$setViewValue($(this).val());
+                  var controller = el.controller('ngModel');
+                  if (controller) {
+                    controller.$setViewValue($(this).val());
+                  }
                 }
               });
           });
