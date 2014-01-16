@@ -16,6 +16,13 @@ define(function() {
     return str.replace(/\s+/, '') === '';
   };
 
+  // Ported from jQuery to support contentEditable
+  utils.isFocused = function(elem) {
+    elem = elem[0] || elem;
+
+    return elem === document.activeElement && (!document.hasFocus || document.hasFocus()) && !!(elem.type || elem.href || ~elem.tabIndex || elem.contentEditable === 'true');
+  };
+
   //@exclude
   var debug = function() {
     return window.location.toString().indexOf('ring-debug') !== -1;
