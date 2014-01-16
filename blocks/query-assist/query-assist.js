@@ -17,6 +17,7 @@ define([
     timeoutId,
     lastPolledCaretPosition,
     lastTriggeredCaretPosition,
+    lastTriggeredCaretPositionPers,
     lastPolledValue,
     lastTriggeredValue;
 
@@ -120,13 +121,13 @@ define([
       lastPolledCaretPosition = caret;
       lastPolledValue = value;
     } else if (value !== lastTriggeredValue) {
-      lastTriggeredCaretPosition = caret;
+      lastTriggeredCaretPosition = lastTriggeredCaretPositionPers = caret;
       lastTriggeredValue = value;
       // Trigger event if value changed
       queryAssist.trigger('change', {value: value, caret: caret});
       _doAssist(value, caret, true);
     } else if (caret !== lastTriggeredCaretPosition) {
-      lastTriggeredCaretPosition = caret;
+      lastTriggeredCaretPosition = lastTriggeredCaretPositionPers = caret;
       lastTriggeredValue = value;
       // trigger event if just caret position changed
       queryAssist.trigger('caret-move', {value: value, caret: caret});
@@ -353,15 +354,15 @@ define([
    * autocomplete current text field
    */
   var _handleComplete = function (data) {
-    var currentCaret = $el.caret();
     var input = data.query || '';
-    var insText = (data.suggestion.prefix || '') + data.suggestion.option + (data.suggestion.suffix || '');
-    var output;
+    var prefix = data.suggestion.prefix || '';
+    var suffix = data.suggestion.suffix || '';
+    var output = input.substr(0, data.suggestion.completionStart) + prefix + data.suggestion.option + suffix;
 
     if (data.action === COMPLETE_ACTION) {
-      output = input.substr(0, data.suggestion.completionStart) + insText + input.substr(currentCaret);
+      output += input.substr(lastTriggeredCaretPositionPers);
     } else {
-      output = input.substr(0, data.suggestion.completionStart) + insText + input.substr(data.suggestion.completionEnd);
+      output += input.substr(data.suggestion.completionEnd + suffix.length);
     }
 
     $el.text(output);
