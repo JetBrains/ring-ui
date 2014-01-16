@@ -12,6 +12,7 @@
           focus: '=focus',
           dataSource: '=?source',
           search: '&onSearch',
+          tabIndex: '@tabIndex',
           className: '@class'
         },
         link: {
@@ -45,6 +46,7 @@
             queryAssist('init', {
               targetElem: iElement,
               className: $scope.className || null,
+              tabIndex: $scope.tabIndex || null,
               method: 'replace',
               query: $scope.query || '',
               dataSource: $scope.dataSource
