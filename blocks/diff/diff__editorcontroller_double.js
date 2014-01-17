@@ -1102,14 +1102,13 @@ define([
    * @private
    */
   d.DoubleEditorController.prototype.drawMap_ = function() {
-    if (!this.mapElements_) {
-      this.mapElements_ = [];
-    }
-
     if (!this.mapElement_) {
       this.mapElement_ = this.element_.querySelector(
           d.DoubleEditorController.CssSelector.MAP);
     }
+
+    this.mapElement_.innerHTML = '';
+    this.mapElements_ = [];
 
     var editor = this.getModifiedEditor();
     var documentSize = editor.getDoc().size;
