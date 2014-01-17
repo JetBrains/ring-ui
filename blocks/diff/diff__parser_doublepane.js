@@ -40,5 +40,35 @@ define([
     d.parsers.inlineChanges
   ];
 
+  /**
+   * @param {d.Parser.Output} lines
+   * @return {d.Parser.Output}
+   */
+  d.ParserDoublePane.ignoreWhitespaces = function(lines) {
+    var usedLines = [];
+
+    lines.forEach(function(change) {
+      var originalCode = change.original;
+      var modifiedCode = change.modified;
+
+      var onlyWhitespaces = originalCode.some(function(inlineChange, index) {
+        var modifiedChange = modifiedCode[index];
+
+        return Boolean(inlineChange.type) &&
+            d.isEmptyString(inlineChange.code) &&
+            d.isEmptyString(modifiedChange.code);
+      });
+
+      if (!onlyWhitespaces || !change.type) {
+        usedLines.push(change);
+      } else {
+        change.type = d.Parser.LineType.NULL;
+        usedLines.push(change);
+      }
+    });
+
+    return usedLines;
+  };
+
   return d.ParserDoublePane;
 });

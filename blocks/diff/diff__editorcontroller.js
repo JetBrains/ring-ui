@@ -91,6 +91,27 @@ define([
       d.nullFunction;
 
   /**
+   * @return {string}
+   */
+  d.EditorController.prototype.getOriginal = function() {
+    return this.original_;
+  };
+
+  /**
+   * @return {string}
+   */
+  d.EditorController.prototype.getModified = function() {
+    return this.modified_;
+  };
+
+  /**
+   * @return {diffTool.Parser.Diff}
+   */
+  d.EditorController.prototype.getDiff = function() {
+    return this.diff_;
+  };
+
+  /**
    * @param {boolean} enabled
    */
   d.EditorController.prototype.setEnabled = function(enabled) {
