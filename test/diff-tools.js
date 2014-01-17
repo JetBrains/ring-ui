@@ -213,7 +213,7 @@ define(['global/global', 'chai', 'diff/diff'], function(
     var bindFunction = diffTool.bindContext(fn, ctx);
 
     it('diffTool.bindContext does not change initial function', function() {
-      expect(fn()).to.be.an('undefined');
+      expect(fn()).not.to.equal(ctx);
     });
 
     it('diffTool.bindContext always calls function with bind ' +
