@@ -20,6 +20,18 @@ define([
   };
 
   /**
+   * @type {number}
+   * @const
+   */
+  d.DoublePaneMenu.CHECKBOX_LIFETIME = 365 * 10;
+
+  /**
+   * @type {string}
+   * @const
+   */
+  d.DoublePaneMenu.CHECKBOX_COOKIE = 'ringdiff-ignorewhitespaces';
+
+  /**
    * @type {string}
    * @const
    */
@@ -89,6 +101,9 @@ define([
     $(this.buttonUp_).on('click', this.onUpClick_);
     $(this.whitespacesSwitch_).on('click', this.onWhitespacesClick_);
 
+    this.whitespacesSwitch_.checked = Boolean(d.cookies.get(
+        d.DoublePaneMenu.CHECKBOX_COOKIE));
+
     return this.element_;
   };
 
@@ -115,9 +130,14 @@ define([
    * @private
    */
   d.DoublePaneMenu.prototype.onWhitespacesClick_ = function(evt) {
-    this.eventHandler_.trigger(evt.currentTarget.checked ?
+    var checked = evt.currentTarget.checked;
+
+    this.eventHandler_.trigger(checked ?
         d.DoublePaneMenu.EventType.WHITESPACES_OFF :
         d.DoublePaneMenu.EventType.WHITESPACES_ON);
+
+    d.cookies.set(d.DoublePaneMenu.CHECKBOX_COOKIE, 'checked', checked ?
+        d.DoublePaneMenu.CHECKBOX_LIFETIME : -1);
   };
 
   /**
@@ -153,6 +173,13 @@ define([
    */
   d.DoublePaneMenu.prototype.setButtonDownEnabled = function(enabled) {
     this.buttonDown_.disabled = !enabled;
+  };
+
+  /**
+   * @return {boolean}
+   */
+  d.DoublePaneMenu.prototype.isWhitespacesEnabled = function() {
+    return !Boolean(d.cookies.get(d.DoublePaneMenu.CHECKBOX_COOKIE));
   };
 
   return d.DoublePaneMenu;
