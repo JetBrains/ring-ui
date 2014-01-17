@@ -10,10 +10,11 @@
 define([
   'diff/diff__tools',
   'global/global__modules',
+  'jquery',
   'diff/diff__editorcontroller_single',
   'diff/diff__editorcontroller_double',
   'diff/diff__editorcontroller_plain'
-], function(d, Module) {
+], function(d, Module, $) {
   /**
    * @param {Element=} opt_element
    * @param {DiffTool.Mode=} opt_mode
