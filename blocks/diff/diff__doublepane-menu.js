@@ -15,6 +15,7 @@ define([
   d.DoublePaneMenu = function(element) {
     this.eventHandler_ = $({});
     this.element_ = element;
+
     this.createDOM();
   };
 
@@ -28,8 +29,9 @@ define([
    * @enum {string}
    */
   d.DoublePaneMenu.Selector = {
-    DOWN: '.ring-btn_down',
-    UP: '.ring-btn_up'
+    DOWN: '.ring-diff__menu-btn_down',
+    UP: '.ring-diff__menu-btn_up',
+    WHITESPACES: '.ring-diff__menu-whitespaces'
   };
 
   /**
@@ -37,7 +39,9 @@ define([
    */
   d.DoublePaneMenu.EventType = {
     DOWN: 'down',
-    UP: 'up'
+    UP: 'up',
+    WHITESPACES_ON: 'whitespaceson',
+    WHITESPACES_OFF: 'whitespacesoff'
   };
 
   /**
@@ -70,11 +74,20 @@ define([
      */
     this.buttonUp_ = $(d.DoublePaneMenu.Selector.UP, this.element_)[0];
 
+    /**
+     * @type {HTMLInputElement}
+     * @private
+     */
+    this.whitespacesSwitch_ = $(d.DoublePaneMenu.Selector.WHITESPACES,
+        this.element_)[0];
+
     this.onDownClick_ = d.bindContext(this.onDownClick_, this);
     this.onUpClick_ = d.bindContext(this.onUpClick_, this);
+    this.onWhitespacesClick_ = d.bindContext(this.onWhitespacesClick_, this);
 
     $(this.buttonDown_).on('click', this.onDownClick_);
     $(this.buttonUp_).on('click', this.onUpClick_);
+    $(this.whitespacesSwitch_).on('click', this.onWhitespacesClick_);
 
     return this.element_;
   };
@@ -95,6 +108,16 @@ define([
   d.DoublePaneMenu.prototype.onUpClick_ = function(evt) {
     evt.preventDefault();
     this.eventHandler_.trigger(d.DoublePaneMenu.EventType.UP);
+  };
+
+  /**
+   * @param {jQuery.Event} evt
+   * @private
+   */
+  d.DoublePaneMenu.prototype.onWhitespacesClick_ = function(evt) {
+    this.eventHandler_.trigger(evt.currentTarget.checked ?
+        d.DoublePaneMenu.EventType.WHITESPACES_OFF :
+        d.DoublePaneMenu.EventType.WHITESPACES_ON);
   };
 
   /**
