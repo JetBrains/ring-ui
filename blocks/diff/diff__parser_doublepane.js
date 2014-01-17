@@ -62,8 +62,9 @@ define([
       if (!onlyWhitespaces || !change.type) {
         usedLines.push(change);
       } else {
-        change.type = d.Parser.LineType.NULL;
-        usedLines.push(change);
+        var fakeChange = d.mixin({}, change);
+        fakeChange.type = d.Parser.LineType.NULL;
+        usedLines.push(fakeChange);
       }
     });
 
