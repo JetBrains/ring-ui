@@ -153,6 +153,10 @@ define([
     }
   };
 
+  var hasKey = function(key, scope) {
+    return !!(scopes[scope] && scopes[scope][key]);
+  };
+
   var defaultFilter = function(e, element/*, key*/) {
     var $element = $(element);
 
@@ -181,6 +185,10 @@ define([
     unBindList: unBindList,
     trigger: {
       method: mousetrap.trigger,
+      override: true
+    },
+    hasKey: {
+      method: hasKey,
       override: true
     },
     getModalScope: {
