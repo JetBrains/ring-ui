@@ -116,6 +116,10 @@
 .ring-form__group {
   padding-top: $ring-unit;
   padding-bottom: $ring-unit;
+
+  &:last-child {
+    padding-bottom: 2*$ring-unit;
+  }
 }
 
 .ring-form__label {
