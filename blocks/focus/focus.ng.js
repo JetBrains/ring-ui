@@ -9,7 +9,7 @@
 
           function focusSetter(value) {
             return function () {
-              if (focusModel(scope) !== value) {
+              if (focusModel(scope) !== value && typeof focusModel.assign === "function") {
                 if (scope.$root.$$phase) {
                   focusModel.assign(scope, value);
                 } else {
