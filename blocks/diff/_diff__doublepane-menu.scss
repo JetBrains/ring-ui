@@ -1,5 +1,22 @@
 .ring-diff__menu {
-  clear: both;
+  font: 13px "Helvetica Neue", Helvetica, Arial;
+  line-height: $ring-unit * 3;
   padding: 4px 8px;
+  overflow: hidden;
+}
+
+.ring-diff__menu-group {
+  float: left;
+  margin-right: 20px;
+}
+
+.ring-diff__menu-checkbox {
+  display: inline-block;
+  vertical-align: middle;
+
+  input[type=checkbox] {
+    margin-top: -1px;
+    vertical-align: middle;
+  }
 }
 

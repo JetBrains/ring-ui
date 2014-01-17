@@ -166,6 +166,13 @@ define([
   };
 
   /**
+   * Whether to display whitespaces changes.
+   * @type {boolean}
+   * @private
+   */
+  d.DoubleEditorController.prototype.whitespacesEnabled_ = true;
+
+  /**
    * @override
    */
   d.DoubleEditorController.prototype.setEnabledInternal = function(
@@ -206,6 +213,10 @@ define([
       original, modified, diff, opt_refresh) {
     this.unbindEditors_();
 
+    this.allChanges_ = this.codeParser_.parse(original, modified, diff);
+    this.notWhitespaceChanges_ = d.ParserDoublePane.ignoreWhitespaces(
+        this.allChanges_);
+
     if (this.codeMirrorOriginal_.getValue() !== original) {
       this.codeMirrorOriginal_.setValue(original);
     }
@@ -214,7 +225,7 @@ define([
       this.codeMirrorModified_.setValue(modified);
     }
 
-    this.bindEditors_(original, modified, diff, opt_refresh);
+    this.setUsedValues(this.getUsedValues_());
 
     if (!Boolean(opt_refresh)) {
       this.setCurrentChange(0, true);
@@ -222,15 +233,37 @@ define([
   };
 
   /**
-   * Add unified scroll for both editors and draw a connectors between
-   * them.
-   * @param {string} original
-   * @param {string} modified
-   * @param {d.Parser.Diff} diff
+   * @return {d.Parser.Output}
    * @private
    */
-  d.DoubleEditorController.prototype.bindEditors_ = function(
-      original, modified, diff) {
+  d.DoubleEditorController.prototype.getUsedValues_ = function() {
+    return this.whitespacesEnabled_ ?
+        this.allChanges_ :
+        this.notWhitespaceChanges_;
+  };
+
+  /**
+   * @param values
+   */
+  d.DoubleEditorController.prototype.setUsedValues = function(values) {
+    if (this.lines_ === values) {
+      return;
+    }
+
+    this.lines_ = values;
+    this.changes_ = this.getChanges_(this.lines_);
+    this.offsets_ = this.getPxOffsets_(this.lines_);
+
+    this.unbindEditors_();
+    this.bindEditors_();
+  };
+
+  /**
+   * Add unified scroll for both editors and draw a connectors between
+   * them.
+   * @private
+   */
+  d.DoubleEditorController.prototype.bindEditors_ = function() {
     /**
      * @type {number}
      * @private
@@ -244,27 +277,6 @@ define([
      */
     this.modifiedEditorMaxWidth_ = d.DoubleEditorController.
         getMaxScroll_(this.codeMirrorModified_);
-
-    /**
-     * Parser output, which contains information about lines.
-     * @type {d.Parser.Output}
-     * @private
-     */
-    this.lines_ = this.codeParser_.parse(original, modified, diff);
-
-    /**
-     * @type {Array.<number>}
-     * @private
-     */
-    this.changes_ = this.getChanges_(this.lines_);
-
-    /**
-     * Object with coordinates of chunks of original code and corresponding
-     * chunks from modified code.
-     * @type {Array.<Object>}
-     * @private
-     */
-    this.offsets_ = this.getPxOffsets_(this.lines_);
 
     this.setEditorScrollHandlerEnabled_(this.codeMirrorOriginal_, true);
     this.setEditorScrollHandlerEnabled_(this.codeMirrorModified_, true);
@@ -361,6 +373,24 @@ define([
   };
 
   /**
+   * @param {jQuery.Event} evt
+   * @private
+   */
+  d.DoubleEditorController.prototype.onMenuWhitespacesOn_ = function(evt) {
+    evt.preventDefault();
+    this.setWhitespacesEnabled(true);
+  };
+
+  /**
+   * @param {jQuery.Event} evt
+   * @private
+   */
+  d.DoubleEditorController.prototype.onMenuWhitespacesOff_ = function(evt) {
+    evt.preventDefault();
+    this.setWhitespacesEnabled(false);
+  };
+
+  /**
    * Handles window resize.
    * @private
    */
@@ -425,6 +455,18 @@ define([
     });
 
     return currentChangeIndex;
+  };
+
+  /**
+   * @param {boolean} enabled
+   */
+  d.DoubleEditorController.prototype.setWhitespacesEnabled = function(enabled) {
+    if (this.whitespacesEnabled_ === enabled) {
+      return;
+    }
+
+    this.whitespacesEnabled_ = enabled;
+    this.setUsedValues(this.getUsedValues_());
   };
 
   /**
@@ -586,11 +628,19 @@ define([
     if (enabled) {
       this.onMenuUpClick_ = d.bindContext(this.onMenuUpClick_, this);
       this.onMenuDownClick_ = d.bindContext(this.onMenuDownClick_, this);
+      this.onMenuWhitespacesOn_ = d.bindContext(this.onMenuWhitespacesOn_,
+          this);
+      this.onMenuWhitespacesOff_ = d.bindContext(this.onMenuWhitespacesOff_,
+          this);
 
       this.menu_.setEnabled(true);
       this.menu_.getHandler().
           on(d.DoublePaneMenu.EventType.UP, this.onMenuUpClick_).
-          on(d.DoublePaneMenu.EventType.DOWN, this.onMenuDownClick_);
+          on(d.DoublePaneMenu.EventType.DOWN, this.onMenuDownClick_).
+          on(d.DoublePaneMenu.EventType.WHITESPACES_ON,
+              this.onMenuWhitespacesOn_).
+          on(d.DoublePaneMenu.EventType.WHITESPACES_OFF,
+              this.onMenuWhitespacesOff_);
     } else {
       this.menu_.setEnabled(false);
       this.menu_.getHandler().off();
