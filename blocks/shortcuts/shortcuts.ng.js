@@ -101,12 +101,22 @@
               return false;
             }
 
-            shortcuts.ring('popScope', $scope.current);
-            shortcuts.ring('pushScope', next);
-
-            shortcuts.ring('trigger', combo);
+            if ($scope.current) {
+              shortcuts.ring('popScope', $scope.current.name);
+            }
+            shortcuts.ring('pushScope', next.name);
 
             $scope.current = next;
+
+            // Skip invisible zones
+            if (!next.element.is(':visible')) {
+              return this.route(e, combo);
+            }
+
+            if (shortcuts.ring('hasKey', combo, next.name)) {
+              shortcuts.ring('trigger', combo);
+            }
+
             return false;
           };
 
@@ -114,15 +124,16 @@
 
           shortcuts.ring('pushScope', 'shortcuts');
 
-          this.setup = function(name, keys) {
-            shortcuts.bind(name, keys);
-            $scope.zones.push(name);
+          this.setup = function(zone, keys) {
+            shortcuts.bind(zone.name, keys);
+            $scope.zones.push(zone);
           };
 
-          this.destroy = function(name) {
-            shortcuts.ring('unbindList', name);
+          this.destroy = function(zone) {
+            shortcuts.ring('popScope', zone.name);
+            shortcuts.ring('unbindList', zone.name);
 
-            var position = $.inArray(name, $scope.zones);
+            var position = $.inArray(zone, $scope.zones);
 
             if (position !== -1) {
               $scope.zones.splice(position, 1);
@@ -142,10 +153,15 @@
         link: function($scope, iElement, iAttrs, shortcutsCtrl) {
           // Closest controller
           var ctrl = shortcutsCtrl[shortcutsCtrl.length - 1];
-          ctrl.setup($scope.id, $scope.keys);
+          var zone = {
+            name: $scope.id,
+            element: iElement
+          };
+
+          ctrl.setup(zone, $scope.keys);
 
           $scope.$on('$destroy', function() {
-            ctrl.destroy($scope.id);
+            ctrl.destroy(zone);
           });
         }
       };
