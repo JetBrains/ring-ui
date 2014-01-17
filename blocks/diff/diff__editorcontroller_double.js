@@ -225,6 +225,7 @@ define([
       this.codeMirrorModified_.setValue(modified);
     }
 
+    this.setWhitespacesEnabled(this.menu_.isWhitespacesEnabled());
     this.setUsedValues(this.getUsedValues_());
 
     if (!Boolean(opt_refresh)) {
