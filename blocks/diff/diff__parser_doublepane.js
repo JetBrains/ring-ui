@@ -62,6 +62,10 @@ define([
       if (!onlyWhitespaces || !change.type) {
         usedLines.push(change);
       } else {
+        // todo(igor.alexeenko): Refactor.
+        // NB! Further I want to use parameter "ignored" instead of changing
+        // state of just created fake object or use map of supported states.
+        // This solution is temporary.
         var fakeChange = d.mixin({}, change);
         fakeChange.type = d.Parser.LineType.NULL;
         usedLines.push(fakeChange);
