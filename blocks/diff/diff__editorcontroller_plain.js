@@ -22,7 +22,8 @@ define([
    * @enum {string}
    */
   d.PlainEditorController.ClassName = {
-    BASE: 'ring-diff__plain-editor'
+    BASE: 'ring-diff__plain-editor',
+    BASE_DIFF: 'ring-diff'
   };
 
   /**
@@ -41,7 +42,10 @@ define([
        * @private
        */
       this.editorElement_ = document.createElement('div');
-      this.editorElement_.className = d.PlainEditorController.ClassName.BASE;
+      this.editorElement_.className = [
+        d.PlainEditorController.ClassName.BASE,
+        d.PlainEditorController.ClassName.BASE_DIFF
+      ].join(' ');
       this.element_.appendChild(this.editorElement_);
 
       this.editor_ = new CodeMirror(this.editorElement_,
