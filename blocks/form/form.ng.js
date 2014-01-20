@@ -77,7 +77,7 @@
               if (el.attr('type') !== 'checkbox' && el.attr('type') !== 'radio') {
                 var controller = el.controller('ngModel');
                 if (controller) {
-                  controller.$setViewValue($(this).val());
+                  controller.$setViewValue(el.val());
                 }
               }
             });
