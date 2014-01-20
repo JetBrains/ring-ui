@@ -54,6 +54,12 @@
   font-family: 'font-icon' !important;
   content: '\e005' ring-font-icon_search;
   font-size: 16px;
+  color: #1A1A1A;
+
+}
+
+.ring-checkbox[type="checkbox"].ring-checkbox_black:checked + label.ring-checkbox__label::before {
+  color: #FFF;
 }
 
 .ring-checkbox__label_i {
@@ -71,7 +77,7 @@
 // Markup:
 // <input id="checkbox-1" class="ring-checkbox" type="checkbox" name="example" checked>
 // <label  class="ring-checkbox__label" for="checkbox-1"></label>
-// <input id="checkbox-2" class="ring-checkbox" type="checkbox" name="example">
+// <input id="checkbox-2" class="ring-checkbox ring-checkbox_black" type="checkbox" name="example">
 // <label class="ring-checkbox__label" for="checkbox-2"></label>
 //
 // Styleguide 15.1
