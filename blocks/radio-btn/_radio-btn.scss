@@ -3,7 +3,7 @@
 // Markup:
 // <input class="ring-radio-btn" type="radio" name="test" checked id="radio-1"/>
 // <label class="ring-radio-btn__label" for="radio-1"></label>
-// <input class="ring-radio-btn" type="radio" name="test"  id="radio-2"/>
+// <input class="ring-radio-btn ring-radio-btn_black" type="radio" name="test"  id="radio-2"/>
 // <label class="ring-radio-btn__label" for="radio-2"></label>
 //
 // Styleguide 17.1
@@ -22,7 +22,7 @@
   cursor: pointer;
   border: 1px solid rgba(0, 0, 0, 0.3);
   border-radius: 50%;
-  background: #FFF;
+  background: transparent;
   line-height: $ring-unit * 3;
   vertical-align: middle;
 }
@@ -43,4 +43,14 @@
   opacity: 1;
   border-radius: 50%;
   background-color: #25B7FF;
+}
+
+.ring-radio-btn[type="radio"].ring-radio-btn_black:checked {
+  & + .ring-radio-btn__label {
+    border-color: #25B7FF;
+  }
+
+  & + .ring-radio-btn__label:after {
+    background-color: #ffffff;
+  }
 }
