@@ -1,6 +1,8 @@
 (function () {
   'use strict';
 
+  var auth = ring('auth');
+
   /**
    * Configure:
    * <pre>
@@ -23,23 +25,21 @@
    */
   angular.module('Ring.auth', []).
     provider('auth', [function () {
-      var authConfig;
       var authFuture;
       this.config = function (config) {
-        authConfig = config;
-
         // Authorize
         //   redirects to /oauth if it's required,
         //   parses oauth response if any
-        authFuture = ring('auth', 'init')(authConfig);
+        authFuture = auth('init', config);
       };
 
       this.$get = ['$injector', function ($injector) {
         return $injector.instantiate(['$location', '$http', function ($location, $http) {
           authFuture.done(function (absUrl) {
-            if (absUrl && authConfig.redirectUri) {
+            if (absUrl) {
+              var authConfig = auth.get('config');
               // Extracting relative path from absolute
-              var path = absUrl.split(authConfig.redirectUri);
+              var path = absUrl.split(authConfig.redirect_uri);
 
               if (path[1]) {
                 $location.path(path[1]);
@@ -51,11 +51,11 @@
             'installAuthHeader': function () {
               // Install Authorization header getter
               $http.defaults.headers.common['Authorization'] = function () {
-                return 'Bearer ' + ring('auth', 'getToken')();
+                return 'Bearer ' + auth('getToken');
               };
             },
             'getUser': function () {
-              return ring('auth', 'getUser')();
+              return auth('getUser');
             }
           };
         }]);
