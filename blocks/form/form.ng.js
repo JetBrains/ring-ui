@@ -68,16 +68,19 @@
       return {
         priority: 10,
         link: function ($scope, element) {
+          $scope.submitted = false;
+
           element.on('submit', function () {
-            element.find('input').each(function () {
-                var el = angular.element(this);
-                if (el.attr('type') !== 'checkbox' && el.attr('type') !== 'radio') {
-                  var controller = el.controller('ngModel');
-                  if (controller) {
-                    controller.$setViewValue($(this).val());
-                  }
+            $scope.submitted = true;
+            angular.forEach(element.find('input'), function () {
+              var el = angular.element(this);
+              if (el.attr('type') !== 'checkbox' && el.attr('type') !== 'radio') {
+                var controller = el.controller('ngModel');
+                if (controller) {
+                  controller.$setViewValue($(this).val());
                 }
-              });
+              }
+            });
           });
         }
       };
