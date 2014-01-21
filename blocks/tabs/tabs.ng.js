@@ -2,7 +2,7 @@
   'use strict';
 
   angular.module('Ring.tabs', []).
-    directive('ringTabs', ['$location', '$routeParams', function ($location, $routeParams) {
+    directive('ringTabs', ['$location', '$routeParams', '$rootScope', function ($location, $routeParams, $rootScope) {
       return {
         restrict: 'E',
         transclude: true,
@@ -23,6 +23,10 @@
           }
 
           var doSelect = function (newPane, skipUrlUpdate) {
+            if (newPane === $scope.panes[$scope.current]) {
+              return;
+            }
+
             if (typeof newPane === 'number') {
               var panes = $scope.panes.length - 1;
 
@@ -37,8 +41,9 @@
 
             angular.forEach($scope.panes, function (pane, index) {
               // Update current tab
-              if (pane === newPane) {
+              if (pane === newPane || pane.tabId === newPane) {
                 $scope.current = index;
+                newPane = pane;
               }
 
               // Deselect all selected
@@ -58,15 +63,17 @@
             return $scope.tabParameter || 'tab';
           };
 
-          var selectedTab = $routeParams[getTabParameterName()];
-
           this.addPane = function (pane) {
-            if ($scope.panes.length === 0 || pane.tabId === selectedTab) {
+            if ($scope.panes.length === 0 || pane.tabId === $routeParams[getTabParameterName()]) {
               doSelect(pane, true);
               $scope.current = $scope.panes.length;
             }
             $scope.panes.push(pane);
           };
+
+          $rootScope.$on('$routeUpdate', function() {
+            doSelect($routeParams[getTabParameterName()] || 0, true);
+          });
 
           // Exposed methods
           $scope.control = {};
