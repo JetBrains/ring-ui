@@ -27,6 +27,7 @@ define(['jquery', 'jso', 'global/global__modules', 'global/global__utils'], func
   var TOKEN_EXPIRE_FIELD = 'expires';
 
   var absoluteUrlRE = /^[a-z]+:\/\//i;
+  var endsWithSlashOrEmptyRE = /^(.+\/)?$/;
 
   var INVALID_TOKEN_ERR = 'invalid_grant';
   var INVALID_SCOPE_ERR = 'invalid_scope';
@@ -105,8 +106,12 @@ define(['jquery', 'jso', 'global/global__modules', 'global/global__utils'], func
     var dfd = $.Deferred();
     serverUrl = typeof config === 'string' ? config : config.serverUri;
 
-    if (!serverUrl) {
+    if (typeof serverUrl !== 'string') {
       utils.log('Server URI is not defined!');
+    }
+
+    if (!serverUrl.match(endsWithSlashOrEmptyRE)) {
+      serverUrl += '/';
     }
 
     jsoConfig[provider] = {authorization: serverUrl + API_AUTH_PATH};
