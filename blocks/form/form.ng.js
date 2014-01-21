@@ -3,8 +3,7 @@
 
   angular.module('Ring.form', []).
   /**
-   * <div submitted="submitted" error-bubble="form.name"></div>
-   * @param {bool} submitted Is form submitted
+   * <div error-bubble="form.name"></div>
    * @param {object} error-bubble Ng-model for this control
    *
    * Where form.name is a reference to angularJS form input
@@ -12,7 +11,6 @@
     directive('errorBubble', [function () {
       return {
         scope: {
-          'submitted': '=submitted',
           'errorBubble': '&errorBubble'
         },
         replace: true,
@@ -66,22 +64,22 @@
    */
     .directive('formAutofillFix', function () {
       return {
+        require: '?form',
         priority: 10,
-        link: function ($scope, element) {
-          $scope.submitted = false;
-
-          element.on('submit', function () {
-            $scope.submitted = true;
-            angular.forEach(element.find('input'), function () {
-              var el = angular.element(this);
-              if (el.attr('type') !== 'checkbox' && el.attr('type') !== 'radio') {
-                var controller = el.controller('ngModel');
-                if (controller) {
-                  controller.$setViewValue(el.val());
+        link: function ($scope, element, attrs, form) {
+          if(form) {
+            element.on('submit', function () {
+              angular.forEach(element.find('input'), function () {
+                var el = angular.element(this);
+                if (el.attr('type') !== 'checkbox' && el.attr('type') !== 'radio') {
+                  var controller = el.controller('ngModel');
+                  if (controller) {
+                    controller.$setViewValue(el.val());
+                  }
                 }
-              }
+              });
             });
-          });
+          }
         }
       };
     });

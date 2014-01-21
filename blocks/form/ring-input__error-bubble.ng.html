@@ -1,5 +1,5 @@
 <div class="ring-input__error-bubble"
-     ng-class="{ active: errorBubble().$invalid && (errorBubble().$dirty || submitted ) }">
+     ng-class="{ active: errorBubble().$invalid && errorBubble().$dirty }">
     <span ng-show="errorBubble().$error.required">Value is required</span>
     <span ng-show="errorBubble().$error.url">Should be a valid URL</span>
     <span ng-show="errorBubble().$error.email">Should be a valid email</span>
