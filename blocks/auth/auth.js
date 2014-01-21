@@ -61,8 +61,11 @@ define(['jquery', 'jso', 'global/global__modules', 'global/global__utils'], func
 
     // Refresh invalid token
     if (utils.isDeferred(dfd)) {
-      dfd.fail(function(err) {
-        var errorCode = err && err.responseJSON && err.responseJSON.error;
+      dfd.fail(function(response) {
+        var errorCode;
+        try {
+          errorCode = (response.responseJSON || $.parseJSON(response.responseText)).error;
+        } catch(e) {}
 
         if(errorCode === INVALID_TOKEN_ERR || errorCode === INVALID_SCOPE_ERR) {
           jso.wipe();
