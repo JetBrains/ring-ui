@@ -4,7 +4,6 @@
 }
 
 .ring-checkbox[type="checkbox"] + label.ring-checkbox__label {
-  position: relative;
   display: inline-block;
   content: "";
   // IE hack
@@ -26,7 +25,6 @@
 }
 
 .ring-checkbox[type="checkbox"]:checked + label.ring-checkbox__label {
-  position: relative;
   display: inline-block;
   content: "";
   // IE hack
