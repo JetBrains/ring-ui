@@ -22,27 +22,24 @@
   width: $map_size / 2 + 1;
 }
 
+@mixin ring-diff-map-element($color) {
+  background: scale-color($color, $lightness: -10%);
+  border-color: scale-color($color, $lightness: 15%);
+  border-bottom-color: scale-color($color, $lightness: -25%);
+  border-right-color: scale-color($color, $lightness: -25%);
+}
+
 .ring-diff__map-element_added {
-  background: scale-color($added_background, $lightness: -10%);
-  border-color: scale-color($added_background, $lightness: 15%);
-  border-bottom-color: scale-color($added_background, $lightness: -25%);
-  border-right-color: scale-color($added_background, $lightness: -25%);
+  @include ring-diff-map-element($added_background);
+  z-index: 2;
+}
+
+.ring-diff__map-element_modified {
+  @include ring-diff-map-element($modified_background);
   z-index: 2;
 }
 
 .ring-diff__map-element_deleted {
-  background: scale-color($deleted_background, $lightness: -10%);
-  border-color: scale-color($deleted_background, $lightness: 15%);
-  border-bottom-color: scale-color($deleted_background, $lightness: -25%);
-  border-right-color: scale-color($deleted_background, $lightness: -25%);
+  @include ring-diff-map-element($deleted_background);
   z-index: 1;
 }
-
-.ring-diff__map-element_modified {
-  background: scale-color($modified_background, $lightness: -10%);
-  border-color: scale-color($modified_background, $lightness: 15%);
-  border-bottom-color: scale-color($modified_background, $lightness: -25%);
-  border-right-color: scale-color($modified_background, $lightness: -25%);
-  z-index: 2;
-}
-

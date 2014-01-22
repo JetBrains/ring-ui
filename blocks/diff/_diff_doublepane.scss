@@ -82,87 +82,94 @@ $map_borders: 1px;
 }
 
 .ring-diff_doublepane {
-  .CodeMirror .line__added,
-  .CodeMirror .line__deleted {
-    box-sizing: border-box;
-  }
+  .CodeMirror {
+    .line__added,
+    .line__deleted {
+      box-sizing: border-box;
+    }
 
-  .CodeMirror .line__added {
-    background: $added_background;
-  }
+    .line__added {
+      background: $added_background;
+    }
 
-  .CodeMirror .line__modified {
-    background: $modified_background;
-  }
+    .line__modified {
+      background: $modified_background;
+    }
 
-  .CodeMirror .line__deleted {
-    background: $deleted_background;
-  }
+    .line__deleted {
+      background: $deleted_background;
+    }
 
-  .CodeMirror .line__before_added,
-  .CodeMirror .line__before_deleted {
-    z-index: 1;
-  }
+    .line__before_added,
+    .line__before_deleted {
+      z-index: 1;
+    }
 
-  .CodeMirror .line__before_added {
-    box-shadow: 0 1px 0 $added_background;
-    border-bottom: solid 1px $added_outline;
-  }
+    .line__before_added {
+      box-shadow: 0 1px 0 $added_background;
+      border-bottom: solid 1px $added_outline;
+    }
 
-  .CodeMirror .line__before_deleted {
-    box-shadow: 0 1px 0 $deleted_background;
-    border-bottom: solid 1px $deleted_outline;
-  }
+    .line__before_deleted {
+      box-shadow: 0 1px 0 $deleted_background;
+      border-bottom: solid 1px $deleted_outline;
+    }
 
-  .CodeMirror .chars__added {
-    background: $added_chars;
-    font-weight: bold;
-  }
+    .chars__added {
+      background: $added_chars;
+      font-weight: bold;
+    }
 
-  .CodeMirror .chars__modified {
-    background: $modified_chars;
-    font-weight: bold;
-  }
+    .chars__modified {
+      background: $modified_chars;
+      font-weight: bold;
+    }
 
-  .CodeMirror .chars__deleted {
-    background: $deleted_chars;
-    font-weight: bold;
-  }
+    .chars__deleted {
+      background: $deleted_chars;
+      font-weight: bold;
+    }
 
-  .CodeMirror .line__collapsed {
-    border-bottom: solid 1px;
-    z-index: 3;
-  }
+    .line__collapsed {
+      border-bottom: solid 1px;
+      z-index: 3;
+    }
 
-  .CodeMirror .line__first.line__added {
-    border-top: solid 1px $added_outline;
-  }
+    .line__first {
+      &.line__added {
+        border-top: solid 1px $added_outline;
+      }
 
-  .CodeMirror .line__first.line__modified {
-    border-top: solid 1px $modified_outline;
-  }
-  .CodeMirror .line__first.line__deleted {
-    border-top: solid 1px $deleted_outline;
-  }
+      &.line__modified {
+        border-top: solid 1px $modified_outline;
+      }
 
-  .CodeMirror .line__first + pre .chars__modified {
-    padding-top: 1px;
-  }
+      &.line__deleted {
+        border-top: solid 1px $deleted_outline;
+      }
 
-  .CodeMirror .line__last.line__added {
-    border-bottom: solid 1px $added_outline;
-  }
+      & + pre .chars__modified {
+        padding-top: 1px;
+      }
+    }
 
-  .CodeMirror .line__last.line__modified {
-    border-bottom: solid 1px $modified_outline;
-  }
+    .line__last {
+      &.line__added {
+        border-bottom: solid 1px $added_outline;
+      }
 
-  .CodeMirror .line__last.line__deleted {
-    border-bottom: solid 1px $deleted_outline;
-  }
+      &.line__modified {
+        border-bottom: solid 1px $modified_outline;
+      }
 
-  .CodeMirror .line__last + pre .chars__modified {
-    padding-bottom: 1px;
+      &.line__deleted {
+        border-bottom: solid 1px $deleted_outline;
+      }
+
+      & + pre .chars__modified {
+        padding-bottom: 1px;
+      }
+    }
   }
 }
 
