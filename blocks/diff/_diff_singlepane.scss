@@ -1,19 +1,19 @@
-$background: #f9f9fc;
+$background: #F9F9FC;
 
-$fold_background: #eee;
+$fold_background: #EEE;
 
 $gutter_background: rgba(249, 249, 252, 0.9);
 $gutter_border: rgba(205, 205, 205, 0.5);
-$gutter_fontcolor: #a7a7a7;
+$gutter_fontcolor: #A7A7A7;
 
-$deleted_background: #d6d6d6;
-$deleted_highlight: #909090;
+$newline_background: #D1F3D2;
+$newline_highlight: #D1F3D2;
 
-$newline_background: #e1ffdd;
-$newline_highlight: #cbf4c6;
+$inline_background: #EEF3FD;
+$inline_highlighted: #D4E1FB;
 
-$inline_background: #e2e6f4;
-$inline_highlighted: #ccd7f9;
+$deleted_background: #F2F2F2;
+$deleted_highlight: #DEDEDE;
 
 .ring-diff_single {
   .CodeMirror {
