@@ -16,8 +16,7 @@
 
       $.each(ring('alerts', 'getAlertTypes')(), function (name, type) {
         service[type] = function (message, opt_timeout) {
-          return ring('alerts', 'add')(message, type, null,
-              opt_timeout);
+          return ring('alerts', 'add')(message, type, true, opt_timeout);
         };
       });
 
