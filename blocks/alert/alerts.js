@@ -170,7 +170,7 @@ define([
       alerts = new Alerts();
     }
 
-    return alerts.showAlert(message, type, opt_timeout);
+    return alerts.showAlert(message, type, opt_closeable, opt_timeout);
   };
 
   /**
