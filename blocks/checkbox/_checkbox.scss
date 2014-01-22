@@ -1,73 +1,64 @@
-.ring-checkbox[type="checkbox"] {
+$ring-checkbox: ':root .ring-checkbox[type="checkbox"]';
+
+#{$ring-checkbox} {
   display: none;
-  display: inline-block\9;
 }
 
-.ring-checkbox[type="checkbox"] + label.ring-checkbox__label {
-  display: inline-block;
-  content: "";
-  // IE hack
-  display: none\9;
-  width: 11px;
-  height: 11px;
+label.ring-checkbox__label {
+  display: none;
 
-  cursor: pointer;
-  border: 1px solid #CCC;
-  border-radius: 2px;
-  background: transparent;
-  user-select: none;
-  line-height: $ring-unit * 3;
-  vertical-align: middle;
+  #{$ring-checkbox} + & {
+    display: inline-block;
+    content: "";
+    width: 11px;
+    height: 11px;
 
-  &:hover {
-    border: 1px solid #FF8620;
+    border: 1px solid #CCC;
+    border-radius: 2px;
+    background: transparent;
+    user-select: none;
+    cursor: pointer;
+
+
+    line-height: $ring-unit * 3;
+    vertical-align: middle;
+
+    &:hover {
+      border: 1px solid #FF8620;
+    }
   }
-}
 
-.ring-checkbox[type="checkbox"]:checked + label.ring-checkbox__label {
-  display: inline-block;
-  content: "";
-  // IE hack
-  display: none\9;
-  width: 11px;
-  height: 11px;
+  #{$ring-checkbox}:checked + & {
+    font-size: 13px;
 
-  font-size: 13px;
+    border: 1px solid #25B7FF;
+    line-height: normal;
 
-  line-height: normal;
-  cursor: pointer;
-  border: 1px solid #25B7FF;
-  border-radius: 2px;
-  background: transparent;
-}
+    &:before {
+      position: relative;
+      top: -4px;
+      left: -1px;
+      display: block;
+      width: 11px;
+      height: 11px;
 
-.ring-checkbox[type="checkbox"]:checked + label.ring-checkbox__label::before {
-  position: relative;
-  top: -4px;
-  left: -1px;
-  display: block;
-  width: 11px;
-  height: 11px;
+      font-family: 'font-icon' !important;
+      content: '\e005';
+      font-size: 16px;
+      color: #1A1A1A;
+    }
+  }
 
-  font-family: 'font-icon' !important;
-  content: '\e005';
-  font-size: 16px;
-  color: #1A1A1A;
-
-}
-
-.ring-checkbox[type="checkbox"].ring-checkbox_black:checked + label.ring-checkbox__label::before {
-  color: #FFF;
+  #{$ring-checkbox}.ring-checkbox_black + &:before {
+    color: #FFF;
+  }
 }
 
 .ring-checkbox__label_i {
   position: relative;
   left: 2px;
 
-  vertical-align: middle;
-  vertical-align: top\9;
-
-  -webkit-user-select: none;
+  user-select: none;
 }
 
 // Checkbox
