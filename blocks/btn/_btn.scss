@@ -58,8 +58,8 @@ $ring-btn-border-radius: 3px;
 
 .ring-btn {
   display: inline-block;
-  *display: inline;
-  *zoom: 1;
+  *display: inline; // IE 7-
+  *zoom: 1; // IE 7-
   width: auto;
   height: $ring-unit*3;
   box-sizing: border-box;
@@ -99,7 +99,7 @@ $ring-btn-border-radius: 3px;
 
   &:not(:hover):focus, &.ring-btn_focus {
     position: relative;
-    outline: 1px dotted #666\9;
+    outline: 1px dotted #666\9; // IE 6+
     border-radius: $ring-btn-border-radius !important;
     box-shadow: 0 0 0 4px #92DBFF;
     z-index: 2;
