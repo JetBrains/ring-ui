@@ -106,13 +106,13 @@ $map_borders: 1px;
     }
 
     .line__before_added {
-      box-shadow: 0 1px 0 $added_background;
-      border-bottom: solid 1px $added_outline;
+      box-shadow: 0 1px 0 $added_outline;
+      border-bottom: solid 1px $added_background;
     }
 
     .line__before_deleted {
-      box-shadow: 0 1px 0 $deleted_background;
-      border-bottom: solid 1px $deleted_outline;
+      box-shadow: 0 1px 0 $deleted_outline;
+      border-bottom: solid 1px $deleted_background;
     }
 
     .chars__added {
