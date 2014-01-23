@@ -5,7 +5,7 @@ $ring-checkbox: ':root .ring-checkbox[type="checkbox"]';
 }
 
 label.ring-checkbox__label {
-  display: none;
+  display: none; // IE 8-
 
   #{$ring-checkbox} + & {
     display: inline-block;

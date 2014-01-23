@@ -50,6 +50,7 @@ $ring-menu-attention-color: #F50000;
 .ring-menu_gradient .ring-menu__background {
   height: $ring-unit*14;
   background-image: linear-gradient(to bottom, #E4E4E4, #FFF);
+  // IE 8-9
   -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='#E4E4E4', endColorstr='#FFFFFF',GradientType=0)";
 }
 
