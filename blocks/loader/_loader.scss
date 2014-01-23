@@ -48,12 +48,12 @@
 
   border-radius: 50%;
   border: solid 2px #D8D8D8;
-  border: none\9;
+  border: none\9; // IE 6+
 
   animation: colors 6s linear infinite, rotating 0.7s linear infinite;
 
   font-size: 0;
-  font-size: 13px\9;
+  font-size: 13px\9; // IE 6+
 }
 
 @media screen and (min-width:0\0) {

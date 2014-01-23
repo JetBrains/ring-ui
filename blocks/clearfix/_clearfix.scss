@@ -1,5 +1,5 @@
 .ring-clearfix {
-  *zoom: 1;
+  *zoom: 1; // IE 7-
 
   &:after {
     clear: both;

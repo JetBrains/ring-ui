@@ -108,8 +108,7 @@
 .ring-input_icon + .ring-input_icon__span {
   position: absolute;
   top: -1px;
-  // IE fix
-  top: 2 px\9;
+  top: 2 px\9; // IE 6+
   right: 0;
   padding-right: 6px;
 

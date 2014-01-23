@@ -30,7 +30,7 @@
 }
 
 .ring-select + label.ring-select__label {
-  border: none\9;
+  border: none\9; // IE 6+
 }
 
 // Select

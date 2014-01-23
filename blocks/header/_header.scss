@@ -27,11 +27,11 @@ $ring-header-link-color:  #B4B4B4;
 .ring-header__item {
   position: relative;
   display: inline-block;
-  *display: inline; // IE7
+  *display: inline; // IE 7
   height: $ring-unit*2 + 1;
 
   padding: 6px $ring-unit 0 $ring-unit;
-  vertical-align: middle; // IE7
+  vertical-align: middle; // IE 7
 
   letter-spacing: 0;
   font-size: 11px !important;
@@ -40,7 +40,7 @@ $ring-header-link-color:  #B4B4B4;
 }
 
 .ring-header__item_link:hover {
-  background-color: #000; // IE8-
+  background-color: #000; // IE 8-
   background-color: rgba(0, 0, 0, 0.5);
 }
 
