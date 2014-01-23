@@ -554,7 +554,7 @@ module.exports = function(grunt) {
     });
   });
 
-  grunt.registerTask('install',   ['bower', 'copy:codemirror']);
+  grunt.registerTask('install',   ['bower']);
   grunt.registerTask('uninstall', ['clean:modules']);
   grunt.registerTask('cleanup',   ['clean:generated']);
 
@@ -567,6 +567,7 @@ module.exports = function(grunt) {
 
   grunt.registerTask('styles', [
     'clean:styles',
+    'copy:codemirror',
     'sass',
     'autoprefixer',
     'copy:fonts'
