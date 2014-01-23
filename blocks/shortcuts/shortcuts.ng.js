@@ -5,10 +5,12 @@
     .provider('shortcuts', [function () {
       var shortcuts = ring('shortcuts');
       var modes = {};
+      var mainModes = {};
       var reference = [];
 
       this.mode = function(config) {
         modes[config.id] = config.shortcuts;
+        mainModes[config.id] = !!config.main;
 
         if (config.title) {
           reference.push(config);
@@ -65,8 +67,11 @@
             shortcuts('bindList', {scope: name}, keys);
           },
           'ring': shortcuts,
-          'getReference': function () {
+          'getReference': function() {
             return angular.copy(reference);
+          },
+          'isMainMode': function(name) {
+            return mainModes[name];
           }
         };
 
@@ -78,13 +83,7 @@
         controller: ['$rootScope', '$scope', 'shortcuts', function ($scope, $rootScope, shortcuts) {
           $scope.zones = [];
 
-          this.route = function(e, combo) {
-            // There is nowhere to navigate
-            if (!$scope.zones.length) {
-              return false;
-            }
-
-            var up = (combo === 'up');
+          var getNext = function(up) {
             var position = $scope.current && $.inArray($scope.current, $scope.zones);
             var next;
 
@@ -96,8 +95,31 @@
               next = up ? $scope.zones[$scope.zones.length - 1] : $scope.zones[0];
             }
 
+            return next;
+          };
+
+          this.route = function(e, combo) {
+            var next;
+
+            // There is nowhere to navigate
+            if (!$scope.zones.length) {
+              return false;
+            }
+
+            if (combo === 'esc') {
+              $.each($scope.zones, function(index, zone) {
+                if (shortcuts.isMainMode(zone.name)) {
+                  next = $scope.zones[index];
+
+                  return false;
+                }
+              });
+            } else {
+              next = getNext(combo === 'up');
+            }
+
             // The only zone
-            if (next === $scope.current) {
+            if (!next || next === $scope.current) {
               return false;
             }
 
