@@ -7,8 +7,9 @@
  
 define([
   'diff/diff',
-  'diff/diff__tools'
-], function(DiffTool, d) {
+  'diff/diff__tools',
+  'global/global__modules'
+], function(DiffTool, d, Module) {
   d.RenderingQueue = function() {
     this.onDiffRender_ = d.bindContext(this.onDiffRender_, this);
 
@@ -25,7 +26,7 @@ define([
    * @param {*=} opt_context
    */
   d.RenderingQueue.prototype.push = function(diff, operation, opt_context) {
-    var operationWrap = function() {
+    var operationWrap = d.bindContext(function() {
       if (!d.isDef(opt_context)) {
         opt_context = null;
       }
@@ -35,11 +36,10 @@ define([
         operation: operation
       };
 
-      diff.getHandler().on(DiffTool.EventType.AFTER_RENDER, queueRecord,
-          this.onDiffRender_);
-
+      var handler = this.getOnDiffRenderHandler_(queueRecord);
+      diff.getHandler().one(DiffTool.EventType.AFTER_RENDER, handler);
       operation.call(opt_context);
-    };
+    }, this);
 
     var lastItemInQueue = d.peekArray(this.queue_);
     if (lastItemInQueue) {
@@ -51,25 +51,8 @@ define([
   };
 
   /**
-   * @param {Element} element
-   * @param {string} original
-   * @param {string} modified
-   * @param {Array.<Object>} diff
-   * @param {DiffTool.Mode=} opt_mode
-   * @return {DiffTool}
+   * Disposal of whole queue. Disposes all elements and empties the queue.
    */
-  d.RenderingQueue.prototype.createAndAddToQueue = function(element, original,
-      modified, diff, opt_mode) {
-    var diffTool = new DiffTool(element, opt_mode);
-    var operation = function() {
-      diffTool.setContent(original, modified, diff);
-    };
-
-    this.push(diffTool, operation);
-
-    return diffTool;
-  };
-
   d.RenderingQueue.prototype.dispose = function() {
     this.queue_.forEach(function(queueRecord) {
       queueRecord.instance.dispose();
@@ -80,13 +63,33 @@ define([
   };
 
   /**
-   * @param {jQuery.Event}
+   * @param {Object} queueRecord
+   * @return {function}
    * @private
    */
-  d.RenderingQueue.prototype.onDiffRender_ = function(evt) {
-    var queueRecord = evt.data;
+  d.RenderingQueue.prototype.getOnDiffRenderHandler_ = function(queueRecord) {
+    return d.bindContext(function(evt) {
+      this.onDiffRender_.call(evt, queueRecord);
+    }, this);
+  };
+
+  /**
+   * @param {jQuery.Event} evt
+   * @param {Object} queueRecord
+   * @private
+   */
+  d.RenderingQueue.prototype.onDiffRender_ = function(evt, queueRecord) {
     this.queue_ = d.deleteFromArray(this.queue_, queueRecord);
   };
+
+  Module.add('diffRenderingQueue', {
+    getRenderingQueue: {
+      method: function() {
+        return d.RenderingQueue;
+      },
+      override: true
+    }
+  });
 
   return d.RenderingQueue;
 });

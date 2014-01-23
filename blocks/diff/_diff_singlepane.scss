@@ -21,6 +21,7 @@ $deleted_highlight: #DEDEDE;
     border: solid 1px #ccc;
     border-radius: 3px;
     height: auto;
+    width: 100%;
 
     @include ring-monospace-font();
   }
