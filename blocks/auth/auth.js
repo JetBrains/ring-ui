@@ -91,9 +91,9 @@ define(['jquery', 'jso', 'global/global__modules', 'global/global__utils'], func
 
     if (token === null) {
       var ensure = {};
-      ensure[provider] = jsoConfig[provider].scope;
 
-      if (!denyIA) {
+      if (!denyIA && jsoConfig[provider]) {
+        ensure[provider] = jsoConfig[provider].scope;
         jso.ensure(ensure);
       }
       return false;
@@ -108,6 +108,7 @@ define(['jquery', 'jso', 'global/global__modules', 'global/global__utils'], func
 
     if (typeof serverUrl !== 'string') {
       utils.log('Server URI is not defined!');
+      return dfd.reject();
     }
 
     if (!serverUrl.match(endsWithSlashOrEmptyRE)) {
