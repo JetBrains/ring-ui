@@ -131,7 +131,7 @@ define(['jquery', 'global/global__utils'], function($, utils) {
     return ret;
   };
 
-  methods.trigger = function(scope, signature, data) {
+  methods.trigger = function(scope, signature, data, e) {
     var ret = true;
     var event = parseSignature(signature, scope)[0];
     var subscriptions = cache[event.name];
@@ -140,7 +140,7 @@ define(['jquery', 'global/global__utils'], function($, utils) {
 
     if (subscriptions) {
       for (var i = subscriptions.length; i--; i > 0) {
-        ret = subscriptions[i].handler(data);
+        ret = subscriptions[i].handler(data, e);
       }
     }
 
@@ -167,8 +167,8 @@ define(['jquery', 'global/global__utils'], function($, utils) {
     var storedEvents = $target.data(events.EVENT_DATA_ATTR);
 
     var fire = function(event) {
-      if (!event.type && type === events.DEFAULT_EVENT || event.type === type) {
-        return methods.trigger({global: true}, event.name || event, event.data);
+      if (event && (!event.type && type === events.DEFAULT_EVENT || event.type === type)) {
+        return methods.trigger({global: true}, event.name || event, event.data, e);
       }
     };
 
