@@ -133,15 +133,15 @@ define([
       .css(params)
       // Using delegate because of compatibility with YouTrack's jQuery 1.5.1
       .delegate(ITEM_ACTION_SELECTOR,'mouseenter.ring-dropdown', function(e) {
-        events.domEventHandler(e);
-
         $(e.currentTarget)
           .addClass(ACTIVE_CLASS)
           .siblings()
           .removeClass(ACTIVE_CLASS);
+
+        return events.domEventHandler(e);
       })
       .delegate(ITEM_ACTION_SELECTOR,'replace.ring-dropdown', function(e) {
-        events.domEventHandler(e);
+        return events.domEventHandler(e);
       });
 
     dropdown.trigger('show:done');
