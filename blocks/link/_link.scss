@@ -9,16 +9,18 @@
 //
 // Styleguide 10.1
 
-.ring-link, .ring-link:visited {
+.ring-link,
+.ring-link:visited {
   color: $ring-link-color;
   text-decoration: none;
   cursor: pointer;
+}
 
-  // body to redefine other :hovers w/ !important
-  body &:hover, body &:focus {
-    color: $ring-link-hover-color !important;
-    text-decoration: underline !important;
-  }
+// body to redefine other :hovers w/ !important
+body .ring-link:hover,
+body .ring-link:focus {
+  color: $ring-link-hover-color !important;
+  text-decoration: underline !important;
 }
 
 .ring-link_right-align {
