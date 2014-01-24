@@ -1,0 +1,51 @@
+package com.intellij.psi.impl.source.jsp.el.impl;
+
+import com.intellij.extapi.psi.ASTWrapperPsiElement;
+import com.intellij.lang.ASTNode;
+import com.intellij.lang.Language;
+import com.intellij.psi.PsiElementVisitor;
+import com.intellij.psi.jsp.el.ELElementVisitor;
+import com.intellij.psi.jsp.el.ELExpression;
+import com.intellij.psi.jsp.el.ELParameterList;
+import com.intellij.psi.util.PsiTreeUtil;
+import org.jetbrains.annotations.NotNull;
+
+/**
+ * Created by IntelliJ IDEA.
+ * User: Maxim.Mossienko
+ * Date: Apr 13, 2005
+ * Time: 4:39:54 PM
+ * To change this template use File | Settings | File Templates.
+ */
+public class ELParameterListImpl extends ASTWrapperPsiElement implements ELParameterList {
+
+  private static final ELExpression[] EMPTY = new ELExpression[0];
+
+  public ELParameterListImpl(ASTNode node) {
+    super(node);
+  }
+
+  @NotNull
+  public Language getLanguage() {
+    return getParent().getLanguage();
+  }
+
+  public String toString() {
+    return "ELParameterList";
+  }
+
+  public void accept(@NotNull PsiElementVisitor visitor) {
+    if (visitor instanceof ELElementVisitor) {
+      ((ELElementVisitor)visitor).visitELParameterList(this);
+    }
+    else {
+      visitor.visitElement(this);
+    }
+  }
+
+  @NotNull
+  public ELExpression[] getParameters() {
+    ELExpression[] params = PsiTreeUtil.getChildrenOfType(this, ELExpression.class);
+    return params == null ? EMPTY : params;
+  }
+}
