@@ -45,7 +45,13 @@
               });
             }
           });
-        }]
+        }],
+        // Focus first input
+        'link': function (scope, iElement) {
+          scope.$on('$includeContentLoaded', function() {
+            iElement.find(':input,[contentEditable=true]').first().focus();
+          });
+        }
       };
     }]).
     directive('dialogTitle', [function () {
