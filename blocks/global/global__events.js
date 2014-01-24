@@ -157,7 +157,8 @@ define(['jquery', 'global/global__utils'], function($, utils) {
   };
 
   var eventsMap = {
-    'hover': 'mouseenter'
+    'mouseenter': 'hover',
+    'mouseleave': 'hover'
   };
 
   // Events from DOM
