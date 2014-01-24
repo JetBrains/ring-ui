@@ -103,11 +103,11 @@
                     "label": "two events",
                     "url": "/rest/agile",
                     "event": [{
-                      name: "dropdown:click",
-                      data: 'Clicked!'
-                    },{
                       "name":  "dropdown:hover",
                       "type": "hover"
+                    },{
+                        name: "dropdown:click",
+                        data: 'Clicked!'
                     }],
                     "action": true
                   },
@@ -306,11 +306,12 @@
       });
 
       o.on('dropdown:hover', function() {
-        ring('alerts').invoke('add', 'Ho-ho-hover', 'success', true, 10000);
+        ring('alerts')('add', 'Ho-ho-hover', 'success', true, 10000);
       });
 
-      o.on('dropdown:click', function(message) {
-        ring('alerts').invoke('add', message, 'success', true, 10000);
+      o.on('dropdown:click', function(message,e) {
+        ring('alerts')('add', message, 'success', true, 10000);
+        return false;
       });
 
       // todo(igor.alexeenko): More impressive demo. Show all possibilities.
@@ -330,13 +331,13 @@
       };
 
       query.on('apply', function() {
-        ring('alerts', 'add')('Query submitted','success', 10000);
+        ring('alerts', 'add')('Query submitted','success', true, 10000);
       });
 
       ring('shortcuts')('bind', {
         key: 'space',
         handler: function() {
-          ring('alerts', 'add')('Shortcuts!','success', 10000);
+          ring('alerts', 'add')('Shortcuts!','success', true, 10000);
         }
       });
     });
