@@ -28,36 +28,41 @@ define([
   };
 
   /**
-   * Analyzes inline changes of chunk.
+   * Analyzes inline changes of chunk. Chunk treated as changed inline if its
+   * description contains inline changes or numbers of old lines and new lines
+   * are not equal (rare case).
    * @type {d.parsers.parserFn}
    */
   d.parsers.inlineChanges = function(chunk, change) {
-    if (change.ranges) {
+    if (change.ranges || change.newLines !== change.oldLines &&
+        change.newLines > 0 && change.oldLines > 0) {
       var insertions = 0,
           deletions = 0;
 
       this.enableLineType(chunk, d.Parser.LineType.INLINE, true);
 
-      for (var i = 0, l = change.ranges.length; i < l; i++) {
-        var currentRange = change.ranges[i];
-        var changeOriginal = chunk.original[i];
-        var changeModified = chunk.modified[i];
+      if (d.isDef(change.ranges)) {
+        for (var i = 0, l = change.ranges.length; i < l; i++) {
+          var currentRange = change.ranges[i];
+          var changeOriginal = chunk.original[i];
+          var changeModified = chunk.modified[i];
 
-        if (currentRange.oldChars && currentRange.newChars) {
-          this.enableLineType(changeOriginal, d.Parser.LineType.INLINE, true);
-          this.enableLineType(changeModified, d.Parser.LineType.INLINE, true);
-        }
+          if (currentRange.oldChars && currentRange.newChars) {
+            this.enableLineType(changeOriginal, d.Parser.LineType.INLINE, true);
+            this.enableLineType(changeModified, d.Parser.LineType.INLINE, true);
+          }
 
-        if (currentRange.oldChars && !currentRange.newChars) {
-          deletions++;
-          this.enableLineType(changeOriginal, d.Parser.LineType.DELETED, true);
-          this.enableLineType(changeModified, d.Parser.LineType.DELETED, true);
-        }
+          if (currentRange.oldChars && !currentRange.newChars) {
+            deletions++;
+            this.enableLineType(changeOriginal, d.Parser.LineType.DELETED, true);
+            this.enableLineType(changeModified, d.Parser.LineType.DELETED, true);
+          }
 
-        if (currentRange.newChars && !currentRange.oldChars) {
-          insertions++;
-          this.enableLineType(changeOriginal, d.Parser.LineType.ADDED, true);
-          this.enableLineType(changeModified, d.Parser.LineType.ADDED, true);
+          if (currentRange.newChars && !currentRange.oldChars) {
+            insertions++;
+            this.enableLineType(changeOriginal, d.Parser.LineType.ADDED, true);
+            this.enableLineType(changeModified, d.Parser.LineType.ADDED, true);
+          }
         }
       }
 
