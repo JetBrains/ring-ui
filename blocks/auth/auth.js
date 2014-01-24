@@ -115,6 +115,15 @@ define(['jquery', 'jso', 'global/global__modules', 'global/global__utils'], func
       serverUrl += '/';
     }
 
+    // REMOVE AFTER HUB UPDATE //
+    // Override api path for old Hub at sso.jetbrains.com
+    if (serverUrl.indexOf('https://sso.jetbrains.com') === 0) {
+      API_PATH = 'rest';
+      API_AUTH_PATH = API_PATH + '/oauth2/auth';
+      API_PROFILE_PATH = API_PATH + PROFILE_PATH;
+    }
+    // REMOVE AFTER HUB UPDATE //
+
     jsoConfig[provider] = {authorization: serverUrl + API_AUTH_PATH};
 
     var cfg = $.extend(jsoConfig[provider], defaultConfig);
