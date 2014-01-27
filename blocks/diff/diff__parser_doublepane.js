@@ -40,39 +40,40 @@ define([
     d.parsers.inlineChanges
   ];
 
+  // todo(igor.alexeenko): Temporary solution.
   /**
+   * Marks whitespace chagnes as not changed blocks.
    * @param {d.Parser.Output} lines
    * @return {d.Parser.Output}
    */
   d.ParserDoublePane.ignoreWhitespaces = function(lines) {
-    var usedLines = [];
-
-    lines.forEach(function(change) {
+    return lines.map(function(change) {
+      var whitespacesOnly = true;
       var originalCode = change.original;
       var modifiedCode = change.modified;
 
-      var onlyWhitespaces = originalCode.some(function(inlineChange, index) {
-        var modifiedChange = modifiedCode[index];
+      var i = originalCode.length;
 
-        return Boolean(inlineChange.type) &&
-            d.isEmptyString(inlineChange.code) &&
-            d.isEmptyString(modifiedChange.code);
-      });
+      while(i--) {
+        var originalChunk = originalCode[i];
+        var modifiedChunk = modifiedCode[i];
 
-      if (!onlyWhitespaces || !change.type) {
-        usedLines.push(change);
-      } else {
-        // todo(igor.alexeenko): Refactor.
-        // NB! Further I want to use parameter "ignored" instead of changing
-        // state of just created fake object or use map of supported states.
-        // This solution is temporary.
+        if (Boolean(originalChunk.type) &&
+            (!d.isEmptyString(originalChunk.code) ||
+            !d.isEmptyString(modifiedChunk.code))) {
+          whitespacesOnly = false;
+          break;
+        }
+      }
+
+      if (whitespacesOnly && Boolean(change.type)) {
         var fakeChange = d.mixin({}, change);
         fakeChange.type = d.Parser.LineType.NULL;
-        usedLines.push(fakeChange);
+        return fakeChange;
+      } else {
+        return change;
       }
     });
-
-    return usedLines;
   };
 
   return d.ParserDoublePane;
