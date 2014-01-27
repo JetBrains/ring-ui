@@ -28,7 +28,7 @@
   font-size: 13px;
   text-align: center;
 
-  border: 1px solid #ADADAD; // IE 8-
+  border: 1px solid #ADADAD; // IE8-
   border-color: rgba(0, 0, 0, .3);
 
   box-shadow: 0 2px 8px 0 rgba(0, 0, 0, .3);
@@ -75,6 +75,11 @@
   background-color: #ADADAD;
 }
 
+.ring-dropdown__items {
+  max-height: 63*$ring-unit;
+  overflow: scroll;
+}
+
 .ring-dropdown__item {
   display: block;
   padding: 0 $ring-unit*2;
@@ -98,6 +103,7 @@
 
 .ring-dropdown__item__controls {
   margin-bottom: $ring-unit;
+  background: #fff;
   &:last-child {
     margin-bottom: 0;
     & .ring-dropdown__item__controls__title {
@@ -237,7 +243,6 @@
     border-top: 1px solid #E5DCB8;
   }
 }
-
 
 .ring-dropdown__item__type {
   display: table-cell;

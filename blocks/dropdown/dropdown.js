@@ -5,7 +5,7 @@ define([
   'global/global__events',
   'global/global__utils',
   'shortcuts/shortcuts'
-], function($, View, Module, events, utils) {
+], function ($, View, Module, events, utils) {
   'use strict';
 
   var COMPONENT_SELECTOR = '.ring-js-dropdown';
@@ -21,6 +21,7 @@ define([
   var $body;
   var $dropdown;
   var previousTarget;
+  var preventRemove = false;
 
   var DROPDOWN_MIN_RIGHT_MARGIN = 8;
   var DROPDOWN_BORDER_WIDTH = 2;
@@ -28,7 +29,7 @@ define([
   var MODULE = 'dropdown';
   var shortcuts = Module.get('shortcuts');
 
-  var create = function(data, config) {
+  var create = function (data, config) {
     var $target;
     var dropdown = Module.get(MODULE);
 
@@ -42,6 +43,8 @@ define([
     if (utils.isNode($target) || typeof $target === 'string') {
       $target = $($target);
     }
+
+    preventRemove = config.preventRemove;
 
     var currentTarget = $target && $target[0];
     var sameTarget = (currentTarget && previousTarget === currentTarget);
@@ -104,8 +107,8 @@ define([
       if (params.left + dropdownWidth > $global.width() - DROPDOWN_MIN_RIGHT_MARGIN) {
         params.left += targetWidth - dropdownWidth;
 
-      // Center aligment on toggle without menu item
-      } else if(targetCenter >= dropdownCenter && targetToggle && !menuToggle) {
+        // Center aligment on toggle without menu item
+      } else if (targetCenter >= dropdownCenter && targetToggle && !menuToggle) {
         params.left = targetCenter - dropdownCenter;
       }
 
@@ -132,16 +135,16 @@ define([
     $dropdown
       .css(params)
       // Using delegate because of compatibility with YouTrack's jQuery 1.5.1
-      .delegate(ITEM_ACTION_SELECTOR,'mouseenter.ring-dropdown', function(e) {
+      .delegate(ITEM_ACTION_SELECTOR, 'mouseenter.ring-dropdown', function (e) {
+        events.domEventHandler(e);
+
         $(e.currentTarget)
           .addClass(ACTIVE_CLASS)
           .siblings()
           .removeClass(ACTIVE_CLASS);
-
-        return events.domEventHandler(e);
       })
-      .delegate(ITEM_ACTION_SELECTOR,'replace.ring-dropdown', function(e) {
-        return events.domEventHandler(e);
+      .delegate(ITEM_ACTION_SELECTOR, 'replace.ring-dropdown', function (e) {
+        events.domEventHandler(e);
       });
 
     dropdown.trigger('show:done');
@@ -150,7 +153,7 @@ define([
     return false;
   };
 
-  var remove = function() {
+  var remove = function () {
     if ($dropdown) {
       $dropdown.remove();
       $dropdown = null;
@@ -164,7 +167,7 @@ define([
     }
   };
 
-  var navigate = function(e, key) {
+  var navigate = function (e, key) {
     var up = (key === 'up');
 
     var $active = $dropdown.find(ACTIVE_SELECTOR);
@@ -181,7 +184,7 @@ define([
     return false;
   };
 
-  var action = function(e, key) {
+  var action = function (e, key) {
     var $active = $dropdown.find(ACTIVE_SELECTOR);
 
     if ($active.length) {
@@ -193,13 +196,16 @@ define([
   };
 
   // Using delegate because of compatibility with YouTrack's jQuery 1.5.1
-  $(document).delegate('*','click.ring-dropdown', function(e) {
+  $(document).delegate('*', 'click.ring-dropdown', function (e) {
     var $target = $(e.currentTarget).closest(COMPONENT_SELECTOR);
 
     if ($target.length) {
       return create(null, $target);
     } else {
-      remove();
+      if (!preventRemove || !$(e.currentTarget).closest(INNER_SELECTOR).length) {
+        remove();
+      }
+      e.stopPropagation();
     }
   });
 
