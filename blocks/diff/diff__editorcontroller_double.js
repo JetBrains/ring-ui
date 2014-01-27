@@ -654,10 +654,6 @@ define([
    */
   d.DoubleEditorController.prototype.setCurrentChange = function(change,
       opt_scrollTo) {
-    if (this.currentChange_ === change) {
-      return;
-    }
-
     this.currentChange_ = d.clamp(change, 0, this.changes_.length - 1);
     this.setCurrentChangeInternal(change, opt_scrollTo);
   };
