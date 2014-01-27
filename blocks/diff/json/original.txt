@@ -1,188 +1,144 @@
 /**
- * @fileoverview Button demo-class.
- * @author igor.alexeenko (Igor Alexeenko)
+ * @fileoverview
+ * @author igor.alexeenko (Igor Alekseyenko)
  */
-
-
-/**
- * @param {string} caption
- * @param {Element} parentEl
- * @constructor
- */
-var Button = function (caption, parentEl) {
+ 
+define([
+  'diff/diff__tools'
+], function(d) {
   /**
-   * @type {HTMLElement}
-   * @private
+   * Namespace for parser functions.
    */
-  this.element_ = document.createElement('button');
-  this.element_.innerText = caption;
+  d.parsers = {};
 
-  this.setListenersEnabled_(true);
+  /**
+   * Parser. Takes information about chunk and information about change and
+   * returns modified information about chunk.
+   * @typedef {function(diffTool.Parser: d.Parser.OutputLine,
+   *     diffTool.Parser.LineModification):d.Parser.OutputLine}
+   */
+  d.parsers.parserFn = null;
 
-  parentEl.appendChild(this.element_);
-};
+  /**
+   * Returns the same result it takes.
+   * @type {d.parsers.parserFn}
+   */
+  d.parsers.nullParser = function(chunk) {
+    return chunk;
+  };
 
-/**
- * @enum {string}
- */
-Button.EventType = {
-  MOUSEDOWN: 'mousedown',
-  MOUSEUP: 'mouseup',
-  MOUSEOVER: 'mouseover',
-  MOUSEOUT: 'mouseout'
-};
+  /**
+   * Analyzes inline changes of chunk. Chunk treated as changed inline if its
+   * description contains inline changes or numbers of old lines and new lines
+   * are not equal (rare case).
+   * @type {d.parsers.parserFn}
+   */
+  d.parsers.inlineChanges = function(chunk, change) {
+    if (change.ranges || change.newLines !== change.oldLines &&
+        change.newLines > 0 && change.oldLines > 0) {
+      var insertions = 0,
+          deletions = 0;
 
-/**
- * @enum {state}
- */
-Button.State = {
-  NULL: 0x00,
-  HOVERED: 0x01,
-  PRESSED: 0x02,
-  DISABLED: 0x04,
-  ALL: 0xFF
-};
+      this.enableLineType(chunk, d.Parser.LineType.INLINE, true);
 
-/**
- * @enum {string}
- */
-Button.ClassName = {
-  PRESSED: 'pressed',
-  HOVERED: 'hovered'
-};
+      if (d.isDef(change.ranges)) {
+        for (var i = 0, l = change.ranges.length; i < l; i++) {
+          var currentRange = change.ranges[i];
+          var changeOriginal = chunk.original[i];
+          var changeModified = chunk.modified[i];
 
-/**
- * @type {Button.State}
- * @private
- */
-Button.prototype.state_ = Button.State.NULL;
+          if (currentRange.oldChars && currentRange.newChars) {
+            this.enableLineType(changeOriginal, d.Parser.LineType.INLINE, true);
+            this.enableLineType(changeModified, d.Parser.LineType.INLINE, true);
+          }
 
-/**
- * @type {number}
- * @protected
- */
-Button.prototype.availableStates =
-    Button.State.HOVERED |
-        Button.State.PRESSED |
-        Button.State.DISABLED;
+          if (currentRange.oldChars && !currentRange.newChars) {
+            deletions++;
+            this.enableLineType(changeOriginal, d.Parser.LineType.DELETED, true);
+            this.enableLineType(changeModified, d.Parser.LineType.DELETED, true);
+          }
 
-/**
- * @param {Button.State} state
- * @param {boolean} enable
- */
-Button.prototype.enableState = function (state, enable) {
-  if (this.availableStates | state) {
-    this.state_ = enable ? this.state_ | state : ~state & this.state_;
-    this.enableStateInternal(state, enable);
-  }
-};
+          if (currentRange.newChars && !currentRange.oldChars) {
+            insertions++;
+            this.enableLineType(changeOriginal, d.Parser.LineType.ADDED, true);
+            this.enableLineType(changeModified, d.Parser.LineType.ADDED, true);
+          }
+        }
+      }
 
-/**
- * Sets button's class name from its state.
- * @param {Button.State} state
- * @param {boolean} enable
- */
-Button.prototype.enableStateInternal = function (state, enable) {
-  if (!this.stateToClassName_) {
-    /**
-     * Lookup table of states of button to CSS class names, according to this
-     * classes.
-     * @type {Object.<Button.State, Button.ClassName>}
-     */
-    this.stateToClassName_ = {};
-    this.stateToClassName_[Button.State.HOVERED] = Button.ClassName.HOVERED;
-    this.stateToClassName_[Button.State.PRESSED] = Button.ClassName.PRESSED;
-  }
+      this.enableLineType(chunk, d.Parser.LineType.ADDED,
+          insertions && !deletions);
 
-  this.element_.className = '';
-
-  Object.keys(this.stateToClassName_).forEach(function (stateID) {
-    if (this.hasState(stateID)) {
-      this.element_.classList.add(this.stateToClassName_[stateID]);
+      this.enableLineType(chunk, d.Parser.LineType.DELETED,
+          deletions && !insertions);
     }
-  }, this);
-};
 
-/**
- * @param {Button.State} state
- * @returns {boolean}
- */
-Button.prototype.hasState = function (state) {
-  return Boolean(this.state_ & state);
-};
-
-/**
- * @param {boolean} enabled
- * @private
- */
-Button.prototype.setListenersEnabled_ = function (enabled) {
-  if (this.handlersAreEnabled_ === enabled) {
-    return;
-  }
+    return chunk;
+  };
 
   /**
-   * @type {boolean}
-   * @private
+   * Checks if chunk was deleted from original code or added in modified.
+   * @type {d.parsers.parserFn}
    */
-  this.handlersAreEnabled_ = enabled;
+  d.parsers.addedOrDeleted = function(chunk, change) {
+    var isAdded = change.newLines && !change.oldLines;
+    var isDeleted = change.oldLines && !change.newLines;
 
-  if (enabled) {
-    this.element_.addEventListener(
-        Button.EventType.MOUSEDOWN,
-        this.onMouseDown_.bind(this));
-    this.element_.addEventListener(
-        Button.EventType.MOUSEUP,
-        this.onMouseUp_.bind(this));
-    this.element_.addEventListener(
-        Button.EventType.MOUSEOVER,
-        this.onMouseOver_.bind(this));
-    this.element_.addEventListener(
-        Button.EventType.MOUSEOUT,
-        this.onMouseOut_.bind(this));
-  } else {
-    this.element_.removeEventListener(
-        Button.EventType.MOUSEDOWN,
-        this.onMouseDown_.bind(this));
-    this.element_.removeEventListener(
-        Button.EventType.MOUSEUP,
-        this.onMouseUp_.bind(this));
-    this.element_.removeEventListener(
-        Button.EventType.MOUSEOVER,
-        this.onMouseOver_.bind(this));
-    this.element_.removeEventListener(
-        Button.EventType.MOUSEOUT,
-        this.onMouseOut_.bind(this));
-  }
-};
+    if (isAdded) {
+      this.enableLineType(chunk, d.Parser.LineType.ADDED, isAdded);
+      this.enableLineType(chunk.original[0], d.Parser.LineType.ADDED, isAdded);
+      this.enableLineType(chunk.modified[0], d.Parser.LineType.ADDED, isAdded);
+    }
 
-/**
- * @param {Event} event
- * @private
- */
-Button.prototype.onMouseDown_ = function (event) {
-  this.enableState(Button.State.PRESSED, true);
-};
+    if (isDeleted) {
+      this.enableLineType(chunk, d.Parser.LineType.DELETED, isDeleted);
+      this.enableLineType(chunk.original[0], d.Parser.LineType.DELETED,
+          isAdded);
+      this.enableLineType(chunk.modified[0], d.Parser.LineType.DELETED,
+          isAdded);
+    }
 
-/**
- * @param {Event} event
- * @private
- */
-Button.prototype.onMouseUp_ = function (event) {
-  this.enableState(Button.State.PRESSED, false);
-};
+    return chunk;
+  };
 
-/**
- * @param {Event} event
- * @private
- */
-Button.prototype.onMouseOver_ = function (event) {
-  this.enableState(Button.State.HOVERED, true);
-};
+  /**
+   * Checks, if end-of-line symbols were changed.
+   * @type {d.parsers.parserFn}
+   */
+  d.parsers.EOLChanged = function(chunk, change) {
+    if (change.ranges) {
+      var joinOriginal = d.parsers.joinInlineContent(chunk.original);
+      var joinModified = d.parsers.joinInlineContent(chunk.modified);
 
-/**
- * @param {Event} event
- * @private
- */
-Button.prototype.onMouseOut_ = function (event) {
-  this.enableState(Button.State.HOVERED, false);
-};
+      var originalEOLs = joinOriginal.match(d.EOLRegex.ALL);
+      var modifiedEOLs = joinModified.match(d.EOLRegex.ALL);
+
+      var EOLChanged = originalEOLs && modifiedEOLs &&
+          !d.arraysAreEqual(originalEOLs, modifiedEOLs);
+
+      if (EOLChanged) {
+        this.enableLineType(chunk, d.Parser.LineType.EOL_CHANGED, true);
+      }
+    }
+
+    return chunk;
+  };
+
+  /**
+   * Returns string contents of {@link d.Parser.OutputLineContent}.
+   * @param {d.Parser.OutputLineContent} lines
+   * @return {string}
+   */
+  d.parsers.joinInlineContent = function(lines) {
+    var lineContent = '';
+
+    lines.forEach(function(line) {
+      lineContent += line.code;
+    });
+
+    return lineContent;
+  };
+
+
+  return d.parsers;
+});
