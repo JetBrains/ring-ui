@@ -5,8 +5,13 @@
         {{#ifEqual this 'prop-manager'}}
           <span class="ring-dropdown__item ring-dropdown__item__controls">
             <span class="ring-dropdown__item__controls__title">Add to:</span>
-            <input class="ring-input">
+            <input class="ring-input ring-js-event ring-js-dropdown-input" data-ring-event='{"name":"dropdown:keyinput","data":{"val":"prop"}}'>
           </span>
+        {{/ifEqual}}
+      {{/type}}
+      {{#type}}
+        {{#ifEqual this 'prop-manager'}}
+          <div class="ring-dropdown__items">
         {{/ifEqual}}
       {{/type}}
       {{#items}}
@@ -31,8 +36,14 @@
     {{/items}}
     {{#type}}
       {{#ifEqual this 'prop-manager'}}
+        </div>
+      {{/ifEqual}}
+    {{/type}}
+    </div>
+    {{#type}}
+      {{#ifEqual this 'prop-manager'}}
         <span class="ring-dropdown__separator"> </span>
-        <span class="ring-dropdown__item ring-dropdown__item__controls">
+        <span class="ring-dropdown__item ring-dropdown__item__controls ring-js-event ring-js-dropdown-toggle" data-ring-event='{"name":"dropdown:toggle"}'>
           <span class="ring-dropdown__item__controls__title">Remove to...</span>
         </span>
       {{/ifEqual}}
