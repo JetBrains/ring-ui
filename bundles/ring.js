@@ -5,7 +5,8 @@ define([
   'popup/popup',
   'footer/footer',
   'alert/alerts',
-  'dialog/dialog'
+  'dialog/dialog',
+  'dropdown-select/dropdown-select'
 ], function(ring) {
   return ring;
 });
