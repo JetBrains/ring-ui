@@ -93,9 +93,9 @@ define([
     if (isDeleted) {
       this.enableLineType(chunk, d.Parser.LineType.DELETED, isDeleted);
       this.enableLineType(chunk.original[0], d.Parser.LineType.DELETED,
-          isAdded);
+          isDeleted);
       this.enableLineType(chunk.modified[0], d.Parser.LineType.DELETED,
-          isAdded);
+          isDeleted);
     }
 
     return chunk;
