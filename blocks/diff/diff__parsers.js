@@ -81,10 +81,22 @@ define([
    * @type {d.parsers.parserFn}
    */
   d.parsers.addedOrDeleted = function(chunk, change) {
-    this.enableLineType(chunk, d.Parser.LineType.ADDED,
-        change.newLines && !change.oldLines);
-    this.enableLineType(chunk, d.Parser.LineType.DELETED,
-        change.oldLines && !change.newLines);
+    var isAdded = change.newLines && !change.oldLines;
+    var isDeleted = change.oldLines && !change.newLines;
+
+    if (isAdded) {
+      this.enableLineType(chunk, d.Parser.LineType.ADDED, isAdded);
+      this.enableLineType(chunk.original[0], d.Parser.LineType.ADDED, isAdded);
+      this.enableLineType(chunk.modified[0], d.Parser.LineType.ADDED, isAdded);
+    }
+
+    if (isDeleted) {
+      this.enableLineType(chunk, d.Parser.LineType.DELETED, isDeleted);
+      this.enableLineType(chunk.original[0], d.Parser.LineType.DELETED,
+          isAdded);
+      this.enableLineType(chunk.modified[0], d.Parser.LineType.DELETED,
+          isAdded);
+    }
 
     return chunk;
   };
