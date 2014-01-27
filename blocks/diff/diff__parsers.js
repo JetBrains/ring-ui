@@ -34,7 +34,10 @@ define([
    * @type {d.parsers.parserFn}
    */
   d.parsers.inlineChanges = function(chunk, change) {
-    if (change.type === d.Parser.ModificationType.MODIFIED) {
+    if (change.type === d.Parser.ModificationType.MODIFIED &&
+        d.parsers.joinInlineContent(chunk.original) !==
+            d.parsers.joinInlineContent(chunk.modified) &&
+        change.oldLines > 0 && change.newLines > 0) {
       var insertions = 0,
           deletions = 0;
 
