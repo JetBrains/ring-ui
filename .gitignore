@@ -1,22 +1,16 @@
-# Per user settings #
-###################
 *.iws
 .idea/workspace.xml
 .idea/dictionaries/*.xml
-
-
-# OS generated files #
-######################
 .DS_Store
 ehthumbs.db
 Icon?
 Thumbs.db
-
-
-# Build files #
-######################
 node_modules
 components
 .sass-cache
 dist
 tmp
+/components/
+/dist/
+/node_modules/
+/tmp/
