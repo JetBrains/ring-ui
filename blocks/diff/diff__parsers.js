@@ -34,8 +34,7 @@ define([
    * @type {d.parsers.parserFn}
    */
   d.parsers.inlineChanges = function(chunk, change) {
-    if (change.ranges || change.newLines !== change.oldLines &&
-        change.newLines > 0 && change.oldLines > 0) {
+    if (change.type === d.Parser.ModificationType.MODIFIED) {
       var insertions = 0,
           deletions = 0;
 
