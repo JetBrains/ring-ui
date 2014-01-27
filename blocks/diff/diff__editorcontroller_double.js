@@ -688,8 +688,15 @@ define([
     }
 
     if (opt_scrollTo) {
-      var scrollPosition = d.clamp(offset.originalFrom - GAP, 0, Infinity);
-      this.codeMirrorOriginal_.scrollTo(0, scrollPosition);
+      var scrollOriginal = d.clamp(offset.originalFrom - GAP, 0, Infinity);
+      this.codeMirrorOriginal_.scrollTo(0, scrollOriginal);
+
+      var modifiedScrollInfo = this.codeMirrorModified_.getScrollInfo();
+
+      if (offset.modifiedTo < modifiedScrollInfo.top) {
+        var scrollModified = d.clamp(offset.modifiedFrom - GAP, 0, Infinity);
+        this.codeMirrorModified_.scrollTo(0, scrollModified);
+      }
     }
 
     this.checkMenu_();
