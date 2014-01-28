@@ -1,1 +1,20 @@
-
+{{#items}}
+    {{#this}}
+        {{#if separator}}
+            <span class="ring-dropdown__separator"> </span>
+        {{else}}
+            {{#if type}}
+                <span class="{{> dropdown__class}}" {{> global__attributes}}>
+              <span class="ring-dropdown__item__type">{{type}}</span>
+              <span class="ring-dropdown__item__content">{{> dropdown__content}}</span>
+            </span>
+            {{else}}
+                {{#if url}}
+                    <a class="{{> dropdown__class}}" href="{{url}}" {{> global__attributes}}>{{> dropdown__content}}</a>
+                {{else}}
+                    <span class="{{> dropdown__class}}" {{> global__attributes}}>{{> dropdown__content}}</span>
+                {{/if}}
+            {{/if}}
+        {{/if}}
+    {{/this}}
+{{/items}}

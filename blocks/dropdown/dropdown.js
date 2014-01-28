@@ -147,7 +147,6 @@ define([
         events.domEventHandler(e);
       });
 
-    dropdown.trigger('show:done');
     shortcuts('pushScope', MODULE);
 
     return false;
