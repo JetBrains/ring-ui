@@ -17,7 +17,8 @@
             model: "=ngModel",
             onSelect: "&",
             controls: "=?",
-            "default": "@"
+            "default": "@",
+            ngDisabled: "="
           },
           templateUrl: "avatar-editor/avatar-editor.ng.html",
           controller: ["$scope", "$attrs", function ($scope, $attrs) {
