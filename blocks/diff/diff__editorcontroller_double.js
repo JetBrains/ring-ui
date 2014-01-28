@@ -1024,18 +1024,12 @@ define([
       d.Parser.LineType.INLINE
     ];
 
-    var connectorMaxHeight = Math.max(
-        Math.abs(offset.modifiedTo - offset.originalTo) + (offset.originalTo -
-            offset.originalFrom),
-        Math.abs(offset.originalTo - offset.modifiedTo) + (offset.modifiedTo -
-            offset.modifiedFrom));
-
     var normalizedType = d.Parser.normalizeType(type, usedTypes);
 
-    if (offset.originalFrom >= verticalRangeLeft.from - connectorMaxHeight &&
-        offset.originalTo <= verticalRangeLeft.to + connectorMaxHeight &&
-        offset.modifiedFrom >= verticalRangeRight.from - connectorMaxHeight &&
-        offset.modifiedTo <= verticalRangeRight.to + connectorMaxHeight &&
+    if ((offset.originalFrom >= verticalRangeLeft.from ||
+        offset.originalTo <= verticalRangeLeft.to ||
+        offset.modifiedFrom >= verticalRangeRight.from ||
+        offset.modifiedTo <= verticalRangeRight.to) &&
         normalizedType !== d.Parser.LineType.NULL) {
 
       horizontalRange.from -= 1;
