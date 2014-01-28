@@ -82,11 +82,25 @@ define([
       var self = this;
 
       $(this.element_).on('click', Tree.SELECTOR.DIR, function (e) {
-        self.onDirClick_(e);
+        self.onDirClick_(e, e.currentTarget);
       });
 
       $(this.element_).on('click', Tree.SELECTOR.FILE, function (e) {
-        self.onFileClick_(e);
+        self.onFileClick_(e, e.currentTarget);
+      });
+
+      $(this.element_).on('keyup', [Tree.SELECTOR.DIR, Tree.SELECTOR.FILE], function (e) {
+        var SPACE_KEY = 32;
+
+        if (e.keyCode === SPACE_KEY) {
+          if ($(e.target).hasClass('ring-tree__item-dir')) {
+            self.onDirClick_(e, e.target);
+          }
+
+          else if ($(e.target).hasClass('ring-tree__item-file')) {
+            self.onFileClick_(e, e.target);
+          }
+        }
       });
     }
 
@@ -141,10 +155,10 @@ define([
     return $ulEl;
   };
 
-  Tree.prototype.onDirClick_ = function (e) {
+  Tree.prototype.onDirClick_ = function (e, dirEl) {
     e.stopPropagation();
 
-    var $dirEl = $(e.currentTarget),
+    var $dirEl = $(dirEl),
         node = $dirEl.data('node'),
         tree = $dirEl.data('tree');
 
@@ -160,10 +174,10 @@ define([
     }
   };
 
-  Tree.prototype.onFileClick_ = function (e) {
+  Tree.prototype.onFileClick_ = function (e, fileEl) {
     e.stopPropagation();
 
-    var $fileEl = $(e.currentTarget),
+    var $fileEl = $(fileEl),
         node = $fileEl.data('node');
 
     if (this.options.onFileClick) {
