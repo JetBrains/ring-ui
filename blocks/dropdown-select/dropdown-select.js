@@ -83,6 +83,7 @@ define([
     var auth = Module.get('auth'),
       dropdownData = [];
 
+
     return function (query) {
       var dfd = $.Deferred(),
         restUrl = config.restUrl || 'api/rest/usergroups?fields=id,name,iconUrl,total&top=100' + (query ? '&query=name:' + query + ' or ' + query + '*' : '');
@@ -106,7 +107,8 @@ define([
            */
           dfd.resolve([
             {
-              label: 'No results'
+              'action': true,
+              'label': 'No results'
             }
           ]);
         }
@@ -121,7 +123,7 @@ define([
     return;
   });
 
-  dropdown.on('toggle', function (e) {
+  dropdown.on('toggle', function () {
     console.log(arguments);
   });
 
