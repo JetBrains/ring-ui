@@ -16,9 +16,10 @@
       return {
         restrict: "E",
         scope: {
-          onApply: "&onApply",
+          onApply: "&",
           isMultiLine: "&multiline",
-          placeholder: "&placeholder"
+          placeholder: "&",
+          ngDisabled: "="
         },
         templateUrl: "inline-editor/inline-editor.ng.html",
         controller: ["$scope", function ($scope) {
