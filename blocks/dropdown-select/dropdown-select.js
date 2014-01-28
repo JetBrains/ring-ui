@@ -123,6 +123,8 @@ define([
 
   dropdown.on('toggle', function (e) {
     console.log(arguments, e);
+//    e.preventDefault;
+//    e.stopPropagation();
     return false;
   });
 
