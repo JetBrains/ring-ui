@@ -65,6 +65,8 @@ define([
   };
 
   Tree.prototype.createDOM = function () {
+    var template;
+
     if (this.tree_) {
       this.element_ = this.render(this.tree_);
 
@@ -80,30 +82,36 @@ define([
     }
 
     else {
+      template = this.options.emptyTemplate || Handlebars.partials[Tree.TEMPLATE.EMPTY];
       this.element_ = $('<div class="ring-tree">');
-      this.element_[0].innerHTML = Handlebars.partials[Tree.TEMPLATE.EMPTY](this.options);
+      this.element_[0].innerHTML = template(this.options);
     }
 
     return this.element_;
   };
 
   Tree.prototype.render = function (tree) {
-    var ulEl, liEl,
-        $ulEl, $liEl;
+    var $ulEl, $liEl,
+        listTpl, listItemTpl;
 
     if (!tree) {
       return;
     }
 
-    $ulEl = $(Handlebars.partials[Tree.TEMPLATE.LIST]());
+    listTpl = this.options.listTemplate || Handlebars.partials[Tree.TEMPLATE.LIST];
+    listItemTpl = this.options.listItemTemplate || Handlebars.partials[Tree.TEMPLATE.LIST_ITEM];
+
+    $ulEl = $(listTpl());
 
     var node, nodeName;
 
     for (nodeName in tree) {
       if ({}.hasOwnProperty.call(tree, nodeName)) {
         node = tree[nodeName];
+
         if (node.type === 'file') {
-          $liEl = $(Handlebars.partials[Tree.TEMPLATE.LIST_ITEM](node));
+          $liEl = $(listItemTpl(node));
+          $liEl.data('node', node);
           $ulEl.append($liEl);
         }
 
@@ -111,8 +119,9 @@ define([
           var $tmpULEl = this.render(node.children);
 
           if ($tmpULEl) {
-            $liEl = $(Handlebars.partials[Tree.TEMPLATE.LIST_ITEM](node));
-            $liEl.append($tmpULEl);
+            $liEl = $(listItemTpl(node));
+            $liEl.data('node', node);
+            $liEl.data('tree', $tmpULEl);
             $ulEl.append($liEl);
           }
         }
@@ -124,19 +133,31 @@ define([
 
   Tree.prototype.onDirClick_ = function (e) {
     e.stopPropagation();
-    var $dirEl = $(e.currentTarget);
+
+    var $dirEl = $(e.currentTarget),
+        node = $dirEl.data('node'),
+        tree = $dirEl.data('tree');
+
+    if (tree) {
+      $dirEl.removeData('tree');
+      $dirEl.append(tree);
+    }
+
     $dirEl.toggleClass('ring-tree__item-dir--opened');
-    
+
     if (this.options.onDirClick) {
-      this.options.onDirClick();
+      this.options.onDirClick(node);
     }
   };
 
   Tree.prototype.onFileClick_ = function (e) {
     e.stopPropagation();
 
+    var $fileEl = $(e.currentTarget),
+        node = $fileEl.data('node');
+
     if (this.options.onFileClick) {
-      this.options.onFileClick();
+      this.options.onFileClick(node);
     }
   };
 
