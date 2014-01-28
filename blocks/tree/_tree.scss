@@ -1,0 +1,30 @@
+.ring-tree {
+	
+  .ring-tree__item {
+
+  }
+
+  .ring-tree__item-name {
+    cursor: pointer;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  .ring-tree__item-file {
+
+  }
+
+  .ring-tree__item-dir {
+    > .ring-tree {
+      display: none;
+    }
+  }
+
+  .ring-tree__item-dir--opened {
+    > .ring-tree {
+      display: block;
+    }
+  }
+}
