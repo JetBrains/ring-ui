@@ -11,6 +11,11 @@
   line-height: 22px;
 
   -webkit-appearance: none;
+
+  &:active {
+    border: 1px solid #25B7FF;
+    outline: 0;
+  }
 }
 
 .ring-select + label.ring-select__label {
@@ -35,9 +40,9 @@
 
 // Select
 //
-//Markup:
+// Markup:
 // <div class="ring-input_wrapper">
-//   <select id="ring-select" class="ring-select">
+//   <select id="ring-select" class="ring-select {$modifiers}">
 //     <option>Global</option>
 //     <option>2</option>
 //     <option>3</option>
@@ -46,5 +51,7 @@
 //   </select>
 //   <label class="ring-select__label" for="ring-select"></label>
 // </div>
+//
+// :active              - Focused state, also available as the `.ring-select_active` class name.
 //
 // Styleguide 16.1
