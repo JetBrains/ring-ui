@@ -303,7 +303,8 @@
       select('init', {
           targetElem: '.demo__select-example',
           dataSource: select('remoteDataSource', {
-              url: 'api/rest/usergroups?fields=id,name,iconUrl,total'
+              addUrl: 'api/rest/usergroups?fields=id,name,iconUrl,total&$top=20',
+              removeUrl: 'api/rest/users/7b42969e-d078-48bb-9f0b-c7526c7d715e?fields=groups(id,name,iconUrl)'
           })
       });
 

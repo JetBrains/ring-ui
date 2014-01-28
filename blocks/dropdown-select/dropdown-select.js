@@ -13,6 +13,7 @@ define([
     dataSource;
 
   var dropdown = Module.get('dropdown');
+  var state = 'add';
 
   var MODULE = 'dropdown-select';
   var DROPDOWN__SELECTOR = '.ring-dropdown';
@@ -86,25 +87,19 @@ define([
 
     return function (query) {
       var dfd = $.Deferred(),
-        restUrl = config.restUrl || 'api/rest/usergroups?fields=id,name,iconUrl,total&top=100' + (query ? '&query=name:' + query + ' or ' + query + '*' : '');
+        /**
+         * @todo correct get state url
+         */
+        restUrl = (config[state + 'Url'] || 'api/rest/usergroups?fields=id,name,iconUrl,total&$top=20') + (query ? '&query=name:' + query + ' or ' + query + '*' : '');
 
       auth('get', restUrl).then(function (data) {
-        if (data.total) {
-          data.usergroups.forEach(function (group) {
-            dropdownData.push({
-              'label': group.name,
-              'url': group.url,
-              'event': {
-                'name': 'dropdown:complete'
-              }
-            });
-          });
-          dfd.resolve(dropdownData);
-          dropdownData = [];
+        var groups;
+
+        if (data.groups) {
+          groups = data.groups;
+        } else if (data.total && data.usergroups) {
+          groups = data.usergroups;
         } else {
-          /**
-           * @ToDo make cute "No results"
-           */
           dfd.resolve([
             {
               'action': true,
@@ -112,6 +107,20 @@ define([
             }
           ]);
         }
+
+        groups.forEach(function (group) {
+          dropdownData.push({
+            'label': group.name,
+            'url': group.url,
+            'event': {
+              'name': 'dropdown:complete'
+            }
+          });
+        });
+
+        dfd.resolve(dropdownData);
+        dropdownData = [];
+
       });
 
       return dfd.promise();
@@ -124,6 +133,10 @@ define([
   });
 
   dropdown.on('toggle', function () {
+    /**
+     * @ToDo Toggle func exec
+     */
+
     console.log(arguments);
   });
 
