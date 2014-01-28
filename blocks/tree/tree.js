@@ -8,7 +8,7 @@ define([
 
   var Tree = function (list, options) {
     this.options = options || {
-      message: 'No changes. Start editing your files.'
+      message: 'Nothing to see here'
     };
     this.prepareList(list);
   };
@@ -80,8 +80,8 @@ define([
     }
 
     else {
-      this.element_ = document.createElement('div');
-      this.element_.innerHTML = Handlebars.partials[Tree.TEMPLATE.EMPTY](this.options);
+      this.element_ = $('<div class="ring-tree">');
+      this.element_[0].innerHTML = Handlebars.partials[Tree.TEMPLATE.EMPTY](this.options);
     }
 
     return this.element_;
