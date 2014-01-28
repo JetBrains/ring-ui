@@ -83,8 +83,8 @@
         controller: ['$rootScope', '$scope', 'shortcuts', function ($scope, $rootScope, shortcuts) {
           $scope.zones = [];
 
-          var getNext = function(up) {
-            var position = $scope.current && $.inArray($scope.current, $scope.zones);
+          var getNext = function(current, up) {
+            var position = current && $.inArray(current, $scope.zones);
             var next;
 
             if (position >= 0) {
@@ -95,7 +95,27 @@
               next = up ? $scope.zones[$scope.zones.length - 1] : $scope.zones[0];
             }
 
+            // Skip invisible zones
+            if (!next.element.is(':visible')) {
+              next = getNext(next, up);
+            }
+
             return next;
+          };
+
+          this.select = function(next) {
+            if ($scope.current) {
+              shortcuts.ring('popScope', $scope.current.name);
+            }
+
+            if (!next) {
+              $scope.current = null;
+              return;
+            }
+
+            shortcuts.ring('pushScope', next.name);
+
+            $scope.current = next;
           };
 
           this.route = function(e, combo) {
@@ -115,36 +135,19 @@
                 }
               });
             } else {
-              next = getNext(combo === 'up');
+              next = getNext($scope.current, combo === 'up');
             }
 
-            // The only zone
-            if (!next || next === $scope.current) {
-              return false;
-            }
+            if (next) {
+              this.select(next);
 
-            if ($scope.current) {
-              shortcuts.ring('popScope', $scope.current.name);
-            }
-            shortcuts.ring('pushScope', next.name);
-
-            $scope.current = next;
-
-            // Skip invisible zones
-            if (!next.element.is(':visible')) {
-              return this.route(e, combo);
-            }
-
-            if (shortcuts.ring('hasKey', combo, next.name)) {
-              shortcuts.ring('trigger', combo);
+              if (shortcuts.ring('hasKey', combo, next.name)) {
+                shortcuts.ring('trigger', combo);
+              }
             }
 
             return false;
           };
-
-          shortcuts.bind('shortcuts', this);
-
-          shortcuts.ring('pushScope', 'shortcuts');
 
           this.setup = function(zone, keys) {
             shortcuts.bind(zone.name, keys);
@@ -161,6 +164,10 @@
               $scope.zones.splice(position, 1);
             }
           };
+
+          // Initial setup
+          shortcuts.bind('shortcuts', this);
+          shortcuts.ring('pushScope', 'shortcuts');
         }]
       };
     }])
@@ -169,7 +176,8 @@
         restrict: 'A',
         scope: {
           'id': '@shortcuts',
-          'keys': '='
+          'map': '=shortcutsMap',
+          'focus': '=?shortcutsFocus'
         },
         require: ['^shortcutsApp'],
         link: function($scope, iElement, iAttrs, shortcutsCtrl) {
@@ -180,7 +188,13 @@
             element: iElement
           };
 
-          ctrl.setup(zone, $scope.keys);
+          ctrl.setup(zone, $scope.map);
+
+          $scope.$watch('focus', function(current, prev) {
+            if (current && !prev) {
+              ctrl.select(zone);
+            }
+          });
 
           $scope.$on('$destroy', function() {
             ctrl.destroy(zone);
