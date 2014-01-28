@@ -1,12 +1,12 @@
 <div>
     <span class="ring-inline-editor__input"
           ng-class="{'ring-inline-editor__input_multiline': isMultiLine()}"
-          ng-dblclick="setEditMode(true)"
+          ng-dblclick="!ngDisabled && setEditMode(true)"
           ng-blur="apply()"
           ng-keydown="inputKey($event)"></span>
     <span class="ring-inline-editor__placeholder"
-          ng-dblclick="setEditMode(true)"
+          ng-dblclick="!ngDisabled && setEditMode(true)"
           ng-show="!editMode && isEmpty()">{{ placeholder() }}</span>
     <span class="ring-font-icon ring-btn_ico ring-font-icon_pencil"
-          ng-click="setEditMode(true)"></span>
+          ng-click="setEditMode(true)" ng-if="!ngDisabled"></span>
 </div>
