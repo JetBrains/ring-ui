@@ -31,6 +31,7 @@
   border: 1px solid #ADADAD; // IE8-
   border-color: rgba(0, 0, 0, .3);
 
+  background-color: #ffffff;
   box-shadow: 0 2px 8px 0 rgba(0, 0, 0, .3);
   border-radius: 3px;
 
@@ -76,7 +77,7 @@
 }
 
 .ring-dropdown__items {
-  max-height: 63*$ring-unit;
+  max-height: 23*$ring-unit;
   overflow: scroll;
 }
 
