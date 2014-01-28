@@ -27,9 +27,15 @@
       ];
 
       var Tree = ring('tree').invoke('getTree'),
-          tree = new Tree(files);
+          tree1 = new Tree(files),
+          tree2 = new Tree(),
+          tree3 = new Tree(null, {
+            message: 'Custom message for empty tree'
+          });
 
-      document.body.appendChild(tree.createDOM()[0]);
+      document.body.appendChild(tree1.createDOM()[0]);
+      document.body.appendChild(tree2.createDOM()[0]);
+      document.body.appendChild(tree3.createDOM()[0]);
     });
   </script>
 </body>
