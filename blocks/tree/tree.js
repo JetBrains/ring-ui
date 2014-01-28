@@ -6,6 +6,15 @@ define([
 
   'use strict';
 
+  /**
+   * @options.message {string) Text for empty tree
+   * @options.emptyTemplate {Function} Handlebars template for empty state
+   * @options.listTemplate {Function} Handlebars template for list container
+   * @options.listItemTemplate {Function} Handlebars template for list item
+   * @options.onFileClick {Function}
+   * @options.onDirClick {Function}
+   * @constructor
+   */
   var Tree = function (list, options) {
     this.options = options || {
       message: 'Nothing to see here'
@@ -92,6 +101,7 @@ define([
 
   Tree.prototype.render = function (tree) {
     var $ulEl, $liEl,
+        $tmpULEl,
         listTpl, listItemTpl;
 
     if (!tree) {
@@ -116,7 +126,7 @@ define([
         }
 
         else {
-          var $tmpULEl = this.render(node.children);
+          $tmpULEl = this.render(node.children);
 
           if ($tmpULEl) {
             $liEl = $(listItemTpl(node));
