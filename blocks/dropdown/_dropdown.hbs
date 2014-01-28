@@ -5,7 +5,7 @@
         {{#ifEqual this 'prop-manager'}}
           <span class="ring-dropdown__item ring-dropdown__item__controls">
             <span class="ring-dropdown__item__controls__title">Add to:</span>
-            <input class="ring-input ring-js-event ring-js-dropdown-input" data-ring-event='{"name":"dropdown:keyinput","data":{"val":"prop"}}'>
+            <input class="ring-input ring-js-event ring-js-dropdown-input">
           </span>
         {{/ifEqual}}
       {{/type}}
@@ -14,26 +14,7 @@
           <div class="ring-dropdown__items">
         {{/ifEqual}}
       {{/type}}
-      {{#items}}
-        {{#this}}
-        {{#if separator}}
-            <span class="ring-dropdown__separator"> </span>
-        {{else}}
-          {{#if type}}
-            <span class="{{> dropdown__class}}" {{> global__attributes}}>
-              <span class="ring-dropdown__item__type">{{type}}</span>
-              <span class="ring-dropdown__item__content">{{> dropdown__content}}</span>
-            </span>
-          {{else}}
-            {{#if url}}
-              <a class="{{> dropdown__class}}" href="{{url}}" {{> global__attributes}}>{{> dropdown__content}}</a>
-            {{else}}
-              <span class="{{> dropdown__class}}" {{> global__attributes}}>{{> dropdown__content}}</span>
-            {{/if}}
-          {{/if}}
-        {{/if}}
-      {{/this}}
-    {{/items}}
+      {{> dropdown__items }}
     {{#type}}
       {{#ifEqual this 'prop-manager'}}
         </div>
