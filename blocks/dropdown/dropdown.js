@@ -12,6 +12,7 @@ define([
   var TOGGLE_SELECTOR = '.ring-dropdown-toggle';
   var ITEM_ACTION_SELECTOR = '.ring-dropdown__item_action';
   var MENU_ITEM_SELECTOR = '.ring-menu__item';
+  var ROOT_SELECTOR = '.ring-dropdown';
   var INNER_SELECTOR = '.ring-dropdown__i';
 
   var ACTIVE_CLASS = 'active';
@@ -201,7 +202,7 @@ define([
     if ($target.length) {
       return create(null, $target);
     } else {
-      if (!preventRemove || !$(e.currentTarget).closest(INNER_SELECTOR).length) {
+      if (!preventRemove || !$(e.currentTarget).closest(ROOT_SELECTOR).length) {
         remove();
       }
       e.stopPropagation();
