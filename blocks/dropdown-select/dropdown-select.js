@@ -15,7 +15,9 @@ define([
   var dropdown = Module.get('dropdown');
 
   var MODULE = 'dropdown-select';
-  var SEARCH_FIELD = '.ring-js-dropdown-input';
+  var DROPDOWN__SELECTOR = '.ring-dropdown';
+  var ITEMS_CONTAINER__SELECTOR = '.ring-dropdown__items';
+  var SEARCH_FIELD__SELECTOR = '.ring-js-dropdown-input';
 
   var init = function (config) {
     if (!config || !config.targetElem || !config.dataSource) {
@@ -28,26 +30,36 @@ define([
     $target = $(config.targetElem);
 
     $target.on('click', function (e) {
-      /**
-       * @ToDo add config configuraion func
-       */
-      dataSource().then(function (items) {
-        renderDropdown($target, items);
-      });
-
-      $(document).on('keyup', SEARCH_FIELD, function (e) {
-        var query = $(e.currentTarget).val();
-        dataSource(query).then(function (items) {
-          console.log(items);
-        });
         /**
-         * @ToDo trigger query change event
-         * @ToDo fix memory leak
+         * @ToDo add config configuraion func
          */
-      });
+        dataSource().then(function (items) {
+          renderDropdown($target, items);
+        });
 
-      e.stopPropagation();
-    });
+        $(document).on('keyup', SEARCH_FIELD__SELECTOR, function (e) {
+          var query = $(e.currentTarget).val();
+
+          dataSource(query).then(function (items) {
+            var $items = $(View.render('dropdown__items', {
+              'items': items
+            }));
+
+            /**
+             * @ToDo Refactor with Dastky help
+             */
+            $(DROPDOWN__SELECTOR).find(ITEMS_CONTAINER__SELECTOR).html($items);
+          });
+          /**
+           * @ToDo trigger query change event
+           * @ToDo fix memory leak
+           */
+        });
+
+        e.stopPropagation();
+      }
+    )
+    ;
   };
 
   var renderDropdown = function ($target, items) {
@@ -67,24 +79,13 @@ define([
     });
   };
 
-  var updateQuery = function (query) {
-    if (query && query.length) {
-      /**
-       * @ToDo dataSource exec
-       */
-      console.log(query);
-    }
-  };
-
   var remoteDataSource = function (config) {
     var auth = Module.get('auth'),
       dropdownData = [];
 
     return function (query) {
       var dfd = $.Deferred(),
-        restUrl = config.restUrl || 'api/rest/usergroups?fields=id,name,iconUrl,total&skip=100' + (query ? '&query=name:' + query + ' or ' + query + '*': '');
-
-      console.log(restUrl);
+        restUrl = config.restUrl || 'api/rest/usergroups?fields=id,name,iconUrl,total&top=100' + (query ? '&query=name:' + query + ' or ' + query + '*' : '');
 
       auth('get', restUrl).then(function (data) {
         if (data.total) {
@@ -99,6 +100,15 @@ define([
           });
           dfd.resolve(dropdownData);
           dropdownData = [];
+        } else {
+          /**
+           * @ToDo make cute "No results"
+           */
+          dfd.resolve([
+            {
+              label: 'No results'
+            }
+          ]);
         }
       });
 
@@ -113,11 +123,6 @@ define([
 
   dropdown.on('toggle', function (e) {
     console.log(arguments, e);
-    return false;
-  });
-
-  dropdown.on('keypress', function () {
-    updateQuery($(SEARCH_FIELD).val());
     return false;
   });
 
