@@ -11,8 +11,8 @@
 }
 
 .ring-tree {
-  list-style: none;
   padding: 0;
+  list-style: none;
 	
   .ring-tree__item {
     padding-left: 1rem;
@@ -34,7 +34,6 @@
     position: relative;
 
     &:before {
-      content: "";
       position: absolute;
       left: 0;
       top: 0;
@@ -42,6 +41,7 @@
       width: 1em;
       background-repeat: no-repeat;
       background-position: center;
+      content: "";
       @include background-image-retina("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAHNJREFUeNpi/P//PwMlgImBQkCxASy4JKqrq9uBVBUQw/3Y2tpKkgsqgHgxELNR4oVoIN4OxLyUhIETEO8GYlFKAtEciBdRYsBpII4j14B9QOwKxK/JMWApEHsC8UdyArEbiGOB+Bc+GxiHfl6g2ACAAAMA6LcWHlEWBKEAAAAASUVORK5CYII=",
         "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAANRJREFUeNpi/P//P8NAAsZRB4w6YMg5oKCgoAtIlQMxXo0TJkwgyjwmMhxdCsSLgZiNGiHARKa+aCDeDsT8A+UAEHAC4j1ALDpQDgABEyA+BsQqA+UABqjlIEeYD5QDGKDRsBsaLQPiABDghSbM6IFyAAM0a4KyaMVAOYBkwEJl834BcRIQLx0IB3wC4kAg3jcQIfAaiH2B+ORARMEdIPaE0nQvB04BsRW5llPqAFBcu0GDn+51wVJosH8ciNoQ1CCJhWa50TbhqANGHTDqAIoBQIABAOyWSoNHC+f4AAAAAElFTkSuQmCC",
         1rem, 1rem);
