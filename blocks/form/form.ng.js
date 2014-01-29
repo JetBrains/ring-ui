@@ -67,17 +67,27 @@
         require: '?form',
         priority: 10,
         link: function ($scope, element, attrs, form) {
-          if(form) {
-            element.on('submit', function () {
-              angular.forEach(element.find('input'), function () {
-                var el = angular.element(this);
-                if (el.attr('type') !== 'checkbox' && el.attr('type') !== 'radio') {
-                  var controller = el.controller('ngModel');
-                  if (controller) {
-                    controller.$setViewValue(el.val());
-                  }
+          var stop = {};
+
+          if (form) {
+            element.on('submit', function (e, data) {
+              if (data === stop) {
+                return !e.isDefaultPrevented();
+              }
+
+              angular.forEach(element.find('input'), function (elem) {
+                var $elem = angular.element(elem);
+                var controller = $elem.controller('ngModel');
+
+                if (controller && $elem.attr('type') !== 'checkbox' && $elem.attr('type') !== 'radio') {
+                  controller.$setViewValue($elem.val());
                 }
               });
+
+              // Really hack-ish, jqLite + native form submit mix is unbeatable
+              if (element.triggerHandler('submit', stop)) {
+                element[0].submit();
+              }
             });
           }
         }
