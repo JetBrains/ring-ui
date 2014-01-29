@@ -19,6 +19,7 @@ define([
   var DROPDOWN__SELECTOR = '.ring-dropdown';
   var ITEMS_CONTAINER__SELECTOR = '.ring-dropdown__items';
   var SEARCH_FIELD__SELECTOR = '.ring-js-dropdown-input';
+  var THROTTLE_INTERVAL = 250;
 
   var init = function (config) {
     if (!config || !config.targetElem || !config.dataSource) {
@@ -27,39 +28,35 @@ define([
     }
 
     dataSource = config.dataSource;
-
     $target = $(config.targetElem);
 
     $target.on('click', function (e) {
-      /**
-       * @ToDo add config configuraion func
-       */
       dataSource().then(function (items) {
         renderDropdown($target, items);
-        $(ITEMS_CONTAINER__SELECTOR).on('scroll', function () {
-          console.log($(this).innerHeight(), $(this).scrollHeight, $(this).scrollTop());
-        })
+        /**
+         * @todo Extract this
+         */
+        $(ITEMS_CONTAINER__SELECTOR).on('scroll', utils.throttle(function () {
+          if($(this).outerHeight() + $(this).scrollTop() === $(this).prop('scrollHeight')) {
+            console.log('load more');
+          }
+        }, THROTTLE_INTERVAL));
       });
 
 
-      $(document).on('keyup', SEARCH_FIELD__SELECTOR, function (e) {
+      $(document).on('keyup', SEARCH_FIELD__SELECTOR, utils.throttle(function (e) {
         var query = $(e.currentTarget).val();
 
         dataSource(query).then(function (items) {
           var $items = $(View.render('dropdown__items', {
             'items': items
           }));
-
           /**
            * @ToDo Refactor with Dastky help
            */
           $(DROPDOWN__SELECTOR).find(ITEMS_CONTAINER__SELECTOR).html($items);
         });
-        /**
-         * @ToDo trigger query change event
-         * @ToDo fix memory leak
-         */
-      });
+      }, THROTTLE_INTERVAL));
 
       e.stopPropagation();
     });
@@ -143,7 +140,7 @@ define([
     console.log(arguments);
   });
 
-  dropdown.on('hide:done', function() {
+  dropdown.on('hide:done', function () {
     $(ITEMS_CONTAINER__SELECTOR).unbind();
   })
 
