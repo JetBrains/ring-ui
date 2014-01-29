@@ -10,7 +10,8 @@ define([
   'use strict';
 
   var $target,
-    dataSource;
+    dataSource,
+    resourceTop;
 
   var dropdown = Module.get('dropdown');
   var state = 'add';
@@ -20,6 +21,7 @@ define([
   var ITEMS_CONTAINER__SELECTOR = '.ring-dropdown__items';
   var SEARCH_FIELD__SELECTOR = '.ring-js-dropdown-input';
   var THROTTLE_INTERVAL = 250;
+  var INFINITE_SCROLL_TOP = 20;
 
   var init = function (config) {
     if (!config || !config.targetElem || !config.dataSource) {
@@ -31,34 +33,17 @@ define([
     $target = $(config.targetElem);
 
     $target.on('click', function (e) {
+      e.stopPropagation();
+
       dataSource().then(function (items) {
         renderDropdown($target, items);
-        /**
-         * @todo Extract this
-         */
-        $(ITEMS_CONTAINER__SELECTOR).on('scroll', utils.throttle(function () {
-          if($(this).outerHeight() + $(this).scrollTop() === $(this).prop('scrollHeight')) {
-            console.log('load more');
-          }
-        }, THROTTLE_INTERVAL));
+        loadMoreEventBind();
       });
-
 
       $(document).on('keyup', SEARCH_FIELD__SELECTOR, utils.throttle(function (e) {
         var query = $(e.currentTarget).val();
-
-        dataSource(query).then(function (items) {
-          var $items = $(View.render('dropdown__items', {
-            'items': items
-          }));
-          /**
-           * @ToDo Refactor with Dastky help
-           */
-          $(DROPDOWN__SELECTOR).find(ITEMS_CONTAINER__SELECTOR).html($items);
-        });
+        renderItems(query);
       }, THROTTLE_INTERVAL));
-
-      e.stopPropagation();
     });
     ;
   };
@@ -70,7 +55,6 @@ define([
     }
 
     dropdown('hide');
-
     return dropdown('show', {
       'type': 'prop-manager',
       'items': items
@@ -80,17 +64,42 @@ define([
     });
   };
 
+  var renderItems = function (query, top) {
+    dataSource(query, top).then(function (items) {
+      var $items = $(View.render('dropdown__items', {
+        'items': items
+      }));
+      /**
+       * @todo refactor
+       */
+      $(DROPDOWN__SELECTOR).find(ITEMS_CONTAINER__SELECTOR).html($items);
+    });
+  };
+
+  var loadMoreEventBind = function () {
+    $(ITEMS_CONTAINER__SELECTOR).on('scroll', utils.throttle(function () {
+      loadMoreItems(this);
+    }, THROTTLE_INTERVAL));
+  };
+
+  var loadMoreItems = function (context) {
+    if ($(context).outerHeight() + $(context).scrollTop() === $(context).prop('scrollHeight')) {
+      resourceTop = top + top;
+      renderItems(null, top);
+      loadMoreEventBind();
+    }
+  };
+
   var remoteDataSource = function (config) {
     var auth = Module.get('auth'),
       dropdownData = [];
 
-
-    return function (query) {
+    return function (query, top) {
       var dfd = $.Deferred(),
         /**
-         * @todo correct get state url
+         * @todo top replacement
          */
-          restUrl = (config[state + 'Url'] || 'api/rest/usergroups?fields=id,name,iconUrl,total&$top=20') + (query ? '&query=name:' + query + ' or ' + query + '*' : '');
+          restUrl = ('api/rest/usergroups?fields=id,name,iconUrl,total&$top=' + top ) + (query ? '&query=name:' + query + ' or ' + query + '*' : '');
 
       auth('get', restUrl).then(function (data) {
         var groups;
@@ -120,7 +129,6 @@ define([
 
         dfd.resolve(dropdownData);
         dropdownData = [];
-
       });
 
       return dfd.promise();
@@ -136,8 +144,6 @@ define([
     /**
      * @ToDo Toggle func exec
      */
-
-    console.log(arguments);
   });
 
   dropdown.on('hide:done', function () {
