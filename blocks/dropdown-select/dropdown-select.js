@@ -31,35 +31,38 @@ define([
     $target = $(config.targetElem);
 
     $target.on('click', function (e) {
-        /**
-         * @ToDo add config configuraion func
-         */
-        dataSource().then(function (items) {
-          renderDropdown($target, items);
-        });
+      /**
+       * @ToDo add config configuraion func
+       */
+      dataSource().then(function (items) {
+        renderDropdown($target, items);
+        $(ITEMS_CONTAINER__SELECTOR).on('scroll', function () {
+          console.log($(this).innerHeight(), $(this).scrollHeight, $(this).scrollTop());
+        })
+      });
 
-        $(document).on('keyup', SEARCH_FIELD__SELECTOR, function (e) {
-          var query = $(e.currentTarget).val();
 
-          dataSource(query).then(function (items) {
-            var $items = $(View.render('dropdown__items', {
-              'items': items
-            }));
+      $(document).on('keyup', SEARCH_FIELD__SELECTOR, function (e) {
+        var query = $(e.currentTarget).val();
 
-            /**
-             * @ToDo Refactor with Dastky help
-             */
-            $(DROPDOWN__SELECTOR).find(ITEMS_CONTAINER__SELECTOR).html($items);
-          });
+        dataSource(query).then(function (items) {
+          var $items = $(View.render('dropdown__items', {
+            'items': items
+          }));
+
           /**
-           * @ToDo trigger query change event
-           * @ToDo fix memory leak
+           * @ToDo Refactor with Dastky help
            */
+          $(DROPDOWN__SELECTOR).find(ITEMS_CONTAINER__SELECTOR).html($items);
         });
+        /**
+         * @ToDo trigger query change event
+         * @ToDo fix memory leak
+         */
+      });
 
-        e.stopPropagation();
-      }
-    )
+      e.stopPropagation();
+    });
     ;
   };
 
@@ -90,7 +93,7 @@ define([
         /**
          * @todo correct get state url
          */
-        restUrl = (config[state + 'Url'] || 'api/rest/usergroups?fields=id,name,iconUrl,total&$top=20') + (query ? '&query=name:' + query + ' or ' + query + '*' : '');
+          restUrl = (config[state + 'Url'] || 'api/rest/usergroups?fields=id,name,iconUrl,total&$top=20') + (query ? '&query=name:' + query + ' or ' + query + '*' : '');
 
       auth('get', restUrl).then(function (data) {
         var groups;
@@ -139,6 +142,10 @@ define([
 
     console.log(arguments);
   });
+
+  dropdown.on('hide:done', function() {
+    $(ITEMS_CONTAINER__SELECTOR).unbind();
+  })
 
   Module.add(MODULE, {
     init: init,
