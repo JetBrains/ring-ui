@@ -14,17 +14,13 @@
   margin: 0;
   padding: 0;
   list-style: none;
+
+  .ring-tree {
+    padding: 0;
+  }
 	
   .ring-tree__item {
     padding-left: 1rem;
-  }
-
-  .ring-tree__item-name {
-    cursor: pointer;
-
-    &:hover {
-      text-decoration: underline;
-    }
   }
 
   .ring-tree__item-file {
@@ -50,6 +46,14 @@
 
     > .ring-tree {
       display: none;
+    }
+
+    > .ring-tree__item-name {
+      cursor: pointer;
+
+      &:hover {
+        text-decoration: underline;
+      }
     }
   }
 
