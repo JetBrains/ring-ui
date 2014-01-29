@@ -31,18 +31,19 @@ define([
 
     dataSource = config.dataSource;
     $target = $(config.targetElem);
+    resourceTop = 20;
 
     $target.on('click', function (e) {
       e.stopPropagation();
 
-      dataSource().then(function (items) {
+      dataSource(null, resourceTop).then(function (items) {
         renderDropdown($target, items);
         loadMoreEventBind();
       });
 
       $(document).on('keyup', SEARCH_FIELD__SELECTOR, utils.throttle(function (e) {
         var query = $(e.currentTarget).val();
-        renderItems(query);
+        renderItems(query, resourceTop);
       }, THROTTLE_INTERVAL));
     });
     ;
@@ -84,8 +85,8 @@ define([
 
   var loadMoreItems = function (context) {
     if ($(context).outerHeight() + $(context).scrollTop() === $(context).prop('scrollHeight')) {
-      resourceTop = top + top;
-      renderItems(null, top);
+      resourceTop = resourceTop + INFINITE_SCROLL_TOP;
+      renderItems(null, resourceTop);
       loadMoreEventBind();
     }
   };
@@ -94,12 +95,12 @@ define([
     var auth = Module.get('auth'),
       dropdownData = [];
 
-    return function (query, top) {
+    return function (query, resourceTop) {
       var dfd = $.Deferred(),
         /**
          * @todo top replacement
          */
-          restUrl = ('api/rest/usergroups?fields=id,name,iconUrl,total&$top=' + top ) + (query ? '&query=name:' + query + ' or ' + query + '*' : '');
+          restUrl = ('api/rest/usergroups?fields=id,name,iconUrl,total&$top=' + resourceTop ) + (query ? '&query=name:' + query + ' or ' + query + '*' : '');
 
       auth('get', restUrl).then(function (data) {
         var groups;
