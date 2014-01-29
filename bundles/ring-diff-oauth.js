@@ -9,7 +9,8 @@ define([
   'diff/diff',
   'diff/diff__rendering-queue',
   'alert/alerts',
-  'dialog/dialog'
+  'dialog/dialog',
+  'tree/tree'
 ], function(ring) {
   return ring;
 });
