@@ -89,10 +89,12 @@ define([
         self.onFileClick_(e, e.currentTarget);
       });
 
-      $(this.element_).on('keyup', [Tree.SELECTOR.DIR, Tree.SELECTOR.FILE], function (e) {
+      $(this.element_).on('keydown', [Tree.SELECTOR.DIR, Tree.SELECTOR.FILE], function (e) {
         var SPACE_KEY = 32;
 
         if (e.keyCode === SPACE_KEY) {
+          e.preventDefault();
+
           if ($(e.target).hasClass('ring-tree__item-dir')) {
             self.onDirClick_(e, e.target);
           }
@@ -156,11 +158,13 @@ define([
   };
 
   Tree.prototype.onDirClick_ = function (e, dirEl) {
-    e.stopPropagation();
-
     var $dirEl = $(dirEl),
         node = $dirEl.data('node'),
         tree = $dirEl.data('tree');
+
+    if ($(e.target).closest('.ring-tree__item-dir')[0] !== dirEl) {
+      return;
+    }
 
     if (tree) {
       $dirEl.removeData('tree');
@@ -175,10 +179,12 @@ define([
   };
 
   Tree.prototype.onFileClick_ = function (e, fileEl) {
-    e.stopPropagation();
-
     var $fileEl = $(fileEl),
         node = $fileEl.data('node');
+
+    if ($(e.target).closest('.ring-tree__item-file')[0] !== fileEl) {
+      return;
+    }
 
     if (this.options.onFileClick) {
       this.options.onFileClick(node);
