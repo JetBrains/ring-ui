@@ -14,7 +14,7 @@ define([
     resourceTop;
 
   var dropdown = Module.get('dropdown');
-//  var state = 'add';
+  var state = 'add';
 
   var MODULE = 'dropdown-select';
   var DROPDOWN__SELECTOR = '.ring-dropdown';
@@ -91,16 +91,29 @@ define([
     }
   };
 
-  var remoteDataSource = function () {
+  var configureUrl = function (config, query, resourceTop) {
+    var url;
+
+    if (state === 'add') {
+      url = config.add.url +
+        (resourceTop ? '&$top=' + resourceTop : '' ) +
+        (query ? '&query=name:' + query + ' or ' + query + '*' : '');
+    } else if (state === 'remove') {
+      auth('getUser').then(function (user) {
+        url = config.remove.url.replace('#{userId}', user.id);
+      });
+    }
+
+    return url;
+  }
+
+  var remoteDataSource = function (config) {
     var auth = Module.get('auth'),
       dropdownData = [];
 
     return function (query, resourceTop) {
       var dfd = $.Deferred(),
-        /**
-         * @todo top replacement
-         */
-          restUrl = ('api/rest/usergroups?fields=id,name,iconUrl,total&$top=' + resourceTop ) + (query ? '&query=name:' + query + ' or ' + query + '*' : '');
+        restUrl = configureUrl(config, query, resourceTop);
 
       auth('get', restUrl).then(function (data) {
         var groups;
