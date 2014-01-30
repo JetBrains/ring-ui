@@ -62,35 +62,33 @@
    *
    * Fixes Chrome bug: https://github.com/angular/angular.js/issues/1460
    */
-    .directive('formAutofillFix', function () {
+    .directive('formAutofillFix', ['$timeout', function ($timeout) {
       return {
         require: '?form',
         priority: 10,
         link: function ($scope, element, attrs, form) {
-          var stop = {};
-
           if (form) {
-            element.on('submit', function (e, data) {
-              if (data === stop) {
-                return !e.isDefaultPrevented();
-              }
+            (function poll() {
+              var filled;
 
               angular.forEach(element.find('input'), function (elem) {
                 var $elem = angular.element(elem);
                 var controller = $elem.controller('ngModel');
+                var val = $elem.val();
+                var type = $elem.attr('type');
 
-                if (controller && $elem.attr('type') !== 'checkbox' && $elem.attr('type') !== 'radio') {
-                  controller.$setViewValue($elem.val());
+                if (controller && val && type !== 'checkbox' && type !== 'radio') {
+                  controller.$setViewValue(val);
+                  filled = true;
                 }
               });
 
-              // Really hack-ish, jqLite + native form submit mix is unbeatable
-              if (element.triggerHandler('submit', stop)) {
-                element[0].submit();
+              if (!filled) {
+                $timeout(poll, 150);
               }
-            });
+            }());
           }
         }
       };
-    });
+    }]);
 })();
