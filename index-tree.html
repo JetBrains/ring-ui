@@ -33,6 +33,25 @@
             message: 'Custom message for empty tree'
           });
 
+      setTimeout(function () {
+        tree1.add([
+          { path: 'webui/styles/base.scss' }
+        ]);
+
+        setTimeout(function () {
+          tree1.remove([
+            { path: 'webui/styles/main.scss' },
+            { path: 'webui/styles/base.scss' }
+          ]);
+
+          setTimeout(function () {
+            tree1.add([
+              { path: 'webui/styles/base.scss' }
+            ]);
+          }, 1000);
+        }, 1000);
+      }, 5000);
+
       document.body.appendChild(tree1.createDOM()[0]);
       document.body.appendChild(tree2.createDOM()[0]);
       document.body.appendChild(tree3.createDOM()[0]);
