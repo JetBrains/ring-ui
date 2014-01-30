@@ -6,6 +6,8 @@ define([
 
   'use strict';
 
+  var cachedNode = {};
+
   /**
    * @options.message {string) Text for empty tree
    * @options.emptyTemplate {Function} Handlebars template for empty state
@@ -16,10 +18,11 @@ define([
    * @constructor
    */
   var Tree = function (list, options) {
+    this.list_ = list || [];
     this.options = options || {
       message: 'Nothing to see here'
     };
-    this.prepareList(list);
+    this.prepareList();
   };
 
   Tree.TEMPLATE = {
@@ -33,12 +36,50 @@ define([
     DIR: '.ring-tree__item-dir'
   };
 
-  Tree.prototype.prepareList = function (list) {
+  Tree.prototype.add = function (list) {
+    if (list && list.length) {
+      if (this.tree_) {
+        this.list_ = this.list_.concat(list);
+      }
+
+      else {
+        this.list_ = list;
+      }
+    }
+
+    this.prepareList();
+    var $el = this.element_;
+    this.createDOM();
+    $el.replaceWith(this.element_);
+  };
+
+  Tree.prototype.remove = function (list) {
+    var i, li, j, lj;
+
+    if (!list || list.length === 0) {
+      return;
+    }
+
+    for (i=0, li=list.length; i<li; i++) {
+      for (j=0, lj=this.list_.length; j<lj; j++) {
+        if (list[i].path === this.list_[j].path) {
+          this.list_[j].deleted = true;
+        }
+      }
+    }
+
+    this.prepareList();
+    var $el = this.element_;
+    this.createDOM();
+    $el.replaceWith(this.element_);
+  };
+
+  Tree.prototype.prepareList = function () {
     var tree = {},
         addNode,
         i, l;
 
-    if (!list || list.length === 0) {
+    if (!this.list_ || this.list_.length === 0) {
       this.tree_ = null;
       return;
     }
@@ -46,6 +87,7 @@ define([
     addNode = function (obj) {
       var splitPath = obj.path.replace(/^\/|\/$/g, '').split('/'),
           curTree = tree,
+          prevTree,
           i, l, node;
 
       for (i=0, l=splitPath.length; i<l; i++) {
@@ -59,18 +101,64 @@ define([
           node.value = obj;
         }
 
+        var nodeId = [node.type, ':', node.name].join(''),
+            cNode = cachedNode[nodeId];
+        if (cNode) {
+          node = cNode;
+        }
+
+        else {
+          cachedNode[nodeId] = node;
+        }
+
         curTree[splitPath[i]] = curTree[splitPath[i]] || node;
         curTree[splitPath[i]].children = curTree[splitPath[i]].children || {};
 
+        if (obj.deleted && node.type === 'file') {
+          delete curTree[node.name];
+          continue;
+        }
+
+        prevTree = curTree;
         curTree = curTree[splitPath[i]].children;
       }
+
+      obj.node = node;
     };
 
-    for (i=0, l=list.length; i<l; i++) {
-      addNode(list[i]);
+    for (i=0, l=this.list_.length; i<l; i++) {
+      addNode(this.list_[i]);
     }
 
     this.tree_ = tree;
+  };
+
+  Tree.prototype.addListeners_ = function () {
+    var self = this;
+
+    $(this.element_).on('click', Tree.SELECTOR.DIR, function (e) {
+      self.onDirClick_(e, e.currentTarget);
+    });
+
+    $(this.element_).on('click', Tree.SELECTOR.FILE, function (e) {
+      self.onFileClick_(e, e.currentTarget);
+    });
+
+    $(this.element_).on('keydown', [Tree.SELECTOR.DIR, Tree.SELECTOR.FILE], function (e) {
+      var SPACE_KEY = 32;
+
+      if (e.keyCode === SPACE_KEY) {
+        e.preventDefault();
+
+        if ($(e.target).hasClass('ring-tree__item-dir')) {
+          self.onDirClick_(e, e.target);
+        }
+
+        else if ($(e.target).hasClass('ring-tree__item-file')) {
+          self.onFileClick_(e, e.target);
+        }
+      }
+    });
   };
 
   Tree.prototype.createDOM = function () {
@@ -78,32 +166,7 @@ define([
 
     if (this.tree_) {
       this.element_ = this.render(this.tree_);
-
-      var self = this;
-
-      $(this.element_).on('click', Tree.SELECTOR.DIR, function (e) {
-        self.onDirClick_(e, e.currentTarget);
-      });
-
-      $(this.element_).on('click', Tree.SELECTOR.FILE, function (e) {
-        self.onFileClick_(e, e.currentTarget);
-      });
-
-      $(this.element_).on('keydown', [Tree.SELECTOR.DIR, Tree.SELECTOR.FILE], function (e) {
-        var SPACE_KEY = 32;
-
-        if (e.keyCode === SPACE_KEY) {
-          e.preventDefault();
-
-          if ($(e.target).hasClass('ring-tree__item-dir')) {
-            self.onDirClick_(e, e.target);
-          }
-
-          else if ($(e.target).hasClass('ring-tree__item-file')) {
-            self.onFileClick_(e, e.target);
-          }
-        }
-      });
+      this.addListeners_();
     }
 
     else {
@@ -149,6 +212,10 @@ define([
             $liEl.data('node', node);
             $liEl.data('tree', $tmpULEl);
             $ulEl.append($liEl);
+
+            if (node.opened) {
+              this.toggleDir($liEl);
+            }
           }
         }
       }
@@ -159,23 +226,29 @@ define([
 
   Tree.prototype.onDirClick_ = function (e, dirEl) {
     var $dirEl = $(dirEl),
-        node = $dirEl.data('node'),
-        tree = $dirEl.data('tree');
+        node = $dirEl.data('node');
 
     if ($(e.target).closest('.ring-tree__item-dir')[0] !== dirEl) {
       return;
     }
 
-    if (tree) {
-      $dirEl.removeData('tree');
-      $dirEl.append(tree);
-    }
+    node.opened = !node.opened;
 
-    $dirEl.toggleClass('ring-tree__item-dir--opened');
+    this.toggleDir($dirEl);
 
     if (this.options.onDirClick) {
       this.options.onDirClick(node);
     }
+  };
+
+  Tree.prototype.toggleDir = function ($dirEl) {
+    var tree = $dirEl.data('tree');
+    if (tree) {
+      $dirEl.removeData('tree');
+      $dirEl.append(tree);
+    }
+    
+    $dirEl.toggleClass('ring-tree__item-dir--opened');
   };
 
   Tree.prototype.onFileClick_ = function (e, fileEl) {
