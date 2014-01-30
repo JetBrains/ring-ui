@@ -62,13 +62,13 @@ define([
    * @enum {string}
    */
   d.DoubleEditorController.LineClass = {
-    ADDED: 'line__added',
-    BEFORE_ADDED: 'line__before_added',
-    BEFORE_DELETED: 'line__before_deleted',
-    DELETED: 'line__deleted',
-    FIRST: 'line__first',
-    LAST: 'line__last',
-    MODIFIED: 'line__modified'
+    ADDED: 'ring-diff-line_added',
+    BEFORE_ADDED: 'ring-diff-line_before-added',
+    BEFORE_DELETED: 'ring-diff-line_before-deleted',
+    DELETED: 'ring-diff-line_deleted',
+    FIRST: 'ring-diff-line_first',
+    LAST: 'ring-diff-line_last',
+    MODIFIED: 'ring-diff-line_modified'
   };
 
   /**
@@ -76,9 +76,9 @@ define([
    * @enum {string}
    */
   d.DoubleEditorController.CharsClass = {
-    ADDED: 'chars__added',
-    DELETED: 'chars__deleted',
-    MODIFIED: 'chars__modified',
+    ADDED: 'ring-diff-chars_added',
+    DELETED: 'ring-diff-chars_deleted',
+    MODIFIED: 'ring-diff-chars_modified',
     UNCHANGED: ''
   };
 
