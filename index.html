@@ -387,12 +387,15 @@
           dataSource: select('remoteDataSource', {
               add: {
                   callback: function() {
-                      console.log('add callback');
+                      console.log(arguments);
                   },
                   url:'api/rest/usergroups?fields=id,name,iconUrl,total'
               },
               remove: {
-                  url:'api/rest/users/#{userId}?fields=groups(id,name,iconUrl)'
+                  url:'api/rest/users/#{userId}?fields=groups(id,name,iconUrl)',
+                  callback: function() {
+                      console.log(arguments);
+                  }
               }
           })
       });
