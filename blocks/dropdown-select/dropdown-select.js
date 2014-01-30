@@ -11,12 +11,13 @@ define([
 
   var $target,
     dataSource,
-    resourceTop;
+    resourceTop,
+    Config;
 
   var dropdown = Module.get('dropdown');
+  var MODULE = 'dropdown-select';
   var state = 'add';
 
-  var MODULE = 'dropdown-select';
   var DROPDOWN__SELECTOR = '.ring-dropdown';
   var ITEMS_CONTAINER__SELECTOR = '.ring-dropdown__items';
   var SEARCH_FIELD__SELECTOR = '.ring-js-dropdown-input';
@@ -92,7 +93,8 @@ define([
   };
 
   var configureUrl = function (config, query, resourceTop) {
-    var url;
+    var auth = Module.get('auth'),
+      url;
 
     if (state === 'add') {
       url = config.add.url +
@@ -105,11 +107,12 @@ define([
     }
 
     return url;
-  }
+  };
 
   var remoteDataSource = function (config) {
     var auth = Module.get('auth'),
       dropdownData = [];
+    Config = config;
 
     return function (query, resourceTop) {
       var dfd = $.Deferred(),
@@ -125,18 +128,21 @@ define([
         } else {
           dfd.resolve([
             {
-              'action': true,
-              'label': 'No results'
+              action: true,
+              label: 'No results'
             }
           ]);
         }
 
         groups.forEach(function (group) {
           dropdownData.push({
-            'label': group.name,
-            'url': group.url,
-            'event': {
-              'name': 'dropdown:complete'
+            label: group.name,
+            url: group.url,
+            event: {
+              name: 'dropdown:select',
+              data: {
+                id: group.id
+              }
             }
           });
         });
@@ -149,9 +155,8 @@ define([
     };
   };
 
-  dropdown.on('complete', function (e) {
-    console.log(e);
-    return;
+  dropdown.on('select', function (data) {
+    Config[state].callback.call(this, data);
   });
 
   dropdown.on('toggle', function () {
