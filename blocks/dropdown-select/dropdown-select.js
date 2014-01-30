@@ -14,7 +14,7 @@ define([
     resourceTop;
 
   var dropdown = Module.get('dropdown');
-  var state = 'add';
+//  var state = 'add';
 
   var MODULE = 'dropdown-select';
   var DROPDOWN__SELECTOR = '.ring-dropdown';
@@ -31,7 +31,8 @@ define([
 
     dataSource = config.dataSource;
     $target = $(config.targetElem);
-    resourceTop = 20;
+    resourceTop = INFINITE_SCROLL_TOP;
+
 
     $target.on('click', function (e) {
       e.stopPropagation();
@@ -46,7 +47,6 @@ define([
         renderItems(query, resourceTop);
       }, THROTTLE_INTERVAL));
     });
-    ;
   };
 
   var renderDropdown = function ($target, items) {
@@ -91,7 +91,7 @@ define([
     }
   };
 
-  var remoteDataSource = function (config) {
+  var remoteDataSource = function () {
     var auth = Module.get('auth'),
       dropdownData = [];
 
@@ -149,7 +149,7 @@ define([
 
   dropdown.on('hide:done', function () {
     $(ITEMS_CONTAINER__SELECTOR).unbind();
-  })
+  });
 
   Module.add(MODULE, {
     init: init,
