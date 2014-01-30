@@ -1,41 +1,38 @@
 <div class="ring-dropdown{{#type}} ring-dropdown_{{this}}{{/type}}">
-  <div class="ring-dropdown__i">
-    {{{html}}}
-      {{#type}}
-        {{#ifEqual this 'prop-manager'}}
-          <span class="ring-dropdown__item ring-dropdown__item__controls">
-            <span class="ring-dropdown__item__controls__title">Add to:</span>
+    <div class="ring-dropdown__i">
+        {{{html}}}
+        {{#ifEqual type 'prop-manager'}}
+            <span class="ring-dropdown__item ring-dropdown__item__controls">
+            <span class="ring-dropdown__item__controls__title">{{ header-title }}</span>
             <input class="ring-input ring-js-event ring-js-dropdown-input">
           </span>
         {{/ifEqual}}
-      {{/type}}
-      {{#type}}
-        {{#ifEqual this 'prop-manager'}}
-          <div class="ring-dropdown__items">
-        {{/ifEqual}}
-      {{/type}}
-      {{> dropdown__items }}
-    {{#type}}
-      {{#ifEqual this 'prop-manager'}}
-        </div>
-      {{/ifEqual}}
-    {{/type}}
+        {{#type}}
+            {{#ifEqual this 'prop-manager'}}
+            <div class="ring-dropdown__items">
+            {{/ifEqual}}
+        {{/type}}
+        {{> dropdown__items }}
+        {{#type}}
+            {{#ifEqual this 'prop-manager'}}
+            </div>
+            {{/ifEqual}}
+        {{/type}}
     </div>
-    {{#type}}
-      {{#ifEqual this 'prop-manager'}}
+    {{#ifEqual type 'prop-manager'}}
         <span class="ring-dropdown__separator"> </span>
         <span class="ring-dropdown__item ring-dropdown__item__controls">
-          <span class="ring-dropdown__item__controls__title ring-js-event ring-js-dropdown-toggle" data-ring-event='{"name":"dropdown:toggle"}'>Remove to...</span>
+          <span class="ring-dropdown__item__controls__title ring-js-event ring-js-dropdown-toggle"
+                data-ring-event='{"name":"dropdown:toggle"}'>{{ footer-title }}</span>
         </span>
-      {{/ifEqual}}
-    {{/type}}
+    {{/ifEqual}}
     {{#type}}
-      {{#ifEqual this 'typed'}}
-        <span class="ring-dropdown__item ring-dropdown__item_hint">
+        {{#ifEqual this 'typed'}}
+            <span class="ring-dropdown__item ring-dropdown__item_hint">
           <span class="ring-dropdown__item__type"></span>
           <span class="ring-dropdown__item__content">Use ↩ to complete selected item</span>
         </span>
-      {{/ifEqual}}
+        {{/ifEqual}}
     {{/type}}
-  </div>
+</div>
 </div>

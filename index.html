@@ -386,12 +386,14 @@
           targetElem: '.demo__select-example',
           dataSource: select('remoteDataSource', {
               add: {
+                  title:'Add to',
                   callback: function() {
                       console.log(arguments);
                   },
                   url:'api/rest/usergroups?fields=id,name,iconUrl,total'
               },
               remove: {
+                  title: 'Remove from',
                   url:'api/rest/users/#{userId}?fields=groups(id,name,iconUrl)',
                   callback: function() {
                       console.log(arguments);
