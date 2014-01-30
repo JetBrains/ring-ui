@@ -36,13 +36,14 @@ define(function() {
   //@endexclude
 
   utils.throttle = function(fn, threshhold, scope) {
-    threshhold || (threshhold = 250);
     var last,
       deferTimer;
+    threshhold = threshhold || 250;
+
     return function () {
       var context = scope || this;
 
-      var now = +new Date,
+      var now = +new Date(),
         args = arguments;
       if (last && now < last + threshhold) {
         clearTimeout(deferTimer);
@@ -55,7 +56,7 @@ define(function() {
         fn.apply(context, args);
       }
     };
-  }
+  };
 
   return utils;
 });
