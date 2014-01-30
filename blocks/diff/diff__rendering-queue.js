@@ -26,23 +26,26 @@ define([
    * @param {*=} opt_context
    */
   d.RenderingQueue.prototype.push = function(diff, operation, opt_context) {
+    var lastItemInQueue = d.peekArray(this.queue_);
+
+    var queueRecord = {
+      instance: diff,
+      operation: operation
+    };
+
+    this.queue_.push(queueRecord);
+
     var operationWrap = d.bindContext(function() {
       if (!d.isDef(opt_context)) {
         opt_context = null;
       }
-
-      var queueRecord = {
-        instance: diff,
-        operation: operation
-      };
 
       var handler = this.getOnDiffRenderHandler_(queueRecord);
       diff.getHandler().one(DiffTool.EventType.AFTER_RENDER, handler);
       operation.call(opt_context);
     }, this);
 
-    var lastItemInQueue = d.peekArray(this.queue_);
-    if (lastItemInQueue) {
+    if (d.isDef(lastItemInQueue)) {
       lastItemInQueue.instance.getHandler().on(DiffTool.EventType.AFTER_RENDER,
           operationWrap);
     } else {
@@ -69,7 +72,7 @@ define([
    */
   d.RenderingQueue.prototype.getOnDiffRenderHandler_ = function(queueRecord) {
     return d.bindContext(function(evt) {
-      this.onDiffRender_.call(evt, queueRecord);
+      this.onDiffRender_.call(null, evt, queueRecord);
     }, this);
   };
 
