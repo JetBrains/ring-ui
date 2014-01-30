@@ -82,93 +82,91 @@ $map_borders: 1px;
 }
 
 .ring-diff_doublepane {
-  .CodeMirror {
-    .line__added,
-    .line__deleted {
-      box-sizing: border-box;
+  .ring-diff-line_added,
+  .ring-diff-line_deleted {
+    box-sizing: border-box;
+  }
+
+  .ring-diff-line_added {
+    background: $added_background;
+  }
+
+  .ring-diff-line_modified {
+    background: $modified_background;
+  }
+
+  .ring-diff-line_deleted {
+    background: $deleted_background;
+  }
+
+  .ring-diff-line_before-added,
+  .ring-diff-line_before-deleted {
+    z-index: 1;
+  }
+
+  .ring-diff-line_before-added {
+    box-shadow: 0 1px 0 $added_outline;
+    border-bottom: solid 1px $added_background;
+  }
+
+  .ring-diff-line_before-deleted {
+    box-shadow: 0 1px 0 $deleted_outline;
+    border-bottom: solid 1px $deleted_background;
+  }
+
+  .ring-diff-chars_added {
+    background: $added_chars;
+    font-weight: bold;
+  }
+
+  .ring-diff-chars_modified {
+    background: $modified_chars;
+    font-weight: bold;
+  }
+
+  .ring-diff-chars_deleted {
+    background: $deleted_chars;
+    font-weight: bold;
+  }
+
+  .ring-diff-line_collapsed {
+    border-bottom: solid 1px;
+    z-index: 3;
+  }
+
+  .ring-diff-line_first {
+    &.ring-diff-line_added {
+      border-top: solid 1px $added_outline;
     }
 
-    .line__added {
-      background: $added_background;
+    &.ring-diff-line_modified {
+      border-top: solid 1px $modified_outline;
     }
 
-    .line__modified {
-      background: $modified_background;
+    &.ring-diff-line_deleted {
+      border-top: solid 1px $deleted_outline;
     }
 
-    .line__deleted {
-      background: $deleted_background;
+    & + pre .ring-diff-chars_modified {
+      padding-top: 1px;
+    }
+  }
+
+  .ring-diff-line_last {
+    &.ring-diff-line_added {
+      border-bottom: solid 1px $added_outline;
     }
 
-    .line__before_added,
-    .line__before_deleted {
-      z-index: 1;
+    &.ring-diff-line_modified {
+      border-bottom: solid 1px $modified_outline;
     }
 
-    .line__before_added {
-      box-shadow: 0 1px 0 $added_outline;
-      border-bottom: solid 1px $added_background;
+    &.ring-diff-line_deleted {
+      border-bottom: solid 1px $deleted_outline;
     }
 
-    .line__before_deleted {
-      box-shadow: 0 1px 0 $deleted_outline;
-      border-bottom: solid 1px $deleted_background;
-    }
-
-    .chars__added {
-      background: $added_chars;
-      font-weight: bold;
-    }
-
-    .chars__modified {
-      background: $modified_chars;
-      font-weight: bold;
-    }
-
-    .chars__deleted {
-      background: $deleted_chars;
-      font-weight: bold;
-    }
-
-    .line__collapsed {
-      border-bottom: solid 1px;
-      z-index: 3;
-    }
-
-    .line__first {
-      &.line__added {
-        border-top: solid 1px $added_outline;
-      }
-
-      &.line__modified {
-        border-top: solid 1px $modified_outline;
-      }
-
-      &.line__deleted {
-        border-top: solid 1px $deleted_outline;
-      }
-
-      & + pre .chars__modified {
-        padding-top: 1px;
-      }
-    }
-
-    .line__last {
-      &.line__added {
-        border-bottom: solid 1px $added_outline;
-      }
-
-      &.line__modified {
-        border-bottom: solid 1px $modified_outline;
-      }
-
-      &.line__deleted {
-        border-bottom: solid 1px $deleted_outline;
-      }
-
-      & + pre .chars__modified {
-        padding-bottom: 1px;
-      }
+    & + pre .ring-diff-chars_modified {
+      padding-bottom: 1px;
     }
   }
 }
