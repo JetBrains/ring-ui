@@ -27,11 +27,13 @@
       ];
 
       var Tree = ring('tree').invoke('getTree'),
-          tree1 = new Tree(files),
+          tree1 = new Tree(files);
           tree2 = new Tree(),
           tree3 = new Tree(null, {
             message: 'Custom message for empty tree'
           });
+
+      document.body.appendChild(tree1.render()[0]);
 
       setTimeout(function () {
         tree1.add([
@@ -46,15 +48,15 @@
 
           setTimeout(function () {
             tree1.add([
-              { path: 'webui/styles/base.scss' }
+              { path: 'webui/styles/new/main.scss' }
             ]);
-          }, 1000);
-        }, 1000);
-      }, 5000);
+          }, 2000);
+        }, 2000);
 
-      document.body.appendChild(tree1.createDOM()[0]);
-      document.body.appendChild(tree2.createDOM()[0]);
-      document.body.appendChild(tree3.createDOM()[0]);
+      }, 2000);
+
+      document.body.appendChild(tree2.render()[0]);
+      document.body.appendChild(tree3.render()[0]);
     });
   </script>
 </body>
