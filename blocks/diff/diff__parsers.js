@@ -66,6 +66,10 @@ define([
             this.enableLineType(changeModified, d.Parser.LineType.ADDED, true);
           }
         }
+      } else if (change.type) {
+        // todo(igor.alexeenko): Temporary measure.
+        this.enableLineType(chunk.original[0], d.Parser.LineType.INLINE, true);
+        this.enableLineType(chunk.modified[0], d.Parser.LineType.INLINE, true);
       }
 
       this.enableLineType(chunk, d.Parser.LineType.ADDED,
