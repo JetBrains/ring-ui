@@ -157,6 +157,7 @@ define([
 
   dropdown.on('select', function (data) {
     Config[state].callback.call(this, data);
+    dropdown('hide');
   });
 
   dropdown.on('toggle', function () {
