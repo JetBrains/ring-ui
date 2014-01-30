@@ -277,6 +277,12 @@ define([
    * handlers from them and by removing all instance properties.
    */
   DiffTool.prototype.dispose = function() {
+    if (this.isDisposed) {
+      return;
+    }
+
+    this.isDisposed = true;
+
     this.controller_.setEnabled(false);
     this.controller_ = null;
 
