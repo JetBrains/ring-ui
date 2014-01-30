@@ -1,0 +1,8 @@
+<div class="ring-profile">
+  {{#each this}}
+    <a href="{{url}}" class="ring-profile__item{{> global__class}}"{{> global__attributes}}>
+      {{#image}}<img src="{{this}}" alt="{{../title}}" /> {{/image}}
+      {{label}}
+    </a>
+  {{/each}}
+</div>
