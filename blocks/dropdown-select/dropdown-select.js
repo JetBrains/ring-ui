@@ -59,6 +59,8 @@ define([
     dropdown('hide');
     return dropdown('show', {
       'type': 'prop-manager',
+      'header-title':'Add to',
+      'footer-title':'Remove from',
       'items': items
     }, {
       preventRemove: true,
@@ -161,6 +163,7 @@ define([
   });
 
   dropdown.on('toggle', function () {
+    console.log(arguments);
     /**
      * @ToDo Toggle func exec
      */
