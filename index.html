@@ -11,9 +11,40 @@
       font-family: "Helvetica Neue", sans-serif;
       font-size: 24px;
       line-height: 1.5em;
+      height: 100%;
+    }
+
+
+    .container {
+      display: table;
+      height: 100%;
+    }
+
+    .hidden {
+      width: 0 !important;
+      min-width: 0 !important;
+    }
+
+    .hidden a {
+      display: none;
+    }
+
+    .ring-profile {
+      min-width: 256px;
+      transition: min-width 0.5s;
+
+    }
+
+    .demo, .ring-profile {
+      display: table-cell;
     }
 
     .demo {
+      width: 100%;
+      height: 100%;
+    }
+
+    .demo__content {
       padding: 0 32px;
       font-size: 13px;
     }
@@ -43,6 +74,7 @@
       'header/header__hub-services',
       'header/header__userinfo',
       'query-assist/query-assist',
+      'profile/profile',
       'json'],
       function($, ring) {
       window.ring = ring;
@@ -54,150 +86,46 @@
 
       var o = ring();
 
-      o('init', {
-        header: {
-          "type": "4x",
-          "authLinks": {
-            "login": {
-              "label": "Log in",
-              "event": "header:login"
-            }
-//            ,
-//            "logout": {
-//              "label": "Log out",
-//              "event": "header:logout"
-//            }
-          }
-        },
-        menu: {
-          "type": ["gradient", "4x"],
-          "left": {
-            "projects": {
-              "toggle": {
-                "items": [
-                  {
-                    "className": "test-class",
-                    "label": "Issues",
-                    "title": "Tilte attribute content",
-                    "url": "/issues"
-                  },
-                  {
-                    "label": "test hover",
-                    "url": "/rest/agile",
-                    "event": {
-                      "type": "hover",
-                      "name":  "dropdown:hover"
-                    },
-                    "action": true
-                  },
-                  {
-                    "label": "test click",
-                    "url": "/rest/agile",
-                    "event": {
-                      name: "dropdown:click",
-                      data: 'Clicked!'
-                    },
-                    "action": true
-                  },
-                  {
-                    "label": "two events",
-                    "url": "/rest/agile",
-                    "event": [{
-                      "name":  "dropdown:hover",
-                      "type": "hover"
-                    },{
-                        name: "dropdown:click",
-                        data: 'Clicked!'
-                    }],
-                    "action": true
-                  },
-                  {
-                    "label": "dependent",
-                    "url": "/rest/agile",
-                    "action": true
-                  }
-                ]
-              },
-              "active": 1,
-              "url": "/projects",
-              "event": {
-                "name": "menu:test",
-                "data": "projects"
-              },
-              "label": "Projects"
-            },
-            "agents": {
-              "counter": {
-                "color": "red",
-                "label": 125
-              },
-              "label": "Agents",
-              "url": "/rest/reports",
-              "event": {
-                "name": "menu:test",
-                "data": "agents"
-              },
-              "toggle": {
-                "items": [
-                  {
-                    "className": "test-class",
-                    "label": "Issues",
-                    "title": "Tilte attribute content",
-                    "url": "/issues"
-                  },
-                  {
-                    "className": "test-class",
-                    "label": "Issues",
-                    "title": "Tilte attribute content",
-                    "url": "/issues"
-                  },
-                  {
-                    "separator": true
-                  },
-                  {
-                    "className": "test-class",
-                    "label": "Issues",
-                    "title": "Tilte attribute content",
-                    "url": "/issues"
-                  },
-                  {
-                    "className": "test-class",
-                    "label": "Issues",
-                    "title": "Tilte attribute content",
-                    "url": "/issues"
-                  },
-                  {
-                    "label": "Agile Board",
-                    "url": "/rest/agile"
-                  }
-                ]
-              }
-            },
-            "logo": {
-              "order": 1,
-              "image": "site/ring.png",
-              "url": "/dashboard",
+      ring('menu')('init', {
+        "type": ["gradient", "4x"],
+        "left": {
+          "projects": {
+            "toggle": {
               "items": [
-//                  {
-//                    "className": "test-class",
-//                    "label": "Issues",
-//                    "title": "Tilte attribute content",
-//                    "url": "/issues"
-//                  },
                 {
-                  "label": "dependent",
+                  "className": "test-class",
+                  "label": "Issues",
+                  "title": "Tilte attribute content",
+                  "url": "/issues"
+                },
+                {
+                  "label": "test hover",
                   "url": "/rest/agile",
-                  "image": "site/ring.png",
+                  "event": {
+                    "type": "hover",
+                    "name":  "dropdown:hover"
+                  },
                   "action": true
                 },
                 {
-                  "label": "dependent",
+                  "label": "test click",
                   "url": "/rest/agile",
+                  "event": {
+                    name: "dropdown:click",
+                    data: 'Clicked!'
+                  },
                   "action": true
                 },
                 {
-                  "label": "dependent",
+                  "label": "two events",
                   "url": "/rest/agile",
+                  "event": [{
+                              "name":  "dropdown:hover",
+                              "type": "hover"
+                            },{
+                              name: "dropdown:click",
+                              data: 'Clicked!'
+                            }],
                   "action": true
                 },
                 {
@@ -207,34 +135,48 @@
                 }
               ]
             },
-            "button": {
-              "type": "button",
-              "button": [{
-                "label": "Add something",
-                "className": "ring-btn_primary demo__select-example"
-              }, {
-                "className": "ring-btn_primary ring-btn_icon ring-btn__dropdown-icon ring-menu__item_noselect",
-                "type": "caret-down"
-              }]
-            }
-          },
-          "right": {
-            "search": {
-              "type": "search",
-              "url": "/search"
-            },
-            "cog": {
-              "type": "cog",
-              "url": "/prefs",
+            "active": 1,
+              "url": "/projects",
               "event": {
-                "name": "menu:test",
-                "data": "right.cog"
-              }
+              "name": "menu:test",
+                "data": "projects"
             },
-            "help": {
-              "type": "help",
-              "url": "/help",
+            "label": "Projects"
+          },
+          "agents": {
+            "counter": {
+              "color": "red",
+                "label": 125
+            },
+            "label": "Agents",
+              "url": "/rest/reports",
+              "event": {
+              "name": "menu:test",
+                "data": "agents"
+            },
+            "toggle": {
               "items": [
+                {
+                  "className": "test-class",
+                  "label": "Issues",
+                  "title": "Tilte attribute content",
+                  "url": "/issues"
+                },
+                {
+                  "className": "test-class",
+                  "label": "Issues",
+                  "title": "Tilte attribute content",
+                  "url": "/issues"
+                },
+                {
+                  "separator": true
+                },
+                {
+                  "className": "test-class",
+                  "label": "Issues",
+                  "title": "Tilte attribute content",
+                  "url": "/issues"
+                },
                 {
                   "className": "test-class",
                   "label": "Issues",
@@ -247,28 +189,168 @@
                 }
               ]
             }
+          },
+          "logo": {
+            "order": 1,
+              "image": "site/ring.png",
+              "url": "/dashboard",
+              "items": [
+  //                  {
+  //                    "className": "test-class",
+  //                    "label": "Issues",
+  //                    "title": "Tilte attribute content",
+  //                    "url": "/issues"
+  //                  },
+              {
+                "label": "dependent",
+                "url": "/rest/agile",
+                "image": "site/ring.png",
+                "action": true
+              },
+              {
+                "label": "dependent",
+                "url": "/rest/agile",
+                "action": true
+              },
+              {
+                "label": "dependent",
+                "url": "/rest/agile",
+                "action": true
+              },
+              {
+                "label": "dependent",
+                "url": "/rest/agile",
+                "action": true
+              }
+            ]
+          },
+          "button": {
+            "type": "button",
+              "button": [{
+                           "label": "Add something",
+                           "className": "ring-btn_primary"
+                         }, {
+                           "className": "ring-btn_primary ring-btn_icon ring-btn__dropdown-icon ring-menu__item_noselect",
+                           "type": "caret-down",
+                           "dropdown": {
+                             "type": "prop-manager",
+                             "items": [
+                               {
+                                 "label": "Issues",
+                                 "url": "/issues",
+                                 "event": {
+                                   "name": "dropdown:test",
+                                   "data":{
+                                     "val":"prop"
+                                   }
+                                 }
+                               },
+                               {
+                                 "label": "Agile Board",
+                                 "url": "/rest/agile"
+                               }
+                             ]
+                           }
+                         }]
+          },
+          "toggle-profile": {
+            "type": "button",
+              "button": {
+              "label": "Toggle profile",
+              "event": "menu:toggle-profile"
+            }
           }
         },
-        footer: {
-          type: '4x',
-          left: [
-            [{url: 'http://www.jetbrains.com/teamcity/?fromServer', label: 'TeamCity'}, 'by JetBrains'],
-            'Enterprise 8.0.2 EAP (build 27448)'
-          ],
-          center: [
-            [{copyright: 2000, label: ' JetBrains'}, {middot: 1}, 'All rights reserved'],
-            {url: 'http://teamcity.jetbrains.com/showAgreement.html', label: 'License agreement', title: 'READ ME!'}
-          ],
-          right: [
-            {url: 'http://www.jetbrains.com/teamcity/feedback?source=footer&version=8.0.3%20(build%2027531)&build=27531&mode=ent', label: 'Feedback'}
-          ]
+        "right": {
+          "search": {
+            "type": "search",
+              "url": "/search"
+          },
+          "cog": {
+            "type": "cog",
+              "url": "/prefs",
+              "event": {
+              "name": "menu:test",
+                "data": "right.cog"
+            }
+          },
+          "help": {
+            "type": "help",
+              "url": "/help",
+              "items": [
+              {
+                "className": "test-class",
+                "label": "Issues",
+                "title": "Tilte attribute content",
+                "url": "/issues"
+              },
+              {
+                "label": "Agile Board",
+                "url": "/rest/agile"
+              }
+            ]
+          }
+        }
+      }, '.demo', 'prepend');
+
+      o('init', {
+        header: {
+          "type": "4x",
+          "authLinks": {
+            "login": {
+              "label": "Log in",
+              "event": "header:login"
+            }
+          }
         }
       });
 
-        o.on('dropdown:test', function (e) {
-          console.log(arguments);
-          return false;
-        });
+      ring('footer')('init', {
+        type: '4x',
+        left: [
+          [{url: 'http://www.jetbrains.com/teamcity/?fromServer', label: 'TeamCity'}, 'by JetBrains'],
+          'Enterprise 8.0.2 EAP (build 27448)'
+        ],
+        center: [
+          [{copyright: 2000, label: ' JetBrains'}, {middot: 1}, 'All rights reserved'],
+          {url: 'http://teamcity.jetbrains.com/showAgreement.html', label: 'License agreement', title: 'READ ME!'}
+        ],
+        right: [
+          {url: 'http://www.jetbrains.com/teamcity/feedback?source=footer&version=8.0.3%20(build%2027531)&build=27531&mode=ent', label: 'Feedback'}
+        ]
+      }, '.demo', 'append');
+
+      ring('profile')('init', [
+        {
+          label: 'Profile',
+          url: '',
+          active: true
+        }, {
+          label: 'YouTrack',
+          url: ''
+        }, {
+          label: 'TeamCity',
+          url: ''
+        }, {
+          label: 'Upsource',
+          url: ''
+        }, {
+          label: 'Confluence',
+          url: ''
+        }, {
+          label: 'Jing',
+          url: ''
+        }
+      ], '.demo', 'before');
+
+      o.on('menu:toggle-profile', function() {
+        $('.ring-profile').toggleClass('hidden');
+      });
+
+      o.on('dropdown:test', function (e) {
+        console.log(arguments);
+        return false;
+      });
 
       var auth = ring('auth');
 
@@ -334,13 +416,16 @@
   </script>
 </head>
 <body>
+<div class="container">
+  <div class="demo">
+    <div class="demo__content">
+      <h2 class="demo__header">Docs</h2>
 
-<div class="demo">
-  <h2 class="demo__header">Docs</h2>
-
-  <div><a class="ring-link" href="dist/docs/API.html">View API documentation</a></div>
-  <div><a class="ring-link" href="dist/styleguide/">CSS Styleguide</a></div>
-  <div class="demo__query-example"></div>
+      <div><a class="ring-link" href="dist/docs/API.html">View API documentation</a></div>
+      <div><a class="ring-link" href="dist/styleguide/">CSS Styleguide</a></div>
+      <div class="demo__query-example"></div>
+    </div>
+  </div>
 </div>
 
 </body>

@@ -1,0 +1,35 @@
+@import "../global/global";
+
+.ring-profile {
+  height: 100%;
+  width: $ring-unit * 32;
+
+  background-color: #fff;
+  border-right: 1px solid #D9D9D9;
+
+  @include ring-font;
+  font-size: 13px;
+
+  vertical-align: top;
+  padding-top: $ring-unit * 3;
+}
+
+.ring-profile__item {
+  display: block;
+  line-height: $ring-unit * 2;
+  height: $ring-unit * 2;
+  margin-left: $ring-unit * 4;
+  margin-bottom: $ring-unit * 2;
+  text-decoration: none;
+  color: $ring-link-color;
+
+  &:visited {
+    color: $ring-link-color;
+  }
+
+  &.active, &.ring-profile__item_active {
+    color: #000;
+    font-weight: bold;
+  }
+}
+
