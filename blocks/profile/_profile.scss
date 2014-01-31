@@ -18,13 +18,11 @@
   display: block;
   line-height: $ring-unit * 2;
   height: $ring-unit * 2;
-  margin-left: $ring-unit * 4;
-  margin-bottom: $ring-unit * 2;
+  margin: 0 0 $ring-unit * 2 $ring-unit * 4;
   text-decoration: none;
-  color: $ring-link-color;
 
-  &:visited {
-    color: $ring-link-color;
+  body &:hover {
+    text-decoration: none !important;
   }
 
   &.active, &.ring-profile__item_active {
@@ -33,3 +31,8 @@
   }
 }
 
+.ring-profile__item__image {
+  vertical-align: bottom;
+  margin-right: $ring-unit;
+  width: $ring-unit * 2;
+}
