@@ -7,7 +7,13 @@
     line-height: 1.5;
   }
 
+  /* Remove vertical padding around content */
   .CodeMirror-lines {
+    padding: 0;
+  }
+
+  /* Remove horizontal padding of content */
+  .CodeMirror pre {
     padding: 0;
   }
 
