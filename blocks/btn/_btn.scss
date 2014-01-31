@@ -99,10 +99,15 @@ $ring-btn-border-radius: 3px;
 
   &:not(:hover):focus, &.ring-btn_focus {
     position: relative;
-    outline: 1px dotted #666\9; // IE 6+
     border-radius: $ring-btn-border-radius !important;
     box-shadow: 0 0 0 4px #92DBFF;
     z-index: 2;
+
+    outline: 1px dotted #666; // IE 8-
+
+    :root & {
+      outline: none;
+    }
   }
 }
 
