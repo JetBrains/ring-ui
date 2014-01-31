@@ -86,6 +86,12 @@ Remove an event handler
 
     module.off(event);
 
+### wait
+Returns a promise that will be fullfiled next time event fires
+
+    var module = ring('module');
+
+    module.wait(event);
 
 ### trigger
 Trigger Ring event
