@@ -14,28 +14,23 @@
       height: 100%;
     }
 
-
     .container {
       display: table;
       height: 100%;
     }
 
-    .hidden {
-      width: 0 !important;
-      min-width: 0 !important;
+    .profile div {
+      transition: visibility 0s 0.2s, width 0.5s;
     }
 
-    .hidden a {
-      display: none;
+    .hidden div {
+      visibility: hidden;
+      width: 0;
+      transition: visibility 0s 0.1s, width 0.5s;
     }
 
-    .ring-profile {
-      min-width: 256px;
-      transition: min-width 0.5s;
-
-    }
-
-    .demo, .ring-profile {
+    .demo, .profile {
+      vertical-align: top;
       display: table-cell;
     }
 
@@ -253,13 +248,7 @@
                            }
                          }]
           },
-          "toggle-profile": {
-            "type": "button",
-              "button": {
-              "label": "Toggle profile",
-              "event": "menu:toggle-profile"
-            }
-          }
+          "toggle-profile": {}
         },
         "right": {
           "search": {
@@ -302,6 +291,9 @@
               "event": "header:login"
             }
           }
+        },
+        profile: {
+          targetElem: '.profile'
         }
       });
 
@@ -320,31 +312,8 @@
         ]
       }, '.demo', 'append');
 
-      ring('profile')('init', [
-        {
-          label: 'Profile',
-          url: '',
-          active: true
-        }, {
-          label: 'YouTrack',
-          url: ''
-        }, {
-          label: 'TeamCity',
-          url: ''
-        }, {
-          label: 'Upsource',
-          url: ''
-        }, {
-          label: 'Confluence',
-          url: ''
-        }, {
-          label: 'Jing',
-          url: ''
-        }
-      ], '.demo', 'before');
-
       o.on('menu:toggle-profile', function() {
-        $('.ring-profile').toggleClass('hidden');
+        $('.profile').toggleClass('hidden');
       });
 
       o.on('dropdown:test', function (e) {
@@ -356,6 +325,16 @@
 
       o.on('header:login', function() {
         auth('init', authData);
+      });
+
+      o.on('auth:init:done', function() {
+        ring('menu')('update', 'left.toggle-profile', {
+          "type": "button",
+          "button": {
+            "label": "Services profiles",
+            "event": "menu:toggle-profile"
+          }
+        });
       });
 
       auth('init', $.extend({
@@ -429,6 +408,7 @@
 </head>
 <body>
 <div class="container">
+  <div class="profile hidden"></div>
   <div class="demo">
     <div class="demo__content">
       <h2 class="demo__header">Docs</h2>
