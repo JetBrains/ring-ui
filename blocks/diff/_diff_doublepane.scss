@@ -2,7 +2,7 @@
 
 // NB: colours from IntelliJ IDEA default colour scheme.
 $added_outline: #B2BCB2;
-$added_background: #D1F3D2;
+$added_background: #EDFAED;
 $added_chars: #D1F3D2;
 
 $modified_outline: #B2B7BF;
@@ -115,16 +115,19 @@ $map_borders: 1px;
   }
 
   .ring-diff-chars_added {
+    padding: 2px 0;
     background: $added_chars;
     font-weight: bold;
   }
 
   .ring-diff-chars_modified {
+    padding: 2px 0;
     background: $modified_chars;
     font-weight: bold;
   }
 
   .ring-diff-chars_deleted {
+    padding: 2px 0;
     background: $deleted_chars;
     font-weight: bold;
   }
@@ -147,7 +150,9 @@ $map_borders: 1px;
       border-top: solid 1px $deleted_outline;
     }
 
-    & + pre .ring-diff-chars_modified {
+    & ~ pre .ring-diff-chars_added,
+    & ~ pre .ring-diff-chars_modified,
+    & ~ pre .ring-diff-chars_deleted {
       padding-top: 1px;
     }
   }
@@ -165,7 +170,9 @@ $map_borders: 1px;
       border-bottom: solid 1px $deleted_outline;
     }
 
-    & + pre .ring-diff-chars_modified {
+    & ~ pre .ring-diff-chars_added,
+    & ~ pre .ring-diff-chars_modified,
+    & ~ pre .ring-diff-chars_deleted {
       padding-bottom: 1px;
     }
   }
