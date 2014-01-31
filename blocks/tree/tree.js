@@ -31,12 +31,11 @@ define([
     }
   }
 
-  var cache = {};
-
   var Tree = function (list, options) {
     this.list_ = (list && list.length) ? list.slice(0) : [];
     this.tree_ = null;
     this.$el = null;
+    this.cache_ = {};
     this.options_ = options || { message: 'List is empty' };
     this.prepare();
   };
@@ -73,8 +72,8 @@ define([
           type: i === (l-1) ? 'file' : 'dir'
         };
 
-        if (node.type === 'dir' && !cache[node.name + ':' + node.type]) {
-          cache[node.name + ':' + node.type] = { opened: false };
+        if (node.type === 'dir' && !this.cache_[node.name + ':' + node.type]) {
+          this.cache_[node.name + ':' + node.type] = { opened: false };
         }
 
         if (node.type === 'dir') {
@@ -198,7 +197,7 @@ define([
         item.children.$el = $(listTpl());
         item.$el.append(item.children.$el);
 
-        var state = cache[item.name + ':dir'];
+        var state = this.cache_[item.name + ':dir'];
 
         if (state.opened) {
           item.$el.addClass('ring-tree__item-dir--opened');
@@ -258,7 +257,7 @@ define([
         $(e.currentTarget) : null;
 
     if ($target) {
-      var state = cache[$target.data('name') + ':dir'];
+      var state = this.cache_[$target.data('name') + ':dir'];
       state.opened = !state.opened;
       $target.toggleClass('ring-tree__item-dir--opened');
 
