@@ -1,8 +1,15 @@
-define(['global/global', 'chai'], function(ring, chai) {
+define(['global/global', 'chai', 'global/global__utils'], function(ring, chai, utils) {
   'use strict';
   var o = ring();
 
   var expect = chai.expect;
+  var expectDeferred = function(deferred) {
+    if ('pipe' in deferred) {
+      delete deferred.pipe;
+    }
+
+    return expect(deferred);
+  };
 
   describe('Events', function () {
     var moduleName = 'test-Events-Module';
@@ -122,6 +129,38 @@ define(['global/global', 'chai'], function(ring, chai) {
       it('second one time trigger should not run functions', function () {
         module.trigger('one-test', true);
         handler.should.have.been.calledOnce;
+      });
+
+    });
+
+    describe('Wait', function () {
+      var handler = sinon.spy();
+
+      beforeEach(function(){
+        handler.reset();
+      });
+
+      it('wait should return deferred', function () {
+        utils.isDeferred(module.wait('wait-test')).should.be.true;
+      });
+
+      it('wait should run functions', function () {
+        module.wait('wait-test1').then(handler);
+        module.trigger('wait-test1', true);
+        handler.should.have.been.called;
+      });
+
+      it('wait should run functions once', function () {
+        module.wait('wait-test2').then(handler);
+        module.trigger('wait-test2', true);
+        module.trigger('wait-test2', true);
+        handler.should.have.been.calledOnce;
+      });
+
+      it('wait promise should return triggered result', function () {
+        var data = {};
+        expectDeferred(module.wait('wait-test3')).eventually.equal(data);
+        module.trigger('wait-test3', data);
       });
 
     });

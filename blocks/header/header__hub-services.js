@@ -19,13 +19,7 @@ define(['jquery', 'global/global__modules', 'header/header', 'auth/auth'], funct
   var auth = Module.get('auth');
   var header = Module.get('header');
 
-  var authInited = $.Deferred();
-  var headerInited = $.Deferred();
-
-  auth.on('init:done', authInited.resolve.bind(authInited));
-  header.on('init:done', headerInited.resolve.bind(headerInited));
-
-  $.when(headerInited, authInited)
+  $.when(auth.wait('init:done'), header.wait('init:done'))
     .then(function() {
       header.trigger('services');
       return auth('get', 'api/rest/services?query=is:+verified');
