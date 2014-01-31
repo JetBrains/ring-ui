@@ -131,6 +131,14 @@ define(['jquery', 'global/global__utils'], function($, utils) {
     return ret;
   };
 
+  methods.wait = function(scope, signature) {
+    var dfd = $.Deferred();
+
+    this.on(signature, $.proxy(dfd, 'resolve'), true);
+
+    return dfd;
+  };
+
   methods.trigger = function(scope, signature, data, e) {
     var ret = true;
     var event = parseSignature(signature, scope)[0];
