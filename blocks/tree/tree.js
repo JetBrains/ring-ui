@@ -203,6 +203,8 @@ define([
         if (state.opened) {
           item.$el.addClass('ring-tree__item-dir--opened');
         }
+      } else {
+        item.$el.data('item', item);
       }
 
       arr.$el.append(item.$el);
@@ -259,11 +261,23 @@ define([
       var state = cache[$target.data('name') + ':dir'];
       state.opened = !state.opened;
       $target.toggleClass('ring-tree__item-dir--opened');
+
+      if (this.options_.onDirClick) {
+        this.options_.onDirClick(state.opened);
+      }
     }
   };
 
   Tree.prototype.onFileClick_ = function (e) {
-    console.log('onFileClick_', e);
+    e.stopPropagation();
+    
+    var $target = $(e.target).hasClass(Tree.SELECTOR.FILE.slice(1)) ?
+      $(e.target) : $(e.currentTarget).hasClass(Tree.SELECTOR.FILE.slice(1)) ?
+        $(e.currentTarget) : null;
+
+    if ($target && this.options_.onFileClick) {
+      this.options_.onFileClick($target.data('item').value);
+    }
   };
 
   Module.add('tree', {
