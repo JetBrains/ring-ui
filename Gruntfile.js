@@ -35,6 +35,62 @@ module.exports = function(grunt) {
     }
   };
 
+  // All of this just because of:
+  // * spawn: false
+  // * https://github.com/gruntjs/grunt-contrib-watch/issues/231
+  var LIVERELOAD_TASK = 'watch';
+  var watchConfig = {};
+  if (process.argv.indexOf(LIVERELOAD_TASK) === -1) {
+    grunt.util.spawn({
+      grunt: true,
+      args: [LIVERELOAD_TASK]
+    });
+
+    grunt.log.ok('Add :styleguide target to livereload styleguide generated files');
+
+    watchConfig = {
+      options: {
+        livereload: false,
+        spawn: false
+      },
+      styles: {
+        files: ['<%= path.blocks %>**/*.scss', '<%= path.bundles %>**/*.scss', '<%= path.blocks %>**/*.md'],
+        tasks: process.argv.indexOf('styleguide') !== -1 ? ['styles', 'styleguide'] : ['styles']
+      },
+      js: {
+        files: ['<%= path.blocks %>**/*.js', '<%= path.bundles %>**/*.js', '<%= path.tests %>**/*.js'],
+        tasks: ['jshint:dev', 'copy:blocks', 'karma:dev:run']
+      },
+      markdown: {
+        files: ['<%= path.docs %>**/*.md'],
+        tasks: ['docs']
+      },
+      templates: {
+        files: ['<%= path.blocks %>**/*.hbs'],
+        tasks: ['templates']
+      }
+    };
+  } else {
+    watchConfig = {
+      options: {
+        livereload: LIVERELOAD_PORT,
+        spawn: false
+      },
+      page: {
+        tasks: ['notify:page'],
+        files: ['{,<%= path.dist %>}{,*/}*.html']
+      },
+      styles: {
+        tasks: ['notify:styles'],
+        files: ['<%= path.dist %>{,*/}*.css']
+      },
+      scripts: {
+        tasks: ['notify:scripts'],
+        files: ['{<%= path.blocks %>,<%= path.temp %>,<%= path.dist %>}{,*/}*.js']
+      }
+    };
+  }
+
   var pkg = grunt.file.readJSON('package.json');
 
   // Set version option form build option
@@ -420,41 +476,25 @@ module.exports = function(grunt) {
 
 
     // Development
-    watch: {
-      options: {
-        livereload: LIVERELOAD_PORT,
-        spawn: false
-      },
-      scss: {
-        files: ['<%= path.blocks %>**/*.scss', '<%= path.bundles %>**/*.scss', '<%= path.blocks %>**/*.md'],
-        tasks: ['styles', 'styleguide', 'notify:watch']
-      },
-      reload: {
-        files: ['<%= path.blocks %>**/*.html', '*.html'],
-        tasks: ['notify:watch']
-      },
-      js: {
-        files: ['<%= path.blocks %>**/*.js', '<%= path.bundles %>**/*.js', '<%= path.tests %>**/*.js'],
-        tasks: ['jshint:dev', 'copy:blocks', 'karma:dev:run', 'notify:watch']
-      },
-      markdown: {
-        files: ['<%= path.docs %>**/*.md'],
-        tasks: ['docs', 'notify:watch']
-      },
-      templates: {
-        files: ['<%= path.blocks %>**/*.hbs'],
-        tasks: ['templates', 'notify:watch']
-      },
-      angular: {
-        files: ['<%= path.blocks %>**/*.ng.*'],
-        tasks: ['copy:blocks', 'notify:watch']
-      }
-    },
+    watch: watchConfig,
     notify: {
-      watch: {
+      options: {
+        title: 'grunt'
+      },
+      page: {
         options: {
           title: 'grunt',
           message: 'Page reloaded'
+        }
+      },
+      styles: {
+        options: {
+          message: 'Styles reloaded'
+        }
+      },
+      scripts: {
+        options: {
+          message: 'Scripts reloaded'
         }
       }
     },
