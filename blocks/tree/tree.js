@@ -232,23 +232,6 @@ define([
     this.$el.on('click', Tree.SELECTOR.FILE, function (e) {
       self.onFileClick_(e);
     });
-
-    $(document).on('keydown', [Tree.SELECTOR.DIR, Tree.SELECTOR.FILE], function (e) {
-      var SPACE_KEY = 32;
-
-      if (e.keyCode === SPACE_KEY) {
-
-        if ($(e.target).hasClass('ring-tree__item-dir')) {
-          e.preventDefault();
-          self.onDirClick_(e);
-        }
-
-        else if ($(e.target).hasClass('ring-tree__item-file')) {
-          e.preventDefault();
-          self.onFileClick_(e);
-        }
-      }
-    });
   };
 
   Tree.prototype.onDirClick_ = function (e) {
@@ -264,7 +247,7 @@ define([
       $target.toggleClass('ring-tree__item-dir--opened');
 
       if (this.options_.onDirClick) {
-        this.options_.onDirClick(state.opened);
+        this.options_.onDirClick(state.opened, $target);
       }
     }
   };
@@ -277,7 +260,7 @@ define([
         $(e.currentTarget) : null;
 
     if ($target && this.options_.onFileClick) {
-      this.options_.onFileClick($target.data('item').value);
+      this.options_.onFileClick($target.data('item').value, $target);
     }
   };
 
