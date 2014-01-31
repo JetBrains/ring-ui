@@ -58,7 +58,8 @@ define([
     }
 
     var i, l,
-        tree = [];
+        tree = [],
+        cache = this.cache_;
 
     function prepareItem (item) {
       var i, l, partPath, node,
@@ -72,8 +73,8 @@ define([
           type: i === (l-1) ? 'file' : 'dir'
         };
 
-        if (node.type === 'dir' && !this.cache_[node.name + ':' + node.type]) {
-          this.cache_[node.name + ':' + node.type] = { opened: false };
+        if (node.type === 'dir' && !cache[node.name + ':' + node.type]) {
+          cache[node.name + ':' + node.type] = { opened: false };
         }
 
         if (node.type === 'dir') {
@@ -170,7 +171,8 @@ define([
     var listTpl = this.options_.listTemplate || Handlebars.partials[Tree.TEMPLATE.LIST],
         listItemTpl = this.options_.listItemTemplate || Handlebars.partials[Tree.TEMPLATE.LIST_ITEM];
 
-    var $rootEl = this.$el;
+    var $rootEl = this.$el,
+        cache = this.cache_;
 
     if (!this.tree_) {
       var emptyTpl = this.options_.emptyTemplate || Handlebars.partials[Tree.TEMPLATE.EMPTY],
@@ -197,7 +199,7 @@ define([
         item.children.$el = $(listTpl());
         item.$el.append(item.children.$el);
 
-        var state = this.cache_[item.name + ':dir'];
+        var state = cache[item.name + ':dir'];
 
         if (state.opened) {
           item.$el.addClass('ring-tree__item-dir--opened');
