@@ -19,7 +19,7 @@ requirejs.config({
     'jquery-caret': '../components/jquery-caret/jquery.caret',
     'handlebars' : '../tmp/handlebars',
     'codemirror' : '../components/codemirror/lib/codemirror',
-    'storage'    : '../components/polyfill/storage',
+    'storage'    : '../components/polyfill/obsolete/storage',
     'json'       : '../components/json2/json2',
     'jso'        : '../components/jso/jso',
     'raphael'    : '../components/raphael/raphael-min',
