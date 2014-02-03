@@ -38,8 +38,11 @@ define(['jquery',  'global/global__modules', 'global/global__views', 'auth/auth'
         });
 
       $.when(services, user).then(function(services, user) {
+        user = user && user[0] || {};
+
         var items = services && services[0] && services[0].services || [];
-        var userName = user && user[0] && user[0].name || '';
+        var userName = user.name || '';
+        var avatar = user.avatar && user.avatar.pictureUrl;
 
         if (items) {
           items.sort(function(a, b) {
@@ -48,11 +51,12 @@ define(['jquery',  'global/global__modules', 'global/global__views', 'auth/auth'
 
           items = $.map(items, function(item) {
             var profileUrl = item.profileUrl || profileUrls[item.applicationName];
+            var isHub = item.applicationName === 'JetPass' || item.applicationName === 'Hub';
 
             return !profileUrl ? null : {
               url: item.homeUrl + profileUrl.replace('%u', userName),
-              label: item.name,
-              image: item.iconUrl || null,
+              label: isHub ? 'Profile' : item.name,
+              image: (isHub ? avatar :  item.iconUrl) || null,
               active: auth.get('config').client_id === item.id
             };
           });
