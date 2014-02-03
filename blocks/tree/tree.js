@@ -36,7 +36,10 @@ define([
     this.tree_ = null;
     this.$el = null;
     this.cache_ = {};
+    this.fileSelector_ = '.ring-tree__item-filename';
+    this.dirSelector_ = '.ring-tree__item-direname';
     this.options_ = options || { message: 'List is empty' };
+    this.$containerEl = $('<div class="ring-treeContainer">');
     this.prepare();
   };
 
@@ -44,11 +47,6 @@ define([
     LIST: 'tree',
     LIST_ITEM: 'tree__item',
     EMPTY: 'tree-empty'
-  };
-
-  Tree.SELECTOR = {
-    FILE: '.ring-tree__item-file',
-    DIR: '.ring-tree__item-dir'
   };
 
   Tree.prototype.prepare = function () {
@@ -137,15 +135,10 @@ define([
   };
 
   Tree.prototype.refresh = function (list) {
-    var i, l;
+    var i, l, j, jl, refreshList = [];
 
     if (list.path) {
-      for (i=0, l=this.list_.length; i<l; i++) {
-        if (this.list_[i].path === list.path) {
-          this.list_[i] = list;
-          break;
-        }
-      }
+      refreshList[list];
     }
 
     else if (!list || list.length === 0) {
@@ -153,7 +146,15 @@ define([
     }
 
     else if (list.length) {
-      this.list_ = list;
+      refreshList = list;
+    }
+
+    for (i=0, l=refreshList.length; i<l; i++) {
+      for (j=0, jl=this.list_.length; j<jl; j++) {
+        if (this.list_[j].path === refreshList[i].path) {
+          this.list_[j] = refreshList[i];
+        }
+      }
     }
 
     this.prepare();
@@ -167,9 +168,18 @@ define([
     this.render();
   };
 
+  Tree.prototype.getDirItems = function ($el) {
+    var $els = $el.find('.ring-tree__item-file'),
+        items = $els.map(function (i, el) {
+          return $(el).data('item').value;
+        });
+    return items;
+  };
+
   Tree.prototype.render = function () {
     var listTpl = this.options_.listTemplate || Handlebars.partials[Tree.TEMPLATE.LIST],
-        listItemTpl = this.options_.listItemTemplate || Handlebars.partials[Tree.TEMPLATE.LIST_ITEM];
+        listItemTpl = this.options_.listItemTemplate || Handlebars.partials[Tree.TEMPLATE.LIST_ITEM],
+        self = this;
 
     var $rootEl = this.$el,
         cache = this.cache_;
@@ -183,8 +193,9 @@ define([
       }
 
       this.$el = $el;
+      this.$containerEl.html('').append(this.$el);
 
-      return $el;
+      return this.$containerEl;
     }
 
     traverse(this.tree_, function (item, index, arr) {
@@ -204,8 +215,16 @@ define([
         if (state.opened) {
           item.$el.addClass('ring-tree__item-dir--opened');
         }
+
+        item.$el.on('click', function (e) {
+          self.onDirClick_(e, item.$el);
+        });
       } else {
         item.$el.data('item', item);
+
+        item.$el.on('click', function (e) {
+          self.onFileClick_(e, item.$el);
+        });
       }
 
       arr.$el.append(item.$el);
@@ -213,54 +232,43 @@ define([
 
     this.$el = this.tree_.$el;
 
-    this.bindListeners();
-
     if ($rootEl) {
       $rootEl.replaceWith(this.$el);
     }
 
-    return this.$el;
+    this.$containerEl.append(this.$el);
+
+    if (this.options_.onRender) {
+      this.options_.onRender(this);
+    }
+
+    return this.$containerEl;
   };
 
-  Tree.prototype.bindListeners = function () {
-    var self = this;
+  Tree.prototype.onDirClick_ = function (e, $el) {
+    if (!$(e.target).hasClass('ring-tree__item-dirname')) {
+      return;
+    }
 
-    this.$el.on('click', Tree.SELECTOR.DIR, function (e) {
-      self.onDirClick_(e);
-    });
-
-    this.$el.on('click', Tree.SELECTOR.FILE, function (e) {
-      self.onFileClick_(e);
-    });
-  };
-
-  Tree.prototype.onDirClick_ = function (e) {
     e.stopPropagation();
+    var state = this.cache_[$el.data('name') + ':dir'];
+    state.opened = !state.opened;
+    $el.toggleClass('ring-tree__item-dir--opened');
 
-    var $target = $(e.target).hasClass(Tree.SELECTOR.DIR.slice(1)) ?
-      $(e.target) : $(e.currentTarget).hasClass(Tree.SELECTOR.DIR.slice(1)) ?
-        $(e.currentTarget) : null;
-
-    if ($target) {
-      var state = this.cache_[$target.data('name') + ':dir'];
-      state.opened = !state.opened;
-      $target.toggleClass('ring-tree__item-dir--opened');
-
-      if (this.options_.onDirClick) {
-        this.options_.onDirClick(state.opened, $target);
-      }
+    if (this.options_.onDirClick) {
+      this.options_.onDirClick($el);
     }
   };
 
-  Tree.prototype.onFileClick_ = function (e) {
-    e.stopPropagation();
-    
-    var $target = $(e.target).hasClass(Tree.SELECTOR.FILE.slice(1)) ?
-      $(e.target) : $(e.currentTarget).hasClass(Tree.SELECTOR.FILE.slice(1)) ?
-        $(e.currentTarget) : null;
+  Tree.prototype.onFileClick_ = function (e, $el) {
+    if (!$(e.target).hasClass('ring-tree__item-filename')) {
+      return;
+    }
 
-    if ($target && this.options_.onFileClick) {
-      this.options_.onFileClick($target.data('item').value, $target);
+    e.stopPropagation();
+
+    if (this.options_.onFileClick) {
+      this.options_.onFileClick($el, $el.data('item').value);
     }
   };
 
