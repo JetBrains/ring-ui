@@ -91,7 +91,7 @@ Returns a promise that will be fullfiled next time event fires
 
     var module = ring('module');
 
-    module.wait(event);
+    module.when(event);
 
 ### trigger
 Trigger Ring event
