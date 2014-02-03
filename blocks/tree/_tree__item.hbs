@@ -1,1 +1,9 @@
-<li class="ring-tree__item ring-tree__item-{{ type }}" role="treeitem"><div class="ring-tree__item-name">{{ name }}</div></li>
+<li class="ring-tree__item ring-tree__item-{{ type }}" role="treeitem">
+	{{#if value}}
+	<input type="checkbox" class="ring-tree__item-fileCheckbox" {{#if value.isSelected}} checked {{/if}}>
+	<span class="ring-tree__item-name ring-tree__item-{{ type }}name">{{ name }}</s[an>
+	{{else}}
+	<input type="checkbox" class="ring-tree__item-dirCheckbox">
+	<span class="ring-tree__item-name ring-tree__item-{{ type }}name">{{ name }}</span>
+	{{/if}}
+</li>
