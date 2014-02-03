@@ -22,7 +22,7 @@ define(['jquery',  'global/global__modules', 'global/global__views', 'auth/auth'
       config = config || {};
 
       var services = auth
-        .wait('init:done')
+        .when('init:done')
         .then(function() {
           var apps = $.map(profileUrls, function (value, key) {
             return 'applicationName:+{' + key + '}';
@@ -32,7 +32,7 @@ define(['jquery',  'global/global__modules', 'global/global__views', 'auth/auth'
         });
 
       var user = auth
-        .wait('init:done')
+        .when('init:done')
         .then(function() {
           return auth('get', auth.get('config').apiProfilePath);
         });

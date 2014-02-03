@@ -133,34 +133,34 @@ define(['global/global', 'chai', 'global/global__utils'], function(ring, chai, u
 
     });
 
-    describe('Wait', function () {
+    describe('when', function () {
       var handler = sinon.spy();
 
       beforeEach(function(){
         handler.reset();
       });
 
-      it('wait should return deferred', function () {
-        utils.isDeferred(module.wait('wait-test')).should.be.true;
+      it('when should return deferred', function () {
+        utils.isDeferred(module.when('when-test')).should.be.true;
       });
 
-      it('wait should run functions', function () {
-        module.wait('wait-test1').then(handler);
-        module.trigger('wait-test1', true);
+      it('when should run functions', function () {
+        module.when('when-test1').then(handler);
+        module.trigger('when-test1', true);
         handler.should.have.been.called;
       });
 
-      it('wait should run functions once', function () {
-        module.wait('wait-test2').then(handler);
-        module.trigger('wait-test2', true);
-        module.trigger('wait-test2', true);
+      it('when should run functions once', function () {
+        module.when('when-test2').then(handler);
+        module.trigger('when-test2', true);
+        module.trigger('when-test2', true);
         handler.should.have.been.calledOnce;
       });
 
-      it('wait promise should return triggered result', function () {
+      it('when promise should return triggered result', function () {
         var data = {};
-        expectDeferred(module.wait('wait-test3')).eventually.equal(data);
-        module.trigger('wait-test3', data);
+        expectDeferred(module.when('when-test3')).eventually.equal(data);
+        module.trigger('when-test3', data);
       });
 
     });
