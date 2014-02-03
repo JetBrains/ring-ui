@@ -35,15 +35,15 @@ module.exports = function(grunt) {
     }
   };
 
+  // FIXME Convert to grunt task
   // All of this just because of:
   // * spawn: false
   // * https://github.com/gruntjs/grunt-contrib-watch/issues/231
-  var LIVERELOAD_TASK = 'watch';
   var watchConfig = {};
-  if (process.argv.indexOf(LIVERELOAD_TASK) === -1) {
+  if (process.argv.join(':').split(':').indexOf('server') !== -1) {
     grunt.util.spawn({
       grunt: true,
-      args: [LIVERELOAD_TASK]
+      args: ['watch']
     });
 
     grunt.log.ok('Add :styleguide target to livereload styleguide generated files');
