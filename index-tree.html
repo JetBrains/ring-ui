@@ -20,31 +20,73 @@
   <script type="text/javascript">
     require(['ring', 'tree/tree'], function (ring) {
       var files = [
-        { path: 'webui/scripts/views/list_view1.coffee' },
-        { path: 'config.js' },
-        { path: 'webui/scripts/views/list_view2.coffee' },
-        { path: 'webui/styles/main.scss' }
+        { path: 'webui/scripts/views/list_view1.coffee', isSelected: true },
+        { path: 'config.js', isSelected: true },
+        { path: 'webui/scripts/views/list_view2.coffee', isSelected: true },
+        { path: 'webui/styles/main.scss', isSelected: true }
       ];
 
       var Tree = ring('tree').invoke('getTree'),
           tree1 = new Tree(files, {
-            onFileClick: function (model) {
-              console.log('onFileClick', model);
-            },
-            onDirClick: function (isOpened) {
-              console.log('onDirClick', isOpened);
-            }
+            onRender: updateState,
+            onFileClick: function ($el) {},
+            onDirClick: function ($el) {}
           });
           tree2 = new Tree(),
           tree3 = new Tree(null, {
             message: 'Custom message for empty tree'
           });
 
+      tree1.$containerEl.on('click', '.ring-tree__item-dirCheckbox', function (e) {
+        e.stopPropagation();
+        var state = e.target.checked,
+            items = tree1.getDirItems($(e.target.parentNode));
+
+        items.each(function (i, item) {
+          item.isSelected = state;
+          // var id = el.getAttribute('id'),
+          //     model = collection.get(id);
+          // model.set('isSelected', state);
+        });
+        tree1.refresh(items);
+      });
+
+      tree1.$containerEl.on('click', '.ring-tree__item-fileCheckbox', function (e) {
+        e.stopPropagation();
+
+        var state = e.target.checked,
+            el = e.target.parentNode,
+            item = $(el).data('item').value;
+
+        item.isSelected = state;
+        tree1.refresh(item);
+
+        // var state = e.target.checked,
+        //     id = e.target.parentNode.getAttribute('id'),
+        //     model = collection.get('id');
+
+        // model.set('isSelected', state);
+      });
+
+      function updateState(treeInstance) {
+        var $dirChbxEls = treeInstance.$containerEl.find('.ring-tree__item-dirCheckbox');
+        $dirChbxEls.each(function (i, el) {
+          var selectedItems = [],
+              $items = treeInstance.getDirItems($(el).parent());
+
+          $items.each(function (i, item) {
+            if (item.isSelected) { selectedItems.push(item); }
+          });
+
+          el.checked = selectedItems.length === $items.length;
+        });
+      }
+
       document.body.appendChild(tree1.render()[0]);
 
       setTimeout(function () {
         tree1.add([
-          { path: 'webui/styles/base.scss' }
+          { path: 'webui/styles/base.scss', isSelected: true }
         ]);
 
         setTimeout(function () {
@@ -55,9 +97,10 @@
 
           setTimeout(function () {
             tree1.add([
-              { path: 'webui/styles/new/main.scss' }
+              { path: 'webui/styles/new/main.scss', isSelected: false }
             ]);
           }, 2000);
+
         }, 2000);
 
       }, 2000);
