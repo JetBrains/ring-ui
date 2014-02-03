@@ -7,11 +7,20 @@ define(['jquery',  'global/global__modules', 'global/global__views', 'dropdown/d
     if (data.user) {
       var links = data.personalLinks && data.personalLinks.length ? [].concat(data.personalLinks) : [];
 
-      for (var link in data.authLinks) {
-        if (link !== 'login') {
-          links.push(data.authLinks[link]);
+      // Fix duplicate profile links in YouTrack
+      // TODO Figure out if they should be always defined in Hub
+      var linksLabels = {};
+      $.each(links, function(index, link) {
+        if (link && link.label) {
+          linksLabels[link.label] = true;
         }
-      }
+      });
+
+      $.each(data.authLinks, function(index, link) {
+        if (index !== 'login' && !linksLabels[link.label]) {
+          links.push(link);
+        }
+      });
 
       data.personal = {
         username: data.user.name,
