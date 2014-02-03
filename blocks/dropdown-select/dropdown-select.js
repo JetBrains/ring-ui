@@ -58,7 +58,7 @@ define([
 
     dropdown('hide');
     return dropdown('show', {
-      'type': 'prop-manager',
+      'type': 'dropdown-select',
       'header-title':'Add to',
       'footer-title':'Remove from',
       'items': items

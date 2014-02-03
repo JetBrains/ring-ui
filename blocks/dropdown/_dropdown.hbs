@@ -1,26 +1,26 @@
 <div class="ring-dropdown{{#type}} ring-dropdown_{{this}}{{/type}}">
-    <div class="ring-dropdown__i">
-        {{{html}}}
-        {{#ifEqual type 'prop-manager'}}
-            <span class="ring-dropdown__item ring-dropdown__item__controls">
+  <div class="ring-dropdown__i">
+      {{{html}}}
+      {{#ifEqual type 'dropdown-select'}}
+        <span class="ring-dropdown__item ring-dropdown__item__controls">
             <span class="ring-dropdown__item__controls__title">{{ header-title }}</span>
             <input class="ring-input ring-js-event ring-js-dropdown-input">
           </span>
-        {{/ifEqual}}
-        {{#type}}
-            {{#ifEqual this 'prop-manager'}}
-            <div class="ring-dropdown__items">
-            {{/ifEqual}}
-        {{/type}}
-        {{> dropdown__items }}
-        {{#type}}
-            {{#ifEqual this 'prop-manager'}}
-            </div>
-            {{/ifEqual}}
-        {{/type}}
-    </div>
-    {{#ifEqual type 'prop-manager'}}
-        <span class="ring-dropdown__separator"> </span>
+      {{/ifEqual}}
+      {{#type}}
+          {{#ifEqual this 'dropdown-select'}}
+          <div class="ring-dropdown__items">
+          {{/ifEqual}}
+      {{/type}}
+      {{> dropdown__items }}
+      {{#type}}
+          {{#ifEqual this 'dropdown-select'}}
+          </div>
+          {{/ifEqual}}
+      {{/type}}
+  </div>
+    {{#ifEqual type 'dropdown-select'}}
+      <span class="ring-dropdown__separator"> </span>
         <span class="ring-dropdown__item ring-dropdown__item__controls">
           <span class="ring-dropdown__item__controls__title ring-js-event ring-js-dropdown-toggle"
                 data-ring-event='{"name":"dropdown:toggle"}'>{{ footer-title }}</span>
@@ -28,7 +28,7 @@
     {{/ifEqual}}
     {{#type}}
         {{#ifEqual this 'typed'}}
-            <span class="ring-dropdown__item ring-dropdown__item_hint">
+          <span class="ring-dropdown__item ring-dropdown__item_hint">
           <span class="ring-dropdown__item__type"></span>
           <span class="ring-dropdown__item__content">Use ↩ to complete selected item</span>
         </span>
