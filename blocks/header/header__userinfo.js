@@ -5,18 +5,12 @@ define(['jquery', 'global/global__modules', 'global/global__views', 'header/head
   var auth = Module.get('auth');
   var header = Module.get('header');
 
-  var authInited = $.Deferred();
-  var headerInited = $.Deferred();
-
-  auth.on('init:done', authInited.resolve.bind(authInited));
-  header.on('init:done', headerInited.resolve.bind(headerInited));
-
   header.on('logout', auth.trigger.bind(auth, 'logout'));
 
   var authConfig;
   var headerConfig;
 
-  $.when(headerInited, authInited)
+  $.when(auth.when('init:done'), header.when('init:done'))
     .then(function() {
       authConfig = auth.get('config');
       headerConfig = header.get('view');
