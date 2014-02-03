@@ -180,5 +180,4 @@ define([
       override: true
     }
   });
-})
-;
+});
