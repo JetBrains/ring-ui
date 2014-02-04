@@ -68,6 +68,9 @@
         priority: 10,
         link: function ($scope, element, attrs, form) {
           if (form) {
+            var promise;
+            var count = 0;
+
             (function poll() {
               var filled;
 
@@ -83,10 +86,16 @@
                 }
               });
 
-              if (!filled) {
-                $timeout(poll, 150);
+              if (!filled || count < 5) {
+                promise = $timeout(poll, 150);
+                count++;
               }
             }());
+
+            element.on('$destroy', function() {
+                $timeout.cancel(promise);
+              });
+
           }
         }
       };
