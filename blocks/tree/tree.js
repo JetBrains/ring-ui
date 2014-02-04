@@ -63,17 +63,24 @@ define([
     function prepareItem (item) {
       var i, l, partPath, node,
           path = item.path.replace(/^\/|\/$/g, '').split('/'),
-          curTree = tree;
+          curTree = tree,
+          sumPath = '';
 
       for (i=0, l=path.length; i<l; i++) {
         partPath = path[i];
+
+        sumPath += '/' + partPath;
+        
         node = {
           name: partPath,
+          parentPath: sumPath,
           type: i === (l-1) ? 'file' : 'dir'
         };
 
-        if (node.type === 'dir' && !cache[node.name + ':' + node.type]) {
-          cache[node.name + ':' + node.type] = { opened: false };
+        if (node.type === 'dir' && !cache[node.parentPath + ':' + node.type]) {
+          cache[node.parentPath + ':' + node.type] = { opened: false, focused: false };
+        } else if (node.type === 'file' && !cache[node.parentPath + ':' + node.type]) {
+          cache[node.parentPath + ':' + node.type] = { focused: false };
         }
 
         if (node.type === 'dir') {
@@ -185,7 +192,7 @@ define([
   Tree.prototype.getItemValue = function (uuid) {
     var $el = this.$containerEl.find('[data-uuid="' + uuid + '"]');
 
-    if (!el || $el.length === 0) {
+    if (!$el || $el.length === 0) {
       return;
     }
 
@@ -214,19 +221,26 @@ define([
       return this.$containerEl;
     }
 
+    var $focusedEl;
+
     traverse(this.tree_, function (item, index, arr) {
       if (!arr.$el) {
         arr.$el = $(listTpl());
       }
 
+      var state = cache[item.parentPath + ':' + item.type];
+
       item.$el = $(listItemTpl(item));
+      item.$el.data('parentPath', item.parentPath);
+      item.$el.data('type', item.type);
+
+      if (state.focused) {
+        $focusedEl = item.$el;
+      }
 
       if (item.type === 'dir') {
-        item.$el.data('name', item.name);
         item.children.$el = $(listTpl());
         item.$el.append(item.children.$el);
-
-        var state = cache[item.name + ':dir'];
 
         if (state.opened) {
           item.$el.addClass('ring-tree__item-dir--opened');
@@ -234,6 +248,40 @@ define([
 
         item.$el.on('click', function (e) {
           self.onDirClick_(e, item.$el);
+        });
+
+        var timer;
+
+        item.$el.on('keydown', function (e) {
+          var SPACE_KEY = 32,
+              TAB_KEY = 9,
+              $target = $(e.target);
+
+          if (e.keyCode !== SPACE_KEY && e.keyCode !== TAB_KEY) {
+            return;
+          }
+
+          if (e.keyCode === TAB_KEY) {
+            clearTimeout(timer);
+            timer = setTimeout(function () {
+              var $activeEl = document.activeElement ? $(document.activeElement).closest('[data-uuid]') : null;
+              if  (!$activeEl || $activeEl.length === 0) {
+                return;
+              }
+              self.onTabClick_(e, $activeEl);
+            }, 200);
+            return;
+          }
+
+          if ($target.hasClass('ring-tree__item-dir')) {
+            e.target = $target.find('.ring-tree__item-dirname')[0];
+            self.onDirClick_(e, $target);
+          }
+
+          else if ($target.hasClass('ring-tree__item-file')) {
+            e.target = $target.find('.ring-tree__item-filename')[0];
+            self.onFileClick_(e, $target);
+          }
         });
       } else {
         item.$el.data('item', item);
@@ -260,7 +308,22 @@ define([
       this.options_.onRender(this);
     }
 
+    if ($focusedEl) {
+      $focusedEl.focus();
+    }
+
     return this.$containerEl;
+  };
+
+  Tree.prototype.onTabClick_ = function (e, $activeElement) {
+    e.stopPropagation();
+
+    for (var name in this.cache_) {
+      this.cache_[name].focused = false;
+      if (name === $activeElement.data('parentPath') + ':' + $activeElement.data('type')) {
+        this.cache_[name].focused = true;
+      }
+    }
   };
 
   Tree.prototype.onDirClick_ = function (e, $el) {
@@ -269,7 +332,7 @@ define([
     }
 
     e.stopPropagation();
-    var state = this.cache_[$el.data('name') + ':dir'];
+    var state = this.cache_[$el.data('parentPath') + ':dir'];
     state.opened = !state.opened;
     $el.toggleClass('ring-tree__item-dir--opened');
 
