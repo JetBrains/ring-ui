@@ -20,22 +20,20 @@ define(['jquery',  'global/global__modules', 'global/global__views', 'auth/auth'
   Module.add(module, {
     init: function(config) {
       config = config || {};
+      var authConfig = auth.get('config');
+      var authInit = (authConfig === $.noop) ? auth.when('init:done') : $.Deferred().resolve(authConfig);
 
-      var services = auth
-        .when('init:done')
-        .then(function() {
-          var apps = $.map(profileUrls, function (value, key) {
-            return 'applicationName:+{' + key + '}';
-          }).join('+or+');
+      var services = authInit.then(function() {
+        var apps = $.map(profileUrls, function (value, key) {
+          return 'applicationName:+{' + key + '}';
+        }).join('+or+');
 
-          return auth('get', 'api/rest/services?query=is:+verified+and+(' + apps + ')');
-        });
+        return auth('get', 'api/rest/services?query=is:+verified+and+(' + apps + ')');
+      });
 
-      var user = auth
-        .when('init:done')
-        .then(function() {
-          return auth('get', auth.get('config').apiProfilePath);
-        });
+      var user = authInit.then(function(config) {
+        return auth('get', config.apiProfilePath);
+      });
 
       $.when(services, user).then(function(services, user) {
         user = user && user[0] || {};
