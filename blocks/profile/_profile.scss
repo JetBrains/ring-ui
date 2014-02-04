@@ -3,6 +3,7 @@
 .ring-profile {
   height: 100%;
   width: $ring-unit * 32;
+  box-sizing: border-box;
 
   background-color: #fff;
   border-right: 1px solid #D9D9D9;
