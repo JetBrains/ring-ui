@@ -1,83 +1,44 @@
-define(['jquery', 'global/global__views', 'global/global__modules', 'global/global__events'], function ($, View, Module, events) {
+define([
+  'jquery',
+  'global/global__views',
+  'global/global__modules',
+  'global/global__events',
+  'global/global__utils'
+], function ($, View, Module, events, utils) {
   'use strict';
-  var ITEM_ACTION_SELECTOR = '.ring-dropdown__item_action',
-    ACTIVE_CLASS = 'active',
-    DROPDOWN_MIN_RIGHT_MARGIN = 8,
-    DROPDOWN_BORDER_WIDTH = 2;
 
-  var $global = $(window),
-    $body,
-    $popup,
-    previousTarget;
+  var ROOT_SELECTOR = '.ring-dropdown';
+  var MENU_ITEM_SELECTOR = '.ring-menu__item';
+  var TOGGLE_SELECTOR = '.ring-dropdown-toggle';
 
+  var $global = $(window);
+  var $popup;
+
+  var DROPDOWN_MIN_RIGHT_MARGIN = 8;
+  var DROPDOWN_BORDER_WIDTH = 2;
+  var MODULE = 'popup';
 
   /**
-   *  @param config Object
-   *    target - DOM element, jQuery, jQuery selector
-   *    top - optional
-   *    left - optional
-   *    width - optional
+   *
+   * @param config
+   * @returns { el: popup jQuery element, getPos: func for position }
    */
   var create = function (config) {
-    var $target = $(config),
-      popup = Module.get('popup'),
-      currentTarget,
-      sameTarget;
+    var $target = _setTarget(config);
+    var dropdown = Module.get(MODULE);
 
-    if (!$target.length) {
-      throw new Error('Popup: target is undefined');
+    if (!$target) {
+      dropdown.trigger('show:fail');
+      return false;
     }
-
-    if (!$body) {
-      $body = $('body');
-    }
-
-
-    currentTarget = $target.get(0);
-    sameTarget = (currentTarget && previousTarget === currentTarget);
 
     remove();
-    if (sameTarget) {
-      popup.trigger('show:fail');
-      return true;
-    }
+    $popup = $(View.render(MODULE, ''));
 
-
-    previousTarget = currentTarget;
-
-    $popup = $(View.render('popup'));
-
-    $popup.appendTo($body);
-
-    /**
-     * @ToDo Extract method
-     */
-
-
-    $popup
-      .css(_getAbsCoords($target))
-      // Using delegate because of compatibility with YouTrack's jQuery 1.5.1
-    /**
-     * @ToDo Extract method
-     */
-      .delegate(ITEM_ACTION_SELECTOR, 'mouseenter.ring-dropdown', function (e) {
-        var $target = $(e.currentTarget);
-
-        if ($target.is(events.HOVER_SELECTOR)) {
-          events.domEventHandler(e);
-        }
-
-        $target
-          .addClass(ACTIVE_CLASS)
-          .siblings()
-          .removeClass(ACTIVE_CLASS);
-      });
-
-    popup.trigger('show:done');
-    $popup.on('DOMChange', function(e) {
-      $(e.target).css(_getAbsCoords($target));
-    });
-    return $popup;
+    return {
+      el: $popup,
+      getPos: _getPosition.bind(null, $target, $popup, config)
+    };
   };
 
   var remove = function () {
@@ -85,61 +46,108 @@ define(['jquery', 'global/global__views', 'global/global__modules', 'global/glob
       $popup.remove();
       $popup = null;
 
-      previousTarget = null;
-
-      Module.get('dropdown').trigger('hide:done');
-      return true;
+      Module.get(MODULE).trigger('hide:done');
     } else {
-      Module.get('dropdown').trigger('hide:fail');
-      return false;
+      Module.get(MODULE).trigger('hide:fail');
     }
   };
 
-  var _getAbsCoords = function ($target) {
-    var params,
-      config = {};
-    if (previousTarget) {
-      params = $target.offset();
-      var targetWidth = $target.width();
-
-      var dropdownWidth = $popup.width();
-
-      // Right alignment
-      if (params.left + dropdownWidth > $global.width() - DROPDOWN_MIN_RIGHT_MARGIN) {
-        params.left += targetWidth - dropdownWidth;
-      }
-
-      params.top += $target.outerHeight();
-
-      if (typeof config.left === 'number') {
-        params.left = config.left;
-      }
-
-      if (typeof config.top === 'number') {
-        params.top = config.top;
-      }
-
-      if (config.width) {
-        params.width = config.width;
-      } else if (dropdownWidth < targetWidth) {
-        params.width = targetWidth - DROPDOWN_BORDER_WIDTH;
-      }
-
+  /**
+   * Get target element from config object
+   * @param config
+   * @returns jQuery element of target
+   */
+  var _setTarget = function (config) {
+    var target;
+    if (typeof config === 'object' && !(config instanceof $) && !utils.isNode(config)) {
+      target = config.target;
     } else {
-      params = config;
+      target = config;
+    }
+
+    if (utils.isNode(target) || typeof target === 'string') {
+      target = $(target);
+    }
+    return target;
+  };
+
+  /**
+   * @param $target target DOM element
+   * @param $popup jQuery popup element
+   * @param config Optional css coords {top:X, left: Y}
+   * @returns {Objetct} css coords
+   */
+  var _getPosition = function ($target, $popup, config) {
+    var params,
+      menuToggle,
+      targetToggle,
+      targetCenter,
+      targetWidth,
+      dropdownWidth,
+      dropdownCenter;
+
+    targetToggle = $target.is(TOGGLE_SELECTOR);
+    if (targetToggle && $target.prev().is(MENU_ITEM_SELECTOR)) {
+      menuToggle = true;
+      $target = $target.prev();
+    }
+
+    params = $target.offset();
+    targetCenter = params.left + $target.outerWidth() / 2;
+    targetWidth = $target.outerWidth();
+
+    dropdownWidth = $popup.width();
+    dropdownCenter = dropdownWidth / 2;
+
+    // Right aligment
+    if (params.left + dropdownWidth > $global.width() - DROPDOWN_MIN_RIGHT_MARGIN) {
+      params.left += targetWidth - dropdownWidth;
+
+      // Center aligment on toggle without menu item
+    } else if (targetCenter >= dropdownCenter && targetToggle && !menuToggle) {
+      params.left = targetCenter - dropdownCenter;
+    }
+
+    params.top += $target.outerHeight();
+
+    if (typeof config.left === 'number') {
+      params.left = config.left;
+    }
+
+    if (typeof config.top === 'number') {
+      params.top = config.top;
+    }
+
+    if (config.width) {
+      params.width = config.width;
+    } else if (dropdownWidth < targetWidth) {
+      params.width = targetWidth - DROPDOWN_BORDER_WIDTH;
     }
     return params;
   };
 
+
+  // Using delegate because of compatibility with YouTrack's jQuery 1.5.1
+  $(document).delegate('*', 'click.ring-dropdown', function (e) {
+    /**
+     * @desc Close popup by click on non-popup child
+     */
+    if (!$(e.currentTarget).closest(ROOT_SELECTOR).length) {
+      remove();
+    }
+    e.stopPropagation();
+  });
+
   // Remove on resize
   $global.resize(remove);
+
   // Public methods
-  Module.add('popup', {
-    show: {
+  Module.add(MODULE, {
+    create: {
       method: create,
       override: true
     },
-    hide: {
+    remove: {
       method: remove,
       override: true
     }
