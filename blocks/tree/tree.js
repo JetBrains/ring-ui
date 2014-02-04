@@ -1,8 +1,9 @@
 define([
   'global/global__modules',
+  'global/global__utils',
   'handlebars',
   'jquery'
-], function (Module, Handlebars, $) {
+], function (Module, utils, Handlebars, $) {
   
   'use strict';
 
@@ -168,12 +169,27 @@ define([
     this.render();
   };
 
-  Tree.prototype.getDirItems = function ($el) {
-    var $els = $el.find('.ring-tree__item-file'),
-        items = $els.map(function (i, el) {
-          return $(el).data('item').value;
-        });
-    return items;
+  Tree.prototype.getTreeItems = function (uuid) {
+    var $treeEl = this.$containerEl.find('[data-uuid="' + uuid + '"]'),
+        $items;
+
+    if (!$treeEl || $treeEl.length === 0) {
+      return;
+    }
+
+    $items = $treeEl.find('.ring-tree__item-file');
+
+    return $items.map(function (index, el) { return $(el).data('item').value; });
+  };
+
+  Tree.prototype.getItemValue = function (uuid) {
+    var $el = this.$containerEl.find('[data-uuid="' + uuid + '"]');
+
+    if (!el || $el.length === 0) {
+      return;
+    }
+
+    return $el.data('item').value;
   };
 
   Tree.prototype.render = function () {
@@ -226,6 +242,8 @@ define([
           self.onFileClick_(e, item.$el);
         });
       }
+
+      item.$el.attr('data-uuid', utils.uuid());
 
       arr.$el.append(item.$el);
     });
