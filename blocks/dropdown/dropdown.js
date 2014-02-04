@@ -202,10 +202,9 @@ define([
     if ($target.length) {
       return create(null, $target);
     } else {
-      if (!preventRemove || !$(e.currentTarget).closest(ROOT_SELECTOR).length) {
+      if ($dropdown && !preventRemove || !$(e.currentTarget).closest(ROOT_SELECTOR).length) {
         remove();
       }
-      e.stopPropagation();
     }
   });
 
