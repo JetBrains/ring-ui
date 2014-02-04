@@ -140,7 +140,7 @@ define(['global/global', 'chai', 'diff/diff'], function(ring, chai) {
 
         for (var modeID in DiffTool.Mode) {
           expect(Boolean(DiffTool.Mode[modeID] |
-              DiffTool.prototype.availableModes)).to.be(true);
+              DiffTool.prototype.availableModes)).to.be.true;
         }
       });
     });
