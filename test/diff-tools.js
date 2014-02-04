@@ -110,7 +110,6 @@ define(['global/global', 'chai', 'diff/diff'], function(
     describe('diffTool.arraysAreEqual', function() {
       it('diffTool.arraysAreEqual compares array, contains simple data-types as' +
           'numbers, strings, etc.', function() {
-        console.log(diffTool.arraysAreEqual([1, false, 'asd'], [1, false, 'asd']))
 
         expect(diffTool.arraysAreEqual([1, false, 'asd'], [1, false, 'asd'])).to.be.true;
         expect(diffTool.arraysAreEqual([1, false, 'asd'], [2, true, 'dsa'])).to.be.false;
