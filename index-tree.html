@@ -40,7 +40,8 @@
       tree1.$containerEl.on('click', '.ring-tree__item-dirCheckbox', function (e) {
         e.stopPropagation();
         var state = e.target.checked,
-            items = tree1.getDirItems($(e.target.parentNode));
+            uuid = e.target.parentNode.getAttribute('data-uuid'),
+            items = tree1.getTreeItems(uuid);
 
         items.each(function (i, item) {
           item.isSelected = state;
@@ -56,7 +57,7 @@
 
         var state = e.target.checked,
             el = e.target.parentNode,
-            item = $(el).data('item').value;
+            item = tree1.getItemValue(el.getAttribute('data-uuid'));
 
         item.isSelected = state;
         tree1.refresh(item);
@@ -72,13 +73,14 @@
         var $dirChbxEls = treeInstance.$containerEl.find('.ring-tree__item-dirCheckbox');
         $dirChbxEls.each(function (i, el) {
           var selectedItems = [],
-              $items = treeInstance.getDirItems($(el).parent());
+              uuid = el.parentNode.getAttribute('data-uuid'),
+              items = treeInstance.getTreeItems(uuid);
 
-          $items.each(function (i, item) {
+          items.each(function (i, item) {
             if (item.isSelected) { selectedItems.push(item); }
           });
 
-          el.checked = selectedItems.length === $items.length;
+          el.checked = selectedItems.length === items.length;
         });
       }
 
