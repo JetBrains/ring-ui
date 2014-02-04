@@ -286,9 +286,6 @@
               "event": "header:login"
             }
           }
-        },
-        profile: {
-          targetElem: '.profile'
         }
       });
 
@@ -308,7 +305,14 @@
       }, '.demo', 'append');
 
       o.on('menu:toggle-profile', function() {
-        $('.profile').toggleClass('hidden');
+        if (!$('.ring-profile').length) {
+          ring('profile').invoke('init', {targetElem: '.profile'})
+          .then(function() {
+              $('.profile').toggleClass('hidden');
+          });
+        } else {
+          $('.profile').toggleClass('hidden');
+        }
       });
 
       o.on('dropdown:test', function (e) {
