@@ -16,11 +16,13 @@ define(['jquery',  'global/global__modules', 'global/global__views', 'dropdown/d
         }
       });
 
-      $.each(data.authLinks, function(index, link) {
-        if (index !== 'login' && !linksLabels[link.label]) {
-          links.push(link);
-        }
-      });
+      if (data.authLinks) {
+        $.each(data.authLinks, function(index, link) {
+          if (index !== 'login') {
+            links.push(link);
+          }
+        });
+      }
 
       data.personal = {
         username: data.user.name,
