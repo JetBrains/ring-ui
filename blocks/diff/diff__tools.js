@@ -267,7 +267,7 @@ define([
     for (var i = 0, l = arrA.length; i < l; i++) {
       // todo(igor.alexeenko): this comparison works only for simple data-types.
       // Make it work for objects, arrays, etc.
-      if (arrA !== arrB) {
+      if (arrA[i] !== arrB[i]) {
         return false;
       }
     }
