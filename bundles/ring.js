@@ -6,7 +6,7 @@ define([
   'footer/footer',
   'alert/alerts',
   'dialog/dialog',
-  'dropdown-select/dropdown-select'
+  'link-list/link-list'
 ], function(ring) {
   return ring;
 });
