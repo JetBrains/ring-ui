@@ -12,7 +12,8 @@ define([
   'global/global__codemirror-helper',
   'diff/diff__editorcontroller',
   'diff/diff__parser_doublepane',
-  'diff/diff__doublepane-menu'
+  'diff/diff__doublepane-menu',
+  'diff/diff__doublepane-divider'
 ], function($, Handlebars, raphael, d, CodeMirror, CodeMirrorHelper) {
 
   /**
@@ -194,6 +195,16 @@ define([
       var menuElement = this.element_.querySelector(
           d.DoubleEditorController.CssSelector.MENU);
       this.menu_ = new d.DoublePaneMenu(menuElement);
+
+      this.splitElement_ = this.element_.querySelector(
+          d.DoubleEditorController.CssSelector.SPLITTER);
+      this.divider_ = new d.DoubleEditorDivider(this.splitElement_);
+
+      // todo(igor.alexeenko): Code duplicate.
+      var originalViewport = this.getEditorViewport(this.codeMirrorOriginal_);
+      var modifiedViewport = this.getEditorViewport(this.codeMirrorModified_);
+      this.divider_.setVisibleRange(originalViewport, modifiedViewport);
+
     } else {
       this.unbindEditors_();
 
@@ -227,6 +238,7 @@ define([
 
     this.setWhitespacesEnabled(this.menu_.isWhitespacesEnabled());
     this.setUsedValues(this.getUsedValues_());
+    this.divider_.setRanges(this.offsets_);
 
     if (!Boolean(opt_refresh)) {
       this.setCurrentChange(0, true);
@@ -292,7 +304,7 @@ define([
     }
 
     this.colorizeLines_();
-    this.drawConnectors_();
+//    this.drawConnectors_();
     this.drawMap_();
     this.setMenuEnabled(true);
 
@@ -335,9 +347,10 @@ define([
         originalTo: this.codeMirrorOriginal_.heightAtLine(
             offset.originalTo, d.DoubleEditorController.EDITOR_SCREEN_MODE),
         modifiedFrom: this.codeMirrorModified_.heightAtLine(
-            offset.modifiedFrom, d.DoubleEditorController.EDITOR_SCREEN_MODE),
+            offset.modifiedFrom, d.DoubleEditorController.EDITOR_SCREEN_MODE) - 1,
         modifiedTo: this.codeMirrorModified_.heightAtLine(
-            offset.modifiedTo, d.DoubleEditorController.EDITOR_SCREEN_MODE)
+            offset.modifiedTo, d.DoubleEditorController.EDITOR_SCREEN_MODE) - 1,
+        type: offset.type
       });
     }, this);
 
@@ -396,7 +409,7 @@ define([
    * @private
    */
   d.DoubleEditorController.prototype.onResize_ = function() {
-    this.drawConnectors_(true);
+//    this.drawConnectors_(true);
   };
 
   /**
@@ -426,7 +439,10 @@ define([
     }
 
     this.syncScroll_(target);
-    this.drawConnectors_();
+
+    var originalViewport = this.getEditorViewport(this.codeMirrorOriginal_);
+    var modifiedViewport = this.getEditorViewport(this.codeMirrorModified_);
+    this.divider_.setVisibleRange(originalViewport, modifiedViewport);
 
     if (this.lines_[this.currentOffsetIndex_].type) {
       var currentChangeIndex = this.getChangeByOffsetIndex(
@@ -439,6 +455,18 @@ define([
       this.setEditorScrollHandlerEnabled_(this.disabledEditor_, true);
       this.disabledEditor_ = null;
     }, this), d.DoubleEditorController.SCROLL_TIMEOUT);
+  };
+
+  /**
+   * @param {CodeMirror} editor
+   * @return {d.Range}
+   */
+  d.DoubleEditorController.prototype.getEditorViewport = function(editor) {
+    var editorScrollInfo = editor.getScrollInfo();
+
+    return new d.Range(
+        editorScrollInfo.top,
+        editorScrollInfo.top + editorScrollInfo.clientHeight);
   };
 
   /**
@@ -926,173 +954,6 @@ define([
         });
       }
     });
-  };
-
-  /**
-   * Draws graphic connectors from changed chunks in original code to
-   * corresponding chunks in modified code.
-   * @param {boolean=} opt_resize If true, counts new size of canvas.
-   * @private
-   */
-  d.DoubleEditorController.prototype.drawConnectors_ = function(
-      opt_resize) {
-    if (!this.connectorsCanvas_) {
-      this.connectorsCanvas_ = raphael(this.splitElement_, 0, 0);
-      opt_resize = true;
-    }
-
-    if (opt_resize) {
-      this.connectorsCanvas_.setSize(
-          this.splitElement_.offsetWidth,
-          this.splitElement_.offsetHeight);
-    }
-
-    this.connectorsCanvas_.clear();
-
-    var codeMirrorOriginalScrollInfo = this.codeMirrorOriginal_.getScrollInfo();
-    var verticalRangeLeft = new d.Range(
-        codeMirrorOriginalScrollInfo.top,
-        codeMirrorOriginalScrollInfo.top +
-            codeMirrorOriginalScrollInfo.clientHeight);
-
-    var codeMirrorModifiedScrollInfo = this.codeMirrorModified_.getScrollInfo();
-    var verticalRangeRight = new d.Range(
-        codeMirrorModifiedScrollInfo.top,
-        codeMirrorModifiedScrollInfo.top + codeMirrorModifiedScrollInfo.
-            clientHeight);
-
-    var horizontalRange = new d.Range(
-        0, this.splitElement_.clientWidth);
-
-    // todo(igor.alexeenko): Do I need to do something with this connectors?
-    var connectors = [];
-
-    this.offsets_.forEach(function(offset, index) {
-      var currentOffset = this.lines_[index];
-      var nextType = this.lines_[index + 1] ? this.lines_[index + 1].type :
-          null;
-
-      connectors.push(d.DoubleEditorController.getConnector(offset,
-          verticalRangeLeft, verticalRangeRight, horizontalRange,
-          currentOffset.type, this.connectorsCanvas_, nextType));
-    }, this);
-  };
-
-  // todo(igor.alexeenko): Find out, what types use for Raphaël classes.
-  /**
-   * Creates and returns vector shape for connector.
-   * @static
-   * @param {Object} offset
-   * @param {d.Range} verticalRangeLeft
-   * @param {d.Range} verticalRangeRight
-   * @param {d.Range} horizontalRange
-   * @param {d.Parser.LineType} type
-   * @param {Object} canvas Raphael.js canvas element
-   * @param {d.Parser.LineType?} opt_nextType
-   * @return {Object?}
-   */
-  d.DoubleEditorController.getConnector = function(offset, verticalRangeLeft,
-      verticalRangeRight, horizontalRange, type, canvas, opt_nextType) {
-    /**
-     * Ratio of connector width on witch positioned correction point of Bézier
-     * curve, which connects original and modified code.
-     * @type {number}
-     * @const
-     */
-    var CONNECTOR_CURVE_RATIO = 0.3;
-
-    /**
-     * Lookup table of line types to classes for connectors.
-     * @type {Object.<d.Parser.LineType,
-     *     d.DoubleEditorController.ConnectorClass>}
-     */
-    var typeToConnectorClass = d.createObject(
-        d.Parser.LineType.ADDED,
-            d.DoubleEditorController.ConnectorClass.ADDED,
-        d.Parser.LineType.DELETED,
-            d.DoubleEditorController.ConnectorClass.DELETED,
-        d.Parser.LineType.INLINE,
-            d.DoubleEditorController.ConnectorClass.MODIFIED,
-        d.Parser.LineType.INLINE | d.Parser.LineType.ADDED,
-            d.DoubleEditorController.ConnectorClass.MODIFIED,
-        d.Parser.LineType.INLINE | d.Parser.LineType.DELETED,
-            d.DoubleEditorController.ConnectorClass.MODIFIED);
-
-    var usedTypes = [
-      d.Parser.LineType.ADDED,
-      d.Parser.LineType.DELETED,
-      d.Parser.LineType.INLINE
-    ];
-
-    var normalizedType = d.Parser.normalizeType(type, usedTypes);
-
-    if ((offset.originalFrom >= verticalRangeLeft.from ||
-        offset.originalTo <= verticalRangeLeft.to ||
-        offset.modifiedFrom >= verticalRangeRight.from ||
-        offset.modifiedTo <= verticalRangeRight.to) &&
-        normalizedType !== d.Parser.LineType.NULL) {
-
-      horizontalRange.from -= 1;
-      horizontalRange.to += 1;
-
-      var connectorClassName = [
-        d.DoubleEditorController.ConnectorClass.BASE,
-        typeToConnectorClass[normalizedType]
-      ].join(' ');
-
-      var yLeftTop = offset.originalFrom - verticalRangeLeft.from;
-      var xLeftTop = horizontalRange.from;
-
-      var yLeftTopCurve = offset.originalFrom - verticalRangeLeft.from;
-      var xLeftTopCurve = horizontalRange.to * CONNECTOR_CURVE_RATIO;
-
-      var yRightTopCurve = offset.modifiedFrom - verticalRangeRight.from;
-      var xRightTopCurve = horizontalRange.to * (1 - CONNECTOR_CURVE_RATIO);
-
-      var yRightTop = offset.modifiedFrom - verticalRangeRight.from;
-      var xRightTop = horizontalRange.to;
-
-      var yRightBottom = offset.modifiedTo - verticalRangeRight.from;
-      var xRightBottom = horizontalRange.to;
-
-      var yRightBottomCurve = offset.modifiedTo - verticalRangeRight.from;
-      var xRightBottomCurve = horizontalRange.to * (1 - CONNECTOR_CURVE_RATIO);
-
-      var yLeftBottomCurve = offset.originalTo - verticalRangeLeft.from;
-      var xLeftBottomCurve = horizontalRange.to * CONNECTOR_CURVE_RATIO;
-
-      var yLeftBottom = offset.originalTo - verticalRangeLeft.from;
-      var xLeftBottom = horizontalRange.from;
-
-      if (opt_nextType === d.Parser.LineType.NULL &&
-          yLeftBottom !== yLeftTop && yRightBottom !== yRightTop) {
-        yLeftBottom -= 1;
-        yLeftBottomCurve -= 1;
-        yRightBottom -= 1;
-        yRightBottomCurve -= 1;
-      }
-
-      var path = canvas.path([
-        'M', xLeftTop, yLeftTop,
-        ['C',
-          xLeftTopCurve, yLeftTopCurve,
-          xRightTopCurve, yRightTopCurve,
-          xRightTop, yRightTop],
-        'L', xRightBottom, yRightBottom,
-        ['C',
-          xRightBottomCurve, yRightBottomCurve,
-          xLeftBottomCurve, yLeftBottomCurve,
-          xLeftBottom, yLeftBottom],
-        ['L', xLeftTop, yLeftTop, 'Z']
-      ]);
-
-      path.node.setAttribute('class', connectorClassName);
-      path.node.setAttribute('transform', 'translate(0.5, 0.5)');
-
-      return path;
-    }
-
-    return null;
   };
 
   /**
