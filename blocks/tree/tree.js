@@ -74,7 +74,8 @@ define([
         node = {
           name: partPath,
           parentPath: sumPath,
-          type: i === (l-1) ? 'file' : 'dir'
+          type: i === (l-1) ? 'file' : 'dir',
+          uuid: utils.uuid()
         };
 
         if (node.type === 'dir' && !cache[node.parentPath + ':' + node.type]) {
@@ -146,7 +147,7 @@ define([
     var i, l, j, jl, refreshList = [];
 
     if (list.path) {
-      refreshList[list];
+      refreshList.push(list);
     }
 
     else if (!list || list.length === 0) {
@@ -249,40 +250,6 @@ define([
         item.$el.on('click', function (e) {
           self.onDirClick_(e, item.$el);
         });
-
-        var timer;
-
-        item.$el.on('keydown', function (e) {
-          var SPACE_KEY = 32,
-              TAB_KEY = 9,
-              $target = $(e.target);
-
-          if (e.keyCode !== SPACE_KEY && e.keyCode !== TAB_KEY) {
-            return;
-          }
-
-          if (e.keyCode === TAB_KEY) {
-            clearTimeout(timer);
-            timer = setTimeout(function () {
-              var $activeEl = document.activeElement ? $(document.activeElement).closest('[data-uuid]') : null;
-              if  (!$activeEl || $activeEl.length === 0) {
-                return;
-              }
-              self.onTabClick_(e, $activeEl);
-            }, 200);
-            return;
-          }
-
-          if ($target.hasClass('ring-tree__item-dir')) {
-            e.target = $target.find('.ring-tree__item-dirname')[0];
-            self.onDirClick_(e, $target);
-          }
-
-          else if ($target.hasClass('ring-tree__item-file')) {
-            e.target = $target.find('.ring-tree__item-filename')[0];
-            self.onFileClick_(e, $target);
-          }
-        });
       } else {
         item.$el.data('item', item);
 
@@ -291,7 +258,52 @@ define([
         });
       }
 
-      item.$el.attr('data-uuid', utils.uuid());
+      var timer;
+      item.$el.on('keydown', function (e) {
+        var SPACE_KEY = 32,
+              TAB_KEY = 9,
+              UP_ARROW = 38,
+              DOWN_ARROW = 40,
+              $target = $(e.target);
+
+        if ([SPACE_KEY, TAB_KEY, DOWN_ARROW, UP_ARROW].indexOf(e.keyCode) === -1) {
+          return;
+        }
+
+        if (e.keyCode === TAB_KEY) {
+          clearTimeout(timer);
+          timer = setTimeout(function () {
+            var $activeEl = document.activeElement ? $(document.activeElement).closest('[data-uuid]') : null;
+            if  (!$activeEl || $activeEl.length === 0) {
+              return;
+            }
+            self.onTabClick_(e, $activeEl);
+          }, 200);
+          return;
+        }
+
+        else if (e.keyCode === DOWN_ARROW) {
+          self.selectNextItem_(e);
+          return;
+        }
+
+        else if (e.keyCode === UP_ARROW) {
+          self.selectPrevItem_(e);
+          return;
+        }
+
+        if ($target.hasClass('ring-tree__item-dir')) {
+          e.target = $target.find('.ring-tree__item-dirname')[0];
+          self.onDirClick_(e, $target);
+        }
+
+        else if ($target.hasClass('ring-tree__item-file')) {
+          e.target = $target.find('.ring-tree__item-filename')[0];
+          self.onFileClick_(e, $target);
+        }
+      });
+
+      item.$el.attr('data-uuid', item.uuid);
 
       arr.$el.append(item.$el);
     });
@@ -313,6 +325,77 @@ define([
     }
 
     return this.$containerEl;
+  };
+
+  Tree.prototype.selectNextItem_ = function (e) {
+    e.stopPropagation();
+    var $activeEl = document.activeElement ? $(document.activeElement).closest('[data-uuid]') : null;
+    if  (!$activeEl || $activeEl.length === 0) {
+      return;
+    }
+
+    var activeItemUUID = $activeEl.attr('data-uuid'),
+        activeItem,
+        nextItem;
+
+    traverse(this.tree_, function (item) {
+      if (activeItem && !nextItem) {
+        if (item.$el.is(':visible')) {
+          nextItem = item;
+        }
+      }
+
+      if (item.uuid === activeItemUUID) {
+        activeItem = item;
+      }
+    });
+
+    if (nextItem) {
+      for (var name in this.cache_) {
+        this.cache_[name].focused = false;
+        if (name === nextItem.parentPath + ':' + nextItem.type) {
+          this.cache_[name].focused = true;
+        }
+      }
+
+      nextItem.$el.focus();
+    }
+  };
+
+  Tree.prototype.selectPrevItem_ = function (e) {
+    e.stopPropagation();
+
+    var $activeEl = document.activeElement ? $(document.activeElement).closest('[data-uuid]') : null;
+    if  (!$activeEl || $activeEl.length === 0) {
+      return;
+    }
+
+    var activeItemUUID = $activeEl.attr('data-uuid'),
+        activeItem,
+        prevItem;
+
+    traverse(this.tree_, function (item) {
+      if (item.uuid === activeItemUUID) {
+        activeItem = item;
+      }
+
+      if (!activeItem) {
+        if (item.$el.is(':visible')) {
+          prevItem = item;
+        }
+      }
+    });
+
+    if (prevItem) {
+      for (var name in this.cache_) {
+        this.cache_[name].focused = false;
+        if (name === prevItem.parentPath + ':' + prevItem.type) {
+          this.cache_[name].focused = true;
+        }
+      }
+
+      prevItem.$el.focus();
+    }
   };
 
   Tree.prototype.onTabClick_ = function (e, $activeElement) {
