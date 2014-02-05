@@ -115,8 +115,10 @@ define([
      * @type {Array.<SVGElement?>}
      * @private
      */
-    this.connectors_ = this.ranges_.map(function(range) {
+    this.connectors_ = this.ranges_.map(function(range, index) {
       if (Boolean(range.type)) {
+        var nextRange = this.ranges_[index + 1];
+
         var connector = document.createElementNS(
             d.DoubleEditorDivider.SVG_NAMESPACE, 'g');
 
@@ -157,7 +159,14 @@ define([
         this.connectorsCanvas_.appendChild(connector);
 
         connectorUpperBorder.setAttribute('transform', 'translate(0, 0.5)');
-        connectorLowerBorder.setAttribute('transform', 'translate(0, 0.5)');
+
+        if (d.isDef(nextRange) &&
+            d.Parser.lineHasType(range, d.Parser.LineType.INLINE) &&
+            d.Parser.lineHasType(nextRange, d.Parser.LineType.INLINE)) {
+          connectorLowerBorder.setAttribute('transform', 'translate(0, 0.5)');
+        } else {
+          connectorLowerBorder.setAttribute('transform', 'translate(0, -0.5)');
+        }
 
         return connector;
       }
@@ -190,11 +199,17 @@ define([
      */
     var CURVE_RATIO = 0.2;
 
+    if (range.type === d.Parser.LineType.ADDED &&
+        type === d.DoubleEditorDivider.PathType.LOWER_LINE) {
+      leftTo++;
+      rightTo++;
+    }
+
     var templateData = {
       xFrom: 0,
       xModifiedFrom: splitWidth * CURVE_RATIO,
       xModifiedTo: splitWidth * (1 - CURVE_RATIO),
-      xTo: splitWidth,
+      xTo: splitWidth + 1,
       leftYFrom: leftFrom,
       rightYFrom: rightFrom,
       leftYTo: leftTo,
