@@ -12,6 +12,7 @@ define([
   var TOGGLE_SELECTOR = '.ring-dropdown-toggle';
 
   var $global = $(window);
+  var $body = $('body');
   var $popup;
 
   var DROPDOWN_MIN_RIGHT_MARGIN = 8;
@@ -36,8 +37,10 @@ define([
     $popup = $(View.render(MODULE, ''));
 
     return {
+      target: $target,
       el: $popup,
-      getPos: _getPosition.bind(null, $target, $popup, config)
+      getPos: _getPosition.bind(null, $target, $popup, config),
+      insertHTML: insertHTML
     };
   };
 
@@ -126,6 +129,12 @@ define([
     return params;
   };
 
+  var insertHTML = function (wrapper, $el) {
+    $body.append(wrapper.el);
+    return wrapper.el.
+      html($el).
+      css(wrapper.getPos());
+  };
 
   // Using delegate because of compatibility with YouTrack's jQuery 1.5.1
   $(document).delegate('*', 'click.ring-dropdown', function (e) {
