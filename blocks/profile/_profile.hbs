@@ -1,12 +1,12 @@
 <div class="ring-profile{{> global__class}}">
   {{#each items}}
     {{#if active}}
-      <span class="ring-profile__item{{> global__class}}"{{> global__attributes}}
+      <span class="ring-profile__item{{#unless image}} ring-profile__item_noimage{{/unless}}{{> global__class}}"{{> global__attributes}}
         >{{#image}}<img class="ring-profile__item__image" src="{{this}}" alt="{{../title}}"
         />{{/image}}{{label}}</span
       >
     {{else}}
-      <a href="{{url}}" class="ring-profile__item ring-link{{> global__class}}"{{> global__attributes}}
+      <a href="{{url}}" class="ring-profile__item{{#unless image}} ring-profile__item_noimage{{/unless}} ring-link{{> global__class}}"{{> global__attributes}}
         >{{#image}}<img class="ring-profile__item__image" src="{{this}}" alt="{{../title}}"
         />{{/image}}{{label}}</a
       >
