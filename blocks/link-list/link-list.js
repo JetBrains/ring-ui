@@ -12,7 +12,6 @@ define([
   var COMPONENT_SELECTOR = '.ring-js-link-list';
 
   var popup = Module.get('popup');
-  var $body = $('body');
   var $el;
 
   var create = function (data) {
@@ -20,11 +19,10 @@ define([
 
     popup('remove');
     dataSource(wrapper.target, data).then(function (data) {
-      var $el;
       if (data instanceof $ || utils.isNode(data)) {
         $el = data;
       }
-      var $el = $(View.render('dropdown__items', data));
+      $el = $(View.render('dropdown__items', data));
       wrapper.insertHTML(wrapper, $el);
     });
   };
