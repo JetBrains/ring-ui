@@ -30,6 +30,10 @@
     color: #000;
     font-weight: bold;
   }
+
+  &.ring-profile__item_noimage {
+    padding-left: $ring-unit * 3;
+  }
 }
 
 .ring-profile__item__image {
