@@ -103,6 +103,7 @@ define([
     }
 
     this.connectorsCanvas_.innerHTML = '';
+
     var connectorCanvasWidth = this.connectorsCanvas_.clientWidth;
     var connectorCanvasHeight = this.connectorsCanvas_.clientHeight;
 
