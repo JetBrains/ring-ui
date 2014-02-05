@@ -267,6 +267,8 @@ define([
     this.changes_ = this.getChanges_(this.lines_);
     this.offsets_ = this.getPxOffsets_(this.lines_);
 
+    this.divider_.setRanges(this.offsets_);
+
     this.unbindEditors_();
     this.bindEditors_();
   };
@@ -304,7 +306,7 @@ define([
     }
 
     this.colorizeLines_();
-//    this.drawConnectors_();
+    this.divider_.redrawConnectors();
     this.drawMap_();
     this.setMenuEnabled(true);
 
