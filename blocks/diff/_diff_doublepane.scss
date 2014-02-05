@@ -1,15 +1,14 @@
 @import '../../components/codemirror/lib/codemirror';
 
 // NB: colours from IntelliJ IDEA default colour scheme.
-$added_outline: #B2BCB2;
+$outline: #CCCCCC;
+
 $added_background: #EDFAED;
 $added_chars: #D1F3D2;
 
-$modified_outline: #B2B7BF;
 $modified_background: #EEF3FD;
 $modified_chars: #D4E1FB;
 
-$deleted_outline: #B6B6B6;
 $deleted_background: #F2F2F2;
 $deleted_chars: #DEDEDE;
 
@@ -69,7 +68,6 @@ $map_borders: 1px;
 }
 
 .ring-diff__split {
-  background: rgba(0, 0, 0, 0.1);
   border: solid 1px rgba(0, 0, 0, 0.1);
   left: 49%;
   overflow: hidden;
@@ -77,8 +75,12 @@ $map_borders: 1px;
   z-index: 4;
 }
 
-.ring-diff__split > svg {
-  left: 0 !important;
+.ring-diff__split svg {
+  bottom: 0;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
 }
 
 .ring-diff_doublepane {
@@ -105,13 +107,13 @@ $map_borders: 1px;
   }
 
   .ring-diff-line_before-added {
-    box-shadow: 0 1px 0 $added_outline;
+    box-shadow: 0 1px 0 $outline;
     border-bottom: solid 1px $added_background;
   }
 
   .ring-diff-line_before-deleted {
-    box-shadow: 0 1px 0 $deleted_outline;
-    border-bottom: solid 1px $deleted_background;
+    box-shadow: 0 1px 0 $deleted_background;
+    border-bottom: solid 1px $outline;
   }
 
   .ring-diff-chars_added {
@@ -139,15 +141,15 @@ $map_borders: 1px;
 
   .ring-diff-line_first {
     &.ring-diff-line_added {
-      border-top: solid 1px $added_outline;
+      border-top: solid 1px $outline;
     }
 
     &.ring-diff-line_modified {
-      border-top: solid 1px $modified_outline;
+      border-top: solid 1px $outline;
     }
 
     &.ring-diff-line_deleted {
-      border-top: solid 1px $deleted_outline;
+      border-top: solid 1px $outline;
     }
 
     & ~ pre .ring-diff-chars_added,
@@ -159,15 +161,15 @@ $map_borders: 1px;
 
   .ring-diff-line_last {
     &.ring-diff-line_added {
-      border-bottom: solid 1px $added_outline;
+      border-bottom: solid 1px $outline;
     }
 
     &.ring-diff-line_modified {
-      border-bottom: solid 1px $modified_outline;
+      border-bottom: solid 1px $outline;
     }
 
     &.ring-diff-line_deleted {
-      border-bottom: solid 1px $deleted_outline;
+      border-bottom: solid 1px $outline;
     }
 
     & ~ pre .ring-diff-chars_added,
@@ -178,21 +180,24 @@ $map_borders: 1px;
   }
 }
 
-.ring-diff__connector {
+.ring-diff-connector__line {
+  stroke: $outline;
   stroke-width: 1px;
+  fill: transparent;
 }
 
-.ring-diff__connector_added {
-  stroke: $added_outline;
+.ring-diff-connector {
+  stroke-width: 0px;
+}
+
+.ring-diff-connector__path_added {
   fill: $added_background;
 }
 
-.ring-diff__connector_modified {
-  stroke: $modified_outline;
+.ring-diff-connector__path_modified {
   fill: $modified_background;
 }
 
-.ring-diff__connector_deleted {
-  stroke: $deleted_outline;
+.ring-diff-connector__path_deleted {
   fill: $deleted_background;
 }
