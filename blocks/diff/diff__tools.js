@@ -1,3 +1,5 @@
+/*global CSSRule*/
+
 /**
  * @fileoverview Additional tools, which are used by {@link DiffTool}.
  * @author igor.alexeenko (Igor Alekseyenko)
@@ -416,6 +418,22 @@ define([
     return d.animationEventType_;
   };
 
+  /**
+   * Takes string as argument and makes it name unique by adding some counter
+   * value to it.
+   * @param {string} animationName
+   * @return {string}
+   */
+  d.getAnimationUniqueName = function(animationName) {
+    if (!d.animationIDCounter_) {
+      d.animationIDCounter_ = 0;
+    }
+
+    var animationUniqueName = [animationName, d.animationIDCounter_].join('');
+    d.animationIDCounter_++;
+    return animationUniqueName;
+  };
+
   // todo(o0): Time to split this file and move parts to global__utils.js.
   /**
    * Namespace.
@@ -640,6 +658,119 @@ define([
     }
 
     document.cookie = name + '=' + value + expires + '; path=/';
+  };
+
+
+  /**
+   * Namespace for work with elements style.
+   */
+  d.style = {};
+
+  /**
+   * Returns list of keyframe rules, defined in document.
+   * @return {Array.<CSSRule>}
+   */
+  d.style.getDocumentKeyframeRules = function() {
+    var keyframeRules = [];
+    var i = 0, l = 0;
+
+    var availableTypes = [
+      CSSRule.KEYFRAMES_RULE,
+      CSSRule.WEBKIT_KEYFRAMES_RULE,
+      CSSRule.MOZ_KEYFRAMES_RULE,
+      CSSRule.O_KEYFRAMES_RULE
+    ];
+
+    while (l < document.styleSheets.length) {
+      var stylesheet = document.styleSheets[l];
+
+      while (i < stylesheet.cssRules.length) {
+        var currentRule = stylesheet.cssRules[i];
+
+        // todo(igor.alexeenko): To be refactored. Move out of this method.
+        if (!d.style.currentKeyframeType_) {
+          var availableConstructorsCopy = availableTypes.slice(0);
+          var currentConstructor;
+
+          while (availableConstructorsCopy.length) {
+            currentConstructor = availableConstructorsCopy.shift();
+
+            if (currentRule.type === currentConstructor) {
+              d.style.currentKeyframeType_ = currentConstructor;
+              break;
+            }
+          }
+        }
+
+        if (d.style.currentKeyframeType_ &&
+            currentRule.type === d.style.currentKeyframeType_) {
+          keyframeRules.push(currentRule);
+        }
+
+        i++;
+      }
+
+      l++;
+    }
+
+    return keyframeRules;
+  };
+
+  /**
+   * Returns {@link CSSRule} which describes keyframe animation with given name.
+   * @param {string} name
+   * @return {CSSRule?}
+   */
+  d.style.getKeyframeRule = function(name) {
+    var allRules = d.style.getDocumentKeyframeRules();
+    var currentRule;
+
+    var ruleRegexp = new RegExp('^@\\S+keyframes\\s?(' + name + ')\\s?{.*$',
+        'm');
+
+    while (allRules.length) {
+      currentRule = allRules.shift();
+
+      if (currentRule.cssText.match(ruleRegexp)) {
+        return currentRule;
+      }
+    }
+
+    return null;
+  };
+
+  /**
+   * Takes selector and style object as arguments and creates new CSS style
+   * tag and immediately applies it.
+   * @param {string} selector
+   * @param {Object} style
+   * @return {HTMLStyleElement}
+   */
+  d.style.addDocumentStyle = function(selector, style) {
+    var styleText = [
+      selector, '{', JSON.serialize(style).replace(',', ';'), '}'
+    ].join(' ');
+
+    var styleElement = /** @type {HTMLStyleElement} */ (document.createElement(
+        'style'));
+    styleElement.type = 'text/css';
+
+    if (styleElement.styleSheet) {
+      styleElement.styleSheet.cssText = styleText;
+    } else {
+      styleElement.appendChild(document.createTextNode(styleText));
+    }
+
+    document.head.appendChild(styleElement);
+
+    return styleElement;
+  };
+
+  /**
+   * @param {HTMLStyleElement} styleElement
+   */
+  d.style.removeDocumentStyle = function(styleElement) {
+    document.head.removeChild(styleElement);
   };
 
   return d;
