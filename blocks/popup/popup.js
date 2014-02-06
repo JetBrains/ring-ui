@@ -94,7 +94,6 @@ define([
       menuToggle = true;
       $target = $target.prev();
     }
-
     params = $target.offset();
     targetCenter = params.left + $target.outerWidth() / 2;
     targetWidth = $target.outerWidth();

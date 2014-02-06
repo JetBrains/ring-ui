@@ -1,0 +1,24 @@
+<component name="libraryTable">
+  <library name="Chai" type="javaScript">
+    <properties>
+      <option name="frameworkName" value="jQuery" />
+      <sourceFilesUrls>
+        <item url="file://$PROJECT_DIR$/node_modules/karma-chai-plugins/node_modules/chai-things" />
+        <item url="file://$PROJECT_DIR$/node_modules/karma-chai-plugins/node_modules/chai" />
+        <item url="file://$PROJECT_DIR$/node_modules/karma-chai-plugins/node_modules/sinon" />
+        <item url="file://$PROJECT_DIR$/node_modules/karma-chai-plugins/node_modules/chai-jquery" />
+        <item url="file://$PROJECT_DIR$/node_modules/karma-chai-plugins/node_modules/sinon-chai" />
+        <item url="file://$PROJECT_DIR$/node_modules/karma-chai-plugins/node_modules/chai-as-promised" />
+      </sourceFilesUrls>
+    </properties>
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/node_modules/karma-chai-plugins/node_modules/chai-things" />
+      <root url="file://$PROJECT_DIR$/node_modules/karma-chai-plugins/node_modules/chai" />
+      <root url="file://$PROJECT_DIR$/node_modules/karma-chai-plugins/node_modules/sinon" />
+      <root url="file://$PROJECT_DIR$/node_modules/karma-chai-plugins/node_modules/chai-jquery" />
+      <root url="file://$PROJECT_DIR$/node_modules/karma-chai-plugins/node_modules/sinon-chai" />
+      <root url="file://$PROJECT_DIR$/node_modules/karma-chai-plugins/node_modules/chai-as-promised" />
+    </CLASSES>
+    <SOURCES />
+  </library>
+</component>
