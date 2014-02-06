@@ -40,7 +40,8 @@ module.exports = function(grunt) {
   // * spawn: false
   // * https://github.com/gruntjs/grunt-contrib-watch/issues/231
   var watchConfig = {};
-  if (process.argv.join(':').split(':').indexOf('server') !== -1) {
+  var args = process.argv.join(':').split(':');
+  if (args.indexOf('server') !== -1) {
     grunt.util.spawn({
       grunt: true,
       args: ['watch']
@@ -55,7 +56,7 @@ module.exports = function(grunt) {
       },
       styles: {
         files: ['<%= path.blocks %>**/*.scss', '<%= path.bundles %>**/*.scss', '<%= path.blocks %>**/*.md'],
-        tasks: process.argv.indexOf('styleguide') !== -1 ? ['styles', 'styleguide'] : ['styles']
+        tasks: args.indexOf('styleguide') !== -1 ? ['styles', 'styleguide'] : ['styles']
       },
       js: {
         files: ['<%= path.blocks %>**/*.js', '<%= path.bundles %>**/*.js', '<%= path.tests %>**/*.js'],
