@@ -272,7 +272,8 @@ module.exports = function(grunt) {
     },
     autoprefixer: {
       options: {
-        browsers: ['last 3 versions', '> 1%', 'ie 8', 'ie 7']
+        // Autoprefixer default plus Explorer > 7
+        browsers: ['> 1%', 'last 2 versions', 'Opera 12.1', 'Explorer > 7']
       },
       dist: {
         files: [{
