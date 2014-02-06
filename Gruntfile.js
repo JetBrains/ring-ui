@@ -259,6 +259,7 @@ module.exports = function(grunt) {
       dist: {
         options: {
           includePaths: ['<%= path.blocks %>**/'],
+          sourceComments: 'map',
           outputStyle: 'nested'
         },
         files: [{
@@ -272,6 +273,7 @@ module.exports = function(grunt) {
     },
     autoprefixer: {
       options: {
+        map: true,
         // Autoprefixer default plus Explorer > 7
         browsers: ['> 1%', 'last 2 versions', 'Opera 12.1', 'Explorer > 7']
       },
