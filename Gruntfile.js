@@ -28,6 +28,7 @@ module.exports = function(grunt) {
       include: 'ring',
       out: path.dist + 'ring.js',
       optimize: 'none',
+      generateSourceMaps: true,
       wrap: {
         startFile: path.bundles + 'ring-start.frag',
         endFile: path.bundles + 'ring-end.frag'
@@ -125,6 +126,7 @@ module.exports = function(grunt) {
     uglify: {
       dist: {
         options: {
+          sourceMap: true,
           report: 'min'
         },
         files: [{
