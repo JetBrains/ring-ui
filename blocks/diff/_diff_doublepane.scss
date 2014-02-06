@@ -3,12 +3,15 @@
 // NB: colours from IntelliJ IDEA default colour scheme.
 $outline: #CCCCCC;
 
+$added_outline: #B2BCB2;
 $added_background: #EDFAED;
 $added_chars: #D1F3D2;
 
+$modified_outline: #B2B7BF;
 $modified_background: #EEF3FD;
 $modified_chars: #D4E1FB;
 
+$deleted_outline: #B6B6B6;
 $deleted_background: #F2F2F2;
 $deleted_chars: #DEDEDE;
 
@@ -68,7 +71,7 @@ $map_borders: 1px;
 }
 
 .ring-diff__split {
-  background: #f7f7f7;
+  background: rgba(0, 0, 0, 0.1);
   border: solid 1px rgba(0, 0, 0, 0.1);
   left: 49%;
   overflow: hidden;
@@ -108,13 +111,13 @@ $map_borders: 1px;
   }
 
   .ring-diff-line_before-added {
-    box-shadow: 0 1px 0 $outline;
+    box-shadow: 0 1px 0 $added_outline;
     border-bottom: solid 1px $added_background;
   }
 
   .ring-diff-line_before-deleted {
     box-shadow: 0 1px 0 $deleted_background;
-    border-bottom: solid 1px $outline;
+    border-bottom: solid 1px $deleted_outline;
   }
 
   .ring-diff-chars_added {
@@ -142,15 +145,15 @@ $map_borders: 1px;
 
   .ring-diff-line_first {
     &.ring-diff-line_added {
-      border-top: solid 1px $outline;
+      border-top: solid 1px $added_outline;
     }
 
     &.ring-diff-line_modified {
-      border-top: solid 1px $outline;
+      border-top: solid 1px $modified_outline;
     }
 
     &.ring-diff-line_deleted {
-      border-top: solid 1px $outline;
+      border-top: solid 1px $deleted_outline;
     }
 
     & ~ pre .ring-diff-chars_added,
@@ -162,15 +165,15 @@ $map_borders: 1px;
 
   .ring-diff-line_last {
     &.ring-diff-line_added {
-      border-bottom: solid 1px $outline;
+      border-bottom: solid 1px $added_outline;
     }
 
     &.ring-diff-line_modified {
-      border-bottom: solid 1px $outline;
+      border-bottom: solid 1px $modified_outline;
     }
 
     &.ring-diff-line_deleted {
-      border-bottom: solid 1px $outline;
+      border-bottom: solid 1px $deleted_outline;
     }
 
     & ~ pre .ring-diff-chars_added,
@@ -185,6 +188,18 @@ $map_borders: 1px;
   stroke: $outline;
   stroke-width: 1px;
   fill: transparent;
+
+  &.ring-diff-connector__line_added {
+    stroke: $added_outline;
+  }
+
+  &.ring-diff-connector__line_modified {
+    stroke: $modified_outline;
+  }
+
+  &.ring-diff-connector__line_deleted {
+    stroke: $deleted_outline;
+  }
 }
 
 .ring-diff-connector {
