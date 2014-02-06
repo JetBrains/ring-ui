@@ -54,7 +54,10 @@ define([
     CONNECTOR_PATH_DELETED: 'ring-diff-connector__path_deleted',
     CONNECTOR_PATH_ADDED: 'ring-diff-connector__path_added',
     CONNECTOR_PATH_INLINE: 'ring-diff-connector__path_modified',
-    CONNECTOR_LINE: 'ring-diff-connector__line'
+    LINE_BASE: 'ring-diff-connector__line',
+    LINE_DELETED: 'ring-diff-connector__line_deleted',
+    LINE_ADDED: 'ring-diff-connector__line_added',
+    LINE_INLINE: 'ring-diff-connector__line_modified'
   };
 
   /**
@@ -65,7 +68,7 @@ define([
   d.DoubleEditorDivider.getRangeTypeToConnectorClass = function() {
     /**
      * @static
-     * @type {Object.<d.Parser.LineType, string>}
+     * @type {Object.<d.Parser.LineType, d.DoubleEditorDivider.ClassName>}
      * @private
      */
     d.DoubleEditorDivider.rangeTypeToConnectorClass_ = d.createObject(
@@ -80,16 +83,40 @@ define([
             d.DoubleEditorDivider.ClassName.CONNECTOR_PATH_INLINE,
         d.Parser.LineType.INLINE | d.Parser.LineType.ADDED,
             d.DoubleEditorDivider.ClassName.CONNECTOR_PATH_INLINE);
+
+    /**
+     * @static
+     * @type {Object.<d.Parser.LineType, d.DoubleEditorDivider.ClassName>}
+     * @private
+     */
+    d.DoubleEditorDivider.rangeTypeToLineClass_ = d.createObject(
+        d.Parser.LineType.NULL, '',
+        d.Parser.LineType.DELETED,
+            d.DoubleEditorDivider.ClassName.LINE_DELETED,
+        d.Parser.LineType.ADDED,
+            d.DoubleEditorDivider.ClassName.LINE_ADDED,
+        d.Parser.LineType.INLINE,
+            d.DoubleEditorDivider.ClassName.LINE_INLINE,
+        d.Parser.LineType.INLINE | d.Parser.LineType.DELETED,
+            d.DoubleEditorDivider.ClassName.LINE_INLINE,
+        d.Parser.LineType.INLINE | d.Parser.LineType.ADDED,
+            d.DoubleEditorDivider.ClassName.LINE_INLINE);
   };
 
   /**
    * @static
    * @param {d.Parser.LineType} rangeType
+   * @param {d.DoubleEditorDivider.PathType} pathType
    */
-  d.DoubleEditorDivider.getClassFromRangeType = function(rangeType) {
+  d.DoubleEditorDivider.getClassFromRangeType = function(rangeType, pathType) {
     var usedTypes = [d.Parser.LineType.ADDED, d.Parser.LineType.DELETED,
       d.Parser.LineType.INLINE];
     var normalizedType = d.Parser.normalizeType(rangeType, usedTypes);
+
+    if (pathType === d.DoubleEditorDivider.PathType.LOWER_LINE ||
+        pathType === d.DoubleEditorDivider.PathType.UPPER_LINE) {
+      return d.DoubleEditorDivider.rangeTypeToLineClass_[normalizedType];
+    }
 
     return d.DoubleEditorDivider.rangeTypeToConnectorClass_[normalizedType];
   };
@@ -140,8 +167,11 @@ define([
                 range, this.visibleVRangeOriginal_, this.visibleVRangeModified_,
                 connectorCanvasWidth,
                 d.DoubleEditorDivider.PathType.LOWER_LINE));
-        connectorLowerBorder.setAttribute('class',
-            d.DoubleEditorDivider.ClassName.CONNECTOR_LINE);
+        connectorLowerBorder.setAttribute('class', [
+          d.DoubleEditorDivider.ClassName.LINE_BASE,
+          d.DoubleEditorDivider.getClassFromRangeType(range.type,
+              d.DoubleEditorDivider.PathType.LOWER_LINE)
+        ].join(' '));
 
         var connectorUpperBorder = document.createElementNS(
             d.DoubleEditorDivider.SVG_NAMESPACE, 'path');
@@ -150,8 +180,11 @@ define([
                 range, this.visibleVRangeOriginal_, this.visibleVRangeModified_,
                 connectorCanvasWidth,
                 d.DoubleEditorDivider.PathType.UPPER_LINE));
-        connectorUpperBorder.setAttribute('class',
-            d.DoubleEditorDivider.ClassName.CONNECTOR_LINE);
+        connectorUpperBorder.setAttribute('class', [
+          d.DoubleEditorDivider.ClassName.LINE_BASE,
+          d.DoubleEditorDivider.getClassFromRangeType(range.type,
+              d.DoubleEditorDivider.PathType.UPPER_LINE)
+        ].join(' '));
 
         connector.appendChild(connectorPath);
         connector.appendChild(connectorUpperBorder);
