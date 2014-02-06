@@ -2,6 +2,7 @@
 <project version="4">
   <component name="JavaScriptLibraryMappings">
     <file url="file://$PROJECT_DIR$" libraries="{Node.js Dependencies for ui}" />
+    <file url="PROJECT" libraries="{Chai}" />
   </component>
 </project>
 
