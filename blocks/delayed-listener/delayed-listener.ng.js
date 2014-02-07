@@ -15,51 +15,18 @@
           onDelayedChange: '&onDelayedChange'
         },
         link: function (scope, iElement) {
-          var timeoutHandler;
-          var lastPolledCaretPosition;
-          var lastTriggeredCaretPosition;
-          var lastPolledValue;
-          var lastTriggeredValue;
-          var pollCaretPosition = function () {
-            var caret = iElement.caret();
-            var value = iElement.val();
+          var delayedListener = ring('delayed-listener');
 
-            // If caret position changed during the last tick
-            //   Then save it and wait for the next tick
-            //   Else trigger caret-move-event
-            if (lastPolledCaretPosition !== caret || lastPolledValue !== value) {
-              lastPolledCaretPosition = caret;
-              lastPolledValue = value;
-            } else if (value !== lastTriggeredValue) {
-              lastTriggeredCaretPosition = caret;
-              lastTriggeredValue = value;
-              scope.onDelayedChange({value: value, caret: caret});
-            } else if (caret !== lastTriggeredCaretPosition) {
-              lastTriggeredCaretPosition = caret;
-              lastTriggeredValue = value;
-              scope.onDelayedCaretMove({value: value, caret: caret});
+          delayedListener('init', {
+            target: $(iElement),
+            listenDelay: scope.listenDelayed,
+            onDelayedChange: function (data) {
+              scope.onDelayedChange(data.value, data.caret);
+            },
+            onDelayedCaretMove: function (data) {
+              scope.onDelayedCaretMove(data.value, data.caret);
             }
-          };
-          var startListen = function () {
-            lastTriggeredCaretPosition = undefined;
-            lastPolledCaretPosition = undefined;
-            timeoutHandler = setInterval(pollCaretPosition, scope.listenDelayed || 250);
-          };
-          var stopListen = function () {
-            if (timeoutHandler) {
-              clearInterval(timeoutHandler);
-            }
-          };
-
-          iElement.bind('focus', function () {
-            startListen();
           });
-          iElement.bind('blur', function () {
-            stopListen();
-          });
-          if (iElement.is(':focus')) {
-            startListen();
-          }
         }
       };
     });
