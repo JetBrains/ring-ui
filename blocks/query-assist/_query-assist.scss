@@ -3,6 +3,11 @@
   overflow: hidden;
 }
 
+.ring-query-assist:empty:not(:focus):before {
+  content: attr(data-placeholder);
+  color: #9c9c9c;
+}
+
 .ring-query-assist__text {
   color: #B58900;
 }

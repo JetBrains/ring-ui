@@ -13,7 +13,8 @@
           dataSource: '=?source',
           search: '&onSearch',
           tabIndex: '@tabIndex',
-          className: '@class'
+          className: '@class',
+          placeholder: '@'
         },
         link: {
           pre: function ($scope, iElement) {
@@ -47,6 +48,7 @@
               targetElem: iElement,
               className: $scope.className || null,
               tabIndex: $scope.tabIndex || null,
+              placeholder: $scope.placeholder,
               method: 'replace',
               query: $scope.query || '',
               dataSource: $scope.dataSource
