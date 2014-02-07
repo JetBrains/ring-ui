@@ -99,7 +99,6 @@
             prev: $scope.control.prev,
             focus: function() {
               $scope.focus = !$scope.focus;
-              console.log($scope);
               return !$scope.focus;
             }
           };
