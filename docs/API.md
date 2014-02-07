@@ -724,6 +724,14 @@ Returns enumerable list of available event types for <code>Dialog</code>.
           ring('alerts', 'add')('Delayed-listener demo ' + JSON.stringify(data),'success', true, 3000);
         });
 
+Return object
+
+
+        {
+            value: 'value', // String
+            caret: 0 // Number
+        }
+
 ### Events
 
 * change:done - on change state
