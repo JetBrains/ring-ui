@@ -61,7 +61,11 @@ module.exports = function(grunt) {
       },
       js: {
         files: ['<%= path.blocks %>**/*.js', '<%= path.bundles %>**/*.js', '<%= path.tests %>**/*.js'],
-        tasks: ['jshint:dev', 'copy:blocks', 'karma:dev:run']
+        tasks: ['jshint:dev', 'karma:dev:run']
+      },
+      components: {
+        files: ['<%= path.blocks %>**/*.{ng.*,scss}'],
+        tasks: ['copy:blocks']
       },
       markdown: {
         files: ['<%= path.docs %>**/*.md'],
