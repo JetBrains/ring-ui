@@ -43,6 +43,14 @@ define([
   };
 
   /**
+   * @param {string} word
+   * @return {string}
+   */
+  d.capitalizeFirstLetter = function(word) {
+    return [word.charAt(0).toUpperCase(), word.slice(1)].join('');
+  };
+
+  /**
    * ID's for different kinds of regular expressions.
    * @enum {string}
    */
@@ -627,15 +635,15 @@ define([
     var nameEQ = name + '=';
     var ca = document.cookie.split(';');
 
-    for(var i = 0;i < ca.length; i++) {
+    for(var i = 0; i < ca.length; i++) {
       var c = ca[i];
 
       while(c.charAt(0) === ' ') {
-        c = c.substring(1,c.length);
+        c = c.substring(1, c.length);
       }
 
       if (c.indexOf(nameEQ) === 0) {
-        return c.substring(nameEQ.length,c.length);
+        return c.substring(nameEQ.length, c.length);
       }
     }
 
@@ -740,6 +748,16 @@ define([
   };
 
   /**
+   * Appends {@link CSSRule}
+   * @param {CSSRule} cssRule
+   * @param {CSSStyleSheet} stylesheet
+   * @param {number=} opt_index
+   */
+  d.style.addCSSRule = function(cssRule, stylesheet, opt_index) {
+    stylesheet.insertRule(cssRule.cssText, opt_index || 0);
+  };
+
+  /**
    * Takes selector and style object as arguments and creates new CSS style
    * tag and immediately applies it.
    * @param {string} selector
@@ -771,6 +789,42 @@ define([
    */
   d.style.removeDocumentStyle = function(styleElement) {
     document.head.removeChild(styleElement);
+  };
+
+  /**
+   * Appends rule with correct vendor prefix.
+   * @param {Element} element
+   * @param {string} rule
+   * @param {string} value
+   */
+  d.style.appendAnimationVendorRule = function(element, rule, value) {
+    // todo(igor.alexeenko): Refactor.
+
+    var vendorPrefixes = ['moz', 'o', 'webkit', 'ms'];
+    var prefix;
+
+    while ((prefix = vendorPrefixes.shift())) {
+      var currentRule = [prefix, d.capitalizeFirstLetter(rule)].join('');
+      element.style[currentRule] = value;
+    }
+
+    element.style[rule] = value;
+  };
+
+  /**
+   * @param {Element}element
+   * @param {string} rule
+   */
+  d.style.removeAnimationVendorRule = function(element, rule) {
+    var vendorPrefixes = ['moz', 'o', 'webkit', 'ms'];
+    var prefix;
+
+    while ((prefix = vendorPrefixes.shift())) {
+      var currentRule = ['-', prefix, '-', rule].join('');
+      element.style.removeProperty(currentRule);
+    }
+
+    element.style.removeProperty(rule);
   };
 
   return d;
