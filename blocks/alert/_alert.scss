@@ -68,7 +68,6 @@ $ring-alert-margin: 10px;
 }
 
 .ring-alert_shown {
-  animation-name: appearing;
   animation-duration: 200ms;
   animation-iteration-count: 1;
 }
@@ -140,7 +139,7 @@ $ring-alert-margin: 10px;
 }
 
 // todo(igor.alexeenko): Overriding !important rule for font icons.
-// Not very clear solution, but I want to align my icon to the middle of
+// Not very clean solution, but I want to align my icon to the middle of
 // the first row of text in alert.
 .ring-alert__close {
   color: #C0C0C0;
@@ -168,9 +167,12 @@ body .ring-font-icon.ring-alert__close {
   text-decoration: underline;
 }
 
+// NB!
+// Used as template for JavaScript method, which creates exclusive animation
+// for every alert.
 @keyframes appearing {
   0% { height: 0; }
-  100% { height: $ring-alert-height; }
+  100% { height: auto; }
 }
 
 @keyframes hiding {
