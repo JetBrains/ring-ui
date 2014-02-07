@@ -706,3 +706,26 @@ Removes event handler.
 
 ### getEventTypes
 Returns enumerable list of available event types for <code>Dialog</code>.
+
+##Delayed listener
+
+
+        var delayedListener = ring('delayed-listener');
+
+        delayedListener('init', {
+          target: '.delayed-listener-demo',
+          listenDelay: 250, // Optional
+          callback: function (data) { // Optional
+            console.log(data);
+          }
+        });
+
+        delayedListener.on('change:done', function(data) {
+          ring('alerts', 'add')('Delayed-listener demo ' + JSON.stringify(data),'success', true, 3000);
+        });
+
+### Events
+
+* change:done - on change state
+* init:done
+* init:fail
