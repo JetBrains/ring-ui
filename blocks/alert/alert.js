@@ -6,17 +6,17 @@
 define([
   'jquery',
   'handlebars',
-  'global/global__views',
   'global/global__utils',
   'diff/diff__tools'
-], function($, Handlebars, View, utils, d) {
+], function($, Handlebars, utils, d) {
   /**
    * @enum {string}
    */
   var Selector = {
     CAPTION: '.ring-alert__caption',
     CLOSE: '.ring-alert__close',
-    ICON: '.ring-alert__icon'
+    ICON: '.ring-alert__icon',
+    INNER: '.ring-alert__inner'
   };
 
   /**
@@ -48,6 +48,8 @@ define([
    */
   var TEMPLATE_ID = 'alert';
 
+  var KEYFRAME_RULE = 'appearing';
+
   /**
    * @param {string=} opt_caption
    * @param {Alert.Type=} opt_type
@@ -55,11 +57,14 @@ define([
    * @constructor
    */
   var Alert = function(opt_caption, opt_type, opt_closeable) {
-    /**
-     * @type {View}
-     * @private
-     */
-    this.view_ = new View();
+    if (!d.isDef(Alert.templateKeyframeRule_)) {
+      /**
+       * @static
+       * @type {CSSRule?}
+       * @private
+       */
+      Alert.templateKeyframeRule_ = d.style.getKeyframeRule(KEYFRAME_RULE);
+    }
 
     /**
      * @type {boolean}
@@ -170,10 +175,47 @@ define([
     }
 
     $(opt_parentEl).prepend(this.element_);
+
+    var animationName = this.addShowRule();
+
     $(this.element_).toggleClass(ClassName.HIDDEN, false);
     $(this.element_).toggleClass(ClassName.SHOWN, true);
 
+    var elementHeight = this.element_.clientHeight;
+    var innerElement = Alert.getInnerElement(this);
+
+    if (innerElement) {
+      elementHeight = innerElement.clientHeight;
+    }
+
+    this.element_.style.height = elementHeight + 'px';
+    d.style.appendAnimationVendorRule(this.element_, 'animationName',
+        animationName);
+
     $(this.element_).trigger(Alert.EventType.SHOW);
+  };
+
+  /**
+   * @return {string}
+   */
+  Alert.prototype.addShowRule = function() {
+    var animationName = d.getAnimationUniqueName(KEYFRAME_RULE);
+    var newRule = d.mixin({}, Alert.templateKeyframeRule_);
+
+    var elementHeight = this.element_.clientHeight;
+    var innerElement = Alert.getInnerElement(this);
+
+    if (innerElement) {
+      elementHeight = innerElement.clientHeight;
+    }
+
+    newRule.cssText = newRule.cssText.
+        replace('auto', [elementHeight, 'px'].join('')).
+        replace(KEYFRAME_RULE, animationName);
+
+    d.style.addCSSRule(newRule, d.peekArray(document.styleSheets));
+
+    return animationName;
   };
 
   /**
@@ -199,11 +241,12 @@ define([
           this);
     }
 
+    d.style.removeAnimationVendorRule(this.element_, 'animation');
+
     d.addAnimationCallback(this.element_, this.onAnimationEndHandler_);
 
     $(this.element_).toggleClass(ClassName.SHOWN, false);
     $(this.element_).toggleClass(ClassName.HIDDEN, true);
-
     $(this.element_).trigger(Alert.EventType.HIDE);
   };
 
@@ -214,6 +257,9 @@ define([
     $(this.element_).remove();
   };
 
+  /**
+   * Hides element and disposes when animation ends.
+   */
   Alert.prototype.hideAndDispose = function() {
     /**
      * @type {function(this, evt: Event): undefined}
@@ -222,10 +268,8 @@ define([
     this.hideAndDisposeHandler_ = d.bindContext(this.onHideAnimationEnd_,
         this);
 
-    // todo(igor.alexeenko): Check if callback always works even in corner
-    // cases.
-    this.hide();
     d.addAnimationCallback(this.element_, this.hideAndDisposeHandler_);
+    this.hide();
   };
 
   /**
@@ -248,7 +292,6 @@ define([
     this.onCloseClickHandler_ = null;
     this.onAnimationEndHandler_ = null;
     this.type_ = null;
-    this.view_ = null;
   };
 
   /**
@@ -346,16 +389,37 @@ define([
   /**
    * @static
    * @param {Alert} alert
+   * @return {Element?}
+   */
+  Alert.getInnerElement = function(alert) {
+    if (!alert.getElement()) {
+      return null;
+    }
+
+    return alert.getElement().querySelector(Selector.INNER);
+  };
+
+  /**
+   * @static
+   * @param {Alert} alert
    * @return {Array.<string>}
    */
   Alert.getClassNames = function(alert) {
     var classes = [];
-    var typesToClasses = d.createObject(
-        Alert.Type.ERROR, ClassName.ERROR,
-        Alert.Type.SUCCESS, ClassName.SUCCESS,
-        Alert.Type.WARNING, ClassName.WARNING);
 
-    var typeClass = typesToClasses[alert.getType()];
+    if (!Alert.typesToClasses_) {
+      /**
+       * Lookup table of types of {@code Alert}s to according class names.
+       * @type {Object.<Alert.Type, ClassName>}
+       * @private
+       */
+      Alert.typesToClasses_ = d.createObject(
+          Alert.Type.ERROR, ClassName.ERROR,
+          Alert.Type.SUCCESS, ClassName.SUCCESS,
+          Alert.Type.WARNING, ClassName.WARNING);
+    }
+
+    var typeClass = Alert.typesToClasses_[alert.getType()];
 
     classes.push(ClassName.BASE);
 
