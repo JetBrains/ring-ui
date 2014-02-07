@@ -8,7 +8,7 @@ define([
   'use strict';
 
   var $target,
-    callback,
+    Config,
     listenDelay,
     delayedListener,
     timeoutHandler,
@@ -29,9 +29,7 @@ define([
     }
 
     listenDelay = (config.listenDelay && !isNaN(config.listenDelay)) || LISTEN_DELAY;
-    if (config.callback && typeof config.callback === 'function') {
-      callback = config.callback;
-    }
+    Config = config;
 
     $target.
       bind('focus',function () {
@@ -73,17 +71,24 @@ define([
     } else if (value !== lastTriggeredValue) {
       lastTriggeredCaretPosition = caret;
       lastTriggeredValue = value;
-      handleFunc_({value: value, caret: caret});
+      _onDelayedChange({value: value, caret: caret});
     } else if (caret !== lastTriggeredCaretPosition) {
       lastTriggeredCaretPosition = caret;
       lastTriggeredValue = value;
-      handleFunc_({value: value, caret: caret});
+      _onDelayedCaretMove({value: value, caret: caret});
     }
   };
 
-  var handleFunc_ = function (data) {
-    if (callback) {
-      callback.call(null, data);
+  var _onDelayedCaretMove = function(data) {
+    if (Config.onDelayedCaretMove && typeof Config.onDelayedCaretMove === 'function') {
+      Config.onDelayedCaretMove.call(null, data);
+    }
+    delayedListener.trigger('change:done', data);
+  };
+
+  var _onDelayedChange = function(data) {
+    if (Config.onDelayedChange && typeof Config.onDelayedChange === 'function') {
+      Config.onDelayedChange.call(null, data);
     }
     delayedListener.trigger('change:done', data);
   };

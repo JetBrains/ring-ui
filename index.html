@@ -410,13 +410,16 @@
         delayedListener('init', {
           target: '.delayed-listener-demo',
           listenDelay: 250,
-          callback: function (data) {
+          onDelayedChange: function (data) {
+            console.log(data);
+          },
+          onDelayedCaretMove: function (data) {
             console.log(data);
           }
         });
 
-        delayedListener.on('change:done', function(data) {
-          ring('alerts', 'add')('Delayed-listener demo ' + JSON.stringify(data),'success', true, 3000);
+        delayedListener.on('change:done', function (data) {
+          ring('alerts', 'add')('Delayed-listener demo ' + JSON.stringify(data), 'success', true, 3000);
         });
     });
   </script>

@@ -715,7 +715,10 @@ Returns enumerable list of available event types for <code>Dialog</code>.
         delayedListener('init', {
           target: '.delayed-listener-demo',
           listenDelay: 250, // Optional
-          callback: function (data) { // Optional
+          onDelayedChange: function (data) { // Optional
+            console.log(data);
+          },
+          onDelayedCaretMove: function (data) { // Optional
             console.log(data);
           }
         });
