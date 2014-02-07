@@ -18,22 +18,6 @@
         return this;
       };
 
-      this.mode({
-        id: 'shortcuts',
-        shortcuts: [
-          {
-            key: 'down',
-            action: 'route'
-          }, {
-            key: 'up',
-            action: 'route'
-          }, {
-            key: 'esc',
-            action: 'route'
-          }
-        ]
-      });
-
       this['$get'] = ['$rootScope', function($rootScope) {
         return {
           'bind': function(name, handlers) {
@@ -118,7 +102,7 @@
             $scope.current = next;
           };
 
-          this.route = function(e, combo) {
+          this.route = function(action, e, combo) {
             var next;
 
             // There is nowhere to navigate
@@ -126,7 +110,7 @@
               return false;
             }
 
-            if (combo === 'esc') {
+            if (action === 'main') {
               $.each($scope.zones, function(index, zone) {
                 if (shortcuts.isMainMode(zone.name)) {
                   next = $scope.zones[index];
@@ -135,7 +119,7 @@
                 }
               });
             } else {
-              next = getNext($scope.current, combo === 'up');
+              next = getNext($scope.current, action === 'prev');
             }
 
             if (next) {
@@ -148,6 +132,11 @@
 
             return false;
           };
+
+
+          this.next = this.route.bind(this, 'next');
+          this.prev = this.route.bind(this, 'prev');
+          this.main = this.route.bind(this, 'main');
 
           this.setup = function(zone, keys) {
             shortcuts.bind(zone.name, keys);
@@ -166,8 +155,8 @@
           };
 
           // Initial setup
-          shortcuts.bind('shortcuts', this);
-          shortcuts.ring('pushScope', 'shortcuts');
+          shortcuts.bind('ring-shortcuts', this);
+          shortcuts.ring('pushScope', 'ring-shortcuts');
         }]
       };
     }])
