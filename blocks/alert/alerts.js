@@ -2,7 +2,7 @@ define([
   'alert/alert',
   'global/global__modules',
   'diff/diff__tools'
-], function(Alert, Module, diffTool) {
+], function(Alert, Module, d) {
   /**
    * @type {string}
    * @const
@@ -33,14 +33,7 @@ define([
      */
     this.animatedAlert_ = null;
 
-    /**
-     * Callbacks, which allows to implement some kind of animation queue.
-     * @type {Array.<function>}
-     * @private
-     */
-    this.animationCallbacks_ = [];
-
-    if (!diffTool.isDef(opt_parent)) {
+    if (!d.isDef(opt_parent)) {
       opt_parent = document.body;
     }
 
@@ -56,7 +49,7 @@ define([
    */
   Alerts.prototype.showAlert = function(message, opt_type, opt_closeable,
                                         opt_timeout) {
-    if (!diffTool.isDef(opt_type)) {
+    if (!d.isDef(opt_type)) {
       opt_type = Alert.Type.MESSAGE;
     }
 
@@ -76,8 +69,8 @@ define([
     } else {
       // todo(igor.alexeenko): kind a dirty solution. Implement {AnimationQueue}
       // as in Google Closure Library.
-      diffTool.addAnimationCallback(this.animatedAlert_.getElement(),
-          diffTool.bindContext(function() {
+      d.addAnimationCallback(this.animatedAlert_.getElement(),
+          d.bindContext(function() {
         this.add(alert, opt_timeout);
       }, this));
     }
@@ -93,29 +86,29 @@ define([
     this.animatedAlert_ = alert;
 
     if (!this.onAnimationEndHandler_) {
-      this.onAnimationEndHandler_ = diffTool.bindContext(this.onAnimationEnd_,
+      this.onAnimationEndHandler_ = d.bindContext(this.onAnimationEnd_,
           this);
     }
 
-    diffTool.addAnimationCallback(this.animatedAlert_.getElement(),
+    d.addAnimationCallback(this.animatedAlert_.getElement(),
         this.onAnimationEndHandler_);
 
     alert.show(this.element_);
 
-    if (diffTool.isDef(opt_timeout)) {
-      var addTimeoutFn = diffTool.bindContext(function() {
+    if (d.isDef(opt_timeout)) {
+      var addTimeoutFn = d.bindContext(function() {
         /**
          * ID of alert hide timeout to make it possible to prevent it.
          * @type {number}
          * @private
          */
-        this.hideTimeout_ = setTimeout(diffTool.bindContext(function() {
+        this.hideTimeout_ = setTimeout(d.bindContext(function() {
           this.remove(alert);
         }, this), opt_timeout);
       }, this);
 
-      if (diffTool.isDocumentHidden()) {
-        diffTool.addDocumentVisibilityChangeCallback(addTimeoutFn);
+      if (d.isDocumentHidden()) {
+        d.addDocumentVisibilityChangeCallback(addTimeoutFn);
       } else {
         addTimeoutFn();
       }
@@ -149,7 +142,7 @@ define([
     }
 
     var alert = this.stack_[index];
-    diffTool.deleteFromArray(this.stack_, alert);
+    d.deleteFromArray(this.stack_, alert);
     alert.hideAndDispose();
   };
 
