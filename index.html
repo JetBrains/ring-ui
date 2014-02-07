@@ -249,7 +249,8 @@
         "right": {
           "search": {
             "type": "search",
-              "url": "/search"
+            "className": "delayed-listener-demo",
+            "url": "/search"
           },
           "cog": {
             "type": "cog",
@@ -403,6 +404,20 @@
           ring('alerts', 'add')('Shortcuts!','success', true, 10000);
         }
       });
+
+        var delayedListener = ring('delayed-listener');
+
+        delayedListener('init', {
+          target: '.delayed-listener-demo',
+          listenDelay: 250,
+          callback: function (data) {
+            console.log(data);
+          }
+        });
+
+        delayedListener.on('change:done', function(data) {
+          ring('alerts', 'add')('Delayed-listener demo ' + JSON.stringify(data),'success', true, 3000);
+        });
     });
   </script>
 </head>
