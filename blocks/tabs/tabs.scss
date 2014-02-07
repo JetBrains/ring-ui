@@ -5,14 +5,15 @@
 // Markup:
 // <div class="ring-tabs">
 //  <div class="ring-tabs__tabs">
-//     <div class="ring-tabs__btn active {$modifiers}">Settings</div>
+//     <div class="ring-tabs__btn {$modifiers}">Settings</div>
 //     <div class="ring-tabs__btn">Access</div>
 //     <div class="ring-tabs__btn">Members<span class="ring-tabs__btn__counter">7<span></div>
 //   </div>
 // </div>
 //
-// .ring-tabs__btn_focus      - Highlight focused tab, also available as `:focus`
+// .ring-tabs__btn_active     - Active tab, also available as `.active`
 // .ring-tabs__btn_disabled   - Disable tab state, also available as `.disabled`
+// .ring-tabs__btn_focus      - Highlight focused tab, also available as `:focus`
 //
 // Styleguide 11.1
 
@@ -77,7 +78,7 @@
 
   cursor: pointer;
 
-  &.active {
+  &.active, &.ring-tabs__btn_active {
     color: #1A1A1A;
     outline: 0;
 
