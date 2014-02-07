@@ -3,88 +3,127 @@
 // Tabs
 //
 // Markup:
-// <div class="ring-tabs {$modifiers}">
+// <div class="ring-tabs">
 //  <div class="ring-tabs__tabs">
-//     <div class="ring-tabs__btn">Tab 1</div>
-//     <div class="ring-tabs__btn active">Tab 2</div>
-//     <div class="ring-tabs__btn">Tab 3</div>
+//     <div class="ring-tabs__btn active {$modifiers}">Settings</div>
+//     <div class="ring-tabs__btn">Access</div>
+//     <div class="ring-tabs__btn">Members<span class="ring-tabs__btn__counter">7<span></div>
 //   </div>
-//   <div class="ring-tabs__container">Pane content</div>
 // </div>
 //
-// .ring-tabs_pointer - Tab with a pointer arrow
+// .ring-tabs__btn_focus      - Highlight focused tab, also available as `:focus`
+// .ring-tabs__btn_disabled   - Disable tab state, also available as `.disabled`
 //
 // Styleguide 11.1
 
+// Tabs with underline
+//
+// Markup:
+// <div class="ring-tabs {$modifiers}">
+//  <div class="ring-tabs__tabs">
+//     <div class="ring-tabs__btn active">Settings</div>
+//     <div class="ring-tabs__btn">Access</div>
+//     <div class="ring-tabs__btn">Members<span class="ring-tabs__btn__counter">7<span></div>
+//   </div>
+// </div>
+//
+// .ring-tabs_long            - Stratched underline
+//
+// Styleguide 11.2
+
+@mixin ring-tabs-border-bottom {
+  border-bottom: 1px solid;
+  @include rgba-attribute('border-color', rgba(0, 0, 0, 0.15))
+}
+
 .ring-tabs__tabs {
+  display: flex;
   position: relative;
-  margin: 13px 16px 22px 16px;
-  line-height: $ring-unit * 3 - 2;
+
+  margin: 13px $ring-unit*2 $ring-unit*3 - 2;
+  line-height: $ring-unit*3 - 2;
+  font-size: 0;
+  white-space: nowrap;
+
+  .ring-tabs_long &:after {
+    content: '';
+    display: inline-block;
+    flex: auto;
+
+    @include ring-tabs-border-bottom;
+  }
 }
 
-.ring-tabs_pointer .ring-tabs__tabs > .active:after,
-.ring-tabs_pointer .ring-tabs__btn_active:after {
-  display: block;
+.ring-tabs__btn {;
+  box-sizing: border-box;
   position: relative;
-  top: 19px;
-  width: 10px;
-  height: 10px;
-  margin: 0 auto;
 
-  content: '';
-  transform: rotate(45deg);
-  cursor: default;
-  background-color: #F0F0F0;
-  box-shadow: inset 1px 1px 0 0 #CBCBCB;
-}
-
-.ring-tabs__btn {
   display: inline-block;
+  &, x:-IE7 { // IE7
+    zoom: 1;
+    display: inline;
+  }
+
   height: $ring-unit * 3;
+  padding: 1px $ring-unit * 2 + 1 0;
 
-  padding: 0 $ring-unit * 2;
-  border-top: 1px solid transparent;
-
-  color: #1866C5;
-  font-size: 13px;
+  color: $ring-link-color;
   @include ring-font;
+  font-size: 13px;
+
+  @include ring-tabs-border-bottom;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
 
   cursor: pointer;
+
+  &.active {
+    color: #1A1A1A;
+    outline: 0;
+
+    border: 1px solid;
+    @include rgba-attribute('border-color', rgba(0, 0, 0, 0.2));
+    padding: 0 $ring-unit * 2;
+    border-bottom: none;
+
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.05), transparent 80%);
+    background-position: 0 0;
+    background-repeat: no-repeat;
+
+    box-shadow: inset 0 2px 3px -1px rgba(0, 0, 0, 0.1);
+  }
 }
 
-.ring-tabs__btn_active, .ring-tabs__tabs > .active {
-  $border-color: #B4B4B4;
-  $gradient-color: #DCDCDC;
+.ring-tabs__btn_disabled,
+.ring-tabs__btn.disabled,
+.ring-tabs__btn[disabled] {
+  color: #888 !important;
+}
 
-  position: relative;
-  display: inline-block;
+.ring-tabs__btn:focus:before,
+.ring-tabs__btn_focus:before {
+  content: '';
+  display: block;
+  position: absolute;
 
-  color: #1A1A1A;
-  outline: 0;
+  top: -5px;
+  left: -5px;
+  width: 100%;
+  height: 100%;
 
-  border-top-color: $border-color;
-  border-radius: 3px;
-
-  background: #1A1A1A;
-  background: linear-gradient(to bottom, $border-color, rgba(0, 0, 0, 0)),
-              linear-gradient(to top, rgba(255, 255, 255, 0), $gradient-color),
-              linear-gradient(to bottom, $border-color, rgba(0, 0, 0, 0));
-  background-size: 1px 100%, calc(100% - 2px) 100%, 1px 100%;
-  background-position: 0 0, 1px 0, 100% 0;
-  background-repeat: no-repeat;
+  border: 5px solid;
+  @include rgba-attribute('border-color', $ring-outline-color);
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+  border-bottom: none;
 }
 
 .ring-tabs__btn__counter {
   position: relative;
   top: -5px;
   padding: 1px 2px;
-  border-radius: 2px;
   color: black;
   font-size: 10px;
-}
-
-.ring-tabs__container {
-  border-top: 1px solid #B4B4B4;
 }
 
 .ring-tabs__content {

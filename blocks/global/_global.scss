@@ -3,6 +3,7 @@ $ring-unit: 8px;
 
 $ring-link-color:  #1866C5;
 $ring-link-hover-color: #FF5A00;
+$ring-outline-color: rgba(37, 183, 255, 0.5);
 
 // Mixins
 @mixin text-color() {
@@ -33,6 +34,12 @@ $ring-link-hover-color: #FF5A00;
   only screen and (                min-resolution: #{$ratio}dppx) {
     @content;
   }
+}
+
+@mixin rgba-attribute($attribute, $color, $background: #fff) {
+  $solid-color: mix(opacify($color, 1), $background, alpha($color) * 100%);
+  #{$attribute}: $solid-color;
+  #{$attribute}: $color;
 }
 
 // Fonts
