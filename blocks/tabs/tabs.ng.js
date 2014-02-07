@@ -14,10 +14,6 @@
           $scope.panes = [];
           $scope.current = 0;
 
-          if ('pointer' in $attrs) {
-            $scope.pointer = true;
-          }
-
           if ('breadcrumb' in $attrs) {
             $scope.breadcrumb = true;
           }
@@ -97,6 +93,17 @@
           $scope.control.prev = function () {
             doSelect($scope.current - 1);
           };
+
+          $scope.keyMap = {
+            next: $scope.control.next,
+            prev: $scope.control.prev,
+            focus: function() {
+              $scope.focus = !$scope.focus;
+              console.log($scope);
+              return !$scope.focus;
+            }
+          };
+
         }],
         templateUrl: 'tabs/tabs.ng.html',
         replace: true
