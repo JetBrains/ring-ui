@@ -7,6 +7,7 @@ define([
   'alert/alerts',
   'dialog/dialog',
   'link-list/link-list',
+  'action-list/action-list',
   'delayed-listener/delayed-listener'
 ], function(ring) {
   return ring;

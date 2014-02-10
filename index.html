@@ -228,18 +228,35 @@
             "button": [
               {
                 "label": "Add something",
-                "className": "ring-btn_primary demo__select-example"
+                "className": "ring-btn_primary",
+                "action-list": {
+                  'data': {
+                    type: [
+                      'typed'
+                    ]
+                  },
+                  "items": [
+                    {
+                      "type": "service",
+                      "label": "test"
+                    },
+                    {
+                      "type": "service",
+                      "label": "test23"
+                    }
+                  ]
+                }
               },
               {
                 "className": "ring-btn_primary ring-btn_icon ring-btn__dropdown-icon ring-menu__item_noselect ring-js-link-list",
                 "type": "caret-down",
                 "dropdown": [
-                    {
-                        "label":"test"
-                    },
-                    {
-                        "label":"test2"
-                    }
+                  {
+                    "label": "test"
+                  },
+                  {
+                    "label": "test2"
+                  }
                 ]
               }
             ]
