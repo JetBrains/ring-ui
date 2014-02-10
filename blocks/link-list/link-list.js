@@ -5,7 +5,7 @@ define([
   'global/global__events',
   'global/global__utils',
   'popup/popup'
-], function ($, View, Module, utils) {
+], function ($, View, Module) {
   'use strict';
 
   var MODULE = 'link-list';
