@@ -1,3 +1,5 @@
+@import "../global/global";
+
 // Breadcrumbs
 //
 // Markup:
@@ -10,31 +12,36 @@
 // </div>
 //
 // .ring-breadcrumb_small                    - font-size: 13px
-// .ring-tabs-pointer                        - tabs pointer
-// .ring-breadcrumb_small.ring-tabs-pointer - font-size: 13px and tabs pointer
 //
 // Styleguide 3.1
 
 .ring-breadcrumb {
   margin: 20px 0 14px;
+  font-size: 0;
 }
 
 .ring-breadcrumb_small {
   .ring-breadcrumb__element {
+    height: $ring-unit*2;
+    line-height: 14px;
     font-size: 13px;
   }
 
   .ring-breadcrumb__sep {
     top: 0;
-    font-size: 9px !important;
+    font-size: 8px !important;
   }
 }
 
 .ring-breadcrumb__element {
   display: inline-block;
+  height: $ring-unit*3;
+
   font-size: 19px;
+  line-height: 20px;
   color: #1866C5;
   text-decoration: none;
+
   cursor: pointer;
 }
 
@@ -44,8 +51,9 @@
 }
 
 .ring-breadcrumb__sep {
+  margin: 0 8px;
   position: relative;
-  top: -2px;
-  font-size: 11px !important;
+  top: -1px;
+  font-size: 9px !important;
   color: #949494;
 }
