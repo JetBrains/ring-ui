@@ -8,6 +8,7 @@ define([
   'use strict';
 
   var ROOT_SELECTOR = '.ring-dropdown';
+  var CONTAINER_SELECTOR = '.ring-dropdown__i';
   var MENU_ITEM_SELECTOR = '.ring-menu__item';
   var TOGGLE_SELECTOR = '.ring-dropdown-toggle';
 
@@ -28,13 +29,18 @@ define([
     var $target = _setTarget(config);
     var dropdown = Module.get(MODULE);
 
+    var data = {};
     if (!$target) {
       dropdown.trigger('show:fail');
       return false;
     }
 
+    if(config.data) {
+      data = config.data;
+    }
+
     remove();
-    $popup = $(View.render(MODULE, ''));
+    $popup = $(View.render(MODULE, data));
 
     return {
       target: $target,
@@ -131,7 +137,9 @@ define([
   var insertHTML = function (wrapper, $el) {
     $body.append(wrapper.el);
     return wrapper.el.
+      find(CONTAINER_SELECTOR).
       html($el).
+      parent().
       css(wrapper.getPos());
   };
 
