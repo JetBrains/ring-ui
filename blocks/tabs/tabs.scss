@@ -41,7 +41,7 @@
   display: flex;
   position: relative;
 
-  margin: 13px $ring-unit*2 $ring-unit*3 - 2;
+  margin: $ring-unit*3 $ring-unit*2 $ring-unit*2;
   line-height: $ring-unit*3 - 2;
   font-size: 0;
   white-space: nowrap;
