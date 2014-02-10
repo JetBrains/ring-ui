@@ -14,14 +14,10 @@ define([
   var popup = Module.get('popup');
   var $el;
 
-  var create = function (data) {
-    var wrapper = popup('create', data);
+  var create = function (data, config) {
+    var wrapper = popup('create', config);
 
-    popup('remove');
     dataSource(wrapper.target, data).then(function (data) {
-      if (data instanceof $ || utils.isNode(data)) {
-        $el = data;
-      }
       $el = $(View.render('dropdown__items', data));
       wrapper.insertHTML(wrapper, $el);
     });
@@ -57,8 +53,10 @@ define([
     var $target = $(e.currentTarget).closest(COMPONENT_SELECTOR);
 
     if ($target.length) {
-      create($target);
+      create(null, $target);
       return false;
+    } else {
+      remove();
     }
 
     e.stopPropagation();
