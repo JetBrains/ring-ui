@@ -3,7 +3,8 @@ define([
   'global/global__views',
   'global/global__modules',
   'global/global__events',
-  'global/global__utils'
+  'global/global__utils',
+  'jquery-caret'
 ], function ($, View, Module) {
   'use strict';
 
@@ -60,7 +61,7 @@ define([
 
   var pollCaretPosition_ = function () {
     var caret = $target.caret();
-    var value = $target.val();
+    var value = $target.val() || $target.text();
 
     // If caret position changed during the last tick
     //   Then save it and wait for the next tick
