@@ -1,0 +1,56 @@
+// ring-island
+//
+// Markup:
+//    <div class="ring-island">
+//        <div class="ring-island__content">Content</div>
+//    </div>
+//    <div class="ring-island">
+//        <div class="ring-island__header">
+//            <span class="ring-island__title">Title</span>
+//            <span class="ring-island__header-btn">Button</span>
+//        </div>
+//        <div class="ring-island__content">Content</div>
+//    </div>
+//
+// Styleguide 19.1
+
+.ring-island {
+  width: 100%;
+  margin-top: 16px;
+  background-color: #FFF;
+  border: 1px solid #B4B4B4;
+  border-radius: 3px;
+  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.2);
+}
+
+.ring-island__header {
+  background-color: #EBEBEB;
+  background-image: linear-gradient(to top, #EBEBEB, #FFF);
+  border-bottom: 1px solid #B4B4B4;
+  line-height: 24px;
+  font-size: 13px;
+}
+
+.ring-island__header-btn {
+  float: right;
+  padding: 0 16px 0 16px;
+  cursor: pointer;
+  box-shadow: inset 0 0 0 1px #FFF;
+  border-left: 1px solid #B4B4B4;
+  color: #6D6D6D;
+  text-shadow: #FFF 0 0 1px;
+
+  &:hover {
+    background-image: linear-gradient(to top, #E1E1E1, #FFF);
+  }
+}
+
+.ring-island__title {
+  padding-left: 16px;
+  font-weight: bold;
+  color: #1A1A1A;
+}
+
+.ring-island__content {
+  padding: 16px;
+}
