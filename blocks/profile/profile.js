@@ -5,9 +5,9 @@ define(['jquery',  'global/global__modules', 'global/global__views', 'auth/auth'
   var auth = Module.get('auth');
 
   var profileUrls = {
-    Hub: '/users/me',
-    JetPass: '/users/me', // should be deprecated, remove after rename
-    YouTrack: '/user',
+    Hub: '/users/%u',
+    JetPass: '/users/%u', // should be deprecated, remove after rename
+    YouTrack: '/user/%u',
     TeamCity: '/profile.html?init=1'
   };
 
