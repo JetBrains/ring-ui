@@ -14,33 +14,14 @@
       height: 100%;
     }
 
-    .container {
-      display: table;
-      height: 100%;
-    }
-
-    .profile {
-      width: 1px;
-    }
-
-    .profile div {
-      transition: visibility 0s 0.2s, width 0.5s;
-    }
-
-    .hidden div {
-      visibility: hidden;
-      width: 0;
-      transition: visibility 0s 0.1s, width 0.5s;
-    }
-
-    .demo, .profile {
-      vertical-align: top;
-      display: table-cell;
-    }
-
     .demo {
       width: 100%;
       height: 100%;
+    }
+
+    .demo__profile {
+      float: left;
+      margin: 0 24px;
     }
 
     .demo__content {
@@ -307,12 +288,9 @@
 
       o.on('menu:toggle-profile', function() {
         if (!$('.ring-profile').length) {
-          ring('profile').invoke('init', {targetElem: '.profile'})
-          .then(function() {
-              $('.profile').toggleClass('hidden');
-          });
+          ring('profile').invoke('init', {targetElem: '.demo__profile'});
         } else {
-          $('.profile').toggleClass('hidden');
+          $('.demo__profile').toggle();
         }
       });
 
@@ -408,8 +386,8 @@
 </head>
 <body>
 <div class="container">
-  <div class="profile hidden"></div>
   <div class="demo">
+    <div class="demo__profile"></div>
     <div class="demo__content">
       <h2 class="demo__header">Docs</h2>
 
