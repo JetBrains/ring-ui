@@ -74,6 +74,15 @@ define([
     mousetrap.bind(params.key, dispatcher, params.type);
   };
 
+  /**
+   * Binds events list to keys
+   *
+   * @params Event params
+   * @params.handler {Function} Events handle
+   * @params.scope {string} Scope (optional)
+   * @params.type {string} Event type, will be passed to Mousetrap (optional)
+   * @params.list {Object) Keys to handlers map
+   */
   var bindList = function(options, list) {
     if (list === undefined) {
       list = options;
@@ -166,7 +175,7 @@ define([
     }
 
     // stop for input, select, and textarea
-    return $element.is(':input') || (element.contentEditable && element.contentEditable === 'true');
+    return $element.is(':input:not(:button)') || (element.contentEditable && element.contentEditable === 'true');
   };
 
   var setFilter = function(fn) {
