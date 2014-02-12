@@ -57,13 +57,18 @@ define([
    * @constructor
    */
   var Alert = function(opt_caption, opt_type, opt_closeable) {
+    // todo(igor.alexeenko): Pretty dirty code.
     if (!d.isDef(Alert.templateKeyframeRule_)) {
-      /**
-       * @static
-       * @type {CSSRule?}
-       * @private
-       */
-      Alert.templateKeyframeRule_ = d.style.getKeyframeRule(KEYFRAME_RULE);
+      var fakeStylesheet = document.createElement('style');
+      fakeStylesheet.type = 'text/css';
+      fakeStylesheet.appendChild(document.createTextNode(''));
+      document.head.appendChild(fakeStylesheet);
+
+      fakeStylesheet.sheet.insertRule(
+          d.style.getPrefixedKeyframesRule() + ' appearing ' +
+          '{ 0% { height: 0; } 100% { height: auto; } }', 0);
+
+      Alert.templateKeyframeRule_ = fakeStylesheet.sheet.cssRules[0];
     }
 
     /**
@@ -200,14 +205,14 @@ define([
    */
   Alert.prototype.addShowRule = function() {
     var animationName = d.getAnimationUniqueName(KEYFRAME_RULE);
-    var newRule = d.mixin({}, Alert.templateKeyframeRule_);
-
     var elementHeight = this.element_.clientHeight;
     var innerElement = Alert.getInnerElement(this);
 
     if (innerElement) {
       elementHeight = innerElement.clientHeight;
     }
+
+    var newRule = d.mixin({}, Alert.templateKeyframeRule_);
 
     newRule.cssText = newRule.cssText.
         replace('auto', [elementHeight, 'px'].join('')).
@@ -241,6 +246,7 @@ define([
           this);
     }
 
+    // todo(igor.alexeenko): Remove unused CSS animations, defined before.
     d.style.removeAnimationVendorRule(this.element_, 'animation');
 
     d.addAnimationCallback(this.element_, this.onAnimationEndHandler_);
