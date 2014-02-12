@@ -1,9 +1,11 @@
 {{#this}}
 {{!--Html items--}}
 {{#html}}
-  <span class="{{> menu__item__class}}">
-    {{{this}}}
-  </span>
+  {{#with ..}} {{!-- allow empty strings in html --}}
+    <span class="{{> menu__item__class}}">
+      {{{html}}}
+    </span>
+  {{/with}}
 {{else}}
   {{#ifEqual type 'button'}}
     {{> btn__group this}}
