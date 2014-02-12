@@ -60,6 +60,10 @@ define(['jquery',  'global/global__modules', 'global/global__views', 'auth/auth'
           });
         }
 
+        if (items.length <= 1) {
+          return;
+        }
+
         config.items = items;
 
         View.init(module, config.targetElem || null, config.method || null, {}, config);
