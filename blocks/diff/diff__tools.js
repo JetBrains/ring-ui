@@ -433,7 +433,12 @@ define([
    * @return {string}
    */
   d.getAnimationUniqueName = function(animationName) {
-    if (!d.animationIDCounter_) {
+    if (!d.isDef(d.animationIDCounter_)) {
+      /**
+       * Numeric index, which appends to animation name to make it unique.
+       * @type {number}
+       * @private
+       */
       d.animationIDCounter_ = 0;
     }
 
@@ -766,15 +771,16 @@ define([
    */
   d.style.addDocumentStyle = function(selector, style) {
     var styleText = [
-      selector, '{', JSON.serialize(style).replace(',', ';'), '}'
+      selector, '{',
+      JSON.stringify(style).replace(/\"/g, '').replace(',', ';'), '}'
     ].join(' ');
 
     var styleElement = /** @type {HTMLStyleElement} */ (document.createElement(
         'style'));
     styleElement.type = 'text/css';
 
-    if (styleElement.styleSheet) {
-      styleElement.styleSheet.cssText = styleText;
+    if (styleElement.sheet) {
+      styleElement.sheet.cssText = styleText;
     } else {
       styleElement.appendChild(document.createTextNode(styleText));
     }
@@ -789,6 +795,30 @@ define([
    */
   d.style.removeDocumentStyle = function(styleElement) {
     document.head.removeChild(styleElement);
+  };
+
+  /**
+   * @return {string}
+   */
+  d.style.getPrefixedKeyframesRule = function() {
+    var prefix = null;
+    var rule = 'keyframes';
+
+    if (d.isDef(CSSRule.WEBKIT_KEYFRAME_RULE)) {
+      prefix = 'webkit';
+    } else if (d.isDef(CSSRule.MOZ_KEYFRAME_RULE)) {
+      prefix = 'moz';
+    } else if (d.isDef(CSSRule.O_KEYFRAME_RULE)) {
+      prefix = 'o';
+    } else if (d.isDef(CSSRule.MS_KEYFRAME_RULE)) {
+      prefix = 'ms';
+    }
+
+    if (prefix) {
+      return ['@', prefix, rule].join('-');
+    }
+
+    return ['@', rule].join('');
   };
 
   /**
