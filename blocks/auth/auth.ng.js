@@ -42,7 +42,7 @@
               var path = absUrl.split(authConfig.redirect_uri);
 
               if (path[1]) {
-                $location.path(path[1]).replace();
+                $location.url(path[1]).replace();
               }
             }
           });
