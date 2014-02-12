@@ -23,9 +23,12 @@ define([
     ACTIVE_SELECTOR = '.active';
 
   var create = function (data, config) {
-    if(data.type) {
-      config.data =  { type: data.type };
+    if (data !== null) {
+      if (data.type) {
+        config.data = { type: data.type };
+      }
     }
+
     var wrapper = popup('create', config);
     actionList = Module.get(MODULE);
 
