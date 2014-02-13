@@ -40,7 +40,6 @@ define(['jquery',  'global/global__modules', 'global/global__views', 'auth/auth'
 
       $.when(services, user).then(function(services, user) {
         user = user && user[0] || {};
-        console.log(user);
 
         var items = services && services[0] && services[0].services || [];
         var userName = user.name || '';
