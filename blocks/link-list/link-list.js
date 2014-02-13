@@ -21,13 +21,16 @@ define([
       $el = $(View.render('dropdown__items', data));
       wrapper.insertHTML(wrapper, $el);
     });
+
+    return $el;
   };
 
   var remove = function () {
     if ($el) {
       $el.remove();
+      $el = null;
+      popup('remove');
     }
-    popup('remove');
   };
 
   var dataSource = function ($target, data) {
@@ -49,17 +52,15 @@ define([
     return dfd.promise();
   };
 
-  $(document).delegate('*', 'click.ring-dropdown', function (e) {
+  $(document).delegate('*', 'click' + COMPONENT_SELECTOR, function (e) {
     var $target = $(e.currentTarget).closest(COMPONENT_SELECTOR);
 
     if ($target.length) {
       create(null, $target);
-      return false;
+      e.stopPropagation();
     } else {
       remove();
     }
-
-    e.stopPropagation();
   });
 
   Module.add(MODULE, {

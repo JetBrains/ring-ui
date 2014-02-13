@@ -238,7 +238,13 @@
                   "items": [
                     {
                       "type": "service",
-                      "label": "test1"
+                      "label": "test1",
+                      "event": {
+                          "name":"action-list:complete",
+                          "data":{
+                              "s":"q"
+                          }
+                      }
                     },
                     {
                       "type": "service",
@@ -410,7 +416,6 @@
       var query = ring('query-assist');
 
 //      if (auth('getToken', true)) {
-        console.log('innit');
         query('init', {
           targetElem: '.demo__query-example',
           query: 'name: admin or id: 1',
@@ -431,7 +436,10 @@
         }
       });
 
-//        var delayedListener = ring('delayed-listener');
+        var actionList = ring('action-list');
+        actionList.on('complete', function() {
+            console.log(arguments);
+        });
 //
 //        delayedListener('init', {
 //          target: '.delayed-listener-demo',
