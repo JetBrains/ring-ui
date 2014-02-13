@@ -4,6 +4,8 @@ define(['jquery',  'global/global__modules', 'global/global__views', 'auth/auth'
   var module = 'profile';
   var auth = Module.get('auth');
 
+  var HUB_TITLE = 'General';
+
   var profileUrls = {
     Hub: '/users/%u',
     JetPass: '/users/%u', // should be deprecated, remove after rename
@@ -20,6 +22,7 @@ define(['jquery',  'global/global__modules', 'global/global__views', 'auth/auth'
   Module.add(module, {
     init: function(config) {
       config = config || {};
+      var userId = config.userId || 'me';
       var authConfig = auth.get('config');
       var authInit = (authConfig === $.noop) ? auth.when('init:done') : $.Deferred().resolve(authConfig);
 
@@ -32,11 +35,12 @@ define(['jquery',  'global/global__modules', 'global/global__views', 'auth/auth'
       });
 
       var user = authInit.then(function(config) {
-        return auth('get', config.apiProfilePath);
+        return auth('get', config.apiPath + '/users/' + userId);
       });
 
       $.when(services, user).then(function(services, user) {
         user = user && user[0] || {};
+        console.log(user);
 
         var items = services && services[0] && services[0].services || [];
         var userName = user.name || '';
@@ -53,7 +57,7 @@ define(['jquery',  'global/global__modules', 'global/global__views', 'auth/auth'
 
             return !profileUrl ? null : {
               url: item.homeUrl + profileUrl.replace('%u', userName),
-              label: isHub ? 'Profile' : item.name,
+              label: isHub ? HUB_TITLE : item.name,
               image: (isHub ? avatar :  item.iconUrl) || null,
               active: auth.get('config').client_id === item.id
             };
