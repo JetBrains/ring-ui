@@ -82,8 +82,9 @@ define([
   var remove = function () {
     if ($el) {
       $el.remove();
+      $el = null;
+      popup('remove');
     }
-    popup('remove');
   };
 
   var action_ = function () {
@@ -113,8 +114,8 @@ define([
     return false;
   };
 
-  $(document).delegate('*', 'click.ring-js-action-list', function (e) {
-    var $target = $($(e.currentTarget).closest(COMPONENT_SELECTOR));
+  $(document).delegate('*', 'click' + COMPONENT_SELECTOR, function (e) {
+    var $target = $(e.currentTarget).closest(COMPONENT_SELECTOR);
 
     if ($target.length) {
       create(null, {
@@ -123,12 +124,11 @@ define([
           type: ['typed']
         }
       });
-      return false;
+      e.stopPropagation();
     } else {
+      remove();
       shortcuts('popScope', MODULE);
     }
-
-    e.stopPropagation();
   });
 
   shortcuts('bindList', {

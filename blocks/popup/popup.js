@@ -7,7 +7,6 @@ define([
 ], function ($, View, Module, events, utils) {
   'use strict';
 
-  var ROOT_SELECTOR = '.ring-dropdown';
   var CONTAINER_SELECTOR = '.ring-dropdown__i';
   var MENU_ITEM_SELECTOR = '.ring-menu__item';
   var TOGGLE_SELECTOR = '.ring-dropdown-toggle';
@@ -35,7 +34,7 @@ define([
       return false;
     }
 
-    if(config.data) {
+    if (config.data) {
       data = config.data;
     }
 
@@ -142,17 +141,6 @@ define([
       parent().
       css(wrapper.getPos());
   };
-
-  // Using delegate because of compatibility with YouTrack's jQuery 1.5.1
-  $(document).delegate('*', 'click.ring-dropdown', function (e) {
-    /**
-     * @desc Close popup by click on non-popup child
-     */
-    if (!$(e.currentTarget).closest(ROOT_SELECTOR).length) {
-      remove();
-    }
-    e.stopPropagation();
-  });
 
   // Remove on resize
   $global.resize(remove);
