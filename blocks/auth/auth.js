@@ -166,7 +166,7 @@ define(['jquery', 'jso', 'global/global__modules', 'global/global__utils'], func
         apiPath: API_PATH,
         apiProfilePath: API_PROFILE_PATH,
         profilePath: cfg.serverUrl + PROFILE_PATH,
-        logoutPath: cfg.serverUrl + API_PATH + '/cas/logout?service=' + encodeURIComponent(cfg.redirect_uri)
+        logoutPath: cfg.serverUrl + API_PATH + '/cas/logout?gateway=true&url=' + encodeURIComponent(cfg.redirect_uri)
       });
 
       Module.get(module).set({config: config});
