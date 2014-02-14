@@ -5,7 +5,7 @@ define([
   'global/global__events',
   'global/global__utils',
   'jquery-caret'
-], function ($, View, Module) {
+], function ($, View, Module, events) {
   'use strict';
 
   var $target,
@@ -52,11 +52,13 @@ define([
     lastTriggeredCaretPosition = undefined;
     lastPolledCaretPosition = undefined;
     timeoutHandler = setInterval(pollCaretPosition_, listenDelay);
+    delayedListener.trigger('focus-change focusin', true);
   };
   var stopListen_ = function () {
     if (timeoutHandler) {
       clearInterval(timeoutHandler);
     }
+    delayedListener.trigger('focus-change focusout', false);
   };
 
   var pollCaretPosition_ = function () {
