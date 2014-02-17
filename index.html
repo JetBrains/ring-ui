@@ -415,7 +415,6 @@
 
       var query = ring('query-assist');
 
-//      if (auth('getToken', true)) {
         query('init', {
           targetElem: '.demo__query-example',
           query: 'name: admin or id: 1',
@@ -423,40 +422,18 @@
             url: 'api/rest/users/queryAssist?caret=#{caret}&fields=query,caret,suggestions#{styleRanges}&query=#{query}'
           })
         });
-//      };
 
       query.on('apply', function() {
         ring('alerts', 'add')('Query submitted','success', true, 10000);
       });
 
       ring('shortcuts')('bind', {
-        key: 'space',
+        key: 'ctrl',
         handler: function() {
           ring('alerts', 'add')('Shortcuts!','success', true, 10000);
         }
       });
 
-        var actionList = ring('action-list');
-        actionList.on('complete', function() {
-            console.log(arguments);
-        });
-
-        ring().on('delayed-listener:focusin', function() { console.log(arguments) });
-//
-//        delayedListener('init', {
-//          target: '.delayed-listener-demo',
-//          listenDelay: 250,
-//          onDelayedChange: function (data) {
-//            console.log(data);
-//          },
-//          onDelayedCaretMove: function (data) {
-//            console.log(data);
-//          }
-//        });
-//
-//        delayedListener.on('change:done', function (data) {
-//          ring('alerts', 'add')('Delayed-listener demo ' + JSON.stringify(data), 'success', true, 3000);
-//        });
     });
   </script>
 </head>
