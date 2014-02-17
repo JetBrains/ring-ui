@@ -88,6 +88,9 @@ define([
   };
 
   var action_ = function () {
+    if($el === null) {
+      return false;
+    }
     var $active = $el.parent().find(ACTIVE_SELECTOR);
 
     if ($active.length) {
