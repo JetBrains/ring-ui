@@ -440,6 +440,8 @@
         actionList.on('complete', function() {
             console.log(arguments);
         });
+
+        ring().on('delayed-listener:focusin', function() { console.log(arguments) });
 //
 //        delayedListener('init', {
 //          target: '.delayed-listener-demo',

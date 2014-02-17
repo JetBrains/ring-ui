@@ -26,7 +26,7 @@ define([
     delayedListener = Module.get(MODULE);
 
     if (!$target instanceof $) {
-      delayedListener.trigger('init:fail');
+      Module.get(MODULE).trigger('init:fail');
     }
 
     listenDelay = (config.listenDelay && !isNaN(config.listenDelay)) || LISTEN_DELAY;
@@ -35,16 +35,17 @@ define([
     $target.
       bind('focus',function () {
         startListen_();
+        Module.get(MODULE).trigger('focus-change focusin', true);
       }).
       bind('blur', function () {
         stopListen_();
+        Module.get(MODULE).trigger('focus-change focusout', false);
       });
 
     if ($target.is(':focus')) {
+      Module.get(MODULE).trigger('focus-change focusin', true);
       startListen_();
     }
-
-    delayedListener.trigger('init:done');
 
   };
 
@@ -52,13 +53,11 @@ define([
     lastTriggeredCaretPosition = undefined;
     lastPolledCaretPosition = undefined;
     timeoutHandler = setInterval(pollCaretPosition_, listenDelay);
-    delayedListener.trigger('focus-change focusin', true);
   };
   var stopListen_ = function () {
     if (timeoutHandler) {
       clearInterval(timeoutHandler);
     }
-    delayedListener.trigger('focus-change focusout', false);
   };
 
   var pollCaretPosition_ = function () {
@@ -103,14 +102,14 @@ define([
     if (Config.onDelayedCaretMove && typeof Config.onDelayedCaretMove === 'function') {
       Config.onDelayedCaretMove.call(null, data);
     }
-    delayedListener.trigger('change:done', data);
+    Module.get(MODULE).trigger('change:done', data);
   };
 
   var _onDelayedChange = function(data) {
     if (Config.onDelayedChange && typeof Config.onDelayedChange === 'function') {
       Config.onDelayedChange.call(null, data);
     }
-    delayedListener.trigger('change:done', data);
+    Module.get(MODULE).trigger('change:done', data);
   };
 
   Module.add(MODULE, {
