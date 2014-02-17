@@ -29,10 +29,10 @@
   text-align: center;
 
   border: 1px solid #ADADAD; // IE8-
-  border-color: rgba(0, 0, 0, .3);
+  border-color: rgba(0, 0, 0, .2);
 
   background-color: #ffffff;
-  box-shadow: 0 2px 8px 0 rgba(0, 0, 0, .3);
+  box-shadow: 0 2px 8px 0 rgba(0, 0, 0, .2);
   border-radius: 3px;
 
   @include ring-font;
@@ -46,7 +46,7 @@
   border-top-left-radius: 0;
   border-top-right-radius: 0;
 
-  box-shadow: 0 4px 6px 0 rgba(0, 0, 0, .3);
+  box-shadow: 0 4px 6px 0 rgba(0, 0, 0, .2);
 }
 
 .ring-dropdown__i {
@@ -86,7 +86,7 @@
   padding: 0 $ring-unit*2;
 
   text-align: left;
-  font-size: 13px;
+  font-size: 13px !important;
   line-height: $ring-unit*3;
 
   vertical-align: bottom;
