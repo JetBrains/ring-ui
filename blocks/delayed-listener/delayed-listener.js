@@ -5,7 +5,7 @@ define([
   'global/global__events',
   'global/global__utils',
   'jquery-caret'
-], function ($, View, Module, events) {
+], function ($, View, Module) {
   'use strict';
 
   var $target,
