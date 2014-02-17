@@ -4,40 +4,34 @@ define([
   'global/global__modules',
   'global/global__utils',
   'global/global__events',
-  'dropdown/dropdown',
   'auth/auth',
   'shortcuts/shortcuts',
-  'jquery-caret'
+  'action-list/action-list',
+  'delayed-listener/delayed-listener'
 ], function ($, View, Module, utils) {
   'use strict';
 
   var $el,
     $target,
     dataSource,
-    timeoutId,
-    lastPolledCaretPosition,
-    lastTriggeredCaretPosition,
-    lastTriggeredCaretPositionPers,
-    lastPolledValue,
-    lastTriggeredValue;
+    lastTriggeredCaretPositionPers;
 
-  var QUERY_ASSIST_SELECTOR = '.ring-query-assist';
-  var CONTAINER_SELECTOR = '.ring-dropdown';
-  var WRAPPER_SELECTOR = '.ring-dropdown__i';
-  var ITEM_CONTENT_SELECTOR = '.ring-dropdown__item__content';
-  var ITEM_CONTENT_SELECTOR_PADDING = 8;
-  var MIN_LEFT_PADDING = 32;
-  var MIN_RIGHT_PADDING = 32;
-  var CONTAINER_TOP_PADDING = 21;
+  var QUERY_ASSIST_SELECTOR = '.ring-query-assist',
+    CONTAINER_SELECTOR = '.ring-dropdown',
+    WRAPPER_SELECTOR = '.ring-dropdown__i',
+    ITEM_CONTENT_SELECTOR = '.ring-dropdown__item__content',
+    ITEM_CONTENT_SELECTOR_PADDING = 8,
+    MIN_LEFT_PADDING = 32,
+    MIN_RIGHT_PADDING = 32,
+    CONTAINER_TOP_PADDING = 21;
 
-  var POLL_INTERVAL = 250; // 250 ms
+  var shortcuts = Module.get('shortcuts'),
+    actionList = Module.get('action-list'),
+    delayedListener = Module.get('delayed-listener');
 
-  var dropdown = Module.get('dropdown');
-  var shortcuts = Module.get('shortcuts');
-
-  var MODULE = 'query-assist';
-  var COMPLETE_ACTION = 'replace';
-  var $global = $(document);
+  var MODULE = 'query-assist',
+    COMPLETE_ACTION = 'replace',
+    $global = $(document);
 
   /**
    * Init method
@@ -50,19 +44,32 @@ define([
 
     $target = $(config.targetElem);
     dataSource = config.dataSource;
+    shortcuts('pushScope', MODULE);
 
     var dfd = View.init(MODULE, $target, config.method || 'prepend', {}, config);
 
-    dfd.done(function($view) {
+    dfd.done(function ($view) {
       $el = $view;
-
       updateQuery();
+
+      delayedListener('init', {
+        target: $target.find(QUERY_ASSIST_SELECTOR),
+        onDelayedChange: function (data) {
+          lastTriggeredCaretPositionPers = data.caret;
+          _doAssist(data.value, data.caret, true);
+        },
+        onDelayedCaretMove: function (data) {
+          lastTriggeredCaretPositionPers = data.caret;
+          _doAssist(data.value, data.caret, false);
+        }
+      });
+
     });
 
     return dfd;
   };
 
-  var updateQuery = function(query) {
+  var updateQuery = function (query) {
     if ($el) {
       if (query) {
         $el.text(query);
@@ -76,65 +83,11 @@ define([
     }
   };
 
-  var apply = function() {
+  var apply = function () {
     queryAssist.trigger('apply', $el.text().replace(/\s/g, ' '));
-    dropdown('hide');
+    actionList('remove');
 
     return false;
-  };
-
-  var _startListen = function () {
-    if (!timeoutId) {
-      shortcuts('pushScope', MODULE);
-
-      lastTriggeredCaretPosition = undefined;
-      lastPolledCaretPosition = undefined;
-      timeoutId = setTimeout(_pollCaretPosition, POLL_INTERVAL);
-    }
-
-    queryAssist.trigger('focus-change focusin', true);
-  };
-
-  var _stopListen = function () {
-    if (timeoutId) {
-      clearTimeout(timeoutId);
-      timeoutId = null;
-      shortcuts('popScope', MODULE);
-    }
-
-    queryAssist.trigger('focus-change focusout', false);
-  };
-
-  /**
-   * polling caret position
-   */
-  var _pollCaretPosition = function () {
-    if (!utils.isFocused($el)) {
-      _stopListen();
-      return;
-    }
-
-    var caret = $el.caret();
-    var value = $el.text().replace(/\s/g, ' ');
-
-    if (lastPolledCaretPosition !== caret || lastPolledValue !== value) {
-      lastPolledCaretPosition = caret;
-      lastPolledValue = value;
-    } else if (value !== lastTriggeredValue) {
-      lastTriggeredCaretPosition = lastTriggeredCaretPositionPers = caret;
-      lastTriggeredValue = value;
-      // Trigger event if value changed
-      queryAssist.trigger('change', {value: value, caret: caret});
-      _doAssist(value, caret, true);
-    } else if (caret !== lastTriggeredCaretPosition) {
-      lastTriggeredCaretPosition = lastTriggeredCaretPositionPers = caret;
-      lastTriggeredValue = value;
-      // trigger event if just caret position changed
-      queryAssist.trigger('caret-move', {value: value, caret: caret});
-      _doAssist(value, caret, false);
-    }
-
-    timeoutId = setTimeout(_pollCaretPosition, POLL_INTERVAL);
   };
 
   /**
@@ -145,13 +98,13 @@ define([
    */
   var _doAssist = function (query, caret, requestHighlighting, highlightOnly) {
     if (query && caret) {
-      dataSource(query, caret, requestHighlighting).then(function (data /* status, jqXHR*/) {
+      dataSource(query.replace(/\s/g, ' '), caret, requestHighlighting).then(function (data /* status, jqXHR*/) {
         /**
          * #{String}.replace(/\s+/g, ' ') needs for trim any whitespaces.
          */
         if (data && data.styleRanges && ($el.text().replace(/\s+/g, ' ') === query.replace(/\s+/g, ' '))) {
           $el.html(_getHighlightedHtml(data.styleRanges, query));
-          _placeCaret($el.find('span').eq(data.caret - 1));
+          delayedListener('placeCaret', $el.find('span').eq(data.caret - 1));
         }
 
         // if data isn't exist hide a suggest container
@@ -160,15 +113,13 @@ define([
             type: ['typed', 'bound']
           };
 
-
           var dropdownTextPosition = data.caret;
           if (data.suggestions[0]) {
             dropdownTextPosition -= data.suggestions[0].matchingEnd - data.suggestions[0].matchingStart;
           }
           dropdownData.items = _getHighlightText(data);
 
-          dropdown('hide');
-          dropdown('show', dropdownData, {
+          actionList('create', dropdownData, {
             width: 'auto',
             target: $el
           });
@@ -176,35 +127,15 @@ define([
 
           $(CONTAINER_SELECTOR).css(coords);
         } else {
-          dropdown('hide');
+          actionList('hide');
         }
 
       });
     } else {
-      dropdown('hide');
+      actionList('remove');
     }
   };
 
-  /**
-   * Handle caret position in nested contenteditable element
-   * @param jQuery element
-   */
-  var _placeCaret = function (el) {
-    el.focus();
-    if (typeof window.getSelection !== 'undefined' && typeof document.createRange !== 'undefined') {
-      var range = document.createRange();
-      range.selectNodeContents(el[0]);
-      range.collapse(false);
-      var sel = window.getSelection();
-      sel.removeAllRanges();
-      sel.addRange(range);
-    } else if (typeof document.body.createTextRange !== 'undefined') {
-      var textRange = document.body.createTextRange();
-      textRange.moveToElementText(el[0]);
-      textRange.collapse(false);
-      textRange.select();
-    }
-  };
   var _getClassname = function (obj, text, pos) {
     var res = [];
     obj.forEach(function (item) {
@@ -219,7 +150,7 @@ define([
    * Return highlighted html
    */
   var _getHighlightedHtml = function (styleRanges, text) {
-    function appendItemClass(currentClasses, item) {
+    function appendItemClass (currentClasses, item) {
       if (item) {
         return (currentClasses ? currentClasses + ' ' : '') + 'ring-query-assist__' + item.replace('_', '-');
       } else {
@@ -227,7 +158,7 @@ define([
       }
     }
 
-    function appendLetter(currentHtml, letter, index) {
+    function appendLetter (currentHtml, letter, index) {
       var classes = _getClassname(styleRanges, text, index).reduce(appendItemClass, '');
       return currentHtml + '<span class="' + classes + '">' + (letter !== ' ' ? letter : '&nbsp;') + '</span>';
     }
@@ -240,7 +171,7 @@ define([
    */
   var __getCoords = function (textPos) {
     textPos = textPos || 1;
-    var caretPos = $el.find('span').eq(textPos  -1).offset();
+    var caretPos = $el.find('span').eq(textPos - 1).offset();
 
     if (!caretPos) {
       return {};
@@ -286,8 +217,8 @@ define([
       auth('get', restUrl).then(function (data, state, jqXHR) {
         defer.resolve(data, state, jqXHR);
       }).fail(function () {
-          defer.reject.apply(defer, arguments);
-        });
+        defer.reject.apply(defer, arguments);
+      });
       return defer.promise();
     };
   };
@@ -331,21 +262,24 @@ define([
       return {
         label: label,
         type: suggestion.description,
-        event: [{
-          name: 'dropdown:complete',
-          data: {
-            action: COMPLETE_ACTION,
-            query: assistData.query,
-            suggestion: suggestion
+        event: [
+          {
+            name: 'action-list:complete',
+            data: {
+              action: COMPLETE_ACTION,
+              query: assistData.query,
+              suggestion: suggestion
+            }
+          },
+          {
+            name: 'action-list:replace',
+            type: 'replace',
+            data: {
+              query: assistData.query,
+              suggestion: suggestion
+            }
           }
-        },{
-          name: 'dropdown:replace',
-          type: 'replace',
-          data: {
-            query: assistData.query,
-            suggestion: suggestion
-          }
-        }]
+        ]
       };
     }) || [];
   };
@@ -373,10 +307,19 @@ define([
     });
   };
 
-  dropdown.on('complete', _handleComplete);
-  dropdown.on('replace', _handleComplete);
+  actionList.on('action', function (data) {
+    _handleComplete(data.event[0].data);
+  });
+  actionList.on('replace', function() {
+    console.log('replace');
+    _handleComplete(arguments[0]);
+  });
+  actionList.on('complete', function() {
+    console.log('complete');
+    _handleComplete(arguments[0]);
+  });
 
-  var showAssist = function() {
+  var showAssist = function () {
     _doAssist($el.text().replace(/\s/g, ' '), $el.caret(), false, false);
     return false;
   };
@@ -385,9 +328,6 @@ define([
     'enter': apply,
     'ctrl+space': showAssist
   });
-
-  $global.on('focusin', QUERY_ASSIST_SELECTOR, _startListen);
-  $global.on('focusout', QUERY_ASSIST_SELECTOR, _stopListen);
 
   Module.add(MODULE, {
     init: init,
@@ -400,7 +340,7 @@ define([
 
   var queryAssist = Module.get(MODULE);
 
-  queryAssist.on('focus', function(focus) {
+  queryAssist.on('focus', function (focus) {
     if ($el) {
       if (focus) {
         var offset = $el.offset();
