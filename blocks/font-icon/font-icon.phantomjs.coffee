@@ -44,6 +44,12 @@ html = """
    <link rel='stylesheet' type='text/css' href='#{styleFile}' />
 
    <style>
+    @font-face {
+      font-family: 'font-icon';
+      src: url('#{$ring-fonts-dir}font-icon.svg#font-icon') format('svg');
+      font-weight: normal;
+      font-style: normal;
+    }
     body {
       margin: 0;
     }
@@ -76,5 +82,5 @@ if fs.exists outFile
 
 page.open tmpFile, () ->
   page.render outFile
-  fs.remove tmpFile
+#  fs.remove tmpFile
   phantom.exit()
