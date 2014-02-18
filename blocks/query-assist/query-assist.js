@@ -14,7 +14,8 @@ define([
   var $el,
     $target,
     dataSource,
-    lastTriggeredCaretPositionPers;
+    lastTriggeredCaretPositionPers,
+    uid = 0;
 
   var QUERY_ASSIST_SELECTOR = '.ring-query-assist',
     CONTAINER_SELECTOR = '.ring-dropdown',
@@ -45,6 +46,7 @@ define([
     $target = $(config.targetElem);
     dataSource = config.dataSource;
     shortcuts('pushScope', MODULE);
+    uid += 1;
 
     var dfd = View.init(MODULE, $target, config.method || 'prepend', {}, config);
 
@@ -310,11 +312,11 @@ define([
   actionList.on('action', function (data) {
     _handleComplete(data.event[0].data);
   });
-  actionList.on('replace', function() {
+  actionList.on('replace', function () {
     console.log('replace');
     _handleComplete(arguments[0]);
   });
-  actionList.on('complete', function() {
+  actionList.on('complete', function () {
     console.log('complete');
     _handleComplete(arguments[0]);
   });
@@ -334,6 +336,14 @@ define([
     updateQuery: updateQuery,
     remoteDataSource: {
       method: remoteDataSource,
+      override: true
+    },
+    trigger: {
+      method: Module.triggerInstance.bind(null, MODULE, uid),
+      override: true
+    },
+    on: {
+      method: Module.onInstance.bind(null, MODULE, uid),
       override: true
     }
   });
