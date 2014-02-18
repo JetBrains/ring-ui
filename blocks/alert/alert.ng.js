@@ -16,6 +16,13 @@
 
       $.each(ring('alerts', 'getAlertTypes')(), function (name, type) {
         service[type] = function (message, opt_timeout) {
+          // Escape message
+          var tagsToReplace = {'&': '&amp;', '<': '&lt;', '>': '&gt;'};
+          message = message.replace(/[&<>]/g, function (tag) {
+              return tagsToReplace[tag] || tag;
+            }
+          );
+
           return ring('alerts', 'add')(message, type, true, opt_timeout);
         };
       });
