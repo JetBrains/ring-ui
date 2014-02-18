@@ -14,7 +14,8 @@ define([
     items,
     popup = Module.get('popup'),
     shortcuts = Module.get('shortcuts'),
-    actionList;
+    actionList,
+    uid = 0;
 
   var MODULE = 'action-list',
     COMPONENT_SELECTOR = '.ring-js-action-list',
@@ -32,6 +33,7 @@ define([
     var wrapper = popup('create', config);
     actionList = Module.get(MODULE);
 
+    uid += 1;
     shortcuts('pushScope', MODULE);
 
     if (!$target instanceof $) {
@@ -88,7 +90,7 @@ define([
   };
 
   var action_ = function () {
-    if($el === null) {
+    if ($el === null) {
       return false;
     }
     var $active = $el.parent().find(ACTIVE_SELECTOR);
@@ -155,6 +157,14 @@ define([
     },
     dataSource: {
       method: dataSource,
+      override: true
+    },
+    trigger: {
+      method: Module.triggerInstance.bind(null, MODULE, uid),
+      override: true
+    },
+    on: {
+      method: Module.onInstance.bind(null, MODULE, uid),
       override: true
     }
   });

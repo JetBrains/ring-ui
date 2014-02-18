@@ -413,7 +413,7 @@
           })
       });
 
-      var query = ring('query-assist');
+        var query = ring('query-assist');
 
         query('init', {
           targetElem: '.demo__query-example',
@@ -423,9 +423,23 @@
           })
         });
 
-      query.on('apply', function() {
-        ring('alerts', 'add')('Query submitted','success', true, 10000);
-      });
+        query.on('apply', function () {
+          ring('alerts', 'add')('Query submitted', 'success', true, 10000);
+        });
+
+        query('trigger', {
+          name: 'apply',
+          data: {
+            test: 123
+          }
+        });
+
+        query('on', {
+          name: 'apply',
+          callback: function () {
+            console.log(arguments);
+          }
+        });
 
       ring('shortcuts')('bind', {
         key: 'ctrl',

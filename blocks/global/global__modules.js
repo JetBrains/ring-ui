@@ -1,4 +1,4 @@
-define(['jquery', 'global/global__events', 'global/global__utils'], function($, events, utils) {
+define(['jquery', 'global/global__events', 'global/global__utils'], function ($, events, utils) {
   'use strict';
 
   // Function.prototype.bind polyfill
@@ -12,9 +12,10 @@ define(['jquery', 'global/global__events', 'global/global__utils'], function($, 
 
       var aArgs = Array.prototype.slice.call(arguments, 1),
         fToBind = this,
-        Noop = function () {},
+        Noop = function () {
+      },
         fBound = function () {
-          return fToBind.apply(this instanceof Noop && oThis ? this: oThis,
+          return fToBind.apply(this instanceof Noop && oThis ? this : oThis,
             aArgs.concat(Array.prototype.slice.call(arguments)));
         };
 
@@ -28,7 +29,7 @@ define(['jquery', 'global/global__events', 'global/global__utils'], function($, 
   var modules = {};
   var methodsList = [];
 
-  var Module = function(props, name) {
+  var Module = function (props, name) {
     var scope = {
       methods: {},
       properties: {},
@@ -52,7 +53,7 @@ define(['jquery', 'global/global__events', 'global/global__utils'], function($, 
   $.extend(Module.prototype, events.methods);
 
   // Instance
-  Module.prototype.invoke = function(scope, name) {
+  Module.prototype.invoke = function (scope, name) {
     var dfd, ret, action;
 
     var method = this.get(name);
@@ -92,7 +93,7 @@ define(['jquery', 'global/global__events', 'global/global__utils'], function($, 
     return override ? ret : dfd.promise();
   };
 
-  Module.prototype.set = function(scope, props) {
+  Module.prototype.set = function (scope, props) {
     var field;
     var methods = scope.methods;
     var properties = scope.properties;
@@ -109,7 +110,7 @@ define(['jquery', 'global/global__events', 'global/global__utils'], function($, 
     return true;
   };
 
-  Module.prototype.update = function(scope, name) {
+  Module.prototype.update = function (scope, name) {
     var part, path, data, newData, pathParts;
     var props = this.get(name);
     var args = Array.prototype.slice.call(arguments, 2);
@@ -121,7 +122,7 @@ define(['jquery', 'global/global__events', 'global/global__utils'], function($, 
         path = args[0];
         data = args[1];
 
-        if (path ===  '.') {
+        if (path === '.') {
           newData = data;
         } else {
           pathParts = args[0].split('.');
@@ -149,7 +150,7 @@ define(['jquery', 'global/global__events', 'global/global__utils'], function($, 
     return props;
   };
 
-  Module.prototype.get = function(scope, name) {
+  Module.prototype.get = function (scope, name) {
     if (typeof name !== 'string') {
       utils.log('Method name must be a string');
       return $.noop;
@@ -169,7 +170,7 @@ define(['jquery', 'global/global__events', 'global/global__utils'], function($, 
   };
 
   // Form methods list
-  (function(obj, primary) {
+  (function (obj, primary) {
     // Collect methods
     for (var method in obj) {
       if (obj.hasOwnProperty(method)) {
@@ -178,11 +179,11 @@ define(['jquery', 'global/global__events', 'global/global__utils'], function($, 
     }
 
     // Move primary method to the end of list
-    methodsList.push(methodsList.splice($.inArray(primary, methodsList),1)[0]);
+    methodsList.push(methodsList.splice($.inArray(primary, methodsList), 1)[0]);
   }(Module.prototype, 'invoke'));
 
   // Static
-  Module.add = function(name, props) {
+  Module.add = function (name, props) {
     if (typeof name !== 'string') {
       utils.log('Module name must be a string');
       return false;
@@ -202,7 +203,7 @@ define(['jquery', 'global/global__events', 'global/global__utils'], function($, 
     return true;
   };
 
-  Module.remove = function(name) {
+  Module.remove = function (name) {
     if (typeof name !== 'string') {
       utils.log('Module name must be a string');
       return false;
@@ -221,7 +222,7 @@ define(['jquery', 'global/global__events', 'global/global__utils'], function($, 
     return delete modules[name];
   };
 
-  Module.get = function(name) {
+  Module.get = function (name) {
     if (!modules[name]) {
       utils.log('There is no module "' + name + '"');
       return $.noop;
@@ -230,11 +231,11 @@ define(['jquery', 'global/global__events', 'global/global__utils'], function($, 
     }
   };
 
-  Module.has = function(name) {
+  Module.has = function (name) {
     return !!modules[name];
   };
 
-  Module.multi = function(method, list) {
+  Module.multi = function (method, list) {
     var promises = [];
 
     if (typeof list !== 'object') {
@@ -242,7 +243,7 @@ define(['jquery', 'global/global__events', 'global/global__utils'], function($, 
       return $.Deferred().reject().promise();
     }
 
-    $.each(list, function(name, data) {
+    $.each(list, function (name, data) {
       var promise, ret;
       var module = modules[name];
 
@@ -266,6 +267,24 @@ define(['jquery', 'global/global__events', 'global/global__utils'], function($, 
     return $.when.apply($, promises);
   };
 
+  Module.triggerInstance = function (MODULE, uid, options) {
+    if (!options.name || !options.data) {
+      utils.log(MODULE + ':trigger params missing');
+      return false;
+    }
+    events.methods.trigger(Module.get(MODULE), MODULE + '::' + options.name + '_' + uid, options.data);
+  };
+
+  Module.onInstance = function (MODULE, uid, options) {
+    if (!options.name || typeof options.callback !== 'function') {
+      utils.log(MODULE + ':on params missing');
+      return false;
+    }
+    events.methods.on(Module.get(MODULE), MODULE + '::' + options.name + '_' + uid, function () {
+      options.callback.apply(null, arguments);
+    });
+  };
+
   // Global module name
   Module.GLOBAL = 'root';
 
@@ -279,7 +298,7 @@ define(['jquery', 'global/global__events', 'global/global__utils'], function($, 
       method: Module.remove,
       override: true
     },
-    config: function(data) {
+    config: function (data) {
       return Module.get(Module.GLOBAL).set({
         config: data
       });
