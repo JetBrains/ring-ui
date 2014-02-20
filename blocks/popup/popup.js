@@ -108,13 +108,13 @@ define([
     return params;
   };
 
-  var insertHTML = function (wrapper, $el) {
-    $body.append(wrapper.el);
-    return wrapper.el.
+  var insertHTML = function ($el) {
+    $body.append(this.el);
+    return this.el.
       find(CONTAINER_SELECTOR).
       html($el).
       parent().
-      css(wrapper.getPos());
+      css(this.getPos());
   };
 
   var appendHTML = function ($el) {
