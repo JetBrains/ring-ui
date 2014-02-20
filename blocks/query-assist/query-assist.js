@@ -119,20 +119,18 @@ define([
 
         // if data isn't exist hide a suggest container
         if (!highlightOnly && data && data.suggestions) {
-          var dropdownData = {
-            type: ['typed', 'bound']
-          };
-
           var dropdownTextPosition = data.caret;
           if (data.suggestions[0]) {
             dropdownTextPosition -= data.suggestions[0].matchingEnd - data.suggestions[0].matchingStart;
           }
-          dropdownData.items = _getHighlightText(data);
-
-          actionList('create', dropdownData, {
+          var dropdownData = {
+            target: $el,
+            type: ['typed', 'bound'],
             width: 'auto',
-            target: $el
-          });
+            items: _getHighlightText(data)
+          };
+
+          actionList('init', dropdownData);
           var coords = __getCoords(dropdownTextPosition);
 
           $(CONTAINER_SELECTOR).css(coords);
