@@ -2,22 +2,37 @@ define([
   'jquery',
   'global/global__views',
   'global/global__modules',
-  'global/global__events',
   'global/global__utils',
   'popup/popup'
-], function ($, View, Module) {
+], function ($, View, Module, utils) {
   'use strict';
 
-  var MODULE = 'link-list';
-  var COMPONENT_SELECTOR = '.ring-js-link-list';
+  var MODULE = 'link-list',
+    COMPONENT_SELECTOR = '.ring-js-link-list',
+    popup = Module.get('popup'),
+    $el;
 
-  var popup = Module.get('popup');
-  var $el;
+  var init = function (data, config) {
+    var linkList = Module.get(MODULE),
+      wrapper;
 
-  var create = function (data, config) {
-    var wrapper = popup('create', config);
+    if (!config) {
+      utils.log('Action-list: params missing');
+      linkList.trigger('init:fail');
+      return false;
+    }
 
-    dataSource(wrapper.target, data).then(function (data) {
+    if (!config.items && config.target) {
+      $.extend(config, $(config.target).data(MODULE));
+    }
+
+    if (!config.target || !(config.target instanceof $)) {
+      return $(View.render('dropdown__items', config));
+    }
+
+    wrapper = popup('create', config);
+
+    dataSource(data).then(function (data) {
       $el = $(View.render('dropdown__items', data));
       wrapper.insertHTML(wrapper, $el);
     });
@@ -33,22 +48,11 @@ define([
     }
   };
 
-  var dataSource = function ($target, data) {
+  var dataSource = function (data) {
     var dfd = $.Deferred();
 
-    if (!data) {
-      data = $target.data('ring-dropdown');
-    }
-
-    if ($.isArray(data)) {
-      data = {items: data};
-    }
-
-    if (typeof data === 'string') {
-      data = {html: data};
-    }
-
     dfd.resolve(data);
+
     return dfd.promise();
   };
 
@@ -56,7 +60,9 @@ define([
     var $target = $(e.currentTarget).closest(COMPONENT_SELECTOR);
 
     if ($target.length) {
-      create(null, $target);
+      init({
+        target:$target
+      });
       e.stopPropagation();
     } else {
       remove();
@@ -64,8 +70,8 @@ define([
   });
 
   Module.add(MODULE, {
-    create: {
-      method: create,
+    init: {
+      method: init,
       override: true
     },
     remove: {

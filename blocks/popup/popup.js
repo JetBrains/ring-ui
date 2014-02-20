@@ -7,39 +7,32 @@ define([
 ], function ($, View, Module, events, utils) {
   'use strict';
 
-  var CONTAINER_SELECTOR = '.ring-dropdown__i';
-  var MENU_ITEM_SELECTOR = '.ring-menu__item';
-  var TOGGLE_SELECTOR = '.ring-dropdown-toggle';
-
-  var $global = $(window);
-  var $body = $('body');
-  var $popup;
-
-  var DROPDOWN_MIN_RIGHT_MARGIN = 8;
-  var DROPDOWN_BORDER_WIDTH = 2;
-  var MODULE = 'popup';
+  var CONTAINER_SELECTOR = '.ring-dropdown__i',
+    MENU_ITEM_SELECTOR = '.ring-menu__item',
+    TOGGLE_SELECTOR = '.ring-dropdown-toggle',
+    $global = $(window),
+    $body = $('body'),
+    $popup,
+    DROPDOWN_MIN_RIGHT_MARGIN = 8,
+    DROPDOWN_BORDER_WIDTH = 2,
+    MODULE = 'popup';
 
   /**
    *
    * @param config
    * @returns { el: popup jQuery element, getPos: func for position }
    */
-  var create = function (config) {
-    var $target = _setTarget(config);
-    var dropdown = Module.get(MODULE);
+  var init = function (config) {
+    var $target = $(config.target),
+      popup = Module.get(MODULE);
 
-    var data = {};
     if (!$target) {
-      dropdown.trigger('show:fail');
+      popup.trigger('show:fail');
       return false;
     }
 
-    if (config.data) {
-      data = config.data;
-    }
-
     remove();
-    $popup = $(View.render(MODULE, data));
+    $popup = $(View.render(MODULE, config));
 
     return {
       target: $target,
@@ -58,25 +51,6 @@ define([
     } else {
       Module.get(MODULE).trigger('hide:fail');
     }
-  };
-
-  /**
-   * Get target element from config object
-   * @param config
-   * @returns jQuery element of target
-   */
-  var _setTarget = function (config) {
-    var target;
-    if (typeof config === 'object' && !(config instanceof $) && !utils.isNode(config)) {
-      target = config.target;
-    } else {
-      target = config;
-    }
-
-    if (utils.isNode(target) || typeof target === 'string') {
-      target = $(target);
-    }
-    return target;
   };
 
   /**
@@ -147,8 +121,8 @@ define([
 
   // Public methods
   Module.add(MODULE, {
-    create: {
-      method: create,
+    init: {
+      method: init,
       override: true
     },
     remove: {
