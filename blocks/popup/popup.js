@@ -38,7 +38,8 @@ define([
       target: $target,
       el: $popup,
       getPos: _getPosition.bind(null, $target, $popup, config),
-      insertHTML: insertHTML
+      insertHTML: insertHTML,
+      appendHTML: appendHTML
     };
   };
 
@@ -114,6 +115,17 @@ define([
       html($el).
       parent().
       css(wrapper.getPos());
+  };
+
+  var appendHTML = function ($el) {
+    if (!jQuery.contains(document, this.el[0])) {
+      $body.append(this.el).find(CONTAINER_SELECTOR).empty();
+    }
+    return this.el.
+      find(CONTAINER_SELECTOR).
+      append($el).
+      parent().
+      css(this.getPos());
   };
 
   // Remove on resize
