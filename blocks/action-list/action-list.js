@@ -36,6 +36,7 @@ define([
     if (!config) {
       utils.log('Action-list: params missing');
       actionList.trigger('init:fail');
+      return false;
     }
 
     if (!config.items && config.target) {
