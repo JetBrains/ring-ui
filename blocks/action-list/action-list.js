@@ -30,8 +30,8 @@ define([
 //
 //  }
   var init = function (config) {
-    var actionList = Module.get(MODULE),
-      wrapper;
+    var wrapper;
+    actionList = Module.get(MODULE);
 
     if (!config) {
       utils.log('Action-list: params missing');
