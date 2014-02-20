@@ -7,7 +7,7 @@ define(['global/global', 'chai', 'global/global__utils', 'chai-as-promised', 'po
   describe('Popup', function () {
     var popup;
     beforeEach(function () {
-      popup = popupModule('create', {
+      popup = popupModule('init', {
           target: '.demo__select-example',
           items: [
             {
