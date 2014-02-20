@@ -204,7 +204,7 @@
               }
             ]
           },
-          "button": {
+          "button": [{
             "type": "button",
             "button": [
               {
@@ -237,17 +237,23 @@
               {
                 "className": "ring-btn_primary ring-btn_icon ring-btn__dropdown-icon ring-menu__item_noselect ring-js-link-list",
                 "type": "caret-down",
-                "dropdown": [
-                  {
-                    "label": "test"
-                  },
-                  {
-                    "label": "test2"
-                  }
-                ]
+                "link-list": {
+                  "items":[
+                    {
+                      "label": "test"
+                    },
+                    {
+                      "label": "test2"
+                    }]
+                }
+              },
+              {
+                "label": "User select",
+                "className": "ring-btn_primary ring-js-searchable ring-js-shortcuts"
               }
             ]
           },
+          ],
           "toggle-profile": {}
         },
         "right": {
@@ -364,7 +370,7 @@
 
       var select = ring('dropdown-select');
       select('init', {
-          targetElem: '.demo__select-example',
+          target: '.ring-js-searchable',
           dataSource: select('remoteDataSource', {
               add: {
                   title:'Add to',

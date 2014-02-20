@@ -12,7 +12,7 @@ define([
     popup = Module.get('popup'),
     $el;
 
-  var init = function (data, config) {
+  var init = function (config) {
     var linkList = Module.get(MODULE),
       wrapper;
 
@@ -30,9 +30,9 @@ define([
       return $(View.render('dropdown__items', config));
     }
 
-    wrapper = popup('create', config);
+    wrapper = popup('init', config);
 
-    dataSource(data).then(function (data) {
+    dataSource(config).then(function (data) {
       $el = $(View.render('dropdown__items', data));
       wrapper.insertHTML(wrapper, $el);
     });
