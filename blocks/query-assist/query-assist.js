@@ -71,6 +71,14 @@ define([
     return dfd;
   };
 
+  var remove = function () {
+    if ($el) {
+      $el.remove();
+      $el = null;
+      actionList('remove');
+    }
+  };
+
   var updateQuery = function (query) {
     if ($el) {
       if (query) {
@@ -333,6 +341,7 @@ define([
 
   Module.add(MODULE, {
     init: init,
+    remove: remove,
     updateQuery: updateQuery,
     remoteDataSource: {
       method: remoteDataSource,
