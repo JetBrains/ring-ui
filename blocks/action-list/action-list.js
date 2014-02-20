@@ -6,11 +6,10 @@ define([
   'global/global__utils',
   'shortcuts/shortcuts',
   'popup/popup'
-], function ($, View, Module, events) {
+], function ($, View, Module, events, utils) {
   'use strict';
 
-  var $target,
-    $el,
+  var $el,
     items,
     popup = Module.get('popup'),
     shortcuts = Module.get('shortcuts'),
@@ -23,35 +22,41 @@ define([
     ACTIVE_CLASS = 'active',
     ACTIVE_SELECTOR = '.active';
 
-  var create = function (data, config) {
-    if (data !== null) {
-      if (data.type) {
-        config.data = { type: data.type };
-      }
-    }
 
-    var wrapper = popup('create', config);
-    actionList = Module.get(MODULE);
+//  config = {
+//    target:DOM,
+//    type: [...,...]
+//    items: [...],
+//
+//  }
+  var init = function (config) {
+    var actionList = Module.get(MODULE),
+      wrapper;
 
-    uid += 1;
-    shortcuts('pushScope', MODULE);
-
-    if (!$target instanceof $) {
+    if (!config) {
+      utils.log('Action-list: params missing');
       actionList.trigger('init:fail');
     }
-    dataSource(wrapper.target, data).then(function (data) {
-      if (config.data) {
-        $.extend(data, config.data);
-      }
+
+    if (!config.items && config.target) {
+      $.extend(config, $(config.target).data(MODULE));
+    }
+
+    if (!config.target || !(config.target instanceof $)) {
+      return $(View.render('action-list', config));
+    }
+
+    wrapper = popup('init', config);
+
+    dataSource(config).then(function (data) {
       items = data.items;
       $el = $(View.render('action-list', data));
 
       wrapper.insertHTML(wrapper, $el);
-
-
     });
 
-    actionList.trigger('init:done');
+    uid += 1;
+    shortcuts('pushScope', MODULE);
 
     $el.bind('mouseenter', function (e) {
       events.domEventHandler(e);
@@ -62,19 +67,12 @@ define([
         .removeClass(ACTIVE_CLASS);
     });
 
+    actionList.trigger('init:done', $el);
     return $el;
   };
 
-  var dataSource = function (target, data) {
+  var dataSource = function (data) {
     var dfd = $.Deferred();
-
-    if (!data) {
-      data = target.data('action-list');
-    }
-
-    if ($.isArray(data)) {
-      data = {items: data};
-    }
 
     dfd.resolve(data);
 
@@ -123,11 +121,9 @@ define([
     var $target = $(e.currentTarget).closest(COMPONENT_SELECTOR);
 
     if ($target.length) {
-      create(null, {
+      init({
         target: $target,
-        data: {
-          type: ['typed']
-        }
+        type: ['typed']
       });
       e.stopPropagation();
     } else {
@@ -147,8 +143,8 @@ define([
   });
 
   Module.add(MODULE, {
-    create: {
-      method: create,
+    init: {
+      method: init,
       override: true
     },
     remove: {
