@@ -4,7 +4,7 @@ define([
   'global/global__modules',
   'global/global__events',
   'global/global__utils'
-], function ($, View, Module, events, utils) {
+], function ($, View, Module) {
   'use strict';
 
   var CONTAINER_SELECTOR = '.ring-dropdown__i',
