@@ -53,7 +53,7 @@ define([
       items = data.items;
       $el = $(View.render('action-list', data));
 
-      wrapper.insertHTML(wrapper, $el);
+      wrapper.insertHTML($el);
     });
 
     uid += 1;

@@ -34,7 +34,7 @@ define([
 
     dataSource(config).then(function (data) {
       $el = $(View.render('dropdown__items', data));
-      wrapper.insertHTML(wrapper, $el);
+      wrapper.insertHTML($el);
     });
 
     return $el;
