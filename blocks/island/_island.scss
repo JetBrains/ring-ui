@@ -1,9 +1,12 @@
+@import "../global/global";
+
 // ring-island
 //
 // Markup:
 //    <div class="ring-island">
 //        <div class="ring-island__content">Content</div>
 //    </div>
+//    <br /><br />
 //    <div class="ring-island">
 //        <div class="ring-island__header">
 //            <span class="ring-island__title">Title</span>
@@ -15,18 +18,23 @@
 // Styleguide 19.1
 
 .ring-island {
-  display: inline-block;
+  display: block;
   background-color: #FFF;
-  border: 1px solid #B4B4B4;
+  border: 1px solid;
+  @include rgba-attribute('border-color', rgba(0, 0, 0, 0.2));
   border-radius: 3px;
   box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.2);
+}
+
+.ring-island_inline {
+  display: inline-block;
 }
 
 .ring-island__header {
   background-color: #EBEBEB;
   background-image: linear-gradient(to top, #EBEBEB, #FFF);
   border-bottom: 1px solid #B4B4B4;
-  line-height: 24px;
+  line-height: $ring-unit*3 - 1;
   font-size: 13px;
 }
 
