@@ -280,6 +280,7 @@ $ring-btn-border-radius: 3px;
 }
 
 .ring-btn-group .ring-btn:first-child {
+  margin: 0;
   border-top-left-radius: $ring-btn-border-radius;
   border-bottom-left-radius: $ring-btn-border-radius;
 }
