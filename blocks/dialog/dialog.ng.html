@@ -5,7 +5,7 @@
             <span class="ring-dialog__header__close-icon ring-font-icon ring-btn_ico ring-font-icon_remove form__control__ico"
                   ng-click="close()"></span>
         </div>
-        <form name="dialogForm" class="ring-form ring-js-shortcuts ring-dialog__content">
+        <form name="dialogForm" class="ring-form ring-js-shortcuts ring-dialog__content" novalidate>
             <ng-include src="content"></ng-include>
 
             <div class="ring-form__group" ng-show="error">
