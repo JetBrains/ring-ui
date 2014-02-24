@@ -21,7 +21,6 @@
 }
 
 .ring-avatar-editor:hover:not(:disabled):not(.ring-avatar-editor_controlled) {
-  background-color: #000;
   border: 1px solid $ring-link-hover-color;
   padding: 0;
 
@@ -31,7 +30,14 @@
 
   .ring-avatar-editor__img {
     outline: 0;
-    opacity: 0.4;
+  }
+
+  &:before {
+    content: '';
+    position: absolute;
+    @include rgba-attribute('background-color', rgba(0, 0, 0, 0.8));
+    width: 100%;
+    height: 100%;
   }
 }
 
