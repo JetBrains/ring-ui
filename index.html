@@ -368,26 +368,26 @@
       ring('alerts').invoke('add', 'Alerts demo. Will hide in 10 secs.',
           'success', true, 10000);
 
-      var select = ring('dropdown-select');
-      select('init', {
-          target: '.ring-js-searchable',
-          dataSource: select('remoteDataSource', {
-              add: {
-                  title:'Add to',
-                  callback: function() {
-                      console.log(arguments);
-                  },
-                  url:'api/rest/usergroups?fields=id,name,iconUrl,total'
-              },
-              remove: {
-                  title: 'Remove from',
-                  url:'api/rest/users/#{userId}?fields=groups(id,name,iconUrl)',
-                  callback: function() {
-                      console.log(arguments);
-                  }
-              }
-          })
-      });
+//      var select = ring('dropdown-select');
+//      select('init', {
+//          target: '.ring-js-searchable',
+//          dataSource: select('remoteDataSource', {
+//              add: {
+//                  title:'Add to',
+//                  callback: function() {
+//                      console.log(arguments);
+//                  },
+//                  url:'api/rest/usergroups?fields=id,name,iconUrl,total'
+//              },
+//              remove: {
+//                  title: 'Remove from',
+//                  url:'api/rest/users/#{userId}?fields=groups(id,name,iconUrl)',
+//                  callback: function() {
+//                      console.log(arguments);
+//                  }
+//              }
+//          })
+//      });
 
         var query = ring('query-assist');
 
@@ -424,6 +424,17 @@
         }
       });
 
+
+        var select = ring('select');
+
+        select('init',{
+          target: '.select-demo',
+          dataSource: select('remoteDataSource', {
+            hubResource: 'usergroups',
+            url:'api/rest/usergroups?fields=id,name,iconUrl,total&query=#{query}'
+          })
+        });
+
     });
   </script>
 </head>
@@ -437,6 +448,7 @@
       <div><a class="ring-link" href="dist/docs/API.html">View API documentation</a></div>
       <div><a class="ring-link" href="dist/styleguide/">CSS Styleguide</a></div>
       <div class="demo__query-example"></div>
+      <input autofocus="true" class="ring-input ring-js-shortcuts select-demo">
     </div>
   </div>
 </div>
