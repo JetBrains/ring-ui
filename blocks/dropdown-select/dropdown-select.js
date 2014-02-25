@@ -17,7 +17,7 @@ define([
     Config,
     uid = 0;
 
-  var MODULE = 'select',
+  var MODULE = 'dropdown-select',
     RESULT_COUNT = 10;
 
 //  config = {
