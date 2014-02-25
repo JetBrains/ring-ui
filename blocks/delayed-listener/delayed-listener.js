@@ -8,37 +8,46 @@ define([
 ], function ($, View, Module) {
   'use strict';
 
-  var $target,
-    Config,
-    listenDelay,
-    delayedListener,
-    timeoutHandler,
-    lastPolledCaretPosition,
-    lastTriggeredCaretPosition,
-    lastPolledValue,
-    lastTriggeredValue;
-
   var MODULE = 'delayed-listener';
   var LISTEN_DELAY = 250;
 
   var init = function (config) {
-    $target = $(config.target);
-    delayedListener = Module.get(MODULE);
+    var $target = $(config.target);
+
+    var position = {
+      lastPolledCaretPosition: {},
+      lastTriggeredCaretPosition: {},
+      lastPolledValue: {},
+      lastTriggeredValue: {}
+    };
+
+    var timeoutHandler;
 
     if (!$target instanceof $) {
       Module.get(MODULE).trigger('init:fail');
     }
 
-    listenDelay = (config.listenDelay && !isNaN(config.listenDelay)) || LISTEN_DELAY;
-    Config = config;
+    var listenDelay = (config.listenDelay && !isNaN(config.listenDelay)) || LISTEN_DELAY;
+
+    var startListen_ = function () {
+      position.lastTriggeredCaretPosition = undefined;
+      position.lastPolledCaretPosition = undefined;
+      timeoutHandler = setInterval(pollCaretPosition_, listenDelay);
+    };
+
+    var stopListen_ = function (timeoutHandler) {
+      if (timeoutHandler) {
+        clearInterval(timeoutHandler);
+      }
+    };
 
     $target.
-      bind('focus',function () {
+      bind('focus', function () {
         startListen_();
         Module.get(MODULE).trigger('focus-change focusin', true);
       }).
       bind('blur', function () {
-        stopListen_();
+        stopListen_(timeoutHandler);
         Module.get(MODULE).trigger('focus-change focusout', false);
       });
 
@@ -47,38 +56,41 @@ define([
       startListen_();
     }
 
-  };
+    var pollCaretPosition_ = function () {
+      var caret = $target.caret();
+      var value = $target.val() || $target.text();
 
-  var startListen_ = function () {
-    lastTriggeredCaretPosition = undefined;
-    lastPolledCaretPosition = undefined;
-    timeoutHandler = setInterval(pollCaretPosition_, listenDelay);
-  };
-  var stopListen_ = function () {
-    if (timeoutHandler) {
-      clearInterval(timeoutHandler);
-    }
-  };
+      // If caret position changed during the last tick
+      //   Then save it and wait for the next tick
+      //   Else trigger caret-move-event
+      if (position.lastPolledCaretPosition !== caret || position.lastPolledValue !== value) {
+        position.lastPolledCaretPosition = caret;
+        position.lastPolledValue = value;
+      } else if (value !== position.lastTriggeredValue) {
+        position.lastTriggeredCaretPosition = caret;
+        position.lastTriggeredValue = value;
+        _onDelayedChange({value: value, caret: caret});
+      } else if (caret !== position.lastTriggeredCaretPosition) {
+        position.lastTriggeredCaretPosition = caret;
+        position.lastTriggeredValue = value;
+        _onDelayedCaretMove({value: value, caret: caret});
+      }
+    };
 
-  var pollCaretPosition_ = function () {
-    var caret = $target.caret();
-    var value = $target.val() || $target.text();
+    var _onDelayedCaretMove = function (data) {
+      if (config.onDelayedCaretMove && typeof config.onDelayedCaretMove === 'function') {
+        config.onDelayedCaretMove.call(null, data);
+      }
+      Module.get(MODULE).trigger('change:done', data);
+    };
 
-    // If caret position changed during the last tick
-    //   Then save it and wait for the next tick
-    //   Else trigger caret-move-event
-    if (lastPolledCaretPosition !== caret || lastPolledValue !== value) {
-      lastPolledCaretPosition = caret;
-      lastPolledValue = value;
-    } else if (value !== lastTriggeredValue) {
-      lastTriggeredCaretPosition = caret;
-      lastTriggeredValue = value;
-      _onDelayedChange({value: value, caret: caret});
-    } else if (caret !== lastTriggeredCaretPosition) {
-      lastTriggeredCaretPosition = caret;
-      lastTriggeredValue = value;
-      _onDelayedCaretMove({value: value, caret: caret});
-    }
+    var _onDelayedChange = function (data) {
+      if (config.onDelayedChange && typeof config.onDelayedChange === 'function') {
+        config.onDelayedChange.call(null, data);
+      }
+      Module.get(MODULE).trigger('change:done', data);
+    };
+
   };
 
   var placeCaret = function (el) {
@@ -96,20 +108,6 @@ define([
       textRange.collapse(false);
       textRange.select();
     }
-  };
-
-  var _onDelayedCaretMove = function(data) {
-    if (Config.onDelayedCaretMove && typeof Config.onDelayedCaretMove === 'function') {
-      Config.onDelayedCaretMove.call(null, data);
-    }
-    Module.get(MODULE).trigger('change:done', data);
-  };
-
-  var _onDelayedChange = function(data) {
-    if (Config.onDelayedChange && typeof Config.onDelayedChange === 'function') {
-      Config.onDelayedChange.call(null, data);
-    }
-    Module.get(MODULE).trigger('change:done', data);
   };
 
   Module.add(MODULE, {
