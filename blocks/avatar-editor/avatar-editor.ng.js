@@ -109,5 +109,15 @@
           avatarEditorCtrl.registerFileInput(iElement);
         }
       };
-    }]);
+    }]).
+    // FIXME Temporary solution
+    filter("ringAvatarEditorfixDataUriContentType", function () {
+      return function (input) {
+        var output = input;
+        if (input) {
+          output = input.replace(/^data:null;base64/g, "data:image/png;base64");
+        }
+        return output;
+      };
+    });
 })();
