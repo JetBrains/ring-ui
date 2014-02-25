@@ -267,24 +267,6 @@ define(['jquery', 'global/global__events', 'global/global__utils'], function ($,
     return $.when.apply($, promises);
   };
 
-  Module.triggerInstance = function (MODULE, uid, options) {
-    if (!options.name || !options.data) {
-      utils.log(MODULE + ':trigger params missing');
-      return false;
-    }
-    events.methods.trigger(Module.get(MODULE), MODULE + '::' + options.name + '_' + uid, options.data);
-  };
-
-  Module.onInstance = function (MODULE, uid, options) {
-    if (!options.name || typeof options.callback !== 'function') {
-      utils.log(MODULE + ':on params missing');
-      return false;
-    }
-    events.methods.on(Module.get(MODULE), MODULE + '::' + options.name + '_' + uid, function () {
-      options.callback.apply(null, arguments);
-    });
-  };
-
   // Global module name
   Module.GLOBAL = 'root';
 
