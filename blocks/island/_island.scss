@@ -40,7 +40,7 @@
 
 .ring-island__header-btn {
   float: right;
-  padding: 0 16px 0 16px;
+  padding: 0 $ring-unit*2 0 $ring-unit*2;
   cursor: pointer;
   box-shadow: inset 0 0 0 1px #FFF;
   border-left: 1px solid #B4B4B4;
@@ -53,11 +53,11 @@
 }
 
 .ring-island__title {
-  padding-left: 16px;
+  padding: 0 $ring-unit*2;
   font-weight: bold;
   color: #1A1A1A;
 }
 
 .ring-island__content {
-  padding: 16px;
+  padding: $ring-unit*2;
 }
