@@ -112,7 +112,7 @@ define([
       if (data.length) {
         actionList('init', {
           target: $(Config.target),
-          type:['bound'],
+          type: ['bound'],
           width: 'auto',
           items: data
         });
