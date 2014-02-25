@@ -403,20 +403,6 @@
           ring('alerts', 'add')('Query submitted', 'success', true, 10000);
         });
 
-        query('trigger', {
-          name: 'apply',
-          data: {
-            test: 123
-          }
-        });
-
-        query('on', {
-          name: 'apply',
-          callback: function () {
-            console.log(arguments);
-          }
-        });
-
       ring('shortcuts')('bind', {
         key: 'ctrl',
         handler: function() {
@@ -429,6 +415,9 @@
 
         select('init',{
           target: '.select-demo',
+          callback: function(data) {
+            $(this.target).val(data.name);
+          },
           dataSource: select('remoteDataSource', {
             hubResource: 'usergroups',
             url:'api/rest/usergroups?fields=id,name,iconUrl,total&query=#{query}'

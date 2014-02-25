@@ -33,6 +33,7 @@ define([
     var wrapper;
     actionList = Module.get(MODULE);
 
+
     if (!config) {
       utils.log('Action-list: params missing');
       actionList.trigger('init:fail');
@@ -46,7 +47,6 @@ define([
     if (!config.target || !(config.target instanceof $)) {
       return $(View.render('action-list', config));
     }
-
     wrapper = popup('init', config);
 
     dataSource(config).then(function (data) {
@@ -57,6 +57,8 @@ define([
     });
 
     uid += 1;
+
+
     shortcuts('pushScope', MODULE);
 
     $el.bind('mouseenter', function (e) {
@@ -95,7 +97,9 @@ define([
     var $active = $el.parent().find(ACTIVE_SELECTOR);
 
     if ($active.length) {
-      actionList.trigger('action', (items[$el.parent().find(ITEM_ACTION_SELECTOR).index($active)] || false));
+      var eventData = items[$el.parent().find(ITEM_ACTION_SELECTOR).index($active)];
+      actionList.trigger('action_' + uid, (eventData && eventData.event[0] && eventData.event[0].data) || false);
+
       return false;
     } else {
       return true;
@@ -156,12 +160,8 @@ define([
       method: dataSource,
       override: true
     },
-    trigger: {
-      method: Module.triggerInstance.bind(null, MODULE, uid),
-      override: true
-    },
-    on: {
-      method: Module.onInstance.bind(null, MODULE, uid),
+    getUID: {
+      method:function() { return uid; },
       override: true
     }
   });

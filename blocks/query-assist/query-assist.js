@@ -131,6 +131,9 @@ define([
           };
 
           actionList('init', dropdownData);
+          actionList.on('action_' + actionList('getUID'), function (data) {
+            _handleComplete(data);
+          });
           var coords = __getCoords(dropdownTextPosition);
 
           $(CONTAINER_SELECTOR).css(coords);
@@ -315,15 +318,10 @@ define([
     });
   };
 
-  actionList.on('action', function (data) {
-    _handleComplete(data.event[0].data);
-  });
   actionList.on('replace', function () {
-    console.log('replace');
     _handleComplete(arguments[0]);
   });
   actionList.on('complete', function () {
-    console.log('complete');
     _handleComplete(arguments[0]);
   });
 
@@ -343,14 +341,6 @@ define([
     updateQuery: updateQuery,
     remoteDataSource: {
       method: remoteDataSource,
-      override: true
-    },
-    trigger: {
-      method: Module.triggerInstance.bind(null, MODULE, uid),
-      override: true
-    },
-    on: {
-      method: Module.onInstance.bind(null, MODULE, uid),
       override: true
     }
   });
