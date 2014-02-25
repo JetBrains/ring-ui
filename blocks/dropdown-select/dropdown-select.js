@@ -38,22 +38,19 @@ define([
 
     uid += 1;
 
-    $(Config.target).
-      one('focus', function () {
-        delayedListener('init', {
-          target: $(Config.target),
-          onDelayedChange: function (data) {
-            _renderSuggest(data.value);
-          },
-          onDelayedCaretMove: function (data) {
-            _renderSuggest(data.value);
-          }
-        });
-        $(Config.target).focus();
-      }).
-      on('blur', function () {
-        delayedListener('remove');
-      });
+    delayedListener('init', {
+      target: $(Config.target),
+      onDelayedChange: function (data) {
+        if ($(Config.target).is(':focus')) {
+          _renderSuggest(data.value);
+        }
+      },
+      onDelayedCaretMove: function (data) {
+        if ($(Config.target).is(':focus')) {
+          _renderSuggest(data.value);
+        }
+      }
+    });
 
     select.trigger('init:done', {});
     return $el;
