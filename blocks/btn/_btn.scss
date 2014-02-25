@@ -279,13 +279,13 @@ $ring-btn-border-radius: 3px;
   border-radius: 0;
 }
 
-.ring-btn-group .ring-btn:first-child {
+.ring-btn-group .ring-btn:first-child, .ring-btn-group .ring-btn-group__first {
   margin: 0;
   border-top-left-radius: $ring-btn-border-radius;
   border-bottom-left-radius: $ring-btn-border-radius;
 }
 
-.ring-btn-group .ring-btn:last-child {
+.ring-btn-group .ring-btn:last-child, .ring-btn-group .ring-btn-group__last {
   border-top-right-radius: $ring-btn-border-radius;
   border-bottom-right-radius: $ring-btn-border-radius;
 }
