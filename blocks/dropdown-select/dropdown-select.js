@@ -82,8 +82,17 @@ define([
         if (data[remoteDataSourceConfig.hubResource]) {
           items = data[remoteDataSourceConfig.hubResource].map(function (val) {
             return {
-              'action': true,
-              'label': val.name
+              action: true,
+              label: val.name,
+              event: [
+                {
+                  name: 'action-list:action_' + (actionList('getUID') + 1),
+                  data: {
+                    id: val.id,
+                    name: val.name
+                  }
+                }
+              ]
             };
           });
         }
@@ -113,6 +122,12 @@ define([
           width: 'auto',
           items: data
         });
+
+        actionList.on('action_' + actionList('getUID'), function (data) {
+          if (typeof Config.callback === 'function') {
+            Config.callback(data);
+          }
+        });
       }
     });
   };
@@ -128,14 +143,6 @@ define([
     },
     remoteDataSource: {
       method: remoteDataSource,
-      override: true
-    },
-    trigger: {
-      method: Module.triggerInstance.bind(null, MODULE, uid),
-      override: true
-    },
-    on: {
-      method: Module.onInstance.bind(null, MODULE, uid),
       override: true
     }
   });
