@@ -122,6 +122,15 @@
   }
 }
 
+.ring-form__group_nested {
+  padding-top: 0;
+  padding-left: $ring-unit*2;
+
+  .ring-form__control {
+    margin-left: 18 * $ring-unit;
+  }
+}
+
 .ring-form__label {
   position: relative;
   top: 0;
@@ -175,7 +184,7 @@
 }
 
 .ring-form__control__part {
-  margin-right: $ring-unit*2;
+  margin-right: $ring-unit;
 }
 
 // Form for key-value data
