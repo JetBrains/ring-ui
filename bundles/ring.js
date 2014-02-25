@@ -9,8 +9,7 @@ define([
   'link-list/link-list',
   'action-list/action-list',
   'delayed-listener/delayed-listener',
-  'dropdown-select/dropdown-select',
-  'select2/select2'
+  'dropdown-select/dropdown-select'
 ], function(ring) {
   return ring;
 });
