@@ -6,7 +6,7 @@ define([
   'footer/footer',
   'alert/alerts',
   'dialog/dialog',
-  'link-list/link-list',
+  'dropdown-menu/dropdown-menu',
   'action-list/action-list',
   'delayed-listener/delayed-listener',
   'dropdown-select/dropdown-select',

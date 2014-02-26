@@ -7,8 +7,8 @@ define([
 ], function ($, View, Module, utils) {
   'use strict';
 
-  var MODULE = 'link-list',
-    COMPONENT_SELECTOR = '.ring-js-link-list',
+  var MODULE = 'dropdown-menu',
+    COMPONENT_SELECTOR = '.ring-js-dropdown-menu',
     popup = Module.get('popup'),
     $el;
 
