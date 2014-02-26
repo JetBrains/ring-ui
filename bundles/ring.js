@@ -9,7 +9,8 @@ define([
   'link-list/link-list',
   'action-list/action-list',
   'delayed-listener/delayed-listener',
-  'dropdown-select/dropdown-select'
+  'dropdown-select/dropdown-select',
+  'dropdown-searchable/dropdown-searchable'
 ], function(ring) {
   return ring;
 });
