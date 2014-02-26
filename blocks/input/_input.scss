@@ -78,8 +78,9 @@
   }
 
   &:before {
-    content: "";
+    content: '';
     transform: rotate(45deg);
+    z-index: $ring-invisible-element-z-index;
 
     position: absolute;
     top: -4px;
