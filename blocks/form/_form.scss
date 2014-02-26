@@ -39,7 +39,7 @@
   font-size: 13px;
   @include ring-font;
 
-  & .ring-input {
+  & .ring-input, & .ring-select, & .ring-input_wrapper {
     width: 25 * $ring-unit !important;
     margin: 0;
   }
@@ -113,11 +113,21 @@
 }
 
 .ring-form__group {
+  position: relative;
   padding-top: $ring-unit;
   padding-bottom: $ring-unit;
 
   &:last-child {
     padding-bottom: 2*$ring-unit;
+  }
+}
+
+.ring-form__group_nested {
+  padding-top: 0;
+  padding-left: $ring-unit*2;
+
+  .ring-form__control {
+    margin-left: 18 * $ring-unit;
   }
 }
 
@@ -149,6 +159,21 @@
   }
 }
 
+// Temporary solution, proper grid is necessary
+.ring-form__control_secondary {
+  position: absolute;
+  top: $ring-unit;
+  left: 27 * $ring-unit;
+}
+
+.ring-form__control_on {
+  color: #84AB28;
+}
+
+.ring-form__control_off {
+  color: #C10000;
+}
+
 .ring-form__control-link {
   position: relative;
   top: 6px;
@@ -156,6 +181,10 @@
 
 .ring-form__control_small {
   margin-left: 16*$ring-unit !important;
+}
+
+.ring-form__control__part {
+  margin-right: $ring-unit;
 }
 
 // Form for key-value data
