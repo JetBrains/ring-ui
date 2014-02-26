@@ -368,26 +368,34 @@
       ring('alerts').invoke('add', 'Alerts demo. Will hide in 10 secs.',
           'success', true, 10000);
 
-//      var select = ring('dropdown-select');
-//      select('init', {
-//          target: '.ring-js-searchable',
-//          dataSource: select('remoteDataSource', {
-//              add: {
-//                  title:'Add to',
-//                  callback: function() {
-//                      console.log(arguments);
-//                  },
-//                  url:'api/rest/usergroups?fields=id,name,iconUrl,total'
-//              },
-//              remove: {
-//                  title: 'Remove from',
-//                  url:'api/rest/users/#{userId}?fields=groups(id,name,iconUrl)',
-//                  callback: function() {
-//                      console.log(arguments);
-//                  }
-//              }
-//          })
-//      });
+        var select = ring('dropdown-searchable');
+        select('init', {
+          target: '.ring-js-searchable',
+          actions: [
+            {
+              type: 'add',
+              title: 'Add to',
+              callback: function () {
+                console.log(arguments);
+              },
+              dataSource: select('remoteDataSource', {
+                hubResource:'usergroups',
+                url: 'api/rest/usergroups?fields=id,name,iconUrl,total'
+              })
+            },
+            {
+              type: 'remove',
+              title: 'Remove from',
+              dataSource: select('remoteDataSource', {
+                hubResource:'groups',
+                url: 'api/rest/users/#{userId}?fields=groups(id,name,iconUrl)'
+              }),
+              callback: function () {
+                console.log(arguments);
+              }
+            }
+          ]
+        });
 
         var query = ring('query-assist');
 
