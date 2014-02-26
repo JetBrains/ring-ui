@@ -7,7 +7,7 @@ In 8 simple steps:
 
 2. Edit icon set there
 
-3. Save projects to font-icon.json and download icons archive
+3. Save projects to `font-icon.json` and download `font-icon.zip` archive
 
 4. Replace font files with files from `font-icon.zip/fonts`
 
