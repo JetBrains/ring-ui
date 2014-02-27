@@ -17,8 +17,7 @@ define([
     lastTriggeredCaretPositionPers,
     uid = 0;
 
-  var QUERY_ASSIST_SELECTOR = '.ring-query-assist',
-    CONTAINER_SELECTOR = '.ring-dropdown',
+  var CONTAINER_SELECTOR = '.ring-dropdown',
     WRAPPER_SELECTOR = '.ring-dropdown__i',
     ITEM_CONTENT_SELECTOR = '.ring-dropdown__item__content',
     ITEM_CONTENT_SELECTOR_PADDING = 8,
@@ -55,7 +54,7 @@ define([
       updateQuery();
 
       delayedListener('init', {
-        target: $target.find(QUERY_ASSIST_SELECTOR),
+        target: $el,
         onDelayedChange: function (data) {
           lastTriggeredCaretPositionPers = data.caret;
           _doAssist(data.value, data.caret, true);
