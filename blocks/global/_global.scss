@@ -56,7 +56,7 @@ $ring-outline-color: rgba(37, 183, 255, 0.5);
   font: 12px Menlo, "Bitstream Vera Sans Mono", "Ubuntu Mono", "Courier New", Courier, monospace;
 }
 
-$ring-fonts-dir: 'fonts/';
+$ring-fonts-dir: 'fonts/' !default;
 
 // Constant values for z-indexes.
 
