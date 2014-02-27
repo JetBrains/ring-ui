@@ -39,7 +39,7 @@
 
               if (angular.isFunction(handler)) {
                 keys[key.key] = function(e, combo, scope) {
-                  var ret = handler.call(handlers, e, combo, scope, name);
+                  var ret = handler.call(handlers, e, combo, scope, key.action);
                   if (!$rootScope.$$phase) {
                     $rootScope.$apply();
                   }
@@ -66,6 +66,7 @@
         restrict: 'A',
         controller: ['$rootScope', '$scope', 'shortcuts', function ($scope, $rootScope, shortcuts) {
           $scope.zones = [];
+          var ctrl = this;
 
           var getNext = function(current, up) {
             var position = current && $.inArray(current, $scope.zones);
@@ -87,7 +88,7 @@
             return next;
           };
 
-          this.select = function(next) {
+          ctrl.select = function(next) {
             if ($scope.current) {
               shortcuts.ring('popScope', $scope.current.name);
             }
@@ -102,7 +103,7 @@
             $scope.current = next;
           };
 
-          this.route = function(action, e, combo) {
+          ctrl.route = function(action, e, combo) {
             var next;
 
             // There is nowhere to navigate
@@ -123,7 +124,7 @@
             }
 
             if (next) {
-              this.select(next);
+              ctrl.select(next);
 
               if (shortcuts.ring('hasKey', combo, next.name)) {
                 shortcuts.ring('trigger', combo);
@@ -133,17 +134,12 @@
             return false;
           };
 
-
-          this.next = this.route.bind(this, 'next');
-          this.prev = this.route.bind(this, 'prev');
-          this.main = this.route.bind(this, 'main');
-
-          this.setup = function(zone, keys) {
+          ctrl.setup = function(zone, keys) {
             shortcuts.bind(zone.name, keys);
             $scope.zones.push(zone);
           };
 
-          this.destroy = function(zone) {
+          ctrl.destroy = function(zone) {
             shortcuts.ring('popScope', zone.name);
             shortcuts.ring('unbindList', zone.name);
 
@@ -155,7 +151,13 @@
           };
 
           // Initial setup
-          shortcuts.bind('ring-shortcuts', this);
+          var keyMap = {
+            next: ctrl.route.bind(ctrl, 'next'),
+            prev: ctrl.route.bind(ctrl, 'prev'),
+            main: ctrl.route.bind(ctrl, 'main')
+          };
+
+          shortcuts.bind('ring-shortcuts', keyMap);
           shortcuts.ring('pushScope', 'ring-shortcuts');
         }]
       };
