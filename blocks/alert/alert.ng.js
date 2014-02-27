@@ -23,7 +23,7 @@
             }
           );
 
-          return ring('alerts', 'add')(message, type, true, opt_timeout || 5000);
+          return ring('alerts', 'add')(message, type, true, opt_timeout);
         };
       });
 
