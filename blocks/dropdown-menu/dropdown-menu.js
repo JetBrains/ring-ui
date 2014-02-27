@@ -23,7 +23,11 @@ define([
     }
 
     if (!config.items && config.target) {
-      $.extend(config, $(config.target).data(MODULE));
+      var domData = $(config.target).data(MODULE);
+      if ($.isArray(domData)) {
+        domData = {items: domData};
+      }
+      $.extend(config, domData);
     }
 
     if (!config.target || !(config.target instanceof $)) {
@@ -61,7 +65,7 @@ define([
 
     if ($target.length) {
       init({
-        target:$target
+        target: $target
       });
       e.stopPropagation();
     } else {
