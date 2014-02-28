@@ -1,9 +1,7 @@
 {{> dropdown__items }}
-{{#type}}
-    {{#ifEqual this 'typed'}}
-      <span class="ring-dropdown__item ring-dropdown__item_hint">
+{{#if description}}
+  <span class="ring-dropdown__item ring-dropdown__item_hint">
           <span class="ring-dropdown__item__type"></span>
-          <span class="ring-dropdown__item__content">Use ↩ to complete selected item</span>
+          <span class="ring-dropdown__item__content">{{ description }}</span>
       </span>
-    {{/ifEqual}}
-{{/type}}
+{{/if}}
