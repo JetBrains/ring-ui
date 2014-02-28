@@ -14,14 +14,14 @@ define([
     POPUP_INPUT_SELECTOR = '.ring-js-popup-input';
 
   var popup = Module.get('popup'),
-    MODULE = 'dropdown-searchable';
+    MODULE = 'dropdown-filter';
 
   var init = function (config) {
     var $target,
       wrapper;
 
     if (!config || !config.target || !config.actions) {
-      utils.log('dropdown-searchable: init params missing');
+      utils.log('dropdown-filter: init params missing');
       return false;
     }
 

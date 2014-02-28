@@ -60,7 +60,7 @@
         'action-list/action-list',
         'delayed-listener/delayed-listener',
         'dropdown-select/dropdown-select',
-        'dropdown-searchable/dropdown-searchable'
+        'dropdown-filter/dropdown-filter'
       ],
       function($, ring) {
       window.ring = ring;
@@ -255,7 +255,7 @@
               },
               {
                 "label": "User select",
-                "className": "ring-btn_primary ring-js-searchable ring-js-shortcuts"
+                "className": "ring-btn_primary ring-js-filter ring-js-shortcuts"
               }
             ]
           },
@@ -374,9 +374,9 @@
       ring('alerts').invoke('add', 'Alerts demo. Will hide in 10 secs.',
           'success', true, 10000);
 
-        var select = ring('dropdown-searchable');
-        select('init', {
-          target: '.ring-js-searchable',
+        var filter = ring('dropdown-filter');
+        filter('init', {
+          target: '.ring-js-filter',
           actions: [
             {
               type: 'add',
@@ -384,7 +384,7 @@
               callback: function () {
                 console.log(arguments);
               },
-              dataSource: select('remoteDataSource', {
+              dataSource: filter('remoteDataSource', {
                 hubResource:'usergroups',
                 url: 'api/rest/usergroups?fields=id,name,iconUrl,total'
               })
@@ -392,7 +392,7 @@
             {
               type: 'remove',
               title: 'Remove from',
-              dataSource: select('remoteDataSource', {
+              dataSource: filter('remoteDataSource', {
                 hubResource:'groups',
                 url: 'api/rest/users/#{userId}?fields=groups(id,name,iconUrl)'
               }),
