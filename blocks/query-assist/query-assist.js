@@ -126,6 +126,7 @@ define([
             target: $el,
             type: ['typed', 'bound'],
             width: 'auto',
+            description: 'Use ↩ to complete selected item',
             items: _getHighlightText(data)
           };
 
