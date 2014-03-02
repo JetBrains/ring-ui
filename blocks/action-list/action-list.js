@@ -97,8 +97,14 @@ define([
     var $active = $el.parent().find(ACTIVE_SELECTOR);
 
     if ($active.length) {
-      var eventData = items[$el.parent().find(ITEM_ACTION_SELECTOR).index($active)];
-      actionList.trigger('action_' + uid, (eventData && eventData.event[0] && eventData.event[0].data) || false);
+      var eventEl = items[$el.parent().find(ITEM_ACTION_SELECTOR).index($active)],
+        eventData;
+      if ((eventEl && eventEl.event && eventEl.event[0] && eventEl.event[0])) {
+        eventData = eventEl.event[0].data;
+      } else {
+        eventData = eventEl;
+      }
+      actionList.trigger('action_' + uid, eventData || false);
 
       return false;
     } else {
@@ -164,7 +170,9 @@ define([
       override: true
     },
     getUID: {
-      method:function() { return uid; },
+      method: function () {
+        return uid;
+      },
       override: true
     }
   });
