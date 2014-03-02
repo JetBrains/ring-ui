@@ -107,6 +107,9 @@ define([
   };
 
   var navigate_ = function (e, key) {
+    if ($el === null) {
+      return false;
+    }
     var up = (key === 'up'),
       $active = $el.parent().find(ITEM_ACTION_SELECTOR + ACTIVE_SELECTOR),
       $next = $active[up ? 'prev' : 'next'](ITEM_ACTION_SELECTOR);
