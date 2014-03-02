@@ -395,7 +395,7 @@
               title: 'Remove from',
               dataSource: filter('remoteDataSource', {
                 hubResource:'groups',
-                url: 'api/rest/users/#{userId}?fields=groups(id,name,iconUrl)'
+                url: 'api/rest/users/#{userId}/groups?'
               }),
               change: function () {
                 console.log(arguments);
