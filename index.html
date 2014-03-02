@@ -382,7 +382,7 @@
             {
               type: 'add',
               title: 'Add to',
-              callback: function () {
+              change: function () {
                 console.log(arguments);
               },
               dataSource: filter('remoteDataSource', {
@@ -397,7 +397,7 @@
                 hubResource:'groups',
                 url: 'api/rest/users/#{userId}?fields=groups(id,name,iconUrl)'
               }),
-              callback: function () {
+              change: function () {
                 console.log(arguments);
               }
             }
