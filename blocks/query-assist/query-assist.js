@@ -131,7 +131,7 @@ define([
           };
 
           actionList('init', dropdownData);
-          actionList.on('action_' + actionList('getUID'), function (data) {
+          actionList.on('change_' + actionList('getUID'), function (data) {
             _handleComplete(data);
           });
           var coords = __getCoords(dropdownTextPosition);
