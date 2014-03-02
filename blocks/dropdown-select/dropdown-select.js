@@ -86,7 +86,7 @@ define([
               label: val.name,
               event: [
                 {
-                  name: 'action-list:action_' + (actionList('getUID') + 1),
+                  name: 'action-list:change_' + (actionList('getUID') + 1),
                   data: {
                     id: val.id,
                     name: val.name
@@ -123,9 +123,9 @@ define([
           items: data
         });
 
-        actionList.on('action_' + actionList('getUID'), function (data) {
-          if (typeof Config.callback === 'function') {
-            Config.callback(data);
+        actionList.on('change_' + actionList('getUID'), function (data) {
+          if (typeof Config.change === 'function') {
+            Config.change(data);
           }
         });
       }

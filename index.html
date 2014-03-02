@@ -430,7 +430,7 @@
 
         select('init',{
           target: '.select-demo',
-          callback: function(data) {
+          change: function(data) {
             $(this.target).val(data.name);
           },
           dataSource: select('remoteDataSource', {
