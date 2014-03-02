@@ -104,7 +104,7 @@ define([
       } else {
         eventData = eventEl;
       }
-      actionList.trigger('action_' + uid, eventData || false);
+      actionList.trigger('change_' + uid, eventData || false);
 
       return false;
     } else {
