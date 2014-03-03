@@ -33,14 +33,20 @@ define([
 
     $target.
       on('click', function (e) {
-        wrapper = popup('init', config);
-        _bindRemoveEvent(wrapper);
+        var $actions = [];
         preventRender = false;
+
+        wrapper = popup('init', config);
+
+        _bindRemoveEvent(wrapper);
 
         config.actions.forEach(function (obj, index, arr) {
           _render(obj, index, arr).done(function ($el) {
             _bindToggleEvent(wrapper, $el);
-            wrapper.appendHTML($el);
+            $actions.push($el);
+            if ((index + 1) === arr.length) {
+              wrapper.appendHTML($actions);
+            }
           });
         });
         e.stopPropagation();
