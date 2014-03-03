@@ -37,8 +37,8 @@ define([
         _bindRemoveEvent(wrapper);
         preventRender = false;
 
-        config.actions.forEach(function (obj, index) {
-          _render(obj, index).done(function ($el) {
+        config.actions.forEach(function (obj, index, arr) {
+          _render(obj, index, arr).done(function ($el) {
             _bindToggleEvent(wrapper, $el);
             wrapper.appendHTML($el);
           });
@@ -48,7 +48,7 @@ define([
     )
     ;
 
-    var _render = function (action, index) {
+    var _render = function (action, index, arr) {
       var title = $(View.render('popup-control', {
           title: action.title,
           type: action.type,
@@ -62,6 +62,11 @@ define([
         }
         var actionList = Module.get('action-list');
 
+        if ((index + 1) < arr.length) {
+          data.push({
+            separator: true
+          });
+        }
         var items = actionList('init', {
           items: data
         });
