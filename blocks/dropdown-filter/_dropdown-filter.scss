@@ -1,0 +1,17 @@
+.ring-dropdown-filter__container {
+  .ring-js-popup-input {
+    display: none;
+  }
+  .ring-dropdown__item:not(.ring-dropdown__item__controls) {
+    display: none;
+  }
+
+  &.active {
+    .ring-js-popup-input {
+      display: block;
+    }
+    .ring-dropdown__item {
+      display: block;
+    }
+  }
+}

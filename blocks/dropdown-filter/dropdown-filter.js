@@ -11,6 +11,8 @@ define([
   'use strict';
 
   var RESULT_COUNT = 5,
+    ACTION_CONTAINER = 'ring-dropdown-filter__container',
+    ACTION_CONTAINER_SELECTOR = '.' + ACTION_CONTAINER,
     POPUP_INPUT_SELECTOR = '.ring-js-popup-input';
 
   var popup = Module.get('popup'),
@@ -35,21 +37,26 @@ define([
         _bindRemoveEvent(wrapper);
         preventRender = false;
 
-        for (var i = 0; i < config.actions.length; i++) {
-          var obj = config.actions[i];
-          _render(obj);
-        }
+        config.actions.forEach(function (obj, index) {
+          _render(obj, index).done(function ($el) {
+            _bindToggleEvent(wrapper, $el);
+            wrapper.appendHTML($el);
+          });
+        });
         e.stopPropagation();
-      });
+      }
+    )
+    ;
 
-    var _render = function (action) {
+    var _render = function (action, index) {
       var title = $(View.render('popup-control', {
-        title: action.title,
-        type: action.type,
-        input: true
-      }));
+          title: action.title,
+          type: action.type,
+          input: true
+        })),
+        dfd = $.Deferred();
 
-      return action.dataSource('').done(function (data) {
+      action.dataSource('').done(function (data) {
         if (preventRender) {
           return false;
         }
@@ -58,10 +65,12 @@ define([
         var items = actionList('init', {
           items: data
         });
-        wrapper.appendHTML(title);
-        wrapper.appendHTML(items);
+
+        dfd.resolve($('<div class="' + ACTION_CONTAINER + ' ' + ((index === 0) ? 'active' : '') + '"></div>').append([title, items]));
         _bindDelayedListener(title.find(POPUP_INPUT_SELECTOR), action, items);
       });
+
+      return dfd.promise();
     };
 
     var _bindDelayedListener = function ($el, action) {
@@ -81,6 +90,13 @@ define([
         });
       }
     };
+  };
+
+  var _bindToggleEvent = function (wrapper, $el) {
+    $el.on('click', function () {
+      wrapper.el.find(ACTION_CONTAINER_SELECTOR).removeClass('active');
+      $(this).addClass('active');
+    });
   };
 
   var configureUrl = function (config, query) {
@@ -167,4 +183,5 @@ define([
       override: true
     }
   });
-});
+})
+;
