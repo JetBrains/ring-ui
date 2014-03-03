@@ -13,7 +13,9 @@ define([
   var RESULT_COUNT = 5,
     ACTION_CONTAINER = 'ring-dropdown-filter__container',
     ACTION_CONTAINER_SELECTOR = '.' + ACTION_CONTAINER,
-    POPUP_INPUT_SELECTOR = '.ring-js-popup-input';
+    POPUP_INPUT_SELECTOR = '.ring-js-popup-input',
+    DROPDOWN_ITEM_SELECTOR = '.ring-dropdown__item',
+    DROPDOWN_ITEM_CONTROLS_SELECTOR = '.ring-dropdown__item__controls';
 
   var popup = Module.get('popup'),
     MODULE = 'dropdown-filter',
@@ -60,7 +62,8 @@ define([
           type: action.type,
           input: true
         })),
-        dfd = $.Deferred();
+        dfd = $.Deferred(),
+        $el;
 
       action.dataSource('').done(function (data) {
         if (preventRender) {
@@ -77,14 +80,15 @@ define([
           items: data
         });
 
-        dfd.resolve($('<div class="' + ACTION_CONTAINER + ' ' + ((index === 0) ? 'active' : '') + '"></div>').append([title, items]));
-        _bindDelayedListener(title.find(POPUP_INPUT_SELECTOR), action, items);
+        $el = $('<div class="' + ACTION_CONTAINER + ' ' + ((index === 0) ? 'active' : '') + '"></div>').append([title, items]);
+        dfd.resolve($el);
+        _bindDelayedListener(title.find(POPUP_INPUT_SELECTOR), action, $el);
       });
 
       return dfd.promise();
     };
 
-    var _bindDelayedListener = function ($el, action) {
+    var _bindDelayedListener = function ($el, action, $container) {
       var delayedListener = Module.get('delayed-listener');
       if ($el) {
         delayedListener('init', {
@@ -95,7 +99,8 @@ define([
               var items = actionList('init', {
                 items: data
               });
-              console.log(items);
+              $container.find(DROPDOWN_ITEM_SELECTOR).not(DROPDOWN_ITEM_CONTROLS_SELECTOR).remove();
+              $container.find(DROPDOWN_ITEM_CONTROLS_SELECTOR).after(items);
             });
           }
         });
