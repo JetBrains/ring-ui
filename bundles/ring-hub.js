@@ -8,6 +8,7 @@ define([
   'footer/footer',
   'alert/alerts',
   'query-assist/query-assist',
+  'dropdown-menu/dropdown-menu',
   'profile/profile'
 ], function(ring) {
   return ring;
