@@ -65,10 +65,12 @@ define([
         target: $el,
         onDelayedChange: function (data) {
           lastTriggeredCaretPositionPers = data.caret;
+          queryAssist.trigger('change', {value: data.value.replace(/\s/g, ' '), caret: data.caret});
           _doAssist(data.value, data.caret, true);
         },
         onDelayedCaretMove: function (data) {
           lastTriggeredCaretPositionPers = data.caret;
+          queryAssist.trigger('change', {value: data.value.replace(/\s/g, ' '), caret: data.caret});
           _doAssist(data.value, data.caret, false);
         }
       });
@@ -151,6 +153,7 @@ define([
 
       });
     } else {
+      shortcuts('pushScope', MODULE);
       actionList('remove');
     }
   };
