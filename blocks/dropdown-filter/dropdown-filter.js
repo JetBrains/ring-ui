@@ -14,7 +14,8 @@ define([
     POPUP_INPUT_SELECTOR = '.ring-js-popup-input';
 
   var popup = Module.get('popup'),
-    MODULE = 'dropdown-filter';
+    MODULE = 'dropdown-filter',
+    preventRender = false;
 
   var init = function (config) {
     var $target,
@@ -26,17 +27,20 @@ define([
     }
 
     $target = $(config.target);
+    preventRender = false;
 
-    $target.on('click', function (e) {
-      wrapper = popup('init', config);
-      _bindRemoveEvent(wrapper);
+    $target.
+      on('click', function (e) {
+        wrapper = popup('init', config);
+        _bindRemoveEvent(wrapper);
+        preventRender = false;
 
-      for (var i = 0; i < config.actions.length; i++) {
-        var obj = config.actions[i];
-        _render(obj);
-      }
-      e.stopPropagation();
-    });
+        for (var i = 0; i < config.actions.length; i++) {
+          var obj = config.actions[i];
+          _render(obj);
+        }
+        e.stopPropagation();
+      });
 
     var _render = function (action) {
       var title = $(View.render('popup-control', {
@@ -45,7 +49,10 @@ define([
         input: true
       }));
 
-      action.dataSource('').then(function (data) {
+      return action.dataSource('').done(function (data) {
+        if (preventRender) {
+          return false;
+        }
         var actionList = Module.get('action-list');
 
         var items = actionList('init', {
@@ -120,10 +127,10 @@ define([
         if (items) {
           items.forEach(function (item) {
             dropdownData.push({
+              action: true,
               label: item.name,
               url: item.url || '',
               event: {
-                name: 'dropdown:select',
                 data: {
                   id: item.id,
                   name: item.name
@@ -146,6 +153,7 @@ define([
     $(document).one('click', function () {
       wrapper.el.unbind();
       popup('remove');
+      preventRender = true;
     });
 
     $(wrapper.el).on('click', function (event) {
