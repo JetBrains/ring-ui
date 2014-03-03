@@ -44,6 +44,9 @@ define([
       $.extend(config, $(config.target).data(MODULE));
     }
 
+    uid += 1;
+    shortcuts('pushScope', MODULE);
+
     if (!config.target || !(config.target instanceof $)) {
       return $(View.render('action-list', config));
     }
@@ -55,11 +58,6 @@ define([
 
       wrapper.insertHTML($el);
     });
-
-    uid += 1;
-
-
-    shortcuts('pushScope', MODULE);
 
     $el.bind('mouseenter', function (e) {
       events.domEventHandler(e);
