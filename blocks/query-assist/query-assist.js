@@ -44,7 +44,6 @@ define([
 
     $target = $(config.targetElem);
     dataSource = config.dataSource;
-    shortcuts('pushScope', MODULE);
     uid += 1;
 
     var dfd = View.init(MODULE, $target, config.method || 'prepend', {}, config);
@@ -52,6 +51,15 @@ define([
     dfd.done(function ($view) {
       $el = $view;
       updateQuery();
+
+      $el.
+        on('focus', function () {
+          shortcuts('pushScope', MODULE);
+        }).
+        on('blur', function () {
+          actionList('remove');
+          shortcuts('popScope', MODULE);
+        });
 
       delayedListener('init', {
         target: $el,
