@@ -127,9 +127,7 @@ define([
         if (items) {
           items.forEach(function (item) {
             dropdownData.push({
-              action: true,
               label: item.name,
-              url: item.url || '',
               event: {
                 data: {
                   id: item.id,
