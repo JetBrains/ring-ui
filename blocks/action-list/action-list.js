@@ -95,6 +95,7 @@ define([
 
   var remove = function () {
     if ($el) {
+      shortcuts('popScope', MODULE);
       $el.remove();
       $el = null;
       popup('remove');

@@ -57,7 +57,7 @@ define([
           shortcuts('pushScope', MODULE);
         }).
         on('blur', function () {
-          shortcuts('popScope', MODULE);
+          shortcuts('spliceScope', MODULE);
         });
 
       delayedListener('init', {
@@ -314,13 +314,6 @@ define([
     });
   };
 
-//  actionList.on('replace', function () {
-//    _handleComplete(arguments[0]);
-//  });
-//  actionList.on('complete', function () {
-//    _handleComplete(arguments[0]);
-//  });
-
   var showAssist = function () {
     _doAssist($el.text().replace(/\s/g, ' '), $el.caret(), false, false);
     return false;
@@ -352,7 +345,11 @@ define([
         if ($global.scrollTop() > offset.top) {
           window.scrollTo(offset.left, Math.max(offset.top - 100, 0));
         }
-        $el.focus();
+        if ($el.text().length) {
+          ring('delayed-listener')('placeCaret', $el);
+        } else {
+          $el.focus();
+        }
       } else {
         $el.blur();
       }
