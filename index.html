@@ -259,8 +259,7 @@
                 "className": "ring-btn_primary ring-js-filter ring-js-shortcuts"
               }
             ]
-          },
-          ],
+          }],
           "toggle-profile": {}
         },
         "right": {
@@ -427,7 +426,7 @@
         select('init',{
           target: '.select-demo',
           change: function(data) {
-            $(this.target).val(data.name);
+            $(this.target).val(data.label);
           },
           dataSource: select('remoteDataSource', {
             hubResource: 'usergroups',

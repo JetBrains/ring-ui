@@ -141,7 +141,7 @@ define([
 
           actionList('init', dropdownData);
           actionList.on('change_' + actionList('getUID'), function (data) {
-            _handleComplete(data);
+            _handleComplete(data.data);
           });
           var coords = __getCoords(dropdownTextPosition);
 
@@ -282,24 +282,11 @@ define([
       return {
         label: label,
         type: suggestion.description,
-        event: [
-          {
-            name: 'action-list:complete',
-            data: {
-              action: COMPLETE_ACTION,
-              query: assistData.query,
-              suggestion: suggestion
-            }
-          },
-          {
-            name: 'action-list:replace',
-            type: 'replace',
-            data: {
-              query: assistData.query,
-              suggestion: suggestion
-            }
-          }
-        ]
+        data: {
+          query: assistData.query,
+          suggestion: suggestion
+        },
+        event: []
       };
     }) || [];
   };
@@ -327,12 +314,12 @@ define([
     });
   };
 
-  actionList.on('replace', function () {
-    _handleComplete(arguments[0]);
-  });
-  actionList.on('complete', function () {
-    _handleComplete(arguments[0]);
-  });
+//  actionList.on('replace', function () {
+//    _handleComplete(arguments[0]);
+//  });
+//  actionList.on('complete', function () {
+//    _handleComplete(arguments[0]);
+//  });
 
   var showAssist = function () {
     _doAssist($el.text().replace(/\s/g, ' '), $el.caret(), false, false);

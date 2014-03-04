@@ -83,16 +83,7 @@ define([
           items = data[remoteDataSourceConfig.hubResource].map(function (val) {
             return {
               action: true,
-              label: val.name,
-              event: [
-                {
-                  name: 'action-list:change_' + (actionList('getUID') + 1),
-                  data: {
-                    id: val.id,
-                    name: val.name
-                  }
-                }
-              ]
+              label: val.name
             };
           });
         }
