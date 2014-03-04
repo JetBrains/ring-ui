@@ -81,6 +81,7 @@ define([
         });
 
         actionList.on('change_'+ actionList('getUID'), function(data) {
+          console.log('dropdown-select', data);
           if(action.change && typeof action.change === 'function') {
             action.change(data);
           }
