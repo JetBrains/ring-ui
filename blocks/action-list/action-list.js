@@ -48,13 +48,21 @@ define([
     shortcuts('pushScope', MODULE);
 
     if (!config.target || !(config.target instanceof $)) {
-      return $(View.render('action-list', config));
+      $el = $(View.render('action-list', config)).
+        bind('click', function (e) {
+          items = config.items;
+          actionList.trigger('change_' + uid, items[$(e.currentTarget).index() - 1].event.data || false);
+        });
+      return $el;
     }
     wrapper = popup('init', config);
 
     dataSource(config).then(function (data) {
       items = data.items;
-      $el = $(View.render('action-list', data));
+      $el = $(View.render('action-list', data)).
+        bind('click', function () {
+          action_();
+        });
 
       wrapper.insertHTML($el);
     });
