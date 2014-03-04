@@ -80,6 +80,12 @@ define([
           items: data
         });
 
+        actionList.on('change_'+ actionList('getUID'), function(data) {
+          if(action.change && typeof action.change === 'function') {
+            action.change(data);
+          }
+        });
+
         $el = $('<div class="' + ACTION_CONTAINER + ' ' + ((index === 0) ? 'active' : '') + '"></div>').append([title, items]);
         dfd.resolve($el);
         _bindDelayedListener(title.find(POPUP_INPUT_SELECTOR), action, $el);
