@@ -57,7 +57,6 @@ define([
           shortcuts('pushScope', MODULE);
         }).
         on('blur', function () {
-          actionList('remove');
           shortcuts('popScope', MODULE);
         });
 
@@ -154,7 +153,6 @@ define([
       });
     } else {
       shortcuts('pushScope', MODULE);
-      actionList('remove');
     }
   };
 
