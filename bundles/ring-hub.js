@@ -9,6 +9,8 @@ define([
   'alert/alerts',
   'query-assist/query-assist',
   'dropdown-menu/dropdown-menu',
+  'dropdown-filter/dropdown-filter',
+  'dropdown-select/dropdown-select',
   'profile/profile'
 ], function(ring) {
   return ring;
