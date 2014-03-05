@@ -10,10 +10,11 @@
         'scope': true,
         'replace': true,
         'templateUrl': 'dialog/dialog.ng.html',
-        'controller': ['$scope', 'dialog', function ($scope, dialog) {
-          $scope.close = function () {
-            dialog.hide();
-          };
+        'controller': ['$scope', '$rootScope', 'dialog',function ($scope, $rootScope, dialog) {
+          $scope.close = dialog.hide;
+          $rootScope.$on('$routeChangeSuccess', dialog.hide);
+          $rootScope.$on('$routeUpdate', dialog.hide);
+
           $scope.action = function (button) {
             var dontClose = false;
             if (button.action) {
@@ -32,7 +33,7 @@
 
           shortcuts('bindList', {scope: DIALOG_KEY_SCOPE}, {
             'esc': function() {
-              $scope.close();
+              dialog.hide();
               $scope.$apply();
             },
             'enter': function() {

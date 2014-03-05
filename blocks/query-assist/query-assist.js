@@ -44,7 +44,6 @@ define([
 
     $target = $(config.targetElem);
     dataSource = config.dataSource;
-    shortcuts('pushScope', MODULE);
     uid += 1;
 
     var dfd = View.init(MODULE, $target, config.method || 'prepend', {}, config);
@@ -53,14 +52,24 @@ define([
       $el = $view;
       updateQuery();
 
+      $el.
+        on('focus', function () {
+          shortcuts('pushScope', MODULE);
+        }).
+        on('blur', function () {
+          shortcuts('spliceScope', MODULE);
+        });
+
       delayedListener('init', {
         target: $el,
         onDelayedChange: function (data) {
           lastTriggeredCaretPositionPers = data.caret;
+          queryAssist.trigger('change', {value: data.value.replace(/\s/g, ' '), caret: data.caret});
           _doAssist(data.value, data.caret, true);
         },
         onDelayedCaretMove: function (data) {
           lastTriggeredCaretPositionPers = data.caret;
+          queryAssist.trigger('change', {value: data.value.replace(/\s/g, ' '), caret: data.caret});
           _doAssist(data.value, data.caret, false);
         }
       });
@@ -126,12 +135,13 @@ define([
             target: $el,
             type: ['typed', 'bound'],
             width: 'auto',
+            description: 'Use ↩ to complete selected item',
             items: _getHighlightText(data)
           };
 
           actionList('init', dropdownData);
-          actionList.on('action_' + actionList('getUID'), function (data) {
-            _handleComplete(data);
+          actionList.on('change_' + actionList('getUID'), function (data) {
+            _handleComplete(data.data);
           });
           var coords = __getCoords(dropdownTextPosition);
 
@@ -142,7 +152,7 @@ define([
 
       });
     } else {
-      actionList('remove');
+      shortcuts('pushScope', MODULE);
     }
   };
 
@@ -272,24 +282,11 @@ define([
       return {
         label: label,
         type: suggestion.description,
-        event: [
-          {
-            name: 'action-list:complete',
-            data: {
-              action: COMPLETE_ACTION,
-              query: assistData.query,
-              suggestion: suggestion
-            }
-          },
-          {
-            name: 'action-list:replace',
-            type: 'replace',
-            data: {
-              query: assistData.query,
-              suggestion: suggestion
-            }
-          }
-        ]
+        data: {
+          query: assistData.query,
+          suggestion: suggestion
+        },
+        event: []
       };
     }) || [];
   };
@@ -316,13 +313,6 @@ define([
       caret: data.suggestion.caret
     });
   };
-
-  actionList.on('replace', function () {
-    _handleComplete(arguments[0]);
-  });
-  actionList.on('complete', function () {
-    _handleComplete(arguments[0]);
-  });
 
   var showAssist = function () {
     _doAssist($el.text().replace(/\s/g, ' '), $el.caret(), false, false);
@@ -355,7 +345,11 @@ define([
         if ($global.scrollTop() > offset.top) {
           window.scrollTo(offset.left, Math.max(offset.top - 100, 0));
         }
-        $el.focus();
+        if ($el.text().length) {
+          ring('delayed-listener')('placeCaret', $el);
+        } else {
+          $el.focus();
+        }
       } else {
         $el.blur();
       }
