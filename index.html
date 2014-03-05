@@ -55,7 +55,13 @@
       'header/header__userinfo',
       'query-assist/query-assist',
       'profile/profile',
-      'json'],
+      'json',
+        'dropdown-menu/dropdown-menu',
+        'action-list/action-list',
+        'delayed-listener/delayed-listener',
+        'dropdown-select/dropdown-select',
+        'dropdown-filter/dropdown-filter'
+      ],
       function($, ring) {
       window.ring = ring;
 
@@ -214,6 +220,7 @@
                   type: [
                     'typed'
                   ],
+                  description: "Place here any text",
                   "items": [
                     {
                       "type": "service",
@@ -249,11 +256,10 @@
               },
               {
                 "label": "User select",
-                "className": "ring-btn_primary ring-js-searchable ring-js-shortcuts"
+                "className": "ring-btn_primary ring-js-filter ring-js-shortcuts"
               }
             ]
-          },
-          ],
+          }],
           "toggle-profile": {}
         },
         "right": {
@@ -364,21 +370,17 @@
         return false;
       });
 
-      // todo(igor.alexeenko): More impressive demo. Show all possibilities.
-      ring('alerts').invoke('add', 'Alerts demo. Will hide in 10 secs.',
-          'success', true, 10000);
-
-        var select = ring('dropdown-searchable');
-        select('init', {
-          target: '.ring-js-searchable',
+        var filter = ring('dropdown-filter');
+        filter('init', {
+          target: '.ring-js-filter',
           actions: [
             {
               type: 'add',
               title: 'Add to',
-              callback: function () {
+              change: function () {
                 console.log(arguments);
               },
-              dataSource: select('remoteDataSource', {
+              dataSource: filter('remoteDataSource', {
                 hubResource:'usergroups',
                 url: 'api/rest/usergroups?fields=id,name,iconUrl,total'
               })
@@ -386,11 +388,11 @@
             {
               type: 'remove',
               title: 'Remove from',
-              dataSource: select('remoteDataSource', {
+              dataSource: filter('remoteDataSource', {
                 hubResource:'groups',
-                url: 'api/rest/users/#{userId}?fields=groups(id,name,iconUrl)'
+                url: 'api/rest/users/#{userId}/groups?'
               }),
-              callback: function () {
+              change: function () {
                 console.log(arguments);
               }
             }
@@ -423,8 +425,8 @@
 
         select('init',{
           target: '.select-demo',
-          callback: function(data) {
-            $(this.target).val(data.name);
+          change: function(data) {
+            $(this.target).val(data.label);
           },
           dataSource: select('remoteDataSource', {
             hubResource: 'usergroups',

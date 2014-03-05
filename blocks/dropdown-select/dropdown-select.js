@@ -83,16 +83,7 @@ define([
           items = data[remoteDataSourceConfig.hubResource].map(function (val) {
             return {
               action: true,
-              label: val.name,
-              event: [
-                {
-                  name: 'action-list:action_' + (actionList('getUID') + 1),
-                  data: {
-                    id: val.id,
-                    name: val.name
-                  }
-                }
-              ]
+              label: val.name
             };
           });
         }
@@ -123,9 +114,9 @@ define([
           items: data
         });
 
-        actionList.on('action_' + actionList('getUID'), function (data) {
-          if (typeof Config.callback === 'function') {
-            Config.callback(data);
+        actionList.on('change_' + actionList('getUID'), function (data) {
+          if (typeof Config.change === 'function') {
+            Config.change(data);
           }
         });
       }
