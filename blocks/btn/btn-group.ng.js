@@ -9,13 +9,14 @@
           $scope.$watchCollection(function() {
             var iVisible = iElement.children(':visible');
 
-            return [iVisible.first()[0], iVisible.last()[0]];
+            // For $watchCollection it should be Array, not jQuery collection
+            return [iVisible[0], iVisible[iVisible.length - 1]];
           }, function(oldVisible, newVisible) {
-            $(oldVisible).removeClass('ring-btn-group__first ring-btn-group__last');
+            $(oldVisible[0]).removeClass('ring-btn-group__first');
+            $(oldVisible[1]).removeClass('ring-btn-group__last');
 
-            var iVisible = $(newVisible);
-            iVisible.first().addClass('ring-btn-group__first');
-            iVisible.last().addClass('ring-btn-group__last');
+            $(newVisible[0]).addClass('ring-btn-group__first');
+            $(newVisible[1]).addClass('ring-btn-group__last');
           });
         }
       };

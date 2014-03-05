@@ -44,22 +44,33 @@ define([
       $.extend(config, $(config.target).data(MODULE));
     }
 
+    uid += 1;
+    shortcuts('pushScope', MODULE);
+
     if (!config.target || !(config.target instanceof $)) {
-      return $(View.render('action-list', config));
+      $el = $(View.render('action-list', config));
+      return $el;
     }
     wrapper = popup('init', config);
 
     dataSource(config).then(function (data) {
+      var renderData = $.extend(true, {}, data);
+
       items = data.items;
-      $el = $(View.render('action-list', data));
+
+      renderData.items.map(function (item) {
+        var itemData = $.extend(true, {}, item);
+
+        item.event = item.event || [];
+        return item.event.push({
+          'name': 'action-list:change_' + actionList('getUID'),
+          'data': itemData
+        });
+      });
+      $el = $(View.render('action-list', renderData));
 
       wrapper.insertHTML($el);
     });
-
-    uid += 1;
-
-
-    shortcuts('pushScope', MODULE);
 
     $el.bind('mouseenter', function (e) {
       events.domEventHandler(e);
@@ -84,6 +95,7 @@ define([
 
   var remove = function () {
     if ($el) {
+      shortcuts('popScope', MODULE);
       $el.remove();
       $el = null;
       popup('remove');
@@ -97,8 +109,14 @@ define([
     var $active = $el.parent().find(ACTIVE_SELECTOR);
 
     if ($active.length) {
-      var eventData = items[$el.parent().find(ITEM_ACTION_SELECTOR).index($active)];
-      actionList.trigger('action_' + uid, (eventData && eventData.event[0] && eventData.event[0].data) || false);
+      var eventEl = items[$el.parent().find(ITEM_ACTION_SELECTOR).index($active)],
+        eventData;
+      if ((eventEl && eventEl.event && eventEl.event[0] && eventEl.event[0])) {
+        eventData = eventEl.event[0].data;
+      } else {
+        eventData = eventEl;
+      }
+      actionList.trigger('change_' + uid, eventData || false);
 
       return false;
     } else {
@@ -107,6 +125,9 @@ define([
   };
 
   var navigate_ = function (e, key) {
+    if ($el === null) {
+      return false;
+    }
     var up = (key === 'up'),
       $active = $el.parent().find(ITEM_ACTION_SELECTOR + ACTIVE_SELECTOR),
       $next = $active[up ? 'prev' : 'next'](ITEM_ACTION_SELECTOR);
@@ -161,7 +182,9 @@ define([
       override: true
     },
     getUID: {
-      method:function() { return uid; },
+      method: function () {
+        return uid;
+      },
       override: true
     }
   });

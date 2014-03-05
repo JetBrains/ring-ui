@@ -11,53 +11,91 @@ define([
   'use strict';
 
   var RESULT_COUNT = 5,
-    POPUP_INPUT_SELECTOR = '.ring-js-popup-input';
+    ACTION_CONTAINER = 'ring-dropdown-filter__container',
+    ACTION_CONTAINER_SELECTOR = '.' + ACTION_CONTAINER,
+    POPUP_INPUT_SELECTOR = '.ring-js-popup-input',
+    DROPDOWN_ITEM_SELECTOR = '.ring-dropdown__item',
+    DROPDOWN_ITEM_CONTROLS_SELECTOR = '.ring-dropdown__item__controls';
 
   var popup = Module.get('popup'),
-    MODULE = 'dropdown-searchable';
+    MODULE = 'dropdown-filter',
+    preventRender = false;
 
   var init = function (config) {
     var $target,
       wrapper;
 
     if (!config || !config.target || !config.actions) {
-      utils.log('dropdown-searchable: init params missing');
+      utils.log('dropdown-filter: init params missing');
       return false;
     }
 
     $target = $(config.target);
+    preventRender = false;
 
-    $target.on('click', function (e) {
-      wrapper = popup('init', config);
-      _bindRemoveEvent(wrapper);
+    $target.
+      on('click', function (e) {
+        var $actions = [];
+        preventRender = false;
 
-      for (var i = 0; i < config.actions.length; i++) {
-        var obj = config.actions[i];
-        _render(obj);
+        wrapper = popup('init', config);
+
+        _bindRemoveEvent(wrapper);
+
+        config.actions.forEach(function (obj, index, arr) {
+          _render(obj, index, arr).done(function ($el) {
+            _bindToggleEvent(wrapper, $el);
+            $actions.push($el);
+            if ((index + 1) === arr.length) {
+              wrapper.appendHTML($actions);
+            }
+          });
+        });
+        e.stopPropagation();
       }
-      e.stopPropagation();
-    });
+    )
+    ;
 
-    var _render = function (action) {
+    var _render = function (action, index, arr) {
       var title = $(View.render('popup-control', {
-        title: action.title,
-        type: action.type,
-        input: true
-      }));
+          title: action.title,
+          type: action.type,
+          input: true
+        })),
+        dfd = $.Deferred(),
+        $el;
 
-      action.dataSource('').then(function (data) {
+      action.dataSource('').done(function (data) {
+        if (preventRender) {
+          return false;
+        }
         var actionList = Module.get('action-list');
 
+        if ((index + 1) < arr.length) {
+          data.push({
+            separator: true
+          });
+        }
         var items = actionList('init', {
           items: data
         });
-        wrapper.appendHTML(title);
-        wrapper.appendHTML(items);
-        _bindDelayedListener(title.find(POPUP_INPUT_SELECTOR), action, items);
+
+        actionList.on('change_'+ actionList('getUID'), function(data) {
+          console.log('dropdown-select', data);
+          if(action.change && typeof action.change === 'function') {
+            action.change(data);
+          }
+        });
+
+        $el = $('<div class="' + ACTION_CONTAINER + ' ' + ((index === 0) ? 'active' : '') + '"></div>').append([title, items]);
+        dfd.resolve($el);
+        _bindDelayedListener(title.find(POPUP_INPUT_SELECTOR), action, $el);
       });
+
+      return dfd.promise();
     };
 
-    var _bindDelayedListener = function ($el, action) {
+    var _bindDelayedListener = function ($el, action, $container) {
       var delayedListener = Module.get('delayed-listener');
       if ($el) {
         delayedListener('init', {
@@ -68,12 +106,20 @@ define([
               var items = actionList('init', {
                 items: data
               });
-              console.log(items);
+              $container.find(DROPDOWN_ITEM_SELECTOR).not(DROPDOWN_ITEM_CONTROLS_SELECTOR).remove();
+              $container.find(DROPDOWN_ITEM_CONTROLS_SELECTOR).after(items);
             });
           }
         });
       }
     };
+  };
+
+  var _bindToggleEvent = function (wrapper, $el) {
+    $el.on('click', function () {
+      wrapper.el.find(ACTION_CONTAINER_SELECTOR).removeClass('active');
+      $(this).addClass('active');
+    });
   };
 
   var configureUrl = function (config, query) {
@@ -121,9 +167,7 @@ define([
           items.forEach(function (item) {
             dropdownData.push({
               label: item.name,
-              url: item.url || '',
               event: {
-                name: 'dropdown:select',
                 data: {
                   id: item.id,
                   name: item.name
@@ -146,6 +190,7 @@ define([
     $(document).one('click', function () {
       wrapper.el.unbind();
       popup('remove');
+      preventRender = true;
     });
 
     $(wrapper.el).on('click', function (event) {
@@ -161,4 +206,5 @@ define([
       override: true
     }
   });
-});
+})
+;
