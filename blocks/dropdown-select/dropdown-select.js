@@ -61,7 +61,7 @@ define([
           actionList('init', {
             target: $(config.target),
             type: ['bound'],
-            width: 'auto',
+            width: ($(config.target).outerWidth() - 2) +'px',
             items: data
           });
 
