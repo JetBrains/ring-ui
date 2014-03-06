@@ -429,10 +429,10 @@
                   $(this.target).val(data.label);
               },
               onShow: function () {
-                  console.log(arguments);
+                  console.log('onShow', arguments);
               },
               onHide: function () {
-                  console.log(arguments);
+                  console.log('onHide', arguments);
               },
               dataSource: select('remoteDataSource', {
                   hubResource: 'usergroups',
@@ -453,7 +453,9 @@
       <div><a class="ring-link" href="dist/docs/API.html">View API documentation</a></div>
       <div><a class="ring-link" href="dist/styleguide/">CSS Styleguide</a></div>
       <div class="demo__query-example"></div>
-      <input class="ring-input ring-js-shortcuts select-demo">
+        <div class="ring-input_wrapper">
+            <input class="ring-input ring-js-shortcuts select-demo">
+        </div>
     </div>
   </div>
 </div>
