@@ -48,6 +48,7 @@ define([
     shortcuts('pushScope', MODULE);
 
     if (!config.target || !(config.target instanceof $)) {
+      actionList.trigger('show', config.items);
       $el = $(View.render('action-list', config));
       return $el;
     }
@@ -68,7 +69,7 @@ define([
         });
       });
       $el = $(View.render('action-list', renderData));
-
+      actionList.trigger('show', renderData.items);
       wrapper.insertHTML($el);
     });
 
@@ -99,6 +100,7 @@ define([
       $el.remove();
       $el = null;
       popup('remove');
+      actionList.trigger('hide', {});
     }
   };
 

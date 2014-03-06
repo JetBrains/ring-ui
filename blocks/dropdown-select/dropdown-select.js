@@ -18,7 +18,7 @@ define([
     uid = 0;
 
 //  config = {
-//    target: DOM,
+//    target: DOM
 //    onChange: function(data),
 //    onListShow: function()
 //    onListHide: function()
@@ -38,6 +38,17 @@ define([
       return false;
     }
 
+    actionList.on('show', function(data) {
+      if (typeof config.onShow === 'function' && data) {
+        config.onShow(data);
+      }
+    });
+
+    actionList.on('hide', function(data) {
+      if (typeof config.onHide === 'function' && data) {
+        config.onHide(data);
+      }
+    });
 
     var _renderSuggest = function (query) {
       config.dataSource(query).then(function (data) {
@@ -51,8 +62,8 @@ define([
           });
 
           actionList.on('change_' + actionList('getUID'), function (data) {
-            if (typeof config.change === 'function') {
-              config.change(data);
+            if (typeof config.onChange === 'function') {
+              config.onChange(data);
             }
           });
         }
