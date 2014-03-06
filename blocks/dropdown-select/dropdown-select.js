@@ -9,54 +9,77 @@ define([
 ], function ($, View, Module, events, utils) {
   'use strict';
 
-  var $el,
-    actionList = Module.get('action-list'),
-    delayedListener = Module.get('delayed-listener'),
-    select,
-    dataSource,
-    Config,
-    uid = 0;
-
   var MODULE = 'dropdown-select',
     RESULT_COUNT = 10;
 
+  var
+    actionList = Module.get('action-list'),
+    delayedListener = Module.get('delayed-listener'),
+    uid = 0;
+
 //  config = {
-//    target:DOM,
+//    target: DOM,
+//    onChange: function(data),
+//    onListShow: function()
+//    onListHide: function()
 //    dataSource: {return promise with action-list compatible data},
 //  }
   var init = function (config) {
-    select = Module.get(MODULE);
-    Config = config;
+    uid += 1;
+    var select = Module.get(MODULE);
+    var instance = {
+      uid: uid,
+      remove: remove
+    };
 
-    if (!Config && (!Config.target || !Config.dataSource)) {
+    if (!config && (!config.target || !config.dataSource)) {
       utils.log('select: init params missing');
       select.trigger('init:fail');
       return false;
     }
 
-    dataSource = Config.dataSource;
 
-    uid += 1;
+    var _renderSuggest = function (query) {
+      config.dataSource(query).then(function (data) {
+        if (data.length) {
+
+
+          var actionList = actionList('init', {
+            target: $(config.target),
+            type: ['bound'],
+            width: 'auto',
+            items: data
+          });
+
+          actionList.on('change_' + actionList('getUID'), function (data) {
+            if (typeof config.change === 'function') {
+              config.change(data);
+            }
+          });
+        }
+      });
+    };
 
     delayedListener('init', {
-      target: $(Config.target),
+      target: $(config.target),
       onDelayedChange: function (data) {
-        if ($(Config.target).is(':focus')) {
+        if ($(config.target).is(':focus')) {
           _renderSuggest(data.value);
         }
       },
       onDelayedCaretMove: function (data) {
-        if ($(Config.target).is(':focus')) {
+        if ($(config.target).is(':focus')) {
           _renderSuggest(data.value);
         }
       }
     });
 
     select.trigger('init:done', {});
-    return $el;
+    return instance;
   };
 
   var remoteDataSource = function (remoteDataSourceConfig) {
+    var select = Module.get(MODULE);
     var auth = Module.get('auth');
 
     if (!remoteDataSourceConfig && (!remoteDataSourceConfig.hubResource || !remoteDataSourceConfig.url)) {
@@ -89,13 +112,15 @@ define([
         }
         defer.resolve(items, state, jqXHR);
       }).fail(function () {
-        defer.reject.apply(defer, arguments);
-      });
+          defer.reject.apply(defer, arguments);
+        });
       return defer.promise();
     };
   };
 
   var remove = function () {
+    var select = Module.get(MODULE);
+    var $el = this.$el;
     if ($el) {
       $el.remove();
       $el = null;
@@ -104,32 +129,9 @@ define([
     }
   };
 
-  var _renderSuggest = function (query) {
-    dataSource(query).then(function (data) {
-      if (data.length) {
-        actionList('init', {
-          target: $(Config.target),
-          type: ['bound'],
-          width: 'auto',
-          items: data
-        });
-
-        actionList.on('change_' + actionList('getUID'), function (data) {
-          if (typeof Config.change === 'function') {
-            Config.change(data);
-          }
-        });
-      }
-    });
-  };
-
   Module.add(MODULE, {
     init: {
       method: init,
-      override: true
-    },
-    remove: {
-      method: remove,
       override: true
     },
     remoteDataSource: {
