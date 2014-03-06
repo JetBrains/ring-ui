@@ -16,6 +16,13 @@
   cursor: pointer;
 }
 
+.ring-link_error {
+  color: #F00;
+  &:hover, &:focus, &:visited {
+    color: #F00;
+  }
+}
+
 // body to redefine other :hovers w/ !important
 body .ring-link:hover,
 body .ring-link:focus {
