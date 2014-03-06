@@ -88,6 +88,7 @@ define([
         initActionList([
           {
             action: false,
+            className: 'ring-link_error',
             label: 'Internal error'
           }
         ], true);
