@@ -14,7 +14,6 @@ define(['jquery', 'global/global__utils'], function($, utils) {
 
 
   var parseSignature = function(signature, module, handler, one) {
-
     if (typeof signature !== 'string') {
       utils.log('Event was not bound, signature is not string');
       return false;
@@ -144,7 +143,7 @@ define(['jquery', 'global/global__utils'], function($, utils) {
     var event = parseSignature(signature, scope)[0];
     var subscriptions = cache[event.name];
 
-    utils.log('Event triggered: ' + (scope.global && 'root:'|| '') + event.name);
+    utils.log('Event triggered: ' + (scope.global ? 'root:' : '') + event.name);
 
     if (subscriptions) {
       for (var i = subscriptions.length; i--; i > 0) {
