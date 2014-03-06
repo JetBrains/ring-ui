@@ -50,7 +50,7 @@
   text-align: center;
   top: 0;
   width: 100%;
-  z-index: 1000000; // TODO proper z-index
+  z-index: $ring-overlay-z-index;
 
   &.active,
   &.ring-dialog__wrapper_active {
