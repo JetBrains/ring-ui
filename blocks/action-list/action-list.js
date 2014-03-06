@@ -63,6 +63,7 @@ define([
         var itemData = $.extend(true, {}, item);
 
         item.event = item.event || [];
+        item.action = true;
         return item.event.push({
           'name': 'action-list:change_' + actionList('getUID'),
           'data': itemData
