@@ -421,18 +421,24 @@
       });
 
 
-        var select = ring('dropdown-select');
+          var select = ring('dropdown-select');
 
-        select('init',{
-          target: '.select-demo',
-          change: function(data) {
-            $(this.target).val(data.label);
-          },
-          dataSource: select('remoteDataSource', {
-            hubResource: 'usergroups',
-            url:'api/rest/usergroups?fields=id,name,iconUrl,total&query=#{query}'
-          })
-        });
+          select('init', {
+              target: '.select-demo',
+              onChange: function (data) {
+                  $(this.target).val(data.label);
+              },
+              onShow: function () {
+                  console.log(arguments);
+              },
+              onHide: function () {
+                  console.log(arguments);
+              },
+              dataSource: select('remoteDataSource', {
+                  hubResource: 'usergroups',
+                  url: 'api/rest/usergroups?fields=id,name,iconUrl,total&query=#{query}'
+              })
+          });
 
     });
   </script>
