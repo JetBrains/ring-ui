@@ -38,10 +38,6 @@ define([
       return false;
     }
 
-    $(config.target).bind('blur', function() {
-      remove();
-    });
-
     ring().on('dialog:hide', function() {
       remove();
     });
