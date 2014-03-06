@@ -115,7 +115,6 @@ define([
         if (data[remoteDataSourceConfig.hubResource]) {
           items = data[remoteDataSourceConfig.hubResource].map(function (val) {
             return {
-              action: true,
               label: val.name
             };
           });
