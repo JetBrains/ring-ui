@@ -38,39 +38,59 @@ define([
       return false;
     }
 
-    ring().on('dialog:hide', function() {
+    ring().on('dialog:hide', function () {
       remove();
     });
 
-    actionList.on('show', function(data) {
+    actionList.on('show', function (data) {
       if (typeof config.onShow === 'function' && data) {
         config.onShow(data);
       }
     });
 
-    actionList.on('hide', function(data) {
+    actionList.on('hide', function (data) {
       if (typeof config.onHide === 'function' && data) {
         config.onHide(data);
       }
     });
 
+    var initActionList = function (data, preventEvent) {
+      actionList('init', {
+        target: $(config.target),
+        type: ['bound'],
+        width: ($(config.target).outerWidth() - 2) + 'px',
+        items: data
+      });
+
+      if (!preventEvent) {
+        actionList.on('change_' + actionList('getUID'), function (data) {
+          if (typeof config.onChange === 'function') {
+            config.onChange(data);
+          }
+        });
+      }
+    };
+
     var _renderSuggest = function (query) {
       config.dataSource(query).then(function (data) {
-        if (data.length) {
-
-          actionList('init', {
-            target: $(config.target),
-            type: ['bound'],
-            width: ($(config.target).outerWidth() - 2) +'px',
-            items: data
-          });
-
-          actionList.on('change_' + actionList('getUID'), function (data) {
-            if (typeof config.onChange === 'function') {
-              config.onChange(data);
+        if (!data.length) {
+          data = [
+            {
+              action: false,
+              label: 'No results'
             }
-          });
+          ];
         }
+
+        initActionList(data);
+
+      }).fail(function () {
+        initActionList([
+          {
+            action: false,
+            label: 'Internal error'
+          }
+        ], true);
       });
     };
 
