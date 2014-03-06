@@ -43,8 +43,7 @@ define([
       config.dataSource(query).then(function (data) {
         if (data.length) {
 
-
-          var actionList = actionList('init', {
+          actionList('init', {
             target: $(config.target),
             type: ['bound'],
             width: 'auto',
@@ -112,21 +111,16 @@ define([
         }
         defer.resolve(items, state, jqXHR);
       }).fail(function () {
-          defer.reject.apply(defer, arguments);
-        });
+        defer.reject.apply(defer, arguments);
+      });
       return defer.promise();
     };
   };
 
   var remove = function () {
     var select = Module.get(MODULE);
-    var $el = this.$el;
-    if ($el) {
-      $el.remove();
-      $el = null;
-      actionList('remove');
-      select.trigger('remove:done');
-    }
+    actionList('remove');
+    select.trigger('remove:done');
   };
 
   Module.add(MODULE, {
