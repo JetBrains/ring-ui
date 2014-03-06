@@ -38,6 +38,14 @@ define([
       return false;
     }
 
+    $(config.target).bind('blur', function() {
+      remove();
+    });
+
+    ring().on('dialog:hide', function() {
+      remove();
+    });
+
     actionList.on('show', function(data) {
       if (typeof config.onShow === 'function' && data) {
         config.onShow(data);
