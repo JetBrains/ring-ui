@@ -9,11 +9,8 @@ define([
 ], function ($, View, Module, events, utils) {
   'use strict';
 
-  var $el,
-    items,
-    popup = Module.get('popup'),
+  var popup = Module.get('popup'),
     shortcuts = Module.get('shortcuts'),
-    actionList,
     uid = 0;
 
   var MODULE = 'action-list',
@@ -26,19 +23,74 @@ define([
 //  config = {
 //    target:DOM,
 //    type: [...,...]
-//    items: [...],
-//
+//    items: [...]
 //  }
   var init = function (config) {
-    var wrapper;
-    actionList = Module.get(MODULE);
+    var wrapper,
+      $el,
+      items,
+      actionList = Module.get(MODULE);
 
+    var action_ = function () {
+      if ($el === null) {
+        return false;
+      }
+      var $active = $el.parent().find(ACTIVE_SELECTOR);
+
+      if ($active.length) {
+        var eventEl = items[$el.parent().find(ITEM_ACTION_SELECTOR).index($active)],
+          eventData;
+        if ((eventEl && eventEl.event && eventEl.event[0] && eventEl.event[0])) {
+          eventData = eventEl.event[0].data;
+        } else {
+          eventData = eventEl;
+        }
+        actionList.trigger('change_' + uid, eventData || false);
+
+        return false;
+      } else {
+        return true;
+      }
+    };
+
+    var navigate_ = function (e, key) {
+      if ($el === null) {
+        return false;
+      }
+      var up = (key === 'up'),
+        $active = $el.parent().find(ITEM_ACTION_SELECTOR + ACTIVE_SELECTOR),
+        $next = $active[up ? 'prev' : 'next'](ITEM_ACTION_SELECTOR);
+
+      $active.removeClass(ACTIVE_CLASS);
+
+      if ($next.length) {
+        $next.addClass(ACTIVE_CLASS);
+      } else {
+        $el.parent().find(ITEM_ACTION_SELECTOR)[up ? 'last' : 'first']().addClass(ACTIVE_CLASS);
+      }
+
+      return false;
+    };
 
     if (!config) {
       utils.log('Action-list: params missing');
       actionList.trigger('init:fail');
       return false;
     }
+
+    if (config.dataSource && typeof config.dataSource === 'function') {
+      dataSource = config.dataSource;
+    }
+
+    shortcuts('bindList', {
+      scope: MODULE
+    }, {
+      'esc': remove,
+      'enter': action_,
+      'tab': action_,
+      'up': navigate_,
+      'down': navigate_
+    });
 
     if (!config.items && config.target) {
       $.extend(config, $(config.target).data(MODULE));
@@ -50,6 +102,7 @@ define([
     if (!config.target || !(config.target instanceof $)) {
       actionList.trigger('show', config.items);
       $el = $(View.render('action-list', config));
+      actionList.trigger('init:done_' + uid, $el);
       return $el;
     }
     wrapper = popup('init', config);
@@ -74,6 +127,7 @@ define([
       $el = $(View.render('action-list', renderData));
       actionList.trigger('show', renderData.items);
       wrapper.insertHTML($el);
+      actionList.trigger('init:done_' + uid, $el);
     });
 
     $el.bind('mouseenter', function (e) {
@@ -84,8 +138,6 @@ define([
         .siblings()
         .removeClass(ACTIVE_CLASS);
     });
-
-    actionList.trigger('init:done', $el);
     return $el;
   };
 
@@ -95,57 +147,6 @@ define([
     dfd.resolve(data);
 
     return dfd.promise();
-  };
-
-  var remove = function () {
-    if ($el) {
-      shortcuts('popScope', MODULE);
-      $el.remove();
-      $el = null;
-      popup('remove');
-      actionList.trigger('hide', {});
-    }
-  };
-
-  var action_ = function () {
-    if ($el === null) {
-      return false;
-    }
-    var $active = $el.parent().find(ACTIVE_SELECTOR);
-
-    if ($active.length) {
-      var eventEl = items[$el.parent().find(ITEM_ACTION_SELECTOR).index($active)],
-        eventData;
-      if ((eventEl && eventEl.event && eventEl.event[0] && eventEl.event[0])) {
-        eventData = eventEl.event[0].data;
-      } else {
-        eventData = eventEl;
-      }
-      actionList.trigger('change_' + uid, eventData || false);
-
-      return false;
-    } else {
-      return true;
-    }
-  };
-
-  var navigate_ = function (e, key) {
-    if ($el === null) {
-      return false;
-    }
-    var up = (key === 'up'),
-      $active = $el.parent().find(ITEM_ACTION_SELECTOR + ACTIVE_SELECTOR),
-      $next = $active[up ? 'prev' : 'next'](ITEM_ACTION_SELECTOR);
-
-    $active.removeClass(ACTIVE_CLASS);
-
-    if ($next.length) {
-      $next.addClass(ACTIVE_CLASS);
-    } else {
-      $el.parent().find(ITEM_ACTION_SELECTOR)[up ? 'last' : 'first']().addClass(ACTIVE_CLASS);
-    }
-
-    return false;
   };
 
   $(document).delegate('*', 'click' + COMPONENT_SELECTOR, function (e) {
@@ -163,15 +164,10 @@ define([
     }
   });
 
-  shortcuts('bindList', {
-    scope: MODULE
-  }, {
-    'esc': remove,
-    'enter': action_,
-    'tab': action_,
-    'up': navigate_,
-    'down': navigate_
-  });
+  var remove = function () {
+    shortcuts('popScope', MODULE);
+    popup('remove');
+  };
 
   Module.add(MODULE, {
     init: {
