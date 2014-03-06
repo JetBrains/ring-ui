@@ -33,6 +33,7 @@
 
           shortcuts('bindList', {scope: DIALOG_KEY_SCOPE}, {
             'esc': function() {
+              ring().trigger('dialog:hide', {});
               dialog.hide();
               $scope.$apply();
             },
