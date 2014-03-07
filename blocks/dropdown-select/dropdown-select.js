@@ -88,7 +88,7 @@ define([
         initActionList([
           {
             action: false,
-            className: 'ring-link_error',
+            className: 'ring-dropdown__item_error',
             label: 'Internal error'
           }
         ], true);
