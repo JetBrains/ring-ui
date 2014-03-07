@@ -18,7 +18,8 @@ define([
     uid = 0;
 
 //  config = {
-//    target: DOM
+//    target: DOM,
+//    $top: number
 //    onChange: function(data),
 //    onListShow: function()
 //    onListHide: function()
@@ -26,16 +27,21 @@ define([
 //  }
   var init = function (config) {
     uid += 1;
-    var select = Module.get(MODULE);
-    var instance = {
-      uid: uid,
-      remove: remove
-    };
+    var select = Module.get(MODULE),
+      $top,
+      instance = {
+        uid: uid,
+        remove: remove
+      };
 
     if (!config && (!config.target || !config.dataSource)) {
       utils.log('select: init params missing');
       select.trigger('init:fail');
       return false;
+    }
+
+    if (config.$top && !isNaN(config.$top)) {
+      $top = config.$top;
     }
 
     ring().on('dialog:hide', function () {
@@ -72,7 +78,7 @@ define([
     };
 
     var _renderSuggest = function (query) {
-      config.dataSource(query).then(function (data) {
+      config.dataSource(query, $top).then(function (data) {
         if (!data.length) {
           data = [
             {
@@ -123,7 +129,7 @@ define([
       return false;
     }
 
-    return function (query) {
+    return function (query, $top) {
       var defer = $.Deferred(),
         restUrl = remoteDataSourceConfig.url,
         substr = ['query', '$top'],
@@ -133,7 +139,7 @@ define([
         restUrl = restUrl.replace('#{' + item  + '}', suggestArgs[index] ? suggestArgs[index] : '');
       });
 
-      restUrl = restUrl + '&$top=' + RESULT_COUNT;
+      restUrl = restUrl + '&$top=' + ($top || RESULT_COUNT);
 
       auth('get', restUrl).then(function (data, state, jqXHR) {
         var items = [];
@@ -145,9 +151,10 @@ define([
           });
         }
         defer.resolve(items, state, jqXHR);
-      }).fail(function () {
+      }, function () {
         defer.reject.apply(defer, arguments);
       });
+
       return defer.promise();
     };
   };

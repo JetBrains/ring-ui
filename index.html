@@ -425,6 +425,7 @@
 
           select('init', {
               target: '.select-demo',
+              $top: 5,
               onChange: function (data) {
                   $(this.target).val(data.label);
               },
