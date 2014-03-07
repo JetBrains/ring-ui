@@ -63,9 +63,14 @@ define([
           input: true
         })),
         dfd = $.Deferred(),
-        $el;
+        $el,
+        $top;
 
-      action.dataSource('').done(function (data) {
+      if (action.$top && !isNaN(action.$top)) {
+        $top = action.$top;
+      }
+
+      action.dataSource('', $top).done(function (data) {
         if (preventRender) {
           return false;
         }
@@ -121,10 +126,7 @@ define([
     });
   };
 
-  var configureUrl = function (config, query) {
-    /**
-     * @TODO add field expression for "users"
-     */
+  var configureUrl = function (config, query, $top) {
     var url,
       auth = Module.get('auth');
 
@@ -133,8 +135,9 @@ define([
         config.url = config.url.replace('#{userId}', user.id);
       });
     }
+
     url = config.url +
-      ('&$top=' + RESULT_COUNT) +
+      ('&$top=' + ($top || RESULT_COUNT)) +
       (query ? '&query=name:' + query + ' or ' + query + '*' : '');
 
     return url;
@@ -144,9 +147,9 @@ define([
     var auth = Module.get('auth'),
       dropdownData = [];
 
-    return function (query) {
+    return function (query, $top) {
       var dfd = $.Deferred(),
-        restUrl = configureUrl(config, query);
+        restUrl = configureUrl(config, query, $top);
 
       auth('get', restUrl).then(function (data) {
         var items;
