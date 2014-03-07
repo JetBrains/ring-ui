@@ -138,10 +138,6 @@ $ring-menu-attention-color: #F50000;
   margin-left: $ring-unit*2;
 
   *display: inline; // IE 7
-
-  &:hover {
-    text-decoration: none !important;
-  }
 }
 
 .ring-menu__right .ring-font-icon {
@@ -172,6 +168,10 @@ $ring-menu-attention-color: #F50000;
   .no-font-antialiasing & {
     margin-top: 1px;
     vertical-align: top;
+  }
+
+  .ring-menu__item:hover & {
+    text-decoration: underline;
   }
 }
 
