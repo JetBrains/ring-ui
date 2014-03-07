@@ -84,7 +84,7 @@ define([
 
         initActionList(data);
 
-      }).fail(function () {
+      }, function () {
         initActionList([
           {
             action: false,
