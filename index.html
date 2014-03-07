@@ -50,19 +50,20 @@
     require([
       'jquery',
       'ring',
+      'global/global__utils',
       'auth/auth',
       'header/header__hub-services',
       'header/header__userinfo',
       'query-assist/query-assist',
       'profile/profile',
       'json',
-        'dropdown-menu/dropdown-menu',
-        'action-list/action-list',
-        'delayed-listener/delayed-listener',
-        'dropdown-select/dropdown-select',
-        'dropdown-filter/dropdown-filter'
-      ],
-      function($, ring) {
+      'dropdown-menu/dropdown-menu',
+      'action-list/action-list',
+      'delayed-listener/delayed-listener',
+      'dropdown-select/dropdown-select',
+      'dropdown-filter/dropdown-filter'
+    ],
+    function($, ring, utils) {
       window.ring = ring;
 
       var authData = {
@@ -431,10 +432,10 @@
                   $(this.target).val(data.label);
               },
               onShow: function () {
-                  console.log('onShow', arguments);
+                  utils.log('onShow', arguments);
               },
               onHide: function () {
-                  console.log('onHide', arguments);
+                  utils.log('onHide', arguments);
               },
               dataSource: select('remoteDataSource', {
                   hubResource: 'usergroups',
