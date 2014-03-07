@@ -92,6 +92,13 @@
   vertical-align: bottom;
   text-decoration: none;
 
+  &.ring-dropdown__item_error {
+    color: #F00;
+    &:hover, &:focus, &:visited {
+      color: #F00;
+    }
+  }
+
   .ring-dropdown_typed & {
     padding-left: 0;
     display: table-row;
