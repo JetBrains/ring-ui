@@ -380,6 +380,7 @@
               change: function () {
                 console.log(arguments);
               },
+              $top: 4,
               dataSource: filter('remoteDataSource', {
                 hubResource:'usergroups',
                 url: 'api/rest/usergroups?fields=id,name,iconUrl,total'
