@@ -1,7 +1,7 @@
 (function () {
   'use strict';
   var shortcuts = ring('shortcuts');
-  var DIALOG_KEY_SCOPE = 'dialog';
+  var DIALOG_KEY_SCOPE = 'ring-dialog';
 
   angular.module('Ring.dialog', []).
     directive('dialog', [function () {
@@ -103,7 +103,8 @@
             dialogScope.content = config.content;
           }
 
-          shortcuts('setModalScope', DIALOG_KEY_SCOPE);
+          dialogScope.shortcutScope = shortcuts('getScope').slice(1);
+          shortcuts('setScope', DIALOG_KEY_SCOPE);
           dialogScope.active = true;
         },
         /**
@@ -114,8 +115,8 @@
             dialogScope.active = false;
             dialogScope.content = '';
 
-            if (shortcuts('getModalScope') === DIALOG_KEY_SCOPE) {
-              shortcuts('setModalScope');
+            if (shortcuts('getScope').slice(-1) === DIALOG_KEY_SCOPE) {
+              shortcuts('setScope', dialogScope.shortcutScope);
             }
           }
         },
