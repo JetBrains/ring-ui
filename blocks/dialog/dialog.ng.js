@@ -1,7 +1,7 @@
 (function () {
   'use strict';
   var shortcuts = ring('shortcuts');
-  var DIALOG_KEY_SCOPE = 'ring-dialog';
+  var DIALOG_NAMESPACE = 'ring-dialog';
 
   angular.module('Ring.dialog', []).
     directive('dialog', [function () {
@@ -31,7 +31,7 @@
           };
           dialog.register($scope);
 
-          shortcuts('bindList', {scope: DIALOG_KEY_SCOPE}, {
+          shortcuts('bindList', {scope: DIALOG_NAMESPACE}, {
             'esc': function() {
               ring().trigger('dialog:hide', {});
               dialog.hide();
@@ -50,8 +50,21 @@
         }],
         // Focus first input
         'link': function (scope, iElement) {
-          scope.$on('$includeContentLoaded', function() {
+          var $document = $(document);
+          var focusFirst = function() {
             iElement.find(':input,[contentEditable=true]').first().focus();
+          };
+
+          $document.on('focusin.' + DIALOG_NAMESPACE, function(e) {
+            if (!$.contains(iElement[0], e.target)) {
+              e.preventDefault();
+              focusFirst();
+            }
+          });
+
+          scope.$on('$includeContentLoaded', focusFirst);
+          scope.$on('$destroy', function() {
+            $document.off('focusin.' + DIALOG_NAMESPACE);
           });
         }
       };
@@ -104,7 +117,7 @@
           }
 
           dialogScope.shortcutScope = shortcuts('getScope').slice(1);
-          shortcuts('setScope', DIALOG_KEY_SCOPE);
+          shortcuts('setScope', DIALOG_NAMESPACE);
           dialogScope.active = true;
         },
         /**
@@ -115,7 +128,7 @@
             dialogScope.active = false;
             dialogScope.content = '';
 
-            if (shortcuts('getScope').slice(-1) === DIALOG_KEY_SCOPE) {
+            if (shortcuts('getScope').slice(-1) === DIALOG_NAMESPACE) {
               shortcuts('setScope', dialogScope.shortcutScope);
             }
           }
