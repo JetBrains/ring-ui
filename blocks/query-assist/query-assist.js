@@ -30,7 +30,8 @@ define([
     delayedListener = Module.get('delayed-listener');
 
   var MODULE = 'query-assist',
-    PREVENT_ENTER = 'preventEnter',
+    MODULE_SHORTCUTS = 'ring-query-assist',
+    MODULE_PRE_SHORTCUTS = 'ring-query-assist-pre',
     COMPLETE_ACTION = 'replace',
     $global = $(document);
 
@@ -55,12 +56,11 @@ define([
 
       $el.
         on('focus', function () {
-          shortcuts('pushScope', PREVENT_ENTER);
+          shortcuts('pushScope', MODULE_PRE_SHORTCUTS);
           shortcuts('pushScope', MODULE);
         }).
         on('blur', function () {
-          shortcuts('spliceScope', MODULE);
-          shortcuts('spliceScope', PREVENT_ENTER);
+          shortcuts('popScope', MODULE_PRE_SHORTCUTS);
         });
 
       delayedListener('init', {
@@ -322,12 +322,12 @@ define([
     return false;
   };
 
-  shortcuts('bindList', {scope: MODULE}, {
+  shortcuts('bindList', {scope: MODULE_SHORTCUTS}, {
     'enter': apply,
     'ctrl+space': showAssist
   });
 
-  shortcuts('bindList', {scope: PREVENT_ENTER}, {
+  shortcuts('bindList', {scope: MODULE_PRE_SHORTCUTS}, {
     'enter': function (e) {
       e.preventDefault();
     },
