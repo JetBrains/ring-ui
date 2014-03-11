@@ -15,7 +15,7 @@ define([
     ACTION_CONTAINER_SELECTOR = '.' + ACTION_CONTAINER,
     POPUP_INPUT_SELECTOR = '.ring-js-popup-input',
     DROPDOWN_ITEM_SELECTOR = '.ring-dropdown__item',
-    DROPDOWN_ITEM_CONTROLS_SELECTOR = '.ring-dropdown__item__controls';
+    DROPDOWN_ITEM_CONTROLS_SELECTOR = DROPDOWN_ITEM_SELECTOR + '__controls';
 
   var popup = Module.get('popup'),
     MODULE = 'dropdown-filter',
@@ -81,7 +81,6 @@ define([
         });
 
         actionList.on('change_'+ actionList('getUID'), function(data) {
-          console.log('dropdown-select', data);
           if(action.change && typeof action.change === 'function') {
             action.change(data);
           }
