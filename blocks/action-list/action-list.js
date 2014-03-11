@@ -15,6 +15,7 @@ define([
 
   var MODULE = 'action-list',
     COMPONENT_SELECTOR = '.ring-js-action-list',
+    CONTAINER_SELECTOR = '.ring-dropdown_' + MODULE,
     ITEM_ACTION_SELECTOR = '.ring-dropdown__item_action',
     ACTIVE_CLASS = 'active',
     ACTIVE_SELECTOR = '.active';
@@ -96,6 +97,10 @@ define([
       $.extend(config, $(config.target).data(MODULE));
     }
 
+    if (config.type && $.isArray(config.type) && config.type.indexOf(MODULE) === -1) {
+      config.type.push(MODULE);
+    }
+
     uid += 1;
     shortcuts('pushScope', MODULE);
 
@@ -160,13 +165,14 @@ define([
       e.stopPropagation();
     } else {
       remove();
-      shortcuts('popScope', MODULE);
     }
   });
 
   var remove = function () {
-    shortcuts('popScope', MODULE);
-    popup('remove');
+    if ($(CONTAINER_SELECTOR).length) {
+      shortcuts('popScope', MODULE);
+      popup('remove');
+    }
   };
 
   Module.add(MODULE, {
