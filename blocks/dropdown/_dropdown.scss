@@ -83,6 +83,7 @@
 
 .ring-dropdown__item {
   display: block;
+  overflow: hidden;
   padding: 0 $ring-unit*2;
 
   text-align: left;
@@ -91,6 +92,7 @@
 
   vertical-align: bottom;
   text-decoration: none;
+  text-overflow: ellipsis;
 
   &.ring-dropdown__item_error {
     color: #F00;
