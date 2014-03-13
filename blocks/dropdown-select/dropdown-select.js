@@ -139,7 +139,7 @@ define([
         restUrl = restUrl.replace('#{' + item  + '}', suggestArgs[index] ? suggestArgs[index] : '');
       });
 
-      restUrl = restUrl + '&$top=' + ($top || RESULT_COUNT);
+      restUrl = restUrl + '&$top=' + (($top || RESULT_COUNT) + 1);
 
       auth('get', restUrl).then(function (data, state, jqXHR) {
         var items = [];
@@ -150,6 +150,15 @@ define([
             };
           });
         }
+
+        if (items.length >= $top) {
+          items.splice(items.length - 1, items.length);
+          items.push({
+            event: false,
+            label: '...'
+          });
+        }
+
         defer.resolve(items, state, jqXHR);
       }, function () {
         defer.reject.apply(defer, arguments);
