@@ -104,6 +104,10 @@ define([
     uid += 1;
     shortcuts('pushScope', MODULE);
 
+    actionList.on('change_' + uid, function () {
+      remove();
+    });
+
     if (!config.target || !(config.target instanceof $)) {
       actionList.trigger('show', config.items);
       $el = $(View.render('action-list', config));
@@ -120,14 +124,21 @@ define([
       renderData.items.map(function (item) {
         var itemData = $.extend(true, {}, item);
 
-        item.event = item.event || [];
         if (!item.hasOwnProperty('action')) {
           item.action = true;
         }
-        return item.event.push({
-          'name': 'action-list:change_' + actionList('getUID'),
-          'data': itemData
-        });
+
+        if (item.event !== false) {
+          item.event = item.event || [];
+          item.event.push({
+            'name': 'action-list:change_' + actionList('getUID'),
+            'data': itemData
+          });
+        } else {
+          item.action = false;
+        }
+
+        return item;
       });
       $el = $(View.render('action-list', renderData));
       actionList.trigger('show', renderData.items);
