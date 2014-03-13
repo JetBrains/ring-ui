@@ -76,7 +76,11 @@
               if (!FileReader) {
                 alert.error("Sorry, your browser doesn't support File API");
               } else {
+                fileInput.on("click.avatar-editor", function (event) {
+                  event.stopPropagation();
+                });
                 fileInput.click();
+                fileInput.off("click.avatar-editor");
               }
             };
 
