@@ -329,6 +329,7 @@ define([
 
   shortcuts('bindList', {scope: MODULE_PRE_SHORTCUTS}, {
     'enter': function (e) {
+      apply();
       e.preventDefault();
     },
     'shift+enter': function (e) {
