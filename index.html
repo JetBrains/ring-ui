@@ -254,10 +254,6 @@
                       "label": "test2"
                     }]
                 }
-              },
-              {
-                "label": "User select",
-                "className": "ring-btn_primary ring-js-filter ring-js-shortcuts"
               }
             ]
           }],
@@ -373,7 +369,7 @@
 
         var filter = ring('dropdown-filter');
         filter('init', {
-          target: '.ring-js-filter',
+          target: $('.ring-js-filter'),
           actions: [
             {
               type: 'add',
@@ -462,6 +458,8 @@
             <span class="ring-input_icon__span ring-font-icon_caret-down ring-font-icon"></span>
             <div class="ring-loader ring-loader_inline"></div>
         </div>
+        <br>
+        <button class="ring-btn ring-btn_primary ring-js-filter ring-js-shortcuts">dropdown-filter</button>
     </div>
   </div>
 </div>
