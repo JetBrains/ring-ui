@@ -10,6 +10,7 @@ define([
   'use strict';
 
   var MODULE = 'dropdown-select',
+    LOADING_CLASS = 'loading',
     RESULT_COUNT = 10;
 
   var
@@ -78,7 +79,9 @@ define([
     };
 
     var _renderSuggest = function (query) {
+      $(config.target).addClass(LOADING_CLASS);
       config.dataSource(query, $top).then(function (data) {
+        $(config.target).removeClass(LOADING_CLASS);
         if (!data.length) {
           data = [
             {
@@ -91,6 +94,7 @@ define([
         initActionList(data);
 
       }, function () {
+        $(config.target).removeClass(LOADING_CLASS);
         initActionList([
           {
             action: false,
