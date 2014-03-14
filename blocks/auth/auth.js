@@ -30,7 +30,7 @@ define(['jquery', 'jso', 'global/global__modules', 'global/global__utils'], func
   var endsWithSlashOrEmptyRE = /^(.+\/)?$/;
 
   var INVALID_TOKEN_ERR = 'invalid_grant';
-  var INVALID_SCOPE_ERR = 'invalid_scope';
+  var INVALID_REQUEST_ERR = 'invalid_request';
 
   var serverUrl;
   var provider = 'hub';
@@ -68,7 +68,7 @@ define(['jquery', 'jso', 'global/global__modules', 'global/global__utils'], func
           errorCode = (response.responseJSON || $.parseJSON(response.responseText)).error;
         } catch(e) {}
 
-        if(errorCode === INVALID_TOKEN_ERR || errorCode === INVALID_SCOPE_ERR) {
+        if(errorCode === INVALID_TOKEN_ERR || errorCode === INVALID_REQUEST_ERR) {
           jso.wipe();
           getToken();
         }
@@ -154,10 +154,10 @@ define(['jquery', 'jso', 'global/global__modules', 'global/global__utils'], func
 
         // Authorize, if needed or resolve dfd
       } else if (getToken(config.denyIA)) {
-        dfd.resolve(done);
-
         // Validate token
-        get(API_PROFILE_PATH);
+        get(API_PROFILE_PATH).done(function() {
+          dfd.resolve(done);
+        });
       }
     });
 
