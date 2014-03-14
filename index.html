@@ -10,7 +10,7 @@
       margin: 0;
       font-family: "Helvetica Neue", sans-serif;
       font-size: 24px;
-      line-height: 1.5em;
+      line-height: 20px;
       height: 100%;
     }
 
@@ -456,8 +456,11 @@
       <div><a class="ring-link" href="dist/docs/API.html">View API documentation</a></div>
       <div><a class="ring-link" href="dist/styleguide/">CSS Styleguide</a></div>
       <div class="demo__query-example"></div>
+        <br>
         <div class="ring-input_wrapper">
-            <input value="test" class="ring-input ring-js-shortcuts select-demo">
+            <input value="test" class="ring-input ring-input_icon ring-input_icon-loader ring-js-shortcuts select-demo">
+            <span class="ring-input_icon__span ring-font-icon_caret-down ring-font-icon"></span>
+            <div class="ring-loader ring-loader_inline"></div>
         </div>
     </div>
   </div>
