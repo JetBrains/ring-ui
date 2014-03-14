@@ -53,8 +53,7 @@ define([
         });
         e.stopPropagation();
       }
-    )
-    ;
+    );
 
     var _render = function (action, index, arr) {
       var title = $(View.render('popup-control', {
