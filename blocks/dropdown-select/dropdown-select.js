@@ -95,15 +95,15 @@ define([
 
         initActionList(data);
 
-      }, function () {
+      }, function (error) {
         initActionList([
           {
             action: false,
             className: 'ring-dropdown__item_error',
-            label: 'Internal error'
+            label: (error || 'Can\'t load options')
           }
         ], true);
-      }).always(function() {
+      }).always(function () {
         $target.removeClass(LOADING_CLASS);
       });
     };
@@ -188,7 +188,7 @@ define([
 
         defer.resolve(items, state, jqXHR);
       }, function () {
-        defer.reject.apply(defer, arguments);
+        defer.reject(arguments[2]);
       });
 
       return defer.promise();
