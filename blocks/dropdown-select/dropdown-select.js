@@ -101,16 +101,36 @@ define([
       });
     };
 
+    var dirty = false;
+
+    $(config.target)
+      .on('input', function () {
+        dirty = true;
+      })
+      .on('blur', function () {
+        dirty = false;
+      });
+
     delayedListener('init', {
       target: $(config.target),
       onDelayedChange: function (data) {
         if ($(config.target).is(':focus')) {
-          _renderSuggest(data.value);
+          if (dirty) {
+            _renderSuggest(data.value);
+          } else {
+            _renderSuggest('');
+            $(config.target).select();
+          }
         }
       },
       onDelayedCaretMove: function (data) {
         if ($(config.target).is(':focus')) {
-          _renderSuggest(data.value);
+          if (dirty) {
+            _renderSuggest(data.value);
+          } else {
+            _renderSuggest('');
+            $(config.target).select();
+          }
         }
       }
     });
