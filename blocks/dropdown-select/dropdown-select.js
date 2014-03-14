@@ -30,6 +30,7 @@ define([
     uid += 1;
     var select = Module.get(MODULE),
       $top,
+      $target,
       instance = {
         uid: uid,
         remove: remove
@@ -40,6 +41,8 @@ define([
       select.trigger('init:fail');
       return false;
     }
+
+    $target = $(config.target);
 
     if (config.$top && !isNaN(config.$top)) {
       $top = config.$top;
@@ -63,9 +66,9 @@ define([
 
     var initActionList = function (data, preventEvent) {
       actionList('init', {
-        target: $(config.target),
+        target: $target,
         type: ['bound'],
-        width: ($(config.target).outerWidth() - 2) + 'px',
+        width: ($target.outerWidth() - 2) + 'px',
         items: data
       });
 
@@ -79,9 +82,9 @@ define([
     };
 
     var _renderSuggest = function (query) {
-      $(config.target).addClass(LOADING_CLASS);
+      $target.addClass(LOADING_CLASS);
       config.dataSource(query, $top).then(function (data) {
-        $(config.target).removeClass(LOADING_CLASS);
+        $target.removeClass(LOADING_CLASS);
         if (!data.length) {
           data = [
             {
@@ -94,7 +97,7 @@ define([
         initActionList(data);
 
       }, function () {
-        $(config.target).removeClass(LOADING_CLASS);
+        $target.removeClass(LOADING_CLASS);
         initActionList([
           {
             action: false,
@@ -107,7 +110,7 @@ define([
 
     var dirty = false;
 
-    $(config.target)
+    $target
       .on('input', function () {
         dirty = true;
       })
@@ -116,24 +119,24 @@ define([
       });
 
     delayedListener('init', {
-      target: $(config.target),
+      target: $target,
       onDelayedChange: function (data) {
-        if ($(config.target).is(':focus')) {
+        if ($target.is(':focus')) {
           if (dirty) {
             _renderSuggest(data.value);
           } else {
             _renderSuggest('');
-            $(config.target).select();
+            $target.select();
           }
         }
       },
       onDelayedCaretMove: function (data) {
-        if ($(config.target).is(':focus')) {
+        if ($target.is(':focus')) {
           if (dirty) {
             _renderSuggest(data.value);
           } else {
             _renderSuggest('');
-            $(config.target).select();
+            $target.select();
           }
         }
       }
