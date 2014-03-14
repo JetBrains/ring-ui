@@ -129,3 +129,32 @@
 //</div>
 //
 // Styleguide 14.3
+
+
+.ring-input_icon-loader {
+
+  & ~ .ring-loader {
+    position: absolute;
+    display: none;
+
+    top: 6px;
+    right: 20px;
+  }
+
+  &.loading ~ .ring-loader {
+    display: inline-block;
+  }
+}
+
+// Input with icon and loader
+//
+// "ring-font-icon_caret-down" can be replaced with another icon class.
+//
+// Markup:
+//<div class="ring-input_wrapper">
+//   <input class="ring-input ring-input_icon ring-input_icon-loader loading" type="text" placeholder="placeholder">
+//   <span class="ring-font-icon_caret-down ring-font-icon ring-input_icon__span"></span>
+//   <div class="ring-loader ring-loader_inline">
+//</div>
+//
+// Styleguide 14.4
