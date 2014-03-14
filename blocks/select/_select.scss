@@ -1,3 +1,5 @@
+@import '../global/global';
+
 .ring-select {
   position: relative;
   display: inline-block;
@@ -10,7 +12,19 @@
   background: #FFF;
   line-height: 22px;
 
+  // Webkit
   -webkit-appearance: none;
+
+  // FF
+  &::-moz-progress-bar, & {
+    height: $ring-unit*3;
+    padding-top: 3px;
+    padding-left: $ring-unit - 4;
+
+    -moz-appearance: none;
+    text-indent: 0.01px;
+    text-overflow: '';
+  }
 
   &:active {
     border: 1px solid #25B7FF;
@@ -28,10 +42,14 @@
   width: 0;
   height: 0;
 
-  border-top: 4px solid #696969;
-  border-right: 4px solid transparent;
-  border-bottom: 4px solid transparent;
-  border-left: 4px solid transparent;
+  &::-moz-progress-bar, & {
+    top: -2*$ring-unit + 2;
+    border-width: 5px;
+  }
+
+  border-width: 4px;
+  border-style: solid;
+  border-color: #696969 transparent transparent transparent;
 }
 
 .ring-select + label.ring-select__label {
