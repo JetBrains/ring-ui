@@ -150,11 +150,12 @@ define([
 
           $(CONTAINER_SELECTOR).css(coords);
         } else {
-          actionList('hide');
+          actionList('remove');
         }
 
       });
     } else {
+      actionList('remove');
       shortcuts('pushScope', MODULE);
     }
   };
