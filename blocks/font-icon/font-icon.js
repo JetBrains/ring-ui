@@ -32,7 +32,6 @@ define(function(require) {
   var icons = {
 //    'ring-font-icon_search': '&#xe600;',
     'ring-font-icon_ok': '&#xe601;',
-    'ring-font-icon_remove': '&#xe602;',
     'ring-font-icon_cog': '&#xe603;',
     'ring-font-icon_refresh': '&#xe604;',
     'ring-font-icon_pencil': '&#xe605;',
