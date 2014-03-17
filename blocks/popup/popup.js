@@ -31,6 +31,10 @@ define([
       return false;
     }
 
+    if ($body && !$body.length) {
+      $body = $('body');
+    }
+
     remove();
     $popup = $(View.render(MODULE, config));
 
