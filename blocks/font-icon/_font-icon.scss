@@ -15,7 +15,6 @@
 // .ring-font-icon_search          - search
 // .ring-font-icon_caret-down      - caret-down
 // .ring-font-icon_caret-up        - caret-up
-// .ring-font-icon_remove          - remove
 // .ring-font-icon_chevron-left    - chevron-left
 // .ring-font-icon_chevron-right   - chevron-right
 // .ring-font-icon_ban-circle      - ban-circle
@@ -84,9 +83,6 @@ body .ring-font-icon {
 }
 .ring-font-icon_ok:before {
   content: "\e601";
-}
-.ring-font-icon_remove:before {
-  content: "\e602";
 }
 .ring-font-icon_cog:before {
   content: "\e603";
