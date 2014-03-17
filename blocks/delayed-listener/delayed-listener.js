@@ -57,6 +57,10 @@ define([
     }
 
     var pollCaretPosition_ = function () {
+      if(!$target.is(':focus')) {
+        stopListen_(timeoutHandler);
+        return false;
+      }
       var caret = $target.caret();
       var value = $target.val() || $target.text();
 
