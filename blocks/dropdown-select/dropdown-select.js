@@ -114,30 +114,35 @@ define([
       .on('input', function () {
         dirty = true;
       })
+      .on('keyup', function (e) {
+        if (e.keyCode === 13 && !dirty) {
+          var value = ($(this).val() || $(this).text());
+          dirty = true;
+          _renderSuggest(value);
+        }
+      })
       .on('blur', function () {
         dirty = false;
       });
 
+    var renderProccess = function (data) {
+      if (dirty) {
+        _renderSuggest(data.value);
+      } else {
+        _renderSuggest('');
+        $target.select();
+      }
+    };
     delayedListener('init', {
       target: $target,
       onDelayedChange: function (data) {
         if ($target.is(':focus')) {
-          if (dirty) {
-            _renderSuggest(data.value);
-          } else {
-            _renderSuggest('');
-            $target.select();
-          }
+          renderProccess(data);
         }
       },
       onDelayedCaretMove: function (data) {
         if ($target.is(':focus')) {
-          if (dirty) {
-            _renderSuggest(data.value);
-          } else {
-            _renderSuggest('');
-            $target.select();
-          }
+          renderProccess(data);
         }
       }
     });
