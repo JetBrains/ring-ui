@@ -93,9 +93,11 @@ define([
           ];
         }
 
+        $target.removeClass(LOADING_CLASS);
         initActionList(data);
 
       }, function (error) {
+        $target.removeClass(LOADING_CLASS);
         initActionList([
           {
             action: false,
@@ -103,8 +105,6 @@ define([
             label: (error || 'Can\'t load options')
           }
         ], true);
-      }).always(function () {
-        $target.removeClass(LOADING_CLASS);
       });
     };
 
