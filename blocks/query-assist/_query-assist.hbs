@@ -1,1 +1,4 @@
-<div class="ring-query-assist ring-input ring-js-shortcuts {{> global__class}}"{{> global__attributes}} spellcheck="false" contenteditable="true" data-placeholder="{{placeholder}}">{{query}}</div>
+<div class="ring-input_wrapper">
+  <div class="ring-query-assist ring-input ring-js-shortcuts{{#glass}} ring-input_icon{{/glass}} {{> global__class}}"{{> global__attributes}} spellcheck="false" contenteditable="true" data-placeholder="{{placeholder}}">{{query}}</div>
+  {{#glass}}<span class="ring-query-assist__glass ring-input_icon__span ring-font-icon ring-link ring-font-icon_search ring-js-event" data-ring-event="query-assist:search"></span>{{/glass}}
+</div>
