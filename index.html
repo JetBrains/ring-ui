@@ -402,13 +402,14 @@
         query('init', {
           targetElem: '.demo__query-example',
           query: 'name: admin or id: 1',
+          glass: true,
           dataSource: query('remoteDataSource', {
             url: 'api/rest/users/queryAssist?caret=#{caret}&fields=query,caret,suggestions#{styleRanges}&query=#{query}'
           })
         });
 
-        query.on('apply', function () {
-          ring('alerts', 'add')('Query submitted', 'success', true, 10000);
+        query.on('apply', function (query) {
+          ring('alerts', 'add')('Query “' + query +'” submitted', 'success', true, 10000);
         });
 
       ring('shortcuts')('bind', {

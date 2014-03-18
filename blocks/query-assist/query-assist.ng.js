@@ -17,7 +17,7 @@
           placeholder: '@'
         },
         link: {
-          pre: function ($scope, iElement) {
+          pre: function ($scope, iElement, iAttrs) {
             var APPLY_EVENT  = 'apply::' + $scope.$id;
             var CHANGE_EVENT = 'change::' + $scope.$id;
             var FOCUS_CHANGE_EVENT = 'focus-change::' + $scope.$id;
@@ -50,6 +50,7 @@
               tabIndex: $scope.tabIndex || null,
               placeholder: $scope.placeholder,
               method: 'replace',
+              glass: 'glass' in iAttrs,
               query: $scope.query || '',
               dataSource: $scope.dataSource
             });

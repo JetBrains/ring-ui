@@ -19,6 +19,7 @@ define([
 
   var CONTAINER_SELECTOR = '.ring-dropdown',
     WRAPPER_SELECTOR = '.ring-dropdown__i',
+    MODULE_SELECTOR = '.ring-query-assist',
     ITEM_CONTENT_SELECTOR = '.ring-dropdown__item__content',
     ITEM_CONTENT_SELECTOR_PADDING = 8,
     MIN_LEFT_PADDING = 32,
@@ -51,7 +52,7 @@ define([
     var dfd = View.init(MODULE, $target, config.method || 'prepend', {}, config);
 
     dfd.done(function ($view) {
-      $el = $view;
+      $el = $view.find(MODULE_SELECTOR);
       updateQuery();
 
       $el.
@@ -369,4 +370,6 @@ define([
       }
     }
   });
+
+  queryAssist.on('search', apply);
 });
