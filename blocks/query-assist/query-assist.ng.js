@@ -24,6 +24,8 @@
 
             // Apply search
             queryAssist.on(APPLY_EVENT, function (query) {
+              $scope.query = query;
+              $scope.$apply();
               $scope.search({query: query});
             });
 
