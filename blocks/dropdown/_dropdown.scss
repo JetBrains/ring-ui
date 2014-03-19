@@ -137,7 +137,7 @@
   cursor: pointer;
   color: #000 !important;
 
-  &.active {
+  &.active, .ring-dropdown_menu &:hover {
     color: #FFF !important;
     background-color: #25B7FF;
 
