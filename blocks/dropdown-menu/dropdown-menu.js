@@ -34,6 +34,7 @@ define([
       return $(View.render('dropdown__items', config));
     }
 
+    $.extend(config, {type: 'menu'});
     wrapper = popup('init', config);
 
     dataSource(config).then(function (data) {
