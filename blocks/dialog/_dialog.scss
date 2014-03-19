@@ -104,9 +104,12 @@
   padding: 0 4*$ring-unit 0 4*$ring-unit;
 
   font-size: 0;
+  text-align: left;
 
   background: #E9F8FF;
-  text-align: left;
+
+  border-bottom-left-radius: 3px;
+  border-bottom-right-radius: 3px;
 }
 
 .ring-dialog__footer__spacer {
@@ -123,6 +126,8 @@
 .ring-dialog__header {
   background-image: linear-gradient(to top, #EBEBEB, #FFF);
   border-bottom: 1px solid #B4B4B4;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
   line-height: $ring-unit*3 - 2;
   min-height: $ring-unit*3 - 2;
   position: relative;
