@@ -92,7 +92,8 @@
 }
 
 .ring-dialog__content {
-  padding: $ring-unit*2 $ring-unit*4;
+  padding: $ring-unit*2 $ring-unit*4 $ring-unit;
+  margin: 0;
 }
 
 .ring-dialog__footer {
@@ -100,7 +101,6 @@
   padding: 0 4*$ring-unit 0 4*$ring-unit;
 
   background: #E9F8FF;
-  border-top: 1px solid #B4B4B4;
   text-align: left;
 }
 
