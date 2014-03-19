@@ -188,6 +188,10 @@ body .ring-menu__item_active.ring-menu__item:hover {
 
   text-align: right;
   vertical-align: middle;
+
+  &:hover .ring-menu__item__i {
+    text-decoration: none !important;
+  }
 }
 
 .ring-menu__right .ring-menu__search {
