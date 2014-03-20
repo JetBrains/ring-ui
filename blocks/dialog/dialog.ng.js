@@ -128,7 +128,7 @@
             dialogScope.active = false;
             dialogScope.content = '';
 
-            if (shortcuts('getScope').slice(-1) === DIALOG_NAMESPACE) {
+            if (shortcuts('getScope').pop() === DIALOG_NAMESPACE) {
               shortcuts('setScope', dialogScope.shortcutScope);
             }
           }
