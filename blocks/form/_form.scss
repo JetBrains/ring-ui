@@ -119,6 +119,10 @@
   font-weight: bold;
 }
 
+.ring-form__title_separated {
+  margin: $ring-unit*3 0;
+}
+
 .ring-form__group {
   position: relative;
   padding-top: $ring-unit;
@@ -151,6 +155,10 @@
   & .ring-checkbox__label, & .ring-radio-btn__label {
     top: -2px;
   }
+}
+
+.ring-form__label_title {
+  font-weight: bold
 }
 
 .ring-form__control {
