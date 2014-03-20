@@ -196,7 +196,7 @@
           ctrl.setup(zone, $scope.map);
 
           $scope.$watch('focus', function(current, prev) {
-            if (current && !prev) {
+            if (angular.isDefined(current) && angular.isUndefined(prev)) {
               ctrl.select(zone);
             }
           });
