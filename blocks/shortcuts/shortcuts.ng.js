@@ -121,6 +121,11 @@
               return false;
             }
 
+            // Reset current zone if is not equal current scope
+            if ($scope.current && $scope.current.name !== shortcuts.ring('getScope').pop()) {
+              $scope.current = null;
+            }
+
             if (action === 'main') {
               $.each($scope.zones, function(index, zone) {
                 if (shortcuts.isMainMode(zone.name)) {
