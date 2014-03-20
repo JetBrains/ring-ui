@@ -69,7 +69,7 @@ define([
         $top = action.$top;
       }
 
-      action.dataSource('', $top).done(function (data) {
+      action.dataSource('', $top).then(function (data) {
         if (preventRender) {
           return false;
         }
@@ -104,7 +104,7 @@ define([
         delayedListener('init', {
           target: $el,
           onDelayedChange: function (data) {
-            action.dataSource(data.value).then(function (data) {
+            action.dataSource(data.value, (action.$top || RESULT_COUNT)).then(function (data) {
               var actionList = Module.get('action-list');
               var items = actionList('init', {
                 items: data
@@ -121,6 +121,8 @@ define([
         });
       }
     };
+
+    return true;
   };
 
   var _bindToggleEvent = function (wrapper, $el) {
@@ -218,7 +220,10 @@ define([
   };
 
   Module.add(MODULE, {
-    init: init,
+    init: {
+      method:init,
+      override: true
+    },
     remoteDataSource: {
       method: remoteDataSource,
       override: true
