@@ -153,9 +153,23 @@
             return false;
           };
 
+          ctrl.sort = function() {
+            var orderedElements = $('[shortcuts]');
+
+            $.each($scope.zones, function(index, zone) {
+              zone.order = $.inArray(zone.element[0], orderedElements);
+              console.log(zone, orderedElements);
+            });
+
+            $scope.zones.sort(function(a, b) {
+              return a.order - b.order;
+            });
+          };
+
           ctrl.setup = function(zone, keys) {
             shortcuts.bind(zone.name, keys);
             $scope.zones.push(zone);
+            ctrl.sort();
           };
 
           ctrl.destroy = function(zone) {
