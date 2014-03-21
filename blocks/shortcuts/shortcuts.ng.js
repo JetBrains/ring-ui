@@ -158,7 +158,6 @@
 
             $.each($scope.zones, function(index, zone) {
               zone.order = $.inArray(zone.element[0], orderedElements);
-              console.log(zone, orderedElements);
             });
 
             $scope.zones.sort(function(a, b) {
