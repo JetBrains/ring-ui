@@ -32,7 +32,6 @@ define([
 
   var MODULE = 'query-assist',
     MODULE_SHORTCUTS = 'ring-query-assist',
-    MODULE_PRE_SHORTCUTS = 'ring-query-assist-pre',
     COMPLETE_ACTION = 'replace',
     $global = $(document);
 
@@ -57,13 +56,12 @@ define([
 
       $el.
         on('focus', function () {
-          shortcuts('pushScope', MODULE_PRE_SHORTCUTS);
-          shortcuts('pushScope', MODULE);
+          shortcuts('pushScope', MODULE_SHORTCUTS);
 
           queryAssist.trigger('focus-change', true);
         }).
         on('blur', function () {
-          shortcuts('popScope', MODULE_PRE_SHORTCUTS);
+          shortcuts('popScope', MODULE_SHORTCUTS);
 
           queryAssist.trigger('focus-change', false);
         });
@@ -328,19 +326,20 @@ define([
     return false;
   };
 
-  shortcuts('bindList', {scope: MODULE_SHORTCUTS}, {
-    'enter': apply,
-    'ctrl+space': showAssist
-  });
+  var preventEnter = function (e) {
+    e.preventDefault();
+  };
 
-  shortcuts('bindList', {scope: MODULE_PRE_SHORTCUTS}, {
+  shortcuts('bindList', {scope: MODULE_SHORTCUTS}, {
     'enter': function (e) {
       apply();
       e.preventDefault();
     },
-    'shift+enter': function (e) {
-      e.preventDefault();
-    }
+    'ctrl+space': showAssist,
+
+    'shift+enter': preventEnter,
+    'ctrl+enter': preventEnter,
+    'alt+enter': preventEnter
   });
 
   Module.add(MODULE, {
