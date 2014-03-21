@@ -41,7 +41,7 @@
               }
             });
 
-            var unWatchFocus = $scope.$watch('focus', function(value) {
+            $scope.$watch('focus', function(value) {
               queryAssist.trigger('focus', value);
             });
 
@@ -71,8 +71,6 @@
               queryAssist.off(APPLY_EVENT);
               queryAssist.off(CHANGE_EVENT);
               queryAssist.off(FOCUS_CHANGE_EVENT);
-              unWatchQuery();
-              unWatchFocus();
             });
           }
         }
