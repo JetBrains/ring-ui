@@ -71,6 +71,10 @@ define([
         onDelayedChange: function (data) {
           lastTriggeredCaretPositionPers = data.caret;
           queryAssist.trigger('change', {value: data.value.replace(/\s/g, ' '), caret: data.caret});
+          // Clean up redudant browser markup to show placeholder
+          if (data.value === '') {
+            $el.html('');
+          }
           _doAssist(data.value, data.caret, true);
         },
         onDelayedCaretMove: function (data) {
