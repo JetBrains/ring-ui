@@ -6,8 +6,8 @@ define(['jquery', 'jso', 'global/global__modules', 'global/global__utils'], func
 
   var API_PATH = 'api/rest';
   var API_AUTH_PATH = API_PATH + '/oauth2/auth';
-  var PROFILE_PATH = '/users/me';
-  var API_PROFILE_PATH = API_PATH + PROFILE_PATH;
+  var PROFILE_PATH = 'users/me';
+  var API_PROFILE_PATH = API_PATH + '/' + PROFILE_PATH;
 
   var DEFAULT_ID = '0-0-0-0-0';
   var DEFAULT_REDIRECT_URI = (function () {
@@ -120,7 +120,8 @@ define(['jquery', 'jso', 'global/global__modules', 'global/global__utils'], func
     if (serverUrl.indexOf('https://sso.jetbrains.com') === 0) {
       API_PATH = 'rest';
       API_AUTH_PATH = API_PATH + '/oauth2/auth';
-      API_PROFILE_PATH = API_PATH + PROFILE_PATH;
+      API_PROFILE_PATH = API_PATH + '/' + PROFILE_PATH;
+      PROFILE_PATH = 'jpapUser';
     }
     // REMOVE AFTER HUB UPDATE //
 
