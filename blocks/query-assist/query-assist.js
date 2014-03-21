@@ -59,9 +59,13 @@ define([
         on('focus', function () {
           shortcuts('pushScope', MODULE_PRE_SHORTCUTS);
           shortcuts('pushScope', MODULE);
+
+          queryAssist.trigger('focus-change', true);
         }).
         on('blur', function () {
           shortcuts('popScope', MODULE_PRE_SHORTCUTS);
+
+          queryAssist.trigger('focus-change', false);
         });
 
       delayedListener('init', {
