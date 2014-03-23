@@ -141,8 +141,8 @@ define([
     }
 
     url = config.url +
-      ('&$top=' + ($top || RESULT_COUNT)) +
-      (query ? '&query=name:' + query + ' or ' + query + '*' : '');
+      ('&$top=' + (($top || RESULT_COUNT) + 1) +
+      (query ? '&query=name:' + query + ' or ' + query + '*' : ''));
 
     return url;
   };
@@ -181,6 +181,14 @@ define([
                 }
               }
             });
+          });
+        }
+
+        if(dropdownData.length >= ($top || RESULT_COUNT)) {
+          dropdownData.splice(items.length - 1, dropdownData.length);
+          dropdownData.push({
+            event: false,
+            label: '...'
           });
         }
 
