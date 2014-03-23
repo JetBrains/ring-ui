@@ -377,15 +377,16 @@
               change: function () {
                 console.log(arguments);
               },
-              $top: 4,
+              $top: 5,
               dataSource: filter('remoteDataSource', {
                 hubResource:'usergroups',
-                url: 'api/rest/usergroups?fields=id,name,iconUrl,total'
+                url: 'api/rest/usergroups?fields=id,name'
               })
             },
             {
               type: 'remove',
               title: 'Remove from',
+              $top: 5,
               dataSource: filter('remoteDataSource', {
                 hubResource:'groups',
                 url: 'api/rest/users/#{userId}/groups?'

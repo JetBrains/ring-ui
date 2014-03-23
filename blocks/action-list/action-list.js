@@ -109,8 +109,33 @@ define([
     });
 
     if (!config.target || !(config.target instanceof $)) {
+      var renderData = $.extend(true, {}, config);
+
+      renderData.items.map(function (item) {
+        var itemData = $.extend(true, {}, item);
+
+        if (!item.hasOwnProperty('action')) {
+          item.action = true;
+        }
+
+        if (item.event !== false) {
+          item.event = item.event || [];
+          if(item.event instanceof Array === false) {
+            item.event = [item.event];
+          }
+          item.event = [{
+            'name': 'action-list:change_' + actionList('getUID'),
+            'data': itemData
+          }];
+        } else {
+          item.action = false;
+        }
+
+        return item;
+      });
+
       actionList.trigger('show', config.items);
-      $el = $(View.render('action-list', config));
+      $el = $(View.render('action-list', renderData));
       actionList.trigger('init:done_' + uid, $el);
       return $el;
     }

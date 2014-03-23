@@ -109,6 +109,11 @@ define([
               var items = actionList('init', {
                 items: data
               });
+              actionList.on('change_'+ actionList('getUID'), function(data) {
+                if(action.change && typeof action.change === 'function') {
+                  action.change(data);
+                }
+              });
               $container.find(DROPDOWN_ITEM_SELECTOR).not(DROPDOWN_ITEM_CONTROLS_SELECTOR).remove();
               $container.find(DROPDOWN_ITEM_CONTROLS_SELECTOR).after(items);
             });
@@ -168,6 +173,7 @@ define([
           items.forEach(function (item) {
             dropdownData.push({
               label: item.name,
+              action: false,
               event: {
                 data: {
                   id: item.id,
@@ -188,14 +194,17 @@ define([
 
   var _bindRemoveEvent = function (wrapper) {
 
-    $(document).one('click', function () {
+
+    $(document).on('click', function () {
       wrapper.el.unbind();
       popup('remove');
       preventRender = true;
     });
 
-    $(wrapper.el).on('click', function (event) {
-      event.stopPropagation();
+    $(wrapper.el).on('click', function (e) {
+      if(!$(e.target).hasClass('ring-js-event') || $(e.target).is(':input')) {
+        event.stopPropagation();
+      }
     });
 
   };
