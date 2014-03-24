@@ -24,7 +24,7 @@ define([
       header('update', 'user.name', $username.text());
     });
 
-    $(document).on('click.ring.personal', '.ring-header__personal', function() {
+    $('.ring-header__personal').on('click.ring-personal', function() {
       $username.click();
     });
   });
