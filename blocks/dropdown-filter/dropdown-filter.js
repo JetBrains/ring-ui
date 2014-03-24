@@ -42,15 +42,17 @@ define([
 
         _bindRemoveEvent(wrapper);
 
-        config.actions.forEach(function (obj, index, arr) {
-          _render(obj, index, arr).done(function ($el) {
+        var renders = config.actions.map(function (obj, index, arr) {
+          return _render(obj, index, arr).done(function ($el) {
             _bindToggleEvent(wrapper, $el);
-            $actions.push($el);
-            if ((index + 1) === arr.length) {
-              wrapper.appendHTML($actions);
-            }
+            $actions[index] = $el;
           });
         });
+
+        $.when.apply($, renders).done(function () {
+          wrapper.appendHTML($actions);
+        });
+
         e.stopPropagation();
       }
     );
@@ -84,8 +86,8 @@ define([
           items: data
         });
 
-        actionList.on('change_'+ actionList('getUID'), function(data) {
-          if(action.change && typeof action.change === 'function') {
+        actionList.on('change_' + actionList('getUID'), function (data) {
+          if (action.change && typeof action.change === 'function') {
             action.change(data);
           }
         });
@@ -109,8 +111,8 @@ define([
               var items = actionList('init', {
                 items: data
               });
-              actionList.on('change_'+ actionList('getUID'), function(data) {
-                if(action.change && typeof action.change === 'function') {
+              actionList.on('change_' + actionList('getUID'), function (data) {
+                if (action.change && typeof action.change === 'function') {
                   action.change(data);
                 }
               });
@@ -144,7 +146,7 @@ define([
 
     url = config.url +
       ('&$top=' + (($top || RESULT_COUNT) + 1) +
-      (query ? '&query=name:' + query + ' or ' + query + '*' : ''));
+        (query ? '&query=name:' + query + ' or ' + query + '*' : ''));
 
     return url;
   };
@@ -186,7 +188,7 @@ define([
           });
         }
 
-        if(dropdownData.length >= ($top || RESULT_COUNT)) {
+        if (dropdownData.length >= ($top || RESULT_COUNT)) {
           dropdownData.splice(items.length - 1, dropdownData.length);
           dropdownData.push({
             event: false,
@@ -212,7 +214,7 @@ define([
     });
 
     $(wrapper.el).on('click', function (e) {
-      if(!$(e.target).hasClass('ring-js-event') || $(e.target).is(':input')) {
+      if (!$(e.target).hasClass('ring-js-event') || $(e.target).is(':input')) {
         event.stopPropagation();
       }
     });
@@ -221,7 +223,7 @@ define([
 
   Module.add(MODULE, {
     init: {
-      method:init,
+      method: init,
       override: true
     },
     remoteDataSource: {
