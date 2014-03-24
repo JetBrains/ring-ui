@@ -1,6 +1,7 @@
 *.iws
 .idea/workspace.xml
 .idea/dictionaries/*.xml
+.idea/jsLinters/jshint.xml
 .DS_Store
 ehthumbs.db
 Icon?
