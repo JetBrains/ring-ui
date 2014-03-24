@@ -20,9 +20,12 @@
 
           // Set page title on route change
           $rootScope.$on('$routeChangeSuccess', function (event, current) {
-            var title = current.$$route && current.$$route.title || $scope.noTitle;
+            var title = current.$$route && current.$$route.title;
 
-            prependTitleElement($window, title, $scope.base);
+            // Use title: false to prevent title change on route
+            if (title !== false) {
+              prependTitleElement($window, title || $scope.noTitle, $scope.base);
+            }
           });
         }]
       };
