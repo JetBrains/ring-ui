@@ -25,9 +25,12 @@ define(['jquery',  'global/global__modules', 'global/global__views', 'dropdown-m
       }
 
       data.personal = {
-        username: data.user.name,
-        items: links
+        username: data.user.name
       };
+
+      if (links.length) {
+        data.personal.items = links;
+      }
     }
 
     if (data.services && data.services.length > SERVICES_LIMIT) {
