@@ -206,7 +206,7 @@ define([
 
   var remove = function () {
     if ($(CONTAINER_SELECTOR).length) {
-      shortcuts('popScope', MODULE);
+      shortcuts('spliceScope', MODULE);
       popup('remove');
     }
   };
