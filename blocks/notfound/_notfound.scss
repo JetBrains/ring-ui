@@ -36,7 +36,7 @@ $ring-seventh-part: 14.28%;
     margin: 4 * $ring-unit;
     padding: 0 2*$ring-unit;
 
-    background: #FFF;
+    background: #FFF; // IE 8-
     background: rgba(255, 255, 255, 0.85);
     border-radius: 3px;
 
@@ -71,6 +71,16 @@ $ring-seventh-part: 14.28%;
     bottom: 0;
 
     background: linear-gradient(-90deg, #FFF $ring-seventh-part, #01FF01 $ring-seventh-part, #01FF01 $ring-seventh-part * 2, #000 $ring-seventh-part * 2, #000 $ring-seventh-part * 3, #01FFFF $ring-seventh-part * 3, #01FFFF $ring-seventh-part * 4, #000 $ring-seventh-part * 4, #000 $ring-seventh-part * 5, #FF00FE $ring-seventh-part * 5, #FF00FE $ring-seventh-part * 6, #000 $ring-seventh-part * 6);
+  }
+}
+
+.ring-not-found_embedded {
+  box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.2);
+
+  .ring-not-found__textbox {
+    background: #FFF;
+
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
   }
 }
 
