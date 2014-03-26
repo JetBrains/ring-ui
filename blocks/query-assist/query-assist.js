@@ -61,7 +61,7 @@ define([
           queryAssist.trigger('focus-change', true);
         }).
         on('blur', function () {
-          shortcuts('popScope', MODULE_SHORTCUTS);
+          shortcuts('spliceScope', MODULE_SHORTCUTS);
 
           queryAssist.trigger('focus-change', false);
         });
@@ -163,7 +163,7 @@ define([
       });
     } else {
       actionList('remove');
-      shortcuts('pushScope', MODULE);
+      shortcuts('pushScope', MODULE_SHORTCUTS);
     }
   };
 
