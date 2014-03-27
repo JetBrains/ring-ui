@@ -97,10 +97,10 @@ $ring-btn-border-radius: 3px;
     }
   }
 
-  &:not(:hover):focus, &.ring-btn_focus {
+  &:focus, &.ring-btn_focus {
     position: relative;
     border-radius: $ring-btn-border-radius !important;
-    box-shadow: 0 0 0 4px $ring-outline-color;
+    box-shadow: 0 0 0 2px $ring-outline-color;
     z-index: 2;
 
     outline: 1px dotted #666; // IE 8-
