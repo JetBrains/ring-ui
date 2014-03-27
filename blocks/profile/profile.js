@@ -40,7 +40,7 @@ define(['jquery',  'global/global__modules', 'global/global__views', 'auth/auth'
             }
 
             // Interpolate placeholders
-            profileURI.replace(/\:id|\:login/, function (pattern) {
+            profileURI = profileURI.replace(/\:id|\:login/, function (pattern) {
               if (pattern === ':id') {
                 return userId;
               } else if (pattern === ':login') {
