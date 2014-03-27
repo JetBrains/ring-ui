@@ -36,7 +36,7 @@ define(['jquery',  'global/global__modules', 'global/global__views', 'auth/auth'
 
             // If the profile URI is not absolute prepend it with the service home URL
             if (profileURI && profileURI.indexOf('http') !== 0) {
-              profileURI = item.homeUrl.replace(/\/$/, '') + '/' + profileURI.replace(new RegExp('^\\/'), '');
+              profileURI = item.homeUrl.replace(/\/$/, '') + '/' + profileURI.replace(/^[/]/, '');
             }
 
             // Interpolate placeholders
