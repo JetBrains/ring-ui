@@ -34,21 +34,23 @@ define(['jquery',  'global/global__modules', 'global/global__views', 'auth/auth'
 
             var profileURI = item.userUriPattern || null;
 
-            // If the profile URI is not absolute prepend it with the service home URL
-            if (profileURI && profileURI.indexOf('http') !== 0) {
-              profileURI = item.homeUrl.replace(/\/$/, '') + '/' + profileURI.replace(/^[/]/, '');
-            }
-
-            // Interpolate placeholders
-            profileURI = profileURI.replace(/\:id|\:login/, function (pattern) {
-              if (pattern === ':id') {
-                return userId;
-              } else if (pattern === ':login') {
-                return userLogin;
-              } else {
-                return '';
+            if (profileURI) {
+              // If the profile URI is not absolute prepend it with the service home URL
+              if (profileURI.indexOf('http') !== 0) {
+                profileURI = item.homeUrl.replace(/\/$/, '') + '/' + profileURI.replace(/^[/]/, '');
               }
-            });
+
+              // Interpolate placeholders
+              profileURI = profileURI.replace(/\:id|\:login/, function (pattern) {
+                if (pattern === ':id') {
+                  return userId;
+                } else if (pattern === ':login') {
+                  return userLogin;
+                } else {
+                  return '';
+                }
+              });
+            }
 
             return {
               url: profileURI,
