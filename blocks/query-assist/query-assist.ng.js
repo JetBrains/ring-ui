@@ -14,6 +14,7 @@
           search: '&onSearch',
           tabIndex: '@tabIndex',
           className: '@class',
+          listenDelay: '@',
           placeholder: '@'
         },
         link: {
@@ -54,6 +55,7 @@
               method: 'replace',
               glass: 'glass' in iAttrs,
               query: $scope.query || '',
+              listenDelay: $scope.listenDelay,
               dataSource: $scope.dataSource
             });
 
