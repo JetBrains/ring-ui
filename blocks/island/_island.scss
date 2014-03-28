@@ -52,6 +52,7 @@
   border-left: 1px solid #B4B4B4;
   color: #6D6D6D;
   text-shadow: #FFF 0 0 1px;
+  user-select: none;
 
   &:hover {
     background: #E1E1E1 linear-gradient(to top, #E1E1E1, #FFF);
