@@ -126,8 +126,8 @@ define([
    * @param {number} caret Caret position
    * @param {bool} requestHighlighting Is highlight required
    */
-  var _doAssist = function (query, caret, requestHighlighting, highlightOnly) {
-    if (query && caret) {
+  var _doAssist = function (query, caret, requestHighlighting, highlightOnly, force) {
+    if (query && caret || force) {
       dataSource(query.replace(/\s/g, ' '), caret, requestHighlighting).then(function (data /* status, jqXHR*/) {
         /**
          * #{String}.replace(/\s+/g, ' ') needs for trim any whitespaces.
@@ -333,7 +333,7 @@ define([
   };
 
   var showAssist = function () {
-    _doAssist($el.text().replace(/\s/g, ' '), $el.caret(), false, false);
+    _doAssist($el.text().replace(/\s/g, ' '), $el.caret(), false, false, true);
     return false;
   };
 
