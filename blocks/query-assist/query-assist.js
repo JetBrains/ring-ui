@@ -68,6 +68,7 @@ define([
 
       delayedListener('init', {
         target: $el,
+        listenDelay: config.listenDelay,
         onDelayedChange: function (data) {
           lastTriggeredCaretPositionPers = data.caret;
           queryAssist.trigger('change', {value: data.value.replace(/\s/g, ' '), caret: data.caret});
