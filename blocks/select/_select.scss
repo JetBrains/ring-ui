@@ -5,6 +5,7 @@
   display: inline-block;
   width: 100%;
   padding-left: $ring-unit;
+  margin: 0;
 
   border: 1px solid #CCC;
   border-radius: 0;
@@ -35,15 +36,15 @@
 .ring-select + label.ring-select__label {
   position: relative;
   content: '';
-  top: -2*$ring-unit;
+  top: -2*$ring-unit + 2;
   left: -$ring-unit;
   display: block;
   float: right;
   width: 0;
   height: 0;
 
+  // Fx
   &::-moz-progress-bar, & {
-    top: -2*$ring-unit + 2;
     border-width: 5px;
   }
 
