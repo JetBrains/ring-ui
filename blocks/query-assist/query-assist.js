@@ -15,6 +15,7 @@ define([
     $target,
     dataSource,
     lastTriggeredCaretPositionPers,
+    lastRelevantSuggestion,
     uid = 0;
 
   var CONTAINER_SELECTOR = '.ring-dropdown',
@@ -150,6 +151,10 @@ define([
             items: _getHighlightText(data)
           };
 
+          lastRelevantSuggestion = {
+            query: data.query,
+            suggestion: data.suggestions[0]
+          };
           actionList('init', dropdownData);
           actionList.on('change_' + actionList('getUID'), function (data) {
             _handleComplete(data.data);
@@ -163,6 +168,7 @@ define([
 
       });
     } else {
+      lastRelevantSuggestion = null;
       actionList('remove');
       shortcuts('pushScope', MODULE_SHORTCUTS);
     }
@@ -340,8 +346,12 @@ define([
       apply();
       e.preventDefault();
     },
+    'tab': function () {
+      if (lastRelevantSuggestion) {
+        _handleComplete(lastRelevantSuggestion);
+      }
+    },
     'ctrl+space': showAssist,
-
     'shift+enter': preventEnter,
     'ctrl+enter': preventEnter,
     'alt+enter': preventEnter
