@@ -39,19 +39,24 @@ define([
       var $active = $el.parent().find(ACTIVE_SELECTOR);
 
       if ($active.length) {
-        var eventEl = items[$el.parent().find(ITEM_ACTION_SELECTOR).index($active)],
-          eventData;
-        if ((eventEl && eventEl.event && eventEl.event[0] && eventEl.event[0])) {
-          eventData = eventEl.event[0].data;
-        } else {
-          eventData = eventEl;
-        }
-        actionList.trigger('change_' + uid, eventData || false);
+        var data = $active.data(events.EVENT_DATA_ATTR);
+
+        actionList.trigger('change_' + uid, data && data[0] && data[0].data);
 
         return false;
       } else {
         return true;
       }
+    };
+
+    var getSelectedItemData = function () {
+      if ($el === null) {
+        return;
+      }
+
+      var data = $el.parent().find(ACTIVE_SELECTOR).data(events.EVENT_DATA_ATTR);
+
+      return data && data[0] && data[0].data && data[0].data.data;
     };
 
     var navigate_ = function (e, key) {
@@ -88,7 +93,6 @@ define([
     }, {
       'esc': remove,
       'enter': action_,
-      'tab': action_,
       'up': navigate_,
       'down': navigate_
     });
@@ -179,7 +183,12 @@ define([
         .siblings()
         .removeClass(ACTIVE_CLASS);
     });
-    return $el;
+
+    return {
+      popup: wrapper,
+      el: $el,
+      getSelectedItemData: getSelectedItemData
+    };
   };
 
   var dataSource = function (data) {

@@ -16,6 +16,7 @@ define([
     dataSource,
     lastTriggeredCaretPositionPers,
     lastRelevantSuggestion,
+    lastActionList,
     uid = 0;
 
   var CONTAINER_SELECTOR = '.ring-dropdown',
@@ -33,7 +34,6 @@ define([
 
   var MODULE = 'query-assist',
     MODULE_SHORTCUTS = 'ring-query-assist',
-    COMPLETE_ACTION = 'replace',
     $global = $(document);
 
   /**
@@ -155,7 +155,7 @@ define([
             query: data.query,
             suggestion: data.suggestions[0]
           };
-          actionList('init', dropdownData);
+          lastActionList = actionList('init', dropdownData);
           actionList.on('change_' + actionList('getUID'), function (data) {
             _handleComplete(data.data);
           });
@@ -169,6 +169,7 @@ define([
       });
     } else {
       lastRelevantSuggestion = null;
+      lastActionList = null;
       actionList('remove');
       shortcuts('pushScope', MODULE_SHORTCUTS);
     }
@@ -312,13 +313,13 @@ define([
   /**
    * autocomplete current text field
    */
-  var _handleComplete = function (data) {
+  var _handleComplete = function (data, replace) {
     var input = data.query || '';
     var prefix = data.suggestion.prefix || '';
     var suffix = data.suggestion.suffix || '';
     var output = input.substr(0, data.suggestion.completionStart) + prefix + data.suggestion.option + suffix;
 
-    if (data.action === COMPLETE_ACTION) {
+    if (!replace) {
       output += input.substr(lastTriggeredCaretPositionPers);
     } else {
       output += input.substr(data.suggestion.completionEnd + suffix.length);
@@ -330,6 +331,23 @@ define([
       value: output,
       caret: data.suggestion.caret
     });
+  };
+
+  var _handleTab = function () {
+    // Replace result with selected item
+    var selectedItemData = lastActionList && lastActionList.getSelectedItemData();
+
+    if (selectedItemData) {
+      _handleComplete(selectedItemData, true);
+      return false;
+    }
+
+    // Insert first result when nothing selected
+    if (lastRelevantSuggestion) {
+      _handleComplete(lastRelevantSuggestion);
+    }
+
+    return false;
   };
 
   var showAssist = function () {
@@ -346,11 +364,7 @@ define([
       apply();
       e.preventDefault();
     },
-    'tab': function () {
-      if (lastRelevantSuggestion) {
-        _handleComplete(lastRelevantSuggestion);
-      }
-    },
+    'tab': _handleTab,
     'ctrl+space': showAssist,
     'shift+enter': preventEnter,
     'ctrl+enter': preventEnter,
