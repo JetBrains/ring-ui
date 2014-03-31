@@ -48,6 +48,7 @@ $ring-btn-border-radius: 3px;
 // .ring-btn_blue       - Indicates that a button triggers a secondary action on the page. For example, "Save changes" in a modal dialog.
 // .ring-btn_black      - Indicates that a button is black. Should be used on dark backgrounds only!
 // .ring-btn_plus       - Indicates that a button will add something.
+// .ring-btn_delayed-action - Indicates that button's action will be delayed, e.g. because of params request dialog
 // .ring-btn_danger     - Indicates a dangerous action (e.g. delete).
 // :hover               - Hovered state.
 // :disabled            - Disabled state, also available as the `.ring-btn_disabled` class name.
@@ -244,6 +245,10 @@ $ring-btn-border-radius: 3px;
     line-height: 16px;
   }
 }
+
+ .ring-btn_delayed-action:after {
+   content: '…';
+ }
 
 .ring-btn_danger {
   color: #C10000;
