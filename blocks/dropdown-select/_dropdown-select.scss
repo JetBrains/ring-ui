@@ -1,0 +1,8 @@
+.dropdown-select__toggle {
+  cursor: text;
+
+  .ring-input_icon + & {
+    font-size: 12px;
+    top: 0;
+  }
+}
