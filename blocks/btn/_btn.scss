@@ -247,7 +247,7 @@ $ring-btn-border-radius: 3px;
 }
 
  .ring-btn_delayed-action {
-   padding-right: 7px !important;
+   padding-right: $ring-unit*1.5 !important;
 
    &:after {
      content: '…';
