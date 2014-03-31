@@ -246,9 +246,13 @@ $ring-btn-border-radius: 3px;
   }
 }
 
- .ring-btn_delayed-action:after {
-   content: '…';
- }
+ .ring-btn_delayed-action {
+   padding-right: 7px !important;
+
+   &:after {
+     content: '…';
+   }
+}
 
 .ring-btn_danger {
   color: #C10000;
