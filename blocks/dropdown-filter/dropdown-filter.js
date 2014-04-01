@@ -33,8 +33,9 @@ define([
     $target = $(config.target);
     preventRender = false;
 
-    $target.
-      on('click', function (e) {
+    $target
+      .off()
+      .on('click', function (e) {
         var $actions = [];
         preventRender = false;
 
@@ -207,7 +208,7 @@ define([
   var _bindRemoveEvent = function (wrapper) {
 
 
-    $(document).on('click', function () {
+    $(document).one('click', function () {
       wrapper.el.unbind();
       popup('remove');
       preventRender = true;
