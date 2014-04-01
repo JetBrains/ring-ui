@@ -22,10 +22,10 @@ define([
 
     init.done(function() {
       header('update', 'user.name', $username.text());
-    });
 
-    $('.ring-header__personal').on('click.ring-personal', function() {
-      $username.click();
+      $('.ring-header__personal').on('click.ring-personal', function() {
+        $username.click();
+      });
     });
   });
 
