@@ -6,7 +6,7 @@ define([
   'header/header__jetbrains-services'
 ], function($, ring) {
   // Remove all jQuery variables from the global scope
-  $.noConflict(true);
+  window.jq = $.noConflict(true);
 
   var header = ring('header');
   var init = header('init', null, 'td:eq(0):not([class^=dialog])', 'prepend');
@@ -19,14 +19,15 @@ define([
       $header.after('<div style="height: 5px;"></div>');
 
       var $personal = $(PERSONAL_SELECTOR);
-      var offset = $personal.offset();
-
-      offset.right = $header.width() - offset.left - $personal.width();
-      offset.left = '';
-      offset.top = 26;
 
       $(document).on('click.ring.personal', PERSONAL_SELECTOR, function() {
-        $username.find('div:eq(1)').click();
+        var offset = $personal.offset();
+
+        offset.right = $header.width() - offset.left - $personal.width();
+        offset.left = '';
+        offset.top = 26;
+
+        $username.find('button').click();
 
         $('.gwt-PopupPanel').css(offset);
       });

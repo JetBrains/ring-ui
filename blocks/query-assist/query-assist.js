@@ -15,6 +15,8 @@ define([
     $target,
     dataSource,
     lastTriggeredCaretPositionPers,
+    lastRelevantSuggestion,
+    lastActionList,
     uid = 0;
 
   var CONTAINER_SELECTOR = '.ring-dropdown',
@@ -32,7 +34,6 @@ define([
 
   var MODULE = 'query-assist',
     MODULE_SHORTCUTS = 'ring-query-assist',
-    COMPLETE_ACTION = 'replace',
     $global = $(document);
 
   /**
@@ -61,13 +62,14 @@ define([
           queryAssist.trigger('focus-change', true);
         }).
         on('blur', function () {
-          shortcuts('popScope', MODULE_SHORTCUTS);
+          shortcuts('spliceScope', MODULE_SHORTCUTS);
 
           queryAssist.trigger('focus-change', false);
         });
 
       delayedListener('init', {
         target: $el,
+        listenDelay: config.listenDelay,
         onDelayedChange: function (data) {
           lastTriggeredCaretPositionPers = data.caret;
           queryAssist.trigger('change', {value: data.value.replace(/\s/g, ' '), caret: data.caret});
@@ -124,8 +126,8 @@ define([
    * @param {number} caret Caret position
    * @param {bool} requestHighlighting Is highlight required
    */
-  var _doAssist = function (query, caret, requestHighlighting, highlightOnly) {
-    if (query && caret) {
+  var _doAssist = function (query, caret, requestHighlighting, highlightOnly, force) {
+    if (query && caret || force) {
       dataSource(query.replace(/\s/g, ' '), caret, requestHighlighting).then(function (data /* status, jqXHR*/) {
         /**
          * #{String}.replace(/\s+/g, ' ') needs for trim any whitespaces.
@@ -149,7 +151,11 @@ define([
             items: _getHighlightText(data)
           };
 
-          actionList('init', dropdownData);
+          lastRelevantSuggestion = {
+            query: data.query,
+            suggestion: data.suggestions[0]
+          };
+          lastActionList = actionList('init', dropdownData);
           actionList.on('change_' + actionList('getUID'), function (data) {
             _handleComplete(data.data);
           });
@@ -162,8 +168,10 @@ define([
 
       });
     } else {
+      lastRelevantSuggestion = null;
+      lastActionList = null;
       actionList('remove');
-      shortcuts('pushScope', MODULE);
+      shortcuts('pushScope', MODULE_SHORTCUTS);
     }
   };
 
@@ -305,13 +313,13 @@ define([
   /**
    * autocomplete current text field
    */
-  var _handleComplete = function (data) {
+  var _handleComplete = function (data, replace) {
     var input = data.query || '';
     var prefix = data.suggestion.prefix || '';
     var suffix = data.suggestion.suffix || '';
     var output = input.substr(0, data.suggestion.completionStart) + prefix + data.suggestion.option + suffix;
 
-    if (data.action === COMPLETE_ACTION) {
+    if (!replace) {
       output += input.substr(lastTriggeredCaretPositionPers);
     } else {
       output += input.substr(data.suggestion.completionEnd + suffix.length);
@@ -325,8 +333,25 @@ define([
     });
   };
 
+  var _handleTab = function () {
+    // Replace result with selected item
+    var selectedItemData = lastActionList && lastActionList.getSelectedItemData();
+
+    if (selectedItemData) {
+      _handleComplete(selectedItemData, true);
+      return false;
+    }
+
+    // Insert first result when nothing selected
+    if (lastRelevantSuggestion) {
+      _handleComplete(lastRelevantSuggestion);
+    }
+
+    return false;
+  };
+
   var showAssist = function () {
-    _doAssist($el.text().replace(/\s/g, ' '), $el.caret(), false, false);
+    _doAssist($el.text().replace(/\s/g, ' '), $el.caret(), false, false, true);
     return false;
   };
 
@@ -339,8 +364,8 @@ define([
       apply();
       e.preventDefault();
     },
+    'tab': _handleTab,
     'ctrl+space': showAssist,
-
     'shift+enter': preventEnter,
     'ctrl+enter': preventEnter,
     'alt+enter': preventEnter
