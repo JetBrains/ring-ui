@@ -68,6 +68,7 @@ define([
       actionList('init', {
         target: $target,
         type: ['bound'],
+        description: config.description || '',
         width: ($target.outerWidth() - 2) + 'px',
         items: data
       });
