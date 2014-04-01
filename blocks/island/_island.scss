@@ -10,7 +10,8 @@
 //    <div class="ring-island">
 //        <div class="ring-island__header">
 //            <span class="ring-island__title">Title</span>
-//            <span class="ring-island__header-btn">Button</span>
+//            <span class="ring-island__header-btn">Button1</span>
+//            <span class="ring-island__header-btn">Button2</span>
 //        </div>
 //        <div class="ring-island__content">Content</div>
 //    </div>
@@ -39,19 +40,31 @@
   border-bottom: 1px solid #B4B4B4;
   line-height: $ring-unit*3 - 1;
   font-size: 13px;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
 }
 
 .ring-island__header-btn {
   float: right;
-  padding: 0 $ring-unit*2 0 $ring-unit*2;
+  padding: 0 $ring-unit*2 - 1; // -1 to account for border
   cursor: pointer;
   box-shadow: inset 0 0 0 1px #FFF;
   border-left: 1px solid #B4B4B4;
   color: #6D6D6D;
   text-shadow: #FFF 0 0 1px;
+  user-select: none;
 
   &:hover {
-    background-image: linear-gradient(to top, #E1E1E1, #FFF);
+    background: #E1E1E1 linear-gradient(to top, #E1E1E1, #FFF);
+  }
+
+  &:active {
+    box-shadow: 0px 0px 4px 0px #D3D3D3 inset;
+    background: #E4E4E4 none;
+  }
+
+  &:last-child {
+    border-top-right-radius: 3px;
   }
 }
 

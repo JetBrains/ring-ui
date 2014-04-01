@@ -36,6 +36,11 @@
   border-radius: 3px;
 
   @include ring-font;
+
+  &:not(.ring-dropdown_typed) .ring-dropdown__item_hint {
+    padding: 0;
+  }
+
 }
 
 .ring-dropdown_bound {
@@ -52,7 +57,7 @@
 .ring-dropdown__i {
   position: relative;
 
-  padding: $ring-unit/2 + 1 0 $ring-unit/2 - 1;
+  padding-top: $ring-unit/2 + 1;
   z-index: 1;
 
   line-height: normal;
@@ -94,6 +99,10 @@
   text-decoration: none;
   text-overflow: ellipsis;
 
+  &:last-child:not(.ring-dropdown__item_hint) {
+    margin-bottom: 3px;
+  }
+
   &.ring-dropdown__item_error {
     color: #F00;
     &:hover, &:focus, &:visited {
@@ -104,6 +113,10 @@
   .ring-dropdown_typed & {
     padding-left: 0;
     display: table-row;
+
+    & .ring-dropdown__item__type, & .ring-dropdown__item__content {
+      display: table-cell;
+    }
   }
 
   .ring-dropdown &:hover {
@@ -125,12 +138,6 @@
 .ring-dropdown__item__controls__title {
   cursor: pointer;
   font-weight: bold;
-}
-
-.ring-dropdown__prop-manager {
-  .ring-dropdown__item ~ .ring-dropdown__item:not(.ring-dropdown__item__controls) {
-    margin-left: 2*$ring-unit;
-  }
 }
 
 .ring-dropdown__item_action {
@@ -244,7 +251,7 @@
 }
 
 .ring-dropdown__item__content {
-  display: table-cell;
+  display: block;
   padding: 0 $ring-unit*2 0 $ring-unit;
 
   .ring-dropdown__item_hint & {
@@ -255,7 +262,7 @@
 }
 
 .ring-dropdown__item__type {
-  display: table-cell;
+  display: block;
   padding: 0 $ring-unit 0 $ring-unit*2;
   width: 1px;
 
