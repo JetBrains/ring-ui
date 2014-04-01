@@ -98,13 +98,22 @@
             return next;
           };
 
+          ctrl.deselect = function() {
+            $scope.current.onBlur();
+            $scope.current = null;
+          };
+
           ctrl.select = function(next) {
+            if ($scope.current === next) {
+              return;
+            }
+
             if ($scope.current) {
-              shortcuts.ring('popScope', $scope.current.name);
+              shortcuts.ring('spliceScope', $scope.current.name);
+              ctrl.deselect();
             }
 
             if (!next) {
-              $scope.current = null;
               return;
             }
 
@@ -123,7 +132,7 @@
 
             // Reset current zone if is not equal current scope
             if ($scope.current && $scope.current.name !== shortcuts.ring('getScope').pop()) {
-              $scope.current = null;
+              ctrl.deselect();
             }
 
             if (action === 'main') {
@@ -172,7 +181,7 @@
           };
 
           ctrl.destroy = function(zone) {
-            shortcuts.ring('popScope', zone.name);
+            shortcuts.ring('spliceScope', zone.name);
             shortcuts.ring('unbindList', zone.name);
 
             var position = $.inArray(zone, $scope.zones);
@@ -200,7 +209,8 @@
         scope: {
           'id': '@shortcuts',
           'map': '=shortcutsMap',
-          'focus': '=?shortcutsFocus'
+          'focus': '&shortcutsFocus',
+          'onBlur': '&shortcutsOnBlur'
         },
         require: ['^shortcutsApp'],
         link: function($scope, iElement, iAttrs, shortcutsCtrl) {
@@ -208,13 +218,14 @@
           var ctrl = shortcutsCtrl[shortcutsCtrl.length - 1];
           var zone = {
             name: $scope.id,
-            element: iElement
+            element: iElement,
+            onBlur: $scope.onBlur
           };
 
           ctrl.setup(zone, $scope.map);
 
-          $scope.$watch('focus', function(current, prev) {
-            if (angular.isDefined(current) && !prev) {
+          $scope.$watch('focus()', function(current) {
+            if (current) {
               ctrl.select(zone);
             }
           });

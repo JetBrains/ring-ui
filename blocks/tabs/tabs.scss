@@ -81,6 +81,7 @@
   &.active, &.ring-tabs__btn_active {
     color: #1A1A1A;
     outline: 0;
+    user-select: none;
 
     border: 1px solid;
     @include rgba-attribute('border-color', rgba(0, 0, 0, 0.2));
