@@ -33,27 +33,28 @@ define([
     $target = $(config.target);
     preventRender = false;
 
+    var showDropdown = function () {
+      var $actions = [];
+      preventRender = false;
+
+      wrapper = popup('init', config);
+
+      var renders = config.actions.map(function (obj, index, arr) {
+        return _render(obj, index, arr).done(function ($el) {
+          _bindToggleEvent(wrapper, $el);
+          $actions[index] = $el;
+        });
+      });
+
+      $.when.apply($, renders).done(function () {
+        wrapper.appendHTML($actions);
+        _bindRemoveEvent(wrapper);
+      });
+    };
     $target
       .off()
       .on('click', function (e) {
-        var $actions = [];
-        preventRender = false;
-
-        wrapper = popup('init', config);
-
-        _bindRemoveEvent(wrapper);
-
-        var renders = config.actions.map(function (obj, index, arr) {
-          return _render(obj, index, arr).done(function ($el) {
-            _bindToggleEvent(wrapper, $el);
-            $actions[index] = $el;
-          });
-        });
-
-        $.when.apply($, renders).done(function () {
-          wrapper.appendHTML($actions);
-        });
-
+        showDropdown();
         e.stopPropagation();
       }
     );
@@ -124,6 +125,10 @@ define([
         });
       }
     };
+
+    if (config.autoOpen) {
+      showDropdown();
+    }
 
     return true;
   };
@@ -206,7 +211,6 @@ define([
   };
 
   var _bindRemoveEvent = function (wrapper) {
-
 
     $(document).one('click', function () {
       wrapper.el.unbind();
