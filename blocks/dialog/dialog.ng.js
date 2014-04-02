@@ -116,7 +116,7 @@
             dialogScope.content = config.content;
           }
 
-          dialogScope.shortcutScope = shortcuts('getScope').slice(1);
+          dialogScope.shortcutScope = shortcuts('getScope');
           shortcuts('setScope', DIALOG_NAMESPACE);
           dialogScope.active = true;
         },
