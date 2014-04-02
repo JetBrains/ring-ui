@@ -41,7 +41,7 @@
     "karma-chrome-launcher": "~0.1.0",
     "karma-firefox-launcher": "~0.1.0",
     "karma-mocha": "~0.1.0",
-    "mocha": "~1.17.1",
+    "mocha": "~1.18.2",
     "karma-coverage": "~0.1.0",
     "karma-requirejs": "~0.2.1",
     "karma-teamcity-reporter": "~0.1.0",

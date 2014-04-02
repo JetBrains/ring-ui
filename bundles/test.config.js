@@ -19,18 +19,19 @@ requirejs.config({
     'jquery-caret': '../components/jquery-caret/jquery.caret',
     'handlebars' : '../tmp/handlebars',
     'codemirror' : '../components/codemirror/lib/codemirror',
-    'storage'    : '../components/polyfill/obsolete/storage',
+    'storage-polyfill': '../components/polyfill/obsolete/storage',
     'json'       : '../components/json2/json2',
     'jso'        : '../components/jso/jso',
     'raphael'    : '../components/raphael/raphael-min',
-    'mousetrap'  : '../components/mousetrap/mousetrap'
+    'mousetrap'  : '../components/mousetrap/mousetrap',
+    'q'          : '../components/q/q'
   },
   shim: {
     'jquery': {
       exports: '$'
     },
     'jso': {
-      deps: ['jquery', 'json', 'storage'],
+      deps: ['jquery'],
       exports: 'jso_configure',
       init: function(){
         /* globals jso_configure, jso_ensureTokens, jso_getToken */

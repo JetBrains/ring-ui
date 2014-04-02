@@ -6,7 +6,7 @@ require.config({
     'jquery-caret': '../components/jquery-caret/jquery.caret',
     'handlebars' : '../tmp/handlebars',
     'codemirror' : '../components/codemirror/lib/codemirror',
-    'storage'    : '../components/polyfill/obsolete/storage',
+    'storage-polyfill': '../components/polyfill/obsolete/storage',
     'json'       : '../components/json2/json2',
     'jso'        : '../components/jso/jso',
     'raphael'    : '../components/raphael/raphael-min',
@@ -17,16 +17,17 @@ require.config({
       exports: '$'
     },
     'jso': {
-      deps: ['jquery', 'json', 'storage'],
+      deps: ['jquery'],
       exports: 'jso_configure',
       init: function(){
         /* jshint camelcase:false */
-        /* globals jso_configure, jso_ensureTokens, jso_getToken, jso_wipe, jso_registerRedirectHandler, jso_authrequest */
+        /* globals jso_configure, jso_ensureTokens, jso_getToken, jso_wipe, jso_registerRedirectHandler, jso_registerStorageHandler, jso_authrequest */
         return {
           configure: jso_configure,
           ensure: jso_ensureTokens,
           getToken: jso_getToken,
           setRedirect: jso_registerRedirectHandler,
+          registerStorageHandler: jso_registerStorageHandler,
           authRequest: jso_authrequest,
           wipe: jso_wipe
         };
