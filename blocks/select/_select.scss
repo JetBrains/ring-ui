@@ -27,7 +27,7 @@
     text-overflow: '';
   }
 
-  &:active {
+  &:active:not([disabled]) {
     border: 1px solid #25B7FF;
     outline: 0;
   }
