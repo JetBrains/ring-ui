@@ -11,21 +11,9 @@ define([
 
   var scopes = {};
   var scopeChain;
-  var scopeModal;
-
 
   var dispatcher = function(e, key) {
     var currentScope;
-
-    if (scopeModal) {
-      currentScope = scopes[scopeModal];
-
-      if (currentScope && currentScope[key]) {
-        return currentScope[key](e, key, scopeModal);
-      }
-
-      return;
-    }
 
     for (var i = scopeChain.length - 1; i >= 0; i--) {
       currentScope = scopes[scopeChain[i]];
@@ -96,19 +84,6 @@ define([
   var unBindList = function(scope) {
     scopes[scope] = null;
   };
-
-  var getModalScope = function() {
-    return scopeModal;
-  };
-
-  var setModalScope = function(scope) {
-    if (typeof scope === 'string') {
-      scopeModal = scope;
-    } else {
-      scopeModal = null;
-    }
-  };
-
 
   var getScope = function() {
     return scopeChain.slice();
@@ -184,7 +159,6 @@ define([
 
   // Set defaults on start
   setFilter();
-  setModalScope();
   setScope();
 
   // Public methods
@@ -200,11 +174,6 @@ define([
       method: hasKey,
       override: true
     },
-    getModalScope: {
-      method: getModalScope,
-      override: true
-    },
-    setModalScope: setModalScope,
     getScope: {
       method: getScope,
       override: true
