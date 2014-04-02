@@ -1,15 +1,8 @@
-define(['global/global', 'chai', 'global/global__utils'], function(ring, chai, utils) {
+define(['global/global', 'chai', 'global/global__utils', 'q'], function(ring, chai, utils, q) {
   'use strict';
   var o = ring();
 
   var expect = chai.expect;
-  var expectDeferred = function(deferred) {
-    if ('pipe' in deferred) {
-      delete deferred.pipe;
-    }
-
-    return expect(deferred);
-  };
 
   describe('Events', function () {
     var moduleName = 'test-Events-Module';
@@ -159,7 +152,7 @@ define(['global/global', 'chai', 'global/global__utils'], function(ring, chai, u
 
       it('when promise should return triggered result', function () {
         var data = {};
-        expectDeferred(module.when('when-test3')).eventually.equal(data);
+        q(module.when('when-test3')).should.eventually.equal(data);
         module.trigger('when-test3', data);
       });
 

@@ -5,7 +5,6 @@
     "describe": false,
     "it": false,
     "expect": false,
-    "expectDeferred": false,
     "afterEach": false,
     "beforeEach": false,
     "sinon": false

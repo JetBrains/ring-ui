@@ -1,14 +1,7 @@
-define(['global/global', 'chai', 'chai-as-promised'], function(ring, chai) {
+define(['global/global', 'chai', 'global/global__utils', 'q', 'chai-as-promised'], function(ring, chai, utils, q) {
   'use strict';
 
   var expect = chai.expect;
-  var expectDeferred = function(deferred) {
-    if ('pipe' in deferred) {
-      delete deferred.pipe;
-    }
-
-    return expect(deferred);
-  };
 
   describe('Global module', function () {
     var o = ring();
@@ -70,29 +63,23 @@ define(['global/global', 'chai', 'chai-as-promised'], function(ring, chai) {
       ring()('add', 'brokenModule', brokenModule);
 
       it('method should return $.Deferred', function () {
-        expect(module(methodName).promise).to.be.a('function');
+        utils.isDeferred(module(methodName)).should.be.true;
       });
 
       it('broken method should return $.Deferred', function () {
-        expect(ring('brokenModule', 'brokenMethod')().promise).to.be.a('function');
+        utils.isDeferred(ring('brokenModule', 'brokenMethod')()).should.be.true;
       });
 
       it('method should be resolved', function () {
-        expect(module(methodName).state()).to.be.equal('resolved');
+        return q(module(methodName)).should.be.resolved;
       });
 
       it('method should return right result on done and always', function () {
-        module(methodName)
-          .done(function(result) {
-            expect(result).to.be.equal(moduleRet);
-          })
-          .always(function(result) {
-            expect(result).to.be.equal(moduleRet);
-          });
+        return q(module(methodName)).should.eventually.equal(moduleRet);
       });
 
       it('broken method should be rejected', function () {
-        expect(ring('brokenModule', 'brokenMethod')().state()).to.be.equal('rejected');
+        return q(ring('brokenModule', 'brokenMethod')()).should.be.rejected;
       });
 
       it('broken method should return right result on fail', function () {
@@ -103,17 +90,11 @@ define(['global/global', 'chai', 'chai-as-promised'], function(ring, chai) {
       });
 
       it('module.invoke should return $.Deferred', function () {
-        expect(module.invoke(methodName).promise).to.be.a('function');
+        utils.isDeferred(module.invoke(methodName)).should.be.true;
       });
 
       it('module.invoke should return right result on done and always', function () {
-        module.invoke(methodName)
-          .done(function(result) {
-            expect(result).to.be.equal(moduleRet);
-          })
-          .always(function(result) {
-            expect(result).to.be.equal(moduleRet);
-          });
+        return q(module.invoke(methodName)).should.become(moduleRet);
       });
     });
 
@@ -136,17 +117,11 @@ define(['global/global', 'chai', 'chai-as-promised'], function(ring, chai) {
       });
 
       it('method should return right result on done and always', function () {
-        method()
-          .done(function(result) {
-            expect(result).to.be.equal(moduleRet);
-          })
-          .always(function(result) {
-            expect(result).to.be.equal(moduleRet);
-          });
+        return q(method()).should.become(moduleRet);
       });
 
       it('method should return $.Deferred', function () {
-        expect(method().promise).to.be.a('function');
+        utils.isDeferred(method()).should.be.true;
       });
     });
 
@@ -167,9 +142,9 @@ define(['global/global', 'chai', 'chai-as-promised'], function(ring, chai) {
       });
 
       it('complete multi-method call should be resolved', function () {
-        expectDeferred(o(methodName, {
+        return q(o(methodName, {
           'test-Multi-methods-Module': moduleRet
-        })).to.become(moduleRet);
+        })).should.become(moduleRet);
       });
 
       it('multi-method results should in right order', function () {
@@ -184,7 +159,7 @@ define(['global/global', 'chai', 'chai-as-promised'], function(ring, chai) {
       });
 
       it('incomplete multi-method call should be rejected', function () {
-        expectDeferred(o(methodName)).to.be.rejected;
+        return q(o(methodName)).should.be.rejected;
       });
     });
   });
