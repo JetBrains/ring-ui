@@ -1,9 +1,12 @@
 /* jshint camelcase:false */
-define(['jquery', 'jso', 'global/global__modules', 'global/global__utils'], function ($, jso, Module, utils) {
+define(['jquery', 'jso', 'global/global__modules', 'global/global__utils', 'auth/auth__storage'], function ($, jso, Module, utils, AuthStorage) {
   'use strict';
 
   var module = 'auth';
 
+  /**
+   * Default HUB params
+   */
   var API_PATH = 'api/rest';
   var API_AUTH_PATH = API_PATH + '/oauth2/auth';
   var PROFILE_PATH = 'users/me';
@@ -45,6 +48,21 @@ define(['jquery', 'jso', 'global/global__modules', 'global/global__utils'], func
   var cacheData = {};
   var cacheTime = {};
 
+  /**
+   * Register custom storage
+   */
+  jso.registerStorageHandler(new AuthStorage({
+    stateStoragePrefix: 'hub-state-',
+    tokensStoragePrefix: 'hub-tokens-'
+  }));
+
+  /**
+   * Authorized ajax call
+   *
+   * @param {string} url
+   * @param {Function} callback
+   * @returns {$.Deferred}
+   */
   var ajax = function (url, callback) {
     var absoluteUrl = absoluteUrlRE.test(url) ? url : serverUrl + url;
 
@@ -78,6 +96,12 @@ define(['jquery', 'jso', 'global/global__modules', 'global/global__utils'], func
     return dfd;
   };
 
+  /**
+   * Authorized and cached ajax call
+   *
+   * @param {string} url
+   * @returns {$.Deferred}
+   */
   var get = function (url) {
     if ($.now() - cacheTime[url] < CACHE_PERIOD) {
       return cacheData[url];
@@ -86,6 +110,12 @@ define(['jquery', 'jso', 'global/global__modules', 'global/global__utils'], func
     }
   };
 
+  /**
+   * Token getter
+   * @param {boolean} denyIA
+   * @param {boolean} withProps
+   * @returns {string|Object}
+   */
   var getToken = function (denyIA, withProps) {
     var token = jso.getToken(provider);
 
@@ -102,6 +132,11 @@ define(['jquery', 'jso', 'global/global__modules', 'global/global__utils'], func
     }
   };
 
+  /**
+   * Init auth module
+   * @param {Object} config
+   * @returns {$.Deferred}
+   */
   var init = function (config) {
     var dfd = $.Deferred();
     serverUrl = typeof config === 'string' ? config : config.serverUri;
@@ -170,7 +205,9 @@ define(['jquery', 'jso', 'global/global__modules', 'global/global__utils'], func
     return dfd;
   };
 
-  // Refreshing token
+  /**
+   *  Refreshing token
+   */
   var POLL_INTERVAL = 30; // 30 ms
   var POLL_TIME = 60 * 1000; // 1 min
 
@@ -251,6 +288,9 @@ define(['jquery', 'jso', 'global/global__modules', 'global/global__utils'], func
       .done(setRefresh);
   };
 
+  /**
+   * Register module
+   */
   Module.add(module, {
     init: init,
     ajax: ajax,
