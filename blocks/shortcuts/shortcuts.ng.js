@@ -50,7 +50,14 @@
 
             shortcuts('bindList', {scope: name}, keys);
           },
-          'ring': shortcuts,
+          'getScope': ring('shortcuts', 'getScope'),
+          'setScope': ring('shortcuts', 'setScope'),
+          'popScope': ring('shortcuts', 'popScope'),
+          'pushScope': ring('shortcuts', 'pushScope'),
+          'spliceScope': ring('shortcuts', 'spliceScope'),
+          'unbindList': ring('shortcuts', 'unbindList'),
+          'trigger': ring('shortcuts', 'trigger'),
+          'hasKey': ring('shortcuts', 'hasKey'),
           'getReference': function() {
             return angular.copy(reference);
           },
@@ -109,7 +116,7 @@
             }
 
             if ($scope.current) {
-              shortcuts.ring('spliceScope', $scope.current.name);
+              shortcuts.spliceScope($scope.current.name);
               ctrl.deselect();
             }
 
@@ -117,7 +124,7 @@
               return;
             }
 
-            shortcuts.ring('pushScope', next.name);
+            shortcuts.pushScope(next.name);
 
             $scope.current = next;
           };
@@ -131,7 +138,7 @@
             }
 
             // Reset current zone if is not equal current scope
-            if ($scope.current && $scope.current.name !== shortcuts.ring('getScope').pop()) {
+            if ($scope.current && $scope.current.name !== shortcuts.getScope().pop()) {
               ctrl.deselect();
             }
 
@@ -151,8 +158,8 @@
             if (next) {
               ctrl.select(next);
 
-              if (shortcuts.ring('hasKey', combo, next.name)) {
-                shortcuts.ring('trigger', combo);
+              if (shortcuts.hasKey(combo, next.name)) {
+                shortcuts.trigger(combo);
               }
             // Otherwise go back
             } else {
@@ -181,8 +188,8 @@
           };
 
           ctrl.destroy = function(zone) {
-            shortcuts.ring('spliceScope', zone.name);
-            shortcuts.ring('unbindList', zone.name);
+            shortcuts.spliceScope(zone.name);
+            shortcuts.unbindList(zone.name);
 
             var position = $.inArray(zone, $scope.zones);
 
@@ -199,7 +206,7 @@
           };
 
           shortcuts.bind('ring-shortcuts', keyMap);
-          shortcuts.ring('pushScope', 'ring-shortcuts');
+          shortcuts.pushScope('ring-shortcuts');
         }]
       };
     }])
