@@ -9,24 +9,6 @@ define(['global/global', 'chai', 'chai-as-promised', 'shortcuts/shortcuts'], fun
       expect(shortcuts('getScope')).to.eql(['']);
     });
 
-    describe('Modal scope', function () {
-      it('default modal scope should be empty', function () {
-        expect(shortcuts('getModalScope')).to.not.be.ok;
-      });
-
-      it('default modal scope should be empty', function () {
-        shortcuts('setModalScope', 'modal');
-
-        expect(shortcuts('getModalScope')).to.be.equal('modal');
-      });
-
-      it('Emptified modal scope should be empty', function () {
-        shortcuts('setModalScope');
-
-        expect(shortcuts('getModalScope')).to.not.be.ok;
-      });
-    });
-
     describe('Scope chain operations', function () {
       var scope1 = 'a';
       var scope2 = 'bb';
