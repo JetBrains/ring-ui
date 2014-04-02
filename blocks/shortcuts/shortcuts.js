@@ -6,7 +6,7 @@ define([
   'use strict';
 
   var MODULE = 'shortcuts';
-  var ROOT_SCOPE = '';
+  var ROOT_SCOPE = 'ROOT';
   var ALLOW_SHORTCUTS_SELECTOR = '.ring-js-shortcuts';
 
   var scopes = {};
@@ -86,7 +86,7 @@ define([
   };
 
   var getScope = function() {
-    return scopeChain.slice();
+    return scopeChain.slice(1);
   };
 
   var pushScope = function(scope) {
