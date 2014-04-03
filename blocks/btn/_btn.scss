@@ -59,8 +59,14 @@ $ring-btn-border-radius: 3px;
 
 .ring-btn {
   display: inline-block;
-  *display: inline; // IE 7-
-  *zoom: 1; // IE 7-
+  // IE 7
+  @media screen\9 {
+    & {
+      display: inline;
+      zoom: 1;
+    }
+  }
+
   width: auto;
   height: $ring-unit*3;
   box-sizing: border-box;
@@ -297,6 +303,13 @@ $ring-btn-border-radius: 3px;
 
 .ring-btn-group {
   display: inline-block;
+  // IE 7
+  @media screen\9 {
+    & {
+      display: inline;
+      zoom: 1;
+    }
+  }
   position: relative;
   max-height: 24px;
 

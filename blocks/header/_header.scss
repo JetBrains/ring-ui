@@ -27,7 +27,6 @@ $ring-header-link-color:  #B4B4B4;
 .ring-header__item {
   position: relative;
   display: inline-block;
-  *display: inline; // IE 7
   height: $ring-unit*2 + 1;
 
   padding: 6px $ring-unit 0 $ring-unit;
