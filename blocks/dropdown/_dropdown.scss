@@ -133,7 +133,7 @@
 }
 
 .ring-dropdown__item__controls {
-  margin-bottom: $ring-unit;
+  margin: $ring-unit/2 0 $ring-unit/2 0;
   background: #fff;
   &:last-child {
     margin-bottom: 0;
