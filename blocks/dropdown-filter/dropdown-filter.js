@@ -38,6 +38,7 @@ define([
       preventRender = false;
 
       wrapper = popup('init', config);
+      wrapper.showLoader();
 
       var renders = config.actions.map(function (obj, index, arr) {
         return _render(obj, index, arr).done(function ($el) {

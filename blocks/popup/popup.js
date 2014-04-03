@@ -43,7 +43,8 @@ define([
       el: $popup,
       getPos: _getPosition.bind(null, $target, $popup, config),
       insertHTML: insertHTML,
-      appendHTML: appendHTML
+      appendHTML: appendHTML,
+      showLoader: showLoader
     };
   };
 
@@ -121,12 +122,21 @@ define([
       css(this.getPos());
   };
 
+  var showLoader = function () {
+    if (!jQuery.contains(document, this.el[0])) {
+      $body.append(this.el).find(CONTAINER_SELECTOR).
+        parent().
+        css(this.getPos());
+    }
+  };
+
   var appendHTML = function ($el) {
     if (!jQuery.contains(document, this.el[0])) {
       $body.append(this.el).find(CONTAINER_SELECTOR).empty();
     }
     return this.el.
       find(CONTAINER_SELECTOR).
+      empty().
       append($el).
       parent().
       css(this.getPos());
