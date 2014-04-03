@@ -50,6 +50,13 @@ $ring-menu-attention-color: #F50000;
 .ring-menu_gradient .ring-menu__background {
   height: $ring-unit*14;
   background-image: linear-gradient(to bottom, #E4E4E4, #FFF);
+
+  // IE 7
+  @media screen\9 {
+    & {
+      height: $ring-unit*7;
+    }
+  }
   // IE 8-9
   -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='#E4E4E4', endColorstr='#FFFFFF',GradientType=0)";
 }
@@ -84,6 +91,12 @@ $ring-menu-attention-color: #F50000;
 
 .ring-menu__item {
   display: inline-block;
+  // IE 7
+  @media screen\9 {
+    & {
+      display: inline;
+    }
+  }
   margin-left: $ring-unit*4;
   font-size: 13px !important;
 
@@ -134,10 +147,7 @@ $ring-menu-attention-color: #F50000;
 }
 
 .ring-menu__right .ring-menu__item {
-  display: inline-block;
   margin-left: $ring-unit*2;
-
-  *display: inline; // IE 7
 }
 
 .ring-menu__right .ring-font-icon {

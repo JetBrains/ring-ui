@@ -1,11 +1,11 @@
 .ring-clearfix {
-  *zoom: 1; // IE 7-
+  zoom: 1; // IE 7
 
   &:after {
     clear: both;
   }
   &:before, &:after {
-    content: " ";
+    content: ' ';
     display: table;
   }
 }
