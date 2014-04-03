@@ -51,13 +51,6 @@ define([
         _bindRemoveEvent(wrapper);
       });
     };
-    $target
-      .off()
-      .on('click', function (e) {
-        showDropdown();
-        e.stopPropagation();
-      }
-    );
 
     var _render = function (action, index, arr) {
       var title = $(View.render('popup-control', {
@@ -128,6 +121,13 @@ define([
 
     if (config.autoOpen) {
       showDropdown();
+    } else {
+      $target
+        .on('click', function (e) {
+          showDropdown();
+          e.stopPropagation();
+        }
+      );
     }
 
     return true;
@@ -211,7 +211,6 @@ define([
   };
 
   var _bindRemoveEvent = function (wrapper) {
-
     $(document).one('click', function () {
       wrapper.el.unbind();
       popup('remove');
