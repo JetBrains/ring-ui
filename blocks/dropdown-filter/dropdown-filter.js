@@ -50,6 +50,7 @@ define([
       $.when.apply($, renders).done(function () {
         wrapper.appendHTML($actions);
         _bindRemoveEvent(wrapper);
+        wrapper.el.find(POPUP_INPUT_SELECTOR).eq(0).focus();
       });
     };
 
@@ -137,7 +138,7 @@ define([
   var _bindToggleEvent = function (wrapper, $el) {
     $el.on('click', function () {
       wrapper.el.find(ACTION_CONTAINER_SELECTOR).removeClass('active');
-      $(this).addClass('active');
+      $(this).addClass('active').find(POPUP_INPUT_SELECTOR).focus();
     });
   };
 
