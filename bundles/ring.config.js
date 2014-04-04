@@ -17,7 +17,10 @@ require.config({
       exports: '$'
     },
     'handlebars': {
-      exports: 'Handlebars'
+      init: function(){
+        /* globals Handlebars */
+        return Handlebars;
+      }
     },
     'jso': {
       deps: ['jquery'],

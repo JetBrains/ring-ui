@@ -32,7 +32,6 @@
     "md-toc": "~1.0.0",
     "underscore.string": "~2.3.3",
     "highlight.js": "~8.0.0",
-    "grunt-banner": "~0.2.0",
     "karma": "~0.10.2",
     "grunt-karma": "~0.6.1",
     "karma-chai-plugins": "~0.2.0",

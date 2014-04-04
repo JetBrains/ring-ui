@@ -133,27 +133,22 @@ module.exports = function(grunt) {
     uglify: {
       dist: {
         options: {
+          banner: '/* <%= pkg.name %> <%= version %> */',
           sourceMap: true,
-          report: 'min'
+          sourceMapName: function(file) {
+            return file + '.map';
+          },
+          sourceMapIn: function(file) {
+            return file.split('.')[0] + '.js.map';
+          }
         },
         files: [{
           expand: true,
           cwd: '<%= path.dist %>',
-          src: '*.min.js',
+          src: '*.js',
           ext: '.min.js',
           dest: '<%= path.dist %>'
         }]
-      }
-    },
-    usebanner: {
-      dist: {
-        options: {
-          position: 'top',
-          banner: '/* <%= pkg.name %> <%= version %> */'
-        },
-        files: {
-          src: [ '<%= path.dist %>**/*.js']
-        }
       }
     },
     compress: {
@@ -623,6 +618,9 @@ module.exports = function(grunt) {
   ]);
 
   grunt.registerTask('server', [
+    'install',
+    'styles',
+    'templates',
     'karma:dev',
     'connect',
     'watch'
@@ -630,8 +628,7 @@ module.exports = function(grunt) {
 
   grunt.registerTask('minify', [
     'csswring',
-    'uglify',
-    'usebanner'
+    'uglify'
   ]);
 
   grunt.registerTask('build', [
@@ -648,7 +645,6 @@ module.exports = function(grunt) {
   ]);
 
   grunt.registerTask('release', [
-    'cleanup',
     'build',
     'compress'
   ]);
