@@ -17,7 +17,7 @@ requirejs.config({
     'ring'       : '../bundles/ring',
     'jquery'     : '../shims/jquery/jquery',
     'jquery-caret': '../components/jquery-caret/jquery.caret',
-    'handlebars' : '../tmp/handlebars',
+    'handlebars' : '../components/handlebars/handlebars.runtime',
     'codemirror' : '../components/codemirror/lib/codemirror',
     'storage-polyfill': '../components/polyfill/obsolete/storage',
     'json'       : '../components/json2/json2',
@@ -29,6 +29,9 @@ requirejs.config({
   shim: {
     'jquery': {
       exports: '$'
+    },
+    'handlebars': {
+      exports: 'Handlebars'
     },
     'jso': {
       deps: ['jquery'],
