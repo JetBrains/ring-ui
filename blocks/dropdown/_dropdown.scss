@@ -106,6 +106,7 @@
   vertical-align: bottom;
   text-decoration: none;
   text-overflow: ellipsis;
+  white-space: nowrap;
 
   &:last-child:not(.ring-dropdown__item_hint) {
     margin-bottom: 3px;
