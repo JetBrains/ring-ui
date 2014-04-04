@@ -142,8 +142,11 @@ define([
       css(this.getPos());
   };
 
-  // Remove on resize
-  $global.resize(remove);
+  // Remove on resize / scroll
+  $global.
+    resize(remove).
+    scroll(remove);
+
 
   // Public methods
   Module.add(MODULE, {
