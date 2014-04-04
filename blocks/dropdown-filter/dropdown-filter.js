@@ -50,7 +50,10 @@ define([
       $.when.apply($, renders).done(function () {
         wrapper.appendHTML($actions);
         _bindRemoveEvent(wrapper);
-        wrapper.el.find(POPUP_INPUT_SELECTOR).eq(0).focus();
+        wrapper.el.
+          find(POPUP_INPUT_SELECTOR).
+          eq(0).
+          focus();
       });
     };
 
