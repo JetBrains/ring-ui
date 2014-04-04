@@ -37,7 +37,6 @@ define([
       };
 
     if (!config && (!config.target || !config.dataSource)) {
-      utils.log('select: init params missing');
       select.trigger('init:fail');
       return false;
     }
@@ -157,7 +156,6 @@ define([
     var auth = Module.get('auth');
 
     if (!remoteDataSourceConfig && (!remoteDataSourceConfig.hubResource || !remoteDataSourceConfig.url)) {
-      utils.log('Select: remoteDataSource params missing');
       select.trigger('init:fail');
       return false;
     }

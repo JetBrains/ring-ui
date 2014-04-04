@@ -15,7 +15,6 @@ define(['jquery', 'global/global__utils'], function($, utils) {
 
   var parseSignature = function(signature, module, handler, one) {
     if (typeof signature !== 'string') {
-      utils.log('Event was not bound, signature is not string');
       return false;
     }
 
@@ -58,7 +57,6 @@ define(['jquery', 'global/global__utils'], function($, utils) {
         cache[event.name] = [];
       }
 
-      utils.log('Event "' + event.name + '" was bound');
       cache[event.name].push(event);
     }
 
@@ -101,7 +99,6 @@ define(['jquery', 'global/global__utils'], function($, utils) {
 
   methods.on = function(scope, signature, handler, one) {
     if (typeof handler !== 'function') {
-      utils.log('Event "' + event.name + '" was not bound. Handler is not a function.');
       return false;
     } else {
       return add(parseSignature(signature, scope, handler, one));
@@ -119,10 +116,7 @@ define(['jquery', 'global/global__utils'], function($, utils) {
     for (var event, i = eventsList.length - 1; i >= 0; i--) {
       event = eventsList[i];
 
-      if (!cache[event.name]) {
-        utils.log('There is no event "' + event.name + '" to unbind');
-      } else {
-        utils.log('Event "' + event.name + '" was unbound');
+      if (cache[event.name]) {
         ret = remove(event, false);
       }
     }
@@ -142,8 +136,6 @@ define(['jquery', 'global/global__utils'], function($, utils) {
     var ret = true;
     var event = parseSignature(signature, scope)[0];
     var subscriptions = cache[event.name];
-
-    utils.log('Event triggered: ' + (scope.global ? 'root:' : '') + event.name);
 
     if (subscriptions) {
       for (var i = subscriptions.length; i--; i > 0) {

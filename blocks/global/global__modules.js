@@ -66,7 +66,6 @@ define(['jquery', 'global/global__events', 'global/global__utils'], function ($,
     } else {
       ret = null;
       action = 'reject';
-      utils.log('Method "' + name + '" must be a function');
     }
 
     if (utils.isDeferred(ret)) {
@@ -144,7 +143,6 @@ define(['jquery', 'global/global__events', 'global/global__utils'], function ($,
 
       $.extend.apply($, extenders);
     } else {
-      utils.log('There is nothing to update in module "' + name + '" config');
     }
 
     return props;
@@ -152,7 +150,6 @@ define(['jquery', 'global/global__events', 'global/global__utils'], function ($,
 
   Module.prototype.get = function (scope, name) {
     if (typeof name !== 'string') {
-      utils.log('Method name must be a string');
       return $.noop;
     }
 
@@ -164,7 +161,6 @@ define(['jquery', 'global/global__events', 'global/global__utils'], function ($,
     } else if (properties[name]) {
       return properties[name];
     } else {
-      utils.log('There is no method or property ' + name + ' in module "' + scope.name + '"');
       return $.noop;
     }
   };
@@ -185,12 +181,10 @@ define(['jquery', 'global/global__events', 'global/global__utils'], function ($,
   // Static
   Module.add = function (name, props) {
     if (typeof name !== 'string') {
-      utils.log('Module name must be a string');
       return false;
     }
 
     if (typeof props !== 'object') {
-      utils.log('Module properties must be an object');
       return false;
     }
 
@@ -205,17 +199,14 @@ define(['jquery', 'global/global__events', 'global/global__utils'], function ($,
 
   Module.remove = function (name) {
     if (typeof name !== 'string') {
-      utils.log('Module name must be a string');
       return false;
     }
 
     if (!modules[name]) {
-      utils.log('There is no module "' + name + '"');
       return false;
     }
 
     if (name === Module.GLOBAL) {
-      utils.log('Can not remove "' + name + '" module');
       return false;
     }
 
@@ -224,7 +215,6 @@ define(['jquery', 'global/global__events', 'global/global__utils'], function ($,
 
   Module.get = function (name) {
     if (!modules[name]) {
-      utils.log('There is no module "' + name + '"');
       return $.noop;
     } else {
       return modules[name].invoke;
@@ -239,7 +229,6 @@ define(['jquery', 'global/global__events', 'global/global__utils'], function ($,
     var promises = [];
 
     if (typeof list !== 'object') {
-      utils.log('Modules list in multi-method "' + method + '" must be an object');
       return $.Deferred().reject().promise();
     }
 
@@ -248,7 +237,6 @@ define(['jquery', 'global/global__events', 'global/global__utils'], function ($,
       var module = modules[name];
 
       if (!module) {
-        utils.log('There is no module "' + name + '"');
         ret = null;
       } else {
         ret = module.invoke(method, data);

@@ -432,10 +432,10 @@
                   $(this.target).val(data.label);
               },
               onShow: function () {
-                  utils.log('onShow', arguments);
+                  ring('alerts', 'add')('Select onShow','success', true, 1000);
               },
               onHide: function () {
-                  utils.log('onHide', arguments);
+                  ring('alerts', 'add')('Select onHide','success', true, 1000);
               },
               dataSource: select('remoteDataSource', {
                   hubResource: 'usergroups',

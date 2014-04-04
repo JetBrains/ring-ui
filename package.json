@@ -46,7 +46,6 @@
     "karma-requirejs": "~0.2.1",
     "karma-teamcity-reporter": "~0.1.0",
     "karma-ievms": "0.0.4",
-    "grunt-remove-logging": "~0.2.0",
     "lodash": "~2.4.1",
     "time-grunt": "~0.2.7",
     "load-grunt-tasks": "~0.3.0"

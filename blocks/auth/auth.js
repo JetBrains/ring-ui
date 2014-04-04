@@ -142,7 +142,6 @@ define(['jquery', 'jso', 'global/global__modules', 'global/global__utils', 'auth
     serverUrl = typeof config === 'string' ? config : config.serverUri;
 
     if (typeof serverUrl !== 'string') {
-      utils.log('Server URI is not defined!');
       return dfd.reject();
     }
 

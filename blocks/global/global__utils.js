@@ -23,18 +23,6 @@ define(function() {
     return elem === document.activeElement && (!document.hasFocus || document.hasFocus()) && !!(elem.type || elem.href || ~elem.tabIndex || elem.contentEditable === 'true');
   };
 
-  //@exclude
-  var debug = function() {
-    return window.location.toString().indexOf('ring-debug') !== -1;
-  };
-
-  utils.log = function(message) {
-    if (debug() && window['console'] && window['console']['log']) {
-      console.log(message);
-    }
-  };
-  //@endexclude
-
   utils.throttle = function(fn, threshhold, scope) {
     var last,
       deferTimer;
