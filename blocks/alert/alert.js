@@ -6,9 +6,8 @@
 define([
   'jquery',
   'handlebars',
-  'global/global__utils',
   'diff/diff__tools'
-], function($, Handlebars, utils, d) {
+], function($, Handlebars, d) {
   /**
    * @enum {string}
    */

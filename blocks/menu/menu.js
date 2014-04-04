@@ -2,10 +2,9 @@ define([
   'jquery',
   'global/global__modules',
   'global/global__views',
-  'global/global__utils',
   'dropdown/dropdown',
   'font-icon/font-icon'
-], function($, Module, View, utils) {
+], function($, Module, View) {
   'use strict';
 
   var ACTIVE_CLASS = 'ring-menu__item_active';
