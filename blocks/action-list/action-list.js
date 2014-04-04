@@ -3,10 +3,9 @@ define([
   'global/global__views',
   'global/global__modules',
   'global/global__events',
-  'global/global__utils',
   'shortcuts/shortcuts',
   'popup/popup'
-], function ($, View, Module, events, utils) {
+], function ($, View, Module, events) {
   'use strict';
 
   var popup = Module.get('popup'),

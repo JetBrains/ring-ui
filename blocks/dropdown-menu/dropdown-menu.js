@@ -2,9 +2,8 @@ define([
   'jquery',
   'global/global__views',
   'global/global__modules',
-  'global/global__utils',
   'popup/popup'
-], function ($, View, Module, utils) {
+], function ($, View, Module) {
   'use strict';
 
   var MODULE = 'dropdown-menu',
