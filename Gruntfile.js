@@ -116,7 +116,10 @@ module.exports = function(grunt) {
     path: path,
 
     // Build
-    csso: {
+    csswring: {
+      options: {
+        banner: '<%= pkg.name %> <%= version %>'
+      },
       dist: {
         files: [{
           expand: true,
@@ -149,7 +152,7 @@ module.exports = function(grunt) {
           banner: '/* <%= pkg.name %> <%= version %> */'
         },
         files: {
-          src: [ '<%= path.dist %>**/*.js', '<%= path.dist %>**/*.css' ]
+          src: [ '<%= path.dist %>**/*.js']
         }
       }
     },
@@ -280,9 +283,8 @@ module.exports = function(grunt) {
     },
     autoprefixer: {
       options: {
-        map: true,
         // Autoprefixer default plus Explorer > 7
-        browsers: ['> 1%', 'last 2 versions', 'Opera 12.1', 'Explorer > 7']
+        browsers: ['> 1%', 'last 2 versions', 'Opera 12.1', 'Explorer >= 7']
       },
       dist: {
         files: [{
@@ -657,7 +659,7 @@ module.exports = function(grunt) {
   ]);
 
   grunt.registerTask('minify', [
-    'csso',
+    'csswring',
     'preprocess:bundles',
     'removelogging',
     'uglify',
