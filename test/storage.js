@@ -65,6 +65,14 @@ define(['global/global', 'chai', 'q', 'chai-as-promised', 'storage/storage'], fu
 
     describe('Each', function () {
       it('Should iterate over items', function () {
+        storage('set', 'test', 'value');
+        var iterator = sinon.spy();
+
+        storage('each', iterator);
+        iterator.should.have.been.calledWith('test', 'value');
+      });
+
+      it('Correct iteration should be fulfilled', function () {
         storage('set', 'test1', '');
 
         return q(storage('each', function() {})).should.be.fulfilled;
@@ -75,14 +83,14 @@ define(['global/global', 'chai', 'q', 'chai-as-promised', 'storage/storage'], fu
       });
 
       it('Should iterate over all items', function () {
-        var func = sinon.spy();
+        var iterator = sinon.spy();
 
         storage('set', 'test1', '');
         storage('set', 'test2', '');
         storage('set', 'test3', '');
-        storage('each', func);
+        storage('each', iterator);
 
-        func.should.be.calledThrice;
+        iterator.should.have.been.calledThrice;
       });
 
       it('Should fail on wrong callback', function () {
