@@ -1,4 +1,4 @@
-define(['jquery', 'global/global__utils'], function($, utils) {
+define(['jquery'], function($) {
   'use strict';
 
   // Event constructor

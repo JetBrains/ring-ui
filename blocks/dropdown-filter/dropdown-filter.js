@@ -2,12 +2,10 @@ define([
   'jquery',
   'global/global__views',
   'global/global__modules',
-  'global/global__events',
-  'global/global__utils',
   'shortcuts/shortcuts',
   'action-list/action-list',
   'delayed-listener/delayed-listener'
-], function ($, View, Module, events, utils) {
+], function ($, View, Module) {
   'use strict';
 
   var RESULT_COUNT = 5,
