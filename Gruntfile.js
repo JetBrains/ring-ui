@@ -295,18 +295,13 @@ module.exports = function(grunt) {
     handlebars: {
       compile: {
         options: {
+          amd: true,
           namespace: false,
           node: false
         },
         files: {
           '<%= path.tmp %>/templates.js': ['<%= path.tmp %>**/*.hbs']
         }
-      }
-    },
-    preprocess: {
-      handlebars: {
-        src: '<%= path.shims %>handlebars/handlebars.js',
-        dest: '<%= path.tmp %>/handlebars.js'
       }
     },
     requirejs: {
@@ -603,8 +598,7 @@ module.exports = function(grunt) {
 
   grunt.registerTask('templates', [
     'htmlmin',
-    'handlebars',
-    'preprocess:handlebars'
+    'handlebars'
   ]);
 
   grunt.registerTask('default', [
