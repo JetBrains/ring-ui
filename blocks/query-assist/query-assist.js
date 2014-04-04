@@ -41,7 +41,6 @@ define([
    */
   var init = function (config) {
     if (!config || !config.targetElem || !config.dataSource) {
-      utils.log('query-assist init params missing');
       return $.Deferred().fail();
     }
 

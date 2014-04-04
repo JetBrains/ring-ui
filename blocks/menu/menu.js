@@ -88,7 +88,6 @@ define([
     var path = parts.join('.');
 
     if (currentActivePath === path) {
-      utils.log('Menu: trying to set active already active item "' + path + '"');
       return null;
     }
 

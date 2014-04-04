@@ -17,7 +17,6 @@ define([
       wrapper;
 
     if (!config) {
-      utils.log('Action-list: params missing');
       linkList.trigger('init:fail');
       return false;
     }

@@ -31,7 +31,6 @@ define(['jquery', 'handlebars', 'global/global__modules', 'global/global__utils'
     if (!utils.isEmptyString(html)) {
       return html;
     } else {
-      utils.log('Empty template for module "' + template + '"');
       return '';
     }
   };
@@ -95,7 +94,6 @@ define(['jquery', 'handlebars', 'global/global__modules', 'global/global__utils'
     var view = views[name];
 
     if (!view) {
-      utils.log('There is no view for module "' + name + '"');
       return null;
     }
 
@@ -118,7 +116,6 @@ define(['jquery', 'handlebars', 'global/global__modules', 'global/global__utils'
     var view = views[name];
 
     if (!view) {
-      utils.log('There is no view for module "' + name + '"');
       return null;
     }
 
@@ -129,7 +126,6 @@ define(['jquery', 'handlebars', 'global/global__modules', 'global/global__utils'
     var view = views[name];
 
     if (!view) {
-      utils.log('There is no view for module "' + name + '"');
       return null;
     }
 
@@ -156,11 +152,9 @@ define(['jquery', 'handlebars', 'global/global__modules', 'global/global__utils'
       });
 
       dfd.fail(function() {
-        utils.log('Element for view "' + name + '" not for 3 seconds, aborting.');
       });
 
     } else {
-      utils.log('Empty template for module "' + module + '"');
       dfd.reject();
     }
 
