@@ -192,21 +192,6 @@ module.exports = function(grunt) {
         }]
       }
     },
-    removelogging: {
-      dist: {
-        files: [{
-          expand: true,
-          cwd: '<%= path.dist %>',
-          src: '*.min.js',
-          ext: '.min.js',
-          dest: '<%= path.dist %>'
-        }],
-
-        options: {
-          namespace: ['utils']
-        }
-      }
-    },
     teamcity: {
       jshint: [
         {
@@ -322,15 +307,6 @@ module.exports = function(grunt) {
       handlebars: {
         src: '<%= path.shims %>handlebars/handlebars.js',
         dest: '<%= path.tmp %>/handlebars.js'
-      },
-      bundles: {
-        files: [{
-          expand: true,
-          cwd: '<%= path.dist %>',
-          src : '*.js',
-          ext: '.min.js',
-          dest: '<%= path.dist %>'
-        }]
       }
     },
     requirejs: {
@@ -660,8 +636,6 @@ module.exports = function(grunt) {
 
   grunt.registerTask('minify', [
     'csswring',
-    'preprocess:bundles',
-    'removelogging',
     'uglify',
     'usebanner'
   ]);

@@ -26,7 +26,6 @@ define([
       wrapper;
 
     if (!config || !config.target || !config.actions) {
-      utils.log('dropdown-filter: init params missing');
       return false;
     }
 
