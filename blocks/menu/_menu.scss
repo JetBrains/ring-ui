@@ -83,8 +83,7 @@ $ring-menu-attention-color: #F50000;
   border: 0;
 }
 
-.ring-menu__item,
-.ring-menu__search__input {
+.ring-menu__item {
   font-size: 13px;
   vertical-align: middle;
 }
@@ -210,12 +209,12 @@ body .ring-menu__item_active.ring-menu__item:hover {
   margin-left: $ring-unit*3;
 }
 
-.ring-menu__search__input {
-  width: $ring-unit*27 - 2;
-  height: $ring-unit*3 - 2;
-  padding: 0 $ring-unit*3 0 $ring-unit/2;
-  white-space: pre;
-  border: 1px solid #CBCBCB;
+// IE 7
+@media screen\9 {
+  .ring-menu__search__input {
+    width: $ring-unit*22 - 3;
+    height: $ring-unit*3;
+  }
 }
 
 .ring-menu__search__glass {
