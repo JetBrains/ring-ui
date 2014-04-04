@@ -80,6 +80,10 @@
   }
 }
 
+.ring-dropdown-filter__container {
+  width: 26 * $ring-unit;
+}
+
 .ring-dropdown__separator {
   display: block;
   width: 100%;
