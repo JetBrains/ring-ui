@@ -91,6 +91,8 @@ define(['jquery', 'jso', 'global/global__modules', 'global/global__utils', 'auth
           getToken();
         }
       });
+    } else {
+      dfd = $.Deferred().reject();
     }
 
     return dfd;
