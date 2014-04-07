@@ -43,6 +43,11 @@
 
 }
 
+.ring-dropdown__scroll {
+  max-height: 15 * $ring-unit;
+  overflow: scroll;
+}
+
 .ring-dropdown_bound {
   margin-top: 0;
 
