@@ -10,6 +10,7 @@ define([
   var CONTAINER_SELECTOR = '.ring-dropdown__i',
     MENU_ITEM_SELECTOR = '.ring-menu__item',
     TOGGLE_SELECTOR = '.ring-dropdown-toggle',
+    WRAPPER_HOVER_CLASS = 'ring-js-hover',
     $global = $(window),
     $body = $('body'),
     $popup,
@@ -23,11 +24,10 @@ define([
    * @returns { el: popup jQuery element, getPos: func for position }
    */
   var init = function (config) {
-    var $target = $(config.target),
-      popup = Module.get(MODULE);
+    var $target = $(config.target);
 
     if (!$target) {
-      popup.trigger('show:fail');
+      Module.get(MODULE).trigger('show:fail');
       return false;
     }
 
@@ -36,7 +36,13 @@ define([
     }
 
     remove();
-    $popup = $(View.render(MODULE, config));
+    $popup = $(View.render(MODULE, config)).
+      hover(function () {
+        $(this).addClass(WRAPPER_HOVER_CLASS);
+      },
+      function () {
+        $(this).removeClass(WRAPPER_HOVER_CLASS);
+      });
 
     return {
       target: $target,
@@ -48,8 +54,11 @@ define([
     };
   };
 
-  var remove = function () {
+  var remove = function (onScroll) {
     if ($popup) {
+      if (onScroll && $popup.hasClass(WRAPPER_HOVER_CLASS)) {
+        return false;
+      }
       $popup.remove();
       $popup = null;
 
@@ -145,7 +154,9 @@ define([
   // Remove on resize / scroll
   $global.
     resize(remove).
-    scroll(remove);
+    scroll(function () {
+      remove(true);
+    });
 
 
   // Public methods
