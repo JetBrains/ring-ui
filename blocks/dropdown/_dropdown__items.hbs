@@ -1,7 +1,7 @@
 {{#items}}
     {{#this}}
         {{#if separator}}
-            <span class="ring-dropdown__separator"> </span>
+            {{> dropdown__separator }}
         {{else}}
             {{#if type}}
                 <span class="{{> dropdown__class}}" {{> global__attributes}}>
