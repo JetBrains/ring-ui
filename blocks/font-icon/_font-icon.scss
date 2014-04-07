@@ -78,6 +78,18 @@ body .ring-font-icon {
   }
 }
 
+.ring-font-icon_authmodule:before {
+  content: "\e602";
+}
+.ring-font-icon_user:before {
+  content: "\e61b";
+}
+.ring-font-icon_service:before {
+  content: "\e61c";
+}
+.ring-font-icon_space:before {
+  content: "\e61d";
+}
 .ring-font-icon_search:before {
   content: "\e600";
 }
