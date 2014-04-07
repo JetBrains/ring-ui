@@ -35,9 +35,12 @@
 
       this.$get = ['$injector', function ($injector) {
         return $injector.instantiate(['$location', '$http', function ($location, $http) {
+          var authConfig;
+
           authFuture.done(function (absUrl) {
+            authConfig = auth.get('config');
+
             if (absUrl) {
-              var authConfig = auth.get('config');
               // Extracting relative path from absolute
               var path = absUrl.split(authConfig.redirect_uri);
 
@@ -56,6 +59,9 @@
             },
             'getUser': function () {
               return auth('getUser');
+            },
+            'getClientId': function () {
+              return authConfig['client_id'];
             }
           };
         }]);
