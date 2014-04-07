@@ -10,6 +10,8 @@ define([
 
   var RESULT_COUNT = 5,
     ACTION_CONTAINER = 'ring-dropdown-filter__container',
+    SCROLL__WRAPPER = 'ring-dropdown__scroll',
+    SCROLL__WRAPPER_SELECTOR = '.' + SCROLL__WRAPPER,
     ACTION_CONTAINER_SELECTOR = '.' + ACTION_CONTAINER,
     POPUP_INPUT_SELECTOR = '.ring-js-popup-input',
     DROPDOWN_ITEM_SELECTOR = '.ring-dropdown__item',
@@ -54,44 +56,57 @@ define([
       });
     };
 
+    var renderItems = function (data, action) {
+      var actionList = Module.get('action-list');
+
+      var $items = $('<div class="' + SCROLL__WRAPPER + '"></div>').append(actionList('init', {
+        items: data
+      }));
+
+      actionList.on('change_' + actionList('getUID'), function (data) {
+        if (action.change && typeof action.change === 'function') {
+          action.change(data);
+        }
+      });
+
+      $items.scroll(function (e) {
+        e.stopPropagation();
+      });
+
+      return $items;
+    };
     var _render = function (action, index, arr) {
-      var title = $(View.render('popup-control', {
+      var $title = $(View.render('popup-control', {
           title: action.title,
           type: action.type,
           input: true
         })),
         dfd = $.Deferred(),
         $el,
-        $top;
+        $top,
+        renderElements = [];
 
       if (action.$top && !isNaN(action.$top)) {
         $top = action.$top;
       }
 
+      renderElements.push($title);
+
       action.dataSource('', $top).then(function (data) {
         if (preventRender) {
           return false;
         }
-        var actionList = Module.get('action-list');
-
+        var $items = renderItems(data, action);
+        renderElements.push($items);
         if ((index + 1) < arr.length) {
-          data.push({
-            separator: true
-          });
+          var $separator = $(View.render('dropdown__separator', null));
+          renderElements.push($separator);
         }
-        var items = actionList('init', {
-          items: data
-        });
 
-        actionList.on('change_' + actionList('getUID'), function (data) {
-          if (action.change && typeof action.change === 'function') {
-            action.change(data);
-          }
-        });
 
-        $el = $('<div class="' + ACTION_CONTAINER + ' ' + ((index === 0) ? 'active' : '') + '"></div>').append([title, items]);
+        $el = $('<div class="' + ACTION_CONTAINER + ' ' + ((index === 0) ? 'active' : '') + '"></div>').append(renderElements);
         dfd.resolve($el);
-        _bindDelayedListener(title.find(POPUP_INPUT_SELECTOR), action, $el);
+        _bindDelayedListener($title.find(POPUP_INPUT_SELECTOR), action, $el);
       });
 
       return dfd.promise();
@@ -104,17 +119,10 @@ define([
           target: $el,
           onDelayedChange: function (data) {
             action.dataSource(data.value, (action.$top || RESULT_COUNT)).then(function (data) {
-              var actionList = Module.get('action-list');
-              var items = actionList('init', {
-                items: data
-              });
-              actionList.on('change_' + actionList('getUID'), function (data) {
-                if (action.change && typeof action.change === 'function') {
-                  action.change(data);
-                }
-              });
-              $container.find(DROPDOWN_ITEM_SELECTOR).not(DROPDOWN_ITEM_CONTROLS_SELECTOR).remove();
-              $container.find(DROPDOWN_ITEM_CONTROLS_SELECTOR).after(items);
+              var $items = renderItems(data, action);
+
+              $container.find(SCROLL__WRAPPER_SELECTOR).remove();
+              $container.find(DROPDOWN_ITEM_CONTROLS_SELECTOR).after($items);
             });
           }
         });
@@ -138,7 +146,7 @@ define([
   var _bindToggleEvent = function (wrapper, $el) {
     $el.on('click', function () {
       wrapper.el.find(ACTION_CONTAINER_SELECTOR).removeClass('active');
-      $(this).addClass('active').find(POPUP_INPUT_SELECTOR).focus();
+      $(this).addClass('active').find(POPUP_INPUT_SELECTOR);
     });
   };
 
