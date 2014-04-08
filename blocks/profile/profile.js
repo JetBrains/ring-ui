@@ -26,7 +26,7 @@ define(['jquery',  'global/global__modules', 'global/global__views', 'auth/auth'
 
         var items = services && services[0] && services[0].services || [];
         var userLogin = user.login || '';
-        var avatar = user.avatar && user.avatar.pictureUrl;
+        var avatar = user.avatar && user.avatar.url;
 
         if (items) {
           items = $.map(items, function(item) {
