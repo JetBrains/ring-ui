@@ -15,7 +15,7 @@
     "grunt-preprocess": "~4.0.0",
     "grunt-contrib-watch": "~0.6.1",
     "grunt-contrib-connect": "~0.7.1",
-    "grunt-contrib-handlebars": "~0.7.0",
+    "grunt-contrib-handlebars": "~0.5.12",
     "grunt-contrib-compress": "~0.7.0",
     "grunt-contrib-copy": "~0.5.0",
     "grunt-csswring": "~0.1.0",
