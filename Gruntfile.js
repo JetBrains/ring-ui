@@ -105,7 +105,7 @@ module.exports = function(grunt) {
 
     var ver = pkg.version.split(DELIM);
     var oldVer = ver.pop();
-    ver.push(option('build') || ++oldVer);
+    ver.push(option('build') || process.env['BUILD_NUMBER'] || ++oldVer);
 
     option('setversion', ver.join(DELIM));
   }(grunt.option));
