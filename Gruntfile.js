@@ -374,6 +374,14 @@ module.exports = function(grunt) {
           },
           out: '<%= path.dist %>ring-hub.js'
         })
+      },
+      'ring-upsource': {
+        options: _.extend(_.clone(requireConfig.options), {
+          paths: {
+            ring: '../<%= path.bundles %>ring-upsource'
+          },
+          out: '<%= path.dist %>ring-upsource.js'
+        })
       }
     },
     copy: {
