@@ -58,10 +58,11 @@ define([
       });
     };
 
-    var renderItems = function (data, action) {
+    var renderItems = function (data, action, $el) {
       var actionList = Module.get('action-list');
 
       var $items = $('<div class="' + SCROLL__WRAPPER + '"></div>').append(actionList('init', {
+        focusTarget: $el,
         items: data
       }));
 
@@ -107,7 +108,7 @@ define([
         if (preventRender) {
           return false;
         }
-        var $items = renderItems(data, action);
+        var $items = renderItems(data, action, $title.find(POPUP_INPUT_SELECTOR));
         renderElements.push($items);
         if ((index + 1) < arr.length) {
           var $separator = $(View.render('dropdown__separator', null));
@@ -130,7 +131,7 @@ define([
           target: $el,
           onDelayedChange: function (data) {
             action.dataSource(data.value, (action.$top || RESULT_COUNT)).then(function (data) {
-              var $items = renderItems(data, action);
+              var $items = renderItems(data, action, $el);
 
               $container.find(SCROLL__WRAPPER_SELECTOR).remove();
               $container.find(DROPDOWN_ITEM_CONTROLS_SELECTOR).after($items);
@@ -157,7 +158,7 @@ define([
   var _bindToggleEvent = function (wrapper, $el) {
     $el.on('click', function () {
       wrapper.el.find(ACTION_CONTAINER_SELECTOR).removeClass('active');
-      $(this).addClass('active').find(POPUP_INPUT_SELECTOR);
+      $(this).addClass('active').find(POPUP_INPUT_SELECTOR).focus();
     });
   };
 
