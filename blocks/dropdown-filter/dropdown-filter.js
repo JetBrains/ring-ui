@@ -205,7 +205,6 @@ define([
           items.forEach(function (item) {
             dropdownData.push({
               label: item.name,
-//              action: false,
               event: {
                 data: {
                   id: item.id,
