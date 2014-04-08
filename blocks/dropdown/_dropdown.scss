@@ -41,6 +41,16 @@
     padding: 0;
   }
 
+  &.ring-dropdown_loader {
+    & > .ring-dropdown__i {
+      padding: 0;
+    }
+
+    & .ring-loader {
+      margin: 2*$ring-unit;
+    }
+  }
+
 }
 
 .ring-dropdown__scroll {
@@ -76,13 +86,6 @@
     padding: 0;
   }
 
-  &.ring-dropdown__loader {
-    padding: 0;
-
-    & > .ring-loader {
-      margin: 2*$ring-unit;
-    }
-  }
 }
 
 .ring-dropdown-filter__container {
