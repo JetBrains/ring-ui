@@ -2,10 +2,11 @@ define([
   'jquery',
   'global/global__views',
   'global/global__modules',
+  'global/global__events',
   'shortcuts/shortcuts',
   'action-list/action-list',
   'delayed-listener/delayed-listener'
-], function ($, View, Module) {
+], function ($, View, Module, events) {
   'use strict';
 
   var RESULT_COUNT = 5,
@@ -15,7 +16,8 @@ define([
     ACTION_CONTAINER_SELECTOR = '.' + ACTION_CONTAINER,
     POPUP_INPUT_SELECTOR = '.ring-js-popup-input',
     DROPDOWN_ITEM_SELECTOR = '.ring-dropdown__item',
-    DROPDOWN_ITEM_CONTROLS_SELECTOR = DROPDOWN_ITEM_SELECTOR + '__controls';
+    DROPDOWN_ITEM_CONTROLS_SELECTOR = DROPDOWN_ITEM_SELECTOR + '__controls',
+    ACTIVE_CLASS = 'active';
 
   var popup = Module.get('popup'),
     MODULE = 'dropdown-filter',
@@ -62,6 +64,15 @@ define([
       var $items = $('<div class="' + SCROLL__WRAPPER + '"></div>').append(actionList('init', {
         items: data
       }));
+
+      $items.on('mouseenter', DROPDOWN_ITEM_SELECTOR, function (e) {
+        events.domEventHandler(e);
+
+        $(e.currentTarget)
+          .addClass(ACTIVE_CLASS)
+          .siblings()
+          .removeClass(ACTIVE_CLASS);
+      });
 
       actionList.on('change_' + actionList('getUID'), function (data) {
         if (action.change && typeof action.change === 'function') {
@@ -193,7 +204,7 @@ define([
           items.forEach(function (item) {
             dropdownData.push({
               label: item.name,
-              action: false,
+//              action: false,
               event: {
                 data: {
                   id: item.id,
