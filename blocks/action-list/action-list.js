@@ -112,12 +112,9 @@ define([
     if (focusTarget) {
       focusTarget.
         on('focus', function () {
-          console.log('focus');
-          shortcuts('spliceScope', MODULE);
           shortcuts('pushScope', MODULE);
         }).
         on('blur', function () {
-          console.log('blur');
           shortcuts('spliceScope', MODULE);
         });
     } else {
