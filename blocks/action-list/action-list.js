@@ -24,11 +24,13 @@ define([
 //    target:DOM,
 //    type: [...,...]
 //    items: [...]
+//    focusTarget bool
 //  }
   var init = function (config) {
     var wrapper,
       $el,
       items,
+      focusTarget,
       actionList = Module.get(MODULE);
 
     var action_ = function () {
@@ -86,15 +88,6 @@ define([
       dataSource = config.dataSource;
     }
 
-    shortcuts('bindList', {
-      scope: MODULE
-    }, {
-      'esc': remove,
-      'enter': action_,
-      'up': navigate_,
-      'down': navigate_
-    });
-
     if (!config.items && config.target) {
       $.extend(config, $(config.target).data(MODULE));
     }
@@ -103,8 +96,33 @@ define([
       config.type.push(MODULE);
     }
 
+    if (config.focusTarget && config.focusTarget instanceof $) {
+      focusTarget = config.focusTarget;
+    }
+
     uid += 1;
-    shortcuts('pushScope', MODULE);
+    shortcuts('bindList', {
+      scope: MODULE
+    }, {
+      'esc': remove,
+      'enter': action_,
+      'up': navigate_,
+      'down': navigate_
+    });
+    if (focusTarget) {
+      focusTarget.
+        on('focus', function () {
+          console.log('focus');
+          shortcuts('spliceScope', MODULE);
+          shortcuts('pushScope', MODULE);
+        }).
+        on('blur', function () {
+          console.log('blur');
+          shortcuts('spliceScope', MODULE);
+        });
+    } else {
+      shortcuts('pushScope', MODULE);
+    }
 
     actionList.on('change_' + uid, function () {
       remove();
@@ -122,13 +140,15 @@ define([
 
         if (item.event !== false) {
           item.event = item.event || [];
-          if(item.event instanceof Array === false) {
+          if (item.event instanceof Array === false) {
             item.event = [item.event];
           }
-          item.event = [{
-            'name': 'action-list:change_' + actionList('getUID'),
-            'data': itemData
-          }];
+          item.event = [
+            {
+              'name': 'action-list:change_' + actionList('getUID'),
+              'data': itemData
+            }
+          ];
         } else {
           item.action = false;
         }
