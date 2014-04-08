@@ -1,8 +1,13 @@
+@import "../global/global";
+
 .dropdown-select__toggle {
   cursor: text;
 
   .ring-input_icon + & {
-    font-size: 12px;
     top: 0;
+    padding-right: $ring-unit;
+
+    color: #888;
+    font-size: 12px;
   }
 }
