@@ -17,9 +17,11 @@ define([
     POPUP_INPUT_SELECTOR = '.ring-js-popup-input',
     DROPDOWN_ITEM_SELECTOR = '.ring-dropdown__item',
     DROPDOWN_ITEM_CONTROLS_SELECTOR = DROPDOWN_ITEM_SELECTOR + '__controls',
-    ACTIVE_CLASS = 'active';
+    ACTIVE_CLASS = 'active',
+    ACTIVE_SELECTOR = '.' + ACTIVE_CLASS;
 
   var popup = Module.get('popup'),
+    shortcuts = Module.get('shortcuts'),
     MODULE = 'dropdown-filter',
     preventRender = false;
 
@@ -55,6 +57,8 @@ define([
           find(POPUP_INPUT_SELECTOR).
           eq(0).
           focus();
+
+        shortcuts('pushScope', MODULE);
       });
     };
 
@@ -141,6 +145,27 @@ define([
         $el.focus();
       }
     };
+    shortcuts('bindList', {
+      scope: MODULE
+    }, {
+      'esc': function (e) {
+        remove(wrapper);
+        e.preventDefault();
+      },
+      'tab': function (e) {
+        var $active = wrapper.el.find(ACTION_CONTAINER_SELECTOR + ACTIVE_SELECTOR),
+          $next = $active['next'](ACTION_CONTAINER_SELECTOR);
+
+        $active.removeClass(ACTIVE_CLASS);
+
+        if ($next.length) {
+          $next.addClass(ACTIVE_CLASS);
+        } else {
+          wrapper.el.find(ACTION_CONTAINER_SELECTOR)['first']().addClass(ACTIVE_CLASS);
+        }
+        e.preventDefault();
+      }
+    });
 
     if (config.autoOpen) {
       showDropdown();
@@ -232,11 +257,16 @@ define([
     };
   };
 
+  var remove = function (wrapper) {
+    shortcuts('popScope', MODULE);
+    wrapper.el.unbind();
+    popup('remove');
+    preventRender = true;
+  };
+
   var _bindRemoveEvent = function (wrapper) {
     $(document).one('click', function () {
-      wrapper.el.unbind();
-      popup('remove');
-      preventRender = true;
+      remove(wrapper);
     });
 
     $(wrapper.el).on('click', function (e) {
