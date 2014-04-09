@@ -3,7 +3,7 @@
   overflow: hidden;
 }
 
-.ring-query-assist:empty:not(:focus):before {
+.ring-query-assist:empty:before {
   content: attr(data-placeholder);
   color: #9c9c9c;
 }
