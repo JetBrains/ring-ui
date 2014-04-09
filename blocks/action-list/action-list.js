@@ -42,7 +42,7 @@ define([
       if ($active.length) {
         var data = $active.data(events.EVENT_DATA_ATTR);
 
-        actionList.trigger('change_' + uid, data && data[0] && data[0].data);
+        actionList.trigger('check_' + uid, data && data[0] && data[0].data);
 
         return false;
       } else {
@@ -121,14 +121,18 @@ define([
       shortcuts('pushScope', MODULE);
     }
 
-    actionList.on('change_' + uid, function () {
+    actionList.on('check_' + uid, function (data, evt) {
       remove();
+
+      if (!data.error) {
+        actionList.trigger('change_' + uid, data, evt);
+      }
     });
 
     if (!config.target || !(config.target instanceof $)) {
       var renderData = $.extend(true, {}, config);
 
-      renderData.items.map(function (item) {
+      $.each(renderData.items, function (index, item) {
         var itemData = $.extend(true, {}, item);
 
         if (!item.hasOwnProperty('action')) {
@@ -142,15 +146,13 @@ define([
           }
           item.event = [
             {
-              'name': 'action-list:change_' + actionList('getUID'),
+              'name': 'action-list:check_' + actionList('getUID'),
               'data': itemData
             }
           ];
         } else {
           item.action = false;
         }
-
-        return item;
       });
 
       actionList.trigger('show', config.items);
@@ -165,24 +167,26 @@ define([
 
       items = data.items;
 
-      renderData.items.map(function (item) {
+      $.each(renderData.items, function (index, item) {
         var itemData = $.extend(true, {}, item);
 
         if (!item.hasOwnProperty('action')) {
           item.action = true;
         }
 
-        if (item.event !== false) {
+        if (item.event !== false && item.error !== true) {
           item.event = item.event || [];
           item.event.push({
-            'name': 'action-list:change_' + actionList('getUID'),
+            'name': 'action-list:check_' + actionList('getUID'),
             'data': itemData
           });
         } else {
           item.action = false;
         }
 
-        return item;
+        if (item.error) {
+          item.className = (item.className || '') + ' ring-dropdown__item_error';
+        }
       });
       $el = $(View.render('action-list', renderData));
       actionList.trigger('show', renderData.items);

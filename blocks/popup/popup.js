@@ -116,7 +116,7 @@ define([
 
     if (config.width) {
       params.width = config.width;
-    } else if (dropdownWidth < targetWidth) {
+    } else if (dropdownWidth < targetWidth || config.limitWidth) {
       params.width = targetWidth - DROPDOWN_BORDER_WIDTH;
     }
     return params;

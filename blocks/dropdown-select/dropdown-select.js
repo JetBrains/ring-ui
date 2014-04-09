@@ -18,6 +18,7 @@ define([
 
 //  config = {
 //    target: DOM,
+//    type: string
 //    $top: number
 //    onChange: function(data),
 //    onListShow: function()
@@ -62,11 +63,16 @@ define([
     });
 
     var initActionList = function (data, preventEvent) {
+      var type = ['bound'];
+      if (config.type) {
+        type = type.concat(config.type);
+      }
+
       actionList('init', {
         target: $target,
-        type: ['bound'],
+        type: type,
         description: config.description || '',
-        width: ($target.outerWidth() - 2) + 'px',
+        limitWidth: config.limitWidth,
         items: data
       });
 
@@ -83,12 +89,17 @@ define([
       $target.addClass(LOADING_CLASS);
       config.dataSource(query, $top).then(function (data) {
         if (!data.length) {
-          data = [
-            {
-              action: false,
-              label: 'No results'
-            }
-          ];
+          var emptyItem = {
+            action: false,
+            error: true,
+            label: 'No results'
+          };
+
+          if (config.type === 'typed') {
+            emptyItem.type = 'error';
+          }
+
+          data = [emptyItem];
         }
 
         $target.removeClass(LOADING_CLASS);
@@ -96,13 +107,18 @@ define([
 
       }, function (error) {
         $target.removeClass(LOADING_CLASS);
-        initActionList([
-          {
-            action: false,
-            className: 'ring-dropdown__item_error',
-            label: (error || 'Can\'t load options')
-          }
-        ], true);
+
+        var emptyItem = {
+          action: false,
+          error: true,
+          label: (error || 'Can\'t load options')
+        };
+
+        if (config.type === 'typed') {
+          emptyItem.type = 'error';
+        }
+
+        initActionList([emptyItem], true);
       });
     };
 
