@@ -268,10 +268,10 @@ $ring-btn-border-radius: 3px;
   }
 }
 
-.ring-btn_icon:not([class*="ring-menu"]) {
+.ring-btn_icon:not([class*="ring-menu"]) .ring-font-icon {
   position: relative;
-  top: 1px;
-  font-size: 13px;
+  top: 3px;
+  font-size: 16px;
 }
 
 .ring-btn__dropdown-icon {
