@@ -118,7 +118,21 @@ $ring-btn-border-radius: 3px;
   }
 
   .ring-font-icon {
+    position: relative;
+    top: 3px;
+
     color: #888;
+    font-size: 16px;
+  }
+
+  .ring-font-icon_trash {
+    top: 2px;
+    font-size: 14px;
+  }
+
+  .ring-font-icon_caret-down {
+    top: 1px;
+    font-size: 11px;
   }
 }
 
@@ -268,18 +282,21 @@ $ring-btn-border-radius: 3px;
   }
 }
 
-.ring-btn_icon:not([class*="ring-menu"]) .ring-font-icon {
-  position: relative;
-  top: 3px;
-  font-size: 16px;
+.ring-btn_icon {
+  width: $ring-unit*6;
+  padding: 0;
 }
 
 .ring-btn__dropdown-icon {
-  padding: 0 $ring-unit 0 $ring-unit;
+  width: $ring-unit*3;
 }
 
 .ring-btn__last-icon {
   margin-left: 4px;
+}
+
+.ring-btn__first-icon {
+  margin-right: 4px;
 }
 
 // Button groups and split button
