@@ -112,12 +112,12 @@
   display: block;
   position: absolute;
 
-  top: -5px;
-  left: -5px;
+  top: -3px;
+  left: -3px;
   width: 100%;
   height: 100%;
 
-  border: 5px solid;
+  border: 3px solid;
   @include rgba-attribute('border-color', $ring-outline-color);
   border-top-left-radius: 6px;
   border-top-right-radius: 6px;
