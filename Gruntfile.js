@@ -309,12 +309,12 @@ module.exports = function(grunt) {
           out: '<%= path.dist %>ring-oauth.js'
         })
       },
-      'ring-standalone': {
+      'youtrack-standalone': {
         options: _.extend(_.clone(requireConfig.options), {
           paths: {
-            ring: '../<%= path.bundles %>ring-standalone'
+            ring: '../<%= path.bundles %>youtrack-standalone'
           },
-          out: '<%= path.dist %>ring-standalone.js'
+          out: '<%= path.dist %>youtrack-standalone.js'
         })
       },
       'ring-jetbrains': {
