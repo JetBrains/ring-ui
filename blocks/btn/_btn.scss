@@ -118,6 +118,7 @@ $ring-btn-border-radius: 3px;
   }
 
   .ring-font-icon {
+    vertical-align: top;
     position: relative;
     top: 3px;
 
@@ -136,7 +137,8 @@ $ring-btn-border-radius: 3px;
   }
 
   .ring-font-icon_caret-down {
-    top: 1px;
+    display: inline-block;
+    top: 6px;
     font-size: 11px;
   }
 }

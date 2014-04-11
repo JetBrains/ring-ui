@@ -11,13 +11,13 @@ icons = [
   ,
     name: 'search'
     color: 'cccccc'
-    active: 'cccccc'
+    active: 'ff5900'
     size: 16
   ,
     name: 'ban-circle'
-    color: '000000'
+    color: '888888'
     active: 'ff5900'
-    size: 14
+    size: 16
   ,
     name: 'help'
     color: '3c74c2'
@@ -46,7 +46,7 @@ html = """
    <style>
     @font-face {
       font-family: 'font-icon';
-      src: url('#{$ring-fonts-dir}font-icon.svg#font-icon') format('svg');
+      src: url('fonts/font-icon.svg#font-icon') format('svg');
       font-weight: normal;
       font-style: normal;
     }
