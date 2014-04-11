@@ -10,6 +10,7 @@ define([
 
   var header = ring('header');
   var init = header('init', null, '.ring-header', 'replace');
+  var PERSONAL_SELECTOR = '.ring-header__personal';
 
   // Render header
   $(function(){
@@ -23,7 +24,7 @@ define([
     init.done(function() {
       header('update', 'user.name', $username.text());
 
-      $('.ring-header__personal').on('click.ring-personal', function() {
+      $(document).on('click.ring-personal', PERSONAL_SELECTOR, function() {
         $username.click();
       });
     });
