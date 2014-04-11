@@ -109,13 +109,17 @@
 .ring-input_icon + .ring-input_icon__span {
   position: absolute;
   top: -1px;
-  top: 2 px\9; // IE 6+
+  top: 2px\9; // IE 6+
   right: 0;
   padding-right: 6px;
 
   color: #CCC;
   font-size: $ring-unit * 2;
   line-height: $ring-unit * 3 !important;
+
+  .no-font-antialiasing &.ring-font-icon_search {
+    top: 3px;
+  }
 }
 
 // Input with icon
