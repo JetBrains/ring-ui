@@ -229,35 +229,35 @@ body .ring-font-icon {
     display: inline-block;
     background-image: url('#{$ring-fonts-dir}font-icon.png');
     background-repeat: no-repeat;
-    height: 18px;
-    width: 18px;
+    height: 16px;
+    width: 16px;
 
     &:before {
-      content: ' ';
+      content: normal;
     }
   }
 
   .ring-font-icon_help {
-    background-position: 0 1px;
+    background-position: -3px 0;
 
-    &:hover{
-      background-position: 0 -19px;
+    .ring-link &:hover, &.ring-link:hover {
+      background-position: -3px -20px;
     }
   }
 
   .ring-font-icon_search {
-    background-position: -20px 1px;
+    background-position: -20px 0;
 
-    &:hover{
-      background-position: -20px -19px;
+    .ring-link &:hover, &.ring-link:hover {
+      background-position: -20px -20px;
     }
   }
 
   .ring-font-icon_ban-circle {
-    background-position: -40px 1px;
+    background-position: -42px 0;
 
-    &:hover{
-      background-position: -40px -19px;
+    .ring-link &:hover, &.ring-link:hover {
+      background-position: -42px -20px;
     }
   }
 }
