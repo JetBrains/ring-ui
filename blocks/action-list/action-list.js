@@ -104,7 +104,6 @@ define([
     shortcuts('bindList', {
       scope: MODULE
     }, {
-      'esc': remove,
       'enter': action_,
       'up': navigate_,
       'down': navigate_
