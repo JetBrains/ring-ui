@@ -3,7 +3,8 @@ define([
   'global/global__views',
   'global/global__modules',
   'delayed-listener/delayed-listener',
-  'action-list/action-list'
+  'action-list/action-list',
+  'shortcuts/shortcuts'
 ], function ($, View, Module) {
   'use strict';
 
@@ -13,6 +14,7 @@ define([
 
   var
     actionList = Module.get('action-list'),
+    shortcuts = Module.get('shortcuts'),
     delayedListener = Module.get('delayed-listener'),
     uid = 0;
 
@@ -124,6 +126,17 @@ define([
 
     var dirty = false;
 
+    shortcuts('bindList', {
+      scope: MODULE
+    }, {
+      'esc': function (e) {
+        remove();
+        e.preventDefault();
+      }
+    });
+
+    shortcuts('pushScope', MODULE);
+
     $target
       .on('input', function () {
         dirty = true;
@@ -216,6 +229,7 @@ define([
   var remove = function () {
     var select = Module.get(MODULE);
     actionList('remove');
+    shortcuts('popScope', MODULE);
     select.trigger('remove:done');
   };
 
