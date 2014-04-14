@@ -66,7 +66,9 @@ define([
       var actionList = Module.get('action-list');
 
       var $items = $('<div class="' + SCROLL__WRAPPER + '"></div>').append(actionList('init', {
-        focusTarget: $el,
+        isActive: function() {
+          return $el.parents(ACTION_CONTAINER_SELECTOR).hasClass('active');
+        },
         items: data
       }));
 
