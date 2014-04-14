@@ -2,13 +2,15 @@ define([
   'jquery',
   'global/global__views',
   'global/global__modules',
-  'popup/popup'
+  'popup/popup',
+  'shortcuts/shortcuts'
 ], function ($, View, Module) {
   'use strict';
 
   var MODULE = 'dropdown-menu',
     COMPONENT_SELECTOR = '.ring-js-dropdown-menu',
     popup = Module.get('popup'),
+    shortcuts = Module.get('shortcuts'),
     $el;
 
   var init = function (config) {
@@ -32,6 +34,16 @@ define([
       return $(View.render('dropdown__items', config));
     }
 
+    shortcuts('bindList', {
+      scope: MODULE
+    }, {
+      'esc': function () {
+        remove();
+      }
+    });
+
+    shortcuts('pushScope', MODULE);
+
     $.extend(config, {type: 'menu'});
     wrapper = popup('init', config);
 
@@ -47,6 +59,7 @@ define([
     if ($el) {
       $el.remove();
       $el = null;
+      shortcuts('popScope', MODULE);
       popup('remove');
     }
   };
