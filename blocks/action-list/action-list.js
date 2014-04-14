@@ -30,7 +30,7 @@ define([
     var wrapper,
       $el,
       items,
-      focusTarget,
+      isActive,
       actionList = Module.get(MODULE);
 
     var action_ = function () {
@@ -61,7 +61,8 @@ define([
     };
 
     var navigate_ = function (e, key) {
-      if ($el === null) {
+      if ($el === null || isActive && !isActive()) {
+        console.log('false');
         return false;
       }
       var up = (key === 'up'),
@@ -96,8 +97,8 @@ define([
       config.type.push(MODULE);
     }
 
-    if (config.focusTarget && config.focusTarget instanceof $) {
-      focusTarget = config.focusTarget;
+    if (config.isActive && typeof config.isActive === 'function') {
+      isActive = config.isActive;
     }
 
     uid += 1;
@@ -108,17 +109,8 @@ define([
       'up': navigate_,
       'down': navigate_
     });
-    if (focusTarget) {
-      focusTarget.
-        on('focus', function () {
-          shortcuts('pushScope', MODULE);
-        }).
-        on('blur', function () {
-          shortcuts('spliceScope', MODULE);
-        });
-    } else {
-      shortcuts('pushScope', MODULE);
-    }
+
+    shortcuts('pushScope', MODULE);
 
     actionList.on('check_' + uid, function (data, evt) {
       remove();
@@ -205,7 +197,10 @@ define([
     return {
       popup: wrapper,
       el: $el,
-      getSelectedItemData: getSelectedItemData
+      getSelectedItemData: getSelectedItemData,
+      setActive: function() {
+        shortcuts('pushScope', MODULE);
+      }
     };
   };
 
