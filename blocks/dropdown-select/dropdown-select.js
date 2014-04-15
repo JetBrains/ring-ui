@@ -21,19 +21,23 @@ define([
 //    type: string
 //    $top: number
 //    onChange: function(data),
-//    onListShow: function()
-//    onListHide: function()
+//    onSelect: function(data),
+//    onSubmit: function(data),
+//    onShow: function()
+//    onHide: function()
 //    dataSource: {return promise with action-list compatible data},
 //  }
   var init = function (config) {
     uid += 1;
-    var select = Module.get(MODULE),
-      $top,
-      $target,
-      instance = {
-        uid: uid,
-        remove: remove
-      };
+    var dirty = false;
+    var open = false;
+    var select = Module.get(MODULE);
+    var $top;
+    var $target;
+    var instance = {
+      uid: uid,
+      remove: remove
+    };
 
     if (!config && (!config.target || !config.dataSource)) {
       select.trigger('init:fail');
@@ -78,8 +82,8 @@ define([
 
       if (!preventEvent) {
         actionList.on('change_' + actionList('getUID'), function (data) {
-          if (typeof config.onChange === 'function') {
-            config.onChange(data);
+          if (typeof config.onSelect === 'function') {
+            config.onSelect(data);
           }
         });
       }
@@ -89,6 +93,11 @@ define([
       $target.addClass(LOADING_CLASS);
       config.dataSource(query, $top).then(function (data) {
         if (!data.length) {
+          if (config.noErrors) {
+            remove();
+            return;
+          }
+
           var emptyItem = {
             action: false,
             error: true,
@@ -106,6 +115,11 @@ define([
         initActionList(data);
 
       }, function (error) {
+        if (config.noErrors) {
+          remove();
+          return;
+        }
+
         $target.removeClass(LOADING_CLASS);
 
         var emptyItem = {
@@ -122,24 +136,31 @@ define([
       });
     };
 
-    var dirty = false;
-
     $target
       .on('input', function () {
         dirty = true;
       })
       .on('keyup', function (e) {
-        if (e.keyCode === 13 && !dirty) {
+        if (e.keyCode === 13) {
           var value = ($(this).val() || $(this).text());
-          dirty = true;
-          _renderSuggest(value);
+
+          if (!dirty) {
+            dirty = true;
+            _renderSuggest(value);
+          } else if (typeof config.onSubmit === 'function') {
+            remove();
+            config.onSubmit(value);
+          }
         }
       })
       .on('blur', function () {
+        open = false;
         dirty = false;
       });
 
     var renderProccess = function (data) {
+      open = true;
+
       if (dirty) {
         _renderSuggest(data.value);
       } else {
@@ -151,11 +172,14 @@ define([
       target: $target,
       onDelayedChange: function (data) {
         if ($target.is(':focus')) {
+          if (typeof config.onChange === 'function') {
+            config.onChange(data.value);
+          }
           renderProccess(data);
         }
       },
       onDelayedCaretMove: function (data) {
-        if ($target.is(':focus')) {
+        if (open !== true && $target.is(':focus')) {
           renderProccess(data);
         }
       }
