@@ -376,20 +376,20 @@
           ]
         });
 
-        var query = ring('query-assist');
-
-        query('init', {
-          targetElem: '.demo__query-example',
-          query: 'name: admin or id: 1',
-          glass: true,
-          dataSource: query('remoteDataSource', {
-            url: 'api/rest/users/queryAssist?caret=#{caret}&fields=query,caret,suggestions#{styleRanges}&query=#{query}'
-          })
-        });
-
-        query.on('apply', function (query) {
-          ring('alerts', 'add')('Query “' + query +'” submitted', 'success', true, 10000);
-        });
+//        var query = ring('query-assist');
+//
+//        query('init', {
+//          targetElem: '.demo__query-example',
+//          query: 'name: admin or id: 1',
+//          glass: true,
+//          dataSource: query('remoteDataSource', {
+//            url: 'api/rest/users/queryAssist?caret=#{caret}&fields=query,caret,suggestions#{styleRanges}&query=#{query}'
+//          })
+//        });
+//
+//        query.on('apply', function (query) {
+//          ring('alerts', 'add')('Query “' + query +'” submitted', 'success', true, 10000);
+//        });
 
       ring('shortcuts')('bind', {
         key: 'ctrl',
@@ -409,7 +409,7 @@
                   $(this.target).val(data.label);
               },
               onShow: function () {
-                  ring('alerts', 'add')('Select onShow','success', true, 1000);
+//                  ring('alerts', 'add')('Select onShow','success', true, 1000);
               },
               onHide: function () {
                   ring('alerts', 'add')('Select onHide','success', true, 1000);

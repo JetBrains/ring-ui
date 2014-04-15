@@ -16,6 +16,7 @@ define([
     ACTION_CONTAINER_SELECTOR = '.' + ACTION_CONTAINER,
     POPUP_INPUT_SELECTOR = '.ring-js-popup-input',
     DROPDOWN_ITEM_SELECTOR = '.ring-dropdown__item',
+    ITEM_ACTION_SELECTOR = DROPDOWN_ITEM_SELECTOR + '_action',
     DROPDOWN_ITEM_CONTROLS_SELECTOR = DROPDOWN_ITEM_SELECTOR + '__controls',
     ACTIVE_CLASS = 'active',
     ACTIVE_SELECTOR = '.' + ACTIVE_CLASS;
@@ -66,9 +67,7 @@ define([
       var actionList = Module.get('action-list');
 
       var $items = $('<div class="' + SCROLL__WRAPPER + '"></div>').append(actionList('init', {
-        isActive: function() {
-          return $el.parents(ACTION_CONTAINER_SELECTOR).hasClass('active');
-        },
+        overrideNavigation: true,
         items: data
       }));
 
@@ -151,6 +150,27 @@ define([
         $el.focus();
       }
     };
+
+    var navigate_ = function (e, key) {
+      var $el = wrapper.el.find(ACTION_CONTAINER_SELECTOR + ACTIVE_SELECTOR + ' ' + SCROLL__WRAPPER_SELECTOR).children();
+
+      if ($el === null) {
+        return false;
+      }
+      var up = (key === 'up'),
+        $active = $el.parent().find(ITEM_ACTION_SELECTOR + ACTIVE_SELECTOR),
+        $next = $active[up ? 'prev' : 'next'](ITEM_ACTION_SELECTOR);
+      $active.removeClass(ACTIVE_CLASS);
+
+
+      if ($next.length) {
+        $next.addClass(ACTIVE_CLASS);
+      } else {
+        $el.parent().find(ITEM_ACTION_SELECTOR)[up ? 'last' : 'first']().addClass(ACTIVE_CLASS);
+      }
+      e.preventDefault();
+    };
+
     shortcuts('bindList', {
       scope: MODULE
     }, {
@@ -176,6 +196,30 @@ define([
             focus();
         }
         e.preventDefault();
+      },
+      'up': navigate_,
+      'down': navigate_,
+      'enter': function () {
+        var container = wrapper.el.find(ACTION_CONTAINER_SELECTOR + ACTIVE_SELECTOR),
+          index = container.index();
+        var $el = container.find(SCROLL__WRAPPER_SELECTOR).children();
+
+        var $active = $el.parent().find(ACTIVE_SELECTOR);
+
+        if ($active.length) {
+          var data = $active.data(events.EVENT_DATA_ATTR);
+          
+          if (config.actions[index] &&
+            config.actions[index].change
+            ) {
+            config.actions[index].change(data[0].data);
+          }
+
+          return false;
+        } else {
+          return true;
+        }
+
       }
     });
 

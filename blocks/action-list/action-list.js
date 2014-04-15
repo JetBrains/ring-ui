@@ -62,7 +62,6 @@ define([
 
     var navigate_ = function (e, key) {
       if ($el === null || isActive && !isActive()) {
-        console.log('false');
         return false;
       }
       var up = (key === 'up'),
@@ -101,14 +100,21 @@ define([
       isActive = config.isActive;
     }
 
+    var keys;
+
+    if (config.overrideNavigation) {
+      keys = {};
+    } else {
+      keys = {
+        'enter': action_,
+        'up': navigate_,
+        'down': navigate_
+      };
+    }
     uid += 1;
     shortcuts('bindList', {
       scope: MODULE
-    }, {
-      'enter': action_,
-      'up': navigate_,
-      'down': navigate_
-    });
+    }, keys);
 
     shortcuts('pushScope', MODULE);
 
@@ -198,7 +204,7 @@ define([
       popup: wrapper,
       el: $el,
       getSelectedItemData: getSelectedItemData,
-      setActive: function() {
+      setActive: function () {
         shortcuts('pushScope', MODULE);
       }
     };
