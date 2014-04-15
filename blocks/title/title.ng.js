@@ -5,15 +5,15 @@
   var prependTitleElement = function($window, element, title) {
     var prevTitle = title || $window.document.title;
 
-    $window.document.title = prevTitle ? element + TITLE_DELIMITER + prevTitle : element;
+    $window.document.title = prevTitle ? element + titleDelimiter + prevTitle : element;
   };
 
   var replaceTitleElement = function($window, element, title) {
     var prevTitle = title || $window.document.title;
-    var titleElements = prevTitle.split(TITLE_DELIMITER);
+    var titleElements = prevTitle.split(titleDelimiter);
     titleElements[0] = element;
 
-    $window.document.title = titleElements.join(TITLE_DELIMITER);
+    $window.document.title = titleElements.join(titleDelimiter);
   };
 
   angular.module('Ring.title', []).
