@@ -161,9 +161,9 @@ define([
         $active.removeClass(ACTIVE_CLASS);
 
         if ($next.length) {
-          $next.addClass(ACTIVE_CLASS);
+          $next.addClass(ACTIVE_CLASS).find(POPUP_INPUT_SELECTOR).focus();
         } else {
-          wrapper.el.find(ACTION_CONTAINER_SELECTOR)['first']().addClass(ACTIVE_CLASS);
+          wrapper.el.find(ACTION_CONTAINER_SELECTOR)['first']().addClass(ACTIVE_CLASS).find(POPUP_INPUT_SELECTOR).focus();
         }
         e.preventDefault();
       }
