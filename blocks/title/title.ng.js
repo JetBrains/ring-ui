@@ -1,10 +1,19 @@
 (function () {
   'use strict';
+  var titleDelimiter = ' | ';
 
   var prependTitleElement = function($window, element, title) {
     var prevTitle = title || $window.document.title;
 
-    $window.document.title = prevTitle ? element + ' | ' + prevTitle : element;
+    $window.document.title = prevTitle ? element + TITLE_DELIMITER + prevTitle : element;
+  };
+
+  var replaceTitleElement = function($window, element, title) {
+    var prevTitle = title || $window.document.title;
+    var titleElements = prevTitle.split(TITLE_DELIMITER);
+    titleElements[0] = element;
+
+    $window.document.title = titleElements.join(TITLE_DELIMITER);
   };
 
   angular.module('Ring.title', []).
@@ -12,9 +21,14 @@
       return {
         scope: {
           'pageTitle': '@pageTitle',
-          'noTitle': '@noTitle'
+          'noTitle': '@noTitle',
+          'delimiter': '@delimiter'
         },
         controller: ['$rootScope', '$scope', '$window', '$element', function ($rootScope, $scope, $window, $element) {
+          if ($scope.delimiter) {
+            titleDelimiter = $scope.delimiter;
+          }
+
           // Get title prefix from title element
           $scope.base = $scope.pageTitle || $element.text();
 
@@ -41,6 +55,13 @@
             prependTitleElement($window, element[fieldName]);
           } else {
             prependTitleElement($window, element);
+          }
+        },
+        'updateElement': function(element, fieldName) {
+          if (fieldName) {
+            replaceTitleElement($window, element[fieldName]);
+          } else {
+            replaceTitleElement($window, element);
           }
         }
       };
