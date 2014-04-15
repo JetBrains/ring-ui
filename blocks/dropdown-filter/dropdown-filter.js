@@ -139,8 +139,12 @@ define([
             action.dataSource(data.value, (action.$top || RESULT_COUNT)).then(function (data) {
               var $items = renderItems(data, action, $el);
 
-              $container.find(SCROLL__WRAPPER_SELECTOR).remove();
-              $container.find(DROPDOWN_ITEM_CONTROLS_SELECTOR).after($items);
+              $container.
+                find(SCROLL__WRAPPER_SELECTOR).
+                remove();
+              $container.
+                find(DROPDOWN_ITEM_CONTROLS_SELECTOR).
+                after($items);
             });
           }
         });
@@ -161,9 +165,15 @@ define([
         $active.removeClass(ACTIVE_CLASS);
 
         if ($next.length) {
-          $next.addClass(ACTIVE_CLASS).find(POPUP_INPUT_SELECTOR).focus();
+          $next.
+            addClass(ACTIVE_CLASS).
+            find(POPUP_INPUT_SELECTOR).
+            focus();
         } else {
-          wrapper.el.find(ACTION_CONTAINER_SELECTOR)['first']().addClass(ACTIVE_CLASS).find(POPUP_INPUT_SELECTOR).focus();
+          wrapper.el.find(ACTION_CONTAINER_SELECTOR)['first']().
+            addClass(ACTIVE_CLASS).
+            find(POPUP_INPUT_SELECTOR).
+            focus();
         }
         e.preventDefault();
       }
