@@ -367,7 +367,13 @@ define([
     'ctrl+space': showAssist,
     'shift+enter': preventEnter,
     'ctrl+enter': preventEnter,
-    'alt+enter': preventEnter
+    'alt+enter': preventEnter,
+    'esc':function() {
+      /*
+      Hide dropdown
+       */
+      actionList('remove');
+    }
   });
 
   Module.add(MODULE, {
