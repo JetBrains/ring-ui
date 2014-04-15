@@ -63,7 +63,7 @@ define([
       });
     };
 
-    var renderItems = function (data, action, $el) {
+    var renderItems = function (data, action) {
       var actionList = Module.get('action-list');
 
       var $items = $('<div class="' + SCROLL__WRAPPER + '"></div>').append(actionList('init', {
