@@ -23,7 +23,7 @@ define(['global/global__views', 'global/global__modules'], function (View, Modul
       url: '//jetpeople.jetbrains.com'
     },
     {
-      label: 'VC',
+      label: 'Meeting Rooms',
       url: '***REMOVED***'
     },
     {
