@@ -27,6 +27,10 @@ define(['global/global__views', 'global/global__modules'], function (View, Modul
       url: '***REMOVED***'
     },
     {
+      label: 'Dashboard',
+      url: 'https://hub.jetbrains.com/dashboard'
+    },
+    {
       label: 'Forums',
       url: 'http://forum.jetbrains.com'
     }
