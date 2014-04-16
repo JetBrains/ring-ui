@@ -210,7 +210,7 @@
         }]
       };
     }])
-    .directive('shortcuts', [function () {
+    .directive('shortcuts', ['$timeout', function ($timeout) {
       return {
         restrict: 'A',
         scope: {
@@ -229,7 +229,9 @@
             onBlur: $scope.onBlur
           };
 
-          ctrl.setup(zone, $scope.map);
+          $timeout(function () {
+            ctrl.setup(zone, $scope.map);
+          }, 30);
 
           $scope.$watch('focus()', function(current) {
             if (current) {
