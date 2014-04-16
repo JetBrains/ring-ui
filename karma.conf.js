@@ -37,8 +37,10 @@ module.exports = function(karma) {
 
 
     coverageReporter: {
-      type : 'html',
-      dir : 'tmp/coverage/'
+      reporters: [
+        {type: 'html', dir : 'tmp/coverage/'},
+        {type: 'teamcity'}
+      ]
     },
 
 
