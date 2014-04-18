@@ -2,6 +2,7 @@
 .idea/workspace.xml
 .idea/dictionaries/*.xml
 .idea/jsLinters/jshint.xml
+.idea/copyright/
 .DS_Store
 ehthumbs.db
 Icon?
