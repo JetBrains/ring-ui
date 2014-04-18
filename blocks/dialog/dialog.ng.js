@@ -1,24 +1,24 @@
-(function () {
+(function() {
   'use strict';
   var shortcuts = ring('shortcuts');
   var DIALOG_NAMESPACE = 'ring-dialog';
 
   angular.module('Ring.dialog', []).
-    directive('dialog', [function () {
+    directive('dialog', [function() {
       return {
         'restrict': 'AE',
         'scope': true,
         'replace': true,
         'templateUrl': 'dialog/dialog.ng.html',
-        'controller': ['$scope', '$rootScope', 'dialog',function ($scope, $rootScope, dialog) {
+        'controller': ['$scope', '$rootScope', 'dialog', function($scope, $rootScope, dialog) {
           $scope.close = dialog.hide;
           $rootScope.$on('$routeChangeSuccess', dialog.hide);
           $rootScope.$on('$routeUpdate', dialog.hide);
 
-          $scope.action = function (button) {
+          $scope.action = function(button) {
             var dontClose = false;
             if (button.action) {
-              dontClose = button.action($scope.data, button, function (errorMessage) {
+              dontClose = button.action($scope.data, button, function(errorMessage) {
                 $scope.error = errorMessage;
               }) === false;
             }
@@ -27,7 +27,7 @@
               ring().trigger('dialog:hide', {});
             }
           };
-          this.setTitle = function (title) {
+          this.setTitle = function(title) {
             $scope.title = title;
           };
           dialog.register($scope);
@@ -53,7 +53,9 @@
         'link': function(scope, iElement) {
           var $document = $(document),
             $dialogContainer = iElement.find('.ring-dialog__container'),
-            $dialogTitle = iElement.find('.ring-dialog__header__title');
+            $dialogTitle = iElement.find('.ring-dialog__header__title'),
+            pageHeight = $('body').outerHeight(),
+            pageWidth = $('body').outerWidth();
 
           $dialogTitle.on('mousedown', function(e) {
             var titlePos = {
@@ -64,10 +66,15 @@
             offsetContainer.top = offsetContainer.top - $document.scrollTop();
 
             $document.on('mousemove.' + DIALOG_NAMESPACE, function(e) {
+              var top = (offsetContainer.top - (titlePos.top - e.clientY)),
+                left = (offsetContainer.left - (titlePos.left - e.clientX));
+              if ((top > (pageHeight - $dialogContainer.height()) || top < 0 ) || (left > (pageWidth - $dialogContainer.width()) || left < 0)) {
+                return false;
+              }
               $dialogContainer.css({
                 'position': 'absolute',
-                'top': (offsetContainer.top - (titlePos.top - e.clientY)) + 'px',
-                'left': (offsetContainer.left - (titlePos.left - e.clientX)) + 'px',
+                'top': top + 'px',
+                'left': left + 'px',
                 'margin': '0'
               });
             }).
@@ -103,15 +110,15 @@
         }
       };
     }]).
-    directive('dialogTitle', [function () {
+    directive('dialogTitle', [function() {
       return {
         'require': '^dialog',
-        'link': function (scope, iElement, iAttrs, dialogCtrl) {
+        'link': function(scope, iElement, iAttrs, dialogCtrl) {
           dialogCtrl.setTitle(iAttrs.dialogTitle);
         }
       };
     }]).
-    service('dialog', [function () {
+    service('dialog', [function() {
       var dialogScope;
       return {
         /**
@@ -131,7 +138,7 @@
          * </ul>
          *
          */
-        'show': function (config) {
+        'show': function(config) {
           if (!dialogScope) {
             console.error('No dialog directive is found');
             return;
@@ -157,7 +164,7 @@
         /**
          * Hides dialog
          */
-        'hide': function () {
+        'hide': function() {
           if (dialogScope) {
             dialogScope.active = false;
             dialogScope.content = '';
@@ -167,7 +174,7 @@
             }
           }
         },
-        'register': function (scope) {
+        'register': function(scope) {
           dialogScope = scope;
         }
       };
