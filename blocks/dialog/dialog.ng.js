@@ -57,16 +57,17 @@
 
           $dialogTitle.on('mousedown', function(e) {
             var titlePos = {
-                top: e.pageY,
-                left: e.pageX
+                top: e.clientY,
+                left: e.clientX
               },
               offsetContainer = $dialogContainer.offset();
+            offsetContainer.top = offsetContainer.top - $document.scrollTop();
 
             $document.on('mousemove.' + DIALOG_NAMESPACE, function(e) {
               $dialogContainer.css({
                 'position': 'absolute',
-                'top': (offsetContainer.top - (titlePos.top - e.pageY)) + 'px',
-                'left': (offsetContainer.left - (titlePos.left - e.pageX)) + 'px',
+                'top': (offsetContainer.top - (titlePos.top - e.clientY)) + 'px',
+                'left': (offsetContainer.left - (titlePos.left - e.clientX)) + 'px',
                 'margin': '0'
               });
             }).
