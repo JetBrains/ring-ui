@@ -24,6 +24,7 @@
             }
             if (!dontClose && (button.close !== false)) {
               dialog.hide();
+              ring().trigger('dialog:hide', {});
             }
           };
           this.setTitle = function (title) {
@@ -49,8 +50,40 @@
           });
         }],
         // Focus first input
-        'link': function (scope, iElement) {
-          var $document = $(document);
+        'link': function(scope, iElement) {
+          var $document = $(document),
+            $dialogContainer = iElement.find('.ring-dialog__container'),
+            $dialogTitle = iElement.find('.ring-dialog__header__title');
+
+          $dialogTitle.on('mousedown', function(e) {
+            var titlePos = {
+                top: e.pageY,
+                left: e.pageX
+              },
+              offsetContainer = $dialogContainer.offset();
+
+            $document.on('mousemove.' + DIALOG_NAMESPACE, function(e) {
+              $dialogContainer.css({
+                'position': 'absolute',
+                'top': (offsetContainer.top - (titlePos.top - e.pageY)) + 'px',
+                'left': (offsetContainer.left - (titlePos.left - e.pageX)) + 'px',
+                'margin': '0'
+              });
+            }).
+              on('mouseup', function() {
+                $(this).off('mousemove.' + DIALOG_NAMESPACE);
+              });
+          });
+
+          ring().on('dialog:hide', function() {
+            $dialogContainer.css({
+              'position': 'relative',
+              'top': 'initial',
+              'left': 'initial',
+              'margin': '20% auto 0'
+            });
+          });
+
           var focusFirst = function() {
             iElement.find(':input,[contentEditable=true]').first().focus();
           };
