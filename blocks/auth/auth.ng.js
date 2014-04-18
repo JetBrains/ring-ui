@@ -34,7 +34,7 @@
       };
 
       this.$get = ['$injector', function ($injector) {
-        return $injector.instantiate(['$location', '$http', function ($location, $http) {
+        return $injector.instantiate(['$location', '$http', '$q', function ($location, $http, $q) {
           var authConfig;
 
           authFuture.done(function (absUrl) {
@@ -62,6 +62,9 @@
             },
             'getClientId': function () {
               return authConfig['client_id'];
+            },
+            'initDone': function () {
+              return $q.when(authFuture);
             }
           };
         }]);
