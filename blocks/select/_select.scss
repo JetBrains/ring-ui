@@ -27,7 +27,7 @@
     text-overflow: '';
   }
 
-  &:active:not([disabled]) {
+  &:active:not([disabled]), &.ring-select_active:not([disabled]), &:focus, &.ring-select_focus {
     border: 1px solid #25B7FF;
     outline: 0;
   }
@@ -71,6 +71,7 @@
 //   <label class="ring-select__label" for="ring-select"></label>
 // </div>
 //
-// :active              - Focused state, also available as the `.ring-select_active` class name.
+// :active              - Active state, also available as the `.ring-select_active` class name.
+// :focus               - Focus state, also available as the `.ring-select_focus` class name.
 //
 // Styleguide 16.1

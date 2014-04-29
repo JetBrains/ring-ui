@@ -1,10 +1,11 @@
 // Input
 //
 // Markup:
-// <input class="{$modifiers} ring-input " type="text" placeholder="placeholder">
+// <input class="{$modifiers} ring-input" type="text" placeholder="placeholder">
 //
 // :disabled            - Disabled state, also available as the `.ring-input_disabled` class name.
 // :active              - Active state, also available as the `.ring-input_active` class name.
+// :focus               - Focus state, also available as the `.ring-input_focus` class name.
 // .ring-input_correct  - The entered value is correct.
 // .ring-input_error    - The entered value is incorrect.
 //
