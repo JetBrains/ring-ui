@@ -236,6 +236,8 @@ define([
     if ($(CONTAINER_SELECTOR).length) {
       shortcuts('spliceScope', MODULE);
       popup('remove');
+
+      return true;
     }
   };
 

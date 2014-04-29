@@ -369,10 +369,10 @@ define([
     'ctrl+enter': preventEnter,
     'alt+enter': preventEnter,
     'esc':function() {
-      /*
-      Hide dropdown
-       */
-      actionList('remove');
+      // Hide dropdown and fall to next shortcuts scope if there was no one
+      if (!actionList('remove')) {
+        return true;
+      }
     }
   });
 
