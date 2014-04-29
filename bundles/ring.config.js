@@ -3,6 +3,7 @@ require.config({
   paths: {
     'ring'       : '../bundles/ring',
     'jquery'     : '../shims/jquery/jquery',
+    'jquery.scrollTo': '../components/jquery.scrollTo/jquery.scrollTo',
     'jquery-caret': '../components/jquery-caret/jquery.caret',
     'handlebars' : '../components/handlebars/handlebars.runtime',
     'codemirror' : '../components/codemirror/lib/codemirror',
@@ -40,6 +41,9 @@ require.config({
       }
     },
     'jquery-caret': {
+      deps:['jquery']
+    },
+    'jquery.scrollTo': {
       deps:['jquery']
     },
     'codemirror': {

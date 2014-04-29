@@ -54,6 +54,7 @@
 }
 
 .ring-dropdown__scroll {
+  position: relative;
   max-height: 15 * $ring-unit;
   overflow: scroll;
   overflow-style: none;
