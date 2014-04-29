@@ -6,6 +6,7 @@
     "codemirror": "~3.23.0",
     "jquery": "~1.11.0",
     "jquery-caret": "git://github.com/princed/caret.git",
+    "jquery.scrollTo": "~1.4.11",
     "json2": "*",
     "jso": "git://github.com/princed/jso.git",
     "polyfill": "git://github.com/inexorabletash/polyfill.git",
