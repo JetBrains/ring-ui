@@ -3,6 +3,8 @@ define(['jquery', 'jso', 'global/global__modules', 'global/global__utils', 'auth
   'use strict';
 
   var module = 'auth';
+  var absoluteUrlRE = /^[a-z]+:\/\//i;
+  var endsWithSlashOrEmptyRE = /^(.+\/)?$/;
 
   /**
    * Default HUB params
@@ -14,23 +16,21 @@ define(['jquery', 'jso', 'global/global__modules', 'global/global__utils', 'auth
 
   var DEFAULT_ID = '0-0-0-0-0';
   var DEFAULT_REDIRECT_URI = (function () {
-    var bases = $('base');
-    var myBaseUrl;
+    var baseUrl = $('base').prop('href'); // unlike attr prop returns correct value *with* leading slash
+    var host = window.location.protocol + '//' + window.location.host;
+    var defaultRedirectURI;
 
-    if (bases.length > 0) {
-      myBaseUrl = bases[0].href;
+    if (baseUrl) {
+      defaultRedirectURI = absoluteUrlRE.test(baseUrl) ? baseUrl : host + baseUrl;
     } else {
-      myBaseUrl = window.location.protocol + '//' + window.location.host;
+      defaultRedirectURI = host;
     }
 
-    return myBaseUrl;
+    return defaultRedirectURI;
   }());
 
   var TOKEN_ACCESS_FIELD = 'access_token';
   var TOKEN_EXPIRE_FIELD = 'expires';
-
-  var absoluteUrlRE = /^[a-z]+:\/\//i;
-  var endsWithSlashOrEmptyRE = /^(.+\/)?$/;
 
   var INVALID_TOKEN_ERR = 'invalid_grant';
   var INVALID_REQUEST_ERR = 'invalid_request';
