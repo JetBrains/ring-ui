@@ -5,7 +5,8 @@ define([
   'global/global__events',
   'shortcuts/shortcuts',
   'action-list/action-list',
-  'delayed-listener/delayed-listener'
+  'delayed-listener/delayed-listener',
+  'jquery.scrollTo'
 ], function ($, View, Module, events) {
   'use strict';
 
@@ -152,7 +153,8 @@ define([
     };
 
     var navigate_ = function (e, key) {
-      var $el = wrapper.el.find(ACTION_CONTAINER_SELECTOR + ACTIVE_SELECTOR + ' ' + SCROLL__WRAPPER_SELECTOR).children();
+      var $activeContainer = wrapper.el.find(ACTION_CONTAINER_SELECTOR + ACTIVE_SELECTOR + ' ' + SCROLL__WRAPPER_SELECTOR),
+        $el = $activeContainer.children();
 
       if ($el === null) {
         return false;
@@ -162,11 +164,11 @@ define([
         $next = $active[up ? 'prev' : 'next'](ITEM_ACTION_SELECTOR);
       $active.removeClass(ACTIVE_CLASS);
 
-
       if ($next.length) {
         $next.addClass(ACTIVE_CLASS);
+        $activeContainer.scrollTo( $next);
       } else {
-        $el.parent().find(ITEM_ACTION_SELECTOR)[up ? 'last' : 'first']().addClass(ACTIVE_CLASS);
+        $activeContainer.scrollTo($el.parent().find(ITEM_ACTION_SELECTOR)[up ? 'last' : 'first']().addClass(ACTIVE_CLASS));
       }
       e.preventDefault();
     };
