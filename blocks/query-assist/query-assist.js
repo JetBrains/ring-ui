@@ -261,6 +261,17 @@ define([
     };
   };
 
+  var _generateTextParts = function(part) {
+    if (utils.isEmptyString(part)) {
+      return part;
+    } else {
+      return {
+        label: part,
+        type: 'service'
+      };
+    }
+  };
+
   /**
    * get highlight text using suggest.matching{Start|End}
    */
@@ -268,13 +279,8 @@ define([
     return $.isArray(assistData.suggestions) && assistData.suggestions.map(function (suggestion) {
       var label = [];
 
-      if (utils.isEmptyString(suggestion.prefix)) {
-        label.push(suggestion.prefix);
-      } else {
-        label.push({
-          label: suggestion.prefix,
-          type: 'service'
-        });
+      if (suggestion.prefix) {
+        label.push(_generateTextParts(suggestion.prefix));
       }
 
       if (suggestion.option && suggestion.matchingStart !== suggestion.matchingEnd) {
@@ -288,13 +294,8 @@ define([
         label.push(suggestion.option);
       }
 
-      if (utils.isEmptyString(suggestion.suffix)) {
-        label.push(suggestion.suffix);
-      } else {
-        label.push({
-          label: suggestion.suffix,
-          type: 'service'
-        });
+      if (suggestion.suffix) {
+        label.push(_generateTextParts(suggestion.suffix));
       }
 
       return {
