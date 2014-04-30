@@ -14,7 +14,7 @@ define(['jquery',  'global/global__modules', 'global/global__views', 'auth/auth'
       var authInit = (authConfig === $.noop) ? auth.when('init:done') : $.Deferred().resolve(authConfig);
 
       var services = authInit.then(function() {
-        return auth('get', 'api/rest/services?query=is:+verified+and+has:+userUriPattern&orderBy=name');
+        return auth('get', 'api/rest/services?query=is:+verified+and+has:+userUriPattern&fields=id,name,userUriPattern,applicationName,homeUrl,iconUrl&orderBy=name');
       });
 
       var user = authInit.then(function(config) {
