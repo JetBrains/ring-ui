@@ -22,7 +22,7 @@ define(['jquery', 'global/global__modules', 'header/header', 'auth/auth'], funct
   $.when(auth.when('init:done'), header.when('init:done'))
     .then(function() {
       header.trigger('services');
-      return auth('get', 'api/rest/services?query=is:+verified');
+      return auth('get', 'api/rest/services?query=is:+verified&fields=id,name,homeUrl');
     })
     .then(function(services) {
       var list = services && services.services;
