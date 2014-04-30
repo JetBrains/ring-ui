@@ -5,6 +5,8 @@ $ring-link-color:  #1866C5;
 $ring-link-hover-color: #FF5A00;
 $ring-outline-color: rgba(37, 183, 255, 0.5);
 
+$ring-color-error: #C10000;
+
 // Mixins
 @mixin text-color() {
   color: #333;
