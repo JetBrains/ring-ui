@@ -107,7 +107,7 @@ $ring-alert-margin: 10px;
 }
 
 .ring-alert_error {
-  color: #C10000;
+  color: $ring-color-error;
 }
 
 .ring-alert_warning {

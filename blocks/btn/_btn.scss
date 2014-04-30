@@ -287,7 +287,7 @@ $ring-btn-border-radius: 3px;
 }
 
 .ring-btn_danger {
-  color: #C10000;
+  color: $ring-color-error;
 
   .ring-font-icon {
     color: inherit;
