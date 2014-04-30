@@ -311,6 +311,10 @@ $ring-btn-border-radius: 3px;
   margin-right: 4px;
 }
 
+.ring-btn__icon-text {
+  margin-right: $ring-unit;
+}
+
 // Button groups and split button
 //
 // Markup:
