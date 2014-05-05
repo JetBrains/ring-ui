@@ -10,10 +10,10 @@
         'scope': true,
         'replace': true,
         'templateUrl': 'dialog/dialog.ng.html',
-        'controller': ['$scope', '$rootScope', 'dialog', function($scope, $rootScope, dialog) {
+        'controller': ['$scope', 'dialog', function($scope, dialog) {
           $scope.close = dialog.hide;
-          $rootScope.$on('$routeChangeSuccess', dialog.hide);
-          $rootScope.$on('$routeUpdate', dialog.hide);
+          $scope.$on('$routeChangeSuccess', dialog.hide);
+          $scope.$on('$routeUpdate', dialog.hide);
 
           $scope.action = function(button) {
             var dontClose = false;
