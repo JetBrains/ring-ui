@@ -16,8 +16,12 @@
 // Styleguide 3.1
 
 .ring-breadcrumb {
-  margin: 20px 0 14px;
+  margin: 20px 0 $ring-unit*2;
   font-size: 0;
+}
+
+.ring-breadcrumb_header {
+  margin-bottom: 0;
 }
 
 .ring-breadcrumb_small {
@@ -29,7 +33,7 @@
 
   .ring-breadcrumb__sep {
     top: 0;
-    font-size: 8px !important;
+    font-size: $ring-unit !important;
   }
 }
 
@@ -51,7 +55,7 @@
 }
 
 .ring-breadcrumb__sep {
-  margin: 0 8px;
+  margin: 0 $ring-unit;
   position: relative;
   top: -1px;
   font-size: 9px !important;
