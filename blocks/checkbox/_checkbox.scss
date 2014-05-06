@@ -61,6 +61,15 @@ label.ring-checkbox__label {
   user-select: none;
 }
 
+.ring-checkbox-text {
+  position: relative;
+  top: 1px;
+  display: block;
+  height: 3*$ring-unit;
+
+  line-height: 3*$ring-unit;
+}
+
 // Checkbox
 //
 // Markup:
