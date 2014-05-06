@@ -294,6 +294,10 @@ $ring-btn-border-radius: 3px;
   }
 }
 
+.ring-btn_square:nth-child(n) {
+  width: 4*$ring-unit;
+}
+
 .ring-btn_icon {
   width: $ring-unit*6;
   padding: 0;
