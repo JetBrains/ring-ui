@@ -206,6 +206,7 @@ module.exports = function(grunt) {
       },
       dist: {
         singleRun: true,
+        browsers: ['Firefox', 'ChromeNoSandbox', 'PhantomJS'],
         reporters: ['teamcity', 'coverage']
       },
       dev: {

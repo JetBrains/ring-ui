@@ -72,14 +72,21 @@ module.exports = function(karma) {
 
     // Start these browsers, currently available:
     // - Chrome
+    // – ChromeNoSandbox (use only on CI!)
     // - ChromeCanary
     // - Firefox
     // - Opera
     // - Safari (only Mac)
-    // - PhantomJS — only installed
+    // - PhantomJS - only installed
     // - IE (only Windows)
     browsers: ['PhantomJS'],
 
+    customLaunchers: {
+      ChromeNoSandbox: {
+        base: 'Chrome',
+        flags: ['--no-sandbox']
+      }
+    },
 
     // If browser does not capture in given timeout [ms], kill it
     captureTimeout: 60000,
