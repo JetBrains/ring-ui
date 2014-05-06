@@ -383,6 +383,10 @@ $ring-btn-border-radius: 3px;
 .ring-btn-toolbar {
   display: inline-block;
   font-size: 0;
+
+  &.ring-btn-toolbar_block {
+    display: block;
+  }
 }
 
 .ring-btn-toolbar > .ring-btn,
