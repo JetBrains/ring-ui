@@ -79,7 +79,7 @@ module.exports = function(karma) {
     // - Safari (only Mac)
     // - PhantomJS - only installed
     // - IE (only Windows)
-    browsers: ['PhantomJS'],
+    browsers: ['Firefox', 'Chrome'],
 
     customLaunchers: {
       ChromeNoSandbox: {
