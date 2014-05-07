@@ -16,7 +16,7 @@ define(['global/global__views', 'global/global__modules'], function (View, Modul
     },
     {
       label: 'Confluence',
-      url: 'http://confluence.jetbrains.com'
+      url: 'https://confluence.jetbrains.com'
     },
     {
       label: 'JetPeople',
