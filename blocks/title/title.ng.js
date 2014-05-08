@@ -1,69 +1,82 @@
 (function () {
   'use strict';
-  var titleDelimiter = ' | ';
-
-  var prependTitleElement = function($window, element, title) {
-    var prevTitle = title || $window.document.title;
-
-    $window.document.title = prevTitle ? element + titleDelimiter + prevTitle : element;
-  };
-
-  var replaceTitleElement = function($window, element, title) {
-    var prevTitle = title || $window.document.title;
-    var titleElements = prevTitle.split(titleDelimiter);
-    titleElements[0] = element;
-
-    $window.document.title = titleElements.join(titleDelimiter);
-  };
 
   angular.module('Ring.title', []).
     directive('pageTitle', [function () {
       return {
         scope: {
-          'pageTitle': '@pageTitle',
-          'noTitle': '@noTitle',
-          'delimiter': '@delimiter'
+          'pageTitle': '@',
+          'noTitle': '@',
+          'delimiter': '@'
         },
-        controller: ['$rootScope', '$scope', '$window', '$element', function ($rootScope, $scope, $window, $element) {
-          if ($scope.delimiter) {
-            titleDelimiter = $scope.delimiter;
-          }
+        controller: ['$rootScope', '$scope', '$window', '$element', 'pageTitle', function ($rootScope, $scope, $window, $element, pageTitle) {
+          pageTitle.setDelimiter($scope.delimiter);
 
           // Get title prefix from title element
-          $scope.base = $scope.pageTitle || $element.text();
+          var elementText = $element.text();
 
           // Set page title on route change
           $rootScope.$on('$routeChangeSuccess', function (event, current) {
             var title = current.$$route && current.$$route.title;
 
+            pageTitle.setCurrent($scope.pageTitle || elementText);
+
             // Use title: false to prevent title change on route
             if (title !== false) {
-              prependTitleElement($window, title || $scope.noTitle, $scope.base);
+              pageTitle.addElement(title || $scope.noTitle);
             }
           });
         }]
       };
     }]).
-    service('pageTitle', ['$window', function ($window) {
-      return {
-        'addElement': function (element, fieldName) {
-          if (element.$promise) {
-            element.$promise.then(function(Data) {
-              prependTitleElement($window, Data[fieldName || 'name']);
-            });
-          } else if (fieldName) {
-            prependTitleElement($window, element[fieldName]);
-          } else {
-            prependTitleElement($window, element);
-          }
-        },
-        'updateElement': function(element, fieldName) {
-          if (fieldName) {
-            replaceTitleElement($window, element[fieldName]);
-          } else {
-            replaceTitleElement($window, element);
-          }
+    service('pageTitle', ['$window', '$interpolate', function ($window, $interpolate) {
+      var delimiter = ' | ';
+      var current = $window.document.title;
+
+      var setTitle = function (text) {
+        current = text && $interpolate(text)();
+        $window.document.title = current;
+      };
+
+      var prepend = function (element) {
+        setTitle(current ? element + delimiter + current : element);
+      };
+
+      var replaceFirst = function (element) {
+        var titleElements = current.split(delimiter);
+        titleElements[0] = element;
+
+        setTitle(titleElements.join(delimiter));
+      };
+      var it = this;
+
+      this.setDelimiter = function (newDelimiter) {
+        delimiter = newDelimiter || delimiter;
+      };
+
+      this.setCurrent = function (newBase) {
+        current = newBase || current;
+      };
+
+      this.addElement = function (element, fieldName) {
+        if (element.$promise) {
+          element.$promise.then(function (Data) {
+            it.addElement(Data[fieldName || 'name']);
+          });
+        } else {
+          prepend(fieldName ? element[fieldName] : element);
         }
       };
+
+      this.updateElement = function (element, fieldName) {
+        if (element.$promise) {
+          element.$promise.then(function (Data) {
+            it.updateElement(Data[fieldName || 'name']);
+          });
+        } else {
+          replaceFirst(fieldName ? element[fieldName] : element);
+        }
+      };
+
     }]);
 })();
