@@ -9,7 +9,7 @@
           'noTitle': '@',
           'delimiter': '@'
         },
-        controller: ['$rootScope', '$scope', '$window', '$element', 'pageTitle', function ($rootScope, $scope, $window, $element, pageTitle) {
+        controller: ['$rootScope', '$scope', '$element', 'pageTitle', function ($rootScope, $scope, $element, pageTitle) {
           pageTitle.setDelimiter($scope.delimiter);
 
           // Get title prefix from title element
