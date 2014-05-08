@@ -1,0 +1,10 @@
+.ring-label {
+  line-height: 20px;
+
+  position: relative;
+  top: 3px;
+
+  display: block;
+
+  min-height: 3*$ring-unit;
+}
