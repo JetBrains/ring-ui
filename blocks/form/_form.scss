@@ -79,7 +79,7 @@
 }
 
 .ring-form__wrap {
-  padding: 3*$ring-unit 4*$ring-unit 0  4*$ring-unit;
+  padding: 3*$ring-unit 4*$ring-unit 0 4*$ring-unit;
   margin-bottom: 0;
 }
 
@@ -87,7 +87,6 @@
   min-height: 13px;
   padding-bottom: 2*$ring-unit;
 }
-
 
 .ring-form__summary {
   display: block;
@@ -244,6 +243,13 @@
 // Styleguide 7.5
 
 .ring-form__group_short {
+  padding-bottom: 0;
+  padding-top: $ring-unit / 2;
+
+  &:last-child {
+    padding-bottom: $ring-unit;
+  }
+
   .ring-form__control {
     margin-left: $ring-unit * 3;
   }
