@@ -88,5 +88,8 @@ define([
     };
   };
 
+  // Export CodeMirror
+  window.CodeMirror = window.CodeMirror || CodeMirror;
+
   return d.PlainEditorController;
 });

@@ -716,5 +716,8 @@ define([
     return this.editor_;
   };
 
+  // Export CodeMirror
+  window.CodeMirror = window.CodeMirror || CodeMirror;
+
   return d.SingleEditorController;
 });
