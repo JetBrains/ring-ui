@@ -17,15 +17,13 @@ label.ring-checkbox__label {
     border-radius: 2px;
     background: transparent;
     user-select: none;
-    cursor: pointer;
-
 
     line-height: $ring-unit * 3;
     vertical-align: middle;
+  }
 
-    &:hover {
-      border: 1px solid #FF8620;
-    }
+  #{$ring-checkbox}:not([disabled]) + &:hover {
+    border: 1px solid #FF8620;
   }
 
   #{$ring-checkbox}:checked + & {
