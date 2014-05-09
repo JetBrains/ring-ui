@@ -1062,5 +1062,8 @@ define([
     return this.codeMirrorModified_;
   };
 
+  // Export CodeMirror
+  window.CodeMirror = window.CodeMirror || CodeMirror;
+
   return d.DoubleEditorController;
 });
