@@ -41,7 +41,7 @@
             // Init
             var queryAssist = new QueryAssist({
               targetElem: iElement,
-              autofocus: true,
+              autofocus: 'autofocus' in iAttrs,
               className: $scope.className || null,
               tabIndex: $scope.tabIndex || null,
               placeholder: $scope.placeholder,
