@@ -1,7 +1,7 @@
 (function () {
   'use strict';
 
-  var queryAssist = ring('query-assist');
+  var QueryAssist = ring('query-assist')('getQueryAssist');
 
   angular.module('Ring.query-assist', [])
     .directive('queryAssist', [function () {
@@ -19,36 +19,29 @@
         },
         link: {
           pre: function ($scope, iElement, iAttrs) {
-            var APPLY_EVENT  = 'apply::' + $scope.$id;
-            var CHANGE_EVENT = 'change::' + $scope.$id;
-            var FOCUS_CHANGE_EVENT = 'focus-change::' + $scope.$id;
-
             // Apply search
-            queryAssist.on(APPLY_EVENT, function (query) {
+            function onApply(query) {
               $scope.query = query;
               $scope.$apply();
               $scope.search({query: query});
-            });
+            }
 
-            queryAssist.on(CHANGE_EVENT, function (data) {
-              $scope.query = data.value;
+            function onChange(query) {
+              $scope.query = query;
               $scope.$apply();
-            });
+            }
 
-            queryAssist.on(FOCUS_CHANGE_EVENT, function (data) {
-              $scope.focus = data;
+            function onFocusChange(focus) {
+              $scope.focus = !!focus;
               if (!$scope.$root.$$phase) {
                 $scope.$apply();
               }
-            });
-
-            $scope.$watch('focus', function(value) {
-              queryAssist.trigger('focus', value);
-            });
+            }
 
             // Init
-            queryAssist('init', {
+            var queryAssist = new QueryAssist({
               targetElem: iElement,
+              autofocus: true,
               className: $scope.className || null,
               tabIndex: $scope.tabIndex || null,
               placeholder: $scope.placeholder,
@@ -56,23 +49,23 @@
               glass: 'glass' in iAttrs,
               query: $scope.query || '',
               listenDelay: $scope.listenDelay,
-              dataSource: $scope.dataSource
+              dataSource: $scope.dataSource,
+              onFocusChange: onFocusChange,
+              onChange: onChange,
+              onApply: onApply
             });
 
-            // Update query from url on init
-            var unWatchQuery = angular.noop;
-            if (!$scope.query) {
-              unWatchQuery = $scope.$watch('query', function(query) {
-                queryAssist('updateQuery', query);
-                unWatchQuery();
-              });
-            }
+            $scope.$watch('focus', function(value) {
+              queryAssist.setFocus(value);
+            });
 
-            // Proerly destroy scope
-            $scope.$on('$destroy', function() {
-              queryAssist.off(APPLY_EVENT);
-              queryAssist.off(CHANGE_EVENT);
-              queryAssist.off(FOCUS_CHANGE_EVENT);
+            $scope.$watch('query', function(query) {
+              queryAssist.updateQuery({query: query});
+              queryAssist.setFocus(!!$scope.focus);
+            });
+
+            iElement.on('$destroy', function() {
+              queryAssist.destroy();
             });
           }
         }

@@ -11,205 +11,355 @@ define([
 ], function ($, View, Module, utils) {
   'use strict';
 
-  var $el,
-    $target,
-    dataSource,
-    lastTriggeredCaretPositionPers,
-    lastRelevantSuggestion,
-    lastActionList,
-    uid = 0;
+  var lastInstance;
+  var uid = 0;
 
-  var CONTAINER_SELECTOR = '.ring-dropdown',
-    WRAPPER_SELECTOR = '.ring-dropdown__i',
-    MODULE_SELECTOR = '.ring-query-assist',
-    ITEM_CONTENT_SELECTOR = '.ring-dropdown__item__content',
-    ITEM_CONTENT_SELECTOR_PADDING = 8,
-    MIN_LEFT_PADDING = 32,
-    MIN_RIGHT_PADDING = 32,
-    CONTAINER_TOP_PADDING = 21;
+  var WRAPPER_SELECTOR = '.ring-dropdown__i';
+  var MODULE_SELECTOR = '.ring-query-assist';
+  var GLASS_SELECTOR = '.ring-js-query-assist__glass';
+  var LETTER_CLASS_PREFIX = 'ring-query-assist__';
+  var LETTER_ELEMENT = 'span';
 
-  var shortcuts = Module.get('shortcuts'),
-    actionList = Module.get('action-list'),
-    delayedListener = Module.get('delayed-listener');
+  // TODO Move to popup
+  var ITEM_CONTENT_SELECTOR = '.ring-dropdown__item__content';
 
-  var MODULE = 'query-assist',
-    MODULE_SHORTCUTS = 'ring-query-assist',
-    $global = $(document);
+  var ITEM_CONTENT_SELECTOR_PADDING = 8;
+  var MIN_LEFT_PADDING = 32;
+  var MIN_RIGHT_PADDING = 32;
+  var CONTAINER_TOP_PADDING = 21;
+
+  var shortcuts = Module.get('shortcuts');
+  var actionList = Module.get('action-list');
+  var delayedListener = Module.get('delayed-listener');
+
+  var MODULE = 'query-assist';
+  var MODULE_SHORTCUTS = 'ring-query-assist';
+  var $global = $(document);
 
   /**
-   * Init method
+   * Creates QueryAssist on config.target
+   * @param config
+   * @constructor
    */
-  var init = function (config) {
-    if (!config || !config.targetElem || !config.dataSource) {
-      return $.Deferred().fail();
+  var QueryAssist = function(config) {
+    if (!(this instanceof QueryAssist)) {
+      return new QueryAssist(config);
     }
 
-    $target = $(config.targetElem);
-    dataSource = config.dataSource;
-    uid += 1;
+    var self = this;
+    var apply_ = $.proxy(this, 'apply_');
+    this.shortcutsUID_ = MODULE_SHORTCUTS + uid++;
+    this.$target_ = $(config.targetElem);
+    this.dataSource_ = config.dataSource;
+    this.onApply_ = config.onApply || $.noop;
+    this.onChange_ = config.onChange || $.noop;
+    this.onFocusChange_ = config.onFocusChange || $.noop;
 
-    var dfd = View.init(MODULE, $target, config.method || 'prepend', {}, config);
+    View.init(MODULE, this.$target_, config.method || 'prepend', {}, config).then(function($view) {
+      self.$view_ = $view;
+      self.$input_ = $view.find(MODULE_SELECTOR);
+      self.updateQuery_({
+        query: config.query || '',
+        caret: config.caret
+      });
+      self.request_({highlight: self.query_ !== '', show: !!config.autofocus});
 
-    dfd.done(function ($view) {
-      $el = $view.find(MODULE_SELECTOR);
-      updateQuery();
+      if (config.autofocus) {
+        self.setFocus(true);
+      }
 
-      $el.
-        on('focus', function () {
-          shortcuts('pushScope', MODULE_SHORTCUTS);
+      if (config.glass) {
+        $view.find(GLASS_SELECTOR).on('click', apply_);
+      }
 
+      shortcuts('bindList', {scope: self.shortcutsUID_}, {
+        'enter': apply_,
+        'shift+enter': apply_,
+        'ctrl+enter': apply_,
+        'alt+enter': apply_,
+        'tab': $.proxy(self, 'handleReplace_'),
+        'ctrl+space': function(e) {
+          self.request_({highlight: false});
+          e.preventDefault();
+        },
+        'esc':function() {
+          // Hide dropdown and fall to next shortcuts scope if there was no one
+          if (!actionList('remove')) {
+            return true;
+          }
+        }
+      });
+
+      self.$input_.
+        on('focus.' + MODULE, function () {
+          shortcuts('pushScope', self.shortcutsUID_);
+          self.onFocusChange_(true);
+          if (self.inited_) {
+            self.request_({hightlight: false});
+          }
+
+          // Backward compability
           queryAssist.trigger('focus-change', true);
         }).
-        on('blur', function () {
-          shortcuts('spliceScope', MODULE_SHORTCUTS);
+        on('blur.' + MODULE, function () {
+          shortcuts('spliceScope', self.shortcutsUID_);
+          self.onFocusChange_(false);
 
+          // Backward compability
           queryAssist.trigger('focus-change', false);
         });
 
-      delayedListener('init', {
-        target: $el,
+      self.listener = delayedListener('init', {
+        target: self.$input_,
         listenDelay: config.listenDelay,
         onDelayedChange: function (data) {
-          lastTriggeredCaretPositionPers = data.caret;
-          queryAssist.trigger('change', {value: data.value.replace(/\s/g, ' '), caret: data.caret});
-          // Clean up redudant browser markup to show placeholder
-          if (data.value === '') {
-            $el.html('');
+          var query = data.value.replace(/\s/g, ' ');
+
+          if (query === self.query_) {
+            return;
           }
-          _doAssist(data.value, data.caret, true);
+
+          self.updateQuery_({
+            query: query,
+            caret: data.caret
+          });
+          self.setFocus(true);
+          self.request_();
+          self.onChange_(query, data.caret);
+
+          // Backward compability
+          triggerChange_(data);
         },
         onDelayedCaretMove: function (data) {
-          lastTriggeredCaretPositionPers = data.caret;
-          queryAssist.trigger('change', {value: data.value.replace(/\s/g, ' '), caret: data.caret});
-          _doAssist(data.value, data.caret, false);
-        }
-      });
-
-    });
-
-    return dfd;
-  };
-
-  var remove = function () {
-    if ($el) {
-      $el.remove();
-      $el = null;
-      actionList('remove');
-    }
-  };
-
-  var updateQuery = function (query) {
-    if ($el) {
-      if (query) {
-        $el.text(query);
-      } else {
-        query = $el.text();
-      }
-    }
-
-    if (query && query.length) {
-      _doAssist(query, query.length, true, true);
-    }
-  };
-
-  var apply = function () {
-    queryAssist.trigger('apply', $el.text().replace(/\s/g, ' '));
-    actionList('remove');
-
-    return false;
-  };
-
-  /**
-   * init suggest handle
-   * @param {string} query Text for handle suggestion
-   * @param {number} caret Caret position
-   * @param {bool} requestHighlighting Is highlight required
-   */
-  var _doAssist = function (query, caret, requestHighlighting, highlightOnly, force) {
-    if (query && caret || force) {
-      dataSource(query.replace(/\s/g, ' '), caret, requestHighlighting).then(function (data /* status, jqXHR*/) {
-        /**
-         * #{String}.replace(/\s+/g, ' ') needs for trim any whitespaces.
-         */
-        if (data && data.styleRanges && ($el.text().replace(/\s+/g, ' ') === query.replace(/\s+/g, ' '))) {
-          $el.html(_getHighlightedHtml(data.styleRanges, query));
-          delayedListener('placeCaret', $el.find('span').eq(data.caret - 1));
-        }
-
-        // if data isn't exist hide a suggest container
-        if (!highlightOnly && data && data.suggestions) {
-          var dropdownTextPosition = data.caret;
-          if (data.suggestions[0]) {
-            dropdownTextPosition -= data.suggestions[0].matchingEnd - data.suggestions[0].matchingStart;
-          }
-          var dropdownData = {
-            target: $el,
-            type: ['typed', 'bound'],
-            width: 'auto',
-            description: 'Use ↩ to complete selected item',
-            items: _getHighlightText(data)
-          };
-
-          lastRelevantSuggestion = {
-            query: data.query,
-            suggestion: data.suggestions[0]
-          };
-          lastActionList = actionList('init', dropdownData);
-          actionList.on('change_' + actionList('getUID'), function (data) {
-            _handleComplete(data.data);
+          self.updateQuery_({
+            caret: data.caret
           });
-          var coords = __getCoords(dropdownTextPosition);
+          self.request_({highlight: false});
 
-          $(CONTAINER_SELECTOR).css(coords);
-        } else {
-          actionList('remove');
+          // Backward compability
+          triggerChange_(data);
         }
-
       });
-    } else {
-      lastRelevantSuggestion = null;
-      lastActionList = null;
+
+      this.inited_ = true;
+    });
+
+    lastInstance = this;
+  };
+
+  /**
+   * Triggers legacy change event
+   * @param data
+   * @private
+   */
+  function triggerChange_ (data) {
+    queryAssist.trigger('change', {value: data.value.replace(/\s/g, ' '), caret: data.caret});
+  }
+
+  /**
+   * Destroys bindings
+   */
+  QueryAssist.prototype.destroy = function() {
+    // this.listener destroys automatically along with this.$view_
+    this.$view_.remove();
+    shortcuts('unBindList', this.shortcutsUID_);
+    if (this.actionList_) {
       actionList('remove');
-      shortcuts('pushScope', MODULE_SHORTCUTS);
+    }
+
+    // Clean in one-instance environments
+    if (lastInstance === this) {
+      lastInstance = null;
     }
   };
 
-  var _getClassname = function (obj, text, pos) {
-    var res = [];
-    obj.forEach(function (item) {
-      if (item.start <= pos && item.start + item.length > pos) {
-        res.push(item.style);
+  /**
+   * Destroy last instance; backward compability
+   */
+  var remove = function () {
+    if (lastInstance) {
+      lastInstance.destroy();
+    }
+  };
+
+  /**
+   * Set new query
+   * @param.query {string}
+   * @param.caret {number}
+   * @param.styleRanges {array}
+   * @private
+   */
+  QueryAssist.prototype.updateQuery_ = function(params) {
+    var queryUpdated;
+
+    if (params.query && params.query !== this.query_) {
+      queryUpdated = true;
+      this.query_ = params.query;
+    }
+
+    if (params.caret && params.caret !== this.caret_ || queryUpdated) {
+      this.caret_ = params.caret || params.query.length;
+    }
+
+    if (params.styleRanges) {
+      this.styleRanges = params.styleRanges;
+    }
+
+    if (queryUpdated || params.styleRanges) {
+      this.renderQuery_();
+    }
+  };
+
+  var updateQuery = function (query, caret) {
+    if (lastInstance && query) {
+      lastInstance.updateQuery_({
+        query: query,
+        caret: caret
+      });
+    }
+  };
+
+  /**
+   * Set new query and update highlighting
+   * @param.query {string}
+   * @param.caret {number}
+   * @param.styleRanges {array}
+   */
+  QueryAssist.prototype.updateQuery = function(params) {
+    this.updateQuery_(params);
+    this.request_({show: false});
+  };
+
+  /**
+   * Applies search
+   * @private
+   */
+  QueryAssist.prototype.apply_ = function(e) {
+    this.onApply_(this.query_);
+    actionList('remove');
+    if (e) {
+      e.preventDefault();
+    }
+    // Backward compability
+    queryAssist.trigger('apply', this.query_);
+  };
+
+  /**
+   * Changes focus state
+   * @param {boolean} focus Focus state
+   */
+  QueryAssist.prototype.setFocus = function(focus) {
+    if (focus) {
+      var offset = this.$input_.offset();
+
+      // TODO More robust scroll
+      if ($global.scrollTop() > offset.top) {
+        window.scrollTo(offset.left, Math.max(offset.top - 100, 0));
+      }
+
+      if (this.query_ && this.query_.length) {
+        delayedListener('placeCaret', this.getLetterElement_(this.caret_));
+      } else {
+        this.$input_.focus();
+      }
+    } else {
+      this.$input_.blur();
+    }
+  };
+
+  /**
+   * Returns letter span by position
+   * @param {number} position
+   * @return {jQuery}
+   * @private
+   */
+  QueryAssist.prototype.getLetterElement_ = function(position) {
+    return this.$input_.find(LETTER_ELEMENT).eq(position - 1);
+  };
+
+  /**
+   * Requests and applies highlighting and/or suggetions
+   * @param {boolean=} params.highlight? Highlight query
+   * @param {boolean=} params.show? Show suggestions
+   */
+  QueryAssist.prototype.request_ = function(params) {
+    params = params || {};
+
+    var self = this;
+    var highlight = params.highlight !== false;
+
+    this.dataSource_(this.query_, this.caret_, highlight).then(function (data) {
+      if (!data || self.query_ !== data.query) {
+        return;
+      }
+
+      if (highlight && data.styleRanges) {
+        self.updateQuery_({
+          query: data.query,
+          caret: data.caret,
+          styleRanges: data.styleRanges
+        });
+
+        self.setFocus(true);
+      }
+
+      // if data isn't exist hide suggest container
+      if (params.show !== false && data.suggestions) {
+        self.showDropdown_(data);
+      } else {
+        actionList('remove');
       }
     });
-    return res;
   };
 
   /**
-   * Return highlighted html
+   * Renders query
+   * @private
    */
-  var _getHighlightedHtml = function (styleRanges, text) {
-    function appendItemClass (currentClasses, item) {
-      if (item) {
-        return (currentClasses ? currentClasses + ' ' : '') + 'ring-query-assist__' + item.replace('_', '-');
-      } else {
-        return currentClasses;
+  QueryAssist.prototype.renderQuery_ = function () {
+    var text = this.query_;
+    var styleRanges = this.styleRanges;
+
+    this.$input_.empty();
+
+    if (text === '') {
+      return;
+    }
+
+    function createLetter(letter, index) {
+      var element = document.createElement(LETTER_ELEMENT);
+      var text = document.createTextNode(letter !== ' ' ? letter : '\u00a0');
+
+      var classes = styleRanges && $.map(styleRanges, function(item) {
+        if (item.start <= index && item.start + item.length > index) {
+          return LETTER_CLASS_PREFIX + item.style.replace('_', '-');
+        } else {
+          return null;
+        }
+      }).join(' ');
+
+      if (classes) {
+        element.className = classes;
       }
+
+      element.appendChild(text);
+
+      return element;
     }
 
-    function appendLetter (currentHtml, letter, index) {
-      var classes = _getClassname(styleRanges, text, index).reduce(appendItemClass, '');
-      return currentHtml + '<span class="' + classes + '">' + (letter !== ' ' ? letter : '&nbsp;') + '</span>';
-    }
-
-    return text.split('').reduce(appendLetter, '');
+    this.$input_.append($.map(text.split(''), createLetter));
   };
 
   /**
-   * get caret coords in abs value
+   * Return caret coords in abs value
+   * TODO move positioning logic to popup
+   * @param {number} textPos
+   * @returns {object}
+   * @private
    */
-  var __getCoords = function (textPos) {
+  QueryAssist.prototype.getCoords_ = function (textPos) {
     textPos = textPos || 1;
-    var caretPos = $el.find('span').eq(textPos - 1).offset();
+    var caretPos = this.getLetterElement_(textPos).offset();
 
     if (!caretPos) {
       return {};
@@ -237,16 +387,25 @@ define([
   };
 
   /**
-   * Ajax get suggestion
+   * Default datasource
+   * @param remoteDataSourceConfig
+   * @returns {Function}
    */
   var remoteDataSource = function (remoteDataSourceConfig) {
     var auth = Module.get('auth');
 
     return function (query, caret, requestHighlighting) {
       var defer = $.Deferred();
-      var restUrl = remoteDataSourceConfig.url || '/api/rest/users/queryAssist?caret=#{caret}&fields=query,caret,suggestions#{styleRanges}&query=#{query}';
+      // URL example
+      // '/api/rest/users/queryAssist?caret=#{caret}&fields=query,caret,suggestions#{styleRanges}&query=#{query}'
+      var restUrl = remoteDataSourceConfig.url;
+
+      if (!restUrl) {
+        return $.Deferred().fail();
+      }
+
       var substr = ['query', 'caret', 'styleRanges'];
-      var suggestArgs = [encodeURI(query), caret, (requestHighlighting ? ',styleRanges' : '')];
+      var suggestArgs = [encodeURI(query), caret.toString(), (requestHighlighting ? ',styleRanges' : '')];
 
       substr.forEach(function (item, index) {
         restUrl = restUrl.replace('#{' + item  + '}', suggestArgs[index] ? suggestArgs[index] : '');
@@ -261,26 +420,27 @@ define([
     };
   };
 
-  var _generateTextParts = function(part) {
-    if (utils.isEmptyString(part)) {
-      return part;
-    } else {
-      return {
-        label: part,
-        type: 'service'
-      };
-    }
-  };
-
   /**
-   * get highlight text using suggest.matching{Start|End}
+   * Renders actionlist dropdown
+   * TODO move positioning logic to popup
+   * @param data
+   * @private
    */
-  var _getHighlightText = function (assistData) {
-    return $.isArray(assistData.suggestions) && assistData.suggestions.map(function (suggestion) {
+  QueryAssist.prototype.showDropdown_ = function (data) {
+    var self = this;
+    var dropdownTextPosition = data.caret;
+
+    if (data.suggestions[0]) {
+      dropdownTextPosition -= data.suggestions[0].matchingEnd - data.suggestions[0].matchingStart;
+    }
+    var items = $.isArray(data.suggestions) && $.map(data.suggestions, function (suggestion) {
       var label = [];
 
-      if (suggestion.prefix) {
-        label.push(_generateTextParts(suggestion.prefix));
+      if (suggestion.prefix && !utils.isEmptyString(suggestion.prefix)) {
+        label.push({
+          label: suggestion.prefix,
+          type: 'service'
+        });
       }
 
       if (suggestion.option && suggestion.matchingStart !== suggestion.matchingEnd) {
@@ -294,91 +454,114 @@ define([
         label.push(suggestion.option);
       }
 
-      if (suggestion.suffix) {
-        label.push(_generateTextParts(suggestion.suffix));
+      if (suggestion.suffix && !utils.isEmptyString(suggestion.suffix)) {
+        label.push({
+          label: suggestion.suffix,
+          type: 'service'
+        });
       }
 
       return {
         label: label,
         type: suggestion.description,
         data: {
-          query: assistData.query,
+          query: data.query,
           suggestion: suggestion
         },
         event: []
       };
     }) || [];
+
+    /**
+     * @private
+     */
+    this.lastSuggestion_ = {
+      query: data.query,
+      suggestion: data.suggestions[0]
+    };
+
+    /**
+     * Bound actionList instance
+     * @private
+     */
+    this.actionList_ = actionList('init', {
+      target: this.$input_,
+      type: ['typed', 'bound'],
+      width: 'auto',
+      description: 'Use ↩ to complete selected item',
+      items: items
+    });
+
+    // TODO Get rid of events here
+    actionList.on('change_' + actionList('getUID'), function (data) {
+      self.handleComplete_(data.data);
+    });
+
+    this.actionList_.popup.el.css(this.getCoords_(dropdownTextPosition));
   };
 
   /**
-   * autocomplete current text field
+   * Handles complete
+   * @param {object} data Suggestions
+   * @param {boolean=} replace Replace part or not
+   * @private
    */
-  var _handleComplete = function (data, replace) {
-    var input = data.query || '';
+  QueryAssist.prototype.handleComplete_ = function (data, replace) {
+    var input = this.query_ || '';
     var prefix = data.suggestion.prefix || '';
     var suffix = data.suggestion.suffix || '';
     var output = input.substr(0, data.suggestion.completionStart) + prefix + data.suggestion.option + suffix;
 
     if (!replace) {
-      output += input.substr(lastTriggeredCaretPositionPers);
+      output += input.substr(this.caret_);
     } else {
       output += input.substr(data.suggestion.completionEnd + suffix.length);
     }
 
-    $el.text(output);
-    _doAssist(output, data.suggestion.caret, true, true);
-    queryAssist.trigger('change caret-move complete', {
+    this.updateQuery_({
+      query: output,
+      caret: data.suggestion.caret
+    });
+    this.request_();
+    this.setFocus(true);
+
+    // Backward compability
+    queryAssist.trigger('change', {
       value: output,
       caret: data.suggestion.caret
     });
   };
 
-  var _handleTab = function () {
+  /**
+   * Handles replace
+   * @returns {boolean}
+   * @private
+   */
+  QueryAssist.prototype.handleReplace_ = function () {
     // Replace result with selected item
-    var selectedItemData = lastActionList && lastActionList.getSelectedItemData();
+    var selectedItemData = this.actionList_ && this.actionList_.getSelectedItemData();
 
     if (selectedItemData) {
-      _handleComplete(selectedItemData, true);
+      this.handleComplete_(selectedItemData, true);
       return false;
     }
 
     // Insert first result when nothing selected
-    if (lastRelevantSuggestion) {
-      _handleComplete(lastRelevantSuggestion);
+    if (this.lastSuggestion_) {
+      this.handleComplete_(this.lastSuggestion_);
     }
 
     return false;
   };
-
-  var showAssist = function () {
-    _doAssist($el.text().replace(/\s/g, ' '), $el.caret(), false, false, true);
-    return false;
-  };
-
-  var preventEnter = function (e) {
-    e.preventDefault();
-  };
-
-  shortcuts('bindList', {scope: MODULE_SHORTCUTS}, {
-    'enter': function (e) {
-      apply();
-      e.preventDefault();
-    },
-    'tab': _handleTab,
-    'ctrl+space': showAssist,
-    'shift+enter': preventEnter,
-    'ctrl+enter': preventEnter,
-    'alt+enter': preventEnter,
-    'esc':function() {
-      // Hide dropdown and fall to next shortcuts scope if there was no one
-      if (!actionList('remove')) {
-        return true;
-      }
-    }
-  });
 
   Module.add(MODULE, {
-    init: init,
+    init: QueryAssist,
+    getQueryAssist: {
+      method: function() {
+        return QueryAssist;
+      },
+      override: true
+    },
     remove: remove,
     updateQuery: updateQuery,
     remoteDataSource: {
@@ -390,24 +573,8 @@ define([
   var queryAssist = Module.get(MODULE);
 
   queryAssist.on('focus', function (focus) {
-    if ($el) {
-      if (focus) {
-        var offset = $el.offset();
-
-        // TODO More robust scroll
-        if ($global.scrollTop() > offset.top) {
-          window.scrollTo(offset.left, Math.max(offset.top - 100, 0));
-        }
-        if ($el.text().length) {
-          ring('delayed-listener')('placeCaret', $el);
-        } else {
-          $el.focus();
-        }
-      } else {
-        $el.blur();
-      }
+    if (lastInstance) {
+      lastInstance.setFocus(focus);
     }
   });
-
-  queryAssist.on('search', apply);
 });
