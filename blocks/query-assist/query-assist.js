@@ -192,13 +192,15 @@ define([
   QueryAssist.prototype.updateQuery_ = function(params) {
     var queryUpdated;
 
-    if (params.query && params.query !== this.query_) {
+    if (typeof params.query === 'string' && params.query !== this.query_) {
       queryUpdated = true;
       this.query_ = params.query;
     }
 
-    if (params.caret && params.caret !== this.caret_ || queryUpdated) {
-      this.caret_ = params.caret || params.query.length;
+    if (typeof params.caret === 'number' && params.caret !== this.caret_) {
+      this.caret_ = params.caret;
+    } else if (queryUpdated) {
+      this.caret_ = params.query.length;
     }
 
     if (params.styleRanges) {
