@@ -383,6 +383,7 @@
         query: 'name: admin or id: 1',
         glass: true,
         placeholder: 'LOL',
+        autofocus: true,
         dataSource: query('remoteDataSource', {
           url: 'api/rest/users/queryAssist?caret=#{caret}&fields=query,caret,suggestions#{styleRanges}&query=#{query}'
         })

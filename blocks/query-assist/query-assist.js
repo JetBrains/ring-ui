@@ -62,7 +62,7 @@ define([
         query: config.query || '',
         caret: config.caret
       });
-      self.request_({highlight: self.query_ !== '', show: !!config.autofocus});
+      self.request_({highlight: !!self.query_, show: false, focus: !!config.autofocus});
 
       if (config.autofocus) {
         self.setFocus(true);
@@ -93,10 +93,8 @@ define([
       self.$input_.
         on('focus.' + MODULE, function () {
           shortcuts('pushScope', self.shortcutsUID_);
+          self.prevCaret_ = null;
           self.onFocusChange_(true);
-          if (self.inited_) {
-            self.request_({hightlight: false});
-          }
 
           // Backward compatibility
           queryAssist.trigger('focus-change', true);
@@ -104,6 +102,10 @@ define([
         on('blur.' + MODULE, function () {
           shortcuts('spliceScope', self.shortcutsUID_);
           self.onFocusChange_(false);
+
+          // Save caret to use in handleComplete_
+          self.prevCaret_ = self.caret_;
+          self.caret_ = null;
 
           // Backward compatibility
           queryAssist.trigger('focus-change', false);
@@ -140,8 +142,6 @@ define([
           triggerChange_(data);
         }
       });
-
-      this.inited_ = true;
     });
 
     lastInstance = this;
@@ -257,10 +257,10 @@ define([
         window.scrollTo(offset.left, Math.max(offset.top - 100, 0));
       }
 
+      // Always trigger focus to start delayed-listener
+      this.$input_.focus();
       if (this.query_ && this.query_.length) {
         delayedListener('placeCaret', this.getLetterElement_(this.caret_));
-      } else {
-        this.$input_.focus();
       }
     } else {
       this.$input_.blur();
@@ -278,9 +278,10 @@ define([
   };
 
   /**
-   * Requests and applies highlighting and/or suggestions
-   * @param {boolean=} params.highlight? Highlight query
-   * @param {boolean=} params.show? Show suggestions
+   * Requests and applies highlighting and/or suggetions
+   * @param {boolean=true} params.highlight? Highlight query
+   * @param {boolean=true} params.show? Show suggestions
+   * @param {boolean=true} params.focus? Focus on field after query update
    */
   QueryAssist.prototype.request_ = function(params) {
     params = params || {};
@@ -300,7 +301,9 @@ define([
           styleRanges: data.styleRanges
         });
 
-        self.setFocus(true);
+        if (params.focus !== false) {
+          self.setFocus(true);
+        }
       }
 
       // if data doesn't exist, hide suggest container
@@ -495,6 +498,9 @@ define([
 
     // TODO Get rid of events here
     actionList.on('change_' + actionList('getUID'), function (data) {
+      if (self.caret_ === null && typeof self.prevCaret_ != null) {
+        self.caret_ = self.prevCaret_;
+      }
       self.handleComplete_(data.data);
     });
 
