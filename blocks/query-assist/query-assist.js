@@ -37,7 +37,7 @@ define([
   var $global = $(document);
 
   /**
-   * Creates QueryAssist on config.target
+   * Creates QueryAssist on config.target element
    * @param config
    * @constructor
    */
@@ -83,7 +83,7 @@ define([
           e.preventDefault();
         },
         'esc':function() {
-          // Hide dropdown and fall to next shortcuts scope if there was no one
+          // Hide dropdown and fall to next shortcut scope if there was none
           if (!actionList('remove')) {
             return true;
           }
@@ -98,14 +98,14 @@ define([
             self.request_({hightlight: false});
           }
 
-          // Backward compability
+          // Backward compatibility
           queryAssist.trigger('focus-change', true);
         }).
         on('blur.' + MODULE, function () {
           shortcuts('spliceScope', self.shortcutsUID_);
           self.onFocusChange_(false);
 
-          // Backward compability
+          // Backward compatibility
           queryAssist.trigger('focus-change', false);
         });
 
@@ -127,7 +127,7 @@ define([
           self.request_();
           self.onChange_(query, data.caret);
 
-          // Backward compability
+          // Backward compatibility
           triggerChange_(data);
         },
         onDelayedCaretMove: function (data) {
@@ -136,7 +136,7 @@ define([
           });
           self.request_({highlight: false});
 
-          // Backward compability
+          // Backward compatibility
           triggerChange_(data);
         }
       });
@@ -160,21 +160,21 @@ define([
    * Destroys bindings
    */
   QueryAssist.prototype.destroy = function() {
-    // this.listener destroys automatically along with this.$view_
+    // this.listener is destroyed automatically along with this.$view_
     this.$view_.remove();
     shortcuts('unBindList', this.shortcutsUID_);
     if (this.actionList_) {
       actionList('remove');
     }
 
-    // Clean in one-instance environments
+    // Clean in single-instance environments
     if (lastInstance === this) {
       lastInstance = null;
     }
   };
 
   /**
-   * Destroy last instance; backward compability
+   * Destroy last instance; backward compatibility
    */
   var remove = function () {
     if (lastInstance) {
@@ -240,7 +240,7 @@ define([
     if (e) {
       e.preventDefault();
     }
-    // Backward compability
+    // Backward compatibility
     queryAssist.trigger('apply', this.query_);
   };
 
@@ -278,7 +278,7 @@ define([
   };
 
   /**
-   * Requests and applies highlighting and/or suggetions
+   * Requests and applies highlighting and/or suggestions
    * @param {boolean=} params.highlight? Highlight query
    * @param {boolean=} params.show? Show suggestions
    */
@@ -303,7 +303,7 @@ define([
         self.setFocus(true);
       }
 
-      // if data isn't exist hide suggest container
+      // if data doesn't exist, hide suggest container
       if (params.show !== false && data.suggestions) {
         self.showDropdown_(data);
       } else {
@@ -351,7 +351,8 @@ define([
   };
 
   /**
-   * Return caret coords in abs value
+
+   * Return caret coords as an absolute value
    * TODO move positioning logic to popup
    * @param {number} textPos
    * @returns {object}
@@ -525,7 +526,7 @@ define([
     this.request_();
     this.setFocus(true);
 
-    // Backward compability
+    // Backward compatibility
     queryAssist.trigger('change', {
       value: output,
       caret: data.suggestion.caret
