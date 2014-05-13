@@ -1,12 +1,32 @@
-.ring-query-assist {
-  white-space: nowrap;
-  overflow: hidden;
+@import '../global/global';
 
-  padding-top: 1px;
+.ring-query-assist {
+  position: relative;
+  box-sizing: border-box;
+  height: $ring-unit*3;
+  background: #FFF;
 }
 
-.ring-query-assist:empty:before {
-  content: attr(data-placeholder);
+.ring-query-assist__input {
+  z-index: 1;
+  padding-top: 1px;
+
+  overflow: hidden;
+  white-space: nowrap;
+  background: transparent;
+
+  // We need 1st part of selector to trigger 2nd one
+  // because of (possibly) browsers bugs
+  &:empty, &:empty ~ .ring-query-assist__placeholder {
+    display: block;
+  }
+}
+
+.ring-query-assist__placeholder {
+  display: none;
+  position: absolute;
+  top: 3px;
+  left: 4px;
   color: #9c9c9c;
 }
 
