@@ -21,6 +21,7 @@
             ngDisabled: "="
           },
           templateUrl: "avatar-editor/avatar-editor.ng.html",
+          transclude: true,
           controller: ["$scope", "$attrs", function ($scope, $attrs) {
             var ctrl = this;
             var fileInput, ngModelCtrl;
