@@ -174,7 +174,7 @@ define([
   };
 
   /**
-   * Destroy last instance; backward compatibility
+   * Destroys last instance; backward compatibility
    */
   var remove = function () {
     if (lastInstance) {
@@ -210,6 +210,9 @@ define([
     }
   };
 
+  /**
+   * Updates last instance; backward compatibility
+   */
   var updateQuery = function (query, caret) {
     if (lastInstance && query) {
       lastInstance.updateQuery_({
@@ -354,7 +357,6 @@ define([
   };
 
   /**
-
    * Return caret coords as an absolute value
    * TODO move positioning logic to popup
    * @param {number} textPos
