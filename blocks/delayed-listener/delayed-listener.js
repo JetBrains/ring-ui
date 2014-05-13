@@ -42,11 +42,11 @@ define([
     };
 
     $target.
-      bind('focus', function () {
+      bind('focus.' + MODULE, function () {
         startListen_();
         Module.get(MODULE).trigger('focus-change focusin', true);
       }).
-      bind('blur', function () {
+      bind('blur. ' + MODULE, function () {
         stopListen_(timeoutHandler);
         Module.get(MODULE).trigger('focus-change focusout', false);
       });
@@ -95,10 +95,20 @@ define([
       Module.get(MODULE).trigger('change:done', data);
     };
 
+    return {
+      destroy: function() {
+        $target.off(MODULE);
+      }
+    };
   };
 
   var placeCaret = function (el) {
     el.focus();
+
+    if (!el[0]) {
+      return;
+    }
+
     if (typeof window.getSelection !== 'undefined' && typeof document.createRange !== 'undefined') {
       var range = document.createRange();
       range.selectNodeContents(el[0]);
