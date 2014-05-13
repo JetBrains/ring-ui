@@ -14,13 +14,13 @@ define([
   var lastInstance;
   var uid = 0;
 
-  var WRAPPER_SELECTOR = '.ring-dropdown__i';
-  var MODULE_SELECTOR = '.ring-query-assist';
+  var INPUT_SELECTOR = '.ring-query-assist__input';
   var GLASS_SELECTOR = '.ring-js-query-assist__glass';
   var LETTER_CLASS_PREFIX = 'ring-query-assist__';
   var LETTER_ELEMENT = 'span';
 
-  // TODO Move to popup
+  // TODO Move logic with these selectors to popup
+  var WRAPPER_SELECTOR = '.ring-dropdown__i';
   var ITEM_CONTENT_SELECTOR = '.ring-dropdown__item__content';
 
   var ITEM_CONTENT_SELECTOR_PADDING = 8;
@@ -57,7 +57,7 @@ define([
 
     View.init(MODULE, this.$target_, config.method || 'prepend', {}, config).then(function($view) {
       self.$view_ = $view;
-      self.$input_ = $view.find(MODULE_SELECTOR);
+      self.$input_ = $view.find(INPUT_SELECTOR);
       self.updateQuery_({
         query: config.query || '',
         caret: config.caret
