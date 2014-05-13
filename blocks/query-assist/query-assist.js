@@ -16,7 +16,7 @@ define([
 
   var INPUT_SELECTOR = '.ring-query-assist__input';
   var GLASS_SELECTOR = '.ring-js-query-assist__glass';
-  var LETTER_CLASS_PREFIX = 'ring-query-assist__';
+  var LETTER_CLASS = 'ring-query-assist__letter';
   var LETTER_ELEMENT = 'span';
 
   // TODO Move logic with these selectors to popup
@@ -340,11 +340,11 @@ define([
 
       var classes = styleRanges && $.map(styleRanges, function(item) {
         if (item.start <= index && item.start + item.length > index) {
-          return LETTER_CLASS_PREFIX + item.style.replace('_', '-');
+          return LETTER_CLASS + '_' + item.style.replace('_', '-');
         } else {
           return null;
         }
-      }).join(' ');
+      }).concat(LETTER_CLASS).join(' ');
 
       if (classes) {
         element.className = classes;
