@@ -168,7 +168,7 @@ define([
         open = false;
         dirty = false;
       })
-      .on('focus', function() {
+      .on('focus', function () {
         shortcuts('pushScope', MODULE);
       });
 
