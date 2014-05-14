@@ -38,7 +38,7 @@ define([
 
   /**
    * Creates QueryAssist on config.target element
-   * @param config
+   * @param {Object} config
    * @constructor
    */
   var QueryAssist = function(config) {
@@ -149,7 +149,7 @@ define([
 
   /**
    * Triggers legacy change event
-   * @param data
+   * @param {Object} data
    * @private
    */
   function triggerChange_ (data) {
@@ -184,9 +184,9 @@ define([
 
   /**
    * Set new query
-   * @param.query {string}
-   * @param.caret {number}
-   * @param.styleRanges {array}
+   * @param params.query {string=}
+   * @param params.caret {number=}
+   * @param params.styleRanges {array=}
    * @private
    */
   QueryAssist.prototype.updateQuery_ = function(params) {
@@ -226,9 +226,9 @@ define([
 
   /**
    * Set new query and update highlighting
-   * @param.query {string}
-   * @param.caret {number}
-   * @param.styleRanges {array}
+   * @param params.query {string=}
+   * @param params.caret {number=}
+   * @param params.styleRanges {array=}
    */
   QueryAssist.prototype.updateQuery = function(params) {
     this.updateQuery_(params);
@@ -237,6 +237,7 @@ define([
 
   /**
    * Applies search
+   * @param {jQuery.Event=} e
    * @private
    */
   QueryAssist.prototype.apply_ = function(e) {
@@ -251,7 +252,7 @@ define([
 
   /**
    * Changes focus state
-   * @param {boolean} focus Focus state
+   * @param {boolean} focus New focus state
    */
   QueryAssist.prototype.setFocus = function(focus) {
     if (focus) {
@@ -275,7 +276,7 @@ define([
   /**
    * Returns letter span by position
    * @param {number} position
-   * @return {jQuery}
+   * @returns {jQuery}
    * @private
    */
   QueryAssist.prototype.getLetterElement_ = function(position) {
@@ -284,9 +285,9 @@ define([
 
   /**
    * Requests and applies highlighting and/or suggetions
-   * @param {boolean=true} params.highlight? Highlight query
-   * @param {boolean=true} params.show? Show suggestions
-   * @param {boolean=true} params.focus? Focus on field after query update
+   * @param {boolean=true} params.highlight Highlight query
+   * @param {boolean=true} params.show Show suggestions
+   * @param {boolean=true} params.focus Focus on field after query update
    */
   QueryAssist.prototype.request_ = function(params) {
     params = params || {};
@@ -362,7 +363,7 @@ define([
    * Return caret coords as an absolute value
    * TODO move positioning logic to popup
    * @param {number} textPos
-   * @returns {object}
+   * @returns {Object}
    * @private
    */
   QueryAssist.prototype.getCoords_ = function (textPos) {
@@ -396,7 +397,7 @@ define([
 
   /**
    * Default datasource
-   * @param remoteDataSourceConfig
+   * @param {Object} remoteDataSourceConfig
    * @returns {Function}
    */
   var remoteDataSource = function (remoteDataSourceConfig) {
@@ -431,7 +432,7 @@ define([
   /**
    * Renders actionlist dropdown
    * TODO move positioning logic to popup
-   * @param data
+   * @param {Object} data
    * @private
    */
   QueryAssist.prototype.showDropdown_ = function (data) {
@@ -513,7 +514,7 @@ define([
 
   /**
    * Handles complete
-   * @param {object} data Suggestions
+   * @param {Object} data Suggestions
    * @param {boolean=} replace Replace part or not
    * @private
    */
