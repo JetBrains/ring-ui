@@ -57,7 +57,7 @@ define([
     }
 
     var pollCaretPosition_ = function () {
-      if(!$target.is(':focus')) {
+      if (!$target.is(':focus')) {
         stopListen_(timeoutHandler);
         return false;
       }
@@ -96,7 +96,7 @@ define([
     };
 
     return {
-      destroy: function() {
+      destroy: function () {
         $target.off(MODULE);
       }
     };
