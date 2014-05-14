@@ -93,7 +93,6 @@ define([
       self.$input_.
         on('focus.' + MODULE, function () {
           shortcuts('pushScope', self.shortcutsUID_);
-          self.prevCaret_ = null;
           self.onFocusChange_(true);
 
           // Backward compatibility
@@ -102,10 +101,6 @@ define([
         on('blur.' + MODULE, function () {
           shortcuts('spliceScope', self.shortcutsUID_);
           self.onFocusChange_(false);
-
-          // Save caret to use in handleComplete_
-          self.prevCaret_ = self.caret_;
-          self.caret_ = null;
 
           // Backward compatibility
           queryAssist.trigger('focus-change', false);
@@ -517,9 +512,6 @@ define([
 
     // TODO Get rid of events here
     actionList.on('change_' + actionList('getUID'), function (data) {
-      if (self.caret_ === null && typeof self.prevCaret_ != null) {
-        self.caret_ = self.prevCaret_;
-      }
       self.handleComplete_(data.data);
     });
 
