@@ -262,7 +262,7 @@ define([
         window.scrollTo(offset.left, Math.max(offset.top - 100, 0));
       }
 
-      // Always trigger focus to start delayed-listener
+      // Always trigger focus on input to start delayed-listener
       this.$input_.focus();
       if (this.query_ && this.query_.length) {
         delayedListener('placeCaret', this.getLetterElement_(this.caret_));
