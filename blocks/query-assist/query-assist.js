@@ -304,6 +304,7 @@ define([
     var self = this;
     var highlight = params.highlight !== false;
 
+    this.lastSuggestion_ = null;
     this.dataSource_(this.query_, this.caret_, highlight).then(function (data) {
       if (!data || self.query_ !== data.query) {
         return;
