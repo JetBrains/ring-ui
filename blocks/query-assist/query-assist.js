@@ -200,11 +200,15 @@ define([
       this.query_ = params.query;
     }
 
-    if (typeof params.caret === 'number' && params.caret !== this.caret_) {
-      this.caret_ = params.caret;
-      caretUpdated = true;
-    } else if (queryUpdated) {
-      this.caret_ = params.query.length;
+    if (typeof params.caret === 'number') {
+      if (params.caret !== this.caret_) {
+        this.caret_ = params.caret;
+        caretUpdated = true;
+      }
+    } else {
+      if (queryUpdated) {
+        this.caret_ = params.query.length;
+      }
     }
 
     if (params.styleRanges) {
