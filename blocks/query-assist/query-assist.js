@@ -188,10 +188,12 @@ define([
    * @param params.query {string=}
    * @param params.caret {number=}
    * @param params.styleRanges {array=}
+   * @returns {boolean}
    * @private
    */
   QueryAssist.prototype.updateQuery_ = function(params) {
-    var queryUpdated;
+    var queryUpdated = false;
+    var caretUpdated = false;
 
     if (typeof params.query === 'string' && params.query !== this.query_) {
       queryUpdated = true;
@@ -200,6 +202,7 @@ define([
 
     if (typeof params.caret === 'number' && params.caret !== this.caret_) {
       this.caret_ = params.caret;
+      caretUpdated = true;
     } else if (queryUpdated) {
       this.caret_ = params.query.length;
     }
@@ -211,6 +214,8 @@ define([
     if (queryUpdated || params.styleRanges) {
       this.renderQuery_();
     }
+
+    return queryUpdated || caretUpdated;
   };
 
   /**
@@ -232,8 +237,11 @@ define([
    * @param params.styleRanges {array=}
    */
   QueryAssist.prototype.updateQuery = function(params) {
-    this.updateQuery_(params);
-    this.request_({show: false});
+    var queryUpdated = this.updateQuery_(params);
+
+    if (queryUpdated) {
+      this.request_({show: false});
+    }
   };
 
   /**
