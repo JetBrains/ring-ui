@@ -460,6 +460,15 @@ module.exports = function(grunt) {
         }
       }
     },
+    jsdoc : {
+      dist : {
+        src: ['blocks/**/*.js'],
+        options: {
+          destination: '<%= path.dist %>docs/',
+          lenient: true
+        }
+      }
+    },
 
 
     // Development
@@ -623,6 +632,7 @@ module.exports = function(grunt) {
     'templates',
     'requirejs',
     'docs',
+    'jsdoc',
     'copy:blocks'
   ]);
 
