@@ -147,9 +147,6 @@ define([
       }
     });
 
-    shortcuts('pushScope', MODULE);
-
-
     $target
       .on('input', function () {
         dirty = true;
@@ -170,6 +167,9 @@ define([
       .on('blur', function () {
         open = false;
         dirty = false;
+      })
+      .on('focus', function() {
+        shortcuts('pushScope', MODULE);
       });
 
     var renderProccess = function (data) {
