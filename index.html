@@ -389,10 +389,6 @@
         })
       });
 
-      query.on('apply', function (query) {
-        ring('alerts', 'add')('Query “' + query +'” submitted', 'success', true, 10000);
-      });
-
       ring('shortcuts')('bind', {
         key: 'ctrl+s',
         handler: function() {
@@ -407,7 +403,7 @@
               target: '.select-demo',
               description: 'description for dropdown-select',
               $top: 5,
-              onChange: function (data) {
+              onSelect: function (data) {
                   $(this.target).val(data.label);
               },
               onShow: function () {
