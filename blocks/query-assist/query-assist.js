@@ -121,6 +121,7 @@ define([
             return;
           }
 
+          self.listener.preventCaretPositionClean();
           self.updateQuery_({
             query: query,
             caret: data.caret

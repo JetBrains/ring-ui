@@ -22,6 +22,7 @@ define([
     };
 
     var timeoutHandler;
+    var preventLastTriggeredCaretPositionClean;
 
     if (!$target instanceof $) {
       Module.get(MODULE).trigger('init:fail');
@@ -30,14 +31,17 @@ define([
     var listenDelay = (config.listenDelay && !isNaN(config.listenDelay)) || LISTEN_DELAY;
 
     var startListen_ = function () {
-      position.lastTriggeredCaretPosition = undefined;
-      position.lastPolledCaretPosition = undefined;
-      timeoutHandler = setInterval(pollCaretPosition_, listenDelay);
+      if (!preventLastTriggeredCaretPositionClean) {
+        position.lastTriggeredCaretPosition = null;
+        preventLastTriggeredCaretPositionClean = null;
+      }
+      position.lastPolledCaretPosition = null;
+      timeoutHandler = setTimeout(pollCaretPosition_, listenDelay);
     };
 
     var stopListen_ = function (timeoutHandler) {
       if (timeoutHandler) {
-        clearInterval(timeoutHandler);
+        clearTimeout(timeoutHandler);
       }
     };
 
@@ -79,6 +83,8 @@ define([
         position.lastTriggeredValue = value;
         _onDelayedCaretMove({value: value, caret: caret});
       }
+
+      timeoutHandler = setTimeout(pollCaretPosition_, listenDelay);
     };
 
     var _onDelayedCaretMove = function (data) {
@@ -98,6 +104,9 @@ define([
     return {
       destroy: function () {
         $target.off(MODULE);
+      },
+      preventCaretPositionClean: function() {
+        preventLastTriggeredCaretPositionClean = true;
       }
     };
   };
