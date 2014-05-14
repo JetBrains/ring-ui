@@ -35,6 +35,12 @@
       font-weight: normal;
     }
 
+    .demo__sub-header {
+      margin: 8px 0 8px 0;
+      font-size: 15px;
+      font-weight: normal;
+    }
+
     .demo__query-example {
       width: 100%; margin: auto;
     }
@@ -63,7 +69,7 @@
       'dropdown-select/dropdown-select',
       'dropdown-filter/dropdown-filter'
     ],
-    function($, ring, utils) {
+    function($, ring) {
       window.ring = ring;
 
       var authData = {
@@ -343,39 +349,45 @@
         return false;
       });
 
-        var filter = ring('dropdown-filter');
-        filter('init', {
-          target: $('.ring-js-filter'),
-          type:['loader'],
-          width : 'auto',
-          actions: [
-            {
-              type: 'add',
-              title: 'Add to',
-              change: function () {
-                console.log(arguments);
-              },
-              $top: 10,
-              dataSource: filter('remoteDataSource', {
-                hubResource:'usergroups',
-                url: 'api/rest/usergroups?fields=id,name'
-              })
+      /**
+       *  dropdown-filter init
+       */
+      var filter = ring('dropdown-filter');
+      filter('init', {
+        target: $('.ring-js-filter'),
+        type:['loader'],
+        width : 'auto',
+        actions: [
+          {
+            type: 'add',
+            title: 'Add to',
+            change: function () {
+              console.log(arguments);
             },
-            {
-              type: 'remove',
-              title: 'Remove from',
-              $top: 10,
-              dataSource: filter('remoteDataSource', {
-                hubResource:'groups',
-                url: 'api/rest/users/#{userId}/groups?'
-              }),
-              change: function () {
-                console.log(arguments);
-              }
+            $top: 10,
+            dataSource: filter('remoteDataSource', {
+              hubResource:'usergroups',
+              url: 'api/rest/usergroups?fields=id,name'
+            })
+          },
+          {
+            type: 'remove',
+            title: 'Remove from',
+            $top: 10,
+            dataSource: filter('remoteDataSource', {
+              hubResource:'groups',
+              url: 'api/rest/users/#{userId}/groups?'
+            }),
+            change: function () {
+              console.log(arguments);
             }
-          ]
-        });
+          }
+        ]
+      });
 
+      /**
+       * query-assist init
+       */
       var query = ring('query-assist');
 
       query('init', {
@@ -389,6 +401,10 @@
         })
       });
 
+      query.on('apply', function (query) {
+        ring('alerts', 'add')('Query “' + query +'” submitted', 'success', true, 10000);
+      });
+
       ring('shortcuts')('bind', {
         key: 'ctrl+s',
         handler: function() {
@@ -396,27 +412,29 @@
         }
       });
 
+      /**
+       * dropdown-select init
+       */
+      var select = ring('dropdown-select');
 
-          var select = ring('dropdown-select');
-
-          select('init', {
-              target: '.select-demo',
-              description: 'description for dropdown-select',
-              $top: 5,
-              onSelect: function (data) {
-                  $(this.target).val(data.label);
-              },
-              onShow: function () {
-//                  ring('alerts', 'add')('Select onShow','success', true, 1000);
-              },
-              onHide: function () {
-                  ring('alerts', 'add')('Select onHide','success', true, 1000);
-              },
-              dataSource: select('remoteDataSource', {
-                  hubResource: 'usergroups',
-                  url: 'api/rest/usergroups?fields=id,name,iconUrl,total&query=#{query}'
-              })
-          });
+      select('init', {
+          target: '.select-demo',
+          description: 'description for dropdown-select',
+          $top: 5,
+          onSelect: function (data) {
+              $(this.target).val(data.label);
+          },
+          onShow: function () {
+  //                  ring('alerts', 'add')('Select onShow','success', true, 1000);
+          },
+          onHide: function () {
+              ring('alerts', 'add')('Select onHide','success', true, 1000);
+          },
+          dataSource: select('remoteDataSource', {
+              hubResource: 'usergroups',
+              url: 'api/rest/usergroups?fields=id,name,iconUrl,total&query=#{query}'
+          })
+      });
 
     });
   </script>
@@ -428,17 +446,22 @@
     <div class="demo__content">
       <h2 class="demo__header">Docs</h2>
 
-      <div><a class="ring-link" href="dist/docs/API.html">View API documentation</a></div>
+      <div><a class="ring-link" href="dist/docs/API.html">API documentation (outdated)</a></div>
       <div><a class="ring-link" href="dist/styleguide/">CSS Styleguide</a></div>
+
+      <h2 class="demo__header">Component examples</h2>
+      <h3 class="demo__sub-header">query-assist</h3>
       <div class="demo__query-example"></div>
-        <br>
-        <div class="ring-input_wrapper">
-            <input value="test" class="ring-input ring-input_icon ring-input_icon-loader ring-js-shortcuts select-demo">
-            <span class="ring-input_icon__span ring-font-icon_caret-down ring-font-icon"></span>
-            <div class="ring-loader ring-loader_inline"></div>
-        </div>
-        <br>
-        <button class="ring-btn ring-btn_primary ring-js-filter ring-js-shortcuts">dropdown-filter</button>
+
+      <h3 class="demo__sub-header">dropdown-select</h3>
+      <div class="ring-input_wrapper">
+        <input value="test" class="ring-input ring-input_icon ring-input_icon-loader ring-js-shortcuts select-demo">
+        <span class="ring-input_icon__span ring-font-icon_caret-down ring-font-icon"></span>
+        <div class="ring-loader ring-loader_inline"></div>
+      </div>
+
+      <h3 class="demo__sub-header">dropdown-filter</h3>
+      <button class="ring-btn ring-btn_primary ring-js-filter ring-js-shortcuts">dropdown-filter</button>
     </div>
   </div>
 </div>
