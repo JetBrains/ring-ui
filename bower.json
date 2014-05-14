@@ -4,7 +4,7 @@
   "devDependencies": {
     "almond": "~0.2.6",
     "codemirror": "~4.1.0",
-    "jquery": "~1.11.0",
+    "jquery": "~1.11.1",
     "jquery-caret": "git://github.com/princed/caret.git",
     "jquery.scrollTo": "~1.4.11",
     "json2": "*",
