@@ -103,11 +103,11 @@ define([
   };
 
   var placeCaret = function (el) {
-    el.focus();
-
     if (!el[0]) {
       return;
     }
+
+    el.focus();
 
     if (typeof window.getSelection !== 'undefined' && typeof document.createRange !== 'undefined') {
       var range = document.createRange();
