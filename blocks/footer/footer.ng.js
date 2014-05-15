@@ -29,7 +29,7 @@
         scope: {
           'type': '@footer'
         },
-        controller: ['$scope', function ($scope) {
+        controller: ['$scope', '$element', function ($scope, $element) {
           var ctrl = this;
           $scope.footer = {
             'type': [$scope.type, '4x'],
@@ -45,9 +45,15 @@
             column[rowIndex] = column[rowIndex] || [];
             column[rowIndex].push(cell);
           };
+          ctrl.renderFooter = function () {
+            ring('footer', 'init')($scope.footer, $element, 'replace').then(function ($el) {
+              $element = $el;
+            });
+          };
         }],
-        link: function (scope, iElement) {
-          ring('footer', 'init')(scope.footer, iElement, 'replace');
+        require: 'footer',
+        link: function (scope, iElement, iAttrs, footerCtrl) {
+          footerCtrl.renderFooter();
         }
       };
     }]).
@@ -66,13 +72,24 @@
           'title': '@title'
         },
         link: function (scope, iElement, iAttrs, footerCtrl) {
-          footerCtrl.addCell(scope.sideName, scope.rowIndex || 0, {
+          var cell = {
             'url': scope.url,
             'label': scope.label,
             'middot': scope.middot !== undefined,
             'copyright': scope.copyright,
             'target': scope.target,
             'title': scope.title
+          };
+
+          footerCtrl.addCell(scope.sideName, scope.rowIndex || 0, cell);
+
+          angular.forEach(['url', 'label', 'target', 'title'], function (field) {
+            scope.$watch(field, function (newValue, oldValue) {
+              if (oldValue && newValue !== oldValue) {
+                cell[field] = newValue;
+                footerCtrl.renderFooter();
+              }
+            });
           });
         }
       };
