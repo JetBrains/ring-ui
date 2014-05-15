@@ -458,6 +458,10 @@ define([
     var self = this;
     var dropdownTextPosition = data.caret;
 
+    if (!this.$input_.is(':visible')) {
+      return;
+    }
+
     if (data.suggestions[0]) {
       dropdownTextPosition -= data.suggestions[0].matchingEnd - data.suggestions[0].matchingStart;
     }
