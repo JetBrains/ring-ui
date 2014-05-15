@@ -58,6 +58,8 @@ $ring-btn-border-radius: 3px;
 // Styleguide 4.1
 
 .ring-btn {
+  @include ring-font();
+
   display: inline-block;
   // IE 7
   @media screen\9 {
