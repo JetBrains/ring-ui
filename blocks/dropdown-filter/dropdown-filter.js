@@ -165,8 +165,10 @@ define([
       $active.removeClass(ACTIVE_CLASS);
 
       if ($next.length) {
+        if(($next.position().top >= $activeContainer.height()) || $next.position().top < 0) {
+          $activeContainer.scrollTo( $next);
+        }
         $next.addClass(ACTIVE_CLASS);
-        $activeContainer.scrollTo( $next);
       } else {
         $activeContainer.scrollTo($el.parent().find(ITEM_ACTION_SELECTOR)[up ? 'last' : 'first']().addClass(ACTIVE_CLASS));
       }
@@ -210,7 +212,7 @@ define([
 
         if ($active.length) {
           var data = $active.data(events.EVENT_DATA_ATTR);
-          
+
           if (config.actions[index] &&
             config.actions[index].change
             ) {
