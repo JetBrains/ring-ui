@@ -218,7 +218,7 @@ define([
             ) {
             config.actions[index].change(data[0].data);
           }
-
+          remove(wrapper);
           return false;
         } else {
           return true;
