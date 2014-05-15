@@ -460,16 +460,6 @@ module.exports = function(grunt) {
         }
       }
     },
-    jsdoc : {
-      dist : {
-        src: ['blocks/**/*.js'],
-        options: {
-          destination: '<%= path.dist %>docs/',
-          lenient: true
-        }
-      }
-    },
-
 
     // Development
     watch: watchConfig,
@@ -548,6 +538,24 @@ module.exports = function(grunt) {
       }
     );
 
+  });
+
+  grunt.registerTask('jsdoc', 'Generate jsdoc documentation', function() {
+    var done = this.async();
+
+    grunt.util.spawn({
+        cmd: 'node_modules/.bin/jsdoc',
+        args: ['blocks/', '-r', '-d', path.dist + 'docs/']
+      },
+      function(err)
+      {
+        if (err) {
+          grunt.log.write(err);
+        }
+
+        done();
+      }
+    );
   });
 
   grunt.registerMultiTask('htmlmin', 'Trim whitespace chars from Handlebars templates', function() {
