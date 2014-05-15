@@ -22,7 +22,7 @@
     "grunt-contrib-requirejs": "~0.4.1",
     "grunt-contrib-uglify": "~0.4.0",
     "grunt-contrib-watch": "~0.6.1",
-    "grunt-csswring": "~0.1.0",
+    "grunt-csswring": "~0.2.0",
     "grunt-karma": "~0.8.2",
     "grunt-markdown": "~0.5.0",
     "grunt-notify": "^0.3.0",
