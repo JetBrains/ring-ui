@@ -14,7 +14,7 @@
         restrict: 'E',
         scope: {
           label: '@',
-          title: '@'
+          link: '@'
         }
       };
     }]);
