@@ -118,7 +118,8 @@ module.exports = function(grunt) {
     // Build
     csswring: {
       options: {
-        banner: '<%= pkg.name %> <%= version %>'
+        banner: '<%= pkg.name %> <%= version %>',
+        preserveHacks: true
       },
       dist: {
         files: [{
