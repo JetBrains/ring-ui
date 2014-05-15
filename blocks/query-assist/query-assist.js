@@ -110,7 +110,7 @@ define([
         target: self.$input_,
         listenDelay: config.listenDelay,
         onDelayedChange: function (data) {
-          var query = data.value.replace(/\s/g, ' ');
+          var query = normalizeSpace(data.value);
 
           if (query === self.query_) {
             return;
@@ -149,7 +149,16 @@ define([
    * @private
    */
   function triggerChange_ (data) {
-    queryAssist.trigger('change', {value: data.value.replace(/\s/g, ' '), caret: data.caret});
+    queryAssist.trigger('change', {value: normalizeSpace(data.value), caret: data.caret});
+  }
+
+  /**
+   * Convert all space characters to plain space
+   * @param {*} string
+   * @returns {string}
+   */
+  function normalizeSpace (string) {
+    return typeof string === 'string' ? string.replace(/\s/g, ' ') : '';
   }
 
   /**
@@ -305,7 +314,8 @@ define([
 
     this.lastSuggestion_ = null;
     this.dataSource_(this.query_, this.caret_, highlight).then(function (data) {
-      if (!data || self.query_ !== data.query) {
+      // Use text direct from input to aviod undesired race
+      if (!data || normalizeSpace(self.$input_.text()) !== data.query) {
         return;
       }
 
