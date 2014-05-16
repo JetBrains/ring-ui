@@ -12,7 +12,8 @@ define([
   'jquery',
   'diff/diff__tools',
   'handlebars',
-  'global/global__modules'
+  'global/global__modules',
+  'dialog/_dialog.hbs'
 ], function($, d, Handlebars, Module) {
   /**
    * @param {string} content

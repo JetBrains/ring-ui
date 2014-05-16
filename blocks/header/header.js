@@ -1,4 +1,12 @@
-define(['jquery',  'global/global__modules', 'global/global__views', 'dropdown-menu/dropdown-menu', 'font-icon/font-icon'], function($, Module, View) {
+define([
+  'jquery',
+  'global/global__modules',
+  'global/global__views',
+  'dropdown-menu/dropdown-menu',
+  'font-icon/font-icon',
+  'header/_header.hbs',
+  'dropdown-menu/_dropdown-menu__component.hbs'
+], function($, Module, View) {
   'use strict';
 
   var SERVICES_LIMIT = 10;

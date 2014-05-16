@@ -7,7 +7,10 @@
 define([
   'diff/diff__tools',
   'handlebars',
-  'diff/diff__parser_doublepane'
+  'diff/diff__parser_doublepane',
+  'diff/_diff__doublepane-divider-lower-border.hbs',
+  'diff/_diff__doublepane-divider-upper-border.hbs',
+  'diff/_diff__doublepane-divider-path.hbs'
 ], function(d, Handlebars) {
   /**
    * @param {Element} element

@@ -13,7 +13,8 @@ define([
   'diff/diff__editorcontroller',
   'diff/diff__parser_doublepane',
   'diff/diff__doublepane-menu',
-  'diff/diff__doublepane-divider'
+  'diff/diff__doublepane-divider',
+  'diff/_diff_doublepane.hbs'
 ], function($, Handlebars, raphael, d, CodeMirror, CodeMirrorHelper) {
 
   /**

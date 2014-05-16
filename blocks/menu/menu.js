@@ -3,7 +3,15 @@ define([
   'global/global__modules',
   'global/global__views',
   'dropdown/dropdown',
-  'font-icon/font-icon'
+  'font-icon/font-icon',
+  'menu/_menu.hbs',
+  'menu/_menu__item.hbs',
+  'menu/_menu__item__class.hbs',
+  'menu/_menu__counter.hbs',
+  'dropdown-toggle/_dropdown-toggle.hbs',
+  'dropdown/_dropdown__component.hbs',
+  'btn/_btn.hbs',
+  'btn/_btn__group.hbs'
 ], function($, Module, View) {
   'use strict';
 

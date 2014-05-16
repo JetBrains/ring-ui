@@ -6,7 +6,9 @@ define([
   'shortcuts/shortcuts',
   'action-list/action-list',
   'delayed-listener/delayed-listener',
-  'jquery.scrollTo'
+  'jquery.scrollTo',
+  'dropdown/_dropdown__separator.hbs',
+  'popup/_popup-control.hbs'
 ], function ($, View, Module, events) {
   'use strict';
 

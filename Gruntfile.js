@@ -236,7 +236,7 @@ module.exports = function(grunt) {
     // Process
     clean: {
       styles: '<%= path.dist %>/*.css',
-      generated: ['<%= path.dist %>', '<%= path.tmp %>'],
+      generated: ['<%= path.dist %>', '<%= path.tmp %>', '<%= path.blocks %>**/*.hbs.js'],
       modules: ['node_modules', 'components']
     },
     bower: {
@@ -283,7 +283,7 @@ module.exports = function(grunt) {
         files: [{
           expand: true,
           cwd: '.',
-          src : 'blocks/**/*.hbs',
+          src : '<%= path.blocks %>**/*.hbs',
           dest: '<%= path.tmp %>',
           ext: '.hbs'
         }]
@@ -296,9 +296,13 @@ module.exports = function(grunt) {
           namespace: false,
           node: false
         },
-        files: {
-          '<%= path.tmp %>/templates.js': ['<%= path.tmp %>**/*.hbs']
-        }
+        files: [{
+          expand: true,
+          cwd: '<%= path.tmp %>',
+          src : '<%= path.blocks %>**/*.hbs',
+          dest: '.',
+          ext: '.hbs.js'
+        }]
       }
     },
     requirejs: {

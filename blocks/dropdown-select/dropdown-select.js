@@ -1,11 +1,10 @@
 define([
   'jquery',
-  'global/global__views',
   'global/global__modules',
   'delayed-listener/delayed-listener',
   'action-list/action-list',
   'shortcuts/shortcuts'
-], function ($, View, Module) {
+], function ($, Module) {
   'use strict';
 
   var MODULE = 'dropdown-select',
