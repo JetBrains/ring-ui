@@ -24,7 +24,7 @@
             }
             if (!dontClose && (button.close !== false)) {
               dialog.hide();
-              ring().trigger('dialog:hide', {});
+              $scope.resetPosition();
             }
           };
           this.setTitle = function (title) {
@@ -34,7 +34,7 @@
 
           shortcuts('bindList', {scope: DIALOG_NAMESPACE}, {
             'esc': function () {
-              ring().trigger('dialog:hide', {});
+              $scope.resetPosition();
               dialog.hide();
               $scope.$apply();
             },
@@ -52,16 +52,17 @@
         // Focus first input
         'link': function (scope, iElement) {
           var iDocument = $(document);
+          var iBody = $('body');
           var iDialogContainer = iElement.find('.ring-dialog__container');
           var iDialogTitle = iElement.find('.ring-dialog__header__title');
-          var pageHeight = $('body').outerHeight();
-          var pageWidth = $('body').outerWidth();
+          var pageHeight = iBody.outerHeight();
+          var pageWidth = iBody.outerWidth();
 
           iDialogTitle.on('mousedown', function (e) {
             var titlePos = {
-                top: e.clientY,
-                left: e.clientX
-              };
+              top: e.clientY,
+              left: e.clientX
+            };
             var offsetContainer = iDialogContainer.offset();
             offsetContainer.top = offsetContainer.top - iDocument.scrollTop();
 
@@ -79,19 +80,19 @@
                   'margin': '0'
                 });
               }).
-              on('mouseup', function () {
-                $(this).off('mousemove.' + DIALOG_NAMESPACE);
+              one('mouseup.' + DIALOG_NAMESPACE, function () {
+                iDocument.off('mousemove.' + DIALOG_NAMESPACE);
               });
           });
 
-          ring().on('dialog:hide', function () {
+          scope.resetPosition = function () {
             iDialogContainer.css({
-              'position': 'relative',
-              'top': 'initial',
-              'left': 'initial',
-              'margin': '20% auto 0'
+              'position': '',
+              'top': '',
+              'left': '',
+              'margin': ''
             });
-          });
+          };
 
           var focusFirst = function () {
             iElement.find(':input,[contentEditable=true]').first().focus();
@@ -106,10 +107,7 @@
 
           scope.$on('$includeContentLoaded', focusFirst);
           scope.$on('$destroy', function () {
-            iDocument.off('focusin.' + DIALOG_NAMESPACE);
-            iDialogTitle.off('mousedown.' + DIALOG_NAMESPACE);
-            iDialogContainer.off('mouseup.' + DIALOG_NAMESPACE);
-
+            iDocument.off('.' + DIALOG_NAMESPACE);
           });
         }
       };
