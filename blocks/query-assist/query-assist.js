@@ -314,7 +314,7 @@ define([
     var highlight = params.highlight !== false;
 
     this.lastSuggestion_ = null;
-    this.dataSource_(this.query_, this.caret_, highlight).then(function (data) {
+    $.when(this.dataSource_(this.query_, this.caret_, highlight)).then(function (data) {
       // Use text direct from input to aviod undesired race
       if (!data || normalizeSpace(self.$input_.text()) !== data.query) {
         return;
