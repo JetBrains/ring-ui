@@ -1,24 +1,24 @@
-(function() {
+(function () {
   'use strict';
   var shortcuts = ring('shortcuts');
   var DIALOG_NAMESPACE = 'ring-dialog';
 
   angular.module('Ring.dialog', []).
-    directive('dialog', [function() {
+    directive('dialog', [function () {
       return {
         'restrict': 'AE',
         'scope': true,
         'replace': true,
         'templateUrl': 'dialog/dialog.ng.html',
-        'controller': ['$scope', 'dialog', function($scope, dialog) {
+        'controller': ['$scope', 'dialog', function ($scope, dialog) {
           $scope.close = dialog.hide;
           $scope.$on('$routeChangeSuccess', dialog.hide);
           $scope.$on('$routeUpdate', dialog.hide);
 
-          $scope.action = function(button) {
+          $scope.action = function (button) {
             var dontClose = false;
             if (button.action) {
-              dontClose = button.action($scope.data, button, function(errorMessage) {
+              dontClose = button.action($scope.data, button, function (errorMessage) {
                 $scope.error = errorMessage;
               }) === false;
             }
@@ -27,19 +27,19 @@
               ring().trigger('dialog:hide', {});
             }
           };
-          this.setTitle = function(title) {
+          this.setTitle = function (title) {
             $scope.title = title;
           };
           dialog.register($scope);
 
           shortcuts('bindList', {scope: DIALOG_NAMESPACE}, {
-            'esc': function() {
+            'esc': function () {
               ring().trigger('dialog:hide', {});
               dialog.hide();
               $scope.$apply();
             },
-            'enter': function() {
-              $scope.buttons.every(function(button) {
+            'enter': function () {
+              $scope.buttons.every(function (button) {
                 if (button['default'] && $scope.dialogForm.$valid) {
                   $scope.action(button);
                   $scope.$apply();
@@ -50,41 +50,42 @@
           });
         }],
         // Focus first input
-        'link': function(scope, iElement) {
-          var $document = $(document),
-            $dialogContainer = iElement.find('.ring-dialog__container'),
-            $dialogTitle = iElement.find('.ring-dialog__header__title'),
-            pageHeight = $('body').outerHeight(),
-            pageWidth = $('body').outerWidth();
+        'link': function (scope, iElement) {
+          var iDocument = $(document);
+          var iDialogContainer = iElement.find('.ring-dialog__container');
+          var iDialogTitle = iElement.find('.ring-dialog__header__title');
+          var pageHeight = $('body').outerHeight();
+          var pageWidth = $('body').outerWidth();
 
-          $dialogTitle.on('mousedown', function(e) {
+          iDialogTitle.on('mousedown', function (e) {
             var titlePos = {
                 top: e.clientY,
                 left: e.clientX
-              },
-              offsetContainer = $dialogContainer.offset();
-            offsetContainer.top = offsetContainer.top - $document.scrollTop();
+              };
+            var offsetContainer = iDialogContainer.offset();
+            offsetContainer.top = offsetContainer.top - iDocument.scrollTop();
 
-            $document.on('mousemove.' + DIALOG_NAMESPACE, function(e) {
-              var top = (offsetContainer.top - (titlePos.top - e.clientY)),
-                left = (offsetContainer.left - (titlePos.left - e.clientX));
-              if ((top > (pageHeight - $dialogContainer.height()) || top < 0 ) || (left > (pageWidth - $dialogContainer.width()) || left < 0)) {
-                return false;
-              }
-              $dialogContainer.css({
-                'position': 'absolute',
-                'top': top + 'px',
-                'left': left + 'px',
-                'margin': '0'
-              });
-            }).
-              on('mouseup', function() {
+            iDocument.
+              on('mousemove.' + DIALOG_NAMESPACE, function (e) {
+                var top = (offsetContainer.top - (titlePos.top - e.clientY)),
+                  left = (offsetContainer.left - (titlePos.left - e.clientX));
+                if ((top > (pageHeight - iDialogContainer.height()) || top < 0 ) || (left > (pageWidth - iDialogContainer.width()) || left < 0)) {
+                  return false;
+                }
+                iDialogContainer.css({
+                  'position': 'absolute',
+                  'top': top + 'px',
+                  'left': left + 'px',
+                  'margin': '0'
+                });
+              }).
+              on('mouseup', function () {
                 $(this).off('mousemove.' + DIALOG_NAMESPACE);
               });
           });
 
-          ring().on('dialog:hide', function() {
-            $dialogContainer.css({
+          ring().on('dialog:hide', function () {
+            iDialogContainer.css({
               'position': 'relative',
               'top': 'initial',
               'left': 'initial',
@@ -92,11 +93,11 @@
             });
           });
 
-          var focusFirst = function() {
+          var focusFirst = function () {
             iElement.find(':input,[contentEditable=true]').first().focus();
           };
 
-          $document.on('focusin.' + DIALOG_NAMESPACE, function(e) {
+          iDocument.on('focusin.' + DIALOG_NAMESPACE, function (e) {
             if (!$.contains(iElement[0], e.target)) {
               e.preventDefault();
               focusFirst();
@@ -104,21 +105,24 @@
           });
 
           scope.$on('$includeContentLoaded', focusFirst);
-          scope.$on('$destroy', function() {
-            $document.off('focusin.' + DIALOG_NAMESPACE);
+          scope.$on('$destroy', function () {
+            iDocument.off('focusin.' + DIALOG_NAMESPACE);
+            iDialogTitle.off('mousedown.' + DIALOG_NAMESPACE);
+            iDialogContainer.off('mouseup.' + DIALOG_NAMESPACE);
+
           });
         }
       };
     }]).
-    directive('dialogTitle', [function() {
+    directive('dialogTitle', [function () {
       return {
         'require': '^dialog',
-        'link': function(scope, iElement, iAttrs, dialogCtrl) {
+        'link': function (scope, iElement, iAttrs, dialogCtrl) {
           dialogCtrl.setTitle(iAttrs.dialogTitle);
         }
       };
     }]).
-    service('dialog', [function() {
+    service('dialog', [function () {
       var dialogScope;
       return {
         /**
@@ -138,7 +142,7 @@
          * </ul>
          *
          */
-        'show': function(config) {
+        'show': function (config) {
           if (!dialogScope) {
             console.error('No dialog directive is found');
             return;
@@ -164,7 +168,7 @@
         /**
          * Hides dialog
          */
-        'hide': function() {
+        'hide': function () {
           if (dialogScope) {
             dialogScope.active = false;
             dialogScope.content = '';
@@ -174,7 +178,7 @@
             }
           }
         },
-        'register': function(scope) {
+        'register': function (scope) {
           dialogScope = scope;
         }
       };
