@@ -1,16 +1,22 @@
+# Editors
 *.iws
 .idea/workspace.xml
 .idea/dictionaries/*.xml
 .idea/jsLinters/jshint.xml
 .idea/copyright/
+
+# OS
 .DS_Store
 .sass-cache
 ehthumbs.db
 libpeerconnection.log
 Icon?
 Thumbs.db
+
+# Generated
 components
 coverage
 dist
 node_modules
 tmp
+blocks/*/*.hbs.js

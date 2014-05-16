@@ -3,7 +3,8 @@ define([
   'global/global__views',
   'global/global__modules',
   'global/global__events',
-  'global/global__utils'
+  'global/global__utils',
+  'popup/_popup.hbs'
 ], function ($, View, Module) {
   'use strict';
 

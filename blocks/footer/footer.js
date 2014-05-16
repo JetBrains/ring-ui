@@ -1,4 +1,10 @@
-define(['jquery',  'global/global__modules', 'global/global__views'], function($, Module, View) {
+define([
+  'jquery',
+  'global/global__modules',
+  'global/global__views',
+  'footer/_footer.hbs',
+  'footer/_footer__item.hbs'
+], function($, Module, View) {
   'use strict';
 
   var module = 'footer';

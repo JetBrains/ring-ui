@@ -4,7 +4,12 @@ define([
   'global/global__modules',
   'global/global__events',
   'global/global__utils',
-  'shortcuts/shortcuts'
+  'shortcuts/shortcuts',
+  'dropdown/_dropdown.hbs',
+  'dropdown/_dropdown__class.hbs',
+  'dropdown/_dropdown__items.hbs',
+  'dropdown/_dropdown__content.hbs',
+  'dropdown/_dropdown__separator.hbs'
 ], function ($, View, Module, events, utils) {
   'use strict';
 

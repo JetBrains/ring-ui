@@ -1,4 +1,12 @@
-define(['jquery', 'handlebars', 'global/global__modules', 'global/global__utils', 'global/global__helpers', '../../tmp/templates'], function($, Handlebars, Module, utils) {
+define([
+  'jquery',
+  'handlebars',
+  'global/global__modules',
+  'global/global__utils',
+  'global/global__helpers',
+  'global/_global__class.hbs',
+  'global/_global__attributes.hbs'
+], function($, Handlebars, Module, utils) {
   'use strict';
 
   var views = {};

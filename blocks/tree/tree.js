@@ -2,7 +2,10 @@ define([
   'global/global__modules',
   'global/global__utils',
   'handlebars',
-  'jquery'
+  'jquery',
+  'tree/_tree.hbs',
+  'tree/_tree__item.hbs',
+  'tree/_tree-empty.hbs'
 ], function (Module, utils, Handlebars, $) {
   
   'use strict';
