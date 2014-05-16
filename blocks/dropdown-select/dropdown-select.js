@@ -163,6 +163,10 @@ define([
           }
         }
       })
+      .on('click', function(e) {
+        $target.select();
+        e.preventDefault();
+      })
       .on('blur', function () {
         open = false;
         dirty = false;
