@@ -41,6 +41,11 @@
 }
 
 .ring-breadcrumb__element {
+
+  .ring-breadcrumb {
+    display: inline;
+  }
+
   display: inline-block;
   height: $ring-unit*3;
 
