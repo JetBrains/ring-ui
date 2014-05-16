@@ -1,11 +1,38 @@
-define(function() {
+define(['jquery'], function($) {
   'use strict';
 
   // Utils
   var utils = {};
 
+  // Ported from Chai as Promised
   utils.isDeferred = function(obj) {
-    return !!obj && typeof obj === 'object' && obj.hasOwnProperty('promise') && typeof obj.promise === 'function';
+    return obj != null &&
+      typeof obj.always === 'function' &&
+      typeof obj.done === 'function' &&
+      typeof obj.fail === 'function' &&
+      typeof obj.pipe === 'function' &&
+      typeof obj.progress === 'function' &&
+      typeof obj.state === 'function';
+  };
+
+  utils.isPromise = function(obj) {
+    return obj != null && typeof obj.then === 'function';
+  };
+
+  utils.wrapPromise = function(obj) {
+    if (utils.isPromise(obj) && !utils.isDeferred(obj)) {
+      var dfd = $.Deferred();
+
+      obj.then(function(result) {
+        dfd.resolve(result);
+      }, function(error) {
+        dfd.reject(error);
+      });
+
+      return dfd.promise();
+    }
+
+    return $.when(obj);
   };
 
   utils.isNode = function(obj) {
