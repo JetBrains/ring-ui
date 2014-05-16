@@ -84,15 +84,9 @@
                 iDocument.off('mousemove.' + DIALOG_NAMESPACE);
               });
           });
-
-          scope.resetPosition = function () {
-            iDialogContainer.css({
-              'position': '',
-              'top': '',
-              'left': '',
-              'margin': ''
-            });
-          };
+          ring().on('dialog:hide', function () {
+            iDialogContainer.attr('style', null);
+          });
 
           var focusFirst = function () {
             iElement.find(':input,[contentEditable=true]').first().focus();
