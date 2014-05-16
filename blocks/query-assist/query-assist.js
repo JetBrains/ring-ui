@@ -7,7 +7,8 @@ define([
   'auth/auth',
   'shortcuts/shortcuts',
   'action-list/action-list',
-  'delayed-listener/delayed-listener'
+  'delayed-listener/delayed-listener',
+  'query-assist/_query-assist.hbs'
 ], function ($, View, Module, utils) {
   'use strict';
 

@@ -1,4 +1,9 @@
-define(['jquery',  'global/global__modules', 'global/global__views', 'auth/auth'], function($, Module, View) {
+define(['jquery',
+  'global/global__modules',
+  'global/global__views',
+  'auth/auth',
+  'profile/_profile.hbs'
+], function($, Module, View) {
   'use strict';
 
   var module = 'profile';

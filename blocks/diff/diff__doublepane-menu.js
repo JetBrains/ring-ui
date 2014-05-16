@@ -6,7 +6,8 @@
 define([
   'diff/diff__tools',
   'handlebars',
-  'jquery'
+  'jquery',
+  'diff/_diff__doublepane-menu.hbs'
 ], function(d, Handlebars, $) {
   /**
    * @param {Element} element
