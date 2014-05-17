@@ -1,4 +1,4 @@
-@import "../global/global";
+@import '../global/global';
 
 // Dialog
 //
@@ -45,16 +45,18 @@
 // Styleguide 13.1
 
 .ring-dialog__wrapper {
-  display: none;
+  position: fixed;
+  z-index: $ring-overlay-z-index;
+  top: 0;
   bottom: 0;
   left: 0;
-  overflow: auto;
-  position: fixed;
-  text-align: center;
-  top: 0;
-  width: 100%;
-  z-index: $ring-overlay-z-index;
 
+  display: none;
+  overflow: auto;
+
+  width: 100%;
+
+  text-align: center;
   &.active,
   &.ring-dialog__wrapper_active {
     display: block;
@@ -62,95 +64,109 @@
 }
 
 .ring-dialog__container {
-  background: #FFF;
-  border-radius: 3px;
-  border: 1px solid #B4B4B4;
-  box-shadow: 0px 0px $ring-unit*4 $ring-unit rgba(0, 0, 0, 0.2);
   font-size: 12px;
-  @include ring-font;
+
+  position: relative;
+  z-index: 2;
+
   display: block;
+
+  width: $ring-unit * 50;
   margin: 20% auto 0;
   padding: 0;
-  position: relative;
+
   text-align: left;
-  width: $ring-unit * 50;
-  z-index: 2;
+
+  border: 1px solid #b4b4b4;
+  border-radius: 3px;
+  background: #fff;
+  box-shadow: 0 0 $ring-unit*4 $ring-unit rgba(0, 0, 0, .2);
+
+  @include ring-font;
 }
 
 .ring-dialog__layer {
   position: absolute;
+  z-index: 1;
   top: 0;
-  left: 0;
-  width: 100%;
   bottom: 0;
+  left: 0;
+
+  width: 100%;
   margin: 0;
   padding: 0;
 
-  opacity: 0.4;
-  background-color: #FFF;
-
   text-align: center;
 
-  z-index: 1;
+  opacity: .4;
+  background-color: #fff;
 }
 
 .ring-dialog__content {
-  padding: $ring-unit*2 $ring-unit*4 $ring-unit;
   margin: 0;
+  padding: $ring-unit*2 $ring-unit*4 $ring-unit;
 }
 
 .ring-dialog__footer {
+  font-size: 0;
+
   height: $ring-unit*7;
   padding: 0 4*$ring-unit 0 4*$ring-unit;
 
-  font-size: 0;
   text-align: left;
 
-  background: #E9F8FF;
-
-  border-bottom-left-radius: 3px;
   border-bottom-right-radius: 3px;
+  border-bottom-left-radius: 3px;
+  background: #e9f8ff;
 }
 
 .ring-dialog__footer__spacer {
   display: inline-block;
+
   height: 100%;
+
   vertical-align: middle;
 }
 
 .ring-dialog__footer__item {
   display: inline-block;
-  margin-right: 12px;
+
+  margin-right: $ring-unit;
 }
 
 .ring-dialog__header {
-  background-image: linear-gradient(to top, #EBEBEB, #FFF);
-  border-bottom: 1px solid #B4B4B4;
+  line-height: $ring-unit*3 - 2;
+
+  position: relative;
+
+  min-height: $ring-unit*3 - 2;
+
+  border-bottom: 1px solid #b4b4b4;
   border-top-left-radius: 3px;
   border-top-right-radius: 3px;
-  line-height: $ring-unit*3 - 2;
-  min-height: $ring-unit*3 - 2;
-  position: relative;
+  background-image: linear-gradient(to top, #ebebeb, #fff);
 }
 
 .ring-dialog__header__title {
-  display: block;
-  cursor: move;
-
-  text-align: center;
   font-weight: bold;
+
+  display: block;
+
+  cursor: move;
+  text-align: center;
 }
 
 .ring-dialog__header__close-icon {
+  font-size: 13px;
+
   position: absolute;
   top: 5px;
   right: 6px;
 
   cursor: pointer;
-  color: #B4B4B4;
-  font-size: 13px;
 
+  color: #b4b4b4;
   &:hover {
-    color: #8C8C8C;
+    color: #8c8c8c;
   }
 }
