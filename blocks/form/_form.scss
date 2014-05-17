@@ -118,6 +118,12 @@
   font-weight: bold;
 }
 
+.ring-form__main-title {
+  @include ring-font();
+
+  font-size: 19px;
+}
+
 .ring-form__title_separated {
   margin: $ring-unit*3 0;
 }
@@ -130,6 +136,10 @@
   &:last-child {
     padding-bottom: 2*$ring-unit;
   }
+}
+
+.ring-form__group_united {
+  padding-bottom: 0;
 }
 
 .ring-form__group_nested {
