@@ -1,6 +1,4 @@
-define(function(require) {
-  var $ = require('jquery');
-
+define(['jquery', 'support/support'], function($, support) {
   // Windows non-webkit png sprite fallback
   var computedStyles = window.getComputedStyle && window.getComputedStyle(document.documentElement, '');
   var webkitFontSmoothing = computedStyles && 'webkitFontSmoothing' in computedStyles;
@@ -11,20 +9,9 @@ define(function(require) {
   }
 
   // IE7- generated content polyfill
-  var ie = (function(){
-    var v = 3;
-    var div = document.createElement('div');
-    var all = div.getElementsByTagName('i');
+  var IEVersion = support.getIEVersion();
 
-    while (
-      div.innerHTML = '<!--[if gt IE ' + (++v) + ']><i></i><![endif]-->',
-      all[0]
-    ){}
-
-    return v > 4 ? v : undefined;
-  }());
-
-  if (!ie || ie > 7) {
+  if (!IEVersion || IEVersion > 7) {
     return;
   }
 
