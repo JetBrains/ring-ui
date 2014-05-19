@@ -17,7 +17,7 @@
           }
 
           dialog.show({
-            content: 'confirm/confirm.tpl.html',
+            content: 'confirm/confirm.ng.html',
             data: {
               message: message,
               description: description
