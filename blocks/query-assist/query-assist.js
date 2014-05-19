@@ -436,7 +436,7 @@ define([
       var substr = ['query', 'caret', 'styleRanges'];
       var suggestArgs = [encodeURI(query), caret.toString(), (requestHighlighting ? ',styleRanges' : '')];
 
-      substr.forEach(function (item, index) {
+      $.each(substr, function (index, item) {
         restUrl = restUrl.replace('#{' + item  + '}', suggestArgs[index] ? suggestArgs[index] : '');
       });
 
