@@ -58,6 +58,10 @@
           var pageHeight = iBody.outerHeight();
           var pageWidth = iBody.outerWidth();
 
+          scope.resetPosition = function() {
+            iDialogContainer.attr('style', null);
+          };
+
           iDialogTitle.on('mousedown', function (e) {
             var titlePos = {
               top: e.clientY,
@@ -85,7 +89,7 @@
               });
           });
           ring().on('dialog:hide', function () {
-            iDialogContainer.attr('style', null);
+            scope.resetPosition();
           });
 
           var focusFirst = function () {
