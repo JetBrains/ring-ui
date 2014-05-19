@@ -8,13 +8,45 @@
    *
    * Where form.name is a reference to angularJS form input
    */
-    directive('errorBubble', [function () {
+    directive('errorBubble', ['errorBubbleMessageBundle', function (bundle) {
       return {
         scope: {
           'errorBubble': '&errorBubble'
         },
         replace: true,
-        templateUrl: 'form/ring-input__error-bubble.ng.html'
+        templateUrl: 'form/ring-input__error-bubble.ng.html',
+        link: function (scope) {
+          scope.msg = function (id) {
+            return bundle[id] && bundle[id]();
+          };
+        }
+      };
+    }]).
+  /**
+   * This service is used by errorBubble directive to correctly show messages.
+   * You can decorate this service to provide your own localized messages.
+   */
+    service('errorBubbleMessageBundle', [function () {
+      this.valueIsRequired = function () {
+        return 'Value is required';
+      };
+      this.shouldBeValidURL = function () {
+        return 'Should be a valid URL';
+      };
+      this.shouldBeValidEmail = function () {
+        return 'Should be a valid email';
+      };
+      this.isTooLong = function () {
+        return 'Is too long';
+      };
+      this.isTooShort = function () {
+        return 'Is too short';
+      };
+      this.doesNotMatchPattern = function () {
+        return 'Doesn\'t match the pattern';
+      };
+      this.isNotSame = function () {
+        return 'Is not the same';
       };
     }]).
   /**
@@ -92,9 +124,9 @@
               }
             }());
 
-            element.on('$destroy', function() {
-                $timeout.cancel(promise);
-              });
+            element.on('$destroy', function () {
+              $timeout.cancel(promise);
+            });
 
           }
         }
