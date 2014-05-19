@@ -60,7 +60,7 @@ define([
       startListen_();
     }
 
-    var pollCaretPosition_ = function () {
+    function pollCaretPosition_() {
       if (!$target.is(':focus')) {
         stopListen_(timeoutHandler);
         return false;
