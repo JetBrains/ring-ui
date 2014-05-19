@@ -1,5 +1,6 @@
 define([
   'jquery',
+  'support/support',
   'global/global__views',
   'global/global__modules',
   'global/global__utils',
@@ -9,7 +10,7 @@ define([
   'action-list/action-list',
   'delayed-listener/delayed-listener',
   'query-assist/_query-assist.hbs'
-], function ($, View, Module, utils) {
+], function ($, support, View, Module, utils) {
   'use strict';
 
   var lastInstance;
@@ -117,7 +118,9 @@ define([
             return;
           }
 
+          self.repaint();
           self.listener.preventCaretPositionClean();
+
           self.updateQuery_({
             query: query,
             caret: data.caret
@@ -143,6 +146,24 @@ define([
 
     lastInstance = this;
   };
+
+  /**
+   * Forces input repaint on IE
+   * @type {noop}
+   * @private
+   */
+  QueryAssist.prototype.repaint = $.noop;
+
+  // Should be inited on dom ready
+  $(function () {
+    if (support.getIEVersion()) {
+      QueryAssist.prototype.repaint = function() {
+        this.$input_.
+          detach().
+          prependTo(this.$view_);
+      };
+    }
+  });
 
   /**
    * Triggers legacy change event
