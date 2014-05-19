@@ -85,7 +85,7 @@ define([
       }
 
       timeoutHandler = setTimeout(pollCaretPosition_, listenDelay);
-    };
+    }
 
     var _onDelayedCaretMove = function (data) {
       if (config.onDelayedCaretMove && typeof config.onDelayedCaretMove === 'function') {
