@@ -48,7 +48,8 @@ module.exports = function(grunt) {
       args: ['watch']
     });
 
-    grunt.log.ok('Add :styleguide target to livereload styleguide generated files');
+    grunt.log.writeln('Add :styleguide target to livereload styleguide generated files');
+    grunt.log.writeln('Add :test target to run test on file changes');
 
     watchConfig = {
       options: {
@@ -61,7 +62,7 @@ module.exports = function(grunt) {
       },
       js: {
         files: ['<%= path.blocks %>**/*.js', '<%= path.bundles %>**/*.js', '<%= path.tests %>**/*.js'],
-        tasks: ['jshint:dev', 'karma:dev:run']
+        tasks: args.indexOf('test') !== -1 ? ['jshint:dev', 'karma:dev:run'] : ['jshint:dev']
       },
       components: {
         files: ['<%= path.blocks %>**/*.{ng.*,scss}'],
@@ -221,7 +222,18 @@ module.exports = function(grunt) {
       options: {
         jshintrc: '.jshintrc'
       },
-      dev: ['*.js', '<%= path.blocks %>**/*.js', '<%= path.bundles %>*.js'],
+      dev: {
+        options: {
+          // Don't break watch on jshint warnings
+          force: true
+        },
+        files: {
+          src: ['*.js', '<%= path.blocks %>**/*.js', '<%= path.bundles %>*.js']
+        }
+      },
+      hook: (process.env['HOOK_FILES'] || '').split('\n').filter(function(filename) {
+        return (/\.js$/).test(filename);
+      }),
       dist: {
         options: {
           reporter: 'jslint',
@@ -232,12 +244,25 @@ module.exports = function(grunt) {
         }
       }
     },
+    githooks: {
+      options: {
+        // Grunt absolute path
+        command: process.argv[1],
+        // Custom template to collect committed files
+        template: '.pre-commit.js.hbs'
+      },
+      all: {
+        // Will run the jshint and test:unit tasks at every commit
+        'pre-commit': 'jshint:hook karma:test'
+      }
+    },
 
     // Process
     clean: {
       styles: '<%= path.dist %>/*.css',
       generated: ['<%= path.dist %>', '<%= path.tmp %>', '<%= path.blocks %>**/*.hbs.js'],
-      modules: ['node_modules', 'components']
+      modules: ['node_modules', 'components'],
+      hooks: ['.git/hooks/pre-commit']
     },
     bower: {
       install: {
@@ -604,7 +629,7 @@ module.exports = function(grunt) {
   });
 
   grunt.registerTask('install',   ['bower']);
-  grunt.registerTask('uninstall', ['clean:modules']);
+  grunt.registerTask('uninstall', ['clean:modules', 'clean:hooks']);
   grunt.registerTask('cleanup',   ['clean:generated']);
 
 
@@ -649,14 +674,22 @@ module.exports = function(grunt) {
     'copy:blocks'
   ]);
 
-  grunt.registerTask('server', [
-    'install',
-    'styles',
-    'templates',
-    'karma:dev',
-    'connect',
-    'watch'
-  ]);
+  grunt.registerTask('server', function () {
+    var tasks = [
+      'githooks',
+      'install',
+      'styles',
+      'templates',
+      'connect',
+      'watch'
+    ];
+
+    if (args.indexOf('test') !== -1) {
+      tasks.unshift('karma:dev');
+    }
+
+    grunt.task.run(tasks);
+  });
 
   grunt.registerTask('minify', [
     'csswring',
