@@ -118,7 +118,7 @@ define([
             return;
           }
 
-          self.repaint();
+          self.repaint_();
           self.listener.preventCaretPositionClean();
 
           self.updateQuery_({
@@ -152,12 +152,12 @@ define([
    * @type {noop}
    * @private
    */
-  QueryAssist.prototype.repaint = $.noop;
+  QueryAssist.prototype.repaint_ = $.noop;
 
   // Should be inited on dom ready
   $(function () {
     if (support.getIEVersion()) {
-      QueryAssist.prototype.repaint = function() {
+      QueryAssist.prototype.repaint_ = function() {
         this.$input_.
           detach().
           prependTo(this.$view_);
