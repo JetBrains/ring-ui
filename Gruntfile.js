@@ -245,7 +245,7 @@ module.exports = function(grunt) {
     githooks: {
       options: {
         // We need grunt absolute path because of IntelliJ
-        command: process.argv[1] + (process.platform === 'win32' ? '.cmd' : ''),
+        command: 'node ' + process.argv[1],
         // Custom template to collect committed files
         template: '.pre-commit.js.hbs'
       },
