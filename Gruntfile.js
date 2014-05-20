@@ -231,9 +231,7 @@ module.exports = function(grunt) {
           src: ['*.js', '<%= path.blocks %>**/*.js', '<%= path.bundles %>*.js']
         }
       },
-      hook: (process.env['HOOK_FILES'] || '').split('\n').filter(function(filename) {
-        return (/\.js$/).test(filename);
-      }),
+      hook: (process.env['HOOK_FILES'] || '').split('\n'),
       dist: {
         options: {
           reporter: 'jslint',

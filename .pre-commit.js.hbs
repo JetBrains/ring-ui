@@ -6,7 +6,15 @@ exec('git diff --cached --name-only', params, function (error, stdout, stderr) {
   if (error){
     process.exit(-1);
   } else {
-    process.env.HOOK_FILES = stdout;
+    var files = (stdout || '').split('\n').filter(function(filename) {
+      return (/\.js$/).test(filename);
+    });
+
+    if (files.length === 0) {
+      process.exit(0);
+    }
+
+    process.env.HOOK_FILES = files.join('\n');
 
     exec(command, params, function (err, stdout, stderr) {
         console.log(stdout);
