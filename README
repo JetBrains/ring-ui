@@ -8,17 +8,18 @@ Ring UI: development environment setup
 
 3. Install dependencies:
 
-    npm install 
+    npm install
 
-4. Prepare files:
-
-    grunt
-
-5. Start the watcher and the server:
+4. Start the watcher and the server (also installs git pre-commit hook):
 
     grunt server
 
 =======================================
+
+(Optional) Use additional targets with grunt server task
+
+    Add :styleguide target to livereload styleguide generated files
+    Add :test target to run test on file changes
 
 (Optional) Install VirtualBox and ievms to test run test on IE
 
@@ -33,6 +34,6 @@ Clean generated files:
 
     grunt cleanup
 
-Uninstall dependencies:
+Uninstall dependencies and hooks:
 
     grunt uninstall
