@@ -1,0 +1,23 @@
+var exec = require('child_process').exec;
+var params = {cwd: '{{escapeBackslashes gruntfileDirectory}}'};
+var command = '{{escapeBackslashes command}}{{#if task}} {{escapeBackslashes task}}{{/if}}{{#if args}} {{{escapeBackslashes args}}}{{/if}}';
+
+exec('git diff --cached --name-only', params, function (error, stdout, stderr) {
+  if (error){
+    process.exit(-1);
+  } else {
+    process.env.HOOK_FILES = stdout;
+
+    exec(command, params, function (err, stdout, stderr) {
+        console.log(stdout);
+
+        var exitCode = 0;
+        if (err) {
+          console.log(stderr);
+          exitCode = -1;
+        }{{#unless preventExit}}
+
+        process.exit(exitCode);{{/unless}}
+    });
+  }
+});
