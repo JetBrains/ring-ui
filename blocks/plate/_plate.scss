@@ -1,0 +1,29 @@
+@import "../global/global";
+
+// Plate
+//
+// Markup:
+// <span class="ring-plate {$modifiers}">Hello</span>
+//
+// .ring-plate_red  - Red
+// .ring-plate_blue - Blue
+//
+// Styleguide 21.1
+
+
+.ring-plate {
+  padding: 1px 2px;
+  border-radius: 2px;
+
+  color: #FFF;
+  background-color: #888;
+  font-size: 10px;
+}
+
+.ring-plate_red {
+  background-color: #C10000;
+}
+
+.ring-plate_blue {
+  background-color: $ring-link-color;
+}

@@ -1,7 +1,5 @@
 @import "../global/global";
 
-$ring-menu-attention-color: #F50000;
-
 .ring-menu {
   position: relative;
   width: 100%;
@@ -118,17 +116,6 @@ $ring-menu-attention-color: #F50000;
   position: relative;
   top: -7px;
   left: 5px;
-
-  padding: 1px 2px;
-  border-radius: 2px;
-
-  color: #FFF;
-  background-color: $ring-link-color;
-  font-size: 10px;
-}
-
-.ring-menu__item__counter_attention {
-  background-color: $ring-menu-attention-color;
 }
 
 .ring-menu__right {
