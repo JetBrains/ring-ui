@@ -1,12 +1,17 @@
 'use strict';
 
 var gulp = require('gulp'),
+  gutil = require('gulp-util'),
   clean = require('gulp-clean'),
   connect = require('gulp-connect'),
   autoprefixer = require('gulp-autoprefixer'),
   minifycss = require('gulp-minify-css'),
   scss = require('gulp-sass'),
-  react = require('gulp-react');
+  react = require('gulp-react'),
+  webpack = require('webpack'),
+  WebpackDevServer = require('webpack-dev-server');
+
+var webpackConfig = require('./webpack.config.js');
 
 var PATH = {
   tmp: 'tmp',
@@ -112,6 +117,17 @@ gulp.task('react', function () {
   return gulp.src(PATH.js.jsxSrc)
     .pipe(react())
     .pipe(gulp.dest('dist'));
+});
+
+gulp.task('webpack-dev', function () {
+  var compiler = webpack(webpackConfig);
+
+  new WebpackDevServer(compiler, {}).listen(8000, 'localhost', function (err) {
+    if (err) {
+      throw new gutil.PluginError('webpack-dev-server', err);
+    }
+    gutil.log('[webpack-dev-server]', 'http://localhost:8000/webpack.html');
+  });
 });
 
 gulp.task('default', [
