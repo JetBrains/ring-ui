@@ -14,8 +14,10 @@ var PATH = {
     js: 'bundles/**/*.js',
     css: 'bundles/**/*.scss'
   },
-  styles: 'blocks/**/*.scss',
-  stylesDev: 'bundles/ring-lib.scss',
+  styles :{
+    src: 'blocks/**/*.scss',
+    dev: 'bundles/ring-lib.scss'
+  },
   fontsSrc: [
     'blocks/font-icon/**/*.woff',
     'blocks/font-icon/**/*.eot',
@@ -58,7 +60,7 @@ gulp.task('watch', [
   'styles-dev',
   'fonts'
 ], function () {
-  gulp.watch(PATH.styles, ['styles-dev']);
+  gulp.watch(PATH.styles.src, ['styles-dev']);
 
   gulp.start('server');
 
@@ -70,7 +72,7 @@ gulp.task('fonts', function () {
 });
 
 gulp.task('styles-dev', function () {
-  return gulp.src(PATH.stylesDev).
+  return gulp.src(PATH.styles.dev).
     pipe(scss({
       sourcemap: true,
       errLogToConsole: true
