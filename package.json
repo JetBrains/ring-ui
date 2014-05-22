@@ -11,6 +11,7 @@
   "devDependencies": {
     "connect": "^2.17.1",
     "connect-livereload": "~0.3.2",
+    "css-loader": "^0.6.12",
     "grunt": "~0.4.1",
     "grunt-autoprefixer": "~0.7.2",
     "grunt-bower-task": "~0.3.1",
@@ -44,6 +45,7 @@
     "gulp-util": "^2.2.14",
     "highlight.js": "~8.0.0",
     "jsdoc": "^3.3.0-alpha5",
+    "jsx-loader": "^0.10.2",
     "karma": "~0.12.9",
     "karma-chai-plugins": "~0.2.0",
     "karma-chrome-launcher": "~0.1.0",
@@ -63,7 +65,8 @@
     "time-grunt": "~0.3.1",
     "tiny-lr": "0.0.7",
     "underscore.string": "~2.3.3",
-    "webpack": "^1.2.0-beta2"
+    "webpack": "^1.2.0-beta2",
+    "webpack-dev-server": "^1.2.7"
   },
   "scripts": {
     "test": "grunt test"
