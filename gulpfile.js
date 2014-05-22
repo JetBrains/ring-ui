@@ -5,16 +5,25 @@ var gulp = require('gulp'),
   connect = require('gulp-connect'),
   autoprefixer = require('gulp-autoprefixer'),
   minifycss = require('gulp-minify-css'),
-  scss = require('gulp-sass');
+  scss = require('gulp-sass'),
+  react = require('gulp-react');
 
 var PATH = {
   tmp: 'tmp',
   dist: 'dist',
   bundles: {
+    root: 'bundles/',
     js: 'bundles/**/*.js',
     css: 'bundles/**/*.scss'
   },
-  styles :{
+  js: {
+    jsxSrc: 'blocks/**/*.jsx',
+    src: [
+      'blocks/**/*.js',
+      'blocks/**/*.jsx'
+    ]
+  },
+  styles: {
     src: 'blocks/**/*.scss',
     dev: 'bundles/ring-lib.scss'
   },
@@ -60,7 +69,15 @@ gulp.task('watch', [
   'styles-dev',
   'fonts'
 ], function () {
-  gulp.watch(PATH.styles.src, ['styles-dev']);
+
+  gulp.watch(PATH.styles.src, [
+    'styles-dev'
+  ]);
+
+  gulp.watch(PATH.js.src, function (file) {
+    gulp.src(file.path).
+      pipe(connect.reload());
+  });
 
   gulp.start('server');
 
@@ -91,6 +108,11 @@ gulp.task('styles', function () {
     pipe(gulp.dest(PATH.dist));
 });
 
+gulp.task('react', function () {
+  return gulp.src(PATH.js.jsxSrc)
+    .pipe(react())
+    .pipe(gulp.dest('dist'));
+});
 
 gulp.task('default', [
   'clean'
