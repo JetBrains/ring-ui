@@ -7,7 +7,6 @@ define([
   'tree/_tree__item.hbs',
   'tree/_tree-empty.hbs'
 ], function (Module, utils, Handlebars, $) {
-  
   'use strict';
 
   function traverse (tree, fn) {
@@ -44,6 +43,7 @@ define([
     this.dirSelector_ = '.ring-tree__item-direname';
     this.options_ = options || { message: 'List is empty' };
     this.$containerEl = $('<div class="ring-treeContainer">');
+
     this.prepare();
   };
 
@@ -56,6 +56,7 @@ define([
   Tree.prototype.prepare = function () {
     if (this.list_.length === 0) {
       this.clear();
+      this.render();
       return;
     }
 
@@ -73,7 +74,7 @@ define([
         partPath = path[i];
 
         sumPath += '/' + partPath;
-        
+
         node = {
           name: partPath,
           parentPath: sumPath,
@@ -108,6 +109,7 @@ define([
     }
 
     this.tree_ = tree;
+    this.render();
   };
 
   Tree.prototype.add = function (list) {
@@ -118,7 +120,6 @@ define([
     this.list_ = this.list_.concat(list);
 
     this.prepare();
-    this.render();
   };
 
   Tree.prototype.remove = function (list) {
@@ -142,7 +143,6 @@ define([
 
     if (indexes.length) {
       this.prepare();
-      this.render();
     }
   };
 
@@ -170,14 +170,11 @@ define([
     }
 
     this.prepare();
-    this.render();
   };
 
   Tree.prototype.clear = function () {
     this.list_ = [];
     this.tree_ = null;
-
-    this.render();
   };
 
   Tree.prototype.getTreeItems = function (uuid) {
