@@ -10,7 +10,10 @@ var gulp = require('gulp'),
 var PATH = {
   tmp: 'tmp',
   dist: 'dist',
-  jsBundles: 'bundles/**/*.js',
+  bundles: {
+    js: 'bundles/**/*.js',
+    css: 'bundles/**/*.scss'
+  },
   styles: 'blocks/**/*.scss',
   stylesDev: 'bundles/ring-lib.scss',
   fontsSrc: [
@@ -55,7 +58,6 @@ gulp.task('watch', [
   'styles-dev',
   'fonts'
 ], function () {
-
   gulp.watch(PATH.styles, ['styles-dev']);
 
   gulp.start('server');
@@ -78,7 +80,7 @@ gulp.task('styles-dev', function () {
 });
 
 gulp.task('styles', function () {
-  return gulp.src(PATH.styles).
+  return gulp.src(PATH.bundles.css).
     pipe(scss({
       sourcemap: true
     })).
