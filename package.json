@@ -9,6 +9,7 @@
   },
   "readmeFilename": "README",
   "devDependencies": {
+    "connect": "^2.17.1",
     "connect-livereload": "~0.3.2",
     "grunt": "~0.4.1",
     "grunt-autoprefixer": "~0.7.2",
@@ -30,6 +31,14 @@
     "grunt-preprocess": "~4.0.0",
     "grunt-sass": "~0.12.1",
     "grunt-styleguide": "~0.2.15",
+    "gulp-autoprefixer": "0.0.7",
+    "gulp-clean": "^0.2.4",
+    "gulp-concat": "^2.2.0",
+    "gulp-connect": "^2.0.5",
+    "gulp-livereload": "^1.5.0",
+    "gulp-minify-css": "^0.3.4",
+    "gulp-ruby-sass": "^0.5.0",
+    "gulp-sass": "^0.7.1",
     "highlight.js": "~8.0.0",
     "jsdoc": "^3.3.0-alpha5",
     "karma": "~0.12.9",
@@ -49,16 +58,8 @@
     "mocha": "~1.18.2",
     "phantomjs": "~1.9.1-8",
     "time-grunt": "~0.3.1",
-    "underscore.string": "~2.3.3",
-    "connect": "^2.17.1",
-    "gulp-autoprefixer": "0.0.7",
-    "gulp-clean": "^0.2.4",
-    "gulp-concat": "^2.2.0",
-    "gulp-connect": "^2.0.5",
-    "gulp-livereload": "^1.5.0",
-    "gulp-minify-css": "^0.3.4",
-    "gulp-ruby-sass": "^0.5.0",
-    "tiny-lr": "0.0.7"
+    "tiny-lr": "0.0.7",
+    "underscore.string": "~2.3.3"
   },
   "scripts": {
     "test": "grunt test"
