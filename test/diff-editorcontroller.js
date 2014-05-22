@@ -58,7 +58,7 @@ define([
       var dInstance = new d.EditorController();
 
       var setContentFn = function() {
-        dInstance.setContent('original', 'modified')
+        dInstance.setContent('original', 'modified');
       };
 
       expect(setContentFn).to.throw(Error);
