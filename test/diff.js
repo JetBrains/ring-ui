@@ -19,7 +19,6 @@ define(['global/global', 'chai', 'diff/diff'], function(ring, chai) {
 
     describe('Shorthand initialization of DiffTool', function() {
       var DiffTool = ring('diff').invoke('getDiffTool');
-      var d = ring('diff').invoke('getDiffToolUtils');
 
       it('ring can init single-pane diff', function() {
         var element = document.createElement('div');
@@ -252,7 +251,6 @@ define(['global/global', 'chai', 'diff/diff'], function(ring, chai) {
 
   describe('DiffTool.setContent', function() {
     var DiffTool = ring('diff').invoke('getDiffTool');
-    var d = ring('diff').invoke('getDiffToolUtils');
     var dInstance = new DiffTool();
 
     it('DiffTool.setContent calls setContent of its controller', function() {
