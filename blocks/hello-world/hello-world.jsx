@@ -2,14 +2,16 @@
 
 'use strict';
 
-var React = require('react/addons');
+var React = require('react');
 
-require('hello-world.scss');
+var helloWorld = React.createClass({
+  render: function () {
+    return (
+      <div className='container'>
+        <h1 className='page-header'>Hello, {this.props.str}!</h1>
+      </div>
+      );
+  }
+});
 
-var helloWorld = React.renderComponent(
-  <h1 class="hello-world__title">Hello, world!</h1>,
-  document.getElementById('example')
-);
-
-
-module.export = helloWorld;
+module.exports = helloWorld;
