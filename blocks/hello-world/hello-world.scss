@@ -1,3 +1,24 @@
+@mixin ring-font() {
+  font-family: "Helvetica Neue", Arial, sans-serif;
+}
+
 .hello-world__title {
-  color: red;
+  @include ring-font();
+
+  color: #CCCCCC;
+  font-size: 20px;
+}
+
+.hello-world__sub-title {
+  @include ring-font();
+
+  font-size: 16px;
+}
+
+.hello-world__first {
+  color: #f38f09;
+}
+
+.hello-world__second {
+  color: #2763aa;
 }
