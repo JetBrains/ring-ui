@@ -7,7 +7,6 @@ var gulp = require('gulp'),
   autoprefixer = require('gulp-autoprefixer'),
   minifycss = require('gulp-minify-css'),
   scss = require('gulp-sass'),
-  react = require('gulp-react'),
   webpack = require('webpack');
 
 var webpackConfig = require('./webpack.config.js');
@@ -117,12 +116,6 @@ gulp.task('styles', function () {
     pipe(autoprefixer('last 2 versions', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4')).
     pipe(minifycss()).
     pipe(gulp.dest(PATH.dist));
-});
-
-gulp.task('react', function () {
-  return gulp.src(PATH.js.jsxSrc)
-    .pipe(react())
-    .pipe(gulp.dest('dist'));
 });
 
 gulp.task('webpack', function (cb) {
