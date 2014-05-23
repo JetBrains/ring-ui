@@ -10,7 +10,7 @@
 .hello-world__sub-title {
   @include ring-font();
 
-  font-size: 16px;
+  display: flex;
 }
 
 .hello-world__first {
