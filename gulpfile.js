@@ -8,8 +8,7 @@ var gulp = require('gulp'),
   minifycss = require('gulp-minify-css'),
   scss = require('gulp-sass'),
   react = require('gulp-react'),
-  webpack = require('webpack'),
-  WebpackDevServer = require('webpack-dev-server');
+  webpack = require('webpack');
 
 var webpackConfig = require('./webpack.config.js');
 
@@ -67,7 +66,7 @@ gulp.task('server', function () {
       '.',
       'dist'
     ],
-    port: 8000,
+    port: PORT,
     livereload: true
   });
 });
@@ -121,14 +120,15 @@ gulp.task('react', function () {
     .pipe(gulp.dest('dist'));
 });
 
-gulp.task('webpack-dev', function () {
-  var compiler = webpack(webpackConfig);
-
-  new WebpackDevServer(compiler, {}).listen(PORT, 'localhost', function (err) {
+gulp.task('webpack', function () {
+  if (gulp.env.production) {
+    webpackConfig.plugins = webpackConfig.plugins.concat(new webpack.optimize.UglifyJsPlugin());
+    webpackConfig.output.filename = 'main.js';
+  }
+  webpack(webpackConfig, function (err) {
     if (err) {
-      throw new gutil.PluginError('webpack-dev-server', err);
+      throw new gutil.PluginError('execWebpack', err);
     }
-    gutil.log('[webpack-dev-server]', 'http://localhost:8000/webpack.html');
   });
 });
 
