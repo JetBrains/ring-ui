@@ -5,10 +5,10 @@ module.exports = {
   // This is the main file that should include all other JS files
   entry: './webpack.js',
   target: 'web',
-  debug: true,
+  debug: false,
   // We are watching in the gulp.watch, so tell webpack not to watch
-  watch: true,
-  watchDelay: 300,
+  watch: false,
+//  watchDelay: 300,
   output: {
     path: path.join(__dirname, 'dist', 'blocks'),
     // If you want to generate a filename with a hash of the content (for cache-busting)

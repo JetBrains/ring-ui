@@ -41,6 +41,8 @@ var PATH = {
   fontsDest: 'dist/fonts'
 };
 
+var PORT = 8000;
+
 gulp.task('clean', function () {
   return gulp.src([
     PATH.tmp
@@ -122,7 +124,7 @@ gulp.task('react', function () {
 gulp.task('webpack-dev', function () {
   var compiler = webpack(webpackConfig);
 
-  new WebpackDevServer(compiler, {}).listen(8000, 'localhost', function (err) {
+  new WebpackDevServer(compiler, {}).listen(PORT, 'localhost', function (err) {
     if (err) {
       throw new gutil.PluginError('webpack-dev-server', err);
     }
