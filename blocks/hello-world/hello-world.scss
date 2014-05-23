@@ -1,6 +1,4 @@
-@mixin ring-font() {
-  font-family: "Helvetica Neue", Arial, sans-serif;
-}
+@import "../global/global";
 
 .hello-world__title {
   @include ring-font();
