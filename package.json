@@ -9,6 +9,7 @@
   },
   "readmeFilename": "README",
   "devDependencies": {
+    "autoprefixer-loader": "^0.1.1",
     "connect": "^2.17.1",
     "connect-livereload": "~0.3.2",
     "grunt": "~0.4.1",
