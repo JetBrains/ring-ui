@@ -72,17 +72,15 @@ gulp.task('server', function () {
 });
 
 gulp.task('watch', [
+  'webpack',
   'styles-dev',
   'fonts'
 ], function () {
-
-  gulp.watch(PATH.styles.src, [
-    'styles-dev'
-  ]);
-
   gulp.watch(PATH.js.src, function (file) {
-    gulp.src(file.path).
-      pipe(connect.reload());
+    gulp.start('webpack', function () {
+      gulp.src(file.path).
+        pipe(connect.reload());
+    });
   });
 
   gulp.start('server');
@@ -120,7 +118,7 @@ gulp.task('react', function () {
     .pipe(gulp.dest('dist'));
 });
 
-gulp.task('webpack', function () {
+gulp.task('webpack', function (cb) {
   if (gulp.env.production) {
     webpackConfig.plugins = webpackConfig.plugins.concat(new webpack.optimize.UglifyJsPlugin());
     webpackConfig.output.filename = 'main.js';
@@ -129,11 +127,13 @@ gulp.task('webpack', function () {
     if (err) {
       throw new gutil.PluginError('execWebpack', err);
     }
+    cb();
   });
 });
 
 gulp.task('default', [
-  'clean'
+  'cleanDist'
 ], function () {
+
   gulp.start('watch');
 });
