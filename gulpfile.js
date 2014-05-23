@@ -83,6 +83,13 @@ gulp.task('watch', [
     });
   });
 
+  gulp.watch(PATH.styles.src, function (file) {
+    gulp.start('webpack', function () {
+      gulp.src(file.path).
+        pipe(connect.reload());
+    });
+  });
+
   gulp.start('server');
 
 });
