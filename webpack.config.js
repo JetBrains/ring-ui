@@ -1,5 +1,4 @@
 var path = require('path');
-//var webpack = require('webpack');
 
 module.exports = {
   // This is the main file that should include all other JS files
@@ -24,17 +23,8 @@ module.exports = {
   module: {
     loaders: [
       {
-        test: /\.css$/,
-        exclude: /\.useable\.css$/,
-        loader: 'style!css'
-      },
-      {
-        test: /\.useable\.css$/,
-        loader: 'style/useable!css'
-      },
-      {
         test: /\.scss$/,
-        loader: 'style!css!sass?outputStyle=expanded'
+        loader: 'style!css!autoprefixer-loader?browsers=last 2 version, Firefox 15!sass?outputStyle=expanded!'
       },
       {
         test: /\.js$/,
