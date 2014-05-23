@@ -1,5 +1,5 @@
 var path = require('path');
-//var webpack = require("webpack");
+//var webpack = require('webpack');
 
 module.exports = {
   // This is the main file that should include all other JS files
@@ -10,7 +10,7 @@ module.exports = {
   watch: false,
 //  watchDelay: 300,
   output: {
-    path: path.join(__dirname, 'dist', 'blocks'),
+    path: path.join(__dirname, 'dist'),
     // If you want to generate a filename with a hash of the content (for cache-busting)
     // filename: "main-[hash].js",
     filename: 'main.js'
@@ -45,6 +45,6 @@ module.exports = {
   },
   plugins: [
     // If you want to minify everything
-    // new webpack.optimize.UglifyJsPlugin()
+//    new webpack.optimize.UglifyJsPlugin()
   ]
 };
