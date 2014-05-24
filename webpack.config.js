@@ -1,21 +1,16 @@
 var path = require('path');
 
 module.exports = {
-  // This is the main file that should include all other JS files
   entry: './webpack.js',
   target: 'web',
   debug: false,
-  // We are watching in the gulp.watch, so tell webpack not to watch
+  devtool: false,
   watch: false,
-//  watchDelay: 300,
   output: {
     path: path.join(__dirname, 'dist'),
-    // If you want to generate a filename with a hash of the content (for cache-busting)
-    // filename: "main-[hash].js",
     filename: 'main.js'
   },
   resolve: {
-    // Tell webpack to look for required files in bower and node
     modulesDirectories: [
       'node_modules'
     ]
@@ -24,7 +19,7 @@ module.exports = {
     loaders: [
       {
         test: /\.scss$/,
-        loader: 'style!css!autoprefixer-loader?browsers=last 2 version, Firefox 15!sass?outputStyle=expanded!'
+        loader: 'style!css!autoprefixer-loader?browsers=last 2 versions, safari 5, ie 8, ie 9, opera 12.1, ios 6, android 4!sass?outputStyle=expanded!'
       },
       {
         test: /\.js$/,
@@ -33,8 +28,5 @@ module.exports = {
     ],
     noParse: /\.min\.js/
   },
-  plugins: [
-    // If you want to minify everything
-//    new webpack.optimize.UglifyJsPlugin()
-  ]
+  plugins: []
 };
