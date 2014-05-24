@@ -12,6 +12,7 @@
     "autoprefixer-loader": "^0.1.1",
     "connect": "^2.17.1",
     "connect-livereload": "~0.3.2",
+    "envify": "^1.2.1",
     "grunt": "~0.4.1",
     "grunt-autoprefixer": "~0.7.2",
     "grunt-bower-task": "~0.3.1",
@@ -62,6 +63,8 @@
     "md-toc": "~1.0.0",
     "mocha": "~1.18.2",
     "phantomjs": "~1.9.1-8",
+    "react": "^0.10.0",
+    "react-tools": "^0.10.0",
     "sass-loader": "^0.1.1",
     "style-loader": "^0.6.3",
     "time-grunt": "~0.3.1",
@@ -73,9 +76,13 @@
     "test": "jest"
   },
   "jest": {
-    "testPathDirs":[
+    "scriptPreprocessor": "<rootDir>/preprocessor.js",
+    "unmockedModulePathPatterns": [
+      "<rootDir>/node_modules/react"
+    ],
+    "testPathDirs": [
       "__tests__"
     ],
-    "collectCoverage":true
+    "collectCoverage": true
   }
 }
