@@ -33,6 +33,7 @@
     "grunt-preprocess": "~4.0.0",
     "grunt-sass": "~0.12.1",
     "grunt-styleguide": "~0.2.15",
+    "gulp": "^3.6.2",
     "gulp-autoprefixer": "0.0.7",
     "gulp-clean": "^0.2.4",
     "gulp-concat": "^2.2.0",
