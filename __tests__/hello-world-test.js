@@ -1,13 +1,24 @@
 // __tests__/hello-world-test.js
 
+/** @jsx React.DOM */
 /* jshint ignore:start */
-function sum(value1, value2) {
-  return value1 + value2;
-}
+jest.dontMock('../blocks/hello-world/hello-world.jsx');
 
-describe('sum', function () {
-  it('adds 1 + 2 to equal 3', function () {
-    expect(sum(1, 2)).toBe(3);
+describe('hello-world', function () {
+  it('test test', function () {
+    var React = require('react/addons');
+    var HelloWorld = require('../blocks/hello-world/hello-world.jsx');
+    var TestUtils = React.addons.TestUtils;
+
+    var helloworld = HelloWorld({
+      firstPart: 'Jet',
+      secondPart: 'Brains'
+    });
+    TestUtils.renderIntoDocument(helloworld);
+    var el = TestUtils.findRenderedDOMComponentWithTag(
+      helloworld, 'h1');
+    expect(el.getDOMNode().textContent).toEqual('Hello');
+
   });
 });
 /* jshint ignore:end */
