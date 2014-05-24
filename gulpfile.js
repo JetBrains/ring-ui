@@ -12,7 +12,6 @@ var gulp = require('gulp'),
 var webpackConfig = require('./webpack.config.js');
 
 var PATH = {
-  tmp: 'tmp',
   dist: 'dist',
   bundles: {
     root: 'bundles/',
@@ -21,14 +20,10 @@ var PATH = {
   },
   js: {
     jsxSrc: 'blocks/**/*.jsx',
-    src: [
-      'blocks/**/*.js',
-      'blocks/**/*.jsx'
-    ]
+    src: 'blocks/**/*.js'
   },
   styles: {
-    src: 'blocks/**/*.scss',
-    dev: 'bundles/ring-lib.scss'
+    src: 'blocks/**/*.scss'
   },
   fontsSrc: [
     'blocks/font-icon/**/*.woff',
@@ -42,15 +37,6 @@ var PATH = {
 var PORT = 8000;
 
 gulp.task('clean', function () {
-  return gulp.src([
-    PATH.tmp
-  ], {
-    read: false
-  }).
-    pipe(clean());
-});
-
-gulp.task('cleanDist', function () {
   return gulp.src([
     PATH.dist
   ], {
@@ -68,21 +54,21 @@ gulp.task('server', function () {
     port: PORT,
     livereload: true
   });
+  gutil.
+    log('Server launched').
+    beep();
 });
 
 gulp.task('watch', [
   'webpack',
-  'styles-dev',
   'fonts'
 ], function () {
-  gulp.watch(PATH.js.src, function (file) {
-    gulp.start('webpack', function () {
-      gulp.src(file.path).
-        pipe(connect.reload());
-    });
-  });
-
-  gulp.watch(PATH.styles.src, function (file) {
+  gulp.watch([
+    PATH.js.src,
+    PATH.js.jsxSrc,
+    PATH.styles.src
+  ], function (file) {
+    console.log(file, 'changed');
     gulp.start('webpack', function () {
       gulp.src(file.path).
         pipe(connect.reload());
@@ -90,22 +76,11 @@ gulp.task('watch', [
   });
 
   gulp.start('server');
-
 });
 
 gulp.task('fonts', function () {
   gulp.src(PATH.fontsSrc).
     pipe(gulp.dest(PATH.fontsDest));
-});
-
-gulp.task('styles-dev', function () {
-  return gulp.src(PATH.styles.dev).
-    pipe(scss({
-      sourcemap: true,
-      errLogToConsole: true
-    })).
-    pipe(gulp.dest(PATH.dist)).
-    pipe(connect.reload());
 });
 
 gulp.task('styles', function () {
@@ -119,10 +94,6 @@ gulp.task('styles', function () {
 });
 
 gulp.task('webpack', function (cb) {
-  if (gulp.env.production) {
-    webpackConfig.plugins = webpackConfig.plugins.concat(new webpack.optimize.UglifyJsPlugin());
-    webpackConfig.output.filename = 'main.js';
-  }
   webpack(webpackConfig, function (err) {
     if (err) {
       throw new gutil.PluginError('execWebpack', err);
@@ -131,9 +102,17 @@ gulp.task('webpack', function (cb) {
   });
 });
 
-gulp.task('default', [
-  'cleanDist'
-], function () {
+gulp.task('build', function () {
+  gulp.start('clean',
+    'fonts',
+    'styles');
+  webpackConfig.plugins = webpackConfig.plugins.concat(new webpack.optimize.UglifyJsPlugin());
+  webpackConfig.output.filename = 'main.js';
+  gulp.start('webpack');
+});
 
+gulp.task('default', [
+  'clean'
+], function () {
   gulp.start('watch');
 });
