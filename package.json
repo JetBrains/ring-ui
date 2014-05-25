@@ -12,6 +12,7 @@
     "autoprefixer-loader": "^0.1.1",
     "connect": "^2.17.1",
     "connect-livereload": "~0.3.2",
+    "css-loader": "^0.6.12",
     "envify": "^1.2.1",
     "grunt": "~0.4.1",
     "grunt-autoprefixer": "~0.7.2",
