@@ -9,8 +9,6 @@
 
 .hello-world__sub-title {
   @include ring-font();
-
-  display: flex;
 }
 
 .hello-world__first {
