@@ -17,7 +17,8 @@ define(['jquery', 'global/global__modules', 'header/header', 'auth/auth'], funct
   };
 
   var auth = Module.get('auth');
-  var header = Module.get('header');
+  var header = Module.get('header'),
+    services;
 
   $.when(auth.when('init:done'), header.when('init:done'))
     .then(function() {
@@ -30,11 +31,16 @@ define(['jquery', 'global/global__modules', 'header/header', 'auth/auth'], funct
 
       if (list) {
         var clientServiceId = (auth.get('config') || {}).client_id;
-        header('update', 'services', headerServices.concat(convertServices(list, clientServiceId)));
+        services = headerServices.concat(convertServices(list, clientServiceId));
+        header('update', 'services', services);
         header.trigger('services:done');
       } else {
         header.trigger('services:fail');
       }
       header.trigger('services:always');
     });
+
+  $(window).on('resize', function() {
+    header('update', 'services', services);
+  });
 });
