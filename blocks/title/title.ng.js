@@ -9,7 +9,7 @@
           'noTitle': '@',
           'delimiter': '@'
         },
-        controller: ['$rootScope', '$scope', '$element', 'pageTitle', function ($rootScope, $scope, $element, pageTitle) {
+        controller: ['$rootScope', '$scope', '$element', 'pageTitle', '$injector', function ($rootScope, $scope, $element, pageTitle, $injector) {
           pageTitle.setDelimiter($scope.delimiter);
 
           // Get title prefix from title element
@@ -23,6 +23,10 @@
 
             // Use title: false to prevent title change on route
             if (title !== false) {
+              if (angular.isArray(title) || angular.isFunction(title)) {
+                //Invoke injector
+                title = $injector.invoke(title);
+              }
               pageTitle.addElement(title || $scope.noTitle);
             }
           });
