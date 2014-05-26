@@ -9,9 +9,20 @@ define([
 ], function($, Module, View) {
   'use strict';
 
-  var SERVICES_LIMIT = 10;
+  var SERVICES_LIMIT = 10,
+    DOCUMENT_WIDTH = 1280;
 
   var process = function(data) {
+    var documentWidth = $('body').width();
+
+    console.log(documentWidth);
+
+    if(documentWidth <= DOCUMENT_WIDTH) {
+      SERVICES_LIMIT = 6;
+    } else {
+      SERVICES_LIMIT = 10;
+    }
+
     if (data.user) {
       var links = data.personalLinks && data.personalLinks.length ? [].concat(data.personalLinks) : [];
 
