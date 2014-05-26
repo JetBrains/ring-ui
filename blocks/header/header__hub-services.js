@@ -1,7 +1,7 @@
 define(['jquery', 'global/global__modules', 'header/header', 'auth/auth'], function ($, Module) {
   'use strict';
 
-  var convertServices = function(services, activeServiceId) {
+  var convertServices = function (services, activeServiceId) {
     var items = [];
 
     for (var i = 0; i < services.length; ++i) {
@@ -18,21 +18,21 @@ define(['jquery', 'global/global__modules', 'header/header', 'auth/auth'], funct
 
   var auth = Module.get('auth');
   var header = Module.get('header'),
-    services;
+    servicesCache;
 
   $.when(auth.when('init:done'), header.when('init:done'))
-    .then(function() {
+    .then(function () {
       header.trigger('services');
       return auth('get', 'api/rest/services?query=is:+verified&fields=id,name,homeUrl');
     })
-    .then(function(services) {
+    .then(function (services) {
       var list = services && services.services;
       var headerServices = header.get('view').services || [];
 
       if (list) {
         var clientServiceId = (auth.get('config') || {}).client_id;
-        services = headerServices.concat(convertServices(list, clientServiceId));
-        header('update', 'services', services);
+        servicesCache = headerServices.concat(convertServices(list, clientServiceId));
+        header('update', 'services', servicesCache);
         header.trigger('services:done');
       } else {
         header.trigger('services:fail');
@@ -40,7 +40,8 @@ define(['jquery', 'global/global__modules', 'header/header', 'auth/auth'], funct
       header.trigger('services:always');
     });
 
-  $(window).on('resize', function() {
+  $(window).on('resize', function () {
+    var services = JSON.parse(JSON.stringify(servicesCache));
     header('update', 'services', services);
   });
 });
