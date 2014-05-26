@@ -15,8 +15,6 @@ define([
   var process = function(data) {
     var documentWidth = $('body').width();
 
-    console.log(documentWidth);
-
     if(documentWidth <= DOCUMENT_WIDTH) {
       SERVICES_LIMIT = 6;
     } else {
