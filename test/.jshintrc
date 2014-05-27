@@ -14,8 +14,6 @@
   "browser": true,
   "jquery":true,
 
-  "es3": true,
-
   "indent": 2,
   "camelcase": false,
   "curly": true,
@@ -23,6 +21,8 @@
   "quotmark": true,
   "trailing": true,
   "sub": true,
+
+  "expr": true,
 
   "bitwise": false,
   "eqeqeq": true,

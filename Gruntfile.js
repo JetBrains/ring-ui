@@ -220,7 +220,7 @@ module.exports = function(grunt) {
     },
     jshint: {
       options: {
-        jshintrc: '.jshintrc'
+        jshintrc: true
       },
       dev: {
         options: {
@@ -228,7 +228,7 @@ module.exports = function(grunt) {
           force: true
         },
         files: {
-          src: ['*.js', '<%= path.blocks %>**/*.js', '<%= path.bundles %>*.js']
+          src: ['*.js', '<%= path.blocks %>**/*.js', '<%= path.bundles %>*.js', '<%= path.tests %>*.js']
         }
       },
       hook: (process.env['HOOK_FILES'] || '').split('\n'),
@@ -238,7 +238,7 @@ module.exports = function(grunt) {
           reporterOutput: '<%= path.jshintreport %>'
         },
         files: {
-          src: ['*.js', '<%= path.blocks %>**/*.js', '<%= path.bundles %>*.js']
+          src: ['*.js', '<%= path.blocks %>**/*.js', '<%= path.bundles %>*.js', '<%= path.tests %>*.js']
         }
       }
     },

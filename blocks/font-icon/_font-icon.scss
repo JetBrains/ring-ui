@@ -15,6 +15,8 @@
 // .ring-font-icon_search          - search
 // .ring-font-icon_caret-down      - caret-down
 // .ring-font-icon_caret-up        - caret-up
+// .ring-font-icon_caret-down      - caret-left
+// .ring-font-icon_caret-up        - caret-right
 // .ring-font-icon_chevron-left    - chevron-left
 // .ring-font-icon_chevron-right   - chevron-right
 // .ring-font-icon_ban-circle      - ban-circle
@@ -48,6 +50,13 @@
 // .ring-font-icon_feature         - feature
 // .ring-font-icon_exception       - exception
 // .ring-font-icon_cosmetics       - cosmetics
+// .ring-font-icon_like            - like
+// .ring-font-icon_fork            - fork
+// .ring-font-icon_folder          - folder
+// .ring-font-icon_file            - file
+// .ring-font-icon_comment         - comment
+// .ring-font-icon_download        - download
+// .ring-font-icon_print           - print
 //
 // Styleguide 6.1
 
@@ -78,6 +87,24 @@ body .ring-font-icon {
   }
 }
 
+.ring-font-icon_like:before {
+  content: "\e61e";
+}
+.ring-font-icon_fork:before {
+  content: "\e61f";
+}
+.ring-font-icon_folder:before {
+  content: "\e620";
+}
+.ring-font-icon_file:before {
+  content: "\e621";
+}
+.ring-font-icon_comment:before {
+  content: "\e622";
+}
+.ring-font-icon_frown:before {
+  content: "\e60c";
+}
 .ring-font-icon_authmodule:before {
   content: "\e602";
 }
@@ -89,105 +116,6 @@ body .ring-font-icon {
 }
 .ring-font-icon_space:before {
   content: "\e61d";
-}
-.ring-font-icon_search:before {
-  content: "\e600";
-}
-.ring-font-icon_ok:before {
-  content: "\e601";
-}
-.ring-font-icon_cog:before {
-  content: "\e603";
-}
-.ring-font-icon_refresh:before {
-  content: "\e604";
-}
-.ring-font-icon_pencil:before {
-  content: "\e605";
-}
-.ring-font-icon_chevron-left:before {
-  content: "\e606";
-}
-.ring-font-icon_chevron-right:before {
-  content: "\e607";
-}
-.ring-font-icon_ban-circle:before {
-  content: "\e608";
-}
-.ring-font-icon_pushpin:before {
-  content: "\e609";
-}
-.ring-font-icon_caret-down:before {
-  content: "\e60a";
-}
-.ring-font-icon_caret-up:before {
-  content: "\e60b";
-}
-.ring-font-icon_frown:before {
-  content: "\e60c";
-}
-.ring-font-icon_help:before {
-  content: "\e60d";
-}
-.ring-font-icon_warning:before {
-  content: "\e60e";
-}
-.ring-font-icon_permission:before {
-  content: "\e015";
-}
-.ring-font-icon_group:before {
-  content: "\e014";
-}
-.ring-font-icon_jabber:before {
-  content: "\e00b";
-}
-.ring-font-icon_resource:before {
-  content: "\e011";
-}
-.ring-font-icon_drag:before {
-  content: "\e00f";
-}
-.ring-font-icon_added:before {
-  content: "\e006";
-}
-.ring-font-icon_email:before {
-  content: "\e012";
-}
-.ring-font-icon_global:before {
-  content: "\e013";
-}
-.ring-font-icon_close:before {
-  content: "\e00e";
-}
-.ring-font-icon_merge_icon:before {
-  content: "\e00d";
-}
-.ring-font-icon_role:before {
-  content: "\e00a";
-}
-.ring-font-icon_add:before {
-  content: "\e008";
-}
-.ring-font-icon_check:before {
-  content: "\e005";
-}
-.ring-font-icon_renamed:before {
-  content: "\e004";
-}
-.ring-font-icon_removed:before {
-  content: "\e003";
-}
-.ring-font-icon_modified:before {
-  content: "\e002";
-}
-.ring-font-icon_trash:before {
-  content: "\e010";
-}
-.ring-font-icon_collapse:before {
-  content: "\e60f";
-}
-.ring-font-icon_expand:before {
-  content: "\e610";
 }
 .ring-font-icon_usability:before {
   content: "\e611";
@@ -218,6 +146,114 @@ body .ring-font-icon {
 }
 .ring-font-icon_cosmetics:before {
   content: "\e61a";
+}
+.ring-font-icon_expand:before {
+  content: "\e610";
+}
+.ring-font-icon_collapse:before {
+  content: "\e60f";
+}
+.ring-font-icon_permission:before {
+  content: "\e015";
+}
+.ring-font-icon_group:before {
+  content: "\e014";
+}
+.ring-font-icon_jabber:before {
+  content: "\e00b";
+}
+.ring-font-icon_resource:before {
+  content: "\e011";
+}
+.ring-font-icon_email:before {
+  content: "\e012";
+}
+.ring-font-icon_global:before {
+  content: "\e013";
+}
+.ring-font-icon_trash:before {
+  content: "\e010";
+}
+.ring-font-icon_drag:before {
+  content: "\e00f";
+}
+.ring-font-icon_close:before {
+  content: "\e00e";
+}
+.ring-font-icon_merge_icon:before {
+  content: "\e00d";
+}
+.ring-font-icon_role:before {
+  content: "\e00a";
+}
+.ring-font-icon_add:before {
+  content: "\e008";
+}
+.ring-font-icon_check:before {
+  content: "\e005";
+}
+.ring-font-icon_renamed:before {
+  content: "\e004";
+}
+.ring-font-icon_removed:before {
+  content: "\e003";
+}
+.ring-font-icon_modified:before {
+  content: "\e002";
+}
+.ring-font-icon_added:before {
+  content: "\e006";
+}
+.ring-font-icon_warning:before {
+  content: "\e60e";
+}
+.ring-font-icon_help:before {
+  content: "\e60d";
+}
+.ring-font-icon_search:before {
+  content: "\e600";
+}
+.ring-font-icon_ok:before {
+  content: "\e601";
+}
+.ring-font-icon_cog:before {
+  content: "\e603";
+}
+.ring-font-icon_download:before {
+  content: "\e623";
+}
+.ring-font-icon_refresh:before {
+  content: "\e604";
+}
+.ring-font-icon_print:before {
+  content: "\e624";
+}
+.ring-font-icon_pencil:before {
+  content: "\e605";
+}
+.ring-font-icon_chevron-left:before {
+  content: "\e606";
+}
+.ring-font-icon_chevron-right:before {
+  content: "\e607";
+}
+.ring-font-icon_ban-circle:before {
+  content: "\e608";
+}
+.ring-font-icon_pushpin:before {
+  content: "\e609";
+}
+.ring-font-icon_caret-down:before {
+  content: "\e60a";
+}
+.ring-font-icon_caret-up:before {
+  content: "\e60b";
+}
+.ring-font-icon_caret-left:before {
+  content: "\e625";
+}
+.ring-font-icon_caret-right:before {
+  content: "\e626";
 }
 
 //Fallback for miserable Windows users
