@@ -7,7 +7,8 @@ var gulp = require('gulp'),
   autoprefixer = require('gulp-autoprefixer'),
   minifycss = require('gulp-minify-css'),
   scss = require('gulp-sass'),
-  webpack = require('webpack');
+  webpack = require('webpack'),
+  spawn = require('child_process').spawn;
 
 var webpackConfig = require('./webpack.config.js');
 
@@ -109,6 +110,14 @@ gulp.task('build', function () {
   webpackConfig.plugins = webpackConfig.plugins.concat(new webpack.optimize.UglifyJsPlugin());
   webpackConfig.output.filename = 'main.js';
   gulp.start('webpack');
+});
+
+gulp.task('test', function () {
+  spawn('npm', [
+    'test'
+  ], {
+    stdio: 'inherit'
+  });
 });
 
 gulp.task('default', [

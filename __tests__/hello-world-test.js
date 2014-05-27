@@ -15,9 +15,11 @@ describe('hello-world', function () {
       secondPart: 'Brains'
     });
     TestUtils.renderIntoDocument(helloworld);
-    var el = TestUtils.findRenderedDOMComponentWithTag(
-      helloworld, 'h1');
-    expect(el.getDOMNode().textContent).toEqual('Hello');
+    var el = TestUtils.scryRenderedDOMComponentsWithTag(
+      helloworld, 'span');
+    expect(el[0].getDOMNode().textContent).toEqual('Hello');
+    expect(el[1].getDOMNode().textContent).toEqual('Jet');
+    expect(el[2].getDOMNode().textContent).toEqual('Brains');
 
   });
 });
