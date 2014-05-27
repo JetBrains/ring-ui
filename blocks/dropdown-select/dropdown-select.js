@@ -146,6 +146,9 @@ define([
       'esc': function (e) {
         remove();
         e.preventDefault();
+      },
+      'tab': function (e) {
+        e.preventDefault();
       }
     });
 
