@@ -211,6 +211,21 @@ define([
       getSelectedItemData: getSelectedItemData,
       setActive: function () {
         shortcuts('pushScope', MODULE);
+      },
+      getActiveItem: function () {
+        var itemIndex;
+
+        $.each($el, function () {
+          if($(this).hasClass('active')) {
+            itemIndex = $(this).index();
+          }
+        });
+
+        return items[itemIndex] || null;
+      },
+      setActiveItem: function (index) {
+        $el.removeClass('active');
+        $($el[index]).addClass('active');
       }
     };
   };

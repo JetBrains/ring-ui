@@ -9,6 +9,7 @@ define([
 
   var MODULE = 'dropdown-select',
     LOADING_CLASS = 'ring-input_loading',
+    SELECT_ARROW_CLASS = 'ring-input_icon__span',
     RESULT_COUNT = 10;
 
   var
@@ -39,6 +40,7 @@ define([
       uid: uid,
       remove: remove
     };
+    var actionListInstance;
 
     if (!config && (!config.target || !config.dataSource)) {
       select.trigger('init:fail');
@@ -73,13 +75,15 @@ define([
         type = type.concat(config.type);
       }
 
-      actionList('init', {
+      actionListInstance = actionList('init', {
         target: $target,
         type: type,
         description: config.description || '',
         limitWidth: config.limitWidth,
         items: data
       });
+
+      actionListInstance.setActiveItem(0);
 
       if (!preventEvent) {
         actionList.on('change_' + actionList('getUID'), function (data) {
@@ -143,6 +147,9 @@ define([
       'esc': function (e) {
         remove();
         e.preventDefault();
+      },
+      'tab': function (e) {
+        e.preventDefault();
       }
     });
 
@@ -163,7 +170,7 @@ define([
           }
         }
       })
-      .on('click', function(e) {
+      .on('click', function (e) {
         $target.select();
         e.preventDefault();
       })
@@ -174,6 +181,13 @@ define([
       .on('focus', function () {
         shortcuts('pushScope', MODULE);
       });
+
+    if ($target.next().hasClass(SELECT_ARROW_CLASS)) {
+      $target.next()
+        .on('click', function () {
+          $target.focus();
+        });
+    }
 
     var renderProccess = function (data) {
       open = true;

@@ -11,7 +11,6 @@
         'replace': true,
         'templateUrl': 'dialog/dialog.ng.html',
         'controller': ['$scope', 'dialog', function ($scope, dialog) {
-          $scope.close = dialog.hide;
           $scope.$on('$routeChangeSuccess', dialog.hide);
           $scope.$on('$routeUpdate', dialog.hide);
 
@@ -27,6 +26,12 @@
               $scope.resetPosition();
             }
           };
+
+          $scope.close = function () {
+            $scope.resetPosition();
+            dialog.hide();
+          };
+
           this.setTitle = function (title) {
             $scope.title = title;
           };
