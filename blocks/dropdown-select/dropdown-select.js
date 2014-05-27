@@ -169,7 +169,7 @@ define([
           }
         }
       })
-      .on('click', function(e) {
+      .on('click', function (e) {
         $target.select();
         e.preventDefault();
       })
@@ -180,6 +180,13 @@ define([
       .on('focus', function () {
         shortcuts('pushScope', MODULE);
       });
+
+    if ($target.next().hasClass('ring-input_icon__span')) {
+      $target.next()
+        .on('click', function () {
+          $target.focus();
+        });
+    }
 
     var renderProccess = function (data) {
       open = true;
