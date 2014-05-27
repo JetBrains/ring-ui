@@ -113,6 +113,8 @@ gulp.task('build', function () {
 });
 
 gulp.task('test', function () {
+  gulp.src('blocks/**/*.test.js').
+    pipe(gulp.dest('tmp/__tests__'));
   spawn('npm', [
     'test'
   ], {
