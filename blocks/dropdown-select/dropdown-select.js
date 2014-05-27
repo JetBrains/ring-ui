@@ -9,6 +9,7 @@ define([
 
   var MODULE = 'dropdown-select',
     LOADING_CLASS = 'ring-input_loading',
+    SELECT_ARROW_CLASS = 'ring-input_icon__span',
     RESULT_COUNT = 10;
 
   var
@@ -181,7 +182,7 @@ define([
         shortcuts('pushScope', MODULE);
       });
 
-    if ($target.next().hasClass('ring-input_icon__span')) {
+    if ($target.next().hasClass(SELECT_ARROW_CLASS)) {
       $target.next()
         .on('click', function () {
           $target.focus();
