@@ -3,7 +3,7 @@ Icon set update with Icomoon
 
 In 9 simple steps:
 
-1. Use font-icon.json to restore projects at http://icomoon.io/app/#/projects
+1. Use font-icon.json to restore projects at [http://icomoon.io/app/#/projects]
 
 2. Edit icon set there (upload svgs or choose icons from Font Awesome or other sets)
 
@@ -19,7 +19,7 @@ In 9 simple steps:
 
   AND / OR
 
-8. (For round icons, which render bad on Windows)
+8. (For round icons, that render bad on Windows)
 
    Edit sprite config in `font-icon.phantomjs.coffee`,
    render sprite using `grunt sprite` and update sprite rules across scss-files manually

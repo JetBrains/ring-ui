@@ -9,9 +9,11 @@ define([
 ], function($, Module, View) {
   'use strict';
 
-  var SERVICES_LIMIT = 10;
+  var SERVICES_COUNT = 20,
+    HEADER_ITEM_SELECTOR = '.ring-header__item',
+    HEADER_RIGHT_MARGIN = 200;
 
-  var process = function(data) {
+  var process = function (data) {
     if (data.user) {
       var links = data.personalLinks && data.personalLinks.length ? [].concat(data.personalLinks) : [];
 
@@ -41,8 +43,8 @@ define([
       }
     }
 
-    if (data.services && data.services.length > SERVICES_LIMIT) {
-      data.items = data.services.splice(SERVICES_LIMIT);
+    if (data.services && data.services.length > SERVICES_COUNT) {
+      data.items = data.services.splice(SERVICES_COUNT);
     }
 
     return data;
@@ -51,10 +53,28 @@ define([
   var module = 'header';
 
   Module.add(module, {
-    init: function(data, element, method) {
+    init: function (data, element, method) {
       return View.init(module, element || null, method || 'prepend', process, data || {});
     },
-    update: View.update.bind(View, module)
+    update: function (name, data) {
+      var $el = View.update('header', name, data),
+        documentWidth = $(document).width(),
+        itemsWidth = 0,
+        $items = $el.find(HEADER_ITEM_SELECTOR);
+
+      $.each($items, function (index) {
+        if ((documentWidth - HEADER_RIGHT_MARGIN) < itemsWidth) {
+          SERVICES_COUNT = index - 1;
+          View.update(module, name, data.slice(0, SERVICES_COUNT));
+          View.update(module, 'items', data.slice(SERVICES_COUNT));
+          return false;
+        }
+
+        itemsWidth += $(this).outerWidth();
+      });
+
+
+    }
   });
 
 });
