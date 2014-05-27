@@ -79,9 +79,12 @@
   },
   "jest": {
     "scriptPreprocessor": "<rootDir>/preprocessor.js",
+    "testFileExtensions": [
+      "test.js"
+    ],
     "testPathDirs": [
       "tmp/__tests__"
     ],
-    "collectCoverage": true
+    "collectCoverage": false
   }
 }
