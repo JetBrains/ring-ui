@@ -84,7 +84,8 @@ define([
           self.request_({highlight: false});
           e.preventDefault();
         },
-        'esc':function() {
+        'esc':function(e) {
+          e.preventDefault();
           // Hide dropdown and fall to next shortcut scope if there was none
           if (!actionList('remove')) {
             return true;
