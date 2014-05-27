@@ -10,5 +10,11 @@
 
 <div id="example"></div>
 <script type="text/javascript" src="main.js" charset="utf-8"></script>
+<script>
+  React.renderComponent(Ring.helloWorld({
+    firstPart: 'Jet',
+    secondPart: 'Brains'
+  }), document.getElementById('example'));
+</script>
 </body>
 </html>
