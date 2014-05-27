@@ -80,7 +80,7 @@
   "jest": {
     "scriptPreprocessor": "<rootDir>/preprocessor.js",
     "testPathDirs": [
-      "__tests__"
+      "tmp/__tests__"
     ],
     "collectCoverage": true
   }
