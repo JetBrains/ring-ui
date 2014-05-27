@@ -39,6 +39,7 @@ define([
       uid: uid,
       remove: remove
     };
+    var actionListInstance;
 
     if (!config && (!config.target || !config.dataSource)) {
       select.trigger('init:fail');
@@ -73,13 +74,15 @@ define([
         type = type.concat(config.type);
       }
 
-      actionList('init', {
+      actionListInstance = actionList('init', {
         target: $target,
         type: type,
         description: config.description || '',
         limitWidth: config.limitWidth,
         items: data
       });
+
+      actionListInstance.setActiveItem(0);
 
       if (!preventEvent) {
         actionList.on('change_' + actionList('getUID'), function (data) {
