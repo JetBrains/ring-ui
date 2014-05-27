@@ -8,7 +8,8 @@ module.exports = {
   watch: false,
   output: {
     path: path.join(__dirname, 'dist'),
-    filename: 'main.js'
+    filename: 'main.js',
+    library:'Ring'
   },
   resolve: {
     modulesDirectories: [
