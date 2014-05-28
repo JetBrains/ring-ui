@@ -97,6 +97,7 @@ define([
     var _renderSuggest = function (query) {
       $target.addClass(LOADING_CLASS);
       config.dataSource(query, $top).then(function (data) {
+        $target.removeClass(LOADING_CLASS);
         if (!data.length) {
           if (config.noErrors) {
             remove();
@@ -115,17 +116,14 @@ define([
 
           data = [emptyItem];
         }
-
-        $target.removeClass(LOADING_CLASS);
         initActionList(data);
 
       }, function (error) {
+        $target.removeClass(LOADING_CLASS);
         if (config.noErrors) {
           remove();
           return;
         }
-
-        $target.removeClass(LOADING_CLASS);
 
         var emptyItem = {
           action: false,
