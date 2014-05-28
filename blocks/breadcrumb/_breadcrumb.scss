@@ -66,6 +66,20 @@
   cursor: default;
 }
 
+.ring-breadcrumb__element__description {
+  display: inline-block;
+  width: 400px;
+  padding-left: 16px;
+  top: 2px;
+  overflow: hidden;
+  position: relative;
+
+  font-size: 13px;
+  line-height: 1;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .ring-breadcrumb__sep {
   margin: 0 $ring-unit;
   position: relative;
