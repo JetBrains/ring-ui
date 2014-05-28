@@ -6,10 +6,10 @@ define([
   'font-icon/font-icon',
   'header/_header.hbs',
   'dropdown-menu/_dropdown-menu__component.hbs'
-], function($, Module, View) {
+], function ($, Module, View) {
   'use strict';
 
-  var SERVICES_COUNT = 20,
+  var SERVICES_COUNT,
     HEADER_ITEM_SELECTOR = '.ring-header__item',
     HEADER_RIGHT_MARGIN = 200;
 
@@ -20,14 +20,14 @@ define([
       // Fix duplicate profile links in YouTrack
       // TODO Figure out if they should be always defined in Hub
       var linksLabels = {};
-      $.each(links, function(index, link) {
+      $.each(links, function (index, link) {
         if (link && link.label) {
           linksLabels[link.label] = true;
         }
       });
 
       if (data.authLinks) {
-        $.each(data.authLinks, function(index, link) {
+        $.each(data.authLinks, function (index, link) {
           if (index !== 'login') {
             links.push(link);
           }
@@ -43,10 +43,9 @@ define([
       }
     }
 
-    if (data.services && data.services.length > SERVICES_COUNT) {
+    if (data.services && SERVICES_COUNT && data.services.length > SERVICES_COUNT) {
       data.items = data.services.splice(SERVICES_COUNT);
     }
-
     return data;
   };
 
@@ -57,7 +56,8 @@ define([
       return View.init(module, element || null, method || 'prepend', process, data || {});
     },
     update: function (name, data) {
-      var $el = View.update('header', name, data),
+      SERVICES_COUNT = null;
+      var $el = View.update(module, name, data),
         documentWidth = $(document).width(),
         itemsWidth = 0,
         $items = $el.find(HEADER_ITEM_SELECTOR);
@@ -65,8 +65,10 @@ define([
       $.each($items, function (index) {
         if ((documentWidth - HEADER_RIGHT_MARGIN) < itemsWidth) {
           SERVICES_COUNT = index - 1;
-          View.update(module, name, data.slice(0, SERVICES_COUNT));
-          View.update(module, 'items', data.slice(SERVICES_COUNT));
+          View.update(module, '.', {
+            services: data.slice(0, SERVICES_COUNT),
+            items: data.slice(SERVICES_COUNT)
+          });
           return false;
         }
 
