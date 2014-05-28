@@ -179,6 +179,7 @@ define([
         dirty = false;
       })
       .on('focus', function () {
+        $target.addClass(LOADING_CLASS);
         shortcuts('pushScope', MODULE);
       });
 
