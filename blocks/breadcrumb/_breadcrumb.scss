@@ -68,8 +68,8 @@
 
 .ring-breadcrumb__element__description {
   display: inline-block;
-  width: 400px;
-  padding-left: 16px;
+  width: 50 * $ring-unit;
+  padding-left: 2 * $ring-unit;
   top: 2px;
   overflow: hidden;
   position: relative;
