@@ -37,14 +37,24 @@
           };
           dialog.register($scope);
 
-          function applyDefault() {
-            $scope.buttons.every(function (button) {
-              if (button['default'] && $scope.dialogForm.$valid) {
-                $scope.action(button);
-                $scope.$apply();
-                return false;
+          function applyDefaultHandler(isTextAreaShortcut) {
+            return function (event) {
+              if ($(event.target).is('textarea') !== isTextAreaShortcut) {
+                return;
               }
-            });
+
+              event.stopPropagation();
+              event.preventDefault();
+              if ($scope.dialogForm.$valid) {
+                $scope.buttons.every(function (button) {
+                  if (button['default']) {
+                    $scope.action(button);
+                    $scope.$apply();
+                    return false;
+                  }
+                });
+              }
+            };
           }
 
           shortcuts('bindList', {scope: DIALOG_NAMESPACE}, {
@@ -53,20 +63,8 @@
               dialog.hide();
               $scope.$apply();
             },
-            'enter': function (event) {
-              if ($(event.target).is('textarea')) {
-                return;
-              }
-              applyDefault();
-            },
-            'mod+enter': function (event) {
-              if (!$(event.target).is('textarea')) {
-                event.stopPropagation();
-                event.preventDefault();
-                return;
-              }
-              applyDefault();
-            }
+            'enter': applyDefaultHandler(false),
+            'mod+enter': applyDefaultHandler(true)
           });
         }],
         // Focus first input
