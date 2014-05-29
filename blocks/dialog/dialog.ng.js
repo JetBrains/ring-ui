@@ -37,20 +37,35 @@
           };
           dialog.register($scope);
 
+          function applyDefault() {
+            $scope.buttons.every(function (button) {
+              if (button['default'] && $scope.dialogForm.$valid) {
+                $scope.action(button);
+                $scope.$apply();
+                return false;
+              }
+            });
+          }
+
           shortcuts('bindList', {scope: DIALOG_NAMESPACE}, {
             'esc': function () {
               $scope.resetPosition();
               dialog.hide();
               $scope.$apply();
             },
-            'enter': function () {
-              $scope.buttons.every(function (button) {
-                if (button['default'] && $scope.dialogForm.$valid) {
-                  $scope.action(button);
-                  $scope.$apply();
-                  return false;
-                }
-              });
+            'enter': function (event) {
+              if ($(event.target).is('textarea')) {
+                return;
+              }
+              applyDefault();
+            },
+            'mod+enter': function (event) {
+              if (!$(event.target).is('textarea')) {
+                event.stopPropagation();
+                event.preventDefault();
+                return;
+              }
+              applyDefault();
             }
           });
         }],
