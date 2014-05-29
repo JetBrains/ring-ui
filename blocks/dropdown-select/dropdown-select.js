@@ -1,10 +1,11 @@
 define([
   'jquery',
   'global/global__modules',
+  'global/global__utils',
   'delayed-listener/delayed-listener',
   'action-list/action-list',
   'shortcuts/shortcuts'
-], function ($, Module) {
+], function ($, Module, utils) {
   'use strict';
 
   var MODULE = 'dropdown-select',
@@ -12,7 +13,7 @@ define([
     SELECT_ARROW_CLASS = 'ring-input_icon__span',
     RESULT_COUNT = 10;
 
-  var
+  var popup = Module.get('popup'),
     actionList = Module.get('action-list'),
     shortcuts = Module.get('shortcuts'),
     delayedListener = Module.get('delayed-listener'),
@@ -238,7 +239,7 @@ define([
         restUrl = restUrl.replace('#{' + item  + '}', suggestArgs[index] ? suggestArgs[index] : '');
       });
 
-      restUrl = restUrl + '&$top=' + (($top || RESULT_COUNT) + 1);
+      restUrl = restUrl + '&$top=' + ($top || RESULT_COUNT);
 
       auth('get', restUrl).then(function (data, state, jqXHR) {
         var items = [];
@@ -247,14 +248,6 @@ define([
             return {
               label: val.name
             };
-          });
-        }
-
-        if (items.length >= $top) {
-          items.splice(items.length - 1, items.length);
-          items.push({
-            event: false,
-            label: '...'
           });
         }
 
@@ -274,12 +267,181 @@ define([
     select.trigger('remove:done');
   };
 
+  var MODULE_SHORTCUTS = 'dropdown-select';
+  var CONTAINER_CLASS = 'ring-dropdown-select__container';
+
+  var Select = function (config) {
+    if (!(this instanceof Select)) {
+      return new Select(config);
+    }
+    var self = this;
+
+    this.$target = $(config.target);
+    this.top = config.top || config.$top || RESULT_COUNT;
+    this.skip_ = 0;
+    this.description = config.description;
+    this.dataSource = config.dataSource;
+    this.onShow = config.onShow || $.noop;
+    this.onHide = config.onHide || $.noop;
+    this.onSelect = config.onSelect || $.noop;
+
+    this.shortcutsUID_ = MODULE_SHORTCUTS + uid++;
+    this.isDirty_ = false;
+    this.$wrapper_ = popup('init', {
+      target: self.$target,
+      type: [
+        'bound'
+      ]
+    });
+    this.$container_ = null;
+    this.currentQuery_ = '';
+
+    this.$target.
+      on('click', function (e) {
+        e.preventDefault();
+        self.$target.select();
+      }).
+      on('focus', function () {
+        self.$target.addClass(LOADING_CLASS);
+        shortcuts('pushScope', self.shortcutsUID_);
+      }).
+      on('blur', function () {
+        self.isDirty_ = false;
+        self.destroy();
+      }).
+      on('input', function () {
+        self.isDirty_ = true;
+      }).
+      on('keyup', function (e) {
+        if (e.keyCode === 13) {
+          var value = ($(this).val() || $(this).text());
+
+          if (!self.isDirty_) {
+            self.isDirty_ = true;
+            self.configureRequest(value);
+          } else if (typeof self.onSelect === 'function') {
+            self.onSelect(value);
+          }
+
+          self.destroy();
+        }
+      });
+
+    shortcuts('bindList', {
+      scope: self.shortcutsUID_
+    }, {
+      'esc': function (e) {
+        self.destroy();
+        e.preventDefault();
+      },
+      'tab': function (e) {
+        e.preventDefault();
+      }
+    });
+
+    delayedListener('init', {
+      target: self.$target,
+      onDelayedChange: function (data) {
+        self.configureRequest(data.value);
+      },
+      onDelayedCaretMove: function (data) {
+        self.configureRequest(data.value);
+      }
+    });
+
+  };
+
+  Select.prototype.configureRequest = function (query) {
+    if (!this.isDirty_) {
+      query = '';
+    }
+
+    this.$target.removeClass(LOADING_CLASS);
+    this.requestData(query, this.top, this.skip_);
+
+  };
+
+  Select.prototype.requestData = function (query, top, skip) {
+    var that = this;
+    this.currentQuery_ = query;
+    this.dataSource(query, top, skip).then(function (data) {
+      that.renderComponent(data);
+    }, function (error) {
+      that.renderComponent(error);
+    });
+  };
+
+  Select.prototype.renderComponent = function (data) {
+    if (!this.$container_) {
+      this.$container_ = $('<div class="' + CONTAINER_CLASS + '"></div>');
+      this.$container_.
+        on('click', $.proxy(this, 'clickHandler')).
+        on('scroll', utils.throttle($.proxy(this, 'scrollHandler')));
+
+      this.$wrapper_.appendHTML(this.$container_);
+      this.$wrapper_.el.show();
+    }
+
+    this.$container_.empty();
+
+    var el = this.createActionList(data);
+    this.$container_.append(el);
+  };
+
+  Select.prototype.scrollHandler = function (e) {
+    if (this.$container_.height() / 100 * 20 < $(e.currentTarget).scrollTop()) {
+      this.requestData(this.currentQuery_, this.top + this.top, this.skip_);
+    }
+  };
+
+  Select.prototype.clickHandler = function (e) {
+    e.stopPropagation();
+    console.log('clickHandler');
+  };
+
+  Select.prototype.createActionList = function (data) {
+    return actionList('init', {
+      description: this.description,
+      limitWidth: this.limitWidth,
+      items: data
+    });
+  };
+
+  Select.prototype.getActiveItem = function () {
+    if (this.$container_) {
+      var q = this.$container_.find('.ring-dropdown__item_action.active').data('ring-event');
+      console.log(q);
+    }
+  };
+
+  Select.prototype.destroy = function () {
+    if (this.$wrapper_) {
+      this.$wrapper_.el.hide();
+    }
+    shortcuts('spliceScope', this.shortcutsUID_);
+
+    if (this.$container_) {
+      this.$container_.remove();
+      this.$container_ = null;
+    }
+
+    this.isDirty_ = false;
+  };
+
   Module.add(MODULE, {
     init: {
       method: init,
       override: true
     },
     remoteDataSource: {
+      method: remoteDataSource,
+      override: true
+    },
+    init2: {
+      method: Select,
+      override: true
+    },
+    remoteDataSource2: {
       method: remoteDataSource,
       override: true
     }
