@@ -417,7 +417,7 @@
        */
       var select = ring('dropdown-select');
 
-      select('init', {
+      select('init2', {
           target: '.select-demo',
           description: 'description for dropdown-select',
           $top: 5,
@@ -430,7 +430,7 @@
           onHide: function () {
               ring('alerts', 'add')('Select onHide','success', true, 1000);
           },
-          dataSource: select('remoteDataSource', {
+          dataSource: select('remoteDataSource2', {
               hubResource: 'usergroups',
               url: 'api/rest/usergroups?fields=id,name,iconUrl,total&query=#{query}'
           })
@@ -457,7 +457,7 @@
 
       <h3 class="demo__sub-header">dropdown-select</h3>
       <div class="ring-input_wrapper">
-        <input value="test" class="ring-input ring-input_icon ring-input_icon-loader ring-js-shortcuts select-demo">
+        <input value="users" class="ring-input ring-input_icon ring-input_icon-loader ring-js-shortcuts select-demo">
         <span class="ring-input_icon__span ring-font-icon_caret-down ring-font-icon"></span>
         <div class="ring-loader ring-loader_inline"></div>
       </div>

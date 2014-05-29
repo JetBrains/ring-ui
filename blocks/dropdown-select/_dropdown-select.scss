@@ -1,17 +1,23 @@
 @import "../global/global";
 
+.ring-dropdown-select__container {
+  overflow: scroll;
+  height: 11*$ring-unit;
+}
+
 .dropdown-select {
   display: inline-block;
 }
 
 .dropdown-select__toggle {
   cursor: text;
-
   .ring-input_icon + & {
+    font-size: 12px;
+
     top: 0;
+
     padding-right: $ring-unit;
 
     color: #888;
-    font-size: 12px;
   }
 }
