@@ -380,9 +380,9 @@ define([
         on('scroll', utils.throttle($.proxy(this, 'scrollHandler')));
 
       this.$wrapper_.appendHTML(this.$container_);
-      this.$wrapper_.el.show();
     }
 
+    this.$wrapper_.el.show();
     this.$container_.empty();
 
     var el = this.createActionList(data);
@@ -398,7 +398,16 @@ define([
 
   Select.prototype.clickHandler = function (e) {
     e.stopPropagation();
-    console.log('clickHandler');
+
+    var data = $(e.target).data('ring-event');
+
+    if(data && data[0].data) {
+      this.onSelect(data[0].data);
+      this.$container_.empty();
+      this.$wrapper_.el.hide();
+      this.$target.focus();
+    }
+
   };
 
   Select.prototype.createActionList = function (data) {
