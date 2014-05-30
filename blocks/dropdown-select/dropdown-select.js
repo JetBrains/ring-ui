@@ -294,6 +294,7 @@ define([
       ]
     });
     this.$container_ = null;
+    this.itemsCount_ = this.top;
     this.currentQuery_ = '';
 
     this.$target.
@@ -389,8 +390,9 @@ define([
   };
 
   Select.prototype.scrollHandler = function (e) {
-    if (this.$container_.height() / 100 * 20 < $(e.currentTarget).scrollTop()) {
-      this.requestData(this.currentQuery_, this.top + this.top, this.skip_);
+    if ((this.$container_.get(0).scrollHeight - this.$container_.height()) - $(e.currentTarget).scrollTop() < 50) {
+      this.itemsCount_ += this.top;
+      this.requestData(this.currentQuery_, this.itemsCount_, this.skip_);
     }
   };
 
@@ -415,17 +417,17 @@ define([
   };
 
   Select.prototype.destroy = function () {
-    if (this.$wrapper_) {
-      this.$wrapper_.el.hide();
-    }
-    shortcuts('spliceScope', this.shortcutsUID_);
-
-    if (this.$container_) {
-      this.$container_.remove();
-      this.$container_ = null;
-    }
-
-    this.isDirty_ = false;
+//    if (this.$wrapper_) {
+//      this.$wrapper_.el.hide();
+//    }
+//    shortcuts('spliceScope', this.shortcutsUID_);
+//
+//    if (this.$container_) {
+//      this.$container_.remove();
+//      this.$container_ = null;
+//    }
+//
+//    this.isDirty_ = false;
   };
 
   Module.add(MODULE, {
