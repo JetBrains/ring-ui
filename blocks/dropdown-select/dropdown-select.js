@@ -296,6 +296,7 @@ define([
     this.$container_ = null;
     this.itemsCount_ = this.top;
     this.currentQuery_ = '';
+    this.$body_ = $('body');
 
     this.$target.
       on('click', function (e) {
@@ -308,7 +309,6 @@ define([
       }).
       on('blur', function () {
         self.isDirty_ = false;
-        self.destroy();
       }).
       on('input', function () {
         self.isDirty_ = true;
@@ -373,6 +373,12 @@ define([
   };
 
   Select.prototype.renderComponent = function (data) {
+    if(!$.contains(this.$body_[0],this.$wrapper_.el[0])) {
+      this.$body_.append(this.$wrapper_.el);
+    }
+
+    $(document).on('click', $.proxy(this,'destroy'));
+
     if (!this.$container_) {
       this.$container_ = $('<div class="' + CONTAINER_CLASS + '"></div>');
       this.$container_.
@@ -382,7 +388,6 @@ define([
       this.$wrapper_.appendHTML(this.$container_);
     }
 
-    this.$wrapper_.el.show();
     this.$container_.empty();
 
     var el = this.createActionList(data);
@@ -396,47 +401,42 @@ define([
     }
   };
 
+
   Select.prototype.clickHandler = function (e) {
     e.stopPropagation();
 
     var data = $(e.target).data('ring-event');
 
-    if(data && data[0].data) {
+    if (data && data[0].data) {
       this.onSelect(data[0].data);
       this.$container_.empty();
       this.$wrapper_.el.hide();
       this.$target.focus();
     }
 
+    this.destroy();
+
   };
 
   Select.prototype.createActionList = function (data) {
     return actionList('init', {
+//      overrideNavigation: true,
       description: this.description,
       limitWidth: this.limitWidth,
       items: data
     });
   };
 
-  Select.prototype.getActiveItem = function () {
-    if (this.$container_) {
-      var q = this.$container_.find('.ring-dropdown__item_action.active').data('ring-event');
-      console.log(q);
-    }
-  };
-
   Select.prototype.destroy = function () {
-//    if (this.$wrapper_) {
-//      this.$wrapper_.el.hide();
-//    }
-//    shortcuts('spliceScope', this.shortcutsUID_);
-//
-//    if (this.$container_) {
-//      this.$container_.remove();
-//      this.$container_ = null;
-//    }
-//
-//    this.isDirty_ = false;
+    if(this.$wrapper_) {
+      this.$wrapper_.el.detach();
+    }
+
+    $(document).off('click', this.destroy);
+
+    shortcuts('spliceScope', this.shortcutsUID_);
+
+    this.isDirty_ = false;
   };
 
   Module.add(MODULE, {
