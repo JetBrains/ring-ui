@@ -1,4 +1,10 @@
-define(['jquery', 'global/global__modules', 'header/header', 'auth/auth'], function ($, Module) {
+define([
+  'jquery',
+  'global/global__modules',
+  'global/global__utils',
+  'header/header',
+  'auth/auth'
+], function ($, Module,utils) {
   'use strict';
 
   var convertServices = function (services, activeServiceId) {
@@ -40,8 +46,8 @@ define(['jquery', 'global/global__modules', 'header/header', 'auth/auth'], funct
       header.trigger('services:always');
     });
 
-  $(window).on('resize', function () {
+  $(window).on('resize', utils.throttle(function () {
     var services = JSON.parse(JSON.stringify(servicesCache));
     header('update', 'services', services);
-  });
+  }));
 });
