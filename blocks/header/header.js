@@ -65,10 +65,11 @@ define([
       $.each($items, function (index) {
         if ((documentWidth - HEADER_RIGHT_MARGIN) < itemsWidth) {
           SERVICES_COUNT = index - 1;
+
           View.update(module, '.', {
-            services: data.slice(0, SERVICES_COUNT),
-            items: data.slice(SERVICES_COUNT)
+            services: data
           });
+
           return false;
         }
 
