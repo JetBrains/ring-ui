@@ -2,7 +2,7 @@
 
 .ring-dropdown-select__container {
   overflow: scroll;
-  height: 11*$ring-unit;
+  max-height: 11*$ring-unit;
 }
 
 .dropdown-select {
