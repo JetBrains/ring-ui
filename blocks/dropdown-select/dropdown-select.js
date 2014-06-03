@@ -11,7 +11,7 @@ define([
 
   var MODULE = 'dropdown-select';
   var LOADING_CLASS = 'ring-input_loading';
-//  var SELECT_ARROW_CLASS = 'ring-input_icon__span';
+  var SELECT_ARROW_CLASS = 'ring-input_icon__span';
   var RESULT_COUNT = 10;
   var MODULE_SHORTCUTS = 'dropdown-select';
   var CONTAINER_CLASS = 'ring-dropdown-select__container';
@@ -81,6 +81,10 @@ define([
         self.isDirty_ = true;
       }).
       on('keyup', $.proxy(this, 'submitHandler'));
+
+    this.$target.next('.' + SELECT_ARROW_CLASS).on('click', function() {
+      self.$target.focus();
+    });
 
     shortcuts('bindList', {
       scope: self.shortcutsUID_
