@@ -374,15 +374,15 @@ define([
   };
 
   Select.prototype.renderComponent = function (data) {
-    if(data.length === 0) {
+    if (data.length === 0) {
       this.destroy();
       return false;
     }
-    if(!$.contains(this.$body_[0],this.$wrapper_.el[0])) {
+    if (!$.contains(this.$body_[0], this.$wrapper_.el[0])) {
       this.$body_.append(this.$wrapper_.el);
     }
 
-    $(document).on('click', $.proxy(this,'destroy'));
+    $(document).on('click', $.proxy(this, 'destroy'));
 
     if (!this.$container_) {
       this.$container_ = $('<div class="' + CONTAINER_CLASS + '"></div>');
@@ -392,7 +392,7 @@ define([
 
       this.$wrapper_.appendHTML(this.$container_);
 
-      if(this.description) {
+      if (this.description) {
         var $description = $(View.render('dropdown__description', {
           description: this.description
         }));
@@ -403,8 +403,9 @@ define([
 
     this.$container_.empty();
 
-    var el = this.createActionList(data);
-    this.$container_.append(el);
+    var $el = this.createActionList(data);
+    $el.on('mouseover', this.hoverHandler);
+    this.$container_.append($el);
   };
 
   Select.prototype.scrollHandler = function (e) {
@@ -439,8 +440,15 @@ define([
     });
   };
 
+  Select.prototype.hoverHandler = function() {
+    $(this).siblings().each(function() {
+      $(this).removeClass('active');
+    });
+    $(this).addClass('active');
+  };
+
   Select.prototype.destroy = function () {
-    if(this.$wrapper_) {
+    if (this.$wrapper_) {
       this.$wrapper_.el.detach();
     }
 
