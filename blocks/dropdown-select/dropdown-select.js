@@ -2,10 +2,11 @@ define([
   'jquery',
   'global/global__modules',
   'global/global__utils',
+  'global/global__views',
   'delayed-listener/delayed-listener',
   'action-list/action-list',
   'shortcuts/shortcuts'
-], function ($, Module, utils) {
+], function ($, Module, utils, View) {
   'use strict';
 
   var MODULE = 'dropdown-select',
@@ -373,6 +374,10 @@ define([
   };
 
   Select.prototype.renderComponent = function (data) {
+    if(data.length === 0) {
+      this.destroy();
+      return false;
+    }
     if(!$.contains(this.$body_[0],this.$wrapper_.el[0])) {
       this.$body_.append(this.$wrapper_.el);
     }
@@ -386,6 +391,14 @@ define([
         on('scroll', utils.throttle($.proxy(this, 'scrollHandler')));
 
       this.$wrapper_.appendHTML(this.$container_);
+
+      if(this.description) {
+        var $description = $(View.render('dropdown__description', {
+          description: this.description
+        }));
+        this.$container_.after($description);
+
+      }
     }
 
     this.$container_.empty();
@@ -421,7 +434,6 @@ define([
   Select.prototype.createActionList = function (data) {
     return actionList('init', {
 //      overrideNavigation: true,
-      description: this.description,
       limitWidth: this.limitWidth,
       items: data
     });
