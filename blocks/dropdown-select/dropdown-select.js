@@ -230,23 +230,22 @@ define([
   };
 
   Select.prototype.navigate = function (e, key) {
-    var $el = this.$container_;
-    if ($el === null) {
+    if (this.$container_ === null) {
       return false;
     }
     var up = (key === 'up'),
-      $active = $el.parent().find(ITEM_ACTION_SELECTOR + '.' + ACTIVE_CLASS),
+      $active = this.$container_.parent().find(ITEM_ACTION_SELECTOR + '.' + ACTIVE_CLASS),
       $next = $active[up ? 'prev' : 'next'](ITEM_ACTION_SELECTOR);
 
     $active.removeClass(ACTIVE_CLASS);
 
     if ($next.length) {
-      if (($next.position().top >= $el.height()) || $next.position().top < 0) {
-        $el.scrollTo($next);
+      if (($next.position().top >= this.$container_.height()) || $next.position().top < 0) {
+        this.$container_.scrollTo($next);
       }
       $next.addClass(ACTIVE_CLASS);
     } else {
-      $el.parent().find(ITEM_ACTION_SELECTOR)[up ? 'last' : 'first']().addClass(ACTIVE_CLASS);
+      this.$container_.parent().find(ITEM_ACTION_SELECTOR)[up ? 'last' : 'first']().addClass(ACTIVE_CLASS);
     }
 
     e.preventDefault();
