@@ -58,6 +58,8 @@ define([
       ]
     });
     this.$container_ = null;
+    this.containerHeight = this.top * 24;
+    this.top += 1;
     this.itemsCount_ = this.top;
     this.currentQuery_ = '';
     this.$body_ = $('body');
@@ -80,7 +82,7 @@ define([
       }).
       on('keyup', $.proxy(this, 'submitHandler'));
 
-    this.$target.next('.' + SELECT_ARROW_CLASS).on('click', function() {
+    this.$target.next('.' + SELECT_ARROW_CLASS).on('click', function () {
       self.$target.focus();
     });
 
@@ -144,8 +146,8 @@ define([
     $(document).on('click', $.proxy(this, 'destroy'));
 
     if (!this.$container_) {
-      this.$container_ = $('<div class="' + CONTAINER_CLASS + '"></div>');
-      this.$container_.
+      this.$container_ = $('<div class="' + CONTAINER_CLASS + '"></div>').
+        css('max-height', this.containerHeight).
         on('click', $.proxy(this, 'clickHandler')).
         on('scroll', utils.throttle($.proxy(this, 'scrollHandler')));
 
