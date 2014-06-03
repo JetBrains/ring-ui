@@ -314,23 +314,7 @@ define([
       on('input', function () {
         self.isDirty_ = true;
       }).
-      on('keyup', function (e) {
-        if (e.keyCode === 13) {
-          var activeItem = self.getActiveItem();
-
-          if (!activeItem) {
-            self.onSelect(self.$target.val() || self.$target.text());
-            self.destroy();
-            return false;
-          }
-
-          self.$target.val(activeItem.label);
-          self.isDirty_ = true;
-          self.onSelect(activeItem);
-
-          self.destroy();
-        }
-      });
+      on('keyup', $.proxy(this, 'submitHandler'));
 
     shortcuts('bindList', {
       scope: self.shortcutsUID_
@@ -433,6 +417,24 @@ define([
 
     this.destroy();
 
+  };
+
+  Select.prototype.submitHandler = function (e) {
+    if (e.keyCode === 13) {
+      var activeItem = this.getActiveItem();
+
+      if (!activeItem) {
+        this.onSelect(this.$target.val() || this.$target.text());
+        this.destroy();
+        return false;
+      }
+
+      this.$target.val(activeItem.label);
+      this.isDirty_ = true;
+      this.onSelect(activeItem);
+
+      this.destroy();
+    }
   };
 
   Select.prototype.createActionList = function (data) {
