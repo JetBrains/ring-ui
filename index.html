@@ -314,26 +314,26 @@
         return false;
       });
 
-//      var auth = ring('auth');
-//
-//      o.on('header:login', function() {
-//        auth('init', authData);
-//      });
-//
-//      o.on('auth:init:done', function() {
-//        ring('menu')('update', 'left.toggle-profile', {
-//          "type": "button",
-//          "button": {
-//            "label": "Services profiles",
-//            "event": "menu:toggle-profile"
-//          }
-//        });
-//      });
-//
-//      auth('init', $.extend({
-//        denyIA: true,
-//        refresh: true
-//      }, authData));
+      var auth = ring('auth');
+
+      o.on('header:login', function() {
+        auth('init', authData);
+      });
+
+      o.on('auth:init:done', function() {
+        ring('menu')('update', 'left.toggle-profile', {
+          "type": "button",
+          "button": {
+            "label": "Services profiles",
+            "event": "menu:toggle-profile"
+          }
+        });
+      });
+
+      auth('init', $.extend({
+        denyIA: true,
+        refresh: true
+      }, authData));
 
       o.on('menu:test', function(data) {
         ring('menu', 'setActive')(data);
@@ -353,53 +353,53 @@
        *  dropdown-filter init
        */
       var filter = ring('dropdown-filter');
-//      filter('init', {
-//        target: $('.ring-js-filter'),
-//        type:['loader'],
-//        width : 'auto',
-//        actions: [
-//          {
-//            type: 'add',
-//            title: 'Add to',
-//            change: function () {
-//              console.log(arguments);
-//            },
-//            $top: 10,
-//            dataSource: filter('remoteDataSource', {
-//              hubResource:'usergroups',
-//              url: 'api/rest/usergroups?fields=id,name'
-//            })
-//          },
-//          {
-//            type: 'remove',
-//            title: 'Remove from',
-//            $top: 10,
-//            dataSource: filter('remoteDataSource', {
-//              hubResource:'groups',
-//              url: 'api/rest/users/#{userId}/groups?'
-//            }),
-//            change: function () {
-//              console.log(arguments);
-//            }
-//          }
-//        ]
-//      });
+      filter('init', {
+        target: $('.ring-js-filter'),
+        type:['loader'],
+        width : 'auto',
+        actions: [
+          {
+            type: 'add',
+            title: 'Add to',
+            change: function () {
+              console.log(arguments);
+            },
+            $top: 10,
+            dataSource: filter('remoteDataSource', {
+              hubResource:'usergroups',
+              url: 'api/rest/usergroups?fields=id,name'
+            })
+          },
+          {
+            type: 'remove',
+            title: 'Remove from',
+            $top: 10,
+            dataSource: filter('remoteDataSource', {
+              hubResource:'groups',
+              url: 'api/rest/users/#{userId}/groups?'
+            }),
+            change: function () {
+              console.log(arguments);
+            }
+          }
+        ]
+      });
 
       /**
        * query-assist init
        */
       var query = ring('query-assist');
-//
-//      query('init', {
-//        targetElem: '.demo__query-example',
-//        query: 'name: admin or id: 1',
-//        glass: true,
-//        placeholder: 'placeholder sample',
-//        autofocus: false,
-//        dataSource: query('remoteDataSource', {
-//          url: 'api/rest/users/queryAssist?caret=#{caret}&fields=query,caret,suggestions#{styleRanges}&query=#{query}'
-//        })
-//      });
+
+      query('init', {
+        targetElem: '.demo__query-example',
+        query: 'name: admin or id: 1',
+        glass: true,
+        placeholder: 'placeholder sample',
+        autofocus: false,
+        dataSource: query('remoteDataSource', {
+          url: 'api/rest/users/queryAssist?caret=#{caret}&fields=query,caret,suggestions#{styleRanges}&query=#{query}'
+        })
+      });
 
       query.on('apply', function (query) {
         ring('alerts', 'add')('Query “' + query +'” submitted', 'success', true, 10000);
@@ -430,46 +430,10 @@
         onHide: function () {
           ring('alerts', 'add')('Select onHide', 'success', true, 1000);
         },
-//          dataSource: select('remoteDataSource2', {
-//              hubResource: 'usergroups',
-//              url: 'api/rest/usergroups?fields=id,name,iconUrl,total&query=#{query}'
-//          }
-        dataSource: function () {
-          var defer = $.Deferred();
-
-          defer.resolve([
-            {
-              data: {
-                label: 'Option 1'
-              },
-              action: true,
-              label: 'Option 1'
-            },
-            {
-              action: true,
-              label: 'Option 2',
-              data: {
-                label: 'Option 2'
-              }
-            },
-            {
-              data: {
-                label: 'Option 3'
-              },
-              action: true,
-              label: 'Option 3'
-            },
-            {
-              data: {
-                label: 'Option 4'
-              },
-              action: true,
-              label: 'Option 4'
-            }
-          ]);
-
-          return defer.promise();
-        }
+        dataSource: select('remoteDataSource2', {
+          hubResource: 'usergroups',
+          url: 'api/rest/usergroups?fields=id,name,iconUrl,total&query=#{query}'
+        })
       });
 
     });

@@ -9,7 +9,8 @@ define([
   'dropdown/_dropdown__class.hbs',
   'dropdown/_dropdown__items.hbs',
   'dropdown/_dropdown__content.hbs',
-  'dropdown/_dropdown__separator.hbs'
+  'dropdown/_dropdown__separator.hbs',
+  'dropdown/_dropdown__description.hbs'
 ], function ($, View, Module, events) {
   'use strict';
 
