@@ -29,9 +29,7 @@ define([
 //    target: DOM,
 //    type: string
 //    $top: number
-//    onChange: function(data),
 //    onSelect: function(data),
-//    onSubmit: function(data),
 //    onShow: function()
 //    onHide: function()
 //    dataSource: {return promise with action-list compatible data},
@@ -140,6 +138,7 @@ define([
     }
     if (!$.contains(this.$body_[0], this.$wrapper_.el[0])) {
       this.$body_.append(this.$wrapper_.el);
+      this.onShow(true);
     }
 
     $(document).on('click', $.proxy(this, 'destroy'));
@@ -272,6 +271,7 @@ define([
   Select.prototype.destroy = function () {
     if (this.$wrapper_) {
       this.$wrapper_.el.detach();
+      this.onHide();
     }
 
     $(document).off('click', this.destroy);
