@@ -309,21 +309,23 @@ define([
         shortcuts('pushScope', self.shortcutsUID_);
       }).
       on('blur', function () {
-        self.isDirty_ = false;
+        shortcuts('spliceScope', this.shortcutsUID_);
       }).
       on('input', function () {
         self.isDirty_ = true;
       }).
       on('keyup', function (e) {
         if (e.keyCode === 13) {
-          var value = ($(this).val() || $(this).text());
+          var activeItem = self.getActiveItem();
 
-          if (!self.isDirty_) {
-            self.isDirty_ = true;
-            self.configureRequest(value);
-          } else if (typeof self.onSelect === 'function') {
-            self.onSelect(value);
+          if (!activeItem) {
+            self.destroy();
+            return false;
           }
+
+          self.$target.val(activeItem.label);
+          self.isDirty_ = true;
+          self.onSelect(activeItem.label);
 
           self.destroy();
         }
@@ -356,6 +358,7 @@ define([
   Select.prototype.configureRequest = function (query) {
     if (!this.isDirty_) {
       query = '';
+      this.isDirty_ = true;
     }
 
     this.$target.removeClass(LOADING_CLASS);
@@ -423,8 +426,7 @@ define([
 
     if (data && data[0].data) {
       this.onSelect(data[0].data);
-      this.$container_.empty();
-      this.$wrapper_.el.hide();
+      this.$target.val(data[0].data.label);
       this.$target.focus();
     }
 
@@ -440,11 +442,26 @@ define([
     });
   };
 
-  Select.prototype.hoverHandler = function() {
-    $(this).siblings().each(function() {
+  Select.prototype.hoverHandler = function () {
+    $(this).siblings().each(function () {
       $(this).removeClass('active');
     });
+
     $(this).addClass('active');
+  };
+
+  Select.prototype.getActiveItem = function () {
+    if (!this.$container_) {
+      return false;
+    }
+
+    var itemData = this.$container_.
+      find('.active').
+      data('ring-event');
+
+    if (itemData && itemData.length && itemData[0] && itemData[0].data) {
+      return itemData[0].data;
+    }
   };
 
   Select.prototype.destroy = function () {
@@ -454,9 +471,6 @@ define([
 
     $(document).off('click', this.destroy);
 
-    shortcuts('spliceScope', this.shortcutsUID_);
-
-    this.isDirty_ = false;
   };
 
   Module.add(MODULE, {
