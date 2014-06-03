@@ -9,16 +9,21 @@ define([
 ], function ($, Module, utils, View) {
   'use strict';
 
-  var MODULE = 'dropdown-select',
-    LOADING_CLASS = 'ring-input_loading',
-    SELECT_ARROW_CLASS = 'ring-input_icon__span',
-    RESULT_COUNT = 10;
+  var MODULE = 'dropdown-select';
+  var LOADING_CLASS = 'ring-input_loading';
+//  var SELECT_ARROW_CLASS = 'ring-input_icon__span';
+  var RESULT_COUNT = 10;
+  var MODULE_SHORTCUTS = 'dropdown-select';
+  var CONTAINER_CLASS = 'ring-dropdown-select__container';
+  var ITEM_ACTION_SELECTOR = '.ring-dropdown__item_action';
+  var ACTIVE_CLASS = 'active';
 
-  var popup = Module.get('popup'),
-    actionList = Module.get('action-list'),
-    shortcuts = Module.get('shortcuts'),
-    delayedListener = Module.get('delayed-listener'),
-    uid = 0;
+  var popup = Module.get('popup');
+  var actionList = Module.get('action-list');
+  var shortcuts = Module.get('shortcuts');
+  var delayedListener = Module.get('delayed-listener');
+  var uid = 0;
+
 
 //  config = {
 //    target: DOM,
@@ -31,247 +36,6 @@ define([
 //    onHide: function()
 //    dataSource: {return promise with action-list compatible data},
 //  }
-  var init = function (config) {
-    uid += 1;
-    var dirty = false;
-    var open = false;
-    var select = Module.get(MODULE);
-    var $top;
-    var $target;
-    var instance = {
-      uid: uid,
-      remove: remove
-    };
-    var actionListInstance;
-
-    if (!config && (!config.target || !config.dataSource)) {
-      select.trigger('init:fail');
-      return false;
-    }
-
-    $target = $(config.target);
-
-    if (config.$top && !isNaN(config.$top)) {
-      $top = config.$top;
-    }
-
-    ring().on('dialog:hide', function () {
-      remove();
-    });
-
-    actionList.on('show', function (data) {
-      if (typeof config.onShow === 'function' && data) {
-        config.onShow(data);
-      }
-    });
-
-    actionList.on('hide', function (data) {
-      if (typeof config.onHide === 'function' && data) {
-        config.onHide(data);
-      }
-    });
-
-    var initActionList = function (data, preventEvent) {
-      var type = ['bound'];
-      if (config.type) {
-        type = type.concat(config.type);
-      }
-
-      actionListInstance = actionList('init', {
-        target: $target,
-        type: type,
-        description: config.description || '',
-        limitWidth: config.limitWidth,
-        items: data
-      });
-
-      actionListInstance.setActiveItem(0);
-
-      if (!preventEvent) {
-        actionList.on('change_' + actionList('getUID'), function (data) {
-          if (typeof config.onSelect === 'function') {
-            config.onSelect(data);
-          }
-        });
-      }
-    };
-
-    var _renderSuggest = function (query) {
-      $target.addClass(LOADING_CLASS);
-      config.dataSource(query, $top).then(function (data) {
-        $target.removeClass(LOADING_CLASS);
-        if (!data.length) {
-          if (config.noErrors) {
-            remove();
-            return;
-          }
-
-          var emptyItem = {
-            action: false,
-            error: true,
-            label: 'No results'
-          };
-
-          if (config.type === 'typed') {
-            emptyItem.type = 'error';
-          }
-
-          data = [emptyItem];
-        }
-        initActionList(data);
-
-      }, function (error) {
-        $target.removeClass(LOADING_CLASS);
-        if (config.noErrors) {
-          remove();
-          return;
-        }
-
-        var emptyItem = {
-          action: false,
-          error: true,
-          label: (error || 'Can\'t load options')
-        };
-
-        if (config.type === 'typed') {
-          emptyItem.type = 'error';
-        }
-
-        initActionList([emptyItem], true);
-      });
-    };
-
-    shortcuts('bindList', {
-      scope: MODULE
-    }, {
-      'esc': function (e) {
-        remove();
-        e.preventDefault();
-      },
-      'tab': function (e) {
-        e.preventDefault();
-      }
-    });
-
-    $target
-      .on('input', function () {
-        dirty = true;
-      })
-      .on('keyup', function (e) {
-        if (e.keyCode === 13) {
-          var value = ($(this).val() || $(this).text());
-
-          if (!dirty) {
-            dirty = true;
-            _renderSuggest(value);
-          } else if (typeof config.onSubmit === 'function') {
-            remove();
-            config.onSubmit(value);
-          }
-        }
-      })
-      .on('click', function (e) {
-        $target.select();
-        e.preventDefault();
-      })
-      .on('blur', function () {
-        open = false;
-        dirty = false;
-      })
-      .on('focus', function () {
-        $target.addClass(LOADING_CLASS);
-        shortcuts('pushScope', MODULE);
-      });
-
-    if ($target.next().hasClass(SELECT_ARROW_CLASS)) {
-      $target.next()
-        .on('click', function () {
-          $target.focus();
-        });
-    }
-
-    var renderProccess = function (data) {
-      open = true;
-
-      if (dirty) {
-        _renderSuggest(data.value);
-      } else {
-        _renderSuggest('');
-        $target.select();
-      }
-    };
-    delayedListener('init', {
-      target: $target,
-      onDelayedChange: function (data) {
-        if ($target.is(':focus')) {
-          if (typeof config.onChange === 'function') {
-            config.onChange(data.value);
-          }
-          renderProccess(data);
-        }
-      },
-      onDelayedCaretMove: function (data) {
-        if (open !== true && $target.is(':focus')) {
-          renderProccess(data);
-        }
-      }
-    });
-
-    select.trigger('init:done', {});
-    return instance;
-  };
-
-  var remoteDataSource = function (remoteDataSourceConfig) {
-    var select = Module.get(MODULE);
-    var auth = Module.get('auth');
-
-    if (!remoteDataSourceConfig && (!remoteDataSourceConfig.hubResource || !remoteDataSourceConfig.url)) {
-      select.trigger('init:fail');
-      return false;
-    }
-
-    return function (query, $top) {
-      var defer = $.Deferred(),
-        restUrl = remoteDataSourceConfig.url,
-        substr = ['query', '$top'],
-        suggestArgs = [encodeURI(query)];
-
-      substr.forEach(function (item, index) {
-        restUrl = restUrl.replace('#{' + item  + '}', suggestArgs[index] ? suggestArgs[index] : '');
-      });
-
-      restUrl = restUrl + '&$top=' + ($top || RESULT_COUNT);
-
-      auth('get', restUrl).then(function (data, state, jqXHR) {
-        var items = [];
-        if (data[remoteDataSourceConfig.hubResource]) {
-          items = data[remoteDataSourceConfig.hubResource].map(function (val) {
-            return {
-              label: val.name
-            };
-          });
-        }
-
-        defer.resolve(items, state, jqXHR);
-      }, function () {
-        defer.reject(arguments[2]);
-      });
-
-      return defer.promise();
-    };
-  };
-
-  var remove = function () {
-    var select = Module.get(MODULE);
-    actionList('remove');
-    shortcuts('popScope', MODULE);
-    select.trigger('remove:done');
-  };
-
-  var MODULE_SHORTCUTS = 'dropdown-select';
-  var CONTAINER_CLASS = 'ring-dropdown-select__container';
-  var ACTIVE_CLASS = 'active';
-
   var Select = function (config) {
     if (!(this instanceof Select)) {
       return new Select(config);
@@ -299,6 +63,7 @@ define([
     this.itemsCount_ = this.top;
     this.currentQuery_ = '';
     this.$body_ = $('body');
+    this.activeItemIndex = 0;
 
     this.$target.
       on('click', function (e) {
@@ -326,7 +91,9 @@ define([
       },
       'tab': function (e) {
         e.preventDefault();
-      }
+      },
+      'up': $.proxy(this, 'navigate'),
+      'down': $.proxy(this, 'navigate')
     });
 
     delayedListener('init', {
@@ -395,12 +162,16 @@ define([
     var actionListElem = this.createActionList(data);
 
     actionListElem.on('mouseover', this.hoverHandler);
-    $(actionListElem[0]).addClass(ACTIVE_CLASS);
-    
+
     this.$container_.append(actionListElem);
+    $(actionListElem).siblings().eq(this.activeItemIndex).addClass(ACTIVE_CLASS);
   };
 
   Select.prototype.scrollHandler = function (e) {
+    var $activeItem = this.$container_.find(ITEM_ACTION_SELECTOR + '.' + ACTIVE_CLASS);
+
+    this.activeItemIndex = $activeItem.index();
+
     if ((this.$container_.get(0).scrollHeight - this.$container_.height()) - $(e.currentTarget).scrollTop() < 50) {
       this.itemsCount_ += this.top;
       this.requestData(this.currentQuery_, this.itemsCount_, this.skip_);
@@ -441,9 +212,32 @@ define([
     }
   };
 
+  Select.prototype.navigate = function (e, key) {
+    var $el = this.$container_;
+    if ($el === null) {
+      return false;
+    }
+    var up = (key === 'up'),
+      $active = $el.parent().find(ITEM_ACTION_SELECTOR + '.' + ACTIVE_CLASS),
+      $next = $active[up ? 'prev' : 'next'](ITEM_ACTION_SELECTOR);
+
+    $active.removeClass(ACTIVE_CLASS);
+
+    if ($next.length) {
+      if (($next.position().top >= $el.height()) || $next.position().top < 0) {
+        $el.scrollTo($next);
+      }
+      $next.addClass(ACTIVE_CLASS);
+    } else {
+      $el.parent().find(ITEM_ACTION_SELECTOR)[up ? 'last' : 'first']().addClass(ACTIVE_CLASS);
+    }
+
+    e.preventDefault();
+  };
+
   Select.prototype.createActionList = function (data) {
     return actionList('init', {
-//      overrideNavigation: true,
+      overrideNavigation: true,
       limitWidth: this.limitWidth,
       items: data
     });
@@ -480,11 +274,55 @@ define([
 
   };
 
+
+  var remoteDataSource = function (remoteDataSourceConfig) {
+    var select = Module.get(MODULE);
+    var auth = Module.get('auth');
+
+    if (!remoteDataSourceConfig && (!remoteDataSourceConfig.hubResource || !remoteDataSourceConfig.url)) {
+      select.trigger('init:fail');
+      return false;
+    }
+
+    return function (query, $top) {
+      var defer = $.Deferred(),
+        restUrl = remoteDataSourceConfig.url,
+        substr = ['query', '$top'],
+        suggestArgs = [encodeURI(query)];
+
+      substr.forEach(function (item, index) {
+        restUrl = restUrl.replace('#{' + item  + '}', suggestArgs[index] ? suggestArgs[index] : '');
+      });
+
+      restUrl = restUrl + '&$top=' + ($top || RESULT_COUNT);
+
+      auth('get', restUrl).then(function (data, state, jqXHR) {
+        var items = [];
+        if (data[remoteDataSourceConfig.hubResource]) {
+          items = data[remoteDataSourceConfig.hubResource].map(function (val) {
+            return {
+              label: val.name
+            };
+          });
+        }
+
+        defer.resolve(items, state, jqXHR);
+      }, function () {
+        defer.reject(arguments[2]);
+      });
+
+      return defer.promise();
+    };
+  };
+//
+//  var remove = function () {
+//    var select = Module.get(MODULE);
+//    actionList('remove');
+//    shortcuts('popScope', MODULE);
+//    select.trigger('remove:done');
+//  };
+
   Module.add(MODULE, {
-    init: {
-      method: init,
-      override: true
-    },
     remoteDataSource: {
       method: remoteDataSource,
       override: true
