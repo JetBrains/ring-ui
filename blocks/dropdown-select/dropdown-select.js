@@ -270,6 +270,7 @@ define([
 
   var MODULE_SHORTCUTS = 'dropdown-select';
   var CONTAINER_CLASS = 'ring-dropdown-select__container';
+  var ACTIVE_CLASS = 'active';
 
   var Select = function (config) {
     if (!(this instanceof Select)) {
@@ -391,9 +392,12 @@ define([
 
     this.$container_.empty();
 
-    var $el = this.createActionList(data);
-    $el.on('mouseover', this.hoverHandler);
-    this.$container_.append($el);
+    var actionListElem = this.createActionList(data);
+
+    actionListElem.on('mouseover', this.hoverHandler);
+    $(actionListElem[0]).addClass(ACTIVE_CLASS);
+    
+    this.$container_.append(actionListElem);
   };
 
   Select.prototype.scrollHandler = function (e) {
@@ -447,10 +451,10 @@ define([
 
   Select.prototype.hoverHandler = function () {
     $(this).siblings().each(function () {
-      $(this).removeClass('active');
+      $(this).removeClass(ACTIVE_CLASS);
     });
 
-    $(this).addClass('active');
+    $(this).addClass(ACTIVE_CLASS);
   };
 
   Select.prototype.getActiveItem = function () {
@@ -459,7 +463,7 @@ define([
     }
 
     var itemData = this.$container_.
-      find('.active').
+      find('.' + ACTIVE_CLASS).
       data('ring-event');
 
     if (itemData && itemData.length && itemData[0] && itemData[0].data) {
