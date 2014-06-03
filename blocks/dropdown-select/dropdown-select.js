@@ -319,13 +319,14 @@ define([
           var activeItem = self.getActiveItem();
 
           if (!activeItem) {
+            self.onSelect(self.$target.val() || self.$target.text());
             self.destroy();
             return false;
           }
 
           self.$target.val(activeItem.label);
           self.isDirty_ = true;
-          self.onSelect(activeItem.label);
+          self.onSelect(activeItem);
 
           self.destroy();
         }
