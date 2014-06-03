@@ -134,10 +134,6 @@ define([
   };
 
   Select.prototype.renderComponent = function (data) {
-    if (data.length === 0) {
-      this.destroy();
-      return false;
-    }
     if (!$.contains(this.$body_[0], this.$wrapper_.el[0])) {
       this.$body_.append(this.$wrapper_.el);
       this.onShow(true);
@@ -163,6 +159,22 @@ define([
     }
 
     this.$container_.empty();
+
+    if (data.length === 0) {
+      data = [
+        {
+          action: false,
+          error: true,
+          label: 'No results'
+        }
+      ];
+      this.$container_.
+        off('click').
+        on('click', function (e) {
+          e.stopPropagation();
+          e.preventDefault();
+        });
+    }
 
     var actionListElem = this.createActionList(data);
 
