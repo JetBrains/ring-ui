@@ -48,6 +48,7 @@ define([
     this.onShow = config.onShow || $.noop;
     this.onHide = config.onHide || $.noop;
     this.onSelect = config.onSelect || $.noop;
+    this.noErrors = false;
 
     this.shortcutsUID_ = MODULE_SHORTCUTS + uid++;
     this.isDirty_ = false;
@@ -126,10 +127,30 @@ define([
   Select.prototype.requestData = function (query, top, skip) {
     var that = this;
     this.currentQuery_ = query;
+
     this.dataSource(query, top, skip).then(function (data) {
+      if(data.length === 0) {
+        data = [
+          {
+            action: false,
+            error: true,
+            label: 'No results'
+          }
+        ];
+        data.error = true;
+      }
       that.renderComponent(data);
-    }, function (error) {
-      that.renderComponent(error);
+    }, function () {
+      var errorItem = [
+        {
+          action: false,
+          error: true,
+          label: 'Internal error'
+        }
+      ];
+      errorItem.error = true;
+
+      that.renderComponent(errorItem);
     });
   };
 
@@ -160,14 +181,7 @@ define([
 
     this.$container_.empty();
 
-    if (data.length === 0) {
-      data = [
-        {
-          action: false,
-          error: true,
-          label: 'No results'
-        }
-      ];
+    if(data.error && !this.noErrors) {
       this.$container_.
         off('click').
         on('click', function (e) {
