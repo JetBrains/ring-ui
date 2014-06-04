@@ -154,20 +154,7 @@ define([
         ];
       }
       that.renderComponent(data);
-    }, function () {
-      if (!this.noErrors) {
-        var errorItem = [
-          {
-            action: false,
-            error: true,
-            label: 'Internal error'
-          }
-        ];
-        errorItem.error = true;
-
-        that.renderComponent(errorItem);
-      }
-    });
+    }, $.proxy(that, 'errorHandler'));
   };
 
   /**
@@ -350,6 +337,21 @@ define([
 
     if (itemData && itemData.length && itemData[0] && itemData[0].data) {
       return itemData[0].data;
+    }
+  };
+
+  Select.prototype.errorHandler = function () {
+    if (!this.noErrors) {
+      var errorItem = [
+        {
+          action: false,
+          error: true,
+          label: 'Internal error'
+        }
+      ];
+      errorItem.error = true;
+
+      this.renderComponent(errorItem);
     }
   };
 
