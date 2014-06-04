@@ -44,6 +44,7 @@ define([
     this.$target = $(config.target);
     this.type = ['bound'].concat(config.type);
     this.top = config.top || config.$top || RESULT_COUNT;
+    this.limitWidth = config.limitWidth;
     this.skip_ = 0;
     this.description = config.description;
     this.dataSource = config.dataSource;
@@ -62,7 +63,8 @@ define([
     this.isDirty_ = false;
     this.$wrapper_ = popup('init', {
       target: self.$target,
-      type: self.type
+      type: self.type,
+      width: self.limitWidth
     });
     this.$container_ = null;
     this.containerHeight = this.top * 24;
@@ -172,9 +174,14 @@ define([
 
     if (!this.$container_) {
       this.$container_ = $('<div class="' + CONTAINER_CLASS + '"></div>').
-        css('max-height', this.containerHeight).
         on('click', $.proxy(this, 'clickHandler')).
         on('scroll', utils.throttle($.proxy(this, 'scrollHandler')));
+
+      if(this.type.indexOf('typed') === -1) {
+        this.$container_.css('max-height', this.containerHeight);
+      } else {
+        this.$wrapper_.el.find('.ring-dropdown__i').css('max-height', this.containerHeight);
+      }
 
       this.$wrapper_.appendHTML(this.$container_);
 
@@ -183,7 +190,14 @@ define([
           description: this.description
         }));
 
-        this.$container_.after($description);
+        if(this.type.indexOf('typed') === -1) {
+          this.$container_.after($description);
+        } else {
+          this.$wrapper_.el.find('.ring-dropdown__i').after($description);
+          this.$wrapper_.el.find('.ring-dropdown__i').
+            on('scroll', utils.throttle($.proxy(this, 'scrollHandler')));
+        }
+
       }
     }
 
@@ -275,7 +289,6 @@ define([
   Select.prototype.createActionList = function (data) {
     return actionList('init', {
       overrideNavigation: true,
-      limitWidth: this.limitWidth,
       items: data
     });
   };
