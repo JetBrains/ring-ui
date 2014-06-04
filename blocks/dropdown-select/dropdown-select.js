@@ -132,7 +132,7 @@ define([
     this.currentQuery_ = query;
 
     this.dataSource(query, top, skip).then(function (data) {
-      if(data.length === 0) {
+      if (data.length === 0) {
         data = [
           {
             action: false,
@@ -140,20 +140,21 @@ define([
             label: 'No results'
           }
         ];
-        data.error = true;
       }
       that.renderComponent(data);
     }, function () {
-      var errorItem = [
-        {
-          action: false,
-          error: true,
-          label: 'Internal error'
-        }
-      ];
-      errorItem.error = true;
+      if (!this.noErrors) {
+        var errorItem = [
+          {
+            action: false,
+            error: true,
+            label: 'Internal error'
+          }
+        ];
+        errorItem.error = true;
 
-      that.renderComponent(errorItem);
+        that.renderComponent(errorItem);
+      }
     });
   };
 
@@ -177,21 +178,12 @@ define([
         var $description = $(View.render('dropdown__description', {
           description: this.description
         }));
+        
         this.$container_.after($description);
-
       }
     }
 
     this.$container_.empty();
-
-    if(data.error && !this.noErrors) {
-      this.$container_.
-        off('click').
-        on('click', function (e) {
-          e.stopPropagation();
-          e.preventDefault();
-        });
-    }
 
     var actionListElem = this.createActionList(data);
 
@@ -216,6 +208,10 @@ define([
   Select.prototype.clickHandler = function (e) {
     e.stopPropagation();
 
+    if ($(e.target).hasClass('ring-dropdown__item_error')) {
+      return false;
+    }
+
     var data = $(e.target).data('ring-event');
 
     if (data && data[0].data) {
@@ -233,14 +229,12 @@ define([
       var activeItem = this.getActiveItem();
 
       if (!activeItem) {
-        this.onSubmit(this.$target.val() || this.$target.text());
-        this.destroy();
-        return false;
+        this.onSubmit(this.currentQuery_);
+      } else {
+        this.$target.val(activeItem.label);
+        this.isDirty_ = true;
+        this.onSelect(activeItem);
       }
-
-      this.$target.val(activeItem.label);
-      this.isDirty_ = true;
-      this.onSelect(activeItem);
 
       this.destroy();
     }
