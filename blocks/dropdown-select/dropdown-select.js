@@ -48,6 +48,8 @@ define([
     this.onShow = config.onShow || $.noop;
     this.onHide = config.onHide || $.noop;
     this.onSelect = config.onSelect || $.noop;
+    this.onChange = config.onChange || $.noop;
+    this.onSubmit = config.onSubmit || $.noop;
     this.noErrors = false;
 
     this.shortcutsUID_ = MODULE_SHORTCUTS + uid++;
@@ -104,6 +106,7 @@ define([
     delayedListener('init', {
       target: self.$target,
       onDelayedChange: function (data) {
+        self.onChange(data.value);
         self.configureRequest(data.value);
       },
       onDelayedCaretMove: function (data) {
@@ -230,7 +233,7 @@ define([
       var activeItem = this.getActiveItem();
 
       if (!activeItem) {
-        this.onSelect(this.$target.val() || this.$target.text());
+        this.onSubmit(this.$target.val() || this.$target.text());
         this.destroy();
         return false;
       }

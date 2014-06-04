@@ -422,7 +422,13 @@
         description: 'description for dropdown-select',
         top: 5,
         onSelect: function (data) {
-          console.log(data);
+          ring('alerts', 'add')('Select onSelect', 'success', true, 1000);
+        },
+        onChange: function (data) {
+          ring('alerts', 'add')('Select onChange', 'success', true, 1000);
+        },
+        onSubmit: function (data) {
+          ring('alerts', 'add')('Select onSubmit', 'success', true, 1000);
         },
         onShow: function () {
           ring('alerts', 'add')('Select onShow', 'success', true, 1000);
