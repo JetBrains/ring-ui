@@ -177,7 +177,7 @@ define([
         on('click', $.proxy(this, 'clickHandler')).
         on('scroll', utils.throttle($.proxy(this, 'scrollHandler')));
 
-      if(this.type.indexOf('typed') === -1) {
+      if (this.type.indexOf('typed') === -1) {
         this.$container_.css('max-height', this.containerHeight);
       } else {
         this.$wrapper_.el.find('.ring-dropdown__i').css('max-height', this.containerHeight);
@@ -190,7 +190,7 @@ define([
           description: this.description
         }));
 
-        if(this.type.indexOf('typed') === -1) {
+        if (this.type.indexOf('typed') === -1) {
           this.$container_.after($description);
         } else {
           this.$wrapper_.el.find('.ring-dropdown__i').after($description);
@@ -228,7 +228,7 @@ define([
 
     var $el = $(e.target);
 
-    if(this.type.indexOf('typed') !== -1) {
+    if (this.type.indexOf('typed') !== -1) {
       $el = $el.parent();
     }
 
@@ -236,13 +236,11 @@ define([
       return false;
     }
 
-    var data = $el.data('ring-event');
+    var item = this.getActiveItem();
 
-    if (data && data[0]) {
-      this.onSelect(data[0].data);
-      this.$target.val(data[0].data.label);
-      this.$target.focus();
-    }
+    this.onSelect(item);
+    this.$target.val(item.label);
+    this.$target.focus();
 
     this.destroy();
 
@@ -316,7 +314,7 @@ define([
   };
 
   Select.prototype.destroy = function () {
-    if (this.$wrapper_ && $.contains(this.$body_[0],this.$wrapper_.el[0])) {
+    if (this.$wrapper_ && $.contains(this.$body_[0], this.$wrapper_.el[0])) {
       this.$wrapper_.el.detach();
       this.onHide();
     }
