@@ -276,7 +276,7 @@ define([
   };
 
   /**
-   * Render action-list
+   * Render action-list.
    * @param data
    * @returns {*}
    */
@@ -288,7 +288,7 @@ define([
   };
 
   /**
-   * Set active state for items
+   * Set active state for items.
    */
   Select.prototype.hoverHandler = function () {
     $(this).siblings().each(function () {
@@ -299,7 +299,7 @@ define([
   };
 
   /**
-   *
+   * Return data from active item.
    * @returns {Object}
    */
   Select.prototype.getActiveItem = function () {
