@@ -41,6 +41,7 @@ define([
     var self = this;
 
     this.$target = $(config.target);
+    this.type = ['bound'].concat(config.type);
     this.top = config.top || config.$top || RESULT_COUNT;
     this.skip_ = 0;
     this.description = config.description;
@@ -56,9 +57,7 @@ define([
     this.isDirty_ = false;
     this.$wrapper_ = popup('init', {
       target: self.$target,
-      type: [
-        'bound'
-      ]
+      type: self.type
     });
     this.$container_ = null;
     this.containerHeight = this.top * 24;
@@ -178,7 +177,7 @@ define([
         var $description = $(View.render('dropdown__description', {
           description: this.description
         }));
-        
+
         this.$container_.after($description);
       }
     }
@@ -351,15 +350,11 @@ define([
 //  };
 
   Module.add(MODULE, {
-    remoteDataSource: {
-      method: remoteDataSource,
-      override: true
-    },
-    init2: {
+    init: {
       method: Select,
       override: true
     },
-    remoteDataSource2: {
+    remoteDataSource: {
       method: remoteDataSource,
       override: true
     }
