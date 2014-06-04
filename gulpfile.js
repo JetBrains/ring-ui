@@ -105,8 +105,7 @@ gulp.task('webpack', function (cb) {
 
 gulp.task('build', function () {
   gulp.start('clean',
-    'fonts',
-    'styles');
+    'fonts');
   webpackConfig.plugins = webpackConfig.plugins.concat(new webpack.optimize.UglifyJsPlugin());
   webpackConfig.output.filename = 'main.js';
   gulp.start('webpack');
