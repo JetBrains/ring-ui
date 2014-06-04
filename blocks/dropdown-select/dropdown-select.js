@@ -58,18 +58,18 @@ define([
 
     this.shortcutsUID_ = MODULE_SHORTCUTS + uid++;
     this.isDirty_ = false;
-    this.$wrapper_ = popup('init', {
+    this.wrapper_ = popup('init', {
       target: self.$target,
       type: self.type,
       width: self.limitWidth
     });
     this.$container_ = null;
-    this.containerHeight = this.top * 24;
+    this.containerHeight_ = this.top * 24;
     this.top += 1;
     this.itemsCount_ = this.top;
     this.currentQuery_ = '';
     this.$body_ = $('body');
-    this.activeItemIndex = 0;
+    this.activeItemIndex_ = 0;
 
     this.$target.
       on('click', function (e) {
@@ -81,7 +81,7 @@ define([
         shortcuts('pushScope', self.shortcutsUID_);
       }).
       on('blur', function () {
-        shortcuts('spliceScope', this.shortcutsUID_);
+        shortcuts('spliceScope', self.shortcutsUID_);
       }).
       on('input', function () {
         self.isDirty_ = true;
@@ -90,6 +90,7 @@ define([
 
     this.$target.next('.' + SELECT_ARROW_CLASS).on('click', function () {
       self.$target.focus();
+      self.$target.select();
     });
 
     shortcuts('bindList', {
@@ -116,7 +117,6 @@ define([
         self.configureRequest(data.value);
       }
     });
-
   };
 
   /**
@@ -131,7 +131,6 @@ define([
 
     this.$target.removeClass(LOADING_CLASS);
     this.requestData(query, this.top, this.skip_);
-
   };
 
   /**
@@ -163,8 +162,8 @@ define([
    * @param data
    */
   Select.prototype.renderComponent = function (data) {
-    if (!$.contains(this.$body_[0], this.$wrapper_.el[0])) {
-      this.$body_.append(this.$wrapper_.el);
+    if (!$.contains(this.$body_[0], this.wrapper_.el[0])) {
+      this.$body_.append(this.wrapper_.el);
       this.onShow(true);
     }
 
@@ -181,7 +180,7 @@ define([
     actionListElem.on('mouseover', this.hoverHandler);
 
     this.$container_.append(actionListElem);
-    $(actionListElem).siblings().eq(this.activeItemIndex).addClass(ACTIVE_CLASS);
+    $(actionListElem).siblings().eq(this.activeItemIndex_).addClass(ACTIVE_CLASS);
   };
 
   /**
@@ -191,7 +190,7 @@ define([
   Select.prototype.scrollHandler = function (e) {
     var $activeItem = this.$container_.find(ITEM_ACTION_SELECTOR + '.' + ACTIVE_CLASS);
 
-    this.activeItemIndex = $activeItem.index();
+    this.activeItemIndex_ = $activeItem.index();
 
     if ((this.$container_.get(0).scrollHeight - this.$container_.height()) - $(e.currentTarget).scrollTop() < 50) {
       this.itemsCount_ += this.top;
@@ -225,7 +224,6 @@ define([
     this.$target.focus();
 
     this.destroy();
-
   };
 
   /**
@@ -343,12 +341,12 @@ define([
       on('scroll', utils.throttle($.proxy(this, 'scrollHandler')));
 
     if (this.type.indexOf('typed') === -1) {
-      this.$container_.css('max-height', this.containerHeight);
+      this.$container_.css('max-height', this.containerHeight_);
     } else {
-      this.$wrapper_.el.find('.' + POPUP_CONTAINER_CLASS).css('max-height', this.containerHeight);
+      this.wrapper_.el.find('.' + POPUP_CONTAINER_CLASS).css('max-height', this.containerHeight_);
     }
 
-    this.$wrapper_.appendHTML(this.$container_);
+    this.wrapper_.appendHTML(this.$container_);
 
     if (this.description) {
       var $description = $(View.render('dropdown__description', {
@@ -358,11 +356,10 @@ define([
       if (this.type.indexOf('typed') === -1) {
         this.$container_.after($description);
       } else {
-        this.$wrapper_.el.find('.' + POPUP_CONTAINER_CLASS).after($description);
-        this.$wrapper_.el.find('.' + POPUP_CONTAINER_CLASS).
+        this.wrapper_.el.find('.' + POPUP_CONTAINER_CLASS).after($description);
+        this.wrapper_.el.find('.' + POPUP_CONTAINER_CLASS).
           on('scroll', utils.throttle($.proxy(this, 'scrollHandler')));
       }
-
     }
   };
 
@@ -370,19 +367,18 @@ define([
    * Destroys bindings
    */
   Select.prototype.destroy = function () {
-    if (this.$wrapper_ && $.contains(this.$body_[0], this.$wrapper_.el[0])) {
-      this.$wrapper_.el.detach();
+    if (this.wrapper_ && $.contains(this.$body_[0], this.wrapper_.el[0])) {
+      this.wrapper_.el.detach();
       this.onHide();
     }
 
     $(document).off('click', this.destroy);
-
   };
 
   /**
    * Data source factory for HUB entities.
    * @param remoteDataSourceConfig {object}
-   * @returns {promise}
+   * @returns {object} promise
    */
   var remoteDataSource = function (remoteDataSourceConfig) {
     var select = Module.get(MODULE);
