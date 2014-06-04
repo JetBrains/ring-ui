@@ -18,6 +18,7 @@ define([
   var ITEM_ACTION_SELECTOR = '.ring-dropdown__item_action';
   var ACTIVE_CLASS = 'active';
   var ITEM_ERROR_CLASS = 'ring-dropdown__item_error';
+  var POPUP_CONTAINER_CLASS = 'ring-dropdown__i';
 
   var uid = 0;
 
@@ -170,32 +171,7 @@ define([
     $(document).on('click', $.proxy(this, 'destroy'));
 
     if (!this.$container_) {
-      this.$container_ = $('<div class="' + CONTAINER_CLASS + '"></div>').
-        on('click', $.proxy(this, 'clickHandler')).
-        on('scroll', utils.throttle($.proxy(this, 'scrollHandler')));
-
-      if (this.type.indexOf('typed') === -1) {
-        this.$container_.css('max-height', this.containerHeight);
-      } else {
-        this.$wrapper_.el.find('.ring-dropdown__i').css('max-height', this.containerHeight);
-      }
-
-      this.$wrapper_.appendHTML(this.$container_);
-
-      if (this.description) {
-        var $description = $(View.render('dropdown__description', {
-          description: this.description
-        }));
-
-        if (this.type.indexOf('typed') === -1) {
-          this.$container_.after($description);
-        } else {
-          this.$wrapper_.el.find('.ring-dropdown__i').after($description);
-          this.$wrapper_.el.find('.ring-dropdown__i').
-            on('scroll', utils.throttle($.proxy(this, 'scrollHandler')));
-        }
-
-      }
+      this.initContainer();
     }
 
     this.$container_.empty();
@@ -340,6 +316,9 @@ define([
     }
   };
 
+  /**
+   * Reject handler for data source.
+   */
   Select.prototype.errorHandler = function () {
     if (!this.noErrors) {
       var errorItem = [
@@ -352,6 +331,38 @@ define([
       errorItem.error = true;
 
       this.renderComponent(errorItem);
+    }
+  };
+
+  /**
+   * Init $container_ binding events.
+   */
+  Select.prototype.initContainer = function () {
+    this.$container_ = $('<div class="' + CONTAINER_CLASS + '"></div>').
+      on('click', $.proxy(this, 'clickHandler')).
+      on('scroll', utils.throttle($.proxy(this, 'scrollHandler')));
+
+    if (this.type.indexOf('typed') === -1) {
+      this.$container_.css('max-height', this.containerHeight);
+    } else {
+      this.$wrapper_.el.find('.' + POPUP_CONTAINER_CLASS).css('max-height', this.containerHeight);
+    }
+
+    this.$wrapper_.appendHTML(this.$container_);
+
+    if (this.description) {
+      var $description = $(View.render('dropdown__description', {
+        description: this.description
+      }));
+
+      if (this.type.indexOf('typed') === -1) {
+        this.$container_.after($description);
+      } else {
+        this.$wrapper_.el.find('.' + POPUP_CONTAINER_CLASS).after($description);
+        this.$wrapper_.el.find('.' + POPUP_CONTAINER_CLASS).
+          on('scroll', utils.throttle($.proxy(this, 'scrollHandler')));
+      }
+
     }
   };
 
