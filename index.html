@@ -447,7 +447,8 @@
         target: '.select-demo2',
         description: 'typed dropdown-select',
         type:['typed'],
-        top: 5,
+        top: 3,
+        limitWidth: 400,
         onSelect: function (data) {
           ring('alerts', 'add')('Select onSelect', 'success', true, 1000);
         },
@@ -537,7 +538,7 @@
 
       <br>
 
-      <div class="ring-input_wrapper">
+      <div style="width: 200px" class="ring-input_wrapper">
         <input placeholder="typed dropdown-select" class="ring-input ring-input_icon ring-input_icon-loader ring-js-shortcuts select-demo2">
         <span class="ring-input_icon__span ring-font-icon_caret-down ring-font-icon"></span>
         <div class="ring-loader ring-loader_inline"></div>

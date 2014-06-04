@@ -2,26 +2,33 @@
 
 .ring-dropdown-select__container {
   overflow: scroll;
-  display: table;
+
   width: 100%;
   padding: 0;
 }
 
 .ring-dropdown_typed-select {
+  .ring-dropdown__i {
+    display: block;
+    overflow-x: hidden;
+    overflow-y: scroll;
+  }
+  .ring-dropdown-select__container {
+    display: table;
+  }
   .ring-dropdown__i & {
     display: block;
   }
-
   .ring-dropdown__item_hint {
     display: block;
-    padding: 0;
 
+    padding: 0;
     & .ring-dropdown__item__type:nth-child(n) {
       display: block;
     }
-
     & .ring-dropdown__item__content:nth-child(n) {
       display: block;
+
       padding: 0 2*$ring-unit 0 $ring-unit;
     }
   }
