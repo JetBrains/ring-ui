@@ -53,6 +53,10 @@ define([
     this.onSubmit = config.onSubmit || $.noop;
     this.noErrors = false;
 
+    if (this.type.indexOf('typed')) {
+      this.type.push('typed-select');
+    }
+
     this.shortcutsUID_ = MODULE_SHORTCUTS + uid++;
     this.isDirty_ = false;
     this.$wrapper_ = popup('init', {
