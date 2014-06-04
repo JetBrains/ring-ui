@@ -10,31 +10,27 @@ define([
   'use strict';
 
   var MODULE = 'dropdown-select';
+  var RESULT_COUNT = 10;
   var LOADING_CLASS = 'ring-input_loading';
   var SELECT_ARROW_CLASS = 'ring-input_icon__span';
-  var RESULT_COUNT = 10;
   var MODULE_SHORTCUTS = 'dropdown-select';
   var CONTAINER_CLASS = 'ring-dropdown-select__container';
   var ITEM_ACTION_SELECTOR = '.ring-dropdown__item_action';
   var ACTIVE_CLASS = 'active';
   var ITEM_ERROR_CLASS = 'ring-dropdown__item_error';
 
+  var uid = 0;
+
   var popup = Module.get('popup');
   var actionList = Module.get('action-list');
   var shortcuts = Module.get('shortcuts');
   var delayedListener = Module.get('delayed-listener');
-  var uid = 0;
 
-
-//  config = {
-//    target: DOM,
-//    type: string
-//    $top: number
-//    onSelect: function(data),
-//    onShow: function()
-//    onHide: function()
-//    dataSource: {return promise with action-list compatible data},
-//  }
+  /**
+   * Creates Select on config.target element
+   * @param {Object} config
+   * @constructor
+   */
   var Select = function (config) {
     if (!(this instanceof Select)) {
       return new Select(config);
@@ -122,6 +118,10 @@ define([
 
   };
 
+  /**
+   * Config request. By default should be empty request.
+   * @param query {string}
+   */
   Select.prototype.configureRequest = function (query) {
     if (!this.isDirty_) {
       query = '';
@@ -133,6 +133,12 @@ define([
 
   };
 
+  /**
+   * Invoke dataSource.
+   * @param query {string}
+   * @param top {number}
+   * @param skip {number}
+   */
   Select.prototype.requestData = function (query, top, skip) {
     var that = this;
     this.currentQuery_ = query;
@@ -164,6 +170,10 @@ define([
     });
   };
 
+  /**
+   * Initial render of the component. Also binding events.
+   * @param data
+   */
   Select.prototype.renderComponent = function (data) {
     if (!$.contains(this.$body_[0], this.$wrapper_.el[0])) {
       this.$body_.append(this.$wrapper_.el);
@@ -211,6 +221,10 @@ define([
     $(actionListElem).siblings().eq(this.activeItemIndex).addClass(ACTIVE_CLASS);
   };
 
+  /**
+   * Handle scroll event. Init items re-render.
+   * @param e
+   */
   Select.prototype.scrollHandler = function (e) {
     var $activeItem = this.$container_.find(ITEM_ACTION_SELECTOR + '.' + ACTIVE_CLASS);
 
@@ -223,6 +237,11 @@ define([
   };
 
 
+  /**
+   * On item click handler. Emit onSelect(String)
+   * @param e
+   * @returns {boolean}
+   */
   Select.prototype.clickHandler = function (e) {
     e.stopPropagation();
 
@@ -246,6 +265,10 @@ define([
 
   };
 
+  /**
+   * Submit handler for $target. Emit onSubmit(String) / onSelect(Object)
+   * @param e
+   */
   Select.prototype.submitHandler = function (e) {
     if (e.keyCode === 13) {
       var activeItem = this.getActiveItem();
@@ -262,6 +285,11 @@ define([
     }
   };
 
+  /**
+   * Override action-list default shortcuts. Scroll to active element.
+   * @param e
+   * @param key
+   */
   Select.prototype.navigate = function (e, key) {
     if (this.$container_ === null) {
       return false;
@@ -284,6 +312,11 @@ define([
     e.preventDefault();
   };
 
+  /**
+   * Render action-list
+   * @param data
+   * @returns {*}
+   */
   Select.prototype.createActionList = function (data) {
     return actionList('init', {
       overrideNavigation: true,
@@ -291,6 +324,9 @@ define([
     });
   };
 
+  /**
+   * Set active state for items
+   */
   Select.prototype.hoverHandler = function () {
     $(this).siblings().each(function () {
       $(this).removeClass(ACTIVE_CLASS);
@@ -299,6 +335,10 @@ define([
     $(this).addClass(ACTIVE_CLASS);
   };
 
+  /**
+   *
+   * @returns {Object}
+   */
   Select.prototype.getActiveItem = function () {
     if (!this.$container_) {
       return false;
@@ -313,6 +353,9 @@ define([
     }
   };
 
+  /**
+   * Destroys bindings
+   */
   Select.prototype.destroy = function () {
     if (this.$wrapper_ && $.contains(this.$body_[0], this.$wrapper_.el[0])) {
       this.$wrapper_.el.detach();
@@ -323,7 +366,11 @@ define([
 
   };
 
-
+  /**
+   * Data source factory for HUB entities.
+   * @param remoteDataSourceConfig {object}
+   * @returns {promise}
+   */
   var remoteDataSource = function (remoteDataSourceConfig) {
     var select = Module.get(MODULE);
     var auth = Module.get('auth');
