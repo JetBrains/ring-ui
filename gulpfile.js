@@ -8,34 +8,12 @@ var gulp = require('gulp'),
   minifycss = require('gulp-minify-css'),
   scss = require('gulp-sass'),
   webpack = require('webpack'),
-  spawn = require('child_process').spawn;
-
-var PATH = {
-  dist: 'dist',
-  bundles: {
-    css: 'bundles/**/*.scss'
-  },
-  js: {
-    jsxSrc: 'blocks/**/*.jsx',
-    src: 'blocks/**/*.js'
-  },
-  styles: {
-    src: 'blocks/**/*.scss'
-  },
-  fontsSrc: [
-    'blocks/font-icon/**/*.woff',
-    'blocks/font-icon/**/*.eot',
-    'blocks/font-icon/**/*.ttf',
-    'blocks/font-icon/**/*.svg'
-  ],
-  fontsDest: 'dist/fonts'
-};
-
-var PORT = 8000;
+  spawn = require('child_process').spawn,
+  path = require('path');
 
 gulp.task('clean', function () {
   return gulp.src([
-    PATH.dist
+    'dist'
   ], {
     read: false
   }).
@@ -49,7 +27,7 @@ gulp.task('server', function () {
       'site',
       'dist'
     ],
-    port: PORT,
+    port: 8000,
     livereload: true
   });
   gutil.
@@ -62,11 +40,10 @@ gulp.task('watch', [
   'fonts'
 ], function () {
   gulp.watch([
-    PATH.js.src,
-    PATH.js.jsxSrc,
-    PATH.styles.src
+    'blocks/**/*.jsx',
+    'blocks/**/*.js',
+    'blocks/**/*.scss'
   ], function (file) {
-    console.log(file, 'changed');
     gulp.start('webpack', function () {
       gulp.src(file.path).
         pipe(connect.reload());
@@ -77,52 +54,59 @@ gulp.task('watch', [
 });
 
 gulp.task('fonts', function () {
-  gulp.src(PATH.fontsSrc).
-    pipe(gulp.dest(PATH.fontsDest));
+  gulp.src([
+    'blocks/font-icon/**/*.woff',
+    'blocks/font-icon/**/*.eot',
+    'blocks/font-icon/**/*.ttf',
+    'blocks/font-icon/**/*.svg'
+  ]).
+    pipe(gulp.dest('dist/fonts'));
 });
 
 gulp.task('styles', function () {
-  return gulp.src(PATH.bundles.css).
+  return gulp.src('bundles/**/*.scss').
     pipe(scss({
       sourcemap: true
     })).
     pipe(autoprefixer('last 2 versions', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4')).
     pipe(minifycss()).
-    pipe(gulp.dest(PATH.dist));
+    pipe(gulp.dest('dist'));
 });
 
+var webpackConfig = {
+  entry: './site/webpack.js',
+  target: 'web',
+  debug: false,
+  devtool: false,
+  watch: false,
+  output: {
+    path: path.join(__dirname, 'dist'),
+    filename: 'bundle.js',
+    library: 'Ring'
+  },
+  resolve: {
+    modulesDirectories: [
+      'node_modules'
+    ]
+  },
+  module: {
+    loaders: [
+      {
+        test: /\.scss$/,
+        loader: 'style!css!autoprefixer-loader?browsers=last 2 versions, safari 5, ie 8, ie 9, opera 12.1, ios 6, android 4!sass?outputStyle=expanded!'
+      },
+      {
+        test: /\.js$/,
+        loader: 'jsx'
+      }
+    ],
+    noParse: /\.min\.js/
+  },
+  plugins: []
+};
+
 gulp.task('webpack', function (cb) {
-  webpack({
-    entry: './webpack.js',
-    target: 'web',
-    debug: false,
-    devtool: false,
-    watch: false,
-    output: {
-      path: path.join(__dirname, 'dist'),
-      filename: 'bundle.js',
-      library: 'Ring'
-    },
-    resolve: {
-      modulesDirectories: [
-        'node_modules'
-      ]
-    },
-    module: {
-      loaders: [
-        {
-          test: /\.scss$/,
-          loader: 'style!css!autoprefixer-loader?browsers=last 2 versions, safari 5, ie 8, ie 9, opera 12.1, ios 6, android 4!sass?outputStyle=expanded!'
-        },
-        {
-          test: /\.js$/,
-          loader: 'jsx'
-        }
-      ],
-      noParse: /\.min\.js/
-    },
-    plugins: []
-  }, function (err) {
+  webpack(webpackConfig, function (err) {
     if (err) {
       throw new gutil.PluginError('execWebpack', err);
     }
@@ -131,8 +115,7 @@ gulp.task('webpack', function (cb) {
 });
 
 gulp.task('build', function () {
-  gulp.start('clean',
-    'fonts');
+  gulp.start('clean', 'fonts', 'test');
   webpackConfig.plugins = webpackConfig.plugins.concat(new webpack.optimize.UglifyJsPlugin());
   webpackConfig.output.filename = 'bundle.js';
   gulp.start('webpack');
