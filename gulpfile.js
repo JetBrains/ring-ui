@@ -10,13 +10,9 @@ var gulp = require('gulp'),
   webpack = require('webpack'),
   spawn = require('child_process').spawn;
 
-var webpackConfig = require('./webpack.config.js');
-
 var PATH = {
   dist: 'dist',
   bundles: {
-    root: 'bundles/',
-    js: 'bundles/**/*.js',
     css: 'bundles/**/*.scss'
   },
   js: {
@@ -50,6 +46,7 @@ gulp.task('server', function () {
   connect.server({
     root: [
       '.',
+      'site',
       'dist'
     ],
     port: PORT,
@@ -95,7 +92,37 @@ gulp.task('styles', function () {
 });
 
 gulp.task('webpack', function (cb) {
-  webpack(webpackConfig, function (err) {
+  webpack({
+    entry: './webpack.js',
+    target: 'web',
+    debug: false,
+    devtool: false,
+    watch: false,
+    output: {
+      path: path.join(__dirname, 'dist'),
+      filename: 'bundle.js',
+      library: 'Ring'
+    },
+    resolve: {
+      modulesDirectories: [
+        'node_modules'
+      ]
+    },
+    module: {
+      loaders: [
+        {
+          test: /\.scss$/,
+          loader: 'style!css!autoprefixer-loader?browsers=last 2 versions, safari 5, ie 8, ie 9, opera 12.1, ios 6, android 4!sass?outputStyle=expanded!'
+        },
+        {
+          test: /\.js$/,
+          loader: 'jsx'
+        }
+      ],
+      noParse: /\.min\.js/
+    },
+    plugins: []
+  }, function (err) {
     if (err) {
       throw new gutil.PluginError('execWebpack', err);
     }
@@ -107,7 +134,7 @@ gulp.task('build', function () {
   gulp.start('clean',
     'fonts');
   webpackConfig.plugins = webpackConfig.plugins.concat(new webpack.optimize.UglifyJsPlugin());
-  webpackConfig.output.filename = 'main.js';
+  webpackConfig.output.filename = 'bundle.js';
   gulp.start('webpack');
 });
 
