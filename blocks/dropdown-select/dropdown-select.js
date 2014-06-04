@@ -365,13 +365,6 @@ define([
       return defer.promise();
     };
   };
-//
-//  var remove = function () {
-//    var select = Module.get(MODULE);
-//    actionList('remove');
-//    shortcuts('popScope', MODULE);
-//    select.trigger('remove:done');
-//  };
 
   Module.add(MODULE, {
     init: {
