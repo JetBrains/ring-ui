@@ -17,6 +17,7 @@ define([
   var CONTAINER_CLASS = 'ring-dropdown-select__container';
   var ITEM_ACTION_SELECTOR = '.ring-dropdown__item_action';
   var ACTIVE_CLASS = 'active';
+  var ITEM_ERROR_CLASS = 'ring-dropdown__item_error';
 
   var popup = Module.get('popup');
   var actionList = Module.get('action-list');
@@ -53,7 +54,7 @@ define([
     this.onSubmit = config.onSubmit || $.noop;
     this.noErrors = false;
 
-    if (this.type.indexOf('typed')) {
+    if (this.type.indexOf('typed') !== -1) {
       this.type.push('typed-select');
     }
 
@@ -211,13 +212,19 @@ define([
   Select.prototype.clickHandler = function (e) {
     e.stopPropagation();
 
-    if ($(e.target).hasClass('ring-dropdown__item_error')) {
+    var $el = $(e.target);
+
+    if(this.type.indexOf('typed') !== -1) {
+      $el = $el.parent();
+    }
+
+    if ($el.hasClass(ITEM_ERROR_CLASS)) {
       return false;
     }
 
-    var data = $(e.target).data('ring-event');
+    var data = $el.data('ring-event');
 
-    if (data && data[0].data) {
+    if (data && data[0]) {
       this.onSelect(data[0].data);
       this.$target.val(data[0].data.label);
       this.$target.focus();
