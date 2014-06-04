@@ -255,19 +255,22 @@ define([
     if (this.$container_ === null) {
       return false;
     }
-    var up = (key === 'up'),
-      $active = this.$container_.parent().find(ITEM_ACTION_SELECTOR + '.' + ACTIVE_CLASS),
-      $next = $active[up ? 'prev' : 'next'](ITEM_ACTION_SELECTOR);
+    var up = (key === 'up');
+    var $active = this.$container_.parent().find(ITEM_ACTION_SELECTOR + '.' + ACTIVE_CLASS);
+    var $next = $active[up ? 'prev' : 'next'](ITEM_ACTION_SELECTOR);
+    var $container = (this.type.indexOf('typed') === -1)?this.$container_:this.wrapper_.el.find('.' + POPUP_CONTAINER_CLASS);
 
     $active.removeClass(ACTIVE_CLASS);
 
     if ($next.length) {
-      if (($next.position().top >= this.$container_.height()) || $next.position().top < 0) {
-        this.$container_.scrollTo($next);
+      if (($next.position().top >= $container.height()) || $next.position().top < 0) {
+        $container.scrollTo($next);
       }
       $next.addClass(ACTIVE_CLASS);
     } else {
-      this.$container_.parent().find(ITEM_ACTION_SELECTOR)[up ? 'last' : 'first']().addClass(ACTIVE_CLASS);
+      $next = this.$container_.parent().find(ITEM_ACTION_SELECTOR)[up ? 'last' : 'first']();
+      $next.addClass(ACTIVE_CLASS);
+      $container.scrollTo($next);
     }
 
     e.preventDefault();
@@ -390,10 +393,10 @@ define([
     }
 
     return function (query, $top) {
-      var defer = $.Deferred(),
-        restUrl = remoteDataSourceConfig.url,
-        substr = ['query', '$top'],
-        suggestArgs = [encodeURI(query)];
+      var defer = $.Deferred();
+      var restUrl = remoteDataSourceConfig.url;
+      var substr = ['query', '$top'];
+      var suggestArgs = [encodeURI(query)];
 
       substr.forEach(function (item, index) {
         restUrl = restUrl.replace('#{' + item  + '}', suggestArgs[index] ? suggestArgs[index] : '');
