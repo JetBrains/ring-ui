@@ -316,7 +316,7 @@ define([
   };
 
   Select.prototype.destroy = function () {
-    if (this.$wrapper_) {
+    if (this.$wrapper_ && $.contains(this.$body_[0],this.$wrapper_.el[0])) {
       this.$wrapper_.el.detach();
       this.onHide();
     }
