@@ -42,10 +42,14 @@
 
             if (absUrl) {
               // Extracting relative path from absolute
-              var path = absUrl.split(authConfig.redirect_uri);
 
-              if (path[1]) {
-                $location.url(path[1]).replace();
+              //common prefix
+              for (var i = 0; i < Math.min(absUrl.length, authConfig.redirect_uri.length); i++) {
+                if (absUrl.charAt(i) !== authConfig.redirect_uri.charAt(i)) {
+                  $location.path(absUrl.substring(i - 1));
+                  $location.replace();
+                  break;
+                }
               }
             }
           });
