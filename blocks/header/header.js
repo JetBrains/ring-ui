@@ -5,7 +5,8 @@ define([
   'dropdown-menu/dropdown-menu',
   'font-icon/font-icon',
   'header/_header.hbs',
-  'dropdown-menu/_dropdown-menu__component.hbs'
+  'dropdown-menu/_dropdown-menu__component.hbs',
+  'jquery.actual'
 ], function ($, Module, View) {
   'use strict';
 
@@ -65,15 +66,14 @@ define([
       $.each($items, function (index) {
         if ((documentWidth - HEADER_RIGHT_MARGIN) < itemsWidth) {
           SERVICES_COUNT = index - 1;
-
           View.update(module, '.', {
             services: data
           });
-
           return false;
         }
-
-        itemsWidth += $(this).outerWidth();
+        itemsWidth += $(this).actual('outerWidth', {
+          clone: true
+        });
       });
 
 

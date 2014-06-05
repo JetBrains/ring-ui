@@ -5,6 +5,7 @@ require.config({
     'jquery'     : '../shims/jquery/jquery',
     'jquery.scrollTo': '../components/jquery.scrollTo/jquery.scrollTo',
     'jquery-caret': '../components/jquery-caret/jquery.caret',
+    'jquery.actual':'../components/jquery.actual/jquery.actual',
     'handlebars' : '../components/handlebars/handlebars.runtime',
     'codemirror' : '../components/codemirror/lib/codemirror',
     'storage-polyfill': '../components/polyfill/obsolete/storage',
