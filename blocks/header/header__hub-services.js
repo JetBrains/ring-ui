@@ -34,7 +34,6 @@ define([
     .then(function (services) {
       var list = services && services.services;
       var headerServices = header.get('view').services || [];
-
       if (list) {
         var clientServiceId = (auth.get('config') || {}).client_id;
         servicesCache = headerServices.concat(convertServices(list, clientServiceId));
@@ -47,7 +46,9 @@ define([
     });
 
   $(window).on('resize', utils.throttle(function () {
-    var services = JSON.parse(JSON.stringify(servicesCache));
-    header('update', 'services', services);
+    if(servicesCache) {
+      var services = JSON.parse(JSON.stringify(servicesCache));
+      header('update', 'services', services);
+    }
   }));
 });
