@@ -31,7 +31,7 @@
     "grunt-markdown": "~0.5.0",
     "grunt-notify": "^0.3.0",
     "grunt-preprocess": "~4.0.0",
-    "grunt-sass": "~0.12.1",
+    "grunt-sass": "~0.13.0",
     "grunt-styleguide": "~0.2.15",
     "highlight.js": "~8.0.0",
     "jsdoc": "^3.3.0-alpha5",
