@@ -6,7 +6,7 @@ var React = require('react/addons');
 
 var helloWorld = require('!jsx!./../blocks/hello-world/hello-world.jsx');
 
-require('../blocks/btn/_btn.scss');
+require('./btn/_btn.scss');
 
 window['React'] = React;
 module.exports = {
