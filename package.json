@@ -3,6 +3,9 @@
   "version": "2.0.0",
   "description": "JetBrains blocks library",
   "private": true,
+  "src": "src",
+  "test": "test",
+  "dist": "dist",
   "repository": {
     "type": "git",
     "url": "ssh://github.com/JetBrains/ring-ui.git"
@@ -35,7 +38,6 @@
     "md-toc": "~1.0.0",
     "mocha": "~1.18.2",
     "phantomjs": "~1.9.1-8",
-    "react": "^0.10.0",
     "react-tools": "^0.10.0",
     "sass-loader": "^0.1.1",
     "style-loader": "^0.6.3",
@@ -43,5 +45,8 @@
     "underscore.string": "~2.3.3",
     "webpack": "^1.2.0-beta2",
     "webpack-dev-server": "^1.2.7"
+  },
+  "dependencies": {
+    "react": "^0.10.0"
   }
 }
