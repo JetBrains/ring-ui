@@ -10,6 +10,7 @@ var gulp = require('gulp'),
   webpack = require('webpack'),
   spawn = require('child_process').spawn,
   path = require('path');
+var karma = require('gulp-karma');
 
 var webpackConfig = {
   cache: true,
@@ -190,12 +191,17 @@ gulp.task('build', function () {
   gulp.start('webpack');
 });
 
-gulp.task('test', function () {
-  spawn('npm', [
-    'test'
-  ], {
-    stdio: 'inherit'
-  });
+gulp.task('test', function() {
+  // Be sure to return the stream
+  return gulp.src(['blocks/**/*.js','test/**/*.js'])
+    .pipe(karma({
+      configFile: 'test/karma.conf.js',
+      action: 'run'
+    }))
+    .on('error', function(err) {
+      // Make sure failed tests cause gulp to exit non-zero
+      throw err;
+    });
 });
 
 gulp.task('default', [
