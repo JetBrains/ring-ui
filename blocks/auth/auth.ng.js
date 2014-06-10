@@ -43,11 +43,10 @@
             if (absUrl) {
               // Extracting relative path from absolute
 
-              //common prefix
+              //skipping common prefix
               for (var i = 0; i < Math.min(absUrl.length, authConfig.redirect_uri.length); i++) {
                 if (absUrl.charAt(i) !== authConfig.redirect_uri.charAt(i)) {
-                  $location.path(absUrl.substring(i - 1));
-                  $location.replace();
+                  $location.url(absUrl.substring(i - 1)).replace();
                   break;
                 }
               }
