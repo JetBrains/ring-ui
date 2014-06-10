@@ -193,9 +193,9 @@ gulp.task('build', function () {
 
 gulp.task('test', function() {
   // Be sure to return the stream
-  return gulp.src(['blocks/**/*.js','test/**/*.js'])
+  return gulp.src(['test/**/*.js'])
     .pipe(karma({
-      configFile: 'test/karma.conf.js',
+      configFile: 'karma.conf.js',
       action: 'run'
     }))
     .on('error', function(err) {

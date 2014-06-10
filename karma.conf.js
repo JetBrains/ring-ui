@@ -14,7 +14,7 @@ module.exports = function (karma) {
 
     // list of files / patterns to load in the browser
     files: [
-      'blocks/**/*.js'
+      'test/helpers/**/*.js'
     ],
 
     // test results reporter to use
@@ -23,14 +23,22 @@ module.exports = function (karma) {
 
     // list of preprocessors
     preprocessors: {
-      'blocks/**/*.js': ['webpack']
+      'test/**/*.js': ['webpack']
     },
 
     webpack: {
       cache: true,
       module: {
         loaders: [
-          { test: /\.coffee$/, loader: "coffee-loader" }
+          {
+            test: /\.scss$/,
+            loader: 'style!css!autoprefixer-loader?browsers=last 2 versions, safari 5, ie 8, ie 9, opera 12.1, ios 6, android 4!sass?outputStyle=expanded!'
+          },
+          //jsx loader
+          {
+            test: /\.jsx$/,
+            loader: 'jsx-loader'
+          }
         ]
       }
     },
@@ -56,7 +64,7 @@ module.exports = function (karma) {
 
     // level of logging
     // possible values: karma.LOG_DISABLE || karma.LOG_ERROR || karma.LOG_WARN || karma.LOG_INFO || karma.LOG_DEBUG
-    logLevel: karma.LOG_INFO,
+    logLevel: karma.LOG_DEBUG,
 
 
     // enable / disable watching file and executing tests whenever any file changes
@@ -71,7 +79,7 @@ module.exports = function (karma) {
     // - Safari (only Mac)
     // - PhantomJS — only installed
     // - IE (only Windows)
-    browsers: ['PhantomJS'],
+    browsers: ['Chrome'],
 
 
     // If browser does not capture in given timeout [ms], kill it

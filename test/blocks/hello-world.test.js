@@ -5,7 +5,7 @@
 describe('hello-world', function () {
   it('test test', function () {
     var React = require('react/addons');
-    var HelloWorld = require('../hello-world.jsx');
+    var HelloWorld = require('../../blocks/hello-world/hello-world.jsx');
     var TestUtils = React.addons.TestUtils;
 
     var helloworld = HelloWorld({
