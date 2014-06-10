@@ -53,6 +53,9 @@ module.exports = function (karma) {
     // web server port
     port: 9876,
 
+    // the port used by the webpack-dev-server
+    // defaults to "config.port" + 1
+    // webpackPort: 1234,
 
     // cli runner port
     runnerPort: 9100,
