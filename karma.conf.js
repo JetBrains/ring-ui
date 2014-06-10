@@ -88,12 +88,6 @@ module.exports = function (karma) {
 
     // Continuous Integration mode
     // if true, it capture browsers, run tests and exit
-    singleRun: true,
-
-    plugins: [
-      require('karma-webpack'),
-      require('karma-jasmine')
-    ]
-
+    singleRun: true
   });
 };
