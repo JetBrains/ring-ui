@@ -4,12 +4,11 @@ var gulp = require('gulp'),
   gutil = require('gulp-util'),
   clean = require('gulp-clean'),
   connect = require('gulp-connect'),
-  autoprefixer = require('gulp-autoprefixer'),
-  minifycss = require('gulp-minify-css'),
   scss = require('gulp-sass'),
   webpack = require('webpack'),
   spawn = require('child_process').spawn,
   path = require('path');
+var WebpackDevServer = require("webpack-dev-server");
 var karma = require('gulp-karma');
 
 // Read configuration from package.json
@@ -17,15 +16,11 @@ var pkgConfig = Object.create(require('./package.json'));
 
 var webpackConfig = {
   cache: true,
+  entry: path.join(__dirname, pkgConfig.src, 'blocks/hello-world/hello-world.jsx'),
   output: {
-    path: path.join(__dirname, 'dist'),
-    filename: 'bundle.js',
-    library: 'Ring'
-  },
-  resolve: {
-    modulesDirectories: [
-      'node_modules'
-    ]
+    path: path.join(__dirname, pkgConfig.dist),
+    filename: 'bundle.js'
+//    library: 'Ring'
   },
   module: {
     loaders: [
@@ -33,9 +28,10 @@ var webpackConfig = {
         test: /\.scss$/,
         loader: 'style!css!autoprefixer-loader?browsers=last 2 versions, safari 5, ie 8, ie 9, opera 12.1, ios 6, android 4!sass?outputStyle=expanded!'
       },
+      //jsx loader
       {
-        test: /\.js$/,
-        loader: 'jsx'
+        test: /\.jsx$/,
+        loader: 'jsx-loader'
       },
       // the url-loader uses DataUrls.
       // the file-loader emits files.
@@ -43,10 +39,8 @@ var webpackConfig = {
       { test: /\.ttf$/, loader: "file-loader" },
       { test: /\.eot$/, loader: "file-loader" },
       { test: /\.svg$/, loader: "file-loader" }
-    ],
-    noParse: /\.min\.js/
-  },
-  plugins: []
+    ]
+  }
 };
 
 //The development server (the recommended option for development)
@@ -57,7 +51,7 @@ gulp.task("default", ["webpack-dev-server"]);
 // Disadvantage: Requests are not blocked until bundle is available,
 //               can serve an old app on refresh
 gulp.task("build-dev", ["webpack:build-dev"], function () {
-  gulp.watch(["src/**/*"], ["webpack:build-dev"]);
+  gulp.watch([pkgConfig.src + "/**/*"], ["webpack:build-dev"]);
 });
 
 // Production build
@@ -113,8 +107,11 @@ gulp.task("webpack-dev-server", function () {
   myConfig.debug = true;
 
   // Start a webpack-dev-server
+  var publicPath = "/" + myConfig.output.path;
+  gutil.log("[webpack-dev-server]", "public path: " + publicPath);
   new WebpackDevServer(webpack(myConfig), {
-    publicPath: "/" + myConfig.output.publicPath,
+    contentBase: pkgConfig.src,
+//    publicPath: publicPath,
     stats: {
       colors: true
     }
@@ -122,21 +119,6 @@ gulp.task("webpack-dev-server", function () {
       if (err) throw new gutil.PluginError("webpack-dev-server", err);
       gutil.log("[webpack-dev-server]", "http://localhost:8080/webpack-dev-server/index.html");
     });
-});
-
-gulp.task('server', function () {
-  connect.server({
-    root: [
-      '.',
-      'site',
-      'dist'
-    ],
-    port: 8000,
-    livereload: true
-  });
-  gutil.
-    log('Server launched').
-    beep();
 });
 
 gulp.task('test', function () {
