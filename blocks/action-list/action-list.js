@@ -76,11 +76,13 @@ define([
 
       $active.removeClass(ACTIVE_CLASS);
 
-      if ($next.length) {
-        $next.addClass(ACTIVE_CLASS);
-      } else {
-        $el.parent().find(ITEM_ACTION_SELECTOR)[up ? 'last' : 'first']().addClass(ACTIVE_CLASS);
+      if (!$next.length) {
+        $next = $el.parent().find(ITEM_ACTION_SELECTOR)[up ? 'last' : 'first']();
       }
+
+      $next.addClass(ACTIVE_CLASS);
+      // TODO Edge cases with mouse
+      wrapper.el.scrollTop($next.position().top - wrapper.el.height() / 2);
 
       return false;
     };
