@@ -274,7 +274,8 @@ module.exports = function(grunt) {
       dist: {
         options: {
           includePaths: ['<%= path.blocks %>**/'],
-          sourceComments: 'map',
+// Temporarily disabled because of https://github.com/sass/node-sass/issues/337
+//          sourceComments: 'map',
           outputStyle: 'nested'
         },
         files: [{
