@@ -14,6 +14,11 @@
           $scope.$on('$routeChangeSuccess', dialog.hide);
           $scope.$on('$routeUpdate', dialog.hide);
 
+          $scope.close = function () {
+            $scope.resetPosition();
+            dialog.hide();
+          };
+
           $scope.action = function (button) {
             var dontClose = false;
             if (button.action) {
@@ -22,14 +27,8 @@
               }) === false;
             }
             if (!dontClose && (button.close !== false)) {
-              dialog.hide();
-              $scope.resetPosition();
+              $scope.close();
             }
-          };
-
-          $scope.close = function () {
-            $scope.resetPosition();
-            dialog.hide();
           };
 
           this.setTitle = function (title) {
@@ -59,8 +58,7 @@
 
           shortcuts('bindList', {scope: DIALOG_NAMESPACE}, {
             'esc': function () {
-              $scope.resetPosition();
-              dialog.hide();
+              $scope.close();
               $scope.$apply();
             },
             'enter': applyDefaultHandler(false),
@@ -105,9 +103,6 @@
               one('mouseup.' + DIALOG_NAMESPACE, function () {
                 iDocument.off('mousemove.' + DIALOG_NAMESPACE);
               });
-          });
-          ring().on('dialog:hide', function () {
-            scope.resetPosition();
           });
 
           var focusFirst = function () {
