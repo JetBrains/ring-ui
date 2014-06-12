@@ -41,10 +41,8 @@
             authConfig = auth.get('config');
 
             if (absUrl) {
-              // Extracting relative path from absolute
-
-              //skipping common prefix
-              for (var i = 0; i < Math.min(absUrl.length, authConfig.redirect_uri.length); i++) {
+              // Skipping common prefix
+              for (var i = 0, minLength = Math.min(absUrl.length, authConfig.redirect_uri.length); i < minLength; i++) {
                 if (absUrl.charAt(i) !== authConfig.redirect_uri.charAt(i)) {
                   $location.url(absUrl.substring(i - 1)).replace();
                   break;
