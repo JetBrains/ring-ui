@@ -29,6 +29,7 @@ define([
   var MIN_LEFT_PADDING = 32;
   var MIN_RIGHT_PADDING = 32;
   var CONTAINER_TOP_PADDING = 21;
+  var VIEWPORT_BOTTOM_PADDING = 16;
 
   var shortcuts = Module.get('shortcuts');
   var actionList = Module.get('action-list');
@@ -36,7 +37,8 @@ define([
 
   var MODULE = 'query-assist';
   var MODULE_SHORTCUTS = 'ring-query-assist';
-  var $global = $(document);
+  var $document = $(document);
+  var $window = $(window);
 
   /**
    * Creates QueryAssist on config.target element
@@ -299,7 +301,7 @@ define([
       var offset = this.$input_.offset();
 
       // TODO More robust scroll
-      if ($global.scrollTop() > offset.top) {
+      if ($document.scrollTop() > offset.top) {
         window.scrollTo(offset.left, Math.max(offset.top - 100, 0));
       }
 
@@ -417,7 +419,7 @@ define([
     }
 
     var itemWidth = $(ITEM_CONTENT_SELECTOR).outerWidth();
-    var globalWidth = $global.width();
+    var globalWidth = $document.width();
     var wrapper = $(WRAPPER_SELECTOR);
     var widthItemType = (wrapper.outerWidth() - itemWidth) + ITEM_CONTENT_SELECTOR_PADDING;
 
@@ -541,7 +543,7 @@ define([
      */
     this.actionList_ = actionList('init', {
       target: this.$input_,
-      type: ['typed', 'bound'],
+      type: ['typed', 'bound', 'scrollable'],
       width: 'auto',
       description: 'Use ↩ to complete selected item',
       items: items
@@ -552,7 +554,11 @@ define([
       self.handleComplete_(data.data);
     });
 
-    this.actionList_.popup.el.css(this.getCoords_(dropdownTextPosition));
+    var $el = this.actionList_.popup.el;
+    var styles = this.getCoords_(dropdownTextPosition);
+
+    styles.maxHeight = $window.height() + $window.scrollTop() - $el.offset().top - VIEWPORT_BOTTOM_PADDING;
+    $el.css(styles);
   };
 
   /**
