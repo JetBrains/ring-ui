@@ -26,10 +26,7 @@ module.exports = function (karma) {
       'test/**/*.js': ['webpack']
     },
 
-    webpack: {
-      cache: true,
-      module: require('./webpack.conf.js').module
-    },
+    webpack: require('./webpack.conf.js'),
 
     webpackServer: {
       stats: {
