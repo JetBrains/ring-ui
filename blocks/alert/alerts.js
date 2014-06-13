@@ -54,6 +54,11 @@ define([
     }
 
     var alert = new Alert(message, opt_type, opt_closeable);
+    alerts = this;
+    alert.hideAndDispose = function() {
+      alerts.remove(this);
+    };
+
     this.add(alert, opt_timeout);
 
     return alert;
@@ -142,8 +147,8 @@ define([
     }
 
     var alert = this.stack_[index];
-    d.deleteFromArray(this.stack_, alert);
-    alert.hideAndDispose();
+    this.stack_.splice(index, 1);
+    alert.hide();
   };
 
   // todo(igor.alexeenko): Implement stack disposal.
