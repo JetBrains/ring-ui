@@ -3,20 +3,24 @@
 'use strict';
 
 var React = require('react');
+var ReactTransitionGroup = require('react/addons').addons.TransitionGroup;
 
 require('./hello-world.scss');
 
-var url = require('file!./yeoman.png');
+var url = require('./yeoman.png');
 
 var helloWorld = React.createClass({
   render: function () {
     return (
       <div className='container'>
-        <span className='page-header hello-world__title'>Hello</span>,
-        <span className='hello-world__sub-title hello-world__first'>{this.props.firstPart}</span>
-        <span className='hello-world__sub-title hello-world__second'>{this.props.secondPart}</span>
-        <img src={url}/>
-      !
+        <div>
+          <span className='page-header hello-world__title'>Hello</span>,
+          <span className='hello-world__sub-title hello-world__first'>{this.props.firstPart}</span>
+          <span className='hello-world__sub-title hello-world__second'>{this.props.secondPart}</span>!
+        </div>
+        <ReactTransitionGroup transitionName="fade">
+          <img src={url} />
+        </ReactTransitionGroup>
       </div>
       );
   },
@@ -26,7 +30,7 @@ var helloWorld = React.createClass({
 });
 
 module.exports = {
-  helloWorld: function(params, element) {
+  helloWorld: function (params, element) {
     return React.renderComponent(helloWorld(params), element);
   }
 };
