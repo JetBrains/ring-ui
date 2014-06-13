@@ -19,8 +19,8 @@ var webpackConfig = {
   entry: path.join(__dirname, pkgConfig.src, 'blocks/hello-world/hello-world.jsx'),
   output: {
     path: path.join(__dirname, pkgConfig.dist),
-    filename: 'bundle.js'
-//    library: 'Ring'
+    filename: 'bundle.js',
+    library: 'Ring'
   },
   module: {
     loaders: [
@@ -33,6 +33,8 @@ var webpackConfig = {
         test: /\.jsx$/,
         loader: 'jsx-loader'
       },
+      //images loader
+      { test: /\.png$/, loader: "file-loader" },
       // the url-loader uses DataUrls.
       // the file-loader emits files.
       { test: /\.woff$/, loader: "url-loader?limit=10000&minetype=application/font-woff" },
