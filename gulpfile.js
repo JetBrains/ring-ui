@@ -73,6 +73,7 @@ gulp.task('webpack-dev-server', function () {
   var myConfig = webpackConfig;
   myConfig.devtool = 'eval';
   myConfig.debug = true;
+  myConfig.output.path = '/';
 
   // Start a webpack-dev-server
   new WebpackDevServer(webpack(myConfig), {
