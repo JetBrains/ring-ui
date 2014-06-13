@@ -212,7 +212,10 @@ define([
       elementHeight = innerElement.clientHeight;
     }
 
-    var newRule = d.mixin({}, Alert.templateKeyframeRule_);
+    /**
+     * d.mixin doesn't work here, because in IE/Fx CSSRule's props aren't his own properties
+     */
+    var newRule = $.extend({}, Alert.templateKeyframeRule_);
 
     newRule.cssText = newRule.cssText.
         replace('auto', [elementHeight, 'px'].join('')).
