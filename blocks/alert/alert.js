@@ -261,28 +261,16 @@ define([
    */
   Alert.prototype.onAnimationEnd_ = function() {
     $(this.element_).remove();
+
+    this.dispose();
   };
 
   /**
    * Hides element and disposes when animation ends.
+   * Redefined when added via alerts stack (~= always)
    */
   Alert.prototype.hideAndDispose = function() {
-    /**
-     * @type {function(this, evt: Event): undefined}
-     * @private
-     */
-    this.hideAndDisposeHandler_ = d.bindContext(this.onHideAnimationEnd_,
-        this);
-
-    d.addAnimationCallback(this.element_, this.hideAndDisposeHandler_);
     this.hide();
-  };
-
-  /**
-   * @private
-   */
-  Alert.prototype.onHideAnimationEnd_ = function() {
-    this.dispose();
   };
 
   /**
@@ -290,8 +278,6 @@ define([
    * element.
    */
   Alert.prototype.dispose = function() {
-    this.hide();
-
     this.caption_ = null;
     this.closeElement_ = null;
     this.element_ = null;
@@ -339,7 +325,7 @@ define([
    */
   Alert.prototype.onCloseClick_ = function(evt) {
     evt.preventDefault();
-    this.hide();
+    this.hideAndDispose();
   };
 
   // todo(igor.alexeenko): All static method below should be moved to renderer.
