@@ -8,11 +8,10 @@ describe('hello-world', function () {
     var HelloWorld = require('../../src/blocks/hello-world/hello-world.jsx');
     var TestUtils = React.addons.TestUtils;
 
-    var helloworld = HelloWorld({
+    var helloworld = HelloWorld.helloWorld({
       firstPart: 'Jet',
       secondPart: 'Brains'
-    });
-    TestUtils.renderIntoDocument(helloworld);
+    }, document.createElement('div'));
     var el = TestUtils.scryRenderedDOMComponentsWithTag(
       helloworld, 'span');
     expect(el[0].getDOMNode().textContent).toEqual('Hello');
