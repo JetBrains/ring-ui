@@ -27,6 +27,6 @@ var helloWorld = React.createClass({
 
 module.exports = {
   helloWorld: function(params, element) {
-    React.renderComponent(helloWorld(params), element);
+    return React.renderComponent(helloWorld(params), element);
   }
 };

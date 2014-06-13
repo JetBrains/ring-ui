@@ -28,19 +28,7 @@ module.exports = function (karma) {
 
     webpack: {
       cache: true,
-      module: {
-        loaders: [
-          {
-            test: /\.scss$/,
-            loader: 'style!css!autoprefixer-loader?browsers=last 2 versions, safari 5, ie 8, ie 9, opera 12.1, ios 6, android 4!sass?outputStyle=expanded!'
-          },
-          //jsx loader
-          {
-            test: /\.jsx$/,
-            loader: 'jsx-loader'
-          }
-        ]
-      }
+      module: require('./webpack.conf.js').module
     },
 
     webpackServer: {
