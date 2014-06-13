@@ -1,39 +1,31 @@
 'use strict';
 
-var gulp = require('gulp'),
-  gutil = require('gulp-util'),
-  webpack = require('webpack'),
-  path = require('path');
+var gulp = require('gulp');
+var gutil = require('gulp-util');
+var webpack = require('webpack');
+var clean = require('gulp-clean');
 var WebpackDevServer = require('webpack-dev-server');
 var karma = require('gulp-karma');
 
 // Read configuration from package.json
 var pkgConfig = Object.create(require('./package.json'));
 
+//Read common webpack config from  file
 var webpackConfig = Object.create(require('./webpack.conf.js'));
 
-webpackConfig.entry = path.join(__dirname, pkgConfig.src, 'blocks/hello-world/hello-world.jsx');
+webpackConfig.entry = pkgConfig.src + '/blocks/hello-world/hello-world.jsx';
 webpackConfig.output = {
-  path: path.join(__dirname, pkgConfig.dist),
+  path: pkgConfig.dist,
   filename: 'bundle.js',
   library: 'Ring'
 };
 
-//The development server (the recommended option for development)
-gulp.task('default', ['webpack-dev-server']);
-
-// Build and watch cycle (another option for development)
-// Advantage: No server required, can run app from filesystem
-// Disadvantage: Requests are not blocked until bundle is available,
-//               can serve an old app on refresh
-gulp.task('build-dev', ['webpack:build-dev'], function () {
-  gulp.watch([pkgConfig.src + '/**/*'], ['webpack:build-dev']);
+gulp.task('clean', function () {
+  return gulp.src(pkgConfig.dist, {read: false})
+    .pipe(clean());
 });
 
-// Production build
-gulp.task('build', ['test', 'webpack:build']);
-
-gulp.task('webpack:build', function (callback) {
+gulp.task('webpack:build', ['clean'], function (callback) {
   // modify some webpack config options
   webpackConfig.plugins = webpackConfig.plugins.concat(
     new webpack.DefinePlugin({
@@ -59,9 +51,9 @@ gulp.task('webpack:build', function (callback) {
   });
 });
 
-gulp.task('webpack:build-dev', function (callback) {
+gulp.task('webpack:build-dev', ['clean'], function (callback) {
   // modify some webpack config options
-  var myDevConfig = Object.create(webpackConfig);
+  var myDevConfig = webpackConfig;
   myDevConfig.devtool = 'sourcemap';
   myDevConfig.debug = true;
 
@@ -83,11 +75,8 @@ gulp.task('webpack-dev-server', function () {
   myConfig.debug = true;
 
   // Start a webpack-dev-server
-  var publicPath = '/' + myConfig.output.path;
-  gutil.log('[webpack-dev-server]', 'public path: ' + publicPath);
   new WebpackDevServer(webpack(myConfig), {
     contentBase: pkgConfig.src,
-//    publicPath: publicPath,
     stats: {
       colors: true
     }
@@ -99,7 +88,7 @@ gulp.task('webpack-dev-server', function () {
 
 gulp.task('test', function () {
   // Be sure to return the stream
-  return gulp.src(['test/**/*.js'])
+  return gulp.src([pkgConfig.test + '/**/*.js'])
     .pipe(karma({
       configFile: 'karma.conf.js',
       action: 'run'
@@ -109,3 +98,17 @@ gulp.task('test', function () {
       throw err;
     });
 });
+
+//The development server (the recommended option for development)
+gulp.task('default', ['webpack-dev-server']);
+
+// Build and watch cycle (another option for development)
+// Advantage: No server required, can run app from filesystem
+// Disadvantage: Requests are not blocked until bundle is available,
+//               can serve an old app on refresh
+gulp.task('build-dev', ['webpack:build-dev'], function () {
+  gulp.watch([pkgConfig.src + '/**/*'], ['webpack:build-dev']);
+});
+
+// Production build
+gulp.task('build', ['test', 'webpack:build']);

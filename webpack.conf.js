@@ -29,5 +29,6 @@ module.exports = {
       { test: /\.eot$/, loader: "file-loader" },
       { test: /\.svg$/, loader: "file-loader" }
     ]
-  }
+  },
+  plugins: []
 };

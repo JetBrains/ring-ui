@@ -3,9 +3,9 @@
   "version": "2.0.0",
   "description": "JetBrains blocks library",
   "private": true,
-  "src": "src",
-  "test": "test",
-  "dist": "dist",
+  "src": "./src",
+  "test": "./test",
+  "dist": "./dist",
   "repository": {
     "type": "git",
     "url": "ssh://github.com/JetBrains/ring-ui.git"
