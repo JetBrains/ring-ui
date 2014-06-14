@@ -9,8 +9,8 @@
          ng-show="model">
     <img class="ring-avatar-editor__img" ng-src="{{ default }}"
          ng-show="!model && default" ng-click="!ngDisabled && controls.select()">
-    <input class="ring-avatar-editor__file-input" type="file" accept="image/*" ng-if="!ngDisabled">
   </div>
+  <input class="ring-avatar-editor__file-input" type="file" accept="image/*" ng-if="!ngDisabled">
   <button class="ring-btn ring-btn_delayed-action" ng-disabled="ngDisabled"
           ng-show="!model && !default" ng-click="controls.select()" ng-transclude></button>
 </div>
