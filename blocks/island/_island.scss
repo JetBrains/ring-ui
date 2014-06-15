@@ -24,15 +24,34 @@
   min-width: $ring-unit*25 - 2;
 
   border: 1px solid;
-    @include rgba-attribute('border-color', rgba(0, 0, 0, 0.2));
+  @include rgba-attribute('border-color', rgba(0, 0, 0, 0.2));
 
   border-radius: 3px;
   background-color: #fff;
   box-shadow: 0 1px 4px 0 rgba(0, 0, 0, .2);
-}
 
-.ring-island_inline {
-  display: inline-block;
+  &_stack-right {
+    border-right: none;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+
+    box-shadow: none;
+  }
+
+  &_stack-left {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+
+    box-shadow: none;
+  }
+
+  &_stack-right > &_stack-left {
+    border-left: none;
+  }
+
+  &_inline {
+    display: inline-block;
+  }
 }
 
 .ring-island__header {
@@ -71,8 +90,6 @@
 }
 
 .ring-island__title {
-  font-weight: bold;
-
   padding: 0 $ring-unit*2;
 
   color: #1a1a1a;
