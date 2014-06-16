@@ -20,7 +20,7 @@
 
       this['$get'] = ['$rootScope', function($rootScope) {
         return {
-          'bind': function(name, handlers) {
+          'bind': function(name, handlers, scope) {
             var mode = modes[name];
             var keys = {};
 
@@ -48,7 +48,7 @@
               }
             });
 
-            shortcuts('bindList', {scope: name}, keys);
+            shortcuts('bindList', {scope: scope || name}, keys);
           },
           'getScope': ring('shortcuts', 'getScope'),
           'setScope': ring('shortcuts', 'setScope'),
@@ -116,7 +116,7 @@
             }
 
             if ($scope.current) {
-              shortcuts.spliceScope($scope.current.name);
+              shortcuts.spliceScope($scope.current.scope);
               ctrl.deselect();
             }
 
@@ -124,7 +124,7 @@
               return;
             }
 
-            shortcuts.pushScope(next.name);
+            shortcuts.pushScope(next.scope);
 
             $scope.current = next;
           };
@@ -138,7 +138,7 @@
             }
 
             // Reset current zone if is not equal current scope
-            if ($scope.current && $scope.current.name !== shortcuts.getScope().pop()) {
+            if ($scope.current && $scope.current.scope !== shortcuts.getScope().pop()) {
               ctrl.deselect();
             }
 
@@ -158,7 +158,7 @@
             if (next) {
               ctrl.select(next);
 
-              if (shortcuts.hasKey(combo, next.name)) {
+              if (shortcuts.hasKey(combo, next.scope)) {
                 shortcuts.trigger(combo);
               }
             // Otherwise go back
@@ -182,14 +182,14 @@
           };
 
           ctrl.setup = function(zone, keys) {
-            shortcuts.bind(zone.name, keys);
+            shortcuts.bind(zone.name, keys, zone.scope);
             $scope.zones.push(zone);
             ctrl.sort();
           };
 
           ctrl.destroy = function(zone) {
-            shortcuts.spliceScope(zone.name);
-            shortcuts.unbindList(zone.name);
+            shortcuts.spliceScope(zone.scope);
+            shortcuts.unbindList(zone.scope);
 
             var position = $.inArray(zone, $scope.zones);
 
@@ -214,7 +214,7 @@
       return {
         restrict: 'A',
         scope: {
-          'id': '@shortcuts',
+          'name': '@shortcuts',
           'map': '=shortcutsMap',
           'focus': '&shortcutsFocus',
           'onBlur': '&shortcutsOnBlur'
@@ -224,7 +224,8 @@
           // Closest controller
           var ctrl = shortcutsCtrl[shortcutsCtrl.length - 1];
           var zone = {
-            name: $scope.id,
+            name: $scope.name,
+            scope: $scope.name + '-' + $scope.$id,
             element: iElement,
             onBlur: $scope.onBlur
           };
