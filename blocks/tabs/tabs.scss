@@ -17,47 +17,23 @@
 //
 // Styleguide 11.1
 
-// Tabs with underline
-//
-// Markup:
-// <div class="ring-tabs {$modifiers}">
-//  <div class="ring-tabs__tabs">
-//     <div class="ring-tabs__btn active">Settings</div>
-//     <div class="ring-tabs__btn">Access</div>
-//     <div class="ring-tabs__btn">Members<span class="ring-tabs__btn__counter">7<span></div>
-//   </div>
-// </div>
-//
-// .ring-tabs_long            - Stretched underline
-//
-// Styleguide 11.2
-
 @mixin ring-tabs-border-bottom {
   border-bottom: 1px solid;
   @include rgba-attribute('border-color', rgba(0, 0, 0, 0.15))
 }
 
 .ring-tabs__tabs {
-  display: flex;
+  display: block;
   position: relative;
 
   margin: $ring-unit*2;
   line-height: $ring-unit*3 - 2;
   font-size: 0;
   white-space: nowrap;
-
-  .ring-tabs_long &:after {
-    content: '';
-    display: inline-block;
-    flex: auto;
-
-    @include ring-tabs-border-bottom;
-  }
 }
 
 .ring-tabs__btn {
   box-sizing: border-box;
-  overflow: hidden;
   position: relative;
 
   display: inline-block;
