@@ -54,14 +54,15 @@
 }
 
 .ring-dropdown_scrollable {
-  overflow: scroll;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 // TODO Refactor in dropdown-fliter
 .ring-dropdown__scroll {
   position: relative;
   max-height: 15 * $ring-unit;
-  overflow: scroll;
+  overflow-y: auto;
   overflow-style: none;
 }
 
