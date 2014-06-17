@@ -72,8 +72,17 @@ define(['jquery', 'support/support'], function($, support) {
     'ring-font-icon_caret-down': '&#xe60a',
     'ring-font-icon_caret-up': '&#xe60b',
     'ring-font-icon_caret-left': '&#xe625',
-    'ring-font-icon_caret-right': '&#xe626'
+    'ring-font-icon_caret-right': '&#xe626',
+    'ring-font-icon_play': '&#xe627',
+    'ring-font-icon_pause': '&#xe628',
+    'ring-font-icon_redo': '&#xe629',
+    'ring-font-icon_blur': '&#xe62a',
+    'ring-font-icon_paper-clip': '&#xe62b',
+    'ring-font-icon_magic': '&#xe62c',
+    'ring-font-icon_undo': '&#xe62d',
+    'ring-font-icon_crop': '&#xe62e'
   };
+
 
   var Module = require('global/global__modules');
   var events = [

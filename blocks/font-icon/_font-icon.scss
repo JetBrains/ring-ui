@@ -61,6 +61,14 @@
 // .ring-font-icon_comment         - comment
 // .ring-font-icon_download        - download
 // .ring-font-icon_print           - print
+// .ring-font-icon_play            - play
+// .ring-font-icon_pause           - pause
+// .ring-font-icon_undo            - undo
+// .ring-font-icon_redo            - redo
+// .ring-font-icon_blur            - blur
+// .ring-font-icon_magic           - magic
+// .ring-font-icon_crop            - crop
+// .ring-font-icon_paperclip       - paperclip
 //
 // Styleguide 6.1
 
@@ -235,6 +243,12 @@ body .ring-font-icon {
 .ring-font-icon_pencil:before {
   content: "\e605";
 }
+.ring-font-icon_play:before {
+  content: "\e627";
+}
+.ring-font-icon_pause:before {
+  content: "\e628";
+}
 .ring-font-icon_chevron-left:before {
   content: "\e606";
 }
@@ -244,8 +258,20 @@ body .ring-font-icon {
 .ring-font-icon_ban-circle:before {
   content: "\e608";
 }
+.ring-font-icon_redo:before {
+  content: "\e629";
+}
+.ring-font-icon_blur:before {
+  content: "\e62a";
+}
 .ring-font-icon_pushpin:before {
   content: "\e609";
+}
+.ring-font-icon_paper-clip:before {
+  content: "\e62b";
+}
+.ring-font-icon_magic:before {
+  content: "\e62c";
 }
 .ring-font-icon_caret-down:before {
   content: "\e60a";
@@ -258,6 +284,12 @@ body .ring-font-icon {
 }
 .ring-font-icon_caret-right:before {
   content: "\e626";
+}
+.ring-font-icon_undo:before {
+  content: "\e62d";
+}
+.ring-font-icon_crop:before {
+  content: "\e62e";
 }
 
 //Fallback for miserable Windows users
