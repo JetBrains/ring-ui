@@ -1,7 +1,7 @@
 @import "../global/global";
 
 .ring-dropdown-select__container {
-  overflow: scroll;
+  overflow-y: auto;
 
   width: 100%;
   padding: 0;
@@ -11,7 +11,7 @@
   .ring-dropdown__i {
     display: block;
     overflow-x: hidden;
-    overflow-y: scroll;
+    overflow-y: auto;
   }
   .ring-dropdown-select__container {
     display: table;
