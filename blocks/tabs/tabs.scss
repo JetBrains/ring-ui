@@ -37,7 +37,7 @@
   position: relative;
 
   display: inline-block;
-  &, x:-IE7 { // IE7
+  & x:-IE7 { // IE7
     zoom: 1;
     display: inline;
   }
