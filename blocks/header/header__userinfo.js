@@ -11,13 +11,13 @@ define(['jquery', 'global/global__modules', 'global/global__views', 'header/head
   var headerConfig;
 
   $.when(auth.when('init:done'), header.when('init:done'))
-    .then(function() {
+    .then(function () {
       authConfig = auth.get('config');
       headerConfig = header.get('view');
 
       return auth('get', authConfig.apiProfilePath);
     })
-    .then(function(me) {
+    .then(function (me) {
       if (me && me.name) {
         var authLinks = {
           profile: {
