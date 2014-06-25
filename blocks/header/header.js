@@ -10,9 +10,9 @@ define([
 ], function ($, Module, View) {
   'use strict';
 
-  var SERVICES_COUNT,
-    HEADER_ITEM_SELECTOR = '.ring-header__item',
-    HEADER_RIGHT_MARGIN = 200;
+  var SERVICES_COUNT = 0,
+      HEADER_ITEM_SELECTOR = '.ring-header__item',
+      HEADER_RIGHT_MARGIN = 200;
 
   var process = function (data) {
     if (data.user) {
@@ -57,7 +57,7 @@ define([
       return View.init(module, element || null, method || 'prepend', process, data || {});
     },
     update: function (name, data) {
-      SERVICES_COUNT = null;
+      SERVICES_COUNT = 0;
       var $el = View.update(module, name, data),
         documentWidth = $(document).width(),
         itemsWidth = 0,
@@ -75,8 +75,9 @@ define([
           clone: true
         });
       });
-
-
+    },
+    getServicesCount: function () {
+      return SERVICES_COUNT;
     }
   });
 

@@ -4,7 +4,7 @@ define([
   'global/global__utils',
   'header/header',
   'auth/auth'
-], function ($, Module,utils) {
+], function ($, Module, utils) {
   'use strict';
 
   var convertServices = function (services, activeServiceId) {
@@ -24,7 +24,7 @@ define([
 
   var auth = Module.get('auth');
   var header = Module.get('header'),
-    servicesCache;
+      servicesCache;
 
   $.when(auth.when('init:done'), header.when('init:done'))
     .then(function () {
@@ -46,7 +46,7 @@ define([
     });
 
   $(window).on('resize', utils.throttle(function () {
-    if(servicesCache) {
+    if (servicesCache) {
       var services = JSON.parse(JSON.stringify(servicesCache));
       header('update', 'services', services);
     }
