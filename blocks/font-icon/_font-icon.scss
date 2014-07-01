@@ -69,6 +69,8 @@
 // .ring-font-icon_magic           - magic
 // .ring-font-icon_crop            - crop
 // .ring-font-icon_paperclip       - paperclip
+// .ring-font-icon_info            - info
+// .ring-font-icon_move            - move
 //
 // Styleguide 6.1
 
@@ -99,6 +101,9 @@ body .ring-font-icon {
   }
 }
 
+.ring-font-icon_info:before {
+  content: "\e62f";
+}
 .ring-font-icon_like:before {
   content: "\e61e";
 }
@@ -243,6 +248,9 @@ body .ring-font-icon {
 .ring-font-icon_pencil:before {
   content: "\e605";
 }
+.ring-font-icon_move:before {
+  content: "\e630";
+}
 .ring-font-icon_play:before {
   content: "\e627";
 }
@@ -267,7 +275,7 @@ body .ring-font-icon {
 .ring-font-icon_pushpin:before {
   content: "\e609";
 }
-.ring-font-icon_paper-clip:before {
+.ring-font-icon_paperclip:before {
   content: "\e62b";
 }
 .ring-font-icon_magic:before {
