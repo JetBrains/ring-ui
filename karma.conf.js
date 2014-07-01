@@ -14,7 +14,8 @@ module.exports = function (karma) {
 
     // list of files / patterns to load in the browser
     files: [
-      'test/helpers/**/*.js'
+      'test/helpers/**/*.js',
+      'test/blocks/**/*.js'
     ],
 
     // test results reporter to use
