@@ -17,6 +17,7 @@ define(['jquery', 'support/support'], function($, support) {
 
   // Icons w/ png fallback are commented out
   var icons = {
+    'ring-font-icon_info': '&#xe62f',
     'ring-font-icon_like': '&#xe61e',
     'ring-font-icon_fork': '&#xe61f',
     'ring-font-icon_folder': '&#xe620',
@@ -65,6 +66,7 @@ define(['jquery', 'support/support'], function($, support) {
     'ring-font-icon_refresh': '&#xe604',
     'ring-font-icon_print': '&#xe624',
     'ring-font-icon_pencil': '&#xe605',
+    'ring-font-icon_move': '&#xe630',
     'ring-font-icon_chevron-left': '&#xe606',
     'ring-font-icon_chevron-right': '&#xe607',
 //    'ring-font-icon_ban-circle': '&#xe608',
@@ -77,7 +79,7 @@ define(['jquery', 'support/support'], function($, support) {
     'ring-font-icon_pause': '&#xe628',
     'ring-font-icon_redo': '&#xe629',
     'ring-font-icon_blur': '&#xe62a',
-    'ring-font-icon_paper-clip': '&#xe62b',
+    'ring-font-icon_paperclip': '&#xe62b',
     'ring-font-icon_magic': '&#xe62c',
     'ring-font-icon_undo': '&#xe62d',
     'ring-font-icon_crop': '&#xe62e'
