@@ -12,6 +12,7 @@
   },
   "readmeFilename": "README",
   "devDependencies": {
+    "envify": "^1.2.1",
     "autoprefixer-loader": "^0.1.1",
     "css-loader": "^0.6.12",
     "file-loader": "^0.5.1",
@@ -27,8 +28,8 @@
     "sass-loader": "^0.1.1",
     "style-loader": "^0.6.3",
     "url-loader": "^0.5.5",
-    "webpack": "^1.2.0-beta2",
-    "webpack-dev-server": "^1.2.7"
+    "webpack": "^1.3.1-beta4",
+    "webpack-dev-server": "^1.4.3"
   },
   "dependencies": {
     "react": "^0.10.0"
