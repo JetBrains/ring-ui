@@ -83,7 +83,7 @@ describe('progress-bar', function() {
       expect(this.progress.refs.progressbar.getDOMNode().getAttribute('aria-valuenow'))
         .toEqual('0.5');
       expect(this.progress.refs.progressbar.getDOMNode().getAttribute('style'))
-        .toEqual('width: 50%; ');
+        .toMatch('width: 50%;');
     });
 
     it('should set width equal 100% if progress value more than max value', function() {
@@ -93,7 +93,7 @@ describe('progress-bar', function() {
       });
 
       expect(this.progress.refs.progressbar.getDOMNode().getAttribute('style'))
-        .toEqual('width: 100%; ');
+        .toMatch('width: 100%;');
     });
 
     it('should not set width if value is not a number', function() {
