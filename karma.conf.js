@@ -2,6 +2,11 @@
 // Generated on Fri Jul 12 2013 16:30:45 GMT+0400 (MSK)
 
 module.exports = function (karma) {
+  var prepareWbpackConf = function (webpackConf) {
+    webpackConf.devtool = 'inline-source-map';
+    return webpackConf;
+  };
+
   karma.set({
 
     // base path, that will be used to resolve files and exclude
@@ -24,10 +29,10 @@ module.exports = function (karma) {
 
     // list of preprocessors
     preprocessors: {
-      'test/**/*.js': ['webpack']
+      'test/blocks/**/*.js': ['webpack']
     },
 
-    webpack: require('./webpack.conf.js'),
+    webpack: prepareWbpackConf(require('./webpack.conf.js')),
 
     webpackServer: {
       stats: {
