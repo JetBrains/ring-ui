@@ -1,0 +1,93 @@
+.revision-graph {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+}
+
+/*
+  category10 color scale from d3
+  https://github.com/mbostock/d3/wiki/Ordinal-Scales
+
+  #1F77B4
+  #FF7F0E
+  #2CA02C
+  #D62728
+  #9467BD
+  #8C564B
+  #E377C2
+  #7F7F7F
+  #BCBD22
+  #17BECF
+*/
+
+.revision-graph__line {
+  fill: none;
+  stroke: #1F77B4;
+  stroke-width: 2px;
+}
+
+.revision-graph__node {
+  fill: #1F77B4;
+  stroke: #F3F3F3;
+  stroke-width: 1px;
+}
+
+.revision-graph__group_0 {
+  .revision-graph__line { stroke: #1F77B4; }
+  .revision-graph__node { fill: #1F77B4; }
+}
+
+.revision-graph__group_1 {
+  .revision-graph__line { stroke: #FF7F0E; }
+  .revision-graph__node { fill: #FF7F0E; }
+}
+
+.revision-graph__group_2 {
+  .revision-graph__line { stroke: #2CA02C; }
+  .revision-graph__node { fill: #2CA02C; }
+}
+
+.revision-graph__group_3 {
+  .revision-graph__line { stroke: #D62728; }
+  .revision-graph__node { fill: #D62728; }
+}
+
+.revision-graph__group_4 {
+  .revision-graph__line { stroke: #9467BD; }
+  .revision-graph__node { fill: #9467BD; }
+}
+
+.revision-graph__group_5 {
+  .revision-graph__line { stroke: #8C564B; }
+  .revision-graph__node { fill: #8C564B; }
+}
+
+.revision-graph__group_6 {
+  .revision-graph__line { stroke: #E377C2; }
+  .revision-graph__node { fill: #E377C2; }
+}
+
+.revision-graph__group_7 {
+  .revision-graph__line { stroke: #7F7F7F; }
+  .revision-graph__node { fill: #7F7F7F; }
+}
+
+.revision-graph__group_8 {
+  .revision-graph__line { stroke: #BCBD22; }
+  .revision-graph__node { fill: #BCBD22; }
+}
+
+.revision-graph__group_9 {
+  .revision-graph__line { stroke: #17BECF; }
+  .revision-graph__node { fill: #17BECF; }
+}
+
+.revision-graph_partial {
+  .revision-graph__line { stroke: #999; }
+  .revision-graph__node { fill: #999; }
+}
+
+.revision-graph__dashed {
+  .revision-graph__line { stroke-dasharray: 5, 5; }
+}
