@@ -4,6 +4,8 @@ function RevisionGraph() {
   var ARROW_DOWN = "l0,10 l-5,-5 l5,5.5 l5,-5.5 ";  // .5 because line width is 2px
   var ARROW_UP = "l0,-10 l5,5 l-5,-5.5 l-5,5.5 ";   // .5 because line width is 2px
 
+  var element_;
+
   /**
    *  Node types
    *  @enum {Number}
@@ -60,15 +62,16 @@ function RevisionGraph() {
    */
   function RevisionGraph(revisionsContainer) {
     revisionsContainer_ = revisionsContainer;
-    svg_ = createSvgElement("svg");
+    svg_ = createSvgElement_("svg");
 
     // SVG is not supported
     if (svg_ == null) {
       return;
     }
 
-    setStyleName("revision-graph");
-    getElement().appendChild(svg_);
+    element_ = document.createElement("div");
+    element_.className = "revision-graph";
+    element_.appendChild(svg_);
 
     resizeCommand_ = $.debounce(function () {
       // Check width, reset offsets cache if differs
@@ -79,12 +82,12 @@ function RevisionGraph() {
       }
 
       // Check height, re-render the graph if differs
-      if (getElement().getOffsetHeight() != graphHeight_) {
-        adjustRevisionsContainer();
-        var graphHeight = getElement().getOffsetHeight();
+      if (element_.offsetHeight != graphHeight_) {
+        adjustRevisionsContainer_();
+        var graphHeight = element_.offsetHeight;
         graphHeight_ = graphHeight;
         svg_.style.height = graphHeight + "px";
-        render();
+        render_();
       }
     }, 50, false);
 
@@ -123,13 +126,13 @@ function RevisionGraph() {
     offsetsCache_ = {};
   }
 
-  function adjustRevisionsContainer() {
-    var graphWidth = getGraphWidth();
+  function adjustRevisionsContainer_() {
+    var graphWidth = getGraphWidth_();
     var marginLeft = graphWidth > 0 ? graphWidth + 8 : 0;
     revisionsContainer_.style.marginLeft = marginLeft + "px";
   }
 
-  function render() {
+  function render_() {
     if (graph_ == null) {
       return;
     }
@@ -138,7 +141,7 @@ function RevisionGraph() {
       svg_.removeChild(svg_.firstChild);
     }
 
-    svg_.style.width = getGraphWidth() + "px";
+    svg_.style.width = getGraphWidth_() + "px";
 
     /**
      * @type {{Number, Element}}
@@ -178,24 +181,24 @@ function RevisionGraph() {
         var nodeColor = nodeData.getColor();
         var nodeType = nodeData.getType();
 
-        var nodeGroupElement = getGroupByColor(nodeColor, true, null, nodeGroupIndex);
+        var nodeGroupElement = getGroupByColor_(nodeColor, true, null, nodeGroupIndex);
         if (nodeType == nodeTypes.NODE) {
-          var commitNode = createNodeElement();
-          commitNode.setAttribute("cx", calculateOffsetLeft(nodePosition));
-          commitNode.setAttribute("cy", getOffsetTop(rowIdx));
+          var commitNode = createNodeElement_();
+          commitNode.setAttribute("cx", calculateOffsetLeft_(nodePosition).toString());
+          commitNode.setAttribute("cy", getOffsetTop_(rowIdx).toString());
 
           if (revisions_.length > rowIdx) {
             var revision = revisions_[rowIdx];
-            commitNode.setAttribute("title", getNodeTitle(revision));
+            commitNode.setAttribute("title", getNodeTitle_(revision));
             commitNode.setAttribute("id", "node-" + revision.getRevisionIdShort());
           }
 
           nodeGroupElement.appendChild(commitNode);
         } else {
-          var nodeBuilder = getBuilderByElement(nodeGroupElement, buildersIndex);
-          var nodeMoveX = calculateOffsetLeft(nodePosition);
-          var nodeMoveY = getOffsetTop(rowIdx);
-          moveTo(nodeMoveX, nodeMoveY, nodeBuilder);
+          var nodeBuilder = getBuilderByElement_(nodeGroupElement, buildersIndex);
+          var nodeMoveX = calculateOffsetLeft_(nodePosition);
+          var nodeMoveY = getOffsetTop_(rowIdx);
+          moveTo_(nodeMoveX, nodeMoveY, nodeBuilder);
           nodeBuilder.append(nodeType == nodeTypes.ARROW_DOWN ? ARROW_DOWN : ARROW_UP);
         }
       }
@@ -213,22 +216,22 @@ function RevisionGraph() {
         var isUp = edgeData.getIsUp();
         var isSolid = edgeData.getIsSolid();
 
-        var edgeGroupElement = getGroupByColor(edgeColor, false, null, nodeGroupIndex); // Make sure the node colors are
+        var edgeGroupElement = getGroupByColor_(edgeColor, false, null, nodeGroupIndex); // Make sure the node colors are
         var className = edgeGroupElement.getAttribute("class");                         // consistent with edge colors.
         if (!isSolid) {
-          edgeGroupElement = getGroupByColor(edgeColor, false, className + " revision-graph__dashed", dashedEdgeGroupIndex);
+          edgeGroupElement = getGroupByColor_(edgeColor, false, className + " revision-graph__dashed", dashedEdgeGroupIndex);
         } else {
-          edgeGroupElement = getGroupByColor(edgeColor, false, className, solidEdgeGroupIndex);
+          edgeGroupElement = getGroupByColor_(edgeColor, false, className, solidEdgeGroupIndex);
         }
-        var edgeBuilder = getBuilderByElement(edgeGroupElement, buildersIndex);
+        var edgeBuilder = getBuilderByElement_(edgeGroupElement, buildersIndex);
 
-        var edgeMoveX = calculateOffsetLeft(edgePosition);
-        var edgeMoveY = getOffsetTop(rowIdx);
-        moveTo(edgeMoveX, edgeMoveY, edgeBuilder);
+        var edgeMoveX = calculateOffsetLeft_(edgePosition);
+        var edgeMoveY = getOffsetTop_(rowIdx);
+        moveTo_(edgeMoveX, edgeMoveY, edgeBuilder);
 
-        var lineX = calculateOffsetLeft(edgeToPosition);
-        var lineY = getOffsetTop(isUp ? rowIdx - 1 : rowIdx + 1);
-        lineTo(lineX, lineY, edgeBuilder);
+        var lineX = calculateOffsetLeft_(edgeToPosition);
+        var lineY = getOffsetTop_(isUp ? rowIdx - 1 : rowIdx + 1);
+        lineTo_(lineX, lineY, edgeBuilder);
       }
     }
 
@@ -239,7 +242,7 @@ function RevisionGraph() {
 
         if (builder.length > 0) {
           builder = builder.substring(0, builder.length - 2); // cut the last space off
-          var element = createPathElement();
+          var element = createPathElement_();
           element.setAttribute("d", builder);
           groupElement.appendChild(element);
         }
@@ -250,8 +253,8 @@ function RevisionGraph() {
   /**
    * @returns {Element}
    */
-  function createNodeElement() {
-    var node = createSvgElement("circle");
+  function createNodeElement_() {
+    var node = createSvgElement_("circle");
     node.setAttribute("class", "revision-graph__node");
     node.setAttribute("r", "4");
     return node;
@@ -260,8 +263,8 @@ function RevisionGraph() {
   /**
    * @returns {Element}
    */
-  function createPathElement() {
-    var line = createSvgElement("path");
+  function createPathElement_() {
+    var line = createSvgElement_("path");
     line.setAttribute("class", "revision-graph__line");
     return line;
   }
@@ -270,7 +273,7 @@ function RevisionGraph() {
    * @param {String} name
    * @returns {Element|null}
    */
-  function createSvgElement(name) {
+  function createSvgElement_(name) {
     if (Modernizr.svg) {
       return null;
     }
@@ -283,7 +286,7 @@ function RevisionGraph() {
    * @param {String} builder
    * @returns {String}
    */
-  function lineTo(lineX, lineY, builder) {
+  function lineTo_(lineX, lineY, builder) {
     builder += 'L' + lineX + ',' + lineY + ' ';
     return builder;
   }
@@ -294,7 +297,7 @@ function RevisionGraph() {
    * @param {String} builder
    * @returns {String}
    */
-  function moveTo(moveX, moveY, builder) {
+  function moveTo_(moveX, moveY, builder) {
     builder += 'M' + moveX + ',' + moveY + ' ';
     return builder;
   }
@@ -306,10 +309,10 @@ function RevisionGraph() {
    * @param {Number} groupIndex
    * @returns {Element}
    */
-  function getGroupByColor(color, isAppend, classValue, groupIndex) {
+  function getGroupByColor_(color, isAppend, classValue, groupIndex) {
     var element = groupIndex[color];
     if (element == null) {
-      element = createSvgElement("g");
+      element = createSvgElement_("g");
       element.setAttribute("class", classValue != null ? classValue : "revision-graph__group_" + (groupIndex.length % MAX_COLOR));
       groupIndex[color] = element;
       if (isAppend) {
@@ -326,7 +329,7 @@ function RevisionGraph() {
    * @param buildersIndex
    * @returns {String}
    */
-  function getBuilderByElement(element, buildersIndex) {
+  function getBuilderByElement_(element, buildersIndex) {
     var builder = buildersIndex[element];
     if (builder == null) {
       builder = "";
@@ -339,9 +342,9 @@ function RevisionGraph() {
    * @param revision
    * @returns {String}
    */
-  function getNodeTitle(revision) {
+  function getNodeTitle_(revision) {
     var revisionId = revision.getRevisionIdShort();
-    var branchLabels = getBranchLabels(revision);
+    var branchLabels = getBranchLabels_(revision);
     return branchLabels.length > 0 ? revisionId + " (" + branchLabels.join(", ") + ")" : revisionId;
   }
 
@@ -349,7 +352,7 @@ function RevisionGraph() {
    * @param revision
    * @returns {Array}
    */
-  function getBranchLabels(revision) {
+  function getBranchLabels_(revision) {
     var branchAvailability = revision.getBranchAvailability();
     if (branchAvailability != null) {
       var branches = [];
@@ -364,7 +367,7 @@ function RevisionGraph() {
   /**
    * @returns {Number}
    */
-  function getGraphWidth() {
+  function getGraphWidth_() {
     return graph_ == null ? 0 : graph_.offsetWidth * POSITION_WIDTH;
   }
 
@@ -372,7 +375,7 @@ function RevisionGraph() {
    * @param {Number} position
    * @returns {Number}
    */
-  function calculateOffsetLeft(position) {
+  function calculateOffsetLeft_(position) {
     return POSITION_WIDTH * position + POSITION_WIDTH / 2;
   }
 
@@ -380,21 +383,21 @@ function RevisionGraph() {
    * @param {Number} nodeIndex
    * @returns {Number}
    */
-  function getOffsetTop(nodeIndex) {
-    var activityItemOffsetTop = offsetsCache_[nodeIndex];
-    if (activityItemOffsetTop == null) {
-      activityItemOffsetTop = calculateOffsetTop(nodeIndex);
-      offsetsCache_[nodeIndex] = activityItemOffsetTop;
+  function getOffsetTop_(nodeIndex) {
+    var revisionItemOffsetTop = offsetsCache_[nodeIndex];
+    if (revisionItemOffsetTop == null) {
+      revisionItemOffsetTop = calculateOffsetTop_(nodeIndex);
+      offsetsCache_[nodeIndex] = revisionItemOffsetTop;
     }
-    return activityItemOffsetTop;
+    return revisionItemOffsetTop;
   }
 
   /**
    * @param {Number} index
    * @returns {Number}
    */
-  function calculateOffsetTop(index) {
-    var item = $('.revision-item_revision').eq(index);
-    return item.length > 0 ? parseInt(item.position().top) + parseInt(item.css('padding-top')) + 9 : 0;
+  function calculateOffsetTop_(index) {
+    var revisionItem = $('.revision-item_revision').eq(index);
+    return revisionItem.length > 0 ? parseInt(revisionItem.position().top) + parseInt(revisionItem.css('padding-top')) + 9 : 0;
   }
 }
