@@ -96,20 +96,8 @@ define([
       });
 
       self.$input_.
-        on('focus.' + MODULE, function () {
-          shortcuts('pushScope', self.shortcutsUID_);
-          self.onFocusChange_(true);
-
-          // Backward compatibility
-          queryAssist.trigger('focus-change', true);
-        }).
-        on('blur.' + MODULE, function () {
-          shortcuts('spliceScope', self.shortcutsUID_);
-          self.onFocusChange_(false);
-
-          // Backward compatibility
-          queryAssist.trigger('focus-change', false);
-        });
+        on('focus.' + MODULE, $.proxy(self, 'handleFocusChange_', true)).
+        on('blur.' + MODULE, $.proxy(self, 'handleFocusChange_', false));
 
       self.listener = delayedListener('init', {
         target: self.$input_,
@@ -559,6 +547,19 @@ define([
 
     styles.maxHeight = $window.height() + $window.scrollTop() - $el.offset().top - VIEWPORT_BOTTOM_PADDING;
     $el.css(styles);
+  };
+
+  /**
+   * Handles focus change
+   * @param {boolean=} state Focus state
+   * @private
+   */
+  QueryAssist.prototype.handleFocusChange_ = function (state) {
+    shortcuts(state === true ? 'pushScope' : 'spliceScope', this.shortcutsUID_);
+    this.onFocusChange_(state);
+
+    // Backward compatibility
+    queryAssist.trigger('focus-change', state);
   };
 
   /**
