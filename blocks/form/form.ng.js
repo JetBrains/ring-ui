@@ -27,25 +27,25 @@
    * You can decorate this service to provide your own localized messages.
    */
     service('errorBubbleMessageBundle', [function () {
-      this.valueIsRequired = function () {
+      this.required = function () {
         return 'Value is required';
       };
-      this.shouldBeValidURL = function () {
+      this.url = function () {
         return 'Should be a valid URL';
       };
-      this.shouldBeValidEmail = function () {
+      this.email = function () {
         return 'Should be a valid email';
       };
-      this.isTooLong = function () {
+      this.maxlength = function () {
         return 'Is too long';
       };
-      this.isTooShort = function () {
+      this.minlength = function () {
         return 'Is too short';
       };
-      this.doesNotMatchPattern = function () {
+      this.pattern = function () {
         return 'Doesn\'t match the pattern';
       };
-      this.isNotSame = function () {
+      this.equalvalue = function () {
         return 'Is not the same';
       };
     }]).
