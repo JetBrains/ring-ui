@@ -1,10 +1,3 @@
-<div class="ring-input__error-bubble"
-     ng-class="{ active: errorBubble().$invalid && errorBubble().$dirty }">
-  <span ng-show="errorBubble().$error.required">{{ msg('valueIsRequired') }}</span>
-  <span ng-show="errorBubble().$error.url">{{ msg('shouldBeValidURL') }}</span>
-  <span ng-show="errorBubble().$error.email">{{ msg('shouldBeValidEmail') }}</span>
-  <span ng-show="errorBubble().$error.maxlength">{{ msg('isTooLong') }}</span>
-  <span ng-show="errorBubble().$error.minlength">{{ msg('isTooShort') }}</span>
-  <span ng-show="errorBubble().$error.pattern">{{ msg('doesNotMatchPattern') }}</span>
-  <span ng-show="errorBubble().$error.equalvalue">{{ msg('isNotSame') }}</span>
+<div class="ring-input__error-bubble" ng-class="{ active: errorBubble().$invalid && errorBubble().$dirty }">
+  <span ng-repeat="(errorKey, errorValue) in errorBubble().$error" ng-show="errorValue">{{ msg(errorKey) }}</span>
 </div>
