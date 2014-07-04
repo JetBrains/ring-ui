@@ -75,15 +75,17 @@ gulp.task('webpack-dev-server', function () {
   myConfig.debug = true;
   myConfig.output.path = '/';
 
+  var serverPort = gulp.env.port || '8080';
+
   // Start a webpack-dev-server
   new WebpackDevServer(webpack(myConfig), {
     contentBase: pkgConfig.src,
     stats: {
       colors: true
     }
-  }).listen(8080, 'localhost', function (err) {
+  }).listen(serverPort, 'localhost', function (err) {
       if (err) throw new gutil.PluginError('webpack-dev-server', err);
-      gutil.log('[webpack-dev-server]', 'http://localhost:8080/webpack-dev-server/index.html');
+      gutil.log('[webpack-dev-server]', 'http://localhost:' + serverPort + '/webpack-dev-server/index.html');
     });
 });
 
