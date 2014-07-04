@@ -48,6 +48,9 @@
       this.equalvalue = function () {
         return 'Is not the same';
       };
+      this.unique = function () {
+        return 'Is not unique';
+      };
     }]).
   /**
    * <input name="confirm" type="password" equal-value="data.password" ng-model="data.confirm">
