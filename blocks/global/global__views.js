@@ -159,9 +159,6 @@ define([
         views[name] = new View(view);
       });
 
-      dfd.fail(function() {
-      });
-
     } else {
       dfd.reject();
     }

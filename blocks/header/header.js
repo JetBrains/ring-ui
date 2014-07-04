@@ -10,9 +10,10 @@ define([
 ], function ($, Module, View) {
   'use strict';
 
-  var SERVICES_COUNT = 0,
-      HEADER_ITEM_SELECTOR = '.ring-header__item',
-      HEADER_RIGHT_MARGIN = 200;
+  var SERVICES_COUNT = 0;
+  var inited;
+  var HEADER_ITEM_SELECTOR = '.ring-header__item';
+  var HEADER_RIGHT_MARGIN = 200;
 
   var process = function (data) {
     if (data.user) {
@@ -50,31 +51,44 @@ define([
     return data;
   };
 
+  var update = function (name, data) {
+    SERVICES_COUNT = 0;
+    var $el = View.update(module, name, data);
+    var documentWidth = $(document).width();
+    var itemsWidth = 0;
+    var $items = $el.find(HEADER_ITEM_SELECTOR);
+
+
+    $.each($items, function (index) {
+      if ((documentWidth - HEADER_RIGHT_MARGIN) < itemsWidth) {
+        SERVICES_COUNT = index - 1;
+        View.update(module, '.', {
+          services: data
+        });
+        return false;
+      }
+      itemsWidth += $(this).actual('outerWidth', {
+        clone: true
+      });
+    });
+  };
+
   var module = 'header';
 
   Module.add(module, {
     init: function (data, element, method) {
-      return View.init(module, element || null, method || 'prepend', process, data || {});
+      return View.init(module, element || null, method || 'prepend', process, data || {}).done(function() {
+        inited = true;
+      });
     },
     update: function (name, data) {
-      SERVICES_COUNT = 0;
-      var $el = View.update(module, name, data),
-        documentWidth = $(document).width(),
-        itemsWidth = 0,
-        $items = $el.find(HEADER_ITEM_SELECTOR);
-
-      $.each($items, function (index) {
-        if ((documentWidth - HEADER_RIGHT_MARGIN) < itemsWidth) {
-          SERVICES_COUNT = index - 1;
-          View.update(module, '.', {
-            services: data
-          });
-          return false;
-        }
-        itemsWidth += $(this).actual('outerWidth', {
-          clone: true
+      if (inited) {
+        update(name, data);
+      } else {
+        Module.get('header').when('init:done').then(function() {
+          update(name, data);
         });
-      });
+      }
     },
     getServicesCount: function () {
       return SERVICES_COUNT;
