@@ -24,7 +24,7 @@
             if (button.action) {
               dontClose = button.action($scope.data, button, function (errorMessage) {
                 $scope.error = errorMessage;
-              }) === false;
+              }, $scope.dialogForm) === false;
             }
             if (!dontClose && (button.close !== false)) {
               $scope.close();
