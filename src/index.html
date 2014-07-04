@@ -7,14 +7,48 @@
 </head>
 <body>
 <h1>React && WebPack</h1>
-<button class="ring-btn">Test</button>
-<div id="example"></div>
+
+<div id="hello-world">
+</div>
+
+<hr/>
+
+<div class="example">
+  <header>Progress Bar:</header>
+
+  <section>
+    <div id="progress-bar">
+    </div>
+  </section>
+</div>
+
+<hr/>
+
+<div class="example">
+  <header>Checkbox:</header>
+
+  <section>
+    <div id="checkbox">
+    </div>
+  </section>
+</div>
+
 <script type="text/javascript" src="bundle.js" charset="utf-8"></script>
 <script>
   Ring.helloWorld({
     firstPart: 'Jet',
     secondPart: 'Brains'
-  }, document.getElementById('example'));
+  }, document.getElementById('hello-world'));
+
+  react.renderComponent(
+    Ring.ProgressBar({
+      value: 0.5
+    }),
+    document.getElementById('progress-bar'));
+
+  react.renderComponent(
+    Ring.Checkbox(),
+    document.getElementById('checkbox'));
 </script>
 </body>
 </html>
