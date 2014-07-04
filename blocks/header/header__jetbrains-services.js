@@ -36,7 +36,7 @@ define(['global/global__views', 'global/global__modules'], function (View, Modul
     }
   ];
 
-  Module.get(Module.GLOBAL).on('header:init:done', function () {
+  Module.get(Module.GLOBAL).one('header:init:done', function () {
     var header = Module.get('header');
     var headerServices = header.get('view').services || [];
     var services = headerServices.concat(internalServices);
