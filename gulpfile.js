@@ -13,13 +13,6 @@ var pkgConfig = Object.create(require('./package.json'));
 //Read common webpack config from  file
 var webpackConfig = Object.create(require('./webpack.conf.js'));
 
-webpackConfig.entry = pkgConfig.src + '/blocks/hello-world/hello-world.jsx';
-webpackConfig.output = {
-  path: pkgConfig.dist,
-  filename: 'bundle.js',
-  library: 'Ring'
-};
-
 gulp.task('clean', function () {
   return gulp.src(pkgConfig.dist, {read: false})
     .pipe(clean());

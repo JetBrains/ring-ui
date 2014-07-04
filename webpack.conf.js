@@ -6,8 +6,16 @@
  */
 
 'use strict';
+var pkgConfig = require('./package.json');
+var path = require('path');
 
 module.exports = {
+  entry: path.resolve(pkgConfig.src, 'ring.js'),
+  output: {
+    path: pkgConfig.dist,
+    filename: 'bundle.js',
+    library: 'Ring'
+  },
   cache: true,
   module: {
     loaders: [
