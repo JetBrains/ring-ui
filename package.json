@@ -52,6 +52,7 @@
     "mocha": "~1.18.2",
     "phantomjs": "~1.9.1-8",
     "time-grunt": "~0.3.1",
-    "underscore.string": "~2.3.3"
+    "underscore.string": "~2.3.3",
+    "grunt-dr-svg-sprites": "^0.9.9"
   }
 }

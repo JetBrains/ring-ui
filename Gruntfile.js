@@ -132,6 +132,34 @@ module.exports = function(grunt) {
         }]
       }
     },
+
+    //this plugin desn't support glob patterns
+    'svg-sprites': {
+      'ring-logos': {
+        options: {
+          name: 'ring-logo__',
+          prefix: '',
+          //spriteElementPath: '<%= path.blocks %>logos2/source',
+          spriteElementPath: 'blocks/logos/source',
+          spritePath: 'blocks/logos',
+          layout: 'vertical',
+          cssPath: 'blocks/logos',
+          cssSuffix: 'scss',
+          //cssUnit: 'rem',
+          cssSvgPrefix: '.ring-logo',
+          sizes: {
+            16: 16,
+            24: 24,
+            32: 32,
+            64: 64,
+            128: 128,
+            256: 256
+          },
+          refSize: '24'
+        }
+      }
+    },
+
     uglify: {
       dist: {
         options: {
@@ -431,7 +459,7 @@ module.exports = function(grunt) {
             '<%= path.blocks %>**/*.woff',
             '<%= path.blocks %>**/*.eot',
             '<%= path.blocks %>**/*.ttf',
-            '<%= path.blocks %>**/*.svg',
+            '<%= path.blocks %>**/*.svg', '!<%= path.blocks %>logos/source/*.svg',
             '<%= path.blocks %>font-icon/*.png',
             '!<%= path.blocks %>**/*.dev.svg'
           ],
@@ -649,6 +677,7 @@ module.exports = function(grunt) {
   grunt.registerTask('styles', [
     'clean:styles',
     'copy:codemirror',
+    //'svg-sprites',
     'sass',
     'autoprefixer',
     'copy:fonts'
