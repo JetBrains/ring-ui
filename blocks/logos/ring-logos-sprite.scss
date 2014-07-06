@@ -1,0 +1,625 @@
+@import "../global/global";
+
+// Logos
+//
+// Markup:
+//<span class="ring-logo ring-logo__$nameModifier_$sizeModifier"></span>
+//
+//Available $nameModifier values: appcode, dotcover, dotmemory, dotpeek, dottrace, idea, kotlin, mps,omea, phpstorm, pycharm, resharper, rubymine, teamcity, wenstorm, youtrack<br/>
+//Available $sizeModifier values: 16, 32, 64, 128, 256
+//
+//AppCode 16px <span class="ring-logo ring-logo__appcode_16"></span><br/>
+//YouTrack 64px <span class="ring-logo ring-logo__youtrack_64"></span>
+//
+// Styleguide 22.1
+
+.ring-logo__mps_16 {
+  width: 26px;
+  height: 14px;
+  background-position: 0 0;
+}
+
+.ring-logo__dotcover_16 {
+  width: 19px;
+  height: 18px;
+  background-position: 0 -16px;
+}
+
+.ring-logo__appcode_16 {
+  width: 20px;
+  height: 18px;
+  background-position: 0 -36px;
+}
+
+.ring-logo__webstorm_16 {
+  width: 20px;
+  height: 17px;
+  background-position: 0 -56px;
+}
+
+.ring-logo__rubymine_16 {
+  width: 20px;
+  height: 18px;
+  background-position: 0 -76px;
+}
+
+.ring-logo__pycharm_16 {
+  width: 18px;
+  height: 17px;
+  background-position: 0 -96px;
+}
+
+.ring-logo__kotlin_16 {
+  width: 18px;
+  height: 18px;
+  background-position: 0 -116px;
+}
+
+.ring-logo__phpstorm_16 {
+  width: 21px;
+  height: 17px;
+  background-position: 0 -136px;
+}
+
+.ring-logo__omea_16 {
+  width: 18px;
+  height: 18px;
+  background-position: 0 -156px;
+}
+
+.ring-logo__teamcity_16 {
+  width: 22px;
+  height: 18px;
+  background-position: 0 -176px;
+}
+
+.ring-logo__idea_16 {
+  width: 18px;
+  height: 19px;
+  background-position: 0 -196px;
+}
+
+.ring-logo__resharper_16 {
+  width: 25px;
+  height: 20px;
+  background-position: 0 -218px;
+}
+
+.ring-logo__dottrace_16 {
+  width: 20px;
+  height: 20px;
+  background-position: 0 -240px;
+}
+
+.ring-logo__dotpeek_16 {
+  width: 22px;
+  height: 20px;
+  background-position: 0 -262px;
+}
+
+.ring-logo__dotmemory_16 {
+  width: 22px;
+  height: 20px;
+  background-position: 0 -284px;
+}
+
+.ring-logo__youtrack_16 {
+  width: 20px;
+  height: 20px;
+  background-position: 0 -306px;
+}
+
+.ring-logo__mps_16, .ring-logo__dotcover_16, .ring-logo__appcode_16, .ring-logo__webstorm_16, .ring-logo__rubymine_16, .ring-logo__pycharm_16, .ring-logo__kotlin_16, .ring-logo__phpstorm_16, .ring-logo__omea_16, .ring-logo__teamcity_16, .ring-logo__idea_16, .ring-logo__resharper_16, .ring-logo__dottrace_16, .ring-logo__dotpeek_16, .ring-logo__dotmemory_16, .ring-logo__youtrack_16 {
+  background-size: 28px 328px;
+  background-repeat: no-repeat;
+}
+
+.ring-logo__mps_24 {
+  width: 39px;
+  height: 20px;
+  background-position: 0 0;
+}
+
+.ring-logo__dotcover_24 {
+  width: 28px;
+  height: 27px;
+  background-position: 0 -24px;
+}
+
+.ring-logo__appcode_24 {
+  width: 30px;
+  height: 26px;
+  background-position: 0 -54px;
+}
+
+.ring-logo__webstorm_24 {
+  width: 30px;
+  height: 25px;
+  background-position: 0 -84px;
+}
+
+.ring-logo__rubymine_24 {
+  width: 29px;
+  height: 26px;
+  background-position: 0 -114px;
+}
+
+.ring-logo__pycharm_24 {
+  width: 26px;
+  height: 25px;
+  background-position: 0 -144px;
+}
+
+.ring-logo__kotlin_24 {
+  width: 26px;
+  height: 27px;
+  background-position: 0 -174px;
+}
+
+.ring-logo__phpstorm_24 {
+  width: 31px;
+  height: 25px;
+  background-position: 0 -204px;
+}
+
+.ring-logo__omea_24 {
+  width: 26px;
+  height: 27px;
+  background-position: 0 -234px;
+}
+
+.ring-logo__teamcity_24 {
+  width: 32px;
+  height: 27px;
+  background-position: 0 -264px;
+}
+
+.ring-logo__idea_24 {
+  width: 27px;
+  height: 28px;
+  background-position: 0 -294px;
+}
+
+.ring-logo__resharper_24 {
+  width: 37px;
+  height: 29px;
+  background-position: 0 -327px;
+}
+
+.ring-logo__dottrace_24 {
+  width: 29px;
+  height: 30px;
+  background-position: 0 -360px;
+}
+
+.ring-logo__dotpeek_24 {
+  width: 32px;
+  height: 30px;
+  background-position: 0 -393px;
+}
+
+.ring-logo__dotmemory_24 {
+  width: 32px;
+  height: 30px;
+  background-position: 0 -426px;
+}
+
+.ring-logo__youtrack_24 {
+  width: 30px;
+  height: 30px;
+  background-position: 0 -459px;
+}
+
+.ring-logo__mps_24, .ring-logo__dotcover_24, .ring-logo__appcode_24, .ring-logo__webstorm_24, .ring-logo__rubymine_24, .ring-logo__pycharm_24, .ring-logo__kotlin_24, .ring-logo__phpstorm_24, .ring-logo__omea_24, .ring-logo__teamcity_24, .ring-logo__idea_24, .ring-logo__resharper_24, .ring-logo__dottrace_24, .ring-logo__dotpeek_24, .ring-logo__dotmemory_24, .ring-logo__youtrack_24 {
+  background-size: 42px 492px;
+  background-repeat: no-repeat;
+}
+
+.ring-logo__mps_32 {
+  width: 52px;
+  height: 27px;
+  background-position: 0 0;
+}
+
+.ring-logo__dotcover_32 {
+  width: 38px;
+  height: 36px;
+  background-position: 0 -32px;
+}
+
+.ring-logo__appcode_32 {
+  width: 40px;
+  height: 35px;
+  background-position: 0 -72px;
+}
+
+.ring-logo__webstorm_32 {
+  width: 40px;
+  height: 34px;
+  background-position: 0 -112px;
+}
+
+.ring-logo__rubymine_32 {
+  width: 39px;
+  height: 35px;
+  background-position: 0 -152px;
+}
+
+.ring-logo__pycharm_32 {
+  width: 35px;
+  height: 34px;
+  background-position: 0 -192px;
+}
+
+.ring-logo__kotlin_32 {
+  width: 35px;
+  height: 36px;
+  background-position: 0 -232px;
+}
+
+.ring-logo__phpstorm_32 {
+  width: 42px;
+  height: 34px;
+  background-position: 0 -272px;
+}
+
+.ring-logo__omea_32 {
+  width: 35px;
+  height: 36px;
+  background-position: 0 -312px;
+}
+
+.ring-logo__teamcity_32 {
+  width: 43px;
+  height: 36px;
+  background-position: 0 -352px;
+}
+
+.ring-logo__idea_32 {
+  width: 36px;
+  height: 38px;
+  background-position: 0 -392px;
+}
+
+.ring-logo__resharper_32 {
+  width: 50px;
+  height: 39px;
+  background-position: 0 -436px;
+}
+
+.ring-logo__dottrace_32 {
+  width: 39px;
+  height: 40px;
+  background-position: 0 -480px;
+}
+
+.ring-logo__dotpeek_32 {
+  width: 43px;
+  height: 40px;
+  background-position: 0 -524px;
+}
+
+.ring-logo__dotmemory_32 {
+  width: 43px;
+  height: 40px;
+  background-position: 0 -568px;
+}
+
+.ring-logo__youtrack_32 {
+  width: 40px;
+  height: 40px;
+  background-position: 0 -612px;
+}
+
+.ring-logo__mps_32, .ring-logo__dotcover_32, .ring-logo__appcode_32, .ring-logo__webstorm_32, .ring-logo__rubymine_32, .ring-logo__pycharm_32, .ring-logo__kotlin_32, .ring-logo__phpstorm_32, .ring-logo__omea_32, .ring-logo__teamcity_32, .ring-logo__idea_32, .ring-logo__resharper_32, .ring-logo__dottrace_32, .ring-logo__dotpeek_32, .ring-logo__dotmemory_32, .ring-logo__youtrack_32 {
+  background-size: 56px 656px;
+  background-repeat: no-repeat;
+}
+
+.ring-logo__mps_64 {
+  width: 104px;
+  height: 54px;
+  background-position: 0 0;
+}
+
+.ring-logo__dotcover_64 {
+  width: 75px;
+  height: 72px;
+  background-position: 0 -64px;
+}
+
+.ring-logo__appcode_64 {
+  width: 80px;
+  height: 70px;
+  background-position: 0 -144px;
+}
+
+.ring-logo__webstorm_64 {
+  width: 80px;
+  height: 67px;
+  background-position: 0 -224px;
+}
+
+.ring-logo__rubymine_64 {
+  width: 78px;
+  height: 70px;
+  background-position: 0 -304px;
+}
+
+.ring-logo__pycharm_64 {
+  width: 70px;
+  height: 67px;
+  background-position: 0 -384px;
+}
+
+.ring-logo__kotlin_64 {
+  width: 70px;
+  height: 72px;
+  background-position: 0 -464px;
+}
+
+.ring-logo__phpstorm_64 {
+  width: 83px;
+  height: 67px;
+  background-position: 0 -544px;
+}
+
+.ring-logo__omea_64 {
+  width: 70px;
+  height: 72px;
+  background-position: 0 -624px;
+}
+
+.ring-logo__teamcity_64 {
+  width: 86px;
+  height: 72px;
+  background-position: 0 -704px;
+}
+
+.ring-logo__idea_64 {
+  width: 72px;
+  height: 75px;
+  background-position: 0 -784px;
+}
+
+.ring-logo__resharper_64 {
+  width: 99px;
+  height: 78px;
+  background-position: 0 -872px;
+}
+
+.ring-logo__dottrace_64 {
+  width: 78px;
+  height: 80px;
+  background-position: 0 -960px;
+}
+
+.ring-logo__dotpeek_64 {
+  width: 86px;
+  height: 80px;
+  background-position: 0 -1048px;
+}
+
+.ring-logo__dotmemory_64 {
+  width: 86px;
+  height: 80px;
+  background-position: 0 -1136px;
+}
+
+.ring-logo__youtrack_64 {
+  width: 80px;
+  height: 80px;
+  background-position: 0 -1224px;
+}
+
+.ring-logo__mps_64, .ring-logo__dotcover_64, .ring-logo__appcode_64, .ring-logo__webstorm_64, .ring-logo__rubymine_64, .ring-logo__pycharm_64, .ring-logo__kotlin_64, .ring-logo__phpstorm_64, .ring-logo__omea_64, .ring-logo__teamcity_64, .ring-logo__idea_64, .ring-logo__resharper_64, .ring-logo__dottrace_64, .ring-logo__dotpeek_64, .ring-logo__dotmemory_64, .ring-logo__youtrack_64 {
+  background-size: 112px 1312px;
+  background-repeat: no-repeat;
+}
+
+.ring-logo__mps_128 {
+  width: 208px;
+  height: 107px;
+  background-position: 0 0;
+}
+
+.ring-logo__dotcover_128 {
+  width: 150px;
+  height: 144px;
+  background-position: 0 -128px;
+}
+
+.ring-logo__appcode_128 {
+  width: 160px;
+  height: 139px;
+  background-position: 0 -288px;
+}
+
+.ring-logo__webstorm_128 {
+  width: 160px;
+  height: 134px;
+  background-position: 0 -448px;
+}
+
+.ring-logo__rubymine_128 {
+  width: 155px;
+  height: 139px;
+  background-position: 0 -608px;
+}
+
+.ring-logo__pycharm_128 {
+  width: 139px;
+  height: 134px;
+  background-position: 0 -768px;
+}
+
+.ring-logo__kotlin_128 {
+  width: 139px;
+  height: 144px;
+  background-position: 0 -928px;
+}
+
+.ring-logo__phpstorm_128 {
+  width: 166px;
+  height: 134px;
+  background-position: 0 -1088px;
+}
+
+.ring-logo__omea_128 {
+  width: 139px;
+  height: 144px;
+  background-position: 0 -1248px;
+}
+
+.ring-logo__teamcity_128 {
+  width: 171px;
+  height: 144px;
+  background-position: 0 -1408px;
+}
+
+.ring-logo__idea_128 {
+  width: 144px;
+  height: 150px;
+  background-position: 0 -1568px;
+}
+
+.ring-logo__resharper_128 {
+  width: 198px;
+  height: 155px;
+  background-position: 0 -1744px;
+}
+
+.ring-logo__dottrace_128 {
+  width: 155px;
+  height: 160px;
+  background-position: 0 -1920px;
+}
+
+.ring-logo__dotpeek_128 {
+  width: 171px;
+  height: 160px;
+  background-position: 0 -2096px;
+}
+
+.ring-logo__dotmemory_128 {
+  width: 171px;
+  height: 160px;
+  background-position: 0 -2272px;
+}
+
+.ring-logo__youtrack_128 {
+  width: 160px;
+  height: 160px;
+  background-position: 0 -2448px;
+}
+
+.ring-logo__mps_128, .ring-logo__dotcover_128, .ring-logo__appcode_128, .ring-logo__webstorm_128, .ring-logo__rubymine_128, .ring-logo__pycharm_128, .ring-logo__kotlin_128, .ring-logo__phpstorm_128, .ring-logo__omea_128, .ring-logo__teamcity_128, .ring-logo__idea_128, .ring-logo__resharper_128, .ring-logo__dottrace_128, .ring-logo__dotpeek_128, .ring-logo__dotmemory_128, .ring-logo__youtrack_128 {
+  background-size: 224px 2624px;
+  background-repeat: no-repeat;
+}
+
+.ring-logo__mps_256 {
+  width: 416px;
+  height: 214px;
+  background-position: 0 0;
+}
+
+.ring-logo__dotcover_256 {
+  width: 299px;
+  height: 288px;
+  background-position: 0 -256px;
+}
+
+.ring-logo__appcode_256 {
+  width: 320px;
+  height: 278px;
+  background-position: 0 -576px;
+}
+
+.ring-logo__webstorm_256 {
+  width: 320px;
+  height: 267px;
+  background-position: 0 -896px;
+}
+
+.ring-logo__rubymine_256 {
+  width: 310px;
+  height: 278px;
+  background-position: 0 -1216px;
+}
+
+.ring-logo__pycharm_256 {
+  width: 278px;
+  height: 267px;
+  background-position: 0 -1536px;
+}
+
+.ring-logo__kotlin_256 {
+  width: 278px;
+  height: 288px;
+  background-position: 0 -1856px;
+}
+
+.ring-logo__phpstorm_256 {
+  width: 331px;
+  height: 267px;
+  background-position: 0 -2176px;
+}
+
+.ring-logo__omea_256 {
+  width: 278px;
+  height: 288px;
+  background-position: 0 -2496px;
+}
+
+.ring-logo__teamcity_256 {
+  width: 342px;
+  height: 288px;
+  background-position: 0 -2816px;
+}
+
+.ring-logo__idea_256 {
+  width: 288px;
+  height: 299px;
+  background-position: 0 -3136px;
+}
+
+.ring-logo__resharper_256 {
+  width: 395px;
+  height: 310px;
+  background-position: 0 -3488px;
+}
+
+.ring-logo__dottrace_256 {
+  width: 310px;
+  height: 320px;
+  background-position: 0 -3840px;
+}
+
+.ring-logo__dotpeek_256 {
+  width: 342px;
+  height: 320px;
+  background-position: 0 -4192px;
+}
+
+.ring-logo__dotmemory_256 {
+  width: 342px;
+  height: 320px;
+  background-position: 0 -4544px;
+}
+
+.ring-logo__youtrack_256 {
+  width: 320px;
+  height: 320px;
+  background-position: 0 -4896px;
+}
+
+.ring-logo__mps_256, .ring-logo__dotcover_256, .ring-logo__appcode_256, .ring-logo__webstorm_256, .ring-logo__rubymine_256, .ring-logo__pycharm_256, .ring-logo__kotlin_256, .ring-logo__phpstorm_256, .ring-logo__omea_256, .ring-logo__teamcity_256, .ring-logo__idea_256, .ring-logo__resharper_256, .ring-logo__dottrace_256, .ring-logo__dotpeek_256, .ring-logo__dotmemory_256, .ring-logo__youtrack_256 {
+  background-size: 448px 5248px;
+  background-repeat: no-repeat;
+}
+
+.ring-logo {
+  display: inline-block;
+  background-image: url("#{$ring-fonts-dir}ring-logos-sprite.svg");
+}
