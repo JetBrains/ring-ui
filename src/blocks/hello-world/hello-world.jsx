@@ -9,7 +9,7 @@ require('./hello-world.scss');
 
 var url = require('./yeoman.png');
 
-var helloWorld = React.createClass({
+var HelloWorld = React.createClass({
   render: function () {
     return (
       <div className='container'>
@@ -19,18 +19,18 @@ var helloWorld = React.createClass({
           <span className='hello-world__sub-title hello-world__second'>{this.props.secondPart}</span>!
         </div>
         <ReactTransitionGroup transitionName="fade">
-          <img src={url} />
+          <img src={url} width="103px" height="89px" />
         </ReactTransitionGroup>
       </div>
       );
   },
+
   append: function (element) {
 
   }
 });
 
-module.exports = {
-  helloWorld: function (params, element) {
-    return React.renderComponent(helloWorld(params), element);
-  }
+module.exports = HelloWorld;
+module.exports.helloWorld = function (params, element) {
+  return React.renderComponent(HelloWorld(params), element);
 };
