@@ -10,11 +10,16 @@ var pkgConfig = require('./package.json');
 var path = require('path');
 
 module.exports = {
-  entry: path.resolve(pkgConfig.src, 'ring.js'),
+  entry: {
+    bundle: path.resolve(pkgConfig.src, 'ring.js')
+  },
   output: {
     path: pkgConfig.dist,
-    filename: 'bundle.js',
+    filename: '[name].js',
     library: 'Ring'
+  },
+  externals: {
+    "jquery": "jQuery"
   },
   cache: true,
   module: {
