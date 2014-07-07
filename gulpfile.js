@@ -95,6 +95,11 @@ gulp.task('test', function () {
     });
 });
 
+gulp.task('copy', function() {
+  return gulp.src([pkgConfig.src + '/**/*.{jsx,scss,png,svg,ttf,woff,eof}', 'package.json', 'webpack.conf.js'])
+    .pipe(gulp.dest(pkgConfig.dist));
+});
+
 //The development server (the recommended option for development)
 gulp.task('default', ['webpack-dev-server']);
 
@@ -107,4 +112,4 @@ gulp.task('build-dev', ['webpack:build-dev'], function () {
 });
 
 // Production build
-gulp.task('build', ['test', 'webpack:build']);
+gulp.task('build', ['test', 'webpack:build', 'copy']);
