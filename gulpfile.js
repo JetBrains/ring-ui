@@ -95,7 +95,7 @@ gulp.task('test', function () {
     });
 });
 
-gulp.task('copy', function() {
+gulp.task('copy', ['clean'], function() {
   return gulp.src([pkgConfig.src + '/**/*.{jsx,scss,png,svg,ttf,woff,eof}', 'package.json', 'webpack.conf.js'])
     .pipe(gulp.dest(pkgConfig.dist));
 });
