@@ -3,7 +3,7 @@
 var gulp = require('gulp');
 var gutil = require('gulp-util');
 var webpack = require('webpack');
-var clean = require('gulp-clean');
+var rimraf = require('gulp-rimraf');
 var WebpackDevServer = require('webpack-dev-server');
 var karma = require('gulp-karma');
 
@@ -15,7 +15,7 @@ var webpackConfig = Object.create(require('./webpack.conf.js'));
 
 gulp.task('clean', function () {
   return gulp.src(pkgConfig.dist, {read: false})
-    .pipe(clean());
+    .pipe(rimraf());
 });
 
 gulp.task('webpack:build', ['clean'], function (callback) {
