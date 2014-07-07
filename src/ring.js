@@ -1,8 +1,8 @@
 global.react = require('react');
 
 module.exports = {
-  Checkbox: require('./blocks/checkbox/checkbox.jsx'),
-  DropdownMixin: require('./blocks/dropdown/dropdown.jsx'),
-  ProgressBar: require('./blocks/progress-bar/progress-bar.jsx'),
-  helloWorld: require('./blocks/hello-world/hello-world.jsx').helloWorld
+  Checkbox: require('./components/checkbox/checkbox.jsx'),
+  DropdownMixin: require('./components/dropdown/dropdown.jsx'),
+  ProgressBar: require('./components/progress-bar/progress-bar.jsx'),
+  helloWorld: require('./components/hello-world/hello-world.jsx').helloWorld
 };

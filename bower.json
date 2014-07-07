@@ -1,0 +1,17 @@
+{
+  "name": "ring-ui",
+  "private": true,
+  "version": "2.0.0",
+  "description": "Ring UI Library",
+  "main": "bundle.js",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "web_modules",
+    "test"
+  ],
+  "dependencies": {
+    "jquery": "~2.1.1"
+  }
+}
