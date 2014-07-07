@@ -9,7 +9,7 @@
 'use strict';
 
 require('./dropdown.scss');
-var $ = require('../../../components/jquery/dist/jquery');
+var $ = require('../../../web_modules/jquery/dist/jquery');
 var React = require('react');
 
 /**
