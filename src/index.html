@@ -49,6 +49,26 @@
   react.renderComponent(
     Ring.Checkbox(),
     document.getElementById('checkbox'));
+
+  /**
+   * @constructor
+   * @extends {ReactComponent}
+   * @mixes {Ring.DropdownMixin}
+   */
+  var CustomDropdown = react.createClass({
+    mixins: [Ring.DropdownMixin],
+
+    getInternalContent: function() {
+      return 'Hello, world';
+    }
+  });
+
+  react.renderComponent(new CustomDropdown({
+    anchorElement: document.getElementsByClassName('example')[0],
+    angle: Ring.DropdownMixin.Angle.TOP_LEFT,
+    classNames: ['additional', 'class', 'names']
+  }), Ring.DropdownMixin.getPopupLayer());
+
 </script>
 </body>
 </html>
