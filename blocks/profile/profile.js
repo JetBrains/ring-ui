@@ -39,7 +39,7 @@ define(['jquery',
 
             var profileURI = item.userUriPattern || null;
 
-            if (profileURI) {
+            if (profileURI && item.homeUrl) {
               // If the profile URI is not absolute prepend it with the service home URL
               if (profileURI.indexOf('http') !== 0) {
                 profileURI = item.homeUrl.replace(/\/$/, '') + '/' + profileURI.replace(/^[/]/, '');
