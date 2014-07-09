@@ -8,6 +8,9 @@
 'use strict';
 var pkgConfig = require('./package.json');
 var path = require('path');
+var addLoaders = function() {
+  return Array.prototype.slice.call(arguments).join('!');
+};
 
 module.exports = {
   entry: {
@@ -26,7 +29,12 @@ module.exports = {
     loaders: [
       {
         test: /\.scss$/,
-        loader: 'style!css!autoprefixer-loader?browsers=last 2 versions, safari 5, ie 8, ie 9, opera 12.1, ios 6, android 4!sass?outputStyle=expanded!'
+        loader: addLoaders(
+            'style',
+            'css',
+            'autoprefixer?browsers=last 2 versions, safari 5, ie 8, ie 9, opera 12.1, ios 6, android 4',
+            'sass?outputStyle=expanded'
+        )
       },
       //jsx loader
       {
