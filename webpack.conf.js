@@ -14,12 +14,12 @@ var addLoaders = function() {
 
 module.exports = {
   entry: {
-    bundle: path.resolve(pkgConfig.src, 'ring.js')
+    Ring: path.resolve(pkgConfig.src, 'ring.js')
   },
   output: {
     path: pkgConfig.dist,
     filename: '[name].js',
-    library: 'Ring'
+    library: '[name]'
   },
   externals: {
     "jquery": "jQuery"
