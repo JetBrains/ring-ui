@@ -1,6 +1,3 @@
-/**
- * Describe using progress bar
- */
 describe('button', function () {
   var React = require('react/addons');
   var Button = require('../../../src/components/button/button.jsx');
@@ -16,22 +13,24 @@ describe('button', function () {
   });
 
   it('should create component', function () {
-    expect(this.button).toBeDefined();
+    expect(React.addons.TestUtils.isComponentOfType(this.button, Button)).toEqual(true);
   });
 
   it('should set theme', function () {
     this.button.setProps({
-      theme: 'blue'
+      modifier: Button.Modifiers.BLUE
     });
 
     expect(this.button.getDOMNode()).toHaveClass('ring-btn_blue');
   });
 
   it('should set custom class', function () {
+    var CUSTOM_CLASS = 'test';
+
     this.button.setProps({
-      className: 'test'
+      className: CUSTOM_CLASS
     });
 
-    expect(this.button.getDOMNode()).toHaveClass('test');
+    expect(this.button.getDOMNode()).toHaveClass(CUSTOM_CLASS);
   });
 });
