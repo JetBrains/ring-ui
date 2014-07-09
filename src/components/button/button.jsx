@@ -10,16 +10,30 @@ var React = require('react');
 var ReactPropTypes = React.PropTypes;
 
 /**
+ * @enum {string}
+ * @see ***REMOVED***
+ */
+var Modifiers = {
+  DEFAULT: 'default',
+  BLUE: 'blue',
+  BLACK: 'black',
+  PRIMARY: 'primary',
+  PLUS: 'plus',
+  DELAYED_ACTION: 'delayed-action',
+  DANGER: 'danger'
+};
+
+/**
  * @constructor
  */
 var Button = React.createClass({
   propTypes: {
 
     /**
-     * Theme of the button
-     * @see ***REMOVED***
+     * Modifier for button
+     * @see Modifiers
      */
-    theme: ReactPropTypes.string,
+    modifier: ReactPropTypes.string,
 
 
     /**
@@ -30,14 +44,14 @@ var Button = React.createClass({
 
   getDefaultProps: function () {
     return {
-      theme: 'default'
+      theme: Modifiers.DEFAULT
     };
   },
 
   render: function () {
     var className = [
       'ring-btn',
-      'ring-btn_' + this.props.theme,
+      'ring-btn_' + this.props.modifier,
       this.props.className
     ].join(' ');
 
@@ -50,3 +64,4 @@ var Button = React.createClass({
 });
 
 module.exports = Button;
+module.exports.Modifiers = Modifiers;
