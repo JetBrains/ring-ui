@@ -18,6 +18,7 @@
     "file-loader": "^0.5.1",
     "gulp": "^3.6.2",
     "gulp-karma": "0.0.4",
+    "gulp-nodemon": "^1.0.4",
     "gulp-rimraf": "^0.1.0",
     "gulp-util": "^2.2.14",
     "jsx-loader": "^0.10.2",
