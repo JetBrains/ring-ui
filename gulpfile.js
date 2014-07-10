@@ -6,6 +6,7 @@ var webpack = require('webpack');
 var rimraf = require('gulp-rimraf');
 var WebpackDevServer = require('webpack-dev-server');
 var karma = require('gulp-karma');
+var nodemon = require('gulp-nodemon');
 
 // Read configuration from package.json
 var pkgConfig = Object.create(require('./package.json'));
@@ -83,6 +84,17 @@ gulp.task('webpack-dev-server', function () {
     });
 });
 
+gulp.task('dev-server', function() {
+  nodemon({
+    exec: 'webpack-dev-server',
+    watch: [
+      'webpack.conf.js',
+      'gulpfile.js'
+    ],
+    ext: 'js'
+  });
+});
+
 gulp.task('test', function () {
   // Be sure to return the stream
   return gulp.src([pkgConfig.test + '/**/*.js'])
@@ -102,7 +114,7 @@ gulp.task('copy', ['clean'], function() {
 });
 
 //The development server (the recommended option for development)
-gulp.task('default', ['webpack-dev-server']);
+gulp.task('default', ['dev-server']);
 
 // Build and watch cycle (another option for development)
 // Advantage: No server required, can run app from filesystem
