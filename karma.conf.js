@@ -4,6 +4,7 @@
 module.exports = function (karma) {
   var prepareWbpackConf = function (webpackConf) {
     webpackConf.devtool = 'inline-source-map';
+    webpackConf.output = {};
     return webpackConf;
   };
 
