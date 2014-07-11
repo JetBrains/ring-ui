@@ -1,0 +1,14 @@
+// Icons font
+//
+// Markup:
+// <span class="<%= baseClass %> {$modifiers}"></span>
+//<% for (var glyphIdx = 0; glyphIdx < glyphs.length; glyphIdx++) { %>
+// .<%= classPrefix %><%= glyphs[glyphIdx] %>      - <%= glyphs[glyphIdx] %><% } %>
+//
+// Styleguide 6.1
+
+@import "font-icon__settings";
+<% for (glyphIdx = 0; glyphIdx < glyphs.length; glyphIdx++) { %>
+.<%= classPrefix %><%= glyphs[glyphIdx] %>:before {
+  content:'\<%= codepoints[glyphIdx] %>';
+}<% } %>

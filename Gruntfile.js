@@ -133,6 +133,21 @@ module.exports = function(grunt) {
       }
     },
 
+    webfont: {
+      icons: {
+        src: '<%= path.blocks %>/font-icon/__icon/*.svg',
+        dest: '<%= path.blocks %>font-icon/',
+        options: {
+          font: 'font-icon',
+          hashes: false,
+          types: 'eot,woff,ttf,svg',
+          stylesheet: 'scss',
+          template: '<%= path.blocks %>/font-icon/font-icon.tpl.css',
+          htmlDemo: false
+        }
+      }
+    },
+
     //this plugin desn't support glob patterns
     'svg-sprites': {
       'ring-logos': {
@@ -514,7 +529,10 @@ module.exports = function(grunt) {
       dist: {
         options: {
           framework: {
-            name: 'kss'
+            name: 'kss',
+            options: {
+              mask: '*.scss'
+            }
           },
           template: {
             src: '<%= path.docs %>template/'
@@ -668,10 +686,11 @@ module.exports = function(grunt) {
   grunt.registerTask('cleanup',   ['clean:generated']);
 
 
-  grunt.registerTask('sprite', [
-    'sass',
-    'copy:fonts',
-    'generate-sprite'
+  grunt.registerTask('font', [
+    'webfont',
+    'styles',
+    'generate-sprite',
+    'styleguide'
   ]);
 
   grunt.registerTask('styles', [

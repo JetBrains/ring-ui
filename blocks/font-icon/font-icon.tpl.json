@@ -1,0 +1,5 @@
+{
+  "baseClass": "ring-font-icon",
+  "classPrefix": "ring-font-icon_",
+  "mixinPrefix": "icon-"
+}

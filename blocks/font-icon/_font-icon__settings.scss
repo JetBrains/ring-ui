@@ -1,0 +1,70 @@
+@import "../global/global";
+
+@font-face {
+  font-family: 'font-icon';
+  src:url('#{$ring-fonts-dir}font-icon.eot');
+  src:url('#{$ring-fonts-dir}font-icon.eot?#iefix') format('embedded-opentype'),
+  url('#{$ring-fonts-dir}font-icon.svg#font-icon') format('svg'),
+  url('#{$ring-fonts-dir}font-icon.woff') format('woff'),
+  url('#{$ring-fonts-dir}font-icon.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+body .ring-font-icon {
+  font-family: 'font-icon' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1 !important;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  &:hover {
+    text-decoration: none !important;
+  }
+}
+
+//Fallback for miserable Windows users
+.no-font-antialiasing {
+
+  .ring-font-icon_help,
+  .ring-font-icon_search,
+  .ring-font-icon_ban-circle {
+    display: inline-block;
+    background-image: url('#{$ring-fonts-dir}font-icon.png');
+    background-repeat: no-repeat;
+    height: 16px;
+    width: 16px;
+
+    &:before {
+      content: normal;
+    }
+  }
+
+  .ring-font-icon_help {
+    background-position: -3px 0;
+
+    .ring-link &:hover, &.ring-link:hover {
+      background-position: -3px -20px;
+    }
+  }
+
+  .ring-font-icon_search {
+    background-position: -20px 0;
+
+    .ring-link &:hover, &.ring-link:hover {
+      background-position: -20px -20px;
+    }
+  }
+
+  .ring-font-icon_ban-circle {
+    background-position: -42px 0;
+
+    .ring-link &:hover, &.ring-link:hover {
+      background-position: -42px -20px;
+    }
+  }
+}
