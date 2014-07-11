@@ -35,14 +35,14 @@ label.ring-checkbox__label {
     &:before {
       position: relative;
       top: -4px;
-      left: -1px;
+      left: 1px;
       display: block;
       width: 11px;
       height: 11px;
 
       font-family: 'font-icon' !important;
-      content: '\e005';
-      font-size: 16px;
+      @extend .ring-font-icon_check:before;
+      font-size: 18px;
       color: #1A1A1A;
     }
   }
