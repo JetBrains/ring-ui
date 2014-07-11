@@ -1,3 +1,5 @@
+@import "../global/global";
+
 $ring-checkbox: ':root .ring-checkbox[type="checkbox"]';
 
 #{$ring-checkbox} {
@@ -40,8 +42,7 @@ label.ring-checkbox__label {
       width: 11px;
       height: 11px;
 
-      font-family: 'font-icon' !important;
-      @extend .ring-font-icon_check:before;
+      @include font-icon('check');
       font-size: 18px;
       color: #1A1A1A;
     }
