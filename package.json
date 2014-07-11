@@ -24,6 +24,7 @@
     "karma": "^0.12.16",
     "karma-jasmine": "^0.1.5",
     "karma-phantomjs-launcher": "^0.1.4",
+    "karma-teamcity-reporter": "^0.1.2",
     "karma-webpack": "^1.2.1",
     "sass-loader": "^0.1.1",
     "style-loader": "^0.6.3",
