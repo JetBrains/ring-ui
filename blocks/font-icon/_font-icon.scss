@@ -39,6 +39,7 @@
 // .ring-font-icon_jabber      - jabber
 // .ring-font-icon_like      - like
 // .ring-font-icon_magic      - magic
+// .ring-font-icon_marker      - marker
 // .ring-font-icon_merge      - merge
 // .ring-font-icon_meta      - meta
 // .ring-font-icon_modified      - modified
@@ -73,7 +74,6 @@
 // Styleguide 6.1
 
 @import "font-icon__settings";
-
 
 .ring-font-icon_add:before {
   content:'\f101';
@@ -183,93 +183,96 @@
 .ring-font-icon_magic:before {
   content:'\f124';
 }
-.ring-font-icon_merge:before {
+.ring-font-icon_marker:before {
   content:'\f125';
 }
-.ring-font-icon_meta:before {
+.ring-font-icon_merge:before {
   content:'\f126';
 }
-.ring-font-icon_modified:before {
+.ring-font-icon_meta:before {
   content:'\f127';
 }
-.ring-font-icon_move:before {
+.ring-font-icon_modified:before {
   content:'\f128';
 }
-.ring-font-icon_ok:before {
+.ring-font-icon_move:before {
   content:'\f129';
 }
-.ring-font-icon_paperclip:before {
+.ring-font-icon_ok:before {
   content:'\f12a';
 }
-.ring-font-icon_pause:before {
+.ring-font-icon_paperclip:before {
   content:'\f12b';
 }
-.ring-font-icon_pencil:before {
+.ring-font-icon_pause:before {
   content:'\f12c';
 }
-.ring-font-icon_perfomance:before {
+.ring-font-icon_pencil:before {
   content:'\f12d';
 }
-.ring-font-icon_permission:before {
+.ring-font-icon_perfomance:before {
   content:'\f12e';
 }
-.ring-font-icon_play:before {
+.ring-font-icon_permission:before {
   content:'\f12f';
 }
-.ring-font-icon_print:before {
+.ring-font-icon_play:before {
   content:'\f130';
 }
-.ring-font-icon_pushpin:before {
+.ring-font-icon_print:before {
   content:'\f131';
 }
-.ring-font-icon_redo:before {
+.ring-font-icon_pushpin:before {
   content:'\f132';
 }
-.ring-font-icon_refresh:before {
+.ring-font-icon_redo:before {
   content:'\f133';
 }
-.ring-font-icon_removed:before {
+.ring-font-icon_refresh:before {
   content:'\f134';
 }
-.ring-font-icon_renamed:before {
+.ring-font-icon_removed:before {
   content:'\f135';
 }
-.ring-font-icon_resource:before {
+.ring-font-icon_renamed:before {
   content:'\f136';
 }
-.ring-font-icon_role:before {
+.ring-font-icon_resource:before {
   content:'\f137';
 }
-.ring-font-icon_search:before {
+.ring-font-icon_role:before {
   content:'\f138';
 }
-.ring-font-icon_security:before {
+.ring-font-icon_search:before {
   content:'\f139';
 }
-.ring-font-icon_service:before {
+.ring-font-icon_security:before {
   content:'\f13a';
 }
-.ring-font-icon_space:before {
+.ring-font-icon_service:before {
   content:'\f13b';
 }
-.ring-font-icon_task:before {
+.ring-font-icon_space:before {
   content:'\f13c';
 }
-.ring-font-icon_tint:before {
+.ring-font-icon_task:before {
   content:'\f13d';
 }
-.ring-font-icon_trash:before {
+.ring-font-icon_tint:before {
   content:'\f13e';
 }
-.ring-font-icon_undo:before {
+.ring-font-icon_trash:before {
   content:'\f13f';
 }
-.ring-font-icon_usability:before {
+.ring-font-icon_undo:before {
   content:'\f140';
 }
-.ring-font-icon_user:before {
+.ring-font-icon_usability:before {
   content:'\f141';
 }
-.ring-font-icon_warning:before {
+.ring-font-icon_user:before {
   content:'\f142';
+}
+.ring-font-icon_warning:before {
+  content:'\f143';
 }
