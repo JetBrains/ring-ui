@@ -31,6 +31,7 @@
     "grunt-preprocess": "~4.0.0",
     "grunt-sass": "^0.14.0",
     "grunt-styleguide": "~0.2.15",
+    "grunt-webfont": "^0.4.3",
     "highlight.js": "~8.0.0",
     "jsdoc": "^3.3.0-alpha5",
     "karma": "~0.12.9",
