@@ -4,6 +4,7 @@
 module.exports = function (karma) {
   var prepareWbpackConf = function (webpackConf) {
     webpackConf.devtool = 'inline-source-map';
+    webpackConf.output = {};
     return webpackConf;
   };
 
@@ -25,7 +26,7 @@ module.exports = function (karma) {
 
     // test results reporter to use
     // possible values: 'dots', 'progress', 'junit', 'growl', 'coverage'
-    reporters: ['progress'],
+    reporters: ['progress', 'teamcity'],
 
     // list of preprocessors
     preprocessors: {
