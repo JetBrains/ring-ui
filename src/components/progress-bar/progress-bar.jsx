@@ -34,7 +34,7 @@ var ProgressBar = React.createClass({
      * A floating point number that specifies how much of the
      * task has been completed
      */
-    value: ReactPropTypes.string
+    value: ReactPropTypes.number
   },
 
   getInitialState: function() {
