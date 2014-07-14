@@ -4,7 +4,7 @@
   var DIALOG_NAMESPACE = 'ring-dialog';
 
   angular.module('Ring.dialog', []).
-    directive('dialog', [function () {
+    directive('dialog', ['$timeout',  function ($timeout) {
       return {
         'restrict': 'AE',
         'scope': true,
@@ -65,7 +65,6 @@
             'mod+enter': applyDefaultHandler(true)
           });
         }],
-        // Focus first input
         'link': function (scope, iElement) {
           var iDocument = $(document);
           var iBody = $('body');
@@ -105,8 +104,9 @@
               });
           });
 
+          // Focus first input
           var focusFirst = function () {
-            iElement.find(':input,[contentEditable=true]').first().focus();
+            iElement.find(':input,[contentEditable=true]').filter(':visible').first().focus();
           };
 
           iDocument.on('focusin.' + DIALOG_NAMESPACE, function (e) {
@@ -116,7 +116,9 @@
             }
           });
 
-          scope.$on('$includeContentLoaded', focusFirst);
+          scope.$on('$includeContentLoaded', function () {
+            $timeout(focusFirst);
+          });
           scope.$on('$destroy', function () {
             iDocument.off('.' + DIALOG_NAMESPACE);
           });
