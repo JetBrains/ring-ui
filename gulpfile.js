@@ -86,7 +86,7 @@ gulp.task('webpack-dev-server', function () {
 
 gulp.task('dev-server', function() {
   nodemon({
-    exec: 'webpack-dev-server',
+    exec: ['webpack-dev-server', '--port=' + (gulp.env.port || '')],
     watch: [
       'webpack.conf.js',
       'gulpfile.js'
