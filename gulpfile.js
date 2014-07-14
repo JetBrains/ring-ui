@@ -68,7 +68,7 @@ gulp.task('webpack-dev-server', function () {
   myConfig.devtool = 'eval';
   myConfig.debug = true;
   myConfig.output.path = '/';
-  myConfig.entry.jQuery = './web_modules/jquery/dist/jquery.js';
+  myConfig.entry.jQuery = './node_modules/jquery/src/jquery.js';
 
   var serverPort = gulp.env.port || '8080';
 
