@@ -1,0 +1,36 @@
+@import "../global/global";
+
+$component: '.ring-textarea';
+
+#{$component} {
+  box-sizing: border-box;
+  width: 100%;
+  margin: 0;
+  border: 1px solid #CCC;
+  background-color: #FFF;
+
+  @include ring-font;
+  font-size: 13px;
+  line-height: 20px;
+
+  &:active, &:focus,
+  #{$component}_active,
+  #{$component}_focus {
+    border-color: #25B7FF;
+    outline: 0;
+  }
+
+  &:disabled,
+  #{$component}_disabled {
+    border-color: #DEDEDE;
+    background-color: #F8F8F8;
+  }
+
+  &#{$component}_correct {
+    border-color: #84AB28;
+  }
+
+  &#{$component}_error {
+    border-color: #F00;
+  }
+}
