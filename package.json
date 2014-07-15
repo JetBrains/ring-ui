@@ -21,6 +21,7 @@
     "gulp-nodemon": "^1.0.4",
     "gulp-rimraf": "^0.1.0",
     "gulp-util": "^2.2.14",
+    "jquery": "^2.1.1",
     "jsx-loader": "^0.10.2",
     "karma": "^0.12.16",
     "karma-jasmine": "^0.1.5",
