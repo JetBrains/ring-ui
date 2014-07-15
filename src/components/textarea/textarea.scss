@@ -1,8 +1,6 @@
 @import "../global/global";
 
-$component: '.ring-textarea';
-
-#{$component} {
+.ring-textarea {
   box-sizing: border-box;
   width: 100%;
   margin: 0;
@@ -14,23 +12,23 @@ $component: '.ring-textarea';
   line-height: 20px;
 
   &:active, &:focus,
-  #{$component}_active,
-  #{$component}_focus {
+  &_active,
+  &_focus {
     border-color: #25B7FF;
     outline: 0;
   }
 
   &:disabled,
-  #{$component}_disabled {
+  &_disabled {
     border-color: #DEDEDE;
     background-color: #F8F8F8;
   }
 
-  &#{$component}_correct {
+  &_correct {
     border-color: #84AB28;
   }
 
-  &#{$component}_error {
+  &_error {
     border-color: #F00;
   }
 }
