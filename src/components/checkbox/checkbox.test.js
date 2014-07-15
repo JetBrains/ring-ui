@@ -1,7 +1,7 @@
 describe('checkbox', function () {
   var React = require('react/addons');
   var TestUtils = React.addons.TestUtils;
-  var Checkbox = require('../../../src/components/checkbox/checkbox.jsx');
+  var Checkbox = require('./checkbox.jsx');
   var checkbox;
 
   function renderIntoDocument(instance) {

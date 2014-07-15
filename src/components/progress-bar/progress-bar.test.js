@@ -3,7 +3,7 @@
  */
 describe('progress-bar', function() {
   var React = require('react/addons');
-  var ProgressBar = require('../../../src/components/progress-bar/progress-bar.jsx');
+  var ProgressBar = require('./progress-bar.jsx');
   var container = null;
 
   function renderIntoDocument(instance) {

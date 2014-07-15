@@ -1,6 +1,6 @@
 describe('button', function () {
   var React = require('react/addons');
-  var Button = require('../../../src/components/button/button.jsx');
+  var Button = require('./button.jsx');
   var container = null;
 
   function renderIntoDocument(instance) {
