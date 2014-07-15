@@ -42,7 +42,7 @@
 
             if (absUrl) {
               // Skipping common prefix
-              for (var i = 0, minLength = Math.min(absUrl.length, authConfig.redirect_uri.length); i < minLength; i++) {
+              for (var i = 0, minLength = Math.min(absUrl.length, authConfig.redirect_uri.length) + 1; i < minLength; i++) {
                 if (absUrl.charAt(i) !== authConfig.redirect_uri.charAt(i)) {
                   $location.url(absUrl.substring(i - 1)).replace();
                   break;
