@@ -26,7 +26,7 @@ module.exports = function (karma) {
 
     // test results reporter to use
     // possible values: 'dots', 'progress', 'junit', 'growl', 'coverage'
-    reporters: ['progress', 'teamcity'],
+    reporters: ['progress'],
 
     // list of preprocessors
     preprocessors: {
@@ -75,6 +75,14 @@ module.exports = function (karma) {
     // - PhantomJS — only installed
     // - IE (only Windows)
     browsers: ['PhantomJS'],
+
+    // Custom Chrome launcher for CI use
+    customLaunchers: {
+      ChromeNoSandbox: {
+        base: 'Chrome',
+        flags: ['--no-sandbox']
+      }
+    },
 
 
     // If browser does not capture in given timeout [ms], kill it
