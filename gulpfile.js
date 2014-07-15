@@ -114,7 +114,7 @@ gulp.task('test:build', function () {
     .pipe(karma({
       configFile: 'karma.conf.js',
       action: 'run',
-      browsers: ['Chrome', 'Firefox'],
+      browsers: ['ChromeNoSandbox', 'Firefox'],
       reporters: 'teamcity'
     }))
     .on('error', function (err) {
