@@ -108,6 +108,21 @@ gulp.task('test', function () {
     });
 });
 
+gulp.task('test:build', function () {
+  // Be sure to return the stream
+  return gulp.src([pkgConfig.test + '/**/*.js'])
+    .pipe(karma({
+      configFile: 'karma.conf.js',
+      action: 'run',
+      browsers: ['Chrome', 'Firefox'],
+      reporters: 'teamcity'
+    }))
+    .on('error', function (err) {
+      // Make sure failed tests cause gulp to exit non-zero
+      throw err;
+    });
+});
+
 gulp.task('copy', ['clean'], function() {
   return gulp.src([pkgConfig.src + '/**/*.{jsx,scss,png,svg,ttf,woff,eof}', 'package.json', 'webpack.conf.js'])
     .pipe(gulp.dest(pkgConfig.dist));
@@ -125,4 +140,4 @@ gulp.task('build-dev', ['webpack:build-dev'], function () {
 });
 
 // Production build
-gulp.task('build', ['test', 'webpack:build', 'copy']);
+gulp.task('build', ['test:build', 'webpack:build', 'copy']);
