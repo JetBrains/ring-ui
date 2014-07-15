@@ -36,6 +36,15 @@
   </section>
 </div>
 
+<div class="example">
+  <header>Textarea:</header>
+
+  <section>
+    <div id="textarea">
+    </div>
+  </section>
+</div>
+
 <script type="text/javascript" src="jQuery.js" charset="utf-8"></script>
 <script type="text/javascript" src="Ring.js" charset="utf-8"></script>
 <script>
@@ -63,6 +72,10 @@
   react.renderComponent(
     Ring.Checkbox(),
     document.getElementById('checkbox'));
+
+  react.renderComponent(
+    Ring.Textarea(),
+    document.getElementById('textarea'));
 
   /**
    * @constructor
