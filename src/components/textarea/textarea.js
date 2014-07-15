@@ -2,7 +2,7 @@
 
 describe('Textarea', function () {
   var React = require('react/addons');
-  var Textarea = require('../../../src/components/textarea/textarea.jsx');
+  var Textarea = require('./textarea.jsx');
   var component;
   var container;
 

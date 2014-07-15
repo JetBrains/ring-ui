@@ -20,8 +20,8 @@ module.exports = function (karma) {
 
     // list of files / patterns to load in the browser
     files: [
-      'test/helpers/**/*.js',
-      'test/components/**/*.js'
+      'test-helpers/*.js',
+      'src/components/**/*.test.js'
     ],
 
     // test results reporter to use
@@ -30,7 +30,7 @@ module.exports = function (karma) {
 
     // list of preprocessors
     preprocessors: {
-      'test/components/**/*.js': ['webpack']
+      'src/components/**/*.test.js': ['webpack']
     },
 
     webpack: prepareWbpackConf(require('./webpack.conf.js')),
