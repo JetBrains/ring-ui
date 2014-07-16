@@ -158,6 +158,7 @@
 .ring-dropdown__item__controls {
   margin: $ring-unit/2 0 $ring-unit/2 0;
   background: #fff;
+  cursor: pointer;
   &:last-child {
     margin-bottom: 0;
     & .ring-dropdown__item__controls__title {
@@ -167,7 +168,6 @@
 }
 
 .ring-dropdown__item__controls__title {
-  cursor: pointer;
   font-weight: bold;
 }
 

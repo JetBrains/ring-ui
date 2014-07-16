@@ -1,3 +1,5 @@
+@import "../global/global";
+
 .ring-dropdown-filter__container {
   .ring-js-popup-input {
     display: none;
@@ -6,12 +8,23 @@
     display: none;
   }
 
+  & .ring-dropdown__item__controls:hover {
+    background-color: #25B7FF;
+    color: #FFF;
+  }
+
   &.active {
     .ring-js-popup-input {
       display: block;
     }
     .ring-dropdown__item {
       display: block;
+    }
+
+    & .ring-dropdown__item__controls:hover {
+      cursor: default;
+      color: inherit;
+      background-color: inherit;
     }
   }
 }
