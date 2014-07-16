@@ -333,7 +333,7 @@ define([
 
     $(wrapper.el).on('click', function (e) {
       if (!$(e.target).hasClass('ring-js-event') || $(e.target).is(':input')) {
-        event.stopPropagation();
+        e.stopPropagation();
       }
     });
 
