@@ -130,7 +130,9 @@ define([
     }
 
     this.$target.removeClass(LOADING_CLASS);
-    this.requestData(query, this.top, this.skip_);
+    if (this.value_ !== query) {
+      this.requestData(query, this.top, this.skip_);
+    }
   };
 
   /**
@@ -198,6 +200,15 @@ define([
     }
   };
 
+  /**
+   * Handles item selection
+   * @param value
+   */
+  Select.prototype.selectHandler = function (value) {
+    this.value_ = value.label;
+    this.onSelect(value);
+  };
+
 
   /**
    * On item click handler. Emit onSelect(String)
@@ -219,7 +230,8 @@ define([
 
     var item = this.getActiveItem();
 
-    this.onSelect(item);
+    this.selectHandler(item);
+    this.isDirty_ = true;
     this.$target.val(item.label);
     this.$target.focus();
 
@@ -227,7 +239,7 @@ define([
   };
 
   /**
-   * Submit handler for $target. Emit onSubmit(String) / onSelect(Object)
+   * Submit handler for $target. Emit onSubmit(String) / selectHandler(Object)
    * @param e
    */
   Select.prototype.submitHandler = function (e) {
@@ -239,7 +251,7 @@ define([
       } else {
         this.$target.val(activeItem.label);
         this.isDirty_ = true;
-        this.onSelect(activeItem);
+        this.selectHandler(activeItem);
       }
 
       this.destroy();
