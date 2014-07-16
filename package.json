@@ -13,7 +13,7 @@
   "readmeFilename": "README",
   "devDependencies": {
     "autoprefixer-loader": "^0.1.1",
-    "css-loader": "^0.6.12",
+    "css-loader": "^0.7.0",
     "envify": "^1.2.1",
     "file-loader": "^0.5.1",
     "gulp": "^3.6.2",
