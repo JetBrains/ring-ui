@@ -8,7 +8,12 @@ $ring-outline-color: rgba(37, 183, 255, 0.5);
 $ring-color-error: #C10000;
 
 // Mixins
+@mixin font-icon-family {
+  font-family: 'font-icon' !important;
+}
+
 @mixin font-icon($icon) {
+  @include font-icon-family();
   @extend .ring-font-icon_#{$icon};
 }
 
