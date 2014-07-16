@@ -122,14 +122,20 @@ $ring-btn-border-radius: 3px;
   .ring-font-icon {
     vertical-align: top;
     position: relative;
-    top: 3px;
+    top: 2px;
 
     color: #888;
     font-size: 16px;
   }
 
+  .ring-font-icon_group {
+    top: 8px;
+    font-size: 22px;
+    line-height: 14px !important;
+  }
+
   .ring-font-icon_trash {
-    top: 2px;
+    top: 1px;
     font-size: 14px;
   }
 

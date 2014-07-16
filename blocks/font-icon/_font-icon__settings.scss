@@ -12,7 +12,7 @@
 }
 
 body .ring-font-icon {
-  font-family: 'font-icon' !important;
+  @include font-icon-family();
   speak: none;
   font-style: normal;
   font-weight: normal;
