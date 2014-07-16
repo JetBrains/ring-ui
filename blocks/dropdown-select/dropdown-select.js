@@ -81,6 +81,7 @@ define([
         shortcuts('pushScope', self.shortcutsUID_);
       }).
       on('blur', function () {
+        self.$target.removeClass(LOADING_CLASS);
         shortcuts('spliceScope', self.shortcutsUID_);
       }).
       on('input', function () {
