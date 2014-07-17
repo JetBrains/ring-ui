@@ -11,7 +11,6 @@
 require('./popup.scss');
 var $ = require('jquery');
 var getEventKey = require('react/lib/getEventKey');
-var KeyCode = require('../global/keycode.jsx');
 var React = require('react');
 
 /**
