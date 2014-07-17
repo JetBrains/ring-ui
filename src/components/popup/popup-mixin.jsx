@@ -65,16 +65,18 @@ var PopupMixin = {
 
   /** @override */
   componentDidMount: function() {
-    window.addEventListener('resize', this.onWindowResize_);
-    document.body.addEventListener('click', this.onDocumentClick_);
-    document.body.addEventListener('keydown', this.onDocumentKeyDown_);
+    $(window).on('resize', this.onWindowResize_);
+    $(document.body).
+        on('click', this.onDocumentClick_).
+        on('keydown', this.onDocumentKeyDown_);
   },
 
   /** @override */
   componentWillUnmount: function() {
-    window.removeEventListener('resize', this.onWindowResize_);
-    document.body.removeEventListener('click', this.onDocumentClick_);
-    document.body.removeEventListener('keydown', this.onDocumentKeyDown_);
+    $(window).off('resize', this.onWindowResize_);
+    $(document.body).
+        off('click', this.onDocumentClick_).
+        off('keydown', this.onDocumentKeyDown_);
   },
 
   /** @override */
