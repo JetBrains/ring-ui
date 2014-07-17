@@ -100,7 +100,7 @@
     mixins: [Ring.DropdownMixin],
 
     getInternalContent: function() {
-      return 'Hello, world';
+      return 'Dropdown element as mixin.';
     }
   });
 
@@ -110,6 +110,23 @@
     classNames: ['additional', 'class', 'names']
   }), Ring.DropdownMixin.getPopupLayer());
 
+
+  /**
+   * @constructor
+   * @extends {ReactComponent}
+   */
+  var SomeElementToInsertIntoPopup = react.createClass({
+    render: function() {
+      return react.DOM.div(null, 'Some external elemenet rendered into Popup');
+    }
+  });
+
+  var dropdownContainer = document.createElement('div');
+  document.body.appendChild(dropdownContainer);
+
+  react.renderComponent(Ring.Dropdown({
+    popupLayer: dropdownContainer
+  }, SomeElementToInsertIntoPopup(null)), dropdownContainer);
 </script>
 </body>
 </html>
