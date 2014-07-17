@@ -2,6 +2,7 @@
 
 var gulp = require('gulp');
 var gutil = require('gulp-util');
+var jshint = require('gulp-jshint');
 var webpack = require('webpack');
 var rimraf = require('gulp-rimraf');
 var WebpackDevServer = require('webpack-dev-server');
@@ -95,6 +96,13 @@ gulp.task('dev-server', function() {
   });
 });
 
+gulp.task('lint', function() {
+  return gulp.src(pkgConfig.src + '/components/**/*.{js,jsx}')
+    .pipe(jshint())
+    .pipe(jshint.reporter('default'))
+    .pipe(jshint.reporter('fail'));
+});
+
 gulp.task('test', function () {
   // Be sure to return the stream
   return gulp.src([pkgConfig.test + '/**/*.js'])
@@ -140,4 +148,4 @@ gulp.task('build-dev', ['webpack:build-dev'], function () {
 });
 
 // Production build
-gulp.task('build', ['test:build', 'webpack:build', 'copy']);
+gulp.task('build', ['lint', 'test:build', 'webpack:build', 'copy']);

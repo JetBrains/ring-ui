@@ -1,0 +1,30 @@
+{
+  "globals": {
+    "require": false
+  },
+  "node": true,
+  "browser": true,
+  "jasmine": true,
+
+  "indent": 2,
+  "camelcase": false,
+  "curly": true,
+  "newcap": true,
+  "quotmark": true,
+  "trailing": true,
+  "sub": true,
+
+  "bitwise": false,
+  "eqeqeq": true,
+  "eqnull": true,
+  "immed": true,
+  "latedef": true,
+  "noarg": true,
+  "undef": true,
+  "unused": true,
+
+  "maxparams": 8,
+  "maxdepth": 5,
+
+  "white": false
+}
