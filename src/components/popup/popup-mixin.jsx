@@ -10,6 +10,7 @@
 
 require('./popup.scss');
 var $ = require('jquery');
+var getEventKey = require('react/lib/getEventKey');
 var KeyCode = require('../global/keycode.jsx');
 var React = require('react');
 
@@ -89,7 +90,7 @@ var PopupMixin = {
   },
 
   /**
-   * @param {Event} evt
+   * @param {jQuery.Event} evt
    * @private
    */
   onWindowResize_: function(evt) {
@@ -97,7 +98,7 @@ var PopupMixin = {
   },
 
   /**
-   * @param {Event} evt
+   * @param {jQuery.Event} evt
    * @private
    */
   onDocumentClick_: function(evt) {
@@ -107,11 +108,11 @@ var PopupMixin = {
   },
 
   /**
-   * @param {KeyboardEvent} evt
+   * @param {jQuery.Event} evt
    * @private
    */
   onDocumentKeyDown_: function(evt) {
-    if (evt.keyCode === KeyCode.ESC) {
+    if (getEventKey(evt.originalEvent) === 'Escape') {
       this.close();
     }
   },
