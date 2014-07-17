@@ -124,9 +124,7 @@
   var dropdownContainer = document.createElement('div');
   document.body.appendChild(dropdownContainer);
 
-  react.renderComponent(Ring.Dropdown({
-    popupLayer: dropdownContainer
-  }, SomeElementToInsertIntoPopup(null)), dropdownContainer);
+  react.renderComponent(Ring.Dropdown(null, SomeElementToInsertIntoPopup(null)), dropdownContainer);
 </script>
 </body>
 </html>

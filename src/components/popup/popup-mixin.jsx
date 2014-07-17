@@ -85,7 +85,7 @@ var PopupMixin = {
    * Removes popup from document.
    */
   close: function() {
-    React.unmountComponentAtNode(this.getPopupContainer());
+    React.unmountComponentAtNode(this.getDOMNode().parentNode);
   },
 
   /**
@@ -155,15 +155,6 @@ var PopupMixin = {
     classNames.push("ring-popup_bound");
 
     return classNames.concat(this.props.classNames || []).join(' ');
-  },
-
-  /**
-   * Returns element in which popup should be rendered and from which it will be removed.
-   * @return {HTMLElement}
-   * @protected
-   */
-  getPopupContainer: function() {
-    return this.props.popupLayer || getPopupLayer();
   }
 };
 
