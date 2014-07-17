@@ -1,3 +1,6 @@
+// TODO Make jshint happy
+/* jshint ignore:start */
+
 function RevisionGraph() {
   var POSITION_WIDTH = 16;                          // Single position width (px)
   var MAX_COLOR = 10;                               // Color map size

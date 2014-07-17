@@ -17,6 +17,7 @@
     "envify": "^1.2.1",
     "file-loader": "^0.5.1",
     "gulp": "^3.6.2",
+    "gulp-jshint": "^1.7.1",
     "gulp-karma": "0.0.4",
     "gulp-nodemon": "^1.0.4",
     "gulp-rimraf": "^0.1.0",
