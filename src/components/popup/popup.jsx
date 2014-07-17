@@ -25,8 +25,7 @@ var Popup = React.createClass({
   /** @override */
   getDefaultProps: function() {
     return {
-      anchorElement: document.body,
-      position: PopupMixin.Angle.TOP_LEFT
+      anchorElement: document.body
     }
   },
 
@@ -37,5 +36,3 @@ var Popup = React.createClass({
 });
 
 module.exports = Popup;
-module.exports.Angle = PopupMixin.angle;
-module.exports.getPopupLayer = PopupMixin.getPopupLayer;
