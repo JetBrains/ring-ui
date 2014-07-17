@@ -96,19 +96,19 @@
    * @extends {ReactComponent}
    * @mixes {Ring.PopupMixin}
    */
-  var CustomDropdown = react.createClass({
-    mixins: [Ring.DropdownMixin],
+  var CustomPopup = react.createClass({
+    mixins: [Ring.PopupMixin],
 
     getInternalContent: function() {
       return 'Dropdown element as mixin.';
     }
   });
 
-  react.renderComponent(new CustomDropdown({
+  react.renderComponent(new CustomPopup({
     anchorElement: document.getElementById('dropdown'),
-    angle: Ring.DropdownMixin.Angle.TOP_LEFT,
+    angle: Ring.PopupMixin.Angle.TOP_LEFT,
     classNames: ['additional', 'class', 'names']
-  }), Ring.DropdownMixin.getPopupLayer());
+  }), Ring.PopupMixin.getPopupLayer());
 
 
   /**
@@ -121,10 +121,10 @@
     }
   });
 
-  var dropdownContainer = document.createElement('div');
-  document.body.appendChild(dropdownContainer);
+  var popupContainer = document.createElement('div');
+  document.body.appendChild(popupContainer);
 
-  react.renderComponent(Ring.Dropdown(null, SomeElementToInsertIntoPopup(null)), dropdownContainer);
+  react.renderComponent(Ring.Popup(null, SomeElementToInsertIntoPopup(null)), popupContainer);
 </script>
 </body>
 </html>
