@@ -2,38 +2,40 @@ Ring UI: development environment setup
 
 1. Install node.js
 
-2: Install grunt-cli:
+2. Install gulp:
 
-    npm install -g grunt-cli
+    npm install -g gulp
 
 3. Install dependencies:
 
     npm install
 
-4. Start the watcher and the server (also installs git pre-commit hook):
+4. Start the devserver:
 
-    grunt server
+        gulp
+
+    or
+
+        gulp build-dev
+
+    (the latter one makes development build and starts watcher on all project source files to rebuild on changes, while the former runs webpack dev server)
+
 
 =======================================
-
-(Optional) Use additional targets with grunt server task
-
-    Add :styleguide target to livereload styleguide generated files
-    Add :test target to run test on file changes
 
 (Optional) Install VirtualBox and ievms to test run test on IE
 
     VirtualBox — https://www.virtualbox.org/wiki/Downloads
     ievms — https://github.com/xdissent/ievms#installation
 
-Build production files
+Run tests:
 
-    grunt build
+    gulp test
+
+Run tests and build production files:
+
+    gulp build
 
 Clean generated files:
 
-    grunt cleanup
-
-Uninstall dependencies and hooks:
-
-    grunt uninstall
+    gulp clean

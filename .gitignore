@@ -14,7 +14,7 @@ Icon?
 Thumbs.db
 
 # Generated
-components
+/components
 coverage
 dist
 node_modules

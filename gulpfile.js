@@ -3,9 +3,10 @@
 var gulp = require('gulp');
 var gutil = require('gulp-util');
 var webpack = require('webpack');
-var clean = require('gulp-clean');
+var rimraf = require('gulp-rimraf');
 var WebpackDevServer = require('webpack-dev-server');
 var karma = require('gulp-karma');
+var nodemon = require('gulp-nodemon');
 
 // Read configuration from package.json
 var pkgConfig = Object.create(require('./package.json'));
@@ -15,7 +16,7 @@ var webpackConfig = Object.create(require('./webpack.conf.js'));
 
 gulp.task('clean', function () {
   return gulp.src(pkgConfig.dist, {read: false})
-    .pipe(clean());
+    .pipe(rimraf());
 });
 
 gulp.task('webpack:build', ['clean'], function (callback) {
@@ -67,6 +68,7 @@ gulp.task('webpack-dev-server', function () {
   myConfig.devtool = 'eval';
   myConfig.debug = true;
   myConfig.output.path = '/';
+  myConfig.entry.jQuery = './node_modules/jquery/dist/jquery.js';
 
   var serverPort = gulp.env.port || '8080';
 
@@ -82,6 +84,17 @@ gulp.task('webpack-dev-server', function () {
     });
 });
 
+gulp.task('dev-server', function() {
+  nodemon({
+    exec: ['webpack-dev-server', '--port=' + (gulp.env.port || '')],
+    watch: [
+      'webpack.conf.js',
+      'gulpfile.js'
+    ],
+    ext: 'js'
+  });
+});
+
 gulp.task('test', function () {
   // Be sure to return the stream
   return gulp.src([pkgConfig.test + '/**/*.js'])
@@ -95,8 +108,28 @@ gulp.task('test', function () {
     });
 });
 
+gulp.task('test:build', function () {
+  // Be sure to return the stream
+  return gulp.src([pkgConfig.test + '/**/*.js'])
+    .pipe(karma({
+      configFile: 'karma.conf.js',
+      action: 'run',
+      browsers: ['ChromeNoSandbox', 'Firefox'],
+      reporters: 'teamcity'
+    }))
+    .on('error', function (err) {
+      // Make sure failed tests cause gulp to exit non-zero
+      throw err;
+    });
+});
+
+gulp.task('copy', ['clean'], function() {
+  return gulp.src([pkgConfig.src + '/**/*.{jsx,scss,png,svg,ttf,woff,eof}', 'package.json', 'webpack.conf.js'])
+    .pipe(gulp.dest(pkgConfig.dist));
+});
+
 //The development server (the recommended option for development)
-gulp.task('default', ['webpack-dev-server']);
+gulp.task('default', ['dev-server']);
 
 // Build and watch cycle (another option for development)
 // Advantage: No server required, can run app from filesystem
@@ -107,4 +140,4 @@ gulp.task('build-dev', ['webpack:build-dev'], function () {
 });
 
 // Production build
-gulp.task('build', ['test', 'webpack:build']);
+gulp.task('build', ['test:build', 'webpack:build', 'copy']);

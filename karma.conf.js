@@ -4,6 +4,7 @@
 module.exports = function (karma) {
   var prepareWbpackConf = function (webpackConf) {
     webpackConf.devtool = 'inline-source-map';
+    webpackConf.output = {};
     return webpackConf;
   };
 
@@ -19,8 +20,8 @@ module.exports = function (karma) {
 
     // list of files / patterns to load in the browser
     files: [
-      'test/helpers/**/*.js',
-      'test/blocks/**/*.js'
+      'test-helpers/*.js',
+      'src/components/**/*.test.js'
     ],
 
     // test results reporter to use
@@ -29,7 +30,7 @@ module.exports = function (karma) {
 
     // list of preprocessors
     preprocessors: {
-      'test/blocks/**/*.js': ['webpack']
+      'src/components/**/*.test.js': ['webpack']
     },
 
     webpack: prepareWbpackConf(require('./webpack.conf.js')),
@@ -62,7 +63,7 @@ module.exports = function (karma) {
 
 
     // enable / disable watching file and executing tests whenever any file changes
-    autoWatch: false,
+    autoWatch: true,
 
 
     // Start these browsers, currently available:
@@ -74,6 +75,14 @@ module.exports = function (karma) {
     // - PhantomJS — only installed
     // - IE (only Windows)
     browsers: ['PhantomJS'],
+
+    // Custom Chrome launcher for CI use
+    customLaunchers: {
+      ChromeNoSandbox: {
+        base: 'Chrome',
+        flags: ['--no-sandbox']
+      }
+    },
 
 
     // If browser does not capture in given timeout [ms], kill it

@@ -8,11 +8,6 @@
 <body>
 <h1>React && WebPack</h1>
 
-<div id="hello-world">
-</div>
-
-<hr/>
-
 <div class="example">
   <header>Progress Bar:</header>
 
@@ -33,22 +28,88 @@
   </section>
 </div>
 
-<script type="text/javascript" src="bundle.js" charset="utf-8"></script>
-<script>
-  Ring.helloWorld({
-    firstPart: 'Jet',
-    secondPart: 'Brains'
-  }, document.getElementById('hello-world'));
+<div class="example dropdownExample">
+  <header>Dropdown:</header>
 
-  react.renderComponent(
-    Ring.ProgressBar({
-      value: 0.5
-    }),
-    document.getElementById('progress-bar'));
+  <section>
+    <div id="dropdown"></div>
+  </section>
+</div>
+
+<div class="example">
+  <header>Textarea:</header>
+
+  <section>
+    <div id="textarea">
+    </div>
+  </section>
+</div>
+
+<div class="example">
+  <header>Textarea:</header>
+
+  <section>
+    <div id="input">
+    </div>
+  </section>
+</div>
+
+
+<script type="text/javascript" src="jQuery.js" charset="utf-8"></script>
+<script type="text/javascript" src="Ring.js" charset="utf-8"></script>
+<script>
+  (function () {
+    var value = 0,
+      timeout = 500,
+      progressBar = react.renderComponent(Ring.ProgressBar({
+          value: value
+        }), document.getElementById('progress-bar'));
+
+    setTimeout(function foo() {
+      var _timeout = timeout;
+      value += 0.1;
+      if (value > 1) {
+          value = 0;
+          _timeout *= 2;
+      }
+
+      progressBar.setState({ value: value });
+
+      setTimeout(foo, _timeout);
+    }, timeout);
+  })();
 
   react.renderComponent(
     Ring.Checkbox(),
     document.getElementById('checkbox'));
+
+  react.renderComponent(
+    Ring.Textarea(),
+    document.getElementById('textarea'));
+
+  react.renderComponent(
+    Ring.Input(),
+    document.getElementById('input'));
+
+  /**
+   * @constructor
+   * @extends {ReactComponent}
+   * @mixes {Ring.DropdownMixin}
+   */
+  var CustomDropdown = react.createClass({
+    mixins: [Ring.DropdownMixin],
+
+    getInternalContent: function() {
+      return 'Hello, world';
+    }
+  });
+
+  react.renderComponent(new CustomDropdown({
+    anchorElement: document.getElementById('dropdown'),
+    angle: Ring.DropdownMixin.Angle.TOP_LEFT,
+    classNames: ['additional', 'class', 'names']
+  }), Ring.DropdownMixin.getPopupLayer());
+
 </script>
 </body>
 </html>
