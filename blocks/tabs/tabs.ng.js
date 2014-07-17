@@ -114,11 +114,11 @@
         restrict: 'E',
         transclude: true,
         scope: {
-          tabTitle: '@',
+          title: '@',
           counter: '@'
         },
         link: function (scope, element, attrs, tabsCtrl) {
-          scope.tabId = attrs.tabId || scope.tabTitle.toLowerCase();
+          scope.tabId = attrs.tabId || scope.title.toLowerCase();
           tabsCtrl.addPane(scope);
         },
         templateUrl: 'tabs/tabs__pane.ng.html',
