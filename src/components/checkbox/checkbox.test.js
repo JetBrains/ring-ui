@@ -1,7 +1,7 @@
-describe('checkobx', function () {
+describe('checkbox', function () {
   var React = require('react/addons');
   var TestUtils = React.addons.TestUtils;
-  var Checkbox = require('../../../src/blocks/checkbox/checkbox.jsx');
+  var Checkbox = require('./checkbox.jsx');
   var checkbox;
 
   function renderIntoDocument(instance) {
@@ -17,7 +17,7 @@ describe('checkobx', function () {
     expect(checkbox).toBeDefined();
   });
 
-  it('should render checkobx', function () {
+  it('should render checkbox', function () {
     expect(checkbox.getInputDOMNode().getAttribute('type')).toEqual('checkbox');
   });
 
