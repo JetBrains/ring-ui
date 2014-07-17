@@ -10,6 +10,7 @@
 
 require('./popup.scss');
 var $ = require('jquery');
+var KeyCode = require('../global/keycode.jsx');
 var React = require('react');
 
 /**
@@ -21,14 +22,6 @@ var Angle = {
   BOTTOM_RIGHT: 2,
   BOTTOM_LEFT: 3
 };                     
-
-// todo(igor.alexeenko): Move to some external file.
-/**
- * @enum {number}
- */
-var KeyCode = {
-  ESC: 27
-};
 
 /**
  * @type {HTMLElement}
