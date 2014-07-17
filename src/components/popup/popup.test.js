@@ -1,6 +1,6 @@
 describe('checkobx', function () {
   var React = require('react/addons');
-  var Popup = require('../../../src/blocks/popup/popup.jsx');
+  var Popup = require('./popup.jsx');
   var popup;
 
   function renderIntoDocument(instance) {
