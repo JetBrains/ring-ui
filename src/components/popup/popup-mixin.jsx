@@ -74,11 +74,13 @@ var PopupMixin = {
 
   /** @override */
   render: function() {
+    /* jshint ignore:start */
     return (
       <div className={this.getClassName()} style={this.getPosition_()}>
         {this.getInternalContent()}
       </div>
     );
+    /* jshint ignore:end */
   },
 
   /**
@@ -92,7 +94,7 @@ var PopupMixin = {
    * @param {jQuery.Event} evt
    * @private
    */
-  onWindowResize_: function(evt) {
+  onWindowResize_: function() {
     this.close();
   },
 
@@ -151,8 +153,8 @@ var PopupMixin = {
   getClassName: function() {
     var classNames = [];
 
-    classNames.push("ring-popup");
-    classNames.push("ring-popup_bound");
+    classNames.push('ring-popup');
+    classNames.push('ring-popup_bound');
 
     return classNames.concat(this.props.classNames || []).join(' ');
   }
