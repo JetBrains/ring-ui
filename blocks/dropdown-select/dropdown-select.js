@@ -54,6 +54,7 @@ define([
 
     if (this.type.indexOf('typed') !== -1) {
       this.type.push('typed-select');
+      this.isTyped_ = true;
     }
 
     this.shortcutsUID_ = MODULE_SHORTCUTS + uid++;
@@ -145,6 +146,7 @@ define([
   Select.prototype.requestData = function (query, top, skip) {
     var that = this;
     this.currentQuery_ = query;
+    var typed = this.isTyped_;
 
     this.dataSource(query, top, skip).then(function (data) {
       if (data.length === 0) {
@@ -155,6 +157,10 @@ define([
             label: 'No results'
           }
         ];
+
+        if (typed) {
+          data[0].type = 'error';
+        }
       }
       that.renderComponent(data);
     }, $.proxy(that, 'errorHandler'));
