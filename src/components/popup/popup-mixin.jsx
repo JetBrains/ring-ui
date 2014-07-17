@@ -22,6 +22,7 @@ var Angle = {
   BOTTOM_LEFT: 3
 };                     
 
+// todo(igor.alexeenko): Move to some external file.
 /**
  * @enum {number}
  */
@@ -41,23 +42,27 @@ var popupLayer;
 var POPUP_LAYER_CLASS_NAME = 'ring-popup-layer';
 
 /**
- * @static
- * @return {HTMLElement}
- */
-var getPopupLayer = function() {
-  if (!popupLayer) {
-    popupLayer = document.createElement('div');
-    popupLayer.className = POPUP_LAYER_CLASS_NAME;
-    document.body.appendChild(popupLayer);
-  }
-
-  return popupLayer;
-};
-
-/**
  * @mixin {PopupMixin}
  */
 var PopupMixin = {
+  statics: {
+    Angle: Angle,
+
+    /**
+     * @static
+     * @return {HTMLElement}
+     */
+    getPopupLayer: function() {
+      if (!popupLayer) {
+        popupLayer = document.createElement('div');
+        popupLayer.className = POPUP_LAYER_CLASS_NAME;
+        document.body.appendChild(popupLayer);
+      }
+
+      return popupLayer;
+    }
+  },
+
   /** @override */
   componentDidMount: function() {
     window.addEventListener('resize', this.onWindowResize_);
@@ -151,7 +156,7 @@ var PopupMixin = {
   getClassName: function() {
     var classNames = [];
 
-      classNames.push("ring-popup");
+    classNames.push("ring-popup");
     classNames.push("ring-popup_bound");
 
     return classNames.concat(this.props.classNames || []).join(' ');
@@ -159,5 +164,3 @@ var PopupMixin = {
 };
 
 module.exports = PopupMixin;
-module.exports.Angle = Angle;
-module.exports.getPopupLayer = getPopupLayer;
