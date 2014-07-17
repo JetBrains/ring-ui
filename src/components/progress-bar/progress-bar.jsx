@@ -55,6 +55,7 @@ var ProgressBar = React.createClass({
   },
 
   render: function() {
+    /* jshint ignore:start */
     var className = 'ring-progress-bar ' + this.state.className;
     var progress = {
       width: this.state.value ? this._progressValueToPercents(this.state.value) + '%' : ''
@@ -73,6 +74,7 @@ var ProgressBar = React.createClass({
         </div>
       </div>
     );
+    /* jshint ignore:end */
   }
 });
 
