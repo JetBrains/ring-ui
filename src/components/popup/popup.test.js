@@ -1,4 +1,4 @@
-describe('checkobx', function () {
+describe('popup', function () {
   var React = require('react/addons');
   var Popup = require('./popup.jsx');
   var popup;
