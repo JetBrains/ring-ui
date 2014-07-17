@@ -8,7 +8,7 @@
 
 'use strict';
 
-require('./dropdown.scss');
+require('./popup.scss');
 var $ = require('jquery');
 var React = require('react');
 
@@ -20,7 +20,7 @@ var Angle = {
   TOP_RIGHT: 1,
   BOTTOM_RIGHT: 2,
   BOTTOM_LEFT: 3
-};
+};                     
 
 /**
  * @enum {number}
@@ -55,9 +55,9 @@ var getPopupLayer = function() {
 };
 
 /**
- * @mixin {DropdownMixin}
+ * @mixin {PopupMixin}
  */
-var DropdownMixin = {
+var PopupMixin = {
   /** @override */
   componentDidMount: function() {
     window.addEventListener('resize', this.onWindowResize_);
@@ -151,8 +151,8 @@ var DropdownMixin = {
   getClassName: function() {
     var classNames = [];
 
-    classNames.push("ring-dropdown");
-    classNames.push("ring-dropdown_bound");
+      classNames.push("ring-popup");
+    classNames.push("ring-popup_bound");
 
     return classNames.concat(this.props.classNames || []).join(' ');
   },
@@ -167,6 +167,6 @@ var DropdownMixin = {
   }
 };
 
-module.exports = DropdownMixin;
+module.exports = PopupMixin;
 module.exports.Angle = Angle;
 module.exports.getPopupLayer = getPopupLayer;

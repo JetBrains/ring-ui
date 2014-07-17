@@ -4,16 +4,16 @@
  * @jsx React.DOM
  */
 
-var DropdownMixin = require('./dropdown-mixin.jsx');
+var PopupMixin = require('./popup-mixin.jsx');
 var React = require('react');
 
 /**
  * @constructor
- * @mixes {DropdownMixin}
+ * @mixes {PopupMixin}
  * @extends {ReactComponent}
  */
-var Dropdown = React.createClass({
-  mixins: [DropdownMixin],
+var Popup = React.createClass({
+  mixins: [PopupMixin],
 
   /** @override */
   propTypes: {
@@ -26,7 +26,7 @@ var Dropdown = React.createClass({
   getDefaultProps: function() {
     return {
       anchorElement: document.body,
-      position: DropdownMixin.Angle.TOP_LEFT
+      position: PopupMixin.Angle.TOP_LEFT
     }
   },
 
@@ -36,6 +36,6 @@ var Dropdown = React.createClass({
   }
 });
 
-module.exports = Dropdown;
-module.exports.Angle = DropdownMixin.angle;
-module.exports.getPopupLayer = DropdownMixin.getPopupLayer;
+module.exports = Popup;
+module.exports.Angle = PopupMixin.angle;
+module.exports.getPopupLayer = PopupMixin.getPopupLayer;
