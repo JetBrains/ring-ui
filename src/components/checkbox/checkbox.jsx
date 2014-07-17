@@ -56,6 +56,7 @@ var Checkbox = React.createClass({
   },
 
   render: function () {
+    /* jshint ignore:start */
     return (
       <span className={this.props.className}>
         {this.transferPropsTo(<input
@@ -71,6 +72,7 @@ var Checkbox = React.createClass({
         </label>
       </span>
       );
+    /* jshint ignore:end */
   }
 });
 

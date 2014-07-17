@@ -9,11 +9,13 @@ require('./textarea.scss');
 
 var Textarea = React.createClass({
   render: function () {
+    /* jshint ignore:start */
     return this.transferPropsTo(
       <textarea
         className="ring-textarea"
       />
     );
+    /* jshint ignore:end */
   }
 });
 

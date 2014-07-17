@@ -8,10 +8,12 @@ var React = require('react');
  */
 var Loader = React.createClass({
   render: function () {
+    /* jshint ignore:start */
     return this.transferPropsTo(
       <div className="ring-loader">
       </div>
     );
+    /* jshint ignore:end */
   }
 });
 

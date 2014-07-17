@@ -26,7 +26,7 @@ var Popup = React.createClass({
   getDefaultProps: function() {
     return {
       anchorElement: document.body
-    }
+    };
   },
 
   /** @override */
