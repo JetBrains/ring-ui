@@ -38,6 +38,7 @@
     "webpack-dev-server": "^1.4.3"
   },
   "dependencies": {
+    "codemirror": "^4.4.0",
     "jquery": "^2.1.1",
     "react": "^0.10.0"
   }
