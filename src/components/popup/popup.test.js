@@ -1,5 +1,5 @@
 describe('popup', function () {
-  var $ = require('jQuery');
+  var $ = require('jquery');
   var React = require('react/addons');
   var PopupMixin = require('./popup-mixin.jsx');
   var Popup = require('./popup.jsx');
