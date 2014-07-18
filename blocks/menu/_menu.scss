@@ -149,22 +149,8 @@
   height: $ring-unit*4 + 3;
 }
 
-.no-font-antialiasing .ring-menu__right .ring-font-icon_help {
-  left: $ring-unit*3;
-  margin-top: 1px;
-  background-position: -62px 0;
-
-  &:hover {
-    background-position: -62px -20px;
-  }
-}
-
 .ring-menu__item__i {
   display: inline-block;
-
-  .no-font-antialiasing & {
-    vertical-align: top;
-  }
 
   .ring-menu__item:hover & {
     text-decoration: underline;
@@ -210,9 +196,4 @@ body .ring-menu__item_active.ring-menu__item:hover {
   width: 16px;
   right: 4px;
   color: #D1D1D1;
-}
-
-// Custom search glass
-.no-font-antialiasing .ring-menu__search__glass {
-  background-position: -80px 0 !important;
 }

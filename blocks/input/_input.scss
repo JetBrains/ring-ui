@@ -117,10 +117,6 @@
   color: #CCC;
   font-size: 14px;
   line-height: $ring-unit * 3 !important;
-
-  .no-font-antialiasing &.ring-font-icon_search {
-    top: 3px;
-  }
 }
 
 // Input with icon

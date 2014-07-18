@@ -3,7 +3,6 @@ define([
   'global/global__modules',
   'global/global__views',
   'dropdown-menu/dropdown-menu',
-  'font-icon/font-icon',
   'header/_header.hbs',
   'dropdown-menu/_dropdown-menu__component.hbs',
   'jquery.actual'
