@@ -3,7 +3,6 @@ define([
   'global/global__modules',
   'global/global__views',
   'dropdown/dropdown',
-  'font-icon/font-icon',
   'menu/_menu.hbs',
   'menu/_menu__item.hbs',
   'menu/_menu__item__class.hbs',
