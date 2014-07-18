@@ -1,0 +1,73 @@
+/**
+ * @fileoverview Diff-data parser for double-paned mode
+ */
+
+var Tools = require('../Tools');
+var Parser = require('../Parser');
+var parsers = require('../Parsers');
+
+var DoublePaneParser = function () {
+};
+
+Tools.inherit(DoublePaneParser, Parser);
+Tools.addSingletonGetter(DoublePaneParser);
+
+/**
+ * In single pane mode, even modified lines displays as deleted and then
+ * inserted. If line is not needed it is folded.
+ * @override
+ */
+DoublePaneParser.prototype.availableLineTypes =
+  Parser.LineType.UNCHANGED |
+  Parser.LineType.DELETED |
+  Parser.LineType.ADDED |
+  Parser.LineType.INLINE |
+  Parser.LineType.EOL_CHANGED;
+
+/**
+ * Single-pane parser checks, whether line was added or deleted, whether
+ * it contains inline changes, and whether this changes is only changes
+ * of EOL-symbol.
+ * @override
+ */
+DoublePaneParser.prototype.modifiedParsers = [
+  parsers.addedOrDeleted,
+  parsers.EOLChanged,
+  parsers.inlineChanges
+];
+
+/**
+ * Marks whitespace chagnes as not changed blocks.
+ * @param {Array.<Parser.OutputLine>} lines
+ * @return {Array.<Parser.OutputLine>}
+ */
+DoublePaneParser.ignoreWhitespaces = function (lines) {
+  return lines.map(function (change) {
+    var whitespacesOnly = true;
+    var originalCode = change.original;
+    var modifiedCode = change.modified;
+
+    var i = originalCode.length;
+
+    while (i--) {
+      var originalChunk = originalCode[i];
+      var modifiedChunk = modifiedCode[i];
+
+      if (Boolean(originalChunk.type) &&
+        (!Tools.isEmptyString(originalChunk.code) || !Tools.isEmptyString(modifiedChunk.code))) {
+        whitespacesOnly = false;
+        break;
+      }
+    }
+
+    if (whitespacesOnly && Boolean(change.type)) {
+      var fakeChange = Tools.mixin({}, change);
+      fakeChange.type = Parser.LineType.NULL;
+      return fakeChange;
+    } else {
+      return change;
+    }
+  });
+};
+
+module.exports = DoublePaneParser;

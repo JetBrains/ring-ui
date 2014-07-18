@@ -1,0 +1,6 @@
+.ring-diff__plain-editor {
+  .CodeMirror {
+    border: solid 1px #ccc;
+    @include ring-monospace-font();
+  }
+}
