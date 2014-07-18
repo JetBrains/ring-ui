@@ -600,29 +600,6 @@ module.exports = function(grunt) {
     });
   });
 
-  grunt.registerTask('generate-sprite', 'Render font icons to png sprite', function() {
-    var phantomjs = require('phantomjs');
-
-    var done = this.async();
-
-    grunt.util.spawn({
-        cmd: phantomjs.path,
-        args: ['blocks/font-icon/font-icon.phantomjs.coffee']
-      },
-      function(err)
-      {
-        if (!err) {
-          grunt.log.ok('Sprite rendered');
-        } else {
-          grunt.warn('Something went wrong.');
-        }
-
-        done();
-      }
-    );
-
-  });
-
   grunt.registerTask('jsdoc', 'Generate jsdoc documentation', function() {
     var done = this.async();
 
@@ -689,7 +666,6 @@ module.exports = function(grunt) {
   grunt.registerTask('font', [
     'webfont',
     'styles',
-    'generate-sprite',
     'styleguide'
   ]);
 
