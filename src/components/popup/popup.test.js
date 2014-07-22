@@ -4,12 +4,13 @@ describe('popup', function () {
   var PopupMixin = require('./popup-mixin.jsx');
   var Popup = require('./popup.jsx');
 
-  function renderIntoDocument(instance) {
-    return React.renderComponent(instance, document.body);
+  function renderIntoDocument() {
+    var container = document.createElement('div');
+    return React.renderComponent(new Popup(null), container);
   }
 
   it('should create component', function () {
-    var popup = renderIntoDocument(new Popup());
+    var popup = renderIntoDocument();
     expect(popup).toBeDefined();
   });
 
@@ -27,74 +28,75 @@ describe('popup', function () {
   });
 
   it ('should be closed by pressing esc', function() {
-    var popup = renderIntoDocument(new Popup());
+    var popup = renderIntoDocument();
     var evt = document.createEvent('KeyboardEvent');
     evt.initEvent('keydown', true, false);
     evt.keyCode = 27;
     evt.key = 'Escape';
     document.body.dispatchEvent(evt);
 
-    expect(popup.getDOMNode).toThrow();
+    expect(popup.isMounted()).toEqual(false);
   });
 
   it ('should be closed by resizing window', function() {
-    var popup = renderIntoDocument(new Popup());
+    var popup = renderIntoDocument();
     var evt = document.createEvent('Event');
     evt.initEvent('resize', true, false);
     window.dispatchEvent(evt);
 
-    expect(popup.getDOMNode).toThrow();
+    expect(popup.isMounted()).toEqual(false);
   });
 
   describe('close by click', function() {
-    var container = document.createElement('div');
-    document.body.appendChild(container);
-
     var evt = document.createEvent('MouseEvent');
     evt.initEvent('click', true, false);
 
     it ('should be closed by click outside the element', function() {
-      var popup = React.renderComponent(new Popup(null), container);
+      var popup = renderIntoDocument();
       document.body.dispatchEvent(evt);
 
-      expect(popup.getDOMNode).toThrow();
+      expect(popup.isMounted()).toEqual(false);
     });
 
     it ('shouldn\'n t be closed by click inside the element', function() {
-      var popup = React.renderComponent(new Popup(null), container);
+      var popup = renderIntoDocument();
       popup.getDOMNode().dispatchEvent(evt);
 
-      expect(popup.getDOMNode()).toBeDefined();
+      expect(popup.isMounted()).toEqual(true);
     });
   });
 
   describe('positioning', function() {
-    var element = $('<div style="position: absolute; left: 50px; top: 50px; width: 50px; height: 50px;"></div>');
-
     it ('top-left angle', function() {
+      var element = $('<div style="position: absolute; width: 50px; height: 50px;"></div>');
+      var container = document.createElement('div');
+
       var popup = React.renderComponent(new Popup({
         angle: Popup.Angle.TOP_LEFT,
         anchorElement: element[0]
-      }), document.body);
+      }), container);
 
-      var popupOffset = $(popup.getDOMNode()).offset();
+      var popupElement = popup.getDOMNode();
       var elementOffset = element.offset();
 
-      expect(popupOffset.left).toEqual(elementOffset.left);
-      expect(popupOffset.top).toEqual(elementOffset.top);
+      expect(parseInt(popupElement.style.left)).toEqual(elementOffset.left);
+      expect(parseInt(popupElement.style.top)).toEqual(elementOffset.top - $(popup.getDOMNode()).height());
     });
 
     it ('bottom-left angle', function() {
+      var element = $('<div style="position: absolute; width: 50px; height: 50px;"></div>');
+      var container = document.createElement('div');
+
       var popup = React.renderComponent(new Popup({
         angle: Popup.Angle.BOTTOM_LEFT,
         anchorElement: element[0]
-      }), document.body);
+      }), container);
 
-      var popupOffset = $(popup.getDOMNode()).offset();
+      var popupElement = popup.getDOMNode();
       var elementOffset = element.offset();
 
-      expect(popupOffset.left).toEqual(elementOffset.left);
-      expect(popupOffset.top).toEqual(elementOffset.top + element.height());
+      expect(parseInt(popupElement.style.left)).toEqual(elementOffset.left);
+      expect(parseInt(popupElement.style.top)).toEqual(elementOffset.top + element.height());
     });
   });
 });
