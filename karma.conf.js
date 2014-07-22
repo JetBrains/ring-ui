@@ -39,9 +39,10 @@ module.exports = function (karma) {
     webpackServer: {
       stats: {
         colors: true
-      }
+      },
+      noInfo: true,
+      quiet: true
     },
-
 
     // web server port
     port: 9876,
