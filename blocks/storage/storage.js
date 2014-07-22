@@ -1,7 +1,5 @@
-define(['global/global__modules', 'storage-polyfill', 'json'], function (Module) {
+define(['jquery', 'storage/storage__fallback', 'json'], function ($, FallbackStorage) {
   'use strict';
-
-  var module = 'storage';
 
   var storageCorruptionWarn = function(e) {
     if(e.name === 'NS_ERROR_FILE_CORRUPTED') {
@@ -11,8 +9,14 @@ define(['global/global__modules', 'storage-polyfill', 'json'], function (Module)
     }
   };
 
-  // Read sidebar settings
-  var get = function(name) {
+  var LocalStorage = function() {
+    if (!(this instanceof LocalStorage)) {
+      return new LocalStorage();
+    }
+  };
+  var proto = LocalStorage.prototype;
+
+  proto.get = function(name) {
     var dfd = $.Deferred();
 
     try {
@@ -31,7 +35,7 @@ define(['global/global__modules', 'storage-polyfill', 'json'], function (Module)
     return dfd;
   };
 
-  var set = function(name, value) {
+  proto.set = function(name, value) {
     var dfd = $.Deferred();
 
     try {
@@ -45,17 +49,17 @@ define(['global/global__modules', 'storage-polyfill', 'json'], function (Module)
     return dfd;
   };
 
-  var has = function(name) {
+  proto.has = function(name) {
     try {
       return localStorage.hasOwnProperty(name);
     } catch (e) {}
   };
 
-  var remove = function(name) {
+  proto.remove = function(name) {
     var dfd = $.Deferred();
 
     try {
-      if (has(name)) {
+      if (this.has(name)) {
         localStorage.removeItem(name);
         dfd.resolve();
       } else {
@@ -69,7 +73,7 @@ define(['global/global__modules', 'storage-polyfill', 'json'], function (Module)
     return dfd;
   };
 
-  var each = function(callback) {
+  proto.each = function(callback) {
     var dfd = $.Deferred();
     var count = 0;
     try {
@@ -92,14 +96,16 @@ define(['global/global__modules', 'storage-polyfill', 'json'], function (Module)
     return dfd;
   };
 
-  Module.add(module, {
-    get: get,
-    set: set,
-    remove: remove,
-    each: each,
-    has: {
-      method: has,
-      override: true
+  var Storage;
+
+  // Using try/catch here because of IE10+ protected mode
+  try {
+    if (window.localStorage) {
+      Storage = LocalStorage;
     }
-  });
+  } catch(e) {
+    Storage = FallbackStorage;
+  }
+
+  return Storage;
 });
