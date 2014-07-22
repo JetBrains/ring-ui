@@ -49,17 +49,11 @@ define(['jquery', 'storage/storage__fallback', 'json'], function ($, FallbackSto
     return dfd;
   };
 
-  proto.has = function(name) {
-    try {
-      return localStorage.hasOwnProperty(name);
-    } catch (e) {}
-  };
-
   proto.remove = function(name) {
     var dfd = $.Deferred();
 
     try {
-      if (this.has(name)) {
+      if (localStorage.hasOwnProperty(name)) {
         localStorage.removeItem(name);
         dfd.resolve();
       } else {
@@ -96,13 +90,14 @@ define(['jquery', 'storage/storage__fallback', 'json'], function ($, FallbackSto
     return dfd;
   };
 
-  var Storage;
+  var Storage = LocalStorage;
 
-  // Using try/catch here because of IE10+ protected mode
+  // Using try/catch here because of IE10+ protected mode and other browsers' quirks
+  // See https://github.com/Modernizr/Modernizr/blob/master/feature-detects/storage/localstorage.js
   try {
-    if (window.localStorage) {
-      Storage = LocalStorage;
-    }
+    var test = 'testStorage';
+    localStorage.setItem(test, test);
+    localStorage.removeItem(test);
   } catch(e) {
     Storage = FallbackStorage;
   }
