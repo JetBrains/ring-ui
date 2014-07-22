@@ -3,7 +3,7 @@
 
 module.exports = function (karma) {
   var prepareWbpackConf = function (webpackConf) {
-    webpackConf.devtool = 'inline-source-map';
+    webpackConf.devtool = 'eval';
     webpackConf.output = {};
     return webpackConf;
   };
