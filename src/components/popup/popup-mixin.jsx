@@ -58,6 +58,10 @@ var PopupMixin = {
 
   /** @override */
   componentDidMount: function() {
+    var position = this.getPosition_();
+    this.getDOMNode().style.left = position.left;
+    this.getDOMNode().style.top = position.top;
+
     $(window).on('resize', this.onWindowResize_);
     $(document.body).
         on('click', this.onDocumentClick_).
@@ -76,7 +80,7 @@ var PopupMixin = {
   render: function() {
     /* jshint ignore:start */
     return (
-      <div className={this.getClassName()} style={this.getPosition_()}>
+      <div className={this.getClassName()}>
         {this.getInternalContent()}
       </div>
     );
@@ -124,22 +128,22 @@ var PopupMixin = {
    */
   getPosition_: function() {
     var anchorElement = this.props.anchorElement || document.body;
-    var angle = this.props.angle || Angle.TOP_LEFT;
 
     var anchorElementOffset = $(anchorElement).offset();
     var position;
 
-    switch (angle) {
-      case Angle.BOTTOM_LEFT:
+    switch (this.props.angle) {
+      case Angle.TOP_LEFT:
         position = {
           left: anchorElementOffset.left + 'px',
-          top: (anchorElementOffset.top + $(anchorElement).height()) + 'px'
+          top: (anchorElementOffset.top - $(this.getDOMNode()).height()) + 'px'
         };
         break;
+
       default:
         position = {
           left: anchorElementOffset.left + 'px',
-          top: anchorElementOffset.top + 'px'
+          top: (anchorElementOffset.top + $(anchorElement).height()) + 'px'
         };
         break;
     }
