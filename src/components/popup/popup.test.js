@@ -29,8 +29,15 @@ describe('popup', function () {
 
   it ('should be closed by pressing esc', function() {
     var popup = renderIntoDocument();
-    var evt = document.createEvent('KeyboardEvent');
-    evt.initEvent('keydown', true, false);
+    var evt;
+
+    try {
+      evt = new CustomEvent('keydown');
+    } catch(err) {
+      evt = document.createEvent('KeyboardEvent');
+      evt.initEvent('keydown', true, false);
+    }
+
     evt.keyCode = 27;
     evt.key = 'Escape';
     document.body.dispatchEvent(evt);
