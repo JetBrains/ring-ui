@@ -1,4 +1,4 @@
-define(['global/global', 'chai', 'q', 'storage/storage', 'storage/storage__fallback', 'chai-as-promised'], function(ring, chai, q, Storage, FallbackStorage) {
+define(['storage/storage', 'storage/storage__fallback', 'q', 'chai', 'chai-as-promised'], function(Storage, FallbackStorage, q) {
   'use strict';
 
   describe('Storage', function () {
