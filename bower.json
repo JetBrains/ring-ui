@@ -9,7 +9,6 @@
     "jquery.scrollTo": "~1.4.11",
     "json2": "*",
     "jso": "git://github.com/princed/jso.git",
-    "polyfill": "git://github.com/inexorabletash/polyfill.git",
     "raphael": "*",
     "requirejs": "~2.1.9",
     "mousetrap": "~1.4.6",

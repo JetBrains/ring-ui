@@ -1,7 +1,7 @@
-define(['global/global__modules', 'storage/storage'], function (Module) {
+define(['storage/storage'], function (Storage) {
   'use strict';
 
-  var storage = Module.get('storage');
+  var storage = new Storage();
 
   /**
    * Custom storage for jso
@@ -14,7 +14,7 @@ define(['global/global__modules', 'storage/storage'], function (Module) {
   AuthStorage.prototype.saveState = function (id, state, secondTry) {
     var self = this;
 
-    storage('set', this.stateStoragePrefix + id, state)
+    storage.set(this.stateStoragePrefix + id, state)
       .fail(function () {
         if (!secondTry && self.cleanStates()) {
           self.saveState(id, state, true);
@@ -26,9 +26,9 @@ define(['global/global__modules', 'storage/storage'], function (Module) {
     var self = this;
     var cleaned = false;
 
-    storage('each', function (item) {
+    storage.each(function (item) {
       if (item.indexOf(self.stateStoragePrefix) === 0) {
-        storage('remove', item);
+        storage.remove(item);
         cleaned = true;
       }
     }).fail(function () {
@@ -42,7 +42,7 @@ define(['global/global__modules', 'storage/storage'], function (Module) {
     var state;
     var self = this;
 
-    storage('get', this.stateStoragePrefix + id).done(function (result) {
+    storage.get(this.stateStoragePrefix + id).done(function (result) {
       state = result;
       self.cleanStates();
     });
@@ -51,13 +51,13 @@ define(['global/global__modules', 'storage/storage'], function (Module) {
   };
 
   AuthStorage.prototype.saveTokens = function (provider, tokens) {
-    storage('set', this.tokensStoragePrefix + provider, tokens);
+    storage.set(this.tokensStoragePrefix + provider, tokens);
   };
 
   AuthStorage.prototype.getTokens = function (provider) {
     var tokens = [];
 
-    storage('get', this.tokensStoragePrefix + provider).done(function (result) {
+    storage.get(this.tokensStoragePrefix + provider).done(function (result) {
       tokens = result;
     });
 
@@ -65,7 +65,7 @@ define(['global/global__modules', 'storage/storage'], function (Module) {
   };
 
   AuthStorage.prototype.wipeTokens = function (provider) {
-    storage('remove', this.tokensStoragePrefix + provider);
+    storage.remove(this.tokensStoragePrefix + provider);
   };
 
   return AuthStorage;
