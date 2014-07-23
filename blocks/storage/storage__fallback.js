@@ -38,6 +38,10 @@ define(['jquery', 'json'], function ($) {
   }
 
   var FallbackStorage = function(config) {
+    if (!(this instanceof FallbackStorage)) {
+      return new FallbackStorage();
+    }
+
     this.cookieName = config && config.cookieName || DEFAULT_COOKIE_NAME;
   };
 

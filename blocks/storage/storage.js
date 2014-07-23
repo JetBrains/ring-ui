@@ -1,4 +1,4 @@
-define(['jquery', 'storage/storage__fallback', 'json'], function ($, FallbackStorage) {
+define(['jquery', 'storage/storage__fallback', 'global/global__modules', 'json'], function ($, FallbackStorage, Module) {
   'use strict';
 
   var storageCorruptionWarn = function(e) {
@@ -101,6 +101,13 @@ define(['jquery', 'storage/storage__fallback', 'json'], function ($, FallbackSto
   } catch(e) {
     Storage = FallbackStorage;
   }
+
+  Module.add('storage', {
+    getStorage: {
+      method: Storage,
+      override: true
+    }
+  });
 
   return Storage;
 });
