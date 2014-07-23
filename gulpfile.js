@@ -85,7 +85,7 @@ gulp.task('webpack-dev-server', function () {
     });
 });
 
-gulp.task('dev-server', function() {
+gulp.task('dev-server', function () {
   nodemon({
     exec: ['webpack-dev-server', '--port=' + (gulp.env.port || '')],
     watch: [
@@ -96,7 +96,7 @@ gulp.task('dev-server', function() {
   });
 });
 
-gulp.task('lint', function() {
+gulp.task('lint', function () {
   return gulp.src(pkgConfig.src + '/components/**/*.{js,jsx}')
     .pipe(jshint())
     .pipe(jshint.reporter('default'))
@@ -131,9 +131,13 @@ gulp.task('test:build', function () {
     });
 });
 
-gulp.task('copy', ['clean'], function() {
-  return gulp.src([pkgConfig.src + '/**/*.{jsx,scss,png,svg,ttf,woff,eof}', 'package.json', 'webpack.conf.js'])
-    .pipe(gulp.dest(pkgConfig.dist));
+gulp.task('copy', ['clean'], function () {
+  return gulp.src([
+      pkgConfig.src + '/**/*.{jsx,js,scss,png,svg,ttf,woff,eof}',
+      '!' + pkgConfig.src + '/**/*.test.js',
+      'package.json',
+      'webpack.conf.js'
+  ]).pipe(gulp.dest(pkgConfig.dist));
 });
 
 //The development server (the recommended option for development)
