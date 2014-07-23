@@ -66,13 +66,16 @@
 .ring-dialog__container {
   font-size: 12px;
 
-  position: relative;
+  position: absolute;
   z-index: 2;
 
   display: block;
 
+  top: 20%;
+  left: 0;
+  right: 0;
   width: $ring-unit * 50;
-  margin: 10% auto 0;
+  margin: 0 auto;
   padding: 0;
 
   text-align: left;
