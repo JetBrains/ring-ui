@@ -1,8 +1,10 @@
 /**
  * @author maxim.mazin
  * @fileoverview AngularJS directive that proxies React components.
- * Variable 'angular' is expected to exist in a global scope.
  */
+
+/* global Ring: false */
+/* global angular: false */
 
 var React = require('react/addons');
 
@@ -16,7 +18,13 @@ reactModule.directive('react', [
         reactState: '&'
       },
       link: function (scope, element) {
-        var ComponentClass = window[scope.react];
+        if (!Ring) {
+          throw Error('Ring is not defined');
+        }
+        var ComponentClass = Ring[scope.react];
+        if (!ComponentClass){
+          throw Error('Component Ring.' + scope.react + 'is not registered');
+        }
         React.renderComponent(new ComponentClass(scope.reactState()), element);
       }
     };
