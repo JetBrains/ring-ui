@@ -3,12 +3,13 @@
  * @fileoverview AngularJS directive that proxies React components.
  */
 
-/* global Ring: false */
 /* global angular: false */
 
 var React = require('react/addons');
 
 var reactModule = angular.module('Ring.react-ng', []);
+
+var Ring = {};
 
 reactModule.directive('react', [
   function () {
@@ -18,15 +19,16 @@ reactModule.directive('react', [
         reactState: '&'
       },
       link: function (scope, element) {
-        if (!Ring) {
-          throw Error('Ring is not defined');
-        }
         var ComponentClass = Ring[scope.react];
         if (!ComponentClass) {
-          throw Error('Component Ring.' + scope.react + 'is not registered');
+          throw Error('Component ' + scope.react + ' is not registered');
         }
-        React.renderComponent(new ComponentClass(scope.reactState()), element);
+        React.renderComponent(new ComponentClass(scope.reactState()), element[0]);
       }
     };
   }
 ]);
+
+module.exports = function(ring_components) {
+  Ring = ring_components;
+};
