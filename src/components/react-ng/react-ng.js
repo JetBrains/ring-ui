@@ -22,7 +22,7 @@ reactModule.directive('react', [
           throw Error('Ring is not defined');
         }
         var ComponentClass = Ring[scope.react];
-        if (!ComponentClass){
+        if (!ComponentClass) {
           throw Error('Component Ring.' + scope.react + 'is not registered');
         }
         React.renderComponent(new ComponentClass(scope.reactState()), element);
