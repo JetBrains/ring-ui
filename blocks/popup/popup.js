@@ -133,7 +133,7 @@ define([
   };
 
   var showLoader = function () {
-    if (!jQuery.contains(document, this.el[0])) {
+    if (!$.contains(document, this.el[0])) {
       $body.append(this.el).find(CONTAINER_SELECTOR).
         parent().
         css(this.getPos());
@@ -141,7 +141,7 @@ define([
   };
 
   var appendHTML = function ($el) {
-    if (!jQuery.contains(document, this.el[0])) {
+    if (!$.contains(document, this.el[0])) {
       $body.append(this.el).find(CONTAINER_SELECTOR).empty();
     }
     return this.el.
