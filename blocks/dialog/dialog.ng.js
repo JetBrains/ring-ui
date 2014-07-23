@@ -93,7 +93,6 @@
                   return false;
                 }
                 iDialogContainer.css({
-                  'position': 'absolute',
                   'top': top + 'px',
                   'left': left + 'px',
                   'margin': '0'
