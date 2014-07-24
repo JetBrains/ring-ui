@@ -303,7 +303,7 @@ define(['jquery', 'jso', 'global/global__modules', 'global/global__utils', 'auth
     },
     getUser: {
       method: function () {
-        return get(API_PROFILE_PATH);
+        return getToken(true) && get(API_PROFILE_PATH);
       },
       override: true
     }
