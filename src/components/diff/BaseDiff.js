@@ -83,7 +83,7 @@ Diff.Mode = {
  * Lookup table of {@code Diff.Mode}s to their text description.
  * @type {Object.<Diff.Mode, string>}
  */
-Diff.modeToNameConverter = Tools.createObject(
+Diff.modeToName = Tools.createObject(
   Diff.Mode.ALL_, 'ALL',
   Diff.Mode.BINARY, 'BINARY',
   Diff.Mode.DOUBLE_PANE, 'DOUBLE_PANE',
@@ -94,7 +94,7 @@ Diff.modeToNameConverter = Tools.createObject(
   Diff.Mode.NULL, ''
 );
 
-Diff.NoSuchModeException = new Tools.NoSuchModeExceptionFactory('Diff', Diff.modeToNameConverter);
+Diff.NoSuchModeException = new Tools.NoSuchModeExceptionFactory('Diff', Diff.modeToName);
 
 /**
  * @enum {string}
@@ -305,41 +305,5 @@ Diff.prototype.dispose = function () {
   this.mode_ = null;
 };
 
-/**
- * Factory, which creates {@code Diff} instance in a certain mode and
- * automatically sets content.
- * @param {Element} element
- * @param {string} contentOriginal
- * @param {string} contentModified
- * @param {Array.<Parser.LineModification>} diff
- * @param {Diff.Mode} mode
- * @return {Diff}
- */
-function decorateDiffTool(element, contentOriginal, contentModified, diff, mode) {
-  var diffInstance = new Diff(element, mode);
-  diffInstance.setContent(contentOriginal, contentModified, diff);
-  return diffInstance;
-}
+module.exports = Diff;
 
-module.exports = {
-  Mode: Diff.Mode,
-
-  getDiffTool: function () {
-    return Diff;
-  },
-
-  Plain: function (element, contentOriginal, contentModified, diff) {
-    return decorateDiffTool(element, contentOriginal, contentModified,
-      diff, Diff.Mode.PLAIN_FILE);
-  },
-
-  SinglePane: function (element, contentOriginal, contentModified, diff) {
-    return decorateDiffTool(element, contentOriginal, contentModified,
-      diff, Diff.Mode.SINGLE_PANE);
-  },
-
-  DoublePane: function (element, contentOriginal, contentModified, diff) {
-    return decorateDiffTool(element, contentOriginal, contentModified,
-      diff, Diff.Mode.DOUBLE_PANE);
-  }
-};
