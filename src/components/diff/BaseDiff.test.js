@@ -2,7 +2,6 @@
 
 describe('Diff', function () {
   var BaseDiff = require('./BaseDiff');
-  var DiffTool = BaseDiff.getDiffTool();
   var diffDataMock = {
     original: 'original',
     modified: 'modified',
@@ -17,19 +16,19 @@ describe('Diff', function () {
   var dInstance;
 
   beforeEach(function () {
-    dInstance = new DiffTool();
+    dInstance = new BaseDiff();
   });
 
   it('should create instance', function () {
-    expect(dInstance).toBeInstanceOf(DiffTool);
+    expect(dInstance).toBeInstanceOf(BaseDiff);
   });
 
   it('should have enumerable list of modes.', function () {
-    expect(DiffTool.Mode).toBeDefined();
+    expect(BaseDiff.Mode).toBeDefined();
   });
 
   it('should create sinle pane diff by default', function () {
-    expect(dInstance.getMode()).toEqual(DiffTool.Mode.SINGLE_PANE);
+    expect(dInstance.getMode()).toEqual(BaseDiff.Mode.SINGLE_PANE);
   });
 
   it('should create container by default', function () {
@@ -40,24 +39,25 @@ describe('Diff', function () {
     var element = document.createElement('div');
     this.DOMContainer.appendChild(element);
 
-    dInstance = new DiffTool(element, DiffTool.Mode.PLAIN_FILE);
+    dInstance = new BaseDiff(element, BaseDiff.Mode.PLAIN_FILE);
 
-    expect(dInstance.getMode()).toEqual(DiffTool.Mode.PLAIN_FILE);
+    expect(dInstance.getMode()).toEqual(BaseDiff.Mode.PLAIN_FILE);
     expect(dInstance.getElement()).toEqual(element);
   });
 
   it('should normalizes given parameters and replace them to default values if they are not correct', function () {
-    dInstance = new DiffTool(undefined, DiffTool.Mode.ALL);
+    dInstance = new BaseDiff(undefined, BaseDiff.Mode.ALL);
 
     expect(dInstance.getElement().tagName).toEqual('DIV');
-    expect(dInstance.getMode()).toEqual(DiffTool.Mode.SINGLE_PANE);
+    expect(dInstance.getMode()).toEqual(BaseDiff.Mode.SINGLE_PANE);
   });
 
   it('should initialize plain diff', function () {
     var element = document.createElement('div');
     this.DOMContainer.appendChild(element);
 
-    var plainDiff = BaseDiff.Plain(element,
+    var plainDiff = new BaseDiff(element, BaseDiff.Mode.PLAIN_FILE);
+    plainDiff.setContent(
       diffDataMock.original,
       diffDataMock.modified,
       diffDataMock.diff
@@ -73,7 +73,8 @@ describe('Diff', function () {
     var element = document.createElement('div');
     this.DOMContainer.appendChild(element);
 
-    dInstance = BaseDiff.SinglePane(element,
+    var dInstance = new BaseDiff(element, BaseDiff.Mode.SINGLE_PANE);
+    dInstance.setContent(
       diffDataMock.original,
       diffDataMock.modified,
       diffDataMock.diff
@@ -82,7 +83,7 @@ describe('Diff', function () {
     expect(dInstance).toBeDefined();
   });
 
-  it('Every item of list DiffTool.Mode is a number and it bites ' +
+  it('Every item of list BaseDiff.Mode is a number and it bites ' +
     'does not intersect with bites of other items, so every ' +
     'item can be used as bit mask.', function () {
 
@@ -92,15 +93,15 @@ describe('Diff', function () {
      of them enabled or disabled.
      */
     var skipModes = {};
-    skipModes[DiffTool.Mode.ALL] = true;
-    skipModes[DiffTool.Mode.NONE] = true;
+    skipModes[BaseDiff.Mode.ALL] = true;
+    skipModes[BaseDiff.Mode.NONE] = true;
 
     var currentState = 0x00;
     var currentMode;
 
-    for (var modeID in DiffTool.Mode) {
-      if (DiffTool.Mode.hasOwnProperty(modeID)) {
-        currentMode = DiffTool.Mode[modeID];
+    for (var modeID in BaseDiff.Mode) {
+      if (BaseDiff.Mode.hasOwnProperty(modeID)) {
+        currentMode = BaseDiff.Mode[modeID];
         expect(typeof currentMode).toBe('number');
 
         if (!(currentMode in skipModes)) {
@@ -111,31 +112,31 @@ describe('Diff', function () {
     }
   });
 
-  it('Every instance of DiffTool has a bit mask of available modes ' +
+  it('Every instance of BaseDiff has a bit mask of available modes ' +
     'and those mods are taken from list of modes and was not ' +
     'randomly made up', function () {
-    expect(typeof DiffTool.prototype.availableModes).toBe('number');
+    expect(typeof BaseDiff.prototype.availableModes).toBe('number');
 
-    for (var modeID in DiffTool.Mode) {
-      if (DiffTool.Mode.hasOwnProperty(modeID)) {
-        expect(Boolean(DiffTool.Mode[modeID] |
-          DiffTool.prototype.availableModes)).toBeTruthy();
+    for (var modeID in BaseDiff.Mode) {
+      if (BaseDiff.Mode.hasOwnProperty(modeID)) {
+        expect(Boolean(BaseDiff.Mode[modeID] |
+          BaseDiff.prototype.availableModes)).toBeTruthy();
       }
     }
   });
 
   it('should not set mode, which is not listed in available modes list', function () {
-    dInstance.setMode(DiffTool.Mode.SINGLE_PANE);
-    dInstance.setMode(DiffTool.Mode.TRIPLE_PANE);
+    dInstance.setMode(BaseDiff.Mode.SINGLE_PANE);
+    dInstance.setMode(BaseDiff.Mode.TRIPLE_PANE);
 
     expect(dInstance.getMode()).toEqual(
-      DiffTool.Mode.SINGLE_PANE);
+      BaseDiff.Mode.SINGLE_PANE);
   });
 
   it('should disable previous controller between switch mode', function () {
     var prevController = dInstance.getController();
 
-    dInstance.setMode(DiffTool.Mode.PLAIN_FILE);
+    dInstance.setMode(BaseDiff.Mode.PLAIN_FILE);
 
     expect(dInstance.getController().isEnabled()).toEqual(true);
     expect(prevController.isEnabled()).toEqual(false);
