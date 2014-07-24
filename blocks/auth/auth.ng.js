@@ -54,9 +54,12 @@
           return {
             'installAuthHeader': function () {
               // Install Authorization header getter
-              $http.defaults.headers.common['Authorization'] = function () {
-                return 'Bearer ' + auth('getToken');
-              };
+              var token = auth('getToken', true);
+              if (token) {
+                $http.defaults.headers.common['Authorization'] = function () {
+                  return 'Bearer ' + token;
+                };
+              }
             },
             'getUser': function () {
               return auth('getUser');
