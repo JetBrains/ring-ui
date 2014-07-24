@@ -6,22 +6,13 @@
 
 var React = require('react/addons');
 var BaseDiff = require('./BaseDiff');
-var Tools = require('./Tools');
 var ReactPropTypes = React.PropTypes;
 
 require('./diff.scss');
 
-var DiffMode = BaseDiff.Mode;
-
-var DiffFactory = Tools.createObject(
-  DiffMode.SINGLE_PANE, BaseDiff.SinglePane,
-  DiffMode.DOUBLE_PANE, BaseDiff.DoublePane,
-  DiffMode.PLAIN_FILE, BaseDiff.Plain
-);
-
 var Diff = React.createClass({
   statics: {
-    Mode: DiffMode
+    Mode: BaseDiff.Mode
   },
   propTypes: {
     originalContent: ReactPropTypes.string.isRequired,
@@ -31,15 +22,15 @@ var Diff = React.createClass({
   },
   getDefaultProps: function () {
     return {
-      mode: DiffMode.SINGLE_PANE
+      mode: BaseDiff.Mode.SINGLE_PANE
     };
   },
   getCurrentMode: function () {
     return this.props.mode;
   },
   componentDidMount: function () {
-    this.diff_ = DiffFactory[this.getCurrentMode()](
-      this.getDOMNode(),
+    this.diff_ = new BaseDiff(this.getDOMNode(), this.getCurrentMode());
+    this.diff_.setContent(
       this.props.originalContent,
       this.props.modifiedContent,
       this.props.diff
@@ -51,7 +42,7 @@ var Diff = React.createClass({
   render: function () {
     var mode = this.getCurrentMode();
 
-    if (mode === DiffMode.PLAIN_FILE || mode === DiffMode.SINGLE_PANE) {
+    if (mode === BaseDiff.Mode.PLAIN_FILE || mode === BaseDiff.Mode.SINGLE_PANE) {
       return this.transferPropsTo(React.DOM.div({
         className: 'ring-diff'
       }));

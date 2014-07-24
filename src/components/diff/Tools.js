@@ -856,13 +856,13 @@ Tools.style.removeAnimationVendorRule = function (element, rule) {
 /**
  * Fired, when mode is not supported by {@link Diff}.
  * @param {String} namespace
- * @param {Object} modeToNameConverter
+ * @param {Object} modeToName
  * @constructor
  */
-Tools.NoSuchModeExceptionFactory = function (namespace, modeToNameConverter) {
+Tools.NoSuchModeExceptionFactory = function (namespace, modeToName) {
   var NoSuchModeException = function (mode) {
     this.name = 'Tools.NoSuchModeException';
-    this.message = namespace + ': ' + 'Unsupported mode ' + modeToNameConverter[mode] + '.';
+    this.message = namespace + ': ' + 'Unsupported mode ' + modeToName[mode] + '.';
   };
   Tools.inherit(NoSuchModeException, Error);
   return NoSuchModeException;
