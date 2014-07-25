@@ -78,8 +78,7 @@ PlainEditorController.prototype.getEditor = function () {
 };
 
 /**
- * Returns {@code Object} which represents parameters for {@link CodeMirror}
- * editor's instance.
+ * Returns an editor properties object.
  * @static
  * @return {Object}
  */

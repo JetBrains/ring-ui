@@ -27,36 +27,38 @@ var DoubleEditorController = function (element) {
 Tools.inherit(DoubleEditorController, EditorController);
 
 /**
- * Approximate time, which needed to correctly scroll opposite editor.
+ * Approximate time needed to correctly scroll the opposite editor.
  * @type {number}
  * @const
  */
 DoubleEditorController.SCROLL_TIMEOUT = 200;
 
 /**
- * Equator ratio is a ratio of height of editor on which speed of scrolling
- * of chunks of corresponding code in opposite editor changes.
+ * Equator ratio is a ratio of editor height at which scrolling speed
+ * of chunks of corresponding code in the opposite editor changes.
  * @type {number}
  * @const
  */
 DoubleEditorController.EQUATOR_RATIO = 0.5;
 
 /**
- * ID of coloring mode for {@link CodeMirror} in which we colorize lines.
+ * Line coloring mode for {@link CodeMirror}.
+ * http://codemirror.net/doc/manual.html#addLineClass
  * @type {string}
  * @const
  */
 DoubleEditorController.EDITOR_MODE = 'background';
 
 /**
- * ID of mode in which {@link CodeMirror} counts offsets of lines.
+ * Offset calculation mode for {@link CodeMirror}.
+ * http://codemirror.net/doc/manual.html#coordsChar
  * @type {string}
  * @const
  */
 DoubleEditorController.EDITOR_SCREEN_MODE = 'local';
 
 /**
- * Classes, which appends to lines in {@link CodeMirror}.
+ * Line classes for {@link CodeMirror}.
  * @enum {string}
  */
 DoubleEditorController.LineClass = {
@@ -70,7 +72,7 @@ DoubleEditorController.LineClass = {
 };
 
 /**
- * Classes, which appends to chars to highlight inline changes.
+ * Character classes (highlighting of inline changes).
  * @enum {string}
  */
 DoubleEditorController.CharsClass = {
@@ -80,10 +82,10 @@ DoubleEditorController.CharsClass = {
   UNCHANGED: ''
 };
 
-// todo(igor.alexeenko): Check, whether old IE supports classes for VML
+// todo(igor.alexeenko): Check whether old IE supports classes for VML
 // elements or should I have to implement this another way.
 /**
- * Classes, which applies to SVG connectors
+ * SVG connector classes
  * @enum {string}
  */
 DoubleEditorController.ConnectorClass = {
@@ -105,7 +107,7 @@ DoubleEditorController.MapClass = {
 };
 
 /**
- * Selectors of editor DOM-elements.
+ * Selectors of editor DOM elements.
  * @enum {string}
  */
 DoubleEditorController.CssSelector = {
@@ -142,7 +144,7 @@ DoubleEditorController.getEditorOptions = function () {
 };
 
 /**
- * Counts maximal value, which can be set to instance of {@link CodeMirror}
+ * Counts maximum value that can be set to instance of {@link CodeMirror}
  * without corrupting its scroll. Used to synchronize horizontal scroll.
  * @static
  * @param {CodeMirror} editor
@@ -155,7 +157,7 @@ DoubleEditorController.getMaxScroll_ = function (editor) {
 };
 
 /**
- * Whether to display whitespaces changes.
+ * Whether to display whitespace changes.
  * @type {boolean}
  * @private
  */
@@ -259,7 +261,7 @@ DoubleEditorController.prototype.setUsedValues = function (values) {
 };
 
 /**
- * Add unified scroll for both editors and draw a connectors between
+ * Adds synchronized scroll to both editors and draws connectors between
  * them.
  * @private
  */
@@ -538,11 +540,8 @@ DoubleEditorController.prototype.syncScroll_ = function (editor) {
 };
 
 /**
- * Equator is a line, on which speed of scrolling of chunk of code in opposite
- * editor corrects to synchronize scrolling and make two editors show
- * corresponding parts of code. Basically this line is the middle of the
- * editor, but in case, when there are a few code below this line goes down
- * to finish scrolling of both editors at the same moment.
+ * Equator is a line at which the speed of scrolling of one of the fragments changes
+ * to maintain equal scroll position.
  * @param {CodeMirror} editor
  * @return {number}
  * @private
@@ -563,8 +562,8 @@ DoubleEditorController.prototype.getEquator_ = function (editor) {
 };
 
 /**
- * Enables/disabled event listeners on editor, which causes correction
- * of scroll position of opposite editor.
+ * Enables/disables editor scroll listeners which causes correction
+ * of scroll position of the opposite editor.
  * @param {CodeMirror} editor
  * @param {boolean} enabled
  * @private
@@ -588,8 +587,8 @@ DoubleEditorController.prototype.setEditorScrollHandlerEnabled_ = function (edit
 };
 
 /**
- * Returns true if below height of code below the bottom line of editor
- * is lower than offset to equator, which means that code below may not
+ * Returns true if the height of code below the bottom of the editor viewport
+ * is smaller than offset to equator, which means that code below may not
  * ever reach equator.
  * @return {boolean}
  * @private
@@ -709,8 +708,8 @@ DoubleEditorController.prototype.setCurrentChangeInternal = function (change, op
 };
 
 /**
- * Checks index of currently selected offset and makes some buttons disabled
- * if needeTools.
+ * Checks index of currently selected offset and makes up/down buttons disabled
+ * if needed.
  * @private
  */
 DoubleEditorController.prototype.checkMenu_ = function () {
@@ -848,8 +847,7 @@ DoubleEditorController.getLineClass = function (type, lineIndex, from, to, opt_n
   var classes = [];
 
   /**
-   * Array of types, which are used in detection of CSS-class for current
-   * line.
+   * Array of types, which are used in detection of CSS class for th current line.
    * @type {Array.<Parser.LineType>}
    */
   var usedTypes = [
@@ -860,7 +858,7 @@ DoubleEditorController.getLineClass = function (type, lineIndex, from, to, opt_n
   ];
 
   /**
-   * Lookup table of line-types to CSS-classes.
+   * Lookup table of line types to CSS classes.
    * @type {Object.<Parser.LineType, string>}
    */
   var typeToLineClass = Tools.createObject(
@@ -874,7 +872,7 @@ DoubleEditorController.getLineClass = function (type, lineIndex, from, to, opt_n
     DoubleEditorController.LineClass.MODIFIED);
 
   /**
-   * Lookup table of line-types to CSS-classes, which are used for lines
+   * Lookup table of line types to CSS classes, which are used for lines
    * before deleted or added line of code.
    * @type {Object.<Parser.LineType, string>}
    */
