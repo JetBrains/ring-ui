@@ -57,7 +57,7 @@ CodeMirrorHelper.prototype.getOperationBuffer = function (editor) {
 };
 
 /**
- * Adds operation to execute.
+ * Adds operation to the execution queue.
  * @param {CodeMirror} editor
  * @param {function} operation
  */
@@ -67,7 +67,7 @@ CodeMirrorHelper.prototype.addOperation = function (editor, operation) {
 };
 
 /**
- * Executes all operations from buffer.
+ * Executes all operations from the queue.
  * @param {CodeMirror} editor
  */
 CodeMirrorHelper.prototype.executeOperationBuffer = function (editor) {

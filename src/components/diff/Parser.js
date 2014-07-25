@@ -79,34 +79,11 @@ Parser.OutputLineContent = {};
  * @enum {number}
  */
 Parser.LineType = {
-  /**
-   * Null state.
-   */
   NULL: 0x00,
-
-  /**
-   * Line, deleted in modified code.
-   */
   DELETED: 0x01,
-
-  /**
-   * Line, added to modified code.
-   */
   ADDED: 0x02,
-
-  /**
-   * Line with inline changes.
-   */
   INLINE: 0x04,
-
-  /**
-   * End-of-line symbol changed.
-   */
   EOL_CHANGED: 0x08,
-
-  /**
-   * Contains only whitespace changes.
-   */
   WHITESPACE: 0x10
 };
 
@@ -223,7 +200,7 @@ Parser.prototype.parse = function (original, modified, diff) {
 };
 
 /**
- * Splits chunk of code to little chunks, which are marks as changed, deleted,
+ * Splits chunk of code to little chunks, which are marked as changed, deleted,
  * added or unchanged.
  * @param {Parser.OutputLine} chunk
  * @param {Array.<Parser.InlineModification>} ranges
@@ -311,7 +288,7 @@ Parser.getInlinePosition = function (charNumber, codeLines) {
 };
 
 /**
- * Creates object, which represents chunk of code.
+ * Object representing a chunk of code.
  * @static
  * @param {Array.<string>} original
  * @param {Array.<string>} modified
@@ -335,7 +312,7 @@ Parser.getChunk = function (original, modified, originalFrom, originalTo, modifi
 };
 
 /**
- * Returns object, which represents part of inline changes in chunk of code.
+ * Object representing inline changes in a chunk of code.
  * @static
  * @param {string} code
  * @param {Parser.LineType} type
@@ -353,14 +330,14 @@ Parser.getInlineChunk = function (code, type, from, to) {
 };
 
 /**
- * List of parsers, which will be applied to unchanged code.
+ * Parsers that will be applied to unchanged code.
  * @type {Array}
  * @protected
  */
 Parser.prototype.unchangedParsers = [];
 
 /**
- * List of parsers, which will be applied to modified code.
+ * Parsers that will be applied to modified code.
  * @type {Array}
  * @protected
  */

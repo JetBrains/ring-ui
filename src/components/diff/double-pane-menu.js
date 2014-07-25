@@ -1,5 +1,5 @@
 /**
- * @fileoverview Menu for double pane diff.
+ * @fileoverview Tools menu for double pane diff.
  * @author igor.alexeenko (Igor Alekseyenko)
  */
 
