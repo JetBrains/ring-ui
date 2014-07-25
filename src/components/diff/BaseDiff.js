@@ -1,9 +1,7 @@
 /**
- * @fileoverview DiffTool — tool, which allows to display diff of two files
- * in single-, double- and triple-pane modes. In multi-pane mode content might
- * be editable, but this is optional. In multi-pane modes there are connectors
- * between changed parts of code in different panels. When scroll the through
- * the connector, speed of scrolling in part in which more code increases.
+ * @fileoverview DiffTool — a tool for displaying a diff of two files
+ * in single-, double- and triple-pane modes. In multi-pane mode content can
+ * be edited (optionally).
  * @author igor.alexeenko (Igor Alekseyenko)
  */
 
@@ -35,46 +33,43 @@ var Diff = function (opt_element, opt_mode) {
 };
 
 /**
- * IDs of modes in which Diff might work
+ * Mode IDs
  * @enum {number}
  */
 Diff.Mode = {
   /**
-   * Shortcut, which allows to check, whether all modes are disableTools.
+   * All modes are disabled
    */
   NONE_: 0x00,
 
   /**
-   * Shortcut for all enabled modes.
+   * All modes are enabled
    */
   ALL_: 0xFF,
 
   /**
-   * Diff displays as single pane with code which displays similarly to
-   * patch files — lines of deleted code and then, lines of new code.
+   * Single-pane, similar to patch file
    */
   SINGLE_PANE: 0x01,
 
   /**
-   * Diff displays as two separate editors with original code in left
-   * part and modified code in right part. Optionally, content in original
-   * editor might be editable.
+   * Two-pane diff with original content on the left, modified content on the right. Original
+   * content can be made editable.
    */
   DOUBLE_PANE: 0x02,
 
   /**
-   * Not impletented yet.
+   * Not implemented yet.
    */
   TRIPLE_PANE: 0x04,
 
   /**
-   * If content of one of files is missing, shows content of file without
-   * any other marks.
+   * Shows contents of a file without any marks if one of the files is missing.
    */
   PLAIN_FILE: 0x08,
 
   /**
-   * Not implemented yet. Will show two contents of binary files.
+   * Not implemented yet. Original/modified content of binary file.
    */
   BINARY: 0x10
 };
@@ -104,14 +99,14 @@ Diff.EventType = {
 };
 
 /**
- * Mode in which Diff initializes by default.
+ * Default mode.
  * @type {number}
  * @protected
  */
 Diff.prototype.defaultMode = Diff.Mode.SINGLE_PANE;
 
 /**
- * Modes, which are available for current Diff.
+ * Available modes.
  * @type {number}
  * @protected
  */
@@ -121,9 +116,8 @@ Diff.prototype.availableModes =
   Diff.Mode.DOUBLE_PANE;
 
 /**
- * Bit mask of current mode of Diff. Default value is
- * {@link Diff.Mode.NONE_} but it overrides in constructor on
- * initialization of module.
+ * Current mode. Default value is
+ * {@link Diff.Mode.NONE_}, it can be overridden in the constructor.
  * @type {Diff.Mode}
  * @private
  */
@@ -223,9 +217,7 @@ Diff.prototype.getController = function () {
 };
 
 /**
- * Sets content to controller, but first, checks, whether selected mode
- * is correct for given content. If not, changes mode and sets content
- * to according controller.
+ * Checks whether the selected mode is suitable for given content, then sets content.
  * @param {string} original
  * @param {string} modified
  * @param {Array.<Parser.LineModification>} diff
@@ -243,7 +235,7 @@ Diff.prototype.setContent = function (original, modified, diff, opt_refresh) {
 
 /**
  * Returns {@link Diff.Mode.NONE_} if content fits for selected mode.
- * Otherwise, returns the best mode, which can be applied to editor.
+ * Otherwise, returns the best mode that can be applied to editor.
  * @static
  * @param {string} original
  * @param {string} modified
@@ -283,8 +275,7 @@ Diff.prototype.getElement = function () {
 };
 
 /**
- * Prepares to be deleted by disabling all controllers to remove event
- * handlers from them and by removing all instance properties.
+ * Prepares to be destroyed by disabling all controllers, removing event listeners, removing instance properties.
  */
 Diff.prototype.dispose = function () {
   if (this.isDisposed) {

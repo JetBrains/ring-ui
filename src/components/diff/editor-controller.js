@@ -1,6 +1,6 @@
 /**
- * @fileoverview Base editor controller. Class, which abstracts interactions
- * with editor for DiffTool and represents basic interface: enabling, disabling,
+ * @fileoverview Base editor controller. Abstracts editor interactions
+ * and provides a basic interface: enabling, disabling,
  * setting content, setting editor editable.
  * @author igor.alexeenko (Igor Alekseyenko)
  */
@@ -68,7 +68,7 @@ EditorController.prototype.setContent = function (original, modified, diff, opt_
 
   if (this.diff_ !== diff) {
     /**
-     * Information about difference between original and modified content.
+     * Description of differences between original and modified content.
      * @type {Array.<Parser.LineModification>}
      * @private
      */

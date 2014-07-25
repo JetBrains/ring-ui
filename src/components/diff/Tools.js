@@ -39,7 +39,7 @@ Tools.capitalizeFirstLetter = function (word) {
 };
 
 /**
- * ID's for different kinds of regular expressions.
+ * IDs for different kinds of regular expressions.
  * @enum {string}
  */
 Tools.EOLType = {
@@ -60,7 +60,7 @@ Tools.EOLRegex = {
 };
 
 /**
- * Check, whether given symbol is end-of-line.
+ * Checks whether given symbol is end-of-line.
  * @param {string} str
  * @return {boolean}
  */
@@ -126,9 +126,8 @@ Tools.getEOL = function (str) {
 };
 
 /**
- * Appends script element to page to asynchronously download some logic,
- * implemented in external JavaScript file. When file is loaded, callback
- * called with given context. If context is not defined, callback called
+ * Asynchronously loads a JS file. When the file is loaded, the callback
+ * called with the context provided. If context is not provided, callback is called
  * with global context.
  * @param {string} path
  * @param {function} callback
@@ -148,8 +147,7 @@ Tools.addScriptElement = function (path, callback, opt_context) {
 };
 
 /**
- * Abstract method. Use link to this method for unimplemented methods in
- * base classes.
+ * Abstract method stub.
  * @throws {Error}
  */
 Tools.abstractMethod = function () {
@@ -157,14 +155,13 @@ Tools.abstractMethod = function () {
 };
 
 /**
- * Null function. Use link to this method, where should not be an interaction.
- * For example in interfaces.
+ * Null function stub.
  */
 Tools.nullFunction = function () {
 };
 
 /**
- * Takes even number of arguments and use them as key-value pairs to create
+ * Takes an even number of arguments and uses them as key-value pairs to create
  * a new {@link Object}.
  * @param {...*} var_args
  * @return {Object}
@@ -188,7 +185,7 @@ Tools.createObject = function (var_args) {
 };
 
 /**
- * Simply appends values of fields of mixin into target object.
+ * Appends values of fields of mixin into target object.
  * @param {Object} target
  * @param {Object} mixin
  * @param {boolean=} opt_override
@@ -326,7 +323,7 @@ Tools.addSingletonGetter = function (Constructor) {
 };
 
 /**
- * Returns function, which always called with certain context.
+ * Returns a function that is always called with a given context.
  * @param {function} fn
  * @param {*} ctx
  * @return {function}
@@ -419,7 +416,7 @@ Tools.getAnimationEventType_ = function () {
 };
 
 /**
- * Takes string as argument and makes it name unique by adding some counter
+ * Takes string as argument and makes its name unique by adding some counter
  * value to it.
  * @param {string} animationName
  * @return {string}
@@ -576,7 +573,7 @@ Tools.Range = function (from, to) {
 
 
 /**
- * Namespace of Operation System detect utils.
+ * OS detection utils.
  */
 Tools.os = {};
 
@@ -623,12 +620,12 @@ Tools.os.getOS = function () {
 };
 
 /**
- * Namespace for reading/writing cookies.
+ * Cookie utils.
  */
 Tools.cookies = {};
 
 /**
- * Returns value of cookie with given name.
+ * Returns cookie value.
  * @param {string} name
  * @return {string}
  */
@@ -671,7 +668,7 @@ Tools.cookies.set = function (name, value, days) {
 
 
 /**
- * Namespace for work with elements style.
+ * Style utils.
  */
 Tools.style = {};
 
@@ -759,7 +756,7 @@ Tools.style.addCSSRule = function (cssRule, stylesheet, opt_index) {
 };
 
 /**
- * Takes selector and style object as arguments and creates new CSS style
+ * Takes selector and style object as arguments, creates a new CSS <style>
  * tag and immediately applies it.
  * @param {string} selector
  * @param {Object} style

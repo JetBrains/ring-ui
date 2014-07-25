@@ -23,7 +23,7 @@ parsers.nullParser = function (chunk) {
 };
 
 /**
- * Analyzes inline changes of chunk. Chunk treated as changed inline if its
+ * Analyzes inline changes of chunk. Chunk is treated as 'inline' if its
  * description contains inline changes or numbers of old lines and new lines
  * are not equal (rare case).
  * @type {parsers.parserFn}
