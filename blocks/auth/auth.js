@@ -35,6 +35,8 @@ define(['jquery', 'jso', 'global/global__modules', 'global/global__utils', 'auth
   var INVALID_TOKEN_ERR = 'invalid_grant';
   var INVALID_REQUEST_ERR = 'invalid_request';
 
+  var initFuture = $.Deferred().reject();
+
   var serverUrl;
   var provider = 'hub';
   var jsoConfig = {};
@@ -64,16 +66,21 @@ define(['jquery', 'jso', 'global/global__modules', 'global/global__utils', 'auth
    * @returns {$.Deferred}
    */
   var ajax = function (url, callback) {
+    var dfd;
     var absoluteUrl = absoluteUrlRE.test(url) ? url : serverUrl + url;
 
-    var dfd = $.oajax({url: absoluteUrl,
-      jso_provider: provider,
-      //TODO: use string scopes instead of ids
-      jso_scopes: jsoConfig[provider].scope,
-      jso_allowia: true,
-      dataType: 'json',
-      success: callback
-     });
+    try {
+      dfd = $.oajax({url: absoluteUrl,
+        jso_provider: provider,
+        //TODO: use string scopes instead of ids
+        jso_scopes: jsoConfig[provider].scope,
+        jso_allowia: !jsoConfig[provider].denyIA,
+        dataType: 'json',
+        success: callback
+       });
+    } catch(e) {
+      return $.Deferred().reject(e);
+    }
 
     cacheTime[url] = $.now();
     cacheData[url] = dfd;
@@ -88,7 +95,7 @@ define(['jquery', 'jso', 'global/global__modules', 'global/global__utils', 'auth
 
         if(errorCode === INVALID_TOKEN_ERR || errorCode === INVALID_REQUEST_ERR) {
           jso.wipe();
-          getToken();
+          ensure();
         }
       });
     } else {
@@ -113,6 +120,24 @@ define(['jquery', 'jso', 'global/global__modules', 'global/global__utils', 'auth
   };
 
   /**
+   * Ensure tokens
+   * @returns {*}
+   */
+  var ensure = function(denyIA) {
+    // Don't send auth request when it's denied or init didn't start
+    if (denyIA || initFuture.state() !== 'pending') {
+      return null;
+    }
+
+    var ensure = {};
+
+    if (jsoConfig[provider]) {
+      ensure[provider] = jsoConfig[provider].scope;
+      return jso.ensure(ensure);
+    }
+  };
+
+  /**
    * Token getter
    * @param {boolean} denyIA
    * @param {boolean} withProps
@@ -122,13 +147,7 @@ define(['jquery', 'jso', 'global/global__modules', 'global/global__utils', 'auth
     var token = jso.getToken(provider);
 
     if (token === null) {
-      var ensure = {};
-
-      if (!denyIA && jsoConfig[provider]) {
-        ensure[provider] = jsoConfig[provider].scope;
-        jso.ensure(ensure);
-      }
-      return false;
+      return ensure(denyIA);
     } else {
       return withProps ? token : token[TOKEN_ACCESS_FIELD];
     }
@@ -140,11 +159,12 @@ define(['jquery', 'jso', 'global/global__modules', 'global/global__utils', 'auth
    * @returns {$.Deferred}
    */
   var init = function (config) {
-    var dfd = $.Deferred();
+    initFuture = $.Deferred();
+
     serverUrl = typeof config === 'string' ? config : config.serverUri;
 
     if (typeof serverUrl !== 'string') {
-      return dfd.reject();
+      return initFuture.reject();
     }
 
     if (!serverUrl.match(endsWithSlashOrEmptyRE)) {
@@ -166,6 +186,10 @@ define(['jquery', 'jso', 'global/global__modules', 'global/global__utils', 'auth
       cfg.redirect_uri = config.redirectUri;
     }
 
+    if (config.denyIA) {
+      cfg.denyIA = config.denyIA;
+    }
+
     if (config.scope) {
       cfg.scope = config.scope;
     }
@@ -177,18 +201,25 @@ define(['jquery', 'jso', 'global/global__modules', 'global/global__utils', 'auth
     // Configure jso
     jso.configure(jsoConfig, null, function (done, err) {
       if (err) {
-        dfd.reject(err);
+        initFuture.reject(err);
 
-        // Authorize, if needed or resolve dfd
-      } else if (getToken(config.denyIA)) {
-        // Validate token
-        get(API_PROFILE_PATH).done(function() {
-          dfd.resolve(done);
-        });
+      } else {
+        // If there is token accomplish auth
+        // Otherwise auth request will be sent
+        if (getToken(config.denyIA)) {
+          if (done) {
+            initFuture.resolve(done);
+          } else {
+            // Validate token if it's from storage
+            get(API_PROFILE_PATH).done(function() {
+              initFuture.resolve();
+            });
+          }
+        }
       }
     });
 
-    dfd.done(function () {
+    initFuture.done(function () {
       var config = $.extend({}, jsoConfig[provider], {
         apiPath: API_PATH,
         apiProfilePath: API_PROFILE_PATH,
@@ -200,10 +231,10 @@ define(['jquery', 'jso', 'global/global__modules', 'global/global__utils', 'auth
     });
 
     if (config.refresh) {
-      dfd.done(setRefresh);
+      initFuture.done(setRefresh);
     }
 
-    return dfd;
+    return initFuture;
   };
 
   /**
@@ -303,7 +334,9 @@ define(['jquery', 'jso', 'global/global__modules', 'global/global__utils', 'auth
     },
     getUser: {
       method: function () {
-        return getToken(true) && get(API_PROFILE_PATH);
+        return initFuture.then(function() {
+          return get(API_PROFILE_PATH);
+        });
       },
       override: true
     }
