@@ -54,12 +54,11 @@
           return {
             'installAuthHeader': function () {
               // Install Authorization header getter
-              var token = auth('getToken', true);
-              if (token) {
+              authFuture.done(function () {
                 $http.defaults.headers.common['Authorization'] = function () {
-                  return 'Bearer ' + token;
+                  return 'Bearer ' + auth('getToken', true);
                 };
-              }
+              });
             },
             'getUser': function () {
               return auth('getUser');
