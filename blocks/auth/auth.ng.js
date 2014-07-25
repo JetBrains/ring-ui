@@ -35,7 +35,7 @@
 
       this.$get = ['$injector', function ($injector) {
         return $injector.instantiate(['$location', '$http', '$q', function ($location, $http, $q) {
-          var authConfig;
+          var authConfig = {};
 
           authFuture.done(function (absUrl) {
             authConfig = auth.get('config');
