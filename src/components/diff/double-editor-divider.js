@@ -1,6 +1,6 @@
 /**
- * @fileoverview Divider between two editors, which shows connectors from
- * edited parts of original code to according edited parts of modified code.
+ * @fileoverview Divider between two editors that shows connectors from
+ * edited parts of original code to edited parts of modified code.
  * @author igor.alexeenko (Igor Alekseyenko)
  */
 
@@ -60,7 +60,7 @@ DoubleEditorDivider.ClassName = {
 };
 
 /**
- * Side-effect of this method is creation of lookup-table of range types
+ * Side-effect of this method is creation of a lookup table of range types
  * to class names for connectors.
  * @static
  */
@@ -210,7 +210,7 @@ DoubleEditorDivider.prototype.redrawConnectors = function () {
 };
 
 /**
- * Returns SVG-path for given range coordinates.
+ * Returns SVG path for given range coordinates.
  * @static
  * @param {Object} range
  * @param {Tools.Range} visibleRangeOriginal
