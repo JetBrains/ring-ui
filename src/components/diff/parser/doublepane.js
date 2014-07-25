@@ -13,8 +13,8 @@ Tools.inherit(DoublePaneParser, Parser);
 Tools.addSingletonGetter(DoublePaneParser);
 
 /**
- * In single pane mode, even modified lines displays as deleted and then
- * inserted. If line is not needed it is folded.
+ * In single pane mode modified lines are displayed as a pair of lines - one removed, one added.
+ * If the line is not needed it is folded.
  * @override
  */
 DoublePaneParser.prototype.availableLineTypes =
@@ -25,9 +25,8 @@ DoublePaneParser.prototype.availableLineTypes =
   Parser.LineType.EOL_CHANGED;
 
 /**
- * Single-pane parser checks, whether line was added or deleted, whether
- * it contains inline changes, and whether this changes is only changes
- * of EOL-symbol.
+ * Single-pane parser checks whether a line was added or deleted, whether
+ * it contains inline changes, and whether the changes are whitespace-only.
  * @override
  */
 DoublePaneParser.prototype.modifiedParsers = [
@@ -37,7 +36,7 @@ DoublePaneParser.prototype.modifiedParsers = [
 ];
 
 /**
- * Marks whitespace chagnes as not changed blocks.
+ * Marks whitespace changes as unchanged blocks.
  * @param {Array.<Parser.OutputLine>} lines
  * @return {Array.<Parser.OutputLine>}
  */

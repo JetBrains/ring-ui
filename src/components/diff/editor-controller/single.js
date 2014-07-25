@@ -170,8 +170,8 @@ SingleEditorController.prototype.setContentInternal = function (original, modifi
 
 /**
  * Returns {@code SingleEditorController.EditorContent}, which represents
- * description for chunks of code in editor. Contains text, numbers of lines
- * in both original and modified code and type of line.
+ * description for chunks of code in the editor. Contains text and line numbers
+ * in both original and modified code, as well as type of line.
  * @param {Array.<Parser.OutputLine>} parsedContent
  * @return {SingleEditorController.EditorContent}
  */
@@ -371,7 +371,7 @@ SingleEditorController.contentGetter.inline = function (type, change, index, cha
 
 /**
  * Returns output buffer for code with inline modifications in case if all
- * this modifications are insertions.
+ * modifications are insertions.
  * @type {SingleEditorController.contentGetterFn}
  */
 SingleEditorController.contentGetter.addedInline = function (type, change, index, changes, output, lineOriginal, lineModified) {
@@ -665,8 +665,7 @@ SingleEditorController.addFoldedLine = function (editor, editorLine) {
 };
 
 /**
- * Returns {@code Object}, which represents options for instance
- * of {@link CodeMirror}.
+ * Returns an editor properties object.
  * @return {Object}
  */
 SingleEditorController.getCodeMirrorOptions = function () {
