@@ -6,18 +6,18 @@ var Tools = require('../Tools');
 var Parser = require('../Parser');
 var parsers = require('../Parsers');
 
-var DoublePaneParser = function () {
+var ParserDoublePane = function () {
 };
 
-Tools.inherit(DoublePaneParser, Parser);
-Tools.addSingletonGetter(DoublePaneParser);
+Tools.inherit(ParserDoublePane, Parser);
+Tools.addSingletonGetter(ParserDoublePane);
 
 /**
  * In single pane mode modified lines are displayed as a pair of lines - one removed, one added.
  * If the line is not needed it is folded.
  * @override
  */
-DoublePaneParser.prototype.availableLineTypes =
+ParserDoublePane.prototype.availableLineTypes =
   Parser.LineType.UNCHANGED |
   Parser.LineType.DELETED |
   Parser.LineType.ADDED |
@@ -29,7 +29,7 @@ DoublePaneParser.prototype.availableLineTypes =
  * it contains inline changes, and whether the changes are whitespace-only.
  * @override
  */
-DoublePaneParser.prototype.modifiedParsers = [
+ParserDoublePane.prototype.modifiedParsers = [
   parsers.addedOrDeleted,
   parsers.EOLChanged,
   parsers.inlineChanges
@@ -40,7 +40,7 @@ DoublePaneParser.prototype.modifiedParsers = [
  * @param {Array.<Parser.OutputLine>} lines
  * @return {Array.<Parser.OutputLine>}
  */
-DoublePaneParser.ignoreWhitespaces = function (lines) {
+ParserDoublePane.ignoreWhitespaces = function (lines) {
   return lines.map(function (change) {
     var whitespacesOnly = true;
     var originalCode = change.original;
@@ -69,4 +69,4 @@ DoublePaneParser.ignoreWhitespaces = function (lines) {
   });
 };
 
-module.exports = DoublePaneParser;
+module.exports = ParserDoublePane;

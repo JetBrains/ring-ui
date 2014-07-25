@@ -1,6 +1,6 @@
 'use strict';
 
-describe('Diff.DoublePaneParser', function () {
+describe('Diff.ParserDoublePane', function () {
   var parsers = require('./doublepane');
 
   it('should export module', function () {
