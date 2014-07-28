@@ -1,4 +1,4 @@
-var Tools = require('./Tools');
+var Tools = require('./../diff__tools');
 
 /**
  * @constructor

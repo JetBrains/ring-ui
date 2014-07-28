@@ -4,8 +4,8 @@
  * @author igor.alexeenko (Igor Alekseyenko)
  */
 
-var Tools = require('./Tools');
-var Parser = require('./Parser');
+var Tools = require('./diff__tools');
+var Parser = require('./__parser/diff__parser');
 var util = require('util');
 
 /**

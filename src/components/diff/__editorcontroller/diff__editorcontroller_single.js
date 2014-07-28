@@ -5,11 +5,11 @@
 
 'use strict';
 
-var Tools = require('../Tools');
-var EditorController = require('../editor-controller');
-var Parser = require('../Parser');
-var parsers = require('../Parsers');
-var SinglePaneParser = require('../parser/singlepane');
+var Tools = require('../diff__tools');
+var EditorController = require('./diff__editorcontroller');
+var Parser = require('../__parser/diff__parser');
+var parsers = require('../diff__parsers');
+var SinglePaneParser = require('../__parser/diff__parser_singlepane');
 var CodeMirror = require('codemirror');
 var CodeMirrorHelper = require('../code-mirror-helper');
 var $ = require('jquery');
