@@ -24,7 +24,7 @@
    * </pre>
    */
   angular.module('Ring.auth', []).
-    provider('auth', ['$hhtpProvider', function ($httpProvider) {
+    provider('auth', ['$httpProvider', function ($httpProvider) {
       var authFuture;
       var authConfig = {};
       this.config = function (config, doNotInstallHeader) {
@@ -34,6 +34,17 @@
         //   parses oauth response if any
         authFuture = auth('init', config);
 
+        if (!doNotInstallHeader) {
+          authFuture.done(function () {
+            // Install Authorization header getter
+            $httpProvider.defaults.headers.common['Authorization'] = function () {
+              return 'Bearer ' + auth('getToken', true);
+            };
+          });
+        }
+      };
+
+      this.$get = ['$location', '$http', '$q', function ($location, $http, $q) {
         authFuture.done(function (absUrl) {
           authConfig = auth.get('config');
 
@@ -47,18 +58,7 @@
             }
           }
 
-          if (!doNotInstallHeader) {
-            // Install Authorization header getter
-            $httpProvider.defaults.headers.common['Authorization'] = function () {
-              return 'Bearer ' + auth('getToken', true);
-            };
-          }
         });
-
-        return $q.when(authFuture);
-      };
-
-      this.$get = ['$location', '$http', '$q', function ($location, $http, $q) {
         return {
           'installAuthHeader': function () {
             // TODO: Remove me (header is installed on provider config phase)
@@ -70,8 +70,6 @@
             return authConfig['client_id'];
           },
           'initDone': function () {
-            //@Deprecated (use promise from config method)
-            //TODO: Remove!!!
             return $q.when(authFuture);
           }
         };
