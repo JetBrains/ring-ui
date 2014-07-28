@@ -1,7 +1,7 @@
 'use strict';
 
-describe('Diff.Tools', function () {
-  var diffTool = require('./Tools');
+describe('Diff.tools', function () {
+  var diffTool = require('./diff__tools');
 
   describe('#createObject', function () {
     it('should creates object from list of arguments', function () {

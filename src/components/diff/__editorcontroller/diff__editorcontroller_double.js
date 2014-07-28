@@ -4,12 +4,12 @@
  */
 
 var $ = require('jquery');
-var Tools = require('../Tools');
-var Parser = require('../Parser');
-var ParserDoublePane = require('../parser/doublepane');
-var EditorController = require('../editor-controller');
-var DoublePaneMenu = require('../double-pane-menu');
-var DoubleEditorDivider = require('../double-editor-divider');
+var Tools = require('../diff__tools');
+var Parser = require('../__parser/diff__parser');
+var ParserDoublePane = require('../__parser/diff__parser_doublepane');
+var EditorController = require('./diff__editorcontroller');
+var DoublePaneMenu = require('../diff__doublepane-menu');
+var DoubleEditorDivider = require('../diff__doublepane-divider');
 var CodeMirror = require('codemirror');
 var CodeMirrorHelper = require('../code-mirror-helper');
 

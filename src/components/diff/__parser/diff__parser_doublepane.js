@@ -2,9 +2,9 @@
  * @fileoverview Diff-data parser for double-paned mode
  */
 
-var Tools = require('../Tools');
-var Parser = require('../Parser');
-var parsers = require('../Parsers');
+var Tools = require('./../diff__tools');
+var Parser = require('./diff__parser');
+var parsers = require('./../diff__parsers');
 
 var ParserDoublePane = function () {
 };

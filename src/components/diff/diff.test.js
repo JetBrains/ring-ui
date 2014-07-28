@@ -1,7 +1,7 @@
 'use strict';
 
 describe('Diff', function () {
-  var BaseDiff = require('./BaseDiff');
+  var BaseDiff = require('./diff');
   var diffDataMock = {
     original: 'original',
     modified: 'modified',

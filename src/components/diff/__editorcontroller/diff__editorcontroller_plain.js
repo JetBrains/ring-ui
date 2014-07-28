@@ -3,14 +3,14 @@
  * @author igor.alexeenko (Igor Alekseyenko)
  */
 
-var Tools = require('../Tools');
-var EditorController = require('../editor-controller');
+var Tools = require('../diff__tools');
+var EditorController = require('./diff__editorcontroller');
 var CodeMirror = require('codemirror');
 
 /**
  * @param {Element} element
  * @constructor
- * @extends {Tools.EditorController}
+ * @extends {EditorController}
  */
 var PlainEditorController = function (element) {
   PlainEditorController.super_.constructor.call(this, element);

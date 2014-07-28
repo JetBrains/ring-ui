@@ -1,5 +1,5 @@
 describe('Diff.Parser', function () {
-  var Parser = require('./Parser');
+  var Parser = require('./diff__parser');
   var parser;
 
   beforeEach(function () {
