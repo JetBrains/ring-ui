@@ -1,5 +1,5 @@
-var Tools = require('./Tools');
-var Parser = require('./Parser');
+var Tools = require('./diff__tools');
+var Parser = require('./__parser/diff__parser');
 
 /**
  * Namespace for parser functions.

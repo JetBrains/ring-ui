@@ -3,7 +3,7 @@
  * @author igor.alexeenko (Igor Alekseyenko)
  */
 
-var Tools = require('./Tools');
+var Tools = require('./diff__tools');
 var $ = require('jquery');
 
 /**

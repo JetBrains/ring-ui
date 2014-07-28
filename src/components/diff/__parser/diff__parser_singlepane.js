@@ -1,6 +1,6 @@
-var Tools = require('../Tools');
-var Parser = require('../Parser');
-var parsers = require('../Parsers');
+var Tools = require('./../diff__tools');
+var Parser = require('./diff__parser');
+var parsers = require('./../diff__parsers');
 
 var ParserSinglePane = function () {
 };

@@ -1,7 +1,7 @@
 'use strict';
 
 describe('Diff.EditorController', function () {
-  var EditorController = require('./editor-controller');
+  var EditorController = require('./diff__editorcontroller');
   var dInstance;
 
   beforeEach(function () {

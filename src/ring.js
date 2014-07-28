@@ -7,5 +7,5 @@ module.exports = {
   ProgressBar: require('./components/progress-bar/progress-bar.jsx'),
   Input: require('./components/input/input.jsx'),
   Textarea: require('./components/textarea/textarea.jsx'),
-  Diff: require('./components/diff/Diff.jsx')
+  Diff: require('./components/diff/diff.jsx')
 };

@@ -5,13 +5,13 @@
  * @author igor.alexeenko (Igor Alekseyenko)
  */
 
-var Tools = require('./Tools');
+var Tools = require('./diff__tools');
 var $ = require('jquery');
 
 var EditorController = {
-  Plain: require('./editor-controller/plain'),
-  Single: require('./editor-controller/single'),
-  Double: require('./editor-controller/double')
+  Plain: require('./__editorcontroller/diff__editorcontroller_plain'),
+  Single: require('./__editorcontroller/diff__editorcontroller_single'),
+  Double: require('./__editorcontroller/diff__editorcontroller_double')
 };
 
 /**
