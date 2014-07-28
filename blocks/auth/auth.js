@@ -35,7 +35,8 @@ define(['jquery', 'jso', 'global/global__modules', 'global/global__utils', 'auth
   var INVALID_TOKEN_ERR = 'invalid_grant';
   var INVALID_REQUEST_ERR = 'invalid_request';
 
-  var initFuture = $.Deferred().reject();
+  var initFuture = $.Deferred();
+  var initStarted = false;
 
   var serverUrl;
   var provider = 'hub';
@@ -125,8 +126,8 @@ define(['jquery', 'jso', 'global/global__modules', 'global/global__utils', 'auth
    */
   var ensure = function(denyIA) {
     // Don't send auth request when it's denied or init didn't start
-    if (denyIA || initFuture.state() !== 'pending') {
-      return null;
+    if (denyIA || !initStarted) {
+      return false;
     }
 
     var ensure = {};
@@ -135,6 +136,8 @@ define(['jquery', 'jso', 'global/global__modules', 'global/global__utils', 'auth
       ensure[provider] = jsoConfig[provider].scope;
       return jso.ensure(ensure);
     }
+
+    return false;
   };
 
   /**
@@ -159,7 +162,7 @@ define(['jquery', 'jso', 'global/global__modules', 'global/global__utils', 'auth
    * @returns {$.Deferred}
    */
   var init = function (config) {
-    initFuture = $.Deferred();
+    initStarted = true;
 
     serverUrl = typeof config === 'string' ? config : config.serverUri;
 
