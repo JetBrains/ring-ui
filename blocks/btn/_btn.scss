@@ -126,6 +126,12 @@ $ring-btn-border-radius: 3px;
 
     color: #888;
     font-size: 16px;
+    line-height: 19px !important;
+
+    // Fx
+    &::-moz-progress-bar, & {
+      top: 1px;
+    }
   }
 
   .ring-font-icon_group {
@@ -135,7 +141,7 @@ $ring-btn-border-radius: 3px;
   }
 
   .ring-font-icon_trash {
-    top: 1px;
+    line-height: 20px !important;
     font-size: 14px;
   }
 
@@ -151,9 +157,13 @@ $ring-btn-border-radius: 3px;
   }
 
   .ring-font-icon_caret-down {
-    display: inline-block;
-    top: 6px;
+    top: 0;
     font-size: 11px;
+
+    // Fx
+    &::-moz-progress-bar, & {
+      top: 2px;
+    }
   }
 }
 
