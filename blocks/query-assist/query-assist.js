@@ -89,10 +89,12 @@ define([
         },
         'esc':function(e) {
           e.preventDefault();
-          e.stopPropagation();
-          self.onClose_(e);
-          // Hide dropdown and fall to next shortcut scope if there was none
-          if (!actionList('remove')) {
+          // Hide dropdown
+          if (actionList('remove')) {
+            e.stopPropagation();
+            self.onClose_(e);
+          } else {
+            // Drop into next shortcut scope if there was none
             return true;
           }
         }
