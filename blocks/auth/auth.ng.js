@@ -27,21 +27,19 @@
     provider('auth', ['$httpProvider', function ($httpProvider) {
       var authFuture;
       var authConfig = {};
-      this.config = function (config, doNotInstallHeader) {
+      this.config = function (config) {
         authConfig = config;
         // Authorize
         //   redirects to /oauth if it's required,
         //   parses oauth response if any
         authFuture = auth('init', config);
 
-        if (!doNotInstallHeader) {
-          authFuture.done(function () {
-            // Install Authorization header getter
-            $httpProvider.defaults.headers.common['Authorization'] = function () {
-              return 'Bearer ' + auth('getToken', true);
-            };
-          });
-        }
+        authFuture.done(function () {
+          // Install Authorization header getter
+          $httpProvider.defaults.headers.common['Authorization'] = function () {
+            return 'Bearer ' + auth('getToken', true);
+          };
+        });
       };
 
       this.$get = ['$location', '$http', '$q', function ($location, $http, $q) {
