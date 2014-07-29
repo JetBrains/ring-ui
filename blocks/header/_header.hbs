@@ -3,9 +3,9 @@
     <div class="ring-header__services">
       {{#services}}
         {{#if active}}
-          <span class="ring-header__item ring-header__item_active{{> global__class}}">{{label}}</span>
+          <span class="ring-header__item ring-header__item_active{{> global__class}}"{{> global__attributes}}>{{label}}</span>
         {{else}}
-          <a class="ring-link ring-header__item ring-header__item_link{{> global__class}}" href="{{url}}">{{label}}</a>
+          <a class="ring-link ring-header__item ring-header__item_link{{> global__class}}" href="{{url}}"{{> global__attributes}}>{{label}}</a>
         {{/if}}
       {{/services}}
       {{#if items}}
