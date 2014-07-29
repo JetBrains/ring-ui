@@ -1,4 +1,4 @@
-define(['global/global__views', 'global/global__modules'], function (View, Module) {
+define(['global/global__views', 'global/global__modules', 'counter/counter'], function (View, Module, counter) {
   'use strict';
 
   var internalServices = [
@@ -53,6 +53,11 @@ define(['global/global__views', 'global/global__modules'], function (View, Modul
       } else if (services[i].active) {
         currentActive = services[i];
       }
+
+      services[i].event = {
+        name: 'header:service-click',
+        data: services[i].label
+      };
     }
 
     if (active) {
@@ -62,6 +67,14 @@ define(['global/global__views', 'global/global__modules'], function (View, Modul
         delete currentActive.active;
       }
     }
+
+    header.on('service-click', function(data) {
+      counter.event({
+        'eventCategory': 'header service',
+        'eventAction': 'click',
+        'eventLabel': data
+      });
+    });
 
     header('update', 'services', services);
     header.trigger('services:done');
