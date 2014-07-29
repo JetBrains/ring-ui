@@ -58,6 +58,7 @@ define([
     this.onApply_ = config.onApply || $.noop;
     this.onChange_ = config.onChange || $.noop;
     this.onFocusChange_ = config.onFocusChange || $.noop;
+    this.onClose_ = config.onClose || $.noop;
 
     View.init(MODULE, this.$target_, config.method || 'prepend', {}, config).then(function($view) {
       self.$view_ = $view;
@@ -88,6 +89,8 @@ define([
         },
         'esc':function(e) {
           e.preventDefault();
+          e.stopPropagation();
+          self.onClose_(e);
           // Hide dropdown and fall to next shortcut scope if there was none
           if (!actionList('remove')) {
             return true;
@@ -272,6 +275,7 @@ define([
    */
   QueryAssist.prototype.apply_ = function(e) {
     this.onApply_(this.query_);
+    this.onClose_(e);
     actionList('remove');
     if (e) {
       e.preventDefault();
