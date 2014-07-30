@@ -280,7 +280,7 @@ define(['jquery', 'jso', 'global/global__modules', 'global/global__utils', 'auth
     var token = getToken(true, true);
     var tokenAccess = token[TOKEN_ACCESS_FIELD];
 
-    if (!force && refreshDefer && refreshDefer.state === 'pending') {
+    if (!force && refreshDefer && refreshDefer.state() === 'pending') {
       return refreshDefer;
     }
 
@@ -296,11 +296,11 @@ define(['jquery', 'jso', 'global/global__modules', 'global/global__utils', 'auth
       time = time || 0;
       var checkToken = getToken(true);
 
-      if (tokenAccess === checkToken && time < POLL_TIME) {
+      if (checkToken && tokenAccess === checkToken && time < POLL_TIME) {
         return setTimeout(poll.bind(null, time + POLL_INTERVAL), POLL_INTERVAL);
       }
 
-      if (tokenAccess !== checkToken) {
+      if (checkToken && tokenAccess !== checkToken) {
         refreshDefer.resolve(checkToken);
       } else {
         refreshDefer.reject();
