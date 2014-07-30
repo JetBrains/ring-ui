@@ -11,7 +11,7 @@ var Parser = require('../__parser/diff__parser');
 var parsers = require('../diff__parsers');
 var SinglePaneParser = require('../__parser/diff__parser_singlepane');
 var CodeMirror = require('codemirror');
-var CodeMirrorHelper = require('../code-mirror-helper');
+var CodeMirrorHelper = require('../diff__code-mirror-helper');
 var $ = require('jquery');
 
 /**
