@@ -232,6 +232,7 @@ define(['jquery', 'jso', 'global/global__modules', 'global/global__utils', 'auth
     });
 
     if (config.refresh) {
+      console.log('Schedule token refresh is scheduled');
       initFuture.done(setRefresh);
     }
 
@@ -277,30 +278,38 @@ define(['jquery', 'jso', 'global/global__modules', 'global/global__utils', 'auth
   var refresh = function (force) {
     var token = getToken(true, true);
     var tokenAccess = token[TOKEN_ACCESS_FIELD];
+    console.log('Start token refresh at ' + new Date($.now()) + '. Current token is ', token);
+
 
     if (!force && refreshDefer && refreshDefer.state() === 'pending') {
+      console.log('Token refresh is already in progress');
       return refreshDefer;
     }
 
     refreshDefer = $.Deferred();
 
     if (!force && !toBeRefreshed(token)) {
+      console.log('Token shouldn\'t be refreshed it\'s fine already');
       return refreshDefer.resolve(tokenAccess);
     }
 
     $iframe = $('<iframe style="display: none;"></iframe>').appendTo('body');
 
     var poll = function (time) {
+      console.log('Poll token refresh frame ' + new Date(time));
       time = time || 0;
       var checkToken = getToken(true);
 
+      console.log('New token to check is ', checkToken, '. TokenAccess to compare with is ', tokenAccess);
       if (checkToken && tokenAccess === checkToken && time < POLL_TIME) {
         return setTimeout(poll.bind(null, time + POLL_INTERVAL), POLL_INTERVAL);
       }
 
       if (checkToken && tokenAccess !== checkToken) {
+        console.log('Got new token ', checkToken);
         refreshDefer.resolve(checkToken);
       } else {
+        console.log('Token refresh failed');
         refreshDefer.reject();
       }
 
