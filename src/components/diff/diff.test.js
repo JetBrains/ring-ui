@@ -44,4 +44,17 @@ describe('Diff', function () {
 
     expect(React.addons.TestUtils.isComponentOfType(component, Diff)).toEqual(true);
   });
+
+  it('should correct unmount double pane diff', function () {
+    component = React.renderComponent(new Diff({
+      mode: Diff.Mode.DOUBLE_PANE,
+      originalContent: diffDataMock.original,
+      modifiedContent: diffDataMock.modified,
+      diff: diffDataMock.diff
+    }), container);
+
+    component.unmountComponent(container);
+
+    expect(component.isMounted()).toEqual(false);
+  });
 });
