@@ -195,9 +195,6 @@ DoubleEditorController.prototype.setEnabledInternal = function (enabled) {
 
   } else {
     this.unbindEditors_();
-
-    element.innerHTML = '';
-
     this.codeMirrorOriginal_ = null;
     this.codeMirrorModified_ = null;
     this.scrollHandler_ = null;

@@ -287,7 +287,6 @@ Diff.prototype.dispose = function () {
   this.controller_.setEnabled(false);
   this.controller_ = null;
 
-  this.element_.innerHTML = '';
   this.element_ = null;
 
   this.eventHandler_.off();
