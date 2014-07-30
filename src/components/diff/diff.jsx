@@ -5,7 +5,7 @@
 'use strict';
 
 var React = require('react/addons');
-var BaseDiff = require('./base_diff');
+var BaseDiff = require('./diff__base');
 var ReactPropTypes = React.PropTypes;
 
 require('./diff.scss');
