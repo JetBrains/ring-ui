@@ -11,7 +11,7 @@ var EditorController = require('./diff__editorcontroller');
 var DoublePaneMenu = require('../diff__doublepane-menu');
 var DoubleEditorDivider = require('../diff__doublepane-divider');
 var CodeMirror = require('codemirror');
-var CodeMirrorHelper = require('../code-mirror-helper');
+var CodeMirrorHelper = require('../diff__code-mirror-helper');
 
 /**
  * @param {Element} element
