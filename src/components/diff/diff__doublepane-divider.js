@@ -304,7 +304,7 @@ DoubleEditorDivider.getPathForRange = function (range, visibleRangeOriginal, vis
           templateData.rightYTo
         ),
         util.format('%s %s',
-          templateData.xModifiedTo,
+          templateData.xModifiedFrom,
           templateData.leftYTo
         ),
         util.format('%s %s L %s %s Z',
