@@ -73,8 +73,6 @@ define(['jquery', 'jso', 'global/global__modules', 'global/global__utils', 'auth
     try {
       dfd = $.oajax({url: absoluteUrl,
         jso_provider: provider,
-        //TODO: use string scopes instead of ids
-        jso_scopes: jsoConfig[provider].scope,
         jso_allowia: !jsoConfig[provider].denyIA,
         dataType: 'json',
         success: callback
