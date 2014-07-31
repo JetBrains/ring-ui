@@ -1,3 +1,5 @@
+var q = require('../../../node_modules/q/q');
+
 function testStorage(storage) {
   describe('Set', function () {
     it('Correct set call should be fulfilled', function () {
