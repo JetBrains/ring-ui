@@ -4,7 +4,7 @@ var LocalStorage = require('./storage_local.js');
 var FallbackStorage = require('./storage_fallback.js');
 
 /**
- * @class
+ * @constructor
  * @extends {LocalStorage}
  */
 var Storage = LocalStorage;
