@@ -30,7 +30,10 @@ var AuthStorage = require('./auth_storage.js');
  * }} config
  */
 var Auth = function (config) {
-  if (config.serverUri) {
+  if(!config) {
+    throw Error('Config is required');
+  }
+  if (!config.serverUri) {
     throw Error('Property serverUri is required');
   }
 
