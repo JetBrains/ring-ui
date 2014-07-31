@@ -21,6 +21,7 @@ module.exports = function (karma) {
     // list of files / patterns to load in the browser
     files: [
       'node_modules/jquery/dist/jquery.js',
+      'node_modules/jso/jso.js',
       'test-helpers/*.js',
       'src/components/**/*.test.js'
     ],
