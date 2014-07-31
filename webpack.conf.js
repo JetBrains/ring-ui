@@ -22,7 +22,7 @@ module.exports = {
     library: '[name]'
   },
   externals: {
-    "jquery": "jQuery"
+    'jquery': 'jQuery'
   },
   cache: true,
   module: {
