@@ -15,7 +15,7 @@ module.exports = function (karma) {
 
 
     // frameworks to use
-    frameworks: ['jasmine'],
+    frameworks: ['jasmine', 'mocha'],
 
 
     // Files are given outside from gulp task

@@ -5,6 +5,7 @@
   "node": true,
   "browser": true,
   "jasmine": true,
+  "mocha": true,
 
   "indent": 2,
   "camelcase": false,
