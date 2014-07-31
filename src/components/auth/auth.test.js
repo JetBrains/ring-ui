@@ -5,14 +5,13 @@ describe('auth', function () {
   beforeEach(function () {
   });
 
-  it('should init', function () {
+  describe('init', function() {
     it('should provide config', function () {
-
+      expect(Auth);
     });
     it('should fix serverUri', function () {
-
+      expect(Auth);
     });
-//    expect(Auth.addons.TestUtils.isComponentOfType(this.button, Button)).toEqual(true);
   });
 
 });

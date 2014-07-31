@@ -105,7 +105,7 @@ gulp.task('lint', function () {
 
 gulp.task('test', function () {
   // Be sure to return the stream
-  return gulp.src([pkgConfig.test + '/**/*.js'])
+  return gulp.src(['./node_modules/jquery/dist/jquery.js', './node_modules/jso/jso.js', './test-helpers/*.js' , pkgConfig.src + '/components/**/*.test.js'])
     .pipe(karma({
       configFile: 'karma.conf.js',
       action: 'run'
@@ -118,7 +118,7 @@ gulp.task('test', function () {
 
 gulp.task('test:build', function () {
   // Be sure to return the stream
-  return gulp.src([pkgConfig.test + '/**/*.js'])
+  return gulp.src(['./node_modules/jquery/dist/jquery.js', './node_modules/jso/jso.js', './test-helpers/*.js' , pkgConfig.src + '/components/**/*.test.js'])
     .pipe(karma({
       configFile: 'karma.conf.js',
       action: 'run',
