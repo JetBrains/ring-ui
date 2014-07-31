@@ -4,7 +4,7 @@ var jso = require('jso');
 var $ = require('jquery');
 
 /**
- * @constructor
+ * @class
  *
  * @prop {object} config
  * @prop {string} config.serverUri
@@ -13,6 +13,7 @@ var $ = require('jquery');
  * @prop {string[]} config.scope
  * @prop {string} profileUrl
  * @prop {string} logoutUrl
+ * @prop {User?} user
  * @prop {bool} _isTokenInited
  *
  * @param {{
@@ -248,10 +249,50 @@ Auth.prototype.requestToken = function () {
 };
 
 /**
- * @return {Deferred.<User>}
+ * @return {Promise.<User>}
  */
 Auth.prototype.getUser = function () {
-  // TODO:
+  if (this.user) {
+    return $.Deferred().resolve(this.user).promise();
+  }
+
+  var deferred;
+  var absAPIProfileURL = this.config.serverUri + Auth.API_PROFILE_PATH;
+  try {
+    deferred = $.oajax({
+      url: absAPIProfileURL,
+      jso_provider: Auth.PROVIDER,
+      jso_allowia: true,
+      dataType: 'json'
+    });
+    if (!deferred) {
+      deferred = $.Deferred().reject();
+    }
+  } catch (e) {
+    deferred = $.Deferred().reject(e);
+  }
+
+
+  var _this = this;
+  deferred.then(function (user) {
+    _this.user = user;
+    return user;
+  }, function (errorResponse) {
+    var errorCode;
+    try {
+      errorCode = (errorResponse.responseJSON || $.parseJSON(errorResponse.responseText)).error;
+    } catch (e) {
+    }
+
+    if (errorCode === 'invalid_grant' || errorCode === 'invalid_request') {
+      jso.wipe();
+      var ensureConfig = {};
+      ensureConfig[Auth.PROVIDER] = [];
+      jso.ensure(ensureConfig);
+    }
+  });
+
+  return deferred.promise();
 };
 
 module.exports = Auth;
