@@ -23,15 +23,13 @@ module.exports = {
   },
   externals: {
     'jquery': 'jQuery',
-    'jso': {
-      configure: 'jso_configure',
-      ensure: 'jso_ensureTokens',
-      getToken: 'jso_getToken',
-      setRedirect: 'jso_registerRedirectHandler',
-      registerStorageHandler: 'jso_registerStorageHandler',
-      authRequest: 'jso_authrequest',
-      wipe: 'jso_wipe'
-    }
+    'jso_configure': 'jso_configure',
+    'jso_ensure': 'jso_ensureTokens',
+    'jso_getToken': 'jso_getToken',
+    'jso_registerRedirectHandler': 'jso_registerRedirectHandler',
+    'jso_registerStorageHandler': 'jso_registerStorageHandler',
+    'jso_authRequest': 'jso_authrequest',
+    'jso_wipe': 'jso_wipe'
   },
   cache: true,
   module: {

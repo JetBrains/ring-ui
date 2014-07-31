@@ -23,7 +23,7 @@ describe('auth', function () {
       expect(callNew(Auth, {})).toThrow('Property serverUri is required');
     });
     it('should fix serverUri', function () {
-      expect(Auth);
+      expect(new Auth({serverUri: 'http://localhost'}).config).toEqual({serverUri: 'http://localhost/'});
     });
   });
 
