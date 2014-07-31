@@ -23,7 +23,7 @@ module.exports = {
   },
   externals: {
     'jquery': 'jQuery',
-    'jso': 'jso'
+    'jso': 'jso_configure'
   },
   cache: true,
   module: {

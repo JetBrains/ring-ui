@@ -1,6 +1,11 @@
 'use strict';
 
-var jso = require('jso');
+var jso_configure = require('jso');
+
+var jso = {
+  'configure': jso_configure
+};
+
 var $ = require('jquery');
 
 /**
