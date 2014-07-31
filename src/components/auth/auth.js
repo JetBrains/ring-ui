@@ -1,13 +1,22 @@
 'use strict';
 
-var jso_configure = require('jso');
-
-var jso = {
-  'configure': jso_configure
+var jso= {
+  configure: require('jso_configure'),
+  ensure: require('jso_ensure'),
+  getToken: require('jso_getToken'),
+  setRedirect: require('jso_registerRedirectHandler'),
+  registerStorageHandler: require('jso_registerStorageHandler'),
+  authRequest: require('jso_authRequest'),
+  wipe: require('jso_wipe')
 };
 
 var $ = require('jquery');
 var AuthStorage = require('./auth_storage.js');
+
+jso.registerStorageHandler(new AuthStorage({
+  stateStoragePrefix: 'hub-state-',
+  tokensStoragePrefix: 'hub-tokens-'
+}));
 
 /**
  * @class
@@ -56,10 +65,6 @@ var Auth = function (config) {
   this.profileUrl = this.config.serverUri + 'users/me';
   this.logoutUrl = this.config.serverUri + Auth.API_PATH + '/cas/logout?gateway=true&url=' + encodeURIComponent(this.config.redirect_uri);
 
-  jso.registerStorageHandler(new AuthStorage({
-    stateStoragePrefix: 'hub-state-',
-    tokensStoragePrefix: 'hub-tokens-'
-  }));
 
   jso.configure(jsoConfig);
 };
