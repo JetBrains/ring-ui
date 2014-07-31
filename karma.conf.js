@@ -15,14 +15,13 @@ module.exports = function (karma) {
 
 
     // frameworks to use
-    frameworks: ['jasmine', 'mocha', 'chai', 'sinon-chai'],
+    frameworks: ['jasmine'],
 
 
     // Files are given outside from gulp task
     files: [
       'node_modules/jquery/dist/jquery.js',
       'node_modules/jso/jso.js',
-      'node_modules/q/q.js',
       'test-helpers/*.js',
       'src/components/**/*.test.js'
     ],
