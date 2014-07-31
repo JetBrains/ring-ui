@@ -8,7 +8,7 @@
 'use strict';
 var pkgConfig = require('./package.json');
 var path = require('path');
-var addLoaders = function() {
+var addLoaders = function () {
   return Array.prototype.slice.call(arguments).join('!');
 };
 
@@ -23,7 +23,15 @@ module.exports = {
   },
   externals: {
     'jquery': 'jQuery',
-    'jso': 'jso_configure'
+    'jso': {
+      configure: 'jso_configure',
+      ensure: 'jso_ensureTokens',
+      getToken: 'jso_getToken',
+      setRedirect: 'jso_registerRedirectHandler',
+      registerStorageHandler: 'jso_registerStorageHandler',
+      authRequest: 'jso_authrequest',
+      wipe: 'jso_wipe'
+    }
   },
   cache: true,
   module: {
@@ -31,10 +39,10 @@ module.exports = {
       {
         test: /\.scss$/,
         loader: addLoaders(
-            'style',
-            'css',
-            'autoprefixer?browsers=last 2 versions, safari 5, ie 8, ie 9, opera 12.1, ios 6, android 4',
-            'sass?outputStyle=expanded'
+          'style',
+          'css',
+          'autoprefixer?browsers=last 2 versions, safari 5, ie 8, ie 9, opera 12.1, ios 6, android 4',
+          'sass?outputStyle=expanded'
         )
       },
       //jsx loader
