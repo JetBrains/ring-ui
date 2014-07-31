@@ -15,6 +15,7 @@
     "autoprefixer-loader": "^0.1.1",
     "css-loader": "^0.7.0",
     "envify": "^1.2.1",
+    "exports-loader": "^0.6.2",
     "file-loader": "^0.5.1",
     "gulp": "^3.6.2",
     "gulp-jshint": "^1.7.1",
