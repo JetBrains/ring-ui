@@ -7,6 +7,7 @@ var jso = {
 };
 
 var $ = require('jquery');
+var AuthStorage = require('./auth_storage.js');
 
 /**
  * @class
@@ -52,18 +53,21 @@ var Auth = function (config) {
   this.profileUrl = this.config.serverUri + 'users/me';
   this.logoutUrl = this.config.serverUri + Auth.API_PATH + '/cas/logout?gateway=true&url=' + encodeURIComponent(this.config.redirect_uri);
 
+  jso.registerStorageHandler(new AuthStorage({
+    stateStoragePrefix: 'hub-state-',
+    tokensStoragePrefix: 'hub-tokens-'
+  }));
+
   jso.configure(jsoConfig);
 };
 
 /**
- * @const
- * @type {RegExp}
+ * @const {RegExp}
  */
 Auth.ABSOLUTE_URL_PATTERN = /^[a-z]+:\/\//i;
 
 /**
- * @const
- * @type {{client_id: string, redirect_uri: string, scope: string[]}}
+ * @const {{client_id: string, redirect_uri: string, scope: string[]}}
  */
 Auth.DEFAULT_CONFIG = {
   client_id: '0-0-0-0-0',
@@ -84,32 +88,27 @@ Auth.DEFAULT_CONFIG = {
 };
 
 /**
- * @const
- * @type {string}
+ * @const {string}
  */
 Auth.PROVIDER = 'hub';
 
 /**
- * @const
- * @type {string}
+ * @const {string}
  */
 Auth.API_PATH = 'api/rest';
 
 /**
- * @const
- * @type {string}
+ * @const {string}
  */
 Auth.API_AUTH_PATH = Auth.API_PATH + '/oauth2/auth';
 
 /**
- * @const
- * @type {string}
+ * @const {string}
  */
 Auth.API_PROFILE_PATH = Auth.API_PATH + '/users/me';
 
 /**
- * @const
- * @type {number}
+ * @const {number}
  */
 Auth.REFRESH_BEFORE = 20 * 60 * 1000; // 20 min
 
@@ -254,7 +253,7 @@ Auth.prototype.requestToken = function () {
 };
 
 /**
- * @return {Promise.<User>}
+ * @return {Promise.<object>}
  */
 Auth.prototype.getUser = function () {
   if (this.user) {

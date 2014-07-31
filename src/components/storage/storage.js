@@ -3,6 +3,10 @@
 var LocalStorage = require('./storage_local.js');
 var FallbackStorage = require('./storage_fallback.js');
 
+/**
+ * @class
+ * @extends {LocalStorage}
+ */
 var Storage = LocalStorage;
 
 // Using try/catch here because of IE10+ protected mode and other browsers' quirks
