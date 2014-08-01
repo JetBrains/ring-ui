@@ -122,6 +122,7 @@ Auth.prototype.init = function () {
 
   var restoreLocationDeferred = $.Deferred();
   var self = this;
+  jso.setRedirect(this.defaultRedirectHandler);
   jso.configure(jsoConfig, null, function (restoreLocation, error) {
     if (error) {
       // This happens if auth server response parse failed
