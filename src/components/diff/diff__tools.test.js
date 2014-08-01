@@ -22,7 +22,7 @@ describe('Diff.tools', function () {
 
     it('should raises an Error if odd number of arguments was given', function () {
       expect(diffTool.createObject.bind(diffTool, 'foo', 1, 'bar'))
-        .toThrow('Odd number of arguments.');
+        .toThrow(new Error('Odd number of arguments.'));
     });
   });
 
