@@ -34,7 +34,8 @@ function testStorage(storage) {
     it('Should not return same objects', function () {
       storage.set('test', test);
 
-      storage.get('test2').done(function(result) {
+      storage.get('test').done(function(result) {
+        expect(result).toEqual(test);
         expect(result).not.toBe(test);
       });
     });
