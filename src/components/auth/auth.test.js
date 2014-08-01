@@ -47,12 +47,21 @@ describe('auth', function () {
 
   describe('init should not redirect anywhere', function () {
     beforeEach(function () {
-      spyOn(Auth.prototype, 'defaultRedirectHandler');
+      spyOn(Auth.prototype, 'defaultRedirectHandler').and.callFake(function (url) {
+        // do nothing
+      });
     });
 
     it('redirect should not happen on object construction', function() {
       new Auth({'serverUri': 'http://localhost:1214'});
       expect(Auth.prototype.defaultRedirectHandler).not.toHaveBeenCalled();
+    });
+
+    it('redircet on init call', function() {
+      new Auth({'serverUri': 'http://localhost:1214'}).init();
+      var redirectSpy = Auth.prototype.defaultRedirectHandler;
+      expect(redirectSpy).toHaveBeenCalled();
+      expect(redirectSpy.calls.mostRecent().args[0]).toMatch('http://localhost:1214');
     });
   });
 
