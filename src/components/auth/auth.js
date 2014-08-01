@@ -192,7 +192,7 @@ Auth.prototype.createFrameRedirectHandler = function ($iframe) {
  * @private
  */
 Auth.prototype._nonInteractiveEnsureToken = function () {
-  if (this._refreshDefer && this._refreshDefer.state === 'pending') {
+  if (this._refreshDefer && this._refreshDefer.state() === 'pending') {
     return this._refreshDefer.promise();
   }
   this._refreshDefer = $.Deferred();
