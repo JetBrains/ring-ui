@@ -21,7 +21,6 @@ module.exports = function (karma) {
     // Files are given outside from gulp task
     files: [
       'node_modules/jquery/dist/jquery.js',
-      'node_modules/jso/jso.js',
       'test-helpers/*.js',
       'src/components/**/*.test.js'
     ],

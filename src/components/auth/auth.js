@@ -1,5 +1,7 @@
 'use strict';
 
+require('jso-browser');
+
 var jso = {
   configure: require('jso_configure'),
   ensure: require('jso_ensure'),
