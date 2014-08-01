@@ -157,7 +157,7 @@ Auth.prototype._interactiveEnsureToken = function () {
 
     // Validate token
     this.user = null;
-    this.getUser().done(function () {
+    this.requestUser().done(function () {
       tokenDeffered.resolve(accessToken);
     });
   } else {
@@ -276,7 +276,7 @@ Auth.prototype.requestToken = function () {
 /**
  * @return {Promise.<object>}
  */
-Auth.prototype.getUser = function () {
+Auth.prototype.requestUser = function () {
   if (this.user) {
     return $.Deferred().resolve(this.user).promise();
   }
