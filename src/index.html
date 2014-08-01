@@ -52,6 +52,26 @@
   </section>
 </div>
 
+<div class="example">
+  <header>Diff</header>
+
+  <section>
+    Default(Single-pane):
+    <div id="diff-default">
+    </div>
+
+    Double-pane:
+
+    <!--attribute style - Not so good but simple-->
+    <div id="diff-double-pane" style="height: 300px">
+    </div>
+    <hr/>
+
+    Plain:
+    <div id="diff-plain">
+    </div>
+  </section>
+</div>
 
 <script type="text/javascript" src="jQuery.js" charset="utf-8"></script>
 <script type="text/javascript" src="Ring.js" charset="utf-8"></script>
@@ -88,6 +108,54 @@
   react.renderComponent(
     Ring.Input(),
     document.getElementById('input'));
+
+  react.renderComponent(
+    Ring.Diff({
+      originalContent: 'original',
+      modifiedContent: 'modified',
+      diff: [
+        {
+          newLines: 1,
+          oldLines: 1,
+          type: 'modified'
+        }
+      ]
+    }),
+    document.getElementById('diff-default'));
+
+  react.renderComponent(
+    Ring.Diff({
+      mode: Ring.Diff.Mode.DOUBLE_PANE,
+      originalContent: 'Zoo\nFrfrfr\n',
+      modifiedContent: 'Zoo\n',
+      diff: [
+        {
+          "lines": 1,
+          "type": "unchanged"
+        },
+        {
+          "newLines": 0,
+          "oldLines": 1,
+          "type": "modified"
+        }
+      ]
+    }),
+    document.getElementById('diff-double-pane'));
+
+  react.renderComponent(
+    Ring.Diff({
+      mode: Ring.Diff.Mode.PLAIN_FILE,
+      originalContent: 'original',
+      modifiedContent: 'modified',
+      diff: [
+        {
+          newLines: 1,
+          oldLines: 1,
+          type: 'modified'
+        }
+      ]
+    }),
+    document.getElementById('diff-plain'));
 
   /**
    * @constructor
