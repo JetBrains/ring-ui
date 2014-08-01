@@ -1,6 +1,6 @@
 'use strict';
 
-var jso= {
+var jso = {
   configure: require('jso_configure'),
   ensure: require('jso_ensure'),
   getToken: require('jso_getToken'),
@@ -29,7 +29,6 @@ jso.registerStorageHandler(new AuthStorage({
  * @prop {string} profileUrl
  * @prop {string} logoutUrl
  * @prop {User?} user
- * @prop {bool} _isTokenInited
  *
  * @param {{
  *   serverUri: string,
@@ -39,7 +38,7 @@ jso.registerStorageHandler(new AuthStorage({
  * }} config
  */
 var Auth = function (config) {
-  if(!config) {
+  if (!config) {
     throw Error('Config is required');
   }
   if (!config.serverUri) {
@@ -47,7 +46,6 @@ var Auth = function (config) {
   }
 
   this.config = $.extend({}, Auth.DEFAULT_CONFIG, config);
-  this._isTokenInited = false;
 
   if (this.config.serverUri.length === 0 || this.config.serverUri.charAt(config.serverUri.length - 1) !== '/') {
     this.config.serverUri += '/';
@@ -57,16 +55,8 @@ var Auth = function (config) {
     this.config.scope.push(Auth.DEFAULT_CONFIG.client_id);
   }
 
-  var jsoConfig = {};
-  jsoConfig[Auth.PROVIDER] = $.extend({
-    authorization: this.config.serverUri + Auth.API_AUTH_PATH
-  }, this.config);
-
   this.profileUrl = this.config.serverUri + 'users/me';
   this.logoutUrl = this.config.serverUri + Auth.API_PATH + '/cas/logout?gateway=true&url=' + encodeURIComponent(this.config.redirect_uri);
-
-
-  jso.configure(jsoConfig);
 };
 
 /**
@@ -120,6 +110,35 @@ Auth.API_PROFILE_PATH = Auth.API_PATH + '/users/me';
  */
 Auth.REFRESH_BEFORE = 20 * 60 * 1000; // 20 min
 
+/**
+ * @return {Promise.<string>} absolute URL promise that is resolved to an URL
+ *  that should be restored after return back from auth server. If no return happened
+ */
+Auth.prototype.init = function () {
+  var jsoConfig = {};
+  jsoConfig[Auth.PROVIDER] = $.extend({
+    authorization: this.config.serverUri + Auth.API_AUTH_PATH
+  }, this.config);
+
+  var restoreLocationDeferred = $.Deferred();
+  var self = this;
+  jso.configure(jsoConfig, null, function (restoreLocation, error) {
+    if (error) {
+      // This happens if auth server response parse failed
+      restoreLocationDeferred.reject(error);
+    } else {
+      // Check if there is a valid token. May redirect to auth server
+      self._interactiveEnsureToken().then(function (/*accessToken*/) {
+        // Access token appears to be valid. We may resolve restoreLocation URL now
+        restoreLocationDeferred.resolve(restoreLocation);
+      }, function () {
+        // There is no valid token. JSO is likely to redirect to auth server
+        restoreLocationDeferred.reject();
+      });
+    }
+  });
+  return restoreLocationDeferred.promise();
+};
 
 /**
  * Checks if there is a valid token in the storage.
@@ -137,6 +156,7 @@ Auth.prototype._interactiveEnsureToken = function () {
     var accessToken = jso.getToken(Auth.PROVIDER).access_token;
 
     // Validate token
+    this.user = null;
     this.getUser().done(function () {
       tokenDeffered.resolve(accessToken);
     });
@@ -211,7 +231,7 @@ Auth.prototype._nonInteractiveEnsureToken = function () {
     return newAccessToken && newAccessToken !== oldAccessToken;
   };
 
-  var _this = this;
+  var self = this;
 
   var REFRESH_POLL_INTERVAL = 30;
   var REFRESH_POLL_MAX_ATTEMPTS = 2000;
@@ -222,12 +242,12 @@ Auth.prototype._nonInteractiveEnsureToken = function () {
     var newAccessToken = newToken && newToken.access_token;
 
     if (_isTokenRefreshed(newAccessToken)) {
-      _this._refreshDefer.resolve(newAccessToken);
+      self._refreshDefer.resolve(newAccessToken);
     } else if (pollAttempt < REFRESH_POLL_MAX_ATTEMPTS) {
       setTimeout(poll, REFRESH_POLL_INTERVAL);
     } else {
       $iframe.remove();
-      _this._refreshDefer.reject('Failed to refresh token after ' + pollAttempt / 1000 * REFRESH_POLL_INTERVAL + ' secs');
+      self._refreshDefer.reject('Failed to refresh token after ' + pollAttempt / 1000 * REFRESH_POLL_INTERVAL + ' secs');
     }
   };
 
@@ -242,22 +262,15 @@ Auth.prototype._nonInteractiveEnsureToken = function () {
 
 /**
  * Get token from local storage or request it if required.
- * Optionally can redirect to login page.
+ * Can redirect to login page.
  * @return {Promise.<string>}
  */
 Auth.prototype.requestToken = function () {
-  var _this = this;
-  if (!this._isTokenInited) {
-    return this._interactiveEnsureToken().then(function (accessToken) {
-      _this._isTokenInited = true;
-      return accessToken;
-    });
-  } else {
-    return this._nonInteractiveEnsureToken().fail(function () {
-      jso.setRedirect(_this.defaultRedirectHandler);
-      jso.authRequest(Auth.PROVIDER, _this.config.scope);
-    });
-  }
+  var self = this;
+  return this._nonInteractiveEnsureToken().fail(function () {
+    jso.setRedirect(self.defaultRedirectHandler);
+    jso.authRequest(Auth.PROVIDER, self.config.scope);
+  });
 };
 
 /**
@@ -285,9 +298,9 @@ Auth.prototype.getUser = function () {
   }
 
 
-  var _this = this;
+  var self = this;
   deferred.then(function (user) {
-    _this.user = user;
+    self.user = user;
     return user;
   }, function (errorResponse) {
     var errorCode;
