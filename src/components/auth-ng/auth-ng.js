@@ -41,16 +41,20 @@ authModule.provider('auth', ['$httpProvider', function ($httpProvider) {
     authInitPromise = auth.init();
 
     authInitPromise.done(function () {
-      // TODO: add interceptor that would auth.requestToken()
-      // Install Authorization header getter
-      $httpProvider.defaults.headers.common['Authorization'] = function () {
-        // TODO: it is nonsense
-        return 'Bearer ' + auth.requestToken();
-      };
+      $httpProvider.interceptors.push([function () {
+        return {
+          'request': function (config) {
+            return auth.requestToken().then(function (accessToken) {
+              config.headers.common['Authorization'] = accessToken;
+              return config;
+            });
+          }
+        };
+      }]);
     });
   };
 
-  this.$get = ['$location', '$http', '$q', function ($location, $http, $q) {
+  this.$get = ['$location', '$q', function ($location, $q) {
     /**
      * @param {string?} restoreLocationURL
      */
