@@ -24,6 +24,7 @@
     "gulp-util": "^2.2.14",
     "imports-loader": "^0.6.3",
     "jquery": "^2.1.1",
+    "jso-browser": "^1.0.2",
     "jsx-loader": "^0.10.2",
     "karma": "^0.12.16",
     "karma-chrome-launcher": "^0.1.4",
@@ -32,7 +33,6 @@
     "karma-phantomjs-launcher": "^0.1.4",
     "karma-teamcity-reporter": "^0.1.2",
     "karma-webpack": "^1.2.1",
-    "napa": "^0.4.1",
     "sass-loader": "^0.2.0",
     "style-loader": "^0.6.3",
     "url-loader": "^0.5.5",
@@ -43,8 +43,5 @@
     "codemirror": "^4.4.0",
     "jquery": "^2.1.1",
     "react": "^0.10.0"
-  },
-  "scripts": {
-    "install": "napa git://github.com/princed/jso.git:jso"
   }
 }
