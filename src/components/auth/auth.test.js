@@ -45,4 +45,14 @@ describe('auth', function () {
     });
   });
 
+  describe('init should not redirect anywhere', function () {
+    beforeEach(function () {
+      spyOn(Auth.prototype, 'defaultRedirectHandler').andCallFake(function(){});
+    });
+    it('redirect should not happen on object construction', function() {
+      new Auth({'serverUri': 'http://localhost:1214'});
+      expect(Auth.prototype.defaultRedirectHandler).not.toHaveBeenCalled();
+    });
+  });
+
 });
