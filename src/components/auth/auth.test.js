@@ -20,9 +20,9 @@ describe('auth', function () {
 
   describe('init', function () {
     it('should provide config', function () {
-      expect(callNew(Auth)).toThrow('Config is required');
-      expect(callNew(Auth, {})).toThrow('Property serverUri is required');
-      expect(callNew(Auth, {serverUri: ''})).toThrow('Property serverUri is required');
+      expect(callNew(Auth)).toThrow(new Error('Config is required'));
+      expect(callNew(Auth, {})).toThrow(new Error('Property serverUri is required'));
+      expect(callNew(Auth, {serverUri: ''})).toThrow(new Error('Property serverUri is required'));
     });
     it('should fix serverUri', function () {
       expect(new Auth({serverUri: 'http://localhost'}).config.serverUri).toEqual('http://localhost/');

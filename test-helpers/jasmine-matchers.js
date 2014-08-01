@@ -1,33 +1,36 @@
 /**
  * Custom useful matchers for jasmine
  */
-beforeEach(function() {
-    var englishyPredicate = function(matcherName) {
-        return matcherName.replace(/[A-Z]/g, function(s) {
-            return ' ' + s.toLowerCase();
-        });
-    };
+beforeEach(function () {
+  jasmine.addMatchers({
+    toHaveClass: function () {
+      return {
+        compare: function (actual, expectedClassName) {
+          var actualClassName = actual.className;
 
-    this.addMatchers({
-        toHaveClass: function(className) {
-            this.message = function() {
-                var args = Array.prototype.slice.apply(arguments);
-                return 'Expected ' + jasmine.pp(this.actual) + (this.isNot ? ' not ' : ' ') + englishyPredicate('toHaveClass') + ' `' + jasmine.pp(args.join()) + '`, but have `' + this.actual.className + '`.';
-            };
+          var result = {
+            pass: (new RegExp('\\b' + expectedClassName + '\\b')).test(actualClassName)
+          };
 
-            return (new RegExp('\\b' + className + '\\b')).test(this.actual.className);
+          result.message = 'Expected ' + jasmine.pp(actual) + (result.pass ? ' not' : '') + ' to have class `' + expectedClassName + '`, but it have `' + actualClassName + '`.';
+
+          return result;
         }
-    });
-
-  this.addMatchers({
-    toBeInstanceOf: function(expectedInstance) {
-      var actual = this.actual;
-      var notText = this.isNot ? ' not' : '';
-
-      this.message = function() {
-        return 'Expected ' + actual.constructor.name + notText + ' is instance of ' + expectedInstance.name;
       };
-      return actual instanceof expectedInstance;
+    },
+    toBeInstanceOf: function () {
+      return {
+        compare: function (actual, expectedInstance) {
+          var result = {
+            pass: actual instanceof expectedInstance
+          };
+
+          // TODO Do something with constructors' names
+          result.message = 'Expected ' + actual.constructor.name + (result.pass ? ' not' : '') + ' to be instance of ' + expectedInstance.name;
+
+          return result;
+        }
+      };
     }
   });
 });
