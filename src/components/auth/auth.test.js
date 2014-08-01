@@ -45,11 +45,9 @@ describe('auth', function () {
     });
   });
 
-  xdescribe('init should not redirect anywhere', function () {
+  describe('init should not redirect anywhere', function () {
     beforeEach(function () {
-      // spyOn doesn't work here for some reason, but next line works
-      // Auth.prototype.defaultRedirectHandler = jasmine.createSpy('defaultRedirectHandler');
-      jasmine.spyOn(Auth.prototype, 'defaultRedirectHandler');
+      spyOn(Auth.prototype, 'defaultRedirectHandler');
     });
 
     it('redirect should not happen on object construction', function() {
