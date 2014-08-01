@@ -23,10 +23,6 @@ authModule.provider('auth', ['$httpProvider', function ($httpProvider) {
    */
   var auth;
 
-  /**
-   * @type Promise.<string>
-   */
-  var authInitPromise;
 
   /**
    * @param {{
@@ -38,46 +34,54 @@ authModule.provider('auth', ['$httpProvider', function ($httpProvider) {
    */
   this.config = function (config) {
     auth = new Auth(config);
-    authInitPromise = auth.init();
 
-    authInitPromise.done(function () {
-      $httpProvider.interceptors.push([function () {
-        return {
-          'request': function (config) {
-            return auth.requestToken().then(function (accessToken) {
+    $httpProvider.interceptors.push(['$location', function ($location) {
+      /**
+       * @param {string?} restoreLocationURL
+       */
+      var restoreLocation = function (restoreLocationURL) {
+        if (restoreLocationURL) {
+          var redirectUri = auth.config.redirect_uri;
+          var minLength = Math.min(restoreLocationURL.length, redirectUri.length) + 1;
+
+          // Skipping common prefix
+          for (var i = 0; i < minLength; i++) {
+            if (restoreLocationURL.charAt(i) !== redirectUri.charAt(i)) {
+              $location.url(restoreLocationURL.substring(i - 1)).replace();
+              break;
+            }
+          }
+        }
+      };
+
+
+      /**
+       * @type Promise.<string>
+       */
+      var authInitPromise;
+      return {
+        'request': function (config) {
+          if (!authInitPromise) {
+            authInitPromise = auth.init();
+            authInitPromise.done(restoreLocation);
+          }
+          return authInitPromise.
+            then(function () {
+              return auth.requestToken();
+            }).
+            then(function (accessToken) {
               config.headers.common['Authorization'] = accessToken;
               return config;
             });
-          }
-        };
-      }]);
-    });
+        }
+      };
+    }]);
   };
 
-  this.$get = ['$location', '$q', function ($location, $q) {
-    /**
-     * @param {string?} restoreLocationURL
-     */
-    var restoreLocation = function (restoreLocationURL) {
-      if (restoreLocationURL) {
-        var redirectUri = auth.config.redirect_uri;
-        var minLength = Math.min(restoreLocationURL.length, redirectUri.length) + 1;
-
-        // Skipping common prefix
-        for (var i = 0; i < minLength; i++) {
-          if (restoreLocationURL.charAt(i) !== redirectUri.charAt(i)) {
-            $location.url(restoreLocationURL.substring(i - 1)).replace();
-            break;
-          }
-        }
-      }
-    };
-    authInitPromise.done(restoreLocation);
-
+  this.$get = [function () {
     return {
       requestUser: auth.requestUser.bind(auth),
-      clientId: auth.config.client_id,
-      initPromise: $q.when(authInitPromise)
+      clientId: auth.config.client_id
     };
   }];
 }]);
