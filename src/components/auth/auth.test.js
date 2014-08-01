@@ -2,14 +2,14 @@ describe('auth', function () {
   var Auth = require('./auth');
   var $ = require('jquery');
 
-  var callNew = function (fun) {
+  var callNew = function (constructor) {
     var args = Array.prototype.slice.call(arguments, 1);
     return function () {
       function F() {
-        return fun.apply(this, args);
+        return constructor.apply(this, args);
       }
 
-      F.prototype = fun.prototype;
+      F.prototype = constructor.prototype;
       return new F();
     };
   };
