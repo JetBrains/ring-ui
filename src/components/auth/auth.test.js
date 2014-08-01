@@ -47,7 +47,7 @@ describe('auth', function () {
 
   describe('init should not redirect anywhere', function () {
     beforeEach(function () {
-      spyOn(Auth.prototype, 'defaultRedirectHandler').and.callFake(function (url) {
+      spyOn(Auth.prototype, 'defaultRedirectHandler').and.callFake(function () {
         // do nothing
       });
     });
@@ -57,8 +57,21 @@ describe('auth', function () {
       expect(Auth.prototype.defaultRedirectHandler).not.toHaveBeenCalled();
     });
 
-    it('redircet on init call', function() {
+    it('redirect on init call', function() {
       new Auth({'serverUri': 'http://localhost:1214'}).init();
+      var redirectSpy = Auth.prototype.defaultRedirectHandler;
+      expect(redirectSpy).toHaveBeenCalled();
+      expect(redirectSpy.calls.mostRecent().args[0]).toMatch('http://localhost:1214');
+    });
+
+    xit('redirect on init call', function() {
+      spyOn(window.location, 'toString').and.callFake(function () {
+        return 'cb#access_token=abcde&state=xyz&token_type=example&expires_in=3600';
+      });
+      var init = new Auth({'serverUri': 'http://localhost:1214'}).init();
+      init.done(function (url) {
+        expect(url).toBe('xyz');
+      });
       var redirectSpy = Auth.prototype.defaultRedirectHandler;
       expect(redirectSpy).toHaveBeenCalled();
       expect(redirectSpy.calls.mostRecent().args[0]).toMatch('http://localhost:1214');
