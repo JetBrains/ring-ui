@@ -87,7 +87,7 @@ function testStorage(storage) {
       storage.set('test3', '');
       storage.each(iterator);
 
-      expect(iterator.calls.length).toBe(3);
+      expect(iterator.calls.count()).toBe(3);
     });
 
     it('Should fail on wrong callback', function () {
