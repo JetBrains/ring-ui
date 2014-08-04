@@ -1,17 +1,6 @@
 'use strict';
 
-require('jso-browser');
-
-var jso = {
-  configure: require('jso_configure'),
-  ensure: require('jso_ensure'),
-  getToken: require('jso_getToken'),
-  setRedirect: require('jso_registerRedirectHandler'),
-  registerStorageHandler: require('jso_registerStorageHandler'),
-  authRequest: require('jso_authRequest'),
-  wipe: require('jso_wipe')
-};
-
+var jso = require('jso-browser');
 var $ = require('jquery');
 var AuthStorage = require('./auth_storage.js');
 
@@ -124,7 +113,7 @@ Auth.prototype.init = function () {
 
   var restoreLocationDeferred = $.Deferred();
   var self = this;
-  jso.setRedirect(this.defaultRedirectHandler);
+  jso.registerRedirectHandler(this.defaultRedirectHandler);
   jso.configure(jsoConfig, null, function (restoreLocation, error) {
     if (error) {
       // This happens if auth server response parse failed
@@ -155,7 +144,7 @@ Auth.prototype._interactiveEnsureToken = function () {
 
   var ensureConfig = {};
   ensureConfig[Auth.PROVIDER] = [];
-  if (jso.ensure(ensureConfig)) {
+  if (jso.ensureTokens(ensureConfig)) {
     var accessToken = jso.getToken(Auth.PROVIDER).access_token;
 
     // Validate token
@@ -164,7 +153,7 @@ Auth.prototype._interactiveEnsureToken = function () {
       tokenDeffered.resolve(accessToken);
     });
   } else {
-    // This is unexpected as jso.ensure() redirect to auth page when it is false
+    // This is unexpected as jso.ensureTokens() redirect to auth page when it is false
     tokenDeffered.reject();
   }
 
@@ -254,7 +243,7 @@ Auth.prototype._nonInteractiveEnsureToken = function () {
     }
   };
 
-  jso.setRedirect(this.createFrameRedirectHandler($iframe));
+  jso.registerRedirectHandler(this.createFrameRedirectHandler($iframe));
 
   poll();
 
@@ -271,7 +260,7 @@ Auth.prototype._nonInteractiveEnsureToken = function () {
 Auth.prototype.requestToken = function () {
   var self = this;
   return this._nonInteractiveEnsureToken().fail(function () {
-    jso.setRedirect(self.defaultRedirectHandler);
+    jso.registerRedirectHandler(self.defaultRedirectHandler);
     jso.authRequest(Auth.PROVIDER, self.config.scope);
   });
 };
