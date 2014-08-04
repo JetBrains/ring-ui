@@ -8,6 +8,13 @@ var rimraf = require('gulp-rimraf');
 var WebpackDevServer = require('webpack-dev-server');
 var karma = require('gulp-karma');
 var nodemon = require('gulp-nodemon');
+var sprite = require('gulp-svg-sprites');
+var filter = require('gulp-filter');
+var svg2png = require('gulp-svg2png');
+var rename = require('gulp-rename');
+var clean = require('gulp-clean');
+var svgmin = require('gulp-svgmin');
+var concat = require('gulp-concat');
 
 // Read configuration from package.json
 var pkgConfig = Object.create(require('./package.json'));
@@ -153,3 +160,65 @@ gulp.task('build-dev', ['webpack:build-dev'], function () {
 
 // Production build
 gulp.task('build', ['lint', 'test:build', 'webpack:build', 'copy']);
+
+//Generate icon sprite
+gulp.task('sprite', ['sprite:rename', 'sprite:create', 'sprite:concat', 'sprite:svg2png', 'sprite:svgmin', 'sprite:clean']);
+
+var spriteName = 'icon';
+var spriteCfg = {
+  dest: 'src/components/icon',
+  options: {
+    common: 'ring-' + spriteName,
+    selector: spriteName + '_%f',
+    layout: 'vertical',
+    cssFile: spriteName + '.scss',
+    svgPath: '%f',
+    pngPath: '%f',
+    refSize: 64,
+    svg: {
+      sprite: spriteName + '.svg'
+    }/*,
+    preview: {
+      sprite: spriteName + '.html'
+    }*/
+  }
+};
+
+gulp.task('sprite:rename', function () {
+  //filename uses as a selector name, that's why a tmp source is created
+  return gulp.src(spriteCfg.dest + '/source/**/*.svg', { base: process.cwd() })
+    .pipe(rename(function (path) {
+      path.basename = 'ring-icon_' + path.basename;
+    }))
+    .pipe(gulp.dest(spriteCfg.dest));
+});
+
+gulp.task('sprite:create', ['sprite:rename'], function () {
+  return gulp.src(spriteCfg.dest + '/src/**/*.svg')
+    .pipe(sprite(spriteCfg.options))
+    .pipe(gulp.dest(spriteCfg.dest))
+    .pipe(filter(spriteCfg.dest + '/source/*.svg'));
+});
+
+gulp.task('sprite:concat', ['sprite:create'], function () {
+  return gulp.src([spriteCfg.dest + '/*.scss'])
+    .pipe(concat(spriteName + '.scss'))
+    .pipe(gulp.dest(spriteCfg.dest));
+});
+
+gulp.task('sprite:svg2png', ['sprite:create'], function () {
+  return gulp.src([spriteCfg.dest + '/' + spriteName + '.svg'])
+    .pipe(svg2png())
+    .pipe(gulp.dest(spriteCfg.dest));
+});
+
+gulp.task('sprite:svgmin', ['sprite:create'], function () {
+  return gulp.src(spriteCfg.dest + '/' + spriteName + '.svg')
+  .pipe(svgmin())
+    .pipe(gulp.dest(spriteCfg.dest));
+});
+
+gulp.task('sprite:clean', ['sprite:svg2png'], function () {
+  return gulp.src([spriteCfg.dest + '/src'], {read: false})
+    .pipe(clean());
+});
