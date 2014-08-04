@@ -8,7 +8,7 @@
 'use strict';
 var pkgConfig = require('./package.json');
 var path = require('path');
-var addLoaders = function() {
+var addLoaders = function () {
   return Array.prototype.slice.call(arguments).join('!');
 };
 
@@ -22,7 +22,14 @@ module.exports = {
     library: '[name]'
   },
   externals: {
-    "jquery": "jQuery"
+    'jquery': 'jQuery',
+    'jso_configure': 'jso_configure',
+    'jso_ensure': 'jso_ensureTokens',
+    'jso_getToken': 'jso_getToken',
+    'jso_registerRedirectHandler': 'jso_registerRedirectHandler',
+    'jso_registerStorageHandler': 'jso_registerStorageHandler',
+    'jso_authRequest': 'jso_authrequest',
+    'jso_wipe': 'jso_wipe'
   },
   cache: true,
   module: {
@@ -30,10 +37,10 @@ module.exports = {
       {
         test: /\.scss$/,
         loader: addLoaders(
-            'style',
-            'css',
-            'autoprefixer?browsers=last 2 versions, safari 5, ie 8, ie 9, opera 12.1, ios 6, android 4',
-            'sass?outputStyle=expanded'
+          'style',
+          'css',
+          'autoprefixer?browsers=last 2 versions, safari 5, ie 8, ie 9, opera 12.1, ios 6, android 4',
+          'sass?outputStyle=expanded'
         )
       },
       //jsx loader
@@ -42,13 +49,13 @@ module.exports = {
         loader: 'jsx-loader'
       },
       //images loader
-      { test: /\.png$/, loader: "file-loader" },
+      { test: /\.png$/, loader: 'file-loader' },
       // the url-loader uses DataUrls.
       // the file-loader emits files.
-      { test: /\.woff$/, loader: "url-loader?limit=10000&minetype=application/font-woff" },
-      { test: /\.ttf$/, loader: "file-loader" },
-      { test: /\.eot$/, loader: "file-loader" },
-      { test: /\.svg$/, loader: "file-loader" }
+      { test: /\.woff$/, loader: 'url-loader?limit=10000&minetype=application/font-woff' },
+      { test: /\.ttf$/, loader: 'file-loader' },
+      { test: /\.eot$/, loader: 'file-loader' },
+      { test: /\.svg$/, loader: 'file-loader' }
     ]
   },
   plugins: []
