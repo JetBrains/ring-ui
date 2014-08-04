@@ -143,7 +143,7 @@ Auth.prototype._interactiveEnsureToken = function () {
   var tokenDeffered = $.Deferred();
 
   var ensureConfig = {};
-  ensureConfig[Auth.PROVIDER] = [];
+  ensureConfig[Auth.PROVIDER] = this.config.scope;
   if (jso.ensureTokens(ensureConfig)) {
     var accessToken = jso.getToken(Auth.PROVIDER).access_token;
 
