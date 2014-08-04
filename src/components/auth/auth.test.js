@@ -63,19 +63,6 @@ describe('auth', function () {
       expect(redirectSpy).toHaveBeenCalled();
       expect(redirectSpy.calls.mostRecent().args[0]).toMatch('http://localhost:1214');
     });
-
-    xit('redirect on init call', function() {
-      spyOn(window.location, 'toString').and.callFake(function () {
-        return 'cb#access_token=abcde&state=xyz&token_type=example&expires_in=3600';
-      });
-      var init = new Auth({'serverUri': 'http://localhost:1214'}).init();
-      init.done(function (url) {
-        expect(url).toBe('xyz');
-      });
-      var redirectSpy = Auth.prototype.defaultRedirectHandler;
-      expect(redirectSpy).toHaveBeenCalled();
-      expect(redirectSpy.calls.mostRecent().args[0]).toMatch('http://localhost:1214');
-    });
   });
 
 });
