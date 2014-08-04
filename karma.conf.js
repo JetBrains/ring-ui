@@ -18,7 +18,7 @@ module.exports = function (karma) {
     frameworks: ['jasmine'],
 
 
-    // list of files / patterns to load in the browser
+    // Files are given outside from gulp task
     files: [
       'node_modules/jquery/dist/jquery.js',
       'test-helpers/*.js',

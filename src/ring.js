@@ -6,5 +6,6 @@ module.exports = {
   Popup: require('./components/popup/popup.jsx'),
   ProgressBar: require('./components/progress-bar/progress-bar.jsx'),
   Input: require('./components/input/input.jsx'),
-  Textarea: require('./components/textarea/textarea.jsx')
+  Textarea: require('./components/textarea/textarea.jsx'),
+  Diff: require('./components/diff/diff.jsx')
 };
