@@ -1,67 +1,55 @@
 describe('auth', function () {
   var Auth = require('./auth');
-  var $ = require('jquery');
 
-  var callNew = function (constructor) {
-    var args = Array.prototype.slice.call(arguments, 1);
-    return function () {
-      function F() {
-        return constructor.apply(this, args);
-      }
-
-      F.prototype = constructor.prototype;
-      return new F();
-    };
-  };
-
-
-  beforeEach(function () {
-  });
-
-  describe('init', function () {
-    it('should provide config', function () {
-      expect(callNew(Auth)).toThrow(new Error('Config is required'));
-      expect(callNew(Auth, {})).toThrow(new Error('Property serverUri is required'));
-      expect(callNew(Auth, {serverUri: ''})).toThrow(new Error('Property serverUri is required'));
+  describe('construction', function () {
+    it('should require provide config', function () {
+      expect(function () {
+        return new Auth();
+      }).toThrow(new Error('Config is required'));
     });
+
+    it('should require provide server uri', function () {
+      expect(function () {
+        return new Auth({
+          serverUri: ''
+        });
+      }).toThrow(new Error('Property serverUri is required'));
+    });
+
     it('should fix serverUri', function () {
       expect(new Auth({serverUri: 'http://localhost'}).config.serverUri).toEqual('http://localhost/');
       expect(new Auth({serverUri: '.'}).config.serverUri).toEqual('./');
     });
-    it('should add defaults', function () {
+
+    it('should merge passed config with default config', function () {
       var config = {
         serverUri: 'http://localhost/'
       };
-      expect(new Auth(config).config).toEqual($.extend({}, Auth.DEFAULT_CONFIG, config));
+      var auth = new Auth(config);
 
-      config.redirect_uri = 'http://redirect.to';
-      config.client_id = '7-7-7-7-7';
-      expect(new Auth(config).config).toEqual($.extend({}, Auth.DEFAULT_CONFIG, config));
-
-      config.redirect_uri = 'http://redirect.to';
-      config.client_id = '7-7-7-7-7';
-      config.scope = ['test', 'test2'];
-      expect(new Auth(config).config).toEqual($.extend({scope: ['test1', 'test2', '0-0-0-0-0']}, Auth.DEFAULT_CONFIG, config));
+      expect(auth.config.serverUri).toEqual(config.serverUri);
+      expect(auth.config).toEqual(jasmine.objectContaining(Auth.DEFAULT_CONFIG));
     });
   });
 
-  describe('init should not redirect anywhere', function () {
+  describe('redirect', function () {
+    var config = {'serverUri': 'http://localhost:1214'};
+    var auth;
+
     beforeEach(function () {
-      spyOn(Auth.prototype, 'defaultRedirectHandler').and.callFake(function () {
-        // do nothing
-      });
+      spyOn(Auth.prototype, 'defaultRedirectHandler');
+      auth = new Auth(config);
     });
 
-    it('redirect should not happen on object construction', function() {
-      new Auth({'serverUri': 'http://localhost:1214'});
-      expect(Auth.prototype.defaultRedirectHandler).not.toHaveBeenCalled();
+    it('should not redirect on object construction', function() {
+      expect(auth.defaultRedirectHandler).not.toHaveBeenCalled();
     });
 
-    it('redirect on init call', function() {
-      new Auth({'serverUri': 'http://localhost:1214'}).init();
-      var redirectSpy = Auth.prototype.defaultRedirectHandler;
-      expect(redirectSpy).toHaveBeenCalled();
-      expect(redirectSpy.calls.mostRecent().args[0]).toMatch('http://localhost:1214');
+    it('should redirect on init call', function() {
+      auth.init();
+
+      expect(auth.defaultRedirectHandler).toHaveBeenCalled();
+      expect(auth.defaultRedirectHandler.calls.mostRecent().args[0]).toMatch(config.serverUri);
     });
   });
 
