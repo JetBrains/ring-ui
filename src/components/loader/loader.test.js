@@ -14,7 +14,7 @@ describe('loader', function () {
   });
 
   it('should create component', function () {
-    expect(TestUtils.isComponentOfType(loader, Loader)).toEqual(true);
+    expect(TestUtils.isCompositeComponentWithType(loader, Loader)).toEqual(true);
   });
 
   it('should add custom class', function () {
