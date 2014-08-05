@@ -16,6 +16,6 @@ describe('Textarea', function () {
   });
 
   it('should create component', function () {
-    expect(React.addons.TestUtils.isComponentOfType(component, Textarea)).toEqual(true);
+    expect(React.addons.TestUtils.isCompositeComponentWithType(component, Textarea)).toEqual(true);
   });
 });
