@@ -1,5 +1,6 @@
 describe('button', function () {
   var React = require('react/addons');
+  var ReactTestUtils = React.addons.TestUtils;
   var Button = require('./button.jsx');
   var container = null;
 
@@ -13,7 +14,7 @@ describe('button', function () {
   });
 
   it('should create component', function () {
-    expect(React.addons.TestUtils.isComponentOfType(this.button, Button)).toEqual(true);
+    expect(ReactTestUtils.isCompositeComponentWithType(this.button, Button)).toEqual(true);
   });
 
   it('should set theme', function () {
