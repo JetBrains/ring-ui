@@ -27,6 +27,9 @@ define([
   var shortcuts = Module.get('shortcuts');
   var delayedListener = Module.get('delayed-listener');
 
+  var $document = $(document);
+  var $window = $(window);
+
   /**
    * Creates Select on config.target element
    * @param {Object} config
@@ -71,6 +74,7 @@ define([
     this.currentQuery_ = '';
     this.$body_ = $('body');
     this.activeItemIndex_ = 0;
+    this.destroyHandler_ = $.proxy(this, 'destroy');
 
     this.$target.
       on('click', function (e) {
@@ -99,8 +103,8 @@ define([
       scope: self.shortcutsUID_
     }, {
       'esc': function (e) {
-        self.destroy();
         e.preventDefault();
+        return self.destroy();
       },
       'tab': function (e) {
         e.preventDefault();
@@ -176,10 +180,14 @@ define([
       this.onShow(true);
     }
 
-    $(document).on('click', $.proxy(this, 'destroy'));
+    $window.on('resize scroll', this.destroyHandler_);
+    $document.on('click ring.popup-close', this.destroyHandler_);
+    this.visible_ = true;
 
     if (!this.$container_) {
       this.initContainer();
+    } else {
+      this.wrapper_.updatePos();
     }
 
     this.$container_.empty();
@@ -394,7 +402,16 @@ define([
       this.onHide();
     }
 
-    $(document).off('click', this.destroy);
+    $window.off('resize scroll', this.destroyHandler_);
+    $document.off('click', this.destroyHandler_);
+
+    if (this.visible_) {
+      this.visible_ = false;
+
+      return false;
+    }
+
+    return true;
   };
 
   /**

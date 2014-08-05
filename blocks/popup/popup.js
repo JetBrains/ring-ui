@@ -51,6 +51,7 @@ define([
       getPos: _getPosition.bind(null, $target, $popup, config),
       insertHTML: insertHTML,
       appendHTML: appendHTML,
+      updatePos: updatePos,
       showLoader: showLoader
     };
   };
@@ -150,6 +151,10 @@ define([
       append($el).
       parent().
       css(this.getPos());
+  };
+
+  var updatePos = function() {
+    return this.el.css(this.getPos());
   };
 
   // Remove on resize / scroll
