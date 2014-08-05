@@ -85,6 +85,9 @@
             var offsetContainer = iDialogContainer.offset();
             offsetContainer.top = offsetContainer.top - iDocument.scrollTop();
 
+            // Duct tape for all dropdown components inside
+            iElement.trigger('ring.popup-close');
+
             iDocument.
               on('mousemove.' + DIALOG_NAMESPACE, function (e) {
                 var top = (offsetContainer.top - (titlePos.top - e.clientY)),
