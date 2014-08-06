@@ -319,4 +319,14 @@ Auth.prototype.requestUser = function () {
   });
 };
 
+/**
+ * Wipe accessToken and redirect to auth page with required authorization
+ */
+Auth.prototype.logout = function () {
+  jso.wipe();
+  jso.authRequest(Auth.PROVIDER, this.config.scopes, null, {
+    request_credentials: 'required'
+  });
+};
+
 module.exports = Auth;
