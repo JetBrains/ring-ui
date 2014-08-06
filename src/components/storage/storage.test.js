@@ -104,7 +104,7 @@ describe('Storage', function () {
     localStorage.clear();
   });
 
-  var Storage = require('./storage');
+  var Storage = require('./storage__local');
 
   testStorage(new Storage());
 });
@@ -117,7 +117,7 @@ describe('Fallback storage', function () {
     document.cookie = cookieName + '=;';
   });
 
-  var FallbackStorage = require('./storage_fallback');
+  var FallbackStorage = require('./storage__fallback');
 
   testStorage(new FallbackStorage({cookieName: cookieName}));
 });
