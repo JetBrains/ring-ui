@@ -1,7 +1,7 @@
 'use strict';
 
-var LocalStorage = require('./storage_local.js');
-var FallbackStorage = require('./storage_fallback.js');
+var LocalStorage = require('./storage__local.js');
+var FallbackStorage = require('./storage__fallback.js');
 
 /**
  * @constructor
