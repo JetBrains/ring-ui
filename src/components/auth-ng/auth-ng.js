@@ -88,7 +88,7 @@ authModule.provider('auth', ['$httpProvider', function ($httpProvider) {
     return {
       requestUser: auth.requestUser.bind(auth),
       clientId: auth.config.client_id,
-      logoutURL: auth.logoutUrl
+      logout: auth.logout.bind(auth)
     };
   }];
 }]);
