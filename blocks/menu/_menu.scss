@@ -136,10 +136,6 @@
   margin-left: $ring-unit*2;
 }
 
-.ring-menu__right .ring-font-icon {
-  font-size: 16px;
-}
-
 .ring-menu__right .ring-font-icon_cog {
   width: 12px;
   font-size: 18px !important;
@@ -147,6 +143,7 @@
 
 .ring-menu__right .ring-menu__item_help {
   height: $ring-unit*4 + 3;
+  font-size: 16px;
 }
 
 .ring-menu__item__i {
