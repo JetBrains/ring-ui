@@ -2,7 +2,7 @@
 
 var jso = require('jso-browser');
 var $ = require('jquery');
-var AuthStorage = require('./auth_storage.js');
+var AuthStorage = require('./auth__storage.js');
 
 jso.registerStorageHandler(new AuthStorage({
   stateStoragePrefix: 'hub-state-',
