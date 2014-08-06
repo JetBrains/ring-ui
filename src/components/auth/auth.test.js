@@ -37,19 +37,19 @@ describe('auth', function () {
     var auth;
 
     beforeEach(function () {
-      spyOn(Auth.prototype, 'defaultRedirectHandler');
+      spyOn(Auth.prototype, '_defaultRedirectHandler');
       auth = new Auth(config);
     });
 
     it('should not redirect on object construction', function() {
-      expect(auth.defaultRedirectHandler).not.toHaveBeenCalled();
+      expect(auth._defaultRedirectHandler).not.toHaveBeenCalled();
     });
 
     it('should redirect on init call', function() {
       auth.init();
 
-      expect(auth.defaultRedirectHandler).toHaveBeenCalled();
-      expect(auth.defaultRedirectHandler.calls.mostRecent().args[0]).toMatch(config.serverUri);
+      expect(auth._defaultRedirectHandler).toHaveBeenCalled();
+      expect(auth._defaultRedirectHandler.calls.mostRecent().args[0]).toMatch(config.serverUri);
     });
   });
 
