@@ -31,10 +31,9 @@ var Checkbox = React.createClass({
     id: ReactPropTypes.string
   },
 
-  getDefaultProps: function () {
+  getInitialState: function () {
     return {
-      id: generateUniqueId(),
-      className: ''
+      id: generateUniqueId()
     };
   },
 
@@ -57,18 +56,21 @@ var Checkbox = React.createClass({
 
   render: function () {
     /* jshint ignore:start */
+    var id = this.props.id || this.state.id;
+
     return (
-      <span className={this.props.className}>
+      <span className={this.props.className || ''}>
         {this.transferPropsTo(<input
         ref="input"
         className="ring-checkbox"
         type="checkbox"
+        id={id}
         />)}
 
         <label
         ref="label"
         className="ring-checkbox__label"
-        htmlFor={this.props.id}>
+        htmlFor={id}>
         </label>
       </span>
       );
