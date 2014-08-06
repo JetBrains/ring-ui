@@ -324,7 +324,7 @@ Auth.prototype.requestUser = function () {
  */
 Auth.prototype.logout = function () {
   jso.wipe();
-  jso.authRequest(Auth.PROVIDER, this.config.scopes, null, {
+  jso.authRequest(Auth.PROVIDER, this.config.scope, null, {
     request_credentials: 'required'
   });
 };
