@@ -42,8 +42,16 @@ authModule.provider('auth', ['$httpProvider', function ($httpProvider) {
     authInitPromise = auth.init();
 
     $httpProvider.interceptors.push([function () {
+      var urlEndsWith = function(config, suffix) {
+        return config && config.url && config.url.indexOf(suffix) === config.url.length - suffix.length;
+      };
+
       return {
         'request': function (config) {
+          if (urlEndsWith(config, '.ng.html') || urlEndsWith(config, '.tpl.html')) {
+            // Don't intercept angular template requests
+            return config;
+          }
           return authInitPromise.
             then(function () {
               return auth.requestToken();
