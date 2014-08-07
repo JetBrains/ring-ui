@@ -32,7 +32,7 @@ var Auth = function (config) {
   if (!config) {
     throw new Error('Config is required');
   }
-  if (!config.serverUri) {
+  if (config.serverUri == null) {
     throw new Error('Property serverUri is required');
   }
 

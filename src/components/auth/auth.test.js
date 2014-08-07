@@ -11,12 +11,16 @@ describe('auth', function () {
     it('should require provide server uri', function () {
       expect(function () {
         return new Auth({
-          serverUri: ''
+          serverUri: null
         });
+      }).toThrow(new Error('Property serverUri is required'));
+      expect(function () {
+        return new Auth({});
       }).toThrow(new Error('Property serverUri is required'));
     });
 
     it('should fix serverUri', function () {
+      expect(new Auth({serverUri: ''}).config.serverUri).toEqual('/');
       expect(new Auth({serverUri: 'http://localhost'}).config.serverUri).toEqual('http://localhost/');
       expect(new Auth({serverUri: '.'}).config.serverUri).toEqual('./');
     });
