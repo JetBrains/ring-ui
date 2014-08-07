@@ -53,6 +53,30 @@
 </div>
 
 <div class="example">
+  <header>Button:</header>
+
+  <section>
+    <div id="button">
+    </div>
+  </section>
+</div>
+
+<div class="example">
+  <header>Loader:</header>
+
+  <section>
+    <div id="loader">
+    </div>
+
+    <div>
+      Inline Loader:
+      <span id="loader-inline">
+      </span>
+    </div>
+  </section>
+</div>
+
+<div class="example">
   <header>Diff</header>
 
   <section>
@@ -108,6 +132,19 @@
   react.renderComponent(
     Ring.Input(),
     document.getElementById('input'));
+
+  react.renderComponent(
+    Ring.Button(null, 'Button'),
+    document.getElementById('button'));
+
+  react.renderComponent(
+    Ring.Loader(),
+    document.getElementById('loader'));
+  react.renderComponent(
+    Ring.Loader({
+      modifier: Ring.Loader.Modifier.INLINE
+    }),
+    document.getElementById('loader-inline'));
 
   react.renderComponent(
     Ring.Diff({

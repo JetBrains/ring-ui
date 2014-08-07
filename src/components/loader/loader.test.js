@@ -24,4 +24,12 @@ describe('loader', function () {
 
     expect(loader.getDOMNode()).toHaveClass('test');
   });
+
+  it('should create inline loader', function () {
+    loader.setProps({
+      modifier: Loader.Modifier.INLINE
+    });
+
+    expect(loader.getDOMNode()).toHaveClass(Loader.Modifier.INLINE);
+  });
 });
