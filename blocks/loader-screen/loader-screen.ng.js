@@ -62,7 +62,7 @@
         });
 
         $rootScope.$on('$routeChangeError', function (event, current, previous, rejection) {
-          if (!rejection || !rejection.silent || !rejection.authRedirect) {
+          if (!rejection || !(rejection.silent || rejection.authRedirect)) {
             self.failInitialLoading(rejection);
           }
         });
