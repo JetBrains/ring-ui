@@ -40,7 +40,7 @@ define([
    * @params.type {string} Event type, will be passed to Mousetrap (optional)
    */
   var bind = function(params) {
-    if (typeof params !== 'object' || typeof params.key !== 'string' || typeof params.handler !== 'function') {
+    if (params == null || typeof params.handler !== 'function') {
       return;
     }
 
@@ -50,9 +50,14 @@ define([
 
     if ($.isArray(params.key)) {
       $.each(params.key, function(i, key) {
-        bind($.extend({}, params, {key: key}));
+        var prm = $.extend({}, params, {key: key});
+        bind(prm);
       });
 
+      return;
+    }
+
+    if (typeof params.key !== 'string') {
       return;
     }
 
