@@ -22,14 +22,7 @@ module.exports = {
     library: '[name]'
   },
   externals: {
-    'jquery': 'jQuery',
-    'jso_configure': 'jso_configure',
-    'jso_ensure': 'jso_ensureTokens',
-    'jso_getToken': 'jso_getToken',
-    'jso_registerRedirectHandler': 'jso_registerRedirectHandler',
-    'jso_registerStorageHandler': 'jso_registerStorageHandler',
-    'jso_authRequest': 'jso_authrequest',
-    'jso_wipe': 'jso_wipe'
+    'jquery': 'jQuery'
   },
   cache: true,
   module: {

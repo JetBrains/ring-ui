@@ -29,8 +29,14 @@ describe('checkbox', function () {
     expect(checkbox.getDOMNode()).toHaveClass('test');
   });
 
-  it('should generate unique id if not passed', function () {
+  it('should generate id if not passed', function () {
     expect(checkbox.getInputDOMNode().getAttribute('id')).not.toEqual(null);
+  });
+
+  it('should generate unique id', function () {
+    expect(checkbox.getInputDOMNode().getAttribute('id')).not.toEqual(
+      renderIntoDocument(new Checkbox()).getInputDOMNode().getAttribute('id')
+    );
   });
 
   it('should set custom id', function () {

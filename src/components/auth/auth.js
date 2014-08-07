@@ -1,19 +1,8 @@
 'use strict';
 
-require('jso-browser');
-
-var jso = {
-  configure: require('jso_configure'),
-  ensure: require('jso_ensure'),
-  getToken: require('jso_getToken'),
-  setRedirect: require('jso_registerRedirectHandler'),
-  registerStorageHandler: require('jso_registerStorageHandler'),
-  authRequest: require('jso_authRequest'),
-  wipe: require('jso_wipe')
-};
-
+var jso = require('jso-browser');
 var $ = require('jquery');
-var AuthStorage = require('./auth_storage.js');
+var AuthStorage = require('./auth__storage.js');
 
 jso.registerStorageHandler(new AuthStorage({
   stateStoragePrefix: 'hub-state-',
@@ -41,10 +30,10 @@ jso.registerStorageHandler(new AuthStorage({
  */
 var Auth = function (config) {
   if (!config) {
-    throw Error('Config is required');
+    throw new Error('Config is required');
   }
   if (!config.serverUri) {
-    throw Error('Property serverUri is required');
+    throw new Error('Property serverUri is required');
   }
 
   this.config = $.extend({}, Auth.DEFAULT_CONFIG, config);
@@ -124,7 +113,7 @@ Auth.prototype.init = function () {
 
   var restoreLocationDeferred = $.Deferred();
   var self = this;
-  jso.setRedirect(this.defaultRedirectHandler);
+  jso.registerRedirectHandler(this._defaultRedirectHandler);
   jso.configure(jsoConfig, null, function (restoreLocation, error) {
     if (error) {
       // This happens if auth server response parse failed
@@ -134,9 +123,9 @@ Auth.prototype.init = function () {
       self._interactiveEnsureToken().then(function (/*accessToken*/) {
         // Access token appears to be valid. We may resolve restoreLocation URL now
         restoreLocationDeferred.resolve(restoreLocation);
-      }, function () {
-        // There is no valid token. JSO is likely to redirect to auth server
-        restoreLocationDeferred.reject();
+      }, function (error) {
+        // There is no valid token. JSO is likely to redirect to auth server. Or auth server is not accessible
+        restoreLocationDeferred.reject(error);
       });
     }
   });
@@ -151,24 +140,41 @@ Auth.prototype.init = function () {
  * @return {Promise.<string>}
  */
 Auth.prototype._interactiveEnsureToken = function () {
-  var tokenDeffered = $.Deferred();
+  var tokenDeferred = $.Deferred();
 
   var ensureConfig = {};
-  ensureConfig[Auth.PROVIDER] = [];
-  if (jso.ensure(ensureConfig)) {
-    var accessToken = jso.getToken(Auth.PROVIDER).access_token;
+  ensureConfig[Auth.PROVIDER] = this.config.scope;
 
-    // Validate token
-    this.user = null;
-    this.requestUser().done(function () {
-      tokenDeffered.resolve(accessToken);
+  if (jso.ensureTokens(ensureConfig)) {
+    var accessToken = jso.getToken(Auth.PROVIDER).access_token;
+    var self = this;
+
+    this._ajaxRequest(Auth.API_PROFILE_PATH, accessToken).then(function (user) {
+      self.user = user;
+      tokenDeferred.resolve(accessToken);
+    }, function (errorResponse) {
+      var errorCode;
+      try {
+        errorCode = (errorResponse.responseJSON || $.parseJSON(errorResponse.responseText)).error;
+      } catch (e) {
+      }
+
+      if (errorResponse.status === 401 || errorCode === 'invalid_grant' || errorCode === 'invalid_request') {
+        // Token expired
+        jso.wipe();
+        // This must redirect
+        jso.ensureTokens(ensureConfig);
+        tokenDeferred.reject({ authRedirect: true });
+      } else {
+        tokenDeferred.reject(errorResponse);
+      }
     });
   } else {
-    // This is unexpected as jso.ensure() redirect to auth page when it is false
-    tokenDeffered.reject();
+    // This happens when jso.ensureTokens() redirects to auth page
+    tokenDeferred.reject({ authRedirect: true });
   }
 
-  return tokenDeffered.promise();
+  return tokenDeferred.promise();
 };
 
 /**
@@ -193,8 +199,9 @@ var _hasToBeRefreshed = function (token) {
 /**
  * Redirects current page to the given URL
  * @param url
+ * @private
  */
-Auth.prototype.defaultRedirectHandler = function (url) {
+Auth.prototype._defaultRedirectHandler = function (url) {
   window.location = url;
 };
 
@@ -202,8 +209,9 @@ Auth.prototype.defaultRedirectHandler = function (url) {
  * Creates function that redirects given $iframe to the parameter url
  * @param $iframe
  * @return {function(string)}
+ * @private
  */
-Auth.prototype.createFrameRedirectHandler = function ($iframe) {
+Auth.prototype._createFrameRedirectHandler = function ($iframe) {
   return function (url) {
     $iframe.attr('src', url + '&rnd=' + Math.random());
   };
@@ -254,7 +262,7 @@ Auth.prototype._nonInteractiveEnsureToken = function () {
     }
   };
 
-  jso.setRedirect(this.createFrameRedirectHandler($iframe));
+  jso.registerRedirectHandler(this._createFrameRedirectHandler($iframe));
 
   poll();
 
@@ -271,10 +279,28 @@ Auth.prototype._nonInteractiveEnsureToken = function () {
 Auth.prototype.requestToken = function () {
   var self = this;
   return this._nonInteractiveEnsureToken().fail(function () {
-    jso.setRedirect(self.defaultRedirectHandler);
+    jso.registerRedirectHandler(self._defaultRedirectHandler);
     jso.authRequest(Auth.PROVIDER, self.config.scope);
   });
 };
+
+/**
+ * Makes GET request to the given URL with the given access token.
+ * @param {string} relativeURI a URI relative to config.serverUri to make the GET request to
+ * @param {string} accessToken access token to use in request
+ * @return {Promise} promise from $.ajax() request
+ * @private
+ */
+Auth.prototype._ajaxRequest = function (relativeURI, accessToken) {
+  return $.ajax({
+    url: this.config.serverUri + relativeURI,
+    headers: {
+      'Authorization': 'Bearer ' + accessToken
+    },
+    dataType: 'json'
+  });
+};
+
 
 /**
  * @return {Promise.<object>}
@@ -284,43 +310,23 @@ Auth.prototype.requestUser = function () {
     return $.Deferred().resolve(this.user).promise();
   }
 
-  var deferred;
-  var absAPIProfileURL = this.config.serverUri + Auth.API_PROFILE_PATH;
-  try {
-    deferred = $.oajax({
-      url: absAPIProfileURL,
-      jso_provider: Auth.PROVIDER,
-      jso_allowia: true,
-      dataType: 'json'
-    });
-    if (!deferred) {
-      deferred = $.Deferred().reject();
-    }
-  } catch (e) {
-    deferred = $.Deferred().reject(e);
-  }
-
-
   var self = this;
-  deferred.then(function (user) {
-    self.user = user;
-    return user;
-  }, function (errorResponse) {
-    var errorCode;
-    try {
-      errorCode = (errorResponse.responseJSON || $.parseJSON(errorResponse.responseText)).error;
-    } catch (e) {
-    }
-
-    if (errorCode === 'invalid_grant' || errorCode === 'invalid_request') {
-      jso.wipe();
-      var ensureConfig = {};
-      ensureConfig[Auth.PROVIDER] = [];
-      jso.ensure(ensureConfig);
-    }
+  return this.requestToken().then(function (accessToken) {
+    return self._ajaxRequest(Auth.API_PROFILE_PATH, accessToken).then(function (user) {
+      self.user = user;
+      return user;
+    });
   });
+};
 
-  return deferred.promise();
+/**
+ * Wipe accessToken and redirect to auth page with required authorization
+ */
+Auth.prototype.logout = function () {
+  jso.wipe();
+  jso.authRequest(Auth.PROVIDER, this.config.scope, null, {
+    request_credentials: 'required'
+  });
 };
 
 module.exports = Auth;
