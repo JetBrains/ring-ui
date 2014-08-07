@@ -22,7 +22,6 @@
         return {
           'bind': function(name, handlers, scope) {
             var mode = modes[name];
-            var keys = {};
 
             // Nothing to bind
             if (typeof handlers !== 'object') {
@@ -37,18 +36,22 @@
             $.each(mode, function(index, key) {
               var handler = handlers[key.action];
 
-              if (angular.isFunction(handler)) {
-                keys[key.key] = function() {
+              if (!angular.isFunction(handler)) {
+                return;
+              }
+
+              shortcuts('bind', {
+                key: key.key,
+                scope: scope || name,
+                handler: function() {
                   var ret = handler.apply(handlers, arguments);
                   if (!$rootScope.$$phase) {
                     $rootScope.$apply();
                   }
                   return ret;
-                };
-              }
+                }
+              });
             });
-
-            shortcuts('bindList', {scope: scope || name}, keys);
           },
           'getScope': ring('shortcuts', 'getScope'),
           'setScope': ring('shortcuts', 'setScope'),
@@ -66,7 +69,7 @@
 
             for (var i = actions.length - 1; i >= 0; i--) {
               if (actions[i].action === action) {
-                return shortcuts('trigger', actions[i].key);
+                return shortcuts('trigger', actions[i].key[0] || actions[i].key);
               }
             }
           },
