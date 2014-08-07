@@ -31,7 +31,7 @@ describe('Diff', function () {
       diff: diffDataMock.diff
     }), container);
 
-    expect(React.addons.TestUtils.isComponentOfType(component, Diff)).toEqual(true);
+    expect(React.addons.TestUtils.isCompositeComponentWithType(component, Diff)).toEqual(true);
   });
 
   it('should create double pane diff', function () {
@@ -42,7 +42,7 @@ describe('Diff', function () {
       diff: diffDataMock.diff
     }), container);
 
-    expect(React.addons.TestUtils.isComponentOfType(component, Diff)).toEqual(true);
+    expect(React.addons.TestUtils.isCompositeComponentWithType(component, Diff)).toEqual(true);
   });
 
   it('should correct unmount double pane diff', function () {
