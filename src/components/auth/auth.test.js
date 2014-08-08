@@ -20,7 +20,7 @@ describe('auth', function () {
     });
 
     it('should fix serverUri', function () {
-      expect(new Auth({serverUri: ''}).config.serverUri).toEqual('/');
+      expect(new Auth({serverUri: ''}).config.serverUri).toEqual('');
       expect(new Auth({serverUri: 'http://localhost'}).config.serverUri).toEqual('http://localhost/');
       expect(new Auth({serverUri: '.'}).config.serverUri).toEqual('./');
     });
