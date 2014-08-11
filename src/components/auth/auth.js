@@ -32,13 +32,13 @@ var Auth = function (config) {
   if (!config) {
     throw new Error('Config is required');
   }
-  if (!config.serverUri) {
+  if (config.serverUri == null) {
     throw new Error('Property serverUri is required');
   }
 
   this.config = $.extend({}, Auth.DEFAULT_CONFIG, config);
 
-  if (this.config.serverUri.length === 0 || this.config.serverUri.charAt(config.serverUri.length - 1) !== '/') {
+  if (this.config.serverUri.length > 0 && this.config.serverUri.charAt(config.serverUri.length - 1) !== '/') {
     this.config.serverUri += '/';
   }
 
