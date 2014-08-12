@@ -113,4 +113,19 @@ describe('popup-menu', function () {
     expect(popup.getDOMNode().firstChild.firstChild).toHaveClass('ring-popup__item');
   });
 
+  it('should handle click', function () {
+
+    var popup = renderIntoDocument();
+    var clicked = false;
+    popup.setState({'data': [
+      {'label': 'Hello!', 'onClick': function() {
+        clicked = true;
+      }}
+    ]});
+
+    expect(popup.getDOMNode().firstChild.firstChild).toHaveClass('ring-popup__item');
+    React.addons.TestUtils.Simulate.click(popup.getDOMNode().firstChild.firstChild);
+    expect(clicked).toBe(true);
+  });
+
 });
