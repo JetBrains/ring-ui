@@ -97,6 +97,16 @@
   </section>
 </div>
 
+<div class="example">
+  <header>Popup Menu</header>
+
+  <section>
+    Popup Menu:
+    <div id="popup">Here I am!</div>
+
+  </section>
+</div>
+
 <script type="text/javascript" src="jQuery.js" charset="utf-8"></script>
 <script type="text/javascript" src="Ring.js" charset="utf-8"></script>
 <script>
@@ -228,6 +238,22 @@
   document.body.appendChild(popupContainer);
 
   react.renderComponent(Ring.Popup(null, SomeElementToInsertIntoPopup(null)), popupContainer);
+
+  var popupMenu = new Ring.PopupMenu({
+    anchorElement: document.getElementById('popup'),
+    angle: CustomPopup.Angle.TOP_LEFT,
+    classNames: ['additional', 'class', 'names']
+  });
+
+  react.renderComponent(popupMenu, CustomPopup.getPopupLayer());
+  popupMenu.setState({data: [
+    {'label': 'One'},
+    {'label': 'Two', 'href': 'http://www.jetbrains.com'},
+    {'label': 'Three', 'type': Ring.PopupMenu.Type.MENU_ITEM, 'href': 'http://www.jetbrains.com'},
+    {'type': Ring.PopupMenu.Type.SEPARATOR},
+    {'label': 'Four', 'type': Ring.PopupMenu.Type.MENU_LINK},
+    {'label': 'Five', 'type': Ring.PopupMenu.Type.MENU_LINK, 'href': 'http://www.jetbrains.com', 'className': 'test'}
+  ]})
 </script>
 </body>
 </html>
