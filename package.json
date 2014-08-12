@@ -5,7 +5,7 @@
   "private": true,
   "src": "./src",
   "test": "./test",
-  "dist": "./dist",
+  "dist": "./dist/package",
   "main": "ring.js",
   "repository": {
     "type": "git",
