@@ -68,11 +68,20 @@ define(['global/global__views', 'global/global__modules', 'counter/counter'], fu
       }
     }
 
-    header.on('service-click', function(data) {
+    header.on('service-click', function(data, e) {
+      e.preventDefault();
+
       counter.event({
         'eventCategory': 'header service',
         'eventAction': 'click',
-        'eventLabel': data
+        'eventLabel': data,
+        'hitCallback': function() {
+          var URL = e.target.href;
+
+          if (URL) {
+            window.location = URL;
+          }
+        }
       });
     });
 
