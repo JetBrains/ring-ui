@@ -13,7 +13,7 @@ var nodemon = require('gulp-nodemon');
 var pkgConfig = Object.create(require('./package.json'));
 
 //Read common webpack config from  file
-var webpackConfig = Object.create(require('./webpack.conf.js'));
+var webpackConfig = Object.create(require('./webpack.config.js'));
 
 gulp.task('clean', function () {
   return gulp.src(pkgConfig.dist, {read: false})
@@ -32,9 +32,6 @@ gulp.task('webpack:build', ['clean'], function (callback) {
     new webpack.optimize.DedupePlugin(),
     new webpack.optimize.UglifyJsPlugin()
   );
-
-  //Out filename
-  webpackConfig.output.filename = 'bundle.js';
 
   // run webpack
   webpack(webpackConfig, function (err, stats) {
@@ -89,7 +86,7 @@ gulp.task('dev-server', function () {
   nodemon({
     exec: ['webpack-dev-server', '--port=' + (gulp.env.port || '')],
     watch: [
-      'webpack.conf.js',
+      'webpack.config.js',
       'gulpfile.js'
     ],
     ext: 'js'
@@ -136,7 +133,7 @@ gulp.task('copy', ['clean'], function () {
       pkgConfig.src + '/**/*.{jsx,js,scss,png,svg,ttf,woff,eof}',
       '!' + pkgConfig.src + '/**/*.test.js',
       'package.json',
-      'webpack.conf.js'
+      'webpack.config.js'
   ]).pipe(gulp.dest(pkgConfig.dist));
 });
 
