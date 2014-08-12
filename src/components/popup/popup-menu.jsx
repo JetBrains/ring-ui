@@ -3,6 +3,7 @@
  * @jsx React.DOM
  */
 
+var $ = require('jquery');
 var PopupMixin = require('./popup-mixin.jsx');
 var React = require('react');
 
@@ -22,7 +23,7 @@ var Type = {
 var MenuSeparator = React.createClass({
   render: function () {
     /* jshint ignore:start */
-    return this.transferPropsTo(
+    return (
       <span className="ring-popup__separator"></span>
     );
     /* jshint ignore:end */
@@ -51,7 +52,7 @@ var MenuLink = React.createClass({
   render: function () {
     var el = this.props.href ? React.DOM.a : React.DOM.span;
     return this.
-      transferPropsTo(el({className: 'ring-link ring-popup__item'}, this.props.label));
+      transferPropsTo(el({className: 'ring-popup__item ring-link'}, this.props.label));
   }
 });
 
@@ -62,18 +63,28 @@ var MenuList = React.createClass({
         className: 'ring-popup__i'
       },
       this.props.data.map(function (item) {
+        var props = $.extend({'type': Type.MENU_ITEM}, item);
+        if (item.url) {
+          props.href = item.url;
+        }
+        if (props.href) {
+          props.type = Type.MENU_LINK;
+        }
         var element;
-        switch (item.type) {
+        switch (props.type) {
           case Type.SEPARATOR:
             element = MenuSeparator;
             break;
           case Type.MENU_LINK:
             element = MenuLink;
             break;
-          default:
+          case Type.MENU_ITEM:
             element = MenuItem;
+            break;
+          default:
+            throw new Error('Unknown menu element type: ' + item.type);
         }
-        return element(item, null);
+        return element(props, null);
       })
     );
   }
