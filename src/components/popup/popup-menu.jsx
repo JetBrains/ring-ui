@@ -122,7 +122,7 @@ var PopupMenu = React.createClass({
 
   /** @override */
   getInternalContent: function () {
-    return MenuList({data: this.state.data}, null);
+    return new MenuList({data: this.state.data}, null);
   }
 });
 
