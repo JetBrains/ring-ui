@@ -239,13 +239,12 @@
 
   react.renderComponent(Ring.Popup(null, SomeElementToInsertIntoPopup(null)), popupContainer);
 
-  var popupMenu = new Ring.PopupMenu({
+  var popupMenu = react.renderComponent(Ring.PopupMenu({
     anchorElement: document.getElementById('popup'),
     angle: CustomPopup.Angle.TOP_LEFT,
     classNames: ['additional', 'class', 'names']
-  });
+  }, null), popupContainer);
 
-  react.renderComponent(popupMenu, CustomPopup.getPopupLayer());
   popupMenu.setState({data: [
     {'label': 'One'},
     {'label': 'Two', 'href': 'http://www.jetbrains.com'},
