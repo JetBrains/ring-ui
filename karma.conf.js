@@ -34,7 +34,7 @@ module.exports = function (karma) {
       'src/components/**/*.test.js': ['webpack']
     },
 
-    webpack: prepareWbpackConf(require('./webpack.conf.js')),
+    webpack: prepareWbpackConf(require('./webpack.config.js')),
 
     webpackServer: {
       stats: {

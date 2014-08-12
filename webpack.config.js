@@ -11,7 +11,7 @@ var path = require('path');
 
 module.exports = {
   entry: {
-    Ring: path.resolve(pkgConfig.src, 'ring.js')
+    ring: path.resolve(pkgConfig.src, pkgConfig.main)
   },
   output: {
     path: pkgConfig.dist,
