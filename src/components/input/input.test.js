@@ -1,21 +1,15 @@
 'use strict';
 
-describe('Textarea', function () {
+describe('Input', function () {
   var React = require('react/addons');
   var Input = require('./input.jsx');
   var component;
-  var container;
-
-  function renderIntoDocument(instance) {
-    container = document.createElement('div');
-    return React.renderComponent(instance, container);
-  }
 
   beforeEach(function () {
-    component = renderIntoDocument(new Input());
+    component = React.addons.TestUtils.renderIntoDocument(new Input());
   });
 
   it('should create component', function () {
-    expect(React.addons.TestUtils.isCompositeComponentWithType(component, Input)).toEqual(true);
+    React.addons.TestUtils.isCompositeComponentWithType(component, Input).should.be.true;
   });
 });

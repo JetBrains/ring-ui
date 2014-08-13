@@ -1,22 +1,22 @@
+var q = require('q');
+
 function testStorage(storage) {
   describe('Set', function () {
     it('Correct set call should be fulfilled', function () {
-      expect(storage.set('empty', {}).state()).toBe('resolved');
+      return q(storage.set('empty', {})).should.be.fulfilled;
     });
 
     it('Should correctly set url incopatible characters', function () {
       storage.set('test;', 'value;');
 
-      storage.get('test;').done(function(result) {
-        expect(result).toBe('value;');
-      });
+      return q(storage.get('test;')).should.eventually.equal('value;');
     });
 
     it('Set should fail on wrong input (e.g. on circular objects)', function () {
       var circular = {};
       circular.circular = circular;
 
-      expect(storage.set('circular', circular).state()).toBe('rejected');
+      return q(storage.set('circular', circular)).should.be.rejected;
     });
   });
 
@@ -26,22 +26,17 @@ function testStorage(storage) {
     it('Should get items', function () {
       storage.set('test2', test);
 
-      storage.get('test2').done(function(result) {
-        expect(result).toEqual(test);
-      });
+      return q(storage.get('test2')).should.eventually.deep.equal(test);
     });
 
     it('Should not return same objects', function () {
       storage.set('test', test);
 
-      storage.get('test').done(function(result) {
-        expect(result).toEqual(test);
-        expect(result).not.toBe(test);
-      });
+      return q(storage.get('test')).should.not.eventually.equal(test);
     });
 
     it('Should fail when there is no item', function () {
-      expect(storage.get('test').state()).toBe('rejected');
+      return q(storage.get('test')).should.be.rejected;
     });
   });
 
@@ -50,51 +45,51 @@ function testStorage(storage) {
       storage.set('empty', {});
       storage.remove('empty');
 
-      expect(storage.get('empty').state()).toBe('rejected');
+      return q(storage.get('empty')).should.be.rejected;
     });
 
     it('Correct remove should be fulfilled', function () {
       storage.set('empty', {});
-      expect(storage.remove('empty').state()).toBe('resolved');
+      return q(storage.remove('empty')).should.be.fulfilled;
     });
   });
 
   describe('Each', function () {
     it('Should iterate over items', function () {
       storage.set('test', 'value');
-      var iterator = jasmine.createSpy('iterator');
+      var iterator = sinon.spy();
 
       storage.each(iterator);
-      expect(iterator).toHaveBeenCalledWith('test', 'value');
+      iterator.should.have.been.calledWith('test', 'value');
     });
 
     it('Correct iteration should be fulfilled', function () {
       storage.set('test1', '');
 
-      expect(storage.each(function () {
-      }).state()).toBe('resolved');
+      return q(storage.each(function () {
+      })).should.be.fulfilled;
     });
 
     it('Should not iterate without items', function () {
-      expect(storage.each(function () {
-      }).state()).toBe('rejected');
+      return q(storage.each(function () {
+      })).should.be.rejected;
     });
 
     it('Should iterate over all items', function () {
-      var iterator = jasmine.createSpy('iterator2');
+      var iterator = sinon.spy();
 
       storage.set('test1', '');
       storage.set('test2', '');
       storage.set('test3', '');
       storage.each(iterator);
 
-      expect(iterator.calls.count()).toBe(3);
+      iterator.should.have.been.calledThrice;
     });
 
     it('Should fail on wrong callback', function () {
       storage.set('test', '');
 
-      expect(storage.each().state()).toBe('rejected');
+      return q(storage.each()).should.be.rejected;
     });
   });
 }

@@ -8,7 +8,7 @@ describe('Diff.Parser', function () {
 
   it('should be singleton', function () {
     parser = Parser.getInstance();
-    expect(Parser.getInstance()).toBe(parser);
+    Parser.getInstance().should.equal(parser);
   });
 
   describe('#splitToLines', function () {
@@ -21,8 +21,7 @@ describe('Diff.Parser', function () {
         'Mac-classic styled lines.'
       ];
 
-      expect(Parser.splitToLines(lines.join('')))
-        .toEqual(lines);
+      Parser.splitToLines(lines.join('')).should.be.deep.equal(lines);
     });
   });
 });

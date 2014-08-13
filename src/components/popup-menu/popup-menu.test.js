@@ -1,131 +1,117 @@
 describe('popup-menu', function () {
+  var $ = require('jquery');
   var React = require('react/addons');
   var PopupMenu = require('./popup-menu.jsx');
+  var popup;
 
-  function renderIntoDocument() {
-    var container = document.createElement('div');
-    return React.renderComponent(new PopupMenu(), container);
-  }
+  beforeEach(function() {
+    popup = React.addons.TestUtils.renderIntoDocument(new PopupMenu());
+  });
 
   it('should create component', function () {
-    var popup = renderIntoDocument();
-    expect(popup).toBeDefined();
+    popup.should.exist;
   });
 
   it('should be empty by default', function () {
-    var popup = renderIntoDocument();
-
-    expect(popup).toBeDefined();
-    expect(popup.getDOMNode().tagName.toLowerCase()).toEqual('div');
-    expect(popup.getDOMNode().firstChild.hasChildNodes()).toEqual(false);
+    popup.getDOMNode().tagName.toLowerCase().should.equal('div');
+    popup.getDOMNode().firstChild.hasChildNodes().should.equal(false);
   });
 
   describe('should render items', function() {
 
     it('should render for empty element', function () {
-      var popup = renderIntoDocument();
       popup.setState({'data': [
         {}
       ]});
 
-      expect(popup.getDOMNode().firstChild.firstChild).toHaveClass('ring-popup__item_action');
-      expect(popup.getDOMNode().firstChild.firstChild.innerHTML).toEqual('');
+      $(popup.getDOMNode().firstChild.firstChild).should.have.class('ring-popup__item_action');
+      popup.getDOMNode().firstChild.firstChild.innerHTML.should.equal('');
     });
 
     it('should render popup item if type is not definded', function () {
-      var popup = renderIntoDocument();
       popup.setState({'data': [
         {'label': 'Hello!'}
       ]});
 
-      expect(popup.getDOMNode().firstChild.firstChild).toHaveClass('ring-popup__item_action');
-      expect(popup.getDOMNode().firstChild.firstChild.innerHTML).toEqual('Hello!');
+      $(popup.getDOMNode().firstChild.firstChild).should.have.class('ring-popup__item_action');
+      popup.getDOMNode().firstChild.firstChild.innerHTML.should.equal('Hello!');
     });
 
     it('should render a if href defined', function () {
-      var popup = renderIntoDocument();
       popup.setState({'data': [
         {'label': 'Hello!', 'href': 'http://www.jetbrains.com'}
       ]});
 
-      expect(popup.getDOMNode().firstChild.firstChild).toHaveClass('ring-link');
-      expect(popup.getDOMNode().firstChild.firstChild.innerHTML).toEqual('Hello!');
-      expect(popup.getDOMNode().firstChild.firstChild.tagName.toLowerCase()).toEqual('a');
-      expect(popup.getDOMNode().firstChild.firstChild.getAttribute('href')).toEqual('http://www.jetbrains.com');
+      $(popup.getDOMNode().firstChild.firstChild).should.have.class('ring-link');
+      popup.getDOMNode().firstChild.firstChild.innerHTML.should.equal('Hello!');
+      popup.getDOMNode().firstChild.firstChild.tagName.toLowerCase().should.equal('a');
+      popup.getDOMNode().firstChild.firstChild.getAttribute('href').should.equal('http://www.jetbrains.com');
     });
 
     it('should render a if url defined', function () {
-      var popup = renderIntoDocument();
       popup.setState({'data': [
         {'label': 'Hello!', 'url': 'http://www.jetbrains.com'}
       ]});
 
-      expect(popup.getDOMNode().firstChild.firstChild).toHaveClass('ring-link');
-      expect(popup.getDOMNode().firstChild.firstChild.innerHTML).toEqual('Hello!');
-      expect(popup.getDOMNode().firstChild.firstChild.tagName.toLowerCase()).toEqual('a');
-      expect(popup.getDOMNode().firstChild.firstChild.getAttribute('href')).toEqual('http://www.jetbrains.com');
+      $(popup.getDOMNode().firstChild.firstChild).should.have.class('ring-link');
+      popup.getDOMNode().firstChild.firstChild.innerHTML.should.equal('Hello!');
+      popup.getDOMNode().firstChild.firstChild.tagName.toLowerCase().should.equal('a');
+      popup.getDOMNode().firstChild.firstChild.getAttribute('href').should.equal('http://www.jetbrains.com');
     });
 
     it('should render separator', function () {
-      var popup = renderIntoDocument();
       popup.setState({'data': [
         {'type': PopupMenu.Type.SEPARATOR}
       ]});
 
-      expect(popup.getDOMNode().firstChild.firstChild).toHaveClass('ring-popup__separator');
+      $(popup.getDOMNode().firstChild.firstChild).should.have.class('ring-popup__separator');
     });
 
     it('should render span if link without href', function () {
-      var popup = renderIntoDocument();
       popup.setState({'data': [
         {'label': 'Hello!', 'type': PopupMenu.Type.MENU_LINK}
       ]});
 
-      expect(popup.getDOMNode().firstChild.firstChild).toHaveClass('ring-link');
-      expect(popup.getDOMNode().firstChild.firstChild.innerHTML).toEqual('Hello!');
-      expect(popup.getDOMNode().firstChild.firstChild.tagName.toLowerCase()).toEqual('span');
+      $(popup.getDOMNode().firstChild.firstChild).should.have.class('ring-link');
+      popup.getDOMNode().firstChild.firstChild.innerHTML.should.equal('Hello!');
+      popup.getDOMNode().firstChild.firstChild.tagName.toLowerCase().should.equal('span');
     });
 
     it('should throw error on unknown type', function () {
-      var popup = renderIntoDocument();
 
       expect(function () {
         popup.setState({'data': [
           {'label': 'Hello!', 'type': 'none'}
         ]});
 
-        expect(popup.getDOMNode().firstChild.firstChild).toHaveClass('ring-link');
-        expect(popup.getDOMNode().firstChild.firstChild.innerHTML).toEqual('Hello!');
-        expect(popup.getDOMNode().firstChild.firstChild.tagName.toLowerCase()).toEqual('span');
-      }).toThrow(new Error('Unknown menu element type: none'));
+        $(popup.getDOMNode().firstChild.firstChild).should.have.class('ring-link');
+        popup.getDOMNode().firstChild.firstChild.innerHTML.should.equal('Hello!');
+        popup.getDOMNode().firstChild.firstChild.tagName.toLowerCase().should.equal('span');
+      }).to.throw(Error, 'Unknown menu element type: none');
     });
 
   });
 
   it('should re-render content on change state', function () {
-    var popup = renderIntoDocument();
     popup.setState({'data': [
       {'label': 'Hello!'}
     ]});
 
-    expect(popup).toBeDefined();
-    expect(popup.getDOMNode().tagName.toLowerCase()).toEqual('div');
-    expect(popup.getDOMNode().firstChild.firstChild).toHaveClass('ring-popup__item');
+    popup.should.exist;
+    popup.getDOMNode().tagName.toLowerCase().should.equal('div');
+    $(popup.getDOMNode().firstChild.firstChild).should.have.class('ring-popup__item');
   });
 
   it('should handle click', function () {
+    var clicked = sinon.stub();
 
-    var popup = renderIntoDocument();
-    var clicked = false;
     popup.setState({'data': [
-      {'label': 'Hello!', 'onClick': function() {
-        clicked = true;
-      }}
+      {'label': 'Hello!', 'onClick': clicked}
     ]});
 
-    expect(popup.getDOMNode().firstChild.firstChild).toHaveClass('ring-popup__item');
+    $(popup.getDOMNode().firstChild.firstChild).should.have.class('ring-popup__item');
     React.addons.TestUtils.Simulate.click(popup.getDOMNode().firstChild.firstChild);
-    expect(clicked).toBe(true);
+    clicked.should.have.been.called;
   });
 
 });
