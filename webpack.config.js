@@ -21,7 +21,16 @@ module.exports = {
   externals: {
     'jquery': 'jQuery'
   },
-  cache: true,
+  resolve: {
+    extensions: ['', '.js', '.jsx'],
+    fallback: [
+      path.join(__dirname, 'components'),
+      path.join(__dirname, 'src/components')
+    ]
+  },
+  resolveLoader: {
+    fallback: path.join(__dirname, 'node_modules')
+  },
   module: {
     loaders: [
       {

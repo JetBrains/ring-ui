@@ -1,7 +1,6 @@
 'use strict';
 
-
-var Storage = require('../storage/storage.js');
+var Storage = require('storage/storage');
 
 /**
  * Custom storage for jso
