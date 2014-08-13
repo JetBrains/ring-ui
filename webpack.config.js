@@ -16,7 +16,8 @@ module.exports = {
   output: {
     path: pkgConfig.dist,
     filename: '[name].js',
-    library: '[name]'
+    library: '[name]',
+    libraryTarget: 'umd'
   },
   externals: {
     'jquery': 'jQuery'
