@@ -1,20 +1,15 @@
 describe('button', function () {
+  var $ = require('jquery');
   var React = require('react/addons');
-  var ReactTestUtils = React.addons.TestUtils;
+  var TestUtils = React.addons.TestUtils;
   var Button = require('./button.jsx');
-  var container = null;
-
-  function renderIntoDocument(instance) {
-    container = document.createElement('div');
-    return React.renderComponent(instance, container);
-  }
 
   beforeEach(function () {
-    this.button = renderIntoDocument(new Button());
+    this.button = TestUtils.renderIntoDocument(new Button());
   });
 
   it('should create component', function () {
-    expect(ReactTestUtils.isCompositeComponentWithType(this.button, Button)).toEqual(true);
+    TestUtils.isCompositeComponentWithType(this.button, Button).should.equal(true);
   });
 
   it('should set theme', function () {
@@ -22,7 +17,7 @@ describe('button', function () {
       modifier: Button.Modifiers.BLUE
     });
 
-    expect(this.button.getDOMNode()).toHaveClass('ring-btn_blue');
+    $(this.button.getDOMNode()).should.have.class('ring-btn_blue');
   });
 
   it('should set custom class', function () {
@@ -32,6 +27,6 @@ describe('button', function () {
       className: CUSTOM_CLASS
     });
 
-    expect(this.button.getDOMNode()).toHaveClass(CUSTOM_CLASS);
+    $(this.button.getDOMNode()).should.have.class(CUSTOM_CLASS);
   });
 });
