@@ -1,6 +1,6 @@
 'use strict';
 
-var Auth = require('../auth/auth');
+var Auth = require('auth/auth');
 
 /* global angular: false */
 var authModule = angular.module('Ring.auth', []);
