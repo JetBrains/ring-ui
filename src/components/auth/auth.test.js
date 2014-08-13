@@ -3,9 +3,9 @@ describe('auth', function () {
 
   describe('construction', function () {
     it('should require provide config', function () {
-      expect(function () {
+      expect(function() {
         return new Auth();
-      }).toThrow(new Error('Config is required'));
+      }).to.throw(Error, 'Config is required');
     });
 
     it('should require provide server uri', function () {
@@ -13,16 +13,17 @@ describe('auth', function () {
         return new Auth({
           serverUri: null
         });
-      }).toThrow(new Error('Property serverUri is required'));
+      }).to.throw(Error, 'Property serverUri is required');
+
       expect(function () {
         return new Auth({});
-      }).toThrow(new Error('Property serverUri is required'));
+      }).to.throw(Error, 'Property serverUri is required');
     });
 
     it('should fix serverUri', function () {
-      expect(new Auth({serverUri: ''}).config.serverUri).toEqual('');
-      expect(new Auth({serverUri: 'http://localhost'}).config.serverUri).toEqual('http://localhost/');
-      expect(new Auth({serverUri: '.'}).config.serverUri).toEqual('./');
+      expect(new Auth({serverUri: ''}).config.serverUri).to.equal('');
+      expect(new Auth({serverUri: 'http://localhost'}).config.serverUri).to.equal('http://localhost/');
+      expect(new Auth({serverUri: '.'}).config.serverUri).to.equal('./');
     });
 
     it('should merge passed config with default config', function () {
@@ -31,8 +32,8 @@ describe('auth', function () {
       };
       var auth = new Auth(config);
 
-      expect(auth.config.serverUri).toEqual(config.serverUri);
-      expect(auth.config).toEqual(jasmine.objectContaining(Auth.DEFAULT_CONFIG));
+      auth.config.serverUri.should.equal(config.serverUri);
+      auth.config.should.contain.keys(Object.keys(Auth.DEFAULT_CONFIG));
     });
   });
 
@@ -41,19 +42,23 @@ describe('auth', function () {
     var auth;
 
     beforeEach(function () {
-      spyOn(Auth.prototype, '_defaultRedirectHandler');
+      sinon.stub(Auth.prototype, '_defaultRedirectHandler');
       auth = new Auth(config);
     });
 
+    afterEach(function () {
+      Auth.prototype._defaultRedirectHandler.restore();
+    });
+
     it('should not redirect on object construction', function() {
-      expect(auth._defaultRedirectHandler).not.toHaveBeenCalled();
+      auth._defaultRedirectHandler.should.not.have.been.called;
     });
 
     it('should redirect on init call', function() {
       auth.init();
 
-      expect(auth._defaultRedirectHandler).toHaveBeenCalled();
-      expect(auth._defaultRedirectHandler.calls.mostRecent().args[0]).toMatch(config.serverUri);
+      auth._defaultRedirectHandler.should.have.been.called;
+      auth._defaultRedirectHandler.should.have.been.calledWithMatch(config.serverUri);
     });
   });
 
