@@ -232,7 +232,7 @@ define(['jquery', 'jso', 'global/global__modules', 'global/global__utils', 'auth
     });
 
     if (config.refresh) {
-      console.log('Schedule token refresh is scheduled');
+      console.log('Token refresh is scheduled');
       initFuture.done(setRefresh);
     }
 
@@ -278,7 +278,7 @@ define(['jquery', 'jso', 'global/global__modules', 'global/global__utils', 'auth
   var refresh = function (force) {
     var token = getToken(true, true);
     var tokenAccess = token[TOKEN_ACCESS_FIELD];
-    console.log('Start token refresh at ' + new Date($.now()) + '. Current token is ', token);
+    console.log('Started token refresh at ' + new Date($.now()) + '. Current token is ', token);
 
 
     if (!force && refreshDefer && refreshDefer.state() === 'pending') {
@@ -289,7 +289,7 @@ define(['jquery', 'jso', 'global/global__modules', 'global/global__utils', 'auth
     refreshDefer = $.Deferred();
 
     if (!force && !toBeRefreshed(token)) {
-      console.log('Token shouldn\'t be refreshed it\'s fine already');
+      console.log('Token is fresh, no further action required');
       return refreshDefer.resolve(tokenAccess);
     }
 
