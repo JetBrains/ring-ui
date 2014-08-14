@@ -20,7 +20,8 @@ module.exports = {
     libraryTarget: 'umd'
   },
   externals: {
-    'jquery': 'jQuery'
+    'jquery': 'jQuery',
+    'bundle!mousetrap': 'Mousetrap'
   },
   resolve: {
     extensions: ['', '.js', '.jsx'],
