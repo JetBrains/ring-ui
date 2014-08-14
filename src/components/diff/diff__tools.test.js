@@ -130,28 +130,6 @@ describe('Diff.tools', function () {
     });
   });
 
-  describe('diffTool.addSingletonGetter', function() {
-    var SomeClass = function() {
-      this.classProperty = 'val';
-    };
-    diffTool.addSingletonGetter(SomeClass);
-
-    it('diffTool.getInstance() saves static private link to the ' +
-      'instance to constructor', function() {
-      expect(SomeClass.instance_).to.not.exist;
-      SomeClass.getInstance();
-      SomeClass.instance_.should.be.instanceOf(SomeClass);
-    });
-
-    it('diffTool.getInstance() always returns the same instance', function() {
-      var instance = SomeClass.getInstance();
-      var anotherInstance = SomeClass.getInstance();
-
-      instance.should.equal(anotherInstance);
-      instance.classProperty.should.equal(anotherInstance.classProperty);
-    });
-  });
-
   describe('diffTool.bindContext()', function() {
     var ctx = { param: 1 };
     var fn = function() {
