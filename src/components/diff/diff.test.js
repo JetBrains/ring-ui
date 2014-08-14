@@ -19,7 +19,7 @@ describe('Diff', function () {
   var DOMContainer;
 
   // We need custom renderIntoDocument with attached contantainer here because of CodeMirror
-  var renderIntoDocument = function(instance) {
+  var renderIntoDocument = function (instance) {
     return React.renderComponent(instance, DOMContainer);
   };
 
@@ -64,5 +64,20 @@ describe('Diff', function () {
     component.unmountComponent(component.getDOMNode().parent);
 
     component.isMounted().should.be.false;
+  });
+
+  it('should update code mirror editor when update diff', function () {
+    var component = renderIntoDocument(new Diff({
+      originalContent: diffDataMock.original,
+      modifiedContent: diffDataMock.modified,
+      diff: diffDataMock.diff
+    }));
+    var newDiff = [];
+
+    component.setProps({
+      diff: newDiff
+    });
+
+    component.diff_.getController().getDiff().should.be.equal(newDiff);
   });
 });
