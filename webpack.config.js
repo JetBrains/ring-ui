@@ -21,10 +21,12 @@ module.exports = {
   },
   externals: {
     'jquery': 'jQuery',
-    'bundle!mousetrap': 'Mousetrap'
   },
   resolve: {
     extensions: ['', '.js', '.jsx'],
+    alias: {
+      'mousetrap': 'Mousetrap'
+    },
     fallback: [
       path.join(__dirname, 'components'),
       path.join(__dirname, 'src/components')
@@ -48,6 +50,10 @@ module.exports = {
       {
         test: /\.jsx$/,
         loader: 'jsx-loader'
+      },
+      {
+        test: /\.mousetrap.js$/,
+        loader: 'imports-loader?window=>{}!exports-loader?window.Mousetrap'
       },
       //images loader
       { test: /\.png$/, loader: 'file-loader' },
