@@ -1,11 +1,12 @@
 var Tools = require('./../diff__tools');
+var Global = require('global/global');
 var Parser = require('./diff__parser');
 var parsers = require('./../diff__parsers');
 
 var ParserSinglePane = function () {
 };
 Tools.inherit(ParserSinglePane, Parser);
-Tools.addSingletonGetter(ParserSinglePane);
+Global.addSingletonGetter(ParserSinglePane);
 
 /**
  * In single pane mode modified lines are displayed as a pair of lines - one removed, one added.
