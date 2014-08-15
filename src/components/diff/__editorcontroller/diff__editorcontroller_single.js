@@ -157,7 +157,7 @@ SingleEditorController.prototype.setContentInternal = function (original, modifi
    * @type {CodeMirror}
    * @private
    */
-  this.editor_ = new CodeMirror(
+  this.editor_ = this.editor_ || new CodeMirror(
     this.getElement(),
     SingleEditorController.getCodeMirrorOptions());
 
