@@ -27,6 +27,10 @@ var Modifiers = {
  * @constructor
  */
 var Button = React.createClass({
+  statics: {
+   Modifiers: Modifiers
+  },
+
   propTypes: {
 
     /**
@@ -44,7 +48,7 @@ var Button = React.createClass({
 
   getDefaultProps: function () {
     return {
-      theme: Modifiers.DEFAULT
+      modifier: Modifiers.DEFAULT
     };
   },
 
@@ -52,8 +56,7 @@ var Button = React.createClass({
     /* jshint ignore:start */
     var className = [
       'ring-btn',
-      'ring-btn_' + this.props.modifier,
-      this.props.className
+      'ring-btn_' + this.props.modifier
     ].join(' ');
 
     return this.transferPropsTo(
@@ -66,4 +69,3 @@ var Button = React.createClass({
 });
 
 module.exports = Button;
-module.exports.Modifiers = Modifiers;
