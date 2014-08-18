@@ -207,6 +207,10 @@
   margin-left: 16*$ring-unit !important;
 }
 
+.ring-form__control_info {
+  width: 85 * $ring-unit;
+}
+
 .ring-form__control__part {
   margin-right: $ring-unit;
 }
