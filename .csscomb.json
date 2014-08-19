@@ -3,23 +3,44 @@
     ".git/**",
     "node_modules/**"
   ],
+  "block-indent": 2,
+  "tab-size": 2,
+
+  "space-after-combinator": 1,
+  "space-before-combinator": 1,
+
+  "space-before-selector-delimiter": 0,
+  "space-after-selector-delimiter": "\n",
+
+  "space-before-opening-brace": 1,
+  "space-after-opening-brace": "\n",
+
+  "space-before-colon": 0,
+  "space-after-colon": 1,
+
   "always-semicolon": true,
-  "block-indent": "  ",
-  "colon-space": ["", " "],
+
+  "space-before-closing-brace": "\n",
+  "space-between-declarations": "\n",
+
   "color-case": "upper",
   "color-shorthand": true,
-  "combinator-space": [" ", " "],
   "element-case": "lower",
+
   "eof-newline": true,
-  "leading-zero": false,
-  "quotes": "double",
-  "remove-empty-rulesets": true,
-  "rule-indent": "  ",
-  "stick-brace": " ",
   "strip-spaces": true,
+  "remove-empty-rulesets": true,
+
+  "leading-zero": true,
   "unitless-zero": true,
+
+  "quotes": "single",
   "vendor-prefix-align": true,
+
   "sort-order": [
+    [ "$import" ],
+    [ "$include" ],
+    [ "$variable" ],
     [
       "font",
       "font-family",
@@ -317,6 +338,7 @@
       "filter:progid:DXImageTransform.Microsoft.gradient",
       "-ms-filter:\\'progid:DXImageTransform.Microsoft.gradient",
       "text-shadow"
-    ]
+    ],
+    ["..."]
   ]
 }
