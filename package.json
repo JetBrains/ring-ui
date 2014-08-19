@@ -5,7 +5,8 @@
   "private": true,
   "src": "./src",
   "test": "./test",
-  "dist": "./dist/package",
+  "distPackage": "./dist/package",
+  "dist": "./dist",
   "main": "ring.js",
   "repository": {
     "type": "git",
@@ -13,11 +14,15 @@
   },
   "readmeFilename": "README",
   "devDependencies": {
+    "csslint": "^0.10.0",
     "gulp": "^3.6.2",
+    "gulp-csscomb": "^3.0.2",
+    "gulp-csslint": "^0.1.5",
     "gulp-jshint": "^1.7.1",
     "gulp-karma": "0.0.4",
     "gulp-nodemon": "^1.0.4",
     "gulp-rimraf": "^0.1.0",
+    "gulp-sass": "^0.7.3",
     "gulp-util": "^3.0.0",
     "jquery": "^2.1.1",
     "karma": "^0.12.16",
@@ -30,6 +35,7 @@
     "karma-webpack": "^1.2.1",
     "mocha": "^1.21.4",
     "q": "^1.0.1",
+    "through": "^2.3.4",
     "webpack-dev-server": "^1.4.3"
   },
   "dependencies": {

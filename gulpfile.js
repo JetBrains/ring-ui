@@ -8,6 +8,15 @@ var rimraf = require('gulp-rimraf');
 var WebpackDevServer = require('webpack-dev-server');
 var karma = require('gulp-karma');
 var nodemon = require('gulp-nodemon');
+var csscomb = require('gulp-csscomb');
+var csslint = require('gulp-csslint');
+var sass = require('gulp-sass');
+
+var CSSlint = require( 'csslint' ).CSSLint;
+
+var path = require('path');
+var Buffer = require('buffer').Buffer;
+var through = require('through');
 
 // Read configuration from package.json
 var pkgConfig = Object.create(require('./package.json'));
@@ -142,7 +151,50 @@ gulp.task('copy', ['clean'], function () {
       '!' + pkgConfig.src + '/**/*.test.js',
       'package.json',
       'webpack.config.js'
-  ]).pipe(gulp.dest(pkgConfig.dist));
+  ]).pipe(gulp.dest(pkgConfig.distPackage));
+});
+
+gulp.task('lint-styles', function () {
+  var reportFilename = 'css-lint.xml';
+  var formatter = CSSlint.getFormatter('lint-xml');
+  var report = formatter.startFormat();
+
+  function reporter(file) {
+    var filename = path.relative(__dirname, file.csslint.results[0].file);
+    var messages = file.csslint.results.map(function(file) {
+      return file.error;
+    });
+
+    report += formatter.formatResults({messages: messages}, filename, {});
+  }
+
+  function exportReport() {
+    function endStream() {
+      report += formatter.endFormat();
+
+      var file = new gutil.File({
+        path: reportFilename,
+        contents: new Buffer(report)
+      });
+
+      /* jshint -W040 */
+      this.emit('data', file);
+      this.emit('end');
+      /* jshint +W040 */
+
+      console.log('##teamcity[importData type=\'jslint\' path=\'' + pkgConfig.dist + '/' + reportFilename + '\']');
+    }
+
+    return through(function() {}, endStream);
+  }
+
+  return gulp.src(pkgConfig.src + '/components/**/*.scss')
+    .pipe(csscomb()) // just detect errors for now
+    .pipe(sass())
+    .pipe(csslint('.csslintrc'))
+    .pipe(csslint.reporter(reporter))
+    .pipe(exportReport())
+    .pipe(gulp.dest(pkgConfig.dist));
 });
 
 //The development server (the recommended option for development)
