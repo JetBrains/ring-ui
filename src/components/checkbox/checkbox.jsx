@@ -64,6 +64,7 @@ var Checkbox = React.createClass({
         ref="input"
         className="ring-checkbox"
         type="checkbox"
+        onKeyPress={this._onKeyPress}
         id={id}
         />)}
 
@@ -75,6 +76,11 @@ var Checkbox = React.createClass({
       </span>
       );
     /* jshint ignore:end */
+  },
+  _onKeyPress: function () {
+    this.refs.input.setState({
+      checked: !this.refs.input.state.checked
+    });
   }
 });
 
