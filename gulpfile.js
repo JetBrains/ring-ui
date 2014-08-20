@@ -44,7 +44,9 @@ gulp.task('webpack:build', ['clean'], function (callback) {
 
   // run webpack
   webpack(webpackConfig, function (err, stats) {
-    if (err) throw new gutil.PluginError('webpack:build', err);
+    if (err) {
+      throw new gutil.PluginError('webpack:build', err);
+    }
     gutil.log('[webpack:build]', stats.toString({
       colors: true
     }));
@@ -61,7 +63,9 @@ gulp.task('webpack:build-dev', ['clean'], function (callback) {
   // create a single instance of the compiler to allow caching
   // run webpack
   webpack(myDevConfig).run(function (err, stats) {
-    if (err) throw new gutil.PluginError('webpack:build-dev', err);
+    if (err) {
+      throw new gutil.PluginError('webpack:build-dev', err);
+    }
     gutil.log('[webpack:build-dev]', stats.toString({
       colors: true
     }));
@@ -86,7 +90,9 @@ gulp.task('webpack-dev-server', function () {
       colors: true
     }
   }).listen(serverPort, 'localhost', function (err) {
-      if (err) throw new gutil.PluginError('webpack-dev-server', err);
+      if (err) {
+        throw new gutil.PluginError('webpack-dev-server', err);
+      }
       gutil.log('[webpack-dev-server]', 'http://localhost:' + serverPort + '/webpack-dev-server/index.html');
     });
 });
@@ -103,9 +109,11 @@ gulp.task('dev-server', function () {
 });
 
 gulp.task('lint', function () {
-  return gulp.src(pkgConfig.src + '/components/**/*.{js,jsx}')
+  return gulp.src([pkgConfig.src + '/components/**/*.{js,jsx}', '*.js'])
     .pipe(jshint())
     .pipe(jshint.reporter('default'))
+    // Reports xml to console :(
+    // .pipe(jshint.reporter('jslint_xml'))
     .pipe(jshint.reporter('fail'));
 });
 
@@ -209,4 +217,4 @@ gulp.task('build-dev', ['webpack:build-dev'], function () {
 });
 
 // Production build
-gulp.task('build', ['lint', 'test:build', 'webpack:build', 'copy']);
+gulp.task('build', ['lint', 'lint-styles', 'test:build', 'webpack:build', 'copy']);
