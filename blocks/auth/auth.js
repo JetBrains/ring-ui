@@ -52,14 +52,6 @@ define(['jquery', 'jso', 'global/global__modules', 'global/global__utils', 'auth
   var cacheTime = {};
 
   /**
-   * Register custom storage
-   */
-  jso.registerStorageHandler(new AuthStorage({
-    stateStoragePrefix: 'hub-state-',
-    tokensStoragePrefix: 'hub-tokens-'
-  }));
-
-  /**
    * Authorized ajax call
    *
    * @param {string} url
@@ -182,6 +174,14 @@ define(['jquery', 'jso', 'global/global__modules', 'global/global__utils', 'auth
     if (config.clientId) {
       cfg.client_id = config.clientId;
     }
+
+    /**
+     * Register custom storage
+     */
+    jso.registerStorageHandler(new AuthStorage({
+      stateStoragePrefix: cfg.client_id + '-state-',
+      tokensStoragePrefix: cfg.client_id + '-tokens-'
+    }));
 
     if (config.redirectUri) {
       cfg.redirect_uri = config.redirectUri;
