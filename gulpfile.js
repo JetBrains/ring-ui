@@ -164,7 +164,7 @@ gulp.task('copy', ['clean'], function () {
 
 gulp.task('lint-styles', function () {
   var reportFilename = 'css-lint.xml';
-  var formatter = CSSlint.getFormatter('lint-xml');
+  var formatter = CSSlint.getFormatter('checkstyle-xml');
   var report = formatter.startFormat();
 
   function reporter(file) {
@@ -189,8 +189,6 @@ gulp.task('lint-styles', function () {
       this.emit('data', file);
       this.emit('end');
       /* jshint +W040 */
-
-      console.log('##teamcity[importData type=\'jslint\' path=\'' + pkgConfig.dist + '/' + reportFilename + '\']');
     }
 
     return through(function() {}, endStream);
@@ -202,7 +200,10 @@ gulp.task('lint-styles', function () {
     .pipe(csslint('.csslintrc'))
     .pipe(csslint.reporter(reporter))
     .pipe(exportReport())
-    .pipe(gulp.dest(pkgConfig.dist));
+    .pipe(gulp.dest(pkgConfig.dist))
+    .on('end', function() {
+      console.log('##teamcity[importData type=\'checkstyle\' path=\'' + pkgConfig.dist + '/' + reportFilename + '\']');
+    });
 });
 
 //The development server (the recommended option for development)
