@@ -11,8 +11,11 @@ var nodemon = require('gulp-nodemon');
 var csscomb = require('gulp-csscomb');
 var csslint = require('gulp-csslint');
 var sass = require('gulp-sass');
+var tar = require('gulp-tar');
+var gzip = require('gulp-gzip');
+var rename = require('gulp-rename');
 
-var CSSlint = require( 'csslint' ).CSSLint;
+var CSSlint = require('csslint').CSSLint;
 
 var path = require('path');
 var Buffer = require('buffer').Buffer;
@@ -153,13 +156,21 @@ gulp.task('test:build', function () {
     });
 });
 
-gulp.task('copy', ['clean'], function () {
+gulp.task('archive', ['clean', 'webpack:build'], function () {
   return gulp.src([
+      pkgConfig.dist + '/ring.js',
       pkgConfig.src + '/**/*.{jsx,js,scss,png,svg,ttf,woff,eof}',
       '!' + pkgConfig.src + '/**/*.test.js',
+      '!' + pkgConfig.src + '/ring.js',
       'package.json',
       'webpack.config.js'
-  ]).pipe(gulp.dest(pkgConfig.distPackage));
+  ])
+    .pipe(rename(function (path) {
+      path.dirname = 'package/' + path.dirname;
+    }))
+    .pipe(tar('ring-ui-component.tar'))
+    .pipe(gzip())
+    .pipe(gulp.dest(pkgConfig.dist));
 });
 
 gulp.task('lint-styles', function () {
@@ -218,4 +229,4 @@ gulp.task('build-dev', ['webpack:build-dev'], function () {
 });
 
 // Production build
-gulp.task('build', ['lint', 'lint-styles', 'test:build', 'webpack:build', 'copy']);
+gulp.task('build', ['lint', 'lint-styles', 'test:build', 'webpack:build', 'archive']);
