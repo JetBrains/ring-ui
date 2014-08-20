@@ -5,8 +5,38 @@
 require('./checkbox.scss');
 
 var React = require('react');
+var ReactPropTypes = React.PropTypes;
+
+var idPrefix = '\\x0';
+var generateUniqueId = (function (prefix, idCounter) {
+  return function () {
+    var id = String(idCounter++);
+    return prefix + id;
+  };
+}(idPrefix, 0));
 
 var Checkbox = React.createClass({
+  propTypes: {
+    name: ReactPropTypes.string,
+
+    /**
+     * Add custom class for checkbox
+     */
+    className: ReactPropTypes.string,
+
+    /**
+     * Add id for component. If user does not pass id
+     * we generate unique id for correct work checkbox
+     */
+    id: ReactPropTypes.string
+  },
+
+  getInitialState: function () {
+    return {
+      id: generateUniqueId()
+    };
+  },
+
   /**
    * Return native input node
    * @returns {DOMElement}
@@ -26,36 +56,25 @@ var Checkbox = React.createClass({
 
   render: function () {
     /* jshint ignore:start */
+    var id = this.props.id || this.state.id;
+
     return (
-      <span className={this.props.className}>
+      <span className={this.props.className || ''}>
         {this.transferPropsTo(<input
-          ref="input"
-          className="ring-checkbox"
-          type="checkbox"
+        ref="input"
+        className="ring-checkbox"
+        type="checkbox"
+        id={id}
         />)}
 
-        <a
-          href="#"
-          ref="label"
-          className="ring-checkbox__label"
-          onClick={this._onClick}>
-        </a>
+        <label
+        ref="label"
+        className="ring-checkbox__label"
+        htmlFor={id}>
+        </label>
       </span>
       );
     /* jshint ignore:end */
-  },
-
-  _onClick: function (event) {
-    event.preventDefault();
-
-    this.refs.input.setState({
-      checked: !this.refs.input.props.checked
-    });
-
-    if (this.props.onClick) {
-      event.target = this.getInputDOMNode();
-      this.props.onClick(event);
-    }
   }
 });
 
