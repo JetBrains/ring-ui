@@ -25,14 +25,14 @@
   font-size: 13px;
   line-height: 20px;
 
-  &:active, &:focus, .ring-input_active, .ring-input_focus {
+  &:active, &:focus {
     border: 1px solid #25B7FF;
     outline: 0;
   }
 
-  &:disabled, .ring-input_disabled {
+  &:disabled:active, &:disabled:focus {
     border: 1px solid #DEDEDE;
-    background-color: #F8F8F8;
+    background-color: #F0F0F0;
   }
 
   &.ring-input_correct {
