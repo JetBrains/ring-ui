@@ -30,9 +30,7 @@ reactModule.directive(directiveName, [
           throw Error('Component ' + name + ' is not registered');
         }
 
-        // Fake component
-        var component = {setState: angular.noop};
-        var state = {};
+        var props = {};
 
         angular.forEach(attrs, function(value, name) {
           if (attrs.hasOwnProperty(name) && name !== directiveName && typeof value === 'string') {
@@ -42,23 +40,28 @@ reactModule.directive(directiveName, [
             // Detect interpolation
             var expression = $interpolate(value, true);
 
-            if (!expression) {
-              expression = !domName ? $parse(value) : function() { return value; };
+            if (!expression && !domName) {
+              expression = $parse(value);
             }
 
             // Use React DOM attributes names
-            var stateName = domName || name;
-            state[stateName] = expression(scope);
+            var propName = domName || name;
 
-            scope.$watch(expression, function(result) {
-              var state = {};
-              state[stateName] = result;
-              component.setState(state);
-            });
+            if (expression) {
+              scope.$watch(expression, function(result) {
+                var props = {};
+                props[propName] = result;
+                component.setProps(props);
+              });
+
+              props[propName] = expression(scope);
+            } else {
+              props[propName] = value;
+            }
           }
         });
 
-        component = React.renderComponent(new ComponentClass(state), element[0]);
+        var component = React.renderComponent(new ComponentClass(props), element[0]);
       }
     };
   }
