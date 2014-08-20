@@ -30,6 +30,23 @@ describe('checkbox', function () {
     $(checkbox.getDOMNode()).should.have.class('test');
   });
 
+  it('should generate id if not passed', function () {
+    $(checkbox.getInputDOMNode()).prop('id').should.exist;
+  });
+
+  it('should generate unique id', function () {
+    var secondCheckboxId = renderIntoDocument(new Checkbox()).getInputDOMNode().getAttribute('id');
+    $(checkbox.getInputDOMNode()).should.not.have.id(secondCheckboxId);
+  });
+
+  it('should set custom id', function () {
+    checkbox.setProps({
+      id: 'test'
+    });
+
+    $(checkbox.getInputDOMNode()).should.have.id('test');
+  });
+
   it('should set name', function () {
     checkbox.setProps({
       name: 'test'
@@ -45,7 +62,7 @@ describe('checkbox', function () {
       onClick: clickHandler
     });
 
-    TestUtils.Simulate.click(checkbox.getLabelDOMNode());
+    TestUtils.Simulate.click(checkbox.getInputDOMNode());
     clickHandler.should.have.been.called;
   });
 
@@ -68,14 +85,14 @@ describe('checkbox', function () {
       }
     };
 
-    TestUtils.Simulate.change(checkbox.getInputDOMNode(), eventMock);
+    TestUtils.Simulate.change(checkbox.refs.input.getDOMNode(), eventMock);
 
     $(checkbox.getInputDOMNode()).should.be.checked;
   });
 
-  it('should check controll on click by lable', function () {
-    TestUtils.Simulate.click(checkbox.getLabelDOMNode(), null);
+  it('should connect label with input by id', function () {
+    var inputId = checkbox.refs.input.getDOMNode().getAttribute('id');
 
-    $(checkbox.getInputDOMNode()).should.be.checked;
+    $(checkbox.getLabelDOMNode()).should.have.prop('for', inputId);
   });
 });
