@@ -29,7 +29,7 @@
     border: 1px solid #25B7FF;
     line-height: normal;
 
-    .ring-checkbox__label:before {
+    &:before {
       position: relative;
       top: -4px;
       left: -1px;
