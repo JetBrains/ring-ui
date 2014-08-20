@@ -12,18 +12,15 @@ Ring UI: development environment setup
 
 4. Start the devserver:
 
-        gulp
+        gulp (runs webpack dev server on localhost:8080)
 
     or
 
-        gulp build-dev
-
-    (the latter one makes development build and starts watcher on all project source files to rebuild on changes, while the former runs webpack dev server)
-
+        gulp build-dev (makes a development build and starts a watcher on project source files)
 
 =======================================
 
-(Optional) Install VirtualBox and ievms to test run test on IE
+(Optional) Install VirtualBox and ievms to run tests in IE
 
     VirtualBox — https://www.virtualbox.org/wiki/Downloads
     ievms — https://github.com/xdissent/ievms#installation
