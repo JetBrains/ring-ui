@@ -1,7 +1,8 @@
 @import "../global/global";
 
 :root .ring-checkbox[type="checkbox"] {
-  display: none;
+  opacity: 0;
+  position: absolute;
 
   & + .ring-checkbox__label {
     display: inline-block;
@@ -41,6 +42,10 @@
       font-size: 16px;
       color: #1A1A1A;
     }
+  }
+
+  &:focus + .ring-checkbox__label {
+    border: 1px solid red;
   }
 
   &.ring-checkbox_black + .ring-checkbox__label:before {
