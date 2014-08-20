@@ -14,6 +14,7 @@ var sass = require('gulp-sass');
 var tar = require('gulp-tar');
 var gzip = require('gulp-gzip');
 var rename = require('gulp-rename');
+var filter = require('gulp-filter');
 
 var CSSlint = require('csslint').CSSLint;
 
@@ -208,6 +209,9 @@ gulp.task('lint-styles', function () {
   return gulp.src(pkgConfig.src + '/components/**/*.scss')
     .pipe(csscomb()) // just detect errors for now
     .pipe(sass())
+    .pipe(filter(function (file) {
+      return file.isBuffer() ? !!file.contents.length : true;
+     }))
     .pipe(csslint('.csslintrc'))
     .pipe(csslint.reporter(reporter))
     .pipe(exportReport())
