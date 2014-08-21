@@ -27,7 +27,6 @@
   position: relative;
 
   margin: $ring-unit*2;
-  line-height: $ring-unit*3 - 2;
   font-size: 0;
   white-space: nowrap;
 }
@@ -48,6 +47,7 @@
   color: $ring-link-color;
   @include ring-font;
   font-size: 13px;
+  line-height: $ring-unit*3 - 2;
 
   @include ring-tabs-border-bottom;
   border-top-left-radius: 3px;
