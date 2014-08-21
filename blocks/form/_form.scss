@@ -176,10 +176,13 @@
 
   line-height: 2.5 * $ring-unit;
   vertical-align: middle;
+}
 
-  & .ring-link {
-    font-size: 11px;
-  }
+.ring-form__control_text:after {
+  content: '';
+  display: inline-block;
+  height: $ring-unit*3;
+  vertical-align: middle;
 }
 
 // Temporary solution, proper grid is necessary
@@ -209,14 +212,8 @@
 .ring-form__info {
   margin-bottom: -$ring-unit + 2;
   width: 85 * $ring-unit;
-  margin-left: 22 * $ring-unit;
+  margin-left: 20 * $ring-unit;
   line-height: 20px;
-
-  // Becuase of .ring-form__control .ring-link weird style earlier
-  // TODO Get rid of them both
-  .ring-link {
-    font-size: 13px;
-  }
 }
 
 .ring-form__control__part {
