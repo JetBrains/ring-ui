@@ -130,11 +130,10 @@
 
 .ring-form__group {
   position: relative;
-  padding-top: $ring-unit;
-  padding-bottom: $ring-unit;
+  margin: $ring-unit*2;
 
-  &:last-child {
-    padding-bottom: 2*$ring-unit;
+  &:first-child {
+    margin-top: 0;
   }
 }
 
