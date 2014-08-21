@@ -115,7 +115,8 @@
         transclude: true,
         scope: {
           title: '@',
-          counter: '@'
+          counter: '@',
+          selected: '=?'
         },
         link: function (scope, element, attrs, tabsCtrl) {
           scope.tabId = attrs.tabId || scope.title.toLowerCase();
