@@ -130,7 +130,7 @@
 
 .ring-form__group {
   position: relative;
-  margin: $ring-unit*2;
+  margin: $ring-unit*2 0;
 
   &:first-child {
     margin-top: 0;
@@ -174,7 +174,7 @@
   min-height: 3 * $ring-unit;
   margin-left: 20 * $ring-unit;
 
-  line-height: 3 * $ring-unit;
+  line-height: 2.5 * $ring-unit;
   vertical-align: middle;
 
   & .ring-link {
@@ -206,8 +206,17 @@
   margin-left: 16*$ring-unit !important;
 }
 
-.ring-form__control_info {
+.ring-form__info {
+  margin-bottom: -$ring-unit + 2;
   width: 85 * $ring-unit;
+  margin-left: 22 * $ring-unit;
+  line-height: 20px;
+
+  // Becuase of .ring-form__control .ring-link weird style earlier
+  // TODO Get rid of them both
+  .ring-link {
+    font-size: 13px;
+  }
 }
 
 .ring-form__control__part {
