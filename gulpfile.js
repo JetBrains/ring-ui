@@ -142,7 +142,7 @@ gulp.task('test:build', function () {
   // Be sure to return the stream
   return gulp.src([
     './node_modules/jquery/dist/jquery.js',
-    './test-helpers/*.js',
+    './test-helpers/phantomjs-shims.js',
     pkgConfig.src + '/components/**/*.test.js'
   ])
     .pipe(karma({
