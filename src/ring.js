@@ -2,7 +2,6 @@ global.react = require('react');
 
 module.exports = {
   Checkbox: require('checkbox/checkbox'),
-  PopupMixin: require('popup/popup-mixin'),
   Popup: require('popup/popup'),
   PopupMenu: require('popup-menu/popup-menu'),
   ProgressBar: require('progress-bar/progress-bar'),
