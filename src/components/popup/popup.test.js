@@ -20,7 +20,6 @@ describe('popup', function () {
     });
 
     popupChild.should.exist;
-    popupChild.getPopupLayer.should.exist;
     popupChild.Corner.should.exist;
   });
 
