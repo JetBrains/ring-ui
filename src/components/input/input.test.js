@@ -2,7 +2,7 @@
 
 describe('Input', function () {
   var React = require('react/addons');
-  var Input = require('./input.jsx');
+  var Input = require('./input');
   var component;
 
   beforeEach(function () {

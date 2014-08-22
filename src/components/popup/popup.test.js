@@ -2,8 +2,8 @@ describe('popup', function () {
   var $ = require('jquery');
   var React = require('react/addons');
   var TestUtils = React.addons.TestUtils;
-  var PopupMixin = require('./popup-mixin.jsx');
-  var Popup = require('./popup.jsx');
+  var PopupMixin = require('./popup-mixin');
+  var Popup = require('./popup');
 
   it('should create component', function () {
     var popup = TestUtils.renderIntoDocument(new Popup(null));

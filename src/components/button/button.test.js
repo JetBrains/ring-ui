@@ -2,7 +2,7 @@ describe('button', function () {
   var $ = require('jquery');
   var React = require('react/addons');
   var TestUtils = React.addons.TestUtils;
-  var Button = require('./button.jsx');
+  var Button = require('./button');
 
   beforeEach(function () {
     this.button = TestUtils.renderIntoDocument(new Button());

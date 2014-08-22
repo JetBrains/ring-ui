@@ -4,7 +4,7 @@
  */
 
 var $ = require('jquery');
-var PopupMixin = require('popup/popup-mixin.jsx');
+var PopupMixin = require('popup/popup-mixin');
 var React = require('react');
 
 /**

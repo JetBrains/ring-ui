@@ -1,7 +1,7 @@
 describe('popup-menu', function () {
   var $ = require('jquery');
   var React = require('react/addons');
-  var PopupMenu = require('./popup-menu.jsx');
+  var PopupMenu = require('./popup-menu');
   var popup;
 
   beforeEach(function() {

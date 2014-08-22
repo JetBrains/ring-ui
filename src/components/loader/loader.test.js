@@ -1,7 +1,7 @@
 describe('loader', function () {
   var React = require('react/addons');
   var TestUtils = React.addons.TestUtils;
-  var Loader = require('./loader.jsx');
+  var Loader = require('./loader');
   var $ = require('jquery');
   var loader;
 
