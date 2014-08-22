@@ -39,10 +39,10 @@ var PopupMixin = {
      * @returns {HTMLElement}
      */
     renderComponent: function(component) {
-      var popupWrapper = document.createElement('div');
-      document.body.appendChild(popupWrapper);
+      this._wrapper = document.createElement('div');
+      document.body.appendChild(this._wrapper);
 
-      return React.renderComponent(component, popupWrapper);
+      return React.renderComponent(component, this._wrapper);
     }
   },
 
@@ -92,7 +92,10 @@ var PopupMixin = {
     var parent = this.getDOMNode().parentNode;
 
     React.unmountComponentAtNode(parent);
-    document.body.removeChild(parent);
+
+    if (this._wrapper) {
+      document.body.removeChild(this._wrapper);
+    }
   },
 
   /**
