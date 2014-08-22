@@ -2,7 +2,7 @@
 
 var jso = require('jso-browser');
 var $ = require('jquery');
-var AuthStorage = require('./auth__storage.js');
+var AuthStorage = require('./auth__storage');
 
 /**
  * @class

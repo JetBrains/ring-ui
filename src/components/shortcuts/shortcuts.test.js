@@ -1,4 +1,4 @@
-var keyEvent = require('imports?window=>{}!exports?window.KeyEvent!Mousetrap/tests/libs/key-event.js');
+var keyEvent = require('imports?window=>{}!exports?window.KeyEvent!Mousetrap/tests/libs/key-event');
 var Shortcuts = require('./shortcuts');
 var shortcuts = Shortcuts.getInstance();
 
