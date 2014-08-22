@@ -19,7 +19,7 @@ describe('popup', function () {
 
     popupChild.should.exist;
     popupChild.getPopupLayer.should.exist;
-    popupChild.Angle.should.exist;
+    popupChild.Corner.should.exist;
   });
 
   it ('should be closed by pressing esc', function() {
@@ -69,12 +69,12 @@ describe('popup', function () {
   });
 
   describe('positioning', function() {
-    it ('top-left angle', function() {
+    it ('top-left corner', function() {
       var element = $('<div style="position: absolute; width: 50px; height: 50px;"></div>');
       var container = document.createElement('div');
 
       var popup = React.renderComponent(new Popup({
-        angle: Popup.Angle.TOP_LEFT,
+        corner: Popup.Corner.TOP_LEFT,
         anchorElement: element[0]
       }), container);
 
@@ -85,12 +85,12 @@ describe('popup', function () {
       parseInt(popupElement.style.top).should.equal(elementOffset.top - $(popup.getDOMNode()).height());
     });
 
-    it ('bottom-left angle', function() {
+    it ('bottom-left corner', function() {
       var element = $('<div style="position: absolute; width: 50px; height: 50px;"></div>');
       var container = document.createElement('div');
 
       var popup = React.renderComponent(new Popup({
-        angle: Popup.Angle.BOTTOM_LEFT,
+        corner: Popup.Corner.BOTTOM_LEFT,
         anchorElement: element[0]
       }), container);
 

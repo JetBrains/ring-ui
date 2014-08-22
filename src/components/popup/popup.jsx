@@ -16,7 +16,7 @@ var React = require('react');
 /**
  * @enum {number}
  */
-var Angle = {
+var Corner = {
   TOP_LEFT: 0,
   TOP_RIGHT: 1,
   BOTTOM_RIGHT: 2,
@@ -39,7 +39,7 @@ var POPUP_LAYER_CLASS_NAME = 'ring-popup-layer';
  */
 var PopupMixin = {
   statics: {
-    Angle: Angle,
+    Corner: Corner,
 
     /**
      * @static
@@ -132,8 +132,8 @@ var PopupMixin = {
     var anchorElementOffset = $(anchorElement).offset();
     var position;
 
-    switch (this.props.angle) {
-      case Angle.TOP_LEFT:
+    switch (this.props.corner) {
+      case Corner.TOP_LEFT:
         position = {
           left: anchorElementOffset.left + 'px',
           top: (anchorElementOffset.top - $(this.getDOMNode()).height()) + 'px'
