@@ -27,17 +27,6 @@ var Corner = {
 };
 
 /**
- * @type {HTMLElement}
- */
-var popupLayer;
-
-/**
- * @type {string}
- * @const
- */
-var POPUP_LAYER_CLASS_NAME = 'ring-popup-layer';
-
-/**
  * @mixin {PopupMixin}
  */
 var PopupMixin = {
@@ -46,16 +35,14 @@ var PopupMixin = {
 
     /**
      * @static
-     * @return {HTMLElement}
+     * @param {ReactComponent} component
+     * @returns {HTMLElement}
      */
-    getPopupLayer: function() {
-      if (!popupLayer) {
-        popupLayer = document.createElement('div');
-        popupLayer.className = POPUP_LAYER_CLASS_NAME;
-        document.body.appendChild(popupLayer);
-      }
+    renderComponent: function(component) {
+      var popupWrapper = document.createElement('div');
+      document.body.appendChild(popupWrapper);
 
-      return popupLayer;
+      return React.renderComponent(component, popupWrapper);
     }
   },
 
@@ -102,7 +89,10 @@ var PopupMixin = {
    * Removes popup from document.
    */
   close: function() {
-    React.unmountComponentAtNode(this.getDOMNode().parentNode);
+    var parent = this.getDOMNode().parentNode;
+
+    React.unmountComponentAtNode(parent);
+    document.body.removeChild(parent);
   },
 
   /**
