@@ -2,7 +2,6 @@ describe('popup', function () {
   var $ = require('jquery');
   var React = require('react/addons');
   var TestUtils = React.addons.TestUtils;
-  var PopupMixin = require('./popup-mixin');
   var Popup = require('./popup');
 
   it('should create component', function () {
@@ -12,7 +11,7 @@ describe('popup', function () {
 
   it ('should create react class, based on popup mixin', function() {
     var popupChild = React.createClass({
-      mixins: [PopupMixin],
+      mixins: [Popup.Mixin],
       getInternalContent: function() {
         return React.DOM.div(null, 'Child');
       }
