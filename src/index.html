@@ -207,10 +207,10 @@
   /**
    * @constructor
    * @extends {ReactComponent}
-   * @mixes {ring.PopupMixin}
+   * @mixes {ring.Popup.Mixin}
    */
   var CustomPopup = react.createClass({
-    mixins: [ring.PopupMixin],
+    mixins: [ring.Popup.Mixin],
 
     getInternalContent: function() {
       return 'Dropdown element as mixin.';
@@ -219,7 +219,7 @@
 
   react.renderComponent(new CustomPopup({
     anchorElement: document.getElementById('dropdown'),
-    angle: CustomPopup.Angle.TOP_LEFT,
+    corner: CustomPopup.Corner.TOP_LEFT,
     classNames: ['additional', 'class', 'names']
   }), CustomPopup.getPopupLayer());
 
@@ -241,7 +241,7 @@
 
   var popupMenu = react.renderComponent(ring.PopupMenu({
     anchorElement: document.getElementById('popup'),
-    angle: CustomPopup.Angle.TOP_LEFT,
+    corner: CustomPopup.Corner.TOP_LEFT,
     classNames: ['additional', 'class', 'names']
   }, null), popupContainer);
 
