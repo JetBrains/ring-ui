@@ -4,7 +4,7 @@
  */
 
 var $ = require('jquery');
-var PopupMixin = require('popup/popup-mixin');
+var Popup = require('popup/popup');
 var React = require('react');
 
 /**
@@ -96,7 +96,7 @@ var MenuList = React.createClass({
  * @extends {ReactComponent}
  */
 var PopupMenu = React.createClass({
-  mixins: [PopupMixin],
+  mixins: [Popup.Mixin],
 
   statics: {
     Type: Type
