@@ -10,8 +10,11 @@
 
 require('./popup.scss');
 var $ = require('jquery');
-var getEventKey = require('react/lib/getEventKey');
 var React = require('react');
+var Global = require('global/global');
+
+var generateUniqueId = Global.getUIDGenerator('scope-');
+var shortcuts = require('shortcuts/shortcuts').getInstance();
 
 /**
  * @enum {number}
@@ -62,18 +65,26 @@ var PopupMixin = {
     this.getDOMNode().style.left = position.left;
     this.getDOMNode().style.top = position.top;
 
+    this._shortcutsScope = generateUniqueId();
+
     $(window).on('resize', this.onWindowResize_);
-    $(document.body).
-      on('click', this.onDocumentClick_).
-      on('keydown', this.onDocumentKeyDown_);
+    $(document).on('click', this.onDocumentClick_);
+
+    shortcuts.bind({
+      key: 'esc',
+      scope: this._shortcutsScope,
+      handler: this.close
+    });
+    shortcuts.pushScope(this._shortcutsScope);
   },
 
   /** @override */
   componentWillUnmount: function() {
     $(window).off('resize', this.onWindowResize_);
-    $(document.body).
-      off('click', this.onDocumentClick_).
-      off('keydown', this.onDocumentKeyDown_);
+    $(document).off('click', this.onDocumentClick_);
+
+    shortcuts.unbindScope(this._shortcutsScope);
+    shortcuts.spliceScope(this._shortcutsScope);
   },
 
   /** @override */
@@ -108,16 +119,6 @@ var PopupMixin = {
    */
   onDocumentClick_: function(evt) {
     if (!this.getDOMNode().contains(evt.target)) {
-      this.close();
-    }
-  },
-
-  /**
-   * @param {jQuery.Event} evt
-   * @private
-   */
-  onDocumentKeyDown_: function(evt) {
-    if (getEventKey(evt.originalEvent) === 'Escape') {
       this.close();
     }
   },

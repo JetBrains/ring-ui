@@ -1,8 +1,10 @@
+var $ = require('jquery');
+var React = require('react/addons');
+var TestUtils = React.addons.TestUtils;
+var Popup = require('./popup');
+var simulateKeypress = require('simulate-keypress');
+
 describe('popup', function () {
-  var $ = require('jquery');
-  var React = require('react/addons');
-  var TestUtils = React.addons.TestUtils;
-  var Popup = require('./popup');
 
   it('should create component', function () {
     var popup = TestUtils.renderIntoDocument(new Popup(null));
@@ -24,18 +26,8 @@ describe('popup', function () {
 
   it ('should be closed by pressing esc', function() {
     var popup = TestUtils.renderIntoDocument(new Popup(null));
-    var evt;
 
-    try {
-      evt = new CustomEvent('keydown');
-    } catch(err) {
-      evt = document.createEvent('KeyboardEvent');
-      evt.initEvent('keydown', true, false);
-    }
-
-    evt.keyCode = 27;
-    evt.key = 'Escape';
-    document.body.dispatchEvent(evt);
+    simulateKeypress(null, 27); // Esc
 
     popup.isMounted().should.be.false;
   });
