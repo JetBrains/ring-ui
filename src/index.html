@@ -217,11 +217,11 @@
     }
   });
 
-  react.renderComponent(new CustomPopup({
+  ring.Popup.renderComponent(new CustomPopup({
     anchorElement: document.getElementById('dropdown'),
     corner: CustomPopup.Corner.TOP_LEFT,
     classNames: ['additional', 'class', 'names']
-  }), CustomPopup.getPopupLayer());
+  }));
 
 
   /**
@@ -234,16 +234,13 @@
     }
   });
 
-  var popupContainer = document.createElement('div');
-  document.body.appendChild(popupContainer);
+  ring.Popup.renderComponent(ring.Popup(null, SomeElementToInsertIntoPopup(null)));
 
-  react.renderComponent(ring.Popup(null, SomeElementToInsertIntoPopup(null)), popupContainer);
-
-  var popupMenu = react.renderComponent(ring.PopupMenu({
+  var popupMenu = ring.Popup.renderComponent(ring.PopupMenu({
     anchorElement: document.getElementById('popup'),
     corner: CustomPopup.Corner.TOP_LEFT,
     classNames: ['additional', 'class', 'names']
-  }, null), popupContainer);
+  }, null));
 
   popupMenu.setState({data: [
     {'label': 'One'},
