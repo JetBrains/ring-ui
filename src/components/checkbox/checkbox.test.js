@@ -2,7 +2,7 @@ describe('checkbox', function () {
   var $ = require('jquery');
   var React = require('react/addons');
   var TestUtils = React.addons.TestUtils;
-  var Checkbox = require('./checkbox.jsx');
+  var Checkbox = require('./checkbox');
   var checkbox;
 
   function renderIntoDocument(instance) {

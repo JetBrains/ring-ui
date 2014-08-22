@@ -2,7 +2,7 @@
 
 describe('Textarea', function () {
   var React = require('react/addons');
-  var Textarea = require('./textarea.jsx');
+  var Textarea = require('./textarea');
   var component;
 
   beforeEach(function () {

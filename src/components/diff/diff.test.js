@@ -3,7 +3,7 @@
 describe('Diff', function () {
   var React = require('react/addons');
   var TestUtils = React.addons.TestUtils;
-  var Diff = require('./diff.jsx');
+  var Diff = require('./diff');
   var diffDataMock = {
     original: 'original',
     modified: 'modified',

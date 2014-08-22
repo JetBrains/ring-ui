@@ -4,7 +4,7 @@
 describe('progress-bar', function() {
   var $ = require('jquery');
   var React = require('react/addons');
-  var ProgressBar = require('./progress-bar.jsx');
+  var ProgressBar = require('./progress-bar');
 
   beforeEach(function() {
     this.progress = React.addons.TestUtils.renderIntoDocument(new ProgressBar());
