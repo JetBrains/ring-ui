@@ -5,6 +5,8 @@ module.exports = function (karma) {
   var prepareWbpackConf = function (webpackConf) {
     webpackConf.devtool = 'eval';
     webpackConf.output = {};
+    webpackConf.resolve.root = __dirname + '/test-helpers/';
+
     return webpackConf;
   };
 
@@ -21,7 +23,7 @@ module.exports = function (karma) {
     // Files are given outside from gulp task
     files: [
       'node_modules/jquery/dist/jquery.js',
-      'test-helpers/*.js',
+      'test-helpers/phantomjs-shims.js',
       'src/components/**/*.test.js'
     ],
 
