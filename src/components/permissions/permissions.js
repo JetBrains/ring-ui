@@ -50,7 +50,7 @@ Permissions.prototype.load = function () {
       fields: 'permission/key,global,spaces(id)',
       query: self.query
     };
-    return self.getSecure(API_PERMISSION_CACHE_PATH, accessToken, params).
+    return self._auth.getSecure(API_PERMISSION_CACHE_PATH, accessToken, params).
       then(function (cachedPermissions) {
         return new PermissionCache(cachedPermissions, self.prefix);
       });
@@ -70,7 +70,7 @@ Permissions.prototype.load = function () {
  * @return {Promise.<boolean>}
  */
 Permissions.prototype.check = function (permissions, spaceId) {
-  this.load().
+  return this.load().
     then(function (permissionCache) {
       return permissionCache.has(permissions, spaceId);
     });

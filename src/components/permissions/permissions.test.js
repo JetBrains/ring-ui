@@ -22,9 +22,10 @@ describe('permissions', function () {
 
   describe('cache', function () {
     var permissionCache = new PermissionCache([
-      {permission: {key: 'jetbrains.jetpass.space-create'}, global: true},
       {permission: {key: 'jetbrains.jetpass.space-read'}, global: true},
-      {permission: {key: 'jetbrains.jetpass.space-update'}, spaces: [{id: '123'}]},
+      {permission: {key: 'jetbrains.jetpass.space-update'}, spaces: [
+        {id: '123'}
+      ]},
       {permission: {key: 'jetbrains.upsource.permission.project.admin'}, global: true}
     ], 'jetbrains.jetpass.');
 
@@ -62,7 +63,28 @@ describe('permissions', function () {
     });
   });
 
-  // Check _permissionCache that is built after request
-// .check resolves to a boolean as expected
+  describe('check', function () {
+    var $ = require('jquery');
+    var q = require('q');
 
+    var permissions = new Permissions(new Auth({serverUri: ''}));
+    var permissionCache = new PermissionCache([
+      {permission: {key: 'jetbrains.jetpass.space-read'}, global: true},
+      {permission: {key: 'jetbrains.jetpass.space-update'}, spaces: [
+        {id: '123'}
+      ]},
+      {permission: {key: 'jetbrains.upsource.permission.project.admin'}, global: true}
+    ], 'jetbrains.jetpass.');
+    var deferred = $.Deferred();
+    permissions._promise = deferred.promise();
+    deferred.resolve(permissionCache);
+
+    it('should resolve to true for given permission', function () {
+      q(permissions.check('space-read')).should.eventually.equal(true);
+    });
+
+    it('should resolve to false for absent permission', function () {
+      q(permissions.check('role-read')).should.eventually.equal(false);
+    });
+  });
 });
