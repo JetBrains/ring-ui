@@ -293,7 +293,6 @@ Auth.prototype.requestToken = function () {
  * @param {string} accessToken access token to use in request
  * @param {object?} params query parameters
  * @return {Promise} promise from $.ajax() request
- * @private
  */
 Auth.prototype.getSecure = function (relativeURI, accessToken, params) {
   return $.ajax({
