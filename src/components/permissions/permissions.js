@@ -39,8 +39,7 @@ var Permissions = function (auth, config) {
 };
 
 /**
- * @const
- * @type {string}
+ * @const {string}
  */
 var API_PERMISSION_CACHE_PATH = Auth.API_PATH + '/permissions/cache';
 
@@ -82,6 +81,32 @@ Permissions.prototype.check = function (permissions, spaceId) {
   return this.load().
     then(function (permissionCache) {
       return permissionCache.has(permissions, spaceId);
+    });
+};
+
+/**
+ * Binds a property with the name <code>propertyName</code> of the <code>object</code>
+ * to a boolean value that is true if user has the permissions and false if she doesn't.
+ *
+ * @expample
+ * <code>
+ *   userPermissions.bindVariable($scope, 'canReadRole', 'role-read')
+ * </code>
+ *
+ * @param {object} object       an object which property should be bound
+ * @param {string} propertyName a name of a property to bind
+ * @param {string} permissions  space separated list of permissions
+ * @param {string=} spaceId     optional spaceId. If absent the method checks
+ *  if the given permissions are granted in any space.
+ *
+ * @return {Promise.<boolean>}
+ */
+Permissions.prototype.bindVariable = function (object, propertyName, permissions, spaceId) {
+  object[propertyName] = false;
+  return this.check(permissions, spaceId).
+    then(function (permitted) {
+      object[propertyName] = permitted;
+      return permitted;
     });
 };
 
