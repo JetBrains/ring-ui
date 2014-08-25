@@ -6,6 +6,12 @@ var Permissions = require('../permissions/permissions');
 var permissionsModule = angular.module('Ring.permissions', ['Ring.auth']);
 
 /**
+ * @ngdoc object
+ * @name userPermissions
+ *
+ * @description
+ * Configured instance of Permissions object.
+ *
  * Configure:
  * @example
  * <pre>
@@ -16,6 +22,8 @@ var permissionsModule = angular.module('Ring.permissions', ['Ring.auth']);
  *   });
  * }]);
  * </pre>
+ *
+ * @requires auth
  */
 permissionsModule.provider('userPermissions', [function () {
   /**
@@ -46,11 +54,36 @@ var registerPermission = function (element) {
   return somePermissionsCtrl && somePermissionsCtrl.registerPermission() || angular.noop;
 };
 
+/**
+ * @ngdoc directive
+ * @name permission
+ *
+ * @description
+ * The `permission` directive show or hide a portion of the DOM tree (HTML) depending
+ * on the logged in user permissions. If the user has listed permissions then the DOM tree
+ * is shown, otherwise it is hidden.
+ * @example
+   <doc:example>
+     <doc:source>
+       <div permission="space-read" in-space="0-0-0-0-0">
+         Is visible if user has permission 'read-space' in space 0-0-0-0-0.
+       </div>
+       <div permission="space-read">
+         Is visible if user has permission 'read-space' at least in one space.
+       </div>
+     </doc:source>
+   </doc:example>
+ *
+ * @restrict A
+ * @element ANY
+ * @requires userPermissions
+ */
 permissionsModule.directive('permission', [
   'userPermissions',
   function (userPermissions) {
     return {
       controller: ['$scope', '$element', '$attrs', function ($scope, $element, $attrs) {
+        //noinspection JSPotentiallyInvalidUsageOfThis
         this.permitted = false;
 
         var self = this;
@@ -70,6 +103,31 @@ permissionsModule.directive('permission', [
   }
 ]);
 
+/**
+ * @ngdoc directive
+ * @name permissionIf
+ *
+ * @description
+ * The `permission` directive transcludes or not a portion of the DOM tree (HTML) depending
+ * on the logged in user permissions. If the user has listed permissions then the DOM tree
+ * is transcluded, otherwise it is not.
+ * @example
+   <doc:example>
+     <doc:source>
+       <div permission-if="space-read" in-space="0-0-0-0-0">
+         Is transcluded if user has permission 'read-space' in space 0-0-0-0-0.
+       </div>
+       <div permission-if="space-read">
+         Is transcluded if user has permission 'read-space' at least in one space.
+       </div>
+     </doc:source>
+   </doc:example>
+ *
+ * @restrict A
+ * @element ANY
+ * @requires $animate
+ * @requires userPermissions
+ */
 permissionsModule.directive('permissionIf', [
   '$animate',
   'userPermissions',
@@ -115,6 +173,32 @@ permissionsModule.directive('permissionIf', [
   }
 ]);
 
+/**
+ * @ngdoc directive
+ * @name somePermissions
+ *
+ * @description
+ * Binds left-value expression with a boolean value that is true when at least one permission of
+ * nested {@link permission} or {@link permissionIf} directive is obtained by the logged in user.
+ *
+ * @example
+   <doc:example>
+     <doc:source>
+       <div some-permissions="atLeastOneNestedDivIsShown" ng-show="atLeastOneNestedDivIsShown">
+         <div permission-if="space-read" in-space="0-0-0-0-0">
+           Is transcluded if user has permission 'read-space' in space 0-0-0-0-0.
+         </div>
+         <div permission-if="space-read">
+           Is transcluded if user has permission 'read-space' at least in one space.
+         </div>
+       </div>
+     </doc:source>
+   </doc:example>
+ *
+ * @scope
+ * @restrict A
+ * @element ANY
+ */
 permissionsModule.directive('somePermissions', [
   function () {
     return {
@@ -136,6 +220,7 @@ permissionsModule.directive('somePermissions', [
           $scope.somePermissions = false;
         };
 
+        //noinspection JSPotentiallyInvalidUsageOfThis
         this.registerPermission = function () {
           var permission = {permitted: false};
           permissions.push(permission);
