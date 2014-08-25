@@ -9,7 +9,7 @@
  *   global: boolean?,
  *   spaces: {id: string}[]?
  * }[] } cachedPermissions
- * @param {string?} prefix a substring to chop off from the beginning of the permission key
+ * @param {string=} prefix a substring to chop off from the beginning of the permission key
  * @return {object} permission cache
  * @private
  */
@@ -29,7 +29,7 @@ var PermissionCache = function (cachedPermissions, prefix) {
 /**
  * Convert an array of spaces to a set of space ids.
  *
- * @param {{id: string}?} spaces
+ * @param {{id: string}=} spaces
  * @return {object} a set of space ids
  * @private
  */
@@ -48,7 +48,7 @@ PermissionCache._toSpaceIdSet = function (spaces) {
  * Checks if the current user has the given permissions in the space with the given id.
  *
  * @param {string} permissions  space separated list of permissions
- * @param {string?} spaceId     optional spaceId. If absent the method checks
+ * @param {string=} spaceId     optional spaceId. If absent the method checks
  *  if the given permission is granted in any space.
  *
  * @return {boolean}
