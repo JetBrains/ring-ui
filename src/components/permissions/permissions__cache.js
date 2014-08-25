@@ -5,9 +5,9 @@
  * to the respective cached permission.
  *
  * @param { {
- *  permission: {key: string},
- *  global: boolean?,
- *  spaces: {id: string}[]?
+ *   permission: {key: string},
+ *   global: boolean?,
+ *   spaces: {id: string}[]?
  * }[] } cachedPermissions
  * @param {string?} prefix a substring to chop off from the beginning of the permission key
  * @return {object} permission cache

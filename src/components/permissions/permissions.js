@@ -4,6 +4,7 @@ var Auth = require('../auth/auth');
 var PermissionCache = require('./permissions__cache');
 
 /**
+ * @example
  * <code>
  *   var permissions = new Permissions(auth, {prefix: 'jetbrains.jetpass.', serviceId: auth.serviceId})
  *   permissions.load().then(function (p) {
@@ -18,8 +19,8 @@ var PermissionCache = require('./permissions__cache');
  *
  * @param {Auth} auth instance of well configured Auth object
  * @param {{
- *  prefix: string?,
- *  serviceId: string?
+ *   prefix: string?,
+ *   serviceId: string?
  * }?} config permissions loaded configuration. <code>prefix</code> if provided then this prefix is removed
  * from the permissions names. <code>serviceId</code> if provided then permissions only for the service are loaded.
  * @constructor
@@ -29,10 +30,18 @@ var Permissions = function (auth, config) {
   this.query = config.serviceId && ('service: {' + config.serviceId + '}');
   this.prefix = config.prefix;
 
+  if (auth == null) {
+    throw new Error('Parameter auth is required');
+  }
+
   this._auth = auth;
   this._promise = null;
 };
 
+/**
+ * @const
+ * @type {string}
+ */
 var API_PERMISSION_CACHE_PATH = Auth.API_PATH + '/permissions/cache';
 
 /**
