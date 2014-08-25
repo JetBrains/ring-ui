@@ -45,6 +45,9 @@ permissionsModule.provider('userPermissions', [function () {
   };
 
   this.$get = ['auth', function (auth) {
+    if (!_config.serviceId) {
+      _config.serviceId = auth.clientId;
+    }
     return new Permissions(auth.auth, _config);
   }];
 }]);
