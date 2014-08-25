@@ -2,14 +2,23 @@
 <html>
 <head>
   <title>Revision graph test</title>
-  <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-  <script src="revision-graph.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/require.js/2.1.14/require.min.js"></script>
 </head>
 
 <script>
-  $(function() {
-    $.getJSON('revision-graph.test.json', function(data) {
-      console.log(data);
+  requirejs.config({
+    "baseUrl": "",
+    "paths": {
+      "jquery": "https://code.jquery.com/jquery-2.1.1.min",
+      "Modernizr": "//cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.2/modernizr.min"
+    }
+  });
+
+  require(["jquery", "revision-graph"], function($, RevisionGraph) {
+    $(function() {
+      $.getJSON('revision-graph.test.json', function(data) {
+        console.log(data, RevisionGraph);
+      });
     });
   });
 </script>
