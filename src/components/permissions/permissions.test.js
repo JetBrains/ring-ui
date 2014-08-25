@@ -70,7 +70,7 @@ describe('permissions', function () {
     });
   });
 
-  describe('check', function () {
+  describe('check and bind variable', function () {
     var $ = require('jquery');
     var q = require('q');
 
@@ -92,6 +92,24 @@ describe('permissions', function () {
 
     it('should resolve to false for absent permission', function () {
       q(permissions.check('role-read')).should.eventually.be.false;
+    });
+
+    it('should bind variable to true for given permission', function () {
+      var scope = {};
+      permissions.bindVariable(scope, 'canReadSpace', 'space-read');
+      scope.canReadSpace.should.be.true;
+
+      permissions.bindVariable(scope, 'canUpdateSpace', 'space-update', '123');
+      scope.canUpdateSpace.should.be.true;
+    });
+
+    it('should bind variable to false for absent permission', function () {
+      var scope = {};
+      permissions.bindVariable(scope, 'canReadRole', 'role-read');
+      scope.canReadRole.should.be.false;
+
+      permissions.bindVariable(scope, 'canUpdateSpace', 'space-update', '456');
+      scope.canUpdateSpace.should.be.false;
     });
   });
 });
