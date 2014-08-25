@@ -7,6 +7,7 @@ var authModule = angular.module('Ring.auth', []);
 
 /**
  * Configure:
+ * @example
  * <pre>
  * angular.config(["authProvider", function (authProvider) {
  *   authProvider.config({
@@ -86,6 +87,7 @@ authModule.provider('auth', ['$httpProvider', function ($httpProvider) {
     authInitPromise.done(restoreLocation);
 
     return {
+      auth: auth,
       requestUser: auth.requestUser.bind(auth),
       clientId: auth.config.client_id,
       logout: auth.logout.bind(auth)
