@@ -18,6 +18,13 @@ describe('permissions', function () {
     it('should pass permission key prefix', function () {
       expect(new Permissions(auth, {prefix: 'jetbrains.jetpass.'}).prefix).to.equal('jetbrains.jetpass.');
     });
+
+    it('should require auth', function () {
+      expect(function () {
+        return new Permissions();
+      }).to.throw(Error, 'Parameter auth is required');
+    });
+
   });
 
   describe('cache', function () {
@@ -30,36 +37,36 @@ describe('permissions', function () {
     ], 'jetbrains.jetpass.');
 
     it('should not permit unlisted permission', function () {
-      expect(permissionCache.has('role-update')).to.equal(false);
-      expect(permissionCache.has('role-update', '123')).to.equal(false);
+      permissionCache.has('role-update').should.be.false;
+      permissionCache.has('role-update', '123').should.be.false;
     });
 
     it('should permit global permission', function () {
-      expect(permissionCache.has('space-read')).to.equal(true);
-      expect(permissionCache.has('space-read', '123')).to.equal(true);
-      expect(permissionCache.has('space-read', '456')).to.equal(true);
+      permissionCache.has('space-read').should.be.true;
+      permissionCache.has('space-read', '123').should.be.true;
+      permissionCache.has('space-read', '456').should.be.true;
     });
 
     it('should permit if user has permission in space', function () {
-      expect(permissionCache.has('space-update')).to.equal(true);
-      expect(permissionCache.has('space-update', '123')).to.equal(true);
+      permissionCache.has('space-update').should.be.true;
+      permissionCache.has('space-update', '123').should.be.true;
     });
 
     it('should not permit if user has no permission in space', function () {
-      expect(permissionCache.has('space-update', '456')).to.equal(false);
+      permissionCache.has('space-update', '456').should.be.false;
     });
 
     it('should match full permission key if it doesn\'t start with the provided prefix', function () {
-      expect(permissionCache.has('jetbrains.upsource.permission.project.admin', '456')).to.equal(true);
+      permissionCache.has('jetbrains.upsource.permission.project.admin', '456').should.be.true;
     });
 
     it('should permit if user has all permissions', function () {
-      expect(permissionCache.has('space-read space-update', '123')).to.equal(true);
+      permissionCache.has('space-read space-update', '123').should.be.true;
     });
 
     it('should not permit if user doesn\'t have some permissions', function () {
-      expect(permissionCache.has('space-read space-update', '456')).to.equal(false);
-      expect(permissionCache.has('space-read role-update')).to.equal(false);
+      permissionCache.has('space-read space-update', '456').should.be.false;
+      permissionCache.has('space-read role-update').should.be.false;
     });
   });
 
@@ -80,11 +87,11 @@ describe('permissions', function () {
     deferred.resolve(permissionCache);
 
     it('should resolve to true for given permission', function () {
-      q(permissions.check('space-read')).should.eventually.equal(true);
+      q(permissions.check('space-read')).should.eventually.be.true;
     });
 
     it('should resolve to false for absent permission', function () {
-      q(permissions.check('role-read')).should.eventually.equal(false);
+      q(permissions.check('role-read')).should.eventually.be.false;
     });
   });
 });
