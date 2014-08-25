@@ -21,7 +21,7 @@ var PermissionCache = require('./permissions__cache');
  * @param {{
  *   prefix: string?,
  *   serviceId: string?
- * }?} config permissions loaded configuration. <code>prefix</code> if provided then this prefix is removed
+ * }=} config permissions loaded configuration. <code>prefix</code> if provided then this prefix is removed
  * from the permissions names. <code>serviceId</code> if provided then permissions only for the service are loaded.
  * @constructor
  */
@@ -73,7 +73,7 @@ Permissions.prototype.load = function () {
  * given permissions in the space with the given id.
  *
  * @param {string} permissions  space separated list of permissions
- * @param {string?} spaceId     optional spaceId. If absent the method checks
+ * @param {string=} spaceId     optional spaceId. If absent the method checks
  *  if the given permission is granted in any space.
  *
  * @return {Promise.<boolean>}
