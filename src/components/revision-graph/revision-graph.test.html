@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Revision graph test</title>
+  <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <script src="revision-graph.js"></script>
+</head>
+
+<script>
+  $(function() {
+    $.getJSON('revision-graph.test.json', function(data) {
+      console.log(data);
+    });
+  });
+</script>
+</html>
