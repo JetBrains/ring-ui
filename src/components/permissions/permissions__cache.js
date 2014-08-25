@@ -61,7 +61,7 @@ PermissionCache.prototype.has = function (permissions, spaceId) {
 
   for (var i = permissionList.length - 1, cachedPermission; i >= 0; i--) {
     cachedPermission = this.permissionCache[permissionList[i]];
-    // Has no the permission in any space
+    // Hasn't the permission in any space
     if (!cachedPermission) {
       return false;
     }
