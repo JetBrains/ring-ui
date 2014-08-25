@@ -17,7 +17,9 @@
   require(["jquery", "revision-graph"], function($, RevisionGraph) {
     $(function() {
       $.getJSON('revision-graph.test.json', function(data) {
-        console.log(data, RevisionGraph);
+        var graph = new RevisionGraph();
+        graph.setGraph(data);
+        graph.render();
       });
     });
   });
