@@ -27,8 +27,6 @@ Shortcuts.ALLOW_SHORTCUTS_SELECTOR = '.ring-js-shortcuts';
 Shortcuts.trigger = mousetrap.trigger;
 Global.addSingletonGetter(Shortcuts);
 
-var ShortcutsProto = Shortcuts.prototype;
-
 Shortcuts._dispatcher = function(e, key) {
   var currentScope;
 
@@ -55,7 +53,7 @@ Shortcuts._dispatcher = function(e, key) {
  * @param params.scope {string} Scope (optional)
  * @param params.type {string} Event type, will be passed to Mousetrap (optional)
  */
-ShortcutsProto.bind = function(params) {
+Shortcuts.prototype.bind = function(params) {
   if (!(params instanceof Object) || typeof params.handler !== 'function') {
     throw new Error('Shortcut handler should exist');
   }
@@ -91,7 +89,7 @@ ShortcutsProto.bind = function(params) {
  * @options.scope {string} Scope (optional)
  * @options.type {string} Event type, will be passed to Mousetrap (optional)
  */
-ShortcutsProto.bindMap = function(map, options) {
+Shortcuts.prototype.bindMap = function(map, options) {
   if (!(map instanceof Object)) {
     throw new Error('Shortcuts map shouldn\'t be empty');
   }
@@ -103,15 +101,15 @@ ShortcutsProto.bindMap = function(map, options) {
   }
 };
 
-ShortcutsProto.unbindScope = function(scope) {
+Shortcuts.prototype.unbindScope = function(scope) {
   this._scopes[scope] = null;
 };
 
-ShortcutsProto.getScope = function() {
+Shortcuts.prototype.getScope = function() {
   return this._scopeChain.slice(1);
 };
 
-ShortcutsProto.pushScope = function(scope) {
+Shortcuts.prototype.pushScope = function(scope) {
   if (scope) {
     var position = $.inArray(scope, this._scopeChain);
 
@@ -123,7 +121,7 @@ ShortcutsProto.pushScope = function(scope) {
   }
 };
 
-ShortcutsProto.popScope = function(scope) {
+Shortcuts.prototype.popScope = function(scope) {
   if (scope) {
     var position = $.inArray(scope, this._scopeChain);
 
@@ -133,7 +131,7 @@ ShortcutsProto.popScope = function(scope) {
   }
 };
 
-ShortcutsProto.spliceScope = function(scope) {
+Shortcuts.prototype.spliceScope = function(scope) {
   if (scope) {
     var position = $.inArray(scope, this._scopeChain);
 
@@ -143,7 +141,7 @@ ShortcutsProto.spliceScope = function(scope) {
   }
 };
 
-ShortcutsProto.setScope = function(scope) {
+Shortcuts.prototype.setScope = function(scope) {
   if (scope) {
     if (typeof scope === 'string') {
       scope = [scope];
@@ -159,11 +157,11 @@ ShortcutsProto.setScope = function(scope) {
   }
 };
 
-ShortcutsProto.hasKey = function(key, scope) {
+Shortcuts.prototype.hasKey = function(key, scope) {
   return !!(this._scopes[scope] && this._scopes[scope][key]);
 };
 
-ShortcutsProto._defaultFilter = function(e, element/*, key*/) {
+Shortcuts.prototype._defaultFilter = function(e, element/*, key*/) {
   var $element = $(element);
 
   // if the element or its parents have the class "ring-js-shortcuts" then no need to stop
@@ -175,12 +173,12 @@ ShortcutsProto._defaultFilter = function(e, element/*, key*/) {
   return $element.is(':input:not(:button)') || (element.contentEditable && element.contentEditable === 'true');
 };
 
-ShortcutsProto.setFilter = function(fn) {
+Shortcuts.prototype.setFilter = function(fn) {
   mousetrap.stopCallback = typeof fn === 'function' ? fn : this._defaultFilter;
 };
 
 
-ShortcutsProto.reset = function() {
+Shortcuts.prototype.reset = function() {
   this._scopes = {};
   mousetrap.reset();
 };
