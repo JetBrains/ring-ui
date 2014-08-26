@@ -1,4 +1,6 @@
-define(["jquery", "Modernizr"], // jshint ignore:line
+//require("./revision-graph.scss");
+
+define(["jquery", "Modernizr", "jquery.debounce"], // jshint ignore:line
   function($, Modernizr) {
     /**
      * @param {Element} revisionsContainer
@@ -18,7 +20,7 @@ define(["jquery", "Modernizr"], // jshint ignore:line
       this.element_.className = "revision-graph";
       this.element_.appendChild(this.svg_);
 
-      this.resizeCommand_ = $.debounce(function () {
+      this.resizeCommand_ = $.debounce(50, function () {
         // Check width, reset offsets cache if differs
         var fullWidth = $(self.revisionsContainer_).parent().width();
         if (fullWidth !== self.fullWidth_) {
@@ -34,7 +36,9 @@ define(["jquery", "Modernizr"], // jshint ignore:line
           self.svg_.style.height = graphHeight + "px";
           self.render_();
         }
-      }, 50, false);
+      });
+
+      $(this.element_).insertBefore(revisionsContainer);
 
       $(window).on("resize.revisionGraph", function () {
         self.resizeCommand_();
@@ -237,10 +241,9 @@ define(["jquery", "Modernizr"], // jshint ignore:line
         }
       }
 
-      for (var entry in buildersIndex) {
-        if (buildersIndex.hasOwnProperty(entry)) {
-          var groupElement = entry.getKey();
-          var builder = entry.getValue();
+      for (var groupElement in buildersIndex) {
+        if (buildersIndex.hasOwnProperty(groupElement)) {
+          var builder = buildersIndex[groupElement];
 
           if (builder.length > 0) {
             builder = builder.substring(0, builder.length - 2); // cut the last space off
@@ -276,7 +279,7 @@ define(["jquery", "Modernizr"], // jshint ignore:line
      * @returns {Element|null}
      */
     RevisionGraph.prototype.createSvgElement_ = function(name) {
-      if (Modernizr.svg) {
+      if (!Modernizr.svg) {
         return null;
       }
       return document.createElementNS("http://www.w3.org/2000/svg", name);
@@ -315,7 +318,7 @@ define(["jquery", "Modernizr"], // jshint ignore:line
       var element = groupIndex[color];
       if (element == null) {
         element = this.createSvgElement_("g");
-        element.setAttribute("class", classValue != null ? classValue : "revision-graph__group_" + (groupIndex.length % this.MAX_COLOR));
+        element.setAttribute("class", classValue != null ? classValue : "revision-graph__group_" + (Object.keys(groupIndex).length % this.MAX_COLOR));
         groupIndex[color] = element;
         if (isAppend) {
           this.svg_.appendChild(element);
