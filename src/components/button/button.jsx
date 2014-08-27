@@ -28,7 +28,8 @@ var Modifiers = {
  */
 var Button = React.createClass({
   statics: {
-   Modifiers: Modifiers
+   Modifiers: Modifiers,
+   Group: require('./button__group')
   },
 
   propTypes: {
