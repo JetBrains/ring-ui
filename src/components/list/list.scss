@@ -1,0 +1,64 @@
+@import '../global/global';
+
+.ring-list {
+  position: relative;
+
+  padding-top: $ring-unit/2 + 1;
+  z-index: 1;
+
+  line-height: normal;
+
+  border-radius: 3px;
+}
+
+.ring-list__separator {
+  display: block;
+  width: 100%;
+  height: 1px;
+  margin: 2px 0 5px;
+
+  background-color: #ADADAD;
+}
+
+.ring-list__item {
+  display: block;
+  overflow: hidden;
+  padding: 0 $ring-unit*2;
+
+  text-align: left;
+  font-size: 13px;
+  line-height: $ring-unit*3;
+
+  vertical-align: bottom;
+  text-decoration: none;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  &:last-child {
+    margin-bottom: 3px;
+  }
+
+  &_error {
+    color: #F00;
+    cursor: default;
+
+    // Redefine ring-link
+    &:hover, &:focus, &:visited {
+      color: #F00;
+    }
+  }
+
+  .ring-list &:hover {
+    text-decoration: none;
+  }
+}
+
+.ring-list__item_action {
+  cursor: pointer;
+  color: #000;
+
+  &.active:not(.ring-list__item_error) {
+    color: #FFF;
+    background-color: #25B7FF;
+  }
+}

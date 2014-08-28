@@ -242,13 +242,13 @@
     classNames: ['additional', 'class', 'names']
   }, null));
 
-  popupMenu.setState({data: [
+  popupMenu.setProps({data: [
     {'label': 'One'},
     {'label': 'Two', 'href': 'http://www.jetbrains.com'},
-    {'label': 'Three', 'type': ring.PopupMenu.Type.MENU_ITEM, 'href': 'http://www.jetbrains.com'},
+    {'label': 'Three', 'type': ring.PopupMenu.Type.ITEM, 'href': 'http://www.jetbrains.com'},
     {'type': ring.PopupMenu.Type.SEPARATOR},
-    {'label': 'Four', 'type': ring.PopupMenu.Type.MENU_LINK},
-    {'label': 'Five', 'type': ring.PopupMenu.Type.MENU_LINK, 'href': 'http://www.jetbrains.com', 'className': 'test'}
+    {'label': 'Four', 'type': ring.PopupMenu.Type.LINK},
+    {'label': 'Five', 'type': ring.PopupMenu.Type.LINK, 'href': 'http://www.jetbrains.com', 'className': 'test'}
   ]})
 </script>
 </body>
