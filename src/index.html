@@ -125,7 +125,7 @@
           _timeout *= 2;
       }
 
-      progressBar.setState({ value: value });
+      progressBar.setProps({ value: value });
 
       setTimeout(foo, _timeout);
     }, timeout);
