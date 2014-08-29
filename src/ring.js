@@ -4,6 +4,7 @@ module.exports = {
   Checkbox: require('checkbox/checkbox'),
   Popup: require('popup/popup'),
   PopupMenu: require('popup-menu/popup-menu'),
+  List: require('list/list'),
   ProgressBar: require('progress-bar/progress-bar'),
   Input: require('input/input'),
   Textarea: require('textarea/textarea'),
