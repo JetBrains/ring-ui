@@ -13,7 +13,7 @@ var $ = require('jquery');
 var React = require('react');
 var Global = require('global/global');
 
-var generateUniqueId = Global.getUIDGenerator('scope-');
+var generateUniqueId = Global.getUIDGenerator('ring-popup-');
 var shortcuts = require('shortcuts/shortcuts').getInstance();
 
 /**
@@ -46,23 +46,32 @@ var PopupMixin = {
     }
   },
 
+  getDefaultProps: function() {
+    return {
+      shortcuts: true
+    };
+  },
+
   /** @override */
   componentDidMount: function() {
     var position = this.getPosition_();
     this.getDOMNode().style.left = position.left;
     this.getDOMNode().style.top = position.top;
 
-    this._shortcutsScope = generateUniqueId();
-
     $(window).on('resize', this.onWindowResize_);
     $(document).on('click', this.onDocumentClick_);
 
-    shortcuts.bind({
-      key: 'esc',
-      scope: this._shortcutsScope,
-      handler: this.close
-    });
-    shortcuts.pushScope(this._shortcutsScope);
+    if (this.props.shortcuts) {
+      this._shortcutsScope = generateUniqueId();
+
+      shortcuts.bind({
+        key: 'esc',
+        scope: this._shortcutsScope,
+        handler: this.close
+      });
+
+      shortcuts.pushScope(this._shortcutsScope);
+    }
   },
 
   /** @override */
@@ -70,8 +79,10 @@ var PopupMixin = {
     $(window).off('resize', this.onWindowResize_);
     $(document).off('click', this.onDocumentClick_);
 
-    shortcuts.unbindScope(this._shortcutsScope);
-    shortcuts.spliceScope(this._shortcutsScope);
+    if (this.props.shortcuts) {
+      shortcuts.unbindScope(this._shortcutsScope);
+      shortcuts.spliceScope(this._shortcutsScope);
+    }
   },
 
   /** @override */
@@ -96,6 +107,8 @@ var PopupMixin = {
     if (this._wrapper) {
       document.body.removeChild(this._wrapper);
     }
+
+    return true;
   },
 
   /**

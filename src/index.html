@@ -9,6 +9,17 @@
 <h1>React && WebPack</h1>
 
 <div class="example">
+  <header>List:</header>
+
+  <section>
+    <div id="list">
+    </div>
+  </section>
+</div>
+
+<hr/>
+
+<div class="example">
   <header>Progress Bar:</header>
 
   <section>
@@ -130,6 +141,20 @@
       setTimeout(foo, _timeout);
     }, timeout);
   })();
+
+  react.renderComponent(
+    ring.List({
+      data: [
+        {'label': 'One', 'type': ring.PopupMenu.Type.ITEM},
+        {'label': 'Two', 'type': ring.PopupMenu.Type.ITEM},
+        {'label': 'Three', 'type': ring.PopupMenu.Type.ITEM},
+        {'label': 'Four', 'type': ring.PopupMenu.Type.ITEM},
+        {'label': 'Five', 'type': ring.PopupMenu.Type.ITEM}
+      ],
+      shortcuts: true,
+      onSelect: console.log.bind(console) // TODO Use alert here
+    }),
+    document.getElementById('list'));
 
   react.renderComponent(
     ring.Checkbox(),
