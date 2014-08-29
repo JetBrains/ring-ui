@@ -70,6 +70,8 @@ define([
         clone: true
       });
     });
+
+    return $el;
   };
 
   var module = 'header';
