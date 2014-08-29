@@ -33,7 +33,9 @@ var PopupMenu = React.createClass({
 
   /** @override */
   getInternalContent: function () {
-    return new List({data: this.props.data}, null);
+    /* jshint ignore:start */
+    return <List data={this.props.data} />;
+    /* jshint ignore:end */
   }
 });
 
