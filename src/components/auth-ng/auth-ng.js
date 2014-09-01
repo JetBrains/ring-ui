@@ -72,15 +72,16 @@ authModule.provider('auth', ['$httpProvider', function ($httpProvider) {
      */
     var restoreLocation = function (restoreLocationURL) {
       if (restoreLocationURL) {
-        var redirectUri = auth.config.redirect_uri;
-        var minLength = Math.min(restoreLocationURL.length, redirectUri.length) + 1;
+        var baseURI = auth.config.redirect_uri;
 
-        // Skipping common prefix
-        for (var i = 0; i < minLength; i++) {
-          if (restoreLocationURL.charAt(i) !== redirectUri.charAt(i)) {
-            $location.url(restoreLocationURL.substring(i - 1)).replace();
-            break;
-          }
+        var bases = document.getElementsByTagName('base');
+        if (bases.length > 0) {
+          baseURI = bases[0].href;
+        }
+
+        if (restoreLocationURL.indexOf(baseURI) === 0) {
+          var relativeURI = restoreLocationURL.substr(baseURI.length);
+          $location.url(relativeURI).replace();
         }
       }
     };
