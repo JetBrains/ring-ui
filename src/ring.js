@@ -1,13 +1,15 @@
 global.react = require('react');
 
 module.exports = {
-  Checkbox: require('./components/checkbox/checkbox.jsx'),
-  PopupMixin: require('./components/popup/popup-mixin.jsx'),
-  Popup: require('./components/popup/popup.jsx'),
-  ProgressBar: require('./components/progress-bar/progress-bar.jsx'),
-  Input: require('./components/input/input.jsx'),
-  Textarea: require('./components/textarea/textarea.jsx'),
-  Diff: require('./components/diff/diff.jsx'),
-  Loader: require('./components/loader/loader.jsx'),
-  Button: require('./components/button/button.jsx')
+  Checkbox: require('checkbox/checkbox'),
+  PopupMixin: require('popup/popup-mixin'),
+  Popup: require('popup/popup'),
+  PopupMenu: require('popup-menu/popup-menu'),
+  ProgressBar: require('progress-bar/progress-bar'),
+  Input: require('input/input'),
+  Textarea: require('textarea/textarea'),
+  Diff: require('diff/diff'),
+  Loader: require('loader/loader'),
+  Button: require('button/button'),
+  Shortcuts: require('shortcuts/shortcuts')
 };

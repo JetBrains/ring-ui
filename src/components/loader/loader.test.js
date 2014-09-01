@@ -1,20 +1,16 @@
 describe('loader', function () {
   var React = require('react/addons');
   var TestUtils = React.addons.TestUtils;
-  var Loader = require('./loader.jsx');
+  var Loader = require('./loader');
+  var $ = require('jquery');
   var loader;
 
-  function renderIntoDocument(instance) {
-    var container = document.createElement('div');
-    return React.renderComponent(instance, container);
-  }
-
   beforeEach(function () {
-    loader = renderIntoDocument(new Loader());
+    loader = TestUtils.renderIntoDocument(new Loader());
   });
 
   it('should create component', function () {
-    expect(TestUtils.isCompositeComponentWithType(loader, Loader)).toEqual(true);
+    TestUtils.isCompositeComponentWithType(loader, Loader).should.be.true;
   });
 
   it('should add custom class', function () {
@@ -22,7 +18,7 @@ describe('loader', function () {
       className: 'test'
     });
 
-    expect(loader.getDOMNode()).toHaveClass('test');
+    $(loader.getDOMNode()).should.have.class('test');
   });
 
   it('should create inline loader', function () {
@@ -30,6 +26,6 @@ describe('loader', function () {
       modifier: Loader.Modifier.INLINE
     });
 
-    expect(loader.getDOMNode()).toHaveClass(Loader.Modifier.INLINE);
+    $(loader.getDOMNode()).should.have.class(Loader.Modifier.INLINE);
   });
 });

@@ -8,19 +8,31 @@ var rimraf = require('gulp-rimraf');
 var WebpackDevServer = require('webpack-dev-server');
 var karma = require('gulp-karma');
 var nodemon = require('gulp-nodemon');
-var sprite = require('gulp-svg-sprites');
-var filter = require('gulp-filter');
-var svg2png = require('gulp-svg2png');
+var csscomb = require('gulp-csscomb');
+var csslint = require('gulp-csslint');
+var sass = require('gulp-sass');
+var tar = require('gulp-tar');
+var gzip = require('gulp-gzip');
 var rename = require('gulp-rename');
+var filter = require('gulp-filter');
+
+var sprite = require('gulp-svg-sprites');
+var svg2png = require('gulp-svg2png');
 var clean = require('gulp-clean');
 var svgmin = require('gulp-svgmin');
 var concat = require('gulp-concat');
+
+var CSSlint = require('csslint').CSSLint;
+
+var path = require('path');
+var Buffer = require('buffer').Buffer;
+var through = require('through');
 
 // Read configuration from package.json
 var pkgConfig = Object.create(require('./package.json'));
 
 //Read common webpack config from  file
-var webpackConfig = Object.create(require('./webpack.conf.js'));
+var webpackConfig = Object.create(require('./webpack.config.js'));
 
 gulp.task('clean', function () {
   return gulp.src(pkgConfig.dist, {read: false})
@@ -40,12 +52,11 @@ gulp.task('webpack:build', ['clean'], function (callback) {
     new webpack.optimize.UglifyJsPlugin()
   );
 
-  //Out filename
-  webpackConfig.output.filename = 'bundle.js';
-
   // run webpack
   webpack(webpackConfig, function (err, stats) {
-    if (err) throw new gutil.PluginError('webpack:build', err);
+    if (err) {
+      throw new gutil.PluginError('webpack:build', err);
+    }
     gutil.log('[webpack:build]', stats.toString({
       colors: true
     }));
@@ -62,7 +73,9 @@ gulp.task('webpack:build-dev', ['clean'], function (callback) {
   // create a single instance of the compiler to allow caching
   // run webpack
   webpack(myDevConfig).run(function (err, stats) {
-    if (err) throw new gutil.PluginError('webpack:build-dev', err);
+    if (err) {
+      throw new gutil.PluginError('webpack:build-dev', err);
+    }
     gutil.log('[webpack:build-dev]', stats.toString({
       colors: true
     }));
@@ -87,7 +100,9 @@ gulp.task('webpack-dev-server', function () {
       colors: true
     }
   }).listen(serverPort, 'localhost', function (err) {
-      if (err) throw new gutil.PluginError('webpack-dev-server', err);
+      if (err) {
+        throw new gutil.PluginError('webpack-dev-server', err);
+      }
       gutil.log('[webpack-dev-server]', 'http://localhost:' + serverPort + '/webpack-dev-server/index.html');
     });
 });
@@ -96,7 +111,7 @@ gulp.task('dev-server', function () {
   nodemon({
     exec: ['webpack-dev-server', '--port=' + (gulp.env.port || '')],
     watch: [
-      'webpack.conf.js',
+      'webpack.config.js',
       'gulpfile.js'
     ],
     ext: 'js'
@@ -104,15 +119,21 @@ gulp.task('dev-server', function () {
 });
 
 gulp.task('lint', function () {
-  return gulp.src(pkgConfig.src + '/components/**/*.{js,jsx}')
+  return gulp.src([pkgConfig.src + '/components/**/*.{js,jsx}', '*.js'])
     .pipe(jshint())
     .pipe(jshint.reporter('default'))
+    // Reports xml to console :(
+    // .pipe(jshint.reporter('jslint_xml'))
     .pipe(jshint.reporter('fail'));
 });
 
 gulp.task('test', function () {
   // Be sure to return the stream
-  return gulp.src(['./node_modules/jquery/dist/jquery.js', './node_modules/jso/jso.js', './test-helpers/*.js' , pkgConfig.src + '/components/**/*.test.js'])
+  return gulp.src([
+    './node_modules/jquery/dist/jquery.js',
+    './test-helpers/*.js',
+    pkgConfig.src + '/components/**/*.test.js'
+  ])
     .pipe(karma({
       configFile: 'karma.conf.js',
       action: 'run'
@@ -125,7 +146,11 @@ gulp.task('test', function () {
 
 gulp.task('test:build', function () {
   // Be sure to return the stream
-  return gulp.src(['./node_modules/jquery/dist/jquery.js', './node_modules/jso/jso.js', './test-helpers/*.js' , pkgConfig.src + '/components/**/*.test.js'])
+  return gulp.src([
+    './node_modules/jquery/dist/jquery.js',
+    './test-helpers/*.js',
+    pkgConfig.src + '/components/**/*.test.js'
+  ])
     .pipe(karma({
       configFile: 'karma.conf.js',
       action: 'run',
@@ -138,13 +163,68 @@ gulp.task('test:build', function () {
     });
 });
 
-gulp.task('copy', ['clean'], function () {
+gulp.task('archive', ['clean', 'webpack:build'], function () {
   return gulp.src([
+      pkgConfig.dist + '/ring.js',
       pkgConfig.src + '/**/*.{jsx,js,scss,png,svg,ttf,woff,eof}',
       '!' + pkgConfig.src + '/**/*.test.js',
+      '!' + pkgConfig.src + '/ring.js',
       'package.json',
-      'webpack.conf.js'
-  ]).pipe(gulp.dest(pkgConfig.dist));
+      'webpack.config.js'
+  ])
+    .pipe(rename(function (path) {
+      path.dirname = 'package/' + path.dirname;
+    }))
+    .pipe(tar('ring-ui-component.tar'))
+    .pipe(gzip())
+    .pipe(gulp.dest(pkgConfig.dist));
+});
+
+gulp.task('lint-styles', function () {
+  var reportFilename = 'css-lint.xml';
+  var formatter = CSSlint.getFormatter('checkstyle-xml');
+  var report = formatter.startFormat();
+
+  function reporter(file) {
+    var filename = path.relative(__dirname, file.csslint.results[0].file);
+    var messages = file.csslint.results.map(function(file) {
+      return file.error;
+    });
+
+    report += formatter.formatResults({messages: messages}, filename, {});
+  }
+
+  function exportReport() {
+    function endStream() {
+      report += formatter.endFormat();
+
+      var file = new gutil.File({
+        path: reportFilename,
+        contents: new Buffer(report)
+      });
+
+      /* jshint -W040 */
+      this.emit('data', file);
+      this.emit('end');
+      /* jshint +W040 */
+    }
+
+    return through(function() {}, endStream);
+  }
+
+  return gulp.src(pkgConfig.src + '/components/**/*.scss')
+    .pipe(csscomb()) // just detect errors for now
+    .pipe(sass())
+    .pipe(filter(function (file) {
+      return file.isBuffer() ? !!file.contents.length : true;
+     }))
+    .pipe(csslint('.csslintrc'))
+    .pipe(csslint.reporter(reporter))
+    .pipe(exportReport())
+    .pipe(gulp.dest(pkgConfig.dist))
+    .on('end', function() {
+      console.log('##teamcity[importData type=\'checkstyle\' path=\'' + pkgConfig.dist + '/' + reportFilename + '\']');
+    });
 });
 
 //The development server (the recommended option for development)
@@ -159,7 +239,7 @@ gulp.task('build-dev', ['webpack:build-dev'], function () {
 });
 
 // Production build
-gulp.task('build', ['lint', 'test:build', 'webpack:build', 'copy']);
+gulp.task('build', ['lint', 'lint-styles', 'test:build', 'webpack:build', 'archive']);
 
 //Generate icon sprite
 gulp.task('sprite', ['sprite:rename', 'sprite:create', 'sprite:concat', 'sprite:svg2png', 'sprite:svgmin', 'sprite:clean']);
@@ -178,9 +258,9 @@ var spriteCfg = {
     svg: {
       sprite: spriteName + '.svg'
     }/*,
-    preview: {
-      sprite: spriteName + '.html'
-    }*/
+     preview: {
+     sprite: spriteName + '.html'
+     }*/
   }
 };
 
@@ -214,7 +294,7 @@ gulp.task('sprite:svg2png', ['sprite:create'], function () {
 
 gulp.task('sprite:svgmin', ['sprite:create'], function () {
   return gulp.src(spriteCfg.dest + '/' + spriteName + '.svg')
-  .pipe(svgmin())
+    .pipe(svgmin())
     .pipe(gulp.dest(spriteCfg.dest));
 });
 

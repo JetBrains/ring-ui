@@ -2,7 +2,7 @@
 <html>
 <head lang="en">
   <meta charset="UTF-8">
-  <title>Ring UI</title>
+  <title>ring UI</title>
   <link rel="icon" type="image/x-icon" href="favicon.ico">
 </head>
 <body>
@@ -28,18 +28,18 @@
   </section>
 </div>
 
-<div class="example dropdownExample">
-  <section>
-    <div id="dropdown">Dropdown</div>
-  </section>
-</div>
-
 <div class="example">
   <header>Textarea:</header>
 
   <section>
     <div id="textarea">
     </div>
+  </section>
+</div>
+
+<div class="example dropdownExample">
+  <section>
+    <div id="dropdown">Dropdown</div>
   </section>
 </div>
 
@@ -97,13 +97,23 @@
   </section>
 </div>
 
+<div class="example">
+  <header>Popup Menu</header>
+
+  <section>
+    Popup Menu:
+    <div id="popup">Here I am!</div>
+
+  </section>
+</div>
+
 <script type="text/javascript" src="jQuery.js" charset="utf-8"></script>
-<script type="text/javascript" src="Ring.js" charset="utf-8"></script>
+<script type="text/javascript" src="ring.js" charset="utf-8"></script>
 <script>
   (function () {
     var value = 0,
       timeout = 500,
-      progressBar = react.renderComponent(Ring.ProgressBar({
+      progressBar = react.renderComponent(ring.ProgressBar({
           value: value
         }), document.getElementById('progress-bar'));
 
@@ -115,39 +125,39 @@
           _timeout *= 2;
       }
 
-      progressBar.setState({ value: value });
+      progressBar.setProps({ value: value });
 
       setTimeout(foo, _timeout);
     }, timeout);
   })();
 
   react.renderComponent(
-    Ring.Checkbox(),
+    ring.Checkbox(),
     document.getElementById('checkbox'));
 
   react.renderComponent(
-    Ring.Textarea(),
+    ring.Textarea(),
     document.getElementById('textarea'));
 
   react.renderComponent(
-    Ring.Input(),
+    ring.Input(),
     document.getElementById('input'));
 
   react.renderComponent(
-    Ring.Button(null, 'Button'),
+    ring.Button(null, 'Button'),
     document.getElementById('button'));
 
   react.renderComponent(
-    Ring.Loader(),
+    ring.Loader(),
     document.getElementById('loader'));
   react.renderComponent(
-    Ring.Loader({
-      modifier: Ring.Loader.Modifier.INLINE
+    ring.Loader({
+      modifier: ring.Loader.Modifier.INLINE
     }),
     document.getElementById('loader-inline'));
 
   react.renderComponent(
-    Ring.Diff({
+    ring.Diff({
       originalContent: 'original',
       modifiedContent: 'modified',
       diff: [
@@ -161,8 +171,8 @@
     document.getElementById('diff-default'));
 
   react.renderComponent(
-    Ring.Diff({
-      mode: Ring.Diff.Mode.DOUBLE_PANE,
+    ring.Diff({
+      mode: ring.Diff.Mode.DOUBLE_PANE,
       originalContent: 'Zoo\nFrfrfr\n',
       modifiedContent: 'Zoo\n',
       diff: [
@@ -180,8 +190,8 @@
     document.getElementById('diff-double-pane'));
 
   react.renderComponent(
-    Ring.Diff({
-      mode: Ring.Diff.Mode.PLAIN_FILE,
+    ring.Diff({
+      mode: ring.Diff.Mode.PLAIN_FILE,
       originalContent: 'original',
       modifiedContent: 'modified',
       diff: [
@@ -197,10 +207,10 @@
   /**
    * @constructor
    * @extends {ReactComponent}
-   * @mixes {Ring.PopupMixin}
+   * @mixes {ring.PopupMixin}
    */
   var CustomPopup = react.createClass({
-    mixins: [Ring.PopupMixin],
+    mixins: [ring.PopupMixin],
 
     getInternalContent: function() {
       return 'Dropdown element as mixin.';
@@ -227,7 +237,22 @@
   var popupContainer = document.createElement('div');
   document.body.appendChild(popupContainer);
 
-  react.renderComponent(Ring.Popup(null, SomeElementToInsertIntoPopup(null)), popupContainer);
+  react.renderComponent(ring.Popup(null, SomeElementToInsertIntoPopup(null)), popupContainer);
+
+  var popupMenu = react.renderComponent(ring.PopupMenu({
+    anchorElement: document.getElementById('popup'),
+    angle: CustomPopup.Angle.TOP_LEFT,
+    classNames: ['additional', 'class', 'names']
+  }, null), popupContainer);
+
+  popupMenu.setState({data: [
+    {'label': 'One'},
+    {'label': 'Two', 'href': 'http://www.jetbrains.com'},
+    {'label': 'Three', 'type': ring.PopupMenu.Type.MENU_ITEM, 'href': 'http://www.jetbrains.com'},
+    {'type': ring.PopupMenu.Type.SEPARATOR},
+    {'label': 'Four', 'type': ring.PopupMenu.Type.MENU_LINK},
+    {'label': 'Five', 'type': ring.PopupMenu.Type.MENU_LINK, 'href': 'http://www.jetbrains.com', 'className': 'test'}
+  ]})
 </script>
 </body>
 </html>

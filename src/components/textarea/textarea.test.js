@@ -2,20 +2,14 @@
 
 describe('Textarea', function () {
   var React = require('react/addons');
-  var Textarea = require('./textarea.jsx');
+  var Textarea = require('./textarea');
   var component;
-  var container;
-
-  function renderIntoDocument(instance) {
-    container = document.createElement('div');
-    return React.renderComponent(instance, container);
-  }
 
   beforeEach(function () {
-    component = renderIntoDocument(new Textarea());
+    component = React.addons.TestUtils.renderIntoDocument(new Textarea());
   });
 
   it('should create component', function () {
-    expect(React.addons.TestUtils.isCompositeComponentWithType(component, Textarea)).toEqual(true);
+    React.addons.TestUtils.isCompositeComponentWithType(component, Textarea).should.be.true;
   });
 });

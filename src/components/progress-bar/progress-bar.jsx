@@ -37,11 +37,9 @@ var ProgressBar = React.createClass({
     value: ReactPropTypes.number
   },
 
-  getInitialState: function() {
+  getDefaultProps: function() {
     return {
-      max: this.props.max || 1.0,
-      value: this.props.value,
-      className: this.props.className || ''
+      max: 1.0
     };
   },
 
@@ -50,26 +48,25 @@ var ProgressBar = React.createClass({
    * @return {Number} The progress task value in percents
    */
   _progressValueToPercents: function(value) {
-    var percents = (value * 100) / this.state.max;
+    var percents = (value * 100) / this.props.max;
     return percents > 100 ? 100 : percents;
   },
 
   render: function() {
     /* jshint ignore:start */
-    var className = 'ring-progress-bar ' + this.state.className;
     var progress = {
-      width: this.state.value ? this._progressValueToPercents(this.state.value) + '%' : ''
+      width: this.props.value ? this._progressValueToPercents(this.props.value) + '%' : ''
     };
 
-    return (
-      <div className={className}
+    return this.transferPropsTo(
+      <div className='ring-progress-bar'
         ref="progressbarWrapper">
         <div className="ring-progress-bar__i"
           ref="progressbar"
           role="progressbar"
-          aria-valuenow={this.state.value}
+          aria-valuenow={this.props.value}
           aria-valuemin={0}
-          aria-valuemax={this.state.max}
+          aria-valuemax={this.props.max}
           style={progress}>
         </div>
       </div>
