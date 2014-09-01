@@ -54,9 +54,9 @@
               baseURI = bases[0].href;
             }
 
-            var path = absUrl.split(baseURI);
-            if (path[1]) {
-              $location.url(path[1]).replace();
+            if (absUrl.indexOf(baseURI) === 0) {
+              var relativeURI = absUrl.substr(baseURI.length);
+              $location.url(relativeURI).replace();
             }
           }
 
