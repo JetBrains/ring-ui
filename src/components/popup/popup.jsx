@@ -108,11 +108,14 @@ var PopupMixin = {
       document.body.removeChild(this._wrapper);
     }
 
+    if (typeof this.props.onClose === 'function') {
+      return this.props.onClose();
+    }
+
     return true;
   },
 
   /**
-   * @param {jQuery.Event} evt
    * @private
    */
   onWindowResize_: function() {
