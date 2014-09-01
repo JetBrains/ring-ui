@@ -1,6 +1,6 @@
 'use strict';
 
-describe('Diff', function () {
+describe('Diff.base', function () {
   var BaseDiff = require('./diff__base');
   var diffDataMock = {
     original: 'original',
@@ -15,46 +15,56 @@ describe('Diff', function () {
   };
   var dInstance;
 
+  var DOMContainer;
+
+  // We need attached contantainer here because of CodeMirror
   beforeEach(function () {
     dInstance = new BaseDiff();
+
+    DOMContainer = document.createElement('div');
+    document.documentElement.appendChild(DOMContainer);
+  });
+
+  afterEach(function () {
+    document.documentElement.removeChild(DOMContainer);
   });
 
   it('should create instance', function () {
-    expect(dInstance).toBeInstanceOf(BaseDiff);
+    dInstance.should.be.instanceOf(BaseDiff);
   });
 
   it('should have enumerable list of modes.', function () {
-    expect(BaseDiff.Mode).toBeDefined();
+    BaseDiff.Mode.should.exist;
   });
 
   it('should create sinle pane diff by default', function () {
-    expect(dInstance.getMode()).toEqual(BaseDiff.Mode.SINGLE_PANE);
+    dInstance.getMode().should.equal(BaseDiff.Mode.SINGLE_PANE);
   });
 
   it('should create container by default', function () {
-    expect(dInstance.getElement().tagName).toEqual('DIV');
+    dInstance.getElement().tagName.should.equal('DIV');
   });
 
   it('should create diff with specific mode and element', function () {
     var element = document.createElement('div');
-    this.DOMContainer.appendChild(element);
+    DOMContainer.appendChild(element);
 
     dInstance = new BaseDiff(element, BaseDiff.Mode.PLAIN_FILE);
 
-    expect(dInstance.getMode()).toEqual(BaseDiff.Mode.PLAIN_FILE);
-    expect(dInstance.getElement()).toEqual(element);
+    dInstance.getMode().should.equal(BaseDiff.Mode.PLAIN_FILE);
+    dInstance.getElement().should.equal(element);
   });
 
   it('should normalizes given parameters and replace them to default values if they are not correct', function () {
     dInstance = new BaseDiff(undefined, BaseDiff.Mode.ALL);
 
-    expect(dInstance.getElement().tagName).toEqual('DIV');
-    expect(dInstance.getMode()).toEqual(BaseDiff.Mode.SINGLE_PANE);
+    dInstance.getElement().tagName.should.equal('DIV');
+    dInstance.getMode().should.equal(BaseDiff.Mode.SINGLE_PANE);
   });
 
   it('should initialize plain diff', function () {
     var element = document.createElement('div');
-    this.DOMContainer.appendChild(element);
+    DOMContainer.appendChild(element);
 
     var plainDiff = new BaseDiff(element, BaseDiff.Mode.PLAIN_FILE);
     plainDiff.setContent(
@@ -63,15 +73,15 @@ describe('Diff', function () {
       diffDataMock.diff
     );
 
-    expect(plainDiff.getController().isEnabled()).toEqual(true);
-    expect(plainDiff.getController().getOriginal()).toEqual(diffDataMock.original);
-    expect(plainDiff.getController().getModified()).toEqual(diffDataMock.modified);
-    expect(plainDiff.getController().getDiff()).toEqual(diffDataMock.diff);
+    plainDiff.getController().isEnabled().should.be.true;
+    plainDiff.getController().getOriginal().should.equal(diffDataMock.original);
+    plainDiff.getController().getModified().should.equal(diffDataMock.modified);
+    plainDiff.getController().getDiff().should.equal(diffDataMock.diff);
   });
 
   it('should initialize single pane diff', function () {
     var element = document.createElement('div');
-    this.DOMContainer.appendChild(element);
+    DOMContainer.appendChild(element);
 
     var dInstance = new BaseDiff(element, BaseDiff.Mode.SINGLE_PANE);
     dInstance.setContent(
@@ -80,7 +90,7 @@ describe('Diff', function () {
       diffDataMock.diff
     );
 
-    expect(dInstance).toBeDefined();
+    dInstance.should.exist;
   });
 
   it('Every item of list BaseDiff.Mode is a number and it bites ' +
@@ -102,11 +112,11 @@ describe('Diff', function () {
     for (var modeID in BaseDiff.Mode) {
       if (BaseDiff.Mode.hasOwnProperty(modeID)) {
         currentMode = BaseDiff.Mode[modeID];
-        expect(typeof currentMode).toBe('number');
+        currentMode.should.be.a('number');
 
         if (!(currentMode in skipModes)) {
           currentState = currentState & currentMode;
-          expect(currentState).toEqual(0x00);
+          currentState.should.equal(0x00);
         }
       }
     }
@@ -115,12 +125,12 @@ describe('Diff', function () {
   it('Every instance of BaseDiff has a bit mask of available modes ' +
     'and those mods are taken from list of modes and was not ' +
     'randomly made up', function () {
-    expect(typeof BaseDiff.prototype.availableModes).toBe('number');
+    BaseDiff.prototype.availableModes.should.be.a('number');
 
     for (var modeID in BaseDiff.Mode) {
       if (BaseDiff.Mode.hasOwnProperty(modeID)) {
         expect(Boolean(BaseDiff.Mode[modeID] |
-          BaseDiff.prototype.availableModes)).toBeTruthy();
+          BaseDiff.prototype.availableModes)).to.be.true;
       }
     }
   });
@@ -129,7 +139,7 @@ describe('Diff', function () {
     dInstance.setMode(BaseDiff.Mode.SINGLE_PANE);
     dInstance.setMode(BaseDiff.Mode.TRIPLE_PANE);
 
-    expect(dInstance.getMode()).toEqual(
+    dInstance.getMode().should.equal(
       BaseDiff.Mode.SINGLE_PANE);
   });
 
@@ -138,8 +148,8 @@ describe('Diff', function () {
 
     dInstance.setMode(BaseDiff.Mode.PLAIN_FILE);
 
-    expect(dInstance.getController().isEnabled()).toEqual(true);
-    expect(prevController.isEnabled()).toEqual(false);
+    dInstance.getController().isEnabled().should.be.true;
+    prevController.isEnabled().should.be.false;
   });
 
   it('should dispose diff component', function () {
@@ -149,10 +159,10 @@ describe('Diff', function () {
     dInstance.setContent('asd', 'dsa', []);
     dInstance.dispose();
 
-    expect(controller.isEnabled()).toEqual(false);
-    expect(dInstance.getController()).toEqual(null);
-    expect(dInstance.getMode()).toEqual(null);
-    expect(dInstance.getElement()).toEqual(null);
-    expect(element.innerHTML).toEqual('');
+    controller.isEnabled().should.be.false;
+    expect(dInstance.getController()).to.be.null;
+    expect(dInstance.getMode()).to.be.null;
+    expect(dInstance.getElement()).to.be.null;
+    element.innerHTML.should.equal('');
   });
 });

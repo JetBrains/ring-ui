@@ -1,9 +1,9 @@
 'use strict';
 
-describe('Diff.Parsers', function () {
+describe('Diff.parsers', function () {
   var parsers = require('./diff__parsers');
 
   it('should export module', function () {
-    expect(parsers).toBeDefined();
+    parsers.should.exist;
   });
 });

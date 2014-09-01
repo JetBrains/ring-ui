@@ -3,7 +3,7 @@
  * @author igor.alexeenko (Igor Alekseyenko)
  */
 
-var Tools = require('./diff__tools');
+var Global = require('global/global');
 var $ = require('jquery');
 
 /**
@@ -17,7 +17,7 @@ var CodeMirrorHelper = function () {
    */
   this.eventHandler_ = $();
 };
-Tools.addSingletonGetter(CodeMirrorHelper);
+Global.addSingletonGetter(CodeMirrorHelper);
 
 /**
  * @enum {string}

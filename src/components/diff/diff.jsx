@@ -39,6 +39,18 @@ var Diff = React.createClass({
   componentWillUnmount: function () {
     this.diff_.dispose();
   },
+  componentWillReceiveProps: function (nextProps) {
+    var diffHash = JSON.stringify(nextProps.diff);
+    var currentDiffHash = JSON.stringify(this.diff_.getController().getDiff());
+
+    if (diffHash !== currentDiffHash) {
+      this.diff_.setContent(
+        nextProps.originalContent,
+        nextProps.modifiedContent,
+        nextProps.diff
+      );
+    }
+  },
   render: function () {
     var mode = this.getCurrentMode();
 

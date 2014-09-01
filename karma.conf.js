@@ -15,7 +15,7 @@ module.exports = function (karma) {
 
 
     // frameworks to use
-    frameworks: ['jasmine'],
+    frameworks: ['mocha', 'chai', 'chai-as-promised', 'chai-jquery', 'sinon-chai'],
 
 
     // Files are given outside from gulp task
@@ -34,7 +34,7 @@ module.exports = function (karma) {
       'src/components/**/*.test.js': ['webpack']
     },
 
-    webpack: prepareWbpackConf(require('./webpack.conf.js')),
+    webpack: prepareWbpackConf(require('./webpack.config.js')),
 
     webpackServer: {
       stats: {

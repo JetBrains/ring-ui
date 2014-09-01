@@ -4,7 +4,7 @@
  * @jsx React.DOM
  */
 
-var PopupMixin = require('./popup-mixin.jsx');
+var PopupMixin = require('./popup-mixin');
 var React = require('react');
 
 /**
