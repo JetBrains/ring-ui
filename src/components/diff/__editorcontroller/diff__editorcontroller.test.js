@@ -9,37 +9,37 @@ describe('Diff.EditorController', function () {
   });
 
   it('should export module', function () {
-    expect(EditorController).toBeDefined();
+    EditorController.should.exist;
   });
 
   it('should creates new instance', function () {
-    expect(dInstance).toBeInstanceOf(EditorController);
+    dInstance.should.be.instanceOf(EditorController);
   });
 
   it('should be disabled by default', function () {
-    expect(dInstance.isEnabled()).toEqual(false);
+    dInstance.isEnabled().should.be.false;
   });
 
   it('should associate controller with element', function () {
     var element = document.createElement('div');
     dInstance = new EditorController(element);
 
-    expect(dInstance.getElement()).toEqual(element);
+    dInstance.getElement().should.equal(element);
   });
 
   it('should set content', function () {
     dInstance.setEnabled(true);
 
-    expect(dInstance.getOriginal()).not.toBeDefined();
-    expect(dInstance.getModified()).not.toBeDefined();
+    expect(dInstance.getOriginal()).not.to.exist;
+    expect(dInstance.getModified()).not.to.exist;
 
     dInstance.setContent('original', 'modified');
 
-    expect(dInstance.getOriginal()).toEqual('original');
-    expect(dInstance.getModified()).toEqual('modified');
+    dInstance.getOriginal().should.equal('original');
+    dInstance.getModified().should.equal('modified');
   });
 
   it('should throw error if try set content to disabled controller', function () {
-    expect(dInstance.setContent.bind(dInstance, 'original', 'modified')).toThrow();
+    dInstance.setContent.bind(dInstance, 'original', 'modified').should.throw;
   });
 });

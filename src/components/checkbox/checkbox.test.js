@@ -1,7 +1,8 @@
 describe('checkbox', function () {
+  var $ = require('jquery');
   var React = require('react/addons');
   var TestUtils = React.addons.TestUtils;
-  var Checkbox = require('./checkbox.jsx');
+  var Checkbox = require('./checkbox');
   var checkbox;
 
   function renderIntoDocument(instance) {
@@ -14,11 +15,11 @@ describe('checkbox', function () {
   });
 
   it('should create component', function () {
-    expect(checkbox).toBeDefined();
+    checkbox.should.exist;
   });
 
   it('should render checkbox', function () {
-    expect(checkbox.getInputDOMNode().getAttribute('type')).toEqual('checkbox');
+    $(checkbox.getInputDOMNode()).should.have.prop('type', 'checkbox');
   });
 
   it('should set custom class', function () {
@@ -26,17 +27,16 @@ describe('checkbox', function () {
       className: 'test'
     });
 
-    expect(checkbox.getDOMNode()).toHaveClass('test');
+    $(checkbox.getDOMNode()).should.have.class('test');
   });
 
   it('should generate id if not passed', function () {
-    expect(checkbox.getInputDOMNode().getAttribute('id')).not.toEqual(null);
+    $(checkbox.getInputDOMNode()).prop('id').should.exist;
   });
 
   it('should generate unique id', function () {
-    expect(checkbox.getInputDOMNode().getAttribute('id')).not.toEqual(
-      renderIntoDocument(new Checkbox()).getInputDOMNode().getAttribute('id')
-    );
+    var secondCheckboxId = renderIntoDocument(new Checkbox()).getInputDOMNode().getAttribute('id');
+    $(checkbox.getInputDOMNode()).should.not.have.id(secondCheckboxId);
   });
 
   it('should set custom id', function () {
@@ -44,7 +44,7 @@ describe('checkbox', function () {
       id: 'test'
     });
 
-    expect(checkbox.getInputDOMNode().getAttribute('id')).toEqual('test');
+    $(checkbox.getInputDOMNode()).should.have.id('test');
   });
 
   it('should set name', function () {
@@ -52,22 +52,22 @@ describe('checkbox', function () {
       name: 'test'
     });
 
-    expect(checkbox.getInputDOMNode().getAttribute('name')).toEqual('test');
+    $(checkbox.getInputDOMNode()).should.have.prop('name', 'test');
   });
 
   it('should call handler for click event', function () {
-    var clickHandler = jasmine.createSpy('clickHandler');
+    var clickHandler = sinon.stub();
 
     checkbox.setProps({
       onClick: clickHandler
     });
 
     TestUtils.Simulate.click(checkbox.getInputDOMNode());
-    expect(clickHandler).toHaveBeenCalled();
+    clickHandler.should.have.been.called;
   });
 
   it('should be unchecked by default', function () {
-    expect(checkbox.getInputDOMNode().checked).toEqual(false);
+    $(checkbox.getInputDOMNode()).should.not.be.checked;
   });
 
   it('should check control', function () {
@@ -75,7 +75,7 @@ describe('checkbox', function () {
       checked: true
     });
 
-    expect(checkbox.getInputDOMNode().checked).toEqual(true);
+    $(checkbox.getInputDOMNode()).should.be.checked;
   });
 
   it('should check controll on change event', function () {
@@ -87,12 +87,12 @@ describe('checkbox', function () {
 
     TestUtils.Simulate.change(checkbox.refs.input.getDOMNode(), eventMock);
 
-    expect(checkbox.getInputDOMNode().checked).toEqual(true);
+    $(checkbox.getInputDOMNode()).should.be.checked;
   });
 
   it('should connect label with input by id', function () {
     var inputId = checkbox.refs.input.getDOMNode().getAttribute('id');
 
-    expect(checkbox.getLabelDOMNode().getAttribute('for')).toEqual(inputId);
+    $(checkbox.getLabelDOMNode()).should.have.prop('for', inputId);
   });
 });

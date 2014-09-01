@@ -2,12 +2,7 @@
 
 var jso = require('jso-browser');
 var $ = require('jquery');
-var AuthStorage = require('./auth__storage.js');
-
-jso.registerStorageHandler(new AuthStorage({
-  stateStoragePrefix: 'hub-state-',
-  tokensStoragePrefix: 'hub-tokens-'
-}));
+var AuthStorage = require('./auth__storage');
 
 /**
  * @class
@@ -45,6 +40,11 @@ var Auth = function (config) {
   if ($.inArray(Auth.DEFAULT_CONFIG.client_id, this.config.scope) === -1) {
     this.config.scope.push(Auth.DEFAULT_CONFIG.client_id);
   }
+
+  this._storage = new AuthStorage({
+    stateStoragePrefix: this.config.client_id + '-state-',
+    tokensStoragePrefix: this.config.client_id + '-tokens-'
+  });
 
   this.profileUrl = this.config.serverUri + 'users/me';
   this.logoutUrl = this.config.serverUri + Auth.API_PATH + '/cas/logout?gateway=true&url=' + encodeURIComponent(this.config.redirect_uri);
@@ -113,7 +113,10 @@ Auth.prototype.init = function () {
 
   var restoreLocationDeferred = $.Deferred();
   var self = this;
+
   jso.registerRedirectHandler(this._defaultRedirectHandler);
+  jso.registerStorageHandler(this._storage);
+
   jso.configure(jsoConfig, null, function (restoreLocation, error) {
     if (error) {
       // This happens if auth server response parse failed
@@ -149,7 +152,7 @@ Auth.prototype._interactiveEnsureToken = function () {
     var accessToken = jso.getToken(Auth.PROVIDER).access_token;
     var self = this;
 
-    this._ajaxRequest(Auth.API_PROFILE_PATH, accessToken).then(function (user) {
+    this.getSecure(Auth.API_PROFILE_PATH, accessToken).then(function (user) {
       self.user = user;
       tokenDeferred.resolve(accessToken);
     }, function (errorResponse) {
@@ -288,12 +291,13 @@ Auth.prototype.requestToken = function () {
  * Makes GET request to the given URL with the given access token.
  * @param {string} relativeURI a URI relative to config.serverUri to make the GET request to
  * @param {string} accessToken access token to use in request
+ * @param {object?} params query parameters
  * @return {Promise} promise from $.ajax() request
- * @private
  */
-Auth.prototype._ajaxRequest = function (relativeURI, accessToken) {
+Auth.prototype.getSecure = function (relativeURI, accessToken, params) {
   return $.ajax({
     url: this.config.serverUri + relativeURI,
+    data: params,
     headers: {
       'Authorization': 'Bearer ' + accessToken
     },
@@ -312,7 +316,7 @@ Auth.prototype.requestUser = function () {
 
   var self = this;
   return this.requestToken().then(function (accessToken) {
-    return self._ajaxRequest(Auth.API_PROFILE_PATH, accessToken).then(function (user) {
+    return self.getSecure(Auth.API_PROFILE_PATH, accessToken).then(function (user) {
       self.user = user;
       return user;
     });

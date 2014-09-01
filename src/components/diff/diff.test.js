@@ -2,9 +2,8 @@
 
 describe('Diff', function () {
   var React = require('react/addons');
-  var Diff = require('./diff.jsx');
-  var component;
-  var container;
+  var TestUtils = React.addons.TestUtils;
+  var Diff = require('./diff');
   var diffDataMock = {
     original: 'original',
     modified: 'modified',
@@ -17,44 +16,68 @@ describe('Diff', function () {
     ]
   };
 
-  beforeEach(function () {
-    container = document.createElement('div');
-    this.DOMContainer.appendChild(container);
+  var DOMContainer;
 
-    component = null;
+  // We need custom renderIntoDocument with attached contantainer here because of CodeMirror
+  var renderIntoDocument = function (instance) {
+    return React.renderComponent(instance, DOMContainer);
+  };
+
+  beforeEach(function () {
+    DOMContainer = document.createElement('div');
+    document.documentElement.appendChild(DOMContainer);
+  });
+
+  afterEach(function () {
+    document.documentElement.removeChild(DOMContainer);
   });
 
   it('should create component', function () {
-    component = React.renderComponent(new Diff({
+    var component = renderIntoDocument(new Diff({
       originalContent: diffDataMock.original,
       modifiedContent: diffDataMock.modified,
       diff: diffDataMock.diff
-    }), container);
+    }));
 
-    expect(React.addons.TestUtils.isCompositeComponentWithType(component, Diff)).toEqual(true);
+    TestUtils.isCompositeComponentWithType(component, Diff).should.be.true;
   });
 
   it('should create double pane diff', function () {
-    component = React.renderComponent(new Diff({
+    var component = renderIntoDocument(new Diff({
       mode: Diff.Mode.DOUBLE_PANE,
       originalContent: diffDataMock.original,
       modifiedContent: diffDataMock.modified,
       diff: diffDataMock.diff
-    }), container);
+    }));
 
-    expect(React.addons.TestUtils.isCompositeComponentWithType(component, Diff)).toEqual(true);
+    TestUtils.isCompositeComponentWithType(component, Diff).should.be.true;
   });
 
   it('should correct unmount double pane diff', function () {
-    component = React.renderComponent(new Diff({
+    var component = renderIntoDocument(new Diff({
       mode: Diff.Mode.DOUBLE_PANE,
       originalContent: diffDataMock.original,
       modifiedContent: diffDataMock.modified,
       diff: diffDataMock.diff
-    }), container);
+    }));
 
-    component.unmountComponent(container);
+    component.unmountComponent(component.getDOMNode().parent);
 
-    expect(component.isMounted()).toEqual(false);
+    component.isMounted().should.be.false;
+  });
+
+  it('should update code mirror editor when update diff', function () {
+    var component = renderIntoDocument(new Diff({
+      originalContent: diffDataMock.original,
+      modifiedContent: diffDataMock.modified,
+      diff: diffDataMock.diff
+    }));
+    var newDiff = [];
+
+    component.setProps({
+      diff: newDiff
+    });
+
+    component.diff_.getController().getDiff().should.be.equal(newDiff);
   });
 });

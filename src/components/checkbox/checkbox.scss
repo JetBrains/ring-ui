@@ -1,15 +1,10 @@
 @import "../global/global";
 
-$ring-checkbox: ':root .ring-checkbox[type="checkbox"]';
+:root .ring-checkbox[type="checkbox"] {
+  opacity: 0;
+  position: absolute;
 
-#{$ring-checkbox} {
-  display: none;
-}
-
-label.ring-checkbox__label {
-  display: none; // IE 8-
-
-  #{$ring-checkbox} + & {
+  & + .ring-checkbox__label {
     display: inline-block;
     content: "";
     width: 11px;
@@ -24,11 +19,11 @@ label.ring-checkbox__label {
     vertical-align: middle;
   }
 
-  #{$ring-checkbox}:not([disabled]) + &:hover {
+  &:not([disabled]) + .ring-checkbox__label:hover {
     border: 1px solid #FF8620;
   }
 
-  #{$ring-checkbox}:checked + & {
+  &:checked + .ring-checkbox__label {
     font-size: 13px;
 
     border: 1px solid #25B7FF;
@@ -49,12 +44,20 @@ label.ring-checkbox__label {
     }
   }
 
-  #{$ring-checkbox}.ring-checkbox_black + &:before {
+  &:focus + .ring-checkbox__label {
+    border: 1px solid red;
+  }
+
+  &.ring-checkbox_black + .ring-checkbox__label:before {
     color: #FFF;
   }
 }
 
-// TODO(maksimrv): Where used this class?
+.ring-checkbox__label {
+  display: none; // IE 8-
+}
+
+// TODO(maksimrv): Where is used this class?
 .ring-checkbox__label_i {
   position: relative;
   left: 2px;
