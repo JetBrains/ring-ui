@@ -9,6 +9,16 @@
 <h1>React && WebPack</h1>
 
 <div class="example">
+  <header>Query Assist:</header>
+
+  <section>
+    <div id="query-assist">
+    </div>
+  </section>
+</div>
+
+
+<div class="example">
   <header>List:</header>
 
   <section>
@@ -143,6 +153,12 @@
   })();
 
   react.renderComponent(
+    ring.QueryAssist({
+      query: 'test'
+    }),
+    document.getElementById('query-assist'));
+
+  react.renderComponent(
     ring.List({
       data: [
         {'label': 'One', 'type': ring.PopupMenu.Type.ITEM},
@@ -261,7 +277,7 @@
 
   ring.Popup.renderComponent(ring.Popup(null, SomeElementToInsertIntoPopup(null)));
 
-  var popupMenu = ring.Popup.renderComponent(ring.PopupMenu({
+  var popupMenu = ring.PopupMenu.renderComponent(ring.PopupMenu({
     anchorElement: document.getElementById('popup'),
     corner: CustomPopup.Corner.TOP_LEFT,
     classNames: ['additional', 'class', 'names']
