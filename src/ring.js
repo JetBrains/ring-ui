@@ -1,6 +1,7 @@
 global.react = require('react');
 
 module.exports = {
+  Auth: require('auth/auth'),
   Checkbox: require('checkbox/checkbox'),
   Popup: require('popup/popup'),
   PopupMenu: require('popup-menu/popup-menu'),
