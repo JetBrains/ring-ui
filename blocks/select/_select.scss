@@ -3,15 +3,19 @@
 .ring-select {
   position: relative;
   display: inline-block;
+  height: 3*$ring-unit;
   width: 100%;
-  padding-left: $ring-unit;
   margin: 0;
-
+  padding-left: $ring-unit / 2;
   border: 1px solid #CCC;
+  background-color: #FFF;
+
   border-radius: 0;
   outline: 0;
-  background: #FFF;
-  line-height: 22px;
+
+  @include ring-font;
+  font-size: 13px;
+  line-height: 20px;
 
   // Webkit
   -webkit-appearance: none;
@@ -58,7 +62,7 @@
 }
 
 .ring-select + label.ring-select__label {
-  border: none\9; // IE 6+
+  border: none \9; // IE 6+
 }
 
 .ring-select[disabled] + label.ring-select__label,
