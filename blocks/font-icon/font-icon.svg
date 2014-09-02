@@ -2,7 +2,7 @@
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd" >
 <svg xmlns="http://www.w3.org/2000/svg">
 <metadata>
-Created by FontForge 20120731 at Tue Sep  2 09:10:03 2014
+Created by FontForge 20120731 at Tue Sep  2 13:55:54 2014
  By Alexander Anisimov
 Created by Alexander Anisimov with FontForge 2.0 (http://fontforge.sf.net)
 </metadata>
@@ -16,7 +16,7 @@ Created by Alexander Anisimov with FontForge 2.0 (http://fontforge.sf.net)
     panose-1="2 0 6 3 0 0 0 0 0 0"
     ascent="448"
     descent="-64"
-    bbox="-1.5 -683 517 451"
+    bbox="-1.5 -64 517 451"
     underline-thickness="25"
     underline-position="-52"
     unicode-range="U+F101-F151"
@@ -90,7 +90,7 @@ q58 0 92 -47z" />
 d="M0 448zM159 82h170v170zM146 95l170 170h-170v-170zM475 73v-55q0 -4 -2 -6q-3 -3 -7 -3h-64v-64q0 -4 -2 -6q-3 -3 -7 -3h-55q-3 0 -6 3t-3 6v64h-247q-3 0 -6 3t-3 6v247h-64q-3 0 -6 3t-3 6v55q0 4 3 7q2 2 6 2h64v64q0 4 3 7q2 2 6 2h55q5 0 7 -2t2 -7v-64h243l71 71
 q2 2 6 2q5 0 7 -2t2 -7q0 -4 -2 -6l-71 -71v-243h64q5 0 7 -2t2 -7z" />
     <glyph glyph-name="uniF119" unicode="&#xf119;" 
-d="M0 -683l85 165l77 -66l140 72l98 -61l112 128v-238h-512zM7 -640l23 237l149 -69l96 132l112 -107l125 161v-133l-112 -131l-94 57l-144 -73l-80 73z" />
+d="M0 -8l85 166l77 -67l140 73l98 -62l112 128v-238h-512zM7 35l23 237l149 -69l96 132l112 -107l125 161v-133l-112 -131l-94 57l-144 -73l-80 73z" />
     <glyph glyph-name="uniF11A" unicode="&#xf11a;" 
 d="M32 405h128v-352h-128v352zM352 341h128v-288h-128v288zM192 277h128v-224h-128v224zM0 21h512v-32h-512v32z" />
     <glyph glyph-name="uniF11B" unicode="&#xf11b;" 
