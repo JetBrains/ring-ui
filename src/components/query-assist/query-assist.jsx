@@ -31,7 +31,7 @@ var QueryAssist = React.createClass({
     return (
       <div className="ring-query-assist">
         <div className="ring-query-assist__input ring-input ring-js-shortcuts" spellCheck="false" contentEditable="true">{this.props.query}</div>
-        {this.props.placeholder && <span class="ring-query-assist__placeholder"></span>}
+        {this.props.placeholder && <span className="ring-query-assist__placeholder">{this.props.placeholder}</span>}
       </div>
     );
     /* jshint ignore:end */
