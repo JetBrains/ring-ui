@@ -44,7 +44,7 @@
 .ring-select + label.ring-select__label {
   position: relative;
   content: '';
-  top: -2*$ring-unit + 2;
+  top: -2*$ring-unit + 1;
   left: -$ring-unit;
   display: block;
   float: right;
