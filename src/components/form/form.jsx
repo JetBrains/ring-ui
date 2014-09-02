@@ -1,5 +1,5 @@
 /**
- * @fileoverview Form components.
+ * @fileoverview Form component.
  * @author igor.alexeenko@jetbrains.com (Igor Alexeenko)
  * @jsx React.DOM
  */
@@ -12,13 +12,13 @@ var React = require('react');
 /**
  * @typedef {
  *   function(HTMLInputElement, HTMLInputElement):undefined
- * } DependencyFunction
+ * } DependencyFn
  */
 
 
 /**
  * List of predefined dependency functions.
- * @enum {DependencyFunction}
+ * @enum {DependencyFn}
  */
 var DependencyFunction = {
   /**
@@ -42,12 +42,12 @@ var DependencyFunction = {
 
 
 /**
- * Binds {@link DependencyFunction} to a fields with given names.
+ * Binds {@link DependencyFn} to a fields with given names.
  * @static
  * @param {HTMLFormElement} formElement
  * @param {string} dependentFieldName
  * @param {string} superiorFieldName
- * @param {DependencyFunction=} dependencyFunction
+ * @param {DependencyFn=} dependencyFunction
  * @private
  */
 var bindDependencyFunction_ = function(formElement, dependentFieldName,
@@ -121,7 +121,7 @@ var Form = React.createClass({
   },
 
   /**
-   * Executes all {@link DependencyFunction}s one by one or only one function
+   * Executes all {@link DependencyFn}s one by one or only one function
    * for field with given name.
    * @param {string=} fieldName
    * @protected
@@ -142,7 +142,7 @@ var Form = React.createClass({
   },
 
   /**
-   * Executes all {@link DependencyFunction}s, bound to field with given name.
+   * Executes all {@link DependencyFn}s, bound to field with given name.
    * @param {string} fieldName
    * @private
    */
