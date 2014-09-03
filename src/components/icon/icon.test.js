@@ -2,7 +2,6 @@ describe('icon', function () {
   var React = require('react/addons');
   var TestUtils = React.addons.TestUtils;
   var Icon = require('./icon');
-  var container = null;
 
   beforeEach(function () {
     this.icon = TestUtils.renderIntoDocument(new Icon());
