@@ -29,7 +29,7 @@ var QueryAssist = React.createClass({
     onClose: React.PropTypes.func
   },
 
-  generateStateObject: function (props) {
+  generateState: function (props) {
     props = props || this.props;
 
     return {
@@ -41,11 +41,18 @@ var QueryAssist = React.createClass({
   },
 
   getInitialState: function () {
-    return this.generateStateObject();
+    return this.generateState();
+  },
+
+  componentDidMount: function() {
+    this.handleRequest(this.generateState());
   },
 
   componentWillReceiveProps: function (props) {
-    this.setState(this.generateStateObject(props));
+    var state = this.generateState(props);
+
+    this.setState(state);
+    this.handleRequest(state);
   },
 
   getQuery: function () {
@@ -66,13 +73,17 @@ var QueryAssist = React.createClass({
       styleRanges: this.state.styleRanges
     };
 
-    this.componentWillReceiveProps(props);
+    this.setState(this.generateState(props));
+    this.handleRequest(props);
+  },
+
+  handleRequest: function(props) {
     q(this.props.dataSource(props)).then(this.handleResponse);
   },
 
   handleResponse: function (props) {
     if (props.query === this.state.query) {
-      this.componentWillReceiveProps(props);
+      this.setState(this.generateState(props));
     }
   },
 

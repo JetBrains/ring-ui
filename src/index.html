@@ -153,31 +153,27 @@
     }, timeout);
   })();
 
-  var auth;
-  react.renderComponent(
-    ring.QueryAssist({
-      query: 'test',
-      placeholder: 'placeholder',
-      onFocusChange: function(focused) {
-        if (focused && !auth) {
-          auth = new ring.Auth({
-            serverUri: '***REMOVED***/',
-            redirect_uri: 'http://localhost:8080/'
+  var auth = new ring.Auth({
+    serverUri: '***REMOVED***/',
+    redirect_uri: 'http://localhost:8080/'
+  });
+  auth.init().then(function() {
+    react.renderComponent(
+      ring.QueryAssist({
+        query: 'test',
+        placeholder: 'placeholder',
+        dataSource: function (props) {
+          jQuery.extend(props, {
+            fields: 'query,caret,suggestions,styleRanges'
           });
-          auth.init();
-        }
-      },
-      dataSource: function(props) {
-        jQuery.extend(props, {
-          fields: 'query,caret,suggestions,styleRanges'
-        });
 
-        return auth.requestToken().then(function (token) {
-           return auth.getSecure('api/rest/users/queryAssist', token, props);
-        });
-      }
-    }),
-    document.getElementById('query-assist'));
+          return auth.requestToken().then(function (token) {
+            return auth.getSecure('api/rest/users/queryAssist', token, props);
+          });
+        }
+      }),
+      document.getElementById('query-assist'));
+  });
 
   react.renderComponent(
     ring.List({
