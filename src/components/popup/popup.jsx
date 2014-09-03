@@ -21,8 +21,9 @@ var shortcuts = require('shortcuts/shortcuts').getInstance();
  */
 var Corner = {
   TOP_LEFT: 0,
-  TOP_RIGHT: 1,
-  BOTTOM_RIGHT: 2,
+// Not implemented yet
+//  TOP_RIGHT: 1,
+//  BOTTOM_RIGHT: 2,
   BOTTOM_LEFT: 3
 };
 
@@ -46,17 +47,29 @@ var PopupMixin = {
     }
   },
 
+  getInitialState: function() {
+    return {
+      style: {}
+    };
+  },
+
   getDefaultProps: function() {
     return {
       shortcuts: true
     };
   },
 
+  componentWillReceiveProps: function(props) {
+    this.setState({
+      style: this._getStyles(props)
+    });
+  },
+
   /** @override */
   componentDidMount: function() {
-    var position = this.getPosition_();
-    this.getDOMNode().style.left = position.left;
-    this.getDOMNode().style.top = position.top;
+    this.setState({
+      style: this._getStyles()
+    });
 
     $(window).on('resize', this.onWindowResize_);
     $(document).on('click', this.onDocumentClick_);
@@ -70,6 +83,12 @@ var PopupMixin = {
         handler: this.close
       });
 
+      shortcuts.pushScope(this._shortcutsScope);
+    }
+  },
+
+  componentDidUpdate: function() {
+    if (this.props.shortcuts) {
       shortcuts.pushScope(this._shortcutsScope);
     }
   },
@@ -89,7 +108,7 @@ var PopupMixin = {
   render: function() {
     /* jshint ignore:start */
     return (
-      <div className={this.getClassName()}>
+      <div className={this.getClassName()} style={this.state.style}>
         {this.getInternalContent()}
       </div>
       );
@@ -97,9 +116,32 @@ var PopupMixin = {
   },
 
   /**
-   * Removes popup from document.
+   * Closes popup and optionally removes from document.
    */
   close: function() {
+    if (typeof this.props.onClose === 'function') {
+      return this.props.onClose();
+    }
+
+    if (this.props.autoRemove !== false) {
+      this.remove();
+    } else {
+      // There should be a btter way
+      this.setState({
+        style: {
+          display: 'none'
+        }
+      });
+      shortcuts.spliceScope(this._shortcutsScope);
+    }
+
+    return true;
+  },
+
+  /**
+   * Removes popup from document.
+   */
+  remove: function() {
     var parent = this.getDOMNode().parentNode;
 
     React.unmountComponentAtNode(parent);
@@ -107,12 +149,6 @@ var PopupMixin = {
     if (this._wrapper) {
       document.body.removeChild(this._wrapper);
     }
-
-    if (typeof this.props.onClose === 'function') {
-      return this.props.onClose();
-    }
-
-    return true;
   },
 
   /**
@@ -136,29 +172,32 @@ var PopupMixin = {
    * @return {Object}
    * @private
    */
-  getPosition_: function() {
-    var anchorElement = this.props.anchorElement || document.body;
+  _getStyles: function(props) {
+    props = props || this.props;
+    var anchorElement = props.anchorElement || document.body;
 
     var anchorElementOffset = $(anchorElement).offset();
-    var position;
+    var styles = {
+      display: props.visible ? 'block' : 'none'
+    };
 
-    switch (this.props.corner) {
+   switch (props.corner) {
       case Corner.TOP_LEFT:
-        position = {
-          left: anchorElementOffset.left + 'px',
-          top: (anchorElementOffset.top - $(this.getDOMNode()).height()) + 'px'
-        };
+        styles.left = anchorElementOffset.left + (props.left || 0);
+        styles.top = (anchorElementOffset.top - $(this.getDOMNode()).height()) + (props.top || 0);
+        break;
+
+      case undefined:
+      case Corner.BOTTOM_LEFT:
+        styles.left = anchorElementOffset.left + (props.left || 0);
+        styles.top = (anchorElementOffset.top + $(anchorElement).outerHeight()) + (props.top || 0);
         break;
 
       default:
-        position = {
-          left: anchorElementOffset.left + 'px',
-          top: (anchorElementOffset.top + $(anchorElement).height()) + 'px'
-        };
-        break;
+        throw new Error('Unknown corner type: ' + props.corner);
     }
 
-    return position;
+    return styles;
   },
 
   /**
@@ -188,9 +227,10 @@ var Popup = React.createClass({
 
   /** @override */
   propTypes: {
-    position: React.PropTypes.number,
     anchorElement: React.PropTypes.object,
-    className: React.PropTypes.string
+    className: React.PropTypes.string,
+    left: React.PropTypes.number,
+    top: React.PropTypes.number
   },
 
   /** @override */
