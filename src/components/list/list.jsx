@@ -148,10 +148,6 @@ var List = React.createClass({
   },
 
   selectHandler: function() {
-    if (!this.state.activeIndex) {
-      return;
-    }
-
     return this.props.onSelect(this.props.data[this.state.activeIndex]);
   },
 
