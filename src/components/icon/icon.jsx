@@ -1,6 +1,5 @@
 /**
  * @jsx React.DOM
- * @author alexander.anisimov
  * @fileOverview svg icon component
  */
 
@@ -42,7 +41,7 @@ var Icon = React.createClass({
     /* jshint ignore:start */
     var className = [
       'ring-icon',
-      this.props.modifier && this.props.modifier !== this.getDefaultProps() ? 'ring-icon_' + this.props.modifier : '',
+      'ring-icon_' + this.props.modifier,
       this.props.className
     ].join(' ');
 
