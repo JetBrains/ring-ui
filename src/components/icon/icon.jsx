@@ -18,6 +18,10 @@ var Sizes = [16, 32, 64, 128];
  * @constructor
  */
 var Icon = React.createClass({
+  statics: {
+    Sizes: Sizes
+  },
+
   propTypes: {
     /**
      * Modifier for the size
@@ -55,4 +59,3 @@ var Icon = React.createClass({
 });
 
 module.exports = Icon;
-module.exports.Sizes = Sizes;
