@@ -88,6 +88,14 @@ var QueryAssist = React.createClass({
   handleSelect: function (data, replace) {
     var query = this.getQuery();
 
+    if (!data) {
+      if (typeof this.props.onApply === 'function') {
+        this.props.onApply(query);
+      }
+
+      return;
+    }
+
     var suggestion = data.data;
     var prefix = suggestion.prefix || '';
     var suffix = suggestion.suffix || '';
