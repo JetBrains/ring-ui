@@ -1,26 +1,22 @@
 describe('icon', function () {
   var React = require('react/addons');
-  var Icon = require('./icon.jsx');
+  var TestUtils = React.addons.TestUtils;
+  var Icon = require('./icon');
   var container = null;
 
-  function renderIntoDocument(instance) {
-    container = document.createElement('div');
-    return React.renderComponent(instance, container);
-  }
-
   beforeEach(function () {
-    this.icon = renderIntoDocument(new Icon());
+    this.icon = TestUtils.renderIntoDocument(new Icon());
   });
 
   it('should create component', function () {
-    expect(React.addons.TestUtils.isComponentOfType(this.icon, Icon)).toEqual(true);
+    expect(TestUtils.isCompositeComponentWithType(this.icon, Icon)).should.equal(true);
   });
 
   it('should set size 16', function () {
     this.icon.setProps({
       modifier: 16
     });
-    expect(this.icon.getDOMNode()).toHaveClass('ring-icon_16');
+    expect(this.icon.getDOMNode()).should.have.class('ring-icon_16');
   });
 
   it('should set custom class', function () {
@@ -28,6 +24,6 @@ describe('icon', function () {
     this.icon.setProps({
       className: CUSTOM_CSS_CLASS
     });
-    expect(this.icon.getDOMNode()).toHaveClass(CUSTOM_CSS_CLASS);
+    expect(this.icon.getDOMNode()).should.have.class(CUSTOM_CSS_CLASS);
   });
 });
