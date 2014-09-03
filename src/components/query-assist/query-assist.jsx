@@ -79,15 +79,6 @@ var QueryAssist = React.createClass({
     this.sendRequest(props);
   },
 
-  sendRequest: function (props) {
-    var params = {
-      query: props.query,
-      caret: props.caret
-    };
-
-    q(this.props.dataSource(params)).then(this.handleResponse);
-  },
-
   handleResponse: function (props) {
     if (props.query === this.state.query) {
       this.setState(this.generateState(props), this.renderPopup);
@@ -114,6 +105,15 @@ var QueryAssist = React.createClass({
 
     this.setState(this.generateState(props));
     this.sendRequest(props);
+  },
+
+  sendRequest: function (props) {
+    var params = {
+      query: props.query,
+      caret: props.caret
+    };
+
+    q(this.props.dataSource(params)).then(this.handleResponse);
   },
 
   getQuery: function () {
