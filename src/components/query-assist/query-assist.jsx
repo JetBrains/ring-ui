@@ -7,8 +7,8 @@ var React = require('react');
 var $ = require('jquery');
 var q = require('q');
 require('jquery-caret');
-//var Popup = require('popup/popup');
-//var List = require('list/list');
+
+var PopupMenu = require('popup-menu/popup-menu'); // jshint -W098
 
 require('./query-assist.scss');
 require('../input/input.scss');
@@ -32,31 +32,33 @@ var QueryAssist = React.createClass({
   generateState: function (props) {
     props = props || this.props;
 
-    return {
+    var state = {
       letters: props.query.split(''),
       query: props.query,
       caret: props.caret != null ? props.caret : props.query && props.query.length || 0,
-      styleRanges: props.styleRanges
+      suggestions: props.suggestions || []
     };
+
+    if (props.styleRanges) {
+      state.styleRanges = props.styleRanges;
+    }
+
+    return state;
   },
 
   getInitialState: function () {
     return this.generateState();
   },
 
-  componentDidMount: function() {
-    this.handleRequest(this.generateState());
+  componentDidMount: function () {
+    this.sendRequest(this.generateState());
   },
 
   componentWillReceiveProps: function (props) {
     var state = this.generateState(props);
 
     this.setState(state);
-    this.handleRequest(state);
-  },
-
-  getQuery: function () {
-    return $(this.refs.input.getDOMNode()).text();
+    this.sendRequest(state);
   },
 
   handleFocusChange: function (e) {
@@ -74,17 +76,55 @@ var QueryAssist = React.createClass({
     };
 
     this.setState(this.generateState(props));
-    this.handleRequest(props);
+    this.sendRequest(props);
   },
 
-  handleRequest: function(props) {
-    q(this.props.dataSource(props)).then(this.handleResponse);
+  sendRequest: function (props) {
+    var params = {
+      query: props.query,
+      caret: props.caret
+    };
+
+    q(this.props.dataSource(params)).then(this.handleResponse);
   },
 
   handleResponse: function (props) {
     if (props.query === this.state.query) {
-      this.setState(this.generateState(props));
+      this.setState(this.generateState(props), this.renderPopup);
     }
+  },
+
+  handleSelect: function (data, replace) {
+    var query = this.getQuery();
+
+    var suggestion = data.data;
+    var prefix = suggestion.prefix || '';
+    var suffix = suggestion.suffix || '';
+
+    var props = {
+      caret: suggestion.caret,
+      query: query.substr(0, suggestion.completionStart) + prefix + suggestion.option + suffix
+    };
+
+    if (replace) {
+      props.query += query.substr(suggestion.completionEnd + suffix.length);
+    } else {
+      props.query += query.substr(this.state.caret);
+    }
+
+    this.setState(this.generateState(props));
+    this.sendRequest(props);
+  },
+
+  getQuery: function () {
+    return $(this.refs.input.getDOMNode()).text().replace(/\s/g, ' ');
+  },
+
+  getCaretOffset: function () {
+    var input = this.refs.input.getDOMNode();
+    var caretNode = input.firstChild && input.firstChild.childNodes[this.state.caret - 1];
+
+    return caretNode && caretNode.offsetLeft;
   },
 
   getLetterClass: function (index) {
@@ -92,15 +132,46 @@ var QueryAssist = React.createClass({
 
     return this.state.styleRanges &&
       this.state.styleRanges.
-      filter(function (item) {
-        return item.start <= index && item.start + item.length > index;
-      }).
-      map(function (item) {
-        return LETTER_CLASS + '_' + item.style.replace('_', '-');
-      }).
-      concat(LETTER_CLASS).
-      join(' ') ||
+        filter(function (item) {
+          return item.start <= index && item.start + item.length > index;
+        }).
+        map(function (item) {
+          return LETTER_CLASS + '_' + item.style.replace('_', '-');
+        }).
+        concat(LETTER_CLASS).
+        join(' ') ||
       LETTER_CLASS;
+  },
+
+  renderPopup: function () {
+    /* jshint ignore:start */
+    var visible = this.state.suggestions.length > 0;
+    var suggestions = this.state.suggestions.map(function (suggestion) {
+      var label = suggestion.prefix + suggestion.option + suggestion.suffix;
+
+      return {
+        key: label + suggestion.description,
+        label: label,
+        type: PopupMenu.Type.ITEM,
+        data: suggestion
+      };
+    });
+
+
+    if (!this._popup) {
+      this._popup = PopupMenu.renderComponent(
+        <PopupMenu autoRemove={false} visible={visible} anchorElement={this.getDOMNode()}
+        corner={PopupMenu.Corner.BOTTOM_LEFT} data={suggestions} shortcuts={true}
+        top={-1} left={this.getCaretOffset()} onSelect={this.handleSelect} />
+      );
+    } else {
+      this._popup.setProps({
+        left: this.getCaretOffset(),
+        data: suggestions,
+        visible: visible
+      });
+    }
+    /* jshint ignore:end */
   },
 
   /* jshint ignore:start */
@@ -121,8 +192,9 @@ var QueryAssist = React.createClass({
     return (
       <div className="ring-query-assist">
         <div className="ring-query-assist__input ring-input ring-js-shortcuts" ref="input"
-        onInput={this.handleInput} onFocus={this.handleFocusChange} onBlur={this.handleFocusChange}
-        spellCheck="false" contentEditable="true" dangerouslySetInnerHTML={{__html: query}}></div>
+          onInput={this.handleInput} onFocus={this.handleFocusChange} onBlur={this.handleFocusChange}
+          spellCheck="false" contentEditable="true" dangerouslySetInnerHTML={{__html: query}}></div>
+
         {this.props.placeholder && <span className="ring-query-assist__placeholder">{this.props.placeholder}</span>}
       </div>
       );
