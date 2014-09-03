@@ -85,6 +85,14 @@ var List = React.createClass({
     Type: Type
   },
 
+  propTypes: {
+    className: React.PropTypes.string,
+    data: React.PropTypes.arrayOf(React.PropTypes.object),
+    shortcuts: React.PropTypes.bool,
+    onSelect: React.PropTypes.func,
+    visible: React.PropTypes.bool
+  },
+
   getDefaultProps: function () {
     return {
       data: [],
@@ -92,7 +100,6 @@ var List = React.createClass({
       shortcuts: false
     };
   },
-
 
   getInitialState: function() {
     return {
@@ -106,7 +113,7 @@ var List = React.createClass({
     });
   },
 
-  navigateUp: function(e) {
+  upHandler: function(e) {
     var index = this.state.activeIndex;
     var newIndex;
 
@@ -123,7 +130,7 @@ var List = React.createClass({
     e.preventDefault();
   },
 
-  navigateDown: function(e) {
+  downHandler: function(e) {
     var index = this.state.activeIndex;
     var newIndex;
 
@@ -140,8 +147,20 @@ var List = React.createClass({
     e.preventDefault();
   },
 
-  select: function() {
+  selectHandler: function() {
+    if (!this.state.activeIndex) {
+      return;
+    }
+
     return this.props.onSelect(this.props.data[this.state.activeIndex]);
+  },
+
+  componentWillReceiveProps: function(props) {
+    if (props.data) {
+      this.setState({
+        activeIndex: null
+      });
+    }
   },
 
   // TODO Create ShortcutsMixin for this
@@ -151,9 +170,9 @@ var List = React.createClass({
       this._shortcutsScope = generateUniqueId();
 
       shortcuts.bindMap({
-        up: this.navigateUp,
-        down: this.navigateDown,
-        enter: this.select
+        up: this.upHandler,
+        down: this.downHandler,
+        enter: this.selectHandler
       }, {
         scope: this._shortcutsScope
       });
@@ -177,18 +196,19 @@ var List = React.createClass({
       },
       this.props.data.map(function (item, index) {
         var props = $.extend({'type': Type.ITEM}, item);
-        if (item.url) {
-          props.href = item.url;
+        if (props.url) {
+          props.href = props.url;
         }
         if (props.href) {
           props.type = Type.LINK;
         }
 
         // Probably unqiue enough key
-        props.key = Type.LINK + item.label + item.url;
+        props.key = props.key || props.type + props.label + props.url;
 
         props.active = (index === this.state.activeIndex);
         props.onMouseOver = this.hoverHandler.bind(this, index);
+        props.onClick = this.selectHandler;
 
         var element;
         switch (props.type) {
@@ -202,7 +222,7 @@ var List = React.createClass({
             element = ListItem;
             break;
           default:
-            throw new Error('Unknown menu element type: ' + item.type);
+            throw new Error('Unknown menu element type: ' + props.type);
         }
         return element(props, null);
       }.bind(this))
