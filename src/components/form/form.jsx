@@ -11,11 +11,7 @@ var _ = require('lodash');
 var React = require('react/addons');
 
 
-/**
- * @typedef {
- *   function(HTMLInputElement, HTMLInputElement):undefined
- * } DependencyFn
- */
+/** @typedef { function(HTMLInputElement, HTMLInputElement):undefined } DependencyFn */
 
 
 /**
@@ -65,11 +61,8 @@ var bindDependencyFunction_ = function(formElement, dependentName, superiorName,
 
 /** @typedef {function(Object.<string, DependencyFunction>):string} DependencyFilter */
 
-// todo(igor.alexeenko): Do we need a class to work with graphs?
-/**
- * @type {Array.<DependencyFilter>}
- */
-var dependenciesFilter = [
+/** @type {Array.<DependencyFilter>} */
+var dependencyFilters = [
   /**
    * @param {Object.<string, DependencyFunction>} deps
    * @return {string|undefined}
@@ -129,6 +122,23 @@ var dependenciesFilter = [
 /**
  * @constructor
  * @extends {ReactComponent}
+ * @example
+ * <example>
+ *   <div class="form-example"></div>
+ *   <script>
+ *     var formDependencies = {
+ *       'checkbox': { 'email': Form.DependencyFunction.DISABLED },
+ *       'firstField': { 'secondField': Form.DependencyFunction.CLONE }
+ *     };
+ *
+ *     React.renderComponent(<Form deps={formDependencies}>
+ *       <FormGroup type="checkbox" name="disableEmail" label="Disable email />
+ *       <FormGroup type="email" name="email" label="Email field" />
+ *       <FormGroup name="firstField" />
+ *       <FormGroup name="secondField" />
+ *     </Form>, document.querySelector('.form-example'));
+ *   </script>
+ * </example>
  */
 var Form = React.createClass({
   /** @override */
@@ -143,7 +153,7 @@ var Form = React.createClass({
       var deps = props[propName];
       var invalidField;
 
-      dependenciesFilter.some(function(filter) {
+      dependencyFilters.some(function(filter) {
         invalidField = filter(deps);
         return typeof invalidField !== 'undefined';
       });
@@ -228,15 +238,18 @@ var Form = React.createClass({
   checkFieldDependency_: function(fieldName) {
     var fieldDependencies = this.state.deps[fieldName];
 
-    if (typeof fieldDependencies === 'undefined') {
-      return;
+    if (typeof fieldDependencies !== 'undefined') {
+      fieldDependencies.forEach(function(dependencyFn) { dependencyFn(); }, this);
     }
-
-    fieldDependencies.forEach(function(dependencyFn) { dependencyFn(); }, this);
   },
 
   /** @protected */
   checkCompletion: function() {
+    // todo(igor.alexeenko): Fields validation based on name is not strict.
+    // FormGroup also uses validation and could be coupled with this validation.
+    // Also it could solve the problem of showing error for only first invalid
+    // element.
+
     if (!this.state['fields']) {
       var formElement = this.getDOMNode();
       var inputElements = formElement.querySelectorAll('input');
