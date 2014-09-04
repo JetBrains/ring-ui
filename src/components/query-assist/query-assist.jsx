@@ -90,16 +90,36 @@ var QueryAssist = React.createClass({
   handleInput: function () {
     var props = {
       query: this.getQuery(),
-      caret: $(this.refs.input.getDOMNode()).caret(),
-      styleRanges: this.state.styleRanges
+      caret: this.getCaret()
     };
 
     this.setState(this.generateState(props));
     this.sendRequest(props);
   },
 
+  // It's necessary to prevent new element creation before any other hooks
+  handleEnter: function (e) {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+    }
+  },
+
+  handleCaretMove: function () {
+    var props;
+
+    if (this.getCaret() !== this.state.caret) {
+      props = {caret: this.getCaret()};
+      this.setState(props);
+
+      props.query = this.getQuery();
+      this.sendRequest(props);
+    }
+  },
+
   handleResponse: function (props) {
-    if (props.query === this.state.query) {
+    var caret = this.getCaret();
+
+    if (props.query === this.state.query && !caret || props.caret === caret) {
       this.setState(this.generateState(props), this.renderPopup);
     }
   },
@@ -145,6 +165,10 @@ var QueryAssist = React.createClass({
 
   getQuery: function () {
     return $(this.refs.input.getDOMNode()).text().replace(/\s/g, ' ');
+  },
+
+  getCaret: function() {
+    return $(this.refs.input.getDOMNode()).caret();
   },
 
   getCaretOffset: function () {
@@ -194,7 +218,7 @@ var QueryAssist = React.createClass({
       this._popup = PopupMenu.renderComponent(
         <PopupMenu autoRemove={false} visible={visible} anchorElement={this.getDOMNode()}
         corner={PopupMenu.Corner.BOTTOM_LEFT} data={suggestions} shortcuts={true}
-        top={-1} left={this.getCaretOffset()} onSelect={this.handleSelect} />
+        left={this.getCaretOffset()} onSelect={this.handleSelect} />
       );
     } else {
       this._popup.setProps({
@@ -224,7 +248,8 @@ var QueryAssist = React.createClass({
     return (
       <div className="ring-query-assist">
         <div className="ring-query-assist__input ring-input ring-js-shortcuts" ref="input"
-          onInput={this.handleInput} onFocus={this.handleFocusChange} onBlur={this.handleFocusChange}
+          onInput={this.handleInput} onKeyPress={this.handleEnter} onKeyUp={this.handleCaretMove}
+          onClick={this.handleCaretMove} onFocus={this.handleFocusChange} onBlur={this.handleFocusChange}
           spellCheck="false" contentEditable="true" dangerouslySetInnerHTML={{__html: query}}></div>
 
         {this.props.placeholder && <span className="ring-query-assist__placeholder">{this.props.placeholder}</span>}
