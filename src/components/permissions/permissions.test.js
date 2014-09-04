@@ -72,7 +72,7 @@ describe('permissions', function () {
 
   describe('check and bind variable', function () {
     var $ = require('jquery');
-    var q = require('q');
+    var when = require('when');
 
     var permissions = new Permissions(new Auth({serverUri: ''}));
     var permissionCache = new PermissionCache([
@@ -87,11 +87,11 @@ describe('permissions', function () {
     deferred.resolve(permissionCache);
 
     it('should resolve to true for given permission', function () {
-      q(permissions.check('space-read')).should.eventually.be.true;
+      when(permissions.check('space-read')).should.eventually.be.true;
     });
 
     it('should resolve to false for absent permission', function () {
-      q(permissions.check('role-read')).should.eventually.be.false;
+      when(permissions.check('role-read')).should.eventually.be.false;
     });
 
     it('should bind variable to true for given permission', function () {
