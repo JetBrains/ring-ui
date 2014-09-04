@@ -230,8 +230,6 @@ var QueryAssist = React.createClass({
     var suggestions = [];
 
     this.state.suggestions.forEach(function (suggestion, index, arr) {
-      var label = suggestion.prefix + suggestion.option + suggestion.suffix;
-
       var prevSuggestion = arr[index - 1];
       var nextSuggestion = arr[index + 1];
       var description = suggestion.description;
@@ -240,14 +238,34 @@ var QueryAssist = React.createClass({
         nextSuggestion && nextSuggestion.description === description) {
 
         suggestions.push({
-          key: label + description + PopupMenu.Type.SEPARATOR,
+          key: suggestion.option + description + PopupMenu.Type.SEPARATOR,
           description: description,
           type: PopupMenu.Type.SEPARATOR
         });
       }
 
+      var label;
+
+      /* jshint ignore:start */
+      var option;
+      var before = false;
+      var after = false;
+      if (suggestion.matchingStart !== suggestion.matchingEnd) {
+        before = suggestion.option.substring(0, suggestion.matchingStart);
+        option = <span className="ring-list__highlight">{suggestion.option.substring(suggestion.matchingStart, suggestion.matchingEnd)}</span>;
+        after = suggestion.option.substring(suggestion.matchingEnd);
+      } else {
+        option = suggestion.option;
+      }
+
+      var prefix = !!suggestion.prefix && <span className="ring-list__service">{suggestion.prefix}</span>;
+      var suffix = !!suggestion.suffix && <span className="ring-list__service">{suggestion.suffix}</span>;
+
+      label = React.DOM.span(null, prefix, before, option, after, suffix);
+      /* jshint ignore:end */
+
       var item = {
-        key: label + description + PopupMenu.Type.ITEM,
+        key: suggestion.option + description + PopupMenu.Type.ITEM,
         label: label,
         type: PopupMenu.Type.ITEM,
         data: suggestion
