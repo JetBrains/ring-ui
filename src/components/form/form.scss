@@ -34,16 +34,22 @@
 // Styleguide 7.4
 
 .ring-form {
-  font-size: 13px;
   margin: 0 0 20px;
 
-  @include ring-font();
+  font-size: 13px;
+  @include ring-font;
 
-  .ring-input,
-  .ring-select,
-  .ring-input_wrapper {
+  & .ring-input, & .ring-select, & .ring-input_wrapper {
+    width: 25 * $ring-unit !important;
     margin: 0;
-    width: 25 * $ring-unit;
+  }
+
+  & .ring-input_error + .ring-input__error-bubble {
+    display: inline-block;
+  }
+
+  & .ring-input_error:focus + .ring-input__error-bubble {
+    display: none;
   }
 }
 
@@ -57,14 +63,14 @@
 }
 
 .ring-form_rows {
-  .ring-form__label {
+  & .ring-form__label {
     float: none;
   }
 
-  .ring-form__control {
-    .ring-input {
-      box-sizing: border-box;
+  & .ring-form__control {
+    & .ring-input {
       width: 100% !important;
+      box-sizing: border-box;
     }
 
     margin-left: 0;
@@ -73,8 +79,8 @@
 }
 
 .ring-form__wrap {
-  margin-bottom: 0;
   padding: 3*$ring-unit 4*$ring-unit 0 4*$ring-unit;
+  margin-bottom: 0;
 }
 
 .ring-form__header {
@@ -83,38 +89,39 @@
 }
 
 .ring-form__summary {
-  color: #888;
   display: block;
+  @include ring-font;
   font-size: 13px;
   line-height: 20px;
   text-align: center;
-
-  @include ring-font();
+  color: #888;
 }
 
 .ring-form__control__description {
-  color: #6e6e6e;
+  padding-top: $ring-unit;
   font-size: 11px;
   line-height: 16px !important;
-  padding-top: $ring-unit;
+  color: #888;
 }
 
 .ring-form__title-img {
-  border: 0;
   float: left;
+
   height: 4*$ring-unit;
+  border: 0;
 }
 
 .ring-form__title {
   display: block;
-  font-weight: bold;
   margin-bottom: $ring-unit;
+
+  font-weight: bold;
 }
 
 .ring-form__main-title {
-  font-size: 19px;
-
   @include ring-font();
+
+  font-size: 19px;
 }
 
 .ring-form__title_separated {
@@ -122,17 +129,11 @@
 }
 
 .ring-form__group {
-  padding-bottom: $ring-unit;
-  padding-top: $ring-unit;
   position: relative;
+  margin: $ring-unit 0;
 
-  &:last-child {
-    padding-bottom: 2*$ring-unit;
-  }
-
-  .ring-form__group {
-    padding-bottom: 0;
-    padding-top: 0;
+  &:first-child {
+    margin-top: 0;
   }
 }
 
@@ -140,9 +141,10 @@
   padding-bottom: 0;
 }
 
+.ring-form__group .ring_form__group,
 .ring-form__group_nested {
-  padding-left: $ring-unit*2;
   padding-top: 0;
+  padding-left: $ring-unit*2;
 
   .ring-form__control {
     margin-left: 18 * $ring-unit;
@@ -150,16 +152,21 @@
 }
 
 .ring-form__label {
+  position: relative;
+  top: 0;
   display: inline;
   float: left;
   height: 3 * $ring-unit;
+
   line-height: 3 * $ring-unit;
-  position: relative;
-  top: 0;
   vertical-align: middle;
 
-  .ring-checkbox__label, .ring-radio-btn__label {
+  & .ring-checkbox__label, & .ring-radio-btn__label {
     top: -2px;
+  }
+
+  &.ring-form__label_checkbox {
+    padding-left: $ring-unit;
   }
 }
 
@@ -168,21 +175,26 @@
 }
 
 .ring-form__control {
-  line-height: 3 * $ring-unit;
+  position: relative;
   min-height: 3 * $ring-unit;
   margin-left: 20 * $ring-unit;
-  position: relative;
-  vertical-align: middle;
 
-  .ring-link {
-    font-size: $ring-font-size-smaller;
-  }
+  line-height: 3*$ring-unit;
+  vertical-align: middle;
 }
 
+.ring-form__control_text:after {
+  content: '';
+  display: inline-block;
+  height: $ring-unit*3;
+  vertical-align: middle;
+}
+
+// Temporary solution, proper grid is necessary
 .ring-form__control_secondary {
-  left: 27 * $ring-unit;
   position: absolute;
   top: $ring-unit;
+  left: 27 * $ring-unit;
 }
 
 .ring-form__control_on {
@@ -199,7 +211,14 @@
 }
 
 .ring-form__control_small {
-  margin-left: 16 * $ring-unit !important;
+  margin-left: 16*$ring-unit !important;
+}
+
+.ring-form__info {
+  margin-bottom: -$ring-unit + 2;
+  width: 85 * $ring-unit;
+  margin-left: 20 * $ring-unit;
+  line-height: 20px;
 }
 
 .ring-form__control__part {
