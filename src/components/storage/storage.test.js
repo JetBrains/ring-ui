@@ -1,22 +1,22 @@
-var q = require('q');
-
 function testStorage(storage) {
+  var when = require('when');
+
   describe('Set', function () {
     it('Correct set call should be fulfilled', function () {
-      return q(storage.set('empty', {})).should.be.fulfilled;
+      return when(storage.set('empty', {})).should.be.fulfilled;
     });
 
     it('Should correctly set url incopatible characters', function () {
       storage.set('test;', 'value;');
 
-      return q(storage.get('test;')).should.eventually.equal('value;');
+      return when(storage.get('test;')).should.eventually.equal('value;');
     });
 
     it('Set should fail on wrong input (e.g. on circular objects)', function () {
       var circular = {};
       circular.circular = circular;
 
-      return q(storage.set('circular', circular)).should.be.rejected;
+      return when(storage.set('circular', circular)).should.be.rejected;
     });
   });
 
@@ -26,17 +26,17 @@ function testStorage(storage) {
     it('Should get items', function () {
       storage.set('test2', test);
 
-      return q(storage.get('test2')).should.eventually.deep.equal(test);
+      return when(storage.get('test2')).should.eventually.deep.equal(test);
     });
 
     it('Should not return same objects', function () {
       storage.set('test', test);
 
-      return q(storage.get('test')).should.not.eventually.equal(test);
+      return when(storage.get('test')).should.not.eventually.equal(test);
     });
 
     it('Should fail when there is no item', function () {
-      return q(storage.get('test')).should.be.rejected;
+      return when(storage.get('test')).should.be.rejected;
     });
   });
 
@@ -45,12 +45,12 @@ function testStorage(storage) {
       storage.set('empty', {});
       storage.remove('empty');
 
-      return q(storage.get('empty')).should.be.rejected;
+      return when(storage.get('empty')).should.be.rejected;
     });
 
     it('Correct remove should be fulfilled', function () {
       storage.set('empty', {});
-      return q(storage.remove('empty')).should.be.fulfilled;
+      return when(storage.remove('empty')).should.be.fulfilled;
     });
   });
 
@@ -66,12 +66,12 @@ function testStorage(storage) {
     it('Correct iteration should be fulfilled', function () {
       storage.set('test1', '');
 
-      return q(storage.each(function () {
+      return when(storage.each(function () {
       })).should.be.fulfilled;
     });
 
     it('Should not iterate without items', function () {
-      return q(storage.each(function () {
+      return when(storage.each(function () {
       })).should.be.rejected;
     });
 
@@ -89,7 +89,7 @@ function testStorage(storage) {
     it('Should fail on wrong callback', function () {
       storage.set('test', '');
 
-      return q(storage.each()).should.be.rejected;
+      return when(storage.each()).should.be.rejected;
     });
   });
 }
