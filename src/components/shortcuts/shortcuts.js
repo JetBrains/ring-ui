@@ -25,6 +25,43 @@ Shortcuts.ROOT_SCOPE = 'ROOT';
 Shortcuts.ALLOW_SHORTCUTS_SELECTOR = '.ring-js-shortcuts';
 
 Shortcuts.trigger = mousetrap.trigger;
+
+Shortcuts.Mixin = {
+  /** @override */
+  componentDidMount: function() {
+    if (this.props.shortcuts) {
+      var shortcuts = Shortcuts.getInstance();
+      var props = this.getShortcutsProps();
+
+      if (!props || !props.map || !props.scope) {
+        throw new Error('Shortcuts\' props weren\'t provided');
+      }
+
+      shortcuts.bindMap(props.map, props);
+      shortcuts.pushScope(props.scope);
+      this.shortcutsScope = props.scope;
+    }
+  },
+
+  componentDidUpdate: function() {
+    if (this.props.shortcuts) {
+      var shortcuts = Shortcuts.getInstance();
+
+      shortcuts.pushScope(this.shortcutsScope);
+    }
+  },
+
+  /** @override */
+  componentWillUnmount: function() {
+    if (this.props.shortcuts) {
+      var shortcuts = Shortcuts.getInstance();
+
+      shortcuts.unbindScope(this.shortcutsScope);
+      shortcuts.spliceScope(this.shortcutsScope);
+    }
+  }
+};
+
 Global.addSingletonGetter(Shortcuts);
 
 var ShortcutsProto = Shortcuts.prototype;
