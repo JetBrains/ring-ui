@@ -47,7 +47,7 @@ var ListSeparator = React.createClass({
  */
 var ListItem = React.createClass({
   /** @override */
-  getDefaultProps: function() {
+  getDefaultProps: function () {
     return {active: false};
   },
 
@@ -103,19 +103,19 @@ var List = React.createClass({
     };
   },
 
-  getInitialState: function() {
+  getInitialState: function () {
     return {
       activeIndex: null
     };
   },
 
-  hoverHandler: function(index) {
+  hoverHandler: function (index) {
     this.setState({
       activeIndex: index
     });
   },
 
-  upHandler: function(e) {
+  upHandler: function (e) {
     var index = this.state.activeIndex;
     var newIndex;
 
@@ -132,7 +132,7 @@ var List = React.createClass({
     e.preventDefault();
   },
 
-  downHandler: function(e) {
+  downHandler: function (e) {
     var index = this.state.activeIndex;
     var newIndex;
 
@@ -149,11 +149,11 @@ var List = React.createClass({
     e.preventDefault();
   },
 
-  selectHandler: function() {
+  selectHandler: function () {
     return this.props.onSelect(this.props.data[this.state.activeIndex]);
   },
 
-  componentWillReceiveProps: function(props) {
+  componentWillReceiveProps: function (props) {
     if (props.data) {
       this.setState({
         activeIndex: null
@@ -161,7 +161,7 @@ var List = React.createClass({
     }
   },
 
-  getShortcutsProps: function() {
+  getShortcutsProps: function () {
     return {
       map: {
         up: this.upHandler,

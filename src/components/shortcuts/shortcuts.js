@@ -6,7 +6,7 @@ var Global = require('global/global');
 /**
  * @class
  **/
-var Shortcuts = function() {
+var Shortcuts = function () {
   this._scopes = {};
   this._dispatcher = Shortcuts._dispatcher.bind(this);
 
@@ -28,7 +28,7 @@ Shortcuts.trigger = mousetrap.trigger;
 
 Shortcuts.Mixin = {
   /** @override */
-  componentDidMount: function() {
+  componentDidMount: function () {
     if (this.props.shortcuts) {
       var shortcuts = Shortcuts.getInstance();
       var props = this.getShortcutsProps();
@@ -43,7 +43,7 @@ Shortcuts.Mixin = {
     }
   },
 
-  componentDidUpdate: function() {
+  componentDidUpdate: function () {
     if (this.props.shortcuts) {
       var shortcuts = Shortcuts.getInstance();
 
@@ -52,7 +52,7 @@ Shortcuts.Mixin = {
   },
 
   /** @override */
-  componentWillUnmount: function() {
+  componentWillUnmount: function () {
     if (this.props.shortcuts) {
       var shortcuts = Shortcuts.getInstance();
 
@@ -66,7 +66,7 @@ Global.addSingletonGetter(Shortcuts);
 
 var ShortcutsProto = Shortcuts.prototype;
 
-Shortcuts._dispatcher = function(e, key) {
+Shortcuts._dispatcher = function (e, key) {
   var currentScope;
 
   for (var i = this._scopeChain.length - 1; i >= 0; i--) {
@@ -92,7 +92,7 @@ Shortcuts._dispatcher = function(e, key) {
  * @param params.scope {string} Scope (optional)
  * @param params.type {string} Event type, will be passed to Mousetrap (optional)
  */
-ShortcutsProto.bind = function(params) {
+ShortcutsProto.bind = function (params) {
   if (!(params instanceof Object) || typeof params.handler !== 'function') {
     throw new Error('Shortcut handler should exist');
   }
@@ -128,7 +128,7 @@ ShortcutsProto.bind = function(params) {
  * @options.scope {string} Scope (optional)
  * @options.type {string} Event type, will be passed to Mousetrap (optional)
  */
-ShortcutsProto.bindMap = function(map, options) {
+ShortcutsProto.bindMap = function (map, options) {
   if (!(map instanceof Object)) {
     throw new Error('Shortcuts map shouldn\'t be empty');
   }
@@ -140,15 +140,15 @@ ShortcutsProto.bindMap = function(map, options) {
   }
 };
 
-ShortcutsProto.unbindScope = function(scope) {
+ShortcutsProto.unbindScope = function (scope) {
   this._scopes[scope] = null;
 };
 
-ShortcutsProto.getScope = function() {
+ShortcutsProto.getScope = function () {
   return this._scopeChain.slice(1);
 };
 
-ShortcutsProto.pushScope = function(scope) {
+ShortcutsProto.pushScope = function (scope) {
   if (scope) {
     var position = $.inArray(scope, this._scopeChain);
 
@@ -160,7 +160,7 @@ ShortcutsProto.pushScope = function(scope) {
   }
 };
 
-ShortcutsProto.popScope = function(scope) {
+ShortcutsProto.popScope = function (scope) {
   if (scope) {
     var position = $.inArray(scope, this._scopeChain);
 
@@ -170,7 +170,7 @@ ShortcutsProto.popScope = function(scope) {
   }
 };
 
-ShortcutsProto.spliceScope = function(scope) {
+ShortcutsProto.spliceScope = function (scope) {
   if (scope) {
     var position = $.inArray(scope, this._scopeChain);
 
@@ -180,7 +180,7 @@ ShortcutsProto.spliceScope = function(scope) {
   }
 };
 
-ShortcutsProto.setScope = function(scope) {
+ShortcutsProto.setScope = function (scope) {
   if (scope) {
     if (typeof scope === 'string') {
       scope = [scope];
@@ -196,11 +196,11 @@ ShortcutsProto.setScope = function(scope) {
   }
 };
 
-ShortcutsProto.hasKey = function(key, scope) {
+ShortcutsProto.hasKey = function (key, scope) {
   return !!(this._scopes[scope] && this._scopes[scope][key]);
 };
 
-ShortcutsProto._defaultFilter = function(e, element/*, key*/) {
+ShortcutsProto._defaultFilter = function (e, element/*, key*/) {
   var $element = $(element);
 
   // if the element or its parents have the class "ring-js-shortcuts" then no need to stop
@@ -212,12 +212,12 @@ ShortcutsProto._defaultFilter = function(e, element/*, key*/) {
   return $element.is(':input:not(:button)') || (element.contentEditable && element.contentEditable === 'true');
 };
 
-ShortcutsProto.setFilter = function(fn) {
+ShortcutsProto.setFilter = function (fn) {
   mousetrap.stopCallback = typeof fn === 'function' ? fn : this._defaultFilter;
 };
 
 
-ShortcutsProto.reset = function() {
+ShortcutsProto.reset = function () {
   this._scopes = {};
   mousetrap.reset();
 };
