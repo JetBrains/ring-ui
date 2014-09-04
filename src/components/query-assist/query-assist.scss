@@ -5,6 +5,7 @@
   box-sizing: border-box;
   height: $ring-unit*3;
   background: #FFF;
+  @include ring-font;
 }
 
 .ring-query-assist__input {
