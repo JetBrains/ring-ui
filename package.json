@@ -37,9 +37,9 @@
     "karma-teamcity-reporter": "^0.1.2",
     "karma-webpack": "^1.2.1",
     "mocha": "^1.21.4",
-    "q": "^1.0.1",
     "through": "^2.3.4",
-    "webpack-dev-server": "^1.4.3"
+    "webpack-dev-server": "^1.4.3",
+    "when": "^3.4.5"
   },
   "dependencies": {
     "autoprefixer-loader": "^0.1.1",
