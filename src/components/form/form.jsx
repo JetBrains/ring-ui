@@ -126,6 +126,8 @@ var dependencyFilters = [
  * <example>
  *   <div class="form-example"></div>
  *   <script>
+ *     @jsx React.DOM
+ *
  *     var formDependencies = {
  *       'checkbox': { 'email': Form.DependencyFunction.DISABLED },
  *       'firstField': { 'secondField': Form.DependencyFunction.CLONE }
