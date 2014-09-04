@@ -14,7 +14,8 @@ var React = require('react');
 var Global = require('global/global');
 
 var generateUniqueId = Global.getUIDGenerator('ring-popup-');
-var shortcuts = require('shortcuts/shortcuts').getInstance();
+var Shortcuts = require('shortcuts/shortcuts');
+var shortcuts = Shortcuts.getInstance();
 
 /**
  * @enum {number}
@@ -31,6 +32,8 @@ var Corner = {
  * @mixin {PopupMixin}
  */
 var PopupMixin = {
+  mixins: [Shortcuts.Mixin],
+
   statics: {
     Corner: Corner,
 
@@ -59,6 +62,15 @@ var PopupMixin = {
     };
   },
 
+  getShortcutsProps: function () {
+    return {
+      map: {
+        'esc': this.close
+      },
+      scope: generateUniqueId()
+    };
+  },
+
   componentWillReceiveProps: function(props) {
     this.setState({
       style: this._getStyles(props)
@@ -73,35 +85,12 @@ var PopupMixin = {
 
     $(window).on('resize', this.onWindowResize_);
     $(document).on('click', this.onDocumentClick_);
-
-    if (this.props.shortcuts) {
-      this._shortcutsScope = generateUniqueId();
-
-      shortcuts.bind({
-        key: 'esc',
-        scope: this._shortcutsScope,
-        handler: this.close
-      });
-
-      shortcuts.pushScope(this._shortcutsScope);
-    }
-  },
-
-  componentDidUpdate: function() {
-    if (this.props.shortcuts) {
-      shortcuts.pushScope(this._shortcutsScope);
-    }
   },
 
   /** @override */
   componentWillUnmount: function() {
     $(window).off('resize', this.onWindowResize_);
     $(document).off('click', this.onDocumentClick_);
-
-    if (this.props.shortcuts) {
-      shortcuts.unbindScope(this._shortcutsScope);
-      shortcuts.spliceScope(this._shortcutsScope);
-    }
   },
 
   /** @override */
@@ -132,7 +121,7 @@ var PopupMixin = {
           display: 'none'
         }
       });
-      shortcuts.spliceScope(this._shortcutsScope);
+      shortcuts.spliceScope(this.shortcutsScope);
     }
 
     return true;

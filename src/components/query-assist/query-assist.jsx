@@ -9,6 +9,10 @@ var q = require('q');
 require('jquery-caret');
 
 var PopupMenu = require('popup-menu/popup-menu'); // jshint -W098
+var Shortcuts = require('shortcuts/shortcuts');
+var Global = require('global/global');
+
+var generateUniqueId = Global.getUIDGenerator('ring-query-assist-');
 
 require('./query-assist.scss');
 require('../input/input.scss');
@@ -19,6 +23,8 @@ require('../input/input.scss');
  * @extends {ReactComponent}
  */
 var QueryAssist = React.createClass({
+  mixins: [Shortcuts.Mixin],
+
   /** @override */
   propTypes: {
     className: React.PropTypes.string,
@@ -48,6 +54,19 @@ var QueryAssist = React.createClass({
 
   getInitialState: function () {
     return this.generateState();
+  },
+
+  getDefaultProps: function () {
+    return {shortcuts: true};
+  },
+
+  getShortcutsProps: function () {
+    return {
+      map: {
+        'ctrl+space': this.forcePopup
+      },
+      scope: generateUniqueId()
+    };
   },
 
   componentDidMount: function () {
@@ -149,6 +168,11 @@ var QueryAssist = React.createClass({
         concat(LETTER_CLASS).
         join(' ') ||
       LETTER_CLASS;
+  },
+
+  forcePopup: function(e) {
+    e.preventDefault();
+    this.renderPopup();
   },
 
   renderPopup: function () {
