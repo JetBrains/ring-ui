@@ -63,19 +63,37 @@ var bindDependencyFunction_ = function(formElement, dependentName, superiorName,
   return dependencyFn.bind(null, dependentField, superiorField);
 };
 
-/**
- * @typedef {function(Object.<string, DependencyFunction>):string}
- */
+/** @typedef {function(Object.<string, DependencyFunction>):string} DependencyFilter */
 
 // todo(igor.alexeenko): Do we need a class to work with graphs?
-
+/**
+ * @type {Array.<DependencyFilter>}
+ */
 var dependenciesFilter = [
   /**
    * @param {Object.<string, DependencyFunction>} deps
    * @return {string|undefined}
    */
-  function circularDependencies(deps) {
-    return undefined;
+  function chainDependencies(deps) {
+    // todo(igor.alexeenko): Do we need to allow chain dependencies?
+    // Checkbox enables another checkbox, which enables text field. What happens
+    // when we disable first checkbox and second is checked and field is filled?
+    var superiorFields = Object.keys(deps);
+    var dependentFields = _.flatten(superiorFields.map(function(field) {
+      return Object.keys(deps[field]);
+    }));
+
+    var chainedField;
+    superiorFields.some(function(field) {
+      var chained = dependentFields.indexOf(field) > -1;
+      if (chained) {
+        chainedField = field;
+      }
+
+      return chained;
+    });
+
+    return chainedField;
   },
 
   /**
@@ -95,7 +113,6 @@ var dependenciesFilter = [
     var conflictDependentField;
     dependentFields.some(function(field, i, fields) {
       var conflicted = i !== _.lastIndexOf(fields, field);
-
       if (conflicted) {
         conflictDependentField = field;
       }
@@ -114,6 +131,7 @@ var dependenciesFilter = [
  * @extends {ReactComponent}
  */
 var Form = React.createClass({
+  /** @override */
   propTypes: {
     /**
      * @param {Object} props
@@ -123,8 +141,8 @@ var Form = React.createClass({
      */
     'deps': function(props, propName, componentName) {
       var deps = props[propName];
-
       var invalidField;
+
       dependenciesFilter.some(function(filter) {
         invalidField = filter(deps);
         return typeof invalidField !== 'undefined';
@@ -132,8 +150,8 @@ var Form = React.createClass({
 
       if (typeof invalidField !== 'undefined') {
         return new Error(componentName + ' has a dependency problem. ' +
-            'Field "' + invalidField + '" has circular or conflicting ' +
-            'dependency.');
+            'Field "' + invalidField + '" has circular, chained ' +
+            'or conflicting dependency.');
       }
     }
   },
