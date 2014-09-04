@@ -7,7 +7,7 @@
 var $ = require('jquery');
 var React = require('react');
 
-var shortcuts = require('shortcuts/shortcuts').getInstance();
+var Shortcuts = require('shortcuts/shortcuts');
 var Global = require('global/global');
 
 var generateUniqueId = Global.getUIDGenerator('ring-list-');
@@ -81,6 +81,8 @@ var ListLink = React.createClass({
 });
 
 var List = React.createClass({
+  mixins: [Shortcuts.Mixin],
+
   statics: {
     Type: Type
   },
@@ -159,29 +161,15 @@ var List = React.createClass({
     }
   },
 
-  // TODO Create ShortcutsMixin for this
-  /** @override */
-  componentDidMount: function() {
-    if (this.props.shortcuts) {
-      this._shortcutsScope = generateUniqueId();
-
-      shortcuts.bindMap({
+  getShortcutsProps: function() {
+    return {
+      map: {
         up: this.upHandler,
         down: this.downHandler,
         enter: this.selectHandler
-      }, {
-        scope: this._shortcutsScope
-      });
-      shortcuts.pushScope(this._shortcutsScope);
-    }
-  },
-
-  /** @override */
-  componentWillUnmount: function() {
-    if (this.props.shortcuts) {
-      shortcuts.unbindScope(this._shortcutsScope);
-      shortcuts.spliceScope(this._shortcutsScope);
-    }
+      },
+      scope: generateUniqueId()
+    };
   },
 
   /** @override */
