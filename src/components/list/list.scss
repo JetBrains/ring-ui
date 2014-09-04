@@ -83,6 +83,10 @@
   color: #D800FF;
 }
 
+.ring-list__service {
+  color: #B4B4B4;
+}
+
 .ring-list__item_action {
   cursor: pointer;
   color: #000;
@@ -90,5 +94,9 @@
   &.ring-list__item_active:not(.ring-list__item_error) {
     color: #FFF;
     background-color: #25B7FF;
+
+    .ring-list__highlight, .ring-list__service {
+      color: inherit;
+    }
   }
 }
