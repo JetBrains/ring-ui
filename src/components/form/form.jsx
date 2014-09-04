@@ -136,6 +136,10 @@ var dependencyFilters = [
  *       <FormGroup type="email" name="email" label="Email field" />
  *       <FormGroup name="firstField" />
  *       <FormGroup name="secondField" />
+ *       <FormFooter>
+ *         <Button name="submitField" type="submit" modifier={Button.Modifiers.BLUE}>Submit</Button>
+ *         <Button name="resetField" type="reset" modified={Button.Modifiers.DEFAULT}>Reset</Button>
+ *       </FormFooter>
  *     </Form>, document.querySelector('.form-example'));
  *   </script>
  * </example>
