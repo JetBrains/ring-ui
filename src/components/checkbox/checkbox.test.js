@@ -22,14 +22,6 @@ describe('checkbox', function () {
     $(checkbox.getInputDOMNode()).should.have.prop('type', 'checkbox');
   });
 
-  it('should set custom class', function () {
-    checkbox.setProps({
-      className: 'test'
-    });
-
-    $(checkbox.getDOMNode()).should.have.class('test');
-  });
-
   it('should generate id if not passed', function () {
     $(checkbox.getInputDOMNode()).prop('id').should.exist;
   });
