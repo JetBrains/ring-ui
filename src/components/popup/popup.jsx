@@ -42,7 +42,7 @@ var PopupMixin = {
      * @param {ReactComponent} component
      * @returns {HTMLElement}
      */
-    renderComponent: function(component) {
+    renderComponent: function (component) {
       this._wrapper = document.createElement('div');
       document.body.appendChild(this._wrapper);
 
@@ -50,13 +50,13 @@ var PopupMixin = {
     }
   },
 
-  getInitialState: function() {
+  getInitialState: function () {
     return {
       style: {}
     };
   },
 
-  getDefaultProps: function() {
+  getDefaultProps: function () {
     return {
       shortcuts: true
     };
@@ -71,14 +71,14 @@ var PopupMixin = {
     };
   },
 
-  componentWillReceiveProps: function(props) {
+  componentWillReceiveProps: function (props) {
     this.setState({
       style: this._getStyles(props)
     });
   },
 
   /** @override */
-  componentDidMount: function() {
+  componentDidMount: function () {
     this.setState({
       style: this._getStyles()
     });
@@ -88,13 +88,13 @@ var PopupMixin = {
   },
 
   /** @override */
-  componentWillUnmount: function() {
+  componentWillUnmount: function () {
     $(window).off('resize', this.onWindowResize_);
     $(document).off('click', this.onDocumentClick_);
   },
 
   /** @override */
-  render: function() {
+  render: function () {
     /* jshint ignore:start */
     return (
       <div className={this.getClassName()} style={this.state.style}>
@@ -107,7 +107,7 @@ var PopupMixin = {
   /**
    * Closes popup and optionally removes from document.
    */
-  close: function() {
+  close: function () {
     if (typeof this.props.onClose === 'function') {
       return this.props.onClose();
     }
@@ -130,7 +130,7 @@ var PopupMixin = {
   /**
    * Removes popup from document.
    */
-  remove: function() {
+  remove: function () {
     var parent = this.getDOMNode().parentNode;
 
     React.unmountComponentAtNode(parent);
@@ -143,7 +143,7 @@ var PopupMixin = {
   /**
    * @private
    */
-  onWindowResize_: function() {
+  onWindowResize_: function () {
     this.close();
   },
 
@@ -151,7 +151,7 @@ var PopupMixin = {
    * @param {jQuery.Event} evt
    * @private
    */
-  onDocumentClick_: function(evt) {
+  onDocumentClick_: function (evt) {
     if (!this.getDOMNode().contains(evt.target)) {
       this.close();
     }
@@ -161,7 +161,7 @@ var PopupMixin = {
    * @return {Object}
    * @private
    */
-  _getStyles: function(props) {
+  _getStyles: function (props) {
     props = props || this.props;
     var anchorElement = props.anchorElement || document.body;
 
@@ -170,7 +170,7 @@ var PopupMixin = {
       display: props.visible ? 'block' : 'none'
     };
 
-   switch (props.corner) {
+    switch (props.corner) {
       case Corner.TOP_LEFT:
         styles.left = anchorElementOffset.left + (props.left || 0);
         styles.top = (anchorElementOffset.top - $(this.getDOMNode()).height()) + (props.top || 0);
@@ -192,7 +192,7 @@ var PopupMixin = {
   /**
    * @return {string}
    */
-  getClassName: function() {
+  getClassName: function () {
     var classNames = [];
 
     classNames.push('ring-popup');
@@ -223,7 +223,7 @@ var Popup = React.createClass({
   },
 
   /** @override */
-  getInternalContent: function() {
+  getInternalContent: function () {
     return this.props.children;
   }
 });

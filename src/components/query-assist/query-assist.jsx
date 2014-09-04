@@ -167,7 +167,7 @@ var QueryAssist = React.createClass({
     return $(this.refs.input.getDOMNode()).text().replace(/\s/g, ' ');
   },
 
-  getCaret: function() {
+  getCaret: function () {
     return $(this.refs.input.getDOMNode()).caret();
   },
 
@@ -194,7 +194,7 @@ var QueryAssist = React.createClass({
       LETTER_CLASS;
   },
 
-  forcePopup: function(e) {
+  forcePopup: function (e) {
     e.preventDefault();
     this.renderPopup();
   },
