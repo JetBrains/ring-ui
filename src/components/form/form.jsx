@@ -6,6 +6,8 @@
 
 'use strict';
 
+require('./form.scss');
+var _ = require('lodash');
 var React = require('react/addons');
 
 
@@ -61,6 +63,50 @@ var bindDependencyFunction_ = function(formElement, dependentName, superiorName,
   return dependencyFn.bind(null, dependentField, superiorField);
 };
 
+/**
+ * @typedef {function(Object.<string, DependencyFunction>):string}
+ */
+
+// todo(igor.alexeenko): Do we need a class to work with graphs?
+
+var dependenciesFilter = [
+  /**
+   * @param {Object.<string, DependencyFunction>} deps
+   * @return {string|undefined}
+   */
+  function circularDependencies(deps) {
+    return undefined;
+  },
+
+  /**
+   * @param {Object.<string, DependencyFunction>} deps
+   * @return {string|undefined}
+   */
+  function conflictingDepenendencies(deps) {
+    // todo(igor.alexeenko): Are dependencies of different kinds conflicting?
+    // Say field is being enabled by checking checkbox and another field changes
+    // its value.
+
+    var superiorFields = Object.keys(deps);
+    var dependentFields = _.flatten(superiorFields.map(function(field) {
+      return Object.keys(deps[field]);
+    }));
+
+    var conflictDependentField;
+    dependentFields.some(function(field, i, fields) {
+      var conflicted = i !== _.lastIndexOf(fields, field);
+
+      if (conflicted) {
+        conflictDependentField = field;
+      }
+
+      return conflicted;
+    });
+
+    return conflictDependentField;
+  }
+];
+
 
 
 /**
@@ -69,9 +115,27 @@ var bindDependencyFunction_ = function(formElement, dependentName, superiorName,
  */
 var Form = React.createClass({
   propTypes: {
-    // todo(igor.alexeenko): Circular dependencies.
-    // todo(igor.alexeenko): Conflicting dependencies.
-    deps: React.PropTypes.objectOf(React.PropTypes.objectOf(React.PropTypes.func))
+    /**
+     * @param {Object} props
+     * @param {string} propName
+     * @param {string} componentName
+     * @return {Error|undefined}
+     */
+    'deps': function(props, propName, componentName) {
+      var deps = props[propName];
+
+      var invalidField;
+      dependenciesFilter.some(function(filter) {
+        invalidField = filter(deps);
+        return typeof invalidField !== 'undefined';
+      });
+
+      if (typeof invalidField !== 'undefined') {
+        return new Error(componentName + ' has a dependency problem. ' +
+            'Field "' + invalidField + '" has circular or conflicting ' +
+            'dependency.');
+      }
+    }
   },
 
   /** @override */
