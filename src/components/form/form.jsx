@@ -6,7 +6,7 @@
 
 'use strict';
 
-var React = require('react');
+var React = require('react/addons');
 
 
 /**
@@ -45,21 +45,20 @@ var DependencyFunction = {
  * Binds {@link DependencyFn} to a fields with given names.
  * @static
  * @param {HTMLFormElement} formElement
- * @param {string} dependentFieldName
- * @param {string} superiorFieldName
- * @param {DependencyFn=} dependencyFunction
+ * @param {string} dependentName
+ * @param {string} superiorName
+ * @param {DependencyFn=} dependencyFn
  * @private
  */
-var bindDependencyFunction_ = function(formElement, dependentFieldName,
-    superiorFieldName, dependencyFunction) {
-  var dependentField = formElement.querySelector('[name=' + dependentFieldName + ']');
-  var superiorField = formElement.querySelector('[name=' + superiorFieldName + ']');
+var bindDependencyFunction_ = function(formElement, dependentName, superiorName, dependencyFn) {
+  var dependentField = formElement.querySelector('[name=' + dependentName + ']');
+  var superiorField = formElement.querySelector('[name=' + superiorName + ']');
 
   if (dependentField === null || superiorField === null) {
     throw new Error('Dependent or superior field was not found in form.');
   }
 
-  return dependencyFunction.bind(null, dependentField, superiorField);
+  return dependencyFn.bind(null, dependentField, superiorField);
 };
 
 
@@ -78,7 +77,7 @@ var Form = React.createClass({
   /** @override */
   getDefaultProps: function() {
     return {
-      deps: {}
+      'deps': {}
     };
   },
 
@@ -89,19 +88,19 @@ var Form = React.createClass({
        * Dicionary of dependency functions.
        * @type {Object.<string, function>}
        */
-      deps: null,
+      'deps': null,
 
       /**
        * Whether all required fields are filled.
        * @type {boolean}
        */
-      formIsCompleted: false,
+      'formIsCompleted': false,
 
       /**
        * Link to first element, which value is not valid.
        * @type {HTMLInputElement}
        */
-      firstInvalid: null
+      'firstInvalid': null
     };
   },
 
@@ -113,11 +112,9 @@ var Form = React.createClass({
 
   /** @override */
   render: function() {
-    return this.transferPropsTo(
-      <form className="ring-form" onChange={this.handleChange_}>
-        {this.props.children}
-      </form>
-    );
+    return (<form className="ring-form" onChange={this.handleChange_}>
+      {this.props.children}
+    </form>);
   },
 
   /**
@@ -127,7 +124,7 @@ var Form = React.createClass({
    * @protected
    */
   checkDependency: function(fieldName) {
-    if (this.state.deps === null) {
+    if (this.state['deps'] === null) {
       this.getDependencies();
     }
 
@@ -158,26 +155,24 @@ var Form = React.createClass({
 
   /** @protected */
   checkCompletion: function() {
-    // todo(igor.alexeenko): Check completion only of changed fields.
-
-    if (!this.state.fields) {
+    if (!this.state['fields']) {
       var formElement = this.getDOMNode();
       var inputElements = formElement.querySelectorAll('input');
 
       this.setState({
-        fields: Array.prototype.slice.call(inputElements, 0)
+        'fields': Array.prototype.slice.call(inputElements, 0)
       });
     }
 
     var firstInvalid = null;
-    var formIsCompleted = this.state.fields.every(function(field) {
+    var formIsCompleted = this.state['fields'].every(function(field) {
       if (!field.validity.valid) { firstInvalid = field }
       return field.validity.valid;
     }, this);
 
     this.setState({
-      formIsCompleted: formIsCompleted,
-      firstInvalid: firstInvalid
+      'formIsCompleted': formIsCompleted,
+      'firstInvalid': firstInvalid
     });
   },
 
@@ -186,25 +181,24 @@ var Form = React.createClass({
    * @private
    */
   handleChange_: function(evt) {
-    var changedField = /** @type {HTMLInputElement} */(evt.target);
+    var changedField = /** @type {HTMLInputElement} */ (evt.target);
 
     this.checkDependency(changedField.name);
     this.checkCompletion();
   },
 
   /**
-   * Initializes dependencies.
    * @protected
    */
   getDependencies: function() {
     var deps = {};
 
-    if (this.props.deps) {
-      var fieldNames = Object.keys(this.props.deps);
+    if (this.props['deps']) {
+      var fieldNames = Object.keys(this.props['deps']);
       var formElement = this.getDOMNode();
 
       fieldNames.forEach(function(fieldName) {
-        var dependencyRecord = this.props.deps[fieldName];
+        var dependencyRecord = this.props['deps'][fieldName];
         var dependentFields = Object.keys(dependencyRecord);
         var dependencyFunctions = [];
 
@@ -219,7 +213,7 @@ var Form = React.createClass({
       }, this);
     }
 
-    this.setState({ deps: deps });
+    this.setState({ 'deps': deps });
   }
 });
 
