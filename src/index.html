@@ -135,7 +135,7 @@
   (function () {
     var value = 0,
       timeout = 500,
-      progressBar = react.renderComponent(ring.ProgressBar({
+      progressBar = React.renderComponent(ring.ProgressBar({
           value: value
         }), document.getElementById('progress-bar'));
 
@@ -158,7 +158,7 @@
     redirect_uri: 'http://localhost:8080/'
   });
   auth.init().then(function() {
-    react.renderComponent(
+    React.renderComponent(
       ring.QueryAssist({
         query: 'test',
         placeholder: 'placeholder',
@@ -176,7 +176,7 @@
       document.getElementById('query-assist'));
   });
 
-  react.renderComponent(
+  React.renderComponent(
     ring.List({
       data: [
         {'label': 'One', 'type': ring.PopupMenu.Type.ITEM},
@@ -190,32 +190,32 @@
     }),
     document.getElementById('list'));
 
-  react.renderComponent(
+  React.renderComponent(
     ring.Checkbox(),
     document.getElementById('checkbox'));
 
-  react.renderComponent(
+  React.renderComponent(
     ring.Textarea(),
     document.getElementById('textarea'));
 
-  react.renderComponent(
+  React.renderComponent(
     ring.Input(),
     document.getElementById('input'));
 
-  react.renderComponent(
+  React.renderComponent(
     ring.Button(null, 'Button'),
     document.getElementById('button'));
 
-  react.renderComponent(
+  React.renderComponent(
     ring.Loader(),
     document.getElementById('loader'));
-  react.renderComponent(
+  React.renderComponent(
     ring.Loader({
       modifier: ring.Loader.Modifier.INLINE
     }),
     document.getElementById('loader-inline'));
 
-  react.renderComponent(
+  React.renderComponent(
     ring.Diff({
       originalContent: 'original',
       modifiedContent: 'modified',
@@ -229,7 +229,7 @@
     }),
     document.getElementById('diff-default'));
 
-  react.renderComponent(
+  React.renderComponent(
     ring.Diff({
       mode: ring.Diff.Mode.DOUBLE_PANE,
       originalContent: 'Zoo\nFrfrfr\n',
@@ -248,7 +248,7 @@
     }),
     document.getElementById('diff-double-pane'));
 
-  react.renderComponent(
+  React.renderComponent(
     ring.Diff({
       mode: ring.Diff.Mode.PLAIN_FILE,
       originalContent: 'original',
@@ -268,7 +268,7 @@
    * @extends {ReactComponent}
    * @mixes {ring.Popup.Mixin}
    */
-  var CustomPopup = react.createClass({
+  var CustomPopup = React.createClass({
     mixins: [ring.Popup.Mixin],
 
     getInternalContent: function() {
@@ -287,9 +287,9 @@
    * @constructor
    * @extends {ReactComponent}
    */
-  var SomeElementToInsertIntoPopup = react.createClass({
+  var SomeElementToInsertIntoPopup = React.createClass({
     render: function() {
-      return react.DOM.div(null, 'Some external elemenet rendered into Popup');
+      return React.DOM.div(null, 'Some external elemenet rendered into Popup');
     }
   });
 

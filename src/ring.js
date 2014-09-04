@@ -1,4 +1,4 @@
-global.react = require('react');
+window.React = require('react');
 
 module.exports = {
   Auth: require('auth/auth'),
