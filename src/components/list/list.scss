@@ -13,11 +13,23 @@
 
 .ring-list__separator {
   display: block;
-  width: 100%;
-  height: 1px;
-  margin: 2px 0 5px;
+  border-top: 1px solid #ADADAD;
+  margin-bottom: 5px;
+  padding: $ring-unit/2 $ring-unit*2 0 0;
 
-  background-color: #ADADAD;
+  color: #ADADAD;
+  @include ring-font;
+  font-size: 11px;
+  text-align: right;
+
+  &:first-child {
+    padding-top: 0;
+    border: none;
+  }
+
+  &_empty {
+    padding-top: 0;
+  }
 }
 
 .ring-list__item {
@@ -53,11 +65,29 @@
   }
 }
 
+.ring-list__description {
+  display: block;
+  float: right;
+  margin-left: $ring-unit*2;
+
+  color: #ADADAD;
+  @include ring-font;
+  font-size: 11px;
+
+  .ring-list__item_active & {
+    color: #FFF;
+  }
+}
+
+.ring-list__highlight {
+  color: #D800FF;
+}
+
 .ring-list__item_action {
   cursor: pointer;
   color: #000;
 
-  &.active:not(.ring-list__item_error) {
+  &.ring-list__item_active:not(.ring-list__item_error) {
     color: #FFF;
     background-color: #25B7FF;
   }

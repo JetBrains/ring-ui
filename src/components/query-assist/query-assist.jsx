@@ -201,24 +201,20 @@ var QueryAssist = React.createClass({
 
   renderPopup: function () {
     /* jshint ignore:start */
-    var visible = this.state.suggestions.length > 0;
-    var suggestions = this.state.suggestions.map(function (suggestion) {
-      var label = suggestion.prefix + suggestion.option + suggestion.suffix;
-
-      return {
-        key: label + suggestion.description,
-        label: label,
-        type: PopupMenu.Type.ITEM,
-        data: suggestion
-      };
-    });
-
+    var suggestions = this.renderSuggestions();
+    var visible = suggestions.length > 0;
 
     if (!this._popup) {
       this._popup = PopupMenu.renderComponent(
-        <PopupMenu autoRemove={false} visible={visible} anchorElement={this.getDOMNode()}
-        corner={PopupMenu.Corner.BOTTOM_LEFT} data={suggestions} shortcuts={true}
-        left={this.getCaretOffset()} onSelect={this.handleSelect} />
+        <PopupMenu
+          anchorElement={this.getDOMNode()}
+          autoRemove={false}
+          corner={PopupMenu.Corner.BOTTOM_LEFT}
+          data={suggestions} shortcuts={true}
+          left={this.getCaretOffset()}
+          onSelect={this.handleSelect}
+          visible={visible}
+        />
       );
     } else {
       this._popup.setProps({
@@ -228,6 +224,44 @@ var QueryAssist = React.createClass({
       });
     }
     /* jshint ignore:end */
+  },
+
+  renderSuggestions: function () {
+    var suggestions = [];
+
+    this.state.suggestions.forEach(function (suggestion, index, arr) {
+      var label = suggestion.prefix + suggestion.option + suggestion.suffix;
+
+      var prevSuggestion = arr[index - 1];
+      var nextSuggestion = arr[index + 1];
+      var description = suggestion.description;
+
+      if ((prevSuggestion && prevSuggestion.description !== description || !prevSuggestion) &&
+        nextSuggestion && nextSuggestion.description === description) {
+
+        suggestions.push({
+          key: label + description + PopupMenu.Type.SEPARATOR,
+          description: description,
+          type: PopupMenu.Type.SEPARATOR
+        });
+      }
+
+      var item = {
+        key: label + description + PopupMenu.Type.ITEM,
+        label: label,
+        type: PopupMenu.Type.ITEM,
+        data: suggestion
+      };
+
+      if ((prevSuggestion && prevSuggestion.description !== description || !prevSuggestion) &&
+        nextSuggestion && nextSuggestion.description !== description) {
+        item.description = description;
+      }
+
+      suggestions.push(item);
+    });
+
+    return suggestions;
   },
 
   /* jshint ignore:start */
