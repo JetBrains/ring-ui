@@ -34,8 +34,13 @@ var ListSeparator = React.createClass({
   /** @override */
   render: function () {
     /* jshint ignore:start */
+    var classes = React.addons.classSet({
+      'ring-list__separator': true,
+      'ring-list__separator_empty': !this.props.description
+    });
+
     return (
-      <span className="ring-list__separator"></span>
+      <span className={classes}>{this.props.description}</span>
       );
     /* jshint ignore:end */
   }
@@ -57,11 +62,15 @@ var ListItem = React.createClass({
     var classes = React.addons.classSet({
       'ring-list__item': true,
       'ring-list__item_action': true,
-      'active': this.props.active
+      'ring-list__item_active': this.props.active
     });
 
     return this.transferPropsTo(
-      <span className={classes}>{this.props.label}</span>
+      <span className={classes}>
+        {this.props.label}
+        {this.props.description &&
+            <span className="ring-list__description">{this.props.description}</span>}
+      </span>
     );
     /* jshint ignore:end */
   }
@@ -125,11 +134,7 @@ var List = React.createClass({
       newIndex = index - 1;
     }
 
-    this.setState({
-      activeIndex: newIndex
-    });
-
-    e.preventDefault();
+    this.moveHandler(newIndex, this.upHandler, e);
   },
 
   downHandler: function (e) {
@@ -142,11 +147,18 @@ var List = React.createClass({
       newIndex = index + 1;
     }
 
-    this.setState({
-      activeIndex: newIndex
-    });
+    this.moveHandler(newIndex, this.downHandler, e);
+  },
 
-    e.preventDefault();
+  moveHandler: function (index, retryCallback, e) {
+    this.setState({activeIndex: index}, function() {
+      if (this.props.data[index].type !== Type.ITEM) {
+        retryCallback(e);
+        return;
+      }
+
+      e.preventDefault();
+    });
   },
 
   selectHandler: function () {
