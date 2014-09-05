@@ -1,4 +1,5 @@
 describe('icon', function () {
+  var $ = require('jquery');
   var React = require('react/addons');
   var Icon = require('./icon');
 
@@ -14,14 +15,15 @@ describe('icon', function () {
     this.icon.setProps({
       modifier: 16
     });
-    expect(this.icon.getDOMNode()).should.have.class('ring-icon_16');
+    $(this.icon.getDOMNode()).should.have.class('ring-icon_16');
   });
 
   it('should set custom class', function () {
     var CUSTOM_CSS_CLASS = 'my-icon';
+
     this.icon.setProps({
       className: CUSTOM_CSS_CLASS
     });
-    expect(this.icon.getDOMNode()).should.have.class(CUSTOM_CSS_CLASS);
+    $(this.icon.getDOMNode()).should.have.class(CUSTOM_CSS_CLASS);
   });
 });
