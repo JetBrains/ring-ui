@@ -305,7 +305,9 @@ var Form = React.createClass({
       'formIsCompleted': formIsCompleted,
       'firstInvalid': firstInvalid
     }, function() {
-      this.state['fieldToDisable'].disabled = !this.state['formIsCompleted'];
+      if (this.state['fieldToDisable']) {
+        this.state['fieldToDisable'].disabled = !this.state['formIsCompleted'];
+      }
     }.bind(this));
   },
 
@@ -371,7 +373,9 @@ var Form = React.createClass({
       'fields': fieldsToValidate,
       'fieldToDisable': submitButton
     }, function() {
-      this.state['fieldToDisable'].disabled = !this.state['formIsCompleted'];
+      if (this.state['fieldToDisable']) {
+        this.state['fieldToDisable'].disabled = !this.state['formIsCompleted'];
+      }
     }.bind(this));
   }
 });
