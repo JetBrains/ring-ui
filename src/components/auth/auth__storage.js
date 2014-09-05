@@ -18,15 +18,18 @@ var AuthStorage = function (config) {
  *
  * @param id
  * @param state
- * @param secondTry
+ * @param {boolean=} secondTry
  */
 AuthStorage.prototype.saveState = function (id, state, secondTry) {
   var self = this;
 
   return this._storage.set(this.stateStoragePrefix + id, state)
     .otherwise(function (e) {
-      if (!secondTry && self.cleanStates()) {
-        return self.saveState(id, state, true);
+      if (!secondTry) {
+        return self.cleanStates().
+          then(function () {
+            self.saveState(id, state, true);
+          });
       } else {
         return when.reject(e);
       }
@@ -35,48 +38,42 @@ AuthStorage.prototype.saveState = function (id, state, secondTry) {
 
 AuthStorage.prototype.cleanStates = function () {
   var self = this;
-  var cleaned = false;
-
-  this._storage.each(function (item) {
-    if (item.indexOf(self.stateStoragePrefix) === 0) {
-      self._storage.remove(item);
-      cleaned = true;
-    }
-  }).fail(function () {
-    cleaned = null;
+  return when.promise(function (resolve) {
+    self._storage.each(function (item) {
+      if (item.indexOf(self.stateStoragePrefix) === 0) {
+        self._storage.remove(item);
+        resolve(true);
+      }
+    }).owtherwise(function () {
+      resolve(false);
+    });
   });
-
-  return cleaned;
 };
 
 AuthStorage.prototype.getState = function (id) {
-  var state;
   var self = this;
-
-  this._storage.get(this.stateStoragePrefix + id).done(function (result) {
-    state = result;
-    self.cleanStates();
-  });
-
-  return state;
+  return this._storage.get(this.stateStoragePrefix + id).
+    then(function (result) {
+      return self.cleanStates().then(function () {
+        return result;
+      });
+    }, function (e) {
+      return self.cleanStates().then(function () {
+        return when.reject(e);
+      });
+    });
 };
 
-AuthStorage.prototype.saveTokens = function (provider, tokens) {
-  this._storage.set(this.tokensStoragePrefix + provider, tokens);
+AuthStorage.prototype.saveToken = function (token) {
+  return this._storage.set(this._tokensStoragePrefix, token);
 };
 
-AuthStorage.prototype.getTokens = function (provider) {
-  var tokens = [];
-
-  this._storage.get(this.tokensStoragePrefix + provider).done(function (result) {
-    tokens = result;
-  });
-
-  return tokens;
+AuthStorage.prototype.getToken = function () {
+  return this._storage.get(this.tokensStoragePrefix);
 };
 
-AuthStorage.prototype.wipeTokens = function (provider) {
-  this._storage.remove(this.tokensStoragePrefix + provider);
+AuthStorage.prototype.wipeToken = function () {
+  return this._storage.remove(this.tokensStoragePrefix);
 };
 
 module.exports = AuthStorage;
