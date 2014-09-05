@@ -23,7 +23,8 @@ require('../link/link.scss');
 var Type = {
   SEPARATOR: 0,
   LINK: 1,
-  ITEM: 2
+  ITEM: 2,
+  HINT: 3
 };
 
 /**
@@ -86,6 +87,19 @@ var ListLink = React.createClass({
     var el = this.props.href ? React.DOM.a : React.DOM.span;
     return this.
       transferPropsTo(el({className: 'ring-list__item ring-link'}, this.props.label));
+  }
+});
+
+/**
+ * @constructor
+ * @extends {ReactComponent}
+ */
+var ListHint = React.createClass({
+  /** @override */
+  render: function () {
+    /* jshint ignore:start */
+    return <span className="ring-list__item ring-list__item_hint">{this.props.label}</span>;
+    /* jshint ignore:end */
   }
 });
 
@@ -227,6 +241,9 @@ var List = React.createClass({
             break;
           case Type.ITEM:
             element = ListItem;
+            break;
+          case Type.HINT:
+            element = ListHint;
             break;
           default:
             throw new Error('Unknown menu element type: ' + props.type);
