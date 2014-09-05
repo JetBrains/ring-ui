@@ -8,7 +8,7 @@
 
 require('./form.scss');
 var _ = require('underscore');
-var FormGroup = require('./form-group');
+var FormGroup = require('./form__group');
 var React = require('react/addons');
 
 
@@ -149,10 +149,10 @@ var FORM_CHILD_PREFIX = 'child-';
  *       <FormGroup type="email" name="email" label="Email field" />
  *       <FormGroup name="firstField" />
  *       <FormGroup name="secondField" />
- *       <FormFooter>
+ *       <Panel>
  *         <Button name="submitField" type="submit" modifier={Button.Modifiers.BLUE}>Submit</Button>
  *         <Button name="resetField" type="reset" modified={Button.Modifiers.DEFAULT}>Reset</Button>
- *       </FormFooter>
+ *       </Panel>
  *     </Form>, document.querySelector('.form-example'));
  *   </script>
  * </example>

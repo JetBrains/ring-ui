@@ -44,10 +44,8 @@ var FormGroup = React.createClass({
 
   /** @override */
   getInitialState: function() {
-    // todo(igor.alexeenko): ```state.hasError``` is redundant and presense of ```errorMessage``` would be enough.
     return {
       'errorMessage': '',
-      'hasError': false,
       'hasFocus': false,
       'inputElement': null,
       'showError': false
