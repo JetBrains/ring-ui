@@ -61,61 +61,66 @@ var _bindDependencyFunction = function(formElement, dependentName, superiorName,
 
 /** @typedef {function(Object.<string, DependencyFunction>):string} DependencyFilter */
 
-/** @type {Array.<DependencyFilter>} */
-var dependencyFilters = [
-  /**
-   * @param {Object.<string, DependencyFunction>} deps
-   * @return {string|undefined}
-   */
-  function chainDependencies(deps) {
-    // todo(igor.alexeenko): Do we need to allow chain dependencies?
-    // Checkbox enables another checkbox, which enables text field. What happens
-    // when we disable first checkbox and second is checked and field is filled?
-    var superiorFields = Object.keys(deps);
-    var dependentFields = _.flatten(superiorFields.map(function(field) {
-      return Object.keys(deps[field]);
-    }));
+// NB! ```propTypes``` does work only in development environment, so these
+// checks are redundant in production mode.
+if ('production' !== process.env.NODE_ENV) {
+  /** @type {Array.<DependencyFilter>} */
+  var dependencyFilters = [
+    /**
+     * @param {Object.<string, DependencyFunction>} deps
+     * @return {string|undefined}
+     */
+    function chainDependencies(deps) {
+      // todo(igor.alexeenko): Do we need to allow chain dependencies?
+      // Checkbox enables another checkbox, which enables text field. What happens
+      // when we disable first checkbox and second is checked and field is filled?
+      var superiorFields = Object.keys(deps);
+      var dependentFields = _.flatten(superiorFields.map(function(field) {
+        return Object.keys(deps[field]);
+      }));
 
-    var chainedField;
-    superiorFields.some(function(field) {
-      var chained = dependentFields.indexOf(field) > -1;
-      if (chained) {
-        chainedField = field;
-      }
+      var chainedField;
+      superiorFields.some(function(field) {
+        var chained = dependentFields.indexOf(field) > -1;
+        if (chained) {
+          chainedField = field;
+        }
 
-      return chained;
-    });
+        return chained;
+      });
 
-    return chainedField;
-  },
+      return chainedField;
+    },
 
-  /**
-   * @param {Object.<string, DependencyFunction>} deps
-   * @return {string|undefined}
-   */
-  function conflictingDepenendencies(deps) {
-    // todo(igor.alexeenko): Are dependencies of different kinds conflicting?
-    // Say field is being enabled by checking checkbox and another field changes
-    // its value.
+    /**
+     * @param {Object.<string, DependencyFunction>} deps
+     * @return {string|undefined}
+     */
+    function conflictingDepenendencies(deps) {
+      // todo(igor.alexeenko): Are dependencies of different kinds conflicting?
+      // Say field is being enabled by checking checkbox and another field changes
+      // its value.
 
-    var superiorFields = Object.keys(deps);
-    var dependentFields = _.flatten(superiorFields.map(function(field) {
-      return Object.keys(deps[field]);
-    }));
+      var superiorFields = Object.keys(deps);
+      var dependentFields = _.flatten(superiorFields.map(function(field) {
+        return Object.keys(deps[field]);
+      }));
 
-    var conflictDependentField;
-    dependentFields.some(function(field, i, fields) {
-      var conflicted = i !== _.lastIndexOf(fields, field);
-      if (conflicted) {
-        conflictDependentField = field;
-      }
+      var conflictDependentField;
+      dependentFields.some(function(field, i, fields) {
+        var conflicted = i !== _.lastIndexOf(fields, field);
+        if (conflicted) {
+          conflictDependentField = field;
+        }
 
-      return conflicted;
-    });
+        return conflicted;
+      });
 
-    return conflictDependentField;
-  }
-];
+      return conflictDependentField;
+    }
+  ];
+}
+
 
 
 
@@ -148,7 +153,7 @@ var dependencyFilters = [
  */
 var Form = React.createClass({
   /** @override */
-  propTypes: {
+  propTypes: ('production' !== process.env.NODE_ENV) ? {
     /**
      * @param {Object} props
      * @param {string} propName
@@ -170,7 +175,7 @@ var Form = React.createClass({
             'or conflicting dependency.');
       }
     }
-  },
+  } : {},
 
   /** @override */
   getDefaultProps: function() {
