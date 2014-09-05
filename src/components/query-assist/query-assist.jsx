@@ -63,7 +63,8 @@ var QueryAssist = React.createClass({
   getShortcutsProps: function () {
     return {
       map: {
-        'ctrl+space': this.forcePopup
+        'ctrl+space': this.forcePopup,
+        'tab': this.handleTab
       },
       scope: generateUniqueId()
     };
@@ -102,6 +103,12 @@ var QueryAssist = React.createClass({
     if (e.key === 'Enter') {
       e.preventDefault();
     }
+  },
+
+  handleTab: function () {
+    var selectedSuggestion = this._popup.refs.List.getSelected();
+
+    return this.handleSelect(selectedSuggestion || {data: this.state.suggestions[0]}, !!selectedSuggestion);
   },
 
   handleCaretMove: function () {
