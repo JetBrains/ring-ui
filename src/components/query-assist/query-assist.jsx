@@ -280,6 +280,10 @@ var QueryAssist = React.createClass({
         item.description = suggestion.description;
       }
 
+      if (suggestion.icon) {
+        item.icon = suggestion.icon;
+      }
+
       suggestions.push(item);
     });
 
