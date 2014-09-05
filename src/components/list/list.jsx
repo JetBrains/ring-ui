@@ -103,6 +103,11 @@ var ListHint = React.createClass({
   }
 });
 
+/**
+ * @constructor
+ * @mixes {Shortcuts.Mixin}
+ * @extends {ReactComponent}
+ */
 var List = React.createClass({
   mixins: [Shortcuts.Mixin],
 

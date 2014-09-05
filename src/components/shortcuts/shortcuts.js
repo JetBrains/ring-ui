@@ -4,7 +4,7 @@ var mousetrap = require('mousetrap');
 var Global = require('global/global');
 
 /**
- * @class
+ * @constructor
  **/
 var Shortcuts = function () {
   this._scopes = {};
@@ -26,6 +26,9 @@ Shortcuts.ALLOW_SHORTCUTS_SELECTOR = '.ring-js-shortcuts';
 
 Shortcuts.trigger = mousetrap.trigger;
 
+/**
+ * @mixin {Shortcuts.Mixin}
+ */
 Shortcuts.Mixin = {
   /** @override */
   componentDidMount: function () {
