@@ -57,7 +57,7 @@ var FormGroup = React.createClass({
   render: function() {
     return typeof this.props.children !== 'undefined' ?
         (<div className="ring-form__group">{this.props.children}</div>) :
-        this.getInputElement_();
+        this._getInputElement();
   },
 
   /**
@@ -81,7 +81,7 @@ var FormGroup = React.createClass({
    * @param {SyntheticMouseEvent} evt
    * @private
    */
-  handleBlur_: function(evt) {
+  _handleBlur: function(evt) {
     this.checkValidity();
   },
 
@@ -89,7 +89,7 @@ var FormGroup = React.createClass({
    * @return {XML}
    * @private
    */
-  getInputElement_: function() {
+  _getInputElement: function() {
     var className = React.addons.classSet({
       'ring-form__group': true,
       'ring-form__group_error': this.state.hasError && this.state.errorMessage,
@@ -125,7 +125,7 @@ var FormGroup = React.createClass({
         return (<div className={className}>
           <label className="ring-form__label" htmlFor={this.props.id}>{this.props.label}</label>
           <div className="ring-form__control">
-            {this.transferPropsTo(<Input className={inputClassName} onBlur={this.handleBlur_} />)}
+            {this.transferPropsTo(<Input className={inputClassName} onBlur={this._handleBlur} />)}
           </div>
         </div>);
         break;
