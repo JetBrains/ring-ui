@@ -2,6 +2,7 @@
 
 var jso = require('jso-browser');
 var $ = require('jquery');
+var when = require('when');
 var AuthStorage = require('./auth__storage');
 
 /**
@@ -111,28 +112,28 @@ Auth.prototype.init = function () {
     authorization: this.config.serverUri + Auth.API_AUTH_PATH
   }, this.config);
 
-  var restoreLocationDeferred = $.Deferred();
-  var self = this;
 
   jso.registerRedirectHandler(this._defaultRedirectHandler);
   jso.registerStorageHandler(this._storage);
 
-  jso.configure(jsoConfig, null, function (restoreLocation, error) {
-    if (error) {
-      // This happens if auth server response parse failed
-      restoreLocationDeferred.reject(error);
-    } else {
-      // Check if there is a valid token. May redirect to auth server
-      self._interactiveEnsureToken().then(function (/*accessToken*/) {
-        // Access token appears to be valid. We may resolve restoreLocation URL now
-        restoreLocationDeferred.resolve(restoreLocation);
-      }, function (error) {
-        // There is no valid token. JSO is likely to redirect to auth server. Or auth server is not accessible
-        restoreLocationDeferred.reject(error);
-      });
-    }
+  var self = this;
+  return when.promise(function (resolve, reject) {
+    jso.configure(jsoConfig, null, function (restoreLocation, error) {
+      if (error) {
+        // This happens if auth server response parse failed
+        reject(error);
+      } else {
+        // Check if there is a valid token. May redirect to auth server
+        self._interactiveEnsureToken().then(function (/*accessToken*/) {
+          // Access token appears to be valid. We may resolve restoreLocation URL now
+          resolve(restoreLocation);
+        }, function (error) {
+          // There is no valid token. JSO is likely to redirect to auth server. Or auth server is not accessible
+          reject(error);
+        });
+      }
+    });
   });
-  return restoreLocationDeferred.promise();
 };
 
 /**
@@ -143,22 +144,25 @@ Auth.prototype.init = function () {
  * @return {Promise.<string>}
  */
 Auth.prototype._interactiveEnsureToken = function () {
-  var tokenDeferred = $.Deferred();
-
   var ensureConfig = {};
   ensureConfig[Auth.PROVIDER] = this.config.scope;
 
-  if (jso.ensureTokens(ensureConfig)) {
-    var accessToken = jso.getToken(Auth.PROVIDER).access_token;
-    var self = this;
+  if (!jso.ensureTokens(ensureConfig)) {
+    // This happens when jso.ensureTokens() redirects to auth page
+    return when.reject({ authRedirect: true });
+  }
 
-    this.getSecure(Auth.API_PROFILE_PATH, accessToken).then(function (user) {
+  var accessToken = jso.getToken(Auth.PROVIDER).access_token;
+  var self = this;
+
+  return this.getSecure(Auth.API_PROFILE_PATH, accessToken).
+    then(function (user) {
       self.user = user;
-      tokenDeferred.resolve(accessToken);
+      return accessToken;
     }, function (errorResponse) {
       var errorCode;
       try {
-        errorCode = (errorResponse.responseJSON || $.parseJSON(errorResponse.responseText)).error;
+        errorCode = (errorResponse.responseJSON || JSON.parse(errorResponse.responseText)).error;
       } catch (e) {
       }
 
@@ -167,17 +171,11 @@ Auth.prototype._interactiveEnsureToken = function () {
         jso.wipe();
         // This must redirect
         jso.ensureTokens(ensureConfig);
-        tokenDeferred.reject({ authRedirect: true });
+        return when.reject({ authRedirect: true });
       } else {
-        tokenDeferred.reject(errorResponse);
+        return when.reject(errorResponse);
       }
     });
-  } else {
-    // This happens when jso.ensureTokens() redirects to auth page
-    tokenDeferred.reject({ authRedirect: true });
-  }
-
-  return tokenDeferred.promise();
 };
 
 /**
@@ -226,26 +224,28 @@ Auth.prototype._createFrameRedirectHandler = function ($iframe) {
  * @private
  */
 Auth.prototype._nonInteractiveEnsureToken = function () {
-  if (this._refreshDefer && this._refreshDefer.state() === 'pending') {
-    return this._refreshDefer.promise();
-  }
-  this._refreshDefer = $.Deferred();
-
   var oldToken = jso.getToken(Auth.PROVIDER);
   var oldAccessToken = oldToken && oldToken.access_token;
 
   if (!_hasToBeRefreshed(oldToken)) {
-    this._refreshDefer.resolve(oldAccessToken);
-    return this._refreshDefer.promise();
+    return when.resolve(oldAccessToken);
   }
+
+  if (this._refreshDefer) {
+    return this._refreshDefer.promise;
+  }
+
+  this._refreshDefer = when.defer();
+  var self = this;
+  this._refreshDefer.ensure(function () {
+    self._refreshDefer = null;
+  });
 
   var $iframe = $('<iframe style="display: none;"></iframe>').appendTo('body');
 
   var _isTokenRefreshed = function (newAccessToken) {
     return newAccessToken && newAccessToken !== oldAccessToken;
   };
-
-  var self = this;
 
   var REFRESH_POLL_INTERVAL = 30;
   var REFRESH_POLL_MAX_ATTEMPTS = 2000;
@@ -271,7 +271,7 @@ Auth.prototype._nonInteractiveEnsureToken = function () {
 
   jso.authRequest(Auth.PROVIDER, this.config.scope);
 
-  return this._refreshDefer.promise();
+  return this._refreshDefer.promise;
 };
 
 /**
@@ -311,16 +311,18 @@ Auth.prototype.getSecure = function (relativeURI, accessToken, params) {
  */
 Auth.prototype.requestUser = function () {
   if (this.user) {
-    return $.Deferred().resolve(this.user).promise();
+    return when.resolve(this.user);
   }
 
   var self = this;
-  return this.requestToken().then(function (accessToken) {
-    return self.getSecure(Auth.API_PROFILE_PATH, accessToken).then(function (user) {
+  return this.requestToken().
+    then(function (accessToken) {
+      return self.getSecure(Auth.API_PROFILE_PATH, accessToken);
+    }).
+    then(function (user) {
       self.user = user;
       return user;
     });
-  });
 };
 
 /**

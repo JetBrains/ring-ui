@@ -1,6 +1,7 @@
 'use strict';
 
 var Storage = require('storage/storage');
+var when = require('when');
 
 /**
  * Custom storage for jso
@@ -22,10 +23,12 @@ var AuthStorage = function (config) {
 AuthStorage.prototype.saveState = function (id, state, secondTry) {
   var self = this;
 
-  this._storage.set(this.stateStoragePrefix + id, state)
-    .fail(function () {
+  return this._storage.set(this.stateStoragePrefix + id, state)
+    .otherwise(function (e) {
       if (!secondTry && self.cleanStates()) {
-        self.saveState(id, state, true);
+        return self.saveState(id, state, true);
+      } else {
+        return when.reject(e);
       }
     });
 };
