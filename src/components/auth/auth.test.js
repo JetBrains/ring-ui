@@ -54,11 +54,11 @@ describe('auth', function () {
       auth._defaultRedirectHandler.should.not.have.been.called;
     });
 
-    it('should redirect on init call', function() {
-      auth.init();
-
-      auth._defaultRedirectHandler.should.have.been.called;
-      auth._defaultRedirectHandler.should.have.been.calledWithMatch(config.serverUri);
+    it.only('should redirect on init call', function() {
+      return auth.init().then(function () {
+        auth._defaultRedirectHandler.should.have.been.called;
+        auth._defaultRedirectHandler.should.have.been.calledWithMatch(config.serverUri);
+      });
     });
   });
 
