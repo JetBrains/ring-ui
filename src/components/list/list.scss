@@ -101,6 +101,16 @@
   }
 }
 
+.ring-list__icon {
+  display: block;
+  float: right;
+  margin-top: $ring-unit/2;
+  width: $ring-unit*2;
+  height: $ring-unit*2;
+
+  background-size: contain;
+}
+
 .ring-list__highlight {
   color: #D800FF;
 }
