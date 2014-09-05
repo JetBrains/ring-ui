@@ -9,7 +9,7 @@ var List = require('list/list');
 
 /**
  * @constructor
- * @mixes {PopupMixin}
+ * @mixes {Popup.Mixin}
  * @extends {ReactComponent}
  */
 var PopupMenu = React.createClass({

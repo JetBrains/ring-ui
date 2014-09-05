@@ -30,6 +30,7 @@ var Corner = {
 
 /**
  * @mixin {PopupMixin}
+ * @mixes {Shortcuts.Mixin}
  */
 var PopupMixin = {
   mixins: [Shortcuts.Mixin],

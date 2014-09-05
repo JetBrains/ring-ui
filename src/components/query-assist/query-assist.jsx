@@ -19,7 +19,7 @@ require('../input/input.scss');
 
 /**
  * @constructor
- * @mixes {PopupMixin}
+ * @mixes {Shortcuts.Mixin}
  * @extends {ReactComponent}
  */
 var QueryAssist = React.createClass({
