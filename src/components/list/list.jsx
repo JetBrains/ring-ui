@@ -204,11 +204,18 @@ var List = React.createClass({
         }
 
         // Probably unqiue enough key
-        props.key = props.key || props.type + props.label + props.url;
+        props.key = props.key || props.type + props.label;
 
         props.active = (index === this.state.activeIndex);
         props.onMouseOver = this.hoverHandler.bind(this, index);
-        props.onClick = this.selectHandler;
+
+        props.onClick = function() {
+          if (typeof item.onClick === 'function') {
+            item.onClick.apply(item, arguments);
+          }
+
+          return this.selectHandler.apply(this, arguments);
+        }.bind(this);
 
         var element;
         switch (props.type) {
