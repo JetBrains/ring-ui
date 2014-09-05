@@ -7,7 +7,7 @@
 'use strict';
 
 require('./form.scss');
-var _ = require('lodash');
+var _ = require('underscore');
 var React = require('react/addons');
 
 
