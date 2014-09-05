@@ -8,6 +8,7 @@
 
 require('./form.scss');
 var _ = require('underscore');
+var FormGroup = require('./form-group');
 var React = require('react/addons');
 
 
@@ -122,6 +123,11 @@ if ('production' !== process.env.NODE_ENV) {
 }
 
 
+/**
+ * @const
+ * @type {string}
+ */
+var FORM_CHILD_PREFIX = 'child-';
 
 
 /**
@@ -152,6 +158,10 @@ if ('production' !== process.env.NODE_ENV) {
  * </example>
  */
 var Form = React.createClass({
+  statics: {
+    DependecyFunction: DependencyFunction
+  },
+
   /** @override */
   propTypes: ('production' !== process.env.NODE_ENV) ? {
     /**
@@ -194,30 +204,66 @@ var Form = React.createClass({
       'deps': null,
 
       /**
-       * Whether all required fields are filled.
-       * @type {boolean}
+       * @type {Array.<FormGroup>}
        */
-      'formIsCompleted': false,
+      'fields': null,
 
       /**
        * Link to first element, which value is not valid.
-       * @type {HTMLInputElement}
+       * @type {FormGroup}
        */
-      'firstInvalid': null
+      'firstInvalid': null,
+
+      /**
+       * Whether all required fields are filled.
+       * @type {boolean}
+       */
+      'formIsCompleted': false
     };
   },
 
   /** @override */
   componentDidMount: function() {
+    var validatableFields = _.filter(this.refs, function(child, childName) {
+      return !_.isUndefined(child.checkValidity);
+    });
+
+    this.setState({ 'fields': validatableFields });
+
+    this.getDependencies();
     this.checkDependency();
-    this.checkCompletion();
   },
 
   /** @override */
   render: function() {
-    return (<form className="ring-form" onChange={this._handleChange}>
-      {this.props.children}
+    // NB! Passed children should be normalized first. When only one child
+    // passed, React makes ```this.props.children``` not an {@link Array}
+    // but link to a passed {@link Object}.
+    var children = _.isUndefined(this.props.children) ? [] :
+        (!_.isArray(this.props.children) ? [this.props.children] : this.props.children);
+    var childrenToRender = this._setDynamicRefs(children, FORM_CHILD_PREFIX);
+
+    return (<form className="ring-form" onChange={this._handleChange} onBlur={this._handleBlur}>
+      {childrenToRender}
     </form>);
+  },
+
+  /**
+   * Takes an {@link Array} of {@link ReactComponent}s and gives them dynamic
+   * ref and a key to make their API accessible from the parent component.
+   * @param {Array.<ReactComponent>} elements
+   * @param {string} refName
+   * @return {Array.<ReactComponent>}
+   * @private
+   */
+  _setDynamicRefs: function(elements, refName) {
+    // todo(igor.alexeenko): Create a mixin.
+    return elements.map(function(element, i) {
+      return React.addons.cloneWithProps(element, {
+        'ref': refName + i,
+        'key': i
+      });
+    });
   },
 
   /**
@@ -227,14 +273,10 @@ var Form = React.createClass({
    * @protected
    */
   checkDependency: function(fieldName) {
-    if (this.state['deps'] === null) {
-      this.getDependencies();
-    }
-
     if (fieldName) {
       this._checkFieldDependency(fieldName);
     } else {
-      var fields = Object.keys(this.state.deps);
+      var fields = Object.keys(this.state['deps']);
       fields.forEach(function(field) {
         this._checkFieldDependency(field);
       }, this);
@@ -249,31 +291,18 @@ var Form = React.createClass({
   _checkFieldDependency: function(fieldName) {
     var fieldDependencies = this.state.deps[fieldName];
 
-    if (typeof fieldDependencies !== 'undefined') {
+    if (!_.isUndefined(fieldDependencies)) {
       fieldDependencies.forEach(function(dependencyFn) { dependencyFn(); }, this);
     }
   },
 
   /** @protected */
   checkCompletion: function() {
-    // todo(igor.alexeenko): Fields validation based on name is not strict.
-    // FormGroup also uses validation and could be coupled with this validation.
-    // Also it could solve the problem of showing error for only first invalid
-    // element.
-
-    if (!this.state['fields']) {
-      var formElement = this.getDOMNode();
-      var inputElements = formElement.querySelectorAll('input');
-
-      this.setState({
-        'fields': Array.prototype.slice.call(inputElements, 0)
-      });
-    }
-
     var firstInvalid = null;
     var formIsCompleted = this.state['fields'].every(function(field) {
-      if (!field.validity.valid) { firstInvalid = field }
-      return field.validity.valid;
+      var fieldIsValid = field.checkValidity();
+      if (!fieldIsValid) { firstInvalid = field }
+      return fieldIsValid;
     }, this);
 
     this.setState({
@@ -291,6 +320,12 @@ var Form = React.createClass({
 
     this.checkDependency(changedField.name);
     this.checkCompletion();
+  },
+
+  _handleBlur: function(evt) {
+    if (this.state['firstInvalid']) {
+      this.state['firstInvalid'].setErrorShown(true);
+    }
   },
 
   /**
@@ -326,3 +361,7 @@ var Form = React.createClass({
 
 module.exports = Form;
 module.exports.DependencyFunction = DependencyFunction;
+
+if ('production' !== process.env.NODE_ENV) {
+  module.exports.dependencyFilters = dependencyFilters;
+}
