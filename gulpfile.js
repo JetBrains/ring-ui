@@ -257,10 +257,7 @@ var spriteCfg = {
     refSize: 64,
     svg: {
       sprite: spriteName + '.svg'
-    }/*,
-     preview: {
-     sprite: spriteName + '.html'
-     }*/
+    }
   }
 };
 
