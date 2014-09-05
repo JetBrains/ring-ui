@@ -238,16 +238,13 @@ var QueryAssist = React.createClass({
     var suggestions = [];
 
     this.state.suggestions.forEach(function (suggestion, index, arr) {
-      var prevSuggestion = arr[index - 1];
-      var nextSuggestion = arr[index + 1];
-      var description = suggestion.description;
+      var prevSuggestion = arr[index - 1] && arr[index - 1].group;
 
-      if ((prevSuggestion && prevSuggestion.description !== description || !prevSuggestion) &&
-        nextSuggestion && nextSuggestion.description === description) {
+      if (prevSuggestion !== suggestion.group) {
 
         suggestions.push({
-          key: suggestion.option + description + PopupMenu.Type.SEPARATOR,
-          description: description,
+          key: suggestion.option + suggestion.group + PopupMenu.Type.SEPARATOR,
+          description: suggestion.group,
           type: PopupMenu.Type.SEPARATOR
         });
       }
@@ -273,15 +270,14 @@ var QueryAssist = React.createClass({
       /* jshint ignore:end */
 
       var item = {
-        key: suggestion.option + description + PopupMenu.Type.ITEM,
+        key: suggestion.option + PopupMenu.Type.ITEM,
         label: label,
         type: PopupMenu.Type.ITEM,
         data: suggestion
       };
 
-      if ((prevSuggestion && prevSuggestion.description !== description || !prevSuggestion) &&
-        nextSuggestion && nextSuggestion.description !== description) {
-        item.description = description;
+      if (!suggestion.group) {
+        item.description = suggestion.description;
       }
 
       suggestions.push(item);
