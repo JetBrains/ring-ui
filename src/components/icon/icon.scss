@@ -8,7 +8,7 @@
     display: inline-block;
     background-image: url("icon.svg");
     background-repeat: no-repeat;
-    background-size: 4.4em 254.6em;
+    background-size: 4.4em 296.2em;
 }
 
 .no-svg .ring-icon:before {
@@ -45,464 +45,542 @@
     height: 3.2em;
 }
 
-.ring-icon_ban-circle:before {
+.ring-icon_average:before {
     background-position: 0em -15.4em;
+    width: 3.2em;
+    height: 3.2em;
+}
+
+.ring-icon_ban-circle:before {
+    background-position: 0em -18.6em;
     width: 2.7em;
     height: 3.2em;
 }
 
+.ring-icon_bars:before {
+    background-position: 0em -21.8em;
+    width: 3.2em;
+    height: 3.2em;
+}
+
 .ring-icon_bug:before {
-    background-position: 0em -18.6em;
+    background-position: 0em -25em;
     width: 3.3em;
     height: 3.2em;
 }
 
-.ring-icon_caret-down:before {
-    background-position: 0em -21.8em;
-    width: 1.8em;
-    height: 3.2em;
-}
-
-.ring-icon_caret-left:before {
-    background-position: 0em -25em;
-    width: 1.1em;
-    height: 3.2em;
-}
-
-.ring-icon_caret-right:before {
+.ring-icon_burndown:before {
     background-position: 0em -28.2em;
-    width: 1.1em;
+    width: 3.2em;
     height: 3.2em;
 }
 
-.ring-icon_caret-up:before {
+.ring-icon_caret-down:before {
     background-position: 0em -31.4em;
     width: 1.8em;
     height: 3.2em;
 }
 
-.ring-icon_check:before {
+.ring-icon_caret-left:before {
     background-position: 0em -34.6em;
-    width: 3.7em;
+    width: 1.1em;
     height: 3.2em;
 }
 
-.ring-icon_chevron-left:before {
+.ring-icon_caret-right:before {
     background-position: 0em -37.8em;
-    width: 2.1em;
+    width: 1.1em;
     height: 3.2em;
 }
 
-.ring-icon_chevron-right:before {
+.ring-icon_caret-up:before {
     background-position: 0em -41em;
-    width: 2.1em;
+    width: 1.8em;
     height: 3.2em;
 }
 
-.ring-icon_close:before {
+.ring-icon_change:before {
     background-position: 0em -44.2em;
     width: 3.2em;
     height: 3.2em;
 }
 
-.ring-icon_cog:before {
+.ring-icon_check:before {
     background-position: 0em -47.4em;
-    width: 2.7em;
+    width: 3.7em;
     height: 3.2em;
 }
 
-.ring-icon_collapse:before {
+.ring-icon_chevron-left:before {
     background-position: 0em -50.6em;
-    width: 3.8em;
+    width: 2.1em;
     height: 3.2em;
 }
 
-.ring-icon_comment:before {
+.ring-icon_chevron-right:before {
     background-position: 0em -53.8em;
-    width: 3.2em;
+    width: 2.1em;
     height: 3.2em;
 }
 
-.ring-icon_cosmetics:before {
+.ring-icon_close:before {
     background-position: 0em -57em;
     width: 3.2em;
     height: 3.2em;
 }
 
-.ring-icon_crop:before {
+.ring-icon_cog:before {
     background-position: 0em -60.2em;
+    width: 2.7em;
+    height: 3.2em;
+}
+
+.ring-icon_collapse:before {
+    background-position: 0em -63.4em;
+    width: 3.8em;
+    height: 3.2em;
+}
+
+.ring-icon_comment:before {
+    background-position: 0em -66.6em;
+    width: 3.2em;
+    height: 3.2em;
+}
+
+.ring-icon_cosmetics:before {
+    background-position: 0em -69.8em;
+    width: 3.2em;
+    height: 3.2em;
+}
+
+.ring-icon_crop:before {
+    background-position: 0em -73em;
     width: 3em;
     height: 3.2em;
 }
 
+.ring-icon_cumulative:before {
+    background-position: 0em -76.2em;
+    width: 3.2em;
+    height: 3.2em;
+}
+
+.ring-icon_data:before {
+    background-position: 0em -79.4em;
+    width: 3.2em;
+    height: 3.2em;
+}
+
+.ring-icon_distribution:before {
+    background-position: 0em -82.6em;
+    width: 3.2em;
+    height: 3.2em;
+}
+
 .ring-icon_dotcover:before {
-    background-position: 0em -63.4em;
+    background-position: 0em -85.8em;
     width: 2.7289000000000003em;
     height: 2.6434em;
 }
 
 .ring-icon_dotmemory:before {
-    background-position: 0em -66.1em;
+    background-position: 0em -88.5em;
     width: 3.1839em;
     height: 3em;
 }
 
 .ring-icon_dotpeek:before {
-    background-position: 0em -69.1em;
+    background-position: 0em -91.5em;
     width: 3.1417em;
     height: 2.9494em;
 }
 
 .ring-icon_dottrace:before {
-    background-position: 0em -72.1em;
+    background-position: 0em -94.5em;
     width: 2.8857em;
     height: 2.9094em;
 }
 
 .ring-icon_download:before {
-    background-position: 0em -75.1em;
+    background-position: 0em -97.5em;
     width: 3em;
     height: 3.2em;
 }
 
 .ring-icon_drag:before {
-    background-position: 0em -78.3em;
+    background-position: 0em -100.7em;
     width: 3.7em;
     height: 3.2em;
 }
 
 .ring-icon_email:before {
-    background-position: 0em -81.5em;
-    width: 3.2em;
-    height: 3.2em;
-}
-
-.ring-icon_exception:before {
-    background-position: 0em -84.7em;
-    width: 3.2em;
-    height: 3.2em;
-}
-
-.ring-icon_expand:before {
-    background-position: 0em -87.9em;
-    width: 3.8em;
-    height: 3.2em;
-}
-
-.ring-icon_feature:before {
-    background-position: 0em -91.1em;
-    width: 2.5em;
-    height: 3.2em;
-}
-
-.ring-icon_file:before {
-    background-position: 0em -94.3em;
-    width: 2.3em;
-    height: 3.2em;
-}
-
-.ring-icon_folder:before {
-    background-position: 0em -97.5em;
-    width: 3.7em;
-    height: 3.2em;
-}
-
-.ring-icon_fork:before {
-    background-position: 0em -100.7em;
-    width: 3.8em;
-    height: 3.2em;
-}
-
-.ring-icon_frown:before {
     background-position: 0em -103.9em;
     width: 3.2em;
     height: 3.2em;
 }
 
-.ring-icon_global:before {
+.ring-icon_exception:before {
     background-position: 0em -107.1em;
-    width: 2.7em;
+    width: 3.2em;
     height: 3.2em;
 }
 
-.ring-icon_group:before {
+.ring-icon_expand:before {
     background-position: 0em -110.3em;
-    width: 4.4em;
+    width: 3.8em;
     height: 3.2em;
 }
 
-.ring-icon_help:before {
+.ring-icon_eye:before {
     background-position: 0em -113.5em;
     width: 3.2em;
     height: 3.2em;
 }
 
-.ring-icon_idea:before {
+.ring-icon_feature:before {
     background-position: 0em -116.7em;
+    width: 2.5em;
+    height: 3.2em;
+}
+
+.ring-icon_fields:before {
+    background-position: 0em -119.9em;
+    width: 3.2em;
+    height: 3.2em;
+}
+
+.ring-icon_file:before {
+    background-position: 0em -123.1em;
+    width: 2.3em;
+    height: 3.2em;
+}
+
+.ring-icon_folder:before {
+    background-position: 0em -126.3em;
+    width: 3.7em;
+    height: 3.2em;
+}
+
+.ring-icon_fork:before {
+    background-position: 0em -129.5em;
+    width: 3.8em;
+    height: 3.2em;
+}
+
+.ring-icon_frown:before {
+    background-position: 0em -132.7em;
+    width: 3.2em;
+    height: 3.2em;
+}
+
+.ring-icon_global:before {
+    background-position: 0em -135.9em;
+    width: 2.7em;
+    height: 3.2em;
+}
+
+.ring-icon_group:before {
+    background-position: 0em -139.1em;
+    width: 4.4em;
+    height: 3.2em;
+}
+
+.ring-icon_help:before {
+    background-position: 0em -142.3em;
+    width: 3.2em;
+    height: 3.2em;
+}
+
+.ring-icon_idea:before {
+    background-position: 0em -145.5em;
     width: 2.6917999999999997em;
     height: 2.7379000000000002em;
 }
 
 .ring-icon_info:before {
-    background-position: 0em -119.5em;
+    background-position: 0em -148.3em;
     width: 3.2em;
     height: 3.2em;
 }
 
 .ring-icon_jabber:before {
-    background-position: 0em -122.7em;
+    background-position: 0em -151.5em;
     width: 1.8em;
     height: 3.2em;
 }
 
 .ring-icon_kotlin:before {
-    background-position: 0em -125.9em;
+    background-position: 0em -154.7em;
     width: 2.5652em;
     height: 2.6271em;
 }
 
 .ring-icon_like:before {
-    background-position: 0em -128.6em;
+    background-position: 0em -157.4em;
     width: 3.2em;
     height: 3.2em;
 }
 
 .ring-icon_magic:before {
-    background-position: 0em -131.8em;
+    background-position: 0em -160.6em;
     width: 3em;
     height: 3.2em;
 }
 
 .ring-icon_marker:before {
-    background-position: 0em -135em;
+    background-position: 0em -163.8em;
     width: 3.2em;
     height: 2.9em;
 }
 
+.ring-icon_menu:before {
+    background-position: 0em -166.7em;
+    width: 3.2em;
+    height: 3.2em;
+}
+
 .ring-icon_merge:before {
-    background-position: 0em -137.9em;
+    background-position: 0em -169.9em;
     width: 2em;
     height: 3.2em;
 }
 
 .ring-icon_meta:before {
-    background-position: 0em -141.1em;
+    background-position: 0em -173.1em;
     width: 4em;
     height: 3.2em;
 }
 
 .ring-icon_modified:before {
-    background-position: 0em -144.3em;
+    background-position: 0em -176.3em;
     width: 3.2em;
     height: 3.2em;
 }
 
 .ring-icon_move:before {
-    background-position: 0em -147.5em;
+    background-position: 0em -179.5em;
     width: 3.2em;
     height: 3.2em;
 }
 
 .ring-icon_mps:before {
-    background-position: 0em -150.7em;
+    background-position: 0em -182.7em;
     width: 3.8324em;
     height: 1.9879000000000002em;
 }
 
 .ring-icon_ok:before {
-    background-position: 0em -152.7em;
+    background-position: 0em -184.7em;
     width: 3.2em;
     height: 3.2em;
 }
 
 .ring-icon_paperclip:before {
-    background-position: 0em -155.9em;
+    background-position: 0em -187.9em;
     width: 2.5em;
     height: 3.2em;
 }
 
 .ring-icon_pause:before {
-    background-position: 0em -159.1em;
+    background-position: 0em -191.1em;
     width: 2.7em;
     height: 3.2em;
 }
 
 .ring-icon_pencil:before {
-    background-position: 0em -162.3em;
+    background-position: 0em -194.3em;
     width: 2.7em;
     height: 3.2em;
 }
 
 .ring-icon_perfomance:before {
-    background-position: 0em -165.5em;
+    background-position: 0em -197.5em;
     width: 3.2em;
     height: 3.2em;
 }
 
 .ring-icon_permission:before {
-    background-position: 0em -168.7em;
+    background-position: 0em -200.7em;
     width: 3.2em;
     height: 3.2em;
 }
 
 .ring-icon_phpstorm:before {
-    background-position: 0em -171.9em;
+    background-position: 0em -203.9em;
     width: 3.0938em;
     height: 2.4806999999999997em;
 }
 
 .ring-icon_play:before {
-    background-position: 0em -174.4em;
+    background-position: 0em -206.4em;
     width: 2.5em;
     height: 3.2em;
 }
 
 .ring-icon_print:before {
-    background-position: 0em -177.6em;
+    background-position: 0em -209.6em;
     width: 3em;
     height: 3.2em;
 }
 
 .ring-icon_pushpin:before {
-    background-position: 0em -180.8em;
+    background-position: 0em -212.8em;
     width: 2.1em;
     height: 3.2em;
 }
 
 .ring-icon_pycharm:before {
-    background-position: 0em -184em;
+    background-position: 0em -216em;
     width: 2.5047em;
     height: 2.4440999999999997em;
 }
 
+.ring-icon_rate:before {
+    background-position: 0em -218.5em;
+    width: 3.2em;
+    height: 3.2em;
+}
+
 .ring-icon_redo:before {
-    background-position: 0em -186.5em;
+    background-position: 0em -221.7em;
     width: 3.2em;
     height: 3.2em;
 }
 
 .ring-icon_refresh:before {
-    background-position: 0em -189.7em;
+    background-position: 0em -224.9em;
     width: 2.7em;
     height: 3.2em;
 }
 
 .ring-icon_removed:before {
-    background-position: 0em -192.9em;
+    background-position: 0em -228.1em;
     width: 3.2em;
     height: 3.2em;
 }
 
 .ring-icon_renamed:before {
-    background-position: 0em -196.1em;
+    background-position: 0em -231.3em;
     width: 3.2em;
     height: 3.2em;
 }
 
 .ring-icon_resharper:before {
-    background-position: 0em -199.3em;
+    background-position: 0em -234.5em;
     width: 3.6311999999999998em;
     height: 2.8061em;
 }
 
 .ring-icon_resource:before {
-    background-position: 0em -202.2em;
+    background-position: 0em -237.4em;
     width: 3.4em;
     height: 3.2em;
 }
 
 .ring-icon_role:before {
-    background-position: 0em -205.4em;
+    background-position: 0em -240.6em;
     width: 3.2em;
     height: 3.2em;
 }
 
 .ring-icon_rubymine:before {
-    background-position: 0em -208.6em;
+    background-position: 0em -243.8em;
     width: 2.8721em;
     height: 2.575em;
 }
 
 .ring-icon_search:before {
-    background-position: 0em -211.2em;
+    background-position: 0em -246.4em;
     width: 3em;
     height: 3.2em;
 }
 
 .ring-icon_security:before {
-    background-position: 0em -214.4em;
+    background-position: 0em -249.6em;
     width: 1.5em;
     height: 3.2em;
 }
 
 .ring-icon_service:before {
-    background-position: 0em -217.6em;
+    background-position: 0em -252.8em;
     width: 3.2em;
     height: 3.2em;
 }
 
 .ring-icon_space:before {
-    background-position: 0em -220.8em;
+    background-position: 0em -256em;
+    width: 3.2em;
+    height: 3.2em;
+}
+
+.ring-icon_table:before {
+    background-position: 0em -259.2em;
     width: 3.2em;
     height: 3.2em;
 }
 
 .ring-icon_task:before {
-    background-position: 0em -224em;
+    background-position: 0em -262.4em;
     width: 3.2em;
     height: 3.2em;
 }
 
 .ring-icon_teamcity:before {
-    background-position: 0em -227.2em;
+    background-position: 0em -265.6em;
     width: 3.1391em;
     height: 2.6465em;
 }
 
+.ring-icon_time:before {
+    background-position: 0em -268.3em;
+    width: 3.2em;
+    height: 3.2em;
+}
+
 .ring-icon_tint:before {
-    background-position: 0em -229.9em;
+    background-position: 0em -271.5em;
     width: 1.8em;
     height: 3.2em;
 }
 
 .ring-icon_trash:before {
-    background-position: 0em -233.1em;
+    background-position: 0em -274.7em;
     width: 3.5em;
     height: 3.2em;
 }
 
 .ring-icon_undo:before {
-    background-position: 0em -236.3em;
+    background-position: 0em -277.9em;
     width: 3.2em;
     height: 3.2em;
 }
 
 .ring-icon_usability:before {
-    background-position: 0em -239.5em;
+    background-position: 0em -281.1em;
     width: 3.2em;
     height: 3.2em;
 }
 
 .ring-icon_user:before {
-    background-position: 0em -242.7em;
+    background-position: 0em -284.3em;
     width: 3.2em;
     height: 3.2em;
 }
 
 .ring-icon_warning:before {
-    background-position: 0em -245.9em;
+    background-position: 0em -287.5em;
     width: 3.2em;
     height: 3.2em;
 }
 
 .ring-icon_webstorm:before {
-    background-position: 0em -249.1em;
+    background-position: 0em -290.7em;
     width: 2.9076em;
     height: 2.4832em;
 }
 
 .ring-icon_youtrack:before {
-    background-position: 0em -251.6em;
+    background-position: 0em -293.2em;
     width: 2.9129em;
     height: 2.9488em;
 }
@@ -525,5 +603,7 @@
 }
 
 @media \0screen\,screen\9 {
-  background-image: url("icon.png");
+  .ring-icon:before {
+    background-image: url("icon.png");
+  }
 }
