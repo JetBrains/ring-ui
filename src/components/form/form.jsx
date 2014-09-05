@@ -48,7 +48,7 @@ var DependencyFunction = {
  * @param {DependencyFn=} dependencyFn
  * @private
  */
-var bindDependencyFunction_ = function(formElement, dependentName, superiorName, dependencyFn) {
+var _bindDependencyFunction = function(formElement, dependentName, superiorName, dependencyFn) {
   var dependentField = formElement.querySelector('[name=' + dependentName + ']');
   var superiorField = formElement.querySelector('[name=' + superiorName + ']');
 
@@ -210,7 +210,7 @@ var Form = React.createClass({
 
   /** @override */
   render: function() {
-    return (<form className="ring-form" onChange={this.handleChange_}>
+    return (<form className="ring-form" onChange={this._handleChange}>
       {this.props.children}
     </form>);
   },
@@ -227,11 +227,11 @@ var Form = React.createClass({
     }
 
     if (fieldName) {
-      this.checkFieldDependency_(fieldName);
+      this._checkFieldDependency(fieldName);
     } else {
       var fields = Object.keys(this.state.deps);
       fields.forEach(function(field) {
-        this.checkFieldDependency_(field);
+        this._checkFieldDependency(field);
       }, this);
     }
   },
@@ -241,7 +241,7 @@ var Form = React.createClass({
    * @param {string} fieldName
    * @private
    */
-  checkFieldDependency_: function(fieldName) {
+  _checkFieldDependency: function(fieldName) {
     var fieldDependencies = this.state.deps[fieldName];
 
     if (typeof fieldDependencies !== 'undefined') {
@@ -281,7 +281,7 @@ var Form = React.createClass({
    * @param {SyntheticEvent} evt
    * @private
    */
-  handleChange_: function(evt) {
+  _handleChange: function(evt) {
     var changedField = /** @type {HTMLInputElement} */ (evt.target);
 
     this.checkDependency(changedField.name);
@@ -306,7 +306,7 @@ var Form = React.createClass({
         dependentFields.forEach(function(dependentFieldName) {
           var dependencyFunction = dependencyRecord[dependentFieldName];
 
-          dependencyFunctions.push(bindDependencyFunction_(formElement,
+          dependencyFunctions.push(_bindDependencyFunction(formElement,
               dependentFieldName, fieldName, dependencyFunction));
         }, this);
 
