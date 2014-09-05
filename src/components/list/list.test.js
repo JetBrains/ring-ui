@@ -25,7 +25,8 @@ describe('list', function () {
       ]});
 
       $(list.getDOMNode().firstChild).should.have.class('ring-list__item_action');
-      list.getDOMNode().firstChild.innerHTML.should.equal('Hello!');
+      // React creates unexpected additional span
+      list.getDOMNode().firstChild.firstChild.innerHTML.should.equal('Hello!');
     });
 
     it('should render a if href defined', function () {
