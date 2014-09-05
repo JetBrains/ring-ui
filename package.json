@@ -51,6 +51,7 @@
     "jso-browser": "^1.2.0",
     "jsx-loader": "^0.11.0",
     "lodash": "^2.4.1",
+    "underscore": "^1.7",
     "mousetrap": "ccampbell/mousetrap#1.4.6",
     "react": "^0.11.0",
     "sass-loader": "^0.2.0",
