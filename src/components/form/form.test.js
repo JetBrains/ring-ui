@@ -7,7 +7,7 @@
 
 
 var Form = require('./form');
-var FormGroup = require('./form-group');
+var FormGroup = require('./form__group');
 var React = require('react/addons');
 
 
