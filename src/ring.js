@@ -13,5 +13,6 @@ module.exports = {
   Button: require('button/button'),
   Shortcuts: require('shortcuts/shortcuts'),
   Form: require('form/form'),
+  FormFooter: require('form/form-footer'),
   FormGroup: require('form/form-group')
 };
