@@ -236,11 +236,11 @@ var Form = React.createClass({
 
   /** @override */
   render: function() {
-    // NB! Passed children should be normalized first. When only one child
-    // passed, React makes ```this.props.children``` not an {@link Array}
-    // but link to a passed {@link Object}.
-    var children = _.isUndefined(this.props.children) ? [] :
-        (!_.isArray(this.props.children) ? [this.props.children] : this.props.children);
+    var children = [];
+    React.Children.forEach(this.props.children, function(child, i) {
+      children.push(child);
+    });
+
     var childrenToRender = this._setDynamicRefs(children, FORM_CHILD_PREFIX);
 
     return (<form className="ring-form" onChange={this._handleChange} onBlur={this._handleBlur}>
