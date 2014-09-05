@@ -224,13 +224,9 @@ var Form = React.createClass({
 
   /** @override */
   componentDidMount: function() {
-    var validatableFields = _.filter(this.refs, function(child, childName) {
-      return !_.isUndefined(child.checkValidity);
-    });
-
-    this.setState({ 'fields': validatableFields });
-
+    this.getValidationDependentFields();
     this.getDependencies();
+
     this.checkDependency();
   },
 
@@ -308,7 +304,9 @@ var Form = React.createClass({
     this.setState({
       'formIsCompleted': formIsCompleted,
       'firstInvalid': firstInvalid
-    });
+    }, function() {
+      this.state['fieldToDisable'].disabled = !this.state['formIsCompleted'];
+    }.bind(this));
   },
 
   /**
@@ -355,6 +353,26 @@ var Form = React.createClass({
     }
 
     this.setState({ 'deps': deps });
+  },
+
+  /**
+   * @protected
+   */
+  getValidationDependentFields: function() {
+    var fieldsToValidate = [];
+    // todo(igor.alexeenko): Find a way not to use submit's HTML node.
+    var submitButton = this.getDOMNode().querySelector('[type=submit]');
+
+    _.forEach(this.refs, function(ref, refName) {
+      if (!_.isUndefined(ref.checkValidity)) { fieldsToValidate.push(ref); }
+    });
+
+    this.setState({
+      'fields': fieldsToValidate,
+      'fieldToDisable': submitButton
+    }, function() {
+      this.state['fieldToDisable'].disabled = !this.state['formIsCompleted'];
+    }.bind(this));
   }
 });
 
