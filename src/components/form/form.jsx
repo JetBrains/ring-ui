@@ -75,19 +75,18 @@ if ('production' !== process.env.NODE_ENV) {
       // todo(igor.alexeenko): Do we need to allow chain dependencies?
       // Checkbox enables another checkbox, which enables text field. What happens
       // when we disable first checkbox and second is checked and field is filled?
-      var superiorFields = Object.keys(deps);
-      var dependentFields = _.flatten(superiorFields.map(function(field) {
-        return Object.keys(deps[field]);
-      }));
 
       var chainedField;
-      superiorFields.some(function(field) {
-        var chained = dependentFields.indexOf(field) > -1;
-        if (chained) {
-          chainedField = field;
-        }
 
-        return chained;
+      _.some(deps, function(field, fieldName) {
+        return _.some(field, function(dependentField, dependentFieldName) {
+          var isChainedField = !_.isUndefined(deps[dependentFieldName]);
+          if (isChainedField) {
+            chainedField = dependentFieldName;
+          }
+
+          return isChainedField;
+        });
       });
 
       return chainedField;
@@ -102,19 +101,22 @@ if ('production' !== process.env.NODE_ENV) {
       // Say field is being enabled by checking checkbox and another field changes
       // its value.
 
-      var superiorFields = Object.keys(deps);
-      var dependentFields = _.flatten(superiorFields.map(function(field) {
-        return Object.keys(deps[field]);
-      }));
-
+      var visitedFields = {};
       var conflictDependentField;
-      dependentFields.some(function(field, i, fields) {
-        var conflicted = i !== _.lastIndexOf(fields, field);
-        if (conflicted) {
-          conflictDependentField = field;
-        }
 
-        return conflicted;
+      _.some(deps, function(field, fieldName) {
+        visitedFields[fieldName] = true;
+        return _.some(field, function(dependentField, dependentFieldName) {
+          var isVisited = !_.isUndefined(visitedFields[dependentFieldName]);
+
+          if (isVisited) {
+            conflictDependentField = dependentFieldName;
+          } else {
+            visitedFields[dependentFieldName] = true;
+          }
+
+          return isVisited;
+        });
       });
 
       return conflictDependentField;
