@@ -30,15 +30,15 @@ var FormType = {
 var FormGroup = React.createClass({
   /** @override */
   propTypes: {
-    type: React.PropTypes.string,
-    short: React.PropTypes.bool
+    'type': React.PropTypes.string,
+    'short': React.PropTypes.bool
   },
 
   /** @override */
   getDefaultProps: function() {
     return {
-      type: FormType.INPUT,
-      short: false
+      'type': FormType.INPUT,
+      'short': false
     };
   },
 
@@ -48,9 +48,17 @@ var FormGroup = React.createClass({
     return {
       'errorMessage': '',
       'hasError': false,
+      'hasFocus': false,
       'inputElement': null,
       'showError': false
     };
+  },
+
+  /** @override */
+  componentDidMount: function() {
+    this.setState({
+      'inputElement': this.getDOMNode().querySelector('input')
+    });
   },
 
   /** @override */
@@ -64,17 +72,11 @@ var FormGroup = React.createClass({
    * @return {boolean}
    */
   checkValidity: function() {
-    if (!this.state.inputElement) {
-      // todo(igor.alexeenko): this.setState({ 'inputElement': ... });
-      this.state['inputElement'] = this.getDOMNode().querySelector('input');
-    }
-
     this.setState({
-      'errorMessage': this.state.inputElement.validationMessage,
-      'hasError': !this.state.inputElement.validity.valid
+      'errorMessage': this.state['inputElement'].validationMessage
     });
 
-    return this.state.inputElement.validity.valid;
+    return this.state['inputElement'].validity.valid;
   },
 
   /**
@@ -83,6 +85,15 @@ var FormGroup = React.createClass({
    */
   _handleBlur: function(evt) {
     this.checkValidity();
+    this.setState({ 'hasFocus': false });
+  },
+
+  /**
+   * @param {SyntheticMouseEvent} evt
+   * @private
+   */
+  _handleFocus: function(evt) {
+    this.setState({ 'hasFocus': true });
   },
 
   /**
@@ -92,25 +103,25 @@ var FormGroup = React.createClass({
   _getInputElement: function() {
     var className = React.addons.classSet({
       'ring-form__group': true,
-      'ring-form__group_error': this.state.hasError && this.state.errorMessage,
-      'ring-form__group_error-shown': this.state.hasError && this.state.errorMessage && this.state.showError,
-      'ring-form__group_short': [FormType.CHECKBOX, FormType.RADIO].indexOf(this.props.type) > -1 && this.props.short
+      'ring-form__group_error': this.state['errorMessage'],
+      'ring-form__group_error-shown': this.state['errorMessage'] && this.state['showError'] && this.state['hasFocus'],
+      'ring-form__group_short': [FormType.CHECKBOX, FormType.RADIO].indexOf(this.props['type']) > -1 && this.props['short']
     });
 
     switch(this.props.type) {
       case FormType.CHECKBOX:
-        if (this.props.short) {
+        if (this.props['short']) {
           return (<div className={className}>
             {this.transferPropsTo(<Checkbox />)}
             <div className="ring-form__control">
-              <label className="ring-form__label" htmlFor={this.props.id}>{this.props.label}</label>
+              <label className="ring-form__label" htmlFor={this.props['id']}>{this.props['label']}</label>
             </div>
           </div>);
         } else {
           return (<div className={className}>
             <div className="ring-form__control">
               {this.transferPropsTo(<Checkbox />)}
-              <label className="ring-form__label ring-form__label_checkbox" htmlFor={this.props.id}>{this.props.label}</label>
+              <label className="ring-form__label ring-form__label_checkbox" htmlFor={this.props['id']}>{this.props['label']}</label>
             </div>
           </div>);
         }
@@ -119,17 +130,27 @@ var FormGroup = React.createClass({
       default:
         var inputClassName = React.addons.classSet({
           'ring-input': true,
-          'ring-input_error': this.state.hasError && this.state.errorMessage
+          'ring-input_error': this.state['errorMessage']
         });
 
         return (<div className={className}>
           <label className="ring-form__label" htmlFor={this.props.id}>{this.props.label}</label>
           <div className="ring-form__control">
-            {this.transferPropsTo(<Input className={inputClassName} onBlur={this._handleBlur} />)}
+            {this.transferPropsTo(<Input className={inputClassName} onBlur={this._handleBlur} onFocus={this._handleFocus} />)}
+            <div className="ring-input__error-bubble">{this.state['errorMessage']}</div>
           </div>
         </div>);
         break;
     }
+  },
+
+  /**
+   * @param {boolean} shown
+   */
+  setErrorShown: function(shown) {
+    this.setState({
+      'showError': shown
+    });
   }
 });
 
