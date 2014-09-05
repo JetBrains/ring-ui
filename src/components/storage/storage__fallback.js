@@ -1,6 +1,6 @@
 'use strict';
 
-var $ = require('jquery');
+var when = require('when');
 
 var DEFAULT_COOKIE_NAME = 'localStorage';
 
@@ -65,16 +65,13 @@ FallbackStorage._readCookie = function(name) {
  * @private
  */
 FallbackStorage.prototype._read = function() {
-  var rawData = FallbackStorage._readCookie(this.cookieName);
-  var dfd = $.Deferred();
-  var data = {};
-
-  try {
-    data = JSON.parse(decodeURIComponent(rawData));
-  } catch(e) {}
-
-  dfd.resolve(data);
-  return dfd.promise();
+  var self = this;
+  return when.promise(function (resolve) {
+    var rawData = FallbackStorage._readCookie(self.cookieName);
+    resolve(JSON.parse(decodeURIComponent(rawData)));
+  }).otherwise(function () {
+    return {};
+  });
 };
 
 /**
@@ -83,15 +80,12 @@ FallbackStorage.prototype._read = function() {
  * @private
  */
 FallbackStorage.prototype._write = function(data) {
-  var deferred = $.Deferred();
-  try {
+  var self = this;
+  return when.promise(function (resolve) {
     var stringData = encodeURIComponent(JSON.stringify(data));
-    FallbackStorage._createCookie(this.cookieName, stringData === '{}' ? '' : stringData, 365);
-    deferred.resolve(data);
-  } catch (e) {
-    deferred.reject(e);
-  }
-  return deferred.promise();
+    FallbackStorage._createCookie(self.cookieName, stringData === '{}' ? '' : stringData, 365);
+    return resolve(data);
+  });
 };
 
 /**
@@ -102,11 +96,7 @@ FallbackStorage.prototype.get = function(key) {
   return this._read().then(function(data) {
     var value = data[key];
 
-    if (value != null) {
-      return value;
-    } else {
-      return $.Deferred().reject(new Error('No value for the key ' + key));
-    }
+    return value != null ? value : when.reject(new Error('No value for the key ' + key));
   });
 };
 
@@ -145,10 +135,8 @@ FallbackStorage.prototype.remove = function(key) {
  * @return {Promise}
  */
 FallbackStorage.prototype.each = function(callback) {
-  var dfd = $.Deferred();
-
   if (typeof callback !== 'function') {
-    return dfd.reject(new Error('Callback is not a function'));
+    return when.reject(new Error('Callback is not a function'));
   }
 
   return this._read().then(function(data) {
@@ -162,7 +150,7 @@ FallbackStorage.prototype.each = function(callback) {
     }
 
     if (count === 0) {
-      return dfd.reject(new Error('There is no items'));
+      return when.reject(new Error('There is no items'));
     } else {
       return count;
     }
