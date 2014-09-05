@@ -162,7 +162,11 @@ var List = React.createClass({
   },
 
   selectHandler: function () {
-    return this.props.onSelect(this.props.data[this.state.activeIndex]);
+    return !this.state.activeIndex || this.props.onSelect(this.props.data[this.state.activeIndex]);
+  },
+
+  getSelected: function () {
+    return this.props.data[this.state.activeIndex];
   },
 
   componentWillReceiveProps: function (props) {
