@@ -15,5 +15,7 @@
 }
 
 @media \0screen\,screen\9 {
-  background-image: url("icon.png");
+  .ring-icon:before {
+    background-image: url("icon.png");
+  }
 }
