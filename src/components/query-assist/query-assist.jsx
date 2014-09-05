@@ -29,6 +29,7 @@ var QueryAssist = React.createClass({
   propTypes: {
     className: React.PropTypes.string,
     dataSource: React.PropTypes.func.isRequired,
+    hint: React.PropTypes.string,
     placeholder: React.PropTypes.string,
     onApply: React.PropTypes.func,
     onFocusChange: React.PropTypes.func,
@@ -285,6 +286,14 @@ var QueryAssist = React.createClass({
 
       suggestions.push(item);
     });
+
+    if (this.props.hint) {
+      suggestions.push({
+        key: this.props.hint + PopupMenu.Type.ITEM,
+        label: this.props.hint,
+        type: PopupMenu.Type.HINT
+      });
+    }
 
     return suggestions;
   },
