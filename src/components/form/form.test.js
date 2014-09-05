@@ -7,24 +7,8 @@
 
 
 var Form = require('./form');
+var FormGroup = require('./form-group');
 var React = require('react/addons');
-
-
-/**
- * Component which represents form content.
- * @constructor
- * @extends {ReactComponent}
- */
-var FormContentComponent = React.createClass({
-  /** @override */
-  render: function() {
-    return React.DOM.div(null,
-      React.DOM.input({ name: 'checkbox', type: 'checkbox', defaultChecked: true }),
-      React.DOM.input({ name: 'input', type: 'text', defaultValue: '', required: true }),
-      React.DOM.input({ name: 'secondInput', type: 'email', defaultValue: '', required: true })
-    );
-  }
-});
 
 
 /**
@@ -34,8 +18,10 @@ var FormContentComponent = React.createClass({
 var renderComponentToDOM = function(params) {
   var element = document.createElement('div');
 
-  return React.renderComponent(
-      new Form(params, new FormContentComponent(null)),
+  return React.renderComponent(new Form(params,
+      new FormGroup({ name: 'checkbox', type: 'checkbox', defaultChecked: true }),
+      new FormGroup({ name: 'input', type: 'input', defaultValue: '', required: true }),
+      new FormGroup({ name: 'secondInput', type: 'email', defalutValue: '', required: true })),
       element);
 };
 
@@ -74,6 +60,28 @@ describe('Form component', function() {
 
       it('should not fail if there are no deps', function() {
         expect(function() { renderComponentToDOM(null); }).not.to.throw();
+      });
+
+      describe('Dependency checks', function() {
+        // NB! I check dependency function separately without rendering
+        // component because propTypes checks render warnings in console.
+        // Component will be rendered in any case.
+
+        it('should raise an exception if dependency object contains chained ' +
+          'or conflicting dependency', function() {
+          var dependencyObject = {
+            'one': { 'two': Form.DependencyFunction.DISABLED },
+            'two': { 'three': Form.DependencyFunction.DISABLED }, // chain dependency
+            'four': {
+              'three': Form.DependencyFunction.DISABLED, // conflicting dependency
+              'one': Form.DependencyFunction.DISABLED // circular dependency
+            }
+          };
+
+          expect(Form.dependencyFilters.some(function(filter) {
+            return typeof filter(dependencyObject) !== 'undefined';
+          })).to.be.true;
+        });
       });
     });
 
@@ -174,8 +182,12 @@ describe('Form component', function() {
     });
 
     it('should check required fields', function() {
+      input.value = '';
+      secondInput.value = '';
+      React.addons.TestUtils.Simulate.change(secondInput);
+
       component.state.formIsCompleted.should.be.false;
-      component.state.firstInvalid.should.equal(input);
+      component.state.firstInvalid.state['inputElement'].should.equal(input);
     });
 
     it('should check field types', function() {
@@ -184,7 +196,7 @@ describe('Form component', function() {
       React.addons.TestUtils.Simulate.change(secondInput);
 
       component.state.formIsCompleted.should.be.false;
-      component.state.firstInvalid.should.equal(secondInput);
+      component.state.firstInvalid.state['inputElement'].should.equal(secondInput);
     });
 
     it('should be valid if all checks passed', function() {
