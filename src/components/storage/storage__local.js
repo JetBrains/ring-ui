@@ -29,14 +29,10 @@ var LocalStorage = function () {
  * @return {Promise}
  */
 LocalStorage.prototype.get = function (name) {
-  return safePromise(function (resolve, reject) {
-    var item = JSON.parse(localStorage.getItem(name));
-
-    if (item) {
-      resolve(item);
-    } else {
-      reject(new Error('There is no item "' + name + '"'));
-    }
+  return safePromise(function (resolve) {
+    var itemS = localStorage.getItem(name);
+    var item = itemS && JSON.parse(itemS);
+    resolve(item);
   });
 };
 
@@ -57,12 +53,10 @@ LocalStorage.prototype.set = function (name, value) {
  * @return {Promise}
  */
 LocalStorage.prototype.remove = function (name) {
-  return safePromise(function (resolve, reject) {
+  return safePromise(function (resolve) {
     if (localStorage.hasOwnProperty(name)) {
       localStorage.removeItem(name);
       resolve();
-    } else {
-      reject(new Error('There is no item "' + name + '"'));
     }
   });
 };
@@ -72,7 +66,7 @@ LocalStorage.prototype.remove = function (name) {
  * @return {Promise}
  */
 LocalStorage.prototype.each = function (callback) {
-  return safePromise(function (resolve, reject) {
+  return safePromise(function (resolve) {
     var count = 0;
     for (var item in localStorage) {
       if (localStorage.hasOwnProperty(item)) {
@@ -80,12 +74,7 @@ LocalStorage.prototype.each = function (callback) {
         callback(item, JSON.parse(localStorage.getItem(item)));
       }
     }
-
-    if (count) {
-      resolve(count);
-    } else {
-      reject(new Error('There is no items'));
-    }
+    resolve(count);
   });
 };
 
