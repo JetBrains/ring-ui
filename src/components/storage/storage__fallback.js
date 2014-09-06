@@ -94,9 +94,7 @@ FallbackStorage.prototype._write = function(data) {
  */
 FallbackStorage.prototype.get = function(key) {
   return this._read().then(function(data) {
-    var value = data[key];
-
-    return value != null ? value : when.reject(new Error('No value for the key ' + key));
+    return data[key] || null;
   });
 };
 
@@ -149,11 +147,7 @@ FallbackStorage.prototype.each = function(callback) {
       }
     }
 
-    if (count === 0) {
-      return when.reject(new Error('There is no items'));
-    } else {
-      return count;
-    }
+    return count;
   });
 };
 
