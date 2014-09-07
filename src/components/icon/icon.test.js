@@ -1,14 +1,15 @@
 describe('icon', function () {
   var $ = require('jquery');
   var React = require('react/addons');
+  var TestUtils = React.addons.TestUtils;
   var Icon = require('./icon');
 
   beforeEach(function () {
-    this.icon = React.addons.TestUtils.renderIntoDocument(new Icon());
+    this.icon = TestUtils.renderIntoDocument(new Icon());
   });
 
   it('should create component', function () {
-    expect(React.addons.TestUtils.isCompositeComponentWithType(this.icon, Icon)).should.equal(true);
+    expect(TestUtils.isCompositeComponentWithType(this.icon, Icon)).should.equal(true);
   });
 
   it('should set size 16', function () {
