@@ -138,16 +138,13 @@ FallbackStorage.prototype.each = function(callback) {
   }
 
   return this._read().then(function(data) {
-    var count = 0;
-
+    var promises = [];
     for (var key in data) {
       if (data.hasOwnProperty(key)) {
-        count++;
-        callback(key, data[key]);
+        promises.push(callback(key, data[key]));
       }
     }
-
-    return count;
+    return when.all(promises);
   });
 };
 
