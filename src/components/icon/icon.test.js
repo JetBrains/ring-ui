@@ -9,7 +9,7 @@ describe('icon', function () {
   });
 
   it('should create component', function () {
-    expect(TestUtils.isCompositeComponentWithType(this.icon, Icon)).should.equal(true);
+    TestUtils.isCompositeComponentWithType(this.icon, Icon).should.equal(true);
   });
 
   it('should set size 16', function () {
