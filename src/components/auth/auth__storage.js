@@ -4,28 +4,45 @@ var Storage = require('storage/storage');
 var when = require('when');
 
 /**
- * Custom storage for jso
+ * @typedef {{
+ *   access_token: string,
+ *   scopes: string[],
+ *   expires: number
+ * }} StoredToken
+ */
+
+/**
+ * @typedef {{
+ *   restoreHash: string?,
+ *   restoreLocation: string,
+ *   scopes: string[]
+ * }} StoredState
+ */
+
+/**
+ * Custom storage for Auth
  * @constructor
- * @param {{stateStoragePrefix: string, tokensStoragePrefix: string}} config
+ * @param {{stateKeyPrefix: string, tokenKey: string}} config
  */
 var AuthStorage = function (config) {
-  this.stateStoragePrefix = config.stateStoragePrefix;
-  this.tokensStoragePrefix = config.tokensStoragePrefix;
+  this.stateKeyPrefix = config.stateKeyPrefix;
+  this.tokenKey = config.tokenKey;
   this._storage = new Storage();
 };
 
 /**
+ * Save authentication request state.
  *
- * @param id
- * @param state
- * @param {boolean=} secondTry
+ * @param {string} id unique state identifier
+ * @param {StoredState} state state to store
+ * @param {boolean=} dontCleanAndRetryOnFail if falsy then remove all stored states and try again to save state
  */
-AuthStorage.prototype.saveState = function (id, state, secondTry) {
+AuthStorage.prototype.saveState = function (id, state, dontCleanAndRetryOnFail) {
   var self = this;
 
-  return this._storage.set(this.stateStoragePrefix + id, state)
+  return this._storage.set(this.stateKeyPrefix + id, state)
     .otherwise(function (e) {
-      if (!secondTry) {
+      if (!dontCleanAndRetryOnFail) {
         return self.cleanStates().
           then(function () {
             self.saveState(id, state, true);
@@ -36,23 +53,29 @@ AuthStorage.prototype.saveState = function (id, state, secondTry) {
     });
 };
 
+/**
+ * Remove all stored states
+ *
+ * @return {Promise} promise that is resolved when all states are removed
+ */
 AuthStorage.prototype.cleanStates = function () {
   var self = this;
-  return when.promise(function (resolve) {
-    self._storage.each(function (item) {
-      if (item.indexOf(self.stateStoragePrefix) === 0) {
-        self._storage.remove(item);
-        resolve(true);
-      }
-    }).owtherwise(function () {
-      resolve(false);
-    });
+  return this._storage.each(function (item) {
+    if (item.indexOf(self.stateKeyPrefix) === 0) {
+      return self._storage.remove(item);
+    }
   });
 };
 
+/**
+ * Get state by id and remove stored states from the storage.
+ *
+ * @param {string} id unique state identifier
+ * @return {Promise.<StoredState>}
+ */
 AuthStorage.prototype.getState = function (id) {
   var self = this;
-  return this._storage.get(this.stateStoragePrefix + id).
+  return this._storage.get(this.stateKeyPrefix + id).
     then(function (result) {
       return self.cleanStates().then(function () {
         return result;
@@ -64,16 +87,27 @@ AuthStorage.prototype.getState = function (id) {
     });
 };
 
+/**
+ * @param {StoredToken} token
+ * @return {Promise} promise that is resolved when the token is saved
+ */
 AuthStorage.prototype.saveToken = function (token) {
-  return this._storage.set(this._tokensStoragePrefix, token);
+  return this._storage.set(this.tokenKey, token);
 };
 
+/**
+ * @return {Promise.<StoredToken>} promise that is resolved to the stored token
+ */
 AuthStorage.prototype.getToken = function () {
-  return this._storage.get(this.tokensStoragePrefix);
+  return this._storage.get(this.tokenKey);
 };
 
+/**
+ * Remove stored token if any.
+ * @return {Promise} promise that is resolved when the token is wiped.
+ */
 AuthStorage.prototype.wipeToken = function () {
-  return this._storage.remove(this.tokensStoragePrefix);
+  return this._storage.remove(this.tokenKey);
 };
 
 module.exports = AuthStorage;
