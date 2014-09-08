@@ -16,7 +16,6 @@ var AuthRequestBuilder = require('./auth__request-builder');
  * @prop {string[]} config.scope
  * @prop {string[]} config.optionalScopes
  * @prop {string} profileUrl
- * @prop {string} logoutUrl
  * @prop {User?} user
  *
  * @param {{
@@ -60,7 +59,6 @@ var Auth = function (config) {
   }, this._storage);
 
   this.profileUrl = this.config.serverUri + 'users/me';
-  this.logoutUrl = this.config.serverUri + Auth.API_PATH + '/cas/logout?gateway=true&url=' + encodeURIComponent(this.config.redirect_uri);
 };
 
 /**
