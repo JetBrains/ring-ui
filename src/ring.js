@@ -1,6 +1,8 @@
 global.react = require('react');
 
 module.exports = {
+  Alert: require('alert/alert'),
+  Alerts: require('alert/alerts'),
   Checkbox: require('checkbox/checkbox'),
   PopupMixin: require('popup/popup-mixin'),
   Popup: require('popup/popup'),
