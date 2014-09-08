@@ -145,6 +145,7 @@ describe('auth', function () {
       optionalScopes: ['youtrack']
     });
     var secureUserResponse;
+
     beforeEach(function () {
       sinon.stub(Auth.prototype, 'getSecure', function () {
         return secureUserResponse;
@@ -260,6 +261,66 @@ describe('auth', function () {
           return reject.authRedirect;
         }).
         should.eventually.be.true;
+    });
+  });
+
+  describe('requestToken', function () {
+    var AuthRequestBuilder = require('./auth__request-builder');
+
+    var auth = new Auth({
+      serverUri: '',
+      redirect_uri: 'http://localhost:8080/hub',
+      client_id: '1-1-1-1-1',
+      scope: ['0-0-0-0-0', 'youtrack'],
+      optionalScopes: ['youtrack']
+    });
+
+    beforeEach(function () {
+      sinon.stub(Auth.prototype, '_redirectCurrentPage');
+      sinon.stub(AuthRequestBuilder, '_uuid').returns('unique');
+    });
+
+    afterEach(function () {
+      AuthRequestBuilder._uuid.restore();
+      Auth.prototype._redirectCurrentPage.restore();
+      return when.join(auth._storage.cleanStates(), auth._storage.wipeToken());
+    });
+
+
+    it('should resolve to access token if there is a valid one', function () {
+      return auth._storage.saveToken({access_token: 'token', expires: Auth._epoch() + 60 * 60, scopes: ['0-0-0-0-0']}).
+        then(function () {
+          return auth.requestToken();
+        }).
+        should.eventually.be.equal('token');
+    });
+
+    it('should get token in iframe if there is no valid token', function () {
+      sinon.stub(Auth.prototype, '_redirectFrame', function () {
+        auth._storage.saveToken({access_token: 'token', expires: Auth._epoch() + 60 * 60, scopes: ['0-0-0-0-0']});
+      });
+      return auth.requestToken().
+        then(function (accessToken) {
+          Auth.prototype._redirectFrame.getCall(0).args[1].should.be.equal('api/rest/oauth2/auth?response_type=token&' +
+            'state=unique&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub&client_id=1-1-1-1-1&scope=0-0-0-0-0%20youtrack');
+          Auth.prototype._redirectFrame.restore();
+          Auth.prototype._redirectCurrentPage.should.not.have.been.called;
+          return accessToken;
+        }).should.eventually.be.equal('token');
+    });
+
+    it('should redirect current page if get token in iframe fails', function () {
+      var authURL = 'api/rest/oauth2/auth?response_type=token&' +
+        'state=unique&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub&client_id=1-1-1-1-1&scope=0-0-0-0-0%20youtrack';
+      Auth.REFRESH_POLL_MAX_ATTEMPTS = 5;
+      sinon.stub(Auth.prototype, '_redirectFrame');
+      return auth.requestToken().
+        otherwise(function (reject) {
+          Auth.prototype._redirectFrame.getCall(0).args[1].should.be.equal(authURL);
+          Auth.prototype._redirectFrame.restore();
+          Auth.prototype._redirectCurrentPage.should.have.been.calledWith(authURL);
+          return reject.authRedirect;
+        }).should.eventually.be.true;
     });
   });
 });
