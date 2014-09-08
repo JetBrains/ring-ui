@@ -93,11 +93,6 @@ Auth.DEFAULT_CONFIG = {
 /**
  * @const {string}
  */
-Auth.PROVIDER = 'hub';
-
-/**
- * @const {string}
- */
 Auth.API_PATH = 'api/rest';
 
 /**
