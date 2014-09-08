@@ -1,4 +1,4 @@
-describe.only('AuthStorage', function () {
+describe('AuthStorage', function () {
   var Auth = require('./auth');
   var AuthStorage = require('./auth__storage');
   var authStorage = new AuthStorage({
