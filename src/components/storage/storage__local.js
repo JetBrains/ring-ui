@@ -56,8 +56,8 @@ LocalStorage.prototype.remove = function (name) {
   return safePromise(function (resolve) {
     if (localStorage.hasOwnProperty(name)) {
       localStorage.removeItem(name);
-      resolve();
     }
+    resolve();
   });
 };
 

@@ -63,6 +63,10 @@ function testStorage(storage) {
         }).
         should.be.fulfilled;
     });
+
+    it('should be fulfilled for missing elemnt', function () {
+      return storage.remove('missing').should.be.fulfilled;
+    });
   });
 
   describe('each', function () {
