@@ -126,24 +126,36 @@ Auth.prototype.init = function () {
   var self = this;
   return this._checkForAuthResponse().
     then(function (restoreLocation) {
-      // Check if there is a valid token. May redirect to auth server
-      return self._interactiveEnsureToken().
+      // Check if there is a valid token
+      return self._getValidatedToken([Auth._validateExistence, Auth._validateExpiration, self._validateScopes.bind(self), self._validateAgainstUser.bind(self)]).
         then(function (/*accessToken*/) {
           // Access token appears to be valid.
           // We may resolve restoreLocation URL now
           return restoreLocation;
+        }, function (e) {
+          if (e.authRedirect) {
+            return self._requestBuilder.prepareAuthRequest().
+              then(function (authURL) {
+                self._redirectCurrentPage(authURL);
+                return when.reject(e);
+              });
+          }
+          return when.reject(e);
         });
     });
 };
 
 /**
- * Get token from local storage or request it if required.
+ * Get token from local storage or request it if it is required.
  * Can redirect to login page.
  * @return {Promise.<string>}
  */
 Auth.prototype.requestToken = function () {
   var self = this;
-  return this._nonInteractiveEnsureToken().
+  return this._getValidatedToken([Auth._validateExistence, Auth._validateExpiration, this._validateScopes.bind(this)]).
+    otherwise(function () {
+      return self._loadTokenInBackground();
+    }).
     otherwise(function (e) {
       return self._requestBuilder.prepareAuthRequest().
         then(function (authURL) {
@@ -205,6 +217,7 @@ Auth.prototype.logout = function () {
  * Returns epoch, seconds since 1970.
  * Used for calculation of expire times.
  * @return {number} epoch, seconds since 1970
+ * @private
  */
 Auth._epoch = function () {
   return Math.round(new Date().getTime() / 1000.0);
@@ -216,6 +229,7 @@ Auth._epoch = function () {
  * config, and store the auth response for later use.
  *
  * @return {Promise} promise that is resolved to restoreLocation URL, or rejected
+ * @private
  */
 Auth.prototype._checkForAuthResponse = function () {
   var self = this;
@@ -280,18 +294,20 @@ Auth.prototype._checkForAuthResponse = function () {
     });
 };
 
+/**
+ * Checks if the element el is in the array arr
+ * @return {boolean}
+ * @private
+ */
 Auth._contains = function (arr, el) {
-  if (!arr) {
-    return false;
-  }
-  for (var i = 0; i < arr.length; i++) {
-    if (arr[i] === el) {
-      return true;
-    }
-  }
-  return false;
+  return arr && arr.indexOf(el) >= 0;
 };
 
+/**
+ * @param {string} reason
+ * @return {Promise} rejected promise with {authRedirect: true}
+ * @private
+ */
 Auth._authRequiredReject = function (reason) {
   return when.reject({ reason: reason, authRedirect: true });
 };
@@ -373,10 +389,14 @@ Auth.prototype._validateAgainstUser = function (storedToken) {
 
 /**
  * Gets stored token and applied given validators
- * @param {(function(StoredToken): Promise<StoredToken>)[]} validators
+ * @param {(function(StoredToken): Promise<StoredToken>)[]} validators an array of validation
+ * functions to check the stored token against.
+ * @return {Promise.<string>} promise that is resolved to access token if the stored token is valid. If it is
+ * invalid then the promise is rejected. If invalid token should be re-requested then rejection object will
+ * have {authRedirect: true}.
  * @private
  */
-Auth.prototype._checkToken = function (validators) {
+Auth.prototype._getValidatedToken = function (validators) {
   var tokenPromise = this._storage.getToken();
   for (var i = 0; i < validators.length; i++) {
     tokenPromise = tokenPromise.then(validators[i]);
@@ -406,72 +426,48 @@ Auth.prototype._redirectFrame = function ($iframe, url) {
 };
 
 /**
- * Checks if there is a valid token in the storage.
- * If there is no token redirect to auth page.
- *
- * @private
- * @return {Promise.<string>}
- */
-Auth.prototype._interactiveEnsureToken = function () {
-  var self = this;
-  return this._checkToken([Auth._validateExistence, Auth._validateExpiration, this._validateScopes.bind(this), this._validateAgainstUser.bind(this)]).
-    otherwise(function (e) {
-      if (e.authRedirect) {
-        return self._requestBuilder.prepareAuthRequest().
-          then(function (authURL) {
-            self._redirectCurrentPage(authURL);
-            return when.reject(e);
-          });
-      }
-      return when.reject(e);
-    });
-};
-
-/**
  * Refreshes access token in iFrame.
- * @return {Promise.<string>}
- * @private
+ *
+ * @return {Promise.<string>} promise that is resolved to access token when it is loaded in a background iframe. The
+ * promise is rejected if no token was got after {@link Auth.REFRESH_POLL_MAX_ATTEMPTS} attempts.
  */
-Auth.prototype._nonInteractiveEnsureToken = function () {
+Auth.prototype._loadTokenInBackground = function () {
+  if (this._refreshDefer) {
+    return this._refreshDefer.promise;
+  }
+
+  this._refreshDefer = when.defer();
+  this._refreshDefer.promise.ensure(function () {
+    self._refreshDefer = null;
+  });
+
+  var $iframe = $('<iframe style="display: none;"></iframe>').appendTo('body');
+
   var self = this;
-  return this._checkToken([Auth._validateExistence, Auth._validateExpiration, this._validateScopes.bind(this)]).
-    otherwise(function () {
-      if (self._refreshDefer) {
-        return self._refreshDefer.promise;
-      }
+  var pollAttempt = 0;
+  var poll = function () {
+    pollAttempt++;
+    self._storage.getToken().
+      then(function (storedToken) {
+        var newAccessToken = storedToken && storedToken.access_token;
 
-      self._refreshDefer = when.defer();
-      self._refreshDefer.promise.ensure(function () {
-        self._refreshDefer = null;
+        if (newAccessToken) {
+          $iframe.remove();
+          self._refreshDefer.resolve(newAccessToken);
+        } else if (pollAttempt < Auth.REFRESH_POLL_MAX_ATTEMPTS) {
+          setTimeout(poll, Auth.REFRESH_POLL_INTERVAL);
+        } else {
+          $iframe.remove();
+          self._refreshDefer.reject('Failed to refresh token after ' + pollAttempt / 1000 * Auth.REFRESH_POLL_INTERVAL + ' secs');
+        }
       });
+  };
 
-      var $iframe = $('<iframe style="display: none;"></iframe>').appendTo('body');
-
-      var pollAttempt = 0;
-      var poll = function () {
-        pollAttempt++;
-        self._storage.getToken().
-          then(function (storedToken) {
-            var newAccessToken = storedToken && storedToken.access_token;
-
-            if (newAccessToken) {
-              $iframe.remove();
-              self._refreshDefer.resolve(newAccessToken);
-            } else if (pollAttempt < Auth.REFRESH_POLL_MAX_ATTEMPTS) {
-              setTimeout(poll, Auth.REFRESH_POLL_INTERVAL);
-            } else {
-              $iframe.remove();
-              self._refreshDefer.reject('Failed to refresh token after ' + pollAttempt / 1000 * Auth.REFRESH_POLL_INTERVAL + ' secs');
-            }
-          });
-      };
-
-      return self._requestBuilder.prepareAuthRequest().
-        then(function (authURL) {
-          self._redirectFrame($iframe, authURL);
-          poll();
-          return self._refreshDefer.promise;
-        });
+  return this._requestBuilder.prepareAuthRequest().
+    then(function (authURL) {
+      self._redirectFrame($iframe, authURL);
+      poll();
+      return self._refreshDefer.promise;
     });
 };
 
