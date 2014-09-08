@@ -53,7 +53,7 @@ describe('auth', function () {
 
   });
 
-  describe('checkToken', function () {
+  describe('getValidatedToken', function () {
     /**
      * @type {StoredToken}
      */
@@ -75,7 +75,7 @@ describe('auth', function () {
         expires: Auth._epoch() + 60 * 60,
         scopes: ['0-0-0-0-0', 'youtrack']
       };
-      return auth._checkToken([Auth._validateExistence, Auth._validateExpiration, auth._validateScopes.bind(auth)]).
+      return auth._getValidatedToken([Auth._validateExistence, Auth._validateExpiration, auth._validateScopes.bind(auth)]).
         should.eventually.be.equal('token');
     });
 
@@ -85,7 +85,7 @@ describe('auth', function () {
         expires: Auth._epoch() + 60 * 60,
         scopes: ['0-0-0-0-0']
       };
-      return auth._checkToken([Auth._validateExistence, Auth._validateExpiration, auth._validateScopes.bind(auth)]).
+      return auth._getValidatedToken([Auth._validateExistence, Auth._validateExpiration, auth._validateScopes.bind(auth)]).
         should.eventually.be.equal('token');
     });
 
@@ -95,7 +95,7 @@ describe('auth', function () {
         expires: Auth._epoch() + 60 * 60,
         scopes: ['0-0-0-0-0']
       };
-      return auth._checkToken([Auth._validateExistence, Auth._validateExpiration, auth._validateScopes.bind(auth)]).
+      return auth._getValidatedToken([Auth._validateExistence, Auth._validateExpiration, auth._validateScopes.bind(auth)]).
         otherwise(function (rejection) {
           return rejection;
         }).
@@ -104,7 +104,7 @@ describe('auth', function () {
 
     it('should reject if there is no token stored', function () {
       storedToken = null;
-      return auth._checkToken([Auth._validateExistence, Auth._validateExpiration, auth._validateScopes.bind(auth)]).
+      return auth._getValidatedToken([Auth._validateExistence, Auth._validateExpiration, auth._validateScopes.bind(auth)]).
         otherwise(function (rejection) {
           return rejection;
         }).
@@ -117,7 +117,7 @@ describe('auth', function () {
         expires: Auth._epoch() + 15 * 60,
         scopes: ['0-0-0-0-0']
       };
-      return auth._checkToken([Auth._validateExistence, Auth._validateExpiration, auth._validateScopes.bind(auth)]).
+      return auth._getValidatedToken([Auth._validateExistence, Auth._validateExpiration, auth._validateScopes.bind(auth)]).
         otherwise(function (rejection) {
           return rejection;
         }).
@@ -130,7 +130,7 @@ describe('auth', function () {
         expires: Auth._epoch() + 60 * 60,
         scopes: ['youtrack']
       };
-      return auth._checkToken([Auth._validateExistence, Auth._validateExpiration, auth._validateScopes.bind(auth)]).
+      return auth._getValidatedToken([Auth._validateExistence, Auth._validateExpiration, auth._validateScopes.bind(auth)]).
         otherwise(function (rejection) {
           return rejection;
         }).
