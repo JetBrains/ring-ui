@@ -144,12 +144,9 @@ describe('auth', function () {
       scopes: ['0-0-0-0-0', 'youtrack'],
       optionalScopes: ['youtrack']
     });
-    var secureUserResponse;
 
     beforeEach(function () {
-      sinon.stub(Auth.prototype, 'getSecure', function () {
-        return secureUserResponse;
-      });
+      sinon.stub(Auth.prototype, 'getSecure');
     });
 
     afterEach(function () {
@@ -158,7 +155,7 @@ describe('auth', function () {
 
     it('should resolve to access token when user is returned', function () {
       var token = { access_token: 'token' };
-      secureUserResponse = when.resolve({login: 'user'});
+      Auth.prototype.getSecure.returns(when.resolve({login: 'user'}));
       return auth._validateAgainstUser(token).
         then(function (token) {
           Auth.prototype.getSecure.should.have.been.calledWith(Auth.API_PROFILE_PATH, 'token');
@@ -169,7 +166,7 @@ describe('auth', function () {
 
     it('should reject with redirect if 401 response recieved', function () {
       var token = { access_token: 'token' };
-      secureUserResponse = when.reject({status: 401, responseJSON: {error: 'Problem'}});
+      Auth.prototype.getSecure.returns(when.reject({status: 401, responseJSON: {error: 'Problem'}}));
       return auth._validateAgainstUser(token).
         otherwise(function (rejection) {
           return rejection;
@@ -179,7 +176,7 @@ describe('auth', function () {
 
     it('should reject with redirect if invalid_grant response recieved', function () {
       var token = { access_token: 'token' };
-      secureUserResponse = when.reject({responseJSON: {error: 'invalid_grant'}});
+      Auth.prototype.getSecure.returns(when.reject({responseJSON: {error: 'invalid_grant'}}));
       return auth._validateAgainstUser(token).
         otherwise(function (rejection) {
           return rejection;
@@ -189,7 +186,7 @@ describe('auth', function () {
 
     it('should reject with redirect if invalid_grant response recieved', function () {
       var token = { access_token: 'token' };
-      secureUserResponse = when.reject({responseJSON: {error: 'invalid_request'}});
+      Auth.prototype.getSecure.returns(when.reject({responseJSON: {error: 'invalid_request'}}));
       return auth._validateAgainstUser(token).
         otherwise(function (rejection) {
           return rejection;
