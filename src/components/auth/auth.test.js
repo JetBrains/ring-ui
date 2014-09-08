@@ -1,5 +1,6 @@
 describe('auth', function () {
   var Auth = require('./auth');
+  var AuthRequestBuilder = require('./auth__request-builder');
   var when = require('when');
 
   describe('construction', function () {
@@ -36,7 +37,6 @@ describe('auth', function () {
       auth.config.serverUri.should.equal(config.serverUri);
       auth.config.should.contain.keys(Object.keys(Auth.DEFAULT_CONFIG));
     });
-
 
     beforeEach(function () {
     });
@@ -213,7 +213,6 @@ describe('auth', function () {
       return when.join(auth._storage.cleanStates(), auth._storage.wipeToken());
     });
 
-
     it('should resolve to undefined if there is a valid token', function () {
       return auth._storage.saveToken({access_token: 'token', expires: Auth._epoch() + 60 * 60, scopes: ['0-0-0-0-0']}).
         then(function () {
@@ -245,7 +244,6 @@ describe('auth', function () {
     });
 
     it('should redirect to auth when there is no valid token', function () {
-      var AuthRequestBuilder = require('./auth__request-builder');
       sinon.stub(Auth.prototype, '_redirectCurrentPage');
       sinon.stub(AuthRequestBuilder, '_uuid').returns('unique');
 
@@ -262,7 +260,6 @@ describe('auth', function () {
   });
 
   describe('requestToken', function () {
-    var AuthRequestBuilder = require('./auth__request-builder');
 
     var auth = new Auth({
       serverUri: '',
@@ -282,7 +279,6 @@ describe('auth', function () {
       Auth.prototype._redirectCurrentPage.restore();
       return when.join(auth._storage.cleanStates(), auth._storage.wipeToken());
     });
-
 
     it('should resolve to access token if there is a valid one', function () {
       return auth._storage.saveToken({access_token: 'token', expires: Auth._epoch() + 60 * 60, scopes: ['0-0-0-0-0']}).
@@ -318,6 +314,44 @@ describe('auth', function () {
           Auth.prototype._redirectCurrentPage.should.have.been.calledWith(authURL);
           return reject.authRedirect;
         }).should.eventually.be.true;
+    });
+  });
+
+  describe('logout', function() {
+    var auth = new Auth({
+      serverUri: '',
+      redirect_uri: 'http://localhost:8080/hub',
+      client_id: '1-1-1-1-1',
+      scope: ['0-0-0-0-0', 'youtrack'],
+      optionalScopes: ['youtrack']
+    });
+
+    beforeEach(function () {
+      sinon.stub(Auth.prototype, '_redirectCurrentPage');
+      sinon.stub(AuthRequestBuilder, '_uuid').returns('unique');
+    });
+
+    afterEach(function () {
+      Auth.prototype._redirectCurrentPage.restore();
+      AuthRequestBuilder._uuid.restore();
+    });
+
+    it('should clear access token and redirect to logout', function () {
+      return auth.logout().
+        then(function () {
+          Auth.prototype._redirectCurrentPage.should.have.been.calledWith('api/rest/oauth2/auth?response_type=token&' +
+            'state=unique&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub&client_id=1-1-1-1-1&' +
+            'scope=0-0-0-0-0%20youtrack&request_credentials=required');
+          return auth._storage.getToken();
+        }).
+        then(function (storedToken) {
+          expect(storedToken).to.be.null;
+          return auth._storage.getState('unique');
+        }).should.eventually.be.deep.equal({
+          restoreHash: '',
+          restoreLocation: window.location.href,
+          scopes: ['0-0-0-0-0', 'youtrack']
+        });
     });
   });
 });
