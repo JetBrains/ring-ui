@@ -1,4 +1,4 @@
-describe.only('AuthResponseParser', function () {
+describe('AuthResponseParser', function () {
   describe('parseQueryString', function () {
     var AuthResponseParser = require('./auth__response-parser');
 
