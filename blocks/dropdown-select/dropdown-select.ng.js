@@ -18,7 +18,7 @@
         return {
           restrict: 'E',
           scope: true,
-          templateUrl: 'dropdown-select/dropdown-select.tpl.html',
+          templateUrl: 'dropdown-select/dropdown-select.ng.html',
           replace: true,
           require: ['dropdownSelect', 'ngModel'],
           link: function (scope, iElement, iAttrs, ctrls) {
@@ -27,7 +27,7 @@
             dropdownSelectCtrl.setNgModelCtrl(ngModelCtrl);
           },
           controller: ['$scope', '$element', '$attrs', function ($scope, $element, $attrs) {
-            var options = dropdownSelectOptionsParser.parse($scope, $attrs.options);
+            var options = dropdownSelectOptionsParser.parse($scope, $attrs);
 
             $scope.placeholder = $interpolate($attrs.placeholder)($scope);
             $scope.inputId = $attrs.inputId;
@@ -95,13 +95,13 @@
         };
       }
     ]).
-    factory('dropdownSelectOptionsParser', ['$parse', 'i18n', function ($parse, i18n) {
+    factory('dropdownSelectOptionsParser', ['$parse', '$interpolate', function ($parse, $interpolate) {
       var OPTIONS_REGEXP = /^\s*(.*?)\s+(?:of\s+(.*)\s+kind\s+)?for\s+([\$\w]+)\s+in\s+(.*?)$/;
 
       return {
-        parse: function (scope, options) {
+        parse: function (scope, $attrs) {
           var match;
-          if (!(match = options.match(OPTIONS_REGEXP))) {
+          if (!(match = $attrs.options.match(OPTIONS_REGEXP))) {
             console.error('Bad dropdownSelect expression format. Expected: {item.label} [of {item.kind} kind] for {item} in {items}');
           }
 
@@ -144,8 +144,8 @@
                 return [{
                   action: false,
                   error: true,
-                  type: descriptionGetter && i18n('error'),
-                  label: i18n('No matches found')
+                  type: descriptionGetter && ($attrs.errorText && $interpolate($attrs.errorText)(scope) || 'error'),
+                  label: $attrs.notfoundText && $interpolate($attrs.notfoundText)(scope) || 'No matches found'
                 }];
               });
             }
