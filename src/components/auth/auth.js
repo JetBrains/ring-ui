@@ -116,6 +116,16 @@ Auth.API_PROFILE_PATH = Auth.API_PATH + '/users/me';
 Auth.REFRESH_BEFORE = 20 * 60; // 20 min
 
 /**
+ * @const {number} noninteractive auth poll period
+ */
+Auth.REFRESH_POLL_INTERVAL = 30; // 30 ms
+
+/**
+ * @const {number} max attempts to check token noninteractively
+ */
+Auth.REFRESH_POLL_MAX_ATTEMPTS = 2000;
+
+/**
  * @return {Promise.<string>} absolute URL promise that is resolved to an URL
  *  that should be restored after return back from auth server. If no return happened
  */
@@ -438,35 +448,34 @@ Auth.prototype._nonInteractiveEnsureToken = function () {
       }
 
       self._refreshDefer = when.defer();
-      self._refreshDefer.ensure(function () {
+      self._refreshDefer.promise.ensure(function () {
         self._refreshDefer = null;
       });
 
       var $iframe = $('<iframe style="display: none;"></iframe>').appendTo('body');
 
-      var REFRESH_POLL_INTERVAL = 30;
-      var REFRESH_POLL_MAX_ATTEMPTS = 2000;
       var pollAttempt = 0;
       var poll = function () {
         pollAttempt++;
         self._storage.getToken().
-          then(function (authResponse) {
-            var newAccessToken = authResponse && authResponse.access_token;
+          then(function (storedToken) {
+            var newAccessToken = storedToken && storedToken.access_token;
 
             if (newAccessToken) {
+              $iframe.remove();
               self._refreshDefer.resolve(newAccessToken);
-            } else if (pollAttempt < REFRESH_POLL_MAX_ATTEMPTS) {
-              setTimeout(poll, REFRESH_POLL_INTERVAL);
+            } else if (pollAttempt < Auth.REFRESH_POLL_MAX_ATTEMPTS) {
+              setTimeout(poll, Auth.REFRESH_POLL_INTERVAL);
             } else {
               $iframe.remove();
-              self._refreshDefer.reject('Failed to refresh token after ' + pollAttempt / 1000 * REFRESH_POLL_INTERVAL + ' secs');
+              self._refreshDefer.reject('Failed to refresh token after ' + pollAttempt / 1000 * Auth.REFRESH_POLL_INTERVAL + ' secs');
             }
           });
       };
 
       return self._requestBuilder.prepareAuthRequest().
         then(function (authURL) {
-          self._redirectFrame($iframe)(authURL);
+          self._redirectFrame($iframe, authURL);
           poll();
           return self._refreshDefer.promise;
         });
