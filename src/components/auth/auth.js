@@ -3,6 +3,8 @@
 var $ = require('jquery');
 var when = require('when');
 var AuthStorage = require('./auth__storage');
+var AuthResponseParser = require('./auth__response-parser');
+var AuthRequestBuilder = require('./auth__request-builder');
 
 /**
  * @constructor
@@ -21,7 +23,8 @@ var AuthStorage = require('./auth__storage');
  *   serverUri: string,
  *   redirect_uri: string?,
  *   client_id: string?,
- *   scope: string[]?
+ *   scope: string[]?,
+ *   optionalScopes: string[]?
  * }} config
  */
 var Auth = function (config) {
@@ -38,21 +41,23 @@ var Auth = function (config) {
     this.config.serverUri += '/';
   }
 
-  if (!this.config.authorization) {
-    this.config.authorization = this.config.serverUri + Auth.API_AUTH_PATH;
-  }
-
   if ($.inArray(Auth.DEFAULT_CONFIG.client_id, this.config.scope) === -1) {
     this.config.scope.push(Auth.DEFAULT_CONFIG.client_id);
   }
 
-  this._stateStoragePrefix = this.config.client_id + '-state-';
-  this._tokensStoragePrefix = this.config.client_id + '-tokens-';
-
   this._storage = new AuthStorage({
-    stateStoragePrefix: this._stateStoragePrefix,
-    tokensStoragePrefix: this._tokensStoragePrefix
+    stateKeyPrefix: this.config.client_id + '-state-',
+    tokenKey: this.config.client_id + '-tokens-'
   });
+
+  this._reponseParser = new AuthResponseParser();
+
+  this._requestBuilder = new AuthRequestBuilder({
+    authorization: this.config.serverUri + Auth.API_AUTH_PATH,
+    client_id: this.config.client_id,
+    redirect_uri: this.config.redirect_uri,
+    scopes: this.config.scope
+  }, this._storage);
 
   this.profileUrl = this.config.serverUri + 'users/me';
   this.logoutUrl = this.config.serverUri + Auth.API_PATH + '/cas/logout?gateway=true&url=' + encodeURIComponent(this.config.redirect_uri);
@@ -115,8 +120,6 @@ Auth.REFRESH_BEFORE = 20 * 60; // 20 min
  *  that should be restored after return back from auth server. If no return happened
  */
 Auth.prototype.init = function () {
-  this._redirectHandler = this._defaultRedirectHandler;
-
   var self = this;
   return this._checkForAuthResponse().
     then(function (restoreLocation) {
@@ -131,34 +134,68 @@ Auth.prototype.init = function () {
 };
 
 /**
- * Parses the queryString into the object.
- * <code>
- *   Auth._parseQueryString("access_token=2YotnFZFEjr1zCsicMWpAA&state=xyz&token_type=example&expires_in=3600");
- *   // is {access_token: "2YotnFZFEjr1zCsicMWpAA", state: "xyz", token_type: "example", expires_in: "3600"}
- * </code>
- * @param queryString query parameter string to parse
- * @return {{
- *   access_token: string?,
- *   state: string?,
- *   token_type: string?,
- *   expires_in: string?,
- *   scope: string?,
- *   error: string?
- * }} object with query parameters map
- * @private
+ * Get token from local storage or request it if required.
+ * Can redirect to login page.
+ * @return {Promise.<string>}
  */
-Auth._parseQueryString = function (queryString) {
-  var queryParameterPairRE = /([^&;=]+)=?([^&;]*)/g;
-  var decode = function (s) {
-    return decodeURIComponent(s.replace(/\+/g, ' '));
-  };
+Auth.prototype.requestToken = function () {
+  var self = this;
+  return this._nonInteractiveEnsureToken().
+    otherwise(function (e) {
+      return self._requestBuilder.prepareAuthRequest().
+        then(function (authURL) {
+          self._redirectCurrentPage(authURL);
+          return when.reject({ reason: e, authRedirect: true });
+        });
+    });
+};
 
-  var urlParams = {};
-  var matchedQueryPair;
-  while ((matchedQueryPair = queryParameterPairRE.exec(queryString)) != null) {
-    urlParams[decode(matchedQueryPair[1])] = decode(matchedQueryPair[2]);
+/**
+ * Makes GET request to the given URL with the given access token.
+ * @param {string} relativeURI a URI relative to config.serverUri to make the GET request to
+ * @param {string} accessToken access token to use in request
+ * @param {object?} params query parameters
+ * @return {Promise} promise from $.ajax() request
+ */
+Auth.prototype.getSecure = function (relativeURI, accessToken, params) {
+  return when($.ajax({
+    url: this.config.serverUri + relativeURI,
+    data: params,
+    headers: {
+      'Authorization': 'Bearer ' + accessToken
+    },
+    dataType: 'json'
+  }));
+};
+
+/**
+ * @return {Promise.<object>}
+ */
+Auth.prototype.requestUser = function () {
+  if (this.user) {
+    return when.resolve(this.user);
   }
-  return urlParams;
+
+  var self = this;
+  return this.requestToken().
+    then(function (accessToken) {
+      return self.getSecure(Auth.API_PROFILE_PATH, accessToken);
+    }).
+    then(function (user) {
+      self.user = user;
+      return user;
+    });
+};
+
+/**
+ * Wipe accessToken and redirect to auth page with required authorization
+ */
+Auth.prototype.logout = function () {
+  var self = this;
+  return this._requestBuilder.prepareAuthRequest({request_credentials: 'required'}).
+    then(function (authURL) {
+      self._redirectCurrentPage(authURL);
+    });
 };
 
 /**
@@ -178,55 +215,66 @@ Auth._epoch = function () {
  * @return {Promise} promise that is resolved to restoreLocation URL, or rejected
  */
 Auth.prototype._checkForAuthResponse = function () {
-  var hash = window.location.toString().replace(/^[^#]*/, ''); // Because of stupid Firefox bug — https://bugzilla.mozilla.org/show_bug.cgi?id=483304
-  if (hash.length < 2) {
-    return when.resolve();
-  }
-
-  var authResponse = Auth._parseQueryString(hash.substring(1));
-
-  // Check for errors
-  if (authResponse.error) {
-    window.location.hash = '';
-    return when.reject('Error in auth request: ' + authResponse.error);
-  }
-
-  // If there is no token in the hash
-  if (!authResponse.access_token) {
-    return when.resolve();
-  } else {
-    window.location.hash = '';
-  }
-
   var self = this;
-  var statePromise = authResponse.state ? this._storage.getState(authResponse.state) : when.resolve({});
-  return statePromise.then(function (state) {
-    var config = self.config;
-
+  return when.promise(function (resolve) {
+    // getAuthResponseURL may throw an exception. Wrap it with promise to handle it gently.
+    resolve(self._reponseParser.getAuthResponseFromURL());
+  }).then(
     /**
-     * If state was not provided, and default provider contains a scope parameter
-     * we assume this is the one requested...
+     * @param {AuthResponse} authResponse
      */
-    if (authResponse.scope) {
-      authResponse.scopes = authResponse.scope.split(' ');
-    } else if (state.scopes) {
-      authResponse.scopes = state.scopes;
-    } else if (config.scope) {
-      state.scopes = config.scope;
-    }
+      function (authResponse) {
+      if (!authResponse) {
+        return;
+      }
 
-    var expiresIn = authResponse.expires_in ? parseInt(authResponse.expires_in, 10) : config.default_expires_in;
-    authResponse.expires = Auth._epoch() + expiresIn;
+      var statePromise = authResponse.state ? self._storage.getState(authResponse.state) : when.resolve({});
+      return statePromise.then(
+        /**
+         * @param {StoredState} state
+         * @return {Promise.<string>}
+         */
+          function (state) {
+          var config = self.config;
 
-    return self._storage.saveToken(authResponse).
-      then(function () {
-        if (state.restoreHash) {
-          window.location.hash = state.restoreHash;
-        }
+          /**
+           * @type {string[]}
+           */
+          var scopes;
+          if (authResponse.scope) {
+            scopes = authResponse.scope.split(' ');
+          } else if (state.scopes) {
+            scopes = state.scopes;
+          } else if (config.scope) {
+            scopes = config.scope;
+          } else {
+            scopes = [];
+          }
 
-        return state.restoreLocation;
-      });
-  });
+          /**
+           * @type {number}
+           */
+          var expiresIn;
+          if (authResponse.expires_in) {
+            expiresIn = parseInt(authResponse.expires_in, 10);
+          } else {
+            expiresIn = config.default_expires_in;
+          }
+          var expries = Auth._epoch() + expiresIn;
+
+          return self._storage.saveToken({
+            access_token: authResponse.access_token,
+            scopes: scopes,
+            expires: expries
+          }).then(function () {
+            if (state.restoreHash) {
+              self._reponseParser.setHash(state.restoreHash);
+            }
+
+            return state.restoreLocation;
+          });
+        });
+    });
 };
 
 Auth._contains = function (arr, el) {
@@ -241,98 +289,118 @@ Auth._contains = function (arr, el) {
   return false;
 };
 
+Auth._authRequiredReject = function (reason) {
+  return when.reject({ reason: reason, authRedirect: true });
+};
+
 /**
- * @return {string} random string used for state
+ * Check if there is the token
+ * @param {StoredToken} storedToken
+ * @return {Promise.<StoredToken>}
+ * @private
  */
-Auth._uuid = function () {
-  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-    var r = Math.random() * 16 | 0, v = c === 'x' ? r : (r & 0x3 | 0x8);
-    return v.toString(16);
+Auth._validateExistence = function (storedToken) {
+  if (!storedToken || !storedToken.access_token) {
+    return Auth._authRequiredReject('Token not found');
+  } else {
+    return when.resolve(storedToken);
+  }
+};
+
+/**
+ * Check expiration
+ * @param {StoredToken} storedToken
+ * @return {Promise.<StoredToken>}
+ * @private
+ */
+Auth._validateExpiration = function (storedToken) {
+  var now = Auth._epoch();
+  if (storedToken.expires && storedToken.expires < (now + Auth.REFRESH_BEFORE)) {
+    return Auth._authRequiredReject('Token expired');
+  } else {
+    return when.resolve(storedToken);
+  }
+};
+
+/**
+ * Check scopes
+ * @param {StoredToken} storedToken
+ * @return {Promise.<StoredToken>}
+ * @private
+ */
+Auth.prototype._validateScopes = function (storedToken) {
+  for (var i = 0; i < this.config.scope.length; i++) {
+    var scope = this.config.scope[i];
+    var isRequired = !Auth._contains(this.config.optionalScopes, scope);
+    if (isRequired && !Auth._contains(storedToken.scopes, scope)) {
+      return Auth._authRequiredReject('Token doesn\'t match required scopes');
+    }
+  }
+  return when.resolve(storedToken);
+};
+
+/**
+ * Check scopes
+ * @param {StoredToken} storedToken
+ * @return {Promise.<StoredToken>}
+ * @private
+ */
+Auth.prototype._validateAgainstUser = function (storedToken) {
+  var self = this;
+  return this.getSecure(Auth.API_PROFILE_PATH, storedToken.access_token).
+    then(function (user) {
+      self.user = user;
+      return storedToken;
+    }, function (errorResponse) {
+      var errorCode;
+      try {
+        errorCode = (errorResponse.responseJSON || JSON.parse(errorResponse.responseText)).error;
+      } catch (e) {
+      }
+
+      if (errorResponse.status === 401 || errorCode === 'invalid_grant' || errorCode === 'invalid_request') {
+        // Token expired
+        return Auth._authRequiredReject(errorCode);
+      } else {
+        // Request unexpectedly failed
+        return when.reject(errorResponse);
+      }
+    });
+};
+
+/**
+ * Gets stored token and applied given validators
+ * @param {(function(StoredToken): Promise<StoredToken>)[]} validators
+ * @private
+ */
+Auth.prototype._checkToken = function (validators) {
+  var tokenPromise = this._storage.getToken();
+  for (var i = 0; i < validators.length; i++) {
+    tokenPromise = tokenPromise.then(validators[i]);
+  }
+  return tokenPromise.then(function (storedToken) {
+    return storedToken.access_token;
   });
 };
 
-
 /**
- * Promises access token if it is valid. If it is invalid the promise rejects.
- * @return {Promise}
+ * Redirects current page to the given URL
+ * @param {string} url
  * @private
  */
-Auth.prototype._checkToken = function () {
-  var now = this._epoch();
-  var self = this;
-  return this._storage.getToken().
-    then(function (authResponse) {
-      // Check if there is the token
-      if (!authResponse || !authResponse.access_token) {
-        return when.reject('Token not found');
-      }
-
-      // Check expiration
-      if (authResponse.expires && authResponse.expires < (now + Auth.REFRESH_BEFORE)) {
-        return when.reject('Token expired');
-      }
-
-      // Check scopes
-      for (var i = 0; i < self.config.scope.length; i++) {
-        var scope = self.config.scope[i];
-        var isRequired = !Auth._contains(self.config.optionalScopes, scope);
-        if (isRequired && !Auth._contains(authResponse.scopes, scope)) {
-          return when.reject('Token doesn\'t match required scopes');
-        }
-      }
-
-      return authResponse.access_token;
-    });
+Auth.prototype._redirectCurrentPage = function (url) {
+  window.location = url;
 };
 
-/*
- * Takes an URL as input and a params object.
- * Each property in the params is added to the url as query string parameters
+/**
+ * Redirects the given $iframe to the given url
+ * @param {jQuery} $iframe
+ * @param {string} url
+ * @private
  */
-Auth._encodeURL = function (url, params) {
-  var res = url;
-  var k, i = 0;
-  var firstSeparator = (url.indexOf('?') === -1) ? '?' : '&';
-  for (k in params) {
-    if (params.hasOwnProperty(k)) {
-      res += (i++ === 0 ? firstSeparator : '&') + encodeURIComponent(k) + '=' + encodeURIComponent(params[k]);
-    }
-  }
-  return res;
+Auth.prototype._redirectFrame = function ($iframe, url) {
+  $iframe.attr('src', url + '&rnd=' + Math.random());
 };
-
-
-Auth.prototype._authRedirect = function (extraParams) {
-  var state = Auth._uuid();
-  var request = $.extend({
-    response_type: 'token',
-    state: state,
-    redirect_uri: this.config.redirect_uri,
-    client_id: this.config.client_id,
-    scope: this.config.scope.join(' ')
-  }, extraParams || {});
-
-  var authurl = Auth._encodeURL(this.config.authorization, request);
-
-  // We'd like to cache the hash for not loosing Application state.
-  // With the implciit grant flow, the hash will be replaced with the access
-  // token when we return after authorization.
-  if (window.location.hash) {
-    request.restoreHash = window.location.hash;
-  }
-  request.restoreLocation = window.location.href;
-  request.scopes = this.config.scope;
-
-  var self = this;
-  return this._storage.saveState(state, request).
-    then(function () {
-      return self._storage.wipeToken().
-        then(function () {
-          return self._redirectHandler(authurl);
-        });
-    });
-};
-
 
 /**
  * Checks if there is a valid token in the storage.
@@ -343,59 +411,17 @@ Auth.prototype._authRedirect = function (extraParams) {
  */
 Auth.prototype._interactiveEnsureToken = function () {
   var self = this;
-  return this._checkToken().
-    then(function (accessToken) {
-      return self.getSecure(Auth.API_PROFILE_PATH, accessToken).
-        then(function (user) {
-          self.user = user;
-          return accessToken;
-        }, function (errorResponse) {
-          var errorCode;
-          try {
-            errorCode = (errorResponse.responseJSON || JSON.parse(errorResponse.responseText)).error;
-          } catch (e) {
-          }
-
-          if (errorResponse.status === 401 || errorCode === 'invalid_grant' || errorCode === 'invalid_request') {
-            // Token expired
-            return when.reject({ reason: errorCode, authRedirect: true });
-          } else {
-            return when.reject(errorResponse);
-          }
-        });
-    }, function (e) {
-      return when.reject({ reason: e, authRedirect: true });
-    }).
+  return this._checkToken([Auth._validateExistence, Auth._validateExpiration, this._validateScopes.bind(this), this._validateAgainstUser.bind(this)]).
     otherwise(function (e) {
       if (e.authRedirect) {
-        return self._authRedirect().
-          then(function () {
+        return self._requestBuilder.prepareAuthRequest().
+          then(function (authURL) {
+            self._redirectCurrentPage(authURL);
             return when.reject(e);
           });
       }
       return when.reject(e);
     });
-};
-
-/**
- * Redirects current page to the given URL
- * @param url
- * @private
- */
-Auth.prototype._defaultRedirectHandler = function (url) {
-  window.location = url;
-};
-
-/**
- * Creates function that redirects given $iframe to the parameter url
- * @param $iframe
- * @return {function(string)}
- * @private
- */
-Auth.prototype._createFrameRedirectHandler = function ($iframe) {
-  return function (url) {
-    $iframe.attr('src', url + '&rnd=' + Math.random());
-  };
 };
 
 /**
@@ -405,7 +431,7 @@ Auth.prototype._createFrameRedirectHandler = function ($iframe) {
  */
 Auth.prototype._nonInteractiveEnsureToken = function () {
   var self = this;
-  return this._checkToken().
+  return this._checkToken([Auth._validateExistence, Auth._validateExpiration, this._validateScopes.bind(this)]).
     otherwise(function () {
       if (self._refreshDefer) {
         return self._refreshDefer.promise;
@@ -438,72 +464,13 @@ Auth.prototype._nonInteractiveEnsureToken = function () {
           });
       };
 
-      self._redirectHandler = self._createFrameRedirectHandler($iframe);
-      return self._authRedirect().
-        then(function () {
+      return self._requestBuilder.prepareAuthRequest().
+        then(function (authURL) {
+          self._redirectFrame($iframe)(authURL);
           poll();
           return self._refreshDefer.promise;
         });
     });
-};
-
-/**
- * Get token from local storage or request it if required.
- * Can redirect to login page.
- * @return {Promise.<string>}
- */
-Auth.prototype.requestToken = function () {
-  var self = this;
-  return this._nonInteractiveEnsureToken().
-    otherwise(function () {
-      self._redirectHandler = self._defaultRedirectHandler;
-      return self._authRedirect();
-    });
-};
-
-/**
- * Makes GET request to the given URL with the given access token.
- * @param {string} relativeURI a URI relative to config.serverUri to make the GET request to
- * @param {string} accessToken access token to use in request
- * @param {object?} params query parameters
- * @return {Promise} promise from $.ajax() request
- */
-Auth.prototype.getSecure = function (relativeURI, accessToken, params) {
-  return $.ajax({
-    url: this.config.serverUri + relativeURI,
-    data: params,
-    headers: {
-      'Authorization': 'Bearer ' + accessToken
-    },
-    dataType: 'json'
-  });
-};
-
-
-/**
- * @return {Promise.<object>}
- */
-Auth.prototype.requestUser = function () {
-  if (this.user) {
-    return when.resolve(this.user);
-  }
-
-  var self = this;
-  return this.requestToken().
-    then(function (accessToken) {
-      return self.getSecure(Auth.API_PROFILE_PATH, accessToken);
-    }).
-    then(function (user) {
-      self.user = user;
-      return user;
-    });
-};
-
-/**
- * Wipe accessToken and redirect to auth page with required authorization
- */
-Auth.prototype.logout = function () {
-  return this._authRedirect({request_credentials: 'required'});
 };
 
 module.exports = Auth;
