@@ -11,6 +11,10 @@ var ReactPropTypes = React.PropTypes;
 var idPrefix = '\\x0';
 var generateUniqueId = Global.getUIDGenerator(idPrefix);
 
+/**
+ * @constructor
+ * @extends {ReactComponent}
+ */
 var Checkbox = React.createClass({
   propTypes: {
     name: ReactPropTypes.string,
