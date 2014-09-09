@@ -1,0 +1,5 @@
+[
+  "node_modules/jquery/dist/jquery.js",
+  "test-helpers/phantomjs-shims.js",
+  "src/components/**/*.test.js"
+]

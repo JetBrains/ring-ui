@@ -7,6 +7,10 @@
 var React = require('react/addons');
 require('./input.scss');
 
+/**
+ * @constructor
+ * @extends {ReactComponent}
+ */
 var Input = React.createClass({
   render: function () {
     /* jshint ignore:start */
