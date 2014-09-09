@@ -48,6 +48,7 @@
     "exports-loader": "^0.6.2",
     "file-loader": "^0.6.1",
     "imports-loader": "^0.6.3",
+    "jquery-caret": "^1.3.4",
     "jso-browser": "^1.2.0",
     "jsx-loader": "^0.11.0",
     "lodash": "^2.4.1",
