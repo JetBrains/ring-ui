@@ -6,6 +6,7 @@
  * @jsx React.DOM
  */
 
+require('./alert.scss');
 var React = require('react/addons');
 
 
@@ -47,7 +48,21 @@ var Alert = React.createClass({
       'caption': null,
 
       /** @type {boolean} */
-      'closeable': true,
+      'closeable': false,
+
+      /**
+       * Whether component is rendered inside {@code Alerts} container
+       * or separately. Sometimes alerts are used to show messages
+       * contextually.
+       * @type {boolean}
+       */
+      'inline': true,
+
+      /**
+       * Click handler on close element.
+       * @type {?function(SyntheticMouseEvent):undefined}
+       */
+      'onClick': null,
 
       /** @type {Type} */
       'type': Type.MESSAGE
@@ -69,19 +84,38 @@ var Alert = React.createClass({
   /** @override */
   render: function() {
     var modifiedClassName = [BASE_CLASS, this.props['type']].join('_');
-    var className = [BASE_CLASS, modifiedClassName].join(' ');
 
-    return (<div className={className}>
+    var className = {};
+    className[BASE_CLASS] = true;
+    className[modifiedClassName] = true;
+    className['ring-alert_inline'] = this.props['inline'];
+
+    var classes = React.addons.classSet(className);
+
+    var closeClickHandler = this.props['onClick'] === null ?
+        this._handleCloseClick :
+        this.props['onClick'];
+
+    return (<div className={classes} onClick={this.props['onClick']}>
       {this.props['caption']}
       {this.props['closeable'] ?
-          (<span className="ring-alert__close ring-font-icon ring-font-icon_close" />) :
+          (<span className="ring-alert__close ring-font-icon ring-font-icon_close" onClick={closeClickHandler} />) :
           ''}
     </div>);
   },
 
-  // fixme(igor.alexeenko): Find out how to close it.
+  /**
+   * Removes component from DOM.
+   */
   close: function() {
-    throw new Error('Unimplemented method.')
+    if (this.props['inline']) {
+      React.unmountComponentAtNode(this.getDOMNode().parentNode);
+      return;
+    }
+
+    throw new Error('Removal of Alert by itself isn\'t possible ' +
+        'if it has been rendered as a part of Alerts. ' +
+        'Use Alerts.prototype.remove(index:number) instead.');
   },
 
   /**
@@ -91,6 +125,16 @@ var Alert = React.createClass({
   _handleTransitionEnd: function(evt) {
     if (this.props['animationDeferred']) {
       this.props['animationDeferred'].resolve();
+    }
+  },
+
+  /**
+   * @param {SyntheticMouseEvent} evt
+   * @private
+   */
+  _handleCloseClick: function(evt) {
+    if (this.props['inline']) {
+      this.close();
     }
   }
 });
