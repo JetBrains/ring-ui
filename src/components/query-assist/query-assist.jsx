@@ -5,7 +5,7 @@
 
 var React = require('react');
 var $ = require('jquery');
-var q = require('q');
+var when = require('when');
 require('jquery-caret');
 
 var PopupMenu = require('popup-menu/popup-menu'); // jshint -W098
@@ -168,7 +168,7 @@ var QueryAssist = React.createClass({
       caret: props.caret
     };
 
-    q(this.props.dataSource(params)).then(this.handleResponse);
+    when(this.props.dataSource(params)).then(this.handleResponse);
   },
 
   getQuery: function () {
