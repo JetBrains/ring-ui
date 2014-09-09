@@ -25,14 +25,5 @@ describe('footer', function () {
       $(footer.getDOMNode()).should.have.class('myClass');
     });
 
-    it('should render left column if defined', function () {
-      footer.setProps({'left': [
-        {'label': 'Hello!'}
-      ]});
-
-      $(footer.getDOMNode()).should.have.class('ring-popup__item_action');
-      footer.getDOMNode().firstChild.firstChild.innerHTML.should.equal('Hello!');
-    });
-
   });
 });
