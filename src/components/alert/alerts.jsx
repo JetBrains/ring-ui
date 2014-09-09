@@ -20,9 +20,6 @@ var Alerts = React.createClass({
   /** @override */
   getInitialState: function() {
     return {
-      /** @type {$.Deferred} */
-      'animationDeferred': null,
-
       /** @type {Array.<Alert>} */
       'childElements': [],
 
@@ -37,12 +34,10 @@ var Alerts = React.createClass({
       this._getChildElements();
     }
 
-    var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
-
     return (<div className="ring-alerts">
-      <ReactCSSTransitionGroup transitionName="alert">
-        {this.state.childElements}
-      </ReactCSSTransitionGroup>
+      <React.addons.CSSTransitionGroup transitionName="alert">
+        {this.state.childElements.slice(0).reverse()}
+      </React.addons.CSSTransitionGroup>
     </div>);
   },
 
@@ -55,11 +50,6 @@ var Alerts = React.createClass({
       children.push(child);
     });
 
-    // NB! Reverse array is needed because we use this component as a stack
-    // of messages. New message appears at the top of the list. This is also
-    // a reason why I use unshift instead of push in ```add```.
-    children.reverse();
-
     this.setState({ 'childElements': children });
   },
 
@@ -71,8 +61,8 @@ var Alerts = React.createClass({
   add: function(caption, type, timeout) {
     // NB! If animation is proceeded new alert comes to the end of the
     // queue.
-    if (this.state['animationDeferred']) {
-      this.state['animationDeferred'].done(function() {
+    if (this._animationDeferred) {
+      this._animationDeferred.done(function() {
         this.add(caption, type, timeout);
       }.bind(this));
 
@@ -83,17 +73,30 @@ var Alerts = React.createClass({
     var index = childElements.length;
     var animationDeferred = new $.Deferred();
 
-    childElements.unshift(<Alert
+    childElements.push(<Alert
         animationDeferred={animationDeferred}
         caption={caption}
+        closeable={true}
+        inline={false}
         key={index}
+        onClick={function(evt) { this._handleClick(evt, index); }.bind(this)}
         type={type} />);
 
     this.setState({
-      'animationDeferred': animationDeferred,
       'childElements': childElements,
       'lastInserted': index
     });
+
+    // NB!(igor.alexeenko) I don't use this.setState['animationDeferred'] here
+    // to prevent rerendering of component, because every update of component's
+    // state unfortunately causes second render. So I've decided to change
+    // state of component only if it's really needed: when I change the number
+    // of child components. In other cases it's better to use private properties.
+    /**
+     * @type {jQuery.Deferred}
+     * @private
+     */
+    this._animationDeferred = animationDeferred;
 
     if (timeout) {
       setTimeout(function() {
@@ -102,7 +105,7 @@ var Alerts = React.createClass({
     }
 
     animationDeferred.done(function() {
-      this.setState({ 'animationDeferred': null });
+      this._animationDeferred = null;
     }.bind(this));
   },
 
@@ -111,10 +114,23 @@ var Alerts = React.createClass({
    */
   remove: function(index) {
     var childElements = this.state['childElements'].slice(0);
-    var element = childElements[index];
-    childElements = _.without(childElements, element);
+
+    // NB!(igor.alexeenko): I don't delete item completely, but set it as undefined
+    // because all custom click handlers are bound to element's index in array
+    // of child elements.
+    delete childElements[index];
 
     this.setState({ 'childElements': childElements });
+  },
+
+  /**
+   * @param {SyntheticMouseEvent} evt
+   * @param {number} i
+   * @private
+   */
+  _handleClick: function(evt, i) {
+    evt.preventDefault();
+    this.remove(i);
   }
 });
 

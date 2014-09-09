@@ -6,6 +6,7 @@
   position: absolute;
   right: 0;
   top: 0;
+  z-index: $ring-alert-z-index;
 }
 
 .ring-alert {
@@ -15,10 +16,25 @@
   font-size: 13px;
   margin: $ring-unit auto;
   padding: $ring-unit;
+  padding-right: $ring-unit*3;
   position: relative;
   width: $ring-unit * 40;
 
   @include ring-font();
+
+  &.ring-alert_inline {
+    margin: $ring-unit;
+    width: auto;
+  }
+}
+
+.ring-alert__close {
+  border: solid 1px #ccc;
+  cursor: pointer;
+  padding: $ring-unit;
+  position: absolute;
+  right: $ring-unit;
+  top: $ring-unit;
 }
 
 $enter-animation-duration: 200ms;
