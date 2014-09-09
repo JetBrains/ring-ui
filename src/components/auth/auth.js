@@ -5,7 +5,7 @@ var $ = require('jquery');
 var AuthStorage = require('./auth__storage');
 
 /**
- * @class
+ * @constructor
  *
  * @prop {object} config
  * @prop {string} config.serverUri
