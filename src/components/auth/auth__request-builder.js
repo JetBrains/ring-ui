@@ -36,7 +36,6 @@ AuthRequestBuilder.prototype.prepareAuthRequest = function (extraParams) {
   var authURL = AuthRequestBuilder.encodeURL(this.config.authorization, request);
 
   return this._saveState(state, {
-    restoreHash: window.location.hash,
     restoreLocation: window.location.href,
     scopes: this.config.scopes
   }).then(function () {

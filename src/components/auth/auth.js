@@ -284,10 +284,6 @@ Auth.prototype._checkForAuthResponse = function () {
             scopes: scopes,
             expires: expries
           }).then(function () {
-            if (state.restoreHash) {
-              self._reponseParser.setHash(state.restoreHash);
-            }
-
             return state.restoreLocation;
           });
         });
