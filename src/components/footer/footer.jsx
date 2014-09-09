@@ -28,7 +28,7 @@ var FooterColumn = React.createClass({
   render: function () {
     /* jshint ignore:start */
     return (
-      <div className="{['ring-footer__column', 'ring-footer__column_' + this.props.position].join(' ')}">
+      <div className={['ring-footer__column', 'ring-footer__column_' + this.props.position].join(' ')}>
         <ul className="ring-footer__column__i">
           {this.props.children}
         </ul>
@@ -39,27 +39,63 @@ var FooterColumn = React.createClass({
 });
 
 /**
+ * Return copyright string
+ * @param year {int}
+ * @returns {string}
+ */
+var copyright = function(year) {
+  var currentYear = (new Date()).getUTCFullYear();
+
+  var ret = '© ';
+
+  if (year >= currentYear) {
+    ret += year;
+  } else {
+    ret += year + '—' + currentYear;
+  }
+
+  return ret;
+};
+
+/**
  * @constructor
  * @extends {ReactComponent}
  */
 var FooterItem = React.createClass({
-  propTypes: {
-    item: React.PropTypes.object
+  props: {
+    item: React.PropTypes.oneOfType([
+      React.PropTypes.object,
+      React.PropTypes.array
+    ])
   },
-
   render: function () {
+    var children = {};
     /* jshint ignore:start */
-    var element;
-    var item = this.props.item;
-    element = (item.copyright ? '&cprt' : '') + item.label;
-    if(item.url) {
-      element = <a href={item.url}>{element}</a>
+    var renderItem = function(item, idx) {
+      // Item is string
+      if(!(item.label)) {
+        item = {label: item}
+      }
+      var element = <span>{(item.copyright ? copyright(item.copyright) : '') + item.label}</span>;
+      if (item.url) {
+        element = <a href={item.url} title={item.title}>{element}</a>
+      }
+      return {
+        id: item.label + '-' + idx,
+        element: element
+      };
+    };
+    if($.isArray(this.props.item)) {
+      this.props.item.map(renderItem).forEach(function(it) {
+        children[it.id] = it.element;
+      })
+    } else {
+      var it = renderItem(this.props.item, 0);
+      children[it.id] = it.element;
     }
     return (
       <li className="ring-footer__line">
-        <ul className="ring-footer__column__i">
-          {this.props.children}
-        </ul>
+        {children}
       </li>
       );
     /* jshint ignore:end */
@@ -74,20 +110,30 @@ var Footer = React.createClass({
   /** @override */
   propTypes: {
     className: React.PropTypes.string,
-    left: React.PropTypes.object,
-    center: React.PropTypes.object,
-    right: React.PropTypes.object
+    left: React.PropTypes.array,
+    center: React.PropTypes.array,
+    right: React.PropTypes.array
   },
 
   render: function () {
     /* jshint ignore:start */
+
+    var content = function(elements, position) {
+      return elements ? <FooterColumn key={position} position={position}>{elements.map(function(item) {
+        return <FooterItem item={item}></FooterItem>;
+      })}</FooterColumn> : false
+    };
+
     return (
       //TODO: pass classname property
-      <div className="ring-footer"></div>
+      <div className={['ring-footer'].concat([this.props.className] || []).join(' ')}>
+        {[content(this.props.left, Position.LEFT),
+          content(this.props.center, Position.CENTER),
+          content(this.props.right, Position.RIGHT)]}
+      </div>
       );
     /* jshint ignore:end */
   }
-
 });
 
 module.exports = Footer;
