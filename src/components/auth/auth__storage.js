@@ -13,7 +13,6 @@ var when = require('when');
 
 /**
  * @typedef {{
- *   restoreHash: string?,
  *   restoreLocation: string,
  *   scopes: string[]
  * }} StoredState
