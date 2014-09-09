@@ -61,7 +61,7 @@ var copyright = function(year) {
  * @constructor
  * @extends {ReactComponent}
  */
-var FooterItem = React.createClass({
+var FooterLine = React.createClass({
   props: {
     item: React.PropTypes.oneOfType([
       React.PropTypes.object,
@@ -69,14 +69,14 @@ var FooterItem = React.createClass({
     ])
   },
   render: function () {
-    var children = {};
     /* jshint ignore:start */
+    var children = {};
     var renderItem = function(item, idx) {
       // Item is string
       if(!(item.label)) {
         item = {label: item}
       }
-      var element = <span>{(item.copyright ? copyright(item.copyright) : '') + item.label}</span>;
+      var element = (item.copyright ? copyright(item.copyright) : '') + item.label;
       if (item.url) {
         element = <a href={item.url} title={item.title}>{element}</a>
       }
@@ -119,8 +119,8 @@ var Footer = React.createClass({
     /* jshint ignore:start */
 
     var content = function(elements, position) {
-      return elements ? <FooterColumn key={position} position={position}>{elements.map(function(item) {
-        return <FooterItem item={item}></FooterItem>;
+      return elements ? <FooterColumn key={position} position={position}>{elements.map(function(item, idx) {
+        return <FooterLine key={idx} item={item}></FooterLine>;
       })}</FooterColumn> : false
     };
 
