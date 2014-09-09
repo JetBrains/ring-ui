@@ -5,6 +5,8 @@ module.exports = function (karma) {
   var prepareWbpackConf = function (webpackConf) {
     webpackConf.devtool = 'eval';
     webpackConf.output = {};
+    webpackConf.resolve.root = __dirname + '/test-helpers/';
+
     return webpackConf;
   };
 
@@ -18,12 +20,8 @@ module.exports = function (karma) {
     frameworks: ['mocha', 'chai', 'chai-as-promised', 'chai-jquery', 'sinon-chai'],
 
 
-    // Files are given outside from gulp task
-    files: [
-      'node_modules/jquery/dist/jquery.js',
-      'test-helpers/*.js',
-      'src/components/**/*.test.js'
-    ],
+    // Files are overwritten from a gulp task
+    files: require('./test-files.json'),
 
     // test results reporter to use
     // possible values: 'dots', 'progress', 'junit', 'growl', 'coverage'
