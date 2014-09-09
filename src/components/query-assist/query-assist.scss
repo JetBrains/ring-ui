@@ -1,0 +1,64 @@
+@import '../global/global';
+
+.ring-query-assist {
+  position: relative;
+  box-sizing: border-box;
+  height: $ring-unit*3;
+  background: #FFF;
+  @include ring-font;
+}
+
+.ring-query-assist__input {
+  z-index: 1;
+  padding-top: 2px;
+
+  overflow: hidden;
+  white-space: nowrap;
+  background: transparent;
+
+  // We need 1st part of selector to trigger 2nd one
+  // because of (possibly) browsers bugs
+  &:empty, &:empty ~ .ring-query-assist__placeholder {
+    display: block;
+  }
+}
+
+.ring-query-assist__placeholder {
+  display: none;
+  position: absolute;
+  top: 3px;
+  left: 5px;
+
+  color: #9c9c9c;
+  font-size: 13px;
+  line-height: 20px;
+}
+
+.ring-query-assist__letter {
+  padding-top: 2px;
+}
+
+.ring-query-assist__letter_text {
+  color: #B58900;
+}
+
+.ring-query-assist__letter_field-name {
+  color: #176B8A;
+}
+
+.ring-query-assist__letter_field-value {
+  color: #1A1A1A;
+}
+
+.ring-query-assist__letter_operator {
+  color: #176B8A;
+}
+
+.ring-query-assist__letter_error {
+  padding-bottom: 2px;
+  background: url('query-assist__error.gif') bottom repeat-x;
+}
+
+.ring-query-assist__glass {
+  user-select: none;
+}

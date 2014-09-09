@@ -9,6 +9,28 @@
 <h1>React && WebPack</h1>
 
 <div class="example">
+  <header>Query Assist:</header>
+
+  <section>
+    <div id="query-assist">
+    </div>
+  </section>
+</div>
+
+<hr/>
+
+<div class="example">
+  <header>List:</header>
+
+  <section>
+    <div id="list">
+    </div>
+  </section>
+</div>
+
+<hr/>
+
+<div class="example">
   <header>Progress Bar:</header>
 
   <section>
@@ -113,7 +135,7 @@
   (function () {
     var value = 0,
       timeout = 500,
-      progressBar = react.renderComponent(ring.ProgressBar({
+      progressBar = React.renderComponent(ring.ProgressBar({
           value: value
         }), document.getElementById('progress-bar'));
 
@@ -131,32 +153,70 @@
     }, timeout);
   })();
 
-  react.renderComponent(
+  var auth = new ring.Auth({
+    serverUri: '***REMOVED***/',
+    redirect_uri: 'http://localhost:8080/'
+  });
+  auth.init().then(function() {
+    React.renderComponent(
+      ring.QueryAssist({
+        query: 'test',
+        placeholder: 'placeholder',
+        onApply: console.log.bind(console),
+        hint: 'lol',
+        dataSource: function (props) {
+          jQuery.extend(props, {
+            fields: 'query,caret,suggestions,styleRanges'
+          });
+
+          return auth.requestToken().then(function (token) {
+            return auth.getSecure('api/rest/users/queryAssist', token, props);
+          });
+        }
+      }),
+      document.getElementById('query-assist'));
+  });
+
+  React.renderComponent(
+    ring.List({
+      data: [
+        {'label': 'One', 'type': ring.PopupMenu.Type.ITEM},
+        {'label': 'Two', 'type': ring.PopupMenu.Type.ITEM},
+        {'label': 'Three', 'type': ring.PopupMenu.Type.ITEM},
+        {'label': 'Four', 'type': ring.PopupMenu.Type.ITEM},
+        {'label': 'Five', 'type': ring.PopupMenu.Type.ITEM}
+      ],
+      shortcuts: true,
+      onSelect: console.log.bind(console) // TODO Use alert here
+    }),
+    document.getElementById('list'));
+
+  React.renderComponent(
     ring.Checkbox(),
     document.getElementById('checkbox'));
 
-  react.renderComponent(
+  React.renderComponent(
     ring.Textarea(),
     document.getElementById('textarea'));
 
-  react.renderComponent(
+  React.renderComponent(
     ring.Input(),
     document.getElementById('input'));
 
-  react.renderComponent(
+  React.renderComponent(
     ring.Button(null, 'Button'),
     document.getElementById('button'));
 
-  react.renderComponent(
+  React.renderComponent(
     ring.Loader(),
     document.getElementById('loader'));
-  react.renderComponent(
+  React.renderComponent(
     ring.Loader({
       modifier: ring.Loader.Modifier.INLINE
     }),
     document.getElementById('loader-inline'));
 
-  react.renderComponent(
+  React.renderComponent(
     ring.Diff({
       originalContent: 'original',
       modifiedContent: 'modified',
@@ -170,7 +230,7 @@
     }),
     document.getElementById('diff-default'));
 
-  react.renderComponent(
+  React.renderComponent(
     ring.Diff({
       mode: ring.Diff.Mode.DOUBLE_PANE,
       originalContent: 'Zoo\nFrfrfr\n',
@@ -189,7 +249,7 @@
     }),
     document.getElementById('diff-double-pane'));
 
-  react.renderComponent(
+  React.renderComponent(
     ring.Diff({
       mode: ring.Diff.Mode.PLAIN_FILE,
       originalContent: 'original',
@@ -207,51 +267,48 @@
   /**
    * @constructor
    * @extends {ReactComponent}
-   * @mixes {ring.PopupMixin}
+   * @mixes {ring.Popup.Mixin}
    */
-  var CustomPopup = react.createClass({
-    mixins: [ring.PopupMixin],
+  var CustomPopup = React.createClass({
+    mixins: [ring.Popup.Mixin],
 
     getInternalContent: function() {
       return 'Dropdown element as mixin.';
     }
   });
 
-  react.renderComponent(new CustomPopup({
+  ring.Popup.renderComponent(new CustomPopup({
     anchorElement: document.getElementById('dropdown'),
-    angle: CustomPopup.Angle.TOP_LEFT,
+    corner: CustomPopup.Corner.TOP_LEFT,
     classNames: ['additional', 'class', 'names']
-  }), CustomPopup.getPopupLayer());
+  }));
 
 
   /**
    * @constructor
    * @extends {ReactComponent}
    */
-  var SomeElementToInsertIntoPopup = react.createClass({
+  var SomeElementToInsertIntoPopup = React.createClass({
     render: function() {
-      return react.DOM.div(null, 'Some external elemenet rendered into Popup');
+      return React.DOM.div(null, 'Some external elemenet rendered into Popup');
     }
   });
 
-  var popupContainer = document.createElement('div');
-  document.body.appendChild(popupContainer);
+  ring.Popup.renderComponent(ring.Popup(null, SomeElementToInsertIntoPopup(null)));
 
-  react.renderComponent(ring.Popup(null, SomeElementToInsertIntoPopup(null)), popupContainer);
-
-  var popupMenu = react.renderComponent(ring.PopupMenu({
+  var popupMenu = ring.PopupMenu.renderComponent(ring.PopupMenu({
     anchorElement: document.getElementById('popup'),
-    angle: CustomPopup.Angle.TOP_LEFT,
+    corner: CustomPopup.Corner.TOP_LEFT,
     classNames: ['additional', 'class', 'names']
-  }, null), popupContainer);
+  }, null));
 
-  popupMenu.setState({data: [
+  popupMenu.setProps({data: [
     {'label': 'One'},
     {'label': 'Two', 'href': 'http://www.jetbrains.com'},
-    {'label': 'Three', 'type': ring.PopupMenu.Type.MENU_ITEM, 'href': 'http://www.jetbrains.com'},
+    {'label': 'Three', 'type': ring.PopupMenu.Type.ITEM, 'href': 'http://www.jetbrains.com'},
     {'type': ring.PopupMenu.Type.SEPARATOR},
-    {'label': 'Four', 'type': ring.PopupMenu.Type.MENU_LINK},
-    {'label': 'Five', 'type': ring.PopupMenu.Type.MENU_LINK, 'href': 'http://www.jetbrains.com', 'className': 'test'}
+    {'label': 'Four', 'type': ring.PopupMenu.Type.LINK},
+    {'label': 'Five', 'type': ring.PopupMenu.Type.LINK, 'href': 'http://www.jetbrains.com', 'className': 'test'}
   ]})
 </script>
 </body>

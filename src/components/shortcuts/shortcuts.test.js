@@ -1,4 +1,4 @@
-var keyEvent = require('imports?window=>{}!exports?window.KeyEvent!Mousetrap/tests/libs/key-event');
+var simulateKeypress = require('simulate-keypress');
 var Shortcuts = require('./shortcuts');
 var shortcuts = Shortcuts.getInstance();
 
@@ -8,6 +8,10 @@ describe('Shortcuts', function () {
   var key = 'a';
   var key2 = 'b';
   var scope = 'scope scope scope';
+
+  function trigger() {
+    simulateKeypress(key, 65);
+  }
 
   beforeEach(function() {
     shortcuts.reset();
@@ -105,10 +109,6 @@ describe('Shortcuts', function () {
   });
 
   describe('Filter', function () {
-    function trigger() {
-      keyEvent.simulate(key.charCodeAt(0), 65);
-    }
-
     it('Should setFilter', function () {
       shortcuts.setFilter(noop2);
       shortcuts.bind({key: key, handler: noop});
@@ -135,10 +135,6 @@ describe('Shortcuts', function () {
   });
 
   describe('Key press', function () {
-    function trigger() {
-      Shortcuts.trigger(key);
-    }
-
     it('Should handle keys in root scope', function () {
       shortcuts.bind({key: key, handler: noop});
 
