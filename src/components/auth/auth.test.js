@@ -342,7 +342,6 @@ describe('auth', function () {
           expect(storedToken).to.be.null;
           return auth._storage.getState('unique');
         }).should.eventually.be.deep.equal({
-          restoreHash: '',
           restoreLocation: window.location.href,
           scopes: ['0-0-0-0-0', 'youtrack']
         });

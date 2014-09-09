@@ -14,8 +14,7 @@ describe('AuthStorage', function () {
   describe('saveState', function () {
     it('should be fulfilled', function () {
       return authStorage.saveState(stateId, {
-        restoreHash: 'hash',
-        restoreLocation: 'http://localhost:8080/hub',
+        restoreLocation: 'http://localhost:8080/hub#hash',
         scopes: ['0-0-0-0-0']
       }).should.be.fulfilled;
     });
@@ -23,8 +22,7 @@ describe('AuthStorage', function () {
 
   describe('getState', function () {
     var state = {
-      restoreHash: 'hash',
-      restoreLocation: 'http://localhost:8080/hub',
+      restoreLocation: 'http://localhost:8080/hub#hash',
       scopes: ['0-0-0-0-0']
     };
     it('should be get as it was saved', function () {

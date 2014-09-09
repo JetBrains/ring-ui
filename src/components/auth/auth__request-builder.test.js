@@ -54,7 +54,6 @@ describe('AuthRequestBuilder', function () {
       return builder.prepareAuthRequest().
         then(function () {
           AuthRequestBuilder.prototype._saveState.should.have.been.calledWith('unique', {
-            restoreHash: window.location.hash,
             restoreLocation: window.location.href,
             scopes: ['youtrack', 'teamcity']
           });
