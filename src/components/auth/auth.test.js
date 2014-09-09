@@ -1,6 +1,7 @@
 describe('auth', function () {
   var Auth = require('./auth');
   var AuthRequestBuilder = require('./auth__request-builder');
+  var AuthStorage = require('./auth__storage');
   var when = require('when');
 
   describe('construction', function () {
@@ -38,12 +39,6 @@ describe('auth', function () {
       auth.config.should.contain.keys(Object.keys(Auth.DEFAULT_CONFIG));
     });
 
-    beforeEach(function () {
-    });
-
-    afterEach(function () {
-    });
-
     it('should not redirect on object construction', function () {
       sinon.stub(Auth.prototype, '_redirectCurrentPage');
       new Auth({serverUri: ''});
@@ -54,47 +49,46 @@ describe('auth', function () {
   });
 
   describe('getValidatedToken', function () {
-    /**
-     * @type {StoredToken}
-     */
-    var storedToken;
     var auth = new Auth({
       serverUri: '',
       scopes: ['0-0-0-0-0', 'youtrack'],
       optionalScopes: ['youtrack']
     });
-    auth._storage = {
-      getToken: function () {
-        return when.resolve(storedToken);
-      }
-    };
+
+    beforeEach(function () {
+      sinon.stub(AuthStorage.prototype, 'getToken');
+    });
+
+    afterEach(function () {
+      AuthStorage.prototype.getToken.restore();
+    });
 
     it('should resolve access token when it is valid', function () {
-      storedToken = {
+      AuthStorage.prototype.getToken.returns(when.resolve({
         access_token: 'token',
         expires: Auth._epoch() + 60 * 60,
         scopes: ['0-0-0-0-0', 'youtrack']
-      };
+      }));
       return auth._getValidatedToken([Auth._validateExistence, Auth._validateExpiration, auth._validateScopes.bind(auth)]).
         should.eventually.be.equal('token');
     });
 
     it('should resolve access token when token is given for all required scopes', function () {
-      storedToken = {
+      AuthStorage.prototype.getToken.returns(when.resolve({
         access_token: 'token',
         expires: Auth._epoch() + 60 * 60,
         scopes: ['0-0-0-0-0']
-      };
+      }));
       return auth._getValidatedToken([Auth._validateExistence, Auth._validateExpiration, auth._validateScopes.bind(auth)]).
         should.eventually.be.equal('token');
     });
 
     it('should reject if access_token is empty', function () {
-      storedToken = {
+      AuthStorage.prototype.getToken.returns(when.resolve({
         access_token: null,
         expires: Auth._epoch() + 60 * 60,
         scopes: ['0-0-0-0-0']
-      };
+      }));
       return auth._getValidatedToken([Auth._validateExistence, Auth._validateExpiration, auth._validateScopes.bind(auth)]).
         otherwise(function (rejection) {
           return rejection;
@@ -103,7 +97,7 @@ describe('auth', function () {
     });
 
     it('should reject if there is no token stored', function () {
-      storedToken = null;
+      AuthStorage.prototype.getToken.returns(when.resolve(null));
       return auth._getValidatedToken([Auth._validateExistence, Auth._validateExpiration, auth._validateScopes.bind(auth)]).
         otherwise(function (rejection) {
           return rejection;
@@ -112,11 +106,11 @@ describe('auth', function () {
     });
 
     it('should reject if token is expired', function () {
-      storedToken = {
+      AuthStorage.prototype.getToken.returns(when.resolve({
         access_token: 'token',
         expires: Auth._epoch() + 15 * 60,
         scopes: ['0-0-0-0-0']
-      };
+      }));
       return auth._getValidatedToken([Auth._validateExistence, Auth._validateExpiration, auth._validateScopes.bind(auth)]).
         otherwise(function (rejection) {
           return rejection;
@@ -125,11 +119,11 @@ describe('auth', function () {
     });
 
     it('should reject if token scopes don\'t match required scopes', function () {
-      storedToken = {
+      AuthStorage.prototype.getToken.returns(when.resolve({
         access_token: 'token',
         expires: Auth._epoch() + 60 * 60,
         scopes: ['youtrack']
-      };
+      }));
       return auth._getValidatedToken([Auth._validateExistence, Auth._validateExpiration, auth._validateScopes.bind(auth)]).
         otherwise(function (rejection) {
           return rejection;
