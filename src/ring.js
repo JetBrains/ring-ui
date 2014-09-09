@@ -15,5 +15,6 @@ module.exports = {
   Diff: require('diff/diff'),
   Loader: require('loader/loader'),
   Button: require('button/button'),
-  Shortcuts: require('shortcuts/shortcuts')
+  Shortcuts: require('shortcuts/shortcuts'),
+  Footer: require('footer/footer')
 };

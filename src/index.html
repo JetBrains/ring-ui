@@ -129,6 +129,16 @@
   </section>
 </div>
 
+<div class="example">
+  <header>Footer</header>
+
+  <section>
+    Footer:
+    <div id="footer"></div>
+
+  </section>
+</div>
+
 <script type="text/javascript" src="jQuery.js" charset="utf-8"></script>
 <script type="text/javascript" src="ring.js" charset="utf-8"></script>
 <script>
@@ -307,9 +317,26 @@
     {'label': 'Two', 'href': 'http://www.jetbrains.com'},
     {'label': 'Three', 'type': ring.PopupMenu.Type.ITEM, 'href': 'http://www.jetbrains.com'},
     {'type': ring.PopupMenu.Type.SEPARATOR},
-    {'label': 'Four', 'type': ring.PopupMenu.Type.LINK},
-    {'label': 'Five', 'type': ring.PopupMenu.Type.LINK, 'href': 'http://www.jetbrains.com', 'className': 'test'}
-  ]})
+    {'label': 'Four', 'type': ring.PopupMenu.Type.MENU_LINK},
+    {'label': 'Five', 'type': ring.PopupMenu.Type.MENU_LINK, 'href': 'http://www.jetbrains.com', 'className': 'test'}
+  ]});
+
+  react.renderComponent(
+    ring.Footer({
+      className: 'stuff',
+      left: [
+        [{url: 'http://www.jetbrains.com/teamcity/?fromServer', label: 'TeamCity'}, ' by JetBrains'],
+        'Enterprise 8.0.2 EAP (build 27448)'
+      ],
+      center: [
+        [{copyright: 2000, label: ' JetBrains'}, ' · All rights reserved'],
+        {url: 'http://teamcity.jetbrains.com/showAgreement.html', label: 'License agreement', title: 'READ ME!'}
+      ],
+      right: [
+        {url: 'http://www.jetbrains.com/teamcity/feedback?source=footer&version=8.0.3%20(build%2027531)&build=27531&mode=ent', label: 'Feedback'}
+      ]
+    }),
+    document.getElementById('footer'));
 </script>
 </body>
 </html>
