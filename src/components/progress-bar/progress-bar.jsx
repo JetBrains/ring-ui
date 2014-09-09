@@ -14,6 +14,10 @@ require('./progress-bar.scss');
 var React = require('react');
 var ReactPropTypes = React.PropTypes;
 
+/**
+ * @constructor
+ * @extends {ReactComponent}
+ */
 var ProgressBar = React.createClass({
   propTypes: {
 

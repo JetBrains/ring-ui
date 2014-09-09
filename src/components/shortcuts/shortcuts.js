@@ -4,7 +4,7 @@ var mousetrap = require('mousetrap');
 var Global = require('global/global');
 
 /**
- * @class
+ * @constructor
  **/
 var Shortcuts = function () {
   this._scopes = {};
@@ -64,6 +64,7 @@ Shortcuts.Mixin = {
     }
   },
 
+  /** @override */
   componentDidUpdate: function () {
     if (this.props.shortcuts) {
       var shortcuts = Shortcuts.getInstance();

@@ -25,6 +25,7 @@ var Modifiers = {
 
 /**
  * @constructor
+ * @extends {ReactComponent}
  */
 var Button = React.createClass({
   statics: {
