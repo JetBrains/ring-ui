@@ -438,10 +438,34 @@
         onHide: function () {
           ring('alerts', 'add')('Select onHide', 'success', true, 1000);
         },
-        dataSource: select('remoteDataSource', {
-          hubResource: 'usergroups',
-          url: 'api/rest/usergroups?fields=id,name,iconUrl,total&query=#{query}'
-        })
+        dataSource: function() {
+          var defer = $.Deferred();
+
+          defer.resolve([
+            {
+              label:'option1',
+              html: '<b>option1</b>'
+            },
+            {
+              label:'option2',
+              html: '<b>option2</b>'
+            },
+            {
+              label:'option3',
+              html: '<b>option3</b>'
+            },
+            {
+              label:'option4',
+              html: '<b>option4</b>'
+            },
+            {
+              label:'option5',
+              html: '<b>option5</b>'
+            }
+          ]);
+
+          return defer.promise();
+        }
       });
 
 

@@ -96,7 +96,7 @@
       }
     ]).
     factory('dropdownSelectOptionsParser', ['$parse', '$interpolate', function ($parse, $interpolate) {
-      var OPTIONS_REGEXP = /^\s*(.*?)(?:\s+as\s+(.*?))?\s+(?:of\s+(.*)\s+kind\s+)?for\s+([\$\w]+)\s+in\s+(.*?)$/;
+      var OPTIONS_REGEXP = /^\s*(.*?)(?:\s+and\s+map\s+(.*?))?\s+(?:of\s+(.*)\s+kind\s+)?for\s+([\$\w]+)\s+in\s+(.*?)$/;
 
       return {
         parse: function (scope, $attrs) {
@@ -106,7 +106,7 @@
           }
 
           var labelGetter = $parse(match[1]);
-          var labelName = match[2] || 'label';
+          var mapPropName = match[2];
           var descriptionGetter = match[3] && $parse(match[3]);
           var optionVariableName = match[4];
           var datasourceGetter = $parse(match[5]);
@@ -134,12 +134,15 @@
                 if (items) {
                   return items.map(function (item) {
                     var result = {
+                      label: getLabel(item),
                       type: descriptionGetter && getDescription(item),
                       error: item.error,
                       data: item
                     };
 
-                    result[labelName] = getLabel(item);
+                    if (mapPropName) {
+                      result[mapPropName] = item[mapPropName];
+                    }
 
                     return result;
                   });
