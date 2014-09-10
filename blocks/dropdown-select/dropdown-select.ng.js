@@ -96,19 +96,20 @@
       }
     ]).
     factory('dropdownSelectOptionsParser', ['$parse', '$interpolate', function ($parse, $interpolate) {
-      var OPTIONS_REGEXP = /^\s*(.*?)\s+(?:of\s+(.*)\s+kind\s+)?for\s+([\$\w]+)\s+in\s+(.*?)$/;
+      var OPTIONS_REGEXP = /^\s*(.*?)(?:\s+as\s+(.*?))?\s+(?:of\s+(.*)\s+kind\s+)?for\s+([\$\w]+)\s+in\s+(.*?)$/;
 
       return {
         parse: function (scope, $attrs) {
           var match;
           if (!(match = $attrs.options.match(OPTIONS_REGEXP))) {
-            console.error('Bad dropdownSelect expression format. Expected: {item.label} [of {item.kind} kind] for {item} in {items}');
+            console.error('Bad dropdownSelect expression format. Expected: {item.label} [as {item.labelPropertyName}] [of {item.kind} kind] for {item} in {items}');
           }
 
           var labelGetter = $parse(match[1]);
-          var descriptionGetter = match[2] && $parse(match[2]);
-          var optionVariableName = match[3];
-          var datasourceGetter = $parse(match[4]);
+          var labelName = match[2] || 'label';
+          var descriptionGetter = match[3] && $parse(match[3]);
+          var optionVariableName = match[4];
+          var datasourceGetter = $parse(match[5]);
 
           function getLabel(option) {
             var locals = {};
@@ -132,12 +133,15 @@
               }).then(function (items) {
                 if (items) {
                   return items.map(function (item) {
-                    return {
-                      label: getLabel(item),
+                    var result = {
                       type: descriptionGetter && getDescription(item),
                       error: item.error,
                       data: item
                     };
+
+                    result[labelName] = getLabel(item);
+
+                    return result;
                   });
                 }
 
