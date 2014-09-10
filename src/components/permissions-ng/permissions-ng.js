@@ -44,8 +44,13 @@ permissionsModule.provider('userPermissions', [function () {
     _config = config;
   };
 
-  this.$get = ['auth', function (auth) {
-    return new Permissions(auth.auth, _config);
+  this.$get = ['auth', '$q', function (auth, $q) {
+    var permissions = new Permissions(auth.auth, _config);
+    // Override load to execute in $digest
+    permissions.load = function () {
+      return $q.when(Permissions.prototype.load.apply(this));
+    };
+    return  permissions;
   }];
 }]);
 
@@ -167,7 +172,7 @@ permissionsModule.directive('permissionIf', [
               }
             }
           }).
-          then(registerPermission(iElement));
+          done(registerPermission(iElement));
       }
     };
   }
