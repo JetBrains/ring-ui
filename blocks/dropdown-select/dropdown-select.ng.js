@@ -102,7 +102,7 @@
         parse: function (scope, $attrs) {
           var match;
           if (!(match = $attrs.options.match(OPTIONS_REGEXP))) {
-            console.error('Bad dropdownSelect expression format. Expected: {item.label} [as {item.labelPropertyName}] [of {item.kind} kind] for {item} in {items}');
+            console.error('Bad dropdownSelect expression format. Expected: {item.label} [and map {mapPropertyName}] [of {item.kind} kind] for {item} in {items}');
           }
 
           var labelGetter = $parse(match[1]);
