@@ -266,6 +266,8 @@ describe('auth', function () {
     beforeEach(function () {
       sinon.stub(Auth.prototype, '_redirectCurrentPage');
       sinon.stub(AuthRequestBuilder, '_uuid').returns('unique');
+      auth._initDeferred = when.defer();
+      auth._initDeferred.resolve();
     });
 
     afterEach(function () {
