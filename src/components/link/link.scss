@@ -17,8 +17,8 @@
 }
 
 // body to redefine other :hovers w/ !important
-body .ring-link:hover,
-body .ring-link:focus {
-  color: $ring-link-hover-color !important;
-  text-decoration: underline !important;
+.ring-link:hover,
+.ring-link:focus {
+  color: $ring-link-hover-color;
+  text-decoration: underline;
 }

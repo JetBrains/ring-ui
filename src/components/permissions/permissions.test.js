@@ -71,8 +71,7 @@ describe('permissions', function () {
   });
 
   describe('check and bind variable', function () {
-    var $ = require('jquery');
-    var q = require('q');
+    var when = require('when');
 
     var permissions = new Permissions(new Auth({serverUri: ''}));
     var permissionCache = new PermissionCache([
@@ -82,34 +81,46 @@ describe('permissions', function () {
       ]},
       {permission: {key: 'jetbrains.upsource.permission.project.admin'}, global: true}
     ], 'jetbrains.jetpass.');
-    var deferred = $.Deferred();
-    permissions._promise = deferred.promise();
-    deferred.resolve(permissionCache);
+    permissions._promise = when.resolve(permissionCache);
 
     it('should resolve to true for given permission', function () {
-      q(permissions.check('space-read')).should.eventually.be.true;
+      return permissions.check('space-read').should.eventually.be.true;
     });
 
     it('should resolve to false for absent permission', function () {
-      q(permissions.check('role-read')).should.eventually.be.false;
+      return permissions.check('role-read').should.eventually.be.false;
     });
 
     it('should bind variable to true for given permission', function () {
       var scope = {};
-      permissions.bindVariable(scope, 'canReadSpace', 'space-read');
-      scope.canReadSpace.should.be.true;
+      return permissions.bindVariable(scope, 'canReadSpace', 'space-read').
+        then(function () {
+          scope.canReadSpace.should.be.true;
+        });
+    });
 
-      permissions.bindVariable(scope, 'canUpdateSpace', 'space-update', '123');
-      scope.canUpdateSpace.should.be.true;
+    it('should bind variable to true for given permission in space', function () {
+      var scope = {};
+      return permissions.bindVariable(scope, 'canUpdateSpace', 'space-update', '123').
+        then(function () {
+          scope.canUpdateSpace.should.be.true;
+        });
     });
 
     it('should bind variable to false for absent permission', function () {
       var scope = {};
-      permissions.bindVariable(scope, 'canReadRole', 'role-read');
-      scope.canReadRole.should.be.false;
+      return permissions.bindVariable(scope, 'canReadRole', 'role-read').
+        then(function () {
+          scope.canReadRole.should.be.false;
+        });
+    });
 
-      permissions.bindVariable(scope, 'canUpdateSpace', 'space-update', '456');
-      scope.canUpdateSpace.should.be.false;
+    it('should bind variable to false for absent permission in space', function () {
+      var scope = {};
+      return permissions.bindVariable(scope, 'canUpdateSpace', 'space-update', '456').
+        then(function () {
+          scope.canUpdateSpace.should.be.false;
+        });
     });
   });
 });

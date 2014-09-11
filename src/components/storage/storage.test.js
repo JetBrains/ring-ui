@@ -1,101 +1,134 @@
-var q = require('q');
-
 function testStorage(storage) {
-  describe('Set', function () {
-    it('Correct set call should be fulfilled', function () {
-      return q(storage.set('empty', {})).should.be.fulfilled;
+  describe('set', function () {
+    it('should be fulfilled', function () {
+      return storage.set('empty', {}).should.be.fulfilled;
     });
 
-    it('Should correctly set url incopatible characters', function () {
-      storage.set('test;', 'value;');
-
-      return q(storage.get('test;')).should.eventually.equal('value;');
+    it('should correctly set url incompatible characters', function () {
+      return storage.set('test;', 'value;').
+        then(function () {
+          return storage.get('test;');
+        }).
+        should.eventually.equal('value;');
     });
 
-    it('Set should fail on wrong input (e.g. on circular objects)', function () {
+    it('should fail on wrong input (e.g. on circular objects)', function () {
       var circular = {};
       circular.circular = circular;
 
-      return q(storage.set('circular', circular)).should.be.rejected;
+      return storage.set('circular', circular).should.be.rejected;
     });
   });
 
-  describe('Get', function () {
+  describe('get', function () {
     var test = {a: 666};
 
-    it('Should get items', function () {
-      storage.set('test2', test);
-
-      return q(storage.get('test2')).should.eventually.deep.equal(test);
+    it('should get items', function () {
+      return storage.set('test2', {a: 666}).
+        then(function () {
+          return storage.get('test2');
+        }).
+        should.become({a: 666});
     });
 
-    it('Should not return same objects', function () {
-      storage.set('test', test);
-
-      return q(storage.get('test')).should.not.eventually.equal(test);
+    it('should not return same objects', function () {
+      return storage.set('test', test).
+        then(function () {
+          return storage.get('test');
+        }).
+        should.not.eventually.equal(test);
     });
 
-    it('Should fail when there is no item', function () {
-      return q(storage.get('test')).should.be.rejected;
-    });
-  });
-
-  describe('Remove', function () {
-    it('Should remove present items', function () {
-      storage.set('empty', {});
-      storage.remove('empty');
-
-      return q(storage.get('empty')).should.be.rejected;
-    });
-
-    it('Correct remove should be fulfilled', function () {
-      storage.set('empty', {});
-      return q(storage.remove('empty')).should.be.fulfilled;
+    it('should return null when there is no item', function () {
+      return storage.get('test').should.become(null);
     });
   });
 
-  describe('Each', function () {
-    it('Should iterate over items', function () {
-      storage.set('test', 'value');
+  describe('remove', function () {
+    it('should remove present items', function () {
+      return storage.set('empty', {}).
+        then(function () {
+          return storage.remove('empty');
+        }).
+        then(function () {
+          return storage.get('empty');
+        }).
+        should.become(null);
+    });
+
+    it('should be fulfilled when is correct', function () {
+      return storage.set('empty', {}).
+        then(function () {
+          return storage.remove('empty');
+        }).
+        should.be.fulfilled;
+    });
+
+    it('should be fulfilled for missing elemnt', function () {
+      return storage.remove('missing').should.be.fulfilled;
+    });
+  });
+
+  describe('each', function () {
+    var noop = function () {
+    };
+
+    it('should be fulfilled', function () {
+      return storage.set('test1', '').
+        then(function () {
+          return storage.each(noop);
+        }).
+        should.be.fulfilled;
+    });
+
+    it('should iterate over items', function () {
       var iterator = sinon.spy();
-
-      storage.each(iterator);
-      iterator.should.have.been.calledWith('test', 'value');
+      return storage.set('test', 'value').
+        then(function () {
+          return storage.each(iterator);
+        }).
+        then(function () {
+          iterator.should.have.been.calledWith('test', 'value');
+        });
     });
 
-    it('Correct iteration should be fulfilled', function () {
-      storage.set('test1', '');
-
-      return q(storage.each(function () {
-      })).should.be.fulfilled;
-    });
-
-    it('Should not iterate without items', function () {
-      return q(storage.each(function () {
-      })).should.be.rejected;
-    });
-
-    it('Should iterate over all items', function () {
+    it('should not iterate without items', function () {
       var iterator = sinon.spy();
-
-      storage.set('test1', '');
-      storage.set('test2', '');
-      storage.set('test3', '');
-      storage.each(iterator);
-
-      iterator.should.have.been.calledThrice;
+      return storage.each(iterator).
+        then(function () {
+          iterator.should.not.been.called;
+        });
     });
 
-    it('Should fail on wrong callback', function () {
-      storage.set('test', '');
+    it('should iterate over all items', function () {
+      var iterator = sinon.spy();
+      return storage.set('test1', '').
+        then(function () {
+          return storage.set('test2', '');
+        }).
+        then(function () {
+          return storage.set('test3', '');
+        }).
+        then(function () {
+          storage.each(iterator);
+        }).
+        then(function () {
+          iterator.should.have.been.calledThrice;
+        });
+    });
 
-      return q(storage.each()).should.be.rejected;
+    it('should fail on wrong callback', function () {
+      return storage.set('test', '').
+        then(function () {
+          return storage.each();
+        }).
+        should.be.rejected;
     });
   });
 }
 
 describe('Storage', function () {
-  beforeEach(function(){
+  beforeEach(function () {
     localStorage.clear();
   });
 
@@ -108,7 +141,7 @@ describe('Storage', function () {
 describe('Fallback storage', function () {
   var cookieName = 'testCookie';
 
-  beforeEach(function(){
+  beforeEach(function () {
     document.cookie = cookieName + '=;';
   });
 

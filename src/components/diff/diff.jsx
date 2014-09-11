@@ -10,6 +10,10 @@ var ReactPropTypes = React.PropTypes;
 
 require('./diff.scss');
 
+/**
+ * @constructor
+ * @extends {ReactComponent}
+ */
 var Diff = React.createClass({
   statics: {
     Mode: BaseDiff.Mode

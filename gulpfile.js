@@ -121,13 +121,14 @@ gulp.task('lint', function () {
     .pipe(jshint.reporter('fail'));
 });
 
+
+// We have to use gulp-karma (instead of karma simple API — https://github.com/karma-runner/gulp-karma)
+// and therefore share paths of test files though json because of issue
+// between gulp, karma and webpack that doesn't let gulp's process to be finished
+var testFiles = require('./test-files.json');
+
 gulp.task('test', function () {
-  // Be sure to return the stream
-  return gulp.src([
-    './node_modules/jquery/dist/jquery.js',
-    './test-helpers/*.js',
-    pkgConfig.src + '/components/**/*.test.js'
-  ])
+  return gulp.src(testFiles)
     .pipe(karma({
       configFile: 'karma.conf.js',
       action: 'run'
@@ -139,12 +140,7 @@ gulp.task('test', function () {
 });
 
 gulp.task('test:build', function () {
-  // Be sure to return the stream
-  return gulp.src([
-    './node_modules/jquery/dist/jquery.js',
-    './test-helpers/*.js',
-    pkgConfig.src + '/components/**/*.test.js'
-  ])
+  return gulp.src(testFiles)
     .pipe(karma({
       configFile: 'karma.conf.js',
       action: 'run',

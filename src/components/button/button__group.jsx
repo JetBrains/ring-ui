@@ -6,6 +6,10 @@
 
 var React = require('react');
 
+/**
+ * @constructor
+ * @extends {ReactComponent}
+ */
 var ButtonGroup = React.createClass({
   render: function () {
     /*jshint ignore:start*/

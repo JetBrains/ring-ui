@@ -15,4 +15,19 @@ Global.addSingletonGetter = function (Constructor) {
   };
 };
 
+/**
+ * Creates unique ids generator function
+ * @param {string} prefix
+ * @param {number=} idCounter
+ * @returns {Function}
+ */
+Global.getUIDGenerator = function (prefix, idCounter) {
+  idCounter = idCounter || 0;
+
+  return function () {
+    var id = String(idCounter++);
+    return prefix + id;
+  };
+};
+
 module.exports = Global;
