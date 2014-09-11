@@ -99,13 +99,17 @@ var Alert = React.createClass({
     return (<div className={classes} onClick={this.props['onClick']}>
       {this.props['caption']}
       {this.props['closeable'] ?
-          (<span className="ring-alert__close ring-font-icon ring-font-icon_close" onClick={closeClickHandler} />) :
+          (<span
+              className="ring-alert__close ring-font-icon ring-font-icon_close"
+              onClick={closeClickHandler} />) :
           ''}
     </div>);
   },
 
   /**
    * Removes component from DOM.
+   * @throws {Error} Throws an error if component rendered as a part of alerts
+   * stack being deleted by this method.
    */
   close: function() {
     if (this.props['inline']) {
