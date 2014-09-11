@@ -11,16 +11,40 @@ var Alert = require('./alert');
 var React = require('react/addons');
 
 
+/**
+ * List of all executed animations.
+ * @type {Array.<jQuery.Deferred>}
+ * @private
+ */
+var _animationQueue = [];
+
+
 
 /**
  * @constructor
  * @extends {ReactComponent}
+ * @example
+ * <example>
+ *   <div class="alerts-container"></div>
+ *
+ *   <script>
+ *     var alertsContainer = React.renderComponent(<Alerts />, document.querySelector('.alerts-container');
+ *
+ *     alertsContainer.add('Test message');
+ *     alertsContainer.add('Another test message');
+ *     alertsContainer.add('Test warning', Alert.Type.WARNING);
+ *   </script>
+ * </example>
  */
 var Alerts = React.createClass({
+  statics: {
+    type: Alert.type
+  },
+
   /** @override */
   getInitialState: function() {
     return {
-      /** @type {Array.<Alert>} */
+      /** @type {Array.<Object>} */
       'childElements': [],
 
       /** @type {?number} */
@@ -36,7 +60,17 @@ var Alerts = React.createClass({
 
     return (<div className="ring-alerts">
       <React.addons.CSSTransitionGroup transitionName="alert">
-        {this.state.childElements.slice(0).reverse()}
+        {this.state.childElements.slice(0).reverse().map(function(child) {
+          return <Alert
+              animationDeferred={child.animationDeferred}
+              caption={child.caption}
+              closeable={true}
+              inline={false}
+              key={child.key}
+              onClick={child.onClick}
+              ref={'alert-' + child.key}
+              type={child.type} />;
+        })}
       </React.addons.CSSTransitionGroup>
     </div>);
   },
@@ -54,59 +88,64 @@ var Alerts = React.createClass({
   },
 
   /**
+   * Creates a deferred and puts it into a queue.
    * @param {ReactComponent|string} caption
    * @param {Alert.Type=} type
    * @param {number=} timeout
+   * @return {jQuery.Deferred}
    */
   add: function(caption, type, timeout) {
-    // NB! If animation is proceeded new alert comes to the end of the
-    // queue.
-    if (this._animationDeferred) {
-      this._animationDeferred.done(function() {
-        this.add(caption, type, timeout);
-      }.bind(this));
+    var animationDeferred = new $.Deferred();
+    _animationQueue.push(animationDeferred);
+    var currentAnimationIndex = _animationQueue.indexOf(animationDeferred);
 
-      return;
+    if (currentAnimationIndex > 0) {
+      _animationQueue[currentAnimationIndex - 1].done(function() {
+        this._addElement(caption, type, animationDeferred, timeout);
+      }.bind(this));
+    } else {
+      this._addElement(caption, type, animationDeferred, timeout);
     }
 
+    return animationDeferred;
+  },
+
+  /**
+   * @param {ReactComponent|string} caption
+   * @param {Alert.Type} type
+   * @param {jQuery.Deferred} animationDeferred
+   * @param {number=} timeout
+   * @private
+   */
+  _addElement: function(caption, type, animationDeferred, timeout) {
     var childElements = this.state['childElements'].slice(0);
     var index = childElements.length;
-    var animationDeferred = new $.Deferred();
 
-    childElements.push(<Alert
-        animationDeferred={animationDeferred}
-        caption={caption}
-        closeable={true}
-        inline={false}
-        key={index}
-        onClick={function(evt) { this._handleClick(evt, index); }.bind(this)}
-        type={type} />);
+    childElements.push({
+      'animationDeferred': animationDeferred,
+      'caption': caption,
+      'key': index,
+      'onClick': function(evt) {
+        this._handleClick(evt, index);
+      }.bind(this),
+      'type': type
+    });
 
     this.setState({
       'childElements': childElements,
       'lastInserted': index
     });
 
-    // NB!(igor.alexeenko) I don't use this.setState['animationDeferred'] here
-    // to prevent rerendering of component, because every update of component's
-    // state unfortunately causes second render. So I've decided to change
-    // state of component only if it's really needed: when I change the number
-    // of child components. In other cases it's better to use private properties.
-    /**
-     * @type {jQuery.Deferred}
-     * @private
-     */
-    this._animationDeferred = animationDeferred;
-
     if (timeout) {
       setTimeout(function() {
         this.remove(index);
-      }.bind(this), timeout)
+      }.bind(this), timeout);
     }
 
     animationDeferred.done(function() {
-      this._animationDeferred = null;
-    }.bind(this));
+      animationDeferred.resolve();
+      _animationQueue.shift();
+    });
   },
 
   /**
@@ -129,8 +168,10 @@ var Alerts = React.createClass({
    * @private
    */
   _handleClick: function(evt, i) {
-    evt.preventDefault();
-    this.remove(i);
+    if (evt.target.classList.contains('ring-alert__close')) {
+      evt.preventDefault();
+      this.remove(i);
+    }
   }
 });
 
