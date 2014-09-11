@@ -6,7 +6,7 @@
 var Alert = require('./alert');
 var React = require('react/addons');
 
-describe.only('Alert component', function() {
+describe('Alert component', function() {
   it('Simple render', function() {
     var alertComponent = React.addons.TestUtils.renderIntoDocument(
         Alert({ 'caption': 'Test element' }));
