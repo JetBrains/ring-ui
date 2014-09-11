@@ -12,15 +12,7 @@
   font-size: 11px !important;
   @include ring-font();
 
-  // TODO Make this default after TC update
-  &.ring-footer_4x {
-    margin: $ring-unit*5  $ring-unit*4 0 $ring-unit*4;
-  }
-
-  &.ring-footer_gray {
-    margin: $ring-unit*5 0 0 0;
-    background-color: #F0F0F0;
-  }
+  margin: $ring-unit*5  $ring-unit*4 0 $ring-unit*4;
 }
 
 .ring-footer__column {

@@ -4,6 +4,7 @@
 
 require('./checkbox.scss');
 var React = require('react');
+var Global =  require('global/global');
 var ReactPropTypes = React.PropTypes;
 
 /**
@@ -12,17 +13,8 @@ var ReactPropTypes = React.PropTypes;
  */
 var ID_PREFIX = '\\x0';
 
-/**
- * @param {string} prefix
- * @param {number} idCounter
- * @return {string}
- */
-var generateUniqueId = (function (prefix, idCounter) {
-  return function () {
-    var id = String(idCounter++);
-    return prefix + id;
-  };
-}(ID_PREFIX, 0));
+var generateUniqueId = Global.getUIDGenerator(ID_PREFIX);
+
 
 
 /**
