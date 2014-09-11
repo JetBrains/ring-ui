@@ -15,28 +15,27 @@ var React = require('react/addons');
  * @param {Object} params
  * @return {ReactCompositeComponent}
  */
-var renderComponentToDOM = function(params) {
+var renderComponentToDOM = function (params) {
   var element = document.createElement('div');
 
   return React.renderComponent(new Form(params,
       new FormGroup({ name: 'checkbox', type: 'checkbox', defaultChecked: true }),
       new FormGroup({ name: 'input', type: 'input', defaultValue: '', required: true }),
       new FormGroup({ name: 'secondInput', type: 'email', defalutValue: '', required: true })),
-      element);
+    element);
 };
 
 
-
-describe('Form component', function() {
-  it('should render Form correctly', function() {
+describe('Form component', function () {
+  it('should render Form correctly', function () {
     var formComponent = renderComponentToDOM(null);
     React.addons.TestUtils.isCompositeComponentWithType(formComponent, Form).
-        should.be.true;
+      should.be.true;
   });
 
-  describe('dependencies', function() {
-    describe('parse dependencies', function() {
-      it('should create component', function() {
+  describe('dependencies', function () {
+    describe('parse dependencies', function () {
+      it('should create component', function () {
         var component = renderComponentToDOM({'deps': {
           'checkbox': {
             'input': Form.DependencyFunction.DISABLED,
@@ -48,46 +47,175 @@ describe('Form component', function() {
         component.state.deps.should.be.an('object');
       });
 
-      it('should raise an exception if format of deps is wrong', function() {
-        expect(function() {
+      it('should raise an exception if format of deps is wrong', function () {
+        expect(function () {
           renderComponentToDOM({'deps': { 'checkbox': false }});
         }).to.throw(Error);
 
-        expect(function() {
+        expect(function () {
           renderComponentToDOM({'deps': { 'checkbox': [undefined, 1, false] }});
         }).to.throw();
       });
 
-      it('should not fail if there are no deps', function() {
-        expect(function() { renderComponentToDOM(null); }).not.to.throw();
+      it('should not fail if there are no deps', function () {
+        expect(function () {
+          renderComponentToDOM(null);
+        }).not.to.throw();
       });
 
-      describe('Dependency checks', function() {
+      describe('Dependency checks', function () {
         // NB! I check dependency function separately without rendering
         // component because propTypes checks render warnings in console.
         // Component will be rendered in any case.
 
         it('should raise an exception if dependency object contains chained ' +
-          'or conflicting dependency', function() {
+          'or conflicting dependency', function () {
           var dependencyObject = {
             'one': { 'two': Form.DependencyFunction.DISABLED },
             'two': { 'three': Form.DependencyFunction.DISABLED }, // chain dependency
             'four': {
               'three': Form.DependencyFunction.DISABLED, // conflicting dependency
-              'one': Form.DependencyFunction.DISABLED // circular dependency
+              'one': Form.DependencyFunction.DISABLED // circular dependency (where is the cycle)????
             }
           };
 
-          expect(Form.dependencyFilters.some(function(filter) {
+          expect(Form.dependencyFilters.some(function (filter) {
             return typeof filter(dependencyObject) !== 'undefined';
           })).to.be.true;
+        });
+
+        describe('Unique element checks', function () {
+          it('valid unique forest', function () {
+            var dependencyObject = {
+              'one': {
+                'two': {
+                  'three': Form.DependencyFunction.DISABLED
+                }
+              },
+              'four': Form.DependencyFunction.DISABLED,
+              'five': {
+                'six': Form.DependencyFunction.DISABLED
+              }
+            };
+
+            expect(Form.dependencyFilters[0](dependencyObject)).
+              to.be.undefined;
+          });
+
+          it('trees should contain unique elements', function () {
+            var dependencyObject = {
+              'one': {
+                'two': {
+                  'three': Form.DependencyFunction.DISABLED
+                }
+              },
+              'four': Form.DependencyFunction.DISABLED,
+              'five': {
+                'two': Form.DependencyFunction.DISABLED // two already used
+              }
+            };
+
+            expect(Form.dependencyFilters[0](dependencyObject)).
+              to.have.property('two');
+          });
+
+          it('deep non-unique element trees', function () {
+            var dependencyObject = {
+              'one': {
+                'two': {
+                  'three': Form.DependencyFunction.DISABLED
+                }
+              },
+              'four': {
+                'five': {
+                  'six': {
+                    'three': Form.DependencyFunction.DISABLED
+                  }
+                }
+              }
+            };
+
+            expect(Form.dependencyFilters[0](dependencyObject)).
+              to.have.property('three');
+          });
+
+          it('deep non-unique element inside singe tree', function () {
+            var dependencyObject = {
+              'one': {
+                'two': {
+                  'three': {
+                    'four': {
+                      'five': {
+                        'six': {
+                          'seven': Form.DependencyFunction.DISABLED
+                        }
+                      },
+                      'four': Form.DependencyFunction.DISABLED
+                    }
+                  }
+                }
+              }
+            };
+
+            expect(Form.dependencyFilters[0](dependencyObject)).
+              to.have.property('four');
+          });
+        });
+
+        describe('Cycle tree checks', function () {
+          it('valid tree', function () {
+            var dependencyObject = {
+              'one': {
+                'two': {
+                  'three': Form.DependencyFunction.DISABLED
+                },
+                'four': Form.DependencyFunction.DISABLED,
+                'five': {
+                  'six': Form.DependencyFunction.DISABLED
+                }
+              }
+            };
+
+            expect(Form.dependencyFilters[1](dependencyObject)).
+              to.be.undefined;
+          });
+
+          it('tree cycle dependency', function () {
+            var dependencyObject = {
+              'one': {
+                'two': {
+                  'one': Form.DependencyFunction.DISABLED
+                }
+              }
+            };
+
+            expect(Form.dependencyFilters[1](dependencyObject)).
+              to.have.property('one');
+          });
+
+          it('deep tree cycle dependency', function () {
+            var dependencyObject = {
+              'one': {
+                'two': {
+                  'three': {
+                    'four': {
+                      'one': Form.DependencyFunction.DISABLED
+                    }
+                  }
+                }
+              }
+            };
+
+            expect(Form.dependencyFilters[1](dependencyObject)).
+              to.have.property('one');
+          });
         });
       });
     });
 
-    describe('built-in deps', function() {
+    describe('built-in deps', function () {
       it('DependencyFunction.DISABLED should disable field when checkbox ' +
-        'is not checked and enable it when checkbox is checked', function() {
+        'is not checked and enable it when checkbox is checked', function () {
         var component = renderComponentToDOM({'deps': {
           'checkbox': { 'input': Form.DependencyFunction.DISABLED }
         }});
@@ -105,7 +233,7 @@ describe('Form component', function() {
       });
 
       it('DependencyFunction.CLONE should clone value of changed ' +
-        'element to its dependent fields', function() {
+        'element to its dependent fields', function () {
         var component = renderComponentToDOM({'deps': {
           'input': { 'secondInput': Form.DependencyFunction.CLONE }
         }});
@@ -123,13 +251,13 @@ describe('Form component', function() {
       });
     });
 
-    describe('custom dependencies', function() {
-      it('Custom dependency function should work (clone value twice)', function() {
+    describe('custom dependencies', function () {
+      it('Custom dependency function should work (clone value twice)', function () {
         var component = renderComponentToDOM({'deps': {
-          'input': { 'secondInput': function(dependentField, superiorField) {
+          'input': { 'secondInput': function (dependentField, superiorField) {
             dependentField.value = superiorField.value + superiorField.value;
           }
-        }}});
+          }}});
 
         var formElement = component.getDOMNode();
 
@@ -145,8 +273,8 @@ describe('Form component', function() {
       });
     });
 
-    describe('multiple dependencies', function() {
-      it('multiple dependencies should work', function() {
+    describe('multiple dependencies', function () {
+      it('multiple dependencies should work', function () {
         var component = renderComponentToDOM({'deps': {
           'checkbox': {
             'input': Form.DependencyFunction.DISABLED,
@@ -171,17 +299,17 @@ describe('Form component', function() {
     });
   });
 
-  describe('validation', function() {
+  describe('validation', function () {
     var component, formElement, input, secondInput;
 
-    beforeEach(function() {
+    beforeEach(function () {
       component = renderComponentToDOM(null);
       formElement = component.getDOMNode();
       input = formElement.querySelector('[name=input]');
       secondInput = formElement.querySelector('[name=secondInput]');
     });
 
-    it('should check required fields', function() {
+    it('should check required fields', function () {
       input.value = '';
       secondInput.value = '';
       React.addons.TestUtils.Simulate.change(secondInput);
@@ -190,7 +318,7 @@ describe('Form component', function() {
       component.state.firstInvalid.state['inputElement'].should.equal(input);
     });
 
-    it('should check field types', function() {
+    it('should check field types', function () {
       input.value = 'Some value';
       secondInput.value = 'Another value';
       React.addons.TestUtils.Simulate.change(secondInput);
@@ -199,7 +327,7 @@ describe('Form component', function() {
       component.state.firstInvalid.state['inputElement'].should.equal(secondInput);
     });
 
-    it('should be valid if all checks passed', function() {
+    it('should be valid if all checks passed', function () {
       input.value = 'Some value';
       secondInput.value = 'asd@example.com';
       React.addons.TestUtils.Simulate.change(secondInput);
