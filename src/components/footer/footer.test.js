@@ -4,7 +4,7 @@ describe('footer', function () {
   var Footer = require('./footer');
   var footer;
 
-  beforeEach(function() {
+  beforeEach(function () {
     footer = React.addons.TestUtils.renderIntoDocument(new Footer());
   });
 
@@ -17,7 +17,7 @@ describe('footer', function () {
     $(footer.getDOMNode()).should.be.empty;
   });
 
-  describe('should render items', function() {
+  describe('should render items', function () {
 
     it('should add given class', function () {
       footer.setProps({'className': 'myClass'});
@@ -34,7 +34,7 @@ describe('footer', function () {
     });
 
     it('add left column two lines', function () {
-      footer.setProps({'left': ['One Line','Second Line']});
+      footer.setProps({'left': ['One Line', 'Second Line']});
 
       $(footer.getDOMNode()).find('li').should.not.be.empty;
       $(footer.getDOMNode()).find('li').length.should.equal(2);
@@ -42,9 +42,9 @@ describe('footer', function () {
 
     it('add three columns two lines', function () {
       footer.setProps({
-        'left': ['One Line','Second Line'],
-        'center': ['One Line','Second Line'],
-        'right': ['One Line','Second Line']
+        'left': ['One Line', 'Second Line'],
+        'center': ['One Line', 'Second Line'],
+        'right': ['One Line', 'Second Line']
       });
       function assertLines(lines, count) {
         lines.should.not.be.empty;
@@ -60,5 +60,29 @@ describe('footer', function () {
       assertLines(ul.eq(2).find('li'), 2);
     });
 
+  });
+
+  it('should render copyright', function () {
+    footer.setProps({
+      'left': [
+        {'copyright': 2010, 'label': ' JetBrains'}
+      ]
+    });
+
+    $(footer.getDOMNode()).find('li').text().should.contain('© 2010—' + (new Date()).getFullYear() + ' JetBrains');
+  });
+
+  it('should render link', function () {
+    footer.setProps({
+      'left': [
+        {'url': 'http://jetbrains.com', 'label': 'JetBrains', 'title': 'JetBrains Official Site'}
+      ]
+    });
+
+    var link = $(footer.getDOMNode()).find('a');
+    link.should.not.be.empty;
+    link.text().should.equal('JetBrains');
+    link.prop('href').should.equal('http://jetbrains.com/');
+    link.prop('title').should.equal('JetBrains Official Site');
   });
 });
