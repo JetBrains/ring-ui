@@ -59,6 +59,8 @@ var Auth = function (config) {
   }, this._storage);
 
   this.profileUrl = this.config.serverUri + 'users/me';
+
+  this._initDeferred = when.defer();
 };
 
 /**
@@ -131,6 +133,7 @@ Auth.prototype.init = function () {
         then(function (/*accessToken*/) {
           // Access token appears to be valid.
           // We may resolve restoreLocation URL now
+          self._initDeferred.resolve(restoreLocation);
           return restoreLocation;
         }, function (e) {
           if (e.authRedirect) {
@@ -140,6 +143,7 @@ Auth.prototype.init = function () {
                 return when.reject(e);
               });
           }
+          self._initDeferred.reject(e);
           return when.reject(e);
         });
     });
@@ -152,17 +156,19 @@ Auth.prototype.init = function () {
  */
 Auth.prototype.requestToken = function () {
   var self = this;
-  return this._getValidatedToken([Auth._validateExistence, Auth._validateExpiration, this._validateScopes.bind(this)]).
-    otherwise(function () {
-      return self._loadTokenInBackground();
-    }).
-    otherwise(function (e) {
-      return self._requestBuilder.prepareAuthRequest().
-        then(function (authURL) {
-          self._redirectCurrentPage(authURL);
-          return when.reject({ reason: e, authRedirect: true });
-        });
-    });
+  return this._initDeferred.promise.then(function () {
+    return self._getValidatedToken([Auth._validateExistence, Auth._validateExpiration, self._validateScopes.bind(self)]).
+      otherwise(function () {
+        return self._loadTokenInBackground();
+      }).
+      otherwise(function (e) {
+        return self._requestBuilder.prepareAuthRequest().
+          then(function (authURL) {
+            self._redirectCurrentPage(authURL);
+            return when.reject({ reason: e, authRedirect: true });
+          });
+      });
+  });
 };
 
 /**
@@ -444,7 +450,7 @@ Auth.prototype._loadTokenInBackground = function () {
   var poll = function () {
     pollAttempt++;
     self._storage.getToken().
-      then(function (storedToken) {
+      done(function (storedToken) {
         var newAccessToken = storedToken && storedToken.access_token;
 
         if (newAccessToken) {
