@@ -56,7 +56,8 @@ module.exports = {
         loader: 'imports-loader?window=>{}!exports-loader?window.Mousetrap'
       },
       //images loader
-      { test: /\.png$/, loader: 'file-loader' },
+      { test: /\.png$/, loader: 'url-loader?limit=10000' },
+      { test: /\.gif$/, loader: 'url-loader?limit=10000' },
       // the url-loader uses DataUrls.
       // the file-loader emits files.
       { test: /\.woff$/, loader: 'url-loader?limit=10000&minetype=application/font-woff' },

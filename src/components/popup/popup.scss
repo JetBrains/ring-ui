@@ -20,16 +20,8 @@
 //
 // Styleguide 5.1
 
-.ring-popup-layer {
-  left: 0;
-  position: absolute;
-  right: 0;
-  top: 0;
-}
-
 .ring-popup {
   position: absolute;
-  margin-top: 4px;
   z-index: $ring-overlay-z-index;
 
   font-size: 13px;
@@ -38,26 +30,11 @@
   border: 1px solid #ADADAD; // IE8-
   border-color: rgba(0, 0, 0, .2);
 
-  background-color: #ffffff;
+  background-color: #FFF;
   box-shadow: 0 1px 8px 0 rgba(0, 0, 0, .2);
   border-radius: 3px;
 
   @include ring-font;
-
-  &:not(.ring-popup_typed) .ring-popup__item_hint {
-    padding: 0;
-  }
-
-  &.ring-popup_loader {
-    & .ring-popup__i {
-      padding: 0;
-    }
-
-    & .ring-loader {
-      margin: 2*$ring-unit;
-    }
-  }
-
 }
 
 .ring-popup_scrollable {
@@ -65,253 +42,11 @@
   overflow-x: hidden;
 }
 
-// TODO Refactor in dropdown-fliter
-.ring-popup__scroll {
-  position: relative;
-  max-height: 15 * $ring-unit;
-  overflow-y: auto;
-  overflow-style: none;
-}
-
+// TODO Find better name and probably approach
 .ring-popup_bound {
-  margin-top: 0;
-
   border-top: 0;
-  border-radius: 2px;
+// TODO Do we need this?
+//  border-radius: 2px;
   border-top-left-radius: 0;
   border-top-right-radius: 0;
-}
-
-.ring-popup__i {
-  position: relative;
-
-  padding-top: $ring-unit/2 + 1;
-  z-index: 1;
-
-  line-height: normal;
-
-  border-radius: 3px;
-  background-color: #FFF;
-
-  .ring-popup_typed & {
-    display: table;
-    width: 100%;
-    padding: 0;
-  }
-
-}
-
-.ring-popup-filter__container {
-  width: 26 * $ring-unit;
-}
-
-.ring-popup__separator {
-  display: block;
-  width: 100%;
-  height: 1px;
-  margin: 2px 0 5px;
-
-  background-color: #ADADAD;
-}
-
-.ring-popup__items {
-  max-height: 23*$ring-unit;
-  overflow: scroll;
-}
-
-.ring-popup__item {
-  display: block;
-  overflow: hidden;
-  padding: 0 $ring-unit*2;
-
-  text-align: left;
-  font-size: 13px !important;
-  line-height: $ring-unit*3;
-
-  vertical-align: bottom;
-  text-decoration: none;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-
-  &:last-child:not(.ring-popup__item_hint) {
-    margin-bottom: 3px;
-  }
-
-  &.ring-popup__item_error,
-  &.ring-popup__item_error .ring-popup__item__content {
-    color: #F00 !important;
-    cursor: default;
-
-    // Redefine ring-link
-    &:hover, &:focus, &:visited {
-      color: #F00 !important;
-    }
-  }
-
-  .ring-popup_typed & {
-    padding-left: 0;
-    display: table-row;
-
-    & .ring-popup__item__type, & .ring-popup__item__content {
-      display: table-cell;
-    }
-  }
-
-  .ring-popup &:hover {
-    text-decoration: none !important;
-  }
-}
-
-.ring-popup__item__controls {
-  margin: $ring-unit/2 0 $ring-unit/2 0;
-  background: #fff;
-  &:last-child {
-    margin-bottom: 0;
-    & .ring-popup__item__controls__title {
-      font-weight: normal;
-    }
-  }
-}
-
-.ring-popup__item__controls__title {
-  cursor: pointer;
-  font-weight: bold;
-}
-
-.ring-popup__item_action {
-  cursor: pointer;
-  color: #000 !important;
-
-  &.active:not(.ring-popup__item_error), .ring-popup_menu &:hover {
-    color: #FFF !important;
-    background-color: #25B7FF;
-
-    .ring-popup__highlight, .ring-popup__service {
-      color: inherit;
-    }
-  }
-}
-
-// Typed dropdown
-//
-// markup:
-// <div style="height: 320px;">
-// <div class="ring-popup ring-popup_bound ring-popup_typed">
-//   <div class="ring-popup__i">
-//     <span class="ring-popup__item ring-popup__item_action">
-//        <span class="ring-popup__item__type">by tag</span>
-//        <span class="ring-popup__item__content"><span class="ring-popup__highlight">ta</span>g:</span>
-//     </span>
-//     <span class="ring-popup__item ring-popup__item_action">
-//        <span class="ring-popup__item__type">value in several bundles</span>
-//        <span class="ring-popup__item__content"><span class="ring-popup__service">#</span><span class="ring-popup__highlight">Ta</span>sk</span>
-//     </span>
-//     <span class="ring-popup__item ring-popup__item_action">
-//        <span class="ring-popup__item__type">user group</span>
-//        <span class="ring-popup__item__content"><span class="ring-popup__service">#{</span>MAGE-<span class="ring-popup__highlight">TA</span>B Admins<span class="ring-popup__service">}</span></span>
-//     </span>
-//     <span class="ring-popup__item ring-popup__item_action">
-//        <span class="ring-popup__item__type">user group</span>
-//        <span class="ring-popup__item__content"><span class="ring-popup__service">#{</span>MAGE-<span class="ring-popup__highlight">TA</span>B Developers<span class="ring-popup__service">}</span></span>
-//     </span>
-//     <span class="ring-popup__item ring-popup__item_action">
-//        <span class="ring-popup__item__type">user group</span>
-//        <span class="ring-popup__item__content"><span class="ring-popup__service">#</span>resharper-<span class="ring-popup__highlight">ta</span>p</span>
-//     </span>
-//     <span class="ring-popup__item ring-popup__item_action">
-//        <span class="ring-popup__item__type">tag</span>
-//        <span class="ring-popup__item__content"><span class="ring-popup__service">#</span><span class="ring-popup__highlight">ta</span>blet-pc</span>
-//     </span>
-//     <span class="ring-popup__item ring-popup__item_action">
-//        <span class="ring-popup__item__type">tag</span>
-//        <span class="ring-popup__item__content"><span class="ring-popup__service">#{</span>work with <span class="ring-popup__highlight">ta</span>gs<span class="ring-popup__service">}</span></span>
-//     </span>
-//     <span class="ring-popup__item ring-popup__item_action">
-//        <span class="ring-popup__item__type">tag</span>
-//        <span class="ring-popup__item__content"><span class="ring-popup__service">#{</span><span class="ring-popup__highlight">ta</span>sk connector<span class="ring-popup__service">}</span></span>
-//     </span>
-//     <span class="ring-popup__item">
-//       <span class="ring-popup__item__type"></span>
-//       <span class="ring-popup__item__content"><span class="ring-popup__item__underline"><span class="ring-popup__item__title">Recent searches</span></span></span>
-//     </span>
-//     <span class="ring-popup__item ring-popup__item_action">
-//        <span class="ring-popup__item__type"></span>
-//        <span class="ring-popup__item__content">Fix versions: 4.1 S<span class="ring-popup__highlight">ta</span>te: Verified project: YouTrack</span>
-//     </span>
-//     <span class="ring-popup__item ring-popup__item_action">
-//        <span class="ring-popup__item__type"></span>
-//        <span class="ring-popup__item__content"><span class="ring-popup__highlight">ta</span>g: S<span class="ring-popup__highlight">ta</span>r</span>
-//     </span>
-//     <span class="ring-popup__item ring-popup__item_hint">
-//       <span class="ring-popup__item__type"></span>
-//       <span class="ring-popup__item__content">Use ↩ to complete selected item</span>
-//     </span>
-//   </div>
-// </div>
-// </div>
-//
-// Styleguide 5.3
-
-.ring-popup__highlight {
-  color: #D800FF;
-}
-
-.ring-popup__service {
-  color: #B4B4B4;
-}
-
-.ring-popup__image {
-  height: $ring-unit*2;
-  width: $ring-unit*2;
-  float: right;
-  margin-right: -$ring-unit;
-  margin-left: $ring-unit;
-  margin-top: $ring-unit/2;
-}
-
-.ring-popup__item__title {
-  padding-right: $ring-unit;
-
-  font-size: 11px;
-  font-weight: bold;
-  text-transform: uppercase;
-
-  color: #929292;
-  background-color: #FFF;
-}
-
-.ring-popup__item__underline {
-  display: block;
-  height: $ring-unit*2 - 1;
-  border-bottom: 1px solid #929292;
-
-  margin-bottom: $ring-unit;
-}
-
-.ring-popup__item__content {
-  display: block;
-  padding: 0 $ring-unit*2 0 $ring-unit;
-
-  .ring-popup__item_hint & {
-    font-size: 11px;
-    background-color: #FFF5CD;
-    border-top: 1px solid #E5DCB8;
-  }
-}
-
-.ring-popup__item__type {
-  display: block;
-  padding: 0 $ring-unit 0 $ring-unit*2;
-  width: 1px;
-
-  text-align: right;
-  font-size: 13px;
-  white-space: nowrap;
-
-  color: #888888;
-  background-color: #F0F0F0;
-
-  .ring-popup__item:first-child & {
-    border-top: $ring-unit / 2 solid #F0F0F0;
-  }
 }

@@ -7,6 +7,10 @@
 var React = require('react/addons');
 require('./textarea.scss');
 
+/**
+ * @constructor
+ * @extends {ReactComponent}
+ */
 var Textarea = React.createClass({
   render: function () {
     /* jshint ignore:start */
