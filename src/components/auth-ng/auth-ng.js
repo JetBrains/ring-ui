@@ -85,7 +85,11 @@ authModule.provider('auth', ['$httpProvider', function ($httpProvider) {
         }
       }
     };
-    authInitPromise.done(restoreLocation);
+    authInitPromise.then(restoreLocation, function (e) {
+      if (!e.authRedirect) {
+        console.error(e);
+      }
+    });
 
     return {
       auth: auth,
