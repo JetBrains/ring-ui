@@ -349,4 +349,12 @@ describe('auth', function () {
         });
     });
   });
+
+  describe.only('TokenValidationError', function() {
+    it('should be cool', function () {
+      expect(function () {
+        throw new Auth.TokenValidationError('message');
+      }).to.throw(Auth.TokenValidationError, 'message');
+    });
+  });
 });
