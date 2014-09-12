@@ -165,7 +165,7 @@ Auth.prototype.requestToken = function () {
         return self._requestBuilder.prepareAuthRequest().
           then(function (authURL) {
             self._redirectCurrentPage(authURL);
-            return when.reject({ reason: e, authRedirect: true });
+            return self._authRequiredReject(e.message);
           });
       });
   });
@@ -306,12 +306,31 @@ Auth._contains = function (arr, el) {
 };
 
 /**
- * @param {string} reason
+ * Error class for auth token validation
+ *
+ * @param {string} message error message
+ * @param {Error=} cause error that caused this error
+ * @constructor
+ */
+Auth.TokenValidationError = function (message, cause) {
+  this.stack = Error().stack;
+  this.message = message;
+  this.cause = cause;
+  this.authRedirect = true;
+};
+
+Auth.TokenValidationError.prototype = Object.create(Error.prototype);
+Auth.TokenValidationError.prototype.name = 'TokenValidationError';
+
+/**
+ * @param {string} message
+ * @param {cause=} cause
  * @return {Promise} rejected promise with {authRedirect: true}
  * @private
  */
-Auth._authRequiredReject = function (reason) {
-  return when.reject({ reason: reason, authRedirect: true });
+Auth._authRequiredReject = function (message, cause) {
+  var error = new Auth.TokenValidationError(message, cause);
+  return when.reject(error);
 };
 
 /**
@@ -460,7 +479,7 @@ Auth.prototype._loadTokenInBackground = function () {
           setTimeout(poll, Auth.REFRESH_POLL_INTERVAL);
         } else {
           $iframe.remove();
-          self._refreshDefer.reject('Failed to refresh token after ' + pollAttempt / 1000 * Auth.REFRESH_POLL_INTERVAL + ' secs');
+          self._refreshDefer.reject(new Error('Failed to refresh token after ' + pollAttempt / 1000 * Auth.REFRESH_POLL_INTERVAL + ' secs'));
         }
       });
   };
