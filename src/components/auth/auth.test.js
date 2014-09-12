@@ -90,19 +90,13 @@ describe('auth', function () {
         scopes: ['0-0-0-0-0']
       }));
       return auth._getValidatedToken([Auth._validateExistence, Auth._validateExpiration, auth._validateScopes.bind(auth)]).
-        otherwise(function (rejection) {
-          return rejection;
-        }).
-        should.eventually.be.deep.equal({ reason: 'Token not found', authRedirect: true });
+        should.be.rejectedWith(Auth.TokenValidationError, 'Token not found');
     });
 
     it('should reject if there is no token stored', function () {
       AuthStorage.prototype.getToken.returns(when.resolve(null));
       return auth._getValidatedToken([Auth._validateExistence, Auth._validateExpiration, auth._validateScopes.bind(auth)]).
-        otherwise(function (rejection) {
-          return rejection;
-        }).
-        should.eventually.be.deep.equal({ reason: 'Token not found', authRedirect: true });
+        should.be.rejectedWith(Auth.TokenValidationError, 'Token not found');
     });
 
     it('should reject if token is expired', function () {
@@ -112,10 +106,7 @@ describe('auth', function () {
         scopes: ['0-0-0-0-0']
       }));
       return auth._getValidatedToken([Auth._validateExistence, Auth._validateExpiration, auth._validateScopes.bind(auth)]).
-        otherwise(function (rejection) {
-          return rejection;
-        }).
-        should.eventually.be.deep.equal({ reason: 'Token expired', authRedirect: true });
+        should.be.rejectedWith(Auth.TokenValidationError, 'Token expired');
     });
 
     it('should reject if token scopes don\'t match required scopes', function () {
@@ -125,10 +116,7 @@ describe('auth', function () {
         scopes: ['youtrack']
       }));
       return auth._getValidatedToken([Auth._validateExistence, Auth._validateExpiration, auth._validateScopes.bind(auth)]).
-        otherwise(function (rejection) {
-          return rejection;
-        }).
-        should.eventually.be.deep.equal({ reason: 'Token doesn\'t match required scopes', authRedirect: true });
+        should.be.rejectedWith(Auth.TokenValidationError, 'Token doesn\'t match required scopes');
     });
   });
 
@@ -162,30 +150,21 @@ describe('auth', function () {
       var token = { access_token: 'token' };
       Auth.prototype.getSecure.returns(when.reject({status: 401, responseJSON: {error: 'Problem'}}));
       return auth._validateAgainstUser(token).
-        otherwise(function (rejection) {
-          return rejection;
-        }).
-        should.eventually.be.deep.equal({ reason: 'Problem', authRedirect: true });
+        should.be.rejectedWith(Auth.TokenValidationError, 'Problem');
     });
 
     it('should reject with redirect if invalid_grant response recieved', function () {
       var token = { access_token: 'token' };
       Auth.prototype.getSecure.returns(when.reject({responseJSON: {error: 'invalid_grant'}}));
       return auth._validateAgainstUser(token).
-        otherwise(function (rejection) {
-          return rejection;
-        }).
-        should.eventually.be.deep.equal({ reason: 'invalid_grant', authRedirect: true });
+        should.be.rejectedWith(Auth.TokenValidationError, 'invalid_grant');
     });
 
     it('should reject with redirect if invalid_grant response recieved', function () {
       var token = { access_token: 'token' };
       Auth.prototype.getSecure.returns(when.reject({responseJSON: {error: 'invalid_request'}}));
       return auth._validateAgainstUser(token).
-        otherwise(function (rejection) {
-          return rejection;
-        }).
-        should.eventually.be.deep.equal({ reason: 'invalid_request', authRedirect: true });
+        should.be.rejectedWith(Auth.TokenValidationError, 'invalid_request');
     });
   });
 
@@ -350,7 +329,7 @@ describe('auth', function () {
     });
   });
 
-  describe.only('TokenValidationError', function() {
+  describe('TokenValidationError', function() {
     it('should be cool', function () {
       expect(function () {
         throw new Auth.TokenValidationError('message');
