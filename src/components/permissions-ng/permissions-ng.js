@@ -172,7 +172,7 @@ permissionsModule.directive('permissionIf', [
               }
             }
           }).
-          done(registerPermission(iElement));
+          then(registerPermission(iElement));
       }
     };
   }
