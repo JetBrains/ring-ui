@@ -50,7 +50,7 @@ permissionsModule.provider('userPermissions', [function () {
     permissions.load = function () {
       return $q.when(Permissions.prototype.load.apply(this));
     };
-    return  permissions;
+    return permissions;
   }];
 }]);
 
