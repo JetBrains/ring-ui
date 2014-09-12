@@ -165,7 +165,7 @@ Auth.prototype.requestToken = function () {
         return self._requestBuilder.prepareAuthRequest().
           then(function (authURL) {
             self._redirectCurrentPage(authURL);
-            return self._authRequiredReject(e.message);
+            return Auth._authRequiredReject(e.message);
           });
       });
   });
