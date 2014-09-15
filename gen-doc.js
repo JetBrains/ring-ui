@@ -2,7 +2,7 @@
  * Usage: Run `node gen-doc.js > docs/index.html`
  */
 
-var Q = require('q');
+var when = require('when');
 var fs = require('fs');
 var qfs = require('q-fs');
 var webpack = require('webpack');
@@ -86,7 +86,7 @@ var getExamples = function (text, file) {
 
   trim((text || '')).replace(/<example>([\s\S]*?)<\/example>/gmi, function (_, content) {
     content.replace(scriptRegExp, function (_, script) {
-      var defer = Q.defer();
+      var defer = when.defer();
       var fileName = toCamelCase(path.basename(file, '.jsx'));
       webpackConfig.entry = {};
       webpackConfig.output = {
@@ -132,7 +132,7 @@ var getExamples = function (text, file) {
     return content;
   });
 
-  return Q.all(examples);
+  return when.all(examples);
 };
 
 /**
@@ -157,7 +157,7 @@ var getStats = function (path) {
  * @return {Deferred}
  */
 var getJSFiles = function (files) {
-  return Q.all(files.filter(function (file) {
+  return when.all(files.filter(function (file) {
     return /\.jsx$/.test(file);
   }).map(function (file) {
     return qfs.read(file).then(function (content) {
@@ -171,10 +171,10 @@ var getJSFiles = function (files) {
   }));
 };
 
-Q.when(qfs.stat(componentDir), getStats(componentDir))
+when(qfs.stat(componentDir), getStats(componentDir))
   .then(function (statsInfo) {
     if (statsInfo.isDirectory) {
-      return Q.when(qfs.listTree(statsInfo.path), getJSFiles);
+      return when(qfs.listTree(statsInfo.path), getJSFiles);
     }
 
     return getJSFiles([statsInfo.path]);
