@@ -15,6 +15,8 @@ var tar = require('gulp-tar');
 var gzip = require('gulp-gzip');
 var rename = require('gulp-rename');
 var filter = require('gulp-filter');
+var spawn = require('child_process').spawn;
+var fs = require('fs');
 
 var sprite = require('gulp-svg-sprites');
 var svg2png = require('gulp-svg2png');
@@ -37,6 +39,24 @@ var webpackConfig = Object.create(require('./webpack.config.js'));
 gulp.task('clean', function () {
   return gulp.src(pkgConfig.dist, {read: false})
     .pipe(rimraf());
+});
+
+gulp.task('doc', function () {
+  var template = '';
+  var docGeneration = spawn(
+    'node',
+    [
+      path.join(__dirname, './gen-doc.js')
+    ]
+  );
+
+  docGeneration.stdout.on('data', function (data) {
+    template += data;
+  });
+
+  docGeneration.on('close', function () {
+    fs.writeFileSync(path.join(__dirname, 'docs', 'index.html'), template);
+  });
 });
 
 gulp.task('webpack:build', ['clean'], function (callback) {
@@ -165,8 +185,8 @@ gulp.task('archive', ['clean', 'webpack:build'], function () {
       pkgConfig.src + '/**/*.{jsx,js,scss,png,svg,ttf,woff,eof}',
       '!' + pkgConfig.src + '/**/*.test.js',
       '!' + pkgConfig.src + '/ring.js',
-      'package.json',
-      'webpack.config.js'
+    'package.json',
+    'webpack.config.js'
   ])
     .pipe(rename(function (path) {
       path.dirname = 'package/' + path.dirname;
@@ -183,7 +203,7 @@ gulp.task('lint-styles', function () {
 
   function reporter(file) {
     var filename = path.relative(__dirname, file.csslint.results[0].file);
-    var messages = file.csslint.results.map(function(file) {
+    var messages = file.csslint.results.map(function (file) {
       return file.error;
     });
 
@@ -205,7 +225,8 @@ gulp.task('lint-styles', function () {
       /* jshint +W040 */
     }
 
-    return through(function() {}, endStream);
+    return through(function () {
+    }, endStream);
   }
 
   return gulp.src(pkgConfig.src + '/components/**/*.scss')
@@ -213,12 +234,12 @@ gulp.task('lint-styles', function () {
     .pipe(sass())
     .pipe(filter(function (file) {
       return file.isBuffer() ? !!file.contents.length : true;
-     }))
+    }))
     .pipe(csslint('.csslintrc'))
     .pipe(csslint.reporter(reporter))
     .pipe(exportReport())
     .pipe(gulp.dest(pkgConfig.dist))
-    .on('end', function() {
+    .on('end', function () {
       console.log('##teamcity[importData type=\'checkstyle\' path=\'' + pkgConfig.dist + '/' + reportFilename + '\']');
     });
 });
