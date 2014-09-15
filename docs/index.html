@@ -20264,49 +20264,37 @@ module.exports = warning;
       <h1>src/components/diff/diff.jsx</h1>
       <h1>src/components/footer/footer.jsx</h1>
       <h1>src/components/icon/icon.jsx</h1>
-      <h1>src/components/input/input.jsx</h1>
       <h1>src/components/list/list.jsx</h1>
       <h1>src/components/popup/popup.jsx</h1>
       <h1>src/components/popup-menu/popup-menu.jsx</h1>
       <h1>src/components/query-assist/query-assist.jsx</h1>
-      <h1>src/components/loader/loader.jsx</h1>
+      <h1>src/components/checkbox/checkbox.jsx</h1>
         <div class="example">
           <pre>
             
-        React.renderComponent(Loader(), document.getElementById(&#x27;loader&#x27;));
-    
-          </pre>
+     React.renderComponent(Checkbox(),
+       document.getElementById(&#x27;checkbox&#x27;));
 
-          <div class="example__sandbox">
-            
-    <div id="loader">
-    </div>
-
-    <script>var Loader=function(e){function r(t){if(o[t])return o[t].exports;var i=o[t]={exports:{},id:t,loaded:!1};return e[t].call(i.exports,i,i.exports,r),i.loaded=!0,i.exports}var o={};return r.m=e,r.c=o,r.p="",r(0)}([function(e,r,o){var t=o(1);o(2);var i=t.createClass({displayName:"Loader",statics:{Modifier:{INLINE:"ring-loader_inline"}},getDefaultProps:function(){return{modifier:""}},render:function(){return this.transferPropsTo(t.DOM.div({className:"ring-loader "+this.props.modifier}))}});e.exports=i},function(e){e.exports=React},function(e,r,o){o(4)(o(3))},function(e){e.exports="@-webkit-keyframes rotating{100%{-webkit-transform:rotate(360deg);transform:rotate(360deg)}}@keyframes rotating{100%{-webkit-transform:rotate(360deg);transform:rotate(360deg)}}@-webkit-keyframes colors{0%{border-left-color:red}20%{border-left-color:#FF9800}40%{border-left-color:#FF0}60%{border-left-color:green}80%{border-left-color:#00F}100%{border-left-color:#F0F}}@keyframes colors{0%{border-left-color:red}20%{border-left-color:#FF9800}40%{border-left-color:#FF0}60%{border-left-color:green}80%{border-left-color:#00F}100%{border-left-color:#F0F}}.ring-loader{width:24px;height:24px;margin:16px auto;border-radius:50%;border:none\\9;-webkit-animation:colors 6s linear infinite,rotating .7s linear infinite;animation:colors 6s linear infinite,rotating .7s linear infinite;font-size:13px\\9}@media screen and (min-width:0){.ring-loader{width:24px;height:24px;margin:16px auto;border-radius:50%;border:solid 1px #D8D8D8;font-size:0;-webkit-animation:colors 6s linear infinite,rotating .7s linear infinite;animation:colors 6s linear infinite,rotating .7s linear infinite}}.ring-loader_inline{box-sizing:border-box;position:relative;top:1px;display:inline-block;width:12px;height:12px;margin:0}"},function(e){e.exports=function(e){var r=document.createElement("style");r.type="text/css";var o=document.getElementsByTagName("head")[0];return o.appendChild(r),r.styleSheet?r.styleSheet.cssText=e:r.appendChild(document.createTextNode(e)),function(){o.removeChild(r)}}}]);;
-        React.renderComponent(Loader(), document.getElementById('loader'));
-    </script>
- 
-          </div>
-        </div>
-        <div class="example">
-          <pre>
-            
-     React.renderComponent(Loader({
-              modifier: Loader.Modifier.INLINE
-            }), document.getElementById(&#x27;loader-inline&#x27;));
+     React.renderComponent(Checkbox({
+         checked: true
+       }),
+       document.getElementById(&#x27;checkbox-selected&#x27;));
    
           </pre>
 
           <div class="example__sandbox">
             
-   <div>
-     <span id="loader-inline"></span>
-   </div>
+   <span id='checkbox'></span>
+   <span id='checkbox-selected'></span>
 
-   <script>var Loader=function(e){function r(t){if(o[t])return o[t].exports;var i=o[t]={exports:{},id:t,loaded:!1};return e[t].call(i.exports,i,i.exports,r),i.loaded=!0,i.exports}var o={};return r.m=e,r.c=o,r.p="",r(0)}([function(e,r,o){var t=o(1);o(2);var i=t.createClass({displayName:"Loader",statics:{Modifier:{INLINE:"ring-loader_inline"}},getDefaultProps:function(){return{modifier:""}},render:function(){return this.transferPropsTo(t.DOM.div({className:"ring-loader "+this.props.modifier}))}});e.exports=i},function(e){e.exports=React},function(e,r,o){o(4)(o(3))},function(e){e.exports="@-webkit-keyframes rotating{100%{-webkit-transform:rotate(360deg);transform:rotate(360deg)}}@keyframes rotating{100%{-webkit-transform:rotate(360deg);transform:rotate(360deg)}}@-webkit-keyframes colors{0%{border-left-color:red}20%{border-left-color:#FF9800}40%{border-left-color:#FF0}60%{border-left-color:green}80%{border-left-color:#00F}100%{border-left-color:#F0F}}@keyframes colors{0%{border-left-color:red}20%{border-left-color:#FF9800}40%{border-left-color:#FF0}60%{border-left-color:green}80%{border-left-color:#00F}100%{border-left-color:#F0F}}.ring-loader{width:24px;height:24px;margin:16px auto;border-radius:50%;border:none\\9;-webkit-animation:colors 6s linear infinite,rotating .7s linear infinite;animation:colors 6s linear infinite,rotating .7s linear infinite;font-size:13px\\9}@media screen and (min-width:0){.ring-loader{width:24px;height:24px;margin:16px auto;border-radius:50%;border:solid 1px #D8D8D8;font-size:0;-webkit-animation:colors 6s linear infinite,rotating .7s linear infinite;animation:colors 6s linear infinite,rotating .7s linear infinite}}.ring-loader_inline{box-sizing:border-box;position:relative;top:1px;display:inline-block;width:12px;height:12px;margin:0}"},function(e){e.exports=function(e){var r=document.createElement("style");r.type="text/css";var o=document.getElementsByTagName("head")[0];return o.appendChild(r),r.styleSheet?r.styleSheet.cssText=e:r.appendChild(document.createTextNode(e)),function(){o.removeChild(r)}}}]);;
-     React.renderComponent(Loader({
-              modifier: Loader.Modifier.INLINE
-            }), document.getElementById('loader-inline'));
+   <script>var Checkbox=function(e){function t(n){if(o[n])return o[n].exports;var r=o[n]={exports:{},id:n,loaded:!1};return e[n].call(r.exports,r,r.exports,t),r.loaded=!0,r.exports}var o={};return t.m=e,t.c=o,t.p="",t(0)}([function(e,t,o){"use strict";o(3);var n=o(1),r=o(2),c=n.PropTypes,i="\\x0",s=r.getUIDGenerator(i),l=n.createClass({displayName:"Checkbox",propTypes:{name:c.string,className:c.string,id:c.string},getInitialState:function(){return{id:s()}},getInputDOMNode:function(){return this.refs.input.getDOMNode()},getLabelDOMNode:function(){return this.refs.label.getDOMNode()},render:function(){var e=this.props.id||this.state.id;return n.DOM.span({className:this.props.className||""},this.transferPropsTo(n.DOM.input({ref:"input",className:"ring-checkbox",type:"checkbox",id:e})),n.DOM.label({ref:"label",className:"ring-checkbox__label",htmlFor:e}))}});e.exports=l},function(e){e.exports=React},function(e){var t={};t.addSingletonGetter=function(e){e.getInstance=function(){return e.instance_||(e.instance_=new e),e.instance_}},t.getUIDGenerator=function(e,t){return t=t||0,function(){var o=String(t++);return e+o}},e.exports=t},function(e,t,o){o(5)(o(4))},function(e){e.exports=':root .ring-checkbox[type="checkbox"]{opacity:0;position:absolute}:root .ring-checkbox[type="checkbox"]+.ring-checkbox__label{display:inline-block;content:"";width:11px;height:11px;border:1px solid #CCC;border-radius:2px;background:0 0;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;line-height:24px;vertical-align:middle}:root .ring-checkbox[type="checkbox"]:not([disabled])+.ring-checkbox__label:hover{border:1px solid #FF8620}:root .ring-checkbox[type="checkbox"]:checked+.ring-checkbox__label{font-size:13px;border:1px solid #25B7FF;line-height:normal}:root .ring-checkbox[type="checkbox"]:checked+.ring-checkbox__label:before{position:relative;top:-4px;left:-1px;display:block;width:11px;height:11px;font-family:\'font-icon\'!important;content:\'\\e005\';font-size:16px;color:#1A1A1A}:root .ring-checkbox[type="checkbox"]:focus+.ring-checkbox__label{border:1px solid red}:root .ring-checkbox[type="checkbox"].ring-checkbox_black+.ring-checkbox__label:before{color:#FFF}.ring-checkbox__label{display:none}.ring-checkbox__label_i{position:relative;left:2px;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}'},function(e){e.exports=function(e){var t=document.createElement("style");t.type="text/css";var o=document.getElementsByTagName("head")[0];return o.appendChild(t),t.styleSheet?t.styleSheet.cssText=e:t.appendChild(document.createTextNode(e)),function(){o.removeChild(t)}}}]);;
+     React.renderComponent(Checkbox(),
+       document.getElementById('checkbox'));
+
+     React.renderComponent(Checkbox({
+         checked: true
+       }),
+       document.getElementById('checkbox-selected'));
    </script>
  
           </div>
@@ -20333,7 +20321,7 @@ module.exports = warning;
             
    <div id='progress-bar'></div>
 
-   <script>var ProgressBar=function(e){function r(o){if(t[o])return t[o].exports;var i=t[o]={exports:{},id:o,loaded:!1};return e[o].call(i.exports,i,i.exports,r),i.loaded=!0,i.exports}var t={};return r.m=e,r.c=t,r.p="",r(0)}([function(e,r,t){"use strict";t(2);var o=t(1),i=o.PropTypes,n=o.createClass({displayName:"ProgressBar",propTypes:{className:i.string,max:i.number,value:i.number},getDefaultProps:function(){return{max:1}},_progressValueToPercents:function(e){var r=100*e/this.props.max;return r>100?100:r},render:function(){var e={width:this.props.value?this._progressValueToPercents(this.props.value)+"%":""};return this.transferPropsTo(o.DOM.div({className:"ring-progress-bar",ref:"progressbarWrapper"},o.DOM.div({className:"ring-progress-bar__i",ref:"progressbar",role:"progressbar","aria-valuenow":this.props.value,"aria-valuemin":0,"aria-valuemax":this.props.max,style:e})))}});e.exports=n},function(e){e.exports=React},function(e,r,t){t(4)(t(3))},function(e){e.exports=".ring-progress-bar{overflow:hidden;max-width:288px;height:4px;margin-bottom:4px;border-radius:2px;background-color:#D8D8D8}.ring-progress-bar_global{position:absolute;top:0;max-width:none;width:100%;background:0 0}.ring-progress-bar__i{line-height:4px;float:left;width:0;height:100%;transition:width .6s ease;text-align:center;color:#FFF;background-color:#25B7FF}"},function(e){e.exports=function(e){var r=document.createElement("style");r.type="text/css";var t=document.getElementsByTagName("head")[0];return t.appendChild(r),r.styleSheet?r.styleSheet.cssText=e:r.appendChild(document.createTextNode(e)),function(){t.removeChild(r)}}}]);;
+   <script>var ProgressBar=function(e){function r(o){if(t[o])return t[o].exports;var n=t[o]={exports:{},id:o,loaded:!1};return e[o].call(n.exports,n,n.exports,r),n.loaded=!0,n.exports}var t={};return r.m=e,r.c=t,r.p="",r(0)}([function(e,r,t){"use strict";t(2);var o=t(1),n=o.PropTypes,i=o.createClass({displayName:"ProgressBar",propTypes:{className:n.string,max:n.number,value:n.number},getDefaultProps:function(){return{max:1}},_progressValueToPercents:function(e){var r=100*e/this.props.max;return r>100?100:r},render:function(){var e={width:this.props.value?this._progressValueToPercents(this.props.value)+"%":""};return this.transferPropsTo(o.DOM.div({className:"ring-progress-bar",ref:"progressbarWrapper"},o.DOM.div({className:"ring-progress-bar__i",ref:"progressbar",role:"progressbar","aria-valuenow":this.props.value,"aria-valuemin":0,"aria-valuemax":this.props.max,style:e})))}});e.exports=i},function(e){e.exports=React},function(e,r,t){t(4)(t(3))},function(e){e.exports=".ring-progress-bar{overflow:hidden;max-width:288px;height:4px;margin-bottom:4px;border-radius:2px;background-color:#D8D8D8}.ring-progress-bar_global{position:absolute;top:0;max-width:none;width:100%;background:0 0}.ring-progress-bar__i{line-height:4px;float:left;width:0;height:100%;transition:width .6s ease;text-align:center;color:#FFF;background-color:#25B7FF}"},function(e){e.exports=function(e){var r=document.createElement("style");r.type="text/css";var t=document.getElementsByTagName("head")[0];return t.appendChild(r),r.styleSheet?r.styleSheet.cssText=e:r.appendChild(document.createTextNode(e)),function(){t.removeChild(r)}}}]);;
       var progressBar = React.renderComponent(ProgressBar({
           value: 0
         }), document.getElementById('progress-bar'));
@@ -20347,6 +20335,26 @@ module.exports = warning;
       }, 500);
    </script>
  
+          </div>
+        </div>
+      <h1>src/components/input/input.jsx</h1>
+        <div class="example">
+          <pre>
+            
+    React.renderComponent(Input(),
+      document.getElementById(&#x27;input&#x27;));
+  
+          </pre>
+
+          <div class="example__sandbox">
+            
+  <div id='input'></div>
+
+  <script>var Input=function(e){function r(o){if(t[o])return t[o].exports;var n=t[o]={exports:{},id:o,loaded:!1};return e[o].call(n.exports,n,n.exports,r),n.loaded=!0,n.exports}var t={};return r.m=e,r.c=t,r.p="",r(0)}([function(e,r,t){"use strict";var o=t(1);t(2);var n=o.createClass({displayName:"Input",render:function(){return this.transferPropsTo(o.DOM.input({className:"ring-input"}))}});e.exports=n},function(e){e.exports=React},function(e,r,t){t(4)(t(3))},function(e){e.exports='.ring-input{box-sizing:border-box;height:24px;width:100%;margin:0;padding-left:4px;padding-right:4px;border:1px solid #CCC;background-color:#FFF;font-family:"Helvetica Neue",Arial,sans-serif;font-size:13px;line-height:20px}.ring-input:active,.ring-input:focus,.ring-input_active,.ring-input_focus{border:1px solid #25B7FF;outline:0}.ring-input:disabled,.ring-input_disabled{border:1px solid #DEDEDE;background-color:#F8F8F8}.ring-input_correct{border:1px solid #84AB28}.ring-input_error{border:1px solid red}.ring-input_long{width:100%}'},function(e){e.exports=function(e){var r=document.createElement("style");r.type="text/css";var t=document.getElementsByTagName("head")[0];return t.appendChild(r),r.styleSheet?r.styleSheet.cssText=e:r.appendChild(document.createTextNode(e)),function(){t.removeChild(r)}}}]);;
+    React.renderComponent(Input(),
+      document.getElementById('input'));
+  </script>
+
           </div>
         </div>
       <h1>src/components/textarea/textarea.jsx</h1>
@@ -20368,33 +20376,44 @@ module.exports = warning;
 
           </div>
         </div>
-      <h1>src/components/checkbox/checkbox.jsx</h1>
+      <h1>src/components/loader/loader.jsx</h1>
         <div class="example">
           <pre>
             
-     React.renderComponent(Checkbox(),
-       document.getElementById(&#x27;checkbox&#x27;));
+        React.renderComponent(Loader(), document.getElementById(&#x27;loader&#x27;));
+    
+          </pre>
 
-     React.renderComponent(Checkbox({
-         checked: true
-       }),
-       document.getElementById(&#x27;checkbox-selected&#x27;));
+          <div class="example__sandbox">
+            
+    <div id="loader">
+    </div>
+
+    <script>var Loader=function(e){function r(o){if(t[o])return t[o].exports;var n=t[o]={exports:{},id:o,loaded:!1};return e[o].call(n.exports,n,n.exports,r),n.loaded=!0,n.exports}var t={};return r.m=e,r.c=t,r.p="",r(0)}([function(e,r,t){var o=t(1);t(2);var n=o.createClass({displayName:"Loader",statics:{Modifier:{INLINE:"ring-loader_inline"}},getDefaultProps:function(){return{modifier:""}},render:function(){return this.transferPropsTo(o.DOM.div({className:"ring-loader "+this.props.modifier}))}});e.exports=n},function(e){e.exports=React},function(e,r,t){t(4)(t(3))},function(e){e.exports="@-webkit-keyframes rotating{100%{-webkit-transform:rotate(360deg);transform:rotate(360deg)}}@keyframes rotating{100%{-webkit-transform:rotate(360deg);transform:rotate(360deg)}}@-webkit-keyframes colors{0%{border-left-color:red}20%{border-left-color:#FF9800}40%{border-left-color:#FF0}60%{border-left-color:green}80%{border-left-color:#00F}100%{border-left-color:#F0F}}@keyframes colors{0%{border-left-color:red}20%{border-left-color:#FF9800}40%{border-left-color:#FF0}60%{border-left-color:green}80%{border-left-color:#00F}100%{border-left-color:#F0F}}.ring-loader{width:24px;height:24px;margin:16px auto;border-radius:50%;border:none\\9;-webkit-animation:colors 6s linear infinite,rotating .7s linear infinite;animation:colors 6s linear infinite,rotating .7s linear infinite;font-size:13px\\9}@media screen and (min-width:0){.ring-loader{width:24px;height:24px;margin:16px auto;border-radius:50%;border:solid 1px #D8D8D8;font-size:0;-webkit-animation:colors 6s linear infinite,rotating .7s linear infinite;animation:colors 6s linear infinite,rotating .7s linear infinite}}.ring-loader_inline{box-sizing:border-box;position:relative;top:1px;display:inline-block;width:12px;height:12px;margin:0}"},function(e){e.exports=function(e){var r=document.createElement("style");r.type="text/css";var t=document.getElementsByTagName("head")[0];return t.appendChild(r),r.styleSheet?r.styleSheet.cssText=e:r.appendChild(document.createTextNode(e)),function(){t.removeChild(r)}}}]);;
+        React.renderComponent(Loader(), document.getElementById('loader'));
+    </script>
+ 
+          </div>
+        </div>
+        <div class="example">
+          <pre>
+            
+     React.renderComponent(Loader({
+              modifier: Loader.Modifier.INLINE
+            }), document.getElementById(&#x27;loader-inline&#x27;));
    
           </pre>
 
           <div class="example__sandbox">
             
-   <span id='checkbox'></span>
-   <span id='checkbox-selected'></span>
+   <div>
+     <span id="loader-inline"></span>
+   </div>
 
-   <script>var Checkbox=function(e){function r(o){if(t[o])return t[o].exports;var n=t[o]={exports:{},id:o,loaded:!1};return e[o].call(n.exports,n,n.exports,r),n.loaded=!0,n.exports}var t={};return r.m=e,r.c=t,r.p="",r(0)}([function(e,r,t){"use strict";t(3);var o=t(1),n=t(2),i=o.PropTypes,a="\\x0",s=n.getUIDGenerator(a),l=o.createClass({displayName:"Checkbox",propTypes:{name:i.string,className:i.string,id:i.string},getInitialState:function(){return{id:s()}},getInputDOMNode:function(){return this.refs.input.getDOMNode()},getLabelDOMNode:function(){return this.refs.label.getDOMNode()},render:function(){var e=this.props.id||this.state.id;return o.DOM.span({className:this.props.className||""},this.transferPropsTo(o.DOM.input({ref:"input",className:"ring-checkbox",type:"checkbox",id:e})),o.DOM.label({ref:"label",className:"ring-checkbox__label",htmlFor:e}))}});e.exports=l},function(e){e.exports=React},function(e){var r={};r.addSingletonGetter=function(e){e.getInstance=function(){return e.instance_||(e.instance_=new e),e.instance_}},r.getUIDGenerator=function(e,r){return r=r||0,function(){var t=String(r++);return e+t}},e.exports=r},function(e,r,t){t(5)(t(4))},function(e){e.exports=':root .ring-checkbox[type="checkbox"]{opacity:0;position:absolute}:root .ring-checkbox[type="checkbox"]+.ring-checkbox__label{display:inline-block;content:"";width:11px;height:11px;border:1px solid #CCC;border-radius:2px;background:0 0;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;line-height:24px;vertical-align:middle}:root .ring-checkbox[type="checkbox"]:not([disabled])+.ring-checkbox__label:hover{border:1px solid #FF8620}:root .ring-checkbox[type="checkbox"]:checked+.ring-checkbox__label{font-size:13px;border:1px solid #25B7FF;line-height:normal}:root .ring-checkbox[type="checkbox"]:checked+.ring-checkbox__label:before{position:relative;top:-4px;left:-1px;display:block;width:11px;height:11px;font-family:\'font-icon\'!important;content:\'\\e005\';font-size:16px;color:#1A1A1A}:root .ring-checkbox[type="checkbox"]:focus+.ring-checkbox__label{border:1px solid red}:root .ring-checkbox[type="checkbox"].ring-checkbox_black+.ring-checkbox__label:before{color:#FFF}.ring-checkbox__label{display:none}.ring-checkbox__label_i{position:relative;left:2px;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}'},function(e){e.exports=function(e){var r=document.createElement("style");r.type="text/css";var t=document.getElementsByTagName("head")[0];return t.appendChild(r),r.styleSheet?r.styleSheet.cssText=e:r.appendChild(document.createTextNode(e)),function(){t.removeChild(r)}}}]);;
-     React.renderComponent(Checkbox(),
-       document.getElementById('checkbox'));
-
-     React.renderComponent(Checkbox({
-         checked: true
-       }),
-       document.getElementById('checkbox-selected'));
+   <script>var Loader=function(e){function r(o){if(t[o])return t[o].exports;var n=t[o]={exports:{},id:o,loaded:!1};return e[o].call(n.exports,n,n.exports,r),n.loaded=!0,n.exports}var t={};return r.m=e,r.c=t,r.p="",r(0)}([function(e,r,t){var o=t(1);t(2);var n=o.createClass({displayName:"Loader",statics:{Modifier:{INLINE:"ring-loader_inline"}},getDefaultProps:function(){return{modifier:""}},render:function(){return this.transferPropsTo(o.DOM.div({className:"ring-loader "+this.props.modifier}))}});e.exports=n},function(e){e.exports=React},function(e,r,t){t(4)(t(3))},function(e){e.exports="@-webkit-keyframes rotating{100%{-webkit-transform:rotate(360deg);transform:rotate(360deg)}}@keyframes rotating{100%{-webkit-transform:rotate(360deg);transform:rotate(360deg)}}@-webkit-keyframes colors{0%{border-left-color:red}20%{border-left-color:#FF9800}40%{border-left-color:#FF0}60%{border-left-color:green}80%{border-left-color:#00F}100%{border-left-color:#F0F}}@keyframes colors{0%{border-left-color:red}20%{border-left-color:#FF9800}40%{border-left-color:#FF0}60%{border-left-color:green}80%{border-left-color:#00F}100%{border-left-color:#F0F}}.ring-loader{width:24px;height:24px;margin:16px auto;border-radius:50%;border:none\\9;-webkit-animation:colors 6s linear infinite,rotating .7s linear infinite;animation:colors 6s linear infinite,rotating .7s linear infinite;font-size:13px\\9}@media screen and (min-width:0){.ring-loader{width:24px;height:24px;margin:16px auto;border-radius:50%;border:solid 1px #D8D8D8;font-size:0;-webkit-animation:colors 6s linear infinite,rotating .7s linear infinite;animation:colors 6s linear infinite,rotating .7s linear infinite}}.ring-loader_inline{box-sizing:border-box;position:relative;top:1px;display:inline-block;width:12px;height:12px;margin:0}"},function(e){e.exports=function(e){var r=document.createElement("style");r.type="text/css";var t=document.getElementsByTagName("head")[0];return t.appendChild(r),r.styleSheet?r.styleSheet.cssText=e:r.appendChild(document.createTextNode(e)),function(){t.removeChild(r)}}}]);;
+     React.renderComponent(Loader({
+              modifier: Loader.Modifier.INLINE
+            }), document.getElementById('loader-inline'));
    </script>
  
           </div>
