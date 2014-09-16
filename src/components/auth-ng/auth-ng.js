@@ -49,7 +49,7 @@ authModule.provider('auth', ['$httpProvider', function ($httpProvider) {
         }
         return auth.promise.
           then(function () {
-            return auth.requestToken();
+            return auth.auth.requestToken();
           }).
           then(function (accessToken) {
             config.headers['Authorization'] = 'Bearer ' + accessToken;
