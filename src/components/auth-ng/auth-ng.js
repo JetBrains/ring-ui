@@ -59,7 +59,7 @@ authModule.provider('auth', ['$httpProvider', function ($httpProvider) {
     };
   }]);
 
-  this.$get = ['$location', function ($location) {
+  this.$get = ['$injector', function ($injector) {
 
     /**
      * @type Promise.<string>
@@ -77,7 +77,7 @@ authModule.provider('auth', ['$httpProvider', function ($httpProvider) {
         // Skipping common prefix
         for (var i = 0; i < minLength; i++) {
           if (restoreLocationURL.charAt(i) !== redirectUri.charAt(i)) {
-            $location.url(restoreLocationURL.substring(i - 1)).replace();
+            $injector.get('$location').url(restoreLocationURL.substring(i - 1)).replace();
             break;
           }
         }
