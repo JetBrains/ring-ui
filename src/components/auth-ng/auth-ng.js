@@ -80,7 +80,7 @@ authModule.provider('auth', ['$httpProvider', function ($httpProvider) {
 
         if (restoreLocationURL.indexOf(baseURI) === 0) {
           var relativeURI = restoreLocationURL.substr(baseURI.length);
-          $location.url(relativeURI).replace();
+          $injector.get('$location').url(relativeURI).replace();
         }
       }
     };
