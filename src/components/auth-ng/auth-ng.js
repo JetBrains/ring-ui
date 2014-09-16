@@ -59,7 +59,7 @@ authModule.provider('auth', ['$httpProvider', function ($httpProvider) {
     };
   }]);
 
-  this.$get = ['$location', function ($location) {
+  this.$get = ['$injector', function ($injector) {
 
     /**
      * @type Promise.<string>
