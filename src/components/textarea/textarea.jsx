@@ -10,6 +10,16 @@ require('./textarea.scss');
 /**
  * @constructor
  * @extends {ReactComponent}
+ * @example
+ <example>
+    <div id="textarea">
+    </div>
+
+    <script>
+        React.renderComponent(Textarea(), document.getElementById('textarea'));
+    </script>
+ </example>
+ *
  */
 var Textarea = React.createClass({
   render: function () {

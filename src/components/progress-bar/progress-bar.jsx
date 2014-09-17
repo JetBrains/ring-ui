@@ -17,6 +17,24 @@ var ReactPropTypes = React.PropTypes;
 /**
  * @constructor
  * @extends {ReactComponent}
+ * @example
+ <example>
+   <div id='progress-bar'></div>
+
+   <script>
+      var progressBar = React.renderComponent(ProgressBar({
+          value: 0
+        }), document.getElementById('progress-bar'));
+
+      setInterval(function updateProgress(){
+          var currentValue = progressBar.props.value;
+
+          progressBar.setProps({
+            value: (currentValue >=1 ? 0 : currentValue + 0.1)
+          });
+      }, 500);
+   </script>
+ </example>
  */
 var ProgressBar = React.createClass({
   propTypes: {

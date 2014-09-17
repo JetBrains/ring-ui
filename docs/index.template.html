@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    {{{ReactWithAddonsScript}}}
+  </script>
+  <script src="../node_modules/jquery/dist/jquery.js">
+  </script>
+
+  <div class="examples">
+    {{#each components}}
+      <h1>{{path}}</h1>
+      {{#each examples}}
+        <div class="example">
+          <pre>
+            {{code}}
+          </pre>
+
+          <div class="example__sandbox">
+            {{{html}}}
+          </div>
+        </div>
+      {{/each}}
+    {{/each}}
+  </div>
+</body>
+</html>

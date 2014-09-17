@@ -4,8 +4,8 @@
  */
 
 
-var $ = require('jquery');
 var React = require('react');
+var merge = require('react/lib/merge');
 
 var Shortcuts = require('shortcuts/shortcuts');
 var Global = require('global/global');
@@ -109,6 +109,26 @@ var ListHint = React.createClass({
  * @constructor
  * @mixes {Shortcuts.Mixin}
  * @extends {ReactComponent}
+ * @example
+ <example>
+   <div id='list'></div>
+
+   <script>
+     var listData = [
+      {'label': 'One', 'type': List.Type.ITEM},
+      {'label': 'Two', 'type': List.Type.ITEM},
+      {'label': 'Three', 'type': List.Type.ITEM},
+      {'label': 'Four', 'type': List.Type.ITEM},
+      {'label': 'Five', 'type': List.Type.ITEM}
+     ];
+
+     React.renderComponent(List({
+         data: listData,
+         shortcuts: true,
+         onSelect: console.log.bind(console)
+       }), document.getElementById('list'));
+   </script>
+ </example>
  */
 var List = React.createClass({
   mixins: [Shortcuts.Mixin],
@@ -128,7 +148,7 @@ var List = React.createClass({
   getDefaultProps: function () {
     return {
       data: [],
-      onSelect: $.noop,
+      onSelect: function(){},
       shortcuts: false
     };
   },
@@ -216,7 +236,7 @@ var List = React.createClass({
         className: 'ring-list'
       },
       this.props.data.map(function (item, index) {
-        var props = $.extend({'type': Type.ITEM}, item);
+        var props = merge({'type': Type.ITEM}, item);
         if (props.url) {
           props.href = props.url;
         }
