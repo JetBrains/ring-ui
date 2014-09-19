@@ -15,7 +15,7 @@
   display: block;
   border-top: 1px solid #ADADAD;
   margin-bottom: 5px;
-  padding: $ring-unit/2 $ring-unit*2 0 0;
+  padding: $ring-unit/2 $ring-unit*2 0 $ring-unit*2;
 
   color: #ADADAD;
   @include ring-font;
@@ -104,7 +104,7 @@
 .ring-list__icon {
   display: block;
   float: right;
-  margin-top: $ring-unit/2;
+  margin: $ring-unit/2 0 0 $ring-unit*2;
   width: $ring-unit*2;
   height: $ring-unit*2;
 
