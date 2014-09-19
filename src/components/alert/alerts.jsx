@@ -38,7 +38,7 @@ var _animationQueue = [];
  */
 var Alerts = React.createClass({
   statics: {
-    type: Alert.type
+    Type: Alert.Type
   },
 
   /** @override */
