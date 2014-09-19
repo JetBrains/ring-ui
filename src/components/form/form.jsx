@@ -7,122 +7,172 @@
 'use strict';
 
 require('./form.scss');
-var _ = require('underscore');
-var FormGroup = require('./form__group');
+var Global = require('global/global');
+var mout = require('mout');
 var React = require('react/addons');
 
 
-/** @typedef { function(HTMLInputElement, HTMLInputElement):undefined } DependencyFn */
+
+/**
+ * A function which iterates over tree in preorder and calls a given callback
+ * on every node. If callback returns false value or node has already been
+ * visited, visitor traversal stopped.
+ * @param {Object} tree
+ * @param {Object} visited
+ * @param {Array.<string>} sequence
+ * @param {function=} callback
+ * @param {*=} ctx
+ * @return {boolean}
+ */
+var DFSVisitor = function(tree, visited, sequence, callback, ctx) {
+  return mout.collection.every(tree, function(subtree, vertice) {
+    sequence.push(vertice);
+
+    if (visited[vertice]) {
+      return false;
+    }
+
+    visited[vertice] = true;
+
+    var childVisited = subtree ?
+        DFSVisitor(subtree, visited, sequence, callback, ctx) :
+        true;
+
+    if (callback && childVisited) {
+      return callback.call(ctx, vertice, subtree, sequence, visited);
+    }
+
+    return childVisited;
+  });
+};
 
 
 /**
- * List of predefined dependency functions.
+ * Callback for {@code DFSVisitor} which allows to find a parent node for
+ * a given element.
+ * @param {Object} tree
+ * @param {string} nodeName
+ * @return {?string}
+ */
+var getParentNode = function(tree, nodeName) {
+  var parentNode = null;
+
+  var lookForParent = function(node, subtree, sequence, visited) {
+    if (parentNode === null && subtree && subtree.hasOwnProperty(nodeName)) {
+      parentNode = node;
+      return false;
+    }
+
+    return true;
+  };
+
+  DFSVisitor(tree, {}, [], lookForParent);
+
+  return parentNode;
+};
+
+
+/**
+ * Callback, which returns subtree of a given node.
+ * @param {Object} tree
+ * @param {string} nodeName
+ * @return {?Object}
+ */
+var getSubtree = function(tree, nodeName) {
+  var foundSubtree = null;
+
+  var lookForSubtree = function(node, subtree, sequence, visited) {
+    if (foundSubtree === null && node === nodeName) {
+      foundSubtree = subtree;
+      return false;
+    }
+
+    return true;
+  };
+
+  DFSVisitor(tree, {}, [], lookForSubtree);
+
+  return foundSubtree;
+};
+
+
+/**
+ * @typedef {function(
+ *   HTMLInputElement,
+ *   HTMLInputElement,
+ *   HTMLFormElement,
+ *   boolean=,
+ *   Object
+ * ):undefined} DependencyFn
+ */
+
+/**
  * @enum {DependencyFn}
  */
 var DependencyFunction = {
-  /**
-   * @param {HTMLInputElement} dependentField
-   * @param {HTMLInputElement} superiorField
-   * @constructor
-   */
-  CLONE: function(dependentField, superiorField) {
-    dependentField.value = superiorField.value;
+  CHECKED: function(parentElement, childElement, formElement, chain, depsTree) {
+    if (childElement) { childElement.checked = parentElement.checked; }
+
+    var nodeName = parentElement.name;
+    var parent = getParentNode(depsTree, nodeName);
+
+    while (parent !== null && !chain) {
+      var childrenOfParent = getSubtree(depsTree, parent);
+      parentElement = formElement.querySelector('[name=' + parent + ']');
+
+      parentElement.checked = mout.collection.every(childrenOfParent, function(childTree, child) {
+        var currentChildElement = formElement.querySelector('[name=' + child + ']');
+        return currentChildElement.checked;
+      });
+
+      parent = getParentNode(depsTree, parent);
+    }
   },
 
-  /**
-   * @param {HTMLInputElement} dependentField
-   * @param {HTMLInputElement} superiorField
-   * @constructor
-   */
-  DISABLED: function(dependentField, superiorField) {
-    dependentField.disabled = !superiorField.checked;
+  DISABLED: function(parentElement, childElement, formElement, chain, depsTree) {
+    // NB! Should always contain a link to a child element, because sometimes it's
+    // called of leafs of dependency tree, so there're no children at them.
+    if (childElement) {
+      childElement.disabled = !parentElement.checked;
+    }
   }
 };
 
 
 /**
- * Binds {@link DependencyFn} to a fields with given names.
- * @static
- * @param {HTMLFormElement} formElement
- * @param {string} dependentName
- * @param {string} superiorName
- * @param {DependencyFn=} dependencyFn
- * @private
+ * @return {DependencyType}
  */
-var _bindDependencyFunction = function(formElement, dependentName, superiorName, dependencyFn) {
-  var dependentField = formElement.querySelector('[name=' + dependentName + ']');
-  var superiorField = formElement.querySelector('[name=' + superiorName + ']');
+var getDependencyTypeName = Global.getUIDGenerator('d');
 
-  if (dependentField === null || superiorField === null) {
-    throw new Error('Dependent or superior field was not found in form.');
-  }
 
-  return dependencyFn.bind(null, dependentField, superiorField);
+/**
+ * ID of dependency type.
+ * @enum {string}
+ */
+var DependencyType = {
+  CHECKED: getDependencyTypeName(),
+  DISABLED: getDependencyTypeName()
 };
 
-/** @typedef {function(Object.<string, DependencyFunction>):string} DependencyFilter */
+/**
+ * Lookup table of {@link DependencyType} to {@link DependencyFn}.
+ * @type {Object.<DependencyType, DependencyFn>}
+ */
+var DependencyTypeToFn = Global.createObject(
+    DependencyType.CHECKED, DependencyFunction.CHECKED,
+    DependencyType.DISABLED, DependencyFunction.DISABLED);
 
-// NB! ```propTypes``` does work only in development environment, so these
-// checks are redundant in production mode.
-if ('production' !== process.env.NODE_ENV) {
-  /** @type {Array.<DependencyFilter>} */
-  var dependencyFilters = [
-    /**
-     * @param {Object.<string, DependencyFunction>} deps
-     * @return {string|undefined}
-     */
-    function chainDependencies(deps) {
-      // todo(igor.alexeenko): Do we need to allow chain dependencies?
-      // Checkbox enables another checkbox, which enables text field. What happens
-      // when we disable first checkbox and second is checked and field is filled?
 
-      var chainedField;
+/**
+ * @param {DependencyFn} fn
+ * @return {DependencyType}
+ */
+var addDependencyFn = function(fn) {
+  var type = getDependencyTypeName();
+  DependencyTypeToFn[type] = fn;
 
-      _.some(deps, function(field, fieldName) {
-        return _.some(field, function(dependentField, dependentFieldName) {
-          var isChainedField = !_.isUndefined(deps[dependentFieldName]);
-          if (isChainedField) {
-            chainedField = dependentFieldName;
-          }
-
-          return isChainedField;
-        });
-      });
-
-      return chainedField;
-    },
-
-    /**
-     * @param {Object.<string, DependencyFunction>} deps
-     * @return {string|undefined}
-     */
-    function conflictingDepenendencies(deps) {
-      // todo(igor.alexeenko): Are dependencies of different kinds conflicting?
-      // Say field is being enabled by checking checkbox and another field changes
-      // its value.
-
-      var visitedFields = {};
-      var conflictDependentField;
-
-      _.some(deps, function(field, fieldName) {
-        visitedFields[fieldName] = true;
-        return _.some(field, function(dependentField, dependentFieldName) {
-          var isVisited = !_.isUndefined(visitedFields[dependentFieldName]);
-
-          if (isVisited) {
-            conflictDependentField = dependentFieldName;
-          } else {
-            visitedFields[dependentFieldName] = true;
-          }
-
-          return isVisited;
-        });
-      });
-
-      return conflictDependentField;
-    }
-  ];
-}
+  return type;
+};
 
 
 /**
@@ -132,107 +182,35 @@ if ('production' !== process.env.NODE_ENV) {
 var FORM_CHILD_PREFIX = 'child-';
 
 
+
 /**
  * @constructor
  * @extends {ReactComponent}
- * @example
- * <example>
- *   <div class="form-example"></div>
- *   <script>
- *     @jsx React.DOM
- *
- *     var formDependencies = {
- *       'checkbox': { 'email': Form.DependencyFunction.DISABLED },
- *       'firstField': { 'secondField': Form.DependencyFunction.CLONE }
- *     };
- *
- *     React.renderComponent(<Form deps={formDependencies}>
- *       <FormGroup type="checkbox" name="disableEmail" label="Disable email />
- *       <FormGroup type="email" name="email" label="Email field" />
- *       <FormGroup name="firstField" />
- *       <FormGroup name="secondField" />
- *       <Panel>
- *         <Button name="submitField" type="submit" modifier={Button.Modifiers.BLUE}>Submit</Button>
- *         <Button name="resetField" type="reset" modified={Button.Modifiers.DEFAULT}>Reset</Button>
- *       </Panel>
- *     </Form>, document.querySelector('.form-example'));
- *   </script>
- * </example>
  */
 var Form = React.createClass({
   statics: {
-    DependecyFunction: DependencyFunction
+    addDependencyFunction: addDependencyFn,
+    DependencyType: DependencyType
   },
 
-  /** @override */
-  propTypes: ('production' !== process.env.NODE_ENV) ? {
-    /**
-     * @param {Object} props
-     * @param {string} propName
-     * @param {string} componentName
-     * @return {Error|undefined}
-     */
-    'deps': function(props, propName, componentName) {
-      var deps = props[propName];
-      var invalidField;
-
-      dependencyFilters.some(function(filter) {
-        invalidField = filter(deps);
-        return typeof invalidField !== 'undefined';
-      });
-
-      if (typeof invalidField !== 'undefined') {
-        return new Error(componentName + ' has a dependency problem. ' +
-            'Field "' + invalidField + '" has circular, chained ' +
-            'or conflicting dependency.');
-      }
-    }
-  } : {},
-
-  /** @override */
   getDefaultProps: function() {
-    return {
-      'deps': {}
-    };
+    return { 'deps': {} };
   },
 
-  /** @override */
   getInitialState: function() {
     return {
-      /**
-       * Dicionary of dependency functions.
-       * @type {Object.<string, function>}
-       */
       'deps': null,
-
-      /**
-       * @type {Array.<FormGroup>}
-       */
       'fields': null,
-
-      /**
-       * Link to first element, which value is not valid.
-       * @type {FormGroup}
-       */
       'firstInvalid': null,
-
-      /**
-       * Whether all required fields are filled.
-       * @type {boolean}
-       */
       'formIsCompleted': false
     };
   },
 
-  /** @override */
   componentDidMount: function() {
     this.getValidationDependentFields();
     this.getDependencies();
-
-    this.checkDependency();
   },
 
-  /** @override */
   render: function() {
     var children = [];
     React.Children.forEach(this.props.children, function(child, i) {
@@ -264,37 +242,52 @@ var Form = React.createClass({
     });
   },
 
+  /** @protected */
+  checkDependencies: function() {
+    if (!this.state['fieldsOrder']) {
+      var inputElements = this.getDOMNode().querySelectorAll('input');
+      var fieldsOrder = mout.collection.map(inputElements, function(inputElement) {
+        if (!!this.state['deps'][inputElement.name]) {
+          return inputElement.name;
+        }
+      }, this).filter(function(inputName) {
+        return typeof inputName !== 'undefined';
+      });
+
+      this.setState({'fieldsOrder': fieldsOrder}, function() {
+        this.checkDependencies();
+      }.bind(this));
+
+      return;
+    }
+
+    this.state['fieldsOrder'].forEach(function(fieldName) {
+      this.checkDependency(fieldName);
+    }, this);
+  },
+
   /**
-   * Executes all {@link DependencyFn}s one by one or only one function
+   * Executes all dependency functions one by one or only one function
    * for field with given name.
-   * @param {string=} fieldName
+   * @param {string=} field
+   * @param {boolean=} chain
    * @protected
    */
-  checkDependency: function(fieldName) {
-    if (fieldName) {
-      this._checkFieldDependency(fieldName);
-    } else {
-      var fields = Object.keys(this.state['deps']);
-      fields.forEach(function(field) {
-        this._checkFieldDependency(field);
+  checkDependency: function(field, chain) {
+    chain = typeof chain === 'undefined' ? false : chain;
+
+    if (this.state['deps'][field]) {
+      this.state['deps'][field].forEach(function(dep) {
+        dep(chain);
       }, this);
     }
   },
 
   /**
-   * Executes all {@link DependencyFn}s, bound to field with given name.
-   * @param {string} fieldName
-   * @private
+   * Checks, whether all form fields are valid. If not, shows an error on
+   * first invalid field.
+   * @protected
    */
-  _checkFieldDependency: function(fieldName) {
-    var fieldDependencies = this.state.deps[fieldName];
-
-    if (!_.isUndefined(fieldDependencies)) {
-      fieldDependencies.forEach(function(dependencyFn) { dependencyFn(); }, this);
-    }
-  },
-
-  /** @protected */
   checkCompletion: function() {
     var firstInvalid = null;
     var formIsCompleted = this.state['fields'].every(function(field) {
@@ -306,24 +299,25 @@ var Form = React.createClass({
     this.setState({
       'formIsCompleted': formIsCompleted,
       'firstInvalid': firstInvalid
-    }, function() {
-      if (this.state['fieldToDisable']) {
-        this.state['fieldToDisable'].disabled = !this.state['formIsCompleted'];
-      }
-    }.bind(this));
+    }, this._setValidationDependentFieldsDisabled);
   },
 
   /**
+   * Handles change of every form element.
    * @param {SyntheticEvent} evt
    * @private
    */
   _handleChange: function(evt) {
     var changedField = /** @type {HTMLInputElement} */ (evt.target);
-
+    this.checkCompletion(changedField);
     this.checkDependency(changedField.name);
-    this.checkCompletion();
   },
 
+  /**
+   * Handles blur of every component.
+   * @param {SyntheticEvent} evt
+   * @private
+   */
   _handleBlur: function(evt) {
     if (this.state['firstInvalid']) {
       this.state['firstInvalid'].setErrorShown(true);
@@ -331,61 +325,88 @@ var Form = React.createClass({
   },
 
   /**
+   * Analyzes passed dependencies and creates a map of field names to functions
+   * which should be executed when the value of this field changes. If dependencies
+   * has cycle or a conflict, throws an error.
    * @protected
+   * @throws {Error}
    */
   getDependencies: function() {
-    var deps = {};
+    var deps = this.state['deps'] || {};
+    var formElement = this.getDOMNode();
 
-    if (this.props['deps']) {
-      var fieldNames = Object.keys(this.props['deps']);
-      var formElement = this.getDOMNode();
+    mout.collection.forEach(this.props['deps'], function(depsTree, dependencyType) {
+      var sequence = [];
+      var dependencyFunction = DependencyTypeToFn[dependencyType];
 
-      fieldNames.forEach(function(fieldName) {
-        var dependencyRecord = this.props['deps'][fieldName];
-        var dependentFields = Object.keys(dependencyRecord);
-        var dependencyFunctions = [];
+      var analyzedDeps = DFSVisitor(depsTree, {}, sequence, function(vertice, tree, sequence, visited) {
+        var verticeElement = formElement.querySelector('[name=' + vertice + ']');
+        var dependencies = [];
 
-        dependentFields.forEach(function(dependentFieldName) {
-          var dependencyFunction = dependencyRecord[dependentFieldName];
+        if (tree) {
+          mout.collection.forEach(tree, function(subtree, child) {
+            var childElement = formElement.querySelector('[name=' + child + ']');
+            dependencies.push(function(chain) {
+              dependencyFunction.call(this, verticeElement, childElement, formElement, chain, depsTree);
+              if (subtree) { this.checkDependency(child, true); }
+            });
+          }, this);
+        } else {
+          dependencies = [function(chain) {
+            dependencyFunction.call(this, verticeElement, undefined, formElement, chain, depsTree);
+          }];
+        }
 
-          dependencyFunctions.push(_bindDependencyFunction(formElement,
-              dependentFieldName, fieldName, dependencyFunction));
-        }, this);
-
-        deps[fieldName] = dependencyFunctions;
+        deps[vertice] = (deps[vertice] || []).concat(dependencies);
+        return true;
       }, this);
-    }
 
-    this.setState({ 'deps': deps });
+      if (!analyzedDeps) {
+        throw new Error('A problem with dependencies occured. Field "' +
+            sequence.slice(-1)[0] + '" has cyclic or conflicting dependency.');
+      }
+    }, this);
+
+    this.setState({ 'deps': deps }, function() {
+      this.checkDependencies();
+    }.bind(this));
   },
 
   /**
+   * Remembers all fields, which should be disabled while form isn't valid.
    * @protected
    */
   getValidationDependentFields: function() {
     var fieldsToValidate = [];
-    // todo(igor.alexeenko): Find a way not to use submit's HTML node.
     var submitButton = this.getDOMNode().querySelector('[type=submit]');
 
-    _.forEach(this.refs, function(ref, refName) {
-      if (!_.isUndefined(ref.checkValidity)) { fieldsToValidate.push(ref); }
+    mout.collection.forEach(this.refs, function(ref, refName) {
+      if (typeof ref.checkValidity !== 'undefined') { fieldsToValidate.push(ref); }
     });
 
     this.setState({
       'fields': fieldsToValidate,
       'fieldToDisable': submitButton
-    }, function() {
-      if (this.state['fieldToDisable']) {
-        this.state['fieldToDisable'].disabled = !this.state['formIsCompleted'];
-      }
-    }.bind(this));
+    }, this._setValidationDependentFieldsDisabled);
+  },
+
+  /**
+   * Toggles disability of fields, which should be disabled while form
+   * isn't valid.
+   * @private
+   */
+  _setValidationDependentFieldsDisabled: function() {
+    if (this.state['fieldToDisable']) {
+      this.state['fieldToDisable'].disabled = !this.state['formIsCompleted'];
+    }
   }
 });
 
 
 module.exports = Form;
-module.exports.DependencyFunction = DependencyFunction;
 
 if ('production' !== process.env.NODE_ENV) {
-  module.exports.dependencyFilters = dependencyFilters;
+  module.exports.DFSVisitor = DFSVisitor;
+  module.exports.getParentNode = getParentNode;
+  module.exports.getSubtree = getSubtree;
 }
