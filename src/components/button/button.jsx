@@ -26,6 +26,27 @@ var Modifiers = {
 /**
  * @constructor
  * @extends {ReactComponent}
+ <example>
+   <div>
+     <span id="button"></span>
+     <span id="button-blue"></span>
+     <span id="button-primary"></span>
+   </div>
+
+   <script>
+     React.renderComponent(Button({
+                  modifier: Button.Modifiers.DEFAULT
+                }, 'Default Button'), document.getElementById('button'));
+
+     React.renderComponent(Button({
+                  modifier: Button.Modifiers.BLUE
+                }, 'Blue Button'), document.getElementById('button-blue'));
+
+     React.renderComponent(Button({
+                  modifier: Button.Modifiers.PRIMARY
+                }, 'Primary Button'), document.getElementById('button-primary'));
+   </script>
+ </example>
  */
 var Button = React.createClass({
   statics: {
