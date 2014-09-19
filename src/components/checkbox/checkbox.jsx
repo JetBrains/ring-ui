@@ -14,6 +14,21 @@ var generateUniqueId = Global.getUIDGenerator(idPrefix);
 /**
  * @constructor
  * @extends {ReactComponent}
+ * @example
+ <example>
+   <span id='checkbox'></span>
+   <span id='checkbox-selected'></span>
+
+   <script>
+     React.renderComponent(Checkbox(),
+       document.getElementById('checkbox'));
+
+     React.renderComponent(Checkbox({
+         checked: true
+       }),
+       document.getElementById('checkbox-selected'));
+   </script>
+ </example>
  */
 var Checkbox = React.createClass({
   propTypes: {

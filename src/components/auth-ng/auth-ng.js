@@ -25,12 +25,6 @@ authModule.provider('auth', ['$httpProvider', function ($httpProvider) {
   var auth;
 
   /**
-   * @type Promise.<string>
-   */
-  var authInitPromise;
-
-
-  /**
    * @param {{
    *   serverUri: string,
    *   redirect_uri: string?,
@@ -40,33 +34,38 @@ authModule.provider('auth', ['$httpProvider', function ($httpProvider) {
    */
   this.config = function (config) {
     auth = new Auth(config);
-    authInitPromise = auth.init();
-
-    $httpProvider.interceptors.push([function () {
-      var urlEndsWith = function(config, suffix) {
-        return config && config.url && config.url.indexOf(suffix) === config.url.length - suffix.length;
-      };
-
-      return {
-        'request': function (config) {
-          if (urlEndsWith(config, '.ng.html') || urlEndsWith(config, '.tpl.html')) {
-            // Don't intercept angular template requests
-            return config;
-          }
-          return authInitPromise.
-            then(function () {
-              return auth.requestToken();
-            }).
-            then(function (accessToken) {
-              config.headers['Authorization'] = 'Bearer ' + accessToken;
-              return config;
-            });
-        }
-      };
-    }]);
   };
 
-  this.$get = ['$location', function ($location) {
+  $httpProvider.interceptors.push(['auth', function (auth) {
+    var urlEndsWith = function(config, suffix) {
+      return config && config.url && config.url.indexOf(suffix) === config.url.length - suffix.length;
+    };
+
+    return {
+      'request': function (config) {
+        if (urlEndsWith(config, '.ng.html') || urlEndsWith(config, '.tpl.html')) {
+          // Don't intercept angular template requests
+          return config;
+        }
+        return auth.promise.
+          then(function () {
+            return auth.auth.requestToken();
+          }).
+          then(function (accessToken) {
+            config.headers['Authorization'] = 'Bearer ' + accessToken;
+            return config;
+          });
+      }
+    };
+  }]);
+
+  this.$get = ['$injector', function ($injector) {
+
+    /**
+     * @type Promise.<string>
+     */
+    var authInitPromise = auth.init();
+
     /**
      * @param {string?} restoreLocationURL
      */
@@ -81,17 +80,22 @@ authModule.provider('auth', ['$httpProvider', function ($httpProvider) {
 
         if (restoreLocationURL.indexOf(baseURI) === 0) {
           var relativeURI = restoreLocationURL.substr(baseURI.length);
-          $location.url(relativeURI).replace();
+          $injector.get('$location').url(relativeURI).replace();
         }
       }
     };
-    authInitPromise.done(restoreLocation);
+    authInitPromise.then(restoreLocation, function (e) {
+      if (!e.authRedirect) {
+        console.error(e);
+      }
+    });
 
     return {
       auth: auth,
       requestUser: auth.requestUser.bind(auth),
       clientId: auth.config.client_id,
-      logout: auth.logout.bind(auth)
+      logout: auth.logout.bind(auth),
+      promise: authInitPromise
     };
   }];
 }]);

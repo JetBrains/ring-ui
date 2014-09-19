@@ -10,6 +10,15 @@ require('./input.scss');
 /**
  * @constructor
  * @extends {ReactComponent}
+ * @example
+ <example>
+   <div id='input'></div>
+
+   <script>
+     React.renderComponent(Input(),
+       document.getElementById('input'));
+   </script>
+ </example>
  */
 var Input = React.createClass({
   render: function () {
