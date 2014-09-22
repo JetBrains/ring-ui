@@ -42,7 +42,7 @@ var QueryAssist = React.createClass({
 
     var state = {
       query: query,
-      caret: query.length
+      caret: props.caret != null ? props.caret : query.length
     };
 
     if ('focus' in props) {
