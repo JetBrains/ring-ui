@@ -188,9 +188,15 @@ var QueryAssist = React.createClass({
 
   getCaretOffset: function () {
     var input = this.refs.input.getDOMNode();
-    var caretNode = input.firstChild && input.firstChild.childNodes[this.state.caret - 1];
+    // First suggestion should be enough?
+    var suggestion = this.state.suggestions && this.state.suggestions[0];
+    // Check of suggestion begins not from the end
+    var completionStart = suggestion && suggestion.completionEnd !== suggestion.completionStart && suggestion.completionStart;
+    var caretNodeNumber = (completionStart != null ? completionStart : this.state.caret - 1);
+    var caretNode = input.firstChild && input.firstChild.childNodes[caretNodeNumber];
+    var caretOffset = caretNode && (caretNode.offsetLeft + caretNode.offsetWidth - PopupMenu.ITEM_PADDING) || 0;
 
-    return caretNode && (caretNode.offsetLeft + caretNode.offsetWidth - PopupMenu.ITEM_PADDING);
+    return caretOffset < 0 ? 0 : caretOffset;
   },
 
   // TODO Move to renderLeter and simplify
