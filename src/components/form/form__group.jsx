@@ -7,8 +7,10 @@
 
 'use strict';
 
+/*jshint ignore:start*/
 var Checkbox = require('../checkbox/checkbox');
 var Input = require('../input/input');
+/*jshint ignore:end*/
 var React = require('react');
 
 
@@ -61,9 +63,11 @@ var FormGroup = React.createClass({
 
   /** @override */
   render: function() {
+    /*jshint ignore:start*/
     return typeof this.props.children !== 'undefined' ?
         (<div className="ring-form__group">{this.props.children}</div>) :
         this._getInputElement();
+    /*jshint ignore:end*/
   },
 
   /**
@@ -77,6 +81,7 @@ var FormGroup = React.createClass({
     return this.state['inputElement'].validity.valid;
   },
 
+  /*jshint unused:false*/
   /**
    * @param {SyntheticMouseEvent} evt
    * @private
@@ -85,7 +90,9 @@ var FormGroup = React.createClass({
     this.checkValidity();
     this.setState({ 'hasFocus': false });
   },
+  /*jshint unused:true*/
 
+  /*jshint unused:false*/
   /**
    * @param {SyntheticMouseEvent} evt
    * @private
@@ -93,12 +100,14 @@ var FormGroup = React.createClass({
   _handleFocus: function(evt) {
     this.setState({ 'hasFocus': true });
   },
+  /*jshint unused:true*/
 
   /**
    * @return {XML}
    * @private
    */
   _getInputElement: function() {
+    /*jshint ignore:start*/
     var className = React.addons.classSet({
       'ring-form__group': true,
       'ring-form__group_error': this.state['errorMessage'],
@@ -140,6 +149,7 @@ var FormGroup = React.createClass({
         </div>);
         break;
     }
+    /*jshint ignore:end*/
   },
 
   /**

@@ -24,7 +24,7 @@ var React = require('react/addons');
  * @param {*=} ctx
  * @return {boolean}
  */
-var DFSVisitor = function(tree, visited, sequence, callback, ctx) {
+var dfsVisitor = function(tree, visited, sequence, callback, ctx) {
   return mout.collection.every(tree, function(subtree, vertice) {
     sequence.push(vertice);
 
@@ -35,7 +35,7 @@ var DFSVisitor = function(tree, visited, sequence, callback, ctx) {
     visited[vertice] = true;
 
     var childVisited = subtree ?
-        DFSVisitor(subtree, visited, sequence, callback, ctx) :
+        dfsVisitor(subtree, visited, sequence, callback, ctx) :
         true;
 
     if (callback && childVisited) {
@@ -48,7 +48,7 @@ var DFSVisitor = function(tree, visited, sequence, callback, ctx) {
 
 
 /**
- * Callback for {@code DFSVisitor} which allows to find a parent node for
+ * Callback for {@code dfsVisitor} which allows to find a parent node for
  * a given element.
  * @param {Object} tree
  * @param {string} nodeName
@@ -57,7 +57,7 @@ var DFSVisitor = function(tree, visited, sequence, callback, ctx) {
 var getParentNode = function(tree, nodeName) {
   var parentNode = null;
 
-  var lookForParent = function(node, subtree, sequence, visited) {
+  var lookForParent = function(node, subtree) {
     if (parentNode === null && subtree && subtree.hasOwnProperty(nodeName)) {
       parentNode = node;
       return false;
@@ -66,7 +66,7 @@ var getParentNode = function(tree, nodeName) {
     return true;
   };
 
-  DFSVisitor(tree, {}, [], lookForParent);
+  dfsVisitor(tree, {}, [], lookForParent);
 
   return parentNode;
 };
@@ -81,7 +81,7 @@ var getParentNode = function(tree, nodeName) {
 var getSubtree = function(tree, nodeName) {
   var foundSubtree = null;
 
-  var lookForSubtree = function(node, subtree, sequence, visited) {
+  var lookForSubtree = function(node, subtree) {
     if (foundSubtree === null && node === nodeName) {
       foundSubtree = subtree;
       return false;
@@ -90,7 +90,7 @@ var getSubtree = function(tree, nodeName) {
     return true;
   };
 
-  DFSVisitor(tree, {}, [], lookForSubtree);
+  dfsVisitor(tree, {}, [], lookForSubtree);
 
   return foundSubtree;
 };
@@ -120,16 +120,18 @@ var DependencyFunction = {
       var childrenOfParent = getSubtree(depsTree, parent);
       parentElement = formElement.querySelector('[name=' + parent + ']');
 
+      /*jshint loopfunc:true*/
       parentElement.checked = mout.collection.every(childrenOfParent, function(childTree, child) {
         var currentChildElement = formElement.querySelector('[name=' + child + ']');
         return currentChildElement.checked;
       });
+      /*jshint loopfunc:false*/
 
       parent = getParentNode(depsTree, parent);
     }
   },
 
-  DISABLED: function(parentElement, childElement, formElement, chain, depsTree) {
+  DISABLED: function(parentElement, childElement) {
     // NB! Should always contain a link to a child element, because sometimes it's
     // called of leafs of dependency tree, so there're no children at them.
     if (childElement) {
@@ -175,11 +177,13 @@ var addDependencyFn = function(fn) {
 };
 
 
+/*jshint ignore:start*/
 /**
  * @const
  * @type {string}
  */
 var FORM_CHILD_PREFIX = 'child-';
+/*jshint ignore:end*/
 
 
 
@@ -213,15 +217,17 @@ var Form = React.createClass({
 
   render: function() {
     var children = [];
-    React.Children.forEach(this.props.children, function(child, i) {
+    React.Children.forEach(this.props.children, function(child) {
       children.push(child);
     });
 
+    /*jshint ignore:start*/
     var childrenToRender = this._setDynamicRefs(children, FORM_CHILD_PREFIX);
 
     return (<form className="ring-form" onChange={this._handleChange} onBlur={this._handleBlur}>
       {childrenToRender}
     </form>);
+    /*jshint ignore:end*/
   },
 
   /**
@@ -292,7 +298,7 @@ var Form = React.createClass({
     var firstInvalid = null;
     var formIsCompleted = this.state['fields'].every(function(field) {
       var fieldIsValid = field.checkValidity();
-      if (!fieldIsValid) { firstInvalid = field }
+      if (!fieldIsValid) { firstInvalid = field; }
       return fieldIsValid;
     }, this);
 
@@ -313,6 +319,7 @@ var Form = React.createClass({
     this.checkDependency(changedField.name);
   },
 
+  /*jshint unused:false*/
   /**
    * Handles blur of every component.
    * @param {SyntheticEvent} evt
@@ -323,6 +330,7 @@ var Form = React.createClass({
       this.state['firstInvalid'].setErrorShown(true);
     }
   },
+  /*jshint unused:true*/
 
   /**
    * Analyzes passed dependencies and creates a map of field names to functions
@@ -339,7 +347,7 @@ var Form = React.createClass({
       var sequence = [];
       var dependencyFunction = DependencyTypeToFn[dependencyType];
 
-      var analyzedDeps = DFSVisitor(depsTree, {}, sequence, function(vertice, tree, sequence, visited) {
+      var analyzedDeps = dfsVisitor(depsTree, {}, sequence, function(vertice, tree) {
         var verticeElement = formElement.querySelector('[name=' + vertice + ']');
         var dependencies = [];
 
@@ -380,7 +388,7 @@ var Form = React.createClass({
     var fieldsToValidate = [];
     var submitButton = this.getDOMNode().querySelector('[type=submit]');
 
-    mout.collection.forEach(this.refs, function(ref, refName) {
+    mout.collection.forEach(this.refs, function(ref) {
       if (typeof ref.checkValidity !== 'undefined') { fieldsToValidate.push(ref); }
     });
 
@@ -406,7 +414,7 @@ var Form = React.createClass({
 module.exports = Form;
 
 if ('production' !== process.env.NODE_ENV) {
-  module.exports.DFSVisitor = DFSVisitor;
+  module.exports.DFSVisitor = dfsVisitor;
   module.exports.getParentNode = getParentNode;
   module.exports.getSubtree = getSubtree;
 }
