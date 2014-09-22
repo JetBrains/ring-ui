@@ -173,6 +173,7 @@
         query: 'test',
         placeholder: 'placeholder',
         onApply: console.log.bind(console),
+        focus: true,
         hint: 'lol',
         dataSource: function (props) {
           jQuery.extend(props, {
@@ -317,11 +318,11 @@
     {'label': 'Two', 'href': 'http://www.jetbrains.com'},
     {'label': 'Three', 'type': ring.PopupMenu.Type.ITEM, 'href': 'http://www.jetbrains.com'},
     {'type': ring.PopupMenu.Type.SEPARATOR},
-    {'label': 'Four', 'type': ring.PopupMenu.Type.MENU_LINK},
-    {'label': 'Five', 'type': ring.PopupMenu.Type.MENU_LINK, 'href': 'http://www.jetbrains.com', 'className': 'test'}
+    {'label': 'Four', 'type': ring.PopupMenu.Type.LINK},
+    {'label': 'Five', 'type': ring.PopupMenu.Type.LINK, 'href': 'http://www.jetbrains.com', 'className': 'test'}
   ]});
 
-  react.renderComponent(
+  React.renderComponent(
     ring.Footer({
       className: 'stuff',
       left: [
