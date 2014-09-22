@@ -79,6 +79,18 @@ var QueryAssist = React.createClass({
     this.setState(this.generateState(props), this.sendRequest);
   },
 
+  componentDidUpdate: function () {
+    if (this.refs.input.getDOMNode().firstChild && this.state.focus) {
+      $(this.refs.input.getDOMNode()).caret(this.state.caret);
+    }
+  },
+
+  // Skip rerender on caret movement
+  shouldComponentUpdate: function (props, state) {
+    // Return false to skip rendering
+    return this.state.query !== state.query || this.state.styleRanges !== state.styleRanges;
+  },
+
   handleFocusChange: function (e) {
     // otherwise it's blur and false
     var focus = e.type === 'focus';
@@ -347,12 +359,6 @@ var QueryAssist = React.createClass({
       </div>
       );
     /* jshint ignore:end */
-  },
-
-  componentDidUpdate: function () {
-    if (this.refs.input.getDOMNode().firstChild && this.state.focus) {
-      $(this.refs.input.getDOMNode()).caret(this.state.caret);
-    }
   }
 });
 
