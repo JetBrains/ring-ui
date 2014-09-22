@@ -172,7 +172,8 @@ var QueryAssist = React.createClass({
       caret: this.state.caret
     };
 
-    var dataPromise = when(this.props.dataSource(params)).delay(1000);
+    var dataPromise = when(this.props.dataSource(params));
+    // TODO Proper catch here
     dataPromise.then(this.handleResponse);
     // Close popup after timeout
     // TODO Show loader here
