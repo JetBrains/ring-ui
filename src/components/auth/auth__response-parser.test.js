@@ -23,7 +23,6 @@ describe('AuthResponseParser', function () {
 
   describe('getAuthResponseFromURL', function () {
     var AuthResponseParser = require('./auth__response-parser');
-    var parser = new AuthResponseParser();
 
     var location;
     beforeEach(function () {
@@ -40,6 +39,8 @@ describe('AuthResponseParser', function () {
 
     it('should return correct response', function () {
       location = 'http://localhost:8080/hub#access_token=2YotnFZFEjr1zCsicMWpAA&state=xyz&token_type=example&expires_in=3600';
+
+      var parser = new AuthResponseParser();
       parser.getAuthResponseFromURL().should.be.deep.equal({
         access_token: '2YotnFZFEjr1zCsicMWpAA',
         state: 'xyz',
@@ -51,32 +52,39 @@ describe('AuthResponseParser', function () {
 
     it('should return null for null location', function () {
       location = null;
+      var parser = new AuthResponseParser();
       expect(parser.getAuthResponseFromURL()).to.be.null;
     });
 
     it('should return null for empty location', function () {
       location = '';
+      var parser = new AuthResponseParser();
       expect(parser.getAuthResponseFromURL()).to.be.null;
     });
 
     it('should return null for empty hash', function () {
       location = 'http://localhost:8080/hub#';
+      var parser = new AuthResponseParser();
       expect(parser.getAuthResponseFromURL()).to.be.null;
+      parser.setHash.should.have.been.calledWith('');
     });
 
     it('should return null for no hash', function () {
       location = 'http://localhost:8080/hub';
+      var parser = new AuthResponseParser();
       expect(parser.getAuthResponseFromURL()).to.be.null;
     });
 
     it('should return correct for value with hashes', function () {
       location = 'http://localhost:8080/hub#access_token=#2YotnFZFEjr1zCsicMWpAA#';
+      var parser = new AuthResponseParser();
       parser.getAuthResponseFromURL().should.be.deep.equal({access_token: '#2YotnFZFEjr1zCsicMWpAA#'});
       parser.setHash.should.have.been.calledWith('');
     });
 
     it('should throw error on error in auth response', function () {
       location = 'http://localhost:8080/hub#error=we+are+in+trouble';
+      var parser = new AuthResponseParser();
       expect(parser.getAuthResponseFromURL.bind(parser)).to.throw(Error, 'we are in trouble');
       parser.setHash.should.have.been.calledWith('');
     });
