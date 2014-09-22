@@ -146,12 +146,12 @@ var QueryAssist = React.createClass({
   },
 
   handleComplete: function (data, replace) {
-    var query = this.getQuery();
+    var state = this.getInputState();
 
     if (!data || !data.data) {
       if (typeof this.props.onApply === 'function') {
-        this._popup.close();
-        return this.props.onApply({query: query, caret: this.getCaret()});
+        this.closePopup();
+        return this.props.onApply(state);
       }
 
       return;
@@ -163,13 +163,13 @@ var QueryAssist = React.createClass({
 
     var props = {
       caret: suggestion.caret,
-      query: query.substr(0, suggestion.completionStart) + prefix + suggestion.option + suffix
+      query: state.query.substr(0, suggestion.completionStart) + prefix + suggestion.option + suffix
     };
 
     if (replace) {
-      props.query += query.substr(suggestion.completionEnd + suffix.length);
+      props.query += state.query.substr(suggestion.completionEnd + suffix.length);
     } else {
-      props.query += query.substr(this.state.caret);
+      props.query += state.query.substr(state.caret);
     }
 
     // Force focus on complete e.g. after click
@@ -179,17 +179,19 @@ var QueryAssist = React.createClass({
   },
 
   sendRequest: function () {
-    var params = {
-      query: this.state.query,
-      caret: this.state.caret
-    };
-
-    var dataPromise = when(this.props.dataSource(params));
+    var dataPromise = when(this.props.dataSource(this.getInputState()));
     // TODO Proper catch here
     dataPromise.then(this.handleResponse);
     // Close popup after timeout
     // TODO Show loader here
     dataPromise.timeout(500).catch(when.TimeoutError, this.closePopup);
+  },
+
+  getInputState: function() {
+    return {
+      query: this.state.query,
+      caret: this.state.caret
+    };
   },
 
   getQuery: function () {
