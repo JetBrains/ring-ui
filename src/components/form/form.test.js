@@ -69,7 +69,7 @@ describe('Form component', function () {
               }
             };
 
-            expect(Form.DFSVisitor(dependencyObject, {}, [])).to.be.true;
+            expect(Form.dfsVisitor(dependencyObject, {}, [])).to.be.true;
           });
 
           it('trees should contain unique elements', function () {
@@ -86,7 +86,7 @@ describe('Form component', function () {
             };
 
             var sequence = [];
-            var isValid = Form.DFSVisitor(dependencyObject, {}, sequence);
+            var isValid = Form.dfsVisitor(dependencyObject, {}, sequence);
 
             isValid.should.be.false;
             sequence[sequence.length - 1].should.equal('two');
@@ -109,7 +109,7 @@ describe('Form component', function () {
             };
 
             var sequence = [];
-            var isValid = Form.DFSVisitor(dependencyObject, {}, sequence);
+            var isValid = Form.dfsVisitor(dependencyObject, {}, sequence);
 
             isValid.should.be.false;
             sequence[sequence.length - 1].should.equal('three');
@@ -134,7 +134,7 @@ describe('Form component', function () {
             };
 
             var sequence = [];
-            var isValid = Form.DFSVisitor(dependencyObject, {}, sequence);
+            var isValid = Form.dfsVisitor(dependencyObject, {}, sequence);
 
             isValid.should.be.false;
             sequence[sequence.length - 1].should.equal('four');
@@ -155,7 +155,7 @@ describe('Form component', function () {
               }
             };
 
-            Form.DFSVisitor(dependencyObject, {}, []).should.be.true;
+            Form.dfsVisitor(dependencyObject, {}, []).should.be.true;
           });
 
           it('tree cycle dependency', function () {
@@ -168,7 +168,7 @@ describe('Form component', function () {
             };
 
             var sequence = [];
-            var isValid = Form.DFSVisitor(dependencyObject, {}, sequence);
+            var isValid = Form.dfsVisitor(dependencyObject, {}, sequence);
 
             isValid.should.be.false;
             sequence[sequence.length - 1].should.equal('one');
@@ -188,7 +188,7 @@ describe('Form component', function () {
             };
 
             var sequence = [];
-            var isValid = Form.DFSVisitor(dependencyObject, {}, sequence);
+            var isValid = Form.dfsVisitor(dependencyObject, {}, sequence);
 
             isValid.should.be.false;
             sequence[sequence.length - 1].should.equal('one');

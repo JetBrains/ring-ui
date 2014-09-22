@@ -48,16 +48,17 @@ var Panel = React.createClass({
   render: function() {
     var additionalClassName = '';
 
-    // todo(maksimrv): Move Bem class tool from rivus.
     if (this.props['modifier'] !== Modifier.NONE) {
       additionalClassName = [BASE_CLASS, this.props['modifier']].join('_');
     }
 
+    /*jshint ignore:start*/
     var classList = [BASE_CLASS, additionalClassName].join(' ');
 
     return this.transferPropsTo(<div className={classList}>
       {this.props.children}
     </div>);
+    /*jshint ignore:end*/
   }
 });
 
