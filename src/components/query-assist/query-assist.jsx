@@ -33,23 +33,17 @@ var QueryAssist = React.createClass({
     hint: React.PropTypes.string,
     placeholder: React.PropTypes.string,
     onApply: React.PropTypes.func,
-    onFocusChange: React.PropTypes.func
+    onFocusChange: React.PropTypes.func,
+    query: React.PropTypes.string
   },
 
   generateState: function (props) {
-    props = props || this.props;
-    props.query = props.query || '';
+    var query = props.query || '';
 
     var state = {
-      letters: props.query.split(''),
-      query: props.query,
-      caret: props.caret != null ? props.caret : props.query && props.query.length || 0,
-      suggestions: props.suggestions || []
+      query: query,
+      caret: query.length
     };
-
-    if (props.styleRanges) {
-      state.styleRanges = props.styleRanges;
-    }
 
     if ('focus' in props) {
       state.focus = props.focus;
@@ -59,7 +53,7 @@ var QueryAssist = React.createClass({
   },
 
   getInitialState: function () {
-    return this.generateState();
+    return this.generateState(this.props);
   },
 
   getDefaultProps: function () {
@@ -86,10 +80,10 @@ var QueryAssist = React.createClass({
   },
 
   handleFocusChange: function (e) {
+    // otherwise it's blur and false
     var focus = e.type === 'focus';
 
     if (typeof this.props.onFocusChange === 'function') {
-      // otherwise it's blur and false
       this.props.onFocusChange(focus);
     }
 
@@ -116,9 +110,8 @@ var QueryAssist = React.createClass({
 
   handleTab: function (e) {
     e.preventDefault();
-    var selectedSuggestion = this._popup.refs.List.getSelected();
 
-    return this.handleComplete(selectedSuggestion || {data: this.state.suggestions[0]}, true);
+    return this.handleComplete(this._popup.refs.List.getSelected() || {data: this.state.suggestions[0]}, true);
   },
 
   handleCaretMove: function () {
@@ -130,18 +123,12 @@ var QueryAssist = React.createClass({
   },
 
   handleResponse: function (props) {
-    var state = this.generateState(props);
+    var state = $.extend(this.generateState(props), {
+      styleRanges: props.styleRanges,
+      suggestions: props.suggestions
+    });
 
-    if (this.state.firstRun) {
-      state.firstRun = false;
-    }
-
-    if (!this.state.focus || state.firstRun === false) {
-      this.setState(state);
-      return;
-    }
-
-    if (props.query === this.state.query && props.caret === this.getCaret()) {
+    if (state.query === this.state.query && state.caret === this.state.caret) {
       this.setState(state, this.renderPopup);
     }
   },
@@ -331,9 +318,9 @@ var QueryAssist = React.createClass({
   /** @override */
   render: function () {
     /* jshint ignore:start */
-    var query = this.state.letters.length && React.renderComponentToStaticMarkup(
-      <span>{this.state.letters.map(this.renderLetter)}</span>
-    ) || '';
+    var query = this.state.query && React.renderComponentToStaticMarkup(
+      <span>{this.state.query.split('').map(this.renderLetter)}</span>
+    );
 
     return (
       <div className="ring-query-assist">
