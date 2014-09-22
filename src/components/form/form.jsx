@@ -414,7 +414,7 @@ var Form = React.createClass({
 module.exports = Form;
 
 if ('production' !== process.env.NODE_ENV) {
-  module.exports.DFSVisitor = dfsVisitor;
+  module.exports.dfsVisitor = dfsVisitor;
   module.exports.getParentNode = getParentNode;
   module.exports.getSubtree = getSubtree;
 }
