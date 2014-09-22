@@ -172,10 +172,11 @@ var QueryAssist = React.createClass({
       caret: this.state.caret
     };
 
-    if (this._popup) {
-      this._popup.close();
-    }
-    when(this.props.dataSource(params)).then(this.handleResponse);
+    var dataPromise = when(this.props.dataSource(params)).delay(1000);
+    dataPromise.then(this.handleResponse);
+    // Close popup after timeout
+    // TODO Show loader here
+    dataPromise.timeout(500).catch(when.TimeoutError, this.closePopup);
   },
 
   getQuery: function () {
@@ -246,6 +247,12 @@ var QueryAssist = React.createClass({
       });
     }
     /* jshint ignore:end */
+  },
+
+  closePopup: function() {
+    if (this._popup) {
+      this._popup.close();
+    }
   },
 
   renderSuggestions: function () {
