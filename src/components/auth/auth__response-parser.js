@@ -16,6 +16,7 @@
  * @constructor
  */
 var AuthResponseParser = function () {
+  this._authResponse = this.readAuthResponseFromURL();
 };
 
 /**
@@ -27,12 +28,20 @@ var AuthResponseParser = function () {
  * @return {?AuthResponse}
  */
 AuthResponseParser.prototype.getAuthResponseFromURL = function () {
-  var hash = this.getHash();
-  if (!hash) {
-    return null;
-  }
+  return this.validateAuthResponse(this._authResponse);
+};
 
-  var authResponse = AuthResponseParser.parseQueryString(hash);
+/**
+ * Validates given authResponse.
+ * If it contains token - returns token, if error - throws error,
+ * otherwise - null
+ * Always clears a hash part of the URL.
+ *
+ * @param authResponse {AuthResponse} parsed authResponse
+ * @throws {Error} if auth server returned an error
+ * @return {?AuthResponse}
+ */
+AuthResponseParser.prototype.validateAuthResponse = function (authResponse) {
 
   // Check for errors
   if (authResponse.error) {
@@ -42,12 +51,23 @@ AuthResponseParser.prototype.getAuthResponseFromURL = function () {
 
   // If there is no token in the hash
   if (!authResponse.access_token) {
+    this.setHash('');
     return null;
   } else {
     this.setHash('');
   }
 
   return authResponse;
+};
+
+/**
+ * Reads current accessToken from URL.
+ * Doesn't modify URL
+ *
+ * @return {AuthResponse}
+ */
+AuthResponseParser.prototype.readAuthResponseFromURL = function () {
+  return AuthResponseParser.parseQueryString(this.getHash());
 };
 
 /**

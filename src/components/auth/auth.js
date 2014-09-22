@@ -15,7 +15,6 @@ var AuthRequestBuilder = require('./auth__request-builder');
  * @prop {string} config.client_id
  * @prop {string[]} config.scope
  * @prop {string[]} config.optionalScopes
- * @prop {string} profileUrl
  * @prop {User?} user
  *
  * @param {{
@@ -57,8 +56,6 @@ var Auth = function (config) {
     redirect_uri: this.config.redirect_uri,
     scopes: this.config.scope
   }, this._storage);
-
-  this.profileUrl = this.config.serverUri + 'users/me';
 
   this._initDeferred = when.defer();
 };
