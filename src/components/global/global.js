@@ -39,11 +39,10 @@ Global.getUIDGenerator = function (prefix, idCounter) {
 /**
  * Creates an object from given arguments. Even arguments becomes keys,
  * odd arguments becomes values.
- * @param {...*} var_args
  * @return {Object}
  * @throws {Error}
  */
-Global.createObject = function (var_args) {
+Global.createObject = function () {
   if (arguments.length % 2 !== 0) {
     throw new Error('Odd number of arguments given.');
   }
