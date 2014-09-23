@@ -11,14 +11,17 @@
 
 .ring-alert {
   background: #fff;
-  border: solid 1px #ccc;
+  border: solid 1px $ring-border-color;
+  border-radius: 3px;
   box-sizing: border-box;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.15);
   font-size: 13px;
+  line-height: $ring-unit * 5;
   margin: $ring-unit auto;
-  padding: $ring-unit;
-  padding-right: $ring-unit*3;
+  min-height: $ring-unit * 5;
+  padding: 0 $ring-unit*2;
   position: relative;
-  width: $ring-unit * 40;
+  width: $ring-unit * 55;
 
   @include ring-font();
 
@@ -28,13 +31,29 @@
   }
 }
 
+.ring-alert__caption {
+  line-height: 1.2;
+}
+
+.ring-alert__icon {
+  display: inline-block;
+  margin-right: $ring-unit;
+  vertical-align: top;
+
+  @include vertical-compensation(-2px);
+}
+
+.ring-alert__caption {
+  display: inline-block;
+  margin: $ring-unit $ring-unit*4 $ring-unit 0;
+  vertical-align: middle;
+}
+
 .ring-alert__close {
-  border: solid 1px #ccc;
   cursor: pointer;
-  padding: $ring-unit;
   position: absolute;
   right: $ring-unit;
-  top: $ring-unit;
+  top: 0;
 }
 
 $enter-animation-duration: 300ms;
