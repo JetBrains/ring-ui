@@ -14,7 +14,7 @@ describe('icon', function () {
 
   it('should set size 16', function () {
     this.icon.setProps({
-      modifier: 16
+      size: Icon.Size['16']
     });
     $(this.icon.getDOMNode()).should.have.class('ring-icon_16');
   });
