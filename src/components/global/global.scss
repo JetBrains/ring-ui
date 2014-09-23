@@ -4,6 +4,7 @@ $ring-link-color:  #1866C5;
 $ring-link-hover-color: #FF5A00;
 
 $ring-outline-color: rgba(37, 183, 255, 0.5);
+$ring-border-color: rgba(0, 0, 0, 0.2);
 
 $ring-color-error: #C10000;
 
@@ -24,6 +25,11 @@ $ring-color-error: #C10000;
 
 @mixin ring-monospace-font() {
   font: 12px Menlo, "Bitstream Vera Sans Mono", "Ubuntu Mono", "Courier New", Courier, monospace;
+}
+
+@mixin vertical-compensation($compensation, $position: relative) {
+  position: $position;
+  top: $compensation;
 }
 
 $ring-fonts-dir: 'fonts/' !default;
