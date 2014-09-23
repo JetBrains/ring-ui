@@ -81,6 +81,15 @@ Shortcuts.Mixin = {
       shortcuts.unbindScope(this.shortcutsScope);
       shortcuts.spliceScope(this.shortcutsScope);
     }
+  },
+
+  // TODO Replace with componentWillReceiveProps
+  disableShortcuts: function() {
+    if (this.props.shortcuts) {
+      var shortcuts = Shortcuts.getInstance();
+
+      shortcuts.spliceScope(this.shortcutsScope);
+    }
   }
 };
 
