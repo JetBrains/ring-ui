@@ -59,6 +59,7 @@
     "jsx-loader": "^0.11.0",
     "lodash": "^2.4.1",
     "mousetrap": "ccampbell/mousetrap#1.4.6",
+    "mout": "",
     "react": "^0.11.0",
     "sass-loader": "^0.2.0",
     "style-loader": "^0.6.3",
