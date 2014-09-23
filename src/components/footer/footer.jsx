@@ -79,7 +79,7 @@ var FooterLine = React.createClass({
       }
       var element = (item.copyright ? copyright(item.copyright) : '') + item.label;
       if (item.url) {
-        element = <a href={item.url} title={item.title}>{element}</a>
+        element = <a className="ring-link" href={item.url} title={item.title}>{element}</a>
       }
       return {
         id: item.label + '-' + idx,

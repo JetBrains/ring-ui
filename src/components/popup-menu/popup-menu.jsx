@@ -13,12 +13,7 @@ var List = require('list/list');
  * @extends {ReactComponent}
  */
 var PopupMenu = React.createClass({
-  mixins: [Popup.Mixin],
-
-  // TODO Find a better way
-  statics: {
-    Type: List.Type
-  },
+  mixins: [Popup.Mixin, List.Mixin],
 
   /** @override */
   propTypes: {
@@ -28,8 +23,7 @@ var PopupMenu = React.createClass({
     data: React.PropTypes.arrayOf(React.PropTypes.object),
     onSelect: React.PropTypes.func,
     position: React.PropTypes.number,
-    shortcuts: React.PropTypes.bool,
-    visible: React.PropTypes.bool
+    shortcuts: React.PropTypes.bool
   },
 
   getDefaultProps: function () {

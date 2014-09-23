@@ -3,13 +3,19 @@
 'use strict';
 
 require('./checkbox.scss');
-
 var React = require('react');
 var Global =  require('global/global');
 var ReactPropTypes = React.PropTypes;
 
-var idPrefix = '\\x0';
-var generateUniqueId = Global.getUIDGenerator(idPrefix);
+/**
+ * @const
+ * @type {string}
+ */
+var ID_PREFIX = '\\x0';
+
+var generateUniqueId = Global.getUIDGenerator(ID_PREFIX);
+
+
 
 /**
  * @constructor
@@ -54,16 +60,15 @@ var Checkbox = React.createClass({
 
   /**
    * Return native input node
-   * @returns {DOMElement}
+   * @return {HTMLElement}
    */
   getInputDOMNode: function () {
     return this.refs.input.getDOMNode();
   },
 
   /**
-   * Return native label node
-   * which is responsible for the look of checkbox
-   * @returns {DOMElement}
+   * Return native label node which is responsible for the look of checkbox
+   * @return {HTMLElement}
    */
   getLabelDOMNode: function () {
     return this.refs.label.getDOMNode();
@@ -74,20 +79,10 @@ var Checkbox = React.createClass({
     var id = this.props.id || this.state.id;
 
     return (
-      <span className={this.props.className || ''}>
-        {this.transferPropsTo(<input
-        ref="input"
-        className="ring-checkbox"
-        type="checkbox"
-        id={id}
-        />)}
-
-        <label
-        ref="label"
-        className="ring-checkbox__label"
-        htmlFor={id}>
-        </label>
-      </span>
+      <label className="ring-form__label">
+        {this.transferPropsTo(<input ref="input" className="ring-checkbox" type="checkbox" id={id} />)}
+        <label ref="label" className="ring-checkbox__label" htmlFor={id} />
+      </label>
       );
     /* jshint ignore:end */
   }

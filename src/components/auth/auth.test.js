@@ -199,6 +199,14 @@ describe('auth', function () {
       var frozenTime = Auth._epoch();
       sinon.stub(AuthResponseParser.prototype, 'getLocation').returns('http://localhost:8080/hub#access_token=2YotnFZFEjr1zCsicMWpAA&state=xyz&token_type=example&expires_in=3600');
       sinon.stub(Auth, '_epoch').returns(frozenTime);
+
+      auth = new Auth({
+        serverUri: '',
+        redirect_uri: 'http://localhost:8080/hub',
+        client_id: '1-1-1-1-1',
+        scope: ['0-0-0-0-0', 'youtrack'],
+        optionalScopes: ['youtrack']
+      });
       return auth._storage.saveState('xyz', {restoreLocation: 'http://localhost:8080/hub/users', scopes: ['0-0-0-0-0']}).
         then(function () {
           return auth.init();
@@ -220,6 +228,13 @@ describe('auth', function () {
       sinon.stub(Auth.prototype, '_redirectCurrentPage');
       sinon.stub(AuthRequestBuilder, '_uuid').returns('unique');
 
+      auth = new Auth({
+        serverUri: '',
+        redirect_uri: 'http://localhost:8080/hub',
+        client_id: '1-1-1-1-1',
+        scope: ['0-0-0-0-0', 'youtrack'],
+        optionalScopes: ['youtrack']
+      });
       return auth.init().
         otherwise(function (reject) {
           Auth.prototype._redirectCurrentPage.should.be.calledWith('api/rest/oauth2/auth?response_type=token&' +
