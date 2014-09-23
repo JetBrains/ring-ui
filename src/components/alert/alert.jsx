@@ -41,7 +41,7 @@ var Alert = React.createClass({
   /** @override */
   getDefaultProps: function() {
     return {
-      /** @type {$.Deferred} */
+      /** @type {Deferred} */
       'animationDeferred': null,
 
       /** @type {ReactComponent|string} */
@@ -90,6 +90,7 @@ var Alert = React.createClass({
     className[modifiedClassName] = true;
     className['ring-alert_inline'] = this.props['inline'];
 
+    /*jshint ignore:start*/
     var classes = React.addons.classSet(className);
 
     var closeClickHandler = this.props['onClick'] === null ?
@@ -104,6 +105,7 @@ var Alert = React.createClass({
               onClick={closeClickHandler} />) :
           ''}
     </div>);
+    /*jshint ignore:end*/
   },
 
   /**
@@ -123,20 +125,19 @@ var Alert = React.createClass({
   },
 
   /**
-   * @param {Event} evt
    * @private
    */
-  _handleTransitionEnd: function(evt) {
+  _handleTransitionEnd: function() {
     if (this.props['animationDeferred']) {
+      this.getDOMNode().removeEventListener('transitionend');
       this.props['animationDeferred'].resolve();
     }
   },
 
   /**
-   * @param {SyntheticMouseEvent} evt
    * @private
    */
-  _handleCloseClick: function(evt) {
+  _handleCloseClick: function() {
     if (this.props['inline']) {
       this.close();
     }
