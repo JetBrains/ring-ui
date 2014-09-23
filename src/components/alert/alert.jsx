@@ -7,9 +7,8 @@
  */
 
 require('./alert.scss');
-/*jshint ignore:start*/
 var Global = require('global/global');
-/*jshint ignore:end*/
+var Icon = require('icon/icon');
 var React = require('react/addons');
 
 
@@ -22,6 +21,15 @@ var Type = {
   MESSAGE: 'message',
   WARNING: 'warning'
 };
+
+
+/**
+ * Lookup table of alert type to icon modifier.
+ * @type {Object.<Type, string>}
+ */
+var TypeToIconModifier = Global.createObject(
+    Type.ERROR, 'error',
+    Type.WARNING, 'warning');
 
 
 /*jshint ignore:start*/
@@ -101,11 +109,10 @@ var Alert = React.createClass({
         this.props['onClick'];
 
     return (<div className={classes} onClick={this.props['onClick']}>
-      {this.props['caption']}
+      {this._getIcon()}
+      <span className="ring-alert__caption">{this.props['caption']}</span>
       {this.props['closeable'] ?
-          (<span
-              className="ring-alert__close ring-font-icon ring-font-icon_close"
-              onClick={closeClickHandler} />) :
+          (<Icon className="ring-alert__close" modifier="close" size={Icon.Size['16']} onClick={closeClickHandler} />) :
           ''}
     </div>);
     /*jshint ignore:end*/
@@ -144,6 +151,19 @@ var Alert = React.createClass({
     if (this.props['inline']) {
       this.close();
     }
+  },
+
+  /**
+   * @private
+   * @return {XML}
+   */
+  _getIcon: function() {
+    var iconModifier = TypeToIconModifier[this.props['type']];
+    if (iconModifier) {
+      return (<Icon className="ring-alert__icon" modifier={iconModifier} size={Icon.Size['16']} />);
+    }
+
+    return '';
   }
 });
 
