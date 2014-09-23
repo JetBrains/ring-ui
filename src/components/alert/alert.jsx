@@ -7,6 +7,7 @@
  */
 
 require('./alert.scss');
+var Global = require('global/global');
 var React = require('react/addons');
 
 
@@ -83,15 +84,13 @@ var Alert = React.createClass({
 
   /** @override */
   render: function() {
+    /*jshint ignore:start*/
     var modifiedClassName = [BASE_CLASS, this.props['type']].join('_');
 
-    var className = {};
-    className[BASE_CLASS] = true;
-    className[modifiedClassName] = true;
-    className['ring-alert_inline'] = this.props['inline'];
-
-    /*jshint ignore:start*/
-    var classes = React.addons.classSet(className);
+    var classes = React.addons.classSet(Global.createObject(
+        BASE_CLASS, true,
+        modifiedClassName, true,
+        'ring-alert_inline', this.props['inline']));
 
     var closeClickHandler = this.props['onClick'] === null ?
         this._handleCloseClick :
