@@ -9,31 +9,31 @@ var React = require('react/addons');
 describe('Alert component', function() {
   it('Simple render', function() {
     var alertComponent = React.addons.TestUtils.renderIntoDocument(
-        Alert({ 'caption': 'Test element' }));
+        new Alert({ 'caption': 'Test element' }));
     alertComponent.should.be.defined;
   });
 
   describe('rendering', function() {
     describe('rendering modes', function() {
-      it ('should render message', function() {
+      it ('should render a message', function() {
         var alertComponent = React.addons.TestUtils.renderIntoDocument(
-            Alert({ 'caption': 'Test element', 'type': Alert.Type.MESSAGE }));
+            new Alert({ 'caption': 'Test element', 'type': Alert.Type.MESSAGE }));
 
         var alertElement = alertComponent.getDOMNode();
         alertElement.classList.contains('ring-alert_message').should.be.true;
       });
 
-      it ('should render error', function() {
+      it ('should render an error', function() {
         var alertComponent = React.addons.TestUtils.renderIntoDocument(
-            Alert({ 'caption': 'Test element', 'type': Alert.Type.ERROR }));
+            new Alert({ 'caption': 'Test element', 'type': Alert.Type.ERROR }));
 
         var alertElement = alertComponent.getDOMNode();
         alertElement.classList.contains('ring-alert_error').should.be.true;
       });
 
-      it ('should render warning', function() {
+      it ('should render a warning', function() {
         var alertComponent = React.addons.TestUtils.renderIntoDocument(
-            Alert({ 'caption': 'Test element', 'type': Alert.Type.WARNING }));
+            new Alert({ 'caption': 'Test element', 'type': Alert.Type.WARNING }));
 
         var alertElement = alertComponent.getDOMNode();
         alertElement.classList.contains('ring-alert_warning').should.be.true;
@@ -41,17 +41,17 @@ describe('Alert component', function() {
 
       it ('should render a message if type is not passed', function() {
         var alertComponent = React.addons.TestUtils.renderIntoDocument(
-            Alert({ 'caption': 'Test element' }));
+            new Alert({ 'caption': 'Test element' }));
 
         var alertElement = alertComponent.getDOMNode();
         alertElement.classList.contains('ring-alert_message').should.be.true;
       });
     });
 
-    describe('closeable', function() {
+    describe('closeable alerts', function() {
       it('should be closeable if it is defined in options', function() {
         var alertComponent = React.addons.TestUtils.renderIntoDocument(
-            Alert({ caption: 'Test element', closeable: true }));
+            new Alert({ caption: 'Test element', closeable: true }));
 
         var alertElement = alertComponent.getDOMNode();
         var closeElement = alertElement.querySelector('.ring-alert__close');
@@ -61,7 +61,7 @@ describe('Alert component', function() {
 
       it('should be closed on click', function() {
         var alertComponent = React.addons.TestUtils.renderIntoDocument(
-            Alert({ caption: 'Test element', closeable: true }));
+            new Alert({ caption: 'Test element', closeable: true }));
 
         var alertElement = alertComponent.getDOMNode();
         var closeElement = alertElement.querySelector('.ring-alert__close');
