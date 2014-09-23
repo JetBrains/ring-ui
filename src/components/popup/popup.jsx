@@ -15,7 +15,6 @@ var Global = require('global/global');
 
 var generateUniqueId = Global.getUIDGenerator('ring-popup-');
 var Shortcuts = require('shortcuts/shortcuts');
-var shortcuts = Shortcuts.getInstance();
 
 /**
  * @enum {number}
@@ -116,13 +115,13 @@ var PopupMixin = {
     if (this.props.autoRemove !== false) {
       this.remove();
     } else {
-      // There should be a btter way
+      // There should be a better way
       this.setState({
         style: {
           display: 'none'
         }
       });
-      shortcuts.spliceScope(this.shortcutsScope);
+      this.disableShortcuts();
     }
 
     return true;
@@ -167,9 +166,7 @@ var PopupMixin = {
     var anchorElement = props.anchorElement || document.body;
 
     var anchorElementOffset = $(anchorElement).offset();
-    var styles = {
-      display: props.visible ? 'block' : 'none'
-    };
+    var styles = {};
 
     switch (props.corner) {
       case Corner.TOP_LEFT:

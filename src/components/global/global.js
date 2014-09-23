@@ -1,3 +1,9 @@
+/**
+ * @fileoverview Commonly used methods.
+ * @author igor.alexeenko@jetbrains.com (Igor Alexeenko)
+ * @author maskimrv@jetbrains.com (Maskim Ryzhikov)
+ */
+
 var Global = {};
 
 /**
@@ -28,6 +34,27 @@ Global.getUIDGenerator = function (prefix, idCounter) {
     var id = String(idCounter++);
     return prefix + id;
   };
+};
+
+/**
+ * Creates an object from given arguments. Even arguments becomes keys,
+ * odd arguments becomes values.
+ * @return {Object}
+ * @throws {Error}
+ */
+Global.createObject = function () {
+  if (arguments.length % 2 !== 0) {
+    throw new Error('Odd number of arguments given.');
+  }
+
+  var args = Array.prototype.slice.call(arguments, 0);
+  var obj = {};
+
+  for (var i = 0, l = args.length; i < l; i += 2) {
+    obj[args[i]] = args[i + 1];
+  }
+
+  return obj;
 };
 
 module.exports = Global;

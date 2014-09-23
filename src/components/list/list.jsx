@@ -105,6 +105,13 @@ var ListHint = React.createClass({
   }
 });
 
+var ListMixin = {
+  statics: {
+    Type: Type,
+    ITEM_PADDING: 16
+  }
+};
+
 /**
  * @constructor
  * @mixes {Shortcuts.Mixin}
@@ -131,10 +138,10 @@ var ListHint = React.createClass({
  </example>
  */
 var List = React.createClass({
-  mixins: [Shortcuts.Mixin],
+  mixins: [Shortcuts.Mixin, ListMixin],
 
   statics: {
-    Type: Type
+    Mixin: ListMixin
   },
 
   propTypes: {
