@@ -7,7 +7,9 @@
  */
 
 require('./alert.scss');
+/*jshint ignore:start*/
 var Global = require('global/global');
+/*jshint ignore:end*/
 var React = require('react/addons');
 
 
@@ -22,11 +24,13 @@ var Type = {
 };
 
 
+/*jshint ignore:start*/
 /**
  * @const
  * @type {string}
  */
 var BASE_CLASS = 'ring-alert';
+/*jshint ignore:end*/
 
 
 
@@ -79,7 +83,7 @@ var Alert = React.createClass({
 
   /** @override */
   componentWillUnmount: function() {
-    this.getDOMNode().removeEventListener('transitionend');
+    this.getDOMNode().removeEventListener('transitionend', this._handleTransitionEnd);
   },
 
   /** @override */
@@ -128,7 +132,7 @@ var Alert = React.createClass({
    */
   _handleTransitionEnd: function() {
     if (this.props['animationDeferred']) {
-      this.getDOMNode().removeEventListener('transitionend');
+      this.getDOMNode().removeEventListener('transitionend', this._handleTransitionEnd);
       this.props['animationDeferred'].resolve();
     }
   },

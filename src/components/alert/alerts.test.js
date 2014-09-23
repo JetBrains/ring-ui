@@ -42,7 +42,8 @@ describe('Alerts', function() {
 
       var domElement = component.getDOMNode();
       var children = domElement.querySelectorAll('.ring-alert');
-      children[0].innerText.should.equal(LAST_TEXT);
+      var textContent = children[0].innerText ? children[0].innerText : children[0].textContent;
+      textContent.should.equal(LAST_TEXT);
     });
   });
 
