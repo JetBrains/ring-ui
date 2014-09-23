@@ -116,7 +116,7 @@ var PopupMixin = {
     if (this.props.autoRemove !== false) {
       this.remove();
     } else {
-      // There should be a btter way
+      // There should be a better way
       this.setState({
         style: {
           display: 'none'
@@ -167,9 +167,7 @@ var PopupMixin = {
     var anchorElement = props.anchorElement || document.body;
 
     var anchorElementOffset = $(anchorElement).offset();
-    var styles = {
-      display: props.visible ? 'block' : 'none'
-    };
+    var styles = {};
 
     switch (props.corner) {
       case Corner.TOP_LEFT:
