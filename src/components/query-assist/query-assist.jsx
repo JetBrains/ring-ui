@@ -72,23 +72,44 @@ var QueryAssist = React.createClass({
   },
 
   componentDidMount: function () {
-    this.setState({firstRun: true}, this.sendRequest);
+    var styleRangesRequested = this.requestStyleRanges();
+
+    if (!styleRangesRequested) {
+      this.setFocus();
+    }
   },
 
   componentWillReceiveProps: function (props) {
-    this.setState(this.generateState(props), this.sendRequest);
+    var state = this.generateState(props);
+
+    if (state.focus === false && this.state.focus === true) {
+      this.refs.input.getDOMNode().blur();
+    }
+
+    this.setState(state, this.requestStyleRanges);
   },
 
   componentDidUpdate: function () {
-    if (this.refs.input.getDOMNode().firstChild && this.state.focus) {
-      $(this.refs.input.getDOMNode()).caret(this.state.caret);
-    }
+    this.setFocus();
   },
 
   // Skip rerender on caret movement
   shouldComponentUpdate: function (props, state) {
     // Return false to skip rendering
-    return this.state.query !== state.query || this.state.styleRanges !== state.styleRanges;
+    return this.state.query !== state.query || this.state.styleRanges !== state.styleRanges || this.props.placeholder !== props.placeholder;
+  },
+
+  setFocus: function() {
+    var input = this.refs.input.getDOMNode();
+
+    if (this.state.focus) {
+      // $.caret cannot place caret without children, so we just focus instead
+      if (input.firstChild) {
+        $(input).caret(this.state.caret);
+      } else {
+        input.focus();
+      }
+    }
   },
 
   handleFocusChange: function (e) {
@@ -99,9 +120,7 @@ var QueryAssist = React.createClass({
       this.props.onFocusChange(focus);
     }
 
-    if (!this.state.firstRun) {
-      this.setState({focus: focus}, focus ? this.sendRequest : $.noop);
-    }
+    this.setState({focus: focus});
   },
 
   handleInput: function () {
@@ -110,7 +129,7 @@ var QueryAssist = React.createClass({
       caret: this.getCaret()
     };
 
-    this.setState(this.generateState(props), this.sendRequest);
+    this.setState(this.generateState(props), this.requestData);
   },
 
   // It's necessary to prevent new element creation before any other hooks
@@ -126,23 +145,26 @@ var QueryAssist = React.createClass({
     return this.handleComplete(this._popup.refs.List.getSelected() || {data: this.state.suggestions[0]}, true);
   },
 
-  handleCaretMove: function () {
+  handleCaretMove: function (e) {
     var caret = this.getCaret();
 
-    if (caret !== this.state.caret) {
-      this.setState({caret: caret}, this.sendRequest);
+    if (caret !== this.state.caret || caret === 0 && this.state.query === '' && e.type === 'click') {
+      this.setState({caret: caret}, this.requestData);
     }
   },
 
   handleResponse: function (props) {
+    var deferred = when.defer();
     var state = $.extend(this.generateState(props), {
       styleRanges: props.styleRanges,
       suggestions: props.suggestions
     });
 
     if (state.query === this.state.query && state.caret === this.state.caret) {
-      this.setState(state, this.renderPopup);
+      this.setState(state, deferred.resolve);
     }
+
+    return deferred.promise;
   },
 
   handleComplete: function (data, replace) {
@@ -175,16 +197,36 @@ var QueryAssist = React.createClass({
     // Force focus on complete e.g. after click
     props.focus = true;
 
-    this.setState(this.generateState(props), this.sendRequest);
+    this.setState(this.generateState(props), this.requestData);
   },
 
-  sendRequest: function () {
-    var dataPromise = when(this.props.dataSource(this.getInputState()));
-    // TODO Proper catch here
-    dataPromise.then(this.handleResponse);
+  requestStyleRanges: function() {
+    var state = this.getInputState();
+
+    if (state.query === '') {
+      return false;
+    }
+
+    state.omitSuggestions = true;
+    this.sendRequest(state).then(this.handleResponse);
+    return true;
+  },
+
+  requestData: function() {
+    this.sendRequest(this.getInputState()).
+      then(this.handleResponse).
+      then(this.renderPopup);
+  },
+
+  sendRequest: function (params) {
+    var dataPromise = when(this.props.dataSource(params));
     // Close popup after timeout
     // TODO Show loader here
-    dataPromise.timeout(500).catch(when.TimeoutError, this.closePopup);
+    dataPromise.timeout(500).
+      catch(when.TimeoutError, this.closePopup).
+      catch($.noop); // No need to throw anything here
+
+    return dataPromise;
   },
 
   getInputState: function() {
@@ -234,16 +276,25 @@ var QueryAssist = React.createClass({
 
   handleCtrlSpace: function (e) {
     e.preventDefault();
-    this.renderPopup();
+
+    if (this.state.suggestions) {
+      this.renderPopup();
+    } else {
+      this.requestData();
+    }
   },
 
   renderPopup: function () {
-    /* jshint ignore:start */
     var suggestions = this.renderSuggestions();
-    var visible = suggestions.length > 0;
+
+    if (!suggestions.length) {
+      this.closePopup();
+      return;
+    }
 
     if (!this._popup) {
       this._popup = PopupMenu.renderComponent(
+        /* jshint ignore:start */
         <PopupMenu
           anchorElement={this.getDOMNode()}
           autoRemove={false}
@@ -251,27 +302,30 @@ var QueryAssist = React.createClass({
           data={suggestions} shortcuts={true}
           left={this.getCaretOffset()}
           onSelect={this.handleComplete}
-          visible={visible}
         />
+        /* jshint ignore:end */
       );
     } else {
       this._popup.setProps({
         left: this.getCaretOffset(),
-        data: suggestions,
-        visible: visible
+        data: suggestions
       });
     }
-    /* jshint ignore:end */
   },
 
   closePopup: function() {
     if (this._popup) {
       this._popup.close();
+      this._popup.refs.List.disableShortcuts();
     }
   },
 
   renderSuggestions: function () {
     var suggestions = [];
+
+    if (!this.state.suggestions) {
+      return suggestions;
+    }
 
     this.state.suggestions.forEach(function (suggestion, index, arr) {
       var prevSuggestion = arr[index - 1] && arr[index - 1].group;
