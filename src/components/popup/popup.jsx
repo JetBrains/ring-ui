@@ -15,7 +15,6 @@ var Global = require('global/global');
 
 var generateUniqueId = Global.getUIDGenerator('ring-popup-');
 var Shortcuts = require('shortcuts/shortcuts');
-var shortcuts = Shortcuts.getInstance();
 
 /**
  * @enum {number}
@@ -122,7 +121,7 @@ var PopupMixin = {
           display: 'none'
         }
       });
-      shortcuts.spliceScope(this.shortcutsScope);
+      this.disableShortcuts();
     }
 
     return true;

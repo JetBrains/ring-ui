@@ -116,6 +116,14 @@ var QueryAssist = React.createClass({
     // otherwise it's blur and false
     var focus = e.type === 'focus';
 
+    if (!focus) {
+      this.disableShortcuts();
+    }
+
+    if (this.state.focus === focus) {
+      return;
+    }
+
     if (typeof this.props.onFocusChange === 'function') {
       this.props.onFocusChange(focus);
     }
