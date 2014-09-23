@@ -5,15 +5,14 @@
  */
 
 require('./alert.scss');
-var $ = require('jquery');
-var _ = require('underscore');
 var Alert = require('./alert');
 var React = require('react/addons');
+var when = require('when');
 
 
 /**
  * List of all executed animations.
- * @type {Array.<jQuery.Deferred>}
+ * @type {Array.<Deferred>}
  * @private
  */
 var _animationQueue = [];
@@ -58,6 +57,7 @@ var Alerts = React.createClass({
       this._getChildElements();
     }
 
+    /*jshint ignore:start*/
     return (<div className="ring-alerts">
       <React.addons.CSSTransitionGroup transitionName="alert">
         {this.state.childElements.slice(0).reverse().map(function(child) {
@@ -73,6 +73,7 @@ var Alerts = React.createClass({
         })}
       </React.addons.CSSTransitionGroup>
     </div>);
+    /*jshint ignore:end*/
   },
 
   /**
@@ -92,15 +93,16 @@ var Alerts = React.createClass({
    * @param {ReactComponent|string} caption
    * @param {Alert.Type=} type
    * @param {number=} timeout
-   * @return {jQuery.Deferred}
+   * @return {Deferred}
    */
   add: function(caption, type, timeout) {
-    var animationDeferred = new $.Deferred();
+    var animationDeferred = when.defer();
+
     _animationQueue.push(animationDeferred);
     var currentAnimationIndex = _animationQueue.indexOf(animationDeferred);
 
     if (currentAnimationIndex > 0) {
-      _animationQueue[currentAnimationIndex - 1].done(function() {
+      _animationQueue[currentAnimationIndex - 1].promise.then(function() {
         this._addElement(caption, type, animationDeferred, timeout);
       }.bind(this));
     } else {
@@ -112,8 +114,8 @@ var Alerts = React.createClass({
 
   /**
    * @param {ReactComponent|string} caption
-   * @param {Alert.Type} type
-   * @param {jQuery.Deferred} animationDeferred
+   * @param {Alert.Type=} type
+   * @param {Deferred} animationDeferred
    * @param {number=} timeout
    * @private
    */
@@ -142,8 +144,7 @@ var Alerts = React.createClass({
       }.bind(this), timeout);
     }
 
-    animationDeferred.done(function() {
-      animationDeferred.resolve();
+    animationDeferred.promise.then(function() {
       _animationQueue.shift();
     });
   },
@@ -154,7 +155,7 @@ var Alerts = React.createClass({
   remove: function(index) {
     var childElements = this.state['childElements'].slice(0);
 
-    // NB!(igor.alexeenko): I don't delete item completely, but set it as undefined
+    // NB!(igor.alexeenko): I don't delete item, but set it as undefined
     // because all custom click handlers are bound to element's index in array
     // of child elements.
     delete childElements[index];
