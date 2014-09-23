@@ -177,7 +177,7 @@
         hint: 'lol',
         dataSource: function (props) {
           jQuery.extend(props, {
-            fields: 'query,caret,suggestions,styleRanges'
+            fields: 'query,caret,styleRanges' + (props.omitSuggestions ? '' : ',suggestions')
           });
 
           return auth.requestToken().then(function (token) {
