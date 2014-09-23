@@ -5,13 +5,14 @@
 
 var Alerts = require('./alerts');
 var React = require('react/addons');
+var when = require('when');
 
-describe.only('Alerts', function() {
+describe('Alerts', function() {
   /** @type {Alerts} */
   var component;
 
   beforeEach(function() {
-    component = React.addons.TestUtils.renderIntoDocument(Alerts(null));
+    component = React.addons.TestUtils.renderIntoDocument(new Alerts(null));
   });
 
   it('should render alerts component', function() {
@@ -29,27 +30,56 @@ describe.only('Alerts', function() {
 
     it('should return deferred object', function() {
       var added = component.add('Child element');
-      added.done.should.be.defined; // NB! instanceof $.Deferred doesn't work.
+      var deferred = when.defer();
+      added.should.be.instanceof(deferred.constructor);
     });
 
     it('should render alerts in a reversed order. Last added alerts goes first.', function() {
-      component.add('Child element one.');
-      var addSecond = component.add('Child element two.');
+      var LAST_TEXT = 'Last component';
+
+      component._addElement('First', Alerts.Type.MESSAGE, when.defer());
+      component._addElement(LAST_TEXT, Alerts.Type.MESSAGE, when.defer());
+
+      var domElement = component.getDOMNode();
+      var children = domElement.querySelectorAll('.ring-alert');
+      children[0].innerText.should.equal(LAST_TEXT);
     });
   });
 
   describe('removing alerts', function() {
     it('should remove alert', function() {
-      component.add('Child element.');
+      component._addElement('Child element.', Alerts.Type.MESSAGE, when.defer());
+      component.remove(0);
+      component.state['childElements'].length.should.equal(1);
+      expect(component.state['childElements'][0]).to.be.undefined;
     });
 
     it('should remove alert by clicking on close button', function() {
-      component.add('Child element.');
+      component._addElement('Child element.', Alerts.Type.MESSAGE, when.defer());
+      var clickElement = component.getDOMNode().querySelector('.ring-alert__close');
+      React.addons.TestUtils.Simulate.click(clickElement, {});
+      component.state['childElements'].length.should.equal(1);
+      expect(component.state['childElements'][0]).to.be.undefined;
     });
 
-      // todo(igor.alexeenko): Async tests.
     it('should not remove alert by calling close() method of alert component', function() {
-      component.add('Child element.');
+      component._addElement('Child element.', Alerts.Type.MESSAGE, when.defer());
+      var addedComponent = component.refs['alert-0'];
+      expect(addedComponent.close).to.throw(Error);
+    });
+
+    it('should remove alert after timeout', function(done) {
+      var TIMEOUT = 100;
+      component._addElement('Child element.', Alerts.Type.MESSAGE, when.defer(), TIMEOUT);
+
+      // Before timeout component exists.
+      component.state['childElements'].should.not.be.undefined;
+
+      setTimeout(function() {
+        // After timeout component is deleted.
+        expect(component.state['childElements'][0]).to.be.undefined;
+        done();
+      }, TIMEOUT);
     });
   });
 });
