@@ -23,8 +23,7 @@ var PopupMenu = React.createClass({
     data: React.PropTypes.arrayOf(React.PropTypes.object),
     onSelect: React.PropTypes.func,
     position: React.PropTypes.number,
-    shortcuts: React.PropTypes.bool,
-    visible: React.PropTypes.bool
+    shortcuts: React.PropTypes.bool
   },
 
   getDefaultProps: function () {
