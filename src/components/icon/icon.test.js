@@ -13,18 +13,14 @@ describe('icon', function () {
   });
 
   it('should set size 16', function () {
-    this.icon.setProps({
-      modifier: 16
-    });
+    this.icon.setProps({ modifier: Icon.Size['16'] });
     $(this.icon.getDOMNode()).should.have.class('ring-icon_16');
   });
 
   it('should set custom class', function () {
     var CUSTOM_CSS_CLASS = 'my-icon';
 
-    this.icon.setProps({
-      className: CUSTOM_CSS_CLASS
-    });
+    this.icon.setProps({ className: CUSTOM_CSS_CLASS });
     $(this.icon.getDOMNode()).should.have.class(CUSTOM_CSS_CLASS);
   });
 });
