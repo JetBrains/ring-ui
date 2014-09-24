@@ -21,6 +21,7 @@ var React = require('react/addons');
 var Type = {
   ERROR: 'error',
   MESSAGE: 'message',
+  SUCCESS: 'success',
   WARNING: 'warning'
 };
 
@@ -30,7 +31,8 @@ var Type = {
  * @type {Object.<Type, string>}
  */
 var TypeToIconModifier = Global.createObject(
-    Type.ERROR, 'error',
+    Type.ERROR, 'exception',
+    Type.SUCCESS, 'ok',
     Type.WARNING, 'warning');
 
 

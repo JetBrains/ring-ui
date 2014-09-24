@@ -39,6 +39,14 @@ describe('Alert component', function() {
         alertElement.classList.contains('ring-alert_warning').should.be.true;
       });
 
+      it ('should render a success message', function() {
+        var alertComponent = React.addons.TestUtils.renderIntoDocument(
+            new Alert({ 'caption': 'Test element', 'type': Alert.Type.WARNING }));
+
+        var alertElement = alertComponent.getDOMNode();
+        alertElement.classList.contains('ring-alert_success').should.be.true;
+      });
+
       it ('should render a message if type is not passed', function() {
         var alertComponent = React.addons.TestUtils.renderIntoDocument(
             new Alert({ 'caption': 'Test element' }));
