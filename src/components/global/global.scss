@@ -6,6 +6,7 @@ $ring-link-hover-color: #FF5A00;
 $ring-outline-color: rgba(37, 183, 255, 0.5);
 $ring-border-color: rgba(0, 0, 0, 0.2);
 
+$ring-font-color: #1a1a1a;
 $ring-color-error: #C10000;
 
 @mixin rgba-attribute($attribute, $color, $background: #fff) {
@@ -15,6 +16,7 @@ $ring-color-error: #C10000;
 }
 
 @mixin ring-font() {
+  color: $ring-font-color;
   font-family: "Helvetica Neue", Arial, sans-serif;
 }
 
