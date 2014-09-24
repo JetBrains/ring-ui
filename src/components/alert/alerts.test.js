@@ -24,8 +24,8 @@ describe('Alerts', function() {
     it('should add alert', function() {
       component.add('Child element');
 
-      component.state['childElements'].should.be.an.instanceof(Array);
-      component.state['childElements'].length.should.equal(1);
+      component.state.childElements.should.be.an.instanceof(Array);
+      component.state.childElements.length.should.equal(1);
     });
 
     it('should return deferred object', function() {
@@ -51,16 +51,16 @@ describe('Alerts', function() {
     it('should remove alert', function() {
       component._addElement('Child element.', Alerts.Type.MESSAGE, when.defer());
       component.remove(0);
-      component.state['childElements'].length.should.equal(1);
-      expect(component.state['childElements'][0]).to.be.undefined;
+      component.state.childElements.length.should.equal(1);
+      expect(component.state.childElements[0]).to.be.undefined;
     });
 
     it('should remove alert by clicking on close button', function() {
       component._addElement('Child element.', Alerts.Type.MESSAGE, when.defer());
       var clickElement = component.getDOMNode().querySelector('.ring-alert__close');
       React.addons.TestUtils.Simulate.click(clickElement, {});
-      component.state['childElements'].length.should.equal(1);
-      expect(component.state['childElements'][0]).to.be.undefined;
+      component.state.childElements.length.should.equal(1);
+      expect(component.state.childElements[0]).to.be.undefined;
     });
 
     it('should not remove alert by calling close() method of alert component', function() {
@@ -74,11 +74,11 @@ describe('Alerts', function() {
       component._addElement('Child element.', Alerts.Type.MESSAGE, when.defer(), TIMEOUT);
 
       // Before timeout component exists.
-      component.state['childElements'].should.not.be.undefined;
+      component.state.childElements.should.not.be.undefined;
 
       setTimeout(function() {
         // After timeout component is deleted.
-        expect(component.state['childElements'][0]).to.be.undefined;
+        expect(component.state.childElements[0]).to.be.undefined;
         done();
       }, TIMEOUT);
     });
