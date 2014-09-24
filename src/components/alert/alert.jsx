@@ -59,13 +59,13 @@ var Alert = React.createClass({
   getDefaultProps: function() {
     return {
       /** @type {Deferred} */
-      'animationDeferred': null,
+      animationDeferred: null,
 
       /** @type {ReactComponent|string} */
-      'caption': null,
+      caption: null,
 
       /** @type {boolean} */
-      'closeable': false,
+      closeable: false,
 
       /**
        * Whether component is rendered inside {@code Alerts} container
@@ -73,22 +73,22 @@ var Alert = React.createClass({
        * contextually.
        * @type {boolean}
        */
-      'inline': true,
+      inline: true,
 
       /**
        * Click handler on close element.
        * @type {?function(SyntheticMouseEvent):undefined}
        */
-      'onClick': null,
+      onClick: null,
 
       /** @type {Type} */
-      'type': Type.MESSAGE
+      type: Type.MESSAGE
     };
   },
 
   /** @override */
   componentDidMount: function() {
-    if (this.props['animationDeferred']) {
+    if (this.props.animationDeferred) {
       this.getDOMNode().addEventListener('transitionend', this._handleTransitionEnd);
     }
   },
@@ -101,21 +101,21 @@ var Alert = React.createClass({
   /** @override */
   render: function() {
     /*jshint ignore:start*/
-    var modifiedClassName = [BASE_CLASS, this.props['type']].join('_');
+    var modifiedClassName = [BASE_CLASS, this.props.type].join('_');
 
     var classes = React.addons.classSet(Global.createObject(
         BASE_CLASS, true,
         modifiedClassName, true,
-        'ring-alert_inline', this.props['inline']));
+        'ring-alert_inline', this.props.inline));
 
-    var closeClickHandler = this.props['onClick'] === null ?
+    var closeClickHandler = this.props.onClick === null ?
         this._handleCloseClick :
-        this.props['onClick'];
+        this.props.onClick;
 
-    return (<div className={classes} onClick={this.props['onClick']}>
+    return (<div className={classes} onClick={this.props.onClick}>
       {this._getIcon()}
-      <span className="ring-alert__caption">{this.props['caption']}</span>
-      {this.props['closeable'] ?
+      <span className="ring-alert__caption">{this.props.caption}</span>
+      {this.props.closeable ?
           (<Icon className="ring-alert__close" modifier="close" size={Icon.Size['16']} onClick={closeClickHandler} />) :
           ''}
     </div>);
@@ -128,7 +128,7 @@ var Alert = React.createClass({
    * stack being deleted by this method.
    */
   close: function() {
-    if (this.props['inline']) {
+    if (this.props.inline) {
       React.unmountComponentAtNode(this.getDOMNode().parentNode);
       return;
     }
@@ -142,9 +142,9 @@ var Alert = React.createClass({
    * @private
    */
   _handleTransitionEnd: function() {
-    if (this.props['animationDeferred']) {
+    if (this.props.animationDeferred) {
       this.getDOMNode().removeEventListener('transitionend', this._handleTransitionEnd);
-      this.props['animationDeferred'].resolve();
+      this.props.animationDeferred.resolve();
     }
   },
 
@@ -152,7 +152,7 @@ var Alert = React.createClass({
    * @private
    */
   _handleCloseClick: function() {
-    if (this.props['inline']) {
+    if (this.props.inline) {
       this.close();
     }
   },
@@ -162,7 +162,7 @@ var Alert = React.createClass({
    * @return {XML}
    */
   _getIcon: function() {
-    var iconModifier = TypeToIconModifier[this.props['type']];
+    var iconModifier = TypeToIconModifier[this.props.type];
     if (iconModifier) {
       /*jshint ignore:start*/
       return (<Icon className="ring-alert__icon" modifier={iconModifier} size={Icon.Size['16']} />);
