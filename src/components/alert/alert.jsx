@@ -8,7 +8,9 @@
 
 require('./alert.scss');
 var Global = require('global/global');
+/*jshint ignore:start*/
 var Icon = require('icon/icon');
+/*jshint ignore:end*/
 var React = require('react/addons');
 
 
@@ -160,7 +162,9 @@ var Alert = React.createClass({
   _getIcon: function() {
     var iconModifier = TypeToIconModifier[this.props['type']];
     if (iconModifier) {
+      /*jshint ignore:start*/
       return (<Icon className="ring-alert__icon" modifier={iconModifier} size={Icon.Size['16']} />);
+      /*jshint ignore:end*/
     }
 
     return '';
