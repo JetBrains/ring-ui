@@ -41,7 +41,7 @@ describe('Alert component', function() {
 
       it ('should render a success message', function() {
         var alertComponent = React.addons.TestUtils.renderIntoDocument(
-            new Alert({ 'caption': 'Test element', 'type': Alert.Type.WARNING }));
+            new Alert({ 'caption': 'Test element', 'type': Alert.Type.SUCCESS }));
 
         var alertElement = alertComponent.getDOMNode();
         alertElement.classList.contains('ring-alert_success').should.be.true;
