@@ -120,7 +120,7 @@ var Alerts = React.createClass({
    * @private
    */
   _addElement: function(caption, type, animationDeferred, timeout) {
-    var childElements = this.state['childElements'].slice(0);
+    var childElements = this.state.childElements.slice(0);
     var index = childElements.length;
 
     childElements.push({
@@ -134,8 +134,8 @@ var Alerts = React.createClass({
     });
 
     this.setState({
-      'childElements': childElements,
-      'lastInserted': index
+      childElements: childElements,
+      lastInserted: index
     });
 
     if (timeout) {
@@ -153,14 +153,14 @@ var Alerts = React.createClass({
    * @param {number} index
    */
   remove: function(index) {
-    var childElements = this.state['childElements'].slice(0);
+    var childElements = this.state.childElements.slice(0);
 
     // NB!(igor.alexeenko): I don't delete item, but set it as undefined
     // because all custom click handlers are bound to element's index in array
     // of child elements.
     delete childElements[index];
 
-    this.setState({ 'childElements': childElements });
+    this.setState({ childElements: childElements });
   },
 
   /**
