@@ -13,15 +13,42 @@ var Global = require('global/global');
 /*jshint ignore:end*/
 var React = require('react');
 
+
 /**
  * @enum {number}
  */
 var Size = {
-  16: 16,
-  32: 32,
-  64: 64,
-  128: 128
+  Size16: 16,
+  Size32: 32,
+  Size64: 64,
+  Size128: 128
 };
+
+
+/**
+ * @type {Element}
+ * @private
+ */
+var _templateElement = null;
+
+
+/**
+ * Inserts an {@link Element} which contains all paths of icons, which might
+ * be used. Icons are insterted by tag <use xlink:href /> which is linked to
+ * path of needed icon.
+ * @private
+ */
+var _initializeTemplate = function() {
+  _templateElement = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+  _templateElement.style.display = 'none';
+  _templateElement.setAttributeNS(null, 'viewBox', '0 0 0 0');
+  _templateElement.innerHTML = require('./icon__template');
+
+  // NB! Template svg should be a first node in document.
+  // https://code.google.com/p/chromium/issues/detail?id=349175
+  document.body.insertBefore(_templateElement, document.body.childNodes[0]);
+};
+
 
 /**
  * @constructor
@@ -53,7 +80,7 @@ var Icon = React.createClass({
     return {
       className: '',
       modifier: '',
-      size: Size['32']
+      size: Size.Size64
     };
   },
 
@@ -64,8 +91,20 @@ var Icon = React.createClass({
         'ring-icon_' + this.props.size, true,
         'ring-icon_' + this.props.modifier, !!this.props.modifier));
 
-    return (<span className={classList} />);
+    var viewBox = [0, 0, this.props.size, this.props.size].join(' ');
+
+    return (<svg className={classList} viewBox={viewBox} />);
     /* jshint ignore:end */
+  },
+
+  componentDidMount: function() {
+    // NB! Lazy initialization of template. Template is not inserted until it's
+    // needed.
+    if (_templateElement === null) {
+      _initializeTemplate();
+    }
+
+    this.getDOMNode().innerHTML = '<use xlink:href="#' + this.props.modifier + '" />';
   }
 });
 
