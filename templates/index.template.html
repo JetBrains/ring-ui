@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <title></title>
+    </head>
+
+    <body>
+        {{doc.fileContents}}
+
+        {%- for script in doc.scripts %}
+            <script>
+                {{script.fileContents}}
+            </script>
+        {%- endfor %}
+    </body>
+</html>

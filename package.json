@@ -16,6 +16,8 @@
     "angular": "~1.3",
     "angular-mocks": "~1.3",
     "csslint": "^0.10.0",
+    "dgeni": "^0.4.0",
+    "dgeni-packages": "^0.10.0-rc.6",
     "gulp": "^3.6.2",
     "gulp-concat": "^2.3.4",
     "gulp-csscomb": "^3.0.2",

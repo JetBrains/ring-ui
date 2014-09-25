@@ -24,29 +24,33 @@ var Modifiers = {
 };
 
 /**
+ * @name Button
  * @constructor
  * @extends {ReactComponent}
- <example>
-   <div>
-     <span id="button"></span>
-     <span id="button-blue"></span>
-     <span id="button-primary"></span>
-   </div>
+   <example name="Button">
+     <file name="index.html">
+       <div>
+         <span id="button"></span>
+         <span id="button-blue"></span>
+         <span id="button-primary"></span>
+       </div>
+     </file>
 
-   <script>
-     React.renderComponent(Button({
-                  modifier: Button.Modifiers.DEFAULT
-                }, 'Default Button'), document.getElementById('button'));
+     <file name="index.js" webpack="true">
+       var React = require('react');
+       var Button = require('./button.jsx');
 
-     React.renderComponent(Button({
-                  modifier: Button.Modifiers.BLUE
-                }, 'Blue Button'), document.getElementById('button-blue'));
-
-     React.renderComponent(Button({
-                  modifier: Button.Modifiers.PRIMARY
-                }, 'Primary Button'), document.getElementById('button-primary'));
-   </script>
- </example>
+       React.renderComponent(Button({
+                    modifier: Button.Modifiers.DEFAULT
+                  }, 'Default Button'), document.getElementById('button'));
+       React.renderComponent(Button({
+                    modifier: Button.Modifiers.BLUE
+                  }, 'Blue Button'), document.getElementById('button-blue'));
+       React.renderComponent(Button({
+                    modifier: Button.Modifiers.PRIMARY
+                  }, 'Primary Button'), document.getElementById('button-primary'));
+     </file>
+   </example>
  */
 var Button = React.createClass({
   statics: {

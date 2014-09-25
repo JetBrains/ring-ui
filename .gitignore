@@ -20,3 +20,4 @@ dist
 node_modules
 tmp
 blocks/*/*.hbs.js
+/docs/
