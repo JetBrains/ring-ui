@@ -6,26 +6,35 @@ require('./loader.scss');
 /**
  * @constructor
  * @extends {ReactComponent}
- <example>
-    <div id="loader">
-    </div>
+   <example name="Loader">
+     <file name="index.html">
+        <div id="loader">
+        </div>
+     </file>
 
-    <script>
-        React.renderComponent(Loader(), document.getElementById('loader'));
-    </script>
- </example>
+     <file name="index.js" webpack="true">
+       var React = require('react');
+       var Loader = require('./loader.jsx');
 
- <example>
-   <div>
-     <span id="loader-inline"></span>
-   </div>
+      React.renderComponent(Loader(), document.getElementById('loader'));
+     </file>
+   </example>
 
-   <script>
-     React.renderComponent(Loader({
-              modifier: Loader.Modifier.INLINE
-            }), document.getElementById('loader-inline'));
-   </script>
- </example>
+   <example name="LoaderInline">
+     <file name="index.html">
+        <div id="loader-inline">
+        </div>
+     </file>
+
+     <file name="index.js" webpack="true">
+       var React = require('react');
+       var Loader = require('./loader.jsx');
+
+       React.renderComponent(Loader({
+                modifier: Loader.Modifier.INLINE
+              }), document.getElementById('loader-inline'));
+     </file>
+   </example>
  */
 var Loader = React.createClass({
   statics: {
