@@ -184,7 +184,7 @@ gulp.task('test:build', function () {
 gulp.task('archive', ['clean', 'webpack:build'], function () {
   return gulp.src([
       pkgConfig.dist + '/ring.js',
-      pkgConfig.src + '/**/*.{jsx,js,scss,png,svg,ttf,woff,eof}',
+      pkgConfig.src + '/**/*.{jsx,js,scss,png,gif,svg,ttf,woff,eof}',
       '!' + pkgConfig.src + '/**/*.test.js',
       '!' + pkgConfig.src + '/ring.js',
     'package.json',
