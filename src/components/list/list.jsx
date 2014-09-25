@@ -139,26 +139,30 @@ var ListMixin = {
  * @constructor
  * @mixes {Shortcuts.Mixin}
  * @extends {ReactComponent}
- * @example
- <example>
-   <div id='list'></div>
+   <example name="List">
+     <file name="index.html">
+       <div id='list'></div>
+     </file>
 
-   <script>
-     var listData = [
-      {'label': 'One', 'type': List.Type.ITEM},
-      {'label': 'Two', 'type': List.Type.ITEM},
-      {'label': 'Three', 'type': List.Type.ITEM},
-      {'label': 'Four', 'type': List.Type.ITEM},
-      {'label': 'Five', 'type': List.Type.ITEM}
-     ];
+     <file name="index.js" webpack="true">
+       var React = require('react');
+       var List = require('./list.jsx');
 
-     React.renderComponent(List({
-         data: listData,
-         shortcuts: true,
-         onSelect: console.log.bind(console)
-       }), document.getElementById('list'));
-   </script>
- </example>
+       var listData = [
+        {'label': 'One', 'type': List.Type.ITEM},
+        {'label': 'Two', 'type': List.Type.ITEM},
+        {'label': 'Three', 'type': List.Type.ITEM},
+        {'label': 'Four', 'type': List.Type.ITEM},
+        {'label': 'Five', 'type': List.Type.ITEM}
+       ];
+
+       React.renderComponent(List({
+           data: listData,
+           shortcuts: true,
+           onSelect: console.log.bind(console)
+         }), document.getElementById('list'));
+     </file>
+   </example>
  */
 var List = React.createClass({
   mixins: [Shortcuts.Mixin, ListMixin],

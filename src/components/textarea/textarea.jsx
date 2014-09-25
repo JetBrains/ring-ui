@@ -10,15 +10,19 @@ require('./textarea.scss');
 /**
  * @constructor
  * @extends {ReactComponent}
- * @example
- <example>
-    <div id="textarea">
-    </div>
+   <example name="Textarea">
+     <file name="index.html">
+        <div id="textarea">
+        </div>
+     </file>
 
-    <script>
-        React.renderComponent(Textarea(), document.getElementById('textarea'));
-    </script>
- </example>
+     <file name="index.js" webpack="true">
+       var React = require('react');
+       var Textarea = require('./textarea.jsx');
+
+       React.renderComponent(Textarea(), document.getElementById('textarea'));
+     </file>
+   </example>
  *
  */
 var Textarea = React.createClass({
