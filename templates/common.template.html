@@ -4,27 +4,78 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css"
+        type="text/css" media="all" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.2/styles/github.min.css" type="text/css" media="all" />
+
+        <style type="text/css" media="all">
+            .example .demo {
+                border: 1px solid #CCC;
+            }
+            .example pre {
+                margin-top: 0;
+                margin-bottom: 0;
+                border-top: 0;
+                border-radius: 0;
+                background: #F8F8F8;
+            }
+            [data-file-type] {
+                position: relative;
+            }
+            [data-file-type]:before {
+                content: attr(data-file-type);
+                position: absolute;
+                right: 0;
+                top: 0;
+                border: 1px solid #CCC;
+                border-right: 0;
+                border-top: 0;
+                padding: 8px;
+                background: #FFF;
+            }
+        </style>
+
         <title></title>
     </head>
 
     <body>
-        <h1>
-            {{doc.fileInfo.filePath}}
-        </h1>
+        <div class="container">
+            <h1 class="page-header">
+                {{doc.fileInfo.baseName}}
+            </h1>
+            {%- for doc in doc.components %} {%- if doc.examples %}
+            <div>
+                <h1> {{doc.codeName}} </h1>
 
-        {%- for doc in doc.components %}
-        {%- if doc.examples %}
-        <div>
-            <h1> {{doc.codeName}} </h1>
-            {%- for example in doc.examples %}
-            <section class="example">
-                <iframe src="examples/example-{{example.name}}/index-testDeployment.html" frameborder="0">
-                </iframe>
-            </section>
-            {%- endfor %}
+                <p class="lead">
+                    {{doc.description}}
+                </p>
+
+                {%- for example in doc.examples %}
+                <section class="example">
+                    <div class="demo" data-file-type="Example">
+                        <iframe src="examples/example-{{example.name}}/index-testDeployment.html" frameborder="0"
+                        style="width:100%">
+                        </iframe>
+                    </div>
+
+                    {%- for fileName, file in example.files %}
+                    <pre data-file-type="{{file.type}}" data-file-name="{{fileName}}">
+                    <code class="{{file.type}}">
+{%- if file.originalFileContents %}{{file.originalFileContents | escape}}{%- else %}{{file.fileContents | escape}}{%- endif %}
+                    </code>
+                    </pre>
+                    {%- endfor %}
+                </section>
+                {%- endfor %}
+            </div>
+            {%- endif %} {%- endfor %}
         </div>
-        {%- endif %}
-        {%- endfor %}
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.2/highlight.min.js" type="text/javascript" charset="utf-8"></script>
+        <script type="text/javascript" charset="utf-8">
+        hljs.initHighlightingOnLoad();
+        </script>
     </body>
 
 </html>
