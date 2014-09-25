@@ -31,9 +31,23 @@ function rangeEquals(a, b) {
 }
 
 /**
+ * @name QueryAssist
  * @constructor
  * @mixes {Shortcuts.Mixin}
  * @extends {ReactComponent}
+   <example name="QueryAssist">
+     <file name="index.html">
+       <div id="example">
+       </div>
+     </file>
+
+     <file name="index.js" webpack="true">
+       var React = require('react');
+       var QueryAssist = require('./query-assist.jsx');
+
+       React.renderComponent(QueryAssist(null), document.getElementById('example'));
+     </file>
+   </example>
  */
 var QueryAssist = React.createClass({
   mixins: [Shortcuts.Mixin],
