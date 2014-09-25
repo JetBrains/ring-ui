@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width">
+        <title></title>
+    </head>
+
+    <body>
+        <h1>
+            {{doc.fileInfo.filePath}}
+        </h1>
+
+        {%- for doc in doc.components %}
+        {%- if doc.examples %}
+        <div>
+            <h1> {{doc.codeName}} </h1>
+            {%- for example in doc.examples %}
+            <section class="example">
+                <iframe src="examples/example-{{example.name}}/index-testDeployment.html" frameborder="0">
+                </iframe>
+            </section>
+            {%- endfor %}
+        </div>
+        {%- endif %}
+        {%- endfor %}
+    </body>
+
+</html>
