@@ -15,26 +15,29 @@ var ID_PREFIX = '\\x0';
 
 var generateUniqueId = Global.getUIDGenerator(ID_PREFIX);
 
-
-
 /**
+ * @name Checkbox
  * @constructor
  * @extends {ReactComponent}
- * @example
- <example>
-   <span id='checkbox'></span>
-   <span id='checkbox-selected'></span>
+   <example name="Checkbox">
+     <file name="index.html">
+       <div>
+         <span id='checkbox'></span>
+         <span id='checkbox-selected'></span>
+       </div>
+     </file>
 
-   <script>
-     React.renderComponent(Checkbox(),
-       document.getElementById('checkbox'));
+     <file name="index.js" webpack="true">
+       var React = require('react');
+       var Checkbox = require('./checkbox.jsx');
 
-     React.renderComponent(Checkbox({
-         checked: true
-       }),
-       document.getElementById('checkbox-selected'));
-   </script>
- </example>
+       React.renderComponent(Checkbox(), document.getElementById('checkbox'));
+
+       React.renderComponent(Checkbox({
+           checked: true
+         }), document.getElementById('checkbox-selected'));
+     </file>
+   </example>
  */
 var Checkbox = React.createClass({
   propTypes: {
