@@ -123,7 +123,8 @@ gulp.task('webpack-dev-server', function () {
       if (err) {
         throw new gutil.PluginError('webpack-dev-server', err);
       }
-      gutil.log('[webpack-dev-server]', 'http://localhost:' + serverPort + '/webpack-dev-server/index.html');
+      gutil.log('[webpack-dev-server]', 'http://localhost:' + serverPort +
+        '/webpack-dev-server/index.html');
     });
 });
 
@@ -148,7 +149,8 @@ gulp.task('lint', function () {
 });
 
 
-// We have to use gulp-karma (instead of karma simple API — https://github.com/karma-runner/gulp-karma)
+// We have to use gulp-karma (instead of karma simple API —
+// https://github.com/karma-runner/gulp-karma)
 // and therefore share paths of test files though json because of issue
 // between gulp, karma and webpack that doesn't let gulp's process to be finished
 var testFiles = require('./test-files.json');
@@ -240,7 +242,8 @@ gulp.task('lint-styles', function () {
     .pipe(exportReport())
     .pipe(gulp.dest(pkgConfig.dist))
     .on('end', function () {
-      console.log('##teamcity[importData type=\'checkstyle\' path=\'' + pkgConfig.dist + '/' + reportFilename + '\']');
+      console.log('##teamcity[importData type=\'checkstyle\' path=\'' +
+        pkgConfig.dist + '/' + reportFilename + '\']');
     });
 });
 
@@ -256,30 +259,44 @@ gulp.task('build-dev', ['webpack:build-dev'], function () {
 });
 
 // Production build
-gulp.task('build', ['lint', 'lint-styles', 'test:build', 'webpack:build', 'archive']);
+gulp.task('build', ['lint', 'lint-styles', 'test:build', 'webpack:build',
+  'archive']);
 
 //Generate icon sprite
-gulp.task('sprite', ['sprite:rename', 'sprite:create', 'sprite:concat', 'sprite:svg2png', 'sprite:svgmin', 'sprite:clean']);
+gulp.task('sprite', [
+  'sprite:rename',
+  'sprite:create',
+  'sprite:concat',
+  'sprite:svg2png',
+  'sprite:svgmin',
+  'sprite:clean'
+]);
 
-var spriteName = 'icon';
+/**
+ * @const
+ * @type {string}
+ */
+var SPRITE_NAME = 'icon';
+
 var spriteCfg = {
   dest: 'src/components/icon',
   options: {
-    common: 'ring-' + spriteName,
-    selector: spriteName + '_%f',
+    common: 'ring-' + SPRITE_NAME,
+    cssFile: SPRITE_NAME + '.scss',
     layout: 'vertical',
-    cssFile: spriteName + '.scss',
-    svgPath: '%f',
     pngPath: '%f',
     refSize: 64,
+    selector: '%f',
     svg: {
-      sprite: spriteName + '.svg'
-    }
+      sprite: SPRITE_NAME + '.svg'
+    },
+    svgPath: '%f'
   }
 };
 
+// Rename source files to a BEM notation. File names are used as templates for
+// css rules in resulted sprite.
 gulp.task('sprite:rename', function () {
-  //filename uses as a selector name, that's why a tmp source is created
   return gulp.src(spriteCfg.dest + '/source/**/*.svg', { base: process.cwd() })
     .pipe(rename(function (path) {
       path.basename = 'ring-icon_' + path.basename;
@@ -287,6 +304,7 @@ gulp.task('sprite:rename', function () {
     .pipe(gulp.dest(spriteCfg.dest));
 });
 
+// Generate svg sprite.
 gulp.task('sprite:create', ['sprite:rename'], function () {
   return gulp.src(spriteCfg.dest + '/src/**/*.svg')
     .pipe(sprite(spriteCfg.options))
@@ -294,24 +312,29 @@ gulp.task('sprite:create', ['sprite:rename'], function () {
     .pipe(filter(spriteCfg.dest + '/source/*.svg'));
 });
 
+// Concat generated sprite css rules with predefined css rules which describes
+// icons sizes.
 gulp.task('sprite:concat', ['sprite:create'], function () {
-  return gulp.src([spriteCfg.dest + '/*.scss'])
-    .pipe(concat(spriteName + '.scss'))
+  return gulp.src([spriteCfg.dest + '/icon__tmpl.scss'])
+    .pipe(concat(SPRITE_NAME + '.scss'))
     .pipe(gulp.dest(spriteCfg.dest));
 });
 
+// Create a fallback.
 gulp.task('sprite:svg2png', ['sprite:create'], function () {
-  return gulp.src([spriteCfg.dest + '/' + spriteName + '.svg'])
+  return gulp.src([spriteCfg.dest + '/' + SPRITE_NAME + '.svg'])
     .pipe(svg2png())
     .pipe(gulp.dest(spriteCfg.dest));
 });
 
+// Minify svg.
 gulp.task('sprite:svgmin', ['sprite:create'], function () {
-  return gulp.src(spriteCfg.dest + '/' + spriteName + '.svg')
+  return gulp.src(spriteCfg.dest + '/' + SPRITE_NAME + '.svg')
     .pipe(svgmin())
     .pipe(gulp.dest(spriteCfg.dest));
 });
 
+// Remove temporary files.
 gulp.task('sprite:clean', ['sprite:svg2png'], function () {
   return gulp.src([spriteCfg.dest + '/src'], {read: false})
     .pipe(clean());
