@@ -84,7 +84,6 @@ Auth.DEFAULT_CONFIG = {
     return uri;
   }()),
   scope: [],
-  transientTokenStorage: false,
   default_expires_in: 40 * 60 // 40 mins
 };
 
