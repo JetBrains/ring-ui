@@ -127,7 +127,7 @@ function testStorage(storage) {
   });
 }
 
-describe.only('Storages', function () {
+describe('Storages', function () {
   describe('Local Storage', function () {
     beforeEach(function () {
       localStorage.clear();
@@ -155,9 +155,9 @@ describe.only('Storages', function () {
     var spaceName = 'testSpace';
 
     var MemoryStorage = require('./storage__memory');
-    var storage = MemoryStorage._storage[spaceName];
 
     beforeEach(function () {
+      var storage = MemoryStorage._storage[spaceName];
       for (var key in storage) {
         if (storage.hasOwnProperty(key)) {
           delete storage[key];
