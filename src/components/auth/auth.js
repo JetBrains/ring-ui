@@ -13,7 +13,6 @@ var AuthRequestBuilder = require('./auth__request-builder');
  * @prop {string} config.serverUri
  * @prop {string} config.redirect_uri
  * @prop {string} config.client_id
- * @prop {boolean} config.transientTokenStorage
  * @prop {string[]} config.scope
  * @prop {string[]} config.optionalScopes
  * @prop {User?} user
@@ -45,7 +44,6 @@ var Auth = function (config) {
   }
 
   this._storage = new AuthStorage({
-    transientTokenStorage: this.config.transientTokenStorage,
     stateKeyPrefix: this.config.client_id + '-states-',
     tokenKey: this.config.client_id + '-token'
   });
