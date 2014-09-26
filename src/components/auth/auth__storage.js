@@ -28,8 +28,8 @@ var AuthStorage = function (config) {
   this.stateKeyPrefix = config.stateKeyPrefix;
   this.tokenKey = config.tokenKey;
 
-  this._storage = new Storage();
-  this._tokenStorage = config.transientTokenStorage ? new MemoryStorage() : this._storage;
+  this._stateStorage = new Storage();
+  this._tokenStorage = new MemoryStorage();
 };
 
 /**
@@ -42,7 +42,7 @@ var AuthStorage = function (config) {
 AuthStorage.prototype.saveState = function (id, state, dontCleanAndRetryOnFail) {
   var self = this;
 
-  return this._storage.set(this.stateKeyPrefix + id, state)
+  return this._stateStorage.set(this.stateKeyPrefix + id, state)
     .otherwise(function (e) {
       if (!dontCleanAndRetryOnFail) {
         return self.cleanStates().
@@ -62,9 +62,9 @@ AuthStorage.prototype.saveState = function (id, state, dontCleanAndRetryOnFail) 
  */
 AuthStorage.prototype.cleanStates = function () {
   var self = this;
-  return this._storage.each(function (item) {
+  return this._stateStorage.each(function (item) {
     if (item.indexOf(self.stateKeyPrefix) === 0) {
-      return self._storage.remove(item);
+      return self._stateStorage.remove(item);
     }
   });
 };
@@ -77,7 +77,7 @@ AuthStorage.prototype.cleanStates = function () {
  */
 AuthStorage.prototype.getState = function (id) {
   var self = this;
-  return this._storage.get(this.stateKeyPrefix + id).
+  return this._stateStorage.get(this.stateKeyPrefix + id).
     then(function (result) {
       return self.cleanStates().then(function () {
         return result;
