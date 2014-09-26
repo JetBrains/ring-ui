@@ -127,25 +127,44 @@ function testStorage(storage) {
   });
 }
 
-describe('Storage', function () {
-  beforeEach(function () {
-    localStorage.clear();
+describe.only('Storages', function () {
+  describe('Local Storage', function () {
+    beforeEach(function () {
+      localStorage.clear();
+    });
+
+    var Storage = require('./storage__local');
+
+    testStorage(new Storage());
   });
 
-  var Storage = require('./storage__local');
 
-  testStorage(new Storage());
-});
+  describe('Fallback storage', function () {
+    var cookieName = 'testCookie';
 
+    beforeEach(function () {
+      document.cookie = cookieName + '=;';
+    });
 
-describe('Fallback storage', function () {
-  var cookieName = 'testCookie';
+    var FallbackStorage = require('./storage__fallback');
 
-  beforeEach(function () {
-    document.cookie = cookieName + '=;';
+    testStorage(new FallbackStorage({cookieName: cookieName}));
   });
 
-  var FallbackStorage = require('./storage__fallback');
+  describe('Memory storage', function () {
+    var spaceName = 'testSpace';
 
-  testStorage(new FallbackStorage({cookieName: cookieName}));
+    var MemoryStorage = require('./storage__memory');
+    var storage = MemoryStorage._storage[spaceName];
+
+    beforeEach(function () {
+      for (var key in storage) {
+        if (storage.hasOwnProperty(key)) {
+          delete storage[key];
+        }
+      }
+    });
+
+    testStorage(new MemoryStorage({spaceName: spaceName}));
+  });
 });

@@ -1,6 +1,7 @@
 'use strict';
 
 var Storage = require('storage/storage');
+var MemoryStorage = require('storage/storage__memory');
 var when = require('when');
 
 /**
@@ -26,7 +27,9 @@ var when = require('when');
 var AuthStorage = function (config) {
   this.stateKeyPrefix = config.stateKeyPrefix;
   this.tokenKey = config.tokenKey;
+
   this._storage = new Storage();
+  this._tokenStorage = config.transientTokenStorage ? new MemoryStorage() : this._storage;
 };
 
 /**
@@ -91,14 +94,14 @@ AuthStorage.prototype.getState = function (id) {
  * @return {Promise} promise that is resolved when the token is saved
  */
 AuthStorage.prototype.saveToken = function (token) {
-  return this._storage.set(this.tokenKey, token);
+  return this._tokenStorage.set(this.tokenKey, token);
 };
 
 /**
  * @return {Promise.<StoredToken>} promise that is resolved to the stored token
  */
 AuthStorage.prototype.getToken = function () {
-  return this._storage.get(this.tokenKey);
+  return this._tokenStorage.get(this.tokenKey);
 };
 
 /**
@@ -106,7 +109,7 @@ AuthStorage.prototype.getToken = function () {
  * @return {Promise} promise that is resolved when the token is wiped.
  */
 AuthStorage.prototype.wipeToken = function () {
-  return this._storage.remove(this.tokenKey);
+  return this._tokenStorage.remove(this.tokenKey);
 };
 
 module.exports = AuthStorage;
