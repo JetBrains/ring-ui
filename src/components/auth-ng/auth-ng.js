@@ -43,7 +43,7 @@ authModule.provider('auth', ['$httpProvider', function ($httpProvider) {
 
     return {
       'request': function (config) {
-        if (urlEndsWith(config, '.ng.html') || urlEndsWith(config, '.tpl.html')) {
+        if (urlEndsWith(config, '.html')) {
           // Don't intercept angular template requests
           return config;
         }
