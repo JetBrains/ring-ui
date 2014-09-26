@@ -27,7 +27,7 @@ MemoryStorage._storage = {};
  * @return {Promise}
  */
 MemoryStorage.prototype.get = function(key) {
-  return when(this.space[key] || null);
+  return when(key in this.space ? this.space[key] : null);
 };
 
 /**
