@@ -111,7 +111,7 @@ function testStorage(storage) {
           return storage.set('test3', '');
         }).
         then(function () {
-          storage.each(iterator);
+          return storage.each(iterator);
         }).
         then(function () {
           iterator.should.have.been.calledThrice;
@@ -129,7 +129,7 @@ function testStorage(storage) {
 }
 
 describe('Storages', function () {
-  describe('Local Storage', function () {
+  describe('Local', function () {
     beforeEach(function () {
       localStorage.clear();
     });
@@ -139,7 +139,7 @@ describe('Storages', function () {
 
     testStorage(storage);
 
-    describe('Local Storage specfic', function () {
+    describe('Specfic', function () {
       beforeEach(function () {
         localStorage.setItem('invalid-json', 'invalid-json');
       });
@@ -148,7 +148,7 @@ describe('Storages', function () {
         return storage.each(noop).should.be.fulfilled;
       });
 
-      it('shouldn\'t break on non-parseable values', function () {
+      it('should iterate over items with non-parseable values', function () {
         var iterator = sinon.spy();
         return storage.set('test', 'value').
           then(function () {
@@ -162,7 +162,7 @@ describe('Storages', function () {
   });
 
 
-  describe('Fallback storage', function () {
+  describe('Fallback', function () {
     var cookieName = 'testCookie';
 
     beforeEach(function () {
@@ -174,7 +174,7 @@ describe('Storages', function () {
     testStorage(new FallbackStorage({cookieName: cookieName}));
   });
 
-  describe('Memory storage', function () {
+  describe('Memory', function () {
     var spaceName = 'testSpace';
 
     var MemoryStorage = require('./storage__memory');
