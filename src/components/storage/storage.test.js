@@ -1,3 +1,7 @@
+'use strict';
+
+var noop = function () {};
+
 function testStorage(storage) {
   describe('set', function () {
     it('should be fulfilled', function () {
@@ -70,9 +74,6 @@ function testStorage(storage) {
   });
 
   describe('each', function () {
-    var noop = function () {
-    };
-
     it('should be fulfilled', function () {
       return storage.set('test1', '').
         then(function () {
@@ -134,8 +135,30 @@ describe('Storages', function () {
     });
 
     var Storage = require('./storage__local');
+    var storage = new Storage();
 
-    testStorage(new Storage());
+    testStorage(storage);
+
+    describe('Local Storage specfic', function () {
+      beforeEach(function () {
+        localStorage.setItem('invalid-json', 'invalid-json');
+      });
+
+      it('shouldn\'t break on non-parseable values', function () {
+        return storage.each(noop).should.be.fulfilled;
+      });
+
+      it('shouldn\'t break on non-parseable values', function () {
+        var iterator = sinon.spy();
+        return storage.set('test', 'value').
+          then(function () {
+            return storage.each(iterator);
+          }).
+          then(function () {
+            iterator.should.have.been.calledWith('invalid-json', 'invalid-json');
+          });
+      });
+    });
   });
 
 
