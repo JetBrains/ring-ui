@@ -1,9 +1,18 @@
+@import '../global/global';
+
+.ring-icon {
+  display: inline-block;
+  position: relative;
+  vertical-align: middle;
+}
+
+// Available icon sizes.
 .ring-icon_16 {
   height: 16px;
   width: 16px;
 }
 
-.ring-icon_32, .ring-icon {
+.ring-icon_32 {
   height: 32px;
   width: 32px;
 }
@@ -16,10 +25,4 @@
 .ring-icon_128 {
   height: 128px;
   width: 128px;
-}
-
-@media \0screen\,screen\9 {
-  .ring-icon:before {
-    background-image: url("icon.png");
-  }
 }
