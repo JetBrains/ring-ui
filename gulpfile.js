@@ -266,9 +266,8 @@ gulp.task('build', ['lint', 'lint-styles', 'test:build', 'webpack:build',
 gulp.task('sprite', [
   'sprite:rename',
   'sprite:create',
-  'sprite:concat',
-  'sprite:svg2png',
-  'sprite:svgmin',
+//  'sprite:svg2png',
+//  'sprite:svgmin',
   'sprite:clean'
 ]);
 
@@ -278,19 +277,48 @@ gulp.task('sprite', [
  */
 var SPRITE_NAME = 'icon';
 
+/**
+ * Relative path to icons component.
+ * @const
+ * @type {string}
+ */
+var DIR = 'src/components/icon';
+
+/**
+ * @type {Array.<string>}
+ */
+var colorsSequence = [
+  '#cccccc', // Clickable icon
+  '#888888', // Inline icon
+  '#ff5a00', // Hover on icon
+  '#84ab28', // Green icon. Colour of success (alerts)
+  '#d45218', // Orange colour of warning (alerts)
+  '#c10000', // Red. Colour of error (alerts)
+  '#25b7ff'  // Blue
+];
+
+/**
+ * Config.
+ * @type {Object}
+ */
 var spriteCfg = {
-  dest: 'src/components/icon',
+  dest: DIR,
   options: {
     common: 'ring-' + SPRITE_NAME,
     cssFile: SPRITE_NAME + '.scss',
     layout: 'vertical',
+    mode: 'symbols',
     pngPath: '%f',
     refSize: 64,
     selector: '%f',
     svg: {
-      sprite: SPRITE_NAME + '.svg'
+      sprite: SPRITE_NAME + '.svg',
+      symbols: SPRITE_NAME + '__template.js'
     },
-    svgPath: '%f'
+    svgPath: '%f',
+    templates: {
+      symbols: fs.readFileSync(__dirname + '/' + DIR + '/icon__tmpl.js', 'utf-8')
+    }
   }
 };
 
@@ -312,30 +340,23 @@ gulp.task('sprite:create', ['sprite:rename'], function () {
     .pipe(filter(spriteCfg.dest + '/source/*.svg'));
 });
 
-// Concat generated sprite css rules with predefined css rules which describes
-// icons sizes.
-gulp.task('sprite:concat', ['sprite:create'], function () {
-  return gulp.src([spriteCfg.dest + '/icon__tmpl.scss'])
-    .pipe(concat(SPRITE_NAME + '.scss'))
-    .pipe(gulp.dest(spriteCfg.dest));
-});
 
 // Create a fallback.
-gulp.task('sprite:svg2png', ['sprite:create'], function () {
-  return gulp.src([spriteCfg.dest + '/' + SPRITE_NAME + '.svg'])
-    .pipe(svg2png())
-    .pipe(gulp.dest(spriteCfg.dest));
-});
+//gulp.task('sprite:svg2png', ['sprite:create'], function () {
+//  return gulp.src([spriteCfg.dest + '/' + SPRITE_NAME + '.svg'])
+//    .pipe(svg2png())
+//    .pipe(gulp.dest(spriteCfg.dest));
+//});
 
 // Minify svg.
-gulp.task('sprite:svgmin', ['sprite:create'], function () {
-  return gulp.src(spriteCfg.dest + '/' + SPRITE_NAME + '.svg')
-    .pipe(svgmin())
-    .pipe(gulp.dest(spriteCfg.dest));
-});
+//gulp.task('sprite:svgmin', ['sprite:create'], function () {
+//  return gulp.src(spriteCfg.dest + '/' + SPRITE_NAME + '.svg')
+//    .pipe(svgmin())
+//    .pipe(gulp.dest(spriteCfg.dest));
+//});
 
 // Remove temporary files.
-gulp.task('sprite:clean', ['sprite:svg2png'], function () {
+gulp.task('sprite:clean', ['sprite:create'], function () {
   return gulp.src([spriteCfg.dest + '/src'], {read: false})
     .pipe(clean());
 });
