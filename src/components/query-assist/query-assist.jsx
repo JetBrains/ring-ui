@@ -6,6 +6,7 @@
 var React = require('react');
 var $ = require('jquery');
 var when = require('when');
+var debounce = require('mout/function/debounce');
 require('jquery-caret');
 
 var PopupMenu = require('../popup-menu/popup-menu');
@@ -16,6 +17,8 @@ var generateUniqueId = Global.getUIDGenerator('ring-query-assist-');
 
 require('./query-assist.scss');
 require('../input/input.scss');
+
+var mutationEvents = 'DOMCharacterDataModified DOMNodeInserted DOMNodeRemoved DOMSubtreeModified';
 
 /**
  * @constructor
@@ -76,6 +79,18 @@ var QueryAssist = React.createClass({
 
     if (!styleRangesRequested) {
       this.setFocus();
+    }
+
+    // Use for IE11 and down to 9
+    if (document.documentMode <=  11) { // TODO Proper browser detection?
+      $(this.getDOMNode()).on(mutationEvents, debounce(this.handleInput, 0));
+    }
+  },
+
+  componentWillUnmount: function() {
+    // Use for IE11 and down to 9
+    if (document.documentMode <=  11) { // TODO Proper browser detection?
+      $(this.getDOMNode()).off(mutationEvents);
     }
   },
 
@@ -408,6 +423,8 @@ var QueryAssist = React.createClass({
   /** @override */
   render: function () {
     /* jshint ignore:start */
+    var renderPlaceholder = !!this.props.placeholder && this.state.query === '';
+
     var query = this.state.query && React.renderComponentToStaticMarkup(
       <span>{this.state.query.split('').map(this.renderLetter)}</span>
     );
@@ -419,7 +436,7 @@ var QueryAssist = React.createClass({
           onClick={this.handleCaretMove} onFocus={this.handleFocusChange} onBlur={this.handleFocusChange}
           spellCheck="false" contentEditable="true" dangerouslySetInnerHTML={{__html: query}}></div>
 
-        {this.props.placeholder && <span className="ring-query-assist__placeholder">{this.props.placeholder}</span>}
+        {renderPlaceholder && <span className="ring-query-assist__placeholder">{this.props.placeholder}</span>}
       </div>
       );
     /* jshint ignore:end */
