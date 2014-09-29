@@ -20,7 +20,6 @@ var fs = require('fs');
 
 var sprite = require('gulp-svg-sprites');
 var svg2png = require('gulp-svg2png');
-var clean = require('gulp-clean');
 var svgmin = require('gulp-svgmin');
 var concat = require('gulp-concat');
 
@@ -358,5 +357,5 @@ gulp.task('sprite:create', ['sprite:rename'], function () {
 // Remove temporary files.
 gulp.task('sprite:clean', ['sprite:create'], function () {
   return gulp.src([spriteCfg.dest + '/src'], {read: false})
-    .pipe(clean());
+    .pipe(rimraf());
 });
