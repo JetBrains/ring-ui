@@ -68,17 +68,16 @@ LocalStorage.prototype.remove = function (name) {
 LocalStorage.prototype.each = function (callback) {
   return safePromise(function (resolve) {
     var promises = [];
+    var value;
+
     for (var item in localStorage) {
       if (localStorage.hasOwnProperty(item)) {
-        var result;
-        var value = localStorage.getItem(item);
-          try {
-            result = JSON.parse(value);
-          } catch (e) {
-            result = value;
-          }
-
-        promises.push(callback(item, result));
+        value = localStorage.getItem(item);
+        promises.push(
+          when.attempt(JSON.parse, value).
+          orElse(value).
+          fold(callback, item)
+        );
       }
     }
     resolve(when.all(promises));
