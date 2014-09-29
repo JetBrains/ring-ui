@@ -26,6 +26,13 @@ var Size = {
 
 
 /**
+ * @const
+ * @type {string}
+ */
+var BASE_CLASS = 'ring-icon';
+
+
+/**
  * @type {Element}
  * @private
  */
@@ -87,9 +94,9 @@ var Icon = React.createClass({
   render: function () {
     /* jshint ignore:start */
     var classList = React.addons.classSet(Global.createObject(
-        'ring-icon', true,
-        'ring-icon_' + this.props.size, true,
-        'ring-icon_' + this.props.modifier, !!this.props.modifier));
+        BASE_CLASS, true,
+        BASE_CLASS + '_' + this.props.size, true,
+        this._getID(), !!this.props.modifier));
 
     var viewBox = [0, 0, this.props.size, this.props.size].join(' ');
 
@@ -104,7 +111,15 @@ var Icon = React.createClass({
       _initializeTemplate();
     }
 
-    this.getDOMNode().innerHTML = '<use xlink:href="#' + this.props.modifier + '" />';
+    this.getDOMNode().innerHTML = '<use xlink:href="#' + this._getID() + '" />';
+  },
+
+  /**
+   * @return {string}
+   * @private
+   */
+  _getID: function() {
+    return BASE_CLASS + '_' + this.props.modifier;
   }
 });
 
