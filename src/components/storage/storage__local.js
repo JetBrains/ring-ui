@@ -7,8 +7,8 @@ var safePromise = function (resolver) {
     otherwise(function (e) {
       if (e && e.name === 'NS_ERROR_FILE_CORRUPTED') {
         window.alert('Sorry, it looks like your browser storage has been corrupted. ' +
-          'Please clear your storage by going to Tools -> Clear Recent History -> Cookies' +
-          ' and set time range to "Everything". This will remove the corrupted browser storage across all sites.');
+        'Please clear your storage by going to Tools -> Clear Recent History -> Cookies' +
+        ' and set time range to "Everything". This will remove the corrupted browser storage across all sites.');
       }
       return when.reject(e);
     });
@@ -75,8 +75,8 @@ LocalStorage.prototype.each = function (callback) {
         value = localStorage.getItem(item);
         promises.push(
           when.attempt(JSON.parse, value).
-          orElse(value).
-          fold(callback, item)
+            orElse(value).
+            fold(callback, item)
         );
       }
     }
