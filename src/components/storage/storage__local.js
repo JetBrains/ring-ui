@@ -70,7 +70,15 @@ LocalStorage.prototype.each = function (callback) {
     var promises = [];
     for (var item in localStorage) {
       if (localStorage.hasOwnProperty(item)) {
-        promises.push(callback(item, JSON.parse(localStorage.getItem(item))));
+        var result;
+        var value = localStorage.getItem(item);
+          try {
+            result = JSON.parse(value);
+          } catch (e) {
+            result = value;
+          }
+
+        promises.push(callback(item, result));
       }
     }
     resolve(when.all(promises));
