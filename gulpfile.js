@@ -109,8 +109,7 @@ gulp.task('webpack-dev-server', function () {
   myConfig.debug = true;
   myConfig.output.path = '/';
   myConfig.entry.jQuery = './node_modules/jquery/dist/jquery.js';
-  myConfig.entry['es5-shim'] = './node_modules/es5-shim/es5-shim.js';
-  myConfig.entry['es5-sham'] = './node_modules/es5-shim/es5-sham.js';
+  myConfig.entry.utils = ['webpack-dev-server/client?http://localhost:8080', 'es5-shim', 'es5-shim/es5-sham.js'];
 
   var serverPort = gulp.env.port || '8080';
 
