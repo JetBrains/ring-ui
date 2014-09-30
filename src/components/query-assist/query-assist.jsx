@@ -38,6 +38,7 @@ var QueryAssist = React.createClass({
     disabled: React.PropTypes.bool,
     focus: React.PropTypes.bool,
     hint: React.PropTypes.string,
+    hintOnSelection: React.PropTypes.string,
     glass: React.PropTypes.bool,
     placeholder: React.PropTypes.string,
     onApply: React.PropTypes.func,
@@ -334,6 +335,8 @@ var QueryAssist = React.createClass({
           anchorElement={this.getDOMNode()}
           autoRemove={false}
           corner={PopupMenu.Corner.BOTTOM_LEFT}
+          hint={this.props.hint}
+          hintOnSelection={this.props.hintOnSelection}
           data={suggestions} shortcuts={true}
           left={this.getCaretOffset()}
           onSelect={this.handleComplete}
@@ -342,8 +345,10 @@ var QueryAssist = React.createClass({
       );
     } else {
       this._popup.setProps({
-        left: this.getCaretOffset(),
-        data: suggestions
+        data: suggestions,
+        hint: this.props.hint,
+        hintOnSelection: this.props.hintOnSelection,
+        left: this.getCaretOffset()
       });
     }
   },
@@ -412,14 +417,6 @@ var QueryAssist = React.createClass({
 
       suggestions.push(item);
     });
-
-    if (this.props.hint) {
-      suggestions.push({
-        key: this.props.hint + PopupMenu.Type.ITEM,
-        label: this.props.hint,
-        type: PopupMenu.Type.HINT
-      });
-    }
 
     return suggestions;
   },

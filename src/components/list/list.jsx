@@ -146,6 +146,8 @@ var List = React.createClass({
 
   propTypes: {
     className: React.PropTypes.string,
+    hint: React.PropTypes.string,
+    hintOnSelection: React.PropTypes.string,
     data: React.PropTypes.arrayOf(React.PropTypes.object),
     shortcuts: React.PropTypes.bool,
     onSelect: React.PropTypes.func,
@@ -238,11 +240,18 @@ var List = React.createClass({
 
   /** @override */
   render: function () {
+    var hint = this.getSelected() && this.props.hintOnSelection || this.props.hint;
+    var data = hint ? this.props.data.concat({
+      key: this.props.hint + Type.ITEM,
+      label: hint,
+      type: Type.HINT
+    }) : this.props.data;
+
     return React.DOM.div(
       {
         className: 'ring-list'
       },
-      this.props.data.map(function (item, index) {
+      data.map(function (item, index) {
         var props = merge({'type': Type.ITEM}, item);
         if (props.url) {
           props.href = props.url;

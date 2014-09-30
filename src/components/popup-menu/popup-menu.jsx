@@ -20,6 +20,8 @@ var PopupMenu = React.createClass({
     anchorElement: React.PropTypes.object,
     autoRemove: React.PropTypes.bool,
     className: React.PropTypes.string,
+    hint: React.PropTypes.string,
+    hintOnSelection: React.PropTypes.string,
     data: React.PropTypes.arrayOf(React.PropTypes.object),
     onSelect: React.PropTypes.func,
     position: React.PropTypes.number,
@@ -33,7 +35,12 @@ var PopupMenu = React.createClass({
   /** @override */
   getInternalContent: function () {
     /* jshint ignore:start */
-    return <List ref="List" data={this.props.data} onSelect={this.props.onSelect} shortcuts={this.props.shortcuts} />;
+    return <List ref="List"
+      data={this.props.data}
+      hint={this.props.hint}
+      hintOnSelection={this.props.hintOnSelection}
+      onSelect={this.props.onSelect}
+      shortcuts={this.props.shortcuts} />;
     /* jshint ignore:end */
   }
 });
