@@ -18,6 +18,8 @@ var generateUniqueId = Global.getUIDGenerator('ring-query-assist-');
 require('./query-assist.scss');
 require('../input/input.scss');
 
+// Use for IE11 and down to 9
+var impotentIE = document.documentMode <= 11;  // TODO Proper browser detection?
 var mutationEvents = 'DOMCharacterDataModified DOMNodeInserted DOMNodeRemoved DOMSubtreeModified';
 
 /**
@@ -82,15 +84,13 @@ var QueryAssist = React.createClass({
       this.setFocus();
     }
 
-    // Use for IE11 and down to 9
-    if (document.documentMode <=  11) { // TODO Proper browser detection?
+    if (impotentIE) {
       $(this.getDOMNode()).on(mutationEvents, debounce(this.handleInput, 0));
     }
   },
 
   componentWillUnmount: function() {
-    // Use for IE11 and down to 9
-    if (document.documentMode <=  11) { // TODO Proper browser detection?
+    if (impotentIE) {
       $(this.getDOMNode()).off(mutationEvents);
     }
   },
