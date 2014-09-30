@@ -286,7 +286,7 @@ var QueryAssist = React.createClass({
     var suggestion = this.state.suggestions && this.state.suggestions[0];
     // Check of suggestion begins not from the end
     var completionStart = suggestion && suggestion.completionEnd !== suggestion.completionStart && suggestion.completionStart;
-    var caretNodeNumber = (completionStart != null ? completionStart : this.state.caret - 1);
+    var caretNodeNumber = completionStart != null && completionStart !== false ? completionStart : this.state.caret - 1;
     var caretNode = input.firstChild && input.firstChild.childNodes[caretNodeNumber];
     var caretOffset = caretNode && (caretNode.offsetLeft + caretNode.offsetWidth - PopupMenu.ITEM_PADDING) || 0;
 
