@@ -15,16 +15,10 @@
   overflow: hidden;
   white-space: nowrap;
   background: transparent;
-
-  // We need 1st part of selector to trigger 2nd one
-  // because of (possibly) browsers bugs
-  &:empty, &:empty ~ .ring-query-assist__placeholder {
-    display: block;
-  }
 }
 
 .ring-query-assist__placeholder {
-  display: none;
+  display: block;
   position: absolute;
   top: 3px;
   left: 5px;
