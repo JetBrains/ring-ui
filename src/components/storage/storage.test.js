@@ -139,7 +139,7 @@ describe('Storages', function () {
 
     testStorage(storage);
 
-    describe('Specfic', function () {
+    describe('Specific', function () {
       beforeEach(function () {
         localStorage.setItem('invalid-json', 'invalid-json');
       });
