@@ -32,6 +32,7 @@ var QueryAssist = React.createClass({
   propTypes: {
     className: React.PropTypes.string,
     dataSource: React.PropTypes.func.isRequired,
+    disabled: React.PropTypes.bool,
     focus: React.PropTypes.bool,
     hint: React.PropTypes.string,
     placeholder: React.PropTypes.string,
@@ -117,7 +118,7 @@ var QueryAssist = React.createClass({
   setFocus: function() {
     var input = this.refs.input.getDOMNode();
 
-    if (this.state.focus) {
+    if (this.state.focus && !this.props.disabled) {
       // $.caret cannot place caret without children, so we just focus instead
       if (input.firstChild) {
         $(input).caret(this.state.caret);
@@ -170,8 +171,9 @@ var QueryAssist = React.createClass({
 
   handleCaretMove: function (e) {
     var caret = this.getCaret();
+    var emptyFieldClick = caret === 0 && this.state.query === '' && e.type === 'click';
 
-    if (caret !== this.state.caret || caret === 0 && this.state.query === '' && e.type === 'click') {
+    if (!this.props.disabled && (caret !== this.state.caret || emptyFieldClick)) {
       this.setState({caret: caret}, this.requestData);
     }
   },
@@ -424,6 +426,10 @@ var QueryAssist = React.createClass({
   render: function () {
     /* jshint ignore:start */
     var renderPlaceholder = !!this.props.placeholder && this.state.query === '';
+    var inputClasses = React.addons.classSet({
+      'ring-query-assist__input ring-input ring-js-shortcuts': true,
+      'ring-input_disabled': this.props.disabled
+    });
 
     var query = this.state.query && React.renderComponentToStaticMarkup(
       <span>{this.state.query.split('').map(this.renderLetter)}</span>
@@ -431,10 +437,10 @@ var QueryAssist = React.createClass({
 
     return (
       <div className="ring-query-assist">
-        <div className="ring-query-assist__input ring-input ring-js-shortcuts" ref="input"
+        <div className={inputClasses} ref="input"
           onInput={this.handleInput} onKeyPress={this.handleEnter} onKeyUp={this.handleCaretMove}
           onClick={this.handleCaretMove} onFocus={this.handleFocusChange} onBlur={this.handleFocusChange}
-          spellCheck="false" contentEditable="true" dangerouslySetInnerHTML={{__html: query}}></div>
+          spellCheck="false" contentEditable={!this.props.disabled} dangerouslySetInnerHTML={{__html: query}}></div>
 
         {renderPlaceholder && <span className="ring-query-assist__placeholder">{this.props.placeholder}</span>}
       </div>
