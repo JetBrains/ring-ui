@@ -10,6 +10,7 @@ var debounce = require('mout/function/debounce');
 require('jquery-caret');
 
 var PopupMenu = require('../popup-menu/popup-menu');
+var Icon = require('../icon/icon'); // jshint -W098
 var Shortcuts = require('shortcuts/shortcuts');
 var Global = require('global/global');
 
@@ -37,6 +38,7 @@ var QueryAssist = React.createClass({
     disabled: React.PropTypes.bool,
     focus: React.PropTypes.bool,
     hint: React.PropTypes.string,
+    glass: React.PropTypes.bool,
     placeholder: React.PropTypes.string,
     onApply: React.PropTypes.func,
     onFocusChange: React.PropTypes.func,
@@ -109,10 +111,12 @@ var QueryAssist = React.createClass({
     this.setFocus();
   },
 
-  // Skip rerender on caret movement
   shouldComponentUpdate: function (props, state) {
     // Return false to skip rendering
-    return this.state.query !== state.query || this.state.styleRanges !== state.styleRanges || this.props.placeholder !== props.placeholder;
+    return this.state.query !== state.query ||
+      this.state.styleRanges !== state.styleRanges ||
+      this.props.placeholder !== props.placeholder ||
+      this.props.glass !== props.glass;
   },
 
   setFocus: function() {
@@ -192,14 +196,20 @@ var QueryAssist = React.createClass({
     return deferred.promise;
   },
 
+  handleApply: function() {
+    var state = this.getInputState();
+
+    if (typeof this.props.onApply === 'function') {
+      this.closePopup();
+      return this.props.onApply(state);
+    }
+  },
+
   handleComplete: function (data, replace) {
     var state = this.getInputState();
 
     if (!data || !data.data) {
-      if (typeof this.props.onApply === 'function') {
-        this.closePopup();
-        return this.props.onApply(state);
-      }
+      this.handleApply();
 
       return;
     }
@@ -428,6 +438,7 @@ var QueryAssist = React.createClass({
     var renderPlaceholder = !!this.props.placeholder && this.state.query === '';
     var inputClasses = React.addons.classSet({
       'ring-query-assist__input ring-input ring-js-shortcuts': true,
+      'ring-query-assist__input_glass': this.props.glass,
       'ring-input_disabled': this.props.disabled
     });
 
@@ -443,6 +454,7 @@ var QueryAssist = React.createClass({
           spellCheck="false" contentEditable={!this.props.disabled} dangerouslySetInnerHTML={{__html: query}}></div>
 
         {renderPlaceholder && <span className="ring-query-assist__placeholder">{this.props.placeholder}</span>}
+        {this.props.glass && <Icon onClick={this.handleApply} modifier={Icon.Sizes[0]} className="ring-query-assist__glass ring-icon_search"></Icon>}
       </div>
       );
     /* jshint ignore:end */
