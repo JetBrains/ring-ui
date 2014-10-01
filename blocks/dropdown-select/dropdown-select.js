@@ -79,6 +79,7 @@ define([
     this.$target.
       on('click', function (e) {
         e.preventDefault();
+        e.stopPropagation();
         self.$target.select();
       }).
       on('focus', function () {
