@@ -6,9 +6,9 @@ var safePromise = function (resolver) {
   return when.promise(resolver).
     otherwise(function (e) {
       if (e && e.name === 'NS_ERROR_FILE_CORRUPTED') {
-        window.alert('Sorry, it looks like your browser storage has been corrupted. ' +
+        window.alert('Sorry, it looks like your browser storage is corrupted. ' +
         'Please clear your storage by going to Tools -> Clear Recent History -> Cookies' +
-        ' and set time range to "Everything". This will remove the corrupted browser storage across all sites.');
+        ' and setting time range to "Everything". This will remove the corrupted browser storage across all sites.');
       }
       return when.reject(e);
     });

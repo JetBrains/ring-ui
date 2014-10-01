@@ -177,10 +177,13 @@
     React.renderComponent(
       ring.QueryAssist({
         query: 'test',
+//        disabled: true,
         placeholder: 'placeholder',
+        glass: true,
         onApply: log,
         focus: true,
         hint: 'lol',
+        hintOnSelection: 'lol selected',
         dataSource: function (props) {
           jQuery.extend(props, {
             fields: 'query,caret,styleRanges' + (props.omitSuggestions ? '' : ',suggestions')
