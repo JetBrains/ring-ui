@@ -446,7 +446,7 @@ var QueryAssist = React.createClass({
     return (
       <div className="ring-query-assist">
         <div className={inputClasses} ref="input"
-          onInput={this.handleInput} onKeyPress={this.handleEnter} onKeyUp={this.handleCaretMove}
+          onInput={this.handleInput} onKeyPress={this.handleEnter} onKeyDown={this.handleEnter} onKeyUp={this.handleCaretMove}
           onClick={this.handleCaretMove} onFocus={this.handleFocusChange} onBlur={this.handleFocusChange}
           spellCheck="false" contentEditable={!this.props.disabled} dangerouslySetInnerHTML={{__html: query}}></div>
 
