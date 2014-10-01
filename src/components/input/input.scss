@@ -32,11 +32,6 @@
     outline: 0;
   }
 
-  &:disabled, &_disabled {
-    border: 1px solid #DEDEDE;
-    background-color: #F8F8F8;
-  }
-
   &_correct {
     border: 1px solid #84AB28;
   }
@@ -48,4 +43,10 @@
   &_long {
     width: 100%;
   }
+}
+
+// Using double selector to enforce specifity, that is hard to express with &
+.ring-input.ring-input:disabled, .ring-input.ring-input_disabled {
+  border: 1px solid #DEDEDE;
+  background-color: #F8F8F8;
 }
