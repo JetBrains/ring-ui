@@ -68,11 +68,11 @@ var ListItem = React.createClass({
 
     return this.transferPropsTo(
       <span className={classes}>
-        {this.props.label}
         {this.props.description &&
             <div className="ring-list__description">{this.props.description}</div>}
         {this.props.icon &&
           <div className="ring-list__icon" style={{'background-image': 'url("' + this.props.icon + '")'}}></div>}
+        {this.props.label}
       </span>
     );
     /* jshint ignore:end */
