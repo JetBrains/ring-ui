@@ -201,7 +201,7 @@ gulp.task('test:build', function () {
     });
 });
 
-gulp.task('archive', ['clean', 'webpack:build'], function() {
+gulp.task('archive', ['clean', 'webpack:build'], function () {
   var pkgFilter = filter(['package/package.json']);
 
   return gulp.src([
@@ -212,7 +212,7 @@ gulp.task('archive', ['clean', 'webpack:build'], function() {
       'package.json',
       'webpack.config.js'
     ])
-    .pipe(rename(function(path) {
+    .pipe(rename(function (path) {
       path.dirname = 'package/' + path.dirname;
     }))
 
