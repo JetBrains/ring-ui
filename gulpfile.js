@@ -34,7 +34,7 @@ var jeditor = require('gulp-json-editor');
 var pkgConfig = Object.create(require('./package.json'));
 
 //Read common webpack config from  file
-var webpackConfig = Object.create(require('./webpack.config.js'));
+var webpackConfig = Object.create(require('./webpack.config'));
 
 /**
  * @return {string} Build version
