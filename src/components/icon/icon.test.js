@@ -13,7 +13,7 @@ describe('icon', function () {
   });
 
   it('should set size 16', function () {
-    this.icon.setProps({ modifier: Icon.Size.Size16 });
+    this.icon.setProps({ glyph: Icon.Size.Size16 });
     //$(this.icon.getDOMNode()).should.have.class('ring-icon_16');
   });
 
