@@ -43,7 +43,7 @@ authModule.provider('auth', ['$httpProvider', function ($httpProvider) {
 
     return {
       'request': function (config) {
-        if (urlEndsWith(config, '.html')) {
+        if (!auth || urlEndsWith(config, '.html')) {
           // Don't intercept angular template requests
           return config;
         }
@@ -59,7 +59,12 @@ authModule.provider('auth', ['$httpProvider', function ($httpProvider) {
     };
   }]);
 
-  this.$get = ['$injector', function ($injector) {
+  this.$get = ['$injector', '$log', function ($injector, $log) {
+    // Do not try to init anything without config
+    if (!auth) {
+      $log.warn('Auth wasn\'t initialized');
+      return null;
+    }
 
     /**
      * @type Promise.<string>
