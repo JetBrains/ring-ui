@@ -19,9 +19,6 @@ var spawn = require('child_process').spawn;
 var fs = require('fs');
 
 var sprite = require('gulp-svg-sprites');
-var svg2png = require('gulp-svg2png');
-var svgmin = require('gulp-svgmin');
-var concat = require('gulp-concat');
 
 var CSSlint = require('csslint').CSSLint;
 
@@ -266,16 +263,16 @@ gulp.task('build', ['lint', 'lint-styles', 'test:build', 'webpack:build',
 gulp.task('sprite', [
   'sprite:rename',
   'sprite:create',
-//  'sprite:svg2png',
-//  'sprite:svgmin',
   'sprite:clean'
 ]);
+
 
 /**
  * @const
  * @type {string}
  */
 var SPRITE_NAME = 'icon';
+
 
 /**
  * Relative path to icons component.
@@ -284,18 +281,6 @@ var SPRITE_NAME = 'icon';
  */
 var DIR = 'src/components/icon';
 
-/**
- * @type {Array.<string>}
- */
-var colorsSequence = [
-  '#cccccc', // Clickable icon
-  '#888888', // Inline icon
-  '#ff5a00', // Hover on icon
-  '#84ab28', // Green icon. Colour of success (alerts)
-  '#d45218', // Orange colour of warning (alerts)
-  '#c10000', // Red. Colour of error (alerts)
-  '#25b7ff'  // Blue
-];
 
 /**
  * Config.
@@ -305,14 +290,12 @@ var spriteCfg = {
   dest: DIR,
   options: {
     common: 'ring-' + SPRITE_NAME,
-    cssFile: SPRITE_NAME + '.scss',
+    cssFile: SPRITE_NAME + '_sprite.scss',
     layout: 'vertical',
     mode: 'symbols',
     pngPath: '%f',
-    refSize: 64,
     selector: '%f',
     svg: {
-      sprite: SPRITE_NAME + '.svg',
       symbols: SPRITE_NAME + '__template.js'
     },
     svgPath: '%f',
@@ -321,6 +304,7 @@ var spriteCfg = {
     }
   }
 };
+
 
 // Rename source files to a BEM notation. File names are used as templates for
 // css rules in resulted sprite.
@@ -340,23 +324,10 @@ gulp.task('sprite:create', ['sprite:rename'], function () {
     .pipe(filter(spriteCfg.dest + '/source/*.svg'));
 });
 
-
-// Create a fallback.
-//gulp.task('sprite:svg2png', ['sprite:create'], function () {
-//  return gulp.src([spriteCfg.dest + '/' + SPRITE_NAME + '.svg'])
-//    .pipe(svg2png())
-//    .pipe(gulp.dest(spriteCfg.dest));
-//});
-
-// Minify svg.
-//gulp.task('sprite:svgmin', ['sprite:create'], function () {
-//  return gulp.src(spriteCfg.dest + '/' + SPRITE_NAME + '.svg')
-//    .pipe(svgmin())
-//    .pipe(gulp.dest(spriteCfg.dest));
-//});
-
 // Remove temporary files.
 gulp.task('sprite:clean', ['sprite:create'], function () {
-  return gulp.src([spriteCfg.dest + '/src'], {read: false})
-    .pipe(rimraf());
+  return gulp.src([
+      spriteCfg.dest + '/src',
+      spriteCfg.dest + '*.html'
+  ], {read: false}).pipe(rimraf());
 });

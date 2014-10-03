@@ -1,5 +1,5 @@
 /**
- * @fileoverview svg icon component
+ * @fileoverview SVG-Icon component.
  * @author igor.alexeenko@jetbrains.com (Igor Alekseenko)
  * @author alexander.anisimov@jetbrains.com (Alexander Anisimov)
  * @jsx React.DOM
@@ -8,9 +8,7 @@
 'use strict';
 
 require('./icon.scss');
-/*jshint ignore:start*/
-var Global = require('global/global');
-/*jshint ignore:end*/
+var Global = require('global/global'); // jshint -W098
 var React = require('react');
 
 
@@ -45,15 +43,25 @@ var _templateElement = null;
  * path of needed icon.
  * @private
  */
-var _initializeTemplate = function() {
-  _templateElement = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-  _templateElement.style.display = 'none';
-  _templateElement.setAttributeNS(null, 'viewBox', '0 0 0 0');
-  _templateElement.innerHTML = require('./icon__template');
+var NamespaceURI = {
+  SVG: 'http://www.w3.org/2000/svg',
+  XLINK: 'http://www.w3.org/1999/xlink'
+};
 
-  // NB! Template svg should be a first node in document.
-  // https://code.google.com/p/chromium/issues/detail?id=349175
+
+/**
+ * Inserts an svg template into a document so icons could use links to this
+ * elements. Exported as a static method so could be used apart from component.
+ * @static
+ */
+var initializeTemplate = function() {
+  var templateText = require('./icon__template');
+  var domParser = new DOMParser();
+  var templateDoc = domParser.parseFromString(templateText, 'image/svg+xml');
+  _templateElement = templateDoc.documentElement;
+
   document.body.insertBefore(_templateElement, document.body.childNodes[0]);
+  _templateElement.style.display = 'none';
 };
 
 
@@ -65,29 +73,30 @@ var _initializeTemplate = function() {
  *   <div class="icon-container"></div>
  *
  *   <script>
- *     var Icon = require('icon');
+ *     var Icon = require('icon/icon');
  *
- *     React.renderComponent(<Icon className="additional-class" modifier="ok" size={Icon.Size['32']} />,
+ *     React.renderComponent(<Icon className="additional-class" colour="orange" glyph="ok" size={Icon.Size.Size32} />,
  *         document.querySelector('.icon-container'));
  *   </script>
  * </example>
  */
 var Icon = React.createClass({
   statics: {
+    initializeTemplate: initializeTemplate,
     Size: Size
   },
 
   propTypes: {
     className: React.PropTypes.string,
-    modifier: React.PropTypes.string,
+    glyph: React.PropTypes.string,
     size: React.PropTypes.number
   },
 
   getDefaultProps: function () {
     return {
       className: '',
-      modifier: '',
-      size: Size.Size64
+      glyph: '',
+      size: Size.Size32
     };
   },
 
@@ -98,9 +107,7 @@ var Icon = React.createClass({
         BASE_CLASS + '_' + this.props.size, true,
         this._getID(), !!this.props.modifier));
 
-    var viewBox = [0, 0, this.props.size, this.props.size].join(' ');
-
-    return (<svg className={classList} viewBox={viewBox} />);
+    return (<svg className={classList} />);
     /* jshint ignore:end */
   },
 
@@ -108,10 +115,13 @@ var Icon = React.createClass({
     // NB! Lazy initialization of template. Template is not inserted until it's
     // needed.
     if (_templateElement === null) {
-      _initializeTemplate();
+      initializeTemplate();
     }
 
-    this.getDOMNode().innerHTML = '<use xlink:href="#' + this._getID() + '" />';
+    var useElement = document.createElementNS(NamespaceURI.SVG, 'use');
+    useElement.setAttributeNS(NamespaceURI.XLINK, 'xlink:href', '#' + this._getID());
+
+    this.getDOMNode().appendChild(useElement);
   },
 
   /**
@@ -119,7 +129,7 @@ var Icon = React.createClass({
    * @private
    */
   _getID: function() {
-    return BASE_CLASS + '_' + this.props.modifier;
+    return BASE_CLASS + '_' + this.props.glyph;
   }
 });
 
