@@ -67,6 +67,10 @@ var NamespaceURI = {
  * @static
  */
 var initializeTemplate = function() {
+  if (_templateElement) {
+    return;
+  }
+
   var templateText = require('./icon__template');
   var domParser = new DOMParser();
   var templateDoc = domParser.parseFromString(templateText, 'image/svg+xml');
@@ -128,11 +132,7 @@ var Icon = React.createClass({
   },
 
   componentDidMount: function() {
-    // NB! Lazy initialization of template. Template is not inserted until it's
-    // needed.
-    if (_templateElement === null) {
-      initializeTemplate();
-    }
+    initializeTemplate();
 
     var useElement = document.createElementNS(NamespaceURI.SVG, 'use');
     useElement.setAttributeNS(NamespaceURI.XLINK, 'xlink:href', '#' + this._getID());
