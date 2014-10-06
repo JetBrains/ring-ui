@@ -13,6 +13,21 @@ var React = require('react');
 
 
 /**
+ * Commonly used colors of icons.
+ * @enum {string}
+ */
+var Color = {
+  DEFAULT: '',
+  ICON: 'light-gray',
+  HOVER: 'hover',
+  GREEN: 'green',
+  ORANGE: 'orange',
+  RED: 'red',
+  BLUE: 'blue'
+};
+
+
+/**
  * @enum {number}
  */
 var Size = {
@@ -38,10 +53,8 @@ var _templateElement = null;
 
 
 /**
- * Inserts an {@link Element} which contains all paths of icons, which might
- * be used. Icons are insterted by tag <use xlink:href /> which is linked to
- * path of needed icon.
- * @private
+ * XML namespaces of SVG-elements and their attributes.
+ * @enum {string}
  */
 var NamespaceURI = {
   SVG: 'http://www.w3.org/2000/svg',
@@ -82,12 +95,14 @@ var initializeTemplate = function() {
  */
 var Icon = React.createClass({
   statics: {
+    Color: Color,
     initializeTemplate: initializeTemplate,
     Size: Size
   },
 
   propTypes: {
     className: React.PropTypes.string,
+    color: React.PropTypes.string,
     glyph: React.PropTypes.string,
     size: React.PropTypes.number
   },
@@ -95,6 +110,7 @@ var Icon = React.createClass({
   getDefaultProps: function () {
     return {
       className: '',
+      color: Color.DEFAULT,
       glyph: '',
       size: Size.Size32
     };
@@ -105,6 +121,7 @@ var Icon = React.createClass({
     var classList = React.addons.classSet(Global.createObject(
         BASE_CLASS, true,
         BASE_CLASS + '_' + this.props.size, true,
+        this._getColorClass(), !!this.props.color,
         this._getID(), !!this.props.modifier));
 
     return (<svg className={classList} />);
@@ -122,6 +139,16 @@ var Icon = React.createClass({
     useElement.setAttributeNS(NamespaceURI.XLINK, 'xlink:href', '#' + this._getID());
 
     this.getDOMNode().appendChild(useElement);
+  },
+
+  // todo(igor.alexeenko): We need a tool for BEM classes as soon as possible.
+
+  /**
+   * @return {string}
+   * @private
+   */
+  _getColorClass: function() {
+    return BASE_CLASS + '_' + this.props.color;
   },
 
   /**
