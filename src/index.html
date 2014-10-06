@@ -139,6 +139,7 @@
   </section>
 </div>
 
+<script type="text/javascript" src="utils.js" charset="utf-8"></script>
 <script type="text/javascript" src="jQuery.js" charset="utf-8"></script>
 <script type="text/javascript" src="ring.js" charset="utf-8"></script>
 <script>
@@ -163,6 +164,11 @@
     }, timeout);
   })();
 
+  // IE9 shim %)
+  var log = function(obj) {
+    console.log(obj);
+  };
+
   var auth = new ring.Auth({
     serverUri: '***REMOVED***/',
     redirect_uri: 'http://localhost:8080/'
@@ -171,10 +177,13 @@
     React.renderComponent(
       ring.QueryAssist({
         query: 'test',
+//        disabled: true,
         placeholder: 'placeholder',
-        onApply: console.log.bind(console),
+        glass: true,
+        onApply: log,
         focus: true,
         hint: 'lol',
+        hintOnSelection: 'lol selected',
         dataSource: function (props) {
           jQuery.extend(props, {
             fields: 'query,caret,styleRanges' + (props.omitSuggestions ? '' : ',suggestions')
@@ -198,7 +207,7 @@
         {'label': 'Five', 'type': ring.PopupMenu.Type.ITEM}
       ],
       shortcuts: true,
-      onSelect: console.log.bind(console) // TODO Use alert here
+      onSelect: log // TODO Use alert here
     }),
     document.getElementById('list'));
 

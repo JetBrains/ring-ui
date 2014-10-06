@@ -20,7 +20,7 @@ module.exports = {
     libraryTarget: 'umd'
   },
   externals: {
-    'jquery': 'jQuery',
+    'jquery': 'jQuery'
   },
   resolve: {
     extensions: ['', '.js', '.jsx'],

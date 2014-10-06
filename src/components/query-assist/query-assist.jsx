@@ -6,9 +6,11 @@
 var React = require('react');
 var $ = require('jquery');
 var when = require('when');
+var debounce = require('mout/function/debounce');
 require('jquery-caret');
 
 var PopupMenu = require('../popup-menu/popup-menu');
+var Icon = require('../icon/icon'); // jshint -W098
 var Shortcuts = require('shortcuts/shortcuts');
 var Global = require('global/global');
 
@@ -16,6 +18,10 @@ var generateUniqueId = Global.getUIDGenerator('ring-query-assist-');
 
 require('./query-assist.scss');
 require('../input/input.scss');
+
+// Use for IE11 and down to 9
+var impotentIE = document.documentMode <= 11;  // TODO Proper browser detection?
+var mutationEvents = 'DOMCharacterDataModified DOMNodeInserted DOMNodeRemoved DOMSubtreeModified';
 
 /**
  * @constructor
@@ -29,8 +35,11 @@ var QueryAssist = React.createClass({
   propTypes: {
     className: React.PropTypes.string,
     dataSource: React.PropTypes.func.isRequired,
+    disabled: React.PropTypes.bool,
     focus: React.PropTypes.bool,
     hint: React.PropTypes.string,
+    hintOnSelection: React.PropTypes.string,
+    glass: React.PropTypes.bool,
     placeholder: React.PropTypes.string,
     onApply: React.PropTypes.func,
     onFocusChange: React.PropTypes.func,
@@ -77,6 +86,16 @@ var QueryAssist = React.createClass({
     if (!styleRangesRequested) {
       this.setFocus();
     }
+
+    if (impotentIE) {
+      $(this.getDOMNode()).on(mutationEvents, debounce(this.handleInput, 0));
+    }
+  },
+
+  componentWillUnmount: function() {
+    if (impotentIE) {
+      $(this.getDOMNode()).off(mutationEvents);
+    }
   },
 
   componentWillReceiveProps: function (props) {
@@ -93,16 +112,18 @@ var QueryAssist = React.createClass({
     this.setFocus();
   },
 
-  // Skip rerender on caret movement
   shouldComponentUpdate: function (props, state) {
     // Return false to skip rendering
-    return this.state.query !== state.query || this.state.styleRanges !== state.styleRanges || this.props.placeholder !== props.placeholder;
+    return this.state.query !== state.query ||
+      this.state.styleRanges !== state.styleRanges ||
+      this.props.placeholder !== props.placeholder ||
+      this.props.glass !== props.glass;
   },
 
   setFocus: function() {
     var input = this.refs.input.getDOMNode();
 
-    if (this.state.focus) {
+    if (this.state.focus && !this.props.disabled) {
       // $.caret cannot place caret without children, so we just focus instead
       if (input.firstChild) {
         $(input).caret(this.state.caret);
@@ -155,8 +176,9 @@ var QueryAssist = React.createClass({
 
   handleCaretMove: function (e) {
     var caret = this.getCaret();
+    var emptyFieldClick = caret === 0 && this.state.query === '' && e.type === 'click';
 
-    if (caret !== this.state.caret || caret === 0 && this.state.query === '' && e.type === 'click') {
+    if (!this.props.disabled && (caret !== this.state.caret || emptyFieldClick)) {
       this.setState({caret: caret}, this.requestData);
     }
   },
@@ -175,14 +197,20 @@ var QueryAssist = React.createClass({
     return deferred.promise;
   },
 
+  handleApply: function() {
+    var state = this.getInputState();
+
+    if (typeof this.props.onApply === 'function') {
+      this.closePopup();
+      return this.props.onApply(state);
+    }
+  },
+
   handleComplete: function (data, replace) {
     var state = this.getInputState();
 
     if (!data || !data.data) {
-      if (typeof this.props.onApply === 'function') {
-        this.closePopup();
-        return this.props.onApply(state);
-      }
+      this.handleApply();
 
       return;
     }
@@ -258,7 +286,7 @@ var QueryAssist = React.createClass({
     var suggestion = this.state.suggestions && this.state.suggestions[0];
     // Check of suggestion begins not from the end
     var completionStart = suggestion && suggestion.completionEnd !== suggestion.completionStart && suggestion.completionStart;
-    var caretNodeNumber = (completionStart != null ? completionStart : this.state.caret - 1);
+    var caretNodeNumber = completionStart != null && completionStart !== false ? completionStart : this.state.caret - 1;
     var caretNode = input.firstChild && input.firstChild.childNodes[caretNodeNumber];
     var caretOffset = caretNode && (caretNode.offsetLeft + caretNode.offsetWidth - PopupMenu.ITEM_PADDING) || 0;
 
@@ -307,6 +335,8 @@ var QueryAssist = React.createClass({
           anchorElement={this.getDOMNode()}
           autoRemove={false}
           corner={PopupMenu.Corner.BOTTOM_LEFT}
+          hint={this.props.hint}
+          hintOnSelection={this.props.hintOnSelection}
           data={suggestions} shortcuts={true}
           left={this.getCaretOffset()}
           onSelect={this.handleComplete}
@@ -315,8 +345,10 @@ var QueryAssist = React.createClass({
       );
     } else {
       this._popup.setProps({
-        left: this.getCaretOffset(),
-        data: suggestions
+        data: suggestions,
+        hint: this.props.hint,
+        hintOnSelection: this.props.hintOnSelection,
+        left: this.getCaretOffset()
       });
     }
   },
@@ -386,14 +418,6 @@ var QueryAssist = React.createClass({
       suggestions.push(item);
     });
 
-    if (this.props.hint) {
-      suggestions.push({
-        key: this.props.hint + PopupMenu.Type.ITEM,
-        label: this.props.hint,
-        type: PopupMenu.Type.HINT
-      });
-    }
-
     return suggestions;
   },
 
@@ -408,18 +432,26 @@ var QueryAssist = React.createClass({
   /** @override */
   render: function () {
     /* jshint ignore:start */
+    var renderPlaceholder = !!this.props.placeholder && this.state.query === '';
+    var inputClasses = React.addons.classSet({
+      'ring-query-assist__input ring-input ring-js-shortcuts': true,
+      'ring-query-assist__input_glass': this.props.glass,
+      'ring-input_disabled': this.props.disabled
+    });
+
     var query = this.state.query && React.renderComponentToStaticMarkup(
       <span>{this.state.query.split('').map(this.renderLetter)}</span>
     );
 
     return (
       <div className="ring-query-assist">
-        <div className="ring-query-assist__input ring-input ring-js-shortcuts" ref="input"
-          onInput={this.handleInput} onKeyPress={this.handleEnter} onKeyUp={this.handleCaretMove}
+        <div className={inputClasses} ref="input"
+          onInput={this.handleInput} onKeyPress={this.handleEnter} onKeyDown={this.handleEnter} onKeyUp={this.handleCaretMove}
           onClick={this.handleCaretMove} onFocus={this.handleFocusChange} onBlur={this.handleFocusChange}
-          spellCheck="false" contentEditable="true" dangerouslySetInnerHTML={{__html: query}}></div>
+          spellCheck="false" contentEditable={!this.props.disabled} dangerouslySetInnerHTML={{__html: query}}></div>
 
-        {this.props.placeholder && <span className="ring-query-assist__placeholder">{this.props.placeholder}</span>}
+        {renderPlaceholder && <span className="ring-query-assist__placeholder">{this.props.placeholder}</span>}
+        {this.props.glass && <Icon onClick={this.handleApply} modifier={Icon.Sizes[0]} className="ring-query-assist__glass ring-icon_search"></Icon>}
       </div>
       );
     /* jshint ignore:end */

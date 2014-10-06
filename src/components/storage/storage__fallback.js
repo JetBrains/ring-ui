@@ -13,7 +13,7 @@ var DEFAULT_COOKIE_NAME = 'localStorage';
  */
 var FallbackStorage = function(config) {
   if (!(this instanceof FallbackStorage)) {
-    return new FallbackStorage();
+    return new FallbackStorage(config);
   }
 
   this.cookieName = config && config.cookieName || DEFAULT_COOKIE_NAME;

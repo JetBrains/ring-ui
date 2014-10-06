@@ -1,3 +1,7 @@
+'use strict';
+
+var noop = function () {};
+
 function testStorage(storage) {
   describe('set', function () {
     it('should be fulfilled', function () {
@@ -70,9 +74,6 @@ function testStorage(storage) {
   });
 
   describe('each', function () {
-    var noop = function () {
-    };
-
     it('should be fulfilled', function () {
       return storage.set('test1', '').
         then(function () {
@@ -110,7 +111,7 @@ function testStorage(storage) {
           return storage.set('test3', '');
         }).
         then(function () {
-          storage.each(iterator);
+          return storage.each(iterator);
         }).
         then(function () {
           iterator.should.have.been.calledThrice;
@@ -127,25 +128,66 @@ function testStorage(storage) {
   });
 }
 
-describe('Storage', function () {
-  beforeEach(function () {
-    localStorage.clear();
+describe('Storages', function () {
+  describe('Local', function () {
+    beforeEach(function () {
+      localStorage.clear();
+    });
+
+    var Storage = require('./storage__local');
+    var storage = new Storage();
+
+    testStorage(storage);
+
+    describe('Specific', function () {
+      beforeEach(function () {
+        localStorage.setItem('invalid-json', 'invalid-json');
+      });
+
+      it('shouldn\'t break on non-parseable values', function () {
+        return storage.each(noop).should.be.fulfilled;
+      });
+
+      it('should iterate over items with non-parseable values', function () {
+        var iterator = sinon.spy();
+        return storage.set('test', 'value').
+          then(function () {
+            return storage.each(iterator);
+          }).
+          then(function () {
+            iterator.should.have.been.calledWith('invalid-json', 'invalid-json');
+          });
+      });
+    });
   });
 
-  var Storage = require('./storage__local');
 
-  testStorage(new Storage());
-});
+  describe('Fallback', function () {
+    var cookieName = 'testCookie';
 
+    beforeEach(function () {
+      document.cookie = cookieName + '=;';
+    });
 
-describe('Fallback storage', function () {
-  var cookieName = 'testCookie';
+    var FallbackStorage = require('./storage__fallback');
 
-  beforeEach(function () {
-    document.cookie = cookieName + '=;';
+    testStorage(new FallbackStorage({cookieName: cookieName}));
   });
 
-  var FallbackStorage = require('./storage__fallback');
+  describe('Memory', function () {
+    var spaceName = 'testSpace';
 
-  testStorage(new FallbackStorage({cookieName: cookieName}));
+    var MemoryStorage = require('./storage__memory');
+
+    beforeEach(function () {
+      var storage = MemoryStorage._storage[spaceName];
+      for (var key in storage) {
+        if (storage.hasOwnProperty(key)) {
+          delete storage[key];
+        }
+      }
+    });
+
+    testStorage(new MemoryStorage({spaceName: spaceName}));
+  });
 });
