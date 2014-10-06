@@ -29,11 +29,11 @@ describe('AuthStorage', function () {
       return authStorage.saveState(stateId, state).
         then(function () {
           return authStorage.getState(stateId);
-        }).should.be.eventually.deep.equal(state);
+        }).should.become(state);
     });
 
     it('should be null if wasn\'t set', function () {
-      return authStorage.getState(stateId).should.be.eventually.null;
+      return authStorage.getState(stateId).should.become.null;
     });
 
     it('should be null after first get', function () {
@@ -64,11 +64,11 @@ describe('AuthStorage', function () {
       return authStorage.saveToken(token).
         then(function () {
           return authStorage.getToken();
-        }).should.be.eventually.deep.equal(token);
+        }).should.become(token);
     });
 
     it('should be null if wasn\'t saved', function () {
-      return authStorage.getToken().should.be.eventually.null;
+      return authStorage.getToken().should.become.null;
     });
 
     it('should be the same after several get', function () {
@@ -78,7 +78,7 @@ describe('AuthStorage', function () {
         }).
         then(function () {
           return authStorage.getToken();
-        }).should.be.eventually.deep.equal(token);
+        }).should.become(token);
     });
 
     it('should be null after wipe', function () {
@@ -88,7 +88,7 @@ describe('AuthStorage', function () {
         }).
         then(function () {
           return authStorage.getToken();
-        }).should.be.eventually.null;
+        }).should.become.null;
     });
   });
 });
