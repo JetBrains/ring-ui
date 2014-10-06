@@ -16,15 +16,13 @@
   white-space: nowrap;
   background: transparent;
 
-  // We need 1st part of selector to trigger 2nd one
-  // because of (possibly) browsers bugs
-  &:empty, &:empty ~ .ring-query-assist__placeholder {
-    display: block;
+  &_glass {
+    padding-right: $ring-unit*3;
   }
 }
 
 .ring-query-assist__placeholder {
-  display: none;
+  display: block;
   position: absolute;
   top: 3px;
   left: 5px;
@@ -43,15 +41,15 @@
 }
 
 .ring-query-assist__letter_field-name {
-  color: #176B8A;
-}
-
-.ring-query-assist__letter_field-value {
   color: #1A1A1A;
 }
 
-.ring-query-assist__letter_operator {
+.ring-query-assist__letter_field-value {
   color: #176B8A;
+}
+
+.ring-query-assist__letter_operator {
+  color: #888;
 }
 
 .ring-query-assist__letter_error {
@@ -60,5 +58,13 @@
 }
 
 .ring-query-assist__glass {
+  position: absolute;
+  top: 1px;
+  right: 1px;
+  height: $ring-unit*2;
+
+  padding: 3px;
+  background-color: #fff;
+
   user-select: none;
 }
