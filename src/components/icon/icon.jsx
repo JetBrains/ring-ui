@@ -18,8 +18,7 @@ var React = require('react');
  */
 var Color = {
   DEFAULT: '',
-  ICON: 'light-gray',
-  HOVER: 'hover',
+  GRAY: 'light-gray',
   GREEN: 'green',
   ORANGE: 'orange',
   RED: 'red',
