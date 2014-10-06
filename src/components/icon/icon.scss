@@ -2,7 +2,7 @@
 
 .ring-icon {
   display: inline-block;
-  fill: #888;
+  fill: $ring-color-dark-gray;
   position: relative;
   vertical-align: middle;
 }
@@ -26,4 +26,29 @@
 .ring-icon_128 {
   height: 128px;
   width: 128px;
+}
+
+// Available icon colours
+.ring-icon_light-gray {
+  fill: $ring-color-gray;
+}
+
+.ring-icon_hover {
+  fill: $ring-link-hover-color;
+}
+
+.ring-icon_green {
+  fill: $ring-color-green;
+}
+
+.ring-icon_orange {
+  fill: $ring-link-hover-color;
+}
+
+.ring-icon_red {
+  fill: $ring-color-error;
+}
+
+.ring-icon_blue {
+  fill: $ring-color-blue;
 }

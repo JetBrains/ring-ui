@@ -2,10 +2,13 @@ $ring-unit: 8px;
 
 $ring-link-color:  #1866C5;
 $ring-link-hover-color: #FF5A00;
+$ring-color-error: #C10000;
+$ring-color-gray: #ccc;
+$ring-color-dark-gray: #888;
+$ring-color-green: #84ab28;
+$ring-color-blue: #25b7ff;
 
 $ring-outline-color: rgba(37, 183, 255, 0.5);
-
-$ring-color-error: #C10000;
 
 @mixin rgba-attribute($attribute, $color, $background: #fff) {
   $solid-color: mix(opacify($color, 1), $background, alpha($color) * 100%);
