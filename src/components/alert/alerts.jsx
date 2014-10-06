@@ -18,6 +18,20 @@ var when = require('when');
 var _animationQueue = [];
 
 
+/**
+ * @type {Element}
+ * @private
+ */
+var _containerClone = null;
+
+
+/**
+ * @type {CSSStyleSheet}
+ * @private
+ */
+var _stylesheet = null;
+
+
 
 /**
  * @constructor
@@ -30,7 +44,7 @@ var _animationQueue = [];
  *     var alertsContainer = React.renderComponent(<Alerts />, document.querySelector('.alerts-container');
  *
  *     alertsContainer.add('Test message');
- *     alertsContainer.add('Another test message');
+ *     alertsContainer.add('Another test message', Alert.Type.MESSAGE, 1000);
  *     alertsContainer.add('Test warning', Alert.Type.WARNING);
  *   </script>
  * </example>
@@ -74,6 +88,46 @@ var Alerts = React.createClass({
       </React.addons.CSSTransitionGroup>
     </div>);
     /*jshint ignore:end*/
+  },
+
+  componentWillUpdate: function(nextProps, nextState) {
+    var childElements = nextState.childElements;
+    var lastAddedElement = childElements[childElements.length - 1];
+
+    if (!_containerClone) {
+      _containerClone = this.getDOMNode().cloneNode(false);
+      _containerClone.style.visibility = 'hidden';
+      _containerClone.style.top = '-900em';
+      document.body.appendChild(_containerClone);
+    }
+
+    if (!_stylesheet) {
+      /**
+       * @type {HTMLStyleElement}
+       */
+      var styleElement = document.createElement('style');
+      styleElement.type = 'text/css';
+      styleElement.appendChild(document.createTextNode(''));
+      document.body.appendChild(styleElement);
+
+      _stylesheet = styleElement.sheet;
+    }
+
+    this._cleanupStyles();
+
+    var alertToAppend = React.renderComponent(new Alert(lastAddedElement), _containerClone);
+    var heightToCompensate = alertToAppend.getDOMNode().offsetHeight;
+
+    _stylesheet.insertRule('.alert-enter { margin-top: -' + heightToCompensate + 'px }', 0);
+
+    React.unmountComponentAtNode(_containerClone);
+  },
+
+  componentWillUnmount: function() {
+    this._cleanupStyles();
+
+    document.body.removeChild(_containerClone);
+    document.body.removeChild(_stylesheet.ownerNode);
   },
 
   /**
@@ -164,12 +218,21 @@ var Alerts = React.createClass({
   },
 
   /**
+   * @private
+   */
+  _cleanupStyles: function() {
+    while (_stylesheet.cssRules.length) {
+      _stylesheet.deleteRule(0);
+    }
+  },
+
+  /**
    * @param {SyntheticMouseEvent} evt
    * @param {number} i
    * @private
    */
   _handleClick: function(evt, i) {
-    if (evt.target.classList.contains('ring-alert__close')) {
+    if (/ring-alert__close/.test(evt.target.className)) {
       evt.preventDefault();
       this.remove(i);
     }

@@ -7,6 +7,11 @@
   right: 0;
   top: 0;
   z-index: $ring-alert-z-index;
+
+  .ring-alert {
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.15);
+    width: $ring-unit * 55;
+  }
 }
 
 .ring-alert {
@@ -14,20 +19,17 @@
   border: solid 1px $ring-border-color;
   border-radius: 3px;
   box-sizing: border-box;
-  box-shadow: 0 0 8px rgba(0, 0, 0, 0.15);
   font-size: 13px;
   line-height: $ring-unit * 5;
   margin: $ring-unit auto;
   min-height: $ring-unit * 5;
   padding: 0 $ring-unit*2;
   position: relative;
-  width: $ring-unit * 55;
 
   @include ring-font();
 
   &.ring-alert_inline {
     margin: $ring-unit;
-    width: auto;
   }
 }
 

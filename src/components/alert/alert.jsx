@@ -8,9 +8,7 @@
 
 require('./alert.scss');
 var Global = require('global/global');
-/*jshint ignore:start*/
-var Icon = require('icon/icon');
-/*jshint ignore:end*/
+var Icon = require('icon/icon'); // jshint -W098
 var React = require('react/addons');
 
 
@@ -31,7 +29,7 @@ var Type = {
  * @type {Object.<Type, string>}
  */
 var TypeToIconModifier = Global.createObject(
-    Type.ERROR, 'exception',
+    Type.ERROR, 'error',
     Type.SUCCESS, 'ok',
     Type.WARNING, 'warning');
 
@@ -89,6 +87,10 @@ var Alert = React.createClass({
   /** @override */
   componentDidMount: function() {
     if (this.props.animationDeferred) {
+      if (typeof TransitionEvent === 'undefined') {
+        this.props.animationDeferred.resolve();
+      }
+
       this.getDOMNode().addEventListener('transitionend', this._handleTransitionEnd);
     }
   },
