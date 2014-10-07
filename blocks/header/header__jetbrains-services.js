@@ -8,11 +8,11 @@ define(['global/global__views', 'global/global__modules', 'counter/counter'], fu
     },
     {
       label: 'YouTrack',
-      url: 'http://youtrack.jetbrains.com'
+      url: 'https://youtrack.jetbrains.com'
     },
     {
       label: 'Upsource',
-      url: 'http://upsource.jetbrains.com'
+      url: 'https://upsource.jetbrains.com'
     },
     {
       label: 'Confluence',
@@ -20,7 +20,7 @@ define(['global/global__views', 'global/global__modules', 'counter/counter'], fu
     },
     {
       label: 'JetPeople',
-      url: '//jetpeople.jetbrains.com'
+      url: 'https://jetpeople.jetbrains.com'
     },
     {
       label: 'Meeting Rooms',
