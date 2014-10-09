@@ -18,8 +18,6 @@ var filter = require('gulp-filter');
 var spawn = require('child_process').spawn;
 var fs = require('fs');
 
-var sprite = require('gulp-svg-sprites');
-
 var CSSlint = require('csslint').CSSLint;
 
 var path = require('path');
@@ -290,76 +288,3 @@ gulp.task('build-dev', ['webpack:build-dev'], function () {
 // Production build
 gulp.task('build', ['lint', 'lint-styles', 'test:build', 'webpack:build',
   'archive']);
-
-//Generate icon sprite
-gulp.task('sprite', [
-  'sprite:rename',
-  'sprite:create',
-  'sprite:clean'
-]);
-
-
-/**
- * @const
- * @type {string}
- */
-var SPRITE_NAME = 'icon';
-
-
-/**
- * Relative path to icons component.
- * @const
- * @type {string}
- */
-var DIR = 'src/components/icon';
-
-
-/**
- * Config.
- * @type {Object}
- */
-var spriteCfg = {
-  dest: DIR,
-  options: {
-    common: 'ring-' + SPRITE_NAME,
-    cssFile: SPRITE_NAME + '_sprite.scss',
-    layout: 'vertical',
-    mode: 'symbols',
-    pngPath: '%f',
-    selector: '%f',
-    svg: {
-      symbols: SPRITE_NAME + '__template.js'
-    },
-    svgPath: '%f',
-    templates: {
-      symbols: fs.readFileSync(__dirname + '/' + DIR + '/icon__tmpl.js', 'utf-8')
-    }
-  }
-};
-
-
-// Rename source files to a BEM notation. File names are used as templates for
-// css rules in resulted sprite.
-gulp.task('sprite:rename', function () {
-  return gulp.src(spriteCfg.dest + '/source/**/*.svg', { base: process.cwd() })
-    .pipe(rename(function (path) {
-      path.basename = 'ring-icon_' + path.basename;
-    }))
-    .pipe(gulp.dest(spriteCfg.dest));
-});
-
-// Generate svg sprite.
-gulp.task('sprite:create', ['sprite:rename'], function () {
-  return gulp.src(spriteCfg.dest + '/src/**/*.svg')
-    .pipe(sprite(spriteCfg.options))
-    .pipe(gulp.dest(spriteCfg.dest))
-    .pipe(filter(spriteCfg.dest + '/source/*.svg'));
-});
-
-// Remove temporary files.
-gulp.task('sprite:clean', ['sprite:create'], function () {
-  return gulp.src([
-      spriteCfg.dest + '/src',
-      spriteCfg.dest + '*.html'
-  ], {read: false}).pipe(rimraf());
-});
