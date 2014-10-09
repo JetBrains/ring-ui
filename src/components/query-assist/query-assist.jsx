@@ -7,6 +7,7 @@ var React = require('react');
 var $ = require('jquery');
 var when = require('when');
 var debounce = require('mout/function/debounce');
+var equals = require('mout/array/equals');
 require('jquery-caret');
 
 var PopupMenu = require('../popup-menu/popup-menu');
@@ -22,6 +23,12 @@ require('../input/input.scss');
 // Use for IE11 and down to 9
 var impotentIE = document.documentMode <= 11;  // TODO Proper browser detection?
 var mutationEvents = 'DOMCharacterDataModified DOMNodeInserted DOMNodeRemoved DOMSubtreeModified';
+
+function rangeEquals(a, b) {
+  // jshint -W116  
+  return a == b || a != null && b != null && a.length === b.length && a.start === b.start && a.style === b.style;
+  // jshint +W116  
+}
 
 /**
  * @constructor
@@ -54,7 +61,8 @@ var QueryAssist = React.createClass({
       caret: props.caret != null ? props.caret : query.length
     };
 
-    if ('focus' in props) {
+    // Undefined could be passed from react-ng, so 'focus' in props won't help
+    if (typeof props.focus !== 'undefined') {
       state.focus = props.focus;
     }
 
@@ -115,7 +123,7 @@ var QueryAssist = React.createClass({
   shouldComponentUpdate: function (props, state) {
     // Return false to skip rendering
     return this.state.query !== state.query ||
-      this.state.styleRanges !== state.styleRanges ||
+      !equals(this.state.styleRanges, state.styleRanges, rangeEquals) ||
       this.props.placeholder !== props.placeholder ||
       this.props.glass !== props.glass;
   },
@@ -451,7 +459,7 @@ var QueryAssist = React.createClass({
           spellCheck="false" contentEditable={!this.props.disabled} dangerouslySetInnerHTML={{__html: query}}></div>
 
         {renderPlaceholder && <span className="ring-query-assist__placeholder">{this.props.placeholder}</span>}
-        {this.props.glass && <Icon onClick={this.handleApply} modifier={Icon.Sizes[0]} className="ring-query-assist__glass ring-icon_search"></Icon>}
+        {this.props.glass && <Icon onClick={this.handleApply} modifier={Icon.Size.Size16} className="ring-query-assist__glass ring-icon_search"></Icon>}
       </div>
       );
     /* jshint ignore:end */

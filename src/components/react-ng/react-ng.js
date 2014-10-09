@@ -54,7 +54,7 @@ reactModule.directive(directiveName, [
             var propName = specialDOMAttrName || name;
 
             // Detect interpolation
-            var interpolated = iElement.attr(iAttrs.$attr[name]) !== value;
+            var interpolated = iElement[0].getAttribute(iAttrs.$attr[name]) !== value;
 
             // Check if component expects callback
             var expectsCallback = ComponentClass.propTypes &&
