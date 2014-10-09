@@ -71,7 +71,7 @@ var initializeTemplate = function() {
     return;
   }
 
-  var templateText = require('./icon__template');
+  var templateText = require('val!./icon__template.js');
   var domParser = new DOMParser();
   var templateDoc = domParser.parseFromString(templateText, 'image/svg+xml');
   _templateElement = templateDoc.documentElement;
@@ -91,7 +91,7 @@ var initializeTemplate = function() {
  *   <script>
  *     var Icon = require('icon/icon');
  *
- *     React.renderComponent(<Icon className="additional-class" colour="orange" glyph="ok" size={Icon.Size.Size32} />,
+ *     React.renderComponent(<Icon className="additional-class" color="orange" glyph="ok" size={Icon.Size.Size32} />,
  *         document.querySelector('.icon-container'));
  *   </script>
  * </example>
