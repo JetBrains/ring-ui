@@ -54,6 +54,16 @@
   }
 }
 
+.ring-island__table {
+  display: table;
+  table-layout: fixed;
+  width: 100%;
+}
+
+.ring-island__table-cell {
+  display: table-cell;
+}
+
 .ring-island__header {
   font-size: 13px;
   line-height: $ring-unit*3 - 1;
@@ -63,6 +73,10 @@
   border-top-right-radius: 3px;
   background-color: #ebebeb;
   background-image: linear-gradient(to top, #ebebeb, #fff);
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .ring-island__header-btn {
