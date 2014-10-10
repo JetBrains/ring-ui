@@ -20,19 +20,28 @@
   // Webkit
   -webkit-appearance: none;
 
-  // FF
-  &::-moz-progress-bar, & {
-    height: $ring-unit*3;
-    padding-top: 3px;
-    padding-left: $ring-unit - 4;
+  // IE 10+
+  &::-ms-expand {
+    display: none;
+  }
 
-    -moz-appearance: none;
-    text-indent: 0.01px;
-    text-overflow: '';
+  // Firefox focus has odd artifacts around the text, this kills that.
+  // See https://developer.mozilla.org/en-US/docs/Web/CSS/:-moz-focusring
+  &:-moz-focusring {
+    color: transparent;
+    text-shadow: 0 0 0 #000;
   }
 
   &[disabled], &.ring-select_disabled {
     background-color: #F9F9F9;
+
+    & + .ring-select__label {
+      background-color: #F9F9F9;
+
+      &:before {
+        border-top-color: #CCC;
+      }
+    }
   }
 
   &:active:not([disabled]), &.ring-select_active:not([disabled]), &:focus, &.ring-select_focus {
@@ -41,33 +50,32 @@
   }
 }
 
-.ring-select + label.ring-select__label {
-  position: relative;
-  content: '';
-  top: -2*$ring-unit + 1;
-  left: -$ring-unit;
+.ring-select + .ring-select__label, {
+  display: none;
+}
+
+.ring-select + .ring-select__label {
+  position: absolute;
   display: block;
-  float: right;
-  width: 0;
-  height: 0;
+  right: 1px;
+  top: 1px;
+  width: $ring-unit*2 + 1;
+  height: $ring-unit*3 - 2;
+  background-color: #FFF;
   pointer-events: none;
 
-  border: 4px solid transparent;
-  border-top-color: #888;
+  &:before {
+    content: '';
+    position: relative;
+    top: $ring-unit;
+    left: 2px;
 
-  // Fx
-  &::-moz-progress-bar, & {
-    border-width: 5px;
+    border: 4px solid transparent;
+    border-top-color: #888;
+    display: block;
+    height: 0;
+    width: 0;
   }
-}
-
-.ring-select + label.ring-select__label {
-  border: none \9; // IE 6+
-}
-
-.ring-select[disabled] + label.ring-select__label,
-.ring-select_disabled + label.ring-select__label {
-  opacity: .5;
 }
 
 // Select
@@ -84,8 +92,8 @@
 //   <label class="ring-select__label" for="ring-select"></label>
 // </div>
 //
-// :active              - Active state, also available as the `.ring-select_active` class name.
-// :focus               - Focus state, also available as the `.ring-select_focus` class name.
-// :disabled            - Disabled state, also available as the `.ring-select_disabled` class name. 
+// :active                  - Active state, also available as the `.ring-select_active` class name.
+// :focus                   - Focus state, also available as the `.ring-select_focus` class name.
+// .ring-select_disabled    - Disabled state, also available as the `.ring-select_disabled` class name.
 //
 // Styleguide 16.1
