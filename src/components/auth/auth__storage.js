@@ -1,7 +1,6 @@
 'use strict';
 
 var Storage = require('storage/storage');
-var MemoryStorage = require('storage/storage__memory');
 var when = require('when');
 
 /**
@@ -28,8 +27,7 @@ var AuthStorage = function (config) {
   this.stateKeyPrefix = config.stateKeyPrefix;
   this.tokenKey = config.tokenKey;
 
-  this._stateStorage = new Storage();
-  this._tokenStorage = new MemoryStorage();
+  this._stateStorage = this._tokenStorage = new Storage();
 };
 
 /**
