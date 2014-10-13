@@ -104,7 +104,6 @@ var Icon = React.createClass({
   },
 
   propTypes: {
-    className: React.PropTypes.string,
     color: React.PropTypes.string,
     glyph: React.PropTypes.string,
     size: React.PropTypes.number
@@ -127,7 +126,7 @@ var Icon = React.createClass({
         this._getColorClass(), !!this.props.color,
         this._getID(), !!this.props.modifier));
 
-    return (<svg className={classList} />);
+    return this.transferPropsTo(<svg className={classList} />);
     /* jshint ignore:end */
   },
 
