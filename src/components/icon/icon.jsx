@@ -126,7 +126,7 @@ var Icon = React.createClass({
         this._getColorClass(), !!this.props.color,
         this._getID(), !!this.props.modifier));
 
-    return (<svg className={classList} />);
+    return this.transferPropsTo(<svg className={classList} />);
     /* jshint ignore:end */
   },
 
