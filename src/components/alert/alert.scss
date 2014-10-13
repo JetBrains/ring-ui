@@ -1,0 +1,97 @@
+@import "../global/global";
+
+.ring-alerts {
+  left: 0;
+  overflow: visible;
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: $ring-alert-z-index;
+
+  .ring-alert {
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.15);
+    width: $ring-unit * 55;
+  }
+}
+
+.ring-alert {
+  background: #fff;
+  border: solid 1px $ring-border-color;
+  border-radius: 3px;
+  box-sizing: border-box;
+  font-size: 13px;
+  line-height: $ring-unit * 5;
+  margin: $ring-unit auto;
+  min-height: $ring-unit * 5;
+  padding: 0 $ring-unit*2;
+  position: relative;
+  white-space: nowrap;
+
+  @include ring-font();
+
+  &.ring-alert_inline {
+    margin: $ring-unit;
+  }
+
+  &.ring-alert_error {
+    color: $ring-color-error;
+  }
+}
+
+.ring-icon.ring-alert__icon {
+  display: inline-block;
+  height: 40px;
+  line-height: 40px;
+  margin-right: $ring-unit;
+  vertical-align: top;
+
+  @include vertical-compensation(-1px);
+}
+
+.ring-alert__caption {
+  display: inline-block;
+  line-height: 1.2;
+  margin: 12px $ring-unit*4 12px 0; // NB! 12px
+  vertical-align: middle;
+  white-space: normal;
+}
+
+.ring-icon.ring-alert__close {
+  fill: $ring-color-gray;
+  cursor: pointer;
+  padding: $ring-unit;
+  position: absolute;
+  right: 0;
+  top: $ring-unit / 2;
+
+  &:hover {
+    fill: $ring-link-hover-color;
+  }
+}
+
+$enter-animation-duration: 300ms;
+$enter-animation-easing: ease-out;
+
+$leave-animation-duration: 200ms;
+$leave-animation-easing: ease-out;
+
+.alert-enter {
+  margin-top: -4 * $ring-unit;
+  transition: margin-top $enter-animation-duration $enter-animation-easing;
+}
+
+.alert-enter.alert-enter-active {
+  margin-top: $ring-unit;
+}
+
+.alert-leave {
+  opacity: 1;
+  transform: scale(1);
+  transition: transform $leave-animation-duration $leave-animation-easing,
+              opacity $leave-animation-duration $leave-animation-easing;
+}
+
+.alert-leave.alert-leave-active {
+  opacity: 0;
+  transform: scale(0.5);
+}
