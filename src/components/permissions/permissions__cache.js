@@ -130,7 +130,7 @@ PermissionCache.prototype.or = function (lexems, spaceId) {
   var result = this.and(lexems, spaceId);
 
   while (lexems.length > 0 && lexems[0] !== ')') {
-    // Expect '\'
+    // Expect '|'
     if (lexems.shift() !== '|') {
       throw new Error('Operator \'|\' was expected');
     }
