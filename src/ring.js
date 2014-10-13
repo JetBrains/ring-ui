@@ -1,6 +1,8 @@
 window.React = require('react');
 
 module.exports = {
+  Alert: require('alert/alert'),
+  Alerts: require('alert/alerts'),
   Auth: require('auth/auth'),
   Button: require('button/button'),
   Checkbox: require('checkbox/checkbox'),
