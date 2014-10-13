@@ -18,10 +18,6 @@ describe('progress-bar', function() {
     it('should set default value for max attribute', function() {
       this.progress.props.max.should.equal(1.0);
     });
-
-    it('should not define attribute value by default', function() {
-      expect(this.progress.props.value).not.to.exist;
-    });
   });
 
   describe('client interaction with progress bar API', function() {
