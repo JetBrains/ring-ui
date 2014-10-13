@@ -57,6 +57,7 @@
 }
 
 .ring-icon.ring-alert__close {
+  fill: $ring-color-gray;
   cursor: pointer;
   padding: $ring-unit;
   position: absolute;
