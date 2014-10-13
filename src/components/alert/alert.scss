@@ -36,12 +36,6 @@
   &.ring-alert_error {
     color: $ring-color-error;
   }
-
-  &.ring-alert_warning {
-    .ring-alert__icon {
-      @include vertical-compensation(-5px);
-    }
-  }
 }
 
 .ring-icon.ring-alert__icon {
@@ -51,18 +45,13 @@
   margin-right: $ring-unit;
   vertical-align: top;
 
-  use {
-    display: inline-block;
-    vertical-align: middle;
-
-    @include vertical-compensation(-2px);
-  }
+  @include vertical-compensation(-1px);
 }
 
 .ring-alert__caption {
   display: inline-block;
   line-height: 1.2;
-  margin: $ring-unit $ring-unit*4 $ring-unit 0;
+  margin: 12px $ring-unit*4 12px 0; // NB! 12px
   vertical-align: middle;
   white-space: normal;
 }
@@ -82,7 +71,7 @@
 $enter-animation-duration: 300ms;
 $enter-animation-easing: ease-out;
 
-$leave-animation-duration: 400ms;
+$leave-animation-duration: 200ms;
 $leave-animation-easing: ease-out;
 
 .alert-enter {
@@ -103,5 +92,5 @@ $leave-animation-easing: ease-out;
 
 .alert-leave.alert-leave-active {
   opacity: 0;
-  transform: scale(1.5);
+  transform: scale(0.5);
 }
