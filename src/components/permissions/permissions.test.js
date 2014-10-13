@@ -77,7 +77,7 @@ describe('permissions', function () {
 
       it('should support conjunction', function () {
         permissionCache.has('a & space-read').should.be.false;
-        //permissionCache.has('space-read & space-update').should.be.true;
+        permissionCache.has('space-read & space-update').should.be.true;
       });
 
       it('should support parens', function () {
