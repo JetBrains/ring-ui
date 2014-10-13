@@ -99,6 +99,15 @@
 </div>
 
 <div class="example">
+  <header>Loader screen:</header>
+
+  <section>
+    <div id="loader-screen">
+    </div>
+  </section>
+</div>
+
+<div class="example">
   <header>Diff</header>
 
   <section>
@@ -230,11 +239,16 @@
   React.renderComponent(
     ring.Loader(),
     document.getElementById('loader'));
+
   React.renderComponent(
     ring.Loader({
       modifier: ring.Loader.Modifier.INLINE
     }),
     document.getElementById('loader-inline'));
+
+  React.renderComponent(
+    ring.LoaderScreen(),
+    document.getElementById('loader-screen'));
 
   React.renderComponent(
     ring.Diff({
