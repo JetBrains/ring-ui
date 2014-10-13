@@ -54,28 +54,159 @@ PermissionCache._toSpaceIdSet = function (spaces) {
  * @return {boolean}
  */
 PermissionCache.prototype.has = function (permissions, spaceId) {
-  if (!permissions) {
+  var lexems = this.lex(permissions);
+  if (lexems.length === 0) {
     return true;
   }
-  var permissionList = permissions.split(/\s+/);
 
-  for (var i = permissionList.length - 1, cachedPermission; i >= 0; i--) {
-    cachedPermission = this.permissionCache[permissionList[i]];
-    // Hasn't the permission in any space
-    if (!cachedPermission) {
-      return false;
+  try {
+    return this.or(lexems, spaceId);
+  } catch (e) {
+    console.error(e);
+    return false;
+  }
+};
+
+/**
+ * Lexes permission query string to an array of lexems.
+ *
+ * @param {string} query
+ * @return {string[]}
+ */
+PermissionCache.prototype.lex = function (query) {
+  var lexems = [];
+  if (query) {
+    var currentIdentifier = '';
+    for (var i = 0; i < query.length; i++) {
+      switch (query.charAt(i)) {
+        case ' ':
+        case '\t':
+        case '\n':
+        case '\r':
+          // Finish current token
+          if (currentIdentifier) {
+            lexems.push(currentIdentifier);
+            currentIdentifier = '';
+          }
+          // Skip space
+          break;
+        case '(':
+        case ')':
+        case '&':
+        case '|':
+          // Finish current token
+          if (currentIdentifier) {
+            lexems.push(currentIdentifier);
+            currentIdentifier = '';
+          }
+          // Append operator
+          lexems.push(query.charAt(i));
+          break;
+        default:
+          currentIdentifier += query.charAt(i);
+          break;
+      }
     }
-    // The permission is global or is given in the global space
-    if (cachedPermission.global) {
-      return true;
-    }
-    // spaceId is specified but the permission isn't given in the space
-    if (spaceId && !(cachedPermission.spaceIdSet && cachedPermission.spaceIdSet[spaceId])) {
-      return false;
+    if (currentIdentifier) {
+      lexems.push(currentIdentifier);
     }
   }
+  return lexems;
+};
 
-  return true;
+/*
+ or -> and ( '|' and )*
+ and -> term ( '&'?  term )*
+ term -> '(' or ')' | permission
+ permission -> [^()&|\s]+
+ */
+
+/**
+ * @param {string[]} lexems
+ * @param {string=} spaceId
+ * @return {boolean}
+ */
+PermissionCache.prototype.or = function (lexems, spaceId) {
+  var result = this.and(lexems, spaceId);
+
+  while (lexems.length > 0 && lexems[0] !== ')') {
+    // Expect '|'
+    if (lexems.shift() !== '|') {
+      throw new Error('Operator \'|\' was expected');
+    }
+
+    result = this.and(lexems, spaceId) || result;
+  }
+
+  return result;
+};
+
+/**
+ * @param {string[]} lexems
+ * @param {string=} spaceId
+ * @return {boolean}
+ */
+PermissionCache.prototype.and = function (lexems, spaceId) {
+  var result = this.term(lexems, spaceId);
+
+  while (lexems.length > 0 && lexems[0] !== ')' && lexems[0] !== '|') {
+    // Expect optional '&'
+    if (lexems[0] === '&') {
+      lexems.shift();
+    }
+
+    result = this.term(lexems, spaceId) && result;
+  }
+
+  return result;
+};
+
+/**
+ * @param {string[]} lexems
+ * @param {string=} spaceId
+ * @return {boolean}
+ */
+PermissionCache.prototype.term = function (lexems, spaceId) {
+  if (lexems.length === 0) {
+    throw new Error('Operand was expected');
+  }
+  var t = lexems.shift();
+  var result;
+  // Nested paranthesized expression
+  if (t === '(') {
+    result = this.or(lexems, spaceId);
+    // Expect ')'
+    if (lexems.shift() !== ')') {
+      throw new Error('Operator \')\' was expected');
+    }
+  } else {
+    result = this.testPermission(t, spaceId);
+  }
+  return result;
+};
+
+/**
+ * @param {string} permissionName
+ * @param {string=} spaceId
+ * @return {boolean}
+ */
+PermissionCache.prototype.testPermission = function (permissionName, spaceId) {
+  var cachedPermission = this.permissionCache[permissionName];
+  // Hasn't the permission in any space
+  if (!cachedPermission) {
+    return false;
+  }
+  // The permission is global or is given in the global space
+  if (cachedPermission.global) {
+    return true;
+  }
+
+  if (spaceId) {
+    // if spaceId is specified check that the permission is given in the space
+    return cachedPermission.spaceIdSet && (spaceId in cachedPermission.spaceIdSet);
+  } else {
+    return true;
+  }
 };
 
 module.exports = PermissionCache;
