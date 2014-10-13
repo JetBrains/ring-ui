@@ -25,37 +25,58 @@
   min-height: $ring-unit * 5;
   padding: 0 $ring-unit*2;
   position: relative;
+  white-space: nowrap;
 
   @include ring-font();
 
   &.ring-alert_inline {
     margin: $ring-unit;
   }
+
+  &.ring-alert_error {
+    color: $ring-color-error;
+  }
+
+  &.ring-alert_warning {
+    .ring-alert__icon {
+      @include vertical-compensation(-5px);
+    }
+  }
 }
 
-.ring-alert__caption {
-  line-height: 1.2;
-}
-
-.ring-alert__icon {
+.ring-icon.ring-alert__icon {
   display: inline-block;
+  height: 40px;
+  line-height: 40px;
   margin-right: $ring-unit;
   vertical-align: top;
 
-  @include vertical-compensation(-2px);
+  use {
+    display: inline-block;
+    vertical-align: middle;
+
+    @include vertical-compensation(-2px);
+  }
 }
 
 .ring-alert__caption {
   display: inline-block;
+  line-height: 1.2;
   margin: $ring-unit $ring-unit*4 $ring-unit 0;
   vertical-align: middle;
+  white-space: normal;
 }
 
-.ring-alert__close {
+.ring-icon.ring-alert__close {
   cursor: pointer;
+  padding: $ring-unit;
   position: absolute;
-  right: $ring-unit;
-  top: 0;
+  right: 0;
+  top: $ring-unit / 2;
+
+  &:hover {
+    fill: $ring-link-hover-color;
+  }
 }
 
 $enter-animation-duration: 300ms;
