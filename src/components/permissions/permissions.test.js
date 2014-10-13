@@ -68,6 +68,35 @@ describe('permissions', function () {
       permissionCache.has('space-read space-update', '456').should.be.false;
       permissionCache.has('space-read role-update').should.be.false;
     });
+
+    describe('syntax', function () {
+      it('should support disjunction', function () {
+        permissionCache.has('a | space-read').should.be.true;
+        permissionCache.has('a | b').should.be.false;
+      });
+
+      it('should support conjunction', function () {
+        permissionCache.has('a & space-read').should.be.false;
+        permissionCache.has('space-read & space-update').should.be.true;
+      });
+
+      it('should support parens', function () {
+        permissionCache.has('(((space-read | a))) & (space-update)').should.be.true;
+      });
+
+      it('should be true for blank', function () {
+        permissionCache.has(null).should.be.true;
+        permissionCache.has('').should.be.true;
+        permissionCache.has('  \t \n ').should.be.true;
+      });
+
+      it('should fail gracefully', function () {
+        permissionCache.has('|').should.be.false;
+        permissionCache.has('a & ').should.be.false;
+        permissionCache.has('(a').should.be.false;
+        permissionCache.has('(').should.be.false;
+      });
+    });
   });
 
   describe('check and bind variable', function () {
