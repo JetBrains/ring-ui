@@ -32,6 +32,12 @@ var _containerClone = null;
 var _stylesheet = null;
 
 
+/**
+ * @type {number}
+ * @private
+ */
+var _gap = null;
+
 
 /**
  * @constructor
@@ -81,7 +87,7 @@ var Alerts = React.createClass({
               closeable={true}
               inline={false}
               key={child.key}
-              onClick={child.onClick}
+              onCloseClick={child.onCloseClick}
               ref={'alert-' + child.key}
               type={child.type} />;
         })}
@@ -91,6 +97,11 @@ var Alerts = React.createClass({
   },
 
   componentWillUpdate: function(nextProps, nextState) {
+    if (_gap === null) {
+      var computedStyle = window.getComputedStyle(this.getDOMNode());
+      _gap = parseInt(computedStyle.paddingTop);
+    }
+
     var childElements = nextState.childElements;
     var lastAddedElement = childElements[childElements.length - 1];
 
@@ -118,7 +129,7 @@ var Alerts = React.createClass({
     var alertToAppend = React.renderComponent(new Alert(lastAddedElement), _containerClone);
     var heightToCompensate = alertToAppend.getDOMNode().offsetHeight;
 
-    _stylesheet.insertRule('.alert-enter { margin-top: -' + heightToCompensate + 'px }', 0);
+    _stylesheet.insertRule('.alert-enter { margin-top: -' + (heightToCompensate + _gap) + 'px }', 0);
 
     React.unmountComponentAtNode(_containerClone);
   },
@@ -178,13 +189,13 @@ var Alerts = React.createClass({
     var index = childElements.length;
 
     childElements.push({
-      'animationDeferred': animationDeferred,
-      'caption': caption,
-      'key': index,
-      'onClick': function(evt) {
+      animationDeferred: animationDeferred,
+      caption: caption,
+      key: index,
+      onCloseClick: function(evt) {
         this._handleClick(evt, index);
       }.bind(this),
-      'type': type
+      type: type
     });
 
     this.setState({
@@ -232,10 +243,7 @@ var Alerts = React.createClass({
    * @private
    */
   _handleClick: function(evt, i) {
-    if (/ring-alert__close/.test(evt.target.className)) {
-      evt.preventDefault();
-      this.remove(i);
-    }
+    this.remove(i);
   }
 });
 

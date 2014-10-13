@@ -29,9 +29,19 @@ var Type = {
  * @type {Object.<Type, string>}
  */
 var TypeToIconModifier = Global.createObject(
-    Type.ERROR, 'error',
+    Type.ERROR, 'exception',
     Type.SUCCESS, 'ok',
     Type.WARNING, 'warning');
+
+
+/**
+ * Lookup table of alert type to icon color.
+ * @type {Object.<Type, Icon.Color>}
+ */
+var TypeToIconColor = Global.createObject(
+    Type.ERROR, Icon.Color.RED,
+    Type.SUCCESS, Icon.Color.GREEN,
+    Type.WARNING, Icon.Color.ORANGE);
 
 
 /*jshint ignore:start*/
@@ -77,7 +87,7 @@ var Alert = React.createClass({
        * Click handler on close element.
        * @type {?function(SyntheticMouseEvent):undefined}
        */
-      onClick: null,
+      onCloseClick: null,
 
       /** @type {Type} */
       type: Type.MESSAGE
@@ -110,15 +120,11 @@ var Alert = React.createClass({
         modifiedClassName, true,
         'ring-alert_inline', this.props.inline));
 
-    var closeClickHandler = this.props.onClick === null ?
-        this._handleCloseClick :
-        this.props.onClick;
-
-    return (<div className={classes} onClick={this.props.onClick}>
+    return (<div className={classes}>
       {this._getIcon()}
       <span className="ring-alert__caption">{this.props.caption}</span>
       {this.props.closeable ?
-          (<Icon className="ring-alert__close" modifier="close" size={Icon.Size['16']} onClick={closeClickHandler} />) :
+          (<Icon className="ring-alert__close" glyph="close" size={Icon.Size.Size16} onClick={this._handleCloseClick} />) :
           ''}
     </div>);
     /*jshint ignore:end*/
@@ -151,23 +157,31 @@ var Alert = React.createClass({
   },
 
   /**
+   * @param {SyntheticEvent} evt
    * @private
    */
-  _handleCloseClick: function() {
+  _handleCloseClick: function(evt) {
     if (this.props.inline) {
       this.close();
+    } else {
+      this.props.onCloseClick(evt);
     }
   },
 
   /**
    * @private
-   * @return {XML}
+   * @return {XML|string}
    */
   _getIcon: function() {
     var iconModifier = TypeToIconModifier[this.props.type];
+
     if (iconModifier) {
       /*jshint ignore:start*/
-      return (<Icon className="ring-alert__icon" modifier={iconModifier} size={Icon.Size['16']} />);
+      return (<Icon
+          className="ring-alert__icon"
+          color={TypeToIconColor[this.props.type] || Icon.Color.DEFAULT}
+          glyph={iconModifier}
+          size={Icon.Size.Size16} />);
       /*jshint ignore:end*/
     }
 
