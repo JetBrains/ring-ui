@@ -1,37 +1,48 @@
 @import "../global/global";
 
 .ring-progress-bar {
-  overflow: hidden;
-
-  max-width: 36*$ring-unit;
+  background-color: #D8D8D8;
+  border-radius: 2px;
   height: $ring-unit/2;
   margin-bottom: $ring-unit/2;
-
-  border-radius: 2px;
-  background-color: #D8D8D8;
+  max-width: 36*$ring-unit;
+  overflow: hidden;
+  position: relative;
 }
 
 .ring-progress-bar_global {
+  background: transparent;
+  max-width: none;
   position: absolute;
   top: 0;
-
-  max-width: none;
   width: 100%;
-
-  background: transparent;
 }
 
 .ring-progress-bar__i {
-  line-height: $ring-unit/2;
-
+  background-color: #25B7FF;
+  color: #FFF;
   float: left;
-
-  width: 0;
   height: 100%;
-
+  line-height: $ring-unit/2;
   transition: width .6s ease;
   text-align: center;
+  width: 0;
 
-  color: #FFF;
-  background-color: #25B7FF;
+  &:after {
+    animation: animatedBackground 200ms linear infinite;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='4' height='4'><linearGradient id='gradient' x1='0' y1='0' x2='100%' y2='100%'><stop offset='12.5%' stop-color='rgba(255, 255, 255, 0.6)'/><stop offset='50%' stop-color='transparent'/><stop offset='50%' stop-color='rgba(255, 255, 255, 0.6)'/><stop offset='62.5%' stop-color='rgba(255, 255, 255, 0.6)'/><stop offset='62.5%' stop-color='transparent'/><stop offset='100%' stop-color='transparent'/></linearGradient><rect fill='url(%23gradient)' x='0' y='0' width='100%' height='100%'/></svg>");
+    background-position: 0 0;
+    background-repeat: repeat-x;
+    bottom: 0;
+    content: '';
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+}
+
+@keyframes animatedBackground {
+  from { background-position: 0 0; }
+  to { background-position: -4px 0; }
 }
