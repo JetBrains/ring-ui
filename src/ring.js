@@ -11,6 +11,7 @@ module.exports = {
   Form: require('form/form'),
   FormGroup: require('form/form__group'),
   Global: require('global/global'),
+  Header: require('header/header'),
   Icon: require('icon/icon'),
   Input: require('input/input'),
   List: require('list/list'),

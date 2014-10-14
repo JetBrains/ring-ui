@@ -19,9 +19,14 @@ $ring-font-color: #1a1a1a;
   #{$attribute}: $color;
 }
 
-@mixin ring-font() {
+$ring-fonts-dir: 'fonts/' !default;
+$ring-font-size: 13px;
+$ring-font-size-smaller: 11px;
+
+@mixin ring-font($font-size: $ring-font-size) {
   color: $ring-font-color;
   font-family: "Helvetica Neue", Arial, sans-serif;
+  font-size: $font-size;
 }
 
 @mixin ring-thin-font() {
@@ -33,14 +38,10 @@ $ring-font-color: #1a1a1a;
   font: 12px Menlo, "Bitstream Vera Sans Mono", "Ubuntu Mono", "Courier New", Courier, monospace;
 }
 
-@mixin vertical-compensation($compensation, $position: relative) {
+@mixin vertical-compensation($compensation: -2px, $position: relative) {
   position: $position;
   top: $compensation;
 }
-
-$ring-fonts-dir: 'fonts/' !default;
-$ring-font-size: 13px;
-$ring-font-size-smaller: 11px;
 
 // Constant values for z-indexes.
 
