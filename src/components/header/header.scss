@@ -1,0 +1,127 @@
+@import "../global/global";
+
+body {
+  background: #ececec;
+}
+
+.header {
+  box-sizing: border-box;
+  height: $ring-unit * 7;
+  line-height: $ring-unit * 7;
+  padding: 0 $ring-unit * 4;
+  position: relative;
+
+  &:after {
+    border-bottom: solid 1px #ccc;
+    bottom: 0;
+    content: '';
+    left: $ring-unit * 4;
+    position: absolute;
+    right: $ring-unit * 4;
+  }
+
+  @include ring-font();
+}
+
+.header__logo,
+.header__menu {
+  display: inline-block;
+  margin-right: $ring-unit * 4;
+  vertical-align: middle;
+}
+
+.header__logo {
+  @include vertical-compensation(-1px);
+}
+
+.header__user-menu {
+  float: right;
+}
+
+.header__menu-item,
+.header__user-menu-item {
+  display: inline-block;
+  margin-right: $ring-unit * 4;
+
+  a {
+    color: $ring-link-color;
+
+    &:hover {
+      color: $ring-link-hover-color;
+    }
+  }
+}
+
+.header__user-menu-item_icon {
+  cursor: pointer;
+  fill: $ring-color-gray;
+  padding: $ring-unit;
+  margin-right: $ring-unit * 2;
+
+  &:hover {
+    fill: $ring-link-hover-color;
+  }
+
+  &.header__user-menu-item_active {
+    fill: $ring-color-blue;
+  }
+}
+
+.header__menu-service {
+  background: linear-gradient(#1e262c, #3c4449);
+  border-bottom: solid 1px #000;
+  box-sizing: border-box;
+  height: $ring-unit*17;
+  margin: -1px (-$ring-unit*4) 0;
+  overflow: hidden;
+  position: relative;
+}
+
+.header__menu-service-inner {
+  bottom: 0;
+  height: $ring-unit*17;
+  line-height: $ring-unit * 17;
+  position: absolute;
+  text-align: center;
+  width: 100%;
+}
+
+.header__menu-service-item {
+  display: inline-block;
+  line-height: 1.2;
+  margin: 0 $ring-unit*5;
+  vertical-align: middle;
+
+  a {
+    color: #fff;
+    text-decoration: none;
+  }
+
+  a:hover {
+    color: $ring-link-hover-color;
+    text-decoration: underline;
+  }
+
+  .ring-icon {
+    fill: #fff;
+    padding-bottom: $ring-unit;
+  }
+}
+
+.service-menu-enter {
+  height: 0;
+  transition: height 200ms ease-out;
+}
+
+.service-menu-enter-active {
+  height: $ring-unit*17;
+}
+
+.service-menu-leave-active {
+  height: $ring-unit*17;
+  transition: height 250ms ease-out;
+}
+
+.service-menu-leave-active {
+  height: 0;
+}
