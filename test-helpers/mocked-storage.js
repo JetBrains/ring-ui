@@ -1,4 +1,4 @@
-var mixIn = require('mout/object/mixin');
+var mixIn = require('mout/object/mixIn');
 
 /**
  *  Create window as event target
