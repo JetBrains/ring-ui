@@ -233,7 +233,11 @@
     document.getElementById('input'));
 
   React.renderComponent(
-    ring.Button(null, 'Button'),
+    ring.Button({
+      onClick: function () {
+        auth.logout();
+      }
+    }, 'Logout'),
     document.getElementById('button'));
 
   React.renderComponent(
