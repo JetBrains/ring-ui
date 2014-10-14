@@ -30,7 +30,7 @@ var LocalStorage = function () {
  */
 LocalStorage.prototype.get = function (name) {
   return safePromise(function (resolve) {
-    var itemS = localStorage.getItem(name);
+    var itemS = window.localStorage.getItem(name);
     var item = itemS && JSON.parse(itemS);
     resolve(item);
   });
@@ -43,7 +43,7 @@ LocalStorage.prototype.get = function (name) {
  */
 LocalStorage.prototype.set = function (name, value) {
   return safePromise(function (resolve) {
-    localStorage.setItem(name, JSON.stringify(value));
+    window.localStorage.setItem(name, JSON.stringify(value));
     resolve(value);
   });
 };
@@ -54,8 +54,8 @@ LocalStorage.prototype.set = function (name, value) {
  */
 LocalStorage.prototype.remove = function (name) {
   return safePromise(function (resolve) {
-    if (localStorage.hasOwnProperty(name)) {
-      localStorage.removeItem(name);
+    if (window.localStorage.hasOwnProperty(name)) {
+      window.localStorage.removeItem(name);
     }
     resolve();
   });
@@ -70,9 +70,9 @@ LocalStorage.prototype.each = function (callback) {
     var promises = [];
     var value;
 
-    for (var item in localStorage) {
-      if (localStorage.hasOwnProperty(item)) {
-        value = localStorage.getItem(item);
+    for (var item in window.localStorage) {
+      if (window.localStorage.hasOwnProperty(item)) {
+        value = window.localStorage.getItem(item);
         promises.push(
           when.attempt(JSON.parse, value).
             orElse(value).
@@ -82,6 +82,37 @@ LocalStorage.prototype.each = function (callback) {
     }
     resolve(when.all(promises));
   });
+};
+
+/**
+ * @param {string} name
+ * @param {Function} callback
+ * @return {Function}
+ */
+LocalStorage.prototype.on = function (name, callback) {
+  function handleStorage(e) {
+    e = e || window.event;
+
+    if (e.key === name) {
+      when.attempt(JSON.parse, e.newValue).
+        orElse(e.newValue).
+        then(callback);
+    }
+  }
+
+  if (window.addEventListener) {
+    window.addEventListener('storage', handleStorage, false);
+  } else {
+    window.attachEvent('onstorage', handleStorage);
+  }
+
+  return function () {
+    if (window.removeEventListener) {
+      window.removeEventListener('storage', handleStorage, false);
+    } else {
+      window.detachEvent('onstorage', handleStorage);
+    }
+  };
 };
 
 module.exports = LocalStorage;
