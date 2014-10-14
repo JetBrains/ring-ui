@@ -17,12 +17,13 @@ var React = require('react');
  * @enum {string}
  */
 var Color = {
+  BLUE: 'blue',
   DEFAULT: '',
   GRAY: 'light-gray',
   GREEN: 'green',
   ORANGE: 'orange',
   RED: 'red',
-  BLUE: 'blue'
+  WHITE: 'white'
 };
 
 
@@ -32,6 +33,7 @@ var Color = {
 var Size = {
   Size16: 16,
   Size32: 32,
+  Size48: 48,
   Size64: 64,
   Size128: 128
 };
