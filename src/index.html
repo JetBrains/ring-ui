@@ -99,6 +99,15 @@
 </div>
 
 <div class="example">
+  <header>Loader screen:</header>
+
+  <section>
+    <div id="loader-screen">
+    </div>
+  </section>
+</div>
+
+<div class="example">
   <header>Diff</header>
 
   <section>
@@ -181,6 +190,7 @@
         placeholder: 'placeholder',
         glass: true,
         onApply: log,
+        onChange: log,
         focus: true,
         hint: 'lol',
         hintOnSelection: 'lol selected',
@@ -224,17 +234,26 @@
     document.getElementById('input'));
 
   React.renderComponent(
-    ring.Button(null, 'Button'),
+    ring.Button({
+      onClick: function () {
+        auth.logout();
+      }
+    }, 'Logout'),
     document.getElementById('button'));
 
   React.renderComponent(
     ring.Loader(),
     document.getElementById('loader'));
+
   React.renderComponent(
     ring.Loader({
       modifier: ring.Loader.Modifier.INLINE
     }),
     document.getElementById('loader-inline'));
+
+  React.renderComponent(
+    ring.LoaderScreen(),
+    document.getElementById('loader-screen'));
 
   React.renderComponent(
     ring.Diff({

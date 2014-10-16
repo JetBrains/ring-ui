@@ -15,6 +15,7 @@ module.exports = {
   Input: require('input/input'),
   List: require('list/list'),
   Loader: require('loader/loader'),
+  LoaderScreen: require('loader-screen/loader-screen'),
   Panel: require('panel/panel'),
   Popup: require('popup/popup'),
   PopupMenu: require('popup-menu/popup-menu'),
