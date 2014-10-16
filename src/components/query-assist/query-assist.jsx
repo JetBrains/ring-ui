@@ -345,29 +345,20 @@ var QueryAssist = React.createClass({
       return;
     }
 
-    if (!this._popup) {
-      this._popup = PopupMenu.renderComponent(
-        /* jshint ignore:start */
-        <PopupMenu
-          anchorElement={this.getDOMNode()}
-          autoRemove={false}
-          corner={PopupMenu.Corner.BOTTOM_LEFT}
-          hint={this.props.hint}
-          hintOnSelection={this.props.hintOnSelection}
-          data={suggestions} shortcuts={true}
-          left={this.getCaretOffset()}
-          onSelect={this.handleComplete}
-        />
-        /* jshint ignore:end */
-      );
-    } else {
-      this._popup.setProps({
-        data: suggestions,
-        hint: this.props.hint,
-        hintOnSelection: this.props.hintOnSelection,
-        left: this.getCaretOffset()
-      });
-    }
+    this._popup = PopupMenu.renderComponent(
+      /* jshint ignore:start */
+      <PopupMenu
+        anchorElement={this.getDOMNode()}
+        autoRemove={false}
+        corner={PopupMenu.Corner.BOTTOM_LEFT}
+        hint={this.props.hint}
+        hintOnSelection={this.props.hintOnSelection}
+        data={suggestions} shortcuts={true}
+        left={this.getCaretOffset()}
+        onSelect={this.handleComplete}
+      />
+      /* jshint ignore:end */
+    );
   },
 
   closePopup: function() {
