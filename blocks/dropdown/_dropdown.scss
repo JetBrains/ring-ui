@@ -78,7 +78,8 @@
 .ring-dropdown__i {
   position: relative;
 
-  padding-top: $ring-unit/2 + 1;
+  padding-top: $ring-unit/2;
+  padding-bottom: $ring-unit/2;
   z-index: 1;
 
   line-height: normal;
@@ -125,10 +126,6 @@
   text-decoration: none;
   text-overflow: ellipsis;
   white-space: nowrap;
-
-  &:last-child:not(.ring-dropdown__item_hint) {
-    margin-bottom: 3px;
-  }
 
   &.ring-dropdown__item_error,
   &.ring-dropdown__item_error .ring-dropdown__item__content {
