@@ -43,8 +43,10 @@ var PopupMixin = {
      * @returns {HTMLElement}
      */
     renderComponent: function (component) {
-      this._wrapper = document.createElement('div');
-      document.body.appendChild(this._wrapper);
+      if (!this._wrapper) {
+        this._wrapper = document.createElement('div');
+        document.body.appendChild(this._wrapper);
+      }
 
       return React.renderComponent(component, this._wrapper);
     }
