@@ -45,7 +45,8 @@ var Auth = function (config) {
 
   this._storage = new AuthStorage({
     stateKeyPrefix: this.config.client_id + '-states-',
-    tokenKey: this.config.client_id + '-token'
+    tokenKey: this.config.client_id + '-token',
+    onTokenRemove: this.logout.bind(this)
   });
 
   this._reponseParser = new AuthResponseParser();

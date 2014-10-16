@@ -1,4 +1,5 @@
 describe('AuthStorage', function () {
+  var when = require('when');
   var Auth = require('./auth');
   var AuthStorage = require('./auth__storage');
   var authStorage = new AuthStorage({
@@ -89,6 +90,39 @@ describe('AuthStorage', function () {
         then(function () {
           return authStorage.getToken();
         }).should.become.null;
+    });
+  });
+
+  describe('onTokenRemove', function () {
+    it('should throw if callback is not function', function () {
+      expect(function () {
+        new AuthStorage({
+          onTokenRemove: 'lol'
+        });
+      }).to.throw;
+    });
+
+    it('should be null after wipe', function () {
+      var MockedStorage = require('imports?window=mocked-storage!../storage/storage__local');
+
+      var authStorage;
+      var called = when.promise(function (resolve) {
+        authStorage = new AuthStorage({
+          stateKeyPrefix: 'state',
+          tokenKey: 'loltoken',
+          onTokenRemove: resolve,
+          storage: MockedStorage
+        });
+      });
+
+      return authStorage.saveToken(token).
+        then(function () {
+          console.log('wipe');
+          return authStorage.wipeToken();
+        }).
+        then(function () {
+          return called;
+        }).should.be.fulfilled;
     });
   });
 });
