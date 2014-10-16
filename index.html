@@ -573,11 +573,39 @@
       <h3 class="demo__sub-header">dropdown-filter</h3>
       <button class="ring-btn ring-btn_primary ring-js-filter ring-js-shortcuts">dropdown-filter</button>
     </div>
+
+    <form class="ring-form" style="margin: 30px;">
+      <span class="ring-form__title">License</span>
+      <div class="ring-form__group">
+        <label for="ring-form-1" class="ring-form__label">License User Name</label>
+        <div class="ring-form__control">
+          <input class="ring-input" id="ring-form-1" type="text">
+        </div>
+      </div>
+      <div class="ring-form__group">
+        <label for="ring-form-2" class="ring-form__label">License Key</label>
+        <div class="ring-form__control">
+          <input class="ring-input ring-input_error" id="ring-form-2" type="text">
+          <div class="ring-input__error-bubble">Wrong value</div>
+        </div>
+      </div>
+      <div class="ring-form__group">
+        <label for="ring-form-3" class="ring-form__label">License Key</label>
+        <div class="ring-form__control">
+          <input class="ring-input ring-input_long" id="ring-form-3" type="text">
+        </div>
+      </div>
+      <div class="ring-form__footer">
+        <button class="ring-btn_blue ring-btn">Save</button>
+        <button class="ring-btn">Cancel</button>
+      </div>
+    </form>
   </div>
 </div>
 
 <div class="ring-progress-bar ring-progress-bar_global">
   <div class="ring-progress-bar__i" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;"></div>
 </div>
+
 </body>
 </html>
