@@ -62,7 +62,8 @@
   height: 3*$ring-unit;
   display: none;
   position: absolute;
-  left: 202px;
+  top: 0;
+  left: 40*$ring-unit + 2;
   padding-left: 2*$ring-unit;
   padding-right: 2*$ring-unit;
   z-index: 2;
@@ -95,8 +96,8 @@
     left: -5px;
 
     display: block;
-    width: 8px;
-    height: 8px;
+    width: $ring-unit;
+    height: $ring-unit;
 
     background: #FFF;
   }
