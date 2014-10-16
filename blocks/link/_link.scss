@@ -22,3 +22,7 @@ body .ring-link:focus {
   color: $ring-link-hover-color !important;
   text-decoration: underline !important;
 }
+
+body .ring-link__no-underline:hover {
+  text-decoration: none !important;
+}
