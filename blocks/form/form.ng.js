@@ -15,7 +15,12 @@
         },
         replace: true,
         templateUrl: 'form/ring-input__error-bubble.ng.html',
-        link: function (scope) {
+        link: function (scope, iElement) {
+          scope.style = {};
+          var element = iElement.siblings('input, textarea');
+          if (element.length) {
+            scope.style.left = element.get(0).offsetWidth + 2;
+          }
           scope.msg = function (id) {
             return bundle[id] && bundle[id]();
           };

@@ -63,7 +63,8 @@
   display: none;
   position: absolute;
   top: 0;
-  left: 40*$ring-unit + 2;
+  left: 25*$ring-unit + 2;
+  white-space: nowrap;
   padding-left: 2*$ring-unit;
   padding-right: 2*$ring-unit;
   z-index: 2;
