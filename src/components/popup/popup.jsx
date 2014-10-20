@@ -27,6 +27,10 @@ var Corner = {
   BOTTOM_LEFT: 3
 };
 
+var Dimensions = {
+  MARGIN: 16
+};
+
 /**
  * @mixin {PopupMixin}
  * @mixes {Shortcuts.Mixin}
@@ -35,7 +39,22 @@ var PopupMixin = {
   mixins: [Shortcuts.Mixin],
 
   statics: {
-    Corner: Corner,
+    PopupProps: {
+      Corner: Corner,
+      Dimensions: Dimensions
+    },
+
+    /** @override */
+    propTypes: {
+      anchorElement: React.PropTypes.object,
+      className: React.PropTypes.string,
+      maxHeight: React.PropTypes.oneOfType([
+        React.PropTypes.string,
+        React.PropTypes.number
+      ]),
+      left: React.PropTypes.number,
+      top: React.PropTypes.number
+    },
 
     /**
      * @static
@@ -212,14 +231,6 @@ var Popup = React.createClass({
 
   statics: {
     Mixin: PopupMixin
-  },
-
-  /** @override */
-  propTypes: {
-    anchorElement: React.PropTypes.object,
-    className: React.PropTypes.string,
-    left: React.PropTypes.number,
-    top: React.PropTypes.number
   },
 
   /** @override */
