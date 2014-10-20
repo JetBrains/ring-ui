@@ -53,7 +53,7 @@ describe('list', function () {
 
     it('should render separator', function () {
       list.setProps({'data': [
-        {'type': List.Type.SEPARATOR}
+        {'type': List.ListProps.Type.SEPARATOR}
       ]});
 
       $(list.getDOMNode().firstChild).should.have.class('ring-list__separator');
@@ -61,7 +61,7 @@ describe('list', function () {
 
     it('should render span if link without href', function () {
       list.setProps({'data': [
-        {'label': 'Hello!', 'type': List.Type.LINK}
+        {'label': 'Hello!', 'type': List.ListProps.Type.LINK}
       ]});
 
       $(list.getDOMNode().firstChild).should.have.class('ring-link');

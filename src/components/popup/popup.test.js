@@ -20,7 +20,7 @@ describe('popup', function () {
     });
 
     popupChild.should.exist;
-    popupChild.Corner.should.exist;
+    popupChild.PopupProps.Corner.should.exist;
   });
 
   it ('should be closed by pressing esc', function() {
@@ -65,7 +65,7 @@ describe('popup', function () {
       var container = document.createElement('div');
 
       var popup = React.renderComponent(new Popup({
-        corner: Popup.Corner.TOP_LEFT,
+        corner: Popup.PopupProps.Corner.TOP_LEFT,
         anchorElement: element[0]
       }), container);
 
@@ -81,7 +81,7 @@ describe('popup', function () {
       var container = document.createElement('div');
 
       var popup = React.renderComponent(new Popup({
-        corner: Popup.Corner.BOTTOM_LEFT,
+        corner: Popup.PopupProps.Corner.BOTTOM_LEFT,
         anchorElement: element[0]
       }), container);
 
