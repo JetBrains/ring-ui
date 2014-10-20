@@ -305,7 +305,7 @@ var QueryAssist = React.createClass({
     var completionStart = suggestion && suggestion.completionEnd !== suggestion.completionStart && suggestion.completionStart;
     var caretNodeNumber = completionStart != null && completionStart !== false ? completionStart : this.state.caret - 1;
     var caretNode = input.firstChild && input.firstChild.childNodes[caretNodeNumber];
-    var caretOffset = caretNode && (caretNode.offsetLeft + caretNode.offsetWidth - PopupMenu.ITEM_PADDING) || 0;
+    var caretOffset = caretNode && (caretNode.offsetLeft + caretNode.offsetWidth - PopupMenu.ListProps.Dimensions.ITEM_PADDING) || 0;
 
     return caretOffset < 0 ? 0 : caretOffset;
   },
@@ -350,7 +350,7 @@ var QueryAssist = React.createClass({
       <PopupMenu
         anchorElement={this.getDOMNode()}
         autoRemove={false}
-        corner={PopupMenu.Corner.BOTTOM_LEFT}
+        corner={PopupMenu.PopupProps.Corner.BOTTOM_LEFT}
         hint={this.props.hint}
         hintOnSelection={this.props.hintOnSelection}
         data={suggestions} shortcuts={true}
@@ -381,9 +381,9 @@ var QueryAssist = React.createClass({
       if (prevSuggestion !== suggestion.group) {
 
         suggestions.push({
-          key: suggestion.option + suggestion.group + PopupMenu.Type.SEPARATOR,
+          key: suggestion.option + suggestion.group + PopupMenu.ListProps.Type.SEPARATOR,
           description: suggestion.group,
-          type: PopupMenu.Type.SEPARATOR
+          type: PopupMenu.ListProps.Type.SEPARATOR
         });
       }
 
@@ -411,7 +411,7 @@ var QueryAssist = React.createClass({
         // TODO Make sure if we need simulate uniqueness here
         key: suggestion.option + (suggestion.group || '') + (suggestion.description || ''),
         label: label,
-        type: PopupMenu.Type.ITEM,
+        type: PopupMenu.ListProps.Type.ITEM,
         data: suggestion
       };
 

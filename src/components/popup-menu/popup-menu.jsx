@@ -15,19 +15,6 @@ var List = require('list/list');
 var PopupMenu = React.createClass({
   mixins: [Popup.Mixin, List.Mixin],
 
-  /** @override */
-  propTypes: {
-    anchorElement: React.PropTypes.object,
-    autoRemove: React.PropTypes.bool,
-    className: React.PropTypes.string,
-    hint: React.PropTypes.string,
-    hintOnSelection: React.PropTypes.string,
-    data: React.PropTypes.arrayOf(React.PropTypes.object),
-    onSelect: React.PropTypes.func,
-    position: React.PropTypes.number,
-    shortcuts: React.PropTypes.bool
-  },
-
   getDefaultProps: function () {
     return {data: []};
   },

@@ -210,11 +210,11 @@
   React.renderComponent(
     ring.List({
       data: [
-        {'label': 'One', 'type': ring.PopupMenu.Type.ITEM},
-        {'label': 'Two', 'type': ring.PopupMenu.Type.ITEM},
-        {'label': 'Three', 'type': ring.PopupMenu.Type.ITEM},
-        {'label': 'Four', 'type': ring.PopupMenu.Type.ITEM},
-        {'label': 'Five', 'type': ring.PopupMenu.Type.ITEM}
+        {'label': 'One', 'type': ring.PopupMenu.ListProps.Type.ITEM},
+        {'label': 'Two', 'type': ring.PopupMenu.ListProps.Type.ITEM},
+        {'label': 'Three', 'type': ring.PopupMenu.ListProps.Type.ITEM},
+        {'label': 'Four', 'type': ring.PopupMenu.ListProps.Type.ITEM},
+        {'label': 'Five', 'type': ring.PopupMenu.ListProps.Type.ITEM}
       ],
       shortcuts: true,
       onSelect: log // TODO Use alert here
@@ -318,7 +318,7 @@
 
   ring.Popup.renderComponent(new CustomPopup({
     anchorElement: document.getElementById('dropdown'),
-    corner: CustomPopup.Corner.TOP_LEFT,
+    corner: CustomPopup.PopupProps.Corner.TOP_LEFT,
     classNames: ['additional', 'class', 'names']
   }));
 
@@ -337,17 +337,17 @@
 
   var popupMenu = ring.PopupMenu.renderComponent(ring.PopupMenu({
     anchorElement: document.getElementById('popup'),
-    corner: CustomPopup.Corner.TOP_LEFT,
+    corner: CustomPopup.PopupProps.Corner.TOP_LEFT,
     classNames: ['additional', 'class', 'names']
   }, null));
 
   popupMenu.setProps({data: [
     {'label': 'One'},
     {'label': 'Two', 'href': 'http://www.jetbrains.com'},
-    {'label': 'Three', 'type': ring.PopupMenu.Type.ITEM, 'href': 'http://www.jetbrains.com'},
-    {'type': ring.PopupMenu.Type.SEPARATOR},
-    {'label': 'Four', 'type': ring.PopupMenu.Type.LINK},
-    {'label': 'Five', 'type': ring.PopupMenu.Type.LINK, 'href': 'http://www.jetbrains.com', 'className': 'test'}
+    {'label': 'Three', 'type': ring.PopupMenu.ListProps.Type.ITEM, 'href': 'http://www.jetbrains.com'},
+    {'type': ring.PopupMenu.ListProps.Type.SEPARATOR},
+    {'label': 'Four', 'type': ring.PopupMenu.ListProps.Type.LINK},
+    {'label': 'Five', 'type': ring.PopupMenu.ListProps.Type.LINK, 'href': 'http://www.jetbrains.com', 'className': 'test'}
   ]});
 
   React.renderComponent(

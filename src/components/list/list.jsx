@@ -27,6 +27,12 @@ var Type = {
   HINT: 3
 };
 
+var Dimensions = {
+  ITEM_PADDING: 16,
+  ITEM_HEIGHT: 24,
+  INNER_PADDING: 8
+};
+
 /**
  * @constructor
  * @extends {ReactComponent}
@@ -107,8 +113,24 @@ var ListHint = React.createClass({
 
 var ListMixin = {
   statics: {
-    Type: Type,
-    ITEM_PADDING: 16
+    ListProps: {
+      Type: Type,
+      Dimensions: Dimensions
+    }
+  },
+
+  propTypes: {
+    className: React.PropTypes.string,
+    hint: React.PropTypes.string,
+    hintOnSelection: React.PropTypes.string,
+    data: React.PropTypes.arrayOf(React.PropTypes.object),
+    maxHeight: React.PropTypes.oneOfType([
+      React.PropTypes.string,
+      React.PropTypes.number
+    ]),
+    shortcuts: React.PropTypes.bool,
+    onSelect: React.PropTypes.func,
+    visible: React.PropTypes.bool
   }
 };
 
@@ -142,16 +164,6 @@ var List = React.createClass({
 
   statics: {
     Mixin: ListMixin
-  },
-
-  propTypes: {
-    className: React.PropTypes.string,
-    hint: React.PropTypes.string,
-    hintOnSelection: React.PropTypes.string,
-    data: React.PropTypes.arrayOf(React.PropTypes.object),
-    shortcuts: React.PropTypes.bool,
-    onSelect: React.PropTypes.func,
-    visible: React.PropTypes.bool
   },
 
   getDefaultProps: function () {
