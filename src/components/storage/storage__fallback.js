@@ -1,8 +1,10 @@
 'use strict';
 
 var when = require('when');
+var deepEquals = require('mout/lang/deepEquals');
 
 var DEFAULT_COOKIE_NAME = 'localStorage';
+var DEFAULT_CHECK_DELAY = 3000;
 
 /**
  * @prop {string} cookieName
@@ -11,12 +13,13 @@ var DEFAULT_COOKIE_NAME = 'localStorage';
  * @return {FallbackStorage}
  * @constructor
  */
-var FallbackStorage = function(config) {
+var FallbackStorage = function (config) {
   if (!(this instanceof FallbackStorage)) {
     return new FallbackStorage(config);
   }
 
   this.cookieName = config && config.cookieName || DEFAULT_COOKIE_NAME;
+  this.checkDelay = config && config.checkDelay || DEFAULT_CHECK_DELAY;
 };
 
 /**
@@ -25,7 +28,7 @@ var FallbackStorage = function(config) {
  * @param {number} days
  * @private
  */
-FallbackStorage._createCookie = function(name, value, days) {
+FallbackStorage._createCookie = function (name, value, days) {
   var date, expires;
 
   if (days) {
@@ -44,7 +47,7 @@ FallbackStorage._createCookie = function(name, value, days) {
  * @return {string}
  * @private
  */
-FallbackStorage._readCookie = function(name) {
+FallbackStorage._readCookie = function (name) {
   var nameEQ = name + '=';
   var cookies = document.cookie.split(';');
 
@@ -64,7 +67,7 @@ FallbackStorage._readCookie = function(name) {
  * @return {Promise}
  * @private
  */
-FallbackStorage.prototype._read = function() {
+FallbackStorage.prototype._read = function () {
   var self = this;
   return when.promise(function (resolve) {
     var rawData = FallbackStorage._readCookie(self.cookieName);
@@ -79,7 +82,7 @@ FallbackStorage.prototype._read = function() {
  * @return {Promise}
  * @private
  */
-FallbackStorage.prototype._write = function(data) {
+FallbackStorage.prototype._write = function (data) {
   var self = this;
   return when.promise(function (resolve) {
     var stringData = encodeURIComponent(JSON.stringify(data));
@@ -92,8 +95,8 @@ FallbackStorage.prototype._write = function(data) {
  * @param {string} key
  * @return {Promise}
  */
-FallbackStorage.prototype.get = function(key) {
-  return this._read().then(function(data) {
+FallbackStorage.prototype.get = function (key) {
+  return this._read().then(function (data) {
     return data[key] || null;
   });
 };
@@ -103,10 +106,10 @@ FallbackStorage.prototype.get = function(key) {
  * @param {object} value
  * @return {Promise}
  */
-FallbackStorage.prototype.set = function(key, value) {
+FallbackStorage.prototype.set = function (key, value) {
   var self = this;
 
-  return this._read().then(function(data) {
+  return this._read().then(function (data) {
     if (key) {
       if (value != null) {
         data[key] = value;
@@ -123,7 +126,7 @@ FallbackStorage.prototype.set = function(key, value) {
  * @param {string} key
  * @return {Promise}
  */
-FallbackStorage.prototype.remove = function(key) {
+FallbackStorage.prototype.remove = function (key) {
   return this.set(key, null);
 };
 
@@ -132,12 +135,12 @@ FallbackStorage.prototype.remove = function(key) {
  * @param {function(key: string, value: object)} callback
  * @return {Promise}
  */
-FallbackStorage.prototype.each = function(callback) {
+FallbackStorage.prototype.each = function (callback) {
   if (typeof callback !== 'function') {
     return when.reject(new Error('Callback is not a function'));
   }
 
-  return this._read().then(function(data) {
+  return this._read().then(function (data) {
     var promises = [];
     for (var key in data) {
       if (data.hasOwnProperty(key)) {
@@ -146,6 +149,36 @@ FallbackStorage.prototype.each = function(callback) {
     }
     return when.all(promises);
   });
+};
+
+/**
+ * @param {string} key
+ * @param {Function} calback
+ * @return {Function}
+ */
+FallbackStorage.prototype.on = function (key, calback) {
+  var self = this;
+  var stop = false;
+
+  function checkForChange(value) {
+    self.get(key).then(function (newValue) {
+      if (stop) {
+        return;
+      }
+
+      if (!deepEquals(value, newValue)) {
+        calback(newValue);
+      }
+
+      when(value).delay(self.checkDelay).then(checkForChange);
+    });
+  }
+
+  self.get(key).then(checkForChange);
+
+  return function () {
+    stop = true;
+  };
 };
 
 module.exports = FallbackStorage;

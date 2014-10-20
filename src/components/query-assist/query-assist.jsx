@@ -25,9 +25,9 @@ var impotentIE = document.documentMode <= 11;  // TODO Proper browser detection?
 var mutationEvents = 'DOMCharacterDataModified DOMNodeInserted DOMNodeRemoved DOMSubtreeModified';
 
 function rangeEquals(a, b) {
-  // jshint -W116  
+  // jshint -W116
   return a == b || a != null && b != null && a.length === b.length && a.start === b.start && a.style === b.style;
-  // jshint +W116  
+  // jshint +W116
 }
 
 /**
@@ -49,6 +49,7 @@ var QueryAssist = React.createClass({
     glass: React.PropTypes.bool,
     placeholder: React.PropTypes.string,
     onApply: React.PropTypes.func,
+    onChange: React.PropTypes.func,
     onFocusChange: React.PropTypes.func,
     query: React.PropTypes.string
   },
@@ -166,6 +167,10 @@ var QueryAssist = React.createClass({
       caret: this.getCaret()
     };
 
+    if (typeof this.props.onChange === 'function') {
+      this.props.onChange(props.query);
+    }
+
     this.setState(this.generateState(props), this.requestData);
   },
 
@@ -240,6 +245,10 @@ var QueryAssist = React.createClass({
 
     // Force focus on complete e.g. after click
     props.focus = true;
+
+    if (typeof this.props.onChange === 'function') {
+      this.props.onChange(props.query);
+    }
 
     this.setState(this.generateState(props), this.requestData);
   },
