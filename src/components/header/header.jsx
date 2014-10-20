@@ -74,14 +74,6 @@ var Header = React.createClass({
     /*jshint ignore:end*/
   },
 
-  componentDidMount: function() {
-    document.body.addEventListener('click', function(evt) {
-      this.setState({ menuIsOpened: !this.state.menuIsOpened }, function() {
-        console.log(this.state.menuIsOpened);
-      }.bind(this));
-    }.bind(this));
-  },
-
   /**
    * @return {ReactComponent}
    * @private
@@ -110,7 +102,11 @@ var Header = React.createClass({
    * @private
    */
   _getUserMenu: function() {
-    return /** @type {ReactComponent} */ new UserMenu(null);
+    return /** @type {ReactComponent} */ new UserMenu({
+      menuOpenCallback: function() {
+        this.setState({ menuIsOpened: !this.state.menuIsOpened });
+      }.bind(this)
+    });
   },
 
   /**
@@ -143,12 +139,18 @@ var Header = React.createClass({
  * @private
  */
 var UserMenu = React.createClass({
+  getInitialState: function() {
+    return {
+      menuIsOpened: false
+    };
+  },
+
   render: function() {
     /* jshint ignore:start */
     return (<div className="header__user-menu">
       <Icon className="header__user-menu-item_icon header__user-menu-item" color={Icon.Color.WHITE} onClick={this._handleItemClick} glyph="cog" size={Icon.Size.Size16} />
       <Icon className="header__user-menu-item_icon header__user-menu-item" color={Icon.Color.WHITE} onClick={this._handleItemClick} glyph="help" size={Icon.Size.Size16} />
-      <Icon className="header__user-menu-item_icon header__user-menu-item" color={Icon.Color.WHITE} onClick={this._handleItemClick} glyph="menu" size={Icon.Size.Size16} />
+      <Icon className="header__user-menu-item_icon header__user-menu-item" color={Icon.Color.WHITE} onClick={this._handleMenuClick} glyph="menu" size={Icon.Size.Size16} />
       <Icon className="header__user-menu-item_icon header__user-menu-item" color={Icon.Color.WHITE} onClick={this._handleItemClick} glyph="user" size={Icon.Size.Size16} />
     </div>);
     /* jshint ignore:end */
@@ -160,6 +162,17 @@ var UserMenu = React.createClass({
    */
   _handleItemClick: function(evt) {
     evt.preventDefault();
+  },
+
+  /**
+   * @param {SyntheticMouseEvent} evt
+   * @private
+   */
+  _handleMenuClick: function(evt) {
+    evt.preventDefault();
+
+    this.setState({ menuIsOpened: true });
+    this.props.menuOpenCallback();
   }
 });
 
