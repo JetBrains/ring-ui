@@ -1,5 +1,6 @@
 'use strict';
 
+var when = require('when');
 var noop = function () {};
 
 function testStorage(storage) {
@@ -128,6 +129,78 @@ function testStorage(storage) {
   });
 }
 
+function testStorageEvents(storage) {
+  describe('Events', function () {
+    var stop;
+
+    afterEach(function () {
+      stop();
+    });
+
+    it('on after set should be fired', function () {
+      var testEvent = 'testKey';
+
+      var change = when.promise(function (resolve) {
+        stop = storage.on(testEvent, resolve);
+      });
+
+      storage.set(testEvent, 'testValue');
+
+      return change.should.be.fulfilled;
+    });
+
+    it('on after set should be fired with correct value', function () {
+      var testEvent = 'testKey2';
+      var testValue = 'testValue';
+
+      var change = when.promise(function (resolve) {
+        stop = storage.on(testEvent, resolve);
+      });
+
+      storage.set(testEvent, testValue);
+
+      return change.should.become(testValue);
+    });
+
+    it('on after remove should be fired with null', function () {
+      var testEvent = 'testKey3';
+      var testValue = 'testValue';
+
+      var change = storage.set(testEvent, testValue).then(function () {
+        return when.promise(function (resolve) {
+          stop = storage.on(testEvent, resolve);
+
+          storage.remove(testEvent);
+        });
+      });
+
+      return change.should.become(null);
+    });
+
+    it('on after set with other key shouldn\'t be fired', function () {
+      var change = when.promise(function (resolve) {
+        stop = storage.on('testKey4', resolve);
+      });
+      storage.set('testWrong', 'testValue');
+
+      return change.timeout(300).should.be.rejected;
+    });
+
+    it('stop should stop', function () {
+      var testEvent = 'testKey5';
+
+      var change = when.promise(function (resolve) {
+        stop = storage.on(testEvent, resolve);
+        stop();
+      });
+
+      storage.set(testEvent, 'testValue');
+
+      return change.timeout(300).should.be.rejected;
+    });
+  });
+}
+
 describe('Storages', function () {
   describe('Local', function () {
     beforeEach(function () {
@@ -135,9 +208,11 @@ describe('Storages', function () {
     });
 
     var Storage = require('./storage__local');
+    var MockedStorage = require('imports?window=mocked-storage!./storage__local');
     var storage = new Storage();
 
     testStorage(storage);
+    testStorageEvents(new MockedStorage());
 
     describe('Specific', function () {
       beforeEach(function () {
@@ -170,8 +245,13 @@ describe('Storages', function () {
     });
 
     var FallbackStorage = require('./storage__fallback');
+    var storage = new FallbackStorage({
+      cookieName: cookieName,
+      checkDelay: 200
+    });
 
-    testStorage(new FallbackStorage({cookieName: cookieName}));
+    testStorage(storage);
+    testStorageEvents(storage);
   });
 
   describe('Memory', function () {

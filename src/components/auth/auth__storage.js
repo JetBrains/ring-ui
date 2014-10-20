@@ -21,13 +21,26 @@ var when = require('when');
 /**
  * Custom storage for Auth
  * @constructor
- * @param {{stateKeyPrefix: string, tokenKey: string}} config
+ * @param {{stateKeyPrefix: string, tokenKey: string, onTokenRemove: Function}} config
  */
 var AuthStorage = function (config) {
   this.stateKeyPrefix = config.stateKeyPrefix;
   this.tokenKey = config.tokenKey;
 
-  this._stateStorage = this._tokenStorage = new Storage();
+  var StorageConstructor = config.storage || Storage;
+  this._stateStorage = this._tokenStorage = new StorageConstructor();
+
+  if (config.onTokenRemove) {
+    if (typeof config.onTokenRemove !== 'function') {
+      throw new TypeError('onTokenRemove param should be function');
+    }
+
+    this._tokenStorage.on(this.tokenKey, function (tokenValue) {
+      if (tokenValue === null) {
+        config.onTokenRemove();
+      }
+    });
+  }
 };
 
 /**
