@@ -45,9 +45,11 @@ body {
 
   a {
     color: $ring-link-color;
+    text-decoration: none;
 
     &:hover {
       color: $ring-link-hover-color;
+      text-decoration: underline;
     }
   }
 }
