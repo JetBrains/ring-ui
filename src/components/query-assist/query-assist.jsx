@@ -41,6 +41,7 @@ var QueryAssist = React.createClass({
   /** @override */
   propTypes: {
     className: React.PropTypes.string,
+    popupClassName: React.PropTypes.string,
     dataSource: React.PropTypes.func.isRequired,
     disabled: React.PropTypes.bool,
     focus: React.PropTypes.bool,
@@ -348,6 +349,7 @@ var QueryAssist = React.createClass({
     this._popup = PopupMenu.renderComponent(
       /* jshint ignore:start */
       <PopupMenu
+        className={this.props.popupClassName}
         anchorElement={this.getDOMNode()}
         autoRemove={false}
         corner={PopupMenu.PopupProps.Corner.BOTTOM_LEFT}
