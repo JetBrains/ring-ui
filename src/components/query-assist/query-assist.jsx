@@ -356,6 +356,7 @@ var QueryAssist = React.createClass({
         data={suggestions} shortcuts={true}
         left={this.getCaretOffset()}
         onSelect={this.handleComplete}
+        maxHeight="screen"
       />
       /* jshint ignore:end */
     );
@@ -408,8 +409,7 @@ var QueryAssist = React.createClass({
       /* jshint ignore:end */
 
       var item = {
-        // TODO Make sure if we need simulate uniqueness here
-        key: suggestion.option + (suggestion.group || '') + (suggestion.description || ''),
+        key:  suggestion.prefix + suggestion.option + suggestion.suffix + suggestion.group + suggestion.description,
         label: label,
         type: PopupMenu.ListProps.Type.ITEM,
         data: suggestion
