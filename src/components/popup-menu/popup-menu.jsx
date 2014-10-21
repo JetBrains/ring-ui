@@ -20,16 +20,16 @@ var PopupMenu = React.createClass({
   },
 
   /** @override */
-  getInternalContent: function () {
-    /* jshint ignore:start */
+  /* jshint ignore:start */
+  getInternalContent: function (props, state) {
     return <List ref="List"
       data={this.props.data}
       hint={this.props.hint}
       hintOnSelection={this.props.hintOnSelection}
       onSelect={this.props.onSelect}
       shortcuts={this.props.shortcuts} />;
-    /* jshint ignore:end */
   }
+  /* jshint ignore:end */
 });
 
 module.exports = PopupMenu;
