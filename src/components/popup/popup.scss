@@ -34,12 +34,9 @@
   box-shadow: 0 1px 8px 0 rgba(0, 0, 0, .2);
   border-radius: 3px;
 
-  @include ring-font;
-}
-
-.ring-popup_scrollable {
   overflow-y: auto;
-  overflow-x: hidden;
+
+  @include ring-font;
 }
 
 // TODO Find better name and probably approach

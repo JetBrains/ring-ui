@@ -26,6 +26,7 @@ var PopupMenu = React.createClass({
       data={this.props.data}
       hint={this.props.hint}
       hintOnSelection={this.props.hintOnSelection}
+      maxHeight={state.style.maxHeight}
       onSelect={this.props.onSelect}
       shortcuts={this.props.shortcuts} />;
   }

@@ -205,6 +205,14 @@ var PopupMixin = {
         throw new Error('Unknown corner type: ' + props.corner);
     }
 
+    if (typeof props.maxHeight === 'number') {
+      styles.maxHeight = props.maxHeight;
+    }
+
+    if (props.maxHeight === 'screen') {
+      styles.maxHeight = $(window).height() - styles.top - Dimensions.MARGIN;
+    }
+
     return styles;
   },
 
