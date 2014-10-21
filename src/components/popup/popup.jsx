@@ -225,7 +225,7 @@ var PopupMixin = {
     classNames.push('ring-popup');
     classNames.push('ring-popup_bound');
 
-    return classNames.concat(this.props.classNames || []).join(' ');
+    return classNames.concat(this.props.className || []).join(' ');
   }
 };
 
