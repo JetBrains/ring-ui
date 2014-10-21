@@ -169,7 +169,7 @@ var QueryAssist = React.createClass({
     };
 
     if (typeof this.props.onChange === 'function') {
-      this.props.onChange(props.query);
+      this.props.onChange(props);
     }
 
     this.setState(this.generateState(props), this.requestData);
