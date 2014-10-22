@@ -29,18 +29,17 @@ var AuthStorage = function (config) {
 
   var StorageConstructor = config.storage || Storage;
   this._stateStorage = this._tokenStorage = new StorageConstructor();
+};
 
-  if (config.onTokenRemove) {
-    if (typeof config.onTokenRemove !== 'function') {
-      throw new TypeError('onTokenRemove param should be function');
-    }
-
-    this._tokenStorage.on(this.tokenKey, function (tokenValue) {
-      if (tokenValue === null) {
-        config.onTokenRemove();
-      }
-    });
-  }
+/**
+ * Add token change listener
+ * @param {function(string)} fn token change listener
+ * @return {function()} remove listener function
+ */
+AuthStorage.prototype.onTokenChange = function(fn) {
+  return this._tokenStorage.on(this.tokenKey, function (tokenValue) {
+    fn(tokenValue);
+  });
 };
 
 /**

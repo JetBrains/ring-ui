@@ -8,7 +8,9 @@
 
 require('./form.scss');
 var Global = require('global/global');
-var mout = require('mout');
+var every = require('mout/collection/every');
+var map = require('mout/collection/map');
+var forEach = require('mout/collection/forEach');
 var React = require('react/addons');
 
 
@@ -25,7 +27,7 @@ var React = require('react/addons');
  * @return {boolean}
  */
 var dfsVisitor = function(tree, visited, sequence, callback, ctx) {
-  return mout.collection.every(tree, function(subtree, vertice) {
+  return every(tree, function(subtree, vertice) {
     sequence.push(vertice);
 
     if (visited[vertice]) {
@@ -121,7 +123,7 @@ var DependencyFunction = {
       parentElement = formElement.querySelector('[name=' + parent + ']');
 
       /*jshint loopfunc:true*/
-      parentElement.checked = mout.collection.every(childrenOfParent, function(childTree, child) {
+      parentElement.checked = every(childrenOfParent, function(childTree, child) {
         var currentChildElement = formElement.querySelector('[name=' + child + ']');
         return currentChildElement.checked;
       });
@@ -252,7 +254,7 @@ var Form = React.createClass({
   checkDependencies: function() {
     if (!this.state['fieldsOrder']) {
       var inputElements = this.getDOMNode().querySelectorAll('input');
-      var fieldsOrder = mout.collection.map(inputElements, function(inputElement) {
+      var fieldsOrder = map(inputElements, function(inputElement) {
         if (!!this.state['deps'][inputElement.name]) {
           return inputElement.name;
         }
@@ -343,7 +345,7 @@ var Form = React.createClass({
     var deps = this.state['deps'] || {};
     var formElement = this.getDOMNode();
 
-    mout.collection.forEach(this.props['deps'], function(depsTree, dependencyType) {
+    forEach(this.props['deps'], function(depsTree, dependencyType) {
       var sequence = [];
       var dependencyFunction = DependencyTypeToFn[dependencyType];
 
@@ -352,7 +354,7 @@ var Form = React.createClass({
         var dependencies = [];
 
         if (tree) {
-          mout.collection.forEach(tree, function(subtree, child) {
+          forEach(tree, function(subtree, child) {
             var childElement = formElement.querySelector('[name=' + child + ']');
             dependencies.push(function(chain) {
               dependencyFunction.call(this, verticeElement, childElement, formElement, chain, depsTree);
@@ -388,7 +390,7 @@ var Form = React.createClass({
     var fieldsToValidate = [];
     var submitButton = this.getDOMNode().querySelector('[type=submit]');
 
-    mout.collection.forEach(this.refs, function(ref) {
+    forEach(this.refs, function(ref) {
       if (typeof ref.checkValidity !== 'undefined') { fieldsToValidate.push(ref); }
     });
 
