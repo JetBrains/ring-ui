@@ -257,6 +257,9 @@ describe('auth', function () {
       optionalScopes: ['youtrack']
     });
 
+    var MockedStorage = require('imports?window=mocked-storage!../storage/storage__local');
+    auth._storage._tokenStorage = new MockedStorage();
+
     beforeEach(function () {
       sinon.stub(Auth.prototype, '_redirectCurrentPage');
       sinon.stub(AuthRequestBuilder, '_uuid').returns('unique');
@@ -295,7 +298,7 @@ describe('auth', function () {
     it('should redirect current page if get token in iframe fails', function () {
       var authURL = 'api/rest/oauth2/auth?response_type=token&' +
         'state=unique&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub&client_id=1-1-1-1-1&scope=0-0-0-0-0%20youtrack';
-      Auth.REFRESH_POLL_MAX_ATTEMPTS = 5;
+      Auth.REFRESH_TIMEOUT = 100;
       sinon.stub(Auth.prototype, '_redirectFrame');
       return auth.requestToken().
         otherwise(function (reject) {
