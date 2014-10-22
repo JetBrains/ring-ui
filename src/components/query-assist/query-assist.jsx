@@ -185,7 +185,11 @@ var QueryAssist = React.createClass({
   handleTab: function (e) {
     e.preventDefault();
 
-    return this.handleComplete(this._popup.refs.List.getSelected() || {data: this.state.suggestions[0]}, true);
+    if (this.state.suggestions && this.state.suggestions[0]) {
+      return this.handleComplete(this._popup.refs.List.getSelected() || {data: this.state.suggestions[0]}, true);
+    }
+
+    return true;
   },
 
   handleCaretMove: function (e) {
