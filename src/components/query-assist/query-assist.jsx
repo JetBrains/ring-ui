@@ -248,12 +248,12 @@ var QueryAssist = React.createClass({
       props.query += state.query.substr(state.caret);
     }
 
+    if (typeof this.props.onChange === 'function') {
+      this.props.onChange(props);
+    }
+
     // Force focus on complete e.g. after click
     props.focus = true;
-
-    if (typeof this.props.onChange === 'function') {
-      this.props.onChange(props.query);
-    }
 
     this.setState(this.generateState(props), this.requestData);
   },
