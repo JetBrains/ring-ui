@@ -110,7 +110,6 @@ describe('AuthStorage', function () {
 
       return authStorage.saveToken(token).
         then(function () {
-          console.log('wipe');
           return authStorage.wipeToken();
         }).
         then(function () {
