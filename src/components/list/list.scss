@@ -11,6 +11,14 @@
   border-radius: 3px;
 }
 
+  .ring-list__i {
+    overflow: auto;
+  }
+
+  .ring-list_scrolling .ring-list__item {
+    pointer-events: none;
+  }
+
 .ring-list__separator {
   display: block;
   border-top: 1px solid #E5E5E5;

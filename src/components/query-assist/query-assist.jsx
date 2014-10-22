@@ -41,6 +41,7 @@ var QueryAssist = React.createClass({
   /** @override */
   propTypes: {
     className: React.PropTypes.string,
+    popupClassName: React.PropTypes.string,
     dataSource: React.PropTypes.func.isRequired,
     disabled: React.PropTypes.bool,
     focus: React.PropTypes.bool,
@@ -168,7 +169,7 @@ var QueryAssist = React.createClass({
     };
 
     if (typeof this.props.onChange === 'function') {
-      this.props.onChange(props.query);
+      this.props.onChange(props);
     }
 
     this.setState(this.generateState(props), this.requestData);
@@ -184,7 +185,11 @@ var QueryAssist = React.createClass({
   handleTab: function (e) {
     e.preventDefault();
 
-    return this.handleComplete(this._popup.refs.List.getSelected() || {data: this.state.suggestions[0]}, true);
+    if (this.state.suggestions && this.state.suggestions[0]) {
+      return this.handleComplete(this._popup.refs.List.getSelected() || {data: this.state.suggestions[0]}, true);
+    }
+
+    return true;
   },
 
   handleCaretMove: function (e) {
@@ -305,7 +310,7 @@ var QueryAssist = React.createClass({
     var completionStart = suggestion && suggestion.completionEnd !== suggestion.completionStart && suggestion.completionStart;
     var caretNodeNumber = completionStart != null && completionStart !== false ? completionStart : this.state.caret - 1;
     var caretNode = input.firstChild && input.firstChild.childNodes[caretNodeNumber];
-    var caretOffset = caretNode && (caretNode.offsetLeft + caretNode.offsetWidth - PopupMenu.ITEM_PADDING) || 0;
+    var caretOffset = caretNode && (caretNode.offsetLeft + caretNode.offsetWidth - PopupMenu.ListProps.Dimensions.ITEM_PADDING) || 0;
 
     return caretOffset < 0 ? 0 : caretOffset;
   },
@@ -345,29 +350,22 @@ var QueryAssist = React.createClass({
       return;
     }
 
-    if (!this._popup) {
-      this._popup = PopupMenu.renderComponent(
-        /* jshint ignore:start */
-        <PopupMenu
-          anchorElement={this.getDOMNode()}
-          autoRemove={false}
-          corner={PopupMenu.Corner.BOTTOM_LEFT}
-          hint={this.props.hint}
-          hintOnSelection={this.props.hintOnSelection}
-          data={suggestions} shortcuts={true}
-          left={this.getCaretOffset()}
-          onSelect={this.handleComplete}
-        />
-        /* jshint ignore:end */
-      );
-    } else {
-      this._popup.setProps({
-        data: suggestions,
-        hint: this.props.hint,
-        hintOnSelection: this.props.hintOnSelection,
-        left: this.getCaretOffset()
-      });
-    }
+    this._popup = PopupMenu.renderComponent(
+      /* jshint ignore:start */
+      <PopupMenu
+        className={this.props.popupClassName}
+        anchorElement={this.getDOMNode()}
+        autoRemove={false}
+        corner={PopupMenu.PopupProps.Corner.BOTTOM_LEFT}
+        hint={this.props.hint}
+        hintOnSelection={this.props.hintOnSelection}
+        data={suggestions} shortcuts={true}
+        left={this.getCaretOffset()}
+        onSelect={this.handleComplete}
+        maxHeight="screen"
+      />
+      /* jshint ignore:end */
+    );
   },
 
   closePopup: function() {
@@ -390,9 +388,9 @@ var QueryAssist = React.createClass({
       if (prevSuggestion !== suggestion.group) {
 
         suggestions.push({
-          key: suggestion.option + suggestion.group + PopupMenu.Type.SEPARATOR,
+          key: suggestion.option + suggestion.group + PopupMenu.ListProps.Type.SEPARATOR,
           description: suggestion.group,
-          type: PopupMenu.Type.SEPARATOR
+          type: PopupMenu.ListProps.Type.SEPARATOR
         });
       }
 
@@ -417,10 +415,9 @@ var QueryAssist = React.createClass({
       /* jshint ignore:end */
 
       var item = {
-        // TODO Make sure if we need simulate uniqueness here
-        key: suggestion.option + (suggestion.group || '') + (suggestion.description || ''),
+        key:  suggestion.prefix + suggestion.option + suggestion.suffix + suggestion.group + suggestion.description,
         label: label,
-        type: PopupMenu.Type.ITEM,
+        type: PopupMenu.ListProps.Type.ITEM,
         data: suggestion
       };
 
