@@ -131,6 +131,7 @@
 .ring-form__group {
   position: relative;
   margin: $ring-unit*2 0;
+  overflow: auto;
 
   &:first-child {
     margin-top: 0;
@@ -157,7 +158,8 @@
   float: left;
   height: 3 * $ring-unit;
 
-  line-height: 3 * $ring-unit;
+  line-height: 2 * $ring-unit;
+  max-width: 18 * $ring-unit;
   vertical-align: middle;
 
   & .ring-checkbox__label, & .ring-radio-btn__label {
