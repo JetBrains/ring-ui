@@ -15,34 +15,22 @@ var List = require('list/list');
 var PopupMenu = React.createClass({
   mixins: [Popup.Mixin, List.Mixin],
 
-  /** @override */
-  propTypes: {
-    anchorElement: React.PropTypes.object,
-    autoRemove: React.PropTypes.bool,
-    className: React.PropTypes.string,
-    hint: React.PropTypes.string,
-    hintOnSelection: React.PropTypes.string,
-    data: React.PropTypes.arrayOf(React.PropTypes.object),
-    onSelect: React.PropTypes.func,
-    position: React.PropTypes.number,
-    shortcuts: React.PropTypes.bool
-  },
-
   getDefaultProps: function () {
     return {data: []};
   },
 
   /** @override */
-  getInternalContent: function () {
-    /* jshint ignore:start */
+  /* jshint ignore:start */
+  getInternalContent: function (props, state) {
     return <List ref="List"
       data={this.props.data}
       hint={this.props.hint}
       hintOnSelection={this.props.hintOnSelection}
+      maxHeight={state.style.maxHeight}
       onSelect={this.props.onSelect}
       shortcuts={this.props.shortcuts} />;
-    /* jshint ignore:end */
   }
+  /* jshint ignore:end */
 });
 
 module.exports = PopupMenu;

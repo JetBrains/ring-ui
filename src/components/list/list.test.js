@@ -4,19 +4,27 @@ describe('list', function () {
   var List = require('./list');
   var list;
 
+  var getFirstListItem = function () {
+    return list.refs.inner.getDOMNode().firstChild;
+  };
+
   beforeEach(function() {
     list = React.addons.TestUtils.renderIntoDocument(new List());
   });
 
-  describe('should render items', function() {
+  it('should be empty by default', function () {
+    list.refs.inner.getDOMNode().tagName.toLowerCase().should.equal('div');
+    list.refs.inner.getDOMNode().hasChildNodes().should.equal(false);
+  });
 
+  describe('should render items', function() {
     it('should render for empty element', function () {
       list.setProps({'data': [
         {}
       ]});
 
-      $(list.getDOMNode().firstChild).should.have.class('ring-list__item_action');
-      list.getDOMNode().firstChild.innerHTML.should.equal('');
+      $(getFirstListItem()).should.have.class('ring-list__item_action');
+      getFirstListItem().innerHTML.should.equal('');
     });
 
     it('should render list item if type is not definded', function () {
@@ -24,9 +32,10 @@ describe('list', function () {
         {'label': 'Hello!'}
       ]});
 
-      $(list.getDOMNode().firstChild).should.have.class('ring-list__item_action');
+      $(getFirstListItem()).should.have.class('ring-list__item');
+      $(getFirstListItem()).should.have.class('ring-list__item_action');
       // React creates unexpected additional span
-      list.getDOMNode().firstChild.firstChild.innerHTML.should.equal('Hello!');
+      getFirstListItem().firstChild.innerHTML.should.equal('Hello!');
     });
 
     it('should render a if href defined', function () {
@@ -34,10 +43,10 @@ describe('list', function () {
         {'label': 'Hello!', 'href': 'http://www.jetbrains.com'}
       ]});
 
-      $(list.getDOMNode().firstChild).should.have.class('ring-link');
-      list.getDOMNode().firstChild.innerHTML.should.equal('Hello!');
-      list.getDOMNode().firstChild.tagName.toLowerCase().should.equal('a');
-      list.getDOMNode().firstChild.getAttribute('href').should.equal('http://www.jetbrains.com');
+      $(getFirstListItem()).should.have.class('ring-link');
+      getFirstListItem().innerHTML.should.equal('Hello!');
+      getFirstListItem().tagName.toLowerCase().should.equal('a');
+      getFirstListItem().getAttribute('href').should.equal('http://www.jetbrains.com');
     });
 
     it('should render a if url defined', function () {
@@ -45,28 +54,28 @@ describe('list', function () {
         {'label': 'Hello!', 'url': 'http://www.jetbrains.com'}
       ]});
 
-      $(list.getDOMNode().firstChild).should.have.class('ring-link');
-      list.getDOMNode().firstChild.innerHTML.should.equal('Hello!');
-      list.getDOMNode().firstChild.tagName.toLowerCase().should.equal('a');
-      list.getDOMNode().firstChild.getAttribute('href').should.equal('http://www.jetbrains.com');
+      $(getFirstListItem()).should.have.class('ring-link');
+      getFirstListItem().innerHTML.should.equal('Hello!');
+      getFirstListItem().tagName.toLowerCase().should.equal('a');
+      getFirstListItem().getAttribute('href').should.equal('http://www.jetbrains.com');
     });
 
     it('should render separator', function () {
       list.setProps({'data': [
-        {'type': List.Type.SEPARATOR}
+        {'type': List.ListProps.Type.SEPARATOR}
       ]});
 
-      $(list.getDOMNode().firstChild).should.have.class('ring-list__separator');
+      $(getFirstListItem()).should.have.class('ring-list__separator');
     });
 
     it('should render span if link without href', function () {
       list.setProps({'data': [
-        {'label': 'Hello!', 'type': List.Type.LINK}
+        {'label': 'Hello!', 'type': List.ListProps.Type.LINK}
       ]});
 
-      $(list.getDOMNode().firstChild).should.have.class('ring-link');
-      list.getDOMNode().firstChild.innerHTML.should.equal('Hello!');
-      list.getDOMNode().firstChild.tagName.toLowerCase().should.equal('span');
+      $(getFirstListItem()).should.have.class('ring-link');
+      getFirstListItem().innerHTML.should.equal('Hello!');
+      getFirstListItem().tagName.toLowerCase().should.equal('span');
     });
 
     it('should throw error on unknown type', function () {
@@ -76,11 +85,21 @@ describe('list', function () {
           {'label': 'Hello!', 'type': 'none'}
         ]});
 
-        $(list.getDOMNode().firstChild).should.have.class('ring-link');
-        list.getDOMNode().firstChild.innerHTML.should.equal('Hello!');
-        list.getDOMNode().firstChild.tagName.toLowerCase().should.equal('span');
+        $(getFirstListItem()).should.have.class('ring-link');
+        getFirstListItem().innerHTML.should.equal('Hello!');
+        getFirstListItem().tagName.toLowerCase().should.equal('span');
       }).to.throw(Error, 'Unknown menu element type: none');
     });
 
+    it('should handle click', function () {
+      var clicked = sinon.stub();
+
+      list.setProps({'data': [
+        {'label': 'Hello!', 'onClick': clicked}
+      ]});
+
+      React.addons.TestUtils.Simulate.click(getFirstListItem());
+      clicked.should.have.been.called;
+    });
   });
 });

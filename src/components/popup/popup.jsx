@@ -27,6 +27,10 @@ var Corner = {
   BOTTOM_LEFT: 3
 };
 
+var Dimensions = {
+  MARGIN: 16
+};
+
 /**
  * @mixin {PopupMixin}
  * @mixes {Shortcuts.Mixin}
@@ -35,7 +39,22 @@ var PopupMixin = {
   mixins: [Shortcuts.Mixin],
 
   statics: {
-    Corner: Corner,
+    PopupProps: {
+      Corner: Corner,
+      Dimensions: Dimensions
+    },
+
+    /** @override */
+    propTypes: {
+      anchorElement: React.PropTypes.object,
+      className: React.PropTypes.string,
+      maxHeight: React.PropTypes.oneOfType([
+        React.PropTypes.string,
+        React.PropTypes.number
+      ]),
+      left: React.PropTypes.number,
+      top: React.PropTypes.number
+    },
 
     /**
      * @static
@@ -43,8 +62,10 @@ var PopupMixin = {
      * @returns {HTMLElement}
      */
     renderComponent: function (component) {
-      this._wrapper = document.createElement('div');
-      document.body.appendChild(this._wrapper);
+      if (!this._wrapper) {
+        this._wrapper = document.createElement('div');
+        document.body.appendChild(this._wrapper);
+      }
 
       return React.renderComponent(component, this._wrapper);
     }
@@ -98,7 +119,7 @@ var PopupMixin = {
     /* jshint ignore:start */
     return (
       <div className={this.getClassName()} style={this.state.style}>
-        {this.getInternalContent()}
+        {this.getInternalContent(this.props, this.state)}
       </div>
       );
     /* jshint ignore:end */
@@ -184,6 +205,14 @@ var PopupMixin = {
         throw new Error('Unknown corner type: ' + props.corner);
     }
 
+    if (typeof props.maxHeight === 'number') {
+      styles.maxHeight = props.maxHeight;
+    }
+
+    if (props.maxHeight === 'screen') {
+      styles.maxHeight = $(window).height() - styles.top - Dimensions.MARGIN;
+    }
+
     return styles;
   },
 
@@ -196,7 +225,7 @@ var PopupMixin = {
     classNames.push('ring-popup');
     classNames.push('ring-popup_bound');
 
-    return classNames.concat(this.props.classNames || []).join(' ');
+    return classNames.concat(this.props.className || []).join(' ');
   }
 };
 
@@ -210,14 +239,6 @@ var Popup = React.createClass({
 
   statics: {
     Mixin: PopupMixin
-  },
-
-  /** @override */
-  propTypes: {
-    anchorElement: React.PropTypes.object,
-    className: React.PropTypes.string,
-    left: React.PropTypes.number,
-    top: React.PropTypes.number
   },
 
   /** @override */
