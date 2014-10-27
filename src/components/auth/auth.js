@@ -45,8 +45,14 @@ var Auth = function (config) {
 
   this._storage = new AuthStorage({
     stateKeyPrefix: this.config.client_id + '-states-',
-    tokenKey: this.config.client_id + '-token',
-    onTokenRemove: this.logout.bind(this)
+    tokenKey: this.config.client_id + '-token'
+  });
+
+  var self = this;
+  this._storage.onTokenChange(function(token) {
+    if (token === null) {
+      self.logout();
+    }
   });
 
   this._reponseParser = new AuthResponseParser();
@@ -106,17 +112,12 @@ Auth.API_PROFILE_PATH = Auth.API_PATH + '/users/me';
 /**
  * @const {number}
  */
-Auth.REFRESH_BEFORE = 20 * 60; // 20 min
+Auth.REFRESH_BEFORE = 20 * 60; // 20 min in s
 
 /**
- * @const {number} noninteractive auth poll period
+ * @const {number} noninteractive auth timeout
  */
-Auth.REFRESH_POLL_INTERVAL = 30; // 30 ms
-
-/**
- * @const {number} max attempts to check token noninteractively
- */
-Auth.REFRESH_POLL_MAX_ATTEMPTS = 2000;
+Auth.REFRESH_TIMEOUT = 60 * 1000; // 1 min in ms
 
 /**
  * @return {Promise.<string>} absolute URL promise that is resolved to an URL
@@ -211,7 +212,11 @@ Auth.prototype.requestUser = function () {
  */
 Auth.prototype.logout = function () {
   var self = this;
-  return this._requestBuilder.prepareAuthRequest({request_credentials: 'required'}).
+
+  return this._storage.wipeToken().
+    then(function () {
+      return self._requestBuilder.prepareAuthRequest({request_credentials: 'required'});
+    }).
     then(function (authURL) {
       self._redirectCurrentPage(authURL);
     });
@@ -463,30 +468,22 @@ Auth.prototype._loadTokenInBackground = function () {
   var $iframe = $('<iframe style="display: none;"></iframe>').appendTo('body');
 
   var self = this;
-  var pollAttempt = 0;
-  var poll = function () {
-    pollAttempt++;
-    self._storage.getToken().
-      done(function (storedToken) {
-        var newAccessToken = storedToken && storedToken.access_token;
-
-        if (newAccessToken) {
-          $iframe.remove();
-          self._refreshDefer.resolve(newAccessToken);
-        } else if (pollAttempt < Auth.REFRESH_POLL_MAX_ATTEMPTS) {
-          setTimeout(poll, Auth.REFRESH_POLL_INTERVAL);
-        } else {
-          $iframe.remove();
-          self._refreshDefer.reject(new Error('Failed to refresh token after ' + pollAttempt / 1000 * Auth.REFRESH_POLL_INTERVAL + ' secs'));
-        }
-      });
-  };
 
   return this._requestBuilder.prepareAuthRequest().
     then(function (authURL) {
+      var removeListener = self._storage.onTokenChange(function(token) {
+        if (token !== null) {
+          $iframe.remove();
+          removeListener();
+          self._refreshDefer.resolve(token.access_token);
+        }
+      });
+
       self._redirectFrame($iframe, authURL);
-      poll();
-      return self._refreshDefer.promise;
+
+      // TODO removeListener
+      return self._refreshDefer.promise.
+        timeout(Auth.REFRESH_TIMEOUT);
     });
 };
 
