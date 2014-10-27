@@ -115,7 +115,7 @@ var QueryAssist = React.createClass({
       this.refs.input.getDOMNode().blur();
     }
 
-    this.setState(state, this.requestStyleRanges);
+    this.setState(state, state.query !== this.getQuery() ? this.requestStyleRanges : $.noop);
   },
 
   componentDidUpdate: function () {
