@@ -3,9 +3,10 @@
  * @jsx React.DOM
  */
 
-
+// jshint -W098
 var React = require('react');
-var merge = require('react/lib/merge');
+var mixIn = require('mout/object/mixIn');
+var debounce = require('mout/function/debounce');
 
 var Shortcuts = require('shortcuts/shortcuts');
 var Global = require('global/global');
@@ -25,6 +26,12 @@ var Type = {
   LINK: 1,
   ITEM: 2,
   HINT: 3
+};
+
+var Dimensions = {
+  ITEM_PADDING: 16,
+  ITEM_HEIGHT: 24,
+  INNER_PADDING: 8
 };
 
 /**
@@ -107,8 +114,24 @@ var ListHint = React.createClass({
 
 var ListMixin = {
   statics: {
-    Type: Type,
-    ITEM_PADDING: 16
+    ListProps: {
+      Type: Type,
+      Dimensions: Dimensions
+    }
+  },
+
+  propTypes: {
+    className: React.PropTypes.string,
+    hint: React.PropTypes.string,
+    hintOnSelection: React.PropTypes.string,
+    data: React.PropTypes.arrayOf(React.PropTypes.object),
+    maxHeight: React.PropTypes.oneOfType([
+      React.PropTypes.string,
+      React.PropTypes.number
+    ]),
+    shortcuts: React.PropTypes.bool,
+    onSelect: React.PropTypes.func,
+    visible: React.PropTypes.bool
   }
 };
 
@@ -142,16 +165,6 @@ var List = React.createClass({
 
   statics: {
     Mixin: ListMixin
-  },
-
-  propTypes: {
-    className: React.PropTypes.string,
-    hint: React.PropTypes.string,
-    hintOnSelection: React.PropTypes.string,
-    data: React.PropTypes.arrayOf(React.PropTypes.object),
-    shortcuts: React.PropTypes.bool,
-    onSelect: React.PropTypes.func,
-    visible: React.PropTypes.bool
   },
 
   getDefaultProps: function () {
@@ -201,14 +214,26 @@ var List = React.createClass({
   },
 
   moveHandler: function (index, retryCallback, e) {
-    this.setState({activeIndex: index}, function() {
+    this.setState({activeIndex: index, scrolling: true}, function() {
       if (this.props.data[index].type !== Type.ITEM) {
         retryCallback(e);
         return;
       }
 
+      var innerContainer = this.refs.inner.getDOMNode();
+
+      if (innerContainer.scrollHeight !== innerContainer.clientHeight) {
+        innerContainer.scrollTop = index * Dimensions.ITEM_HEIGHT - Math.floor(this.props.maxHeight / 2);
+
+        this.scrollEndHandler();
+      }
+
       e.preventDefault();
     });
+  },
+
+  scrollHandler: function() {
+    this.setState({scrolling: true}, this.scrollEndHandler);
   },
 
   selectHandler: function () {
@@ -217,6 +242,14 @@ var List = React.createClass({
 
   getSelected: function () {
     return this.props.data[this.state.activeIndex];
+  },
+
+  componentDidMount: function() {
+    var self = this;
+
+    this.scrollEndHandler = debounce(function() {
+      self.setState({scrolling: false});
+    }, 150);
   },
 
   componentWillReceiveProps: function (props) {
@@ -241,59 +274,63 @@ var List = React.createClass({
   /** @override */
   render: function () {
     var hint = this.getSelected() && this.props.hintOnSelection || this.props.hint;
-    var data = hint ? this.props.data.concat({
-      key: this.props.hint + Type.ITEM,
-      label: hint,
-      type: Type.HINT
-    }) : this.props.data;
+    var innerStyles = {};
+    if (this.props.maxHeight) {
+      innerStyles.maxHeight = this.props.maxHeight - Dimensions.ITEM_HEIGHT - Dimensions.INNER_PADDING;
+    }
+    var classes = React.addons.classSet({
+      'ring-list': true,
+      'ring-list_scrolling': this.state.scrolling
+    });
 
-    return React.DOM.div(
-      {
-        className: 'ring-list'
-      },
-      data.map(function (item, index) {
-        var props = merge({'type': Type.ITEM}, item);
-        if (props.url) {
-          props.href = props.url;
-        }
-        if (props.href) {
-          props.type = Type.LINK;
-        }
+    /* jshint ignore:start */
+    return (
+      <div className={classes}>
+        <div className="ring-list__i" ref="inner" onScroll={this.scrollHandler} style={innerStyles}>
+          {this.props.data.map(function (item, index) {
+            var props = mixIn({'type': Type.ITEM}, item);
+            if (props.url) {
+              props.href = props.url;
+            }
+            if (props.href) {
+              props.type = Type.LINK;
+            }
 
-        // Probably unqiue enough key
-        props.key = props.key || props.type + props.label;
+            // Probably unqiue enough key
+            props.key = props.key || props.type + props.label;
 
-        props.active = (index === this.state.activeIndex);
-        props.onMouseOver = this.hoverHandler.bind(this, index);
+            props.active = (index === this.state.activeIndex);
+            props.onMouseOver = this.hoverHandler.bind(this, index);
 
-        props.onClick = function() {
-          if (typeof item.onClick === 'function') {
-            item.onClick.apply(item, arguments);
-          }
+            props.onClick = function () {
+              if (typeof item.onClick === 'function') {
+                item.onClick.apply(item, arguments);
+              }
 
-          return this.selectHandler.apply(this, arguments);
-        }.bind(this);
+              return this.selectHandler.apply(this, arguments);
+            }.bind(this);
 
-        var element;
-        switch (props.type) {
-          case Type.SEPARATOR:
-            element = ListSeparator;
-            break;
-          case Type.LINK:
-            element = ListLink;
-            break;
-          case Type.ITEM:
-            element = ListItem;
-            break;
-          case Type.HINT:
-            element = ListHint;
-            break;
-          default:
-            throw new Error('Unknown menu element type: ' + props.type);
-        }
-        return element(props, null);
-      }.bind(this))
+            var element;
+            switch (props.type) {
+              case Type.SEPARATOR:
+                element = ListSeparator;
+                break;
+              case Type.LINK:
+                element = ListLink;
+                break;
+              case Type.ITEM:
+                element = ListItem;
+                break;
+              default:
+                throw new Error('Unknown menu element type: ' + props.type);
+            }
+            return element(props, null);
+          }.bind(this))}
+        </div>
+        {hint && <ListHint key={this.props.hint + Type.ITEM} label={hint} />}
+      </div>
     );
+    /* jshint ignore:end */
   }
 });
 

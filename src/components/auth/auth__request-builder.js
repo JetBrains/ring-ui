@@ -50,11 +50,7 @@ AuthRequestBuilder.prototype.prepareAuthRequest = function (extraParams) {
  * @private
  */
 AuthRequestBuilder.prototype._saveState = function (id, storedState) {
-  var self = this;
-  return this.storage.saveState(id, storedState).
-    then(function () {
-      return self.storage.wipeToken();
-    });
+  return this.storage.saveState(id, storedState);
 };
 
 /**
