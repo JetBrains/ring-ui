@@ -113,6 +113,7 @@ var Icon = React.createClass({
 
   getDefaultProps: function () {
     return {
+      baseClass: new Global.ClassName('ring-icon'),
       className: '',
       color: Color.DEFAULT,
       glyph: '',
@@ -123,10 +124,10 @@ var Icon = React.createClass({
   render: function () {
     /* jshint ignore:start */
     var classList = React.addons.classSet(Global.createObject(
-        BASE_CLASS, true,
-        BASE_CLASS + '_' + this.props.size, true,
-        this._getColorClass(), !!this.props.color,
-        this._getID(), !!this.props.modifier));
+        this.props.baseClass.getModifier(this.props.size), true,
+        this.props.baseClass.getModifier(this.props.color), !!this.props.color,
+        this.props.baseClass.getModifier(this.props.glyph), !!this.props.glyph,
+        this.props.baseClass.getClassName(), true));
 
     return this.transferPropsTo(<svg className={classList} />);
     /* jshint ignore:end */
@@ -136,27 +137,10 @@ var Icon = React.createClass({
     initializeTemplate();
 
     var useElement = document.createElementNS(NamespaceURI.SVG, 'use');
-    useElement.setAttributeNS(NamespaceURI.XLINK, 'xlink:href', '#' + this._getID());
+    useElement.setAttributeNS(NamespaceURI.XLINK, 'xlink:href',
+        '#' + this.props.baseClass.getModifier(this.props.glyph));
 
     this.getDOMNode().appendChild(useElement);
-  },
-
-  // todo(igor.alexeenko): We need a tool for BEM classes as soon as possible.
-
-  /**
-   * @return {string}
-   * @private
-   */
-  _getColorClass: function() {
-    return BASE_CLASS + '_' + this.props.color;
-  },
-
-  /**
-   * @return {string}
-   * @private
-   */
-  _getID: function() {
-    return BASE_CLASS + '_' + this.props.glyph;
   }
 });
 
