@@ -24,9 +24,53 @@ var Service = {
  * @type {Object.<Service, string>}
  */
 var serviceToIcon = Global.createObject(
-    Service.TEAMCITY, 'ban-circle',
-    Service.YOUTRACK, 'eye');
+    Service.TEAMCITY, 'teamcity',
+    Service.YOUTRACK, 'youtrack');
 
+
+
+/**
+ * @constructor
+ * @extends {ReactComponent}
+ * @private
+ */
+var UserMenu = React.createClass({
+  getInitialState: function() {
+    return {
+      menuIsOpened: false
+    };
+  },
+
+  render: function() {
+    /* jshint ignore:start */
+    return (<div className="header__user-menu">
+      <Icon className="header__user-menu-item_icon header__user-menu-item" color={Icon.Color.WHITE} onClick={this._handleItemClick} glyph="cog" size={Icon.Size.Size16} />
+      <Icon className="header__user-menu-item_icon header__user-menu-item" color={Icon.Color.WHITE} onClick={this._handleItemClick} glyph="help" size={Icon.Size.Size16} />
+      <Icon className="header__user-menu-item_icon header__user-menu-item" color={Icon.Color.WHITE} onClick={this._handleMenuClick} glyph="menu" size={Icon.Size.Size16} />
+      <Icon className="header__user-menu-item_icon header__user-menu-item" color={Icon.Color.WHITE} onClick={this._handleItemClick} glyph="user" size={Icon.Size.Size16} />
+    </div>);
+    /* jshint ignore:end */
+  },
+
+  /**
+   * @param {SyntheticMouseEvent} evt
+   * @private
+   */
+  _handleItemClick: function(evt) {
+    evt.preventDefault();
+  },
+
+  /**
+   * @param {SyntheticMouseEvent} evt
+   * @private
+   */
+  _handleMenuClick: function(evt) {
+    evt.preventDefault();
+
+    this.setState({ menuIsOpened: true });
+    this.props.menuOpenCallback();
+  }
+});
 
 
 /**
@@ -118,61 +162,16 @@ var Header = React.createClass({
       /* jshint ignore:start */
       return (<div className="header__menu-service">
         <div className="header__menu-service-inner">
-          <div className="header__menu-service-item"><a href="#"><Icon glyph="ok" size={Icon.Size.Size48} /><br />YouTrack</a></div>
-          <div className="header__menu-service-item"><a href="#"><Icon glyph="eye" size={Icon.Size.Size48} /><br />TeamCity</a></div>
-          <div className="header__menu-service-item"><a href="#"><Icon glyph="cog" size={Icon.Size.Size48} /><br />Hub</a></div>
-          <div className="header__menu-service-item"><a href="#"><Icon glyph="global" size={Icon.Size.Size48} /><br />Upsource</a></div>
+          <div className="header__menu-service-item"><a href="#"><Icon glyph="youtrack" size={Icon.Size.Size48} /><br />YouTrack</a></div>
+          <div className="header__menu-service-item"><a href="#"><Icon glyph="teamcity" size={Icon.Size.Size48} /><br />TeamCity</a></div>
+          <div className="header__menu-service-item"><a href="#"><Icon glyph="hub" size={Icon.Size.Size48} /><br />Hub</a></div>
+          <div className="header__menu-service-item"><a href="#"><Icon glyph="upsource" size={Icon.Size.Size48} /><br />Upsource</a></div>
         </div>
       </div>);
       /* jshint ignore:end */
     }
 
     return null;
-  }
-});
-
-
-
-/**
- * @constructor
- * @extends {ReactComponent}
- * @private
- */
-var UserMenu = React.createClass({
-  getInitialState: function() {
-    return {
-      menuIsOpened: false
-    };
-  },
-
-  render: function() {
-    /* jshint ignore:start */
-    return (<div className="header__user-menu">
-      <Icon className="header__user-menu-item_icon header__user-menu-item" color={Icon.Color.WHITE} onClick={this._handleItemClick} glyph="cog" size={Icon.Size.Size16} />
-      <Icon className="header__user-menu-item_icon header__user-menu-item" color={Icon.Color.WHITE} onClick={this._handleItemClick} glyph="help" size={Icon.Size.Size16} />
-      <Icon className="header__user-menu-item_icon header__user-menu-item" color={Icon.Color.WHITE} onClick={this._handleMenuClick} glyph="menu" size={Icon.Size.Size16} />
-      <Icon className="header__user-menu-item_icon header__user-menu-item" color={Icon.Color.WHITE} onClick={this._handleItemClick} glyph="user" size={Icon.Size.Size16} />
-    </div>);
-    /* jshint ignore:end */
-  },
-
-  /**
-   * @param {SyntheticMouseEvent} evt
-   * @private
-   */
-  _handleItemClick: function(evt) {
-    evt.preventDefault();
-  },
-
-  /**
-   * @param {SyntheticMouseEvent} evt
-   * @private
-   */
-  _handleMenuClick: function(evt) {
-    evt.preventDefault();
-
-    this.setState({ menuIsOpened: true });
-    this.props.menuOpenCallback();
   }
 });
 
