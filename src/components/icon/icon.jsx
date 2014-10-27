@@ -113,7 +113,7 @@ var Icon = React.createClass({
 
   getDefaultProps: function () {
     return {
-      baseClass: new Global.ClassName('ring-icon'),
+      baseClass: new Global.ClassName(BASE_CLASS),
       className: '',
       color: Color.DEFAULT,
       glyph: '',
