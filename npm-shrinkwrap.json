@@ -95,9 +95,9 @@
               }
             },
             "phantomjs": {
-              "version": "1.9.11",
-              "from": "phantomjs@1.9.11",
-              "resolved": "https://registry.npmjs.org/phantomjs/-/phantomjs-1.9.11.tgz",
+              "version": "1.9.10",
+              "from": "phantomjs@1.9.10",
+              "resolved": "https://registry.npmjs.org/phantomjs/-/phantomjs-1.9.10.tgz",
               "dependencies": {
                 "adm-zip": {
                   "version": "0.2.1",
@@ -706,9 +706,9 @@
       }
     },
     "phantomjs": {
-      "version": "1.9.11",
-      "from": "phantomjs@1.9.11",
-      "resolved": "https://registry.npmjs.org/phantomjs/-/phantomjs-1.9.11.tgz",
+      "version": "1.9.10",
+      "from": "phantomjs@~1.9.10",
+      "resolved": "https://registry.npmjs.org/phantomjs/-/phantomjs-1.9.10.tgz",
       "dependencies": {
         "adm-zip": {
           "version": "0.2.1",
