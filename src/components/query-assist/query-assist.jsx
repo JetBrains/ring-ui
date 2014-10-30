@@ -90,6 +90,14 @@ var QueryAssist = React.createClass({
     };
   },
 
+  // See http://stackoverflow.com/questions/12353247/force-contenteditable-div-to-stop-accepting-input-after-it-loses-focus-under-web
+  blurInput: function() {
+    // setTimeout to wait till the end of current key press generated events
+    setTimeout(function() {
+      $('<div style="height:0;width:0;" contenteditable="true"></div>').appendTo(document.body).focus().remove();
+    }, 0);
+  },
+
   componentDidMount: function () {
     var styleRangesRequested = this.requestStyleRanges();
 
@@ -112,7 +120,7 @@ var QueryAssist = React.createClass({
     var state = this.generateState(props);
 
     if (state.focus === false && this.state.focus === true) {
-      this.refs.input.getDOMNode().blur();
+      this.blurInput();
     }
 
     this.setState(state, state.query !== this.getQuery() ? this.requestStyleRanges : $.noop);
@@ -125,6 +133,7 @@ var QueryAssist = React.createClass({
   shouldComponentUpdate: function (props, state) {
     // Return false to skip rendering
     return this.state.query !== state.query ||
+      this.state.shortcuts !== state.shortcuts ||
       !equals(this.state.styleRanges, state.styleRanges, rangeEquals) ||
       this.props.placeholder !== props.placeholder ||
       this.props.glass !== props.glass;
@@ -148,18 +157,14 @@ var QueryAssist = React.createClass({
     var focus = e.type === 'focus';
 
     if (!focus) {
-      this.disableShortcuts();
-    }
-
-    if (this.state.focus === focus) {
-      return;
+      this.blurInput();
     }
 
     if (typeof this.props.onFocusChange === 'function') {
       this.props.onFocusChange(focus);
     }
 
-    this.setState({focus: focus});
+    this.setState({focus: focus, shortcuts: focus});
   },
 
   handleInput: function () {
@@ -371,7 +376,6 @@ var QueryAssist = React.createClass({
   closePopup: function() {
     if (this._popup) {
       this._popup.close();
-      this._popup.refs.List.disableShortcuts();
     }
   },
 
