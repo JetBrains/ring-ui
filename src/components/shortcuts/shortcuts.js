@@ -209,8 +209,6 @@ Shortcuts.prototype.pushScope = function (scope) {
     }
 
     this._scopeChain.push(scope);
-    console.log('push', scope, this._scopeChain);
-    //console.trace(scope);
   }
 };
 
@@ -230,8 +228,6 @@ Shortcuts.prototype.spliceScope = function (scope) {
 
     if (position !== -1) {
       this._scopeChain.splice(position, 1);
-      console.log('splice', scope, this._scopeChain);
-      //console.trace(scope);
     }
   }
 };
