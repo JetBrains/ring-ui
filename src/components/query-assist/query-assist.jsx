@@ -119,6 +119,10 @@ var QueryAssist = React.createClass({
   componentWillReceiveProps: function (props) {
     var state = this.generateState(props);
 
+    if (state.query === this.state.query) {
+      state.caret = this.state.caret;
+    }
+
     if (state.focus === false && this.state.focus === true) {
       this.blurInput();
     }
