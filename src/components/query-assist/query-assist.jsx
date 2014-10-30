@@ -177,6 +177,11 @@ var QueryAssist = React.createClass({
       caret: this.getCaret()
     };
 
+    // Avoid trigger on init by mutatuion events in IE
+    if (props.query === this.state.query && props.query === '') {
+      return;
+    }
+
     if (typeof this.props.onChange === 'function') {
       this.props.onChange(props);
     }
