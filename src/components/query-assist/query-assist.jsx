@@ -90,6 +90,14 @@ var QueryAssist = React.createClass({
     };
   },
 
+  // See http://stackoverflow.com/questions/12353247/force-contenteditable-div-to-stop-accepting-input-after-it-loses-focus-under-web
+  blurInput: function() {
+    // setTimeout to wait till the end of current key press generated events
+    setTimeout(function() {
+      $('<div style="height:0;width:0;" contenteditable="true"></div>').appendTo(document.body).focus().remove();
+    }, 0);
+  },
+
   componentDidMount: function () {
     var styleRangesRequested = this.requestStyleRanges();
 
@@ -111,11 +119,15 @@ var QueryAssist = React.createClass({
   componentWillReceiveProps: function (props) {
     var state = this.generateState(props);
 
-    if (state.focus === false && this.state.focus === true) {
-      this.refs.input.getDOMNode().blur();
+    if (state.query === this.state.query) {
+      state.caret = this.state.caret;
     }
 
-    this.setState(state, this.requestStyleRanges);
+    if (state.focus === false && this.state.focus === true) {
+      this.blurInput();
+    }
+
+    this.setState(state, state.query !== this.getQuery() ? this.requestStyleRanges : $.noop);
   },
 
   componentDidUpdate: function () {
@@ -125,6 +137,7 @@ var QueryAssist = React.createClass({
   shouldComponentUpdate: function (props, state) {
     // Return false to skip rendering
     return this.state.query !== state.query ||
+      this.state.shortcuts !== state.shortcuts ||
       !equals(this.state.styleRanges, state.styleRanges, rangeEquals) ||
       this.props.placeholder !== props.placeholder ||
       this.props.glass !== props.glass;
@@ -148,18 +161,14 @@ var QueryAssist = React.createClass({
     var focus = e.type === 'focus';
 
     if (!focus) {
-      this.disableShortcuts();
-    }
-
-    if (this.state.focus === focus) {
-      return;
+      this.blurInput();
     }
 
     if (typeof this.props.onFocusChange === 'function') {
-      this.props.onFocusChange(focus);
+      this.props.onFocusChange({focus: focus});
     }
 
-    this.setState({focus: focus});
+    this.setState({focus: focus, shortcuts: focus});
   },
 
   handleInput: function () {
@@ -167,6 +176,11 @@ var QueryAssist = React.createClass({
       query: this.getQuery(),
       caret: this.getCaret()
     };
+
+    // Avoid trigger on init by mutatuion events in IE
+    if (props.query === this.state.query && props.query === '') {
+      return;
+    }
 
     if (typeof this.props.onChange === 'function') {
       this.props.onChange(props);
@@ -248,12 +262,12 @@ var QueryAssist = React.createClass({
       props.query += state.query.substr(state.caret);
     }
 
+    if (typeof this.props.onChange === 'function') {
+      this.props.onChange(props);
+    }
+
     // Force focus on complete e.g. after click
     props.focus = true;
-
-    if (typeof this.props.onChange === 'function') {
-      this.props.onChange(props.query);
-    }
 
     this.setState(this.generateState(props), this.requestData);
   },
@@ -371,7 +385,6 @@ var QueryAssist = React.createClass({
   closePopup: function() {
     if (this._popup) {
       this._popup.close();
-      this._popup.refs.List.disableShortcuts();
     }
   },
 
@@ -464,8 +477,13 @@ var QueryAssist = React.createClass({
           onClick={this.handleCaretMove} onFocus={this.handleFocusChange} onBlur={this.handleFocusChange}
           spellCheck="false" contentEditable={!this.props.disabled} dangerouslySetInnerHTML={{__html: query}}></div>
 
+<<<<<<< HEAD
         {renderPlaceholder && <span className="ring-query-assist__placeholder">{this.props.placeholder}</span>}
         {this.props.glass && <Icon onClick={this.handleApply} modifier={Icon.Size.Size16} className="ring-query-assist__glass ring-icon_search"></Icon>}
+=======
+        {renderPlaceholder && <span className="ring-query-assist__placeholder" onClick={this.handleCaretMove}>{this.props.placeholder}</span>}
+        {this.props.glass && <Icon onClick={this.handleApply} modifier={Icon.Sizes[0]} className="ring-query-assist__glass ring-icon_search"></Icon>}
+>>>>>>> 2.0
       </div>
       );
     /* jshint ignore:end */

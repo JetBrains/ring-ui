@@ -48,47 +48,86 @@ Shortcuts._dispatcher = function (e, key) {
  * @mixin {Shortcuts.Mixin}
  */
 Shortcuts.Mixin = {
-  /** @override */
-  componentDidMount: function () {
-    if (this.props.shortcuts) {
-      var shortcuts = Shortcuts.getInstance();
-      var props = this.getShortcutsProps();
+  /**
+   * Inits shortcuts
+   * @private
+   */
+  initShortcuts: function () {
+    var shortcuts = Shortcuts.getInstance();
+    var shortcutsProps = this.getShortcutsProps();
 
-      if (!props || !props.map || !props.scope) {
-        throw new Error('Shortcuts\' props weren\'t provided');
-      }
+    if (!shortcutsProps || !shortcutsProps.map || !shortcutsProps.scope) {
+      throw new Error('Shortcuts\' props weren\'t provided');
+    }
 
-      shortcuts.bindMap(props.map, props);
-      shortcuts.pushScope(props.scope);
-      this.shortcutsScope = props.scope;
+    shortcuts.bindMap(shortcutsProps.map, shortcutsProps);
+    shortcuts.pushScope(shortcutsProps.scope);
+    this.setState({
+      shortcutsScope: shortcutsProps.scope
+    });
+  },
+
+  /**
+   * Syncronizes component shortcuts' state with scope chain
+   * @private
+   */
+  toggleShortcuts: function(props) {
+    var shortcuts = Shortcuts.getInstance();
+    var hasScope = shortcuts.hasScope(this.state.shortcutsScope);
+
+    if (props.shortcuts && !hasScope) {
+      shortcuts.pushScope(this.state.shortcutsScope);
+    } else if (!props.shortcuts && hasScope) {
+      shortcuts.spliceScope(this.state.shortcutsScope);
     }
   },
 
   /** @override */
-  componentDidUpdate: function () {
-    if (this.props.shortcuts) {
-      var shortcuts = Shortcuts.getInstance();
+  getInitialState: function () {
+    var state = {};
 
-      shortcuts.pushScope(this.shortcutsScope);
+    if ('shortcuts' in this.props) {
+      state.shortcuts = this.props.shortcuts;
     }
+
+    return state;
+  },
+
+  /** @override */
+  componentWillMount: function () {
+    if (this.state.shortcuts) {
+      this.initShortcuts();
+    }
+  },
+
+  /** @override */
+  componentWillReceiveProps: function (props) {
+    if (props.shortcuts !== this.state.shortcuts) {
+      this.setState({
+        shortcuts: props.shortcuts
+      });
+    }
+
+    if (props.shortcuts && !this.state.shortcutsScope) {
+      this.initShortcuts();
+      return;
+    }
+
+    this.toggleShortcuts(props);
+  },
+
+  /** @override */
+  componentWillUpdate: function(props, state) {
+    this.toggleShortcuts(state);
   },
 
   /** @override */
   componentWillUnmount: function () {
-    if (this.props.shortcuts) {
+    if (this.state && this.state.shortcutsScope) {
       var shortcuts = Shortcuts.getInstance();
 
-      shortcuts.unbindScope(this.shortcutsScope);
-      shortcuts.spliceScope(this.shortcutsScope);
-    }
-  },
-
-  // TODO Replace with componentWillReceiveProps
-  disableShortcuts: function() {
-    if (this.props.shortcuts) {
-      var shortcuts = Shortcuts.getInstance();
-
-      shortcuts.spliceScope(this.shortcutsScope);
+      shortcuts.unbindScope(this.state.shortcutsScope);
+      shortcuts.spliceScope(this.state.shortcutsScope);
     }
   }
 };
@@ -157,6 +196,10 @@ Shortcuts.prototype.getScope = function () {
   return this._scopeChain.slice(1);
 };
 
+Shortcuts.prototype.hasScope = function (scope) {
+  return $.inArray(scope, this._scopeChain) !== -1;
+};
+
 Shortcuts.prototype.pushScope = function (scope) {
   if (scope) {
     var position = $.inArray(scope, this._scopeChain);
@@ -184,7 +227,7 @@ Shortcuts.prototype.spliceScope = function (scope) {
     var position = $.inArray(scope, this._scopeChain);
 
     if (position !== -1) {
-      return this._scopeChain.splice(position, 1);
+      this._scopeChain.splice(position, 1);
     }
   }
 };
