@@ -477,13 +477,8 @@ var QueryAssist = React.createClass({
           onClick={this.handleCaretMove} onFocus={this.handleFocusChange} onBlur={this.handleFocusChange}
           spellCheck="false" contentEditable={!this.props.disabled} dangerouslySetInnerHTML={{__html: query}}></div>
 
-<<<<<<< HEAD
-        {renderPlaceholder && <span className="ring-query-assist__placeholder">{this.props.placeholder}</span>}
-        {this.props.glass && <Icon onClick={this.handleApply} modifier={Icon.Size.Size16} className="ring-query-assist__glass ring-icon_search"></Icon>}
-=======
         {renderPlaceholder && <span className="ring-query-assist__placeholder" onClick={this.handleCaretMove}>{this.props.placeholder}</span>}
-        {this.props.glass && <Icon onClick={this.handleApply} modifier={Icon.Sizes[0]} className="ring-query-assist__glass ring-icon_search"></Icon>}
->>>>>>> 2.0
+        {this.props.glass && <Icon onClick={this.handleApply} modifier={Icon.Size.Size16} className="ring-query-assist__glass ring-icon_search"></Icon>}
       </div>
       );
     /* jshint ignore:end */
