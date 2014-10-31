@@ -1,5 +1,7 @@
 {
   "globals": {
+    "after": false,
+    "before": false,
     "require": false,
     "sinon": false
   },
