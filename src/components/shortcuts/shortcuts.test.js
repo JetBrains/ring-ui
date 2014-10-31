@@ -1,3 +1,4 @@
+var React = require('react/addons');
 var simulateKeypress = require('simulate-keypress');
 var Shortcuts = require('./shortcuts');
 var shortcuts = Shortcuts.getInstance();
@@ -221,6 +222,167 @@ describe('Shortcuts', function () {
       shortcuts.spliceScope(scope2);
 
       shortcuts.getScope().should.deep.equal([scope1, scope3]);
+    });
+  });
+
+  describe('Mixin', function () {
+    var component;
+    var scope2 = 'scope2 scope2 scope2';
+
+    var div = document.createElement('div');
+    document.documentElement.appendChild(div);
+
+    after(function() {
+      document.documentElement.removeChild(div);
+    });
+
+    afterEach(function() {
+      if (component && component.isMounted()) {
+        React.unmountComponentAtNode(div);
+      }
+    });
+
+    function renderIntoDocument(instance, callback) {
+      return React.renderComponent(instance, div, callback);
+    }
+
+    function createСlass(props, render) {
+      var keyMap = {};
+      keyMap[key] = noop;
+
+      return React.createClass({
+        mixins: [Shortcuts.Mixin],
+        getShortcutsProps: function() {
+          return props || {
+            scope: scope,
+            map: keyMap
+          };
+        },
+        render: render || function() {
+          return React.DOM.div({ref: 'subComponent'}, null);
+        }
+      });
+    }
+
+    function createСomponent(props, callback) {
+      var TestClass = createСlass();
+      component = renderIntoDocument(new TestClass(props), callback);
+    }
+
+    function createСomponentWithSubComponent(props, callback) {
+      var subKeyMap = {};
+      subKeyMap[key] = noop2;
+
+      var SubTestClass = createСlass({
+        scope: scope2,
+        map: subKeyMap
+      });
+      var TestClass = createСlass(null, function render() {
+        // jshint -W064
+        return SubTestClass({
+          ref: 'subComponent',
+          shortcuts: this.state.shortcuts
+        }, null);
+        // jshint +W064
+      });
+
+      component = renderIntoDocument(new TestClass(props), callback);
+    }
+
+    it('should throw with wrong config', function () {
+      function createWrongComponent() {
+        var TestClass = createСlass({});
+
+        renderIntoDocument(new TestClass({
+          shortcuts: true
+        }));
+      }
+
+      createWrongComponent.should.throw(Error);
+    });
+
+    it('should not activate shortcuts without param', function () {
+      createСomponent();
+
+      expect(component.state.shortcuts).not.to.exist;
+      shortcuts.getScope().should.be.empty;
+    });
+
+    it('should activate shortcuts on component', function () {
+      createСomponent({
+        shortcuts: true
+      });
+
+      shortcuts.getScope().should.deep.equal([scope]);
+      component.state.shortcutsScope.should.equal(scope);
+    });
+
+    it('should trigger handlers bound on component', function () {
+      createСomponent({
+        shortcuts: true
+      });
+
+      trigger();
+      noop.should.have.been.called.once;
+    });
+
+    it('should disable shortcuts on component', function () {
+      createСomponent({
+        shortcuts: true
+      });
+
+      component.setProps({
+        shortcuts: false
+      });
+
+      shortcuts.getScope().should.be.empty;
+    });
+
+    it('should not trigger on component with disabled shortcuts', function () {
+      createСomponent({
+        shortcuts: true
+      });
+
+      component.setProps({
+        shortcuts: false
+      });
+
+      trigger();
+      noop.should.not.have.been.called;
+    });
+
+    it('should trigger on subcomponent which shadows component\'s shortcut', function () {
+      createСomponentWithSubComponent({
+        shortcuts: true
+      });
+
+      trigger();
+      noop.should.not.have.been.called;
+      noop2.should.have.been.called;
+    });
+
+    it('should disable shortcuts on component and subcomponent', function () {
+      createСomponentWithSubComponent({
+        shortcuts: true
+      });
+
+      component.setProps({
+        shortcuts: false
+      });
+
+      shortcuts.getScope().should.be.empty;
+    });
+
+    it('should disable shortcuts on subcomponent', function () {
+      createСomponentWithSubComponent({
+        shortcuts: true
+      });
+
+      component.refs.subComponent.setState({
+        shortcuts: false
+      });
+
+      shortcuts.getScope().should.deep.equal([scope]);
     });
   });
 });
