@@ -5,28 +5,8 @@
  */
 
 require('./header.scss');
-var Auth = require('auth/auth'); // jshint -W098
-var Global = require('global/global');
-var Icon = require('icon/icon');
+var Icon = require('icon/icon'); // jshint -W098
 var React = require('react/addons');
-
-
-/**
- * @enum {string}
- */
-var Service = {
-  TEAMCITY: 'teamcity',
-  YOUTRACK: 'youtrack'
-};
-
-
-/**
- * @type {Object.<Service, string>}
- */
-var serviceToIcon = Global.createObject(
-    Service.TEAMCITY, 'teamcity',
-    Service.YOUTRACK, 'youtrack');
-
 
 
 /**
@@ -34,41 +14,17 @@ var serviceToIcon = Global.createObject(
  * @extends {ReactComponent}
  * @private
  */
-var UserMenu = React.createClass({
-  getInitialState: function() {
+var HeaderLogo = React.createClass({
+  getDefaultProps: function() {
     return {
-      menuIsOpened: false
+      glyph: ''
     };
   },
 
   render: function() {
     /* jshint ignore:start */
-    return (<div className="header__user-menu">
-      <Icon className="header__user-menu-item_icon header__user-menu-item" color={Icon.Color.WHITE} onClick={this._handleItemClick} glyph="cog" size={Icon.Size.Size16} />
-      <Icon className="header__user-menu-item_icon header__user-menu-item" color={Icon.Color.WHITE} onClick={this._handleItemClick} glyph="help" size={Icon.Size.Size16} />
-      <Icon className="header__user-menu-item_icon header__user-menu-item" color={Icon.Color.WHITE} onClick={this._handleMenuClick} glyph="menu" size={Icon.Size.Size16} />
-      <Icon className="header__user-menu-item_icon header__user-menu-item" color={Icon.Color.WHITE} onClick={this._handleItemClick} glyph="user" size={Icon.Size.Size16} />
-    </div>);
+    return (<a href="/"><Icon size={Icon.Size.Size32} glyph={this.props.glyph} /></a>);
     /* jshint ignore:end */
-  },
-
-  /**
-   * @param {SyntheticMouseEvent} evt
-   * @private
-   */
-  _handleItemClick: function(evt) {
-    evt.preventDefault();
-  },
-
-  /**
-   * @param {SyntheticMouseEvent} evt
-   * @private
-   */
-  _handleMenuClick: function(evt) {
-    evt.preventDefault();
-
-    this.setState({ menuIsOpened: true });
-    this.props.menuOpenCallback();
   }
 });
 
@@ -78,30 +34,11 @@ var UserMenu = React.createClass({
  * @extends {ReactComponent}
  */
 var Header = React.createClass({
-  statics: { Service: Service },
-
-  propTypes: {
-    service: React.PropTypes.oneOf(Object.keys(Service).map(function(name) {
-      return Service[name];
-    })).isRequired,
-    menuItems: React.PropTypes.arrayOf(React.PropTypes.object)
-  },
-
   getDefaultProps: function() {
     return {
-      service: Service.YOUTRACK,
-      menuItems: [
-        { name: 'Users', link: '' },
-        { name: 'Groups', link: '' },
-        { name: 'Spaces', link: '' },
-        { name: 'Services', link: '' }
-      ]
-    };
-  },
-
-  getInitialState: function() {
-    return {
-      menuIsOpened: false
+      logo: '',
+      menu: '',
+      rightMenu: ''
     };
   },
 
@@ -109,11 +46,8 @@ var Header = React.createClass({
     /*jshint ignore:start*/
     return (<div className="header">
       <div className="header__logo">{this._getLogo()}</div>
-      {this._getMenu()}
-      {this._getUserMenu()}
-      <React.addons.CSSTransitionGroup transitionName="service-menu">
-        {this._getServiceMenu()}
-      </React.addons.CSSTransitionGroup>
+      <div className="header__menu">{this.props.menu}</div>
+      <div className="header__user-menu">{this._getRightMenu()}</div>
     </div>);
     /*jshint ignore:end*/
   },
@@ -123,21 +57,12 @@ var Header = React.createClass({
    * @private
    */
   _getLogo: function() {
-    return new Icon({
-      glyph: serviceToIcon[this.props.service],
-      size: Icon.Size.Size32
-    });
-  },
+    if (React.addons.TestUtils.isCompositeComponent(this.props.logo)) {
+      return this.props.logo;
+    }
 
-  /**
-   * @return {ReactComponent}
-   * @private
-   */
-  _getMenu: function() {
     /* jshint ignore:start */
-    return /** @type {ReactComponent} */ (<div className="header__menu">{this.props.menuItems.map(function(item, i) {
-      return (<div className="header__menu-item" key={i}><a href={item.link}>{item.name}</a></div>);
-    })}</div>);
+    return (<HeaderLogo glyph={this.props.logo} />);
     /* jshint ignore:end */
   },
 
@@ -145,33 +70,24 @@ var Header = React.createClass({
    * @return {ReactComponent}
    * @private
    */
-  _getUserMenu: function() {
-    return /** @type {ReactComponent} */ new UserMenu({
-      menuOpenCallback: function() {
-        this.setState({ menuIsOpened: !this.state.menuIsOpened });
-      }.bind(this)
-    });
+  _getMenu: function() {
+    if (this.props.menu) {
+      return /** @type {ReactComponent} */ this.transferPropsTo(this.props.menu);
+    }
+
+    return '';
   },
 
   /**
    * @return {ReactComponent}
    * @private
    */
-  _getServiceMenu: function() {
-    if (this.state.menuIsOpened) {
-      /* jshint ignore:start */
-      return (<div className="header__menu-service">
-        <div className="header__menu-service-inner">
-          <div className="header__menu-service-item"><a href="#"><Icon glyph="youtrack" size={Icon.Size.Size48} /><br />YouTrack</a></div>
-          <div className="header__menu-service-item"><a href="#"><Icon glyph="teamcity" size={Icon.Size.Size48} /><br />TeamCity</a></div>
-          <div className="header__menu-service-item"><a href="#"><Icon glyph="hub" size={Icon.Size.Size48} /><br />Hub</a></div>
-          <div className="header__menu-service-item"><a href="#"><Icon glyph="upsource" size={Icon.Size.Size48} /><br />Upsource</a></div>
-        </div>
-      </div>);
-      /* jshint ignore:end */
+  _getRightMenu: function() {
+    if (this.props.rightMenu) {
+      return /** @type {ReactComponent} */ this.transferPropsTo(this.props.rightMenu);
     }
 
-    return null;
+    return '';
   }
 });
 
