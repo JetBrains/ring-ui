@@ -35,7 +35,7 @@ describe('Global', function() {
     });
   });
 
-  describe.only('Global.ClassName', function() {
+  describe('Global.ClassName', function() {
     var className;
     var BASE_CLASS = 'base-class';
 
