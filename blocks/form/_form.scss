@@ -135,6 +135,12 @@
   &:first-child {
     margin-top: 0;
   }
+
+  &:after {
+    display: block;
+    content : '';
+    clear: both;
+  }
 }
 
 .ring-form__group_united {
@@ -153,12 +159,13 @@
 .ring-form__label {
   position: relative;
   top: 0;
-  display: inline;
+  display: inline-block;
   float: left;
-  height: 3 * $ring-unit;
 
-  line-height: 3 * $ring-unit;
-  vertical-align: middle;
+  max-width: 18 * $ring-unit;
+  line-height: 2 * $ring-unit;
+  padding-top: $ring-unit/2;
+  vertical-align: top;
 
   & .ring-checkbox__label, & .ring-radio-btn__label {
     top: -2px;
@@ -174,8 +181,8 @@
   min-height: 3 * $ring-unit;
   margin-left: 20 * $ring-unit;
 
-  line-height: 2.5 * $ring-unit;
-  vertical-align: middle;
+  line-height: 3 * $ring-unit;
+  vertical-align: top;
 }
 
 .ring-form__control_text:after {
