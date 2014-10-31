@@ -67,7 +67,8 @@ angular.module('Ring.shortcuts', [])
         },
         'isMainMode': function(name) {
           return mainModes[name];
-        }
+        },
+        shortcuts: shortcutsInstance
       };
 
     }];

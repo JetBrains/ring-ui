@@ -94,7 +94,8 @@ var PopupMixin = {
 
   componentWillReceiveProps: function (props) {
     this.setState({
-      style: this._getStyles(props)
+      style: this._getStyles(props),
+      shortcuts: true
     });
   },
 
@@ -140,9 +141,9 @@ var PopupMixin = {
       this.setState({
         style: {
           display: 'none'
-        }
+        },
+        shortcuts: false
       });
-      this.disableShortcuts();
     }
 
     return true;
