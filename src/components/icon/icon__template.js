@@ -6,6 +6,7 @@
 var fs = require('fs');
 var xml2js = require('xml2js');
 var xml = require('node-xml-lite');
+var Global = require('../global/global');
 
 
 /**
@@ -25,7 +26,7 @@ var SOURCE_DIRECTORY = 'source';
  * @const
  * @type {string}
  */
-var ELEMENT_PREFIX = 'ring-icon_';
+var ELEMENT_PREFIX = 'ring-icon';
 
 
 /**
@@ -144,12 +145,13 @@ var transformSVG = function(fileContents) {
     var fileContent = fileContents[fileName];
     var preprocessedFile = (function preprocessFile(fileContent, fileName) {
       if (fileContent['name'] === 'svg') {
-        // todo(igor.alexeenko): What to do if there's some dots in dirname.
+        // todo(igor.alexeenko): What to do if there's some dots in pathname?
         var splitPath = fileName.split('.')[0].split('/').slice(-1)[0];
+        var className = new Global.ClassName(ELEMENT_PREFIX);
 
         fileContent['name'] = 'symbol';
         fileContent['attrib'] = {
-          'id': ELEMENT_PREFIX + splitPath,
+          'id': className.getModifier(splitPath),
           'viewBox': fileContent['attrib']['viewBox']
         };
       }
