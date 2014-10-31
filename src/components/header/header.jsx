@@ -57,7 +57,8 @@ var Header = React.createClass({
    * @private
    */
   _getLogo: function() {
-    if (React.addons.TestUtils.isCompositeComponent(this.props.logo)) {
+    if (this.props.logo && typeof this.props.logo.setState !== 'undefined' &&
+        typeof this.props.logo.render !== 'undefined') {
       return this.props.logo;
     }
 
