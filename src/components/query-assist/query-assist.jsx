@@ -165,7 +165,7 @@ var QueryAssist = React.createClass({
     }
 
     if (typeof this.props.onFocusChange === 'function') {
-      this.props.onFocusChange(focus);
+      this.props.onFocusChange({focus: focus});
     }
 
     this.setState({focus: focus, shortcuts: focus});
