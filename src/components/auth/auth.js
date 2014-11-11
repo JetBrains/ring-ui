@@ -55,7 +55,7 @@ var Auth = function (config) {
     }
   });
 
-  this._reponseParser = new AuthResponseParser();
+  this._responseParser = new AuthResponseParser();
 
   this._requestBuilder = new AuthRequestBuilder({
     authorization: this.config.serverUri + Auth.API_AUTH_PATH,
@@ -78,7 +78,7 @@ Auth.ABSOLUTE_URL_PATTERN = /^[a-z]+:\/\//i;
 Auth.DEFAULT_CONFIG = {
   client_id: '0-0-0-0-0',
   redirect_uri: (function () {
-    var baseUrl = $('base').prop('href'); // unlike attr prop returns correct value *with* leading slash
+    var baseUrl = $('base').prop('href'); // unlike attr, prop returns correct value *with* leading slash
     var host = window.location.protocol + '//' + window.location.host;
 
     var uri;
@@ -244,7 +244,7 @@ Auth.prototype._checkForAuthResponse = function () {
   var self = this;
   return when.promise(function (resolve) {
     // getAuthResponseURL may throw an exception. Wrap it with promise to handle it gently.
-    resolve(self._reponseParser.getAuthResponseFromURL());
+    resolve(self._responseParser.getAuthResponseFromURL());
   }).then(
     /**
      * @param {AuthResponse} authResponse
@@ -412,7 +412,7 @@ Auth.prototype._validateAgainstUser = function (storedToken) {
 };
 
 /**
- * Gets stored token and applied given validators
+ * Gets stored token and applies provided validators
  * @param {(function(StoredToken): Promise<StoredToken>)[]} validators an array of validation
  * functions to check the stored token against.
  * @return {Promise.<string>} promise that is resolved to access token if the stored token is valid. If it is
