@@ -59,9 +59,12 @@ var QueryAssist = React.createClass({
     var query = props.query || '';
 
     var state = {
-      query: query,
-      caret: props.caret != null ? props.caret : query.length
+      query: query
     };
+
+    if (props.caret != null) {
+      state.caret = props.caret;
+    }
 
     // Undefined could be passed from react-ng, so 'focus' in props won't help
     if (typeof props.focus !== 'undefined') {
