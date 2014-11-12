@@ -431,12 +431,31 @@ Auth.prototype._getValidatedToken = function (validators) {
 };
 
 /**
+ * Gets url and fix it.
+ * If url is relative and there is <base> TAG in page code url will be converted to absolute.
+ * <base href="/">: some/path => /some/path
+ * @param {string} url
+ * @returns {string} fixed_url
+ * @private
+ */
+Auth.prototype._fixUrl = function(url) {
+  if (url.indexOf('http://') === -1 && url.indexOf('https://') === -1 && url.indexOf('/') !== 0) {
+    var baseUrl = $('base').prop('href');
+    if (baseUrl) {
+      url = baseUrl + url;
+    }
+  }
+
+  return url;
+};
+
+/**
  * Redirects current page to the given URL
  * @param {string} url
  * @private
  */
 Auth.prototype._redirectCurrentPage = function (url) {
-  window.location = url;
+  window.location = this._fixUrl(url);
 };
 
 /**
