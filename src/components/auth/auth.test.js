@@ -3,6 +3,7 @@ describe('auth', function () {
   var AuthRequestBuilder = require('./auth__request-builder');
   var AuthStorage = require('./auth__storage');
   var when = require('when');
+  var $ = require('jquery');
 
   describe('construction', function () {
     it('should require provide config', function () {
