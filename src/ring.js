@@ -1,6 +1,8 @@
 window.React = require('react');
 
 module.exports = {
+  Alert: require('alert/alert'),
+  Alerts: require('alert/alerts'),
   Auth: require('auth/auth'),
   Button: require('button/button'),
   Checkbox: require('checkbox/checkbox'),
@@ -9,6 +11,7 @@ module.exports = {
   Form: require('form/form'),
   FormGroup: require('form/form__group'),
   Global: require('global/global'),
+  Icon: require('icon/icon'),
   Input: require('input/input'),
   List: require('list/list'),
   Loader: require('loader/loader'),
