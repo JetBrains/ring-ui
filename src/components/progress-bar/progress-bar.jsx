@@ -1,12 +1,10 @@
-/** @jsx React.DOM */
-
 /**
- * The <ProgressBar> component represents the progress of a task.
- * (like HTML5 progress tag)
- *
- * Markup:
- *   <ProgressBar value=0 max=100 className={modifiers}/>
+ * @jsx React.DOM
+ * @author igor.alexeenko@jetbrains.com (Igor Alekseenko)
+ * @fileoverview component represents the progress of a task.
+ * (like HTML5 progress tag).
  */
+
 'use strict';
 
 require('./progress-bar.scss');
@@ -43,31 +41,36 @@ var ProgressBar = React.createClass({
      * ring-progress-bar_global  - Progress bar on top of
      * the screen. Should be placed directly inside body, will be positioned right below .ring-header
      * if placed adjacent to it.
+     * @type {string}
      */
     className: ReactPropTypes.string,
 
     /**
      * A floating point number that specifies how much work the task requires
      * in total before it can be considered complete. Default value is 1.0.
+     * @type {number}
      */
     max: ReactPropTypes.number,
 
     /**
      * A floating point number that specifies how much of the
      * task has been completed
+     * @type {number}
      */
     value: ReactPropTypes.number
   },
 
   getDefaultProps: function() {
     return {
-      max: 1.0
+      max: 1.0,
+      value: 0
     };
   },
 
   /**
-   * @param {Number} value The progress task value
-   * @return {Number} The progress task value in percents
+   * @param {number} value The progress task value
+   * @return {number} The progress task value in percents
+   * @private
    */
   _progressValueToPercents: function(value) {
     var percents = (value * 100) / this.props.max;
@@ -82,17 +85,15 @@ var ProgressBar = React.createClass({
 
     return this.transferPropsTo(
       <div className='ring-progress-bar'
-        ref="progressbarWrapper">
+          ref="progressbarWrapper">
         <div className="ring-progress-bar__i"
-          ref="progressbar"
-          role="progressbar"
-          aria-valuenow={this.props.value}
-          aria-valuemin={0}
-          aria-valuemax={this.props.max}
-          style={progress}>
-        </div>
-      </div>
-    );
+            ref="progressbar"
+            role="progressbar"
+            aria-valuenow={this.props.value}
+            aria-valuemin={0}
+            aria-valuemax={this.props.max}
+            style={progress} />
+      </div>);
     /* jshint ignore:end */
   }
 });
