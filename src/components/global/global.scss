@@ -2,10 +2,16 @@ $ring-unit: 8px;
 
 $ring-link-color:  #1866C5;
 $ring-link-hover-color: #FF5A00;
+$ring-color-error: #C10000;
+$ring-color-gray: #ccc;
+$ring-color-dark-gray: #888;
+$ring-color-green: #84ab28;
+$ring-color-blue: #25b7ff;
 
 $ring-outline-color: rgba(37, 183, 255, 0.5);
+$ring-border-color: rgba(0, 0, 0, 0.2);
 
-$ring-color-error: #C10000;
+$ring-font-color: #1a1a1a;
 
 @mixin rgba-attribute($attribute, $color, $background: #fff) {
   $solid-color: mix(opacify($color, 1), $background, alpha($color) * 100%);
@@ -14,6 +20,7 @@ $ring-color-error: #C10000;
 }
 
 @mixin ring-font() {
+  color: $ring-font-color;
   font-family: "Helvetica Neue", Arial, sans-serif;
 }
 
@@ -24,6 +31,11 @@ $ring-color-error: #C10000;
 
 @mixin ring-monospace-font() {
   font: 12px Menlo, "Bitstream Vera Sans Mono", "Ubuntu Mono", "Courier New", Courier, monospace;
+}
+
+@mixin vertical-compensation($compensation, $position: relative) {
+  position: $position;
+  top: $compensation;
 }
 
 $ring-fonts-dir: 'fonts/' !default;
