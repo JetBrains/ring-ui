@@ -27,26 +27,26 @@ angular.module('Ring.alert', []).provider('alert', function() {
     };
   };
 
-  function error(message, ttl) {
-    _add(message, reactAlert.Type.ERROR, ttl);
+  function error(text, ttl) {
+    _add(text, reactAlert.Type.ERROR, ttl);
   }
 
-  function warning(message, ttl) {
-    _add(message, reactAlert.Type.WARNING, ttl);
+  function warning(text, ttl) {
+    _add(text, reactAlert.Type.WARNING, ttl);
   }
 
-  function message(message, ttl) {
-    _add(message, reactAlert.Type.MESSAGE, ttl);
+  function message(text, ttl) {
+    _add(text, reactAlert.Type.MESSAGE, ttl);
   }
 
-  function success(message, ttl) {
-    _add(message, reactAlert.Type.SUCCESS, ttl);
+  function success(text, ttl) {
+    _add(text, reactAlert.Type.SUCCESS, ttl);
   }
 
-  function _add(message, type, ttl) {
+  function _add(text, type, ttl) {
     if(!container) {
       throw Error('Ring2 alert is not configured for use');
     }
-    return reactAlerts.add(message, type, ttl);
+    return reactAlerts.add(text, type, ttl);
   }
 });
