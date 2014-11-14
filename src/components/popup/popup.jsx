@@ -130,8 +130,9 @@ var PopupMixin = {
    * Closes popup and optionally removes from document.
    */
   close: function () {
-    if (typeof this.props.onClose === 'function') {
-      return this.props.onClose();
+    if (typeof this.props.onClose === 'function' &&
+        this.props.onClose() === false) {
+      return false;
     }
 
     if (this.props.autoRemove !== false) {
