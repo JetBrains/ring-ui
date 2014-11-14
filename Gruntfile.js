@@ -448,6 +448,14 @@ module.exports = function(grunt) {
           out: '<%= path.dist %>ring-hub.js'
         })
       },
+      'ring-hub2': {
+        options: _.extend(_.clone(requireConfig.options), {
+          paths: {
+            ring: '../<%= path.bundles %>ring-hub2'
+          },
+          out: '<%= path.dist %>ring-hub2.js'
+        })
+      },
       'ring-upsource': {
         options: _.extend(_.clone(requireConfig.options), {
           paths: {
