@@ -8,9 +8,9 @@
 }
 
 .ring-scrollbar::-webkit-scrollbar-thumb {
-  background-color: rgb(204, 204, 204);
+  background-color: rgba(0, 0, 0, .12);
 
   &:hover {
-    background-color: rgb(153, 153, 153);
+    background-color: rgba(0, 0, 0, .24);
   }
 }
