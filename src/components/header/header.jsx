@@ -16,9 +16,7 @@ var React = require('react/addons');
  */
 var HeaderLogo = React.createClass({
   getDefaultProps: function() {
-    return {
-      glyph: ''
-    };
+    return { glyph: '' };
   },
 
   render: function() {
@@ -29,16 +27,85 @@ var HeaderLogo = React.createClass({
 });
 
 
+
+/**
+ * @constructor
+ * @extends {ReactComponent}
+ * @private
+ */
+var MenuItem = React.createClass({
+  getDefaultProps: function() {
+    return {
+      glyph: 'cog',
+      onOpen: null,
+      onClose: null
+    };
+  },
+
+  getInitialState: function() {
+    return { opened: false };
+  },
+
+  render: function() {
+    /* jshint ignore:start */
+    return (<Icon
+      className="header__user-menu-item_icon"
+      color={this.state.opened ? 'blue' : ''}
+      glyph={this.props.glyph}
+      onClick={this._handleClick}
+      size={Icon.Size.Size16} />);
+    /* jshint ignore:end */
+  },
+
+  /**
+   * @param {SyntheticMouseEvent} evt
+   * @private
+   */
+  _handleClick: function(evt) {
+    evt.preventDefault();
+    this.setOpened(!this.state.opened);
+  },
+
+  /**
+   * @param {boolean} opened
+   */
+  setOpened: function(opened) {
+    this.setState({ opened: opened }, function() {
+      if (opened) {
+        if (typeof this.props.onOpen === 'function') {
+          this.props.onOpen();
+        }
+      } else {
+        if (typeof this.props.onClose === 'function') {
+          this.props.onClose();
+        }
+      }
+    });
+  }
+});
+
+
 /**
  * @constructor
  * @extends {ReactComponent}
  */
 var Header = React.createClass({
+  getInitialState: function() {
+    return {
+      settingsIsOpened: false
+    };
+  },
+
   getDefaultProps: function() {
     return {
       logo: '',
       menu: '',
-      rightMenu: ''
+      rightMenu: '',
+
+      onUserMenuOpen: null,
+      onUserMenuClose: null,
+      onSettingsOpen: null,
+      onSettingsClose: null
     };
   },
 
@@ -47,7 +114,7 @@ var Header = React.createClass({
     return (<div className="header">
       <div className="header__logo">{this._getLogo()}</div>
       <div className="header__menu">{this.props.menu}</div>
-      <div className="header__user-menu">{this._getRightMenu()}</div>
+      {this._getRightMenu()}
     </div>);
     /*jshint ignore:end*/
   },
@@ -57,6 +124,9 @@ var Header = React.createClass({
    * @private
    */
   _getLogo: function() {
+    // todo(igor.alexeenko): This check treats as valid components only components
+    // created by React.createClass(). If pass already existed component like
+    // React.DOM.img it won't work.
     if (this.props.logo && typeof this.props.logo.setState !== 'undefined' &&
         typeof this.props.logo.render !== 'undefined') {
       return this.props.logo;
@@ -88,7 +158,45 @@ var Header = React.createClass({
       return /** @type {ReactComponent} */ this.transferPropsTo(this.props.rightMenu);
     }
 
-    return '';
+    /* jshint ignore:start */
+    var menuContent = this.props.rightMenu ? this.transferPropsTo(this.props.rightMenu) : (<div>
+      <div className="header__user-menu-extra header__user-menu-item"></div>
+      <MenuItem ref="settings" glyph="cog" onOpen={this.props.onSettingsOpen} onClose={this.props.onSettingsClose} />
+      <MenuItem ref="userMenu" glyph="user" onOpen={this.props.onUserMenuOpen} onClose={this.props.onUserMenuClose} />
+    </div>);
+
+    return (<div className="header__user-menu">
+      {menuContent}
+    </div>);
+    /* jshint ignore:end */
+  },
+
+  /**
+   * @return {Element}
+   */
+  getExtraElement: function() {
+    return this.getDOMNode().querySelector('.header__user-menu-extra');
+  },
+
+  /**
+   * @return {Element}
+   */
+  getMenuElement: function() {
+    return this.getDOMNode().querySelector('.header__menu');
+  },
+
+  /**
+   * @return {ReactComponent}
+   */
+  getUserMenu: function() {
+    return this.refs['userMenu'];
+  },
+
+  /**
+   * @return {ReactComponent}
+   */
+  getSettings: function() {
+    return this.refs['settings'];
   }
 });
 
