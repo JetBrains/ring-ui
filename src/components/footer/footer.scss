@@ -13,6 +13,14 @@
   @include ring-font();
 
   margin: $ring-unit*5  $ring-unit*4 0 $ring-unit*4;
+
+  &.ring-footer_floating {
+    bottom: 0;
+    position: absolute;
+    margin-left: 0;
+    margin-right: 0;
+    width: 100%;
+  }
 }
 
 .ring-footer__column {
