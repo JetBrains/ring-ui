@@ -8,10 +8,11 @@ body {
   box-sizing: border-box;
   height: $ring-unit * 7;
   line-height: $ring-unit * 7;
+  margin-bottom: $ring-unit * 2;
   padding: 0 $ring-unit * 4;
   position: relative;
 
-  &:after {
+  &.header_border:after {
     border-bottom: solid 1px #ccc;
     bottom: 0;
     content: '';
@@ -36,6 +37,7 @@ body {
 
 .header__user-menu {
   float: right;
+  margin-right: -1 * $ring-unit * 2;
 }
 
 .header__menu-item,
