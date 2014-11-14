@@ -6,6 +6,7 @@
 var fs = require('fs');
 var xml2js = require('xml2js');
 var xml = require('node-xml-lite');
+var Global = require('../global/global');
 
 
 /**
@@ -25,7 +26,7 @@ var SOURCE_DIRECTORY = 'source';
  * @const
  * @type {string}
  */
-var ELEMENT_PREFIX = 'ring-icon_';
+var ELEMENT_PREFIX = 'ring-icon';
 
 
 /**
@@ -35,12 +36,37 @@ var attributesToExclude = ['fill'];
 
 
 /**
+ * Takes a pathname and returns list of all files in a given directory and child
+ * directories.
+ * @param {string} path
+ * @return {Array.<string>}
+ */
+var readdirRecursive = function(path) {
+  var files = fs.readdirSync(path);
+  var output = [];
+  var file;
+
+  while ((file = files.shift())) {
+    var fPath = path + '/' + file;
+    var fStat = fs.lstatSync(fPath);
+
+    if (fStat.isDirectory()) {
+      output = output.concat(readdirRecursive(fPath));
+    } else {
+      output.push(fPath);
+    }
+  }
+
+  return output;
+};
+
+/**
  * @param {string} directory
  * @param {string} pattern
  * @return {Object.<string, string>}
  */
 var readFiles = function(directory, pattern) {
-  var files = fs.readdirSync(directory);
+  var files = readdirRecursive(directory);
   var fname;
   var fileContents = {};
 
@@ -48,7 +74,7 @@ var readFiles = function(directory, pattern) {
 
   while ((fname = files.shift())) {
     if (regExp.test(fname)) {
-      fileContents[fname] = xml.parseFileSync(directory + '/' + fname);
+      fileContents[fname] = xml.parseFileSync(fname);
     }
   }
 
@@ -73,7 +99,7 @@ var transformFile = function(fileContent, target) {
   var targetEl = {};
 
   if (fileContent['attrib']) {
-    targetEl['$'] = {}; //fileContent['attrib'];
+    targetEl['$'] = {};
 
     var attributeNames = Object.keys(fileContent['attrib']);
     attributeNames.forEach(function(attribute) {
@@ -119,9 +145,13 @@ var transformSVG = function(fileContents) {
     var fileContent = fileContents[fileName];
     var preprocessedFile = (function preprocessFile(fileContent, fileName) {
       if (fileContent['name'] === 'svg') {
+        // todo(igor.alexeenko): What to do if there's some dots in pathname?
+        var splitPath = fileName.split('.')[0].split('/').slice(-1)[0];
+        var className = new Global.ClassName(ELEMENT_PREFIX);
+
         fileContent['name'] = 'symbol';
         fileContent['attrib'] = {
-          'id': ELEMENT_PREFIX + fileName.split('.')[0],
+          'id': className.getModifier(splitPath),
           'viewBox': fileContent['attrib']['viewBox']
         };
       }
