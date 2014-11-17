@@ -6,6 +6,7 @@
 'use strict';
 
 /* global angular: false */
+/* jshint latedef:false */
 
 var React = require('react/addons');
 
@@ -14,9 +15,7 @@ angular.module('Ring.alert', []).provider('alert', function() {
   var ReactAlerts = require('../alert/alerts');
   var container = null;
 
-  this.init = function(containerElement) {
-    container = React.renderComponent(new ReactAlerts(), containerElement);
-  };
+  this.init = init;
 
   this.$get = function() {
     return {
@@ -27,10 +26,17 @@ angular.module('Ring.alert', []).provider('alert', function() {
     };
   };
 
+  function init(containerElement) {
+    if (!containerElement) {
+      containerElement = angular.element('<div>');
+      angular.element(document.body).prepend(containerElement);
+    }
+    container = React.renderComponent(new ReactAlerts(), containerElement.get(0));
+  }
 
   function _add(text, type, ttl) {
     if(!container) {
-      throw Error('Ring2 alert is not configured for use');
+      init();
     }
     return container.add(text, type, ttl);
   }
