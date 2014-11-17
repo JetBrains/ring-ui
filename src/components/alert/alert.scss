@@ -32,10 +32,11 @@
   &.ring-alert_inline {
     margin: $ring-unit;
   }
+}
 
-  &.ring-alert_error {
-    color: $ring-color-error;
-  }
+.ring-alert_error {
+  color: $ring-color-error;
+  word-wrap: break-word;
 }
 
 .ring-icon.ring-alert__icon {
