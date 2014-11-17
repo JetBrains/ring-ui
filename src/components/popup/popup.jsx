@@ -197,6 +197,12 @@ var PopupMixin = {
         styles.top = (anchorElementOffset.top - $(this.getDOMNode()).height()) + (props.top || 0);
         break;
 
+      case Corner.BOTTOM_RIGHT:
+        // todo(igor.alexeenko): Very approximate.
+        styles.left = anchorElementOffset.left - $(this.getDOMNode()).width() + $(anchorElement).width() + 20;
+        styles.top = (anchorElementOffset.top + $(anchorElement).outerHeight()) + (props.top || 0);
+        break;
+
       case undefined:
       case Corner.BOTTOM_LEFT:
         styles.left = anchorElementOffset.left + (props.left || 0);
