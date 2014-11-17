@@ -5,6 +5,7 @@
  */
 
 require('./header.scss');
+var Global = require('global/global');
 var Icon = require('icon/icon'); // jshint -W098
 var React = require('react/addons');
 
@@ -34,23 +35,42 @@ var HeaderLogo = React.createClass({
  * @private
  */
 var MenuItem = React.createClass({
-  getDefaultProps: function() {
+  getDefaultProps: function () {
     return {
-      glyph: 'cog',
+      glyph: '',
       onOpen: null,
       onClose: null
     };
   },
 
-  getInitialState: function() {
-    return { opened: false };
+  getInitialState: function () {
+    return {
+      opened: false,
+      picture: null
+    };
   },
 
-  render: function() {
+  render: function () {
     /* jshint ignore:start */
+    if (this.state.picture) {
+      var baseClass = new Global.ClassName('ring-icon');
+      var className = React.addons.classSet(Global.createObject(
+          baseClass.getClassName(), true,
+          baseClass.getModifier('16'), true,
+          baseClass.getModifier(this.props.glyph), true,
+          'header__user-menu-item_icon', true));
+
+      return (<img
+        className={className}
+        src={this.state.picture}
+        height="16"
+        onClick={this._handleClick}
+        width="16" />);
+    }
+
     return (<Icon
       className="header__user-menu-item_icon"
-      color={this.state.opened ? 'blue' : ''}
+      color={this.state.opened ? 'blue' : 'gray'}
       glyph={this.props.glyph}
       onClick={this._handleClick}
       size={Icon.Size.Size16} />);
@@ -61,7 +81,7 @@ var MenuItem = React.createClass({
    * @param {SyntheticMouseEvent} evt
    * @private
    */
-  _handleClick: function(evt) {
+  _handleClick: function (evt) {
     evt.preventDefault();
     this.setOpened(!this.state.opened);
   },
@@ -69,8 +89,8 @@ var MenuItem = React.createClass({
   /**
    * @param {boolean} opened
    */
-  setOpened: function(opened) {
-    this.setState({ opened: opened }, function() {
+  setOpened: function (opened) {
+    this.setState({opened: opened}, function () {
       if (opened) {
         if (typeof this.props.onOpen === 'function') {
           this.props.onOpen();
@@ -92,7 +112,7 @@ var MenuItem = React.createClass({
 var Header = React.createClass({
   getInitialState: function() {
     return {
-      settingsIsOpened: false
+      profilePicture: null
     };
   },
 
@@ -161,8 +181,8 @@ var Header = React.createClass({
     /* jshint ignore:start */
     var menuContent = this.props.rightMenu ? this.transferPropsTo(this.props.rightMenu) : (<div>
       <div className="header__user-menu-extra header__user-menu-item"></div>
-      <MenuItem ref="settings" glyph="cog" onOpen={this.props.onSettingsOpen} onClose={this.props.onSettingsClose} />
-      <MenuItem ref="userMenu" glyph="user" onOpen={this.props.onUserMenuOpen} onClose={this.props.onUserMenuClose} />
+      <MenuItem ref="settings" glyph="cog1" onOpen={this.props.onSettingsOpen} onClose={this.props.onSettingsClose} />
+      <MenuItem ref="userMenu" glyph="user1" onOpen={this.props.onUserMenuOpen} onClose={this.props.onUserMenuClose} />
     </div>);
 
     return (<div className="header__user-menu">
@@ -197,6 +217,14 @@ var Header = React.createClass({
    */
   getSettings: function() {
     return this.refs['settings'];
+  },
+
+  /**
+   * Replaces standard user icon with avatar.
+   * @param {string} src
+   */
+  setProfilePicture: function(src) {
+    this.refs['userMenu'].setState({ picture: src });
   }
 });
 
