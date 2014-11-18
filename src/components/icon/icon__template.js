@@ -30,6 +30,23 @@ var ELEMENT_PREFIX = 'ring-icon';
 
 
 /**
+ * @enum {number}
+ */
+var TransformStrategy = {
+  ICON: 'icon',
+  LOGO: 'logo'
+};
+
+
+/**
+ * @type {Object.<string, TransformStrategy>}
+ */
+var DirectoryToStrategy = Global.createObject(
+    'source', TransformStrategy.ICON,
+    'logos', TransformStrategy.LOGO);
+
+
+/**
  * @type {Array.<string>}
  */
 var attributesToExclude = ['fill'];
@@ -85,9 +102,10 @@ var readFiles = function(directory, pattern) {
 /**
  * @param {string} fileContent
  * @param {Object} target
+ * @param {TransformStrategy} strategy
  * @return {Object}
  */
-var transformFile = function(fileContent, target) {
+var transformFile = function(fileContent, target, strategy) {
   if (!target) {
     target = {};
   }
@@ -102,11 +120,23 @@ var transformFile = function(fileContent, target) {
     targetEl['$'] = {};
 
     var attributeNames = Object.keys(fileContent['attrib']);
-    attributeNames.forEach(function(attribute) {
-      if (attributesToExclude.indexOf(attribute) === -1) {
-        targetEl['$'][attribute] = fileContent['attrib'][attribute];
-      }
-    });
+
+    switch (strategy) {
+      case TransformStrategy.LOGO:
+        targetEl['$'] = fileContent['attrib'];
+        break;
+
+      // Exclude some parameters only if transforming icon. In case
+      // of transforming logotype do not change anything.
+      case TransformStrategy.ICON: //jshint -W086
+      default:
+        attributeNames.forEach(function(attribute) {
+          if (attributesToExclude.indexOf(attribute) === -1) {
+            targetEl['$'][attribute] = fileContent['attrib'][attribute];
+          }
+        });
+        break;
+    }
   }
 
   if (fileContent['childs']) {
@@ -114,7 +144,7 @@ var transformFile = function(fileContent, target) {
       if (typeof child === 'string') {
         targetEl = child;
       } else {
-        targetEl = transformFile(child, targetEl);
+        targetEl = transformFile(child, targetEl, strategy);
       }
     });
   }
@@ -141,17 +171,22 @@ var transformSVG = function(fileContents) {
   };
 
   var fileNames = Object.keys(fileContents);
-  fileNames.forEach(function(fileName, i) {
+  fileNames.forEach(function(fileName) {
+    // todo(igor.alexeenko): What to do if there's some dots in pathname?
+    var splitPath = fileName.split('.')[0].split('/');
+
+    var file = splitPath.slice(-1)[0];
+    var lastDirectory = splitPath.slice(-2)[0];
+    var strategy = DirectoryToStrategy[lastDirectory] || TransformStrategy.ICON;
+
     var fileContent = fileContents[fileName];
-    var preprocessedFile = (function preprocessFile(fileContent, fileName) {
+    var preprocessedFile = (function preprocessFile(fileContent) {
       if (fileContent['name'] === 'svg') {
-        // todo(igor.alexeenko): What to do if there's some dots in pathname?
-        var splitPath = fileName.split('.')[0].split('/').slice(-1)[0];
         var className = new Global.ClassName(ELEMENT_PREFIX);
 
         fileContent['name'] = 'symbol';
         fileContent['attrib'] = {
-          'id': className.getModifier(splitPath),
+          'id': className.getModifier(file),
           'viewBox': fileContent['attrib']['viewBox']
         };
       }
@@ -159,7 +194,7 @@ var transformSVG = function(fileContents) {
       return fileContent;
     })(fileContent, fileName);
 
-    output['svg'] = transformFile(preprocessedFile, output['svg'], i);
+    output['svg'] = transformFile(preprocessedFile, output['svg'], strategy);
   });
 
   return (new xml2js.Builder()).buildObject(output);
