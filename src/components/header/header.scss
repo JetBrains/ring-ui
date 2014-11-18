@@ -28,11 +28,11 @@ body {
 .header__logo,
 .header__menu {
   display: inline-block;
-  margin-right: $ring-unit * 4;
   vertical-align: middle;
 }
 
 .header__logo {
+  margin-right: $ring-unit * 4;
   @include vertical-compensation(-1px);
 }
 
