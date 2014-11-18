@@ -8,7 +8,7 @@ body {
   box-sizing: border-box;
   height: $ring-unit * 7;
   line-height: $ring-unit * 7;
-  margin-bottom: $ring-unit * 2;
+  margin-bottom: 1px;
   padding: 0 $ring-unit * 4;
   position: relative;
 
@@ -21,6 +21,7 @@ body {
     right: $ring-unit * 4;
   }
 
+  @include clearfix();
   @include ring-font();
 }
 
