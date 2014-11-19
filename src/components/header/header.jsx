@@ -11,6 +11,13 @@ var React = require('react/addons');
 
 
 /**
+ * @type {Global.ClassName}
+ * @private
+ */
+var headerClassName = new Global.ClassName('ring2-header');
+
+
+/**
  * @constructor
  * @extends {ReactComponent}
  * @private
@@ -58,7 +65,7 @@ var MenuItem = React.createClass({
           baseClass.getClassName(), true,
           baseClass.getModifier('16'), true,
           baseClass.getModifier(this.props.glyph), true,
-          'header__user-menu-item_icon', true));
+          'ring2-header__user-menu-item_icon', true));
 
       return (<img
         className={className}
@@ -69,7 +76,7 @@ var MenuItem = React.createClass({
     }
 
     return (<Icon
-      className="header__user-menu-item_icon"
+      className={headerClassName.getClassName('user-menu-item', 'icon')}
       color={this.state.opened ? 'blue' : 'gray'}
       glyph={this.props.glyph}
       onClick={this._handleClick}
@@ -131,9 +138,9 @@ var Header = React.createClass({
 
   render: function() {
     /*jshint ignore:start*/
-    return (<div className="header">
-      <div className="header__logo">{this._getLogo()}</div>
-      <div className="header__menu">{this.props.menu}</div>
+    return (<div className={headerClassName.getClassName()}>
+      <div className={headerClassName.getElement('logo')}>{this._getLogo()}</div>
+      <div className={headerClassName.getElement('menu')}>{this.props.menu}</div>
       {this._getRightMenu()}
     </div>);
     /*jshint ignore:end*/
@@ -178,16 +185,18 @@ var Header = React.createClass({
       return /** @type {ReactComponent} */ this.transferPropsTo(this.props.rightMenu);
     }
 
+    var extraElementClassName = React.addons.classSet(Global.createObject(
+        headerClassName.getElement('user-menu-extra'), true,
+        headerClassName.getElement('user-menu-item'), true));
+
     /* jshint ignore:start */
     var menuContent = this.props.rightMenu ? this.transferPropsTo(this.props.rightMenu) : (<div>
-      <div className="header__user-menu-extra header__user-menu-item"></div>
+      <div className={extraElementClassName}></div>
       <MenuItem ref="settings" glyph="cog1" onOpen={this.props.onSettingsOpen} onClose={this.props.onSettingsClose} />
       <MenuItem ref="userMenu" glyph="user1" onOpen={this.props.onUserMenuOpen} onClose={this.props.onUserMenuClose} />
     </div>);
 
-    return (<div className="header__user-menu">
-      {menuContent}
-    </div>);
+    return (<div className={headerClassName.getElement('user-menu')}>{menuContent}</div>);
     /* jshint ignore:end */
   },
 
@@ -195,14 +204,14 @@ var Header = React.createClass({
    * @return {Element}
    */
   getExtraElement: function() {
-    return this.getDOMNode().querySelector('.header__user-menu-extra');
+    return this.getDOMNode().querySelector('.' + headerClassName.getElement('user-menu-extra'));
   },
 
   /**
    * @return {Element}
    */
   getMenuElement: function() {
-    return this.getDOMNode().querySelector('.header__menu');
+    return this.getDOMNode().querySelector('.' + headerClassName.getElement('menu'));
   },
 
   /**
