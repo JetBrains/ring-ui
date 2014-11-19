@@ -1,10 +1,6 @@
 @import "../global/global";
 
-body {
-  background: #ececec;
-}
-
-.header {
+.ring2-header {
   box-sizing: border-box;
   height: $ring-unit * 7;
   line-height: $ring-unit * 7;
@@ -12,7 +8,7 @@ body {
   padding: 0 $ring-unit * 4;
   position: relative;
 
-  &.header_border:after {
+  &.ring2-header_border:after {
     border-bottom: solid 1px #ccc;
     bottom: 0;
     content: '';
@@ -25,24 +21,24 @@ body {
   @include ring-font();
 }
 
-.header__logo,
-.header__menu {
+.ring2-header__logo,
+.ring2-header__menu {
   display: inline-block;
   vertical-align: middle;
 }
 
-.header__logo {
+.ring2-header__logo {
   margin-right: $ring-unit * 4;
   @include vertical-compensation(-1px);
 }
 
-.header__user-menu {
+.ring2-header__user-menu {
   float: right;
   margin-right: -1 * $ring-unit * 2;
 }
 
-.header__menu-item,
-.header__user-menu-item {
+.ring2-header__menu-item,
+.ring2-header__user-menu-item {
   display: inline-block;
   margin-right: $ring-unit * 4;
 
@@ -57,7 +53,7 @@ body {
   }
 }
 
-.header__user-menu-item_icon {
+.ring2-header__user-menu-item_icon {
   cursor: pointer;
   fill: $ring-color-gray;
   padding: $ring-unit;
@@ -67,12 +63,12 @@ body {
     fill: $ring-link-hover-color;
   }
 
-  &.header__user-menu-item_active {
+  &.ring2-header__user-menu-item_active {
     fill: $ring-color-blue;
   }
 }
 
-.header__menu-service {
+.ring2-header__menu-service {
   background: linear-gradient(#1e262c, #3c4449);
   border-bottom: solid 1px #000;
   box-sizing: border-box;
@@ -82,7 +78,7 @@ body {
   position: relative;
 }
 
-.header__menu-service-inner {
+.ring2-header__menu-service-inner {
   bottom: 0;
   height: $ring-unit*17;
   line-height: $ring-unit * 17;
@@ -91,7 +87,7 @@ body {
   width: 100%;
 }
 
-.header__menu-service-item {
+.ring2-header__menu-service-item {
   display: inline-block;
   line-height: 1.2;
   margin: 0 $ring-unit*5;
@@ -113,20 +109,20 @@ body {
   }
 }
 
-.service-menu-enter {
+.ring2-header__service-menu-enter {
   height: 0;
   transition: height 200ms ease-out;
 }
 
-.service-menu-enter-active {
+.ring2-header__service-menu-enter-active {
   height: $ring-unit*17;
 }
 
-.service-menu-leave-active {
+.ring2-header__service-menu-leave-active {
   height: $ring-unit*17;
   transition: height 250ms ease-out;
 }
 
-.service-menu-leave-active {
+.ring2-header__service-menu-leave-active {
   height: 0;
 }
