@@ -117,7 +117,8 @@ var Icon = React.createClass({
       className: '',
       color: Color.DEFAULT,
       glyph: '',
-      size: Size.Size32
+      size: Size.Size32,
+      title: ''
     };
   },
 
@@ -139,6 +140,7 @@ var Icon = React.createClass({
     var useElement = document.createElementNS(NamespaceURI.SVG, 'use');
     useElement.setAttributeNS(NamespaceURI.XLINK, 'xlink:href',
         '#' + this.props.baseClass.getModifier(this.props.glyph));
+    useElement.setAttributeNS(null, 'title', this.props.title);
 
     this.getDOMNode().appendChild(useElement);
   }

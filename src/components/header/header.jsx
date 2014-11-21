@@ -45,6 +45,7 @@ var MenuItem = React.createClass({
   getDefaultProps: function () {
     return {
       glyph: '',
+      href: null,
       onOpen: null,
       onClose: null
     };
@@ -53,35 +54,21 @@ var MenuItem = React.createClass({
   getInitialState: function () {
     return {
       opened: false,
-      picture: null
+      picture: null,
+      title: ''
     };
   },
 
   render: function () {
-    /* jshint ignore:start */
-    if (this.state.picture) {
-      var baseClass = new Global.ClassName('ring-icon');
-      var className = React.addons.classSet(Global.createObject(
-          baseClass.getClassName(), true,
-          baseClass.getModifier('16'), true,
-          baseClass.getModifier(this.props.glyph), true,
-          'ring2-header__user-menu-item_icon', true));
+    var menuElement = this.state.picture ? this._getImage() : this._getIcon();
 
-      return (<img
-        className={className}
-        src={this.state.picture}
-        height="16"
-        onClick={this._handleClick}
-        width="16" />);
+    if (this.props.href) {
+      /* jshint ignore:start */
+      return (<a href={this.props.href}>{this.transferPropsTo(menuElement)}</a>);
+      /* jshint ignore:end */
     }
 
-    return (<Icon
-      className={headerClassName.getClassName('user-menu-item', 'icon')}
-      color={this.state.opened ? 'blue' : 'gray'}
-      glyph={this.props.glyph}
-      onClick={this._handleClick}
-      size={Icon.Size.Size16} />);
-    /* jshint ignore:end */
+    return this.transferPropsTo(menuElement);
   },
 
   /**
@@ -89,8 +76,58 @@ var MenuItem = React.createClass({
    * @private
    */
   _handleClick: function (evt) {
-    evt.preventDefault();
-    this.setOpened(!this.state.opened);
+    if (!this.props.href) {
+      evt.preventDefault();
+      this.setOpened(!this.state.opened);
+    }
+  },
+
+  /**
+   * @return {ReactComponent}
+   * @private
+   */
+  _getImage: function() {
+    // todo(igor.alexeenko): Make image size customizable.
+    // Now it is hardcoded for avatar in header.
+
+    /* jshint ignore:start */
+    var baseClass = new Global.ClassName('ring-icon');
+    var className = React.addons.classSet(Global.createObject(
+      baseClass.getClassName(), true,
+      baseClass.getModifier('24'), true,
+      baseClass.getModifier(this.props.glyph), true,
+      'ring2-header__user-menu-item_icon', true));
+
+    return (<img
+        className={className}
+        src={this.state.picture}
+        height="24"
+        onClick={this._handleClick}
+        title={this.state.title}
+        width="24" />);
+    /* jshint ignore:end */
+  },
+
+  /**
+   * @return {ReactComponent}
+   * @private
+   */
+  _getIcon: function() {
+    /* jshint ignore:start */
+    var className = React.addons.classSet(Global.createObject(
+        headerClassName.getClassName('user-menu-item', 'icon'), true,
+        headerClassName.getClassName('user-menu-item', this.props.glyph), true));
+
+    // NB! Wrapping span is needed because otherwise selenium tests couldn't
+    // trigger the click on the <SVG /> element.
+    return (<span className={className} onClick={this._handleClick}>
+      <Icon
+        color={this.state.opened ? 'blue' : 'gray'}
+        glyph={this.props.glyph}
+        size={Icon.Size.Size16}
+        title={this.state.title} />
+    </span>);
+    /* jshint ignore:end */
   },
 
   /**
@@ -108,6 +145,10 @@ var MenuItem = React.createClass({
         }
       }
     });
+  },
+
+  setTitle: function(title) {
+    this.setState({ title: title });
   }
 });
 
@@ -125,6 +166,7 @@ var Header = React.createClass({
 
   getDefaultProps: function() {
     return {
+      helpLink: null,
       logo: '',
       menu: '',
       rightMenu: '',
@@ -192,6 +234,7 @@ var Header = React.createClass({
     /* jshint ignore:start */
     var menuContent = this.props.rightMenu ? this.transferPropsTo(this.props.rightMenu) : (<div>
       <div className={extraElementClassName}></div>
+      <MenuItem ref="help" glyph="help" href={this.props.helpLink} />
       <MenuItem ref="settings" glyph="cog1" onOpen={this.props.onSettingsOpen} onClose={this.props.onSettingsClose} />
       <MenuItem ref="userMenu" glyph="user1" onOpen={this.props.onUserMenuOpen} onClose={this.props.onUserMenuClose} />
     </div>);
