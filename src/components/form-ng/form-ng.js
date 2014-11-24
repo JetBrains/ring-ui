@@ -21,7 +21,7 @@ angular.module('Ring.form', []).
         var element = iElement.siblings('input, textarea');
 
         scope.$watch(function() {
-          var result = scope.errorBubble()
+          var result = scope.errorBubble();
 
           return result.$invalid && result.$dirty;
         }, function(active) {
