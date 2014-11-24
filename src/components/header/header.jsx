@@ -60,15 +60,23 @@ var MenuItem = React.createClass({
   },
 
   render: function () {
-    var menuElement = this.state.picture ? this._getImage() : this._getIcon();
+    /* jshint ignore:start */
+    var className = React.addons.classSet(Global.createObject(
+      headerClassName.getClassName('user-menu-item'), true,
+      headerClassName.getClassName('user-menu-item', 'icon'), true,
+      headerClassName.getClassName('user-menu-item', this.props.glyph), true));
 
-    if (this.props.href) {
-      /* jshint ignore:start */
-      return (<a href={this.props.href}>{this.transferPropsTo(menuElement)}</a>);
-      /* jshint ignore:end */
-    }
+    // NB! Wrapping span is needed because otherwise selenium tests couldn't
+    // trigger the click on the <SVG /> element.
+    var iconElement = this.state.picture ? this._getImage() : this._getIcon();
+    var menuElement = (<span className={className} onClick={this._handleClick}>
+      {this.props.href ?
+          (<a href={this.props.href}>{this.transferPropsTo(iconElement)}</a>) :
+          this.transferPropsTo(iconElement)}
+    </span>);
 
     return this.transferPropsTo(menuElement);
+    /* jshint ignore:end */
   },
 
   /**
@@ -95,14 +103,12 @@ var MenuItem = React.createClass({
     var className = React.addons.classSet(Global.createObject(
       baseClass.getClassName(), true,
       baseClass.getModifier('24'), true,
-      baseClass.getModifier(this.props.glyph), true,
-      'ring2-header__user-menu-item_icon', true));
+      baseClass.getModifier(this.props.glyph), true));
 
     return (<img
         className={className}
         src={this.state.picture}
         height="24"
-        onClick={this._handleClick}
         title={this.state.title}
         width="24" />);
     /* jshint ignore:end */
@@ -114,19 +120,11 @@ var MenuItem = React.createClass({
    */
   _getIcon: function() {
     /* jshint ignore:start */
-    var className = React.addons.classSet(Global.createObject(
-        headerClassName.getClassName('user-menu-item', 'icon'), true,
-        headerClassName.getClassName('user-menu-item', this.props.glyph), true));
-
-    // NB! Wrapping span is needed because otherwise selenium tests couldn't
-    // trigger the click on the <SVG /> element.
-    return (<span className={className} onClick={this._handleClick}>
-      <Icon
+    return (<Icon
         color={this.state.opened ? 'blue' : 'gray'}
         glyph={this.props.glyph}
         size={Icon.Size.Size16}
-        title={this.state.title} />
-    </span>);
+        title={this.state.title} />);
     /* jshint ignore:end */
   },
 
