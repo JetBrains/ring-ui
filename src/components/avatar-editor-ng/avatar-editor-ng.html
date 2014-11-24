@@ -12,7 +12,7 @@
   </div>
   <input class="ring-avatar-editor__file-input" ring-avatar-editor-file-input type="file" ng-model="fileInput" accept="image/*" ng-if="!ngDisabled">
   <button class="ring-btn ring-btn_delayed-action" ng-disabled="ngDisabled"
-          ng-show="!model && !default" ng-click="controls.select()" ng-transclude></button>
+          ng-show="!model && !default" ng-click="controls.select()">{{ addMessage }}</button>
 
   <button ng-if="model && !ngDisabled" class="ring-btn ring-btn_danger ring-avatar-editor__remove" translate
           ng-click="controls.remove()">{{ deleteMessage }}</button>

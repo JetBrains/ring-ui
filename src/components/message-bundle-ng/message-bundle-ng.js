@@ -38,4 +38,7 @@ angular.module('Ring.message-bundle', []).
     this.avatareditor_delete = function() {
       return 'Delete Image';
     };
+    this.avatareditor_add = function() {
+      return 'Add Image';
+    };
   }]);

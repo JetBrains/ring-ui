@@ -31,6 +31,7 @@ angular.module('Ring.avatar-editor', ['Ring.message-bundle', 'Ring.alert']).
           var fileInput, ngModelCtrl;
 
           $scope.deleteMessage = RingMessageBundle.avatareditor_delete();
+          $scope.addMessage = RingMessageBundle.avatareditor_add();
 
           if ('controls' in $attrs) {
             $scope.controlled = true;
