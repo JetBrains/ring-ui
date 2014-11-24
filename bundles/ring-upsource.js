@@ -1,9 +1,6 @@
 define([
   'global/global',
-  'query-assist/query-assist',
-  'dropdown-menu/dropdown-menu',
-  'dropdown-filter/dropdown-filter',
-  'dropdown-select/dropdown-select'
+  'query-assist/query-assist'
 ], function (ring) {
   return ring;
 });
