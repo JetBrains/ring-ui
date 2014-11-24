@@ -1,15 +1,16 @@
 /* global angular: false */
 
 require('input/input.scss');
+require('message-bundle-ng/message-bundle-ng.js');
 
-angular.module('Ring.form', []).
+angular.module('Ring.form', ['Ring.message-bundle']).
 /**
  * <div error-bubble="form.name"></div>
  * @param {object} error-bubble Ng-model for this control
  *
  * Where form.name is a reference to angularJS form input
  */
-  directive('errorBubble', ['errorBubbleMessageBundle', function (bundle) {
+  directive('errorBubble', ['RingMessageBundle', function (RingMessageBundle) {
     return {
       scope: {
         'errorBubble': '&errorBubble'
@@ -33,39 +34,10 @@ angular.module('Ring.form', []).
         });
 
         scope.msg = function (id) {
-          return bundle[id] && bundle[id]();
+          id = 'form_' + id;
+          return RingMessageBundle[id] && RingMessageBundle[id]();
         };
       }
-    };
-  }]).
-/**
- * This service is used by errorBubble directive to correctly show messages.
- * You can decorate this service to provide your own localized messages.
- */
-  service('errorBubbleMessageBundle', [function () {
-    this.required = function () {
-      return 'Value is required';
-    };
-    this.url = function () {
-      return 'Should be a valid URL';
-    };
-    this.email = function () {
-      return 'Should be a valid email';
-    };
-    this.maxlength = function () {
-      return 'Is too long';
-    };
-    this.minlength = function () {
-      return 'Is too short';
-    };
-    this.pattern = function () {
-      return 'Doesn\'t match the pattern';
-    };
-    this.equalvalue = function () {
-      return 'Is not the same';
-    };
-    this.unique = function () {
-      return 'Is not unique';
     };
   }]).
 /**
