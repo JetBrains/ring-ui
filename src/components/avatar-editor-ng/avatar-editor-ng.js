@@ -1,17 +1,20 @@
 /* global angular: false */
 
+require('button/button.scss');
 require('avatar-editor/avatar-editor.scss');
 
-angular.module('Ring.avatar-editor', []).
+require('message-bundle-ng/message-bundle-ng');
+require('alert-ng/alert-ng');
+
+angular.module('Ring.avatar-editor', ['Ring.message-bundle', 'Ring.alert']).
 /**
  * <avatar-editor ng-model='entity.iconUrl' on-select='uploadFile(name, data)' default='default-picture-uri' controls='editor'></avatar-editor>
  *
  * Input to select small images for later upload as DataURI. On-select attribute gets filename as <code>name</code>
  * and DataURIed file content as <code>data</code>.
  */
-  directive('ringAvatarEditor', [
-    '$injector',
-    function ($injector) {
+  directive('ringAvatarEditor',
+    function () {
       return {
         restrict: 'E',
         scope: {
@@ -23,10 +26,11 @@ angular.module('Ring.avatar-editor', []).
         },
         template: require('./avatar-editor-ng.html'),
         transclude: true,
-        controller: ['$scope', '$attrs', function ($scope, $attrs) {
+        controller: ['$scope', '$attrs', 'RingMessageBundle', 'alert', function ($scope, $attrs, RingMessageBundle, alert) {
           var ctrl = this;
           var fileInput, ngModelCtrl;
-          var alert = $injector.has('alert') ? $injector.get('alert') : {error: angular.noop};
+
+          $scope.deleteMessage = RingMessageBundle.avatareditor_delete();
 
           if ('controls' in $attrs) {
             $scope.controlled = true;
@@ -66,8 +70,8 @@ angular.module('Ring.avatar-editor', []).
                   break;
                 }
               }
-              if (!imageFileSelected) {
-                alert.error('No image file was selected');
+              if (event.target.files.length && !imageFileSelected) {
+                alert.error(RingMessageBundle.avatareditor_noselected());
               }
             });
           };
@@ -76,7 +80,7 @@ angular.module('Ring.avatar-editor', []).
 
           $scope.controls.select = function () {
             if (!FileReader) {
-              alert.error('Sorry, your browser doesn\'t support File API');
+              alert.error(RingMessageBundle.avatareditor_nosupport());
             } else {
               fileInput.on('click.avatar-editor', function (event) {
                 event.stopPropagation();
@@ -98,21 +102,20 @@ angular.module('Ring.avatar-editor', []).
             }
           };
         }],
-        require: ['ngModel', 'avatarEditor'],
+        require: ['ngModel', 'ringAvatarEditor'],
         link: function (scope, iElement, iAttrs, ctrls) {
           var ngModelCtrl = ctrls[0];
           var avatarEditorCtrl = ctrls[1];
           avatarEditorCtrl.setNgModelCtrl(ngModelCtrl);
         }
       };
-    }
-  ]).
-  directive('ringAvatarEditorFileInput', [function () {
+  }).
+  directive('ringAvatarEditorFileInput', function () {
     return {
-      restrict: 'C',
-      require: '^avatarEditor',
+      restrict: 'A',
+      require: '^ringAvatarEditor',
       link: function (scope, iElement, iAttrs, avatarEditorCtrl) {
         avatarEditorCtrl.registerFileInput(iElement);
       }
     };
-  }]);
+  });

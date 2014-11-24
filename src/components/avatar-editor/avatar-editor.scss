@@ -65,3 +65,17 @@
   left: 20px;
   color: #FFF;
 }
+
+.ring-avatar-editor__frame {
+  cursor: pointer;
+  display: inline-block;
+  vertical-align: top;
+  border: 1px solid #CCC;
+  padding: 0;
+}
+
+.ring-avatar-editor__remove {
+  display: inline-block;
+  vertical-align: top;
+  margin-left: 2*$ring-unit;
+}
