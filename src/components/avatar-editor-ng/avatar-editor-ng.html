@@ -1,0 +1,16 @@
+<div>
+  <div ng-click="!ngDisabled && controls.select()" ng-class="{
+        'ring-avatar-editor_controlled': controlled,
+        'ring-avatar-editor': !ngDisabled
+    }" ng-show="model || default">
+    <span class="ring-btn_ico ring-font-icon ring-font-icon_pencil ring-avatar-editor__ico"
+          ng-if="!ngDisabled"></span>
+    <img class="ring-avatar-editor__img" ng-src="{{ model }}"
+         ng-show="model">
+    <img class="ring-avatar-editor__img" ng-src="{{ default }}"
+         ng-show="!model && default" ng-click="!ngDisabled && controls.select()">
+  </div>
+  <input class="ring-avatar-editor__file-input" type="file" accept="image/*" ng-if="!ngDisabled">
+  <button class="ring-btn ring-btn_delayed-action" ng-disabled="ngDisabled"
+          ng-show="!model && !default" ng-click="controls.select()" ng-transclude></button>
+</div>

@@ -50,3 +50,60 @@
   border: 1px solid #DEDEDE;
   background-color: #F8F8F8;
 }
+
+// Input error bubbles
+//
+// Markup:
+// <div class="ring-input_wrapper">
+//   <input class="ring-input ring-input_error" type="text">
+//   <div class="ring-input__error-bubble active">Wrong value</div>
+// </div>
+//
+// Styleguide 14.2
+.ring-input__error-bubble {
+  box-sizing: border-box;
+  height: 3*$ring-unit;
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 25*$ring-unit + 2;
+  white-space: nowrap;
+  padding-left: 2*$ring-unit;
+  padding-right: 2*$ring-unit;
+  z-index: 2;
+  line-height: 3*$ring-unit;
+
+  border-radius: 3px;
+  border: 1px solid #e5e5e5;
+
+  @include ring-font;
+  font-size: 13px;
+
+  color: $ring-color-error;
+  background: #FFF;
+  box-shadow: 0 1px 8px 0 rgba(0, 0, 0, 0.15);
+
+
+  &.active {
+    display: inline-block;
+  }
+
+  &:before {
+    content: '';
+    transform: rotate(45deg);
+    z-index: $ring-invisible-element-z-index;
+    border: 1px solid #CCC;
+    border-right: none;
+    border-top: none;
+
+    position: absolute;
+    top: 7px;
+    left: -5px;
+
+    display: block;
+    width: $ring-unit;
+    height: $ring-unit;
+
+    background: #FFF;
+  }
+}

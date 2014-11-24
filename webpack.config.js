@@ -55,6 +55,7 @@ module.exports = {
         test: /\.mousetrap.js$/,
         loader: 'imports-loader?window=>{}!exports-loader?window.Mousetrap'
       },
+      { test: /\.html$/, loader: 'html-loader' },
       //images loader
       { test: /\.png$/, loader: 'url-loader?limit=10000' },
       { test: /\.gif$/, loader: 'url-loader?limit=10000' },
