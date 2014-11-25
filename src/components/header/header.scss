@@ -34,12 +34,14 @@
 
 .ring2-header__user-menu {
   float: right;
+  margin-right: -$ring-unit;
 }
 
 .ring2-header__menu-item,
 .ring2-header__user-menu-item {
   display: inline-block;
   line-height: 1.2;
+  margin-right: $ring-unit*2;
   vertical-align: middle;
 
   a {
@@ -51,13 +53,16 @@
       text-decoration: underline;
     }
   }
+
+  &:last-child {
+    margin-right: 0;
+  }
 }
 
 .ring2-header__user-menu-item_icon {
   .ring-icon {
     cursor: pointer;
     fill: $ring-color-gray;
-    margin-right: $ring-unit*2;
     padding: $ring-unit;
 
     &:hover {
@@ -69,15 +74,13 @@
     fill: $ring-color-blue;
   }
 
-  &:last-child {
-    .ring-icon {
-      margin-right: 0;
-    }
-  }
-
   &.ring-icon_24 {
     padding: 0;
   }
+}
+
+.ring2-header__user-menu-extra {
+  margin-right: $ring-unit*3;
 }
 
 .ring2-header__menu-service {
