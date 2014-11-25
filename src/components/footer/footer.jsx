@@ -4,6 +4,8 @@
  */
 
 require('./footer.scss');
+require('link/link.scss');
+
 var React = require('react');
 // jshint -W098
 var $ = require('jquery');
