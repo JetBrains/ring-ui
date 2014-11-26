@@ -218,7 +218,10 @@ var Header = React.createClass({
     /*jshint ignore:start*/
     return (<div className={headerClassName.getClassName()}>
       <div className={headerClassName.getElement('logo')}>{this._getLogo()}</div>
-      <div className={headerClassName.getElement('menu')}>{this.props.menu}</div>
+      <div className={headerClassName.getElement('menu')}>{React.Children.map(this.props.menu, function(item) {
+        item.props.className += ' ' + headerClassName.getElement('menu-item');
+        return item;
+      })}</div>
       {this._getRightMenu()}
     </div>);
     /*jshint ignore:end*/
