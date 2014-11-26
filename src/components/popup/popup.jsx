@@ -73,13 +73,17 @@ var PopupMixin = {
 
   getInitialState: function () {
     return {
-      style: {}
+      style: {},
+      hidden: this.props.hidden
     };
   },
 
   getDefaultProps: function () {
     return {
-      shortcuts: true
+      shortcuts: true,
+      hidden: false,
+      autoRemove: true,
+      cutEdge: true
     };
   },
 
@@ -119,7 +123,7 @@ var PopupMixin = {
   render: function () {
     /* jshint ignore:start */
     return (
-      <div className={this.getClassName()} style={this.state.style}>
+      <div className={this.getClassName()} style={this._getStyles()}>
         {this.getInternalContent(this.props, this.state)}
       </div>
       );
@@ -134,19 +138,27 @@ var PopupMixin = {
       return this.props.onClose();
     }
 
-    if (this.props.autoRemove !== false) {
+    if (this.props.autoRemove) {
       this.remove();
     } else {
-      // There should be a better way
-      this.setState({
-        style: {
-          display: 'none'
-        },
-        shortcuts: false
-      });
+      this.hide();
     }
 
     return true;
+  },
+
+  hide: function() {
+    this.setState({
+      hidden: true,
+      shortcuts: false
+    });
+  },
+
+  show: function() {
+    this.setState({
+      hidden: false,
+      shortcuts: true
+    });
   },
 
   /**
@@ -214,6 +226,12 @@ var PopupMixin = {
       styles.maxHeight = $(window).height() - styles.top - Dimensions.MARGIN;
     }
 
+    if (this.state.hidden) {
+      styles.display = 'none';
+    } else {
+      styles.display = 'block';
+    }
+
     return styles;
   },
 
@@ -224,7 +242,10 @@ var PopupMixin = {
     var classNames = [];
 
     classNames.push('ring-popup');
-    classNames.push('ring-popup_bound');
+
+    if (this.props.cutEdge) {
+      classNames.push('ring-popup_bound');
+    }
 
     return classNames.concat(this.props.className || []).join(' ');
   }
