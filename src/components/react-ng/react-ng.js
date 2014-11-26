@@ -178,7 +178,7 @@ reactModule.directive(directiveName, [
             }
           });
 
-          var component = renderAndRemoveOnDestroy(ComponentClass, iElement, props);
+          renderAndRemoveOnDestroy(ComponentClass, iElement, props);
         }
       };
     }
