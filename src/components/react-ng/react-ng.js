@@ -37,6 +37,26 @@ function registerComponents(componentsMap) {
   mixIn(ringComponents, componentsMap);
 }
 
+function getComponentIfExist(name){
+  var ComponentClass = getComponent(name);
+
+  if (!ComponentClass) {
+    throw Error('Component ' + name + ' is not registered');
+  } else if (!React.isValidClass(ComponentClass)) {
+    throw Error('Property ' + name + ' is not valid component');
+  }
+
+  return ComponentClass;
+}
+
+function renderAndRemoveOnDestroy(ComponentClass, iElement, props){
+  var component = React.renderComponent(new ComponentClass(props), iElement[0]);
+  iElement.on('$destroy', function () {
+    React.unmountComponentAtNode(iElement[0]);
+  });
+  return component;
+}
+
 module.exports = registerComponents;
 
 /**
@@ -46,6 +66,7 @@ module.exports = registerComponents;
  * </example>
  */
 var directiveName = 'react';
+var staticDirectiveName = directiveName + 'Static';
 var specialDOMAttrs = {
   'for': 'htmlFor',
   'class': 'className'
@@ -60,12 +81,7 @@ reactModule.directive(directiveName, [
         var name = iAttrs[directiveName];
         var instanceAttr = 'reactInstance';
 
-        var ComponentClass = ringComponents[name];
-        if (!ComponentClass) {
-          throw Error('Component ' + name + ' is not registered');
-        } else if (!React.isValidClass(ComponentClass)) {
-          throw Error('Property ' + name + ' is not valid component');
-        }
+        var ComponentClass = getComponentIfExist(name);
 
         var props = {};
 
@@ -118,7 +134,7 @@ reactModule.directive(directiveName, [
           }
         });
 
-        var component = React.renderComponent(new ComponentClass(props), iElement[0]);
+        var component = renderAndRemoveOnDestroy(ComponentClass, iElement, props);
 
         if (iAttrs[instanceAttr]) {
           var instanceProp = $parse(iAttrs[instanceAttr])(scope);
@@ -127,11 +143,43 @@ reactModule.directive(directiveName, [
             scope[instanceProp] = component;
           }
         }
-
-        iElement.on('$destroy', function () {
-          React.unmountComponentAtNode(iElement[0]);
-        });
       }
     };
   }
+])
+/**
+ * Directive to render React components once without updating and callbacks. Support ng-click, ng-class and other attributes manipulating
+ * <example>
+ *   <div react-static="Icon" glyph="'pencil'" ng-click="toggleConfig()"></div>
+ * </example>
+ */
+.directive(staticDirectiveName, [
+  '$parse',
+    function ($parse) {
+      return {
+        restrict: 'A',
+        link: function (scope, iElement, iAttrs) {
+          var name = iAttrs[staticDirectiveName];
+          var instanceAttr = 'reactInstance';
+
+          var ComponentClass = getComponentIfExist(name);
+
+          var props = {};
+
+          angular.forEach(iAttrs, function (value, name) {
+            if (iAttrs.hasOwnProperty(name) && name !== staticDirectiveName && name !== instanceAttr && typeof value === 'string') {
+              // Use React DOM attributes names
+              var specialDOMAttrName = specialDOMAttrs[name];
+              var propName = specialDOMAttrName || name;
+
+              // Parse as expression
+              var parsedExpression = $parse(value);
+              props[propName] = parsedExpression();
+            }
+          });
+
+          var component = renderAndRemoveOnDestroy(ComponentClass, iElement, props);
+        }
+      };
+    }
 ]);
