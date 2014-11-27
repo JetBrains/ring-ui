@@ -158,6 +158,17 @@ reactModule.directive(directiveName, [
 .directive(staticDirectiveName, [
   '$parse',
     function ($parse) {
+
+      function getPropertyName(name) {
+        //remove "react-" prefix and uncapitalize first letter
+        var cleanAttrName = name.replace(attributeToPassPrefix, '');
+        var uncapitalizedAttrName = cleanAttrName.charAt(0).toLowerCase() + cleanAttrName.slice(1);
+        // Use React DOM attributes names
+        var specialDOMAttrName = specialDOMAttrs[uncapitalizedAttrName];
+        var propName = specialDOMAttrName || uncapitalizedAttrName;
+        return propName;
+      }
+
       return {
         restrict: 'A',
         link: function (scope, iElement, iAttrs) {
@@ -169,12 +180,9 @@ reactModule.directive(directiveName, [
 
           angular.forEach(iAttrs, function (value, name) {
             if (iAttrs.hasOwnProperty(name) && name !== staticDirectiveName && name.indexOf(attributeToPassPrefix) === 0 && typeof value === 'string') {
-              var cleanAttrName = name.replace(attributeToPassPrefix, '');
-              var uncapitalizedAttrName = cleanAttrName.charAt(0).toLowerCase() + cleanAttrName.slice(1);
-
               // Parse as expression
               var parsedExpression = $parse(value);
-              props[uncapitalizedAttrName] = parsedExpression(scope);
+              props[getPropertyName(name)] = parsedExpression(scope);
             }
           });
 
