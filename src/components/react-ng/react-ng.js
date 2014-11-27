@@ -174,7 +174,7 @@ reactModule.directive(directiveName, [
 
               // Parse as expression
               var parsedExpression = $parse(value);
-              props[propName] = parsedExpression();
+              props[propName] = parsedExpression(scope);
             }
           });
 
