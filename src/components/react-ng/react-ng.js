@@ -67,6 +67,7 @@ module.exports = registerComponents;
  */
 var directiveName = 'react';
 var staticDirectiveName = directiveName + 'Static';
+var attributeToPassPrefix = 'react';
 var specialDOMAttrs = {
   'for': 'htmlFor',
   'class': 'className'
@@ -148,9 +149,10 @@ reactModule.directive(directiveName, [
   }
 ])
 /**
- * Directive to render React components once without updating and callbacks. Support ng-click, ng-class and other attributes manipulating
+ * Directive to render React components once without updating and callbacks. Support ng-click, ng-class and other attributes manipulating.
+ * Note: all attributes to pass to react component should have "react-" prefix!
  * <example>
- *   <div react-static="Icon" glyph="'pencil'" ng-click="toggleConfig()"></div>
+ *   <div react-static="Icon" react-glyph="'pencil'" ng-click="toggleConfig()"></div>
  * </example>
  */
 .directive(staticDirectiveName, [
@@ -160,21 +162,19 @@ reactModule.directive(directiveName, [
         restrict: 'A',
         link: function (scope, iElement, iAttrs) {
           var name = iAttrs[staticDirectiveName];
-          var instanceAttr = 'reactInstance';
 
           var ComponentClass = getComponentIfExist(name);
 
           var props = {};
 
           angular.forEach(iAttrs, function (value, name) {
-            if (iAttrs.hasOwnProperty(name) && name !== staticDirectiveName && name !== instanceAttr && typeof value === 'string') {
-              // Use React DOM attributes names
-              var specialDOMAttrName = specialDOMAttrs[name];
-              var propName = specialDOMAttrName || name;
+            if (iAttrs.hasOwnProperty(name) && name !== staticDirectiveName && name.indexOf(attributeToPassPrefix) === 0 && typeof value === 'string') {
+              var cleanAttrName = name.replace(attributeToPassPrefix, '');
+              var uncapitalizedAttrName = cleanAttrName.charAt(0).toLowerCase() + cleanAttrName.slice(1);
 
               // Parse as expression
               var parsedExpression = $parse(value);
-              props[propName] = parsedExpression(scope);
+              props[uncapitalizedAttrName] = parsedExpression(scope);
             }
           });
 
