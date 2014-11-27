@@ -46,7 +46,11 @@ describe('React-ng', function () {
 	});
 
   it('React-static should transfer props to react component instance', function () {
-    checkPropertyPassingForTemplate('<div react-static="TestPropsComponent" testprop="\'test\'"></div>', 'testprop', 'test');
+    checkPropertyPassingForTemplate('<div react-static="TestPropsComponent" react-testprop="\'test\'"></div>', 'testprop', 'test');
+  });
+
+  it('React-static shouldn\'t transfer props without "react-" prefix', function () {
+    checkPropertyPassingForTemplate('<div react-static="TestPropsComponent" withoutprefix="\'test\'"></div>', 'withoutprefix', undefined);
   });
 
   it('Should pass props from scope to react component', function () {
@@ -57,7 +61,7 @@ describe('React-ng', function () {
 
   it('React-static should pass props from scope to react component', function () {
     $scope.fromScope = 'fromScopeProperty';
-    checkPropertyPassingForTemplate('<div react-static="TestPropsComponent" from-scope="fromScope"></div>', 'fromScope', 'fromScopeProperty');
+    checkPropertyPassingForTemplate('<div react-static="TestPropsComponent" react-from-scope="fromScope"></div>', 'fromScope', 'fromScopeProperty');
   });
 
   it('Should write component instance in provided scope variable', function () {
