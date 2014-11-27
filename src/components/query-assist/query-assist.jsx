@@ -367,22 +367,29 @@ var QueryAssist = React.createClass({
       return;
     }
 
-    this._popup = PopupMenu.renderComponent(
-      /* jshint ignore:start */
-      <PopupMenu
-        className={this.props.popupClassName}
-        anchorElement={this.getDOMNode()}
-        autoRemove={false}
-        corner={PopupMenu.PopupProps.Corner.BOTTOM_LEFT}
-        hint={this.props.hint}
-        hintOnSelection={this.props.hintOnSelection}
-        data={suggestions} shortcuts={true}
-        left={this.getCaretOffset()}
-        onSelect={this.handleComplete}
-        maxHeight="screen"
-      />
-      /* jshint ignore:end */
-    );
+    if (!this._popup) {
+      this._popup = PopupMenu.renderComponent(
+        /* jshint ignore:start */
+        <PopupMenu
+          className={this.props.popupClassName}
+          anchorElement={this.getDOMNode()}
+          autoRemove={false}
+          corner={PopupMenu.PopupProps.Corner.BOTTOM_LEFT}
+          hint={this.props.hint}
+          hintOnSelection={this.props.hintOnSelection}
+          data={suggestions} shortcuts={true}
+          left={this.getCaretOffset()}
+          onSelect={this.handleComplete}
+          maxHeight="screen"
+        />
+        /* jshint ignore:end */
+      );
+    } else {
+      this._popup.setProps({
+        data: suggestions,
+        hidden: false
+      });
+    }
   },
 
   closePopup: function() {
@@ -470,8 +477,8 @@ var QueryAssist = React.createClass({
     });
 
     var query = this.state.query && React.renderComponentToStaticMarkup(
-      <span>{this.state.query.split('').map(this.renderLetter)}</span>
-    );
+        <span>{this.state.query.split('').map(this.renderLetter)}</span>
+      );
 
     return (
       <div className="ring-query-assist">
@@ -483,7 +490,7 @@ var QueryAssist = React.createClass({
         {renderPlaceholder && <span className="ring-query-assist__placeholder" onClick={this.handleCaretMove}>{this.props.placeholder}</span>}
         {this.props.glass && <Icon onClick={this.handleApply} modifier={Icon.Size.Size16} className="ring-query-assist__glass ring-icon_search"></Icon>}
       </div>
-      );
+    );
     /* jshint ignore:end */
   }
 });

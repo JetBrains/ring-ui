@@ -67,12 +67,12 @@ var PopupMixin = {
      * @returns {HTMLElement}
      */
     renderComponent: function (component) {
-      if (!this._wrapper) {
-        this._wrapper = document.createElement('div');
-        document.body.appendChild(this._wrapper);
+      if (!component._wrapper) {
+        component._wrapper = document.createElement('div');
+        document.body.appendChild(component._wrapper);
       }
 
-      return React.renderComponent(component, this._wrapper);
+      return React.renderComponent(component, component._wrapper);
     }
   },
 
@@ -110,6 +110,13 @@ var PopupMixin = {
     this.setState({mounted: true});
     $(window).on('resize', this.onWindowResize_);
     $(document).on('click', this.onDocumentClick_);
+  },
+
+  /** @override */
+  shouldComponentUpdate: function(props) {
+    this.state.hidden = props.hidden;
+
+    return true;
   },
 
   /** @override */
