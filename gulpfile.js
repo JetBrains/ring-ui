@@ -288,4 +288,4 @@ gulp.task('build-dev', ['webpack:build-dev'], function () {
 });
 
 // Production build
-gulp.task('build', ['lint', 'lint-styles', /*'test:build',*/ 'webpack:build', 'archive']);
+gulp.task('build', ['lint', 'lint-styles', 'test:build', 'webpack:build', 'archive']);
