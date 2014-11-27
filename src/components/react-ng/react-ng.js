@@ -149,9 +149,10 @@ reactModule.directive(directiveName, [
   }
 ])
 /**
- * Directive to render React components once without updating and callbacks. Support ng-click, ng-class and other attributes manipulating
+ * Directive to render React components once without updating and callbacks. Support ng-click, ng-class and other attributes manipulating.
+ * Note: all attributes to pass to react component should have "react-" prefix!
  * <example>
- *   <div react-static="Icon" glyph="'pencil'" ng-click="toggleConfig()"></div>
+ *   <div react-static="Icon" react-glyph="'pencil'" ng-click="toggleConfig()"></div>
  * </example>
  */
 .directive(staticDirectiveName, [
