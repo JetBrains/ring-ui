@@ -21,10 +21,14 @@ var Shortcuts = require('shortcuts/shortcuts');
  */
 var Corner = {
   TOP_LEFT: 0,
-// Not implemented yet
-//  TOP_RIGHT: 1,
-//  BOTTOM_RIGHT: 2,
+  TOP_RIGHT: 1,
+  BOTTOM_RIGHT: 2,
   BOTTOM_LEFT: 3
+};
+
+var Directions = {
+  TOP: 0,
+  BOTTOM: 1
 };
 
 var Dimensions = {
@@ -41,6 +45,7 @@ var PopupMixin = {
   statics: {
     PopupProps: {
       Corner: Corner,
+      Directions: Directions,
       Dimensions: Dimensions
     },
 
@@ -73,13 +78,21 @@ var PopupMixin = {
 
   getInitialState: function () {
     return {
-      style: {}
+      style: {},
+      hidden: this.props.hidden
     };
   },
 
   getDefaultProps: function () {
     return {
-      shortcuts: true
+      shortcuts: true,
+      hidden: false,
+      autoRemove: true,
+      cutEdge: true,
+      left: 0,
+      top: 0,
+      corner: Corner.BOTTOM_LEFT,
+      direction: Directions.BOTTOM
     };
   },
 
@@ -92,19 +105,9 @@ var PopupMixin = {
     };
   },
 
-  componentWillReceiveProps: function (props) {
-    this.setState({
-      style: this._getStyles(props),
-      shortcuts: true
-    });
-  },
-
   /** @override */
   componentDidMount: function () {
-    this.setState({
-      style: this._getStyles()
-    });
-
+    this.setState({mounted: true});
     $(window).on('resize', this.onWindowResize_);
     $(document).on('click', this.onDocumentClick_);
   },
@@ -119,10 +122,10 @@ var PopupMixin = {
   render: function () {
     /* jshint ignore:start */
     return (
-      <div className={this.getClassName()} style={this.state.style}>
+      <div className={this.getClassName()} style={this._getStyles()}>
         {this.getInternalContent(this.props, this.state)}
       </div>
-      );
+    );
     /* jshint ignore:end */
   },
 
@@ -130,34 +133,40 @@ var PopupMixin = {
    * Closes popup and optionally removes from document.
    */
   close: function () {
-    if (typeof this.props.onClose === 'function' &&
-        this.props.onClose() === false) {
-      return false;
+    if (typeof this.props.onClose === 'function') {
+      return this.props.onClose();
     }
 
-    if (this.props.autoRemove !== false) {
+    if (this.props.autoRemove) {
       this.remove();
     } else {
-      // There should be a better way
-      this.setState({
-        style: {
-          display: 'none'
-        },
-        shortcuts: false
-      });
+      this.hide();
     }
 
     return true;
+  },
+
+  hide: function() {
+    this.setState({
+      hidden: true,
+      shortcuts: false
+    });
+  },
+
+  show: function() {
+    this.setState({
+      hidden: false,
+      shortcuts: true
+    });
   },
 
   /**
    * Removes popup from document.
    */
   remove: function () {
-    if (this.isMounted()) {
-      var parent = this.getDOMNode().parentNode;
-      React.unmountComponentAtNode(parent);
-    }
+    var parent = this.getDOMNode().parentNode;
+
+    React.unmountComponentAtNode(parent);
 
     if (this._wrapper) {
       document.body.removeChild(this._wrapper);
@@ -188,26 +197,37 @@ var PopupMixin = {
   _getStyles: function (props) {
     props = props || this.props;
     var anchorElement = props.anchorElement || document.body;
+    var top = props.top;
+    var left = props.left;
 
     var anchorElementOffset = $(anchorElement).offset();
     var styles = {};
 
+    if (this.isMounted()) {
+      if (props.direction === Directions.TOP) {
+        top -= $(this.getDOMNode()).height();
+      }
+    }
+
     switch (props.corner) {
       case Corner.TOP_LEFT:
-        styles.left = anchorElementOffset.left + (props.left || 0);
-        styles.top = (anchorElementOffset.top - $(this.getDOMNode()).height()) + (props.top || 0);
+        styles.left = anchorElementOffset.left + left;
+        styles.top = anchorElementOffset.top + top;
+        break;
+
+      case Corner.TOP_RIGHT:
+        styles.left = anchorElementOffset.left + $(anchorElement).outerWidth() + left;
+        styles.top = anchorElementOffset.top + top;
+        break;
+
+      case Corner.BOTTOM_LEFT:
+        styles.left = anchorElementOffset.left + left;
+        styles.top = anchorElementOffset.top + $(anchorElement).outerHeight() + top;
         break;
 
       case Corner.BOTTOM_RIGHT:
-        // todo(igor.alexeenko): Very approximate.
-        styles.left = anchorElementOffset.left - $(this.getDOMNode()).width() + $(anchorElement).width() + 20;
-        styles.top = (anchorElementOffset.top + $(anchorElement).outerHeight()) + (props.top || 0);
-        break;
-
-      case undefined:
-      case Corner.BOTTOM_LEFT:
-        styles.left = anchorElementOffset.left + (props.left || 0);
-        styles.top = (anchorElementOffset.top + $(anchorElement).outerHeight()) + (props.top || 0);
+        styles.left = anchorElementOffset.left + $(anchorElement).outerWidth() + left;
+        styles.top = anchorElementOffset.top + $(anchorElement).outerHeight() + top;
         break;
 
       default:
@@ -222,6 +242,12 @@ var PopupMixin = {
       styles.maxHeight = $(window).height() - styles.top - Dimensions.MARGIN;
     }
 
+    if (this.state.hidden) {
+      styles.display = 'none';
+    } else {
+      styles.display = 'block';
+    }
+
     return styles;
   },
 
@@ -232,7 +258,10 @@ var PopupMixin = {
     var classNames = [];
 
     classNames.push('ring-popup');
-    classNames.push('ring-popup_bound');
+
+    if (this.props.cutEdge) {
+      classNames.push('ring-popup_bound');
+    }
 
     return classNames.concat(this.props.className || []).join(' ');
   }
