@@ -26,10 +26,30 @@ var Corner = {
   BOTTOM_LEFT: 3
 };
 
+/**
+ * @enum {number}
+ */
 var Directions = {
-  TOP: 0,
-  BOTTOM: 1
+  // NB! As far as this enum is used as a bit mask, we can't use 0x00 as value.
+  // Also, we can't use odd numbers.
+
+  /**
+   * @deprecated Use {@code Directions.DOWN} instead.
+   */
+  BOTTOM: 1,
+  RIGHT: 2,
+  /**
+   * @deprecated Use {@code Directions.UP} instead.
+   */
+  TOP: 4,
+  LEFT: 8
 };
+
+/** @alias {Directions.TOP} */
+Directions.UP = Directions.TOP;
+
+/** @alias {Directions.BOTTOM} */
+Directions.DOWN = Directions.BOTTOM;
 
 var Dimensions = {
   MARGIN: 16
@@ -92,7 +112,7 @@ var PopupMixin = {
       left: 0,
       top: 0,
       corner: Corner.BOTTOM_LEFT,
-      direction: Directions.BOTTOM
+      direction: Directions.BOTTOM | Directions.RIGHT
     };
   },
 
@@ -211,8 +231,12 @@ var PopupMixin = {
     var styles = {};
 
     if (this.isMounted()) {
-      if (props.direction === Directions.TOP) {
+      if (!!(props.direction & Directions.UP)) {
         top -= $(this.getDOMNode()).height();
+      }
+
+      if (!!(props.direction & Directions.LEFT)) {
+        left -= $(this.getDOMNode()).width();
       }
     }
 
