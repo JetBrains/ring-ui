@@ -25,6 +25,7 @@
     "grunt-csswring": "~0.2.0",
     "grunt-dr-svg-sprites": "^0.9.9",
     "grunt-githooks": "~0.3.1",
+    "grunt-html2js": "^0.2.9",
     "grunt-karma": "~0.8.2",
     "grunt-markdown": "^0.6.1",
     "grunt-notify": "^0.3.0",

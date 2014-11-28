@@ -552,6 +552,17 @@ module.exports = function(grunt) {
       }
     },
 
+    html2js: {
+      main: {
+        options: {
+          base: '<%= path.blocks %>',
+          module: 'Ring.templates'
+        },
+        src: ['<%= path.blocks %>/**/*.ng.html'],
+        dest: '<%= path.dist %>/ring-templates.js'
+      }
+    },
+
     // Development
     watch: watchConfig,
     notify: {
@@ -741,7 +752,8 @@ module.exports = function(grunt) {
     'jshint:dist',
     'process',
     'karma:dist',
-    'minify'
+    'minify',
+    'html2js:main'
   ]);
 
   grunt.registerTask('test', [
