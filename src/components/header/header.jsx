@@ -113,8 +113,10 @@ var MenuItem = React.createClass({
    * @private
    */
   _handleClick: function(evt) {
-    evt.preventDefault();
-    this.setOpened(!this.state.opened);
+    if (!this.props.href) {
+      evt.preventDefault();
+      this.setOpened(!this.state.opened);
+    }
   },
 
   /**
@@ -230,6 +232,7 @@ var Header = React.createClass({
   getDefaultProps: function() {
     return {
       helpLink: null,
+      settingsLink: null,
       logo: '',
       menu: '',
       rightMenu: '',
@@ -301,7 +304,7 @@ var Header = React.createClass({
     var menuContent = this.props.rightMenu ? this.transferPropsTo(this.props.rightMenu) : (<div>
       <div className={extraElementClassName}></div>
       <MenuItem ref="help" glyph="help" href={this.props.helpLink} />
-      <MenuItem ref="settings" glyph="cog1" onOpen={this.props.onSettingsOpen} onClose={this.props.onSettingsClose} />
+      <MenuItem ref="settings" glyph="cog1" href={this.props.settingsLink} onOpen={this.props.onSettingsOpen} onClose={this.props.onSettingsClose} />
       <MenuItem ref="userMenu" glyph="user1" onOpen={this.props.onUserMenuOpen} onClose={this.props.onUserMenuClose} />
     </div>);
 
@@ -343,6 +346,13 @@ var Header = React.createClass({
    */
   setProfilePicture: function(src) {
     this.refs['userMenu'].setState({ picture: src });
+  },
+
+  /**
+   * @param {string} href
+   */
+  setSettingsLink: function(href) {
+    this.setProps({ settingsLink: href });
   }
 });
 
