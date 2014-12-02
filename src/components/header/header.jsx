@@ -69,7 +69,7 @@ var MenuItem = React.createClass({
     // NB! Wrapping span is needed because otherwise selenium tests couldn't
     // trigger the click on the <SVG /> element.
     var iconElement = this.state.picture ? this._getImage() : this._getIcon();
-    var menuElement = (<span className={className} onClick={this._handleClick}>
+    var menuElement = (<span className={className} onClick={this._handleClick} title={this.state.title}>
       {this.props.href ?
           (<a href={this.props.href}>{this.transferPropsTo(iconElement)}</a>) :
           this.transferPropsTo(iconElement)}
