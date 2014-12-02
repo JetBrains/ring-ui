@@ -140,8 +140,8 @@ var Icon = React.createClass({
     var useElement = document.createElementNS(NamespaceURI.SVG, 'use');
     useElement.setAttributeNS(NamespaceURI.XLINK, 'xlink:href',
         '#' + this.props.baseClass.getModifier(this.props.glyph));
-    useElement.setAttributeNS(null, 'title', this.props.title);
 
+    this.getDOMNode().setAttributeNS(null, 'title', this.props.title);
     this.getDOMNode().appendChild(useElement);
   }
 });
