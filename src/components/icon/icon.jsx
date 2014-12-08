@@ -98,10 +98,10 @@ var initializeTemplate = function() {
        var Icon = require('./icon.jsx');
 
        React.renderComponent(Icon({
-        className: 'additional-class',
-        color: 'orange',
-        glyph: 'ok',
-        size: Icon.Size.Size32
+         className: 'additional-class',
+         color: 'orange',
+         glyph: 'ok',
+         size: Icon.Size.Size32
        }), document.getElementById('icon-container'));
      </file>
    </example>
