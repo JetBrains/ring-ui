@@ -44,6 +44,7 @@
     "karma-teamcity-reporter": "^0.1.2",
     "karma-webpack": "^1.2.1",
     "mocha": "^1.21.4",
+    "react-tools": "^0.12.1",
     "through": "^2.3.4",
     "webpack-dev-server": "^1.4.3"
   },

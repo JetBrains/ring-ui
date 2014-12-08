@@ -42,18 +42,23 @@ var _gap = null;
 /**
  * @constructor
  * @extends {ReactComponent}
- * @example
- * <example>
- *   <div class="alerts-container"></div>
- *
- *   <script>
- *     var alertsContainer = React.renderComponent(<Alerts />, document.querySelector('.alerts-container');
- *
- *     alertsContainer.add('Test message');
- *     alertsContainer.add('Another test message', Alert.Type.MESSAGE, 1000);
- *     alertsContainer.add('Test warning', Alert.Type.WARNING);
- *   </script>
- * </example>
+   <example name="Alerts">
+     <file name="index.html">
+       <div id="alerts-container"></div>
+     </file>
+
+     <file name="index.js" webpack="true">
+       var React = require('react');
+       var Alerts = require('./alerts.jsx');
+
+       var alertsContainer = React.renderComponent(Alerts(null),
+           document.getElementById('alerts-container'));
+
+       alertsContainer.add('Test message');
+       alertsContainer.add('Another test message', Alerts.Type.MESSAGE, 1000);
+       alertsContainer.add('Test warning', Alerts.Type.WARNING);
+     </file>
+   </example>
  */
 var Alerts = React.createClass({
   statics: {

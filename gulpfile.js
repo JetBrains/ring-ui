@@ -62,7 +62,7 @@ gulp.task('doc', function () {
   var docGeneration = spawn(
     'node',
     [
-      path.join(__dirname, './gen-doc.js')
+      path.join(__dirname, './generate-documentation.js')
     ]
   );
 
