@@ -60,7 +60,7 @@
     "jquery-caret": "^1.3.4",
     "jsx-loader": "^0.11.0",
     "memory-fs": "^0.1.0",
-    "mousetrap": "ccampbell/mousetrap#1.4.6",
+    "mousetrap": "^1.4.6",
     "mout": "^0.10.0",
     "node-xml-lite": "^0.0.3",
     "q-fs": "^0.1.36",
