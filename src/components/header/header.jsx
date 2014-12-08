@@ -184,15 +184,21 @@ var MenuItem = React.createClass({
  * @constructor
  * @extends {ReactComponent}
  * @example
- * <example>
- *   <div class="header-container"></div>
- *   <div class="popup-container"></div>
- *   <script>
+ * <example name="Header">
+ *   <file name="index.html">
+ *     <div class="header-container"></div>
+ *     <div class="popup-container"></div>
+ *   </file>
+ *   <file name="index.js">
+ *     var React = require('react');
+ *     var Header = require('./header.jsx');
+ *     var Popup = require('../popup/popup.jsx');
+ *
  *     var popup;
  *     var popupContainer = document.querySelector('.popup-container');
  *
  *     // Render youtrack header to DOM. Help link leads to Yandex.
- *     var header = React.renderComponent(new ring.Header({
+ *     var header = React.renderComponent(new Header({
  *       helpLink: 'http://www.yandex.ru',
  *       logo: 'youtrack'
  *     }, document.querySelector('.header-container'));
@@ -201,7 +207,7 @@ var MenuItem = React.createClass({
  *     header.setProps({
  *       onSettingsOpen: function() {
  *         popup = React.renderComponent(
- *             new ring.Popup({ anchor: header.getSettings().getDOMNode() }),
+ *             new Popup({ anchor: header.getSettings().getDOMNode() }),
  *             popupContainer)
  *       },
  *
@@ -219,7 +225,7 @@ var MenuItem = React.createClass({
  *     // Insert extra element to right menu.
  *     var extraElement = document.createElement('input');
  *     header.getExtraElement().appendChild(extraElement);
- *   </script>
+ *   </file>
  * </example>
  */
 var Header = React.createClass({
