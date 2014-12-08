@@ -116,7 +116,6 @@ var dgeni = new Dgeni([
            * Handle webpack compilation errors
            */
           if (compilationErrors.length) {
-            console.log(doc);
             compilationErrors.forEach(function(error) {
               console.error(error);
             });
