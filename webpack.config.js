@@ -17,7 +17,7 @@ module.exports = {
   output: {
     path: pkgConfig.dist,
     filename: '[name].js',
-    library: '[name]',
+    library: 'ring',
     libraryTarget: 'umd'
   },
   externals: {
