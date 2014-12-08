@@ -109,7 +109,21 @@ var dgeni = new Dgeni([
         /**
          * Subscribe on compilation done
          */
-        compiler.plugin('done', function() {
+        compiler.plugin('done', function(output) {
+          var compilationErrors = output.compilation.errors;
+
+          /**
+           * Handle webpack compilation errors
+           */
+          if (compilationErrors.length) {
+            console.log(doc);
+            compilationErrors.forEach(function(error) {
+              console.error(error);
+            });
+
+            return defer.reject();
+          }
+
           var processedFileContent = compiler
             .outputFileSystem
             .readFileSync(path.resolve(config.output.path, config.output.filename))
