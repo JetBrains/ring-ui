@@ -84,19 +84,27 @@ var initializeTemplate = function() {
 
 
 /**
+ * @name Icon
  * @constructor
+ * @description Icon component
  * @extends {ReactComponent}
- * @example
- * <example>
- *   <div class="icon-container"></div>
- *
- *   <script>
- *     var Icon = require('icon/icon');
- *
- *     React.renderComponent(<Icon className="additional-class" color="orange" glyph="ok" size={Icon.Size.Size32} />,
- *         document.querySelector('.icon-container'));
- *   </script>
- * </example>
+   <example name="Icon">
+     <file name="index.html">
+       <div id="icon-container"></div>
+     </file>
+
+     <file name="index.js" webpack="true">
+       var React = require('react');
+       var Icon = require('./icon.jsx');
+
+       React.renderComponent(Icon({
+        className: 'additional-class',
+        color: 'orange',
+        glyph: 'ok',
+        size: Icon.Size.Size32
+       }), document.getElementById('icon-container'));
+     </file>
+   </example>
  */
 var Icon = React.createClass({
   statics: {
