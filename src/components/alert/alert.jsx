@@ -57,6 +57,23 @@ var BASE_CLASS = 'ring-alert';
 /**
  * @constructor
  * @extends {ReactComponent}
+ * @example
+ * <example name="Alert">
+ *   <file name="index.html">
+ *     <div id="alert-container"></div>
+ *   </file>
+ *
+ *   <file name="index.js" webpack="true">
+ *     var React = require('react');
+ *     var Alert = require('./alert.jsx');
+ *
+ *     var alert = React.renderComponent(Alert({
+ *       caption: 'Sample alert',
+ *       closeable: true,
+  *      type: Alert.Type.SUCCESS
+ *     }, document.querySelector('.alert-container'));
+ *   </file>
+ * </example>
  */
 var Alert = React.createClass({
   statics: {
