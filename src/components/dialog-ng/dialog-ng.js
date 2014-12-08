@@ -177,6 +177,7 @@ angular.module('Ring.dialog', []).
           dialogScope.buttons = config.buttons;
           dialogScope.data = config.data || {};
           dialogScope.content = config.content;
+          dialogScope.description = config.description && config.description.split('\n') || [];
         }
 
         dialogScope.currentShortcutsScope = shortcuts.getScope();
