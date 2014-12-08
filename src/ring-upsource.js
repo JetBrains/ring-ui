@@ -5,11 +5,14 @@
 
 window.React = require('react');
 
+// todo(igor.alexeenko): Require all neede css files here.
+
 module.exports = {
   Auth: require('auth/auth'),
   Footer: require('footer/footer'),
   Global: require('global/global'),
   Header: require('header/header'),
   Popup: require('popup/popup'),
-  PopupMenu: require('popup-menu/popup-menu')//,
+  PopupMenu: require('popup-menu/popup-menu'),
+  QueryAssist: require('query-assist/query-assist')
 };
