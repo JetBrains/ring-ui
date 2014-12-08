@@ -17,6 +17,7 @@ Thumbs.db
 /components
 coverage
 dist
+docs
 node_modules
 tmp
 blocks/*/*.hbs.js
