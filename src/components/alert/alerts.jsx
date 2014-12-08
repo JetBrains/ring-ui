@@ -40,7 +40,9 @@ var _gap = null;
 
 
 /**
+ * @name Alerts
  * @constructor
+ * @description Alerts component
  * @extends {ReactComponent}
    <example name="Alerts">
      <file name="index.html">
