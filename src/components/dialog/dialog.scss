@@ -113,14 +113,19 @@
 .ring-dialog__footer {
   font-size: 0;
 
-  height: $ring-unit*7;
-  padding: 0 4*$ring-unit 0 4*$ring-unit;
+  height: auto;
+  padding: 2*$ring-unit 4*$ring-unit 2*$ring-unit 4*$ring-unit;
 
   text-align: left;
 
   border-bottom-right-radius: 3px;
   border-bottom-left-radius: 3px;
   background: #e9f8ff;
+}
+
+.ring-dialog__footer__description {
+  font-size: $ring-font-size-smaller;
+  margin-bottom: 2*$ring-unit;
 }
 
 .ring-dialog__footer__spacer {
