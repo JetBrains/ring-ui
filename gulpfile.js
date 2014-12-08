@@ -57,7 +57,7 @@ gulp.task('clean', function () {
     .pipe(rimraf());
 });
 
-gulp.task('doc', function () {
+gulp.task('doc', function (done) {
   var template = '';
   var docGeneration = spawn(
     'node',
@@ -71,7 +71,7 @@ gulp.task('doc', function () {
   });
 
   docGeneration.on('close', function () {
-    fs.writeFileSync(path.join(__dirname, 'docs', 'index.html'), template);
+    fs.writeFile(path.join(__dirname, 'docs', 'index.html'), template, done);
   });
 });
 
