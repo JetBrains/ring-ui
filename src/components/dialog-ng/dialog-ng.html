@@ -16,7 +16,9 @@
       </div>
     </form>
     <div class="ring-dialog__footer">
-      <div class="ring-dialog__footer__spacer"></div>
+      <div class="ring-dialog__footer__description" ng-show="description && description.length">
+        <div ng-repeat="line in description">{{line}}</div>
+      </div>
 
       <button ng-repeat="button in buttons"
               ng-click="action(button)"
