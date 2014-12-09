@@ -8,7 +8,10 @@ var $ = require('jquery');
 var when = require('when');
 var debounce = require('mout/function/debounce');
 var equals = require('mout/array/equals');
+var pick = require('mout/object/pick');
+var isNumber = require('mout/lang/isNumber');
 require('jquery-caret');
+
 
 var PopupMenu = require('../popup-menu/popup-menu');
 var Icon = require('../icon/icon'); // jshint -W098
@@ -69,27 +72,12 @@ var QueryAssist = React.createClass({
     query: React.PropTypes.string
   },
 
-  generateState: function (props) {
-    var query = props.query || '';
-
-    var state = {
-      query: query
-    };
-
-    if (props.caret != null) {
-      state.caret = props.caret;
-    }
-
-    // Undefined could be passed from react-ng, so 'focus' in props won't help
-    if (typeof props.focus !== 'undefined') {
-      state.focus = props.focus;
-    }
-
-    return state;
-  },
-
   getInitialState: function () {
-    return this.generateState(this.props);
+    return {
+      query: this.props.query,
+      caret: isNumber(this.props.caret) ? this.props.caret : this.props.query && this.props.query.length,
+      focus: this.props.focus
+    };
   },
 
   getDefaultProps: function () {
@@ -134,17 +122,12 @@ var QueryAssist = React.createClass({
   },
 
   componentWillReceiveProps: function (props) {
-    var state = this.generateState(props);
-
-    if (state.query === this.state.query) {
-      state.caret = this.state.caret;
-    }
-
-    if (state.focus === false && this.state.focus === true) {
+    if (props.focus === false && this.state.focus === true) {
       this.blurInput();
     }
 
-    this.setState(state, state.query !== this.getQuery() ? this.requestStyleRanges : $.noop);
+    var updateStyles = props.query && (props.query !== this.getQuery() || !this.state.styleRanges);
+    this.setState(pick(props, ['query', 'caret', 'focus']), updateStyles ? this.requestStyleRanges : this.handleNothing);
   },
 
   componentDidUpdate: function () {
@@ -162,11 +145,12 @@ var QueryAssist = React.createClass({
 
   setFocus: function() {
     var input = this.refs.input.getDOMNode();
+    var caret = isNumber(this.state.caret) ? this.state.caret : this.state.query && this.state.query.length;
 
     if (this.state.focus && !this.props.disabled) {
       // $.caret cannot place caret without children, so we just focus instead
-      if (input.firstChild) {
-        $(input).caret(this.state.caret);
+      if (input.firstChild && isNumber(caret)) {
+        $(input).caret(caret);
       } else {
         input.focus();
       }
@@ -203,7 +187,7 @@ var QueryAssist = React.createClass({
       this.props.onChange(props);
     }
 
-    this.setState(this.generateState(props), this.requestData);
+    this.setState(props, this.requestData);
   },
 
   // It's necessary to prevent new element creation before any other hooks
@@ -234,13 +218,13 @@ var QueryAssist = React.createClass({
 
   handleResponse: function (props) {
     var deferred = when.defer();
-    var state = $.extend(this.generateState(props), {
-      styleRanges: props.styleRanges,
-      suggestions: props.suggestions
-    });
+    var pickedProps = pick(props, ['query', 'caret', 'styleRanges', 'suggestions']);
 
-    if (state.query === this.state.query && state.caret === this.state.caret) {
-      this.setState(state, deferred.resolve);
+    if (pickedProps.query === this.state.query &&
+       (pickedProps.caret === this.state.caret || this.state.caret === undefined)) {
+      this.setState(pickedProps, deferred.resolve);
+    } else {
+      deferred.reject(new Error('Current and response queries mismatch'));
     }
 
     return deferred.promise;
@@ -286,25 +270,32 @@ var QueryAssist = React.createClass({
     // Force focus on complete e.g. after click
     props.focus = true;
 
-    this.setState(this.generateState(props), this.requestData);
+    this.setState(props, this.requestData);
   },
+
+  // TODO Do something here :)
+  handleNothing: function() {},
 
   requestStyleRanges: function() {
     var state = this.getInputState();
 
-    if (state.query === '') {
+    if (!state.query) {
       return false;
     }
 
     state.omitSuggestions = true;
-    this.sendRequest(state).then(this.handleResponse);
+    this.sendRequest(state)
+      .then(this.handleResponse)
+      .catch(this.handleNothing);
+
     return true;
   },
 
   requestData: function() {
     this.sendRequest(this.getInputState()).
       then(this.handleResponse).
-      then(this.renderPopup);
+      then(this.renderPopup).
+      catch(this.handleNothing);
   },
 
   sendRequest: function (params) {
@@ -313,7 +304,7 @@ var QueryAssist = React.createClass({
     // TODO Show loader here
     dataPromise.timeout(500).
       catch(when.TimeoutError, this.closePopup).
-      catch($.noop); // No need to throw anything here
+      catch(this.handleNothing);
 
     return dataPromise;
   },
@@ -486,7 +477,7 @@ var QueryAssist = React.createClass({
   /** @override */
   render: function () {
     /* jshint ignore:start */
-    var renderPlaceholder = !!this.props.placeholder && this.state.query === '';
+    var renderPlaceholder = !!this.props.placeholder && !this.state.query;
     var inputClasses = React.addons.classSet({
       'ring-query-assist__input ring-input ring-js-shortcuts': true,
       'ring-query-assist__input_glass': this.props.glass,
@@ -494,8 +485,8 @@ var QueryAssist = React.createClass({
     });
 
     var query = this.state.query && React.renderComponentToStaticMarkup(
-        <span>{this.state.query.split('').map(this.renderLetter)}</span>
-      );
+      <span>{this.state.query.split('').map(this.renderLetter)}</span>
+    ) || '';
 
     return (
       <div className="ring-query-assist">
