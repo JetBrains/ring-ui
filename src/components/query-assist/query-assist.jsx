@@ -401,7 +401,10 @@ var QueryAssist = React.createClass({
     } else {
       this._popup.setProps({
         data: suggestions,
-        hidden: false
+        hidden: false,
+        hint: this.props.hint,
+        hintOnSelection: this.props.hintOnSelection,
+        left: this.getCaretOffset()
       });
     }
   },
