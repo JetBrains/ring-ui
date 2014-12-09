@@ -172,12 +172,13 @@ var transformSVG = function(fileContents) {
 
   var fileNames = Object.keys(fileContents);
   fileNames.forEach(function(fileName) {
-    // todo(igor.alexeenko): What to do if there's some dots in pathname?
-    var splitPath = fileName.split('.')[0].split('/');
-
+    var splitPath = fileName.split('/');
     var file = splitPath.slice(-1)[0];
+
     var lastDirectory = splitPath.slice(-2)[0];
     var strategy = DirectoryToStrategy[lastDirectory] || TransformStrategy.ICON;
+
+    var fName = file.split('.').slice(0, -1).join('.');
 
     var fileContent = fileContents[fileName];
     var preprocessedFile = (function preprocessFile(fileContent) {
@@ -186,7 +187,7 @@ var transformSVG = function(fileContents) {
 
         fileContent['name'] = 'symbol';
         fileContent['attrib'] = {
-          'id': className.getModifier(file),
+          'id': className.getModifier(fName),
           'viewBox': fileContent['attrib']['viewBox']
         };
       }
