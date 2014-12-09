@@ -1,4 +1,4 @@
-describe.only('query-assist', function() {
+describe('query-assist', function() {
   var React = require('react/addons');
   var QueryAssist = require('./query-assist');
 
