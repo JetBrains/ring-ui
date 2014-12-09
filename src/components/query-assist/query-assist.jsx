@@ -9,6 +9,7 @@ var when = require('when');
 var debounce = require('mout/function/debounce');
 var equals = require('mout/array/equals');
 var pick = require('mout/object/pick');
+var filter = require('mout/object/filter');
 var isNumber = require('mout/lang/isNumber');
 require('jquery-caret');
 
@@ -126,13 +127,28 @@ var QueryAssist = React.createClass({
     }
   },
 
+  propsToPick: {
+    query: 'string',
+    caret: 'number',
+    focus: 'boolean'
+  },
+
   componentWillReceiveProps: function (props) {
     if (props.focus === false && this.state.focus === true) {
       this.blurInput();
     }
 
-    var updateStyles = props.query && (props.query !== this.getQuery() || !this.state.styleRanges);
-    this.setState(pick(props, ['query', 'caret', 'focus']), updateStyles ? this.requestStyleRanges : this.handleNothing);
+    var state = filter(props, function(value, key) {
+      return typeof value === this.propsToPick[key];
+    }, this);
+
+
+    if (!Object.keys(state).length) {
+      return;
+    }
+
+    var updateStyles = state.query && (state.query !== this.getQuery() || !this.state.styleRanges);
+    this.setState(state, updateStyles ? this.requestStyleRanges : this.handleNothing);
   },
 
   componentDidUpdate: function () {
