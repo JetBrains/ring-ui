@@ -97,9 +97,14 @@ var QueryAssist = React.createClass({
 
   // See http://stackoverflow.com/questions/12353247/force-contenteditable-div-to-stop-accepting-input-after-it-loses-focus-under-web
   blurInput: function() {
+    var rootNode = this.getDOMNode();
+
     // setTimeout to wait till the end of current key press generated events
     setTimeout(function() {
-      $('<div style="height:0;width:0;" contenteditable="true"></div>').appendTo(document.body).focus().remove();
+      $('<div style="height:0;width:0;" contenteditable="true"></div>')
+        .appendTo(rootNode)
+        .focus()
+        .remove();
     }, 0);
   },
 
