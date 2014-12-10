@@ -16,7 +16,6 @@ var gzip = require('gulp-gzip');
 var rename = require('gulp-rename');
 var filter = require('gulp-filter');
 var fork = require('child_process').fork;
-var fs = require('fs');
 
 var CSSlint = require('csslint').CSSLint;
 
