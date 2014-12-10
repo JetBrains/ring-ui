@@ -4,6 +4,7 @@
  */
 
 var fs = require('fs');
+var path = require('path');
 var xml2js = require('xml2js');
 var xml = require('node-xml-lite');
 var Global = require('../global/global');
@@ -172,13 +173,8 @@ var transformSVG = function(fileContents) {
 
   var fileNames = Object.keys(fileContents);
   fileNames.forEach(function(fileName) {
-    var splitPath = fileName.split('/');
-    var file = splitPath.slice(-1)[0];
-
-    var lastDirectory = splitPath.slice(-2)[0];
+    var lastDirectory = path.basename(path.dirname(fileName));
     var strategy = DirectoryToStrategy[lastDirectory] || TransformStrategy.ICON;
-
-    var fName = file.split('.').slice(0, -1).join('.');
 
     var fileContent = fileContents[fileName];
     var preprocessedFile = (function preprocessFile(fileContent) {
@@ -187,7 +183,7 @@ var transformSVG = function(fileContents) {
 
         fileContent['name'] = 'symbol';
         fileContent['attrib'] = {
-          'id': className.getModifier(fName),
+          'id': className.getModifier(path.basename(fileName, '.svg')),
           'viewBox': fileContent['attrib']['viewBox']
         };
       }
