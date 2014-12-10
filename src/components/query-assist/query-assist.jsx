@@ -219,10 +219,12 @@ var QueryAssist = React.createClass({
   },
 
   handleTab: function (e) {
-    e.preventDefault();
+    var selected = this._popup && this._popup.refs.List.getSelected();
+    var firstSuggestion = this.state.suggestions && this.state.suggestions[0];
 
-    if (this.state.suggestions && this.state.suggestions[0]) {
-      return this.handleComplete(this._popup.refs.List.getSelected() || {data: this.state.suggestions[0]}, true);
+    if (selected || firstSuggestion) {
+      e.preventDefault();
+      return this.handleComplete(selected || {data: firstSuggestion}, true);
     }
 
     return true;
