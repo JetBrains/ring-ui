@@ -15,7 +15,7 @@ var tar = require('gulp-tar');
 var gzip = require('gulp-gzip');
 var rename = require('gulp-rename');
 var filter = require('gulp-filter');
-var spawn = require('child_process').spawn;
+var fork = require('child_process').fork;
 var fs = require('fs');
 
 var CSSlint = require('csslint').CSSLint;
@@ -58,21 +58,9 @@ gulp.task('clean', function () {
 });
 
 gulp.task('doc', function (done) {
-  var template = '';
-  var docGeneration = spawn(
-    'node',
-    [
-      path.join(__dirname, './generate-documentation.js')
-    ]
-  );
+  var docGeneration = fork('./generate-documentation.js');
 
-  docGeneration.stdout.on('data', function (data) {
-    template += data;
-  });
-
-  docGeneration.on('close', function () {
-    fs.writeFile(path.join(__dirname, 'docs', 'index.html'), template, done);
-  });
+  docGeneration.on('close', done);
 });
 
 gulp.task('webpack:build', ['clean'], function (callback) {
