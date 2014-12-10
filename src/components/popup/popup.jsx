@@ -210,7 +210,7 @@ var PopupMixin = {
    * @return {boolean}
    */
   isVisible: function() {
-    return this.state.hidden !== false;
+    return this.state.hidden !== true;
   },
 
   /**

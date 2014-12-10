@@ -232,10 +232,9 @@ var QueryAssist = React.createClass({
 
   handleCaretMove: function (e) {
     var caret = this.getCaret();
-    var popupVisible = this._popup && this._popup.isVisible();
-    var emptyFieldClick = caret === 0 && this.state.query === '' && e.type === 'click' && popupVisible;
+    var popupHidden = (!this._popup || !this._popup.isVisible()) && e.type === 'click';
 
-    if (!this.props.disabled && (caret !== this.state.caret || emptyFieldClick)) {
+    if (!this.props.disabled && (caret !== this.state.caret || popupHidden)) {
       this.setState({caret: caret}, this.requestData);
     }
   },
