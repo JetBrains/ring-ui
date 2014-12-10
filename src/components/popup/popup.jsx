@@ -159,7 +159,7 @@ var PopupMixin = {
     /* jshint ignore:start */
     return (
       <div className={this.getClassName()} style={this._getStyles()}>
-        {this.getInternalContent(this.props, this.state)}
+        {this.getInternalContent()}
       </div>
     );
     /* jshint ignore:end */
