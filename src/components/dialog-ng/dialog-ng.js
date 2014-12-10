@@ -72,15 +72,49 @@ angular.module('Ring.dialog', []).
       }],
       'link': function (scope, iElement) {
         var iDocument = $(document);
-        var iBody = $('body');
+        var iWindow = $(window);
         var iDialogContainer = iElement.find('.ring-dialog__container');
         var iDialogTitle = iElement.find('.ring-dialog__header__title');
-        var pageHeight = iBody.outerHeight();
-        var pageWidth = iBody.outerWidth();
+        var pageHeight = null;
+        var pageWidth = null;
 
         scope.resetPosition = function() {
           iDialogContainer.attr('style', null);
         };
+
+        function setPosition(top, left) {
+          pageHeight = iWindow.outerHeight();
+          pageWidth = iWindow.outerWidth();
+
+          if(top === undefined) {
+            top = parseInt(iDialogContainer.css('top'));
+          }
+          if(left === undefined) {
+            left = parseInt(iDialogContainer.css('left'));
+          }
+
+          var boxShadowSize = 30;
+          var maxTop = pageHeight - iDialogContainer.height() - boxShadowSize;
+          var maxLeft = pageWidth - iDialogContainer.width() - boxShadowSize;
+          if (top > maxTop) {
+            top = maxTop;
+          }
+          if (top < boxShadowSize) {
+            top = boxShadowSize;
+          }
+          if (left > maxLeft) {
+            left = maxLeft;
+          }
+          if (left < boxShadowSize) {
+            left = boxShadowSize;
+          }
+
+          iDialogContainer.css({
+            'top': top + 'px',
+            'left': left + 'px',
+            'margin': '0'
+          });
+        }
 
         iDialogTitle.on('mousedown', function (e) {
           var titlePos = {
@@ -97,18 +131,16 @@ angular.module('Ring.dialog', []).
             on('mousemove.' + DIALOG_NAMESPACE, function (e) {
               var top = (offsetContainer.top - (titlePos.top - e.clientY)),
                 left = (offsetContainer.left - (titlePos.left - e.clientX));
-              if ((top > (pageHeight - iDialogContainer.height()) || top < 0 ) || (left > (pageWidth - iDialogContainer.width()) || left < 0)) {
-                return false;
-              }
-              iDialogContainer.css({
-                'top': top + 'px',
-                'left': left + 'px',
-                'margin': '0'
-              });
+
+              setPosition(top, left);
             }).
             one('mouseup.' + DIALOG_NAMESPACE, function () {
               iDocument.off('mousemove.' + DIALOG_NAMESPACE);
             });
+
+          iWindow.on('resize', function(e) {
+            setPosition();
+          });
         });
 
         // Focus first input
