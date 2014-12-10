@@ -155,6 +155,15 @@ var PopupMixin = {
   },
 
   /** @override */
+  componentWillReceiveProps: function (props) {
+    if (typeof props.hidden === 'boolean') {
+      this.setState({
+        hidden: props.hidden
+      });
+    }
+  },
+
+  /** @override */
   render: function () {
     /* jshint ignore:start */
     return (
@@ -194,6 +203,14 @@ var PopupMixin = {
       hidden: false,
       shortcuts: true
     });
+  },
+
+  /**
+   * Returns visibility state
+   * @return {boolean}
+   */
+  isVisible: function() {
+    return this.state.hidden !== false;
   },
 
   /**
