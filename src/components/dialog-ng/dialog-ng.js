@@ -138,7 +138,7 @@ angular.module('Ring.dialog', []).
               iDocument.off('mousemove.' + DIALOG_NAMESPACE);
             });
 
-          iWindow.on('resize', function(e) {
+          iWindow.on('resize', function() {
             setPosition();
           });
         });
