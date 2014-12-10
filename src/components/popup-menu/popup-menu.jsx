@@ -21,14 +21,14 @@ var PopupMenu = React.createClass({
 
   /** @override */
   /* jshint ignore:start */
-  getInternalContent: function (props, state) {
+  getInternalContent: function () {
     return <List ref="List"
       data={this.props.data}
       hint={this.props.hint}
       hintOnSelection={this.props.hintOnSelection}
-      maxHeight={state.style.maxHeight}
+      maxHeight={this._getStyles().maxHeight}
       onSelect={this.props.onSelect}
-      shortcuts={state.shortcuts} />;
+      shortcuts={this.state.shortcuts} />;
   }
   /* jshint ignore:end */
 });
