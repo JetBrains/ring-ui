@@ -23,6 +23,7 @@
 .ring-popup {
   position: absolute;
   z-index: $ring-overlay-z-index;
+  box-sizing: border-box;
 
   font-size: 13px;
   text-align: center;
