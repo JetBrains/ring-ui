@@ -249,11 +249,11 @@ var PopupMixin = {
    */
   _getStyles: function (props) {
     props = props || this.props;
-    var anchorElement = props.anchorElement || document.body;
+    var $anchorElement = $(props.anchorElement || document.body);
     var top = props.top;
     var left = props.left;
 
-    var anchorElementOffset = $(anchorElement).offset();
+    var anchorElementOffset = $anchorElement.offset();
     var styles = {};
 
     if (this.isMounted()) {
@@ -273,18 +273,18 @@ var PopupMixin = {
         break;
 
       case Corner.TOP_RIGHT:
-        styles.left = anchorElementOffset.left + $(anchorElement).outerWidth() + left;
+        styles.left = anchorElementOffset.left + $anchorElement.outerWidth() + left;
         styles.top = anchorElementOffset.top + top;
         break;
 
       case Corner.BOTTOM_LEFT:
         styles.left = anchorElementOffset.left + left;
-        styles.top = anchorElementOffset.top + $(anchorElement).outerHeight() + top;
+        styles.top = anchorElementOffset.top + $anchorElement.outerHeight() + top;
         break;
 
       case Corner.BOTTOM_RIGHT:
-        styles.left = anchorElementOffset.left + $(anchorElement).outerWidth() + left;
-        styles.top = anchorElementOffset.top + $(anchorElement).outerHeight() + top;
+        styles.left = anchorElementOffset.left + $anchorElement.outerWidth() + left;
+        styles.top = anchorElementOffset.top + $anchorElement.outerHeight() + top;
         break;
 
       default:
@@ -297,6 +297,10 @@ var PopupMixin = {
 
     if (props.maxHeight === 'screen') {
       styles.maxHeight = $(window).height() - styles.top - Dimensions.MARGIN;
+    }
+
+    if (props.minWidth === 'target') {
+      styles.minWidth = $anchorElement.width();
     }
 
     if (this.state.hidden) {
