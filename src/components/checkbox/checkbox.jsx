@@ -4,7 +4,9 @@
 
 require('./checkbox.scss');
 var React = require('react');
-var Global =  require('global/global');
+var Global = require('global/global');
+var Icon = require('icon/icon');
+var NgModelMixin = require('ngmodel/ngmodel');
 var ReactPropTypes = React.PropTypes;
 
 /**
@@ -19,27 +21,34 @@ var generateUniqueId = Global.getUIDGenerator(ID_PREFIX);
  * @name Checkbox
  * @constructor
  * @extends {ReactComponent}
-   <example name="Checkbox">
-     <file name="index.html">
-       <div>
-         <span id='checkbox'></span>
-         <span id='checkbox-selected'></span>
-       </div>
-     </file>
+ <example name="Checkbox">
+ <file name="index.html">
+ <div>
+ <span id='checkbox'></span>
+ <span id='checkbox-selected'></span>
+ </div>
+ </file>
 
-     <file name="index.js" webpack="true">
-       var React = require('react');
-       var Checkbox = require('./checkbox.jsx');
+ <file name="index.js" webpack="true">
+ var React = require('react');
+ var Checkbox = require('./checkbox.jsx');
 
-       React.renderComponent(Checkbox(), document.getElementById('checkbox'));
+ React.renderComponent(Checkbox(), document.getElementById('checkbox'));
 
-       React.renderComponent(Checkbox({
+ React.renderComponent(Checkbox({
            checked: true
          }), document.getElementById('checkbox-selected'));
-     </file>
-   </example>
+ </file>
+ </example>
  */
+
+var ngModelStateField = 'checked';
 var Checkbox = React.createClass({
+  mixins: [NgModelMixin],
+  ngModelStateField: ngModelStateField,
+  statics: {
+    ngModelStateField: ngModelStateField
+  },
   propTypes: {
     name: ReactPropTypes.string,
 
@@ -57,8 +66,19 @@ var Checkbox = React.createClass({
 
   getInitialState: function () {
     return {
-      id: generateUniqueId()
+      id: generateUniqueId(),
+      checked: this.props.checked ? true : false
     };
+  },
+
+  componentDidMount: function() {
+    this.getInputDOMNode().checked = this.state.checked;
+  },
+
+  componentWillReceiveProps: function(props) {
+    if (props.checked !== undefined) {
+      this.state.checked = !!props.checked;
+    }
   },
 
   /**
@@ -77,16 +97,28 @@ var Checkbox = React.createClass({
     return this.refs.label.getDOMNode();
   },
 
+  inputChange: function() {
+    this.setState({
+      checked: this.getInputDOMNode().checked
+    });
+  },
+
   render: function () {
     /* jshint ignore:start */
     var id = this.props.id || this.state.id;
+    var checkStyle = {
+      display: this.state.checked ? 'block' : 'none'
+    };
 
     return (
       <label className="ring-form__label">
-        {this.transferPropsTo(<input ref="input" className="ring-checkbox" type="checkbox" id={id} />)}
-        <label ref="label" className="ring-checkbox__label" htmlFor={id} />
+        <input ref="input" onChange={this.inputChange} type="checkbox" className="ring-checkbox" id={id} />
+        <span className="ring-checkbox__icon">
+          <Icon glyph="check" color="black"  className="ring-checkbox__icon__image" style={checkStyle} />
+        </span>
+        <span className="ring-checkbox__label">{this.props.label}</span>
       </label>
-      );
+    );
     /* jshint ignore:end */
   }
 });

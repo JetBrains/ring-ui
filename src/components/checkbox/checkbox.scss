@@ -3,8 +3,13 @@
 :root .ring-checkbox[type="checkbox"] {
   opacity: 0;
   position: absolute;
+  margin: 0;
+  top: 4px;
+  left: 0;
+  width: 13px;
+  height: 13px;
 
-  & + .ring-checkbox__label {
+  & + .ring-checkbox__icon {
     display: inline-block;
     content: "";
     width: 11px;
@@ -17,50 +22,37 @@
 
     line-height: $ring-unit * 3;
     vertical-align: middle;
-  }
+    margin-top: -2px;
 
-  &:not([disabled]) + .ring-checkbox__label:hover {
-    border: 1px solid #FF8620;
-  }
-
-  &:checked + .ring-checkbox__label {
-    font-size: 13px;
-
-    border: 1px solid #25B7FF;
-    line-height: normal;
-
-    &:before {
-      position: relative;
-      top: -4px;
+    & .ring-checkbox__icon__image {
+      position: absolute;
       left: -1px;
-      display: block;
-      width: 11px;
-      height: 11px;
-
-      font-family: 'font-icon' !important;
-      content: '\e005';
-      font-size: 16px;
-      color: #1A1A1A;
+      top: 1px;
+      width: 20px;
+      height: 20px;
     }
   }
 
-  &:focus + .ring-checkbox__label {
-    border: 1px solid red;
+  &:not([disabled]) + .ring-checkbox__icon:hover {
+    border: 1px solid #FF8620;
   }
 
-  &.ring-checkbox_black + .ring-checkbox__label:before {
-    color: #FFF;
+  &:checked + .ring-checkbox__icon {
+    border: 1px solid #25B7FF;
+  }
+
+  &:focus + .ring-checkbox__icon {
+    border: 1px solid red;
   }
 }
 
-.ring-checkbox__label {
+.ring-checkbox__icon {
   display: none; // IE 8-
 }
 
-// TODO(maksimrv): Where is used this class?
-.ring-checkbox__label_i {
-  position: relative;
-  left: 2px;
-
-  user-select: none;
+.ring-checkbox__label {
+  display: inline-block;
+  margin-left: $ring-unit;
+  line-height: normal;
+  font-size: 13px;
 }
