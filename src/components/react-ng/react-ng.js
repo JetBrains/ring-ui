@@ -148,7 +148,7 @@ reactModule.directive(directiveName, [
                 return parsedExpression(scope, locals);
               };
             } else if (parsedExpression) {
-              scope.$watch(parsedExpression, getUpdater(propName));
+              scope.$watch(parsedExpression, getUpdater(propName), true);
               modifyProps(props, propName, parsedExpression(scope));
             } else {
               props[propName] = value;

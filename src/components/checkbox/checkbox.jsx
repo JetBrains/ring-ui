@@ -2,7 +2,6 @@
 
 'use strict';
 
-
 require('./checkbox.scss');
 var React = require('react');
 var Global = require('global/global');
@@ -74,10 +73,6 @@ var Checkbox = React.createClass({
     };
   },
 
-  componentDidMount: function() {
-    this.getInputDOMNode().checked = this.state.checked;
-  },
-
   componentWillReceiveProps: function(props) {
     if (props.checked !== undefined) {
       this.state.checked = !!props.checked;
@@ -90,14 +85,6 @@ var Checkbox = React.createClass({
    */
   getInputDOMNode: function () {
     return this.refs.input.getDOMNode();
-  },
-
-  /**
-   * Return native label node which is responsible for the look of checkbox
-   * @return {HTMLElement}
-   */
-  getLabelDOMNode: function () {
-    return this.refs.label.getDOMNode();
   },
 
   inputChange: function() {
@@ -114,8 +101,8 @@ var Checkbox = React.createClass({
     };
 
     return (
-      <label className="ring-form__label">
-        <input ref="input" onChange={this.inputChange} type="checkbox" className="ring-checkbox" id={id} />
+      <label className="ring-form__label" htmlFor={id}>
+        {this.transferPropsTo(<input ref="input" onChange={this.inputChange} type="checkbox" className="ring-checkbox" id={id} />)}
         <span className="ring-checkbox__icon">
           <Icon glyph="check" color="black"  className="ring-checkbox__icon__image" style={checkStyle} />
         </span>
