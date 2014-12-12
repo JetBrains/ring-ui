@@ -84,7 +84,8 @@ describe('Checkbox', function () {
 
   it('should connect label with input by id', function () {
     var inputId = checkbox.refs.input.getDOMNode().getAttribute('id');
+    var forId = checkbox.getDOMNode().getAttribute('for');
 
-    $(checkbox.getLabelDOMNode()).should.have.prop('for', inputId);
+    expect(inputId).eq(forId);
   });
 });
