@@ -1,7 +1,7 @@
 var Global = require('./global');
 
 describe('Global', function() {
-  describe('Global.addSingletonGetter', function() {
+  describe('addSingletonGetter', function() {
     var SomeClass = function() {
       this.classProperty = 'val';
     };
@@ -23,7 +23,7 @@ describe('Global', function() {
     });
   });
 
-  describe('Global.getUIDGenerator', function() {
+  describe('getUIDGenerator', function() {
     var generate = Global.getUIDGenerator('prefix-', 0);
 
     it('getUIDGenerator should generate unique ids', function() {
@@ -35,7 +35,7 @@ describe('Global', function() {
     });
   });
 
-  describe('Global.ClassName', function() {
+  describe('ClassName', function() {
     var className;
     var BASE_CLASS = 'base-class';
 

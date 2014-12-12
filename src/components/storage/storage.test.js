@@ -130,7 +130,7 @@ function testStorage(storage) {
 }
 
 function testStorageEvents(storage) {
-  describe('Events', function () {
+  describe('events', function () {
     var stop;
 
     afterEach(function () {
@@ -201,7 +201,7 @@ function testStorageEvents(storage) {
   });
 }
 
-describe('Storages', function () {
+describe('Storage', function () {
   describe('Local', function () {
     beforeEach(function () {
       localStorage.clear();
@@ -214,7 +214,7 @@ describe('Storages', function () {
     testStorage(storage);
     testStorageEvents(new MockedStorage());
 
-    describe('Specific', function () {
+    describe('specific', function () {
       beforeEach(function () {
         localStorage.setItem('invalid-json', 'invalid-json');
       });

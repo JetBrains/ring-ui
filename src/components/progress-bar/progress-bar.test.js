@@ -1,7 +1,7 @@
 /**
  * Describe using progress bar
  */
-describe('progress-bar', function() {
+describe('ProgressBar', function() {
   var $ = require('jquery');
   var React = require('react/addons');
   var ProgressBar = require('./progress-bar');

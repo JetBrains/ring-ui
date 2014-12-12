@@ -1,4 +1,4 @@
-describe('list', function () {
+describe('List', function () {
   var $ = require('jquery');
   var React = require('react/addons');
   var List = require('./list');

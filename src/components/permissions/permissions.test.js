@@ -1,4 +1,4 @@
-describe('permissions', function () {
+describe('Permissions', function () {
   var Auth = require('../auth/auth');
   var Permissions = require('./permissions');
   var PermissionCache = require('./permissions__cache');
