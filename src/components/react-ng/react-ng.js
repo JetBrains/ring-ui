@@ -86,11 +86,22 @@ reactModule.directive(directiveName, [
         var ComponentClass = getComponentIfExist(name);
         var props = {};
 
-        function getPropName(name) {
+        function modifyProps(props, name, value) {
           if (name === 'ngModel' && ComponentClass.ngModelStateField) {
-            return ComponentClass.ngModelStateField;
+            if (typeof ComponentClass.ngModelStateField === 'object' && typeof value === 'object') {
+              angular.forEach(ComponentClass.ngModelStateField, function (flag, changedPropName) {
+                if (flag && value[changedPropName] !== undefined) {
+                  props[changedPropName] = value[changedPropName];
+                }
+              });
+            } else if(typeof ComponentClass.ngModelStateField === 'string') {
+              props[ComponentClass.ngModelStateField] = value;
+            } else {
+              return;
+            }
+          } else {
+            props[name] = value;
           }
-          return name;
         }
 
         function getUpdater(name) {
@@ -105,7 +116,7 @@ reactModule.directive(directiveName, [
             }
 
             var props = {};
-            props[getPropName(name)] = value;
+            modifyProps(props, name, value);
             component.setProps(props);
           };
         }
@@ -138,7 +149,7 @@ reactModule.directive(directiveName, [
               };
             } else if (parsedExpression) {
               scope.$watch(parsedExpression, getUpdater(propName));
-              props[getPropName(propName)] = parsedExpression(scope);
+              modifyProps(props, propName, parsedExpression(scope));
             } else {
               props[propName] = value;
             }
@@ -147,13 +158,9 @@ reactModule.directive(directiveName, [
 
         if ('ngModel' in iAttrs) {
           props['_onModelChange'] = function(value) {
-            var modelAccessor = $parse(iAttrs.ngModel);
+            $parse(iAttrs.ngModel).assign(scope, value);
             if(!scope.$$phase) {
-              scope.$apply(function () {
-                modelAccessor.assign(scope, value);
-              });
-            } else {
-              modelAccessor.assign(scope, value);
+              scope.$apply();
             }
           };
         }

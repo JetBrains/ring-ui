@@ -13,7 +13,7 @@ var filter = require('mout/object/filter');
 var isNumber = require('mout/lang/isNumber');
 require('jquery-caret');
 
-
+var NgModelMixin = require('ngmodel/ngmodel');
 var PopupMenu = require('../popup-menu/popup-menu');
 var Icon = require('../icon/icon'); // jshint -W098
 var Shortcuts = require('shortcuts/shortcuts');
@@ -53,8 +53,13 @@ function rangeEquals(a, b) {
      </file>
    </example>
  */
+var ngModelStateField = {query: true, caret: true};
 var QueryAssist = React.createClass({
-  mixins: [Shortcuts.Mixin],
+  mixins: [Shortcuts.Mixin, NgModelMixin],
+  ngModelStateField: ngModelStateField,
+  statics: {
+    ngModelStateField: ngModelStateField
+  },
 
   /** @override */
   propTypes: {

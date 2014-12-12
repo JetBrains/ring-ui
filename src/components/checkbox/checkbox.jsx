@@ -2,10 +2,13 @@
 
 'use strict';
 
+
 require('./checkbox.scss');
 var React = require('react');
 var Global = require('global/global');
+/* jshint ignore:start */
 var Icon = require('icon/icon');
+/* jshint ignore:end */
 var NgModelMixin = require('ngmodel/ngmodel');
 var ReactPropTypes = React.PropTypes;
 
