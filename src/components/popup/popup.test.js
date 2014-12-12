@@ -61,13 +61,18 @@ describe('Popup', function () {
 
   describe('positioning', function() {
     it ('top-left corner', function() {
-      var element = $('<div style="position: absolute; width: 50px; height: 50px;"></div>');
+      var element = $('<div style="position: absolute; top: 10px; left: 15px; width: 50px; height: 50px;"></div>');
+      $('body').append(element);
+
       var container = document.createElement('div');
+      $('body').append(container);
 
       var popup = React.renderComponent(new Popup({
         corner: Popup.PopupProps.Corner.TOP_LEFT,
         anchorElement: element[0]
       }), container);
+
+      popup.show();
 
       var popupElement = popup.getDOMNode();
       var elementOffset = element.offset();
@@ -77,13 +82,18 @@ describe('Popup', function () {
     });
 
     it ('bottom-left corner', function() {
-      var element = $('<div style="position: absolute; width: 50px; height: 50px;"></div>');
+      var element = $('<div style="position: absolute; top: 10px; left: 15px; width: 50px; height: 50px;"></div>');
+      $('body').append(element);
+
       var container = document.createElement('div');
+      $('body').append(container);
 
       var popup = React.renderComponent(new Popup({
         corner: Popup.PopupProps.Corner.BOTTOM_LEFT,
         anchorElement: element[0]
       }), container);
+
+      popup.show();
 
       var popupElement = popup.getDOMNode();
       var elementOffset = element.offset();
