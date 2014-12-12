@@ -26,7 +26,7 @@ var renderComponentToDOM = function (params) {
 };
 
 
-describe('Form component', function () {
+describe('Form', function () {
   it('should render Form correctly', function () {
     var formComponent = renderComponentToDOM(null);
     React.addons.TestUtils.isCompositeComponentWithType(formComponent, Form).
@@ -54,8 +54,8 @@ describe('Form component', function () {
         }).not.to.throw();
       });
 
-      describe('Dependency checks', function () {
-        describe('Unique element checks', function () {
+      describe('dependency checks', function () {
+        describe('unique element checks', function () {
           it('valid unique forest', function () {
             var dependencyObject = {
               'one': {
@@ -141,7 +141,7 @@ describe('Form component', function () {
           });
         });
 
-        describe('Cycle tree checks', function () {
+        describe('cycle tree checks', function () {
           it('valid tree', function () {
             var dependencyObject = {
               'one': {
@@ -198,7 +198,7 @@ describe('Form component', function () {
     });
 
     describe('built-in deps', function () {
-      it('DependencyFunction.DISABLED should disable field when checkbox ' +
+      it('property DependencyFunction.DISABLED should disable field when checkbox ' +
         'is not checked and enable it when checkbox is checked', function () {
         var depsObject = {};
         depsObject[Form.DependencyType.DISABLED] = {
@@ -223,7 +223,7 @@ describe('Form component', function () {
     });
 
     describe('custom dependencies', function () {
-      it('Custom dependency function should work (clone value twice)', function () {
+      it('сustom dependency function should work (clone value twice)', function () {
         var fnName = Form.addDependencyFunction(function (parentElement, childElement) {
           if (childElement) {
             childElement.value = parentElement.value + parentElement.value;

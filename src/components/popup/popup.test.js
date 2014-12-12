@@ -4,7 +4,7 @@ var TestUtils = React.addons.TestUtils;
 var Popup = require('./popup');
 var simulateKeypress = require('simulate-keypress');
 
-describe('popup', function () {
+describe('Popup', function () {
 
   it('should create component', function () {
     var popup = TestUtils.renderIntoDocument(new Popup(null));

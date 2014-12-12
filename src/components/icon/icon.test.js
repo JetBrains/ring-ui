@@ -1,4 +1,4 @@
-describe('icon', function () {
+describe('Icon', function () {
 //  var $ = require('jquery');
   var React = require('react/addons');
   var TestUtils = React.addons.TestUtils;

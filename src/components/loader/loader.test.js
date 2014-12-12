@@ -1,4 +1,4 @@
-describe('loader', function () {
+describe('Loader', function () {
   var React = require('react/addons');
   var TestUtils = React.addons.TestUtils;
   var Loader = require('./loader');

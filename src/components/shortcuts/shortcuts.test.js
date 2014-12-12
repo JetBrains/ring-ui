@@ -23,32 +23,32 @@ describe('Shortcuts', function () {
     noop2 = sinon.stub();
   });
 
-  describe('Bind', function () {
-    it('Should throw without a handler', function () {
+  describe('bind', function () {
+    it('should throw without a handler', function () {
       expect(function() {
         shortcuts.bind();
       }).to.throw(Error, 'Shortcut handler should exist');
     });
 
-    it('Should throw without a key', function () {
+    it('should throw without a key', function () {
       expect(function() {
         shortcuts.bind({handler: sinon.stub()});
       }).to.throw(Error, 'Shortcut key should exist');
     });
 
-    it('Should bind to root scope', function () {
+    it('should bind to root scope', function () {
       shortcuts.bind({key: key, handler: noop});
 
       shortcuts._scopes[Shortcuts.ROOT_SCOPE][key].should.equal(noop);
     });
 
-    it('Should bind to custom scope', function () {
+    it('should bind to custom scope', function () {
       shortcuts.bind({key: key, scope: scope, handler: noop});
 
       shortcuts._scopes[scope][key].should.equal(noop);
     });
 
-    it('Should bind array of keys', function () {
+    it('should bind array of keys', function () {
       var keys = [key, key2];
       shortcuts.bind({key: keys, handler: noop});
 
@@ -58,19 +58,19 @@ describe('Shortcuts', function () {
   });
 
   describe('bindMap', function () {
-    it('Should throw without a map', function () {
+    it('should throw without a map', function () {
       expect(function() {
         shortcuts.bindMap();
       }).to.throw(Error, 'Shortcuts map shouldn\'t be empty');
     });
 
-    it('Should throw with wrong handler', function () {
+    it('should throw with wrong handler', function () {
       expect(function() {
         shortcuts.bindMap({'a': {}});
       }).to.throw(Error, 'Shortcut handler should exist');
     });
 
-    it('Should bind map of keys to root scope', function () {
+    it('should bind map of keys to root scope', function () {
       var keys = {};
       keys[key] = noop;
       keys[key2] = noop2;
@@ -80,7 +80,7 @@ describe('Shortcuts', function () {
       shortcuts._scopes[Shortcuts.ROOT_SCOPE][key2].should.equal(noop2);
     });
 
-    it('Should bind map of keys to custom scope', function () {
+    it('should bind map of keys to custom scope', function () {
       var keys = {};
       keys[key] = noop;
       keys[key2] = noop2;
@@ -92,7 +92,7 @@ describe('Shortcuts', function () {
   });
 
   describe('unbindScope', function () {
-    it('Should clear scope', function () {
+    it('should clear scope', function () {
       shortcuts.bind({key: key, scope: scope, handler: noop});
       shortcuts.unbindScope(scope);
 
@@ -101,7 +101,7 @@ describe('Shortcuts', function () {
   });
 
   describe('hasKey', function () {
-    it('Should clear scope', function () {
+    it('should clear scope', function () {
       shortcuts.bind({key: key, scope: scope, handler: noop});
 
       shortcuts.hasKey(key, scope).should.be.true;
@@ -109,8 +109,8 @@ describe('Shortcuts', function () {
     });
   });
 
-  describe('Filter', function () {
-    it('Should setFilter', function () {
+  describe('filter', function () {
+    it('should setFilter', function () {
       shortcuts.setFilter(noop2);
       shortcuts.bind({key: key, handler: noop});
 
@@ -120,7 +120,7 @@ describe('Shortcuts', function () {
       noop2.should.have.been.called;
     });
 
-    it('Filter should prevent handler run', function () {
+    it('filter should prevent handler run', function () {
       var stop = sinon.spy(function() {
         return true;
       });
@@ -135,8 +135,8 @@ describe('Shortcuts', function () {
     });
   });
 
-  describe('Key press', function () {
-    it('Should handle keys in root scope', function () {
+  describe('key press', function () {
+    it('should handle keys in root scope', function () {
       shortcuts.bind({key: key, handler: noop});
 
       trigger();
@@ -144,7 +144,7 @@ describe('Shortcuts', function () {
       noop.should.have.been.called;
     });
 
-    it('Should handle keys in root scope with other scope defined', function () {
+    it('should handle keys in root scope with other scope defined', function () {
       shortcuts.bind({key: key, handler: noop});
       shortcuts.bind({key: key, scope: scope, handler: noop2});
 
@@ -154,7 +154,7 @@ describe('Shortcuts', function () {
       noop2.should.not.have.been.called;
     });
 
-    it('Should handle keys in top scope', function () {
+    it('should handle keys in top scope', function () {
       shortcuts.bind({key: key, handler: noop});
       shortcuts.bind({key: key, scope: scope, handler: noop2});
 
@@ -165,7 +165,7 @@ describe('Shortcuts', function () {
       noop2.should.have.been.called;
     });
 
-    it('Should fall trough scopes when returning true', function () {
+    it('should fall trough scopes when returning true', function () {
       var fallthrough = sinon.spy(function() {
         return true;
       });
@@ -181,12 +181,12 @@ describe('Shortcuts', function () {
     });
   });
 
-  describe('Scope chain operations', function () {
+  describe('scope chain operations', function () {
     var scope1 = 'a';
     var scope2 = 'bb';
     var scope3 = 'ccc';
 
-    it('Emptified scope chain be equal to default', function () {
+    it('emptified scope chain be equal to default', function () {
       shortcuts.getScope().should.deep.equal([]);
     });
 

@@ -1,4 +1,4 @@
-describe('link', function () {
+describe('Link', function () {
   var React = require('react/addons');
   var TestUtils = React.addons.TestUtils;
   var Link = require('./link');
