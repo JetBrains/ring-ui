@@ -1,4 +1,4 @@
-describe('footer', function () {
+describe('Footer', function () {
   var $ = require('jquery');
   var React = require('react/addons');
   var Footer = require('./footer');

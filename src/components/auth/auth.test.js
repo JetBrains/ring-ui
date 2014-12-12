@@ -1,4 +1,4 @@
-describe('auth', function () {
+describe('Auth', function () {
   var Auth = require('./auth');
   var AuthRequestBuilder = require('./auth__request-builder');
   var AuthStorage = require('./auth__storage');

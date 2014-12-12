@@ -1,4 +1,4 @@
-describe('popup-menu', function () {
+describe('PopupMenu', function () {
   var React = require('react/addons');
   var PopupMenu = require('./popup-menu');
   var popup;

@@ -1,4 +1,4 @@
-describe('button', function () {
+describe('Button', function () {
   var $ = require('jquery');
   var React = require('react/addons');
   var TestUtils = React.addons.TestUtils;
