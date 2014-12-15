@@ -46,7 +46,8 @@
     "mocha": "^1.21.4",
     "react-tools": "^0.12.1",
     "through": "^2.3.4",
-    "webpack-dev-server": "^1.4.3"
+    "webpack-dev-server": "^1.4.3",
+    "yargs": "^1.3.3"
   },
   "dependencies": {
     "autoprefixer-loader": "^0.1.1",
