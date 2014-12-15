@@ -74,7 +74,7 @@ module.exports = function (karma) {
     // - Safari (only Mac)
     // - PhantomJS — only installed
     // - IE (only Windows)
-    browsers: ['PhantomJS', 'Firefox'],
+    browsers: ['PhantomJS'],
 
     // Custom Chrome launcher for CI use
     customLaunchers: {
