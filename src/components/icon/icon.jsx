@@ -9,7 +9,7 @@
 
 require('./icon.scss');
 var Global = require('global/global'); // jshint -W098
-var React = require('react');
+var React = require('react/addons');
 
 
 /**
@@ -90,7 +90,8 @@ var initializeTemplate = function() {
  * @extends {ReactComponent}
    <example name="Icon">
      <file name="index.html">
-       <div id="icon-container"></div>
+       <span id="icon-container"></span>
+       <span id="icon-distribution"></span>
      </file>
 
      <file name="index.js" webpack="true">
@@ -103,6 +104,11 @@ var initializeTemplate = function() {
          glyph: 'ok',
          size: Icon.Size.Size32
        }), document.getElementById('icon-container'));
+
+       React.renderComponent(Icon({
+         glyph: 'distribution',
+         size: Icon.Size.Size32
+       }), document.getElementById('icon-distribution'));
      </file>
    </example>
  */
