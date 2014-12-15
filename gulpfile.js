@@ -127,8 +127,7 @@ gulp.task('webpack-dev-server', function () {
       if (err) {
         throw new gutil.PluginError('webpack-dev-server', err);
       }
-      gutil.log('[webpack-dev-server]', 'http://localhost:' + serverPort +
-        '/webpack-dev-server/index.html');
+      gutil.log('[webpack-dev-server]', 'http://localhost:' + serverPort);
     });
 });
 
