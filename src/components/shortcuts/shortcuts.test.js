@@ -1,5 +1,6 @@
 var React = require('react/addons');
 var simulateKeypress = require('simulate-keypress');
+var renderIntoDocument = require('render-into-document');
 var Shortcuts = require('./shortcuts');
 var shortcuts = Shortcuts.getInstance();
 
@@ -228,23 +229,6 @@ describe('Shortcuts', function () {
   describe('Mixin', function () {
     var component;
     var scope2 = 'scope2 scope2 scope2';
-
-    var div = document.createElement('div');
-    document.documentElement.appendChild(div);
-
-    after(function() {
-      document.documentElement.removeChild(div);
-    });
-
-    afterEach(function() {
-      if (component && component.isMounted()) {
-        React.unmountComponentAtNode(div);
-      }
-    });
-
-    function renderIntoDocument(instance, callback) {
-      return React.renderComponent(instance, div, callback);
-    }
 
     function createСlass(props, render) {
       var keyMap = {};
