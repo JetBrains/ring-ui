@@ -1,5 +1,7 @@
 'use strict';
 
+var renderIntoDocument = require('render-into-document');
+
 describe('Diff', function () {
   describe('intergration', function () {
     var React = require('react/addons');
@@ -16,22 +18,6 @@ describe('Diff', function () {
         }
       ]
     };
-
-    var DOMContainer;
-
-    // We need custom renderIntoDocument with attached contantainer here because of CodeMirror
-    var renderIntoDocument = function (instance) {
-      return React.renderComponent(instance, DOMContainer);
-    };
-
-    beforeEach(function () {
-      DOMContainer = document.createElement('div');
-      document.documentElement.appendChild(DOMContainer);
-    });
-
-    afterEach(function () {
-      document.documentElement.removeChild(DOMContainer);
-    });
 
     it('should create component', function () {
       var component = renderIntoDocument(new Diff({
