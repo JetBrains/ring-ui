@@ -24,6 +24,8 @@ var Buffer = require('buffer').Buffer;
 var through = require('through');
 var jeditor = require('gulp-json-editor');
 
+var argv = require('yargs').argv;
+
 // Read configuration from package.json
 var pkgConfig = Object.create(require('./package.json'));
 
@@ -115,7 +117,7 @@ gulp.task('webpack-dev-server', function () {
   myConfig.entry.jQuery = './node_modules/jquery/dist/jquery.js';
   myConfig.entry.utils = ['webpack-dev-server/client?http://localhost:8080', 'es5-shim', 'es5-shim/es5-sham.js'];
 
-  var serverPort = gulp.env.port || '8080';
+  var serverPort = argv.port || '8080';
 
   // Start a webpack-dev-server
   new WebpackDevServer(webpack(myConfig), {
@@ -133,7 +135,7 @@ gulp.task('webpack-dev-server', function () {
 
 gulp.task('dev-server', function () {
   nodemon({
-    exec: ['webpack-dev-server', '--port=' + (gulp.env.port || '')],
+    exec: ['webpack-dev-server', '--port=' + (argv.port || '')],
     watch: [
       'webpack.config.js',
       'gulpfile.js'
