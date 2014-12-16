@@ -15,8 +15,14 @@ describe('Permissions', function () {
       expect(new Permissions(auth, {serviceId: '123'}).query).to.equal('service: {123}');
     });
 
-    it('should pass permission key prefix', function () {
-      expect(new Permissions(auth, {prefix: 'jetbrains.jetpass.'}).prefix).to.equal('jetbrains.jetpass.');
+    it('should check no namesConverter if no config params', function () {
+      expect(new Permissions(auth).namesConverter).to.equal(undefined);
+    });
+
+    it('should create namesConverter for prefix', function () {
+      var permissions = new Permissions(auth, {prefix: 'jetbrains.jetpass.'});
+      expect(permissions.namesConverter).not.to.equal(undefined);
+      expect(permissions.namesConverter('jetbrains.jetpass.project-read')).to.equal('project-read');
     });
 
     it('should require auth', function () {
@@ -25,22 +31,23 @@ describe('Permissions', function () {
       }).to.throw(Error, 'Parameter auth is required');
     });
 
-    describe('construction with defined permissions map', function() {
-      var permissionsKeysMap = {
-        'JetBrains.YouTrack.UPDATE_NOT_OWN_WORK_ITEM': 'yt.not-own-work-item-update'
+    describe('construction with defined namesConverter', function() {
+      var converter = function(input) {
+        return input.toLowerCase();
       };
 
-      it('should pass permission map', function () {
-        expect(new Permissions(auth, {namesMap: permissionsKeysMap}).namesMap).to.equal(permissionsKeysMap);
+      it('should pass permission names converter', function () {
+        expect(new Permissions(auth, {namesConverter: converter}).namesConverter).to.equal(converter);
       });
 
-      it('should not pass permission map if prefix defined', function () {
+      it('should use default permission names converter if prefix defined', function () {
         var args = {
-          namesMap: permissionsKeysMap,
+          namesConverter: converter,
           prefix: 'jetbrains.jetpass.'
         };
-        expect(new Permissions(auth, args).namesMap).to.equal(undefined);
-        expect(new Permissions(auth, args).prefix).to.equal(args.prefix);
+        var permissions = new Permissions(auth, args);
+        expect(permissions.namesConverter).not.to.equal(undefined);
+        expect(permissions.namesConverter('jetbrains.jetpass.project-read')).to.equal('project-read');
       });
     });
   });
@@ -52,7 +59,7 @@ describe('Permissions', function () {
         {id: '123'}
       ]},
       {permission: {key: 'jetbrains.upsource.permission.project.admin'}, global: true}
-    ], 'jetbrains.jetpass.');
+    ], Permissions.getDefaultNamesConverter('jetbrains.jetpass.'));
 
     it('should not permit unlisted permission', function () {
       permissionCache.has('role-update').should.be.false;
@@ -117,10 +124,9 @@ describe('Permissions', function () {
     });
 
     describe('cache with defined permissions map', function() {
-      var permissionsKeysMap = {
-        'JetBrains.YouTrack.UPDATE_NOT_OWN_WORK_ITEM': 'yt.not-own-work-item-update',
-        'JetBrains.YouTrack.UPDATE_WORK_ITEM': 'yt.work-item-update',
-        'jetbrains.jetpass.project-read': 'hub.project-read'
+      var namesConverter = function (key) {
+        var splittedKey = key.split('.');
+        return splittedKey[splittedKey.length - 1].toLowerCase().replace(/\_/g,'-');
       };
       var permissionCache = new PermissionCache([
         {permission: {key: 'jetbrains.jetpass.project-read'}, global: true},
@@ -128,29 +134,28 @@ describe('Permissions', function () {
           {id: '123'}
         ]},
         {permission: {key: 'jetbrains.upsource.permission.project.admin'}, global: true}
-      ], undefined, permissionsKeysMap);
+      ], namesConverter);
 
       it('should not permit permission via serve name', function () {
         permissionCache.has('jetbrains.jetpass.project-read').should.be.false;
-        permissionCache.has('project-read').should.be.false;
         permissionCache.has('JetBrains.YouTrack.UPDATE_NOT_OWN_WORK_ITEM').should.be.false;
       });
 
       it('should not permit unexisting permission', function () {
-        permissionCache.has('yt.work-item-update').should.be.false;
+        permissionCache.has('work-item-update').should.be.false;
         permissionCache.has('JetBrains.YouTrack.UPDATE_WORK_ITEM').should.be.false;
       });
 
       it('should permit global permission', function () {
-        permissionCache.has('hub.project-read').should.be.true;
-        permissionCache.has('hub.project-read', '123').should.be.true;
-        permissionCache.has('hub.project-read', '456').should.be.true;
+        permissionCache.has('project-read').should.be.true;
+        permissionCache.has('project-read', '123').should.be.true;
+        permissionCache.has('project-read', '456').should.be.true;
       });
 
       it('should check non-global permission', function () {
-        permissionCache.has('yt.not-own-work-item-update').should.be.true;
-        permissionCache.has('yt.not-own-work-item-update', '456').should.be.false;
-        permissionCache.has('yt.not-own-work-item-update', '123').should.be.true;
+        permissionCache.has('update-not-own-work-item').should.be.true;
+        permissionCache.has('update-not-own-work-item', '456').should.be.false;
+        permissionCache.has('update-not-own-work-item', '123').should.be.true;
       });
     });
   });
@@ -165,7 +170,7 @@ describe('Permissions', function () {
         {id: '123'}
       ]},
       {permission: {key: 'jetbrains.upsource.permission.project.admin'}, global: true}
-    ], 'jetbrains.jetpass.');
+    ], Permissions.getDefaultNamesConverter('jetbrains.jetpass.'));
     permissions._promise = when.resolve(permissionCache);
 
     it('should resolve to true for given permission', function () {

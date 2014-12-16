@@ -9,22 +9,17 @@
  *   global: boolean?,
  *   spaces: {id: string}[]?
  * }[] } cachedPermissions
- * @param {string=} prefix a substring to chop off from the beginning of the permission key
- * @param {object} namesMap a map, where key is a server-side permission name and value is client-side permission name
+ * @param {function} namesConverter a function, which maps a server-side permission name to client-side permission name
  * @return {object} permission cache
  * @private
  */
-var PermissionCache = function (cachedPermissions, prefix, namesMap) {
+var PermissionCache = function (cachedPermissions, namesConverter) {
   this.permissionCache = {};
   for (var i = 0; i < cachedPermissions.length; i++) {
     var cachedPermission = cachedPermissions[i];
     var key = cachedPermission.permission.key;
-    if (prefix) {
-      if (key.indexOf(prefix) === 0) {
-        key = key.substr(prefix.length);
-      }
-    } else if(namesMap && namesMap.hasOwnProperty(key)) {
-      key = namesMap[key];
+    if (namesConverter) {
+      key = namesConverter(key);
     }
     cachedPermission.spaceIdSet = PermissionCache._toSpaceIdSet(cachedPermission.spaces);
     this.permissionCache[key] = cachedPermission;
