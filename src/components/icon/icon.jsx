@@ -31,6 +31,7 @@ var Color = {
  * @enum {number}
  */
 var Size = {
+  Size14: 14,
   Size16: 16,
   Size32: 32,
   Size48: 48,
@@ -90,8 +91,10 @@ var initializeTemplate = function() {
  * @extends {ReactComponent}
    <example name="Icon">
      <file name="index.html">
-       <span id="icon-container"></span>
-       <span id="icon-distribution"></span>
+        <span id="icon-container"></span>
+        <span id="icon-distribution"></span>
+        <span id="icon-16-pencil"></span>
+        <span id="icon-14-pencil"></span>
      </file>
 
      <file name="index.js" webpack="true">
@@ -109,6 +112,16 @@ var initializeTemplate = function() {
          glyph: 'distribution',
          size: Icon.Size.Size32
        }), document.getElementById('icon-distribution'));
+
+       React.renderComponent(Icon({
+         glyph: 'pencil',
+         size: Icon.Size.Size16
+       }), document.getElementById('icon-16-pencil'));
+
+       React.renderComponent(Icon({
+         glyph: 'pencil',
+         size: Icon.Size.Size14
+       }), document.getElementById('icon-14-pencil'));
      </file>
    </example>
  */
