@@ -4,7 +4,7 @@
  */
 
 // jshint -W098
-var React = require('react');
+var React = require('react/addons');
 var mixIn = require('mout/object/mixIn');
 var debounce = require('mout/function/debounce');
 
