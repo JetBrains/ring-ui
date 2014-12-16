@@ -524,7 +524,14 @@ var QueryAssist = React.createClass({
           spellCheck="false" contentEditable={!this.props.disabled} dangerouslySetInnerHTML={{__html: query}}></div>
 
         {renderPlaceholder && <span className="ring-query-assist__placeholder" onClick={this.handleCaretMove}>{this.props.placeholder}</span>}
-        {this.props.glass && <Icon onClick={this.handleApply} modifier={Icon.Size.Size16} className="ring-query-assist__glass ring-icon_search"></Icon>}
+        {this.props.glass &&
+          <Icon
+            onClick={this.handleApply}
+            size={Icon.Size.Size16}
+            glyph="search"
+            color="gray"
+            className="ring-query-assist__glass">
+          </Icon>}
       </div>
     );
     /* jshint ignore:end */
