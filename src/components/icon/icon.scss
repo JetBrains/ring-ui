@@ -3,7 +3,8 @@
 
 .ring-icon {
   display: inline-block;
-  fill: $ring-color-dark-gray;
+  color: $ring-color-dark-gray;
+  fill: currentColor;
   position: relative;
   vertical-align: middle;
 }
@@ -41,29 +42,29 @@
 
 // Available icon colours
 .ring-icon_gray {
-  fill: $ring-color-gray;
+  color: $ring-color-gray;
 }
 
 .ring-icon_hover {
-  fill: $ring-link-hover-color;
+  color: $ring-link-hover-color;
 }
 
 .ring-icon_green {
-  fill: $ring-color-green;
+  color: $ring-color-green;
 }
 
 .ring-icon_orange {
-  fill: $ring-link-hover-color;
+  color: $ring-link-hover-color;
 }
 
 .ring-icon_red {
-  fill: $ring-color-error;
+  color: $ring-color-error;
 }
 
 .ring-icon_blue {
-  fill: $ring-color-blue;
+  color: $ring-color-blue;
 }
 
 .ring-icon_white {
-  fill: #fff;
+  color: #fff;
 }
