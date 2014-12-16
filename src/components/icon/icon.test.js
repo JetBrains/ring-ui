@@ -5,15 +5,29 @@ describe('Icon', function () {
   var Icon = require('./icon');
 
   beforeEach(function () {
-    this.icon = TestUtils.renderIntoDocument(new Icon());
+    this.icon = TestUtils.renderIntoDocument(new Icon({
+      glyph: 'expand'
+    }));
   });
 
   it('should create component', function () {
     TestUtils.isCompositeComponentWithType(this.icon, Icon).should.equal(true);
   });
 
+  it('should render passed glyph', function() {
+    $(this.icon.getDOMNode()).attr('class').should.contain('ring-icon_expand');
+    $(this.icon.getDOMNode()).find('use').attr('xlink:href').should.equal('#ring-icon_expand');
+  });
+
+  it('should rerender component if we change icon', function () {
+    this.icon.setProps({ glyph: 'collapse' });
+
+    $(this.icon.getDOMNode()).html().should.contain('#ring-icon_collapse');
+    $(this.icon.getDOMNode()).attr('class').should.contain('ring-icon_collapse');
+  });
+
   it('should set size 16', function () {
-    this.icon.setProps({ glyph: Icon.Size.Size16 });
+    this.icon.setProps({ size: Icon.Size.Size16 });
 
     $(this.icon.getDOMNode()).attr('class').should.contain('ring-icon_16');
   });
