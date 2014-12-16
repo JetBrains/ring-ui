@@ -160,15 +160,6 @@ var QueryAssist = React.createClass({
     this.setFocus();
   },
 
-  shouldComponentUpdate: function (props, state) {
-    // Return false to skip rendering
-    return this.state.query !== state.query ||
-      this.state.shortcuts !== state.shortcuts ||
-      !equals(this.state.styleRanges, state.styleRanges, rangeEquals) ||
-      this.props.placeholder !== props.placeholder ||
-      this.props.glass !== props.glass;
-  },
-
   setFocus: function() {
     var input = this.refs.input.getDOMNode();
     var caret = isNumber(this.state.caret) ? this.state.caret : this.state.query && this.state.query.length;
