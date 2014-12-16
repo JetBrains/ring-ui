@@ -20,15 +20,21 @@ var PermissionCache = require('./permissions__cache');
  * @param {Auth} auth instance of well configured Auth object
  * @param {{
  *   prefix: string?,
+ *   namesMap: object?
  *   serviceId: string?
- * }=} config permissions loaded configuration. <code>prefix</code> if provided then this prefix is removed
- * from the permissions names. <code>serviceId</code> if provided then permissions only for the service are loaded.
+ * }=} config permissions loaded configuration.
+ * <code>prefix</code> if provided then this prefix is removed from the permissions names.
+ * <code>namesMap</code> if provided it maps permission names used on server-side to client-side permission names. It is used only if prefix is undefined.
+ * <code>serviceId</code> if provided then permissions only for the service are loaded.
  * @constructor
  */
 var Permissions = function (auth, config) {
   config = config || {};
   this.query = config.serviceId && ('service: {' + config.serviceId + '}');
   this.prefix = config.prefix;
+  if (!this.prefix) {
+    this.namesMap = config.namesMap;
+  }
 
   if (auth == null) {
     throw new Error('Parameter auth is required');
@@ -60,7 +66,7 @@ Permissions.prototype.load = function () {
     };
     return self._auth.getSecure(API_PERMISSION_CACHE_PATH, accessToken, params).
       then(function (cachedPermissions) {
-        return new PermissionCache(cachedPermissions, self.prefix);
+        return new PermissionCache(cachedPermissions, self.prefix, self.namesMap);
       });
   });
 

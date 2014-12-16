@@ -25,6 +25,24 @@ describe('Permissions', function () {
       }).to.throw(Error, 'Parameter auth is required');
     });
 
+    describe('construction with defined permissions map', function() {
+      var permissionsKeysMap = {
+        'JetBrains.YouTrack.UPDATE_NOT_OWN_WORK_ITEM': 'yt.not-own-work-item-update'
+      };
+
+      it('should pass permission map', function () {
+        expect(new Permissions(auth, {namesMap: permissionsKeysMap}).namesMap).to.equal(permissionsKeysMap);
+      });
+
+      it('should not pass permission map if prefix defined', function () {
+        var args = {
+          namesMap: permissionsKeysMap,
+          prefix: 'jetbrains.jetpass.'
+        };
+        expect(new Permissions(auth, args).namesMap).to.equal(undefined);
+        expect(new Permissions(auth, args).prefix).to.equal(args.prefix);
+      });
+    });
   });
 
   describe('cache', function () {
@@ -95,6 +113,44 @@ describe('Permissions', function () {
         permissionCache.has('a & ').should.be.false;
         permissionCache.has('(a').should.be.false;
         permissionCache.has('(').should.be.false;
+      });
+    });
+
+    describe('cache with defined permissions map', function() {
+      var permissionsKeysMap = {
+        'JetBrains.YouTrack.UPDATE_NOT_OWN_WORK_ITEM': 'yt.not-own-work-item-update',
+        'JetBrains.YouTrack.UPDATE_WORK_ITEM': 'yt.work-item-update',
+        'jetbrains.jetpass.project-read': 'hub.project-read'
+      };
+      var permissionCache = new PermissionCache([
+        {permission: {key: 'jetbrains.jetpass.project-read'}, global: true},
+        {permission: {key: 'JetBrains.YouTrack.UPDATE_NOT_OWN_WORK_ITEM'}, spaces: [
+          {id: '123'}
+        ]},
+        {permission: {key: 'jetbrains.upsource.permission.project.admin'}, global: true}
+      ], undefined, permissionsKeysMap);
+
+      it('should not permit permission via serve name', function () {
+        permissionCache.has('jetbrains.jetpass.project-read').should.be.false;
+        permissionCache.has('project-read').should.be.false;
+        permissionCache.has('JetBrains.YouTrack.UPDATE_NOT_OWN_WORK_ITEM').should.be.false;
+      });
+
+      it('should not permit unexisting permission', function () {
+        permissionCache.has('yt.work-item-update').should.be.false;
+        permissionCache.has('JetBrains.YouTrack.UPDATE_WORK_ITEM').should.be.false;
+      });
+
+      it('should permit global permission', function () {
+        permissionCache.has('hub.project-read').should.be.true;
+        permissionCache.has('hub.project-read', '123').should.be.true;
+        permissionCache.has('hub.project-read', '456').should.be.true;
+      });
+
+      it('should check non-global permission', function () {
+        permissionCache.has('yt.not-own-work-item-update').should.be.true;
+        permissionCache.has('yt.not-own-work-item-update', '456').should.be.false;
+        permissionCache.has('yt.not-own-work-item-update', '123').should.be.true;
       });
     });
   });
