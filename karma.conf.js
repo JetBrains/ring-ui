@@ -1,11 +1,13 @@
 // Karma configuration
 // Generated on Fri Jul 12 2013 16:30:45 GMT+0400 (MSK)
 
+var path = require('path');
+
 module.exports = function (karma) {
   var prepareWbpackConf = function (webpackConf) {
     webpackConf.devtool = 'eval';
     webpackConf.output = {};
-    webpackConf.resolve.root = __dirname + '/test-helpers/';
+    webpackConf.resolve.root = path.join(__dirname, 'test-helpers');
 
     return webpackConf;
   };
