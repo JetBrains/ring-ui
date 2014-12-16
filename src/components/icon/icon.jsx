@@ -157,19 +157,15 @@ var Icon = React.createClass({
         this.props.baseClass.getModifier(this.props.glyph), !!this.props.glyph,
         this.props.baseClass.getClassName(), true));
 
-    return this.transferPropsTo(<svg className={classList} />);
+    return this.transferPropsTo(
+        <svg className={classList}
+             title={this.props.title}
+             dangerouslySetInnerHTML={{__html: '<use xlink:href="#' + this.props.baseClass.getModifier(this.props.glyph) + '"></use>'}}/>);
     /* jshint ignore:end */
   },
 
   componentDidMount: function() {
     initializeTemplate();
-
-    var useElement = document.createElementNS(NamespaceURI.SVG, 'use');
-    useElement.setAttributeNS(NamespaceURI.XLINK, 'xlink:href',
-        '#' + this.props.baseClass.getModifier(this.props.glyph));
-
-    this.getDOMNode().setAttributeNS(null, 'title', this.props.title);
-    this.getDOMNode().appendChild(useElement);
   }
 });
 
