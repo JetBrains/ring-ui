@@ -108,11 +108,30 @@ var FooterLine = React.createClass({
 /**
  * @constructor
  * @extends {ReactComponent}
- <example>
+ * @description
+ *
+ * This component adds footer on the page.
+ *
+ * Each footer consists of three optional parts:
+ *  - left
+ *  - center
+ *  - right
+ *
+ * Inisde you can define rathen an array or single values. See example.
+ * @param {string[]} className Additional classnames to component
+ * @param {Object[]} left Left footer column elements
+ * @param {Object[]} center Center footer column elements
+ * @param {Object[]} right Right footer column elements
+ * @returns {React} react component
+ <example name="Footer">
+ <file name="index.html">
  <div>
  <div id="footer"></div>
  </div>
- <script>
+ </file>
+ <file name="index.js" webpack="true">
+ var React = require('react');
+ var Footer = require('./footer.jsx');
  React.renderComponent(
  Footer({
       className: 'stuff',
@@ -128,7 +147,7 @@ var FooterLine = React.createClass({
         {url: 'http://www.jetbrains.com/teamcity/feedback?source=footer&version=8.0.3%20(build%2027531)&build=27531&mode=ent', label: 'Feedback'}
       ]
     }), document.getElementById('footer'));
- </script>
+ </file>
  </example>
  */
 var Footer = React.createClass({
