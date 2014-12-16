@@ -63,8 +63,13 @@
   right: 1px;
   height: $ring-unit*2;
 
-  padding: 3px;
+  padding: 2px 3px;
   background-color: #fff;
 
+  cursor: pointer;
   user-select: none;
+
+  &:hover {
+    color: $ring-link-hover-color;
+  }
 }
