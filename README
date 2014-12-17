@@ -31,3 +31,52 @@ Run tests and build production files:
 Clean generated files:
 
     gulp clean
+
+========================================
+
+### Building on host project side:
+
+1. Install Ring with npm - add string to package.json :
+    "ring-ui": "http://teamcity.jetbrains.com/guestAuth/repository/download/Ring_UiLibrary_UiLibraryTestBuildGulp/BUILD_NUMBER/ring-ui-component.tar.gz"
+    where BUILD_NUMBER is fresh enough build from http://teamcity.jetbrains.com/viewType.html?buildTypeId=Ring_UILibrary, then run `npm install`
+
+2. Install webpack-config-merger for simply work with config: `npm install webpack-config-merger --save-dev`
+
+3. If your app builds with webpack, require ring-ui components where you need it. Otherwise, create entry point, `/app/app__components.tpl.js` for example.
+Here require all components you need, example:
+require('react-ng/react-ng')({
+  QueryAssist: require('query-assist/query-assist'),
+  Footer: require('footer/footer')
+});
+
+require('auth-ng/auth-ng');
+require('shortcuts-ng/shortcuts-ng');
+
+4. Create webpack.config.js with content (example):
+
+```
+var pkgConfig = require('./package.json');
+var webpackConfigMerger = require('webpack-config-merger');
+
+var webpackOptions = webpackConfigMerger(require('ring-ui/webpack.config'), {
+  entry: pkgConfig.src + '/app/app__components.tpl.js', //your entry point for webpack
+  output: {
+    path: 'path/to/dist',
+    filename: '[name].js'
+  }
+});
+
+module.exports = webpackOptions;
+```
+Here you read ring-ui config and override some fields with your own.
+
+5. If your app builds with webpack, just build it. If your use a grunt, install `grunt-webpack`, for example, and configure it just like this:
+```
+ webpack: {
+      dist: require('./webpack.config.js')
+    }
+```
+
+
+
+
