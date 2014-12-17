@@ -149,11 +149,11 @@ var ListMixin = {
        var List = require('./list.jsx');
 
        var listData = [
-        {'label': 'One', 'type': List.Type.ITEM},
-        {'label': 'Two', 'type': List.Type.ITEM},
-        {'label': 'Three', 'type': List.Type.ITEM},
-        {'label': 'Four', 'type': List.Type.ITEM},
-        {'label': 'Five', 'type': List.Type.ITEM}
+        {'label': 'One', 'type': List.ListProps.Type.ITEM},
+        {'label': 'Two', 'type': List.ListProps.Type.ITEM},
+        {'label': 'Three', 'type': List.ListProps.Type.ITEM},
+        {'label': 'Four', 'type': List.ListProps.Type.ITEM},
+        {'label': 'Five', 'type': List.ListProps.Type.ITEM}
        ];
 
        React.renderComponent(List({
