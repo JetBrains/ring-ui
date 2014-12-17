@@ -59,12 +59,6 @@ function renderAndRemoveOnDestroy(ComponentClass, iElement, props){
 
 module.exports = registerComponents;
 
-/**
- * Directive to render React components
- * <example>
- *   <div react="ProgressBar" value="searchProgress.percent"></div>
- * </example>
- */
 var directiveName = 'react';
 var staticDirectiveName = directiveName + 'Static';
 var attributeToPassPrefix = 'react';
@@ -178,12 +172,27 @@ reactModule.directive(directiveName, [
     };
   }
 ])
+
 /**
- * Directive to render React components once without updating and callbacks. Support ng-click, ng-class and other attributes manipulating.
+ * @name React-ng
+ * @constructor
+ * @description Directive to render React components once without updating and callbacks. Support ng-click, ng-class and other attributes manipulating.
  * Note: all attributes to pass to react component should have "react-" prefix!
- * <example>
- *   <div react-static="Icon" react-glyph="'pencil'" ng-click="toggleConfig()"></div>
- * </example>
+ * @extends {ReactComponent}
+   <example name="React-ng">
+     <file name="index.html">
+       <div ng-app="Ring.react-ng">
+         <span react="Icon" glyph="'pencil'" size="64"></span>
+       </div>
+     </file>
+
+     <file name="index.js" webpack="true">
+       require('angular/angular.min.js');
+       require('./react-ng')({
+         Icon: require('icon/icon')
+       });
+     </file>
+   </example>
  */
   .directive(staticDirectiveName, [
     '$parse',
