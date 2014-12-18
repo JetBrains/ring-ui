@@ -1,5 +1,6 @@
 [
   "node_modules/jquery/dist/jquery.js",
   "test-helpers/phantomjs-shims.js",
+  "test-helpers/mocha-globals.js",
   "src/components/**/*.test.js"
 ]
