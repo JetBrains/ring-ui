@@ -10,6 +10,7 @@
 require('./icon.scss');
 var Global = require('global/global'); // jshint -W098
 var React = require('react/addons');
+var iconUrl = require('./icon__url');
 
 
 /**
@@ -157,10 +158,13 @@ var Icon = React.createClass({
         this.props.baseClass.getModifier(this.props.glyph), !!this.props.glyph,
         this.props.baseClass.getClassName(), true));
 
+    var xlinkHref = '#' + this.props.baseClass.getModifier(this.props.glyph);
+    xlinkHref = iconUrl.resolve(xlinkHref);
+
     return this.transferPropsTo(
         <svg className={classList}
              title={this.props.title}
-             dangerouslySetInnerHTML={{__html: '<use xlink:href="#' + this.props.baseClass.getModifier(this.props.glyph) + '"></use>'}}/>);
+             dangerouslySetInnerHTML={{__html: '<use xlink:href="' + xlinkHref + '"></use>'}}/>);
     /* jshint ignore:end */
   },
 
