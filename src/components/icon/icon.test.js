@@ -16,7 +16,7 @@ describe('Icon', function () {
 
   it('should render passed glyph', function() {
     $(this.icon.getDOMNode()).attr('class').should.contain('ring-icon_expand');
-    $(this.icon.getDOMNode()).find('use').attr('xlink:href').should.equal('#ring-icon_expand');
+    $(this.icon.getDOMNode()).find('use').attr('xlink:href').should.contain('#ring-icon_expand');
   });
 
   it('should rerender component if we change icon', function () {
