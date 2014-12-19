@@ -63,6 +63,7 @@ var QueryAssist = React.createClass({
 
   /** @override */
   propTypes: {
+    caret: React.PropTypes.number,
     className: React.PropTypes.string,
     popupClassName: React.PropTypes.string,
     dataSource: React.PropTypes.func.isRequired,
@@ -162,7 +163,8 @@ var QueryAssist = React.createClass({
 
   setFocus: function() {
     var input = this.refs.input.getDOMNode();
-    var caret = isNumber(this.state.caret) ? this.state.caret : this.state.query && this.state.query.length;
+    var queryLength = this.state.query && this.state.query.length;
+    var caret = this.state.caret < queryLength ? this.state.caret : queryLength;
 
     if (this.state.focus && !this.props.disabled) {
       // $.caret cannot place caret without children, so we just focus instead
@@ -397,7 +399,6 @@ var QueryAssist = React.createClass({
         <PopupMenu
           className={this.props.popupClassName}
           anchorElement={this.getDOMNode()}
-          autoRemove={false}
           corner={PopupMenu.PopupProps.Corner.BOTTOM_LEFT}
           hint={this.props.hint}
           hintOnSelection={this.props.hintOnSelection}
@@ -421,7 +422,7 @@ var QueryAssist = React.createClass({
 
   closePopup: function() {
     if (this._popup) {
-      this._popup.close();
+      this._popup.hide();
     }
   },
 
@@ -487,8 +488,9 @@ var QueryAssist = React.createClass({
 
   /* jshint ignore:start */
   renderLetter: function (letter, index) {
+    // \u00a0 === &nbsp;
     var letterValue = letter === ' ' ? '\u00a0' : letter;
-    // In spite of werining we don't need key here because of renderComponentToStaticMarkup
+    // Despite warning we don't need key here because of renderComponentToStaticMarkup
     return <span className={this.getLetterClass(index)}>{letterValue}</span>
   },
   /* jshint ignore:end */
