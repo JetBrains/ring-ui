@@ -3,6 +3,7 @@
     "after": false,
     "before": false,
     "require": false,
+    "should": false,
     "sinon": false
   },
   "node": true,
