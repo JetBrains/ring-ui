@@ -1,4 +1,4 @@
-describe.only('QueryAssist', function () {
+describe('QueryAssist', function () {
   var QueryAssist = require('./query-assist');
   var $ = require('jquery');
 
