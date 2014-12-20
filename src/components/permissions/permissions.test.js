@@ -105,8 +105,38 @@ describe('Permissions', function () {
         permissionCache.has('space-read & space-update').should.be.true;
       });
 
+      it('should support negation', function () {
+        permissionCache.has('!space-read').should.be.false;
+        permissionCache.has('!a').should.be.true;
+        permissionCache.has('!a & space-read').should.be.true;
+        permissionCache.has('!a & !space-read').should.be.false;
+        permissionCache.has('!a | !space-read').should.be.true;
+      });
+
+      it('should support negation with defined space-id', function() {
+        permissionCache.has('!space-read', '123').should.be.false;
+        permissionCache.has('!space-update', '123').should.be.false;
+        permissionCache.has('!space-update', '456').should.be.true;
+      });
+
       it('should support parens', function () {
         permissionCache.has('(((space-read | a))) & (space-update)').should.be.true;
+      });
+
+      it('should support parens with negations', function () {
+        permissionCache.has('!(space-read)').should.be.false;
+        permissionCache.has('!(a)').should.be.true;
+        permissionCache.has('space-read & !(a)').should.be.true;
+        permissionCache.has('!(a | space-read)').should.be.false;
+        permissionCache.has('!(a | !space-read)').should.be.true;
+      });
+
+      it('should support multiple negations', function () {
+        permissionCache.has('!!space-read').should.be.true;
+        permissionCache.has('!!(a)').should.be.false;
+        permissionCache.has('!!!a').should.be.true;
+        permissionCache.has('!(!(a | !space-read))').should.be.false;
+        permissionCache.has('!(!(!(a | !space-read)))').should.be.true;
       });
 
       it('should be true for blank', function () {
@@ -120,6 +150,8 @@ describe('Permissions', function () {
         permissionCache.has('a & ').should.be.false;
         permissionCache.has('(a').should.be.false;
         permissionCache.has('(').should.be.false;
+        permissionCache.has('!').should.be.false;
+        permissionCache.has('!!').should.be.false;
       });
     });
 
