@@ -94,6 +94,7 @@ PermissionCache.prototype.lex = function (query) {
         case ')':
         case '&':
         case '|':
+        case '!':
           // Finish current token
           if (currentIdentifier) {
             lexems.push(currentIdentifier);
@@ -116,9 +117,10 @@ PermissionCache.prototype.lex = function (query) {
 
 /*
  or -> and ( '|' and )*
- and -> term ( '&'?  term )*
+ and -> not ( '&'?  not )*
+ not -> '!'* term
  term -> '(' or ')' | permission
- permission -> [^()&|\s]+
+ permission -> [^()&|!\s]+
  */
 
 /**
@@ -147,7 +149,7 @@ PermissionCache.prototype.or = function (lexems, spaceId) {
  * @return {boolean}
  */
 PermissionCache.prototype.and = function (lexems, spaceId) {
-  var result = this.term(lexems, spaceId);
+  var result = this.not(lexems, spaceId);
 
   while (lexems.length > 0 && lexems[0] !== ')' && lexems[0] !== '|') {
     // Expect optional '&'
@@ -155,10 +157,25 @@ PermissionCache.prototype.and = function (lexems, spaceId) {
       lexems.shift();
     }
 
-    result = this.term(lexems, spaceId) && result;
+    result = this.not(lexems, spaceId) && result;
   }
 
   return result;
+};
+
+/**
+ * @param {string[]} lexems
+ * @param {string=} spaceId
+ * @return {boolean}
+ */
+PermissionCache.prototype.not = function (lexems, spaceId) {
+  var notCounter = 0;
+  while (lexems.length > 0 && lexems[0] === '!') {
+    ++notCounter;
+    lexems.shift();
+  }
+  var result = this.term(lexems, spaceId);
+  return (notCounter % 2 === 0) ? result : !result;
 };
 
 /**
