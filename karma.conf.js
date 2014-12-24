@@ -82,7 +82,7 @@ module.exports = function (karma) {
     customLaunchers: {
       ChromeNoSandbox: {
         base: 'Chrome',
-        flags: ['--no-sandbox']
+        flags: ['--no-sandbox', '--test-type']
       }
     },
 
