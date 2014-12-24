@@ -30,10 +30,10 @@ angular.module('Ring.dropdown', [])
         onItemSelect: '='
       },
       controller: ['$scope', '$element', function ($scope, $element) {
-        var popupMenuInstance = null;
+        $scope.popupMenuInstance = null;
 
         $scope.renderPopup = function (items) {
-          popupMenuInstance = PopupMenu.renderComponent(new PopupMenu({
+          $scope.popupMenuInstance = PopupMenu.renderComponent(new PopupMenu({
             corner: PopupMenu.PopupProps.Corner.BOTTOM_LEFT,
             direction: PopupMenu.PopupProps.Directions.BOTTOM,
             anchorElement: $element[0],
@@ -53,7 +53,7 @@ angular.module('Ring.dropdown', [])
                 $scope.$apply(function () {
                   $scope.onItemSelect(option);
                 });
-                popupMenuInstance.hide();
+                $scope.popupMenuInstance.hide();
               }
             };
           });
@@ -61,16 +61,16 @@ angular.module('Ring.dropdown', [])
 
         $scope.$watch('options', function (options) {
           if (angular.isArray(options)){
-            if (!popupMenuInstance) {
+            if (!$scope.popupMenuInstance) {
               $scope.renderPopup(convertOptionsForPopup(options));
             } else {
-              popupMenuInstance.setProps({data: convertOptionsForPopup(options)});
+              $scope.popupMenuInstance.setProps({data: convertOptionsForPopup(options)});
             }
           }
         });
 
         $element.on('click', function ($event) {
-          popupMenuInstance.show();
+          $scope.popupMenuInstance.show();
           $event.stopPropagation();
         });
       }]
