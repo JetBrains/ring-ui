@@ -41,13 +41,14 @@ var getBuildVersion = function() {
 
 /**
  * Add build version to package.json follow semver
+ * We treat build version how pre-release version
  * @param {string} buildVersion Build version
  * @return {Function}
  */
 var addBuildVersion = function(buildVersion) {
   return jeditor(function(json) {
     if (buildVersion) {
-      json.version = json.version + '+' + buildVersion;
+      json.version = json.version + '-' + buildVersion;
     }
     return json;
   });
