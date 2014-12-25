@@ -63,9 +63,7 @@ describe('QueryAssist', function () {
     this.queryAssist = renderIntoDocument(new QueryAssist({
       query: testQuery,
       focus: true,
-      dataSource: function () {
-        return {};
-      }
+      dataSource: this.sinon.stub().returns({})
     }));
   });
 
@@ -339,6 +337,23 @@ describe('QueryAssist', function () {
       simulateKeypress(null, 40); // press down
       simulateKeypress(null, 9); // press tab
       $(this.queryAssist.refs.input.getDOMNode()).text().should.equal(getSuggestionText(suggestions[2]));
+    });
+  });
+
+  describe('request data', function() {
+    beforeEach(function() {
+      this.timeout = this.sinon.useFakeTimers();
+    });
+
+    it('should batch requests', function() {
+      this.queryAssist.props.dataSource.reset();
+
+      this.queryAssist.requestData();
+      this.queryAssist.requestData();
+      this.queryAssist.requestData();
+      this.timeout.tick(4000);
+
+      this.queryAssist.props.dataSource.should.calledOnce;
     });
   });
 });

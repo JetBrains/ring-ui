@@ -77,6 +77,6 @@ Here you read ring-ui config and override some fields with your own.
     }
 ```
 
+## Lodash and underscore
 
-
-
+Instead lodash, underscore we use library mout

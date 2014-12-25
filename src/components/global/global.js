@@ -57,7 +57,6 @@ Global.createObject = function () {
   return obj;
 };
 
-
 /**
  * @param {string} baseName
  * @constructor

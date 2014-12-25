@@ -117,6 +117,14 @@ var QueryAssist = React.createClass({
     if (impotentIE) {
       $(this.getDOMNode()).on(mutationEvents, debounce(this.handleInput, 0));
     }
+
+    /**
+     * Delay request data. For each component create separate instance of
+     * delayed function.
+     * this will reduce the load on the server if the user quickly enters data
+     */
+    var requestTimeDelay = 100;
+    this.requestData = debounce(this.requestData, requestTimeDelay);
   },
 
   componentWillUnmount: function() {
