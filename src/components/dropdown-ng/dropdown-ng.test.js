@@ -12,35 +12,35 @@ describe('DropdownNg', function () {
   /* global inject */
   beforeEach(inject(function ($rootScope, $compile) {
     scope = $rootScope.$new();
-    scope.options = [
+    scope.items = [
       {id: 1, name: 'test1'},
       {id: 2, name: 'test2'}
     ];
 
-    element = $compile('<button class="ring-btn" ring-dropdown options="options" on-item-select="onSelect" label-field="name"></button>')(scope);
+    element = $compile('<button class="ring-btn" ring-dropdown items="items" on-item-select="onSelect" label-field="name"></button>')(scope);
     scope.$digest();
     directiveScope = element.isolateScope();
   }));
 
-  it('should pass options', function () {
-    expect(directiveScope.options).to.equal(scope.options);
+  it('should pass items', function () {
+    expect(directiveScope.items).to.equal(scope.items);
   });
 
   it('should render popup', function () {
-    directiveScope.renderPopup(directiveScope.options);
+    directiveScope.renderPopup(directiveScope.items);
     expect(directiveScope.popupMenuInstance).to.be.defined;
   });
 
-  it('should pass options to popup-menu', function () {
-    directiveScope.renderPopup(directiveScope.options);
-    expect(directiveScope.popupMenuInstance.props.data.length).to.equal(directiveScope.options.length);
+  it('should pass items to popup-menu', function () {
+    directiveScope.renderPopup(directiveScope.items);
+    expect(directiveScope.popupMenuInstance.props.data.length).to.equal(directiveScope.items.length);
   });
 
-  it('should convert options on passing to popup-menu', function () {
-    scope.options.push({id:3, name: 'test3'});
+  it('should convert items on passing to popup-menu', function () {
+    scope.items.push({id:3, name: 'test3'});
 
     scope.$digest();
 
-    expect(directiveScope.popupMenuInstance.props.data[0].label).to.equal(scope.options[0].name);
+    expect(directiveScope.popupMenuInstance.props.data[0].label).to.equal(scope.items[0].name);
   });
 });
