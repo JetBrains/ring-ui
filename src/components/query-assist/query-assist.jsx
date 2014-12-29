@@ -153,7 +153,7 @@ var QueryAssist = React.createClass({
       return;
     }
 
-    var updateStyles = state.query && (state.query !== this.getQuery() || !this.state.styleRanges);
+    var updateStyles = state.query && state.query !== this.getQuery();
     this.setState(state, updateStyles ? this.requestStyleRanges : this.handleNothing);
   },
 
@@ -305,8 +305,6 @@ var QueryAssist = React.createClass({
     }
 
     state.omitSuggestions = true;
-    //To prevent duplicate requests while initial styleranges is loading
-    this.state.styleRanges = this.state.styleRanges || [];
     this.sendRequest(state)
       .then(this.handleResponse)
       .catch(this.handleNothing);
