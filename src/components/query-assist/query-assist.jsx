@@ -305,7 +305,7 @@ var QueryAssist = React.createClass({
     }
 
     state.omitSuggestions = true;
-    //To prevent duplicate requests while inital styleranges is loading
+    //To prevent duplicate requests while initial styleranges is loading
     this.state.styleRanges = this.state.styleRanges || [];
     this.sendRequest(state)
       .then(this.handleResponse)
