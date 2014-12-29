@@ -151,6 +151,15 @@ describe('QueryAssist', function () {
       $(this.queryAssist.refs.input.getDOMNode()).should.be.empty;
     });
 
+    it('Shouldnt make duplicate requests for styleRanges on initiating if query is provided', function () {
+      //Emulate multiple setProps when rendering component with react-ng
+      this.queryAssist.setProps({});
+      this.queryAssist.setProps({});
+      this.queryAssist.setProps({});
+
+      this.queryAssist.props.dataSource.should.calledOnce;
+    });
+
     it('should render placeholder when enabled on empty query', function () {
       this.queryAssist.setProps({
         query: '',
