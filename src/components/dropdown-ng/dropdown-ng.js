@@ -3,7 +3,7 @@
 var PopupMenu = require('popup-menu/popup-menu');
 
 /*
- <button class="ring-btn dashboard-buttons__add" dropdown options="widgetList" on-item-select="createWidget" label-field="label">
+ <button class="ring-btn dashboard-buttons__add" dropdown items="widgetList" on-item-select="createWidget" label-field="label">
  <span translate>Add widget</span> <span class="" react="Icon" glyph="'caret-down'" size="16" color="'black'"></span>
  </button>
  */
@@ -13,7 +13,7 @@ var PopupMenu = require('popup-menu/popup-menu');
  * @constructor
  * @description Directive for dropdowns in angular apps
 <example name="dropdown-ng">
-  <button class="ring-btn" ring-dropdown options="['test1', 'test2']" on-item-select="onSelect"">
+  <button class="ring-btn" ring-dropdown items="['test1', 'test2']" on-item-select="onSelect"">
     Do something
   </button>
 </example>
@@ -25,7 +25,7 @@ angular.module('Ring.dropdown', [])
     return {
       restrict: 'A',
       scope: {
-        options: '=',
+        items: '=',
         labelField: '@',
         onItemSelect: '='
       },
@@ -45,13 +45,13 @@ angular.module('Ring.dropdown', [])
           }));
         };
 
-        var convertOptionsForPopup = function (options) {
-          return options.map(function (option) {
+        var convertItemsForPopup = function (items) {
+          return items.map(function (item) {
             return {
-              label: option[$scope.labelField] || option,
+              label: item[$scope.labelField] || item,
               onClick: function () {
                 $scope.$apply(function () {
-                  $scope.onItemSelect(option);
+                  $scope.onItemSelect(item);
                 });
                 $scope.popupMenuInstance.hide();
               }
@@ -59,12 +59,12 @@ angular.module('Ring.dropdown', [])
           });
         };
 
-        $scope.$watch('options', function (options) {
-          if (angular.isArray(options)){
+        $scope.$watch('items', function (items) {
+          if (angular.isArray(items)){
             if (!$scope.popupMenuInstance) {
-              $scope.renderPopup(convertOptionsForPopup(options));
+              $scope.renderPopup(convertItemsForPopup(items));
             } else {
-              $scope.popupMenuInstance.setProps({data: convertOptionsForPopup(options)});
+              $scope.popupMenuInstance.setProps({data: convertItemsForPopup(items)});
             }
           }
         });
