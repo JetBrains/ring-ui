@@ -281,4 +281,7 @@ gulp.task('build-dev', ['webpack:build-dev'], function () {
 });
 
 // Production build
-gulp.task('build', ['lint', 'lint-styles', 'test:build', 'webpack:build', 'archive', 'doc']);
+// TODO(maksimrv): Fix build error on TC
+// Error: Failed to call done in a stream handler before 30000ms timeout.
+// http://buildserver/viewLog.html?tab=buildLog&logTab=tree&filter=debug&expand=all&buildId=5490519#_focus=1046
+gulp.task('build', ['lint', 'lint-styles', 'test:build', 'webpack:build', 'archive'/*, 'doc'*/]);
