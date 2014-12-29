@@ -22,21 +22,21 @@ describe('DropdownNg', function () {
     directiveScope = element.isolateScope();
   }));
 
-  it('Should pass options', function () {
+  it('should pass options', function () {
     expect(directiveScope.options).to.equal(scope.options);
   });
 
-  it('Should render popup', function () {
+  it('should render popup', function () {
     directiveScope.renderPopup(directiveScope.options);
     expect(directiveScope.popupMenuInstance).to.be.defined;
   });
 
-  it('Should pass options to popup-menu', function () {
+  it('should pass options to popup-menu', function () {
     directiveScope.renderPopup(directiveScope.options);
     expect(directiveScope.popupMenuInstance.props.data.length).to.equal(directiveScope.options.length);
   });
 
-  it('Should convert options on passing to popup-menu', function () {
+  it('should convert options on passing to popup-menu', function () {
     scope.options.push({id:3, name: 'test3'});
 
     scope.$digest();
