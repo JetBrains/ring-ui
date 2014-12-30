@@ -26,17 +26,24 @@ angular.module('Ring.dropdown', [])
       controller: ['$scope', '$element', '$q', function($scope, $element, $q) {
         $scope.popupMenuInstance = null;
 
-        $scope.renderPopup = function(items) {
-          $scope.popupMenuInstance = PopupMenu.renderComponent(new PopupMenu({
-            corner: PopupMenu.PopupProps.Corner.BOTTOM_LEFT,
-            direction: PopupMenu.PopupProps.Directions.BOTTOM,
-            anchorElement: $element[0],
-            data: items,
-            autoRemove: false,
-            cutEdge: false,
-            hidden: true,
-            top: 2
-          }));
+        /**
+         * @return {Object} The popup menu instance
+         */
+        $scope.getPopupMenu = function() {
+          if (!$scope.popupMenuInstance) {
+            $scope.popupMenuInstance = PopupMenu.renderComponent(new PopupMenu({
+              corner: PopupMenu.PopupProps.Corner.BOTTOM_LEFT,
+              direction: PopupMenu.PopupProps.Directions.BOTTOM,
+              anchorElement: $element[0],
+              data: [],
+              autoRemove: false,
+              cutEdge: false,
+              hidden: true,
+              top: 2
+            }));
+          }
+
+          return $scope.popupMenuInstance;
         };
 
         /**
@@ -60,7 +67,7 @@ angular.module('Ring.dropdown', [])
                 $scope.$apply(function() {
                   $scope.onItemSelect(item);
                 });
-                $scope.popupMenuInstance.hide();
+                $scope.getPopupMenu().hide();
               }
             };
           });
@@ -68,26 +75,21 @@ angular.module('Ring.dropdown', [])
 
         $scope.$watch('items', function() {
           getItems().then(function(items) {
-            if (!angular.isArray(items)) {
-              return;
-            }
-
-            if (!$scope.popupMenuInstance) {
-              $scope.renderPopup(convertItemsForPopup(items));
-            } else {
-              $scope.popupMenuInstance.setProps({
+            if (angular.isArray(items)) {
+              $scope.getPopupMenu().setProps({
                 data: convertItemsForPopup(items)
               });
             }
           });
         });
 
-        $element.on('click', function($event) {
+        $scope.onClick = function() {
           getItems().then(function() {
-            $scope.popupMenuInstance.show();
-            $event.stopPropagation();
+            $scope.getPopupMenu().show();
           });
-        });
+        };
+
+        $element.on('click', $scope.onClick);
       }]
     };
   });
