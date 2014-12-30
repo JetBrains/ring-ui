@@ -2,18 +2,12 @@
 
 var PopupMenu = require('popup-menu/popup-menu');
 
-/*
- <button class="ring-btn dashboard-buttons__add" dropdown items="widgetList" on-item-select="createWidget" label-field="label">
- <span translate>Add widget</span> <span class="" react="Icon" glyph="'caret-down'" size="16" color="'black'"></span>
- </button>
- */
-
 /**
  * @name dropdown-ng
  * @constructor
  * @description Directive for dropdowns in angular apps
 <example name="dropdown-ng">
-  <button class="ring-btn" ring-dropdown items="['test1', 'test2']" on-item-select="onSelect"">
+  <button class="ring-btn" rg-dropdown items="['test1', 'test2']" on-item-select="onSelect"">
     Do something
   </button>
 </example>
@@ -21,7 +15,7 @@ var PopupMenu = require('popup-menu/popup-menu');
 
 /* globals angular */
 angular.module('Ring.dropdown', [])
-  .directive('ringDropdown', function() {
+  .directive('rgDropdown', function() {
     return {
       restrict: 'A',
       scope: {
