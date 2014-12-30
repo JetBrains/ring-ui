@@ -83,13 +83,16 @@ angular.module('Ring.dropdown', [])
           });
         });
 
-        $scope.onClick = function() {
+        $scope.showPopupMenu = function() {
           getItems().then(function() {
             $scope.getPopupMenu().show();
           });
         };
 
-        $element.on('click', $scope.onClick);
+        $element.on('click', function(event) {
+          $scope.showPopupMenu();
+          event.stopPropagation();
+        });
       }]
     };
   });

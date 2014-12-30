@@ -44,6 +44,14 @@ describe('DropdownNg', function () {
     expect(directiveScope.popupMenuInstance.props.data[0].label).to.equal(scope.items[0].name);
   });
 
+  it('should show popup', function() {
+    directiveScope.showPopupMenu();
+    scope.$digest();
+
+    expect(directiveScope.popupMenuInstance.isVisible()).to.equal(true);
+  });
+
+
   it('should defer popup render until items is loaded', inject(function($q) {
     scope.items = $q.defer();
     scope.$digest();
@@ -55,14 +63,14 @@ describe('DropdownNg', function () {
     expect(directiveScope.popupMenuInstance).to.be.defined;
   }));
 
-  it('should not throw error if items is not defined but we click on popup', function() {
+  it('should not throw error if items is not defined but we show popup', function() {
     scope.items = null;
     element = $compile('<i class="ring-btn" rg-dropdown items="items"></i>')(scope);
     scope.$digest();
     directiveScope = element.isolateScope();
 
     expect(function() {
-      directiveScope.onClick();
+      directiveScope.showPopupMenu();
       scope.$digest();
     }).to.not.throw(Error);
   });
