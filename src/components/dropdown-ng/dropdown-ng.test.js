@@ -18,7 +18,7 @@ describe('DropdownNg', function () {
     ];
     scope.items = itemsMock;
 
-    element = $compile('<button class="ring-btn" ring-dropdown items="items" on-item-select="onSelect" label-field="name"></button>')(scope);
+    element = $compile('<button class="ring-btn" rg-dropdown items="items" on-item-select="onSelect" label-field="name"></button>')(scope);
     scope.$digest();
     directiveScope = element.isolateScope();
   }));
