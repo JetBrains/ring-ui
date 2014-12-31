@@ -19,7 +19,7 @@ angular.module('Ring.form', ['Ring.message-bundle']).
       template: require('./form-ng__error-bubble.html'),
       link: function (scope, iElement) {
         scope.style = {};
-        var element = iElement.parent().find('input, textarea');
+        var element = $(iElement[0]).siblings('input, textarea');
 
         scope.$watch(function() {
           var result = scope.errorBubble();
