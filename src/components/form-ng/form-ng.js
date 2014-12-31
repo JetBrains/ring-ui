@@ -1,5 +1,6 @@
 /* global angular: false */
 
+var $ = require('jquery');
 require('input/input.scss');
 require('message-bundle-ng/message-bundle-ng.js');
 
