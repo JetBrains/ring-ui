@@ -50,11 +50,32 @@
             <div>
                 <h1> {{doc.codeName}} </h1>
 
+                {% if doc.description %}
                 <p class="lead">
-                    {{doc.description}}
+                  <pre>{{doc.description}}</pre>
                 </p>
+                {% endif %}
+
+                {% if doc.params %}
+                <h2>Arguments</h2>
+                <ul>
+                  {% for param in doc.params %}
+                  <li>
+                    <strong>{{ param.name }}</strong> { {{ param.typeList }} } - {{ param.description }}
+                  </li>
+                  {% endfor %}
+                </ul>
+                {% endif %}
+
+                {% if doc.returns %}
+                <h2>Returns</h2>
+                <p>
+                  { {{ doc.returns.typeList }} } - {{ doc.returns.description }}
+                </p>
+                {% endif %}
 
                 {%- for example in doc.examples %}
+                <h2>Example</h2>
                 <section class="example">
                     <div class="demo" data-file-type="Example">
                         <iframe src="examples/example-{{example.name}}/index-testDeployment.html" frameborder="0"

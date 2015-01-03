@@ -139,6 +139,7 @@ var ListMixin = {
  * @constructor
  * @mixes {Shortcuts.Mixin}
  * @extends {ReactComponent}
+ * @example
    <example name="List">
      <file name="index.html">
        <div id='list'></div>

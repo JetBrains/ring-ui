@@ -10,6 +10,7 @@ require('./textarea.scss');
 /**
  * @constructor
  * @extends {ReactComponent}
+ * @example
    <example name="Textarea">
      <file name="index.html">
         <div id="textarea">

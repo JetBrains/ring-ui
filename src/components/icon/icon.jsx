@@ -90,6 +90,7 @@ var initializeTemplate = function() {
  * @constructor
  * @description Icon component
  * @extends {ReactComponent}
+ * @example
    <example name="Icon">
      <file name="index.html">
         <span id="icon-container"></span>

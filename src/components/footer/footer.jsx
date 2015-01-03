@@ -123,32 +123,34 @@ var FooterLine = React.createClass({
  * @param {Object[]} center Center footer column elements
  * @param {Object[]} right Right footer column elements
  * @returns {React} react component
- <example name="Footer">
- <file name="index.html">
- <div>
- <div id="footer"></div>
- </div>
- </file>
- <file name="index.js" webpack="true">
- var React = require('react');
- var Footer = require('./footer.jsx');
- React.renderComponent(
- Footer({
-      className: 'stuff',
-      left: [
-        [{url: 'http://www.jetbrains.com/teamcity/?fromServer', label: 'TeamCity'}, ' by JetBrains'],
-        'Enterprise 8.0.2 EAP (build 27448)'
-      ],
-      center: [
-        [{copyright: 2000, label: ' JetBrains'}, ' · All rights reserved'],
-        {url: 'http://teamcity.jetbrains.com/showAgreement.html', label: 'License agreement', title: 'READ ME!'}
-      ],
-      right: [
-        {url: 'http://www.jetbrains.com/teamcity/feedback?source=footer&version=8.0.3%20(build%2027531)&build=27531&mode=ent', label: 'Feedback'}
-      ]
-    }), document.getElementById('footer'));
- </file>
- </example>
+ *
+ * @example
+   <example name="Footer">
+   <file name="index.html">
+   <div>
+   <div id="footer"></div>
+   </div>
+   </file>
+   <file name="index.js" webpack="true">
+   var React = require('react');
+   var Footer = require('./footer.jsx');
+   React.renderComponent(
+   Footer({
+        className: 'stuff',
+        left: [
+          [{url: 'http://www.jetbrains.com/teamcity/?fromServer', label: 'TeamCity'}, ' by JetBrains'],
+          'Enterprise 8.0.2 EAP (build 27448)'
+        ],
+        center: [
+          [{copyright: 2000, label: ' JetBrains'}, ' · All rights reserved'],
+          {url: 'http://teamcity.jetbrains.com/showAgreement.html', label: 'License agreement', title: 'READ ME!'}
+        ],
+        right: [
+          {url: 'http://www.jetbrains.com/teamcity/feedback?source=footer&version=8.0.3%20(build%2027531)&build=27531&mode=ent', label: 'Feedback'}
+        ]
+      }), document.getElementById('footer'));
+   </file>
+   </example>
  */
 var Footer = React.createClass({
   /** @override */

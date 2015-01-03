@@ -23,25 +23,26 @@ var generateUniqueId = Global.getUIDGenerator(ID_PREFIX);
  * @name Checkbox
  * @constructor
  * @extends {ReactComponent}
- <example name="Checkbox">
- <file name="index.html">
- <div>
- <span id='checkbox'></span>
- <span id='checkbox-selected'></span>
- </div>
- </file>
+ ç
+   <example name="Checkbox">
+   <file name="index.html">
+   <div>
+   <span id='checkbox'></span>
+   <span id='checkbox-selected'></span>
+   </div>
+   </file>
 
- <file name="index.js" webpack="true">
- var React = require('react');
- var Checkbox = require('./checkbox.jsx');
+   <file name="index.js" webpack="true">
+   var React = require('react');
+   var Checkbox = require('./checkbox.jsx');
 
- React.renderComponent(Checkbox(), document.getElementById('checkbox'));
+   React.renderComponent(Checkbox(), document.getElementById('checkbox'));
 
- React.renderComponent(Checkbox({
-           checked: true
-         }), document.getElementById('checkbox-selected'));
- </file>
- </example>
+   React.renderComponent(Checkbox({
+             checked: true
+           }), document.getElementById('checkbox-selected'));
+   </file>
+   </example>
  */
 
 var ngModelStateField = 'checked';

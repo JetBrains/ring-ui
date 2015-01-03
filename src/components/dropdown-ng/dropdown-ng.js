@@ -6,11 +6,12 @@ var PopupMenu = require('popup-menu/popup-menu');
  * @name dropdown-ng
  * @constructor
  * @description Directive for dropdowns in angular apps
-<example name="dropdown-ng">
-  <button class="ring-btn" rg-dropdown items="['test1', 'test2']" on-item-select="onSelect"">
-    Do something
-  </button>
-</example>
+ * @example
+  <example name="dropdown-ng">
+    <button class="ring-btn" rg-dropdown items="['test1', 'test2']" on-item-select="onSelect"">
+      Do something
+    </button>
+  </example>
  */
 
 /* globals angular */

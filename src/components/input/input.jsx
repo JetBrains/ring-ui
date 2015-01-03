@@ -10,6 +10,7 @@ require('./input.scss');
 /**
  * @constructor
  * @extends {ReactComponent}
+ * @example
    <example name="Input">
      <file name="index.html">
        <div id='input'></div>
