@@ -6,14 +6,15 @@ require('./link.scss');
 /**
  * @constructor
  * @extends {ReactComponent}
- <example>
- <div id="link">
- </div>
+ * @example
+   <example>
+   <div id="link">
+   </div>
 
- <script>
- React.renderComponent(Link(), document.getElementById('link'));
- </script>
- </example>
+   <script>
+   React.renderComponent(Link(), document.getElementById('link'));
+   </script>
+   </example>
  */
 var Link = React.createClass({
   render: function() {

@@ -57,6 +57,7 @@ var BASE_CLASS = 'ring-alert';
 /**
  * @constructor
  * @extends {ReactComponent}
+ * @example
    <example name="Alert">
      <file name="index.html">
        <div id="alert-container"></div>

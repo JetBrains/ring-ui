@@ -39,6 +39,7 @@ function rangeEquals(a, b) {
  * @constructor
  * @mixes {Shortcuts.Mixin}
  * @extends {ReactComponent}
+ * @example
    <example name="QueryAssist">
      <file name="index.html">
        <div id="example">

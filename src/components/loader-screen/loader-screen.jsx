@@ -7,14 +7,15 @@ require('./loader-screen.scss');
 /**
  * @constructor
  * @extends {ReactComponent}
- <example>
- <div id="loader-screen">
- </div>
+ * @example
+   <example>
+   <div id="loader-screen">
+   </div>
 
- <script>
- React.renderComponent(LoaderScreen(), document.getElementById('loader-screen'));
- </script>
- </example>
+   <script>
+   React.renderComponent(LoaderScreen(), document.getElementById('loader-screen'));
+   </script>
+   </example>
  */
 var LoaderScreen = React.createClass({
   render: function() {
