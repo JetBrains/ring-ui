@@ -6,6 +6,7 @@ require('./loader.scss');
 /**
  * @constructor
  * @extends {ReactComponent}
+ * @example
    <example name="Loader">
      <file name="index.html">
         <div id="loader">

@@ -28,6 +28,7 @@ var Modifiers = {
  * @constructor
  * @description Button component
  * @extends {ReactComponent}
+ * @example
    <example name="Button">
      <file name="index.html">
        <div>

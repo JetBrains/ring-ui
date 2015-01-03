@@ -177,8 +177,9 @@ reactModule.directive(directiveName, [
  * @name React-ng
  * @constructor
  * @description Directive to render React components once without updating and callbacks. Support ng-click, ng-class and other attributes manipulating.
- * Note: all attributes to pass to react component should have "react-" prefix!
+ * <strong>Note: all attributes to pass to react component should have "react-" prefix!</strong>
  * @extends {ReactComponent}
+ * @example
    <example name="React-ng">
      <file name="index.html">
        <div ng-app="Ring.react-ng">
