@@ -140,6 +140,11 @@
   display: inline-block;
 
   margin-right: 2*$ring-unit;
+
+  //Increase selector specificity when ring buttons used as footer items
+  &.ring-btn {
+    margin-right: 2*$ring-unit;
+  }
 }
 
 .ring-dialog__header {
