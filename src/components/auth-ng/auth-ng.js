@@ -13,7 +13,8 @@ var authModule = angular.module('Ring.auth', []);
  *   authProvider.config({
  *     serverUri: "***REMOVED***",
  *     client_id: '0-0-0-0-0',
- *     scope: ["0-0-0-0-0"]
+ *     scope: ["0-0-0-0-0"],
+ *     cleanHash: false //prevents infinite redirecting on angular>1.2.26
  *   });
  * }]);
  * </pre>
@@ -29,7 +30,8 @@ authModule.provider('auth', ['$httpProvider', function ($httpProvider) {
    *   serverUri: string,
    *   redirect_uri: string?,
    *   client_id: string?,
-   *   scope: string[]?
+   *   scope: string[]?,
+   *   cleanHash: boolean
    * }} config
    */
   this.config = function (config) {
