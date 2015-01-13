@@ -30,12 +30,10 @@ describe('Auth', function () {
         sinon.stub(AuthResponseParser.prototype, 'getLocation', function () {
           return location;
         });
-        sinon.stub(AuthResponseParser.prototype, 'setHash');
       });
 
       afterEach(function () {
         AuthResponseParser.prototype.getLocation.restore();
-        AuthResponseParser.prototype.setHash.restore();
       });
 
       it('should return correct response', function () {
@@ -48,7 +46,6 @@ describe('Auth', function () {
           token_type: 'example',
           expires_in: '3600'
         });
-        parser.setHash.should.have.been.calledWith('');
       });
 
       it('should return null for null location', function () {
@@ -67,7 +64,6 @@ describe('Auth', function () {
         location = 'http://localhost:8080/hub#';
         var parser = new AuthResponseParser();
         expect(parser.getAuthResponseFromURL()).to.be.null;
-        parser.setHash.should.have.been.calledWith('');
       });
 
       it('should return null for no hash', function () {
@@ -80,14 +76,12 @@ describe('Auth', function () {
         location = 'http://localhost:8080/hub#access_token=#2YotnFZFEjr1zCsicMWpAA#';
         var parser = new AuthResponseParser();
         parser.getAuthResponseFromURL().should.be.deep.equal({access_token: '#2YotnFZFEjr1zCsicMWpAA#'});
-        parser.setHash.should.have.been.calledWith('');
       });
 
       it('should throw error on error in auth response', function () {
         location = 'http://localhost:8080/hub#error=we+are+in+trouble';
         var parser = new AuthResponseParser();
         expect(parser.getAuthResponseFromURL.bind(parser)).to.throw(Error, 'we are in trouble');
-        parser.setHash.should.have.been.calledWith('');
       });
     });
   });
