@@ -195,7 +195,8 @@ var QueryAssist = React.createClass({
   handleInput: function () {
     var props = {
       query: this.getQuery(),
-      caret: this.getCaret()
+      caret: this.getCaret(),
+      lastTabQuery: null
     };
 
     // Avoid trigger on init by mutatuion events in IE
@@ -222,8 +223,23 @@ var QueryAssist = React.createClass({
     var firstSuggestion = this.state.suggestions && this.state.suggestions[0];
 
     if (selected || firstSuggestion) {
-      e.preventDefault();
-      return this.handleComplete(selected || {data: firstSuggestion}, true);
+      if (e) {
+        e.preventDefault();
+      }
+
+      if (this.state.suggestionsQuery === this.state.query) {
+        this.setState({
+          lastTabQuery: null
+        });
+
+        return this.handleComplete(selected || {data: firstSuggestion}, true);
+      } else {
+        this.setState({
+          lastTabQuery: this.state.query
+        });
+
+        return false;
+      }
     }
 
     return true;
@@ -244,7 +260,16 @@ var QueryAssist = React.createClass({
 
     if (pickedProps.query === this.state.query &&
        (pickedProps.caret === this.state.caret || this.state.caret === undefined)) {
-      this.setState(pickedProps, deferred.resolve);
+      pickedProps.suggestionsQuery = pickedProps.query;
+
+      this.setState(pickedProps);
+
+      if (this.state.lastTabQuery === pickedProps.query) {
+        this.handleTab();
+        deferred.reject();
+      } else {
+        deferred.resolve();
+      }
     } else {
       deferred.reject(new Error('Current and response queries mismatch'));
     }
@@ -276,7 +301,8 @@ var QueryAssist = React.createClass({
 
     var props = {
       caret: suggestion.caret,
-      query: state.query.substr(0, suggestion.completionStart) + prefix + suggestion.option + suffix
+      query: state.query.substr(0, suggestion.completionStart) + prefix + suggestion.option + suffix,
+      lastTabQuery: null
     };
 
     if (replace) {
@@ -379,9 +405,7 @@ var QueryAssist = React.createClass({
   handleCtrlSpace: function (e) {
     e.preventDefault();
 
-    if (this.state.suggestions) {
-      this.renderPopup();
-    } else {
+    if (!this._popup || !this._popup.isVisible()) {
       this.requestData();
     }
   },
@@ -406,6 +430,7 @@ var QueryAssist = React.createClass({
           hintOnSelection={this.props.hintOnSelection}
           data={suggestions} shortcuts={true}
           left={this.getCaretOffset()}
+          onClose={this.clearSuggestions}
           onSelect={this.handleComplete}
           maxHeight="screen"
         />
@@ -423,9 +448,19 @@ var QueryAssist = React.createClass({
   },
 
   closePopup: function() {
+    this.clearSuggestions();
+
     if (this._popup) {
       this._popup.hide();
     }
+  },
+
+  clearSuggestions: function () {
+    this.setState({
+      lastTabQuery: null,
+      suggestions: [],
+      suggestionQuery: null
+    });
   },
 
   renderSuggestions: function () {
