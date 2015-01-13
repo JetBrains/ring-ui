@@ -91,6 +91,7 @@ Auth.DEFAULT_CONFIG = {
     return uri;
   }()),
   scope: [],
+  cleanHash: true,
   default_expires_in: 40 * 60 // 40 mins
 };
 
@@ -243,6 +244,9 @@ Auth._epoch = function () {
 Auth.prototype._checkForAuthResponse = function () {
   var self = this;
   return when.promise(function (resolve) {
+    if (self.config.cleanHash) {
+      self.setHash('');
+    }
     // getAuthResponseURL may throw an exception. Wrap it with promise to handle it gently.
     resolve(self._responseParser.getAuthResponseFromURL());
   }).then(
@@ -504,6 +508,10 @@ Auth.prototype._loadTokenInBackground = function () {
       return self._refreshDefer.promise.
         timeout(Auth.REFRESH_TIMEOUT);
     });
+};
+
+Auth.prototype.setHash = function(hash) {
+  window.location.hash = hash;
 };
 
 module.exports = Auth;
