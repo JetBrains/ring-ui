@@ -267,7 +267,7 @@ describe('Auth', function () {
 
     });
 
-    it('should clear location hash if cleanHash = true', function () {
+    it('should not clear location hash if cleanHash = false', function () {
       sinon.stub(Auth.prototype, '_redirectCurrentPage');
       sinon.stub(AuthRequestBuilder, '_uuid').returns('unique');
 
