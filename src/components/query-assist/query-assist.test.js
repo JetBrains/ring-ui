@@ -286,7 +286,8 @@ describe('QueryAssist', function () {
       this.queryAssist.setState({
         query: completeQuery,
         caret: competeCaret,
-        suggestions: suggestions
+        suggestions: suggestions,
+        suggestionsQuery: completeQuery
       });
       this.queryAssist.renderPopup();
 
@@ -299,7 +300,8 @@ describe('QueryAssist', function () {
       this.queryAssist.setState({
         query: completeQuery,
         caret: competeCaret,
-        suggestions: suggestions
+        suggestions: suggestions,
+        suggestionsQuery: completeQuery
       });
       this.queryAssist.renderPopup();
 
@@ -312,7 +314,8 @@ describe('QueryAssist', function () {
       this.queryAssist.setState({
         query: completeQuery,
         caret: middleCaret,
-        suggestions: suggestions
+        suggestions: suggestions,
+        suggestionsQuery: completeQuery
       });
       this.queryAssist.renderPopup();
 
@@ -324,7 +327,8 @@ describe('QueryAssist', function () {
       this.queryAssist.setState({
         query: completeQuery,
         caret: middleCaret,
-        suggestions: suggestions
+        suggestions: suggestions,
+        suggestionsQuery: completeQuery
       });
       this.queryAssist.renderPopup();
 
@@ -337,7 +341,8 @@ describe('QueryAssist', function () {
       this.queryAssist.setState({
         query: completeQuery,
         caret: middleCaret,
-        suggestions: suggestions
+        suggestions: suggestions,
+        suggestionsQuery: completeQuery
       });
       this.queryAssist.renderPopup();
 
