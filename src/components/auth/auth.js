@@ -15,6 +15,7 @@ var AuthRequestBuilder = require('./auth__request-builder');
  * @prop {string} config.client_id
  * @prop {string[]} config.scope
  * @prop {string[]} config.optionalScopes
+ * @prop {boolean} config.cleanHash
  * @prop {User?} user
  *
  * @param {{
@@ -22,7 +23,8 @@ var AuthRequestBuilder = require('./auth__request-builder');
  *   redirect_uri: string?,
  *   client_id: string?,
  *   scope: string[]?,
- *   optionalScopes: string[]?
+ *   optionalScopes: string[]?,
+ *   cleanHash: boolean?
  * }} config
  */
 var Auth = function (config) {
@@ -509,7 +511,10 @@ Auth.prototype._loadTokenInBackground = function () {
         timeout(Auth.REFRESH_TIMEOUT);
     });
 };
-
+/**
+ * Sets location hash
+ * @param {string} hash
+ */
 Auth.prototype.setHash = function(hash) {
   window.location.hash = hash;
 };
