@@ -361,6 +361,9 @@ describe('QueryAssist', function () {
 
     it('should batch requests', function() {
       this.queryAssist.props.dataSource.reset();
+      this.queryAssist.setProps({
+        delay: 100
+      });
 
       this.queryAssist.requestData();
       this.queryAssist.requestData();
