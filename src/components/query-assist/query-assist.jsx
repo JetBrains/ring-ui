@@ -218,7 +218,7 @@ var QueryAssist = React.createClass({
   },
 
   handleTab: function (e) {
-    var selected = this._popup && this._popup.refs.List.getSelected();
+    var selected = this._popup && this._popup.refs.List && this._popup.refs.List.getSelected();
     var firstSuggestion = this.state.suggestions && this.state.suggestions[0];
 
     if (selected || firstSuggestion) {
