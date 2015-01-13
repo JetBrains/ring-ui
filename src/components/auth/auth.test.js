@@ -180,10 +180,12 @@ describe('Auth', function () {
 
     beforeEach(function () {
       sinon.stub(Auth.prototype, 'getSecure').returns(when({login: 'user'}));
+      sinon.stub(Auth.prototype, 'setHash');
     });
 
     afterEach(function () {
       Auth.prototype.getSecure.restore();
+      Auth.prototype.setHash.restore();
       return when.join(auth._storage.cleanStates(), auth._storage.wipeToken());
     });
 
@@ -245,6 +247,42 @@ describe('Auth', function () {
           return reject.authRedirect;
         }).
         should.eventually.be.true;
+    });
+
+    it('should clear location hash if cleanHash = true', function () {
+      sinon.stub(Auth.prototype, '_redirectCurrentPage');
+      sinon.stub(AuthRequestBuilder, '_uuid').returns('unique');
+
+      auth = new Auth({
+        serverUri: '',
+        cleanHash: true
+      });
+
+      return auth.init().otherwise(function () {
+        Auth.prototype._redirectCurrentPage.restore();
+        AuthRequestBuilder._uuid.restore();
+
+        auth.setHash.should.have.been.calledWith('');
+      });
+
+    });
+
+    it('should clear location hash if cleanHash = true', function () {
+      sinon.stub(Auth.prototype, '_redirectCurrentPage');
+      sinon.stub(AuthRequestBuilder, '_uuid').returns('unique');
+
+      auth = new Auth({
+        serverUri: '',
+        cleanHash: false
+      });
+
+      return auth.init().otherwise(function () {
+        Auth.prototype._redirectCurrentPage.restore();
+        AuthRequestBuilder._uuid.restore();
+
+        auth.setHash.should.not.have.been.called;
+      });
+
     });
   });
 

@@ -45,16 +45,12 @@ AuthResponseParser.prototype.validateAuthResponse = function (authResponse) {
 
   // Check for errors
   if (authResponse.error) {
-    this.setHash('');
     throw new Error(authResponse.error);
   }
 
   // If there is no token in the hash
   if (!authResponse.access_token) {
-    this.setHash('');
     return null;
-  } else {
-    this.setHash('');
   }
 
   return authResponse;
