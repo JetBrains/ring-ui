@@ -400,6 +400,7 @@ var QueryAssist = React.createClass({
         <PopupMenu
           className={this.props.popupClassName}
           anchorElement={this.getDOMNode()}
+          autoRemove={false} // we need to prevent popup unmount on Esc
           corner={PopupMenu.PopupProps.Corner.BOTTOM_LEFT}
           hint={this.props.hint}
           hintOnSelection={this.props.hintOnSelection}
