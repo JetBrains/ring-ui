@@ -68,6 +68,7 @@ var QueryAssist = React.createClass({
     className: React.PropTypes.string,
     popupClassName: React.PropTypes.string,
     dataSource: React.PropTypes.func.isRequired,
+    delay: React.PropTypes.number,
     disabled: React.PropTypes.bool,
     focus: React.PropTypes.bool,
     hint: React.PropTypes.string,
@@ -119,13 +120,22 @@ var QueryAssist = React.createClass({
       $(this.getDOMNode()).on(mutationEvents, debounce(this.handleInput, 0));
     }
 
-    /**
-     * Delay request data. For each component create separate instance of
-     * delayed function.
-     * this will reduce the load on the server if the user quickly enters data
-     */
-    var requestTimeDelay = 100;
-    this.requestData = debounce(this.requestData, requestTimeDelay);
+    this.setupRequestHandler(this.props);
+  },
+
+  /**
+   * Optionally setup request data delay. For each component create separate instance of
+   * delayed function.
+   * This may help reduce the load on the server if the user quickly inputs data
+   */
+  setupRequestHandler: function (props) {
+    if ((this.requestData === this.requestHandler) === !!props.delay) {
+      if (typeof props.delay === 'number') {
+        this.requestData = debounce(this.requestData, props.delay);
+      } else {
+        this.requestData = this.requestHandler;
+      }
+    }
   },
 
   componentWillUnmount: function() {
@@ -144,6 +154,8 @@ var QueryAssist = React.createClass({
     if (props.focus === false && this.state.focus === true) {
       this.blurInput();
     }
+
+    this.setupRequestHandler(props);
 
     var state = filter(props, function(value, key) {
       return typeof value === this.propsToPick[key];
@@ -339,7 +351,7 @@ var QueryAssist = React.createClass({
     return true;
   },
 
-  requestData: function() {
+  requestHandler: function() {
     this.sendRequest(this.getInputState()).
       then(this.handleResponse).
       then(this.renderPopup).
