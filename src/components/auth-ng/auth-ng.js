@@ -31,7 +31,7 @@ authModule.provider('auth', ['$httpProvider', function ($httpProvider) {
    *   redirect_uri: string?,
    *   client_id: string?,
    *   scope: string[]?,
-   *   cleanHash: boolean
+   *   cleanHash: boolean?
    * }} config
    */
   this.config = function (config) {
