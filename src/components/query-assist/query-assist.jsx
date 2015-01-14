@@ -99,7 +99,7 @@ var QueryAssist = React.createClass({
   },
 
   // See http://stackoverflow.com/questions/12353247/force-contenteditable-div-to-stop-accepting-input-after-it-loses-focus-under-web
-  blurInput: function() {
+  blurInput: function () {
     window.getSelection().removeAllRanges();
   },
 
@@ -132,7 +132,7 @@ var QueryAssist = React.createClass({
     }
   },
 
-  componentWillUnmount: function() {
+  componentWillUnmount: function () {
     if (impotentIE) {
       $(this.getDOMNode()).off(mutationEvents);
     }
@@ -151,7 +151,7 @@ var QueryAssist = React.createClass({
 
     this.setupRequestHandler(props);
 
-    var state = filter(props, function(value, key) {
+    var state = filter(props, function (value, key) {
       return typeof value === this.propsToPick[key];
     }, this);
 
@@ -168,7 +168,7 @@ var QueryAssist = React.createClass({
     this.setFocus();
   },
 
-  setFocus: function() {
+  setFocus: function () {
     var input = this.refs.input.getDOMNode();
     var queryLength = this.state.query && this.state.query.length;
     var caret = this.state.caret < queryLength ? this.state.caret : queryLength;
@@ -265,7 +265,7 @@ var QueryAssist = React.createClass({
     var pickedProps = pick(props, ['query', 'caret', 'styleRanges', 'suggestions']);
 
     if (pickedProps.query === this.state.query &&
-       (pickedProps.caret === this.state.caret || this.state.caret === undefined)) {
+      (pickedProps.caret === this.state.caret || this.state.caret === undefined)) {
       pickedProps.suggestionsQuery = pickedProps.query;
 
       this.setState(pickedProps);
@@ -283,7 +283,7 @@ var QueryAssist = React.createClass({
     return deferred.promise;
   },
 
-  handleApply: function() {
+  handleApply: function () {
     var state = this.getInputState();
 
     if (typeof this.props.onApply === 'function') {
@@ -328,9 +328,10 @@ var QueryAssist = React.createClass({
   },
 
   // TODO Do something here :)
-  handleNothing: function() {},
+  handleNothing: function () {
+  },
 
-  requestStyleRanges: function() {
+  requestStyleRanges: function () {
     var state = this.getInputState();
 
     if (!state.query) {
@@ -345,7 +346,7 @@ var QueryAssist = React.createClass({
     return true;
   },
 
-  requestHandler: function() {
+  requestHandler: function () {
     this.sendRequest(this.getInputState()).
       then(this.handleResponse).
       then(this.renderPopup).
@@ -363,7 +364,7 @@ var QueryAssist = React.createClass({
     return dataPromise;
   },
 
-  getInputState: function() {
+  getInputState: function () {
     return {
       query: this.state.query,
       caret: this.state.caret
@@ -428,17 +429,18 @@ var QueryAssist = React.createClass({
       this._popup = PopupMenu.renderComponent(
         /* jshint ignore:start */
         <PopupMenu
-          className={this.props.popupClassName}
           anchorElement={this.getDOMNode()}
-          autoRemove={false} // we need to prevent popup unmount on Esc
+          autoRemove={false} // required to prevent popup unmount on Esc
+          className={this.props.popupClassName}
           corner={PopupMenu.PopupProps.Corner.BOTTOM_LEFT}
+          data={suggestions}
           hint={this.props.hint}
           hintOnSelection={this.props.hintOnSelection}
-          data={suggestions} shortcuts={true}
           left={this.getCaretOffset()}
+          maxHeight="screen"
           onClose={this.clearSuggestions}
           onSelect={this.handleComplete}
-          maxHeight="screen"
+          shortcuts={true}
         />
         /* jshint ignore:end */
       );
@@ -453,7 +455,7 @@ var QueryAssist = React.createClass({
     }
   },
 
-  closePopup: function() {
+  closePopup: function () {
     this.clearSuggestions();
 
     if (this._popup) {
@@ -509,7 +511,7 @@ var QueryAssist = React.createClass({
       /* jshint ignore:end */
 
       var item = {
-        key:  suggestion.prefix + suggestion.option + suggestion.suffix + suggestion.group + suggestion.description,
+        key: suggestion.prefix + suggestion.option + suggestion.suffix + suggestion.group + suggestion.description,
         label: label,
         type: PopupMenu.ListProps.Type.ITEM,
         data: suggestion
@@ -549,25 +551,33 @@ var QueryAssist = React.createClass({
     });
 
     var query = this.state.query && React.renderComponentToStaticMarkup(
-      <span>{this.state.query.split('').map(this.renderLetter)}</span>
-    ) || '';
+        <span>{this.state.query.split('').map(this.renderLetter)}</span>
+      ) || '';
 
     return (
       <div className="ring-query-assist">
-        <div className={inputClasses} ref="input"
-          onInput={this.handleInput} onKeyPress={this.handleEnter} onKeyDown={this.handleEnter} onKeyUp={this.handleCaretMove}
-          onClick={this.handleCaretMove} onFocus={this.handleFocusChange} onBlur={this.handleFocusChange}
-          spellCheck="false" contentEditable={!this.props.disabled} dangerouslySetInnerHTML={{__html: query}}></div>
+        <div
+          className={inputClasses} ref="input"
+          contentEditable={!this.props.disabled}
+          dangerouslySetInnerHTML={{__html: query}}
+
+          onBlur={this.handleFocusChange}
+          onClick={this.handleCaretMove}
+          onFocus={this.handleFocusChange}
+          onInput={this.handleInput}
+          onKeyDown={this.handleEnter}
+          onKeyPress={this.handleEnter}
+          onKeyUp={this.handleCaretMove}
+
+          spellCheck="false"></div>
 
         {renderPlaceholder && <span className="ring-query-assist__placeholder" onClick={this.handleCaretMove}>{this.props.placeholder}</span>}
-        {this.props.glass &&
-          <Icon
-            onClick={this.handleApply}
-            size={Icon.Size.Size16}
-            glyph="search"
-            color="gray"
-            className="ring-query-assist__glass">
-          </Icon>}
+        {this.props.glass && <Icon
+          className="ring-query-assist__glass"
+          color="gray"
+          glyph="search"
+          onClick={this.handleApply}
+          size={Icon.Size.Size16}></Icon>}
       </div>
     );
     /* jshint ignore:end */
