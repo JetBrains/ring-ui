@@ -14,7 +14,6 @@ var authModule = angular.module('Ring.auth', []);
  *     serverUri: "***REMOVED***",
  *     client_id: '0-0-0-0-0',
  *     scope: ["0-0-0-0-0"],
- *     cleanHash: false //prevents infinite redirecting on angular>1.2.26
  *   });
  * }]);
  * </pre>
@@ -24,6 +23,12 @@ authModule.provider('auth', ['$httpProvider', function ($httpProvider) {
    * @type Auth
    */
   var auth;
+  /**
+   * @type {{cleanHash: boolean}} config
+   */
+  var defaultConfig = {
+    cleanHash: false //prevents infinite redirect on angular>1.2.26
+  };
 
   /**
    * @param {{
@@ -35,7 +40,8 @@ authModule.provider('auth', ['$httpProvider', function ($httpProvider) {
    * }} config
    */
   this.config = function (config) {
-    auth = new Auth(config);
+    var configCopy = angular.extend({}, defaultConfig, config);
+    auth = new Auth(configCopy);
   };
 
   $httpProvider.interceptors.push(['auth', function (auth) {
