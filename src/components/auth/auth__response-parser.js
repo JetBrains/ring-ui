@@ -84,10 +84,6 @@ AuthResponseParser.prototype.getLocation = function () {
   return window.location.toString();
 };
 
-AuthResponseParser.prototype.setHash = function(hash) {
-  window.location.hash = hash;
-};
-
 /**
  * Parses the queryString into the object.
  * <code>
