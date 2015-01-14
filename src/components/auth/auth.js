@@ -15,7 +15,8 @@ var AuthRequestBuilder = require('./auth__request-builder');
  * @prop {string} config.client_id
  * @prop {string[]} config.scope
  * @prop {string[]} config.optionalScopes
- * @prop {boolean} config.cleanHash
+ * @prop {boolean} config.cleanHash - describes whether or not the location.hash has to be cleaned after authorization finish.
+ * It should be set to false in angular > 1.2.26 apps to prevent infinite redirect in Firefox
  * @prop {User?} user
  *
  * @param {{
