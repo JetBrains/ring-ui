@@ -28,12 +28,6 @@ require('../input/input.scss');
 var impotentIE = document.documentMode <= 11;  // TODO Proper browser detection?
 var mutationEvents = 'DOMCharacterDataModified DOMNodeInserted DOMNodeRemoved DOMSubtreeModified';
 
-function rangeEquals(a, b) {
-  // jshint -W116
-  return a == b || a != null && b != null && a.length === b.length && a.start === b.start && a.style === b.style;
-  // jshint +W116
-}
-
 /**
  * @name QueryAssist
  * @constructor
