@@ -11,6 +11,6 @@
   opacity: 0.06;
 }
 
-&.error-page__container:before {
+&.error-page:before {
   @include error-page__background();
 }
