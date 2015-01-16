@@ -9,6 +9,7 @@ var BaseDiff = require('./diff__base');
 var ReactPropTypes = React.PropTypes;
 
 require('./diff.scss');
+require('codemirror/lib/codemirror.css');
 
 /**
  * @constructor

@@ -44,6 +44,14 @@ module.exports = {
           'sass?outputStyle=expanded&includePaths[]=' + (path.resolve(__dirname, './components'))
         ]
       },
+      // import codemirror's plain styles
+      {
+        test: /codemirror\.css$/,
+        loaders: [
+          'style',
+          'css'
+        ]
+      },
       //jsx loader
       {
         test: /\.jsx$/,
