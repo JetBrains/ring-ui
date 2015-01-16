@@ -6,8 +6,16 @@ require('loader/loader.scss');
 /**
  * Loader service
  *
- * Use directive in body:
+ * 1. Use directive in body:
  *   <div ring-loader-screen="{{ 'Loading' | translate}}"></div>
+ *
+ * 2. Add dependency for 'Ring.loader-screen' to your app
+ *
+ * 3. Add run section to your app:
+ *  app.run(['loaderScreen', function (loaderScreen) {
+ *    loaderScreen.setVisible(true);
+ *    loaderScreen.startInitialLoading();
+ *  }]);
  */
 
 angular.module('Ring.loader-screen', []).
