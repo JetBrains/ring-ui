@@ -17,7 +17,7 @@
   background: transparent;
 
   &_glass {
-    padding-right: $ring-unit*3;
+    border-right-width: $ring-unit*3 + 2;
   }
 }
 
@@ -63,7 +63,7 @@
   right: 1px;
   height: $ring-unit*2;
 
-  padding: 2px 3px;
+  padding: 3px 4px 3px 5px;
   background-color: #fff;
 
   cursor: pointer;

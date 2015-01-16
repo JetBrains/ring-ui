@@ -28,6 +28,12 @@ require('../input/input.scss');
 var impotentIE = document.documentMode <= 11;  // TODO Proper browser detection?
 var mutationEvents = 'DOMCharacterDataModified DOMNodeInserted DOMNodeRemoved DOMSubtreeModified';
 
+var GLASS_PADDING = 8 * 3; // $ring-unit * 3
+var INPUT_BORDER_WIDTH = 1;
+var POPUP_COMPENSATION = INPUT_BORDER_WIDTH +
+  PopupMenu.ListProps.Dimensions.ITEM_PADDING +
+  PopupMenu.PopupProps.Dimensions.BORDER_WIDTH;
+
 /**
  * @name QueryAssist
  * @constructor
@@ -180,6 +186,15 @@ var QueryAssist = React.createClass({
       } else {
         input.focus();
       }
+    }
+
+    /**
+     * Scroll input after completion
+      */
+    var caretOffset = this.getCaretOffset();
+
+    if (input.clientWidth !== input.scrollWidth && caretOffset > input.clientWidth - GLASS_PADDING) {
+      input.scrollLeft = input.scrollLeft + caretOffset;
     }
   },
 
@@ -381,15 +396,58 @@ var QueryAssist = React.createClass({
 
   getCaretOffset: function () {
     var input = this.refs.input.getDOMNode();
+    var selection = window.getSelection();
+    var offset = 0;
+    var range;
+
+    try {
+      // Both statements may throw
+      range = selection.getRangeAt(0).cloneRange();
+      range.setStart(range.startContainer, range.startOffset - 1);
+    } catch (e) {
+      return offset;
+    }
+
+    if (range.endOffset !== 0 && range.toString() !== '') {
+      var inputRect = input.getBoundingClientRect();
+      var caretRect = range.getBoundingClientRect();
+
+      offset = caretRect.right - inputRect.left - range.startContainer.offsetLeft;
+    }
+
+    return offset;
+  },
+
+  getPopupOffset: function () {
+    var input = this.refs.input.getDOMNode();
     // First suggestion should be enough?
     var suggestion = this.state.suggestions && this.state.suggestions[0];
-    // Check of suggestion begins not from the end
-    var completionStart = suggestion && suggestion.completionEnd !== suggestion.completionStart && suggestion.completionStart;
-    var caretNodeNumber = completionStart != null && completionStart !== false ? completionStart : this.state.caret - 1;
-    var caretNode = input.firstChild && input.firstChild.childNodes[caretNodeNumber];
-    var caretOffset = caretNode && (caretNode.offsetLeft + caretNode.offsetWidth - PopupMenu.ListProps.Dimensions.ITEM_PADDING) || 0;
 
-    return caretOffset < 0 ? 0 : caretOffset;
+    // Check of suggestion begins not from the end
+    var completionStart = suggestion &&
+      suggestion.completionStart !== suggestion.completionEnd &&
+      suggestion.completionStart;
+
+    var completionStartNode = input.firstChild &&
+      suggestion.completionStart !== false &&
+      suggestion.completionStart != null &&
+      input.firstChild.childNodes[completionStart];
+
+    var offset = completionStartNode &&
+      (completionStartNode.getBoundingClientRect().right - input.getBoundingClientRect().left);
+
+    if (!offset) {
+      var caret = this.getCaretOffset();
+
+      // Do not compensate caret in the beginning of field
+      if (caret === 0) {
+        return caret;
+      } else {
+        offset = caret;
+      }
+    }
+
+    return offset - POPUP_COMPENSATION;
   },
 
   // TODO Move to renderLeter and simplify
@@ -450,7 +508,7 @@ var QueryAssist = React.createClass({
         hidden: false,
         hint: this.props.hint,
         hintOnSelection: this.props.hintOnSelection,
-        left: this.getCaretOffset()
+        left: this.getPopupOffset()
       });
     }
   },

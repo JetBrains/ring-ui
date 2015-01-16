@@ -52,7 +52,8 @@ Directions.UP = Directions.TOP;
 Directions.DOWN = Directions.BOTTOM;
 
 var Dimensions = {
-  MARGIN: 16
+  MARGIN: 16,
+  BORDER_WIDTH: 1
 };
 
 /**
