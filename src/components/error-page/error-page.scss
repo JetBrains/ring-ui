@@ -1,0 +1,15 @@
+
+@mixin error-page__background() {
+  content: '';
+  display: block;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+
+  background: url('error-page__background.gif');
+  opacity: 0.06;
+}
+
+&.error-page__container:before {
+  @include error-page__background();
+}
