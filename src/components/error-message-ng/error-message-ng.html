@@ -1,7 +1,5 @@
 <div class="error-message">
 
-    <!--<div class="ring-line error-page__line"></div>-->
-
     <div class="error-message__content">
         <div>
           <div react-class-name="'error-message__icon'" react-static="Icon" react-glyph="icon"></div>
@@ -12,11 +10,10 @@
 
             <div class="error-message__section" ng-transclude></div>
 
-            <div class="error-message__section" ng-if="!links">
-              <span ng-repeat="link in links">
-                <a class="ring-link" ng-href="{{link.href}}">{{link.text}}</a>
-                {{!$last && ','}}
-              </span>
+            <div class="error-message__section" ng-if="links">
+                <span ng-repeat="link in links">
+                  <a class="ring-link" ng-href="{{link.href}}">{{link.text}}</a>{{$last ? '' : ','}}
+                </span>
             </div>
         </div>
     </div>
