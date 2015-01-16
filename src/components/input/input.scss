@@ -20,7 +20,9 @@
   margin: 0;
   padding-left: $ring-unit / 2;
   padding-right: $ring-unit/ 2;
-  border: 1px solid #CCC;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #CCC;
   background-color: #FFF;
 
   @include ring-font;
@@ -28,16 +30,16 @@
   line-height: 20px;
 
   &:active, &:focus, &_active, &_focus {
-    border: 1px solid #25B7FF;
+    border-color: #25B7FF;
     outline: 0;
   }
 
   &_correct {
-    border: 1px solid #84AB28;
+    border-color: #84AB28;
   }
 
   &_error {
-    border: 1px solid #F00;
+    border-color: #F00;
   }
 
   &_long {
@@ -47,7 +49,7 @@
 
 // Using double selector to enforce specifity, that is hard to express with &
 .ring-input.ring-input:disabled, .ring-input.ring-input_disabled {
-  border: 1px solid #DEDEDE;
+  border-color: #DEDEDE;
   background-color: #F8F8F8;
 }
 
