@@ -129,7 +129,7 @@ var QueryAssist = React.createClass({
    * This may help reduce the load on the server if the user quickly inputs data
    */
   setupRequestHandler: function (props) {
-    if ((this.requestData === this.requestHandler) === !!props.delay) {
+    if ((this.requestData === this.requestHandler) === Boolean(props.delay)) {
       if (typeof props.delay === 'number') {
         this.requestData = debounce(this.requestData, props.delay);
       } else {
