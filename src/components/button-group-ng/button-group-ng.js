@@ -1,5 +1,6 @@
 /* global angular: false */
 
+var $ = require('jquery');
 require('../button-group/button-group.scss');
 
 var CLASSNAME_FIRST = 'ring-button-group__first';
