@@ -1,7 +1,7 @@
 describe('ButtonGroup', function () {
   var React = require('react/addons');
   var TestUtils = React.addons.TestUtils;
-  var ButtonGroup = require('./button__group');
+  var ButtonGroup = require('./button-group');
   var button;
 
   beforeEach(function () {
