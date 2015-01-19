@@ -1,7 +1,5 @@
 @import "../global/global";
 
-$ring-btn-border-radius: 3px;
-
 @mixin btn-box-shadow($opacity) {
   box-shadow: inset 0 1px rgba(255, 255, 255, .4), inset 0 0 0 1px rgba(255, 255, 255, $opacity);
 }
@@ -34,10 +32,6 @@ $ring-btn-border-radius: 3px;
 // Buttons
 //
 // Most buttons are based on the .ring-btn class
-//
-// Base variables:
-//
-//  * $btn-border-radius: 3px;
 //
 // Markup:
 // <button style="margin: 0; margin-right: 20px;" class="ring-btn {$modifiers}">Button Element</button>
@@ -76,7 +70,7 @@ $ring-btn-border-radius: 3px;
   margin: 0;
   padding: 0 $ring-unit*2 - 1;
   border: solid 1px #B4B4B4;
-  border-radius: $ring-btn-border-radius;
+  border-radius: $ring-border-radius;
 
   font-size: 11px;
   line-height: 22px;
@@ -108,7 +102,7 @@ $ring-btn-border-radius: 3px;
 
   &:focus, &.ring-btn_focus {
     position: relative;
-    border-radius: $ring-btn-border-radius !important;
+    border-radius: $ring-border-radius !important;
     box-shadow: 0 0 0 2px $ring-outline-color;
     z-index: 2;
 
@@ -321,56 +315,6 @@ $ring-btn-border-radius: 3px;
   margin-right: $ring-unit;
 }
 
-// Button groups and split button
-//
-// Markup:
-// <div class="ring-btn-group">
-//   <button class="ring-btn {$modifiers}">Button</button>
-//   <button class="ring-btn {$modifiers} ring-btn_disabled">Button</button>
-//   <button class="ring-btn {$modifiers}">Button</button>
-// </div>
-// <div class="ring-btn-group">
-//   <button class="ring-btn {$modifiers}">Button Element</button>
-//   <button class="ring-btn {$modifiers} ring-btn_icon ring-btn__dropdown-icon"><span class="ring-font-icon ring-font-icon_caret-down"></span></button>
-// </div>
-//
-// .ring-btn_primary    - Indicates that a button triggers the main action on the page. There should be only one such button per page, for example, "Create Issue".
-// .ring-btn_blue       - Indicates that a button triggers a secondary action on the page. For example, "Save changes" in a modal dialog.
-// .ring-btn_black      - Indicates that a button is black. Should be used on dark backgrounds only!
-//
-// Styleguide 4.2
-
-.ring-btn-group {
-  display: inline-block;
-  // IE 7
-  @media screen\9 {
-    & {
-      display: inline;
-      zoom: 1;
-    }
-  }
-  position: relative;
-  max-height: 24px;
-
-  font-size: 0;
-}
-
-.ring-btn-group .ring-btn {
-  margin: 0 0 0 -1px;
-  border-radius: 0;
-}
-
-.ring-btn-group .ring-btn:first-child, .ring-btn-group .ring-btn-group__first {
-  margin: 0;
-  border-top-left-radius: $ring-btn-border-radius;
-  border-bottom-left-radius: $ring-btn-border-radius;
-}
-
-.ring-btn-group .ring-btn:last-child, .ring-btn-group .ring-btn-group__last {
-  border-top-right-radius: $ring-btn-border-radius;
-  border-bottom-right-radius: $ring-btn-border-radius;
-}
-
 // Toolbar
 //
 // Markup:
@@ -396,7 +340,7 @@ $ring-btn-border-radius: 3px;
 }
 
 .ring-btn-toolbar > .ring-btn,
-.ring-btn-toolbar > .ring-btn-group {
+.ring-btn-toolbar > .ring-button-group {
   margin-right: 16px;
 
   &:last-child {
