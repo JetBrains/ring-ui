@@ -7,6 +7,9 @@
   "test": "./test",
   "dist": "./dist",
   "main": "ring.js",
+  "scripts": {
+    "gen-doc": "node generate-documentation.js"
+  },
   "repository": {
     "type": "git",
     "url": "ssh://github.com/JetBrains/ring-ui.git"

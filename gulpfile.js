@@ -15,7 +15,6 @@ var tar = require('gulp-tar');
 var gzip = require('gulp-gzip');
 var rename = require('gulp-rename');
 var filter = require('gulp-filter');
-var fork = require('child_process').fork;
 
 var CSSlint = require('csslint').CSSLint;
 
@@ -57,12 +56,6 @@ var addBuildVersion = function(buildVersion) {
 gulp.task('clean', function () {
   return gulp.src(pkgConfig.dist, {read: false})
     .pipe(rimraf());
-});
-
-gulp.task('doc', function (done) {
-  var docGeneration = fork('./generate-documentation.js');
-
-  docGeneration.on('close', done);
 });
 
 gulp.task('webpack:build', ['clean'], function (callback) {
@@ -281,7 +274,4 @@ gulp.task('build-dev', ['webpack:build-dev'], function () {
 });
 
 // Production build
-// TODO(maksimrv): Fix build error on TC
-// Error: Failed to call done in a stream handler before 30000ms timeout.
-// http://buildserver/viewLog.html?tab=buildLog&logTab=tree&filter=debug&expand=all&buildId=5490519#_focus=1046
-gulp.task('build', ['lint', 'lint-styles', 'test:build', 'webpack:build', 'archive'/*, 'doc'*/]);
+gulp.task('build', ['lint', 'lint-styles', 'test:build', 'webpack:build', 'archive']);
