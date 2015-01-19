@@ -9,6 +9,7 @@
   "node": true,
   "browser": true,
   "jasmine": true,
+  "jquery": true,
 
   "indent": 2,
   "camelcase": false,
