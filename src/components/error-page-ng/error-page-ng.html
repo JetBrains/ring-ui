@@ -1,0 +1,29 @@
+<div>
+    <div ng-if="item.$resolved && !error" ng-transclude></div>
+    <div ng-if="error" ng-switch="error.status">
+
+        <div ng-switch-when="403">
+            <div ng-include="'error-page-ng__forbidden.html'"></div>
+        </div>
+
+        <div ng-switch-when="404">
+            <div ng-include="'error-page-ng__not-found.html'"></div>
+        </div>
+
+        <div ng-switch-when="500">
+            <div ng-include="'error-page-ng__server-error.html'"></div>
+        </div>
+
+        <div ng-switch-when="0">
+            <error-message code="{{ 'Disconnected' | translate }}" message="{{ 'No, no one\'s there.' | translate }}" icon="frown">
+                {{ 'There\'s nothing we can do: The server seems to be offline.' | translate }}
+            </error-message>
+        </div>
+
+        <div ng-switch-default>
+            <error-message code="{{ error.status }}" message="{{ 'Oh-oh... Something went seriously wrong.' | translate }}" icon="frown" links="links">
+                {{ error.message }}
+            </error-message>
+        </div>
+    </div>
+</div>
