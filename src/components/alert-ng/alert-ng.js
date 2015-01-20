@@ -42,18 +42,18 @@ angular.module('Ring.alert', []).provider('alert', function() {
   }
 
   function error(text, ttl) {
-    _add(text, ReactAlert.Type.ERROR, ttl);
+    return _add(text, ReactAlert.Type.ERROR, ttl);
   }
 
   function warning(text, ttl) {
-    _add(text, ReactAlert.Type.WARNING, ttl);
+    return _add(text, ReactAlert.Type.WARNING, ttl);
   }
 
   function message(text, ttl) {
-    _add(text, ReactAlert.Type.MESSAGE, ttl);
+    return _add(text, ReactAlert.Type.MESSAGE, ttl);
   }
 
   function success(text, ttl) {
-    _add(text, ReactAlert.Type.SUCCESS, ttl);
+    return _add(text, ReactAlert.Type.SUCCESS, ttl);
   }
 });
