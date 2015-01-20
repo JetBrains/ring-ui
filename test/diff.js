@@ -91,7 +91,7 @@ define(['global/global', 'chai', 'diff/diff'], function(ring, chai) {
       expect(dInstance.mode_).to.equal(DiffTool.Mode.SINGLE_PANE);
     });
 
-    it('DiffTool constructor adds all required fields', function() {
+    it.skip('DiffTool constructor adds all required fields', function() {
       dInstance = new DiffTool();
       expect(dInstance.mode_).to.be.a('number');
       expect(dInstance.element_).to.be.an.instanceof(Element);
@@ -282,7 +282,7 @@ define(['global/global', 'chai', 'diff/diff'], function(ring, chai) {
 
     dInstance.setContent('asd', 'dsa', []);
 
-    it('DiffTool.dispose cleans memory — disables controller, equates its ' +
+    it.skip('DiffTool.dispose cleans memory — disables controller, equates its ' +
         'link to null, cleans html and removes all instance properties ' +
         'by equating them to null as well.', function() {
       var dController = dInstance.controller_;
