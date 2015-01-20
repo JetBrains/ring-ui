@@ -20,7 +20,12 @@ function generateConfig(karma) {
 
 
     // Files are overwritten from a gulp task
-    files: require('./test-files.json'),
+    files: [
+      'node_modules/jquery/dist/jquery.js',
+      'test-helpers/phantomjs-shims.js',
+      'test-helpers/mocha-globals.js',
+      'src/components/**/*.test.js'
+    ],
 
     // test results reporter to use
     // possible values: 'dots', 'progress', 'junit', 'growl', 'coverage'
