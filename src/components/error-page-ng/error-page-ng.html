@@ -15,13 +15,13 @@
         </div>
 
         <div ng-switch-when="0">
-            <error-message code="{{ 'Disconnected' | translate }}" message="{{ 'No, no one\'s there.' | translate }}" icon="frown">
-                {{ 'There\'s nothing we can do: The server seems to be offline.' | translate }}
+            <error-message code="{{ wording.disconnected }}" message="{{ wording.disconnectedMsg }}" icon="frown">
+                {{ wording.offline }}
             </error-message>
         </div>
 
         <div ng-switch-default>
-            <error-message code="{{ error.status }}" message="{{ 'Oh-oh... Something went seriously wrong.' | translate }}" icon="frown" links="links">
+            <error-message code="{{ error.status }}" message="{{ wording.seriouslyWrong }}" icon="frown" links="links">
                 {{ error.message }}
             </error-message>
         </div>

@@ -3,9 +3,14 @@
 require('../error-page/error-page.scss');
 require('../error-message-ng/error-message-ng');
 require('../permissions-ng/permissions-ng');
+require('../message-bundle-ng/message-bundle-ng');
 
 
-angular.module('Ring.error-page', ['Ring.error-message', 'Ring.permissions'])
+angular.module('Ring.error-page', [
+  'Ring.error-message',
+  'Ring.permissions',
+  'Ring.message-bundle'
+])
 
   .provider('errorPageConfiguration', [function () {
     var pageConfiguration = {};
@@ -30,6 +35,21 @@ angular.module('Ring.error-page', ['Ring.error-message', 'Ring.permissions'])
 
       return pageConfiguration;
     }];
+  }])
+
+  .factory('ErrorPageMessages', ['RingMessageBundle', function(RingMessageBundle) {
+    return {
+      seriouslyWrong: RingMessageBundle.errorpage_seriouslywrong(),
+      offline: RingMessageBundle.errorpage_offline(),
+      disconnected: RingMessageBundle.errorpage_disconnected(),
+      disconnectedMsg: RingMessageBundle.errorpage_disconnectedmsg(),
+      error403: RingMessageBundle.errorpage_403(),
+      error403Msg: RingMessageBundle.errorpage_403msg(),
+      error404: RingMessageBundle.errorpage_404(),
+      error404Msg: RingMessageBundle.errorpage_404msg(),
+      error500: RingMessageBundle.errorpage_500(),
+      error500Msg: RingMessageBundle.errorpage_500msg()
+    };
   }])
 
   .directive('errorPageBackground', [
@@ -63,7 +83,8 @@ angular.module('Ring.error-page', ['Ring.error-message', 'Ring.permissions'])
     'userPermissions',
     '$rootScope',
     '$log',
-    function (errorPageConfiguration, $route, userPermissions, $rootScope, $log) {
+    'ErrorPageMessages',
+    function (errorPageConfiguration, $route, userPermissions, $rootScope, $log, ErrorPageMessages) {
 
       return {
         replace: true,
@@ -105,11 +126,13 @@ angular.module('Ring.error-page', ['Ring.error-message', 'Ring.permissions'])
               $resolved: true
             };
           }
-          scope.links = errorPageConfiguration.links;
           var destroyEvent = (scope === scope.$root) ? '$routeChangeStart' : '$destroy';
           scope.$on(destroyEvent, function () {
             errorPageBackgroundCtrl.setApplicationError(false);
           });
+
+          scope.links = errorPageConfiguration.links;
+          scope.wording = ErrorPageMessages;
         }
       };
     }
