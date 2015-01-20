@@ -295,8 +295,7 @@ describe('QueryAssist', function () {
       $(this.queryAssist.refs.input.getDOMNode()).text().should.equal(getSuggestionText(suggestions[0]));
     });
 
-    //TODO: @princed: this tests freeze browsers because of freezing dispatchEvent on key-event.js:39. Please check it
-    it.skip('should complete selected suggestion by enter in the end of phrase', function () {
+    it('should complete selected suggestion by enter in the end of phrase', function () {
       this.queryAssist.setState({
         query: completeQuery,
         caret: competeCaret,
@@ -323,7 +322,7 @@ describe('QueryAssist', function () {
       $(this.queryAssist.refs.input.getDOMNode()).text().should.equal(getSuggestionText(suggestions[0]));
     });
 
-    it.skip('should complete selected suggestion by enter in the middle of phrase', function () {
+    it('should complete selected suggestion by enter in the middle of phrase', function () {
       this.queryAssist.setState({
         query: completeQuery,
         caret: middleCaret,
@@ -337,7 +336,7 @@ describe('QueryAssist', function () {
       $(this.queryAssist.refs.input.getDOMNode()).text().should.equal(getSuggestionText(suggestions[0]) + completeQuery.substring(middleCaret));
     });
 
-    it.skip('should complete selected suggestion by tab in the middle of phrase', function () {
+    it('should complete selected suggestion by tab in the middle of phrase', function () {
       this.queryAssist.setState({
         query: completeQuery,
         caret: middleCaret,

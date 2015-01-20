@@ -6,7 +6,6 @@ var jshint = require('gulp-jshint');
 var webpack = require('webpack');
 var rimraf = require('gulp-rimraf');
 var WebpackDevServer = require('webpack-dev-server');
-var karma = require('gulp-karma');
 var nodemon = require('gulp-nodemon');
 var csscomb = require('gulp-csscomb');
 var csslint = require('gulp-csslint');
@@ -151,39 +150,6 @@ gulp.task('lint', function () {
     .pipe(jshint.reporter('fail'));
 });
 
-
-// We have to use gulp-karma (instead of karma simple API —
-// https://github.com/karma-runner/gulp-karma)
-// and therefore share paths of test files though json because of issue
-// between gulp, karma and webpack that doesn't let gulp's process to be finished
-var testFiles = require('./test-files.json');
-
-gulp.task('test', function () {
-  return gulp.src(testFiles)
-    .pipe(karma({
-      configFile: 'karma.conf.js',
-      action: 'run'
-    }))
-    .on('error', function (err) {
-      // Make sure failed tests cause gulp to exit non-zero
-      throw err;
-    });
-});
-
-gulp.task('test:build', function () {
-  return gulp.src(testFiles)
-    .pipe(karma({
-      configFile: 'karma.conf.js',
-      action: 'run',
-      browsers: ['ChromeNoSandbox', 'Firefox'],
-      reporters: 'teamcity'
-    }))
-    .on('error', function (err) {
-      // Make sure failed tests cause gulp to exit non-zero
-      throw err;
-    });
-});
-
 gulp.task('archive', ['clean', 'webpack:build'], function () {
   var pkgFilter = filter(['package/package.json']);
 
@@ -274,4 +240,4 @@ gulp.task('build-dev', ['webpack:build-dev'], function () {
 });
 
 // Production build
-gulp.task('build', ['lint', 'lint-styles', 'test:build', 'webpack:build', 'archive']);
+gulp.task('build', ['lint', 'lint-styles', 'webpack:build', 'archive']);
