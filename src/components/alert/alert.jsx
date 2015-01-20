@@ -115,7 +115,7 @@ var Alert = React.createClass({
   componentDidMount: function() {
     if (this.props.animationDeferred) {
       if (typeof TransitionEvent === 'undefined') {
-        this.props.animationDeferred.resolve();
+        this.props.animationDeferred.resolve(this);
       }
 
       this.getDOMNode().addEventListener('transitionend', this._handleTransitionEnd);
@@ -169,7 +169,7 @@ var Alert = React.createClass({
   _handleTransitionEnd: function() {
     if (this.props.animationDeferred) {
       this.getDOMNode().removeEventListener('transitionend', this._handleTransitionEnd);
-      this.props.animationDeferred.resolve();
+      this.props.animationDeferred.resolve(this);
     }
   },
 
