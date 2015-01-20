@@ -22,7 +22,8 @@ angular.module('Ring.alert', []).provider('alert', function() {
       error: error,
       warning: warning,
       message: message,
-      success: success
+      success: success,
+      setRemoveCallback: setRemoveCallback
     };
   };
 
@@ -55,5 +56,14 @@ angular.module('Ring.alert', []).provider('alert', function() {
 
   function success(text, ttl) {
     return _add(text, ReactAlert.Type.SUCCESS, ttl);
+  }
+  
+  function setRemoveCallback(removeCallback){
+    if(!container) {
+      init();
+    }
+    container.setProps({
+      onRemove: removeCallback
+    });
   }
 });

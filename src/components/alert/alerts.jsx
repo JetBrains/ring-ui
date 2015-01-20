@@ -75,7 +75,13 @@ var Alerts = React.createClass({
       'childElements': [],
 
       /** @type {?number} */
-      'lastInserted': null
+      'lastInserted': null,
+
+      /**
+       * Remove handler on close alert.
+       * @type {?function(AlertInstance):undefined}
+       */
+      onRemove: null
     };
   },
 
@@ -227,6 +233,10 @@ var Alerts = React.createClass({
    */
   remove: function(index) {
     var childElements = this.state.childElements.slice(0);
+
+    if (this.props.onRemove){
+      this.props.onRemove(childElements[index]);
+    }
 
     // NB!(igor.alexeenko): I don't delete item, but set it as undefined
     // because all custom click handlers are bound to element's index in array
