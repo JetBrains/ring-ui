@@ -1,13 +1,6 @@
 define([
-  'global/global',
-  'menu/menu',
-  'header/header',
-  'header/header__userinfo',
-  'header/header__hub-services',
-  'dropdown-menu/dropdown-menu',
   'dropdown-filter/dropdown-filter',
-  'dropdown-select/dropdown-select',
-  'profile/profile'
+  'dropdown-select/dropdown-select'
 ], function(ring) {
   return ring;
 });
