@@ -8,7 +8,10 @@
   "dist": "./dist",
   "main": "ring.js",
   "scripts": {
-    "gen-doc": "node generate-documentation.js"
+    "gen-doc": "node generate-documentation.js",
+    "test": "karma start",
+    "test-ci": "karma start karma-ci.conf.js",
+    "build": "npm run test-ci && gulp build && npm run gen-doc"
   },
   "repository": {
     "type": "git",
@@ -29,7 +32,6 @@
     "gulp-gzip": "0.0.8",
     "gulp-jshint": "1.9.0",
     "gulp-json-editor": "2.2.1",
-    "gulp-karma": "0.0.4",
     "gulp-nodemon": "1.0.5",
     "gulp-rename": "1.2.0",
     "gulp-rimraf": "0.1.1",
