@@ -9,8 +9,8 @@
   "main": "ring.js",
   "scripts": {
     "gen-doc": "node generate-documentation.js",
-    "test": "karma start",
-    "test-ci": "karma start karma-ci.conf.js",
+    "test": "node node_modules/karma/bin/karma start",
+    "test-ci": "node node_modules/karma/bin/karma start karma-ci.conf.js",
     "build": "npm run test-ci && gulp build && npm run gen-doc"
   },
   "repository": {
