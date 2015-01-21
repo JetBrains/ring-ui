@@ -87,15 +87,25 @@
   background: linear-gradient(#1e262c, #3c4449);
   border-bottom: solid 1px #000;
   box-sizing: border-box;
-  height: $ring-unit*17;
+  height: $ring-unit*21;
   margin: -1px (-$ring-unit*4) 0;
   overflow: hidden;
   position: relative;
+
+  a {
+    color: #fff;
+    text-decoration: none;
+  }
+
+  a:hover {
+    color: $ring-link-hover-color;
+    text-decoration: underline;
+  }
 }
 
 .ring2-header__menu-service-inner {
   bottom: 0;
-  height: $ring-unit*17;
+  height: $ring-unit*21;
   line-height: $ring-unit * 17;
   position: absolute;
   text-align: center;
@@ -108,19 +118,28 @@
   margin: 0 $ring-unit*5;
   vertical-align: middle;
 
-  a {
-    color: #fff;
-    text-decoration: none;
-  }
-
-  a:hover {
-    color: $ring-link-hover-color;
-    text-decoration: underline;
-  }
-
   .ring-icon {
     fill: #fff;
     padding-bottom: $ring-unit;
+  }
+}
+
+.ring2-header__menu-service-line {
+  background: #172126;
+  font-size: $ring-font-size-smaller;
+  line-height: $ring-unit*4;
+}
+
+.ring2-header__menu-service-line__item {
+  display: inline-block;
+  margin-right: $ring-unit*3;
+
+  &:last-child {
+    margin-right: 0;
+  }
+
+  a {
+    color: $ring-color-dark-gray;
   }
 }
 
@@ -130,11 +149,11 @@
 }
 
 .ring2-header__service-menu-enter-active {
-  height: $ring-unit*17;
+  height: $ring-unit*21;
 }
 
 .ring2-header__service-menu-leave-active {
-  height: $ring-unit*17;
+  height: $ring-unit*21;
   transition: height 250ms ease-out;
 }
 
