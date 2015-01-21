@@ -1,5 +1,5 @@
 <div>
-    <div ng-if="item.$resolved && !error" ng-transclude></div>
+    <div ng-if="resolved && !error" ng-transclude></div>
     <div ng-if="error" ng-switch="error.status">
 
         <div ng-switch-when="403">
