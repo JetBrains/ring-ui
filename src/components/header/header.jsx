@@ -181,6 +181,56 @@ var MenuItem = React.createClass({
 
 
 /**
+ * List of known services with logos.
+ * @enum {string}
+ */
+var KnownService = {
+  TEAMCITY: 'teamcity',
+  UPSOURCE: 'upsource',
+  YOUTRACK: 'youtrack'
+};
+
+/**
+ * @Object.<KnownService, string>
+ */
+var KnownServiceLogo = Global.createObject(
+    KnownService.TEAMCITY, 'teamcity-monochrome',
+    KnownService.YOUTRACK, 'youtrack-monochrome',
+    KnownService.UPSOURCE, 'upsource-monochrome');
+
+/**
+ * @const
+ * @type {RegExp}
+ */
+var VENDOR_REGEXP = /jetbrains/i;
+
+/**
+ * Takes an item, decides, whether it is a known JetBrains service
+ * and places a link to it to the services menu. Otherwise, returns
+ * null.
+ * @param {Object} item
+ * @return {?string}
+ */
+var getServiceLogo = function(item) {
+  var services = Object.keys(KnownService).slice(0);
+  var service;
+  var serviceName;
+  var serviceRegExp;
+
+  while ((service = services.shift())) {
+    serviceName = KnownService[service];
+    serviceRegExp = new RegExp(serviceName, 'i');
+
+    // todo(igor.alexeenko): Is this check solid enough?
+    if (serviceRegExp.test(item.name) && VENDOR_REGEXP.test(item.vendor)) {
+      return KnownServiceLogo[serviceName];
+    }
+  }
+
+  return null;
+};
+
+/**
  * @constructor
  * @extends {ReactComponent}
  * @example
@@ -189,6 +239,7 @@ var MenuItem = React.createClass({
  *     <div class="header-container"></div>
  *     <div class="popup-container"></div>
  *   </file>
+ *
  *   <file name="index.js">
  *     var React = require('react');
  *     var Header = require('./header.jsx');
@@ -231,17 +282,19 @@ var MenuItem = React.createClass({
 var Header = React.createClass({
   getInitialState: function() {
     return {
-      profilePicture: null
+      profilePicture: null,
+      servicesOpened: false
     };
   },
 
   getDefaultProps: function() {
     return {
       helpLink: null,
-      settingsLink: null,
       logo: '',
       menu: '',
       rightMenu: '',
+      servicesList: null,
+      settingsLink: null,
 
       onUserMenuOpen: null,
       onUserMenuClose: null,
@@ -259,8 +312,27 @@ var Header = React.createClass({
         return item;
       })}</div>
       {this._getRightMenu()}
+      <React.addons.CSSTransitionGroup transitionName={headerClassName.getElement('service-menu')}>
+        {this._getServicesMenu()}
+      </React.addons.CSSTransitionGroup>
     </div>);
     /*jshint ignore:end*/
+  },
+
+  /**
+   * @param {SyntheticEvent} evt
+   * @private
+   */
+  _onServicesOpen: function(evt) {
+    this.setState({ servicesOpened: true });
+  },
+
+  /**
+   * @param {SyntheticEvent} evt
+   * @private
+   */
+  _onServicesClose: function(evt) {
+    this.setState({ servicesOpened: false });
   },
 
   /**
@@ -297,6 +369,21 @@ var Header = React.createClass({
    * @return {ReactComponent}
    * @private
    */
+  _getServicesMenu: function() {
+    if (!this.props.servicesList || !this.state.servicesOpened) {
+      return null;
+    }
+
+    return (<div className={headerClassName.getElement('menu-service')}>
+      {this.props.servicesIconsMenu}
+    </div>);
+    /* jshint ignore:end */
+  },
+
+  /**
+   * @return {ReactComponent}
+   * @private
+   */
   _getRightMenu: function() {
     if (this.props.rightMenu) {
       return /** @type {ReactComponent} */ this.transferPropsTo(this.props.rightMenu);
@@ -311,6 +398,7 @@ var Header = React.createClass({
       <div className={extraElementClassName}></div>
       <MenuItem ref="help" glyph="help" href={this.props.helpLink} />
       <MenuItem ref="settings" glyph="cog1" href={this.props.settingsLink} onOpen={this.props.onSettingsOpen} onClose={this.props.onSettingsClose} />
+      <MenuItem ref="services" glyph="menu" href={this.props.settingsLink} onOpen={this._onServicesOpen} onClose={this._onServicesClose} />
       <MenuItem ref="userMenu" glyph="user1" onOpen={this.props.onUserMenuOpen} onClose={this.props.onUserMenuClose} />
     </div>);
 
@@ -359,6 +447,53 @@ var Header = React.createClass({
    */
   setSettingsLink: function(href) {
     this.setProps({ settingsLink: href });
+  },
+
+  /**
+   * @param {Array.<Object>} services
+   */
+  setServicesList: function(services) {
+    this.setProps({ servicesList: services }, function() {
+      var servicesIcons = [];
+      var servicesList = [];
+
+      this.props.servicesList.forEach(function(item, i) {
+        var serviceIcon = getServiceLogo(item);
+
+        if (serviceIcon) {
+          servicesIcons.push(item);
+        } else {
+          servicesList.push(item);
+        }
+      });
+
+      if (servicesIcons.length >= 1) {
+        var servicesIconsMenu = (<div className={headerClassName.getElement('menu-service-inner')}>
+          <div className={headerClassName.getElement('menu-service-line')}>
+            {servicesList.map(function(item, i) {
+              return (<div className={headerClassName.getElement('menu-service-line__item')} key={i}>
+                <a href={item.homeUrl}>{item.name}</a>
+              </div>)
+            })}
+          </div>
+          {servicesIcons.map(function(item, i) {
+            var serviceLogo = getServiceLogo(item);
+            if (serviceLogo) {
+              return (<div className={headerClassName.getElement('menu-service-item')} key={i}>
+                <a href={item.homeUrl}>
+                  <Icon size={Icon.Size.Size64} glyph={serviceLogo} className="ring-icon" /><br />
+                  {item.name}
+                </a>
+              </div>);
+            }
+          }, this)}
+        </div>);
+
+        this.setProps({ servicesIconsMenu: servicesIconsMenu });
+      }
+
+      this.setProps({ servicesListMenu: servicesList });
+    });
   }
 });
 
