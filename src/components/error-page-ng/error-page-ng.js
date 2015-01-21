@@ -16,24 +16,33 @@ angular.module('Ring.error-page', [
     var pageConfiguration = {};
     /**
      * @param {{
-     *   responseToMessageConverter: funciton?,
-     *   links: array?,
+     *   responseToMessageConverter: string? factory name,
+     *   links: string? factory name,
      * }} config
      */
     this.config = function (config) {
       pageConfiguration = config;
     };
-    this.$get = [function () {
-      /**
-       * set empty responseToMessageConverter, if not defined
-       */
-      if (!pageConfiguration.responseToMessageConverter) {
-        pageConfiguration.responseToMessageConverter = function (errorResponse) {
-          return errorResponse;
-        };
+    this.$get = ['$injector', '$log', function ($injector, $log) {
+      var loadFactory = function(factoryName) {
+        try {
+          return $injector.get(factoryName);
+        } catch (err) {
+          $log.debug('errorPageConfiguration: unable to load ' + factoryName);
+        }
+      };
+      var responseToMessageConverter;
+      if (pageConfiguration.responseToMessageConverter) {
+        responseToMessageConverter = loadFactory(pageConfiguration.responseToMessageConverter);
       }
-
-      return pageConfiguration;
+      var links;
+      if (pageConfiguration.links) {
+        links = loadFactory(pageConfiguration.links);
+      }
+      return {
+        responseToMessageConverter: responseToMessageConverter || angular.noop,
+        links: links || []
+      };
     }];
   }])
 
