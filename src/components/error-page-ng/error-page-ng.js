@@ -102,39 +102,51 @@ angular.module('Ring.error-page', [
         require: '^errorPageBackground',
         link: function (scope, iElement, iAttrs, errorPageBackgroundCtrl) {
           var pagePermission = $route.current.$$route.permission;
-          scope.item = scope.$eval(iAttrs.errorPage);
+          scope.errorSource = scope.$eval(iAttrs.errorPage);
 
-          if (scope.item && scope.item.$promise) {
-            scope.item.$promise['catch'](function (errorResponse) {
-              scope.error = {
-                status: errorResponse.status,
-                message: errorPageConfiguration.responseToMessageConverter(errorResponse)
-              };
+          var handleError = function (status, message) {
+            scope.error = {
+              status: status,
+              message: message
+            };
+            errorPageBackgroundCtrl.setApplicationError(true);
+            scope.resolved = true;
+          };
 
-              $log.debug('Navigation: item ' + iAttrs.errorPage + ' not permitted, status: ' + errorResponse.status);
-              errorPageBackgroundCtrl.setApplicationError(true);
-            });
+          if (scope.errorSource) {
+            var promise = scope.errorSource.$promise || scope.errorSource.promise;
+            if (promise) {
+              promise['catch'](function(errorResponse) {
+                var status = errorResponse.status;
+                handleError(status, errorPageConfiguration.responseToMessageConverter(errorResponse));
+                $log.debug('Navigation: errorSource ' + iAttrs.errorPage + ' not permitted, status: ' + status);
+                return errorResponse;
+              });
+              promise.then(function(data) {
+                scope.resolved = true;
+                return data;
+              });
+            } else if (scope.errorSource.error) {
+              var status = scope.errorSource.error.status;
+              handleError(status);
+              $log.debug('Navigation: errorSource ' + iAttrs.errorPage + ' not permitted, status: ' + status);
+            } else {
+              scope.resolved = true;
+            }
           } else if (pagePermission) {
-            scope.item = {};
-
             userPermissions.load().then(function (permissionCache) {
-              scope.item.$resolved = true;
-
               if (!permissionCache.has(pagePermission)) {
-                scope.error = {
-                  status: 403
-                };
-
+                handleError(403);
                 $log.debug('Navigation: no page' + pagePermission + ' permission, status 403');
-                errorPageBackgroundCtrl.setApplicationError(true);
+              } else {
+                scope.resolved = true;
               }
             });
           } else {
             // success if no special restrictions on page load
-            scope.item = {
-              $resolved: true
-            };
+            scope.resolved = true;
           }
+
           var destroyEvent = (scope === scope.$root) ? '$routeChangeStart' : '$destroy';
           scope.$on(destroyEvent, function () {
             errorPageBackgroundCtrl.setApplicationError(false);
