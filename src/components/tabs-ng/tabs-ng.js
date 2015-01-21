@@ -1,5 +1,7 @@
 /* global angular: false */
 
+require('../tabs/tabs.scss');
+
 angular.module('Ring.tabs', []).
   directive('ringTabs', ['$location', '$routeParams', '$rootScope', function ($location, $routeParams, $rootScope) {
     return {
