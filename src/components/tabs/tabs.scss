@@ -69,8 +69,8 @@
   height: $ring-unit * 3;
   padding: 1px $ring-unit * 2 + 1 0;
 
-  color: $ring-link-color;
   @include ring-font;
+  color: $ring-link-color;
   font-size: 13px;
 
   @include ring-tabs-border-bottom;
@@ -80,7 +80,7 @@
   cursor: pointer;
 
   &.active, &.ring-tabs__btn_active {
-    color: #1A1A1A;
+    color: $ring-font-color;
     outline: 0;
     user-select: none;
 
