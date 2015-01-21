@@ -1,0 +1,16 @@
+@import "../global/global";
+
+.ring-unsupported-browser-message {
+  text-align: center;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  font-size: 14px;
+  color: black;
+  margin-top: 15%;
+  line-height: 2.5*$ring-unit;
+
+  &__smile {
+    cursor: pointer;
+    font-size: 3*$ring-unit
+  }
+}
+
