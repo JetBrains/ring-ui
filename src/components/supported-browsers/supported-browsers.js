@@ -1,3 +1,5 @@
+require('./supported-browsers.scss');
+
 var supportedDifference = 2;
 var latestVersions = {
   Chrome: 39,
@@ -49,17 +51,16 @@ function attachEvent(object, event, func) {
 }
 
 function createBlock() {
-  var template =
+  document.body.innerHTML =
     '<div id="ring-unsupported-browser-message" class="ring-unsupported-browser-message">' +
       '<span class="ring-unsupported-browser-message__smile">{{ (>_<) }}</span>' +
       '<br/><br/>' +
-      'You are using an older version of %browserName% browser than <a href="https://confluence.jetbrains.com/display/HUBD/Supported+Environment">HUB supports</a>.' +
+      'This version of %browserName% is not <a href="https://confluence.jetbrains.com/display/HUBD/Supported+Environment">supported by HUB</a>.' +
       '<br/>' +
-      'Upgrade your %browserName% %currentVersion% to the last version to solve the problem.' +
+      'Try upgrading to the latest stable version.' +
       '<br/><br/>' +
-      '<span browser="IE">If you are using IE9.0 or higher make sure that campatibility mode is disabled.</span>' +
+      '<span browser="IE">If you use IE9.0 or higher, make sure that compatibility mode is disabled.</span>' +
     '</div>';
-  document.body.innerHTML = template;
 }
 
 var smileChanges = 0;
@@ -125,14 +126,13 @@ function checkNodes(node, browserName) {
 
 function checkBrowser() {
   var block = document.getElementById('ring-unsupported-browser-message');
-  if (!block) {
-    createBlock();
-    block = document.getElementById('ring-unsupported-browser-message');
-  }
-
   var userAgent = getUserAgent();
   if (userAgent.name && latestVersions[userAgent.name] && userAgent.version &&
     (latestVersions[userAgent.name] - userAgent.version > supportedDifference)) {
+    if (!block) {
+      createBlock();
+      block = document.getElementById('ring-unsupported-browser-message');
+    }
     block.innerHTML = block.innerHTML
       .replace(new RegExp('%browserName%', 'g'), userAgent.name)
       .replace(new RegExp('%currentVersion%', 'g'), userAgent.version)
@@ -140,7 +140,9 @@ function checkBrowser() {
     checkNodes(block, userAgent.name);
     block.style.display = 'block';
   } else {
-    block.style.display = 'none';
+    if (block) {
+      block.style.display = 'none';
+    }
   }
 }
 
