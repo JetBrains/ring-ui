@@ -99,7 +99,7 @@ angular.module('Ring.error-page', [
         replace: true,
         transclude: true,
         template: require('./error-page-ng.html'),
-        require: '^errorPageBackground',
+        require: '?^errorPageBackground',
         link: function (scope, iElement, iAttrs, errorPageBackgroundCtrl) {
           var pagePermission = $route.current.$$route.permission;
           scope.errorSource = scope.$eval(iAttrs.errorPage);
@@ -109,7 +109,9 @@ angular.module('Ring.error-page', [
               status: status,
               message: message
             };
-            errorPageBackgroundCtrl.setApplicationError(true);
+            if (errorPageBackgroundCtrl) {
+              errorPageBackgroundCtrl.setApplicationError(true);
+            }
             scope.resolved = true;
           };
 
@@ -147,10 +149,12 @@ angular.module('Ring.error-page', [
             scope.resolved = true;
           }
 
-          var destroyEvent = (scope === scope.$root) ? '$routeChangeStart' : '$destroy';
-          scope.$on(destroyEvent, function () {
-            errorPageBackgroundCtrl.setApplicationError(false);
-          });
+          if (errorPageBackgroundCtrl) {
+            var destroyEvent = (scope === scope.$root) ? '$routeChangeStart' : '$destroy';
+            scope.$on(destroyEvent, function () {
+              errorPageBackgroundCtrl.setApplicationError(false);
+            });
+          }
 
           scope.links = errorPageConfiguration.links;
           scope.wording = ErrorPageMessages;
