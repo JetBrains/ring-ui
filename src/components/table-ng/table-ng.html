@@ -1,0 +1,36 @@
+<div class="content ring-clearfix">
+  <div ng-if="data.items || ignoreEmpty">
+    <div class="table__toolbar">
+      <div class="table__toolbar__title" ng-if="title">
+        {{ title(data.headerTotal || data.total) }}
+        <ng-include ng-show="!toolbar.visible" src="'table-list/table-list__sidebar-button.tpl.html'"></ng-include>
+      </div>
+      <div rg-table__zone="toolbar" class="table__toolbar__controls" some-permissions="toolbar.visible"
+           ng-class="{'table__toolbar__controls_hidden': !toolbar.visible, 'table__toolbar__controls_fixed': toolbar.fixed}">
+        <ng-include src="toolbarSrc()"></ng-include>
+        <ng-include ng-show="data.items && toolbar.visible" src="'table-list/table-list__sidebar-button.tpl.html'"></ng-include>
+      </div>
+      <div rg-table__zone="toolbarPlaceholder"><!-- This element is used to replace toolbar when tb sticks--></div>
+    </div>
+
+    <table ng-if="data.items" shortcuts="table-list" shortcuts-map="keys" shortcuts-focus="activeItemIndex != null" shortcuts-on-blur="setActiveItemIndex()"
+           infinite-scroll="data.loadMore()" infinite-scroll-immediate-check="false"
+           infinite-scroll-disabled='!data || data.isLoading || !data.items || data.items.length >= data.total'
+           class="table-list" rg-table__zone="table">
+      <tbody ng-transclude></tbody>
+    </table>
+    <div ng-if="data.items" ng-show="data.items.length < data.total" class="ring-loader"></div>
+
+    <div ng-if="data.items" class="sidebar" rg-table__zone="sidebar">
+      <div class="sidebar__empty" ng-show="sidebarEntity && !sidebarElement">
+        <!--It's not very clever to concatenate CSS classes with variables-->
+        <div class="ring-font-icon sidebar__empty__icon" ng-class="'ring-font-icon_' + sidebarEntity"></div>
+        <!--TODO: Fix this interpolation-->
+        <div class="sidebar__empty__description">{{ sidebarEmpty }}</div>
+      </div>
+      <ng-include ng-if="sidebarElement" src="sidebarSrc()"></ng-include>
+    </div>
+  </div>
+  <div ng-if="!ignoreEmpty && !data.error && data.total === 0" ng-include="emptySrc() || 'search-error/search-error_empty.tpl.html'"></div>
+  <div ng-if="data.error" ng-include="'search-error/search-error_bad-request.tpl.html'"></div>
+</div>
