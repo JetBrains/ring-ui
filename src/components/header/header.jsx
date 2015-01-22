@@ -410,6 +410,7 @@ var Header = React.createClass({
       return null;
     }
 
+    /* jshint ignore:start */
     return (<div className={headerClassName.getElement('menu-service')}>
       {this.props.servicesIconsMenu}
     </div>);
@@ -504,6 +505,7 @@ var Header = React.createClass({
       });
 
       if (servicesIcons.length > 1) {
+        /* jshint ignore:start */
         var servicesIconsMenu = (<div className={headerClassName.getElement('menu-service-inner')}>
           <div className={headerClassName.getElement('menu-service-line')}>
             {servicesList.map(function(item, i) {
@@ -530,6 +532,7 @@ var Header = React.createClass({
           servicesIconsMenu: servicesIconsMenu,
           servicesListMenu: servicesList
         });
+        /* jshint ignore:end */
       } else {
         var popupData = servicesList.map(function(item) {
           return {
