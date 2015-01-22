@@ -7,6 +7,7 @@
 require('./header.scss');
 var Global = require('global/global');
 var Icon = require('icon/icon'); // jshint -W098
+var PopupMenu = require('popup-menu/popup-menu');
 var React = require('react/addons');
 
 
@@ -221,7 +222,6 @@ var getServiceLogo = function(item) {
     serviceName = KnownService[service];
     serviceRegExp = new RegExp(serviceName, 'i');
 
-    // todo(igor.alexeenko): Is this check solid enough?
     if (serviceRegExp.test(item.name) && VENDOR_REGEXP.test(item.vendor)) {
       return KnownServiceLogo[serviceName];
     }
@@ -243,7 +243,7 @@ var getServiceLogo = function(item) {
  *   <file name="index.js">
  *     var React = require('react');
  *     var Header = require('./header.jsx');
- *     var Popup = require('../popup/popup.jsx');
+ *     var PopupMenu = require('../popup/popup.jsx');
  *
  *     var popup;
  *     var popupContainer = document.querySelector('.popup-container');
@@ -295,6 +295,9 @@ var Header = React.createClass({
       rightMenu: '',
       servicesList: null,
       settingsLink: null,
+      servicesIconsMenu: null,
+      servicesListMenu: null,
+      servicesListPopup: null,
 
       onUserMenuOpen: null,
       onUserMenuClose: null,
@@ -324,15 +327,48 @@ var Header = React.createClass({
    * @private
    */
   _onServicesOpen: function(evt) {
-    this.setState({ servicesOpened: true });
+    if (this.props.servicesIconsMenu) {
+      this.setState({ servicesOpened: true });
+      return;
+    }
+
+    this._setServicesPopupShown(true);
   },
 
   /**
-   * @param {SyntheticEvent} evt
    * @private
    */
-  _onServicesClose: function(evt) {
-    this.setState({ servicesOpened: false });
+  _onServicesClose: function() {
+    if (this.props.servicesIconsMenu) {
+      this.setState({ servicesOpened: false });
+      return;
+    }
+
+    if (this.props.servicesListPopup) {
+      this._setServicesPopupShown(false);
+    }
+  },
+
+  _setServicesPopupShown: function(show) {
+    if (show) {
+      var container = document.createElement('div');
+      document.body.appendChild(container);
+
+      var popup = React.renderComponent(new PopupMenu({
+        anchorElement: this.refs['services'].getDOMNode(),
+        autoRemove: true,
+        corner: PopupMenu.PopupProps.Corner.BOTTOM_RIGHT,
+        data: this.props.popupData,
+        direction: PopupMenu.PopupProps.Directions.LEFT | PopupMenu.PopupProps.Directions.DOWN,
+        onClose: function() {
+          this.refs['services'].setOpened(false);
+        }.bind(this)
+      }), container);
+      this.setProps({ servicesListPopup: popup });
+    } else {
+      this.props.servicesListPopup.remove();
+      this.setProps({ servicesListPopup: null });
+    }
   },
 
   /**
@@ -467,13 +503,14 @@ var Header = React.createClass({
         }
       });
 
-      if (servicesIcons.length >= 1) {
+      if (servicesIcons.length > 1) {
         var servicesIconsMenu = (<div className={headerClassName.getElement('menu-service-inner')}>
           <div className={headerClassName.getElement('menu-service-line')}>
             {servicesList.map(function(item, i) {
-              return (<div className={headerClassName.getElement('menu-service-line__item')} key={i}>
-                <a href={item.homeUrl}>{item.name}</a>
-              </div>)
+              var href = item.homeUrl.indexOf(document.location.origin) === -1 ? item.homeUrl : null;
+              var linkElement = href ? (<a href={item.homeUrl}>{item.name}</a>) : (<b>{item.name}</b>);
+
+              return (<div className={headerClassName.getElement('menu-service-line__item')} key={i}>{linkElement}</div>)
             })}
           </div>
           {servicesIcons.map(function(item, i) {
@@ -489,10 +526,21 @@ var Header = React.createClass({
           }, this)}
         </div>);
 
-        this.setProps({ servicesIconsMenu: servicesIconsMenu });
-      }
+        this.setProps({
+          servicesIconsMenu: servicesIconsMenu,
+          servicesListMenu: servicesList
+        });
+      } else {
+        var popupData = servicesList.map(function(item) {
+          return {
+            href: item.homeUrl,
+            label: item.name,
+            type: PopupMenu.ListProps.Type.LINK
+          };
+        });
 
-      this.setProps({ servicesListMenu: servicesList });
+        this.setProps({ popupData: popupData });
+      }
     });
   }
 });

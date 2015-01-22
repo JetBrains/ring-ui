@@ -224,6 +224,10 @@ var PopupMixin = {
    * Removes popup from document.
    */
   remove: function () {
+    if (!this.isMounted()) {
+      return;
+    }
+
     var parent = this.getDOMNode().parentNode;
 
     React.unmountComponentAtNode(parent);
