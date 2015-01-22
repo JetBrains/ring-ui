@@ -45,6 +45,10 @@
   &_long {
     width: 100%;
   }
+
+  &_no-resize {
+    resize: none;
+  }
 }
 
 // Using double selector to enforce specifity, that is hard to express with &
