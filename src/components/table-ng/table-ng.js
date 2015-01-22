@@ -2,8 +2,14 @@ require('ng-infinite-scroll/build/ng-infinite-scroll');
 require('../table/table.scss');
 require('../sidebar/sidebar.scss');
 var $ = require('jquery');
+var debounce = require('mout/function/debounce');
 
+/*global angular*/
 angular.module('Ring.table', ['infinite-scroll'])
+  //TODO: use ng-template loader
+  .run(['$templateCache', function ($templateCache) {
+    $templateCache.put('table-ng__sidebar-button.html', require('./table-ng__sidebar-button.html'));
+  }])
   .directive('rgTable', ['$location', '$window', 'i18nPlural', 'storage', function ($location, $window, i18nPlural, storage) {
     return {
       template: require('./table-ng.html'),
@@ -20,9 +26,8 @@ angular.module('Ring.table', ['infinite-scroll'])
         'itemHref': '@',
         'titleFormat': '@'
       },
-      controller: ['$scope', 'debounce', function ($scope, debounce) {
+      controller: ['$scope', function ($scope) {
         var ctrl = this;
-
         $scope.title = $scope.titleFormat ? function (count) {
           return i18nPlural.format($scope.$eval($scope.titleFormat), count);
         } : null;
