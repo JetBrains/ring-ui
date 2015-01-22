@@ -101,7 +101,6 @@ angular.module('Ring.error-page', [
         template: require('./error-page-ng.html'),
         require: '?^errorPageBackground',
         link: function (scope, iElement, iAttrs, errorPageBackgroundCtrl) {
-          var pagePermission = $route.current.$$route.permission;
           scope.errorSource = scope.$eval(iAttrs.errorPage);
 
           var handleError = function (status, message) {
@@ -135,7 +134,8 @@ angular.module('Ring.error-page', [
             } else {
               scope.resolved = true;
             }
-          } else if (pagePermission) {
+          } else if ($route.current.$$route && $route.current.$$route.permission) {
+            var pagePermission = $route.current.$$route.permission;
             userPermissions.load().then(function (permissionCache) {
               if (!permissionCache.has(pagePermission)) {
                 handleError(403);
