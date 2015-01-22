@@ -4,6 +4,8 @@ function generateConfig(karma) {
   var prepareWbpackConf = function (webpackConf) {
     webpackConf.devtool = 'eval';
     webpackConf.output = {};
+    webpackConf.entry = {};
+    webpackConf.cache = {};
     webpackConf.resolve.root = path.join(__dirname, 'test-helpers');
 
     return webpackConf;
@@ -24,7 +26,7 @@ function generateConfig(karma) {
       'node_modules/jquery/dist/jquery.js',
       'test-helpers/phantomjs-shims.js',
       'test-helpers/mocha-globals.js',
-      'src/components/**/*.test.js'
+      'src/test-suite.js'
     ],
 
     // test results reporter to use
@@ -33,7 +35,7 @@ function generateConfig(karma) {
 
     // list of preprocessors
     preprocessors: {
-      'src/components/**/*.test.js': ['webpack']
+      'src/test-suite.js': ['webpack']
     },
 
     webpack: prepareWbpackConf(require('./webpack.config.js')),
@@ -41,9 +43,7 @@ function generateConfig(karma) {
     webpackServer: {
       stats: {
         colors: true
-      },
-      noInfo: true,
-      quiet: true
+      }
     },
 
     // web server port
@@ -91,6 +91,9 @@ function generateConfig(karma) {
 
     // If browser does not capture in given timeout [ms], kill it
     captureTimeout: 60000,
+    // Increase timeout because of webpack
+    // See https://github.com/karma-runner/karma/issues/598
+    browserNoActivityTimeout: 60000,
 
 
     // Continuous Integration mode
