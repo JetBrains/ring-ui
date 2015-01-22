@@ -1,17 +1,7 @@
 <div class="content ring-clearfix">
   <div ng-if="data.items || ignoreEmpty">
-    <div class="table__toolbar">
-      <div class="table__toolbar__title" ng-if="title">
-        {{ title(data.headerTotal || data.total) }}
-        <ng-include ng-show="!toolbar.visible" src="'table-ng__sidebar-button'"></ng-include>
-      </div>
-      <div rg-table__zone="toolbar" class="table__toolbar__controls" some-permissions="toolbar.visible"
-           ng-class="{'table__toolbar__controls_hidden': !toolbar.visible, 'table__toolbar__controls_fixed': toolbar.fixed}">
-        <ng-include src="toolbarSrc()"></ng-include>
-        <ng-include ng-show="data.items && toolbar.visible" src="'table-ng__sidebar-button.html'"></ng-include>
-      </div>
-      <div rg-table__zone="toolbarPlaceholder"><!-- This element is used to replace toolbar when tb sticks--></div>
-    </div>
+
+    <ng-include src="'table-ng__toolbar.html'"></ng-include>
 
     <table ng-if="data.items" shortcuts="table-list" shortcuts-map="keys" shortcuts-focus="activeItemIndex != null" shortcuts-on-blur="setActiveItemIndex()"
            infinite-scroll="data.loadMore()" infinite-scroll-immediate-check="false"
