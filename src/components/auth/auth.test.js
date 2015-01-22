@@ -41,7 +41,7 @@ describe('Auth', function () {
     });
 
     it('should not redirect on object construction', function () {
-      sinon.stub(Auth.prototype, '_redirectCurrentPage');
+      this.sinon.stub(Auth.prototype, '_redirectCurrentPage');
       new Auth({serverUri: ''});
       Auth.prototype._redirectCurrentPage.should.not.have.been.called;
       Auth.prototype._redirectCurrentPage.restore();
@@ -57,7 +57,7 @@ describe('Auth', function () {
     });
 
     beforeEach(function () {
-      sinon.stub(AuthStorage.prototype, 'getToken');
+      this.sinon.stub(AuthStorage.prototype, 'getToken');
     });
 
     afterEach(function () {
@@ -129,7 +129,7 @@ describe('Auth', function () {
     });
 
     beforeEach(function () {
-      sinon.stub(Auth.prototype, 'getSecure');
+      this.sinon.stub(Auth.prototype, 'getSecure');
     });
 
     afterEach(function () {
@@ -179,8 +179,8 @@ describe('Auth', function () {
     });
 
     beforeEach(function () {
-      sinon.stub(Auth.prototype, 'getSecure').returns(when({login: 'user'}));
-      sinon.stub(Auth.prototype, 'setHash');
+      this.sinon.stub(Auth.prototype, 'getSecure').returns(when({login: 'user'}));
+      this.sinon.stub(Auth.prototype, 'setHash');
     });
 
     afterEach(function () {
@@ -200,8 +200,8 @@ describe('Auth', function () {
     it('should fetch auth response from query parameters', function () {
       var AuthResponseParser = require('./auth__response-parser');
       var frozenTime = Auth._epoch();
-      sinon.stub(AuthResponseParser.prototype, 'getLocation').returns('http://localhost:8080/hub#access_token=2YotnFZFEjr1zCsicMWpAA&state=xyz&token_type=example&expires_in=3600');
-      sinon.stub(Auth, '_epoch').returns(frozenTime);
+      this.sinon.stub(AuthResponseParser.prototype, 'getLocation').returns('http://localhost:8080/hub#access_token=2YotnFZFEjr1zCsicMWpAA&state=xyz&token_type=example&expires_in=3600');
+      this.sinon.stub(Auth, '_epoch').returns(frozenTime);
 
       auth = new Auth({
         serverUri: '',
@@ -227,9 +227,25 @@ describe('Auth', function () {
         });
     });
 
+    it('should not throw error if user does not have state in local storage', function () {
+      var AuthResponseParser = require('./auth__response-parser');
+      this.sinon.stub(AuthResponseParser.prototype, 'getLocation')
+        .returns('http://localhost:8080/hub#access_token=000&state=state&token_type=token&expires_in=3600');
+
+      auth = new Auth({
+        serverUri: '',
+        redirect_uri: 'http://localhost:8080/hub',
+        client_id: '1-1-1-1-1',
+        scope: ['0-0-0-0-0', 'youtrack'],
+        optionalScopes: ['youtrack']
+      });
+
+      return auth.init().should.be.fulfilled;
+    });
+
     it('should redirect to auth when there is no valid token', function () {
-      sinon.stub(Auth.prototype, '_redirectCurrentPage');
-      sinon.stub(AuthRequestBuilder, '_uuid').returns('unique');
+      this.sinon.stub(Auth.prototype, '_redirectCurrentPage');
+      this.sinon.stub(AuthRequestBuilder, '_uuid').returns('unique');
 
       auth = new Auth({
         serverUri: '',
@@ -250,8 +266,8 @@ describe('Auth', function () {
     });
 
     it('should clear location hash if cleanHash = true', function () {
-      sinon.stub(Auth.prototype, '_redirectCurrentPage');
-      sinon.stub(AuthRequestBuilder, '_uuid').returns('unique');
+      this.sinon.stub(Auth.prototype, '_redirectCurrentPage');
+      this.sinon.stub(AuthRequestBuilder, '_uuid').returns('unique');
 
       auth = new Auth({
         serverUri: '',
@@ -268,8 +284,8 @@ describe('Auth', function () {
     });
 
     it('should not clear location hash if cleanHash = false', function () {
-      sinon.stub(Auth.prototype, '_redirectCurrentPage');
-      sinon.stub(AuthRequestBuilder, '_uuid').returns('unique');
+      this.sinon.stub(Auth.prototype, '_redirectCurrentPage');
+      this.sinon.stub(AuthRequestBuilder, '_uuid').returns('unique');
 
       auth = new Auth({
         serverUri: '',
@@ -300,8 +316,8 @@ describe('Auth', function () {
     auth._storage._tokenStorage = new MockedStorage();
 
     beforeEach(function () {
-      sinon.stub(Auth.prototype, '_redirectCurrentPage');
-      sinon.stub(AuthRequestBuilder, '_uuid').returns('unique');
+      this.sinon.stub(Auth.prototype, '_redirectCurrentPage');
+      this.sinon.stub(AuthRequestBuilder, '_uuid').returns('unique');
       auth._initDeferred = when.defer();
       auth._initDeferred.resolve();
     });
@@ -321,7 +337,7 @@ describe('Auth', function () {
     });
 
     it('should get token in iframe if there is no valid token', function () {
-      sinon.stub(Auth.prototype, '_redirectFrame', function () {
+      this.sinon.stub(Auth.prototype, '_redirectFrame', function () {
         auth._storage.saveToken({access_token: 'token', expires: Auth._epoch() + 60 * 60, scopes: ['0-0-0-0-0']});
       });
       return auth.requestToken().
@@ -338,7 +354,7 @@ describe('Auth', function () {
       var authURL = 'api/rest/oauth2/auth?response_type=token&' +
         'state=unique&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub&client_id=1-1-1-1-1&scope=0-0-0-0-0%20youtrack';
       Auth.REFRESH_TIMEOUT = 100;
-      sinon.stub(Auth.prototype, '_redirectFrame');
+      this.sinon.stub(Auth.prototype, '_redirectFrame');
       return auth.requestToken().
         otherwise(function (reject) {
           Auth.prototype._redirectFrame.getCall(0).args[1].should.be.equal(authURL);
@@ -359,8 +375,8 @@ describe('Auth', function () {
     });
 
     beforeEach(function () {
-      sinon.stub(Auth.prototype, '_redirectCurrentPage');
-      sinon.stub(AuthRequestBuilder, '_uuid').returns('unique');
+      this.sinon.stub(Auth.prototype, '_redirectCurrentPage');
+      this.sinon.stub(AuthRequestBuilder, '_uuid').returns('unique');
     });
 
     afterEach(function () {
