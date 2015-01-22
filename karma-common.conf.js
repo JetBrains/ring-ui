@@ -43,7 +43,9 @@ function generateConfig(karma) {
     webpackServer: {
       stats: {
         colors: true
-      }
+      },
+      noInfo: true,
+      quiet: true
     },
 
     // web server port
