@@ -206,31 +206,33 @@ angular.module('Ring.shortcuts', [])
       }]
     };
   }])
-  .directive('shortcuts', function () {
+  .directive('shortcuts', ['$parse', function ($parse) {
     return {
       restrict: 'A',
-      scope: {
-        'name': '@shortcuts',
-        'map': '=shortcutsMap',
-        'focus': '&shortcutsFocus',
-        'onBlur': '&shortcutsOnBlur'
-      },
       require: ['^shortcutsApp'],
       link: function($scope, iElement, iAttrs, shortcutsCtrl) {
         // Closest controller
         var ctrl = shortcutsCtrl[shortcutsCtrl.length - 1];
+
+        var name = iAttrs.shortcuts;
+        var map = $scope.$eval(iAttrs.shortcutsMap);
+        var focusGetter = $parse(iAttrs.shortcutsFocus);
+        var blurGetter = $parse(iAttrs.shortcutsBlur);
+
         var zone = {
-          name: $scope.name,
-          scope: $scope.name + '-' + $scope.$id,
+          name: name,
+          scope: name + '-' + $scope.$id,
           element: iElement,
-          onBlur: $scope.onBlur
+          onBlur: blurGetter($scope) || angular.noop
         };
 
         $scope.$evalAsync(function () {
-          ctrl.setup(zone, $scope.map);
+          ctrl.setup(zone, map);
         });
 
-        $scope.$watch('focus()', function(current) {
+        $scope.$watch(function() {
+          return focusGetter($scope);
+        }, function(current) {
           if (current) {
             ctrl.select(zone);
           }
@@ -241,4 +243,4 @@ angular.module('Ring.shortcuts', [])
         });
       }
     };
-  });
+  }]);
