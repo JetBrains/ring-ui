@@ -21,17 +21,6 @@ describe('table-list', function() {
 
 
   angular.module('rg.mocks', [])
-    .directive('hubResource', function() {
-      return {
-        scope: {
-          data: '='
-        },
-        restrict: 'A',
-        controller: function($scope) {
-          $scope.data = {items: mockItems, total: mockItems.length, toogle: null};
-        }
-      };
-    })
     .provider('i18nPlural', function() {
       this.$get = function() {
         return {
@@ -68,12 +57,14 @@ describe('table-list', function() {
   beforeEach(inject(function($rootScope, $compile) {
     rootScope = $rootScope.$new();
 
+    rootScope.data = {items: mockItems, total: mockItems.length, toogle: null};
+
     element = angular.element(
-      '<div hub-resource="FakeResource" data="data">' +
+      '<div data="data">' +
         '<rg-table data="data" items="data.items" source="data.loadMore">' +
           '<rg-table-row item="item" ng-repeat="item in data.items"><div class="field">{{ item.name }}</div><div class="field">{{ item.field }}</div></rg-table-row>' +
         '</rg-table>' +
-      '</div rg-resource="FakeResource">'
+      '</div>'
     );
 
     $compile(element)(rootScope);
