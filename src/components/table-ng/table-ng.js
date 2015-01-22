@@ -5,6 +5,7 @@ require('../shortcuts-ng/shortcuts-ng');
 require('../permissions-ng/permissions-ng');
 var $ = require('jquery');
 var debounce = require('mout/function/debounce');
+var Selection = require('./table-ng__selection');
 
 /*global angular*/
 angular.module('Ring.table', ['infinite-scroll', 'Ring.shortcuts', 'Ring.permissions'])
@@ -75,63 +76,11 @@ angular.module('Ring.table', ['infinite-scroll', 'Ring.shortcuts', 'Ring.permiss
           ctrl.fireSelectionChanged();
         };
 
-        /****************************************************************
-         * Checked items
-         ****************************************************************/
-        var CheckedItems = function () {
-          this.items = {};
-          this.size = 0;
+        ctrl.fireSelectionChanged = function () {
+          $scope.$emit('selection:changed', ctrl.getSelection());
         };
-        $.extend(CheckedItems.prototype, {
-          setItem: function (index, item, value) {
-            if (value && !this.items[index]) {
-              this.size++;
-              this.items[index] = item;
-              ctrl.fireSelectionChanged();
-            } else if (!value && this.items[index]) {
-              this.size--;
-              delete this.items[index];
-              ctrl.fireSelectionChanged();
-            }
-          },
-          clear: function () {
-            if (this.size === 0) {
-              return;
-            }
-            this.each(function (index, item) {
-              if (item && item.checked) {
-                item.checked = false;
-              }
-            });
-            this.items = {};
-            this.size = 0;
-            ctrl.fireSelectionChanged();
-          },
-          isEmpty: function () {
-            return this.size === 0;
-          },
-          each: function (fn) {
-            $.each(this.items, fn);
-          },
-          some: function (fn) {
-            return this.getAll().some(fn);
-          },
-          getAll: function () {
-            var allItems = [];
-            this.each(function (index, item) {
-              allItems.push(item);
-            });
-            return allItems;
-          },
-          first: function () {
-            for (var index in this.items) {
-              if (this.items.hasOwnProperty(index)) {
-                return this.items[index];
-              }
-            }
-          }
-        });
-        ctrl.checkedItems = new CheckedItems();
+
+        ctrl.checkedItems = new Selection(ctrl.fireSelectionChanged);
 
         /****************************************************************
          * Selected items
@@ -160,10 +109,6 @@ angular.module('Ring.table', ['infinite-scroll', 'Ring.shortcuts', 'Ring.permiss
             }
           };
           return selectionModel;
-        };
-
-        ctrl.fireSelectionChanged = function () {
-          $scope.$emit('selection:changed', ctrl.getSelection());
         };
 
         ctrl.openItemPage = function (item, replace) {
