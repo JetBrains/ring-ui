@@ -4,7 +4,7 @@ require('angular/angular');
 require('angular-mocks/angular-mocks');
 require('./table-ng');
 
-describe.only('table-list', function() {
+describe('table-list', function() {
   var rootScope, element, resourceController, tableController, tableScope;
 
   var mockItems = [
