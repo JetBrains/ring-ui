@@ -68,6 +68,8 @@
     "memory-fs": "0.1.1",
     "mousetrap": "1.4.6",
     "mout": "0.11.0",
+    "ng-infinite-scroll": "sroze/ngInfiniteScroll#824f7ee",
+    "ngtemplate-loader": "huston007/ngtemplate-loader",
     "node-xml-lite": "0.0.3",
     "q-fs": "0.1.36",
     "react": "0.11.2",
@@ -77,7 +79,6 @@
     "val-loader": "0.5.0",
     "webpack": "1.4.15",
     "when": "3.6.4",
-    "xml2js": "0.4.4",
-    "ngtemplate-loader": "huston007/ngtemplate-loader"
+    "xml2js": "0.4.4"
   }
 }

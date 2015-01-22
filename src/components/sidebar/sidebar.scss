@@ -1,0 +1,119 @@
+@import "../global/global";
+
+.sidebar {
+  position: fixed;
+  top: 0;
+  height: 100%;
+  left: 100%;
+  width: 50%;
+  z-index: 3;
+  padding-top: 2*$ring-unit;
+  overflow: hidden;
+  background: #FFF;
+  transition: left 0.5s ease;
+}
+
+.sidebar-active {
+  overflow: scroll;
+  left: 50%;
+  box-shadow: -2px 0 4px 0 #BEBEBE;
+  min-width: 50%;
+
+  .sidebar__i {
+    transition: 0.5s ease-in;
+    transform: rotate(180deg);
+  }
+}
+
+.sidebar__btn {
+  position: relative;
+  visibility: hidden;
+  float: right;
+  &.ring-btn {
+    padding: 0;
+    width: 3*$ring-unit;
+    height: 3*$ring-unit;
+  }
+}
+
+.sidebar__btn_active {
+  position: relative;
+  visibility: visible;
+}
+
+.sidebar__btn_close {
+  float: left;
+  margin: $ring-unit $ring-unit $ring-unit -3*$ring-unit;
+}
+
+.sidebar__avatar {
+  float: left;
+  width: 6*$ring-unit;
+  height: 6*$ring-unit;
+  padding: 0 2*$ring-unit 0 5*$ring-unit;
+}
+
+.sidebar__title {
+  vertical-align: middle;
+  line-height: 6*$ring-unit;
+  font-size: 19px;
+  font-weight: normal;
+  color: #1866C5;
+  padding-left: 5*$ring-unit;
+
+  & .tag-flag {
+    vertical-align: bottom;
+  }
+}
+
+.sidebar__section {
+  position: relative;
+  padding: 0 2*$ring-unit 0 5*$ring-unit;
+  margin-top: 3*$ring-unit;
+}
+
+.sidebar__section__title {
+  display: inline-block;
+  font-size: 13px;
+  font-weight: bold;
+  color: #1A1A1A;
+}
+
+.sidebar__section__text {
+  font-size: 13px;
+  color: #1A1A1A;
+  line-height: 3*$ring-unit;
+}
+
+.sidebar__section__roster {
+  margin-top: $ring-unit;
+}
+
+.sidebar__section__i {
+  position: absolute;
+  display: block;
+  top: 3px;
+  left: 0;
+
+  width: 5*$ring-unit;
+
+  color: #888;
+  font-size: 12px;
+  text-align: center;
+}
+
+.sidebar__empty {
+  margin-top: $ring-unit*2;
+
+  text-align: center;
+}
+
+.sidebar__empty__icon {
+  font-size: 100px;
+  color: #CCC;
+}
+
+.sidebar__empty__description {
+  margin-top: $ring-unit*2;
+  color: #888;
+}
