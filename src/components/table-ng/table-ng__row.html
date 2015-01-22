@@ -1,0 +1,8 @@
+<tr ng-click="setActiveItemIndex(itemIndex)" class="table__row" ng-transclude ng-class="{
+    'table__row_active': item.active,
+    'table__row_checked': item.checked,
+    'table__row_active-checked': item.active && checkedItems.isEmpty(),
+    'table__row_implicit': item.implicit,
+    'table__row_expanded': item.expanded
+    }">
+</tr>
