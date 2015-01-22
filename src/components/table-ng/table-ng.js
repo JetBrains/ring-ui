@@ -1,14 +1,17 @@
 require('ng-infinite-scroll/build/ng-infinite-scroll');
 require('../table/table.scss');
 require('../sidebar/sidebar.scss');
+require('../shortcuts-ng/shortcuts-ng');
+require('../permissions-ng/permissions-ng');
 var $ = require('jquery');
 var debounce = require('mout/function/debounce');
 
 /*global angular*/
-angular.module('Ring.table', ['infinite-scroll'])
+angular.module('Ring.table', ['infinite-scroll', 'Ring.shortcuts', 'Ring.permissions'])
   //TODO: use ng-template loader
   .run(['$templateCache', function ($templateCache) {
     $templateCache.put('table-ng__sidebar-button.html', require('./table-ng__sidebar-button.html'));
+    $templateCache.put('table-ng__toolbar.html', require('./table-ng__toolbar.html'));
   }])
   .directive('rgTable', ['$location', '$window', 'i18nPlural', 'storage', function ($location, $window, i18nPlural, storage) {
     return {
@@ -17,14 +20,16 @@ angular.module('Ring.table', ['infinite-scroll'])
       transclude: true,
       restrict: 'E',
       scope: {
-        'sidebarEmpty': '@',
-        'sidebarEntity': '@',
-        'sidebarSrc': '&',
-        'toolbarSrc': '&',
-        'emptySrc': '&',
-        'data': '=',
-        'itemHref': '@',
-        'titleFormat': '@'
+        sidebarEmpty: '@',
+        sidebarEntity: '@',
+        sidebarSrc: '&',
+        toolbarSrc: '&',
+        emptySrc: '&',
+        source: '=',  //An source function, should return promise
+        items: '=?',  //optional link to items array
+        data: '=',
+        itemHref: '@',
+        titleFormat: '@'
       },
       controller: ['$scope', function ($scope) {
         var ctrl = this;
@@ -463,8 +468,8 @@ angular.module('Ring.table', ['infinite-scroll'])
         });
       }
     };
-  }]).
-  directive('rgTableCell', [function () {
+  }])
+  .directive('rgTableCell', [function () {
     return {
       require: '^rgTableRow',
       template: '<td ng-transclude></td>',
@@ -472,8 +477,8 @@ angular.module('Ring.table', ['infinite-scroll'])
       transclude: true,
       replace: true
     };
-  }]).
-  directive('rgTitleRow', [function () {
+  }])
+  .directive('rgTitleRow', [function () {
     return {
       require: '^rgTable',
       template: '<tr ng-transclude></tr>',
@@ -481,8 +486,8 @@ angular.module('Ring.table', ['infinite-scroll'])
       transclude: true,
       replace: true
     };
-  }]).
-  directive('rgTableExpandSidebarCell', [function () {
+  }])
+  .directive('rgTableExpandSidebarCell', [function () {
     return {
       template: require('./table-ng__expand-sidebar-cell.html'),
       replace: true,
@@ -498,8 +503,8 @@ angular.module('Ring.table', ['infinite-scroll'])
         };
       }
     };
-  }]).
-  directive('rgTableCheckboxCell', [function () {
+  }])
+  .directive('rgTableCheckboxCell', [function () {
     return {
       template: require('./table-ng__checkbox-cell.html'),
       replace: true,
@@ -526,13 +531,13 @@ angular.module('Ring.table', ['infinite-scroll'])
         rgTableCtrl.registerZone(attrs.rgTableZone, element);
       }
     };
-  }]).
+  }])
 /**
-* @ngdoc directive
-* @name rgTableDeleteItem
-*
-*/
-  directive('rgTableDeleteItem', [
+ * @ngdoc directive
+ * @name rgTableDeleteItem
+ *
+ */
+  .directive('rgTableDeleteItem', [
     'hubResourceDelete',
     'userPermissions',
     function (hubResourceDelete, userPermissions) {
