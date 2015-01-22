@@ -15,6 +15,11 @@ describe('table-list', function() {
 
   beforeEach(window.module('Ring.table'));
 
+  angular.module('Ring.shortcuts', []);
+  angular.module('Ring.permissions', [])
+    .value('userPermissions', {});
+
+
   angular.module('rg.mocks', [])
     .directive('hubResource', function() {
       return {
@@ -65,7 +70,7 @@ describe('table-list', function() {
 
     element = angular.element(
       '<div hub-resource="FakeResource" data="data">' +
-        '<rg-table data="data">' +
+        '<rg-table data="data" items="data.items" source="data.loadMore">' +
           '<rg-table-row item="item" ng-repeat="item in data.items"><div class="field">{{ item.name }}</div><div class="field">{{ item.field }}</div></rg-table-row>' +
         '</rg-table>' +
       '</div rg-resource="FakeResource">'
