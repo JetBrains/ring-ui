@@ -264,10 +264,11 @@ Auth.prototype._checkForAuthResponse = function () {
       var statePromise = authResponse.state ? self._storage.getState(authResponse.state) : when.resolve({});
       return statePromise.then(
         /**
-         * @param {StoredState} state
+         * @param {StoredState=} state
          * @return {Promise.<string>}
          */
           function (state) {
+          state = state || {};
           var config = self.config;
 
           /**
