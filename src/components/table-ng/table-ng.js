@@ -29,11 +29,15 @@ angular.module('Ring.table', ['infinite-scroll', 'Ring.shortcuts', 'Ring.permiss
         source: '=',  //An source function, should return promise
         items: '=',  //optional link to items array
         data: '=',
+        tableCtrl: '=?',
         itemHref: '@',
         titleFormat: '@'
       },
       controller: ['$scope', function ($scope) {
         var ctrl = this;
+
+        $scope.tableCtrl = ctrl;
+
         $scope.title = $scope.titleFormat ? function (count) {
           return i18nPlural.format($scope.$eval($scope.titleFormat), count);
         } : null;
@@ -342,40 +346,6 @@ angular.module('Ring.table', ['infinite-scroll', 'Ring.shortcuts', 'Ring.permiss
           }
         };
       }]
-      //require: ['rgTable', '^hubResource'],
-      //link: function (scope, iElement, iAttrs, requiredCtrls) {
-      //  if ('ignoreEmpty' in iAttrs) {
-      //    scope.ignoreEmpty = true;
-      //  }
-      //
-      //  var rgTableCtrl = requiredCtrls[0];
-      //  var hubResourceCtrl = requiredCtrls[1];
-      //
-      //  /****************************************************************
-      //   * Install openItemPage to rg-resource
-      //   ****************************************************************/
-      //  hubResourceCtrl.openItemPage = rgTableCtrl.openItemPage;
-      //
-      //  /****************************************************************
-      //   * Install getSelection to rg-resource
-      //   ****************************************************************/
-      //  hubResourceCtrl.getSelection = rgTableCtrl.getSelection;
-      //  hubResourceCtrl.getActiveItemIndex = rgTableCtrl.getActiveItemIndex;
-      //  hubResourceCtrl.setActiveItemIndex = rgTableCtrl.setActiveItemIndex;
-      //
-      //  /****************************************************************
-      //   * Install refresh to rg-resource
-      //   ****************************************************************/
-      //  hubResourceCtrl.refresh = function () {
-      //    rgTableCtrl.setActiveItemIndex();
-      //    rgTableCtrl.checkedItems.clear();
-      //    if (hubResourceCtrl.search) {
-      //      hubResourceCtrl.search();
-      //    }
-      //  };
-      //
-      //  hubResourceCtrl.refreshSelection = rgTableCtrl.fireSelectionChanged;
-      //}
     };
   }])
   .directive('rgTableRow', [function () {
