@@ -65,11 +65,11 @@ angular.module('Ring.error-page', [
     function() {
       return {
         restrict: 'A',
-        controller: function($scope) {
+        controller: ['$scope', function($scope) {
           this.setApplicationError = function (applicationError) {
             $scope.applicationError = applicationError;
           };
-        },
+        }],
         link: function (scope, iElement) {
           scope.$watch('applicationError', function(newValue, oldValue) {
             if (newValue === oldValue) {
