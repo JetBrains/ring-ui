@@ -64,6 +64,7 @@ var Auth = function (config) {
     authorization: this.config.serverUri + Auth.API_AUTH_PATH,
     client_id: this.config.client_id,
     redirect_uri: this.config.redirect_uri,
+    request_credentials: this.config.request_credentials,
     scopes: this.config.scope
   }, this._storage);
 
@@ -93,6 +94,7 @@ Auth.DEFAULT_CONFIG = {
 
     return uri;
   }()),
+  request_credentials: 'default',
   scope: [],
   cleanHash: true,
   default_expires_in: 40 * 60 // 40 mins
