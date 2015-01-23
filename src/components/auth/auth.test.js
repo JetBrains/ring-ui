@@ -257,7 +257,7 @@ describe('Auth', function () {
       return auth.init().
         otherwise(function (reject) {
           Auth.prototype._redirectCurrentPage.should.be.calledWith('api/rest/oauth2/auth?response_type=token&' +
-            'state=unique&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub&client_id=1-1-1-1-1&scope=0-0-0-0-0%20youtrack');
+            'state=unique&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub&request_credentials=default&client_id=1-1-1-1-1&scope=0-0-0-0-0%20youtrack');
           Auth.prototype._redirectCurrentPage.restore();
           AuthRequestBuilder._uuid.restore();
           return reject.authRedirect;
@@ -343,7 +343,7 @@ describe('Auth', function () {
       return auth.requestToken().
         then(function (accessToken) {
           Auth.prototype._redirectFrame.getCall(0).args[1].should.be.equal('api/rest/oauth2/auth?response_type=token&' +
-            'state=unique&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub&client_id=1-1-1-1-1&scope=0-0-0-0-0%20youtrack');
+            'state=unique&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub&request_credentials=default&client_id=1-1-1-1-1&scope=0-0-0-0-0%20youtrack');
           Auth.prototype._redirectFrame.restore();
           Auth.prototype._redirectCurrentPage.should.not.have.been.called;
           return accessToken;
@@ -352,7 +352,7 @@ describe('Auth', function () {
 
     it('should redirect current page if get token in iframe fails', function () {
       var authURL = 'api/rest/oauth2/auth?response_type=token&' +
-        'state=unique&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub&client_id=1-1-1-1-1&scope=0-0-0-0-0%20youtrack';
+        'state=unique&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub&request_credentials=default&client_id=1-1-1-1-1&scope=0-0-0-0-0%20youtrack';
       Auth.REFRESH_TIMEOUT = 100;
       this.sinon.stub(Auth.prototype, '_redirectFrame');
       return auth.requestToken().
@@ -388,8 +388,8 @@ describe('Auth', function () {
       return auth.logout().
         then(function () {
           Auth.prototype._redirectCurrentPage.should.have.been.calledWith('api/rest/oauth2/auth?response_type=token&' +
-            'state=unique&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub&client_id=1-1-1-1-1&' +
-            'scope=0-0-0-0-0%20youtrack&request_credentials=required');
+            'state=unique&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub&' +
+            'request_credentials=required&client_id=1-1-1-1-1&scope=0-0-0-0-0%20youtrack');
           return auth._storage.getToken();
         }).
         then(function (storedToken) {
