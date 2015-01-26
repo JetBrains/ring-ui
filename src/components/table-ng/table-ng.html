@@ -1,26 +1,7 @@
-<div class="content ring-clearfix">
-  <div ng-if="data.items || ignoreEmpty">
-
-    <ng-include src="'table-ng__toolbar.html'"></ng-include>
-
-    <table ng-if="data.items" shortcuts="table-list" shortcuts-map="keys" shortcuts-focus="activeItemIndex != null" shortcuts-on-blur="setActiveItemIndex()"
-           infinite-scroll="data.loadMore()" infinite-scroll-immediate-check="false"
-           infinite-scroll-disabled='!data || data.isLoading || !data.items || data.items.length >= data.total'
-           class="table-list" rg-table__zone="table">
+<div>
+  <table class="table" infinite-scroll="ctrl.data.loadMore()"
+    infinite-scroll-immediate-check="false"
+    infinite-scroll-disabled='!ctrl.data || ctrl.data.isLoading || !ctrl.data.items || ctrl.data.items.length >= ctrl.data.total'>
       <tbody ng-transclude></tbody>
-    </table>
-    <div ng-if="data.items" ng-show="data.items.length < data.total" class="ring-loader"></div>
-
-    <div ng-if="data.items" class="sidebar" rg-table__zone="sidebar">
-      <div class="sidebar__empty" ng-show="sidebarEntity && !sidebarElement">
-        <!--It's not very clever to concatenate CSS classes with variables-->
-        <div class="ring-font-icon sidebar__empty__icon" ng-class="'ring-font-icon_' + sidebarEntity"></div>
-        <!--TODO: Fix this interpolation-->
-        <div class="sidebar__empty__description">{{ sidebarEmpty }}</div>
-      </div>
-      <ng-include ng-if="sidebarElement" src="sidebarSrc()"></ng-include>
-    </div>
-  </div>
-  <div ng-if="!ignoreEmpty && !data.error && data.total === 0" ng-include="emptySrc() || 'search-error/search-error_empty.tpl.html'">No matches for your search request were found</div>
-  <div ng-if="data.error" ng-include="'search-error/search-error_bad-request.tpl.html'"></div>
+  </table>
 </div>
