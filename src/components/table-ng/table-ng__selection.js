@@ -12,6 +12,9 @@ angular.module('Ring.table.selection', [])
     };
 
     angular.extend(Selection.prototype, {
+      setItems: function (items) {
+        this.items = items;
+      },
       activateItem: function (item) {
         this.clearActivity();
         item.active = true;

@@ -23,12 +23,13 @@ angular.module('Ring.table', ['Ring.table.selection'])
       bindToController: true,
       controller: ['$scope', function ($scope) {
         var ctrl = this;
+        ctrl.selection = new TableSelection();
 
         $scope.$watch(function () {
           return ctrl.data;
         }, function (newData) {
           if (newData){
-            ctrl.selection = new TableSelection(ctrl.data.items);
+            ctrl.selection.setItems(ctrl.data.items);
           }
         });
 
@@ -48,6 +49,11 @@ angular.module('Ring.table', ['Ring.table.selection'])
       link: function (scope, element, iAttrs, rgTableCtrl) {
         scope.setActiveItem = function (item) {
           rgTableCtrl.selection.activateItem(item);
+        };
+
+        scope.hasCheckedItems = function () {
+          var checkedItems = rgTableCtrl.selection.getCheckedItems();
+          return checkedItems && checkedItems.length > 0;
         };
       }
     };

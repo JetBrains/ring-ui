@@ -1,7 +1,7 @@
 <tr ng-click="setActiveItem(rowItem)" class="table__row" ng-class="{
     'table__row_active': rowItem.active,
     'table__row_checked': rowItem.checked,
-    'table__row_active-checked': rowItem.active && checkedItems.isEmpty(),
+    'table__row_active-checked': rowItem.active && hasCheckedItems(),
     'table__row_implicit': rowItem.implicit,
     'table__row_expanded': rowItem.expanded
     }" ng-transclude>
