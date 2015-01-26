@@ -440,7 +440,7 @@ var Header = React.createClass({
       <div className={extraElementClassName}></div>
       <MenuItem ref="settings" glyph="cog1" href={this.props.settingsLink} onOpen={this.props.onSettingsOpen} onClose={this.props.onSettingsClose} />
       <MenuItem ref="help" glyph="help" href={this.props.helpLink} />
-      <MenuItem ref="services" glyph="menu" href={this.props.settingsLink} onOpen={this._onServicesOpen} onClose={this._onServicesClose} />
+      <MenuItem ref="services" glyph="expand1" href={this.props.settingsLink} onOpen={this._onServicesOpen} onClose={this._onServicesClose} />
       <MenuItem ref="userMenu" glyph="user1" onOpen={this.props.onUserMenuOpen} onClose={this.props.onUserMenuClose} />
     </div>);
 
