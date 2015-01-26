@@ -153,7 +153,7 @@ var MenuItem = React.createClass({
     return (<Icon
         color={this.state.opened ? 'blue' : 'gray'}
         glyph={this.props.glyph}
-        size={Icon.Size.Size16}
+        size={Icon.Size.Size18}
         title={this.state.title} />);
     /* jshint ignore:end */
   },
@@ -307,8 +307,13 @@ var Header = React.createClass({
   },
 
   render: function() {
+    var headerClasses = React.addons.classSet(Global.createObject(
+      headerClassName.getClassName(), true,
+      headerClassName.getModifier('border'), true
+    ));
+
     /*jshint ignore:start*/
-    return (<div className={headerClassName.getClassName()}>
+    return (<div className={headerClasses}>
       <div className={headerClassName.getElement('logo')}>{this._getLogo()}</div>
       <div className={headerClassName.getElement('menu')}>{React.Children.map(this.props.menu, function(item) {
         item.props.className += ' ' + headerClassName.getElement('menu-item');
@@ -433,8 +438,8 @@ var Header = React.createClass({
     /* jshint ignore:start */
     var menuContent = this.props.rightMenu ? this.transferPropsTo(this.props.rightMenu) : (<div>
       <div className={extraElementClassName}></div>
-      <MenuItem ref="help" glyph="help" href={this.props.helpLink} />
       <MenuItem ref="settings" glyph="cog1" href={this.props.settingsLink} onOpen={this.props.onSettingsOpen} onClose={this.props.onSettingsClose} />
+      <MenuItem ref="help" glyph="help" href={this.props.helpLink} />
       <MenuItem ref="services" glyph="menu" href={this.props.settingsLink} onOpen={this._onServicesOpen} onClose={this._onServicesClose} />
       <MenuItem ref="userMenu" glyph="user1" onOpen={this.props.onUserMenuOpen} onClose={this.props.onUserMenuClose} />
     </div>);
@@ -504,7 +509,7 @@ var Header = React.createClass({
         }
       });
 
-      if (servicesIcons.length > 1) {
+      if (servicesIcons.length >= 1) {
         /* jshint ignore:start */
         var servicesIconsMenu = (<div className={headerClassName.getElement('menu-service-inner')}>
           <div className={headerClassName.getElement('menu-service-line')}>
