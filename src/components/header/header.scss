@@ -159,3 +159,16 @@
 .ring2-header__service-menu-leave-active {
   height: 0;
 }
+
+// Customize menu icons
+.ring2-header__user-menu {
+  .ring-icon_expand1 {
+    height: 17px;
+    width: 17px;
+  }
+
+  .ring-icon_help {
+    height: 19px;
+    width: 19px;
+  }
+}
