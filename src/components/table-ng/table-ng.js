@@ -126,7 +126,7 @@ angular.module('Ring.table', ['infinite-scroll', 'Ring.shortcuts'])
         /****************************************************************
          * Sidebar
          ****************************************************************/
-        var SIDEBAR_STORAGE_KEY = 'sidebar';
+        //var SIDEBAR_STORAGE_KEY = 'sidebar';
         $scope.sidebar = {
           active: true
         };
