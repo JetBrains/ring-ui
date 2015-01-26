@@ -6,6 +6,7 @@ var $ = require('jquery');
  * @param {{
  *   authorization: string,
  *   redirect_uri: string?,
+ *   request_credentials: string?,
  *   client_id: string?,
  *   scopes: string[]
  * }} config

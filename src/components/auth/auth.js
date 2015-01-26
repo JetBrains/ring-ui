@@ -22,6 +22,7 @@ var AuthRequestBuilder = require('./auth__request-builder');
  * @param {{
  *   serverUri: string,
  *   redirect_uri: string?,
+ *   request_credentials: string?,
  *   client_id: string?,
  *   scope: string[]?,
  *   optionalScopes: string[]?,
