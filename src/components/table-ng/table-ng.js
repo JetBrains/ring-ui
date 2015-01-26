@@ -2,13 +2,18 @@ require('ng-infinite-scroll/build/ng-infinite-scroll');
 require('../table/table.scss');
 require('../sidebar/sidebar.scss');
 require('../shortcuts-ng/shortcuts-ng');
-require('../permissions-ng/permissions-ng');
 var $ = require('jquery');
 var debounce = require('mout/function/debounce');
 var Selection = require('./table-ng__selection');
 
+/**
+ * An table component (extracted from Hub)
+ * data is a datasource object for table. Should contains 'items' field where items is placed,
+ * 'loadMore' function for infinite scroll data loading, 'total' field,
+ */
+
 /*global angular*/
-angular.module('Ring.table', ['infinite-scroll', 'Ring.shortcuts', 'Ring.permissions'])
+angular.module('Ring.table', ['infinite-scroll', 'Ring.shortcuts'])
   //TODO: use ng-template loader
   .run(['$templateCache', function ($templateCache) {
     $templateCache.put('table-ng__sidebar-button.html', require('./table-ng__sidebar-button.html'));
@@ -26,17 +31,12 @@ angular.module('Ring.table', ['infinite-scroll', 'Ring.shortcuts', 'Ring.permiss
         sidebarSrc: '&',
         toolbarSrc: '&',
         emptySrc: '&',
-        source: '=',  //An source function, should return promise
-        items: '=',  //optional link to items array
         data: '=',
-        tableCtrl: '=?',
         itemHref: '@',
         titleFormat: '@'
       },
       controller: ['$scope', function ($scope) {
         var ctrl = this;
-
-        $scope.tableCtrl = ctrl;
 
         $scope.title = $scope.titleFormat ? function (count) {
           return i18nPlural.format($scope.$eval($scope.titleFormat), count);
@@ -46,8 +46,8 @@ angular.module('Ring.table', ['infinite-scroll', 'Ring.shortcuts', 'Ring.permiss
          * Active item
          ****************************************************************/
         ctrl.getActiveItem = function () {
-          if ($scope.items && 0 <= $scope.activeItemIndex && $scope.activeItemIndex < $scope.items.length) {
-            return $scope.items[$scope.activeItemIndex];
+          if ($scope.data.items && 0 <= $scope.activeItemIndex && $scope.activeItemIndex < $scope.data.items.length) {
+            return $scope.data.items[$scope.activeItemIndex];
           } else {
             return null;
           }
@@ -446,33 +446,4 @@ angular.module('Ring.table', ['infinite-scroll', 'Ring.shortcuts', 'Ring.permiss
         rgTableCtrl.registerZone(attrs.rgTableZone, element);
       }
     };
-  }])
-/**
- * @ngdoc directive
- * @name rgTableDeleteItem
- *
- */
-  .directive('rgTableDeleteItem', [
-    'hubResourceDelete',
-    'userPermissions',
-    function (hubResourceDelete, userPermissions) {
-      return {
-        require: ['rgTable', '^hubResource'],
-        link: function (scope, element, attrs, ctrls) {
-          var rgTableCtrl = ctrls[0];
-          var hubResourceCtrl = ctrls[1];
-          var getConfirmMessage = function () {
-            return scope.$eval(attrs.rgTableDeleteItem);
-          };
-
-          userPermissions.check(attrs.deletePermission).
-            then(function (canDelete) {
-              if (canDelete) {
-                rgTableCtrl.deleteItem = function () {
-                  hubResourceDelete.trigger(hubResourceCtrl, getConfirmMessage());
-                };
-              }
-            });
-        }
-      };
-    }]);
+  }]);
