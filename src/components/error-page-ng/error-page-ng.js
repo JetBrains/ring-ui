@@ -134,7 +134,7 @@ angular.module('Ring.error-page', [
             } else {
               scope.resolved = true;
             }
-          } else if ($route.current.$$route && $route.current.$$route.permission) {
+          } else if ($route.current && $route.current.$$route && $route.current.$$route.permission) {
             var pagePermission = $route.current.$$route.permission;
             userPermissions.load().then(function (permissionCache) {
               if (!permissionCache.has(pagePermission)) {
