@@ -300,6 +300,25 @@ describe('Auth', function () {
       });
 
     });
+
+    it('should pass through request_credentials value', function () {
+      this.sinon.stub(Auth.prototype, '_redirectCurrentPage');
+      this.sinon.stub(AuthRequestBuilder, '_uuid').returns('unique');
+
+      auth = new Auth({
+        serverUri: '',
+        redirect_uri: 'http://localhost:8080/hub',
+        request_credentials: 'skip'
+      });
+      return auth.init().
+        otherwise(function () {
+          Auth.prototype._redirectCurrentPage.should.be.calledWith('api/rest/oauth2/auth?response_type=token&' +
+          'state=unique&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub&request_credentials=skip&client_id=0-0-0-0-0&scope=0-0-0-0-0');
+
+          Auth.prototype._redirectCurrentPage.restore();
+          AuthRequestBuilder._uuid.restore();
+        });
+    });
   });
 
   describe('requestToken', function () {
