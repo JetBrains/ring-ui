@@ -1,60 +1,39 @@
 
-var $ = require('jquery');
+var filter = require('mout/array/filter');
+var forEach = require('mout/array/forEach');
 
-var Selection = function (onSelectionChanged) {
-  this.items = {};
-  this.size = 0;
-  this.onSelectionChanged = onSelectionChanged;
-};
+/*global angular*/
 
-$.extend(Selection.prototype, {
-  setItem: function (index, item, value) {
-    if (value && !this.items[index]) {
-      this.size++;
-      this.items[index] = item;
-      this.onSelectionChanged();
-    } else if (!value && this.items[index]) {
-      this.size--;
-      delete this.items[index];
-      this.onSelectionChanged();
-    }
-  },
-  clear: function () {
-    if (this.size === 0) {
-      return;
-    }
-    this.each(function (index, item) {
-      if (item && item.checked) {
-        item.checked = false;
+angular.module('Ring.table.selection', [])
+  .factory('TableSelection', [function () {
+
+    var Selection = function (items) {
+      this.items = items;
+    };
+
+    angular.extend(Selection.prototype, {
+      activateItem: function (item) {
+        this.clearActivity();
+        item.active = true;
+      },
+      getActiveItem: function () {
+        return filter(this.items, function (item) {
+          return item.active;
+        });
+      },
+      clearActivity: function () {
+        var activeItems = this.getActiveItem();
+        forEach(activeItems, function (item) {
+          item.active = false;
+        });
+      },
+      getCheckedItems: function () {
+        return filter(this.items, function (item) {
+          return item.checked;
+        });
       }
     });
-    this.items = {};
-    this.size = 0;
-    this.onSelectionChanged();
-  },
-  isEmpty: function () {
-    return this.size === 0;
-  },
-  each: function (fn) {
-    $.each(this.items, fn);
-  },
-  some: function (fn) {
-    return this.getAll().some(fn);
-  },
-  getAll: function () {
-    var allItems = [];
-    this.each(function (index, item) {
-      allItems.push(item);
-    });
-    return allItems;
-  },
-  first: function () {
-    for (var index in this.items) {
-      if (this.items.hasOwnProperty(index)) {
-        return this.items[index];
-      }
-    }
-  }
-});
 
-module.exports = Selection;
+    return Selection;
+
+  }]);
