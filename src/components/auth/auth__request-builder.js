@@ -6,6 +6,7 @@ var $ = require('jquery');
  * @param {{
  *   authorization: string,
  *   redirect_uri: string?,
+ *   request_credentials: string?,
  *   client_id: string?,
  *   scopes: string[]
  * }} config
@@ -29,6 +30,7 @@ AuthRequestBuilder.prototype.prepareAuthRequest = function (extraParams) {
     response_type: 'token',
     state: state,
     redirect_uri: this.config.redirect_uri,
+    request_credentials: this.config.request_credentials,
     client_id: this.config.client_id,
     scope: this.config.scopes.join(' ')
   }, extraParams || {});
