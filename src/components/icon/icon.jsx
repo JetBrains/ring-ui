@@ -34,6 +34,7 @@ var Color = {
 var Size = {
   Size14: 14,
   Size16: 16,
+  Size18: 18,
   Size32: 32,
   Size48: 48,
   Size64: 64,
