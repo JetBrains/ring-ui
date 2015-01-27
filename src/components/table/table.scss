@@ -243,21 +243,6 @@
   color: #6E6E6E;
 }
 
-.table__drag-area {
-  cursor: move;
-  min-width: 3*$ring-unit;
-  padding: 0 !important;
-}
-
-.table__drag-area__i {
-  display: block;
-  margin: 0 auto;
-  width: 2px;
-  visibility: hidden;
-
-  color: #CCC;
-}
-
 .table__avatar {
   width: 3*$ring-unit;
   height: 3*$ring-unit + 3; // If avatar is missing
