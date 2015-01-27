@@ -25,25 +25,8 @@
   }
 }
 
-.sidebar__btn {
-  position: relative;
-  visibility: hidden;
-  float: right;
-  &.ring-btn {
-    padding: 0;
-    width: 3*$ring-unit;
-    height: 3*$ring-unit;
-  }
-}
-
-.sidebar__btn_active {
-  position: relative;
-  visibility: visible;
-}
-
-.sidebar__btn_close {
-  float: left;
-  margin: $ring-unit $ring-unit $ring-unit -3*$ring-unit;
+.sidebar__toggle-icon {
+  color: $ring-color-dark-gray;
 }
 
 .sidebar__avatar {

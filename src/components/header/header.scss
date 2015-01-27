@@ -9,7 +9,7 @@
   position: relative;
 
   &.ring2-header_border:after {
-    border-bottom: solid 1px #ccc;
+    border-bottom: solid 1px rgba(0, 0, 0, 0.1);
     bottom: 0;
     content: '';
     left: $ring-unit * 4;
@@ -84,8 +84,7 @@
 }
 
 .ring2-header__menu-service {
-  background: linear-gradient(#1e262c, #3c4449);
-  border-bottom: solid 1px #000;
+  background: linear-gradient(#24353d, #4a565c);
   box-sizing: border-box;
   height: $ring-unit*21;
   margin: -1px (-$ring-unit*4) 0;
@@ -125,9 +124,9 @@
 }
 
 .ring2-header__menu-service-line {
-  background: #172126;
+  background: #1e2a32;
   font-size: $ring-font-size-smaller;
-  line-height: $ring-unit*4;
+  line-height: $ring-unit*3;
 }
 
 .ring2-header__menu-service-line__item {
@@ -159,4 +158,17 @@
 
 .ring2-header__service-menu-leave-active {
   height: 0;
+}
+
+// Customize menu icons
+.ring2-header__user-menu {
+  .ring-icon_expand1 {
+    height: 17px;
+    width: 17px;
+  }
+
+  .ring-icon_help {
+    height: 19px;
+    width: 19px;
+  }
 }
