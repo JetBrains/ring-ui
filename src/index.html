@@ -180,6 +180,7 @@
 
   var auth = new ring.Auth({
     serverUri: '***REMOVED***/',
+    request_credentials: 'skip',
     redirect_uri: 'http://localhost:8080/'
   });
   auth.init().then(function() {

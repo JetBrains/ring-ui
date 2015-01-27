@@ -65,11 +65,11 @@ angular.module('Ring.error-page', [
     function() {
       return {
         restrict: 'A',
-        controller: function($scope) {
+        controller: ['$scope', function($scope) {
           this.setApplicationError = function (applicationError) {
             $scope.applicationError = applicationError;
           };
-        },
+        }],
         link: function (scope, iElement) {
           scope.$watch('applicationError', function(newValue, oldValue) {
             if (newValue === oldValue) {
@@ -134,7 +134,7 @@ angular.module('Ring.error-page', [
             } else {
               scope.resolved = true;
             }
-          } else if ($route.current.$$route && $route.current.$$route.permission) {
+          } else if ($route.current && $route.current.$$route && $route.current.$$route.permission) {
             var pagePermission = $route.current.$$route.permission;
             userPermissions.load().then(function (permissionCache) {
               if (!permissionCache.has(pagePermission)) {
