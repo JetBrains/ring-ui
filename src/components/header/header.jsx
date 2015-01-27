@@ -307,13 +307,8 @@ var Header = React.createClass({
   },
 
   render: function() {
-    var headerClasses = React.addons.classSet(Global.createObject(
-      headerClassName.getClassName(), true,
-      headerClassName.getModifier('border'), true
-    ));
-
     /*jshint ignore:start*/
-    return (<div className={headerClasses}>
+    return (<div className={headerClassName.getClassName()}>
       <div className={headerClassName.getElement('logo')}>{this._getLogo()}</div>
       <div className={headerClassName.getElement('menu')}>{React.Children.map(this.props.menu, function(item) {
         item.props.className += ' ' + headerClassName.getElement('menu-item');
