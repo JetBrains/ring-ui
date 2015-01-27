@@ -22,6 +22,7 @@ var AuthRequestBuilder = require('./auth__request-builder');
  * @param {{
  *   serverUri: string,
  *   redirect_uri: string?,
+ *   request_credentials: string?,
  *   client_id: string?,
  *   scope: string[]?,
  *   optionalScopes: string[]?,
@@ -64,6 +65,7 @@ var Auth = function (config) {
     authorization: this.config.serverUri + Auth.API_AUTH_PATH,
     client_id: this.config.client_id,
     redirect_uri: this.config.redirect_uri,
+    request_credentials: this.config.request_credentials,
     scopes: this.config.scope
   }, this._storage);
 
@@ -93,6 +95,7 @@ Auth.DEFAULT_CONFIG = {
 
     return uri;
   }()),
+  request_credentials: 'default',
   scope: [],
   cleanHash: true,
   default_expires_in: 40 * 60 // 40 mins
@@ -264,10 +267,11 @@ Auth.prototype._checkForAuthResponse = function () {
       var statePromise = authResponse.state ? self._storage.getState(authResponse.state) : when.resolve({});
       return statePromise.then(
         /**
-         * @param {StoredState} state
+         * @param {StoredState=} state
          * @return {Promise.<string>}
          */
           function (state) {
+          state = state || {};
           var config = self.config;
 
           /**
