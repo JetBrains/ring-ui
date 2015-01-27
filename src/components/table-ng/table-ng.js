@@ -23,9 +23,6 @@ angular.module('Ring.table', ['Ring.table.selection', 'Ring.table.toolbar'])
       controller: ['$scope', function ($scope) {
         var ctrl = this;
 
-        //Though out table controller for custom usages
-        $scope.$emit('table:inited', ctrl);
-
         ctrl.selection = new TableSelection([], function emitEvent(name, item, index){
           $scope.$emit(name, item, index);
         });
