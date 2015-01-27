@@ -24,7 +24,7 @@ angular.module('Ring.sidebar', [])
         placeUnderSibling: '@',
         topOffset: '=?'
       },
-      link: function (scope, element, attrs) {
+      link: function (scope, element) {
         var $wrappedWindow = $($window);
         var $element = $(element);
 

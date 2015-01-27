@@ -6,8 +6,6 @@ require('../react-ng/react-ng')({
   Checkbox: require('../checkbox/checkbox.jsx')
 });
 
-var filter = require('mout/array/filter');
-
 /*global angular*/
 
 angular.module('Ring.table', ['Ring.table.selection', 'Ring.table.toolbar'])
