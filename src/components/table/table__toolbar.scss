@@ -1,32 +1,13 @@
 @import "../global/global";
 
-.table__toolbar {
-  margin: 0 $ring-unit*4 0 $ring-unit*4;
-
-  overflow: hidden;
-  white-space: nowrap;
-}
-
-.table__toolbar__form {
-  position: relative;
-  margin: 0 !important;
-  height: $ring-unit*3;
-}
-
-.table__toolbar__title {
-  font-size: 19px;
-  margin: $ring-unit*2 0 0 0;
-}
-
-.table__toolbar__container {
-  height: $ring-unit*6;
-}
-
 .table__toolbar__controls {
-  padding: $ring-unit*2 0;
   display: block;
 
-  // Override white-space: nowrap from table__toolbar for Fx
+  margin: 0 $ring-unit*4 0 $ring-unit*4;
+  padding: $ring-unit*2 0;
+
+  overflow: hidden;
+
   white-space: initial;
 
   &.table__toolbar__controls_hidden {
@@ -42,11 +23,7 @@
     z-index: 1;
     background: #F0F0F0;
     border-bottom: 1px solid #BEBEBE;
+    margin: 0;
     padding: $ring-unit*2 $ring-unit*4;
   }
-}
-
-.table__toolbar__controls__sidebar {
-  float: right;
-  margin-right: $ring-unit/4;
 }
