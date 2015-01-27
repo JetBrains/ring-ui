@@ -1,40 +1,61 @@
 require('../sidebar/sidebar.scss');
-var Storage = require('storage/storage');
-var storage = new Storage();
-
+var debounce = require('mout/function/debounce');
+var $ = require('jquery');
 /**
  * A sidebar directive.
  */
 
 /*global angular*/
 angular.module('Ring.sidebar', [])
-  .directive('rgSidebar', ['sidebarStorage', function (sidebarStorage) {
+  .directive('rgSidebar', ['$window', function ($window) {
+    var DEBOUNCE_INTERVAL = 10;
+
     return {
       restrict: 'E',
-      template: '<div class="sidebar" ng-transclude></div>',
-      controller: ['$scope', function ($scope) {
-        var ctrl = this;
+      transclude: true,
+      replace: true,
+      template: '<div class="sidebar" ng-class="{\'sidebar-active\': show}" ng-transclude></div>',
+      scope: {
+        show: '=',
+        placeUnderSibling: '@',
+        topOffset: '=?'
+      },
+      link: function (scope, element, attrs) {
+        var $wrappedWindow = $($window);
+        var $element = $(element);
 
-        ctrl.defaultSidebar = {
-          active: true
+        scope.topOffset = scope.topOffset || 0;
+
+        var syncPositionWith = function (syncWithElement) {
+
+          var sidebarScrollListener = debounce(function () {
+            var syncedElementHeight = syncWithElement.height();
+            var bottom = syncWithElement.offset().top + syncedElementHeight;
+
+            var margin = Math.max(bottom - $wrappedWindow.scrollTop(), syncedElementHeight);
+
+            $element.css('margin-top', margin + scope.topOffset);
+
+          }, DEBOUNCE_INTERVAL);
+
+          sidebarScrollListener();
+
+          $wrappedWindow.on('scroll', sidebarScrollListener);
+
+          scope.$on('$destroy', function () {
+            $wrappedWindow.off('scroll', sidebarScrollListener);
+          });
         };
 
-        sidebarStorage.load().done(function (sidebar) {
-          ctrl.sidebar = sidebar || ctrl.defaultSidebar;
-        });
 
-      }]
-    };
-  }])
-  .factory('sidebarStorage', function () {
-    var SIDEBAR_STORAGE_KEY = 'sidebar';
-
-    return {
-      load: function () {
-        return storage.get(SIDEBAR_STORAGE_KEY);
-      },
-      save: function (sidebar) {
-        return storage.set(SIDEBAR_STORAGE_KEY, sidebar);
+        if (scope.placeUnderSibling) {
+          var syncWith = $element.next(scope.placeUnderSibling);
+          if (syncWith) {
+            syncPositionWith(syncWith);
+          } else {
+            throw 'Sidebar can\'t find element to sync with.';
+          }
+        }
       }
     };
-  });
+  }]);
