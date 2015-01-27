@@ -5,7 +5,8 @@ module.exports = function(karma) {
   var config = merge(generateConfig(karma), {
     action: 'run',
     browsers: ['ChromeNoSandbox', 'Firefox'],
-    reporters: 'teamcity'
+    reporters: 'teamcity',
+    webpackServer: {}
   });
 
   karma.set(config);
