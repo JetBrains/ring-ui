@@ -43,6 +43,14 @@ angular.module('Ring.table', ['Ring.table.selection', 'Ring.table.toolbar'])
       }]
     };
   }])
+  .directive('rgTableHeader', [function () {
+    return {
+      restrict: 'E',
+      template: '<div class="table__header" ng-transclude></div>',
+      transclude: true,
+      replace: true
+    };
+  }])
   .directive('rgTableRow', [function () {
     return {
       template: require('./table-ng__row.html'),
@@ -70,16 +78,6 @@ angular.module('Ring.table', ['Ring.table.selection', 'Ring.table.toolbar'])
       restrict: 'E',
       transclude: true,
       replace: true,
-      require: '^rgTable',
-      scope: {
-        model: '='
-      },
-      template: '<div class="table__column table__column_selector" ng-click="onSelect()"><div react="Checkbox" ng-model="model.checked"/></div>',
-      link: function (scope, element, iAttrs, rgTableCtrl) {
-        scope.onSelect = function () {
-          //TODO: why this calling twise?
-          rgTableCtrl.selection.triggerSelectionChanged(scope.model);
-        };
-      }
+      template: '<div class="table__column table__column_selector"><div react="Checkbox" ng-model="rowItem.checked"/></div>'
     };
   }]);
