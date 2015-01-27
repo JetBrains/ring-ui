@@ -50,6 +50,11 @@ angular.module('Ring.table.selection', [])
           this.activateItem(this.items[this.items.length-1]);
         }
       },
+      clearSelection: function () {
+        forEach(this.items, function (item) {
+          item.checked = false;
+        });
+      },
       clearActivity: function () {
         var activeItems = this.getActiveItem();
         forEach(activeItems, function (item) {

@@ -60,22 +60,39 @@ angular.module('Ring.table', ['Ring.table.selection', 'Ring.table.toolbar'])
         rowItem: '='
       },
       link: function (scope, element, iAttrs, rgTableCtrl) {
-        scope.setActiveItem = function (item) {
-          rgTableCtrl.selection.activateItem(item);
+        scope.rgTableCtrl = rgTableCtrl;
+      },
+      controllerAs: 'rowCtrl',
+      bindToController: true,
+      controller: ['$scope', function ($scope) {
+        var ctrl = this;
+
+        ctrl.setActiveItem = function (item) {
+          $scope.rgTableCtrl.selection.activateItem(item);
         };
 
-        scope.hasCheckedItems = function () {
-          var checkedItems = rgTableCtrl.selection.getCheckedItems();
+        ctrl.hasCheckedItems = function () {
+          var checkedItems = $scope.rgTableCtrl.selection.getCheckedItems();
           return checkedItems && checkedItems.length > 0;
         };
-      }
+
+        $scope.$watch('rowCtrl.rowItem.checked', function (newValue) {
+          if (newValue !== undefined){
+            $scope.rgTableCtrl.selection.triggerSelectionChanged(ctrl.rowItem);
+          }
+        });
+      }]
     };
   }])
   .directive('rgTableCheckboxCell', [function () {
     return {
       restrict: 'E',
       transclude: true,
+      require: '^rgTableRow',
       replace: true,
-      template: '<div class="table__column table__column_selector"><div react="Checkbox" ng-model="rowItem.checked"/></div>'
+      template: '<div class="table__column table__column_selector" ng-click="test()"><div react="Checkbox" ng-model="rowCtrl.rowItem.checked"/></div>',
+      link: function (scope, element, attrs, rowCtrl) {
+        scope.rowCtrl = rowCtrl;
+      }
     };
   }]);
