@@ -1,5 +1,6 @@
 
 var filter = require('mout/array/filter');
+var find = require('mout/array/find');
 var forEach = require('mout/array/forEach');
 var indexOf = require('mout/array/indexOf');
 
@@ -23,7 +24,7 @@ angular.module('Ring.table.selection', [])
         this.emitEvent('rgTable:activateItem', item, indexOf(this.items, item));
       },
       getActiveItem: function () {
-        return filter(this.items, function (item) {
+        return find(this.items, function (item) {
           return item.active;
         });
       },
@@ -56,10 +57,10 @@ angular.module('Ring.table.selection', [])
         });
       },
       clearActivity: function () {
-        var activeItems = this.getActiveItem();
-        forEach(activeItems, function (item) {
-          item.active = false;
-        });
+        var activeItem = this.getActiveItem();
+        if (activeItem) {
+          activeItem.active = false;
+        }
       },
       triggerSelectionChanged: function (item) {
         this.emitEvent('rgTable:selectionChanged', item);
