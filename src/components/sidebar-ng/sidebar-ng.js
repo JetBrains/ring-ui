@@ -12,7 +12,7 @@ angular.module('Ring.sidebar', [])
     return {
       restrict: 'E',
       template: '<div class="sidebar" ng-transclude></div>',
-      controller: ['$scope', function ($scope) {
+      controller: [function () {
         var ctrl = this;
 
         ctrl.defaultSidebar = {
