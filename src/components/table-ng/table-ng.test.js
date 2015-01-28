@@ -4,7 +4,7 @@ require('angular-mocks/angular-mocks');
 require('./table-ng');
 var $ = require('jquery');
 
-describe.only('TableNg', function () {
+describe('TableNg', function () {
 
   var scope, directiveScope, directiveController, element, $compile,
     fakeData = {
