@@ -236,7 +236,6 @@ var getServiceLogo = function(item) {
  * @example
   <example name="Header">
     <file name="index.html">
-      <div class="header-container"></div>
       <div class="popup-container"></div>
     </file>
 
@@ -245,18 +244,22 @@ var getServiceLogo = function(item) {
       var Header = require('./header.jsx');
       var PopupMenu = require('../popup/popup.jsx');
 
+      var headerContainer = document.createElement('div');
+      document.body.appendChild(headerContainer);
+
       var popup;
-      var popupContainer = document.querySelector('.popup-container');
+      var popupContainer;
 
       // Render youtrack header to DOM. Help link leads to Yandex.
       var header = React.renderComponent(new Header({
         helpLink: 'http://www.yandex.ru',
         logo: 'youtrack'
-      }, document.querySelector('.header-container')));
+      }), headerContainer);
 
       // Add callbacks for opening and closing settings element.
       header.setProps({
         onSettingsOpen: function() {
+          popupContainer = document.querySelector('.popup-container')
           popup = React.renderComponent(
               new Popup({ anchor: header.getSettings().getDOMNode() }),
               popupContainer)
