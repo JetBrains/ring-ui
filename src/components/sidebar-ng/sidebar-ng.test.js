@@ -4,7 +4,7 @@ require('angular-mocks/angular-mocks');
 require('./sidebar-ng');
 var $ = require('jquery');
 
-describe.only('SidebarNg', function () {
+describe('SidebarNg', function () {
 
   var scope, directiveScope, element, $compile;
 
