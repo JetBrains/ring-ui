@@ -234,50 +234,50 @@ var getServiceLogo = function(item) {
  * @constructor
  * @extends {ReactComponent}
  * @example
- * <example name="Header">
- *   <file name="index.html">
- *     <div class="header-container"></div>
- *     <div class="popup-container"></div>
- *   </file>
- *
- *   <file name="index.js">
- *     var React = require('react');
- *     var Header = require('./header.jsx');
- *     var PopupMenu = require('../popup/popup.jsx');
- *
- *     var popup;
- *     var popupContainer = document.querySelector('.popup-container');
- *
- *     // Render youtrack header to DOM. Help link leads to Yandex.
- *     var header = React.renderComponent(new Header({
- *       helpLink: 'http://www.yandex.ru',
- *       logo: 'youtrack'
- *     }, document.querySelector('.header-container'));
- *
- *     // Add callbacks for opening and closing settings element.
- *     header.setProps({
- *       onSettingsOpen: function() {
- *         popup = React.renderComponent(
- *             new Popup({ anchor: header.getSettings().getDOMNode() }),
- *             popupContainer)
- *       },
- *
- *       onSettingsClose: function() {
- *         React.unmountComponentAtNode(popupContainer);
- *         popup = null;
- *       }
- *     });
- *
- *     // Insert navigation.
- *     var navigation = document.createElement('div');
- *     navigation.innerHTML = 'Navigation';
- *     header.getMenuElement().appendChild(navigation);
- *
- *     // Insert extra element to right menu.
- *     var extraElement = document.createElement('input');
- *     header.getExtraElement().appendChild(extraElement);
- *   </file>
- * </example>
+  <example name="Header">
+    <file name="index.html">
+      <div class="header-container"></div>
+      <div class="popup-container"></div>
+    </file>
+
+    <file name="index.js" webpack="true">
+      var React = require('react');
+      var Header = require('./header.jsx');
+      var PopupMenu = require('../popup/popup.jsx');
+
+      var popup;
+      var popupContainer = document.querySelector('.popup-container');
+
+      // Render youtrack header to DOM. Help link leads to Yandex.
+      var header = React.renderComponent(new Header({
+        helpLink: 'http://www.yandex.ru',
+        logo: 'youtrack'
+      }, document.querySelector('.header-container')));
+
+      // Add callbacks for opening and closing settings element.
+      header.setProps({
+        onSettingsOpen: function() {
+          popup = React.renderComponent(
+              new Popup({ anchor: header.getSettings().getDOMNode() }),
+              popupContainer)
+        },
+
+        onSettingsClose: function() {
+          React.unmountComponentAtNode(popupContainer);
+          popup = null;
+        }
+      });
+
+      // Insert navigation.
+      var navigation = document.createElement('div');
+      navigation.innerHTML = 'Navigation';
+      header.getMenuElement().appendChild(navigation);
+
+      // Insert extra element to right menu.
+      var extraElement = document.createElement('input');
+      header.getExtraElement().appendChild(extraElement);
+    </file>
+  </example>
  */
 var Header = React.createClass({
   getInitialState: function() {
