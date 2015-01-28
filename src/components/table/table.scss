@@ -17,15 +17,18 @@
 .table__title {
   display: table-cell;
   position: relative;
-  font-size: 11px;
-  font-weight: normal;
-  color: #1A1A1A;
-  text-align: left;
   padding: 0 $ring-unit;
-  border-top: 1px solid #BEBEBE;
-  border-bottom: 1px solid #D8D8D8;
+
+  text-align: left;
   line-height: 23px;
   white-space: nowrap;
+  font-size: 11px;
+  font-weight: normal;
+
+  color: #1A1A1A;
+  border-top: 1px solid #BEBEBE;
+  border-bottom: 1px solid #D8D8D8;
+
 
   &.table__title_active {
     font-weight: bold;
@@ -68,8 +71,8 @@
   width: 12px;
   top: 14px;
 
-  padding-bottom: $ring-unit*2;
   margin-left: $ring-unit*2;
+  padding-bottom: $ring-unit*2;
 
   color: #B4B4B4;
   font-size: 14px;
@@ -108,8 +111,8 @@
 
 .table__column_selector {
   min-width: 3*$ring-unit;
-  text-align: center;
   padding: 0 !important;
+  text-align: center;
 }
 
 .table__selector {
