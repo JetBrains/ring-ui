@@ -2,7 +2,6 @@
 require('angular/angular');
 require('angular-mocks/angular-mocks');
 require('./sidebar-ng');
-var $ = require('jquery');
 
 describe('SidebarNg', function () {
 
