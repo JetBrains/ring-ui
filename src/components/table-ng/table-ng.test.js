@@ -6,7 +6,7 @@ var $ = require('jquery');
 
 describe.only('TableNg', function () {
 
-  var scope, directiveScope, element, $compile,
+  var scope, directiveScope, directiveController, element, $compile,
     fakeData = {
       items: [],
       loadMore: function () {}
@@ -31,17 +31,18 @@ describe.only('TableNg', function () {
 
     scope.data = fakeData;
 
-    element = $compile('<div>' +
+    element = $compile(
     '<rg-table data="data" source="data.loadMore">' +
       '<rg-table-header></rg-table-header>' +
       '<rg-table-row row-item="item" ng-repeat="item in data.items">' +
         '<div class="table__column">{{item.id}}</div>' +
       '</rg-table-row>' +
-    '</rg-table>' +
-    '</div>')(scope);
+    '</rg-table>'
+    )(scope);
 
     scope.$digest();
     directiveScope = element.isolateScope();
+    directiveController = element.controller('rgTable');
   }));
 
   describe('DOM', function () {
@@ -159,6 +160,15 @@ describe.only('TableNg', function () {
       it('Should trigger rgTable:selectionChanged event on unchecking', function () {
         selection.uncheckItem(fakeData.items[2]);
         expect(fakeEvent.emitEvent).to.have.been.calledWith('rgTable:selectionChanged');
+      });
+    });
+
+    describe('Table row', function () {
+      it('Should activate item on clicking row', function () {
+        element.find('.table__row:nth-child(4)').click();
+        scope.$digest();
+
+        expect(directiveController.selection.getActiveItem()).to.equal(fakeData.items[2]);
       });
     });
   });

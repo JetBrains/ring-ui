@@ -89,7 +89,7 @@ angular.module('Ring.table', ['Ring.table.selection', 'Ring.table.toolbar'])
       transclude: true,
       require: '^rgTableRow',
       replace: true,
-      template: '<div class="table__selector table__column_selector" ng-click="test()"><div react="Checkbox" ng-model="rowCtrl.rowItem.checked"/></div>',
+      template: '<div class="table__selector table__column_selector"><div react="Checkbox" ng-model="rowCtrl.rowItem.checked"/></div>',
       link: function (scope, element, attrs, rowCtrl) {
         scope.rowCtrl = rowCtrl;
       }
