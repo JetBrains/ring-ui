@@ -534,7 +534,7 @@ var Header = React.createClass({
         });
         /* jshint ignore:end */
       } else {
-        var popupData = servicesList.map(function(item) {
+        var popupData = this.props.servicesList.map(function(item) {
           return {
             href: item.homeUrl,
             label: item.name,
