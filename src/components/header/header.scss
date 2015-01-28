@@ -74,8 +74,10 @@
     fill: $ring-color-blue;
   }
 
-  &.ring-icon_24 {
+  .ring-icon_24 {
+    border-radius: 3px;
     padding: 0;
+    margin: $ring-unit;
   }
 }
 
