@@ -38,17 +38,21 @@ angular.module('Ring.table.selection', [])
       activateNextItem: function () {
         var index = indexOf(this.items, this.getActiveItem());
         if (index >= 0 && index < this.items.length-1){
-          this.activateItem(this.items[index+1]);
+          var newActiveItem = this.items[index+1];
+          this.activateItem(newActiveItem);
+          return newActiveItem;
         } else {
-          this.activateItem(this.items[0]);
+          this.clearActivity();
         }
       },
       activatePreviousItem: function () {
         var activeItemIndex = indexOf(this.items, this.getActiveItem());
         if (activeItemIndex > 0 && activeItemIndex <= this.items.length-1){
-          this.activateItem(this.items[activeItemIndex-1]);
+          var newActiveItem = this.items[activeItemIndex-1];
+          this.activateItem(newActiveItem);
+          return newActiveItem;
         } else {
-          this.activateItem(this.items[this.items.length-1]);
+          this.clearActivity();
         }
       },
       clearSelection: function () {
@@ -62,6 +66,18 @@ angular.module('Ring.table.selection', [])
           activeItem.active = false;
         }
         this.emitEvent('rgTable:activateItem', null);
+      },
+      checkItem: function (item) {
+        item.checked = true;
+        this.triggerSelectionChanged(item);
+      },
+      uncheckItem: function (item) {
+        item.checked = false;
+        this.triggerSelectionChanged(item);
+      },
+      toggleCheck: function (item) {
+        item.checked = !item.checked;
+        this.triggerSelectionChanged(item);
       },
       triggerSelectionChanged: function (item) {
         this.emitEvent('rgTable:selectionChanged', item);
