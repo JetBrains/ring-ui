@@ -37,7 +37,7 @@ angular.module('Ring.table.selection', [])
       },
       activateNextItem: function () {
         var index = indexOf(this.items, this.getActiveItem());
-        if (index > 0 && index < this.items.length-1){
+        if (index >= 0 && index < this.items.length-1){
           this.activateItem(this.items[index+1]);
         } else {
           this.activateItem(this.items[0]);
@@ -45,7 +45,7 @@ angular.module('Ring.table.selection', [])
       },
       activatePreviousItem: function () {
         var activeItemIndex = indexOf(this.items, this.getActiveItem());
-        if (activeItemIndex > 0 && activeItemIndex < this.items.length-1){
+        if (activeItemIndex > 0 && activeItemIndex <= this.items.length-1){
           this.activateItem(this.items[activeItemIndex-1]);
         } else {
           this.activateItem(this.items[this.items.length-1]);
@@ -61,6 +61,7 @@ angular.module('Ring.table.selection', [])
         if (activeItem) {
           activeItem.active = false;
         }
+        this.emitEvent('rgTable:activateItem', null);
       },
       triggerSelectionChanged: function (item) {
         this.emitEvent('rgTable:selectionChanged', item);

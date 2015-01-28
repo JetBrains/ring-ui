@@ -17,7 +17,8 @@ angular.module('Ring.table', ['Ring.table.selection', 'Ring.table.toolbar'])
       controllerAs: 'ctrl',
       scope: {
         data: '=',
-        load: '='
+        load: '=',
+        selection: '=?'
       },
       bindToController: true,
       controller: ['$scope', function ($scope) {
@@ -69,7 +70,7 @@ angular.module('Ring.table', ['Ring.table.selection', 'Ring.table.toolbar'])
         };
 
         ctrl.hasCheckedItems = function () {
-          //TODO: cache this operation if perfomance issue exist
+          //TODO: cache this operation if perfomance issue exists
           var checkedItems = $scope.rgTableCtrl.selection.getCheckedItems();
           return checkedItems && checkedItems.length > 0;
         };
