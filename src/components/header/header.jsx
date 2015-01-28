@@ -504,7 +504,7 @@ var Header = React.createClass({
         }
       });
 
-      if (servicesIcons.length >= 1) {
+      if (servicesIcons.length > 1) {
         /* jshint ignore:start */
         var servicesIconsMenu = (<div className={headerClassName.getElement('menu-service-inner')}>
           <div className={headerClassName.getElement('menu-service-line')}>
