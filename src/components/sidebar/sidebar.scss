@@ -2,20 +2,25 @@
 
 .sidebar {
   position: fixed;
-  top: 0;
-  height: 100%;
-  left: 100%;
-  width: 50%;
   z-index: 3;
+
+  top: 0;
+  left: 100%;
+
   padding-top: 2*$ring-unit;
+
+  height: 100%;
+  width: 50%;
+
   overflow: hidden;
   background: #FFF;
   transition: left 0.5s ease;
 }
 
 .sidebar-active {
-  overflow: scroll;
   left: 50%;
+
+  overflow: scroll;
   box-shadow: -2px 0 4px 0 #BEBEBE;
   min-width: 50%;
 
@@ -37,12 +42,13 @@
 }
 
 .sidebar__title {
+  padding-left: 5*$ring-unit;
+
   vertical-align: middle;
   line-height: 6*$ring-unit;
   font-size: 19px;
   font-weight: normal;
   color: #1866C5;
-  padding-left: 5*$ring-unit;
 
   & .tag-flag {
     vertical-align: bottom;
