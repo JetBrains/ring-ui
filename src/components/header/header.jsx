@@ -242,13 +242,12 @@ var getServiceLogo = function(item) {
     <file name="index.js" webpack="true">
       var React = require('react');
       var Header = require('./header.jsx');
-      var PopupMenu = require('../popup/popup.jsx');
+      var Popup = require('../popup/popup.jsx');
 
       var headerContainer = document.createElement('div');
       document.body.appendChild(headerContainer);
 
-      var popup;
-      var popupContainer;
+      var popup, popupContainer;
 
       // Render youtrack header to DOM. Help link leads to Yandex.
       var header = React.renderComponent(new Header({
@@ -259,17 +258,29 @@ var getServiceLogo = function(item) {
       // Add callbacks for opening and closing settings element.
       header.setProps({
         onSettingsOpen: function() {
-          popupContainer = document.querySelector('.popup-container')
+          popupContainer = document.querySelector('.popup-container');
           popup = React.renderComponent(
-              new Popup({ anchor: header.getSettings().getDOMNode() }),
-              popupContainer)
+            new Popup({
+              anchorElement: header.refs['settings'].getDOMNode(),
+              onClose: function() {
+                header.refs['settings'].setOpened(false);
+              }
+            }, React.DOM.div(null, 'Popup content')),
+            popupContainer)
         },
 
         onSettingsClose: function() {
-          React.unmountComponentAtNode(popupContainer);
-          popup = null;
+          if (popup) {
+            React.unmountComponentAtNode(popupContainer);
+            popup = null;
+          }
         }
       });
+
+      header.setServicesList([
+        { homeUrl: '#', name: 'Service 1' },
+        { homeUrl: '#', name: 'Service 2' }
+      ]);
 
       // Insert navigation.
       var navigation = document.createElement('div');
