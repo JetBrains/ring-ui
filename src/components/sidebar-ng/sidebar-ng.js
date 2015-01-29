@@ -30,7 +30,7 @@ angular.module('Ring.sidebar', [])
       /**
       * @param {{
       *   show: boolean,
-      *   redireplaceUnderSiblingct_uri: string?, an selector to stick sidebar
+      *   placeUnderSibling: string?, an selector to stick sidebar
       *   topOffset: integer?, an offset from top for sidebar
       * }} scope
       */
