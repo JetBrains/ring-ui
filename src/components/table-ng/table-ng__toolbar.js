@@ -4,6 +4,7 @@ var $ = require('jquery');
 
 /**
  * Stickable toolbar, usable for tables, but can be used elsewhere.
+ * @example
  * <example>
      <rg-table-toolbar stick>
       <ng-include src="'project-list/project-list__toolbar.tpl.html'"></ng-include>
