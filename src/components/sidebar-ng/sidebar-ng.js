@@ -7,12 +7,13 @@ require('../react-ng/react-ng')({
 
 /**
  * A sidebar directive.
- <example>
-    <rg-sidebar show="true" place-under-sibling=".some-toolbar" top-offset="1">
-     <div class="sidebar__empty">Nothing to show</div>
-    </rg-sidebar>
-    <div class="some-toolbar">Toolbar to place before sidebar</div>
- </example>
+ * @example
+   <example>
+      <rg-sidebar show="true" place-under-sibling=".some-toolbar" top-offset="1">
+       <div class="sidebar__empty">Nothing to show</div>
+      </rg-sidebar>
+      <div class="some-toolbar">Toolbar to place before sidebar</div>
+   </example>
  */
 
 

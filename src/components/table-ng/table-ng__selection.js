@@ -6,6 +6,10 @@ var indexOf = require('mout/array/indexOf');
 
 /*global angular*/
 
+/**
+ * Selection module, catches all selection and activation operations and triggers events
+ */
+
 angular.module('Ring.table.selection', [])
   .factory('TableSelection', [function () {
 
