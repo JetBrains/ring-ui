@@ -90,31 +90,37 @@ angular.module('Ring.table', ['Ring.table.selection', 'Ring.table.toolbar'])
       restrict: 'E',
       transclude: true,
       replace: true,
-      require: '^rgTable',
+      require: ['^rgTable', 'rgTableRow'],
       scope: {
         rowItem: '='
       },
-      link: function (scope, element, iAttrs, rgTableCtrl) {
-        scope.rgTableCtrl = rgTableCtrl;
+      link: function (scope, element, iAttrs, ctrls) {
+        var rgTableCtrl = ctrls[0];
+        var rgTableRowCtrl = ctrls[1];
+        rgTableRowCtrl.setSelection(rgTableCtrl.selection);
       },
       controllerAs: 'rowCtrl',
       bindToController: true,
       controller: ['$scope', function ($scope) {
         var ctrl = this;
 
+        ctrl.setSelection = function (selection) {
+          ctrl.selection = selection;
+        };
+
         ctrl.setActiveItem = function (item) {
-          $scope.rgTableCtrl.selection.activateItem(item);
+          ctrl.selection.activateItem(item);
         };
 
         ctrl.hasCheckedItems = function () {
           //TODO: cache this operation if perfomance issue exists
-          var checkedItems = $scope.rgTableCtrl.selection.getCheckedItems();
+          var checkedItems = ctrl.selection.getCheckedItems();
           return checkedItems && checkedItems.length > 0;
         };
 
         $scope.$watch('rowCtrl.rowItem.checked', function (newValue) {
           if (newValue !== undefined){
-            $scope.rgTableCtrl.selection.triggerSelectionChanged(ctrl.rowItem);
+            ctrl.selection.triggerSelectionChanged(ctrl.rowItem);
           }
         });
       }]
@@ -129,12 +135,12 @@ angular.module('Ring.table', ['Ring.table.selection', 'Ring.table.toolbar'])
       transclude: true,
       require: '^rgTableRow',
       replace: true,
-      template: '<div class="table__selector table__column_selector"><div react="Checkbox" ng-model="rowCtrl.rowItem.checked"/></div>',
+      template: '<div class="table__selector table__column_selector"><div react="Checkbox" ng-model="rowItem.checked"/></div>',
       link: function (scope, element, attrs, rowCtrl) {
         /**
-         * Saving row controller to use it model as ng-model for checkbox
+         * Saving rowItem to use it as ng-model for checkbox
          */
-        scope.rowCtrl = rowCtrl;
+        scope.rowItem = rowCtrl.rowItem;
       }
     };
   }]);
