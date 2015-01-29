@@ -2,6 +2,7 @@
 require('angular/angular');
 require('angular-mocks/angular-mocks');
 require('./table-ng');
+var TableSelection = require('./table-ng__selection');
 var $ = require('jquery');
 
 describe('TableNg', function () {
@@ -62,11 +63,10 @@ describe('TableNg', function () {
     var selection,
       fakeEvent = {};
 
-    /* global inject */
-    beforeEach(inject(function (TableSelection) {
+    beforeEach(function () {
       fakeEvent.emitEvent = sinon.spy();
       selection = new TableSelection(fakeData.items, fakeEvent.emitEvent.bind(fakeEvent));
-    }));
+    });
 
     it('Should receive items and store it inside instance', function () {
       expect(selection.items).to.equal(fakeData.items);

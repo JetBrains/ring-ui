@@ -1,5 +1,5 @@
 require('../table/table.scss');
-require('./table-ng__selection');
+var TableSelection = require('./table-ng__selection');
 require('./table-ng__toolbar');
 
 require('../react-ng/react-ng')({
@@ -38,8 +38,8 @@ require('../react-ng/react-ng')({
   </example>
  */
 
-angular.module('Ring.table', ['Ring.table.selection', 'Ring.table.toolbar'])
-  .directive('rgTable', ['TableSelection', function (TableSelection) {
+angular.module('Ring.table', ['Ring.table.toolbar'])
+  .directive('rgTable', [function () {
     return {
       restrict: 'E',
       transclude: true,
