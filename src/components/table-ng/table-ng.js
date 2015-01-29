@@ -17,7 +17,7 @@ require('../react-ng/react-ng')({
       <div>Some toolbar content</div>
     </rg-table-toolbar>
 
-    <rg-table  data="data" source="data.loadMore" selection="view.selection">
+    <rg-table items="itemsArray">
 
       <rg-table-header>
         <div class="table__title table__title_noborder">Avatar</div>
@@ -25,7 +25,7 @@ require('../react-ng/react-ng')({
         <div class="table__title table__title_active">Name</div>
       </rg-table-header>
 
-      <rg-table-row row-item="item" ng-repeat="item in data.items">
+      <rg-table-row row-item="item" ng-repeat="item in itemsArray">
         <div class="table__avatar table__column">
           <img ng-if="::item.iconUrl" ng-src="{{ ::item.iconUrl }}" class="table__avatar__img">
         </div>
@@ -45,9 +45,14 @@ angular.module('Ring.table', ['Ring.table.toolbar'])
       transclude: true,
       template: require('./table-ng.html'),
       controllerAs: 'ctrl',
+      /**
+       * @param {{
+      *   items: array, items of table
+      *   selection: {TableSelection}?, a selection object link can be provided to use it outside the table
+      * }} scope
+       */
       scope: {
-        data: '=',
-        load: '=',
+        items: '=',
         selection: '=?'
       },
       bindToController: true,
@@ -58,7 +63,7 @@ angular.module('Ring.table', ['Ring.table.toolbar'])
          * Create Selection instance first to make sure it is always awailable
          * @type {TableSelection}
          */
-        ctrl.selection = new TableSelection([], function emitEvent(name, item, index){
+        ctrl.selection = new TableSelection(ctrl.items, function emitEvent(name, item, index){
           $scope.$emit(name, item, index);
         });
 
@@ -66,10 +71,10 @@ angular.module('Ring.table', ['Ring.table.toolbar'])
          * Updating items when data is initiated or updated
          */
         $scope.$watch(function () {
-          return ctrl.data;
-        }, function (newData) {
-          if (newData){
-            ctrl.selection.setItems(ctrl.data.items);
+          return ctrl.items;
+        }, function (newItems) {
+          if (newItems){
+            ctrl.selection.setItems(newItems);
           }
         });
 
