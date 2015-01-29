@@ -8,6 +8,36 @@ require('../react-ng/react-ng')({
 
 /*global angular*/
 
+/**
+ * A table component.
+ * @example
+  <example>
+
+    <rg-table-toolbar stick>
+      <div>Some toolbar content</div>
+    </rg-table-toolbar>
+
+    <rg-table  data="data" source="data.loadMore" selection="view.selection">
+
+      <rg-table-header>
+        <div class="table__title table__title_noborder">Avatar</div>
+        <div class="table__title table__title_noborder">Check</div>
+        <div class="table__title table__title_active">Name</div>
+      </rg-table-header>
+
+      <rg-table-row row-item="item" ng-repeat="item in data.items">
+        <div class="table__avatar table__column">
+          <img ng-if="::item.iconUrl" ng-src="{{ ::item.iconUrl }}" class="table__avatar__img">
+        </div>
+        <rg-table-checkbox-cell class="table__column"></rg-table-checkbox-cell>
+        <div class="table__column">{{ ::item.name }}</div>
+      </rg-table-row>
+
+    </rg-table>
+
+  </example>
+ */
+
 angular.module('Ring.table', ['Ring.table.selection', 'Ring.table.toolbar'])
   .directive('rgTable', ['TableSelection', function (TableSelection) {
     return {
@@ -24,10 +54,17 @@ angular.module('Ring.table', ['Ring.table.selection', 'Ring.table.toolbar'])
       controller: ['$scope', function ($scope) {
         var ctrl = this;
 
+        /**
+         * Create Selection instance first to make sure it is always awailable
+         * @type {TableSelection}
+         */
         ctrl.selection = new TableSelection([], function emitEvent(name, item, index){
           $scope.$emit(name, item, index);
         });
 
+        /**
+         * Updating items when data is initiated or updated
+         */
         $scope.$watch(function () {
           return ctrl.data;
         }, function (newData) {
@@ -83,6 +120,9 @@ angular.module('Ring.table', ['Ring.table.selection', 'Ring.table.toolbar'])
       }]
     };
   }])
+  /**
+   * A checkbox cell for table. Uses rg-table-row parent directive as model hoster
+   */
   .directive('rgTableCheckboxCell', [function () {
     return {
       restrict: 'E',
@@ -91,6 +131,9 @@ angular.module('Ring.table', ['Ring.table.selection', 'Ring.table.toolbar'])
       replace: true,
       template: '<div class="table__selector table__column_selector"><div react="Checkbox" ng-model="rowCtrl.rowItem.checked"/></div>',
       link: function (scope, element, attrs, rowCtrl) {
+        /**
+         * Saving row controller to use it model as ng-model for checkbox
+         */
         scope.rowCtrl = rowCtrl;
       }
     };
