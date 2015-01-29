@@ -162,10 +162,3 @@ angular.module('Ring.error-page', [
       };
     }
   ]);
-
-/**
- * Add templates to module 'Ring.error-page' after its declaration
- */
-require('!ngtemplate?module=Ring.error-page&relativeTo=/error-page-ng/!html!./error-page-ng__forbidden.html');
-require('!ngtemplate?module=Ring.error-page&relativeTo=/error-page-ng/!html!./error-page-ng__not-found.html');
-require('!ngtemplate?module=Ring.error-page&relativeTo=/error-page-ng/!html!./error-page-ng__server-error.html');
