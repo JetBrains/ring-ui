@@ -33,7 +33,7 @@ describe('TableNg', function () {
     scope.data = fakeData;
 
     element = $compile(
-    '<rg-table data="data" source="data.loadMore">' +
+    '<rg-table items="data.items">' +
       '<rg-table-header></rg-table-header>' +
       '<rg-table-row row-item="item" ng-repeat="item in data.items">' +
         '<div class="table__column">{{item.id}}</div>' +
