@@ -20,17 +20,17 @@ require('../react-ng/react-ng')({
     <rg-table items="itemsArray">
 
       <rg-table-header>
-        <div class="table__title table__title_noborder">Avatar</div>
-        <div class="table__title table__title_noborder">Check</div>
-        <div class="table__title table__title_active">Name</div>
+        <div class="ring-table__title table__title_noborder">Avatar</div>
+        <div class="ring-table__title table__title_noborder">Check</div>
+        <div class="ring-table__title table__title_active">Name</div>
       </rg-table-header>
 
       <rg-table-row row-item="item" ng-repeat="item in itemsArray">
-        <div class="table__avatar table__column">
-          <img ng-if="::item.iconUrl" ng-src="{{ ::item.iconUrl }}" class="table__avatar__img">
+        <div class="ring-table__avatar ring-table__column">
+          <img ng-if="::item.iconUrl" ng-src="{{ ::item.iconUrl }}" class="ring-table__avatar__img">
         </div>
-        <rg-table-checkbox-cell class="table__column"></rg-table-checkbox-cell>
-        <div class="table__column">{{ ::item.name }}</div>
+        <rg-table-checkbox-cell class="ring-table__column"></rg-table-checkbox-cell>
+        <div class="ring-table__column">{{ ::item.name }}</div>
       </rg-table-row>
 
     </rg-table>
@@ -84,7 +84,7 @@ angular.module('Ring.table', ['Ring.table.toolbar'])
   .directive('rgTableHeader', [function () {
     return {
       restrict: 'E',
-      template: '<div class="table__header" ng-transclude></div>',
+      template: '<div class="ring-table__header" ng-transclude></div>',
       transclude: true,
       replace: true
     };
@@ -140,7 +140,7 @@ angular.module('Ring.table', ['Ring.table.toolbar'])
       transclude: true,
       require: '^rgTableRow',
       replace: true,
-      template: '<div class="table__selector table__column_selector"><div react="Checkbox" ng-model="rowItem.checked"/></div>',
+      template: '<div class="ring-table__selector ring-table__column_selector"><div react="Checkbox" ng-model="rowItem.checked"/></div>',
       link: function (scope, element, attrs, rowCtrl) {
         /**
          * Saving rowItem to use it as ng-model for checkbox
