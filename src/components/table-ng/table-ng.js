@@ -84,7 +84,7 @@ angular.module('Ring.table', ['Ring.table.toolbar'])
   .directive('rgTableHeader', [function () {
     return {
       restrict: 'E',
-      template: '<div class="ring-table__header" ng-transclude></div>',
+      template: '<td class="ring-table__header" ng-transclude></td>',
       transclude: true,
       replace: true
     };
@@ -99,7 +99,7 @@ angular.module('Ring.table', ['Ring.table.toolbar'])
       scope: {
         rowItem: '='
       },
-      link: function (scope, element, iAttrs, ctrls) {
+      link: function (scope, iElement, iAttrs, ctrls) {
         var rgTableCtrl = ctrls[0];
         var rgTableRowCtrl = ctrls[1];
         rgTableRowCtrl.setSelection(rgTableCtrl.selection);
@@ -140,12 +140,42 @@ angular.module('Ring.table', ['Ring.table.toolbar'])
       transclude: true,
       require: '^rgTableRow',
       replace: true,
-      template: '<div class="ring-table__selector ring-table__column_selector"><div react="Checkbox" ng-model="rowItem.checked"/></div>',
-      link: function (scope, element, attrs, rowCtrl) {
+      template: '<td class="ring-table__selector ring-table__column_selector" ng-class="{\'ring-table__column\': !isEmbedded}"><div react="Checkbox" ng-model="rowItem.checked"/></td>',
+      link: function (scope, iElement, iAttrs, rowCtrl) {
         /**
          * Saving rowItem to use it as ng-model for checkbox
          */
         scope.rowItem = rowCtrl.rowItem;
+        scope.isEmbedded = angular.isDefined(iAttrs.isEmbedded);
+      }
+    };
+  }])
+  .directive('rgTableTitle', [function () {
+    return {
+      restrict: 'E',
+      transclude: true,
+      replace: true,
+      scope: true,
+      template: '<td class="ring-table__title" ng-class="{\'ring-table__title_noborder\': isNoBorder, \'ring-table__title_active\': isActive}" ng-transclude></td>',
+      link: function (scope, iElement, iAttrs) {
+        /**
+         * One time property assigning without watching through isolated scope helps to improve perfomanse
+         */
+        scope.isNoBorder = angular.isDefined(iAttrs.noBorder);
+        scope.isActive = angular.isDefined(iAttrs.active);
+      }
+    };
+  }])
+  .directive('rgTableColumn', [function () {
+    return {
+      restrict: 'E',
+      transclude: true,
+      replace: true,
+      scope: true,
+      template: '<td class="ring-table__column" ng-class="{\'ring-table__column_limited\': isLimited, \'ring-table__avatar\': isAvatar}" ng-transclude></td>',
+      link: function (scope, iElement, iAttrs) {
+        scope.isLimited = angular.isDefined(iAttrs.limited);
+        scope.isAvatar = angular.isDefined(iAttrs.avatar);
       }
     };
   }]);
