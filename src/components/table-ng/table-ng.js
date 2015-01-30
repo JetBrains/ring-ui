@@ -84,7 +84,7 @@ angular.module('Ring.table', ['Ring.table.toolbar'])
   .directive('rgTableHeader', [function () {
     return {
       restrict: 'E',
-      template: '<td class="ring-table__header" ng-transclude></td>',
+      template: '<tr class="ring-table__header" ng-transclude></tr>',
       transclude: true,
       replace: true
     };
