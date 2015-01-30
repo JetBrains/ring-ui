@@ -365,10 +365,7 @@ var Header = React.createClass({
 
   _setServicesPopupShown: function(show) {
     if (show) {
-      var container = document.createElement('div');
-      document.body.appendChild(container);
-
-      var popup = React.renderComponent(new PopupMenu({
+      var popup = PopupMenu.renderComponent(new PopupMenu({
         anchorElement: this.refs['services'].getDOMNode(),
         autoRemove: true,
         corner: PopupMenu.PopupProps.Corner.BOTTOM_RIGHT,
@@ -377,7 +374,8 @@ var Header = React.createClass({
         onClose: function() {
           this.refs['services'].setOpened(false);
         }.bind(this)
-      }), container);
+      }));
+
       this.setProps({ servicesListPopup: popup });
     } else {
       this.props.servicesListPopup.remove();
