@@ -146,7 +146,7 @@ angular.module('Ring.table', ['Ring.table.toolbar'])
          * Saving rowItem to use it as ng-model for checkbox
          */
         scope.rowItem = rowCtrl.rowItem;
-        scope.isEmbedded = angular.isDefined(iAttrs.isEmbedded);
+        scope.isEmbedded = angular.isDefined(iAttrs.embedded);
       }
     };
   }])
@@ -172,10 +172,11 @@ angular.module('Ring.table', ['Ring.table.toolbar'])
       transclude: true,
       replace: true,
       scope: true,
-      template: '<td class="ring-table__column" ng-class="{\'ring-table__column_limited\': isLimited, \'ring-table__avatar\': isAvatar}" ng-transclude></td>',
+      template: '<td class="ring-table__column" ng-class="{\'ring-table__column_limited\': isLimited, \'ring-table__avatar\': isAvatar, \'ring-table__column_wide\': isWide}" ng-transclude></td>',
       link: function (scope, iElement, iAttrs) {
         scope.isLimited = angular.isDefined(iAttrs.limited);
         scope.isAvatar = angular.isDefined(iAttrs.avatar);
+        scope.isWide = angular.isDefined(iAttrs.wide);
       }
     };
   }]);
