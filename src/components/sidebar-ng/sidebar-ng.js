@@ -39,9 +39,9 @@ angular.module('Ring.sidebar', [])
         placeUnderSibling: '@',
         topOffset: '=?'
       },
-      link: function (scope, element) {
+      link: function (scope, iElement) {
         var $wrappedWindow = $($window);
-        var $element = $(element);
+        var $element = $(iElement);
 
         scope.topOffset = scope.topOffset || 0;
 
