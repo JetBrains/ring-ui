@@ -2,7 +2,7 @@
 
 require('../tabs/tabs.scss');
 
-angular.module('Ring.tabs', []).
+angular.module('Ring.tabs', ['ngRoute']).
   directive('ringTabs', ['$location', '$routeParams', '$rootScope', function ($location, $routeParams, $rootScope) {
     return {
       restrict: 'E',
@@ -115,15 +115,15 @@ angular.module('Ring.tabs', []).
       restrict: 'E',
       transclude: true,
       scope: {
+        tabId: '@',
         title: '@',
         counter: '@',
         selected: '=?'
       },
       link: function (scope, element, attrs, tabsCtrl) {
-        scope.tabId = attrs.tabId || scope.title.toLowerCase();
+        scope.tabId = scope.tabId || scope.title.toLowerCase();
         tabsCtrl.addPane(scope);
       },
-      template: require('./tabs-ng__pane.html'),
-      replace: true
+      template: '<div class="ring-tabs__content" ng-class="{\'ring-tabs__content_active\':selected}" ng-if="selected" ng-transclude></div>'
     };
   });
