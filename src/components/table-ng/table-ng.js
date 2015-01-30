@@ -20,17 +20,17 @@ require('../react-ng/react-ng')({
     <rg-table items="itemsArray">
 
       <rg-table-header>
-        <div class="ring-table__title ring-table__title_noborder">Avatar</div>
-        <div class="ring-table__title ring-table__title_noborder">Check</div>
-        <div class="ring-table__title ring-table__title_active">Name</div>
+        <rg-table-title no-border>Avatar</rg-table-title>
+        <rg-table-title>Check</rg-table-title>
+        <rg-table-title active>Name</rg-table-title>
       </rg-table-header>
 
       <rg-table-row row-item="item" ng-repeat="item in itemsArray">
-        <div class="ring-table__avatar ring-table__column">
+        <rg-table-column avatar>
           <img ng-if="::item.iconUrl" ng-src="{{ ::item.iconUrl }}" class="ring-table__avatar__img">
         </div>
-        <rg-table-checkbox-cell class="ring-table__column"></rg-table-checkbox-cell>
-        <div class="ring-table__column">{{ ::item.name }}</div>
+        <rg-table-checkbox-cell></rg-table-checkbox-cell>
+        <rg-table-column limited>{{ ::item.name }}</rg-table-column>
       </rg-table-row>
 
     </rg-table>
@@ -150,6 +150,13 @@ angular.module('Ring.table', ['Ring.table.toolbar'])
       }
     };
   }])
+/**
+ * Table title wrapper, receive next attributes:
+ * @param {{
+    noBorder: whether or not title contain right border
+    active: makes title more bolder
+  }}
+ */
   .directive('rgTableTitle', [function () {
     return {
       restrict: 'E',
@@ -166,6 +173,14 @@ angular.module('Ring.table', ['Ring.table.toolbar'])
       }
     };
   }])
+/**
+ * Column wrapper, receive next attributes:
+ * @param {{
+    limited: is column width should be limited,
+    wide: for wide columns
+    avatar: for columns contains avatar
+  }}
+ */
   .directive('rgTableColumn', [function () {
     return {
       restrict: 'E',
