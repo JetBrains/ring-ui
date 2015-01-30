@@ -25,13 +25,13 @@ describe('SidebarNg', function () {
   }));
 
   it('Should be showed if showSidebar = true', function () {
-    element.should.have.descendants('.sidebar_active');
+    element.should.have.descendants('.ring-sidebar_active');
   });
 
   it('Should not be showed if showSidebar = false', function () {
     scope.isShowSidebar = false;
     scope.$digest();
 
-    element.should.not.have.descendants('.sidebar_active');
+    element.should.not.have.descendants('.ring-sidebar_active');
   });
 });
