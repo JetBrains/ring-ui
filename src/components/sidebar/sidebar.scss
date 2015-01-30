@@ -61,24 +61,24 @@
   margin-top: 3*$ring-unit;
 }
 
-.ring-sidebar__section__title {
+.ring-sidebar__section-title {
   display: inline-block;
   font-size: 13px;
   font-weight: bold;
   color: #1A1A1A;
 }
 
-.ring-sidebar__section__text {
+.ring-sidebar__section-text {
   font-size: 13px;
   color: #1A1A1A;
   line-height: 3*$ring-unit;
 }
 
-.ring-sidebar__section__roster {
+.ring-sidebar__section-roster {
   margin-top: $ring-unit;
 }
 
-.ring-sidebar__section__i {
+.ring-sidebar__section-icon {
   position: absolute;
   display: block;
   top: 3px;
