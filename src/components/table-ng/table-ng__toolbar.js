@@ -20,7 +20,7 @@ angular.module('Ring.table.toolbar', [])
       restrict: 'E',
       replace: true,
       transclude: true,
-      template: '<div class="ring-table__toolbar"><div class="ring-table__toolbar__controls" ng-transclude></div></div>',
+      template: '<div class="ring-table__toolbar"><div class="ring-table__toolbar-controls" ng-transclude></div></div>',
       link: function (scope, iElement, attrs) {
         var $wrappedWindow = $($window);
         var $element = $(iElement);
@@ -36,11 +36,11 @@ angular.module('Ring.table.toolbar', [])
               //save height to style to prevent collapsing after fixing controls
               $element.css('height', $element.height());
               savedToolbarTop = toolbarTop;
-              $controls.addClass('ring-table__toolbar__controls_fixed');
+              $controls.addClass('ring-table__toolbar-controls_fixed');
           } else if (scrolledTop <= toolbarTop && savedToolbarTop >= 0) {
             savedToolbarTop = null;
             $element.css('height', null);
-            $controls.removeClass('ring-table__toolbar__controls_fixed');
+            $controls.removeClass('ring-table__toolbar-controls_fixed');
           }
         }, DEBOUNCE_INTERVAL);
 
