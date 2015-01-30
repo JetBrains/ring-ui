@@ -36,7 +36,7 @@ describe('TableNg', function () {
     '<rg-table items="data.items">' +
       '<rg-table-header></rg-table-header>' +
       '<rg-table-row row-item="item" ng-repeat="item in data.items">' +
-        '<div class="table__column">{{item.id}}</div>' +
+        '<div class="ring-table__column">{{item.id}}</div>' +
       '</rg-table-row>' +
     '</rg-table>'
     )(scope);
@@ -52,7 +52,7 @@ describe('TableNg', function () {
     });
 
     it('Should place all items inside table', function () {
-      var $rows = $('.table__row', element);
+      var $rows = $('.ring-table__row', element);
       expect($rows.length).to.equal(fakeData.items.length);
     });
   });
@@ -165,7 +165,7 @@ describe('TableNg', function () {
 
     describe('Table row', function () {
       it('Should activate item on clicking row', function () {
-        element.find('.table__row:nth-child(4)').click();
+        element.find('.ring-table__row:nth-child(4)').click();
         scope.$digest();
 
         expect(directiveController.selection.getActiveItem()).to.equal(fakeData.items[2]);

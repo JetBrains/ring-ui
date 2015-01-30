@@ -1,8 +1,8 @@
-<tr ng-click="rowCtrl.setActiveItem(rowCtrl.rowItem)" class="table__row" ng-class="{
-    'table__row_active': rowCtrl.rowItem.active,
-    'table__row_checked': rowCtrl.rowItem.checked,
-    'table__row_active-checked': rowCtrl.rowItem.active && !rowCtrl.hasCheckedItems(),
-    'table__row_implicit': rowCtrl.rowItem.implicit,
-    'table__row_expanded': rowCtrl.rowItem.expanded
+<tr ng-click="rowCtrl.setActiveItem(rowCtrl.rowItem)" class="ring-table__row" ng-class="{
+    'ring-table__row_active': rowCtrl.rowItem.active,
+    'ring-table__row_checked': rowCtrl.rowItem.checked,
+    'ring-table__row_active-checked': rowCtrl.rowItem.active && !rowCtrl.hasCheckedItems(),
+    'ring-table__row_implicit': rowCtrl.rowItem.implicit,
+    'ring-table__row_expanded': rowCtrl.rowItem.expanded
     }" ng-transclude>
 </tr>
