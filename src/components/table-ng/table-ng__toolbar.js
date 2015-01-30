@@ -20,7 +20,7 @@ angular.module('Ring.table.toolbar', [])
       restrict: 'E',
       replace: true,
       transclude: true,
-      template: '<div class="table__toolbar"><div class="ring-table__toolbar__controls" ng-transclude></div></div>',
+      template: '<div class="ring-table__toolbar"><div class="ring-table__toolbar__controls" ng-transclude></div></div>',
       link: function (scope, element, attrs) {
         var $wrappedWindow = $($window);
         var $element = $(element);
