@@ -187,6 +187,8 @@ var dgeni = new Dgeni([
           };
         }(fs.stat));
 
+        inputFileSystem.readlink = fs.readlink.bind(fs);
+
         inputFileSystem.readFile = (function(readFile) {
           return function(filePath, callback) {
             if (filePath === entryFilePath) {
