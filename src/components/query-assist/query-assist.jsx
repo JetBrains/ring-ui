@@ -220,7 +220,7 @@ var QueryAssist = React.createClass({
       lastTabQuery: null
     };
 
-    // Avoid trigger on init by mutatuion events in IE
+    // Avoid trigger on init by mutation events in IE
     if (props.query === this.state.query && props.query === '') {
       return;
     }
@@ -370,10 +370,16 @@ var QueryAssist = React.createClass({
 
   sendRequest: function (params) {
     var dataPromise = when(this.props.dataSource(params));
-    // Close popup after timeout
+    // Close popup after timeout between long requests
     // TODO Show loader here
-    dataPromise.timeout(500).
-      catch(when.TimeoutError, this.closePopup).
+    dataPromise.
+      timeout(500).
+      with(this).
+      catch(when.TimeoutError, function() {
+        if (params.query === this.state.query) {
+          this.closePopup();
+        }
+      }).
       catch(this.handleNothing);
 
     return dataPromise;
