@@ -20,9 +20,9 @@ require('../react-ng/react-ng')({
     <rg-table items="itemsArray">
 
       <rg-table-header>
-        <div class="ring-table__title table__title_noborder">Avatar</div>
-        <div class="ring-table__title table__title_noborder">Check</div>
-        <div class="ring-table__title table__title_active">Name</div>
+        <div class="ring-table__title ring-table__title_noborder">Avatar</div>
+        <div class="ring-table__title ring-table__title_noborder">Check</div>
+        <div class="ring-table__title ring-table__title_active">Name</div>
       </rg-table-header>
 
       <rg-table-row row-item="item" ng-repeat="item in itemsArray">
