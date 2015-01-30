@@ -26,7 +26,7 @@ angular.module('Ring.sidebar', [])
       restrict: 'E',
       transclude: true,
       replace: true,
-      template: '<div class="sidebar" ng-class="{\'sidebar_active\': show}" ng-transclude></div>',
+      template: '<div class="ring-sidebar" ng-class="{\'ring-sidebar_active\': show}" ng-transclude></div>',
       /**
       * @param {{
       *   show: boolean,
@@ -87,7 +87,7 @@ angular.module('Ring.sidebar', [])
         model: '='
       },
       template: '<button class="ring-btn" ng-click="model = !model">' +
-                  '<span class="sidebar__toggle-icon" react="Icon" size="14" glyph="model ? \'chevron-right\' : \'chevron-left\'" color="light-gray"></span>' +
+                  '<span class="ring-sidebar__toggle-icon" react="Icon" size="14" glyph="model ? \'chevron-right\' : \'chevron-left\'" color="light-gray"></span>' +
                   '<span ng-transclude></span>' +
                 '</button>'
     };
