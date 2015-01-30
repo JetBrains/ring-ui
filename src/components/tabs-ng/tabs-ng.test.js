@@ -17,7 +17,7 @@ describe('TabsNg', function () {
     $compile = _$compile_;
   }));
 
-  describe.only('DOM', function () {
+  describe('DOM', function () {
     it('Empty tabs', function () {
       var element = $compile(
         '<ring-tabs>' +
