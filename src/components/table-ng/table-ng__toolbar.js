@@ -21,9 +21,9 @@ angular.module('Ring.table.toolbar', [])
       replace: true,
       transclude: true,
       template: '<div class="ring-table__toolbar"><div class="ring-table__toolbar__controls" ng-transclude></div></div>',
-      link: function (scope, element, attrs) {
+      link: function (scope, iElement, attrs) {
         var $wrappedWindow = $($window);
-        var $element = $(element);
+        var $element = $(iElement);
         var $controls = $element.find('.ring-table__toolbar__controls');
 
         var savedToolbarTop;
