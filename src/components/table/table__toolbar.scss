@@ -1,6 +1,6 @@
 @import "../global/global";
 
-.table__toolbar__controls {
+.ring-table__toolbar__controls {
   display: block;
 
   margin: 0 $ring-unit*4 0 $ring-unit*4;
@@ -10,12 +10,12 @@
 
   white-space: initial;
 
-  &.table__toolbar__controls_hidden {
+  &.ring-table__toolbar__controls_hidden {
     height: 0;
     padding-bottom: 0;
   }
 
-  &.table__toolbar__controls_fixed {
+  &.ring-table__toolbar__controls_fixed {
     position: fixed;
     top: 0;
     left: 0;
