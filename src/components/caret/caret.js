@@ -2,26 +2,19 @@
  * Caret utils. Ported from jquery-caret
  * @see https://github.com/princed/caret
  */
-var Caret = {};
+var Caret = function (target) {
+  this.target = target;
+  this.isContentEditable = target.contentEditable === 'true';
+};
 
 /**
  * Set focus on target if possible
- * @param target {HTMLElement}
  */
-function focus(target) {
-  if (!document.activeElement || document.activeElement !== target) {
-    target.focus();
+Caret.prototype.focus = function focus() {
+  if (!document.activeElement || document.activeElement !== this.target) {
+    this.target.focus();
   }
-}
-
-/**
- * Detect contentEditable
- * @param target {HTMLElement}
- * @return {boolean}
- */
-function isContentEditable(target) {
-  return target.contentEditable === 'true';
-}
+};
 
 /**
  * Line endings RegExp
@@ -41,16 +34,15 @@ function normalizeNewlines(value) {
 
 /**
  * Get caret position in symbols
- * @param target {HTMLElement}
  * @return {number}
  */
-Caret.get = function getCaret(target) {
+Caret.prototype.getPosition = function getPosition() {
   if (!window.getSelection) {
     return 0;
   }
 
-  if (isContentEditable(target)) {
-    focus(target);
+  if (this.isContentEditable) {
+    this.focus();
 
     var selection = window.getSelection();
 
@@ -60,28 +52,34 @@ Caret.get = function getCaret(target) {
     }
 
     var range1 = selection.getRangeAt(0);
+
+    if (range1.startOffset !== range1.endOffset) {
+      return -1;
+    }
+
     var range2 = range1.cloneRange();
 
-    range2.selectNodeContents(target);
+    range2.selectNodeContents(this.target);
     range2.setEnd(range1.endContainer, range1.endOffset);
 
     return range2.toString().length;
   }
 
-  return target.selectionStart;
+  if (this.target.selectionStart !== this.target.selectionEnd) {
+    return -1;
+  }
+
+  return this.target.selectionStart;
 };
 
 /**
  * Set caret position in symbols
- * @param target {HTMLElement}
  * @param position {number}
  * @return {number}
  */
-Caret.set = function setCaret(target, position) {
-  var targetIsContentEditable = isContentEditable(target);
-
+Caret.prototype.setPosition = function setPosition(position) {
   if (position === -1) {
-    var value = targetIsContentEditable ? target.textContent : normalizeNewlines(target.value);
+    var value = this.isContentEditable ? this.target.textContent : normalizeNewlines(this.target.value);
     position = value.length;
   }
 
@@ -89,17 +87,17 @@ Caret.set = function setCaret(target, position) {
     return -1;
   }
 
-  if (targetIsContentEditable) {
-    focus(target);
+  if (this.isContentEditable) {
+    this.focus();
 
     try {
-      window.getSelection().collapse(target.firstChild, position);
+      window.getSelection().collapse(this.target.firstChild, position);
     } catch (e) {
     }
 
   } else {
-    target.setSelectionRange(position, position);
-    focus(target);
+    this.target.setSelectionRange(position, position);
+    this.focus();
   }
 
   return position;
@@ -107,10 +105,9 @@ Caret.set = function setCaret(target, position) {
 
 /**
  * Get caret position in pixels
- * @param target {HTMLElement}
  * @return {number}
  */
-Caret.getOffset = function getOffset(target) {
+Caret.prototype.getOffset = function getOffset() {
   var offset = 0;
   var range;
 
@@ -129,10 +126,10 @@ Caret.getOffset = function getOffset(target) {
   }
 
   if (range && range.endOffset !== 0 && range.toString() !== '') {
-    var targetRect = target.getBoundingClientRect();
+    var targetRect = this.target.getBoundingClientRect();
     var caretRect = range.getBoundingClientRect();
 
-    offset = caretRect.right - targetRect.left - range.startContainer.offsetLeft;
+    offset = caretRect.right - targetRect.left - (range.startContainer.offsetLeft || 0);
   }
 
   return offset;
