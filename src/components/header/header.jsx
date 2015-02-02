@@ -222,7 +222,7 @@ var getServiceLogo = function(item) {
     serviceName = KnownService[service];
     serviceRegExp = new RegExp(serviceName, 'i');
 
-    if (serviceRegExp.test(item.name) && VENDOR_REGEXP.test(item.vendor)) {
+    if (serviceRegExp.test(item.applicationName) && VENDOR_REGEXP.test(item.vendor)) {
       return KnownServiceLogo[serviceName];
     }
   }
@@ -242,7 +242,7 @@ var sortServices = function(items) {
     var bApplicationName = itemB.applicationName || '';
 
     return aApplicationName.localeCompare(bApplicationName) ||
-        itemA.name.localeCompare(itemB.name);
+           itemA.name.localeCompare(itemB.name);
   });
 };
 
@@ -295,8 +295,8 @@ var sortServices = function(items) {
       });
 
       header.setServicesList([
-        { homeUrl: '#', name: 'Service 1' },
-        { homeUrl: '#', name: 'Service 2' }
+        { homeUrl: '#', name: 'Service 1', applicationName: 'youtrack' },
+        { homeUrl: '#', name: 'Service 2', applicationName: 'teamcity' }
       ]);
 
       // Insert navigation.
