@@ -7,7 +7,6 @@ var React = require('react');
 var $ = require('jquery');
 var when = require('when');
 var debounce = require('mout/function/debounce');
-var equals = require('mout/array/equals');
 var pick = require('mout/object/pick');
 var filter = require('mout/object/filter');
 var isNumber = require('mout/lang/isNumber');
