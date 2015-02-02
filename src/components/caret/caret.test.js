@@ -10,10 +10,6 @@ describe('Caret', function () {
 
     document.body.appendChild(this.target);
 
-    var range = document.createRange();
-    range.selectNodeContents(this.target);
-    window.getSelection().addRange(range);
-
     this.caret = new Caret(this.target);
   });
 
@@ -43,6 +39,18 @@ describe('Caret', function () {
       window.getSelection().collapse(this.target.firstChild, 10);
 
       this.caret.getPosition().should.equal(10);
+    });
+
+    it('Should focus on get by default', function () {
+      this.caret.getPosition();
+
+      this.target.should.equal(document.activeElement);
+    });
+
+    it('Shouldn\'t focus on get when prohibited', function () {
+      this.caret.getPosition({avoidFocus: true});
+
+      this.target.should.not.equal(document.activeElement);
     });
   });
 
