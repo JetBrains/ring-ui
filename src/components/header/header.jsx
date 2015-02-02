@@ -241,8 +241,8 @@ var sortServices = function(items) {
     var aApplicationName = itemA.applicationName || '';
     var bApplicationName = itemB.applicationName || '';
 
-    return itemA.name.localeCompare(itemB.name) ||
-           aApplicationName.localeCompare(bApplicationName);
+    return aApplicationName.localeCompare(bApplicationName) ||
+        itemA.name.localeCompare(itemB.name);
   });
 };
 
