@@ -24,7 +24,7 @@ angular.module('Ring.table.toolbar', [])
       link: function (scope, iElement, attrs) {
         var $wrappedWindow = $($window);
         var $element = $(iElement);
-        var $controls = $element.find('.ring-table__toolbar__controls');
+        var $controls = $element.find('.ring-table__toolbar-controls');
 
         var savedToolbarTop;
 
