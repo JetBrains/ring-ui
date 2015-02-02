@@ -362,6 +362,10 @@ var QueryAssist = React.createClass({
   },
 
   requestHandler: function () {
+    if (this.props.disabled) {
+      return;
+    }
+
     this.sendRequest(this.getInputState()).
       then(this.handleResponse).
       then(this.renderPopup).
