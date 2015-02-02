@@ -5,7 +5,7 @@ describe('Caret', function () {
   beforeEach(function () {
     this.target = document.createElement('div');
     this.target.innerHTML = 'this.target = document.createElement(textarea)';
-    this.target.style = 'position: absolute; left: 0; top: 0;';
+    this.target.style.font = '12px/14px Arial';
     this.target.contentEditable = true;
 
     document.body.appendChild(this.target);
@@ -78,8 +78,8 @@ describe('Caret', function () {
     it('Should get correct offset', function () {
       window.getSelection().collapse(this.target.firstChild, 10);
 
-      // Test caret offset should be about 60px (PhantomJS has small differences)
-      (Math.ceil(this.caret.getOffset() / 10) * 10).should.equal(60);
+      // Test caret offset should be about 50px (PhantomJS has small differences)
+      (Math.ceil(this.caret.getOffset() / 10) * 10).should.equal(50);
     });
   });
 });
