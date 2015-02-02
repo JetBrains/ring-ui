@@ -131,9 +131,9 @@ var MenuItem = React.createClass({
     /* jshint ignore:start */
     var baseClass = new Global.ClassName('ring-icon');
     var className = React.addons.classSet(Global.createObject(
-      baseClass.getClassName(), true,
-      baseClass.getModifier('24'), true,
-      baseClass.getModifier(this.props.glyph), true));
+        baseClass.getClassName(), true,
+        baseClass.getModifier('24'), true,
+        baseClass.getModifier(this.props.glyph), true));
 
     return (<img
         className={className}
@@ -363,6 +363,10 @@ var Header = React.createClass({
     }
   },
 
+  /**
+   * @param {boolean} show
+   * @private
+   */
   _setServicesPopupShown: function(show) {
     if (show) {
       var popup = PopupMenu.renderComponent(new PopupMenu({
@@ -503,10 +507,11 @@ var Header = React.createClass({
    */
   setServicesList: function(services) {
     this.setProps({ servicesList: services }, function() {
+      var services = this.props.servicesList.slice(0);
       var servicesIcons = [];
       var servicesList = [];
 
-      this.props.servicesList.forEach(function(item, i) {
+      services.forEach(function(item, i) {
         var serviceIcon = getServiceLogo(item);
 
         if (serviceIcon) {
@@ -521,7 +526,7 @@ var Header = React.createClass({
         var servicesIconsMenu = (<div className={headerClassName.getElement('menu-service-inner')}>
           <div className={headerClassName.getElement('menu-service-line')}>
             {servicesList.map(function(item, i) {
-              var href = item.homeUrl.indexOf(document.location.origin) === -1 ? item.homeUrl : null;
+              var href = document.location.origin.indexOf(item.homeUrl) === -1 ? item.homeUrl : null;
               var linkElement = href ? (<a href={item.homeUrl}>{item.name}</a>) : (<b>{item.name}</b>);
 
               return (<div className={headerClassName.getElement('menu-service-line__item')} key={i}>{linkElement}</div>)
