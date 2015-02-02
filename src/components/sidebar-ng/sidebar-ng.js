@@ -1,6 +1,6 @@
 require('../sidebar/sidebar.scss');
 var debounce = require('mout/function/debounce');
-var $ = require('jquery');
+
 require('../react-ng/react-ng')({
   Icon: require('../icon/icon.jsx')
 });
@@ -19,7 +19,7 @@ require('../react-ng/react-ng')({
 
 /*global angular*/
 angular.module('Ring.sidebar', [])
-  .directive('rgSidebar', ['$window', function ($window) {
+  .directive('rgSidebar', ['$window', '$document', function ($window, $document) {
     var DEBOUNCE_INTERVAL = 10;
 
     return {
@@ -40,36 +40,44 @@ angular.module('Ring.sidebar', [])
         topOffset: '=?'
       },
       link: function (scope, iElement) {
-        var $wrappedWindow = $($window);
-        var $element = $(iElement);
+        /**
+         * Use plain JS to make sidebar stickable
+         */
+        var element = iElement[0];
 
         scope.topOffset = scope.topOffset || 0;
 
+        /**
+         * Syncing sidebar position with other element bottom
+         * @param syncWithElement - DOM node to sync with
+         */
         var syncPositionWith = function (syncWithElement) {
 
           var sidebarScrollListener = debounce(function () {
-            var syncedElementHeight = syncWithElement.height();
-            var bottom = syncWithElement.offset().top + syncedElementHeight;
+            var syncedElementHeight = syncWithElement.offsetHeight;
+            var syncedElementOffsetTop = syncWithElement.getBoundingClientRect().top + $document[0].body.scrollTop;
 
-            var margin = Math.max(bottom - $wrappedWindow.scrollTop(), syncedElementHeight);
+            var bottom = syncedElementOffsetTop + syncedElementHeight;
 
-            $element.css('margin-top', margin + scope.topOffset);
+            var margin = Math.max(bottom - $window.scrollY, syncedElementHeight);
+
+            element.style.marginTop = margin + scope.topOffset + 'px';
 
           }, DEBOUNCE_INTERVAL);
 
           sidebarScrollListener();
 
-          $wrappedWindow.on('scroll', sidebarScrollListener);
+          $window.addEventListener('scroll', sidebarScrollListener);
 
           scope.$on('$destroy', function () {
-            $wrappedWindow.off('scroll', sidebarScrollListener);
+            $window.removeEventListener('scroll', sidebarScrollListener);
           });
         };
 
 
         if (scope.placeUnderSibling) {
-          var syncWith = $element.next(scope.placeUnderSibling);
-          if (syncWith && syncWith.length > 0) {
+          var syncWith = element.parentNode.querySelector(scope.placeUnderSibling);
+          if (syncWith) {
             syncPositionWith(syncWith);
           } else {
             throw 'Sidebar can\'t find element to sync with.';

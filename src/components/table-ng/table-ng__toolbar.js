@@ -1,19 +1,18 @@
 /*global angular*/
 var debounce = require('mout/function/debounce');
-var $ = require('jquery');
 
 /**
  * Stickable toolbar, usable for tables, but can be used elsewhere.
  * @example
  * <example>
      <rg-table-toolbar stick>
-      <ng-include src="'project-list/project-list__toolbar.tpl.html'"></ng-include>
+        <ng-include src="'project-list/project-list__toolbar.tpl.html'"></ng-include>
      </rg-table-toolbar>
-  </example>
+   </example>
  */
 
 angular.module('Ring.table.toolbar', [])
-  .directive('rgTableToolbar', ['$window', function ($window) {
+  .directive('rgTableToolbar', ['$window', '$document', function ($window, $document) {
     var DEBOUNCE_INTERVAL = 10;
 
     return {
@@ -22,34 +21,65 @@ angular.module('Ring.table.toolbar', [])
       transclude: true,
       template: '<div class="ring-table__toolbar"><div class="ring-table__toolbar-controls" ng-transclude></div></div>',
       link: function (scope, iElement, attrs) {
-        var $wrappedWindow = $($window);
-        var $element = $(iElement);
-        var $controls = $element.find('.ring-table__toolbar-controls');
+        /**
+         * Use plain DOM functions without any jquery. Should work with IE8+
+         */
+        var element = iElement[0];
+        var controlsContainer = element.querySelector('.ring-table__toolbar-controls');
+
+        /**
+         * Makes toolbar sticky
+         * @param toolbarControls - controls DOM node
+         */
+        var makeToolbarFixed = function (toolbarControls) {
+          if (toolbarControls.classList) {
+            toolbarControls.classList.add('ring-table__toolbar-controls_fixed');
+          } else {
+            toolbarControls.className += ' ' + 'ring-table__toolbar-controls_fixed';
+          }
+        };
+
+        /**
+         * Makes toolbar free (not sticky)
+         * @param toolbarControls - controls DOM node
+         */
+        var freeToolbar = function (toolbarControls) {
+          if (toolbarControls.classList) {
+            toolbarControls.classList.remove('ring-table__toolbar-controls_fixed');
+          } else {
+            toolbarControls.className = controlsContainer.className.replace('ring-table__toolbar-controls_fixed', '');
+          }
+        };
 
         var savedToolbarTop;
 
         var toolbarScrollListener = debounce(function () {
-          var toolbarTop = savedToolbarTop || $element.offset().top;
+
+          var elementTop = element.getBoundingClientRect().top + $document[0].body.scrollTop;
+
+          var toolbarTop = savedToolbarTop || elementTop;
           var scrolledTop = $window.scrollY;
 
           if (scrolledTop > toolbarTop && !savedToolbarTop) {
-              //save height to style to prevent collapsing after fixing controls
-              $element.css('height', $element.height());
-              savedToolbarTop = toolbarTop;
-              $controls.addClass('ring-table__toolbar-controls_fixed');
+            //save height to style to prevent collapsing after fixing controls
+            element.style.height = element.offsetHeight + 'px';
+            savedToolbarTop = toolbarTop;
+
+            makeToolbarFixed(controlsContainer);
           } else if (scrolledTop <= toolbarTop && savedToolbarTop >= 0) {
             savedToolbarTop = null;
-            $element.css('height', null);
-            $controls.removeClass('ring-table__toolbar-controls_fixed');
+            element.style.height = null;
+
+            freeToolbar(controlsContainer);
           }
         }, DEBOUNCE_INTERVAL);
 
         //Stick toolbar if sticking is enabled
         if (attrs.stick !== undefined) {
-          $wrappedWindow.on('scroll', toolbarScrollListener);
+          $window.addEventListener('scroll', toolbarScrollListener);
 
           scope.$on('$destroy', function () {
-            $wrappedWindow.off('scroll', toolbarScrollListener);
+            $window.removeEventListener('scroll', toolbarScrollListener);
           });
         }
       }
