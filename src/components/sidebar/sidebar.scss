@@ -1,0 +1,108 @@
+@import "../global/global";
+
+.ring-sidebar {
+  position: fixed;
+  z-index: 3;
+
+  top: 0;
+  left: 100%;
+
+  padding-top: 2*$ring-unit;
+
+  height: 100%;
+  width: 50%;
+
+  overflow: hidden;
+  background: #FFF;
+  transition: left 0.5s ease;
+}
+
+.ring-sidebar_active {
+  left: 50%;
+
+  overflow: scroll;
+  box-shadow: -2px 0 4px 0 #BEBEBE;
+  min-width: 50%;
+
+  .ring-sidebar__i {
+    transition: 0.5s ease-in;
+    transform: rotate(180deg);
+  }
+}
+
+.ring-sidebar__toggle-icon {
+  color: $ring-color-dark-gray;
+}
+
+.ring-sidebar__avatar {
+  float: left;
+  width: 6*$ring-unit;
+  height: 6*$ring-unit;
+  padding: 0 2*$ring-unit 0 5*$ring-unit;
+}
+
+.ring-sidebar__title {
+  padding-left: 5*$ring-unit;
+
+  vertical-align: middle;
+  line-height: 6*$ring-unit;
+  font-size: 19px;
+  font-weight: normal;
+  color: #1866C5;
+
+  & .tag-flag {
+    vertical-align: bottom;
+  }
+}
+
+.ring-sidebar__section {
+  position: relative;
+  padding: 0 2*$ring-unit 0 5*$ring-unit;
+  margin-top: 3*$ring-unit;
+}
+
+.ring-sidebar__section-title {
+  display: inline-block;
+  font-size: 13px;
+  font-weight: bold;
+  color: #1A1A1A;
+}
+
+.ring-sidebar__section-text {
+  font-size: 13px;
+  color: #1A1A1A;
+  line-height: 3*$ring-unit;
+}
+
+.ring-sidebar__section-roster {
+  margin-top: $ring-unit;
+}
+
+.ring-sidebar__section-icon {
+  position: absolute;
+  display: block;
+  top: 3px;
+  left: 0;
+
+  width: 5*$ring-unit;
+
+  color: #888;
+  font-size: 12px;
+  text-align: center;
+}
+
+.ring-sidebar__empty {
+  margin-top: $ring-unit*2;
+
+  text-align: center;
+}
+
+.ring-sidebar__empty-icon {
+  font-size: 100px;
+  color: #CCC;
+}
+
+.ring-sidebar__empty-description {
+  margin-top: $ring-unit*2;
+  color: #888;
+}

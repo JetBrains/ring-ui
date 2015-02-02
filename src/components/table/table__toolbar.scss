@@ -1,0 +1,25 @@
+@import "../global/global";
+
+.ring-table__toolbar-controls {
+  display: block;
+
+  margin: 0 $ring-unit*4 0 $ring-unit*4;
+  padding: $ring-unit*2 0;
+
+  overflow: hidden;
+
+  white-space: initial;
+
+  &.ring-table__toolbar-controls_fixed {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    margin: 0;
+    padding: $ring-unit*2 $ring-unit*4;
+    z-index: 1;
+
+    background: #F0F0F0;
+    border-bottom: 1px solid #BEBEBE;
+  }
+}
