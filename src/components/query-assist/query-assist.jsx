@@ -119,6 +119,7 @@ var QueryAssist = React.createClass({
       $(this.getDOMNode()).on(mutationEvents, debounce(this.handleInput, 0));
     }
 
+    this.caret = new Caret(this.refs.input.getDOMNode());
     this.setupRequestHandler(this.props);
   },
 
@@ -176,12 +177,12 @@ var QueryAssist = React.createClass({
   setFocus: function () {
     var input = this.refs.input.getDOMNode();
     var queryLength = this.state.query && this.state.query.length;
-    var newCaret = this.state.caret < queryLength ? this.state.caret : queryLength;
+    var caretPosition = this.state.caret < queryLength ? this.state.caret : queryLength;
 
     if (this.state.focus && !this.props.disabled) {
-      // caret.set cannot place caret without children, so we just focus instead
-      if (input.firstChild && isNumber(newCaret)) {
-        Caret.set(input, newCaret);
+      // caret.setPosition cannot place caret without children, so we just focus instead
+      if (input.firstChild && isNumber(caretPosition)) {
+        this.caret.setPosition(caretPosition);
       } else {
         input.focus();
       }
@@ -190,7 +191,7 @@ var QueryAssist = React.createClass({
     /**
      * Scroll input after completion
       */
-    var caretOffset = Caret.getOffset(input);
+    var caretOffset = this.caret.getOffset();
 
     if (input.clientWidth !== input.scrollWidth && caretOffset > input.clientWidth - GLASS_PADDING) {
       input.scrollLeft = input.scrollLeft + caretOffset;
@@ -400,7 +401,7 @@ var QueryAssist = React.createClass({
   },
 
   getCaret: function () {
-    return Caret.get(this.refs.input.getDOMNode());
+    return this.caret.getPosition();
   },
 
   getPopupOffset: function () {
@@ -422,7 +423,7 @@ var QueryAssist = React.createClass({
       (completionStartNode.getBoundingClientRect().right - input.getBoundingClientRect().left);
 
     if (!offset) {
-      var caret = Caret.getOffset(input);
+      var caret = this.caret.getOffset();
 
       // Do not compensate caret in the beginning of field
       if (caret === 0) {
