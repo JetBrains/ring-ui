@@ -552,12 +552,12 @@ var Header = React.createClass({
           {servicesIcons.map(function(item, i) {
             var serviceLogo = getServiceLogo(item);
             if (serviceLogo) {
-              return (<div className={headerClassName.getElement('menu-service-item')} key={i}>
-                <a href={item.homeUrl} target="_self">
+              return (<a href={item.homeUrl} target="_self" title={item.name} key={i}>
+                <div className={headerClassName.getElement('menu-service-item')}>
                   <Icon size={Icon.Size.Size64} glyph={serviceLogo} className="ring-icon" /><br />
                   {item.name}
-                </a>
-              </div>);
+                </div>
+              </a>);
             }
           }, this)}
         </div>);

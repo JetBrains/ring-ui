@@ -92,12 +92,12 @@
   overflow: hidden;
   position: relative;
 
-  a {
+  a, a span {
     color: #fff;
     text-decoration: none;
   }
 
-  a:hover {
+  a:hover, a:hover span {
     color: $ring-link-hover-color;
     text-decoration: underline;
   }
@@ -113,10 +113,16 @@
 }
 
 .ring2-header__menu-service-item {
+  box-sizing: border-box;
   display: inline-block;
+  height: $ring-unit*16;
   line-height: 1.2;
-  margin: 0 $ring-unit*5;
+  overflow: hidden;
+  padding-top: $ring-unit*3;
+  text-align: center;
+  text-overflow: ellipsis;
   vertical-align: middle;
+  width: $ring-unit*16;
 
   .ring-icon {
     fill: #fff;
