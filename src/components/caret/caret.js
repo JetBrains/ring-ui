@@ -34,15 +34,21 @@ function normalizeNewlines(value) {
 
 /**
  * Get caret position in symbols
+ * @param {Object} [params]
+ * @param {boolean} params.avoidFocus
  * @return {number}
  */
-Caret.prototype.getPosition = function getPosition() {
+Caret.prototype.getPosition = function getPosition(params) {
+  params = params || {};
+
   if (!window.getSelection) {
     return 0;
   }
 
   if (this.isContentEditable) {
-    this.focus();
+    if (!params.avoidFocus) {
+      this.focus();
+    }
 
     var selection = window.getSelection();
 
@@ -74,7 +80,7 @@ Caret.prototype.getPosition = function getPosition() {
 
 /**
  * Set caret position in symbols
- * @param position {number}
+ * @param  {number} position
  * @return {number}
  */
 Caret.prototype.setPosition = function setPosition(position) {
