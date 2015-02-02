@@ -543,7 +543,7 @@ var Header = React.createClass({
         var servicesIconsMenu = (<div className={headerClassName.getElement('menu-service-inner')}>
           <div className={headerClassName.getElement('menu-service-line')}>
             {servicesList.map(function(item, i) {
-              var href = document.location.origin.indexOf(item.homeUrl) === -1 ? item.homeUrl : null;
+              var href = document.location.toString().indexOf(item.homeUrl) === -1 ? item.homeUrl : null;
               var linkElement = href ? (<a href={item.homeUrl} target="_self">{item.name}</a>) : (<b>{item.name}</b>);
 
               return (<div className={headerClassName.getElement('menu-service-line__item')} key={i}>{linkElement}</div>)
