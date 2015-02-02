@@ -231,6 +231,23 @@ var getServiceLogo = function(item) {
 };
 
 /**
+ * Takes a list of items and returns this list sorted by name
+ * and applicationName.
+ * @param {Array.<Object>} items
+ * @return {Array.<Object>}
+ */
+var sortServices = function(items) {
+  return items.sort(function(itemA, itemB) {
+    var aApplicationName = itemA.applicationName || '';
+    var bApplicationName = itemB.applicationName || '';
+
+    return itemA.name.localeCompare(itemB.name) ||
+           aApplicationName.localeCompare(bApplicationName);
+  });
+};
+
+
+/**
  * @constructor
  * @extends {ReactComponent}
  * @example
@@ -507,7 +524,7 @@ var Header = React.createClass({
    */
   setServicesList: function(services) {
     this.setProps({ servicesList: services }, function() {
-      var services = this.props.servicesList.slice(0);
+      var services = sortServices(this.props.servicesList.slice(0));
       var servicesIcons = [];
       var servicesList = [];
 
@@ -564,6 +581,5 @@ var Header = React.createClass({
     });
   }
 });
-
 
 module.exports = Header;
