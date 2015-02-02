@@ -10,7 +10,7 @@ var debounce = require('mout/function/debounce');
 var pick = require('mout/object/pick');
 var filter = require('mout/object/filter');
 var isNumber = require('mout/lang/isNumber');
-require('jquery-caret');
+var Caret = require('caret/caret');
 
 var NgModelMixin = require('ngmodel/ngmodel');
 var PopupMenu = require('../popup-menu/popup-menu');
@@ -176,12 +176,12 @@ var QueryAssist = React.createClass({
   setFocus: function () {
     var input = this.refs.input.getDOMNode();
     var queryLength = this.state.query && this.state.query.length;
-    var caret = this.state.caret < queryLength ? this.state.caret : queryLength;
+    var newCaret = this.state.caret < queryLength ? this.state.caret : queryLength;
 
     if (this.state.focus && !this.props.disabled) {
-      // $.caret cannot place caret without children, so we just focus instead
-      if (input.firstChild && isNumber(caret)) {
-        $(input).caret(caret);
+      // caret.set cannot place caret without children, so we just focus instead
+      if (input.firstChild && isNumber(newCaret)) {
+        Caret.set(input, newCaret);
       } else {
         input.focus();
       }
@@ -190,7 +190,7 @@ var QueryAssist = React.createClass({
     /**
      * Scroll input after completion
       */
-    var caretOffset = this.getCaretOffset();
+    var caretOffset = Caret.getOffset(input);
 
     if (input.clientWidth !== input.scrollWidth && caretOffset > input.clientWidth - GLASS_PADDING) {
       input.scrollLeft = input.scrollLeft + caretOffset;
@@ -400,31 +400,7 @@ var QueryAssist = React.createClass({
   },
 
   getCaret: function () {
-    return $(this.refs.input.getDOMNode()).caret();
-  },
-
-  getCaretOffset: function () {
-    var input = this.refs.input.getDOMNode();
-    var selection = window.getSelection();
-    var offset = 0;
-    var range;
-
-    try {
-      // Both statements may throw
-      range = selection.getRangeAt(0).cloneRange();
-      range.setStart(range.startContainer, range.startOffset - 1);
-    } catch (e) {
-      return offset;
-    }
-
-    if (range.endOffset !== 0 && range.toString() !== '') {
-      var inputRect = input.getBoundingClientRect();
-      var caretRect = range.getBoundingClientRect();
-
-      offset = caretRect.right - inputRect.left - range.startContainer.offsetLeft;
-    }
-
-    return offset;
+    return Caret.get(this.refs.input.getDOMNode());
   },
 
   getPopupOffset: function () {
@@ -446,7 +422,7 @@ var QueryAssist = React.createClass({
       (completionStartNode.getBoundingClientRect().right - input.getBoundingClientRect().left);
 
     if (!offset) {
-      var caret = this.getCaretOffset();
+      var caret = Caret.getOffset(input);
 
       // Do not compensate caret in the beginning of field
       if (caret === 0) {
@@ -503,7 +479,7 @@ var QueryAssist = React.createClass({
           data={suggestions}
           hint={this.props.hint}
           hintOnSelection={this.props.hintOnSelection}
-          left={this.getCaretOffset()}
+          left={this.getPopupOffset()}
           maxHeight="screen"
           onClose={this.clearSuggestions}
           onSelect={this.handleComplete}
