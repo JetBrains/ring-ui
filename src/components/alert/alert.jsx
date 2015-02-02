@@ -139,7 +139,7 @@ var Alert = React.createClass({
 
     return (<div className={classes}>
       {this._getIcon()}
-      <span className="ring-alert__caption">{this.props.caption}</span>
+      <span ref="caption" className="ring-alert__caption" dangerouslySetInnerHTML={{__html: this.props.caption}}></span>
       {this.props.closeable ?
           (<Icon className="ring-alert__close" glyph="close" size={Icon.Size.Size16} onClick={this._handleCloseClick} />) :
           ''}
