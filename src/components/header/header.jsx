@@ -582,4 +582,31 @@ var Header = React.createClass({
   }
 });
 
+
+var HeaderHelper = {};
+
+/**
+ * @param {Header} header
+ * @param {Auth} auth
+ * @return {Promise}
+ */
+HeaderHelper.setServicesList = function(header, auth) {
+  return auth.requestToken().then(function(token) {
+    auth.getSecure('rest/services', token, function(resp) {
+      header.setServicesList(resp.services);
+    });
+  });
+};
+
+/**
+ * @param {Header} header
+ * @param {Auth} auth
+ * @return {Promise}
+ */
+HeaderHelper.setUserAvatar = function(header, auth) {
+  return auth.requestToken().then(function(token) {
+
+  });
+};
+
 module.exports = Header;
