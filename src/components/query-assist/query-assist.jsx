@@ -339,6 +339,9 @@ var QueryAssist = React.createClass({
 
     // Force focus on complete e.g. after click
     props.focus = true;
+    if (typeof this.props.onFocusChange === 'function') {
+      this.props.onFocusChange({focus: props.focus});
+    }
 
     this.setState(props, this.requestData);
   },
