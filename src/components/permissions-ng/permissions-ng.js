@@ -1,5 +1,6 @@
 'use strict';
 
+require('auth-ng/auth-ng');
 var Permissions = require('../permissions/permissions');
 
 /* global angular: false */
