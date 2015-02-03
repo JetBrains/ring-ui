@@ -139,6 +139,10 @@ var QueryAssist = React.createClass({
   },
 
   componentWillUnmount: function () {
+    if (this._popup && this._popup.isMounted()) {
+      this._popup.remove();
+    }
+
     if (impotentIE) {
       $(this.getDOMNode()).off(mutationEvents);
     }
