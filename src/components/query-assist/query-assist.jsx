@@ -109,6 +109,9 @@ var QueryAssist = React.createClass({
   },
 
   componentDidMount: function () {
+    this.setupRequestHandler(this.props);
+    this.caret = new Caret(this.refs.input.getDOMNode());
+
     var styleRangesRequested = this.requestStyleRanges();
 
     if (!styleRangesRequested) {
@@ -118,9 +121,6 @@ var QueryAssist = React.createClass({
     if (impotentIE) {
       $(this.getDOMNode()).on(mutationEvents, debounce(this.handleInput, 0));
     }
-
-    this.caret = new Caret(this.refs.input.getDOMNode());
-    this.setupRequestHandler(this.props);
   },
 
   /**
