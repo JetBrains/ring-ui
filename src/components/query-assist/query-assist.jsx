@@ -226,7 +226,7 @@ var QueryAssist = React.createClass({
     };
 
     // Avoid trigger on init by mutation events in IE
-    if (props.query === this.state.query && props.query === '') {
+    if (!props.query && !this.state.query) {
       return;
     }
 
