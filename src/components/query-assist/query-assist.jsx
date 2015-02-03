@@ -216,6 +216,7 @@ var QueryAssist = React.createClass({
     }
 
     this.setState({focus: focus, shortcuts: focus});
+    this.closePopup();
   },
 
   handleInput: function () {
