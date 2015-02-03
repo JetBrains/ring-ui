@@ -139,7 +139,7 @@ var QueryAssist = React.createClass({
   },
 
   componentWillUnmount: function () {
-    if (this._popup && this._popup.isMounted()) {
+    if (this._popup) {
       this._popup.remove();
     }
 
