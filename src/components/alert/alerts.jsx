@@ -98,6 +98,7 @@ var Alerts = React.createClass({
           return <Alert
               animationDeferred={child.animationDeferred}
               caption={child.caption}
+              renderAsHTML={child.renderAsHTML}
               closeable={true}
               inline={false}
               key={child.key}
@@ -172,9 +173,13 @@ var Alerts = React.createClass({
    * @param {ReactComponent|string} caption
    * @param {Alert.Type=} type
    * @param {number=} timeout
+   * @param {boolean} renderAsHTML
    * @return {Deferred}
    */
-  add: function(caption, type, timeout) {
+  add: function(caption, type, timeout, renderAsHTML) {
+    if (renderAsHTML === undefined) {
+      renderAsHTML = false;
+    }
     var animationDeferred = when.defer();
 
     _animationQueue.push(animationDeferred);
@@ -182,10 +187,10 @@ var Alerts = React.createClass({
 
     if (currentAnimationIndex > 0) {
       _animationQueue[currentAnimationIndex - 1].promise.then(function() {
-        this._addElement(caption, type, animationDeferred, timeout);
+        this._addElement(caption, type, animationDeferred, timeout, renderAsHTML);
       }.bind(this));
     } else {
-      this._addElement(caption, type, animationDeferred, timeout);
+      this._addElement(caption, type, animationDeferred, timeout, renderAsHTML);
     }
 
     return animationDeferred;
@@ -196,15 +201,17 @@ var Alerts = React.createClass({
    * @param {Alert.Type=} type
    * @param {Deferred} animationDeferred
    * @param {number=} timeout
+   * @param {boolean} renderAsHTML
    * @private
    */
-  _addElement: function(caption, type, animationDeferred, timeout) {
+  _addElement: function(caption, type, animationDeferred, timeout, renderAsHTML) {
     var childElements = this.state.childElements.slice(0);
     var index = childElements.length;
 
     childElements.push({
       animationDeferred: animationDeferred,
       caption: caption,
+      renderAsHTML: renderAsHTML,
       key: index,
       onCloseClick: function(evt) {
         this._handleClick(evt, index);
