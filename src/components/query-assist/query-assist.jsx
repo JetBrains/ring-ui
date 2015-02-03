@@ -280,7 +280,7 @@ var QueryAssist = React.createClass({
     var deferred = when.defer();
     var pickedProps = pick(props, ['query', 'caret', 'styleRanges', 'suggestions']);
 
-    if (pickedProps.query === this.state.query &&
+    if ((pickedProps.query === this.state.query || this.state.query === undefined) &&
       (pickedProps.caret === this.state.caret || this.state.caret === undefined)) {
       pickedProps.suggestionsQuery = pickedProps.query;
 
