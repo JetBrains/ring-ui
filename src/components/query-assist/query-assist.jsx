@@ -209,6 +209,10 @@ var QueryAssist = React.createClass({
 
     if (!focus) {
       this.blurInput();
+
+      // Close popup on blur (mostly shift+tab)
+      this.closingPopup = true;
+      setTimeout(this.postponedClosePopup, 100);
     }
 
     if (typeof this.props.onFocusChange === 'function') {
@@ -216,7 +220,12 @@ var QueryAssist = React.createClass({
     }
 
     this.setState({focus: focus, shortcuts: focus});
-    this.closePopup();
+  },
+
+  postponedClosePopup: function () {
+    if (this.closingPopup && this.refs.input.getDOMNode() !== document.activeElement) {
+      this.closePopup();
+    }
   },
 
   handleInput: function () {
@@ -347,6 +356,9 @@ var QueryAssist = React.createClass({
     if (typeof this.props.onFocusChange === 'function') {
       this.props.onFocusChange({focus: props.focus});
     }
+
+    // Don't close popup on blur
+    this.closingPopup = null;
 
     this.setState(props, this.requestData);
   },
