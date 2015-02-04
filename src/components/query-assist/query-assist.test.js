@@ -1,5 +1,6 @@
 describe('QueryAssist', function () {
   var QueryAssist = require('./query-assist');
+  var TestUtils = require('react/lib/ReactTestUtils');
   var $ = require('jquery');
 
   var simulateKeypress = require('simulate-keypress');
@@ -375,6 +376,78 @@ describe('QueryAssist', function () {
       simulateKeypress(null, 40); // press down
       simulateKeypress(null, 9); // press tab
       $(this.queryAssist.refs.input.getDOMNode()).text().should.equal(getSuggestionText(suggestions[2]));
+    });
+  });
+
+  describe('callbacks', function () {
+    it('should call onApply', function () {
+      var onApply = this.sinon.stub();
+      this.queryAssist.setProps({
+        onApply: onApply
+      });
+
+      simulateKeypress(null, 13); // press enter
+      onApply.should.have.been.calledWithMatch({
+        query: testQuery,
+        caret: testQueryLength
+      });
+    });
+
+    it('should call onApply from glass', function () {
+      var onApply = this.sinon.stub();
+      this.queryAssist.setProps({
+        glass: true,
+        onApply: onApply
+      });
+
+      TestUtils.Simulate.click(this.queryAssist.refs.glass.getDOMNode());
+      onApply.should.have.been.calledWithMatch({
+        query: testQuery,
+        caret: testQueryLength
+      });
+    });
+
+    it('should call onChange', function () {
+      var onChange = this.sinon.stub();
+      var newQuery = 'qwerty';
+
+      this.queryAssist.setProps({
+        query: newQuery,
+        onChange: onChange
+      });
+
+      // Browser events simulation don't work
+      this.queryAssist.handleInput();
+
+      onChange.should.have.been.calledWithMatch({
+        query: newQuery,
+        caret: newQuery.length
+      });
+    });
+
+    it('should call onClear', function () {
+      var onClear = this.sinon.stub();
+      this.queryAssist.setProps({
+        clear: true,
+        onClear: onClear
+      });
+
+      TestUtils.Simulate.click(this.queryAssist.refs.clear.getDOMNode());
+      onClear.should.have.been.calledWithExactly();
+    });
+
+    it('should call onFocusChange', function () {
+      var onFocusChange = this.sinon.stub();
+
+      this.queryAssist.setProps({
+        onFocusChange: onFocusChange
+      });
+
+      this.queryAssist.setProps({
+        focus: false
+      });
+
+      onFocusChange.should.have.been.calledOnce;
     });
   });
 
