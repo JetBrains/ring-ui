@@ -221,6 +221,31 @@ describe('QueryAssist', function () {
 
       $(this.queryAssist.getDOMNode()).should.not.have.descendants('.ring-query-assist__glass');
     });
+
+    it('should render clear when enabled', function () {
+      this.queryAssist.setProps({
+        clear: true
+      });
+
+      $(this.queryAssist.getDOMNode()).should.have.descendants('.ring-query-assist__clear');
+    });
+
+    it('should not render clear when disabled', function () {
+      this.queryAssist.setProps({
+        clear: false
+      });
+
+      $(this.queryAssist.getDOMNode()).should.not.have.descendants('.ring-query-assist__clear');
+    });
+
+    it('should not render clear when query is empty', function () {
+      this.queryAssist.setProps({
+        clear: true,
+        query: ''
+      });
+
+      $(this.queryAssist.getDOMNode()).should.not.have.descendants('.ring-query-assist__clear');
+    });
   });
 
   describe('suggestions', function () {
