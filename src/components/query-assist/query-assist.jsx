@@ -112,14 +112,14 @@ var QueryAssist = React.createClass({
     this.setupRequestHandler(this.props);
     this.caret = new Caret(this.refs.input.getDOMNode());
 
-    var styleRangesRequested = this.requestStyleRanges();
+    this.requestStyleRanges().
+      catch(this.setFocus).
+      finally(this.attachMutationEvents);
+  },
 
-    if (!styleRangesRequested) {
-      this.setFocus();
-    }
-
+  attachMutationEvents: function() {
     if (impotentIE) {
-      $(this.getDOMNode()).on(mutationEvents, debounce(this.handleInput, 0));
+      $(this.refs.input.getDOMNode()).on(mutationEvents, debounce(this.handleInput, 0));
     }
   },
 
@@ -144,7 +144,7 @@ var QueryAssist = React.createClass({
     }
 
     if (impotentIE) {
-      $(this.getDOMNode()).off(mutationEvents);
+      $(this.refs.input.getDOMNode()).off(mutationEvents);
     }
   },
 
@@ -235,11 +235,6 @@ var QueryAssist = React.createClass({
       caret: this.getCaret(),
       lastTabQuery: null
     };
-
-    // Avoid trigger on init by mutation events in IE
-    if (!props.query && !this.state.query) {
-      return;
-    }
 
     if (typeof this.props.onChange === 'function') {
       this.props.onChange(props);
@@ -372,15 +367,13 @@ var QueryAssist = React.createClass({
     var state = this.getInputState();
 
     if (!state.query) {
-      return false;
+      return when.reject(new Error('Query is empty'));
     }
 
     state.omitSuggestions = true;
-    this.sendRequest(state)
+    return this.sendRequest(state)
       .then(this.handleResponse)
       .catch(this.handleNothing);
-
-    return true;
   },
 
   requestHandler: function () {
