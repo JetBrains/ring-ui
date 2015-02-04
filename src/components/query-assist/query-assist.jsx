@@ -180,17 +180,12 @@ var QueryAssist = React.createClass({
 
   setFocus: function () {
     var input = this.refs.input.getDOMNode();
-    var queryLength = this.state.query && this.state.query.length;
+    var queryLength = this.state.query != null && this.state.query.length;
     var caretPosition = this.state.caret < queryLength ? this.state.caret : queryLength;
     var position = this.caret.getPosition({avoidFocus: true});
 
     if (this.state.focus && !this.props.disabled && position !== -1) {
-      // caret.setPosition cannot place caret without children, so we just focus instead
-      if (input.firstChild && isNumber(caretPosition)) {
-        this.caret.setPosition(caretPosition);
-      } else {
-        input.focus();
-      }
+      this.caret.setPosition(caretPosition || -1);
     }
 
     /**
