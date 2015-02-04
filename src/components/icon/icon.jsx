@@ -98,6 +98,7 @@ var initializeTemplate = function() {
         <span id="icon-distribution"></span>
         <span id="icon-16-pencil"></span>
         <span id="icon-14-pencil"></span>
+        <div id="all-icons" style="margin-top: 16px"></div>
      </file>
 
      <file name="index.js" webpack="true">
@@ -125,6 +126,105 @@ var initializeTemplate = function() {
          glyph: 'pencil',
          size: Icon.Size.Size14
        }), document.getElementById('icon-14-pencil'));
+
+       // TODO Automate list
+       var icons = [
+         'add',
+         'added',
+         'authmodule',
+         'auto-report',
+         'average',
+         'ban-circle',
+         'bars',
+         'bug',
+         'burndown',
+         'caret-down',
+         'caret-left',
+         'caret-right',
+         'caret-up',
+         'change',
+         'check',
+         'chevron-left',
+         'chevron-right',
+         'close',
+         'cog',
+         'cog1',
+         'collapse',
+         'comment',
+         'cosmetics',
+         'crop',
+         'cumulative',
+         'data',
+         'distribution',
+         'download',
+         'drag',
+         'email',
+         'exception',
+         'expand',
+         'expand1',
+         'eye',
+         'feature',
+         'fields',
+         'file',
+         'folder',
+         'fork',
+         'frown',
+         'global',
+         'group',
+         'help',
+         'info',
+         'jabber',
+         'like',
+         'logos',
+         'magic',
+         'marker',
+         'menu',
+         'merge',
+         'meta',
+         'modified',
+         'move',
+         'ok',
+         'paperclip',
+         'pause',
+         'pencil',
+         'perfomance',
+         'permission',
+         'play',
+         'print',
+         'pushpin',
+         'rate',
+         'redo',
+         'refresh',
+         'removed',
+         'renamed',
+         'resource',
+         'role',
+         'search',
+         'security',
+         'service',
+         'settings',
+         'space',
+         'table',
+         'task',
+         'time',
+         'tint',
+         'trash',
+         'undo',
+         'usability',
+         'user',
+         'user1',
+         'user2',
+         'warning'
+       ];
+
+       React.renderComponent(React.DOM.div({
+         children: icons.map(function (icon) {
+           return Icon({
+             glyph: icon,
+             style: {'padding-left': '16px'}
+           });
+         })
+       }), document.getElementById('all-icons'));
      </file>
    </example>
  */
