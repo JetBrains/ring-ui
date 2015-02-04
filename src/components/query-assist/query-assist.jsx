@@ -27,7 +27,6 @@ require('../input/input.scss');
 var impotentIE = document.documentMode <= 11;  // TODO Proper browser detection?
 var mutationEvents = 'DOMCharacterDataModified DOMNodeInserted DOMNodeRemoved DOMSubtreeModified';
 
-var GLASS_PADDING = 8 * 3; // $ring-unit * 3
 var INPUT_BORDER_WIDTH = 1;
 var POPUP_COMPENSATION = INPUT_BORDER_WIDTH +
   PopupMenu.ListProps.Dimensions.ITEM_PADDING +
@@ -193,7 +192,7 @@ var QueryAssist = React.createClass({
       */
     var caretOffset = this.caret.getOffset();
 
-    if (input.clientWidth !== input.scrollWidth && caretOffset > input.clientWidth - GLASS_PADDING) {
+    if (input.clientWidth !== input.scrollWidth && caretOffset > input.clientWidth) {
       input.scrollLeft = input.scrollLeft + caretOffset;
     }
   },
@@ -310,6 +309,10 @@ var QueryAssist = React.createClass({
 
   handleApply: function () {
     var state = this.getInputState();
+
+    this.setState({
+      focus: true
+    });
 
     if (typeof this.props.onApply === 'function') {
       this.closePopup();
@@ -529,6 +532,14 @@ var QueryAssist = React.createClass({
     });
   },
 
+  clearQuery: function () {
+    this.setState({
+      query: '',
+      caret: 0,
+      focus: true
+    }, this.requestData);
+  },
+
   renderSuggestions: function () {
     var suggestions = [];
 
@@ -602,9 +613,12 @@ var QueryAssist = React.createClass({
   render: function () {
     /* jshint ignore:start */
     var renderPlaceholder = !!this.props.placeholder && !this.state.query;
+    var renderClear = this.props.clear && this.state.query;
     var inputClasses = React.addons.classSet({
       'ring-query-assist__input ring-input ring-js-shortcuts': true,
-      'ring-query-assist__input_glass': this.props.glass,
+      'ring-query-assist__input_gap': this.props.glass != renderClear &&
+        (this.props.glass || renderClear),
+      'ring-query-assist__input_double-gap': this.props.glass && renderClear,
       'ring-input_disabled': this.props.disabled
     });
 
@@ -635,6 +649,12 @@ var QueryAssist = React.createClass({
           color="gray"
           glyph="search"
           onClick={this.handleApply}
+          size={Icon.Size.Size16}></Icon>}
+        {renderClear && <Icon
+          className="ring-query-assist__clear"
+          color="gray"
+          glyph="close"
+          onClick={this.clearQuery}
           size={Icon.Size.Size16}></Icon>}
       </div>
     );
