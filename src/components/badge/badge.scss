@@ -1,0 +1,26 @@
+.ring-badge {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 11px;
+  vertical-align: middle;
+  margin: 0 8px;
+  padding: 2px 8px;
+  border-radius: 3px;
+  color: #8C8C8C;
+  background-color: #FFF;
+  border: 1px #F0F0F0 solid;
+}
+
+.ring-badge_ok {
+  color: #89AF31;
+}
+
+.ring-badge_warning {
+  color: #C3120F;
+  background-color: #EBD9DA;
+  border: none;
+}
+
+.ring-badge_error {
+  color: #C3120F;
+}
