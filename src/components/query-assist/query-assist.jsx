@@ -32,6 +32,8 @@ var POPUP_COMPENSATION = INPUT_BORDER_WIDTH +
   PopupMenu.ListProps.Dimensions.ITEM_PADDING +
   PopupMenu.PopupProps.Dimensions.BORDER_WIDTH;
 
+var noop = function() {};
+
 /**
  * @name QueryAssist
  * @constructor
@@ -75,6 +77,7 @@ var QueryAssist = React.createClass({
     placeholder: React.PropTypes.string,
     onApply: React.PropTypes.func,
     onChange: React.PropTypes.func,
+    onClear: React.PropTypes.func,
     onFocusChange: React.PropTypes.func,
     query: React.PropTypes.string
   },
@@ -88,7 +91,13 @@ var QueryAssist = React.createClass({
   },
 
   getDefaultProps: function () {
-    return {shortcuts: true};
+    return {
+      onApply: noop,
+      onChange: noop,
+      onClear: noop,
+      onFocusChange: noop,
+      shortcuts: true
+    };
   },
 
   getShortcutsProps: function () {
@@ -170,7 +179,7 @@ var QueryAssist = React.createClass({
     }
 
     var updateStyles = state.query && state.query !== this.getQuery();
-    this.setState(state, updateStyles ? this.requestStyleRanges : this.handleNothing);
+    this.setState(state, updateStyles ? this.requestStyleRanges : noop);
   },
 
   componentDidUpdate: function () {
@@ -213,9 +222,7 @@ var QueryAssist = React.createClass({
       setTimeout(this.postponedClosePopup, 100);
     }
 
-    if (typeof this.props.onFocusChange === 'function') {
-      this.props.onFocusChange({focus: focus});
-    }
+    this.props.onFocusChange({focus: focus});
 
     this.setState({focus: focus, shortcuts: focus});
   },
@@ -234,9 +241,7 @@ var QueryAssist = React.createClass({
       lastTabQuery: null
     };
 
-    if (typeof this.props.onChange === 'function') {
-      this.props.onChange(props);
-    }
+    this.props.onChange(props);
 
     this.setState(props, this.requestData);
   },
@@ -314,10 +319,8 @@ var QueryAssist = React.createClass({
       focus: true
     });
 
-    if (typeof this.props.onApply === 'function') {
-      this.closePopup();
-      return this.props.onApply(state);
-    }
+    this.closePopup();
+    return this.props.onApply(state);
   },
 
   handleComplete: function (data, replace) {
@@ -345,24 +348,16 @@ var QueryAssist = React.createClass({
       props.query += state.query.substr(state.caret);
     }
 
-    if (typeof this.props.onChange === 'function') {
-      this.props.onChange(props);
-    }
+    this.props.onChange(props);
 
     // Force focus on complete e.g. after click
     props.focus = true;
-    if (typeof this.props.onFocusChange === 'function') {
-      this.props.onFocusChange({focus: props.focus});
-    }
+    this.props.onFocusChange({focus: props.focus});
 
     // Don't close popup on blur
     this.closingPopup = false;
 
     this.setState(props, this.requestData);
-  },
-
-  // TODO Do something here :)
-  handleNothing: function () {
   },
 
   requestStyleRanges: function () {
@@ -375,7 +370,7 @@ var QueryAssist = React.createClass({
     state.omitSuggestions = true;
     return this.sendRequest(state)
       .then(this.handleResponse)
-      .catch(this.handleNothing);
+      .catch(noop);
   },
 
   requestHandler: function () {
@@ -386,7 +381,7 @@ var QueryAssist = React.createClass({
     this.sendRequest(this.getInputState()).
       then(this.handleResponse).
       then(this.renderPopup).
-      catch(this.handleNothing);
+      catch(noop);
   },
 
   sendRequest: function (params) {
@@ -401,7 +396,7 @@ var QueryAssist = React.createClass({
           this.closePopup();
         }
       }).
-      catch(this.handleNothing);
+      catch(noop);
 
     return dataPromise;
   },
@@ -533,6 +528,8 @@ var QueryAssist = React.createClass({
   },
 
   clearQuery: function () {
+    this.props.onClear();
+
     this.setState({
       query: '',
       caret: 0,
@@ -649,12 +646,14 @@ var QueryAssist = React.createClass({
           color="gray"
           glyph="search"
           onClick={this.handleApply}
+          ref="glass"
           size={Icon.Size.Size16}></Icon>}
         {renderClear && <Icon
           className="ring-query-assist__clear"
           color="gray"
           glyph="close"
           onClick={this.clearQuery}
+          ref="clear"
           size={Icon.Size.Size16}></Icon>}
       </div>
     );
