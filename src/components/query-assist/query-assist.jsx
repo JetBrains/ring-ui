@@ -223,7 +223,8 @@ var QueryAssist = React.createClass({
   },
 
   postponedClosePopup: function () {
-    if (this.closingPopup && this.refs.input.getDOMNode() !== document.activeElement) {
+    if (this.closingPopup && this.isMounted() && this.refs.input.getDOMNode() !== document.activeElement) {
+      this.closingPopup = false;
       this.closePopup();
     }
   },
@@ -358,7 +359,7 @@ var QueryAssist = React.createClass({
     }
 
     // Don't close popup on blur
-    this.closingPopup = null;
+    this.closingPopup = false;
 
     this.setState(props, this.requestData);
   },
