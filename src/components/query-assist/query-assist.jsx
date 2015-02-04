@@ -202,6 +202,10 @@ var QueryAssist = React.createClass({
     // otherwise it's blur and false
     var focus = e.type === 'focus';
 
+    if (!this.isMounted()) {
+      return;
+    }
+
     if (!focus) {
       this.blurInput();
 
@@ -479,7 +483,7 @@ var QueryAssist = React.createClass({
       return;
     }
 
-    if (!this._popup) {
+    if (!this._popup || !this._popup.isMounted()) {
       this._popup = PopupMenu.renderComponent(
         /* jshint ignore:start */
         <PopupMenu
