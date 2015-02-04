@@ -534,7 +534,7 @@ var QueryAssist = React.createClass({
       query: '',
       caret: 0,
       focus: true
-    }, this.requestData);
+    });
   },
 
   renderSuggestions: function () {
