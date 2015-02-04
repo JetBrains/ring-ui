@@ -11,16 +11,16 @@
   border: 1px #F0F0F0 solid;
 }
 
-.ring-badge_ok {
+.ring-badge_valid {
   color: #89AF31;
 }
 
-.ring-badge_warning {
+.ring-badge_invalid {
+  color: #C3120F;
+}
+
+.ring-badge_disabled {
   color: #C3120F;
   background-color: #EBD9DA;
   border: none;
-}
-
-.ring-badge_error {
-  color: #C3120F;
 }
