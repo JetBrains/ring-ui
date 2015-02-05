@@ -84,12 +84,14 @@ describe('QueryAssist', function () {
       should.not.exist(this.queryAssist.state.popupClassName);
       should.not.exist(this.queryAssist.state.dataSource);
       should.not.exist(this.queryAssist.state.disabled);
+      should.not.exist(this.queryAssist.state.clear);
       should.not.exist(this.queryAssist.state.hint);
       should.not.exist(this.queryAssist.state.hintOnSelection);
       should.not.exist(this.queryAssist.state.glass);
       should.not.exist(this.queryAssist.state.placeholder);
       should.not.exist(this.queryAssist.state.onApply);
       should.not.exist(this.queryAssist.state.onChange);
+      should.not.exist(this.queryAssist.state.onClear);
       should.not.exist(this.queryAssist.state.onFocusChange);
     });
 
@@ -158,7 +160,7 @@ describe('QueryAssist', function () {
       this.queryAssist.setProps({});
       this.queryAssist.setProps({});
 
-      this.queryAssist.props.dataSource.should.calledOnce;
+      this.queryAssist.props.dataSource.should.have.been.calledOnce;
     });
 
     it('should render placeholder when enabled on empty query', function () {
