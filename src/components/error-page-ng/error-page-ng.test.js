@@ -13,11 +13,11 @@ describe('ErrorPageNg', function() {
 
   /* global inject */
   it('should define module', inject(function() {
-    expect(window.angular.module('Ring.error-page')).should.be.define;
+    expect(window.angular.module('Ring.error-page')).should.exist;
   }));
 
   it('should define factory errorPageConfiguration', inject(function(errorPageConfiguration) {
-    expect(errorPageConfiguration).should.be.define;
+    expect(errorPageConfiguration).should.exist;
   }));
 
   it('should compile deirective to content if no errors', inject(function($rootScope, $compile) {
@@ -25,8 +25,8 @@ describe('ErrorPageNg', function() {
     elem = $compile(elem)($rootScope);
     $rootScope.$digest();
 
-    elem.find('.content').text().should.be.equal('Hello!');
-    elem.find('.error-message').should.not.be.define;
+    elem.find('.content').text().should.equal('Hello!');
+    elem.find('.error-message').should.not.exist;
   }));
 
   it('should compile deirective to default error if has empty error',
@@ -35,9 +35,9 @@ describe('ErrorPageNg', function() {
       elem = $compile(elem)($rootScope);
       $rootScope.$digest();
 
-      elem.find('.content').should.not.be.define;
-      elem.find('.error-message').should.be.define;
-      elem.find('.error-message__title').text().should.be.equal(RingMessageBundle.errorpage_seriouslywrong());
+      elem.find('.content').should.not.exist;
+      elem.find('.error-message').should.exist;
+      elem.find('.error-message__title').text().should.equal(RingMessageBundle.errorpage_seriouslywrong());
     })
   );
 
@@ -47,9 +47,9 @@ describe('ErrorPageNg', function() {
       elem = $compile(elem)($rootScope);
       $rootScope.$digest();
 
-      elem.find('.content').should.not.be.define;
-      elem.find('.error-message').should.be.define;
-      elem.find('.error-message__title').text().should.be.equal('404: ' + RingMessageBundle.errorpage_404());
+      elem.find('.content').should.not.exist;
+      elem.find('.error-message').should.exist;
+      elem.find('.error-message__title').text().should.equal('404: ' + RingMessageBundle.errorpage_404());
     })
   );
 
@@ -61,8 +61,8 @@ describe('ErrorPageNg', function() {
       $rootScope.errorSource.resolve();
       $rootScope.$digest();
 
-      elem.find('.content').text().should.be.equal('Hello!');
-      elem.find('.error-message').should.not.be.define;
+      elem.find('.content').text().should.equal('Hello!');
+      elem.find('.error-message').should.not.exist;
     })
   );
 
@@ -74,9 +74,9 @@ describe('ErrorPageNg', function() {
       $rootScope.errorSource.reject();
       $rootScope.$digest();
 
-      elem.find('.content').should.not.be.define;
-      elem.find('.error-message').should.be.define;
-      elem.find('.error-message__title').text().should.be.equal(RingMessageBundle.errorpage_seriouslywrong());
+      elem.find('.content').should.not.exist;
+      elem.find('.error-message').should.exist;
+      elem.find('.error-message__title').text().should.equal(RingMessageBundle.errorpage_seriouslywrong());
     })
   );
 
@@ -88,9 +88,9 @@ describe('ErrorPageNg', function() {
       $rootScope.errorSource.reject({status: 403});
       $rootScope.$digest();
 
-      elem.find('.content').should.not.be.define;
-      elem.find('.error-message').should.be.define;
-      elem.find('.error-message__title').text().should.be.equal('403: ' + RingMessageBundle.errorpage_403());
+      elem.find('.content').should.not.exist;
+      elem.find('.error-message').should.exist;
+      elem.find('.error-message__title').text().should.equal('403: ' + RingMessageBundle.errorpage_403());
     })
   );
 
@@ -103,9 +103,9 @@ describe('ErrorPageNg', function() {
       df.reject({status: 403});
       $rootScope.$digest();
 
-      elem.find('.content').should.not.be.define;
-      elem.find('.error-message').should.be.define;
-      elem.find('.error-message__title').text().should.be.equal('403: ' + RingMessageBundle.errorpage_403());
+      elem.find('.content').should.not.exist;
+      elem.find('.error-message').should.exist;
+      elem.find('.error-message__title').text().should.equal('403: ' + RingMessageBundle.errorpage_403());
     })
   );
 });
