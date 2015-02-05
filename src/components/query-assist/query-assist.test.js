@@ -167,8 +167,8 @@ describe('QueryAssist', function () {
         placeholder: 'plz'
       });
 
-      $(this.queryAssist.getDOMNode()).should.have.descendants('.ring-query-assist__placeholder');
-      $(this.queryAssist.getDOMNode()).find('.ring-query-assist__placeholder').should.have.text('plz');
+      this.queryAssist.refs.placeholder.should.exist;
+      $(this.queryAssist.refs.placeholder.getDOMNode()).should.have.text('plz');
     });
 
     it('should not render placeholder when disabled on empty query', function () {
@@ -176,7 +176,7 @@ describe('QueryAssist', function () {
         query: ''
       });
 
-      $(this.queryAssist.getDOMNode()).should.not.have.descendants('.ring-query-assist__placeholder');
+      should.not.exist(this.queryAssist.refs.placeholder);
     });
 
     it('should render with colors', function () {
@@ -212,7 +212,7 @@ describe('QueryAssist', function () {
         glass: true
       });
 
-      $(this.queryAssist.getDOMNode()).should.have.descendants('.ring-query-assist__glass');
+      this.queryAssist.refs.glass.should.exist;
     });
 
     it('should not render glass when disabled', function () {
@@ -220,7 +220,7 @@ describe('QueryAssist', function () {
         glass: false
       });
 
-      $(this.queryAssist.getDOMNode()).should.not.have.descendants('.ring-query-assist__glass');
+      should.not.exist(this.queryAssist.refs.glass);
     });
 
     it('should render clear when enabled', function () {
@@ -228,7 +228,7 @@ describe('QueryAssist', function () {
         clear: true
       });
 
-      $(this.queryAssist.getDOMNode()).should.have.descendants('.ring-query-assist__clear');
+      this.queryAssist.refs.clear.should.exist;
     });
 
     it('should not render clear when disabled', function () {
@@ -236,7 +236,7 @@ describe('QueryAssist', function () {
         clear: false
       });
 
-      $(this.queryAssist.getDOMNode()).should.not.have.descendants('.ring-query-assist__clear');
+      should.not.exist(this.queryAssist.refs.clear);
     });
 
     it('should not render clear when query is empty', function () {
@@ -245,7 +245,16 @@ describe('QueryAssist', function () {
         query: ''
       });
 
-      $(this.queryAssist.getDOMNode()).should.not.have.descendants('.ring-query-assist__clear');
+      should.not.exist(this.queryAssist.refs.clear);
+    });
+
+    it('should show loader on long request', function() {
+      this.queryAssist.props.dataSource.reset();
+      this.queryAssist.setState({
+        loading: true
+      });
+
+      this.queryAssist.refs.loader.should.exist;
     });
   });
 
@@ -467,7 +476,7 @@ describe('QueryAssist', function () {
       this.queryAssist.requestData();
       this.timeout.tick(4000);
 
-      this.queryAssist.props.dataSource.should.calledOnce;
+      this.queryAssist.props.dataSource.should.have.been.calledOnce;
     });
   });
 });
