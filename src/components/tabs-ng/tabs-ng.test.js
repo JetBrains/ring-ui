@@ -11,6 +11,17 @@ describe('TabsNg', function () {
   var $compile;
   var $controller;
 
+  var getActiveTab = function(element) {
+    console.log(element.html());
+    var el = $(element);
+    var active = el.find('.active');
+    var container = el.find('div.ring-tabs__container');
+    return {
+      'title': active,
+      'content': container
+    };
+  };
+
   beforeEach(window.module('Ring.tabs'));
 
   /* global inject */
@@ -23,58 +34,50 @@ describe('TabsNg', function () {
   describe('DOM', function () {
     it('Empty tabs', function () {
       var element = $compile(
-        '<div><ring-tabs>' +
-        '</ring-tabs></div>'
+        '<ring-tabs>' +
+        '</ring-tabs>'
       )($rootScope);
 
       $rootScope.$digest();
 
-      expect($(element).children('div').is('div.ring-tabs')).to.be.true;
+      expect($(element).is('div.ring-tabs')).to.be.true;
     });
 
     it('One tab', function () {
       var element = $compile(
-        '<div><ring-tabs>' +
+        '<ring-tabs>' +
         '<ring-tabs-pane x-title="General">' +
         'General' +
         '</ring-tabs-pane>' +
-        '</ring-tabs></div>'
+        '</ring-tabs>'
       )($rootScope);
 
       $rootScope.$digest();
+      var tab = getActiveTab(element);
 
-      var el = $(element);
-      var active = el.find('.active');
-      var container = el.find('div.ring-tabs__container');
-
-      expect(active.contents().first().text()).to.be.equal('General');
-      expect(container.html()).to.contain('General');
+      expect(tab.title.contents().first().text()).to.be.equal('General');
+      expect(tab.content.html()).to.contain('General');
     });
 
-    xit('Two tabs', function () {
+    it('Two tabs', function () {
       var element = $compile(
-        '<div><ring-tabs>' +
+        '<ring-tabs>' +
         '<ring-tabs-pane x-title="General">' +
         'General' +
         '</ring-tabs-pane>' +
         '<ring-tabs-pane x-title="Second">' +
         'Second' +
         '</ring-tabs-pane>' +
-        '</ring-tabs></div>'
+        '</ring-tabs>'
       )($rootScope);
-      var scope;
-      $controller('RingTabsController', { $scope: scope});
-      scope.control.next();
+      element.isolateScope().control.next();
 
       $rootScope.$digest();
 
-      console.log(element.html());
-      var el = $(element);
-      var active = el.find('.active');
-      var container = el.find('div.ring-tabs__container');
+      var tab = getActiveTab(element);
 
-      expect(active.contents().first().text()).to.be.equal('General');
-      expect(container.html()).to.contain('General');
+      expect(tab.title.contents().first().text()).to.be.equal('Second');
+      expect(tab.content.html()).to.contain('Second');
     });
 
   });
