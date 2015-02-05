@@ -77,4 +77,28 @@ describe('Global', function() {
       });
     });
   });
+
+  describe('RuleInsertHelper', function() {
+    var ruleInsertHelper = Global.RuleInsertHelper.getInstance();
+
+    describe('RuleInsertHelper._getStylesheet()', function() {
+      it('_getStylesheet() creates a valid CSSStyleElement', function() {
+        var sheet = ruleInsertHelper._getStylesheet();
+      });
+    });
+
+    describe('RuleInsertHelper.getRule()', function() {
+      it('getRule() generates a valid CSSRule string from given selector and object', function() {
+        ruleInsertHelper.getRule('.selector', {width: '150px', height: '200px'}).should.equal('.selector{width:150px;height:200px}');
+      });
+    });
+
+    describe.only('RuleInsertHelper.insertRule()', function() {
+      it('insertRule() inserts a valid rule that works', function() {
+        ruleInsertHelper.insertRule(ruleInsertHelper.getRule('body', { background: '#000' }));
+        var computedStyle = window.getComputedStyle(document.body);
+        computedStyle.background.should.equal('#000');
+      });
+    });
+  });
 });

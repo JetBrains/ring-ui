@@ -3,8 +3,7 @@
 .ring2-header {
   box-sizing: border-box;
   line-height: $ring-unit * 7;
-  margin-bottom: 1px;
-  padding: 0 $ring-unit * 4;
+  margin: 0 $ring-unit * 4 1px;
   position: relative;
 
   &.ring2-header_border:after {
@@ -86,11 +85,12 @@
 
 .ring2-header__menu-service {
   background: linear-gradient(#24353d, #4a565c);
-  box-sizing: border-box;
   height: $ring-unit*21;
   margin: -1px (-$ring-unit*4) 0;
   overflow: hidden;
+  padding: 0 $ring-unit*4;
   position: relative;
+  text-align: left;
   width: 100%;
 
   a, a span {
@@ -135,6 +135,9 @@
   background: #1e2a32;
   font-size: $ring-font-size-smaller;
   line-height: $ring-unit*3;
+  position: absolute;
+  left: 0;
+  right: 0;
 }
 
 .ring2-header__menu-service-line__item {
