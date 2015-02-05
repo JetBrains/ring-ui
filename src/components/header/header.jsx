@@ -382,7 +382,7 @@ var Header = React.createClass({
 
   componentWillUpdate: function(nextProps, nextState) {
     if (!this.state.servicesOpened && nextState.servicesOpened) {
-      var linesNumber = getHeaderHeight(this.servicesIconsMenu.props.children[1], this);
+      var linesNumber = getHeaderHeight(this.props.servicesIconsMenu.props.children[1], this);
       console.log(linesNumber);
     }
 
