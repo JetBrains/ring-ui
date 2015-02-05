@@ -15,6 +15,7 @@ var Caret = require('caret/caret');
 var NgModelMixin = require('ngmodel/ngmodel');
 var PopupMenu = require('../popup-menu/popup-menu');
 var Icon = require('../icon/icon'); // jshint -W098
+var Loader = require('../loader/loader');
 var Shortcuts = require('shortcuts/shortcuts');
 var Global = require('global/global');
 
@@ -49,8 +50,46 @@ var noop = function() {};
      <file name="index.js" webpack="true">
        var React = require('react');
        var QueryAssist = require('./query-assist.jsx');
+       var Auth = require('auth/auth');
+       var jQuery = require('jquery');
 
-       React.renderComponent(QueryAssist(null), document.getElementById('example'));
+       var log = function(obj) {
+         var div = document.createElement('div');
+         div.innerHTML = JSON.stringify(obj);
+         document.getElementById('example').appendChild(div);
+       };
+
+       var auth = new Auth({
+          serverUri: '***REMOVED***/',
+          request_credentials: 'skip',
+          redirect_uri: 'http://0.0.0.0:9090/docs/examples/example-QueryAssist/index-testDeployment.html'
+        });
+
+       auth.init().then(function() {
+         React.renderComponent(
+           QueryAssist({
+             query: 'test',
+             placeholder: 'placeholder',
+             popupClassName: 'popupClassNameTest',
+             glass: true,
+             clear: true,
+             onApply: log,
+             focus: true,
+             hint: 'lol',
+             hintOnSelection: 'lol selected',
+             dataSource: function (props) {
+               jQuery.extend(props, {
+                 fields: 'query,caret,styleRanges' + (props.omitSuggestions ? '' : ',suggestions')
+               });
+
+               return auth.requestToken().then(function (token) {
+                 return auth.getSecure('api/rest/users/queryAssist', token, props);
+               });
+             }
+           }),
+           document.getElementById('example')
+         );
+       });
      </file>
    </example>
  */
@@ -309,6 +348,10 @@ var QueryAssist = React.createClass({
       deferred.reject(new Error('Current and response queries mismatch'));
     }
 
+    this.setState({
+      loading: false
+    });
+
     return deferred.promise;
   },
 
@@ -386,12 +429,16 @@ var QueryAssist = React.createClass({
 
   sendRequest: function (params) {
     var dataPromise = when(this.props.dataSource(params));
+
     // Close popup after timeout between long requests
-    // TODO Show loader here
     dataPromise.
       timeout(500).
       with(this).
       catch(when.TimeoutError, function() {
+        this.setState({
+          loading: true
+        });
+
         if (params.query === this.state.query) {
           this.closePopup();
         }
@@ -533,7 +580,8 @@ var QueryAssist = React.createClass({
     this.setState({
       query: '',
       caret: 0,
-      focus: true
+      focus: true,
+      loading: false
     });
   },
 
@@ -611,11 +659,14 @@ var QueryAssist = React.createClass({
     /* jshint ignore:start */
     var renderPlaceholder = !!this.props.placeholder && !this.state.query;
     var renderClear = this.props.clear && this.state.query;
+    var renderGlass = this.props.glass && !this.state.loading;
+    var renderGlassOrLoader = this.props.glass || this.state.loading;
+
     var inputClasses = React.addons.classSet({
       'ring-query-assist__input ring-input ring-js-shortcuts': true,
-      'ring-query-assist__input_gap': this.props.glass != renderClear &&
-        (this.props.glass || renderClear),
-      'ring-query-assist__input_double-gap': this.props.glass && renderClear,
+      'ring-query-assist__input_gap': renderGlass != renderClear &&
+        (renderGlassOrLoader || renderClear),
+      'ring-query-assist__input_double-gap': renderGlassOrLoader && renderClear,
       'ring-input_disabled': this.props.disabled
     });
 
@@ -640,16 +691,26 @@ var QueryAssist = React.createClass({
 
           spellCheck="false"></div>
 
-        {renderPlaceholder && <span className="ring-query-assist__placeholder" onClick={this.handleCaretMove}>{this.props.placeholder}</span>}
-        {this.props.glass && <Icon
-          className="ring-query-assist__glass"
+        {renderPlaceholder && <span
+          className="ring-query-assist__placeholder"
+          ref="placeholder"
+          onClick={this.handleCaretMove}>
+          {this.props.placeholder}
+        </span>}
+        {renderGlass && <Icon
+          className="ring-query-assist__icon"
           color="gray"
           glyph="search"
           onClick={this.handleApply}
           ref="glass"
           size={Icon.Size.Size16}></Icon>}
+        {this.state.loading && <div
+          className="ring-query-assist__icon ring-query-assist__icon_loader"
+          ref="loader">
+          <Loader modifier={Loader.Modifier.INLINE} />
+        </div>}
         {renderClear && <Icon
-          className="ring-query-assist__clear"
+          className="ring-query-assist__icon ring-query-assist__icon_clear"
           color="gray"
           glyph="close"
           onClick={this.clearQuery}
