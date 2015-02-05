@@ -256,21 +256,15 @@ var QueryAssist = React.createClass({
     if (!focus) {
       this.blurInput();
 
-      // Close popup on blur (mostly shift+tab)
-      this.closingPopup = true;
-      setTimeout(this.postponedClosePopup, 100);
+      // Close popup on blur by keyboard (mostly shift+tab)
+      if (!this.mouseIsDownOnPopup && this.isMounted()) {
+        this.closePopup();
+      }
     }
 
     this.props.onFocusChange({focus: focus});
 
     this.setState({focus: focus, shortcuts: focus});
-  },
-
-  postponedClosePopup: function () {
-    if (this.closingPopup && this.isMounted() && this.refs.input.getDOMNode() !== document.activeElement) {
-      this.closingPopup = false;
-      this.closePopup();
-    }
   },
 
   handleInput: function () {
@@ -397,9 +391,6 @@ var QueryAssist = React.createClass({
     props.focus = true;
     this.props.onFocusChange({focus: props.focus});
 
-    // Don't close popup on blur
-    this.closingPopup = false;
-
     this.setState(props, this.requestData);
   },
 
@@ -520,6 +511,10 @@ var QueryAssist = React.createClass({
     }
   },
 
+  trackPopupMouseState: function (e) {
+    this.mouseIsDownOnPopup = e.type === 'mousedown';
+  },
+
   renderPopup: function () {
     var suggestions = this.renderSuggestions();
 
@@ -542,6 +537,8 @@ var QueryAssist = React.createClass({
           left={this.getPopupOffset()}
           maxHeight="screen"
           onClose={this.clearSuggestions}
+          onMouseDown={this.trackPopupMouseState}
+          onMouseUp={this.trackPopupMouseState}
           onSelect={this.handleComplete}
           shortcuts={true}
         />
