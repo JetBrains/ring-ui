@@ -380,6 +380,17 @@ var Header = React.createClass({
     }
   },
 
+  componentWillUpdate: function(nextProps, nextState) {
+    if (!this.state.servicesOpened && nextState.servicesOpened) {
+      var linesNumber = getHeaderHeight(this.servicesIconsMenu.props.children[1], this);
+      console.log(linesNumber);
+    }
+
+    else if (this.state.servicesOpened && !nextState.servicesOpened) {
+      console.log(linesNumber);
+    }
+  },
+
   /**
    * @param {boolean} show
    * @private
@@ -566,6 +577,8 @@ var Header = React.createClass({
           servicesIconsMenu: servicesIconsMenu,
           servicesListMenu: servicesList
         });
+
+        getHeaderHeight(servicesIcons, this);
         /* jshint ignore:end */
       } else {
         var popupData = this.props.servicesList.map(function(item) {
@@ -581,5 +594,29 @@ var Header = React.createClass({
     });
   }
 });
+
+
+/**
+ * @const
+ * @type {number}
+ */
+var HEADER_ELEMENT_WIDTH = 128;
+
+/**
+ * @param {ReactCompositeComponent} iconsMenu
+ * @param {Header} headerElement
+ * @return {number}
+ */
+var getHeaderHeight = function(iconsMenu, headerElement) {
+  var elementWidth = headerElement.getDOMNode().clientWidth;
+  var elementsPerLine = parseInt(elementWidth / HEADER_ELEMENT_WIDTH);
+  var linesToRender = Math.ceil(iconsMenu.length / elementsPerLine);
+
+
+};
+
+var insertRule = function() {
+
+};
 
 module.exports = Header;

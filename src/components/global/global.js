@@ -103,6 +103,58 @@ ClassName.prototype.setBaseName = function(baseName) {
 };
 
 
+/**
+ * Rule insert helper maintanes a stylesheet and manages CSS rules on the go.
+ * @constructor
+ */
+var RuleInsertHelper = function() {};
+Global.addSingletonGetter(RuleInsertHelper);
+
+/**
+ * @return {HTMLStyleElement}
+ * @private
+ */
+RuleInsertHelper.prototype._getStylesheet = function() {
+  if (!this._stylesheet) {
+    this._stylesheet = document.createElement('style');
+    this._stylesheet.type = 'text/css';
+    this._stylesheet.appendChild(document.createTextNode(' '));
+  }
+
+  return this._stylesheet;
+};
+
+/**
+ * @param {string} ruleText
+ * @return {number}
+ */
+RuleInsertHelper.prototype.insertRule = function(ruleText) {
+  this._stylesheet = this._getStylesheet();
+
+  var rulesLength = this._stylesheet.sheet.cssRules ? this._stylesheet.sheet.cssRules.length : 0;
+  this._stylesheet.sheet.insertRule(ruleText, rulesLength);
+  return rulesLength;
+};
+
+/**
+ * @param {number} ruleIndex
+ */
+RuleInsertHelper.prototype.deleteRule = function(ruleIndex) {
+  this._stylesheet.sheet.deleteRule(ruleIndex);
+  this._stylesheet.sheet.insertRule(' ', ruleIndex);
+};
+
+/**
+ * @param {string} selector
+ * @param {Object} styleObj
+ * @return {string}
+ */
+RuleInsertHelper.prototype.getRule = function(selector, styleObj) {
+  return [selector, JSON.stringify(styleObj).replace(/"/g, '').replace(/,/g, ';')].join('');
+};
+
 
 module.exports = Global;
 module.exports.ClassName = ClassName;
+module.exports.RuleInsertHelper = RuleInsertHelper;
+
