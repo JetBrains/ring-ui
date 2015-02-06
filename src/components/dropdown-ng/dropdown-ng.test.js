@@ -29,11 +29,11 @@ describe('DropdownNg', function () {
   });
 
   it('should render popup', function () {
-    expect(directiveScope.popupMenuInstance).to.be.defined;
+    expect(directiveScope.getPopupMenuInstance()).to.be.defined;
   });
 
   it('should pass items to popup-menu', function () {
-    expect(directiveScope.popupMenuInstance.props.data.length).to.equal(directiveScope.items.length);
+    expect(directiveScope.getPopupMenuInstance().props.data.length).to.equal(directiveScope.items.length);
   });
 
   it('should convert items on passing to popup-menu', function () {
@@ -41,26 +41,26 @@ describe('DropdownNg', function () {
 
     scope.$digest();
 
-    expect(directiveScope.popupMenuInstance.props.data[0].label).to.equal(scope.items[0].name);
+    expect(directiveScope.getPopupMenuInstance().props.data[0].label).to.equal(scope.items[0].name);
   });
 
   it('should show popup', function() {
-    directiveScope.showPopupMenu();
+    element.click();
     scope.$digest();
 
-    expect(directiveScope.popupMenuInstance.isVisible()).to.equal(true);
+    expect(directiveScope.getPopupMenuInstance().isVisible()).to.equal(true);
   });
 
 
   it('should defer popup render until items is loaded', inject(function($q) {
     scope.items = $q.defer();
     scope.$digest();
-    expect(directiveScope.popupMenuInstance).not.to.be.defined;
+    expect(directiveScope.getPopupMenuInstance()).not.to.be.defined;
 
     scope.items.resolve(itemsMock);
     scope.$digest();
 
-    expect(directiveScope.popupMenuInstance).to.be.defined;
+    expect(directiveScope.getPopupMenuInstance()).to.be.defined;
   }));
 
   it('should not throw error if items is not defined but we show popup', function() {
@@ -70,7 +70,7 @@ describe('DropdownNg', function () {
     directiveScope = element.isolateScope();
 
     expect(function() {
-      directiveScope.showPopupMenu();
+      element.click();
       scope.$digest();
     }).to.not.throw(Error);
   });
