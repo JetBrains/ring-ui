@@ -33,6 +33,7 @@
 
 .ring-breadcrumb_small {
   .ring-breadcrumb__element {
+    display: inline-block;
     height: $ring-unit*2;
     line-height: 14px;
     font-size: 13px;
@@ -59,6 +60,10 @@
   text-decoration: none;
 
   cursor: pointer;
+}
+
+.ring-breadcrumb__element span {
+  display: inline-block;
 }
 
 .ring-breadcrumb__element_active, .ring-breadcrumb .active {
