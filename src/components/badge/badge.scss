@@ -1,11 +1,13 @@
+@import "../global/global";
+
 .ring-badge {
   font-style: normal;
   font-weight: normal;
-  font-size: 11px;
+  font-size: $ring-font-size-smaller;
   vertical-align: middle;
-  margin: 0 8px;
-  padding: 2px 8px;
-  border-radius: 3px;
+  margin: 0 $ring-unit;
+  padding: 2px $ring-unit;
+  border-radius: $ring-border-radius;
   color: #8C8C8C;
   background-color: #FFF;
   border: 1px #F0F0F0 solid;
