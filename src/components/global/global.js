@@ -7,6 +7,12 @@
 var Global = {};
 
 /**
+ * @const
+ * @type {number}
+ */
+Global.RING_UNIT = 8;
+
+/**
  * Wrapper to make class a singleton. Adds static method {@code getInstance},
  * which always return the same instance.
  * @param {Function} Constructor
