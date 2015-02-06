@@ -114,7 +114,6 @@ ClassName.prototype.setBaseName = function(baseName) {
  * @constructor
  */
 var RuleInsertHelper = function() {};
-Global.addSingletonGetter(RuleInsertHelper);
 
 /**
  * @return {HTMLStyleElement}
