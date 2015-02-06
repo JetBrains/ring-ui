@@ -247,6 +247,8 @@ var sortServices = function(items) {
 };
 
 
+var _stylesheet = null;
+
 /**
  * @constructor
  * @extends {ReactComponent}
@@ -381,13 +383,40 @@ var Header = React.createClass({
   },
 
   componentWillUpdate: function(nextProps, nextState) {
+    if (!_stylesheet) {
+      /**
+       * @type {HTMLStyleElement}
+       */
+      var styleElement = document.createElement('style');
+      styleElement.type = 'text/css';
+      styleElement.appendChild(document.createTextNode(''));
+      document.body.appendChild(styleElement);
+
+      _stylesheet = styleElement.sheet;
+    }
+
     if (!this.state.servicesOpened && nextState.servicesOpened) {
-      var linesNumber = getHeaderHeight(this.props.servicesIconsMenu.props.children[1], this);
-      console.log(linesNumber);
+      var headerHeight = getHeaderHeight(this);
+
+      while (_stylesheet.cssRules.length) {
+        _stylesheet.deleteRule(0);
+      }
+
+      _stylesheet.insertRule('.ring2-header__menu-service-inner { height: ' + headerHeight + 'px }', 0);
+      _stylesheet.insertRule('.ring2-header__service-menu-enter-active { height: ' + headerHeight + 'px }', 0);
+      _stylesheet.insertRule('.ring2-header__service-menu-enter { height: 0; transition: height 200ms ease-out }', 0);
+      _stylesheet.insertRule('.ring2-header__menu-service { height: ' + headerHeight + 'px }', 0);
     }
 
     else if (this.state.servicesOpened && !nextState.servicesOpened) {
-      console.log(linesNumber);
+      while (_stylesheet.cssRules.length) {
+        _stylesheet.deleteRule(0);
+      }
+
+      _stylesheet.insertRule('.ring2-header__menu-service-inner { height: ' + headerHeight + 'px }', 0);
+      _stylesheet.insertRule('.ring2-header__menu-service { height: ' + headerHeight + 'px }', 0);
+      _stylesheet.insertRule('.ring2-header__service-menu-leave-active { height: 0 }', 0);
+      _stylesheet.insertRule('.ring2-header__service-menu-leave { height: ' + headerHeight + 'px }', 0);
     }
   },
 
@@ -577,8 +606,6 @@ var Header = React.createClass({
           servicesIconsMenu: servicesIconsMenu,
           servicesListMenu: servicesList
         });
-
-        getHeaderHeight(servicesIcons, this);
         /* jshint ignore:end */
       } else {
         var popupData = this.props.servicesList.map(function(item) {
@@ -600,23 +627,40 @@ var Header = React.createClass({
  * @const
  * @type {number}
  */
-var HEADER_ELEMENT_WIDTH = 128;
+var ELEMENT_WIDTH = 128; // todo(igor.alexeenko): Better get this property from css.
 
 /**
- * @param {ReactCompositeComponent} iconsMenu
+ * @const
+ * @type {number}
+ */
+var LINE_HEIGHT = 3 * Global.RING_UNIT;
+
+/**
+ * @const
+ * @type {number}
+ */
+var ICON_LINE_HEIGHT = 19 * Global.RING_UNIT;
+
+/**
  * @param {Header} headerElement
  * @return {number}
  */
-var getHeaderHeight = function(iconsMenu, headerElement) {
-  var elementWidth = headerElement.getDOMNode().clientWidth;
-  var elementsPerLine = parseInt(elementWidth / HEADER_ELEMENT_WIDTH);
-  var linesToRender = Math.ceil(iconsMenu.length / elementsPerLine);
+var getHeaderHeight = function(headerElement) {
+  var iconsMenuSize = headerElement.props.servicesList.length - headerElement.props.servicesListMenu.length;
+  var headerWidth = headerElement.getDOMNode().clientWidth;
 
+  var elementsPerLine = headerWidth / ELEMENT_WIDTH;
+  var lines = Math.ceil(iconsMenuSize / elementsPerLine);
 
-};
+  var isLine = headerElement.props.servicesListMenu.length;
 
-var insertRule = function() {
+  var heights = [ICON_LINE_HEIGHT * lines];
 
+  if (isLine) {
+    heights.push(LINE_HEIGHT);
+  }
+
+  return heights.reduce(function(a, b) { return a + b; });
 };
 
 module.exports = Header;
