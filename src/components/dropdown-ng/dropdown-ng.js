@@ -7,11 +7,22 @@ var PopupMenu = require('popup-menu/popup-menu');
  * @constructor
  * @description Directive for dropdowns in angular apps
  * @example
-  <example name="dropdown-ng">
-    <button class="ring-btn" rg-dropdown items="['test1', 'test2']" on-item-select="onSelect"">
+ <example name="dropdown-ng">
+    <button class="ring-btn"
+            rg-dropdown
+            items="['test1', 'test2']"
+            on-item-select="onSelect"
+            config="{corner: 2, autoRemove: true, direction: 8}">
+        Do something
+    </button>
+    <button class="ring-btn"
+            rg-dropdown
+            items-src="functionWhichReturnsPromiseForLazyLoad"
+            on-item-select="onSelect"
+            config="{corner: 2, autoRemove: true, direction: 8}">
       Do something
     </button>
-  </example>
+ </example>
  */
 
 /* globals angular */
@@ -66,12 +77,12 @@ angular.module('Ring.dropdown', [])
                     $scope.onItemSelect(item);
                   }
 
-                  if (item.onClick) {
-                    item.onClick.apply(item);
+                  if (item.onSelect) {
+                    item.onSelect.apply(item);
                   }
 
                   if (item.url) {
-                    $location.path(item.url);
+                    $location.url(item.url);
                   }
                 });
                 popupMenuInstance.hide();
