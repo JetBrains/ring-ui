@@ -21,79 +21,106 @@ angular.module('Ring.dropdown', [])
       restrict: 'A',
       scope: {
         items: '=',
+        itemsSrc: '&',
+        config: '&',
         labelField: '@',
         onItemSelect: '='
       },
-      controller: ['$scope', '$element', '$q', function($scope, $element, $q) {
-        $scope.popupMenuInstance = null;
-
-        /**
-         * @return {Object} The popup menu instance
-         */
-        $scope.getPopupMenu = function() {
-          if (!$scope.popupMenuInstance) {
-            $scope.popupMenuInstance = PopupMenu.renderComponent(new PopupMenu({
-              corner: PopupMenu.PopupProps.Corner.BOTTOM_LEFT,
-              direction: PopupMenu.PopupProps.Directions.BOTTOM,
-              anchorElement: $element[0],
-              data: [],
-              autoRemove: false,
-              cutEdge: false,
-              hidden: true,
-              top: 2
-            }));
-          }
-
-          return $scope.popupMenuInstance;
+      controller: ['$scope', '$element', '$location', function ($scope, $element, $location) {
+        var popupMenuInstance = null;
+        var ITEM_TYPES = {
+          LINK: 1,
+          ITEM: 2
         };
 
-        /**
-         * @return {q.promise} The deferred object which represent popup items
-         */
-        var getItems = function() {
-          if ($scope.items && $scope.items.then) {
-            return $scope.items;
+        var config = angular.extend({}, $scope.config() || {}, {
+          anchorElement: $element[0],
+          autoRemove: false,
+          cutEdge: false,
+          hidden: true,
+          top: 2
+        });
+
+        function createPopup(items) {
+          config.data = items;
+          popupMenuInstance = PopupMenu.renderComponent(new PopupMenu(config));
+        }
+
+        function convertItemsForPopup(items) {
+          if ($element.attr('items-passthru') !== undefined) {
+            return items;
           }
 
-          var defer = $q.defer();
-          defer.resolve($scope.items);
-          return defer.promise;
-        };
+          return items.map(function (item) {
+            var type = ITEM_TYPES.ITEM;
+            if(item.url || item.type === 'link') {
+              type = ITEM_TYPES.LINK;
+            }
 
-        var convertItemsForPopup = function(items) {
-          return items.map(function(item) {
             return {
-              label: item[$scope.labelField] || item,
-              onClick: function() {
-                $scope.$apply(function() {
-                  $scope.onItemSelect(item);
+              label: item[$scope.labelField] || item.label || item,
+              type: type,
+              onClick: function () {
+                $scope.$apply(function () {
+                  if ($scope.onItemSelect) {
+                    $scope.onItemSelect(item);
+                  }
+
+                  if (item.onClick) {
+                    item.onClick.apply(item);
+                  }
+
+                  if (item.url) {
+                    $location.path(item.url);
+                  }
                 });
-                $scope.getPopupMenu().hide();
+                popupMenuInstance.hide();
               }
             };
           });
-        };
+        }
 
-        $scope.$watch('items', function() {
-          getItems().then(function(items) {
-            if (angular.isArray(items)) {
-              $scope.getPopupMenu().setProps({
-                data: convertItemsForPopup(items)
+        function setItems(items) {
+          if (angular.isArray(items)) {
+            if (!popupMenuInstance) {
+              createPopup(convertItemsForPopup(items));
+            } else {
+              popupMenuInstance.setProps({data: convertItemsForPopup(items)});
+            }
+          }
+        }
+
+        var itemsSrc = $scope.itemsSrc();
+        if (typeof itemsSrc !== 'function') {
+          $scope.$watch('items', function (items) {
+            setItems(items);
+          }, true);
+        }
+
+        $element.on('click', function ($event) {
+          if (!popupMenuInstance && typeof itemsSrc === 'function') {
+            var promise = itemsSrc();
+            if (promise.then) {
+              promise.then(function(items) {
+                setItems(items);
+                if (popupMenuInstance) {
+                  popupMenuInstance.show();
+                }
               });
             }
-          });
+          } else if (popupMenuInstance) {
+            popupMenuInstance.show();
+          }
+          $event.stopPropagation();
         });
 
-        $scope.showPopupMenu = function() {
-          getItems().then(function() {
-            $scope.getPopupMenu().show();
-          });
+        /**
+         * Export popupMenuInstance to check its state in tests
+         * @returns {PopupMenu}
+         */
+        $scope.getPopupMenuInstance = function() {
+          return popupMenuInstance;
         };
-
-        $element.on('click', function(event) {
-          $scope.showPopupMenu();
-          event.stopPropagation();
-        });
       }]
     };
   });
