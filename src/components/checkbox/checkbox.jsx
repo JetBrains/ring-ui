@@ -23,7 +23,7 @@ var generateUniqueId = Global.getUIDGenerator(ID_PREFIX);
  * @name Checkbox
  * @constructor
  * @extends {ReactComponent}
- ç
+
    <example name="Checkbox">
    <file name="index.html">
    <div>
