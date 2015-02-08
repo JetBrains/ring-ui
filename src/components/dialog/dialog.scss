@@ -3,8 +3,8 @@
 // Dialog
 //
 // Markup:
-//  <div style="position: relative; height: 400px">
-//  <div class="ring-dialog__wrapper {$modifiers}">
+//<div style="position: relative; height: 400px">
+//  <div class="ring-dialog__wrapper active">
 //    <div class="ring-dialog__container">
 //      <div class="ring-dialog__header">
 //        <span class="ring-dialog__header__title">New space</span>
@@ -12,33 +12,26 @@
 //      </div>
 //      <form class="ring-dialog__content ring-form">
 //        <div class="ring-form__group">
-//          <label class="ring-form__label" for="dialog__key">Key</label>
-//          <div class="ring-form__control ring-form__control_small">
-//            <input id="dialog__key" class="ring-input " type="text">
-//            <div class="ring-input__error-bubble ng-binding ng-hide" ng-show="data.keyError"></div>
+//          <label for="userNameSample2" class="ring-form__label">Key</label>
+//          <div class="ring-form__control">
+//            <input class="ring-input" id="userNameSample2" type="text"/>
 //          </div>
-//         </div>
+//        </div>
 //        <div class="ring-form__group">
-//          <label class="ring-form__label" for="dialog__name">Name</label>
-//          <div class="ring-form__control ring-form__control_small">
-//            <input id="dialog__name" class="ring-input " type="text">
-//            <div class="ring-input__error-bubble ng-binding ng-hide" ng-show="data.nameError"></div>
+//          <label for="user2" class="ring-form__label">User name</label>
+//          <div class="ring-form__control ring-form__control_half">
+//            <input class="ring-input" id="user2" type="text">
 //          </div>
 //        </div>
 //      </form>
 //      <div class="ring-dialog__footer">
-//        <div class="ring-dialog__footer__spacer"></div>
-//        <button class="ring-dialog__footer__item_first ring-dialog__footer__item ring-btn ring-btn_blue">Create space</button>
-//        <button class="ring-dialog__footer__item ring-btn">Cancel</button>
+//       <div class="ring-dialog__footer__spacer"></div>
+//       <button class="ring-dialog__footer__item_first ring-dialog__footer__item ring-btn ring-btn_blue">Create space</button>
+//       <button class="ring-dialog__footer__item ring-btn">Cancel</button>
 //      </div>
 //    </div>
-//    <!--
-//      Use it show paranja
-//      <div class="ring-dialog__layer">
-//      </div>
-//    -->
 //  </div>
-//  </div>
+//</div>
 //
 // .active      - Indicates a visible dialog
 //
@@ -106,7 +99,7 @@
 }
 
 .ring-dialog__content {
-  margin: 0;
+  margin: 0!important;
   padding: $ring-unit*2 $ring-unit*4 $ring-unit;
 }
 

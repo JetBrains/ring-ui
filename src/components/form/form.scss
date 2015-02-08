@@ -4,53 +4,49 @@
 // Basic form
 //
 // Markup:
-// <form class="ring-form">
-//  <span class="ring-form__title">License</span>
+//<form class="ring-form">
+//  <div class="ring-form__title">License</div>
 //  <div class="ring-form__group">
-//    <label for="ring-form-1" class="ring-form__label">License User Name</label>
-//    <div class="ring-form__control">
-//      <input class="ring-input" id="ring-form-1" type="text">
-//    </div>
+//    <label for="userNameSample" class="ring-form__label">Whatever you do, make sure you've got the right tools for the job. Tools Matter.</label>
+//    <div class="ring-form__control"><input class="ring-input" id="userNameSample" type="text"/></div>
 //  </div>
 //  <div class="ring-form__group">
-//    <label for="ring-form-2" class="ring-form__label">License Key</label>
-//    <div class="ring-form__control">
-//      <input class="ring-input ring-input_error" id="ring-form-2" type="text">
-//      <div class="ring-input__error-bubble">Wrong value</div>
-//    </div>
+//    <label for="licenseSample" class="ring-form__label">License Key</label>
+//      <div class="ring-form__control ring-form__control_double">
+//        <input class="ring-input ring-input_error" id="licenseSample" type="text">
+//        <div class="ring-input__error-bubble">Wrong value</div>
+//      </div>
 //  </div>
 //  <div class="ring-form__group">
-//    <label for="ring-form-3" class="ring-form__label">License Key</label>
-//    <div class="ring-form__control">
-//      <input class="ring-input ring-input_long" id="ring-form-3" type="text">
-//    </div>
+//    <label for="passSample" class="ring-form__label">Password</label>
+//      <div class="ring-form__control">
+//        <input class="ring-input" id="passSample" type="password"/>
+//      </div>
+//      <div class="ring-form__group ring-form__group_nested">
+//        <label for="passSample2" class="ring-form__label">Password confirmation</label>
+//        <div class="ring-form__control ring-form__control_secondary">
+//          <input class="ring-input" id="passSample" type="password">
+//        </div>
+//      </div>
 //  </div>
-//  <div class="ring-form__footer">
+//
+//  <div class="ring-panel">
 //    <button class="ring-btn_blue ring-btn">Save</button>
 //    <button class="ring-btn">Cancel</button>
+//    <button class="ring-btn ring-btn_danger ring-btn_opposite">Delete</button>
 //  </div>
-// </form>
+//</form>
 //
 // Styleguide 7.4
 
+$ring-form-width: 800px;
+$ring-form-input-width: 200px;
+$ring-form-text-line-height: 20px;
+
 .ring-form {
-  margin: 0 0 20px;
-
-  font-size: 13px;
+  max-width: $ring-form-width;
+  margin: 0 0 $ring-unit*3;
   @include ring-font;
-
-  & .ring-input, & .ring-select, & .ring-input_wrapper {
-    width: 25 * $ring-unit !important;
-    margin: 0;
-  }
-
-  & .ring-input_error + .ring-input__error-bubble {
-    display: inline-block;
-  }
-
-  & .ring-input_error:focus + .ring-input__error-bubble {
-    display: none;
-  }
 }
 
 // Input error bubbles
@@ -62,6 +58,7 @@
 // </div>
 //
 // Styleguide 14.2
+
 .ring-input__error-bubble {
   display: none;
   position: absolute;
@@ -109,27 +106,6 @@
   border-radius: 2px;
 }
 
-.ring-form_rows {
-  & .ring-form__label {
-    float: none;
-  }
-
-  & .ring-form__control {
-    & .ring-input {
-      width: 100% !important;
-      box-sizing: border-box;
-    }
-
-    margin-left: 0;
-    width: 42 * $ring-unit;
-  }
-}
-
-.ring-form__wrap {
-  padding: 3*$ring-unit 4*$ring-unit 0 4*$ring-unit;
-  margin-bottom: 0;
-}
-
 .ring-form__header {
   min-height: 13px;
   padding-bottom: 2*$ring-unit;
@@ -139,35 +115,30 @@
   display: block;
   @include ring-font;
   font-size: 13px;
-  line-height: 20px;
+  line-height: $ring-form-text-line-height;
   text-align: center;
   color: #888;
 }
 
 .ring-form__control__description {
-  padding-top: $ring-unit;
+  margin-bottom: $ring-unit;
   font-size: 11px;
   line-height: 16px !important;
   color: #888;
 }
 
-.ring-form__title-img {
-  float: left;
-
-  height: 4*$ring-unit;
-  border: 0;
-}
-
 .ring-form__title {
   display: block;
   margin-bottom: $ring-unit;
-
   font-weight: bold;
+
+  & + .ring-form__group .ring-form__label {
+    padding-top: 0;
+  }
 }
 
 .ring-form__main-title {
   @include ring-font();
-
   font-size: 19px;
 }
 
@@ -177,43 +148,31 @@
 
 .ring-form__group {
   position: relative;
-  margin: $ring-unit 0;
-
-  &:first-child {
-    margin-top: 0;
-  }
+  display: table-row;
 }
 
-.ring-form__group_united {
-  padding-bottom: 0;
-}
-
-.ring-form__group .ring_form__group,
 .ring-form__group_nested {
-  padding-top: 0;
-  padding-left: $ring-unit*2;
-
-  .ring-form__control {
-    margin-left: 18 * $ring-unit;
-  }
+  display: inline-table;
+  margin-left: $ring-unit*6;
 }
+
+$ring-label-width: 160px;
 
 .ring-form__label {
-  position: relative;
-  top: 0;
-  display: inline;
-  float: left;
-  height: 3 * $ring-unit;
+  display: table-cell;
+  max-width: $ring-label-width;
+  padding-bottom: $ring-unit*2;
+  padding-right: $ring-unit*2;
+  line-height: $ring-form-text-line-height;
+  vertical-align: top;
 
-  line-height: 3 * $ring-unit;
-  vertical-align: middle;
-
-  & .ring-checkbox__label, & .ring-radio-btn__label {
-    top: -2px;
+  &_full-line {
+    display: block;
+    line-height: $ring-unit*3;
   }
 
   &.ring-form__label_checkbox {
-    padding-left: $ring-unit;
+    padding-left: $ring-unit
   }
 }
 
@@ -223,38 +182,30 @@
 
 .ring-form__control {
   position: relative;
-  min-height: 3 * $ring-unit;
-  margin-left: 20 * $ring-unit;
-
-  line-height: 3*$ring-unit;
-  vertical-align: middle;
-}
-
-.ring-form__control_text:after {
-  content: '';
   display: inline-block;
-  height: $ring-unit*3;
-  vertical-align: middle;
-}
+  width: $ring-form-input-width;
 
-// Temporary solution, proper grid is necessary
-.ring-form__control_secondary {
-  position: absolute;
-  top: $ring-unit;
-  left: 27 * $ring-unit;
+  &_half {
+    width: $ring-form-input-width/2;
+  }
+
+  &_double {
+    width: $ring-form-input-width*2;
+  }
+
+  &_tripple {
+    width: $ring-form-input-width*3;
+  }
 }
 
 .ring-form__control_on {
+  margin-left: $ring-unit*2;
   color: #84AB28;
 }
 
 .ring-form__control_off {
+  margin-left: $ring-unit*2;
   color: $ring-color-error;
-}
-
-.ring-form__control-link {
-  position: relative;
-  top: 6px;
 }
 
 .ring-form__control_small {
@@ -265,63 +216,42 @@
   margin-bottom: -$ring-unit + 2;
   width: 85 * $ring-unit;
   margin-left: 20 * $ring-unit;
-  line-height: 20px;
+  line-height: $ring-form-text-line-height;
 }
 
 .ring-form__control__part {
   margin-right: $ring-unit;
 }
 
-// Form for key-value data
-//
-// You can add "ring-form\__group_short" to "ring-form\__group" to make the left column shorter
-//
-// Markup:
-// <form class="ring-form">
-//  <div class="ring-form__group ring-form__group_short">
-//    <label class="ring-form__label">
-//      <input class="ring-radio-btn" type="radio" name="find-type" id="breakout-checkbox-1"/>
-//      <label class="ring-radio-btn__label" for="breakout-checkbox-1"></label>
-//    </label>
-//    <div class="ring-form__control">
-//      <label for="breakout-checkbox-1">Users with same emails and similar names</label>
-//    </div>
-//  </div>
-//  <div class="ring-form__group ring-form__group_short">
-//    <label class="ring-form__label">
-//      <input class="ring-radio-btn" type="radio" name="find-type" id="breakout-checkbox-2"/>
-//      <label class="ring-radio-btn__label" for="breakout-checkbox-2"></label>
-//    </label>
-//    <div class="ring-form__control">
-//      <label for="breakout-checkbox-2">Users with same emails</label>
-//    </div>
-//  </div>
-//  <div class="ring-form__group ring-form__group_short">
-//    <label class="ring-form__label">
-//        <input id="short-checkbox-1" class="ring-checkbox" type="checkbox" name="example">
-//        <label class="ring-checkbox__label" for="short-checkbox-1"></label>
-//    </label>
-//    <div class="ring-form__control">
-//      <label class="ring-label" for="breakout-checkbox-3">Users having at least something in common</label>
-//    </div>
-//  </div>
-//  <div class="ring-form__footer">
-//    <button class="ring-btn_blue ring-btn">Save</button>
-//    <button class="ring-btn">Cancel</button>
-//  </div>
-// </form>
-//
-// Styleguide 7.5
-
 .ring-form__group_short {
-  padding-bottom: 0;
-  padding-top: $ring-unit / 2;
+  max-width: $ring-form-width / 2;
+}
 
-  &:last-child {
-    padding-bottom: $ring-unit;
+@media only screen and (max-width: 667px) {
+  .ring-form__label {
+    display: block;
+    max-width: 100%;
+    padding-bottom: 0;
+    padding-top: 8px !important;
   }
+  .ring-form__control_off, .ring-form__control_on {
+    display: block;
+    margin: $ring-unit 0 0 0;
+  }
+}
 
-  .ring-form__control {
-    margin-left: $ring-unit * 3;
+@media only screen and (max-width: 480px) {
+  .ring-form__control, &_tripple {
+    width: 100%;
+
+    &_half {
+      width: 50%;
+    }
+  }
+}
+
+@media only screen and (max-width: 320px) {
+  .ring-form__control, &_tripple, &_half {
+    width: 50%;
   }
 }

@@ -13,20 +13,21 @@
 //
 // Styleguide 14.1
 
+$ring-input-width: 200px;
+
 .ring-input {
   box-sizing: border-box;
-  height: 3*$ring-unit;
+  height: $ring-unit*3;
   width: 100%;
   margin: 0;
   padding-left: $ring-unit / 2;
   padding-right: $ring-unit/ 2;
+  background-color: #FFF;
   border-width: 1px;
   border-style: solid;
   border-color: #CCC;
-  background-color: #FFF;
 
   @include ring-font;
-  font-size: 13px;
   line-height: 20px;
 
   &:active, &:focus, &_active, &_focus {
@@ -42,53 +43,42 @@
     border-color: #F00;
   }
 
-  &_long {
-    width: 100%;
-  }
-
   &_no-resize {
     resize: none;
   }
 }
 
-// Using double selector to enforce specifity, that is hard to express with &
-.ring-input.ring-input:disabled, .ring-input.ring-input_disabled {
-  border-color: #DEDEDE;
-  background-color: #F8F8F8;
-}
-
-// Input error bubbles
+// Input error bubble
 //
 // Markup:
-// <div class="ring-input_wrapper">
-//   <input class="ring-input ring-input_error" type="text">
-//   <div class="ring-input__error-bubble active">Wrong value</div>
-// </div>
+//<div class="ring-form__control">
+//  <input class="ring-input ring-input_error" type="text">
+//  <div class="ring-input__error-bubble">Wrong value</div>
+//</div>
 //
 // Styleguide 14.2
+
 .ring-input__error-bubble {
-  box-sizing: border-box;
-  height: 3*$ring-unit;
   display: none;
   position: absolute;
   top: 0;
-  left: 25*$ring-unit + 2;
-  white-space: nowrap;
+  left: 100%;
+  z-index: 2;
+  height: $ring-unit*3;
+  box-sizing: border-box;
+  margin-left: 2px;
   padding-left: 2*$ring-unit;
   padding-right: 2*$ring-unit;
-  z-index: 2;
-  line-height: 3*$ring-unit;
-
+  white-space: nowrap;
+  background: #FFF;
   border-radius: 3px;
   border: 1px solid #e5e5e5;
 
+  line-height: $ring-unit*3;
   @include ring-font;
-  font-size: 13px;
-
   color: $ring-color-error;
-  background: #FFF;
-  box-shadow: 0 1px 8px 0 rgba(0, 0, 0, 0.15);
 
+  box-shadow: 0 1px 8px 0 rgba(0, 0, 0, 0.15);
 
   &.active {
     display: inline-block;
@@ -96,20 +86,29 @@
 
   &:before {
     content: '';
-    transform: rotate(45deg);
-    z-index: $ring-invisible-element-z-index;
-    border: 1px solid #CCC;
-    border-right: none;
-    border-top: none;
-
+    display: block;
     position: absolute;
     top: 7px;
     left: -5px;
-
-    display: block;
+    z-index: $ring-invisible-element-z-index;
     width: $ring-unit;
     height: $ring-unit;
-
     background: #FFF;
+    border: 1px solid #CCC;
+    border-top: none;
+    border-right: none;
+    transform: rotate(45deg);
+  }
+}
+
+//Error highlighting
+.ring-input_error {
+  & + .ring-input__error-bubble,
+  & + .ring-form__control__description + .ring-input__error-bubble {
+    display: inline-block;
+  }
+  &:focus + .ring-input__error-bubble,
+  &:focus + .ring-form__control__description + .ring-input__error-bubble {
+    display: none;
   }
 }
