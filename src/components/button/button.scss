@@ -44,6 +44,7 @@
 // .ring-btn_plus       - Indicates that a button will add something.
 // .ring-btn_delayed-action - Indicates that button's action will be delayed, e.g. because of params request dialog
 // .ring-btn_danger     - Indicates a dangerous action (e.g. delete).
+// .ring-btn_opposite   - Places a button on the right side.
 // :hover               - Hovered state.
 // :disabled            - Disabled state, also available as the `.ring-btn_disabled` class name.
 // :active              - Active state, also available as the `.ring-btn_active` class name.
@@ -257,6 +258,10 @@
   .ring-font-icon {
     color: inherit;
   }
+}
+
+.ring-btn_opposite {
+  float: right;
 }
 
 .ring-btn_plus {
