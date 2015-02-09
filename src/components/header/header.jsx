@@ -432,25 +432,44 @@ var Header = React.createClass({
     }
 
     if (!this.state.servicesOpened && nextState.servicesOpened) {
-      this._adjustServicesHeight();
+      this._adjustServicesHeight(true);
+
+      _servicesResizeHandler = function(event) {
+        this._adjustServicesHeight(false);
+      }.bind(this);
+      window.addEventListener('resize', _servicesResizeHandler);
     } else if (this.state.servicesOpened && !nextState.servicesOpened) {
       _styleHelper.cleanup();
+      this._adjustServicesHeight(true, 0);
+
+      window.removeEventListener('reisze', _servicesResizeHandler);
+      _servicesResizeHandler = null;
     }
   },
 
   /**
-   * Resizes services list.
+   * Resizes services list to a calculated or a given height.
+   * @param {boolean=} animated
+   * @param {number=} height
    * @private
    */
-  _adjustServicesHeight: function() {
-    var headerHeight = getHeaderHeight(this);
+  _adjustServicesHeight: function(animated, height) {
+    var headerHeight = typeof height !== 'undefined' ? height : getHeaderHeight(this);
     _styleHelper.cleanup();
+
+    if (!!animated) {
+      _styleHelper.insertRule(_styleHelper.getRule(
+          '.ring2-header__menu-service',
+          { transition: 'height 200ms ease-out' }));
+    }
+
     _styleHelper.insertRule(_styleHelper.getRule(
         ['.ring2-header__menu-service', '.ring2-header__menu-service-inner'],
         { height: headerHeight + 'px' }));
   },
 
   /**
+   * Shows list of services.
    * @param {boolean} show
    * @private
    */
