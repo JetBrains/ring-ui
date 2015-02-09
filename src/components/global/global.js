@@ -170,7 +170,7 @@ RuleInsertHelper.prototype.getRule = function(selector, styleObj) {
  */
 RuleInsertHelper.prototype.cleanup = function() {
   var stylesheet = this._getStylesheet();
-  while (stylesheet.sheet.rules.length) {
+  while (stylesheet.sheet.cssRules.length) {
     this.deleteRule(0);
   }
 };
