@@ -242,6 +242,8 @@ var List = React.createClass({
   },
 
   selectHandler: function () {
+    this.setState({scrolling: false});
+
     return this.state.activeIndex == null || this.props.onSelect(this.props.data[this.state.activeIndex]);
   },
 
