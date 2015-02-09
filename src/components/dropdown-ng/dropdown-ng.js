@@ -52,12 +52,8 @@ angular.module('Ring.dropdown', [])
           top: 2
         });
 
-        function createPopup(items) {
-          config.data = items;
-          popupMenuInstance = PopupMenu.renderComponent(new PopupMenu(config));
-        }
-
         function convertItemsForPopup(items) {
+          items = items || [];
           if ($element.attr('items-passthru') !== undefined) {
             return items;
           }
@@ -71,6 +67,7 @@ angular.module('Ring.dropdown', [])
             return {
               label: item[$scope.labelField] || item.label || item,
               type: type,
+              href: item.url ? item.url : null,
               onClick: function () {
                 $scope.$apply(function () {
                   if ($scope.onItemSelect) {
@@ -79,10 +76,6 @@ angular.module('Ring.dropdown', [])
 
                   if (item.onSelect) {
                     item.onSelect.apply(item);
-                  }
-
-                  if (item.url) {
-                    $location.url(item.url);
                   }
                 });
                 popupMenuInstance.hide();
@@ -93,10 +86,11 @@ angular.module('Ring.dropdown', [])
 
         function setItems(items) {
           if (angular.isArray(items)) {
+            config.data = convertItemsForPopup(items);
             if (!popupMenuInstance) {
-              createPopup(convertItemsForPopup(items));
+              popupMenuInstance = PopupMenu.renderComponent(new PopupMenu(config));
             } else {
-              popupMenuInstance.setProps({data: convertItemsForPopup(items)});
+              popupMenuInstance.setProps(config);
             }
           }
         }
