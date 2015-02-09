@@ -85,10 +85,12 @@
 
 .ring2-header__menu-service {
   background: linear-gradient(#24353d, #4a565c);
+  height: 0;
   margin: -1px (-$ring-unit*4) 0;
   overflow: hidden;
   position: relative;
   text-align: left;
+  transition: height 200ms ease-out;
 
   a, a span {
     color: #fff;
@@ -119,7 +121,7 @@
   text-overflow: ellipsis;
   vertical-align: middle;
   width: $ring-unit*16;
-  white-space: nowrap; // todo(igor.alexeenko): Do I need it?
+  white-space: nowrap;
 
   .ring-icon {
     display: inline-block;
@@ -147,19 +149,6 @@
   a, b {
     color: $ring-color-dark-gray;
   }
-}
-
-.ring2-header__service-menu-enter {
-  height: 0;
-  transition: height 200ms ease-out;
-}
-
-.ring2-header__service-menu-leave-active {
-  transition: height 250ms ease-out;
-}
-
-.ring2-header__service-menu-leave-active {
-  height: 0;
 }
 
 // Customize menu icons

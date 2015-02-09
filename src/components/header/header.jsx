@@ -247,7 +247,53 @@ var sortServices = function(items) {
 };
 
 
-var _stylesheet = null;
+/**
+ * @const
+ * @type {number}
+ */
+var ELEMENT_WIDTH = 128; // todo(igor.alexeenko): Better get this property from css.
+
+/**
+ * @const
+ * @type {number}
+ */
+var LINE_HEIGHT = 3 * Global.RING_UNIT;
+
+/**
+ * @const
+ * @type {number}
+ */
+var ICON_LINE_HEIGHT = 18 * Global.RING_UNIT;
+
+/**
+ * @param {Header} headerElement
+ * @return {number}
+ */
+var getHeaderHeight = function(headerElement) {
+  var iconsMenuSize = headerElement.props.servicesList.length - headerElement.props.servicesListMenu.length;
+  var headerWidth = headerElement.getDOMNode().clientWidth;
+
+  var elementsPerLine = headerWidth / ELEMENT_WIDTH;
+  var lines = Math.ceil(iconsMenuSize / elementsPerLine);
+
+  var isLine = headerElement.props.servicesListMenu.length;
+
+  var heights = [ICON_LINE_HEIGHT * lines];
+
+  if (isLine) {
+    heights.push(LINE_HEIGHT);
+  }
+
+  return heights.reduce(function(a, b) { return a + b; });
+};
+
+/**
+ * @type {RuleInsertHelper}
+ * @private
+ */
+var _styleHelper = null;
+
+var _servicesResizeHandler = null;
 
 /**
  * @constructor
@@ -348,9 +394,7 @@ var Header = React.createClass({
         return item;
       })}</div>
       {this._getRightMenu()}
-      <React.addons.CSSTransitionGroup transitionName={headerClassName.getElement('service-menu')}>
-        {this._getServicesMenu()}
-      </React.addons.CSSTransitionGroup>
+      {this._getServicesMenu()}
     </div>);
     /*jshint ignore:end*/
   },
@@ -383,41 +427,27 @@ var Header = React.createClass({
   },
 
   componentWillUpdate: function(nextProps, nextState) {
-    if (!_stylesheet) {
-      /**
-       * @type {HTMLStyleElement}
-       */
-      var styleElement = document.createElement('style');
-      styleElement.type = 'text/css';
-      styleElement.appendChild(document.createTextNode(''));
-      document.body.appendChild(styleElement);
-
-      _stylesheet = styleElement.sheet;
+    if (!_styleHelper) {
+      _styleHelper = new Global.RuleInsertHelper();
     }
 
     if (!this.state.servicesOpened && nextState.servicesOpened) {
-      var headerHeight = getHeaderHeight(this);
-
-      while (_stylesheet.cssRules.length) {
-        _stylesheet.deleteRule(0);
-      }
-
-      _stylesheet.insertRule('.ring2-header__menu-service-inner { height: ' + headerHeight + 'px }', 0);
-      _stylesheet.insertRule('.ring2-header__service-menu-enter-active { height: ' + headerHeight + 'px }', 0);
-      _stylesheet.insertRule('.ring2-header__service-menu-enter { height: 0; transition: height 200ms ease-out }', 0);
-      _stylesheet.insertRule('.ring2-header__menu-service { height: ' + headerHeight + 'px }', 0);
+      this._adjustServicesHeight();
+    } else if (this.state.servicesOpened && !nextState.servicesOpened) {
+      _styleHelper.cleanup();
     }
+  },
 
-    else if (this.state.servicesOpened && !nextState.servicesOpened) {
-      while (_stylesheet.cssRules.length) {
-        _stylesheet.deleteRule(0);
-      }
-
-      _stylesheet.insertRule('.ring2-header__menu-service-inner { height: ' + headerHeight + 'px }', 0);
-      _stylesheet.insertRule('.ring2-header__menu-service { height: ' + headerHeight + 'px }', 0);
-      _stylesheet.insertRule('.ring2-header__service-menu-leave-active { height: 0 }', 0);
-      _stylesheet.insertRule('.ring2-header__service-menu-leave { height: ' + headerHeight + 'px }', 0);
-    }
+  /**
+   * Resizes services list.
+   * @private
+   */
+  _adjustServicesHeight: function() {
+    var headerHeight = getHeaderHeight(this);
+    _styleHelper.cleanup();
+    _styleHelper.insertRule(_styleHelper.getRule(
+        ['.ring2-header__menu-service', '.ring2-header__menu-service-inner'],
+        { height: headerHeight + 'px' }));
   },
 
   /**
@@ -479,7 +509,7 @@ var Header = React.createClass({
    * @private
    */
   _getServicesMenu: function() {
-    if (!this.props.servicesList || !this.state.servicesOpened) {
+    if (!this.props.servicesList) {
       return null;
     }
 
@@ -622,45 +652,5 @@ var Header = React.createClass({
   }
 });
 
-
-/**
- * @const
- * @type {number}
- */
-var ELEMENT_WIDTH = 128; // todo(igor.alexeenko): Better get this property from css.
-
-/**
- * @const
- * @type {number}
- */
-var LINE_HEIGHT = 3 * Global.RING_UNIT;
-
-/**
- * @const
- * @type {number}
- */
-var ICON_LINE_HEIGHT = 18 * Global.RING_UNIT;
-
-/**
- * @param {Header} headerElement
- * @return {number}
- */
-var getHeaderHeight = function(headerElement) {
-  var iconsMenuSize = headerElement.props.servicesList.length - headerElement.props.servicesListMenu.length;
-  var headerWidth = headerElement.getDOMNode().clientWidth;
-
-  var elementsPerLine = headerWidth / ELEMENT_WIDTH;
-  var lines = Math.ceil(iconsMenuSize / elementsPerLine);
-
-  var isLine = headerElement.props.servicesListMenu.length;
-
-  var heights = [ICON_LINE_HEIGHT * lines];
-
-  if (isLine) {
-    heights.push(LINE_HEIGHT);
-  }
-
-  return heights.reduce(function(a, b) { return a + b; });
-};
 
 module.exports = Header;
