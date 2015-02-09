@@ -428,13 +428,15 @@ var Header = React.createClass({
       this._adjustServicesHeight(true);
 
       _servicesResizeHandler = function(event) {
-        this._adjustServicesHeight(false);
+        if (this.state.servicesOpened) {
+          this._adjustServicesHeight(false);
+        }
       }.bind(this);
       window.addEventListener('resize', _servicesResizeHandler);
     } else if (this.state.servicesOpened && !nextState.servicesOpened) {
       this._adjustServicesHeight(true, 0);
 
-      window.removeEventListener('reisze', _servicesResizeHandler);
+      window.removeEventListener('resize', _servicesResizeHandler);
       _servicesResizeHandler = null;
     }
   },
