@@ -97,6 +97,10 @@ describe('Global', function() {
       it('getRule() generates a valid CSSRule string from given selector and object', function() {
         ruleInsertHelper.getRule('.selector', {width: '150px', height: '200px'}).should.equal('.selector{width:150px;height:200px}');
       });
+
+      it('should generate valid CSSRule string for multiple selectors if first argument is an array', function() {
+        ruleInsertHelper.getRule(['.selector1', '.selector2'], {width: '150px', height: '200px'}).should.equal('.selector1,.selector2{width:150px;height:200px}');
+      });
     });
 
     describe('RuleInsertHelper.insertRule()', function() {
