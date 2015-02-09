@@ -1,5 +1,5 @@
 var merge = require('mout/object/merge');
-var generateConfig = require('./karma-common.conf.js');
+var generateConfig = require('./karma.conf.js');
 
 module.exports = function(karma) {
   var config = merge(generateConfig(karma), {
