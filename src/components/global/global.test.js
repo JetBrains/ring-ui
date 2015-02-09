@@ -115,9 +115,9 @@ describe('Global', function() {
       it('deleteRule() deletes a CSS rule', function() {
         ruleInsertHelper.insertRule(ruleInsertHelper.getRule('body', { 'font-size': '12px' }));
         var sheet = ruleInsertHelper._getStylesheet();
-        sheet.sheet.rules.length.should.equal(1);
+        sheet.sheet.cssRules.length.should.equal(1);
         ruleInsertHelper.deleteRule(0);
-        sheet.sheet.rules.length.should.equal(0);
+        sheet.sheet.cssRules.length.should.equal(0);
       });
     });
 
@@ -127,9 +127,9 @@ describe('Global', function() {
         ruleInsertHelper.insertRule(ruleInsertHelper.getRule('body', { 'font-weight': 'bold' }));
 
         var sheet = ruleInsertHelper._getStylesheet();
-        sheet.sheet.rules.length.should.equal(2);
+        sheet.sheet.cssRules.length.should.equal(2);
         ruleInsertHelper.cleanup();
-        sheet.sheet.rules.length.should.equal(0);
+        sheet.sheet.cssRules.length.should.equal(0);
       });
     });
   });
