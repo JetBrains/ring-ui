@@ -79,11 +79,17 @@ describe('Global', function() {
   });
 
   describe('RuleInsertHelper', function() {
-    var ruleInsertHelper = Global.RuleInsertHelper.getInstance();
+    var ruleInsertHelper;
+
+    beforeEach(function() {
+      ruleInsertHelper = new Global.RuleInsertHelper();
+    });
 
     describe('RuleInsertHelper._getStylesheet()', function() {
       it('_getStylesheet() creates a valid CSSStyleElement', function() {
         var sheet = ruleInsertHelper._getStylesheet();
+        sheet.should.exist;
+        sheet.should.be.an.instanceof(HTMLStyleElement);
       });
     });
 
@@ -93,11 +99,33 @@ describe('Global', function() {
       });
     });
 
-    describe.only('RuleInsertHelper.insertRule()', function() {
+    describe('RuleInsertHelper.insertRule()', function() {
       it('insertRule() inserts a valid rule that works', function() {
-        ruleInsertHelper.insertRule(ruleInsertHelper.getRule('body', { background: '#000' }));
+        ruleInsertHelper.insertRule(ruleInsertHelper.getRule('body', { 'font-size': '12px' }));
         var computedStyle = window.getComputedStyle(document.body);
-        computedStyle.background.should.equal('#000');
+        computedStyle.fontSize.should.equal('12px');
+      });
+    });
+
+    describe('RuleInsertHelper.deleteRule()', function() {
+      it('deleteRule() deletes a CSS rule', function() {
+        ruleInsertHelper.insertRule(ruleInsertHelper.getRule('body', { 'font-size': '12px' }));
+        var sheet = ruleInsertHelper._getStylesheet();
+        sheet.sheet.rules.length.should.equal(1);
+        ruleInsertHelper.deleteRule(0);
+        sheet.sheet.rules.length.should.equal(0);
+      });
+    });
+
+    describe('RuleInsertHelper.cleanup()', function() {
+      it('cleanup() deletes all CSS rules', function() {
+        ruleInsertHelper.insertRule(ruleInsertHelper.getRule('body', { 'font-size': '12px' }));
+        ruleInsertHelper.insertRule(ruleInsertHelper.getRule('body', { 'font-weight': 'bold' }));
+
+        var sheet = ruleInsertHelper._getStylesheet();
+        sheet.sheet.rules.length.should.equal(2);
+        ruleInsertHelper.cleanup();
+        sheet.sheet.rules.length.should.equal(0);
       });
     });
   });
