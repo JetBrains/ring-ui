@@ -7,6 +7,7 @@ require('../message-bundle-ng/message-bundle-ng');
 
 
 angular.module('Ring.error-page', [
+  'ngRoute',
   'Ring.error-message',
   'Ring.permissions',
   'Ring.message-bundle'
@@ -118,7 +119,7 @@ angular.module('Ring.error-page', [
             var promise = scope.errorSource.$promise || scope.errorSource.promise;
             if (promise) {
               promise['catch'](function(errorResponse) {
-                var status = errorResponse.status;
+                var status = errorResponse && errorResponse.status;
                 handleError(status, errorPageConfiguration.responseToMessageConverter(errorResponse));
                 $log.debug('Navigation: errorSource ' + iAttrs.errorPage + ' not permitted, status: ' + status);
                 return errorResponse;
