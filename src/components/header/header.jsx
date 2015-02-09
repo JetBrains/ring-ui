@@ -287,11 +287,6 @@ var getHeaderHeight = function(headerElement) {
   return heights.reduce(function(a, b) { return a + b; });
 };
 
-/**
- * @type {RuleInsertHelper}
- * @private
- */
-var _styleHelper = null;
 
 var _servicesResizeHandler = null;
 
@@ -377,6 +372,8 @@ var Header = React.createClass({
       servicesIconsMenu: null,
       servicesListMenu: null,
       servicesListPopup: null,
+      servicesStyle: null,
+      servicesInnerStyle: null,
 
       onUserMenuOpen: null,
       onUserMenuClose: null,
@@ -427,10 +424,6 @@ var Header = React.createClass({
   },
 
   componentWillUpdate: function(nextProps, nextState) {
-    if (!_styleHelper) {
-      _styleHelper = new Global.RuleInsertHelper();
-    }
-
     if (!this.state.servicesOpened && nextState.servicesOpened) {
       this._adjustServicesHeight(true);
 
@@ -439,7 +432,6 @@ var Header = React.createClass({
       }.bind(this);
       window.addEventListener('resize', _servicesResizeHandler);
     } else if (this.state.servicesOpened && !nextState.servicesOpened) {
-      _styleHelper.cleanup();
       this._adjustServicesHeight(true, 0);
 
       window.removeEventListener('reisze', _servicesResizeHandler);
@@ -455,17 +447,19 @@ var Header = React.createClass({
    */
   _adjustServicesHeight: function(animated, height) {
     var headerHeight = typeof height !== 'undefined' ? height : getHeaderHeight(this);
-    _styleHelper.cleanup();
 
-    if (!!animated) {
-      _styleHelper.insertRule(_styleHelper.getRule(
-          '.ring2-header__menu-service',
-          { transition: 'height 200ms ease-out' }));
-    }
+    var servicesStyle = {};
+    var servicesInnerStyle = {};
 
-    _styleHelper.insertRule(_styleHelper.getRule(
-        ['.ring2-header__menu-service', '.ring2-header__menu-service-inner'],
-        { height: headerHeight + 'px' }));
+    servicesStyle['transition'] = !!animated ? 'height 200ms ease-out' : '';
+    servicesStyle['height'] = headerHeight + 'px';
+
+    servicesInnerStyle['height'] = headerHeight + 'px';
+
+    this.setProps({
+      servicesStyle: servicesStyle,
+      servicesInnerStyle: servicesInnerStyle
+    });
   },
 
   /**
@@ -533,8 +527,10 @@ var Header = React.createClass({
     }
 
     /* jshint ignore:start */
-    return (<div className={headerClassName.getElement('menu-service')}>
-      {this.props.servicesIconsMenu}
+    return (<div className={headerClassName.getElement('menu-service')} style={this.props.servicesStyle}>
+      <div className={headerClassName.getElement('menu-service-inner')} style={this.props.servicesInnerStyle}>
+        {this.props.servicesIconsMenu}
+      </div>
     </div>);
     /* jshint ignore:end */
   },
@@ -629,7 +625,7 @@ var Header = React.createClass({
 
       if (servicesIcons.length > 1) {
         /* jshint ignore:start */
-        var servicesIconsMenu = (<div className={headerClassName.getElement('menu-service-inner')}>
+        var servicesIconsMenu = (<div>
           <div className={headerClassName.getElement('menu-service-line')}>
             {servicesList.map(function(item, i) {
               var href = document.location.toString().indexOf(item.homeUrl) === -1 ? item.homeUrl : null;
