@@ -122,7 +122,9 @@
   white-space: nowrap; // todo(igor.alexeenko): Do I need it?
 
   .ring-icon {
+    display: inline-block;
     fill: #fff;
+    margin-top: 3*$ring-unit;
     padding-bottom: $ring-unit;
   }
 }
