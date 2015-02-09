@@ -4,21 +4,21 @@
 //
 // Markup:
 //<label class="ring-form__label ring-form__label_full-line">
-//  <input checked class="ring-radio-btn" type="radio" name="who" id="who" value="Michael Jordan">
-//  <label for="who" class="ring-radio-btn__radio"></label>
-//  <label for="who" class="ring-radio-btn__label">Michael Jordan</label>
+//  <input checked class="ring-radio-btn" type="radio" name="who" value="Michael Jordan">
+//  <span class="ring-radio-btn__radio"></span>
+//  <span class="ring-radio-btn__label">Michael Jordan</span>
 //</label>
 //
 //<label class="ring-form__label ring-form__label_full-line">
-//  <input class="ring-radio-btn" type="radio" name="who" id="who2" value="Michael Phelps">
-//  <label for="who2" class="ring-radio-btn__radio"></label>
-//  <label for="who2" class="ring-radio-btn__label">Michael Phelps</label>
+//  <input class="ring-radio-btn" type="radio" name="who" value="Michael Phelps">
+//  <span class="ring-radio-btn__radio"></span>
+//  <span class="ring-radio-btn__label">Michael Phelps</span>
 //</label>
 //
 // Styleguide 17.1
 
 .ring-radio-btn {
-  opacity: 0;
+  //opacity: 0;
   position: absolute;
   margin: 5px 2px;
 
