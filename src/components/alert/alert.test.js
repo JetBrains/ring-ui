@@ -55,9 +55,9 @@ describe('Alert', function() {
         alertElement.classList.contains('ring-alert_message').should.be.true;
       });
 
-      it ('should properly render a HTML message', function() {
+      it ('should properly render a HTML message (in renderAsHTML mode)', function() {
         var alertComponent = React.addons.TestUtils.renderIntoDocument(
-          new Alert({ 'caption': 'Test <b>element</b>', 'type': Alert.Type.MESSAGE }));
+          new Alert({ 'caption': 'Test <b>element</b>', 'type': Alert.Type.MESSAGE, 'renderAsHTML': true }));
 
         var captionElemnt = alertComponent.refs.caption.getDOMNode();
         captionElemnt.textContent.should.be.equal('Test element');
