@@ -252,9 +252,22 @@ var List = React.createClass({
   },
 
   enterHandler: function () {
-    this.setState({scrolling: false});
-    if (this.state.activeIndex) {
-      this.refs['item' + this.state.activeIndex].getDOMNode().click();
+    this.setState({scrolling: false}, function() {
+      this.selectHandler(this.props.data[this.state.activeIndex], true);
+    });
+  },
+
+  selectHandler: function(item, isKeyboardEvent) {
+    if (typeof item.onClick === 'function') {
+      item.onClick.apply(item, arguments);
+    }
+
+    if (typeof this.props.onSelect === 'function') {
+      this.props.onSelect(item);
+    }
+
+    if (item.type === Type.LINK && isKeyboardEvent) {
+      document.location.href = this.refs['item' + this.state.activeIndex].getDOMNode().href;
     }
   },
 
@@ -319,18 +332,12 @@ var List = React.createClass({
 
             props.active = (index === this.state.activeIndex);
             props.onMouseOver = this.hoverHandler.bind(this, index);
-            props.tabIndex = -1; // disable tab focus
+            props.tabIndex = -1;
             props.scrolling = this.state.scrolling;
             props.ref = 'item' + index;
 
             props.onClick = function () {
-              if (typeof item.onClick === 'function') {
-                item.onClick.apply(item, arguments);
-              }
-
-              if (typeof this.props.onSelect === 'function') {
-                this.props.onSelect(item);
-              }
+              this.selectHandler(item);
             }.bind(this);
 
             var element;

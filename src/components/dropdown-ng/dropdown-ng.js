@@ -85,7 +85,7 @@ angular.module('Ring.dropdown', [])
         }
 
         function setItems(items) {
-          if (angular.isArray(items)) {
+          if (angular.isArray(items) && items.length) {
             config.data = convertItemsForPopup(items);
             if (!popupMenuInstance) {
               popupMenuInstance = PopupMenu.renderComponent(new PopupMenu(config));
