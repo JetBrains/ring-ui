@@ -653,6 +653,7 @@ var Header = React.createClass({
           servicesIconsMenu: servicesIconsMenu,
           servicesListMenu: servicesList
         });
+
         /* jshint ignore:end */
       } else {
         var popupData = this.props.servicesList.map(function(item) {
@@ -670,16 +671,20 @@ var Header = React.createClass({
 });
 
 
+/**
+ * @namespace
+ */
 var HeaderHelper = {};
 
 /**
  * @param {Header} header
  * @param {Auth} auth
+ * @param {Object=} params
  * @return {Promise}
  */
-HeaderHelper.setServicesList = function(header, auth) {
+HeaderHelper.setServicesList = function(header, auth, params) {
   return auth.requestToken().then(function(token) {
-    auth.getSecure('rest/services', token, function(resp) {
+    auth.getSecure('rest/services', token, params).then(function(resp) {
       header.setServicesList(resp.services);
     });
   });
@@ -690,10 +695,15 @@ HeaderHelper.setServicesList = function(header, auth) {
  * @param {Auth} auth
  * @return {Promise}
  */
-HeaderHelper.setUserAvatar = function(header, auth) {
-  return auth.requestToken().then(function(token) {
-
+HeaderHelper.setUserMenu = function(header, auth) {
+  return auth.requestToken().then(function() {
+    auth.requestUser().then(function(response) {
+      if (response.avatar && response.avatar.type !== 'defaultavatar')  {
+        header.setProfilePicture(response.avatar.pictureUrl);
+      }
+    });
   });
 };
 
 module.exports = Header;
+module.exports.HeaderHelper = HeaderHelper;
