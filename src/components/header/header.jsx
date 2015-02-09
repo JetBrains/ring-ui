@@ -639,7 +639,7 @@ var LINE_HEIGHT = 3 * Global.RING_UNIT;
  * @const
  * @type {number}
  */
-var ICON_LINE_HEIGHT = 19 * Global.RING_UNIT;
+var ICON_LINE_HEIGHT = 18 * Global.RING_UNIT;
 
 /**
  * @param {Header} headerElement
