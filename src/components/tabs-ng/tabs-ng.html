@@ -1,16 +1,10 @@
-<div class="ring-tabs">
-  <div class="ring-tabs__tabs" ng-if="!breadcrumb" shortcuts="ring-tabs" shortcuts-map="keyMap" shortcuts-focus="focus">
+<div class="ring-tabs" shortcuts="ring-tabs" shortcuts-map="keyMap" shortcuts-focus="focus">
+  <div class="ring-tabs__tabs" ng-class="tabsClass">
     <div ng-repeat="pane in panes" ng-click="control.select(pane)"
          ng-class="{active:pane.selected, 'ring-tabs__btn_focus': focus && pane.selected}"
          class="ring-tabs__btn">{{pane.title}}<span
       class="ring-tabs__btn__counter" ng-show="pane.counter !== undefined">{{ pane.counter }}</span>
     </div>
-  </div>
-  <div class="ring-breadcrumb ring-breadcrumb_small" ng-if="breadcrumb">
-      <span ng-repeat="pane in panes">
-        <span class="ring-breadcrumb__sep ring-font-icon ring-font-icon_chevron-right" ng-if="!$first"></span>
-        <span class="ring-breadcrumb__element" ng-click="control.select(pane)" ng-class="{active:pane.selected}">{{pane.title}}</span>
-      </span>
   </div>
   <div class="ring-tabs__container" ng-transclude></div>
 </div>
