@@ -3,7 +3,7 @@
 .ring2-header {
   box-sizing: border-box;
   line-height: $ring-unit * 7;
-  margin: 0 $ring-unit * 4 1px;
+  margin: 0 0 1px;
   position: relative;
 
   &.ring2-header_border:after {
@@ -26,13 +26,13 @@
 }
 
 .ring2-header__logo {
-  margin-right: $ring-unit * 4;
+  margin: 0 $ring-unit * 4;
   @include vertical-compensation(-1px);
 }
 
 .ring2-header__user-menu {
   float: right;
-  margin-right: -$ring-unit;
+  margin-right: $ring-unit * 3;
 }
 
 .ring2-header__menu-item,
