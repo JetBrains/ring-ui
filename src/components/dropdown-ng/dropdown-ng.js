@@ -37,7 +37,7 @@ angular.module('Ring.dropdown', [])
         labelField: '@',
         onItemSelect: '='
       },
-      controller: ['$scope', '$element', '$location', function ($scope, $element, $location) {
+      controller: ['$scope', '$element', '$location', function ($scope, $element) {
         var popupMenuInstance = null;
         var ITEM_TYPES = {
           LINK: 1,
