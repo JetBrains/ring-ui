@@ -24,6 +24,10 @@ $ring-fonts-dir: 'fonts/' !default;
 $ring-font-size: 13px;
 $ring-font-size-smaller: 11px;
 
+.ring-hidden {
+  display: none !important;
+}
+
 @mixin clearfix() {
   &:after {
     clear: both;
