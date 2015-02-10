@@ -90,9 +90,6 @@ var Alert = React.createClass({
       caption: null,
 
       /** @type {boolean} */
-      renderAsHTML: false,
-
-      /** @type {boolean} */
       closeable: false,
 
       /**
@@ -193,11 +190,7 @@ var Alert = React.createClass({
    */
   _getCaption: function() {
     /*jshint ignore:start*/
-    if (this.props.renderAsHTML) {
-      return (<span ref="caption" className="ring-alert__caption" dangerouslySetInnerHTML={{__html: this.props.caption}}></span>);
-    } else {
-      return (<span className="ring-alert__caption">{this.props.caption}</span>);
-    }
+    return (<span className="ring-alert__caption">{this.props.caption}</span>);
     /*jshint ignore:end*/
   },
 
