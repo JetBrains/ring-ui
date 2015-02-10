@@ -1,85 +1,38 @@
 @import "../global/global";
 
-// Tabs
-//
-// Markup:
-// <div class="ring-tabs">
-//  <div class="ring-tabs__tabs">
-//     <div class="ring-tabs__btn {$modifiers}">Settings</div>
-//     <div class="ring-tabs__btn">Access</div>
-//     <div class="ring-tabs__btn">Members<span class="ring-tabs__btn__counter">7<span></div>
-//   </div>
-// </div>
-//
-// .ring-tabs__btn_active     - Active tab, also available as `.active`
-// .ring-tabs__btn_disabled   - Disable tab state, also available as `.disabled`
-// .ring-tabs__btn_focus      - Highlight focused tab, also available as `:focus`
-//
-// Styleguide 11.1
-
-// Tabs with underline
-//
-// Markup:
-// <div class="ring-tabs {$modifiers}">
-//  <div class="ring-tabs__tabs">
-//     <div class="ring-tabs__btn active">Settings</div>
-//     <div class="ring-tabs__btn">Access</div>
-//     <div class="ring-tabs__btn">Members<span class="ring-tabs__btn__counter">7<span></div>
-//   </div>
-// </div>
-//
-// .ring-tabs_long            - Stretched underline
-//
-// Styleguide 11.2
-
-@mixin ring-tabs-border-bottom {
-  border-bottom: 1px solid;
-  @include rgba-attribute('border-color', rgba(0, 0, 0, 0.15))
-}
-
 .ring-tabs__tabs {
-  display: flex;
   position: relative;
 
-  margin: $ring-unit*2;
-  line-height: $ring-unit*3 - 2;
   font-size: 0;
   white-space: nowrap;
-
-  .ring-tabs_long &:after {
-    content: '';
-    display: inline-block;
-    flex: auto;
-
-    @include ring-tabs-border-bottom;
-  }
 }
 
 .ring-tabs__btn {
+  display: inline-block;
   box-sizing: border-box;
   overflow: hidden;
   position: relative;
 
-  display: inline-block;
-  &, x:-IE7 { // IE7
-    zoom: 1;
-    display: inline;
-  }
-
   height: $ring-unit * 3;
+  line-height: $ring-unit*3 - 2;
+  margin-top: 3px;
   padding: 1px $ring-unit * 2 + 1 0;
 
   @include ring-font;
   color: $ring-link-color;
   font-size: 13px;
 
-  @include ring-tabs-border-bottom;
+  border-bottom: 1px solid;
+  @include rgba-attribute('border-color', rgba(0, 0, 0, 0.15));
   border-top-left-radius: 3px;
   border-top-right-radius: 3px;
 
   cursor: pointer;
 
-  &.active, &.ring-tabs__btn_active {
+  &.active,
+  &.ring-tabs__btn_active,
+  &.ring-tabs__btn:focus:before,
+  &.ring-tabs__btn_focus:before {
     color: $ring-font-color;
     outline: 0;
     user-select: none;
@@ -89,7 +42,7 @@
     padding: 0 $ring-unit * 2;
     border-bottom: none;
 
-    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.05), transparent 80%);
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.03), transparent 80%);
     background-position: 0 0;
     background-repeat: no-repeat;
 
@@ -99,6 +52,37 @@
   &:hover {
     color: $ring-link-hover-color;
   }
+
+  &.ring-tabs__btn:focus:before,
+  &.ring-tabs__btn_focus:before {
+    content: '';
+    display: block;
+
+    width: calc(100% - 1px);
+    left: 0;
+    height: calc(100% - 1px);
+    top: 0;
+    position: absolute;
+    padding: 0;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+
+    padding-top: 1px;
+    padding-bottom: 1px;
+  }
+
+  &.ring-tabs__btn:focus,
+  &.ring-tabs__btn_focus {
+    height: 100%;
+
+    padding: 1px $ring-unit * 2 - 2 1px;
+    margin-top: 0;
+    border: 3px solid;
+    @include rgba-attribute('border-color', $ring-outline-color);
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+    border-bottom: none;
+  }
 }
 
 .ring-tabs__btn_disabled,
@@ -107,29 +91,12 @@
   color: #888 !important;
 }
 
-.ring-tabs__btn:focus:before,
-.ring-tabs__btn_focus:before {
-  content: '';
-  display: block;
-  position: absolute;
-
-  top: -3px;
-  left: -3px;
-  width: 100%;
-  height: 100%;
-
-  border: 3px solid;
-  @include rgba-attribute('border-color', $ring-outline-color);
-  border-top-left-radius: 6px;
-  border-top-right-radius: 6px;
-  border-bottom: none;
-}
-
 .ring-tabs__btn__counter {
   position: relative;
   top: -4px;
   color: black;
   font-size: 10px;
+  line-height: 19px; // prevent jumps in Firefox
 }
 
 .ring-tabs__content {
