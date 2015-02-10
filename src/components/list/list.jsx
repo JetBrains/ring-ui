@@ -252,9 +252,14 @@ var List = React.createClass({
   },
 
   enterHandler: function () {
-    this.setState({scrolling: false}, function() {
-      this.selectHandler(this.props.data[this.state.activeIndex], true);
-    });
+    if (this.state.activeIndex !== null) {
+      this.setState({scrolling: false}, function () {
+        this.selectHandler(this.props.data[this.state.activeIndex], true);
+      });
+      return false; // do no propagate event
+    } else {
+      return true; // propagate event to for ex. QuerryAssist
+    }
   },
 
   selectHandler: function(item, isKeyboardEvent) {
