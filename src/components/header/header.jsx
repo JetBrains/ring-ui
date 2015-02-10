@@ -532,8 +532,12 @@ var Header = React.createClass({
       return null;
     }
 
+    var className = React.addons.classSet(Global.createObject(
+        headerClassName.getElement('menu-service'), true,
+        headerClassName.getClassName('menu-service', 'opened'), this.state.servicesOpened));
+
     /* jshint ignore:start */
-    return (<div className={headerClassName.getElement('menu-service')} style={this.props.servicesStyle}>
+    return (<div className={className} style={this.props.servicesStyle}>
       <div className={headerClassName.getElement('menu-service-inner')} style={this.props.servicesInnerStyle}>
         {this.props.servicesIconsMenu}
       </div>
