@@ -94,7 +94,49 @@ angular.module('Ring.error-page', [
     '$rootScope',
     '$log',
     'ErrorPageMessages',
-    function (errorPageConfiguration, $route, userPermissions, $rootScope, $log, ErrorPageMessages) {
+    '$q',
+    function (errorPageConfiguration, $route, userPermissions, $rootScope, $log, ErrorPageMessages, $q) {
+
+      function getArgumentPromise(errorSource, errorPageParameterPresentation) {
+        var df = $q.defer();
+        var promise = errorSource && (errorSource.$promise || errorSource.promise);
+        if (promise) {
+          promise['catch'](function(errorResponse) {
+            $log.debug('Navigation: errorSource ' + errorPageParameterPresentation + ' not permitted, status: ' + status);
+            df.reject({
+              status: errorResponse && errorResponse.status,
+              message: errorPageConfiguration.responseToMessageConverter(errorResponse)
+            });
+            return errorResponse;
+          });
+          promise.then(function(data) {
+            df.resolve();
+            return data;
+          });
+        } else {
+          df.resolve();
+        }
+        return df.promise;
+      }
+
+      function getRoutingPermissionPromise() {
+        var df = $q.defer();
+        if ($route.current && $route.current.$$route && $route.current.$$route.permission) {
+          var pagePermission = $route.current.$$route.permission;
+          userPermissions.load().then(function (permissionCache) {
+            if (!permissionCache.has(pagePermission)) {
+              $log.debug('Navigation: no page' + pagePermission + ' permission, status 403');
+              df.reject({status: 403});
+            } else {
+              df.resolve();
+            }
+          });
+        } else {
+          df.resolve();
+        }
+        return df.promise;
+      }
+
 
       return {
         replace: true,
@@ -102,52 +144,27 @@ angular.module('Ring.error-page', [
         template: require('./error-page-ng.html'),
         require: '?^errorPageBackground',
         link: function (scope, iElement, iAttrs, errorPageBackgroundCtrl) {
-          scope.errorSource = scope.$eval(iAttrs.errorPage);
-
-          var handleError = function (status, message) {
-            scope.error = {
-              status: status,
-              message: message
-            };
+          function handleError(error) {
+            scope.error = error;
             if (errorPageBackgroundCtrl) {
               errorPageBackgroundCtrl.setApplicationError(true);
             }
-            scope.resolved = true;
-          };
+          }
 
-          if (scope.errorSource) {
-            var promise = scope.errorSource.$promise || scope.errorSource.promise;
-            if (promise) {
-              promise['catch'](function(errorResponse) {
-                var status = errorResponse && errorResponse.status;
-                handleError(status, errorPageConfiguration.responseToMessageConverter(errorResponse));
-                $log.debug('Navigation: errorSource ' + iAttrs.errorPage + ' not permitted, status: ' + status);
-                return errorResponse;
-              });
-              promise.then(function(data) {
-                scope.resolved = true;
-                return data;
-              });
-            } else if (scope.errorSource.error) {
-              var status = scope.errorSource.error.status;
-              handleError(status);
-              $log.debug('Navigation: errorSource ' + iAttrs.errorPage + ' not permitted, status: ' + status);
-            } else {
-              scope.resolved = true;
-            }
-          } else if ($route.current && $route.current.$$route && $route.current.$$route.permission) {
-            var pagePermission = $route.current.$$route.permission;
-            userPermissions.load().then(function (permissionCache) {
-              if (!permissionCache.has(pagePermission)) {
-                handleError(403);
-                $log.debug('Navigation: no page' + pagePermission + ' permission, status 403');
-              } else {
-                scope.resolved = true;
-              }
-            });
-          } else {
-            // success if no special restrictions on page load
+          var errorSource = scope.$eval(iAttrs.errorPage);
+          if (errorSource && errorSource.error) {
+            handleError(errorSource.error);
             scope.resolved = true;
+            $log.debug('Navigation: errorSource ' + iAttrs.errorPage + ' not permitted, status: ' + status);
+          } else {
+            var promise = $q.all([
+              getRoutingPermissionPromise(),
+              getArgumentPromise(errorSource, iAttrs.errorPage)
+            ]);
+            promise['catch'](handleError);
+            promise['finally'](function() {
+              scope.resolved = true;
+            });
           }
 
           if (errorPageBackgroundCtrl) {
