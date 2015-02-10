@@ -77,7 +77,8 @@ var BASE_CLASS = 'ring-alert';
  */
 var Alert = React.createClass({
   statics: {
-    Type: Type
+    Type: Type,
+    DOM: React.DOM
   },
 
   /** @override */

@@ -27,7 +27,8 @@ angular.module('Ring.alert', []).provider('alert', function() {
       warning: warning,
       message: message,
       success: success,
-      setRemoveCallback: setRemoveCallback
+      setRemoveCallback: setRemoveCallback,
+      DOM: ReactAlert.DOM
     };
   };
 
