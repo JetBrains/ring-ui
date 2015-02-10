@@ -276,15 +276,19 @@ var getHeaderHeight = function(headerElement) {
   var elementsPerLine = headerWidth / ELEMENT_WIDTH;
   var lines = Math.ceil(iconsMenuSize / elementsPerLine);
 
-  var isLine = headerElement.props.servicesListMenu.length;
-
   var heights = [ICON_LINE_HEIGHT * lines];
 
-  if (isLine) {
-    heights.push(LINE_HEIGHT);
+  if (headerElement.props.servicesListMenu.length) {
+    var lineMenuItems = headerElement.getDOMNode().querySelectorAll('.' + headerClassName.getElement('menu-service-line__item'));
+    var lineWidth = [].reduce.call(lineMenuItems, function(accumulatedWidth, currentNode) {
+      return accumulatedWidth + currentNode.clientWidth;
+    }, lineMenuItems[0] ? lineMenuItems[0].clientWidth : 0);
+    var linesCount = Math.ceil(lineWidth / headerWidth);
+
+    heights.push(LINE_HEIGHT * linesCount);
   }
 
-  return heights.reduce(function(a, b) { return a + b; });
+  return heights.reduce(function(a, b) { return a + b; }, 0);
 };
 
 
