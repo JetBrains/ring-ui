@@ -52,11 +52,9 @@ $ring-form-text-line-height: 20px;
 // Input error bubbles
 //
 // Markup:
-// <div class="ring-input_wrapper">
-//   <input class="ring-input ring-input_error" type="text">
-//   <div class="ring-input__error-bubble active">Wrong value</div>
-// </div>
-//
+//<div class="ring-form__control">
+//  <input class="ring-input ring-input_error" type="text">
+//<div class="ring-input__error-bubble">Wrong value</div>
 // Styleguide 14.2
 
 .ring-input__error-bubble {
