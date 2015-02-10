@@ -2,22 +2,41 @@
 
 require('../tabs/tabs.scss');
 
+/**
+ * @name Tabs
+ * @example
+ * <example name="Tabs-ng">
+     <file name="index.html">
+       <div ng-app="Ring.tabs">
+         <rg-tabs class="container container_tabs">
+           <rg-tabs-pane x-title="Settings">Settings tab content</rg-tabs-pane>
+           <rg-tabs-pane x-title="Access" counter="7">Access tab content</rg-tabs-pane>
+           <rg-tabs-pane x-title="Members">Members tab content</rg-tabs-pane>
+           <rg-tabs-pane x-title="Members" counter="666">Members 666 tab content</rg-tabs-pane>
+         </rg-tabs>
+       </div>
+     </file>
+     <file name="index.js" webpack="true">
+       require('angular/angular.min.js');
+       require('angular-route/angular-route.min.js');
+       require('tabs-ng/tabs-ng');
+     </file>
+   </example>
+ */
+
 angular.module('Ring.tabs', ['ngRoute']).
-  directive('ringTabs', ['$location', '$routeParams', '$rootScope', function ($location, $routeParams, $rootScope) {
+  directive('rgTabs', ['$location', '$routeParams', '$rootScope', function ($location, $routeParams, $rootScope) {
     return {
       restrict: 'E',
       transclude: true,
       scope: {
         tabParameter: '@',
+        tabsClass: '=',
         control: '=?'
       },
-      controller: ['$scope', '$attrs', function ($scope, $attrs) {
+      controller: ['$scope', '$attrs', function ($scope) {
         $scope.panes = [];
         $scope.current = 0;
-
-        if ('breadcrumb' in $attrs) {
-          $scope.breadcrumb = true;
-        }
 
         var doSelect = function (newPane, skipUrlUpdate) {
           if (newPane === $scope.panes[$scope.current]) {
@@ -109,9 +128,9 @@ angular.module('Ring.tabs', ['ngRoute']).
       replace: true
     };
   }]).
-  directive('ringTabsPane', function () {
+  directive('rgTabsPane', function () {
     return {
-      require: '^ringTabs',
+      require: '^rgTabs',
       restrict: 'E',
       transclude: true,
       scope: {
