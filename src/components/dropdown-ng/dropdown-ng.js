@@ -52,6 +52,14 @@ angular.module('Ring.dropdown', [])
           top: 2
         });
 
+        function getItemType(item) {
+          var type = item.type || ITEM_TYPES.ITEM;
+          if(item.url || item.type === 'link') {
+            type = ITEM_TYPES.LINK;
+          }
+          return type;
+        }
+
         function convertItemsForPopup(items) {
           items = items || [];
           if ($element.attr('items-passthru') !== undefined) {
@@ -59,14 +67,9 @@ angular.module('Ring.dropdown', [])
           }
 
           return items.map(function (item) {
-            var type = ITEM_TYPES.ITEM;
-            if(item.url || item.type === 'link') {
-              type = ITEM_TYPES.LINK;
-            }
-
             return {
               label: item[$scope.labelField] || item.label || item,
-              type: type,
+              type: getItemType(item),
               href: item.url ? item.url : null,
               onClick: function () {
                 $scope.$apply(function () {
