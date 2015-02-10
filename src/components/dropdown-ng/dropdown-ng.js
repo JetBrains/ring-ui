@@ -53,7 +53,7 @@ angular.module('Ring.dropdown', [])
         });
 
         function getItemType(item) {
-          var type = item.type || ITEM_TYPES.ITEM;
+          var type = angular.isDefined(item.type) ? item.type : ITEM_TYPES.ITEM;
           if(item.url || item.type === 'link') {
             type = ITEM_TYPES.LINK;
           }
@@ -69,6 +69,7 @@ angular.module('Ring.dropdown', [])
           return items.map(function (item) {
             return {
               label: item[$scope.labelField] || item.label || item,
+              description: item.description,
               type: getItemType(item),
               href: item.url ? item.url : null,
               onClick: function () {
