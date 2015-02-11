@@ -8,6 +8,7 @@ var path = require('path');
 var xml2js = require('xml2js');
 var xml = require('node-xml-lite');
 var Global = require('../global/global');
+var ClassName = require('../class-name/class-name');
 
 
 /**
@@ -179,7 +180,7 @@ var transformSVG = function(fileContents) {
     var fileContent = fileContents[fileName];
     var preprocessedFile = (function preprocessFile(fileContent) {
       if (fileContent['name'] === 'svg') {
-        var className = new Global.ClassName(ELEMENT_PREFIX);
+        var className = new ClassName(ELEMENT_PREFIX);
 
         fileContent['name'] = 'symbol';
         fileContent['attrib'] = {

@@ -34,8 +34,8 @@ describe('TabsNg', function () {
   describe('DOM', function () {
     it('Empty tabs', function () {
       var element = $compile(
-        '<ring-tabs>' +
-        '</ring-tabs>'
+        '<rg-tabs>' +
+        '</rg-tabs>'
       )($rootScope);
 
       $rootScope.$digest();
@@ -45,11 +45,11 @@ describe('TabsNg', function () {
 
     it('One tab', function () {
       var element = $compile(
-        '<ring-tabs>' +
-        '<ring-tabs-pane x-title="General">' +
+        '<rg-tabs>' +
+        '<rg-tabs-pane x-title="General">' +
         'General' +
-        '</ring-tabs-pane>' +
-        '</ring-tabs>'
+        '</rg-tabs-pane>' +
+        '</rg-tabs>'
       )($rootScope);
 
       $rootScope.$digest();
@@ -61,14 +61,14 @@ describe('TabsNg', function () {
 
     it('Two tabs', function () {
       var element = $compile(
-        '<ring-tabs>' +
-        '<ring-tabs-pane x-title="General">' +
+        '<rg-tabs>' +
+        '<rg-tabs-pane x-title="General">' +
         'General' +
-        '</ring-tabs-pane>' +
-        '<ring-tabs-pane x-title="Second">' +
+        '</rg-tabs-pane>' +
+        '<rg-tabs-pane x-title="Second">' +
         'Second' +
-        '</ring-tabs-pane>' +
-        '</ring-tabs>'
+        '</rg-tabs-pane>' +
+        '</rg-tabs>'
       )($rootScope);
       element.isolateScope().control.next();
 
