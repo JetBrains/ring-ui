@@ -37,7 +37,7 @@ angular.module('Ring.dropdown', [])
         labelField: '@',
         onItemSelect: '='
       },
-      controller: ['$scope', '$element', '$location', function ($scope, $element, $location) {
+      controller: ['$scope', '$element', '$location', function ($scope, $element) {
         var popupMenuInstance = null;
         var ITEM_TYPES = {
           LINK: 1,
@@ -52,25 +52,26 @@ angular.module('Ring.dropdown', [])
           top: 2
         });
 
-        function createPopup(items) {
-          config.data = items;
-          popupMenuInstance = PopupMenu.renderComponent(new PopupMenu(config));
+        function getItemType(item) {
+          var type = angular.isDefined(item.type) ? item.type : ITEM_TYPES.ITEM;
+          if(item.url || item.type === 'link') {
+            type = ITEM_TYPES.LINK;
+          }
+          return type;
         }
 
         function convertItemsForPopup(items) {
+          items = items || [];
           if ($element.attr('items-passthru') !== undefined) {
             return items;
           }
 
           return items.map(function (item) {
-            var type = ITEM_TYPES.ITEM;
-            if(item.url || item.type === 'link') {
-              type = ITEM_TYPES.LINK;
-            }
-
             return {
               label: item[$scope.labelField] || item.label || item,
-              type: type,
+              description: item.description,
+              type: getItemType(item),
+              href: item.url ? item.url : null,
               onClick: function () {
                 $scope.$apply(function () {
                   if ($scope.onItemSelect) {
@@ -80,10 +81,6 @@ angular.module('Ring.dropdown', [])
                   if (item.onSelect) {
                     item.onSelect.apply(item);
                   }
-
-                  if (item.url) {
-                    $location.url(item.url);
-                  }
                 });
                 popupMenuInstance.hide();
               }
@@ -92,11 +89,12 @@ angular.module('Ring.dropdown', [])
         }
 
         function setItems(items) {
-          if (angular.isArray(items)) {
+          if (angular.isArray(items) && items.length) {
+            config.data = convertItemsForPopup(items);
             if (!popupMenuInstance) {
-              createPopup(convertItemsForPopup(items));
+              popupMenuInstance = PopupMenu.renderComponent(new PopupMenu(config));
             } else {
-              popupMenuInstance.setProps({data: convertItemsForPopup(items)});
+              popupMenuInstance.setProps(config);
             }
           }
         }
