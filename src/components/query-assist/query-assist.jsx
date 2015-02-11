@@ -235,7 +235,7 @@ var QueryAssist = React.createClass({
     var position = this.caret.getPosition({avoidFocus: true});
 
     if (this.state.focus && !this.props.disabled && position !== -1) {
-      this.caret.setPosition(caretPosition || -1);
+      this.caret.setPosition(caretPosition >= 0 ? caretPosition : -1);
     }
 
     /**
