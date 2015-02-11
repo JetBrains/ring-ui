@@ -8,7 +8,6 @@
 'use strict';
 
 require('./icon.scss');
-var ClassName = require('class-name/class-name');
 var Global = require('global/global'); // jshint -W098
 var React = require('react/addons');
 var iconUrl = require('./icon__url');
@@ -244,7 +243,7 @@ var Icon = React.createClass({
 
   getDefaultProps: function () {
     return {
-      baseClass: new ClassName(BASE_CLASS),
+      baseClass: new Global.ClassName(BASE_CLASS),
       className: '',
       color: Color.DEFAULT,
       glyph: '',
