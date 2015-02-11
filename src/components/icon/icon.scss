@@ -4,62 +4,45 @@
 .ring-icon {
   display: inline-block;
   fill: currentColor;
+  pointer-events: none;
   position: relative;
   vertical-align: middle;
-
-  svg {
-    pointer-events: none;
-  }
 }
 
 // Available icon sizes.
 .ring-icon_14 {
-  svg {
-    height: 14px;
-    width: 14px;
-  }
+  height: 14px;
+  width: 14px;
 }
 
 .ring-icon_16 {
-  svg {
-    height: 16px;
-    width: 16px;
-  }
+  height: 16px;
+  width: 16px;
 }
 
 .ring-icon_18 {
-  svg {
-    height: 18px;
-    width: 18px;
-  }
+  height: 18px;
+  width: 18px;
 }
 
 .ring-icon_32 {
-  svg {
-    height: 32px;
-    width: 32px;
-  }
+  height: 32px;
+  width: 32px;
 }
 
 .ring-icon_48 {
-  svg {
-    height: 48px;
-    width: 48px;
-  }
+  height: 48px;
+  width: 48px;
 }
 
 .ring-icon_64 {
-  svg {
-    height: 64px;
-    width: 64px;
-  }
+  height: 64px;
+  width: 64px;
 }
 
 .ring-icon_128 {
-  svg {
-    height: 128px;
-    width: 128px;
-  }
+  height: 128px;
+  width: 128px;
 }
 
 // Available icon colours
