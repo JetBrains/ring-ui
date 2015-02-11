@@ -5,7 +5,6 @@
  */
 
 require('./header.scss');
-var ClassName = require('class-name/class-name');
 var Global = require('global/global');
 var Icon = require('icon/icon'); // jshint -W098
 var PopupMenu = require('popup-menu/popup-menu');
@@ -13,10 +12,10 @@ var React = require('react/addons');
 
 
 /**
- * @type {ClassName}
+ * @type {Global.ClassName}
  * @private
  */
-var headerClassName = new ClassName('ring2-header');
+var headerClassName = new Global.ClassName('ring2-header');
 
 
 /**
@@ -101,7 +100,7 @@ var MenuItem = React.createClass({
     // Now it is hardcoded for avatar in header.
 
     /* jshint ignore:start */
-    var baseClass = new ClassName('ring-icon');
+    var baseClass = new Global.ClassName('ring-icon');
     var className = React.addons.classSet(Global.createObject(
         baseClass.getClassName(), true,
         baseClass.getModifier('24'), true,
