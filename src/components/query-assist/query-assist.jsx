@@ -125,7 +125,8 @@ var QueryAssist = React.createClass({
     return {
       query: this.props.query,
       caret: isNumber(this.props.caret) ? this.props.caret : this.props.query && this.props.query.length,
-      focus: this.props.focus
+      focus: this.props.focus,
+      shortcuts: this.props.focus
     };
   },
 
@@ -134,8 +135,7 @@ var QueryAssist = React.createClass({
       onApply: noop,
       onChange: noop,
       onClear: noop,
-      onFocusChange: noop,
-      shortcuts: true
+      onFocusChange: noop
     };
   },
 
@@ -212,6 +212,9 @@ var QueryAssist = React.createClass({
       return typeof value === this.propsToPick[key];
     }, this);
 
+    if ('focus' in state) {
+      state.shortcuts = state.focus;
+    }
 
     if (!Object.keys(state).length) {
       return;
