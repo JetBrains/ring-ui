@@ -33,7 +33,10 @@ var List = require('list/list');
       {'label': 'Three', 'type': PopupMenu.ListProps.Type.ITEM, 'href': 'http://www.jetbrains.com'},
       {'type': PopupMenu.ListProps.Type.SEPARATOR},
       {'label': 'Four', 'type': PopupMenu.ListProps.Type.LINK},
-      {'label': 'Five', 'type': PopupMenu.ListProps.Type.LINK, 'href': 'http://www.jetbrains.com', 'className': 'test'}
+      {'label': 'Five', 'type': PopupMenu.ListProps.Type.LINK, 'href': 'http://www.jetbrains.com', 'className': 'test'},
+      {'type': PopupMenu.ListProps.Type.SEPARATOR, 'description': 'Test group'},
+      {'label': '1 Element in group', 'type': PopupMenu.ListProps.Type.ITEM},
+      {'label': '2 Element in group', 'type': PopupMenu.ListProps.Type.ITEM}
     ]});
    </file>
    </example>
@@ -54,7 +57,7 @@ var PopupMenu = React.createClass({
       hintOnSelection={this.props.hintOnSelection}
       maxHeight={this._getStyles().maxHeight}
       onSelect={this.props.onSelect}
-      shortcuts={this.state.shortcuts} />;
+      shortcuts={this.shortcutsEnabled()} />;
   }
   /* jshint ignore:end */
 });

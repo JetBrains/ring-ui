@@ -5,6 +5,7 @@
  */
 
 require('./header.scss');
+var ClassName = require('class-name/class-name');
 var Global = require('global/global');
 var Icon = require('icon/icon'); // jshint -W098
 var PopupMenu = require('popup-menu/popup-menu');
@@ -12,10 +13,10 @@ var React = require('react/addons');
 
 
 /**
- * @type {Global.ClassName}
+ * @type {ClassName}
  * @private
  */
-var headerClassName = new Global.ClassName('ring2-header');
+var headerClassName = new ClassName('ring2-header');
 
 
 /**
@@ -80,35 +81,6 @@ var MenuItem = React.createClass({
     /* jshint ignore:end */
   },
 
-  componentDidMount: function() {
-    // NB! IE and Chrome 34 in Ubuntu doesn't bubble clicks on <use> element,
-    // so we need to add a separate event handler for this case and prevent
-    // bubbling from it.
-    // todo(igor.alexeenko): Solid click handler on icons.
-    var useElement = this.getDOMNode().querySelector('use');
-    if (useElement) {
-      useElement.addEventListener('click', this._handleUseClick);
-    }
-  },
-
-  componentWillUnmount: function() {
-    var useElement = this.getDOMNode().querySelector('use');
-    if (useElement) {
-      useElement.removeEventListener('click', this._handleUseClick);
-    }
-  },
-
-  /**
-   * @param {MouseEvent} evt
-   * @private
-   */
-  _handleUseClick: function(evt) {
-    if (!this.props.href) {
-      evt.stopPropagation();
-      this._handleClick(evt);
-    }
-  },
-
   /**
    * @param {SyntheticMouseEvent} evt
    * @private
@@ -129,7 +101,7 @@ var MenuItem = React.createClass({
     // Now it is hardcoded for avatar in header.
 
     /* jshint ignore:start */
-    var baseClass = new Global.ClassName('ring-icon');
+    var baseClass = new ClassName('ring-icon');
     var className = React.addons.classSet(Global.createObject(
         baseClass.getClassName(), true,
         baseClass.getModifier('24'), true,
@@ -276,15 +248,19 @@ var getHeaderHeight = function(headerElement) {
   var elementsPerLine = headerWidth / ELEMENT_WIDTH;
   var lines = Math.ceil(iconsMenuSize / elementsPerLine);
 
-  var isLine = headerElement.props.servicesListMenu.length;
-
   var heights = [ICON_LINE_HEIGHT * lines];
 
-  if (isLine) {
-    heights.push(LINE_HEIGHT);
+  if (headerElement.props.servicesListMenu.length) {
+    var lineMenuItems = headerElement.getDOMNode().querySelectorAll('.' + headerClassName.getElement('menu-service-line__item'));
+    var lineWidth = [].reduce.call(lineMenuItems, function(accumulatedWidth, currentNode) {
+      return accumulatedWidth + currentNode.clientWidth;
+    }, lineMenuItems[0] ? lineMenuItems[0].clientWidth : 0);
+    var linesCount = Math.ceil(lineWidth / headerWidth);
+
+    heights.push(LINE_HEIGHT * linesCount);
   }
 
-  return heights.reduce(function(a, b) { return a + b; });
+  return heights.reduce(function(a, b) { return a + b; }, 0);
 };
 
 
@@ -528,8 +504,12 @@ var Header = React.createClass({
       return null;
     }
 
+    var className = React.addons.classSet(Global.createObject(
+        headerClassName.getElement('menu-service'), true,
+        headerClassName.getClassName('menu-service', 'opened'), this.state.servicesOpened));
+
     /* jshint ignore:start */
-    return (<div className={headerClassName.getElement('menu-service')} style={this.props.servicesStyle}>
+    return (<div className={className} style={this.props.servicesStyle}>
       <div className={headerClassName.getElement('menu-service-inner')} style={this.props.servicesInnerStyle}>
         {this.props.servicesIconsMenu}
       </div>

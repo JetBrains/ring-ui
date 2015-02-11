@@ -3,7 +3,7 @@
 .ring2-header {
   box-sizing: border-box;
   line-height: $ring-unit * 7;
-  margin: 0 $ring-unit * 4 1px;
+  margin: 0 0 1px;
   position: relative;
 
   &.ring2-header_border:after {
@@ -26,13 +26,13 @@
 }
 
 .ring2-header__logo {
-  margin-right: $ring-unit * 4;
+  margin: 0 $ring-unit * 4;
   @include vertical-compensation(-1px);
 }
 
 .ring2-header__user-menu {
   float: right;
-  margin-right: -$ring-unit;
+  margin-right: $ring-unit * 3;
 }
 
 .ring2-header__menu-item,
@@ -58,12 +58,15 @@
 }
 
 .ring2-header__user-menu-item_icon {
+  cursor: pointer;
+
   .ring-icon {
-    cursor: pointer;
     fill: $ring-color-gray;
     padding: $ring-unit;
+  }
 
-    &:hover {
+  &:hover {
+    .ring-icon {
       fill: $ring-link-hover-color;
     }
   }
@@ -86,10 +89,11 @@
 .ring2-header__menu-service {
   background: linear-gradient(#24353d, #4a565c);
   height: 0;
-  margin: -1px (-$ring-unit*4) 0;
+  margin: -1px 0 0;
   overflow: hidden;
   position: relative;
   text-align: left;
+  width: 100%;
 
   a, a span {
     color: #fff;
@@ -99,6 +103,10 @@
   a:hover, a:hover span {
     color: $ring-link-hover-color;
     text-decoration: underline;
+  }
+
+  &.ring2-header__menu-service_opened {
+    margin-bottom: $ring-unit*2;
   }
 }
 
@@ -134,7 +142,6 @@
   background: #1e2a32;
   font-size: $ring-font-size-smaller;
   line-height: $ring-unit*3;
-  white-space: nowrap;
 }
 
 .ring2-header__menu-service-line__item {
