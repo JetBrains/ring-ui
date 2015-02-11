@@ -58,12 +58,15 @@
 }
 
 .ring2-header__user-menu-item_icon {
+  cursor: pointer;
+
   .ring-icon {
-    cursor: pointer;
     fill: $ring-color-gray;
     padding: $ring-unit;
+  }
 
-    &:hover {
+  &:hover {
+    .ring-icon {
       fill: $ring-link-hover-color;
     }
   }
