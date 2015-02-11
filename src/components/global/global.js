@@ -64,6 +64,13 @@ Global.createObject = function () {
 };
 
 /**
+ * @return {boolean}
+ */
+Global.isIE = function() {
+  return typeof document.documentMode === 'number';
+};
+
+/**
  * @param {string} baseName
  * @constructor
  */
