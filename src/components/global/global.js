@@ -63,6 +63,12 @@ Global.createObject = function () {
   return obj;
 };
 
+/**
+ * @return {boolean}
+ */
+Global.isIE = function() {
+  return typeof document.documentMode === 'number';
+};
 
 module.exports = Global;
 
