@@ -4,6 +4,7 @@
 .ring-icon {
   display: inline-block;
   fill: currentColor;
+  pointer-events: none;
   position: relative;
   vertical-align: middle;
 }
