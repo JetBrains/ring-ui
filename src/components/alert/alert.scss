@@ -62,10 +62,9 @@
 .ring-icon.ring-alert__close {
   fill: $ring-color-gray;
   cursor: pointer;
-  padding: $ring-unit;
+  padding: 0 $ring-unit;
   position: absolute;
   right: 0;
-  top: $ring-unit / 2;
 
   &:hover {
     fill: $ring-link-hover-color;
