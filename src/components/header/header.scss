@@ -30,30 +30,9 @@
   @include vertical-compensation(-1px);
 }
 
-@keyframes icon-loading {
-  0% {
-    transform: scale(1);
-  }
-
-  50% {
-    transform: scale(0.9);
-    opacity: 0.5;
-  }
-
-  100% {
-    transform: scale(1);
-  }
-}
-
 .ring2-header__user-menu {
   float: right;
   margin-right: $ring-unit * 3;
-
-  .ring-icon_loading {
-    animation-name: icon-loading;
-    animation-duration: 1200ms;
-    animation-iteration-count: infinite;
-  }
 }
 
 .ring2-header__menu-item,
