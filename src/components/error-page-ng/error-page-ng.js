@@ -95,7 +95,8 @@ angular.module('Ring.error-page', [
     '$log',
     'ErrorPageMessages',
     '$q',
-    function (errorPageConfiguration, $route, userPermissions, $rootScope, $log, ErrorPageMessages, $q) {
+    '$compile',
+    function (errorPageConfiguration, $route, userPermissions, $rootScope, $log, ErrorPageMessages, $q, $compile) {
 
       function getArgumentPromise(errorSource, errorPageParameterPresentation) {
         var df = $q.defer();
@@ -141,41 +142,51 @@ angular.module('Ring.error-page', [
       return {
         replace: true,
         transclude: true,
-        template: require('./error-page-ng.html'),
+        template: '<div></div>',
         require: '?^errorPageBackground',
-        link: function (scope, iElement, iAttrs, errorPageBackgroundCtrl) {
+        link: function (scope, iElement, iAttrs, errorPageBackgroundCtrl, transclude) {
+
           function handleError(error) {
-            scope.error = error;
-            if (errorPageBackgroundCtrl) {
-              errorPageBackgroundCtrl.setApplicationError(true);
-            }
+            transclude(scope, function() {
+
+              scope.error = error;
+              scope.links = errorPageConfiguration.links;
+              scope.wording = ErrorPageMessages;
+
+              var template = require('./error-page-ng.html');
+              var el = $compile(angular.element(template))(scope);
+              iElement.append(el);
+              if (errorPageBackgroundCtrl) {
+                errorPageBackgroundCtrl.setApplicationError(true);
+              }
+
+              if (errorPageBackgroundCtrl) {
+                var destroyEvent = (scope === scope.$root) ? '$routeChangeStart' : '$destroy';
+                scope.$on(destroyEvent, function () {
+                  errorPageBackgroundCtrl.setApplicationError(false);
+                });
+              }
+            });
+          }
+
+          function handleSuccess() {
+            transclude(scope, function(clone) {
+              iElement.append(clone);
+            });
           }
 
           var errorSource = scope.$eval(iAttrs.errorPage);
           if (errorSource && errorSource.error) {
             handleError(errorSource.error);
-            scope.resolved = true;
             $log.debug('Navigation: errorSource ' + iAttrs.errorPage + ' not permitted, status: ' + status);
           } else {
             var promise = $q.all([
               getRoutingPermissionPromise(),
               getArgumentPromise(errorSource, iAttrs.errorPage)
             ]);
-            promise['catch'](handleError);
-            promise['finally'](function() {
-              scope.resolved = true;
-            });
+            promise.then(handleSuccess, handleError);
           }
 
-          if (errorPageBackgroundCtrl) {
-            var destroyEvent = (scope === scope.$root) ? '$routeChangeStart' : '$destroy';
-            scope.$on(destroyEvent, function () {
-              errorPageBackgroundCtrl.setApplicationError(false);
-            });
-          }
-
-          scope.links = errorPageConfiguration.links;
-          scope.wording = ErrorPageMessages;
         }
       };
     }
