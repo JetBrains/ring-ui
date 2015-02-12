@@ -23,7 +23,6 @@ var generateUniqueId = Global.getUIDGenerator(ID_PREFIX);
  * @name Checkbox
  * @constructor
  * @extends {ReactComponent}
- ç
    <example name="Checkbox">
    <file name="index.html">
    <div>
@@ -105,7 +104,7 @@ var Checkbox = React.createClass({
       <label className="ring-form__label" htmlFor={id}>
         {this.transferPropsTo(<input ref="input" onChange={this.inputChange} type="checkbox" className="ring-checkbox" id={id} />)}
         <span className="ring-checkbox__icon">
-          <Icon glyph="check" color="black"  className="ring-checkbox__icon__image" style={checkStyle} />
+          <Icon glyph="check" color="black" size={Icon.Size.Size16} className="ring-checkbox__icon__image" style={checkStyle} />
         </span>
         <span className="ring-checkbox__label">{this.props.label}</span>
       </label>
