@@ -81,35 +81,6 @@ var MenuItem = React.createClass({
     /* jshint ignore:end */
   },
 
-  componentDidMount: function() {
-    // NB! IE and Chrome 34 in Ubuntu doesn't bubble clicks on <use> element,
-    // so we need to add a separate event handler for this case and prevent
-    // bubbling from it.
-    // todo(igor.alexeenko): Solid click handler on icons.
-    var useElement = this.getDOMNode().querySelector('use');
-    if (useElement) {
-      useElement.addEventListener('click', this._handleUseClick);
-    }
-  },
-
-  componentWillUnmount: function() {
-    var useElement = this.getDOMNode().querySelector('use');
-    if (useElement) {
-      useElement.removeEventListener('click', this._handleUseClick);
-    }
-  },
-
-  /**
-   * @param {MouseEvent} evt
-   * @private
-   */
-  _handleUseClick: function(evt) {
-    if (!this.props.href) {
-      evt.stopPropagation();
-      this._handleClick(evt);
-    }
-  },
-
   /**
    * @param {SyntheticMouseEvent} evt
    * @private
@@ -293,6 +264,10 @@ var getHeaderHeight = function(headerElement) {
 };
 
 
+/**
+ * @type {function(Event):undefined}
+ * @private
+ */
 var _servicesResizeHandler = null;
 
 /**
@@ -677,6 +652,5 @@ var Header = React.createClass({
     });
   }
 });
-
 
 module.exports = Header;
