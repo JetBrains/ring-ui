@@ -163,6 +163,7 @@
     service('resourceDropdownOptions', ['ErrorMessageBundle', function (ErrorMessageBundle) {
       this.createDataSource = function (Resource, fieldName, opt_errMessage) {
         return function (query, top, options) {
+          query = query.replace('-', ' ');
           return Resource.query(angular.extend({
             query: query && (query + '* or ' + query),
             fields: 'id,login,name',
