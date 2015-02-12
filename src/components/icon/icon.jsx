@@ -8,6 +8,7 @@
 'use strict';
 
 require('./icon.scss');
+var ClassName = require('class-name/class-name');
 var Global = require('global/global'); // jshint -W098
 var React = require('react/addons');
 var iconUrl = require('./icon__url');
@@ -243,7 +244,7 @@ var Icon = React.createClass({
 
   getDefaultProps: function () {
     return {
-      baseClass: new Global.ClassName(BASE_CLASS),
+      baseClass: new ClassName(BASE_CLASS),
       className: '',
       color: Color.DEFAULT,
       glyph: '',
@@ -263,10 +264,9 @@ var Icon = React.createClass({
     var xlinkHref = '#' + this.props.baseClass.getModifier(this.props.glyph);
     xlinkHref = iconUrl.resolve(xlinkHref);
 
-    return this.transferPropsTo(
-        <svg className={classList}
-             title={this.props.title}
-             dangerouslySetInnerHTML={{__html: '<use xlink:href="' + xlinkHref + '"></use>'}}/>);
+    return (this.transferPropsTo(<span className={classList}>
+      <svg title={this.props.title} dangerouslySetInnerHTML={{__html: '<use xlink:href="' + xlinkHref + '"></use>'}}/>
+    </span>));
     /* jshint ignore:end */
   },
 
