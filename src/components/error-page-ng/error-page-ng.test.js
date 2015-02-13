@@ -109,7 +109,7 @@ describe('ErrorPageNg', function() {
     })
   );
 
-  it('should show 403 page on no routing perissions',
+  it('should show 403 page on no routing permissions',
     inject(function ($rootScope, $compile, RingMessageBundle, $q, $route) {
       $route.current = {
         $$route: {
@@ -129,7 +129,7 @@ describe('ErrorPageNg', function() {
     })
   );
 
-  it('should show 403 page on no routing perissions if argument\'s promise is also rejected',
+  it('should show 403 page on no routing permissions if argument\'s promise is also rejected',
     inject(function ($rootScope, $compile, RingMessageBundle, $q, $route) {
       $route.current = {
         $$route: {
