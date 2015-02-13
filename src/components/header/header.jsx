@@ -358,6 +358,7 @@ var Header = React.createClass({
       helpLink: null,
       logo: '',
       menu: '',
+      profilePopupData: null,
       rightMenu: '',
       servicesList: null,
       settingsLink: null,
@@ -370,7 +371,9 @@ var Header = React.createClass({
       onUserMenuOpen: null,
       onUserMenuClose: null,
       onSettingsOpen: null,
-      onSettingsClose: null
+      onSettingsClose: null,
+      onServicesOpen: null,
+      onServicesClose: null
     };
   },
 
@@ -393,6 +396,11 @@ var Header = React.createClass({
    * @private
    */
   _onServicesOpen: function(evt) {
+    if (this.props.onServicesOpen) {
+      this.props.onServicesOpen();
+      return;
+    }
+
     if (this.props.servicesIconsMenu) {
       this.setState({ servicesOpened: true });
       return;
@@ -405,6 +413,11 @@ var Header = React.createClass({
    * @private
    */
   _onServicesClose: function() {
+    if (this.props.onServicesClose) {
+      this.props.onServicesClose();
+      return;
+    }
+
     if (this.props.servicesIconsMenu) {
       this.setState({ servicesOpened: false });
       return;
@@ -679,9 +692,30 @@ var HeaderHelper = {};
  * @return {Promise}
  */
 HeaderHelper.setServicesList = function(header, auth, params) {
+  header.setProps({
+    onServicesOpen: function() {
+      header.refs['services'].setLoading(true);
+    },
+
+    onServicesClose: function() {
+      header.refs['services'].setLoading(false);
+    }
+  });
+
   return auth.requestToken().then(function(token) {
     auth.getSecure('rest/services', token, params).then(function(resp) {
-      header.setServicesList(resp.services);
+      if (resp.services) {
+        header.setProps({
+          onServicesOpen: null,
+          onServicesClose: null
+        });
+        header.setServicesList(resp.services);
+
+        if (header.refs['services'].state.loading) {
+          header.refs['services'].setOpened(true);
+          header.refs['services'].setLoading(false);
+        }
+      }
     });
   });
 };
@@ -692,10 +726,37 @@ HeaderHelper.setServicesList = function(header, auth, params) {
  * @return {Promise}
  */
 HeaderHelper.setUserMenu = function(header, auth) {
-  return auth.requestToken().then(function() {
-    auth.requestUser().then(function(response) {
-      if (response.avatar && response.avatar.type !== 'defaultavatar')  {
-        header.setProfilePicture(response.avatar.pictureUrl);
+  var popup = null;
+  var PopupMenu = require('popup-menu/popup-menu');
+
+  return auth.requestUser().then(function(response) {
+    if (response.avatar && response.avatar.type !== 'defaultavatar')  {
+      header.setProfilePicture(response.avatar.pictureUrl);
+    }
+
+    var popupData = [
+      { label: 'Profile', type: PopupMenu.ListProps.Type.LINK, href: [auth.config.serverUri, 'users/me'].join('') },
+      { label: 'Logout', type: PopupMenu.ListProps.Type.LINK, onClick: function() { auth.logout(); } }
+    ];
+
+    header.setProps({
+      profilePopupData: popupData,
+
+      onUserMenuOpen: function() {
+        popup = PopupMenu.renderComponent(new PopupMenu({
+          anchorElement: header.refs['userMenu'].getDOMNode(),
+          corner: PopupMenu.PopupProps.Corner.BOTTOM_RIGHT,
+          data: header.props.profilePopupData,
+          direction: PopupMenu.PopupProps.Directions.DOWN | PopupMenu.PopupProps.Directions.LEFT,
+          onClose: function() {
+            header.refs['userMenu'].setOpened(false);
+          }
+        }));
+      },
+
+      onUserMenuClose: function() {
+        popup.remove();
+        popup = null;
       }
     });
   });
