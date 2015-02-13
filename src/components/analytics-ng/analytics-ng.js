@@ -75,3 +75,5 @@ analyticsModule.directive('rgAnalytics', [
     };
   }
 ]);
+
+module.exports = analyticsModule;
