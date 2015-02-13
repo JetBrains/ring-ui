@@ -265,7 +265,7 @@ var Icon = React.createClass({
     xlinkHref = iconUrl.resolve(xlinkHref);
 
     return (this.transferPropsTo(<span className={classList}>
-      <svg title={this.props.title} dangerouslySetInnerHTML={{__html: '<use xlink:href="' + xlinkHref + '"></use>'}}/>
+      <svg className={this.props.baseClass.getElement('i')} title={this.props.title} dangerouslySetInnerHTML={{__html: '<use xlink:href="' + xlinkHref + '"></use>'}}/>
     </span>));
     /* jshint ignore:end */
   },
