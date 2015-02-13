@@ -1,6 +1,6 @@
 @import "../global/global";
 
-@mixin error-page__background() {
+.error-page:before {
   content: '';
   display: block;
   position: absolute;
@@ -9,8 +9,4 @@
 
   background: url('error-page.gif');
   opacity: 0.06;
-}
-
-&.error-page:before {
-  @include error-page__background();
 }
