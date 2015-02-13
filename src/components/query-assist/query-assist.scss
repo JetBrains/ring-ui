@@ -85,4 +85,8 @@
   &:hover {
     color: $ring-link-hover-color;
   }
+
+  svg {
+    vertical-align: baseline;
+  }
 }
