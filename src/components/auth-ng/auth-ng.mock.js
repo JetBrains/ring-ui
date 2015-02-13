@@ -9,11 +9,16 @@ var AuthProviderMock = function() {
   /* jshint unused:false */
   this.$get = function($q) {
     var defer = $q.defer();
-    defer.resolve();
+    defer.resolve([]);
 
     return {
       auth: {
-        requestToken: function() {}
+        requestToken: function() {
+          return defer.promise;
+        },
+        getSecure: function() {
+          return defer.promise;
+        }
       },
       promise: defer.promise
     };

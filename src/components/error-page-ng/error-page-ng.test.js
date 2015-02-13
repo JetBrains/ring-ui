@@ -108,4 +108,44 @@ describe('ErrorPageNg', function() {
       elem.find('.error-message__title').text().should.equal('403: ' + RingMessageBundle.errorpage_403());
     })
   );
+
+  it('should show 403 page on no routing perissions',
+    inject(function ($rootScope, $compile, RingMessageBundle, $q, $route) {
+      $route.current = {
+        $$route: {
+          permission: 'hub.low-level'
+        }
+      };
+      var df = $q.defer();
+      $rootScope.errorSource = {$promise: df.promise};
+      var elem = window.angular.element('<div error-page="errorSource"><div class="content">Hello!</div></div>');
+      elem = $compile(elem)($rootScope);
+      df.resolve();
+      $rootScope.$digest();
+
+      elem.find('.content').should.not.exist;
+      elem.find('.error-message').should.exist;
+      elem.find('.error-message__title').text().should.equal('403: ' + RingMessageBundle.errorpage_403());
+    })
+  );
+
+  it('should show 403 page on no routing perissions if argument\'s promise is also rejected',
+    inject(function ($rootScope, $compile, RingMessageBundle, $q, $route) {
+      $route.current = {
+        $$route: {
+          permission: 'hub.low-level'
+        }
+      };
+      var df = $q.defer();
+      $rootScope.errorSource = {$promise: df.promise};
+      var elem = window.angular.element('<div error-page="errorSource"><div class="content">Hello!</div></div>');
+      elem = $compile(elem)($rootScope);
+      df.reject({status: 500});
+      $rootScope.$digest();
+
+      elem.find('.content').should.not.exist;
+      elem.find('.error-message').should.exist;
+      elem.find('.error-message__title').text().should.equal('403: ' + RingMessageBundle.errorpage_403());
+    })
+  );
 });
