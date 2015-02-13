@@ -7,8 +7,11 @@ describe('Ring.analytics', function() {
   beforeEach(
     window.module('Ring.analytics',
     function (analyticsProvider) {
+      var send = sinon.spy();
+
       analyticsProvider.config({
-        analyticsIsAllowed: true
+        analyticsIsAllowed: true,
+        send: send
       });
     })
   );
