@@ -90,3 +90,24 @@
 .ring-icon_white {
   color: #fff;
 }
+
+.ring-icon_loading {
+  animation-name: icon-loading;
+  animation-duration: 1200ms;
+  animation-iteration-count: infinite;
+}
+
+@keyframes icon-loading {
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(0.9);
+    opacity: 0.5;
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
