@@ -55,6 +55,7 @@ var MenuItem = React.createClass({
 
   getInitialState: function () {
     return {
+      loading: false,
       opened: false,
       picture: null,
       title: ''
@@ -64,9 +65,10 @@ var MenuItem = React.createClass({
   render: function () {
     /* jshint ignore:start */
     var className = React.addons.classSet(Global.createObject(
-      headerClassName.getClassName('user-menu-item'), true,
-      headerClassName.getClassName('user-menu-item', 'icon'), true,
-      headerClassName.getClassName('user-menu-item', this.props.glyph), true));
+        headerClassName.getClassName('user-menu-item'), true,
+        headerClassName.getClassName('user-menu-item', 'icon'), true,
+        headerClassName.getClassName('user-menu-item', this.props.glyph), true,
+        'ring-icon_loading', this.state.loading));
 
     // NB! Wrapping span is needed because otherwise selenium tests couldn't
     // trigger the click on the <SVG /> element.
@@ -147,8 +149,18 @@ var MenuItem = React.createClass({
     });
   },
 
+  /**
+   * @param {string} title
+   */
   setTitle: function(title) {
     this.setState({ title: title });
+  },
+
+  /**
+   * @param {boolean} loading
+   */
+  setLoading: function(loading) {
+    this.setState({ loading: loading });
   }
 });
 
