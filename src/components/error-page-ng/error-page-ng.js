@@ -47,18 +47,46 @@ angular.module('Ring.error-page', [
     }];
   }])
 
-  .factory('ErrorPageMessages', ['RingMessageBundle', function(RingMessageBundle) {
-    return {
-      seriouslyWrong: RingMessageBundle.errorpage_seriouslywrong(),
-      offline: RingMessageBundle.errorpage_offline(),
-      disconnected: RingMessageBundle.errorpage_disconnected(),
-      disconnectedMsg: RingMessageBundle.errorpage_disconnectedmsg(),
-      error403: RingMessageBundle.errorpage_403(),
-      error403Msg: RingMessageBundle.errorpage_403msg(),
-      error404: RingMessageBundle.errorpage_404(),
-      error404Msg: RingMessageBundle.errorpage_404msg(),
-      error500: RingMessageBundle.errorpage_500(),
-      error500Msg: RingMessageBundle.errorpage_500msg()
+  .factory('getErrorPagePresentation', ['RingMessageBundle', function(RingMessageBundle) {
+    var presentationModels = {
+      '404': {
+        status: 404,
+        title: RingMessageBundle.errorpage_404(),
+        description: RingMessageBundle.errorpage_404msg(),
+        icon: 'frown'
+      },
+      '403': {
+        status: 403,
+        title: RingMessageBundle.errorpage_403(),
+        description: RingMessageBundle.errorpage_403msg(),
+        icon: 'permission'
+      },
+      '500': {
+        status: 500,
+        title: RingMessageBundle.errorpage_500(),
+        description: RingMessageBundle.errorpage_500msg(),
+        icon: 'frown'
+      },
+      '0': {
+        status: RingMessageBundle.errorpage_disconnected(),
+        title: RingMessageBundle.errorpage_disconnectedmsg(),
+        description: RingMessageBundle.errorpage_offline(),
+        icon: 'frown'
+      },
+      'default': {
+        title: RingMessageBundle.errorpage_seriouslywrong(),
+        icon: 'frown'
+      }
+    };
+
+    return function(error) {
+      if (error.status in presentationModels) {
+        return presentationModels[error.status];
+      }
+      return angular.extend({
+        status: error.status,
+        description: error.message
+      }, presentationModels['default']);
     };
   }])
 
@@ -93,10 +121,10 @@ angular.module('Ring.error-page', [
     'userPermissions',
     '$rootScope',
     '$log',
-    'ErrorPageMessages',
+    'getErrorPagePresentation',
     '$q',
     '$compile',
-    function (errorPageConfiguration, $route, userPermissions, $rootScope, $log, ErrorPageMessages, $q, $compile) {
+    function (errorPageConfiguration, $route, userPermissions, $rootScope, $log, getErrorPagePresentation, $q, $compile) {
 
       function getArgumentPromise(errorSource, errorPageParameterPresentation) {
         var df = $q.defer();
@@ -148,10 +176,8 @@ angular.module('Ring.error-page', [
 
           function handleError(error) {
             transclude(scope, function() {
-
-              scope.error = error;
+              scope.error = getErrorPagePresentation(error);
               scope.links = errorPageConfiguration.links;
-              scope.wording = ErrorPageMessages;
 
               var template = require('./error-page-ng.html');
               var el = $compile(angular.element(template))(scope);
@@ -175,18 +201,16 @@ angular.module('Ring.error-page', [
             });
           }
 
-          var errorSource = scope.$eval(iAttrs.errorPage);
-          if (errorSource && errorSource.error) {
-            handleError(errorSource.error);
-            $log.debug('Navigation: errorSource ' + iAttrs.errorPage + ' not permitted, status: ' + status);
-          } else {
-            var promise = $q.all([
-              getRoutingPermissionPromise(),
+          getRoutingPermissionPromise().then(function() {
+            var errorSource = scope.$eval(iAttrs.errorPage);
+            if (errorSource && errorSource.error) {
+              handleError(errorSource.error);
+              $log.debug('Navigation: errorSource ' + iAttrs.errorPage + ' not permitted, status: ' + status);
+            } else {
               getArgumentPromise(errorSource, iAttrs.errorPage)
-            ]);
-            promise.then(handleSuccess, handleError);
-          }
-
+                .then(handleSuccess, handleError);
+            }
+          }, handleError);
         }
       };
     }
