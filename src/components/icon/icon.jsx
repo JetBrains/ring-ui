@@ -8,6 +8,7 @@
 'use strict';
 
 require('./icon.scss');
+var ClassName = require('class-name/class-name');
 var Global = require('global/global'); // jshint -W098
 var React = require('react/addons');
 var iconUrl = require('./icon__url');
@@ -98,6 +99,7 @@ var initializeTemplate = function() {
         <span id="icon-distribution"></span>
         <span id="icon-16-pencil"></span>
         <span id="icon-14-pencil"></span>
+        <div id="all-icons" style="margin-top: 16px"></div>
      </file>
 
      <file name="index.js" webpack="true">
@@ -125,6 +127,105 @@ var initializeTemplate = function() {
          glyph: 'pencil',
          size: Icon.Size.Size14
        }), document.getElementById('icon-14-pencil'));
+
+       // TODO Automate list
+       var icons = [
+         'add',
+         'added',
+         'authmodule',
+         'auto-report',
+         'average',
+         'ban-circle',
+         'bars',
+         'bug',
+         'burndown',
+         'caret-down',
+         'caret-left',
+         'caret-right',
+         'caret-up',
+         'change',
+         'check',
+         'chevron-left',
+         'chevron-right',
+         'close',
+         'cog',
+         'cog1',
+         'collapse',
+         'comment',
+         'cosmetics',
+         'crop',
+         'cumulative',
+         'data',
+         'distribution',
+         'download',
+         'drag',
+         'email',
+         'exception',
+         'expand',
+         'expand1',
+         'eye',
+         'feature',
+         'fields',
+         'file',
+         'folder',
+         'fork',
+         'frown',
+         'global',
+         'group',
+         'help',
+         'info',
+         'jabber',
+         'like',
+         'logos',
+         'magic',
+         'marker',
+         'menu',
+         'merge',
+         'meta',
+         'modified',
+         'move',
+         'ok',
+         'paperclip',
+         'pause',
+         'pencil',
+         'perfomance',
+         'permission',
+         'play',
+         'print',
+         'pushpin',
+         'rate',
+         'redo',
+         'refresh',
+         'removed',
+         'renamed',
+         'resource',
+         'role',
+         'search',
+         'security',
+         'service',
+         'settings',
+         'space',
+         'table',
+         'task',
+         'time',
+         'tint',
+         'trash',
+         'undo',
+         'usability',
+         'user',
+         'user1',
+         'user2',
+         'warning'
+       ];
+
+       React.renderComponent(React.DOM.div({
+         children: icons.map(function (icon) {
+           return Icon({
+             glyph: icon,
+             style: {'padding-left': '16px'}
+           });
+         })
+       }), document.getElementById('all-icons'));
      </file>
    </example>
  */
@@ -143,7 +244,7 @@ var Icon = React.createClass({
 
   getDefaultProps: function () {
     return {
-      baseClass: new Global.ClassName(BASE_CLASS),
+      baseClass: new ClassName(BASE_CLASS),
       className: '',
       color: Color.DEFAULT,
       glyph: '',
@@ -163,10 +264,9 @@ var Icon = React.createClass({
     var xlinkHref = '#' + this.props.baseClass.getModifier(this.props.glyph);
     xlinkHref = iconUrl.resolve(xlinkHref);
 
-    return this.transferPropsTo(
-        <svg className={classList}
-             title={this.props.title}
-             dangerouslySetInnerHTML={{__html: '<use xlink:href="' + xlinkHref + '"></use>'}}/>);
+    return (this.transferPropsTo(<span className={classList}>
+      <svg className={this.props.baseClass.getElement('i')} title={this.props.title} dangerouslySetInnerHTML={{__html: '<use xlink:href="' + xlinkHref + '"></use>'}}/>
+    </span>));
     /* jshint ignore:end */
   },
 

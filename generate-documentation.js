@@ -281,13 +281,12 @@ var dgeni = new Dgeni([
      */
     readFilesProcessor.fileReaders.unshift(jsxFileReader);
     readFilesProcessor.basePath = __dirname;
-    readFilesProcessor.sourceFiles = [{
-      include: 'src/components/**/*.jsx'
-    }, {
-      include: 'src/components/**/doc.js'
-    }, {
-      include: 'src/components/react-ng/react-ng.js'
-    }];
+    readFilesProcessor.sourceFiles = [
+      'src/components/**/*.jsx',
+      'src/components/react-ng/react-ng.js',
+      'src/components/tabs-ng/tabs-ng.js',
+      'src/components/**/doc.js'
+    ];
 
     /**
      * Add folder to search for our own templates to use

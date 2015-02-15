@@ -167,7 +167,7 @@ var PopupMixin = {
   /** @override */
   render: function () {
     /* jshint ignore:start */
-    return (
+    return this.transferPropsTo(
       <div className={this.getClassName()} style={this._getStyles()}>
         {this.getInternalContent()}
       </div>

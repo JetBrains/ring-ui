@@ -16,6 +16,13 @@
   cursor: pointer;
 }
 
+.ring-link_grey,
+.ring-link_grey:visited {
+  color: $ring-color-gray;
+}
+
+.ring-link_focus,
+.ring-link_focus:visited,
 .ring-link:hover,
 .ring-link:focus {
   color: $ring-link-hover-color;

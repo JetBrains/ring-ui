@@ -14,8 +14,12 @@ angular.module('Ring.alert', []).provider('alert', function() {
   var ReactAlert = require('../alert/alert');
   var ReactAlerts = require('../alert/alerts');
   var container = null;
+  var allowedTags = {'A': ['href', 'class']};
+  var defaultTTL = 0; // no ttl, never closed by timeout
 
   this.init = init;
+  this.setAllowedTags = setAllowedTags;
+  this.setDefaultTTL = setDefaultTTL;
 
   this.$get = function() {
     return {
@@ -23,7 +27,8 @@ angular.module('Ring.alert', []).provider('alert', function() {
       warning: warning,
       message: message,
       success: success,
-      setRemoveCallback: setRemoveCallback
+      setRemoveCallback: setRemoveCallback,
+      DOM: ReactAlert.DOM
     };
   };
 
@@ -35,10 +40,23 @@ angular.module('Ring.alert', []).provider('alert', function() {
     container = React.renderComponent(new ReactAlerts(), containerElement.get(0));
   }
 
+  function setAllowedTags(tags) {
+    allowedTags = tags;
+  }
+  function setDefaultTTL(ttl) {
+    defaultTTL = parseInt(ttl);
+  }
+
+
   function _add(text, type, ttl) {
     if(!container) {
       init();
     }
+
+    if (ttl === undefined) {
+      ttl = defaultTTL;
+    }
+
     return container.add(text, type, ttl);
   }
 
@@ -57,7 +75,7 @@ angular.module('Ring.alert', []).provider('alert', function() {
   function success(text, ttl) {
     return _add(text, ReactAlert.Type.SUCCESS, ttl);
   }
-  
+
   function setRemoveCallback(removeCallback){
     if(!container) {
       init();

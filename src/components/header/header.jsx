@@ -5,6 +5,7 @@
  */
 
 require('./header.scss');
+var ClassName = require('class-name/class-name');
 var Global = require('global/global');
 var Icon = require('icon/icon'); // jshint -W098
 var PopupMenu = require('popup-menu/popup-menu');
@@ -12,10 +13,10 @@ var React = require('react/addons');
 
 
 /**
- * @type {Global.ClassName}
+ * @type {ClassName}
  * @private
  */
-var headerClassName = new Global.ClassName('ring2-header');
+var headerClassName = new ClassName('ring2-header');
 
 
 /**
@@ -54,6 +55,7 @@ var MenuItem = React.createClass({
 
   getInitialState: function () {
     return {
+      loading: false,
       opened: false,
       picture: null,
       title: ''
@@ -63,9 +65,10 @@ var MenuItem = React.createClass({
   render: function () {
     /* jshint ignore:start */
     var className = React.addons.classSet(Global.createObject(
-      headerClassName.getClassName('user-menu-item'), true,
-      headerClassName.getClassName('user-menu-item', 'icon'), true,
-      headerClassName.getClassName('user-menu-item', this.props.glyph), true));
+        headerClassName.getClassName('user-menu-item'), true,
+        headerClassName.getClassName('user-menu-item', 'icon'), true,
+        headerClassName.getClassName('user-menu-item', this.props.glyph), true,
+        'ring-icon_loading', this.state.loading));
 
     // NB! Wrapping span is needed because otherwise selenium tests couldn't
     // trigger the click on the <SVG /> element.
@@ -78,35 +81,6 @@ var MenuItem = React.createClass({
 
     return this.transferPropsTo(menuElement);
     /* jshint ignore:end */
-  },
-
-  componentDidMount: function() {
-    // NB! IE and Chrome 34 in Ubuntu doesn't bubble clicks on <use> element,
-    // so we need to add a separate event handler for this case and prevent
-    // bubbling from it.
-    // todo(igor.alexeenko): Solid click handler on icons.
-    var useElement = this.getDOMNode().querySelector('use');
-    if (useElement) {
-      useElement.addEventListener('click', this._handleUseClick);
-    }
-  },
-
-  componentWillUnmount: function() {
-    var useElement = this.getDOMNode().querySelector('use');
-    if (useElement) {
-      useElement.removeEventListener('click', this._handleUseClick);
-    }
-  },
-
-  /**
-   * @param {MouseEvent} evt
-   * @private
-   */
-  _handleUseClick: function(evt) {
-    if (!this.props.href) {
-      evt.stopPropagation();
-      this._handleClick(evt);
-    }
   },
 
   /**
@@ -129,7 +103,7 @@ var MenuItem = React.createClass({
     // Now it is hardcoded for avatar in header.
 
     /* jshint ignore:start */
-    var baseClass = new Global.ClassName('ring-icon');
+    var baseClass = new ClassName('ring-icon');
     var className = React.addons.classSet(Global.createObject(
         baseClass.getClassName(), true,
         baseClass.getModifier('24'), true,
@@ -175,8 +149,18 @@ var MenuItem = React.createClass({
     });
   },
 
+  /**
+   * @param {string} title
+   */
   setTitle: function(title) {
     this.setState({ title: title });
+  },
+
+  /**
+   * @param {boolean} loading
+   */
+  setLoading: function(loading) {
+    this.setState({ loading: loading });
   }
 });
 
@@ -246,6 +230,57 @@ var sortServices = function(items) {
   });
 };
 
+
+/**
+ * @const
+ * @type {number}
+ */
+var ELEMENT_WIDTH = 128; // todo(igor.alexeenko): Better get this property from css.
+
+/**
+ * @const
+ * @type {number}
+ */
+var LINE_HEIGHT = 3 * Global.RING_UNIT;
+
+/**
+ * @const
+ * @type {number}
+ */
+var ICON_LINE_HEIGHT = 18 * Global.RING_UNIT;
+
+/**
+ * @param {Header} headerElement
+ * @return {number}
+ */
+var getHeaderHeight = function(headerElement) {
+  var iconsMenuSize = headerElement.props.servicesList.length - headerElement.props.servicesListMenu.length;
+  var headerWidth = headerElement.getDOMNode().clientWidth;
+
+  var elementsPerLine = headerWidth / ELEMENT_WIDTH;
+  var lines = Math.ceil(iconsMenuSize / elementsPerLine);
+
+  var heights = [ICON_LINE_HEIGHT * lines];
+
+  if (headerElement.props.servicesListMenu.length) {
+    var lineMenuItems = headerElement.getDOMNode().querySelectorAll('.' + headerClassName.getElement('menu-service-line__item'));
+    var lineWidth = [].reduce.call(lineMenuItems, function(accumulatedWidth, currentNode) {
+      return accumulatedWidth + currentNode.clientWidth;
+    }, lineMenuItems[0] ? lineMenuItems[0].clientWidth : 0);
+    var linesCount = Math.ceil(lineWidth / headerWidth);
+
+    heights.push(LINE_HEIGHT * linesCount);
+  }
+
+  return heights.reduce(function(a, b) { return a + b; }, 0);
+};
+
+
+/**
+ * @type {function(Event):undefined}
+ * @private
+ */
+var _servicesResizeHandler = null;
 
 /**
  * @constructor
@@ -323,17 +358,22 @@ var Header = React.createClass({
       helpLink: null,
       logo: '',
       menu: '',
+      profilePopupData: null,
       rightMenu: '',
       servicesList: null,
       settingsLink: null,
       servicesIconsMenu: null,
       servicesListMenu: null,
       servicesListPopup: null,
+      servicesStyle: null,
+      servicesInnerStyle: null,
 
       onUserMenuOpen: null,
       onUserMenuClose: null,
       onSettingsOpen: null,
-      onSettingsClose: null
+      onSettingsClose: null,
+      onServicesOpen: null,
+      onServicesClose: null
     };
   },
 
@@ -346,9 +386,7 @@ var Header = React.createClass({
         return item;
       })}</div>
       {this._getRightMenu()}
-      <React.addons.CSSTransitionGroup transitionName={headerClassName.getElement('service-menu')}>
-        {this._getServicesMenu()}
-      </React.addons.CSSTransitionGroup>
+      {this._getServicesMenu()}
     </div>);
     /*jshint ignore:end*/
   },
@@ -358,6 +396,11 @@ var Header = React.createClass({
    * @private
    */
   _onServicesOpen: function(evt) {
+    if (this.props.onServicesOpen) {
+      this.props.onServicesOpen();
+      return;
+    }
+
     if (this.props.servicesIconsMenu) {
       this.setState({ servicesOpened: true });
       return;
@@ -370,6 +413,11 @@ var Header = React.createClass({
    * @private
    */
   _onServicesClose: function() {
+    if (this.props.onServicesClose) {
+      this.props.onServicesClose();
+      return;
+    }
+
     if (this.props.servicesIconsMenu) {
       this.setState({ servicesOpened: false });
       return;
@@ -380,7 +428,49 @@ var Header = React.createClass({
     }
   },
 
+  componentWillUpdate: function(nextProps, nextState) {
+    if (!this.state.servicesOpened && nextState.servicesOpened) {
+      this._adjustServicesHeight(true);
+
+      _servicesResizeHandler = function(event) {
+        if (this.state.servicesOpened) {
+          this._adjustServicesHeight(false);
+        }
+      }.bind(this);
+      window.addEventListener('resize', _servicesResizeHandler);
+    } else if (this.state.servicesOpened && !nextState.servicesOpened) {
+      this._adjustServicesHeight(true, 0);
+
+      window.removeEventListener('resize', _servicesResizeHandler);
+      _servicesResizeHandler = null;
+    }
+  },
+
   /**
+   * Resizes services list to a calculated or a given height.
+   * @param {boolean=} animated
+   * @param {number=} height
+   * @private
+   */
+  _adjustServicesHeight: function(animated, height) {
+    var headerHeight = typeof height !== 'undefined' ? height : getHeaderHeight(this);
+
+    var servicesStyle = {};
+    var servicesInnerStyle = {};
+
+    servicesStyle['transition'] = !!animated ? 'height 200ms ease-out' : '';
+    servicesStyle['height'] = headerHeight + 'px';
+
+    servicesInnerStyle['height'] = headerHeight + 'px';
+
+    this.setProps({
+      servicesStyle: servicesStyle,
+      servicesInnerStyle: servicesInnerStyle
+    });
+  },
+
+  /**
+   * Shows list of services.
    * @param {boolean} show
    * @private
    */
@@ -439,13 +529,19 @@ var Header = React.createClass({
    * @private
    */
   _getServicesMenu: function() {
-    if (!this.props.servicesList || !this.state.servicesOpened) {
+    if (!this.props.servicesList) {
       return null;
     }
 
+    var className = React.addons.classSet(Global.createObject(
+        headerClassName.getElement('menu-service'), true,
+        headerClassName.getClassName('menu-service', 'opened'), this.state.servicesOpened));
+
     /* jshint ignore:start */
-    return (<div className={headerClassName.getElement('menu-service')}>
-      {this.props.servicesIconsMenu}
+    return (<div className={className} style={this.props.servicesStyle}>
+      <div className={headerClassName.getElement('menu-service-inner')} style={this.props.servicesInnerStyle}>
+        {this.props.servicesIconsMenu}
+      </div>
     </div>);
     /* jshint ignore:end */
   },
@@ -540,7 +636,7 @@ var Header = React.createClass({
 
       if (servicesIcons.length > 1) {
         /* jshint ignore:start */
-        var servicesIconsMenu = (<div className={headerClassName.getElement('menu-service-inner')}>
+        var servicesIconsMenu = (<div>
           <div className={headerClassName.getElement('menu-service-line')}>
             {servicesList.map(function(item, i) {
               var href = document.location.toString().indexOf(item.homeUrl) === -1 ? item.homeUrl : null;
@@ -566,6 +662,7 @@ var Header = React.createClass({
           servicesIconsMenu: servicesIconsMenu,
           servicesListMenu: servicesList
         });
+
         /* jshint ignore:end */
       } else {
         var popupData = this.props.servicesList.map(function(item) {
@@ -582,4 +679,88 @@ var Header = React.createClass({
   }
 });
 
+
+/**
+ * @namespace
+ */
+var HeaderHelper = {};
+
+/**
+ * @param {Header} header
+ * @param {Auth} auth
+ * @param {Object=} params
+ * @return {Promise}
+ */
+HeaderHelper.setServicesList = function(header, auth, params) {
+  header.setProps({
+    onServicesOpen: function() {
+      header.refs['services'].setLoading(true);
+    },
+
+    onServicesClose: function() {
+      header.refs['services'].setLoading(false);
+    }
+  });
+
+  return auth.requestToken().then(function(token) {
+    auth.getSecure('rest/services', token, params).then(function(resp) {
+      if (resp.services) {
+        header.setProps({
+          onServicesOpen: null,
+          onServicesClose: null
+        });
+        header.setServicesList(resp.services);
+
+        if (header.refs['services'].state.loading) {
+          header.refs['services'].setOpened(true);
+          header.refs['services'].setLoading(false);
+        }
+      }
+    });
+  });
+};
+
+/**
+ * @param {Header} header
+ * @param {Auth} auth
+ * @return {Promise}
+ */
+HeaderHelper.setUserMenu = function(header, auth) {
+  var popup = null;
+  var PopupMenu = require('popup-menu/popup-menu');
+
+  return auth.requestUser().then(function(response) {
+    if (response.avatar && response.avatar.type !== 'defaultavatar')  {
+      header.setProfilePicture(response.avatar.pictureUrl);
+    }
+
+    var popupData = [
+      { label: 'Profile', type: PopupMenu.ListProps.Type.LINK, href: [auth.config.serverUri, 'users/me'].join('') },
+      { label: 'Logout', type: PopupMenu.ListProps.Type.LINK, onClick: function() { auth.logout(); } }
+    ];
+
+    header.setProps({
+      profilePopupData: popupData,
+
+      onUserMenuOpen: function() {
+        popup = PopupMenu.renderComponent(new PopupMenu({
+          anchorElement: header.refs['userMenu'].getDOMNode(),
+          corner: PopupMenu.PopupProps.Corner.BOTTOM_RIGHT,
+          data: header.props.profilePopupData,
+          direction: PopupMenu.PopupProps.Directions.DOWN | PopupMenu.PopupProps.Directions.LEFT,
+          onClose: function() {
+            header.refs['userMenu'].setOpened(false);
+          }
+        }));
+      },
+
+      onUserMenuClose: function() {
+        popup.remove();
+        popup = null;
+      }
+    });
+  });
+};
+
 module.exports = Header;
+module.exports.HeaderHelper = HeaderHelper;

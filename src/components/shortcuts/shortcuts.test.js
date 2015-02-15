@@ -265,7 +265,7 @@ describe('Shortcuts', function () {
         // jshint -W064
         return SubTestClass({
           ref: 'subComponent',
-          shortcuts: this.state.shortcuts
+          shortcuts: this.props.shortcuts
         }, null);
         // jshint +W064
       });
@@ -288,8 +288,21 @@ describe('Shortcuts', function () {
     it('should not activate shortcuts without param', function () {
       createСomponent();
 
-      expect(component.state.shortcuts).not.to.exist;
       shortcuts.getScope().should.be.empty;
+    });
+
+    it('shorcutsEnabled should reflect shortcuts disabled state', function () {
+      createСomponent();
+
+      component.shortcutsEnabled().should.be.false;
+    });
+
+    it('shorcutsEnabled should reflect shortcuts enabled state', function () {
+      createСomponent({
+        shortcuts: true
+      });
+
+      component.shortcutsEnabled().should.be.true;
     });
 
     it('should activate shortcuts on component', function () {
@@ -298,7 +311,18 @@ describe('Shortcuts', function () {
       });
 
       shortcuts.getScope().should.deep.equal([scope]);
-      component.state.shortcutsScope.should.equal(scope);
+      component.shortcutsScope.should.equal(scope);
+    });
+
+    it('should lazy activate shortcuts', function () {
+      createСomponent();
+
+      component.setProps({
+        shortcuts: true
+      });
+
+      shortcuts.getScope().should.deep.equal([scope]);
+      component.shortcutsScope.should.equal(scope);
     });
 
     it('should trigger handlers bound on component', function () {

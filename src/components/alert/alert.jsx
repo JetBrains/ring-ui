@@ -77,7 +77,8 @@ var BASE_CLASS = 'ring-alert';
  */
 var Alert = React.createClass({
   statics: {
-    Type: Type
+    Type: Type,
+    DOM: React.DOM
   },
 
   /** @override */
@@ -139,7 +140,7 @@ var Alert = React.createClass({
 
     return (<div className={classes}>
       {this._getIcon()}
-      <span ref="caption" className="ring-alert__caption" dangerouslySetInnerHTML={{__html: this.props.caption}}></span>
+      {this._getCaption()}
       {this.props.closeable ?
           (<Icon className="ring-alert__close" glyph="close" size={Icon.Size.Size16} onClick={this._handleCloseClick} />) :
           ''}
@@ -183,6 +184,15 @@ var Alert = React.createClass({
     } else {
       this.props.onCloseClick(evt);
     }
+  },
+
+  /**
+   * @private
+   */
+  _getCaption: function() {
+    /*jshint ignore:start*/
+    return (<span className="ring-alert__caption">{this.props.caption}</span>);
+    /*jshint ignore:end*/
   },
 
   /**

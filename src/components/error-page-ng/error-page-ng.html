@@ -1,41 +1,4 @@
-<div>
-  <div ng-if="resolved && !error" ng-transclude></div>
-  <div ng-if="error" ng-switch="error.status">
-
-    <div ng-switch-when="403">
-      <error-message code="403" message="{{ wording.error403 }}" links="links"
-                     icon="permission">
-        <span>{{ wording.error403Msg }}</span>
-      </error-message>
-    </div>
-
-    <div ng-switch-when="404">
-      <error-message code="404" message="{{ wording.error404 }}" links="links"
-                     icon="frown">
-        <span>{{ wording.error404Msg }}</span>
-      </error-message>
-    </div>
-
-    <div ng-switch-when="500">
-      <error-message code="500" message="{{ wording.error500 }}" links="links"
-                     icon="frown">
-        <span>{{ wording.error500Msg }}</span>
-      </error-message>
-    </div>
-
-    <div ng-switch-when="0">
-      <error-message code="{{ wording.disconnected }}"
-                     message="{{ wording.disconnectedMsg }}" icon="frown">
-        {{ wording.offline }}
-      </error-message>
-    </div>
-
-    <div ng-switch-default>
-      <error-message code="{{ error.status }}"
-                     message="{{ wording.seriouslyWrong }}" icon="frown"
-                     links="links">
-        {{ error.message }}
-      </error-message>
-    </div>
-  </div>
-</div>
+<error-message code="{{ error.status }}" message="{{ error.title }}" links="links"
+               icon="{{ error.icon }}">
+  <span>{{ error.description }}</span>
+</error-message>

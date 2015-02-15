@@ -16,8 +16,16 @@
   white-space: nowrap;
   background: transparent;
 
-  &_glass {
-    border-right-width: $ring-unit*3 + 2;
+  &_gap {
+    border-right-width: $ring-unit*3;
+  }
+
+  &_double-gap {
+    border-right-width: $ring-unit*6;
+
+    & ~ .ring-query-assist__icon_clear {
+      right: $ring-unit*3 + 2;
+    }
   }
 }
 
@@ -57,11 +65,12 @@
   background: url('query-assist__error.gif') bottom repeat-x;
 }
 
-.ring-query-assist__glass {
+.ring-query-assist__icon {
   position: absolute;
   top: 1px;
   right: 1px;
   height: $ring-unit*2;
+  width: $ring-unit*2;
 
   padding: 3px 4px 3px 5px;
   background-color: #fff;
@@ -69,7 +78,15 @@
   cursor: pointer;
   user-select: none;
 
+  &_loader {
+    padding: 4px 4px 2px 5px;
+  }
+
   &:hover {
     color: $ring-link-hover-color;
+  }
+
+  svg {
+    vertical-align: baseline;
   }
 }

@@ -1,5 +1,6 @@
 /**
  * Caret utils. Ported from jquery-caret
+ * @name Caret
  * @see https://github.com/princed/caret
  */
 var Caret = function (target) {
@@ -97,13 +98,12 @@ Caret.prototype.setPosition = function setPosition(position) {
     this.focus();
 
     try {
-      window.getSelection().collapse(this.target.firstChild, position);
+      window.getSelection().collapse(this.target.firstChild || this.target, position);
     } catch (e) {
     }
 
   } else {
     this.target.setSelectionRange(position, position);
-    this.focus();
   }
 
   return position;

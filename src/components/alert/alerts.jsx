@@ -143,6 +143,8 @@ var Alerts = React.createClass({
     var alertToAppend = React.renderComponent(new Alert(lastAddedElement), _containerClone);
     var heightToCompensate = alertToAppend.getDOMNode().offsetHeight;
 
+    // todo(igor.alexeenko): Merge vertical animation to element's height with
+    // animation from Header.
     _stylesheet.insertRule('.alert-enter { margin-top: -' + (heightToCompensate + _gap) + 'px }', 0);
 
     React.unmountComponentAtNode(_containerClone);

@@ -1,4 +1,3 @@
-
 @import '../global/global';
 
 .ring-icon {
@@ -6,42 +5,61 @@
   fill: currentColor;
   position: relative;
   vertical-align: middle;
+
+  svg {
+    pointer-events: none;
+    vertical-align: middle;
+  }
 }
 
 // Available icon sizes.
 .ring-icon_14 {
-  height: 14px;
-  width: 14px;
+  svg {
+    height: 14px;
+    width: 14px;
+  }
 }
 
 .ring-icon_16 {
-  height: 16px;
-  width: 16px;
+  svg {
+    height: 16px;
+    width: 16px;
+  }
 }
 
 .ring-icon_18 {
-  height: 18px;
-  width: 18px;
+  svg {
+    height: 18px;
+    width: 18px;
+  }
 }
 
 .ring-icon_32 {
-  height: 32px;
-  width: 32px;
+  svg {
+    height: 32px;
+    width: 32px;
+  }
 }
 
 .ring-icon_48 {
-  height: 48px;
-  width: 48px;
+  svg {
+    height: 48px;
+    width: 48px;
+  }
 }
 
 .ring-icon_64 {
-  height: 64px;
-  width: 64px;
+  svg {
+    height: 64px;
+    width: 64px;
+  }
 }
 
 .ring-icon_128 {
-  height: 128px;
-  width: 128px;
+  svg {
+    height: 128px;
+    width: 128px;
+  }
 }
 
 // Available icon colours
@@ -71,4 +89,25 @@
 
 .ring-icon_white {
   color: #fff;
+}
+
+.ring-icon_loading {
+  animation-name: icon-loading;
+  animation-duration: 1200ms;
+  animation-iteration-count: infinite;
+}
+
+@keyframes icon-loading {
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(0.9);
+    opacity: 0.5;
+  }
+
+  100% {
+    transform: scale(1);
+  }
 }

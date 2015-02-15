@@ -3,8 +3,7 @@
 .ring2-header {
   box-sizing: border-box;
   line-height: $ring-unit * 7;
-  margin-bottom: 1px;
-  padding: 0 $ring-unit * 4;
+  margin: 0 0 1px;
   position: relative;
 
   &.ring2-header_border:after {
@@ -27,13 +26,13 @@
 }
 
 .ring2-header__logo {
-  margin-right: $ring-unit * 4;
+  margin: 0 $ring-unit * 4;
   @include vertical-compensation(-1px);
 }
 
 .ring2-header__user-menu {
   float: right;
-  margin-right: -$ring-unit;
+  margin-right: $ring-unit * 3;
 }
 
 .ring2-header__menu-item,
@@ -59,12 +58,15 @@
 }
 
 .ring2-header__user-menu-item_icon {
+  cursor: pointer;
+
   .ring-icon {
-    cursor: pointer;
     fill: $ring-color-gray;
     padding: $ring-unit;
+  }
 
-    &:hover {
+  &:hover {
+    .ring-icon {
       fill: $ring-link-hover-color;
     }
   }
@@ -86,11 +88,11 @@
 
 .ring2-header__menu-service {
   background: linear-gradient(#24353d, #4a565c);
-  box-sizing: border-box;
-  height: $ring-unit*21;
-  margin: -1px (-$ring-unit*4) 0;
+  height: 0;
+  margin: -1px 0 0;
   overflow: hidden;
   position: relative;
+  text-align: left;
   width: 100%;
 
   a, a span {
@@ -102,11 +104,14 @@
     color: $ring-link-hover-color;
     text-decoration: underline;
   }
+
+  &.ring2-header__menu-service_opened {
+    margin-bottom: $ring-unit*2;
+  }
 }
 
 .ring2-header__menu-service-inner {
   bottom: 0;
-  height: $ring-unit*21;
   line-height: $ring-unit * 17;
   position: absolute;
   text-align: center;
@@ -118,15 +123,17 @@
   display: inline-block;
   height: $ring-unit*16;
   line-height: 1.2;
-  overflow: hidden;
-  padding-top: $ring-unit*3;
+  overflow-x: hidden;
   text-align: center;
   text-overflow: ellipsis;
   vertical-align: middle;
   width: $ring-unit*16;
+  white-space: nowrap;
 
   .ring-icon {
+    display: inline-block;
     fill: #fff;
+    margin-top: 3*$ring-unit;
     padding-bottom: $ring-unit;
   }
 }
@@ -148,24 +155,6 @@
   a, b {
     color: $ring-color-dark-gray;
   }
-}
-
-.ring2-header__service-menu-enter {
-  height: 0;
-  transition: height 200ms ease-out;
-}
-
-.ring2-header__service-menu-enter-active {
-  height: $ring-unit*21;
-}
-
-.ring2-header__service-menu-leave-active {
-  height: $ring-unit*21;
-  transition: height 250ms ease-out;
-}
-
-.ring2-header__service-menu-leave-active {
-  height: 0;
 }
 
 // Customize menu icons

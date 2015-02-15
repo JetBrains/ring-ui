@@ -93,9 +93,15 @@ var ListItem = React.createClass({
 var ListLink = React.createClass({
   /** @override */
   render: function () {
+    var classes = React.addons.classSet({
+      'ring-list__item': true,
+      'ring-link': true,
+      'ring-link_focus': this.props.active && this.props.scrolling
+    });
+
     var el = this.props.href ? React.DOM.a : React.DOM.span;
     return this.
-      transferPropsTo(el({className: 'ring-list__item ring-link'}, this.props.label));
+      transferPropsTo(el({className: classes}, this.props.label));
   }
 });
 
@@ -196,7 +202,7 @@ var List = React.createClass({
     var index = this.state.activeIndex;
     var newIndex;
 
-    if (!index) {
+    if (index === null || index === 0) {
       newIndex = this.props.data.length - 1;
     } else {
       newIndex = index - 1;
@@ -209,7 +215,7 @@ var List = React.createClass({
     var index = this.state.activeIndex;
     var newIndex;
 
-    if (index == null || index + 1 === this.props.data.length) {
+    if (index === null || index + 1 === this.props.data.length) {
       newIndex = 0;
     } else {
       newIndex = index + 1;
@@ -220,7 +226,7 @@ var List = React.createClass({
 
   moveHandler: function (index, retryCallback, e) {
     this.setState({activeIndex: index, scrolling: true}, function() {
-      if (this.props.data[index].type !== Type.ITEM) {
+      if (this.props.data[index].type === Type.HINT || this.props.data[index].type === Type.SEPARATOR) {
         retryCallback(e);
         return;
       }
@@ -237,12 +243,37 @@ var List = React.createClass({
     });
   },
 
+  mouseHandler: function() {
+    this.setState({scrolling: false});
+  },
+
   scrollHandler: function() {
     this.setState({scrolling: true}, this.scrollEndHandler);
   },
 
-  selectHandler: function () {
-    return this.state.activeIndex == null || this.props.onSelect(this.props.data[this.state.activeIndex]);
+  enterHandler: function () {
+    if (this.state.activeIndex !== null) {
+      this.setState({scrolling: false}, function () {
+        this.selectHandler(this.props.data[this.state.activeIndex], true);
+      });
+      return false; // do no propagate event
+    } else {
+      return true; // propagate event to for ex. QuerryAssist
+    }
+  },
+
+  selectHandler: function(item, isKeyboardEvent) {
+    if (typeof item.onClick === 'function') {
+      item.onClick.apply(item, arguments);
+    }
+
+    if (typeof this.props.onSelect === 'function') {
+      this.props.onSelect(item);
+    }
+
+    if (item.type === Type.LINK && isKeyboardEvent) {
+      document.location.href = this.refs['item' + this.state.activeIndex].getDOMNode().href;
+    }
   },
 
   getSelected: function () {
@@ -270,7 +301,7 @@ var List = React.createClass({
       map: {
         up: this.upHandler,
         down: this.downHandler,
-        enter: this.selectHandler
+        enter: this.enterHandler
       },
       scope: generateUniqueId()
     };
@@ -290,7 +321,7 @@ var List = React.createClass({
 
     /* jshint ignore:start */
     return (
-      <div className={classes}>
+      <div className={classes} onMouseMove={this.mouseHandler}>
         <div className="ring-list__i" ref="inner" onScroll={this.scrollHandler} style={innerStyles}>
           {this.props.data.map(function (item, index) {
             var props = mixIn({'type': Type.ITEM}, item);
@@ -306,13 +337,12 @@ var List = React.createClass({
 
             props.active = (index === this.state.activeIndex);
             props.onMouseOver = this.hoverHandler.bind(this, index);
+            props.tabIndex = -1;
+            props.scrolling = this.state.scrolling;
+            props.ref = 'item' + index;
 
             props.onClick = function () {
-              if (typeof item.onClick === 'function') {
-                item.onClick.apply(item, arguments);
-              }
-
-              return this.selectHandler.apply(this, arguments);
+              this.selectHandler(item);
             }.bind(this);
 
             var element;

@@ -54,14 +54,6 @@ describe('Alert', function() {
         var alertElement = alertComponent.getDOMNode();
         alertElement.classList.contains('ring-alert_message').should.be.true;
       });
-
-      it ('should properly render a HTML message', function() {
-        var alertComponent = React.addons.TestUtils.renderIntoDocument(
-          new Alert({ 'caption': 'Test <b>element</b>', 'type': Alert.Type.MESSAGE }));
-
-        var captionElemnt = alertComponent.refs.caption.getDOMNode();
-        captionElemnt.textContent.should.be.equal('Test element');
-      });
     });
 
     describe('closeable alerts', function() {

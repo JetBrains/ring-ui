@@ -7,6 +7,7 @@
   right: 0;
   top: 0;
   z-index: $ring-alert-z-index;
+  pointer-events: none;
 
   .ring-alert {
     box-shadow: 0 0 8px rgba(0, 0, 0, 0.15);
@@ -15,6 +16,7 @@
 }
 
 .ring-alert {
+  pointer-events: initial;
   background: #fff;
   border: solid 1px $ring-border-color;
   border-radius: 3px;
@@ -60,10 +62,9 @@
 .ring-icon.ring-alert__close {
   fill: $ring-color-gray;
   cursor: pointer;
-  padding: $ring-unit;
+  padding: 0 $ring-unit;
   position: absolute;
   right: 0;
-  top: $ring-unit / 2;
 
   &:hover {
     fill: $ring-link-hover-color;
