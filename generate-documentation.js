@@ -284,6 +284,8 @@ var dgeni = new Dgeni([
     readFilesProcessor.sourceFiles = [{
       include: 'src/components/**/*.jsx'
     }, {
+      include: 'src/components/**/doc.js'
+    }, {
       include: 'src/components/react-ng/react-ng.js'
     }];
 
