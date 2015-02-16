@@ -239,7 +239,7 @@ $ring-label-width: 160px;
 }
 
 @media only screen and (max-width: 480px) {
-  .ring-form__control, &_tripple {
+  .ring-form__control, &_triple {
     width: 100%;
 
     &_half {
@@ -249,7 +249,7 @@ $ring-label-width: 160px;
 }
 
 @media only screen and (max-width: 320px) {
-  .ring-form__control, &_tripple, &_half {
+  .ring-form__control, &_triple, &_half {
     width: 50%;
   }
 }
