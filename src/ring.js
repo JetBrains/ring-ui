@@ -5,7 +5,6 @@ module.exports = {
   Alerts: require('alert/alerts'),
   Auth: require('auth/auth'),
   Button: require('button/button'),
-  RadioButton: require('radio-btn/radio-btn.scss'),
   Checkbox: require('checkbox/checkbox'),
   Diff: require('diff/diff'),
   Footer: require('footer/footer'),
