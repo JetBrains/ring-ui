@@ -563,7 +563,7 @@ var Header = React.createClass({
     /* jshint ignore:start */
     var menuContent = this.props.rightMenu ? this.transferPropsTo(this.props.rightMenu) : (<div>
       <div className={extraElementClassName}></div>
-      {this.props.settingsShown ? (<MenuItem ref="settings" glyph="cog1" href={this.props.settingsLink} onOpen={this.props.onSettingsOpen} onClose={this.props.onSettingsClose} />) : null}
+      {this.props.showSettings ? (<MenuItem ref="settings" glyph="cog1" href={this.props.settingsLink} onOpen={this.props.onSettingsOpen} onClose={this.props.onSettingsClose} />) : null}
       <MenuItem ref="help" glyph="help" href={this.props.helpLink} />
       <MenuItem ref="services" glyph="expand1" onOpen={this._onServicesOpen} onClose={this._onServicesClose} />
       <MenuItem ref="userMenu" glyph="user1" onOpen={this.props.onUserMenuOpen} onClose={this.props.onUserMenuClose} />
