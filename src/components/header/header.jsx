@@ -367,7 +367,7 @@ var Header = React.createClass({
       servicesListPopup: null,
       servicesStyle: null,
       servicesInnerStyle: null,
-      settingsShown: true,
+      showSettings: true,
 
       onUserMenuOpen: null,
       onUserMenuClose: null,
@@ -680,10 +680,10 @@ var Header = React.createClass({
   },
 
   /**
-   * @param {boolean} shown
+   * @param {boolean} show
    */
-  setSettingsShown: function(shown) {
-    this.setProps({ settingsShown: shown });
+  setSettingsShown: function(show) {
+    this.setProps({ showSettings: show });
   }
 });
 
