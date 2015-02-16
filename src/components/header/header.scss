@@ -77,8 +77,8 @@
 
   .ring-icon_24 {
     border-radius: 3px;
-    padding: 0;
-    margin: $ring-unit;
+    // NB! Horizontal compensation of size changing.
+    padding: $ring-unit - ((24px - 18px) / 2);
   }
 }
 
