@@ -20,13 +20,13 @@
     background: transparent;
     user-select: none;
 
-    line-height: $ring-unit * 3;
+    line-height: 11px;
     vertical-align: middle;
     margin-top: -2px;
 
     & .ring-checkbox__icon__image {
       position: absolute;
-      left: 8px;
+      left: 0;
       top: 4px;
       width: 20px;
       height: 20px;
