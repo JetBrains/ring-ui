@@ -113,6 +113,10 @@
     }
   }
 
+  .ring-icon {
+    @include vertical-compensation();
+  }
+
   .ring-font-icon {
     vertical-align: top;
     position: relative;
