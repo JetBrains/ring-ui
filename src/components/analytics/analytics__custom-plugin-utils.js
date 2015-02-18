@@ -1,19 +1,19 @@
 'use sctrict';
 
-var AnaliticsCustomPluginUtils = {};
+var AnalyticsCustomPluginUtils = {};
 /**
  * Statistics server does not accepts strings with dots and undefined-values
  * @param str
  * @returns str, where all dots replaced by '_'
  */
-AnaliticsCustomPluginUtils.reformatString = function (str) {
+AnalyticsCustomPluginUtils.reformatString = function (str) {
   if (typeof str === 'string') {
     return str.replace(/\./g, '_');
   }
   return String(str);
 };
 
-AnaliticsCustomPluginUtils.getPageViewDurationPresentation = function (duration) {
+AnalyticsCustomPluginUtils.getPageViewDurationPresentation = function (duration) {
   duration = duration / 1000;
   if (duration > 3600) {
     return 'more-than-hour';
@@ -32,7 +32,7 @@ AnaliticsCustomPluginUtils.getPageViewDurationPresentation = function (duration)
   return 'less-than-' + roundedDuration + '-sec';
 };
 
-AnaliticsCustomPluginUtils.getUserAgentPresentation = function () {
+AnalyticsCustomPluginUtils.getUserAgentPresentation = function () {
   if (window.opera) {
     return 'opera$' + window.opera.version();
   }
@@ -42,4 +42,4 @@ AnaliticsCustomPluginUtils.getUserAgentPresentation = function () {
   return 'unknown';
 };
 
-module.exports = AnaliticsCustomPluginUtils;
+module.exports = AnalyticsCustomPluginUtils;
