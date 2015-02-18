@@ -6,32 +6,37 @@ var analytics = require('analytics/analytics');
 var analyticsModule = angular.module('Ring.analytics', []);
 
 analyticsModule.provider('analytics', [function() {
-  var analyticsConfig = {};
+  var configPlugins = [];
   /**
-   * @param {{
-   *   send: function,
-   *   initGA: boolean?
-   *   isDevelopment: boolean?
-   *   analyticsIsAllowed: boolean?
-   * }} config
+   * @param plugins
    */
-  this.config = function(config) {
-    analyticsConfig = config;
+  this.plugins = function(plugins) {
+    configPlugins = plugins;
   };
 
-  this.$get = ['$injector', '$log', function($injector, $log) {
-    if (typeof analyticsConfig.send === 'string') {
-      try {
-        analyticsConfig.send = $injector.get(analyticsConfig.send);
-      } catch (err) {
-        $log.debug('analytics: unable to load factory' + analyticsConfig.send);
-        analyticsConfig.send = angular.noop;
+  this.$get = ['$log', '$injector', function($log, $injector) {
+    var loadedPlugins = [];
+    for (var i = 0; i < configPlugins.length; ++i) {
+      if (typeof configPlugins[i] === 'string') {
+        try {
+          var plugin = $injector.get(configPlugins[i]);
+          loadedPlugins.push(plugin);
+          $log.debug('analytics: loaded plugin ' + configPlugins[i]);
+        } catch (err) {
+          $log.debug('analytics: unable to load factory ' + configPlugins[i]);
+        }
+      } else {
+        loadedPlugins.push(configPlugins[i]);
       }
     }
-    analytics.config(analyticsConfig);
+    analytics.config(loadedPlugins);
     return analytics;
   }];
 }]);
+
+analyticsModule.constant('AnalyticsGAPlugin', require('analytics/analytics__ga-plugin'));
+
+analyticsModule.constant('AnalyticsCustomPlugin', require('analytics/analytics__custom-plugin'));
 
 /**
  * Enable page tracking
