@@ -1,7 +1,7 @@
 'use sctrict';
 
 var $ = require('jquery');
-var AnaliticsCustomPluginUtils = require('./analytics__custom-plugin-utils');
+var AnalyticsCustomPluginUtils = require('./analytics__custom-plugin-utils');
 
 var AnalyticsCustomPlugin = function(send, isDevelopment) {
   this._data = [];
@@ -26,7 +26,7 @@ AnalyticsCustomPlugin.prototype.trackEvent = function(category, action) {
 AnalyticsCustomPlugin.prototype.trackPageView = function(path) {
   this._trackPageViewAdditionalInfo(path);
   this._processEvent('page', path);
-  this._processEvent('navigator_user-agent', AnaliticsCustomPluginUtils.getUserAgentPresentation());
+  this._processEvent('navigator_user-agent', AnalyticsCustomPluginUtils.getUserAgentPresentation());
   this._processEvent('navigator_platform', navigator.platform);
   this._processEvent('navigator_lang', navigator.language);
 };
@@ -50,8 +50,8 @@ AnalyticsCustomPlugin.prototype._processEvent = function (category, action) {
     console.log('TRACKING DATA = ', category, action);
   }
   this._data.push({
-    category: AnaliticsCustomPluginUtils.reformatString(category),
-    action: AnaliticsCustomPluginUtils.reformatString(action)
+    category: AnalyticsCustomPluginUtils.reformatString(category),
+    action: AnalyticsCustomPluginUtils.reformatString(action)
   });
 };
 
@@ -60,7 +60,7 @@ AnalyticsCustomPlugin.prototype._trackPageViewAdditionalInfo = function (newPage
   if (this._lastPagePath) {
     this._processEvent('pageview-last-action_' + this._lastPagePath, this._lastUserEventPresentation || 'left-with-no-action');
     if (this._lastPageViewTime) {
-      var duration = AnaliticsCustomPluginUtils.getPageViewDurationPresentation(currentTime - this._lastPageViewTime);
+      var duration = AnalyticsCustomPluginUtils.getPageViewDurationPresentation(currentTime - this._lastPageViewTime);
       this._processEvent('pageview-duration_' + this._lastPagePath, duration);
     }
   }
