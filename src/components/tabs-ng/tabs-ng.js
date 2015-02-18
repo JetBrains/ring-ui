@@ -32,7 +32,8 @@ angular.module('Ring.tabs', ['ngRoute']).
       scope: {
         tabParameter: '@',
         tabsClass: '=',
-        control: '=?'
+        control: '=?',
+        disableLocationChanging: '='
       },
       controller: ['$scope', '$attrs', function ($scope) {
         $scope.panes = [];
@@ -103,15 +104,15 @@ angular.module('Ring.tabs', ['ngRoute']).
         };
 
         $scope.control.select = function (pane) {
-          doSelect(pane);
+          doSelect(pane, $scope.disableLocationChanging);
         };
 
         $scope.control.next = function () {
-          doSelect($scope.current + 1);
+          doSelect($scope.current + 1, $scope.disableLocationChanging);
         };
 
         $scope.control.prev = function () {
-          doSelect($scope.current - 1);
+          doSelect($scope.current - 1, $scope.disableLocationChanging);
         };
 
         $scope.keyMap = {
