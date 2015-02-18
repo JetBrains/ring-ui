@@ -6,14 +6,11 @@ require('./analytics-ng');
 describe('Ring.analytics', function() {
   beforeEach(
     window.module('Ring.analytics',
-    function (analyticsProvider) {
-      var send = sinon.spy();
-
-      analyticsProvider.config({
-        analyticsIsAllowed: true,
-        send: send
-      });
-    })
+      function (analyticsProvider) {
+        var send = sinon.spy();
+        var AnalyticsCustomPlugin = require('../analytics/analytics__custom-plugin');
+        analyticsProvider.plugins([new AnalyticsCustomPlugin(send)]);
+      })
   );
 
   /* global inject, angular */
