@@ -35,7 +35,7 @@ angular.module('Ring.alert', []).provider('alert', function() {
   function init(containerElement) {
     if (!containerElement) {
       containerElement = angular.element('<div>');
-      angular.element(document.body).prepend(containerElement);
+      angular.element(document.body.childNodes[0]).after(containerElement);
     }
     container = React.renderComponent(new ReactAlerts(), containerElement.get(0));
   }
