@@ -22,7 +22,7 @@
 
     "test-ci": "node node_modules/karma/bin/karma start karma-ci.conf.js",
     "build-ci": "gulp build && npm run test-ci && npm run gen-doc",
-    "release-ci": "npm run build && npm version $ring_ui_version && npm pack && npm publish"
+    "release-ci": "npm run build-ci && npm version $ring_ui_version && npm pack && npm publish"
   },
   "repository": {
     "type": "git",
