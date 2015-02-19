@@ -10,9 +10,6 @@ var nodemon = require('gulp-nodemon');
 var csscomb = require('gulp-csscomb');
 var csslint = require('gulp-csslint');
 var sass = require('gulp-sass');
-var tar = require('gulp-tar');
-var gzip = require('gulp-gzip');
-var rename = require('gulp-rename');
 var filter = require('gulp-filter');
 
 var CSSlint = require('csslint').CSSLint;
@@ -20,37 +17,14 @@ var CSSlint = require('csslint').CSSLint;
 var path = require('path');
 var Buffer = require('buffer').Buffer;
 var through = require('through');
-var jeditor = require('gulp-json-editor');
 
 var argv = require('yargs').argv;
 
 // Read configuration from package.json
-var pkgConfig = Object.create(require('./package.json'));
+var pkgConfig = Object.create(require('./package.json')).config;
 
 //Read common webpack config from  file
 var webpackConfig = Object.create(require('./webpack.config'));
-
-/**
- * @return {string} Build version
- */
-var getBuildVersion = function() {
-  return process.env.BUILD_NUMBER || 'UNKNOWN_VERSION';
-};
-
-/**
- * Add build version to package.json follow semver
- * We treat build version how pre-release version
- * @param {string} buildVersion Build version
- * @return {Function}
- */
-var addBuildVersion = function(buildVersion) {
-  return jeditor(function(json) {
-    if (buildVersion) {
-      json.version = json.version + '-' + buildVersion;
-    }
-    return json;
-  });
-};
 
 gulp.task('clean', function () {
   return gulp.src(pkgConfig.dist, {read: false})
@@ -150,35 +124,6 @@ gulp.task('lint', function () {
     .pipe(jshint.reporter('fail'));
 });
 
-gulp.task('archive', ['clean', 'webpack:build'], function () {
-  var pkgFilter = filter(['package/package.json']);
-
-  return gulp.src([
-      pkgConfig.dist + '/ring.js',
-      pkgConfig.dist + '/ring2.js',
-      pkgConfig.src + '/**/*.{jsx,js,scss,png,gif,svg,ttf,woff,eof,html}',
-      '!' + pkgConfig.src + '/**/*.test.js',
-      '!' + pkgConfig.src + '/index.html',
-      '!' + pkgConfig.dist + '/ring.js',
-      'package.json',
-      'webpack.config.js'
-    ])
-    .pipe(rename(function (path) {
-      path.dirname = 'package/' + path.dirname;
-    }))
-
-     /**
-      * Add build version to package.json
-      */
-    .pipe(pkgFilter)
-    .pipe(addBuildVersion(getBuildVersion()))
-    .pipe(pkgFilter.restore())
-
-    .pipe(tar('ring-ui-component.tar'))
-    .pipe(gzip())
-    .pipe(gulp.dest(pkgConfig.dist));
-});
-
 gulp.task('lint-styles', function () {
   var reportFilename = 'css-lint.xml';
   var formatter = CSSlint.getFormatter('checkstyle-xml');
@@ -240,4 +185,4 @@ gulp.task('build-dev', ['webpack:build-dev'], function () {
 });
 
 // Production build
-gulp.task('build', ['lint', 'lint-styles', 'webpack:build', 'archive']);
+gulp.task('build', ['lint', 'lint-styles', 'webpack:build']);
