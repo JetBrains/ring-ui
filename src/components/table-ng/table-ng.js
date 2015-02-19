@@ -53,11 +53,16 @@ angular.module('Ring.table', ['Ring.table.toolbar'])
        */
       scope: {
         items: '=',
-        selection: '=?'
+        selection: '=?',
+        disableSelection: '@'
       },
       bindToController: true,
       controller: ['$scope', function ($scope) {
         var ctrl = this;
+
+        if (ctrl.disableSelection) {
+          return;
+        }
 
         /**
          * Create Selection instance first to make sure it is always awailable
@@ -84,7 +89,15 @@ angular.module('Ring.table', ['Ring.table.toolbar'])
   .directive('rgTableHeader', [function () {
     return {
       restrict: 'E',
-      template: '<tr class="ring-table__header" ng-transclude></tr>',
+      template: '<thead><tr class="ring-table__header" ng-transclude></tr></thead>',
+      transclude: true,
+      replace: true
+    };
+  }])
+  .directive('rgTableBody', [function () {
+    return {
+      restrict: 'E',
+      template: '<tbody ng-transclude></tbody>',
       transclude: true,
       replace: true
     };
@@ -114,7 +127,7 @@ angular.module('Ring.table', ['Ring.table.toolbar'])
         };
 
         ctrl.setActiveItem = function (item) {
-          ctrl.selection.activateItem(item);
+          item && ctrl.selection.activateItem(item);
         };
 
         ctrl.hasCheckedItems = function () {
@@ -163,13 +176,15 @@ angular.module('Ring.table', ['Ring.table.toolbar'])
       transclude: true,
       replace: true,
       scope: true,
-      template: '<td class="ring-table__title" ng-class="{\'ring-table__title_noborder\': isNoBorder, \'ring-table__title_active\': isActive}" ng-transclude></td>',
+      template: require('./table-ng__title.html'),
       link: function (scope, iElement, iAttrs) {
         /**
          * One time property assigning without watching through isolated scope helps to improve perfomanse
          */
         scope.isNoBorder = angular.isDefined(iAttrs.noBorder);
         scope.isActive = angular.isDefined(iAttrs.active);
+        scope.isPullRight = angular.isDefined(iAttrs.pullRight);
+        scope.isPullLeft = angular.isDefined(iAttrs.pullLeft);
       }
     };
   }])
@@ -187,11 +202,15 @@ angular.module('Ring.table', ['Ring.table.toolbar'])
       transclude: true,
       replace: true,
       scope: true,
-      template: '<td class="ring-table__column" ng-class="{\'ring-table__column_limited\': isLimited, \'ring-table__avatar\': isAvatar, \'ring-table__column_wide\': isWide}" ng-transclude></td>',
+      template: require('./table-ng__column.html'),
       link: function (scope, iElement, iAttrs) {
         scope.isLimited = angular.isDefined(iAttrs.limited);
         scope.isAvatar = angular.isDefined(iAttrs.avatar);
         scope.isWide = angular.isDefined(iAttrs.wide);
+        scope.isAlignRight = angular.isDefined(iAttrs.alignRight);
+        scope.isGray = angular.isDefined(iAttrs.gray);
+        scope.isPullRight = angular.isDefined(iAttrs.pullRight);
+        scope.isPullLeft = angular.isDefined(iAttrs.pullLeft);
       }
     };
   }]);
