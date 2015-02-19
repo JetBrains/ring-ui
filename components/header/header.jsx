@@ -742,6 +742,8 @@ HeaderHelper.setUserMenu = function(header, auth) {
       header.setProfilePicture(response.avatar.pictureUrl);
     }
 
+    header.refs['userMenu'].setTitle(response.name);
+
     var popupData = [
       { label: 'Profile', type: PopupMenu.ListProps.Type.LINK, href: [auth.config.serverUri, 'users/me'].join('') },
       { label: 'Logout', type: PopupMenu.ListProps.Type.LINK, onClick: function() { auth.logout(); } }
