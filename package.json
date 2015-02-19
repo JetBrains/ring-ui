@@ -6,6 +6,12 @@
     "dist": "./dist",
     "src": "./src"
   },
+  "files": [
+    "/ring.js",
+    "/ring2.js",
+    "components/**/*.{jsx,js,scss,png,gif,svg,ttf,woff,eof,html}",
+    "webpack.config.js"
+  ],
   "main": "ring.js",
   "scripts": {
     "gen-doc": "node generate-documentation.js",
