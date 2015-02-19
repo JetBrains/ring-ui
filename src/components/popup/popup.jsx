@@ -220,11 +220,11 @@ var PopupMixin = {
    */
   _setListenersEnabled: function(enable) {
     if (enable) {
-      $(window).off('resize', this.onWindowResize_);
-      $(document).off('click', this.onDocumentClick_);
-    } else {
       $(window).on('resize', this.onWindowResize_);
       $(document).on('click', this.onDocumentClick_);
+    } else {
+      $(window).off('resize', this.onWindowResize_);
+      $(document).off('click', this.onDocumentClick_);
     }
   },
 
