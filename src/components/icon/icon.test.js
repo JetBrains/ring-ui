@@ -22,7 +22,6 @@ describe('Icon', function () {
   it('should rerender component if we change icon', function () {
     this.icon.setProps({ glyph: 'collapse' });
 
-    $(this.icon.getDOMNode()).html().should.contain('#ring-icon_collapse');
     $(this.icon.getDOMNode()).attr('class').should.contain('ring-icon_collapse');
   });
 
