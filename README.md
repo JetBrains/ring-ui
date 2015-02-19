@@ -1,49 +1,38 @@
-Ring UI: development environment setup
+# Ring UI library
+
+## Development environment setup
 
 1. Install node.js
 
-2. Install gulp:
+2. Install dependencies: `npm install`
 
-    npm install -g gulp
 
-3. Install dependencies:
+## Avaiable commands
 
-    npm install
+Start server: `npm start` (runs webpack dev server on localhost:8080)
 
-4. Start the devserver:
+Run tests: `npm test`
 
-        gulp (runs webpack dev server on localhost:8080)
+Build production files: `npm run build`
 
-    or
+Clean generated files: `npm run clean`
 
-        gulp build-dev (makes a development build and starts a watcher on project source files)
 
-=======================================
+## Building on host project side:
 
-Run tests:
+1. Add JetBrains internal registry to .npmrc in your project folder:
+```
+echo 'registry = http://registry.npmjs.org' >> .npmrc
+```
 
-    gulp test
+2. Install Ring UI with `npm install ring-ui --save-exact` 
 
-Run tests and build production files:
+3. Install webpack-config-merger for simply work with config: `npm install webpack-config-merger --save-dev`
 
-    gulp build
-
-Clean generated files:
-
-    gulp clean
-
-========================================
-
-### Building on host project side:
-
-1. Install Ring with npm - add string to package.json :
-    "ring-ui": "http://teamcity.jetbrains.com/guestAuth/repository/download/Ring_UiLibrary_UiLibraryTestBuildGulp/BUILD_NUMBER/ring-ui-component.tar.gz"
-    where BUILD_NUMBER is fresh enough build from http://teamcity.jetbrains.com/viewType.html?buildTypeId=Ring_UILibrary, then run `npm install`
-
-2. Install webpack-config-merger for simply work with config: `npm install webpack-config-merger --save-dev`
-
-3. If your app builds with webpack, require ring-ui components where you need it. Otherwise, create entry point, `/app/app__components.tpl.js` for example.
+4. If your app builds with webpack, require ring-ui components where you need it. Otherwise, create entry point, `/app/app__components.tpl.js` for example.
 Here require all components you need, example:
+
+```
 require('react-ng/react-ng')({
   QueryAssist: require('query-assist/query-assist'),
   Footer: require('footer/footer')
@@ -51,15 +40,15 @@ require('react-ng/react-ng')({
 
 require('auth-ng/auth-ng');
 require('shortcuts-ng/shortcuts-ng');
+```
 
-4. Create webpack.config.js with content (example):
+5. Create webpack.config.js with content (example):
 
 ```
-var pkgConfig = require('./package.json');
 var webpackConfigMerger = require('webpack-config-merger');
 
 var webpackOptions = webpackConfigMerger(require('ring-ui/webpack.config'), {
-  entry: pkgConfig.src + '/app/app__components.tpl.js', //your entry point for webpack
+  entry: 'src/entry.js', //your entry point for webpack
   output: {
     path: 'path/to/dist',
     filename: '[name].js'
@@ -68,15 +57,17 @@ var webpackOptions = webpackConfigMerger(require('ring-ui/webpack.config'), {
 
 module.exports = webpackOptions;
 ```
+
 Here you read ring-ui config and override some fields with your own.
 
-5. If your app builds with webpack, just build it. If your use a grunt, install `grunt-webpack`, for example, and configure it just like this:
-```
+6. If your app builds with webpack, just build it. If your use a grunt, install `grunt-webpack`, for example, and configure it just like this:
+
+```js
  webpack: {
       dist: require('./webpack.config.js')
-    }
+ }
 ```
 
 ## Lodash and underscore
 
-Instead lodash, underscore we use library mout
+[Moutjs](moutjs.com/docs/latest/) is used as utility library (instead of lodash or underscore). 
