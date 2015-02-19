@@ -138,8 +138,7 @@ var PopupMixin = {
   /** @override */
   componentDidMount: function () {
     this.setState({mounted: true});
-    $(window).on('resize', this.onWindowResize_);
-    $(document).on('click', this.onDocumentClick_);
+    this._setListenersEnabled(true);
   },
 
   /** @override */
@@ -151,8 +150,7 @@ var PopupMixin = {
 
   /** @override */
   componentWillUnmount: function () {
-    $(window).off('resize', this.onWindowResize_);
-    $(document).off('click', this.onDocumentClick_);
+    this._setListenersEnabled(false);
   },
 
   /** @override */
@@ -203,6 +201,8 @@ var PopupMixin = {
       hidden: true,
       shortcuts: false
     });
+
+    this._setListenersEnabled(false);
   },
 
   show: function() {
@@ -210,6 +210,22 @@ var PopupMixin = {
       hidden: false,
       shortcuts: true
     });
+
+    this._setListenersEnabled(true);
+  },
+
+  /**
+   * @param {boolean} enable
+   * @private
+   */
+  _setListenersEnabled: function(enable) {
+    if (enable) {
+      $(window).off('resize', this.onWindowResize_);
+      $(document).off('click', this.onDocumentClick_);
+    } else {
+      $(window).on('resize', this.onWindowResize_);
+      $(document).on('click', this.onDocumentClick_);
+    }
   },
 
   /**
