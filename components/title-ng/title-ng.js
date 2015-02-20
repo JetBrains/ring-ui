@@ -58,7 +58,7 @@ angular.module('Ring.title', []).
     };
 
     this.setCurrent = function (newBase) {
-      current = newBase || current;
+      current = newBase;
     };
 
     this.addElement = function (element, fieldName) {
