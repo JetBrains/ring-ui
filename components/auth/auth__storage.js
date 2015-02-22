@@ -1,5 +1,3 @@
-'use strict';
-
 var Storage = require('storage/storage');
 var when = require('when');
 

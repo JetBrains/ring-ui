@@ -1,5 +1,3 @@
-'use strict';
-
 var Analytics = function () {
   this._plugins = [];
 };

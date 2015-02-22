@@ -5,8 +5,6 @@
  * (like HTML5 progress tag).
  */
 
-'use strict';
-
 require('./progress-bar.scss');
 
 var React = require('react');
@@ -78,7 +76,6 @@ var ProgressBar = React.createClass({
   },
 
   render: function() {
-    /* jshint ignore:start */
     var progress = {
       width: this.props.value ? this._progressValueToPercents(this.props.value) + '%' : ''
     };
@@ -94,7 +91,6 @@ var ProgressBar = React.createClass({
             aria-valuemax={this.props.max}
             style={progress} />
       </div>);
-    /* jshint ignore:end */
   }
 });
 

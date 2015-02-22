@@ -15,7 +15,7 @@ describe('Alert', function() {
 
   describe('rendering', function() {
     describe('rendering modes', function() {
-      it ('should render a message', function() {
+      it('should render a message', function() {
         var alertComponent = React.addons.TestUtils.renderIntoDocument(
             new Alert({ 'caption': 'Test element', 'type': Alert.Type.MESSAGE }));
 
@@ -23,7 +23,7 @@ describe('Alert', function() {
         alertElement.classList.contains('ring-alert_message').should.be.true;
       });
 
-      it ('should render an error', function() {
+      it('should render an error', function() {
         var alertComponent = React.addons.TestUtils.renderIntoDocument(
             new Alert({ 'caption': 'Test element', 'type': Alert.Type.ERROR }));
 
@@ -31,7 +31,7 @@ describe('Alert', function() {
         alertElement.classList.contains('ring-alert_error').should.be.true;
       });
 
-      it ('should render a warning', function() {
+      it('should render a warning', function() {
         var alertComponent = React.addons.TestUtils.renderIntoDocument(
             new Alert({ 'caption': 'Test element', 'type': Alert.Type.WARNING }));
 
@@ -39,7 +39,7 @@ describe('Alert', function() {
         alertElement.classList.contains('ring-alert_warning').should.be.true;
       });
 
-      it ('should render a success message', function() {
+      it('should render a success message', function() {
         var alertComponent = React.addons.TestUtils.renderIntoDocument(
             new Alert({ 'caption': 'Test element', 'type': Alert.Type.SUCCESS }));
 
@@ -47,7 +47,7 @@ describe('Alert', function() {
         alertElement.classList.contains('ring-alert_success').should.be.true;
       });
 
-      it ('should render a message if type is not passed', function() {
+      it('should render a message if type is not passed', function() {
         var alertComponent = React.addons.TestUtils.renderIntoDocument(
             new Alert({ 'caption': 'Test element' }));
 

@@ -1,5 +1,3 @@
-'use strict';
-
 describe('Diff', function () {
   describe('tools', function () {
     var diffTool = require('./diff__tools');

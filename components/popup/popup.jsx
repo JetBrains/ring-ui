@@ -6,8 +6,6 @@
  * @jsx React.DOM
  */
 
-'use strict';
-
 require('./popup.scss');
 var $ = require('jquery');
 var React = require('react');
@@ -164,13 +162,11 @@ var PopupMixin = {
 
   /** @override */
   render: function () {
-    /* jshint ignore:start */
     return this.transferPropsTo(
       <div className={this.getClassName()} style={this._getStyles()}>
         {this.getInternalContent()}
       </div>
     );
-    /* jshint ignore:end */
   },
 
   /**
@@ -284,11 +280,11 @@ var PopupMixin = {
     var styles = {};
 
     if (this.isMounted()) {
-      if (!!(props.direction & Directions.UP)) {
+      if (props.direction & Directions.UP) {
         top -= $(this.getDOMNode()).height();
       }
 
-      if (!!(props.direction & Directions.LEFT)) {
+      if (props.direction & Directions.LEFT) {
         left -= $(this.getDOMNode()).width();
       }
     }

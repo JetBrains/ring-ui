@@ -1,4 +1,3 @@
-'use strict';
 describe('Diff', function () {
   describe('base', function () {
     var BaseDiff = require('./diff__base');
@@ -83,7 +82,7 @@ describe('Diff', function () {
       var element = document.createElement('div');
       DOMContainer.appendChild(element);
 
-      var dInstance = new BaseDiff(element, BaseDiff.Mode.SINGLE_PANE);
+      dInstance = new BaseDiff(element, BaseDiff.Mode.SINGLE_PANE);
       dInstance.setContent(
         diffDataMock.original,
         diffDataMock.modified,

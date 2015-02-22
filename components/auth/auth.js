@@ -1,5 +1,4 @@
-'use strict';
-
+/* eslint-disable google-camelcase/google-camelcase */
 var $ = require('jquery');
 var when = require('when');
 var AuthStorage = require('./auth__storage');
@@ -261,7 +260,7 @@ Auth.prototype._checkForAuthResponse = function () {
      */
       function (authResponse) {
       if (!authResponse) {
-        return;
+        return undefined;
       }
 
       var statePromise = authResponse.state ? self._storage.getState(authResponse.state) : when.resolve({});
@@ -327,7 +326,7 @@ Auth._contains = function (arr, el) {
  * @constructor
  */
 Auth.TokenValidationError = function (message, cause) {
-  this.stack = Error().stack;
+  this.stack = Error.prototype.stack;
   this.message = message;
   this.cause = cause;
   this.authRedirect = true;
@@ -490,14 +489,13 @@ Auth.prototype._loadTokenInBackground = function () {
     return this._refreshDefer.promise;
   }
 
+  var self = this;
   this._refreshDefer = when.defer();
   this._refreshDefer.promise.ensure(function () {
     self._refreshDefer = null;
   });
 
   var $iframe = $('<iframe style="display: none;"></iframe>').appendTo('body');
-
-  var self = this;
 
   return this._requestBuilder.prepareAuthRequest().
     then(function (authURL) {

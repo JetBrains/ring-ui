@@ -161,8 +161,8 @@ Parser.prototype.parse = function (original, modified, diff) {
     Parser.ModificationType.UNCHANGED, this.unchangedParsers,
     Parser.ModificationType.MODIFIED, this.modifiedParsers);
 
-  var cursorOriginal = 0,
-    cursorModified = 0;
+  var cursorOriginal = 0;
+  var cursorModified = 0;
 
   var linesOriginal = Parser.splitToLines(original);
   var linesModified = Parser.splitToLines(modified);
@@ -185,7 +185,8 @@ Parser.prototype.parse = function (original, modified, diff) {
 
     Parser.parseChunkInline(chunk, change.ranges);
 
-    for (var i = 0, l = parsers.length; i < l; i++) {
+    var length = parsers.length;
+    for (var i = 0; i < length; i++) {
       var parser = parsers[i];
       chunk = parser.call(this, chunk, change);
     }
@@ -224,11 +225,11 @@ Parser.parseChunkInline = function (chunk, ranges) {
     ]);
   }
 
-  var chunkOriginal = [],
-    chunkModified = [];
+  var chunkOriginal = [];
+  var chunkModified = [];
 
-  var cursorOriginal = 0,
-    cursorModified = 0;
+  var cursorOriginal = 0;
+  var cursorModified = 0;
 
   ranges.forEach(function (range) {
     var shiftOriginal = range.oldChars || range.chars || 0;

@@ -27,8 +27,7 @@ angular.module('Ring.avatar-editor', ['Ring.message-bundle', 'Ring.alert']).
         template: require('./avatar-editor-ng.html'),
         transclude: true,
         controller: ['$scope', '$attrs', 'RingMessageBundle', 'alert', function ($scope, $attrs, RingMessageBundle, alert) {
-          var ctrl = this;
-          var fileInput, ngModelCtrl;
+          var fileInput;
 
           $scope.deleteMessage = RingMessageBundle.avatareditor_delete();
           $scope.addMessage = RingMessageBundle.avatareditor_add();
@@ -36,10 +35,6 @@ angular.module('Ring.avatar-editor', ['Ring.message-bundle', 'Ring.alert']).
           if ('controls' in $attrs) {
             $scope.controlled = true;
           }
-
-          ctrl.setNgModelCtrl = function (ngModel) {
-            ngModelCtrl = ngModel;
-          };
 
           function createFileLoadListener(file) {
             return function (readEvent) {
@@ -57,7 +52,7 @@ angular.module('Ring.avatar-editor', ['Ring.message-bundle', 'Ring.alert']).
             };
           }
 
-          ctrl.registerFileInput = function (input) {
+          this.registerFileInput = function (input) {
             fileInput = input;
             fileInput.on('change', function (event) {
               var imageFileSelected = false;
@@ -102,15 +97,10 @@ angular.module('Ring.avatar-editor', ['Ring.message-bundle', 'Ring.alert']).
               $scope.model = data;
             }
           };
-        }],
-        require: ['ngModel', 'ringAvatarEditor'],
-        link: function (scope, iElement, iAttrs, ctrls) {
-          var ngModelCtrl = ctrls[0];
-          var avatarEditorCtrl = ctrls[1];
-          avatarEditorCtrl.setNgModelCtrl(ngModelCtrl);
-        }
+        }]
       };
-  }).
+    }
+  ).
   directive('ringAvatarEditorFileInput', function () {
     return {
       restrict: 'A',

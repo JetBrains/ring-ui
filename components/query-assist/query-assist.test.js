@@ -22,7 +22,7 @@ describe('QueryAssist', function () {
     completionEnd: 4,
     group: 'logins',
     icon: 'data:uri'
-  },{
+  }, {
     prefix: 'login: ',
     option: 'test.1',
     suffix: ' ',
@@ -34,7 +34,7 @@ describe('QueryAssist', function () {
     completionEnd: 4,
     group: 'logins',
     icon: 'data:uri'
-  },{
+  }, {
     prefix: 'login: ',
     option: 'test.2',
     suffix: ' ',
@@ -46,7 +46,7 @@ describe('QueryAssist', function () {
     completionEnd: 4,
     group: 'logins',
     icon: 'data:uri'
-  },{
+  }, {
     prefix: 'login: ',
     option: 'test.3',
     suffix: ' ',
@@ -312,7 +312,7 @@ describe('QueryAssist', function () {
     var middleCaret = competeCaret / 2;
 
     function getSuggestionText(suggestion) {
-     return (
+      return (
         suggestion.prefix +
         suggestion.option +
         suggestion.suffix

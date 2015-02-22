@@ -59,5 +59,3 @@ describe('RuleManager', function() {
     });
   });
 });
-
-

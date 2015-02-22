@@ -8,7 +8,7 @@
 
 require('./alert.scss');
 var Global = require('global/global');
-var Icon = require('icon/icon'); // jshint -W098
+var Icon = require('icon/icon');
 var React = require('react/addons');
 
 
@@ -44,13 +44,11 @@ var TypeToIconColor = Global.createObject(
     Type.WARNING, Icon.Color.ORANGE);
 
 
-/*jshint ignore:start*/
 /**
  * @const
  * @type {string}
  */
 var BASE_CLASS = 'ring-alert';
-/*jshint ignore:end*/
 
 
 
@@ -130,7 +128,6 @@ var Alert = React.createClass({
 
   /** @override */
   render: function() {
-    /*jshint ignore:start*/
     var modifiedClassName = [BASE_CLASS, this.props.type].join('_');
 
     var classes = React.addons.classSet(Global.createObject(
@@ -145,7 +142,6 @@ var Alert = React.createClass({
           (<Icon className="ring-alert__close" glyph="close" size={Icon.Size.Size16} onClick={this._handleCloseClick} />) :
           ''}
     </div>);
-    /*jshint ignore:end*/
   },
 
   /**
@@ -190,9 +186,7 @@ var Alert = React.createClass({
    * @private
    */
   _getCaption: function() {
-    /*jshint ignore:start*/
     return (<span className="ring-alert__caption">{this.props.caption}</span>);
-    /*jshint ignore:end*/
   },
 
   /**
@@ -203,13 +197,11 @@ var Alert = React.createClass({
     var iconModifier = TypeToIconModifier[this.props.type];
 
     if (iconModifier) {
-      /*jshint ignore:start*/
       return (<Icon
           className="ring-alert__icon"
           color={TypeToIconColor[this.props.type] || Icon.Color.DEFAULT}
           glyph={iconModifier}
           size={Icon.Size.Size16} />);
-      /*jshint ignore:end*/
     }
 
     return '';

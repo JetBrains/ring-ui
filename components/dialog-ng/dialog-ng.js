@@ -86,11 +86,11 @@ angular.module('Ring.dialog', []).
           pageHeight = iWindow.outerHeight();
           pageWidth = iWindow.outerWidth();
 
-          if(top === undefined) {
-            top = parseInt(iDialogContainer.css('top'));
+          if (top === undefined) {
+            top = parseInt(iDialogContainer.css('top'), 10);
           }
-          if(left === undefined) {
-            left = parseInt(iDialogContainer.css('left'));
+          if (left === undefined) {
+            left = parseInt(iDialogContainer.css('left'), 10);
           }
 
           var boxShadowSize = 30;
@@ -116,10 +116,10 @@ angular.module('Ring.dialog', []).
           });
         }
 
-        iDialogTitle.on('mousedown', function (e) {
+        iDialogTitle.on('mousedown', function (mousedownEvent) {
           var titlePos = {
-            top: e.clientY,
-            left: e.clientX
+            top: mousedownEvent.clientY,
+            left: mousedownEvent.clientX
           };
           var offsetContainer = iDialogContainer.offset();
           offsetContainer.top = offsetContainer.top - iDocument.scrollTop();
@@ -128,9 +128,9 @@ angular.module('Ring.dialog', []).
           iElement.trigger('ring.popup-close');
 
           iDocument.
-            on('mousemove.' + DIALOG_NAMESPACE, function (e) {
-              var top = (offsetContainer.top - (titlePos.top - e.clientY)),
-                left = (offsetContainer.left - (titlePos.left - e.clientX));
+            on('mousemove.' + DIALOG_NAMESPACE, function (mousemoveEvent) {
+              var top = (offsetContainer.top - (titlePos.top - mousemoveEvent.clientY));
+              var left = (offsetContainer.left - (titlePos.left - mousemoveEvent.clientX));
 
               setPosition(top, left);
             }).

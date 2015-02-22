@@ -1,5 +1,3 @@
-'use strict';
-
 var when = require('when');
 var deepEquals = require('mout/lang/deepEquals');
 
@@ -29,7 +27,8 @@ var FallbackStorage = function (config) {
  * @private
  */
 FallbackStorage._createCookie = function (name, value, days) {
-  var date, expires;
+  var date;
+  var expires;
 
   if (days) {
     date = new Date();
@@ -51,7 +50,8 @@ FallbackStorage._readCookie = function (name) {
   var nameEQ = name + '=';
   var cookies = document.cookie.split(';');
 
-  for (var i = 0, cookie; i < cookies.length; i++) {
+  var cookie;
+  for (var i = 0; i < cookies.length; i++) {
     cookie = cookies[i];
     while (cookie.charAt(0) === ' ') {
       cookie = cookie.substring(1, cookie.length);

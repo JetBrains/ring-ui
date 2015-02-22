@@ -610,9 +610,12 @@ DoubleEditorController.prototype.isLastScreen_ = function (editor) {
  */
 DoubleEditorController.prototype.getCurrentOffset_ = function (scrollPosition, offsets, isOriginalCode) {
   var offset;
-  var top, bottom;
+  var top;
+  var bottom;
 
-  for (var i = 0, l = offsets.length; offset = offsets[i], i < l; i++) {
+  var length = offsets.length;
+  for (var i = 0; i < length; i++) {
+    offset = offsets[i];
     top = isOriginalCode ? offset.originalFrom : offset.modifiedFrom;
     bottom = isOriginalCode ? offset.originalTo : offset.modifiedTo;
 
@@ -621,7 +624,7 @@ DoubleEditorController.prototype.getCurrentOffset_ = function (scrollPosition, o
     }
   }
 
-  return l - 1;
+  return length - 1;
 };
 
 /**
@@ -731,8 +734,8 @@ DoubleEditorController.prototype.colorizeLines_ = function () {
   DoubleEditorController.cleanupEditor(this.codeMirrorOriginal_);
   DoubleEditorController.cleanupEditor(this.codeMirrorModified_);
 
-  var lineOriginal = 0,
-    lineModified = 0;
+  var lineOriginal = 0;
+  var lineModified = 0;
 
   this.lines_.forEach(function (chunk, index) {
     var originalChunkSize = chunk.originalTo - chunk.originalFrom;

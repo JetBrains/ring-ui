@@ -1,5 +1,3 @@
-'use strict';
-
 /**
  * Converts an array of cached permissions to a a map of a permission key
  * to the respective cached permission.

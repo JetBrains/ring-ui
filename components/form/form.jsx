@@ -4,8 +4,6 @@
  * @jsx React.DOM
  */
 
-'use strict';
-
 require('./form.scss');
 var Global = require('global/global');
 var every = require('mout/collection/every');
@@ -113,7 +111,9 @@ var getSubtree = function(tree, nodeName) {
  */
 var DependencyFunction = {
   CHECKED: function(parentElement, childElement, formElement, chain, depsTree) {
-    if (childElement) { childElement.checked = parentElement.checked; }
+    if (childElement) {
+      childElement.checked = parentElement.checked;
+    }
 
     var nodeName = parentElement.name;
     var parent = getParentNode(depsTree, nodeName);
@@ -122,12 +122,12 @@ var DependencyFunction = {
       var childrenOfParent = getSubtree(depsTree, parent);
       parentElement = formElement.querySelector('[name=' + parent + ']');
 
-      /*jshint loopfunc:true*/
+      /* eslint-disable no-loop-func */
       parentElement.checked = every(childrenOfParent, function(childTree, child) {
         var currentChildElement = formElement.querySelector('[name=' + child + ']');
         return currentChildElement.checked;
       });
-      /*jshint loopfunc:false*/
+      /* eslint-enable no-loop-func */
 
       parent = getParentNode(depsTree, parent);
     }
@@ -177,15 +177,11 @@ var addDependencyFn = function(fn) {
 
   return type;
 };
-
-
-/*jshint ignore:start*/
 /**
  * @const
  * @type {string}
  */
 var FORM_CHILD_PREFIX = 'child-';
-/*jshint ignore:end*/
 
 
 
@@ -222,14 +218,11 @@ var Form = React.createClass({
     React.Children.forEach(this.props.children, function(child) {
       children.push(child);
     });
-
-    /*jshint ignore:start*/
     var childrenToRender = this._setDynamicRefs(children, FORM_CHILD_PREFIX);
 
     return (<form className="ring-form" onChange={this._handleChange} onBlur={this._handleBlur}>
       {childrenToRender}
     </form>);
-    /*jshint ignore:end*/
   },
 
   /**
@@ -255,7 +248,7 @@ var Form = React.createClass({
     if (!this.state['fieldsOrder']) {
       var inputElements = this.getDOMNode().querySelectorAll('input');
       var fieldsOrder = map(inputElements, function(inputElement) {
-        if (!!this.state['deps'][inputElement.name]) {
+        if (this.state['deps'][inputElement.name]) {
           return inputElement.name;
         }
       }, this).filter(function(inputName) {
@@ -300,7 +293,9 @@ var Form = React.createClass({
     var firstInvalid = null;
     var formIsCompleted = this.state['fields'].every(function(field) {
       var fieldIsValid = field.checkValidity();
-      if (!fieldIsValid) { firstInvalid = field; }
+      if (!fieldIsValid) {
+        firstInvalid = field;
+      }
       return fieldIsValid;
     }, this);
 
@@ -321,18 +316,15 @@ var Form = React.createClass({
     this.checkDependency(changedField.name);
   },
 
-  /*jshint unused:false*/
   /**
    * Handles blur of every component.
-   * @param {SyntheticEvent} evt
    * @private
    */
-  _handleBlur: function(evt) {
+  _handleBlur: function() {
     if (this.state['firstInvalid']) {
       this.state['firstInvalid'].setErrorShown(true);
     }
   },
-  /*jshint unused:true*/
 
   /**
    * Analyzes passed dependencies and creates a map of field names to functions
@@ -358,7 +350,9 @@ var Form = React.createClass({
             var childElement = formElement.querySelector('[name=' + child + ']');
             dependencies.push(function(chain) {
               dependencyFunction.call(this, verticeElement, childElement, formElement, chain, depsTree);
-              if (subtree) { this.checkDependency(child, true); }
+              if (subtree) {
+                this.checkDependency(child, true);
+              }
             });
           }, this);
         } else {
@@ -391,7 +385,9 @@ var Form = React.createClass({
     var submitButton = this.getDOMNode().querySelector('[type=submit]');
 
     forEach(this.refs, function(ref) {
-      if (typeof ref.checkValidity !== 'undefined') { fieldsToValidate.push(ref); }
+      if (typeof ref.checkValidity !== 'undefined') {
+        fieldsToValidate.push(ref);
+      }
     });
 
     this.setState({
@@ -415,7 +411,7 @@ var Form = React.createClass({
 
 module.exports = Form;
 
-if ('production' !== process.env.NODE_ENV) {
+if (process.env.NODE_ENV !== 'production') {
   module.exports.dfsVisitor = dfsVisitor;
   module.exports.getParentNode = getParentNode;
   module.exports.getSubtree = getSubtree;

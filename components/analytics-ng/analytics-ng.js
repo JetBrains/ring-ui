@@ -1,6 +1,4 @@
-'use strict';
-
-var analytics = require('analytics/analytics');
+var analyticsInstance = require('analytics/analytics');
 
 /* global angular: false */
 var analyticsModule = angular.module('Ring.analytics', []);
@@ -29,8 +27,8 @@ analyticsModule.provider('analytics', [function() {
         loadedPlugins.push(configPlugins[i]);
       }
     }
-    analytics.config(loadedPlugins);
-    return analytics;
+    analyticsInstance.config(loadedPlugins);
+    return analyticsInstance;
   }];
 }]);
 

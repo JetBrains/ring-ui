@@ -33,13 +33,14 @@ parsers.inlineChanges = function (chunk, change) {
     parsers.joinInlineContent(chunk.original) !==
     parsers.joinInlineContent(chunk.modified) &&
     change.oldLines > 0 && change.newLines > 0) {
-    var insertions = 0,
-      deletions = 0;
+    var insertions = 0;
+    var deletions = 0;
 
     this.enableLineType(chunk, Parser.LineType.INLINE, true);
 
     if (Tools.isDef(change.ranges)) {
-      for (var i = 0, l = change.ranges.length; i < l; i+=1) {
+      var length = change.ranges.length;
+      for (var i = 0; i < length; i += 1) {
         var currentRange = change.ranges[i];
         var changeOriginal = chunk.original[i];
         var changeModified = chunk.modified[i];
@@ -50,13 +51,13 @@ parsers.inlineChanges = function (chunk, change) {
         }
 
         if (currentRange.oldChars && !currentRange.newChars) {
-          deletions+=1;
+          deletions += 1;
           this.enableLineType(changeOriginal, Parser.LineType.DELETED, true);
           this.enableLineType(changeModified, Parser.LineType.DELETED, true);
         }
 
         if (currentRange.newChars && !currentRange.oldChars) {
-          insertions+=1;
+          insertions += 1;
           this.enableLineType(changeOriginal, Parser.LineType.ADDED, true);
           this.enableLineType(changeModified, Parser.LineType.ADDED, true);
         }
