@@ -4,13 +4,8 @@
  * @author igor.alexeenko@jetbrains.com (Igor Alexeenko)
  * @jsx React.DOM
  */
-
-'use strict';
-
-/*jshint ignore:start*/
 var Checkbox = require('../checkbox/checkbox');
 var Input = require('../input/input');
-/*jshint ignore:end*/
 var React = require('react');
 
 
@@ -63,11 +58,9 @@ var FormGroup = React.createClass({
 
   /** @override */
   render: function() {
-    /*jshint ignore:start*/
     return typeof this.props.children !== 'undefined' ?
         (<div className="ring-form__group">{this.props.children}</div>) :
         this._getInputElement();
-    /*jshint ignore:end*/
   },
 
   /**
@@ -81,33 +74,26 @@ var FormGroup = React.createClass({
     return this.state['inputElement'].validity.valid;
   },
 
-  /*jshint unused:false*/
   /**
-   * @param {SyntheticMouseEvent} evt
    * @private
    */
-  _handleBlur: function(evt) {
+  _handleBlur: function() {
     this.checkValidity();
     this.setState({ 'hasFocus': false });
   },
-  /*jshint unused:true*/
 
-  /*jshint unused:false*/
   /**
-   * @param {SyntheticMouseEvent} evt
    * @private
    */
-  _handleFocus: function(evt) {
+  _handleFocus: function() {
     this.setState({ 'hasFocus': true });
   },
-  /*jshint unused:true*/
 
   /**
    * @return {XML}
    * @private
    */
   _getInputElement: function() {
-    /*jshint ignore:start*/
     var className = React.addons.classSet({
       'ring-form__group': true,
       'ring-form__group_error': this.state['errorMessage'],
@@ -115,7 +101,7 @@ var FormGroup = React.createClass({
       'ring-form__group_short': [FormType.CHECKBOX, FormType.RADIO].indexOf(this.props['type']) > -1 && this.props['short']
     });
 
-    switch(this.props.type) {
+    switch (this.props.type) {
       case FormType.CHECKBOX:
         if (this.props['short']) {
           return (<div className={className}>
@@ -147,9 +133,7 @@ var FormGroup = React.createClass({
             <div className="ring-input__error-bubble">{this.state['errorMessage']}</div>
           </div>
         </div>);
-        break;
     }
-    /*jshint ignore:end*/
   },
 
   /**

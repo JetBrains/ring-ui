@@ -1,5 +1,3 @@
-'use strict';
-
 var PopupMenu = require('popup-menu/popup-menu');
 
 /**
@@ -54,7 +52,7 @@ angular.module('Ring.dropdown', [])
 
         function getItemType(item) {
           var type = angular.isDefined(item.type) ? item.type : ITEM_TYPES.ITEM;
-          if(item.url || item.type === 'link') {
+          if (item.url || item.type === 'link') {
             type = ITEM_TYPES.LINK;
           }
           return type;

@@ -4,8 +4,6 @@
  * @jsx React.DOM
  */
 
-'use strict';
-
 require('./panel.scss');
 var React = require('react/addons');
 
@@ -51,14 +49,11 @@ var Panel = React.createClass({
     if (this.props['modifier'] !== Modifier.NONE) {
       additionalClassName = [BASE_CLASS, this.props['modifier']].join('_');
     }
-
-    /*jshint ignore:start*/
     var classList = [BASE_CLASS, additionalClassName].join(' ');
 
     return this.transferPropsTo(<div className={classList}>
       {this.props.children}
     </div>);
-    /*jshint ignore:end*/
   }
 });
 

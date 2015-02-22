@@ -1,4 +1,3 @@
-'use strict';
 require('angular/angular');
 require('angular-route/angular-route');
 require('angular-mocks/angular-mocks');
@@ -9,7 +8,6 @@ describe('TabsNg', function () {
 
   var $rootScope;
   var $compile;
-  var $controller;
 
   var getActiveTab = function(element) {
     console.log(element.html());
@@ -25,10 +23,9 @@ describe('TabsNg', function () {
   beforeEach(window.module('Ring.tabs'));
 
   /* global inject */
-  beforeEach(inject(function (_$rootScope_, _$compile_, _$controller_) {
+  beforeEach(inject(function (_$rootScope_, _$compile_) {
     $rootScope = _$rootScope_;
     $compile = _$compile_;
-    $controller = _$controller_;
   }));
 
   describe('DOM', function () {

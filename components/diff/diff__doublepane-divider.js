@@ -250,7 +250,7 @@ DoubleEditorDivider.getPathForRange = function (range, visibleRangeOriginal, vis
 
   switch (type) {
     case DoubleEditorDivider.PathType.LOWER_LINE:
-      return  [
+      return [
         util.format('M%s %s C %s %s',
           templateData.xFrom,
           templateData.leftYTo,
@@ -267,7 +267,7 @@ DoubleEditorDivider.getPathForRange = function (range, visibleRangeOriginal, vis
         )
       ].join(' , ');
     case DoubleEditorDivider.PathType.UPPER_LINE:
-      return  [
+      return [
         util.format('M%s %s C %s %s',
           templateData.xFrom,
           templateData.leftYFrom,
@@ -284,7 +284,7 @@ DoubleEditorDivider.getPathForRange = function (range, visibleRangeOriginal, vis
         )
       ].join(' , ');
     default:
-      return  [
+      return [
         util.format('M%s %s C %s %s',
           templateData.xFrom,
           templateData.leftYFrom,

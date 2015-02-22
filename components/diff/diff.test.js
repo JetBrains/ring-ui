@@ -1,5 +1,3 @@
-'use strict';
-
 var renderIntoDocument = require('render-into-document');
 
 describe('Diff', function () {

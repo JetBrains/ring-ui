@@ -80,7 +80,7 @@ angular.module('Ring.sidebar', [])
           if (syncWith) {
             syncPositionWith(syncWith);
           } else {
-            throw 'Sidebar can\'t find element to sync with.';
+            throw new Error('Sidebar can\'t find element to sync with.');
           }
         }
       }

@@ -1,4 +1,3 @@
-'use strict';
 var $ = require('jquery');
 
 var Shortcuts = require('shortcuts/shortcuts');
@@ -79,7 +78,7 @@ angular.module('Ring.shortcuts', [])
       controller: ['$rootScope', '$scope', '$attrs', 'shortcuts', function ($scope, $rootScope, $attrs, shortcuts) {
         $scope.zones = [];
         $scope.loop = 'shortcutsLoop' in $attrs;
-        var ctrl = this;
+        var self = this;
 
         var getNext = function(current, back) {
           var position = current && $.inArray(current, $scope.zones);
@@ -101,19 +100,19 @@ angular.module('Ring.shortcuts', [])
           return next;
         };
 
-        ctrl.deselect = function() {
+        self.deselect = function() {
           $scope.current.onBlur();
           $scope.current = null;
         };
 
-        ctrl.select = function(next) {
+        self.select = function(next) {
           if ($scope.current === next) {
             return;
           }
 
           if ($scope.current) {
             shortcutsInstance.spliceScope($scope.current.scope);
-            ctrl.deselect();
+            self.deselect();
           }
 
           if (!next) {
@@ -125,7 +124,7 @@ angular.module('Ring.shortcuts', [])
           $scope.current = next;
         };
 
-        ctrl.route = function(action, e, combo, mode) {
+        self.route = function(action, e, combo, mode) {
           var next;
 
           // There is nowhere to navigate
@@ -135,7 +134,7 @@ angular.module('Ring.shortcuts', [])
 
           // Reset current zone if is not equal current scope
           if ($scope.current && $scope.current.scope !== shortcutsInstance.getScope().pop()) {
-            ctrl.deselect();
+            self.deselect();
           }
 
           if (action === 'main') {
@@ -152,7 +151,7 @@ angular.module('Ring.shortcuts', [])
 
           // Select next zone and trigger same combo there
           if (next) {
-            ctrl.select(next);
+            self.select(next);
 
             if (shortcutsInstance.hasKey(combo, next.scope)) {
               Shortcuts.trigger(combo);
@@ -165,7 +164,7 @@ angular.module('Ring.shortcuts', [])
           return false;
         };
 
-        ctrl.sort = function() {
+        self.sort = function() {
           var orderedElements = $('[shortcuts]');
 
           $.each($scope.zones, function(index, zone) {
@@ -177,13 +176,13 @@ angular.module('Ring.shortcuts', [])
           });
         };
 
-        ctrl.setup = function(zone, keys) {
+        self.setup = function(zone, keys) {
           shortcuts.bind(zone.name, keys, zone.scope);
           $scope.zones.push(zone);
-          ctrl.sort();
+          self.sort();
         };
 
-        ctrl.destroy = function(zone) {
+        self.destroy = function(zone) {
           shortcutsInstance.spliceScope(zone.scope);
           shortcutsInstance.unbindScope(zone.scope);
 
@@ -196,9 +195,9 @@ angular.module('Ring.shortcuts', [])
 
         // Initial setup
         var keyMap = {
-          next: ctrl.route.bind(ctrl, 'next'),
-          prev: ctrl.route.bind(ctrl, 'prev'),
-          main: ctrl.route.bind(ctrl, 'main')
+          next: self.route.bind(self, 'next'),
+          prev: self.route.bind(self, 'prev'),
+          main: self.route.bind(self, 'main')
         };
 
         shortcuts.bind('ring-shortcuts', keyMap);

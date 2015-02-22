@@ -1,5 +1,3 @@
-'use strict';
-
 var Auth = require('../auth/auth');
 var PermissionCache = require('./permissions__cache');
 

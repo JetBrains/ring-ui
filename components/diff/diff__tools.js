@@ -1,6 +1,5 @@
 /*global CSSRule*/
 
-'use strict';
 var $ = require('jquery');
 
 var Tools = {};
@@ -87,8 +86,9 @@ Tools.getEOLType = function (str) {
   }
 
   var regexps = Object.keys(Tools.EOLRegex);
+  var length = regexps.length;
 
-  for (var i = 0, l = regexps.length; i < l; i++) {
+  for (var i = 0; i < length; i++) {
     var regexID = regexps[i];
     var regex = Tools.EOLRegex[regexID];
 
@@ -163,12 +163,12 @@ Tools.nullFunction = function () {
 /**
  * Takes an even number of arguments and uses them as key-value pairs to create
  * a new {@link Object}.
- * @param {...*} var_args
+ * @param {...*} varArgs
  * @return {Object}
  */
-Tools.createObject = function (var_args) {
-  if (var_args instanceof Array) {
-    return Tools.createObject.apply(null, var_args);
+Tools.createObject = function (varArgs) {
+  if (varArgs instanceof Array) {
+    return Tools.createObject.apply(null, varArgs);
   }
 
   var args = Array.prototype.slice.call(arguments, 0);
@@ -177,7 +177,8 @@ Tools.createObject = function (var_args) {
   }
 
   var obj = {};
-  for (var i = 0, l = args.length; i < l; i += 2) {
+  var length = args.length;
+  for (var i = 0; i < length; i += 2) {
     obj[args[i]] = args[i + 1];
   }
 
@@ -260,7 +261,8 @@ Tools.arraysAreEqual = function (arrA, arrB) {
     return false;
   }
 
-  for (var i = 0, l = arrA.length; i < l; i++) {
+  var length = arrA.length;
+  for (var i = 0; i < length; i++) {
     // todo(igor.alexeenko): this comparison works only for simple data-types.
     // Make it work for objects, arrays, etc.
     if (arrA[i] !== arrB[i]) {
@@ -663,7 +665,8 @@ Tools.style = {};
  */
 Tools.style.getDocumentKeyframeRules = function () {
   var keyframeRules = [];
-  var i = 0, l = 0;
+  var i = 0;
+  var l = 0;
 
   var availableTypes = [
     CSSRule.KEYFRAMES_RULE,

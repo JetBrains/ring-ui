@@ -41,9 +41,9 @@ function getComponentIfExist(name){
   var ComponentClass = getComponent(name);
 
   if (!ComponentClass) {
-    throw Error('Component ' + name + ' is not registered');
+    throw new Error('Component ' + name + ' is not registered');
   } else if (!React.isValidClass(ComponentClass)) {
-    throw Error('Property ' + name + ' is not valid component');
+    throw new Error('Property ' + name + ' is not valid component');
   }
 
   return ComponentClass;
@@ -59,26 +59,26 @@ function renderAndRemoveOnDestroy(ComponentClass, iElement, props){
 
 module.exports = registerComponents;
 
-var directiveName = 'react';
-var staticDirectiveName = directiveName + 'Static';
+var reactDirectiveName = 'react';
+var staticDirectiveName = reactDirectiveName + 'Static';
 var attributeToPassPrefix = 'react';
 var specialDOMAttrs = {
   'for': 'htmlFor',
   'class': 'className'
 };
 
-reactModule.directive(directiveName, [
+reactModule.directive(reactDirectiveName, [
   '$parse',
   function ($parse) {
     return {
       restrict: 'A',
       link: function (scope, iElement, iAttrs) {
         var component = null;
-        var name = iAttrs[directiveName];
+        var directiveName = iAttrs[reactDirectiveName];
         var instanceAttr = 'reactInstance';
 
-        var ComponentClass = getComponentIfExist(name);
-        var props = {};
+        var ComponentClass = getComponentIfExist(directiveName);
+        var directiveProps = {};
 
         function modifyProps(props, name, value) {
           if (name === 'ngModel' && ComponentClass.ngModelStateField) {
@@ -88,7 +88,7 @@ reactModule.directive(directiveName, [
                   props[changedPropName] = value[changedPropName];
                 }
               });
-            } else if(typeof ComponentClass.ngModelStateField === 'string') {
+            } else if (typeof ComponentClass.ngModelStateField === 'string') {
               props[ComponentClass.ngModelStateField] = value;
             } else {
               return;
@@ -116,7 +116,7 @@ reactModule.directive(directiveName, [
         }
 
         angular.forEach(iAttrs, function (value, name) {
-          if (iAttrs.hasOwnProperty(name) && name !== directiveName && name !== instanceAttr && typeof value === 'string') {
+          if (iAttrs.hasOwnProperty(name) && name !== reactDirectiveName && name !== instanceAttr && typeof value === 'string') {
             // Use React DOM attributes names
             var specialDOMAttrName = specialDOMAttrs[name];
             var propName = specialDOMAttrName || name;
@@ -135,7 +135,7 @@ reactModule.directive(directiveName, [
             if (interpolated) {
               iAttrs.$observe(name, getUpdater(propName));
             } else if (parsedExpression && expectsCallback) {
-              props[propName] = function (param) {
+              directiveProps[propName] = function (param) {
                 var locals = typeof param === 'object' ? angular.copy(param) : {};
                 locals.arguments = Array.prototype.slice.call(arguments, 0);
 
@@ -143,23 +143,23 @@ reactModule.directive(directiveName, [
               };
             } else if (parsedExpression) {
               scope.$watch(parsedExpression, getUpdater(propName), true);
-              modifyProps(props, propName, parsedExpression(scope));
+              modifyProps(directiveProps, propName, parsedExpression(scope));
             } else {
-              props[propName] = value;
+              directiveProps[propName] = value;
             }
           }
         });
 
         if ('ngModel' in iAttrs) {
-          props['_onModelChange'] = function(value) {
+          directiveProps['_onModelChange'] = function(value) {
             $parse(iAttrs.ngModel).assign(scope, value);
-            if(!scope.$$phase) {
+            if (!scope.$$phase) {
               scope.$apply();
             }
           };
         }
 
-        component = renderAndRemoveOnDestroy(ComponentClass, iElement, props);
+        component = renderAndRemoveOnDestroy(ComponentClass, iElement, directiveProps);
 
         if (iAttrs[instanceAttr]) {
           var instanceProp = $parse(iAttrs[instanceAttr])(scope);
@@ -218,11 +218,11 @@ reactModule.directive(directiveName, [
 
           var props = {};
 
-          angular.forEach(iAttrs, function (value, name) {
-            if (iAttrs.hasOwnProperty(name) && name !== staticDirectiveName && name.indexOf(attributeToPassPrefix) === 0 && typeof value === 'string') {
+          angular.forEach(iAttrs, function (value, attrName) {
+            if (iAttrs.hasOwnProperty(attrName) && attrName !== staticDirectiveName && attrName.indexOf(attributeToPassPrefix) === 0 && typeof value === 'string') {
               // Parse as expression
               var parsedExpression = $parse(value);
-              props[getPropertyName(name)] = parsedExpression(scope);
+              props[getPropertyName(attrName)] = parsedExpression(scope);
             }
           });
 

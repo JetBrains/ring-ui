@@ -1,11 +1,12 @@
-'use strict';
 require('angular/angular');
 require('angular-mocks/angular-mocks');
 require('./sidebar-ng');
 
 describe('SidebarNg', function () {
 
-  var scope, directiveScope, element, $compile;
+  var scope;
+  var element;
+  var $compile;
 
   beforeEach(window.module('Ring.sidebar'));
 
@@ -18,10 +19,9 @@ describe('SidebarNg', function () {
 
     element = $compile('<div>' +
       '<rg-sidebar show="isShowSidebar" place-under-sibling=".test-sibling">Test sidebar message</rg-sidebar>' +
-      '<div class="test-sibling" style="height: 100px;">test</div>'+
+      '<div class="test-sibling" style="height: 100px;">test</div>' +
     '</div>')(scope);
     scope.$digest();
-    directiveScope = element.isolateScope();
   }));
 
   it('Should be showed if showSidebar = true', function () {

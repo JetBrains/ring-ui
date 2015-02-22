@@ -1,5 +1,3 @@
-'use strict';
-
 var when = require('when');
 
 var DEFAULT_SPACE_NAME = 'memoryStorage';
@@ -42,9 +40,9 @@ MemoryStorage.prototype.set = function(key, value) {
     if (value != null) {
       // We should store objects copies
       return when.attempt(JSON.stringify, value).then(function (string) {
-        var value = JSON.parse(string);
-        space[key] = value;
-        return value;
+        var result = JSON.parse(string);
+        space[key] = result;
+        return result;
       });
     } else {
       delete space[key];

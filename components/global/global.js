@@ -56,7 +56,8 @@ Global.createObject = function () {
   var args = Array.prototype.slice.call(arguments, 0);
   var obj = {};
 
-  for (var i = 0, l = args.length; i < l; i += 2) {
+  var length = args.length;
+  for (var i = 0; i < length; i += 2) {
     obj[args[i]] = args[i + 1];
   }
 
@@ -65,4 +66,3 @@ Global.createObject = function () {
 
 
 module.exports = Global;
-

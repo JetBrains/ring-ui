@@ -1,5 +1,5 @@
 /**
- * @fileoverview DiffTool — a tool for displaying a diff of two files
+ * @fileoverview DiffTool — a tool for displaying a diff of two files
  * in single-, double- and triple-pane modes. In multi-pane mode content can
  * be edited (optionally).
  * @author igor.alexeenko (Igor Alekseyenko)
@@ -165,7 +165,6 @@ Diff.prototype.activateMode = function () {
   };
 
   var mode = this.mode_;
-  var element = this.element_;
 
   if (!this.modeToController_) {
 
@@ -175,9 +174,9 @@ Diff.prototype.activateMode = function () {
      * @private
      */
     this.modeToController_ = Tools.createObject(
-      Diff.Mode.PLAIN_FILE, lazyInstantiationOfController(EditorController.Plain, element),
-      Diff.Mode.SINGLE_PANE, lazyInstantiationOfController(EditorController.Single, element),
-      Diff.Mode.DOUBLE_PANE, lazyInstantiationOfController(EditorController.Double, element)
+      Diff.Mode.PLAIN_FILE, lazyInstantiationOfController(EditorController.Plain, this.element_),
+      Diff.Mode.SINGLE_PANE, lazyInstantiationOfController(EditorController.Single, this.element_),
+      Diff.Mode.DOUBLE_PANE, lazyInstantiationOfController(EditorController.Double, this.element_)
     );
   }
 
@@ -296,4 +295,3 @@ Diff.prototype.dispose = function () {
 };
 
 module.exports = Diff;
-

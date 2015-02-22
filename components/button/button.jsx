@@ -2,8 +2,6 @@
  * @jsx React.DOM
  */
 
-'use strict';
-
 require('./button.scss');
 
 var React = require('react');
@@ -81,7 +79,6 @@ var Button = React.createClass({
   },
 
   render: function () {
-    /* jshint ignore:start */
     var className = [
       'ring-btn',
       'ring-btn_' + this.props.modifier
@@ -92,7 +89,6 @@ var Button = React.createClass({
         {this.props.children}
       </button>
     );
-    /* jshint ignore:end */
   }
 });
 

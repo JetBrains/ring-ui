@@ -7,7 +7,7 @@
 require('./header.scss');
 var ClassName = require('class-name/class-name');
 var Global = require('global/global');
-var Icon = require('icon/icon'); // jshint -W098
+var Icon = require('icon/icon');
 var PopupMenu = require('popup-menu/popup-menu');
 var React = require('react/addons');
 
@@ -30,9 +30,7 @@ var HeaderLogo = React.createClass({
   },
 
   render: function() {
-    /* jshint ignore:start */
     return (<a href="/"><Icon size={Icon.Size.Size32} glyph={this.props.glyph} /></a>);
-    /* jshint ignore:end */
   }
 });
 
@@ -63,7 +61,6 @@ var MenuItem = React.createClass({
   },
 
   render: function () {
-    /* jshint ignore:start */
     var className = React.addons.classSet(Global.createObject(
         headerClassName.getClassName('user-menu-item'), true,
         headerClassName.getClassName('user-menu-item', 'icon'), true,
@@ -80,7 +77,6 @@ var MenuItem = React.createClass({
     </span>);
 
     return this.transferPropsTo(menuElement);
-    /* jshint ignore:end */
   },
 
   /**
@@ -102,7 +98,6 @@ var MenuItem = React.createClass({
     // todo(igor.alexeenko): Make image size customizable.
     // Now it is hardcoded for avatar in header.
 
-    /* jshint ignore:start */
     var baseClass = new ClassName('ring-icon');
     var className = React.addons.classSet(Global.createObject(
         baseClass.getClassName(), true,
@@ -115,7 +110,6 @@ var MenuItem = React.createClass({
         height="24"
         title={this.state.title}
         width="24" />);
-    /* jshint ignore:end */
   },
 
   /**
@@ -123,13 +117,11 @@ var MenuItem = React.createClass({
    * @private
    */
   _getIcon: function() {
-    /* jshint ignore:start */
     return (<Icon
         color={this.state.opened ? 'blue' : 'gray'}
         glyph={this.props.glyph}
         size={Icon.Size.Size18}
         title={this.state.title} />);
-    /* jshint ignore:end */
   },
 
   /**
@@ -141,10 +133,8 @@ var MenuItem = React.createClass({
         if (typeof this.props.onOpen === 'function') {
           this.props.onOpen();
         }
-      } else {
-        if (typeof this.props.onClose === 'function') {
-          this.props.onClose();
-        }
+      } else if (typeof this.props.onClose === 'function') {
+        this.props.onClose();
       }
     });
   },
@@ -272,7 +262,9 @@ var getHeaderHeight = function(headerElement) {
     heights.push(LINE_HEIGHT * linesCount);
   }
 
-  return heights.reduce(function(a, b) { return a + b; }, 0);
+  return heights.reduce(function(a, b) {
+    return a + b;
+  }, 0);
 };
 
 
@@ -379,7 +371,6 @@ var Header = React.createClass({
   },
 
   render: function() {
-    /*jshint ignore:start*/
     return (<div className={headerClassName.getClassName()}>
       <div className={headerClassName.getElement('logo')}>{this._getLogo()}</div>
       <div className={headerClassName.getElement('menu')}>{React.Children.map(this.props.menu, function(item) {
@@ -389,14 +380,13 @@ var Header = React.createClass({
       {this._getRightMenu()}
       {this._getServicesMenu()}
     </div>);
-    /*jshint ignore:end*/
   },
 
   /**
    * @param {SyntheticEvent} evt
    * @private
    */
-  _onServicesOpen: function(evt) {
+  _onServicesOpen: function() {
     if (this.props.onServicesOpen) {
       this.props.onServicesOpen();
       return;
@@ -433,7 +423,7 @@ var Header = React.createClass({
     if (!this.state.servicesOpened && nextState.servicesOpened) {
       this._adjustServicesHeight(true);
 
-      _servicesResizeHandler = function(event) {
+      _servicesResizeHandler = function() {
         if (this.state.servicesOpened) {
           this._adjustServicesHeight(false);
         }
@@ -459,7 +449,7 @@ var Header = React.createClass({
     var servicesStyle = {};
     var servicesInnerStyle = {};
 
-    servicesStyle['transition'] = !!animated ? 'height 200ms ease-out' : '';
+    servicesStyle['transition'] = animated ? 'height 200ms ease-out' : '';
     servicesStyle['height'] = headerHeight + 'px';
 
     servicesInnerStyle['height'] = headerHeight + 'px';
@@ -508,9 +498,7 @@ var Header = React.createClass({
       return this.props.logo;
     }
 
-    /* jshint ignore:start */
     return (<HeaderLogo glyph={this.props.logo} />);
-    /* jshint ignore:end */
   },
 
   /**
@@ -538,13 +526,11 @@ var Header = React.createClass({
         headerClassName.getElement('menu-service'), true,
         headerClassName.getClassName('menu-service', 'opened'), this.state.servicesOpened));
 
-    /* jshint ignore:start */
     return (<div className={className} style={this.props.servicesStyle}>
       <div className={headerClassName.getElement('menu-service-inner')} style={this.props.servicesInnerStyle}>
         {this.props.servicesIconsMenu}
       </div>
     </div>);
-    /* jshint ignore:end */
   },
 
   /**
@@ -560,7 +546,6 @@ var Header = React.createClass({
         headerClassName.getElement('user-menu-extra'), true,
         headerClassName.getElement('user-menu-item'), true));
 
-    /* jshint ignore:start */
     var menuContent = this.props.rightMenu ? this.transferPropsTo(this.props.rightMenu) : (<div>
       <div className={extraElementClassName}></div>
       {this.props.showSettings ? (<MenuItem ref="settings" glyph="cog1" href={this.props.settingsLink} onOpen={this.props.onSettingsOpen} onClose={this.props.onSettingsClose} />) : null}
@@ -570,7 +555,6 @@ var Header = React.createClass({
     </div>);
 
     return (<div className={headerClassName.getElement('user-menu')}>{menuContent}</div>);
-    /* jshint ignore:end */
   },
 
   /**
@@ -621,11 +605,11 @@ var Header = React.createClass({
    */
   setServicesList: function(services) {
     this.setProps({ servicesList: services }, function() {
-      var services = sortServices(this.props.servicesList.slice(0));
+      var sortedServices = sortServices(this.props.servicesList.slice(0));
       var servicesIcons = [];
       var servicesList = [];
 
-      services.forEach(function(item, i) {
+      sortedServices.forEach(function(item) {
         var serviceIcon = getServiceLogo(item);
 
         if (serviceIcon) {
@@ -636,14 +620,13 @@ var Header = React.createClass({
       });
 
       if (servicesIcons.length > 1) {
-        /* jshint ignore:start */
         var servicesIconsMenu = (<div>
           <div className={headerClassName.getElement('menu-service-line')}>
             {servicesList.map(function(item, i) {
               var href = document.location.toString().indexOf(item.homeUrl) === -1 ? item.homeUrl : null;
               var linkElement = href ? (<a href={item.homeUrl} target="_self">{item.name}</a>) : (<b>{item.name}</b>);
 
-              return (<div className={headerClassName.getElement('menu-service-line__item')} key={i}>{linkElement}</div>)
+              return (<div className={headerClassName.getElement('menu-service-line__item')} key={i}>{linkElement}</div>);
             })}
           </div>
           {servicesIcons.map(function(item, i) {
@@ -664,7 +647,6 @@ var Header = React.createClass({
           servicesListMenu: servicesList
         });
 
-        /* jshint ignore:end */
       } else {
         var popupData = this.props.servicesList.map(function(item) {
           return {
@@ -735,10 +717,9 @@ HeaderHelper.setServicesList = function(header, auth, params) {
  */
 HeaderHelper.setUserMenu = function(header, auth) {
   var popup = null;
-  var PopupMenu = require('popup-menu/popup-menu');
 
   return auth.requestUser().then(function(response) {
-    if (response.avatar && response.avatar.type !== 'defaultavatar')  {
+    if (response.avatar && response.avatar.type !== 'defaultavatar') {
       header.setProfilePicture(response.avatar.pictureUrl);
     }
 
@@ -746,7 +727,9 @@ HeaderHelper.setUserMenu = function(header, auth) {
 
     var popupData = [
       { label: 'Profile', type: PopupMenu.ListProps.Type.LINK, href: [auth.config.serverUri, 'users/me'].join('') },
-      { label: 'Logout', type: PopupMenu.ListProps.Type.LINK, onClick: function() { auth.logout(); } }
+      { label: 'Logout', type: PopupMenu.ListProps.Type.LINK, onClick: function() {
+        auth.logout();
+      }}
     ];
 
     header.setProps({

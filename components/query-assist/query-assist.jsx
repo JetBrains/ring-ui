@@ -14,7 +14,7 @@ var Caret = require('caret/caret');
 
 var NgModelMixin = require('ngmodel/ngmodel');
 var PopupMenu = require('../popup-menu/popup-menu');
-var Icon = require('../icon/icon'); // jshint -W098
+var Icon = require('../icon/icon');
 var Loader = require('../loader/loader');
 var Shortcuts = require('shortcuts/shortcuts');
 var Global = require('global/global');
@@ -528,7 +528,6 @@ var QueryAssist = React.createClass({
 
     if (!this._popup || !this._popup.isMounted()) {
       this._popup = PopupMenu.renderComponent(
-        /* jshint ignore:start */
         <PopupMenu
           anchorElement={this.getDOMNode()}
           autoRemove={false} // required to prevent popup unmount on Esc
@@ -545,7 +544,6 @@ var QueryAssist = React.createClass({
           onSelect={this.handleComplete}
           shortcuts={true}
         />
-        /* jshint ignore:end */
       );
     } else {
       this._popup.setProps({
@@ -605,8 +603,6 @@ var QueryAssist = React.createClass({
       }
 
       var label;
-
-      /* jshint ignore:start */
       var option;
       var before = false;
       var after = false;
@@ -622,7 +618,6 @@ var QueryAssist = React.createClass({
       var suffix = !!suggestion.suffix && <span className="ring-list__service">{suggestion.suffix}</span>;
 
       label = React.DOM.span(null, prefix, before, option, after, suffix);
-      /* jshint ignore:end */
 
       var item = {
         key: suggestion.prefix + suggestion.option + suggestion.suffix + suggestion.group + suggestion.description,
@@ -645,26 +640,23 @@ var QueryAssist = React.createClass({
     return suggestions;
   },
 
-  /* jshint ignore:start */
   renderLetter: function (letter, index) {
     // \u00a0 === &nbsp;
     var letterValue = letter === ' ' ? '\u00a0' : letter;
     // Despite warning we don't need key here because of renderComponentToStaticMarkup
-    return <span className={this.getLetterClass(index)}>{letterValue}</span>
+    return <span className={this.getLetterClass(index)}>{letterValue}</span>;
   },
-  /* jshint ignore:end */
 
   /** @override */
   render: function () {
-    /* jshint ignore:start */
     var renderPlaceholder = !!this.props.placeholder && !this.state.query;
-    var renderClear = this.props.clear && this.state.query;
+    var renderClear = this.props.clear && !!this.state.query;
     var renderGlass = this.props.glass && !this.state.loading;
     var renderGlassOrLoader = this.props.glass || this.state.loading;
 
     var inputClasses = React.addons.classSet({
       'ring-query-assist__input ring-input ring-js-shortcuts': true,
-      'ring-query-assist__input_gap': renderGlass != renderClear &&
+      'ring-query-assist__input_gap': renderGlass !== renderClear &&
         (renderGlassOrLoader || renderClear),
       'ring-query-assist__input_double-gap': renderGlassOrLoader && renderClear,
       'ring-input_disabled': this.props.disabled
@@ -703,7 +695,7 @@ var QueryAssist = React.createClass({
           glyph="search"
           onClick={this.handleApply}
           ref="glass"
-          size={Icon.Size.Size16}></Icon>}
+          size={Icon.Size.Size16} />}
         {this.state.loading && <div
           className="ring-query-assist__icon ring-query-assist__icon_loader"
           ref="loader">
@@ -715,10 +707,9 @@ var QueryAssist = React.createClass({
           glyph="close"
           onClick={this.clearQuery}
           ref="clear"
-          size={Icon.Size.Size16}></Icon>}
+          size={Icon.Size.Size16} />}
       </div>
     );
-    /* jshint ignore:end */
   }
 });
 

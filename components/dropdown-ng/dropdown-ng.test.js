@@ -1,11 +1,14 @@
-'use strict';
 require('angular/angular');
 require('angular-mocks/angular-mocks');
 require('./dropdown-ng');
 
 describe('DropdownNg', function () {
 
-  var scope, directiveScope, element, itemsMock, $compile;
+  var scope;
+  var directiveScope;
+  var element;
+  var itemsMock;
+  var $compile;
 
   beforeEach(window.module('Ring.dropdown'));
 
@@ -37,7 +40,7 @@ describe('DropdownNg', function () {
   });
 
   it('should convert items on passing to popup-menu', function () {
-    scope.items.push({id:3, name: 'test3'});
+    scope.items.push({id: 3, name: 'test3'});
 
     scope.$digest();
 

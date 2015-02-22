@@ -1,5 +1,4 @@
-'use strict';
-
+/* eslint-disable google-camelcase/google-camelcase */
 /**
  * @typedef {{
  *   access_token: string?,

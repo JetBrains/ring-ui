@@ -1,4 +1,3 @@
-'use strict';
 require('angular/angular');
 require('angular-mocks/angular-mocks');
 require('./table-ng');
@@ -7,19 +6,22 @@ var $ = require('jquery');
 
 describe('TableNg', function () {
 
-  var scope, directiveScope, directiveController, element, $compile,
-    fakeData = {
-      items: [],
-      loadMore: function () {}
-    };
+  var scope;
+  var directiveController;
+  var element;
+  var $compile;
+  var fakeData = {
+    items: [],
+    loadMore: function () {}
+  };
 
   beforeEach(function () {
     //Restoring items before each test to prevent side effects
     fakeData.items = [
-      {id:1, name: 'test1'},
-      {id:2, name: 'test2'},
-      {id:3, name: 'test3'},
-      {id:4, name: 'test4'}
+      {id: 1, name: 'test1'},
+      {id: 2, name: 'test2'},
+      {id: 3, name: 'test3'},
+      {id: 4, name: 'test4'}
     ];
   });
 
@@ -42,7 +44,6 @@ describe('TableNg', function () {
     )(scope);
 
     scope.$digest();
-    directiveScope = element.isolateScope();
     directiveController = element.controller('rgTable');
   }));
 
@@ -59,9 +60,8 @@ describe('TableNg', function () {
 
 
   describe('Selection', function () {
-
-    var selection,
-      fakeEvent = {};
+    var selection;
+    var fakeEvent = {};
 
     beforeEach(function () {
       fakeEvent.emitEvent = sinon.spy();
