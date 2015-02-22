@@ -57,16 +57,16 @@ var attributesToExclude = ['fill'];
 /**
  * Takes a pathname and returns list of all files in a given directory and child
  * directories.
- * @param {string} path
+ * @param {string} dirPath
  * @return {Array.<string>}
  */
-var readdirRecursive = function(path) {
-  var files = fs.readdirSync(path);
+var readdirRecursive = function(dirPath) {
+  var files = fs.readdirSync(dirPath);
   var output = [];
   var file;
 
   while ((file = files.shift())) {
-    var fPath = path + '/' + file;
+    var fPath = path.join(dirPath, file);
     var fStat = fs.lstatSync(fPath);
 
     if (fStat.isDirectory()) {
@@ -130,7 +130,7 @@ var transformFile = function(fileContent, target, strategy) {
 
       // Exclude some parameters only if transforming icon. In case
       // of transforming logotype do not change anything.
-      case TransformStrategy.ICON: //jshint -W086
+      case TransformStrategy.ICON:
       default:
         attributeNames.forEach(function(attribute) {
           if (attributesToExclude.indexOf(attribute) === -1) {
@@ -178,19 +178,19 @@ var transformSVG = function(fileContents) {
     var strategy = DirectoryToStrategy[lastDirectory] || TransformStrategy.ICON;
 
     var fileContent = fileContents[fileName];
-    var preprocessedFile = (function preprocessFile(fileContent) {
-      if (fileContent['name'] === 'svg') {
+    var preprocessedFile = (function preprocessFile(processedFileContent) {
+      if (processedFileContent['name'] === 'svg') {
         var className = new ClassName(ELEMENT_PREFIX);
 
-        fileContent['name'] = 'symbol';
-        fileContent['attrib'] = {
+        processedFileContent['name'] = 'symbol';
+        processedFileContent['attrib'] = {
           'id': className.getModifier(path.basename(fileName, '.svg')),
-          'viewBox': fileContent['attrib']['viewBox']
+          'viewBox': processedFileContent['attrib']['viewBox']
         };
       }
 
-      return fileContent;
-    })(fileContent, fileName);
+      return processedFileContent;
+    }(fileContent, fileName));
 
     output['svg'] = transformFile(preprocessedFile, output['svg'], strategy);
   });
@@ -199,6 +199,6 @@ var transformSVG = function(fileContents) {
 };
 
 
-var fileContent = transformSVG(readFiles(__dirname + '/' + SOURCE_DIRECTORY, filenamePattern));
+var svgSpriteContent = transformSVG(readFiles(path.join(__dirname, SOURCE_DIRECTORY), filenamePattern));
 
-module.exports = ['module.exports = \'' + fileContent.replace(/(\r\n|\n|\r)\s?/g, ''), '\';'].join('');
+module.exports = ['module.exports = \'' + svgSpriteContent.replace(/(\r\n|\n|\r)\s?/g, ''), '\';'].join('');

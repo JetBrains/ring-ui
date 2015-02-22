@@ -28,7 +28,7 @@ var dgeni = new Dgeni([
    * @return {Object} Webpack config object
    */
   .factory('webpackConfig', function() {
-    return require('./webpack.config.js');
+    return require('../webpack.config.js');
   })
 
   /**
@@ -282,9 +282,9 @@ var dgeni = new Dgeni([
     readFilesProcessor.fileReaders.unshift(jsxFileReader);
     readFilesProcessor.basePath = __dirname;
     readFilesProcessor.sourceFiles = [
-      'src/components/**/*.jsx',
-      'src/components/react-ng/react-ng.js',
-      'src/components/tabs-ng/tabs-ng.js'
+      '../components/**/*.jsx',
+      '../components/react-ng/react-ng.js',
+      '../components/tabs-ng/tabs-ng.js'
     ];
 
     /**
@@ -292,7 +292,7 @@ var dgeni = new Dgeni([
      * when redering docs
      */
     templateFinder.templateFolders.unshift(
-      path.resolve(__dirname, 'templates'));
+      path.resolve(__dirname, '..', 'templates'));
 
     templateFinder.templatePatterns = [
       '<%= doc.template %>',
@@ -300,7 +300,7 @@ var dgeni = new Dgeni([
       'common.template.html'
     ];
 
-    writeFilesProcessor.outputFolder = 'docs';
+    writeFilesProcessor.outputFolder = '../docs';
 
     generateProtractorTestsProcessor.$enabled = false;
     generateExamplesProcessor.deployments = [{

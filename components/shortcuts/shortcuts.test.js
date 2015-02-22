@@ -192,10 +192,10 @@ describe('Shortcuts', function () {
     });
 
     it('setScope should set full scope chain by string name', function () {
-      var scope = 'aaaa';
-      shortcuts.setScope(scope);
+      var myscope = 'aaaa';
+      shortcuts.setScope(myscope);
 
-      shortcuts.getScope().should.deep.equal([scope]);
+      shortcuts.getScope().should.deep.equal([myscope]);
     });
 
     it('setScope should set full scope chain by array of names', function () {
@@ -257,17 +257,15 @@ describe('Shortcuts', function () {
       var subKeyMap = {};
       subKeyMap[key] = noop2;
 
-      var SubTestClass = createСlass({
+      var subComponent = createСlass({
         scope: scope2,
         map: subKeyMap
       });
       var TestClass = createСlass(null, function render() {
-        // jshint -W064
-        return SubTestClass({
+        return subComponent({
           ref: 'subComponent',
           shortcuts: this.props.shortcuts
         }, null);
-        // jshint +W064
       });
 
       component = renderIntoDocument(new TestClass(props), callback);

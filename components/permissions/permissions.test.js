@@ -155,12 +155,12 @@ describe('Permissions', function () {
       });
     });
 
-    describe('cache with defined permissions map', function() {
+    describe('cache with defined permissions converter', function() {
       var namesConverter = function (key) {
         var splittedKey = key.split('.');
-        return splittedKey[splittedKey.length - 1].toLowerCase().replace(/\_/g,'-');
+        return splittedKey[splittedKey.length - 1].toLowerCase().replace(/\_/g, '-');
       };
-      var permissionCache = new PermissionCache([
+      var permissionCacheWithConverter = new PermissionCache([
         {permission: {key: 'jetbrains.jetpass.project-read'}, global: true},
         {permission: {key: 'JetBrains.YouTrack.UPDATE_NOT_OWN_WORK_ITEM'}, spaces: [
           {id: '123'}
@@ -169,25 +169,25 @@ describe('Permissions', function () {
       ], namesConverter);
 
       it('should not permit permission via serve name', function () {
-        permissionCache.has('jetbrains.jetpass.project-read').should.be.false;
-        permissionCache.has('JetBrains.YouTrack.UPDATE_NOT_OWN_WORK_ITEM').should.be.false;
+        permissionCacheWithConverter.has('jetbrains.jetpass.project-read').should.be.false;
+        permissionCacheWithConverter.has('JetBrains.YouTrack.UPDATE_NOT_OWN_WORK_ITEM').should.be.false;
       });
 
       it('should not permit unexisting permission', function () {
-        permissionCache.has('work-item-update').should.be.false;
-        permissionCache.has('JetBrains.YouTrack.UPDATE_WORK_ITEM').should.be.false;
+        permissionCacheWithConverter.has('work-item-update').should.be.false;
+        permissionCacheWithConverter.has('JetBrains.YouTrack.UPDATE_WORK_ITEM').should.be.false;
       });
 
       it('should permit global permission', function () {
-        permissionCache.has('project-read').should.be.true;
-        permissionCache.has('project-read', '123').should.be.true;
-        permissionCache.has('project-read', '456').should.be.true;
+        permissionCacheWithConverter.has('project-read').should.be.true;
+        permissionCacheWithConverter.has('project-read', '123').should.be.true;
+        permissionCacheWithConverter.has('project-read', '456').should.be.true;
       });
 
       it('should check non-global permission', function () {
-        permissionCache.has('update-not-own-work-item').should.be.true;
-        permissionCache.has('update-not-own-work-item', '456').should.be.false;
-        permissionCache.has('update-not-own-work-item', '123').should.be.true;
+        permissionCacheWithConverter.has('update-not-own-work-item').should.be.true;
+        permissionCacheWithConverter.has('update-not-own-work-item', '456').should.be.false;
+        permissionCacheWithConverter.has('update-not-own-work-item', '123').should.be.true;
       });
     });
   });

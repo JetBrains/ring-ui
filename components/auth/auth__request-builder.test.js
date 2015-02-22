@@ -1,3 +1,4 @@
+/* eslint-disable google-camelcase/google-camelcase */
 describe('Auth', function () {
   describe('AuthRequestBuilder', function () {
     var AuthRequestBuilder = require('./auth__request-builder');

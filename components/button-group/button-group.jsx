@@ -2,8 +2,6 @@
  * @jsx React.DOM
  */
 
-'use strict';
-
 require('./button-group.scss');
 var React = require('react');
 
@@ -34,13 +32,11 @@ var React = require('react');
  */
 var ButtonGroup = React.createClass({
   render: function () {
-    /*jshint ignore:start*/
     return this.transferPropsTo(
       <div className="ring-button-group">
         {this.props.children}
       </div>
       );
-    /*jshint ignore:end*/
   }
 });
 

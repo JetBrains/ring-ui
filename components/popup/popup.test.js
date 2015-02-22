@@ -11,7 +11,7 @@ describe('Popup', function () {
     popup.should.exist;
   });
 
-  it ('should create react class, based on popup mixin', function() {
+  it('should create react class, based on popup mixin', function() {
     var popupChild = React.createClass({
       mixins: [Popup.Mixin],
       getInternalContent: function() {
@@ -23,7 +23,7 @@ describe('Popup', function () {
     popupChild.PopupProps.Corner.should.exist;
   });
 
-  it ('should be closed by pressing esc', function() {
+  it('should be closed by pressing esc', function() {
     var popup = TestUtils.renderIntoDocument(new Popup(null));
 
     simulateKeypress(null, 27); // Esc
@@ -31,7 +31,7 @@ describe('Popup', function () {
     popup.isMounted().should.be.false;
   });
 
-  it ('should be closed by resizing window', function() {
+  it('should be closed by resizing window', function() {
     var popup = TestUtils.renderIntoDocument(new Popup(null));
     var evt = document.createEvent('Event');
     evt.initEvent('resize', true, false);
@@ -44,14 +44,14 @@ describe('Popup', function () {
     var evt = document.createEvent('MouseEvent');
     evt.initEvent('click', true, false);
 
-    it ('should be closed by click outside the element', function() {
+    it('should be closed by click outside the element', function() {
       var popup = TestUtils.renderIntoDocument(new Popup(null));
       document.body.dispatchEvent(evt);
 
       popup.isMounted().should.be.false;
     });
 
-    it ('shouldn\'n t be closed by click inside the element', function() {
+    it('shouldn\'n t be closed by click inside the element', function() {
       var popup = TestUtils.renderIntoDocument(new Popup(null));
       popup.getDOMNode().dispatchEvent(evt);
 
@@ -60,7 +60,7 @@ describe('Popup', function () {
   });
 
   describe('positioning', function() {
-    it ('top-left corner', function() {
+    it('top-left corner', function() {
       var element = $('<div style="position: absolute; top: 10px; left: 15px; width: 50px; height: 50px;"></div>');
       $('body').append(element);
 
@@ -77,11 +77,11 @@ describe('Popup', function () {
       var popupElement = popup.getDOMNode();
       var elementOffset = element.offset();
 
-      parseInt(popupElement.style.left).should.equal(elementOffset.left);
-      parseInt(popupElement.style.top).should.equal(elementOffset.top - $(popup.getDOMNode()).height());
+      parseInt(popupElement.style.left, 10).should.equal(elementOffset.left);
+      parseInt(popupElement.style.top, 10).should.equal(elementOffset.top - $(popup.getDOMNode()).height());
     });
 
-    it ('bottom-left corner', function() {
+    it('bottom-left corner', function() {
       var element = $('<div style="position: absolute; top: 10px; left: 15px; width: 50px; height: 50px;"></div>');
       $('body').append(element);
 
@@ -98,8 +98,8 @@ describe('Popup', function () {
       var popupElement = popup.getDOMNode();
       var elementOffset = element.offset();
 
-      parseInt(popupElement.style.left).should.equal(elementOffset.left);
-      parseInt(popupElement.style.top).should.equal(elementOffset.top + element.height());
+      parseInt(popupElement.style.left, 10).should.equal(elementOffset.left);
+      parseInt(popupElement.style.top, 10).should.equal(elementOffset.top + element.height());
     });
   });
 });

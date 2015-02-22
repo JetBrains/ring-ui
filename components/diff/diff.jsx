@@ -2,8 +2,6 @@
  * @jsx React.DOM
  */
 
-'use strict';
-
 var React = require('react/addons');
 var BaseDiff = require('./diff__base');
 var ReactPropTypes = React.PropTypes;
@@ -65,7 +63,6 @@ var Diff = React.createClass({
       }));
     }
 
-    /* jshint ignore:start */
     return this.transferPropsTo(
       <div className="ring-diff ring-diff_doublepane">
 
@@ -100,7 +97,6 @@ var Diff = React.createClass({
 
       </div>
     );
-    /* jshint ignore:end */
   }
 });
 

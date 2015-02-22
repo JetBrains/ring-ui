@@ -1,5 +1,3 @@
-'use strict';
-
 require('auth-ng/auth-ng');
 var Permissions = require('../permissions/permissions');
 
@@ -145,7 +143,8 @@ permissionsModule.directive('permissionIf', [
       restrict: 'A',
       require: '^?somePermissions',
       link: function (scope, iElement, iAttrs, somePermittedCtrl, $transclude) {
-        var block, childScope;
+        var block;
+        var childScope;
 
         userPermissions.check(iAttrs.permissionIf, scope.$eval(iAttrs.inSpace)).
           then(function (permitted) {

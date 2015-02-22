@@ -1,12 +1,12 @@
 var mixIn = require('mout/object/mixIn');
 
+/* global window:true */
 /**
  *  Create window as event target
  */
-// jshint -W079
 var window = mixIn({}, sinon.EventTarget);
-// jshint +W079
 
+/* global StorageEvent:true */
 /**
  * Custom event
  * @constructor

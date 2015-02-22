@@ -1,4 +1,3 @@
-'use strict';
 var Caret = require('./caret');
 
 describe('Caret', function () {

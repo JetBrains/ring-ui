@@ -2,11 +2,7 @@
  * @author maxim.erekhinskiy
  * @fileoverview AngularJS service that provide interface to React Alerts interface.
  */
-
-'use strict';
-
 /* global angular: false */
-/* jshint latedef:false */
 
 var React = require('react/addons');
 
@@ -14,23 +10,7 @@ angular.module('Ring.alert', []).provider('alert', function() {
   var ReactAlert = require('../alert/alert');
   var ReactAlerts = require('../alert/alerts');
   var container = null;
-  var allowedTags = {'A': ['href', 'class']};
   var defaultTTL = 0; // no ttl, never closed by timeout
-
-  this.init = init;
-  this.setAllowedTags = setAllowedTags;
-  this.setDefaultTTL = setDefaultTTL;
-
-  this.$get = function() {
-    return {
-      error: error,
-      warning: warning,
-      message: message,
-      success: success,
-      setRemoveCallback: setRemoveCallback,
-      DOM: ReactAlert.DOM
-    };
-  };
 
   function init(containerElement) {
     if (!containerElement) {
@@ -40,16 +20,12 @@ angular.module('Ring.alert', []).provider('alert', function() {
     container = React.renderComponent(new ReactAlerts(), containerElement.get(0));
   }
 
-  function setAllowedTags(tags) {
-    allowedTags = tags;
-  }
   function setDefaultTTL(ttl) {
-    defaultTTL = parseInt(ttl);
+    defaultTTL = parseInt(ttl, 10);
   }
-
 
   function _add(text, type, ttl) {
-    if(!container) {
+    if (!container) {
       init();
     }
 
@@ -77,11 +53,25 @@ angular.module('Ring.alert', []).provider('alert', function() {
   }
 
   function setRemoveCallback(removeCallback){
-    if(!container) {
+    if (!container) {
       init();
     }
     container.setProps({
       onRemove: removeCallback
     });
   }
+
+  this.init = init;
+  this.setDefaultTTL = setDefaultTTL;
+
+  this.$get = function() {
+    return {
+      error: error,
+      warning: warning,
+      message: message,
+      success: success,
+      setRemoveCallback: setRemoveCallback,
+      DOM: ReactAlert.DOM
+    };
+  };
 });

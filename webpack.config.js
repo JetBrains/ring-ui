@@ -5,7 +5,6 @@
  * the subfolder /webpack-dev-server/ is visited. Visiting the root will not automatically reload.
  */
 
-'use strict';
 var pkgConfig = require('./package.json');
 var path = require('path');
 

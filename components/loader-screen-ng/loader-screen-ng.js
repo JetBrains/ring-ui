@@ -31,9 +31,9 @@ angular.module('Ring.loader-screen', []).
 
       this.startInitialLoading = function () {
         initialLoading = true;
-        var _this = this;
+
         showLoaderPromise = $timeout(function () {
-          _this.setVisible(true);
+          self.setVisible(true);
         }, 1500);
       };
 
