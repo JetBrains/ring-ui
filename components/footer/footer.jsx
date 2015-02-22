@@ -7,7 +7,6 @@ require('./footer.scss');
 require('link/link.scss');
 
 var React = require('react');
-// jshint -W098
 var $ = require('jquery');
 
 /**
@@ -29,7 +28,6 @@ var FooterColumn = React.createClass({
   },
 
   render: function () {
-    /* jshint ignore:start */
     return (
       <div className={['ring-footer__column', 'ring-footer__column_' + this.props.position].join(' ')}>
         <ul className="ring-footer__column__i">
@@ -37,7 +35,6 @@ var FooterColumn = React.createClass({
         </ul>
       </div>
       );
-    /* jshint ignore:end */
   }
 });
 
@@ -72,36 +69,34 @@ var FooterLine = React.createClass({
     ])
   },
   render: function () {
-    /* jshint ignore:start */
     var children = {};
     var renderItem = function(item, idx) {
       // Item is string
-      if(!(item.label)) {
-        item = {label: item}
+      if (!(item.label)) {
+        item = {label: item};
       }
       var element = (item.copyright ? copyright(item.copyright) : '') + item.label;
       if (item.url) {
-        element = <a className="ring-link" href={item.url} title={item.title}>{element}</a>
+        element = <a className="ring-link" href={item.url} title={item.title}>{element}</a>;
       }
       return {
         id: item.label + '-' + idx,
         element: element
       };
     };
-    if($.isArray(this.props.item)) {
+    if ($.isArray(this.props.item)) {
       this.props.item.map(renderItem).forEach(function(it) {
         children[it.id] = it.element;
-      })
+      });
     } else {
-      var it = renderItem(this.props.item, 0);
-      children[it.id] = it.element;
+      var renderedItem = renderItem(this.props.item, 0);
+      children[renderedItem.id] = renderedItem.element;
     }
     return (
       <li className="ring-footer__line">
         {children}
       </li>
       );
-    /* jshint ignore:end */
   }
 });
 
@@ -162,12 +157,10 @@ var Footer = React.createClass({
   },
 
   render: function () {
-    /* jshint ignore:start */
-
     var content = function(elements, position) {
       return elements ? <FooterColumn key={position} position={position}>{elements.map(function(item, idx) {
-        return <FooterLine key={idx} item={item}></FooterLine>;
-      })}</FooterColumn> : false
+        return <FooterLine key={idx} item={item} />;
+      })}</FooterColumn> : false;
     };
 
     return (
@@ -178,7 +171,6 @@ var Footer = React.createClass({
           content(this.props.right, Position.RIGHT)]}
       </div>
       );
-    /* jshint ignore:end */
   }
 });
 

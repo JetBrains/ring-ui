@@ -1,5 +1,3 @@
-'use strict';
-
 var LocalStorage = require('./storage__local');
 var FallbackStorage = require('./storage__fallback');
 

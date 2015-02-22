@@ -1,5 +1,3 @@
-'use strict';
-
 describe('Textarea', function () {
   var React = require('react/addons');
   var Textarea = require('./textarea');

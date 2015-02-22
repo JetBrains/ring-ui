@@ -18,9 +18,7 @@ require('./link.scss');
  */
 var Link = React.createClass({
   render: function() {
-    /* jshint ignore:start */
     return this.transferPropsTo(<a className="ring-link">{this.props.children}</a>);
-    /* jshint ignore:end */
   }
 });
 

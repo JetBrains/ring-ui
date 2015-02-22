@@ -1,23 +1,9 @@
-'use strict';
-
 var gulp = require('gulp');
 var gutil = require('gulp-util');
-var jshint = require('gulp-jshint');
 var webpack = require('webpack');
 var rimraf = require('gulp-rimraf');
 var WebpackDevServer = require('webpack-dev-server');
 var nodemon = require('gulp-nodemon');
-var csscomb = require('gulp-csscomb');
-var csslint = require('gulp-csslint');
-var sass = require('gulp-sass');
-var filter = require('gulp-filter');
-
-var CSSlint = require('csslint').CSSLint;
-
-var path = require('path');
-var Buffer = require('buffer').Buffer;
-var through = require('through');
-
 var argv = require('yargs').argv;
 
 // Read configuration from package.json
@@ -115,64 +101,6 @@ gulp.task('dev-server', function () {
   });
 });
 
-gulp.task('lint', function () {
-  return gulp.src([pkgConfig.src + '/components/**/*.{js,jsx}', '*.js'])
-    .pipe(jshint())
-    .pipe(jshint.reporter('default'))
-    // Reports xml to console :(
-    // .pipe(jshint.reporter('jslint_xml'))
-    .pipe(jshint.reporter('fail'));
-});
-
-gulp.task('lint-styles', function () {
-  var reportFilename = 'css-lint.xml';
-  var formatter = CSSlint.getFormatter('checkstyle-xml');
-  var report = formatter.startFormat();
-
-  function reporter(file) {
-    var filename = path.relative(__dirname, file.csslint.results[0].file);
-    var messages = file.csslint.results.map(function (file) {
-      return file.error;
-    });
-
-    report += formatter.formatResults({messages: messages}, filename, {});
-  }
-
-  function exportReport() {
-    function endStream() {
-      report += formatter.endFormat();
-
-      var file = new gutil.File({
-        path: reportFilename,
-        contents: new Buffer(report)
-      });
-
-      /* jshint -W040 */
-      this.emit('data', file);
-      this.emit('end');
-      /* jshint +W040 */
-    }
-
-    return through(function () {
-    }, endStream);
-  }
-
-  return gulp.src(pkgConfig.src + '/components/**/*.scss')
-    .pipe(csscomb()) // just detect errors for now
-    .pipe(sass())
-    .pipe(filter(function (file) {
-      return file.isBuffer() ? !!file.contents.length : true;
-    }))
-    .pipe(csslint('.csslintrc'))
-    .pipe(csslint.reporter(reporter))
-    .pipe(exportReport())
-    .pipe(gulp.dest(pkgConfig.dist))
-    .on('end', function () {
-      console.log('##teamcity[importData type=\'checkstyle\' path=\'' +
-        pkgConfig.dist + '/' + reportFilename + '\']');
-    });
-});
-
 //The development server (the recommended option for development)
 gulp.task('default', ['dev-server']);
 
@@ -185,4 +113,4 @@ gulp.task('build-dev', ['webpack:build-dev'], function () {
 });
 
 // Production build
-gulp.task('build', ['lint', 'lint-styles', 'webpack:build']);
+gulp.task('build', ['webpack:build']);

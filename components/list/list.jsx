@@ -3,7 +3,6 @@
  * @jsx React.DOM
  */
 
-// jshint -W098
 var React = require('react/addons');
 var mixIn = require('mout/object/mixIn');
 var debounce = require('mout/function/debounce');
@@ -41,7 +40,6 @@ var Dimensions = {
 var ListSeparator = React.createClass({
   /** @override */
   render: function () {
-    /* jshint ignore:start */
     var classes = React.addons.classSet({
       'ring-list__separator': true,
       'ring-list__separator_empty': !this.props.description
@@ -50,7 +48,6 @@ var ListSeparator = React.createClass({
     return (
       <span className={classes}>{this.props.description}</span>
       );
-    /* jshint ignore:end */
   }
 });
 
@@ -66,7 +63,6 @@ var ListItem = React.createClass({
 
   /** @override */
   render: function () {
-    /* jshint ignore:start */
     var classes = React.addons.classSet({
       'ring-list__item': true,
       'ring-list__item_action': true,
@@ -82,7 +78,6 @@ var ListItem = React.createClass({
         {this.props.label}
       </span>
     );
-    /* jshint ignore:end */
   }
 });
 
@@ -112,9 +107,7 @@ var ListLink = React.createClass({
 var ListHint = React.createClass({
   /** @override */
   render: function () {
-    /* jshint ignore:start */
     return <span className="ring-list__item ring-list__item_hint">{this.props.label}</span>;
-    /* jshint ignore:end */
   }
 });
 
@@ -319,7 +312,6 @@ var List = React.createClass({
       'ring-list_scrolling': this.state.scrolling
     });
 
-    /* jshint ignore:start */
     return (
       <div className={classes} onMouseMove={this.mouseHandler}>
         <div className="ring-list__i" ref="inner" onScroll={this.scrollHandler} style={innerStyles}>
@@ -365,7 +357,6 @@ var List = React.createClass({
         {hint && <ListHint key={this.props.hint + Type.ITEM} label={hint} />}
       </div>
     );
-    /* jshint ignore:end */
   }
 });
 

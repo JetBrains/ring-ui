@@ -1,14 +1,14 @@
-'use strict';
-
 var when = require('when');
 
 var safePromise = function (resolver) {
   return when.promise(resolver).
     otherwise(function (e) {
       if (e && e.name === 'NS_ERROR_FILE_CORRUPTED') {
+        /* eslint-disable no-alert */
         window.alert('Sorry, it looks like your browser storage is corrupted. ' +
         'Please clear your storage by going to Tools -> Clear Recent History -> Cookies' +
         ' and setting time range to "Everything". This will remove the corrupted browser storage across all sites.');
+        /* eslint-enable no-alert */
       }
       return when.reject(e);
     });

@@ -1,28 +1,27 @@
-'use strict';
-
 describe('ReactNg', function () {
-	var React = require('react/addons');
+  var React = require('react/addons');
 
-	require('angular/angular');
-	require('angular-mocks/angular-mocks');
-	var registerComponents = require('./react-ng');
+  require('angular/angular');
+  require('angular-mocks/angular-mocks');
+  var registerComponents = require('./react-ng');
 
-	var $scope, $compile,
-    EmptyComponent = React.createClass({
-      render: function() {
-        return React.DOM.div();
-      }
-    });
+  var $scope;
+  var $compile;
+  var EmptyComponent = React.createClass({
+    render: function() {
+      return React.DOM.div();
+    }
+  });
 
   registerComponents({EmptyComponent: EmptyComponent});
 
-	beforeEach(window.module('Ring.react-ng'));
+  beforeEach(window.module('Ring.react-ng'));
 
   /* global inject */
-	beforeEach(inject(function ($rootScope, _$compile_) {
-		$scope = $rootScope.$new();
-		$compile = _$compile_;
-	}));
+  beforeEach(inject(function ($rootScope, _$compile_) {
+    $scope = $rootScope.$new();
+    $compile = _$compile_;
+  }));
 
   //common checker for properties passing
   function checkPropertyPassingForTemplate(template, propname, propalue){

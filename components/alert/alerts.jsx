@@ -90,8 +90,6 @@ var Alerts = React.createClass({
     if (!this.state['childElements']) {
       this._getChildElements();
     }
-
-    /*jshint ignore:start*/
     return (<div className="ring-alerts">
       <React.addons.CSSTransitionGroup transitionName="alert">
         {this.state.childElements.slice(0).reverse().map(function(child) {
@@ -107,13 +105,12 @@ var Alerts = React.createClass({
         })}
       </React.addons.CSSTransitionGroup>
     </div>);
-    /*jshint ignore:end*/
   },
 
   componentWillUpdate: function(nextProps, nextState) {
     if (_gap === null) {
       var computedStyle = window.getComputedStyle(this.getDOMNode());
-      _gap = parseInt(computedStyle.paddingTop);
+      _gap = parseInt(computedStyle.paddingTop, 10);
     }
 
     var childElements = nextState.childElements;

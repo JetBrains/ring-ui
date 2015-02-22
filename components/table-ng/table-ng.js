@@ -57,13 +57,13 @@ angular.module('Ring.table', ['Ring.table.toolbar'])
       },
       bindToController: true,
       controller: ['$scope', function ($scope) {
-        var ctrl = this;
+        var self = this;
 
         /**
          * Create Selection instance first to make sure it is always awailable
          * @type {TableSelection}
          */
-        ctrl.selection = new TableSelection(ctrl.items, function emitEvent(name, item, index){
+        self.selection = new TableSelection(self.items, function emitEvent(name, item, index){
           $scope.$emit(name, item, index);
         });
 
@@ -71,10 +71,10 @@ angular.module('Ring.table', ['Ring.table.toolbar'])
          * Updating items when data is initiated or updated
          */
         $scope.$watch(function () {
-          return ctrl.items;
+          return self.items;
         }, function (newItems) {
           if (newItems){
-            ctrl.selection.setItems(newItems);
+            self.selection.setItems(newItems);
           }
         });
 
@@ -107,25 +107,25 @@ angular.module('Ring.table', ['Ring.table.toolbar'])
       controllerAs: 'rowCtrl',
       bindToController: true,
       controller: ['$scope', function ($scope) {
-        var ctrl = this;
+        var self = this;
 
-        ctrl.setSelection = function (selection) {
-          ctrl.selection = selection;
+        self.setSelection = function (selection) {
+          self.selection = selection;
         };
 
-        ctrl.setActiveItem = function (item) {
-          ctrl.selection.activateItem(item);
+        self.setActiveItem = function (item) {
+          self.selection.activateItem(item);
         };
 
-        ctrl.hasCheckedItems = function () {
+        self.hasCheckedItems = function () {
           //TODO: cache this operation if perfomance issue exists
-          var checkedItems = ctrl.selection.getCheckedItems();
+          var checkedItems = self.selection.getCheckedItems();
           return checkedItems && checkedItems.length > 0;
         };
 
         $scope.$watch('rowCtrl.rowItem.checked', function (newValue) {
           if (newValue !== undefined){
-            ctrl.selection.triggerSelectionChanged(ctrl.rowItem);
+            self.selection.triggerSelectionChanged(self.rowItem);
           }
         });
       }]

@@ -1,4 +1,5 @@
 var filter = require('mout/array/filter');
+/*global find:true*/
 var find = require('mout/array/find');
 var forEach = require('mout/array/forEach');
 var indexOf = require('mout/array/indexOf');
@@ -89,4 +90,3 @@ deepMixIn(Selection.prototype, {
 });
 
 module.exports = Selection;
-

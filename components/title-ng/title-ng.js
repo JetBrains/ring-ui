@@ -51,7 +51,7 @@ angular.module('Ring.title', []).
 
       setTitle(titleElements.join(delimiter));
     };
-    var it = this;
+    var self = this;
 
     this.setDelimiter = function (newDelimiter) {
       delimiter = newDelimiter || delimiter;
@@ -64,7 +64,7 @@ angular.module('Ring.title', []).
     this.addElement = function (element, fieldName) {
       if (element.$promise) {
         element.$promise.then(function (Data) {
-          it.addElement(Data[fieldName || 'name']);
+          self.addElement(Data[fieldName || 'name']);
         });
       } else {
         prepend(fieldName ? element[fieldName] : element);
@@ -74,7 +74,7 @@ angular.module('Ring.title', []).
     this.updateElement = function (element, fieldName) {
       if (element.$promise) {
         element.$promise.then(function (Data) {
-          it.updateElement(Data[fieldName || 'name']);
+          self.updateElement(Data[fieldName || 'name']);
         });
       } else {
         replaceFirst(fieldName ? element[fieldName] : element);

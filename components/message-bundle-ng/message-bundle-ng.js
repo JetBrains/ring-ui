@@ -1,3 +1,4 @@
+/* eslint-disable google-camelcase/google-camelcase */
 /* global angular: false */
 /**
  * This service is used by directive to correctly show messages.

@@ -1,3 +1,4 @@
+/* eslint-disable google-camelcase/google-camelcase */
 describe('Auth', function () {
   var Auth = require('./auth');
   var AuthRequestBuilder = require('./auth__request-builder');
@@ -42,7 +43,9 @@ describe('Auth', function () {
 
     it('should not redirect on object construction', function () {
       this.sinon.stub(Auth.prototype, '_redirectCurrentPage');
+      /* eslint-disable no-new */
       new Auth({serverUri: ''});
+      /* eslint-enable no-new */
       Auth.prototype._redirectCurrentPage.should.not.have.been.called;
       Auth.prototype._redirectCurrentPage.restore();
     });
@@ -140,9 +143,9 @@ describe('Auth', function () {
       var token = { access_token: 'token' };
       Auth.prototype.getSecure.returns(when.resolve({login: 'user'}));
       return auth._validateAgainstUser(token).
-        then(function (token) {
+        then(function (validToken) {
           Auth.prototype.getSecure.should.have.been.calledWith(Auth.API_PROFILE_PATH, 'token');
-          return token;
+          return validToken;
         }).
         should.eventually.be.deep.equal(token);
     });
@@ -430,7 +433,8 @@ describe('Auth', function () {
   });
 
   describe('_fixUrl', function() {
-    var baseTag, baseUrl;
+    var baseTag;
+    var baseUrl;
 
     beforeEach(function () {
       baseTag = $('<base href="/some/base/url/">');

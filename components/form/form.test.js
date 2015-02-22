@@ -3,8 +3,6 @@
  * @author igor.alexeenko@jetbrains.com (Igor Alexeenko)
  */
 
-'use strict';
-
 
 var Form = require('./form');
 var FormGroup = require('./form__group');
@@ -281,7 +279,10 @@ describe('Form', function () {
   });
 
   describe('validation', function () {
-    var component, formElement, input, secondInput;
+    var component;
+    var formElement;
+    var input;
+    var secondInput;
 
     beforeEach(function () {
       component = renderComponentToDOM(null);

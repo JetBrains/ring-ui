@@ -1,5 +1,3 @@
-'use strict';
-
 describe('Diff', function () {
   describe('EditorController', function () {
     var EditorController = require('./diff__editorcontroller');

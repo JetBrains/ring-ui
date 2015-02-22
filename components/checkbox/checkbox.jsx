@@ -1,13 +1,9 @@
 /** @jsx React.DOM */
 
-'use strict';
-
 require('./checkbox.scss');
 var React = require('react');
 var Global = require('global/global');
-/* jshint ignore:start */
 var Icon = require('icon/icon');
-/* jshint ignore:end */
 var NgModelMixin = require('ngmodel/ngmodel');
 var ReactPropTypes = React.PropTypes;
 
@@ -94,7 +90,6 @@ var Checkbox = React.createClass({
   },
 
   render: function () {
-    /* jshint ignore:start */
     var id = this.props.id || this.state.id;
     var checkStyle = {
       display: this.state.checked ? 'block' : 'none'
@@ -109,7 +104,6 @@ var Checkbox = React.createClass({
         <span className="ring-checkbox__label">{this.props.label}</span>
       </label>
     );
-    /* jshint ignore:end */
   }
 });
 

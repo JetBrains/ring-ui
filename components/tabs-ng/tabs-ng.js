@@ -39,6 +39,10 @@ angular.module('Ring.tabs', ['ngRoute']).
         $scope.panes = [];
         $scope.current = 0;
 
+        var getTabParameterName = function () {
+          return $scope.tabParameter || 'tab';
+        };
+
         var doSelect = function (newPane, skipUrlUpdate) {
           if (newPane === $scope.panes[$scope.current]) {
             return;
@@ -74,10 +78,6 @@ angular.module('Ring.tabs', ['ngRoute']).
           if (!skipUrlUpdate) {
             $location.search(getTabParameterName(), newPane.tabId);
           }
-        };
-
-        var getTabParameterName = function () {
-          return $scope.tabParameter || 'tab';
         };
 
         this.addPane = function (pane) {

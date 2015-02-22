@@ -20,8 +20,12 @@ var ClassName = function(baseName) {
 ClassName.prototype.getClassName = function(element, modifier) {
   var className = this.baseName;
 
-  if (element) { className += '__' + element; }
-  if (modifier) { className += '_' + modifier; }
+  if (element) {
+    className += '__' + element;
+  }
+  if (modifier) {
+    className += '_' + modifier;
+  }
 
   return className;
 };

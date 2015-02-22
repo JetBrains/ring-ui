@@ -3,8 +3,6 @@
  * @author igor.alexeenko (Igor Alexeenko)
  */
 
-'use strict';
-
 var Tools = require('../diff__tools');
 var EditorController = require('./diff__editorcontroller');
 var Parser = require('../__parser/diff__parser');
@@ -196,8 +194,8 @@ SingleEditorController.getEditorContent = function (parsedContent) {
     Parser.LineType.INLINE,
     SingleEditorController.contentGetter.inline);
 
-  var lineOriginal = 1,
-    lineModified = 1;
+  var lineOriginal = 1;
+  var lineModified = 1;
 
   parsedContent.forEach(function (change, index, changes) {
     var normalizedType = Parser.normalizeType(change.type, usedTypes);
@@ -540,8 +538,8 @@ SingleEditorController.highlightLines = function (editorContent, editor) {
     var lineClassName = codeTypeToLineClass[chunk.codeType];
     var lineGutterSymbol = codeTypeToGutterSymbol[chunk.codeType];
 
-    var originalSize = 0,
-      modifiedSize = 0;
+    var originalSize = 0;
+    var modifiedSize = 0;
 
     var chunkSize = 0;
 

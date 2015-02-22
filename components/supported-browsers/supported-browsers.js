@@ -29,7 +29,7 @@ function getUserAgent() {
       };
     }
   }
-  M = M[2]? [M[1], M[2]]: [navigator.appName, navigator.appVersion, '-?'];
+  M = M[2] ? [M[1], M[2]] : [navigator.appName, navigator.appVersion, '-?'];
 
   tem = ua.match(/version\/(\d+)/i);
   if (tem !== null) {
@@ -68,18 +68,22 @@ function changeSmile(event) {
   smileChanges++;
 
   var eyes = ['O', 'o', '-', '>', '<'];
+
+  var rand = function (min, max) {
+    return Math.round((Math.random() * (max - min))) + min;
+  };
+
+  var getRandomEye = function() {
+    return eyes[rand(0, (eyes.length - 1))];
+  };
+
+
   var getRandomSmile = function() {
-    if(smileChanges >= 100) {
+    if (smileChanges >= 100) {
       return '\\\\ (x_x) //';
     }
 
     return '{{ (' + getRandomEye() + '_' + getRandomEye() + ') }}';
-  };
-  var getRandomEye = function() {
-    return eyes[rand(0, (eyes.length - 1))];
-  };
-  var rand = function (min, max) {
-    return Math.round((Math.random() * (max - min))) + min;
   };
 
   var target = event.target || event.srcElement;
@@ -92,7 +96,7 @@ function checkNodes(node, browserName) {
   }
 
   if (node.attributes) {
-    for(var i =0; i < node.attributes.length; i++) {
+    for (var i = 0; i < node.attributes.length; i++) {
       var attr = node.attributes[i];
       if (attr.nodeName === 'browser') {
         var attrValue = attr.nodeValue || attr.value;
@@ -106,10 +110,8 @@ function checkNodes(node, browserName) {
           if (attrValue === browserName) {
             node.parentNode.removeChild(node);
           }
-        } else {
-          if (attrValue !== browserName) {
-            node.parentNode.removeChild(node);
-          }
+        } else if (attrValue !== browserName) {
+          node.parentNode.removeChild(node);
         }
       }
     }
@@ -139,10 +141,8 @@ function checkBrowser() {
       .replace(new RegExp('%lastVersion%', 'g'), latestVersions[userAgent.name]);
     checkNodes(block, userAgent.name);
     block.style.display = 'block';
-  } else {
-    if (block) {
-      block.style.display = 'none';
-    }
+  } else if (block) {
+    block.style.display = 'none';
   }
 }
 

@@ -6,7 +6,7 @@
  * @constructor
  */
 var AnalyticsGAPlugin = function(gaId) {
-  /* jshint ignore:start */
+  /* eslint-disable */
   (function (i, s, o, g, r, a, m) {
     i.GoogleAnalyticsObject = r;
     i[r] = i[r] || function () {
@@ -18,7 +18,7 @@ var AnalyticsGAPlugin = function(gaId) {
     a.src = g;
     m.parentNode.insertBefore(a, m)
   })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
-  /* jshint ignore:end */
+  /* eslint-enable */
   /**
    * UA-57284711-1 - ga key for development purpose
    */

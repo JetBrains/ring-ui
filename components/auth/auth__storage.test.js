@@ -1,3 +1,4 @@
+/* eslint-disable google-camelcase/google-camelcase */
 describe('Auth', function () {
   describe('AuthStorage', function () {
     var when = require('when');
@@ -98,20 +99,20 @@ describe('Auth', function () {
       it('should be null after wipe', function () {
         var MockedStorage = require('imports?window=mocked-storage!../storage/storage__local');
 
-        var authStorage;
+        var mockedAuthStorage;
         var called = when.promise(function (resolve) {
-          authStorage = new AuthStorage({
+          mockedAuthStorage = new AuthStorage({
             stateKeyPrefix: 'state',
             tokenKey: 'loltoken',
             storage: MockedStorage
           });
 
-          authStorage.onTokenChange(resolve);
+          mockedAuthStorage.onTokenChange(resolve);
         });
 
-        return authStorage.saveToken(token).
+        return mockedAuthStorage.saveToken(token).
           then(function () {
-            return authStorage.wipeToken();
+            return mockedAuthStorage.wipeToken();
           }).
           then(function () {
             return called;

@@ -1,5 +1,3 @@
-'use strict';
-
 var Auth = require('auth/auth');
 
 /* global angular: false */
@@ -44,20 +42,20 @@ authModule.provider('auth', ['$httpProvider', function ($httpProvider) {
     auth = new Auth(configCopy);
   };
 
-  $httpProvider.interceptors.push(['auth', function (auth) {
+  $httpProvider.interceptors.push(['auth', function (authInstance) {
     var urlEndsWith = function(config, suffix) {
       return config && config.url && config.url.indexOf(suffix) === config.url.length - suffix.length;
     };
 
     return {
       'request': function (config) {
-        if (!auth || urlEndsWith(config, '.html')) {
+        if (!authInstance || urlEndsWith(config, '.html')) {
           // Don't intercept angular template requests
           return config;
         }
-        return auth.promise.
+        return authInstance.promise.
           then(function () {
-            return auth.auth.requestToken();
+            return authInstance.auth.requestToken();
           }).
           then(function (accessToken) {
             config.headers['Authorization'] = 'Bearer ' + accessToken;

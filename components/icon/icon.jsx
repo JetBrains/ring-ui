@@ -5,11 +5,9 @@
  * @jsx React.DOM
  */
 
-'use strict';
-
 require('./icon.scss');
 var ClassName = require('class-name/class-name');
-var Global = require('global/global'); // jshint -W098
+var Global = require('global/global');
 var React = require('react/addons');
 var iconUrl = require('./icon__url');
 
@@ -55,17 +53,6 @@ var BASE_CLASS = 'ring-icon';
  * @private
  */
 var _templateElement = null;
-
-
-/**
- * XML namespaces of SVG-elements and their attributes.
- * @enum {string}
- */
-var NamespaceURI = {
-  SVG: 'http://www.w3.org/2000/svg',
-  XLINK: 'http://www.w3.org/1999/xlink'
-};
-
 
 /**
  * Inserts an svg template into a document so icons could use links to this
@@ -254,7 +241,6 @@ var Icon = React.createClass({
   },
 
   render: function () {
-    /* jshint ignore:start */
     var classList = React.addons.classSet(Global.createObject(
         this.props.baseClass.getModifier(this.props.size), true,
         this.props.baseClass.getModifier(this.props.color), !!this.props.color,
@@ -267,7 +253,6 @@ var Icon = React.createClass({
     return (this.transferPropsTo(<span className={classList}>
       <svg className={this.props.baseClass.getElement('i')} title={this.props.title} dangerouslySetInnerHTML={{__html: '<use xlink:href="' + xlinkHref + '"></use>'}}/>
     </span>));
-    /* jshint ignore:end */
   },
 
   componentDidMount: function() {
