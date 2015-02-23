@@ -28,7 +28,7 @@ var dgeni = new Dgeni([
    * @return {Object} Webpack config object
    */
   .factory('webpackConfig', function() {
-    return require('./webpack.config.js');
+    return require('../webpack.config.js');
   })
 
   /**
