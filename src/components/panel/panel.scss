@@ -10,14 +10,10 @@
 //  <button class="ring-btn_primary ring-btn">Accept</button>
 //  <button class="ring-btn">Decline</button>
 // </div>
-//
-// Styleguide 18.1
-
 
 .ring-panel, .ring-form__footer {
   position: relative;
-  margin-top: 2 * $ring-unit;
-  margin-left: -$ring-unit*2;
+  margin: $ring-unit*2 -($ring-unit)*2 0;
   padding: 2*$ring-unit 0 2*$ring-unit 2*$ring-unit;
   background-color: #E9F8FF;
   background-color: rgba(37, 183, 255, 0.1);

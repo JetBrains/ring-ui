@@ -39,9 +39,9 @@
 //
 // Styleguide 7.4
 
-$ring-form-width: 800px;
+$ring-form-width: $ring-unit*100;
 $ring-form-input-width: 200px;
-$ring-form-text-line-height: 20px;
+$ring-form-text-line-height: $ring-unit*2;
 
 .ring-form {
   max-width: $ring-form-width;
@@ -146,20 +146,20 @@ $ring-form-text-line-height: 20px;
 
 .ring-form__group {
   position: relative;
-  display: table-row;
 }
 
 .ring-form__group_nested {
-  display: inline-table;
   margin-left: $ring-unit*6;
 }
 
-$ring-label-width: 160px;
+$ring-label-width: 152px;
 
 .ring-form__label {
-  display: table-cell;
-  max-width: $ring-label-width;
-  padding-bottom: $ring-unit*2;
+  position: relative;
+  top: 4px;
+  display: inline-block;
+  width: $ring-label-width;
+  padding-bottom: $ring-unit*3;
   padding-right: $ring-unit*2;
   line-height: $ring-form-text-line-height;
   vertical-align: top;
@@ -181,7 +181,6 @@ $ring-label-width: 160px;
 .ring-form__control {
   position: relative;
   display: inline-block;
-  width: $ring-form-input-width;
 
   &_half {
     width: $ring-form-input-width/2;
@@ -193,6 +192,10 @@ $ring-label-width: 160px;
 
   &_triple {
     width: $ring-form-input-width*3;
+  }
+
+  & .ring-input {
+    width: $ring-form-input-width;
   }
 }
 
@@ -225,10 +228,12 @@ $ring-label-width: 160px;
   max-width: $ring-form-width / 2;
 }
 
-@media only screen and (max-width: 667px) {
+@media only screen and (max-width: 667px) and (min-width: 320px) {
   .ring-form__label {
+    top: 0;
     display: block;
-    max-width: 100%;
+    width: 100%;
+    margin-bottom: $ring-unit/2;
     padding-bottom: 0;
     padding-top: 8px !important;
   }
