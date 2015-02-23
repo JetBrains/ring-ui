@@ -33,4 +33,3 @@ function renderIntoDocument(instance, callback) {
 }
 
 module.exports = renderIntoDocument;
-

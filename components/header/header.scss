@@ -1,0 +1,173 @@
+@import "../global/global";
+
+.ring2-header {
+  box-sizing: border-box;
+  line-height: $ring-unit * 7;
+  margin: 0 0 1px;
+  position: relative;
+
+  &.ring2-header_border:after {
+    border-bottom: solid 1px rgba(0, 0, 0, 0.1);
+    bottom: 0;
+    content: '';
+    left: $ring-unit * 4;
+    position: absolute;
+    right: $ring-unit * 4;
+  }
+
+  @include clearfix();
+  @include ring-font();
+}
+
+.ring2-header__logo,
+.ring2-header__menu {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.ring2-header__logo {
+  margin: 0 $ring-unit * 4;
+  @include vertical-compensation(-1px);
+}
+
+.ring2-header__user-menu {
+  float: right;
+  margin-right: $ring-unit * 3;
+}
+
+.ring2-header__menu-item,
+.ring2-header__user-menu-item {
+  display: inline-block;
+  line-height: 1.2;
+  margin-right: $ring-unit*2;
+  vertical-align: middle;
+
+  a {
+    color: $ring-link-color;
+    text-decoration: none;
+
+    &:hover {
+      color: $ring-link-hover-color;
+      text-decoration: underline;
+    }
+  }
+
+  &:last-child {
+    margin-right: 0;
+  }
+}
+
+.ring2-header__user-menu-item_icon {
+  cursor: pointer;
+
+  .ring-icon {
+    fill: $ring-color-gray;
+    padding: $ring-unit;
+  }
+
+  &:hover {
+    .ring-icon {
+      fill: $ring-link-hover-color;
+    }
+  }
+
+  .ring-icon_blue {
+    fill: $ring-color-blue;
+  }
+
+  .ring-icon_24 {
+    border-radius: 3px;
+    padding: 0;
+    // NB! Horizontal compensation of size changing. Margin is used because
+    // of the border-radius.
+    margin: $ring-unit - ((24px - 18px) / 2);
+  }
+}
+
+.ring2-header__user-menu-extra {
+  margin-right: $ring-unit*3;
+}
+
+.ring2-header__menu-service {
+  background: linear-gradient(#24353d, #4a565c);
+  height: 0;
+  margin: -1px 0 0;
+  overflow: hidden;
+  position: relative;
+  text-align: left;
+  width: 100%;
+
+  a, a span {
+    color: #fff;
+    text-decoration: none;
+  }
+
+  a:hover, a:hover span {
+    color: $ring-link-hover-color;
+    text-decoration: underline;
+  }
+
+  &.ring2-header__menu-service_opened {
+    margin-bottom: $ring-unit*2;
+  }
+}
+
+.ring2-header__menu-service-inner {
+  bottom: 0;
+  line-height: $ring-unit * 17;
+  position: absolute;
+  text-align: center;
+  width: 100%;
+}
+
+.ring2-header__menu-service-item {
+  box-sizing: border-box;
+  display: inline-block;
+  height: $ring-unit*16;
+  line-height: 1.2;
+  overflow-x: hidden;
+  text-align: center;
+  text-overflow: ellipsis;
+  vertical-align: middle;
+  width: $ring-unit*16;
+  white-space: nowrap;
+
+  .ring-icon {
+    display: inline-block;
+    fill: #fff;
+    margin-top: 3*$ring-unit;
+    padding-bottom: $ring-unit;
+  }
+}
+
+.ring2-header__menu-service-line {
+  background: #1e2a32;
+  font-size: $ring-font-size-smaller;
+  line-height: $ring-unit*3;
+}
+
+.ring2-header__menu-service-line__item {
+  display: inline-block;
+  margin-right: $ring-unit*3;
+
+  &:last-child {
+    margin-right: 0;
+  }
+
+  a, b {
+    color: $ring-color-dark-gray;
+  }
+}
+
+// Customize menu icons
+.ring2-header__user-menu {
+  .ring-icon_expand1 {
+    height: 17px;
+    width: 17px;
+  }
+
+  .ring-icon_help {
+    height: 19px;
+    width: 19px;
+  }
+}
