@@ -6,7 +6,8 @@
     "dist": "./dist",
     "src": "./src",
     "eslint-ext": ".js,.jsx",
-    "eslint-report": "eslint-report.xml"
+    "eslint-report": "eslint-report.xml",
+    "version": "minor"
   },
   "files": [
     "/ring.js",
@@ -30,7 +31,7 @@
     "prebuild-ci": "npm run lint-ci && npm run test-ci",
     "build-ci": "gulp build && npm run gen-doc",
     "prerelease-ci": "npm run build-ci",
-    "release-ci": "npm version $ring_ui_version && npm publish",
+    "release-ci": "npm version $npm_package_config_version && npm publish",
     "postrelease-ci": "npm pack"
   },
   "repository": {
