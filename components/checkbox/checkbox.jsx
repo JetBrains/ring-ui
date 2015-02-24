@@ -84,7 +84,7 @@ var Checkbox = React.createClass({
     return this.refs.input.getDOMNode();
   },
 
-  inputChange: function() {
+  inputChange: function () {
     this.setState({
       checked: this.getInputDOMNode().checked
     });
@@ -100,7 +100,7 @@ var Checkbox = React.createClass({
       <label className="ring-form__label" htmlFor={id}>
         {this.transferPropsTo(<input ref="input" onChange={this.inputChange} type="checkbox" className="ring-checkbox" id={id} />)}
         <span className="ring-checkbox__icon">
-          <Icon glyph="check" color="black"  className="ring-checkbox__icon__image" style={checkStyle} />
+          <Icon glyph="check" color="black" className="ring-checkbox__icon__image" style={checkStyle} />
         </span>
         <span className="ring-checkbox__label">{this.props.label}</span>
       </label>
