@@ -294,7 +294,7 @@ var dgeni = new Dgeni([
      * when redering docs
      */
     templateFinder.templateFolders.unshift(
-      path.resolve(__dirname, 'templates'));
+      path.resolve(__dirname, '..', 'templates'));
 
     templateFinder.templatePatterns = [
       '<%= doc.template %>',
@@ -302,7 +302,7 @@ var dgeni = new Dgeni([
       'common.template.html'
     ];
 
-    writeFilesProcessor.outputFolder = 'docs';
+    writeFilesProcessor.outputFolder = '../docs';
 
     generateProtractorTestsProcessor.$enabled = false;
     generateExamplesProcessor.deployments = [{
