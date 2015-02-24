@@ -14,11 +14,12 @@ Icon?
 Thumbs.db
 
 # Generated
-/components
 coverage
 dist
 docs
 node_modules
+npm-debug.log
 tmp
-blocks/*/*.hbs.js
 /docs/
+ring*.js
+ring-ui-*.tgz

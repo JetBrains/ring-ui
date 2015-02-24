@@ -5,14 +5,13 @@
  * the subfolder /webpack-dev-server/ is visited. Visiting the root will not automatically reload.
  */
 
-'use strict';
 var pkgConfig = require('./package.json');
 var path = require('path');
 
 module.exports = {
   entry: {
-    ring: path.resolve(pkgConfig.src, pkgConfig.main),
-    ring2: path.resolve(pkgConfig.src, 'ring-upsource.js')
+    ring: path.resolve(pkgConfig.config.src, pkgConfig.main),
+    ring2: path.resolve(pkgConfig.config.src, 'ring-upsource.js')
   },
   output: {
     path: pkgConfig.dist,
@@ -26,8 +25,7 @@ module.exports = {
   resolve: {
     extensions: ['', '.js', '.jsx'],
     fallback: [
-      path.join(__dirname, 'components'),
-      path.join(__dirname, 'src', 'components')
+      path.join(__dirname, 'components')
     ]
   },
   resolveLoader: {
