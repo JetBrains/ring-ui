@@ -1,56 +1,16 @@
-'use strict';
-
 var gulp = require('gulp');
 var gutil = require('gulp-util');
-var jshint = require('gulp-jshint');
 var webpack = require('webpack');
 var rimraf = require('gulp-rimraf');
 var WebpackDevServer = require('webpack-dev-server');
 var nodemon = require('gulp-nodemon');
-var csscomb = require('gulp-csscomb');
-var csslint = require('gulp-csslint');
-var sass = require('gulp-sass');
-var tar = require('gulp-tar');
-var gzip = require('gulp-gzip');
-var rename = require('gulp-rename');
-var filter = require('gulp-filter');
-
-var CSSlint = require('csslint').CSSLint;
-
-var path = require('path');
-var Buffer = require('buffer').Buffer;
-var through = require('through');
-var jeditor = require('gulp-json-editor');
-
 var argv = require('yargs').argv;
 
 // Read configuration from package.json
-var pkgConfig = Object.create(require('./package.json'));
+var pkgConfig = Object.create(require('./package.json')).config;
 
 //Read common webpack config from  file
 var webpackConfig = Object.create(require('./webpack.config'));
-
-/**
- * @return {string} Build version
- */
-var getBuildVersion = function() {
-  return process.env.BUILD_NUMBER || 'UNKNOWN_VERSION';
-};
-
-/**
- * Add build version to package.json follow semver
- * We treat build version how pre-release version
- * @param {string} buildVersion Build version
- * @return {Function}
- */
-var addBuildVersion = function(buildVersion) {
-  return jeditor(function(json) {
-    if (buildVersion) {
-      json.version = json.version + '-' + buildVersion;
-    }
-    return json;
-  });
-};
 
 gulp.task('clean', function () {
   return gulp.src(pkgConfig.dist, {read: false})
@@ -141,93 +101,6 @@ gulp.task('dev-server', function () {
   });
 });
 
-gulp.task('lint', function () {
-  return gulp.src([pkgConfig.src + '/components/**/*.{js,jsx}', '*.js'])
-    .pipe(jshint())
-    .pipe(jshint.reporter('default'))
-    // Reports xml to console :(
-    // .pipe(jshint.reporter('jslint_xml'))
-    .pipe(jshint.reporter('fail'));
-});
-
-gulp.task('archive', ['clean', 'webpack:build'], function () {
-  var pkgFilter = filter(['package/package.json']);
-
-  return gulp.src([
-      pkgConfig.dist + '/ring.js',
-      pkgConfig.dist + '/ring2.js',
-      pkgConfig.src + '/**/*.{jsx,js,scss,png,gif,svg,ttf,woff,eof,html}',
-      '!' + pkgConfig.src + '/**/*.test.js',
-      '!' + pkgConfig.src + '/index.html',
-      '!' + pkgConfig.dist + '/ring.js',
-      'package.json',
-      'webpack.config.js'
-    ])
-    .pipe(rename(function (path) {
-      path.dirname = 'package/' + path.dirname;
-    }))
-
-     /**
-      * Add build version to package.json
-      */
-    .pipe(pkgFilter)
-    .pipe(addBuildVersion(getBuildVersion()))
-    .pipe(pkgFilter.restore())
-
-    .pipe(tar('ring-ui-component.tar'))
-    .pipe(gzip())
-    .pipe(gulp.dest(pkgConfig.dist));
-});
-
-gulp.task('lint-styles', function () {
-  var reportFilename = 'css-lint.xml';
-  var formatter = CSSlint.getFormatter('checkstyle-xml');
-  var report = formatter.startFormat();
-
-  function reporter(file) {
-    var filename = path.relative(__dirname, file.csslint.results[0].file);
-    var messages = file.csslint.results.map(function (file) {
-      return file.error;
-    });
-
-    report += formatter.formatResults({messages: messages}, filename, {});
-  }
-
-  function exportReport() {
-    function endStream() {
-      report += formatter.endFormat();
-
-      var file = new gutil.File({
-        path: reportFilename,
-        contents: new Buffer(report)
-      });
-
-      /* jshint -W040 */
-      this.emit('data', file);
-      this.emit('end');
-      /* jshint +W040 */
-    }
-
-    return through(function () {
-    }, endStream);
-  }
-
-  return gulp.src(pkgConfig.src + '/components/**/*.scss')
-    .pipe(csscomb()) // just detect errors for now
-    .pipe(sass())
-    .pipe(filter(function (file) {
-      return file.isBuffer() ? !!file.contents.length : true;
-    }))
-    .pipe(csslint('.csslintrc'))
-    .pipe(csslint.reporter(reporter))
-    .pipe(exportReport())
-    .pipe(gulp.dest(pkgConfig.dist))
-    .on('end', function () {
-      console.log('##teamcity[importData type=\'checkstyle\' path=\'' +
-        pkgConfig.dist + '/' + reportFilename + '\']');
-    });
-});
-
 //The development server (the recommended option for development)
 gulp.task('default', ['dev-server']);
 
@@ -240,4 +113,4 @@ gulp.task('build-dev', ['webpack:build-dev'], function () {
 });
 
 // Production build
-gulp.task('build', ['lint', 'lint-styles', 'webpack:build', 'archive']);
+gulp.task('build', ['webpack:build']);
