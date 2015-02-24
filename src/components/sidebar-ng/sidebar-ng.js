@@ -95,7 +95,8 @@ angular.module('Ring.sidebar', [])
         model: '='
       },
       template: '<button class="ring-btn" ng-click="model = !model">' +
-                  '<span class="ring-sidebar__toggle-icon" react="Icon" size="14" glyph="model ? \'chevron-right\' : \'chevron-left\'" color="light-gray"></span>' +
+                  '<span ng-show="model" class="ring-sidebar__toggle-icon" react-static="Icon" react-size="14" react-glyph="\'chevron-right\'"></span>' +
+                  '<span ng-show="!model" class="ring-sidebar__toggle-icon" react-static="Icon" react-size="14" react-glyph="\'chevron-left\'"></span>' +
                   '<span ng-transclude></span>' +
                 '</button>'
     };
