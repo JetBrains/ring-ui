@@ -1,0 +1,4 @@
+dist
+docs
+templates
+test-helpers/phantomjs-shims.js
