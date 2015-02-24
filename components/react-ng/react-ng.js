@@ -153,7 +153,7 @@ reactModule.directive(reactDirectiveName, [
         if ('ngModel' in iAttrs) {
           directiveProps['_onModelChange'] = function(value) {
             $parse(iAttrs.ngModel).assign(scope, value);
-            if (!scope.$$phase) {
+            if (!scope.$$phase && !scope.$root.$$phase) {
               scope.$apply();
             }
           };
