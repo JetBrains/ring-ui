@@ -26,11 +26,16 @@ var headerClassName = new ClassName('ring2-header');
  */
 var HeaderLogo = React.createClass({
   getDefaultProps: function() {
-    return { glyph: '' };
+    return {
+      glyph: '',
+      rootUrl: '/'
+    };
   },
 
   render: function() {
-    return (<a href="/"><Icon size={Icon.Size.Size32} glyph={this.props.glyph} /></a>);
+    /* jshint ignore:start */
+    return (<a href={this.props.rootUrl}><Icon size={Icon.Size.Size32} glyph={this.props.glyph} /></a>);
+    /* jshint ignore:end */
   }
 });
 
@@ -352,6 +357,7 @@ var Header = React.createClass({
       menu: '',
       profilePopupData: null,
       rightMenu: '',
+      rootUrl: '/',
       servicesList: null,
       settingsLink: null,
       servicesIconsMenu: null,
@@ -498,7 +504,9 @@ var Header = React.createClass({
       return this.props.logo;
     }
 
-    return (<HeaderLogo glyph={this.props.logo} />);
+    /* jshint ignore:start */
+    return (<HeaderLogo glyph={this.props.logo} rootUrl={this.props.rootUrl} />);
+    /* jshint ignore:end */
   },
 
   /**
