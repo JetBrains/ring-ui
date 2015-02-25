@@ -135,29 +135,12 @@ var PopupMixin = {
 
   /** @override */
   componentDidMount: function () {
-    this.setState({mounted: true});
     this._setListenersEnabled(true);
-  },
-
-  /** @override */
-  shouldComponentUpdate: function(props) {
-    this.state.hidden = props.hidden;
-
-    return true;
   },
 
   /** @override */
   componentWillUnmount: function () {
     this._setListenersEnabled(false);
-  },
-
-  /** @override */
-  componentWillReceiveProps: function (props) {
-    if (typeof props.hidden === 'boolean') {
-      this.setState({
-        hidden: props.hidden
-      });
-    }
   },
 
   /** @override */
