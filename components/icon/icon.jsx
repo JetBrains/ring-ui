@@ -31,6 +31,7 @@ var Color = {
  * @enum {number}
  */
 var Size = {
+  Size12: 12,
   Size14: 14,
   Size16: 16,
   Size18: 18,
