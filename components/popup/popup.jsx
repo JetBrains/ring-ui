@@ -30,24 +30,11 @@ var Corner = {
 var Directions = {
   // NB! As far as this enum is used as a bit mask, we can't use 0x00 as value.
   // Also, we can't use odd numbers.
-
-  /**
-   * @deprecated Use {@code Directions.DOWN} instead.
-   */
-  BOTTOM: 1,
+  DOWN: 1,
   RIGHT: 2,
-  /**
-   * @deprecated Use {@code Directions.UP} instead.
-   */
-  TOP: 4,
+  UP: 4,
   LEFT: 8
 };
-
-/** @alias {Directions.TOP} */
-Directions.UP = Directions.TOP;
-
-/** @alias {Directions.BOTTOM} */
-Directions.DOWN = Directions.BOTTOM;
 
 var Dimensions = {
   MARGIN: 16,
@@ -120,7 +107,7 @@ var PopupMixin = {
       left: 0,
       top: 0,
       corner: Corner.BOTTOM_LEFT,
-      direction: Directions.BOTTOM | Directions.RIGHT
+      direction: Directions.DOWN | Directions.RIGHT
     };
   },
 
