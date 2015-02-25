@@ -284,7 +284,8 @@ var dgeni = new Dgeni([
     readFilesProcessor.sourceFiles = [
       '../components/**/*.jsx',
       '../components/react-ng/react-ng.js',
-      '../components/tabs-ng/tabs-ng.js'
+      '../components/tabs-ng/tabs-ng.js',
+      '../components/breadcrumb-ng/breadcrumb-ng.js'
     ];
 
     /**
