@@ -548,11 +548,11 @@ var QueryAssist = React.createClass({
     } else {
       this._popup.setProps({
         data: suggestions,
-        hidden: false,
         hint: this.props.hint,
         hintOnSelection: this.props.hintOnSelection,
         left: this.getPopupOffset()
       });
+      this._popup.show();
     }
   },
 
@@ -560,7 +560,7 @@ var QueryAssist = React.createClass({
     this.clearSuggestions();
 
     if (this._popup) {
-      this._popup.hide();
+      this._popup.close();
     }
   },
 
