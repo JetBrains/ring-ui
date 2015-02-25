@@ -41,7 +41,7 @@ analyticsModule.constant('AnalyticsCustomPlugin', require('analytics/analytics__
  */
 analyticsModule.run(['$rootScope', 'analytics', function($rootScope, analytics) {
   $rootScope.$on('$routeChangeSuccess', function(evt, current) {
-    if (current.$$route && current.$$route.originalPath) {
+    if (current && current.$$route && current.$$route.originalPath) {
       analytics.trackPageView(current.$$route.originalPath);
     }
   });
