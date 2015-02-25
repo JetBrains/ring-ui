@@ -45,10 +45,40 @@ describe('Popup', function () {
     evt.initEvent('click', true, false);
 
     it('should be closed by click outside the element', function() {
-      var popup = TestUtils.renderIntoDocument(new Popup(null));
+      var onClose = this.sinon.stub();
+      var popup = TestUtils.renderIntoDocument(new Popup({
+        onClose: onClose
+      }));
+
       document.body.dispatchEvent(evt);
 
+      onClose.should.have.been.called;
       popup.isMounted().should.be.false;
+    });
+
+    it('shouldn\'t be closed by click outside the element after hide', function() {
+      var onClose = this.sinon.stub();
+      var popup = TestUtils.renderIntoDocument(new Popup({
+        onClose: onClose
+      }));
+
+      popup.hide();
+      document.body.dispatchEvent(evt);
+
+      onClose.should.not.have.been.called;
+    });
+
+    it('shouldn\'t be closed by click outside the element after show', function() {
+      var onClose = this.sinon.stub();
+      var popup = TestUtils.renderIntoDocument(new Popup({
+        onClose: onClose
+      }));
+
+      popup.hide();
+      popup.show();
+      document.body.dispatchEvent(evt);
+
+      onClose.should.have.been.called;
     });
 
     it('shouldn\'n t be closed by click inside the element', function() {
