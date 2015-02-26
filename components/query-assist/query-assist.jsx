@@ -161,6 +161,8 @@ var QueryAssist = React.createClass({
 
     this.requestStyleRanges().
       catch(this.setFocus).
+      /* For some reason more tick before attachMutationEvents is required */
+      delay(0).
       finally(this.attachMutationEvents);
   },
 
