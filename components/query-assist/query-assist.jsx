@@ -254,7 +254,9 @@ var QueryAssist = React.createClass({
     // otherwise it's blur and false
     var focus = e.type === 'focus';
 
-    if (!this.isMounted()) {
+    // Track mouse state to avoid focus loss on clicks on icons.
+    // Doesn't handle really edge cases like shift+tab while mouse button is pressed.
+    if (!this.isMounted() || this.mouseIsDownOnInput) {
       return;
     }
 
@@ -520,6 +522,10 @@ var QueryAssist = React.createClass({
     this.mouseIsDownOnPopup = e.type === 'mousedown';
   },
 
+  trackInputMouseState: function (e) {
+    this.mouseIsDownOnInput = e.type === 'mousedown';
+  },
+
   renderPopup: function () {
     var suggestions = this.renderSuggestions();
 
@@ -575,12 +581,13 @@ var QueryAssist = React.createClass({
   },
 
   clearQuery: function () {
+    this.props.onChange({
+      query: ''
+    });
     this.props.onClear();
 
     this.setState({
       query: '',
-      caret: 0,
-      focus: true,
       loading: false
     });
   },
@@ -669,7 +676,10 @@ var QueryAssist = React.createClass({
       ) || '';
 
     return (
-      <div className="ring-query-assist">
+      <div className="ring-query-assist"
+        onMouseDown={this.trackInputMouseState}
+        onMouseUp={this.trackInputMouseState}
+        >
         <div
           className={inputClasses} ref="input"
           contentEditable={!this.props.disabled}
