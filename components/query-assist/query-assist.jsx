@@ -256,7 +256,7 @@ var QueryAssist = React.createClass({
 
     // Track mouse state to avoid focus loss on clicks on icons.
     // Doesn't handle really edge cases like shift+tab while mouse button is pressed.
-    if (!this.isMounted() || this.mouseIsDownOnInput) {
+    if (!this.isMounted() || (!focus && this.mouseIsDownOnInput)) {
       return;
     }
 
