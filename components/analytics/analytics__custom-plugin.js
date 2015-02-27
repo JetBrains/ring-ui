@@ -47,7 +47,9 @@ AnalyticsCustomPlugin.prototype._processEvent = function (category, action) {
     this._initSendSchedule();
   }
   if (this._isDevelopment) {
+    /* eslint-disable no-console*/
     console.log('TRACKING DATA = ', category, action);
+    /* eslint-enable no-console*/
   }
   this._data.push({
     category: AnalyticsCustomPluginUtils.reformatString(category),

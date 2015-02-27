@@ -10,7 +10,6 @@ describe('TabsNg', function () {
   var $compile;
 
   var getActiveTab = function(element) {
-    console.log(element.html());
     var el = $(element);
     var active = el.find('.active');
     var container = el.find('div.ring-tabs__container');
