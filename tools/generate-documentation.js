@@ -1,3 +1,4 @@
+/* eslint-env node */
 var path = require('path');
 var Dgeni = require('dgeni');
 var Package = Dgeni.Package;

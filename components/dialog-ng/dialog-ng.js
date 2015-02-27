@@ -194,7 +194,9 @@ angular.module('Ring.dialog', []).
        */
       'show': function (config) {
         if (!dialogScope) {
+          /* eslint-disable no-console*/
           console.error('No dialog directive is found');
+          /* eslint-enable no-console*/
           return;
         }
 

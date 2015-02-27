@@ -697,5 +697,6 @@ SingleEditorController.prototype.getEditor = function () {
   return this.editor_;
 };
 
+/* global global */
 global.CodeMirror = global.CodeMirror || CodeMirror;
 module.exports = SingleEditorController;

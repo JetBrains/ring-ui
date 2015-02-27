@@ -1,3 +1,4 @@
+/* eslint-env node */
 var path = require('path');
 
 function generateConfig(karma) {

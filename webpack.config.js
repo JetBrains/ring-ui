@@ -1,3 +1,4 @@
+/* eslint-env node */
 /*
  * Webpack development server configuration
  *
