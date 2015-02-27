@@ -90,6 +90,7 @@ PlainEditorController.getCodeMirrorOptions = function () {
 };
 
 // Export CodeMirror
+/* global global */
 global.CodeMirror = global.CodeMirror || CodeMirror;
 
 module.exports = PlainEditorController;

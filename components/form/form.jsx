@@ -411,6 +411,7 @@ var Form = React.createClass({
 
 module.exports = Form;
 
+/* global process */
 if (process.env.NODE_ENV !== 'production') {
   module.exports.dfsVisitor = dfsVisitor;
   module.exports.getParentNode = getParentNode;

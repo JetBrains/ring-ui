@@ -1034,5 +1034,6 @@ DoubleEditorController.prototype.getModifiedEditor = function () {
   return this.codeMirrorModified_;
 };
 
+/* global global */
 global.CodeMirror = global.CodeMirror || CodeMirror;
 module.exports = DoubleEditorController;

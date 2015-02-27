@@ -60,7 +60,9 @@ PermissionCache.prototype.has = function (permissions, spaceId) {
   try {
     return this.or(lexems, spaceId);
   } catch (e) {
+    /* eslint-disable no-console*/
     console.error(e);
+    /* eslint-enable no-console*/
     return false;
   }
 };
