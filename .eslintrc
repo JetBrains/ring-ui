@@ -60,13 +60,14 @@
   },
   "env": {
     "browser": true,
-    "node": true,
     "mocha": true
   },
   "globals": {
     "expect": false,
     "sinon": false,
-    "should": false
+    "should": false,
+    "require": false,
+    "module": false
   },
   "plugins": [
     "angular",

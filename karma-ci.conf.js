@@ -1,3 +1,4 @@
+/* eslint-env node */
 var merge = require('mout/object/merge');
 var generateConfig = require('./karma.conf.js');
 

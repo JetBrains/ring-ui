@@ -1,3 +1,4 @@
+/* eslint-env node */
 /**
  * @fileoverview SVG icons template generator.
  * @author igor.alexeenko@jetbrains.com (Igor Alekseenko)
