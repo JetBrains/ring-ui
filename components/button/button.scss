@@ -117,34 +117,8 @@
     @include vertical-compensation();
   }
 
-  .ring-font-icon {
-    vertical-align: top;
-    position: relative;
-    top: 3px;
-
+  .ring-icon {
     color: #888;
-    font-size: 16px;
-  }
-
-  .ring-font-icon_trash {
-    top: 2px;
-    font-size: 14px;
-  }
-
-  .ring-font-icon_chevron-left,
-  .ring-font-icon_chevron-right {
-    font-size: 14px;
-  }
-
-  .ring-font-icon_refresh {
-    top: 2px;
-    font-size: 15px;
-  }
-
-  .ring-font-icon_caret-down {
-    display: inline-block;
-    top: 6px;
-    font-size: 11px;
   }
 }
 
@@ -186,7 +160,7 @@
     }
   }
 
-  .ring-font-icon {
+  .ring-icon {
     color: inherit;
   }
 }
@@ -221,7 +195,7 @@
     }
   }
 
-  .ring-font-icon {
+  .ring-icon {
     color: inherit;
   }
 }
@@ -258,7 +232,7 @@
     }
   }
 
-  .ring-font-icon {
+  .ring-icon {
     color: inherit;
   }
 }
@@ -289,7 +263,7 @@
 .ring-btn_danger {
   color: $ring-color-error;
 
-  .ring-font-icon {
+  .ring-icon {
     color: inherit;
   }
 }
@@ -370,10 +344,4 @@
   border-radius: 2*$ring-unit;
   line-height: 2*$ring-unit;
   color: #6E6E6E;
-
-  & .ring-font-icon {
-    position: relative;
-    top: -1px;
-    font-size: 7px;
-  }
 }
