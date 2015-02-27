@@ -31,7 +31,6 @@
 
   &.active,
   &.ring-tabs__btn_active,
-  &.ring-tabs__btn:focus:before,
   &.ring-tabs__btn_focus:before {
     color: $ring-font-color;
     outline: 0;
@@ -53,7 +52,6 @@
     color: $ring-link-hover-color;
   }
 
-  &.ring-tabs__btn:focus:before,
   &.ring-tabs__btn_focus:before {
     content: '';
     display: block;
@@ -71,7 +69,6 @@
     padding-bottom: 1px;
   }
 
-  &.ring-tabs__btn:focus,
   &.ring-tabs__btn_focus {
     height: 100%;
 
