@@ -431,35 +431,4 @@ describe('Auth', function () {
       }).to.throw(Auth.TokenValidationError, 'message');
     });
   });
-
-  describe('_fixUrl', function() {
-    var baseTag;
-    var baseUrl;
-
-    beforeEach(function () {
-      baseTag = $('<base href="/some/base/url/">');
-      $(document.head).prepend(baseTag);
-      baseUrl = $('base').prop('href');
-    });
-
-    it('should fix relative url', function() {
-      expect(Auth.prototype._fixUrl('relative/path')).to.be.equal(baseUrl + 'relative/path');
-    });
-
-    it('should not fix absolute url', function() {
-      expect(Auth.prototype._fixUrl('/absolute/path')).to.be.equal('/absolute/path');
-    });
-
-    it('should not fix absolute url with http', function() {
-      expect(Auth.prototype._fixUrl('http://simple/path')).to.be.equal('http://simple/path');
-    });
-
-    it('should not fix absolute url with https', function() {
-      expect(Auth.prototype._fixUrl('https://secure/path')).to.be.equal('https://secure/path');
-    });
-
-    afterEach(function() {
-      baseTag.remove();
-    });
-  });
 });
