@@ -10,8 +10,8 @@ var urlUtils = {};
  * @return {string|undefined}
  */
 urlUtils.getBaseURI = function() {
-  if (document.getBaseURI) {
-    return document.getBaseURI;
+  if (document.baseURI) {
+    return document.baseURI;
   }
 
   var baseElement = document.getElementsByTagName('base')[0];
