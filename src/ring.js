@@ -24,5 +24,5 @@ module.exports = {
   QueryAssist: require('query-assist/query-assist'),
   Shortcuts: require('shortcuts/shortcuts'),
   Textarea: require('textarea/textarea'),
-  UrlUtils: require('url-utils/url-utils')
+  urlUtils: require('url-utils/url-utils')
 };

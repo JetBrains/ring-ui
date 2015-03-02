@@ -84,7 +84,7 @@ Auth.ABSOLUTE_URL_PATTERN = /^[a-z]+:\/\//i;
 Auth.DEFAULT_CONFIG = {
   client_id: '0-0-0-0-0',
   redirect_uri: (function () {
-    var baseUrl = urlUtils.baseURI();
+    var baseUrl = urlUtils.getBaseURI();
     var host = window.location.protocol + '//' + window.location.host;
 
     var uri;
