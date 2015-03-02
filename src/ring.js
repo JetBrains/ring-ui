@@ -23,5 +23,6 @@ module.exports = {
   ProgressBar: require('progress-bar/progress-bar'),
   QueryAssist: require('query-assist/query-assist'),
   Shortcuts: require('shortcuts/shortcuts'),
-  Textarea: require('textarea/textarea')
+  Textarea: require('textarea/textarea'),
+  UrlUtils: require('url-utils/url-utils')
 };

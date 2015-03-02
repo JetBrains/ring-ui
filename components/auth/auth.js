@@ -4,6 +4,8 @@ var when = require('when');
 var AuthStorage = require('./auth__storage');
 var AuthResponseParser = require('./auth__response-parser');
 var AuthRequestBuilder = require('./auth__request-builder');
+var urlUtils = require('url-utils/url-utils');
+
 
 /**
  * @constructor
@@ -82,7 +84,7 @@ Auth.ABSOLUTE_URL_PATTERN = /^[a-z]+:\/\//i;
 Auth.DEFAULT_CONFIG = {
   client_id: '0-0-0-0-0',
   redirect_uri: (function () {
-    var baseUrl = $('base').prop('href'); // unlike attr, prop returns correct value *with* leading slash
+    var baseUrl = urlUtils.baseURI();
     var host = window.location.protocol + '//' + window.location.host;
 
     var uri;
@@ -441,31 +443,12 @@ Auth.prototype._getValidatedToken = function (validators) {
 };
 
 /**
- * Gets url and fix it.
- * If url is relative and there is <base> TAG in page code url will be converted to absolute.
- * <base href="/">: some/path => /some/path
- * @param {string} url
- * @returns {string} fixed_url
- * @private
- */
-Auth.prototype._fixUrl = function(url) {
-  if (url.indexOf('http://') === -1 && url.indexOf('https://') === -1 && url.indexOf('/') !== 0) {
-    var baseUrl = $('base').prop('href');
-    if (baseUrl) {
-      url = baseUrl + url;
-    }
-  }
-
-  return url;
-};
-
-/**
  * Redirects current page to the given URL
  * @param {string} url
  * @private
  */
 Auth.prototype._redirectCurrentPage = function (url) {
-  window.location = this._fixUrl(url);
+  window.location = urlUtils.fixUrl(url);
 };
 
 /**
