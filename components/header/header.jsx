@@ -28,7 +28,7 @@ var HeaderLogo = React.createClass({
   getDefaultProps: function() {
     return {
       glyph: '',
-      rootUrl: '/'
+      rootUrl: document.baseURI || '/'
     };
   },
 
