@@ -10,6 +10,7 @@ var Global = require('global/global');
 var Icon = require('icon/icon');
 var PopupMenu = require('popup-menu/popup-menu');
 var React = require('react/addons');
+var UrlUtils = require('url-utils/url-utils');
 
 
 /**
@@ -28,7 +29,7 @@ var HeaderLogo = React.createClass({
   getDefaultProps: function() {
     return {
       glyph: '',
-      rootUrl: document.baseURI || '/'
+      rootUrl: UrlUtils.baseURI() || '/'
     };
   },
 
