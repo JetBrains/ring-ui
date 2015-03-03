@@ -287,7 +287,8 @@ var dgeni = new Dgeni([
       '../components/react-ng/react-ng.js',
       '../components/tabs-ng/tabs-ng.js',
       '../components/breadcrumb-ng/breadcrumb-ng.js',
-      '../components/sidebar-ng/sidebar-ng.js'
+      '../components/sidebar-ng/sidebar-ng.js',
+      '../components/analytics-ng/analytics-ng.js'
     ];
 
     /**
