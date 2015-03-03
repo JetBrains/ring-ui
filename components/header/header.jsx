@@ -366,6 +366,7 @@ var Header = React.createClass({
       servicesStyle: null,
       servicesInnerStyle: null,
       showSettings: true,
+      showServices: true,
 
       onUserMenuOpen: null,
       onUserMenuClose: null,
@@ -581,16 +582,21 @@ var Header = React.createClass({
    */
   getMenuItems: function() {
     var items = [];
+    var i = 0;
 
     if (this.props.showSettings) {
-      items.push(<MenuItem ref="settings" glyph="cog1" href={this.props.settingsLink} onOpen={this.props.onSettingsOpen} onClose={this.props.onSettingsClose} />);
+      items.push(<MenuItem key={i++} ref="settings" glyph="cog1" href={this.props.settingsLink} onOpen={this.props.onSettingsOpen} onClose={this.props.onSettingsClose} />);
     }
 
-    items.push(
-      (<MenuItem ref="help" glyph="help" href={this.props.helpLink} onOpen={this.props.onHelpOpen} onClose={this.props.onHelpClose} />),
-      (<MenuItem ref="services" glyph="expand1" onOpen={this._onServicesOpen} onClose={this._onServicesClose} />),
-      (<MenuItem ref="userMenu" glyph="user1" onOpen={this.props.onUserMenuOpen} onClose={this.props.onUserMenuClose} />)
-    );
+    items.push((<MenuItem key={i++} ref="help" glyph="help" href={this.props.helpLink} onOpen={this.props.onHelpOpen} onClose={this.props.onHelpClose} />));
+
+    if (this.props.showServices) {
+      items.push(<MenuItem key={i++} ref="services" glyph="expand1"
+                           onOpen={this._onServicesOpen}
+                           onClose={this._onServicesClose}/>);
+    }
+
+    items.push(<MenuItem key={i++} ref="userMenu" glyph="user1" onOpen={this.props.onUserMenuOpen} onClose={this.props.onUserMenuClose} />);
 
     return items;
   },
@@ -653,6 +659,7 @@ var Header = React.createClass({
               return (<div className={headerClassName.getElement('menu-service-line__item')} key={i}>{linkElement}</div>);
             })}
           </div>
+
           {servicesIcons.map(function(item, i) {
             var serviceLogo = getServiceLogo(item);
             if (serviceLogo) {
@@ -729,6 +736,8 @@ HeaderHelper.setServicesList = function(header, auth, params) {
           header.refs['services'].setOpened(true);
           header.refs['services'].setLoading(false);
         }
+      } else {
+        header.setProps({ showServices: false });
       }
     });
   });
