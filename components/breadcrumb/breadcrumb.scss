@@ -38,11 +38,6 @@
     line-height: 14px;
     font-size: 13px;
   }
-
-  .ring-breadcrumb__sep {
-    top: 0;
-    font-size: $ring-unit !important;
-  }
 }
 
 .ring-breadcrumb__element {
@@ -58,8 +53,6 @@
   line-height: 20px;
   color: #1866C5;
   text-decoration: none;
-
-  cursor: pointer;
 }
 
 .ring-breadcrumb__element span {
@@ -86,9 +79,5 @@
 }
 
 .ring-breadcrumb__sep {
-  margin: 0 $ring-unit;
-  position: relative;
-  top: -1px;
-  font-size: 9px !important;
   color: #949494;
 }
