@@ -230,7 +230,7 @@ var sortServices = function(items) {
  * @const
  * @type {number}
  */
-var ELEMENT_WIDTH = 128; // todo(igor.alexeenko): Better get this property from css.
+var ELEMENT_WIDTH = 148; // todo(igor.alexeenko): Better get this property from css.
 
 /**
  * @const
@@ -556,15 +556,10 @@ var Header = React.createClass({
         headerClassName.getElement('user-menu-extra'), true,
         headerClassName.getElement('user-menu-item'), true));
 
-    var menuContent = this.props.rightMenu ? this.transferPropsTo(this.props.rightMenu) : (<div>
+    return (<div className={headerClassName.getElement('user-menu')}>
       <div className={extraElementClassName}></div>
-      {this.props.showSettings ? (<MenuItem ref="settings" glyph="cog1" href={this.props.settingsLink} onOpen={this.props.onSettingsOpen} onClose={this.props.onSettingsClose} />) : null}
-      <MenuItem ref="help" glyph="help" href={this.props.helpLink} onOpen={this.props.onHelpOpen} onClose={this.props.onHelpClose} />
-      <MenuItem ref="services" glyph="expand1" onOpen={this._onServicesOpen} onClose={this._onServicesClose} />
-      <MenuItem ref="userMenu" glyph="user1" onOpen={this.props.onUserMenuOpen} onClose={this.props.onUserMenuClose} />
+      {this.getMenuItems()}
     </div>);
-
-    return (<div className={headerClassName.getElement('user-menu')}>{menuContent}</div>);
   },
 
   /**
@@ -579,6 +574,25 @@ var Header = React.createClass({
    */
   getMenuElement: function() {
     return this.getDOMNode().querySelector('.' + headerClassName.getElement('menu'));
+  },
+
+  /**
+   * @return {Array.<ReactComponent>}
+   */
+  getMenuItems: function() {
+    var items = [];
+
+    if (this.props.showSettings) {
+      items.push(<MenuItem ref="settings" glyph="cog1" href={this.props.settingsLink} onOpen={this.props.onSettingsOpen} onClose={this.props.onSettingsClose} />);
+    }
+
+    items.push(
+      (<MenuItem ref="help" glyph="help" href={this.props.helpLink} onOpen={this.props.onHelpOpen} onClose={this.props.onHelpClose} />),
+      (<MenuItem ref="services" glyph="expand1" onOpen={this._onServicesOpen} onClose={this._onServicesClose} />),
+      (<MenuItem ref="userMenu" glyph="user1" onOpen={this.props.onUserMenuOpen} onClose={this.props.onUserMenuClose} />)
+    );
+
+    return items;
   },
 
   /**
