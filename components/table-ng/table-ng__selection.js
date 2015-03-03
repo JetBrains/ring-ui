@@ -4,6 +4,7 @@ var find = require('mout/array/find');
 var forEach = require('mout/array/forEach');
 var indexOf = require('mout/array/indexOf');
 var deepMixIn = require('mout/object/deepMixIn');
+var SelectionNavigateActions = require('./table-ng__selection-navigate-actions');
 
 /**
  * Selection module, catches all selection and activation operations and triggers events
