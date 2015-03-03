@@ -1,8 +1,50 @@
 var analyticsInstance = require('analytics/analytics');
 
+/**
+ * @ngdoc module
+ * @name Ring.analytics
+ *
+ * @example
+ * <example name="Analytics">
+ *   <file name="index.js" webpack="true">
+ *     require('angular/angular.min.js');
+ *     require('analytics-ng/analytics-ng');
+ *
+ *      angular.module('Example.analyticsDemo', ['Ring.analytics'])
+ *        .config([
+ *          'analyticsProvider',
+ *          'AnalyticsCustomPlugin',
+ *          'AnalyticsGAPlugin',
+ *          function(analyticsProvider, AnalyticsCustomPlugin, AnalyticsGAPlugin) {
+ *            var analyticsEnabled = true;
+ *            if (analyticsEnabled) {
+ *              var isDevelopment = true;
+ *              var customPlugin = new AnalyticsCustomPlugin(function(data) {
+ *                console.log('Here you can send data to server', data);
+ *              }, isDevelopment, 600);
+ *              var gaId; // = 'GA-XXXXX-ID';
+ *              analyticsProvider.plugins([
+ *                customPlugin //, new AnalyticsGAPlugin(gaId)
+ *              ]);
+ *            }
+ *          }
+ *        ]);
+ *   </file>
+ *   <file name="index.html">
+ *     <div ng-app="Example.analyticsDemo">
+ *      <a href="" rg-analytics="overview:view-doc">Link-with-on-click-analytic</a>
+ *      <a href="" rg-analytics="overview:view-doc" rg-analytics-on="mouseover">Link-with-on-mouseover-analytic</a>
+ *     </div>
+ *   </file>
+ * </example>
+ */
 /* global angular: false */
 var analyticsModule = angular.module('Ring.analytics', []);
 
+/**
+ * @name analyticsProvider
+ * @description configures analyitcs with plugins
+ */
 analyticsModule.provider('analytics', [function() {
   var configPlugins = [];
   /**
@@ -55,14 +97,6 @@ analyticsModule.run(['$rootScope', 'analytics', function($rootScope, analytics) 
  *  The `rg-analytics="<categoryName>:<eventName>"` sends categoryName and eventName to analytics server on
  *  user action, specified via attribute `rg-analytics-on` (e.g. rg-analytics-on='mouseover' means that analytics will be send on mouseover,
  *  rg-analytics-on='click' - on click). If there is no attribute rg-analytics-on, the default value 'click' is used.
- *
- *  @example
- *  <doc:example>
- *   <doc:source>
- *    <a href="someLink" rg-analytics="overview:view-doc">Link-with-on-click-analytic</a>
- *    <a href="someLink" rg-analytics="overview:view-doc" rg-analytics-on="mouseover">Link-with-on-mouseover-analytic</a>
- *   </doc:source>
- *  </doc:example>
  */
 analyticsModule.directive('rgAnalytics', [
   'analytics',
