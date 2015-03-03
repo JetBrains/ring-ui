@@ -171,5 +171,103 @@ describe('TableNg', function () {
         expect(directiveController.selection.getActiveItem()).to.equal(fakeData.items[2]);
       });
     });
+
+    describe('Default table navigation actions', function () {
+      var SelectionNavigateActions = require('./table-ng__selection-navigate-actions');
+      var navigateActions;
+      beforeEach(function() {
+        navigateActions = new SelectionNavigateActions();
+      });
+
+      it('should export interface', function() {
+        expect(navigateActions.setSelection).to.be.defined;
+        expect(navigateActions.moveUp).to.be.defined;
+        expect(navigateActions.moveDown).to.be.defined;
+        expect(navigateActions.reset).to.be.defined;
+        expect(navigateActions.selectUp).to.be.defined;
+        expect(navigateActions.selectDown).to.be.defined;
+        expect(navigateActions.selectCurrent).to.be.defined;
+        expect(navigateActions.clearSelection).to.be.defined;
+      });
+
+      it('should do nothing if selection is not put', function() {
+        expect(navigateActions.moveUp()).to.be.false;
+        expect(navigateActions.moveDown()).to.be.false;
+        expect(navigateActions.reset()).to.be.false;
+        expect(navigateActions.selectUp()).to.be.false;
+        expect(navigateActions.selectDown()).to.be.false;
+        expect(navigateActions.selectCurrent()).to.be.false;
+        expect(navigateActions.clearSelection()).to.be.false;
+      });
+
+      it('should select next item', function() {
+        navigateActions.setSelection(selection);
+        selection.activateItem(fakeData.items[1]);
+
+        navigateActions.moveDown();
+        expect(selection.getActiveItemIndex()).to.equals(2);
+      });
+
+      it('should select prev item', function() {
+        navigateActions.setSelection(selection);
+        selection.activateItem(fakeData.items[1]);
+
+        navigateActions.moveUp();
+        expect(selection.getActiveItemIndex()).to.equals(0);
+      });
+
+      it('should clear selection', function() {
+        navigateActions.setSelection(selection);
+        selection.activateItem(fakeData.items[1]);
+        selection.checkItem(fakeData.items[1]);
+
+        navigateActions.clearSelection();
+        expect(selection.getCheckedItems().length).to.equals(0);
+      });
+
+      it('should select current', function() {
+        navigateActions.setSelection(selection);
+        selection.activateItem(fakeData.items[1]);
+
+        navigateActions.selectCurrent();
+        var result = selection.getCheckedItems();
+        expect(result.length).to.equals(1);
+        expect(result[0]).to.equals(fakeData.items[1]);
+      });
+
+      it('should select up', function() {
+        navigateActions.setSelection(selection);
+        selection.activateItem(fakeData.items[2]);
+        selection.checkItem(fakeData.items[2]);
+
+        navigateActions.selectUp();
+        expect(selection.getCheckedItems().length).to.equals(0);
+        expect(selection.getActiveItemIndex()).to.equals(1);
+      });
+
+      it('should select down', function() {
+        navigateActions.setSelection(selection);
+        selection.activateItem(fakeData.items[2]);
+
+        navigateActions.selectDown();
+        var result = selection.getCheckedItems();
+        expect(result.length).to.equals(1);
+        expect(result[0]).to.equals(fakeData.items[2]);
+        expect(selection.getActiveItemIndex()).to.equals(3);
+      });
+
+      it('should select down multiple times', function() {
+        navigateActions.setSelection(selection);
+        selection.activateItem(fakeData.items[1]);
+
+        navigateActions.selectDown();
+        navigateActions.selectDown();
+        var result = selection.getCheckedItems();
+        expect(result.length).to.equals(2);
+        expect(result[0]).to.equals(fakeData.items[1]);
+        expect(result[1]).to.equals(fakeData.items[2]);
+        expect(selection.getActiveItemIndex()).to.equals(3);
+      });
+    });
   });
 });
