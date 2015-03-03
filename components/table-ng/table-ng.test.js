@@ -200,73 +200,79 @@ describe('TableNg', function () {
         expect(navigateActions.clearSelection()).to.be.false;
       });
 
-      it('should select next item', function() {
-        navigateActions.setSelection(selection);
-        selection.activateItem(fakeData.items[1]);
+      describe('Default table navigation actions\' methods', function() {
+        beforeEach(function() {
+          navigateActions.setSelection(selection);
+        });
 
-        navigateActions.moveDown();
-        expect(selection.getActiveItemIndex()).to.equals(2);
-      });
+        it('should select next item', function() {
+          navigateActions.setSelection(selection);
+          selection.activateItem(fakeData.items[1]);
 
-      it('should select prev item', function() {
-        navigateActions.setSelection(selection);
-        selection.activateItem(fakeData.items[1]);
+          navigateActions.moveDown();
+          expect(selection.getActiveItemIndex()).to.equals(2);
+        });
 
-        navigateActions.moveUp();
-        expect(selection.getActiveItemIndex()).to.equals(0);
-      });
+        it('should select prev item', function() {
+          navigateActions.setSelection(selection);
+          selection.activateItem(fakeData.items[1]);
 
-      it('should clear selection', function() {
-        navigateActions.setSelection(selection);
-        selection.activateItem(fakeData.items[1]);
-        selection.checkItem(fakeData.items[1]);
+          navigateActions.moveUp();
+          expect(selection.getActiveItemIndex()).to.equals(0);
+        });
 
-        navigateActions.clearSelection();
-        expect(selection.getCheckedItems().length).to.equals(0);
-      });
+        it('should clear selection', function() {
+          navigateActions.setSelection(selection);
+          selection.activateItem(fakeData.items[1]);
+          selection.checkItem(fakeData.items[1]);
 
-      it('should select current', function() {
-        navigateActions.setSelection(selection);
-        selection.activateItem(fakeData.items[1]);
+          navigateActions.clearSelection();
+          expect(selection.getCheckedItems().length).to.equals(0);
+        });
 
-        navigateActions.selectCurrent();
-        var result = selection.getCheckedItems();
-        expect(result.length).to.equals(1);
-        expect(result[0]).to.equals(fakeData.items[1]);
-      });
+        it('should select current', function() {
+          navigateActions.setSelection(selection);
+          selection.activateItem(fakeData.items[1]);
 
-      it('should select up', function() {
-        navigateActions.setSelection(selection);
-        selection.activateItem(fakeData.items[2]);
-        selection.checkItem(fakeData.items[2]);
+          navigateActions.selectCurrent();
+          var result = selection.getCheckedItems();
+          expect(result.length).to.equals(1);
+          expect(result[0]).to.equals(fakeData.items[1]);
+        });
 
-        navigateActions.selectUp();
-        expect(selection.getCheckedItems().length).to.equals(0);
-        expect(selection.getActiveItemIndex()).to.equals(1);
-      });
+        it('should select up', function() {
+          navigateActions.setSelection(selection);
+          selection.activateItem(fakeData.items[2]);
+          selection.checkItem(fakeData.items[2]);
 
-      it('should select down', function() {
-        navigateActions.setSelection(selection);
-        selection.activateItem(fakeData.items[2]);
+          navigateActions.selectUp();
+          expect(selection.getCheckedItems().length).to.equals(0);
+          expect(selection.getActiveItemIndex()).to.equals(1);
+        });
 
-        navigateActions.selectDown();
-        var result = selection.getCheckedItems();
-        expect(result.length).to.equals(1);
-        expect(result[0]).to.equals(fakeData.items[2]);
-        expect(selection.getActiveItemIndex()).to.equals(3);
-      });
+        it('should select down', function() {
+          navigateActions.setSelection(selection);
+          selection.activateItem(fakeData.items[2]);
 
-      it('should select down multiple times', function() {
-        navigateActions.setSelection(selection);
-        selection.activateItem(fakeData.items[1]);
+          navigateActions.selectDown();
+          var result = selection.getCheckedItems();
+          expect(result.length).to.equals(1);
+          expect(result[0]).to.equals(fakeData.items[2]);
+          expect(selection.getActiveItemIndex()).to.equals(3);
+        });
 
-        navigateActions.selectDown();
-        navigateActions.selectDown();
-        var result = selection.getCheckedItems();
-        expect(result.length).to.equals(2);
-        expect(result[0]).to.equals(fakeData.items[1]);
-        expect(result[1]).to.equals(fakeData.items[2]);
-        expect(selection.getActiveItemIndex()).to.equals(3);
+        it('should select down multiple times', function() {
+          navigateActions.setSelection(selection);
+          selection.activateItem(fakeData.items[1]);
+
+          navigateActions.selectDown();
+          navigateActions.selectDown();
+          var result = selection.getCheckedItems();
+          expect(result.length).to.equals(2);
+          expect(result[0]).to.equals(fakeData.items[1]);
+          expect(result[1]).to.equals(fakeData.items[2]);
+          expect(selection.getActiveItemIndex()).to.equals(3);
+        });
       });
     });
   });
