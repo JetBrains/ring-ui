@@ -24,11 +24,11 @@
   min-width: $ring-unit*25 - 2;
 
   border: 1px solid;
-    @include rgba-attribute('border-color', rgba(0, 0, 0, 0.2));
+    @include rgba-attribute('border-color', rgba(0, 0, 0, 0.15));
 
   border-radius: 3px;
   background-color: #fff;
-  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, .2);
+  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, .1);
 }
 
 .ring-island_inline {
