@@ -213,4 +213,8 @@ angular.module('Ring.table', ['Ring.table.toolbar'])
         scope.isPullLeft = angular.isDefined(iAttrs.pullLeft);
       }
     };
-  }]);
+  }])
+/**
+ * Class with default hotkeys navigation actions (e.g. select, clear selection, move up/down)
+ */
+  .constant('SelectionNavigateActions', require('./table-ng__selection-navigate-actions'));
