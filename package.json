@@ -78,6 +78,7 @@
   },
   "dependencies": {
     "autoprefixer-loader": "1.0.0",
+    "bowser": "0.7.2",
     "codemirror": "4.11.0",
     "css-loader": "0.9.1",
     "es5-shim": "4.0.5",
