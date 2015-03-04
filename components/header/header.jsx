@@ -230,7 +230,7 @@ var sortServices = function(items) {
  * @const
  * @type {number}
  */
-var ELEMENT_WIDTH = 148; // todo(igor.alexeenko): Better get this property from css.
+var ELEMENT_WIDTH = 128; // todo(igor.alexeenko): Better get this property from css.
 
 /**
  * @const
