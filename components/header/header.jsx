@@ -593,7 +593,8 @@ var Header = React.createClass({
     if (this.props.showServices) {
       items.push(<MenuItem key={i++} ref="services" glyph="expand1"
                            onOpen={this._onServicesOpen}
-                           onClose={this._onServicesClose}/>);
+                           onClose={this._onServicesClose}
+                           title="Services" />);
     }
 
     items.push(<MenuItem key={i++} ref="userMenu" glyph="user1" onOpen={this.props.onUserMenuOpen} onClose={this.props.onUserMenuClose} />);
