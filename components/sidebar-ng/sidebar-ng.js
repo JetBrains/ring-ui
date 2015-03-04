@@ -104,9 +104,9 @@ angular.module('Ring.sidebar', [])
 
           var sidebarScrollListener = debounce(function () {
             if (isSyncWithElementFixed(syncWithElement)){
-              syncWithoutFixing(syncWithElement);
-            } else {
               syncAndFix(syncWithElement);
+            } else {
+              syncWithoutFixing(syncWithElement);
             }
           }, DEBOUNCE_INTERVAL);
 
