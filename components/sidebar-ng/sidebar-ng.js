@@ -7,7 +7,7 @@ require('../react-ng/react-ng')({
 
 /**
  * @name A sidebar directive.
- * @description NOTE: container should be absolute positioned if sidebar should be positioned inside it
+ * @description NOTE: container should be relative positioned if sidebar should be positioned inside it
  * @example
   <example name="Sidebar-ng">
     <file name="index.html">
