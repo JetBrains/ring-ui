@@ -1,5 +1,7 @@
 'use sctrict';
 
+var browser = require('bowser').browser;
+
 var AnalyticsCustomPluginUtils = {};
 /**
  * Statistics server does not accepts strings with dots and undefined-values
@@ -33,13 +35,9 @@ AnalyticsCustomPluginUtils.getPageViewDurationPresentation = function (duration)
 };
 
 AnalyticsCustomPluginUtils.getUserAgentPresentation = function () {
-  if (window.opera) {
-    return 'opera$' + window.opera.version();
-  }
-  if (/(MSIE|Firefox|Chrome|Safari|Konqueror)\W*([\w]+)*/i.test(navigator.userAgent)) {
-    return RegExp.$1.toLowerCase() + '$' + RegExp.$2;
-  }
-  return 'unknown';
+  var name = (browser.name || 'unknown').toLowerCase();
+  var version = (browser.version || 'unknown').split('.')[0];
+  return name + '$' + version;
 };
 
 module.exports = AnalyticsCustomPluginUtils;
