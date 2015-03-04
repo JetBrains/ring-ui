@@ -6,13 +6,25 @@ require('../react-ng/react-ng')({
 });
 
 /**
- * A sidebar directive.
+ * @name A sidebar directive.
+ * @description NOTE: container should be absolute positioned if sidebar should be positioned inside it
  * @example
-   <example>
-      <rg-sidebar show="true" place-under-sibling=".some-toolbar" top-offset="1">
-       <div class="sidebar__empty">Nothing to show</div>
-      </rg-sidebar>
-      <div class="some-toolbar">Toolbar to place before sidebar</div>
+  <example name="Sidebar-ng">
+    <file name="index.html">
+      <div ng-app="Ring.sidebar" ng-init="isShowSideBar = true" style="position: relative;">
+          <rg-sidebar show="isShowSideBar" place-under-sibling=".some-toolbar" top-offset="1">
+            <div class="sidebar__empty">Nothing to show</div>
+          </rg-sidebar>
+          <div class="some-toolbar">
+              Toolbar to place before sidebar
+              <rg-sidebar-toggle-button model="isShowSideBar">Toggle sidebar</rg-sidebar-toggle-button>
+          </div>
+        </div>
+     </file>
+       <file name="index.js" webpack="true">
+         require('angular/angular.min.js');
+         require('sidebar-ng/sidebar-ng');
+       </file>
    </example>
  */
 
@@ -28,11 +40,11 @@ angular.module('Ring.sidebar', [])
       replace: true,
       template: '<div class="ring-sidebar" ng-class="{\'ring-sidebar_active\': show}" ng-transclude></div>',
       /**
-      * @param {{
+      * {{
       *   show: boolean,
-      *   placeUnderSibling: string?, an selector to stick sidebar
-      *   topOffset: integer?, an offset from top for sidebar
-      * }} scope
+      *   placeUnderSibling: ?string, an selector to stick sidebar
+      *   topOffset: ?number, an offset from top for sidebar
+      * }}
       */
       scope: {
         show: '=',
@@ -48,21 +60,54 @@ angular.module('Ring.sidebar', [])
         scope.topOffset = scope.topOffset || 0;
 
         /**
+         * Checks is syncWithElement or his child fixed or not
+         * @param syncWithElement
+         * @returns {boolean}
+         */
+        var isSyncWithElementFixed = function(syncWithElement) {
+          var isElementFixed = $window.getComputedStyle(syncWithElement).position === 'fixed';
+          var child = syncWithElement.childNodes[0];
+          var isSyncWithElementChildFixed = child ? $window.getComputedStyle(child).position === 'fixed' : false;
+          return isElementFixed || isSyncWithElementChildFixed;
+        };
+
+        /**
+         * Just places sidebar with absolutePosition and top offset equal to syncWithElement height
+         * @param syncWithElement
+         */
+        var syncWithoutFixing = function(syncWithElement) {
+          element.style.position = 'absolute';
+          element.style.marginTop = syncWithElement.offsetHeight + 'px';
+        };
+
+        /**
+         * Make sidebar position fixed and with offset exact like in syncWith element
+         * @param syncWithElement
+         */
+        var syncAndFix = function(syncWithElement) {
+          element.style.position = 'fixed';
+
+          var syncedElementHeight = syncWithElement.offsetHeight;
+          var syncedElementOffsetTop = syncWithElement.getBoundingClientRect().top + $document[0].body.scrollTop;
+
+          var bottom = syncedElementOffsetTop + syncedElementHeight;
+
+          var margin = Math.max(bottom - $window.scrollY, syncedElementHeight);
+
+          element.style.marginTop = margin + scope.topOffset + 'px';
+        };
+        /**
          * Syncing sidebar position with other element bottom
          * @param syncWithElement - DOM node to sync with
          */
         var syncPositionWith = function (syncWithElement) {
 
           var sidebarScrollListener = debounce(function () {
-            var syncedElementHeight = syncWithElement.offsetHeight;
-            var syncedElementOffsetTop = syncWithElement.getBoundingClientRect().top + $document[0].body.scrollTop;
-
-            var bottom = syncedElementOffsetTop + syncedElementHeight;
-
-            var margin = Math.max(bottom - $window.scrollY, syncedElementHeight);
-
-            element.style.marginTop = margin + scope.topOffset + 'px';
-
+            if (isSyncWithElementFixed(syncWithElement)){
+              syncWithoutFixing(syncWithElement);
+            } else {
+              syncAndFix(syncWithElement);
+            }
           }, DEBOUNCE_INTERVAL);
 
           sidebarScrollListener();
@@ -94,10 +139,6 @@ angular.module('Ring.sidebar', [])
       scope: {
         model: '='
       },
-      template: '<button class="ring-btn" ng-click="model = !model">' +
-                  '<span ng-show="model" class="ring-sidebar__toggle-icon" react-static="Icon" react-size="14" react-glyph="\'chevron-right\'"></span>' +
-                  '<span ng-show="!model" class="ring-sidebar__toggle-icon" react-static="Icon" react-size="14" react-glyph="\'chevron-left\'"></span>' +
-                  '<span ng-transclude></span>' +
-                '</button>'
+      template: require('./sidebar-ng__button.html')
     };
   }]);
