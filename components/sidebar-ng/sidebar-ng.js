@@ -1,5 +1,6 @@
 require('../sidebar/sidebar.scss');
 var debounce = require('mout/function/debounce');
+var FIXED_ATTR = 'element-fixed';
 
 require('../react-ng/react-ng')({
   Icon: require('../icon/icon.jsx')
@@ -7,7 +8,12 @@ require('../react-ng/react-ng')({
 
 /**
  * @name A sidebar directive.
- * @description NOTE: container should be relative positioned if sidebar should be positioned inside it
+ * @description Sidebar trying to fill all right half of container.
+ * To make sidebar fixed positioned under some other element (e.g. toolbar)
+ * that element selector should be passed as placeUnderSibling param. That element
+ * should support specific interface exposing - adding attribute 'element-fixed="true"'
+ * when becomes fixed and removing it when becomes normally positioned.
+ * Container should be relative positioned if sidebar should be positioned inside it.
  * @example
   <example name="Sidebar-ng">
     <file name="index.html">
@@ -65,7 +71,7 @@ angular.module('Ring.sidebar', [])
          * @returns {boolean}
          */
         var isSyncWithElementFixed = function(syncWithElement) {
-          return syncWithElement.getAttribute('element-fixed') !== null;
+          return syncWithElement.getAttribute(FIXED_ATTR) !== null;
         };
 
         /**
