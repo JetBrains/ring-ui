@@ -39,7 +39,7 @@ angular.module('Ring.table.toolbar', [])
             toolbarControls.className += ' ' + 'ring-table__toolbar-controls_fixed';
           }
 
-          iElement.attr('element-fixed', 'true');
+          element.setAttribute('element-fixed', 'true');
         };
 
         /**
@@ -53,7 +53,7 @@ angular.module('Ring.table.toolbar', [])
             toolbarControls.className = controlsContainer.className.replace('ring-table__toolbar-controls_fixed', '');
           }
 
-          iElement.removeAttr('element-fixed');
+          element.removeAttribute('element-fixed');
         };
 
         var savedToolbarTop;
