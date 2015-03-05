@@ -581,25 +581,12 @@ var Header = React.createClass({
    * @return {Array.<ReactComponent>}
    */
   getMenuItems: function() {
-    var items = [];
-    var i = 0;
-
-    if (this.props.showSettings) {
-      items.push(<MenuItem key={i++} ref="settings" glyph="cog1" href={this.props.settingsLink} onOpen={this.props.onSettingsOpen} onClose={this.props.onSettingsClose} />);
-    }
-
-    items.push((<MenuItem key={i++} ref="help" glyph="help" href={this.props.helpLink} onOpen={this.props.onHelpOpen} onClose={this.props.onHelpClose} />));
-
-    if (this.props.showServices) {
-      items.push(<MenuItem key={i++} ref="services" glyph="expand1"
-                           onOpen={this._onServicesOpen}
-                           onClose={this._onServicesClose}
-                           title="Services" />);
-    }
-
-    items.push(<MenuItem key={i++} ref="userMenu" glyph="user1" onOpen={this.props.onUserMenuOpen} onClose={this.props.onUserMenuClose} />);
-
-    return items;
+    return [
+      this.props.showSettings ? (<MenuItem key="settings" ref="settings" glyph="cog1" href={this.props.settingsLink} onOpen={this.props.onSettingsOpen} onClose={this.props.onSettingsClose} />) : undefined,
+      (<MenuItem key="help" ref="help" glyph="help" href={this.props.helpLink} onOpen={this.props.onHelpOpen} onClose={this.props.onHelpClose} />),
+      this.props.showServices ? (<MenuItem key="services" ref="services" glyph="expand1" onOpen={this._onServicesOpen} onClose={this._onServicesClose} title="Services" />) : undefined,
+      (<MenuItem key="userMenu" ref="userMenu" glyph="user1" onOpen={this.props.onUserMenuOpen} onClose={this.props.onUserMenuClose} />)
+    ];
   },
 
   /**
