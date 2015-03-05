@@ -14,22 +14,26 @@ var ReactPropTypes = React.PropTypes;
  * @constructor
  * @extends {ReactComponent}
  * @example
-   <example>
-     <div id='progress-bar'></div>
+   <example name="progress-bar">
+    <filename="index.html">
+      <div id='progress-bar'></div>
+    </file>
+    <file name="index.js" webpack="true">
+      var React = require('react');
+      var ProgressBar = require('progress-bar/progress-bar');
 
-     <script>
-        var progressBar = React.renderComponent(ProgressBar({
-            value: 0
-          }), document.getElementById('progress-bar'));
+      var progressBar = React.renderComponent(ProgressBar({
+          value: 0
+        }), document.getElementById('progress-bar'));
 
-        setInterval(function updateProgress(){
-            var currentValue = progressBar.props.value;
+      setInterval(function updateProgress(){
+          var currentValue = progressBar.props.value;
 
-            progressBar.setProps({
-              value: (currentValue >=1 ? 0 : currentValue + 0.1)
-            });
-        }, 500);
-     </script>
+          progressBar.setProps({
+            value: (currentValue >=1 ? 0 : currentValue + 0.1)
+          });
+      }, 500);
+    </file>
    </example>
  */
 var ProgressBar = React.createClass({
