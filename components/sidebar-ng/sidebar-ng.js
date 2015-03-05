@@ -42,7 +42,7 @@ angular.module('Ring.sidebar', [])
       /**
       * {{
       *   show: boolean,
-      *   placeUnderSibling: ?string, an selector to stick sidebar
+      *   placeUnderSibling: ?string, an selector to stick sidebar. That element should set 'element-fixed' attribute when becomes fixed
       *   topOffset: ?number, an offset from top for sidebar
       * }}
       */
@@ -65,10 +65,7 @@ angular.module('Ring.sidebar', [])
          * @returns {boolean}
          */
         var isSyncWithElementFixed = function(syncWithElement) {
-          var isElementFixed = $window.getComputedStyle(syncWithElement).position === 'fixed';
-          var child = syncWithElement.childNodes[0];
-          var isSyncWithElementChildFixed = child ? $window.getComputedStyle(child).position === 'fixed' : false;
-          return isElementFixed || isSyncWithElementChildFixed;
+          return syncWithElement.getAttribute('element-fixed') !== null;
         };
 
         /**

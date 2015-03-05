@@ -2,7 +2,8 @@
 var debounce = require('mout/function/debounce');
 
 /**
- * Stickable toolbar, usable for tables, but can be used elsewhere.
+ * @name Table toolbar
+ * @description Stickable toolbar, usable for tables, but can be used elsewhere. Sets attribute 'element-fixed'=true when becomes fixed;
  * @example
  * <example>
      <rg-table-toolbar stick>
@@ -37,6 +38,8 @@ angular.module('Ring.table.toolbar', [])
           } else {
             toolbarControls.className += ' ' + 'ring-table__toolbar-controls_fixed';
           }
+
+          iElement.attr('element-fixed', 'true');
         };
 
         /**
@@ -49,6 +52,8 @@ angular.module('Ring.table.toolbar', [])
           } else {
             toolbarControls.className = controlsContainer.className.replace('ring-table__toolbar-controls_fixed', '');
           }
+
+          iElement.removeAttr('element-fixed');
         };
 
         var savedToolbarTop;
