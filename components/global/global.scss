@@ -1,3 +1,5 @@
+// Do not place here anything but variables and mixins
+
 $ring-unit: 8px;
 
 $ring-link-color:  #1866C5;
@@ -23,10 +25,6 @@ $ring-font-color: #1a1a1a;
 $ring-fonts-dir: 'fonts/' !default;
 $ring-font-size: 13px;
 $ring-font-size-smaller: 11px;
-
-.ring-hidden {
-  display: none !important;
-}
 
 @mixin clearfix() {
   &:after {
