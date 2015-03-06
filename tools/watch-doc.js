@@ -34,13 +34,7 @@ var isAlreadyGenerating = false;
 
 watch.watchTree(watchPath, watchOptions, function onChange(file, curr, prev) {
 
-  if (typeof file === 'object' && prev === null && curr === null) {
-    // Finished walking the tree
-  } else if (prev === null) {
-    // file is a new file
-  } else if (curr.nlink === 0) {
-    // file was removed
-  } else {
+  if (typeof file === 'string' && prev !== null && curr !== null && curr.nlink !== 0) {
     // file was changed
     var fileName = file.match(/[\w-\.]+$/)[0];
     console.log('File changed:', fileName);
