@@ -14,7 +14,7 @@ require('react-ng/react-ng')({
    </error-message>
  */
 
-angular.module('Ring.error-message', []).
+angular.module('Ring.error-message', ['Ring.react-ng']).
   directive('errorMessage', [function () {
     return {
       replace: true,
