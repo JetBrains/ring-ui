@@ -284,6 +284,10 @@ var dgeni = new Dgeni([
     readFilesProcessor.basePath = path.resolve(__dirname, '..', 'components');
     var readFileFilter = process.argv[2];
 
+    if (readFileFilter){
+      console.log('Generate documentation only for', readFileFilter);
+    }
+
     readFilesProcessor.sourceFiles = readFileFilter ? ['**/**/' + readFileFilter] : [
       './**/*.jsx',
       './react-ng/react-ng.js',
