@@ -282,7 +282,9 @@ var dgeni = new Dgeni([
      */
     readFilesProcessor.fileReaders.unshift(jsxFileReader);
     readFilesProcessor.basePath = path.resolve(__dirname, '..', 'components');
-    readFilesProcessor.sourceFiles = [
+    var readFileFilter = process.argv[2];
+
+    readFilesProcessor.sourceFiles = readFileFilter ? ['**/**/' + readFileFilter] : [
       './**/*.jsx',
       './react-ng/react-ng.js',
       './tabs-ng/tabs-ng.js',
