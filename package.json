@@ -19,6 +19,7 @@
   "scripts": {
     "prepublish": "node tools/setup-hooks.js",
     "gen-doc": "node tools/generate-documentation.js",
+    "watch-doc": "node tools/watch-doc.js",
     "test": "node node_modules/karma/bin/karma start",
     "build": "gulp build",
     "clean": "gulp clean",
@@ -73,6 +74,7 @@
     "mocha": "2.1.0",
     "react-tools": "0.11.2",
     "through": "2.3.6",
+    "watch": "0.14.0",
     "webpack-dev-server": "1.7.0",
     "yargs": "1.3.3"
   },
