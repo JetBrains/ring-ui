@@ -1,7 +1,5 @@
 'use sctrict';
 
-var deepMixIn = require('mout/object/deepMixIn');
-
 /**
  *
  * @param {string?} gaId Google analytics id (should be undefined in development)
@@ -29,22 +27,20 @@ var AnalyticsGAPlugin = function (gaId) {
   ga('create', key, (!gaId ? {'cookieDomain': 'none'} : {}));
 };
 
-deepMixIn(AnalyticsGAPlugin.prototype, {
-  trackEvent: function (category, action) {
-    if (window.ga) {
-      var eventOptions = {
-        eventCategory: category,
-        eventAction: action
-      };
-      ga('send', 'event', eventOptions);
-    }
-  },
-
-  trackPageView: function (path) {
-    if (window.ga) {
-      ga('send', 'pageview', path);
-    }
+AnalyticsGAPlugin.prototype.trackEvent = function (category, action) {
+  if (window.ga) {
+    var eventOptions = {
+      eventCategory: category,
+      eventAction: action
+    };
+    ga('send', 'event', eventOptions);
   }
-});
+};
+
+AnalyticsGAPlugin.prototype.trackPageView = function (path) {
+  if (window.ga) {
+    ga('send', 'pageview', path);
+  }
+};
 
 module.exports = AnalyticsGAPlugin;
