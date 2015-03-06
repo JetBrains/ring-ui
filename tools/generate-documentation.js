@@ -281,14 +281,14 @@ var dgeni = new Dgeni([
      * Reading source files
      */
     readFilesProcessor.fileReaders.unshift(jsxFileReader);
-    readFilesProcessor.basePath = __dirname;
+    readFilesProcessor.basePath = path.resolve(__dirname, '..', 'components');
     readFilesProcessor.sourceFiles = [
-      '../components/**/*.jsx',
-      '../components/react-ng/react-ng.js',
-      '../components/tabs-ng/tabs-ng.js',
-      '../components/breadcrumb-ng/breadcrumb-ng.js',
-      '../components/sidebar-ng/sidebar-ng.js',
-      '../components/analytics-ng/analytics-ng.js'
+      './**/*.jsx',
+      './react-ng/react-ng.js',
+      './tabs-ng/tabs-ng.js',
+      './breadcrumb-ng/breadcrumb-ng.js',
+      './sidebar-ng/sidebar-ng.js',
+      './analytics-ng/analytics-ng.js'
     ];
 
     /**
