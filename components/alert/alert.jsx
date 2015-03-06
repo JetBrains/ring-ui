@@ -69,7 +69,7 @@ var BASE_CLASS = 'ring-alert';
          caption: 'Sample alert',
          closeable: true,
          type: Alert.Type.SUCCESS
-       }), document.querySelector('.alert-container'));
+       }), document.querySelector('#alert-container'));
      </file>
    </example>
  */
