@@ -6,7 +6,7 @@ var path = require('path');
 var fs = require('fs');
 
 var watchPath = path.resolve(__dirname, '../components');
-var supportedFileRegexp = /.*.(js|jsx)$/i;
+var supportedFileRegexp = /\.(js|jsx)$/i;
 var watchOptions = {
   filter: function (fileName) {
     if (fs.lstatSync(fileName).isDirectory()){
