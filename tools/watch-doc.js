@@ -1,3 +1,4 @@
+/* eslint-env node */
 
 var childProcess = require('child_process');
 var watch = require('watch');
