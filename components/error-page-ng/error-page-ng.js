@@ -5,6 +5,25 @@ require('../error-message-ng/error-message-ng');
 require('../permissions-ng/permissions-ng');
 require('../message-bundle-ng/message-bundle-ng');
 
+/**
+ * @name Error-page-ng
+ * @description Directive shows error on page
+ * @example
+ * <example name="Error-page-ng">
+   <file name="index.html">
+    <div ng-app="Ring.error-page">
+        <div class="app" error-page-background>
+            <div error-page>testcontent</div>
+        </div>
+    </div>
+   </file>
+   <file name="index.js" webpack="true">
+      require('angular/angular.min.js');
+      require('angular-route/angular-route.min.js');
+      require('error-page-ng/error-page-ng');
+   </file>
+ </example>
+ */
 
 angular.module('Ring.error-page', [
   'ngRoute',
@@ -16,10 +35,9 @@ angular.module('Ring.error-page', [
   .provider('errorPageConfiguration', [function () {
     var pageConfiguration = {};
     /**
-     * @param {{
-     *   responseToMessageConverter: string? factory name,
-     *   links: string? factory name,
-     * }} config
+     * @param {Object} config
+     * @param {?String} config.responseToMessageConverter - name of converter from response to error message factory
+     * @param {?Array.<String>} config.links - name of factory which should return array of links to show on error page
      */
     this.config = function (config) {
       pageConfiguration = config;
