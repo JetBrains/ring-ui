@@ -13,7 +13,7 @@ require('../message-bundle-ng/message-bundle-ng');
    <file name="index.html">
     <div ng-app="Ring.error-page">
         <div class="app" error-page-background>
-            <div error-page>testcontent</div>
+            <div error-page="{error: {status: 403}}"></div>
         </div>
     </div>
    </file>
@@ -21,6 +21,26 @@ require('../message-bundle-ng/message-bundle-ng');
       require('angular/angular.min.js');
       require('angular-route/angular-route.min.js');
       require('error-page-ng/error-page-ng');
+
+      angular.module('Ring.auth', [])
+        .provider('auth', function() {
+          this.$get = function($q) {
+            var defer = $q.defer();
+            defer.resolve([]);
+
+            return {
+              auth: {
+                requestToken: function() {
+                  return defer.promise;
+                },
+                getSecure: function() {
+                  return defer.promise;
+                }
+              },
+              promise: defer.promise
+            };
+          };
+        });
    </file>
  </example>
  */
@@ -118,10 +138,7 @@ angular.module('Ring.error-page', [
           };
         }],
         link: function (scope, iElement) {
-          scope.$watch('applicationError', function(newValue, oldValue) {
-            if (newValue === oldValue) {
-              return;
-            }
+          scope.$watch('applicationError', function(newValue) {
             if (newValue) {
               iElement.addClass('error-page');
             } else {
