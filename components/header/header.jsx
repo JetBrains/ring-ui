@@ -748,7 +748,7 @@ HeaderHelper.setUserMenu = function(header, auth) {
 
     var popupData = [
       { label: 'Profile', type: PopupMenu.ListProps.Type.LINK, href: [auth.config.serverUri, 'users/me'].join('') },
-      { label: 'Logout', type: PopupMenu.ListProps.Type.LINK, onClick: function() {
+      { label: 'Log out', type: PopupMenu.ListProps.Type.LINK, onClick: function() {
         auth.logout();
       }}
     ];
