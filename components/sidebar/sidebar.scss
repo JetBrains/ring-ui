@@ -1,6 +1,6 @@
 @import "../global/global";
 
-$sidebar-height: 9999px;
+$sidebar-bottom-spacing: 9999px;
 
 .ring-sidebar {
   position: fixed;
@@ -12,8 +12,8 @@ $sidebar-height: 9999px;
 
   padding-top: 2*$ring-unit;
 
-  height: $sidebar-height;
-  margin-bottom: -$sidebar-height;
+  padding-bottom: $sidebar-bottom-spacing;
+  margin-bottom: -$sidebar-bottom-spacing;
 
   overflow: hidden;
   background: #FFF;
