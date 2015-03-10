@@ -40,9 +40,11 @@ $ring-font-size-smaller: 11px;
   font-size: $font-size;
 }
 
+// To be used at large sizes
+// As close as possible to Helvetica Neue Thin (to replace Gotham)
 @mixin ring-thin-font() {
-  font-weight: 200;
-  font-family: "Helvetica Neue", Calibri, Arial, sans-serif;
+  font-weight: 100;  // Renders Helvetica Neue UltraLight on OS X, but otherwise it would be just Light
+  font-family: "Segoe UI", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 @mixin ring-monospace-font() {
