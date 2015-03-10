@@ -734,9 +734,10 @@ HeaderHelper.setServicesList = function(header, auth, params) {
 /**
  * @param {Header} header
  * @param {Auth} auth
+ * @param {{ profile: string, logout: string }=} translationsDict
  * @return {Promise}
  */
-HeaderHelper.setUserMenu = function(header, auth) {
+HeaderHelper.setUserMenu = function(header, auth, translationsDict) {
   var popup = null;
 
   return auth.requestUser().then(function(response) {
@@ -747,10 +748,18 @@ HeaderHelper.setUserMenu = function(header, auth) {
     header.refs['userMenu'].setTitle(response.name);
 
     var popupData = [
-      { label: 'Profile', type: PopupMenu.ListProps.Type.LINK, href: [auth.config.serverUri, 'users/', response.id].join('') },
-      { label: 'Log out', type: PopupMenu.ListProps.Type.LINK, onClick: function() {
-        auth.logout();
-      }}
+      {
+        label: translationsDict ? translationsDict.profile : 'Profile',
+        type: PopupMenu.ListProps.Type.LINK,
+        href: [auth.config.serverUri, 'users/', response.id].join('')
+      },
+      {
+        label: translationsDict ? translationsDict.logout : 'Log out',
+        type: PopupMenu.ListProps.Type.LINK,
+        onClick: function() {
+          auth.logout();
+        }
+      }
     ];
 
     header.setProps({
