@@ -8,6 +8,7 @@ require('./header.scss');
 var ClassName = require('class-name/class-name');
 var Global = require('global/global');
 var Icon = require('icon/icon');
+var mixIn = require('mout/object/mixIn');
 var PopupMenu = require('popup-menu/popup-menu');
 var React = require('react/addons');
 var urlUtils = require('url-utils/url-utils');
@@ -734,10 +735,15 @@ HeaderHelper.setServicesList = function(header, auth, params) {
 /**
  * @param {Header} header
  * @param {Auth} auth
- * @param {{ profile: string, logout: string }=} translationsDict
+ * @param {{ logout: string, profile: string }=} translationsDict
  * @return {Promise}
  */
 HeaderHelper.setUserMenu = function(header, auth, translationsDict) {
+  translationsDict = mixIn({
+    logout: 'Log out',
+    profile: 'Profile'
+  }, translationsDict);
+
   var popup = null;
 
   return auth.requestUser().then(function(response) {
@@ -749,12 +755,12 @@ HeaderHelper.setUserMenu = function(header, auth, translationsDict) {
 
     var popupData = [
       {
-        label: translationsDict ? translationsDict.profile : 'Profile',
+        label: translationsDict.profile,
         type: PopupMenu.ListProps.Type.LINK,
         href: [auth.config.serverUri, 'users/', response.id].join('')
       },
       {
-        label: translationsDict ? translationsDict.logout : 'Log out',
+        label: translationsDict.logout,
         type: PopupMenu.ListProps.Type.LINK,
         onClick: function() {
           auth.logout();
