@@ -80,7 +80,7 @@ angular.module('Ring.sidebar', [])
          */
         var syncWithoutFixing = function(syncWithElement) {
           element.style.position = 'absolute';
-          element.style.marginTop = syncWithElement.offsetHeight + 'px';
+          element.style.marginTop = syncWithElement.offsetHeight + scope.topOffset + 'px';
         };
 
         /**
