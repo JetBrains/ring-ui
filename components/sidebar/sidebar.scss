@@ -8,7 +8,7 @@ $sidebar-bottom-spacing: 9999px;
 
   top: 0;
   left: 100%;
-  width: 0;
+  min-width: 50%;
 
   padding-top: 2*$ring-unit;
 
@@ -25,8 +25,6 @@ $sidebar-bottom-spacing: 9999px;
 
   overflow: scroll;
   box-shadow: -2px 0 4px 0 #BEBEBE;
-  min-width: 50%;
-  width: 50%;
 
   .ring-sidebar__i {
     transition: 0.5s ease-in;
