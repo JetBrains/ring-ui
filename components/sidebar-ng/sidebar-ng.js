@@ -13,7 +13,7 @@ require('../react-ng/react-ng')({
  * that element selector should be passed as placeUnderSibling param. That element
  * should support specific interface exposing - adding attribute 'element-fixed="true"'
  * when becomes fixed and removing it when becomes normally positioned.
- * Container should be relative positioned if sidebar should be positioned inside it.
+ * Container should have overflow-x: hidden and relative positioned if sidebar should be positioned inside it.
  * @example
   <example name="Sidebar-ng">
     <file name="index.html">
