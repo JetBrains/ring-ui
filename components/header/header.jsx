@@ -672,7 +672,8 @@ var Header = React.createClass({
           return {
             href: item.homeUrl,
             label: item.name,
-            type: PopupMenu.ListProps.Type.LINK
+            type: PopupMenu.ListProps.Type.LINK,
+            target: '_self'
           };
         });
 
