@@ -11,33 +11,61 @@ require('../react-ng/react-ng')({
 /**
  * A table component.
  * @example
-  <example>
+<example name="Sidebar-ng">
+  <file name="index.html">
+    <div ng-app="test" ng-controller="tableExample as ctrl">
+      <rg-table-toolbar stick>
+        <div>Some toolbar content</div>
+      </rg-table-toolbar>
 
-    <rg-table-toolbar stick>
-      <div>Some toolbar content</div>
-    </rg-table-toolbar>
+      <rg-table items="ctrl.itemsArray">
+        <rg-table-header>
+          <rg-table-title no-border>Avatar</rg-table-title>
+          <rg-table-title>Check</rg-table-title>
+          <rg-table-title active>Name</rg-table-title>
+        </rg-table-header>
 
-    <rg-table items="itemsArray">
+        <rg-table-row row-item="item" ng-repeat="item in ctrl.itemsArray">
+          <rg-table-column avatar>
+            <img ng-if="::item.iconUrl" ng-src="{{ ::item.iconUrl }}" class="ring-table__avatar__img"/>
+          </rg-table-column>
+            <rg-table-checkbox-cell></rg-table-checkbox-cell>
+            <rg-table-column limited>{{ ::item.name }}</rg-table-column>
+          </rg-table-row>
 
-      <rg-table-header>
-        <rg-table-title no-border>Avatar</rg-table-title>
-        <rg-table-title>Check</rg-table-title>
-        <rg-table-title active>Name</rg-table-title>
-      </rg-table-header>
+        </rg-table>
+      </div>
+    </file>
+    <file name="index.js" webpack="true">
+      require('angular/angular.min.js');
+      require('table-ng/table-ng');
 
-      <rg-table-row row-item="item" ng-repeat="item in itemsArray">
-        <rg-table-column avatar>
-          <img ng-if="::item.iconUrl" ng-src="{{ ::item.iconUrl }}" class="ring-table__avatar__img">
-        </div>
-        <rg-table-checkbox-cell></rg-table-checkbox-cell>
-        <rg-table-column limited>{{ ::item.name }}</rg-table-column>
-      </rg-table-row>
+      angular.module('test', ['Ring.table']).controller('tableExample', function ($scope) {
+        var ctrl = this;
 
-    </rg-table>
+        ctrl.itemsArray = [{
+          name: 'test1',
+          iconUrl: 'https://d13yacurqjgara.cloudfront.net/users/317408/avatars/mini/Layout_Behance_Avatar_(1).jpg?1376382552'
+        }, {
+          name: 'test2 asdfas  sdaf'
+        }, {
+          name: 'asd fasdf asdf asdf'
+        }, {
+          name: 'a sdfa sdfa sdf sdf asdf'
+        }, {
+          name: ' asdf asdf sadf sadf asdf sdf'
+        }, {
+          name: 'as dfasd fs dfsdf sfd'
+        }, {
+          name: 'asdfasd fasd fasdf asdf asdf'
+        }, {
+          name: 'asd fasd asd fasd fsdf sd fsdf'
+        }];
 
+      });
+    </file>
   </example>
- */
-
+*/
 angular.module('Ring.table', ['Ring.table.toolbar'])
   .directive('rgTable', [function () {
     return {
@@ -46,10 +74,10 @@ angular.module('Ring.table', ['Ring.table.toolbar'])
       template: require('./table-ng.html'),
       controllerAs: 'ctrl',
       /**
-       * @param {{
-      *   items: array, items of table
-      *   selection: {TableSelection}?, a selection object link can be provided to use it outside the table
-      * }} scope
+       *{{
+       *   items: array, items of table
+       *   selection: {TableSelection}?, a selection object link can be provided to use it outside the table
+       * }}
        */
       scope: {
         items: '=',
@@ -165,7 +193,7 @@ angular.module('Ring.table', ['Ring.table.toolbar'])
   }])
 /**
  * Table title wrapper, receive next attributes:
- * @param {{
+ * {{
     noBorder: whether or not title contain right border
     active: makes title more bolder
   }}
@@ -190,7 +218,7 @@ angular.module('Ring.table', ['Ring.table.toolbar'])
   }])
 /**
  * Column wrapper, receive next attributes:
- * @param {{
+ * {{
     limited: is column width should be limited,
     wide: for wide columns
     avatar: for columns contains avatar
