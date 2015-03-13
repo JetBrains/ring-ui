@@ -1,0 +1,17 @@
+@import "../global/global";
+
+.ring-select {
+  position: relative;
+  font-size: 13px !important;
+  min-width: 200px;
+  text-align: left;
+
+  &__icons {
+    float: right;
+  }
+
+  &__filter {
+    width: 200px !important;
+    margin: 2*$ring-unit !important;
+  }
+}
