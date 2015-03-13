@@ -1,6 +1,7 @@
 /** @jsx React.DOM */
 
 require('./checkbox.scss');
+require('../form/form');
 var React = require('react');
 var Global = require('global/global');
 var Icon = require('icon/icon');
