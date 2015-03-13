@@ -8,21 +8,22 @@ require('../react-ng/react-ng')({
 
 /*global angular*/
 
-/**
- * A table component.
+/** @name Table-ng
+ * @description A table component.
  * @example
-<example name="Sidebar-ng">
+<example name="Table-ng">
   <file name="index.html">
     <div ng-app="test" ng-controller="tableExample as ctrl">
       <rg-table-toolbar stick>
-        <div>Some toolbar content</div>
+        <div>Some toolbar content. Selected item: {{ctrl.selection.getActiveItem().name}}</div>
       </rg-table-toolbar>
 
-      <rg-table items="ctrl.itemsArray">
+      <rg-table items="ctrl.itemsArray" selection="ctrl.selection">
         <rg-table-header>
           <rg-table-title no-border>Avatar</rg-table-title>
           <rg-table-title>Check</rg-table-title>
           <rg-table-title active>Name</rg-table-title>
+          <rg-table-title>Groups</rg-table-title>
         </rg-table-header>
 
         <rg-table-row row-item="item" ng-repeat="item in ctrl.itemsArray">
@@ -31,8 +32,10 @@ require('../react-ng/react-ng')({
           </rg-table-column>
             <rg-table-checkbox-cell></rg-table-checkbox-cell>
             <rg-table-column limited>{{ ::item.name }}</rg-table-column>
+             <rg-table-column wide limited>
+                <span class="ring-table__column-list" ng-repeat="subItem in ::item.subList">{{ ::subItem.name }}</span>
+             </rg-table-column>
           </rg-table-row>
-
         </rg-table>
       </div>
     </file>
@@ -45,28 +48,26 @@ require('../react-ng/react-ng')({
 
         ctrl.itemsArray = [{
           name: 'test1',
+          subList: [{name: 'some group'}],
           iconUrl: 'https://d13yacurqjgara.cloudfront.net/users/317408/avatars/mini/Layout_Behance_Avatar_(1).jpg?1376382552'
-        }, {
-          name: 'test2 asdfas  sdaf'
-        }, {
-          name: 'asd fasdf asdf asdf'
-        }, {
-          name: 'a sdfa sdfa sdf sdf asdf'
-        }, {
-          name: ' asdf asdf sadf sadf asdf sdf'
-        }, {
-          name: 'as dfasd fs dfsdf sfd'
-        }, {
-          name: 'asdfasd fasd fasdf asdf asdf'
-        }, {
-          name: 'asd fasd asd fasd fsdf sd fsdf'
         }];
+
+        for (var i = 0; i < 20; i++) {
+           ctrl.itemsArray.push({
+              name: Math.random(),
+              subList: [
+                {name: Math.random()},
+                {name: Math.random()},
+                {name: Math.random()}
+              ]
+           });
+        }
 
       });
     </file>
   </example>
 */
-angular.module('Ring.table', ['Ring.table.toolbar'])
+angular.module('Ring.table', ['Ring.table.toolbar', 'Ring.react-ng'])
   .directive('rgTable', [function () {
     return {
       restrict: 'E',
