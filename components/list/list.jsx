@@ -181,7 +181,8 @@ var List = React.createClass({
 
   getInitialState: function () {
     return {
-      activeIndex: null
+      activeIndex: null,
+      activeItem: null
     };
   },
 
@@ -218,7 +219,7 @@ var List = React.createClass({
   },
 
   moveHandler: function (index, retryCallback, e) {
-    this.setState({activeIndex: index, scrolling: true}, function() {
+    this.setState({activeIndex: index, activeItem: this.props.data[index], scrolling: true}, function() {
       if (this.props.data[index].type === Type.HINT || this.props.data[index].type === Type.SEPARATOR) {
         retryCallback(e);
         return;
@@ -283,8 +284,20 @@ var List = React.createClass({
 
   componentWillReceiveProps: function (props) {
     if (props.data) {
+      var restoreIndex = null;
+
+      if(this.state.activeItem && this.state.activeItem.key) {
+        for (var i = 0; i < props.data.length; i++) {
+          // Restore active index if there is item with same "key" property
+          if(props.data[i].key !== undefined && props.data[i].key === this.state.activeItem.key) {
+            restoreIndex = i;
+            break;
+          }
+        }
+      }
+
       this.setState({
-        activeIndex: null
+        activeIndex: restoreIndex
       });
     }
   },
