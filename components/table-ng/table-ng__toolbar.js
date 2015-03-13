@@ -69,10 +69,11 @@ angular.module('Ring.table.toolbar', [])
 
         var toolbarScrollListener = debounce(function () {
 
-          var elementTop = element.getBoundingClientRect().top + $document[0].body.scrollTop;
+          var scrolledTop = ($document[0].documentElement && $document[0].documentElement.scrollTop) || $document[0].body.scrollTop;
+
+          var elementTop = element.getBoundingClientRect().top + scrolledTop;
 
           var toolbarTop = savedToolbarTop || elementTop;
-          var scrolledTop = $window.scrollY;
 
           if (scrolledTop > toolbarTop && !savedToolbarTop) {
             //save height to style to prevent collapsing after fixing controls
