@@ -23,7 +23,7 @@ $sidebar-bottom-spacing: 9999px;
 .ring-sidebar_active {
   left: 50%;
 
-  overflow: scroll;
+  overflow: auto;
   box-shadow: -2px 0 4px 0 #BEBEBE;
 
   .ring-sidebar__i {
