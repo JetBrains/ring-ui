@@ -90,8 +90,10 @@ angular.module('Ring.sidebar', [])
         var syncAndFix = function(syncWithElement) {
           element.style.position = 'fixed';
 
+          var scrolledTop = ($document[0].documentElement && $document[0].documentElement.scrollTop) || $document[0].body.scrollTop;
+
           var syncedElementHeight = syncWithElement.offsetHeight;
-          var syncedElementOffsetTop = syncWithElement.getBoundingClientRect().top + $document[0].body.scrollTop;
+          var syncedElementOffsetTop = syncWithElement.getBoundingClientRect().top + scrolledTop;
 
           var bottom = syncedElementOffsetTop + syncedElementHeight;
 
