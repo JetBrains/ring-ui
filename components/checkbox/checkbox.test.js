@@ -55,6 +55,18 @@ describe('Checkbox', function () {
     clickHandler.should.have.been.called;
   });
 
+  it('should not call handler on change event if disabled', function () {
+    var inputChange = sinon.stub();
+
+    checkbox.setProps({
+      disabled: true,
+      inputChange: inputChange
+    });
+
+    TestUtils.Simulate.click(checkbox.getInputDOMNode());
+    inputChange.should.have.not.been.called;
+  });
+
   it('should be unchecked by default', function () {
     $(checkbox.getInputDOMNode()).should.not.be.checked;
   });
@@ -67,7 +79,15 @@ describe('Checkbox', function () {
     $(checkbox.getInputDOMNode()).should.be.checked;
   });
 
-  it('should check controll on change event', function () {
+  it('should be disabled', function () {
+    checkbox.setProps({
+      disabled: true
+    });
+
+    $(checkbox.getInputDOMNode()).should.be.disabled;
+  });
+
+  it('should check control on change event', function () {
     var eventMock = {
       target: {
         checked: true
