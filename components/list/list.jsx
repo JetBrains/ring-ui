@@ -286,10 +286,10 @@ var List = React.createClass({
     if (props.data) {
       var restoreIndex = null;
 
-      if(this.state.activeItem && this.state.activeItem.key) {
+      if (this.state.activeItem && this.state.activeItem.key) {
         for (var i = 0; i < props.data.length; i++) {
           // Restore active index if there is item with same "key" property
-          if(props.data[i].key !== undefined && props.data[i].key === this.state.activeItem.key) {
+          if (props.data[i].key !== undefined && props.data[i].key === this.state.activeItem.key) {
             restoreIndex = i;
             break;
           }

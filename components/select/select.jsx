@@ -50,7 +50,9 @@ var generateUniqueId = Global.getUIDGenerator('ring-list-');
       {'label': '2One', 'key': '1'},
       {'label': '2Two', 'key': '2'},
       {'label': '2Three', 'key': '3'}
-    ], 'loading': true, 'clear': true});
+    ], 'loading': true, 'clear': true, 'onSelect': function(selected) {
+      console.log(selected);
+    }});
  </file>
  </example>
  */
@@ -68,7 +70,11 @@ var Select = React.createClass({
       label: 'Please select option',
       filterText: 'Filter items',
       notFoundText: 'No options found',
-      shortcuts: true
+      shortcuts: true,
+
+      onSelect: null,   // single + multi
+      onDeselect: null, // multi
+      onChange: null    // multi
     };
   },
 
@@ -76,7 +82,7 @@ var Select = React.createClass({
     return {
       data: [],
       anchorElement: null,
-      selected: null,
+      selected: (this.props.multiple ? [] : null),
       filterString: null,
       popupShortcuts: false,
       hint: null
@@ -86,34 +92,29 @@ var Select = React.createClass({
   getShortcutsProps: function () {
     return {
       map: {
-        enter: this.enterHandler
       },
       scope: generateUniqueId()
     };
   },
 
-  enterHandler: function() {
-    console.error('ENTERERERERE');
-  },
-
   filter: function(filterString) {
     var filteredData = [];
     for (var i = 0; i < this.props.data.length; i++) {
-      if(this.props.data[i].label.match(new RegExp(filterString, 'ig')) || filterString === '') {
+      if (this.props.data[i].label.match(new RegExp(filterString, 'ig')) || filterString === '') {
         this.props.data[i].type = List.ListProps.Type.ITEM;
         filteredData.push(this.props.data[i]);
       }
     }
 
-    if(this.state.filterString !== filterString) {
+    if (this.state.filterString !== filterString) {
       this.setState({filterString: filterString, data: filteredData});
     } else {
-      this.setState({filterString: filterString}); // only for focus() input
+      this.setState({filterString: filterString}); // do this only to focus() input
     }
   },
 
   _buttonClickHandler: function() {
-    if(this.props.filter) {
+    if (this.props.filter) {
       this._filterChangeHandler();
     } else {
       this.setState({
@@ -136,9 +137,10 @@ var Select = React.createClass({
       selected: selected
     });
 
-    if(!this.props.multiple) {
+    if (!this.props.multiple) {
       this.refs.popup.close();
       this.clearFilter();
+      this.props.onSelect && this.props.onSelect(selected);
     }
   },
 
@@ -152,11 +154,11 @@ var Select = React.createClass({
     // set anchor for popup after all childs mount
     this.setState({
       anchorElement: this.refs.button.getDOMNode()
-    })
+    });
   },
 
   componentDidUpdate: function() {
-    if(this.refs.popup.isVisible() && this.isMounted() && this.props.filter) {
+    if (this.refs.popup.isVisible() && this.isMounted() && this.props.filter) {
       this.refs.filter.getDOMNode().focus();
     }
   },
@@ -188,7 +190,7 @@ var Select = React.createClass({
   },
 
   _getFilter: function() {
-    if(this.props.filter) {
+    if (this.props.filter) {
       return (<Input ref="filter" className="ring-select__filter" onClick={this._buttonClickHandler}
         placeholder={this.props.filterText || ''} onInput={this._filterChangeHandler}/>);
     }
