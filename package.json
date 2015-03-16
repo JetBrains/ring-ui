@@ -95,7 +95,7 @@
     "node-xml-lite": "0.0.3",
     "q-fs": "0.1.36",
     "react": "0.11.2",
-    "sass-loader": "0.3.1",
+    "sass-loader": "0.4.2",
     "style-loader": "0.8.2",
     "url-loader": "0.5.5",
     "val-loader": "0.5.0",
