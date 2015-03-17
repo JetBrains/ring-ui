@@ -118,6 +118,8 @@
   height: $ring-unit*2;
 
   background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
 .ring-list__highlight {
