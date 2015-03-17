@@ -28,6 +28,8 @@ var generateUniqueId = Global.getUIDGenerator('ring-list-');
  <example name="Select">
  <file name="index.html">
  <div>
+ <div id="disabled"></div>
+
  <p>Out-of-the-box mode. Single selection without filter and any othe options.</p>
  <div id="singleWithoutFilter"></div>
 
@@ -45,6 +47,9 @@ var generateUniqueId = Global.getUIDGenerator('ring-list-');
  <file name="index.js" webpack="true">
  var React = require('react');
  var Select = require('./select.jsx');
+
+ React.renderComponent(Select({disabled: true}), document.getElementById('disabled'))
+ .setProps({data: []});
 
  React.renderComponent(Select(), document.getElementById('singleWithoutFilter'))
  .setProps({data: [
@@ -122,6 +127,7 @@ var Select = React.createClass({
       multiple: false, // multiple can be an object, see demo to more information
       clear: false,
       loading: false,
+      disabled: false,
 
       selected: null,
 
@@ -237,7 +243,9 @@ var Select = React.createClass({
   },
 
   _buttonClickHandler: function() {
-    this._showPopup();
+    if (!this.props.disabled) {
+      this._showPopup();
+    }
   },
 
   _filterChangeHandler: function() {
@@ -343,8 +351,14 @@ var Select = React.createClass({
   },
 
   render: function () {
+    var cx = React.addons.classSet({
+      'ring-select': true,
+      'ring-btn_disabled': this.props.disabled,
+      'ring-js-shortcuts': true
+    });
+
     return (
-      <Button onClick={this._buttonClickHandler} className="ring-js-shortcuts ring-select">
+      <Button onClick={this._buttonClickHandler} className={cx}>
         {this._getButtonLabel()}
         <span className="ring-select__icons">
           { this.props.loading ? <Loader modifier={Loader.Modifier.INLINE} /> : ''}
