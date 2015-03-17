@@ -3,11 +3,13 @@
 .ring-select {
   position: relative;
   font-size: 13px !important;
-  min-width: 200px;
+  width: 200px !important;
   text-align: left;
 
   &__icons {
-    float: right;
+    position: absolute;
+    top: 0;
+    right: $ring-unit;
   }
 
   &__filter {

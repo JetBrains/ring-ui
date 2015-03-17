@@ -12,6 +12,7 @@ var Input = require('input/input');
 var Icon = require('icon/icon');
 var Button = require('button/button');
 var Loader = require('loader/loader');
+var NgModelMixin = require('ngmodel/ngmodel');
 
 var Shortcuts = require('shortcuts/shortcuts');
 
@@ -27,61 +28,117 @@ var generateUniqueId = Global.getUIDGenerator('ring-list-');
  <example name="Select">
  <file name="index.html">
  <div>
- <div id="demo"></div>
- <br><br><br><br>
- <div id="demo2"></div>
+ <p>Out-of-the-box mode. Single selection without filter and any othe options.</p>
+ <div id="singleWithoutFilter"></div>
+
+ <p>Out-of-the-box mode. Single selection without filter and preselected value.</p>
+ <div id="singleWithoutFilterAndSelectedValue"></div>
+
+ <p>Single selection with filter, "filter" prop defined as object with "placeholder" and preseted "value" (prefilter). Open console to see callbacks.</p>
+ <div id="singleWithFilter"></div>
+
+ <p>Multiple selection with filter, "multiple" prop defined as an object with "disableLabelSelection" to hide selected items from the button. Open console to see callbacks.</p>
+ <div>Selected items: <span id="multipleCustomView"><span></div>
+ <div id="multiple"></div>
  </div>
  </file>
  <file name="index.js" webpack="true">
  var React = require('react');
  var Select = require('./select.jsx');
 
- var select =  React.renderComponent(Select(), document.getElementById('demo'));
- select.setProps({data: [
-      {'label': 'One', 'key': '1'},
-      {'label': 'Two', 'key': '2'},
-      {'label': 'Three', 'key': '3'}
-    ]});
+ React.renderComponent(Select(), document.getElementById('singleWithoutFilter'))
+ .setProps({data: [
+    {'label': 'One', 'key': '1'},
+    {'label': 'Two', 'key': '2'},
+    {'label': 'Three', 'key': '3'}
+  ]});
+
+ React.renderComponent(Select(), document.getElementById('singleWithoutFilterAndSelectedValue'))
+ .setProps({
+  data: [
+    {'label': 'One', 'key': '1'},
+    {'label': 'Two', 'key': '2'},
+    {'label': 'Three', 'key': '3'}
+  ],
+  'selected': {'label': 'One', 'key': '1'}
+  });
 
 
+ React.renderComponent(Select({
+   filter: {
+    placeholder: 'Select me',
+    value: 'One'
+   }
+ }), document.getElementById('singleWithFilter'))
+ .setProps({
+  data: [
+    {'label': 'One', 'key': '1'},
+    {'label': 'Two', 'key': '2'},
+    {'label': 'Three', 'key': '3'}
+  ], 'onSelect': function(selected) {
+    console.log('onSelect, selected item:', selected);
+  }});
 
- var select2 =  React.renderComponent(Select({filter: false}), document.getElementById('demo2'));
- select2.setProps({data: [
-      {'label': '2One', 'key': '1'},
-      {'label': '2Two', 'key': '2'},
-      {'label': '2Three', 'key': '3'}
-    ], 'loading': true, 'clear': true, 'onSelect': function(selected) {
-      console.log(selected);
+ React.renderComponent(Select({
+   filter: true,
+   multiple: {
+    label: 'Change selected items', // override button label if something selected
+    noCheckbox: false,              // hide checkboxes on the list
+    removeSelectedItems: false      // remove selected items from the list, useful with "disableLabelSelection" and custom display
+   }
+ }), document.getElementById('multiple'))
+ .setProps({
+    data: [
+      {'label': 'One long label', 'key': '1'},
+      {'label': 'Two long label', 'key': '2'},
+      {'label': 'Three long label', 'key': '3'}
+    ], 'onSelect': function(selected) {
+      console.log('onSelect, selected item:', selected);
+    }, 'onDeselect': function(deselected) {
+      console.log('onDeselect, deselected item:', deselected);
+    }, 'onChange': function(selection) {
+      console.log('onChange, selection:', selection);
+      var items = [];
+      selection.forEach(function(item) {
+        items.push(item.label);
+      });
+      document.getElementById('multipleCustomView').innerHTML = items.join(', ');
     }});
  </file>
  </example>
  */
+var ngModelStateField = 'selected';
 var Select = React.createClass({
-  mixins: [Shortcuts.Mixin],
+  mixins: [Shortcuts.Mixin, NgModelMixin],
+  ngModelStateField: ngModelStateField,
+  statics: {
+    ngModelStateField: ngModelStateField
+  },
 
   getDefaultProps: function () {
     return {
       data: [],
-      filter: true,
-      multiple: false,
+      filter: false,
+      multiple: false, // multiple can be an object, see demo to more information
       clear: false,
       loading: false,
+
+      selected: null,
 
       label: 'Please select option',
       filterText: 'Filter items',
       notFoundText: 'No options found',
       shortcuts: true,
 
-      onSelect: null,   // single + multi
-      onDeselect: null, // multi
-      onChange: null    // multi
+      onSelect: function() {},   // single + multi
+      onDeselect: function() {}, // multi
+      onChange: function() {}    // multi
     };
   },
 
   getInitialState: function() {
     return {
       data: [],
-      anchorElement: null,
       selected: (this.props.multiple ? [] : null),
       filterString: null,
       popupShortcuts: false,
@@ -97,75 +154,149 @@ var Select = React.createClass({
     };
   },
 
+  componentWillMount: function() {
+    // set selected element if it is defined on initialization
+    if (this.props.selected) {
+      this.setState({
+        selected: this.props.selected
+      });
+    }
+  },
+
+  componentDidMount: function() {
+    this._createPopup();
+  },
+
+  componentWillReceiveProps: function(newProps) {
+    if (newProps.selected) {
+      this.setState({
+        selected: newProps.selected
+      });
+    }
+  },
+
+  _popup: null,
+  _createPopup: function() {
+    if (!this._popup) {
+      this._popup = Popup.renderComponent(
+        <SelectPopup
+          filter={this.props.filter} // object
+          notFoundText={this.props.notFoundText}
+          anchorElement={this.getDOMNode()}
+          shortcuts={true}
+          onClose={this._onClose}
+          onSelect={this._listSelectHandler}
+          onFilter={this._filterChangeHandler}
+          SelectPopup/>);
+    }
+  },
+
+  _showPopup: function() {
+    var newData = this.filter(this._popup.getFilter());
+
+    this._popup.setProps({
+      data: newData
+    }, function() {
+      this._popup.show();
+    }.bind(this));
+  },
+
+  _hidePopup: function() {
+    this._popup.hide();
+  },
+
   filter: function(filterString) {
     var filteredData = [];
     for (var i = 0; i < this.props.data.length; i++) {
-      if (this.props.data[i].label.match(new RegExp(filterString, 'ig')) || filterString === '') {
-        this.props.data[i].type = List.ListProps.Type.ITEM;
-        filteredData.push(this.props.data[i]);
+      var item = this.props.data[i];
+      if (item.label.match(new RegExp(filterString, 'ig')) || filterString === '') {
+        item.type = List.ListProps.Type.ITEM;
+
+        if (this.props.multiple && !this.props.multiple.noCheckbox) {
+          item.checkbox = !!this._multipleMap[item.key];
+        }
+
+        if (!(this.props.multiple && this.props.multiple.removeSelectedItems && this._multipleMap[item.key])) {
+          filteredData.push(item);
+        }
       }
     }
 
-    if (this.state.filterString !== filterString) {
-      this.setState({filterString: filterString, data: filteredData});
-    } else {
-      this.setState({filterString: filterString}); // do this only to focus() input
+    return filteredData;
+  },
+
+  fixKeys: function(data) {
+    var uniqueKey = 0;
+    for (var i = 0; i < data.length; i++) {
+      if (data[i].key === undefined) {
+        data[i].key = uniqueKey;
+        uniqueKey++;
+      }
     }
+    return data;
   },
 
   _buttonClickHandler: function() {
-    if (this.props.filter) {
-      this._filterChangeHandler();
-    } else {
-      this.setState({
-        data: this.props.data
-      });
-    }
-
-    this.refs.popup.show();
-    this.setState({
-      popupShortcuts: true
-    });
+    this._showPopup();
   },
 
   _filterChangeHandler: function() {
-    this.filter(this.refs.filter.getDOMNode().value);
+    this._showPopup();
   },
 
+  _multipleMap: {},
   _listSelectHandler: function(selected) {
-    this.setState({
-      selected: selected
-    });
-
     if (!this.props.multiple) {
-      this.refs.popup.close();
+      this.setState({
+        selected: selected
+      });
+
       this.clearFilter();
-      this.props.onSelect && this.props.onSelect(selected);
+      this.props.onSelect(selected);
+      this._hidePopup();
+    } else {
+      if (!selected.key) {
+        throw new Error('Multiple selection require "key" property on each item of the list');
+      }
+      var currentSelection = this.state.selected;
+      if (!this._multipleMap[selected.key]) {
+        this._multipleMap[selected.key] = true;
+        currentSelection.push(selected);
+        this.props.onSelect && this.props.onSelect(selected);
+      } else {
+        delete this._multipleMap[selected.key];
+        for (var i = 0; i < currentSelection.length; i++) {
+          if (selected.key === currentSelection[i].key) {
+            currentSelection.splice(i, 1);
+            break;
+          }
+        }
+        this.props.onDeselect && this.props.onDeselect(selected);
+      }
+
+      this.setState({
+        selected: currentSelection
+      }, function() {
+        // redraw items
+        if (this.props.multiple) {
+          // setTimeout solves events order and bubbling issue
+          setTimeout(function() {
+            this._showPopup();
+          }.bind(this), 0);
+        }
+      });
+
+      this.props.onChange && this.props.onChange(currentSelection);
     }
   },
 
   _onClose: function() {
-    this.setState({
-      popupShortcuts: false
-    });
-  },
-
-  componentDidMount: function() {
-    // set anchor for popup after all childs mount
-    this.setState({
-      anchorElement: this.refs.button.getDOMNode()
-    });
-  },
-
-  componentDidUpdate: function() {
-    if (this.refs.popup.isVisible() && this.isMounted() && this.props.filter) {
-      this.refs.filter.getDOMNode().focus();
-    }
+    this._hidePopup();
   },
 
   clearFilter: function() {
     if (this.props.filter) {
-      this.refs.filter.getDOMNode().value = '';
+      this._popup.setFilter('');
     }
   },
 
@@ -184,50 +315,137 @@ var Select = React.createClass({
   _getClearButton: function() {
     if (this.props.clear && this.state.selected) {
       return (<span className="ring-link" onClick={this.clear}>
-        <Icon glyph="close" size="14"/>
+        <Icon glyph="close" size={Icon.Size.Size14}/>
       </span>);
     }
   },
 
-  _getFilter: function() {
-    if (this.props.filter) {
-      return (<Input ref="filter" className="ring-select__filter" onClick={this._buttonClickHandler}
-        placeholder={this.props.filterText || ''} onInput={this._filterChangeHandler}/>);
+  _getButtonLabel: function() {
+    if (this.props.multiple) {
+      if (this.props.multiple.label) {
+        if (!this.state.selected.length) {
+          return this.props.label;
+        } else {
+          return this.props.multiple.label;
+        }
+      } else {
+        var labels = [];
+        for (var i = 0; i < this.state.selected.length; i++) {
+          labels.push(this.state.selected[i].label);
+        }
+        return labels.join(', ');
+      }
+    } else if (this.state.selected) {
+      return this.state.selected.label;
+    } else {
+      return this.props.label;
     }
   },
 
   render: function () {
-    var hint = null;
-    if (!this.state.data.length) {
-      hint = this.props.notFoundText;
-    }
-
-    return (<div className="ring-js-shortcuts">
-      <Button ref="button" onClick={this._buttonClickHandler} className="ring-select">
-        {this.state.selected ? this.state.selected.label : this.props.label}
+    return (
+      <Button onClick={this._buttonClickHandler} className="ring-js-shortcuts ring-select">
+        {this._getButtonLabel()}
         <span className="ring-select__icons">
           { this.props.loading ? <Loader modifier={Loader.Modifier.INLINE} /> : ''}
           { this._getClearButton() }
-          <Icon glyph="caret-down" size="14" />
+          <Icon glyph="caret-down" size={Icon.Size.Size14} />
         </span>
-      </Button>
-      <Popup
-        ref="popup"
-        hidden={true}
-        cutEdge={false}
-        anchorElement={this.state.anchorElement}
-        autoRemove={false} // @todo: there is an error with autoRemove=true and no _wrapper in popup
+      </Button>);
+  }
+});
+
+var SelectPopup = React.createClass({
+  getDefaultProps: function() {
+    return {
+      data: [],
+      filter: false, // can be bool or object with props: "value" and "placeholder"
+      anchorElement: null,
+      notFoundText: '',
+      onSelect: function() {},
+      onClose: function() {},
+      onFilter: function() {}
+    };
+  },
+
+  getInitialState: function() {
+    return {
+     popupShortcuts: false
+    };
+  },
+
+  _filterNode: null,
+
+  componentDidMount: function() {
+    if (this.props.filter) {
+      this._filterNode = this.refs.filter.getDOMNode();
+      if (this.props.filter.value) {
+        this.setFilter(this.props.filter.value);
+      }
+      this.focusFilter();
+    }
+  },
+
+  componentDidUpdate: function() {
+    this.focusFilter();
+  },
+
+  setFilter: function(value) {
+    this.props.filter && (this._filterNode.value = value);
+  },
+
+  getFilter: function() {
+    return this.props.filter ? this._filterNode.value : '';
+  },
+
+  focusFilter: function() {
+    this.props.filter && this._filterNode.focus();
+  },
+
+  show: function() {
+    this.refs.popup.show(function() {
+      this.focusFilter();
+    }.bind(this));
+
+    this.setState({
+      popupShortcuts: true
+    });
+  },
+
+  hide: function() {
+    this.refs.popup.hide();
+
+    this.setState({
+      popupShortcuts: false
+    });
+  },
+
+  _getFilter: function() {
+    if (this.props.filter) {
+      return (<Input ref="filter" className="ring-select__filter ring-js-shortcuts"
+        placeholder={this.props.filter.placeholder || ''} onInput={this.props.onFilter} />);
+    }
+  },
+
+  render: function() {
+    var hint = !this.props.data.length ? this.props.notFoundText : '';
+
+    return (<Popup
+      ref="popup"
+      hidden={true}
+      cutEdge={false}
+      anchorElement={this.props.anchorElement}
+      autoRemove={false}
+      shortcuts={this.state.popupShortcuts}
+      onClose={this.props.onClose}>
+      {this._getFilter()}
+      <List
+        data={this.props.data}
+        restoreActiveIndex={true}
+        onSelect={this.props.onSelect}
         shortcuts={this.state.popupShortcuts}
-        onClose={this._onClose}>
-          {this._getFilter()}
-          <List
-            ref="list"
-            data={this.state.data}
-            onSelect={this._listSelectHandler}
-            shortcuts={this.state.popupShortcuts}
-            hint={hint}/>
-      </Popup>
-    </div>);
+        hint={hint}/>
+    </Popup>);
   }
 });
 

@@ -162,20 +162,20 @@ var PopupMixin = {
     return onCloseResult;
   },
 
-  hide: function() {
+  hide: function(cb) {
     this.setState({
       hidden: true,
       shortcuts: false
-    });
+    }, cb);
 
     this._setListenersEnabled(false);
   },
 
-  show: function() {
+  show: function(cb) {
     this.setState({
       hidden: false,
       shortcuts: true
-    });
+    }, cb);
 
     this._setListenersEnabled(true);
   },

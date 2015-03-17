@@ -9,6 +9,7 @@ var debounce = require('mout/function/debounce');
 
 var Shortcuts = require('shortcuts/shortcuts');
 var Global = require('global/global');
+var Icon = require('icon/icon');
 
 var generateUniqueId = Global.getUIDGenerator('ring-list-');
 
@@ -61,6 +62,13 @@ var ListItem = React.createClass({
     return {active: false};
   },
 
+  getCheckbox: function() {
+    if (this.props.checkbox !== undefined) {
+      var cn = 'ring-list__checkbox' + (this.props.checkbox ? '' : ' ring-list__checkbox_hidden');
+      return (<Icon className={cn} glyph="check" size={Icon.Size.Size18}/>);
+    }
+  },
+
   /** @override */
   render: function () {
     var classes = React.addons.classSet({
@@ -71,8 +79,9 @@ var ListItem = React.createClass({
 
     return this.transferPropsTo(
       <span className={classes}>
+        {this.getCheckbox()}
         {this.props.description &&
-            <div className="ring-list__description">{this.props.description}</div>}
+          <div className="ring-list__description">{this.props.description}</div>}
         {this.props.icon &&
           <div className="ring-list__icon" style={{'background-image': 'url("' + this.props.icon + '")'}}></div>}
         {this.props.label}
@@ -174,7 +183,8 @@ var List = React.createClass({
   getDefaultProps: function () {
     return {
       data: [],
-      onSelect: function(){},
+      restoreActiveIndex: false,
+      onSelect: function() {},
       shortcuts: false
     };
   },
@@ -286,7 +296,7 @@ var List = React.createClass({
     if (props.data) {
       var restoreIndex = null;
 
-      if (this.state.activeItem && this.state.activeItem.key) {
+      if (this.props.restoreActiveIndex && this.state.activeItem && this.state.activeItem.key) {
         for (var i = 0; i < props.data.length; i++) {
           // Restore active index if there is item with same "key" property
           if (props.data[i].key !== undefined && props.data[i].key === this.state.activeItem.key) {
