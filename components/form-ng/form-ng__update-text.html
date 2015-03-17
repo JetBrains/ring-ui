@@ -1,0 +1,33 @@
+<div class="ring-form__group">
+  <label class="ring-form__label" ng-attr-for="{{ inputId }}">{{ label }}</label>
+
+  <div class="ring-form__control">
+    <div class="ring-form__update-text" ng-form="form">
+      <input name="input" ng-attr-id="{{ inputId }}" ng-if="!isMultiLine()"
+             class="ring-input ring-form__update-text__field"
+             ng-class="isLong() && 'ring-form__update-text__field_long'"
+             ng-model="item[field]" ng-disabled="ngDisabled"
+             placeholder="{{ placeholder }}"
+             ng-attr-type="{{ type }}"
+             ng-required="!isMultiLine() && ngRequired"
+             ng-keydown="inputKey($event)"/>
+            <textarea name="input" ng-attr-id="{{ inputId }}" ng-if="isMultiLine()" msd-elastic="\n"
+                      class="ring-input ring-form__update-text__field ring-form__update-text__field_high"
+                      ng-class="isLong() && 'ring-form__update-text__field_long'"
+                      ng-model="item[field]" ng-disabled="ngDisabled"
+                      ng-required="isMultiLine() && ngRequired"
+                      placeholder="{{ placeholder }}"
+                      ng-keydown="inputKey($event)"></textarea>
+      <button ng-show="form.input.$dirty && initial !== item[field] && form.input.$valid"
+              class="ring-btn ring-btn_blue ring-form__update-text__button"
+              ng-click="changed($event)"
+              translate>Save</button>
+      <button ng-show="done" disabled
+              class="ring-btn ring-form__update-text__button"
+              translate>Saved</button>
+            <span ng-show="form.input.$dirty && initial !== item[field] && !form.input.$valid"
+                  class="ring-form__update-text__error">{{ errorMessage(form.input.$error) }}</span>
+    </div>
+    <span class="ring-form__control__description" ng-if="description">{{ description }}</span>
+  </div>
+</div>
