@@ -65,7 +65,7 @@ authModule.provider('auth', ['$httpProvider', function ($httpProvider) {
     };
   }]);
 
-  this.$get = ['$injector', '$log', function ($injector, $log) {
+  this.$get = ['$injector', '$log', '$sniffer', function ($injector, $log, $sniffer) {
     // Do not try to init anything without config
     if (!auth) {
       $log.warn('Auth wasn\'t initialized');
@@ -91,7 +91,16 @@ authModule.provider('auth', ['$httpProvider', function ($httpProvider) {
 
         if (restoreLocationURL.indexOf(baseURI) === 0) {
           var relativeURI = restoreLocationURL.substr(baseURI.length);
-          $injector.get('$location').url(relativeURI).replace();
+          var $location = $injector.get('$location');
+
+          // We have to turn url with hash to simple relative url in HashbangInHtml5 mode
+          // And there is no other and documented way to detect that mode
+          // @see http://stackoverflow.com/a/16678065
+          if ($location.$$html5 && !$sniffer.history) {
+            relativeURI = relativeURI.replace(/^#\//, '');
+          }
+
+          $location.url(relativeURI).replace();
         }
       }
     };
