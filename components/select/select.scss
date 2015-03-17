@@ -1,19 +1,19 @@
 @import "../global/global";
 
-.ring-select {
+.ring-btn.ring-select {
   position: relative;
-  font-size: 13px !important;
-  width: 200px !important;
+  font-size: 13px;
+  width: 200px;
   text-align: left;
+}
 
-  &__icons {
+  .ring-select__icons {
     position: absolute;
     top: 0;
     right: $ring-unit;
   }
 
-  &__filter {
-    width: 200px !important;
-    margin: 2*$ring-unit !important;
+  .ring-input.ring-select__filter {
+    width: 200px;
+    margin: 2*$ring-unit;
   }
-}
