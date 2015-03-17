@@ -5,23 +5,53 @@ var PopupMenu = require('popup-menu/popup-menu');
  * @constructor
  * @description Directive for dropdowns in angular apps
  * @example
- <example name="dropdown-ng">
-    <button class="ring-btn"
-            rg-dropdown
-            items="['test1', 'test2']"
-            on-item-select="onSelect"
-            config="{corner: 2, autoRemove: true, direction: 8}">
+<example name="dropdown-ng">
+  <file name="index.html">
+    <div ng-app='dropTest' ng-controller='testController as ctrl'>
+      <button class="ring-btn"
+              rg-dropdown
+              items="ctrl.items"
+              label-field="displayName"
+              on-item-select="ctrl.onSelect"
+              config="{corner: 2, autoRemove: true, direction: 8}">
         Do something
-    </button>
-    <button class="ring-btn"
-            rg-dropdown
-            items-src="functionWhichReturnsPromiseForLazyLoad"
-            on-item-select="onSelect"
-            config="{corner: 2, autoRemove: true, direction: 8}">
-      Do something
-    </button>
- </example>
- */
+      </button>
+      <button class="ring-btn"
+              rg-dropdown
+              items-src="ctrl.promiseSrc"
+              on-item-select="ctrl.onSelect"
+              config="{corner: 2, autoRemove: true, direction: 8}">
+        Do something
+      </button>
+    </div>
+  </file>
+  <file name="index.js" webpack="true">
+    require('button/button.scss');
+    require('angular/angular.min.js');
+    require('dropdown-ng/dropdown-ng');
+
+    angular.module('dropTest', ['Ring.dropdown'])
+      .controller('testController', function($q, $scope){
+        var ctrl = this;
+
+        ctrl.items = [
+          {displayName: 'Value is 1', key: 1},
+          {displayName: 'Value is 2', key: 2}
+        ];
+
+        ctrl.promiseSrc = function(){
+          var defer = $q.defer();
+          defer.resolve(['HELLO from promise', 'HELLO2']);
+          return defer.promise;
+        };
+
+        ctrl.onSelect = function(item){
+           alert('Selected ' + JSON.stringify(item));
+        }
+      });
+  </file>
+</example>
+*/
 
 /* globals angular */
 angular.module('Ring.dropdown', [])
