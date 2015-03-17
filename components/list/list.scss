@@ -127,3 +127,14 @@
 .ring-list__service {
   color: #B4B4B4;
 }
+
+.ring-list__checkbox {
+  color: #888;
+  position: relative;
+  top: -2px;
+  width: 20px;
+
+  &_hidden {
+    visibility: hidden;
+  }
+}
