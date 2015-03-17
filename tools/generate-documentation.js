@@ -295,8 +295,7 @@ var dgeni = new Dgeni([
       './breadcrumb-ng/breadcrumb-ng.js',
       './sidebar-ng/sidebar-ng.js',
       './analytics-ng/analytics-ng.js',
-      './error-page-ng/error-page-ng.js',
-      './dropdown-ng/dropdown-ng.js'
+      './error-page-ng/error-page-ng.js'
     ];
 
     /**
