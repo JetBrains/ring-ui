@@ -79,6 +79,7 @@
     "yargs": "1.3.3"
   },
   "dependencies": {
+    "angular-elastic": "2.3.5",
     "autoprefixer-loader": "1.0.0",
     "bowser": "0.7.2",
     "codemirror": "4.11.0",
