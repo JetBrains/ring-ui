@@ -26,6 +26,7 @@ var PopupMenu = require('popup-menu/popup-menu');
 /* globals angular */
 angular.module('Ring.dropdown', [])
   .directive('rgDropdown', function() {
+    var OPEN_POPUP_CLASS_NAME = 'dropdown-ng_open';
     return {
       restrict: 'A',
       scope: {
@@ -47,7 +48,10 @@ angular.module('Ring.dropdown', [])
           autoRemove: false,
           cutEdge: false,
           hidden: true,
-          top: 2
+          top: 2,
+          onClose: function () {
+            $element.removeClass(OPEN_POPUP_CLASS_NAME);
+          }
         });
 
         function getItemType(item) {
@@ -118,6 +122,8 @@ angular.module('Ring.dropdown', [])
           } else if (popupMenuInstance) {
             popupMenuInstance.show();
           }
+
+          $element.addClass(OPEN_POPUP_CLASS_NAME);
           $event.stopPropagation();
         });
 
