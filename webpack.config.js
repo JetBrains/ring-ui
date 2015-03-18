@@ -51,6 +51,11 @@ module.exports = {
           'css'
         ]
       },
+      //ng-annotate loader for angular components
+      {
+        test: /(ng).*\.js$/,
+        loader: 'ng-annotate'
+      },
       //jsx loader
       {
         test: /\.jsx$/,
