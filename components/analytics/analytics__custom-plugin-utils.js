@@ -1,5 +1,3 @@
-'use sctrict';
-
 var browser = require('bowser').browser;
 
 var AnalyticsCustomPluginUtils = {};
