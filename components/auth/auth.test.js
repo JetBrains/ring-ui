@@ -125,16 +125,21 @@ describe('Auth', function () {
 
   describe('validateAgainstUser', function () {
     var auth = new Auth({
-      serverUri: '',
+      serverUri: 'http://server',
+      redirect_uri: 'http://client',
       scopes: ['0-0-0-0-0', 'youtrack'],
       optionalScopes: ['youtrack']
     });
 
+    var hasCors = Auth.HAS_CORS;
+
     beforeEach(function () {
+      Auth.HAS_CORS = true;
       this.sinon.stub(Auth.prototype, 'getSecure');
     });
 
     afterEach(function () {
+      Auth.HAS_CORS = hasCors;
       Auth.prototype.getSecure.restore();
     });
 
@@ -148,6 +153,19 @@ describe('Auth', function () {
         }).
         should.eventually.be.deep.equal(token);
     });
+
+    it('should not validate user when CORS is disabled', function () {
+      var token = { access_token: 'token' };
+      Auth.HAS_CORS = false;
+
+      return auth._validateAgainstUser(token).
+        then(function (validToken) {
+          Auth.prototype.getSecure.should.not.have.been.called;
+          return validToken;
+        }).
+        should.eventually.be.deep.equal(token);
+    });
+
 
     it('should reject with redirect if 401 response recieved', function () {
       var token = { access_token: 'token' };
