@@ -13,7 +13,7 @@ require('../react-ng/react-ng')({
  * @example
 <example name="Table-ng">
   <file name="index.html">
-    <div ng-app="test" ng-controller="tableExample as ctrl">
+    <div ng-app="test" ng-controller="tableExample as ctrl" ng-strict-di>
       <rg-table-toolbar stick>
         <div>Some toolbar content. Selected item: {{ctrl.selection.getActiveItem().name}}</div>
       </rg-table-toolbar>
@@ -68,7 +68,7 @@ require('../react-ng/react-ng')({
   </example>
 */
 angular.module('Ring.table', ['Ring.table.toolbar', 'Ring.react-ng'])
-  .directive('rgTable', [function () {
+  .directive('rgTable', function () {
     return {
       restrict: 'E',
       transclude: true,
@@ -86,7 +86,7 @@ angular.module('Ring.table', ['Ring.table.toolbar', 'Ring.react-ng'])
         disableSelection: '@'
       },
       bindToController: true,
-      controller: ['$scope', function ($scope) {
+      controller: function ($scope) {
         var self = this;
 
         if (self.disableSelection) {
@@ -112,26 +112,26 @@ angular.module('Ring.table', ['Ring.table.toolbar', 'Ring.react-ng'])
           }
         });
 
-      }]
+      }
     };
-  }])
-  .directive('rgTableHeader', [function () {
+  })
+  .directive('rgTableHeader', function () {
     return {
       restrict: 'E',
       template: '<thead><tr class="ring-table__header" ng-transclude></tr></thead>',
       transclude: true,
       replace: true
     };
-  }])
-  .directive('rgTableBody', [function () {
+  })
+  .directive('rgTableBody', function () {
     return {
       restrict: 'E',
       template: '<tbody ng-transclude></tbody>',
       transclude: true,
       replace: true
     };
-  }])
-  .directive('rgTableRow', [function () {
+  })
+  .directive('rgTableRow', function () {
     return {
       template: require('./table-ng__row.html'),
       restrict: 'E',
@@ -172,11 +172,11 @@ angular.module('Ring.table', ['Ring.table.toolbar', 'Ring.react-ng'])
         });
       }]
     };
-  }])
+  })
   /**
    * A checkbox cell for table. Uses rg-table-row parent directive as model hoster
    */
-  .directive('rgTableCheckboxCell', [function () {
+  .directive('rgTableCheckboxCell', function () {
     return {
       restrict: 'E',
       transclude: true,
@@ -191,7 +191,7 @@ angular.module('Ring.table', ['Ring.table.toolbar', 'Ring.react-ng'])
         scope.isEmbedded = angular.isDefined(iAttrs.embedded);
       }
     };
-  }])
+  })
 /**
  * Table title wrapper, receive next attributes:
  * {{
@@ -199,7 +199,7 @@ angular.module('Ring.table', ['Ring.table.toolbar', 'Ring.react-ng'])
     active: makes title more bolder
   }}
  */
-  .directive('rgTableTitle', [function () {
+  .directive('rgTableTitle', function () {
     return {
       restrict: 'E',
       transclude: true,
@@ -216,7 +216,7 @@ angular.module('Ring.table', ['Ring.table.toolbar', 'Ring.react-ng'])
         scope.isPullLeft = angular.isDefined(iAttrs.pullLeft);
       }
     };
-  }])
+  })
 /**
  * Column wrapper, receive next attributes:
  * {{
@@ -225,7 +225,7 @@ angular.module('Ring.table', ['Ring.table.toolbar', 'Ring.react-ng'])
     avatar: for columns contains avatar
   }}
  */
-  .directive('rgTableColumn', [function () {
+  .directive('rgTableColumn', function () {
     return {
       restrict: 'E',
       transclude: true,
@@ -242,7 +242,7 @@ angular.module('Ring.table', ['Ring.table.toolbar', 'Ring.react-ng'])
         scope.isPullLeft = angular.isDefined(iAttrs.pullLeft);
       }
     };
-  }])
+  })
 /**
  * Class with default hotkeys navigation actions (e.g. select, clear selection, move up/down)
  */
