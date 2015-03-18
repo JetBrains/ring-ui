@@ -28,6 +28,6 @@
             <span ng-show="form.input.$dirty && initial !== item[field] && !form.input.$valid"
                   class="ring-form__update-text__error">{{ errorMessage(form.input.$error) }}</span>
     </div>
-    <span class="ring-form__control__description" ng-if="description">{{ description }}</span>
+    <span class="ring-form__control__description" ng-if="description" ng-bind-html="description"></span>
   </div>
 </div>
