@@ -1,5 +1,3 @@
-'use sctrict';
-
 var AnalyticsCustomPluginUtils = require('./analytics__custom-plugin-utils');
 
 var AnalyticsCustomPlugin = function (send, isDevelopment, flushInterval) {
