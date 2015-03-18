@@ -5,7 +5,16 @@
   font-size: 13px;
   width: 200px;
   text-align: left;
+  white-space: nowrap;
 }
+
+  .ring-select__label {
+    width: 100%;
+    text-overflow: ellipsis;
+    display: inline-block;
+    overflow: hidden;
+    padding-right: 3*$ring-unit;
+  }
 
   .ring-select__icons {
     position: absolute;
