@@ -74,14 +74,17 @@ var ListItem = React.createClass({
   render: function () {
     var classes = React.addons.classSet({
       'ring-list__item': true,
-      'ring-list__item_action': true,
-      'ring-list__item_active': this.props.active
+      'ring-list__item_action': !this.props.disabled,
+      'ring-list__item_active': this.props.active && !this.props.disabled
     });
 
+    var style = {
+      'padding-left': (+this.props.level * 8 + 16) + 'px'
+    };
+
     return this.transferPropsTo(
-      <span className={classes}>
+      <span className={classes} style={style}>
         {this.getCheckbox()}
-        {this.props.add && <Icon className="ring-list__plus" glyph="add" size={Icon.Size.Size12}/>}
         {this.props.description &&
           <div className="ring-list__description">{this.props.description}</div>}
         {this.props.icon &&
