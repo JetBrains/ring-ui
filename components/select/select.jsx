@@ -77,6 +77,12 @@ var generateUniqueId = Global.getUIDGenerator('ring-list-');
    }
  }), document.getElementById('singleWithFilter'))
  .setProps({
+  add: {
+    prefix: 'Add name',
+    callback: function(value) {
+      console.log('Add', value);
+    }
+  },
   data: [
     {'label': 'One', 'key': '1'},
     {'label': 'Two', 'key': '2'},
@@ -87,9 +93,13 @@ var generateUniqueId = Global.getUIDGenerator('ring-list-');
 
  React.renderComponent(Select({
    filter: true,
+   add: {
+    callback: function() {
+      console.log('Add', value);
+    }
+   },
    multiple: {
     label: 'Change selected items', // override button label if something selected
-    noCheckbox: false,              // hide checkboxes on the list
     removeSelectedItems: false      // remove selected items from the list, useful with "disableLabelSelection" and custom display
    }
  }), document.getElementById('multiple'))
@@ -213,13 +223,19 @@ var Select = React.createClass({
   },
 
   filter: function(filterString) {
+    filterString = filterString.trim();
+
     var filteredData = [];
+    var exectMatch = false;
+    var regexp = this.props.filter.regexp || new RegExp(filterString, 'ig');
     for (var i = 0; i < this.props.data.length; i++) {
       var item = this.props.data[i];
-      if (item.label.match(new RegExp(filterString, 'ig')) || filterString === '') {
+      if (item.label.match(regexp) || filterString === '') {
         item.type = List.ListProps.Type.ITEM;
 
-        if (this.props.multiple && !this.props.multiple.noCheckbox) {
+        exectMatch |= (item.label === filterString);
+
+        if (this.props.multiple && !this.props.multiple.removeSelectedItems) {
           item.checkbox = !!this._multipleMap[item.key];
         }
 
@@ -229,7 +245,37 @@ var Select = React.createClass({
       }
     }
 
+    if (this.props.add && this.props.add.callback && filterString && !exectMatch) {
+      if (this.props.add.regexp && !this.props.add.regexp.test(filterString)) {
+        return;
+      }
+
+      if (this.props.add.minlength && filterString.length < +this.props.add.minlength) {
+        return;
+      }
+
+      if (filteredData.length) {
+        filteredData.push({
+          type: List.ListProps.Type.SEPARATOR
+        });
+      }
+
+      filteredData.push({
+        type: List.ListProps.Type.ADD,
+        ignoreOnSelect: true,
+        prefix: this.props.add.prefix,
+        label: filterString,
+        onClick: function() {
+          this.props.add.callback(filterString);
+        }.bind(this)
+      });
+    }
+
     return filteredData;
+  },
+
+  hasFilter: function() {
+    return this.props.filter;
   },
 
   fixKeys: function(data) {
@@ -255,6 +301,10 @@ var Select = React.createClass({
 
   _multipleMap: {},
   _listSelectHandler: function(selected) {
+    if (selected.ignoreOnSelect) {
+      return;
+    }
+
     if (!this.props.multiple) {
       this.setState({
         selected: selected
