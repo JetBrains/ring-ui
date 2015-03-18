@@ -37,7 +37,7 @@ require('../react-ng/react-ng')({
 
 /*global angular*/
 angular.module('Ring.sidebar', [])
-  .directive('rgSidebar', ['$window', '$document', function ($window, $document) {
+  .directive('rgSidebar', ['$window', '$document', '$timeout', function ($window, $document) {
     var DEBOUNCE_INTERVAL = 10;
 
     return {
@@ -126,12 +126,14 @@ angular.module('Ring.sidebar', [])
 
 
         if (scope.placeUnderSibling) {
-          var syncWith = element.parentNode.querySelector(scope.placeUnderSibling);
-          if (syncWith) {
-            syncPositionWith(syncWith);
-          } else {
-            throw new Error('Sidebar can\'t find element to sync with.');
-          }
+          scope.$evalAsync(function sync() {
+            var syncWith = element.parentNode.querySelector(scope.placeUnderSibling);
+            if (syncWith) {
+              syncPositionWith(syncWith);
+            } else {
+              throw new Error('Sidebar can\'t find element to sync with.');
+            }
+          });
         }
       }
     };
