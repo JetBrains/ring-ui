@@ -1,6 +1,5 @@
 require('../sidebar/sidebar.scss');
 var debounce = require('mout/function/debounce');
-var FIXED_ATTR = 'element-fixed';
 
 require('../react-ng/react-ng')({
   Icon: require('../icon/icon.jsx')
@@ -10,10 +9,7 @@ require('../react-ng/react-ng')({
  * @name A sidebar directive.
  * @description Sidebar trying to fill all right half of container.
  * To make sidebar fixed positioned under some other element (e.g. toolbar)
- * that element selector should be passed as placeUnderSibling param. That element
- * should support specific interface exposing - adding attribute 'element-fixed="true"'
- * when becomes fixed and removing it when becomes normally positioned.
- * Container should have overflow-x: hidden and relative positioned if sidebar should be positioned inside it.
+ * that element selector should be passed as placeUnderSibling param.
  * @example
   <example name="Sidebar-ng">
     <file name="index.html">
@@ -37,7 +33,7 @@ require('../react-ng/react-ng')({
 
 /*global angular*/
 angular.module('Ring.sidebar', [])
-  .directive('rgSidebar', ['$window', '$document', '$timeout', function ($window, $document) {
+  .directive('rgSidebar', ['$window', '$document', function ($window, $document) {
     var DEBOUNCE_INTERVAL = 10;
 
     return {
@@ -48,7 +44,7 @@ angular.module('Ring.sidebar', [])
       /**
       * {{
       *   show: boolean,
-      *   placeUnderSibling: ?string, an selector to stick sidebar. That element should set 'element-fixed' attribute when becomes fixed
+      *   placeUnderSibling: ?string, an selector to stick sidebar
       *   topOffset: ?number, an offset from top for sidebar
       * }}
       */
@@ -66,53 +62,23 @@ angular.module('Ring.sidebar', [])
         scope.topOffset = scope.topOffset || 0;
 
         /**
-         * Checks is syncWithElement or his child fixed or not
-         * @param syncWithElement
-         * @returns {boolean}
-         */
-        var isSyncWithElementFixed = function(syncWithElement) {
-          return syncWithElement.getAttribute(FIXED_ATTR) !== null;
-        };
-
-        /**
-         * Just places sidebar with absolutePosition and top offset equal to syncWithElement height
-         * @param syncWithElement
-         */
-        var syncWithoutFixing = function(syncWithElement) {
-          element.style.position = 'absolute';
-          element.style.marginTop = syncWithElement.offsetHeight + scope.topOffset + 'px';
-        };
-
-        /**
-         * Make sidebar position fixed and with offset exact like in syncWith element
-         * @param syncWithElement
-         */
-        var syncAndFix = function(syncWithElement) {
-          element.style.position = 'fixed';
-
-          var scrolledTop = ($document[0].documentElement && $document[0].documentElement.scrollTop) || $document[0].body.scrollTop;
-
-          var syncedElementHeight = syncWithElement.offsetHeight;
-          var syncedElementOffsetTop = syncWithElement.getBoundingClientRect().top + scrolledTop;
-
-          var bottom = syncedElementOffsetTop + syncedElementHeight;
-
-          var margin = Math.max(bottom - $window.scrollY, syncedElementHeight);
-
-          element.style.marginTop = margin + scope.topOffset + 'px';
-        };
-        /**
          * Syncing sidebar position with other element bottom
          * @param syncWithElement - DOM node to sync with
          */
         var syncPositionWith = function (syncWithElement) {
 
           var sidebarScrollListener = debounce(function () {
-            if (isSyncWithElementFixed(syncWithElement)){
-              syncAndFix(syncWithElement);
-            } else {
-              syncWithoutFixing(syncWithElement);
-            }
+            var scrolledTop = ($document[0].documentElement && $document[0].documentElement.scrollTop) || $document[0].body.scrollTop;
+
+            var syncedElementHeight = syncWithElement.offsetHeight;
+            var syncedElementOffsetTop = syncWithElement.getBoundingClientRect().top + scrolledTop;
+
+            var bottom = syncedElementOffsetTop + syncedElementHeight;
+
+            var margin = Math.max(bottom - scrolledTop, syncedElementHeight);
+
+            element.style.marginTop = margin + scope.topOffset + 'px';
+
           }, DEBOUNCE_INTERVAL);
 
           sidebarScrollListener();
