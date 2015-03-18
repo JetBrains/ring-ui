@@ -88,6 +88,8 @@ angular.module('Ring.sidebar', [])
           scope.$on('$destroy', function () {
             $window.removeEventListener('scroll', sidebarScrollListener);
           });
+
+          scope.$watch('show', sidebarScrollListener);
         };
 
 
