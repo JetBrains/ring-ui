@@ -412,7 +412,7 @@ var Select = React.createClass({
 
     return (
       <Button onClick={this._buttonClickHandler} className={cx}>
-        {this._getButtonLabel()}
+        <span className="ring-select__label">{this._getButtonLabel()}</span>
         <span className="ring-select__icons">
           { this.props.loading ? <Loader modifier={Loader.Modifier.INLINE} /> : ''}
           { this._getClearButton() }
