@@ -128,6 +128,11 @@ Auth.REFRESH_BEFORE = 20 * 60; // 20 min in s
 Auth.REFRESH_TIMEOUT = 60 * 1000; // 1 min in ms
 
 /**
+ * @const {boolean} is CORS avaibale in browser
+ */
+Auth.HAS_CORS = 'withCredentials' in new XMLHttpRequest();
+
+/**
  * @return {Promise.<string>} absolute URL promise that is resolved to an URL
  *  that should be restored after return back from auth server. If no return happened
  */
@@ -395,6 +400,18 @@ Auth.prototype._validateScopes = function (storedToken) {
 };
 
 /**
+ * Check if scope check is possible
+ * @return {boolean}
+ * @private
+ */
+Auth.prototype._canValudateAgainstUser = function () {
+  var clientOrigin = urlUtils.getOrigin(this.config.redirect_uri);
+  var serverOrigin = urlUtils.getOrigin(this.config.serverUri);
+
+  return clientOrigin === serverOrigin || Auth.HAS_CORS;
+};
+
+/**
  * Check scopes
  * @param {StoredToken} storedToken
  * @return {Promise.<StoredToken>}
@@ -402,6 +419,11 @@ Auth.prototype._validateScopes = function (storedToken) {
  */
 Auth.prototype._validateAgainstUser = function (storedToken) {
   var self = this;
+
+  if (!this._canValudateAgainstUser()) {
+    return when(storedToken);
+  }
+
   return this.getSecure(Auth.API_PROFILE_PATH, storedToken.access_token).
     then(function (user) {
       self.user = user;
