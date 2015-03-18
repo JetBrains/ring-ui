@@ -193,6 +193,9 @@ var Select = React.createClass({
       notFoundText: 'No options found',
       shortcuts: true,
 
+      onOpen: function() {},
+      onClose: function() {},
+
       onSelect: function() {},   // single + multi
       onDeselect: function() {}, // multi
       onChange: function() {}    // multi
@@ -261,11 +264,13 @@ var Select = React.createClass({
       data: newData
     }, function() {
       this._popup.show();
+      this.props.onOpen();
     }.bind(this));
   },
 
   _hidePopup: function() {
     this._popup.hide();
+    this.props.onClose();
   },
 
   filter: function(filterString) {
