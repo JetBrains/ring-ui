@@ -28,12 +28,13 @@ var generateUniqueId = Global.getUIDGenerator('ring-list-');
  <example name="Select">
  <file name="index.html">
  <div>
+ <p>Disabled select.</p>
  <div id="disabled"></div>
 
  <p>Out-of-the-box mode. Single selection without filter and any othe options.</p>
  <div id="singleWithoutFilter"></div>
 
- <p>Out-of-the-box mode. Single selection without filter and preselected value.</p>
+ <p>Out-of-the-box mode. Single selection without filter and <b>preselected value</b>.</p>
  <div id="singleWithoutFilterAndSelectedValue"></div>
 
  <p>Single selection with filter, "filter" prop defined as object with "placeholder" and preseted "value" (prefilter). Open console to see callbacks.</p>
