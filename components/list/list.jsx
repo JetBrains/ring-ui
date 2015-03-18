@@ -198,7 +198,8 @@ var List = React.createClass({
 
   hoverHandler: function (index) {
     this.setState({
-      activeIndex: index
+      activeIndex: index,
+      activeItem: this.props.data[index]
     });
   },
 
@@ -294,20 +295,21 @@ var List = React.createClass({
 
   componentWillReceiveProps: function (props) {
     if (props.data) {
-      var restoreIndex = null;
+      var activeIndex = null;
 
       if (this.props.restoreActiveIndex && this.state.activeItem && this.state.activeItem.key) {
         for (var i = 0; i < props.data.length; i++) {
           // Restore active index if there is item with same "key" property
           if (props.data[i].key !== undefined && props.data[i].key === this.state.activeItem.key) {
-            restoreIndex = i;
+            activeIndex = i;
             break;
           }
         }
       }
 
       this.setState({
-        activeIndex: restoreIndex
+        activeIndex: activeIndex,
+        activeItem: props.data[activeIndex]
       });
     }
   },
