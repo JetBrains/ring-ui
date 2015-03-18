@@ -6,6 +6,9 @@
 /** @namespace */
 var urlUtils = {};
 
+
+urlUtils.ORIGIN_PATTERN = /^[a-z]+:\/\/[^/]+/i;
+
 /**
  * @return {string|undefined}
  */
@@ -18,6 +21,18 @@ urlUtils.getBaseURI = function() {
   return baseElement ? baseElement.href : undefined;
 };
 
+/**
+ * Get origin from url
+ * @param {string} url
+ * @returns {string|undefined}
+ */
+urlUtils.getOrigin = function(url) {
+  var matches = url.match(this.ORIGIN_PATTERN);
+
+  if (matches) {
+    return matches[0];
+  }
+};
 
 /**
  * Gets url and fix it.
