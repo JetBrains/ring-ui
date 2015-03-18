@@ -13,6 +13,7 @@ var Icon = require('icon/icon');
 var Button = require('button/button');
 var Loader = require('loader/loader');
 var NgModelMixin = require('ngmodel/ngmodel');
+var ngModelStateField = 'selected';
 
 var Shortcuts = require('shortcuts/shortcuts');
 
@@ -25,34 +26,28 @@ var generateUniqueId = Global.getUIDGenerator('ring-list-');
  * @mixes {Popup.Mixin}
  * @extends {ReactComponent}
  * @example
- <example name="Select">
+ <example name="Disabled select">
  <file name="index.html">
- <div>
- <p>Disabled select.</p>
- <div id="disabled"></div>
+   <div id="demo"></div>
+ </file>
+ <file name="index.js" webpack="true">
+   var React = require('react');
+   var Select = require('./select.jsx');
 
- <p>Out-of-the-box mode. Single selection without filter and any othe options.</p>
- <div id="singleWithoutFilter"></div>
+   React.renderComponent(Select({disabled: true}), document.getElementById('demo'))
+   .setProps({data: []});
+ </file>
+ </example>
 
- <p>Out-of-the-box mode. Single selection without filter and <b>preselected value</b>.</p>
- <div id="singleWithoutFilterAndSelectedValue"></div>
-
- <p>Single selection with filter, "filter" prop defined as object with "placeholder" and preseted "value" (prefilter). Open console to see callbacks.</p>
- <div id="singleWithFilter"></div>
-
- <p>Multiple selection with filter, "multiple" prop defined as an object with "disableLabelSelection" to hide selected items from the button. Open console to see callbacks.</p>
- <div>Selected items: <span id="multipleCustomView"><span></div>
- <div id="multiple"></div>
- </div>
+ <example name="Simple select">
+ <file name="index.html">
+ <div id="demo"></div>
  </file>
  <file name="index.js" webpack="true">
  var React = require('react');
  var Select = require('./select.jsx');
 
- React.renderComponent(Select({disabled: true}), document.getElementById('disabled'))
- .setProps({data: []});
-
- React.renderComponent(Select(), document.getElementById('singleWithoutFilter'))
+ React.renderComponent(Select(), document.getElementById('demo'))
  .setProps({data: [
     {'label': 'One', 'key': '1'},
     {'label': 'Two', 'key': '2', disabled: true},
@@ -60,24 +55,62 @@ var generateUniqueId = Global.getUIDGenerator('ring-list-');
       {'label': 'Two Two', 'key': '2.2', level: 1},
     {'label': 'Three', 'key': '3'}
   ]});
+ </file>
+ </example>
 
- React.renderComponent(Select(), document.getElementById('singleWithoutFilterAndSelectedValue'))
- .setProps({
-  data: [
+ <example name="Simple select with default filter mode">
+ <file name="index.html">
+ <div id="demo"></div>
+ </file>
+ <file name="index.js" webpack="true">
+ var React = require('react');
+ var Select = require('./select.jsx');
+
+ React.renderComponent(Select({filter: true}), document.getElementById('demo'))
+ .setProps({data: [
     {'label': 'One', 'key': '1'},
-    {'label': 'Two', 'key': '2'},
+    {'label': 'Two', 'key': '2', disabled: true},
+      {'label': 'Two One', 'key': '2.1', level: 1},
+      {'label': 'Two Two', 'key': '2.2', level: 1},
     {'label': 'Three', 'key': '3'}
-  ],
-  'selected': {'label': 'One', 'key': '1'}
-  });
+  ]});
+ </file>
+ </example>
 
+ <example name="Simple select with default filter mode">
+ <file name="index.html">
+ <div id="demo"></div>
+ </file>
+ <file name="index.js" webpack="true">
+ var React = require('react');
+ var Select = require('./select.jsx');
+
+ React.renderComponent(Select({filter: true}), document.getElementById('demo'))
+ .setProps({data: [
+    {'label': 'One', 'key': '1'},
+    {'label': 'Two', 'key': '2', disabled: true},
+      {'label': 'Two One', 'key': '2.1', level: 1},
+      {'label': 'Two Two', 'key': '2.2', level: 1},
+    {'label': 'Three', 'key': '3'}
+  ]});
+ </file>
+ </example>
+
+
+ <example name="Select with customized filter and Add item button">
+ <file name="index.html">
+ <div id="demo"></div>
+ </file>
+ <file name="index.js" webpack="true">
+ var React = require('react');
+ var Select = require('./select.jsx');
 
  React.renderComponent(Select({
    filter: {
     placeholder: 'Select me',
     value: 'One'
    }
- }), document.getElementById('singleWithFilter'))
+ }), document.getElementById('demo'))
  .setProps({
   add: {
     prefix: 'Add name',
@@ -92,6 +125,17 @@ var generateUniqueId = Global.getUIDGenerator('ring-list-');
   ], 'onSelect': function(selected) {
     console.log('onSelect, selected item:', selected);
   }});
+ </file>
+ </example>
+
+ <example name="Multiselect with custom view">
+ <file name="index.html">
+ <div id="multipleCustomView"></div>
+ <div id="demo"></div>
+ </file>
+ <file name="index.js" webpack="true">
+ var React = require('react');
+ var Select = require('./select.jsx');
 
  React.renderComponent(Select({
    filter: true,
@@ -104,7 +148,7 @@ var generateUniqueId = Global.getUIDGenerator('ring-list-');
     label: 'Change selected items', // override button label if something selected
     removeSelectedItems: false      // remove selected items from the list, useful with "disableLabelSelection" and custom display
    }
- }), document.getElementById('multiple'))
+ }), document.getElementById('demo'))
  .setProps({
     data: [
       {'label': 'One long label', 'key': '1'},
@@ -125,7 +169,7 @@ var generateUniqueId = Global.getUIDGenerator('ring-list-');
  </file>
  </example>
  */
-var ngModelStateField = 'selected';
+
 var Select = React.createClass({
   mixins: [Shortcuts.Mixin, NgModelMixin],
   ngModelStateField: ngModelStateField,
