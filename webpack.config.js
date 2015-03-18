@@ -53,7 +53,7 @@ module.exports = {
       },
       //ng-annotate loader for angular components
       {
-        test: /(ng).*\.js$/,
+        test: /ng.*\.js$/,
         loader: 'ng-annotate'
       },
       //jsx loader
