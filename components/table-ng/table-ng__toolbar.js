@@ -1,12 +1,8 @@
 /*global angular*/
 var debounce = require('mout/function/debounce');
-var FIXED_ATTR = 'element-fixed';
 
 /**
- * @name Table toolbar
- * @description Stickable toolbar, usable for tables, but can be used elsewhere.
- * Supports exposing fixing interface for sidebar-ng - sets attribute
- * element-fixed="true" when becomes fixed;
+ * Stickable toolbar, usable for tables, but can be used elsewhere.
  * @example
  * <example>
      <rg-table-toolbar stick>
@@ -41,11 +37,6 @@ angular.module('Ring.table.toolbar', [])
           } else {
             toolbarControls.className += ' ' + 'ring-table__toolbar-controls_fixed';
           }
-
-          /**
-           * Expose specified attribute for sidebar to make it fixed and placed under toolbar
-           */
-          element.setAttribute(FIXED_ATTR, 'true');
         };
 
         /**
@@ -58,11 +49,6 @@ angular.module('Ring.table.toolbar', [])
           } else {
             toolbarControls.className = controlsContainer.className.replace('ring-table__toolbar-controls_fixed', '');
           }
-
-          /**
-           * Remove specified attribute to make sidebar stop being fixed
-           */
-          element.removeAttribute(FIXED_ATTR);
         };
 
         var savedToolbarTop;
