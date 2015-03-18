@@ -25,13 +25,17 @@ var AuthRequestBuilder = function (config, storage) {
  */
 AuthRequestBuilder.prototype.prepareAuthRequest = function (extraParams) {
   var state = AuthRequestBuilder._uuid();
+  var scopes = this.config.scopes.map(function (scope) {
+    return encodeURIComponent(scope);
+  });
+
   var request = $.extend({
     response_type: 'token',
     state: state,
     redirect_uri: this.config.redirect_uri,
     request_credentials: this.config.request_credentials,
     client_id: this.config.client_id,
-    scope: this.config.scopes.join(' ')
+    scope: scopes.join(' ')
   }, extraParams || {});
 
   var authURL = AuthRequestBuilder.encodeURL(this.config.authorization, request);
