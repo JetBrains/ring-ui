@@ -263,8 +263,9 @@ var List = React.createClass({
   },
 
   moveHandler: function (index, retryCallback, e) {
-    this.setState({activeIndex: index, activeItem: this.props.data[index], scrolling: true}, function() {
-      if (this.props.data[index].type === Type.HINT || this.props.data[index].type === Type.SEPARATOR) {
+    var item = this.props.data[index];
+    this.setState({activeIndex: index, activeItem: item, scrolling: true}, function() {
+      if (item.type === Type.HINT || item.type === Type.SEPARATOR || item.disabled) {
         retryCallback(e);
         return;
       }
