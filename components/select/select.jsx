@@ -94,7 +94,7 @@ var generateUniqueId = Global.getUIDGenerator('ring-list-');
  React.renderComponent(Select({
    filter: true,
    add: {
-    callback: function() {
+    callback: function(value) {
       console.log('Add', value);
     }
    },
@@ -246,29 +246,24 @@ var Select = React.createClass({
     }
 
     if (this.props.add && this.props.add.callback && filterString && !exectMatch) {
-      if (this.props.add.regexp && !this.props.add.regexp.test(filterString)) {
-        return;
-      }
+      if (!(this.props.add.regexp && !this.props.add.regexp.test(filterString)) &&
+      !(this.props.add.minlength && filterString.length < +this.props.add.minlength)) {
 
-      if (this.props.add.minlength && filterString.length < +this.props.add.minlength) {
-        return;
-      }
+        if (filteredData.length) {
+          filteredData.push({
+            type: List.ListProps.Type.SEPARATOR
+          });
+        }
 
-      if (filteredData.length) {
         filteredData.push({
-          type: List.ListProps.Type.SEPARATOR
+          type: List.ListProps.Type.ADD,
+          prefix: this.props.add.prefix,
+          label: filterString,
+          onClick: function() {
+            this.props.add.callback(filterString);
+          }.bind(this)
         });
       }
-
-      filteredData.push({
-        type: List.ListProps.Type.ADD,
-        ignoreOnSelect: true,
-        prefix: this.props.add.prefix,
-        label: filterString,
-        onClick: function() {
-          this.props.add.callback(filterString);
-        }.bind(this)
-      });
     }
 
     return filteredData;
@@ -301,7 +296,7 @@ var Select = React.createClass({
 
   _multipleMap: {},
   _listSelectHandler: function(selected) {
-    if (selected.ignoreOnSelect) {
+    if (selected.type !== List.ListProps.Type.ITEM) {
       return;
     }
 
