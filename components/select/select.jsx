@@ -55,7 +55,9 @@ var generateUniqueId = Global.getUIDGenerator('ring-list-');
  React.renderComponent(Select(), document.getElementById('singleWithoutFilter'))
  .setProps({data: [
     {'label': 'One', 'key': '1'},
-    {'label': 'Two', 'key': '2'},
+    {'label': 'Two', 'key': '2', disabled: true},
+      {'label': 'Two One', 'key': '2.1', level: 1},
+      {'label': 'Two Two', 'key': '2.2', level: 1},
     {'label': 'Three', 'key': '3'}
   ]});
 
@@ -227,10 +229,14 @@ var Select = React.createClass({
 
     var filteredData = [];
     var exectMatch = false;
-    var regexp = this.props.filter.regexp || new RegExp(filterString, 'ig');
+
+    var check = this.props.filter.fn || function(itemToCheck, checkString) {
+      return itemToCheck.label.match(new RegExp(checkString, 'ig'));
+    };
+
     for (var i = 0; i < this.props.data.length; i++) {
       var item = this.props.data[i];
-      if (item.label.match(regexp) || filterString === '') {
+      if (filterString === '' || check(item, filterString)) {
         item.type = List.ListProps.Type.ITEM;
 
         exectMatch |= (item.label === filterString);
@@ -239,6 +245,7 @@ var Select = React.createClass({
           item.checkbox = !!this._multipleMap[item.key];
         }
 
+        // Ignore item ONLY if its multiple and item alredy selected
         if (!(this.props.multiple && this.props.multiple.removeSelectedItems && this._multipleMap[item.key])) {
           filteredData.push(item);
         }
@@ -296,7 +303,7 @@ var Select = React.createClass({
 
   _multipleMap: {},
   _listSelectHandler: function(selected) {
-    if (selected.type !== List.ListProps.Type.ITEM) {
+    if (selected.type !== List.ListProps.Type.ITEM || selected.disabled) {
       return;
     }
 
