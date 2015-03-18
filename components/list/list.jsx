@@ -25,7 +25,8 @@ var Type = {
   SEPARATOR: 0,
   LINK: 1,
   ITEM: 2,
-  HINT: 3
+  HINT: 3,
+  ADD: 4
 };
 
 var Dimensions = {
@@ -80,11 +81,40 @@ var ListItem = React.createClass({
     return this.transferPropsTo(
       <span className={classes}>
         {this.getCheckbox()}
+        {this.props.add && <Icon className="ring-list__plus" glyph="add" size={Icon.Size.Size12}/>}
         {this.props.description &&
           <div className="ring-list__description">{this.props.description}</div>}
         {this.props.icon &&
           <div className="ring-list__icon" style={{'background-image': 'url("' + this.props.icon + '")'}}></div>}
         {this.props.label}
+      </span>
+    );
+  }
+});
+
+/**
+ * @constructor
+ * @extends {ReactComponent}
+ */
+var ListAdd = React.createClass({
+  /** @override */
+  getDefaultProps: function () {
+    return {active: false};
+  },
+
+  /** @override */
+  render: function () {
+    var classes = React.addons.classSet({
+      'ring-list__item': true,
+      'ring-list__item_add': true,
+      'ring-list__item_action': true,
+      'ring-list__item_active': this.props.active
+    });
+
+    return this.transferPropsTo(
+      <span className={classes}>
+        <Icon className="ring-list__plus" glyph="add" size={Icon.Size.Size12}/>
+        {this.props.prefix ? this.props.prefix + ' ' : ''}<b>{this.props.label}</b>
       </span>
     );
   }
@@ -372,6 +402,9 @@ var List = React.createClass({
                 break;
               case Type.ITEM:
                 element = ListItem;
+                break;
+              case Type.ADD:
+                element = ListAdd;
                 break;
               default:
                 throw new Error('Unknown menu element type: ' + props.type);
