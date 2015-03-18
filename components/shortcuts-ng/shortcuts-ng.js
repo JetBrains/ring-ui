@@ -47,9 +47,11 @@ angular.module('Ring.shortcuts', [])
               scope: scope || name,
               handler: function() {
                 var ret = handler.apply(handlers, arguments);
+                /* eslint-disable */
                 if (!$rootScope.$$phase) {
                   $rootScope.$apply();
                 }
+                /* eslint-enable */
                 return ret;
               }
             });
