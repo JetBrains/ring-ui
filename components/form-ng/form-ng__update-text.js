@@ -49,8 +49,8 @@ angular.module('Ring.form')
                 });
                 input.$parsers.push(function (value) {
                   var array = value && value.split(/(\r\n|\n|\r)/gm) || [];
-                  var notEmpty = function (value) {
-                    return value && value.trim();
+                  var notEmpty = function (val) {
+                    return val && val.trim();
                   };
                   if (iAttrs.parseElement) {
                     array = array.filter(notEmpty).map(function (element) {
