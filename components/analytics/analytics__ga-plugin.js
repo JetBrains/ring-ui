@@ -1,5 +1,3 @@
-'use sctrict';
-
 /**
  *
  * @param {string?} gaId Google analytics id (should be undefined in development)
