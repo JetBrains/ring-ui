@@ -728,7 +728,7 @@ var Header = React.createClass({
   setMenuItemEnabled: function(itemKey, enabled) {
     enabled = !!enabled;
 
-    var keyIsEnabled = this.props.enabledMenuItems.contains(itemKey);
+    var keyIsEnabled = contains(this.props.enabledMenuItems, itemKey);
     var menuItems = this.props.enabledMenuItems.slice(0);
 
     if (enabled) {
@@ -856,15 +856,10 @@ HeaderHelper.setUserMenu = function(header, auth, translationsDict) {
  * @private
  */
 HeaderHelper._renderLoginButton = function(header, auth) {
-  var menuItems = header.props.enabledMenuItems;
-  var userMenuIndex = menuItems.indexOf('userMenu');
-
-  if (userMenuIndex > -1) {
-    menuItems[userMenuIndex] = 'loginButton';
-  }
+  header.setMenuItemEnabled('userMenu', false);
+  header.setMenuItemEnabled('loginButton', true);
 
   header.setProps({
-    enabledMenuItems: menuItems,
     onLoginClick: function() {
       // NB! Doesn't look obvious, but guest is also a user, so to show him
       // the login form we need to log out him first. I believe this is
