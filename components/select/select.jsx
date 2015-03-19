@@ -189,7 +189,6 @@ var Select = React.createClass({
       selected: null,
 
       label: 'Please select option',
-      filterText: 'Filter items',
       notFoundText: 'No options found',
       shortcuts: true,
 

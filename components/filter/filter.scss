@@ -1,0 +1,10 @@
+@import "../global/global";
+
+.ring-input.ring-filter {
+  width: 200px;
+
+  &_popup {
+    margin: 2*$ring-unit 2*$ring-unit $ring-unit 2*$ring-unit;
+  }
+}
+
