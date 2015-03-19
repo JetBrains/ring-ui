@@ -88,7 +88,7 @@ var generateUniqueId = Global.getUIDGenerator('ring-list-');
  React.renderComponent(Select({filter: true}), document.getElementById('demo'))
  .setProps({data: [
     {'label': 'One', 'key': '1'},
-    {'label': 'Two', 'key': '2', disabled: true},
+    {'label': 'Group', 'key': '2', disabled: true},
       {'label': 'Two One', 'key': '2.1', level: 1},
       {'label': 'Two Two', 'key': '2.2', level: 1},
     {'label': 'Three', 'key': '3'}
@@ -241,6 +241,10 @@ var Select = React.createClass({
     }
   },
 
+  componentDidUpdate: function() {
+    this._refreshPopup();
+  },
+
   _popup: null,
   _createPopup: function() {
     if (!this._popup) {
@@ -254,6 +258,12 @@ var Select = React.createClass({
           onSelect={this._listSelectHandler}
           onFilter={this._filterChangeHandler}
           SelectPopup/>);
+    }
+  },
+
+  _refreshPopup: function() {
+    if (this._popup.isVisible()) {
+      this._showPopup();
     }
   },
 
@@ -534,6 +544,10 @@ var SelectPopup = React.createClass({
     this.setState({
       popupShortcuts: false
     });
+  },
+
+  isVisible: function() {
+    return this.refs.popup.isVisible();
   },
 
   _getFilter: function() {
