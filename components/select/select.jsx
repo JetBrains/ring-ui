@@ -339,6 +339,10 @@ var Select = React.createClass({
     return this.props.filter;
   },
 
+  getFilterValue: function() {
+    return this.props.filter ? this._popup.refs.filter.value : '';
+  },
+
   fixKeys: function(data) {
     var uniqueKey = 0;
     for (var i = 0; i < data.length; i++) {
@@ -357,7 +361,7 @@ var Select = React.createClass({
   },
 
   _filterChangeHandler: function() {
-    this.props.onFilter(this.getFilter());
+    this.props.onFilter(this.getFilterValue());
     this._showPopup();
   },
 
@@ -457,7 +461,7 @@ var Select = React.createClass({
         return labels.join(', ');
       }
     } else if (this.state.selected) {
-      return this.state.selected.label;
+      return this.state.selected.selectedLabel || this.state.selected.label;
     } else {
       return this.props.label;
     }
