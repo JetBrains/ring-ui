@@ -5,12 +5,15 @@
  */
 
 require('./header.scss');
+var Button = require('button/button');
 var ClassName = require('class-name/class-name');
+var contains = require('mout/array/contains');
 var Global = require('global/global');
 var Icon = require('icon/icon');
 var mixIn = require('mout/object/mixIn');
 var PopupMenu = require('popup-menu/popup-menu');
 var React = require('react/addons');
+var remove = require('mout/array/remove');
 var urlUtils = require('url-utils/url-utils');
 
 
@@ -353,6 +356,7 @@ var Header = React.createClass({
 
   getDefaultProps: function() {
     return {
+      enabledMenuItems: ['help', 'settings', 'services', 'userMenu'],
       helpLink: null,
       logo: '',
       menu: '',
@@ -366,18 +370,25 @@ var Header = React.createClass({
       servicesListPopup: null,
       servicesStyle: null,
       servicesInnerStyle: null,
+      /** @deprecated */
       showHelp: true,
+      /** @deprecated */
       showSettings: true,
+      /** @deprecated */
       showServices: true,
+      translationsDict: {
+        login: 'Log in...'
+      },
 
-      onUserMenuOpen: null,
-      onUserMenuClose: null,
+      onHelpOpen: null,
+      onHelpClose: null,
+      onLoginClick: null,
       onSettingsOpen: null,
       onSettingsClose: null,
       onServicesOpen: null,
       onServicesClose: null,
-      onHelpOpen: null,
-      onHelpClose: null
+      onUserMenuOpen: null,
+      onUserMenuClose: null
     };
   },
 
@@ -583,12 +594,37 @@ var Header = React.createClass({
    * @return {Array.<ReactComponent>}
    */
   getMenuItems: function() {
+    var enabledMenuItems = this.props.enabledMenuItems.slice(0);
+
+    // todo(igor.alexeenko): Temporary measure.
+    if (!this.props.showSettings) {
+      remove(enabledMenuItems, 'settings');
+    }
+
+    if (!this.props.showHelp) {
+      remove(enabledMenuItems, 'help');
+    }
+
+    if (!this.props.showServices) {
+      remove(enabledMenuItems, 'services');
+    }
+
+    var loginClassName = React.addons.classSet(Global.createObject(
+        headerClassName.getElement('user-menu-item'), true,
+        headerClassName.getClassName('user-menu-item', 'login'), true));
+
     return [
-      this.props.showSettings ? (<MenuItem key="settings" ref="settings" glyph="cog1" href={this.props.settingsLink} onOpen={this.props.onSettingsOpen} onClose={this.props.onSettingsClose} />) : undefined,
-      this.props.showHelp ? (<MenuItem key="help" ref="help" glyph="help" href={this.props.helpLink} onOpen={this.props.onHelpOpen} onClose={this.props.onHelpClose} />) : undefined,
-      this.props.showServices ? (<MenuItem key="services" ref="services" glyph="expand1" onOpen={this._onServicesOpen} onClose={this._onServicesClose} title="Services" />) : undefined,
-      (<MenuItem key="userMenu" ref="userMenu" glyph="user1" onOpen={this.props.onUserMenuOpen} onClose={this.props.onUserMenuClose} />)
-    ];
+      (<MenuItem key="settings" ref="settings" glyph="cog1" href={this.props.settingsLink} onOpen={this.props.onSettingsOpen} onClose={this.props.onSettingsClose} />),
+      (<MenuItem key="help" ref="help" glyph="help" href={this.props.helpLink} onOpen={this.props.onHelpOpen} onClose={this.props.onHelpClose} />),
+      (<MenuItem key="services" ref="services" glyph="expand1" onOpen={this._onServicesOpen} onClose={this._onServicesClose} title="Services" />),
+      (<MenuItem key="userMenu" ref="userMenu" glyph="user1" onOpen={this.props.onUserMenuOpen} onClose={this.props.onUserMenuClose} />),
+      (<div key="loginButton" ref="loginButton" className={loginClassName}><Button modifier={Button.Modifiers.BLUE} onClick={this.props.onLoginClick}>{this.props.translationsDict.login}</Button></div>)
+    ].map(function(item) {
+      var key = item.props.key;
+      var el = contains(enabledMenuItems, key) ? item : undefined;
+      remove(enabledMenuItems, key);
+      return el;
+    }, this);
   },
 
   /**
@@ -610,7 +646,9 @@ var Header = React.createClass({
    * @param {string} src
    */
   setProfilePicture: function(src) {
-    this.refs['userMenu'].setState({ picture: src });
+    if (this.refs['userMenu']) {
+      this.refs['userMenu'].setState({ picture: src });
+    }
   },
 
   /**
@@ -684,10 +722,24 @@ var Header = React.createClass({
   },
 
   /**
-   * @param {boolean} show
+   * @param {string} itemKey
+   * @param {boolean=} enabled
    */
-  setSettingsShown: function(show) {
-    this.setProps({ showSettings: show });
+  setMenuItemEnabled: function(itemKey, enabled) {
+    enabled = !!enabled;
+
+    var keyIsEnabled = this.props.enabledMenuItems.contains(itemKey);
+    var menuItems = this.props.enabledMenuItems.slice(0);
+
+    if (enabled) {
+      if (!keyIsEnabled) {
+        menuItems.push(itemKey);
+      }
+    } else {
+      remove(menuItems, itemKey);
+    }
+
+    this.setProps({ enabledMenuItems: menuItems });
   }
 });
 
@@ -749,6 +801,11 @@ HeaderHelper.setUserMenu = function(header, auth, translationsDict) {
   var popup = null;
 
   return auth.requestUser().then(function(response) {
+    if (auth.isGuest(response)) {
+      HeaderHelper._renderLoginButton(header, auth);
+      return;
+    }
+
     if (response.avatar && response.avatar.type !== 'defaultavatar') {
       header.setProfilePicture(response.avatar.pictureUrl);
     }
@@ -790,6 +847,30 @@ HeaderHelper.setUserMenu = function(header, auth, translationsDict) {
         popup = null;
       }
     });
+  });
+};
+
+/**
+ * @param {Header} header
+ * @param {Auth} auth
+ * @private
+ */
+HeaderHelper._renderLoginButton = function(header, auth) {
+  var menuItems = header.props.enabledMenuItems;
+  var userMenuIndex = menuItems.indexOf('userMenu');
+
+  if (userMenuIndex > -1) {
+    menuItems[userMenuIndex] = 'loginButton';
+  }
+
+  header.setProps({
+    enabledMenuItems: menuItems,
+    onLoginClick: function() {
+      // NB! Doesn't look obvious, but guest is also a user, so to show him
+      // the login form we need to log out him first. I believe this is
+      // a temporary measure.
+      auth.logout();
+    }
   });
 };
 
