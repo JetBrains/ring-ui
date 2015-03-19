@@ -32,6 +32,19 @@ AnalyticsCustomPluginUtils.getPageViewDurationPresentation = function (duration)
   return 'less-than-' + roundedDuration + '-sec';
 };
 
+AnalyticsCustomPluginUtils.getScreenWidthPresentation = function() {
+  /**
+   * Sizes were taken from bootstrap's grid (xs, sm, md, lg)
+   */
+  var sizes = [0, 768, 992, 1200];
+  for (var i = 1; i < sizes.length; ++i) {
+    if (window.innerWidth < sizes[i]) {
+      return ['[', String(sizes[i - 1]), 'px;', String(sizes[i]), 'px)'].join('');
+    }
+  }
+  return '[1200px;inf)';
+};
+
 AnalyticsCustomPluginUtils.getUserAgentPresentation = function () {
   var name = (browser.name || 'unknown').toLowerCase();
   var version = (browser.version || 'unknown').split('.')[0];
