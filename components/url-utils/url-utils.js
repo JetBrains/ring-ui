@@ -13,10 +13,6 @@ urlUtils.ORIGIN_PATTERN = /^[a-z]+:\/\/[^/]+/i;
  * @return {string|undefined}
  */
 urlUtils.getBaseURI = function() {
-  if (document.baseURI) {
-    return document.baseURI;
-  }
-
   var baseElement = document.getElementsByTagName('base')[0];
   return baseElement ? baseElement.href : undefined;
 };
