@@ -195,6 +195,7 @@ var Select = React.createClass({
 
       onOpen: function() {},
       onClose: function() {},
+      onFilter: function() {},
 
       onSelect: function() {},   // single + multi
       onDeselect: function() {}, // multi
@@ -357,6 +358,7 @@ var Select = React.createClass({
   },
 
   _filterChangeHandler: function() {
+    this.props.onFilter(this.getFilter());
     this._showPopup();
   },
 
