@@ -527,4 +527,19 @@ Auth.prototype.setHash = function(hash) {
   window.location.hash = hash;
 };
 
+/**
+ * @const
+ * @type {string}
+ */
+var GUEST_ID = 'guest';
+
+// todo(igor.alexeenko): Static would look better.
+/**
+ * @param {Object} response
+ * @return {boolean}
+ */
+Auth.prototype.isGuest = function(response) {
+  return response.login === GUEST_ID && response.name === GUEST_ID;
+};
+
 module.exports = Auth;
