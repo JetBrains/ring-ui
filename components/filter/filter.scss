@@ -4,7 +4,8 @@
   width: 200px;
 
   &_popup {
-    margin: 2*$ring-unit 2*$ring-unit $ring-unit 2*$ring-unit;
+    min-width: 200px;
+    width: 100%;
   }
 }
 
