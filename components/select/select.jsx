@@ -208,7 +208,9 @@ var Select = React.createClass({
 
       onSelect: function() {},   // single + multi
       onDeselect: function() {}, // multi
-      onChange: function() {}    // multi
+      onChange: function() {},    // multi
+
+      onAdd: function() {}
     };
   },
 
@@ -266,6 +268,7 @@ var Select = React.createClass({
     if (!this._popup) {
       this._popup = Popup.renderComponent(
         <SelectPopup
+          notFoundMessage={this.props.notFoundMessage}
           maxHeight={this.props.maxHeight}
           filter={this.isInputMode() ? false : this.props.filter} // disable dpopup filter on input mode
           anchorElement={this.getDOMNode()}
@@ -283,10 +286,9 @@ var Select = React.createClass({
   },
 
   _showPopup: function() {
-    var newData = this.getListItems(this.getFilterValue());
-
     this._popup.setProps({
-      data: newData
+      data: this.getListItems(this.getFilterValue()),
+      toolbar: this.getToolbarItems()
     }, function() {
       !this._popup.isVisible() && this.props.onOpen();
       this._popup.show();
@@ -298,6 +300,30 @@ var Select = React.createClass({
     this._popup.hide();
   },
 
+  getToolbarItems: function() {
+    var items = [];
+    if (this._addButton) {
+      items.push({
+        key: 'add',
+        type: List.ListProps.Type.CUSTOM,
+        template: (<div>dwwdwdwdw</div>),
+        onClick: function() {
+          this.props.onAdd(this.getFilterValue());
+        }.bind(this)
+      });
+    }
+
+    if (items.length) {
+      items.unshift({
+        key: 'sep',
+        type: List.ListProps.Type.SEPARATOR
+      });
+    }
+
+    return items;
+  },
+
+  _addButton: null,
   getListItems: function(filterString) {
     filterString = filterString.trim();
 
@@ -326,24 +352,15 @@ var Select = React.createClass({
       }
     }
 
+    this._addButton = null;
     if (this.props.add && this.props.add.callback && filterString && !exectMatch) {
       if (!(this.props.add.regexp && !this.props.add.regexp.test(filterString)) &&
       !(this.props.add.minlength && filterString.length < +this.props.add.minlength)) {
 
-        if (filteredData.length) {
-          filteredData.push({
-            type: List.ListProps.Type.SEPARATOR
-          });
-        }
-
-        filteredData.push({
-          type: List.ListProps.Type.ADD,
+        this._addButton = {
           prefix: this.props.add.prefix,
-          label: filterString,
-          onClick: function() {
-            this.props.add.callback(filterString);
-          }.bind(this)
-        });
+          label: filterString
+        };
       }
     }
 
@@ -493,7 +510,7 @@ var Select = React.createClass({
     if (this.isInputMode()) {
       return (
         <div onClick={this._buttonClickHandler} className={buttonCS}>
-          <Filter ref="filter" onFilter={this._filterChangeHandler} />
+          <Filter ref="filter" onFilter={this._filterChangeHandler} shortcuts={true} />
           <span className="ring-select__icons">
               { this.props.loading ? <Loader modifier={Loader.Modifier.INLINE} /> : ''}
               { this._getClearButton() }
@@ -518,7 +535,9 @@ var SelectPopup = React.createClass({
   getDefaultProps: function() {
     return {
       data: [],
+      toolbar: [],
       filter: false, // can be bool or object with props: "value" and "placeholder"
+      notFoundMessage: 'No options found',
       anchorElement: null,
       maxHeight: 250,
       onSelect: function() {},
@@ -598,17 +617,19 @@ var SelectPopup = React.createClass({
     }
   },
 
-  render: function() {
-    var hint;
-
-    if (!this.props.data.length && this.props.filter) {
-      if (this.props.filter.notFoundText) {
-        hint = this.props.filter.notFoundText;
-      } else {
-        hint = 'No options found';
-      }
+  getBottomToolbar: function() {
+    if (this.props.toolbar.length) {
+      return <List data={this.props.toolbar} />;
     }
+  },
 
+  getNotFoundMessage: function() {
+    if (!this.props.data.length && !this.props.loading && this.props.notFoundMessage) {
+      return <div className="ring-select__not-found">{this.props.notFoundMessage}</div>;
+    }
+  },
+
+  render: function() {
     return (<Popup
       ref="popup"
       hidden={true}
@@ -626,7 +647,9 @@ var SelectPopup = React.createClass({
         activateOneItem={true}
         onSelect={this.props.onSelect}
         shortcuts={this.state.popupShortcuts}
-        hint={hint}/>
+      />
+      {this.getNotFoundMessage()}
+      {this.getBottomToolbar()}
     </Popup>);
   }
 });
