@@ -3,7 +3,11 @@
 .ring-select {
   display: inline-block;
   position: relative;
-  color: #888
+  color: #888;
+
+  &__filter-wrapper {
+    padding: 2*$ring-unit 2*$ring-unit $ring-unit;
+  }
 }
 
 .ring-btn.ring-select {
@@ -25,9 +29,4 @@
     position: absolute;
     top: 0;
     right: $ring-unit;
-  }
-
-  .ring-input.ring-select__filter {
-    width: 200px;
-    margin: 2*$ring-unit;
   }
