@@ -26,7 +26,7 @@ var Type = {
   LINK: 1,
   ITEM: 2,
   HINT: 3,
-  ADD: 4
+  CUSTOM: 4
 };
 
 var Dimensions = {
@@ -99,25 +99,25 @@ var ListItem = React.createClass({
  * @constructor
  * @extends {ReactComponent}
  */
-var ListAdd = React.createClass({
+var ListCustom = React.createClass({
   /** @override */
   getDefaultProps: function () {
-    return {active: false};
+    return {
+      active: false
+    };
   },
 
   /** @override */
   render: function () {
     var classes = React.addons.classSet({
       'ring-list__item': true,
-      'ring-list__item_add': true,
       'ring-list__item_action': true,
       'ring-list__item_active': this.props.active
     });
 
     return this.transferPropsTo(
       <span className={classes}>
-        <Icon className="ring-list__plus" glyph="add" size={Icon.Size.Size12}/>
-        {this.props.prefix ? this.props.prefix + ' ' : ''}<b>{this.props.label}</b>
+        {this.props.template}
       </span>
     );
   }
@@ -268,6 +268,12 @@ var List = React.createClass({
   },
 
   moveHandler: function (index, retryCallback, e) {
+    if (this.props.data.length === 0) {
+      return;
+    } else if (this.props.data.length === 1) {
+      index = 0;
+    }
+
     var item = this.props.data[index];
     this.setState({activeIndex: index, activeItem: item, scrolling: true}, function() {
       if (!this.isActivatable(item)) {
@@ -417,8 +423,8 @@ var List = React.createClass({
               case Type.ITEM:
                 element = ListItem;
                 break;
-              case Type.ADD:
-                element = ListAdd;
+              case Type.CUSTOM:
+                element = ListCustom;
                 break;
               default:
                 throw new Error('Unknown menu element type: ' + props.type);
