@@ -286,7 +286,7 @@ var _servicesResizeHandler = null;
 /**
  * @enum {string}
  */
-var Type = {
+var MenuItemType = {
   HELP: 'help',
   LOGIN: 'loginButton',
   SETTINGS: 'settings',
@@ -295,18 +295,18 @@ var Type = {
 };
 
 /**
- * @type {Array.<Type>}
+ * @type {Array.<MenuItemType>}
  */
 var MenuItemsSequence = [
-  Type.SETTINGS,
-  Type.HELP,
-  Type.SERVICES,
-  Type.USER_MENU,
-  Type.LOGIN
+  MenuItemType.SETTINGS,
+  MenuItemType.HELP,
+  MenuItemType.SERVICES,
+  MenuItemType.USER_MENU,
+  MenuItemType.LOGIN
 ];
 
 /**
- * @type {Object.<Type, ReactComponent>}
+ * @type {Object.<MenuItemType, ReactComponent>}
  * @private
  */
 var _menuItems = null;
@@ -377,7 +377,7 @@ var _menuItems = null;
  */
 var Header = React.createClass({
   statics: {
-    Type: Type
+    MenuItemType: MenuItemType
   },
 
   getInitialState: function() {
@@ -390,11 +390,11 @@ var Header = React.createClass({
   getDefaultProps: function() {
     return {
       enabledMenuItems: Global.createObject(
-          Type.SETTINGS, true,
-          Type.HELP, true,
-          Type.SERVICES, true,
-          Type.USER_MENU, true,
-          Type.LOGIN, false),
+          MenuItemType.SETTINGS, true,
+          MenuItemType.HELP, true,
+          MenuItemType.SERVICES, true,
+          MenuItemType.USER_MENU, true,
+          MenuItemType.LOGIN, false),
       helpLink: null,
       logo: '',
       menu: '',
@@ -638,11 +638,11 @@ var Header = React.createClass({
           headerClassName.getClassName('user-menu-item', 'login'), true));
 
       _menuItems = Global.createObject(
-          Type.SETTINGS, (<MenuItem key="settings" ref="settings" glyph="cog1" href={this.props.settingsLink} onOpen={this.props.onSettingsOpen} onClose={this.props.onSettingsClose} />),
-          Type.HELP, (<MenuItem key="help" ref="help" glyph="help" href={this.props.helpLink} onOpen={this.props.onHelpOpen} onClose={this.props.onHelpClose} />),
-          Type.SERVICES, (<MenuItem key="services" ref="services" glyph="expand1" onOpen={this._onServicesOpen} onClose={this._onServicesClose} title="Services" />),
-          Type.USER_MENU, (<MenuItem key="userMenu" ref="userMenu" glyph="user1" onOpen={this.props.onUserMenuOpen} onClose={this.props.onUserMenuClose} />),
-          Type.LOGIN, (<div key="loginButton" ref="loginButton" className={loginClassName}><Button modifier={Button.Modifiers.BLUE} onClick={this.props.onLoginClick}>{this.props.translationsDict.login}</Button></div>));
+          MenuItemType.SETTINGS, (<MenuItem key="settings" ref="settings" glyph="cog1" href={this.props.settingsLink} onOpen={this.props.onSettingsOpen} onClose={this.props.onSettingsClose} />),
+          MenuItemType.HELP, (<MenuItem key="help" ref="help" glyph="help" href={this.props.helpLink} onOpen={this.props.onHelpOpen} onClose={this.props.onHelpClose} />),
+          MenuItemType.SERVICES, (<MenuItem key="services" ref="services" glyph="expand1" onOpen={this._onServicesOpen} onClose={this._onServicesClose} title="Services" />),
+          MenuItemType.USER_MENU, (<MenuItem key="userMenu" ref="userMenu" glyph="user1" onOpen={this.props.onUserMenuOpen} onClose={this.props.onUserMenuClose} />),
+          MenuItemType.LOGIN, (<div key="loginButton" ref="loginButton" className={loginClassName}><Button modifier={Button.Modifiers.BLUE} onClick={this.props.onLoginClick}>{this.props.translationsDict.login}</Button></div>));
     }
 
     return MenuItemsSequence.map(function(item) {
@@ -752,8 +752,22 @@ var Header = React.createClass({
    */
   setMenuItemEnabled: function(itemKey, enabled) {
     enabled = !!enabled;
-
     var enabledMenuItems = this.props.enabledMenuItems;
+
+    // todo(igor.alexeenko): Temporary measure. This code is needed to support
+    // old properties.
+    if (this.props.showSettings === false) {
+      enabledMenuItems[MenuItemType.SETTINGS] = false;
+    }
+
+    if (this.props.showHelp === false) {
+      enabledMenuItems[MenuItemType.HELP] = false;
+    }
+
+    if (this.props.showServices === false) {
+      enabledMenuItems[MenuItemType.SERVICES] = false;
+    }
+
     if (enabledMenuItems[itemKey] !== enabled) {
       enabledMenuItems[itemKey] = enabled;
       this.setProps({ enabledMenuItems: enabledMenuItems });
@@ -874,8 +888,8 @@ HeaderHelper.setUserMenu = function(header, auth, translationsDict) {
  * @private
  */
 HeaderHelper._renderLoginButton = function(header, auth) {
-  header.setMenuItemEnabled(Type.USER_MENU, false);
-  header.setMenuItemEnabled(Type.LOGIN, true);
+  header.setMenuItemEnabled(MenuItemType.USER_MENU, false);
+  header.setMenuItemEnabled(MenuItemType.LOGIN, true);
 
   header.setProps({
     onLoginClick: function() {
