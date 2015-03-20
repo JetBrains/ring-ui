@@ -8,6 +8,10 @@
   &__filter-wrapper {
     padding: 2*$ring-unit 2*$ring-unit $ring-unit;
   }
+
+  &__not-found {
+    padding: $ring-unit;
+  }
 }
 
 .ring-btn.ring-select {
