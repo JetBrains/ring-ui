@@ -27,7 +27,6 @@
     "dot-notation": 0,
     "no-underscore-dangle": 0,
     "no-unused-expressions": 0,
-    "no-unused-vars": 0,
     // Plugins
     "angular/ng_angularelement": 0,
     "angular/ng_controller_name": 0,
