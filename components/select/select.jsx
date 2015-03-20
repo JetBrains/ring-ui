@@ -106,6 +106,11 @@ var generateUniqueId = Global.getUIDGenerator('ring-list-');
  var React = require('react');
  var Select = require('./select.jsx');
 
+ var data = [];
+ for(var i = 0; i < 100; i++) {
+  data.push({'label': 'Item long long long long long  long long long label ' + i, 'key': i});
+ }
+
  React.renderComponent(Select({
    filter: {
     placeholder: 'Select me',
@@ -119,11 +124,8 @@ var generateUniqueId = Global.getUIDGenerator('ring-list-');
       console.log('Add', value);
     }
   },
-  data: [
-    {'label': 'One', 'key': '1'},
-    {'label': 'Two', 'key': '2'},
-    {'label': 'Three', 'key': '3'}
-  ], 'onSelect': function(selected) {
+  data: data,
+  'onSelect': function(selected) {
     console.log('onSelect, selected item:', selected);
   }});
  </file>
@@ -264,6 +266,7 @@ var Select = React.createClass({
     if (!this._popup) {
       this._popup = Popup.renderComponent(
         <SelectPopup
+          maxHeight={this.props.maxHeight}
           filter={this.isInputMode() ? false : this.props.filter} // disable dpopup filter on input mode
           anchorElement={this.getDOMNode()}
           shortcuts={true}
@@ -307,7 +310,7 @@ var Select = React.createClass({
 
     for (var i = 0; i < this.props.data.length; i++) {
       var item = this.props.data[i];
-      if (filterString === '' || check(item, filterString)) {
+      if (filterString === '' || check(item, filterString, this.props.data)) {
         item.type = List.ListProps.Type.ITEM;
 
         exectMatch |= (item.label === filterString);
@@ -490,9 +493,7 @@ var Select = React.createClass({
     if (this.isInputMode()) {
       return (
         <div onClick={this._buttonClickHandler} className={buttonCS}>
-          <Filter ref="filter"
-            onFilter={this._filterChangeHandler}
-          />
+          <Filter ref="filter" onFilter={this._filterChangeHandler} />
           <span className="ring-select__icons">
               { this.props.loading ? <Loader modifier={Loader.Modifier.INLINE} /> : ''}
               { this._getClearButton() }
@@ -519,7 +520,7 @@ var SelectPopup = React.createClass({
       data: [],
       filter: false, // can be bool or object with props: "value" and "placeholder"
       anchorElement: null,
-      maxHeight: 150,
+      maxHeight: 250,
       onSelect: function() {},
       onClose: function() {},
       onFilter: function() {}
@@ -588,9 +589,12 @@ var SelectPopup = React.createClass({
 
   _getFilter: function() {
     if (this.props.filter) {
-      return (<Filter ref="filter" popup="true"
-        placeholder={this.props.filter.placeholder || ''}
-        onFilter={this.props.onFilter} />);
+      return (<div className="ring-select__filter-wrapper">
+        <Filter ref="filter" popup="true"
+          placeholder={this.props.filter.placeholder || ''}
+          onFilter={this.props.onFilter}
+        />
+      </div>);
     }
   },
 
@@ -607,7 +611,6 @@ var SelectPopup = React.createClass({
 
     return (<Popup
       ref="popup"
-      maxHeight={this.props.maxHeight}
       hidden={true}
       cutEdge={false}
       dontCloseOnAnchorClick={true}
@@ -617,6 +620,7 @@ var SelectPopup = React.createClass({
       onClose={this.props.onClose}>
       {this._getFilter()}
       <List
+        maxHeight={this.props.maxHeight}
         data={this.props.data}
         restoreActiveIndex={true}
         activateOneItem={true}
