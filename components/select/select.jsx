@@ -180,11 +180,8 @@ var Select = React.createClass({
   mixins: [Shortcuts.Mixin, NgModelMixin],
   ngModelStateField: ngModelStateField,
   statics: {
+    Type: Types,
     ngModelStateField: ngModelStateField
-  },
-
-  statics: {
-    Type: Types
   },
 
   getDefaultProps: function () {
@@ -227,10 +224,10 @@ var Select = React.createClass({
     return {
       map: {
         'up': function() {
-          console.log('UP');
+          //console.log('UP');
         },
         'down': function() {
-          console.log('DOWN');
+          //console.log('DOWN');
         }
       },
       scope: generateUniqueId()
