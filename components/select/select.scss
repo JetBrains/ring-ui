@@ -1,7 +1,12 @@
 @import "../global/global";
 
-.ring-btn.ring-select {
+.ring-select {
+  display: inline-block;
   position: relative;
+  color: #888
+}
+
+.ring-btn.ring-select {
   font-size: 13px;
   width: 200px;
   text-align: left;
