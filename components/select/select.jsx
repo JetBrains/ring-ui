@@ -8,7 +8,7 @@ require('./select.scss');
 var React = require('react');
 var Popup = require('popup/popup');
 var List = require('list/list');
-var Input = require('input/input');
+var Filter = require('filter/filter');
 var Icon = require('icon/icon');
 var Button = require('button/button');
 var Loader = require('loader/loader');
@@ -47,14 +47,15 @@ var generateUniqueId = Global.getUIDGenerator('ring-list-');
  var React = require('react');
  var Select = require('./select.jsx');
 
- React.renderComponent(Select(), document.getElementById('demo'))
- .setProps({data: [
-    {'label': 'One', 'key': '1'},
-    {'label': 'Two', 'key': '2', disabled: true},
-      {'label': 'Two One', 'key': '2.1', level: 1},
-      {'label': 'Two Two', 'key': '2.2', level: 1},
-    {'label': 'Three', 'key': '3'}
-  ]});
+ var data = [];
+ for(var i = 0; i < 100; i++) {
+  data.push({'label': 'Item long long long long long label ' + i, 'key': i});
+ }
+
+ React.renderComponent(Select({
+  type: Select.Type.INPUT
+ }), document.getElementById('demo'))
+ .setProps({data: data});
  </file>
  </example>
 
@@ -170,11 +171,20 @@ var generateUniqueId = Global.getUIDGenerator('ring-list-');
  </example>
  */
 
+var Types = {
+  BUTTON: 0,
+  INPUT: 1
+};
+
 var Select = React.createClass({
   mixins: [Shortcuts.Mixin, NgModelMixin],
   ngModelStateField: ngModelStateField,
   statics: {
     ngModelStateField: ngModelStateField
+  },
+
+  statics: {
+    Type: Types
   },
 
   getDefaultProps: function () {
@@ -186,10 +196,11 @@ var Select = React.createClass({
       loading: false,
       disabled: false,
 
+      type: Types.BUTTON,
+
       selected: null,
 
       label: 'Please select option',
-      notFoundText: 'No options found',
       shortcuts: true,
 
       onOpen: function() {},
@@ -215,6 +226,12 @@ var Select = React.createClass({
   getShortcutsProps: function () {
     return {
       map: {
+        'up': function() {
+          console.log('UP');
+        },
+        'down': function() {
+          console.log('DOWN');
+        }
       },
       scope: generateUniqueId()
     };
@@ -250,14 +267,12 @@ var Select = React.createClass({
     if (!this._popup) {
       this._popup = Popup.renderComponent(
         <SelectPopup
-          filter={this.props.filter} // object
-          notFoundText={this.props.notFoundText}
+          filter={this.isInputMode() ? false : this.props.filter} // disable dpopup filter on input mode
           anchorElement={this.getDOMNode()}
           shortcuts={true}
           onClose={this._onClose}
           onSelect={this._listSelectHandler}
-          onFilter={this._filterChangeHandler}
-          SelectPopup/>);
+          onFilter={this._filterChangeHandler} />);
     }
   },
 
@@ -268,22 +283,22 @@ var Select = React.createClass({
   },
 
   _showPopup: function() {
-    var newData = this.filter(this._popup.getFilter());
+    var newData = this.getListItems(this.getFilterValue());
 
     this._popup.setProps({
       data: newData
     }, function() {
+      !this._popup.isVisible() && this.props.onOpen();
       this._popup.show();
-      this.props.onOpen();
     }.bind(this));
   },
 
   _hidePopup: function() {
+    this._popup.isVisible() && this.props.onClose();
     this._popup.hide();
-    this.props.onClose();
   },
 
-  filter: function(filterString) {
+  getListItems: function(filterString) {
     filterString = filterString.trim();
 
     var filteredData = [];
@@ -335,23 +350,24 @@ var Select = React.createClass({
     return filteredData;
   },
 
-  hasFilter: function() {
-    return this.props.filter;
-  },
-
   getFilterValue: function() {
-    return this.props.filter ? this._popup.refs.filter.value : '';
+    if (!this.isInputMode()) {
+      return this._popup.getFilter();
+    } else {
+      return this.refs.filter.value();
+    }
   },
 
-  fixKeys: function(data) {
-    var uniqueKey = 0;
-    for (var i = 0; i < data.length; i++) {
-      if (data[i].key === undefined) {
-        data[i].key = uniqueKey;
-        uniqueKey++;
-      }
+  setFilterValue: function(value) {
+    if (!this.isInputMode()) {
+      return this._popup.setFilter(value);
+    } else {
+      return this.refs.filter.value(value);
     }
-    return data;
+  },
+
+  isInputMode: function() {
+    return (this.props.type === Types.INPUT);
   },
 
   _buttonClickHandler: function() {
@@ -374,11 +390,11 @@ var Select = React.createClass({
     if (!this.props.multiple) {
       this.setState({
         selected: selected
-      });
-
-      this.clearFilter();
-      this.props.onSelect(selected);
-      this._hidePopup();
+      }, function() {
+        this.clearFilter();
+        this.props.onSelect(selected);
+        this._hidePopup();
+      }.bind(this));
     } else {
       if (!selected.key) {
         throw new Error('Multiple selection require "key" property on each item of the list');
@@ -406,6 +422,7 @@ var Select = React.createClass({
         if (this.props.multiple) {
           // setTimeout solves events order and bubbling issue
           setTimeout(function() {
+            this.isInputMode() && this.clearFilter();
             this._showPopup();
           }.bind(this), 0);
         }
@@ -416,13 +433,12 @@ var Select = React.createClass({
   },
 
   _onClose: function() {
+    this.isInputMode() && this.clearFilter();
     this._hidePopup();
   },
 
   clearFilter: function() {
-    if (this.props.filter) {
-      this._popup.setFilter('');
-    }
+    this.setFilterValue('');
   },
 
   clear: function() {
@@ -468,21 +484,35 @@ var Select = React.createClass({
   },
 
   render: function () {
-    var cx = React.addons.classSet({
+    var buttonCS = React.addons.classSet({
       'ring-select': true,
       'ring-btn_disabled': this.props.disabled,
       'ring-js-shortcuts': true
     });
 
-    return (
-      <Button onClick={this._buttonClickHandler} className={cx}>
-        <span className="ring-select__label">{this._getButtonLabel()}</span>
-        <span className="ring-select__icons">
+    if (this.isInputMode()) {
+      return (
+        <div onClick={this._buttonClickHandler} className={buttonCS}>
+          <Filter ref="filter"
+            onFilter={this._filterChangeHandler}
+          />
+          <span className="ring-select__icons">
+              { this.props.loading ? <Loader modifier={Loader.Modifier.INLINE} /> : ''}
+              { this._getClearButton() }
+            <Icon glyph="caret-down" size={Icon.Size.Size14} />
+          </span>
+        </div>);
+    } else {
+      return (
+        <Button onClick={this._buttonClickHandler} className={buttonCS}>
+          <span className="ring-select__label">{this._getButtonLabel()}</span>
+          <span className="ring-select__icons">
           { this.props.loading ? <Loader modifier={Loader.Modifier.INLINE} /> : ''}
           { this._getClearButton() }
-          <Icon glyph="caret-down" size={Icon.Size.Size14} />
-        </span>
-      </Button>);
+            <Icon glyph="caret-down" size={Icon.Size.Size14} />
+          </span>
+        </Button>);
+    }
   }
 });
 
@@ -492,7 +522,7 @@ var SelectPopup = React.createClass({
       data: [],
       filter: false, // can be bool or object with props: "value" and "placeholder"
       anchorElement: null,
-      notFoundText: '',
+      maxHeight: 150,
       onSelect: function() {},
       onClose: function() {},
       onFilter: function() {}
@@ -522,7 +552,11 @@ var SelectPopup = React.createClass({
   },
 
   setFilter: function(value) {
-    this.props.filter && (this._filterNode.value = value);
+    if (this.refs.filter) {
+      return this.refs.filter.value(value);
+    } else {
+      return function() {};
+    }
   },
 
   getFilter: function() {
@@ -557,18 +591,29 @@ var SelectPopup = React.createClass({
 
   _getFilter: function() {
     if (this.props.filter) {
-      return (<Input ref="filter" className="ring-select__filter ring-js-shortcuts"
-        placeholder={this.props.filter.placeholder || ''} onInput={this.props.onFilter} />);
+      return (<Filter ref="filter" popup="true"
+        placeholder={this.props.filter.placeholder || ''}
+        onFilter={this.props.onFilter} />);
     }
   },
 
   render: function() {
-    var hint = !this.props.data.length ? this.props.notFoundText : '';
+    var hint;
+
+    if (!this.props.data.length && this.props.filter) {
+      if (this.props.filter.notFoundText) {
+        hint = this.props.filter.notFoundText;
+      } else {
+        hint = 'No options found';
+      }
+    }
 
     return (<Popup
       ref="popup"
+      maxHeight={this.props.maxHeight}
       hidden={true}
       cutEdge={false}
+      dontCloseOnAnchorClick={true}
       anchorElement={this.props.anchorElement}
       autoRemove={false}
       shortcuts={this.state.popupShortcuts}
@@ -577,6 +622,7 @@ var SelectPopup = React.createClass({
       <List
         data={this.props.data}
         restoreActiveIndex={true}
+        activateOneItem={true}
         onSelect={this.props.onSelect}
         shortcuts={this.state.popupShortcuts}
         hint={hint}/>

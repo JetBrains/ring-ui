@@ -10,7 +10,7 @@ var Filter = React.createClass({
   getDefaultProps: function() {
     return {
       placeholder: '',// placeholder
-      value: '',      // set default value
+      initialValue: '',      // set default value
       popup: false,   // use special class fro popup filter
 
       regexp: null,
@@ -26,8 +26,14 @@ var Filter = React.createClass({
 
   onFilter: function() {
     var value = this.value();
-    if (!(this.props.regexp && !this.props.regexp.test(value)) &&
-      !(this.props.minlength && value.length < +this.props.minlength)) {
+
+    if (this.props.regexp || this.props.minlength) {
+
+      var result = true;
+      result &= !(this.props.minlength && value.length < +this.props.minlength);
+      result &= !(this.props.regexp && !this.props.regexp.test(value));
+      result && this.props.onFilter(value);
+    } else {
       this.props.onFilter(value);
     }
   },
@@ -38,7 +44,7 @@ var Filter = React.createClass({
 
   reset: function() {
     if (this.props.value) {
-      this.getDOMNode().value = this.props.value;
+      this.getDOMNode().value = this.props.initialValue;
     }
   },
 
@@ -58,7 +64,7 @@ var Filter = React.createClass({
       'ring-filter_popup': this.props.popup
     });
 
-    return (<Input className={cs} placeholder={this.props.placeholder} onInput={this.onFilter} />);
+    return this.transferPropsTo(<Input className={cs} onInput={this.onFilter}/>);
   }
 });
 
