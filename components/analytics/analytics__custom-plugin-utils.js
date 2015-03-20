@@ -39,7 +39,7 @@ AnalyticsCustomPluginUtils.getScreenWidthPresentation = function() {
   var sizes = [0, 768, 992, 1200];
   for (var i = 1; i < sizes.length; ++i) {
     if (window.innerWidth < sizes[i]) {
-      return ['[', String(sizes[i - 1]), 'px;', String(sizes[i]), 'px)'].join('');
+      return '[' + sizes[i - 1] + 'px;' + sizes[i] + 'px)';
     }
   }
   return '[1200px;inf)';
