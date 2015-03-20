@@ -232,7 +232,9 @@ var PopupMixin = {
    */
   onDocumentClick_: function (evt) {
     if (!this.getDOMNode().contains(evt.target)) {
-      this.close();
+      if (!this.props.anchorElement || !this.props.dontCloseOnAnchorClick || !this.props.anchorElement.contains(evt.target)) {
+        this.close();
+      }
     }
   },
 

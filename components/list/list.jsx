@@ -216,7 +216,8 @@ var List = React.createClass({
   getDefaultProps: function () {
     return {
       data: [],
-      restoreActiveIndex: false,
+      restoreActiveIndex: false,  // restore active item by "key" property of item
+      activateOneItem: false,     // if there is only one item activate it
       onSelect: function() {},
       shortcuts: false
     };
@@ -227,6 +228,10 @@ var List = React.createClass({
       activeIndex: null,
       activeItem: null
     };
+  },
+
+  isActivatable: function(item) {
+    return !(item.type === Type.HINT || item.type === Type.SEPARATOR || item.disabled);
   },
 
   hoverHandler: function (index) {
@@ -265,7 +270,7 @@ var List = React.createClass({
   moveHandler: function (index, retryCallback, e) {
     var item = this.props.data[index];
     this.setState({activeIndex: index, activeItem: item, scrolling: true}, function() {
-      if (item.type === Type.HINT || item.type === Type.SEPARATOR || item.disabled) {
+      if (!this.isActivatable(item)) {
         retryCallback(e);
         return;
       }
@@ -330,20 +335,25 @@ var List = React.createClass({
   componentWillReceiveProps: function (props) {
     if (props.data) {
       var activeIndex = null;
+      var activeItem = null;
 
       if (this.props.restoreActiveIndex && this.state.activeItem && this.state.activeItem.key) {
         for (var i = 0; i < props.data.length; i++) {
           // Restore active index if there is item with same "key" property
           if (props.data[i].key !== undefined && props.data[i].key === this.state.activeItem.key) {
             activeIndex = i;
+            activeItem = props.data[i];
             break;
           }
         }
+      } else if (props.data.length === 1 && this.props.activateOneItem && this.isActivatable(props.data[0])) {
+        activeIndex = 0;
+        activeItem = props.data[0];
       }
 
       this.setState({
         activeIndex: activeIndex,
-        activeItem: props.data[activeIndex]
+        activeItem: activeItem
       });
     }
   },
