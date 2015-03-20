@@ -128,7 +128,7 @@ Auth.REFRESH_BEFORE = 20 * 60; // 20 min in s
 Auth.REFRESH_TIMEOUT = 60 * 1000; // 1 min in ms
 
 /**
- * @const {boolean} is CORS avaibale in browser
+ * @const {boolean} is CORS available in browser
  */
 Auth.HAS_CORS = 'withCredentials' in new XMLHttpRequest();
 
@@ -487,7 +487,7 @@ Auth.prototype._redirectFrame = function ($iframe, url) {
  * Refreshes access token in iFrame.
  *
  * @return {Promise.<string>} promise that is resolved to access token when it is loaded in a background iframe. The
- * promise is rejected if no token was got after {@link Auth.REFRESH_POLL_MAX_ATTEMPTS} attempts.
+ * promise is rejected if no token was got after {@link Auth.REFRESH_TIMEOUT} ms.
  */
 Auth.prototype._loadTokenInBackground = function () {
   if (this._refreshDefer) {
