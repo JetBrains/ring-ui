@@ -27,6 +27,8 @@ AnalyticsCustomPlugin.prototype.trackPageView = function (path) {
   this._processEvent('navigator_user-agent', AnalyticsCustomPluginUtils.getUserAgentPresentation());
   this._processEvent('navigator_platform', navigator.platform);
   this._processEvent('navigator_lang', navigator.language);
+  this._processEvent('device-pixel-ratio', String(window.devicePixelRatio));
+  this._processEvent('screen-width', AnalyticsCustomPluginUtils.getScreenWidthPresentation());
 };
 
 AnalyticsCustomPlugin.prototype._initSendSchedule = function () {
