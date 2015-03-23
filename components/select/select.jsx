@@ -28,14 +28,15 @@ var generateUniqueId = Global.getUIDGenerator('ring-select-');
  * @example
  <example name="Disabled select">
  <file name="index.html">
-   <div id="demo"></div>
+   <div id="demo1"></div>
+   <div id="demo2"></div>
  </file>
  <file name="index.js" webpack="true">
    var React = require('react');
    var Select = require('./select.jsx');
 
-   React.renderComponent(Select({disabled: true}), document.getElementById('demo'))
-   .setProps({data: []});
+   React.renderComponent(Select({disabled: true, loading: true}), document.getElementById('demo1'));
+   React.renderComponent(Select({disabled: true, loading: true, type: Select.Type.INPUT}), document.getElementById('demo2'));
  </file>
  </example>
 
@@ -499,6 +500,7 @@ var Select = React.createClass({
   render: function () {
     var buttonCS = React.addons.classSet({
       'ring-select': true,
+      'ring-select_disabled': this.props.disabled,
       'ring-select_input-mode': this.isInputMode(),
       'ring-btn_disabled': this.props.disabled && !this.isInputMode(),
       'ring-js-shortcuts': true
@@ -507,7 +509,7 @@ var Select = React.createClass({
     if (this.isInputMode()) {
       return (
         <div onClick={this._buttonClickHandler} className={buttonCS}>
-          <Filter ref="filter" className={this.props.disabled ? 'ring-input_disabled' : ''} onFilter={this._filterChangeHandler} shortcuts={this._popup ? !this._popup.isVisible() : false} />
+          <Filter ref="filter" disabled={this.props.disabled} className={this.props.disabled ? 'ring-input_disabled' : ''} onFilter={this._filterChangeHandler} shortcuts={this._popup ? !this._popup.isVisible() : false} />
           <span className="ring-select__icons">
               { this.props.loading ? <Loader modifier={Loader.Modifier.INLINE} /> : ''}
               { this._getClearButton() }
