@@ -32,7 +32,7 @@ angular.module('Ring.select', [])
       link: function (scope, iElement, iAttrs, ctrls) {
         ctrls[1].setNgModelCtrl(ctrls[0]);
       },
-      controller: function ($scope) {
+      controller: ['$scope', function ($scope) {
         /*eslint-disable consistent-this*/
         var ctrl = this;
         /*eslint-enable consistent-this*/
@@ -136,6 +136,6 @@ angular.module('Ring.select', [])
         ctrl.startLoading = startLoading;
         ctrl.onOpen = onOpen;
         ctrl.syncSelectToNgModel = syncSelectToNgModel;
-      }
+      }]
     };
   });
