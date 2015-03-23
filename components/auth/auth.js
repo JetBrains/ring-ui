@@ -539,7 +539,7 @@ var GUEST_ID = 'guest';
  * @return {boolean}
  */
 Auth.prototype.isGuest = function(response) {
-  return response.login === GUEST_ID && response.name === GUEST_ID;
+  return response.login === GUEST_ID;
 };
 
 module.exports = Auth;
