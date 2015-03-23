@@ -19,7 +19,7 @@ angular.module('Ring.select', [])
         options: '=?',
         source: '&',
         filter: '=?',
-        onFilter: '&',
+        onFilter: '=',
         label: '@',
         labelField: '@',
         selectedLabelField: '@',
@@ -89,7 +89,7 @@ angular.module('Ring.select', [])
           if (sourcePromise) {
             ctrl.isLoading = true;
             sourcePromise.then(function (results) {
-              ctrl.options = convertOptionsToSelectData(results.data || results);
+              ctrl.selectOptions = convertOptionsToSelectData(results.data || results);
             }).catch(function () {
               //todo: catch error
             }).finally(function () {
