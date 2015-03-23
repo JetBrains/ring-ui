@@ -5,12 +5,41 @@
   position: relative;
   color: #888;
 
-  &__filter-wrapper {
-    padding: 2*$ring-unit 2*$ring-unit $ring-unit;
+  &_input-mode {
+    .ring-select__icons {
+      top: 2px;
+    }
   }
 
-  &__not-found {
-    padding: $ring-unit;
+  &__filter-wrapper {
+    padding: 0 2*$ring-unit;
+    margin: 2*$ring-unit 0 $ring-unit;
+  }
+
+  &__message {
+    text-align: center;
+    padding: 0 2*$ring-unit;
+    margin: $ring-unit 0;
+  }
+
+  &__button {
+    padding: 0 2*$ring-unit;
+    margin: $ring-unit/2 0;
+    text-align: left;
+    line-height: 28px;
+
+    &:hover {
+      color: #FFF;
+      background-color: #25B7FF;
+      cursor: pointer;
+    }
+
+    &__plus {
+      position: relative;
+      top: 2px;
+      margin-right: $ring-unit;
+      font-size: 19px;
+    }
   }
 }
 

@@ -79,7 +79,7 @@ var ListItem = React.createClass({
     });
 
     var style = {
-      'padding-left': (+this.props.level * 8 + 16) + 'px'
+      'padding-left': ((+this.props.level || 0) * 8 + 16) + 'px'
     };
 
     return this.transferPropsTo(
