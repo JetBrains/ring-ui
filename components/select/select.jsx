@@ -143,9 +143,7 @@ var generateUniqueId = Global.getUIDGenerator('ring-select-');
  React.renderComponent(Select({
    filter: true,
    add: {
-    callback: function(value) {
-      console.log('Add', value);
-    }
+    prefix: 'Add some item'
    },
    multiple: {
     label: 'Change selected items', // override button label if something selected
@@ -278,6 +276,7 @@ var Select = React.createClass({
     if (!this._popup) {
       this._popup = Popup.renderComponent(
         <SelectPopup
+          loadingMessage={this.props.loadingMessage}
           notFoundMessage={this.props.notFoundMessage}
           maxHeight={this.props.maxHeight}
           filter={this.isInputMode() ? false : this.props.filter} // disable dpopup filter on input mode
@@ -298,7 +297,7 @@ var Select = React.createClass({
   _showPopup: function() {
     this._popup.setProps({
       data: this.getListItems(this.getFilterValue()),
-      toolbar: this.getToolbarItems()
+      toolbar: this.getToolbar()
     }, function() {
       !this._popup.isVisible() && this.props.onOpen();
       this._popup.show();
@@ -310,27 +309,14 @@ var Select = React.createClass({
     this._popup.hide();
   },
 
-  getToolbarItems: function() {
-    var items = [];
+  addHandler: function() {
+    this.props.onAdd(this.getFilterValue());
+  },
+
+  getToolbar: function() {
     if (this._addButton) {
-      items.push({
-        key: 'add',
-        type: List.ListProps.Type.CUSTOM,
-        template: (<div>dwwdwdwdw</div>),
-        onClick: function() {
-          this.props.onAdd(this.getFilterValue());
-        }.bind(this)
-      });
+      return <div className="ring-select__button" onClick={this.addHandler}><span className="ring-select__button__plus">+</span>{this.props.add.prefix ? this.props.add.prefix + ' ' : ''}<b>{this.getFilterValue()}</b></div>;
     }
-
-    if (items.length) {
-      items.unshift({
-        key: 'sep',
-        type: List.ListProps.Type.SEPARATOR
-      });
-    }
-
-    return items;
   },
 
   _addButton: null,
@@ -363,7 +349,7 @@ var Select = React.createClass({
     }
 
     this._addButton = null;
-    if (this.props.add && this.props.add.callback && filterString && !exectMatch) {
+    if (this.props.add && filterString && !exectMatch) {
       if (!(this.props.add.regexp && !this.props.add.regexp.test(filterString)) &&
       !(this.props.add.minlength && filterString.length < +this.props.add.minlength)) {
 
@@ -513,14 +499,15 @@ var Select = React.createClass({
   render: function () {
     var buttonCS = React.addons.classSet({
       'ring-select': true,
-      'ring-btn_disabled': this.props.disabled,
+      'ring-select_input-mode': this.isInputMode(),
+      'ring-btn_disabled': this.props.disabled && !this.isInputMode(),
       'ring-js-shortcuts': true
     });
 
     if (this.isInputMode()) {
       return (
         <div onClick={this._buttonClickHandler} className={buttonCS}>
-          <Filter ref="filter" onFilter={this._filterChangeHandler} shortcuts={this._popup ? !this._popup.isVisible() : false} />
+          <Filter ref="filter" className={this.props.disabled ? 'ring-input_disabled' : ''} onFilter={this._filterChangeHandler} shortcuts={this._popup ? !this._popup.isVisible() : false} />
           <span className="ring-select__icons">
               { this.props.loading ? <Loader modifier={Loader.Modifier.INLINE} /> : ''}
               { this._getClearButton() }
@@ -545,9 +532,10 @@ var SelectPopup = React.createClass({
   getDefaultProps: function() {
     return {
       data: [],
-      toolbar: [],
+      toolbar: null,
       filter: false, // can be bool or object with props: "value" and "placeholder"
       notFoundMessage: 'No options found',
+      loadingMessage: 'Loading...',
       anchorElement: null,
       maxHeight: 250,
       onSelect: function() {},
@@ -627,15 +615,22 @@ var SelectPopup = React.createClass({
     }
   },
 
-  getBottomToolbar: function() {
-    if (this.props.toolbar.length) {
-      return <List data={this.props.toolbar} />;
+  getMessage: function() {
+    if (!this.props.data.length) {
+      return <div className="ring-select__message">{this.props.loading ? this.props.loadingMessage : this.props.notFoundMessage}</div>;
     }
   },
 
-  getNotFoundMessage: function() {
-    if (!this.props.data.length && !this.props.loading && this.props.notFoundMessage) {
-      return <div className="ring-select__not-found">{this.props.notFoundMessage}</div>;
+  getList: function() {
+    if (this.props.data.length) {
+      return <List
+        maxHeight={this.props.maxHeight}
+        data={this.props.data}
+        restoreActiveIndex={true}
+        activateOneItem={true}
+        onSelect={this.props.onSelect}
+        shortcuts={this.state.popupShortcuts}
+      />;
     }
   },
 
@@ -650,16 +645,9 @@ var SelectPopup = React.createClass({
       shortcuts={this.state.popupShortcuts}
       onClose={this.props.onClose}>
       {this._getFilter()}
-      <List
-        maxHeight={this.props.maxHeight}
-        data={this.props.data}
-        restoreActiveIndex={true}
-        activateOneItem={true}
-        onSelect={this.props.onSelect}
-        shortcuts={this.state.popupShortcuts}
-      />
-      {this.getNotFoundMessage()}
-      {this.getBottomToolbar()}
+      {this.getList()}
+      {this.getMessage()}
+      {this.props.toolbar}
     </Popup>);
   }
 });
