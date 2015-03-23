@@ -21,7 +21,7 @@ Analytics.prototype.track = function (rawTrackingData, /* optional */ viaShortcu
     splitIdx = rawTrackingData.indexOf('_');
   }
   if (splitIdx < 0) {
-    return;
+    splitIdx = rawTrackingData.length;
   }
   var category = rawTrackingData.substr(0, splitIdx);
   var subcategory = rawTrackingData.substr(splitIdx + 1);
