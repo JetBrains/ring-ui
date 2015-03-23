@@ -4,8 +4,74 @@ require('react-ng/react-ng')({
   Select: require('select/select')
 });
 
+/**
+ * @name Select-ng.
+ * @description Angular wrapper for React select
+ * @example
+ *
+<example name="Select-ng">
+  <file name="index.html">
+    <div ng-app="test" ng-controller="testCtrl as ctrl">
+      <rg-select ng-model="ctrl.selectedItem" options="ctrl.options" key-field="id" label-field="text" label="Select item"></rg-select>
+      <div>Selected item: {{ctrl.selectedItem}}</div>
+    </div>
+  </file>
+  <file name="index.js" webpack="true">
+    require('angular/angular.min.js');
+    require('select-ng/select-ng');
+
+    angular.module('test', ['Ring.select']).controller('testCtrl', function() {
+      var ctrl = this;
+
+      ctrl.options = [
+        {id: 1, text: '11111'},
+        {id: 2, text: '22222'},
+        {id: 3, text: '33333'}
+      ];
+
+      ctrl.selectedItem = ctrl.options[1];
+
+    });
+  </file>
+</example>
+
+ <example name="Select-ng-promise">
+   <file name="index.html">
+     <h4>Getting items from promise on click</h4>
+     <div ng-app="test" ng-controller="testCtrl as ctrl">
+      <rg-select ng-model="ctrl.selectedItem" source="ctrl.getItems()" label="Select item"></rg-select>
+      <div>Selected item: {{ctrl.selectedItem}}</div>
+     </div>
+   </file>
+   <file name="index.js" webpack="true">
+     require('angular/angular.min.js');
+     require('select-ng/select-ng');
+
+     angular.module('test', ['Ring.select']).controller('testCtrl', function($timeout, $q) {
+          var ctrl = this;
+
+          ctrl.options = [
+            {key: 1, label: '11111'},
+            {key: 2, label: '22222'},
+            {key: 3, label: '33333'}
+          ];
+
+          ctrl.selectedItem = ctrl.options[1];
+
+          ctrl.getItems = function(){
+            var defer = $q.defer();
+            $timeout(function(){
+              defer.resolve(ctrl.options);
+            }, 100000);
+            return defer.promise;
+          };
+      });
+   </file>
+ </example>
+*/
+
 /* global angular: false */
-angular.module('Ring.select', [])
+angular.module('Ring.select', ['Ring.react-ng'])
   .directive('rgSelect', function () {
     var defaultKey = 'key';
     var defaultLabel = 'label';
