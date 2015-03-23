@@ -11,6 +11,12 @@
     }
   }
 
+  &_disabled {
+    opacity: 0.5;
+  }
+
+
+
   &__filter-wrapper {
     padding: 0 2*$ring-unit;
     margin: 2*$ring-unit 0 $ring-unit;
@@ -41,6 +47,25 @@
       font-size: 19px;
     }
   }
+
+  &__icons {
+    position: absolute;
+    top: 0;
+    right: $ring-unit;
+
+    .ring-loader.ring-loader_inline {
+      top: 2px;
+      margin-right: 2px;
+    }
+  }
+
+  &__label {
+    width: 100%;
+    text-overflow: ellipsis;
+    display: inline-block;
+    overflow: hidden;
+    padding-right: 3*$ring-unit;
+  }
 }
 
 .ring-btn.ring-select {
@@ -50,16 +75,3 @@
   white-space: nowrap;
 }
 
-  .ring-select__label {
-    width: 100%;
-    text-overflow: ellipsis;
-    display: inline-block;
-    overflow: hidden;
-    padding-right: 3*$ring-unit;
-  }
-
-  .ring-select__icons {
-    position: absolute;
-    top: 0;
-    right: $ring-unit;
-  }
