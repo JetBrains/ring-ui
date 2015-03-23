@@ -18,7 +18,7 @@ var ngModelStateField = 'selected';
 var Shortcuts = require('shortcuts/shortcuts');
 
 var Global = require('global/global');
-var generateUniqueId = Global.getUIDGenerator('ring-list-');
+var generateUniqueId = Global.getUIDGenerator('ring-select-');
 
 
 /**
@@ -225,17 +225,27 @@ var Select = React.createClass({
   },
 
   getShortcutsProps: function () {
+    var self = this;
     return {
       map: {
+        'enter': function() {
+          self.inputHandler();
+        },
         'up': function() {
-          //console.log('UP');
+          self.inputHandler();
         },
         'down': function() {
-          //console.log('DOWN');
+          self.inputHandler();
         }
       },
       scope: generateUniqueId()
     };
+  },
+
+  inputHandler: function() {
+    if (this._popup && !this._popup.isVisible()) {
+      this._buttonClickHandler();
+    }
   },
 
   componentWillMount: function() {
@@ -510,7 +520,7 @@ var Select = React.createClass({
     if (this.isInputMode()) {
       return (
         <div onClick={this._buttonClickHandler} className={buttonCS}>
-          <Filter ref="filter" onFilter={this._filterChangeHandler} shortcuts={true} />
+          <Filter ref="filter" onFilter={this._filterChangeHandler} shortcuts={this._popup ? !this._popup.isVisible() : false} />
           <span className="ring-select__icons">
               { this.props.loading ? <Loader modifier={Loader.Modifier.INLINE} /> : ''}
               { this._getClearButton() }
