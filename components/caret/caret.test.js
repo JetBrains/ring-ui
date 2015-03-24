@@ -75,14 +75,10 @@ describe('Caret', function () {
     });
 
     it('Should get correct offset', function () {
-      var isPhantomJS = window.navigator.appVersion.search('PhantomJS') > -1;
-
-      if (isPhantomJS) {
-        return true;
-      }
-
       window.getSelection().collapse(this.target.firstChild, 10);
-      (Math.ceil(this.caret.getOffset() / 10) * 10).should.equal(50);
+
+      // Test caret offset should be about 50px (browsers have some small differences)
+      this.caret.getOffset().should.be.closeTo(50, 2);
     });
   });
 });
