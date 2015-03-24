@@ -404,7 +404,7 @@ Auth.prototype._validateScopes = function (storedToken) {
  * @return {boolean}
  * @private
  */
-Auth.prototype._canValudateAgainstUser = function () {
+Auth.prototype._canValidateAgainstUser = function () {
   var clientOrigin = urlUtils.getOrigin(this.config.redirect_uri);
   var serverOrigin = urlUtils.getOrigin(this.config.serverUri);
 
@@ -420,7 +420,7 @@ Auth.prototype._canValudateAgainstUser = function () {
 Auth.prototype._validateAgainstUser = function (storedToken) {
   var self = this;
 
-  if (!this._canValudateAgainstUser()) {
+  if (!this._canValidateAgainstUser()) {
     return when(storedToken);
   }
 
