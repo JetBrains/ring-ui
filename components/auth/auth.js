@@ -530,7 +530,6 @@ Auth.prototype.setHash = function(hash) {
     // NB! URL to redirect is formed maually because baseURI could be messed
     // up and in this case it's not obvious where redirect will lead.
     var cleanedUrl = [
-      document.location.origin,
       document.location.pathname,
       document.location.search
     ].join('');
