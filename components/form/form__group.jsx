@@ -51,9 +51,12 @@ var FormGroup = React.createClass({
 
   /** @override */
   componentDidMount: function() {
+    // TODO Refactor or remove component
+    /* eslint-disable react/no-did-mount-set-state */
     this.setState({
       'inputElement': this.getDOMNode().querySelector('input')
     });
+    /* eslint-enable react/no-did-mount-set-state */
   },
 
   /** @override */

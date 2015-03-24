@@ -56,7 +56,7 @@
     "eslint-plugin-google-camelcase": "0.0.1",
     "eslint-plugin-mocha": "0.2.2",
     "eslint-plugin-one-variable-per-var": "0.0.3",
-    "eslint-plugin-react": "1.2.2",
+    "eslint-plugin-react": "1.6.0",
     "gulp": "3.8.10",
     "gulp-concat": "2.4.3",
     "gulp-nodemon": "1.0.5",
