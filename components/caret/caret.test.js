@@ -78,7 +78,7 @@ describe('Caret', function () {
       window.getSelection().collapse(this.target.firstChild, 10);
 
       // Test caret offset should be about 50px (browsers have some small differences)
-      this.caret.getOffset().should.be.closeTo(50, 2);
+      this.caret.getOffset().should.be.closeTo(50, 10);
     });
   });
 });
