@@ -121,10 +121,15 @@
   position: absolute;
   text-align: center;
   width: 100%;
+
+  b {
+    font-weight: normal;
+  }
 }
 
 .ring2-header__menu-service-item {
   box-sizing: border-box;
+  color: #fff;
   display: inline-block;
   height: $ring-unit*16;
   line-height: 1.2;
@@ -157,7 +162,7 @@
     margin-right: 0;
   }
 
-  a, b {
+  .ring-link, b {
     color: $ring-color-dark-gray;
   }
 }
