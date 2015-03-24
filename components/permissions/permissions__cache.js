@@ -11,17 +11,24 @@
  * @return {object} permission cache
  * @private
  */
-var PermissionCache = function (cachedPermissions, namesConverter) {
-  this.permissionCache = {};
-  for (var i = 0; i < cachedPermissions.length; i++) {
-    var cachedPermission = cachedPermissions[i];
-    var key = cachedPermission.permission.key;
+var PermissionCache = function (permissions, namesConverter) {
+  var permissionCache = {};
+
+  permissions.forEach(function(permission) {
+    var key = permission.permission.key;
+
     if (namesConverter) {
       key = namesConverter(key);
     }
-    cachedPermission.spaceIdSet = PermissionCache._toSpaceIdSet(cachedPermission.spaces);
-    this.permissionCache[key] = cachedPermission;
-  }
+
+    permissionCache[key] = {
+      global: permission.global,
+      spaceIdSet: PermissionCache._toSpaceIdSet(permission.spaces)
+    };
+  });
+
+  this.namesConverter = namesConverter || function(){};
+  this.permissionCache = permissionCache;
 };
 
 /**
@@ -208,7 +215,10 @@ PermissionCache.prototype.term = function (lexems, spaceId) {
  * @return {boolean}
  */
 PermissionCache.prototype.testPermission = function (permissionName, spaceId) {
-  var cachedPermission = this.permissionCache[permissionName];
+  var permissionCache = this.permissionCache;
+
+  var cachedPermission = permissionCache[permissionName] || permissionCache[this.namesConverter(permissionName)];
+
   // Hasn't the permission in any space
   if (!cachedPermission) {
     return false;
