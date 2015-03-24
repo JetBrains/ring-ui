@@ -265,7 +265,7 @@ var List = React.createClass({
     }
 
     if (item.type === Type.LINK && isKeyboardEvent) {
-      document.location.href = this.refs['item' + this.state.activeIndex].getDOMNode().href;
+      window.location.href = this.refs['item' + this.state.activeIndex].getDOMNode().href;
     }
   },
 
