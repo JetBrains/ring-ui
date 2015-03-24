@@ -527,7 +527,7 @@ Auth.prototype.setHash = function(hash) {
   if (history.replaceState) {
     // NB! History.replaceState is used here, because Firefox saves
     // a record in history.
-    history.replaceState(undefined, undefined, ['#', hash].join(''));
+    history.replaceState(undefined, undefined, '#' + hash);
   } else {
     window.location.hash = hash;
   }
