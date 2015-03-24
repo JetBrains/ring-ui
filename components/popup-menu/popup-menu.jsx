@@ -50,13 +50,15 @@ var PopupMenu = React.createClass({
 
   /** @override */
   getInternalContent: function () {
-    return <List ref="List"
-      data={this.props.data}
-      hint={this.props.hint}
-      hintOnSelection={this.props.hintOnSelection}
-      maxHeight={this._getStyles().maxHeight}
-      onSelect={this.props.onSelect}
-      shortcuts={this.shortcutsEnabled()} />;
+    return (
+      <List ref="List"
+        data={this.props.data}
+        hint={this.props.hint}
+        hintOnSelection={this.props.hintOnSelection}
+        maxHeight={this._getStyles().maxHeight}
+        onSelect={this.props.onSelect}
+        shortcuts={this.shortcutsEnabled()} />
+    );
   }
 });
 

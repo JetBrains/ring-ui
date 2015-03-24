@@ -93,7 +93,8 @@ var Alerts = React.createClass({
     return (<div className="ring-alerts">
       <React.addons.CSSTransitionGroup transitionName="alert">
         {this.state.childElements.slice(0).reverse().map(function(child) {
-          return <Alert
+          return (
+            <Alert
               animationDeferred={child.animationDeferred}
               caption={child.caption}
               closeable={true}
@@ -101,7 +102,8 @@ var Alerts = React.createClass({
               key={child.key}
               onCloseClick={child.onCloseClick}
               ref={'alert-' + child.key}
-              type={child.type} />;
+              type={child.type} />
+          );
         })}
       </React.addons.CSSTransitionGroup>
     </div>);
