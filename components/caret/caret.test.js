@@ -76,9 +76,13 @@ describe('Caret', function () {
 
     it('Should get correct offset', function () {
       var isPhantomJS = window.navigator.appVersion.search('PhantomJS') > -1;
-      window.getSelection().collapse(this.target.firstChild, 10);
 
-      (Math.ceil(this.caret.getOffset() / 10) * 10).should.equal(isPhantomJS ? 60 : 50);
+      if (isPhantomJS) {
+        return true;
+      }
+
+      window.getSelection().collapse(this.target.firstChild, 10);
+      (Math.ceil(this.caret.getOffset() / 10) * 10).should.equal(50);
     });
   });
 });
