@@ -524,7 +524,13 @@ Auth.prototype._loadTokenInBackground = function () {
  * @param {string} hash
  */
 Auth.prototype.setHash = function(hash) {
-  window.location.hash = hash;
+  if (history.replaceState) {
+    // NB! History.replaceState is used here, because Firefox saves
+    // a record in history.
+    history.replaceState(undefined, undefined, ['#', hash].join(''));
+  } else {
+    window.location.hash = hash;
+  }
 };
 
 /**
