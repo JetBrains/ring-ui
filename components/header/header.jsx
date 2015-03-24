@@ -9,6 +9,7 @@ var Button = require('button/button');
 var ClassName = require('class-name/class-name');
 var Global = require('global/global');
 var Icon = require('icon/icon');
+var Link = require('link/link');
 var mixIn = require('mout/object/mixIn');
 var PopupMenu = require('popup-menu/popup-menu');
 var React = require('react/addons');
@@ -702,22 +703,19 @@ var Header = React.createClass({
         var servicesIconsMenu = (<div>
           <div className={headerClassName.getElement('menu-service-line')}>
             {servicesList.map(function(item, i) {
-              var href = document.location.toString().indexOf(item.homeUrl) === -1 ? item.homeUrl : null;
-              var linkElement = href ? (<a href={item.homeUrl} target="_self">{item.name}</a>) : (<b>{item.name}</b>);
-
-              return (<div className={headerClassName.getElement('menu-service-line__item')} key={i}>{linkElement}</div>);
-            })}
+              return (<div className={headerClassName.getElement('menu-service-line__item')} key={i}>
+                {this._getLinkElement(item.homeUrl, null, item.name)}
+              </div>);
+            }, this)}
           </div>
 
           {servicesIcons.map(function(item, i) {
             var serviceLogo = getServiceLogo(item);
             if (serviceLogo) {
-              return (<a href={item.homeUrl} target="_self" title={item.name} key={i}>
-                <div className={headerClassName.getElement('menu-service-item')}>
-                  <Icon size={Icon.Size.Size64} glyph={serviceLogo} className="ring-icon" /><br />
-                  {item.name}
-                </div>
-              </a>);
+              return (this._getLinkElement(item.homeUrl, { title: item.name, key: i }, (<div className={headerClassName.getElement('menu-service-item')}>
+                <Icon size={Icon.Size.Size64} glyph={serviceLogo} className="ring-icon" /><br />
+                {item.name}
+              </div>)));
             }
           }, this)}
         </div>);
@@ -740,6 +738,29 @@ var Header = React.createClass({
         this.setProps({ popupData: popupData });
       }
     });
+  },
+
+  /**
+   * @param {string} href
+   * @param {Object} props
+   * @param {Array.<ReactComponent>|ReactComponent} children
+   * @return {ReactComponent}
+   * @private
+   */
+  _getLinkElement: function(href, props, children) {
+    var currentUrl = [
+      document.location.protocol, '//',
+      document.location.host,
+      document.location.pathname
+    ].join('');
+
+    var isActive = (currentUrl.replace(/\/$/, '') === href.replace(/\/$/, ''));
+
+    if (isActive) {
+      return React.DOM.b(props, children);
+    }
+
+    return new Link(mixIn({href: href, target: '_self'}, props), children);
   },
 
   /**
