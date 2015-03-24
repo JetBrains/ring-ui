@@ -26,6 +26,7 @@
     "start": "gulp",
     "lint": "eslint --ext $npm_package_config_eslint_ext .",
     "lint-hook": "eslint --ext $npm_package_config_eslint_ext $ESLINT_HOOK_FILES",
+    "prelint-ci": "npm run lint",
     "lint-ci": "eslint --ext $npm_package_config_eslint_ext --format jslint-xml . > $npm_package_config_eslint_report",
     "postlint-ci": "node tools/import-reports",
     "test-ci": "node node_modules/karma/bin/karma start karma-ci.conf.js",
