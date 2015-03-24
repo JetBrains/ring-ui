@@ -22,6 +22,9 @@ AnalyticsCustomPlugin.prototype.trackEvent = function (category, action) {
 };
 
 AnalyticsCustomPlugin.prototype.trackPageView = function (path) {
+  if (this._lastPagePath === path) {
+    return;
+  }
   this._trackPageViewAdditionalInfo(path);
   this._processEvent('ring-page', path);
   this._processEvent('ring-navigator_user-agent', AnalyticsCustomPluginUtils.getUserAgentPresentation());
