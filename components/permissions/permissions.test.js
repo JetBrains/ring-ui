@@ -168,11 +168,6 @@ describe('Permissions', function () {
         {permission: {key: 'jetbrains.upsource.permission.project.admin'}, global: true}
       ], namesConverter);
 
-      it('should not permit permission via serve name', function () {
-        permissionCacheWithConverter.has('jetbrains.jetpass.project-read').should.be.false;
-        permissionCacheWithConverter.has('JetBrains.YouTrack.UPDATE_NOT_OWN_WORK_ITEM').should.be.false;
-      });
-
       it('should not permit unexisting permission', function () {
         permissionCacheWithConverter.has('work-item-update').should.be.false;
         permissionCacheWithConverter.has('JetBrains.YouTrack.UPDATE_WORK_ITEM').should.be.false;
@@ -188,6 +183,11 @@ describe('Permissions', function () {
         permissionCacheWithConverter.has('update-not-own-work-item').should.be.true;
         permissionCacheWithConverter.has('update-not-own-work-item', '456').should.be.false;
         permissionCacheWithConverter.has('update-not-own-work-item', '123').should.be.true;
+      });
+
+      it('should allow use original key for test permission', function() {
+        permissionCacheWithConverter.has('jetbrains.jetpass.project-read').should.be.true;
+        permissionCacheWithConverter.has('JetBrains.YouTrack.UPDATE_NOT_OWN_WORK_ITEM').should.be.true;
       });
     });
   });
