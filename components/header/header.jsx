@@ -749,9 +749,9 @@ var Header = React.createClass({
    */
   _getLinkElement: function(href, props, children) {
     var currentUrl = [
-      document.location.protocol, '//',
-      document.location.host,
-      document.location.pathname
+      window.location.protocol, '//',
+      window.location.host,
+      window.location.pathname
     ].join('');
 
     var isActive = (currentUrl.replace(/\/$/, '') === href.replace(/\/$/, ''));
