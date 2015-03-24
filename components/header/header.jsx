@@ -7,13 +7,11 @@
 require('./header.scss');
 var Button = require('button/button');
 var ClassName = require('class-name/class-name');
-var contains = require('mout/array/contains');
 var Global = require('global/global');
 var Icon = require('icon/icon');
 var mixIn = require('mout/object/mixIn');
 var PopupMenu = require('popup-menu/popup-menu');
 var React = require('react/addons');
-var remove = require('mout/array/remove');
 var urlUtils = require('url-utils/url-utils');
 
 
