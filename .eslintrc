@@ -53,11 +53,18 @@
     "filenames/filenames": [2, "^[a-z-_.]+$"],
     "google-camelcase/google-camelcase": 2,
     "one-variable-per-var/one-variable-per-var": 2,
+    "react/display-name": 0,
+    "react/jsx-quotes": [0, "double"],
+    "react/jsx-no-undef": 2,
+    "react/jsx-uses-react": 2,
+    "react/jsx-uses-vars": 2,
+    "react/no-did-mount-set-state": 2,
+    "react/no-did-update-set-state": 2,
     "react/no-multi-comp": 0,
     "react/prop-types": 0,
-    "react/display-name": 0,
-    "react/wrap-multilines": 0,
-    "react/self-closing-comp": 2
+    "react/react-in-jsx-scope": 2,
+    "react/self-closing-comp": 2,
+    "react/wrap-multilines": 2
   },
   "env": {
     "browser": true,
