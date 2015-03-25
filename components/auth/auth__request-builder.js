@@ -1,5 +1,6 @@
 /* eslint-disable google-camelcase/google-camelcase */
-var $ = require('jquery');
+var mixIn = require('mout/object/mixIn');
+var guid = require('mout/random/guid');
 
 /**
  * @param {{
@@ -29,7 +30,7 @@ AuthRequestBuilder.prototype.prepareAuthRequest = function (extraParams) {
     return encodeURIComponent(scope);
   });
 
-  var request = $.extend({
+  var request = mixIn({
     response_type: 'token',
     state: state,
     redirect_uri: this.config.redirect_uri,
@@ -61,14 +62,7 @@ AuthRequestBuilder.prototype._saveState = function (id, storedState) {
 /**
  * @return {string} random string used for state
  */
-AuthRequestBuilder._uuid = function () {
-  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-    var r = Math.random() * 16 | 0;
-    var v = c === 'x' ? r : (r & 0x3 | 0x8);
-    return v.toString(16);
-  });
-};
-
+AuthRequestBuilder._uuid = guid;
 
 /*
  * Takes an URL as input and a params object.
