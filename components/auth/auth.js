@@ -17,6 +17,7 @@ var urlUtils = require('url-utils/url-utils');
  * @prop {string} config.serverUri
  * @prop {string} config.redirect_uri
  * @prop {string} config.client_id
+ * @prop {boolean=false} config.redirect — use redirect instrad background token load
  * @prop {string[]} config.scope
  * @prop {string[]} config.optionalScopes
  * @prop {boolean} config.cleanHash - describes whether or not the location.hash has to be cleaned after authorization finish.
@@ -106,6 +107,7 @@ var Auth = function (config) {
   this._requestBuilder = new AuthRequestBuilder({
     authorization: this.config.serverUri + Auth.API_AUTH_PATH,
     client_id: this.config.client_id,
+    redirect: this.config.redirect,
     redirect_uri: this.config.redirect_uri,
     request_credentials: this.config.request_credentials,
     scopes: this.config.scope
@@ -137,6 +139,7 @@ Auth.DEFAULT_CONFIG = {
 
     return uri;
   }()),
+  redirect: false,
   request_credentials: 'default',
   scope: [],
   cleanHash: true,
@@ -179,25 +182,55 @@ Auth.HAS_CORS = 'withCredentials' in new XMLHttpRequest();
  */
 Auth.prototype.init = function () {
   var self = this;
+
+  function validateToken() {
+    return self._getValidatedToken([
+      Auth._validateExistence,
+      Auth._validateExpiration,
+      self._validateScopes.bind(self),
+      self._validateAgainstUser.bind(self)]);
+  }
+
+  function sendRedirect(error) {
+    return self._requestBuilder.prepareAuthRequest().
+      then(function (authURL) {
+        self._redirectCurrentPage(authURL);
+        return when.reject(error);
+      });
+  }
+
   return this._checkForAuthResponse().
-    then(function (restoreLocation) {
+    then(function (state) {
+      // Return endless promise in background to avoid service start
+      if (state && state.nonRedirect) {
+        return when.defer().promise;
+      }
+
       // Check if there is a valid token
-      return self._getValidatedToken([Auth._validateExistence, Auth._validateExpiration, self._validateScopes.bind(self), self._validateAgainstUser.bind(self)]).
+      return validateToken().
         then(function (/*accessToken*/) {
           // Access token appears to be valid.
           // We may resolve restoreLocation URL now
-          self._initDeferred.resolve(restoreLocation);
-          return restoreLocation;
-        }, function (e) {
-          if (e.authRedirect) {
-            return self._requestBuilder.prepareAuthRequest().
-              then(function (authURL) {
-                self._redirectCurrentPage(authURL);
-                return when.reject(e);
-              });
+          self._initDeferred.resolve(state && state.restoreLocation);
+          return state && state.restoreLocation;
+        }, function (error) {
+          // Redirect flow
+          if (error.authRedirect && self.config.redirect) {
+            return sendRedirect(error);
           }
-          self._initDeferred.reject(e);
-          return when.reject(e);
+
+          // Background flow
+          if (error.authRedirect && !self.config.redirect) {
+            return self._loadTokenInBackground().
+              then(validateToken).
+              then(function () {
+                self._initDeferred.resolve();
+              }).
+              catch(sendRedirect); // Fallback to redirect flow
+          }
+
+          self._initDeferred.reject(error);
+          return when.reject(error);
         });
     });
 };
@@ -300,16 +333,18 @@ Auth._epoch = function () {
 Auth.prototype._checkForAuthResponse = function () {
   var self = this;
   return when.promise(function (resolve) {
-    if (self.config.cleanHash) {
+    // getAuthResponseURL may throw an exception. Wrap it with promise to handle it gently.
+    var response = self._responseParser.getAuthResponseFromURL();
+
+    if (response && self.config.cleanHash) {
       self.setHash('');
     }
-    // getAuthResponseURL may throw an exception. Wrap it with promise to handle it gently.
-    resolve(self._responseParser.getAuthResponseFromURL());
+    resolve(response);
   }).then(
     /**
      * @param {AuthResponse} authResponse
      */
-      function (authResponse) {
+    function (authResponse) {
       if (!authResponse) {
         return undefined;
       }
@@ -320,7 +355,7 @@ Auth.prototype._checkForAuthResponse = function () {
          * @param {StoredState=} state
          * @return {Promise.<string>}
          */
-          function (state) {
+        function (state) {
           state = state || {};
           var config = self.config;
 
@@ -354,7 +389,7 @@ Auth.prototype._checkForAuthResponse = function () {
             scopes: scopes,
             expires: expries
           }).then(function () {
-            return state.restoreLocation;
+            return state;
           });
         });
     });
@@ -547,32 +582,32 @@ Auth.prototype._createHiddenFrame = function () {
  * promise is rejected if no token was got after {@link Auth.REFRESH_TIMEOUT} ms.
  */
 Auth.prototype._loadTokenInBackground = function () {
-  if (this._refreshDefer) {
-    return this._refreshDefer.promise;
+  if (this._backgroundDefer) {
+    return this._backgroundDefer.promise;
   }
 
   var self = this;
-  this._refreshDefer = when.defer();
-  this._refreshDefer.promise.ensure(function () {
-    self._refreshDefer = null;
+  this._backgroundDefer = when.defer();
+  this._backgroundDefer.promise.ensure(function () {
+    self._backgroundDefer = null;
   });
 
   var iframe = this._createHiddenFrame();
 
-  return this._requestBuilder.prepareAuthRequest().
+  return this._requestBuilder.prepareAuthRequest(null, {nonRedirect: true}).
     then(function (authURL) {
       var removeListener = self._storage.onTokenChange(function(token) {
         if (token !== null) {
           window.document.body.removeChild(iframe);
           removeListener();
-          self._refreshDefer.resolve(token.access_token);
+          self._backgroundDefer.resolve(token.access_token);
         }
       });
 
       self._redirectFrame(iframe, authURL);
 
       // TODO removeListener
-      return self._refreshDefer.promise.
+      return self._backgroundDefer.promise.
         timeout(Auth.REFRESH_TIMEOUT);
     });
 };

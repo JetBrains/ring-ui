@@ -22,17 +22,18 @@ var AuthRequestBuilder = function (config, storage) {
  * Save the state and build auth server redirect URL.
  *
  * @param {object=} extraParams additional query parameters for auth request
+ * @param {object=} extraState additional state parameters to save
  * @return {Promise.<string>} promise that is resolved to authURL
  */
-AuthRequestBuilder.prototype.prepareAuthRequest = function (extraParams) {
-  var state = AuthRequestBuilder._uuid();
+AuthRequestBuilder.prototype.prepareAuthRequest = function (extraParams, extraState) {
+  var stateId = AuthRequestBuilder._uuid();
   var scopes = this.config.scopes.map(function (scope) {
     return encodeURIComponent(scope);
   });
 
   var request = mixIn({
     response_type: 'token',
-    state: state,
+    state: stateId,
     redirect_uri: this.config.redirect_uri,
     request_credentials: this.config.request_credentials,
     client_id: this.config.client_id,
@@ -41,10 +42,12 @@ AuthRequestBuilder.prototype.prepareAuthRequest = function (extraParams) {
 
   var authURL = AuthRequestBuilder.encodeURL(this.config.authorization, request);
 
-  return this._saveState(state, {
+  var state = mixIn({
     restoreLocation: window.location.href,
     scopes: this.config.scopes
-  }).then(function () {
+  }, extraState || {});
+
+  return this._saveState(stateId, state).then(function () {
     return authURL;
   });
 };
