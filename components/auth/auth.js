@@ -1,6 +1,9 @@
 /* eslint-disable google-camelcase/google-camelcase */
-var $ = require('jquery');
+var whatWgFetch = require('whatwg-fetch').fetch;
 var when = require('when');
+var contains = require('mout/array/contains');
+var mixIn = require('mout/object/mixIn');
+
 var AuthStorage = require('./auth__storage');
 var AuthResponseParser = require('./auth__response-parser');
 var AuthRequestBuilder = require('./auth__request-builder');
@@ -29,6 +32,44 @@ var urlUtils = require('url-utils/url-utils');
  *   optionalScopes: string[]?,
  *   cleanHash: boolean?
  * }} config
+ *
+ * @example
+   <example name="Auth">
+     <file name="index.html">
+       <div id="example">
+     </div>
+     </file>
+
+     <file name="index.js" webpack="true">
+       var Auth = require('auth/auth');
+
+       var log = function(title) {
+         return function(obj) {
+           var div = document.createElement('div');
+           div.innerHTML = '<h3>' + title + '</h3>' + JSON.stringify(obj);
+           document.getElementById('example').appendChild(div);
+         };
+       };
+
+       var auth = new Auth({
+         serverUri: '***REMOVED***/',
+         request_credentials: 'skip',
+         redirect_uri: window.location.href.split('#')[0]
+       });
+
+       auth.init().
+         then(log('location to restore')).
+         then(function() {
+           return auth.requestToken();
+         }).
+         then(log('token')).
+         then(function(token) {
+           return auth.requestUser();
+         }).
+         then(log('user profile data')).
+         catch(log('error'));
+     </file>
+   </example>
  */
 var Auth = function (config) {
   if (!config) {
@@ -38,13 +79,13 @@ var Auth = function (config) {
     throw new Error('Property serverUri is required');
   }
 
-  this.config = $.extend({}, Auth.DEFAULT_CONFIG, config);
+  this.config = mixIn({}, Auth.DEFAULT_CONFIG, config);
 
   if (this.config.serverUri.length > 0 && this.config.serverUri.charAt(config.serverUri.length - 1) !== '/') {
     this.config.serverUri += '/';
   }
 
-  if ($.inArray(Auth.DEFAULT_CONFIG.client_id, this.config.scope) === -1) {
+  if (!contains(this.config.scope, Auth.DEFAULT_CONFIG.client_id)) {
     this.config.scope.push(Auth.DEFAULT_CONFIG.client_id);
   }
 
@@ -188,17 +229,20 @@ Auth.prototype.requestToken = function () {
  * @param {string} relativeURI a URI relative to config.serverUri to make the GET request to
  * @param {string} accessToken access token to use in request
  * @param {object?} params query parameters
- * @return {Promise} promise from $.ajax() request
+ * @return {Promise} promise from fetch request
  */
 Auth.prototype.getSecure = function (relativeURI, accessToken, params) {
-  return when($.ajax({
-    url: this.config.serverUri + relativeURI,
-    data: params,
+  var url = AuthRequestBuilder.encodeURL(this.config.serverUri + relativeURI, params);
+
+  return whatWgFetch(url, {
     headers: {
-      'Authorization': 'Bearer ' + accessToken
-    },
-    dataType: 'json'
-  }));
+      'Authorization': 'Bearer ' + accessToken,
+      'Accept': 'application/json'
+    }
+  }).
+    then(function (response) {
+      return response.json();
+    });
 };
 
 /**
@@ -317,15 +361,6 @@ Auth.prototype._checkForAuthResponse = function () {
 };
 
 /**
- * Checks if the element el is in the array arr
- * @return {boolean}
- * @private
- */
-Auth._contains = function (arr, el) {
-  return arr && arr.indexOf(el) >= 0;
-};
-
-/**
  * Error class for auth token validation
  *
  * @param {string} message error message
@@ -391,8 +426,8 @@ Auth._validateExpiration = function (storedToken) {
 Auth.prototype._validateScopes = function (storedToken) {
   for (var i = 0; i < this.config.scope.length; i++) {
     var scope = this.config.scope[i];
-    var isRequired = !Auth._contains(this.config.optionalScopes, scope);
-    if (isRequired && !Auth._contains(storedToken.scopes, scope)) {
+    var isRequired = !contains(this.config.optionalScopes, scope);
+    if (isRequired && !contains(storedToken.scopes, scope)) {
       return Auth._authRequiredReject('Token doesn\'t match required scopes');
     }
   }
@@ -446,8 +481,13 @@ Auth.prototype._validateAgainstUser = function (storedToken) {
 };
 
 /**
+ * Token Validator function
+ * @typedef {(function(StoredToken): Promise<StoredToken>)} TokenValidator
+ */
+
+/**
  * Gets stored token and applies provided validators
- * @param {(function(StoredToken): Promise<StoredToken>)[]} validators an array of validation
+ * @param {TokenValidator[]} validators an array of validation
  * functions to check the stored token against.
  * @return {Promise.<string>} promise that is resolved to access token if the stored token is valid. If it is
  * invalid then the promise is rejected. If invalid token should be re-requested then rejection object will
@@ -474,13 +514,30 @@ Auth.prototype._redirectCurrentPage = function (url) {
 };
 
 /**
- * Redirects the given $iframe to the given url
- * @param {jQuery} $iframe
+ * Redirects the given iframe to the given url
+ * @param {HTMLIFrameElement} iframe
  * @param {string} url
  * @private
  */
-Auth.prototype._redirectFrame = function ($iframe, url) {
-  $iframe.attr('src', url + '&rnd=' + Math.random());
+Auth.prototype._redirectFrame = function (iframe, url) {
+  iframe.src = url + '&rnd=' + Math.random();
+};
+
+/**
+ * Creates hidden iframe
+ * @return {HTMLIFrameElement}
+ * @private
+ */
+Auth.prototype._createHiddenFrame = function () {
+  var iframe = document.createElement('iframe');
+
+  iframe.style.border = iframe.style.width = iframe.style.height = '0px';
+  iframe.style.visibility = 'hidden';
+  iframe.style.position = 'absolute';
+  iframe.style.left = '-10000px';
+  window.document.body.appendChild(iframe);
+
+  return iframe;
 };
 
 /**
@@ -500,19 +557,19 @@ Auth.prototype._loadTokenInBackground = function () {
     self._refreshDefer = null;
   });
 
-  var $iframe = $('<iframe style="display: none;"></iframe>').appendTo('body');
+  var iframe = this._createHiddenFrame();
 
   return this._requestBuilder.prepareAuthRequest().
     then(function (authURL) {
       var removeListener = self._storage.onTokenChange(function(token) {
         if (token !== null) {
-          $iframe.remove();
+          window.document.body.removeChild(iframe);
           removeListener();
           self._refreshDefer.resolve(token.access_token);
         }
       });
 
-      self._redirectFrame($iframe, authURL);
+      self._redirectFrame(iframe, authURL);
 
       // TODO removeListener
       return self._refreshDefer.promise.
