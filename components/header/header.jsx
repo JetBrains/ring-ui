@@ -703,15 +703,17 @@ var Header = React.createClass({
         var servicesIconsMenu = (<div>
           <div className={headerClassName.getElement('menu-service-line')}>
             {servicesList.map(function(item, i) {
-              return (<div className={headerClassName.getElement('menu-service-line__item')} key={i}>
-                {this._getLinkElement(item.homeUrl, null, item.name)}
-              </div>);
+              if (item.homeUrl) {
+                return (<div className={headerClassName.getElement('menu-service-line__item')} key={i}>
+                  {this._getLinkElement(item.homeUrl, null, item.name)}
+                </div>);
+              }
             }, this)}
           </div>
 
           {servicesIcons.map(function(item, i) {
             var serviceLogo = getServiceLogo(item);
-            if (serviceLogo) {
+            if (serviceLogo && item.homeUrl) {
               return (this._getLinkElement(item.homeUrl, { title: item.name, key: i }, (<div className={headerClassName.getElement('menu-service-item')}>
                 <Icon size={Icon.Size.Size64} glyph={serviceLogo} className="ring-icon" /><br />
                 {item.name}
