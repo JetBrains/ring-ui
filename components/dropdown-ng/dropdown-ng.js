@@ -73,7 +73,7 @@ angular.module('Ring.dropdown', [])
           ITEM: 2
         };
 
-        var config = angular.extend({}, $scope.config() || {}, {
+        var config = angular.extend({}, {
           anchorElement: $element[0],
           autoRemove: false,
           cutEdge: false,
@@ -82,7 +82,7 @@ angular.module('Ring.dropdown', [])
           onClose: function () {
             $element.removeClass(OPEN_POPUP_CLASS_NAME);
           }
-        });
+        }, $scope.config() || {});
 
         function getItemType(item) {
           var type = angular.isDefined(item.type) ? item.type : ITEM_TYPES.ITEM;
