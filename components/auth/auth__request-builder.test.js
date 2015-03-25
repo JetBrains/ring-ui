@@ -66,6 +66,19 @@ describe('Auth', function () {
           });
       });
 
+      it('should save extra state', function () {
+        var builder = new AuthRequestBuilder(config);
+        return builder.prepareAuthRequest(null, {nonRedirect: true}).
+          then(function () {
+            AuthRequestBuilder.prototype._saveState.should.have.been.calledWith('unique', {
+              restoreLocation: window.location.href,
+              nonRedirect: true,
+              scopes: ['youtrack', 'teamcity', 'vcs settings']
+            });
+          });
+      });
+
+
       it('should return correct URL with extra parameters', function () {
         var builder = new AuthRequestBuilder(config);
         var expected = 'https://sso.jetbrains.com/auth?response_type=token&state=unique&' +
