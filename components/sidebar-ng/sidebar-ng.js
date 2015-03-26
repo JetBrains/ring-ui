@@ -79,7 +79,7 @@ angular.module('Ring.sidebar', [])
 
             element.style.marginTop = margin + scope.topOffset + 'px';
 
-          }, DEBOUNCE_INTERVAL);
+          }, DEBOUNCE_INTERVAL, true);
 
           sidebarScrollListener();
 
