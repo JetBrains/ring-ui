@@ -334,7 +334,9 @@ var Select = React.createClass({
     for (var i = 0; i < this.props.data.length; i++) {
       var item = this.props.data[i];
       if (filterString === '' || check(item, filterString, this.props.data)) {
-        item.type = List.ListProps.Type.ITEM;
+        if (item.type === undefined) {
+          item.type = List.ListProps.Type.ITEM;
+        }
 
         exectMatch |= (item.label === filterString);
 
