@@ -625,14 +625,14 @@ var SelectPopup = React.createClass({
 
   getList: function() {
     if (this.props.data.length) {
-      return <List
+      return (<List
         maxHeight={this.props.maxHeight}
         data={this.props.data}
         restoreActiveIndex={true}
         activateOneItem={true}
         onSelect={this.props.onSelect}
         shortcuts={this.state.popupShortcuts}
-      />;
+      />);
     }
   },
 
