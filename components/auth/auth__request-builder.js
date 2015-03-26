@@ -77,7 +77,7 @@ AuthRequestBuilder.encodeURL = function (url, params) {
   var i = 0;
   var firstSeparator = (url.indexOf('?') === -1) ? '?' : '&';
   for (k in params) {
-    if (params.hasOwnProperty(k)) {
+    if (params.hasOwnProperty(k) && params[k] != null) {
       res += (i++ === 0 ? firstSeparator : '&') + encodeURIComponent(k) + '=' + encodeURIComponent(params[k]);
     }
   }
