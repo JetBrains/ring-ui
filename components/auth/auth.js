@@ -17,7 +17,7 @@ var urlUtils = require('url-utils/url-utils');
  * @prop {string} config.serverUri
  * @prop {string} config.redirect_uri
  * @prop {string} config.client_id
- * @prop {boolean=false} config.redirect — use redirect instrad background token load
+ * @prop {boolean=false} config.redirect — use redirects instead of background token load
  * @prop {string[]} config.scope
  * @prop {string[]} config.optionalScopes
  * @prop {boolean} config.cleanHash - describes whether or not the location.hash has to be cleaned after authorization finish.
