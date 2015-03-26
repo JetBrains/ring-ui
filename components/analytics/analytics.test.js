@@ -80,7 +80,7 @@ describe('analytics singleton', function() {
         }]);
       });
 
-      it('should send two requests to statistics server on tracking shortcut event', function() {
+      it('should send two events to statistics server on tracking shortcut event', function() {
         analytics.trackShortcutEvent('test-category', 'test-action');
         clock.tick(10500);
 
@@ -91,6 +91,84 @@ describe('analytics singleton', function() {
           category: 'ring-shortcut',
           action: 'test-category:test-action'
         }]);
+      });
+
+      describe('trackEntityProperties', function() {
+        it('should send all enumerated properties to statistics server on tracking entity', function() {
+          var entity = {
+            param1: 'first',
+            param2: 'second',
+            param3: 'third',
+            param4: 'fourth',
+            param5: 'should-be-ignored'
+          };
+          var trackedProperties = ['param1', 'param2', 'param3', 'param4'];
+          analytics.trackEntityProperties('sample-entity', entity, trackedProperties);
+          clock.tick(10500);
+
+          var trackedData = [];
+          trackedProperties.forEach(function(it) {
+            trackedData.push({
+              category: 'sample-entity_' + it,
+              action: entity[it]
+            });
+          });
+          send.should.calledWith(trackedData);
+        });
+
+        it('should not send any data if no properties requested', function() {
+          var entity = {
+            param1: 'first',
+            param2: 'second'
+          };
+          analytics.trackEntityProperties('sample-entity', entity, []);
+          clock.tick(10500);
+
+          send.should.not.called;
+        });
+
+        it('should not throw error if there are no some properties', function() {
+          var entity = {
+            param1: 'first',
+            param2: 'second'
+          };
+          analytics.trackEntityProperties('entity', entity, ['param1', 'unexisting-property']);
+          clock.tick(10500);
+
+          send.should.calledWith([{
+            category: 'entity_param1',
+            action: 'first'
+          }, {
+            category: 'entity_unexisting-property',
+            action: 'no-value'
+          }]);
+        });
+
+        it('should work with subproperties', function() {
+          var entity = {
+            property: {
+              subproperty1: 'subproperty1-value',
+              subproperty2: {
+                subsubproperty: 'subsubproperty-value'
+              }
+            },
+            param2: 'second'
+          };
+          var trackedProperies = [
+            'property.subproperty2.subsubproperty',
+            'propery.subproperty3.unexisting'
+          ];
+          analytics.trackEntityProperties('entity', entity, trackedProperies);
+          clock.tick(10500);
+
+          send.should.calledWith([{
+            category: 'entity_subsubproperty',
+            action: 'subsubproperty-value'
+          }, {
+            category: 'entity_unexisting',
+            action: 'no-value'
+          }]);
+        });
       });
 
       it('should send request to statistics server on page view', function() {
