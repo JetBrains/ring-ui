@@ -69,6 +69,16 @@
     }
   }
 
+  &_add {
+    line-height: 3.5*$ring-unit;
+
+    .ring-list__plus {
+      font-size: 3*$ring-unit;
+      margin-right: $ring-unit;
+      margin-top: -$ring-unit;
+    }
+  }
+
   .ring-list &:hover {
     text-decoration: none;
   }
@@ -118,6 +128,8 @@
   height: $ring-unit*2;
 
   background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
 .ring-list__highlight {
@@ -126,4 +138,15 @@
 
 .ring-list__service {
   color: #B4B4B4;
+}
+
+.ring-list__checkbox {
+  color: #888;
+  position: relative;
+  top: -2px;
+  width: 20px;
+
+  &_hidden {
+    visibility: hidden;
+  }
 }
