@@ -1,5 +1,6 @@
 /* eslint-disable google-camelcase/google-camelcase */
-var $ = require('jquery');
+var mixIn = require('mout/object/mixIn');
+var guid = require('mout/random/guid');
 
 /**
  * @param {{
@@ -21,25 +22,32 @@ var AuthRequestBuilder = function (config, storage) {
  * Save the state and build auth server redirect URL.
  *
  * @param {object=} extraParams additional query parameters for auth request
+ * @param {object=} extraState additional state parameters to save
  * @return {Promise.<string>} promise that is resolved to authURL
  */
-AuthRequestBuilder.prototype.prepareAuthRequest = function (extraParams) {
-  var state = AuthRequestBuilder._uuid();
-  var request = $.extend({
+AuthRequestBuilder.prototype.prepareAuthRequest = function (extraParams, extraState) {
+  var stateId = AuthRequestBuilder._uuid();
+  var scopes = this.config.scopes.map(function (scope) {
+    return encodeURIComponent(scope);
+  });
+
+  var request = mixIn({
     response_type: 'token',
-    state: state,
+    state: stateId,
     redirect_uri: this.config.redirect_uri,
     request_credentials: this.config.request_credentials,
     client_id: this.config.client_id,
-    scope: this.config.scopes.join(' ')
+    scope: scopes.join(' ')
   }, extraParams || {});
 
   var authURL = AuthRequestBuilder.encodeURL(this.config.authorization, request);
 
-  return this._saveState(state, {
+  var state = mixIn({
     restoreLocation: window.location.href,
     scopes: this.config.scopes
-  }).then(function () {
+  }, extraState || {});
+
+  return this._saveState(stateId, state).then(function () {
     return authURL;
   });
 };
@@ -57,14 +65,7 @@ AuthRequestBuilder.prototype._saveState = function (id, storedState) {
 /**
  * @return {string} random string used for state
  */
-AuthRequestBuilder._uuid = function () {
-  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-    var r = Math.random() * 16 | 0;
-    var v = c === 'x' ? r : (r & 0x3 | 0x8);
-    return v.toString(16);
-  });
-};
-
+AuthRequestBuilder._uuid = guid;
 
 /*
  * Takes an URL as input and a params object.

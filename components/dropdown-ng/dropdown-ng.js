@@ -5,27 +5,58 @@ var PopupMenu = require('popup-menu/popup-menu');
  * @constructor
  * @description Directive for dropdowns in angular apps
  * @example
- <example name="dropdown-ng">
-    <button class="ring-btn"
-            rg-dropdown
-            items="['test1', 'test2']"
-            on-item-select="onSelect"
-            config="{corner: 2, autoRemove: true, direction: 8}">
+<example name="dropdown-ng">
+  <file name="index.html">
+    <div ng-app='dropTest' ng-controller='testController as ctrl'>
+      <button class="ring-btn"
+              rg-dropdown
+              items="ctrl.items"
+              label-field="displayName"
+              on-item-select="ctrl.onSelect"
+              config="{corner: 2, autoRemove: true, direction: 8}">
         Do something
-    </button>
-    <button class="ring-btn"
-            rg-dropdown
-            items-src="functionWhichReturnsPromiseForLazyLoad"
-            on-item-select="onSelect"
-            config="{corner: 2, autoRemove: true, direction: 8}">
-      Do something
-    </button>
- </example>
- */
+      </button>
+      <button class="ring-btn"
+              rg-dropdown
+              items-src="ctrl.promiseSrc"
+              on-item-select="ctrl.onSelect"
+              config="{corner: 2, autoRemove: true, direction: 8}">
+        Do something
+      </button>
+    </div>
+  </file>
+  <file name="index.js" webpack="true">
+    require('button/button.scss');
+    require('angular/angular.min.js');
+    require('dropdown-ng/dropdown-ng');
+
+    angular.module('dropTest', ['Ring.dropdown'])
+      .controller('testController', function($q, $scope){
+        var ctrl = this;
+
+        ctrl.items = [
+          {displayName: 'Value is 1', key: 1},
+          {displayName: 'Value is 2', key: 2}
+        ];
+
+        ctrl.promiseSrc = function(){
+          var defer = $q.defer();
+          defer.resolve(['HELLO from promise', 'HELLO2']);
+          return defer.promise;
+        };
+
+        ctrl.onSelect = function(item){
+           alert('Selected ' + JSON.stringify(item));
+        }
+      });
+  </file>
+</example>
+*/
 
 /* globals angular */
 angular.module('Ring.dropdown', [])
   .directive('rgDropdown', function() {
+    var OPEN_POPUP_CLASS_NAME = 'dropdown-ng_open';
     return {
       restrict: 'A',
       scope: {
@@ -42,13 +73,16 @@ angular.module('Ring.dropdown', [])
           ITEM: 2
         };
 
-        var config = angular.extend({}, $scope.config() || {}, {
+        var config = angular.extend({}, {
           anchorElement: $element[0],
           autoRemove: false,
           cutEdge: false,
           hidden: true,
-          top: 2
-        });
+          top: 2,
+          onClose: function () {
+            $element.removeClass(OPEN_POPUP_CLASS_NAME);
+          }
+        }, $scope.config() || {});
 
         function getItemType(item) {
           var type = angular.isDefined(item.type) ? item.type : ITEM_TYPES.ITEM;
@@ -118,6 +152,8 @@ angular.module('Ring.dropdown', [])
           } else if (popupMenuInstance) {
             popupMenuInstance.show();
           }
+
+          $element.addClass(OPEN_POPUP_CLASS_NAME);
           $event.stopPropagation();
         });
 

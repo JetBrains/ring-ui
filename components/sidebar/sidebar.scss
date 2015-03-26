@@ -1,19 +1,16 @@
 @import "../global/global";
 
-$sidebar-bottom-spacing: 9999px;
-
 .ring-sidebar {
   position: fixed;
   z-index: 3;
 
   top: 0;
   left: 100%;
-  width: 0;
+  min-width: 50%;
 
   padding-top: 2*$ring-unit;
 
-  padding-bottom: $sidebar-bottom-spacing;
-  margin-bottom: -$sidebar-bottom-spacing;
+  height: 100%;
 
   overflow: hidden;
   background: #FFF;
@@ -23,10 +20,8 @@ $sidebar-bottom-spacing: 9999px;
 .ring-sidebar_active {
   left: 50%;
 
-  overflow: scroll;
+  overflow: auto;
   box-shadow: -2px 0 4px 0 #BEBEBE;
-  min-width: 50%;
-  width: 50%;
 
   .ring-sidebar__i {
     transition: 0.5s ease-in;
@@ -85,7 +80,6 @@ $sidebar-bottom-spacing: 9999px;
 .ring-sidebar__section-icon {
   position: absolute;
   display: block;
-  top: 3px;
   left: 0;
 
   width: 5*$ring-unit;

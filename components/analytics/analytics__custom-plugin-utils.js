@@ -1,5 +1,3 @@
-'use sctrict';
-
 var browser = require('bowser').browser;
 
 var AnalyticsCustomPluginUtils = {};
@@ -32,6 +30,19 @@ AnalyticsCustomPluginUtils.getPageViewDurationPresentation = function (duration)
   var roundedDuration = Math.floor(Math.pow(2, Math.floor(Math.log2(duration)) + 1));
   roundedDuration = (roundedDuration > 0) ? roundedDuration : 1;
   return 'less-than-' + roundedDuration + '-sec';
+};
+
+AnalyticsCustomPluginUtils.getScreenWidthPresentation = function() {
+  /**
+   * Sizes were taken from bootstrap's grid (xs, sm, md, lg)
+   */
+  var sizes = [0, 768, 992, 1200];
+  for (var i = 1; i < sizes.length; ++i) {
+    if (window.innerWidth < sizes[i]) {
+      return '[' + sizes[i - 1] + 'px;' + sizes[i] + 'px)';
+    }
+  }
+  return '[1200px;inf)';
 };
 
 AnalyticsCustomPluginUtils.getUserAgentPresentation = function () {

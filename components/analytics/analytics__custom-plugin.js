@@ -1,5 +1,3 @@
-'use sctrict';
-
 var AnalyticsCustomPluginUtils = require('./analytics__custom-plugin-utils');
 
 var AnalyticsCustomPlugin = function (send, isDevelopment, flushInterval) {
@@ -24,11 +22,16 @@ AnalyticsCustomPlugin.prototype.trackEvent = function (category, action) {
 };
 
 AnalyticsCustomPlugin.prototype.trackPageView = function (path) {
+  if (this._lastPagePath === path) {
+    return;
+  }
   this._trackPageViewAdditionalInfo(path);
-  this._processEvent('page', path);
-  this._processEvent('navigator_user-agent', AnalyticsCustomPluginUtils.getUserAgentPresentation());
-  this._processEvent('navigator_platform', navigator.platform);
-  this._processEvent('navigator_lang', navigator.language);
+  this._processEvent('ring-page', path);
+  this._processEvent('ring-navigator_user-agent', AnalyticsCustomPluginUtils.getUserAgentPresentation());
+  this._processEvent('ring-navigator_platform', navigator.platform);
+  this._processEvent('ring-navigator_lang', navigator.language);
+  this._processEvent('ring-device-pixel-ratio', String(window.devicePixelRatio));
+  this._processEvent('ring-screen-width', AnalyticsCustomPluginUtils.getScreenWidthPresentation());
 };
 
 AnalyticsCustomPlugin.prototype._initSendSchedule = function () {
@@ -59,10 +62,10 @@ AnalyticsCustomPlugin.prototype._processEvent = function (category, action) {
 AnalyticsCustomPlugin.prototype._trackPageViewAdditionalInfo = function (newPagePath) {
   var currentTime = (new Date()).getTime();
   if (this._lastPagePath) {
-    this._processEvent('pageview-last-action_' + this._lastPagePath, this._lastUserEventPresentation || 'left-with-no-action');
+    this._processEvent('ring-pageview-last-action_' + this._lastPagePath, this._lastUserEventPresentation || 'left-with-no-action');
     if (this._lastPageViewTime) {
       var duration = AnalyticsCustomPluginUtils.getPageViewDurationPresentation(currentTime - this._lastPageViewTime);
-      this._processEvent('pageview-duration_' + this._lastPagePath, duration);
+      this._processEvent('ring-pageview-duration_' + this._lastPagePath, duration);
     }
   }
   this._lastPageViewTime = currentTime;

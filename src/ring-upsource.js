@@ -9,6 +9,7 @@ window.React = require('react');
 
 module.exports = {
   Auth: require('auth/auth'),
+  Button: require('button/button'),
   Footer: require('footer/footer'),
   Global: require('global/global'),
   Header: require('header/header'),
