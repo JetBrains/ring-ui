@@ -531,7 +531,9 @@ var Header = React.createClass({
         autoRemove: true,
         corner: PopupMenu.PopupProps.Corner.BOTTOM_RIGHT,
         data: this.props.popupData,
+        /* eslint-disable no-bitwise */
         direction: PopupMenu.PopupProps.Directions.LEFT | PopupMenu.PopupProps.Directions.DOWN,
+        /* eslint-enable no-bitwise */
         onClose: function() {
           this.refs['services'].setOpened(false);
         }.bind(this)
@@ -886,7 +888,9 @@ HeaderHelper.setUserMenu = function(header, auth, translationsDict) {
           anchorElement: header.refs['userMenu'].getDOMNode(),
           corner: PopupMenu.PopupProps.Corner.BOTTOM_RIGHT,
           data: header.props.profilePopupData,
+          /* eslint-disable no-bitwise */
           direction: PopupMenu.PopupProps.Directions.DOWN | PopupMenu.PopupProps.Directions.LEFT,
+          /* eslint-enable no-bitwise */
           onClose: function() {
             header.refs['userMenu'].setOpened(false);
           }

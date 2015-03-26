@@ -16,6 +16,7 @@
     // Enforce off-by-defaults
     "consistent-return": 2,
     "consistent-this": [2, "self"],
+    "no-bitwise": 2,
     "no-lonely-if": 2,
     "no-nested-ternary": 2,
     "no-void": 2,
