@@ -1,4 +1,4 @@
-describe.only('analytics singleton', function() {
+describe('analytics singleton', function() {
   var analytics = require('./analytics');
   var AnalyticsGAPlugin = require('./analytics__ga-plugin');
   var AnalyticsCustomPlugin = require('./analytics__custom-plugin');
@@ -77,6 +77,19 @@ describe.only('analytics singleton', function() {
         send.should.calledWith([{
           category: 'test-category',
           action: 'test-action'
+        }]);
+      });
+
+      it('should send two requests to statistics server on tracking shortcut event', function() {
+        analytics.trackShortcutEvent('test-category', 'test-action');
+        clock.tick(10500);
+
+        send.should.calledWith([{
+          category: 'test-category',
+          action: 'test-action'
+        }, {
+          category: 'ring-shortcut',
+          action: 'test-category:test-action'
         }]);
       });
 
