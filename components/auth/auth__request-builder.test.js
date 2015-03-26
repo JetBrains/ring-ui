@@ -38,14 +38,10 @@ describe('Auth', function () {
         scopes: ['youtrack', 'teamcity', 'vcs settings']
       };
       beforeEach(function () {
-        sinon.stub(AuthRequestBuilder, '_uuid').returns('unique');
-        sinon.stub(AuthRequestBuilder.prototype, '_saveState', function () {
+        this.sinon.stub(AuthRequestBuilder, '_uuid').returns('unique');
+        this.sinon.stub(AuthRequestBuilder.prototype, '_saveState', function () {
           return when.resolve();
         });
-      });
-      afterEach(function () {
-        AuthRequestBuilder._uuid.restore();
-        AuthRequestBuilder.prototype._saveState.restore();
       });
 
       it('should return correct URL', function () {
