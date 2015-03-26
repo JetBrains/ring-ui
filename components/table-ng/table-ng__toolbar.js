@@ -73,7 +73,7 @@ angular.module('Ring.table.toolbar', [])
 
             freeToolbar(controlsContainer);
           }
-        }, DEBOUNCE_INTERVAL);
+        }, DEBOUNCE_INTERVAL, true);
 
         //Stick toolbar if sticking is enabled
         if (attrs.stick !== undefined) {
