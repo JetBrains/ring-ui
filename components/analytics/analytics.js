@@ -34,13 +34,50 @@ Analytics.prototype.trackPageView = function (path) {
   });
 };
 
-Analytics.prototype.trackEvent = function (category, action, /* optional */ viaShortcut) {
+Analytics.prototype.trackEvent = function (category, action, /* optional */ additionalData) {
+  var subcategory = action + this._buildSuffix(additionalData);
   this._plugins.forEach(function(plugin) {
-    plugin.trackEvent(category, action);
-    if (viaShortcut) {
-      plugin.trackEvent('ring-shortcut', category + ':' + action);
-    }
+    plugin.trackEvent(category, subcategory);
   });
+};
+
+Analytics.prototype.trackShortcutEvent = function (category, action, /* optional */ additionalData) {
+  this.trackEvent(category, action, additionalData);
+  this.trackEvent('ring-shortcut', category + ':' + action, additionalData);
+};
+
+Analytics.prototype.trackEntityProperties = function(entityName, entity, propertiesNames, /* optional */ additionalData) {
+  for (var i = 0; i < propertiesNames.length; ++i) {
+    var value = entity;
+    var keys = propertiesNames[i].split('.');
+    if (!keys.length) {
+      continue;
+    }
+    for (var j = 0; j < keys.length; ++j) {
+      if (value.hasOwnProperty(keys[j])) {
+        value = value[keys[j]];
+      } else {
+        break;
+      }
+    }
+    if (typeof value === 'string') {
+      value = value.toLowerCase().replace(/[\._]+/g, '-');
+    }
+    this.trackEvent(entityName + '_' + keys[keys.length - 1], value, additionalData);
+  }
+};
+
+Analytics.prototype._buildSuffix = function(additionalData) {
+  if (!additionalData) {
+    return '';
+  }
+  var suffix = '';
+  for (var key in additionalData) {
+    if (additionalData.hasOwnProperty(key)) {
+      suffix += ',' + key + '=' + additionalData[key];
+    }
+  }
+  return suffix;
 };
 
 module.exports = new Analytics();
