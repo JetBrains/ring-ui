@@ -88,6 +88,7 @@
     "es5-shim": "4.0.5",
     "exports-loader": "0.6.2",
     "file-loader": "0.8.1",
+    "fuzzysearch": "1.0.3",
     "html-loader": "0.2.3",
     "imports-loader": "0.6.3",
     "jsx-loader": "0.11.2",
