@@ -1,3 +1,4 @@
+/* eslint-disable no-bitwise */
 /**
  * @fileoverview Divider between two editors that shows connectors from
  * edited parts of original code to edited parts of modified code.

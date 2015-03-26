@@ -1,3 +1,4 @@
+/* eslint-disable no-bitwise */
 /**
  * @fileoverview DiffTool — a tool for displaying a diff of two files
  * in single-, double- and triple-pane modes. In multi-pane mode content can
