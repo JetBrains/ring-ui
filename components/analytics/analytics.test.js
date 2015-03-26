@@ -1,4 +1,4 @@
-describe('analytics singleton', function() {
+describe.only('analytics singleton', function() {
   var analytics = require('./analytics');
   var AnalyticsGAPlugin = require('./analytics__ga-plugin');
   var AnalyticsCustomPlugin = require('./analytics__custom-plugin');
@@ -11,6 +11,8 @@ describe('analytics singleton', function() {
   it('should export correct interface', function() {
     expect(analytics.trackPageView).should.exist;
     expect(analytics.trackEvent).should.exist;
+    expect(analytics.trackShortcutEvent).should.exist;
+    expect(analytics.trackEntityProperties).should.exist;
     expect(analytics.track).should.exist;
   });
 
