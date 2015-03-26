@@ -9,6 +9,7 @@ var debounce = require('mout/function/debounce');
 
 var Shortcuts = require('shortcuts/shortcuts');
 var Global = require('global/global');
+var Icon = require('icon/icon');
 
 var generateUniqueId = Global.getUIDGenerator('ring-list-');
 
@@ -24,7 +25,8 @@ var Type = {
   SEPARATOR: 0,
   LINK: 1,
   ITEM: 2,
-  HINT: 3
+  HINT: 3,
+  CUSTOM: 4
 };
 
 var Dimensions = {
@@ -61,6 +63,50 @@ var ListItem = React.createClass({
     return {active: false};
   },
 
+  getCheckbox: function() {
+    if (this.props.checkbox !== undefined) {
+      var cn = 'ring-list__checkbox' + (this.props.checkbox ? '' : ' ring-list__checkbox_hidden');
+      return (<Icon className={cn} glyph="check" size={Icon.Size.Size18}/>);
+    }
+  },
+
+  /** @override */
+  render: function () {
+    var classes = React.addons.classSet({
+      'ring-list__item': true,
+      'ring-list__item_action': !this.props.disabled,
+      'ring-list__item_active': this.props.active && !this.props.disabled
+    });
+
+    var style = {
+      'padding-left': ((+this.props.level || 0) * 8 + 16) + 'px'
+    };
+
+    return this.transferPropsTo(
+      <span className={classes} style={style}>
+        {this.getCheckbox()}
+        {this.props.description &&
+          <div className="ring-list__description">{this.props.description}</div>}
+        {this.props.icon &&
+          <div className="ring-list__icon" style={{'background-image': 'url("' + this.props.icon + '")'}}></div>}
+        {this.props.label}
+      </span>
+    );
+  }
+});
+
+/**
+ * @constructor
+ * @extends {ReactComponent}
+ */
+var ListCustom = React.createClass({
+  /** @override */
+  getDefaultProps: function () {
+    return {
+      active: false
+    };
+  },
+
   /** @override */
   render: function () {
     var classes = React.addons.classSet({
@@ -71,11 +117,7 @@ var ListItem = React.createClass({
 
     return this.transferPropsTo(
       <span className={classes}>
-        {this.props.description &&
-            <div className="ring-list__description">{this.props.description}</div>}
-        {this.props.icon &&
-          <div className="ring-list__icon" style={{'background-image': 'url("' + this.props.icon + '")'}}></div>}
-        {this.props.label}
+        {this.props.template}
       </span>
     );
   }
@@ -174,20 +216,28 @@ var List = React.createClass({
   getDefaultProps: function () {
     return {
       data: [],
-      onSelect: function(){},
+      restoreActiveIndex: false,  // restore active item by "key" property of item
+      activateOneItem: false,     // if there is only one item activate it
+      onSelect: function() {},
       shortcuts: false
     };
   },
 
   getInitialState: function () {
     return {
-      activeIndex: null
+      activeIndex: null,
+      activeItem: null
     };
+  },
+
+  isActivatable: function(item) {
+    return !(item.type === Type.HINT || item.type === Type.SEPARATOR || item.disabled);
   },
 
   hoverHandler: function (index) {
     this.setState({
-      activeIndex: index
+      activeIndex: index,
+      activeItem: this.props.data[index]
     });
   },
 
@@ -218,8 +268,15 @@ var List = React.createClass({
   },
 
   moveHandler: function (index, retryCallback, e) {
-    this.setState({activeIndex: index, scrolling: true}, function() {
-      if (this.props.data[index].type === Type.HINT || this.props.data[index].type === Type.SEPARATOR) {
+    if (this.props.data.length === 0) {
+      return;
+    } else if (this.props.data.length === 1) {
+      index = 0;
+    }
+
+    var item = this.props.data[index];
+    this.setState({activeIndex: index, activeItem: item, scrolling: true}, function() {
+      if (!this.isActivatable(item)) {
         retryCallback(e);
         return;
       }
@@ -283,8 +340,26 @@ var List = React.createClass({
 
   componentWillReceiveProps: function (props) {
     if (props.data) {
+      var activeIndex = null;
+      var activeItem = null;
+
+      if (this.props.restoreActiveIndex && this.state.activeItem && this.state.activeItem.key) {
+        for (var i = 0; i < props.data.length; i++) {
+          // Restore active index if there is item with same "key" property
+          if (props.data[i].key !== undefined && props.data[i].key === this.state.activeItem.key) {
+            activeIndex = i;
+            activeItem = props.data[i];
+            break;
+          }
+        }
+      } else if (this.props.activateOneItem && props.data.length === 1 && this.isActivatable(props.data[0])) {
+        activeIndex = 0;
+        activeItem = props.data[0];
+      }
+
       this.setState({
-        activeIndex: null
+        activeIndex: activeIndex,
+        activeItem: activeItem
       });
     }
   },
@@ -347,6 +422,9 @@ var List = React.createClass({
                 break;
               case Type.ITEM:
                 element = ListItem;
+                break;
+              case Type.CUSTOM:
+                element = ListCustom;
                 break;
               default:
                 throw new Error('Unknown menu element type: ' + props.type);
