@@ -51,6 +51,19 @@ module.exports = {
           'css'
         ]
       },
+      // shim whatwg fetch polyfill
+      {
+        test: /whatwg\-fetch\/fetch\.js$/,
+        loaders: [
+          'imports?self=>{},Promise=when/es6-shim/Promise.browserify-es6.js',
+          'exports?self'
+        ]
+      },
+      //ng-annotate loader for angular components
+      {
+        test: /(-ng)(\\|\/)\S*(-ng|-ng__)\S*\.js$/,
+        loader: 'ng-annotate'
+      },
       //jsx loader
       {
         test: /\.jsx$/,
