@@ -38,6 +38,11 @@
   overflow-y: auto;
 
   @include ring-font;
+
+  &__filter-wrapper {
+    padding: 0 2*$ring-unit;
+    margin: 2*$ring-unit 0 $ring-unit;
+  }
 }
 
 // TODO Find better name and probably approach

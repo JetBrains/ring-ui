@@ -8,7 +8,7 @@ require('./select.scss');
 var React = require('react');
 var Popup = require('popup/popup');
 var List = require('list/list');
-var Filter = require('filter/filter');
+var Input = require('input/input');
 var Icon = require('icon/icon');
 var Button = require('button/button');
 var Loader = require('loader/loader');
@@ -297,7 +297,7 @@ var Select = React.createClass({
 
   _showPopup: function() {
     this._popup.setProps({
-      data: this.getListItems(this.getFilterValue()),
+      data: this.getListItems(this.filterValue()),
       toolbar: this.getToolbar()
     }, function() {
       !this._popup.isVisible() && this.props.onOpen();
@@ -311,12 +311,12 @@ var Select = React.createClass({
   },
 
   addHandler: function() {
-    this.props.onAdd(this.getFilterValue());
+    this.props.onAdd(this.filterValue());
   },
 
   getToolbar: function() {
     if (this._addButton) {
-      return <div className="ring-select__button" onClick={this.addHandler}><span className="ring-select__button__plus">+</span>{this.props.add.prefix ? this.props.add.prefix + ' ' : ''}<b>{this.getFilterValue()}</b></div>;
+      return <div className="ring-select__button" onClick={this.addHandler}><span className="ring-select__button__plus">+</span>{this.props.add.prefix ? this.props.add.prefix + ' ' : ''}<b>{this.filterValue()}</b></div>;
     }
   },
 
@@ -366,19 +366,17 @@ var Select = React.createClass({
     return filteredData;
   },
 
-  getFilterValue: function() {
-    if (!this.isInputMode()) {
-      return this._popup.getFilter();
-    } else {
-      return this.refs.filter.value();
-    }
-  },
+  filterValue: function(setValue) {
+    if (this.isInputMode() || this.props.filter) {
+      var filter = (this.isInputMode() ? this.refs.filter : this._popup.refs.filter).getDOMNode();
 
-  setFilterValue: function(value) {
-    if (!this.isInputMode()) {
-      return this._popup.setFilter(value);
+      if (typeof setValue === 'string' || typeof setValue === 'number') {
+        filter.value = setValue;
+      } else {
+        return filter.value;
+      }
     } else {
-      return this.refs.filter.value(value);
+      return null;
     }
   },
 
@@ -393,7 +391,7 @@ var Select = React.createClass({
   },
 
   _filterChangeHandler: function() {
-    this.props.onFilter(this.getFilterValue());
+    this.props.onFilter(this.filterValue());
     this._showPopup();
   },
 
@@ -454,7 +452,7 @@ var Select = React.createClass({
   },
 
   clearFilter: function() {
-    this.setFilterValue('');
+    this.filterValue('');
   },
 
   clear: function() {
@@ -509,9 +507,15 @@ var Select = React.createClass({
     });
 
     if (this.isInputMode()) {
+      var inputCS = React.addons.classSet({
+        'ring-js-shortcuts': true,
+        'ring-input_filter': true,
+        'ring-input_disabled': this.props.disabled
+      });
+
       return (
         <div onClick={this._buttonClickHandler} className={buttonCS}>
-          <Filter ref="filter" disabled={this.props.disabled} className={this.props.disabled ? 'ring-input_disabled' : ''} onFilter={this._filterChangeHandler} shortcuts={this._popup ? !this._popup.isVisible() : false} />
+          <Input ref="filter" disabled={this.props.disabled} className={inputCS} onInput={this._filterChangeHandler} shortcuts={this._popup ? !this._popup.isVisible() : false} />
           <span className="ring-select__icons">
               { this.props.loading ? <Loader modifier={Loader.Modifier.INLINE} /> : ''}
               { this._getClearButton() }
@@ -554,36 +558,19 @@ var SelectPopup = React.createClass({
     };
   },
 
-  _filterNode: null,
-
   componentDidMount: function() {
-    if (this.props.filter) {
-      this._filterNode = this.refs.filter.getDOMNode();
+    if (this.refs.filter) {
       if (this.props.filter.value) {
-        this.setFilter(this.props.filter.value);
+        this.refs.filter.getDOMNode().value = this.props.filter.value;
       }
       this.focusFilter();
     }
   },
 
-  componentDidUpdate: function() {
-    this.focusFilter();
-  },
-
-  setFilter: function(value) {
-    if (this.refs.filter) {
-      return this.refs.filter.value(value);
-    } else {
-      return function() {};
-    }
-  },
-
-  getFilter: function() {
-    return this.props.filter ? this._filterNode.value : '';
-  },
-
   focusFilter: function() {
-    this.props.filter && this._filterNode.focus();
+    if (this.refs.filter) {
+      this.refs.filter.getDOMNode().focus();
+    }
   },
 
   show: function() {
@@ -608,12 +595,12 @@ var SelectPopup = React.createClass({
     return this.refs.popup.isVisible();
   },
 
-  _getFilter: function() {
+  getFilter: function() {
     if (this.props.filter) {
-      return (<div className="ring-select__filter-wrapper">
-        <Filter ref="filter" popup="true"
+      return (<div className="ring-popup__filter-wrapper">
+        <Input ref="filter" className="ring-js-shortcuts ring-input_filter-popup"
           placeholder={this.props.filter.placeholder || ''}
-          onFilter={this.props.onFilter}
+          onInput={this.props.onFilter}
         />
       </div>);
     }
@@ -648,7 +635,7 @@ var SelectPopup = React.createClass({
       autoRemove={false}
       shortcuts={this.state.popupShortcuts}
       onClose={this.props.onClose}>
-      {this._getFilter()}
+      {this.getFilter()}
       {this.getList()}
       {this.getMessage()}
       {this.props.toolbar}
