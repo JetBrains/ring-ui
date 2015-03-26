@@ -15,5 +15,6 @@ module.exports = {
   Header: require('header/header'),
   Popup: require('popup/popup'),
   PopupMenu: require('popup-menu/popup-menu'),
-  QueryAssist: require('query-assist/query-assist')
+  QueryAssist: require('query-assist/query-assist'),
+  Select: require('select/select')
 };
