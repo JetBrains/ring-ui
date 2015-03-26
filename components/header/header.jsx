@@ -638,7 +638,7 @@ var Header = React.createClass({
     _menuItems = Global.createObject(
         MenuItemType.SETTINGS, (<MenuItem key="settings" ref="settings" glyph="cog1" href={this.props.settingsLink} onOpen={this.props.onSettingsOpen} onClose={this.props.onSettingsClose} />),
         MenuItemType.HELP, (<MenuItem key="help" ref="help" glyph="help" href={this.props.helpLink} onOpen={this.props.onHelpOpen} onClose={this.props.onHelpClose} />),
-        MenuItemType.SERVICES, (<MenuItem key="services" ref="services" glyph="expand1" onOpen={this._onServicesOpen} onClose={this._onServicesClose} title="Services" />),
+        MenuItemType.SERVICES, (<MenuItem key="services" ref="services" glyph="services" onOpen={this._onServicesOpen} onClose={this._onServicesClose} title="Services" />),
         MenuItemType.USER_MENU, (<MenuItem key="userMenu" ref="userMenu" glyph="user1" onOpen={this.props.onUserMenuOpen} onClose={this.props.onUserMenuClose} />),
         MenuItemType.LOGIN, (<div key="loginButton" ref="loginButton" className={loginClassName}><Button modifier={Button.Modifiers.BLUE} onClick={this.props.onLoginClick}>{this.props.translationsDict.login}</Button></div>));
 
