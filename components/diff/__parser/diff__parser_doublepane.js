@@ -1,3 +1,4 @@
+/* eslint-disable no-bitwise */
 /**
  * @fileoverview Diff-data parser for double-paned mode
  */

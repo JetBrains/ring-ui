@@ -338,7 +338,7 @@ var Select = React.createClass({
           item.type = List.ListProps.Type.ITEM;
         }
 
-        exectMatch |= (item.label === filterString);
+        exectMatch = (item.label === filterString);
 
         if (this.props.multiple && !this.props.multiple.removeSelectedItems) {
           item.checkbox = !!this._multipleMap[item.key];

@@ -1,3 +1,4 @@
+/* eslint-disable no-bitwise */
 var Tools = require('./../diff__tools');
 var Global = require('global/global');
 var Parser = require('./diff__parser');
