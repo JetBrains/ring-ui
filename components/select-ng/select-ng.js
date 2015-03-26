@@ -86,6 +86,7 @@ angular.module('Ring.select', ['Ring.react-ng'])
         source: '&',
         filter: '=?',
         onFilter: '=',
+        onSelect: '=',
         label: '@',
         labelField: '@',
         selectedLabelField: '@',
