@@ -82,7 +82,7 @@ function testStorage(storage) {
     });
 
     it('should iterate over items', function () {
-      var iterator = sinon.spy();
+      var iterator = sinon.stub();
       return storage.set('test', 'value').
         then(function () {
           return storage.each(iterator);
@@ -93,7 +93,7 @@ function testStorage(storage) {
     });
 
     it('should not iterate without items', function () {
-      var iterator = sinon.spy();
+      var iterator = sinon.stub();
       return storage.each(iterator).
         then(function () {
           iterator.should.not.been.called;
@@ -101,7 +101,7 @@ function testStorage(storage) {
     });
 
     it('should iterate over all items', function () {
-      var iterator = sinon.spy();
+      var iterator = sinon.stub();
       return storage.set('test1', '').
         then(function () {
           return storage.set('test2', '');
@@ -222,7 +222,7 @@ describe('Storage', function () {
       });
 
       it('should iterate over items with non-parseable values', function () {
-        var iterator = sinon.spy();
+        var iterator = sinon.stub();
         return storage.set('test', 'value').
           then(function () {
             return storage.each(iterator);

@@ -62,10 +62,6 @@ describe('analytics singleton', function() {
       analytics = new Analytics();
     });
 
-    afterEach(function() {
-      clock.restore();
-    });
-
     describe('#enabled', function() {
       beforeEach(function() {
         var customPlugin = new AnalyticsCustomPlugin(send);

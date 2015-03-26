@@ -64,7 +64,7 @@ describe('TableNg', function () {
     var fakeEvent = {};
 
     beforeEach(function () {
-      fakeEvent.emitEvent = sinon.spy();
+      fakeEvent.emitEvent = sinon.stub();
       selection = new TableSelection(fakeData.items, fakeEvent.emitEvent.bind(fakeEvent));
     });
 
