@@ -1,0 +1,22 @@
+@import "../global/global";
+
+.ring-form__update-text {
+  font-size: 0;
+
+  .ring-form__update-text__field {
+    width: $ring-unit*30 !important;
+  }
+
+  .ring-form__update-text__field_long {
+    width: $ring-unit*85 !important;
+  }
+
+  .ring-form__update-text__field_high {
+    min-height: $ring-unit*6;
+    resize: none;
+
+    &:focus {
+      transition: height 50ms ease-in-out;
+    }
+  }
+}

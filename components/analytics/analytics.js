@@ -12,14 +12,20 @@ Analytics.prototype.config = function (plugins) {
   this._plugins = plugins;
 };
 
-Analytics.prototype.track = function (rawTrackingData) {
+Analytics.prototype.track = function (rawTrackingData, /* optional */ viaShortcut) {
   if (!rawTrackingData) {
     return;
   }
-  var params = rawTrackingData.split(':');
-  var category = (params.length > 0) ? params[0] : '';
-  var trackingEvent = (params.length > 1) ? params[1] : '';
-  this.trackEvent(category, trackingEvent);
+  var splitIdx = rawTrackingData.indexOf(':');
+  if (splitIdx < 0) {
+    splitIdx = rawTrackingData.indexOf('_');
+  }
+  if (splitIdx < 0) {
+    splitIdx = rawTrackingData.length;
+  }
+  var category = rawTrackingData.substr(0, splitIdx);
+  var subcategory = rawTrackingData.substr(splitIdx + 1);
+  this.trackEvent(category, subcategory, viaShortcut);
 };
 
 Analytics.prototype.trackPageView = function (path) {
@@ -28,9 +34,12 @@ Analytics.prototype.trackPageView = function (path) {
   });
 };
 
-Analytics.prototype.trackEvent = function (category, action) {
+Analytics.prototype.trackEvent = function (category, action, /* optional */ viaShortcut) {
   this._plugins.forEach(function(plugin) {
     plugin.trackEvent(category, action);
+    if (viaShortcut) {
+      plugin.trackEvent('ring-shortcut', category + ':' + action);
+    }
   });
 };
 

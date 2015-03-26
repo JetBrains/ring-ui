@@ -65,13 +65,17 @@ var Checkbox = React.createClass({
   getInitialState: function () {
     return {
       id: generateUniqueId(),
-      checked: this.props.checked ? true : false
+      checked: this.props.checked,
+      disabled: this.props.disabled
     };
   },
 
   componentWillReceiveProps: function(props) {
     if (props.checked !== undefined) {
       this.state.checked = !!props.checked;
+    }
+    if (props.disabled !== undefined) {
+      this.state.disabled = !!props.disabled;
     }
   },
 
@@ -94,10 +98,12 @@ var Checkbox = React.createClass({
     var checkStyle = {
       display: this.state.checked ? 'block' : 'none'
     };
+    var disabledState = this.state.disabled ? 'disabled' : '';
 
     return (
-      <label className="ring-form__label" htmlFor={id}>
-        {this.transferPropsTo(<input ref="input" onChange={this.inputChange} type="checkbox" className="ring-checkbox" id={id} />)}
+      <label className="ring-checkbox" htmlFor={id}>
+        {this.transferPropsTo(
+          <input ref="input" disabledState onChange={this.inputChange} type="checkbox" className="ring-checkbox__input" id={id} />)}
         <span className="ring-checkbox__icon">
           <Icon glyph="check" color="black" size={Icon.Size.Size16} className="ring-checkbox__icon__image" style={checkStyle} />
         </span>

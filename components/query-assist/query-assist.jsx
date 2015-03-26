@@ -630,7 +630,7 @@ var QueryAssist = React.createClass({
 
     var inputClasses = React.addons.classSet({
       'ring-query-assist__input ring-input ring-js-shortcuts': true,
-      'ring-query-assist__input_gap': renderGlass !== renderClear &&
+      'ring-query-assist__input_gap': renderGlassOrLoader !== renderClear &&
         (renderGlassOrLoader || renderClear),
       'ring-query-assist__input_double-gap': renderGlassOrLoader && renderClear,
       'ring-input_disabled': this.props.disabled
