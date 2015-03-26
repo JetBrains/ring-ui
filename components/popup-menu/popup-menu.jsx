@@ -3,6 +3,8 @@
  * @jsx React.DOM
  */
 
+var fuzzysearch = require('fuzzysearch');
+
 var React = require('react');
 var Popup = require('popup/popup');
 var List = require('list/list');
@@ -54,78 +56,62 @@ var PopupMenu = React.createClass({
     };
   },
 
-  componentWillReceiveProps: function(props) {
-    if (props.data) {
-      this.processData(props.data);
-    }
+  getInitialState: function () {
+    return {text: ''};
   },
 
-  componentDidMount: function() {
-    this.processData(this.props.data);
-  },
-
-  componentDidUpdate: function() {
+  componentDidUpdate: function () {
     if (this.refs.filter && this.isVisible()) {
       this.refs.filter.getDOMNode().focus();
     }
   },
 
-  processData: function(data) {
-    if (this.props.filter) {
-      this.filter(data);
-    } else {
-      this.setState({
-        data: data
-      });
-    }
+  handleInput: function (e) {
+    this.setState({text: e.target.value});
   },
 
-  onFilter: function() {
-    this.filter(this.props.data);
+  filterFn: function (item, string) {
+    return !item.label || fuzzysearch(string.toLowerCase(), item.label.toLowerCase());
   },
 
-  filter: function(data) {
-    var filterString = this.refs.filter.getDOMNode().value;
-
-    var check = this.props.filter.fn || function(itemToCheck, checkString) {
-      return !itemToCheck.label || itemToCheck.label.match(new RegExp(checkString, 'ig'));
-    };
-
-    var filteredData = [];
-    for (var i = 0; i < data.length; i++) {
-      if (check(data[i], filterString)) {
-        filteredData.push(data[i]);
-      }
+  filter: function (data) {
+    if (!this.props.filter || this.state.text === '') {
+      return data;
     }
 
-    this.setState({
-      data: filteredData
+    var string = this.state.text;
+    var filterFn = this.props.filter.fn || this.filterFn;
+
+    return data.filter(function (item) {
+      return filterFn(item, string);
     });
   },
 
-  getFilter: function() {
-    if (this.props.filter) {
-      return (<div className="ring-popup__filter-wrapper">
+  getInput: function () {
+    return (
+      <div className="ring-popup__filter-wrapper">
         <Input ref="filter"
-        className="ring-js-shortcuts ring-input_filter-popup"
-        placeholder={this.props.filter.placeholder || ''}
-        onInput={this.onFilter} />
-      </div>);
-    }
+          className="ring-js-shortcuts ring-input_filter-popup"
+          placeholder={this.props.filter.placeholder || ''}
+          onInput={this.handleInput}/>
+      </div>
+    );
   },
 
   /** @override */
   getInternalContent: function () {
-    return (<div>
-      {this.getFilter()}
-      <List ref="List"
-      data={this.state.data}
-      hint={this.props.hint}
-      hintOnSelection={this.props.hintOnSelection}
-      maxHeight={this._getStyles().maxHeight}
-      onSelect={this.props.onSelect}
-      shortcuts={this.shortcutsEnabled()} />
-    </div>);
+    return (
+      <div>
+        {!!this.props.filter && this.getInput()}
+        <List ref="List"
+          data={this.filter(this.props.data)}
+          hint={this.props.hint}
+          hintOnSelection={this.props.hintOnSelection}
+          maxHeight={this._getStyles().maxHeight}
+          onSelect={this.props.onSelect}
+          shortcuts={this.shortcutsEnabled()}/>
+      </div>
+    );
   }
 });
 
