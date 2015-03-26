@@ -6,7 +6,7 @@
 var React = require('react');
 var Popup = require('popup/popup');
 var List = require('list/list');
-var Filter = require('filter/filter');
+var Input = require('input/input');
 
 /**
  * @constructor
@@ -65,8 +65,8 @@ var PopupMenu = React.createClass({
   },
 
   componentDidUpdate: function() {
-    if (this.props.filter && this.isVisible()) {
-      this.refs.filter.focus();
+    if (this.refs.filter && this.isVisible()) {
+      this.refs.filter.getDOMNode().focus();
     }
   },
 
@@ -85,7 +85,7 @@ var PopupMenu = React.createClass({
   },
 
   filter: function(data) {
-    var filterString = this.refs.filter.value();
+    var filterString = this.refs.filter.getDOMNode().value;
 
     var check = this.props.filter.fn || function(itemToCheck, checkString) {
       return !itemToCheck.label || itemToCheck.label.match(new RegExp(checkString, 'ig'));
@@ -105,10 +105,12 @@ var PopupMenu = React.createClass({
 
   getFilter: function() {
     if (this.props.filter) {
-      return (<Filter ref="filter"
-        popup={true}
+      return (<div className="ring-popup__filter-wrapper">
+        <Input ref="filter"
+        className="ring-js-shortcuts ring-input_filter-popup"
         placeholder={this.props.filter.placeholder || ''}
-        onFilter={this.onFilter} />);
+        onInput={this.onFilter} />
+      </div>);
     }
   },
 
