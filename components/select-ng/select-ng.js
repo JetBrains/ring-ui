@@ -124,6 +124,9 @@ angular.module('Ring.select', ['Ring.react-ng'])
 
         function syncSelectToNgModel(selectedValue) {
           ctrl.ngModelCtrl.$setViewValue(convertSelectToNgModel(selectedValue));
+          if (ctrl.onSelect) {
+            ctrl.onSelect(selectedValue);
+          }
         }
 
         function getKey() {
