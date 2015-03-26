@@ -310,7 +310,7 @@ describe('Auth', function () {
       return auth.init().
         otherwise(function (reject) {
           // Background loading
-          Auth.prototype._redirectFrame.should.have.been.calledWithMatch(sinon.match.instanceOf(HTMLIFrameElement), 'api/rest/oauth2/auth?response_type=token&' +
+          Auth.prototype._redirectFrame.should.have.been.calledWithMatch(sinon.match.any, 'api/rest/oauth2/auth?response_type=token&' +
           'state=unique&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub&request_credentials=default&client_id=1-1-1-1-1&scope=0-0-0-0-0%20youtrack');
 
           // Fallback redirect after second check fail
@@ -444,7 +444,7 @@ describe('Auth', function () {
       });
       return auth.requestToken().
         then(function (accessToken) {
-          Auth.prototype._redirectFrame.should.have.been.calledWithMatch(sinon.match.instanceOf(HTMLIFrameElement), 'api/rest/oauth2/auth?response_type=token&' +
+          Auth.prototype._redirectFrame.should.have.been.calledWithMatch(sinon.match.any, 'api/rest/oauth2/auth?response_type=token&' +
             'state=unique&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub&request_credentials=default&client_id=1-1-1-1-1&scope=0-0-0-0-0%20youtrack');
           Auth.prototype._redirectFrame.restore();
           Auth.prototype._redirectCurrentPage.should.not.have.been.called;
