@@ -47,9 +47,7 @@ describe('Auth', function () {
       new Auth({serverUri: ''});
       /* eslint-enable no-new */
       Auth.prototype._redirectCurrentPage.should.not.have.been.called;
-      Auth.prototype._redirectCurrentPage.restore();
     });
-
   });
 
   describe('getValidatedToken', function () {
@@ -61,10 +59,6 @@ describe('Auth', function () {
 
     beforeEach(function () {
       this.sinon.stub(AuthStorage.prototype, 'getToken');
-    });
-
-    afterEach(function () {
-      AuthStorage.prototype.getToken.restore();
     });
 
     it('should resolve access token when it is valid', function () {
@@ -141,7 +135,6 @@ describe('Auth', function () {
 
     afterEach(function () {
       Auth.HAS_CORS = hasCors;
-      Auth.prototype.getSecure.restore();
     });
 
     it('should resolve to access token when user is returned', function () {
@@ -206,8 +199,6 @@ describe('Auth', function () {
     });
 
     afterEach(function () {
-      Auth.prototype.getSecure.restore();
-      Auth.prototype.setHash.restore();
       return when.join(auth._storage.cleanStates(), auth._storage.wipeToken());
     });
 
@@ -237,8 +228,6 @@ describe('Auth', function () {
         }).
         then(function (restoreLocation) {
           restoreLocation.should.be.equal('http://localhost:8080/hub/users');
-          AuthResponseParser.prototype.getLocation.restore();
-          Auth._epoch.restore();
           return auth._storage.getToken();
         }).
         should.eventually.be.deep.equal({
@@ -279,8 +268,6 @@ describe('Auth', function () {
         otherwise(function (reject) {
           Auth.prototype._redirectCurrentPage.should.be.calledWith('api/rest/oauth2/auth?response_type=token&' +
             'state=unique&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub&request_credentials=default&client_id=1-1-1-1-1&scope=0-0-0-0-0%20youtrack');
-          Auth.prototype._redirectCurrentPage.restore();
-          AuthRequestBuilder._uuid.restore();
           return reject.authRedirect;
         }).
         should.eventually.be.true;
@@ -336,9 +323,6 @@ describe('Auth', function () {
       });
 
       return auth.init().otherwise(function () {
-        Auth.prototype._redirectCurrentPage.restore();
-        AuthResponseParser.prototype.getAuthResponseFromURL.restore();
-        AuthRequestBuilder._uuid.restore();
 
         auth.setHash.should.have.been.calledWith('');
       });
@@ -355,9 +339,6 @@ describe('Auth', function () {
       });
 
       return auth.init().otherwise(function () {
-        Auth.prototype._redirectCurrentPage.restore();
-        AuthRequestBuilder._uuid.restore();
-
         auth.setHash.should.not.have.been.called;
       });
     });
@@ -374,10 +355,6 @@ describe('Auth', function () {
       });
 
       return auth.init().otherwise(function () {
-        Auth.prototype._redirectCurrentPage.restore();
-        AuthResponseParser.prototype.getAuthResponseFromURL.restore();
-        AuthRequestBuilder._uuid.restore();
-
         auth.setHash.should.not.have.been.called;
       });
 
@@ -397,9 +374,6 @@ describe('Auth', function () {
         otherwise(function () {
           Auth.prototype._redirectCurrentPage.should.be.calledWith('api/rest/oauth2/auth?response_type=token&' +
           'state=unique&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub&request_credentials=skip&client_id=0-0-0-0-0&scope=0-0-0-0-0');
-
-          Auth.prototype._redirectCurrentPage.restore();
-          AuthRequestBuilder._uuid.restore();
         });
     });
   });
@@ -425,8 +399,6 @@ describe('Auth', function () {
     });
 
     afterEach(function () {
-      AuthRequestBuilder._uuid.restore();
-      Auth.prototype._redirectCurrentPage.restore();
       return when.join(auth._storage.cleanStates(), auth._storage.wipeToken());
     });
 
@@ -446,7 +418,6 @@ describe('Auth', function () {
         then(function (accessToken) {
           Auth.prototype._redirectFrame.should.have.been.calledWithMatch(sinon.match.any, 'api/rest/oauth2/auth?response_type=token&' +
             'state=unique&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub&request_credentials=default&client_id=1-1-1-1-1&scope=0-0-0-0-0%20youtrack');
-          Auth.prototype._redirectFrame.restore();
           Auth.prototype._redirectCurrentPage.should.not.have.been.called;
           return accessToken;
         }).should.eventually.be.equal('token');
@@ -460,8 +431,8 @@ describe('Auth', function () {
       return auth.requestToken().
         otherwise(function (reject) {
           Auth.prototype._redirectFrame.getCall(0).args[1].should.be.equal(authURL);
-          Auth.prototype._redirectFrame.restore();
           Auth.prototype._redirectCurrentPage.should.have.been.calledWith(authURL);
+
           return reject.authRedirect;
         }).should.eventually.be.true;
     });
@@ -479,11 +450,6 @@ describe('Auth', function () {
     beforeEach(function () {
       this.sinon.stub(Auth.prototype, '_redirectCurrentPage');
       this.sinon.stub(AuthRequestBuilder, '_uuid').returns('unique');
-    });
-
-    afterEach(function () {
-      Auth.prototype._redirectCurrentPage.restore();
-      AuthRequestBuilder._uuid.restore();
     });
 
     it('should clear access token and redirect to logout', function () {
