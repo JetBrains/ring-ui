@@ -54,6 +54,21 @@ describe('DropdownNg', function () {
     expect(directiveScope.getPopupMenuInstance().isVisible()).to.equal(true);
   });
 
+  it('should add dropdown-ng_open class to mark target as opened', function() {
+    element.click();
+    scope.$digest();
+
+    expect(element).to.has.class('dropdown-ng_open');
+  });
+
+  it('should add dropdown-ng_open class to mark target as opened', function() {
+    element.click();
+    scope.$digest();
+
+    directiveScope.getPopupMenuInstance().close();
+
+    expect(element).to.not.has.class('dropdown-ng_open');
+  });
 
   it('should defer popup render until items is loaded', inject(function($q) {
     scope.items = $q.defer();

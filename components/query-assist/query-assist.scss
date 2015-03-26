@@ -16,11 +16,11 @@
   white-space: nowrap;
   background: transparent;
 
-  &_gap {
+  &.ring-query-assist__input_gap {
     border-right-width: $ring-unit*3;
   }
 
-  &_double-gap {
+  &.ring-query-assist__input_double-gap {
     border-right-width: $ring-unit*6;
 
     & ~ .ring-query-assist__icon_clear {

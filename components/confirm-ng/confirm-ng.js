@@ -2,7 +2,7 @@
 
 require('dialog-ng/dialog-ng');
 
-angular.module('Ring.confirm', []).
+angular.module('Ring.confirm', ['Ring.dialog']).
   service('confirm', [
     'dialog',
     '$q',

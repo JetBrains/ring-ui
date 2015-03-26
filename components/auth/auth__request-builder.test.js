@@ -35,7 +35,7 @@ describe('Auth', function () {
         redirect_uri: 'http://localhost:8080',
         request_credentials: 'default',
         client_id: '0-0-0-0-0',
-        scopes: ['youtrack', 'teamcity']
+        scopes: ['youtrack', 'teamcity', 'vcs settings']
       };
       beforeEach(function () {
         sinon.stub(AuthRequestBuilder, '_uuid').returns('unique');
@@ -51,7 +51,7 @@ describe('Auth', function () {
       it('should return correct URL', function () {
         var builder = new AuthRequestBuilder(config);
         var expected = 'https://sso.jetbrains.com/auth?response_type=token&' +
-          'state=unique&redirect_uri=http%3A%2F%2Flocalhost%3A8080&request_credentials=default&client_id=0-0-0-0-0&scope=youtrack%20teamcity';
+          'state=unique&redirect_uri=http%3A%2F%2Flocalhost%3A8080&request_credentials=default&client_id=0-0-0-0-0&scope=youtrack%20teamcity%20vcs%2520settings';
         return builder.prepareAuthRequest().should.eventually.be.equal(expected);
       });
 
@@ -61,17 +61,29 @@ describe('Auth', function () {
           then(function () {
             AuthRequestBuilder.prototype._saveState.should.have.been.calledWith('unique', {
               restoreLocation: window.location.href,
-              scopes: ['youtrack', 'teamcity']
+              scopes: ['youtrack', 'teamcity', 'vcs settings']
             });
           });
-
       });
+
+      it('should save extra state', function () {
+        var builder = new AuthRequestBuilder(config);
+        return builder.prepareAuthRequest(null, {nonRedirect: true}).
+          then(function () {
+            AuthRequestBuilder.prototype._saveState.should.have.been.calledWith('unique', {
+              restoreLocation: window.location.href,
+              nonRedirect: true,
+              scopes: ['youtrack', 'teamcity', 'vcs settings']
+            });
+          });
+      });
+
 
       it('should return correct URL with extra parameters', function () {
         var builder = new AuthRequestBuilder(config);
         var expected = 'https://sso.jetbrains.com/auth?response_type=token&state=unique&' +
           'redirect_uri=http%3A%2F%2Flocalhost%3A8080&request_credentials=required&' +
-          'client_id=0-0-0-0-0&scope=youtrack%20teamcity';
+          'client_id=0-0-0-0-0&scope=youtrack%20teamcity%20vcs%2520settings';
         return builder.prepareAuthRequest({request_credentials: 'required'}).should.eventually.be.equal(expected);
       });
     });
