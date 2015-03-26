@@ -1,0 +1,77 @@
+@import "../global/global";
+
+.ring-select {
+  display: inline-block;
+  position: relative;
+  color: #888;
+
+  &_input-mode {
+    .ring-select__icons {
+      top: 2px;
+    }
+  }
+
+  &_disabled {
+    opacity: 0.5;
+  }
+
+
+
+  &__filter-wrapper {
+    padding: 0 2*$ring-unit;
+    margin: 2*$ring-unit 0 $ring-unit;
+  }
+
+  &__message {
+    text-align: center;
+    padding: 0 2*$ring-unit;
+    margin: $ring-unit 0;
+  }
+
+  &__button {
+    padding: 0 2*$ring-unit;
+    margin: $ring-unit/2 0;
+    text-align: left;
+    line-height: 28px;
+
+    &:hover {
+      color: #FFF;
+      background-color: #25B7FF;
+      cursor: pointer;
+    }
+
+    &__plus {
+      position: relative;
+      top: 2px;
+      margin-right: $ring-unit;
+      font-size: 19px;
+    }
+  }
+
+  &__icons {
+    position: absolute;
+    top: 0;
+    right: $ring-unit;
+
+    .ring-loader.ring-loader_inline {
+      top: 2px;
+      margin-right: 2px;
+    }
+  }
+
+  &__label {
+    width: 100%;
+    text-overflow: ellipsis;
+    display: inline-block;
+    overflow: hidden;
+    padding-right: 3*$ring-unit;
+  }
+}
+
+.ring-btn.ring-select {
+  font-size: 13px;
+  width: 200px;
+  text-align: left;
+  white-space: nowrap;
+}
+

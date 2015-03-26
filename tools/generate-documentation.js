@@ -292,6 +292,7 @@ var dgeni = new Dgeni([
       './**/*.jsx',
       './react-ng/react-ng.js',
       './tabs-ng/tabs-ng.js',
+      './select-ng/select-ng.js',
       './breadcrumb-ng/breadcrumb-ng.js',
       './sidebar-ng/sidebar-ng.js',
       './table-ng/table-ng.js',
