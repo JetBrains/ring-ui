@@ -831,7 +831,7 @@ HeaderHelper.setServicesList = function(header, auth, params) {
           header.refs['services'].setLoading(false);
         }
       } else {
-        header.setProps({ showServices: false });
+        header.setMenuItemEnabled(Header.MenuItemType.SERVICES, false);
       }
     });
   });
