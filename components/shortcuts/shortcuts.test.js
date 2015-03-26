@@ -122,9 +122,7 @@ describe('Shortcuts', function () {
     });
 
     it('filter should prevent handler run', function () {
-      var stop = sinon.spy(function() {
-        return true;
-      });
+      var stop = sinon.stub().returns(true);
 
       shortcuts.setFilter(stop);
       shortcuts.bind({key: key, handler: noop});
@@ -167,9 +165,7 @@ describe('Shortcuts', function () {
     });
 
     it('should fall trough scopes when returning true', function () {
-      var fallthrough = sinon.spy(function() {
-        return true;
-      });
+      var fallthrough = sinon.stub().returns(true);
 
       shortcuts.bind({key: key, handler: noop});
       shortcuts.bind({key: key, scope: scope, handler: fallthrough});

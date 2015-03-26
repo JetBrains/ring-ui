@@ -28,13 +28,9 @@ describe('Auth', function () {
 
       var location;
       beforeEach(function () {
-        sinon.stub(AuthResponseParser.prototype, 'getLocation', function () {
+        this.sinon.stub(AuthResponseParser.prototype, 'getLocation', function () {
           return location;
         });
-      });
-
-      afterEach(function () {
-        AuthResponseParser.prototype.getLocation.restore();
       });
 
       it('should return correct response', function () {

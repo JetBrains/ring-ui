@@ -6,7 +6,7 @@ describe('Ring.analytics', function() {
   beforeEach(
     window.module('Ring.analytics',
       function (analyticsProvider) {
-        var send = sinon.spy();
+        var send = sinon.stub();
         var AnalyticsCustomPlugin = require('../analytics/analytics__custom-plugin');
         analyticsProvider.plugins([new AnalyticsCustomPlugin(send)]);
       })
@@ -37,10 +37,6 @@ describe('Ring.analytics', function() {
       analytics = _analytics_;
       this.sinon.spy(analytics, 'trackEvent');
     }));
-
-    afterEach(function() {
-      analytics.trackEvent.restore();
-    });
 
     var compileTemplate = function(template) {
       var elem = $compile(template)($rootScope);
