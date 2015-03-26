@@ -57,6 +57,7 @@ Analytics.prototype.trackEntityProperties = function(entityName, entity, propert
       if (value.hasOwnProperty(keys[j])) {
         value = value[keys[j]];
       } else {
+        value = 'no-value';
         break;
       }
     }
