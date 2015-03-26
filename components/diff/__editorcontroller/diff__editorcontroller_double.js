@@ -1,3 +1,4 @@
+/* eslint-disable no-bitwise */
 /**
  * @fileoverview Controller for double-pane editor.
  * @author igor.alexeenko (Igor Alexeenko)

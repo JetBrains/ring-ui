@@ -1,3 +1,4 @@
+/* eslint-disable no-bitwise */
 describe('Diff', function () {
   describe('base', function () {
     var BaseDiff = require('./diff__base');

@@ -107,7 +107,9 @@ var PopupMixin = {
       left: 0,
       top: 0,
       corner: Corner.BOTTOM_LEFT,
+      /* eslint-disable no-bitwise */
       direction: Directions.DOWN | Directions.RIGHT
+      /* eslint-enable no-bitwise */
     };
   },
 
@@ -251,6 +253,7 @@ var PopupMixin = {
     var anchorElementOffset = $anchorElement.offset();
     var styles = {};
 
+    /* eslint-disable no-bitwise */
     if (this.isMounted()) {
       if (props.direction & Directions.UP) {
         top -= $(this.getDOMNode()).height();
@@ -260,6 +263,7 @@ var PopupMixin = {
         left -= $(this.getDOMNode()).width();
       }
     }
+    /* eslint-enable no-bitwise */
 
     switch (props.corner) {
       case Corner.TOP_LEFT:
