@@ -18,6 +18,11 @@ describe('Auth', function () {
           should.be.equal('hub?a=a&b=b');
       });
 
+      it('should not encode nulls and undefineds', function () {
+        AuthRequestBuilder.encodeURL('hub', {a: 'a', b: null, c: undefined, d: '', e: false}).
+          should.be.equal('hub?a=a&d=&e=false');
+      });
+
       it('should handle already existing query parameters', function () {
         AuthRequestBuilder.encodeURL('hub?c=c', {a: 'a', b: 'b'}).
           should.be.equal('hub?c=c&a=a&b=b');
