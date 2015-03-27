@@ -378,7 +378,7 @@ var Select = React.createClass({
         return filter.value;
       }
     } else {
-      return null;
+      return '';
     }
   },
 
