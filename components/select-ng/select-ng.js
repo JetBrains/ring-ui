@@ -1,8 +1,7 @@
 
 var map = require('mout/array/map');
-require('react-ng/react-ng')({
-  Select: require('select/select')
-});
+var Select = require('select/select');
+var React = require('react');
 
 /**
  * @name Select-ng.
@@ -78,8 +77,7 @@ angular.module('Ring.select', ['Ring.react-ng'])
     var defaultSelectedLabel = 'selectedLabel';
 
     return {
-      restrict: 'E',
-      template: require('./select-ng.html'),
+      restrict: 'EA',
       scope: {
         ngModel: '=',
         options: '=?',
@@ -91,15 +89,19 @@ angular.module('Ring.select', ['Ring.react-ng'])
         labelField: '@',
         selectedLabelField: '@',
         keyField: '@',
-        selectedFormatter: '='
+        selectedFormatter: '=',
+        config: '=?'
       },
       bindToController: true,
       controllerAs: 'selectCtrl',
       require: ['ngModel', 'rgSelect'],
       link: function (scope, iElement, iAttrs, ctrls) {
-        ctrls[1].setNgModelCtrl(ctrls[0]);
+        var ngModelCtrl = ctrls[0];
+        var rgSelectCtrl = ctrls[1];
+
+        rgSelectCtrl.setNgModelCtrl(ngModelCtrl);
       },
-      controller: ['$scope', function ($scope) {
+      controller: function ($scope, $element) {
         /*eslint-disable consistent-this*/
         var ctrl = this;
         /*eslint-enable consistent-this*/
@@ -107,27 +109,27 @@ angular.module('Ring.select', ['Ring.react-ng'])
         /**
          * Properties
          */
-        ctrl.selectModel = null;
-        ctrl.selectOptions = [];
-        ctrl.filter = ctrl.filter || true;
+        ctrl.selectInstance = null;
         ctrl.ngModelCtrl = null;
         ctrl.isLoading = false;
         ctrl.isLoaded = false;
 
-        function setNgModelCtrl(ngModelCtrl) {
+        ctrl.setNgModelCtrl = function(ngModelCtrl) {
           ctrl.ngModelCtrl = ngModelCtrl;
-        }
+        };
 
         function convertSelectToNgModel(selectModel) {
           return selectModel.originalModel;
         }
 
-        function syncSelectToNgModel(selectedValue) {
+        ctrl.syncSelectToNgModel = function(selectedValue) {
           ctrl.ngModelCtrl.$setViewValue(convertSelectToNgModel(selectedValue));
           if (ctrl.onSelect) {
-            ctrl.onSelect(selectedValue);
+            $scope.$evalAsync(function () {
+              ctrl.onSelect(selectedValue);
+            });
           }
-        }
+        };
 
         function getKey() {
           return ctrl.keyField || defaultKey;
@@ -142,47 +144,57 @@ angular.module('Ring.select', ['Ring.react-ng'])
         }
 
         function convertNgModelToSelect(model) {
-          return angular.extend({
-            key: model[getKey()],
-            label: model[getLabel()],
-            selectedLabel: ctrl.selectedFormatter ? ctrl.selectedFormatter(model) : model[getSelectedLabel()],
-            originalModel: model
-          }, model);
+          if (model) {
+            return angular.extend({
+              key: model[getKey()],
+              label: model[getLabel()],
+              selectedLabel: ctrl.selectedFormatter ? ctrl.selectedFormatter(model) : model[getSelectedLabel()],
+              originalModel: model
+            }, model);
+          }
         }
 
         function convertOptionsToSelectData(options) {
           return map(options, convertNgModelToSelect);
         }
 
-        function startLoading() {
+        ctrl.startLoading = function() {
           var sourcePromise = ctrl.source();
           if (sourcePromise) {
-            ctrl.isLoading = true;
+            ctrl.selectInstance.setProps({
+              loading: true
+            });
             sourcePromise.then(function (results) {
-              ctrl.selectOptions = convertOptionsToSelectData(results.data || results);
+              ctrl.options = results.data || results;
             }).catch(function () {
               //todo: catch error
             }).finally(function () {
               ctrl.isLoaded = true;
-              ctrl.isLoading = false;
+              ctrl.selectInstance.setProps({
+                loading: false
+              });
             });
           }
-        }
+        };
 
-        function onOpen() {
+        ctrl.loadIfNotLoaded = function() {
           if (!ctrl.isLoaded && !ctrl.isLoading) {
-            startLoading();
+            ctrl.startLoading();
           }
-        }
+        };
 
         function syncOptions() {
           $scope.$watch('selectCtrl.options', function (newOptions) {
-            ctrl.selectOptions = convertOptionsToSelectData(newOptions);
+            ctrl.selectInstance.setProps({
+              data: convertOptionsToSelectData(newOptions)
+            });
           });
         }
 
         function setSelectModel(newValue) {
-          ctrl.selectModel = newValue ? convertNgModelToSelect(newValue) : newValue;
+          ctrl.selectInstance.setProps({
+            selected: newValue ? convertNgModelToSelect(newValue) : newValue
+          });
         }
 
         function syncNgModelToSelect() {
@@ -192,20 +204,47 @@ angular.module('Ring.select', ['Ring.react-ng'])
         }
 
         function activate() {
-          setSelectModel(ctrl.ngModel);
-          ctrl.selectOptions = convertOptionsToSelectData(ctrl.options);
+          ctrl.config = angular.extend({}, {
+            selected: convertNgModelToSelect(ctrl.ngModel),
+            data: convertOptionsToSelectData(ctrl.options),
+            label: ctrl.label,
+            filter: ctrl.filter,
+            onOpen: function () {
+              $scope.$evalAsync(function () {
+                ctrl.loadIfNotLoaded();
+                if (ctrl.onOpen){
+                  ctrl.onOpen();
+                }
+              });
+            },
+            onSelect: function (item) {
+              $scope.$evalAsync(function () {
+                ctrl.syncSelectToNgModel(item);
+                if (ctrl.onSelect) {
+                  ctrl.onSelect(item);
+                }
+              });
+            },
+            onFilter: function (query) {
+              if (ctrl.onFilter){
+                $scope.$evalAsync(function () {
+                  ctrl.onFilter(query);
+                });
+              }
+            }
+          }, ctrl.config || {});
+
+          /**
+           * Render select in appended div to save any exist content of directive
+           */
+          var container = $element.append('<div/>');
+
+          ctrl.selectInstance = React.renderComponent(new Select(ctrl.config), container[0]);
+
           syncNgModelToSelect();
           syncOptions();
         }
         activate();
-
-        /**
-         * Interface
-         */
-        ctrl.setNgModelCtrl = setNgModelCtrl;
-        ctrl.startLoading = startLoading;
-        ctrl.onOpen = onOpen;
-        ctrl.syncSelectToNgModel = syncSelectToNgModel;
-      }]
+      }
     };
   });
