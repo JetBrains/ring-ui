@@ -286,6 +286,7 @@ describe('Auth', function () {
 
       auth = new Auth({
         serverUri: '',
+        redirect: false,
         redirect_uri: 'http://localhost:8080/hub',
         client_id: '1-1-1-1-1',
         scope: ['0-0-0-0-0', 'youtrack'],
@@ -298,7 +299,7 @@ describe('Auth', function () {
         otherwise(function (reject) {
           // Background loading
           Auth.prototype._redirectFrame.should.have.been.calledWithMatch(sinon.match.any, 'api/rest/oauth2/auth?response_type=token&' +
-          'state=unique&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub&request_credentials=default&client_id=1-1-1-1-1&scope=0-0-0-0-0%20youtrack');
+          'state=unique&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub&request_credentials=silent&client_id=1-1-1-1-1&scope=0-0-0-0-0%20youtrack');
 
           // Fallback redirect after second check fail
           Auth.prototype._redirectCurrentPage.should.have.been.calledWith('api/rest/oauth2/auth?response_type=token&' +
@@ -430,7 +431,7 @@ describe('Auth', function () {
       this.sinon.stub(Auth.prototype, '_redirectFrame');
       return auth.requestToken().
         otherwise(function (reject) {
-          Auth.prototype._redirectFrame.getCall(0).args[1].should.be.equal(authURL);
+          Auth.prototype._redirectFrame.should.have.been.calledWithMatch(sinon.match.any, authURL);
           Auth.prototype._redirectCurrentPage.should.have.been.calledWith(authURL);
 
           return reject.authRedirect;
