@@ -62,7 +62,7 @@ require('react-ng/react-ng')({
             var defer = $q.defer();
             $timeout(function(){
               defer.resolve(ctrl.options);
-            }, 100000);
+            }, 1000);
             return defer.promise;
           };
       });
