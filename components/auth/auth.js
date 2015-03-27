@@ -595,7 +595,7 @@ Auth.prototype._loadTokenInBackground = function () {
   var iframe = this._createHiddenFrame();
 
   // TODO Remove after "redirect: false" is default, i.e. after Hub 1.0 everywhere
-  var backgroundMode = this.config.redirect ? 'default' : 'silent';
+  var backgroundMode = this.config.redirect ? 'skip' : 'silent';
 
   return this._requestBuilder.prepareAuthRequest({request_credentials: backgroundMode}, {nonRedirect: true}).
     then(function (authURL) {
