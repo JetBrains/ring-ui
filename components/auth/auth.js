@@ -643,10 +643,10 @@ var GUEST_ID = 'guest';
 
 /**
  * @param {Object} response
+ * @deprecated since Hub 0.10.114+
  * @return {boolean}
  */
 Auth.prototype.isGuest = function(response) {
-  // TODO 2 last checks after Hub 0.10.114+ everywhere
   return response.guest || response.login === GUEST_ID || response.name === GUEST_ID;
 };
 
