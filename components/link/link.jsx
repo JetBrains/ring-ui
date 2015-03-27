@@ -7,13 +7,17 @@ require('./link.scss');
  * @constructor
  * @extends {ReactComponent}
  * @example
-   <example>
-   <div id="link">
-   </div>
+   <example name="Link">
+     <file name="index.html">
+       <div id="link"></div>
+     </file>
 
-   <script>
-   React.renderComponent(Link(), document.getElementById('link'));
-   </script>
+     <file name="index.js" webpack="true">
+       var React = require('react');
+       var Link = require('./link');
+
+       React.renderComponent(Link({href: "#hash"}, 'Link text'), document.getElementById('link'));
+     </file>
    </example>
  */
 var Link = React.createClass({
