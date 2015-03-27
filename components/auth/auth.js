@@ -169,7 +169,7 @@ Auth.REFRESH_BEFORE = 20 * 60; // 20 min in s
 /**
  * @const {number} noninteractive auth timeout
  */
-Auth.REFRESH_TIMEOUT = 60 * 1000; // 1 min in ms
+Auth.BACKGROUND_TIMEOUT = 20 * 1000; // 20 sec in ms
 
 /**
  * @const {boolean} is CORS available in browser
@@ -579,7 +579,7 @@ Auth.prototype._createHiddenFrame = function () {
  * Refreshes access token in iFrame.
  *
  * @return {Promise.<string>} promise that is resolved to access token when it is loaded in a background iframe. The
- * promise is rejected if no token was got after {@link Auth.REFRESH_TIMEOUT} ms.
+ * promise is rejected if no token was got after {@link Auth.BACKGROUND_TIMEOUT} ms.
  */
 Auth.prototype._loadTokenInBackground = function () {
   if (this._backgroundDefer) {
@@ -594,7 +594,7 @@ Auth.prototype._loadTokenInBackground = function () {
 
   var iframe = this._createHiddenFrame();
 
-  return this._requestBuilder.prepareAuthRequest(null, {nonRedirect: true}).
+  return this._requestBuilder.prepareAuthRequest({request_credentials: 'skip'}, {nonRedirect: true}).
     then(function (authURL) {
       var removeListener = self._storage.onTokenChange(function(token) {
         if (token !== null) {
@@ -608,7 +608,7 @@ Auth.prototype._loadTokenInBackground = function () {
 
       // TODO removeListener
       return self._backgroundDefer.promise.
-        timeout(Auth.REFRESH_TIMEOUT);
+        timeout(Auth.BACKGROUND_TIMEOUT);
     });
 };
 /**
