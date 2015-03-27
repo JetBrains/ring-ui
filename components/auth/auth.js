@@ -641,13 +641,13 @@ Auth.prototype.setHash = function(hash) {
  */
 var GUEST_ID = 'guest';
 
-// todo(igor.alexeenko): Static would look better.
 /**
  * @param {Object} response
  * @return {boolean}
  */
 Auth.prototype.isGuest = function(response) {
-  return response.login === GUEST_ID || response.name === GUEST_ID;
+  // TODO 2 last checks after Hub 0.10.114+ everywhere
+  return response.guest || response.login === GUEST_ID || response.name === GUEST_ID;
 };
 
 module.exports = Auth;
