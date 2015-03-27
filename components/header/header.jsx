@@ -13,7 +13,6 @@ var Link = require('link/link');
 var mixIn = require('mout/object/mixIn');
 var PopupMenu = require('popup-menu/popup-menu');
 var React = require('react/addons');
-var Auth = require('../auth/auth');
 var urlUtils = require('url-utils/url-utils');
 
 
@@ -821,7 +820,7 @@ HeaderHelper.setServicesList = function(header, auth, params) {
   });
 
   return auth.requestToken().then(function(token) {
-    auth.getSecure(Auth.API_PATH + '/services', token, params).then(function(resp) {
+    auth.getApi('services', token, params).then(function(resp) {
       if (resp.services) {
         header.setProps({
           onServicesOpen: null,

@@ -105,7 +105,7 @@ var Auth = function (config) {
   this._responseParser = new AuthResponseParser();
 
   this._requestBuilder = new AuthRequestBuilder({
-    authorization: this.config.serverUri + Auth.API_AUTH_PATH,
+    authorization: this.config.serverUri + Auth.API_PATH + Auth.API_AUTH_PATH,
     client_id: this.config.client_id,
     redirect: this.config.redirect,
     redirect_uri: this.config.redirect_uri,
@@ -149,17 +149,17 @@ Auth.DEFAULT_CONFIG = {
 /**
  * @const {string}
  */
-Auth.API_PATH = 'api/rest';
+Auth.API_PATH = 'api/rest/';
 
 /**
  * @const {string}
  */
-Auth.API_AUTH_PATH = Auth.API_PATH + '/oauth2/auth';
+Auth.API_AUTH_PATH = 'oauth2/auth';
 
 /**
  * @const {string}
  */
-Auth.API_PROFILE_PATH = Auth.API_PATH + '/users/me';
+Auth.API_PROFILE_PATH = 'users/me';
 
 /**
  * @const {number}
@@ -259,13 +259,14 @@ Auth.prototype.requestToken = function () {
 
 /**
  * Makes GET request to the given URL with the given access token.
- * @param {string} relativeURI a URI relative to config.serverUri to make the GET request to
+ *
+ * @param {string} absoluteUrl an absolute URI to request with given token
  * @param {string} accessToken access token to use in request
  * @param {object?} params query parameters
  * @return {Promise} promise from fetch request
  */
-Auth.prototype.getSecure = function (relativeURI, accessToken, params) {
-  var url = AuthRequestBuilder.encodeURL(this.config.serverUri + relativeURI, params);
+Auth.prototype.getSecure = function (absoluteUrl, accessToken, params) {
+  var url = AuthRequestBuilder.encodeURL(absoluteUrl, params);
 
   return whatWgFetch(url, {
     headers: {
@@ -279,6 +280,19 @@ Auth.prototype.getSecure = function (relativeURI, accessToken, params) {
 };
 
 /**
+ * Makes GET request to the relative API url. For example to fetch all services call:
+ *  getApi('services', token, params)
+ *
+ * @param {string} relativeURI a URI relative to config.serverUri rest api to make the GET request to
+ * @param {string} accessToken access token to use in request
+ * @param {object?} params query parameters
+ * @return {Promise} promise from fetch request
+ */
+Auth.prototype.getApi = function (relativeURI, accessToken, params) {
+  return this.getSecure(this.config.serverUri + Auth.API_PATH + relativeURI, accessToken, params);
+};
+
+/**
  * @return {Promise.<object>}
  */
 Auth.prototype.requestUser = function () {
@@ -289,7 +303,7 @@ Auth.prototype.requestUser = function () {
   var self = this;
   return this.requestToken().
     then(function (accessToken) {
-      return self.getSecure(Auth.API_PROFILE_PATH, accessToken);
+      return self.getApi(Auth.API_PROFILE_PATH, accessToken);
     }).
     then(function (user) {
       self.user = user;
@@ -494,7 +508,7 @@ Auth.prototype._validateAgainstUser = function (storedToken) {
     return when(storedToken);
   }
 
-  return this.getSecure(Auth.API_PROFILE_PATH, storedToken.access_token).
+  return this.getApi(Auth.API_PROFILE_PATH, storedToken.access_token).
     then(function (user) {
       self.user = user;
       return storedToken;

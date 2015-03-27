@@ -202,7 +202,7 @@
           });
 
           return auth.requestToken().then(function (token) {
-            return auth.getSecure('api/rest/users/queryAssist', token, props);
+            return auth.getApi('users/queryAssist', token, props);
           });
         }
       }),

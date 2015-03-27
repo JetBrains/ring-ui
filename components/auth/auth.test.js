@@ -130,7 +130,7 @@ describe('Auth', function () {
 
     beforeEach(function () {
       Auth.HAS_CORS = true;
-      this.sinon.stub(Auth.prototype, 'getSecure');
+      this.sinon.stub(Auth.prototype, 'getApi');
     });
 
     afterEach(function () {
@@ -139,10 +139,10 @@ describe('Auth', function () {
 
     it('should resolve to access token when user is returned', function () {
       var token = { access_token: 'token' };
-      Auth.prototype.getSecure.returns(when.resolve({login: 'user'}));
+      Auth.prototype.getApi.returns(when.resolve({login: 'user'}));
       return auth._validateAgainstUser(token).
         then(function (validToken) {
-          Auth.prototype.getSecure.should.have.been.calledWith(Auth.API_PROFILE_PATH, 'token');
+          Auth.prototype.getApi.should.have.been.calledWith(Auth.API_PROFILE_PATH, 'token');
           return validToken;
         }).
         should.eventually.be.deep.equal(token);
@@ -154,7 +154,7 @@ describe('Auth', function () {
 
       return auth._validateAgainstUser(token).
         then(function (validToken) {
-          Auth.prototype.getSecure.should.not.have.been.called;
+          Auth.prototype.getApi.should.not.have.been.called;
           return validToken;
         }).
         should.eventually.be.deep.equal(token);
@@ -163,21 +163,21 @@ describe('Auth', function () {
 
     it('should reject with redirect if 401 response recieved', function () {
       var token = { access_token: 'token' };
-      Auth.prototype.getSecure.returns(when.reject({status: 401, responseJSON: {error: 'Problem'}}));
+      Auth.prototype.getApi.returns(when.reject({status: 401, responseJSON: {error: 'Problem'}}));
       return auth._validateAgainstUser(token).
         should.be.rejectedWith(Auth.TokenValidationError, 'Problem');
     });
 
     it('should reject with redirect if invalid_grant response recieved', function () {
       var token = { access_token: 'token' };
-      Auth.prototype.getSecure.returns(when.reject({responseJSON: {error: 'invalid_grant'}}));
+      Auth.prototype.getApi.returns(when.reject({responseJSON: {error: 'invalid_grant'}}));
       return auth._validateAgainstUser(token).
         should.be.rejectedWith(Auth.TokenValidationError, 'invalid_grant');
     });
 
     it('should reject with redirect if invalid_grant response recieved', function () {
       var token = { access_token: 'token' };
-      Auth.prototype.getSecure.returns(when.reject({responseJSON: {error: 'invalid_request'}}));
+      Auth.prototype.getApi.returns(when.reject({responseJSON: {error: 'invalid_request'}}));
       return auth._validateAgainstUser(token).
         should.be.rejectedWith(Auth.TokenValidationError, 'invalid_request');
     });
@@ -194,7 +194,7 @@ describe('Auth', function () {
     });
 
     beforeEach(function () {
-      this.sinon.stub(Auth.prototype, 'getSecure').returns(when({login: 'user'}));
+      this.sinon.stub(Auth.prototype, 'getApi').returns(when({login: 'user'}));
       this.sinon.stub(Auth.prototype, 'setHash');
     });
 
