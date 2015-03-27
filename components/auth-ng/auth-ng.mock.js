@@ -13,7 +13,11 @@ var AuthProviderMock = function() {
         requestToken: function() {
           return defer.promise;
         },
+        /** @deprecated */
         getSecure: function() {
+          return defer.promise;
+        },
+        getApi: function() {
           return defer.promise;
         }
       },
