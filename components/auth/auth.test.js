@@ -418,21 +418,21 @@ describe('Auth', function () {
       return auth.requestToken().
         then(function (accessToken) {
           Auth.prototype._redirectFrame.should.have.been.calledWithMatch(sinon.match.any, 'api/rest/oauth2/auth?response_type=token&' +
-            'state=unique&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub&request_credentials=default&client_id=1-1-1-1-1&scope=0-0-0-0-0%20youtrack');
+            'state=unique&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub&request_credentials=skip&client_id=1-1-1-1-1&scope=0-0-0-0-0%20youtrack');
           Auth.prototype._redirectCurrentPage.should.not.have.been.called;
           return accessToken;
         }).should.eventually.be.equal('token');
     });
 
     it('should redirect current page if get token in iframe fails', function () {
-      var authURL = 'api/rest/oauth2/auth?response_type=token&' +
-        'state=unique&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub&request_credentials=default&client_id=1-1-1-1-1&scope=0-0-0-0-0%20youtrack';
       Auth.BACKGROUND_TIMEOUT = 100;
       this.sinon.stub(Auth.prototype, '_redirectFrame');
       return auth.requestToken().
         otherwise(function (reject) {
-          Auth.prototype._redirectFrame.should.have.been.calledWithMatch(sinon.match.any, authURL);
-          Auth.prototype._redirectCurrentPage.should.have.been.calledWith(authURL);
+          Auth.prototype._redirectFrame.should.have.been.calledWithMatch(sinon.match.any, 'api/rest/oauth2/auth?response_type=token&' +
+          'state=unique&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub&request_credentials=skip&client_id=1-1-1-1-1&scope=0-0-0-0-0%20youtrack');
+          Auth.prototype._redirectCurrentPage.should.have.been.calledWith('api/rest/oauth2/auth?response_type=token&' +
+          'state=unique&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub&request_credentials=default&client_id=1-1-1-1-1&scope=0-0-0-0-0%20youtrack');
 
           return reject.authRedirect;
         }).should.eventually.be.true;
