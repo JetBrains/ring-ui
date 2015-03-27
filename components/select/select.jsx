@@ -189,32 +189,35 @@ var Select = React.createClass({
   getDefaultProps: function () {
     return {
       data: [],
-      filter: false,
+      filter: false,   // enable filter in BUTTON or CUSTOM mode
       multiple: false, // multiple can be an object, see demo to more information
-      clear: false,
-      loading: false,
-      disabled: false,
+      clear: false,    // enable clear button that clear "selected" state
+      loading: false,  // show loader and loading text in popup
+      disabled: false, // disable select
 
       type: Types.BUTTON,
-      targetElement: null, // element to bind popup
+      targetElement: null, // element to bind popup (select BUTTON or INPUT as default)
       hideSelected: false, // INPUT mode: clear input in any case (smth selected)
 
-      selected: null,
+      maxHeight: 250,      // LIST height!!! without filter and Add button
+      minWidth: 'target',  // Popup width!!!
 
-      label: 'Please select option',
-      selectedLabel: '',
+      selected: null,      // current selection (item object or array of items)
+
+      label: 'Please select option',  // BUTTON label or INPUT placeholder (nothing selected)
+      selectedLabel: '',              // BUTTON label or INPUT placeholder (something selected)
 
       shortcuts: true,
 
       onOpen: function() {},
       onClose: function() {},
-      onFilter: function() {},
+      onFilter: function() {},    // search string as first argument
 
-      onSelect: function() {},   // single + multi
-      onDeselect: function() {}, // multi
+      onSelect: function() {},    // single + multi
+      onDeselect: function() {},  // multi
       onChange: function() {},    // multi
 
-      onAdd: function() {}
+      onAdd: function() {}        // search string as first argument
     };
   },
 
@@ -413,6 +416,7 @@ var Select = React.createClass({
 
   _rebuildMultipleMap: function(selected) {
     if (this.props.multiple) {
+      this._multipleMap = {};
       for (var i = 0; i < selected.length; i++) {
         this._multipleMap[selected[i].key] = true;
       }
@@ -497,14 +501,6 @@ var Select = React.createClass({
     }
   },
 
-  _getClearButton: function() {
-    if (this.props.clear && this.state.selected) {
-      return (<span className="ring-link" onClick={this.clear}>
-        <Icon glyph="close" size={Icon.Size.Size14}/>
-      </span>);
-    }
-  },
-
   _inputFocused: false,
   _focusHandler: function() {
     this.setState({
@@ -562,6 +558,24 @@ var Select = React.createClass({
     return item.selectedLabel || item.label;
   },
 
+  _getIcons: function() {
+    var icons = [];
+
+    if (this.props.loading) {
+      icons.push(<Loader modifier={Loader.Modifier.INLINE} />);
+    }
+
+    if (this.props.clear && this.state.selected) {
+      icons.push(<span className="ring-link" onClick={this.clear}>
+        <Icon glyph="close" size={Icon.Size.Size14}/>
+      </span>);
+    }
+
+    icons.push(<Icon glyph="caret-down" size={Icon.Size.Size14} />);
+
+    return icons;
+  },
+
   render: function () {
     var buttonCS = React.addons.classSet({
       'ring-select': true,
@@ -570,6 +584,12 @@ var Select = React.createClass({
       'ring-btn_disabled': this.props.disabled && !this.isInputMode(),
       'ring-js-shortcuts': true
     });
+
+    var icons = this._getIcons();
+
+    var style = {
+      'padding-right': 8 + icons.length * 16
+    };
 
     if (this.isInputMode()) {
       var inputCS = React.addons.classSet({
@@ -580,27 +600,19 @@ var Select = React.createClass({
 
       return (
         <div onClick={this._clickHandler} className={buttonCS}>
-          <Input ref="filter" disabled={this.props.disabled} className={inputCS}
+          <Input ref="filter" disabled={this.props.disabled} className={inputCS} style={style}
             onInput={this._filterChangeHandler}
             onFocus={this._focusHandler}
             onBlur={this._blurHandler}
             shortcuts={this._inputShortcutsEnabled()}
             placeholder={this._getInputPlaceholder()} />
-          <span className="ring-select__icons">
-              { this.props.loading ? <Loader modifier={Loader.Modifier.INLINE} /> : ''}
-              { this._getClearButton() }
-            <Icon glyph="caret-down" size={Icon.Size.Size14} />
-          </span>
+          <span className="ring-select__icons">{icons}</span>
         </div>);
     } else if (this.isButtonMode()) {
       return (
-        <Button onClick={this._clickHandler} className={buttonCS}>
+        <Button onClick={this._clickHandler} className={buttonCS} style={style}>
           <span className="ring-select__label">{this._getButtonLabel()}</span>
-          <span className="ring-select__icons">
-          { this.props.loading ? <Loader modifier={Loader.Modifier.INLINE} /> : ''}
-          { this._getClearButton() }
-            <Icon glyph="caret-down" size={Icon.Size.Size14} />
-          </span>
+          <span className="ring-select__icons">{icons}</span>
         </Button>);
     } else {
       return (<span></span>);
@@ -618,6 +630,7 @@ var SelectPopup = React.createClass({
       loadingMessage: 'Loading...',
       anchorElement: null,
       maxHeight: 250,
+      minWidth: 'target',
       onSelect: function() {},
       onClose: function() {},
       onFilter: function() {}
@@ -705,6 +718,7 @@ var SelectPopup = React.createClass({
       dontCloseOnAnchorClick={true}
       anchorElement={this.props.anchorElement}
       autoRemove={false}
+      minWidth={this.props.minWidth}
       shortcuts={this.state.popupShortcuts}
       onClose={this.props.onClose}>
       {this.getFilter()}
