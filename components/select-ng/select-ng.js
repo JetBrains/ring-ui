@@ -67,19 +67,48 @@ var React = require('react');
       });
    </file>
  </example>
-*/
+  <example name="Select-ng-dropdown">
+    <file name="index.html">
+      <h4>Select-ng as dropdown</h4>
+      <div ng-app="test" ng-controller="testCtrl as ctrl">
+        <button rg-select ng-model="ctrl.nothing" options="ctrl.options" label="Select item" type="dropdown" filter="true">Click Me &#9660;</button>
+      </div>
+    </file>
+    <file name="index.js" webpack="true">
+      require('angular/angular.min.js');
+      require('select-ng/select-ng');
 
+      angular.module('test', ['Ring.select']).controller('testCtrl', function() {
+      var ctrl = this;
+
+      ctrl.options = [
+        {key: 1, label: '11111'},
+        {key: 2, label: '22222'},
+        {key: 3, label: '33333'}
+      ];
+
+    });
+    </file>
+  </example>
+*/
 /* global angular: false */
-angular.module('Ring.select', ['Ring.react-ng'])
+angular.module('Ring.select', [])
   .directive('rgSelect', function () {
     var defaultKey = 'key';
     var defaultLabel = 'label';
     var defaultSelectedLabel = 'selectedLabel';
 
+    var types = {
+      input: Select.Type.INPUT,
+      button: Select.Type.BUTTON,
+      dropdown: Select.Type.CUSTOM
+    };
+
     return {
       restrict: 'EA',
       scope: {
         ngModel: '=',
+        type: '@',
         options: '=?',
         source: '&',
         filter: '=?',
@@ -105,6 +134,7 @@ angular.module('Ring.select', ['Ring.react-ng'])
         /*eslint-disable consistent-this*/
         var ctrl = this;
         /*eslint-enable consistent-this*/
+        var element = $element[0];
 
         /**
          * Properties
@@ -178,12 +208,26 @@ angular.module('Ring.select', ['Ring.react-ng'])
           }, setSelectModel);
         }
 
+        function attachDropdownIfNeeded() {
+          if (ctrl.type === 'dropdown') {
+            element.addEventListener('click', function () {
+              ctrl.selectInstance._showPopup();
+            });
+          }
+        }
+
+        function getSelectType() {
+          return types[ctrl.type] || types.button;
+        }
+
         function activate() {
           ctrl.config = angular.extend({}, {
             selected: ctrl.convertNgModelToSelect(ctrl.ngModel),
             data: map(ctrl.options, ctrl.convertNgModelToSelect),
             label: ctrl.label,
             filter: ctrl.filter,
+            type: getSelectType(),
+            targetElement: ctrl.type === 'dropdown' ? $element[0] : null,
             onOpen: function () {
               $scope.$evalAsync(function () {
                 ctrl.loadIfNotLoaded();
@@ -212,12 +256,13 @@ angular.module('Ring.select', ['Ring.react-ng'])
           /**
            * Render select in appended div to save any exist content of directive
            */
-          var container = $element.append('<div/>');
+          var container = document.createElement('span');
+          element.appendChild(container);
 
-          ctrl.selectInstance = React.renderComponent(new Select(ctrl.config), container[0]);
-
+          ctrl.selectInstance = React.renderComponent(new Select(ctrl.config), container);
           syncNgModelToSelect();
           syncOptions();
+          attachDropdownIfNeeded();
         }
         activate();
       }
