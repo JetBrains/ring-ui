@@ -17,7 +17,7 @@ var urlUtils = require('url-utils/url-utils');
  * @prop {string} config.serverUri
  * @prop {string} config.redirect_uri
  * @prop {string} config.client_id
- * @prop {boolean=false} config.redirect — use redirects instead of background token load
+ * @prop {boolean=true} config.redirect — use redirects instead of background token load; TODO false to be set as default after Hub 1.0 everywhere
  * @prop {string[]} config.scope
  * @prop {string[]} config.optionalScopes
  * @prop {boolean} config.cleanHash - describes whether or not the location.hash has to be cleaned after authorization finish.
@@ -139,7 +139,7 @@ Auth.DEFAULT_CONFIG = {
 
     return uri;
   }()),
-  redirect: false,
+  redirect: true,
   request_credentials: 'default',
   scope: [],
   cleanHash: true,
@@ -594,7 +594,10 @@ Auth.prototype._loadTokenInBackground = function () {
 
   var iframe = this._createHiddenFrame();
 
-  return this._requestBuilder.prepareAuthRequest({request_credentials: 'skip'}, {nonRedirect: true}).
+  // TODO Remove after "redirect: false" is default, i.e. after Hub 1.0 everywhere
+  var backgroundMode = this.config.redirect ? 'default' : 'silent';
+
+  return this._requestBuilder.prepareAuthRequest({request_credentials: backgroundMode}, {nonRedirect: true}).
     then(function (authURL) {
       var removeListener = self._storage.onTokenChange(function(token) {
         if (token !== null) {
