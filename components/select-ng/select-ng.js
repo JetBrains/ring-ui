@@ -3,6 +3,8 @@ var map = require('mout/array/map');
 var Select = require('select/select');
 var React = require('react');
 
+var isArray = require('mout/lang/isArray');
+
 /**
  * @name Select-ng.
  * @description Angular wrapper for React select
@@ -12,7 +14,7 @@ var React = require('react');
   <file name="index.html">
     <div ng-app="test" ng-controller="testCtrl as ctrl">
       <rg-select ng-model="ctrl.selectedItem" options="ctrl.options" key-field="id" label-field="text" label="Select item"></rg-select>
-      <div>Selected item: {{ctrl.selectedItem}}</div>
+      <div>Selected item: {{ctrl.selectedItem | json}}</div>
     </div>
   </file>
   <file name="index.js" webpack="true">
@@ -39,7 +41,7 @@ var React = require('react');
      <h4>Getting items from promise on click</h4>
      <div ng-app="test" ng-controller="testCtrl as ctrl">
       <rg-select ng-model="ctrl.selectedItem" source="ctrl.getItems()" label="Select item"></rg-select>
-      <div>Selected item: {{ctrl.selectedItem}}</div>
+      <div>Selected item: {{ctrl.selectedItem | json}}</div>
      </div>
    </file>
    <file name="index.js" webpack="true">
@@ -67,6 +69,7 @@ var React = require('react');
       });
    </file>
  </example>
+
   <example name="Select-ng-dropdown">
     <file name="index.html">
       <h4>Select-ng as dropdown</h4>
@@ -87,6 +90,38 @@ var React = require('react');
         {key: 3, label: '33333'}
       ];
 
+    });
+    </file>
+  </example>
+
+  <example name="Select-ng-multiple">
+    <file name="index.html">
+      <h4>Multiple select</h4>
+      <div ng-app="test" ng-controller="testCtrl as ctrl">
+        <rg-select ng-model="ctrl.selectedItems" options="ctrl.options" label="Select item" config="ctrl.selectConfig"></rg-select>
+        <div>Selected items: {{ctrl.selectedItems | json}}</div>
+      </div>
+    </file>
+    <file name="index.js" webpack="true">
+      require('angular/angular.min.js');
+      require('select-ng/select-ng');
+
+      angular.module('test', ['Ring.select']).controller('testCtrl', function() {
+      var ctrl = this;
+
+      ctrl.selectConfig = {
+        multiple: true,
+      };
+
+      ctrl.options = [
+        {key: 1, label: '11111'},
+        {key: 2, label: '22222'},
+        {key: 3, label: '33333'},
+        {key: 4, label: '4444444'},
+        {key: 5, label: '5555'}
+      ];
+
+      ctrl.selectedItems = [ctrl.options[1], ctrl.options[2]];
     });
     </file>
   </example>
@@ -148,18 +183,32 @@ angular.module('Ring.select', [])
           ctrl.ngModelCtrl = ngModelCtrl;
         };
 
-        ctrl.syncSelectToNgModel = function(selectedValue) {
-          ctrl.ngModelCtrl.$setViewValue(selectedValue.originalModel);
+        ctrl.syncSelectToNgModel = function (selectedValue) {
+          if (isArray(selectedValue)) {
+            ctrl.ngModelCtrl.$setViewValue(selectedValue.map(function (val) {
+              return val.originalModel;
+            }));
+          } else {
+            ctrl.ngModelCtrl.$setViewValue(selectedValue.originalModel);
+          }
         };
 
         ctrl.convertNgModelToSelect = function(model) {
-          if (model) {
+          var convertItem = function (item) {
             return angular.extend({
-              key: model[ctrl.keyField || defaultKey],
-              label: model[ctrl.labelField || defaultLabel],
-              selectedLabel: ctrl.selectedFormatter ? ctrl.selectedFormatter(model) : model[ctrl.selectedLabelField || defaultSelectedLabel],
-              originalModel: model
-            }, model);
+              key: item[ctrl.keyField || defaultKey],
+              label: item[ctrl.labelField || defaultLabel],
+              selectedLabel: ctrl.selectedFormatter ? ctrl.selectedFormatter(item) : item[ctrl.selectedLabelField || defaultSelectedLabel],
+              originalModel: item
+            }, item);
+          };
+
+          if (model) {
+            if (isArray(model)) {
+              return model.map(convertItem);
+            } else {
+              return convertItem(model);
+            }
           }
         };
 
@@ -193,7 +242,7 @@ angular.module('Ring.select', [])
             ctrl.selectInstance.setProps({
               data: map(newOptions, ctrl.convertNgModelToSelect)
             });
-          });
+          }, true);
         }
 
         function setSelectModel(newValue) {
@@ -205,7 +254,7 @@ angular.module('Ring.select', [])
         function syncNgModelToSelect() {
           $scope.$watch(function () {
             return ctrl.ngModelCtrl.$modelValue;
-          }, setSelectModel);
+          }, setSelectModel, true);
         }
 
         function attachDropdownIfNeeded() {
@@ -238,10 +287,14 @@ angular.module('Ring.select', [])
             },
             onSelect: function (item) {
               $scope.$evalAsync(function () {
-                ctrl.syncSelectToNgModel(item);
                 if (ctrl.onSelect) {
                   ctrl.onSelect(item);
                 }
+              });
+            },
+            onChange: function (selected) {
+              $scope.$evalAsync(function () {
+                ctrl.syncSelectToNgModel(selected);
               });
             },
             onFilter: function (query) {
