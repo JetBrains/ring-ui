@@ -12,7 +12,7 @@ Analytics.prototype.config = function (plugins) {
   this._plugins = plugins;
 };
 
-Analytics.prototype.track = function (rawTrackingData, /* optional */ viaShortcut) {
+Analytics.prototype.track = function (rawTrackingData, /* optional */ additionalData) {
   if (!rawTrackingData) {
     return;
   }
@@ -25,7 +25,7 @@ Analytics.prototype.track = function (rawTrackingData, /* optional */ viaShortcu
   }
   var category = rawTrackingData.substr(0, splitIdx);
   var subcategory = rawTrackingData.substr(splitIdx + 1);
-  this.trackEvent(category, subcategory, viaShortcut);
+  this.trackEvent(category, subcategory, additionalData);
 };
 
 Analytics.prototype.trackPageView = function (path) {

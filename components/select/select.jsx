@@ -174,7 +174,8 @@ var generateUniqueId = Global.getUIDGenerator('ring-select-');
 
 var Types = {
   BUTTON: 0,
-  INPUT: 1
+  INPUT: 1,
+  CUSTOM: 2
 };
 
 var Select = React.createClass({
@@ -195,6 +196,7 @@ var Select = React.createClass({
       disabled: false,
 
       type: Types.BUTTON,
+      targetElement: null, // element to bind popup
 
       selected: null,
 
@@ -228,13 +230,13 @@ var Select = React.createClass({
     return {
       map: {
         'enter': function() {
-          self.inputHandler();
+          self.state.focused && self.inputHandler();
         },
         'up': function() {
-          self.inputHandler();
+          self.state.focused && self.inputHandler();
         },
         'down': function() {
-          self.inputHandler();
+          self.state.focused && self.inputHandler();
         }
       },
       scope: generateUniqueId()
@@ -243,7 +245,7 @@ var Select = React.createClass({
 
   inputHandler: function() {
     if (this._popup && !this._popup.isVisible()) {
-      this._buttonClickHandler();
+      this._clickHandler();
     }
   },
 
@@ -281,7 +283,7 @@ var Select = React.createClass({
           notFoundMessage={this.props.notFoundMessage}
           maxHeight={this.props.maxHeight}
           filter={this.isInputMode() ? false : this.props.filter} // disable dpopup filter on input mode
-          anchorElement={this.getDOMNode()}
+          anchorElement={this.props.targetElement || this.getDOMNode()}
           shortcuts={true}
           onClose={this._onClose}
           onSelect={this._listSelectHandler}
@@ -384,7 +386,11 @@ var Select = React.createClass({
     return (this.props.type === Types.INPUT);
   },
 
-  _buttonClickHandler: function() {
+  isButtonMode: function() {
+    return (this.props.type === Types.BUTTON);
+  },
+
+  _clickHandler: function() {
     if (!this.props.disabled) {
       this._showPopup();
     }
@@ -497,6 +503,27 @@ var Select = React.createClass({
     }
   },
 
+  _inputFocused: false,
+  _focusHandler: function() {
+    this.setState({
+      focused: true
+    });
+  },
+
+  _blurHandler: function() {
+    this.setState({
+      focused: false
+    });
+  },
+
+  _inputShortcutsEnabled: function() {
+    if (!this._popup || this._popup.isVisible()) {
+      return false;
+    } else {
+      return this.state.focused;
+    }
+  },
+
   render: function () {
     var buttonCS = React.addons.classSet({
       'ring-select': true,
@@ -514,17 +541,21 @@ var Select = React.createClass({
       });
 
       return (
-        <div onClick={this._buttonClickHandler} className={buttonCS}>
-          <Input ref="filter" disabled={this.props.disabled} className={inputCS} onInput={this._filterChangeHandler} shortcuts={this._popup ? !this._popup.isVisible() : false} />
+        <div onClick={this._clickHandler} className={buttonCS}>
+          <Input ref="filter" disabled={this.props.disabled} className={inputCS}
+            onInput={this._filterChangeHandler}
+            onFocus={this._focusHandler}
+            onBlur={this._blurHandler}
+            shortcuts={this._inputShortcutsEnabled()} />
           <span className="ring-select__icons">
               { this.props.loading ? <Loader modifier={Loader.Modifier.INLINE} /> : ''}
               { this._getClearButton() }
             <Icon glyph="caret-down" size={Icon.Size.Size14} />
           </span>
         </div>);
-    } else {
+    } else if (this.isButtonMode()) {
       return (
-        <Button onClick={this._buttonClickHandler} className={buttonCS}>
+        <Button onClick={this._clickHandler} className={buttonCS}>
           <span className="ring-select__label">{this._getButtonLabel()}</span>
           <span className="ring-select__icons">
           { this.props.loading ? <Loader modifier={Loader.Modifier.INLINE} /> : ''}
