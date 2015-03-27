@@ -174,7 +174,8 @@ var generateUniqueId = Global.getUIDGenerator('ring-select-');
 
 var Types = {
   BUTTON: 0,
-  INPUT: 1
+  INPUT: 1,
+  CUSTOM: 2
 };
 
 var Select = React.createClass({
@@ -228,13 +229,13 @@ var Select = React.createClass({
     return {
       map: {
         'enter': function() {
-          self.inputHandler();
+          self.state.focused && self.inputHandler();
         },
         'up': function() {
-          self.inputHandler();
+          self.state.focused && self.inputHandler();
         },
         'down': function() {
-          self.inputHandler();
+          self.state.focused && self.inputHandler();
         }
       },
       scope: generateUniqueId()
@@ -497,6 +498,27 @@ var Select = React.createClass({
     }
   },
 
+  _inputFocused: false,
+  _focusHandler: function() {
+    this.setState({
+      focused: true
+    });
+  },
+
+  _blurHandler: function() {
+    this.setState({
+      focused: false
+    });
+  },
+
+  _inputShortcutsEnabled: function() {
+    if (!this._popup || this._popup.isVisible()) {
+      return false;
+    } else {
+      return this.state.focused;
+    }
+  },
+
   render: function () {
     var buttonCS = React.addons.classSet({
       'ring-select': true,
@@ -515,7 +537,11 @@ var Select = React.createClass({
 
       return (
         <div onClick={this._buttonClickHandler} className={buttonCS}>
-          <Input ref="filter" disabled={this.props.disabled} className={inputCS} onInput={this._filterChangeHandler} shortcuts={this._popup ? !this._popup.isVisible() : false} />
+          <Input ref="filter" disabled={this.props.disabled} className={inputCS}
+            onInput={this._filterChangeHandler}
+            onFocus={this._focusHandler}
+            onBlur={this._blurHandler}
+            shortcuts={this._inputShortcutsEnabled()} />
           <span className="ring-select__icons">
               { this.props.loading ? <Loader modifier={Loader.Modifier.INLINE} /> : ''}
               { this._getClearButton() }
