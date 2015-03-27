@@ -563,6 +563,8 @@ var Select = React.createClass({
             <Icon glyph="caret-down" size={Icon.Size.Size14} />
           </span>
         </Button>);
+    } else {
+      return (<span></span>);
     }
   }
 });
