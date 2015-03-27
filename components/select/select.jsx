@@ -196,6 +196,7 @@ var Select = React.createClass({
       disabled: false,
 
       type: Types.BUTTON,
+      targetElement: null, // element to bind popup
 
       selected: null,
 
@@ -244,7 +245,7 @@ var Select = React.createClass({
 
   inputHandler: function() {
     if (this._popup && !this._popup.isVisible()) {
-      this._buttonClickHandler();
+      this._clickHandler();
     }
   },
 
@@ -282,7 +283,7 @@ var Select = React.createClass({
           notFoundMessage={this.props.notFoundMessage}
           maxHeight={this.props.maxHeight}
           filter={this.isInputMode() ? false : this.props.filter} // disable dpopup filter on input mode
-          anchorElement={this.getDOMNode()}
+          anchorElement={this.props.targetElement || this.getDOMNode()}
           shortcuts={true}
           onClose={this._onClose}
           onSelect={this._listSelectHandler}
@@ -385,7 +386,11 @@ var Select = React.createClass({
     return (this.props.type === Types.INPUT);
   },
 
-  _buttonClickHandler: function() {
+  isButtonMode: function() {
+    return (this.props.type === Types.BUTTON);
+  },
+
+  _clickHandler: function() {
     if (!this.props.disabled) {
       this._showPopup();
     }
@@ -536,7 +541,7 @@ var Select = React.createClass({
       });
 
       return (
-        <div onClick={this._buttonClickHandler} className={buttonCS}>
+        <div onClick={this._clickHandler} className={buttonCS}>
           <Input ref="filter" disabled={this.props.disabled} className={inputCS}
             onInput={this._filterChangeHandler}
             onFocus={this._focusHandler}
@@ -548,9 +553,9 @@ var Select = React.createClass({
             <Icon glyph="caret-down" size={Icon.Size.Size14} />
           </span>
         </div>);
-    } else {
+    } else if (this.isButtonMode()) {
       return (
-        <Button onClick={this._buttonClickHandler} className={buttonCS}>
+        <Button onClick={this._clickHandler} className={buttonCS}>
           <span className="ring-select__label">{this._getButtonLabel()}</span>
           <span className="ring-select__icons">
           { this.props.loading ? <Loader modifier={Loader.Modifier.INLINE} /> : ''}
