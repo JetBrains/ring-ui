@@ -1,4 +1,3 @@
-var Auth = require('../auth/auth');
 var PermissionCache = require('./permissions__cache');
 
 /**
@@ -54,7 +53,7 @@ Permissions.getDefaultNamesConverter = function(prefix) {
 /**
  * @const {string}
  */
-var API_PERMISSION_CACHE_PATH = Auth.API_PATH + '/permissions/cache';
+var API_PERMISSION_CACHE_PATH = 'permissions/cache';
 
 /**
  * Loads logged in user permissions.
@@ -71,7 +70,7 @@ Permissions.prototype.load = function () {
       fields: 'permission/key,global,spaces(id)',
       query: self.query
     };
-    return self._auth.getSecure(API_PERMISSION_CACHE_PATH, accessToken, params).
+    return self._auth.getApi(API_PERMISSION_CACHE_PATH, accessToken, params).
       then(function (cachedPermissions) {
         return new PermissionCache(cachedPermissions, self.namesConverter);
       });
