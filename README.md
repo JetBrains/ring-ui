@@ -2,12 +2,12 @@
 
 ## Development environment setup
 
-1. Install node.js
+1. Install Node.js
 
 2. Install dependencies: `npm install`
 
 
-## Avaiable commands
+## Available commands
 
 Start server: `npm start` (runs webpack dev server on localhost:8080)
 
@@ -21,16 +21,17 @@ Clean generated files: `npm run clean`
 ## Building on host project side:
 
 1. Add JetBrains internal registry to .npmrc in your project folder:
+
 ```
 echo 'registry = http://registry.npmjs.org' >> .npmrc
 ```
 
 2. Install Ring UI with `npm install ring-ui --save-exact` 
 
-3. Install webpack-config-merger for simply work with config: `npm install webpack-config-merger --save-dev`
+3. Install webpack-config-merger to make working with webpack configs easier: `npm install webpack-config-merger --save-dev`
 
-4. If your app builds with webpack, require ring-ui components where you need it. Otherwise, create entry point, `/app/app__components.tpl.js` for example.
-Here require all components you need, example:
+4. If your app builds with webpack, make sure to `require` ring-ui components where needed. Otherwise, create an entry point (for example, `/app/app__components.tpl.js`) and
+`require` the components there. 
 
 ```
 require('react-ng/react-ng')({
@@ -42,13 +43,13 @@ require('auth-ng/auth-ng');
 require('shortcuts-ng/shortcuts-ng');
 ```
 
-5. Create webpack.config.js with content (example):
+5. Create webpack.config.js with the following contents (example):
 
 ```
 var webpackConfigMerger = require('webpack-config-merger');
 
 var webpackOptions = webpackConfigMerger(require('ring-ui/webpack.config'), {
-  entry: 'src/entry.js', //your entry point for webpack
+  entry: 'src/entry.js', // your entry point for webpack
   output: {
     path: 'path/to/dist',
     filename: '[name].js'
@@ -58,9 +59,9 @@ var webpackOptions = webpackConfigMerger(require('ring-ui/webpack.config'), {
 module.exports = webpackOptions;
 ```
 
-Here you read ring-ui config and override some fields with your own.
+This reads Ring UI configuration and overrides some config params.
 
-6. If your app builds with webpack, just build it. If your use a grunt, install `grunt-webpack`, for example, and configure it just like this:
+6. If your app builds with webpack, just build it. If you are using grunt, install `grunt-webpack` and configure it like this:
 
 ```js
  webpack: {
@@ -68,6 +69,6 @@ Here you read ring-ui config and override some fields with your own.
  }
 ```
 
-## Lodash and underscore
+## Is Lodash or Underscore available?
 
-[Moutjs](moutjs.com/docs/latest/) is used as utility library (instead of lodash or underscore). 
+Ring UI uses [Moutjs](moutjs.com/docs/latest/) as the utility library. 
