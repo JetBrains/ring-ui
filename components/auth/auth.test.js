@@ -426,7 +426,7 @@ describe('Auth', function () {
     it('should redirect current page if get token in iframe fails', function () {
       var authURL = 'api/rest/oauth2/auth?response_type=token&' +
         'state=unique&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub&request_credentials=default&client_id=1-1-1-1-1&scope=0-0-0-0-0%20youtrack';
-      Auth.REFRESH_TIMEOUT = 100;
+      Auth.BACKGROUND_TIMEOUT = 100;
       this.sinon.stub(Auth.prototype, '_redirectFrame');
       return auth.requestToken().
         otherwise(function (reject) {
