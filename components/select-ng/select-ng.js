@@ -100,6 +100,7 @@ var isArray = require('mout/lang/isArray');
       <div ng-app="test" ng-controller="testCtrl as ctrl">
         <rg-select ng-model="ctrl.selectedItems" options="ctrl.options" label="Select item" config="ctrl.selectConfig"></rg-select>
         <div>Selected items: {{ctrl.selectedItems | json}}</div>
+        <button ng-click="ctrl.selectedItems.splice(0, 1)">Deselect first item</button>
       </div>
     </file>
     <file name="index.js" webpack="true">
