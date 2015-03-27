@@ -118,45 +118,20 @@ angular.module('Ring.select', ['Ring.react-ng'])
           ctrl.ngModelCtrl = ngModelCtrl;
         };
 
-        function convertSelectToNgModel(selectModel) {
-          return selectModel.originalModel;
-        }
-
         ctrl.syncSelectToNgModel = function(selectedValue) {
-          ctrl.ngModelCtrl.$setViewValue(convertSelectToNgModel(selectedValue));
-          if (ctrl.onSelect) {
-            $scope.$evalAsync(function () {
-              ctrl.onSelect(selectedValue);
-            });
-          }
+          ctrl.ngModelCtrl.$setViewValue(selectedValue.originalModel);
         };
 
-        function getKey() {
-          return ctrl.keyField || defaultKey;
-        }
-
-        function getLabel() {
-          return ctrl.labelField || defaultLabel;
-        }
-
-        function getSelectedLabel() {
-          return ctrl.selectedLabelField || defaultSelectedLabel;
-        }
-
-        function convertNgModelToSelect(model) {
+        ctrl.convertNgModelToSelect = function(model) {
           if (model) {
             return angular.extend({
-              key: model[getKey()],
-              label: model[getLabel()],
-              selectedLabel: ctrl.selectedFormatter ? ctrl.selectedFormatter(model) : model[getSelectedLabel()],
+              key: model[ctrl.keyField || defaultKey],
+              label: model[ctrl.labelField || defaultLabel],
+              selectedLabel: ctrl.selectedFormatter ? ctrl.selectedFormatter(model) : model[ctrl.selectedLabelField || defaultSelectedLabel],
               originalModel: model
             }, model);
           }
-        }
-
-        function convertOptionsToSelectData(options) {
-          return map(options, convertNgModelToSelect);
-        }
+        };
 
         ctrl.startLoading = function() {
           var sourcePromise = ctrl.source();
@@ -186,14 +161,14 @@ angular.module('Ring.select', ['Ring.react-ng'])
         function syncOptions() {
           $scope.$watch('selectCtrl.options', function (newOptions) {
             ctrl.selectInstance.setProps({
-              data: convertOptionsToSelectData(newOptions)
+              data: map(newOptions, ctrl.convertNgModelToSelect)
             });
           });
         }
 
         function setSelectModel(newValue) {
           ctrl.selectInstance.setProps({
-            selected: newValue ? convertNgModelToSelect(newValue) : newValue
+            selected: newValue ? ctrl.convertNgModelToSelect(newValue) : newValue
           });
         }
 
@@ -205,8 +180,8 @@ angular.module('Ring.select', ['Ring.react-ng'])
 
         function activate() {
           ctrl.config = angular.extend({}, {
-            selected: convertNgModelToSelect(ctrl.ngModel),
-            data: convertOptionsToSelectData(ctrl.options),
+            selected: ctrl.convertNgModelToSelect(ctrl.ngModel),
+            data: map(ctrl.options, ctrl.convertNgModelToSelect),
             label: ctrl.label,
             filter: ctrl.filter,
             onOpen: function () {
