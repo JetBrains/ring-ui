@@ -149,7 +149,7 @@ var generateUniqueId = Global.getUIDGenerator('ring-select-');
    multiple: {
     label: 'Change selected items', // override button label if something selected
     removeSelectedItems: false      // remove selected items from the list, useful with "disableLabelSelection" and custom display
-   }
+   }, selected: [{'label': 'Two long label', 'key': '2'}]
  }), document.getElementById('demo'))
  .setProps({
     data: [
@@ -197,10 +197,13 @@ var Select = React.createClass({
 
       type: Types.BUTTON,
       targetElement: null, // element to bind popup
+      hideSelected: false, // INPUT mode: clear input in any case (smth selected)
 
       selected: null,
 
       label: 'Please select option',
+      selectedLabel: '',
+
       shortcuts: true,
 
       onOpen: function() {},
@@ -264,6 +267,7 @@ var Select = React.createClass({
 
   componentWillReceiveProps: function(newProps) {
     if (newProps.selected) {
+      this._rebuildMultipleMap(newProps.selected);
       this.setState({
         selected: newProps.selected
       });
@@ -325,6 +329,10 @@ var Select = React.createClass({
   _addButton: null,
   getListItems: function(filterString) {
     filterString = filterString.trim();
+
+    if (this.isInputMode() && this.state.selected && filterString === this.state.selected.label) {
+      filterString = ''; // ignore multiple if its exectly selected item
+    }
 
     var filteredData = [];
     var exectMatch = false;
@@ -402,6 +410,15 @@ var Select = React.createClass({
   },
 
   _multipleMap: {},
+
+  _rebuildMultipleMap: function(selected) {
+    if (this.props.multiple) {
+      for (var i = 0; i < selected.length; i++) {
+        this._multipleMap[selected[i].key] = true;
+      }
+    }
+  },
+
   _listSelectHandler: function(selected) {
     if (selected.type !== List.ListProps.Type.ITEM || selected.disabled) {
       return;
@@ -411,8 +428,9 @@ var Select = React.createClass({
       this.setState({
         selected: selected
       }, function() {
-        this.clearFilter();
+        this.filterValue(this.isInputMode() && !this.props.hideSelected ? this._getItemLabel(selected) : '');
         this.props.onSelect(selected);
+        this.props.onChange(selected);
         this._hidePopup();
       }.bind(this));
     } else {
@@ -448,12 +466,18 @@ var Select = React.createClass({
         }
       });
 
-      this.props.onChange && this.props.onChange(currentSelection);
+      this.props.onChange(currentSelection);
     }
   },
 
   _onClose: function() {
-    this.isInputMode() && this.clearFilter();
+    if (this.isInputMode()) {
+      if (this.props.hideSelected || !this.state.selected || this.props.multiple) {
+        this.clearFilter();
+      } else if (this.state.selected) {
+        this.filterValue(this._getItemLabel(this.state.selected));
+      }
+    }
     this._hidePopup();
   },
 
@@ -481,28 +505,6 @@ var Select = React.createClass({
     }
   },
 
-  _getButtonLabel: function() {
-    if (this.props.multiple) {
-      if (this.props.multiple.label) {
-        if (!this.state.selected.length) {
-          return this.props.label;
-        } else {
-          return this.props.multiple.label;
-        }
-      } else {
-        var labels = [];
-        for (var i = 0; i < this.state.selected.length; i++) {
-          labels.push(this.state.selected[i].label);
-        }
-        return labels.join(', ');
-      }
-    } else if (this.state.selected) {
-      return this.state.selected.selectedLabel || this.state.selected.label;
-    } else {
-      return this.props.label;
-    }
-  },
-
   _inputFocused: false,
   _focusHandler: function() {
     this.setState({
@@ -522,6 +524,42 @@ var Select = React.createClass({
     } else {
       return this.state.focused;
     }
+  },
+
+  _selectionIsEmpty: function() {
+    return (this.props.multiple && !this.state.selected.length) || !this.state.selected;
+  },
+
+  _getButtonLabel: function() {
+    if (this._selectionIsEmpty()) {
+      return this.props.label;
+    } else {
+      return this.props.selectedLabel || this._getSelectedString();
+    }
+  },
+
+  _getInputPlaceholder: function() {
+    if (this._selectionIsEmpty()) {
+      return this.props.label;
+    } else {
+      return this.props.selectedLabel;
+    }
+  },
+
+  _getSelectedString: function() {
+    if (this.props.multiple) {
+      var labels = [];
+      for (var i = 0; i < this.state.selected.length; i++) {
+        labels.push(this._getItemLabel(this.state.selected[i]));
+      }
+      return labels.join(', ');
+    } else {
+      return this._getItemLabel(this.state.selected);
+    }
+  },
+
+  _getItemLabel: function(item) {
+    return item.selectedLabel || item.label;
   },
 
   render: function () {
@@ -546,7 +584,8 @@ var Select = React.createClass({
             onInput={this._filterChangeHandler}
             onFocus={this._focusHandler}
             onBlur={this._blurHandler}
-            shortcuts={this._inputShortcutsEnabled()} />
+            shortcuts={this._inputShortcutsEnabled()}
+            placeholder={this._getInputPlaceholder()} />
           <span className="ring-select__icons">
               { this.props.loading ? <Loader modifier={Loader.Modifier.INLINE} /> : ''}
               { this._getClearButton() }
