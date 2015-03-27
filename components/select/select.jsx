@@ -266,6 +266,7 @@ var Select = React.createClass({
 
   componentDidMount: function() {
     this._createPopup();
+    this._rebuildMultipleMap(this.state.selected);
   },
 
   componentWillReceiveProps: function(newProps) {
@@ -415,7 +416,7 @@ var Select = React.createClass({
   _multipleMap: {},
 
   _rebuildMultipleMap: function(selected) {
-    if (this.props.multiple) {
+    if (selected && this.props.multiple) {
       this._multipleMap = {};
       for (var i = 0; i < selected.length; i++) {
         this._multipleMap[selected[i].key] = true;
