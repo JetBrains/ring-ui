@@ -205,6 +205,28 @@ var ListMixin = {
          }), document.getElementById('list'));
      </file>
    </example>
+
+   <example name="List2">
+     <file name="index.html">
+      <div id='list'></div>
+     </file>
+
+     <file name="index.js" webpack="true">
+       var React = require('react');
+       var List = require('./list.jsx');
+
+       var listData = [
+         {'label': 'One sep', 'type': List.ListProps.Type.SEPARATOR, 'description': 'Separator'},
+         {'label': 'Two sep', 'type': List.ListProps.Type.SEPARATOR, 'description': 'Separator'}
+       ];
+
+       React.renderComponent(List({
+                 data: listData,
+                 shortcuts: true,
+                 onSelect: console.log.bind(console)
+               }), document.getElementById('list'));
+     </file>
+   </example>
  */
 var List = React.createClass({
   mixins: [Shortcuts.Mixin, ListMixin],
@@ -228,6 +250,21 @@ var List = React.createClass({
       activeIndex: null,
       activeItem: null
     };
+  },
+
+  _activatableItems: false,
+
+  haveActivatableItems: function() {
+    return this._activatableItems;
+  },
+
+  checkActivatableItems: function(items) {
+    for (var i = 0; i < items.length; i++) {
+      if (this.isActivatable(items[i])) {
+        this._activatableItems = true;
+        return;
+      }
+    }
   },
 
   isActivatable: function(item) {
@@ -268,7 +305,9 @@ var List = React.createClass({
   },
 
   moveHandler: function (index, retryCallback, e) {
-    if (this.props.data.length === 0) {
+    if (!this.haveActivatableItems()) {
+      return;
+    } else if (this.props.data.length === 0) {
       return;
     } else if (this.props.data.length === 1) {
       index = 0;
@@ -281,16 +320,20 @@ var List = React.createClass({
         return;
       }
 
-      var innerContainer = this.refs.inner.getDOMNode();
-
-      if (innerContainer.scrollHeight !== innerContainer.clientHeight) {
-        innerContainer.scrollTop = index * Dimensions.ITEM_HEIGHT - Math.floor(this.props.maxHeight / 2);
-
-        this.scrollEndHandler();
-      }
+      this.scrollToIndex(index);
 
       e.preventDefault();
     });
+  },
+
+  scrollToIndex: function(index) {
+    var innerContainer = this.refs.inner.getDOMNode();
+
+    if (innerContainer.scrollHeight !== innerContainer.clientHeight) {
+      innerContainer.scrollTop = index * Dimensions.ITEM_HEIGHT - Math.floor(this.props.maxHeight / 2);
+
+      this.scrollEndHandler();
+    }
   },
 
   mouseHandler: function() {
@@ -333,6 +376,7 @@ var List = React.createClass({
   componentDidMount: function() {
     var self = this;
 
+    this.checkActivatableItems(this.props.data);
     this.scrollEndHandler = debounce(function() {
       self.setState({scrolling: false});
     }, 150);
@@ -340,6 +384,8 @@ var List = React.createClass({
 
   componentWillReceiveProps: function (props) {
     if (props.data) {
+      this.checkActivatableItems(props.data);
+
       var activeIndex = null;
       var activeItem = null;
 
