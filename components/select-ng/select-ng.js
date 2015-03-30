@@ -31,16 +31,15 @@ var isArray = require('mout/lang/isArray');
       ];
 
       ctrl.selectedItem = ctrl.options[1];
-
     });
   </file>
 </example>
 
  <example name="Select-ng-promise">
    <file name="index.html">
-     <h4>Getting items from promise on click</h4>
+     <h4>Getting items from promise on click with external filtering. (Filter value should be equal to label, not just part)</h4>
      <div ng-app="test" ng-controller="testCtrl as ctrl">
-      <rg-select ng-model="ctrl.selectedItem" source="ctrl.getItems()" label="Select item"></rg-select>
+      <rg-select ng-model="ctrl.selectedItem" options="ctrl.getItems" label="Select item" external-filter="true"></rg-select>
       <div>Selected item: {{ctrl.selectedItem | json}}</div>
      </div>
    </file>
@@ -59,10 +58,12 @@ var isArray = require('mout/lang/isArray');
 
           ctrl.selectedItem = ctrl.options[1];
 
-          ctrl.getItems = function(){
+          ctrl.getItems = function(query){
             var defer = $q.defer();
             $timeout(function(){
-              defer.resolve(ctrl.options);
+              defer.resolve(ctrl.options.filter(function(op) {
+                 return query ? op.label === query : true;
+              }));
             }, 1000);
             return defer.promise;
           };
@@ -108,6 +109,7 @@ var isArray = require('mout/lang/isArray');
         <rg-select ng-model="ctrl.selectedItems" options="ctrl.options" label="Select item" config="ctrl.selectConfig"></rg-select>
         <div>Selected items: {{ctrl.selectedItems | json}}</div>
         <button ng-click="ctrl.selectedItems.splice(0, 1)">Deselect first item</button>
+        <button ng-click="ctrl.options.splice(0, 1)">Remove first option</button>
       </div>
     </file>
     <file name="index.js" webpack="true">
@@ -152,10 +154,9 @@ angular.module('Ring.select', [])
       scope: {
         ngModel: '=',
         type: '@',
-        options: '=?',
-        source: '&',
+        options: '=',
+        externalFilter: '=',
         filter: '=?',
-        onFilter: '=',
         onSelect: '=',
         label: '@',
         labelField: '@',
@@ -173,7 +174,7 @@ angular.module('Ring.select', [])
 
         rgSelectCtrl.setNgModelCtrl(ngModelCtrl);
       },
-      controller: function ($scope, $element) {
+      controller: function ($q, $scope, $element) {
         /*eslint-disable consistent-this*/
         var ctrl = this;
         /*eslint-enable consistent-this*/
@@ -184,8 +185,7 @@ angular.module('Ring.select', [])
          */
         ctrl.selectInstance = null;
         ctrl.ngModelCtrl = null;
-        ctrl.isLoading = false;
-        ctrl.isLoaded = false;
+        ctrl.query = null;
 
         ctrl.setNgModelCtrl = function(ngModelCtrl) {
           ctrl.ngModelCtrl = ngModelCtrl;
@@ -222,38 +222,33 @@ angular.module('Ring.select', [])
           }
         };
 
-        ctrl.startLoading = function() {
-          var sourcePromise = ctrl.source();
-          if (sourcePromise) {
-            ctrl.selectInstance.setProps({
-              loading: true
-            });
-            sourcePromise.then(function (results) {
-              ctrl.options = results.data || results;
-            }).catch(function () {
-              //todo: catch error
-            }).finally(function () {
-              ctrl.isLoaded = true;
-              ctrl.selectInstance.setProps({
-                loading: false
-              });
-            });
+        ctrl.getOptions = function (query) {
+          var result;
+          if (angular.isFunction(ctrl.options)) {
+            result = ctrl.options(query);
+          } else {
+            result = ctrl.options;
           }
+          return $q.when(result);
         };
 
-        ctrl.loadIfNotLoaded = function() {
-          if (!ctrl.isLoaded && !ctrl.isLoading) {
-            ctrl.startLoading();
-          }
-        };
+        ctrl.loadOptionsToSelect = function(query) {
+          ctrl.selectInstance.setProps({
+            loading: true
+          });
 
-        function syncOptions() {
-          $scope.$watch('selectCtrl.options', function (newOptions) {
+          ctrl.getOptions(query).then(function (results) {
             ctrl.selectInstance.setProps({
-              data: map(newOptions, ctrl.convertNgModelToSelect)
+              data: map(results.data || results, ctrl.convertNgModelToSelect)
             });
-          }, true);
-        }
+          }).catch(function () {
+            //todo: catch error
+          }).finally(function () {
+            ctrl.selectInstance.setProps({
+              loading: false
+            });
+          });
+        };
 
         function setSelectModel(newValue) {
           ctrl.selectInstance.setProps({
@@ -283,16 +278,24 @@ angular.module('Ring.select', [])
         }
 
         function activate() {
+          /**
+           * Provide specific filter function if externalFilter enabled
+           */
+          if (ctrl.externalFilter) {
+            ctrl.filter = {fn: function () {
+              return true;
+            }};
+          }
+
           ctrl.config = angular.extend({}, {
             selected: ctrl.convertNgModelToSelect(ctrl.ngModel),
-            data: map(ctrl.options, ctrl.convertNgModelToSelect),
             label: ctrl.label,
             filter: ctrl.filter,
             type: getSelectType(),
             targetElement: ctrl.type === 'dropdown' ? $element[0] : null,
             onOpen: function () {
               $scope.$evalAsync(function () {
-                ctrl.loadIfNotLoaded();
+                ctrl.loadOptionsToSelect();
                 if (ctrl.onOpen){
                   ctrl.onOpen();
                 }
@@ -311,11 +314,15 @@ angular.module('Ring.select', [])
               });
             },
             onFilter: function (query) {
-              if (ctrl.onFilter){
-                $scope.$evalAsync(function () {
+              $scope.$evalAsync(function () {
+                ctrl.query = query;
+                if (ctrl.externalFilter) {
+                  ctrl.loadOptionsToSelect(query);
+                }
+                if (ctrl.onFilter) {
                   ctrl.onFilter(query);
-                });
-              }
+                }
+              });
             }
           }, ctrl.config || {});
 
@@ -327,7 +334,6 @@ angular.module('Ring.select', [])
 
           ctrl.selectInstance = React.renderComponent(new Select(ctrl.config), container);
           syncNgModelToSelect();
-          syncOptions();
           attachDropdownIfNeeded();
         }
         activate();
