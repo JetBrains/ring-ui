@@ -299,7 +299,7 @@ var PopupMixin = {
     }
 
     if (props.minWidth === 'target') {
-      styles.minWidth = $anchorElement.width();
+      styles.minWidth = $anchorElement.outerWidth();
     } else {
       styles.minWidth = props.minWidth;
     }
