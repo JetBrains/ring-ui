@@ -5,13 +5,12 @@ var Select = require('select/select');
 
 /* global inject, angular */
 
-describe.only('SelectNg', function () {
+describe('SelectNg', function () {
 
   var scope;
   var element;
   var ctrl;
   var $compile;
-  var $q;
   var fakeItems = [
     {id: 1, name: '11'},
     {id: 2, name: '22'},
@@ -26,8 +25,7 @@ describe.only('SelectNg', function () {
     scope.$digest();
   };
 
-  beforeEach(inject(function ($rootScope, _$compile_, _$q_) {
-    $q = _$q_;
+  beforeEach(inject(function ($rootScope, _$compile_) {
     scope = $rootScope.$new();
     $compile = _$compile_;
 
