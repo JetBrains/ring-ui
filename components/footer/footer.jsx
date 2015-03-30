@@ -7,7 +7,7 @@ require('./footer.scss');
 require('link/link.scss');
 
 var React = require('react');
-var $ = require('jquery');
+var isArray = require('mout/lang/isArray');
 
 /**
  * @enum {string}
@@ -84,7 +84,7 @@ var FooterLine = React.createClass({
         element: element
       };
     };
-    if ($.isArray(this.props.item)) {
+    if (isArray(this.props.item)) {
       this.props.item.map(renderItem).forEach(function(it) {
         children[it.id] = it.element;
       });
