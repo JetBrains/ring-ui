@@ -17,7 +17,7 @@ angular.module('Ring.alert', []).provider('alert', function() {
       containerElement = angular.element('<div>');
       angular.element(document.body.childNodes[0]).after(containerElement);
     }
-    container = React.renderComponent(new ReactAlerts(), containerElement.get(0));
+    container = React.renderComponent(new ReactAlerts(), containerElement[0]);
   }
 
   function setDefaultTTL(ttl) {
