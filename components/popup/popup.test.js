@@ -133,14 +133,14 @@ describe('Popup', function () {
     });
 
     it('Should support minWidth = target', function () {
-      var element = $('<div style="width: 50px;"></div>');
+      var element = $('<div style="width: 50px; padding-left: 20px;"></div>');
 
       var popup = TestUtils.renderIntoDocument(new Popup({
         minWidth: 'target',
         anchorElement: element[0]
       }));
 
-      parseInt(popup.getDOMNode().style.minWidth, 10).should.equal(element.width());
+      parseInt(popup.getDOMNode().style.minWidth, 10).should.equal(70);
     });
 
     it('Should support minWidth = some number in pixels', function () {
