@@ -342,7 +342,12 @@ var Select = React.createClass({
     var exectMatch = false;
 
     var check = this.props.filter.fn || function(itemToCheck, checkString) {
-      return itemToCheck.label.match(new RegExp(checkString, 'ig'));
+      // as default skip separators and hints
+      if (itemToCheck.type === List.ListProps.Type.SEPARATOR || itemToCheck.type === List.ListProps.Type.HINT) {
+        return true;
+      } else {
+        return itemToCheck.label.match(new RegExp(checkString, 'ig'));
+      }
     };
 
     for (var i = 0; i < this.props.data.length; i++) {
