@@ -290,6 +290,7 @@ var Select = React.createClass({
           loadingMessage={this.props.loadingMessage}
           notFoundMessage={this.props.notFoundMessage}
           maxHeight={this.props.maxHeight}
+          minWidth={this.props.minWidth}
           filter={this.isInputMode() ? false : this.props.filter} // disable dpopup filter on input mode
           anchorElement={this.props.targetElement || this.getDOMNode()}
           shortcuts={true}
