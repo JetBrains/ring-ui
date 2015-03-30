@@ -74,7 +74,8 @@ var isArray = require('mout/lang/isArray');
     <file name="index.html">
       <h4>Select-ng as dropdown</h4>
       <div ng-app="test" ng-controller="testCtrl as ctrl">
-        <button rg-select ng-model="ctrl.nothing" options="ctrl.options" label="Select item" type="dropdown" filter="true">Click Me &#9660;</button>
+        <button rg-select options="ctrl.options" type="dropdown" filter="true" on-select="ctrl.onSelect">Click Me &#9660;</button>
+        <ol><li ng-repeat="click in ctrl.clicks track by $index">{{click.label}}</li></ol>
       </div>
     </file>
     <file name="index.js" webpack="true">
@@ -84,11 +85,17 @@ var isArray = require('mout/lang/isArray');
       angular.module('test', ['Ring.select']).controller('testCtrl', function() {
       var ctrl = this;
 
+      ctrl.clicks = [];
+
       ctrl.options = [
         {key: 1, label: '11111'},
         {key: 2, label: '22222'},
         {key: 3, label: '33333'}
       ];
+
+      ctrl.onSelect = function(item) {
+          ctrl.clicks.push(item);
+      };
 
     });
     </file>
@@ -159,7 +166,7 @@ angular.module('Ring.select', [])
       },
       bindToController: true,
       controllerAs: 'selectCtrl',
-      require: ['ngModel', 'rgSelect'],
+      require: ['?ngModel', 'rgSelect'],
       link: function (scope, iElement, iAttrs, ctrls) {
         var ngModelCtrl = ctrls[0];
         var rgSelectCtrl = ctrls[1];
@@ -185,12 +192,14 @@ angular.module('Ring.select', [])
         };
 
         ctrl.syncSelectToNgModel = function (selectedValue) {
-          if (isArray(selectedValue)) {
-            ctrl.ngModelCtrl.$setViewValue(selectedValue.map(function (val) {
-              return val.originalModel;
-            }));
-          } else {
-            ctrl.ngModelCtrl.$setViewValue(selectedValue.originalModel);
+          if (ctrl.ngModelCtrl) {
+            if (isArray(selectedValue)) {
+              ctrl.ngModelCtrl.$setViewValue(selectedValue.map(function (val) {
+                return val.originalModel;
+              }));
+            } else {
+              ctrl.ngModelCtrl.$setViewValue(selectedValue.originalModel);
+            }
           }
         };
 
@@ -254,7 +263,10 @@ angular.module('Ring.select', [])
 
         function syncNgModelToSelect() {
           $scope.$watch(function () {
-            return ctrl.ngModelCtrl.$modelValue;
+            if (ctrl.ngModelCtrl) {
+              return ctrl.ngModelCtrl.$modelValue;
+            }
+            return null;
           }, setSelectModel, true);
         }
 
