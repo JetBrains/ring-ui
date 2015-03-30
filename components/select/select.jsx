@@ -79,7 +79,7 @@ var generateUniqueId = Global.getUIDGenerator('ring-select-');
  </file>
  </example>
 
- <example name="Simple select with default filter mode">
+ <example name="Simple select with default filter mode and loading">
  <file name="index.html">
  <div id="demo"></div>
  </file>
@@ -87,12 +87,10 @@ var generateUniqueId = Global.getUIDGenerator('ring-select-');
  var React = require('react');
  var Select = require('./select.jsx');
 
- React.renderComponent(Select({filter: true}), document.getElementById('demo'))
+ React.renderComponent(Select({filter: true, loading: true}), document.getElementById('demo'))
  .setProps({data: [
     {'label': 'One', 'key': '1'},
-    {'label': 'Group', 'key': '2', disabled: true},
-      {'label': 'Two One', 'key': '2.1', level: 1},
-      {'label': 'Two Two', 'key': '2.2', level: 1},
+    {'label': 'Group', 'key': '2'},
     {'label': 'Three', 'key': '3'}
   ]});
  </file>
@@ -195,6 +193,9 @@ var Select = React.createClass({
       loading: false,  // show loader and loading text in popup
       disabled: false, // disable select
 
+      loadingMessage: 'Loading...',
+      notFoundMessage: 'No options found',
+
       type: Types.BUTTON,
       targetElement: null, // element to bind popup (select BUTTON or INPUT as default)
       hideSelected: false, // INPUT mode: clear input in any case (smth selected)
@@ -287,8 +288,6 @@ var Select = React.createClass({
     if (!this._popup) {
       this._popup = Popup.renderComponent(
         <SelectPopup
-          loadingMessage={this.props.loadingMessage}
-          notFoundMessage={this.props.notFoundMessage}
           maxHeight={this.props.maxHeight}
           minWidth={this.props.minWidth}
           filter={this.isInputMode() ? false : this.props.filter} // disable dpopup filter on input mode
@@ -307,9 +306,18 @@ var Select = React.createClass({
   },
 
   _showPopup: function() {
+    var data = this.getListItems(this.filterValue());
+    var message = null;
+    if (this.props.loading) {
+      message = this.props.loadingMessage;
+    } else if (!data.length) {
+      message = this.props.notFoundMessage;
+    }
+
     this._popup.setProps({
-      data: this.getListItems(this.filterValue()),
-      toolbar: this.getToolbar()
+      data: data,
+      toolbar: this.getToolbar(),
+      message: message
     }, function() {
       !this._popup.isVisible() && this.props.onOpen();
       this._popup.show();
@@ -633,8 +641,7 @@ var SelectPopup = React.createClass({
       data: [],
       toolbar: null,
       filter: false, // can be bool or object with props: "value" and "placeholder"
-      notFoundMessage: 'No options found',
-      loadingMessage: 'Loading...',
+      message: null,
       anchorElement: null,
       maxHeight: 250,
       minWidth: 'target',
@@ -699,8 +706,8 @@ var SelectPopup = React.createClass({
   },
 
   getMessage: function() {
-    if (!this.props.data.length) {
-      return <div className="ring-select__message">{this.props.loading ? this.props.loadingMessage : this.props.notFoundMessage}</div>;
+    if (this.props.message) {
+      return <div className="ring-select__message">{this.props.message}</div>;
     }
   },
 
