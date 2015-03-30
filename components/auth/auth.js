@@ -275,7 +275,15 @@ Auth.prototype.getSecure = function (absoluteUrl, accessToken, params) {
     }
   }).
     then(function (response) {
-      return response.json();
+      // Simulate $.ajax behavior
+      // @see https://github.com/github/fetch#success-and-error-handlers
+      if (response.status >= 200 && response.status < 300) {
+        return response.json();
+      } else {
+        var error = new Error('' + response.status + ' ' + response.statusText);
+        error.response = response;
+        return when.reject(error);
+      }
     });
 };
 
@@ -513,19 +521,20 @@ Auth.prototype._validateAgainstUser = function (storedToken) {
       self.user = user;
       return storedToken;
     }, function (errorResponse) {
-      var errorCode;
-      try {
-        errorCode = (errorResponse.responseJSON || JSON.parse(errorResponse.responseText)).error;
-      } catch (e) {
-      }
+      return errorResponse.response.json().
+        catch(function () {
+          // Skip JSON parsing errors
+          return {};
+        }).
+        then(function (response) {
+          if (errorResponse.status === 401 || response.error === 'invalid_grant' || response.error === 'invalid_request') {
+            // Token expired
+            return Auth._authRequiredReject(response.error || errorResponse.message);
+          }
 
-      if (errorResponse.status === 401 || errorCode === 'invalid_grant' || errorCode === 'invalid_request') {
-        // Token expired
-        return Auth._authRequiredReject(errorCode);
-      } else {
-        // Request unexpectedly failed
-        return when.reject(errorResponse);
-      }
+          // Request unexpectedly failed
+          return when.reject(errorResponse);
+        });
     });
 };
 
