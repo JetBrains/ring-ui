@@ -163,23 +163,59 @@ describe('Auth', function () {
 
     it('should reject with redirect if 401 response recieved', function () {
       var token = { access_token: 'token' };
-      Auth.prototype.getApi.returns(when.reject({status: 401, responseJSON: {error: 'Problem'}}));
+      Auth.prototype.getApi.returns(when.reject({
+        status: 401,
+        response: {
+          json: function () {
+            return when({error: 'Problem'});
+          }
+        }
+      }));
       return auth._validateAgainstUser(token).
         should.be.rejectedWith(Auth.TokenValidationError, 'Problem');
     });
 
     it('should reject with redirect if invalid_grant response recieved', function () {
       var token = { access_token: 'token' };
-      Auth.prototype.getApi.returns(when.reject({responseJSON: {error: 'invalid_grant'}}));
+      Auth.prototype.getApi.returns(when.reject({
+        status: 401,
+        response: {
+          json: function () {
+            return when({error: 'invalid_grant'});
+          }
+        }
+      }));
       return auth._validateAgainstUser(token).
         should.be.rejectedWith(Auth.TokenValidationError, 'invalid_grant');
     });
 
     it('should reject with redirect if invalid_grant response recieved', function () {
       var token = { access_token: 'token' };
-      Auth.prototype.getApi.returns(when.reject({responseJSON: {error: 'invalid_request'}}));
+      Auth.prototype.getApi.returns(when.reject({
+        status: 401,
+        response: {
+          json: function () {
+            return when({error: 'invalid_request'});
+          }
+        }
+      }));
       return auth._validateAgainstUser(token).
         should.be.rejectedWith(Auth.TokenValidationError, 'invalid_request');
+    });
+
+    it('should reject with redirect if 401 response without json recieved', function () {
+      var token = { access_token: 'token' };
+      Auth.prototype.getApi.returns(when.reject({
+        status: 401,
+        message: '403 Forbidden',
+        response: {
+          json: function () {
+            return when.reject();
+          }
+        }
+      }));
+      return auth._validateAgainstUser(token).
+        should.be.rejectedWith(Auth.TokenValidationError, '403 Forbidden');
     });
   });
 
