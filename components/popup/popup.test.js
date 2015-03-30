@@ -131,5 +131,22 @@ describe('Popup', function () {
       parseInt(popupElement.style.left, 10).should.equal(elementOffset.left);
       parseInt(popupElement.style.top, 10).should.equal(elementOffset.top + element.height());
     });
+
+    it('Should support minWidth = target', function () {
+      var element = $('<div style="width: 50px;"></div>');
+
+      var popup = TestUtils.renderIntoDocument(new Popup({
+        minWidth: 'target',
+        anchorElement: element[0]
+      }));
+
+      parseInt(popup.getDOMNode().style.minWidth, 10).should.equal(element.width());
+    });
+
+    it('Should support minWidth = some number in pixels', function () {
+      var popup = TestUtils.renderIntoDocument(new Popup({minWidth: '345'}));
+
+      parseInt(popup.getDOMNode().style.minWidth, 10).should.equal(345);
+    });
   });
 });
