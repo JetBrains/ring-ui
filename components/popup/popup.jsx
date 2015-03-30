@@ -300,6 +300,8 @@ var PopupMixin = {
 
     if (props.minWidth === 'target') {
       styles.minWidth = $anchorElement.width();
+    } else {
+      styles.minWidth = props.minWidth;
     }
 
     if (this.state.hidden) {
