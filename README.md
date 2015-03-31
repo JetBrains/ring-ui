@@ -72,3 +72,12 @@ This reads Ring UI configuration and overrides some config params.
 ## Is Lodash or Underscore available?
 
 Ring UI uses [Moutjs](moutjs.com/docs/latest/) as the utility library. 
+
+
+## Wallaby support
+
+To enable wallaby.js test runner follow this steps:
+
+1. Download and install wallaby.js webstorm plugin (http://wallabyjs.com/). You may have to leave your email in download section.
+2. Setup wallaby run configuration in your webstorm.
+3. Run it.
