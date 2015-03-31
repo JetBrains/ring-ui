@@ -151,6 +151,25 @@ angular.module('Ring.select', [])
 
     return {
       restrict: 'EA',
+      /**
+       * @property {Object} scope
+       * @property {Object} scope.ngModel
+       * @property {String} scope.type - select type. Can be "button" (default), "input" or "dropdown"
+       * @property {Array|Function} scope.options - array for select options or function which should return array or promise
+       * @property {Boolean} scope.externalFilter - whether or not select use options function as filter.
+       * "filter" property scope.should not be passed in that case.
+       * @property {Function} scope.onSelect - callback to call on items selecting
+       * @property {Function} scope.onOpen - callback to call on select popup opening
+       * @property {Function} scope.onClose - callback to call on select popup closing
+       * @property {String} scope.label - Label to place on empty select button
+       * @property {String} scope.labelField - which ngModel and options field should be used as label of item
+       * @property {String} scope.selectedLabelField - which ngModel and options field should be used as selectedLabel -
+       * label of selected item to show on button
+       * @property {String} scope.keyField - which ngModel and options field should be used as key of item
+       * @property {Function} scope.selectedFormatter - function to format selected item label on button
+       * instead of just using selectedLabelField.
+       * @property {Object} scope.config - hash to pass to react select component.
+       */
       scope: {
         ngModel: '=',
         type: '@',
@@ -158,6 +177,8 @@ angular.module('Ring.select', [])
         externalFilter: '=',
         filter: '=?',
         onSelect: '=',
+        onOpen: '=',
+        onClose: '=',
         label: '@',
         labelField: '@',
         selectedLabelField: '@',
@@ -298,6 +319,13 @@ angular.module('Ring.select', [])
                 ctrl.loadOptionsToSelect(ctrl.query);
                 if (ctrl.onOpen){
                   ctrl.onOpen();
+                }
+              });
+            },
+            onClose: function () {
+              $scope.$evalAsync(function () {
+                if (ctrl.onClose) {
+                  ctrl.onClose();
                 }
               });
             },
