@@ -51,7 +51,7 @@
 
   font-size: 24px;
   line-height: 20px;
-  color: #1866C5;
+  color: $ring-link-color;
   text-decoration: none;
 }
 
@@ -60,7 +60,7 @@
 }
 
 .ring-breadcrumb__element_active, .ring-breadcrumb .active {
-  color: #1A1A1A;
+  color: $ring-font-color;
   cursor: default;
 }
 
@@ -79,5 +79,5 @@
 }
 
 .ring-breadcrumb__sep {
-  color: #cccccc;
+  color: $ring-color-gray;
 }

@@ -4,7 +4,7 @@
   box-sizing: border-box;
   width: 100%;
   margin: 0;
-  border: 1px solid #CCC;
+  border: 1px solid $ring-color-gray;
   background-color: #FFF;
 
   @include ring-font;
@@ -14,7 +14,7 @@
   &:active, &:focus,
   &_active,
   &_focus {
-    border-color: #25B7FF;
+    border-color: $ring-color-blue;
     outline: 0;
   }
 
@@ -25,7 +25,7 @@
   }
 
   &_correct {
-    border-color: #84AB28;
+    border-color: $ring-color-green;
   }
 
   &_error {

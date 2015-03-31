@@ -98,7 +98,7 @@
 
   &.ring-list__item_active:not(.ring-list__item_error) {
     color: #FFF;
-    background-color: #25B7FF;
+    background-color: $ring-color-blue;
 
     .ring-list__highlight, .ring-list__service {
       color: inherit;
@@ -141,7 +141,7 @@
 }
 
 .ring-list__checkbox {
-  color: #888;
+  color: $ring-color-dark-gray;
   position: relative;
   top: -2px;
   width: 20px;

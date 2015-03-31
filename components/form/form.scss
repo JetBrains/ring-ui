@@ -103,7 +103,7 @@
 }
 
 .ring-form_border {
-  border: 1px solid #CCC;
+  border: 1px solid $ring-color-gray;
   border-radius: 2px;
 }
 
@@ -139,14 +139,14 @@
   font-size: 13px;
   line-height: 20px;
   text-align: center;
-  color: #888;
+  color: $ring-color-dark-gray;
 }
 
 .ring-form__control__description {
   padding-top: $ring-unit;
   font-size: 11px;
   line-height: 16px !important;
-  color: #888;
+  color: $ring-color-dark-gray;
 }
 
 .ring-form__title-img {
@@ -243,7 +243,7 @@
 }
 
 .ring-form__control_on {
-  color: #84AB28;
+  color: $ring-color-green;
 }
 
 .ring-form__control_off {

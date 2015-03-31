@@ -1,7 +1,7 @@
 @import '../global/global';
 
 // NB: colours from IntelliJ IDEA default colour scheme.
-$outline: #CCCCCC;
+$outline: #CCC;
 
 $added_outline: #B2BCB2;
 $added_background: #EDFAED;
@@ -20,7 +20,7 @@ $map_borders: 1px;
 
 .ring-diff__map {
   background: #f7f7f7;
-  border: solid 1px #ccc;
+  border: solid 1px $ring-color-gray;
   border-left: none;
   box-sizing: border-box;
   float: right;
@@ -97,7 +97,7 @@ $map_borders: 1px;
 }
 
 .ring-diff_doublepane .CodeMirror {
-  border: solid 1px #CCC;
+  border: solid 1px $ring-color-gray;
   box-sizing: border-box;
   @include ring-monospace-font();
   height: 100%;
