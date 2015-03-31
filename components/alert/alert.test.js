@@ -7,6 +7,8 @@ var Alert = require('./alert');
 var React = require('react/addons');
 
 describe('Alert', function() {
+  var $ = require('jquery');
+
   it('should render', function() {
     var alertComponent = React.addons.TestUtils.renderIntoDocument(
         new Alert({ 'caption': 'Test element' }));
@@ -20,7 +22,7 @@ describe('Alert', function() {
             new Alert({ 'caption': 'Test element', 'type': Alert.Type.MESSAGE }));
 
         var alertElement = alertComponent.getDOMNode();
-        alertElement.classList.contains('ring-alert_message').should.be.true;
+        $(alertElement).should.have.class('ring-alert_message');
       });
 
       it('should render an error', function() {
@@ -28,7 +30,7 @@ describe('Alert', function() {
             new Alert({ 'caption': 'Test element', 'type': Alert.Type.ERROR }));
 
         var alertElement = alertComponent.getDOMNode();
-        alertElement.classList.contains('ring-alert_error').should.be.true;
+        $(alertElement).should.have.class('ring-alert_error');
       });
 
       it('should render a warning', function() {
@@ -36,7 +38,7 @@ describe('Alert', function() {
             new Alert({ 'caption': 'Test element', 'type': Alert.Type.WARNING }));
 
         var alertElement = alertComponent.getDOMNode();
-        alertElement.classList.contains('ring-alert_warning').should.be.true;
+        $(alertElement).should.have.class('ring-alert_warning');
       });
 
       it('should render a success message', function() {
@@ -44,7 +46,7 @@ describe('Alert', function() {
             new Alert({ 'caption': 'Test element', 'type': Alert.Type.SUCCESS }));
 
         var alertElement = alertComponent.getDOMNode();
-        alertElement.classList.contains('ring-alert_success').should.be.true;
+        $(alertElement).should.have.class('ring-alert_success');
       });
 
       it('should render a message if type is not passed', function() {
@@ -52,7 +54,7 @@ describe('Alert', function() {
             new Alert({ 'caption': 'Test element' }));
 
         var alertElement = alertComponent.getDOMNode();
-        alertElement.classList.contains('ring-alert_message').should.be.true;
+        $(alertElement).should.have.class('ring-alert_message');
       });
     });
 
