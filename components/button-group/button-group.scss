@@ -4,6 +4,7 @@
 //
 // Markup:
 // <div class="ring-button-group">
+//   <span class="ring-button-group__caption">Caption:</span>
 //   <button class="ring-btn {$modifiers}">Button</button>
 //   <button class="ring-btn {$modifiers} ring-btn_disabled">Button</button>
 //   <button class="ring-btn {$modifiers}">Button</button>
@@ -29,7 +30,7 @@
     }
   }
   position: relative;
-  max-height: 24px;
+  max-height: 3*$ring-unit;
 
   font-size: 0;
 }
@@ -50,3 +51,12 @@
   border-bottom-right-radius: $ring-border-radius;
 }
 
+// Caption element preceding the button group
+.ring-button-group__caption {
+  margin-right: $ring-unit;
+  font-size: $ring-font-size;
+
+  &:empty {
+    margin-right: 0;
+  }
+}
