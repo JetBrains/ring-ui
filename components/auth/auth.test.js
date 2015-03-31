@@ -178,7 +178,6 @@ describe('Auth', function () {
     it('should reject with redirect if invalid_grant response recieved', function () {
       var token = { access_token: 'token' };
       Auth.prototype.getApi.returns(when.reject({
-        status: 401,
         response: {
           json: function () {
             return when({error: 'invalid_grant'});
@@ -192,7 +191,6 @@ describe('Auth', function () {
     it('should reject with redirect if invalid_grant response recieved', function () {
       var token = { access_token: 'token' };
       Auth.prototype.getApi.returns(when.reject({
-        status: 401,
         response: {
           json: function () {
             return when({error: 'invalid_request'});
