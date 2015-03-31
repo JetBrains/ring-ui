@@ -85,10 +85,10 @@ var ListItem = React.createClass({
     return this.transferPropsTo(
       <span className={classes} style={style}>
         {this.getCheckbox()}
-        {this.props.description &&
-          <div className="ring-list__description">{this.props.description}</div>}
         {this.props.icon &&
           <div className="ring-list__icon" style={{'background-image': 'url("' + this.props.icon + '")'}}></div>}
+        {this.props.description &&
+          <div className="ring-list__description">{this.props.description}</div>}
         {this.props.label}
       </span>
     );
@@ -216,8 +216,9 @@ var ListMixin = {
        var List = require('./list.jsx');
 
        var listData = [
-         {'label': 'One sep', 'type': List.ListProps.Type.SEPARATOR, 'description': 'Separator'},
-         {'label': 'Two sep', 'type': List.ListProps.Type.SEPARATOR, 'description': 'Separator'}
+         {'type': List.ListProps.Type.SEPARATOR, 'description': 'First separator'},
+         {'label': 'Item', 'type': List.ListProps.Type.ITEM},
+         {'type': List.ListProps.Type.SEPARATOR, 'description': 'Second sep'}
        ];
 
        React.renderComponent(List({
@@ -227,7 +228,31 @@ var ListMixin = {
                }), document.getElementById('list'));
      </file>
    </example>
- */
+
+  <example name="List-icons">
+    <file name="index.html">
+      <div id='list' style="width: 300px;"></div>
+    </file>
+
+    <file name="index.js" webpack="true">
+      var React = require('react');
+      var List = require('./list.jsx');
+
+      var listData = [
+        {label: 'Some item', key: '1', 'type': List.ListProps.Type.ITEM, icon: 'http://joomlasocial.ru/jomsocial/images/content/arrowchat/icon(2).png'},
+        {label: 'Some item', key: '2', 'type': List.ListProps.Type.ITEM, description: 'Test item', icon: 'http://gruzimfile.ru/files/russia-flag-icon.png'},
+        //Link doesn't support icons
+        {label: 'Some item', key: '3', 'type': List.ListProps.Type.LINK, description: 'Test item', icon: 'http://www.thg.ru/forum/images/icons/icon6.gif'}
+      ];
+
+      React.renderComponent(List({
+        data: listData,
+        shortcuts: true,
+        onSelect: console.log.bind(console)
+    }), document.getElementById('list'));
+    </file>
+  </example>
+*/
 var List = React.createClass({
   mixins: [Shortcuts.Mixin, ListMixin],
 

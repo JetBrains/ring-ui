@@ -78,6 +78,21 @@ describe('List', function () {
       getFirstListItem().tagName.toLowerCase().should.equal('span');
     });
 
+    it('should not render icon if not provided', function () {
+      list.setProps({'data': [
+        {'label': 'Hello!', 'type': List.ListProps.Type.ITEM}
+      ]});
+      $(getFirstListItem()).should.not.have.descendants('.ring-list__icon');
+    });
+
+    it('should render icon if provided', function () {
+      list.setProps({'data': [
+        {'label': 'Hello!', icon: 'http://some.url/', 'type': List.ListProps.Type.ITEM}
+      ]});
+      var icon = getFirstListItem().querySelector('.ring-list__icon');
+      expect(icon.style.backgroundImage).to.equal('url(http://some.url/)');
+    });
+
     it('should throw error on unknown type', function () {
 
       expect(function () {
