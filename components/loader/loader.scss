@@ -58,10 +58,6 @@
 
   font-size: 0;
   font-size: 13px\9; // IE 6+
-
-  // fix for table sidebars
-  z-index: 10;
-  position: relative;
 }
 
 @media screen and (min-width:0\0) {
