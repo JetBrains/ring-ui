@@ -90,7 +90,7 @@ describe('List', function () {
         {'label': 'Hello!', icon: 'http://some.url/', 'type': List.ListProps.Type.ITEM}
       ]});
       var icon = getFirstListItem().querySelector('.ring-list__icon');
-      expect(icon.style.backgroundImage).to.equal('url(http://some.url/)');
+      expect(icon.style.backgroundImage).to.contain('http://some.url');
     });
 
     it('should throw error on unknown type', function () {
