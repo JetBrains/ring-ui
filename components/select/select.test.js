@@ -3,7 +3,7 @@ var List = require('list/list');
 var renderIntoDocument = require('render-into-document');
 var $ = require('jquery');
 
-describe.only('Select(react)', function () {
+describe('Select(react)', function () {
   var testData = [
     {key: 1, label: 'first1'},
     {key: 2, label: 'test2'},
