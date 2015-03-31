@@ -12,6 +12,11 @@ function generateConfig(karma) {
     return webpackConf;
   };
 
+  var webdriverConfig = {
+    hostname: '***REMOVED***',
+    port: 4545
+  };
+
   var config = {
 
     // base path, that will be used to resolve files and exclude
@@ -88,9 +93,32 @@ function generateConfig(karma) {
       ChromeNoSandbox: {
         base: 'Chrome',
         flags: ['--no-sandbox', '--test-type']
+      },
+      wdIE11: {
+        base: 'WebDriver',
+        config: webdriverConfig,
+        'x-ua-compatible': 'IE=edge',
+        browserName: 'internet explorer'
+      },
+      wdIE9: {
+        base: 'WebDriver',
+        config: webdriverConfig,
+        'x-ua-compatible': 'IE=EmulateIE9',
+        browserName: 'internet explorer'
+      },
+      wdFirefox: {
+        base: 'WebDriver',
+        config: webdriverConfig,
+        browserName: 'firefox'
+      },
+      wdChrome: {
+        base: 'WebDriver',
+        config: webdriverConfig,
+        browserName: 'chrome'
       }
     },
 
+    hostname: require('os').hostname(),
 
     // If browser does not capture in given timeout [ms], kill it
     captureTimeout: 60000,

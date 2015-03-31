@@ -94,6 +94,7 @@
     "html-loader": "0.2.3",
     "imports-loader": "0.6.3",
     "jsx-loader": "0.11.2",
+    "karma-webdriver-launcher": "1.0.1",
     "memory-fs": "0.1.1",
     "mousetrap": "1.4.6",
     "mout": "0.11.0",

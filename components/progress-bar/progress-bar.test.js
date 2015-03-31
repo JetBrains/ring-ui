@@ -86,7 +86,7 @@ describe('ProgressBar', function() {
         value: null
       });
 
-      $(this.progress.refs.progressbar.getDOMNode()).should.have.attr('style').match(/width:;/);
+      $(this.progress.refs.progressbar.getDOMNode()).should.have.attr('style').match(/^(width:;)?$/);
     });
   });
 });
