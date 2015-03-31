@@ -1,9 +1,9 @@
 var Select = require('./select');
 var List = require('list/list');
-var React = require('react/addons');
 var renderIntoDocument = require('render-into-document');
+var $ = require('jquery');
 
-describe('Select(react)', function () {
+describe.only('Select(react)', function () {
   var testData = [
     {key: 1, label: 'first1'},
     {key: 2, label: 'test2'},
@@ -37,6 +37,51 @@ describe('Select(react)', function () {
   it('Should compute selected index', function () {
     var selectedIndex = this.select._getSelectedIndex(testData[2], testData);
     selectedIndex.should.equal(2);
+  });
+
+  it('Should use selectedLabel for select button title if provided', function () {
+    this.select.setProps({selected: {
+      key: 1, label: 'test1', selectedLabel: 'testLabel'
+    }});
+    var selectedLabel = this.select._getSelectedString();
+    selectedLabel.should.equal('testLabel');
+  });
+
+  it('Should use label for select button title', function () {
+    var selectedLabel = this.select._getSelectedString();
+    selectedLabel.should.equal('first1');
+  });
+
+  it('Should clear selected on clearing', function () {
+    this.select.clear();
+    expect(this.select.state.selected).to.be.null;
+  });
+
+  describe('DOM', function () {
+    it('Should place select button inside container', function () {
+      $(this.select.getDOMNode()).should.have.class('ring-select');
+    });
+
+    it('Should disable select button if needed', function () {
+      this.select.setProps({
+        disabled: true
+      });
+      $(this.select.getDOMNode()).should.have.class('ring-select_disabled');
+    });
+
+    it('Should place input inside in INPUT mode', function () {
+      this.select.setProps({type: Select.Type.INPUT});
+      $(this.select.getDOMNode()).should.have.descendants('input');
+    });
+
+    it('Should place icons inside', function () {
+      $(this.select.getDOMNode()).should.have.descendants('.ring-select__icons');
+    });
+
+    it('Should place icons inside in INPUT mode', function () {
+      this.select.setProps({type: Select.Type.INPUT});
+      $(this.select.getDOMNode()).should.have.descendants('.ring-select__icons');
+    });
   });
 
   describe('getListItems', function () {
@@ -129,6 +174,114 @@ describe('Select(react)', function () {
     it('Should fill _multipleMap on _rebuildMultipleMap', function () {
       this.select._rebuildMultipleMap(testData.slice(1, 2));
       this.select._multipleMap['2'].should.be.true;
+    });
+
+    it('Should construct label from selected array', function () {
+      var selectedLabel = this.select._getSelectedString();
+      selectedLabel.should.equal('first1, test2');
+    });
+
+    it('Should detect selection is empty according on not empty array', function () {
+      this.select._selectionIsEmpty().should.be.false;
+    });
+
+    it('Should detect selection is empty according on empty array', function () {
+      this.select.setProps({selected: []});
+      this.select._selectionIsEmpty().should.be.true;
+    });
+
+    it('Should clear selected on clearing', function () {
+      this.select.clear();
+      this.select.state.selected.length.should.equal(0);
+    });
+
+    describe('On selecting', function () {
+      it('Should add item to multiple map on selecting item', function () {
+        this.select._listSelectHandler(testData[3]);
+        this.select._multipleMap['4'].should.be.true;
+      });
+
+      it('Should add item to selected on selecting item', function () {
+        var lengthBefore = selectedArray.length;
+        this.select._listSelectHandler(testData[3]);
+        this.select.state.selected.length.should.equal(lengthBefore + 1);
+      });
+
+      it('Should not close popup on selecting', function () {
+        this.select._hidePopup = sinon.spy();
+        this.select._listSelectHandler(testData[3]);
+        this.select._hidePopup.should.not.been.called;
+      });
+    });
+
+    describe('On deselecting', function () {
+      it('Should remove item from selected on deselecting', function () {
+        var lengthBefore = selectedArray.length;
+        this.select._listSelectHandler(testData[0]);
+        this.select.state.selected.length.should.equal(lengthBefore - 1);
+      });
+
+      it('Should call onDeselect on deselecting item', function () {
+        this.select.setProps({
+          onDeselect: this.sinon.spy()
+        });
+        this.select._listSelectHandler(testData[0]);
+        this.select.props.onDeselect.should.been.calledWith(testData[0]);
+      });
+    });
+
+  });
+
+  describe('On selecting', function () {
+    it('Should not react on selecting disabled element', function () {
+      this.select.setState = sinon.spy();
+
+      this.select._listSelectHandler({
+        key: 1,
+        label: 'test',
+        disabled: true
+      });
+
+      this.select.setState.should.not.been.called;
+    });
+
+    it('Should not react on selecting separator', function () {
+      this.select.setState = sinon.spy();
+
+      this.select._listSelectHandler({
+        key: 1,
+        label: 'test',
+        type: List.ListProps.Type.SEPARATOR
+      });
+
+      this.select.setState.should.not.been.called;
+    });
+
+    it('Should set selected on selecting', function () {
+      this.select._listSelectHandler(testData[3]);
+      this.select.state.selected.should.equal(testData[3]);
+    });
+
+    it('Should set call onSelect on selecting', function () {
+      this.select.setProps({
+        onSelect: this.sinon.spy()
+      });
+      this.select._listSelectHandler(testData[1]);
+      this.select.props.onSelect.should.been.calledOnce;
+    });
+
+    it('Should set call onChange on selecting', function () {
+      this.select.setProps({
+        onChange: this.sinon.spy()
+      });
+      this.select._listSelectHandler(testData[1]);
+      this.select.props.onChange.should.been.calledOnce;
+    });
+
+    it('Should hide popup on selecting', function () {
+      this.select._hidePopup = sinon.spy();
+      this.select._listSelectHandler(testData[1]);
+      this.select._hidePopup.should.been.calledOnce;
     });
   });
 });
