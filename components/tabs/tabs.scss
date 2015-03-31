@@ -85,7 +85,7 @@
 .ring-tabs__btn_disabled,
 .ring-tabs__btn.disabled,
 .ring-tabs__btn[disabled] {
-  color: #888 !important;
+  color: $ring-color-dark-gray !important;
 }
 
 .ring-tabs__btn__counter {

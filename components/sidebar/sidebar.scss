@@ -47,7 +47,7 @@
   line-height: 6*$ring-unit;
   font-size: 19px;
   font-weight: normal;
-  color: #1866C5;
+  color: $ring-link-color;
 
   & .tag-flag {
     vertical-align: bottom;
@@ -64,12 +64,12 @@
   display: inline-block;
   font-size: 13px;
   font-weight: bold;
-  color: #1A1A1A;
+  color: $ring-font-color;
 }
 
 .ring-sidebar__section-text {
   font-size: 13px;
-  color: #1A1A1A;
+  color: $ring-font-color;
   line-height: 3*$ring-unit;
 }
 
@@ -84,7 +84,7 @@
 
   width: 5*$ring-unit;
 
-  color: #888;
+  color: $ring-color-dark-gray;
   font-size: 12px;
   text-align: center;
 }
@@ -97,10 +97,10 @@
 
 .ring-sidebar__empty-icon {
   font-size: 100px;
-  color: #CCC;
+  color: $ring-color-gray;
 }
 
 .ring-sidebar__empty-description {
   margin-top: $ring-unit*2;
-  color: #888;
+  color: $ring-color-dark-gray;
 }

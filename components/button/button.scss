@@ -118,7 +118,7 @@
   }
 
   .ring-icon {
-    color: #888;
+    color: $ring-color-dark-gray;
   }
 }
 
@@ -136,7 +136,7 @@
 
 .ring-btn_primary {
   border: solid 1px #BC5600;
-  color: #fff;
+  color: #FFF;
   background-color: #FF8620;
   @include btn-box-shadow(0.2);
   @include btn-mixins_primary;
