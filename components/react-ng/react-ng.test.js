@@ -1,8 +1,9 @@
+require('angular/angular');
+require('angular-mocks/angular-mocks');
+
 describe('ReactNg', function () {
   var React = require('react/addons');
 
-  require('angular/angular');
-  require('angular-mocks/angular-mocks');
   var registerComponents = require('./react-ng');
 
   var $scope;
