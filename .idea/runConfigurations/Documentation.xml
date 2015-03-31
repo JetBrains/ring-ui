@@ -1,0 +1,5 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Documentation" type="NodeJSConfigurationType" factoryName="Node.js" path-to-node="/usr/local/bin/node" path-to-js-file="generate-documentation.js" working-dir="$PROJECT_DIR$/tools">
+    <method />
+  </configuration>
+</component>
