@@ -7,6 +7,7 @@ require('./select.scss');
 
 var React = require('react');
 var Popup = require('popup/popup');
+var SelectPopup = require('./select__popup');
 var List = require('list/list');
 var Input = require('input/input');
 var Icon = require('icon/icon');
@@ -566,7 +567,7 @@ var Select = React.createClass({
     return (this.props.multiple && !this.state.selected.length) || !this.state.selected;
   },
 
-  _getButtonLabel: function() {
+  _getSelectedLabel: function () {
     if (this._selectionIsEmpty()) {
       return this.props.label;
     } else {
@@ -574,12 +575,12 @@ var Select = React.createClass({
     }
   },
 
+  _getButtonLabel: function() {
+    return this._getSelectedLabel();
+  },
+
   _getInputPlaceholder: function() {
-    if (this._selectionIsEmpty()) {
-      return this.props.label;
-    } else {
-      return this.props.selectedLabel;
-    }
+    return this._getSelectedLabel();
   },
 
   _getSelectedString: function() {
@@ -657,116 +658,6 @@ var Select = React.createClass({
     } else {
       return (<span></span>);
     }
-  }
-});
-
-var SelectPopup = React.createClass({
-  getDefaultProps: function() {
-    return {
-      data: [],
-      activeIndex: null,
-      toolbar: null,
-      filter: false, // can be bool or object with props: "value" and "placeholder"
-      message: null,
-      anchorElement: null,
-      maxHeight: 250,
-      minWidth: 'target',
-      onSelect: function() {},
-      onClose: function() {},
-      onFilter: function() {}
-    };
-  },
-
-  getInitialState: function() {
-    return {
-     popupShortcuts: false
-    };
-  },
-
-  componentDidMount: function() {
-    if (this.refs.filter) {
-      if (this.props.filter.value) {
-        this.refs.filter.getDOMNode().value = this.props.filter.value;
-      }
-      this.focusFilter();
-    }
-  },
-
-  focusFilter: function() {
-    if (this.refs.filter) {
-      this.refs.filter.getDOMNode().focus();
-    }
-  },
-
-  show: function() {
-    this.refs.popup.show(function() {
-      this.focusFilter();
-    }.bind(this));
-
-    this.setState({
-      popupShortcuts: true
-    });
-  },
-
-  hide: function() {
-    this.refs.popup.hide();
-
-    this.setState({
-      popupShortcuts: false
-    });
-  },
-
-  isVisible: function() {
-    return this.refs.popup.isVisible();
-  },
-
-  getFilter: function() {
-    if (this.props.filter) {
-      return (<div className="ring-popup__filter-wrapper">
-        <Input ref="filter" className="ring-js-shortcuts ring-input_filter-popup"
-          placeholder={this.props.filter.placeholder || ''}
-          onInput={this.props.onFilter}
-        />
-      </div>);
-    }
-  },
-
-  getMessage: function() {
-    if (this.props.message) {
-      return <div className="ring-select__message">{this.props.message}</div>;
-    }
-  },
-
-  getList: function() {
-    if (this.props.data.length) {
-      return (<List
-        maxHeight={this.props.maxHeight}
-        data={this.props.data}
-        activeIndex={this.props.activeIndex}
-        restoreActiveIndex={true}
-        activateSingleItem={true}
-        onSelect={this.props.onSelect}
-        shortcuts={this.state.popupShortcuts}
-      />);
-    }
-  },
-
-  render: function() {
-    return (<Popup
-      ref="popup"
-      hidden={true}
-      cutEdge={false}
-      dontCloseOnAnchorClick={true}
-      anchorElement={this.props.anchorElement}
-      autoRemove={false}
-      minWidth={this.props.minWidth}
-      shortcuts={this.state.popupShortcuts}
-      onClose={this.props.onClose}>
-      {this.getFilter()}
-      {this.getList()}
-      {this.getMessage()}
-      {this.props.toolbar}
-    </Popup>);
   }
 });
 
