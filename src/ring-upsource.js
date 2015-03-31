@@ -1,11 +1,11 @@
-/**
- * @fileoverview Ring 2.0 bundle for Upsource.
- * @author igor.alexeenko@jetbrains.com (Igor Alekseenko)
- */
+// Ring 2.0 bundle for Upsource
 
 window.React = require('react');
 
-// todo(igor.alexeenko): Require all neede css files here.
+// Standalone CSS files
+require('button-group/button-group.scss');
+require('scrollbar/scrollbar.scss');
+require('tabs/tabs.scss');
 
 module.exports = {
   Auth: require('auth/auth'),
