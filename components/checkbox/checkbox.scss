@@ -25,7 +25,7 @@
     width: 11px;
     height: 11px;
 
-    border: 1px solid #CCC;
+    border: 1px solid $ring-color-gray;
     border-radius: 2px;
     background: transparent;
     user-select: none;
@@ -42,7 +42,7 @@
   }
 
   &[disabled] + .ring-checkbox__icon {
-    color: #888;
+    color: $ring-color-dark-gray;
   }
 
   &:not([disabled]) + .ring-checkbox__icon:hover {
@@ -50,7 +50,7 @@
   }
 
   &:checked:not([disabled]) + .ring-checkbox__icon {
-    border: 1px solid #25B7FF;
+    border: 1px solid $ring-color-blue;
   }
 
   &:focus + .ring-checkbox__icon {

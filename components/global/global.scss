@@ -5,18 +5,18 @@ $ring-unit: 8px;
 $ring-link-color:  #1866C5;
 $ring-link-hover-color: #FF5A00;
 $ring-color-error: #C10000;
-$ring-color-gray: #ccc;
+$ring-color-gray: #CCC;
 $ring-color-dark-gray: #888;
-$ring-color-green: #84ab28;
-$ring-color-blue: #25b7ff;
+$ring-color-green: #84AB28;
+$ring-color-blue: #25B7FF;
 
 $ring-outline-color: rgba(37, 183, 255, 0.5);
 $ring-border-color: rgba(0, 0, 0, 0.2);
 $ring-border-radius: 3px;
 
-$ring-font-color: #1a1a1a;
+$ring-font-color: #1A1A1A;
 
-@mixin rgba-attribute($attribute, $color, $background: #fff) {
+@mixin rgba-attribute($attribute, $color, $background: #FFF) {
   $solid-color: mix(opacify($color, 1), $background, alpha($color) * 100%);
   #{$attribute}: $solid-color;
   #{$attribute}: $color;

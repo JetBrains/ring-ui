@@ -20,9 +20,7 @@
   margin: 0;
   padding-left: $ring-unit / 2;
   padding-right: $ring-unit/ 2;
-  border-width: 1px;
-  border-style: solid;
-  border-color: #CCC;
+  border: 1px solid $ring-color-gray;
   background-color: #FFF;
 
   @include ring-font;
@@ -30,12 +28,12 @@
   line-height: 20px;
 
   &:active, &:focus, &_active, &_focus {
-    border-color: #25B7FF;
+    border-color: $ring-color-blue;
     outline: 0;
   }
 
   &_correct {
-    border-color: #84AB28;
+    border-color: $ring-color-green;
   }
 
   &_error {
@@ -107,7 +105,7 @@
     content: '';
     transform: rotate(45deg);
     z-index: $ring-invisible-element-z-index;
-    border: 1px solid #CCC;
+    border: 1px solid $ring-color-gray;
     border-right: none;
     border-top: none;
 
