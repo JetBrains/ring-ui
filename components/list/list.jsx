@@ -208,6 +208,59 @@ var ListMixin = {
 
    <example name="List2">
      <file name="index.html">
+       <div id='list'></div>
+     </file>
+
+     <file name="index.js" webpack="true">
+       var React = require('react');
+       var List = require('./list.jsx');
+
+       var listData = [
+        {'label': 'One', 'type': List.ListProps.Type.ITEM},
+        {'label': 'Two', 'type': List.ListProps.Type.ITEM},
+        {'label': 'Active as default', 'type': List.ListProps.Type.ITEM},
+        {'label': 'Four', 'type': List.ListProps.Type.ITEM},
+        {'label': 'Five', 'type': List.ListProps.Type.ITEM}
+       ];
+
+       React.renderComponent(List({
+           data: listData,
+           shortcuts: true,
+           onSelect: console.log.bind(console),
+           activeIndex: 2
+         }), document.getElementById('list'));
+     </file>
+   </example>
+
+   <example name="List3">
+     <file name="index.html">
+       <div id='list'></div>
+     </file>
+
+     <file name="index.js" webpack="true">
+       var React = require('react');
+       var List = require('./list.jsx');
+
+       var listData = [
+        {'label': 'One', 'type': List.ListProps.Type.ITEM},
+        {'label': 'Two', 'type': List.ListProps.Type.ITEM},
+        {'label': 'Active as default', 'type': List.ListProps.Type.ITEM},
+        {'label': 'Four', 'type': List.ListProps.Type.ITEM},
+        {'label': 'Five', 'type': List.ListProps.Type.ITEM}
+       ];
+
+       React.renderComponent(List({
+         shortcuts: true,
+         onSelect: console.log.bind(console),
+       }), document.getElementById('list')).setProps({
+         data: listData,
+         activeIndex: 2
+       });
+     </file>
+   </example>
+
+   <example name="ListX">
+     <file name="index.html">
       <div id='list'></div>
      </file>
 
@@ -264,7 +317,7 @@ var List = React.createClass({
     return {
       data: [],
       restoreActiveIndex: false,  // restore active item by "key" property of item
-      activateOneItem: false,     // if there is only one item activate it
+      activateSingleItem: false,     // if there is only one item activate it
       onSelect: function() {},
       shortcuts: false
     };
@@ -284,6 +337,7 @@ var List = React.createClass({
   },
 
   checkActivatableItems: function(items) {
+    this._activatableItems = false;
     for (var i = 0; i < items.length; i++) {
       if (this.isActivatable(items[i])) {
         this._activatableItems = true;
@@ -297,6 +351,7 @@ var List = React.createClass({
   },
 
   hoverHandler: function (index) {
+    this.ignoreAutoscroll = true;
     this.setState({
       activeIndex: index,
       activeItem: this.props.data[index]
@@ -330,9 +385,7 @@ var List = React.createClass({
   },
 
   moveHandler: function (index, retryCallback, e) {
-    if (!this.haveActivatableItems()) {
-      return;
-    } else if (this.props.data.length === 0) {
+    if (this.props.data.length === 0 || !this.haveActivatableItems()) {
       return;
     } else if (this.props.data.length === 1) {
       index = 0;
@@ -345,7 +398,7 @@ var List = React.createClass({
         return;
       }
 
-      this.scrollToIndex(index);
+      this.scrollToIndex(this.state.activeIndex);
 
       e.preventDefault();
     });
@@ -398,13 +451,15 @@ var List = React.createClass({
     return this.props.data[this.state.activeIndex];
   },
 
-  componentDidMount: function() {
-    var self = this;
-
+  componentWillMount: function() {
     this.checkActivatableItems(this.props.data);
-    this.scrollEndHandler = debounce(function() {
-      self.setState({scrolling: false});
-    }, 150);
+
+    if (this.props.activeIndex && this.props.data[this.props.activeIndex]) {
+      this.setState({
+        activeIndex: this.props.activeIndex,
+        activeItem: this.props.data[this.props.activeIndex]
+      });
+    }
   },
 
   componentWillReceiveProps: function (props) {
@@ -423,15 +478,38 @@ var List = React.createClass({
             break;
           }
         }
-      } else if (this.props.activateOneItem && props.data.length === 1 && this.isActivatable(props.data[0])) {
+      } else if (this.props.activateSingleItem && props.data.length === 1 && this.isActivatable(props.data[0])) {
         activeIndex = 0;
         activeItem = props.data[0];
+      } else if (props.activeIndex && props.data[props.activeIndex]) {
+        activeIndex = props.activeIndex;
+        activeItem = props.data[props.activeIndex];
       }
 
       this.setState({
         activeIndex: activeIndex,
         activeItem: activeItem
       });
+    }
+  },
+
+  componentDidMount: function() {
+    var self = this;
+
+    this.scrollEndHandler = debounce(function() {
+      self.setState({scrolling: false});
+    }, 150);
+    this.autoscroll();
+  },
+
+  componentDidUpdate: function() {
+    this.autoscroll();
+  },
+
+  autoscroll: function() {
+    if (this.state.activeIndex && !this.ignoreAutoscroll) {
+      this.scrollToIndex(this.state.activeIndex);
+      this.ignoreAutoscroll = false;
     }
   },
 

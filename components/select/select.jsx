@@ -92,7 +92,7 @@ var generateUniqueId = Global.getUIDGenerator('ring-select-');
     {'label': 'One', 'key': '1'},
     {'label': 'Group', 'key': '2'},
     {'label': 'Three', 'key': '3'}
-  ]});
+  ], selected: {'label': 'Group', 'key': '2'}});
  </file>
  </example>
 
@@ -124,6 +124,7 @@ var generateUniqueId = Global.getUIDGenerator('ring-select-');
     }
   },
   data: data,
+  selected: data[49],
   'onSelect': function(selected) {
     console.log('onSelect, selected item:', selected);
   }});
@@ -260,7 +261,8 @@ var Select = React.createClass({
     // set selected element if it is defined on initialization
     if (this.props.selected) {
       this.setState({
-        selected: this.props.selected
+        selected: this.props.selected,
+        selectedIndex: this._getSelectedIndex(this.props.selected, this.props.data)
       });
     }
   },
@@ -274,13 +276,34 @@ var Select = React.createClass({
     if (newProps.selected) {
       this._rebuildMultipleMap(newProps.selected);
       this.setState({
-        selected: newProps.selected
+        selected: newProps.selected,
+        selectedIndex: this._getSelectedIndex(newProps.selected, (newProps.data ? newProps.data : this.props.data))
       });
     }
   },
 
   componentDidUpdate: function() {
     this._refreshPopup();
+  },
+
+  _getSelectedIndex: function(selected, data) {
+    if ((this.props.multiple && !selected.length) || (!this.props.multiple && !selected)) {
+      return null;
+    }
+
+    for (var i = 0; i < data.length; i++) {
+      var item = data[i];
+
+      if (item.key === undefined) {
+        continue;
+      }
+
+      if ((this.props.multiple && item.key === selected[0].key) || (!this.props.multiple && item.key === selected.key)) {
+        return i;
+      }
+    }
+
+    return null;
   },
 
   _popup: null,
@@ -317,7 +340,8 @@ var Select = React.createClass({
     this._popup.setProps({
       data: data,
       toolbar: this.getToolbar(),
-      message: message
+      message: message,
+      activeIndex: this.state.selectedIndex
     }, function() {
       !this._popup.isVisible() && this.props.onOpen();
       this._popup.show();
@@ -456,6 +480,7 @@ var Select = React.createClass({
       if (!selected.key) {
         throw new Error('Multiple selection require "key" property on each item of the list');
       }
+
       var currentSelection = this.state.selected;
       if (!this._multipleMap[selected.key]) {
         this._multipleMap[selected.key] = true;
@@ -639,6 +664,7 @@ var SelectPopup = React.createClass({
   getDefaultProps: function() {
     return {
       data: [],
+      activeIndex: null,
       toolbar: null,
       filter: false, // can be bool or object with props: "value" and "placeholder"
       message: null,
@@ -716,8 +742,9 @@ var SelectPopup = React.createClass({
       return (<List
         maxHeight={this.props.maxHeight}
         data={this.props.data}
+        activeIndex={this.props.activeIndex}
         restoreActiveIndex={true}
-        activateOneItem={true}
+        activateSingleItem={true}
         onSelect={this.props.onSelect}
         shortcuts={this.state.popupShortcuts}
       />);
