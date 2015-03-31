@@ -4,26 +4,33 @@ define(['jquery', 'global/global__events', 'global/global__utils'], function ($,
   // Function.prototype.bind polyfill
   // TODO include as component
   if (!Function.prototype.bind || Function.prototype.bind.toString().indexOf('[native code]') === -1) {
-    Function.prototype.bind = function (oThis) {
-      if (typeof this !== 'function') {
-        // closest thing possible to the ECMAScript 5 internal IsCallable function
-        throw new TypeError('Function.prototype.bind - what is trying to be bound is not callable');
+    /* jshint ignore:start */
+    var slice = Array.prototype.slice;
+
+    Function.prototype.bind = function(context) {
+      var func = this;
+      var args = slice.call(arguments, 1);
+
+      function bound() {
+        var invokedAsConstructor = func.prototype && (this instanceof func);
+        return func.apply(
+          // Ignore the context parameter when invoking the bound function
+          // as a constructor. Note that this includes not only constructor
+          // invocations using the new keyword but also calls to base class
+          // constructors such as BaseClass.call(this, ...) or super(...).
+          !invokedAsConstructor && context || this,
+          args.concat(slice.call(arguments))
+        );
       }
 
-      var aArgs = Array.prototype.slice.call(arguments, 1),
-        fToBind = this,
-        Noop = function () {
-      },
-        fBound = function () {
-          return fToBind.apply(this instanceof Noop && oThis ? this : oThis,
-            aArgs.concat(Array.prototype.slice.call(arguments)));
-        };
+      // The bound function must share the .prototype of the unbound
+      // function so that any object created by one constructor will count
+      // as an instance of both constructors.
+      bound.prototype = func.prototype;
 
-      Noop.prototype = this.prototype;
-      fBound.prototype = new Noop();
-
-      return fBound;
+      return bound;
     };
+    /* jshint ignore:end */
   }
 
   var modules = {};
