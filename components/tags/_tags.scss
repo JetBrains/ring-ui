@@ -21,15 +21,15 @@
   cursor: pointer;
   line-height: 3 * $ring-unit;
   font-size: 13px;
-  color: #1866C5;
+  color: $ring-link-color;
 
   &:hover {
-    color: #FF5A00;
+    color: $ring-link-hover-color;
     text-decoration: underline;
     border-color: #B4B4B5;
 
     .ring-tag__last-icon {
-      color: #FF5A00;
+      color: $ring-link-hover-color;
     }
   }
 

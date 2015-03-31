@@ -25,7 +25,7 @@
   font-size: 11px;
   font-weight: normal;
 
-  color: #1A1A1A;
+  color: $ring-font-color;
   border-top: 1px solid #BEBEBE;
   border-bottom: 1px solid #D8D8D8;
 
@@ -89,7 +89,7 @@
   }
 
   &:hover {
-    color: #1A1A1A;
+    color: $ring-font-color;
   }
 }
 
@@ -159,7 +159,7 @@
   }
 
   &_gray {
-    color: #888;
+    color: $ring-color-dark-gray;
   }
 
   &_snuggle-right {
@@ -233,7 +233,7 @@
 
   &.ring-table__row_active {
     .ring-table__column {
-      border-color: #25B7FF;
+      border-color: $ring-color-blue;
       border-top-style: double; // Using double to override border-top-color because of border collapsed
     }
 

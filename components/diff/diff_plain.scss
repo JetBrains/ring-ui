@@ -2,7 +2,7 @@
 
 .ring-diff__plain-editor {
   .CodeMirror {
-    border: solid 1px #ccc;
+    border: solid 1px $ring-color-gray;
     @include ring-monospace-font();
   }
 }
