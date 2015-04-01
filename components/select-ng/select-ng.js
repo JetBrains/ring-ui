@@ -39,7 +39,7 @@ var isArray = require('mout/lang/isArray');
    <file name="index.html">
      <h4>Getting items from promise on click with external filtering. (Filter value should be equal to label, not just part)</h4>
      <div ng-app="test" ng-controller="testCtrl as ctrl">
-      <rg-select ng-model="ctrl.selectedItem" options="ctrl.getItems" label="Select item" external-filter="true"></rg-select>
+      <rg-select ng-model="ctrl.selectedItem" options="ctrl.getItems(query)" label="Select item" external-filter="true"></rg-select>
       <div>Selected item: {{ctrl.selectedItem | json}}</div>
      </div>
    </file>
@@ -174,7 +174,7 @@ angular.module('Ring.select', [])
       scope: {
         ngModel: '=',
         type: '@',
-        options: '=',
+        options: '&',
         externalFilter: '=',
         filter: '=?',
         onSelect: '&',
@@ -245,13 +245,7 @@ angular.module('Ring.select', [])
         };
 
         ctrl.getOptions = function (query) {
-          var result;
-          if (angular.isFunction(ctrl.options)) {
-            result = ctrl.options(query);
-          } else {
-            result = ctrl.options;
-          }
-          return $q.when(result);
+          return $q.when(ctrl.options({query: query}));
         };
 
         ctrl.loadOptionsToSelect = function(query) {

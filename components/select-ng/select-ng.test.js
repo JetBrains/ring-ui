@@ -143,7 +143,7 @@ describe('SelectNg', function () {
     it('Should call datasource on opening', function () {
       scope.dataSource = this.sinon.stub().returns(fakeItems);
 
-      compileTemplate('<rg-select options="dataSource" external-filter="true" ng-model="selectedItem" key-field="id" label-field="name"></rg-select>');
+      compileTemplate('<rg-select options="dataSource(query)" external-filter="true" ng-model="selectedItem" key-field="id" label-field="name"></rg-select>');
 
       ctrl.config.onOpen();
       scope.$digest();
@@ -153,7 +153,7 @@ describe('SelectNg', function () {
     it('Should call datasource on filtering if external filter enabled', function () {
       scope.dataSource = this.sinon.stub().returns(fakeItems);
 
-      compileTemplate('<rg-select options="dataSource" external-filter="true" ng-model="selectedItem" key-field="id" label-field="name"></rg-select>');
+      compileTemplate('<rg-select options="dataSource(query)" external-filter="true" ng-model="selectedItem" key-field="id" label-field="name"></rg-select>');
 
       ctrl.config.onFilter('test');
       scope.$digest();
