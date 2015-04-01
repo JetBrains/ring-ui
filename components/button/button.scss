@@ -114,7 +114,7 @@
   }
 
   .ring-icon {
-    @include vertical-compensation();
+    @include ring-vertical-compensation();
   }
 
   .ring-icon {
