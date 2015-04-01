@@ -26,7 +26,7 @@ $ring-fonts-dir: 'fonts/' !default;
 $ring-font-size: 13px;
 $ring-font-size-smaller: 11px;
 
-@mixin clearfix() {
+@mixin ring-clearfix() {
   &:after {
     clear: both;
     content: '';
@@ -51,7 +51,7 @@ $ring-font-size-smaller: 11px;
   font: 12px Menlo, "Bitstream Vera Sans Mono", "Ubuntu Mono", "Courier New", Courier, monospace;
 }
 
-@mixin vertical-compensation($compensation: -2px, $position: relative) {
+@mixin ring-vertical-compensation($compensation: -2px, $position: relative) {
   position: $position;
   top: $compensation;
 }
