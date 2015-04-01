@@ -87,6 +87,7 @@ var PopupMixin = {
       if (!hasWrapper) {
         instance.setState({_wrapper: wrapper});
       }
+
       return instance;
     }
   },
@@ -213,11 +214,10 @@ var PopupMixin = {
     }
 
     var parent = this.getDOMNode().parentNode;
-
     React.unmountComponentAtNode(parent);
 
-    if (this._wrapper) {
-      document.body.removeChild(this._wrapper);
+    if (this.state._wrapper) {
+      parent.parentNode.removeChild(parent);
     }
   },
 
