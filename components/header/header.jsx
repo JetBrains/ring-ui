@@ -710,10 +710,11 @@ var Header = React.createClass({
           {servicesIcons.map(function(item, i) {
             var serviceLogo = getServiceLogo(item);
             if (serviceLogo && item.homeUrl) {
-              return (this._getLinkElement(item.homeUrl, { title: item.name, key: i }, (<div className={headerClassName.getElement('menu-service-item')}>
-                <Icon size={Icon.Size.Size64} glyph={serviceLogo} className="ring-icon" /><br />
-                {item.name}
-              </div>)));
+              return (this._getLinkElement(item.homeUrl, { title: item.name, key: i, className: headerClassName.getElement('menu-service-item') }, [
+                <Icon size={Icon.Size.Size64} glyph={serviceLogo} className="ring-icon" key={i + 'icon'} />,
+                <br key={i + 'br'} />,
+                <span className={headerClassName.getElement('menu-service-item-text')} key={i + 'text'}>{item.name}</span>
+              ]));
             }
           }, this)}
         </div>);
@@ -755,10 +756,16 @@ var Header = React.createClass({
     var isActive = (currentUrl.replace(/\/$/, '') === href.replace(/\/$/, ''));
 
     if (isActive) {
-      return React.DOM.b(props, children);
+      return React.DOM.b(mixIn({
+        className: headerClassName.getClassName('link', 'active')
+      }, props), children);
     }
 
-    return new Link(mixIn({href: href, target: '_self'}, props), children);
+    return new Link(mixIn({
+      href: href,
+      target: '_self',
+      className: headerClassName.getClassName('link')
+    }, props), children);
   },
 
   /**
