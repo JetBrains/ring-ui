@@ -8,16 +8,16 @@
 
   line-height: normal;
 
-  border-radius: 3px;
+  border-radius: $ring-border-radius;
 }
 
-  .ring-list__i {
-    overflow: auto;
-  }
+.ring-list__i {
+  overflow: auto;
+}
 
-  .ring-list_scrolling .ring-list__item {
-    pointer-events: none;
-  }
+.ring-list_scrolling .ring-list__item {
+  pointer-events: none;
+}
 
 .ring-list__separator {
   display: block;
@@ -46,7 +46,7 @@
   padding: 0 $ring-unit*2;
 
   text-align: left;
-  font-size: 13px;
+  font-size: $ring-font-size;
   line-height: $ring-unit*3;
 
   outline: none;
@@ -141,10 +141,11 @@
 }
 
 .ring-list__checkbox {
-  color: $ring-color-dark-gray;
   position: relative;
   top: -2px;
   width: 20px;
+
+  color: $ring-color-dark-gray;
 
   &_hidden {
     visibility: hidden;

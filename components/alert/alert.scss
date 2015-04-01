@@ -3,11 +3,11 @@
 .ring-alerts {
   left: 0;
   overflow: visible;
+  pointer-events: none;
   position: fixed;
   right: 0;
   top: 0;
   z-index: $ring-alert-z-index;
-  pointer-events: none;
 
   .ring-alert {
     box-shadow: 0 0 8px rgba(0, 0, 0, 0.15);
@@ -16,16 +16,16 @@
 }
 
 .ring-alert {
-  pointer-events: initial;
-  background: #fff;
+  background: #FFF;
   border: solid 1px $ring-border-color;
-  border-radius: 3px;
+  border-radius: $ring-border-radius;
   box-sizing: border-box;
-  font-size: 13px;
+  font-size: $ring-font-size;
   line-height: $ring-unit * 5;
   margin: $ring-unit auto;
   min-height: $ring-unit * 5;
   padding: 0 $ring-unit*2;
+  pointer-events: initial;
   position: relative;
   white-space: nowrap;
 
@@ -54,7 +54,7 @@
 .ring-alert__caption {
   display: inline-block;
   line-height: 1.2;
-  margin: 12px $ring-unit*4 12px 0; // NB! 12px
+  margin: $ring-unit*1.5 $ring-unit*4 $ring-unit*1.5 0;
   vertical-align: middle;
   white-space: normal;
 }

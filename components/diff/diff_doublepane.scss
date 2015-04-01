@@ -65,7 +65,7 @@ $map_borders: 1px;
 }
 
 .ring-diff__menu {
-  font: 13px "Helvetica Neue", Helvetica, Arial;
+  font: $ring-font-size "Helvetica Neue", Helvetica, Arial;
   line-height: $ring-unit * 3;
   padding: 4px 8px;
   overflow: hidden;

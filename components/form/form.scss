@@ -34,7 +34,7 @@
 // Styleguide 7.4
 
 .ring-form {
-  font-size: 13px;
+  font-size: $ring-font-size;
   @include ring-font;
 
   & .ring-input, & .ring-select, & .ring-input_wrapper {
@@ -69,13 +69,13 @@
   padding-right: 16px;
   z-index: 2;
 
-  border-radius: 3px;
+  border-radius: $ring-border-radius;
 
   background: #F00;
   color: #FFF;
 
   @include ring-font;
-  font-size: 13px;
+  font-size: $ring-font-size;
 
   &.active {
     display: inline-block;
@@ -136,7 +136,6 @@
 .ring-form__summary {
   display: block;
   @include ring-font;
-  font-size: 13px;
   line-height: 20px;
   text-align: center;
   color: $ring-color-dark-gray;

@@ -15,16 +15,15 @@
 
 .ring-input {
   box-sizing: border-box;
-  height: 3*$ring-unit;
   width: 100%;
+  height: 3*$ring-unit;
   margin: 0;
-  padding-left: $ring-unit / 2;
   padding-right: $ring-unit/ 2;
+  padding-left: $ring-unit / 2;
   border: 1px solid $ring-color-gray;
   background-color: #FFF;
 
   @include ring-font;
-  font-size: 13px;
   line-height: 20px;
 
   &:active, &:focus, &_active, &_focus {
@@ -74,28 +73,26 @@
 //
 // Styleguide 14.2
 .ring-input__error-bubble {
+  z-index: 2;
   box-sizing: border-box;
-  height: 3*$ring-unit;
   display: none;
   position: absolute;
   top: 0;
   left: 25*$ring-unit + 2;
-  white-space: nowrap;
-  padding-left: 2*$ring-unit;
+  height: 3*$ring-unit;
   padding-right: 2*$ring-unit;
-  z-index: 2;
+  padding-left: 2*$ring-unit;
   line-height: 3*$ring-unit;
 
-  border-radius: 3px;
+  border-radius: $ring-border-radius;
   border: 1px solid #e5e5e5;
 
   @include ring-font;
-  font-size: 13px;
+  white-space: nowrap;
 
   color: $ring-color-error;
   background: #FFF;
   box-shadow: 0 1px 8px 0 rgba(0, 0, 0, 0.15);
-
 
   &.active {
     display: inline-block;
@@ -105,9 +102,6 @@
     content: '';
     transform: rotate(45deg);
     z-index: $ring-invisible-element-z-index;
-    border: 1px solid $ring-color-gray;
-    border-right: none;
-    border-top: none;
 
     position: absolute;
     top: 7px;
@@ -116,6 +110,10 @@
     display: block;
     width: $ring-unit;
     height: $ring-unit;
+
+    border: 1px solid $ring-color-gray;
+    border-right: none;
+    border-top: none;
 
     background: #FFF;
   }

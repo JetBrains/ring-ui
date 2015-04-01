@@ -20,7 +20,7 @@
 
   @include ring-font;
   color: $ring-link-color;
-  font-size: 13px;
+  font-size: $ring-font-size;
 
   border-bottom: 1px solid;
   @include rgba-attribute('border-color', rgba(0, 0, 0, 0.15));
