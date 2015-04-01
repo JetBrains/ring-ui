@@ -778,17 +778,9 @@ var Header = React.createClass({
 
     // todo(igor.alexeenko): Temporary measure. This code is needed to support
     // old properties.
-    if (this.props.showSettings === false) {
-      enabledMenuItems[MenuItemType.SETTINGS] = false;
-    }
-
-    if (this.props.showHelp === false) {
-      enabledMenuItems[MenuItemType.HELP] = false;
-    }
-
-    if (this.props.showServices === false) {
-      enabledMenuItems[MenuItemType.SERVICES] = false;
-    }
+    enabledMenuItems[MenuItemType.SETTINGS] = this.props.showSettings;
+    enabledMenuItems[MenuItemType.HELP] = this.props.showHelp;
+    enabledMenuItems[MenuItemType.SERVICES] = this.props.showServices;
 
     if (enabledMenuItems[itemKey] !== enabled) {
       enabledMenuItems[itemKey] = enabled;
