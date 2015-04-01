@@ -7,6 +7,10 @@
   white-space: nowrap;
 }
 
+.ring-tabs__container {
+  min-height: $ring-unit * 2;
+}
+
 .ring-tabs__btn {
   display: inline-block;
   box-sizing: border-box;
