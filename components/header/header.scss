@@ -42,16 +42,6 @@
   margin-right: $ring-unit*2;
   vertical-align: middle;
 
-  a {
-    color: $ring-link-color;
-    text-decoration: none;
-
-    &:hover {
-      color: $ring-link-hover-color;
-      text-decoration: underline;
-    }
-  }
-
   &:last-child {
     margin-right: 0;
   }
@@ -100,16 +90,6 @@
   text-align: left;
   width: 100%;
 
-  a, a span {
-    color: #FFF;
-    text-decoration: none;
-  }
-
-  a:hover, a:hover span {
-    color: $ring-link-hover-color;
-    text-decoration: underline;
-  }
-
   &.ring2-header__menu-service_opened {
     margin-bottom: $ring-unit*2;
   }
@@ -121,20 +101,20 @@
   position: absolute;
   text-align: center;
   width: 100%;
-
-  b {
-    font-weight: normal;
-  }
 }
 
-.ring2-header__menu-service-item {
+.ring2-header__menu-service-item,
+.ring2-header__menu-service-item.ring-link__active,
+.ring2-header__menu-service-item:visited {
   box-sizing: border-box;
   color: #FFF;
   display: inline-block;
+  font-weight: normal;
   height: $ring-unit*16;
   line-height: 1.2;
   overflow-x: hidden;
   text-align: center;
+  text-decoration: none;
   text-overflow: ellipsis;
   vertical-align: middle;
   width: $ring-unit*16;
@@ -145,6 +125,11 @@
     fill: #fff;
     margin-top: 3*$ring-unit;
     padding-bottom: $ring-unit;
+  }
+
+  &.ring-link:hover {
+    color: $ring-link-hover-color;
+    text-decoration: underline;
   }
 }
 
@@ -161,10 +146,20 @@
   &:last-child {
     margin-right: 0;
   }
+}
 
-  .ring-link, .ring-link:visited, b {
-    color: $ring-color-dark-gray;
-  }
+.ring2-header__link,
+.ring2-header__link:visited,
+.ring2-header__link_active {
+  color: $ring-color-dark-gray;
+}
+
+.ring2-header__link:hover:visited {
+  color: $ring-link-hover-color;
+}
+
+.ring2-header__link_active {
+  font-weight: normal;
 }
 
 // Customize menu icons
