@@ -48,7 +48,7 @@
   margin-right: $ring-unit;
   vertical-align: top;
 
-  @include vertical-compensation(-1px);
+  @include ring-vertical-compensation(-1px);
 }
 
 .ring-alert__caption {
