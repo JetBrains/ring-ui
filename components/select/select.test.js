@@ -1,10 +1,11 @@
 var Select = require('./select');
 var List = require('list/list');
 var React = require('react/addons');
-var renderIntoDocument = require('render-into-document');
 var $ = require('jquery');
+var renderIntoDocument = require('render-into-document');
 
 describe('Select(react)', function () {
+
   var testData = [
     {key: 1, label: 'first1', type: List.ListProps.Type.ITEM},
     {key: 2, label: 'test2', type: List.ListProps.Type.ITEM},

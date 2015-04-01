@@ -1,8 +1,9 @@
+var renderIntoDocument = require('render-into-document');
+
 describe('Checkbox', function () {
   var $ = require('jquery');
   var React = require('react/addons');
   var TestUtils = React.addons.TestUtils;
-  var renderIntoDocument = require('render-into-document');
 
   var Checkbox = require('./checkbox');
   var checkbox;
