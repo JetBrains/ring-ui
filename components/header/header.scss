@@ -15,7 +15,7 @@
     right: $ring-unit * 4;
   }
 
-  @include clearfix();
+  @include ring-clearfix();
   @include ring-font();
 }
 
@@ -27,7 +27,7 @@
 
 .ring-header__logo {
   margin: 0 $ring-unit * 4;
-  @include vertical-compensation(-1px);
+  @include ring-vertical-compensation(-1px);
 }
 
 .ring-header__user-menu {
