@@ -24,9 +24,9 @@
   min-width: $ring-unit*25 - 2;
 
   border: 1px solid;
-    @include rgba-attribute('border-color', rgba(0, 0, 0, 0.15));
+  @include rgba-attribute('border-color', rgba(0, 0, 0, 0.15));
+  border-radius: $ring-border-radius;
 
-  border-radius: 3px;
   background-color: #FFF;
   box-shadow: 0 1px 4px 0 rgba(0, 0, 0, .1);
 }
@@ -36,14 +36,13 @@
 }
 
 .ring-island__header {
-  font-size: 13px;
+  font-size: $ring-font-size;
   line-height: $ring-unit*3 - 1;
 
   border-bottom: 1px solid #B4B4B4;
   border-top-left-radius: 3px;
   border-top-right-radius: 3px;
-  background-color: #EBEBEB;
-  background-image: linear-gradient(to top, #EBEBEB, #FFF);
+  background: #EBEBEB linear-gradient(to top, #EBEBEB, #FFF);
 }
 
 .ring-island__header-btn {
@@ -58,13 +57,16 @@
   color: #6D6D6D;
   border-left: 1px solid #B4B4B4;
   text-shadow: #FFF 0 0 1px;
+
   &:hover {
     background: #E1E1E1 linear-gradient(to top, #E1E1E1, #FFF);
   }
+
   &:active {
     background: #E4E4E4 none;
     box-shadow: 0 0 4px 0 #D3D3D3 inset;
   }
+
   &:last-child {
     border-top-right-radius: 3px;
   }

@@ -25,7 +25,7 @@
   z-index: $ring-overlay-z-index;
   box-sizing: border-box;
 
-  font-size: 13px;
+  font-size: $ring-font-size;
   text-align: center;
 
   border: 1px solid #ADADAD; // IE8-
@@ -33,7 +33,7 @@
 
   background-color: #FFF;
   box-shadow: 0 1px 8px 0 rgba(0, 0, 0, .2);
-  border-radius: 3px;
+  border-radius: $ring-border-radius;
 
   overflow-y: auto;
 
