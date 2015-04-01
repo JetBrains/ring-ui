@@ -45,8 +45,9 @@
 // Styleguide 13.1
 
 .ring-dialog__wrapper {
-  position: fixed;
   z-index: $ring-overlay-z-index;
+
+  position: fixed;
   top: 0;
   bottom: 0;
   left: 0;
@@ -57,6 +58,7 @@
   width: 100%;
 
   text-align: center;
+
   &.active,
   &.ring-dialog__wrapper_active {
     display: block;
@@ -64,33 +66,32 @@
 }
 
 .ring-dialog__container {
-  font-size: 12px;
-
-  position: absolute;
   z-index: 2;
 
-  display: block;
-
+  position: absolute;
   top: 20%;
   left: 0;
   right: 0;
+
+  display: block;
   width: $ring-unit * 50;
   margin: 0 auto;
   padding: 0;
 
-  text-align: left;
+  border: 1px solid #B4B4B4;
+  border-radius: $ring-border-radius;
 
-  border: 1px solid #b4b4b4;
-  border-radius: 3px;
-  background: #fff;
+  background: #FFF;
   box-shadow: 0 0 $ring-unit*4 $ring-unit rgba(0, 0, 0, .2);
 
   @include ring-font;
+  text-align: left;
 }
 
 .ring-dialog__layer {
-  position: absolute;
   z-index: 1;
+
+  position: absolute;
   top: 0;
   bottom: 0;
   left: 0;
@@ -111,34 +112,30 @@
 }
 
 .ring-dialog__footer {
-  font-size: 0;
-
   height: auto;
   padding: 2*$ring-unit 4*$ring-unit 2*$ring-unit 4*$ring-unit;
 
+  font-size: 0;
   text-align: left;
 
   border-bottom-right-radius: 3px;
   border-bottom-left-radius: 3px;
-  background: #e9f8ff;
+  background: #E9F8FF;
 }
 
 .ring-dialog__footer__description {
-  font-size: $ring-font-size-smaller;
   margin-bottom: 2*$ring-unit;
+  font-size: $ring-font-size-smaller;
 }
 
 .ring-dialog__footer__spacer {
   display: inline-block;
-
   height: 100%;
-
   vertical-align: middle;
 }
 
 .ring-dialog__footer__item {
   display: inline-block;
-
   margin-right: 2*$ring-unit;
 
   //Increase selector specificity when ring buttons used as footer items
@@ -148,37 +145,38 @@
 }
 
 .ring-dialog__header {
-  line-height: $ring-unit*3 - 2;
-
   position: relative;
-
   min-height: $ring-unit*3 - 2;
 
-  border-bottom: 1px solid #b4b4b4;
-  border-top-left-radius: 3px;
-  border-top-right-radius: 3px;
-  background-image: linear-gradient(to top, #ebebeb, #fff);
+  line-height: $ring-unit*3 - 2;
+
+  border-bottom: 1px solid #B4B4B4;
+  border-top-left-radius: $ring-border-radius;
+  border-top-right-radius: $ring-border-radius;
+
+  background-image: linear-gradient(to top, #EBEBEB, #FFF);
 }
 
 .ring-dialog__header__title {
-  font-weight: bold;
-
   display: block;
+
+  font-weight: bold;
 
   cursor: move;
   text-align: center;
 }
 
 .ring-dialog__header__close-icon {
-  font-size: 13px;
-
   position: absolute;
   top: 5px;
   right: 6px;
 
+  font-size: $ring-font-size;
+
   cursor: pointer;
 
   color: #B4B4B4;
+
   &:hover {
     color: #8C8C8C;
   }

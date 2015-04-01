@@ -21,7 +21,7 @@ $deleted_highlight: #DEDEDE;
   .CodeMirror {
     background: $background;
     border: solid 1px $ring-color-gray;
-    border-radius: 3px;
+    border-radius: $ring-border-radius;
     height: auto;
     width: 100%;
 

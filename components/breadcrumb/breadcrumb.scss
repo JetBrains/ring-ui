@@ -36,12 +36,11 @@
     display: inline-block;
     height: $ring-unit*2;
     line-height: 14px;
-    font-size: 13px;
+    font-size: $ring-font-size;
   }
 }
 
 .ring-breadcrumb__element {
-
   .ring-breadcrumb {
     display: inline;
   }
@@ -65,14 +64,14 @@
 }
 
 .ring-breadcrumb__element__description {
+  overflow: hidden;
   display: inline-block;
+  position: relative;
+  top: 2px;
   width: 50 * $ring-unit;
   padding-left: 2 * $ring-unit;
-  top: 2px;
-  overflow: hidden;
-  position: relative;
 
-  font-size: 13px;
+  font-size: $ring-font-size;
   line-height: 1;
   text-overflow: ellipsis;
   white-space: nowrap;

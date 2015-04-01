@@ -3,23 +3,21 @@
 .ring-footer {
   position: relative;
   height: $ring-unit*8;
-  margin: $ring-unit*5  $ring-unit*3 0 $ring-unit*3;
+  margin: $ring-unit*5 $ring-unit*4 0 $ring-unit*4;
   padding-top: $ring-unit*2;
-  border-top: 1px solid #e5e5e5;
+  border-top: 1px solid #E5E5E5;
 
   color: #6E6E6E;
   text-align: center;
   font-size: 11px !important;
   @include ring-font();
 
-  margin: $ring-unit*5  $ring-unit*4 0 $ring-unit*4;
-
   &.ring-footer_floating {
-    bottom: 0;
     position: absolute;
-    margin-left: 0;
-    margin-right: 0;
+    bottom: 0;
     width: 100%;
+    margin-right: 0;
+    margin-left: 0;
   }
 }
 

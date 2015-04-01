@@ -6,7 +6,7 @@
   border-spacing: 0;
   border-collapse: collapse;
   background-color: transparent;
-  font-size: 13px;
+  font-size: $ring-font-size;
 }
 
 .ring-table__header {
@@ -67,9 +67,9 @@
 .ring-table__toggle {
   display: inline-block;
   position: relative;
-  height: 9px;
-  width: 12px;
   top: 14px;
+  width: 12px;
+  height: 9px;
 
   margin-left: $ring-unit*2;
   padding-bottom: $ring-unit*2;
@@ -173,8 +173,8 @@
 
 .ring-table__column_gap {
   border-color: #B4B4B4;
-  padding-left: $ring-unit*2 !important;
   border-right-style: solid;
+  padding-left: $ring-unit*2 !important;
 }
 
 .ring-table__column-title {
