@@ -304,12 +304,6 @@ var MenuItemsSequence = [
   MenuItemType.LOGIN
 ];
 
-/**
- * @type {Object.<MenuItemType, ReactComponent>}
- * @private
- */
-var _menuItems = null;
-
 
 /**
  * @constructor
@@ -637,7 +631,7 @@ var Header = React.createClass({
         headerClassName.getElement('user-menu-item'), true,
         headerClassName.getClassName('user-menu-item', 'login'), true));
 
-    _menuItems = Global.createObject(
+    var menuItems = Global.createObject(
         MenuItemType.SETTINGS, (<MenuItem key="settings" ref="settings" glyph="cog1" href={this.props.settingsLink} onOpen={this.props.onSettingsOpen} onClose={this.props.onSettingsClose} />),
         MenuItemType.HELP, (<MenuItem key="help" ref="help" glyph="help" href={this.props.helpLink} onOpen={this.props.onHelpOpen} onClose={this.props.onHelpClose} />),
         MenuItemType.SERVICES, (<MenuItem key="services" ref="services" glyph="services" onOpen={this._onServicesOpen} onClose={this._onServicesClose} title="Services" />),
@@ -646,7 +640,7 @@ var Header = React.createClass({
 
     return MenuItemsSequence.map(function(item) {
       if (this.props.enabledMenuItems[item]) {
-        return _menuItems[item];
+        return menuItems[item];
       }
     }, this);
   },
@@ -860,7 +854,7 @@ HeaderHelper.setUserMenu = function(header, auth, translationsDict) {
     }
 
     if (response.avatar && response.avatar.type !== 'defaultavatar') {
-      header.setProfilePicture(response.avatar.pictureUrl);
+      header.setProfilePicture(response.avatar.url);
     }
 
     header.refs['userMenu'].setTitle(response.name);
