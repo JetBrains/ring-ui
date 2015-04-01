@@ -4,16 +4,16 @@
   <div class="ring-form__control">
     <div class="ring-form__update-text" ng-form="form">
       <input name="input" ng-attr-id="{{ inputId }}" ng-if="!isMultiLine()"
-             class="ring-input ring-form__update-text__field"
-             ng-class="isLong() && 'ring-form__update-text__field_long'"
+             class="ring-input ring-form__update-text-field"
+             ng-class="isLong() && 'ring-form__update-text-field_long'"
              ng-model="item[field]" ng-disabled="ngDisabled"
              placeholder="{{ placeholder }}"
              ng-attr-type="{{ type }}"
              ng-required="!isMultiLine() && ngRequired"
              ng-keydown="inputKey($event)"/>
             <textarea name="input" ng-attr-id="{{ inputId }}" ng-if="isMultiLine()" msd-elastic="\n"
-                      class="ring-input ring-form__update-text__field ring-form__update-text__field_high"
-                      ng-class="isLong() && 'ring-form__update-text__field_long'"
+                      class="ring-input ring-form__update-text-field ring-form__update-text-field_high"
+                      ng-class="isLong() && 'ring-form__update-text-field_long'"
                       ng-model="item[field]" ng-disabled="ngDisabled"
                       ng-required="isMultiLine() && ngRequired"
                       placeholder="{{ placeholder }}"
