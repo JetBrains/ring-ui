@@ -8,7 +8,7 @@
   background-color: #FFF;
 
   @include ring-font;
-  font-size: 13px;
+  font-size: $ring-font-size;
   line-height: 20px;
 
   &:active, &:focus,

@@ -1,16 +1,19 @@
 @import "../global/global";
 
 .ring-badge {
+  margin: 0 $ring-unit;
+  padding: 2px $ring-unit;
+  border: 1px #F0F0F0 solid;
+  border-radius: $ring-border-radius;
+
+  color: #8C8C8C;
+  background-color: #FFF;
+
   font-style: normal;
   font-weight: normal;
   font-size: $ring-font-size-smaller;
+
   vertical-align: middle;
-  margin: 0 $ring-unit;
-  padding: 2px $ring-unit;
-  border-radius: $ring-border-radius;
-  color: #8C8C8C;
-  background-color: #FFF;
-  border: 1px #F0F0F0 solid;
 }
 
 .ring-badge_valid {
@@ -22,7 +25,7 @@
 }
 
 .ring-badge_disabled {
+  border: none;
   color: #C3120F;
   background-color: #EBD9DA;
-  border: none;
 }

@@ -7,10 +7,9 @@
   top: 0;
   left: 100%;
   min-width: 50%;
+  height: 100%;
 
   padding-top: 2*$ring-unit;
-
-  height: 100%;
 
   overflow: hidden;
   background: #FFF;
@@ -56,19 +55,19 @@
 
 .ring-sidebar__section {
   position: relative;
-  padding: 0 2*$ring-unit 0 5*$ring-unit;
   margin-top: 3*$ring-unit;
+  padding: 0 2*$ring-unit 0 5*$ring-unit;
 }
 
 .ring-sidebar__section-title {
   display: inline-block;
-  font-size: 13px;
+  font-size: $ring-font-size;
   font-weight: bold;
   color: $ring-font-color;
 }
 
 .ring-sidebar__section-text {
-  font-size: 13px;
+  font-size: $ring-font-size;
   color: $ring-font-color;
   line-height: 3*$ring-unit;
 }
