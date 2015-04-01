@@ -3,15 +3,15 @@
 .ring-form__update-text {
   font-size: 0;
 
-  .ring-form__update-text__field {
+  .ring-form__update-text-field {
     width: $ring-unit*30 !important;
   }
 
-  .ring-form__update-text__field_long {
+  .ring-form__update-text-field_long {
     width: $ring-unit*85 !important;
   }
 
-  .ring-form__update-text__field_high {
+  .ring-form__update-text-field_high {
     min-height: $ring-unit*6;
     resize: none;
 
