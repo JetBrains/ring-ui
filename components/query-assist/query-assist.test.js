@@ -1,3 +1,5 @@
+var renderIntoDocument = require('render-into-document');
+
 describe('QueryAssist', function () {
   var browser = require('bowser').browser;
   var QueryAssist = require('./query-assist');
@@ -5,7 +7,6 @@ describe('QueryAssist', function () {
   var $ = require('jquery');
 
   var simulateKeypress = require('simulate-keypress');
-  var renderIntoDocument = require('render-into-document');
 
   var testQuery = 'oooooooooooo';
   var testQueryLength = testQuery.length;
