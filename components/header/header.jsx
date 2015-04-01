@@ -20,7 +20,7 @@ var urlUtils = require('url-utils/url-utils');
  * @type {ClassName}
  * @private
  */
-var headerClassName = new ClassName('ring2-header');
+var headerClassName = new ClassName('ring-header');
 
 
 /**
