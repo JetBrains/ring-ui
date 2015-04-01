@@ -3,7 +3,12 @@
 .ring-checkbox {
   position: relative;
   top: 1px;
+
+  line-height: normal;
+  vertical-align: top;
+
   text-align: left;
+  outline: none;
 }
 
 .ring-checkbox_form-label {
