@@ -273,6 +273,12 @@ var Select = React.createClass({
     this._rebuildMultipleMap(this.state.selected);
   },
 
+  componentWillUnmount: function () {
+    if (this._popup) {
+      this._popup.remove();
+    }
+  },
+
   componentWillReceiveProps: function(newProps) {
     if (newProps.selected) {
       this._rebuildMultipleMap(newProps.selected);
