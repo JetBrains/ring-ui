@@ -75,7 +75,7 @@ var isArray = require('mout/lang/isArray');
     <file name="index.html">
       <h4>Select-ng as dropdown</h4>
       <div ng-app="test" ng-controller="testCtrl as ctrl">
-        <button rg-select options="ctrl.options" type="dropdown" filter="true" on-select="ctrl.onSelect">Click Me &#9660;</button>
+        <button rg-select options="ctrl.options" type="dropdown" filter="true" on-select="ctrl.onSelect(selected)">Click Me &#9660;</button>
         <ol><li ng-repeat="click in ctrl.clicks track by $index">{{click.label}}</li></ol>
       </div>
     </file>
@@ -158,7 +158,8 @@ angular.module('Ring.select', [])
        * @property {Array|Function} scope.options - array for select options or function which should return array or promise
        * @property {Boolean} scope.externalFilter - whether or not select use options function as filter.
        * "filter" property scope.should not be passed in that case.
-       * @property {Function} scope.onSelect - callback to call on items selecting
+       * @property {Function} scope.onSelect - callback to call on items selecting.
+       * Receives "selected" property (<rg-select on-select='doSomethingWith(selected)'>)
        * @property {Function} scope.onOpen - callback to call on select popup opening
        * @property {Function} scope.onClose - callback to call on select popup closing
        * @property {String} scope.label - Label to place on empty select button
@@ -176,9 +177,9 @@ angular.module('Ring.select', [])
         options: '=',
         externalFilter: '=',
         filter: '=?',
-        onSelect: '=',
-        onOpen: '=',
-        onClose: '=',
+        onSelect: '&',
+        onOpen: '&',
+        onClose: '&',
         label: '@',
         labelField: '@',
         selectedLabelField: '@',
@@ -317,23 +318,17 @@ angular.module('Ring.select', [])
             onOpen: function () {
               $scope.$evalAsync(function () {
                 ctrl.loadOptionsToSelect(ctrl.query);
-                if (ctrl.onOpen){
-                  ctrl.onOpen();
-                }
+                ctrl.onOpen();
               });
             },
             onClose: function () {
               $scope.$evalAsync(function () {
-                if (ctrl.onClose) {
-                  ctrl.onClose();
-                }
+                ctrl.onClose();
               });
             },
             onSelect: function (item) {
               $scope.$evalAsync(function () {
-                if (ctrl.onSelect) {
-                  ctrl.onSelect(item);
-                }
+                ctrl.onSelect({selected: item});
               });
             },
             onChange: function (selected) {
