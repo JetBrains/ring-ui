@@ -1,12 +1,12 @@
 @import "../global/global";
 
-.ring2-header {
+.ring-header {
   box-sizing: border-box;
   line-height: $ring-unit * 7;
   margin: 0 0 1px;
   position: relative;
 
-  &.ring2-header_border:after {
+  &.ring-header_border:after {
     border-bottom: solid 1px rgba(0, 0, 0, 0.1);
     bottom: 0;
     content: '';
@@ -19,24 +19,24 @@
   @include ring-font();
 }
 
-.ring2-header__logo,
-.ring2-header__menu {
+.ring-header__logo,
+.ring-header__menu {
   display: inline-block;
   vertical-align: middle;
 }
 
-.ring2-header__logo {
+.ring-header__logo {
   margin: 0 $ring-unit * 4;
   @include vertical-compensation(-1px);
 }
 
-.ring2-header__user-menu {
+.ring-header__user-menu {
   float: right;
   margin-right: $ring-unit * 3;
 }
 
-.ring2-header__menu-item,
-.ring2-header__user-menu-item {
+.ring-header__menu-item,
+.ring-header__user-menu-item {
   display: inline-block;
   line-height: 1.2;
   margin-right: $ring-unit*2;
@@ -47,7 +47,7 @@
   }
 }
 
-.ring2-header__user-menu-item_icon {
+.ring-header__user-menu-item_icon {
   cursor: pointer;
 
   .ring-icon {
@@ -74,15 +74,15 @@
   }
 }
 
-.ring2-header__user-menu-item_login {
+.ring-header__user-menu-item_login {
   margin-left: $ring-unit;
 }
 
-.ring2-header__user-menu-extra {
+.ring-header__user-menu-extra {
   margin-right: $ring-unit*3;
 }
 
-.ring2-header__menu-service {
+.ring-header__menu-service {
   background: linear-gradient(#24353d, #4a565c);
   height: 0;
   overflow: hidden;
@@ -90,12 +90,12 @@
   text-align: left;
   width: 100%;
 
-  &.ring2-header__menu-service_opened {
+  &.ring-header__menu-service_opened {
     margin-bottom: $ring-unit*2;
   }
 }
 
-.ring2-header__menu-service-inner {
+.ring-header__menu-service-inner {
   bottom: 0;
   line-height: $ring-unit * 17;
   position: absolute;
@@ -103,9 +103,9 @@
   width: 100%;
 }
 
-.ring2-header__menu-service-item,
-.ring2-header__menu-service-item.ring-link__active,
-.ring2-header__menu-service-item:visited {
+.ring-header__menu-service-item,
+.ring-header__menu-service-item.ring-link__active,
+.ring-header__menu-service-item:visited {
   box-sizing: border-box;
   color: #FFF;
   display: inline-block;
@@ -133,13 +133,13 @@
   }
 }
 
-.ring2-header__menu-service-line {
+.ring-header__menu-service-line {
   background: #1e2a32;
   font-size: $ring-font-size-smaller;
   line-height: $ring-unit*3;
 }
 
-.ring2-header__menu-service-line__item {
+.ring-header__menu-service-line__item {
   display: inline-block;
   margin-right: $ring-unit*3;
 
@@ -148,22 +148,22 @@
   }
 }
 
-.ring2-header__link,
-.ring2-header__link:visited,
-.ring2-header__link_active {
+.ring-header__link,
+.ring-header__link:visited,
+.ring-header__link_active {
   color: $ring-color-dark-gray;
 }
 
-.ring2-header__link:hover:visited {
+.ring-header__link:hover:visited {
   color: $ring-link-hover-color;
 }
 
-.ring2-header__link_active {
+.ring-header__link_active {
   font-weight: normal;
 }
 
 // Customize menu icons
-.ring2-header__user-menu {
+.ring-header__user-menu {
   .ring-icon_expand1 {
     height: 17px;
     width: 17px;
