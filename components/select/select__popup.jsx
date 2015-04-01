@@ -63,6 +63,10 @@ var SelectPopup = React.createClass({
     });
   },
 
+  remove: function () {
+    this.refs.popup.remove();
+  },
+
   isVisible: function() {
     return this.refs.popup.isVisible();
   },
