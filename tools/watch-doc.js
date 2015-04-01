@@ -20,9 +20,7 @@ var watchOptions = {
 function runScript(scriptPath, args, callback) {
   var process = childProcess.fork(scriptPath, args);
 
-  process.on('error', function (err) {
-    callback(err);
-  });
+  process.on('error', callback);
 
   process.on('exit', function (code) {
     var err = code === 0 ? null : new Error('exit code ' + code);
@@ -36,7 +34,7 @@ watch.watchTree(watchPath, watchOptions, function onChange(file, curr, prev) {
 
   if (typeof file === 'string' && prev !== null && curr !== null && curr.nlink !== 0) {
     // file was changed
-    var fileName = file.match(/[\w-\.]+$/)[0];
+    var fileName = file.match(/[\w.-]+$/)[0];
     console.log('File changed:', fileName);
 
     if (isAlreadyGenerating){
@@ -48,9 +46,10 @@ watch.watchTree(watchPath, watchOptions, function onChange(file, curr, prev) {
     runScript(path.resolve(__dirname, './generate-documentation.js'), [fileName], function (err) {
       isAlreadyGenerating = false;
       if (err) {
-        throw err;
+        console.log(err);
+      } else {
+        console.log('Documentation generated successfully.');
       }
-      console.log('Documentation generated successfully.');
     });
   }
 
