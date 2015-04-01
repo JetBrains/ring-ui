@@ -1,8 +1,11 @@
 var React = require('react/addons');
 
 var containerNode;
-
-afterEach(function() {
+/**
+ * Add after each to top-level suite to be sure that the hook will be called before each test
+ */
+/*global mocha*/
+mocha.suite.afterEach(function() {
   var firstChild;
 
   if (!containerNode || !containerNode.firstChild) {
