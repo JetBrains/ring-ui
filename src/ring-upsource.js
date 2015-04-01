@@ -2,8 +2,9 @@
 
 window.React = require('react');
 
-// Standalone CSS files
+// CSS-only components. Upsource has its own JS implementations of those.
 require('button-group/button-group.scss');
+require('checkbox/checkbox.scss');
 require('scrollbar/scrollbar.scss');
 require('tabs/tabs.scss');
 
