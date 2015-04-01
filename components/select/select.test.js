@@ -5,10 +5,10 @@ var $ = require('jquery');
 
 describe('Select(react)', function () {
   var testData = [
-    {key: 1, label: 'first1'},
-    {key: 2, label: 'test2'},
-    {key: 3, label: 'test3'},
-    {key: 4, label: 'four4'}
+    {key: 1, label: 'first1', type: List.ListProps.Type.ITEM},
+    {key: 2, label: 'test2', type: List.ListProps.Type.ITEM},
+    {key: 3, label: 'test3', type: List.ListProps.Type.ITEM},
+    {key: 4, label: 'four4', type: List.ListProps.Type.ITEM}
   ];
 
   beforeEach(function () {
@@ -165,6 +165,15 @@ describe('Select(react)', function () {
         filter: true,
         multiple: true
       }));
+
+      /**
+       * Disable code running in setTimeout to avoid side effects
+       */
+      this.clock = this.sinon.useFakeTimers();
+    });
+
+    afterEach(function () {
+      this.clock.restore();
     });
 
     it('Should fill _multipleMap on initialization', function () {
