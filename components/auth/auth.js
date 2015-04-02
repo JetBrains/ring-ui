@@ -214,13 +214,16 @@ Auth.prototype.init = function () {
           self._initDeferred.resolve(state && state.restoreLocation);
           return state && state.restoreLocation;
         }, function (error) {
+          // TODO Remove after "redirect: false" is default, i.e. after Hub 1.0 everywhere
+          var shouldRedirect = self.config.redirect && self.config.redirect !== 'background-unsafe';
+
           // Redirect flow
-          if (error.authRedirect && self.config.redirect) {
+          if (error.authRedirect && shouldRedirect) {
             return sendRedirect(error);
           }
 
           // Background flow
-          if (error.authRedirect && !self.config.redirect) {
+          if (error.authRedirect && !shouldRedirect) {
             return self._loadTokenInBackground().
               then(validateToken).
               then(function () {
