@@ -103,7 +103,7 @@
 }
 
 .ring-form_border {
-  border: 1px solid $ring-color-gray;
+  border: 1px solid $ring-gray-color;
   border-radius: 2px;
 }
 
@@ -138,14 +138,14 @@
   @include ring-font;
   line-height: 20px;
   text-align: center;
-  color: $ring-color-dark-gray;
+  color: $ring-dark-gray-color;
 }
 
 .ring-form__control__description {
   padding-top: $ring-unit;
   font-size: 11px;
   line-height: 16px !important;
-  color: $ring-color-dark-gray;
+  color: $ring-dark-gray-color;
 }
 
 .ring-form__title-img {
@@ -242,11 +242,11 @@
 }
 
 .ring-form__control_on {
-  color: $ring-color-green;
+  color: $ring-green-color;
 }
 
 .ring-form__control_off {
-  color: $ring-color-error;
+  color: $ring-error-color;
 }
 
 .ring-form__control-link {

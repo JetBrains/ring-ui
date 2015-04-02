@@ -29,7 +29,7 @@
 }
 
 .ring-sidebar__toggle-icon {
-  color: $ring-color-dark-gray;
+  color: $ring-dark-gray-color;
 }
 
 .ring-sidebar__avatar {
@@ -63,12 +63,12 @@
   display: inline-block;
   font-size: $ring-font-size;
   font-weight: bold;
-  color: $ring-font-color;
+  color: $ring-text-color;
 }
 
 .ring-sidebar__section-text {
   font-size: $ring-font-size;
-  color: $ring-font-color;
+  color: $ring-text-color;
   line-height: 3*$ring-unit;
 }
 
@@ -83,7 +83,7 @@
 
   width: 5*$ring-unit;
 
-  color: $ring-color-dark-gray;
+  color: $ring-dark-gray-color;
   font-size: 12px;
   text-align: center;
 }
@@ -96,10 +96,10 @@
 
 .ring-sidebar__empty-icon {
   font-size: 100px;
-  color: $ring-color-gray;
+  color: $ring-gray-color;
 }
 
 .ring-sidebar__empty-description {
   margin-top: $ring-unit*2;
-  color: $ring-color-dark-gray;
+  color: $ring-dark-gray-color;
 }

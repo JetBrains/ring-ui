@@ -20,7 +20,7 @@ $deleted_highlight: #DEDEDE;
 .ring-diff_single {
   .CodeMirror {
     background: $background;
-    border: solid 1px $ring-color-gray;
+    border: solid 1px $ring-gray-color;
     border-radius: $ring-border-radius;
     height: auto;
     width: 100%;
