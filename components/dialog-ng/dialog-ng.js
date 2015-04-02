@@ -149,7 +149,7 @@ angular.module('Ring.dialog', []).
         };
 
         iDocument.on('focusin.' + DIALOG_NAMESPACE, function (e) {
-          if (!$.contains(iElement[0], e.target)) {
+          if (!$.contains(iElement[0], e.target) && e.target.className.indexOf('popup') === -1) {
             e.preventDefault();
             focusFirst();
           }
