@@ -11,6 +11,7 @@ angular.module('Ring.form')
     function ($timeout, RingMessageBundle) {
       return {
         replace: true,
+        transclude: true,
         scope: {
           label: '@',
           description: '@',
