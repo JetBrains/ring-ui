@@ -13,8 +13,9 @@ var isArray = require('mout/lang/isArray');
 <example name="Select-ng">
   <file name="index.html">
     <div ng-app="test" ng-controller="testCtrl as ctrl">
-      <rg-select ng-model="ctrl.selectedItem" options="ctrl.options" key-field="id" label-field="text" label="Select item"></rg-select>
+      <rg-select ng-model="ctrl.selectedItem" options="ctrl.options" key-field="id" label-field="text" label="Select item" ng-disabled="ctrl.disabled"></rg-select>
       <div>Selected item: {{ctrl.selectedItem | json}}</div>
+      <div><button ng-click="ctrl.disabled = true">Disable</button><button ng-click="ctrl.disabled = false">Enable</button></div>
     </div>
   </file>
   <file name="index.js" webpack="true">
@@ -196,7 +197,7 @@ angular.module('Ring.select', [])
 
         rgSelectCtrl.setNgModelCtrl(ngModelCtrl);
       },
-      controller: function ($q, $scope, $element) {
+      controller: function ($q, $scope, $element, $attrs) {
         /*eslint-disable consistent-this*/
         var ctrl = this;
         /*eslint-enable consistent-this*/
@@ -281,6 +282,12 @@ angular.module('Ring.select', [])
           }, setSelectModel, true);
         }
 
+        function syncDisabled() {
+          $attrs.$observe('disabled', function (newValue) {
+            ctrl.selectInstance.setProps({disabled: newValue})
+          });
+        }
+
         function attachDropdownIfNeeded() {
           if (ctrl.type === 'dropdown') {
             element.addEventListener('click', function () {
@@ -308,6 +315,7 @@ angular.module('Ring.select', [])
             label: ctrl.label,
             filter: ctrl.filter,
             type: getSelectType(),
+            disabled: ctrl.disabled,
             targetElement: ctrl.type === 'dropdown' ? $element[0] : null,
             onOpen: function () {
               $scope.$evalAsync(function () {
@@ -351,6 +359,7 @@ angular.module('Ring.select', [])
 
           ctrl.selectInstance = React.renderComponent(new Select(ctrl.config), container);
           syncNgModelToSelect();
+          syncDisabled();
           attachDropdownIfNeeded();
         }
         activate();
