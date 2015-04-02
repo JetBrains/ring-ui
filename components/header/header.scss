@@ -51,7 +51,7 @@
   cursor: pointer;
 
   .ring-icon {
-    fill: $ring-color-gray;
+    fill: $ring-gray-color;
     padding: $ring-unit;
   }
 
@@ -62,7 +62,7 @@
   }
 
   .ring-icon_blue {
-    fill: $ring-color-blue;
+    fill: $ring-blue-color;
   }
 
   .ring-icon_24 {
@@ -151,7 +151,7 @@
 .ring-header__link,
 .ring-header__link:visited,
 .ring-header__link_active {
-  color: $ring-color-dark-gray;
+  color: $ring-dark-gray-color;
 }
 
 .ring-header__link:hover:visited {

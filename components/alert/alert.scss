@@ -37,7 +37,7 @@
 }
 
 .ring-alert_error {
-  color: $ring-color-error;
+  color: $ring-error-color;
   word-wrap: break-word;
 }
 
@@ -60,7 +60,7 @@
 }
 
 .ring-icon.ring-alert__close {
-  fill: $ring-color-gray;
+  fill: $ring-gray-color;
   cursor: pointer;
   padding: 0 $ring-unit;
   position: absolute;

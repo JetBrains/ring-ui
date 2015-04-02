@@ -36,7 +36,7 @@
   &.active,
   &.ring-tabs__btn_active,
   &.ring-tabs__btn_focus:before {
-    color: $ring-font-color;
+    color: $ring-text-color;
     outline: 0;
     user-select: none;
 
@@ -89,7 +89,7 @@
 .ring-tabs__btn_disabled,
 .ring-tabs__btn.disabled,
 .ring-tabs__btn[disabled] {
-  color: $ring-color-dark-gray !important;
+  color: $ring-dark-gray-color !important;
 }
 
 .ring-tabs__btn__counter {
