@@ -136,7 +136,46 @@ var isArray = require('mout/lang/isArray');
     });
     </file>
   </example>
-*/
+  <example name="Select-ng-form">
+    <file name="index.html">
+      <h4>Form with validation</h4>
+
+      <div ng-app="test" ng-controller="testCtrl as ctrl">
+        <form name="testForm" class="ring-form ring-form_border" novalidate>
+          <div class="ring-form__wrap">
+            <div class="ring-form__control">
+              <label class="ring-form__label" translate>Required item:</label>
+              <rg-select ng-model="ctrl.item1" options="ctrl.options"
+                         label="Select item" required name="requiredSelect"></rg-select>
+
+               <div class="installer-form__error-hint ring-input__error-bubble active" ng-if="testForm.requiredSelect.$invalid">
+                  Error {{testForm.requiredSelect.$error}}
+               </div>
+            </div>
+            <button ng-disabled="testForm.$invalid">Submit</button>
+            </div>
+            <div>Errors: {{testForm.$error}}</div>
+          </form>
+        </div>
+
+      </file>
+      <file name="index.js" webpack="true">
+        require('angular/angular.min.js');
+        require('select-ng/select-ng');
+        require('form/form');
+        require('form-ng/form-ng');
+
+        angular.module('test', ['Ring.select', 'Ring.form']).controller('testCtrl', function() {
+        var ctrl = this;
+
+        //It is not required to use array of strings. Just for example
+        ctrl.options = ['1','22','333', '4444'];
+
+        ctrl.selectedItem = null;
+      });
+      </file>
+    </example>
+ */
 /* global angular: false */
 angular.module('Ring.select', [])
   .directive('rgSelect', function () {
@@ -229,8 +268,8 @@ angular.module('Ring.select', [])
         ctrl.convertNgModelToSelect = function(model) {
           var convertItem = function (item) {
             return angular.extend({
-              key: item[ctrl.keyField || defaultKey],
-              label: item[ctrl.labelField || defaultLabel],
+              key: item[ctrl.keyField || defaultKey] || item,
+              label: item[ctrl.labelField || defaultLabel] || item,
               selectedLabel: ctrl.selectedFormatter ? ctrl.selectedFormatter(item) : item[ctrl.selectedLabelField || defaultSelectedLabel],
               originalModel: item
             }, item);
