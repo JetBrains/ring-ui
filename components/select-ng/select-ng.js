@@ -315,7 +315,6 @@ angular.module('Ring.select', [])
             label: ctrl.label,
             filter: ctrl.filter,
             type: getSelectType(),
-            disabled: ctrl.disabled,
             targetElement: ctrl.type === 'dropdown' ? $element[0] : null,
             onOpen: function () {
               $scope.$evalAsync(function () {
