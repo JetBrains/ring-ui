@@ -90,14 +90,14 @@ permissionsModule.directive('permission', [
         //noinspection JSPotentiallyInvalidUsageOfThis
         this.permitted = false;
 
+        $element.hide();
+
         var self = this;
         userPermissions.check($attrs.permission, $scope.$eval($attrs.inSpace)).
           then(function (permitted) {
             self.permitted = permitted;
             if (permitted) {
               $element.show();
-            } else {
-              $element.hide();
             }
             return permitted;
           }).
