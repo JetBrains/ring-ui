@@ -1,6 +1,7 @@
 require('angular/angular');
 require('angular-mocks/angular-mocks');
 require('./select-ng');
+var $ = require('jquery');
 var Select = require('select/select');
 
 /* global inject, angular */
@@ -166,6 +167,12 @@ describe('SelectNg', function () {
       compileTemplate('<rg-select options="dataSource" external-filter="true" ng-model="selectedItem"></rg-select>');
 
       expect(ctrl.filter.fn()).to.be.true;
+    });
+
+    it('Should be disabled if disabled', function () {
+      compileTemplate('<rg-select options="items" ng-model="selectedItem" disabled="true"></rg-select>');
+
+      $(element[0]).should.have.descendants('.ring-select_disabled');
     });
   });
 
