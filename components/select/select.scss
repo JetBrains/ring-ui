@@ -3,7 +3,7 @@
 .ring-select {
   display: inline-block;
   position: relative;
-  color: $ring-font-color;
+  color: $ring-text-color;
 
   &_input-mode {
     .ring-select__icons {
@@ -29,7 +29,7 @@
 
     &:hover {
       color: #FFF;
-      background-color: $ring-color-blue;
+      background-color: $ring-blue-color;
       cursor: pointer;
     }
 

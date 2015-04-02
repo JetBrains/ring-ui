@@ -20,19 +20,19 @@
   margin: 0;
   padding-right: $ring-unit/ 2;
   padding-left: $ring-unit / 2;
-  border: 1px solid $ring-color-gray;
+  border: 1px solid $ring-gray-color;
   background-color: #FFF;
 
   @include ring-font;
   line-height: 20px;
 
   &:active, &:focus, &_active, &_focus {
-    border-color: $ring-color-blue;
+    border-color: $ring-blue-color;
     outline: 0;
   }
 
   &_correct {
-    border-color: $ring-color-green;
+    border-color: $ring-green-color;
   }
 
   &_error {
@@ -90,7 +90,7 @@
   @include ring-font;
   white-space: nowrap;
 
-  color: $ring-color-error;
+  color: $ring-error-color;
   background: #FFF;
   box-shadow: 0 1px 8px 0 rgba(0, 0, 0, 0.15);
 
@@ -111,7 +111,7 @@
     width: $ring-unit;
     height: $ring-unit;
 
-    border: 1px solid $ring-color-gray;
+    border: 1px solid $ring-gray-color;
     border-right: none;
     border-top: none;
 

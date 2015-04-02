@@ -2,19 +2,23 @@
 
 $ring-unit: 8px;
 
+$ring-text-color: #1A1A1A;
+
 $ring-link-color:  #1866C5;
 $ring-link-hover-color: #FF5A00;
-$ring-color-error: #C10000;
-$ring-color-gray: #CCC;
-$ring-color-dark-gray: #888;
-$ring-color-green: #84AB28;
-$ring-color-blue: #25B7FF;
 
-$ring-outline-color: rgba(37, 183, 255, 0.5);
+$ring-error-color: #C10000;
+
+$ring-gray-color: #CCC;
+$ring-dark-gray-color: #888;
+
+$ring-green-color: #84AB28;
+$ring-blue-color: #25B7FF;
+
 $ring-border-color: rgba(0, 0, 0, 0.2);
-$ring-border-radius: 3px;
+$ring-outline-color: rgba(37, 183, 255, 0.5);
 
-$ring-font-color: #1A1A1A;
+$ring-border-radius: 3px;
 
 @mixin rgba-attribute($attribute, $color, $background: #FFF) {
   $solid-color: mix(opacify($color, 1), $background, alpha($color) * 100%);
@@ -35,7 +39,7 @@ $ring-font-size-smaller: 11px;
 }
 
 @mixin ring-font($font-size: $ring-font-size) {
-  color: $ring-font-color;
+  color: $ring-text-color;
   font-family: "Helvetica Neue", Arial, sans-serif;
   font-size: $font-size;
 }
@@ -56,12 +60,14 @@ $ring-font-size-smaller: 11px;
   top: $compensation;
 }
 
-// Constant values for z-indexes.
+// Common z-index-values
 
-// Invisible element is absolutely positioned element, which should be below
+// Invisible element is an absolutely positioned element which should be below
 // all other elements on the page.
 $ring-invisible-element-z-index: -1;
+
 // Elements which should overlay all other elements on the page.
 $ring-overlay-z-index: 5;
+
 // Alerts, which should de displayed above overlays.
 $ring-alert-z-index: 6;

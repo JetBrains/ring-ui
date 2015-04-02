@@ -20,7 +20,7 @@ $map_borders: 1px;
 
 .ring-diff__map {
   background: #f7f7f7;
-  border: solid 1px $ring-color-gray;
+  border: solid 1px $ring-gray-color;
   border-left: none;
   box-sizing: border-box;
   float: right;
@@ -97,7 +97,7 @@ $map_borders: 1px;
 }
 
 .ring-diff_doublepane .CodeMirror {
-  border: solid 1px $ring-color-gray;
+  border: solid 1px $ring-gray-color;
   box-sizing: border-box;
   @include ring-monospace-font();
   height: 100%;
