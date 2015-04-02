@@ -284,7 +284,7 @@ angular.module('Ring.select', [])
 
         function syncDisabled() {
           $attrs.$observe('disabled', function (newValue) {
-            ctrl.selectInstance.setProps({disabled: newValue})
+            ctrl.selectInstance.setProps({disabled: newValue});
           });
         }
 
