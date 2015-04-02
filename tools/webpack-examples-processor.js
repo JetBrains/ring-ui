@@ -63,6 +63,7 @@ module.exports = function webpackExampleProcessor(exampleMap) {
        */
       var config = merge(webpackConfig);
       config.entry = entryFilePath;
+      config.externals = {};
       config.output = {
         path: '/',
         filename: 'test.js'
