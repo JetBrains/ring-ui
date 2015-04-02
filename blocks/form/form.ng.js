@@ -17,10 +17,23 @@
         templateUrl: 'form/ring-input__error-bubble.ng.html',
         link: function (scope, iElement) {
           scope.style = {};
-          var element = iElement.siblings('input, textarea');
-          if (element.length) {
-            scope.style.left = element.outerWidth() + 2;
+          var siblings = Array.prototype.slice.call(iElement.parent().children());
+          var input;
+          var tagName;
+
+          for (var i = 0; i < siblings.length; i++) {
+            tagName = siblings[i].tagName.toLowerCase();
+
+            if (tagName === 'input' || tagName === 'textarea') {
+              input = siblings[i];
+              break;
+            }
           }
+
+          if (input) {
+            scope.style.left = input.offsetWidth + 2 + 'px';
+          }
+
           scope.msg = function (id) {
             return bundle[id] && bundle[id]();
           };
