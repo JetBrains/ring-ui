@@ -59,7 +59,7 @@
 }
 
 .ring-breadcrumb__element_active, .ring-breadcrumb .active {
-  color: $ring-font-color;
+  color: $ring-text-color;
   cursor: default;
 }
 
@@ -78,5 +78,5 @@
 }
 
 .ring-breadcrumb__sep {
-  color: $ring-color-gray;
+  color: $ring-gray-color;
 }
