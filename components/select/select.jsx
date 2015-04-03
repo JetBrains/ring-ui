@@ -618,7 +618,7 @@ var Select = React.createClass({
       </span>);
     }
 
-    icons.push(<Icon glyph="caret-down" size={Icon.Size.Size14} />);
+    icons.push(<Icon glyph="caret-down" size={Icon.Size.Size16} />);
 
     return icons;
   },
