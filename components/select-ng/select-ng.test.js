@@ -205,13 +205,49 @@ describe('SelectNg', function () {
       expect(ctrl.selectInstance.state.selected.label).to.equal('test1');
     });
 
-    it('Should support functions', function () {
+    it('Should support function as label', function () {
       scope.getLabel = this.sinon.stub().returns('test label');
 
-      compileTemplate('<rg-select options="getLabel(item) for item in items" ng-model="selectedItem"></rg-select>');
+      compileTemplate('<rg-select options="getLabel(item) for item in items track by item.id" ng-model="selectedItem"></rg-select>');
 
       ctrl.optionsParser.getLabel(fakeItems[0]).should.equal('test label');
       scope.getLabel.should.been.calledWith(fakeItems[0]);
+    });
+
+    it('Should support custom key field with "track by" expression', function () {
+      compileTemplate('<rg-select options="item in items track by item.id" ng-model="selectedItem"></rg-select>');
+
+      ctrl.optionsParser.getKey(scope.selectedItem).should.equal(scope.selectedItem.id);
+    });
+
+    it('Should support custom label field', function () {
+      scope.options = [{key: 1, name: 'testname'}];
+
+      compileTemplate('<rg-select options="item.name for item in options"></rg-select>');
+
+      ctrl.optionsParser.getLabel(scope.options[0]).should.equal(scope.options[0].name);
+    });
+
+    it('Should support description', function () {
+      scope.options = [{key: 1, fullText: 'testname'}];
+
+      compileTemplate('<rg-select options="item.name select as item.fullText for item in options"></rg-select>');
+
+      ctrl.optionsParser.getSelectedLabel(scope.options[0]).should.equal(scope.options[0].fullText);
+    });
+
+    it('Should support selected label customization', function () {
+      scope.options = [{key: 1, fullText: 'testname'}];
+
+      compileTemplate('<rg-select options="item.name select as item.fullText for item in options"></rg-select>');
+
+      ctrl.optionsParser.getSelectedLabel(scope.options[0]).should.equal(scope.options[0].fullText);
+    });
+
+    it('Should parse option variable name', function () {
+      compileTemplate('<rg-select options="itemvar in items track by itemvar.id"></rg-select>');
+
+      ctrl.optionsParser.optionVariableName.should.be.equal('itemvar');
     });
   });
 });
