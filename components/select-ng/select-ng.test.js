@@ -46,7 +46,7 @@ describe('SelectNg', function () {
     });
 
     it('Should not render select if type=dropdown', function () {
-      compileTemplate('<rg-select options="item in items" ng-model="selectedItem" type="dropdown"></rg-select>');
+      compileTemplate('<rg-select options="item as item.name for item in items track by item.id" ng-model="selectedItem" type="dropdown"></rg-select>');
 
       expect(element).to.not.have.descendants('.ring-select');
     });
@@ -59,14 +59,14 @@ describe('SelectNg', function () {
 
     it('Should extend passed config', function () {
       scope.config = {someField: 'test'};
-      compileTemplate('<rg-select options="item in items" ng-model="selectedItem" config="config"></rg-select>');
+      compileTemplate('<rg-select options="item as item.name for item in items track by item.id" ng-model="selectedItem" config="config"></rg-select>');
 
       expect(ctrl.config.someField).to.equal('test');
     });
 
     it('Should work without ng-model', function () {
       var initDirective = function () {
-        compileTemplate('<rg-select options="item in items"></rg-select>');
+        compileTemplate('<rg-select options="item as item.name for item in items track by item.id"></rg-select>');
       };
       expect(initDirective).to.not.throw;
     });
@@ -164,41 +164,54 @@ describe('SelectNg', function () {
     it('If externalFilter enabled should provide custom filter.fn which should always return true', function () {
       scope.dataSource = this.sinon.stub().returns(fakeItems);
 
-      compileTemplate('<rg-select options="item in items" external-filter="true" ng-model="selectedItem"></rg-select>');
+      compileTemplate('<rg-select options="item as item.name for item in items track by item.id" external-filter="true" ng-model="selectedItem"></rg-select>');
 
       expect(ctrl.filter.fn()).to.be.true;
     });
 
     it('Should be disabled if disabled', function () {
-      compileTemplate('<rg-select options="item in items" ng-model="selectedItem" disabled="true"></rg-select>');
+      compileTemplate('<rg-select options="item as item.name for item in items track by item.id" ng-model="selectedItem" disabled="true"></rg-select>');
 
       $(element[0]).should.have.descendants('.ring-select_disabled');
     });
   });
 
-  describe('Options parser', function () {
+  describe.only('Options parser', function () {
     it('Should support syntax "item in items"', function () {
+      scope.items = [{key: 1, label: 'test1'}];
       compileTemplate('<rg-select options="item in items" ng-model="selectedItem"></rg-select>');
       ctrl.config.onOpen();
       scope.$digest();
-      expect(ctrl.selectInstance.props.data.length).to.equal(fakeItems.length);
+      expect(ctrl.selectInstance.props.data.length).to.equal(1);
     });
 
     it('Should support "item for item in items"', function () {
+      scope.items = [{key: 1, label: 'test1'}];
       compileTemplate('<rg-select options="item for item in items" ng-model="selectedItem"></rg-select>');
       ctrl.config.onOpen();
       scope.$digest();
-      expect(ctrl.selectInstance.props.data.length).to.equal(fakeItems.length);
+      expect(ctrl.selectInstance.props.data[0].key).to.equal(scope.items[0].key);
     });
 
     it('Should support labeling item', function () {
-      compileTemplate('<rg-select options="item as item.name for item in items" ng-model="selectedItem"></rg-select>');
+      compileTemplate('<rg-select options="item as item.name for item in items track by item.id" ng-model="selectedItem"></rg-select>');
       expect(ctrl.selectInstance.state.selected.label).to.equal(fakeItems[2].name);
     });
 
     it('Should support labeling item simple syntax', function () {
+      scope.items = [{key: 1, name: 'test1'}];
+      scope.selectedItem = scope.items[0];
       compileTemplate('<rg-select options="item.name for item in items" ng-model="selectedItem"></rg-select>');
-      expect(ctrl.selectInstance.state.selected.label).to.equal(fakeItems[2].name);
+      expect(ctrl.selectInstance.state.selected.label).to.equal('test1');
+    });
+
+    it('Should support functions', function () {
+      scope.getLabel = this.sinon.stub().returns('test label');
+
+      compileTemplate('<rg-select options="getLabel(item) for item in items" ng-model="selectedItem"></rg-select>');
+
+      ctrl.optionsParser.getLabel(fakeItems[0]).should.equal('test label');
+      scope.getLabel.should.been.calledWith(fakeItems[0]);
     });
   });
 });
