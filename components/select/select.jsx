@@ -76,7 +76,7 @@ var generateUniqueId = Global.getUIDGenerator('ring-select-');
 
  React.renderComponent(Select({
   type: Select.Type.INPUT,
-  suggestMode: true
+  suggestOnly: true
  }), document.getElementById('demo'))
  .setProps({data: data});
  </file>
@@ -222,7 +222,7 @@ var Select = React.createClass({
       type: Types.BUTTON,
       targetElement: null, // element to bind popup (select BUTTON or INPUT as default)
       hideSelected: false, // INPUT mode: clear input in any case (smth selected)
-      suggestMode: false, // INPUT mode: hide popup if options is empty, dont show any icons
+      suggestOnly: false, // INPUT mode: hide popup if options is empty, dont show any icons, dont touch filter
 
       maxHeight: 250,      // LIST height!!! without filter and Add button
       minWidth: 'target',  // Popup width!!!
@@ -366,10 +366,11 @@ var Select = React.createClass({
       message = this.props.notFoundMessage;
     }
 
-    if (!data.length && this.props.suggestMode) {
+    if (!data.length && this.props.suggestOnly) {
       if (this._popup.isVisible()) {
         this._hidePopup();
       }
+      this.props.onOpen();
       return;
     }
 
@@ -552,10 +553,12 @@ var Select = React.createClass({
 
   _onClose: function() {
     if (this.isInputMode()) {
-      if (this.props.hideSelected || !this.state.selected || this.props.multiple) {
-        this.clearFilter();
-      } else if (this.state.selected) {
-        this.filterValue(this._getItemLabel(this.state.selected));
+      if (!this.props.suggestOnly) {
+        if (this.props.hideSelected || !this.state.selected || this.props.multiple) {
+          this.clearFilter();
+        } else if (this.state.selected) {
+          this.filterValue(this._getItemLabel(this.state.selected));
+        }
       }
     }
     this._hidePopup();
@@ -684,7 +687,7 @@ var Select = React.createClass({
             onBlur={this._blurHandler}
             shortcuts={this._inputShortcutsEnabled()}
             placeholder={this._getInputPlaceholder()} />
-          {!this.props.suggestMode && iconsNode}
+          {!this.props.suggestOnly && iconsNode}
         </div>);
     } else if (this.isButtonMode()) {
       return (
