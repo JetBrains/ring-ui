@@ -62,7 +62,7 @@ var noop = function() {};
        var auth = new Auth({
           serverUri: '***REMOVED***/',
           request_credentials: 'skip',
-          redirect_uri: 'https://hub.jetbrains.com/examples/example-QueryAssist/index-testDeployment.html'
+          redirect_uri: window.location.href.split('#')[0]
         });
 
        auth.init().then(function() {
