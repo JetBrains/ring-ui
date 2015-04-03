@@ -41,7 +41,7 @@ require('./select-ng__options');
    <file name="index.html">
      <h4>Getting items from promise on click with external filtering. (Filter value should be equal to label, not just part)</h4>
      <div ng-app="test" ng-controller="testCtrl as ctrl">
-      <rg-select ng-model="ctrl.selectedItem" options="item in ctrl.getItems(query)" label="Select item" external-filter="true"></rg-select>
+      <rg-select ng-model="ctrl.selectedItem" options="item in ctrl.getItems(query)" label="Select item" external-filter="true" loading-message="Hey! I'm loading!"></rg-select>
       <div>Selected item: {{ctrl.selectedItem | json}}</div>
      </div>
    </file>
@@ -224,6 +224,9 @@ angular.module('Ring.select', ['Ring.select.options'])
         onSelect: '&',
         onOpen: '&',
         onClose: '&',
+        onChange: '&',
+        notFoundMessage: '@',
+        loadingMessage: '@',
         config: '=?'
       },
       bindToController: true,
@@ -355,6 +358,8 @@ angular.module('Ring.select', ['Ring.select.options'])
             label: ctrl.label,
             filter: ctrl.filter,
             type: getSelectType(),
+            loadingMessage: ctrl.loadingMessage,
+            notFoundMessage: ctrl.notFoundMessage,
             targetElement: ctrl.type === 'dropdown' ? $element[0] : null,
             onOpen: function () {
               $scope.$evalAsync(function () {
@@ -374,6 +379,7 @@ angular.module('Ring.select', ['Ring.select.options'])
             },
             onChange: function (selected) {
               $scope.$evalAsync(function () {
+                ctrl.onChange({selected: selected});
                 ctrl.syncSelectToNgModel(selected);
               });
             },
