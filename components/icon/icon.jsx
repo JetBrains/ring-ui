@@ -129,6 +129,7 @@ var initializeTemplate = function() {
          'burndown',
          'caret-down',
          'caret-right',
+         'caret-up',
          'change',
          'check',
          'chevron-left',
