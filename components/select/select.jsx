@@ -41,7 +41,7 @@ var generateUniqueId = Global.getUIDGenerator('ring-select-');
  </file>
  </example>
 
- <example name="Simple select">
+ <example name="Simple input select">
  <file name="index.html">
  <div id="demo"></div>
  </file>
@@ -50,12 +50,33 @@ var generateUniqueId = Global.getUIDGenerator('ring-select-');
  var Select = require('./select.jsx');
 
  var data = [];
- for(var i = 0; i < 100; i++) {
-  data.push({'label': 'Item long long long long long label ' + i, 'key': i});
+ for(var i = 0; i < 20; i++) {
+  data.push({'label': 'Item ' + i, 'key': i});
  }
 
  React.renderComponent(Select({
   type: Select.Type.INPUT
+ }), document.getElementById('demo'))
+ .setProps({data: data});
+ </file>
+ </example>
+
+ <example name="Simple input select in suggest mode">
+ <file name="index.html">
+ <div id="demo"></div>
+ </file>
+ <file name="index.js" webpack="true">
+ var React = require('react');
+ var Select = require('./select.jsx');
+
+ var data = [];
+ for(var i = 0; i < 20; i++) {
+  data.push({'label': 'Item ' + i, 'key': i});
+ }
+
+ React.renderComponent(Select({
+  type: Select.Type.INPUT,
+  suggestMode: true
  }), document.getElementById('demo'))
  .setProps({data: data});
  </file>
@@ -201,6 +222,7 @@ var Select = React.createClass({
       type: Types.BUTTON,
       targetElement: null, // element to bind popup (select BUTTON or INPUT as default)
       hideSelected: false, // INPUT mode: clear input in any case (smth selected)
+      suggestMode: false, // INPUT mode: hide popup if options is empty, dont show any icons
 
       maxHeight: 250,      // LIST height!!! without filter and Add button
       minWidth: 'target',  // Popup width!!!
@@ -342,6 +364,13 @@ var Select = React.createClass({
       message = this.props.loadingMessage;
     } else if (!data.length) {
       message = this.props.notFoundMessage;
+    }
+
+    if (!data.length && this.props.suggestMode) {
+      if (this._popup.isVisible()) {
+        this._hidePopup();
+      }
+      return;
     }
 
     this._popup.setProps({
@@ -638,6 +667,8 @@ var Select = React.createClass({
       'padding-right': 8 + icons.length * 16
     };
 
+    var iconsNode = <span className="ring-select__icons">{icons}</span>;
+
     if (this.isInputMode()) {
       var inputCS = React.addons.classSet({
         'ring-js-shortcuts': true,
@@ -653,13 +684,13 @@ var Select = React.createClass({
             onBlur={this._blurHandler}
             shortcuts={this._inputShortcutsEnabled()}
             placeholder={this._getInputPlaceholder()} />
-          <span className="ring-select__icons">{icons}</span>
+          {!this.props.suggestMode && iconsNode}
         </div>);
     } else if (this.isButtonMode()) {
       return (
         <Button type="button" onClick={this._clickHandler} className={buttonCS} style={style}>
           <span className="ring-select__label">{this._getButtonLabel()}</span>
-          <span className="ring-select__icons">{icons}</span>
+          {iconsNode}
         </Button>);
     } else {
       return (<span></span>);
