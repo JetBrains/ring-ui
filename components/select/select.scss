@@ -7,7 +7,7 @@
 
   &_input-mode {
     .ring-select__icons {
-      top: 2px;
+      top: 4px;
     }
   }
 
@@ -57,6 +57,7 @@
     text-overflow: ellipsis;
     display: inline-block;
     overflow: hidden;
+    vertical-align: middle;
   }
 }
 

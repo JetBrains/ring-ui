@@ -22,6 +22,7 @@ module.exports = {
   PopupMenu: require('popup-menu/popup-menu'),
   ProgressBar: require('progress-bar/progress-bar'),
   QueryAssist: require('query-assist/query-assist'),
+  Select: require('select/select'),
   Shortcuts: require('shortcuts/shortcuts'),
   Textarea: require('textarea/textarea'),
   urlUtils: require('url-utils/url-utils')
