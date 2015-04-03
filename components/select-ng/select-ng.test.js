@@ -101,30 +101,30 @@ describe('SelectNg', function () {
     });
 
     it('Should use default type "Button" if type is not passed', function () {
-      compileTemplate('<rg-select options="item as item.name for item in items track by item.id" ng-model="selectedItem"></rg-select>');
+      compileTemplate('<rg-select options="item.name for item in items track by item.id" ng-model="selectedItem"></rg-select>');
       expect(ctrl.selectInstance.props.type).to.equal(Select.Type.BUTTON);
     });
 
     it('Should support type "input"', function () {
-      compileTemplate('<rg-select options="item as item.name for item in items track by item.id" ng-model="selectedItem" type="input"></rg-select>');
+      compileTemplate('<rg-select options="item.name for item in items track by item.id" ng-model="selectedItem" type="input"></rg-select>');
       expect(ctrl.selectInstance.props.type).to.equal(Select.Type.INPUT);
     });
 
     it('Should support type "dropdown', function () {
-      compileTemplate('<rg-select options="item as item.name for item in items track by item.id" ng-model="selectedItem" type="dropdown"></rg-select>');
+      compileTemplate('<rg-select options="item.name for item in items track by item.id" ng-model="selectedItem" type="dropdown"></rg-select>');
       expect(ctrl.selectInstance.props.type).to.equal(Select.Type.CUSTOM);
     });
 
     it('Should support selectedLabelField customization', function () {
       scope.selectedItem.testField = 'test';
-      compileTemplate('<rg-select options="item as item.name select as item.testField for item in items track by item.id" ng-model="selectedItem"></rg-select>');
+      compileTemplate('<rg-select options="item.name select as item.testField for item in items track by item.id" ng-model="selectedItem"></rg-select>');
       expect(ctrl.config.selected.selectedLabel).to.equal('test');
     });
 
     it('Should support selected formater function', function () {
       scope.formatter = this.sinon.stub().returns('Formatted label');
 
-      compileTemplate('<rg-select options="item as item.name select as formatter(item) for item in items track by item.id" external-filter="true" ng-model="selectedItem"></rg-select>');
+      compileTemplate('<rg-select options="item.name select as formatter(item) for item in items track by item.id" external-filter="true" ng-model="selectedItem"></rg-select>');
 
       expect(ctrl.config.selected.selectedLabel).to.equal('Formatted label');
     });
@@ -144,7 +144,7 @@ describe('SelectNg', function () {
     it('Should call datasource on opening', function () {
       scope.dataSource = this.sinon.stub().returns(fakeItems);
 
-      compileTemplate('<rg-select options="item as item.name for item in dataSource(query) track by item.id" external-filter="true" ng-model="selectedItem"></rg-select>');
+      compileTemplate('<rg-select options="item.name for item in dataSource(query) track by item.id" external-filter="true" ng-model="selectedItem"></rg-select>');
 
       ctrl.config.onOpen();
       scope.$digest();
@@ -154,7 +154,7 @@ describe('SelectNg', function () {
     it('Should call datasource on filtering if external filter enabled', function () {
       scope.dataSource = this.sinon.stub().returns(fakeItems);
 
-      compileTemplate('<rg-select options="item as item.name for item in dataSource(query) track by item.id" external-filter="true" ng-model="selectedItem"></rg-select>');
+      compileTemplate('<rg-select options="item.name for item in dataSource(query) track by item.id" external-filter="true" ng-model="selectedItem"></rg-select>');
 
       ctrl.config.onFilter('test');
       scope.$digest();
@@ -193,6 +193,11 @@ describe('SelectNg', function () {
 
     it('Should support labeling item', function () {
       compileTemplate('<rg-select options="item as item.name for item in items" ng-model="selectedItem"></rg-select>');
+      expect(ctrl.selectInstance.state.selected.label).to.equal(fakeItems[2].name);
+    });
+
+    it('Should support labeling item simple syntax', function () {
+      compileTemplate('<rg-select options="item.name for item in items" ng-model="selectedItem"></rg-select>');
       expect(ctrl.selectInstance.state.selected.label).to.equal(fakeItems[2].name);
     });
   });
