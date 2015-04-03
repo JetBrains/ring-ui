@@ -176,7 +176,7 @@ describe('SelectNg', function () {
     });
   });
 
-  describe.only('Options parser', function () {
+  describe('Options parser', function () {
     it('Should support syntax "item in items"', function () {
       scope.items = [{key: 1, label: 'test1'}];
       compileTemplate('<rg-select options="item in items" ng-model="selectedItem"></rg-select>');
