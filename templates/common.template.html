@@ -4,9 +4,8 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css"
-        type="text/css" media="all" />
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.2/styles/github.min.css" type="text/css" media="all" />
+        {% for stylesheet in doc.stylesheets %}<link rel="stylesheet" href="{{ stylesheet }}" type="text/css" media="all" />
+        {% endfor %}
 
         <style type="text/css" media="all">
             .example {
@@ -22,6 +21,7 @@
                 border-top: 0;
                 border-radius: 0;
                 background: #F8F8F8;
+                min-height: 48px;
             }
             [data-file-type] {
                 position: relative;
@@ -79,29 +79,19 @@
                 <h2>Example</h2>
                 <section class="example">
                     <div class="demo">
-                        <a class="demo__link" href="examples/example-{{example.name}}/index-testDeployment.html">Example</a>
-                        <iframe src="examples/example-{{example.name}}/index-testDeployment.html" frameborder="0"
+                        <a class="demo__link" href="examples/example-{{example.name}}/index.html">Example</a>
+                        <iframe src="examples/example-{{example.name}}/index.html" frameborder="0"
                         style="width:100%; height: 300px;">
                         </iframe>
                     </div>
 
                     {%- for fileName, file in example.files %}
-                    <pre data-file-type="{{file.type}}" data-file-name="{{fileName}}">
-                    <code class="{{file.type}}">
-{%- if file.originalFileContents %}{{file.originalFileContents | escape}}{%- else %}{{file.fileContents | escape}}{%- endif %}
-                    </code>
-                    </pre>
+                    <pre data-file-type="{{file.type}}" data-file-name="{{fileName}}">{{file.highlightedContents}}</pre>
                     {%- endfor %}
                 </section>
                 {%- endfor %}
             </div>
             {%- endif %} {%- endfor %}
         </div>
-
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.2/highlight.min.js" type="text/javascript" charset="utf-8"></script>
-        <script type="text/javascript" charset="utf-8">
-        hljs.initHighlightingOnLoad();
-        </script>
     </body>
-
 </html>
