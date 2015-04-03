@@ -219,6 +219,7 @@ angular.module('Ring.select', ['Ring.select.options'])
         ngModel: '=',
         type: '@',
         options: '@',
+        label: '@',
         externalFilter: '=',
         filter: '=?',
         onSelect: '&',
