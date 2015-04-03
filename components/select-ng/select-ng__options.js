@@ -28,7 +28,7 @@ angular.module('Ring.select.options', [])
       }
 
       this.itemGetter = $parse(match[MATCHES.ITEM]);
-      this.labelGetter = match[MATCHES.LABEL] && $parse(match[MATCHES.LABEL]);
+      this.labelGetter = (match[MATCHES.LABEL] && $parse(match[MATCHES.LABEL])) || this.itemGetter;
       this.selectedLabelGetter = match[MATCHES.SELECTED_LABEL] && $parse(match[MATCHES.SELECTED_LABEL]);
       this.descriptionGetter = match[MATCHES.DESCRIPTION] && $parse(match[MATCHES.DESCRIPTION]);
       this.optionVariableName = match[MATCHES.OPTION];
