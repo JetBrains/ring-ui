@@ -1,9 +1,10 @@
-
-var map = require('mout/array/map');
-var Select = require('select/select');
 var React = require('react');
 
+var map = require('mout/array/map');
 var isArray = require('mout/lang/isArray');
+
+var Select = require('select/select');
+require('./select-ng__options');
 
 /**
  * @name Select-ng.
@@ -13,7 +14,7 @@ var isArray = require('mout/lang/isArray');
 <example name="Select-ng">
   <file name="index.html">
     <div ng-app="test" ng-controller="testCtrl as ctrl">
-      <rg-select ng-model="ctrl.selectedItem" options="ctrl.options" key-field="id" label-field="text" label="Select item" ng-disabled="ctrl.disabled"></rg-select>
+      <rg-select ng-model="ctrl.selectedItem" options="item as item.text for item in ctrl.options track by item.id" label="Select item" ng-disabled="ctrl.disabled"></rg-select>
       <div>Selected item: {{ctrl.selectedItem | json}}</div>
       <div><button ng-click="ctrl.disabled = true">Disable</button><button ng-click="ctrl.disabled = false">Enable</button></div>
     </div>
@@ -40,7 +41,7 @@ var isArray = require('mout/lang/isArray');
    <file name="index.html">
      <h4>Getting items from promise on click with external filtering. (Filter value should be equal to label, not just part)</h4>
      <div ng-app="test" ng-controller="testCtrl as ctrl">
-      <rg-select ng-model="ctrl.selectedItem" options="ctrl.getItems(query)" label="Select item" external-filter="true"></rg-select>
+      <rg-select ng-model="ctrl.selectedItem" options="item in ctrl.getItems(query)" label="Select item" external-filter="true"></rg-select>
       <div>Selected item: {{ctrl.selectedItem | json}}</div>
      </div>
    </file>
@@ -76,7 +77,7 @@ var isArray = require('mout/lang/isArray');
     <file name="index.html">
       <h4>Select-ng as dropdown</h4>
       <div ng-app="test" ng-controller="testCtrl as ctrl">
-        <button rg-select options="ctrl.options" type="dropdown" filter="true" on-select="ctrl.onSelect(selected)">Click Me &#9660;</button>
+        <button rg-select options="item in ctrl.options" type="dropdown" filter="true" on-select="ctrl.onSelect(selected)">Click Me &#9660;</button>
         <ol><li ng-repeat="click in ctrl.clicks track by $index">{{click.label}}</li></ol>
       </div>
     </file>
@@ -107,7 +108,7 @@ var isArray = require('mout/lang/isArray');
     <file name="index.html">
       <h4>Multiple select</h4>
       <div ng-app="test" ng-controller="testCtrl as ctrl">
-        <rg-select ng-model="ctrl.selectedItems" options="ctrl.options" label="Select item" config="ctrl.selectConfig"></rg-select>
+        <rg-select ng-model="ctrl.selectedItems" options="item in ctrl.options" label="Select item" config="ctrl.selectConfig"></rg-select>
         <div>Selected items: {{ctrl.selectedItems | json}}</div>
         <button ng-click="ctrl.selectedItems.splice(0, 1)">Deselect first item</button>
         <button ng-click="ctrl.options.splice(0, 1)">Remove first option</button>
@@ -145,7 +146,7 @@ var isArray = require('mout/lang/isArray');
           <div class="ring-form__wrap">
             <div class="ring-form__control">
               <label class="ring-form__label" translate>Required item:</label>
-              <rg-select ng-model="ctrl.item1" options="ctrl.options"
+              <rg-select ng-model="ctrl.item1" options="item as item for item in ctrl.options"
                          label="Select item" required name="requiredSelect"></rg-select>
 
                <div class="installer-form__error-hint ring-input__error-bubble active" ng-if="testForm.requiredSelect.$invalid">
@@ -177,11 +178,8 @@ var isArray = require('mout/lang/isArray');
     </example>
  */
 /* global angular: false */
-angular.module('Ring.select', [])
+angular.module('Ring.select', ['Ring.select.options'])
   .directive('rgSelect', function () {
-    var defaultKey = 'key';
-    var defaultLabel = 'label';
-    var defaultSelectedLabel = 'selectedLabel';
 
     var types = {
       input: Select.Type.INPUT,
@@ -195,7 +193,19 @@ angular.module('Ring.select', [])
        * @property {Object} scope
        * @property {Object} scope.ngModel
        * @property {String} scope.type - select type. Can be "button" (default), "input" or "dropdown"
-       * @property {Array|Function} scope.options - array for select options or function which should return array or promise
+       * @property {String} scope.options - query for options. Can look like this:
+       * `item in items`
+       * `item in dataSource(query)`
+       * `item as item.text for item in items
+       * `item as item.text for item in items track by item.id`
+       * `item as item.text select as item.fullText describe as item.fullDescription for item in items track by id`
+       * `item as item.text select as makeFullText(item) for item in items`
+       * Where:
+       * `as` - label of item in select list
+       * `select as` - label for selected item to display in button
+       * `describe as` - description of item to display in list
+       * `for item in items`, `for item in dataSource(query)` - data source or array
+       * `track by item.id` - field to use as key for list
        * @property {Boolean} scope.externalFilter - whether or not select use options function as filter.
        * "filter" property scope.should not be passed in that case.
        * @property {Function} scope.onSelect - callback to call on items selecting.
@@ -203,28 +213,17 @@ angular.module('Ring.select', [])
        * @property {Function} scope.onOpen - callback to call on select popup opening
        * @property {Function} scope.onClose - callback to call on select popup closing
        * @property {String} scope.label - Label to place on empty select button
-       * @property {String} scope.labelField - which ngModel and options field should be used as label of item
-       * @property {String} scope.selectedLabelField - which ngModel and options field should be used as selectedLabel -
-       * label of selected item to show on button
-       * @property {String} scope.keyField - which ngModel and options field should be used as key of item
-       * @property {Function} scope.selectedFormatter - function to format selected item label on button
-       * instead of just using selectedLabelField.
        * @property {Object} scope.config - hash to pass to react select component.
        */
       scope: {
         ngModel: '=',
         type: '@',
-        options: '&',
+        options: '@',
         externalFilter: '=',
         filter: '=?',
         onSelect: '&',
         onOpen: '&',
         onClose: '&',
-        label: '@',
-        labelField: '@',
-        selectedLabelField: '@',
-        keyField: '@',
-        selectedFormatter: '=',
         config: '=?'
       },
       bindToController: true,
@@ -236,7 +235,7 @@ angular.module('Ring.select', [])
 
         rgSelectCtrl.setNgModelCtrl(ngModelCtrl);
       },
-      controller: function ($q, $scope, $element, $attrs) {
+      controller: function ($q, $scope, $element, $attrs, SelectOptions) {
         /*eslint-disable consistent-this*/
         var ctrl = this;
         /*eslint-enable consistent-this*/
@@ -248,6 +247,7 @@ angular.module('Ring.select', [])
         ctrl.selectInstance = null;
         ctrl.ngModelCtrl = null;
         ctrl.query = null;
+        ctrl.optionsParser = new SelectOptions($scope.$parent, ctrl.options);
 
         ctrl.setNgModelCtrl = function(ngModelCtrl) {
           ctrl.ngModelCtrl = ngModelCtrl;
@@ -268,9 +268,10 @@ angular.module('Ring.select', [])
         ctrl.convertNgModelToSelect = function(model) {
           var convertItem = function (item) {
             return angular.extend({
-              key: item[ctrl.keyField || defaultKey] || item,
-              label: item[ctrl.labelField || defaultLabel] || item,
-              selectedLabel: ctrl.selectedFormatter ? ctrl.selectedFormatter(item) : item[ctrl.selectedLabelField || defaultSelectedLabel],
+              key: ctrl.optionsParser.getKey(item),
+              label: ctrl.optionsParser.getLabel(item),
+              selectedLabel: ctrl.optionsParser.getSelectedLabel(item),
+              description: ctrl.optionsParser.getDescription(item),
               originalModel: item
             }, item);
           };
@@ -285,7 +286,7 @@ angular.module('Ring.select', [])
         };
 
         ctrl.getOptions = function (query) {
-          return $q.when(ctrl.options({query: query}));
+          return $q.when(ctrl.optionsParser.getOptions(query));
         };
 
         ctrl.loadOptionsToSelect = function(query) {
