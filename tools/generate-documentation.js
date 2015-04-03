@@ -2,6 +2,10 @@
 var path = require('path');
 var Dgeni = require('dgeni');
 var Package = Dgeni.Package;
+var hljs = require('highlight.js');
+var when = require('when');
+var nodefn = require('when/node');
+var fs = require('fs-extra');
 
 var LogLevel = {
   INFO: 'info'
@@ -20,6 +24,28 @@ var dgeni = new Dgeni([
   ])
 
   .processor(require('./webpack-examples-processor'))
+
+  .processor(function highlightExample(exampleMap) {
+    return {
+      $runAfter: ['parseExamplesProcessor'],
+      $runBefore: ['inlineExampleToDoc'],
+      $process: function() {
+        exampleMap.forEach(function(example) {
+          var contents;
+          var file;
+          for (var name in example.files) {
+            file = example.files[name];
+            if (file.type === 'js' && file.hasOwnProperty('webpack')) {
+              contents = file.originalFileContents || file.fileContents;
+
+              var highlightResult = hljs.highlight(file.language, contents);
+              file.highlightedContents = highlightResult.value.trim();
+            }
+          }
+        });
+      }
+    };
+  })
 
   .processor(function inlineExampleToDoc(exampleMap) {
     return {
@@ -88,6 +114,34 @@ var dgeni = new Dgeni([
     };
   })
 
+  .processor(function copyComponents(writeFilesProcessor, generateExamplesProcessor) {
+    return {
+      $runAfter: ['joinDocsToComponent'],
+      $runBefore: ['computePathsProcessor'],
+      $process: function(docs) {
+        var stylesheets = [];
+
+        return when.all(generateExamplesProcessor.deployments.map(function (deployment) {
+          if (deployment.stylesheets) {
+            return when.all(deployment.stylesheets.map(function (filePath) {
+              var fileName = path.basename(filePath);
+              var source = path.resolve(filePath);
+              var target = path.resolve(writeFilesProcessor.outputFolder, fileName);
+              stylesheets.push(fileName);
+
+              return nodefn.call(fs.copy, source, target);
+            }));
+          }
+        })).then(function () {
+          return docs.map(function (doc) {
+            doc.stylesheets = stylesheets;
+            return doc;
+          });
+        });
+      }
+    };
+  })
+
   /**
    * Configure dgeni packages
    */
@@ -135,7 +189,7 @@ var dgeni = new Dgeni([
 
     generateProtractorTestsProcessor.$enabled = false;
     generateExamplesProcessor.deployments = [{
-      name: 'testDeployment',
+      name: 'default',
       examples: {
         commonFiles: {
           scripts: ['']
@@ -143,7 +197,10 @@ var dgeni = new Dgeni([
         dependencyPath: ''
       },
       scripts: [],
-      stylesheets: []
+      stylesheets: [
+        '../node_modules/bootstrap/dist/css/bootstrap.min.css',
+        '../node_modules/highlight.js/styles/github.css'
+      ]
     }];
   })
 ]);
