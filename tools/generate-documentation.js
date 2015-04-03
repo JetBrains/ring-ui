@@ -125,8 +125,8 @@ var dgeni = new Dgeni([
           if (deployment.stylesheets) {
             return when.all(deployment.stylesheets.map(function (filePath) {
               var fileName = path.basename(filePath);
-              var source = path.resolve(filePath);
-              var target = path.resolve(writeFilesProcessor.outputFolder, fileName);
+              var source = path.resolve(__dirname, '..', filePath);
+              var target = path.resolve(__dirname, writeFilesProcessor.outputFolder, fileName);
               stylesheets.push(fileName);
 
               return nodefn.call(fs.copy, source, target);
@@ -198,8 +198,8 @@ var dgeni = new Dgeni([
       },
       scripts: [],
       stylesheets: [
-        '../node_modules/bootstrap/dist/css/bootstrap.min.css',
-        '../node_modules/highlight.js/styles/github.css'
+        'node_modules/bootstrap/dist/css/bootstrap.min.css',
+        'node_modules/highlight.js/styles/github.css'
       ]
     }];
   })
