@@ -14,7 +14,7 @@ require('./select-ng__options');
 <example name="Select-ng">
   <file name="index.html">
     <div ng-app="test" ng-controller="testCtrl as ctrl">
-      <rg-select ng-model="ctrl.selectedItem" options="item as item.text for item in ctrl.options track by item.id" label="Select item" ng-disabled="ctrl.disabled"></rg-select>
+      <rg-select ng-model="ctrl.selectedItem" options="item.text for item in ctrl.options track by item.id" label="Select item" ng-disabled="ctrl.disabled"></rg-select>
       <div>Selected item: {{ctrl.selectedItem | json}}</div>
       <div><button ng-click="ctrl.disabled = true">Disable</button><button ng-click="ctrl.disabled = false">Enable</button></div>
     </div>
