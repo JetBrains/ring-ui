@@ -46,7 +46,7 @@ describe('SelectNg', function () {
     });
 
     it('Should not render select if type=dropdown', function () {
-      compileTemplate('<rg-select options="item for item in items" ng-model="selectedItem" type="dropdown"></rg-select>');
+      compileTemplate('<rg-select options="item in items" ng-model="selectedItem" type="dropdown"></rg-select>');
 
       expect(element).to.not.have.descendants('.ring-select');
     });
@@ -59,14 +59,14 @@ describe('SelectNg', function () {
 
     it('Should extend passed config', function () {
       scope.config = {someField: 'test'};
-      compileTemplate('<rg-select options="item for item in items" ng-model="selectedItem" config="config"></rg-select>');
+      compileTemplate('<rg-select options="item in items" ng-model="selectedItem" config="config"></rg-select>');
 
       expect(ctrl.config.someField).to.equal('test');
     });
 
     it('Should work without ng-model', function () {
       var initDirective = function () {
-        compileTemplate('<rg-select options="item for item in items"></rg-select>');
+        compileTemplate('<rg-select options="item in items"></rg-select>');
       };
       expect(initDirective).to.not.throw;
     });
@@ -164,13 +164,13 @@ describe('SelectNg', function () {
     it('If externalFilter enabled should provide custom filter.fn which should always return true', function () {
       scope.dataSource = this.sinon.stub().returns(fakeItems);
 
-      compileTemplate('<rg-select options="item for item in items" external-filter="true" ng-model="selectedItem"></rg-select>');
+      compileTemplate('<rg-select options="item in items" external-filter="true" ng-model="selectedItem"></rg-select>');
 
       expect(ctrl.filter.fn()).to.be.true;
     });
 
     it('Should be disabled if disabled', function () {
-      compileTemplate('<rg-select options="item for item in items" ng-model="selectedItem" disabled="true"></rg-select>');
+      compileTemplate('<rg-select options="item in items" ng-model="selectedItem" disabled="true"></rg-select>');
 
       $(element[0]).should.have.descendants('.ring-select_disabled');
     });
