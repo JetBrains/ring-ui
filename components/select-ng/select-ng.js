@@ -196,9 +196,9 @@ angular.module('Ring.select', ['Ring.select.options'])
        * @property {String} scope.options - query for options. Can look like this:
        * `item in items`
        * `item in dataSource(query)`
-       * `item as item.text for item in items
-       * `item as item.text for item in items track by item.id`
-       * `item as item.text select as item.fullText describe as item.fullDescription for item in items track by id`
+       * `item.text for item in items
+       * `item.text for item in items track by item.id`
+       * `item.text select as item.fullText describe as item.fullDescription for item in items track by id`
        * `item as item.text select as makeFullText(item) for item in items`
        * Where:
        * `as` - label of item in select list
