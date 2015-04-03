@@ -23,7 +23,7 @@ angular.module('Ring.select.options', [])
 
       var match;
       if (!(match = optionsString.match(OPTIONS_REGEXP))) {
-        throw new Error('Bad rgSelect expression format. Expected: [{item}] [as item.text] [select as item.selectLabel]' +
+        throw new Error('Bad rgSelect expression format. Expected: [{item}] [[as] item.text] [select as item.selectLabel]' +
         ' [describe as {item.description}] [for] {item} in {items|dataSource(query)} [track by item.id], Received: ' + optionsString);
       }
 
