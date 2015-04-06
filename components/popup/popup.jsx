@@ -73,22 +73,10 @@ var PopupMixin = {
      * @returns {HTMLElement}
      */
     renderComponent: function (component) {
-      var hasWrapper = component.state && component.state._wrapper;
-      var wrapper;
+      var container = document.createElement('div');
+      document.body.appendChild(container);
 
-      if (!hasWrapper) {
-        wrapper = document.createElement('div');
-        document.body.appendChild(wrapper);
-      } else {
-        wrapper = hasWrapper;
-      }
-
-      var instance = React.renderComponent(component, wrapper);
-      if (!hasWrapper) {
-        instance.setState({_wrapper: wrapper});
-      }
-
-      return instance;
+      return React.renderComponent(component, container);
     }
   },
 
@@ -126,6 +114,7 @@ var PopupMixin = {
   /** @override */
   componentDidMount: function () {
     this._setListenersEnabled(true);
+    this._setPositioning();
   },
 
   /** @override */
@@ -136,7 +125,7 @@ var PopupMixin = {
   /** @override */
   render: function () {
     return this.transferPropsTo(
-      <div className={this.getClassName()} style={this._getStyles()}>
+      <div className={this.getClassName()} style={this.state.styles}>
         {this.getInternalContent()}
       </div>
     );
@@ -198,6 +187,15 @@ var PopupMixin = {
   },
 
   /**
+   * @private
+   */
+  _setPositioning: function() {
+    this.setState({
+      styles: this._getStyles(this.props)
+    });
+  },
+
+  /**
    * Returns visibility state
    * @return {boolean}
    */
@@ -216,7 +214,7 @@ var PopupMixin = {
     var parent = this.getDOMNode().parentNode;
     React.unmountComponentAtNode(parent);
 
-    if (this.state._wrapper) {
+    if (parent.parentNode) {
       parent.parentNode.removeChild(parent);
     }
   },
@@ -233,7 +231,7 @@ var PopupMixin = {
    * @private
    */
   onDocumentClick_: function (evt) {
-    if (!this.getDOMNode().contains(evt.target)) {
+    if (this.isMounted() && !this.getDOMNode().contains(evt.target)) {
       if (!this.props.anchorElement ||
         !this.props.dontCloseOnAnchorClick ||
         !this.props.anchorElement.contains(evt.target)) {
