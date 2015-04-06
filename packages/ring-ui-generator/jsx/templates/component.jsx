@@ -2,12 +2,12 @@
  * @jsx React.DOM
  */
 var React = require('react/addons');
-require('./<%= bemName %>.scss');
+require('./<%= componentName %>.scss');
 
-var <%= componentName %> = React.createComponent({
+var <%= bemName %> = React.createComponent({
   render: function () {
     return (<div/>);
   };
 });
 
-module.exports = <%= componentName %>;
+module.exports = <%= bemName %>;
