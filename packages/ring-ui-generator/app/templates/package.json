@@ -13,6 +13,9 @@
     <% } %>
     "start": "webpack-dev-server -d --history-api-fallback --inline --progress --colors --port 9000  --content-base ./dist"
   },
+  "publishConfig": {
+    "registry": "http://registry.npmjs.org"
+  },
   "dependencies": {
     <% if (useAngular) { %>
     "angular": "1.3.14",
