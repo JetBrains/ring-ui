@@ -756,9 +756,15 @@ var Header = React.createClass({
     var isActive = (currentUrl.replace(/\/$/, '') === href.replace(/\/$/, ''));
 
     if (isActive) {
-      return React.DOM.b(mixIn({
-        className: headerClassName.getClassName('link', 'active')
-      }, props), children);
+      var activeLinkClass = React.addons.classSet(Global.createObject(
+          headerClassName.getClassName('link', 'active'), true,
+          'ring-link', true,
+          'ring-link_active', true,
+          props.className, true));
+
+      return React.DOM.b(mixIn(props, {
+        className: activeLinkClass
+      }), children);
     }
 
     return new Link(mixIn({
