@@ -15,6 +15,10 @@
     right: $ring-unit * 4;
   }
 
+  .ring-link_active {
+    font-weight: normal;
+  }
+
   @include ring-clearfix();
   @include ring-font();
 }
@@ -104,7 +108,7 @@
 }
 
 .ring-header__menu-service-item.ring-link,
-.ring-header__menu-service-item.ring-link,
+.ring-header__menu-service-item.ring-link_active,
 .ring-header__menu-service-item.ring-link:visited {
   box-sizing: border-box;
   color: #FFF;
@@ -131,6 +135,12 @@
     color: $ring-link-hover-color;
     text-decoration: underline;
   }
+
+  &.ring-link_active:hover {
+    color: #FFF;
+    cursor: default;
+    text-decoration: none;
+  }
 }
 
 .ring-header__menu-service-line {
@@ -146,20 +156,20 @@
   &:last-child {
     margin-right: 0;
   }
-}
 
-.ring-header__link.ring-link,
-.ring-header__link.ring-link:visited,
-.ring-header__link_active.ring-link {
-  color: $ring-dark-gray-color;
-}
+  .ring-link,
+  .ring-link:visited,
+  .ring-link_active,
+  .ring-link_active:hover {
+    color: $ring-dark-gray-color;
+    text-decoration: none;
+  }
 
-.ring-header__link:hover:visited {
-  color: $ring-link-hover-color;
-}
-
-.ring-header__link_active {
-  font-weight: normal;
+  .ring-link:hover,
+  .ring-link:visited:hover {
+    color: $ring-link-hover-color;
+    text-decoration: underline;
+  }
 }
 
 // Customize menu icons
