@@ -1,5 +1,6 @@
+/* eslint-env node */
+
 // Karma configuration
-// Generated on Mon Apr 06 2015 16:09:42 GMT+0300 (MSK)
 
 var argv = require('minimist')(process.argv);
 
@@ -26,7 +27,7 @@ module.exports = function(config) {
 
     // frameworks to use
     // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
-    frameworks: ['jasmine'],
+    frameworks: ['mocha', 'chai', 'chai-as-promised', 'chai-jquery', 'sinon-chai'],
 
 
     // list of files / patterns to load in the browser

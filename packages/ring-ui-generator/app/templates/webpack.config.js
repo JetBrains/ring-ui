@@ -1,9 +1,4 @@
-/*
- * Webpack development server configuration
- *
- * This file is set up for serving the webpak-dev-server, which will watch for changes and recompile as required if
- * the subfolder /webpack-dev-server/ is visited. Visiting the root will not automatically reload.
- */
+/* eslint-env node */
 
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var webpackConfigMerger = require('webpack-config-merger');
@@ -20,9 +15,9 @@ var srcRegexp = /src.blocks.*\.js$/;
 var webpackConfig = webpackConfigMerger(
   require('ring-ui/webpack.config'),
   {
-    entry: pkgConfig.src + '/blocks/app/app.js',
+    entry: pkgConfig.config.src + '/blocks/app/app.js',
     output: {
-      path: pkgConfig.dist,
+      path: pkgConfig.config.dist,
       filename: '[name].js',
       library: '[name]',
       libraryTarget: 'umd'
@@ -34,7 +29,7 @@ var webpackConfig = webpackConfigMerger(
       loaders: [
         {
           test: srcRegexp,
-          loaders: [<% if (useAngular){ %>'ng-annotate'<% } %>, 'babel-loader?experimental&optional=runtime']
+          loaders: [<% if (useAngular){ %>'ng-annotate',<% } %> 'babel-loader?experimental&optional=runtime']
         }
       ]
     }
