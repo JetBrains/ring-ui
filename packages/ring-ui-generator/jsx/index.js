@@ -29,6 +29,12 @@ module.exports = generators.Base.extend({
         {componentName: answers.componentName, bemName: bemName}
       );
 
+      this.fs.copyTpl(
+        this.templatePath('/component.test.jsx'),
+        this.destinationPath(answers.componentName + '.test.jsx'),
+        {componentName: answers.componentName, bemName: bemName}
+      );
+
     }.bind(this));
   }
 });
