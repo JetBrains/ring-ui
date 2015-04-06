@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <base href="/">
+  <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
+  <link href="favicon.ico" rel="shortcut icon" type="image/x-icon"/>
+
+  <title><%= projectName %></title>
+</head>
+
+<body class="app" <% if (useAngular) { %>ng-app="project"<% } %>>
+
+<div>
+  <h1><%= projectName %></h1>
+  <div id="alerts__container"></div>
+
+  <div <% if (useAngular) { %>ng-view<% } %>></div>
+</div>
+
+<% if (useAngular) { %>
+<div react-static="Footer" class="app__footer" react-left="$root.footer.left" react-center="$root.footer.center" react-right="$root.footer.right"></div>
+<% } %>
+
+<script src="{%=o.htmlWebpackPlugin.assets.main%}"></script>
+</body>
+
+</html>
