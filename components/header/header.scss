@@ -103,9 +103,9 @@
   width: 100%;
 }
 
-.ring-header__menu-service-item,
-.ring-header__menu-service-item.ring-link__active,
-.ring-header__menu-service-item:visited {
+.ring-header__menu-service-item.ring-link,
+.ring-header__menu-service-item.ring-link,
+.ring-header__menu-service-item.ring-link:visited {
   box-sizing: border-box;
   color: #FFF;
   display: inline-block;
@@ -148,9 +148,9 @@
   }
 }
 
-.ring-header__link,
-.ring-header__link:visited,
-.ring-header__link_active {
+.ring-header__link.ring-link,
+.ring-header__link.ring-link:visited,
+.ring-header__link_active.ring-link {
   color: $ring-dark-gray-color;
 }
 
