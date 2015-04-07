@@ -6,6 +6,7 @@
 
 2. Install dependencies: `npm install`
 
+3. (Optional, Mac Os X / Linux) Install [menu bar apps](https://github.com/roman01la/anybar-webpack#known-apps) to watch webpack build status.
 
 ## Available commands
 
