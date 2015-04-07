@@ -1,6 +1,7 @@
 /* global angular: false */
 
 require('breadcrumb/breadcrumb.scss');
+require('link/link.scss');
 
 require('react-ng/react-ng')({
   Icon: require('icon/icon')
@@ -14,7 +15,9 @@ require('react-ng/react-ng')({
      <file name="index.html">
        <div ng-app="Ring.breadcrumb">
          <ring-breadcrumb label="First level" link="test/href1">
-          <ring-breadcrumb label="Second level" link="test/href2"></ring-breadcrumb>
+          <ring-breadcrumb label="Second level" link="test/href2">
+            <span>Active level</span>
+          </ring-breadcrumb>
          </ring-breadcrumb>
        </div>
      </file>
