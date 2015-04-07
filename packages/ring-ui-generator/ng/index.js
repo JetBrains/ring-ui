@@ -17,21 +17,23 @@ module.exports = generators.Base.extend({
     }], function (answers) {
       var bemName = convertToBemName(answers.componentName);
 
+      var path = answers.componentName + '-ng/' + answers.componentName + '-ng';
+
       this.fs.copyTpl(
         this.templatePath('/component-ng.js'),
-        this.destinationPath(answers.componentName + '-ng.js'),
+        this.destinationPath(path + '.js'),
         {componentName: answers.componentName, bemName: bemName}
       );
 
       this.fs.copyTpl(
         this.templatePath('/component-ng.scss'),
-        this.destinationPath(answers.componentName + '-ng.scss'),
+        this.destinationPath(path + '.scss'),
         {componentName: answers.componentName, bemName: bemName}
       );
 
       this.fs.copyTpl(
         this.templatePath('/component-ng.test.js'),
-        this.destinationPath(answers.componentName + '-ng.test.js'),
+        this.destinationPath(path + '.test.js'),
         {componentName: answers.componentName, bemName: bemName}
       );
 
