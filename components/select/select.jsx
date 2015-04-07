@@ -23,63 +23,78 @@ var generateUniqueId = Global.getUIDGenerator('ring-select-');
 
 
 /**
+ * @enum {number}
+ */
+var Type = {
+  BUTTON: 0,
+  INPUT: 1,
+  CUSTOM: 2
+};
+
+/**
+ * @enum {number}
+ * @deprecated use {@Type} instead.
+ */
+var Types = Type;
+
+/**
  * @constructor
  * @mixes {Popup.Mixin}
  * @extends {ReactComponent}
  * @example
  <example name="Disabled select">
- <file name="index.html">
-   <div id="demo1"></div>
-   <div id="demo2"></div>
- </file>
- <file name="index.js" webpack="true">
-   var React = require('react');
-   var Select = require('./select.jsx');
+   <file name="index.html">
+     <div id="demo1"></div>
+     <div id="demo2"></div>
+   </file>
+   <file name="index.js" webpack="true">
+     var React = require('react');
+     var Select = require('./select.jsx');
 
-   React.renderComponent(Select({disabled: true, loading: true}), document.getElementById('demo1'));
-   React.renderComponent(Select({disabled: true, loading: true, type: Select.Type.INPUT}), document.getElementById('demo2'));
- </file>
+     React.renderComponent(Select({disabled: true, loading: true}), document.getElementById('demo1'));
+     React.renderComponent(Select({disabled: true, loading: true, type: Select.Type.INPUT}), document.getElementById('demo2'));
+   </file>
  </example>
 
  <example name="Simple input select">
- <file name="index.html">
- <div id="demo"></div>
- </file>
- <file name="index.js" webpack="true">
- var React = require('react');
- var Select = require('./select.jsx');
+   <file name="index.html">
+     <div id="demo"></div>
+   </file>
+   <file name="index.js" webpack="true">
+     var React = require('react');
+     var Select = require('./select.jsx');
 
- var data = [];
- for(var i = 0; i < 20; i++) {
-  data.push({'label': 'Item ' + i, 'key': i});
- }
+     var data = [];
+     for(var i = 0; i < 20; i++) {
+       data.push({'label': 'Item ' + i, 'key': i});
+     }
 
- React.renderComponent(Select({
-  type: Select.Type.INPUT
- }), document.getElementById('demo'))
- .setProps({data: data});
- </file>
+     React.renderComponent(Select({
+       type: Select.Type.INPUT
+     }), document.getElementById('demo'))
+     .setProps({data: data});
+   </file>
  </example>
 
  <example name="Simple input select in suggest mode">
- <file name="index.html">
- <div id="demo"></div>
- </file>
- <file name="index.js" webpack="true">
- var React = require('react');
- var Select = require('./select.jsx');
+   <file name="index.html">
+     <div id="demo"></div>
+   </file>
+   <file name="index.js" webpack="true">
+     var React = require('react');
+     var Select = require('./select.jsx');
 
- var data = [];
- for(var i = 0; i < 20; i++) {
-  data.push({'label': 'Item ' + i, 'key': i});
- }
+     var data = [];
+     for(var i = 0; i < 20; i++) {
+       data.push({'label': 'Item ' + i, 'key': i});
+     }
 
- React.renderComponent(Select({
-  type: Select.Type.INPUT,
-  suggestOnly: true
- }), document.getElementById('demo'))
- .setProps({data: data});
- </file>
+     React.renderComponent(Select({
+       type: Select.Type.INPUT,
+       suggestOnly: true
+     }), document.getElementById('demo'))
+     .setProps({data: data});
+   </file>
  </example>
 
  <example name="Simple select with default filter mode">
@@ -87,123 +102,116 @@ var generateUniqueId = Global.getUIDGenerator('ring-select-');
  <div id="demo"></div>
  </file>
  <file name="index.js" webpack="true">
- var React = require('react');
- var Select = require('./select.jsx');
+   var React = require('react');
+   var Select = require('./select.jsx');
 
- React.renderComponent(Select({filter: true}), document.getElementById('demo'))
- .setProps({data: [
-    {'label': 'One', 'key': '1'},
-    {'label': 'Two', 'key': '2', disabled: true},
-      {'label': 'Two One', 'key': '2.1', level: 1},
-      {'label': 'Two Two', 'key': '2.2', level: 1},
-    {'label': 'Three', 'key': '3'}
-  ]});
+   React.renderComponent(Select({filter: true}), document.getElementById('demo'))
+   .setProps({data: [
+      {'label': 'One', 'key': '1'},
+      {'label': 'Two', 'key': '2', disabled: true},
+        {'label': 'Two One', 'key': '2.1', level: 1},
+        {'label': 'Two Two', 'key': '2.2', level: 1},
+      {'label': 'Three', 'key': '3'}
+    ]});
  </file>
  </example>
 
  <example name="Simple select with default filter mode and loading">
- <file name="index.html">
- <div id="demo"></div>
- </file>
- <file name="index.js" webpack="true">
- var React = require('react');
- var Select = require('./select.jsx');
+   <file name="index.html">
+     <div id="demo"></div>
+   </file>
+   <file name="index.js" webpack="true">
+     var React = require('react');
+     var Select = require('./select.jsx');
 
- React.renderComponent(Select({filter: true, loading: true}), document.getElementById('demo'))
- .setProps({data: [
-    {'label': 'One', 'key': '1'},
-    {'label': 'Group', 'key': '2'},
-    {'label': 'Three', 'key': '3'}
-  ], selected: {'label': 'Group', 'key': '2'}});
- </file>
+     React.renderComponent(Select({filter: true, loading: true}), document.getElementById('demo'))
+     .setProps({data: [
+        {'label': 'One', 'key': '1'},
+        {'label': 'Group', 'key': '2'},
+        {'label': 'Three', 'key': '3'}
+      ], selected: {'label': 'Group', 'key': '2'}});
+    </file>
  </example>
 
 
  <example name="Select with customized filter and Add item button">
- <file name="index.html">
- <div id="demo"></div>
- </file>
- <file name="index.js" webpack="true">
- var React = require('react');
- var Select = require('./select.jsx');
+   <file name="index.html">
+     <div id="demo"></div>
+   </file>
+   <file name="index.js" webpack="true">
+     var React = require('react');
+     var Select = require('./select.jsx');
 
- var data = [];
- for(var i = 0; i < 100; i++) {
-  data.push({'label': 'Item long long long long long  long long long label ' + i, 'key': i});
- }
+     var data = [];
+     for(var i = 0; i < 100; i++) {
+       data.push({'label': 'Item long long long long long  long long long label ' + i, 'key': i});
+     }
 
- React.renderComponent(Select({
-   filter: {
-    placeholder: 'Select me',
-    value: 'One'
-   }
- }), document.getElementById('demo'))
- .setProps({
-  add: {
-    prefix: 'Add name',
-    callback: function(value) {
-      console.log('Add', value);
-    }
-  },
-  data: data,
-  selected: data[49],
-  'onSelect': function(selected) {
-    console.log('onSelect, selected item:', selected);
-  }});
- </file>
+     React.renderComponent(Select({
+       filter: {
+         placeholder: 'Select me',
+         value: 'One'
+       }
+     }), document.getElementById('demo'))
+     .setProps({
+      add: {
+        prefix: 'Add name',
+        callback: function(value) {
+          console.log('Add', value);
+        }
+      },
+      data: data,
+      selected: data[49],
+      'onSelect': function(selected) {
+        console.log('onSelect, selected item:', selected);
+      }});
+   </file>
  </example>
 
  <example name="Multiselect with custom view">
- <file name="index.html">
- <div id="multipleCustomView"></div>
- <div id="demo"></div>
- </file>
- <file name="index.js" webpack="true">
- var React = require('react');
- var Select = require('./select.jsx');
+   <file name="index.html">
+     <div id="multipleCustomView"></div>
+     <div id="demo"></div>
+   </file>
+   <file name="index.js" webpack="true">
+     var React = require('react');
+     var Select = require('./select.jsx');
 
- React.renderComponent(Select({
-   filter: true,
-   add: {
-    prefix: 'Add some item'
-   },
-   multiple: {
-    label: 'Change selected items', // override button label if something selected
-    removeSelectedItems: false      // remove selected items from the list, useful with "disableLabelSelection" and custom display
-   }, selected: [{'label': 'Two long label', 'key': '2'}]
- }), document.getElementById('demo'))
- .setProps({
-    data: [
-      {'label': 'One long label', 'key': '1'},
-      {'label': 'Two long label', 'key': '2'},
-      {'label': 'Three long label', 'key': '3'}
-    ], 'onSelect': function(selected) {
-      console.log('onSelect, selected item:', selected);
-    }, 'onDeselect': function(deselected) {
-      console.log('onDeselect, deselected item:', deselected);
-    }, 'onChange': function(selection) {
-      console.log('onChange, selection:', selection);
-      var items = [];
-      selection.forEach(function(item) {
-        items.push(item.label);
-      });
-      document.getElementById('multipleCustomView').innerHTML = items.join(', ');
-    }});
- </file>
+     React.renderComponent(Select({
+       filter: true,
+       add: {
+         prefix: 'Add some item'
+       },
+       multiple: {
+         label: 'Change selected items', // override button label if something selected
+         removeSelectedItems: false      // remove selected items from the list, useful with "disableLabelSelection" and custom display
+       }, selected: [{'label': 'Two long label', 'key': '2'}]
+     }), document.getElementById('demo'))
+     .setProps({
+        data: [
+          {'label': 'One long label', 'key': '1'},
+          {'label': 'Two long label', 'key': '2'},
+          {'label': 'Three long label', 'key': '3'}
+        ], 'onSelect': function(selected) {
+          console.log('onSelect, selected item:', selected);
+        }, 'onDeselect': function(deselected) {
+          console.log('onDeselect, deselected item:', deselected);
+        }, 'onChange': function(selection) {
+          console.log('onChange, selection:', selection);
+          var items = [];
+          selection.forEach(function(item) {
+            items.push(item.label);
+          });
+          document.getElementById('multipleCustomView').innerHTML = items.join(', ');
+        }});
+   </file>
  </example>
  */
-
-var Types = {
-  BUTTON: 0,
-  INPUT: 1,
-  CUSTOM: 2
-};
-
 var Select = React.createClass({
   mixins: [Shortcuts.Mixin, NgModelMixin],
   ngModelStateField: ngModelStateField,
   statics: {
-    Type: Types,
+    Type: Type,
     ngModelStateField: ngModelStateField
   },
 
