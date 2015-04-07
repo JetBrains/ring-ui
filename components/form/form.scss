@@ -41,61 +41,6 @@
     width: 25 * $ring-unit !important;
     margin: 0;
   }
-
-  & .ring-input_error + .ring-input__error-bubble {
-    display: inline-block;
-  }
-
-  & .ring-input_error:focus + .ring-input__error-bubble {
-    display: none;
-  }
-}
-
-// Input error bubbles
-//
-// Markup:
-// <div class="ring-input_wrapper">
-//   <input class="ring-input ring-input_error" type="text">
-//   <div class="ring-input__error-bubble active">Wrong value</div>
-// </div>
-//
-// Styleguide 14.2
-.ring-input__error-bubble {
-  display: none;
-  position: absolute;
-  top: 26px;
-  left: 0;
-  padding-left: 16px;
-  padding-right: 16px;
-  z-index: 2;
-
-  border-radius: $ring-border-radius;
-
-  background: #F00;
-  color: #FFF;
-
-  @include ring-font;
-  font-size: $ring-font-size;
-
-  &.active {
-    display: inline-block;
-  }
-
-  &:before {
-    content: '';
-    transform: rotate(45deg);
-    z-index: $ring-invisible-element-z-index;
-
-    position: absolute;
-    top: -4px;
-    left: calc(50% - 6px);
-
-    display: block;
-    width: 10px;
-    height: 10px;
-
-    background: red;
-  }
 }
 
 .ring-form_white-bg {
