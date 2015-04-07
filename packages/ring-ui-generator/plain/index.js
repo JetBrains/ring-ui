@@ -12,7 +12,7 @@ module.exports = generators.Base.extend({
     this.prompt([{
       type: 'input',
       name: 'componentName',
-      message: 'What\'s your component name, my-component for example',
+      message: 'What\'s your component name, ' + 'my-component'.green + ' for example',
       default: this.appname
     }], function (answers) {
       var bemName = convertToBemName(answers.componentName);

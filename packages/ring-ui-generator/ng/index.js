@@ -12,12 +12,12 @@ module.exports = generators.Base.extend({
     this.prompt([{
       type: 'input',
       name: 'componentName',
-      message: 'What\'s your component name, my-component for example',
+      message: 'What\'s your component name, ' + 'my-component-ng'.green + ' for example',
       default: this.appname
     }], function (answers) {
       var bemName = convertToBemName(answers.componentName);
 
-      var path = answers.componentName + '-ng/' + answers.componentName + '-ng';
+      var path = answers.componentName + '/' + answers.componentName;
 
       this.fs.copyTpl(
         this.templatePath('/component-ng.js'),
