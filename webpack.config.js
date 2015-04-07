@@ -6,6 +6,7 @@
  * the subfolder /webpack-dev-server/ is visited. Visiting the root will not automatically reload.
  */
 
+var AnyBarWebpackPlugin = require('anybar-webpack');
 var pkgConfig = require('./package.json');
 var path = require('path');
 
@@ -81,5 +82,7 @@ module.exports = {
       { test: /\.svg$/, loader: 'url-loader?limit=10000' }
     ]
   },
-  plugins: []
+  plugins: [
+    new AnyBarWebpackPlugin()
+  ]
 };
