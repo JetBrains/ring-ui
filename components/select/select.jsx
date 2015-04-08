@@ -1,5 +1,5 @@
 /**
- * @fileoverview Select.
+ * @fileoverview Select
  * @jsx React.DOM
  */
 
@@ -56,7 +56,7 @@ var Types = Type;
    </file>
  </example>
 
- <example name="Simple input select">
+ <example name="Simple input-based select">
    <file name="index.html">
      <div id="demo"></div>
    </file>
@@ -76,7 +76,7 @@ var Types = Type;
    </file>
  </example>
 
- <example name="Simple input select in suggest mode">
+ <example name="Simple input-based select in suggest-only mode">
    <file name="index.html">
      <div id="demo"></div>
    </file>
@@ -116,7 +116,7 @@ var Types = Type;
  </file>
  </example>
 
- <example name="Simple select with default filter mode and loading">
+ <example name="Simple select with default filter mode and loading indicator">
    <file name="index.html">
      <div id="demo"></div>
    </file>
@@ -134,7 +134,7 @@ var Types = Type;
  </example>
 
 
- <example name="Select with customized filter and Add item button">
+ <example name="Select with customized filter and an 'Add item' button">
    <file name="index.html">
      <div id="demo"></div>
    </file>
@@ -168,7 +168,7 @@ var Types = Type;
    </file>
  </example>
 
- <example name="Multiselect with custom view">
+ <example name="Multiple-choice select with custom view">
    <file name="index.html">
      <div id="multipleCustomView"></div>
      <div id="demo"></div>
@@ -218,24 +218,24 @@ var Select = React.createClass({
   getDefaultProps: function () {
     return {
       data: [],
-      filter: false,   // enable filter in BUTTON or CUSTOM mode
-      multiple: false, // multiple can be an object, see demo to more information
-      clear: false,    // enable clear button that clear "selected" state
-      loading: false,  // show loader and loading text in popup
+      filter: false,   // enable filter (BUTTON or CUSTOM mode)
+      multiple: false, // multiple can be an object - see demo for more information
+      clear: false,    // enable clear button that clears the "selected" state
+      loading: false,  // show loading indicator while data is loading
       disabled: false, // disable select
 
       loadingMessage: 'Loading...',
       notFoundMessage: 'No options found',
 
       type: Types.BUTTON,
-      targetElement: null, // element to bind popup (select BUTTON or INPUT as default)
-      hideSelected: false, // INPUT mode: clear input in any case (smth selected)
-      suggestOnly: false, // INPUT mode: hide popup if options is empty, dont show any icons, dont touch filter
+      targetElement: null,  // element to bind the popup po (select BUTTON or INPUT by default)
+      hideSelected: false,  // INPUT mode: clear input in any case (something selected)
+      suggestOnly: false,   // INPUT mode: hide popup if options is empty, don't show any icons, don't change filter
 
-      maxHeight: 250,      // LIST height!!! without filter and Add button
-      minWidth: 'target',  // Popup width!!!
+      maxHeight: 250,       // Height of options list, without the filter and 'Add' button
+      minWidth: 'target',   // Popup width
 
-      selected: null,      // current selection (item object or array of items)
+      selected: null,       // current selection (item / array of items)
 
       label: 'Please select option',  // BUTTON label or INPUT placeholder (nothing selected)
       selectedLabel: '',              // BUTTON label or INPUT placeholder (something selected)
@@ -289,7 +289,7 @@ var Select = React.createClass({
   },
 
   componentWillMount: function() {
-    // set selected element if it is defined on initialization
+    // set selected element if provided during init
     if (this.props.selected) {
       this.setState({
         selected: this.props.selected,
@@ -350,7 +350,7 @@ var Select = React.createClass({
         <SelectPopup
           maxHeight={this.props.maxHeight}
           minWidth={this.props.minWidth}
-          filter={this.isInputMode() ? false : this.props.filter} // disable dpopup filter on input mode
+          filter={this.isInputMode() ? false : this.props.filter} // disable popup filter in INPUT mode
           anchorElement={this.props.targetElement || this.getDOMNode()}
           shortcuts={true}
           onClose={this._onClose}
@@ -413,14 +413,14 @@ var Select = React.createClass({
     filterString = filterString.trim();
 
     if (this.isInputMode() && this.state.selected && filterString === this.state.selected.label) {
-      filterString = ''; // ignore multiple if its exectly selected item
+      filterString = ''; // ignore multiple if it is exactly the selected item
     }
 
     var filteredData = [];
     var exectMatch = false;
 
     var check = this.props.filter.fn || function(itemToCheck, checkString) {
-      // as default skip separators and hints
+      // by default, skip separators and hints
       if (itemToCheck.type === List.ListProps.Type.SEPARATOR || itemToCheck.type === List.ListProps.Type.HINT) {
         return true;
       } else {
@@ -441,7 +441,7 @@ var Select = React.createClass({
           item.checkbox = !!this._multipleMap[item.key];
         }
 
-        // Ignore item ONLY if its multiple and item alredy selected
+        // Ignore item if it's multiple and is already selected
         if (!(this.props.multiple && this.props.multiple.removeSelectedItems && this._multipleMap[item.key])) {
           filteredData.push(item);
         }
@@ -523,7 +523,7 @@ var Select = React.createClass({
       }.bind(this));
     } else {
       if (!selected.key) {
-        throw new Error('Multiple selection require "key" property on each item of the list');
+        throw new Error('Multiple selection requires each item to have the "key" property');
       }
 
       var currentSelection = this.state.selected;

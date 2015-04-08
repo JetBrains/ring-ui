@@ -13,7 +13,7 @@ var iconUrl = require('./icon__url');
 
 
 /**
- * Commonly used colors of icons.
+ * Commonly used icon colors.
  * @enum {string}
  */
 var Color = {
@@ -56,8 +56,8 @@ var BASE_CLASS = 'ring-icon';
 var _templateElement = null;
 
 /**
- * Inserts an svg template into a document so icons could use links to this
- * elements. Exported as a static method so could be used apart from component.
+ * Inserts an SVG template into the document so icons could use links to those
+ * elements.
  * @static
  */
 var initializeTemplate = function() {

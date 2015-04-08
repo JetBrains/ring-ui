@@ -1,5 +1,5 @@
 /**
- * @fileoverview Select.
+ * @fileoverview Select options popup
  * @jsx React.DOM
  */
 var React = require('react');
@@ -13,7 +13,7 @@ var SelectPopup = React.createClass({
       data: [],
       activeIndex: null,
       toolbar: null,
-      filter: false, // can be bool or object with props: "value" and "placeholder"
+      filter: false, // can be boolean or an object with "value" and "placeholder" properties
       message: null,
       anchorElement: null,
       maxHeight: 250,
