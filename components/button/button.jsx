@@ -60,7 +60,7 @@ var Button = React.createClass({
   propTypes: {
 
     /**
-     * Modifier for button
+     * Button modifiers
      * @see Modifiers
      */
     modifier: ReactPropTypes.string,
