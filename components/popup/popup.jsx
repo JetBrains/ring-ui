@@ -309,6 +309,28 @@ var PopupMixin = {
       styles.minWidth = props.minWidth;
     }
 
+    // automatic position correction -->
+    if (this.isMounted()) {
+      if (styles.left < 0) {
+        styles.left = 0;
+      }
+
+      if (styles.top < 0) {
+        styles.top = 0;
+      }
+
+      var horizontalDiff = styles.left + $(this.getDOMNode()).outerWidth() - $(window).width();
+      if (horizontalDiff > 0) {
+        styles.left -= horizontalDiff;
+      }
+
+      var vericalDiff = styles.top + $(this.getDOMNode()).outerHeight() - $(window).height();
+      if (vericalDiff > 0) {
+        styles.top -= vericalDiff;
+      }
+    }
+    // automatic position correction <--
+
     if (this.state.hidden) {
       styles.display = 'none';
     } else {
