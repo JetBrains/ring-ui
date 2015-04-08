@@ -316,8 +316,8 @@ var List = React.createClass({
   getDefaultProps: function () {
     return {
       data: [],
-      restoreActiveIndex: false,  // restore active item by "key" property of item
-      activateSingleItem: false,     // if there is only one item activate it
+      restoreActiveIndex: false,  // restore active item using its "key" property
+      activateSingleItem: false,  // if there is only one item, activate it
       onSelect: function() {},
       shortcuts: false
     };
@@ -429,7 +429,7 @@ var List = React.createClass({
       });
       return false; // do no propagate event
     } else {
-      return true; // propagate event to for ex. QuerryAssist
+      return true;  // propagate event to, e.g., QueryAssist
     }
   },
 
@@ -471,7 +471,7 @@ var List = React.createClass({
 
       if (this.props.restoreActiveIndex && this.state.activeItem && this.state.activeItem.key) {
         for (var i = 0; i < props.data.length; i++) {
-          // Restore active index if there is item with same "key" property
+          // Restore active index if there is an item with the same "key" property
           if (props.data[i].key !== undefined && props.data[i].key === this.state.activeItem.key) {
             activeIndex = i;
             activeItem = props.data[i];
