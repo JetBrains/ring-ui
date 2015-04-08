@@ -94,7 +94,7 @@
 
 .ring-list__item_action {
   cursor: pointer;
-  color: #000;
+  color: $ring-text-color;
 
   &.ring-list__item_active:not(.ring-list__item_error) {
     color: #FFF;
