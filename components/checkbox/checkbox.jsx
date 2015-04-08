@@ -21,11 +21,31 @@ var generateUniqueId = Global.getUIDGenerator(ID_PREFIX);
  * @extends {ReactComponent}
    <example name="Checkbox">
    <file name="index.html">
-   <div>
-   <span id='checkbox'></span>
-   <span id='checkbox-selected'></span>
-   <span id='checkbox-disabled'></span>
-   </div>
+    <h1>Base Examples</h1>
+    <div>
+      <span id='checkbox'></span>
+      <span id='checkbox-selected'></span>
+      <span id='checkbox-disabled'></span>
+    </div>
+    <h1>Examples with outer styles</h1>
+    <div>
+      <div style="line-height: 60px">
+        <span id='checkbox-in-large-line-height-div'></span>
+        <span>This text should be aligned on same line with checkbox label</span>
+      </div>
+      <div style="line-height: 6px;">
+        <span id='checkbox-in-small-line-height-div'></span>
+        <span>This text should be aligned on same line with checkbox label</span>
+      </div>
+      <div style="font-size: 40px">
+        <span id='checkbox-in-large-font-div'></span>
+        <span>This text should be aligned on same line with checkbox label</span>
+      </div>
+      <div style="line-height: 6px; font-size: 4px">
+        <span id='checkbox-in-small-font-div'></span>
+        <span>This text should be aligned on same line with checkbox label</span>
+      </div>
+    </div>
    </file>
 
    <file name="index.js" webpack="true">
@@ -42,6 +62,22 @@ var generateUniqueId = Global.getUIDGenerator(ID_PREFIX);
              disabled: true,
              label: 'This checkbox is disabled'
            }), document.getElementById('checkbox-disabled'));
+    React.renderComponent(Checkbox({
+             checked: true,
+             label: 'This checkbox is inside div with large line-heigth.'
+           }), document.getElementById('checkbox-in-large-line-height-div'));
+    React.renderComponent(Checkbox({
+             checked: true,
+             label: 'This checkbox is inside div with small line-heigth.'
+           }), document.getElementById('checkbox-in-small-line-height-div'));
+    React.renderComponent(Checkbox({
+             checked: true,
+             label: 'This checkbox is inside div with large font-size.'
+           }), document.getElementById('checkbox-in-large-font-div'));
+    React.renderComponent(Checkbox({
+             checked: true,
+             label: 'This checkbox is inside div with small font-size.'
+           }), document.getElementById('checkbox-in-small-font-div'));
    </file>
    </example>
  */
@@ -108,10 +144,11 @@ var Checkbox = React.createClass({
 
     return (
       <label className="ring-checkbox" htmlFor={id}>
-        {this.transferPropsTo(
-          <input ref="input" disabledState onChange={this.inputChange} type="checkbox" className="ring-checkbox__input" id={id} />)}
-        <span className="ring-checkbox__icon">
-          <Icon glyph="check" color="black" size={Icon.Size.Size16} className="ring-checkbox__icon__image" style={checkStyle} />
+        <span className="ring-checkbox__input-wrapper">
+          {this.transferPropsTo(<input ref="input" disabledState onChange={this.inputChange} type="checkbox" className="ring-checkbox__input" id={id} />)}
+          <span className="ring-checkbox__icon">
+            <Icon glyph="check" color="black" size={Icon.Size.Size16} className="ring-checkbox__icon__image" style={checkStyle} />
+          </span>
         </span>
         <span className="ring-checkbox__label">{this.props.label}</span>
       </label>
