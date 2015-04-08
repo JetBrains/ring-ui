@@ -508,7 +508,7 @@ var Select = React.createClass({
   },
 
   _listSelectHandler: function(selected) {
-    if (selected.type !== List.ListProps.Type.ITEM || selected.disabled) {
+    if ((selected.type !== List.ListProps.Type.ITEM && selected.type !== List.ListProps.Type.CUSTOM) || selected.disabled) {
       return;
     }
 
