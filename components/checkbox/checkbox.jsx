@@ -24,6 +24,7 @@ var generateUniqueId = Global.getUIDGenerator(ID_PREFIX);
    <div>
    <span id='checkbox'></span>
    <span id='checkbox-selected'></span>
+   <span id='checkbox-disabled'></span>
    </div>
    </file>
 
@@ -36,6 +37,11 @@ var generateUniqueId = Global.getUIDGenerator(ID_PREFIX);
    React.renderComponent(Checkbox({
              checked: true
            }), document.getElementById('checkbox-selected'));
+   React.renderComponent(Checkbox({
+             checked: true,
+             disabled: true,
+             label: 'This checkbox is disabled'
+           }), document.getElementById('checkbox-disabled'));
    </file>
    </example>
  */
