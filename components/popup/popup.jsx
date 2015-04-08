@@ -36,23 +36,11 @@ var Direction = {
 
 /**
  * @enum {number}
- * @deprecated
- */
-var Directions = Direction;
-
-/**
- * @enum {number}
  */
 var Dimension = {
   MARGIN: 16,
   BORDER_WIDTH: 1
 };
-
-/**
- * @enum {number}
- * @deprecated
- */
-var Dimensions = Dimension;
 
 /**
  * @mixin {PopupMixin}
@@ -312,7 +300,7 @@ var PopupMixin = {
     }
 
     if (props.maxHeight === 'screen') {
-      styles.maxHeight = $(window).height() - styles.top - Dimensions.MARGIN;
+      styles.maxHeight = $(window).height() - styles.top - Dimension.MARGIN;
     }
 
     if (props.minWidth === 'target') {
