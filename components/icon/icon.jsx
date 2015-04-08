@@ -141,6 +141,7 @@ var initializeTemplate = function() {
          'cog1',
          'collapse',
          'comment',
+         'copy',
          'cosmetics',
          'crop',
          'cumulative',
