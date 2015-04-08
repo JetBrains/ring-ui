@@ -27,19 +27,32 @@ var Corner = {
 /**
  * @enum {number}
  */
-var Directions = {
-  // NB! As far as this enum is used as a bit mask, we can't use 0x00 as value.
-  // Also, we can't use odd numbers.
+var Direction = {
   DOWN: 1,
   RIGHT: 2,
   UP: 4,
   LEFT: 8
 };
 
-var Dimensions = {
+/**
+ * @enum {number}
+ * @deprecated
+ */
+var Directions = Direction;
+
+/**
+ * @enum {number}
+ */
+var Dimension = {
   MARGIN: 16,
   BORDER_WIDTH: 1
 };
+
+/**
+ * @enum {number}
+ * @deprecated
+ */
+var Dimensions = Dimension;
 
 /**
  * @mixin {PopupMixin}
@@ -51,8 +64,12 @@ var PopupMixin = {
   statics: {
     PopupProps: {
       Corner: Corner,
-      Directions: Directions,
-      Dimensions: Dimensions
+      /** @deprecated */
+      Directions: Direction,
+      /** @deprecated */
+      Dimensions: Dimension,
+      Direction: Direction,
+      Dimension: Dimension
     },
 
     /** @override */
@@ -70,7 +87,7 @@ var PopupMixin = {
     /**
      * @static
      * @param {ReactComponent} component
-     * @returns {HTMLElement}
+     * @return {HTMLElement}
      */
     renderComponent: function (component) {
       var container = document.createElement('div');
@@ -97,7 +114,7 @@ var PopupMixin = {
       top: 0,
       corner: Corner.BOTTOM_LEFT,
       /* eslint-disable no-bitwise */
-      direction: Directions.DOWN | Directions.RIGHT
+      direction: Direction.DOWN | Direction.RIGHT
       /* eslint-enable no-bitwise */
     };
   },
@@ -125,7 +142,7 @@ var PopupMixin = {
   /** @override */
   render: function () {
     return this.transferPropsTo(
-      <div className={this.getClassName()} style={this.state.styles}>
+      <div className={this.getClassName()} style={this._getStyles()}>
         {this.getInternalContent()}
       </div>
     );
@@ -255,11 +272,11 @@ var PopupMixin = {
 
     /* eslint-disable no-bitwise */
     if (this.isMounted()) {
-      if (props.direction & Directions.UP) {
+      if (props.direction & Direction.UP) {
         top -= $(this.getDOMNode()).height();
       }
 
-      if (props.direction & Directions.LEFT) {
+      if (props.direction & Direction.LEFT) {
         left -= $(this.getDOMNode()).width();
       }
     }
