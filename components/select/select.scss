@@ -3,6 +3,7 @@
 .ring-select {
   display: inline-block;
   position: relative;
+  width: 200px;
   color: $ring-text-color;
 
   &_input-mode {
