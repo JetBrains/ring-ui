@@ -683,7 +683,6 @@ var Select = React.createClass({
     if (this.isInputMode()) {
       var inputCS = React.addons.classSet({
         'ring-js-shortcuts': true,
-        'ring-input_filter': true,
         'ring-input_disabled': this.props.disabled
       });
 
