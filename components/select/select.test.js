@@ -338,6 +338,18 @@ describe('Select(react)', function () {
       this.select.setState.should.not.been.called;
     });
 
+    it('Should react on selecting custom item', function () {
+      this.select.setState = sinon.spy();
+
+      this.select._listSelectHandler({
+        key: 1,
+        label: 'test',
+        type: List.ListProps.Type.CUSTOM
+      });
+
+      this.select.setState.should.been.called;
+    });
+
     it('Should set selected on selecting', function () {
       this.select._listSelectHandler(testData[3]);
       this.select.state.selected.should.equal(testData[3]);
