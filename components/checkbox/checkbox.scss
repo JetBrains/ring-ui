@@ -1,14 +1,17 @@
 @import "../global/global";
 
 .ring-checkbox {
-  position: relative;
-  top: 1px;
-
   line-height: normal;
-  vertical-align: top;
-
   text-align: left;
   outline: none;
+}
+
+$ring-checkbox-size: 13px;
+.ring-checkbox__input-wrapper {
+  line-height: $ring-checkbox-size;
+  font-size: $ring-checkbox-size;
+  position: relative;
+  top: 0;
 }
 
 .ring-checkbox_form-label {
@@ -19,10 +22,10 @@
 :root .ring-checkbox__input[type="checkbox"] {
   opacity: 0;
   position: absolute;
-  top: 1px;
+  top: 0;
   left: 0;
-  width: 13px;
-  height: 13px;
+  width: $ring-checkbox-size;
+  height: $ring-checkbox-size;
   margin: 0;
 
   & + .ring-checkbox__icon {
@@ -35,14 +38,12 @@
     background: transparent;
     user-select: none;
 
-    vertical-align: top;
-
     & .ring-checkbox__icon__image {
       position: absolute;
       top: -2px;
       left: 0;
-      width: 20px;
-      height: 20px;
+      width: $ring-checkbox-size;
+      height: $ring-checkbox-size;
     }
   }
 
@@ -67,6 +68,4 @@
   display: inline-block;
   margin-left: $ring-unit;
   line-height: normal;
-  font-size: $ring-font-size;
-  vertical-align: super;
 }
