@@ -14,8 +14,8 @@ var Icon = require('icon/icon');
 var generateUniqueId = Global.getUIDGenerator('ring-list-');
 
 require('./list.scss');
-// We have to use webpack's requires instead of scss' import
-// for now to avoid double imports
+
+// We have to use require instead of SCSS import for now to avoid double imports
 require('../link/link.scss');
 
 /**

@@ -31,7 +31,7 @@ var AuthStorage = function (config) {
 
 /**
  * Add token change listener
- * @param {function(string)} fn token change listener
+ * @param {function(string)} fn Token change listener
  * @return {function()} remove listener function
  */
 AuthStorage.prototype.onTokenChange = function(fn) {
@@ -43,9 +43,9 @@ AuthStorage.prototype.onTokenChange = function(fn) {
 /**
  * Save authentication request state.
  *
- * @param {string} id unique state identifier
- * @param {StoredState} state state to store
- * @param {boolean=} dontCleanAndRetryOnFail if falsy then remove all stored states and try again to save state
+ * @param {string} id Unique state identifier
+ * @param {StoredState} state State to store
+ * @param {boolean=} dontCleanAndRetryOnFail If falsy then remove all stored states and try again to save state
  */
 AuthStorage.prototype.saveState = function (id, state, dontCleanAndRetryOnFail) {
   var self = this;

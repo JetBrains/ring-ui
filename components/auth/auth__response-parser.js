@@ -66,7 +66,7 @@ AuthResponseParser.prototype.readAuthResponseFromURL = function () {
 };
 
 /**
- * @return {string} part of the url after hash sign.
+ * @return {string} part of the URL after # sign.
  * @private
  */
 AuthResponseParser.prototype.getHash = function() {

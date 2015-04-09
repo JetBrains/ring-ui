@@ -10,7 +10,7 @@ angular.module('Ring.avatar-editor', ['Ring.message-bundle', 'Ring.alert']).
 /**
  * <avatar-editor ng-model='entity.iconUrl' on-select='uploadFile(name, data)' default='default-picture-uri' controls='editor'></avatar-editor>
  *
- * Input to select small images for later upload as DataURI. On-select attribute gets filename as <code>name</code>
+ * Input to select images to be uploaded as DataURI. On-select attribute gets filename as <code>name</code>
  * and DataURIed file content as <code>data</code>.
  */
   directive('ringAvatarEditor',

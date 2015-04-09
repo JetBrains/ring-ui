@@ -104,7 +104,6 @@ var MenuItem = React.createClass({
    */
   _getImage: function() {
     // todo(igor.alexeenko): Make image size customizable.
-    // Now it is hardcoded for avatar in header.
 
     var baseClass = new ClassName('ring-icon');
     var className = React.addons.classSet(Global.createObject(
@@ -178,8 +177,8 @@ var KnownService = {
  */
 var KnownServiceLogo = Global.createObject(
     KnownService.TEAMCITY, 'teamcity-monochrome',
-    KnownService.YOUTRACK, 'youtrack-monochrome',
-    KnownService.UPSOURCE, 'upsource-monochrome');
+    KnownService.UPSOURCE, 'upsource-monochrome',
+    KnownService.YOUTRACK, 'youtrack-monochrome');
 
 /**
  * @const
@@ -491,7 +490,7 @@ var Header = React.createClass({
   },
 
   /**
-   * Resizes services list to a calculated or a given height.
+   * Resizes services list to a calculated or given height.
    * @param {boolean=} animated
    * @param {number=} height
    * @private
@@ -514,7 +513,7 @@ var Header = React.createClass({
   },
 
   /**
-   * Shows list of services.
+   * Shows the list of services.
    * @param {boolean} show
    * @private
    */
@@ -545,9 +544,9 @@ var Header = React.createClass({
    * @private
    */
   _getLogo: function() {
-    // todo(igor.alexeenko): This check treats as valid components only components
-    // created by React.createClass(). If pass already existed component like
-    // React.DOM.img it won't work.
+    // todo(igor.alexeenko): This check treats as valid only components
+    // created by React.createClass(). If an already existing component such as
+    // React.DOM.img is passed, it won't work.
     if (this.props.logo && typeof this.props.logo.setState !== 'undefined' &&
         typeof this.props.logo.render !== 'undefined') {
       return this.props.logo;

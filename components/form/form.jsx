@@ -377,7 +377,7 @@ var Form = React.createClass({
   },
 
   /**
-   * Remembers all fields, which should be disabled while form isn't valid.
+   * Remembers all fields that should be disabled while form isn't valid.
    * @protected
    */
   getValidationDependentFields: function() {
@@ -397,7 +397,7 @@ var Form = React.createClass({
   },
 
   /**
-   * Toggles disability of fields, which should be disabled while form
+   * Toggles disabled state of fields that should be disabled while the form
    * isn't valid.
    * @private
    */

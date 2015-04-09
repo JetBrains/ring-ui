@@ -112,7 +112,6 @@ var FooterLine = React.createClass({
  *  - center
  *  - right
  *
- * Inisde you can define rathen an array or single values. See example.
  * @param {string[]} className Additional classnames to component
  * @param {Object[]} left Left footer column elements
  * @param {Object[]} center Center footer column elements

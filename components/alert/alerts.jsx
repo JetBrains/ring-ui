@@ -142,8 +142,7 @@ var Alerts = React.createClass({
     var alertToAppend = React.renderComponent(new Alert(lastAddedElement), _containerClone);
     var heightToCompensate = alertToAppend.getDOMNode().offsetHeight;
 
-    // todo(igor.alexeenko): Merge vertical animation to element's height with
-    // animation from Header.
+    // todo(igor.alexeenko): Merge vertical animation to element's height with animation from Header.
     _stylesheet.insertRule('.alert-enter { margin-top: -' + (heightToCompensate + _gap) + 'px }', 0);
 
     React.unmountComponentAtNode(_containerClone);
@@ -169,7 +168,7 @@ var Alerts = React.createClass({
   },
 
   /**
-   * Creates a deferred and puts it into a queue.
+   * Creates a Deferred and enqueues it.
    * @param {ReactComponent|string} caption
    * @param {Alert.Type=} type
    * @param {number=} timeout
