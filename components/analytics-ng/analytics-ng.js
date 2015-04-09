@@ -103,7 +103,7 @@ analyticsModule.run(['$rootScope', 'analytics', function($rootScope, analytics) 
  *
  *  @description
  *  The `rg-analytics="<categoryName>:<eventName>"` sends categoryName and eventName to analytics server on
- *  user action, specified via attribute `rg-analytics-on` (e.g. rg-analytics-on='mouseover' means that analytics will be send on mouseover,
+ *  user action, specified via attribute `rg-analytics-on` (e.g. rg-analytics-on='mouseover' means that analytics will be sent on mouseover,
  *  rg-analytics-on='click' - on click). If there is no attribute rg-analytics-on, the default value 'click' is used.
  */
 analyticsModule.directive('rgAnalytics', [

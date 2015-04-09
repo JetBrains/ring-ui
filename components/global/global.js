@@ -29,7 +29,7 @@ Global.addSingletonGetter = function (Constructor) {
 };
 
 /**
- * Creates unique ids generator function
+ * Creates a UID generator function
  * @param {string} prefix
  * @param {number=} idCounter
  * @returns {Function}
@@ -44,8 +44,8 @@ Global.getUIDGenerator = function (prefix, idCounter) {
 };
 
 /**
- * Creates an object from given arguments. Even arguments becomes keys,
- * odd arguments becomes values.
+ * Creates an object from given arguments. Even arguments become keys,
+ * odd arguments become values.
  * @return {Object}
  * @throws {Error}
  */

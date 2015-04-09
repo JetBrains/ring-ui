@@ -7,7 +7,7 @@ require('../message-bundle-ng/message-bundle-ng');
 
 /**
  * @name Error-page-ng
- * @description Directive shows error on page
+ * @description Directive for showing error pages (e.g. 404 Not Found)
  * @example
  * <example name="Error-page-ng">
    <file name="index.html">

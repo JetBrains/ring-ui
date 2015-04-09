@@ -1,6 +1,6 @@
 /**
  * @author maxim.erekhinskiy
- * @fileoverview AngularJS service that provide interface to React Alerts interface.
+ * @fileoverview AngularJS service that provides an interface to React-based Alerts component.
  */
 /* global angular: false */
 
