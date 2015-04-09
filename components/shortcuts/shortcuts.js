@@ -49,7 +49,7 @@ Shortcuts._dispatcher = function (e, key) {
  */
 Shortcuts.Mixin = {
   /**
-   * Lazy inits component's shortcuts and syncronizes their state with scope chain
+   * Lazy inits component's shortcuts and synchronizes their state with scope chain
    * @private
    */
   toggleShortcuts: function(props) {

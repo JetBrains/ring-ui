@@ -23,7 +23,7 @@ Caret.prototype.focus = function focus() {
  */
 var returnRE = /\r/g;
 /**
- * String line endings normalizer
+ * Line endings normalizer
  * Borrowed from jQuery
  * @see https://github.com/jquery/jquery/blob/master/src/attributes/val.js
  * @param value {*}

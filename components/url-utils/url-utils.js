@@ -1,5 +1,5 @@
 /**
- * @fileoverview Helpers to work with URL.
+ * @fileoverview Helpers to work with URLs.
  * @author igor.alexeenko (Igor Alekseyenko)
  */
 
@@ -18,7 +18,7 @@ urlUtils.getBaseURI = function() {
 };
 
 /**
- * Get origin from url
+ * Get origin from the URL
  * @param {string} url
  * @returns {string|undefined}
  */
@@ -31,8 +31,8 @@ urlUtils.getOrigin = function(url) {
 };
 
 /**
- * Gets url and fix it.
- * If url is relative and there is <base> TAG in page code url will be converted to absolute.
+ * Fixes the URL
+ * If the URL is relative and the page contains a <base> TAG, the URL will be converted to absolute
  * <base href="/">: some/path => /some/path
  * @param {string} url
  * @return {string}

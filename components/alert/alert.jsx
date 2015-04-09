@@ -1,6 +1,6 @@
 /**
- * @fileoverview Alert. Could be used as message, shown inline in context.
- * On the other hand could be used in a stack of messages. In this case
+ * @fileoverview Alert. Can be used to display messages, shown inline in context.
+ * Can also be used to display a stack of messages. In this case
  * use {@link Alerts}.
  * @author igor.alexeenko@jetbrains.com (Igor Alekseenko)
  * @jsx React.DOM

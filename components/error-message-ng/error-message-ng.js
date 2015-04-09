@@ -7,7 +7,7 @@ require('react-ng/react-ng')({
 });
 
 /**
- * A block fore errors representing
+ * A block for displaying error messages
  * Usage:
  * <error-message code="{{ 'Disconnected' | translate }}" message="{{ 'No, no one\'s there.' | translate }}" icon="frown" links="[{href:'.',text:'home'}]">
    {{ 'Service backend isn\'t available' | translate }}

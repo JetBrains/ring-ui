@@ -40,8 +40,8 @@ var ProgressBar = React.createClass({
   propTypes: {
 
     /**
-     * ring-progress-bar_global  - Progress bar on top of
-     * the screen. Should be placed directly inside body, will be positioned right below .ring-header
+     * ring-progress-bar_global  - Progress bar on top of the screen.
+     * Should be placed directly inside body, will be positioned right below .ring-header
      * if placed adjacent to it.
      * @type {string}
      */

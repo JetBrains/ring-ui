@@ -227,10 +227,10 @@ var Select = React.createClass({
       loadingMessage: 'Loading...',
       notFoundMessage: 'No options found',
 
-      type: Types.BUTTON,
-      targetElement: null,  // element to bind the popup po (select BUTTON or INPUT by default)
-      hideSelected: false,  // INPUT mode: clear input in any case (something selected)
-      suggestOnly: false,   // INPUT mode: hide popup if options is empty, don't show any icons, don't change filter
+      type: Type.BUTTON,
+      targetElement: null,  // element to bind the popup to (select BUTTON or INPUT by default)
+      hideSelected: false,  // INPUT mode: clears the input after an option is selected (useful when the selection is displayed in some custom way elsewhere)
+      suggestOnly: false,   // INPUT mode: allows any value to be entered, hides the dropdown icon
 
       maxHeight: 250,       // Height of options list, without the filter and 'Add' button
       minWidth: 'target',   // Popup width
@@ -478,11 +478,11 @@ var Select = React.createClass({
   },
 
   isInputMode: function() {
-    return (this.props.type === Types.INPUT);
+    return (this.props.type === Type.INPUT);
   },
 
   isButtonMode: function() {
-    return (this.props.type === Types.BUTTON);
+    return (this.props.type === Type.BUTTON);
   },
 
   _clickHandler: function() {
