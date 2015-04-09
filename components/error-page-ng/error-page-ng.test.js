@@ -20,7 +20,7 @@ describe('ErrorPageNg', function() {
     expect(errorPageConfiguration).should.exist;
   }));
 
-  it('should compile deirective to content if no errors', inject(function($rootScope, $compile) {
+  it('should compile directive to content if no errors', inject(function($rootScope, $compile) {
     var elem = window.angular.element('<div error-page><div class="content">Hello!</div></div>');
     elem = $compile(elem)($rootScope);
     $rootScope.$digest();
@@ -29,7 +29,7 @@ describe('ErrorPageNg', function() {
     elem.find('.error-message').should.not.exist;
   }));
 
-  it('should compile deirective to default error if has empty error',
+  it('should compile directive to default error if has empty error',
     inject(function ($rootScope, $compile, RingMessageBundle) {
       var elem = window.angular.element('<div error-page="{error: {}}"><div class="content">Hello!</div></div>');
       elem = $compile(elem)($rootScope);

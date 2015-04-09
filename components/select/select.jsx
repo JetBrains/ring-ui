@@ -414,7 +414,7 @@ var Select = React.createClass({
     }
 
     var filteredData = [];
-    var exectMatch = false;
+    var exactMatch = false;
 
     var check = this.props.filter.fn || function(itemToCheck, checkString) {
       // by default, skip separators and hints
@@ -432,7 +432,7 @@ var Select = React.createClass({
           item.type = List.ListProps.Type.ITEM;
         }
 
-        exectMatch = (item.label === filterString);
+        exactMatch = (item.label === filterString);
 
         if (this.props.multiple && !this.props.multiple.removeSelectedItems) {
           item.checkbox = !!this._multipleMap[item.key];
@@ -446,7 +446,7 @@ var Select = React.createClass({
     }
 
     this._addButton = null;
-    if (this.props.add && filterString && !exectMatch) {
+    if (this.props.add && filterString && !exactMatch) {
       if (!(this.props.add.regexp && !this.props.add.regexp.test(filterString)) &&
       !(this.props.add.minlength && filterString.length < +this.props.add.minlength)) {
 
