@@ -39,7 +39,7 @@ describe('urlUtils', function () {
   });
 
   describe('getOrigin', function () {
-    it('should return origin for absoulte URIs', function () {
+    it('should return origin for absolute URIs', function () {
       urlUtils.getOrigin('https://secure:433/path?q=p#hash').should.equal('https://secure:433');
     });
 
