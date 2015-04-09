@@ -40,6 +40,10 @@
   & .ring-input, & .ring-select, & .ring-input_wrapper {
     width: 25 * $ring-unit !important;
     margin: 0;
+
+    &_long {
+      width: 50 * $ring-unit !important;
+    }
   }
 }
 
