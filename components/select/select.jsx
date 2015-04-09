@@ -32,12 +32,6 @@ var Type = {
 };
 
 /**
- * @enum {number}
- * @deprecated use {@Type} instead.
- */
-var Types = Type;
-
-/**
  * @constructor
  * @mixes {Popup.Mixin}
  * @extends {ReactComponent}
@@ -91,7 +85,9 @@ var Types = Type;
 
      React.renderComponent(Select({
        type: Select.Type.INPUT,
-       suggestOnly: true
+       allowAny: true,
+       hideArrow: true,
+       label: 'Placeholder without arrow'
      }), document.getElementById('demo'))
      .setProps({data: data});
    </file>
@@ -230,7 +226,8 @@ var Select = React.createClass({
       type: Type.BUTTON,
       targetElement: null,  // element to bind the popup to (select BUTTON or INPUT by default)
       hideSelected: false,  // INPUT mode: clears the input after an option is selected (useful when the selection is displayed in some custom way elsewhere)
-      suggestOnly: false,   // INPUT mode: allows any value to be entered, hides the dropdown icon
+      allowAny: false,      // INPUT mode: allows any value to be entered, hides the dropdown icon
+      hideArrow: false,     // hide dropdown arrow icon
 
       maxHeight: 250,       // Height of options list, without the filter and 'Add' button
       minWidth: 'target',   // Popup width
@@ -374,7 +371,7 @@ var Select = React.createClass({
       message = this.props.notFoundMessage;
     }
 
-    if (!data.length && this.props.suggestOnly) {
+    if (!data.length && this.props.allowAny) {
       if (this._popup.isVisible()) {
         this._hidePopup();
       }
@@ -492,7 +489,20 @@ var Select = React.createClass({
   },
 
   _filterChangeHandler: function() {
-    this.props.onFilter(this.filterValue());
+    var filterValue = this.filterValue().trim();
+    this.props.onFilter(filterValue);
+    if (this.props.allowAny) {
+      var fakeSelected = {
+        key: Math.random(),
+        label: filterValue
+      };
+      this.setState({
+        selected: filterValue === '' ? null : fakeSelected
+      }, function() {
+        this.props.onSelect(fakeSelected);
+        this.props.onChange(fakeSelected);
+      });
+    }
     this._showPopup();
   },
 
@@ -561,12 +571,10 @@ var Select = React.createClass({
 
   _onClose: function() {
     if (this.isInputMode()) {
-      if (!this.props.suggestOnly) {
-        if (this.props.hideSelected || !this.state.selected || this.props.multiple) {
-          this.clearFilter();
-        } else if (this.state.selected) {
-          this.filterValue(this._getItemLabel(this.state.selected));
-        }
+      if (this.props.hideSelected || !this.state.selected || this.props.multiple) {
+        this.clearFilter();
+      } else if (this.state.selected) {
+        this.filterValue(this._getItemLabel(this.state.selected));
       }
     }
     this._hidePopup();
@@ -658,7 +666,9 @@ var Select = React.createClass({
       </span>);
     }
 
-    icons.push(<Icon glyph="caret-down" size={Icon.Size.Size16} />);
+    if (!this.props.hideArrow) {
+      icons.push(<Icon glyph="caret-down" size={Icon.Size.Size16} />);
+    }
 
     return icons;
   },
@@ -694,7 +704,7 @@ var Select = React.createClass({
             onBlur={this._blurHandler}
             shortcuts={this._inputShortcutsEnabled()}
             placeholder={this._getInputPlaceholder()} />
-          {!this.props.suggestOnly && iconsNode}
+          {iconsNode}
         </div>);
     } else if (this.isButtonMode()) {
       return (
