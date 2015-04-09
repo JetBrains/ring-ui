@@ -1,8 +1,8 @@
 var deepMixIn = require('mout/object/deepMixIn');
 
 /**
- * Class with default hotkeys navigation actions (e.g. select, clear selection, move up/down)
- * @param {Selection?} tableSelection selection, assosiated with rg-table
+ * Class with default hotkey actions (e.g. select, clear selection, move up/down)
+ * @param {Selection?} tableSelection selection associated with rg-table
  * (if tableSelection is not defined, use method setSelection to configure instance)
  */
 var SelectionNavigateActions = function (tableSelection) {

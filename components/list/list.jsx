@@ -548,7 +548,7 @@ var List = React.createClass({
               props.type = Type.LINK;
             }
 
-            // Probably unqiue enough key
+            // Probably unique enough key
             props.key = props.key || props.type + props.label;
 
             props.active = (index === this.state.activeIndex);

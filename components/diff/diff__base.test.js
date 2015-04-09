@@ -17,7 +17,7 @@ describe('Diff', function () {
 
     var DOMContainer;
 
-    // We need attached contantainer here because of CodeMirror
+    // We need attached container here because of CodeMirror
     beforeEach(function () {
       dInstance = new BaseDiff();
 
