@@ -310,24 +310,23 @@ var PopupMixin = {
     }
 
     // automatic position correction -->
-    var sidePadding = 8;
     if (this.isMounted()) {
-      if (styles.left < sidePadding) {
-        styles.left = sidePadding;
+      if (styles.left < Dimension.MARGIN) {
+        styles.left = Dimension.MARGIN;
       }
 
-      if (styles.top < sidePadding) {
-        styles.top = sidePadding;
+      if (styles.top < Dimension.MARGIN) {
+        styles.top = Dimension.MARGIN;
       }
 
       var horizontalDiff = $(window).width() - (styles.left + $(this.getDOMNode()).outerWidth());
-      if (horizontalDiff < sidePadding) {
-        styles.left = styles.left + horizontalDiff - sidePadding;
+      if (horizontalDiff < Dimension.MARGIN) {
+        styles.left = styles.left + horizontalDiff - Dimension.MARGIN;
       }
 
       var vericalDiff = $(window).height() - (styles.top + $(this.getDOMNode()).outerHeight());
-      if (vericalDiff < sidePadding) {
-        styles.top = styles.top + vericalDiff - sidePadding;
+      if (vericalDiff < Dimension.MARGIN) {
+        styles.top = styles.top + vericalDiff - Dimension.MARGIN;
       }
     }
     // automatic position correction <--
