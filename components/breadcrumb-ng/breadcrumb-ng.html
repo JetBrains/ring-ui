@@ -1,7 +1,15 @@
 <div class="ring-breadcrumb">
   <span class="ring-breadcrumb__element" ng-show="label">
-    <a ng-if="link" class="ring-link" ng-href="{{ link }}">{{ label }}</a>
-    <span ng-if="!link">{{ label }}</span>
+    <a ng-if="link"
+       class="ring-link"
+       ng-href="{{ link }}">
+      {{ label }}
+    </a>
+    <span ng-if="!link"
+          ng-class="onClick && 'ring-link'"
+          ng-click="onClick()">
+      {{ label }}
+    </span>
     <span class="ring-breadcrumb__sep">&nbsp;›&nbsp;</span>
   </span>
   <span class="ring-breadcrumb__element active" ng-transclude></span>

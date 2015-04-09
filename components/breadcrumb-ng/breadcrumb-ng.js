@@ -13,17 +13,28 @@ require('react-ng/react-ng')({
    * @example
    * <example name="Breadcrumb-ng">
      <file name="index.html">
-       <div ng-app="Ring.breadcrumb">
-         <ring-breadcrumb label="First level" link="test/href1">
-          <ring-breadcrumb label="Second level" link="test/href2">
-            <span>Active level</span>
+       <div ng-app="Example.breadcrumb">
+         <div  ng-controller="DemoCtrl">
+          <ring-breadcrumb label="First level" link="test/href1">
+            <ring-breadcrumb label="Second level" on-click="clickSecondLevel">
+              <span>Active level</span>
+            </ring-breadcrumb>
           </ring-breadcrumb>
-         </ring-breadcrumb>
+         </div>
        </div>
      </file>
      <file name="index.js" webpack="true">
        require('angular/angular.min.js');
        require('breadcrumb-ng/breadcrumb-ng');
+
+       angular.module('Example.breadcrumb', ['Ring.breadcrumb'])
+         .controller('DemoCtrl', [
+            '$scope',
+            function($scope) {
+              $scope.clickSecondLevel = function() {
+                alert('Second level was clicked');
+              }
+            }]);
      </file>
    </example>
  */
@@ -37,7 +48,8 @@ angular.module('Ring.breadcrumb', ['Ring.react-ng']).
       restrict: 'E',
       scope: {
         label: '@',
-        link: '@'
+        link: '@',
+        onClick: '=?'
       }
     };
   }]);
