@@ -54,7 +54,7 @@ module.exports = {
       },
       // shim whatwg fetch polyfill
       {
-        test: /whatwg\-fetch\/fetch\.js$/,
+        test: /whatwg\-fetch(\\|\/)fetch\.js$/,
         loaders: [
           'imports?self=>{},Promise=when/es6-shim/Promise.browserify-es6.js',
           'exports?self'
