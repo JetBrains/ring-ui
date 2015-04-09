@@ -320,12 +320,12 @@ var PopupMixin = {
         styles.top = sidePadding;
       }
 
-      var horizontalDiff = $(window).width() - (styles.left + $(this.getDOMNode()).outerWidth());
+      var horizontalDiff = $(document).width() - (styles.left + $(this.getDOMNode()).outerWidth());
       if (horizontalDiff < sidePadding) {
         styles.left = styles.left + horizontalDiff - sidePadding;
       }
 
-      var vericalDiff = $(window).height() - (styles.top + $(this.getDOMNode()).outerHeight());
+      var vericalDiff = $(document).height() - (styles.top + $(this.getDOMNode()).outerHeight());
       if (vericalDiff < sidePadding) {
         styles.top = styles.top + vericalDiff - sidePadding;
       }
