@@ -56,7 +56,7 @@ Permissions.getDefaultNamesConverter = function(prefix) {
 var API_PERMISSION_CACHE_PATH = 'permissions/cache';
 
 /**
- * Loads logged in user permissions.
+ * Loads logged-in user permissions.
  * @return {Promise.<Permissions>} promise that is resolved when the permissions are loaded
  */
 Permissions.prototype.load = function () {

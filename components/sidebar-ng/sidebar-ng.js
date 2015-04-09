@@ -7,9 +7,9 @@ require('../react-ng/react-ng')({
 
 /**
  * @name A sidebar directive.
- * @description Sidebar trying to fill all right half of container.
- * To make sidebar fixed positioned under some other element (e.g. toolbar)
- * that element selector should be passed as placeUnderSibling param.
+ * @description Sidebar trying to fill the entire right half of its container.
+ * To make sidebar have fixed positioning under some other element (e.g. toolbar),
+ * a selector for that element should be passed as placeUnderSibling parameter.
  * @example
   <example name="Sidebar-ng">
     <file name="index.html">
@@ -44,8 +44,8 @@ angular.module('Ring.sidebar', [])
       /**
       * {{
       *   show: boolean,
-      *   placeUnderSibling: ?string, an selector to stick sidebar
-      *   topOffset: ?number, an offset from top for sidebar
+      *   placeUnderSibling: ?string, a selector for an element the sidebar should stick to
+      *   topOffset: ?number, sidebar top offset
       * }}
       */
       scope: {

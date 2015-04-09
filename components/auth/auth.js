@@ -17,11 +17,11 @@ var urlUtils = require('url-utils/url-utils');
  * @prop {string} config.serverUri
  * @prop {string} config.redirect_uri
  * @prop {string} config.client_id
- * @prop {boolean=true} config.redirect — use redirects instead of background token load; TODO false to be set as default after Hub 1.0 everywhere
+ * @prop {boolean=true} config.redirect — use redirects instead of loading token in the background. TODO set to false after Hub 1.0 is released.
  * @prop {string[]} config.scope
  * @prop {string[]} config.optionalScopes
- * @prop {boolean} config.cleanHash - describes whether or not the location.hash has to be cleaned after authorization finish.
- * It should be set to false in angular > 1.2.26 apps to prevent infinite redirect in Firefox
+ * @prop {boolean} config.cleanHash - whether or not location.hash will be cleaned after authorization completes.
+ * Should be set to false in angular > 1.2.26 apps to prevent infinite redirect in Firefox
  * @prop {User?} user
  *
  * @param {{
@@ -167,18 +167,18 @@ Auth.API_PROFILE_PATH = 'users/me';
 Auth.REFRESH_BEFORE = 20 * 60; // 20 min in s
 
 /**
- * @const {number} noninteractive auth timeout
+ * @const {number} non-interactive auth timeout
  */
 Auth.BACKGROUND_TIMEOUT = 20 * 1000; // 20 sec in ms
 
 /**
- * @const {boolean} is CORS available in browser
+ * @const {boolean} is CORS supported by the browser
  */
 Auth.HAS_CORS = 'withCredentials' in new XMLHttpRequest();
 
 /**
- * @return {Promise.<string>} absolute URL promise that is resolved to an URL
- *  that should be restored after return back from auth server. If no return happened
+ * @return {Promise.<string>} absolute URL promise that is resolved to a URL
+ * that should be restored after returning back from auth server.
  */
 Auth.prototype.init = function () {
   var self = this;
@@ -239,7 +239,7 @@ Auth.prototype.init = function () {
 };
 
 /**
- * Get token from local storage or request it if it is required.
+ * Get token from local storage or request it if necessary.
  * Can redirect to login page.
  * @return {Promise.<string>}
  */
@@ -294,7 +294,7 @@ Auth.prototype.getSecure = function (absoluteUrl, accessToken, params) {
  * Makes GET request to the relative API url. For example to fetch all services call:
  *  getApi('services', token, params)
  *
- * @param {string} relativeURI a URI relative to config.serverUri rest api to make the GET request to
+ * @param {string} relativeURI a URI relative to config.serverUri REST endpoint to make the GET request to
  * @param {string} accessToken access token to use in request
  * @param {object?} params query parameters
  * @return {Promise} promise from fetch request
@@ -338,7 +338,7 @@ Auth.prototype.logout = function () {
 };
 
 /**
- * Returns epoch, seconds since 1970.
+ * Returns epoch - seconds since 1970.
  * Used for calculation of expire times.
  * @return {number} epoch, seconds since 1970
  * @private
@@ -349,7 +349,7 @@ Auth._epoch = function () {
 
 /**
  * Check if the hash contains an access token.
- * And if it does, extract the state, compare with
+ * If it does, extract the state, compare with
  * config, and store the auth response for later use.
  *
  * @return {Promise} promise that is resolved to restoreLocation URL, or rejected
@@ -423,8 +423,8 @@ Auth.prototype._checkForAuthResponse = function () {
 /**
  * Error class for auth token validation
  *
- * @param {string} message error message
- * @param {Error=} cause error that caused this error
+ * @param {string} message Error message
+ * @param {Error=} cause Error that caused this error
  * @constructor
  */
 Auth.TokenValidationError = function (message, cause) {
@@ -449,7 +449,7 @@ Auth._authRequiredReject = function (message, cause) {
 };
 
 /**
- * Check if there is the token
+ * Check if there is a token
  * @param {StoredToken} storedToken
  * @return {Promise.<StoredToken>}
  * @private
@@ -548,7 +548,7 @@ Auth.prototype._validateAgainstUser = function (storedToken) {
 
 /**
  * Gets stored token and applies provided validators
- * @param {TokenValidator[]} validators an array of validation
+ * @param {TokenValidator[]} validators An array of validation
  * functions to check the stored token against.
  * @return {Promise.<string>} promise that is resolved to access token if the stored token is valid. If it is
  * invalid then the promise is rejected. If invalid token should be re-requested then rejection object will

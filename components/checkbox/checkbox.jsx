@@ -98,8 +98,8 @@ var Checkbox = React.createClass({
     className: ReactPropTypes.string,
 
     /**
-     * Add id for component. If user does not pass id
-     * we generate unique id for correct work checkbox
+     * Set component ID. If user does not pass an ID
+     * we generate a unique ID for checkbox to work correctly.
      */
     id: ReactPropTypes.string
   },

@@ -2,9 +2,9 @@ var browser = require('bowser').browser;
 
 var AnalyticsCustomPluginUtils = {};
 /**
- * Statistics server does not accepts strings with dots and undefined-values
+ * Statistics server does not accept strings with dots and undefined values
  * @param str
- * @returns str, where all dots replaced by '_'
+ * @returns str, where dots are replaced with '_'
  */
 AnalyticsCustomPluginUtils.reformatString = function (str) {
   if (typeof str === 'string') {

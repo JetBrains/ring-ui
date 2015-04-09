@@ -68,8 +68,8 @@ AuthRequestBuilder.prototype._saveState = function (id, storedState) {
 AuthRequestBuilder._uuid = guid;
 
 /*
- * Takes an URL as input and a params object.
- * Each property in the params is added to the url as query string parameters
+ * Takes a URL as input and a params object.
+ * Each property in the params is added to the URL as query string parameters
  */
 AuthRequestBuilder.encodeURL = function (url, params) {
   var res = url;

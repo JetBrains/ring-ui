@@ -3,7 +3,7 @@
  */
 
 /**
- * Rule insert helper maintanes a stylesheet and manages CSS rules on the go.
+ * Rule insertion helper to create dynamic stylesheets and CSS rules.
  * @constructor
  */
 var RuleManager = function() {};
