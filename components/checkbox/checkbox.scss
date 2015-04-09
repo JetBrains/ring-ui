@@ -1,17 +1,17 @@
 @import "../global/global";
 
+$ring-checkbox-size: 13px;
+
 .ring-checkbox {
   line-height: normal;
   text-align: left;
   outline: none;
 }
 
-$ring-checkbox-size: 13px;
 .ring-checkbox__input-wrapper {
   line-height: $ring-checkbox-size;
   font-size: $ring-checkbox-size;
   position: relative;
-  top: 0;
 }
 
 .ring-checkbox_form-label {
