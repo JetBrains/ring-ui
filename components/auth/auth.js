@@ -648,8 +648,8 @@ Auth.prototype.setHash = function(hash) {
   if (history.replaceState) {
     // NB! History.replaceState is used here, because Firefox saves
     // a record in history.
-    // NB! URL to redirect is formed maually because baseURI could be messed
-    // up and in this case it's not obvious where redirect will lead.
+    // NB! URL to redirect is formed manually because baseURI could be messed up
+    // in which case it's not obvious where redirect will lead.
     var cleanedUrl = [
       window.location.pathname,
       window.location.search

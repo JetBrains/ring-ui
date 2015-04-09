@@ -44,7 +44,7 @@ CodeMirrorHelper.prototype.getEventHandler = function () {
  * @param {CodeMirror} editor
  */
 CodeMirrorHelper.prototype.getOperationBuffer = function (editor) {
-  // todo(igor.alexeenko): Temporary soluton. Monkey patch is not gooTools.
+  // todo(igor.alexeenko): Temporary solution. Monkey patching is no good.
   if (!editor.codeMirrorHelperBuffer_) {
     /**
      * @type {Array}

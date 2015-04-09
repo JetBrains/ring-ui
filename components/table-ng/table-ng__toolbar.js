@@ -2,7 +2,7 @@
 var debounce = require('mout/function/debounce');
 
 /**
- * Stickable toolbar, usable for tables, but can be used elsewhere.
+ * Sticky toolbar, mostly for tables, but can be used elsewhere too.
  * @example
  * <example>
      <rg-table-toolbar stick>

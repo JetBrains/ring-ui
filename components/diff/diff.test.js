@@ -1,7 +1,7 @@
 var renderIntoDocument = require('render-into-document');
 
 describe('Diff', function () {
-  describe('intergration', function () {
+  describe('integration', function () {
     var React = require('react/addons');
     var TestUtils = React.addons.TestUtils;
     var Diff = require('./diff');
