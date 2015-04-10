@@ -1,0 +1,50 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Ring UI - {{title}}</title>
+  <link rel="stylesheet" href="assets/github-markdown.css"/>
+  <link rel="stylesheet" href="assets/github.css"/>
+  <style>
+    .markdown-body {
+      min-width: 200px;
+      max-width: 80%;
+      margin: 0 auto;
+      padding: 30px;
+    }
+
+    .markdown-example {
+      position: relative;
+    }
+
+    .markdown-example__frame {
+      min-height: 500px;
+      width: 100%;
+      border: 1px solid #CCC;
+    }
+
+    .markdown-example__link.markdown-example__link {
+      color: #1866C5;
+      display: block;
+      position: absolute;
+      right: 0;
+      bottom: 7px;
+      border: 1px solid #CCC;
+      font-size: 13px;
+      padding: 8px;
+      background: #fff;
+    }
+
+    .markdown-example__link:hover {
+      color: #FF5A00;
+    }
+  </style>
+</head>
+<body>
+<div class="markdown-body">
+  <h1>{{title}}</h1>
+  {{{contents}}}
+</div>
+<script src="assets/utils.js" type="text/javascript"></script>
+</body>
+</html>
