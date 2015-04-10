@@ -7,8 +7,7 @@ angular.module('Ring.form')
 
   .directive('rgFormUpdateText', [
     '$timeout',
-    'RingMessageBundle',
-    function ($timeout, RingMessageBundle) {
+    function ($timeout) {
       return {
         replace: true,
         transclude: true,
@@ -24,6 +23,7 @@ angular.module('Ring.form')
           isLong: '&long',
           ngDisabled: '=',
           ngRequired: '=',
+          ngPattern: '=',
           type: '@',
           onSave: '='
         },
@@ -97,16 +97,6 @@ angular.module('Ring.form')
               $event.stopPropagation();
               $event.preventDefault();
             }
-          };
-
-          scope.errorMessage = function (error) {
-            var msgs = [];
-            angular.forEach(error, function (value, key) {
-              if (value && RingMessageBundle[key]) {
-                msgs.push(RingMessageBundle[key]());
-              }
-            });
-            return msgs.join(', ');
           };
         }
       };
