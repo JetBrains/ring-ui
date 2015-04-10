@@ -6,7 +6,9 @@
       <input name="input" ng-attr-id="{{ inputId }}" ng-if="!isMultiLine()"
              class="ring-input ring-form__update-text-field"
              ng-class="isLong() && 'ring-form__update-text-field_long'"
-             ng-model="item[field]" ng-disabled="ngDisabled"
+             ng-model="item[field]"
+             ng-disabled="ngDisabled"
+             ng-pattern="ngPattern"
              placeholder="{{ placeholder }}"
              ng-attr-type="{{ type }}"
              ng-required="!isMultiLine() && ngRequired"
@@ -14,7 +16,9 @@
             <textarea name="input" ng-attr-id="{{ inputId }}" ng-if="isMultiLine()" msd-elastic="\n"
                       class="ring-input ring-form__update-text-field ring-form__update-text-field_high"
                       ng-class="isLong() && 'ring-form__update-text-field_long'"
-                      ng-model="item[field]" ng-disabled="ngDisabled"
+                      ng-model="item[field]"
+                      ng-disabled="ngDisabled"
+                      ng-pattern="ngPattern"
                       ng-required="isMultiLine() && ngRequired"
                       placeholder="{{ placeholder }}"
                       ng-keydown="inputKey($event)"></textarea>
@@ -25,8 +29,7 @@
       <button ng-show="done" disabled
               class="ring-btn ring-form__update-text__button"
               translate>Saved</button>
-            <span ng-show="form.input.$dirty && initial !== item[field] && !form.input.$valid"
-                  class="ring-form__update-text__error">{{ errorMessage(form.input.$error) }}</span>
+      <div ng-if="form.input.$dirty && initial !== item[field]" error-bubble="form.input"></div>
     </div>
     <span class="ring-form__control__description" ng-transclude></span>
   </div>
