@@ -4,6 +4,7 @@ var gutil = require('gulp-util');
 var webpack = require('webpack');
 var rimraf = require('gulp-rimraf');
 var WebpackDevServer = require('webpack-dev-server');
+var AnyBarWebpackPlugin = require('anybar-webpack');
 var nodemon = require('gulp-nodemon');
 var argv = require('yargs').argv;
 
@@ -74,6 +75,7 @@ gulp.task('webpack-dev-server', function () {
   myConfig.output.path = '/';
   myConfig.entry.jQuery = './node_modules/jquery/dist/jquery.js';
   myConfig.entry.utils = ['webpack-dev-server/client?http://localhost:8080', 'es5-shim', 'es5-shim/es5-sham.js'];
+  myConfig.plugins = [new AnyBarWebpackPlugin()];
 
   var serverPort = argv.port || '8080';
 
