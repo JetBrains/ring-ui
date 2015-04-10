@@ -6,12 +6,12 @@ require('../react-ng/react-ng')({
 });
 
 /**
- * @name A sidebar directive.
+ * @name Sidebar Ng
  * @description Sidebar trying to fill the entire right half of its container.
  * To make sidebar have fixed positioning under some other element (e.g. toolbar),
  * a selector for that element should be passed as placeUnderSibling parameter.
  * @example
-  <example name="Sidebar-ng">
+  <example name="Sidebar Ng">
     <file name="index.html">
       <div ng-app="Ring.sidebar" ng-init="isShowSideBar = true" style="position: relative;">
           <rg-sidebar show="isShowSideBar" place-under-sibling=".some-toolbar" top-offset="1">

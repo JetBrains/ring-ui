@@ -19,30 +19,31 @@ var generateUniqueId = Global.getUIDGenerator(ID_PREFIX);
  * @name Checkbox
  * @constructor
  * @extends {ReactComponent}
+ * @example
    <example name="Checkbox">
    <file name="index.html">
     <h1>Base Examples</h1>
     <div>
-      <span id='checkbox'></span>
-      <span id='checkbox-selected'></span>
-      <span id='checkbox-disabled'></span>
+      <span id="checkbox"></span>
+      <span id="checkbox-selected"></span>
+      <span id="checkbox-disabled"></span>
     </div>
     <h1>Examples with outer styles</h1>
     <div>
       <div style="line-height: 60px">
-        <span id='checkbox-in-large-line-height-div'></span>
+        <span id="checkbox-in-large-line-height-div"></span>
         <span>This text should be aligned on same line with checkbox label</span>
       </div>
       <div style="line-height: 6px;">
-        <span id='checkbox-in-small-line-height-div'></span>
+        <span id="checkbox-in-small-line-height-div"></span>
         <span>This text should be aligned on same line with checkbox label</span>
       </div>
       <div style="font-size: 40px">
-        <span id='checkbox-in-large-font-div'></span>
+        <span id="checkbox-in-large-font-div"></span>
         <span>This text should be aligned on same line with checkbox label</span>
       </div>
       <div style="line-height: 6px; font-size: 4px">
-        <span id='checkbox-in-small-font-div'></span>
+        <span id="checkbox-in-small-font-div"></span>
         <span>This text should be aligned on same line with checkbox label</span>
       </div>
     </div>
@@ -50,7 +51,7 @@ var generateUniqueId = Global.getUIDGenerator(ID_PREFIX);
 
    <file name="index.js" webpack="true">
    var React = require('react');
-   var Checkbox = require('./checkbox.jsx');
+   var Checkbox = require('checkbox/checkbox.jsx');
 
    React.renderComponent(Checkbox(), document.getElementById('checkbox'));
 

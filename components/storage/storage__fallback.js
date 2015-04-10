@@ -132,7 +132,7 @@ FallbackStorage.prototype.remove = function (key) {
 
 /**
  *
- * @param {function(key: string, value: object)} callback
+ * @param {function(string, value)} callback
  * @return {Promise}
  */
 FallbackStorage.prototype.each = function (callback) {

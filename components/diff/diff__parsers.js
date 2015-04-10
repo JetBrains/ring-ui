@@ -9,8 +9,7 @@ var parsers = {};
 /**
  * Parser. Takes information about chunk and information about change and
  * returns modified information about chunk.
- * @typedef {function(Parser: Parser.OutputLine,
-   *     Parser.LineModification):Parser.OutputLine}
+ * @typedef {function(Parser.OutputLine, Parser.LineModification):Parser.OutputLine}
  */
 parsers.parserFn = null;
 
