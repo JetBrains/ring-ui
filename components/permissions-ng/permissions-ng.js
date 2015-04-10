@@ -67,16 +67,16 @@ var registerPermission = function (element) {
  * on the logged in user permissions. If the user has listed permissions then the DOM tree
  * is shown, otherwise it is hidden.
  * @example
-   <doc:example>
-     <doc:source>
+   <example name="permission directive">
+     <file name="index.html">
        <div permission="space-read" in-space="0-0-0-0-0">
          Is visible if user has permission 'read-space' in space 0-0-0-0-0.
        </div>
        <div permission="space-read">
          Is visible if user has permission 'read-space' at least in one space.
        </div>
-     </doc:source>
-   </doc:example>
+     </file>
+   </example>
  *
  * @restrict A
  * @element ANY
@@ -116,16 +116,16 @@ permissionsModule.directive('permission', [
  * on the logged in user permissions. If the user has listed permissions then the DOM tree
  * is transcluded, otherwise it is not.
  * @example
-   <doc:example>
-     <doc:source>
+   <example name="permissionIf directive">
+     <file name ="index.html">
        <div permission-if="space-read" in-space="0-0-0-0-0">
          Is transcluded if user has permission 'read-space' in space 0-0-0-0-0.
        </div>
        <div permission-if="space-read">
          Is transcluded if user has permission 'read-space' at least in one space.
        </div>
-     </doc:source>
-   </doc:example>
+     </file>
+   </example>
  *
  * @restrict A
  * @element ANY
@@ -187,8 +187,8 @@ permissionsModule.directive('permissionIf', [
  * nested {@link permission} or {@link permissionIf} directive is obtained by the logged in user.
  *
  * @example
-   <doc:example>
-     <doc:source>
+   <example name="somePermissions directive">
+     <file name="index.html">
        <div some-permissions="atLeastOneNestedDivIsShown" ng-show="atLeastOneNestedDivIsShown">
          <div permission-if="space-read" in-space="0-0-0-0-0">
            Is transcluded if user has permission 'read-space' in space 0-0-0-0-0.
@@ -197,8 +197,8 @@ permissionsModule.directive('permissionIf', [
            Is transcluded if user has permission 'read-space' at least in one space.
          </div>
        </div>
-     </doc:source>
-   </doc:example>
+     </file>
+   </example>
  *
  * @scope
  * @restrict A

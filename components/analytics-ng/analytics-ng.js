@@ -2,7 +2,7 @@ var analyticsInstance = require('analytics/analytics');
 
 /**
  * @ngdoc module
- * @name Ring.analytics
+ * @name Analytics Ng
  *
  * @example
  * <example name="Analytics">

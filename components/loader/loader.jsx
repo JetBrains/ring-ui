@@ -4,6 +4,7 @@ var React = require('react');
 require('./loader.scss');
 
 /**
+ * @name Loader
  * @constructor
  * @extends {ReactComponent}
  * @example
@@ -15,13 +16,13 @@ require('./loader.scss');
 
      <file name="index.js" webpack="true">
        var React = require('react');
-       var Loader = require('./loader.jsx');
+       var Loader = require('loader/loader');
 
       React.renderComponent(Loader(), document.getElementById('loader'));
      </file>
    </example>
 
-   <example name="LoaderInline">
+   <example name="Loader Inline">
      <file name="index.html">
         <div id="loader-inline">
         </div>
@@ -29,7 +30,7 @@ require('./loader.scss');
 
      <file name="index.js" webpack="true">
        var React = require('react');
-       var Loader = require('./loader.jsx');
+       var Loader = require('loader/loader.jsx');
 
        React.renderComponent(Loader({
                 modifier: Loader.Modifier.INLINE
