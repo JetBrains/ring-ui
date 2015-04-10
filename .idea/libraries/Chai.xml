@@ -3,12 +3,12 @@
     <properties>
       <option name="frameworkName" value="jQuery" />
       <sourceFilesUrls>
-        <item url="file://$PROJECT_DIR$/node_modules/karma-chai-plugins/node_modules/sinon-chai" />
         <item url="file://$PROJECT_DIR$/node_modules/karma-chai-plugins/node_modules/chai-as-promised" />
+        <item url="file://$PROJECT_DIR$/node_modules/karma-chai-plugins/node_modules/sinon-chai" />
         <item url="file://$PROJECT_DIR$/node_modules/karma-chai-plugins/node_modules/chai-things" />
         <item url="file://$PROJECT_DIR$/node_modules/karma-chai-plugins/node_modules/chai-jquery" />
-        <item url="file://$PROJECT_DIR$/node_modules/karma-chai-plugins/node_modules/chai" />
         <item url="file://$PROJECT_DIR$/node_modules/karma-chai-plugins/node_modules/sinon" />
+        <item url="file://$PROJECT_DIR$/node_modules/karma-chai-plugins/node_modules/chai" />
       </sourceFilesUrls>
     </properties>
     <CLASSES>
