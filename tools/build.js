@@ -24,7 +24,11 @@ new Metalsmith(path.resolve(__dirname, '..'))
     '**/*.html',
     '**/.*'
   ]))
-  .use(jsdoc())
+  .use(jsdoc({
+    tags: {
+      example: require('./metalsmith-jsdoc-example-processor')
+    }
+  }))
   .use(metallic())
   .use(markdown({
     gfm: true,
