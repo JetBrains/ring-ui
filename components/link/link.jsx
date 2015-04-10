@@ -4,6 +4,7 @@ var React = require('react');
 require('./link.scss');
 
 /**
+ * @name Link
  * @constructor
  * @extends {ReactComponent}
  * @example
@@ -14,7 +15,7 @@ require('./link.scss');
 
      <file name="index.js" webpack="true">
        var React = require('react');
-       var Link = require('./link');
+       var Link = require('link/link');
 
        React.renderComponent(Link({href: "#hash"}, 'Link text'), document.getElementById('link'));
      </file>

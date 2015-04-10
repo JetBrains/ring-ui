@@ -451,16 +451,14 @@ Tools.visibility.VisibilityChangeEventType = {
 
 
 /**
- * @return {Object.<Tools.visibility.VisibilityProperty,
-   *     Tools.visibility.VisibilityChangeEventType>}
+ * @return {Object.<Tools.visibility.VisibilityProperty, Tools.visibility.VisibilityChangeEventType>}
  * @private
  */
 Tools.visibility.getPropertyToEventType_ = function () {
   if (!Tools.isDef(Tools.visibility.propertyToEventType_)) {
     /**
      * Lookup table of visibility properties to eventTypes of changing them.
-     * @type {Object.<Tools.visibility.VisibilityProperty,
-       *     Tools.visibility.VisibilityChangeEventType>}
+     * @type {Object.<Tools.visibility.VisibilityProperty, Tools.visibility.VisibilityChangeEventType>}
      * @private
      */
     Tools.visibility.propertyToEventType_ = Tools.createObject(

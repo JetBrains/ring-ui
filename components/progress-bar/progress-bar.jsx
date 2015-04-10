@@ -11,11 +11,12 @@ var React = require('react');
 var ReactPropTypes = React.PropTypes;
 
 /**
+ * @name Progress Bar
  * @constructor
  * @extends {ReactComponent}
  * @example
    <example name="progress-bar">
-    <filename="index.html">
+    <file name="index.html">
       <div id='progress-bar'></div>
     </file>
     <file name="index.js" webpack="true">

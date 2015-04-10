@@ -11,7 +11,7 @@ var React = require('react');
  * @description Joins buttons into one component
  * @extends {ReactComponent}
  * @example
-  <example name="Button">
+  <example name="Button Group">
     <file name="index.html">
       <div>
         <span id="button-group"></span>
@@ -20,8 +20,8 @@ var React = require('react');
 
     <file name="index.js" webpack="true">
       var React = require('react');
-      var Button = require('../button/button.jsx');
-      var ButtonGroup = require('./button-group.jsx');
+      var Button = require('button/button.jsx');
+      var ButtonGroup = require('button-group/button-group.jsx');
 
       React.renderComponent(ButtonGroup(null,
               Button(null, '1st button'),
