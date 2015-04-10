@@ -177,6 +177,7 @@ var ListMixin = {
 };
 
 /**
+ * @name List
  * @constructor
  * @mixes {Shortcuts.Mixin}
  * @extends {ReactComponent}
@@ -188,7 +189,7 @@ var ListMixin = {
 
      <file name="index.js" webpack="true">
        var React = require('react');
-       var List = require('./list.jsx');
+       var List = require('list/list');
 
        var listData = [
         {'label': 'One', 'type': List.ListProps.Type.ITEM},
@@ -213,7 +214,7 @@ var ListMixin = {
 
      <file name="index.js" webpack="true">
        var React = require('react');
-       var List = require('./list.jsx');
+       var List = require('list/list');
 
        var listData = [
         {'label': 'One', 'type': List.ListProps.Type.ITEM},
@@ -239,7 +240,7 @@ var ListMixin = {
 
      <file name="index.js" webpack="true">
        var React = require('react');
-       var List = require('./list.jsx');
+       var List = require('list/list');
 
        var listData = [
         {'label': 'One', 'type': List.ListProps.Type.ITEM},
@@ -266,7 +267,7 @@ var ListMixin = {
 
      <file name="index.js" webpack="true">
        var React = require('react');
-       var List = require('./list.jsx');
+       var List = require('list/list');
 
        var listData = [
          {'type': List.ListProps.Type.SEPARATOR, 'description': 'First separator'},
@@ -282,14 +283,14 @@ var ListMixin = {
      </file>
    </example>
 
-  <example name="List-icons">
+  <example name="List Icons">
     <file name="index.html">
       <div id='list' style="width: 300px;"></div>
     </file>
 
     <file name="index.js" webpack="true">
       var React = require('react');
-      var List = require('./list.jsx');
+      var List = require('list/list');
 
       var listData = [
         {label: 'Some item', key: '1', 'type': List.ListProps.Type.ITEM, icon: 'http://joomlasocial.ru/jomsocial/images/content/arrowchat/icon(2).png'},

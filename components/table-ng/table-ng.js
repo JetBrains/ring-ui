@@ -8,7 +8,7 @@ require('../react-ng/react-ng')({
 
 /*global angular*/
 
-/** @name Table-ng
+/** @name Table Ng
  * @description A table component.
  * @example
 <example name="Table-ng">

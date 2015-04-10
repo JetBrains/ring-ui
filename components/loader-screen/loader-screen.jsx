@@ -5,16 +5,22 @@ var Loader = require('../loader/loader');
 require('./loader-screen.scss');
 
 /**
+ * @name Loader Screen
  * @constructor
  * @extends {ReactComponent}
  * @example
-   <example>
-   <div id="loader-screen">
-   </div>
+   <example name="Loader Screen">
+     <file name="index.html">
+       <div id="loader-screen">
+       </div>
+     </file>
 
-   <script>
-   React.renderComponent(LoaderScreen(), document.getElementById('loader-screen'));
-   </script>
+     <file name="index.js" webpack="true">
+       var React = require('react');
+       var LoaderScreen = require('loader-screen/loader-screen');
+
+       React.renderComponent(LoaderScreen(), document.getElementById('loader-screen'));
+     </file>
    </example>
  */
 var LoaderScreen = React.createClass({

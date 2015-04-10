@@ -101,6 +101,7 @@ var FooterLine = React.createClass({
 });
 
 /**
+ * @name Footer
  * @constructor
  * @extends {ReactComponent}
  * @description
@@ -127,7 +128,7 @@ var FooterLine = React.createClass({
    </file>
    <file name="index.js" webpack="true">
    var React = require('react');
-   var Footer = require('./footer.jsx');
+   var Footer = require('footer/footer.jsx');
    React.renderComponent(
    Footer({
         className: 'stuff',

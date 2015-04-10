@@ -1,11 +1,11 @@
 var PopupMenu = require('popup-menu/popup-menu');
 
 /**
- * @name dropdown-ng
+ * @name Dropdown Ng
  * @constructor
  * @description Directive for dropdowns in angular apps
  * @example
-<example name="dropdown-ng">
+<example name="Dropdown Ng">
   <file name="index.html">
     <div ng-app='dropTest' ng-controller='testController as ctrl'>
       <button class="ring-btn"

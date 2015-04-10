@@ -4,17 +4,26 @@ var Auth = require('auth/auth');
 var authModule = angular.module('Ring.auth', []);
 
 /**
- * Configure:
+ * @name Auth Ng
+ * @description Angular wrapper for Auth
  * @example
- * <pre>
- * angular.config(["authProvider", function (authProvider) {
- *   authProvider.config({
- *     serverUri: "***REMOVED***",
- *     client_id: '0-0-0-0-0',
- *     scope: ["0-0-0-0-0"],
- *   });
- * }]);
- * </pre>
+ * <example name="Auth Ng">
+    <file name="index.html">
+      <div id="example"></div>
+    </file>
+    <file name="index.js" webpack="true">
+      require('angular/angular.min.js');
+      require('analytics-ng/analytics-ng');
+
+      angular.config(["authProvider", function (authProvider) {
+        authProvider.config({
+          serverUri: "***REMOVED***",
+          client_id: '0-0-0-0-0',
+          scope: ["0-0-0-0-0"],
+        });
+      }]);
+    </file>
+  </example>
  */
 authModule.provider('auth', ['$httpProvider', function ($httpProvider) {
   /**
