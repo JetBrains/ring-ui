@@ -32,6 +32,7 @@ var Type = {
 };
 
 /**
+ * @name Select
  * @constructor
  * @mixes {Popup.Mixin}
  * @extends {ReactComponent}
@@ -43,7 +44,7 @@ var Type = {
    </file>
    <file name="index.js" webpack="true">
      var React = require('react');
-     var Select = require('./select.jsx');
+     var Select = require('select/select');
 
      React.renderComponent(Select({disabled: true, loading: true}), document.getElementById('demo1'));
      React.renderComponent(Select({disabled: true, loading: true, type: Select.Type.INPUT}), document.getElementById('demo2'));
@@ -56,7 +57,7 @@ var Type = {
    </file>
    <file name="index.js" webpack="true">
      var React = require('react');
-     var Select = require('./select.jsx');
+     var Select = require('select/select');
 
      var data = [];
      for(var i = 0; i < 20; i++) {
@@ -76,7 +77,7 @@ var Type = {
    </file>
    <file name="index.js" webpack="true">
      var React = require('react');
-     var Select = require('./select.jsx');
+     var Select = require('select/select');
 
      var data = [];
      for(var i = 0; i < 20; i++) {
@@ -99,7 +100,7 @@ var Type = {
  </file>
  <file name="index.js" webpack="true">
    var React = require('react');
-   var Select = require('./select.jsx');
+   var Select = require('select/select');
 
    React.renderComponent(Select({filter: true}), document.getElementById('demo'))
    .setProps({data: [
@@ -118,7 +119,7 @@ var Type = {
    </file>
    <file name="index.js" webpack="true">
      var React = require('react');
-     var Select = require('./select.jsx');
+     var Select = require('select/select');
 
      React.renderComponent(Select({filter: true, loading: true}), document.getElementById('demo'))
      .setProps({data: [
@@ -136,7 +137,7 @@ var Type = {
    </file>
    <file name="index.js" webpack="true">
      var React = require('react');
-     var Select = require('./select.jsx');
+     var Select = require('select/select');
 
      var data = [];
      for(var i = 0; i < 100; i++) {
@@ -171,7 +172,7 @@ var Type = {
    </file>
    <file name="index.js" webpack="true">
      var React = require('react');
-     var Select = require('./select.jsx');
+     var Select = require('select/select');
 
      React.renderComponent(Select({
        filter: true,

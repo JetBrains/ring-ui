@@ -1,6 +1,6 @@
 /**
- * Caret utils. Ported from jquery-caret
  * @name Caret
+ * @description Caret utils. Ported from jquery-caret
  * @see https://github.com/princed/caret
  */
 var Caret = function (target) {
