@@ -3,7 +3,7 @@ var Analytics = function () {
 };
 
 /**
- * @param [{{
+ * @param plugins [{{
    *   trackPageView: function,
    *   trackEvent: function
    * }}] plugins
