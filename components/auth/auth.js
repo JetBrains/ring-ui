@@ -12,6 +12,7 @@ var urlUtils = require('url-utils/url-utils');
 
 /**
  * @constructor
+ * @name Auth
  *
  * @prop {object} config
  * @prop {string} config.serverUri
@@ -46,9 +47,14 @@ var urlUtils = require('url-utils/url-utils');
 
        var log = function(title) {
          return function(obj) {
-           var div = document.createElement('div');
-           div.innerHTML = '<h3>' + title + '</h3>' + JSON.stringify(obj);
-           document.getElementById('example').appendChild(div);
+           var titleElem = document.createElement('h3');
+           var jsonElem = document.createElement('div');
+
+           titleElem.innerHTML = title;
+           jsonElem.innerHTML = JSON.stringify(obj);
+
+           document.getElementById('example').appendChild(titleElem);
+           document.getElementById('example').appendChild(jsonElem);
          };
        };
 

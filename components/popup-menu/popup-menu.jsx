@@ -11,6 +11,7 @@ var List = require('list/list');
 var Input = require('input/input');
 
 /**
+ * @name Popup Menu
  * @constructor
  * @mixes {Popup.Mixin}
  * @extends {ReactComponent}
@@ -23,7 +24,7 @@ var Input = require('input/input');
    </div>
    </file>
    <file name="index.js" webpack="true">
-   var PopupMenu = require('./popup-menu.jsx');
+   var PopupMenu = require('popup-menu/popup-menu');
 
    var popupMenu = PopupMenu.renderComponent(PopupMenu({
         filter: true,
