@@ -49,7 +49,7 @@ angular.module('Ring.breadcrumb', ['Ring.react-ng']).
       scope: {
         label: '@',
         link: '@',
-        onClick: '=?'
+        onClick: '&'
       }
     };
   }]);
