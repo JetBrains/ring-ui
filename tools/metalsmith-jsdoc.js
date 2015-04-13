@@ -32,7 +32,6 @@ function configure(options) {
 
     Object.keys(files).forEach(function (file) {
       if (!path.extname(file).match(/^\.js|\.jsx|\.scss$/)) {
-        delete files[file];
         return;
       }
 
@@ -67,6 +66,7 @@ function configure(options) {
 
       files[slug(name).toLowerCase() + '.md'] = fillIn({
         title: name,
+        collection: 'jsdoc',
         contents: new Buffer(contents.join(''))
       }, files[file]);
 

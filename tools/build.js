@@ -9,6 +9,8 @@ var metallic = require('metalsmith-metallic');
 var assets = require('metalsmith-static');
 var watch = require('metalsmith-watch');
 var jsdoc = require('./metalsmith-jsdoc');
+var collections = require('metalsmith-collections');
+var filepath = require('metalsmith-filepath');
 
 var webpack = require('webpack');
 var WebpackDevServer = require('webpack-dev-server');
@@ -35,9 +37,23 @@ new Metalsmith(path.resolve(__dirname, '..'))
     smartypants: true,
     tables: true
   }))
+  .use(collections({
+    docs: {
+      sortBy: 'order'
+    },
+    jsdoc: {
+      sortBy: 'title',
+      metadata: {
+        title: 'Components'
+      }
+    }
+  }))
+  .use(filepath({
+    absolute: false
+  }))
   .use(templates({
     engine: 'handlebars',
-    pattern: '*html',
+    pattern: '*.html',
     default: 'default.hbs'
   }))
   .use(assets([
