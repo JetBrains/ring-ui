@@ -8,8 +8,11 @@ require('./tooltip-ng.scss');
 <example name="tooltip-ng">
   <file name="index.html">
     <div ng-app='Ring.tooltip'>
-      <div rg-tooltip="'Test message'"
-          react-static="Icon" react-glyph="'help'" react-size="32"></div>
+      <span rg-tooltip="'Test message'"
+          react-static="Icon" react-glyph="'help'" react-size="16"></span>
+
+       <span rg-tooltip="Plain test message"
+        react-static="Icon" react-glyph="'help'" react-size="16"></span>
     </div>
   </file>
   <file name="index.js" webpack="true">
@@ -22,6 +25,8 @@ require('./tooltip-ng.scss');
 </example>
 */
 
+var OPEN_CLASS = 'tooltip-ng_open';
+
 /*global angular*/
 angular.module('Ring.tooltip', ['Ring.react-ng'])
   .directive('rgTooltip', function ($parse, RgTooltipPopup) {
@@ -32,8 +37,14 @@ angular.module('Ring.tooltip', ['Ring.react-ng'])
 
         var popupWrapper = new RgTooltipPopup(element, $parse(iAttrs['rgTooltip'])(scope));
 
-        element.addEventListener('mouseover', popupWrapper.displayTooltip.bind(popupWrapper));
-        element.addEventListener('mouseout', popupWrapper.hideTooltip.bind(popupWrapper));
+        element.addEventListener('mouseover', function () {
+          popupWrapper.displayTooltip();
+          iElement.addClass(OPEN_CLASS);
+        });
+        element.addEventListener('mouseout', function () {
+          popupWrapper.hideTooltip();
+          iElement.removeClass(OPEN_CLASS);
+        });
       }
     };
   })
