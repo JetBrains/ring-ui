@@ -471,6 +471,13 @@ var Header = React.createClass({
     }
   },
 
+  componentDidMount: function() {
+    // todo(igor.alexeenko): Drop usages of old properties.
+    this.setMenuItemEnabled(MenuItemType.SETTINGS, this.props.showSettings);
+    this.setMenuItemEnabled(MenuItemType.HELP, this.props.showHelp);
+    this.setMenuItemEnabled(MenuItemType.SERVICES, this.props.showServices);
+  },
+
   componentWillUpdate: function(nextProps, nextState) {
     if (!this.state.servicesOpened && nextState.servicesOpened) {
       this._adjustServicesHeight(true);
@@ -774,22 +781,21 @@ var Header = React.createClass({
   },
 
   /**
-   * @param {string} itemKey
+   * @param {MenuItemType} itemKey
    * @param {boolean=} enabled
+   * @param {function=} callback
    */
-  setMenuItemEnabled: function(itemKey, enabled) {
+  setMenuItemEnabled: function(itemKey, enabled, callback) {
     enabled = !!enabled;
     var enabledMenuItems = this.props.enabledMenuItems;
 
-    // todo(igor.alexeenko): Temporary measure. This code is needed to support
-    // old properties.
-    enabledMenuItems[MenuItemType.SETTINGS] = this.props.showSettings;
-    enabledMenuItems[MenuItemType.HELP] = this.props.showHelp;
-    enabledMenuItems[MenuItemType.SERVICES] = this.props.showServices;
-
     if (enabledMenuItems[itemKey] !== enabled) {
       enabledMenuItems[itemKey] = enabled;
-      this.setProps({ enabledMenuItems: enabledMenuItems });
+      this.setProps({ enabledMenuItems: enabledMenuItems }, function() {
+        if (typeof callback === 'function') {
+          callback();
+        }
+      });
     }
   }
 });
