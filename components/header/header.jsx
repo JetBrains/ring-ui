@@ -400,12 +400,6 @@ var Header = React.createClass({
       servicesListPopup: null,
       servicesStyle: null,
       servicesInnerStyle: null,
-      /** @deprecated */
-      showHelp: true,
-      /** @deprecated */
-      showSettings: true,
-      /** @deprecated */
-      showServices: true,
       translationsDict: {
         login: 'Log in...'
       },
@@ -469,13 +463,6 @@ var Header = React.createClass({
     if (this.props.servicesListPopup) {
       this._setServicesPopupShown(false);
     }
-  },
-
-  componentDidMount: function() {
-    // todo(igor.alexeenko): Drop usages of old properties.
-    this.setMenuItemEnabled(MenuItemType.SETTINGS, this.props.showSettings);
-    this.setMenuItemEnabled(MenuItemType.HELP, this.props.showHelp);
-    this.setMenuItemEnabled(MenuItemType.SERVICES, this.props.showServices);
   },
 
   componentWillUpdate: function(nextProps, nextState) {
