@@ -24,31 +24,35 @@ require('./tooltip-ng.scss');
 
 /*global angular*/
 angular.module('Ring.tooltip', ['Ring.react-ng'])
-  .directive('rgTooltip', function ($parse) {
+  .directive('rgTooltip', function ($parse, RgTooltipPopup) {
     return {
       restrict: 'A',
       link: function (scope, iElement, iAttrs) {
         var element = iElement[0];
-        var popup;
 
-        var displayTooltip = function () {
-          var template = $parse(iAttrs['rgTooltip'])(scope);
+        var popupWrapper = new RgTooltipPopup(element, $parse(iAttrs['rgTooltip'])(scope));
 
-          popup = popup || Popup.renderComponent(new Popup({
-            anchorElement: element,
-            maxHeight: 400,
-            className: 'tooltip-ng',
-            cutEdge: false
-          }, template));
-        };
-
-        var hideTooltip = function () {
-          popup.close();
-          popup = null;
-        };
-
-        element.addEventListener('mouseover', displayTooltip);
-        element.addEventListener('mouseout', hideTooltip);
+        element.addEventListener('mouseover', popupWrapper.displayTooltip.bind(popupWrapper));
+        element.addEventListener('mouseout', popupWrapper.hideTooltip.bind(popupWrapper));
       }
+    };
+  })
+  .factory('RgTooltipPopup', function () {
+    return function (element, template) {
+      this.popup = null;
+
+      this.displayTooltip = function () {
+        this.popup = this.popup || Popup.renderComponent(new Popup({
+          anchorElement: element,
+          maxHeight: 400,
+          className: 'tooltip-ng',
+          cutEdge: false
+        }, template));
+      };
+
+      this.hideTooltip = function () {
+        this.popup.close();
+        this.popup = null;
+      };
     };
   });
