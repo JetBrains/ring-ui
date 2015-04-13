@@ -16,7 +16,7 @@ require('react-ng/react-ng')({
        <div ng-app="Example.breadcrumb">
          <div  ng-controller="DemoCtrl">
           <ring-breadcrumb label="First level" link="test/href1">
-            <ring-breadcrumb label="Second level" on-click="clickSecondLevel">
+            <ring-breadcrumb label="Second level" on-click="clickSecondLevel()">
               <span>Active level</span>
             </ring-breadcrumb>
           </ring-breadcrumb>
