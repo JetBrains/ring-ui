@@ -1,11 +1,11 @@
 var Global = require('./global');
 
 describe('Global', function() {
-  describe('addSingletonGetter', function() {
+  describe('makeSingleton', function() {
     var SomeClass = function() {
       this.classProperty = 'val';
     };
-    Global.addSingletonGetter(SomeClass);
+    Global.makeSingleton(SomeClass);
 
     it('Global.getInstance() saves static private link to the ' +
     'instance to constructor', function() {

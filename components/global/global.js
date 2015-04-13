@@ -14,11 +14,11 @@ Global.RING_UNIT = 8;
 
 /**
  * Wrapper to make class a singleton. Adds static method {@code getInstance},
- * which always return the same instance.
+ * which always returns the same instance.
  * @param {Function} Constructor
  * @deprecated
  */
-Global.addSingletonGetter = function (Constructor) {
+Global.makeSingleton = function (Constructor) {
   Constructor.getInstance = function () {
     if (!Constructor.instance_) {
       Constructor.instance_ = new Constructor();
