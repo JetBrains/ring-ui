@@ -10,9 +10,6 @@ require('./tooltip-ng.scss');
     <div ng-app='Ring.tooltip'>
       <span rg-tooltip="'Test message'"
           react-static="Icon" react-glyph="'help'" react-size="16"></span>
-
-       <span rg-tooltip="Plain test message"
-        react-static="Icon" react-glyph="'help'" react-size="16"></span>
     </div>
   </file>
   <file name="index.js" webpack="true">
