@@ -1,3 +1,9 @@
+---
+collection: docs
+title: Getting started
+order: 1
+---
+
 # Ring UI library
 
 ## Development environment setup
