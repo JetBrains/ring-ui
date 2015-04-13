@@ -15,6 +15,61 @@ var generateUniqueId = Global.getUIDGenerator('ring-popup-');
 var Shortcuts = require('shortcuts/shortcuts');
 
 /**
+ * @constructor
+ * @mixes {Popup.Mixin}
+ * @extends {ReactComponent}
+ * @example
+
+ <example name="Popup Menu">
+ <file name="index.html">
+ <div>
+ <div id="target1" style="position: absolute; left: 0; top: 0; width: 10px; height: 10px; background-color: red;"></div>
+ <div id="target2" style="position: absolute; right: 0; top: 0; width: 10px; height: 10px; background-color: blue;"></div>
+ <div id="target3" style="position: absolute; left: 0; bottom: 0; width: 10px; height: 10px; background-color: green;"></div>
+ <button id="switch3" style="position: absolute; left: 50px; bottom: 50px;">Show again</button>
+ <div id="target4" style="position: absolute; right: 0; bottom: 0; width: 10px; height: 10px; background-color: orange;"></div>
+ </div>
+ </file>
+ <file name="index.js" webpack="true">
+ var React = require('react');
+ var Popup = require('./popup.jsx');
+
+ var container = React.DOM.span(null, 'Hello world!');
+
+ var popup = Popup.renderComponent(Popup({
+        anchorElement: document.getElementById('target1'),
+        corner: Popup.PopupProps.Corner.TOP_LEFT,
+        autoRemove: false
+      }, [container]));
+
+ var popup2 = Popup.renderComponent(Popup({
+        anchorElement: document.getElementById('target2'),
+        corner: Popup.PopupProps.Corner.TOP_RIGHT,
+        autoRemove: false
+      }, [container]));
+
+ var popup3 = Popup.renderComponent(Popup({
+        anchorElement: document.getElementById('target3'),
+        corner: Popup.PopupProps.Corner.BOTTOM_LEFT,
+        autoRemove: false
+      }, [container]));
+
+ document.getElementById('switch3').onclick = function() {
+  setTimeout(function() {
+    popup3.show();
+  }, 1);
+ };
+
+ var popup4 = Popup.renderComponent(Popup({
+        anchorElement: document.getElementById('target4'),
+        corner: Popup.PopupProps.Corner.BOTTOM_RIGHT,
+        autoRemove: false
+      }, [container]));
+ </file>
+ </example>
+ */
+
+/**
  * @enum {number}
  */
 var Corner = {
@@ -84,7 +139,7 @@ var PopupMixin = {
   getInitialState: function () {
     return {
       style: {},
-      hidden: this.props.hidden
+      display: this.props.hidden ? 0 : 1 // 0 - hidden, 1 - display in progress, 2 - visible
     };
   },
 
@@ -115,7 +170,11 @@ var PopupMixin = {
   /** @override */
   componentDidMount: function () {
     this._setListenersEnabled(true);
-    this._setPositioning();
+    this._checkDisplay();
+  },
+
+  componentDidUpdate: function() {
+    this._checkDisplay();
   },
 
   /** @override */
@@ -157,7 +216,7 @@ var PopupMixin = {
 
   hide: function(cb) {
     this.setState({
-      hidden: true,
+      display: 0,
       shortcuts: false
     }, cb);
 
@@ -166,7 +225,7 @@ var PopupMixin = {
 
   show: function(cb) {
     this.setState({
-      hidden: false,
+      display: 1,
       shortcuts: true
     }, cb);
 
@@ -190,10 +249,12 @@ var PopupMixin = {
   /**
    * @private
    */
-  _setPositioning: function() {
-    this.setState({
-      styles: this._getStyles(this.props)
-    });
+  _checkDisplay: function() {
+    if (this.state.display === 1) {
+      this.setState({
+        display: 2
+      });
+    }
   },
 
   /**
@@ -201,7 +262,7 @@ var PopupMixin = {
    * @return {boolean}
    */
   isVisible: function() {
-    return this.state.hidden !== true;
+    return this.state.display > 0;
   },
 
   /**
@@ -328,10 +389,23 @@ var PopupMixin = {
     }
     // automatic position correction <--
 
-    if (this.state.hidden) {
-      styles.display = 'none';
-    } else {
-      styles.display = 'block';
+    switch (this.state.display) {
+      case 0:
+        styles.left = 0;
+        styles.top = 0;
+        styles.display = 'none';
+        styles.visibility = 'hidden';
+        break;
+      case 1:
+        styles.left = 0;
+        styles.top = 0;
+        styles.display = 'block';
+        styles.visibility = 'hidden';
+        break;
+      case 2:
+        styles.display = 'block';
+        styles.visibility = 'visible';
+        break;
     }
 
     return styles;
