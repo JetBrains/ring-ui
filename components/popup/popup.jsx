@@ -52,10 +52,6 @@ var PopupMixin = {
   statics: {
     PopupProps: {
       Corner: Corner,
-      /** @deprecated */
-      Directions: Direction,
-      /** @deprecated */
-      Dimensions: Dimension,
       Direction: Direction,
       Dimension: Dimension
     },

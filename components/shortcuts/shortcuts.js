@@ -25,7 +25,7 @@ Shortcuts.ROOT_SCOPE = 'ROOT';
 Shortcuts.ALLOW_SHORTCUTS_SELECTOR = '.ring-js-shortcuts';
 
 Shortcuts.trigger = mousetrap.trigger;
-Global.addSingletonGetter(Shortcuts);
+Global.makeSingleton(Shortcuts);
 
 Shortcuts._dispatcher = function (e, key) {
   var currentScope;
