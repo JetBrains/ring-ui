@@ -29,7 +29,7 @@ var Type = {
   CUSTOM: 4
 };
 
-var Dimensions = {
+var Dimension = {
   ITEM_PADDING: 16,
   ITEM_HEIGHT: 24,
   INNER_PADDING: 8
@@ -157,7 +157,7 @@ var ListMixin = {
   statics: {
     ListProps: {
       Type: Type,
-      Dimensions: Dimensions
+      Dimension: Dimension
     }
   },
 
@@ -408,7 +408,7 @@ var List = React.createClass({
     var innerContainer = this.refs.inner.getDOMNode();
 
     if (innerContainer.scrollHeight !== innerContainer.clientHeight) {
-      innerContainer.scrollTop = index * Dimensions.ITEM_HEIGHT - Math.floor(this.props.maxHeight / 2);
+      innerContainer.scrollTop = index * Dimension.ITEM_HEIGHT - Math.floor(this.props.maxHeight / 2);
 
       this.scrollEndHandler();
     }
@@ -529,7 +529,7 @@ var List = React.createClass({
     var hint = this.getSelected() && this.props.hintOnSelection || this.props.hint;
     var innerStyles = {};
     if (this.props.maxHeight) {
-      innerStyles.maxHeight = this.props.maxHeight - Dimensions.ITEM_HEIGHT - Dimensions.INNER_PADDING;
+      innerStyles.maxHeight = this.props.maxHeight - Dimension.ITEM_HEIGHT - Dimension.INNER_PADDING;
     }
     var classes = React.addons.classSet({
       'ring-list': true,

@@ -30,8 +30,8 @@ var mutationEvents = 'DOMCharacterDataModified DOMNodeInserted DOMNodeRemoved DO
 
 var INPUT_BORDER_WIDTH = 1;
 var POPUP_COMPENSATION = INPUT_BORDER_WIDTH +
-  PopupMenu.ListProps.Dimensions.ITEM_PADDING +
-  PopupMenu.PopupProps.Dimensions.BORDER_WIDTH;
+  PopupMenu.ListProps.Dimension.ITEM_PADDING +
+  PopupMenu.PopupProps.Dimension.BORDER_WIDTH;
 
 var noop = function() {};
 
