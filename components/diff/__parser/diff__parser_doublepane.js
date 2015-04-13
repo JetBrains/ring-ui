@@ -12,7 +12,7 @@ var ParserDoublePane = function () {
 };
 
 Tools.inherit(ParserDoublePane, Parser);
-Global.addSingletonGetter(ParserDoublePane);
+Global.makeSingleton(ParserDoublePane);
 
 /**
  * In single pane mode modified lines are displayed as a pair of lines - one removed, one added.

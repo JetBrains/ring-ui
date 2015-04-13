@@ -17,7 +17,7 @@ var CodeMirrorHelper = function () {
    */
   this.eventHandler_ = $();
 };
-Global.addSingletonGetter(CodeMirrorHelper);
+Global.makeSingleton(CodeMirrorHelper);
 
 /**
  * @enum {string}
