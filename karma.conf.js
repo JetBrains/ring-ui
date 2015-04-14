@@ -17,6 +17,9 @@ function generateConfig(karma) {
     port: 4545
   };
 
+  var buildVersion = process.env.npm_package_config_version || 'dev';
+  var testName = 'Ring UI library Karma unit tests, build #' + buildVersion;
+
   var config = {
 
     // base path, that will be used to resolve files and exclude
@@ -96,22 +99,26 @@ function generateConfig(karma) {
         base: 'WebDriver',
         config: webdriverConfig,
         'x-ua-compatible': 'IE=edge',
+        testName: testName,
         browserName: 'internet explorer'
       },
       wdIE9: {
         base: 'WebDriver',
         config: webdriverConfig,
         'x-ua-compatible': 'IE=EmulateIE9',
+        testName: testName,
         browserName: 'internet explorer'
       },
       wdFirefox: {
         base: 'WebDriver',
         config: webdriverConfig,
+        testName: testName,
         browserName: 'firefox'
       },
       wdChrome: {
         base: 'WebDriver',
         config: webdriverConfig,
+        testName: testName,
         browserName: 'chrome'
       }
     },
