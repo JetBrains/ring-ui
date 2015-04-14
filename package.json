@@ -11,7 +11,7 @@
   },
   "files": [
     "/ring.js",
-    "/ring2.js",
+    "/ring-upsource.js",
     "components/**/*.{jsx,js,scss,png,gif,svg,ttf,woff,eof,html}",
     "webpack.config.js"
   ],
