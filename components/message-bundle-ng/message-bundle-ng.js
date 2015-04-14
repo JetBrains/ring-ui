@@ -42,6 +42,12 @@ angular.module('Ring.message-bundle', [])
       this.form_unique = function() {
         return i18n('Is not unique');
       };
+      this.form_save = function() {
+        return i18n('Save');
+      };
+      this.form_saved = function() {
+        return i18n('Saved');
+      };
       this.avatareditor_nosupport = function() {
         return i18n('Sorry, your browser doesn\'t support File API');
       };
