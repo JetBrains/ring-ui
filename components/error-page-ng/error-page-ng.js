@@ -12,8 +12,8 @@ require('../message-bundle-ng/message-bundle-ng');
  * <example name="Error Page Ng">
    <file name="index.html">
     <div ng-app="Ring.error-page">
-        <div class="app" error-page-background>
-            <div error-page="{error: {status: 403}}"></div>
+        <div class="app" rg-error-page-background>
+            <div rg-error-page="{error: {status: 403}}"></div>
         </div>
     </div>
    </file>
@@ -128,7 +128,7 @@ angular.module('Ring.error-page', [
     };
   }])
 
-  .directive('errorPageBackground', [
+  .directive('rgErrorPageBackground', [
     function() {
       return {
         restrict: 'A',
@@ -150,7 +150,7 @@ angular.module('Ring.error-page', [
     }
   ])
 
-  .directive('errorPage', [
+  .directive('rgErrorPage', [
     'errorPageConfiguration',
     '$route',
     'userPermissions',
@@ -206,7 +206,7 @@ angular.module('Ring.error-page', [
         replace: true,
         transclude: true,
         template: '<div></div>',
-        require: '?^errorPageBackground',
+        require: '?^rgErrorPageBackground',
         link: function (scope, iElement, iAttrs, errorPageBackgroundCtrl, transclude) {
 
           function handleError(error) {
@@ -237,12 +237,12 @@ angular.module('Ring.error-page', [
           }
 
           getRoutingPermissionPromise().then(function() {
-            var errorSource = scope.$eval(iAttrs.errorPage);
+            var errorSource = scope.$eval(iAttrs.rgErrorPage);
             if (errorSource && errorSource.error) {
               handleError(errorSource.error);
-              $log.debug('Navigation: errorSource ' + iAttrs.errorPage + ' not permitted, status: ' + status);
+              $log.debug('Navigation: errorSource ' + iAttrs.rgErrorPage + ' not permitted, status: ' + status);
             } else {
-              getArgumentPromise(errorSource, iAttrs.errorPage)
+              getArgumentPromise(errorSource, iAttrs.rgErrorPage)
                 .then(handleSuccess, handleError);
             }
           }, handleError);

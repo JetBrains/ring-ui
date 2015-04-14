@@ -74,7 +74,7 @@ angular.module('Ring.shortcuts', [])
 
     }];
   }])
-  .directive('shortcutsApp', [function () {
+  .directive('rgShortcutsApp', [function () {
     return {
       restrict: 'A',
       controller: ['$rootScope', '$scope', '$attrs', 'shortcuts', function ($scope, $rootScope, $attrs, shortcuts) {
@@ -167,7 +167,7 @@ angular.module('Ring.shortcuts', [])
         };
 
         self.sort = function() {
-          var orderedElements = $('[shortcuts]');
+          var orderedElements = $('[rg-shortcuts]');
 
           $.each($scope.zones, function(index, zone) {
             zone.order = $.inArray(zone.element[0], orderedElements);
@@ -207,15 +207,15 @@ angular.module('Ring.shortcuts', [])
       }]
     };
   }])
-  .directive('shortcuts', ['$parse', function ($parse) {
+  .directive('rgShortcuts', ['$parse', function ($parse) {
     return {
       restrict: 'A',
-      require: ['^shortcutsApp'],
+      require: ['^rgShortcutsApp'],
       link: function($scope, iElement, iAttrs, shortcutsCtrl) {
         // Closest controller
         var ctrl = shortcutsCtrl[shortcutsCtrl.length - 1];
 
-        var name = iAttrs.shortcuts;
+        var name = iAttrs.rgShortcuts;
         var map = $scope.$eval(iAttrs.shortcutsMap);
         var focusGetter = $parse(iAttrs.shortcutsFocus);
         var blurGetter = $parse(iAttrs.shortcutsBlur);
