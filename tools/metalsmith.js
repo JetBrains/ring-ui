@@ -1,5 +1,7 @@
 /* eslint-env node */
 var path = require('path');
+var server = process.argv.indexOf('--server') !== -1;
+var noop = function noop() {};
 
 var Metalsmith = require('metalsmith');
 var markdown = require('metalsmith-markdown');
@@ -64,9 +66,13 @@ new Metalsmith(path.resolve(__dirname, '..'))
     {
       src: 'node_modules/highlight.js/styles/github.css',
       dest: 'assets/github.css'
+    },
+    {
+      src: 'tools/favicon.ico',
+      dest: 'favicon.ico'
     }
   ]))
-  .use(watch())
+  .use(server ? watch() : noop)
   .destination(path.resolve(__dirname, '..', 'docs'))
   .build(function (err) {
     if (err) {
@@ -85,21 +91,38 @@ new Metalsmith(path.resolve(__dirname, '..'))
       config.resolveLoader = webpackConfig.resolveLoader;
 
       return config;
-    }).concat({
-      entry: ['webpack-dev-server/client?http://localhost:' + port],
-      output: {
-        path: path.resolve('..', 'docs', 'assets'),
-        filename: 'utils.js'
-      }
     });
 
-    // Start a webpack-dev-server
-    new WebpackDevServer(webpack(webpackEntries), {
-      contentBase: path.resolve('..', 'docs'),
-      //hot: true,
-      stats: {
-        colors: true
-      }
-    }).listen(port);
+    console.log('Compiling %d components', webpackEntries.length);
+
+    if (server) {
+      webpackEntries.push({
+        entry: ['webpack-dev-server/client?http://localhost:' + port],
+        output: {
+          path: path.resolve(__dirname, '..', 'docs', 'assets'),
+          filename: 'utils.js'
+        }
+      });
+    }
+
+    var compiler = webpack(webpackEntries);
+
+    if (server) {
+      new WebpackDevServer(compiler, {
+        contentBase: path.resolve(__dirname, '..', 'docs'),
+        //hot: true,
+        stats: {
+          colors: true
+        }
+      }).listen(port);
+    } else {
+      compiler.run(function(compileErr) {
+        if (compileErr) {
+          throw compileErr;
+        }
+
+        console.log('Successfully compiled');
+      });
+    }
   });
 
