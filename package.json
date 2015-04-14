@@ -17,7 +17,7 @@
   "scripts": {
     "prepublish": "node tools/setup-hooks.js",
     "test": "node node_modules/karma/bin/karma start",
-    "build-upsource": "webpack ./tools/ring-upsource.js ring-upsource.js --output-library=ring --bail --optimize-dedupe --optimize-minimize --optimize-occurence-order --define process.env.NODE_ENV=\"'production'\"",
+    "build-upsource": "webpack tools/ring-upsource.js ring-upsource.js --output-library=ring --bail --optimize-dedupe --optimize-minimize --optimize-occurence-order --define process.env.NODE_ENV=\"'production'\"",
     "build": "node tools/metalsmith.js",
     "start": "node tools/metalsmith.js --server",
     "lint": "eslint --ext $npm_package_config_eslint_ext .",
