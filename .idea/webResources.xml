@@ -6,7 +6,6 @@
         <entryData>
           <resourceRoots>
             <path value="file://$PROJECT_DIR$/src/components" />
-            <path value="file://$PROJECT_DIR$/test-helpers" />
           </resourceRoots>
         </entryData>
       </entry>
