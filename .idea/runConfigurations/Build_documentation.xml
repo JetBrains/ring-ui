@@ -1,0 +1,5 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Build documentation" type="NodeJSConfigurationType" factoryName="Node.js" path-to-node="/usr/local/bin/node" path-to-js-file="tools/metalsmith.js" working-dir="$PROJECT_DIR$">
+    <method />
+  </configuration>
+</component>

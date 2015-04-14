@@ -16,7 +16,7 @@ order: 1
 
 ## Available commands
 
-Start server: `npm start` (runs webpack dev server on localhost:8080)
+Start server: `npm start` (runs webpack dev server on http://localhost:9999 by default)
 
 Run tests: `npm test`
 
