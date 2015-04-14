@@ -187,7 +187,7 @@ reactModule.directive(reactDirectiveName, [
 
      <file name="index.js" webpack="true">
        require('angular/angular.min.js');
-       require('./react-ng')({
+       require('react-ng/react-ng')({
          Icon: require('icon/icon')
        });
      </file>

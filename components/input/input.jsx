@@ -6,6 +6,7 @@ var React = require('react/addons');
 require('./input.scss');
 
 /**
+ * @name Input
  * @constructor
  * @extends {ReactComponent}
  * @example
@@ -16,7 +17,7 @@ require('./input.scss');
 
      <file name="index.js" webpack="true">
        var React = require('react');
-       var Input = require('./input.jsx');
+       var Input = require('input/input');
 
        React.renderComponent(Input(),
          document.getElementById('input'));

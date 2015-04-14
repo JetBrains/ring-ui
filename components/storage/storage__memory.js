@@ -62,7 +62,7 @@ MemoryStorage.prototype.remove = function(key) {
 
 /**
  *
- * @param {function(key: string, value: object)} callback
+ * @param {function(string, object)} callback
  * @return {Promise}
  */
 MemoryStorage.prototype.each = function(callback) {
