@@ -9,17 +9,15 @@
     "version": "minor"
   },
   "files": [
-    "/ring-upsource.js",
+    "ring-upsource.js",
     "components/**/*.{jsx,js,scss,png,gif,svg,ttf,woff,eof,html}",
     "webpack.config.js"
   ],
   "main": "ring.js",
   "scripts": {
     "prepublish": "node tools/setup-hooks.js",
-    "gen-doc": "node tools/generate-documentation.js",
-    "watch-doc": "node tools/watch-doc.js",
     "test": "node node_modules/karma/bin/karma start",
-    "build-upsource": "webpack tools/ring-upsource.js ring-upsource.js --output-library=ring --bail --optimize-dedupe --optimize-minimize --optimize-occurence-order --define process.env.NODE_ENV=\"'production'\"",
+    "build-upsource": "webpack ./tools/ring-upsource.js ring-upsource.js --output-library=ring --bail --optimize-dedupe --optimize-minimize --optimize-occurence-order --define process.env.NODE_ENV=\"'production'\"",
     "build": "node tools/metalsmith.js",
     "start": "node tools/metalsmith.js --server",
     "lint": "eslint --ext $npm_package_config_eslint_ext .",
