@@ -6,15 +6,15 @@ require('message-bundle-ng/message-bundle-ng.js');
 
 angular.module('Ring.form', ['Ring.message-bundle']).
 /**
- * <div error-bubble="form.name"></div>
+ * <div rg-error-bubble="form.name"></div>
  * @param {object} error-bubble Ng-model for this control
  *
  * Where form.name is a reference to angularJS form input
  */
-  directive('errorBubble', ['RingMessageBundle', function (RingMessageBundle) {
+  directive('rgErrorBubble', ['RingMessageBundle', function (RingMessageBundle) {
     return {
       scope: {
-        'errorBubble': '&errorBubble'
+        'errorBubble': '&rgErrorBubble'
       },
       replace: true,
       template: require('./form-ng__error-bubble.html'),
@@ -42,10 +42,10 @@ angular.module('Ring.form', ['Ring.message-bundle']).
     };
   }]).
 /**
- * <input name="confirm" type="password" equal-value="data.password" ng-model="data.confirm">
+ * <input name="confirm" type="password" rg-equal-value="data.password" ng-model="data.confirm">
  * Constraint to be user for confirm password fields.
  */
-  directive('equalValue', [function () {
+  directive('rgEqualValue', [function () {
     return {
       require: 'ngModel',
       link: function (scope, iElement, iAttrs, ngModelCtrl) {
@@ -54,12 +54,12 @@ angular.module('Ring.form', ['Ring.message-bundle']).
           ngModelCtrl.$setValidity('equalvalue', thisValue === thatValue);
         }
 
-        scope.$watch(iAttrs.equalValue, function (value) {
+        scope.$watch(iAttrs.rgEqualValue, function (value) {
           assertEqual(iElement.val(), value);
         });
 
         iElement.on('keyup', function () {
-          var thatValue = scope.$eval(iAttrs.equalValue);
+          var thatValue = scope.$eval(iAttrs.rgEqualValue);
           scope.$apply(function () {
             assertEqual(iElement.val(), thatValue);
           });
@@ -68,11 +68,11 @@ angular.module('Ring.form', ['Ring.message-bundle']).
     };
   }]).
 /**
- * <input name="name" required type="text" ng-class="form.name | inputClass:submitted" ng-model="name">
+ * <input name="name" required type="text" ng-class="form.name | rgInputClass:submitted" ng-model="name">
  *
  * Is intended to be used for the value of ng-class. Accepts a reference to an angularJS form input
  */
-  filter('inputClass', [function () {
+  filter('rgInputClass', [function () {
     return function (input, submitted) {
       return {
         'ring-input': true,
@@ -82,11 +82,11 @@ angular.module('Ring.form', ['Ring.message-bundle']).
     };
   }])
 /**
- * <form form-autofill-fix ...>
+ * <form rg-form-autofill-fix ...>
  *
  * Fixes Chrome bug: https://github.com/angular/angular.js/issues/1460
  */
-  .directive('formAutofillFix', ['$timeout', function ($timeout) {
+  .directive('rgFormAutofillFix', ['$timeout', function ($timeout) {
     return {
       require: '?form',
       priority: 10,

@@ -54,7 +54,7 @@ permissionsModule.provider('userPermissions', [function () {
 }]);
 
 var registerPermission = function (element) {
-  var somePermissionsCtrl = element.controller('somePermissions');
+  var somePermissionsCtrl = element.controller('rgSomePermissions');
   return somePermissionsCtrl && somePermissionsCtrl.registerPermission() || angular.noop;
 };
 
@@ -69,10 +69,10 @@ var registerPermission = function (element) {
  * @example
    <doc:example>
      <doc:source>
-       <div permission="space-read" in-space="0-0-0-0-0">
+       <div rg-permission="space-read" in-space="0-0-0-0-0">
          Is visible if user has permission 'read-space' in space 0-0-0-0-0.
        </div>
-       <div permission="space-read">
+       <div rg-permission="space-read">
          Is visible if user has permission 'read-space' at least in one space.
        </div>
      </doc:source>
@@ -82,7 +82,7 @@ var registerPermission = function (element) {
  * @element ANY
  * @requires userPermissions
  */
-permissionsModule.directive('permission', [
+permissionsModule.directive('rgPermission', [
   'userPermissions',
   function (userPermissions) {
     return {
@@ -93,7 +93,7 @@ permissionsModule.directive('permission', [
         $element.hide();
 
         var self = this;
-        userPermissions.check($attrs.permission, $scope.$eval($attrs.inSpace)).
+        userPermissions.check($attrs.rgPermission, $scope.$eval($attrs.inSpace)).
           then(function (permitted) {
             self.permitted = permitted;
             if (permitted) {
@@ -118,10 +118,10 @@ permissionsModule.directive('permission', [
  * @example
    <doc:example>
      <doc:source>
-       <div permission-if="space-read" in-space="0-0-0-0-0">
+       <div rg-permission-if="space-read" in-space="0-0-0-0-0">
          Is transcluded if user has permission 'read-space' in space 0-0-0-0-0.
        </div>
-       <div permission-if="space-read">
+       <div rg-permission-if="space-read">
          Is transcluded if user has permission 'read-space' at least in one space.
        </div>
      </doc:source>
@@ -132,7 +132,7 @@ permissionsModule.directive('permission', [
  * @requires $animate
  * @requires userPermissions
  */
-permissionsModule.directive('permissionIf', [
+permissionsModule.directive('rgPermissionIf', [
   '$animate',
   'userPermissions',
   function ($animate, userPermissions) {
@@ -141,12 +141,12 @@ permissionsModule.directive('permissionIf', [
       priority: 600,
       terminal: true,
       restrict: 'A',
-      require: '^?somePermissions',
+      require: '^?rgSomePermissions',
       link: function (scope, iElement, iAttrs, somePermittedCtrl, $transclude) {
         var block;
         var childScope;
 
-        userPermissions.check(iAttrs.permissionIf, scope.$eval(iAttrs.inSpace)).
+        userPermissions.check(iAttrs.rgPermissionIf, scope.$eval(iAttrs.inSpace)).
           then(function (permitted) {
             if (permitted) {
               if (!childScope) {
@@ -154,7 +154,7 @@ permissionsModule.directive('permissionIf', [
                 $transclude(childScope, function (clone) {
                   block = {
                     startNode: clone[0],
-                    endNode: clone[clone.length++] = document.createComment(' end permissionIf: ' + iAttrs.permissionIf + ' ')
+                    endNode: clone[clone.length++] = document.createComment(' end rgPermissionIf: ' + iAttrs.rgPermissionIf + ' ')
                   };
                   $animate.enter(clone, iElement.parent(), iElement);
                 });
@@ -180,11 +180,11 @@ permissionsModule.directive('permissionIf', [
 
 /**
  * @ngdoc directive
- * @name somePermissions
+ * @name rgSomePermissions
  *
  * @description
  * Binds left-value expression with a boolean value that is true when at least one permission of
- * nested {@link permission} or {@link permissionIf} directive is obtained by the logged in user.
+ * nested {@link permission} or {@link rgPermissionIf} directive is obtained by the logged in user.
  *
  * @example
    <doc:example>
@@ -204,25 +204,25 @@ permissionsModule.directive('permissionIf', [
  * @restrict A
  * @element ANY
  */
-permissionsModule.directive('somePermissions', [
+permissionsModule.directive('rgSomePermissions', [
   function () {
     return {
       scope: {
-        'somePermissions': '='
+        'rgSomePermissions': '='
       },
       controller: ['$scope', function ($scope) {
         var permissions = [];
-        $scope.somePermissions = false;
+        $scope.rgSomePermissions = false;
 
         var checkPermissions = function () {
           for (var i = permissions.length - 1; i >= 0; i--) {
             if (permissions[i].permitted) {
-              $scope.somePermissions = true;
+              $scope.rgSomePermissions = true;
               return;
             }
           }
 
-          $scope.somePermissions = false;
+          $scope.rgSomePermissions = false;
         };
 
         //noinspection JSPotentiallyInvalidUsageOfThis

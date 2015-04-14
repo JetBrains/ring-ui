@@ -21,7 +21,7 @@ describe('ErrorPageNg', function() {
   }));
 
   it('should compile directive to content if no errors', inject(function($rootScope, $compile) {
-    var elem = window.angular.element('<div error-page><div class="content">Hello!</div></div>');
+    var elem = window.angular.element('<div rg-error-page><div class="content">Hello!</div></div>');
     elem = $compile(elem)($rootScope);
     $rootScope.$digest();
 
@@ -31,7 +31,7 @@ describe('ErrorPageNg', function() {
 
   it('should compile directive to default error if has empty error',
     inject(function ($rootScope, $compile, RingMessageBundle) {
-      var elem = window.angular.element('<div error-page="{error: {}}"><div class="content">Hello!</div></div>');
+      var elem = window.angular.element('<div rg-error-page="{error: {}}"><div class="content">Hello!</div></div>');
       elem = $compile(elem)($rootScope);
       $rootScope.$digest();
 
@@ -43,7 +43,7 @@ describe('ErrorPageNg', function() {
 
   it('should show error message for 404',
     inject(function ($rootScope, $compile, RingMessageBundle) {
-      var elem = window.angular.element('<div error-page="{error: {status: 404}}"><div class="content">Hello!</div></div>');
+      var elem = window.angular.element('<div rg-error-page="{error: {status: 404}}"><div class="content">Hello!</div></div>');
       elem = $compile(elem)($rootScope);
       $rootScope.$digest();
 
@@ -56,7 +56,7 @@ describe('ErrorPageNg', function() {
   it('should not show error message for resolved promise',
     inject(function ($rootScope, $compile, RingMessageBundle, $q) {
       $rootScope.errorSource = $q.defer();
-      var elem = window.angular.element('<div error-page="errorSource"><div class="content">Hello!</div></div>');
+      var elem = window.angular.element('<div rg-error-page="errorSource"><div class="content">Hello!</div></div>');
       elem = $compile(elem)($rootScope);
       $rootScope.errorSource.resolve();
       $rootScope.$digest();
@@ -69,7 +69,7 @@ describe('ErrorPageNg', function() {
   it('should show error message for empty rejected promise',
     inject(function ($rootScope, $compile, RingMessageBundle, $q) {
       $rootScope.errorSource = $q.defer();
-      var elem = window.angular.element('<div error-page="errorSource"><div class="content">Hello!</div></div>');
+      var elem = window.angular.element('<div rg-error-page="errorSource"><div class="content">Hello!</div></div>');
       elem = $compile(elem)($rootScope);
       $rootScope.errorSource.reject();
       $rootScope.$digest();
@@ -83,7 +83,7 @@ describe('ErrorPageNg', function() {
   it('should show error message for rejected promise with code 403',
     inject(function ($rootScope, $compile, RingMessageBundle, $q) {
       $rootScope.errorSource = $q.defer();
-      var elem = window.angular.element('<div error-page="errorSource"><div class="content">Hello!</div></div>');
+      var elem = window.angular.element('<div rg-error-page="errorSource"><div class="content">Hello!</div></div>');
       elem = $compile(elem)($rootScope);
       $rootScope.errorSource.reject({status: 403});
       $rootScope.$digest();
@@ -98,7 +98,7 @@ describe('ErrorPageNg', function() {
     inject(function ($rootScope, $compile, RingMessageBundle, $q) {
       var df = $q.defer();
       $rootScope.errorSource = {$promise: df.promise};
-      var elem = window.angular.element('<div error-page="errorSource"><div class="content">Hello!</div></div>');
+      var elem = window.angular.element('<div rg-error-page="errorSource"><div class="content">Hello!</div></div>');
       elem = $compile(elem)($rootScope);
       df.reject({status: 403});
       $rootScope.$digest();
@@ -118,7 +118,7 @@ describe('ErrorPageNg', function() {
       };
       var df = $q.defer();
       $rootScope.errorSource = {$promise: df.promise};
-      var elem = window.angular.element('<div error-page="errorSource"><div class="content">Hello!</div></div>');
+      var elem = window.angular.element('<div rg-error-page="errorSource"><div class="content">Hello!</div></div>');
       elem = $compile(elem)($rootScope);
       df.resolve();
       $rootScope.$digest();
@@ -138,7 +138,7 @@ describe('ErrorPageNg', function() {
       };
       var df = $q.defer();
       $rootScope.errorSource = {$promise: df.promise};
-      var elem = window.angular.element('<div error-page="errorSource"><div class="content">Hello!</div></div>');
+      var elem = window.angular.element('<div rg-error-page="errorSource"><div class="content">Hello!</div></div>');
       elem = $compile(elem)($rootScope);
       df.reject({status: 500});
       $rootScope.$digest();
