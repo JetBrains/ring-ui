@@ -7,7 +7,7 @@
     "src": "./src",
     "eslint-ext": ".js,.jsx",
     "eslint-report": "eslint-report.xml",
-    "port": 9009,
+    "port": 9999,
     "version": "minor"
   },
   "files": [
