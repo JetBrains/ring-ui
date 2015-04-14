@@ -37,7 +37,7 @@
   font-size: $ring-font-size;
   @include ring-font;
 
-  & .ring-input, & .ring-select, & .ring-input_wrapper {
+  &__input, & .ring-input, & .ring-select, & .ring-input_wrapper {
     width: 25 * $ring-unit !important;
     margin: 0;
 
