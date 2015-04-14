@@ -9,7 +9,7 @@ var $ = require('jquery');
 var DIALOG_NAMESPACE = 'ring-dialog';
 
 angular.module('Ring.dialog', []).
-  directive('ringDialog', ['$timeout', function ($timeout) {
+  directive('rgDialog', ['$timeout', function ($timeout) {
     return {
       'restrict': 'AE',
       'scope': true,
@@ -164,11 +164,11 @@ angular.module('Ring.dialog', []).
       }
     };
   }]).
-  directive('ringDialogTitle', function () {
+  directive('rgDialogTitle', function () {
     return {
-      'require': '^ringDialog',
+      'require': '^rgDialog',
       'link': function (scope, iElement, iAttrs, dialogCtrl) {
-        dialogCtrl.setTitle(iAttrs.ringDialogTitle);
+        dialogCtrl.setTitle(iAttrs.rgDialogTitle);
       }
     };
   }).
