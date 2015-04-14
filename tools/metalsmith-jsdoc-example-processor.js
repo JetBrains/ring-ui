@@ -58,9 +58,9 @@ function exampleProcessor(tagContext, metalsmithContext) {
     if (exampleFile.attributes.webpack) {
       exampleFile.fileBuiltName = exampleFile.fileBase + '.build' + exampleFile.fileExt;
       exampleFile.webpack = {
-        entry: path.resolve('..', 'docs', exampleFile.directory, exampleFile.fileName),
+        entry: path.resolve(__dirname, '..', 'docs', exampleFile.directory, exampleFile.fileName),
         output: {
-          path: path.resolve('..', 'docs', exampleFile.directory),
+          path: path.resolve(__dirname, '..', 'docs', exampleFile.directory),
           filename: exampleFile.fileBuiltName,
           pathinfo: true
         }
