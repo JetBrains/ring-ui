@@ -1,0 +1,5 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Start server" type="NodeJSConfigurationType" factoryName="Node.js" path-to-node="/usr/local/bin/node" path-to-js-file="tools/metalsmith.js" application-parameters="--server" working-dir="$PROJECT_DIR$/">
+    <method />
+  </configuration>
+</component>

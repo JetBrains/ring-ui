@@ -8,10 +8,10 @@ require('react-ng/react-ng')({
 });
 
 /**
-   * @name Breadcrumb
+   * @name Breadcrumb Ng
    * @description Breadcrumb component for AngularJS apps
    * @example
-   * <example name="Breadcrumb-ng">
+   * <example name="Breadcrumb Ng">
      <file name="index.html">
        <div ng-app="Example.breadcrumb">
          <div  ng-controller="DemoCtrl">

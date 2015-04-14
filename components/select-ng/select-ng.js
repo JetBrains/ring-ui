@@ -7,7 +7,7 @@ var Select = require('select/select');
 require('./select-ng__options');
 
 /**
- * @name Select-ng.
+ * @name Select Ng
  * @description Angular wrapper for React select
  * @example
  *
