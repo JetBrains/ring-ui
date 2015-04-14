@@ -26,13 +26,11 @@ function generateConfig(karma) {
     // frameworks to use
     frameworks: ['mocha', 'chai', 'chai-as-promised', 'chai-jquery', 'sinon-chai'],
 
-
-    // Files are overwritten from a gulp task
     files: [
       'node_modules/jquery/dist/jquery.js',
       'test-helpers/phantomjs-shims.js',
       'test-helpers/mocha-globals.js',
-      'src/test-suite.js'
+      'test-helpers/test-suite.js'
     ],
 
     // test results reporter to use
@@ -41,7 +39,7 @@ function generateConfig(karma) {
 
     // list of preprocessors
     preprocessors: {
-      'src/test-suite.js': ['webpack']
+      'test-helpers/test-suite.js': ['webpack']
     },
 
     webpack: prepareWbpackConf(require('./webpack.config.js')),

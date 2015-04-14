@@ -52,7 +52,7 @@ var _gap = null;
 
      <file name="index.js" webpack="true">
        var React = require('react');
-       var Alerts = require('./alerts.jsx');
+       var Alerts = require('alert/alerts');
 
        var alertsContainer = React.renderComponent(Alerts(null),
            document.getElementById('alerts-container'));

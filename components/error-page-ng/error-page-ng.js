@@ -6,10 +6,10 @@ require('../permissions-ng/permissions-ng');
 require('../message-bundle-ng/message-bundle-ng');
 
 /**
- * @name Error-page-ng
+ * @name Error Page Ng
  * @description Directive for showing error pages (e.g. 404 Not Found)
  * @example
- * <example name="Error-page-ng">
+ * <example name="Error Page Ng">
    <file name="index.html">
     <div ng-app="Ring.error-page">
         <div class="app" error-page-background>

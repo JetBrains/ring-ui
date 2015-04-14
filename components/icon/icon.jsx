@@ -92,7 +92,7 @@ var initializeTemplate = function() {
 
      <file name="index.js" webpack="true">
        var React = require('react');
-       var Icon = require('./icon.jsx');
+       var Icon = require('icon/icon');
 
        React.renderComponent(Icon({
          className: 'additional-class',

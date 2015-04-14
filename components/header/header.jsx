@@ -305,6 +305,7 @@ var MenuItemsSequence = [
 
 
 /**
+ * @name Header
  * @constructor
  * @extends {ReactComponent}
  * @example
@@ -315,8 +316,8 @@ var MenuItemsSequence = [
 
     <file name="index.js" webpack="true">
       var React = require('react');
-      var Header = require('./header.jsx');
-      var Popup = require('../popup/popup.jsx');
+      var Header = require('header/header');
+      var Popup = require('popup/popup');
 
       var headerContainer = document.createElement('div');
       document.body.appendChild(headerContainer);

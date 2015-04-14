@@ -1,25 +1,8 @@
 /* eslint-env node */
-/*
- * Webpack development server configuration
- *
- * This file is set up for serving the webpak-dev-server, which will watch for changes and recompile as required if
- * the subfolder /webpack-dev-server/ is visited. Visiting the root will not automatically reload.
- */
-
-var pkgConfig = require('./package.json');
 var path = require('path');
 
+// Minimal config for building components
 module.exports = {
-  entry: {
-    ring: path.resolve(pkgConfig.config.src, pkgConfig.main),
-    'ring-upsource': path.resolve(pkgConfig.config.src, 'ring-upsource.js')
-  },
-  output: {
-    path: pkgConfig.dist,
-    filename: '[name].js',
-    library: '[name]',
-    libraryTarget: 'umd'
-  },
   externals: {
     'jquery': 'jQuery'
   },
@@ -80,6 +63,5 @@ module.exports = {
       { test: /\.eot$/, loader: 'file-loader' },
       { test: /\.svg$/, loader: 'url-loader?limit=10000' }
     ]
-  },
-  plugins: []
+  }
 };

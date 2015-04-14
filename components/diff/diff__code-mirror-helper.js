@@ -28,7 +28,7 @@ CodeMirrorHelper.EventType = {
 };
 
 /**
- * @typedef {Array.<function>}
+ * @typedef {Array.<Function>}
  */
 CodeMirrorHelper.Buffer = [];
 
@@ -91,7 +91,7 @@ CodeMirrorHelper.prototype.cleanOperationBuffer = function (editor) {
 
 /**
  * @param {CodeMirror} editor
- * @return {Array.<CodeMirror.LineHandle|CodeMirror.TextMarker>
+ * @return {Array.<CodeMirror.LineHandle|CodeMirror.TextMarker>}
    */
 CodeMirrorHelper.prototype.getSelectionsBuffer = function (editor) {
   if (!editor.codeMirrorHelperSelectionBuffer_) {

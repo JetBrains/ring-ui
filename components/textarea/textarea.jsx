@@ -6,6 +6,7 @@ var React = require('react/addons');
 require('./textarea.scss');
 
 /**
+ * @name Textarea
  * @constructor
  * @extends {ReactComponent}
  * @example
@@ -17,7 +18,7 @@ require('./textarea.scss');
 
      <file name="index.js" webpack="true">
        var React = require('react');
-       var Textarea = require('./textarea.jsx');
+       var Textarea = require('textarea/textarea');
 
        React.renderComponent(Textarea(), document.getElementById('textarea'));
      </file>
