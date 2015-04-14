@@ -1,13 +1,60 @@
 /* global angular: false */
 require('form-ng/form-ng');
+require('form/form.scss');
 require('form-ng/form-ng.scss');
+require('button/button.scss');
 require('message-bundle-ng/message-bundle-ng.js');
 
 angular.module('Ring.form')
 
+/**
+ * @name Form-update-text
+ * @description Directive: input with save button
+ * @example
+ * <example name="Form-update-text">
+   <file name="index.html">
+    <div ng-app="Example.form">
+      <div class="ring-form" ng-controller="UpdateTextDemoCtrl">
+        <rg-form__update-text label="Text"
+                              item="data"
+                              field="email"
+                              ng-required="true"
+                              ng-pattern="/^[a-zA-Z][a-zA-Z0-9-_\.]*[@][a-zA-Z0-9-_\.]+$/"
+                              on-save="save">
+          Enter valid email
+        </rg-form__update-text>
+
+        <rg-form__update-text label="Multiline Text"
+                              item="data"
+                              field="longText"
+                              multiline="true"
+                              on-save="save">
+        </rg-form__update-text>
+      </div>
+    </div>
+   </file>
+   <file name="index.js" webpack="true">
+     require('angular/angular.min.js');
+     require('form-ng/form-ng__update-text');
+
+     angular.module('Example.form', ['Ring.form'])
+      .controller('UpdateTextDemoCtrl', function($scope) {
+        $scope.data = {
+          email: null,
+          longText: null
+        };
+        $scope.save = function(item, field, success) {
+          success();
+        };
+      });
+   </file>
+ * </example>
+ */
+
   .directive('rgFormUpdateText', [
     '$timeout',
-    function ($timeout) {
+    'RingMessageBundle',
+    function ($timeout, RingMessageBundle) {
       return {
         replace: true,
         transclude: true,
@@ -23,7 +70,7 @@ angular.module('Ring.form')
           isLong: '&long',
           ngDisabled: '=',
           ngRequired: '=',
-          ngPattern: '=',
+          ngPattern: '@',
           type: '@',
           onSave: '='
         },
@@ -97,6 +144,11 @@ angular.module('Ring.form')
               $event.stopPropagation();
               $event.preventDefault();
             }
+          };
+
+          scope.wording = {
+            save: RingMessageBundle.form_save(),
+            saved: RingMessageBundle.form_saved()
           };
         }
       };

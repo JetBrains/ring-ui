@@ -169,7 +169,8 @@ var dgeni = new Dgeni([
       './table-ng/table-ng.js',
       './analytics-ng/analytics-ng.js',
       './error-page-ng/error-page-ng.js',
-      './dropdown-ng/dropdown-ng.js'
+      './dropdown-ng/dropdown-ng.js',
+      './form-ng/form-ng__update-text.js'
     ];
 
     /**
