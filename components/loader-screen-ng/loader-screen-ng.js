@@ -78,11 +78,11 @@ angular.module('Ring.loader-screen', []).
       });
     }
   ]).
-  directive('ringLoaderScreen', [function () {
+  directive('rgLoaderScreen', [function () {
     return {
       restrict: 'A',
       scope: {
-        ringLoaderScreen: '@'
+        rgLoaderScreen: '@'
       },
       template: require('./loader-screen-ng.html')
     };
