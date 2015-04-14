@@ -96,8 +96,10 @@ new Metalsmith(path.resolve(__dirname, '..'))
     console.log('Compiling %d components', webpackEntries.length);
 
     if (server) {
+      var serverUrl = 'http://localhost:' + port;
+
       webpackEntries.push({
-        entry: ['webpack-dev-server/client?http://localhost:' + port],
+        entry: ['webpack-dev-server/client?' + serverUrl],
         output: {
           path: path.resolve(__dirname, '..', 'docs', 'assets'),
           filename: 'utils.js'
@@ -110,11 +112,14 @@ new Metalsmith(path.resolve(__dirname, '..'))
     if (server) {
       new WebpackDevServer(compiler, {
         contentBase: path.resolve(__dirname, '..', 'docs'),
+        // To be enabled after move to webpack entries instead of milti-compiler
         //hot: true,
         stats: {
           colors: true
         }
-      }).listen(port);
+      }).listen(port, function () {
+          console.log('Server started on ' + serverUrl);
+        });
     } else {
       compiler.run(function(compileErr) {
         if (compileErr) {

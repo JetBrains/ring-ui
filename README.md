@@ -16,7 +16,7 @@ order: 1
 
 ## Available commands
 
-Start server: `npm start` (runs webpack dev server on http://localhost:9999 by default)
+Start server: `npm start` (runs webpack dev server on http://localhost:9999 by default, you might want to change it using `npm config set ring-ui:port <port>`)
 
 Run tests: `npm test`
 
