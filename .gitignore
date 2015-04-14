@@ -20,6 +20,5 @@ docs
 node_modules
 npm-debug.log
 tmp
-/docs/
-ring*.js
+./ring*.js
 ring-ui-*.tgz
