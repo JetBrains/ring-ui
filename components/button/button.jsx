@@ -38,7 +38,7 @@ var Modifiers = {
 
      <file name="index.js" webpack="true">
        var React = require('react');
-       var Button = require('./button.jsx');
+       var Button = require('button/button.jsx');
 
        React.renderComponent(Button({
                     modifier: Button.Modifiers.DEFAULT

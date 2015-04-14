@@ -54,6 +54,7 @@ var BASE_CLASS = 'ring-alert';
 
 /**
  * @constructor
+ * @name Alert
  * @extends {ReactComponent}
  * @example
    <example name="Alert">
@@ -63,7 +64,7 @@ var BASE_CLASS = 'ring-alert';
 
      <file name="index.js" webpack="true">
        var React = require('react');
-       var Alert = require('./alert.jsx');
+       var Alert = require('alert/alert');
 
        var alert = React.renderComponent(Alert({
          caption: 'Sample alert',

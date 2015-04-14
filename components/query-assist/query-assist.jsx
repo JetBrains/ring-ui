@@ -49,9 +49,8 @@ var noop = function() {};
 
      <file name="index.js" webpack="true">
        var React = require('react');
-       var QueryAssist = require('./query-assist.jsx');
+       var QueryAssist = require('query-assist/query-assist');
        var Auth = require('auth/auth');
-       var jQuery = require('jquery');
 
        var log = function(obj) {
          var div = document.createElement('div');
@@ -78,12 +77,10 @@ var noop = function() {};
              hint: 'lol',
              hintOnSelection: 'lol selected',
              dataSource: function (props) {
-               jQuery.extend(props, {
-                 fields: 'query,caret,styleRanges' + (props.omitSuggestions ? '' : ',suggestions')
-               });
+               props.fields = 'query,caret,styleRanges' + (props.omitSuggestions ? '' : ',suggestions')
 
                return auth.requestToken().then(function (token) {
-                 return auth.getSecure('api/rest/users/queryAssist', token, props);
+                 return auth.getApi('users/queryAssist', token, props);
                });
              }
            }),
