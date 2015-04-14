@@ -9,13 +9,13 @@ require('react-ng/react-ng')({
 /**
  * A block for displaying error messages
  * Usage:
- * <error-message code="{{ 'Disconnected' | translate }}" message="{{ 'No, no one\'s there.' | translate }}" icon="frown" links="[{href:'.',text:'home'}]">
+ * <rg-error-message code="{{ 'Disconnected' | translate }}" message="{{ 'No, no one\'s there.' | translate }}" icon="frown" links="[{href:'.',text:'home'}]">
    {{ 'Service backend isn\'t available' | translate }}
-   </error-message>
+   </rg-error-message>
  */
 
 angular.module('Ring.error-message', ['Ring.react-ng']).
-  directive('errorMessage', [function () {
+  directive('rgErrorMessage', [function () {
     return {
       replace: true,
       transclude: true,

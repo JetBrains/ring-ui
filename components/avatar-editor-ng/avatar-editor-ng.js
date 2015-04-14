@@ -13,7 +13,7 @@ angular.module('Ring.avatar-editor', ['Ring.message-bundle', 'Ring.alert']).
  * Input to select images to be uploaded as DataURI. On-select attribute gets filename as <code>name</code>
  * and DataURIed file content as <code>data</code>.
  */
-  directive('ringAvatarEditor',
+  directive('rgAvatarEditor',
     function () {
       return {
         restrict: 'E',
@@ -101,10 +101,10 @@ angular.module('Ring.avatar-editor', ['Ring.message-bundle', 'Ring.alert']).
       };
     }
   ).
-  directive('ringAvatarEditorFileInput', function () {
+  directive('rgAvatarEditorFileInput', function () {
     return {
       restrict: 'A',
-      require: '^ringAvatarEditor',
+      require: '^rgAvatarEditor',
       link: function (scope, iElement, iAttrs, avatarEditorCtrl) {
         avatarEditorCtrl.registerFileInput(iElement);
       }
