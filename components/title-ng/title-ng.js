@@ -1,10 +1,10 @@
 /* global angular: false */
 
 angular.module('Ring.title', []).
-  directive('pageTitle', [function () {
+  directive('rgPageTitle', [function () {
     return {
       scope: {
-        'pageTitle': '@',
+        'rgPageTitle': '@',
         'noTitle': '@',
         'delimiter': '@'
       },
@@ -18,7 +18,7 @@ angular.module('Ring.title', []).
         $rootScope.$on('$routeChangeSuccess', function (event, current) {
           var title = current.$$route && current.$$route.title;
 
-          pageTitle.setCurrent($scope.pageTitle || elementText);
+          pageTitle.setCurrent($scope.rgPageTitle || elementText);
 
           // Use title: false to prevent title change on route
           if (title !== false) {
