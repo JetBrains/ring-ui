@@ -671,6 +671,10 @@ var Select = React.createClass({
       </span>);
     }
 
+    if (this.state.selected && this.state.selected.icon) {
+      icons.push(<span className="ring-select__selected-icon" style={{'background-image': 'url("' + this.state.selected.icon + '")'}}></span>);
+    }
+
     if (!this.props.hideArrow) {
       icons.push(<Icon glyph="caret-down" size={Icon.Size.Size16} />);
     }
