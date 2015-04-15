@@ -45,6 +45,10 @@ function testStorage(storage) {
     it('should return null when there is no item', function () {
       return storage.get('test').should.become(null);
     });
+
+    it('should return null when there is no item', function () {
+      return storage.get('test').should.become(null);
+    });
   });
 
   describe('remove', function () {
@@ -217,7 +221,11 @@ describe('Storage', function () {
         localStorage.setItem('invalid-json', 'invalid-json');
       });
 
-      it('shouldn\'t break on non-parseable values', function () {
+      it('should get non-parseable values', function () {
+        return storage.get('invalid-json').should.be.become('invalid-json');
+      });
+
+      it('shouldn\'t break iteration on non-parseable values', function () {
         return storage.each(noop).should.be.fulfilled;
       });
 
