@@ -119,6 +119,22 @@ describe('Select(react)', function () {
       $(this.select.getDOMNode()).should.have.descendants('.ring-select__icons');
     });
 
+    it('Should add selected item icon to button', function () {
+      this.select.setProps({selected: {key: 1, label: 'test', icon: 'fakeImageUrl'}});
+      $(this.select.getDOMNode()).should.have.descendants('.ring-select__selected-icon');
+    });
+
+    it('Should not display selected item icon if it is not provided', function () {
+      this.select.setProps({selected: {key: 1, label: 'test', icon: null}});
+      $(this.select.getDOMNode()).should.not.have.descendants('.ring-select__selected-icon');
+    });
+
+    it('Should display selected item icon', function () {
+      this.select.setProps({selected: {key: 1, label: 'test', icon: 'http://fakeImageUrl'}});
+      var icon = this.select.getDOMNode().querySelector('.ring-select__selected-icon');
+      expect(icon.style.backgroundImage).to.contain('http://fakeImageUrl');
+    });
+
     it('Should place icons inside in INPUT mode', function () {
       this.select.setProps({type: Select.Type.INPUT});
       $(this.select.getDOMNode()).should.have.descendants('.ring-select__icons');
