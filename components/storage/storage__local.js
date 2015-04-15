@@ -30,9 +30,9 @@ var LocalStorage = function () {
  */
 LocalStorage.prototype.get = function (name) {
   return safePromise(function (resolve) {
-    var itemS = window.localStorage.getItem(name);
-    var item = itemS && JSON.parse(itemS);
-    resolve(item);
+    var value = window.localStorage.getItem(name);
+
+    resolve(when.attempt(JSON.parse, value).orElse(value));
   });
 };
 
