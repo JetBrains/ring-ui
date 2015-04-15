@@ -22,7 +22,7 @@ require('./tooltip-ng.scss');
 </example>
 */
 
-var OPEN_CLASS = 'tooltip-ng_open';
+var OPEN_CLASS = 'ring-tooltip-ng_open';
 
 /*global angular*/
 angular.module('Ring.tooltip', ['Ring.react-ng'])
@@ -53,7 +53,7 @@ angular.module('Ring.tooltip', ['Ring.react-ng'])
         this.popup = this.popup || Popup.renderComponent(new Popup({
           anchorElement: element,
           maxHeight: 400,
-          className: 'tooltip-ng',
+          className: 'ring-tooltip-ng',
           cutEdge: false
         }, template));
       };

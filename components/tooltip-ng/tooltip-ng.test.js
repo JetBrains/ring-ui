@@ -25,14 +25,14 @@ describe('tooltipNg', function(){
   it('Should open popup', function () {
     popupWrapper.displayTooltip();
 
-    expect(popupWrapper.popup.props.hidden).to.be.false;
+    popupWrapper.popup.props.hidden.should.be.false;
   });
 
-  it('Should set tooltip-ng class for popup', function () {
+  it('Should set ring-tooltip-ng class for popup', function () {
     popupWrapper.displayTooltip();
     var $popup = $(popupWrapper.popup.getDOMNode());
 
-    $popup.should.have.class('tooltip-ng');
+    $popup.should.have.class('ring-tooltip-ng');
   });
 
   it('Should display message inside', function () {
