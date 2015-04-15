@@ -130,9 +130,9 @@ describe('Select(react)', function () {
     });
 
     it('Should display selected item icon', function () {
-      this.select.setProps({selected: {key: 1, label: 'test', icon: 'http://fakeImageUrl'}});
+      this.select.setProps({selected: {key: 1, label: 'test', icon: 'http://fakeImageUrl/'}});
       var icon = this.select.getDOMNode().querySelector('.ring-select__selected-icon');
-      expect(icon.style.backgroundImage).to.contain('http://fakeImageUrl');
+      expect(icon.style.backgroundImage).to.contain('http://fakeImageUrl/');
     });
 
     it('Should place icons inside in INPUT mode', function () {
