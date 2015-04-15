@@ -83,7 +83,7 @@ describe('SelectNg', function () {
     });
 
     it('Should get options on open', function () {
-      ctrl.config.onOpen();
+      ctrl.config.onBeforeOpen();
       scope.$digest();
       ctrl.selectInstance.props.data.length.should.equal(fakeItems.length);
     });
@@ -146,7 +146,7 @@ describe('SelectNg', function () {
 
       compileTemplate('<rg-select options="item.name for item in dataSource(query) track by item.id" external-filter="true" ng-model="selectedItem"></rg-select>');
 
-      ctrl.config.onOpen();
+      ctrl.config.onBeforeOpen();
       scope.$digest();
       scope.dataSource.should.have.been.called;
     });
@@ -180,7 +180,7 @@ describe('SelectNg', function () {
     it('Should support syntax "item in items"', function () {
       scope.items = [{key: 1, label: 'test1'}];
       compileTemplate('<rg-select options="item in items" ng-model="selectedItem"></rg-select>');
-      ctrl.config.onOpen();
+      ctrl.config.onBeforeOpen();
       scope.$digest();
       ctrl.selectInstance.props.data.length.should.equal(1);
     });
@@ -188,7 +188,7 @@ describe('SelectNg', function () {
     it('Should support "item for item in items"', function () {
       scope.items = [{key: 1, label: 'test1'}];
       compileTemplate('<rg-select options="item for item in items" ng-model="selectedItem"></rg-select>');
-      ctrl.config.onOpen();
+      ctrl.config.onBeforeOpen();
       scope.$digest();
       ctrl.selectInstance.props.data[0].key.should.equal(scope.items[0].key);
     });
