@@ -90,7 +90,7 @@ var Type = {
        hideArrow: true,
        label: 'Placeholder without arrow'
      }), document.getElementById('demo'))
-     .setProps({data: data});
+     .setProps({data: data, selected: data[1]});
    </file>
  </example>
 
@@ -240,6 +240,7 @@ var Select = React.createClass({
 
       shortcuts: true,
 
+      onBeforeOpen: function() {},
       onOpen: function() {},
       onClose: function() {},
       onFilter: function() {},    // search string as first argument
@@ -263,25 +264,18 @@ var Select = React.createClass({
   },
 
   getShortcutsProps: function () {
-    var self = this;
     return {
       map: {
-        'enter': function() {
-          self.state.focused && self.inputHandler();
-        },
-        'up': function() {
-          self.state.focused && self.inputHandler();
-        },
-        'down': function() {
-          self.state.focused && self.inputHandler();
-        }
+        'enter': this._inputShortcutHandler,
+        'up': this._inputShortcutHandler,
+        'down': this._inputShortcutHandler
       },
       scope: generateUniqueId()
     };
   },
 
-  inputHandler: function() {
-    if (this._popup && !this._popup.isVisible()) {
+  _inputShortcutHandler: function() {
+    if (this.state.focused && this._popup && !this._popup.isVisible()) {
       this._clickHandler();
     }
   },
@@ -376,7 +370,6 @@ var Select = React.createClass({
       if (this._popup.isVisible()) {
         this._hidePopup();
       }
-      this.props.onOpen();
       return;
     }
 
@@ -488,13 +481,14 @@ var Select = React.createClass({
       if (this._popup.isVisible()) {
         this._hidePopup();
       } else {
+        this.props.onBeforeOpen();
         this._showPopup();
       }
     }
   },
 
   _filterChangeHandler: function() {
-    var filterValue = this.filterValue().trim();
+    var filterValue = this.filterValue().replace(/^\s+/g, '');
     this.props.onFilter(filterValue);
     if (this.props.allowAny) {
       var fakeSelected = {
@@ -508,6 +502,7 @@ var Select = React.createClass({
         this.props.onChange(fakeSelected);
       });
     }
+    !this._popup.isVisible() && this.props.onBeforeOpen();
     this._showPopup();
   },
 
@@ -576,10 +571,12 @@ var Select = React.createClass({
 
   _onClose: function() {
     if (this.isInputMode()) {
-      if (this.props.hideSelected || !this.state.selected || this.props.multiple) {
-        this.clearFilter();
-      } else if (this.state.selected) {
-        this.filterValue(this._getItemLabel(this.state.selected));
+      if (!this.props.allowAny) {
+        if (this.props.hideSelected || !this.state.selected || this.props.multiple) {
+          this.clearFilter();
+        } else if (this.state.selected) {
+          this.filterValue(this._getItemLabel(this.state.selected));
+        }
       }
     }
     this._hidePopup();
@@ -639,7 +636,11 @@ var Select = React.createClass({
   },
 
   _getInputPlaceholder: function() {
-    return this._getSelectedLabel();
+    if (!this.props.allowAny) {
+      return this._getSelectedLabel();
+    } else {
+      return '';
+    }
   },
 
   _getSelectedString: function() {
@@ -705,9 +706,14 @@ var Select = React.createClass({
         'ring-input_disabled': this.props.disabled
       });
 
+      var filterValue = '';
+      if (this.props.allowAny && this.state.selected) {
+        filterValue = this._getItemLabel(this.state.selected);
+      }
+
       return (
         <div onClick={this._clickHandler} className={buttonCS}>
-          <Input ref="filter" disabled={this.props.disabled} className={inputCS} style={style}
+          <Input ref="filter" disabled={this.props.disabled} value={filterValue} className={inputCS} style={style}
             onInput={this._filterChangeHandler}
             onFocus={this._focusHandler}
             onBlur={this._blurHandler}

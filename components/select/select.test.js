@@ -74,7 +74,7 @@ describe('Select(react)', function () {
 
   it('Should open popup on key handling if not opened', function () {
     this.select._showPopup = sinon.spy();
-    this.select.inputHandler();
+    this.select._inputShortcutHandler();
     this.select._showPopup.should.been.calledOnce;
   });
 
