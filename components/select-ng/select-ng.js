@@ -184,7 +184,8 @@ angular.module('Ring.select', ['Ring.select.options'])
     var types = {
       input: Select.Type.INPUT,
       button: Select.Type.BUTTON,
-      dropdown: Select.Type.CUSTOM
+      dropdown: Select.Type.CUSTOM,
+      suggest: Select.Type.INPUT
     };
 
     return {
@@ -198,7 +199,7 @@ angular.module('Ring.select', ['Ring.select.options'])
        * `item in dataSource(query)`
        * `item.text for item in items
        * `item.text for item in items track by item.id`
-       * `item.text select as item.fullText describe as item.fullDescription for item in items track by id`
+       * `item.text select as item.fullText describe as item.fullDescription for item in items track by item.id`
        * `item as item.text select as makeFullText(item) for item in items`
        * Where:
        * `as` - label of item in select list
@@ -220,6 +221,7 @@ angular.module('Ring.select', ['Ring.select.options'])
         type: '@',
         options: '@',
         label: '@',
+        selectedLabel: '@',
         externalFilter: '=',
         filter: '=?',
         onSelect: '&',
@@ -295,16 +297,20 @@ angular.module('Ring.select', ['Ring.select.options'])
 
         ctrl.loadOptionsToSelect = function(query) {
           ctrl.selectInstance.setProps({
-            loading: true
+            loading: ctrl.type !== 'suggest'
           });
 
           ctrl.getOptions(query).then(function (results) {
+            var items = map(results.data || results, ctrl.convertNgModelToSelect);
             ctrl.selectInstance.setProps({
-              data: map(results.data || results, ctrl.convertNgModelToSelect)
+              data: items,
+              loading: false
+            }, function() {
+              if (ctrl.type === 'suggest') {
+                ctrl.selectInstance._showPopup();
+              }
             });
           }).catch(function () {
-            //todo: catch error
-          }).finally(function () {
             ctrl.selectInstance.setProps({
               loading: false
             });
@@ -357,14 +363,19 @@ angular.module('Ring.select', ['Ring.select.options'])
           ctrl.config = angular.extend({}, {
             selected: ctrl.convertNgModelToSelect(ctrl.ngModel),
             label: ctrl.label,
+            selectedLabel: ctrl.selectedLabel,
             filter: ctrl.filter,
             type: getSelectType(),
             loadingMessage: ctrl.loadingMessage,
             notFoundMessage: ctrl.notFoundMessage,
             targetElement: ctrl.type === 'dropdown' ? $element[0] : null,
-            onOpen: function () {
+            onBeforeOpen: function () {
               $scope.$evalAsync(function () {
                 ctrl.loadOptionsToSelect(ctrl.query);
+              });
+            },
+            onOpen: function () {
+              $scope.$evalAsync(function () {
                 ctrl.onOpen();
               });
             },
