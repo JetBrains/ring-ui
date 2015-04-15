@@ -69,3 +69,15 @@
   white-space: nowrap;
 }
 
+.ring-select__selected-icon {
+  display: inline-block;
+  margin: 0 $ring-unit;
+  width: $ring-unit*2;
+  height: $ring-unit*2;
+
+  vertical-align: text-bottom;
+
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
