@@ -485,7 +485,11 @@ var Select = React.createClass({
 
   _clickHandler: function() {
     if (!this.props.disabled) {
-      this._showPopup();
+      if (this._popup.isVisible()) {
+        this._hidePopup();
+      } else {
+        this._showPopup();
+      }
     }
   },
 
