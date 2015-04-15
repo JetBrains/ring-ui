@@ -90,7 +90,6 @@
     "bowser": "0.7.2",
     "codemirror": "4.11.0",
     "css-loader": "0.9.1",
-    "es5-shim": "4.0.5",
     "exports-loader": "0.6.2",
     "file-loader": "0.8.1",
     "fuzzysearch": "1.0.3",
