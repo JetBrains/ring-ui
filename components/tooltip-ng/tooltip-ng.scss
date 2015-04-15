@@ -1,6 +1,6 @@
 @import 'global/global';
 
-.tooltip-ng {
+.ring-tooltip-ng {
   padding: $ring-unit;
-  max-width: 400px;
+  max-width: $ring-unit * 50;
 }
