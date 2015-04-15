@@ -78,11 +78,18 @@ describe('Select(react)', function () {
     this.select._showPopup.should.been.calledOnce;
   });
 
-  it('Should not open popup if disab led', function () {
+  it('Should not open popup if disabled', function () {
     this.select._showPopup = sinon.spy();
     this.select.setProps({disabled: true});
     this.select._clickHandler();
     this.select._showPopup.should.not.been.called;
+  });
+
+  it('Should close popup on click if it is already open', function () {
+    this.select._hidePopup = sinon.spy();
+    this.select._showPopup();
+    this.select._clickHandler();
+    this.select._hidePopup.should.been.called;
   });
 
   it('Should call onAdd on adding', function () {
