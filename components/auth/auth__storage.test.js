@@ -1,7 +1,6 @@
 /* eslint-disable google-camelcase/google-camelcase */
 describe('Auth', function () {
   describe('AuthStorage', function () {
-    var when = require('when');
     var Auth = require('./auth');
     var AuthStorage = require('./auth__storage');
     var authStorage = new AuthStorage({
@@ -95,27 +94,35 @@ describe('Auth', function () {
       });
     });
 
-    describe('onTokenChange', function () {
-      it('should be null after wipe', function () {
-        var MockedStorage = require('imports?window=mocked-storage!../storage/storage__local');
+    describe('Events', function () {
+      var MockedStorage = require('imports?window=mocked-storage!../storage/storage__local');
+      var mockedAuthStorage;
 
-        var mockedAuthStorage;
-        var called = when.promise(function (resolve) {
-          mockedAuthStorage = new AuthStorage({
-            stateKeyPrefix: 'state',
-            tokenKey: 'loltoken',
-            storage: MockedStorage
-          });
-
-          mockedAuthStorage.onTokenChange(resolve);
+      beforeEach(function () {
+        mockedAuthStorage = new AuthStorage({
+          stateKeyPrefix: 'state',
+          tokenKey: 'loltoken',
+          storage: MockedStorage
         });
+      });
+
+      it('onTokenChange should have been triggered', function () {
+        var spy = this.sinon.spy();
+        mockedAuthStorage.onTokenChange(spy);
 
         return mockedAuthStorage.saveToken(token).
           then(function () {
-            return mockedAuthStorage.wipeToken();
-          }).
+            spy.should.have.been.calledOnce;
+          }).should.be.fulfilled;
+      });
+
+      it('onStateChange should have been triggered', function () {
+        var spy = this.sinon.spy();
+        mockedAuthStorage.onStateChange(stateId, spy);
+
+        return mockedAuthStorage.saveState(stateId, {}).
           then(function () {
-            return called;
+            spy.should.have.been.calledOnce;
           }).should.be.fulfilled;
       });
     });

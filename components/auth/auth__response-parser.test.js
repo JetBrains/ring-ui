@@ -78,7 +78,22 @@ describe('Auth', function () {
       it('should throw error on error in auth response', function () {
         location = 'http://localhost:8080/hub#error=we+are+in+trouble';
         var parser = new AuthResponseParser();
-        expect(parser.getAuthResponseFromURL.bind(parser)).to.throw(Error, 'we are in trouble');
+        parser.getAuthResponseFromURL.bind(parser).should.throw(AuthResponseParser.AuthError, 'we are in trouble');
+      });
+
+      it('should throw error with fields from request', function () {
+        location = 'http://localhost:8080/hub#error=access_denied&' +
+        'error_uri=http://error&error_description=Logged+in+user+is+banned&state=unique';
+        var parser = new AuthResponseParser();
+
+        try {
+          parser.getAuthResponseFromURL();
+        } catch (e) {
+          e.should.have.property('message', 'Logged in user is banned');
+          e.should.have.property('code', 'access_denied');
+          e.should.have.property('stateId', 'unique');
+          e.should.have.property('uri', 'http://error');
+        }
       });
     });
   });

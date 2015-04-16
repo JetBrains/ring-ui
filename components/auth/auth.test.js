@@ -4,6 +4,7 @@ describe('Auth', function () {
   var AuthRequestBuilder = require('./auth__request-builder');
   var AuthResponseParser = require('./auth__response-parser');
   var AuthStorage = require('./auth__storage');
+  var MockedStorage = require('imports?window=mocked-storage!../storage/storage__local');
   var when = require('when');
 
   describe('construction', function () {
@@ -307,45 +308,6 @@ describe('Auth', function () {
         should.eventually.be.true;
     });
 
-    it('should initiate background auth when there is no valid token and fallback to redirect when token check fails', function () {
-      var MockedStorage = require('imports?window=mocked-storage!../storage/storage__local');
-
-      this.sinon.stub(AuthRequestBuilder, '_uuid').returns('unique');
-      this.sinon.stub(Auth.prototype, '_getValidatedToken').returns(when.reject({authRedirect: true}));
-
-      this.sinon.stub(Auth.prototype, '_redirectCurrentPage');
-      this.sinon.stub(Auth.prototype, '_redirectFrame', function () {
-        auth._storage.saveToken({access_token: 'token', expires: Auth._epoch() + 60 * 60, scopes: ['0-0-0-0-0']});
-      });
-
-      auth = new Auth({
-        serverUri: '',
-        redirect: false,
-        redirect_uri: 'http://localhost:8080/hub',
-        client_id: '1-1-1-1-1',
-        scope: ['0-0-0-0-0', 'youtrack'],
-        optionalScopes: ['youtrack']
-      });
-
-      auth._storage._tokenStorage = new MockedStorage();
-
-      return auth.init().
-        otherwise(function (reject) {
-          // Background loading
-          Auth.prototype._redirectFrame.should.have.been.calledWithMatch(sinon.match.any, 'api/rest/oauth2/auth?response_type=token&' +
-          'state=unique&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub&request_credentials=silent&client_id=1-1-1-1-1&scope=0-0-0-0-0%20youtrack');
-
-          // Fallback redirect after second check fail
-          Auth.prototype._redirectCurrentPage.should.have.been.calledWith('api/rest/oauth2/auth?response_type=token&' +
-          'state=unique&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub&request_credentials=default&client_id=1-1-1-1-1&scope=0-0-0-0-0%20youtrack');
-
-          Auth.prototype._getValidatedToken.should.have.been.called.twice;
-
-          return reject.authRedirect;
-        }).
-        should.eventually.be.true;
-    });
-
     it('should clear location hash if cleanHash = true', function () {
       this.sinon.stub(Auth.prototype, '_redirectCurrentPage');
       this.sinon.stub(AuthRequestBuilder, '_uuid').returns('unique');
@@ -413,6 +375,89 @@ describe('Auth', function () {
     });
   });
 
+  describe('background init', function () {
+    var auth;
+
+    beforeEach(function () {
+      this.sinon.stub(Auth.prototype, '_getValidatedToken').returns(when.reject({authRedirect: true}));
+      this.sinon.stub(Auth.prototype, '_redirectCurrentPage');
+      this.sinon.stub(AuthRequestBuilder, '_uuid').returns('unique');
+
+      auth = new Auth({
+        serverUri: '',
+        redirect: false,
+        redirect_uri: 'http://localhost:8080/hub',
+        client_id: '1-1-1-1-1',
+        scope: ['0-0-0-0-0', 'youtrack'],
+        optionalScopes: ['youtrack']
+      });
+
+      auth._storage._tokenStorage = auth._storage._stateStorage = new MockedStorage();
+    });
+
+    it('should initiate when there is no valid token', function () {
+      Auth.prototype._getValidatedToken.onCall(1).returns(when('token'));
+
+      this.sinon.stub(Auth.prototype, '_redirectFrame', function () {
+        auth._storage.saveToken({access_token: 'token', expires: Auth._epoch() + 60 * 60, scopes: ['0-0-0-0-0']});
+      });
+
+      return auth.init().
+        then(function () {
+          Auth.prototype._redirectFrame.should.have.been.calledWithMatch(sinon.match.any, 'api/rest/oauth2/auth?response_type=token&' +
+          'state=unique&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub&request_credentials=silent&client_id=1-1-1-1-1&scope=0-0-0-0-0%20youtrack');
+
+          Auth.prototype._redirectCurrentPage.should.not.have.been.called;
+
+          Auth.prototype._getValidatedToken.should.have.been.calledTwice;
+        });
+    });
+
+    it('should initiate and fall back to redirect when token check fails', function () {
+      this.sinon.stub(Auth.prototype, '_redirectFrame', function () {
+        auth._storage.saveToken({access_token: 'token', expires: Auth._epoch() + 60 * 60, scopes: ['0-0-0-0-0']});
+      });
+
+      return auth.init().
+        otherwise(function (reject) {
+          // Background loading
+          Auth.prototype._redirectFrame.should.have.been.calledWithMatch(sinon.match.any, 'api/rest/oauth2/auth?response_type=token&' +
+          'state=unique&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub&request_credentials=silent&client_id=1-1-1-1-1&scope=0-0-0-0-0%20youtrack');
+
+          // Fallback redirect after second check fail
+          Auth.prototype._redirectCurrentPage.should.have.been.calledWith('api/rest/oauth2/auth?response_type=token&' +
+          'state=unique&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub&request_credentials=default&client_id=1-1-1-1-1&scope=0-0-0-0-0%20youtrack');
+
+          Auth.prototype._getValidatedToken.should.have.been.calledTwice;
+
+          return reject.authRedirect;
+        }).
+        should.eventually.be.true;
+    });
+
+    it('should initiate and fallback to redirect when guest is banned', function () {
+      this.sinon.stub(Auth.prototype, '_redirectFrame', function () {
+        auth._storage.saveState('unique', {error: {code: 'access_denied'}});
+      });
+
+      return auth.init().
+        otherwise(function (reject) {
+          // Background loading
+          Auth.prototype._redirectFrame.should.have.been.calledWithMatch(sinon.match.any, 'api/rest/oauth2/auth?response_type=token&' +
+          'state=unique&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub&request_credentials=silent&client_id=1-1-1-1-1&scope=0-0-0-0-0%20youtrack');
+
+          // Fallback redirect after background fail
+          Auth.prototype._redirectCurrentPage.should.have.been.calledWith('api/rest/oauth2/auth?response_type=token&' +
+          'state=unique&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub&request_credentials=default&client_id=1-1-1-1-1&scope=0-0-0-0-0%20youtrack');
+
+          Auth.prototype._getValidatedToken.should.have.been.calledOnce;
+
+          return reject.code;
+        }).
+        should.become({code: 'access_denied'});
+    });
+  });
+
   describe('requestToken', function () {
 
     var auth = new Auth({
@@ -423,7 +468,6 @@ describe('Auth', function () {
       optionalScopes: ['youtrack']
     });
 
-    var MockedStorage = require('imports?window=mocked-storage!../storage/storage__local');
     auth._storage._tokenStorage = new MockedStorage();
 
     beforeEach(function () {
