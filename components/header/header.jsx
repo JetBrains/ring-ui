@@ -811,30 +811,30 @@ HeaderHelper.setServicesList = function(header, auth, params) {
   header.setProps({
     onServicesOpen: function() {
       header.refs['services'].setLoading(true);
+
+      auth.requestToken().then(function(token) {
+        auth.getApi('services?fields=id,name,applicationName,homeUrl,vendor', token, params).then(function(resp) {
+          if (resp.services) {
+            header.setProps({
+              onServicesOpen: null,
+              onServicesClose: null
+            });
+            header.setServicesList(resp.services);
+
+            if (header.refs['services'].state.loading) {
+              header.refs['services'].setOpened(true);
+              header.refs['services'].setLoading(false);
+            }
+          } else {
+            header.setMenuItemEnabled(Header.MenuItemType.SERVICES, false);
+          }
+        });
+      });
     },
 
     onServicesClose: function() {
       header.refs['services'].setLoading(false);
     }
-  });
-
-  return auth.requestToken().then(function(token) {
-    auth.getApi('services?fields=id,name,applicationName,homeUrl,vendor', token, params).then(function(resp) {
-      if (resp.services) {
-        header.setProps({
-          onServicesOpen: null,
-          onServicesClose: null
-        });
-        header.setServicesList(resp.services);
-
-        if (header.refs['services'].state.loading) {
-          header.refs['services'].setOpened(true);
-          header.refs['services'].setLoading(false);
-        }
-      } else {
-        header.setMenuItemEnabled(Header.MenuItemType.SERVICES, false);
-      }
-    });
   });
 };
 
