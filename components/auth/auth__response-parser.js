@@ -44,7 +44,7 @@ AuthResponseParser.prototype.validateAuthResponse = function (authResponse) {
 
   // Check for errors
   if (authResponse.error) {
-    throw new Error(authResponse.error);
+    throw new AuthResponseParser.AuthError(authResponse);
   }
 
   // If there is no token in the hash
@@ -69,7 +69,7 @@ AuthResponseParser.prototype.readAuthResponseFromURL = function () {
  * @return {string} part of the URL after # sign.
  * @private
  */
-AuthResponseParser.prototype.getHash = function() {
+AuthResponseParser.prototype.getHash = function () {
   // Because of stupid Firefox bug — https://bugzilla.mozilla.org/show_bug.cgi?id=483304
   var location = this.getLocation();
   return location && location.replace(/^[^#]*#?/, '');
@@ -109,5 +109,16 @@ AuthResponseParser.parseQueryString = function (queryString) {
   }
   return urlParams;
 };
+
+AuthResponseParser.AuthError = function AuthError(authResponse) {
+  this.message = authResponse.error_description;
+  this.code = authResponse.error;
+  this.uri = authResponse.error_uri;
+  this.stateId = authResponse.state;
+};
+
+AuthResponseParser.AuthError.prototype = Object.create(Error.prototype);
+AuthResponseParser.AuthError.prototype.name = 'AuthError';
+AuthResponseParser.AuthError.prototype.constructor = AuthResponseParser.AuthError;
 
 module.exports = AuthResponseParser;
