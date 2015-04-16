@@ -35,9 +35,17 @@ var AuthStorage = function (config) {
  * @return {function()} remove listener function
  */
 AuthStorage.prototype.onTokenChange = function(fn) {
-  return this._tokenStorage.on(this.tokenKey, function (tokenValue) {
-    fn(tokenValue);
-  });
+  return this._tokenStorage.on(this.tokenKey, fn);
+};
+
+/**
+ * Add state change listener
+ * @param {string} stateKey State key
+ * @param {function(string)} fn State change listener
+ * @return {function()} remove listener function
+ */
+AuthStorage.prototype.onStateChange = function(stateKey, fn) {
+  return this._stateStorage.on(this.stateKeyPrefix + stateKey, fn);
 };
 
 /**

@@ -102,7 +102,7 @@ var Auth = function (config) {
   });
 
   var self = this;
-  this._storage.onTokenChange(function(token) {
+  this._storage.onTokenChange(function (token) {
     if (token === null) {
       self.logout();
     }
@@ -199,13 +199,32 @@ Auth.prototype.init = function () {
 
   function sendRedirect(error) {
     return self._requestBuilder.prepareAuthRequest().
-      then(function (authURL) {
-        self._redirectCurrentPage(authURL);
+      then(function (authRequest) {
+        self._redirectCurrentPage(authRequest.url);
         return when.reject(error);
       });
   }
 
   return this._checkForAuthResponse().
+    catch(function (error) {
+      if (error.stateId) {
+        return self._storage.getState(error.stateId).
+          catch(function () {
+            return when.reject(error);
+          }).
+          then(function (state) {
+            if (state && state.nonRedirect) {
+              state.error = error;
+              self._storage.saveState(error.stateId, state);
+              return when.defer().promise;
+            }
+
+            return when.reject(error);
+          });
+      }
+
+      return when.reject(error);
+    }).
     then(function (state) {
       // Return endless promise in background to avoid service start
       if (state && state.nonRedirect) {
@@ -258,8 +277,8 @@ Auth.prototype.requestToken = function () {
       }).
       otherwise(function (e) {
         return self._requestBuilder.prepareAuthRequest().
-          then(function (authURL) {
-            self._redirectCurrentPage(authURL);
+          then(function (authRequest) {
+            self._redirectCurrentPage(authRequest.url);
             return Auth._authRequiredReject(e.message);
           });
       });
@@ -338,8 +357,8 @@ Auth.prototype.logout = function () {
     then(function () {
       return self._requestBuilder.prepareAuthRequest({request_credentials: 'required'});
     }).
-    then(function (authURL) {
-      self._redirectCurrentPage(authURL);
+    then(function (authRequest) {
+      self._redirectCurrentPage(authRequest.url);
     });
 };
 
@@ -630,27 +649,47 @@ Auth.prototype._loadTokenInBackground = function () {
   var backgroundMode = this.config.redirect ? 'skip' : 'silent';
 
   return this._requestBuilder.prepareAuthRequest({request_credentials: backgroundMode}, {nonRedirect: true}).
-    then(function (authURL) {
-      var removeListener = self._storage.onTokenChange(function(token) {
+    then(function (authRequest) {
+      var cleanRunned;
+
+      function cleanUp() {
+        if (cleanRunned) {
+          return;
+        }
+        cleanRunned = true;
+        /* eslint-disable no-use-before-define */
+        removeStateListener();
+        removeTokenListener();
+        /* eslint-enable no-use-before-define */
+        window.document.body.removeChild(iframe);
+      }
+
+      var removeTokenListener = self._storage.onTokenChange(function (token) {
         if (token !== null) {
-          window.document.body.removeChild(iframe);
-          removeListener();
+          cleanUp();
           self._backgroundDefer.resolve(token.access_token);
         }
       });
 
-      self._redirectFrame(iframe, authURL);
+      var removeStateListener = self._storage.onStateChange(authRequest.stateId, function (state) {
+        if (state.error) {
+          cleanUp();
+          self._backgroundDefer.reject(new AuthResponseParser.AuthError(state));
+        }
+      });
 
-      // TODO removeListener
+      self._redirectFrame(iframe, authRequest.url);
+
       return self._backgroundDefer.promise.
-        timeout(Auth.BACKGROUND_TIMEOUT);
+        timeout(Auth.BACKGROUND_TIMEOUT).
+        finally(cleanUp);
     });
 };
 /**
  * Sets location hash
  * @param {string} hash
  */
-Auth.prototype.setHash = function(hash) {
+Auth.prototype.setHash = function (hash) {
   if (history.replaceState) {
     // NB! History.replaceState is used here, because Firefox saves
     // a record in history.
@@ -678,7 +717,7 @@ var GUEST_ID = 'guest';
  * @deprecated since Hub 0.10.114+
  * @return {boolean}
  */
-Auth.prototype.isGuest = function(response) {
+Auth.prototype.isGuest = function (response) {
   return response.guest || response.login === GUEST_ID || response.name === GUEST_ID;
 };
 
