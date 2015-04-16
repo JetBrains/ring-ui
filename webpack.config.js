@@ -63,5 +63,7 @@ module.exports = {
       { test: /\.eot$/, loader: 'file-loader' },
       { test: /\.svg$/, loader: 'url-loader?limit=10000' }
     ]
-  }
+  },
+  // Keep empty plugins list to simplify additions
+  plugins: []
 };
