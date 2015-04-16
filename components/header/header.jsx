@@ -318,11 +318,18 @@ var MenuItemsSequence = [
       var React = require('react');
       var Header = require('header/header');
       var Popup = require('popup/popup');
+      var Auth = require('auth/auth');
 
       var headerContainer = document.createElement('div');
       document.body.appendChild(headerContainer);
 
       var popup, popupContainer;
+
+      var auth = new Auth({
+        serverUri: '***REMOVED***/',
+        request_credentials: 'skip',
+        redirect_uri: window.location.href.split('#')[0]
+      });
 
       // Render youtrack header to DOM. Help link leads to Yandex.
       var header = React.renderComponent(new Header({
@@ -352,10 +359,10 @@ var MenuItemsSequence = [
         }
       });
 
-      header.setServicesList([
-        { homeUrl: '#', name: 'Service 1', applicationName: 'youtrack' },
-        { homeUrl: '#', name: 'Service 2', applicationName: 'teamcity' }
-      ]);
+      auth.init().then(function () {
+        Header.HeaderHelper.setUserMenu(header, auth);
+        Header.HeaderHelper.setServicesList(header, auth);
+      });
 
       // Insert navigation.
       var navigation = document.createElement('div');
@@ -812,7 +819,7 @@ HeaderHelper.setServicesList = function(header, auth, params) {
   });
 
   return auth.requestToken().then(function(token) {
-    auth.getApi('services', token, params).then(function(resp) {
+    auth.getApi('services?fields=id,name,applicationName,homeUrl,vendor', token, params).then(function(resp) {
       if (resp.services) {
         header.setProps({
           onServicesOpen: null,
