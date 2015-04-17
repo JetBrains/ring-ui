@@ -7,7 +7,7 @@ var React = require('react/addons');
 var mixIn = require('mout/object/mixIn');
 var debounce = require('mout/function/debounce');
 
-var ShortcutsMixin = require('shortcuts/shortcuts-mixin');
+var ShortcutsMixin = require('shortcuts/shortcuts__mixin');
 var Global = require('global/global');
 var Icon = require('icon/icon');
 
