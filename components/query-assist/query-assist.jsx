@@ -16,7 +16,7 @@ var NgModelMixin = require('ngmodel/ngmodel');
 var PopupMenu = require('../popup-menu/popup-menu');
 var Icon = require('../icon/icon');
 var Loader = require('../loader/loader');
-var ShortcutsMixin = require('shortcuts/shortcuts-mixin');
+var ShortcutsMixin = require('shortcuts/shortcuts__mixin');
 var Global = require('global/global');
 
 var generateUniqueId = Global.getUIDGenerator('ring-query-assist-');

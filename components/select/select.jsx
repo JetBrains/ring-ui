@@ -16,7 +16,7 @@ var Loader = require('loader/loader');
 var NgModelMixin = require('ngmodel/ngmodel');
 var ngModelStateField = 'selected';
 
-var ShortcutsMixin = require('shortcuts/shortcuts-mixin');
+var ShortcutsMixin = require('shortcuts/shortcuts__mixin');
 
 var Global = require('global/global');
 var generateUniqueId = Global.getUIDGenerator('ring-select-');

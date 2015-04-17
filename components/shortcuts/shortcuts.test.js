@@ -2,7 +2,7 @@ var React = require('react/addons');
 var simulateKeypress = require('simulate-keypress');
 var renderIntoDocument = require('render-into-document');
 var shortcuts = require('./shortcuts');
-var ShortcutsMixin = require('./shortcuts-mixin');
+var ShortcutsMixin = require('./shortcuts__mixin');
 
 describe('Shortcuts', function () {
   var noop;
