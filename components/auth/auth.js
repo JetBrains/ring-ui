@@ -672,7 +672,7 @@ Auth.prototype._loadTokenInBackground = function () {
       });
 
       var removeStateListener = self._storage.onStateChange(authRequest.stateId, function (state) {
-        if (state.error) {
+        if (state && state.error) {
           cleanUp();
           self._backgroundDefer.reject(new AuthResponseParser.AuthError(state));
         }
