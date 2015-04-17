@@ -1,14 +1,12 @@
 var $ = require('jquery');
 var mousetrap = require('mousetrap');
 
-var Global = require('global/global');
-
 /**
  * @constructor
  **/
 var Shortcuts = function () {
   this._scopes = {};
-  this._dispatcher = Shortcuts._dispatcher.bind(this);
+  this._dispatcher = this._dispatcher.bind(this);
 
   this.setFilter();
   this.setScope();
@@ -17,17 +15,16 @@ var Shortcuts = function () {
 /**
  * @const {string}
  */
-Shortcuts.ROOT_SCOPE = 'ROOT';
+var ROOT_SCOPE = 'ROOT';
 
 /**
  * @const {string}
  */
-Shortcuts.ALLOW_SHORTCUTS_SELECTOR = '.ring-js-shortcuts';
+var ALLOW_SHORTCUTS_SELECTOR = '.ring-js-shortcuts';
 
-Shortcuts.trigger = mousetrap.trigger;
-Global.makeSingleton(Shortcuts);
+Shortcuts.prototype.trigger = mousetrap.trigger;
 
-Shortcuts._dispatcher = function (e, key) {
+Shortcuts.prototype._dispatcher = function (e, key) {
   var currentScope;
 
   for (var i = this._scopeChain.length - 1; i >= 0; i--) {
@@ -44,65 +41,6 @@ Shortcuts._dispatcher = function (e, key) {
   }
 };
 
-/**
- * @mixin {Shortcuts.Mixin}
- */
-Shortcuts.Mixin = {
-  /**
-   * Lazy inits component's shortcuts and synchronizes their state with scope chain
-   * @private
-   */
-  toggleShortcuts: function(props) {
-    var shortcuts = Shortcuts.getInstance();
-
-    if (props.shortcuts && !this.shortcutsScope) {
-      var shortcutsProps = this.getShortcutsProps();
-
-      if (!shortcutsProps || !shortcutsProps.map || !shortcutsProps.scope) {
-        throw new Error('Shortcuts\' props weren\'t provided');
-      }
-
-      shortcuts.bindMap(shortcutsProps.map, shortcutsProps);
-      shortcuts.pushScope(shortcutsProps.scope);
-      this.shortcutsScope = shortcutsProps.scope;
-
-      return;
-    }
-
-    var hasScope = this.shortcutsEnabled();
-
-    if (props.shortcuts && !hasScope) {
-      shortcuts.pushScope(this.shortcutsScope);
-    } else if (!props.shortcuts && hasScope) {
-      shortcuts.spliceScope(this.shortcutsScope);
-    }
-  },
-
-  shortcutsEnabled: function() {
-    var shortcuts = Shortcuts.getInstance();
-    return shortcuts.hasScope(this.shortcutsScope);
-  },
-
-  /** @override */
-  componentWillMount: function () {
-    this.toggleShortcuts(this.props);
-  },
-
-  /** @override */
-  componentWillUpdate: function(props, state) {
-    this.toggleShortcuts($.extend({}, props, state));
-  },
-
-  /** @override */
-  componentWillUnmount: function () {
-    if (this.shortcutsScope) {
-      var shortcuts = Shortcuts.getInstance();
-
-      shortcuts.unbindScope(this.shortcutsScope);
-      shortcuts.spliceScope(this.shortcutsScope);
-    }
-  }
-};
 
 /**
  * Binds handler to shortcut
@@ -118,7 +56,7 @@ Shortcuts.prototype.bind = function (params) {
   }
 
   if (!params.scope) {
-    params.scope = Shortcuts.ROOT_SCOPE;
+    params.scope = this.ROOT_SCOPE;
   }
 
   if ($.isArray(params.key)) {
@@ -214,9 +152,9 @@ Shortcuts.prototype.setScope = function (scope) {
       return;
     }
 
-    this._scopeChain = [Shortcuts.ROOT_SCOPE].concat(scope);
+    this._scopeChain = [ROOT_SCOPE].concat(scope);
   } else {
-    this._scopeChain = [Shortcuts.ROOT_SCOPE];
+    this._scopeChain = [ROOT_SCOPE];
   }
 };
 
@@ -228,7 +166,7 @@ Shortcuts.prototype._defaultFilter = function (e, element/*, key*/) {
   var $element = $(element);
 
   // if the element or its parents have the class "ring-js-shortcuts" then no need to stop
-  if ($element.is(Shortcuts.ALLOW_SHORTCUTS_SELECTOR) || $element.closest(Shortcuts.ALLOW_SHORTCUTS_SELECTOR).length) {
+  if ($element.is(ALLOW_SHORTCUTS_SELECTOR) || $element.closest(ALLOW_SHORTCUTS_SELECTOR).length) {
     return false;
   }
 
@@ -246,4 +184,7 @@ Shortcuts.prototype.reset = function () {
   mousetrap.reset();
 };
 
-module.exports = Shortcuts;
+module.exports = new Shortcuts();
+module.exports.ALLOW_SHORTCUTS_SELECTOR = ALLOW_SHORTCUTS_SELECTOR;
+module.exports.ROOT_SCOPE = ROOT_SCOPE;
+

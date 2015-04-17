@@ -10,7 +10,7 @@ var Parser = require('../__parser/diff__parser');
 var parsers = require('../diff__parsers');
 var SinglePaneParser = require('../__parser/diff__parser_singlepane');
 var CodeMirror = require('codemirror');
-var CodeMirrorHelper = require('../diff__code-mirror-helper');
+var cmHelper = require('../diff__code-mirror-helper');
 var $ = require('jquery');
 
 /**
@@ -19,7 +19,7 @@ var $ = require('jquery');
  * @extends {EditorController}
  */
 var SingleEditorController = function (element) {
-  SingleEditorController.super_.constructor.call(this, element, SinglePaneParser.getInstance());
+  SingleEditorController.super_.constructor.call(this, element, new SinglePaneParser());
 };
 Tools.inherit(SingleEditorController, EditorController);
 
@@ -501,8 +501,6 @@ SingleEditorController.getEditorContentText = function (editorContent) {
  * @param {CodeMirror} editor
  */
 SingleEditorController.highlightLines = function (editorContent, editor) {
-  var cmHelper = CodeMirrorHelper.getInstance();
-
   var codeTypeToLineClass = Tools.createObject(
     SingleEditorController.CodeType.ADDED,
     SingleEditorController.LineClass.ADDED,
@@ -614,8 +612,6 @@ SingleEditorController.highlightLines = function (editorContent, editor) {
  * @param {Parser.LineModification} chunk
  */
 SingleEditorController.highlightLine = function (editor, editorLine, lineClassName, lineGutterSymbol, i, chunk) {
-  var cmHelper = CodeMirrorHelper.getInstance();
-
   cmHelper.addOperation(editor, function () {
     editor.addLineClass(editorLine,
       SingleEditorController.EDITOR_MODE, lineClassName);
@@ -652,8 +648,6 @@ SingleEditorController.highlightLine = function (editor, editorLine, lineClassNa
  * @param {number} editorLine
  */
 SingleEditorController.addFoldedLine = function (editor, editorLine) {
-  var cmHelper = CodeMirrorHelper.getInstance();
-
   var foldedLineElement = document.createElement('div');
   foldedLineElement.className = SingleEditorController.LineClass.FOLDED;
 

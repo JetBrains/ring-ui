@@ -2,8 +2,7 @@
 
 require('dialog/dialog.scss');
 
-var Shortcuts = require('shortcuts/shortcuts');
-var shortcuts = Shortcuts.getInstance();
+var shortcuts = require('shortcuts/shortcuts');
 var $ = require('jquery');
 
 var DIALOG_NAMESPACE = 'ring-dialog';

@@ -17,20 +17,14 @@ var CodeMirrorHelper = function () {
    */
   this.eventHandler_ = $();
 };
-Global.makeSingleton(CodeMirrorHelper);
 
 /**
  * @enum {string}
  */
-CodeMirrorHelper.EventType = {
+var EventType = {
   MODULE_LOADED: 'moduleloaded',
   MODULE_LOAD_ERROR: 'moduleloaderror'
 };
-
-/**
- * @typedef {Array.<Function>}
- */
-CodeMirrorHelper.Buffer = [];
 
 /**
  * @return {jQuery}
@@ -126,4 +120,5 @@ CodeMirrorHelper.prototype.cleanupSelections = function (editor) {
   editor.codeMirrorHelperSelectionBuffer_ = [];
 };
 
-module.exports = CodeMirrorHelper;
+module.exports = new CodeMirrorHelper();
+module.exports.EventType = EventType;
