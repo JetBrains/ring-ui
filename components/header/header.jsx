@@ -757,7 +757,7 @@ var Header = React.createClass({
           'ring-link_active', true,
           ((props && props.className) ? props.className : ''), true));
 
-      return React.DOM.b(mixIn(props, {
+      return React.DOM.b(mixIn({}, props, {
         className: activeLinkClass
       }), children);
     }
