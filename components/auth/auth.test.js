@@ -517,6 +517,54 @@ describe('Auth', function () {
     });
   });
 
+  describe('requestUser', function () {
+    var auth;
+
+    beforeEach(function () {
+      auth = new Auth({
+        serverUri: '',
+        redirect_uri: 'http://localhost:8080/hub',
+        client_id: '1-1-1-1-1',
+        scope: ['0-0-0-0-0', 'youtrack'],
+        optionalScopes: ['youtrack']
+      });
+
+      this.sinon.stub(Auth.prototype, 'getApi').returns(when({name: 'APIuser'}));
+    });
+
+    it('should return existing user', function () {
+      auth._initDeferred = when.defer();
+      auth._initDeferred.resolve();
+
+      auth.user = {name: 'existingUser'};
+
+      return auth.requestUser().tap(function () {
+        Auth.prototype.getApi.should.not.have.been.called;
+      }).should.eventually.equal(auth.user);
+    });
+
+    it('should get user from Api', function () {
+      auth._initDeferred = when.defer();
+      auth._initDeferred.resolve();
+
+      this.sinon.stub(Auth.prototype, 'requestToken').returns(when('token'));
+
+      return auth.requestUser().tap(function () {
+        Auth.prototype.getApi.should.have.been.calledOnce;
+      }).should.become({name: 'APIuser'});
+    });
+
+    it('should get user from Api', function () {
+      auth.init();
+      auth._storage.saveToken({access_token: 'token', expires: Auth._epoch() + 60 * 60, scopes: ['0-0-0-0-0']});
+
+      return auth.requestUser().tap(function () {
+        Auth.prototype.getApi.should.have.been.calledOnce;
+      }).should.become({name: 'APIuser'});
+    });
+  });
+
+
   describe('logout', function() {
     var auth = new Auth({
       serverUri: '',

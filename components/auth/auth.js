@@ -339,11 +339,14 @@ Auth.prototype.requestUser = function () {
   var self = this;
   return this.requestToken().
     then(function (accessToken) {
-      return self.getApi(Auth.API_PROFILE_PATH, accessToken);
-    }).
-    then(function (user) {
-      self.user = user;
-      return user;
+      if (self.user) {
+        return self.user;
+      }
+
+      return self.getApi(Auth.API_PROFILE_PATH, accessToken).
+        tap(function (user) {
+          self.user = user;
+        });
     });
 };
 
