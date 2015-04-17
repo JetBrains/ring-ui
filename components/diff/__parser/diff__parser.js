@@ -4,13 +4,7 @@ var Tools = require('./../diff__tools');
 /**
  * @constructor
  */
-var Parser = function () {
-};
-
-Parser.getInstance = function () {
-  var instance = Parser.instance_;
-  return instance ? instance : (Parser.instance_ = new Parser());
-};
+var Parser = function () {};
 
 /**
  * API response of number of changed lines and kinds of changes with them.

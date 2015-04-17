@@ -7,7 +7,7 @@ var React = require('react/addons');
 var mixIn = require('mout/object/mixIn');
 var debounce = require('mout/function/debounce');
 
-var Shortcuts = require('shortcuts/shortcuts');
+var ShortcutsMixin = require('shortcuts/shortcuts-mixin');
 var Global = require('global/global');
 var Icon = require('icon/icon');
 
@@ -179,7 +179,7 @@ var ListMixin = {
 /**
  * @name List
  * @constructor
- * @mixes {Shortcuts.Mixin}
+ * @mixes {ShortcutsMixin}
  * @extends {ReactComponent}
  * @example
    <example name="List">
@@ -308,7 +308,7 @@ var ListMixin = {
   </example>
 */
 var List = React.createClass({
-  mixins: [Shortcuts.Mixin, ListMixin],
+  mixins: [ShortcutsMixin, ListMixin],
 
   statics: {
     Mixin: ListMixin

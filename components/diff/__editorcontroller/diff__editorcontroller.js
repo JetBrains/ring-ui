@@ -16,8 +16,7 @@ var Parser = require('./../__parser/diff__parser');
 var EditorController = function (element, opt_parser) {
   this.element_ = element;
 
-  this.codeParser_ = Tools.isDef(opt_parser) ? opt_parser :
-    Parser.getInstance();
+  this.codeParser_ = Tools.isDef(opt_parser) ? opt_parser : new Parser();
 };
 
 /**

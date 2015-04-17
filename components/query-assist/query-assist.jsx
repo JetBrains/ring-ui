@@ -16,7 +16,7 @@ var NgModelMixin = require('ngmodel/ngmodel');
 var PopupMenu = require('../popup-menu/popup-menu');
 var Icon = require('../icon/icon');
 var Loader = require('../loader/loader');
-var Shortcuts = require('shortcuts/shortcuts');
+var ShortcutsMixin = require('shortcuts/shortcuts-mixin');
 var Global = require('global/global');
 
 var generateUniqueId = Global.getUIDGenerator('ring-query-assist-');
@@ -38,7 +38,7 @@ var noop = function() {};
 /**
  * @name QueryAssist
  * @constructor
- * @mixes {Shortcuts.Mixin}
+ * @mixes {ShortcutsMixin}
  * @extends {ReactComponent}
  * @example
    <example name="QueryAssist">
@@ -92,7 +92,7 @@ var noop = function() {};
  */
 var ngModelStateField = {query: true, caret: true};
 var QueryAssist = React.createClass({
-  mixins: [Shortcuts.Mixin, NgModelMixin],
+  mixins: [ShortcutsMixin, NgModelMixin],
   ngModelStateField: ngModelStateField,
   statics: {
     ngModelStateField: ngModelStateField
