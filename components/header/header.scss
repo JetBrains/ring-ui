@@ -164,6 +164,12 @@
     margin-right: 0;
   }
 
+  .ring-link:hover,
+  .ring-link:visited:hover {
+    color: $ring-link-hover-color;
+    text-decoration: underline;
+  }
+
   .ring-link,
   .ring-link:visited,
   .ring-link_active,
@@ -172,10 +178,9 @@
     text-decoration: none;
   }
 
-  .ring-link:hover,
-  .ring-link:visited:hover {
-    color: $ring-link-hover-color;
-    text-decoration: underline;
+  .ring-link_active,
+  .ring-link_active:hover {
+    cursor: default;
   }
 }
 
