@@ -14,7 +14,7 @@ var mixIn = require('mout/object/mixIn');
 var PopupMenu = require('popup-menu/popup-menu');
 var React = require('react/addons');
 var urlUtils = require('url-utils/url-utils');
-
+var when = require('when');
 
 /**
  * @type {ClassName}
@@ -808,27 +808,40 @@ var HeaderHelper = {};
  * @return {Promise}
  */
 HeaderHelper.setServicesList = function(header, auth, params) {
+  var fields = '?fields=id,name,applicationName,homeUrl,vendor';
+
+  function setServicesList(resp) {
+    if (resp.services) {
+      header.setProps({
+        onServicesOpen: null,
+        onServicesClose: null
+      });
+      header.setServicesList(resp.services);
+
+      if (header.refs['services'].state.loading) {
+        header.refs['services'].setOpened(true);
+        header.refs['services'].setLoading(false);
+      }
+    } else {
+      header.setMenuItemEnabled(Header.MenuItemType.SERVICES, false);
+    }
+  }
+
   header.setProps({
     onServicesOpen: function() {
       header.refs['services'].setLoading(true);
 
       auth.requestToken().then(function(token) {
-        auth.getApi('services?fields=id,name,applicationName,homeUrl,vendor', token, params).then(function(resp) {
-          if (resp.services) {
-            header.setProps({
-              onServicesOpen: null,
-              onServicesClose: null
-            });
-            header.setServicesList(resp.services);
-
-            if (header.refs['services'].state.loading) {
-              header.refs['services'].setOpened(true);
-              header.refs['services'].setLoading(false);
+        auth.getApi('services/header' + fields, token, params).
+          catch(function (error) {
+            // Fallback to old API
+            if (error.response.status === 404) {
+              return auth.getApi('services' + fields, token, params);
             }
-          } else {
-            header.setMenuItemEnabled(Header.MenuItemType.SERVICES, false);
-          }
-        });
+
+            return when.reject(error);
+          }).
+          then(setServicesList);
       });
     },
 
