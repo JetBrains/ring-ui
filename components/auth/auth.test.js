@@ -543,7 +543,7 @@ describe('Auth', function () {
       }).should.eventually.equal(auth.user);
     });
 
-    it('should get user from Api', function () {
+    it('should get user from API', function () {
       auth._initDeferred = when.defer();
       auth._initDeferred.resolve();
 
@@ -554,7 +554,7 @@ describe('Auth', function () {
       }).should.become({name: 'APIuser'});
     });
 
-    it('should get user from Api', function () {
+    it('should wait user saved during validation', function () {
       auth.init();
       auth._storage.saveToken({access_token: 'token', expires: Auth._epoch() + 60 * 60, scopes: ['0-0-0-0-0']});
 
