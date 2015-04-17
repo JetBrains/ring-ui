@@ -1,5 +1,6 @@
 /* eslint-env node */
 var path = require('path');
+var fs = require('fs');
 var server = process.argv.indexOf('--server') !== -1;
 var noop = function noop() {};
 
@@ -20,6 +21,24 @@ var webpackConfig = require('../webpack.config');
 
 new Metalsmith(path.resolve(__dirname, '..'))
   .source('./components')
+  // Add README.md
+  // Remove after https://github.com/segmentio/metalsmith/issues/50
+  .use(function (files, metalsmith, done) {
+    fs.readFile(path.resolve(__dirname, '..', 'README.md'), function (err, contents) {
+      if (err) {
+        throw err;
+      }
+
+      files['README.md'] = {
+        contents: contents,
+        collection: 'docs',
+        title: 'Getting started',
+        order: 1
+      };
+
+      done();
+    });
+  })
   .use(ignore([
     '**/*.svg',
     '**/*.png',
