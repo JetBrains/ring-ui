@@ -76,7 +76,7 @@ angular.module('Ring.shortcuts', [])
   .directive('rgShortcutsApp', [function () {
     return {
       restrict: 'A',
-      controller: ['$rootScope', '$scope', '$attrs', 'shortcuts', function ($scope, $rootScope, $attrs, shortcuts) {
+      controller: ['$rootScope', '$scope', '$attrs', function ($scope, $rootScope, $attrs) {
         $scope.zones = [];
         $scope.loop = 'shortcutsLoop' in $attrs;
         var self = this;
