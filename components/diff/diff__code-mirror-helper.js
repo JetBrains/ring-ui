@@ -3,7 +3,6 @@
  * @author igor.alexeenko (Igor Alekseyenko)
  */
 
-var Global = require('global/global');
 var $ = require('jquery');
 
 /**

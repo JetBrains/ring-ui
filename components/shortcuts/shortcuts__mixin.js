@@ -1,3 +1,4 @@
+var $ = require('jquery');
 var shortcuts = require('shortcuts/shortcuts');
 
 /**
