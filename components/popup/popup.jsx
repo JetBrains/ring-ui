@@ -12,7 +12,7 @@ var React = require('react');
 var Global = require('global/global');
 
 var generateUniqueId = Global.getUIDGenerator('ring-popup-');
-var ShortcutsMixin = require('shortcuts/shortcuts-mixin');
+var ShortcutsMixin = require('shortcuts/shortcuts__mixin');
 
 /**
  * @constructor
