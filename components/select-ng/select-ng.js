@@ -341,7 +341,7 @@ angular.module('Ring.select', ['Ring.select.options'])
         function attachDropdownIfNeeded() {
           if (ctrl.type === 'dropdown') {
             element.addEventListener('click', function () {
-              ctrl.selectInstance._showPopup();
+              ctrl.selectInstance._clickHandler();
             });
           }
         }
