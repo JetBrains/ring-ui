@@ -214,6 +214,10 @@ angular.module('Ring.select', ['Ring.select.options'])
        * @property {Function} scope.onOpen - callback to call on select popup opening
        * @property {Function} scope.onClose - callback to call on select popup closing
        * @property {String} scope.label - Label to place on empty select button
+       * @property {String} scope.selectedLabel - Label to replace any selected item/items
+       * with constant text on select button
+       * @property {String} scope.notFoundMessage - message to display if no options found
+       * @property {String} scope.loadingMessage - message to display while loading
        * @property {Object} scope.config - hash to pass to react select component.
        */
       scope: {
