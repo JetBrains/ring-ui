@@ -71,10 +71,17 @@
 
   .ring-icon_24 {
     border-radius: 3px;
-    padding: 0;
+    height: 24px;
     // NB! Horizontal compensation of size changing. Margin is used because
     // of the border-radius.
     margin: $ring-unit - ((24px - 18px) / 2);
+    overflow: hidden;
+    padding: 0;
+    width: 24px;
+
+    .ring-icon__pic {
+      vertical-align: middle;
+    }
   }
 }
 

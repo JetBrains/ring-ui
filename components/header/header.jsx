@@ -43,7 +43,6 @@ var HeaderLogo = React.createClass({
 });
 
 
-
 /**
  * @constructor
  * @extends {ReactComponent}
@@ -103,20 +102,15 @@ var MenuItem = React.createClass({
    * @private
    */
   _getImage: function() {
-    // todo(igor.alexeenko): Make image size customizable.
-
     var baseClass = new ClassName('ring-icon');
     var className = React.addons.classSet(Global.createObject(
         baseClass.getClassName(), true,
         baseClass.getModifier('24'), true,
         baseClass.getModifier(this.props.glyph), true));
 
-    return (<img
-        className={className}
+    return (<span className={className}><img className={baseClass.getElement('pic')}
         src={this.state.picture}
-        height="24"
-        title={this.state.title}
-        width="24" />);
+        title={this.state.title} /></span>);
   },
 
   /**
