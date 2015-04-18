@@ -19,4 +19,9 @@
       transition: height 50ms ease-in-out;
     }
   }
+
+  .ring-form__update-text__button {
+    vertical-align: top;
+    margin-left: $ring-unit
+  }
 }
