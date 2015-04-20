@@ -60,7 +60,7 @@ new Metalsmith(path.resolve(__dirname, '..'))
         // Do not replace parts of links
         // like `[RG-640](https://youtrack.jetbrains.com/issue/RG-640)`
         var lookBehind = string.charAt(offset - 1);
-        if (lookBehind === ']' || lookBehind === '/') {
+        if (lookBehind === '[' || lookBehind === '/') {
           return match;
         }
 
