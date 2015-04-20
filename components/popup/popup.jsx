@@ -114,12 +114,17 @@ var PopupMixin = {
 
   /** @override */
   componentDidMount: function () {
-    this._checkDisplay();
     this._setListenersEnabled(true);
+    this._checkDisplay();
   },
 
   componentDidUpdate: function() {
     this._checkDisplay();
+  },
+
+  /** @override */
+  componentWillUnmount: function () {
+    this._setListenersEnabled(false);
   },
 
   /** @override */
@@ -136,8 +141,6 @@ var PopupMixin = {
    */
   close: function () {
     var onCloseResult = true;
-
-    this._setListenersEnabled(false);
 
     if (typeof this.props.onClose === 'function') {
       onCloseResult = this.props.onClose();
@@ -161,17 +164,17 @@ var PopupMixin = {
       display: 0,
       shortcuts: false
     }, cb);
+
+    this._setListenersEnabled(false);
   },
 
   show: function(cb) {
-    setTimeout(function() {
-      this.setState({
-        display: 1,
-        shortcuts: true
-      }, cb);
+    this.setState({
+      display: 1,
+      shortcuts: true
+    }, cb);
 
-      this._setListenersEnabled(true);
-    }.bind(this), 0);
+    this._setListenersEnabled(true);
   },
 
   /**
@@ -235,10 +238,10 @@ var PopupMixin = {
    * @private
    */
   onDocumentClick_: function (evt) {
-    console.timeEnd('bubble up');
-
     if (this.isMounted() && !this.getDOMNode().contains(evt.target)) {
-      if (!this.props.anchorElement || !this.props.dontCloseOnAnchorClick || !this.props.anchorElement.contains(evt.target)) {
+      if (!this.props.anchorElement ||
+        !this.props.dontCloseOnAnchorClick ||
+        !this.props.anchorElement.contains(evt.target)) {
         this.close();
       }
     }
@@ -376,7 +379,7 @@ var PopupMixin = {
  * @extends {ReactComponent}
  * @example
 
- <example name="Popup">
+ <example name="Popup Menu">
  <file name="index.html">
  <div>
  <div id="target1" style="position: absolute; left: 0; top: 0; width: 10px; height: 10px; background-color: red;"></div>
@@ -388,7 +391,7 @@ var PopupMixin = {
  </file>
  <file name="index.js" webpack="true">
  var React = require('react');
- var Popup = require('popup/popup');
+ var Popup = require('./popup.jsx');
 
  var container = React.DOM.span(null, 'Hello world!');
 
@@ -411,7 +414,9 @@ var PopupMixin = {
       }, [container]));
 
  document.getElementById('switch3').onclick = function() {
-   popup3.show();
+  setTimeout(function() {
+    popup3.show();
+  }, 1);
  };
 
  var popup4 = Popup.renderComponent(Popup({
