@@ -106,9 +106,9 @@ var FooterLine = React.createClass({
  * @extends {ReactComponent}
  * @description
  *
- * This component adds footer on the page.
+ * This component defines the page footer.
  *
- * Each footer consists of three optional parts:
+ * A footer consists of three sections, each optional:
  *  - left
  *  - center
  *  - right

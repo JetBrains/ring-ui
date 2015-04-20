@@ -9,7 +9,7 @@ angular.module('Ring.form')
 
 /**
  * @name Form-update-text
- * @description Directive: input with save button
+ * @description Directive: input with Save button
  * @example
  * <example name="Form-update-text">
    <file name="index.html">
