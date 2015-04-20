@@ -1,8 +1,8 @@
 var React = require('react/addons');
 var simulateKeypress = require('simulate-keypress');
 var renderIntoDocument = require('render-into-document');
-var Shortcuts = require('./shortcuts');
-var shortcuts = Shortcuts.getInstance();
+var shortcuts = require('./shortcuts');
+var ShortcutsMixin = require('./shortcuts__mixin');
 
 describe('Shortcuts', function () {
   var noop;
@@ -40,7 +40,7 @@ describe('Shortcuts', function () {
     it('should bind to root scope', function () {
       shortcuts.bind({key: key, handler: noop});
 
-      shortcuts._scopes[Shortcuts.ROOT_SCOPE][key].should.equal(noop);
+      shortcuts._scopes[shortcuts.ROOT_SCOPE][key].should.equal(noop);
     });
 
     it('should bind to custom scope', function () {
@@ -53,8 +53,8 @@ describe('Shortcuts', function () {
       var keys = [key, key2];
       shortcuts.bind({key: keys, handler: noop});
 
-      shortcuts._scopes[Shortcuts.ROOT_SCOPE][key].should.equal(noop);
-      shortcuts._scopes[Shortcuts.ROOT_SCOPE][key2].should.equal(noop);
+      shortcuts._scopes[shortcuts.ROOT_SCOPE][key].should.equal(noop);
+      shortcuts._scopes[shortcuts.ROOT_SCOPE][key2].should.equal(noop);
     });
   });
 
@@ -77,8 +77,8 @@ describe('Shortcuts', function () {
       keys[key2] = noop2;
       shortcuts.bindMap(keys);
 
-      shortcuts._scopes[Shortcuts.ROOT_SCOPE][key].should.equal(noop);
-      shortcuts._scopes[Shortcuts.ROOT_SCOPE][key2].should.equal(noop2);
+      shortcuts._scopes[shortcuts.ROOT_SCOPE][key].should.equal(noop);
+      shortcuts._scopes[shortcuts.ROOT_SCOPE][key2].should.equal(noop2);
     });
 
     it('should bind map of keys to custom scope', function () {
@@ -106,7 +106,7 @@ describe('Shortcuts', function () {
       shortcuts.bind({key: key, scope: scope, handler: noop});
 
       shortcuts.hasKey(key, scope).should.be.true;
-      shortcuts.hasKey(key, Shortcuts.ROOT_SCOPE).should.be.false;
+      shortcuts.hasKey(key, shortcuts.ROOT_SCOPE).should.be.false;
     });
   });
 
@@ -231,7 +231,7 @@ describe('Shortcuts', function () {
       keyMap[key] = noop;
 
       return React.createClass({
-        mixins: [Shortcuts.Mixin],
+        mixins: [ShortcutsMixin],
         getShortcutsProps: function() {
           return props || {
             scope: scope,

@@ -1,13 +1,14 @@
 /* eslint-disable no-bitwise */
 var Tools = require('./../diff__tools');
-var Global = require('global/global');
 var Parser = require('./diff__parser');
 var parsers = require('./../diff__parsers');
 
+/**
+ * @constructor
+ */
 var ParserSinglePane = function () {
 };
 Tools.inherit(ParserSinglePane, Parser);
-Global.makeSingleton(ParserSinglePane);
 
 /**
  * In single pane mode modified lines are displayed as a pair of lines - one removed, one added.
