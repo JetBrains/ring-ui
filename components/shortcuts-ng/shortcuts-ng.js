@@ -1,6 +1,5 @@
 var $ = require('jquery');
-
-var shortcuts = require('shortcuts/shortcuts');
+var shortcutsInstance = require('shortcuts/shortcuts');
 
   /* global angular: false */
 angular.module('Ring.shortcuts', [])
@@ -41,7 +40,7 @@ angular.module('Ring.shortcuts', [])
               return;
             }
 
-            shortcuts.bind({
+            shortcutsInstance.bind({
               key: key.key,
               scope: scope || name,
               handler: function() {
@@ -61,14 +60,14 @@ angular.module('Ring.shortcuts', [])
 
           for (var i = actions.length - 1; i >= 0; i--) {
             if (actions[i].action === action) {
-              return shortcuts.trigger(actions[i].key[0] || actions[i].key);
+              return shortcutsInstance.trigger(actions[i].key[0] || actions[i].key);
             }
           }
         },
         'isMainMode': function(name) {
           return mainModes[name];
         },
-        shortcuts: shortcuts
+        shortcuts: shortcutsInstance
       };
 
     }];
@@ -76,7 +75,7 @@ angular.module('Ring.shortcuts', [])
   .directive('rgShortcutsApp', [function () {
     return {
       restrict: 'A',
-      controller: ['$rootScope', '$scope', '$attrs', function ($scope, $rootScope, $attrs) {
+      controller: ['$rootScope', '$scope', '$attrs', 'shortcuts', function ($scope, $rootScope, $attrs, shortcuts) {
         $scope.zones = [];
         $scope.loop = 'shortcutsLoop' in $attrs;
         var self = this;
@@ -112,7 +111,7 @@ angular.module('Ring.shortcuts', [])
           }
 
           if ($scope.current) {
-            shortcuts.spliceScope($scope.current.scope);
+            shortcutsInstance.spliceScope($scope.current.scope);
             self.deselect();
           }
 
@@ -120,7 +119,7 @@ angular.module('Ring.shortcuts', [])
             return;
           }
 
-          shortcuts.pushScope(next.scope);
+          shortcutsInstance.pushScope(next.scope);
 
           $scope.current = next;
         };
@@ -134,7 +133,7 @@ angular.module('Ring.shortcuts', [])
           }
 
           // Reset current zone if is not equal current scope
-          if ($scope.current && $scope.current.scope !== shortcuts.getScope().pop()) {
+          if ($scope.current && $scope.current.scope !== shortcutsInstance.getScope().pop()) {
             self.deselect();
           }
 
@@ -154,8 +153,8 @@ angular.module('Ring.shortcuts', [])
           if (next) {
             self.select(next);
 
-            if (shortcuts.hasKey(combo, next.scope)) {
-              shortcuts.trigger(combo);
+            if (shortcutsInstance.hasKey(combo, next.scope)) {
+              shortcutsInstance.trigger(combo);
             }
             // Otherwise go back
           } else {
@@ -184,8 +183,8 @@ angular.module('Ring.shortcuts', [])
         };
 
         self.destroy = function(zone) {
-          shortcuts.spliceScope(zone.scope);
-          shortcuts.unbindScope(zone.scope);
+          shortcutsInstance.spliceScope(zone.scope);
+          shortcutsInstance.unbindScope(zone.scope);
 
           var position = $.inArray(zone, $scope.zones);
 
@@ -202,7 +201,7 @@ angular.module('Ring.shortcuts', [])
         };
 
         shortcuts.bind('ring-shortcuts', keyMap);
-        shortcuts.pushScope('ring-shortcuts');
+        shortcutsInstance.pushScope('ring-shortcuts');
       }]
     };
   }])
