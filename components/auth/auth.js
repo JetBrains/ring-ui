@@ -344,8 +344,9 @@ Auth.prototype.requestUser = function () {
       }
 
       return self.getApi(Auth.API_PROFILE_PATH, accessToken).
-        tap(function (user) {
+        then(function (user) {
           self.user = user;
+          return user;
         });
     });
 };
