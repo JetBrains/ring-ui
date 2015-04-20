@@ -2,6 +2,7 @@
 var whatWgFetch = require('whatwg-fetch').fetch;
 var when = require('when');
 var contains = require('mout/array/contains');
+var union = require('mout/array/union');
 var mixIn = require('mout/object/mixIn');
 
 var AuthStorage = require('./auth__storage');
@@ -24,6 +25,7 @@ var urlUtils = require('url-utils/url-utils');
  * @prop {boolean} config.cleanHash - whether or not location.hash will be cleaned after authorization completes.
  * Should be set to false in angular > 1.2.26 apps to prevent infinite redirect in Firefox
  * @prop {User?} user
+ * @prop {string[]} config.userFields List of users fields to be returned by auth.requestUser (default list is used in Header.HeaderHelper)
  *
  * @param {{
  *   serverUri: string,
@@ -32,7 +34,8 @@ var urlUtils = require('url-utils/url-utils');
  *   client_id: string?,
  *   scope: string[]?,
  *   optionalScopes: string[]?,
- *   cleanHash: boolean?
+ *   cleanHash: boolean?,
+ *   userFields: string[]?
  * }} config
  *
  * @example
@@ -92,6 +95,10 @@ var Auth = function (config) {
     this.config.serverUri += '/';
   }
 
+  this.config.userParams = {
+    fields: union(Auth.DEFAULT_CONFIG.userFields, config.userFields).join(',')
+  };
+
   if (!contains(this.config.scope, Auth.DEFAULT_CONFIG.client_id)) {
     this.config.scope.push(Auth.DEFAULT_CONFIG.client_id);
   }
@@ -148,6 +155,7 @@ Auth.DEFAULT_CONFIG = {
   redirect: true,
   request_credentials: 'default',
   scope: [],
+  userFields: ['id', 'name', 'profile'],
   cleanHash: true,
   default_expires_in: 40 * 60 // 40 mins
 };
@@ -343,7 +351,7 @@ Auth.prototype.requestUser = function () {
         return self.user;
       }
 
-      return self.getApi(Auth.API_PROFILE_PATH, accessToken).
+      return self.getApi(Auth.API_PROFILE_PATH, accessToken, self.config.userParams).
         then(function (user) {
           self.user = user;
           return user;
@@ -548,7 +556,7 @@ Auth.prototype._validateAgainstUser = function (storedToken) {
     return when(storedToken);
   }
 
-  return this.getApi(Auth.API_PROFILE_PATH, storedToken.access_token).
+  return this.getApi(Auth.API_PROFILE_PATH, storedToken.access_token, this.config.userParams).
     then(function (user) {
       self.user = user;
       return storedToken;
