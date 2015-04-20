@@ -12,7 +12,7 @@ var EditorController = require('./diff__editorcontroller');
 var DoublePaneMenu = require('../diff__doublepane-menu');
 var DoubleEditorDivider = require('../diff__doublepane-divider');
 var CodeMirror = require('codemirror');
-var CodeMirrorHelper = require('../diff__code-mirror-helper');
+var cmHelper = require('../diff__code-mirror-helper');
 
 /**
  * @param {Element} element
@@ -20,9 +20,7 @@ var CodeMirrorHelper = require('../diff__code-mirror-helper');
  * @extends {EditorController}
  */
 var DoubleEditorController = function (element) {
-  DoubleEditorController.super_.constructor.call(this, element,
-    ParserDoublePane.getInstance());
-
+  DoubleEditorController.super_.constructor.call(this, element, new ParserDoublePane());
   this.changes_ = [];
 };
 Tools.inherit(DoubleEditorController, EditorController);
@@ -730,8 +728,6 @@ DoubleEditorController.prototype.getCurrentChange = function () {
  * @private
  */
 DoubleEditorController.prototype.colorizeLines_ = function () {
-  var cmHelper = CodeMirrorHelper.getInstance();
-
   DoubleEditorController.cleanupEditor(this.codeMirrorOriginal_);
   DoubleEditorController.cleanupEditor(this.codeMirrorModified_);
 
@@ -793,7 +789,6 @@ DoubleEditorController.prototype.colorizeLines_ = function () {
  * @param {CodeMirror} editor
  */
 DoubleEditorController.cleanupEditor = function (editor) {
-  var cmHelper = CodeMirrorHelper.getInstance();
   // todo(igor.alexeenko): var cleanupBuffer = new CMOperationBuffer(editor);
   var lineHandleBuffer = cmHelper.getSelectionsBuffer(editor);
 
@@ -823,8 +818,6 @@ DoubleEditorController.cleanupEditor = function (editor) {
  * @param {string} lineClass
  */
 DoubleEditorController.colorizeLine = function (editor, usedLine, lineClass) {
-  var cmHelper = CodeMirrorHelper.getInstance();
-
   cmHelper.addOperation(editor, function () {
     var lineHandle = editor.getLineHandle(usedLine);
     editor.addLineClass(lineHandle,
@@ -908,7 +901,6 @@ DoubleEditorController.getLineClass = function (type, lineIndex, from, to, opt_n
  * @param {number} lineOffset
  */
 DoubleEditorController.colorizeInline = function (editor, inlineChunks, lineOffset) {
-  var cmHelper = CodeMirrorHelper.getInstance();
   var typeToInlineClass = Tools.createObject(
     Parser.LineType.ADDED, DoubleEditorController.CharsClass.ADDED,
     Parser.LineType.DELETED, DoubleEditorController.CharsClass.DELETED,
