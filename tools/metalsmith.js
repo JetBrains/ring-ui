@@ -14,6 +14,7 @@ var watch = require('metalsmith-watch');
 var jsdoc = require('./metalsmith-jsdoc');
 var collections = require('metalsmith-collections');
 var filepath = require('metalsmith-filepath');
+var replace = require('metalsmith-text-replace');
 
 var webpack = require('webpack');
 var WebpackDevServer = require('webpack-dev-server');
@@ -50,6 +51,21 @@ new Metalsmith(path.resolve(__dirname, '..'))
   .use(jsdoc({
     tags: {
       example: require('./metalsmith-jsdoc-example-processor')
+    }
+  }))
+  .use(replace({
+    '{**/,}*.md': {
+      find: /[A-Z]+-\d+/g,
+      replace: function(match, offset, string) {
+        // Do not replace parts of links
+        // like `[RG-640](https://youtrack.jetbrains.com/issue/RG-640)`
+        var lookBehind = string.charAt(offset - 1);
+        if (lookBehind === ']' || lookBehind === '/') {
+          return match;
+        }
+
+        return '[' + match + '](https://youtrack.jetbrains.com/issue/' + match + ')';
+      }
     }
   }))
   .use(metallic())
