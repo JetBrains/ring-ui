@@ -1,5 +1,7 @@
 # Ring UI library
 
+**See the [living style guide](https://hub.jetbrains.com/)**.
+
 ## Development environment setup
 
 1. Install Node.js
