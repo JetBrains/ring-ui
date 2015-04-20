@@ -2,7 +2,7 @@ var Popup = require('popup/popup');
 require('./tooltip-ng.scss');
 
 /**
- * @name tooltip-ng
+ * @name Tooltip Ng
  * @description Directive for tooltips in angular apps
  * @example
 <example name="tooltip-ng">
