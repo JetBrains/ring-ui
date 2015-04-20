@@ -18,7 +18,18 @@ Build production files: `npm run build`
 
 Clean generated files: `npm run clean`
 
+## Contributing
 
+1. Install Yeoman: `npm install yo -g`
+
+2. Install Ring UI Yeoman generator: `npm install -g generator-ring`.
+
+3. To add new block, go to components folder and type
+  * For plain js block: `yo ring:plain`
+  * For ReactJS block: `yo ring:jsx`
+  * For AngularJS block: `yo ring:ng`
+  It will ask for block name and then create block folder and files with block skeleton for you.
+  
 ## Building on host project side:
 
 1. Add JetBrains internal registry to .npmrc in your project folder:
@@ -70,6 +81,18 @@ This reads Ring UI configuration and overrides some config params.
  }
 ```
 
+## How to create new project using Ring UI?
+
+1. Install Yeoman: `npm install yo -g`
+
+2. Install Ring UI yeoman generator: `npm i -g generator-ring`
+
+3. Go to project root folder and type: `yo ring`. It will ask you about project 
+name and desired frameworks (plain JS, ReactJS or AngularJS). Then it will create project skeleton
+with testing infrastructure, webpack build configuration, ES6 support, ESLint and filled package.json dependencies.
+
+4. Go to generated project folder, type `npm install` and then `npm start`. You project is ready to develop.
+
 ## Is Lodash or Underscore available?
 
 Ring UI uses [Moutjs](moutjs.com/docs/latest/) as the utility library. 
@@ -80,5 +103,4 @@ Ring UI uses [Moutjs](moutjs.com/docs/latest/) as the utility library.
 To enable wallaby.js test runner follow this steps:
 
 1. Download and install wallaby.js webstorm plugin (http://wallabyjs.com/). You may have to leave your email in download section.
-2. Setup wallaby run configuration in your webstorm.
-3. Run it.
+2. Run wallaby in your webstorm.
