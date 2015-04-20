@@ -51,7 +51,7 @@ var analyticsModule = angular.module('Ring.analytics', []);
 
 /**
  * @name analyticsProvider
- * @description configures analyitcs with plugins
+ * @description configures analytics with plugins
  */
 analyticsModule.provider('analytics', [function() {
   var configPlugins = [];
