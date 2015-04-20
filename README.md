@@ -106,5 +106,4 @@ Ring UI uses [Moutjs](moutjs.com/docs/latest/) as the utility library.
 To enable the Wallaby.js test runner follow these steps:
 
 1. Download and install the Wallaby.js plugin for WebStorm (http://wallabyjs.com/).
-2. Set up a Wallaby.js run configuration in WebStorm.
-3. Run it.
+2. Run shared `Wallaby` configuration in WebStorm.
