@@ -15,61 +15,6 @@ var generateUniqueId = Global.getUIDGenerator('ring-popup-');
 var Shortcuts = require('shortcuts/shortcuts');
 
 /**
- * @constructor
- * @mixes {Popup.Mixin}
- * @extends {ReactComponent}
- * @example
-
- <example name="Popup Menu">
- <file name="index.html">
- <div>
- <div id="target1" style="position: absolute; left: 0; top: 0; width: 10px; height: 10px; background-color: red;"></div>
- <div id="target2" style="position: absolute; right: 0; top: 0; width: 10px; height: 10px; background-color: blue;"></div>
- <div id="target3" style="position: absolute; left: 0; bottom: 0; width: 10px; height: 10px; background-color: green;"></div>
- <button id="switch3" style="position: absolute; left: 50px; bottom: 50px;">Show again</button>
- <div id="target4" style="position: absolute; right: 0; bottom: 0; width: 10px; height: 10px; background-color: orange;"></div>
- </div>
- </file>
- <file name="index.js" webpack="true">
- var React = require('react');
- var Popup = require('./popup.jsx');
-
- var container = React.DOM.span(null, 'Hello world!');
-
- var popup = Popup.renderComponent(Popup({
-        anchorElement: document.getElementById('target1'),
-        corner: Popup.PopupProps.Corner.TOP_LEFT,
-        autoRemove: false
-      }, [container]));
-
- var popup2 = Popup.renderComponent(Popup({
-        anchorElement: document.getElementById('target2'),
-        corner: Popup.PopupProps.Corner.TOP_RIGHT,
-        autoRemove: false
-      }, [container]));
-
- var popup3 = Popup.renderComponent(Popup({
-        anchorElement: document.getElementById('target3'),
-        corner: Popup.PopupProps.Corner.BOTTOM_LEFT,
-        autoRemove: false
-      }, [container]));
-
- document.getElementById('switch3').onclick = function() {
-  setTimeout(function() {
-    popup3.show();
-  }, 1);
- };
-
- var popup4 = Popup.renderComponent(Popup({
-        anchorElement: document.getElementById('target4'),
-        corner: Popup.PopupProps.Corner.BOTTOM_RIGHT,
-        autoRemove: false
-      }, [container]));
- </file>
- </example>
- */
-
-/**
  * @enum {number}
  */
 var Corner = {
@@ -431,6 +376,55 @@ var PopupMixin = {
  * @constructor
  * @mixes {PopupMixin}
  * @extends {ReactComponent}
+ * @example
+
+ <example name="Popup Menu">
+ <file name="index.html">
+ <div>
+ <div id="target1" style="position: absolute; left: 0; top: 0; width: 10px; height: 10px; background-color: red;"></div>
+ <div id="target2" style="position: absolute; right: 0; top: 0; width: 10px; height: 10px; background-color: blue;"></div>
+ <div id="target3" style="position: absolute; left: 0; bottom: 0; width: 10px; height: 10px; background-color: green;"></div>
+ <button id="switch3" style="position: absolute; left: 50px; bottom: 50px;">Show again</button>
+ <div id="target4" style="position: absolute; right: 0; bottom: 0; width: 10px; height: 10px; background-color: orange;"></div>
+ </div>
+ </file>
+ <file name="index.js" webpack="true">
+ var React = require('react');
+ var Popup = require('./popup.jsx');
+
+ var container = React.DOM.span(null, 'Hello world!');
+
+ var popup = Popup.renderComponent(Popup({
+        anchorElement: document.getElementById('target1'),
+        corner: Popup.PopupProps.Corner.TOP_LEFT,
+        autoRemove: false
+      }, [container]));
+
+ var popup2 = Popup.renderComponent(Popup({
+        anchorElement: document.getElementById('target2'),
+        corner: Popup.PopupProps.Corner.TOP_RIGHT,
+        autoRemove: false
+      }, [container]));
+
+ var popup3 = Popup.renderComponent(Popup({
+        anchorElement: document.getElementById('target3'),
+        corner: Popup.PopupProps.Corner.BOTTOM_LEFT,
+        autoRemove: false
+      }, [container]));
+
+ document.getElementById('switch3').onclick = function() {
+  setTimeout(function() {
+    popup3.show();
+  }, 1);
+ };
+
+ var popup4 = Popup.renderComponent(Popup({
+        anchorElement: document.getElementById('target4'),
+        corner: Popup.PopupProps.Corner.BOTTOM_RIGHT,
+        autoRemove: false
+      }, [container]));
+ </file>
+ </example>
  */
 var Popup = React.createClass({
   mixins: [PopupMixin],
