@@ -16,7 +16,7 @@ var Loader = require('loader/loader');
 var NgModelMixin = require('ngmodel/ngmodel');
 var ngModelStateField = 'selected';
 
-var Shortcuts = require('shortcuts/shortcuts');
+var ShortcutsMixin = require('shortcuts/shortcuts__mixin');
 
 var Global = require('global/global');
 var generateUniqueId = Global.getUIDGenerator('ring-select-');
@@ -205,7 +205,7 @@ var Type = {
  </example>
  */
 var Select = React.createClass({
-  mixins: [Shortcuts.Mixin, NgModelMixin],
+  mixins: [ShortcutsMixin, NgModelMixin],
   ngModelStateField: ngModelStateField,
   statics: {
     Type: Type,

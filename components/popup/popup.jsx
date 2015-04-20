@@ -12,7 +12,7 @@ var React = require('react');
 var Global = require('global/global');
 
 var generateUniqueId = Global.getUIDGenerator('ring-popup-');
-var Shortcuts = require('shortcuts/shortcuts');
+var ShortcutsMixin = require('shortcuts/shortcuts__mixin');
 
 /**
  * @enum {number}
@@ -44,10 +44,10 @@ var Dimension = {
 
 /**
  * @mixin {PopupMixin}
- * @mixes {Shortcuts.Mixin}
+ * @mixes {ShortcutsMixin}
  */
 var PopupMixin = {
-  mixins: [Shortcuts.Mixin],
+  mixins: [ShortcutsMixin],
 
   statics: {
     PopupProps: {
