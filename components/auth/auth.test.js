@@ -577,6 +577,78 @@ describe('Auth', function () {
     });
   });
 
+  describe('getSecure and getApi', function() {
+    var auth = new Auth({
+      serverUri: 'http://localhost:8080'
+    });
+
+    beforeEach(function () {
+      this.sinon.useFakeServer();
+      this.sinon.server.respondWith('http://localhost:500', [500, {}, '{"error": "lol"}']);
+      this.sinon.server.respondWith('http://localhost:6666/users/me', '{"name": "user"}');
+      this.sinon.server.respondWith('http://localhost:8080/api/rest/users/me', '{"name": "user"}');
+    });
+
+    it('getSecure should return promise with resonse object', function () {
+      var response = auth.getSecure('http://localhost:6666/users/me', 'token');
+      this.sinon.server.respond();
+
+      return response.should.become({name: 'user'});
+    });
+
+    it('getSecure should reject promise for non-200 response codes', function () {
+      var response = auth.getSecure('http://localhost:404', 'token');
+      var server = this.sinon.server;
+      server.respond();
+
+      return response.should.have.been.rejected;
+    });
+
+    it('getSecure should reject promise with error and response for non-200 response codes', function () {
+      var response = auth.getSecure('http://localhost:500', 'token');
+      var server = this.sinon.server;
+      server.respond();
+
+      return response.catch(function (error) {
+        error.message.should.equal('500 Internal Server Error');
+
+        return error.response.json();
+      }).should.become({error: 'lol'});
+    });
+
+    it('getSecure should set headers', function () {
+      var response = auth.getSecure('http://localhost:6666/users/me', 'token');
+      var server = this.sinon.server;
+      server.respond();
+
+      return response.then(function () {
+        server.requests[0].requestHeaders.should.deep.equal({
+          'authorization': 'Bearer token',
+          'accept': 'application/json'
+        });
+      });
+    });
+
+    it('getSecure should pass params', function () {
+      var response = auth.getSecure('http://localhost:6666/users/me', 'token', {
+        fields: 'one,two',
+        $top: '2'
+      });
+      var server = this.sinon.server;
+      server.respond();
+
+      return response.catch(function () {
+        server.requests[0].url.should.equal('http://localhost:6666/users/me?fields=one%2Ctwo&%24top=2');
+      });
+    });
+
+    it('getApi should return promise with resonse object', function () {
+      var response = auth.getApi('users/me', 'token');
+      this.sinon.server.respond();
+
+      return response.should.become({name: 'user'});
+    });
+  });
 
   describe('logout', function() {
     var auth = new Auth({
