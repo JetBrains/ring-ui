@@ -374,6 +374,7 @@ var PopupMixin = {
 
 /**
  * @constructor
+ * @name Popup
  * @mixes {PopupMixin}
  * @extends {ReactComponent}
  * @example
