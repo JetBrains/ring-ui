@@ -6,11 +6,11 @@
 
 2. Install dependencies: `npm install`
 
-3. (Optional, Mac Os X / Linux) Install [menu bar apps](https://github.com/roman01la/anybar-webpack#known-apps) to watch webpack build status.
+3. (Optional, Mac OS X / Linux) Install [anybar-webpack](https://github.com/roman01la/anybar-webpack#known-apps) to receive webpack build notifications.
 
 ## Available commands
 
-Start server: `npm start` (runs webpack dev server on http://localhost:9999 by default, you might want to change it using `npm config set ring-ui:port <port>`)
+Start the server: `npm start` (runs the webpack dev server on http://localhost:9999. You can change the port using `npm config set ring-ui:port <port>`)
 
 Run tests: `npm test`
 
@@ -24,11 +24,12 @@ Clean generated files: `npm run clean`
 
 2. Install Ring UI Yeoman generator: `npm install -g generator-ring`.
 
-3. To add new block, go to components folder and type
-  * For plain js block: `yo ring:plain`
-  * For ReactJS block: `yo ring:jsx`
-  * For AngularJS block: `yo ring:ng`
-  It will ask for block name and then create block folder and files with block skeleton for you.
+3. To add a new block, issue one of the following commands after changing to the `components` folder:
+  * For a plain JS block: `yo ring:plain`
+  * For a ReactJS block: `yo ring:jsx`
+  * For an AngularJS block: `yo ring:ng`
+  
+It will ask for block name and then create the skeleton for you.
   
 ## Building on host project side:
 
@@ -42,7 +43,7 @@ echo 'registry = http://registry.npmjs.org' >> .npmrc
 
 3. Install webpack-config-merger to make working with webpack configs easier: `npm install webpack-config-merger --save-dev`
 
-4. If your app builds with webpack, make sure to `require` ring-ui components where needed. Otherwise, create an entry point (for example, `/app/app__components.tpl.js`) and
+4. If you are building your app with webpack, make sure to `require` ring-ui components where needed. Otherwise, create an entry point (for example, `/app/app__components.tpl.js`) and
 `require` the components there. 
 
 ```
@@ -73,7 +74,7 @@ module.exports = webpackOptions;
 
 This reads Ring UI configuration and overrides some config params.
 
-6. If your app builds with webpack, just build it. If you are using grunt, install `grunt-webpack` and configure it like this:
+6. If you are building your app with webpack, run the build. If you are using grunt, install `grunt-webpack` and configure it like this:
 
 ```js
  webpack: {
@@ -81,14 +82,14 @@ This reads Ring UI configuration and overrides some config params.
  }
 ```
 
-## How to create new project using Ring UI?
+## How to create a new project using Ring UI?
 
 1. Install Yeoman: `npm install yo -g`
 
 2. Install Ring UI yeoman generator: `npm i -g generator-ring`
 
-3. Go to project root folder and type: `yo ring`. It will ask you about project 
-name and desired frameworks (plain JS, ReactJS or AngularJS). Then it will create project skeleton
+3. Go to project root folder and type: `yo ring`. It will ask you to enter the name of the project
+and desired frameworks (plain JS, ReactJS or AngularJS). It will then create a project skeleton
 with testing infrastructure, webpack build configuration, ES6 support, ESLint and filled package.json dependencies.
 
 4. Go to generated project folder, type `npm install` and then `npm start`. You project is ready to develop.
@@ -100,7 +101,8 @@ Ring UI uses [Moutjs](moutjs.com/docs/latest/) as the utility library.
 
 ## Wallaby support
 
-To enable wallaby.js test runner follow this steps:
+To enable the Wallaby.js test runner follow these steps:
 
-1. Download and install wallaby.js webstorm plugin (http://wallabyjs.com/). You may have to leave your email in download section.
-2. Run wallaby in your webstorm.
+1. Download and install the Wallaby.js plugin for WebStorm (http://wallabyjs.com/).
+2. Set up a Wallaby.js run configuration in WebStorm.
+3. Run it.
