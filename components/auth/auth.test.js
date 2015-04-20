@@ -42,6 +42,18 @@ describe('Auth', function () {
       auth.config.should.contain.keys(Object.keys(Auth.DEFAULT_CONFIG));
     });
 
+    it('should set config.userParams with proper fields property', function () {
+      var config = {
+        serverUri: 'http://localhost/',
+        userFields: ['avatar', 'profile']
+      };
+      var auth = new Auth(config);
+
+      auth.config.userParams.should.deep.equal({
+        fields: 'id,name,avatar,profile'
+      });
+    });
+
     it('should not redirect on object construction', function () {
       this.sinon.stub(Auth.prototype, '_redirectCurrentPage');
       /* eslint-disable no-new */
@@ -551,6 +563,7 @@ describe('Auth', function () {
 
       return auth.requestUser().tap(function () {
         Auth.prototype.getApi.should.have.been.calledOnce;
+        Auth.prototype.getApi.should.have.been.calledWithMatch('users/me', 'token', sinon.match({fields: 'id,name,profile'}));
       }).should.become({name: 'APIuser'});
     });
 
