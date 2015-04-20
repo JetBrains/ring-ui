@@ -33,7 +33,7 @@ new Metalsmith(path.resolve(__dirname, '..'))
       files['README.md'] = {
         contents: contents,
         collection: 'docs',
-        title: 'Getting started',
+        title: 'Getting Started',
         order: 1
       };
 
