@@ -109,6 +109,17 @@ var MenuItem = React.createClass({
         baseClass.getModifier(this.props.glyph), true));
 
     return (<span className={className}><img className={baseClass.getElement('pic')}
+        onLoad={function(evt) {
+          var pic = evt.target;
+          var height = pic.height;
+          var width = pic.width;
+
+          if (height > width) {
+            pic.setAttribute('width', 24);
+          } else {
+            pic.setAttribute('height', 24);
+          }
+        }}
         src={this.state.picture}
         title={this.state.title} /></span>);
   },
