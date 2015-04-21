@@ -45,12 +45,12 @@ describe('Auth', function () {
     it('should set config.userParams with proper fields property', function () {
       var config = {
         serverUri: 'http://localhost/',
-        userFields: ['avatar', 'profile']
+        userFields: ['name', 'profile/email']
       };
       var auth = new Auth(config);
 
       auth.config.userParams.should.deep.equal({
-        fields: 'id,name,avatar,profile'
+        fields: 'id,profile/avatar/url,name,profile/email'
       });
     });
 
@@ -563,7 +563,7 @@ describe('Auth', function () {
 
       return auth.requestUser().tap(function () {
         Auth.prototype.getApi.should.have.been.calledOnce;
-        Auth.prototype.getApi.should.have.been.calledWithMatch('users/me', 'token', sinon.match({fields: 'id,name,profile'}));
+        Auth.prototype.getApi.should.have.been.calledWithMatch('users/me', 'token', sinon.match({fields: 'id,name,profile/avatar/url'}));
       }).should.become({name: 'APIuser'});
     });
 
