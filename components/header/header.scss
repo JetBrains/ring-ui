@@ -74,13 +74,13 @@
     $avatar-size: $ring-unit*3;
 
     border-radius: 3px;
-    height: 24px;
+    height: $avatar-size;
     // NB! Horizontal compensation of size changing. Margin is used instead of
     // padding because of the border-radius.
     margin: $ring-unit - (($avatar-size - $default-size) / 2);
     overflow: hidden;
     padding: 0;
-    width: 24px;
+    width: $avatar-size;
   }
 }
 
