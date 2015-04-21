@@ -718,19 +718,4 @@ Auth.prototype.setHash = function (hash) {
   }
 };
 
-/**
- * @const
- * @type {string}
- */
-var GUEST_ID = 'guest';
-
-/**
- * @param {Object} response
- * @deprecated since Hub 0.10.114+
- * @return {boolean}
- */
-Auth.prototype.isGuest = function (response) {
-  return response.guest || response.login === GUEST_ID || response.name === GUEST_ID;
-};
-
 module.exports = Auth;
