@@ -15,7 +15,7 @@ var langMap = {
   '.jsx': 'js',
   '.html': 'html',
   '.css': 'css',
-  '.scss': 'scss'
+  '.scss': 'css'
 };
 
 var beautifyOptions = {
@@ -117,7 +117,7 @@ function exampleProcessor(tagContext, metalsmithContext) {
     }
 
     metalsmithContext.files[file.directory + file.fileName] = {
-      contents: new Buffer(beautify[file.lang](content, beautifyOptions))
+      contents: new Buffer(content)
     };
   });
 
@@ -128,7 +128,7 @@ function exampleProcessor(tagContext, metalsmithContext) {
       content = buildXML(file.children);
     }
 
-    return '\n\n```' + file.lang + '\n' + beautify[file.lang](content, beautifyOptions) + '\n```';
+    return '\n\n```' + file.fileExt.substring(1) + '\n' + beautify[file.lang](content, beautifyOptions) + '\n```';
   }).join('');
 
   return header + runnableExamples + contents;
