@@ -871,7 +871,7 @@ HeaderHelper.setUserMenu = function(header, auth, translationsDict) {
   var popup = null;
 
   return auth.requestUser().then(function(response) {
-    if (auth.isGuest(response)) {
+    if (response.guest) {
       HeaderHelper._renderLoginButton(header, auth);
       return;
     }
