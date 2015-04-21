@@ -44,6 +44,41 @@ var HeaderLogo = React.createClass({
 
 
 /**
+ * Fits not square image into a square container. Sets smaller side of image
+ * equals to side of square and centers another side of image by setting
+ * negative margin.
+ * @param {Image} image
+ * @param {number} height
+ * @param {number} width
+ */
+var fitImageIntoSquare = function(image, height, width) {
+  var SIZE = Global.RING_UNIT * 3;
+  var sideToAdjust;
+  var sideToAlign;
+  var adjustedSideOriginal;
+  var oppositeSideOriginal;
+
+  if (height > width) {
+    sideToAdjust = 'width';
+    sideToAlign = 'margin-top';
+    adjustedSideOriginal = width;
+    oppositeSideOriginal = height;
+  } else {
+    sideToAdjust = 'height';
+    sideToAlign = 'margin-left';
+    adjustedSideOriginal = height;
+    oppositeSideOriginal = width;
+  }
+
+  var oppositeSide = oppositeSideOriginal * SIZE / adjustedSideOriginal;
+  var compensation = -(oppositeSide - SIZE) / 2;
+
+  image.setAttribute(sideToAdjust, SIZE.toString());
+  image.style[sideToAlign] = Math.round(compensation) + 'px';
+};
+
+
+/**
  * @constructor
  * @extends {ReactComponent}
  * @private
@@ -111,17 +146,11 @@ var MenuItem = React.createClass({
     return (<span className={className}><img className={baseClass.getElement('pic')}
         onLoad={function(evt) {
           var pic = evt.target;
-          var height = pic.height;
-          var width = pic.width;
-
-          if (height > width) {
-            pic.setAttribute('width', 24);
-          } else {
-            pic.setAttribute('height', 24);
-          }
+          fitImageIntoSquare(pic, pic.height, pic.width);
         }}
         src={this.state.picture}
-        title={this.state.title} /></span>);
+        title={this.state.title} />
+    </span>);
   },
 
   /**
