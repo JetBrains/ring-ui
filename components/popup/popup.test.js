@@ -56,6 +56,16 @@ describe('Popup', function () {
       popup.isMounted().should.be.false;
     });
 
+    it('should pass event to onClose callback when closing by clicking by document', function() {
+      var onCloseStub = this.sinon.stub();
+      TestUtils.renderIntoDocument(new Popup({
+        onClose: onCloseStub
+      }));
+
+      document.body.dispatchEvent(evt);
+      onCloseStub.should.have.been.calledWith(this.sinon.match({type: 'click' }));
+    });
+
     it('shouldn\'t be closed by click outside the element after hide', function() {
       var onClose = this.sinon.stub();
       var popup = TestUtils.renderIntoDocument(new Popup({
