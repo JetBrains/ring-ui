@@ -139,11 +139,11 @@ var PopupMixin = {
   /**
    * Closes popup and optionally removes from document.
    */
-  close: function () {
+  close: function (evt) {
     var onCloseResult = true;
 
     if (typeof this.props.onClose === 'function') {
-      onCloseResult = this.props.onClose();
+      onCloseResult = this.props.onClose(evt);
 
       if (onCloseResult === false) {
         return onCloseResult;
@@ -229,8 +229,8 @@ var PopupMixin = {
   /**
    * @private
    */
-  onWindowResize_: function () {
-    this.close();
+  onWindowResize_: function (evt) {
+    this.close(evt);
   },
 
   /**
@@ -242,7 +242,7 @@ var PopupMixin = {
       if (!this.props.anchorElement ||
         !this.props.dontCloseOnAnchorClick ||
         !this.props.anchorElement.contains(evt.target)) {
-        this.close();
+        this.close(evt);
       }
     }
   },
