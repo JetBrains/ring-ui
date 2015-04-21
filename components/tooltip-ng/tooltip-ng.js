@@ -42,10 +42,6 @@ angular.module('Ring.tooltip', ['Ring.react-ng'])
           popupWrapper.hideTooltip();
           iElement.removeClass(OPEN_CLASS);
         });
-
-        element.addEventListener('click', function (e) {
-          e.stopPropagation();
-        });
       }
     };
   })
