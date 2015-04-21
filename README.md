@@ -33,7 +33,7 @@ Clean generated files: `npm run clean`
   
 It will ask for block name and then create the skeleton for you.
   
-## Building on host project side:
+## Building on host project side
 
 1. Add JetBrains internal registry to .npmrc in your project folder:
 
@@ -84,7 +84,7 @@ This reads Ring UI configuration and overrides some config params.
  }
 ```
 
-## How to create a new project using Ring UI?
+## Starting a new project with Ring UI
 
 1. Install Yeoman: `npm install yo -g`
 
