@@ -4,14 +4,17 @@ title: Breaking Changes
 order: 2
 ---
 
+See list breaking commits [in Upsource](https://upsource.jetbrains.com/ring-ui/view?query=path:%20%7B%2A%2Fbreaking-changes.md%7D).  
+
 ### 20-04-2015: userFields introduced in Auth config (RG-640) 
 
 It's now required to set userFields Auth's config if fields other than `guest,id,name,profile/avatar/url` are needed in auth.requestUser.
+Please note that you need explicitly add `profile` subfields to request them, just `profile` won't do anything.     
 
 Example:
 ```js
 var auth = new Auth({
   serverUri: 'http://localhost/',
-  userFields: ['profile']
+  userFields: ['login', 'profile/email']
 });
 ```
