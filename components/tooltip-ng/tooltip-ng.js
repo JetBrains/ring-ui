@@ -42,6 +42,10 @@ angular.module('Ring.tooltip', ['Ring.react-ng'])
           popupWrapper.hideTooltip();
           iElement.removeClass(OPEN_CLASS);
         });
+
+        element.addEventListener('click', function (e) {
+          e.stopPropagation();
+        });
       }
     };
   })
@@ -54,7 +58,13 @@ angular.module('Ring.tooltip', ['Ring.react-ng'])
           anchorElement: element,
           maxHeight: 400,
           className: 'ring-tooltip-ng',
-          cutEdge: false
+          cutEdge: false,
+          onClose: function (evt) {
+            //RG-643 Don't close tooltip when clicking by element with opened tooltip
+            if (evt && evt.target === element) {
+              return false;
+            }
+          }
         }, template));
       };
 
