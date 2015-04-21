@@ -155,7 +155,7 @@ Auth.DEFAULT_CONFIG = {
   redirect: true,
   request_credentials: 'default',
   scope: [],
-  userFields: ['id', 'name', 'profile/avatar/url'],
+  userFields: ['guest', 'id', 'name', 'profile/avatar/url'],
   cleanHash: true,
   default_expires_in: 40 * 60 // 40 mins
 };

@@ -50,7 +50,7 @@ describe('Auth', function () {
       var auth = new Auth(config);
 
       auth.config.userParams.should.deep.equal({
-        fields: 'id,profile/avatar/url,name,profile/email'
+        fields: 'guest,id,profile/avatar/url,name,profile/email'
       });
     });
 
@@ -563,7 +563,7 @@ describe('Auth', function () {
 
       return auth.requestUser().tap(function () {
         Auth.prototype.getApi.should.have.been.calledOnce;
-        Auth.prototype.getApi.should.have.been.calledWithMatch('users/me', 'token', sinon.match({fields: 'id,name,profile/avatar/url'}));
+        Auth.prototype.getApi.should.have.been.calledWithMatch('users/me', 'token', sinon.match({fields: 'guest,id,name,profile/avatar/url'}));
       }).should.become({name: 'APIuser'});
     });
 
