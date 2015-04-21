@@ -57,7 +57,7 @@ angular.module('Ring.tooltip', ['Ring.react-ng'])
           cutEdge: false,
           onClose: function (evt) {
             //RG-643 Don't close tooltip when clicking by element with opened tooltip
-            if (evt && evt.target === element) {
+            if (evt && element.contains(evt.target)) {
               return false;
             }
           }
