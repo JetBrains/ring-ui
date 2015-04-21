@@ -44,37 +44,26 @@ var HeaderLogo = React.createClass({
 
 
 /**
- * Fits not square image into a square container. Sets smaller side of image
- * equals to side of square and centers another side of image by setting
+ * Fits a rectangular image into a square container. Sets the smaller side of an image
+ * to equal the side of square and centers another side of image by setting
  * negative margin.
  * @param {Image} image
- * @param {number} height
  * @param {number} width
+ * @param {number} height
  */
-var fitImageIntoSquare = function(image, height, width) {
+var fitImageIntoSquare = function(image, width, height) {
   var SIZE = Global.RING_UNIT * 3;
-  var sideToAdjust;
-  var sideToAlign;
-  var adjustedSideOriginal;
-  var oppositeSideOriginal;
-
-  if (height > width) {
-    sideToAdjust = 'width';
-    sideToAlign = 'margin-top';
-    adjustedSideOriginal = width;
-    oppositeSideOriginal = height;
-  } else {
-    sideToAdjust = 'height';
-    sideToAlign = 'margin-left';
-    adjustedSideOriginal = height;
-    oppositeSideOriginal = width;
-  }
+  var isPortrait = height > width;
+  var dimension = isPortrait ? 'width' : 'height';
+  var margin = isPortrait ? 'margin-top' : 'margin-left';
+  var adjustedSideOriginal = isPortrait ? width : height;
+  var oppositeSideOriginal = isPortrait ? height : width;
 
   var oppositeSide = oppositeSideOriginal * SIZE / adjustedSideOriginal;
   var compensation = -(oppositeSide - SIZE) / 2;
 
-  image.setAttribute(sideToAdjust, SIZE.toString());
-  image.style[sideToAlign] = Math.round(compensation) + 'px';
+  image.setAttribute(dimension, SIZE.toString());
+  image.style[margin] = Math.round(compensation) + 'px';
 };
 
 
@@ -146,7 +135,7 @@ var MenuItem = React.createClass({
     return (<span className={className}><img className={baseClass.getElement('pic')}
         onLoad={function(evt) {
           var pic = evt.target;
-          fitImageIntoSquare(pic, pic.height, pic.width);
+          fitImageIntoSquare(pic, pic.width, pic.height);
         }}
         src={this.state.picture}
         title={this.state.title} />
