@@ -350,6 +350,7 @@ var MenuItemsSequence = [
       var Header = require('header/header');
       var Popup = require('popup/popup');
       var Auth = require('auth/auth');
+      var Link = require('link/link');
 
       var headerContainer = document.createElement('div');
       document.body.appendChild(headerContainer);
@@ -365,7 +366,11 @@ var MenuItemsSequence = [
       // Render youtrack header to DOM. Help link leads to Yandex.
       var header = React.renderComponent(new Header({
         helpLink: 'http://www.yandex.ru',
-        logo: 'youtrack'
+        logo: 'youtrack',
+        menu: [
+          Link({href: '#'}, 'Projects'),
+          Link({href: '#'}, 'Dashboard')
+        ]
       }), headerContainer);
 
       // Add callbacks for opening and closing settings element.
@@ -395,10 +400,10 @@ var MenuItemsSequence = [
         Header.HeaderHelper.setServicesList(header, auth);
       });
 
-      // Insert navigation.
-      var navigation = document.createElement('div');
-      navigation.innerHTML = 'Navigation';
-      header.getMenuElement().appendChild(navigation);
+      // Insert navigation, alternate way
+      //var navigation = document.createElement('div');
+      //navigation.innerHTML = 'Navigation';
+      //header.getMenuElement().appendChild(navigation);
 
       // Insert extra element to right menu.
       var extraElement = document.createElement('input');
@@ -456,10 +461,19 @@ var Header = React.createClass({
   },
 
   render: function() {
+    var menuItemClassName = headerClassName.getElement('menu-item');
+
     return (<div className={headerClassName.getClassName()}>
       <div className={headerClassName.getElement('logo')}>{this._getLogo()}</div>
       <div className={headerClassName.getElement('menu')}>{React.Children.map(this.props.menu, function(item) {
-        item.props.className += ' ' + headerClassName.getElement('menu-item');
+        var className = item.props.className && item.props.className.split(' ') || [];
+
+        if (className.indexOf(menuItemClassName) === -1) {
+          className.push(menuItemClassName);
+        }
+
+        item.props.className = className.join(' ');
+
         return item;
       })}</div>
       {this._getRightMenu()}
