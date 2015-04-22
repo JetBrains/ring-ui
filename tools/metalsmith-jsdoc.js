@@ -53,8 +53,10 @@ function configure(options) {
         var processor = processors.hasOwnProperty(tag.type) ? processors[tag.type] : processors.default;
 
         return processor({
+          name: name,
           tag: tag,
           file: file,
+          options: options,
           index: index,
           array: array
         }, {

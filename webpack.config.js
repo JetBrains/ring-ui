@@ -26,9 +26,10 @@ module.exports = {
           'sass?outputStyle=expanded&includePaths[]=' + (path.resolve(__dirname, './components'))
         ]
       },
-      // import codemirror's plain styles
+      // import plain styles from modules
+      // used for codemirror and docsite
       {
-        test: /codemirror\.css$/,
+        test: /node_modules.*\.css$/,
         loaders: [
           'style',
           'css'
