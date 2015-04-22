@@ -277,7 +277,9 @@ var Select = React.createClass({
   _inputShortcutHandler: function() {
     if (this.state.focused && this._popup && !this._popup.isVisible()) {
       this._clickHandler();
+      return true;
     }
+    return false;
   },
 
   componentWillMount: function() {
