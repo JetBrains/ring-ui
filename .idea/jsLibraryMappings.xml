@@ -3,5 +3,6 @@
   <component name="JavaScriptLibraryMappings">
     <file url="file://$PROJECT_DIR$" libraries="{Node.js Dependencies for ui}" />
     <file url="PROJECT" libraries="{Chai}" />
+    <includedPredefinedLibrary name="Node.js Globals" />
   </component>
 </project>
