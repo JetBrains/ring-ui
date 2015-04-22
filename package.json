@@ -82,8 +82,7 @@
     "react-tools": "0.11.2",
     "slug": "0.8.0",
     "wallaby-webpack": "0.0.4",
-    "webpack-dev-server": "1.8.2",
-    "xml-parser": "1.2.0"
+    "webpack-dev-server": "1.8.2"
   },
   "dependencies": {
     "angular-elastic": "2.3.5",
