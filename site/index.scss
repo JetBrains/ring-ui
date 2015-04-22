@@ -1,0 +1,76 @@
+html, body {
+  padding: 0;
+  margin: 0;
+  height: 100%;
+}
+
+.app {
+  display: flex;
+  font: 13px "Helvetica Neue", Arial, sans-serif;
+}
+
+.app__sidebar {
+  margin-top: 32px;
+  width: 200px;
+}
+
+.app__content {
+  flex: 1;
+}
+
+.header {
+  margin: 0 32px 16px;
+}
+
+.nav {
+  padding: 0;
+  list-style: none;
+  margin-left: 40px;
+}
+
+.nav__item {
+  margin: 8px 0;
+}
+
+/* Replace with ring-link */
+.nav__link, .nav__link:visited {
+  color: #1866C5;
+  text-decoration: none;
+}
+
+.nav__link:hover {
+  color: #FF5A00;
+}
+
+.markdown-body {
+  min-width: 200px;
+  max-width: 80%;
+  margin: 0 auto;
+  padding: 30px;
+}
+
+.markdown-example {
+  position: relative;
+}
+
+.markdown-example__frame {
+  min-height: 500px;
+  width: 100%;
+  border: 1px solid #CCC;
+}
+
+.markdown-example__link.markdown-example__link {
+  color: #1866C5;
+  display: block;
+  position: absolute;
+  right: 0;
+  bottom: 7px;
+  border: 1px solid #CCC;
+  font-size: 13px;
+  padding: 8px;
+  background: #fff;
+}
+
+.markdown-example__link:hover {
+  color: #FF5A00;
+}
