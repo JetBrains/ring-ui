@@ -117,7 +117,7 @@ permissionsModule.directive('rgPermission', [
  * is transcluded, otherwise it is not.
  * @example
    <example name="rgPermissionIf directive">
-     <file name ="index.html">
+     <file name="index.html">
        <div rg-permission-if="space-read" in-space="0-0-0-0-0">
          Is transcluded if user has permission 'read-space' in space 0-0-0-0-0.
        </div>

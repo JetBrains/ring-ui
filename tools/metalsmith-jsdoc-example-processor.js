@@ -4,9 +4,9 @@ var path = require('path');
 var filter = require('mout/array/filter');
 
 var beautify = require('js-beautify');
-var parseXML = require('xml-parser');
-var buildXML = require('./xml-builder');
+
 var slug = require('slug');
+var examplesParser = require('./metalsmith-examples-parser');
 
 // Meant to be beautify methods compatible
 var langMap = {
@@ -21,25 +21,6 @@ var beautifyOptions = {
   'indent_size': 2
 };
 
-function wrapHtml(head, body) {
-  return [{
-    name: 'html',
-    attributes: {},
-    children: [{
-      name: 'head',
-      attributes: {},
-      children: head || [],
-      content: ''
-    }, {
-      name: 'body',
-      attributes: {},
-      children: body || [],
-      content: ''
-    }],
-    content: ''
-  }];
-}
-
 var uniqueNamesMap = Object.create(null);
 function uniqueName(name) {
   var normalizedName = slug(name).toLowerCase();
@@ -52,12 +33,11 @@ function uniqueName(name) {
   return normalizedName;
 }
 
-function exampleProcessor(tagContext, metalsmithContext) {
-  var example = parseXML(tagContext.tag.string).root;
+function processSingleExample(example, tagContext, metalsmithContext) {
   var header = '\n\n### Example: ' + example.attributes.name + '\n';
   var prefix = 'example-' + uniqueName(example.attributes.name || tagContext.name);
 
-  var files = example.children.map(function (exampleFile) {
+  var files = example.files.map(function (exampleFile) {
     exampleFile.fileName = exampleFile.attributes.name || 'index.js';
     exampleFile.filePath = prefix + '/' + exampleFile.fileName;
     exampleFile.fileExt = path.extname(exampleFile.fileName);
@@ -74,16 +54,7 @@ function exampleProcessor(tagContext, metalsmithContext) {
     return exampleFile;
   });
 
-  var scripts = filter(files, {lang: 'js'}).map(function (file) {
-    return {
-      name: 'script',
-      attributes: {
-        src: file.fileScriptPath,
-        type: 'text/javascript'
-      },
-      content: ''
-    };
-  });
+  var scripts = filter(files, {lang: 'js'});
 
   var runnableExamples = filter(files, {fileExt: '.html'}).map(function (file) {
     var link = file.filePath;
@@ -94,21 +65,13 @@ function exampleProcessor(tagContext, metalsmithContext) {
   }).join('');
 
   files.forEach(function (file) {
-    var content = file.content;
-    var children = file.children;
+    var content = file.fileContents;
 
-    if (file.fileExt === '.html' && scripts.length) {
-      var title = {
-        name: 'title',
-        attributes: {},
-        content: example.attributes.name
-      };
-
-      children = wrapHtml([title], file.children.concat(scripts));
-    }
-
-    if (content === '' && children.length) {
-      content = buildXML(children);
+    if (file.lang === 'html' && scripts.length) {
+      var scriptsContents = scripts.map(function (script) {
+        return '<script src="' + script.fileScriptPath + '"></script>';
+      });
+      content += scriptsContents.join('\n');
     }
 
     metalsmithContext.files[file.filePath] = {
@@ -120,17 +83,29 @@ function exampleProcessor(tagContext, metalsmithContext) {
     }
   });
 
+  /**
+   * Preparing content to display with syntax highliting
+   */
   var contents = files.map(function (file) {
-    var content = file.content;
+    var content = file.fileContents;
 
-    if (content === '' && file.children.length) {
-      content = buildXML(file.children);
-    }
-
-    return '\n\n```' + file.fileExt.substring(1) + '\n' + beautify[file.lang](content, beautifyOptions) + '\n```';
+    return '\n\n```' + file.lang.substring(1) + '\n' + beautify[file.lang](content, beautifyOptions) + '\n```';
   }).join('');
 
   return header + runnableExamples + contents;
+}
+
+function exampleProcessor(tagContext, metalsmithContext) {
+
+  var examples = examplesParser(tagContext.tag.string);
+
+  if (!examples.length) {
+    return 'Can\'t parse example. Please check example syntax.';
+  }
+
+  return examples.map(function (example) {
+    return processSingleExample(example, tagContext, metalsmithContext);
+  }).join('\n\n---\n\n');
 }
 
 module.exports = exampleProcessor;
