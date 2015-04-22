@@ -74,7 +74,6 @@
     "metalsmith-ignore": "0.1.2",
     "metalsmith-markdown": "0.2.1",
     "metalsmith-metallic": "0.3.1",
-    "metalsmith-static": "0.0.5",
     "metalsmith-templates": "0.7.0",
     "metalsmith-text-replace": "1.0.1",
     "metalsmith-watch": "0.2.0",
@@ -82,7 +81,7 @@
     "react-tools": "0.11.2",
     "slug": "0.8.0",
     "wallaby-webpack": "0.0.4",
-    "webpack-dev-server": "1.8.0",
+    "webpack-dev-server": "1.8.2",
     "xml-parser": "1.2.0"
   },
   "dependencies": {
@@ -106,7 +105,7 @@
     "style-loader": "0.8.2",
     "url-loader": "0.5.5",
     "val-loader": "0.5.0",
-    "webpack": "1.8.2",
+    "webpack": "1.8.9",
     "whatwg-fetch": "0.7.0",
     "when": "3.6.4",
     "xml2js": "0.4.4"

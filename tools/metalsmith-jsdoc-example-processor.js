@@ -2,7 +2,6 @@
 var path = require('path');
 
 var filter = require('mout/array/filter');
-var pluck = require('mout/array/pluck');
 
 var beautify = require('js-beautify');
 var parseXML = require('xml-parser');
@@ -41,49 +40,45 @@ function wrapHtml(head, body) {
   }];
 }
 
+var uniqueNamesMap = Object.create(null);
+function uniqueName(name) {
+  var normalizedName = slug(name).toLowerCase();
+
+  if (uniqueNamesMap[name] != null) {
+    return normalizedName + '-' + ++uniqueNamesMap[name];
+  }
+
+  uniqueNamesMap[normalizedName] = 0;
+  return normalizedName;
+}
+
 function exampleProcessor(tagContext, metalsmithContext) {
   var example = parseXML(tagContext.tag.string).root;
   var header = '\n\n### Example: ' + example.attributes.name + '\n';
-  var name = example.attributes.name || name + '-' + tagContext.index;
-  var directory = 'example-' + slug(name).toLowerCase() + '/';
+  var prefix = 'example-' + uniqueName(example.attributes.name || tagContext.name);
 
   var files = example.children.map(function (exampleFile) {
-    exampleFile.directory = directory;
     exampleFile.fileName = exampleFile.attributes.name || 'index.js';
+    exampleFile.filePath = prefix + '/' + exampleFile.fileName;
     exampleFile.fileExt = path.extname(exampleFile.fileName);
-    exampleFile.fileBase = path.basename(exampleFile.fileName, exampleFile.fileExt);
-    exampleFile.fileBuiltName = exampleFile.fileName;
+    exampleFile.fileScriptPath = exampleFile.fileName;
     exampleFile.lang = langMap[exampleFile.fileExt];
 
     if (exampleFile.attributes.webpack) {
-      exampleFile.fileBuiltName = exampleFile.fileBase + '.build' + exampleFile.fileExt;
-      exampleFile.webpack = {
-        entry: path.resolve(__dirname, '..', 'docs', exampleFile.directory, exampleFile.fileName),
-        output: {
-          path: path.resolve(__dirname, '..', 'docs', exampleFile.directory),
-          filename: exampleFile.fileBuiltName,
-          pathinfo: true
-        }
-      };
+      var builtfileBase = prefix + '-' + path.basename(exampleFile.fileName, exampleFile.fileExt);
+      exampleFile.webpack = {};
+      exampleFile.webpack[builtfileBase] = path.resolve(require.main, metalsmithContext.metalsmith.destination(), exampleFile.filePath);
+      exampleFile.fileScriptPath = tagContext.options.publicPath + builtfileBase + '.js';
     }
 
     return exampleFile;
   });
 
-  var webpackEntries = pluck(filter(files, 'webpack'), 'webpack');
-
-  if (webpackEntries.length) {
-    var metadata = metalsmithContext.metalsmith.metadata();
-    metadata.webpackEntries = metadata.webpackEntries ?
-      metadata.webpackEntries.concat(webpackEntries) :
-      webpackEntries;
-  }
-
-  var scripts = filter(files, {fileExt: '.js'}).map(function (file) {
+  var scripts = filter(files, {lang: 'js'}).map(function (file) {
     return {
       name: 'script',
       attributes: {
-        src: file.fileBuiltName,
+        src: file.fileScriptPath,
         type: 'text/javascript'
       },
       content: ''
@@ -91,7 +86,7 @@ function exampleProcessor(tagContext, metalsmithContext) {
   });
 
   var runnableExamples = filter(files, {fileExt: '.html'}).map(function (file) {
-    var link = file.directory + file.fileName;
+    var link = file.filePath;
     return '<div class="markdown-example">' +
       '<iframe src="' + link + '" class="markdown-example__frame"></iframe>' +
       '<a href="' + link + '" class="markdown-example__link">Example</a>' +
@@ -116,9 +111,13 @@ function exampleProcessor(tagContext, metalsmithContext) {
       content = buildXML(children);
     }
 
-    metalsmithContext.files[file.directory + file.fileName] = {
+    metalsmithContext.files[file.filePath] = {
       contents: new Buffer(content)
     };
+
+    if (file.webpack) {
+      metalsmithContext.files[file.filePath].webpack = file.webpack;
+    }
   });
 
   var contents = files.map(function (file) {

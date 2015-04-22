@@ -1,7 +1,9 @@
 /* eslint-env node */
 var path = require('path');
 var fs = require('fs');
-var server = process.argv.indexOf('--server') !== -1;
+var mixIn = require('mout/object/mixIn');
+
+var isServer = process.argv.indexOf('--server') !== -1;
 var noop = function noop() {};
 
 var Metalsmith = require('metalsmith');
@@ -9,7 +11,6 @@ var markdown = require('metalsmith-markdown');
 var templates = require('metalsmith-templates');
 var ignore = require('metalsmith-ignore');
 var metallic = require('metalsmith-metallic');
-var assets = require('metalsmith-static');
 var watch = require('metalsmith-watch');
 var jsdoc = require('./metalsmith-jsdoc');
 var collections = require('metalsmith-collections');
@@ -19,6 +20,9 @@ var replace = require('metalsmith-text-replace');
 var webpack = require('webpack');
 var WebpackDevServer = require('webpack-dev-server');
 var webpackConfig = require('../webpack.config');
+var AnyBarWebpackPlugin = require('anybar-webpack');
+
+var publicPath = '/assets/';
 
 new Metalsmith(path.resolve(__dirname, '..'))
   .source('./components')
@@ -49,6 +53,7 @@ new Metalsmith(path.resolve(__dirname, '..'))
     '**/.*'
   ]))
   .use(jsdoc({
+    publicPath: publicPath,
     tags: {
       example: require('./metalsmith-jsdoc-example-processor')
     }
@@ -89,66 +94,68 @@ new Metalsmith(path.resolve(__dirname, '..'))
     absolute: false
   }))
   .use(templates({
+    directory: 'site',
     engine: 'handlebars',
     pattern: '*.html',
     default: 'default.hbs'
   }))
-  .use(assets([
-    {
-      src: 'node_modules/github-markdown-css/github-markdown.css',
-      dest: 'assets/github-markdown.css'
-    },
-    {
-      src: 'node_modules/highlight.js/styles/github.css',
-      dest: 'assets/github.css'
-    },
-    {
-      src: 'tools/favicon.ico',
-      dest: 'favicon.ico'
-    }
-  ]))
-  .use(server ? watch() : noop)
+  .use(isServer ? watch() : noop)
   .destination(path.resolve(__dirname, '..', 'docs'))
-  .build(function (err) {
+  .build(function (err, files) {
     if (err) {
       throw err;
     }
 
     var port = process.env.npm_package_config_port || require('../package.json').config.port;
+    var serverUrl = 'http://localhost:' + port;
 
-    var metadata = this.metadata();
-    var webpackEntries = metadata.webpackEntries.map(function (entry) {
-      var config = entry;
-      config.devtool = 'eval';
-      config.debug = true;
-      config.module = webpackConfig.module;
-      config.resolve = webpackConfig.resolve;
-      config.resolveLoader = webpackConfig.resolveLoader;
-
-      return config;
+    mixIn(webpackConfig, {
+      context: path.resolve(__dirname, '..'),
+      entry: {
+        index: './site/'
+      },
+      externals: {
+        'jquery': false
+      },
+      devtool: isServer ? 'eval' : '#source-map',
+      debug: isServer,
+      output: {
+        path: path.resolve(__dirname, '..', 'docs', 'assets'),
+        filename: '[name].js',
+        publicPath: publicPath // serve HMR update json's properly
+      },
+      plugins: isServer ? [
+        new webpack.HotModuleReplacementPlugin(),
+        new AnyBarWebpackPlugin()
+      ] : []
     });
 
-    console.log('Compiling %d components', webpackEntries.length);
+    Object.keys(files).forEach(function (fileName) {
+      var file = files[fileName];
 
-    if (server) {
-      var serverUrl = 'http://localhost:' + port;
+      if (file.webpack) {
+        mixIn(webpackConfig.entry, file.webpack);
+      }
+    });
 
-      webpackEntries.push({
-        entry: ['webpack-dev-server/client?' + serverUrl],
-        output: {
-          path: path.resolve(__dirname, '..', 'docs', 'assets'),
-          filename: 'utils.js'
-        }
+    var entries = Object.keys(webpackConfig.entry);
+
+    if (isServer) {
+      var webpackClient = ['webpack-dev-server/client?' + serverUrl, 'webpack/hot/only-dev-server'];
+
+      entries.forEach(function (entryName) {
+        webpackConfig.entry[entryName] = webpackClient.concat(webpackConfig.entry[entryName]);
       });
     }
 
-    var compiler = webpack(webpackEntries);
+    console.log('Compiling %d components', entries.length);
+    var compiler = webpack(webpackConfig);
 
-    if (server) {
+    if (isServer) {
       new WebpackDevServer(compiler, {
         contentBase: path.resolve(__dirname, '..', 'docs'),
-        // To be enabled after move to webpack entries instead of milti-compiler
-        //hot: true,
+        hot: true,
+        publicPath: publicPath,
         stats: {
           colors: true
         }
