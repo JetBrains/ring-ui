@@ -43,7 +43,7 @@ require('../react-ng/react-ng')({
       require('angular/angular.min.js');
       require('table-ng/table-ng');
 
-      angular.module('test', ['Ring.table']).controller('tableExample', function ($scope) {
+      angular.module('test', ['Ring.table']).controller('tableExample', [function ($scope) {
         var ctrl = this;
 
         ctrl.itemsArray = [{
@@ -63,7 +63,7 @@ require('../react-ng/react-ng')({
            });
         }
 
-      });
+      }]);
     </file>
   </example>
 */
