@@ -27,8 +27,6 @@ function extractFiles(exampleText) {
 
     // Extract the contents of the file
     file.fileContents = contents;
-    file.language = path.extname(file.name).substr(1);
-    file.type = file.type || file.language || 'file';
     file.attributes = omit(file, 'fileContents');
 
     // Store this file information
