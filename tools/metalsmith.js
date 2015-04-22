@@ -142,7 +142,7 @@ new Metalsmith(path.resolve(__dirname, '..'))
     var entries = Object.keys(webpackConfig.entry);
 
     if (isServer) {
-      var webpackClient = ['webpack-dev-server/client?' + serverUrl, 'webpack/hot/only-dev-server'];
+      var webpackClient = ['webpack-dev-server/client?' + serverUrl, 'webpack/hot/dev-server'];
 
       entries.forEach(function (entryName) {
         webpackConfig.entry[entryName] = webpackClient.concat(webpackConfig.entry[entryName]);
