@@ -51,7 +51,7 @@ module.exports = {
       //jsx loader
       {
         test: /\.jsx$/,
-        loader: 'jsx-loader'
+        loaders: ['jsx']
       },
       { test: /\.html$/, loader: 'html-loader' },
       //images loader
