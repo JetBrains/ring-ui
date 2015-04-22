@@ -3,7 +3,6 @@
  * https://github.com/angular/dgeni-packages/blob/master/examples/processors/examples-parse.js
  * */
 var omit = require('mout/object/omit');
-var path = require('path');
 
 var EXAMPLE_REGEX = /<example([^>]*)>([\S\s]+?)<\/example>/g;
 var ATTRIBUTE_REGEX = /\s*([^=]+)\s*=\s*(?:(?:"([^"]+)")|(?:'([^']+)'))/g;
