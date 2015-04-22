@@ -13,7 +13,7 @@ require('../react-ng/react-ng')({
  * @example
 <example name="Table-ng">
   <file name="index.html">
-    <div ng-app="test" ng-controller="tableExample as ctrl" ng-strict-di>
+    <div ng-app="test" ng-controller="tableExample as ctrl">
       <rg-table-toolbar stick>
         <div>Some toolbar content. Selected item: {{ctrl.selection.getActiveItem().name}}</div>
       </rg-table-toolbar>
@@ -43,7 +43,7 @@ require('../react-ng/react-ng')({
       require('angular/angular.min.js');
       require('table-ng/table-ng');
 
-      angular.module('test', ['Ring.table']).controller('tableExample', [function ($scope) {
+      angular.module('test', ['Ring.table']).controller('tableExample', function ($scope) {
         var ctrl = this;
 
         ctrl.itemsArray = [{
@@ -63,7 +63,7 @@ require('../react-ng/react-ng')({
            });
         }
 
-      }]);
+      });
     </file>
   </example>
 */
