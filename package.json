@@ -78,6 +78,7 @@
     "metalsmith-text-replace": "1.0.1",
     "metalsmith-watch": "0.2.0",
     "mocha": "2.1.0",
+    "react-hot-loader": "1.2.5",
     "react-tools": "0.11.2",
     "slug": "0.8.0",
     "wallaby-webpack": "0.0.4",
