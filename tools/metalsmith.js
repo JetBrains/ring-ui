@@ -126,6 +126,7 @@ new Metalsmith(path.resolve(__dirname, '..'))
       },
       plugins: isServer ? [
         new webpack.HotModuleReplacementPlugin(),
+        new webpack.NoErrorsPlugin(),
         new AnyBarWebpackPlugin()
       ] : []
     });
@@ -145,6 +146,12 @@ new Metalsmith(path.resolve(__dirname, '..'))
 
       entries.forEach(function (entryName) {
         webpackConfig.entry[entryName] = webpackClient.concat(webpackConfig.entry[entryName]);
+      });
+
+      webpackConfig.module.loaders.forEach(function (loader) {
+        if (loader.loaders && loader.loaders.indexOf('jsx') !== -1) {
+          loader.loaders.unshift('react-hot');
+        }
       });
     }
 
