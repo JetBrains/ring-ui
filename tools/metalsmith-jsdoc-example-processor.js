@@ -89,7 +89,7 @@ function processSingleExample(example, tagContext, metalsmithContext) {
   var contents = files.map(function (file) {
     var content = file.fileContents;
 
-    return '\n\n```' + file.lang.substring(1) + '\n' + beautify[file.lang](content, beautifyOptions) + '\n```';
+    return '\n\n```' + file.fileExt.substring(1) + '\n' + beautify[file.lang](content, beautifyOptions) + '\n```';
   }).join('');
 
   return header + runnableExamples + contents;
