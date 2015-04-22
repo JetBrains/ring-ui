@@ -337,7 +337,20 @@ var MenuItemsSequence = [
       <div class="popup-container"></div>
     </file>
 
+    <file name="index.scss">
+      body, html {
+        margin: 0;
+        padding: 0;
+      }
+
+      .ring-header {
+        // Background to see header borders
+          background: #FAFAFA;
+      }
+    </file>
+
     <file name="index.js" webpack="true">
+      require('./index.scss');
       var React = require('react');
       var Header = require('header/header');
       var Popup = require('popup/popup');
@@ -627,10 +640,14 @@ var Header = React.createClass({
         headerClassName.getElement('user-menu-extra'), true,
         headerClassName.getElement('user-menu-item'), true));
 
-    return (<div className={headerClassName.getElement('user-menu')}>
-      <div className={extraElementClassName}></div>
-      {this.getMenuItems()}
-    </div>);
+    return (
+      <div className={headerClassName.getElement('right')}>
+        <div className={headerClassName.getElement('user-menu')}>
+          <div className={extraElementClassName}></div>
+          {this.getMenuItems()}
+        </div>
+      </div>
+    );
   },
 
   /**
