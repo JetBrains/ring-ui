@@ -338,11 +338,6 @@ var MenuItemsSequence = [
     </file>
 
     <file name="index.scss">
-      body, html {
-        margin: 0;
-        padding: 0;
-      }
-
       .ring-header {
         // Background to see header borders
           background: #FAFAFA;

@@ -21,6 +21,21 @@ var beautifyOptions = {
   'indent_size': 2
 };
 
+
+var defaultStyles = '<style>\n' +
+  '  body, html {\n' +
+  '    margin: 0;\n' +
+  '    padding: 0;\n' +
+  '  };\n' +
+  '</style>';
+
+function createHtml(title, body) {
+  return '<html>\n' +
+    '<head><title>' + title + '</title></head>\n' +
+    '<body>' + body + '</body>\n' +
+    '</html>';
+}
+
 var uniqueNamesMap = Object.create(null);
 function uniqueName(name) {
   var normalizedName = slug(name).toLowerCase();
@@ -67,11 +82,12 @@ function processSingleExample(example, tagContext, metalsmithContext) {
   files.forEach(function (file) {
     var content = file.fileContents;
 
-    if (file.lang === 'html' && scripts.length) {
-      var scriptsContents = scripts.map(function (script) {
-        return '<script src="' + script.fileScriptPath + '"></script>';
-      });
-      content += scriptsContents.join('\n');
+    if (file.lang === 'html') {
+      var injectedScripts = scripts.map(function (script) {
+        return '<script type="text/javascript" src="' + script.fileScriptPath + '"></script>';
+      }).join('\n');
+
+      content = createHtml(example.attributes.name, content + defaultStyles + injectedScripts);
     }
 
     metalsmithContext.files[file.filePath] = {
