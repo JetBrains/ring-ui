@@ -166,6 +166,7 @@ var initializeTemplate = function() {
          'info',
          'jabber',
          'like',
+         'dislike',
          'logos',
          'magic',
          'marker',
