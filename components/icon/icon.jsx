@@ -60,6 +60,22 @@ var baseClass = new ClassName(BASE_CLASS);
  */
 var _templateElement = null;
 
+
+/**
+ * This is imperative that template element was first on the page.
+ * If something else inserted before it in some browsers icons might
+ * stop working.
+ * @static
+ */
+var checkTemplatePositioning = function() {
+  if (!_templateElement || !_templateElement.previousElementSibling) {
+    return;
+  }
+
+  document.body.insertBefore(_templateElement, document.body.childNodes[0]);
+};
+
+
 /**
  * Inserts an SVG template into the document so icons could use links to those
  * elements.
@@ -75,13 +91,11 @@ var initializeTemplate = function() {
   var templateDoc = domParser.parseFromString(templateText, 'image/svg+xml');
   _templateElement = templateDoc.documentElement;
 
-  // NB! This is imperative that template element was first on the page.
-  // If something else inserted before it in some browsers icons might
-  // stop working.
-  // todo(igor.alexeenko): Add some sort of check if something's insterted before template.
   document.body.insertBefore(_templateElement, document.body.childNodes[0]);
   _templateElement.style.display = 'none';
   _templateElement.id = baseClass.getElement('template');
+
+  checkTemplatePositioning();
 };
 
 
@@ -190,6 +204,7 @@ var Icon = React.createClass({
 
   componentDidMount: function() {
     initializeTemplate();
+    checkTemplatePositioning();
   }
 });
 
