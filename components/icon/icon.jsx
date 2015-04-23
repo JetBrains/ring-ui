@@ -94,7 +94,6 @@ var initializeTemplate = function() {
      <file name="index.js" webpack="true">
        var React = require('react');
        var Icon = require('icon/icon');
-       var $ = require('jquery');
 
        React.renderComponent(Icon({
          className: 'additional-class',
