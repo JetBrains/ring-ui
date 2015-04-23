@@ -48,6 +48,11 @@ var Size = {
  */
 var BASE_CLASS = 'ring-icon';
 
+/**
+ * @type {ClassName}
+ */
+var baseClass = new ClassName(BASE_CLASS);
+
 
 /**
  * @type {Element}
@@ -70,8 +75,13 @@ var initializeTemplate = function() {
   var templateDoc = domParser.parseFromString(templateText, 'image/svg+xml');
   _templateElement = templateDoc.documentElement;
 
+  // NB! This is imperative that template element was first on the page.
+  // If something else inserted before it in some browsers icons might
+  // stop working.
+  // todo(igor.alexeenko): Add some sort of check if something's insterted before template.
   document.body.insertBefore(_templateElement, document.body.childNodes[0]);
   _templateElement.style.display = 'none';
+  _templateElement.id = baseClass.getElement('template');
 };
 
 
@@ -118,7 +128,8 @@ var initializeTemplate = function() {
        }), document.getElementById('icon-14-pencil'));
 
        var getIconNames = function(){
-          var symbols = document.querySelectorAll('body > svg > symbol');
+          var symbolsContainer = document.getElementById('ring-icon__template');
+          var symbols = symbolsContainer.querySelectorAll('symbol');
           return Array.prototype.map.call(symbols, function(symbolElement){
             return symbolElement.id.replace('ring-icon_', '');
           });
@@ -153,7 +164,7 @@ var Icon = React.createClass({
 
   getDefaultProps: function () {
     return {
-      baseClass: new ClassName(BASE_CLASS),
+      baseClass: baseClass,
       className: '',
       color: Color.DEFAULT,
       glyph: '',
