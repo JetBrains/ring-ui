@@ -127,7 +127,19 @@ new Metalsmith(path.resolve(__dirname, '..'))
       plugins: isServer ? [
         new webpack.HotModuleReplacementPlugin(),
         new webpack.NoErrorsPlugin(),
-        new AnyBarWebpackPlugin()
+        new AnyBarWebpackPlugin(),
+        /** Build progress informer */
+        function () {
+          var timeMeasureMessage = 'Compilation finished in';
+
+          this.plugin('compile', function() {
+            console.time(timeMeasureMessage);
+            console.log('Compilation started...', (new Date()).toTimeString());
+          });
+          this.plugin('done', function() {
+            console.timeEnd(timeMeasureMessage);
+          });
+        }
       ] : []
     });
 
