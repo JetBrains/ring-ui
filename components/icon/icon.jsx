@@ -87,12 +87,14 @@ var initializeTemplate = function() {
         <span id="icon-distribution"></span>
         <span id="icon-16-pencil"></span>
         <span id="icon-14-pencil"></span>
+        <h3>All available icons are listed below. Place cursor over the icon to see it's name</h3>
         <div id="all-icons" style="margin-top: 16px"></div>
      </file>
 
      <file name="index.js" webpack="true">
        var React = require('react');
        var Icon = require('icon/icon');
+       var $ = require('jquery');
 
        React.renderComponent(Icon({
          className: 'additional-class',
@@ -116,103 +118,21 @@ var initializeTemplate = function() {
          size: Icon.Size.Size14
        }), document.getElementById('icon-14-pencil'));
 
-       // TODO Automate list
-       var icons = [
-         'add',
-         'added',
-         'authmodule',
-         'auto-report',
-         'average',
-         'ban-circle',
-         'bars',
-         'bug',
-         'burndown',
-         'caret-down',
-         'caret-right',
-         'caret-up',
-         'change',
-         'check',
-         'chevron-left',
-         'chevron-up',
-         'chevron-down',
-         'chevron-right',
-         'close',
-         'cog',
-         'cog1',
-         'collapse',
-         'comment',
-         'copy',
-         'cosmetics',
-         'crop',
-         'cumulative',
-         'data',
-         'distribution',
-         'download',
-         'drag',
-         'email',
-         'exception',
-         'expand',
-         'expand1',
-         'eye',
-         'feature',
-         'fields',
-         'file',
-         'folder',
-         'fork',
-         'frown',
-         'global',
-         'group',
-         'help',
-         'info',
-         'jabber',
-         'like',
-         'dislike',
-         'magic',
-         'marker',
-         'menu',
-         'merge',
-         'meta',
-         'modified',
-         'move',
-         'ok',
-         'paperclip',
-         'pause',
-         'pencil',
-         'perfomance',
-         'permission',
-         'play',
-         'print',
-         'pushpin',
-         'rate',
-         'redo',
-         'refresh',
-         'removed',
-         'renamed',
-         'resource',
-         'role',
-         'search',
-         'security',
-         'service',
-         'settings',
-         'space',
-         'table',
-         'task',
-         'time',
-         'tint',
-         'trash',
-         'undo',
-         'usability',
-         'user',
-         'user1',
-         'user2',
-         'warning'
-       ];
+       var getIconNames = function(){
+          var symbols = document.querySelectorAll('body > svg > symbol');
+          return Array.prototype.map.call(symbols, function(symbolElement){
+            return symbolElement.id.replace('ring-icon_', '');
+          });
+       }
+
+       var icons = getIconNames();
 
        React.renderComponent(React.DOM.div({
          children: icons.map(function (icon) {
            return Icon({
              glyph: icon,
-             style: {'padding-left': '16px'}
+             style: {'padding-left': '16px'},
+             title: icon
            });
          })
        }), document.getElementById('all-icons'));
