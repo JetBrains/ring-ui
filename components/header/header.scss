@@ -53,10 +53,6 @@
   display: inline-block;
   line-height: 1.2;
   margin-right: $ring-unit*2;
-
-  &:last-child {
-    margin-right: 0;
-  }
 }
 
 .ring-header__user-menu-item_icon {
@@ -86,6 +82,7 @@
     // NB! Horizontal compensation of size changing. Margin is used instead of
     // padding because of the border-radius.
     margin: $ring-unit - (($avatar-size - $default-size) / 2);
+    margin-right: 0;
     overflow: hidden;
     padding: 0;
     width: $avatar-size;
