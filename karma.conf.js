@@ -27,11 +27,10 @@ function generateConfig(karma) {
 
 
     // frameworks to use
-    frameworks: ['mocha', 'chai', 'chai-as-promised', 'chai-jquery', 'sinon-chai'],
+    frameworks: ['mocha', 'chai', 'chai-as-promised', 'chai-jquery', 'sinon-chai', 'phantomjs-shim'],
 
     files: [
       'node_modules/jquery/dist/jquery.js',
-      'test-helpers/phantomjs-shims.js',
       'test-helpers/mocha-globals.js',
       'test-helpers/test-suite.js'
     ],
