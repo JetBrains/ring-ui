@@ -334,13 +334,19 @@ var MenuItemsSequence = [
  * @example
   <example name="Header">
     <file name="index.html">
+      <div id="header-container"></div>
+      <div class="page-content">Page content</div>
       <div class="popup-container"></div>
     </file>
 
     <file name="index.scss">
-      .ring-header {
-        // Background to see header borders
-          background: #FAFAFA;
+      body {
+        background: #e8e8e9;
+      }
+      .page-content {
+        background: #FFF;
+        padding: 32px;
+        height: 500px;
       }
     </file>
 
@@ -351,9 +357,6 @@ var MenuItemsSequence = [
       var Popup = require('popup/popup');
       var Auth = require('auth/auth');
       var Link = require('link/link');
-
-      var headerContainer = document.createElement('div');
-      document.body.appendChild(headerContainer);
 
       var popup, popupContainer;
 
@@ -371,7 +374,7 @@ var MenuItemsSequence = [
           Link({href: '#'}, 'Projects'),
           Link({href: '#'}, 'Dashboard')
         ]
-      }), headerContainer);
+      }), document.getElementById('header-container'));
 
       // Add callbacks for opening and closing settings element.
       header.setProps({
@@ -881,7 +884,7 @@ HeaderHelper.setServicesList = function(header, auth, params) {
       header.refs['services'].setLoading(true);
 
       auth.requestToken().then(function(token) {
-        auth.getApi('services/header' + fields, token, params).
+        auth.getApi('services' + fields, token, params).
           catch(function (error) {
             // Fallback to old API
             if (error.response.status === 404) {
