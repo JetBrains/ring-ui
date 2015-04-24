@@ -1,0 +1,5 @@
+rootUrl: https://hub.jetbrains.com
+gridUrl: ***REMOVED***
+browsers:
+  chrome: chrome
+#  firefox: firefox
