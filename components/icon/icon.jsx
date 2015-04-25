@@ -112,10 +112,22 @@ var initializeTemplate = function() {
         <span id="icon-16-pencil"></span>
         <span id="icon-14-pencil"></span>
         <h3>All available icons are listed below. Place cursor over the icon to see it's name</h3>
-        <div id="all-icons" style="margin-top: 16px"></div>
+        <div id="all-icons"></div>
+     </file>
+
+     <file name="index.scss">
+       .ring-icon {
+         margin: 8px;
+         padding: 8px;
+
+         &[class*=monochrome] {
+           background: #24353D;
+         }
+       }
      </file>
 
      <file name="index.js" webpack="true">
+       var Icon = require('./index.scss');
        var React = require('react');
        var Icon = require('icon/icon');
 
@@ -155,7 +167,6 @@ var initializeTemplate = function() {
          children: icons.map(function (icon) {
            return Icon({
              glyph: icon,
-             style: {'padding-left': '16px'},
              title: icon
            });
          })
