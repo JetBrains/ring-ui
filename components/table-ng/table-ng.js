@@ -66,6 +66,66 @@ require('../react-ng/react-ng')({
       });
     </file>
   </example>
+
+<example name="Table-ng-with-sidebar">
+  <file name="index.html">
+    <div ng-app="test" ng-controller="tableExample as ctrl">
+      <rg-sidebar show="ctrl.isShowSideBar" place-under-sibling=".some-toolbar"
+                  top-offset="1">
+        <div class="ring-sidebar__title">Here is sidebar content</div>
+        <div class="ring-sidebar__section">{{ctrl.selection.getActiveItem().name}}</div>
+      </rg-sidebar>
+
+      <rg-table-toolbar stick class="some-toolbar">
+        <div>Some toolbar content. Selected
+          item: {{ctrl.selection.getActiveItem().name}}</div>
+      </rg-table-toolbar>
+
+      <rg-table items="ctrl.itemsArray" selection="ctrl.selection">
+        <rg-table-header>
+          <rg-table-title no-border>Avatar</rg-table-title>
+          <rg-table-title>Check</rg-table-title>
+          <rg-table-title active>Name</rg-table-title>
+          <rg-table-title no-border></rg-table-title>
+        </rg-table-header>
+
+        <rg-table-row row-item="item" ng-repeat="item in ctrl.itemsArray">
+          <rg-table-column avatar>
+            <img ng-if="::item.iconUrl" ng-src="{{ ::item.iconUrl }}"
+                 class="ring-table__avatar__img"/>
+          </rg-table-column>
+          <rg-table-checkbox-cell></rg-table-checkbox-cell>
+          <rg-table-column limited>{{::item.name }}</rg-table-column>
+          <rg-table-column>
+            <rg-sidebar-toggle-button ng-show="item.active" model="ctrl.isShowSideBar"></hub-expand-table-sidebar>
+          </rg-table-column>
+        </rg-table-row>
+      </rg-table>
+    </div>
+  </file>
+  <file name="index.js" webpack="true">
+    require('angular/angular.min.js');
+    require('table-ng/table-ng');
+    require('sidebar-ng/sidebar-ng');
+
+    angular.module('test', ['Ring.table', 'Ring.sidebar']).controller('tableExample', function
+    ($scope) {
+    var ctrl = this;
+
+    ctrl.isShowSideBar = true;
+
+    ctrl.itemsArray = [{
+      name: 'test1',
+      iconUrl: 'https://d13yacurqjgara.cloudfront.net/users/317408/avatars/mini/Layout_Behance_Avatar_(1).jpg?1376382552'
+    }];
+
+    for (var i = 0; i < 20; i++) {
+      ctrl.itemsArray.push({name: Math.random()});
+    }
+
+  });
+  </file>
+</example>
 */
 angular.module('Ring.table', ['Ring.table.toolbar', 'Ring.react-ng'])
   .directive('rgTable', function () {
