@@ -63,7 +63,6 @@ var BASE_CLASS = 'ring-alert';
      </file>
 
      <file name="index.js" webpack="true">
-       require('phantomjs-shim');
        var React = require('react');
        var Alert = require('alert/alert');
 
