@@ -70,7 +70,7 @@ require('../react-ng/react-ng')({
 <example name="Table-ng-with-sidebar">
   <file name="index.html">
     <div ng-app="test" ng-controller="tableExample as ctrl">
-      <rg-sidebar show="ctrl.isShowSideBar" place-under-sibling=".some-toolbar"
+      <rg-sidebar show="ctrl.isShowSideBar" place-under-sibling=".example__table-header"
                   top-offset="1">
         <div class="ring-sidebar__title">Here is sidebar content</div>
         <div class="ring-sidebar__section">{{ctrl.selection.getActiveItem().name}}</div>
@@ -78,11 +78,13 @@ require('../react-ng/react-ng')({
 
       <rg-table-toolbar stick class="some-toolbar">
         <div>Some toolbar content. Selected
-          item: {{ctrl.selection.getActiveItem().name}}</div>
+          item: {{ctrl.selection.getActiveItem().name}}
+          <rg-sidebar-toggle-button model="ctrl.isShowSideBar">Toggle toolbar</hub-expand-table-sidebar>
+        </div>
       </rg-table-toolbar>
 
       <rg-table items="ctrl.itemsArray" selection="ctrl.selection">
-        <rg-table-header>
+        <rg-table-header class="example__table-header">
           <rg-table-title no-border>Avatar</rg-table-title>
           <rg-table-title>Check</rg-table-title>
           <rg-table-title active>Name</rg-table-title>
