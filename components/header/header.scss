@@ -52,6 +52,13 @@
 .ring-header__user-menu-item {
   display: inline-block;
   line-height: 1.2;
+}
+
+.ring-header__menu-item {
+  margin-right: $ring-unit*4;
+}
+
+.ring-header__user-menu-item {
   margin-right: $ring-unit*2;
 }
 
