@@ -70,7 +70,7 @@ require('../react-ng/react-ng')({
 <example name="Table-ng-with-sidebar">
   <file name="index.html">
     <div ng-app="test" ng-controller="tableExample as ctrl">
-      <rg-sidebar show="ctrl.isShowSideBar" place-under-sibling=".example__table-header"
+      <rg-sidebar show="ctrl.isShowSideBar" place-under-sibling=".some-toolbar"
                   top-offset="1">
         <div class="ring-sidebar__title">Here is sidebar content</div>
         <div class="ring-sidebar__section">{{ctrl.selection.getActiveItem().name}}</div>
