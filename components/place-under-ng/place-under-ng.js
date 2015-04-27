@@ -48,8 +48,23 @@ angular.module('Ring.place-under', [])
          */
         var element = iElement[0];
 
-        var topOffset = parseInt(iAttrs.placeTopOffset) || 0;
-        var placeUnderSibling = iAttrs.rgPlaceUnder;
+        var topOffset = parseInt(iAttrs.placeTopOffset, 10) || 0;
+        var placeUnderSelector = iAttrs.rgPlaceUnder;
+
+        /**
+         * Recursive search for closest syncWith node with shared parent
+         * @param currentElement - element to start search from
+         * @param selector - selector to find
+         * @returns {Node}
+         */
+        var getElementToSyncWith = function getElementToSyncWith(currentElement, selector) {
+          var parent = currentElement.parentNode;
+          if (parent) {
+            return parent.querySelector(placeUnderSelector) || getElementToSyncWith(parent, selector);
+          } else {
+            return null;
+          }
+        };
 
         /**
          * Syncing sidebar position with other element bottom
@@ -82,9 +97,10 @@ angular.module('Ring.place-under', [])
           scope.$watch('show', sidebarScrollListener);
         };
 
-        if (placeUnderSibling) {
+        if (placeUnderSelector) {
           scope.$evalAsync(function sync() {
-            var syncWith = element.parentNode.querySelector(placeUnderSibling);
+            var syncWith = getElementToSyncWith(element, placeUnderSelector);
+
             if (syncWith) {
               syncPositionWith(syncWith);
             } else {
