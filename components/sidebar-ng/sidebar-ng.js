@@ -32,7 +32,7 @@ require('../react-ng/react-ng')({
 
 
 /*global angular*/
-angular.module('Ring.sidebar', [])
+angular.module('Ring.sidebar', ['Ring.react-ng'])
   .directive('rgSidebar', ['$window', '$document', function ($window, $document) {
     var DEBOUNCE_INTERVAL = 10;
 
