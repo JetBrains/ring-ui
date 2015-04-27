@@ -1,5 +1,7 @@
 rootUrl: https://hub.jetbrains.com
-#gridUrl: ***REMOVED***
-#browsers:
-#  chrome: chrome
+gridUrl: ***REMOVED***
+windowSize: 1024x800
+referenceImageAbsence: warning
+browsers:
+  chrome: chrome
 #  firefox: firefox
