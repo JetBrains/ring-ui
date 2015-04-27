@@ -1,6 +1,5 @@
 require('../sidebar/sidebar.scss');
-var debounce = require('mout/function/debounce');
-
+require('../place-under-ng/place-under-ng');
 require('../react-ng/react-ng')({
   Icon: require('../icon/icon.jsx')
 });
@@ -32,15 +31,13 @@ require('../react-ng/react-ng')({
 
 
 /*global angular*/
-angular.module('Ring.sidebar', ['Ring.react-ng'])
-  .directive('rgSidebar', ['$window', '$document', function ($window, $document) {
-    var DEBOUNCE_INTERVAL = 10;
-
+angular.module('Ring.sidebar', ['Ring.react-ng', 'Ring.place-under'])
+  .directive('rgSidebar', function () {
     return {
       restrict: 'E',
       transclude: true,
       replace: true,
-      template: '<div class="ring-sidebar" ng-class="{\'ring-sidebar_active\': show}" ng-transclude></div>',
+      template: '<div class="ring-sidebar" rg-place-under="{{placeUnderSibling}}" place-top-offset="{{topOffset}}" ng-class="{\'ring-sidebar_active\': show}" ng-transclude></div>',
       /**
       * {{
       *   show: boolean,
@@ -52,60 +49,9 @@ angular.module('Ring.sidebar', ['Ring.react-ng'])
         show: '=',
         placeUnderSibling: '@',
         topOffset: '=?'
-      },
-      link: function (scope, iElement) {
-        /**
-         * Use plain JS to make sidebar stickable
-         */
-        var element = iElement[0];
-
-        scope.topOffset = scope.topOffset || 0;
-
-        /**
-         * Syncing sidebar position with other element bottom
-         * @param syncWithElement - DOM node to sync with
-         */
-        var syncPositionWith = function (syncWithElement) {
-
-          var sidebarScrollListener = debounce(function () {
-            var scrolledTop = ($document[0].documentElement && $document[0].documentElement.scrollTop) || $document[0].body.scrollTop;
-
-            var syncedElementHeight = syncWithElement.offsetHeight;
-            var syncedElementOffsetTop = syncWithElement.getBoundingClientRect().top + scrolledTop;
-
-            var bottom = syncedElementOffsetTop + syncedElementHeight;
-
-            var margin = Math.max(bottom - scrolledTop, syncedElementHeight);
-
-            element.style.marginTop = margin + scope.topOffset + 'px';
-
-          }, DEBOUNCE_INTERVAL);
-
-          sidebarScrollListener();
-
-          $window.addEventListener('scroll', sidebarScrollListener);
-
-          scope.$on('$destroy', function () {
-            $window.removeEventListener('scroll', sidebarScrollListener);
-          });
-
-          scope.$watch('show', sidebarScrollListener);
-        };
-
-
-        if (scope.placeUnderSibling) {
-          scope.$evalAsync(function sync() {
-            var syncWith = element.parentNode.querySelector(scope.placeUnderSibling);
-            if (syncWith) {
-              syncPositionWith(syncWith);
-            } else {
-              throw new Error('Sidebar can\'t find element to sync with.');
-            }
-          });
-        }
       }
     };
-  }])
+  })
   .directive('rgSidebarToggleButton', [function () {
     return {
       replace: true,
