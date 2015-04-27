@@ -1,6 +1,7 @@
 /* eslint-env node */
 var path = require('path');
 var fs = require('fs');
+var chalk = require('chalk');
 var mixIn = require('mout/object/mixIn');
 
 var isServer = process.argv.indexOf('--server') !== -1;
@@ -130,13 +131,16 @@ new Metalsmith(path.resolve(__dirname, '..'))
         new AnyBarWebpackPlugin(),
         /** Build progress informer */
         function () {
-          var timeMeasureMessage = 'Compilation finished in';
+          var timeMeasureMessage = chalk.blue('Compilation finished in');
 
           this.plugin('compile', function() {
             console.time(timeMeasureMessage);
-            console.log('Compilation started...', (new Date()).toTimeString());
+            console.log(chalk.green('Compilation started...', (new Date()).toTimeString()));
           });
-          this.plugin('done', function() {
+          this.plugin('done', function(stats) {
+            if (stats.hasErrors) {
+              console.error(chalk.red(stats.toJson().errors.join('\n')));
+            }
             console.timeEnd(timeMeasureMessage);
           });
         }
