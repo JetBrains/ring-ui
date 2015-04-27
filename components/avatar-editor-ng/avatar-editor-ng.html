@@ -10,7 +10,7 @@
     <img class="ring-avatar-editor__img" ng-src="{{ default }}"
          ng-show="!model && default" ng-click="!ngDisabled && controls.select()">
   </div>
-  <input class="ring-avatar-editor__file-input" ring-avatar-editor-file-input type="file" ng-model="fileInput" accept="image/*" ng-if="!ngDisabled">
+  <input class="ring-avatar-editor__file-input" rg-avatar-editor-file-input type="file" ng-model="fileInput" accept="image/*" ng-if="!ngDisabled">
   <button class="ring-btn ring-btn_delayed-action" ng-disabled="ngDisabled"
           ng-show="!model && !default" ng-click="controls.select()">{{ addMessage }}</button>
 
