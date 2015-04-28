@@ -267,3 +267,12 @@
   width: 3*$ring-unit;
   height: 3*$ring-unit;
 }
+
+.ring-table__header_stick {
+  position: fixed;
+  display: none;
+  top: 0;
+  //Z-index avoid placing icons on fixed header
+  z-index: 1;
+  width: auto;
+}

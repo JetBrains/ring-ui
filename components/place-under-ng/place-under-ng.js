@@ -98,7 +98,6 @@ angular.module('Ring.place-under', [])
         var element = iElement[0];
 
         var topOffset = parseInt(iAttrs.placeTopOffset, 10) || 0;
-        var placeUnderSelector = iAttrs.rgPlaceUnder;
 
         /**
          * Recursive search for closest syncWith node with shared parent
@@ -109,7 +108,7 @@ angular.module('Ring.place-under', [])
         var getElementToSyncWith = function getElementToSyncWith(currentElement, selector) {
           var parent = currentElement.parentNode;
           if (parent) {
-            return parent.querySelector(placeUnderSelector) || getElementToSyncWith(parent, selector);
+            return parent.querySelector(selector) || getElementToSyncWith(parent, selector);
           } else {
             return null;
           }
@@ -146,17 +145,24 @@ angular.module('Ring.place-under', [])
           scope.$watch('show', sidebarScrollListener);
         };
 
-        if (placeUnderSelector) {
-          scope.$evalAsync(function sync() {
-            var syncWith = getElementToSyncWith(element, placeUnderSelector);
+        var startSyncing = function (placeUnderSelector) {
+          if (placeUnderSelector) {
+            scope.$evalAsync(function sync() {
+              var syncWith = getElementToSyncWith(element, placeUnderSelector);
 
-            if (syncWith) {
-              syncPositionWith(syncWith);
-            } else {
-              throw new Error('rgPlaceUnder cannot find element to sync with.');
-            }
-          });
-        }
+              if (syncWith) {
+                syncPositionWith(syncWith);
+              } else {
+                throw new Error('rgPlaceUnder cannot find element to sync with.');
+              }
+            });
+          }
+        };
+
+        iAttrs.$observe('rgPlaceUnder', function (syncSelector) {
+          startSyncing(syncSelector);
+        });
+
       }
     };
   }]);
