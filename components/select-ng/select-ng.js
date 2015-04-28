@@ -77,7 +77,7 @@ require('./select-ng__options');
     <file name="index.html">
       <h4>Select-ng as dropdown</h4>
       <div ng-app="test" ng-controller="testCtrl as ctrl">
-        <button rg-select options="item in ctrl.options" type="dropdown" filter="true" on-select="ctrl.onSelect(selected)">Click Me &#9660;</button>
+        <button rg-select options="item in ctrl.options" type="dropdown" filter="true" on-change="ctrl.onSelect(selected)">Click Me &#9660;</button>
         <ol><li ng-repeat="click in ctrl.clicks track by $index">{{click.label}}</li></ol>
       </div>
     </file>
@@ -213,6 +213,8 @@ angular.module('Ring.select', ['Ring.select.options'])
        * Receives "selected" property (<rg-select on-select='doSomethingWith(selected)'>)
        * @property {Function} scope.onOpen - callback to call on select popup opening
        * @property {Function} scope.onClose - callback to call on select popup closing
+       * @property {Function} scope.onChange - callback to call on selected items change.
+       * Receives "selected" property (<rg-select on-change='doSomethingWith(selected)'>)
        * @property {String} scope.label - Label to place on empty select button
        * @property {String} scope.selectedLabel - Label to replace any selected item/items
        * with constant text on select button
@@ -394,9 +396,10 @@ angular.module('Ring.select', ['Ring.select.options'])
               });
             },
             onChange: function (selected) {
+              ctrl.syncSelectToNgModel(selected);
+
               $scope.$evalAsync(function () {
                 ctrl.onChange({selected: selected});
-                ctrl.syncSelectToNgModel(selected);
               });
             },
             onFilter: function (query) {
