@@ -238,7 +238,7 @@ var Select = React.createClass({
       label: 'Please select option',  // BUTTON label or INPUT placeholder (nothing selected)
       selectedLabel: '',              // BUTTON label or INPUT placeholder (something selected)
 
-      shortcuts: true,
+      shortcuts: false,
 
       onBeforeOpen: function() {},
       onOpen: function() {},
@@ -258,6 +258,7 @@ var Select = React.createClass({
       data: [],
       selected: (this.props.multiple ? [] : null),
       filterString: null,
+      shorcuts: false,
       popupShortcuts: false,
       hint: null
     };
@@ -277,9 +278,7 @@ var Select = React.createClass({
   _inputShortcutHandler: function() {
     if (this.state.focused && this._popup && !this._popup.isVisible()) {
       this._clickHandler();
-      return true;
     }
-    return false;
   },
 
   componentWillMount: function() {
@@ -603,12 +602,14 @@ var Select = React.createClass({
   _inputFocused: false,
   _focusHandler: function() {
     this.setState({
+      shorcuts: true,
       focused: true
     });
   },
 
   _blurHandler: function() {
     this.setState({
+      shorcuts: false,
       focused: false
     });
   },
