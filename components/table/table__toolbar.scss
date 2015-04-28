@@ -1,11 +1,16 @@
 @import "../global/global";
 
+.ring-table__toolbar {
+  background: #F0F0F0;
+}
+
 .ring-table__toolbar-controls {
   display: block;
 
   margin: 0 $ring-unit*4 0 $ring-unit*4;
   padding: $ring-unit*2 0;
 
+  background: inherit;
   white-space: initial;
 
   &.ring-table__toolbar-controls_fixed {
@@ -19,7 +24,7 @@
     margin: 0;
     padding: $ring-unit*2 $ring-unit*4;
 
-    background: #F0F0F0;
+
     border-bottom: 1px solid #BEBEBE;
   }
 }
