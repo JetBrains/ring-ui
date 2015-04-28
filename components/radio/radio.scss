@@ -1,0 +1,61 @@
+@import '../global/global';
+
+// Radio button
+//
+// Markup:
+// <input class="ring-radio" type="radio" name="test" checked id="radio-1"/>
+// <label class="ring-radio__label" for="radio-1"></label>
+// <input class="ring-radio ring-radio_black" type="radio" name="test"  id="radio-2"/>
+// <label class="ring-radio__label" for="radio-2"></label>
+//
+// Styleguide 17.1
+
+.ring-radio {
+  display: none;
+
+  & + label.ring-radio__label {
+    content: '';
+    position: relative;
+    display: inline-block;
+    width: 2 * $ring-unit - 2;
+    height: 2 * $ring-unit - 2;
+
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    border-radius: 50%;
+    background: transparent;
+    line-height: $ring-unit * 3;
+    vertical-align: middle;
+  }
+
+  &:not([disabled]) + .ring-radio__label:hover {
+    border: 1px solid $ring-link-hover-color;
+  }
+
+  &:checked + .ring-radio__label:after {
+    content: '';
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    display: inline-block;
+    width: $ring-unit;
+    height: $ring-unit;
+
+    opacity: 1;
+    border-radius: 50%;
+    background-color: $ring-blue-color;
+  }
+
+  &.ring-radio_black:checked {
+    & + .ring-radio__label {
+      border-color: $ring-blue-color;
+    }
+
+    & + .ring-radio__label:after {
+      background-color: #FFF;
+    }
+  }
+
+  &[disabled]:checked + .ring-radio__label:after {
+    background-color: $ring-gray-color;
+  }
+}
