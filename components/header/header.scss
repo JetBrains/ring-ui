@@ -172,7 +172,7 @@
   margin-right: $ring-unit*3;
 
   &:last-child {
-    margin-right: 0;
+    margin-right: $ring-unit;
   }
 
   .ring-link:hover,
