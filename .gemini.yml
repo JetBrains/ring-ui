@@ -1,3 +1,4 @@
+rootUrl: http://localhost:9999
 gridUrl: ***REMOVED***
 windowSize: 1024x800
 browsers:
