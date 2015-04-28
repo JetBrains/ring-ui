@@ -15,11 +15,13 @@ var debounce = require('mout/function/debounce');
 <example name="Place-under">
   <file name="index.html">
     <div ng-app="Ring.place-under">
+
+      <div class="head">Scroll down to see the effect</div>
       <div rg-place-under=".target-element" class="place-under">
         Element to be positioned under test element
       </div>
 
-      <div class="target-element"">
+      <div class="target-element">
         Test element to sync with.
       </div>
 
@@ -36,17 +38,34 @@ var debounce = require('mout/function/debounce');
     require('./example.scss');
     require('angular/angular.min.js');
     require('place-under-ng/place-under-ng');
+
+    window.addEventListener('scroll', function(){
+      var target = document.querySelector('.target-element');
+
+      var scrolledTop = (document.documentElement && document.documentElement.scrollTop) || document.body.scrollTop;
+      if (scrolledTop > 30) {
+        target.style.position = 'fixed';
+      } else {
+        target.style.position = 'static';
+      }
+    });
   </file>
   <file name="example.scss" webpack="true">
     .place-under {
       position: fixed;
+      top: 0;
       right: 0;
       width: 50%;
       background-color: #888;
     }
 
+    .head {
+      height: 30px;
+    }
+
     .target-element {
-      position: fixed;
+      position: static;
+      top: 0;
       width: 100%;
       background-color: #CCC;
     }
