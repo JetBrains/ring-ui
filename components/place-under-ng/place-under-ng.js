@@ -14,18 +14,48 @@ var debounce = require('mout/function/debounce');
  * @example
 <example name="Place-under">
   <file name="index.html">
-    <div ng-app="Ring.place-under"
-         style="position: relative;">
-      <div rg-place-under=".some-element"
-        style="position: absolute">Element to be positioned under test element</div>
-      <div class="some-element">
+    <div ng-app="Ring.place-under">
+      <div rg-place-under=".target-element" class="place-under">
+        Element to be positioned under test element
+      </div>
+
+      <div class="target-element"">
         Test element to sync with.
       </div>
+
+       <div class="scrollable">
+         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+         incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+         exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+         Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+         Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+       </div>
     </div>
   </file>
   <file name="index.js" webpack="true">
+    require('./example.scss');
     require('angular/angular.min.js');
     require('place-under-ng/place-under-ng');
+  </file>
+  <file name="example.scss" webpack="true">
+    .place-under {
+      position: fixed;
+      right: 0;
+      width: 50%;
+      background-color: #888;
+    }
+
+    .target-element {
+      position: fixed;
+      width: 100%;
+      background-color: #CCC;
+    }
+
+    .scrollable {
+      height: 1000px;
+      padding-top: 50px;
+      background-color: #EEE;
+    }
   </file>
 </example>
 */
