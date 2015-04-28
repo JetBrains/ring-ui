@@ -379,7 +379,7 @@ var PopupMixin = {
  * @extends {ReactComponent}
  * @example
 
- <example name="Popup Menu">
+ <example name="Popup">
  <file name="index.html">
  <div>
  <div id="target1" style="position: absolute; left: 0; top: 0; width: 10px; height: 10px; background-color: red;"></div>
@@ -391,7 +391,7 @@ var PopupMixin = {
  </file>
  <file name="index.js" webpack="true">
  var React = require('react');
- var Popup = require('./popup.jsx');
+ var Popup = require('popup/popup');
 
  var container = React.DOM.span(null, 'Hello world!');
 
