@@ -8,10 +8,10 @@ gemini.suite('Button-group', function (suite) {
       this.firstButton = find('.ring-btn_default:first-child');
     })
     .capture('plain')
-    .capture('hovered', function (actions, find) {
+    .capture('hovered', function (actions) {
       actions.mouseMove(this.firstButton);
     })
-    .capture('pressed', function (actions, find) {
+    .capture('pressed', function (actions) {
       actions.mouseDown(this.firstButton);
     });
 });
