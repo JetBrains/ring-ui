@@ -1,6 +1,9 @@
 require('../table/table.scss');
 var TableSelection = require('./table-ng__selection');
 require('./table-ng__toolbar');
+require('../place-under-ng/place-under-ng');
+var $ = require('jquery');
+var debounce = require('mout/function/debounce');
 
 require('../react-ng/react-ng')({
   Checkbox: require('../checkbox/checkbox.jsx')
@@ -69,6 +72,7 @@ require('../react-ng/react-ng')({
 
 <example name="Table-ng-with-sidebar">
   <file name="index.html">
+    <h3>Scroll down to see the effect</h2>
     <div ng-app="test" ng-controller="tableExample as ctrl">
       <rg-sidebar show="ctrl.isShowSideBar" place-under-sibling=".some-toolbar"
                   top-offset="1">
@@ -84,7 +88,7 @@ require('../react-ng/react-ng')({
       </rg-table-toolbar>
 
       <rg-table items="ctrl.itemsArray" selection="ctrl.selection">
-        <rg-table-header class="example__table-header">
+        <rg-table-header class="example__table-header" stick-to=".some-toolbar">
           <rg-table-title no-border>Avatar</rg-table-title>
           <rg-table-title>Check</rg-table-title>
           <rg-table-title active>Name</rg-table-title>
@@ -110,26 +114,27 @@ require('../react-ng/react-ng')({
     require('table-ng/table-ng');
     require('sidebar-ng/sidebar-ng');
 
-    angular.module('test', ['Ring.table', 'Ring.sidebar']).controller('tableExample', function
-    ($scope) {
+    angular.module('test', ['Ring.table', 'Ring.sidebar']).controller('tableExample', function ($timeout, $scope) {
     var ctrl = this;
 
     ctrl.isShowSideBar = true;
 
-    ctrl.itemsArray = [{
-      name: 'test1',
-      iconUrl: 'https://d13yacurqjgara.cloudfront.net/users/317408/avatars/mini/Layout_Behance_Avatar_(1).jpg?1376382552'
-    }];
+    $timeout(function(){
+      ctrl.itemsArray = [{
+        name: 'test1',
+        iconUrl: 'https://d13yacurqjgara.cloudfront.net/users/317408/avatars/mini/Layout_Behance_Avatar_(1).jpg?1376382552'
+      }];
+      for (var i = 0; i < 20; i++) {
+        ctrl.itemsArray.push({name: Math.random()});
+      }
+    }, 500);
 
-    for (var i = 0; i < 20; i++) {
-      ctrl.itemsArray.push({name: Math.random()});
-    }
 
   });
   </file>
 </example>
 */
-angular.module('Ring.table', ['Ring.table.toolbar', 'Ring.react-ng'])
+angular.module('Ring.table', ['Ring.table.toolbar', 'Ring.react-ng', 'Ring.place-under'])
   .directive('rgTable', function () {
     return {
       restrict: 'E',
@@ -177,12 +182,53 @@ angular.module('Ring.table', ['Ring.table.toolbar', 'Ring.react-ng'])
       }
     };
   })
-  .directive('rgTableHeader', function () {
+  .directive('rgTableHeader', function ($window) {
+    var HEADER_STICK_DEBOUNCE = 10;
+
     return {
       restrict: 'E',
-      template: '<thead><tr class="ring-table__header" ng-transclude></tr></thead>',
+      template: require('./table-ng__header.html'),
       transclude: true,
-      replace: true
+      replace: true,
+      link: function (scope, iElement, iAttrs) {
+        var element = iElement[0];
+        scope.stickToSelector = iAttrs.stickTo;
+
+        var scrollableHeader = element.querySelector('.ring-table__header:not(.ring-table__header_stick)');
+        var fixedHeader = element.querySelector('.ring-table__header_stick');
+
+        /**
+         * Sync header columns width with real table
+         */
+        var resizeFixedHeader = debounce(function() {
+          var titles = fixedHeader.querySelectorAll('.ring-table__title');
+          Array.prototype.forEach.call(titles, function(titleElement, index){
+            var targetHeaderTitle = scrollableHeader.querySelectorAll('.ring-table__title')[index];
+            titleElement.style.width = $window.getComputedStyle(targetHeaderTitle).width;
+          });
+        }, HEADER_STICK_DEBOUNCE, true);
+
+        /**
+         * Toggle headers on scroll
+         */
+        var scrollListener = debounce(function() {
+          fixedHeader.style.display = 'block';
+          scrollableHeader.style.visibility = 'hidden';
+
+          resizeFixedHeader();
+        }, HEADER_STICK_DEBOUNCE, true);
+
+        var startSticking = function () {
+          scope.$evalAsync(function () {
+            $window.addEventListener('resize', resizeFixedHeader);
+            $window.addEventListener('scroll', scrollListener);
+          });
+        };
+
+        if (iAttrs.stickTo) {
+          startSticking();
+        }
+      }
     };
   })
   .directive('rgTableBody', function () {
