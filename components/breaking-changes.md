@@ -4,12 +4,12 @@ title: Breaking Changes
 order: 2
 ---
 
-See the "breaking change" commits [in Upsource](https://upsource.jetbrains.com/ring-ui/view?query=path:%20%7B%2A%2Fbreaking-changes.md%7D).  
+See the "breaking change" commits [in Upsource](https://upsource.jetbrains.com/ring-ui/view?query=path:%20%7B%2A%2Fbreaking-changes.md%7D%20and%20not%20%22Wording%22).  
 
-### 28-04-2015: island/island.scss renamed and changed (RG-662) 
+### 28-04-2015: `ring-island` refactoring (RG-662) 
 
-* Removed leading _ from filename
-* Removed `display: block` from main class and `.ring-island_inline` modifier at all
+* Renamed `_island.scss` to `island.scss`
+* Removed `display: block` from the main class and dropped the `.ring-island_inline` modifier completely
 
 ### 21-04-2015: Removed deprecated Auth.prototype.isGuest method (RG-644) 
 
