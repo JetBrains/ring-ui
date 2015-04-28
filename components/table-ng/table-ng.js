@@ -2,7 +2,6 @@ require('../table/table.scss');
 var TableSelection = require('./table-ng__selection');
 require('./table-ng__toolbar');
 require('../place-under-ng/place-under-ng');
-var $ = require('jquery');
 var debounce = require('mout/function/debounce');
 
 require('../react-ng/react-ng')({
