@@ -19,8 +19,6 @@
 // Styleguide 19.1
 
 .ring-island {
-  display: block;
-
   min-width: $ring-unit*25 - 2;
 
   border: 1px solid;
@@ -29,10 +27,21 @@
 
   background-color: #FFF;
   box-shadow: 0 1px 4px 0 rgba(0, 0, 0, .1);
-}
 
-.ring-island_inline {
-  display: inline-block;
+  &_stack-right {
+    border-right: none;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+
+    box-shadow: none;
+  }
+
+  &_stack-left {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+
+    box-shadow: none;
+  }
 }
 
 .ring-island__header {
