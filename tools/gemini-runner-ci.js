@@ -8,7 +8,7 @@ var serveStatic = require('serve-static');
 function runGeminiTestsOnServer(server) {
   console.log('Runing gemini tests');
 
-  var geminiProcess = exec('node tools/gemini-runner.js files components/**/*.gemini.js');
+  var geminiProcess = exec('node tools/gemini-runner.js --teamcity files components/**/*.gemini.js');
 
   geminiProcess.stdout.pipe(process.stdout);
   geminiProcess.stderr.pipe(process.stderr);

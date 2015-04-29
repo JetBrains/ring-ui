@@ -1,7 +1,9 @@
 /* eslint-env node */
 var Gemini = require('gemini/api');
+var geminiTeamcityPlugin = require('gemini-teamcity');
 
 var isGather = process.argv.indexOf('--gather') !== -1;
+var isTeamcity = process.argv.indexOf('--teamcity') !== -1;
 
 function getDocsiteUrl() {
   var OSHostname = require('os').hostname();
@@ -15,6 +17,10 @@ console.log('Docsite url detected: ', docsiteUrl);
 var gemini = new Gemini('.gemini.yml', {
   rootUrl: docsiteUrl
 });
+
+if (isTeamcity) {
+  geminiTeamcityPlugin(gemini);
+}
 
 function getFilesFromArguments() {
   var startIndex = process.argv.indexOf('files') + 1;
