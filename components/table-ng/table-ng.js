@@ -183,8 +183,8 @@ angular.module('Ring.table', ['Ring.table.toolbar', 'Ring.react-ng', 'Ring.place
   })
   .directive('rgTableHeader', function ($window) {
     var HEADER_RESIZE_DEBOUNCE = 50;
-    var HEADER_SCROLL_DEBOUNCE = HEADER_RESIZE_DEBOUNCE * 10;
-
+    var HEADER_SCROLL_DEBOUNCE = 10;
+    var HEADERS_MAX_DELTA = 5;
     return {
       restrict: 'E',
       template: require('./table-ng__header.html'),
@@ -197,7 +197,7 @@ angular.module('Ring.table', ['Ring.table.toolbar', 'Ring.react-ng', 'Ring.place
         scope.stickToSelector = iAttrs.stickTo;
 
         //Shortcut for placing under table toolbar
-        if (iAttrs.stickToToolbar) {
+        if (iAttrs.stickToToolbar !== undefined) {
           scope.stickToSelector = '.ring-table__toolbar';
         }
 
@@ -215,17 +215,29 @@ angular.module('Ring.table', ['Ring.table.toolbar', 'Ring.react-ng', 'Ring.place
           });
         }, HEADER_RESIZE_DEBOUNCE, true);
 
+        var getFixedHeaderTop = function () {
+          return parseInt(fixedHeader.style.marginTop, 10);
+        };
+
+        var getHeadersDeltaY = function () {
+          var tableHeaderTop = scrollableHeader.getBoundingClientRect().top;
+          return Math.abs(tableHeaderTop - getFixedHeaderTop());
+        };
+
         /**
          * Toggle headers on scroll. Also resize header columns with some big interval
          */
         var scrollListener = debounce(function() {
-          if (!fixed) {
+          if (getFixedHeaderTop() !== 0 && getHeadersDeltaY() > HEADERS_MAX_DELTA) {
             fixed = true;
             fixedHeader.style.display = 'block';
             scrollableHeader.style.visibility = 'hidden';
+          } else {
+            fixedHeader.style.display = 'none';
+            scrollableHeader.style.visibility = 'visible';
           }
           resizeFixedHeader();
-        }, HEADER_SCROLL_DEBOUNCE, true);
+        }, HEADER_SCROLL_DEBOUNCE);
 
         var startSticking = function () {
           scope.$evalAsync(function () {

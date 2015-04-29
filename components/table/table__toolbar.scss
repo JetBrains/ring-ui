@@ -9,12 +9,13 @@
 
   margin: 0 $ring-unit*4 0 $ring-unit*4;
   padding: $ring-unit*2 0;
+  min-height: $ring-unit * 3;
 
   background: inherit;
   white-space: initial;
 
   &.ring-table__toolbar-controls_fixed {
-    z-index: 1;
+    z-index: $ring-fixed-z-index;
 
     position: fixed;
     top: 0;
