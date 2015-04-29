@@ -34,7 +34,6 @@
 // Styleguide 7.4
 
 .ring-form {
-  font-size: $ring-font-size;
   @include ring-font;
 
   &__input, & .ring-input, & .ring-select, & .ring-input_wrapper {
