@@ -31,6 +31,7 @@
     "test-ci": "node node_modules/karma/bin/karma start karma-ci.conf.js",
     "prebuild-ci": "npm run lint-ci && npm run test-ci",
     "build-ci": "npm run build-upsource && npm run build",
+    "postbuild-ci": "npm run gemini-test-ci",
     "prerelease-ci": "npm run build-ci",
     "release-ci": "npm version $npm_package_config_version && npm publish",
     "postrelease-ci": "npm pack"
