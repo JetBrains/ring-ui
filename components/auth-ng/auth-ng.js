@@ -115,9 +115,7 @@ authModule.provider('auth', ['$httpProvider', function ($httpProvider) {
     };
     authInitPromise.then(restoreLocation, function (e) {
       if (!e.authRedirect) {
-        /* eslint-disable no-console*/
-        console.error(e);
-        /* eslint-enable no-console*/
+        $log.error(e);
       }
     });
 
