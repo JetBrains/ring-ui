@@ -14,10 +14,11 @@ function runGeminiTestsOnServer(server) {
   geminiProcess.stderr.pipe(process.stderr);
 
   geminiProcess.on('close', function (code) {
-    console.log('Tests finished, terminating server');
     server.close();
     if (code) {
       throw new Error('Tests failed, aborting');
+    } else {
+      console.log('Tests finished without errors');
     }
   });
 }
