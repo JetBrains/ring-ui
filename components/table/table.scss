@@ -268,11 +268,11 @@
   height: 3*$ring-unit;
 }
 
-.ring-table__header_stick {
+.ring-table__header_sticky {
   position: fixed;
   display: none;
   top: 0;
-  //Z-index avoid placing icons on fixed header
-  z-index: 1;
+  //z-index avoid overlaying icons in rows and fixed header
+  z-index: $ring-fixed-z-index;
   width: auto;
 }
