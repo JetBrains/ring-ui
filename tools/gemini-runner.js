@@ -1,9 +1,15 @@
 /* eslint-env node */
 var Gemini = require('gemini/api');
 
-var docsiteUrl = require('os').hostname() + ':9999';
 var isGather = process.argv.indexOf('--gather') !== -1;
 
+function getDocsiteUrl() {
+  var OSHostname = require('os').hostname();
+  var fullHostname = OSHostname.indexOf('.') !== -1 ? OSHostname : OSHostname + '.labs.intellij.net';
+  return fullHostname + ':9999';
+}
+
+var docsiteUrl = getDocsiteUrl();
 console.log('Docsite url detected: ', docsiteUrl);
 
 var gemini = new Gemini('.gemini.yml', {
@@ -23,8 +29,7 @@ function handleGeminiError(error) {
   if (error.advice) {
     console.error('To fix:', error.advice);
   }
-  var exit = process.exit;
-  exit(1);
+  throw error;
 }
 
 var files = getFilesFromArguments();
