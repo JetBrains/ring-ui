@@ -31,7 +31,7 @@
               class="ring-btn ring-form__update-text__button">
         {{wording.saved}}
       </button>
-      <div ng-if="form.input.$dirty && form.input.$invalid" rg-error-bubble="form.input"></div>
+      <div ng-if="form.input.$dirty && initial !== item[field]" rg-error-bubble="form.input"></div>
     </div>
     <span class="ring-form__control__description" ng-transclude></span>
   </div>
