@@ -19,6 +19,8 @@ function handleGeminiError(error) {
   if (error.advice) {
     console.error('To fix:', error.advice);
   }
+  var exit = process.exit;
+  exit(1);
 }
 
 var files = getFilesFromArguments();
