@@ -966,6 +966,11 @@ HeaderHelper.setUserMenu = function(header, auth, translationsDict) {
         popup = null;
       }
     });
+  }, function (error) {
+    // Show login button when something went wrong
+    HeaderHelper._renderLoginButton(header, auth);
+
+    return when.reject(error);
   });
 };
 
