@@ -23,13 +23,13 @@ var generateUniqueId = Global.getUIDGenerator(ID_PREFIX);
    <example name="Checkbox">
    <file name="index.html">
     <h1>Base Examples</h1>
-    <div>
+    <div id="checkbox-base">
       <span id="checkbox"></span>
       <span id="checkbox-selected"></span>
       <span id="checkbox-disabled"></span>
     </div>
     <h1>Examples with outer styles</h1>
-    <div>
+    <div id="checkbox-additional">
       <div style="line-height: 60px">
         <span id="checkbox-in-large-line-height-div"></span>
         <span>This text should be aligned on same line with checkbox label</span>
