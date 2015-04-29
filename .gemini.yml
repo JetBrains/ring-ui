@@ -1,6 +1,11 @@
 rootUrl: http://localhost:9999
 gridUrl: ***REMOVED***
 windowSize: 1024x800
+
 browsers:
-  chrome: chrome
-  firefox: firefox
+  chrome:
+    browserName: chrome
+    platform: WINDOWS
+  firefox:
+    browserName: firefox
+    platform: WINDOWS
