@@ -159,9 +159,7 @@ angular.module('Ring.place-under', [])
           }
         };
 
-        iAttrs.$observe('rgPlaceUnder', function (syncSelector) {
-          startSyncing(syncSelector);
-        });
+        iAttrs.$observe('rgPlaceUnder', startSyncing);
 
       }
     };

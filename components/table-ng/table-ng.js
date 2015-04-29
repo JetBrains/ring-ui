@@ -182,7 +182,8 @@ angular.module('Ring.table', ['Ring.table.toolbar', 'Ring.react-ng', 'Ring.place
     };
   })
   .directive('rgTableHeader', function ($window) {
-    var HEADER_STICK_DEBOUNCE = 10;
+    var HEADER_RESIZE_DEBOUNCE = 50;
+    var HEADER_SCROLL_DEBOUNCE = HEADER_RESIZE_DEBOUNCE * 10;
 
     return {
       restrict: 'E',
@@ -191,10 +192,17 @@ angular.module('Ring.table', ['Ring.table.toolbar', 'Ring.react-ng', 'Ring.place
       replace: true,
       link: function (scope, iElement, iAttrs) {
         var element = iElement[0];
+        var fixed = false;
+
         scope.stickToSelector = iAttrs.stickTo;
 
-        var scrollableHeader = element.querySelector('.ring-table__header:not(.ring-table__header_stick)');
-        var fixedHeader = element.querySelector('.ring-table__header_stick');
+        //Shortcut for placing under table toolbar
+        if (iAttrs.stickToToolbar) {
+          scope.stickToSelector = '.ring-table__toolbar';
+        }
+
+        var scrollableHeader = element.querySelector('.ring-table__header:not(.ring-table__header_sticky)');
+        var fixedHeader = element.querySelector('.ring-table__header_sticky');
 
         /**
          * Sync header columns width with real table
@@ -205,17 +213,19 @@ angular.module('Ring.table', ['Ring.table.toolbar', 'Ring.react-ng', 'Ring.place
             var targetHeaderTitle = scrollableHeader.querySelectorAll('.ring-table__title')[index];
             titleElement.style.width = $window.getComputedStyle(targetHeaderTitle).width;
           });
-        }, HEADER_STICK_DEBOUNCE, true);
+        }, HEADER_RESIZE_DEBOUNCE, true);
 
         /**
-         * Toggle headers on scroll
+         * Toggle headers on scroll. Also resize header columns with some big interval
          */
         var scrollListener = debounce(function() {
-          fixedHeader.style.display = 'block';
-          scrollableHeader.style.visibility = 'hidden';
-
+          if (!fixed) {
+            fixed = true;
+            fixedHeader.style.display = 'block';
+            scrollableHeader.style.visibility = 'hidden';
+          }
           resizeFixedHeader();
-        }, HEADER_STICK_DEBOUNCE, true);
+        }, HEADER_SCROLL_DEBOUNCE, true);
 
         var startSticking = function () {
           scope.$evalAsync(function () {
@@ -224,7 +234,7 @@ angular.module('Ring.table', ['Ring.table.toolbar', 'Ring.react-ng', 'Ring.place
           });
         };
 
-        if (iAttrs.stickTo) {
+        if (scope.stickToSelector) {
           startSticking();
         }
       }

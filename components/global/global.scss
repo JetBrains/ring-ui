@@ -66,6 +66,9 @@ $ring-font-size-smaller: 11px;
 // all other elements on the page.
 $ring-invisible-element-z-index: -1;
 
+// Z-index for fixed elements.
+$ring-fixed-z-index: 1;
+
 // Elements which should overlay all other elements on the page.
 $ring-overlay-z-index: 5;
 
