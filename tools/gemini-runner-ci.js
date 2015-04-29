@@ -1,18 +1,37 @@
+/* eslint-env node */
+var exec = require('child_process').exec;
 var finalhandler = require('finalhandler');
 var http = require('http');
 var serveStatic = require('serve-static');
 
-// Serve up public/ftp folder
-var serve = serveStatic('public/ftp', {'index': ['index.html', 'index.htm']});
 
-// Create server
-var server = http.createServer(function(req, res){
-  var done = finalhandler(req, res);
-  serve(req, res, done);
+function runGeminiTestsOnServer(server) {
+  console.log('Runing gemini tests');
 
+  var geminiProcess = exec('node tools/gemini-runner.js --files components/**/*.gemini.js');
 
-  server.close();
-});
+  geminiProcess.stdout.pipe(process.stdout);
+  geminiProcess.stderr.pipe(process.stderr);
 
-// Listen
-server.listen(8989);
+  geminiProcess.on('close', function (code) {
+    console.log('Tests finished, terminating server');
+    server.close();
+    if (code) {
+      throw new Error('Tests failed, aborting');
+    }
+  });
+}
+
+function runServer() {
+  var serve = serveStatic('docs', {'index': ['index.html']});
+
+  console.log('Starting static server on 9999 port');
+
+  return http.createServer(function (req, res) {
+    var done = finalhandler(req, res);
+    serve(req, res, done);
+  })
+    .listen(9999);
+}
+
+runGeminiTestsOnServer(runServer());
