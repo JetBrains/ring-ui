@@ -109,13 +109,13 @@ To enable the `Wallaby.js` test runner follow these steps:
 2. Run shared `Wallaby` configuration in WebStorm.
 
 
-## CSS Regression testing
+## Visual regression testing
 
-#### Note: developer server should work while running this commands (`npm start`)
+#### Note: you should have the development server running before executing the commands below (`npm start`)
 
-Ring UI uses [Gemini](https://ru.bem.info/tools/testing/gemini) as CSS regression testing framework.
-When developer changes something in components presentation, he should run `npm run gemini-test` 
-command to make sure that everything is ok.
+Ring UI uses [Gemini](https://ru.bem.info/tools/testing/gemini) for visual regression testing. Gemini works
+by taking "screenshots" and comparing them to existing reference images. After you make some visual changes, 
+run `npm run gemini-test` to make sure there are no regressions.
 
-If something changed, reference images should be updated. For example, if alerts markup is changed and
-tests won't pass, execute `npm run gemini-gather files components/alert/*.gemini.js` to update references.
+To update the reference images for a certain component (for example, `alert`) run 
+`npm run gemini-gather files components/alert/*.gemini.js`.
