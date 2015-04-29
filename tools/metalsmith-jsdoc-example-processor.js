@@ -30,9 +30,10 @@ var defaultStyles = '<style>\n' +
   '</style>';
 
 function createHtml(title, body) {
-  return '<html>\n' +
-    '<head><title>' + title + '</title></head>\n' +
-    '<body>' + body + '</body>\n' +
+  return '<!DOCTYPE html>\n' +
+    '<html>\n' +
+      '<head><title>' + title + '</title></head>\n' +
+      '<body>' + body + '</body>\n' +
     '</html>';
 }
 
