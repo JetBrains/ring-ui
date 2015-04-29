@@ -228,13 +228,10 @@ angular.module('Ring.table', ['Ring.table.toolbar', 'Ring.react-ng', 'Ring.place
          * Toggle headers on scroll. Also resize header columns with some big interval
          */
         var scrollListener = debounce(function() {
-          if (getFixedHeaderTop() !== 0 && getHeadersDeltaY() > HEADERS_MAX_DELTA) {
+          if (!fixed && getFixedHeaderTop() !== 0 && getHeadersDeltaY() > HEADERS_MAX_DELTA) {
             fixed = true;
             fixedHeader.style.display = 'block';
             scrollableHeader.style.visibility = 'hidden';
-          } else {
-            fixedHeader.style.display = 'none';
-            scrollableHeader.style.visibility = 'visible';
           }
           resizeFixedHeader();
         }, HEADER_SCROLL_DEBOUNCE);
