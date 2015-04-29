@@ -171,7 +171,7 @@ angular.module('Ring.dialog', []).
       }
     };
   }).
-  service('dialog', function () {
+  service('dialog', function ($log) {
     var dialogScope;
     return {
       /**
@@ -193,9 +193,7 @@ angular.module('Ring.dialog', []).
        */
       'show': function (config) {
         if (!dialogScope) {
-          /* eslint-disable no-console*/
-          console.error('No dialog directive is found');
-          /* eslint-enable no-console*/
+          $log.error('No dialog directive is found');
           return;
         }
 
