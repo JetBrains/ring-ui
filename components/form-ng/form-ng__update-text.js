@@ -60,7 +60,6 @@ angular.module('Ring.form')
         transclude: true,
         scope: {
           label: '@',
-          description: '@',
           placeholder: '@',
           item: '=',
           field: '@',
