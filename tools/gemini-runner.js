@@ -9,7 +9,10 @@ var gemini = new Gemini('.gemini.yml', {
 });
 
 function getFilesFromArguments() {
-  var startIndex = process.argv.indexOf('--files') + 1;
+  var startIndex = process.argv.indexOf('files') + 1;
+  if (startIndex === -1) {
+    throw new Error('Parameter "files" is not specified');
+  }
   return process.argv.slice(startIndex);
 }
 

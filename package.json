@@ -17,6 +17,9 @@
   "scripts": {
     "prepublish": "node tools/setup-hooks.js",
     "test": "node node_modules/karma/bin/karma start",
+    "gemini-test": "node tools/gemini-runner.js --files components/**/*.gemini.js",
+    "gemini-test-ci": "node tools/gemini-runner-ci.js",
+    "gemini-gather": "node tools/gemini-runner.js --gather",
     "build-upsource": "webpack tools/ring-upsource.js ring-upsource.js --output-library=ring --bail --optimize-dedupe --optimize-minimize --optimize-occurence-order --define process.env.NODE_ENV=\"'production'\"",
     "build": "node tools/metalsmith.js",
     "start": "node tools/metalsmith.js --server",
