@@ -3,7 +3,6 @@ var Gemini = require('gemini/api');
 
 var docsiteUrl = require('os').hostname() + ':9999';
 var isGather = process.argv.indexOf('--gather') !== -1;
-var isHtmlReporter = process.argv.indexOf('--html') !== -1;
 
 var gemini = new Gemini('.gemini.yml', {
   rootUrl: docsiteUrl
@@ -37,10 +36,13 @@ if (isGather) {
 
 } else {
   gemini.test(files, {
-    reporters: isHtmlReporter ? ['html'] : null
+    reporters: ['html']
   })
     .then(function (res) {
       console.log('Test done', res);
+      if (res.failed || res.errored) {
+        throw new Error('Not all tests passed successfully');
+      }
     })
     .fail(handleGeminiError);
 }
