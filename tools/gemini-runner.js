@@ -4,6 +4,8 @@ var Gemini = require('gemini/api');
 var docsiteUrl = require('os').hostname() + ':9999';
 var isGather = process.argv.indexOf('--gather') !== -1;
 
+console.log('Docsite url detected: ', docsiteUrl);
+
 var gemini = new Gemini('.gemini.yml', {
   rootUrl: docsiteUrl
 });
