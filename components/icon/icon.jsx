@@ -107,10 +107,12 @@ var initializeTemplate = function() {
  * @example
    <example name="Icon">
      <file name="index.html">
-        <span id="icon-container"></span>
-        <span id="icon-distribution"></span>
-        <span id="icon-16-pencil"></span>
-        <span id="icon-14-pencil"></span>
+        <div id="some-icons">
+           <span id="icon-container"></span>
+           <span id="icon-distribution"></span>
+           <span id="icon-16-pencil"></span>
+           <span id="icon-14-pencil"></span>
+        </div>
         <h3>All available icons are listed below. Place cursor over the icon to see it's name</h3>
         <div id="all-icons"></div>
      </file>
