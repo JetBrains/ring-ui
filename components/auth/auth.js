@@ -318,6 +318,7 @@ Auth.prototype.getSecure = function (absoluteUrl, accessToken, params) {
       } else {
         var error = new Error('' + response.status + ' ' + response.statusText);
         error.response = response;
+        error.status = response.status;
         return when.reject(error);
       }
     });
