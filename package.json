@@ -61,7 +61,7 @@
     "eslint-plugin-react": "1.6.0",
     "finalhandler": "0.3.5",
     "gemini": "0.11.3",
-    "gemini-teamcity": "huston007/gemini-teamcity",
+    "gemini-teamcity": "1.0.0",
     "github-markdown-css": "2.0.7",
     "handlebars": "2.0.0",
     "highlight.js": "8.5.0",
