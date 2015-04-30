@@ -181,10 +181,11 @@ angular.module('Ring.table', ['Ring.table.toolbar', 'Ring.react-ng', 'Ring.place
       }
     };
   })
-  .directive('rgTableHeader', function ($window) {
+  .directive('rgTableHeader', function ($window, getClosestElementWithCommonParent) {
     var HEADER_RESIZE_DEBOUNCE = 50;
     var HEADER_SCROLL_DEBOUNCE = 10;
-    var HEADERS_MAX_DELTA = 5;
+    var TOOLBAR_FIXED_CLASSNAME = 'ring-table__toolbar-controls_fixed';
+
     return {
       restrict: 'E',
       template: require('./table-ng__header.html'),
@@ -192,7 +193,7 @@ angular.module('Ring.table', ['Ring.table.toolbar', 'Ring.react-ng', 'Ring.place
       replace: true,
       link: function (scope, iElement, iAttrs) {
         var element = iElement[0];
-        var fixed = false;
+        var stickToElement = null;
 
         scope.stickToSelector = iAttrs.stickTo;
 
@@ -204,35 +205,36 @@ angular.module('Ring.table', ['Ring.table.toolbar', 'Ring.react-ng', 'Ring.place
         var scrollableHeader = element.querySelector('.ring-table__header:not(.ring-table__header_sticky)');
         var fixedHeader = element.querySelector('.ring-table__header_sticky');
 
+        var toolbarFixed = function () {
+          return stickToElement.querySelector('.' + TOOLBAR_FIXED_CLASSNAME) !== null;
+        };
+
         /**
          * Sync header columns width with real table
          */
         var resizeFixedHeader = debounce(function() {
+          fixedHeader.style.width = scrollableHeader.offsetWidth + 'px';
           var titles = fixedHeader.querySelectorAll('.ring-table__title');
+
           Array.prototype.forEach.call(titles, function(titleElement, index){
             var targetHeaderTitle = scrollableHeader.querySelectorAll('.ring-table__title')[index];
             titleElement.style.width = $window.getComputedStyle(targetHeaderTitle).width;
           });
+
         }, HEADER_RESIZE_DEBOUNCE, true);
-
-        var getFixedHeaderTop = function () {
-          return parseInt(fixedHeader.style.marginTop, 10);
-        };
-
-        var getHeadersDeltaY = function () {
-          var tableHeaderTop = scrollableHeader.getBoundingClientRect().top;
-          return Math.abs(tableHeaderTop - getFixedHeaderTop());
-        };
 
         /**
          * Toggle headers on scroll. Also resize header columns with some big interval
          */
         var scrollListener = debounce(function() {
-          if (!fixed && getFixedHeaderTop() !== 0 && getHeadersDeltaY() > HEADERS_MAX_DELTA) {
-            fixed = true;
+          if (toolbarFixed()) {
             fixedHeader.style.display = 'block';
             scrollableHeader.style.visibility = 'hidden';
+          } else {
+            fixedHeader.style.display = 'none';
+            scrollableHeader.style.visibility = 'visible';
           }
+
           resizeFixedHeader();
         }, HEADER_SCROLL_DEBOUNCE);
 
@@ -244,6 +246,7 @@ angular.module('Ring.table', ['Ring.table.toolbar', 'Ring.react-ng', 'Ring.place
         };
 
         if (scope.stickToSelector) {
+          stickToElement = getClosestElementWithCommonParent(element, scope.stickToSelector);
           startSticking();
         }
       }
