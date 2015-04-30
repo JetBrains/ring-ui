@@ -54,7 +54,7 @@ new Metalsmith(path.resolve(__dirname, '..'))
     '**/.*'
   ]))
   .use(jsdoc({
-    publicPath: publicPath,
+    publicPath: '..' + publicPath,
     tags: {
       example: require('./metalsmith-jsdoc-example-processor')
     }
