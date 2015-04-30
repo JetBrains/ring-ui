@@ -86,7 +86,7 @@ angular.module('Ring.place-under', [])
  * rg-place-under=".some-selector" = selector to point target element
  * place-top-offset="1" = offset in pixels
  */
-  .directive('rgPlaceUnder', ['$window', '$document', function ($window, $document) {
+  .directive('rgPlaceUnder', function ($window, $document, getClosestElementWithCommonParent) {
     var DEBOUNCE_INTERVAL = 10;
 
     return {
@@ -98,21 +98,6 @@ angular.module('Ring.place-under', [])
         var element = iElement[0];
 
         var topOffset = parseInt(iAttrs.placeTopOffset, 10) || 0;
-
-        /**
-         * Recursive search for closest syncWith node with shared parent
-         * @param currentElement - element to start search from
-         * @param selector - selector to find
-         * @returns {Node}
-         */
-        var getElementToSyncWith = function getElementToSyncWith(currentElement, selector) {
-          var parent = currentElement.parentNode;
-          if (parent) {
-            return parent.querySelector(selector) || getElementToSyncWith(parent, selector);
-          } else {
-            return null;
-          }
-        };
 
         /**
          * Syncing sidebar position with other element bottom
@@ -148,7 +133,7 @@ angular.module('Ring.place-under', [])
         var startSyncing = function (placeUnderSelector) {
           if (placeUnderSelector) {
             scope.$evalAsync(function sync() {
-              var syncWith = getElementToSyncWith(element, placeUnderSelector);
+              var syncWith = getClosestElementWithCommonParent(element, placeUnderSelector);
 
               if (syncWith) {
                 syncPositionWith(syncWith);
@@ -163,4 +148,20 @@ angular.module('Ring.place-under', [])
 
       }
     };
-  }]);
+  })
+/**
+ * Recursive search for closest syncWith node with shared parent
+ * @param currentElement - element to start search from
+ * @param selector - selector to find
+ * @returns {Node}
+ */
+  .factory('getClosestElementWithCommonParent', function () {
+    return function getClosestElementWithCommonParent(currentElement, selector) {
+      var parent = currentElement.parentNode;
+      if (parent) {
+        return parent.querySelector(selector) || getClosestElementWithCommonParent(parent, selector);
+      } else {
+        return null;
+      }
+    };
+  });
