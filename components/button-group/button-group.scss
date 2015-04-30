@@ -60,3 +60,8 @@
     margin-right: 0;
   }
 }
+
+.ring-button-group .ring-button-group__caption + .ring-btn {
+  border-top-left-radius: $ring-border-radius;
+  border-bottom-left-radius: $ring-border-radius;
+}
