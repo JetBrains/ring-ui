@@ -82,7 +82,7 @@ angular.module('Ring.form')
             /**
              * Update initial value if field has been changed outside form.input (e.g. new value from rest)
              */
-            if (newValue && newValue !== scope.form.input.$viewValue && scope.initial !== newValue) {
+            if (angular.isDefined(newValue) && newValue !== scope.form.input.$viewValue) {
               scope.initial = newValue;
             }
           });
