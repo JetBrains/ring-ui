@@ -21,6 +21,9 @@ angular.module('Ring.message-bundle', [])
       this.form_required = function() {
         return i18n('Value is required');
       };
+      this.form_invalid = function() {
+        return i18n('Value is invalid');
+      };
       this.form_url = function() {
         return i18n('Should be a valid URL');
       };
