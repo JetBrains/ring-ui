@@ -400,7 +400,8 @@ var MenuItemsSequence = [
 
       auth.init().then(function () {
         Header.HeaderHelper.setUserMenu(header, auth);
-        Header.HeaderHelper.setServicesList(header, auth);
+        //Only verified services will be shown (fourth parameter `true`)
+        Header.HeaderHelper.setServicesList(header, auth, {}, true);
       });
 
       // Insert navigation, alternate way
@@ -857,10 +858,11 @@ var HeaderHelper = {};
  * @param {Header} header
  * @param {Auth} auth
  * @param {Object=} params
+ * @param {Boolean} verifiedServicesOnly
  * @return {Promise}
  */
-HeaderHelper.setServicesList = function(header, auth, params) {
-  var fields = '?fields=id,name,applicationName,homeUrl,vendor';
+HeaderHelper.setServicesList = function(header, auth, params, verifiedServicesOnly) {
+  var fields = '?fields=id,name,applicationName,homeUrl,vendor' + (verifiedServicesOnly ? ',verified' : '');
 
   function setServicesList(resp) {
     if (resp.services) {
