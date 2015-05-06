@@ -300,6 +300,10 @@ angular.module('Ring.select', ['Ring.select.options'])
           }
         };
 
+        function getType() {
+          return ctrl.selectType || ctrl.type;
+        }
+
         ctrl.getOptions = function (query) {
           return $q.when(ctrl.optionsParser.getOptions(query));
         };
@@ -353,10 +357,6 @@ angular.module('Ring.select', ['Ring.select.options'])
               ctrl.selectInstance._clickHandler();
             });
           }
-        }
-
-        function getType() {
-          return ctrl.selectType || ctrl.type;
         }
 
         function getSelectType() {
