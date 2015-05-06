@@ -10,12 +10,12 @@ var pkgConfig = require('./package.json');
 
 //noinspection CodeAssistanceForRequiredModule
 
-var srcRegexp = /src.blocks.*\.js$/;
+var srcRegexp = /src.components.*\.js$/;
 
 var webpackConfig = webpackConfigMerger(
   require('ring-ui/webpack.config'),
   {
-    entry: pkgConfig.config.src + '/blocks/app/app.js',
+    entry: pkgConfig.config.src + '/components/app/app.js',
     output: {
       path: pkgConfig.config.dist,
       filename: '[name].js',
@@ -30,7 +30,8 @@ var webpackConfig = webpackConfigMerger(
         {
           test: srcRegexp,
           loaders: [<% if (useAngular){ %>'ng-annotate',<% } %> 'babel-loader?experimental&optional=runtime']
-        }
+        },
+        {test: /.*\/app\/.*\.html$/, loader: 'html’}
       ]
     }
   }, {
