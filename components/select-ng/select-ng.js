@@ -224,7 +224,10 @@ angular.module('Ring.select', ['Ring.select.options'])
        */
       scope: {
         ngModel: '=',
+
         type: '@',
+        selectType: '@',
+
         options: '@',
         label: '@',
         selectedLabel: '@',
@@ -303,7 +306,7 @@ angular.module('Ring.select', ['Ring.select.options'])
 
         ctrl.loadOptionsToSelect = function(query) {
           ctrl.selectInstance.setProps({
-            loading: ctrl.type !== 'suggest'
+            loading: getType() !== 'suggest'
           });
 
           ctrl.getOptions(query).then(function (results) {
@@ -312,7 +315,7 @@ angular.module('Ring.select', ['Ring.select.options'])
               data: items,
               loading: false
             }, function() {
-              if (ctrl.type === 'suggest') {
+              if (getType() === 'suggest') {
                 ctrl.selectInstance._showPopup();
               }
             });
@@ -345,15 +348,19 @@ angular.module('Ring.select', ['Ring.select.options'])
         }
 
         function attachDropdownIfNeeded() {
-          if (ctrl.type === 'dropdown') {
+          if (getType() === 'dropdown') {
             element.addEventListener('click', function () {
               ctrl.selectInstance._clickHandler();
             });
           }
         }
 
+        function getType() {
+          return ctrl.selectType || ctrl.type;
+        }
+
         function getSelectType() {
-          return types[ctrl.type] || types.button;
+          return types[getType()] || types.button;
         }
 
         function activate() {
@@ -374,7 +381,7 @@ angular.module('Ring.select', ['Ring.select.options'])
             type: getSelectType(),
             loadingMessage: ctrl.loadingMessage,
             notFoundMessage: ctrl.notFoundMessage,
-            targetElement: ctrl.type === 'dropdown' ? $element[0] : null,
+            targetElement: getType() === 'dropdown' ? $element[0] : null,
             onBeforeOpen: function () {
               $scope.$evalAsync(function () {
                 ctrl.loadOptionsToSelect(ctrl.query);
