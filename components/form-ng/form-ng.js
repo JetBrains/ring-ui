@@ -1,6 +1,5 @@
 /* global angular: false */
 
-var $ = require('jquery');
 require('input/input.scss');
 require('message-bundle-ng/message-bundle-ng.js');
 
@@ -20,7 +19,19 @@ angular.module('Ring.form', ['Ring.message-bundle']).
       template: require('./form-ng__error-bubble.html'),
       link: function (scope, iElement) {
         scope.style = {};
-        var element = $(iElement[0]).siblings('input, textarea');
+        var element;
+        var tagName;
+        // Avoid using jQuery here to keep it away from Hub Auth Forms
+        var siblings = Array.prototype.slice.call(iElement.parent().children());
+
+        for (var i = 0; i < siblings.length; i++) {
+          tagName = siblings[i].tagName.toLowerCase();
+
+          if (tagName === 'input' || tagName === 'textarea') {
+            element = siblings[i];
+            break;
+          }
+        }
 
         scope.$watch(function() {
           var result = scope.errorBubble();
