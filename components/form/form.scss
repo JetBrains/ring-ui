@@ -81,14 +81,6 @@
   padding-bottom: 2*$ring-unit;
 }
 
-.ring-form__summary {
-  display: block;
-  @include ring-font;
-  line-height: 20px;
-  text-align: center;
-  color: $ring-dark-gray-color;
-}
-
 .ring-form__control__description {
   padding-top: $ring-unit;
   font-size: 11px;
