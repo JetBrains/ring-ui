@@ -401,7 +401,7 @@ var MenuItemsSequence = [
       auth.init().then(function () {
         Header.HeaderHelper.setUserMenu(header, auth);
         //Only verified services will be shown (fourth parameter `true`)
-        Header.HeaderHelper.setServicesList(header, auth, {}, true);
+        Header.HeaderHelper.setServicesList(header, auth, null, true);
       });
 
       // Insert navigation, alternate way
