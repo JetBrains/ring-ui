@@ -249,5 +249,11 @@ describe('SelectNg', function () {
 
       ctrl.optionsParser.optionVariableName.should.be.equal('itemvar');
     });
+
+    it('Should use select-type if defined', function () {
+      compileTemplate('<button rg-select="" options="itemvar in items track by itemvar.id" select-type="dropdown" type="submit"></button>');
+
+      ctrl.selectInstance.props.type.should.equal(Select.Type.CUSTOM);
+    });
   });
 });
