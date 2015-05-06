@@ -135,5 +135,3 @@ angular.module('Ring.form', ['Ring.message-bundle']).
       }
     };
   }]);
-
-require('form-ng/form-ng__update-text.js');
