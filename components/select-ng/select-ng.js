@@ -77,7 +77,7 @@ require('./select-ng__options');
     <file name="index.html">
       <h4>Select-ng as dropdown</h4>
       <div ng-app="test" ng-controller="testCtrl as ctrl">
-        <button rg-select options="item in ctrl.options" type="dropdown" filter="true" on-change="ctrl.onSelect(selected)">Click Me &#9660;</button>
+        <button rg-select options="item in ctrl.options" select-type="dropdown" filter="true" on-change="ctrl.onSelect(selected)">Click Me &#9660;</button>
         <ol><li ng-repeat="click in ctrl.clicks track by $index">{{click.label}}</li></ol>
       </div>
     </file>
@@ -193,7 +193,7 @@ angular.module('Ring.select', ['Ring.select.options'])
       /**
        * @property {Object} scope
        * @property {Object} scope.ngModel
-       * @property {String} scope.type - select type. Can be "button" (default), "input" or "dropdown"
+       * @property {String} scope.selectType - select type. Can be "button" (default), "input" or "dropdown"
        * @property {String} scope.options - query for options. Can look like this:
        * `item in items`
        * `item in dataSource(query)`
@@ -225,7 +225,6 @@ angular.module('Ring.select', ['Ring.select.options'])
       scope: {
         ngModel: '=',
 
-        type: '@',
         selectType: '@',
 
         options: '@',
@@ -301,7 +300,8 @@ angular.module('Ring.select', ['Ring.select.options'])
         };
 
         function getType() {
-          return ctrl.selectType || ctrl.type;
+          //$attrs.type as fallback, not recomended to use because of native "type" attribute
+          return ctrl.selectType || $attrs.type;
         }
 
         ctrl.getOptions = function (query) {
