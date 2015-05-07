@@ -958,6 +958,7 @@ HeaderHelper.setUserMenu = function(header, auth, translationsDict) {
           anchorElement: header.refs['userMenu'].getDOMNode(),
           corner: PopupMenu.PopupProps.Corner.BOTTOM_RIGHT,
           data: header.props.profilePopupData,
+          dontCloseOnAnchorClick: true,
           /* eslint-disable no-bitwise */
           direction: PopupMenu.PopupProps.Direction.DOWN | PopupMenu.PopupProps.Direction.LEFT,
           /* eslint-enable no-bitwise */
