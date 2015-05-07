@@ -363,12 +363,12 @@ Auth.prototype.requestUser = function () {
 /**
  * Wipe accessToken and redirect to auth page with required authorization
  */
-Auth.prototype.logout = function () {
+Auth.prototype.logout = function (requestParams) {
   var self = this;
 
   return this._storage.wipeToken().
     then(function () {
-      return self._requestBuilder.prepareAuthRequest({request_credentials: 'required'});
+      return self._requestBuilder.prepareAuthRequest(mixIn({request_credentials: 'required'}, requestParams));
     }).
     then(function (authRequest) {
       self._redirectCurrentPage(authRequest.url);
