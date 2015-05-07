@@ -889,13 +889,18 @@ HeaderHelper.setServicesList = function(header, auth, params) {
           catch(function (error) {
             // Fallback to old API
             if (error.response.status === 404) {
-              var getVerifiedServices = function (verifiedServices) {
-                var services = verifiedServices || [];
-                return services.filter(function (service) {
+              var filterVerifiedServices = function (response) {
+                if (!response || !response.services || !response.services.length) {
+                  return response;
+                }
+
+                response.services = response.services.filter(function (service) {
                   return service.verified === true;
                 });
+
+                return response;
               };
-              return auth.getApi('services' + fields + ',verified', token, params).then(getVerifiedServices);
+              return auth.getApi('services' + fields + ',verified', token, params).then(filterVerifiedServices);
             }
 
             return when.reject(error);
