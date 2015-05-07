@@ -939,6 +939,7 @@ HeaderHelper.setUserMenu = function(header, auth, translationsDict) {
       {
         label: translationsDict.profile,
         type: PopupMenu.ListProps.Type.LINK,
+        target: '_self',
         href: [auth.config.serverUri, 'users/', response.id].join('')
       },
       {
