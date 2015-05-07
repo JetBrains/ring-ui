@@ -400,8 +400,7 @@ var MenuItemsSequence = [
 
       auth.init().then(function () {
         Header.HeaderHelper.setUserMenu(header, auth);
-        //Only verified services will be shown (fourth parameter `true`)
-        Header.HeaderHelper.setServicesList(header, auth, null, true);
+        Header.HeaderHelper.setServicesList(header, auth);
       });
 
       // Insert navigation, alternate way
@@ -858,11 +857,10 @@ var HeaderHelper = {};
  * @param {Header} header
  * @param {Auth} auth
  * @param {Object=} params
- * @param {Boolean} verifiedServicesOnly
  * @return {Promise}
  */
-HeaderHelper.setServicesList = function(header, auth, params, verifiedServicesOnly) {
-  var fields = '?fields=id,name,applicationName,homeUrl,vendor' + (verifiedServicesOnly ? ',verified' : '');
+HeaderHelper.setServicesList = function(header, auth, params) {
+  var fields = '?fields=id,name,applicationName,homeUrl,vendor';
 
   function setServicesList(resp) {
     if (resp.services) {
@@ -870,10 +868,7 @@ HeaderHelper.setServicesList = function(header, auth, params, verifiedServicesOn
         onServicesOpen: null,
         onServicesClose: null
       });
-      var services = verifiedServicesOnly ? resp.services.filter(function(service) {
-        return service.verified === true;
-      }) : resp.services;
-      header.setServicesList(services);
+      header.setServicesList(resp.services);
 
       if (header.refs['services'].state.loading) {
         header.refs['services'].setOpened(true);
@@ -889,11 +884,16 @@ HeaderHelper.setServicesList = function(header, auth, params, verifiedServicesOn
       header.refs['services'].setLoading(true);
 
       auth.requestToken().then(function(token) {
-        auth.getApi('services' + fields, token, params).
+        auth.getApi('services/header' + fields, token, params).
           catch(function (error) {
             // Fallback to old API
             if (error.response.status === 404) {
-              return auth.getApi('services' + fields, token, params);
+              var getVerifiedServices = function (services) {
+                return services.filter(function (service) {
+                  return service.verified === true;
+                });
+              };
+              return when.resolve(auth.getApi('services' + fields + ',verified', token, params).then(getVerifiedServices));
             }
 
             return when.reject(error);
