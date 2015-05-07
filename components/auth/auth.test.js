@@ -680,6 +680,18 @@ describe('Auth', function () {
           scopes: ['0-0-0-0-0', 'youtrack']
         });
     });
+
+    it('should clear access token and redirect to logout', function () {
+      return auth.logout({
+        message: 'access denied'
+      }).
+        then(function () {
+          Auth.prototype._redirectCurrentPage.should.have.been.calledWith('api/rest/oauth2/auth?response_type=token&' +
+            'state=unique&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub&' +
+            'request_credentials=required&client_id=1-1-1-1-1&scope=0-0-0-0-0%20youtrack&' +
+            'message=access%20denied');
+        });
+    });
   });
 
   describe('TokenValidationError', function() {
