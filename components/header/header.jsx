@@ -894,7 +894,7 @@ HeaderHelper.setServicesList = function(header, auth, params) {
                   return service.verified === true;
                 });
               };
-              return when.resolve(auth.getApi('services' + fields + ',verified', token, params).then(getVerifiedServices));
+              return auth.getApi('services' + fields + ',verified', token, params).then(getVerifiedServices);
             }
 
             return when.reject(error);
