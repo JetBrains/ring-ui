@@ -870,7 +870,10 @@ HeaderHelper.setServicesList = function(header, auth, params, verifiedServicesOn
         onServicesOpen: null,
         onServicesClose: null
       });
-      header.setServicesList(resp.services);
+      var services = verifiedServicesOnly ? resp.services.filter(function(service) {
+        return service.verified === true;
+      }) : resp.services;
+      header.setServicesList(services);
 
       if (header.refs['services'].state.loading) {
         header.refs['services'].setOpened(true);
