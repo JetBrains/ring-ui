@@ -857,6 +857,7 @@ var HeaderHelper = {};
  * @param {Header} header
  * @param {Auth} auth
  * @param {Object=} params
+ * @deprecated
  * @return {Promise}
  */
 HeaderHelper.setServicesList = function(header, auth, params) {
