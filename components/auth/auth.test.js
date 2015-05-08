@@ -678,7 +678,7 @@ describe('Auth', function () {
         }).then(function(state) {
           expect(state).to.contain.all.keys({
             restoreLocation: window.location.href,
-            scopwes: ['0-0-0-0-0', 'youtrack']
+            scopes: ['0-0-0-0-0', 'youtrack']
           });
         });
     });
