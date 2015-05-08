@@ -675,9 +675,11 @@ describe('Auth', function () {
         then(function (storedToken) {
           expect(storedToken).to.be.null;
           return auth._storage.getState('unique');
-        }).should.eventually.be.deep.equal({
-          restoreLocation: window.location.href,
-          scopes: ['0-0-0-0-0', 'youtrack']
+        }).then(function(state) {
+          expect(state).to.contain.all.keys({
+            restoreLocation: window.location.href,
+            scopwes: ['0-0-0-0-0', 'youtrack']
+          });
         });
     });
 
