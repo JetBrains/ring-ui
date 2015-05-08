@@ -24,6 +24,7 @@ var when = require('when');
 var AuthStorage = function (config) {
   this.stateKeyPrefix = config.stateKeyPrefix;
   this.tokenKey = config.tokenKey;
+  this.maxStates = 42;
 
   var StorageConstructor = config.storage || Storage;
   this._stateStorage = this._tokenStorage = new StorageConstructor();
@@ -58,6 +59,8 @@ AuthStorage.prototype.onStateChange = function(stateKey, fn) {
 AuthStorage.prototype.saveState = function (id, state, dontCleanAndRetryOnFail) {
   var self = this;
 
+  state.created = +new Date();
+
   return this._stateStorage.set(this.stateKeyPrefix + id, state)
     .otherwise(function (e) {
       if (!dontCleanAndRetryOnFail) {
@@ -74,15 +77,39 @@ AuthStorage.prototype.saveState = function (id, state, dontCleanAndRetryOnFail) 
 /**
  * Remove all stored states
  *
- * @return {Promise} promise that is resolved when all states are removed
+ * @return {Promise} promise that is resolved when OLD states [and some selected] are removed
  */
-AuthStorage.prototype.cleanStates = function () {
+AuthStorage.prototype.cleanStates = function (removeStateId) {
   var self = this;
-  return this._stateStorage.each(function (item) {
+  var currentStates = [];
+  var defer = when.defer();
+
+  this._stateStorage.each(function (item, state) {
     if (item.indexOf(self.stateKeyPrefix) === 0) {
-      return self._stateStorage.remove(item);
+      if (state.created && item.indexOf(removeStateId) === -1) {
+        currentStates.push({
+          key: item,
+          created: state.created
+        });
+      } else {
+        self._stateStorage.remove(item);
+      }
     }
+  }).then(function() {
+    if (currentStates.length > self.maxStates) {
+      currentStates.sort(function(a, b) {
+        return a.created < b.created;
+      });
+
+      for (var i = self.maxStates; i < currentStates.length; i++) {
+        self._stateStorage.remove(currentStates[i].key);
+      }
+    }
+  }).then(function() {
+    defer.resolve();
   });
+
+  return defer.promise;
 };
 
 /**
@@ -95,11 +122,11 @@ AuthStorage.prototype.getState = function (id) {
   var self = this;
   return this._stateStorage.get(this.stateKeyPrefix + id).
     then(function (result) {
-      return self.cleanStates().then(function () {
+      return self.cleanStates(id).then(function () {
         return result;
       });
     }, function (e) {
-      return self.cleanStates().then(function () {
+      return self.cleanStates(id).then(function () {
         return when.reject(e);
       });
     });
