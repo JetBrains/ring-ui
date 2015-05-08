@@ -32,7 +32,7 @@
     "build-ci": "npm run build-upsource && npm run build",
     "postbuild-ci": "npm run gemini-test-ci",
     "prerelease-ci": "npm run build-ci",
-    "release-ci": "npm version $npm_package_config_version && npm pack && npm publish *.tar.gz"
+    "release-ci": "npm version $npm_package_config_version && npm pack && npm publish *.tgz"
   },
   "repository": {
     "type": "git",
