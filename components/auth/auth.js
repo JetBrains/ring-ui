@@ -91,7 +91,8 @@ var Auth = function (config) {
 
   this.config = mixIn({}, Auth.DEFAULT_CONFIG, config);
 
-  if (this.config.serverUri.length > 0 && this.config.serverUri.charAt(config.serverUri.length - 1) !== '/') {
+  var serverUriLength = this.config.serverUri.length;
+  if (serverUriLength > 0 && this.config.serverUri.charAt(serverUriLength - 1) !== '/') {
     this.config.serverUri += '/';
   }
 
