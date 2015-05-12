@@ -49,6 +49,64 @@ describe('Auth', function () {
       });
     });
 
+    describe('cleanStates', function () {
+      var state = {
+        restoreLocation: 'http://localhost:8080/hub#hash',
+        scopes: ['0-0-0-0-0']
+      };
+
+      it('should clean state by id', function () {
+        return authStorage.saveState(stateId, {
+          restoreLocation: 'http://localhost:8080/hub#hash',
+          scopes: ['0-0-0-0-0']
+        }).then(function () {
+          return authStorage.saveState('unique2', {
+            restoreLocation: 'http://localhost:8080/hub#hash',
+            scopes: ['0-0-0-0-0', 'youtrack']
+          }).then(function () {
+            return authStorage.cleanStates(stateId).then(function () {
+              return localStorage;
+            });
+          });
+        }).should.eventually.have.keys(['stateunique2']);
+      });
+
+      it('should clean state by quota', function () {
+        var limitedAuthStorage = new AuthStorage({
+          stateKeyPrefix: 'state',
+          tokenKey: 'token',
+          stateQuota: 200
+        });
+
+        return limitedAuthStorage.saveState(stateId, state).then(function () {
+          return limitedAuthStorage.saveState('unique2', {
+            restoreLocation: 'http://localhost:8080/hub#hash',
+            scopes: ['0-0-0-0-0', 'youtrack']
+          }).then(function () {
+            return limitedAuthStorage.cleanStates().then(function () {
+              return localStorage;
+            });
+          });
+        }).should.eventually.have.keys(['stateunique2']);
+      });
+
+      it('should clean state by TTL', function () {
+        var limitedAuthStorage = new AuthStorage({
+          stateKeyPrefix: 'state',
+          tokenKey: 'token',
+          stateTTL: 10
+        });
+
+        return limitedAuthStorage.saveState(stateId, state).
+          delay(70).
+          then(function () {
+            return limitedAuthStorage.cleanStates().then(function () {
+              return localStorage;
+            });
+          }).should.eventually.be.empty;
+      });
+    });
+
     var token = {
       access_token: 'silver-bullet',
       scopes: ['0-0-0-0-0'],
@@ -94,7 +152,7 @@ describe('Auth', function () {
       });
     });
 
-    describe('Events', function () {
+    describe('events', function () {
       var MockedStorage = require('imports?window=mocked-storage!../storage/storage__local');
       var mockedAuthStorage;
 
