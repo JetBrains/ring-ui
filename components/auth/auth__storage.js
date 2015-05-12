@@ -16,6 +16,9 @@ var when = require('when');
  * }} StoredState
  */
 
+var DEFAULT_STATE_QUOTA = 102400; // 100 kb ~~ 200 tabs with big scopes list
+var DEFAULT_STATE_TTL = 1000 * 60 * 60 * 24 * 3; // nobody will need auth state after 3 days
+
 /**
  * Custom storage for Auth
  * @constructor
@@ -24,10 +27,17 @@ var when = require('when');
 var AuthStorage = function (config) {
   this.stateKeyPrefix = config.stateKeyPrefix;
   this.tokenKey = config.tokenKey;
-  this.maxStates = 42;
+  this.stateTTL = config.stateTTL || DEFAULT_STATE_TTL;
 
   var StorageConstructor = config.storage || Storage;
-  this._stateStorage = this._tokenStorage = new StorageConstructor();
+  this.stateQuota = Math.min(config.stateQuota || DEFAULT_STATE_QUOTA, StorageConstructor.QUOTA || Infinity);
+
+  this._stateStorage = new StorageConstructor({
+    cookieName: 'ring-state'
+  });
+  this._tokenStorage = new StorageConstructor({
+    cookieName: 'ring-token'
+  });
 };
 
 /**
@@ -59,7 +69,7 @@ AuthStorage.prototype.onStateChange = function(stateKey, fn) {
 AuthStorage.prototype.saveState = function (id, state, dontCleanAndRetryOnFail) {
   var self = this;
 
-  state.created = +new Date();
+  state.created = Date.now();
 
   return this._stateStorage.set(this.stateKeyPrefix + id, state)
     .otherwise(function (e) {
@@ -81,35 +91,55 @@ AuthStorage.prototype.saveState = function (id, state, dontCleanAndRetryOnFail) 
  */
 AuthStorage.prototype.cleanStates = function (removeStateId) {
   var self = this;
-  var currentStates = [];
-  var defer = when.defer();
+  var now = Date.now();
 
-  this._stateStorage.each(function (item, state) {
-    if (item.indexOf(self.stateKeyPrefix) === 0) {
-      if (state.created && item.indexOf(removeStateId) === -1) {
-        currentStates.push({
-          key: item,
-          created: state.created
-        });
-      } else {
-        self._stateStorage.remove(item);
-      }
+  return this._stateStorage.each(function (key, state) {
+    // Remove requested state
+    if (key === self.stateKeyPrefix + removeStateId) {
+      return self._stateStorage.remove(key);
     }
-  }).then(function() {
-    if (currentStates.length > self.maxStates) {
+
+    if (key.indexOf(self.stateKeyPrefix) === 0) {
+      // Clean old states
+      if (state.created + self.stateTTL < now) {
+        return self._stateStorage.remove(key);
+      }
+
+      // Data to clean up due quota
+      return {
+        key: key,
+        created: state.created,
+        size: JSON.stringify(state).length
+      };
+    }
+  }).then(function(removalResult) {
+    var currentStates = removalResult.filter(function (state) {
+      return state;
+    });
+
+    var stateStorageSize = currentStates.reduce(function (overallSize, state) {
+      return state.size + overallSize;
+    }, 0);
+
+    if (stateStorageSize > self.stateQuota) {
       currentStates.sort(function(a, b) {
         return a.created < b.created;
       });
 
-      for (var i = self.maxStates; i < currentStates.length; i++) {
-        self._stateStorage.remove(currentStates[i].key);
-      }
-    }
-  }).then(function() {
-    defer.resolve();
-  });
+      var removalPromises = currentStates.filter(function (state) {
+        if (stateStorageSize > self.stateQuota) {
+          stateStorageSize -= state.size;
+          return true;
+        }
 
-  return defer.promise;
+        return false;
+      }).map(function (state) {
+        self._stateStorage.remove(state.key);
+      });
+
+      return removalPromises.length && when.all(removalPromises);
+    }
+  });
 };
 
 /**

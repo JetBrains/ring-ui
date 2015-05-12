@@ -21,6 +21,13 @@ var FallbackStorage = function (config) {
 };
 
 /**
+ * Maximum storage size
+ * @see http://browsercookielimits.squawky.net/
+ * @type {number}
+ */
+FallbackStorage.QUOTA = 4093;
+
+/**
  * @param {string} name
  * @param {string} value
  * @param {number} days
