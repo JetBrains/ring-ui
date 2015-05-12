@@ -98,6 +98,7 @@ angular.module('Ring.place-under', [])
         var element = iElement[0];
 
         var topOffset = parseInt(iAttrs.placeTopOffset, 10) || 0;
+        var shouldSyncBottomPadding = iAttrs.syncBottomPadding;
 
         /**
          * Syncing sidebar position with other element bottom
@@ -116,6 +117,10 @@ angular.module('Ring.place-under', [])
             var margin = Math.max(bottom - scrolledTop, syncedElementHeight);
 
             element.style.marginTop = margin + topOffset + 'px';
+
+            if (shouldSyncBottomPadding) {
+              element.style.paddingBottom = element.style.marginTop;
+            }
 
           }, DEBOUNCE_INTERVAL);
 
