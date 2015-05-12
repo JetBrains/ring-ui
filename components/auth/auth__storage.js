@@ -123,7 +123,7 @@ AuthStorage.prototype.cleanStates = function (removeStateId) {
 
     if (stateStorageSize > self.stateQuota) {
       currentStates.sort(function(a, b) {
-        return a.created < b.created;
+        return a.created > b.created;
       });
 
       var removalPromises = currentStates.filter(function (state) {
