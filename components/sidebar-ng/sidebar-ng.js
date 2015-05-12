@@ -37,7 +37,7 @@ angular.module('Ring.sidebar', ['Ring.react-ng', 'Ring.place-under'])
       restrict: 'E',
       transclude: true,
       replace: true,
-      template: '<div class="ring-sidebar" rg-place-under="{{placeUnderSibling}}" place-top-offset="{{topOffset}}" ng-class="{\'ring-sidebar_active\': show}" ng-transclude></div>',
+      template: require('./sidebar-ng.html'),
       /**
       * {{
       *   show: boolean,
