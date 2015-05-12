@@ -676,7 +676,7 @@ describe('Auth', function () {
           expect(storedToken).to.be.null;
           return auth._storage.getState('unique');
         }).then(function(state) {
-          expect(state).to.contain.all.keys({
+          state.should.contain.all.keys({
             restoreLocation: window.location.href,
             scopes: ['0-0-0-0-0', 'youtrack']
           });
