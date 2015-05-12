@@ -935,7 +935,7 @@ HeaderHelper.setUserMenu = function(header, auth, translationsDict) {
       return;
     }
 
-    if (response.profile.avatar && response.profile.avatar.type !== 'defaultavatar') {
+    if (response.profile && response.profile.avatar && response.profile.avatar.type !== 'defaultavatar') {
       header.setProfilePicture(response.profile.avatar.url);
     }
 
