@@ -29,8 +29,12 @@ angular.module('Ring.avatar-editor', ['Ring.message-bundle', 'Ring.alert']).
         controller: ['$scope', '$attrs', 'RingMessageBundle', 'alert', function ($scope, $attrs, RingMessageBundle, alert) {
           var fileInput;
 
-          $scope.deleteMessage = RingMessageBundle.avatareditor_delete();
-          $scope.addMessage = RingMessageBundle.avatareditor_add();
+          function setLang() {
+            $scope.deleteMessage = RingMessageBundle.avatareditor_delete();
+            $scope.addMessage = RingMessageBundle.avatareditor_add();
+          }
+          $scope.$on('gettextLanguageChanged', setLang);
+          setLang();
 
           if ('controls' in $attrs) {
             $scope.controlled = true;
