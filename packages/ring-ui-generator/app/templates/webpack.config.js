@@ -31,7 +31,7 @@ var webpackConfig = webpackConfigMerger(
           test: srcRegexp,
           loaders: [<% if (useAngular){ %>'ng-annotate',<% } %> 'babel-loader?experimental&optional=runtime']
         },
-        {test: /.*\/app\/.*\.html$/, loader: 'html’}
+        {test: /.*\/app\/.*\.html$/, loader: 'html'}
       ]
     }
   }, {
