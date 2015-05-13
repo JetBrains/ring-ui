@@ -48,6 +48,12 @@ angular.module('Ring.message-bundle', [])
       this.form_unique = function() {
         return i18n('Is not unique');
       };
+      this.form_max = function() {
+        return i18n('Is out of range');
+      };
+      this.form_min = function() {
+        return i18n('Is out of range');
+      };
       this.form_save = function() {
         return i18n('Save');
       };
