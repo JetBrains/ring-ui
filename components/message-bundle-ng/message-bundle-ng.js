@@ -30,6 +30,9 @@ angular.module('Ring.message-bundle', [])
       this.form_email = function() {
         return i18n('Should be a valid email');
       };
+      this.form_number = function() {
+        return i18n('Should be a number');
+      };
       this.form_maxlength = function() {
         return i18n('Is too long');
       };
