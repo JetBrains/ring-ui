@@ -20,7 +20,7 @@
                       ng-disabled="ngDisabled"
                       ng-pattern="ngPattern"
                       ng-required="isMultiLine() && ngRequired"
-                      placeholder="{{ placeholder }}"
+                      ng-attr-placeholder="{{ placeholder }}"
                       ng-keydown="inputKey($event)"></textarea>
       <button ng-show="form.input.$dirty && !angluar.equals(initial, item[field]) && form.input.$valid"
               class="ring-btn ring-btn_blue ring-form__update-text__button"
