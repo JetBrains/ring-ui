@@ -181,6 +181,18 @@ describe('SelectNg', function () {
       scope.$broadcast('$locationChangeSuccess');
       ctrl.selectInstance._hidePopup.should.been.called;
     });
+
+    it('Should extend select model with properties from ng model', function () {
+      var selectModel = ctrl.convertNgModelToSelect({ext: 'test'});
+      selectModel.ext.should.equal('test');
+    });
+
+    it('Should not try to extend select model with string', function () {
+      this.sinon.spy(angular, 'extend');
+      var stringValue = 'str-value';
+      ctrl.convertNgModelToSelect(stringValue);
+      angular.extend.should.been.calledWith(this.sinon.match({}), null);
+    });
   });
 
   describe('Options parser', function () {
