@@ -174,6 +174,13 @@ describe('SelectNg', function () {
 
       $(element[0]).should.have.descendants('.ring-select_disabled');
     });
+
+    it('Should hide on route changes ($locationChangeSuccess)', function () {
+      ctrl.selectInstance._hidePopup = this.sinon.stub();
+
+      scope.$broadcast('$locationChangeSuccess');
+      ctrl.selectInstance._hidePopup.should.been.called;
+    });
   });
 
   describe('Options parser', function () {

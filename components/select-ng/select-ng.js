@@ -359,6 +359,12 @@ angular.module('Ring.select', ['Ring.select.options'])
           }
         }
 
+        function listenToRouteChanges() {
+          $scope.$on('$locationChangeSuccess', function hidePopup() {
+            ctrl.selectInstance._hidePopup();
+          });
+        }
+
         function getSelectType() {
           return types[getType()] || types.button;
         }
@@ -432,6 +438,7 @@ angular.module('Ring.select', ['Ring.select.options'])
           syncNgModelToSelect();
           syncDisabled();
           attachDropdownIfNeeded();
+          listenToRouteChanges();
         }
         activate();
       }
