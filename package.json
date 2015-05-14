@@ -14,7 +14,7 @@
     "webpack.config.js",
     "zzz-last-file"
   ],
-  "main": "ring.js",
+  "main": "webpack.config.js",
   "scripts": {
     "test": "node node_modules/karma/bin/karma start",
     "gemini-test": "node tools/gemini-runner.js --files components/**/*.gemini.js",
