@@ -287,7 +287,7 @@ angular.module('Ring.select', ['Ring.select.options'])
               selectedLabel: ctrl.optionsParser.getSelectedLabel(item),
               description: ctrl.optionsParser.getDescription(item),
               originalModel: item
-            }, item);
+            }, typeof item === 'object' ? item : null);
           };
 
           if (model) {
