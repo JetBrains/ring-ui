@@ -98,7 +98,7 @@ angular.module('Ring.place-under', [])
         var element = iElement[0];
 
         var topOffset = parseInt(iAttrs.placeTopOffset, 10) || 0;
-        var shouldSyncBottomPadding = iAttrs.syncBottomPadding;
+        var syncHeight = iAttrs.syncHeight;
 
         /**
          * Syncing sidebar position with other element bottom
@@ -118,8 +118,11 @@ angular.module('Ring.place-under', [])
 
             element.style.marginTop = margin + topOffset + 'px';
 
-            if (shouldSyncBottomPadding) {
-              element.style.paddingBottom = element.style.marginTop;
+            if (syncHeight) {
+              /**
+               * Decrease height by margin value to make scroll work properly
+               */
+              element.style.height = 'calc(100% - ' + element.style.marginTop +')'; //eslint-disable-line space-infix-ops
             }
 
           }, DEBOUNCE_INTERVAL);
