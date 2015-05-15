@@ -27,6 +27,39 @@ require('../react-ng/react-ng')({
          require('sidebar-ng/sidebar-ng');
        </file>
    </example>
+
+   <example name="Sidebar Ng with big content">
+    <file name="index.html">
+      <div id="content-before">
+        <div>Lorem</div><div>Ipsum</div><div>Lorem</div><div>Lorem</div><div>Lorem</div>
+      </div>
+      <div ng-app="Ring.sidebar" ng-init="isShowSideBar = true" style="position: relative;">
+          <rg-sidebar show="isShowSideBar" place-under-sibling=".some-toolbar" top-offset="1">
+            <div id="big-content">===== The start of sidebar =====<br/></div>
+          </rg-sidebar>
+          <div class="some-toolbar">
+              Toolbar to place before sidebar
+              <rg-sidebar-toggle-button model="isShowSideBar">Toggle sidebar</rg-sidebar-toggle-button>
+          </div>
+      </div>
+      <div id="content-after"></div>
+
+     </file>
+       <file name="index.js" webpack="true">
+         require('angular/angular.min.js');
+         require('sidebar-ng/sidebar-ng');
+
+        var bigContent = document.getElementById('big-content');
+        var after = document.getElementById('content-after');
+
+        for (var i=0; i< 100; i++) {
+          bigContent.innerHTML += ' ' + Math.random() + '<br/>';
+          after.innerHTML += ' ' + Math.random() + '<br/>';
+        }
+
+        bigContent.innerHTML += '===== The end of sidebar =====';
+       </file>
+   </example>
  */
 
 
