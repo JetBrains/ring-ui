@@ -3,12 +3,9 @@
  * @jsx React.DOM
  */
 
-var fuzzysearch = require('fuzzysearch');
-
 var React = require('react');
 var Popup = require('popup/popup');
 var List = require('list/list');
-var Input = require('input/input');
 
 /**
  * @name Popup Menu
@@ -27,7 +24,6 @@ var Input = require('input/input');
    var PopupMenu = require('popup-menu/popup-menu');
 
    var popupMenu = PopupMenu.renderComponent(PopupMenu({
-        filter: true,
         anchorElement: document.getElementById('popup'),
         corner: PopupMenu.PopupProps.Corner.TOP_LEFT,
         classNames: ['additional', 'class', 'names']
@@ -52,60 +48,16 @@ var PopupMenu = React.createClass({
 
   getDefaultProps: function () {
     return {
-      data: [],
-      filter: false
+      data: []
     };
-  },
-
-  getInitialState: function () {
-    return {text: ''};
-  },
-
-  componentDidUpdate: function () {
-    if (this.refs.filter && this.isVisible()) {
-      this.refs.filter.getDOMNode().focus();
-    }
-  },
-
-  handleInput: function (e) {
-    this.setState({text: e.target.value});
-  },
-
-  filterFn: function (item, string) {
-    return !item.label || fuzzysearch(string.toLowerCase(), item.label.toLowerCase());
-  },
-
-  filter: function (data) {
-    if (!this.props.filter || this.state.text === '') {
-      return data;
-    }
-
-    var string = this.state.text;
-    var filterFn = this.props.filter.fn || this.filterFn;
-
-    return data.filter(function (item) {
-      return filterFn(item, string);
-    });
-  },
-
-  getInput: function () {
-    return (
-      <div className="ring-popup__filter-wrapper">
-        <Input ref="filter"
-          className="ring-js-shortcuts ring-input_filter-popup"
-          placeholder={this.props.filter.placeholder || ''}
-          onInput={this.handleInput}/>
-      </div>
-    );
   },
 
   /** @override */
   getInternalContent: function () {
     return (
       <div>
-        {!!this.props.filter && this.getInput()}
         <List ref="List"
-          data={this.filter(this.props.data)}
+          data={this.props.data}
           hint={this.props.hint}
           hintOnSelection={this.props.hintOnSelection}
           maxHeight={this._getStyles().maxHeight}
