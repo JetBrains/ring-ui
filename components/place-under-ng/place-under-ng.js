@@ -122,7 +122,7 @@ angular.module('Ring.place-under', [])
               /**
                * Decrease height by margin value to make scroll work properly
                */
-              element.style.height = 'calc(100% - ' + element.style.marginTop +')'; //eslint-disable-line space-infix-ops
+              element.style.height = 'calc(100% - ' + element.style.marginTop + ')';
             }
 
           }, DEBOUNCE_INTERVAL);
