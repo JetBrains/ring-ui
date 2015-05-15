@@ -98,8 +98,9 @@ var PopupMixin = {
       top: 0,
       corner: Corner.BOTTOM_LEFT,
       /* eslint-disable no-bitwise */
-      direction: Direction.DOWN | Direction.RIGHT
+      direction: Direction.DOWN | Direction.RIGHT,
       /* eslint-enable no-bitwise */
+      sidePadding: 8
     };
   },
 
@@ -312,7 +313,7 @@ var PopupMixin = {
     }
 
     // automatic position correction -->
-    var sidePadding = 8;
+    var sidePadding = this.props.sidePadding;
     if (this.isMounted()) {
       if (styles.left < sidePadding) {
         styles.left = sidePadding;
