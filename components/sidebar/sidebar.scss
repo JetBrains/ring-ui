@@ -15,10 +15,12 @@
 
   overflow: hidden;
   background: #FFF;
-  transition: left 0.5s ease;
+  transition: left 0.5s ease, visibility 0.5s;
+  visibility: hidden;
 }
 
 .ring-sidebar_active {
+  visibility: visible;
   left: 50%;
 
   overflow: auto;
