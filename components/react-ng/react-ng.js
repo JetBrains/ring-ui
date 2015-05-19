@@ -151,9 +151,9 @@ reactModule.directive(reactDirectiveName, [
         });
 
         if ('ngModel' in iAttrs) {
+          var ngModel = iElement.controller('ngModel');
           directiveProps['_onModelChange'] = function(value) {
-            $parse(iAttrs.ngModel).assign(scope, value);
-            scope.$evalAsync();
+            ngModel.$setViewValue(value);
           };
         }
 
