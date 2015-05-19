@@ -275,15 +275,13 @@ var Header = React.createClass({
 
   /**
    * @param {string} href
+   * @param {boolean} isActive
    * @param {string} className
    * @param {Array.<ReactComponent>|ReactComponent} children
    * @return {ReactComponent}
    * @private
    */
-  _getLinkElement: function(href, className, children) {
-    var isActive = window.location.toString().indexOf(href) === 0;
-    //var isActive = href === 'http://buildserver';
-
+  _getLinkElement: function(href, isActive, className, children) {
     var fullClassName = React.addons.classSet(Global.createObject(
       className, true,
       headerClassName.getClassName('services-current'), isActive,
@@ -310,6 +308,7 @@ var Header = React.createClass({
   _getPopupContent: function () {
     var iconsList = [];
     var linksList = [];
+    var baseUrl = urlUtils.getAbsoluteBaseURL().replace(urlUtils.ENDING_SLASH_PATTERN, '');
 
     this.props.servicesList.
       sort(sortServices).
@@ -318,10 +317,11 @@ var Header = React.createClass({
           return;
         }
 
+        var isActive = item.homeUrl.replace(urlUtils.ENDING_SLASH_PATTERN, '') === baseUrl;
         var serviceLogo = getServiceLogo(item);
 
         if (serviceLogo) {
-          iconsList.push(this._getLinkElement(item.homeUrl, headerClassName.getElement('services-item'), [
+          iconsList.push(this._getLinkElement(item.homeUrl, isActive, headerClassName.getElement('services-item'), [
             serviceLogo,
             <span className={headerClassName.getElement('services-item-text')}>{item.name}</span>
           ]));
@@ -330,7 +330,7 @@ var Header = React.createClass({
         }
 
         linksList.push(
-          this._getLinkElement(item.homeUrl, headerClassName.getElement('services-stacked'), item.name)
+          this._getLinkElement(item.homeUrl, isActive, headerClassName.getElement('services-stacked'), item.name)
         );
       }, this);
 

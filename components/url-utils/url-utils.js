@@ -6,8 +6,20 @@
 /** @namespace */
 var urlUtils = {};
 
-
+/**
+ * @const {RegExp}
+ */
 urlUtils.ORIGIN_PATTERN = /^[a-z]+:\/\/[^/]+/i;
+
+/**
+ * @const {RegExp}
+ */
+urlUtils.ABSOLUTE_URL_PATTERN = /^[a-z]+:\/\//i;
+
+/**
+ * @const {RegExp}
+ */
+urlUtils.ENDING_SLASH_PATTERN = /\/$/;
 
 /**
  * @return {string|undefined}
@@ -18,12 +30,29 @@ urlUtils.getBaseURI = function() {
 };
 
 /**
+ * @return {string}
+ */
+urlUtils.getAbsoluteBaseURL = function () {
+  var baseUrl = urlUtils.getBaseURI();
+  var host = window.location.protocol + '//' + window.location.host;
+
+  var uri;
+  if (baseUrl) {
+    uri = urlUtils.ABSOLUTE_URL_PATTERN.test(baseUrl) ? baseUrl : host + baseUrl;
+  } else {
+    uri = host;
+  }
+
+  return uri;
+};
+
+/**
  * Get origin from the URL
  * @param {string} url
  * @returns {string|undefined}
  */
 urlUtils.getOrigin = function(url) {
-  var matches = url.match(this.ORIGIN_PATTERN);
+  var matches = url.match(urlUtils.ORIGIN_PATTERN);
 
   if (matches) {
     return matches[0];

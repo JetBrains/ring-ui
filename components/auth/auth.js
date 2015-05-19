@@ -130,29 +130,13 @@ var Auth = function (config) {
   this._initDeferred = when.defer();
 };
 
-/**
- * @const {RegExp}
- */
-Auth.ABSOLUTE_URL_PATTERN = /^[a-z]+:\/\//i;
 
 /**
  * @const {{client_id: string, redirect_uri: string, scope: string[], default_expires_in: number}}
  */
 Auth.DEFAULT_CONFIG = {
   client_id: '0-0-0-0-0',
-  redirect_uri: (function () {
-    var baseUrl = urlUtils.getBaseURI();
-    var host = window.location.protocol + '//' + window.location.host;
-
-    var uri;
-    if (baseUrl) {
-      uri = Auth.ABSOLUTE_URL_PATTERN.test(baseUrl) ? baseUrl : host + baseUrl;
-    } else {
-      uri = host;
-    }
-
-    return uri;
-  }()),
+  redirect_uri: urlUtils.getAbsoluteBaseURL(),
   redirect: true,
   request_credentials: 'default',
   scope: [],
