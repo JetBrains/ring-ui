@@ -32,7 +32,7 @@
     "build-ci": "npm run build-upsource && npm run build",
     "postbuild-ci": "npm run gemini-test-ci",
     "prerelease-ci": "npm run build-ci",
-    "release-ci": "npm version $npm_package_config_version && npm pack && npm publish *.tgz"
+    "release-ci": "npm version $npm_package_config_version && npm pack && tar -tzvf ring-*.tgz | grep webpack.config.js && npm publish ring-*.tgz || echo \"##teamcity[buildStatus status='FAILURE' text='{build.status.text}, webpack.config.js is missing']\""
   },
   "repository": {
     "type": "git",
