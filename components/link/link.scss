@@ -23,3 +23,8 @@
   color: $ring-link-hover-color;
   text-decoration: underline;
 }
+
+.ring-link_pseudo,
+.ring-link_pseudo:hover{
+  text-decoration: none;
+}
