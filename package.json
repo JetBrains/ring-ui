@@ -26,13 +26,13 @@
     "lint-hook": "eslint --ext $npm_package_config_eslint_ext $ESLINT_HOOK_FILES",
     "prelint-ci": "npm run lint",
     "lint-ci": "eslint --ext $npm_package_config_eslint_ext --format jslint-xml . > $npm_package_config_eslint_report",
-    "postlint-ci": "node tools/import-reports",
+    "postlint-ci": "node tools/message-import-reports",
     "test-ci": "node node_modules/karma/bin/karma start karma-ci.conf.js",
     "prebuild-ci": "npm run lint-ci && npm run test-ci",
     "build-ci": "npm run build-upsource && npm run build",
     "postbuild-ci": "npm run gemini-test-ci",
     "prerelease-ci": "npm run build-ci",
-    "release-ci": "npm version $npm_package_config_version && npm pack && tar -tzvf ring-*.tgz | grep webpack.config.js && npm publish ring-*.tgz || echo \"##teamcity[buildStatus status='FAILURE' text='{build.status.text}, webpack.config.js is missing']\""
+    "release-ci": "npm version $npm_package_config_version && npm pack && tar -tzvf ring-*.tgz | grep webpack.config.js && npm publish ring-*.tgz || node tools/message-build-fail"
   },
   "repository": {
     "type": "git",
