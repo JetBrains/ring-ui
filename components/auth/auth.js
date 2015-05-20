@@ -234,7 +234,7 @@ Auth.prototype.init = function () {
           // Background flow
           if (error.authRedirect && !shouldRedirect) {
             return self._loadTokenInBackground().
-              then(self.validateToken).
+              then(self.validateToken.bind(self)).
               then(function () {
                 self._initDeferred.resolve();
               }).
