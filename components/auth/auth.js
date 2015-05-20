@@ -109,13 +109,6 @@ var Auth = function (config) {
     tokenKey: this.config.client_id + '-token'
   });
 
-  var self = this;
-  this._storage.onTokenChange(function (token) {
-    if (token === null) {
-      self.logout();
-    }
-  });
-
   this._responseParser = new AuthResponseParser();
 
   this._requestBuilder = new AuthRequestBuilder({
@@ -182,13 +175,11 @@ Auth.HAS_CORS = 'withCredentials' in new XMLHttpRequest();
 Auth.prototype.init = function () {
   var self = this;
 
-  function validateToken() {
-    return self._getValidatedToken([
-      Auth._validateExistence,
-      Auth._validateExpiration,
-      self._validateScopes.bind(self),
-      self._validateAgainstUser.bind(self)]);
-  }
+  this._storage.onTokenChange(function (token) {
+    if (token === null) {
+      self.logout();
+    }
+  });
 
   function sendRedirect(error) {
     return self._requestBuilder.prepareAuthRequest().
@@ -225,7 +216,7 @@ Auth.prototype.init = function () {
       }
 
       // Check if there is a valid token
-      return validateToken().
+      return self.validateToken().
         then(function (/*accessToken*/) {
           // Access token appears to be valid.
           // We may resolve restoreLocation URL now
@@ -243,7 +234,7 @@ Auth.prototype.init = function () {
           // Background flow
           if (error.authRedirect && !shouldRedirect) {
             return self._loadTokenInBackground().
-              then(validateToken).
+              then(self.validateToken).
               then(function () {
                 self._initDeferred.resolve();
               }).
@@ -254,6 +245,18 @@ Auth.prototype.init = function () {
           return when.reject(error);
         });
     });
+};
+
+/**
+ * Check token if it is valid by all conditions
+ * @returns {Promise.<string>}
+ */
+Auth.prototype.validateToken = function() {
+  return this._getValidatedToken([
+    Auth._validateExistence,
+    Auth._validateExpiration,
+    this._validateScopes.bind(this),
+    this._validateAgainstUser.bind(this)]);
 };
 
 /**
