@@ -2,13 +2,6 @@ var gemini = require('gemini');
 
 gemini.suite('Select', function () {
 
-  gemini.suite('Disabled select button', function (child) {
-    child.setUrl('/example-disabled-select')
-      .setCaptureElements('#demo1')
-      .ignoreElements('.ring-select__icons')
-      .capture('plain');
-  });
-
   gemini.suite('Input based select', function (child) {
     child
       .setUrl('/example-simple-input-based-select')
