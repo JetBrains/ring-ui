@@ -192,6 +192,14 @@
   text-overflow: ellipsis;
 }
 
+.ring-table__column_unlimited {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  max-width: 1px;
+  width: 100%;
+}
+
 .ring-table__column_narrow {
   min-width: 3*$ring-unit;
   padding: 0 !important;
