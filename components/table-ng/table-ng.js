@@ -363,6 +363,7 @@ angular.module('Ring.table', ['Ring.table.toolbar', 'Ring.react-ng', 'Ring.place
       template: require('./table-ng__column.html'),
       link: function (scope, iElement, iAttrs) {
         scope.isLimited = angular.isDefined(iAttrs.limited);
+        scope.isUnlimited = angular.isDefined(iAttrs.unlimited);
         scope.isAvatar = angular.isDefined(iAttrs.avatar);
         scope.isWide = angular.isDefined(iAttrs.wide);
         scope.isAlignRight = angular.isDefined(iAttrs.alignRight);
