@@ -1,7 +1,6 @@
 var gemini = require('gemini');
 
 gemini.suite('Select', function () {
-
   gemini.suite('Input based select', function (child) {
     child
       .setUrl('/example-simple-input-based-select')
