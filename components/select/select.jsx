@@ -597,6 +597,8 @@ var Select = React.createClass({
         selected: null
       });
     }
+
+    return false;
   },
 
   _inputFocused: false,
