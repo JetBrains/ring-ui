@@ -588,15 +588,13 @@ var Select = React.createClass({
   },
 
   clear: function() {
-    if (this.props.multiple) {
-      this.setState({
-        selected: []
-      });
-    } else {
-      this.setState({
-        selected: null
-      });
-    }
+    var self = this;
+    var empty = self.props.multiple ? [] : null;
+    self.setState({
+      selected: empty
+    }, function() {
+      self.props.onChange(empty);
+    });
 
     return false;
   },
