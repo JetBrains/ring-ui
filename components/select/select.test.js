@@ -59,6 +59,13 @@ describe('Select(react)', function () {
     expect(this.select.state.selected).to.be.null;
   });
 
+  it('Should call onChange on clearing', function () {
+    this.select.props.onChange = sinon.spy();
+    this.select.clear();
+    this.select.props.onChange.should.been.called.once;
+    this.select.props.onChange.should.been.called.calledWith(null);
+  });
+
   it('Should handle UP, DOWN and ENTER shortcuts', function () {
     var shortcuts = this.select.getShortcutsProps();
     shortcuts.map.enter.should.be.defined;
@@ -299,6 +306,13 @@ describe('Select(react)', function () {
     it('Should clear selected on clearing', function () {
       this.select.clear();
       this.select.state.selected.length.should.equal(0);
+    });
+
+    it('Should call onChange on clearing', function () {
+      this.select.props.onChange = sinon.spy();
+      this.select.clear();
+      this.select.props.onChange.should.been.called.once;
+      this.select.props.onChange.should.been.called.calledWith([]);
     });
 
     describe('On selecting', function () {
