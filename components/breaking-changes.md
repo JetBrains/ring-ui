@@ -6,6 +6,8 @@ order: 2
 
 See the “breaking change” commits [in Upsource](https://upsource.jetbrains.com/ring-ui/view?query=path:%20%7B%2A%2Fbreaking-changes.md%7D%20and%20not%20%22Wording%22).  
 
+### 22-05-2015: "user2" icon duplicate removed
+
 ### 06-05-2015: Unused filtering functionality removed from `popup-menu` (RG-700) 
 
 `filter` property doesn't have sense anymore 
