@@ -18,6 +18,16 @@ var HeaderHelper = {};
 HeaderHelper.setServicesList = function(header, auth, params) {
   var fields = '?fields=id,name,applicationName,homeUrl,iconUrl';
 
+  header.setProps({
+    onServicesOpen: function() {
+      header.refs['services'].setLoading(true);
+    },
+
+    onServicesClose: function() {
+      header.refs['services'].setLoading(false);
+    }
+  });
+
   function setServicesList(services) {
     if (services.length) {
       header.setProps({
@@ -35,36 +45,26 @@ HeaderHelper.setServicesList = function(header, auth, params) {
     }
   }
 
-  header.setProps({
-    onServicesOpen: function() {
-      header.refs['services'].setLoading(true);
-
-      auth.requestToken().then(function(token) {
-        auth.getApi('services/header' + fields, token, params).
-          catch(function (error) {
-            // Fallback to old API
-            if (error.response.status === 404) {
-              var filterVerifiedServices = function (response) {
-                if (!response || !response.services || !response.services.length) {
-                  return response;
-                }
-
-                return response.services.filter(function (service) {
-                  return service.verified === true;
-                });
-              };
-              return auth.getApi('services' + fields + ',verified', token, params).then(filterVerifiedServices);
+  return auth.requestToken().then(function(token) {
+    auth.getApi('services/header' + fields, token, params).
+      catch(function (error) {
+        // Fallback to old API
+        if (error.response.status === 404) {
+          var filterVerifiedServices = function (response) {
+            if (!response || !response.services || !response.services.length) {
+              return response;
             }
 
-            return when.reject(error);
-          }).
-          then(setServicesList);
-      });
-    },
+            return response.services.filter(function (service) {
+              return service.verified === true;
+            });
+          };
+          return auth.getApi('services' + fields + ',verified', token, params).then(filterVerifiedServices);
+        }
 
-    onServicesClose: function() {
-      header.refs['services'].setLoading(false);
-    }
+        return when.reject(error);
+      }).
+      then(setServicesList);
   });
 };
 
