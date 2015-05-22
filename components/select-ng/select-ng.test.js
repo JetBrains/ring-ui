@@ -141,6 +141,12 @@ describe('SelectNg', function () {
       scope.selectedItem.should.equal(fakeItems[0]);
     });
 
+    it('Should clear ng-model on clearing select', function () {
+      ctrl.config.onChange(null);
+      scope.$digest();
+      should.not.exist(scope.selectedItem);
+    });
+
     it('Should call datasource on opening', function () {
       scope.dataSource = this.sinon.stub().returns(fakeItems);
 
