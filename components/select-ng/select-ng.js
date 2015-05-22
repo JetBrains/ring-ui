@@ -274,8 +274,10 @@ angular.module('Ring.select', ['Ring.select.options'])
               ctrl.ngModelCtrl.$setViewValue(selectedValue.map(function (val) {
                 return val.originalModel;
               }));
-            } else {
+            } else if (selectedValue && selectedValue.originalModel) {
               ctrl.ngModelCtrl.$setViewValue(selectedValue.originalModel);
+            } else {
+              ctrl.ngModelCtrl.$setViewValue(selectedValue);
             }
           }
         };
