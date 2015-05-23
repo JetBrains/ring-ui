@@ -114,3 +114,7 @@
     background: #FFF;
   }
 }
+
+.ring-input_long ~ .ring-input__error-bubble {
+  left: 50*$ring-unit + 2;
+}
