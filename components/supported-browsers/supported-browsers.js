@@ -1,4 +1,5 @@
 require('./supported-browsers.scss');
+var attachSmileChanger = require('./supported-browsers__smiles');
 
 var supportedDifference = 2;
 var latestVersions = {
@@ -52,8 +53,8 @@ function attachEvent(object, event, func) {
 
 function createBlock() {
   document.body.innerHTML =
-    '<div id="ring-unsupported-browser-message" class="ring-unsupported-browser-message">' +
-      '<span class="ring-unsupported-browser-message__smile">{{ (>_<) }}</span>' +
+    '<div id="ring-unsupported-browser__message" class="ring-unsupported-browser__message ring-unsupported-browser__message_hidden">' +
+      '<span class="ring-unsupported-browser__message-smile">{{ (>_<) }}</span>' +
       '<br/><br/>' +
       'This version of %browserName% is not <a href="https://confluence.jetbrains.com/display/HUBD/Supported+Environment">supported by HUB</a>.' +
       '<br/>' +
@@ -91,8 +92,8 @@ function changeSmile(event) {
 }
 
 function checkNodes(node, browserName) {
-  if (node.className === 'ring-unsupported-browser-message__smile') {
-    node.onclick = changeSmile;
+  if (node.className === 'ring-unsupported-browser__message-smile') {
+    attachSmileChanger(node);
   }
 
   if (node.attributes) {
@@ -127,13 +128,13 @@ function checkNodes(node, browserName) {
 }
 
 function checkBrowser() {
-  var block = document.getElementById('ring-unsupported-browser-message');
+  var block = document.getElementById('ring-unsupported-browser__message');
   var userAgent = getUserAgent();
   if (userAgent.name && latestVersions[userAgent.name] && userAgent.version &&
     (latestVersions[userAgent.name] - userAgent.version > supportedDifference)) {
     if (!block) {
       createBlock();
-      block = document.getElementById('ring-unsupported-browser-message');
+      block = document.getElementById('ring-unsupported-browser__message');
     }
     block.innerHTML = block.innerHTML
       .replace(new RegExp('%browserName%', 'g'), userAgent.name)
