@@ -64,33 +64,6 @@ function createBlock() {
     '</div>';
 }
 
-var smileChanges = 0;
-function changeSmile(event) {
-  smileChanges++;
-
-  var eyes = ['O', 'o', '-', '>', '<'];
-
-  var rand = function (min, max) {
-    return Math.round((Math.random() * (max - min))) + min;
-  };
-
-  var getRandomEye = function() {
-    return eyes[rand(0, (eyes.length - 1))];
-  };
-
-
-  var getRandomSmile = function() {
-    if (smileChanges >= 100) {
-      return '\\\\ (x_x) //';
-    }
-
-    return '{{ (' + getRandomEye() + '_' + getRandomEye() + ') }}';
-  };
-
-  var target = event.target || event.srcElement;
-  target.innerHTML = getRandomSmile();
-}
-
 function checkNodes(node, browserName) {
   if (node.className === 'ring-unsupported-browser__message-smile') {
     attachSmileChanger(node);
