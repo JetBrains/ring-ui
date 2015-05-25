@@ -1,7 +1,36 @@
 @import "../global/global";
 
-.ring-unsupported-browser-message {
-  display: none;
+/**
+ * @name Supported Browsers
+ * @example
+  <example name="Supported browsers">
+    <file name="index.html">
+
+      <div class="ring-unsupported-browser__message">
+        <span id="ring-unsupported-browser__message-smile" class="ring-unsupported-browser__message-smile">{{ (>_<) }}</span>
+        <br/><br/>
+        This version of your browser is not <a class="ring-link" href="https://documentation.link">supported</a>.<br/>
+        Try upgrading to the latest stable version.
+        <br/><br/>
+        <!--[if IE 9]>
+          <span>If you use IE9.0 or higher, make sure that compatibility mode is disabled.</span>
+        <![endif]-->
+      </div>
+
+     </file>
+       <file name="index.js" webpack="true">
+          require('link/link.scss');
+          require('supported-browsers/supported-browsers.scss');
+          var attachSmileChanger = require('supported-browsers/supported-browsers__smiles');
+
+          attachSmileChanger(document.getElementById('ring-unsupported-browser__message-smile'));
+       </file>
+   </example>
+ */
+
+
+
+.ring-unsupported-browser__message {
   text-align: center;
   font-family: 'Helvetica Neue', Arial, sans-serif;
   font-size: 14px;
@@ -9,9 +38,13 @@
   margin-top: 15%;
   line-height: 2.5*$ring-unit;
 
-  &__smile {
+  &-smile {
     cursor: pointer;
     font-size: 3*$ring-unit
   }
+}
+
+.ring-unsupported-browser__message_hidden {
+  display: none;
 }
 
