@@ -4,8 +4,12 @@ describe('Old browsers message', function () {
   var oldGlobalErrorHandler;
 
   beforeEach(function () {
-    this.sinon.stub(window, 'onerror');
+    window.onerror = this.sinon.stub();
     oldGlobalErrorHandler = window.onerror;
+  });
+
+  afterEach(function () {
+    window.onerror = oldGlobalErrorHandler;
   });
 
   it('Should call detection callback if error happend', function () {
