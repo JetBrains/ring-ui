@@ -4,13 +4,17 @@
  * @author igor.alexeenko@jetbrains.com (Igor Alekseenko)
  */
 
+var cp = require('child_process');
 var fs = require('fs');
 var path = require('path');
+
+var svgoPath = path.resolve(__dirname, '..', '..', 'node_modules', '.bin', 'svgo');
 var xml2js = require('xml2js');
 var xml = require('node-xml-lite');
 var Global = require('../global/global');
 var ClassName = require('../class-name/class-name');
 
+var productionMode = process.argv.indexOf('-p') !== -1;
 
 /**
  * @type {string}
@@ -81,6 +85,29 @@ var readdirRecursive = function(dirPath) {
 };
 
 /**
+ * Read, parse and optionally minimize svg file
+ * @param fname
+ * @return {string}
+ */
+var parseFile = function (fname) {
+  if (!productionMode) {
+    return xml.parseFileSync(fname);
+  }
+
+  try {
+    var contents = fs.readFileSync(fname, {
+      encoding: 'utf8'
+    });
+    var svgoOutput = cp.spawnSync(svgoPath, ['-s', contents, '-o', '-']);
+
+    return xml.parseBuffer(svgoOutput.stdout);
+  } catch (e) {
+    console.error(e);
+    return xml.parseFileSync(fname);
+  }
+};
+
+/**
  * @param {string} directory
  * @param {string} pattern
  * @return {Object.<string, string>}
@@ -94,7 +121,7 @@ var readFiles = function(directory, pattern) {
 
   while ((fname = files.shift())) {
     if (regExp.test(fname)) {
-      fileContents[fname] = xml.parseFileSync(fname);
+      fileContents[fname] = parseFile(fname);
     }
   }
 
@@ -201,5 +228,7 @@ var transformSVG = function(fileContents) {
 
 
 var svgSpriteContent = transformSVG(readFiles(path.join(__dirname, SOURCE_DIRECTORY), filenamePattern));
+
+console.log('Icons SVG sprite size: %skb', Math.floor(svgSpriteContent.length / 1024));
 
 module.exports = ['module.exports = \'' + svgSpriteContent.replace(/(\r\n|\n|\r)\s?/g, ''), '\';'].join('');
