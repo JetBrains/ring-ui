@@ -1,6 +1,6 @@
-
 var smileChanges = 0;
 var MAX_SMILE_CHANGES = 50;
+var previousWindowErrorHandler;
 
 function changeSmileClickListener(event) {
   smileChanges++;
@@ -11,12 +11,12 @@ function changeSmileClickListener(event) {
     return Math.round((Math.random() * (max - min))) + min;
   };
 
-  var getRandomEye = function() {
+  var getRandomEye = function () {
     return eyes[rand(0, (eyes.length - 1))];
   };
 
 
-  var getRandomSmile = function() {
+  var getRandomSmile = function () {
     if (smileChanges >= MAX_SMILE_CHANGES) {
       return '\\\\ (x_x) //';
     }
@@ -28,7 +28,7 @@ function changeSmileClickListener(event) {
   target.innerHTML = getRandomSmile();
 }
 
-function attachSmileClickListener (smileNode) {
+function attachSmileClickListener(smileNode) {
   if (smileNode.addEventListener) {
     smileNode.addEventListener('click', changeSmileClickListener);
   } else if (smileNode.attachEvent) {
@@ -36,7 +36,33 @@ function attachSmileClickListener (smileNode) {
   }
 }
 
+/**
+ * Listens to unhandled errors and displays passed node
+ */
+function startOldBrowsersDectector(onOldBrowserDetected) {
+  previousWindowErrorHandler = window.onerror;
+
+  window.onerror = function (errorMsg, url, lineNumber) {
+
+    if (onOldBrowserDetected) {
+      onOldBrowserDetected();
+    }
+
+    if (previousWindowErrorHandler) {
+      return previousWindowErrorHandler(errorMsg, url, lineNumber);
+    }
+
+    return false;
+  };
+}
+
+function stopOldBrowsersDectector() {
+  window.onerror = previousWindowErrorHandler;
+}
+
 module.exports = {
-  attachSmileChanger: attachSmileClickListener
+  attachSmileChanger: attachSmileClickListener,
+  startOldBrowsersDectector: startOldBrowsersDectector,
+  stopOldBrowsersDetector: stopOldBrowsersDectector
 };
 
