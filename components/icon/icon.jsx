@@ -86,7 +86,7 @@ var initializeTemplate = function() {
     return;
   }
 
-  var templateText = require('val!./icon__template.js');
+  var templateText = require('val?cacheable=true!./icon__template.js');
   var domParser = new DOMParser();
   var templateDoc = domParser.parseFromString(templateText, 'image/svg+xml');
   _templateElement = templateDoc.documentElement;
