@@ -1,5 +1,5 @@
 /**
- * Note: this script is self running script. You should include it in your browser directly
+ * Note: this script is a self running script. You should include it in your browser directly
  * It starts detecting unhandled errors when loaded.
  * When your app is loaded and you want to stop detecting,
  * call require('old-browsers-message/old-browsers-message__stop')();
