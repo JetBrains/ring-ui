@@ -4,7 +4,7 @@ describe('Old browsers message', function () {
   var oldGlobalErrorHandler;
 
   beforeEach(function () {
-    window.onerror = this.sinon.stub();
+    this.sinon.stub(window, 'onerror');
     oldGlobalErrorHandler = window.onerror;
   });
 
