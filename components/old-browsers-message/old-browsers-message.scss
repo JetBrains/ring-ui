@@ -1,13 +1,13 @@
 @import "../global/global";
 
 /**
- * @name Supported Browsers
+ * @name Old Browsers Message
  * @example
-  <example name="Supported browsers">
+  <example name="Old Browsers Message">
     <file name="index.html">
 
-      <div class="ring-unsupported-browser__message">
-        <span id="ring-unsupported-browser__message-smile" class="ring-unsupported-browser__message-smile">{{ (>_<) }}</span>
+      <div id="ring-old-browsers-message" class="ring-old-browsers-message ring-old-browsers-message_hidden">
+        <span id="ring-old-browsers-message__smile" class="ring-old-browsers-message__smile">{{ (>_<) }}</span>
         <br/><br/>
         This version of your browser is not <a class="ring-link" href="https://documentation.link">supported</a>.<br/>
         Try upgrading to the latest stable version.
@@ -20,17 +20,19 @@
      </file>
        <file name="index.js" webpack="true">
           require('link/link.scss');
-          require('supported-browsers/supported-browsers.scss');
-          var attachSmileChanger = require('supported-browsers/supported-browsers__smiles');
+          require('old-browsers-message/old-browsers-message.scss');
+          var attachSmileChanger = require('old-browsers-message/old-browsers-message').attachSmileChanger;
 
-          attachSmileChanger(document.getElementById('ring-unsupported-browser__message-smile'));
+          document.getElementById('ring-old-browsers-message').style.display = 'block';
+
+          attachSmileChanger(document.getElementById('ring-old-browsers-message__smile'));
        </file>
    </example>
  */
 
 
 
-.ring-unsupported-browser__message {
+.ring-old-browsers-message {
   text-align: center;
   font-family: 'Helvetica Neue', Arial, sans-serif;
   font-size: 14px;
@@ -38,13 +40,14 @@
   margin-top: 15%;
   line-height: 2.5*$ring-unit;
 
-  &-smile {
+  &_hidden {
+    display: none;
+  }
+
+  &__smile {
     cursor: pointer;
     font-size: 3*$ring-unit
   }
 }
 
-.ring-unsupported-browser__message_hidden {
-  display: none;
-}
 
