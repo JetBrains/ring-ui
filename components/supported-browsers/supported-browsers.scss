@@ -7,7 +7,7 @@
     <file name="index.html">
 
       <div class="ring-unsupported-browser__message">
-        <span id="ring-unsupported-browser__message-smile" class="ring-unsupported-browser__message-smile">{&zwnj;{ (>_<) }&zwnj;}</span>
+        <span id="ring-unsupported-browser__message-smile" class="ring-unsupported-browser__message-smile">{{ (>_<) }}</span>
         <br/><br/>
         This version of your browser is not <a class="ring-link" href="https://documentation.link">supported</a>.<br/>
         Try upgrading to the latest stable version.
