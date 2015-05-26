@@ -36,5 +36,7 @@ function attachSmileClickListener (smileNode) {
   }
 }
 
-module.exports = attachSmileClickListener;
+module.exports = {
+  attachSmileChanger: attachSmileClickListener
+};
 
