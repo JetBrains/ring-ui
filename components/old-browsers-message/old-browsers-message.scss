@@ -9,7 +9,7 @@
       <div id="ring-old-browsers-message" class="ring-old-browsers-message ring-old-browsers-message_hidden">
         <span id="ring-old-browsers-message__smile" class="ring-old-browsers-message__smile">{{ (>_<) }}</span>
         <br/><br/>
-        This version of your browser is not <a class="ring-link" href="https://documentation.link">supported</a>.<br/>
+        This version of your browser is not <a href="https://documentation.link">supported</a>.<br/>
         Try upgrading to the latest stable version.
         <br/><br/>
         <!--[if IE 9]>
@@ -19,13 +19,11 @@
 
      </file>
        <file name="index.js" webpack="true">
-          require('link/link.scss');
           require('old-browsers-message/old-browsers-message.scss');
-          var attachSmileChanger = require('old-browsers-message/old-browsers-message').attachSmileChanger;
+          require('old-browsers-message/old-browsers-message');
 
-          document.getElementById('ring-old-browsers-message').style.display = 'block';
-
-          attachSmileChanger(document.getElementById('ring-old-browsers-message__smile'));
+          //Triggering error to imitate unsupported browser
+          Object.futureMethodWhichIsNotExistInThisBrowser();
        </file>
    </example>
  */
