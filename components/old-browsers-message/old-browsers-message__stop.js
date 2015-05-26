@@ -2,7 +2,7 @@
  Removes error message block
  */
 
-module.export = function () {
+module.exports = function () {
   var oldBrowsersMessageNode = document.getElementById('ring-old-browsers-message');
   oldBrowsersMessageNode.remove();
 };
