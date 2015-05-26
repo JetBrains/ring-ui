@@ -32,7 +32,7 @@ function attachSmileClickListener (smileNode) {
   if (smileNode.addEventListener) {
     smileNode.addEventListener('click', changeSmileClickListener);
   } else if (smileNode.attachEvent) {
-    smileNode.addEventListener('onclick', changeSmileClickListener);
+    smileNode.attachEvent('onclick', changeSmileClickListener);
   }
 }
 
