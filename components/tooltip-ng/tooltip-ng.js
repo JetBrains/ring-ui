@@ -10,7 +10,7 @@ require('./tooltip-ng.scss');
     <div class="tooltip-example" ng-app='Ring.tooltip'>
       Some text that needs explain
       <span rg-tooltip="'Test message'"
-          react-static="Icon" react-glyph="'help'" react-size="16" react-class="'hint-icon'"></span>
+          react-static="Icon" react-glyph="'help'" react-size="16" react-class="'ring-tooltip-ng__hint-icon'"></span>
     </div>
   </file>
   <file name="index.js" webpack="true">
@@ -26,17 +26,6 @@ require('./tooltip-ng.scss');
 
     .tooltip-example {
       margin: $ring-unit*2;
-    }
-
-    .hint-icon {
-      margin-left: $ring-unit;
-      color: $ring-gray-color;
-      cursor: pointer;
-      @include ring-vertical-compensation();
-
-      .ring-tooltip-ng_open & {
-        color: $ring-link-hover-color;
-      }
     }
   </file>
 </example>
