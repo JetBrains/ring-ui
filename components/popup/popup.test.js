@@ -66,6 +66,17 @@ describe('Popup', function () {
       onCloseStub.should.have.been.calledWith(this.sinon.match({type: 'click' }));
     });
 
+    it('should not close popup if popup hidden', function() {
+      var onCloseStub = this.sinon.stub();
+      TestUtils.renderIntoDocument(new Popup({
+        hidden: true,
+        onClose: onCloseStub
+      }));
+
+      document.body.dispatchEvent(evt);
+      onCloseStub.should.not.have.been.called;
+    });
+
     it('shouldn\'t be closed by click outside the element after hide', function() {
       var onClose = this.sinon.stub();
       var popup = TestUtils.renderIntoDocument(new Popup({
