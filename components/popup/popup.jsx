@@ -115,7 +115,10 @@ var PopupMixin = {
 
   /** @override */
   componentDidMount: function () {
-    this._setListenersEnabled(true);
+    if (!this.props.hidden) {
+      this._setListenersEnabled(true);
+    }
+
     this._checkDisplay();
   },
 
