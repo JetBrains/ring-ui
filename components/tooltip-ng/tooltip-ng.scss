@@ -4,3 +4,15 @@
   padding: $ring-unit;
   max-width: $ring-unit * 50;
 }
+
+.ring-tooltip-ng__hint-icon {
+  margin-left: $ring-unit;
+  color: $ring-gray-color;
+  cursor: pointer;
+
+  @include ring-vertical-compensation();
+
+  .ring-tooltip-ng_open & {
+    color: $ring-link-hover-color;
+  }
+}
