@@ -7,17 +7,37 @@ require('./tooltip-ng.scss');
  * @example
 <example name="tooltip-ng">
   <file name="index.html">
-    <div ng-app='Ring.tooltip'>
+    <div class="tooltip-example" ng-app='Ring.tooltip'>
+      Some text that needs explain
       <span rg-tooltip="'Test message'"
-          react-static="Icon" react-glyph="'help'" react-size="16"></span>
+          react-static="Icon" react-glyph="'help'" react-size="16" react-class="'hint-icon'"></span>
     </div>
   </file>
   <file name="index.js" webpack="true">
+    require('./foo.scss');
     require('angular/angular.min.js');
     require('react-ng/react-ng')({
       Icon: require('icon/icon')
     });
     require('tooltip-ng/tooltip-ng');
+  </file>
+  <file name="foo.scss">
+    @import 'global/global';
+
+    .tooltip-example {
+      margin: $ring-unit*2;
+    }
+
+    .hint-icon {
+      margin-left: $ring-unit;
+      color: $ring-gray-color;
+      cursor: pointer;
+      @include ring-vertical-compensation();
+
+      .ring-tooltip-ng_open & {
+        color: $ring-link-hover-color;
+      }
+    }
   </file>
 </example>
 */
