@@ -49,7 +49,7 @@
   function startOldBrowsersDectector(onOldBrowserDetected) {
     previousWindowErrorHandler = window.onerror;
 
-    window.onerror = function (errorMsg, url, lineNumber) {
+    window.onerror = function oldBrowsersMessageShower(errorMsg, url, lineNumber) {
 
       if (onOldBrowserDetected) {
         onOldBrowserDetected();
