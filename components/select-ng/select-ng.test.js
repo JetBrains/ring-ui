@@ -269,6 +269,37 @@ describe('SelectNg', function () {
       ctrl.optionsParser.getSelectedLabel(scope.options[0]).should.equal(scope.options[0].fullText);
     });
 
+    it('Should support custom property for ng-model', function () {
+      var optionMock = {value: 1, label: 'label'};
+      scope.options = [optionMock];
+      scope.selectedOption = null;
+
+      compileTemplate('<rg-select ng-model="selectedOption" options="item.value as item.label for item in options"></rg-select>');
+      ctrl.config.onChange({originalModel: optionMock});
+
+      scope.selectedOption.should.equal(optionMock.value);
+    });
+
+    it('Should update select if we pass custom ng-model', function () {
+      var optionMock = {value: 1, label: 'label'};
+      scope.options = [optionMock];
+      scope.selectedOption = optionMock.value;
+
+      compileTemplate('<rg-select ng-model="selectedOption" options="item.value as item.label for item in options"></rg-select>');
+
+      ctrl.selectInstance.props.selected.label.should.equal(optionMock.label);
+    });
+
+    it('Should throw exception if we have two options with same ng-model value', function() {
+      var optionMock = {value: 1, label: 'label'};
+      scope.options = [optionMock, optionMock];
+      scope.selectedOption = optionMock.value;
+
+      (function(){
+        compileTemplate('<rg-select ng-model="selectedOption" options="item.value as item.label for item in options"></rg-select>');
+      }).should.throw(Error);
+    });
+
     it('Should parse option variable name', function () {
       compileTemplate('<rg-select options="itemvar in items track by itemvar.id"></rg-select>');
 

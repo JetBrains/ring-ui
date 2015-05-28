@@ -2,6 +2,7 @@ var React = require('react');
 
 var map = require('mout/array/map');
 var isArray = require('mout/lang/isArray');
+var isUndefined = require('mout/lang/isUndefined');
 
 var Select = require('select/select');
 require('./select-ng__options');
@@ -269,21 +270,38 @@ angular.module('Ring.select', ['Ring.select.options'])
         };
 
         ctrl.syncSelectToNgModel = function (selectedValue) {
+          var valueOf = function(option) {
+            if (option && option.originalModel) {
+              option = option.originalModel;
+            }
+
+            return ctrl.optionsParser.getValue(option);
+          };
+
           if (ctrl.ngModelCtrl) {
             if (isArray(selectedValue)) {
-              ctrl.ngModelCtrl.$setViewValue(selectedValue.map(function (val) {
-                return val.originalModel;
-              }));
+              ctrl.ngModelCtrl.$setViewValue(selectedValue.map(valueOf));
             } else if (selectedValue && selectedValue.originalModel) {
-              ctrl.ngModelCtrl.$setViewValue(selectedValue.originalModel);
+              ctrl.ngModelCtrl.$setViewValue(valueOf(selectedValue));
             } else {
-              ctrl.ngModelCtrl.$setViewValue(selectedValue);
+              ctrl.ngModelCtrl.$setViewValue(valueOf(selectedValue));
             }
           }
         };
 
         ctrl.convertNgModelToSelect = function(model) {
-          var convertItem = function (item) {
+          var convertItem = function (modelValue) {
+            var item = ctrl.optionsParser.getOptionByValue(modelValue);
+
+            /**
+             * NOTE:
+             * If ng-model does not exist in list of options
+             * for example when lazy fetch data from the server
+             */
+            if (isUndefined(item)) {
+              item = modelValue;
+            }
+
             return angular.extend({
               key: ctrl.optionsParser.getKey(item),
               label: ctrl.optionsParser.getLabel(item),
