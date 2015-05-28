@@ -60,6 +60,10 @@ angular.module('Ring.select.options', [])
      * @return {any} The option value
      */
     Options.prototype.getValue = function(option) {
+      if (!this.hasItemGetter) {
+        return option;
+      }
+
       var value = this.getProperty(option, this.itemGetter);
 
       return isUndefined(value) ? option : value;

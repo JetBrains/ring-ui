@@ -290,6 +290,14 @@ describe('SelectNg', function () {
       ctrl.selectInstance.props.selected.label.should.equal(optionMock.label);
     });
 
+    it('Should correct update select if options have  "track by" with "for" expressions without "as"', function () {
+      compileTemplate('<rg-select ng-model="selectedItem" options="item.name for item in items track by item.id"></rg-select>');
+      ctrl.config.onChange({originalModel: fakeItems[0]});
+      scope.$digest();
+
+      scope.selectedItem.should.equal(fakeItems[0]);
+    });
+
     it('Should throw exception if we have two options with same ng-model value', function() {
       var optionMock = {value: 1, label: 'label'};
       scope.options = [optionMock, optionMock];
