@@ -1,3 +1,8 @@
+var isObject = require('mout/lang/isObject');
+var deepEquals = require('mout/object/deepMatches');
+var isUndefined = require('mout/lang/isUndefined');
+var filter = require('mout/array/filter');
+
 var OPTIONS_REGEXP = /^\s*(.*?)(?:\s+as\s+(.*?))?(?:\s+select\s+as\s+(.*?))?(?:\s+describe\sas\s+(.*?))?(?:\s+for\s+)?([\$\w]+)\s+in\s+(.*?)(?:\s+track\sby\s+(.*?))?$/;
 
 var MATCHES = {
@@ -27,6 +32,12 @@ angular.module('Ring.select.options', [])
         ' [describe as {item.description}] [for] {item} in {items|dataSource(query)} [track by item.id], Received: ' + optionsString);
       }
 
+      /**
+       * Now we can write only `item.value as item.label for item in items`
+       * we can not skip `item.label`
+       */
+      this.hasItemGetter = Boolean(match[MATCHES.ITEM] && match[MATCHES.LABEL]);
+
       this.itemGetter = $parse(match[MATCHES.ITEM]);
       this.labelGetter = (match[MATCHES.LABEL] && $parse(match[MATCHES.LABEL])) || this.itemGetter;
       this.selectedLabelGetter = match[MATCHES.SELECTED_LABEL] && $parse(match[MATCHES.SELECTED_LABEL]);
@@ -42,6 +53,42 @@ angular.module('Ring.select.options', [])
         locals[this.optionVariableName] = option;
         return getter.apply(this, [this.scope, locals]);
       }
+    };
+
+    /**
+     * @param {Object} option The item from options collection
+     * @return {any} The option value
+     */
+    Options.prototype.getValue = function(option) {
+      var value = this.getProperty(option, this.itemGetter);
+
+      return isUndefined(value) ? option : value;
+    };
+
+    /**
+     * @param {any} value The option value
+     * @return {Object|undefined} The option object
+     */
+    Options.prototype.getOptionByValue = function(value) {
+      if (!this.hasItemGetter) {
+        return value;
+      }
+
+      var matchedOptions = filter(this.getOptions(''), function(option) {
+        var optionValue = this.getValue(option);
+
+        if (isObject(value)) {
+          return deepEquals(optionValue, value);
+        }
+
+        return optionValue === value;
+      }.bind(this));
+
+      if (matchedOptions.length > 1) {
+        throw Error('Error(rg-select): You can not have two options with same value');
+      }
+
+      return matchedOptions[0];
     };
 
     Options.prototype.getKey = function (option) {
