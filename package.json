@@ -31,7 +31,7 @@
     "prebuild-ci": "npm run lint-ci && npm run test-ci",
     "build-ci": "npm run build-upsource && npm run build",
     "postbuild-ci": "npm run gemini-test-ci",
-    "prerelease-ci": "npm run build-ci && npm version $npm_package_config_version && npm pack && tar -tzvf ring-ui-*.tgz | grep webpack.config.js || node tools/message-build-fail",
+    "prerelease-ci": "npm run build-ci && npm version $npm_package_config_version && npm pack && (tar -tzvf ring-ui-*.tgz | grep webpack.config.js || node tools/message-build-fail)",
     "release-ci": "npm publish ring-ui-*.tgz"
   },
   "repository": {
