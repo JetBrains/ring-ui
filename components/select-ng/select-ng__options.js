@@ -89,7 +89,7 @@ angular.module('Ring.select.options', [])
       }.bind(this));
 
       if (matchedOptions.length > 1) {
-        throw Error('Error(rg-select): You can not have two options with same value');
+        throw new Error('Error(rg-select): You can not have two options with same value');
       }
 
       return matchedOptions[0];
