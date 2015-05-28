@@ -89,6 +89,67 @@ var noop = function() {};
        });
      </file>
    </example>
+
+   <example name="QueryAssist in Angular">
+     <file name="index.html">
+       <div ng-app="test" ng-controller="testCtrl as ctrl">
+         <div react="QueryAssist"
+           clear="true"
+           x-data-source="ctrl.source(query, caret, omitSuggestions)"
+           glass="true"
+           query="ctrl.query"
+           on-apply="ctrl.save(query)"
+           placeholder="{{ placeholder }}"
+           hint="{{ 'Press ⇥ to complete first item' }}"
+           hint-on-selection="{{ 'Press ↩ to complete selected item' }}"></div>
+
+         <p>{{ ctrl.query }}</p>
+       </div>
+     </file>
+
+     <file name="index.js" webpack="true">
+       require('angular/angular.min.js');
+       require('auth-ng/auth-ng');
+       require('react-ng/react-ng')({
+        QueryAssist: require('query-assist/query-assist')
+       });
+
+       var hubUri = '***REMOVED***/';
+
+       angular.module('test', ['Ring.react-ng', 'Ring.auth'])
+         .config(function (authProvider) {
+           authProvider.config({
+             serverUri: hubUri,
+             request_credentials: 'skip',
+             redirect_uri: window.location.href.split('#')[0]
+           });
+         })
+         .controller('testCtrl', function($http, $scope) {
+           var ctrl = this;
+           ctrl.query = 'ctrl';
+
+           ctrl.save = function(query) {
+             ctrl.query = query;
+             $scope.$apply();
+           };
+
+           ctrl.source = function (query, caret, omitSuggestions) {
+             var config = {
+               params: {
+                 fields: 'query,caret,styleRanges' + (omitSuggestions ? '' : ',suggestions'),
+                 query: query,
+                 caret: caret
+               }
+             };
+
+             return $http.get(hubUri + 'api/rest/users/queryAssist', config).
+               then(function(data) {
+                 return data.data;
+               });
+           }
+         });
+     </file>
+   </example>
  */
 var ngModelStateField = {query: true, caret: true};
 var QueryAssist = React.createClass({
