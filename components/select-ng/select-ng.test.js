@@ -303,9 +303,11 @@ describe('SelectNg', function () {
       scope.options = [optionMock, optionMock];
       scope.selectedOption = optionMock.value;
 
-      (function(){
+      var compile = function() {
         compileTemplate('<rg-select ng-model="selectedOption" options="item.value as item.label for item in options"></rg-select>');
-      }).should.throw(Error);
+      };
+
+      compile.should.throw(Error);
     });
 
     it('Should parse option variable name', function () {
