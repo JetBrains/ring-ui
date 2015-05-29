@@ -208,7 +208,6 @@ var Header = React.createClass({
       rootUrl: null,
       servicesList: null,
       settingsLink: null,
-      servicesListPopup: null,
       translationsDict: {
         login: 'Log in...'
       },
@@ -267,7 +266,7 @@ var Header = React.createClass({
       return;
     }
 
-    if (this.props.servicesListPopup) {
+    if (this._servicesPopup) {
       this._setServicesPopupShown(false);
     }
   },
@@ -348,7 +347,7 @@ var Header = React.createClass({
    */
   _setServicesPopupShown: function(show) {
     if (show) {
-      var popup = Popup.renderComponent(new Popup({
+      this._servicesPopup = Popup.renderComponent(new Popup({
         anchorElement: this.refs['services'].getDOMNode(),
         autoRemove: true,
         className: headerClassName.getClassName('services'),
@@ -357,16 +356,15 @@ var Header = React.createClass({
         /* eslint-disable no-bitwise */
         direction: Popup.PopupProps.Direction.RIGTH | Popup.PopupProps.Direction.DOWN,
         /* eslint-enable no-bitwise */
+        dontCloseOnAnchorClick: true,
         onClose: function() {
           this.refs['services'].setOpened(false);
         }.bind(this),
         sidePadding: 32
       }, this._getPopupContent()));
-
-      this.setProps({ servicesListPopup: popup });
     } else {
-      this.props.servicesListPopup.remove();
-      this.setProps({ servicesListPopup: null });
+      this._servicesPopup.close();
+      this._servicesPopup = null;
     }
   },
 
