@@ -72,7 +72,10 @@
   border: solid 1px #B4B4B4;
   border-radius: $ring-border-radius;
 
-  font-size: 11px;
+  //Increases specificity to avoid using parent font size
+  &.ring-btn {
+    font-size: 11px;
+  }
   line-height: 22px;
   text-decoration: none;
   color: #282828;
