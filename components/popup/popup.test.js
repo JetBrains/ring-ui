@@ -31,82 +31,106 @@ describe('Popup', function () {
     popup.isMounted().should.be.false;
   });
 
-  it('should be closed by resizing window', function() {
+  it('should be closed by resizing window', function(done) {
     var popup = TestUtils.renderIntoDocument(new Popup(null));
     var evt = document.createEvent('Event');
     evt.initEvent('resize', true, false);
-    window.dispatchEvent(evt);
 
-    popup.isMounted().should.be.false;
+    setTimeout(function () {
+      window.dispatchEvent(evt);
+
+      popup.isMounted().should.be.false;
+      done();
+    });
   });
 
   describe('close by click', function() {
     var evt = document.createEvent('MouseEvent');
     evt.initEvent('click', true, false);
 
-    it('should be closed by click outside the element', function() {
+    it('should be closed by click outside the element', function(done) {
       var onClose = this.sinon.stub();
       var popup = TestUtils.renderIntoDocument(new Popup({
         onClose: onClose
       }));
 
-      document.body.dispatchEvent(evt);
+      setTimeout(function () {
+        document.body.dispatchEvent(evt);
 
-      onClose.should.have.been.called;
-      popup.isMounted().should.be.false;
+        onClose.should.have.been.called;
+        popup.isMounted().should.be.false;
+        done();
+      });
     });
 
-    it('should pass event to onClose callback when closing by clicking by document', function() {
+    it('should pass event to onClose callback when closing by clicking by document', function(done) {
       var onCloseStub = this.sinon.stub();
+      var sinon = this.sinon;
       TestUtils.renderIntoDocument(new Popup({
         onClose: onCloseStub
       }));
 
-      document.body.dispatchEvent(evt);
-      onCloseStub.should.have.been.calledWith(this.sinon.match({type: 'click' }));
+      setTimeout(function () {
+        document.body.dispatchEvent(evt);
+        onCloseStub.should.have.been.calledWith(sinon.match({type: 'click' }));
+        done();
+      });
     });
 
-    it('should not close popup if popup hidden', function() {
+    it('should not close popup if popup hidden', function(done) {
       var onCloseStub = this.sinon.stub();
       TestUtils.renderIntoDocument(new Popup({
         hidden: true,
         onClose: onCloseStub
       }));
 
-      document.body.dispatchEvent(evt);
-      onCloseStub.should.not.have.been.called;
+      setTimeout(function () {
+        document.body.dispatchEvent(evt);
+        onCloseStub.should.not.have.been.called;
+        done();
+      });
     });
 
-    it('shouldn\'t be closed by click outside the element after hide', function() {
+    it('shouldn\'t be closed by click outside the element after hide', function(done) {
       var onClose = this.sinon.stub();
       var popup = TestUtils.renderIntoDocument(new Popup({
         onClose: onClose
       }));
 
-      popup.hide();
-      document.body.dispatchEvent(evt);
+      setTimeout(function () {
+        popup.hide();
+        document.body.dispatchEvent(evt);
 
-      onClose.should.not.have.been.called;
+        onClose.should.not.have.been.called;
+        done();
+      });
     });
 
-    it('shouldn\'t be closed by click outside the element after show', function() {
+    it('shouldn\'t be closed by click outside the element after show', function(done) {
       var onClose = this.sinon.stub();
       var popup = TestUtils.renderIntoDocument(new Popup({
         onClose: onClose
       }));
-
       popup.hide();
       popup.show();
-      document.body.dispatchEvent(evt);
 
-      onClose.should.have.been.called;
+      setTimeout(function () {
+        document.body.dispatchEvent(evt);
+
+        onClose.should.have.been.called;
+        done();
+      });
     });
 
-    it('shouldn\'n t be closed by click inside the element', function() {
+    it('shouldn\'n t be closed by click inside the element', function(done) {
       var popup = TestUtils.renderIntoDocument(new Popup(null));
-      popup.getDOMNode().dispatchEvent(evt);
 
-      popup.isMounted().should.be.true;
+      setTimeout(function () {
+        popup.getDOMNode().dispatchEvent(evt);
+
+        popup.isMounted().should.be.true;
+        done();
+      });
     });
   });
 

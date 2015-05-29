@@ -186,12 +186,22 @@ var PopupMixin = {
    * @private
    */
   _setListenersEnabled: function(enable) {
-    if (enable) {
-      $(window).on('resize', this.onWindowResize_);
-      $(document).on('click', this.onDocumentClick_);
-    } else {
-      $(window).off('resize', this.onWindowResize_);
-      $(document).off('click', this.onDocumentClick_);
+    var self = this;
+
+    if (enable && !self._listenersEnabled) {
+      setTimeout(function () {
+        self._listenersEnabled = true;
+        $(window).on('resize', self.onWindowResize_);
+        $(document).on('click', self.onDocumentClick_);
+      }, 0);
+
+      return;
+    }
+
+    if (!enable && self._listenersEnabled){
+      $(window).off('resize', self.onWindowResize_);
+      $(document).off('click', self.onDocumentClick_);
+      self._listenersEnabled = false;
     }
   },
 
