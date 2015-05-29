@@ -46,7 +46,8 @@
 
   &__smile {
     cursor: pointer;
-    font-size: 3*$ring-unit
+    font-size: 3*$ring-unit;
+    user-select: none;
   }
 }
 
