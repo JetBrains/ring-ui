@@ -140,6 +140,7 @@ angular.module('Ring.form')
               // Esc
               if (scope.form.input.$dirty) {
                 scope.item[scope.field] = scope.initial;
+                scope.form.input.$setPristine();
               }
               $event.stopPropagation();
               $event.preventDefault();
