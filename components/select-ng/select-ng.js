@@ -38,6 +38,65 @@ require('./select-ng__options');
   </file>
 </example>
 
+<example name="Select-ng-as-model">
+  <file name="index.html">
+    <div ng-app="test" ng-controller="testCtrl as ctrl">
+      <rg-select ng-model="ctrl.selectedItem" options="item.id as item.text for item in ctrl.options track by item.id" label="Select item" ng-disabled="ctrl.disabled"></rg-select>
+      <div>Selected item: {{ctrl.selectedItem}}</div>
+    </div>
+  </file>
+  <file name="index.js" webpack="true">
+    require('angular/angular.min.js');
+    require('select-ng/select-ng');
+
+    angular.module('test', ['Ring.select']).controller('testCtrl', function() {
+      var ctrl = this;
+
+      ctrl.options = [
+        {id: 1, text: '11111'},
+        {id: 2, text: '22222'},
+        {id: 3, text: '33333'}
+      ];
+
+      ctrl.selectedItem = ctrl.options[1].id;
+    });
+  </file>
+</example>
+
+<example name="Select-ng-as-model-lazy">
+  <file name="index.html">
+    <div ng-app="test" ng-controller="testCtrl as ctrl">
+      <p>Be carefully using <b>lazy=false</b> may significantly decrease your performance</p>
+      <p>This case decribe when we take from server ng-model and then asynchronous take options for this model</p>
+
+      <rg-select
+        ng-model="ctrl.selectedItem"
+        lazy="false"
+        options="item.id as item.text for item in ctrl.options"></rg-select>
+      <div>Selected item: {{ctrl.selectedItem}}</div>
+    </div>
+  </file>
+  <file name="index.js" webpack="true">
+    require('angular/angular.min.js');
+    require('select-ng/select-ng');
+
+    angular.module('test', ['Ring.select']).controller('testCtrl', function($timeout) {
+      var ctrl = this;
+
+      ctrl.selectedItem = 2
+
+      $timeout(function(){
+        ctrl.options = [
+          {id: 1, text: '11111'},
+          {id: 2, text: '22222'},
+          {id: 3, text: '33333'}
+        ];
+      }, 1000);
+
+    });
+  </file>
+</example>
+
  <example name="Select-ng-promise">
    <file name="index.html">
      <h4>Getting items from promise on click with external filtering. (Filter value should be equal to label, not just part)</h4>
@@ -195,6 +254,7 @@ angular.module('Ring.select', ['Ring.select.options'])
        * @property {Object} scope
        * @property {Object} scope.ngModel
        * @property {String} scope.selectType - select type. Can be "button" (default), "input" or "dropdown"
+       * @property {String} scope.lazy - Load options lazy. Can be "true" (default) or "false"
        * @property {String} scope.options - query for options. Can look like this:
        * `item in items`
        * `item in dataSource(query)`
@@ -227,6 +287,7 @@ angular.module('Ring.select', ['Ring.select.options'])
         ngModel: '=',
 
         selectType: '@',
+        lazy: '=?',
 
         options: '@',
         label: '@',
@@ -264,6 +325,7 @@ angular.module('Ring.select', ['Ring.select.options'])
         ctrl.ngModelCtrl = null;
         ctrl.query = null;
         ctrl.optionsParser = new SelectOptions($scope.$parent, ctrl.options);
+        ctrl.lazy = ctrl.hasOwnProperty('lazy') ? ctrl.lazy : true;
 
         ctrl.setNgModelCtrl = function(ngModelCtrl) {
           ctrl.ngModelCtrl = ngModelCtrl;
@@ -390,6 +452,18 @@ angular.module('Ring.select', ['Ring.select.options'])
           return types[getType()] || types.button;
         }
 
+        /**
+         * @param {newValue} newValue New value of options
+         * @param {value} value Previous value of options
+         */
+        function optionsWatcher(newValue, value) {
+          if (newValue === value) {
+            return;
+          }
+
+          setSelectModel(ctrl.ngModelCtrl.$modelValue);
+        }
+
         function activate() {
           /**
            * Provide specific filter function if externalFilter enabled
@@ -398,6 +472,12 @@ angular.module('Ring.select', ['Ring.select.options'])
             ctrl.filter = {fn: function () {
               return true;
             }};
+          }
+
+          if (!ctrl.lazy) {
+            $scope.$watch(function(){
+              return ctrl.optionsParser.getOptions(ctrl.query);
+            }, optionsWatcher);
           }
 
           ctrl.config = angular.extend({}, {
