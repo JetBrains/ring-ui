@@ -477,7 +477,7 @@ angular.module('Ring.select', ['Ring.select.options'])
           if (!ctrl.lazy) {
             $scope.$watch(function(){
               return ctrl.optionsParser.getOptions(ctrl.query);
-            }, optionsWatcher);
+            }, optionsWatcher, true);
           }
 
           ctrl.config = angular.extend({}, {

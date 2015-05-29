@@ -315,6 +315,18 @@ describe('SelectNg', function () {
       ctrl.selectInstance.props.selected.label.should.equal(fakeItems[0].name);
     });
 
+    it('Should update select if list of options load after ng-model and update existing array not changing reference', function() {
+      scope.items = [];
+      scope.selectedItem = fakeItems[0].id;
+      compileTemplate('<rg-select ng-model="selectedItem" lazy="false" options="item.id as item.name for item in items track by item.id"></rg-select>');
+      scope.$digest();
+
+      scope.items = angular.extend(scope.items, fakeItems);
+      scope.$digest();
+
+      ctrl.selectInstance.props.selected.label.should.equal(fakeItems[0].name);
+    });
+
     it('Should throw exception if we have two options with same ng-model value', function() {
       var optionMock = {value: 1, label: 'label'};
       scope.options = [optionMock, optionMock];
