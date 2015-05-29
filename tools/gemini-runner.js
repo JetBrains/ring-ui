@@ -35,6 +35,16 @@ function handleGeminiError(error) {
   if (error.advice) {
     console.error('To fix:', error.advice);
   }
+
+  /**
+   * #RG-663 Wait for calling process exit (to make all child processes finish)
+   * And then call exit with error code instead
+   */
+  var exit = process.exit;
+  process.on('exit', function() {
+    exit(4);
+  });
+
   throw error;
 }
 
