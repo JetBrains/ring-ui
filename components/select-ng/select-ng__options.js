@@ -74,6 +74,15 @@ angular.module('Ring.select.options', [])
      * @return {Object|undefined} The option object
      */
     Options.prototype.getOptionByValue = function(value) {
+
+      /**
+       * @param {any} it
+       * @return {string} The string representation of the value
+       */
+      var toString = function(it) {
+        return isObject(it) ? JSON.stringify(it) : String(it);
+      };
+
       if (!this.hasItemGetter) {
         return value;
       }
@@ -89,7 +98,7 @@ angular.module('Ring.select.options', [])
       }.bind(this));
 
       if (matchedOptions.length > 1) {
-        throw new Error('Error(rg-select): You can not have two options with same value');
+        throw new Error('Error(rg-select): You can not have two options with same value(' + toString(value) + ')');
       }
 
       return matchedOptions[0];
