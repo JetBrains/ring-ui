@@ -356,7 +356,6 @@ var Header = React.createClass({
         /* eslint-disable no-bitwise */
         direction: Popup.PopupProps.Direction.RIGTH | Popup.PopupProps.Direction.DOWN,
         /* eslint-enable no-bitwise */
-        dontCloseOnAnchorClick: true,
         onClose: function() {
           this.refs['services'].setOpened(false);
         }.bind(this),
