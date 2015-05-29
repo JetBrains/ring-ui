@@ -7,7 +7,7 @@ require('./tooltip-ng.scss');
  * @example
 <example name="tooltip-ng">
   <file name="index.html">
-    <div class="tooltip-example" ng-app='Ring.tooltip'>
+    <div class="tooltip-example" ng-app='tooltip-test'>
       Some text that needs explain
       <span rg-tooltip="'Test message'"
           react-static="Icon" react-glyph="'help'" react-size="16" react-class="'ring-tooltip-ng__hint-icon'"></span>
@@ -20,6 +20,8 @@ require('./tooltip-ng.scss');
       Icon: require('icon/icon')
     });
     require('tooltip-ng/tooltip-ng');
+
+    angular.module('tooltip-test', ['Ring.react-ng', 'Ring.tooltip']);
   </file>
   <file name="foo.scss">
     @import 'global/global';
@@ -34,7 +36,7 @@ require('./tooltip-ng.scss');
 var OPEN_CLASS = 'ring-tooltip-ng_open';
 
 /*global angular*/
-angular.module('Ring.tooltip', ['Ring.react-ng'])
+angular.module('Ring.tooltip', [])
   .directive('rgTooltip', function ($parse, RgTooltipPopup) {
     return {
       restrict: 'A',
