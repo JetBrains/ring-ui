@@ -13,14 +13,14 @@ var PopupMenu = require('popup-menu/popup-menu');
               items="ctrl.items"
               label-field="displayName"
               on-item-select="ctrl.onSelect"
-              config="{corner: 2, autoRemove: true, direction: 8}">
+              config="{corner: 2, direction: 8}">
         Do something
       </button>
       <button class="ring-btn"
               rg-dropdown
               items-src="ctrl.promiseSrc"
               on-item-select="ctrl.onSelect"
-              config="{corner: 2, autoRemove: true, direction: 8}">
+              config="{corner: 2, direction: 8}">
         Do something
       </button>
     </div>
@@ -138,7 +138,7 @@ angular.module('Ring.dropdown', [])
           }, true);
         }
 
-        $element.on('click', function ($event) {
+        $element.on('click', function () {
           if (!popupMenuInstance && typeof itemsSrc === 'function') {
             var promise = itemsSrc();
             if (promise.then) {
@@ -154,7 +154,6 @@ angular.module('Ring.dropdown', [])
           }
 
           $element.addClass(OPEN_POPUP_CLASS_NAME);
-          $event.stopPropagation();
         });
 
         /**
