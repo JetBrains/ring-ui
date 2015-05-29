@@ -65,7 +65,7 @@ var noop = function() {};
         });
 
        auth.init().then(function() {
-         return React.renderComponent(
+         React.renderComponent(
            QueryAssist({
              query: 'test',
              placeholder: 'placeholder',
@@ -86,8 +86,6 @@ var noop = function() {};
            }),
            document.getElementById('example')
          );
-       }).then(function (qa) {
-         qa.setProps({query: 'olololol', caret: 8});
        });
      </file>
    </example>
@@ -228,9 +226,7 @@ var QueryAssist = React.createClass({
 
   attachMutationEvents: function() {
     if (impotentIE) {
-      $(this.refs.input.getDOMNode()).on(mutationEvents, this.handleInput);
-      //$(this.refs.input.getDOMNode()).on(mutationEvents, debounce(this.handleInput, 0));
-      //$(this.refs.input.getDOMNode()).on(mutationEvents, this.handleMutation);
+      $(this.refs.input.getDOMNode()).on(mutationEvents, debounce(this.handleInput, 0));
     }
   },
 
@@ -336,12 +332,6 @@ var QueryAssist = React.createClass({
     this.setState({focus: focus, shortcuts: focus});
   },
 
-  handleMutation: function (evt) {
-    if (evt.type === 'DOMSubtreeModified') {
-      this.handleInput();
-    }
-  },
-
   handleInput: function () {
     var props = {
       query: this.getQuery(),
@@ -373,12 +363,6 @@ var QueryAssist = React.createClass({
   },
 
   handleCaretMove: function (e) {
-    // Do not react on input
-    // @see node_modules/react/lib/SyntheticKeyboardEvent.js
-    //if (e.key === 'Unidentified') {
-    //  return;
-    //}
-
     var caret = this.getCaret();
     var popupHidden = (!this._popup || !this._popup.isVisible()) && e.type === 'click';
 
