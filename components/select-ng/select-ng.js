@@ -272,6 +272,8 @@ angular.module('Ring.select', ['Ring.select.options'])
        * "filter" property scope.should not be passed in that case.
        * @property {Function} scope.onSelect - callback to call on items selecting.
        * Receives "selected" property (<rg-select on-select='doSomethingWith(selected)'>)
+       * @property {Function} scope.onDeselect - callback to call on item deselecting.
+       * Receives "deselected" property (<rg-select on-select='doSomethingWith(deselected)'>)
        * @property {Function} scope.onOpen - callback to call on select popup opening
        * @property {Function} scope.onClose - callback to call on select popup closing
        * @property {Function} scope.onChange - callback to call on selected items change.
@@ -296,6 +298,7 @@ angular.module('Ring.select', ['Ring.select.options'])
         filter: '=?',
         clear: '=?',
         onSelect: '&',
+        onDeselect: '&',
         onOpen: '&',
         onClose: '&',
         onChange: '&',
@@ -508,6 +511,11 @@ angular.module('Ring.select', ['Ring.select.options'])
             onSelect: function (item) {
               $scope.$evalAsync(function () {
                 ctrl.onSelect({selected: item});
+              });
+            },
+            onDeselect: function (item) {
+              $scope.$evalAsync(function () {
+                ctrl.onDeselect({selected: item});
               });
             },
             onChange: function (selected) {
