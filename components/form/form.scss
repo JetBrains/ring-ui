@@ -33,15 +33,17 @@
 //
 // Styleguide 7.4
 
+$ring-input-width: $ring-unit*25;
+
 .ring-form {
   @include ring-font;
 
   &__input, & .ring-input, & .ring-select, & .ring-input_wrapper {
-    width: 25 * $ring-unit !important;
+    width: $ring-input-width !important;
     margin: 0;
 
     &_long {
-      width: 50 * $ring-unit !important;
+      width: 2*$ring-input-width !important;
     }
 
     &_full-width {
@@ -269,5 +271,11 @@
 
   .ring-form__control {
     margin-left: $ring-unit * 3;
+  }
+}
+
+.ring-input_long, .ring-select_long {
+  & ~ .ring-input__error-bubble {
+    left: 50*$ring-unit + 2;
   }
 }
