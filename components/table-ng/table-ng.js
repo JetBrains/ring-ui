@@ -342,6 +342,7 @@ angular.module('Ring.table', ['Ring.table.toolbar', 'Ring.react-ng', 'Ring.place
         scope.isNoBorder = angular.isDefined(iAttrs.noBorder);
         scope.isActive = angular.isDefined(iAttrs.active);
         scope.isPullRight = angular.isDefined(iAttrs.pullRight);
+        scope.isAlignRight = angular.isDefined(iAttrs.alignRight);
         scope.isPullLeft = angular.isDefined(iAttrs.pullLeft);
       }
     };
