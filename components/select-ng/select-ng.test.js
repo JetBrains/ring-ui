@@ -298,7 +298,7 @@ describe('SelectNg', function () {
       scope.selectedItem.should.equal(fakeItems[0]);
     });
 
-    it('Should update select if list of options load after ng-model', function() {
+    it('Should update select if list of options load after ng-model', function () {
 
       /**
        * In case `lazy=false` rg-select behave like angular select
@@ -315,7 +315,7 @@ describe('SelectNg', function () {
       ctrl.selectInstance.props.selected.label.should.equal(fakeItems[0].name);
     });
 
-    it('Should update select if list of options load after ng-model and update existing array not changing reference', function() {
+    it('Should update select if list of options load after ng-model and update existing array not changing reference', function () {
       scope.items = [];
       scope.selectedItem = fakeItems[0].id;
       compileTemplate('<rg-select ng-model="selectedItem" lazy="false" options="item.id as item.name for item in items track by item.id"></rg-select>');
@@ -327,12 +327,12 @@ describe('SelectNg', function () {
       ctrl.selectInstance.props.selected.label.should.equal(fakeItems[0].name);
     });
 
-    it('Should throw exception if we have two options with same ng-model value', function() {
+    it('Should throw exception if we have two options with same ng-model value', function () {
       var optionMock = {value: 1, label: 'label'};
       scope.options = [optionMock, optionMock];
       scope.selectedOption = optionMock.value;
 
-      var compile = function() {
+      var compile = function () {
         compileTemplate('<rg-select ng-model="selectedOption" options="item.value as item.label for item in options"></rg-select>');
       };
 
@@ -349,6 +349,14 @@ describe('SelectNg', function () {
       compileTemplate('<button rg-select="" options="itemvar in items track by itemvar.id" select-type="dropdown" type="submit"></button>');
 
       ctrl.selectInstance.props.type.should.equal(Select.Type.CUSTOM);
+    });
+
+    it('Should return deselected item', function () {
+      scope.selectedItem = scope.items[1];
+      ctrl.config.onDeselect({originalModel: fakeItems[1]});
+      scope.$digest();
+
+      ctrl.selectInstance.props.selected.label.should.equal(fakeItems[1].name);
     });
   });
 });
