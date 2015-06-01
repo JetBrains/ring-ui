@@ -84,6 +84,9 @@ angular.module('Ring.form')
              */
             if (angular.isDefined(newValue) && newValue !== scope.form.input.$viewValue) {
               scope.initial = newValue;
+              scope.form.$setPristine();
+            } else if (scope.form.$dirty && angular.equals(scope.initial, newValue)) {
+              scope.form.$setPristine();
             }
           });
 
@@ -122,7 +125,7 @@ angular.module('Ring.form')
 
           var success = function () {
             scope.initial = scope.item[scope.field];
-            scope.form.input.$setPristine();
+            scope.form.$setPristine();
 
             scope.done = true;
 
@@ -140,7 +143,6 @@ angular.module('Ring.form')
               // Esc
               if (scope.form.input.$dirty) {
                 scope.item[scope.field] = scope.initial;
-                scope.form.input.$setPristine();
               }
               $event.stopPropagation();
               $event.preventDefault();
