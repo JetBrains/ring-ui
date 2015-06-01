@@ -88,9 +88,7 @@ var HeaderItem = React.createClass({
     if (!this.props.href) {
       evt.preventDefault();
 
-      if (!this.state.opened) {
-        this.setOpened(true);
-      }
+      this.setOpened(!this.state.opened);
     }
   },
 
