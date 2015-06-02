@@ -120,6 +120,13 @@ describe('Select(react)', function () {
       $(this.select.getDOMNode()).should.have.attr('disabled');
     });
 
+    it('Should not disable select button if not needed', function () {
+      this.select.setProps({
+        disabled: false
+      });
+      $(this.select.getDOMNode()).should.not.have.attr('disabled');
+    });
+
     it('Should place input inside in INPUT mode', function () {
       this.select.setProps({type: Select.Type.INPUT});
       $(this.select.getDOMNode()).should.have.descendants('input');
