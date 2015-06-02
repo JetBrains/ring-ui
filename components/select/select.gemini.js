@@ -12,6 +12,7 @@ gemini.suite('Select', function () {
 
   gemini.suite('Select with filter', function (child) {
     child
+      .skip()
       .setUrl('/example-simple-select-with-default-filter-mode')
       .setCaptureElements('.ring-select', '.ring-popup')
       .capture('selectPopup', function (actions, find) {
