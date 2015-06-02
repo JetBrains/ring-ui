@@ -10,6 +10,13 @@ gemini.suite('Select', function () {
       });
   });
 
+  gemini.suite('Select button', function (child) {
+    child
+      .setUrl('/example-select-with-customized-filter-and-an-add-item-button')
+      .setCaptureElements('.ring-select')
+      .capture('button');
+  });
+
   gemini.suite('Select with filter', function (child) {
     child
       .skip('firefox')
