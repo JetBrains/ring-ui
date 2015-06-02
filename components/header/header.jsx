@@ -307,7 +307,7 @@ var Header = React.createClass({
   _getPopupContent: function () {
     var iconsList = [];
     var linksList = [];
-    var baseUrl = urlUtils.getAbsoluteBaseURL().replace(urlUtils.ENDING_SLASH_PATTERN, '');
+    var baseUrl = (this.props.rootUrl || urlUtils.getAbsoluteBaseURL()).replace(urlUtils.ENDING_SLASH_PATTERN, '');
 
     this.props.servicesList.
       sort(sortServices).
