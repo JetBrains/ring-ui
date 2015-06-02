@@ -726,7 +726,7 @@ var Select = React.createClass({
         </div>);
     } else if (this.isButtonMode()) {
       return (
-        <Button type="button" onClick={this._clickHandler} className={buttonCS} style={style}>
+        <Button type="button" onClick={this._clickHandler} className={buttonCS} style={style} disabled="this.props.disabled">
           <span className="ring-select__label">{this._getButtonLabel()}</span>
           {iconsNode}
         </Button>);
