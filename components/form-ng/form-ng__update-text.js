@@ -84,9 +84,6 @@ angular.module('Ring.form')
              */
             if (angular.isDefined(newValue) && newValue !== scope.form.input.$viewValue) {
               scope.initial = newValue;
-              scope.form.$setPristine();
-            } else if (scope.form.$dirty && angular.equals(scope.initial, newValue)) {
-              scope.form.$setPristine();
             }
           });
 
@@ -125,7 +122,7 @@ angular.module('Ring.form')
 
           var success = function () {
             scope.initial = scope.item[scope.field];
-            scope.form.$setPristine();
+            scope.form.input.$setPristine();
 
             scope.done = true;
 
