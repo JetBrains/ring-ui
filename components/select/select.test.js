@@ -117,6 +117,7 @@ describe('Select(react)', function () {
         disabled: true
       });
       $(this.select.getDOMNode()).should.have.class('ring-select_disabled');
+      $(this.select.getDOMNode()).should.have.attr('disabled');
     });
 
     it('Should place input inside in INPUT mode', function () {
