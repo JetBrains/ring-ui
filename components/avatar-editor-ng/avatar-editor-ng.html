@@ -3,12 +3,10 @@
         'ring-avatar-editor_controlled': controlled,
         'ring-avatar-editor': !ngDisabled
     }" ng-show="model || default">
-    <span class="ring-btn_ico ring-font-icon ring-font-icon_pencil ring-avatar-editor__ico"
-          ng-if="!ngDisabled"></span>
-    <img class="ring-avatar-editor__img" ng-src="{{ model | fixDataUriContentType }}"
-         ng-show="model">
+    <img class="ring-avatar-editor__img" ng-src="{{ model }}" ng-show="model">
     <img class="ring-avatar-editor__img" ng-src="{{ default }}"
          ng-show="!model && default" ng-click="!ngDisabled && controls.select()">
+    <span react-static="Icon" react-size="14" react-glyph="'pencil'" class="ring-avatar-editor__icon" ng-if="!ngDisabled"></span>
   </div>
   <input class="ring-avatar-editor__file-input" rg-avatar-editor-file-input type="file" ng-model="fileInput" accept="image/*" ng-if="!ngDisabled">
   <button class="ring-btn ring-btn_delayed-action" ng-disabled="ngDisabled"

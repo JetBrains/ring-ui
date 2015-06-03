@@ -24,7 +24,7 @@
   border: 1px solid $ring-link-hover-color;
   padding: 0;
 
-  .ring-avatar-editor__ico, .ring-avatar-editor__icon_14 {
+  .ring-avatar-editor__icon {
     visibility: visible;
   }
 
@@ -59,19 +59,15 @@
   left: -10000px;
 }
 
-.ring-avatar-editor__ico {
+.ring-avatar-editor__icon {
   visibility: hidden;
   position: absolute;
-  top: 17px;
-  left: 20px;
-  color: #FFF;
-}
+  left: 0;
+  top: 0;
+  line-height: $ring-unit*6;
+  width: 100%;
 
-.ring-avatar-editor__icon_14 {
-  visibility: hidden;
-  position: absolute;
-  top: 11px;
-  left: 17px;
+  vertical-align: middle;
   color: #FFF;
 }
 
