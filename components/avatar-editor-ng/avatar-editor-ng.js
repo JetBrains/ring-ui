@@ -6,12 +6,41 @@ require('avatar-editor/avatar-editor.scss');
 require('message-bundle-ng/message-bundle-ng');
 require('alert-ng/alert-ng');
 
-angular.module('Ring.avatar-editor', ['Ring.message-bundle', 'Ring.alert']).
+require('react-ng/react-ng')({
+  Icon: require('icon/icon')
+});
+
+angular.module('Ring.avatar-editor', ['Ring.message-bundle', 'Ring.alert', 'Ring.react-ng']).
 /**
- * <avatar-editor ng-model='entity.iconUrl' on-select='uploadFile(name, data)' default='default-picture-uri' controls='editor'></avatar-editor>
- *
- * Input to select images to be uploaded as DataURI. On-select attribute gets filename as <code>name</code>
- * and DataURIed file content as <code>data</code>.
+ * @name Avatar Editor Ng
+ * @description Input to select images to be uploaded as DataURI. On-select attribute gets filename as `name`
+ * and DataURIed file content as `data`.
+ * @example
+   <example name="avatar-editor-ng">
+     <file name="index.html">
+       <div ng-app="test" ng-controller="testCtrl as ctrl">
+         <rg-avatar-editor
+         on-select="ctrl.name = name"
+         ng-model="ctrl.data"></rg-avatar-editor>
+
+         <h3>{{ ctrl.name || 'No file name' }}</h3>
+         <img style="max-width: 300px; max-height: 300px;"ng-src="{{ ctrl.data }}" />
+       </div>
+     </file>
+     <file name="index.js" webpack="true">
+       window.jQuery = require('jquery');
+       require('angular');
+       require('avatar-editor-ng/avatar-editor-ng');
+
+       angular.module('test', ['Ring.avatar-editor']).controller('testCtrl', function() {
+          var ctrl = this;
+
+          ctrl.data = 'data:image/svg+xml;utf8,<svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">' +
+            '<circle cx="60" cy="60" r="50" style="fill: #00cc00"/>' +
+          '</svg>';
+        });
+     </file>
+   </example>
  */
   directive('rgAvatarEditor',
     function () {
@@ -20,7 +49,6 @@ angular.module('Ring.avatar-editor', ['Ring.message-bundle', 'Ring.alert']).
         scope: {
           model: '=ngModel',
           onSelect: '&',
-          controls: '=?',
           'default': '@',
           ngDisabled: '='
         },
