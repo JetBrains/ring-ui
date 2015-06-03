@@ -91,7 +91,6 @@ angular.module('Ring.form')
             }
 
             if (angular.isDefined(newValue) && !angular.equals(newValue, viewValue)) {
-              //console.log(newValue, scope.form.input.$viewValue)
               scope.initial = newValue;
               scope.form.$setPristine();
             } else if (scope.form.$dirty && angular.equals(scope.initial, newValue)) {
