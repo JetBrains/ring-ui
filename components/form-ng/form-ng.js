@@ -45,9 +45,9 @@ angular.module('Ring.form', ['Ring.message-bundle']).
           }
         });
 
-        scope.msg = function (id) {
+        scope.msg = function (id, viewValue) {
           id = 'form_' + id;
-          return RingMessageBundle[id] && RingMessageBundle[id]();
+          return RingMessageBundle[id] && RingMessageBundle[id](viewValue);
         };
       }
     };
