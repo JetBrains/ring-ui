@@ -55,6 +55,8 @@ angular.module('Ring.form')
     '$timeout',
     'RingMessageBundle',
     function ($timeout, RingMessageBundle) {
+      var multiLineSplitPattern = /(\r\n|\n|\r)/gm;
+
       return {
         replace: true,
         transclude: true,
@@ -82,7 +84,14 @@ angular.module('Ring.form')
             /**
              * Update initial value if field has been changed outside form.input (e.g. new value from rest)
              */
-            if (angular.isDefined(newValue) && newValue !== scope.form.input.$viewValue) {
+            var viewValue = scope.form.input.$viewValue;
+
+            if (typeof viewValue === 'string' && scope.isMultiLine() === 'list') {
+              viewValue = viewValue.split(multiLineSplitPattern);
+            }
+
+            if (angular.isDefined(newValue) && !angular.equals(newValue, viewValue)) {
+              //console.log(newValue, scope.form.input.$viewValue)
               scope.initial = newValue;
               scope.form.$setPristine();
             } else if (scope.form.$dirty && angular.equals(scope.initial, newValue)) {
@@ -106,7 +115,7 @@ angular.module('Ring.form')
                   return value.join('\n');
                 });
                 input.$parsers.push(function (value) {
-                  var array = value && value.split(/(\r\n|\n|\r)/gm) || [];
+                  var array = value && value.split(multiLineSplitPattern) || [];
                   var notEmpty = function (val) {
                     return val && val.trim();
                   };
