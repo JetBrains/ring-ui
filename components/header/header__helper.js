@@ -19,6 +19,8 @@ HeaderHelper.setServicesList = function(header, auth, params) {
   var fields = '?fields=id,name,applicationName,homeUrl,iconUrl';
 
   header.setProps({
+    clientId: header.props.clientId || auth.config.client_id,
+
     onServicesOpen: function() {
       header.refs['services'].setLoading(true);
     },
