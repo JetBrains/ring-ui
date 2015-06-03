@@ -1,3 +1,3 @@
 <div class="ring-input__error-bubble" ng-class="{ active: active }" ng-style="style">
-  <span ng-repeat="(errorKey, errorValue) in errorBubble().$error" ng-show="errorValue">{{ msg(errorKey) }}</span>
+  <span ng-repeat="(errorKey, errorValue) in errorBubble().$error" ng-show="errorValue">{{ msg(errorKey, errorBubble().$viewValue) }}</span>
 </div>
