@@ -316,7 +316,7 @@ var Header = React.createClass({
           return;
         }
 
-        var isActive = item.homeUrl.replace(urlUtils.ENDING_SLASH_PATTERN, '') === baseUrl;
+        var isActive = item.id === this.props.clientId || item.homeUrl.replace(urlUtils.ENDING_SLASH_PATTERN, '') === baseUrl;
         var serviceLogo = getServiceLogo(item);
 
         if (serviceLogo) {
