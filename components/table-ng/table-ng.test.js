@@ -56,6 +56,24 @@ describe('TableNg', function () {
       var $rows = $('.ring-table__row', element);
       expect($rows.length).to.equal(fakeData.items.length);
     });
+
+    it('Should set correct unlimited columns width', function () {
+      element = $compile(
+        '<rg-table items="data.items">' +
+        '<rg-table-header></rg-table-header>' +
+        '<rg-table-row row-item="item" ng-repeat="item in data.items">' +
+          '<rg-table-column unlimited>{{item.id}}</rg-table-column>' +
+          '<rg-table-column unlimited>{{item.name}}</rg-table-column>' +
+          '<rg-table-column unlimited>{{item.name}}</rg-table-column>' +
+        '</rg-table-row>' +
+        '</rg-table>'
+      )(scope);
+      scope.$digest();
+
+      var $columns = $('.ring-table__row:first .ring-table__column', element);
+      $columns.get(0).style.width.should.be.equal('33%');
+      $columns.get(1).style.width.should.be.equal('33%');
+    });
   });
 
 
