@@ -165,6 +165,7 @@ angular.module('Ring.table', ['Ring.table.toolbar', 'Ring.react-ng', 'Ring.place
          */
         self.selection = new TableSelection(self.items, function emitEvent(name, item, index){
           $scope.$emit(name, item, index);
+          $scope.$broadcast(name, item, index);
         });
 
         /**
@@ -323,14 +324,13 @@ angular.module('Ring.table', ['Ring.table.toolbar', 'Ring.react-ng', 'Ring.place
           }
         }
 
-        $scope.$watch('rowCtrl.rowItem.active', function (newValue) {
-          if (!newValue){
-            return;
-          }
-          var scrollInfo = getRowOutOfViewInfo(element, 2);
-          if (scrollInfo.isOutOfView) {
-            element.scrollIntoView(scrollInfo.isGoneUp);
-            addSpacingAfterScroll(scrollInfo.isGoneDown ? scrollInfo.offset : -scrollInfo.offset);
+        $scope.$on('rgTable:activateItem', function (e, item) {
+          if (item === self.rowItem) {
+            var scrollInfo = getRowOutOfViewInfo(element, 2);
+            if (scrollInfo.isOutOfView) {
+              element.scrollIntoView(scrollInfo.isGoneUp);
+              addSpacingAfterScroll(scrollInfo.isGoneDown ? scrollInfo.offset : -scrollInfo.offset);
+            }
           }
         });
       }
