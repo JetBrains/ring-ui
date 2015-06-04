@@ -84,13 +84,7 @@ angular.module('Ring.form')
             /**
              * Update initial value if field has been changed outside form.input (e.g. new value from rest)
              */
-            var viewValue = scope.form.input.$viewValue;
-
-            if (typeof viewValue === 'string' && scope.isMultiLine() === 'list') {
-              viewValue = viewValue.split(multiLineSplitPattern);
-            }
-
-            if (angular.isDefined(newValue) && !angular.equals(newValue, viewValue)) {
+            if (angular.isDefined(newValue) && !angular.equals(newValue, scope.form.input.$modelValue)) {
               scope.initial = newValue;
               scope.form.$setPristine();
             } else if (scope.form.$dirty && angular.equals(scope.initial, newValue)) {
