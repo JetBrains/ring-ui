@@ -301,7 +301,7 @@ angular.module('Ring.table', ['Ring.table.toolbar', 'Ring.react-ng', 'Ring.place
           }
         });
 
-        function getRowOutOfViewInfo (el, offsetInRows) {
+        function getRowOutOfViewInfo(el, offsetInRows) {
           var rect = el.getBoundingClientRect();
           var offset = rect.height * offsetInRows;
           var windowHeight = window.innerHeight || document.documentElement.clientHeight;
@@ -317,7 +317,7 @@ angular.module('Ring.table', ['Ring.table.toolbar', 'Ring.react-ng', 'Ring.place
           };
         }
 
-        function addSpacingAfterScroll (offset) {
+        function addSpacingAfterScroll(offset) {
           if (window.scrollY) {
             $window.scrollBy(0, offset);
           }
