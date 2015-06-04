@@ -277,7 +277,8 @@ angular.module('Ring.table', ['Ring.table.toolbar', 'Ring.react-ng', 'Ring.place
       },
       controllerAs: 'rowCtrl',
       bindToController: true,
-      controller: ['$scope', function ($scope) {
+      controller: function ($scope, $element) {
+        var element = $element[0];
         var self = this;
 
         self.setSelection = function (selection) {
@@ -295,11 +296,34 @@ angular.module('Ring.table', ['Ring.table.toolbar', 'Ring.react-ng', 'Ring.place
         };
 
         $scope.$watch('rowCtrl.rowItem.checked', function (newValue) {
-          if (newValue !== undefined){
+          if (newValue !== undefined) {
             self.selection.triggerSelectionChanged(self.rowItem);
           }
         });
-      }]
+
+        function getRowOutOfViewInfo (el) {
+          var rect = el.getBoundingClientRect();
+
+          var isGoneUp = rect.top < 0;
+          var isGoneDown = rect.bottom > (window.innerHeight || document.documentElement.clientHeight);
+
+          return {
+            isOutOfView: isGoneDown || isGoneUp,
+            isGoneUp: isGoneUp,
+            isGoneDown: isGoneDown
+          };
+        }
+
+        $scope.$watch('rowCtrl.rowItem.active', function (newValue) {
+          if (!newValue){
+            return;
+          }
+          var rowOutOfViewInfo = getRowOutOfViewInfo(element);
+          if (rowOutOfViewInfo.isOutOfView) {
+            element.scrollIntoView(rowOutOfViewInfo.isGoneUp);
+          }
+        });
+      }
     };
   })
   /**
