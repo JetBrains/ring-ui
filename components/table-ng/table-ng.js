@@ -277,7 +277,7 @@ angular.module('Ring.table', ['Ring.table.toolbar', 'Ring.react-ng', 'Ring.place
       },
       controllerAs: 'rowCtrl',
       bindToController: true,
-      controller: function ($scope, $element) {
+      controller: function ($window, $scope, $element) {
         var element = $element[0];
         var self = this;
 
@@ -301,26 +301,36 @@ angular.module('Ring.table', ['Ring.table.toolbar', 'Ring.react-ng', 'Ring.place
           }
         });
 
-        function getRowOutOfViewInfo (el) {
+        function getRowOutOfViewInfo (el, offsetInRows) {
           var rect = el.getBoundingClientRect();
+          var offset = rect.height * offsetInRows;
+          var windowHeight = window.innerHeight || document.documentElement.clientHeight;
 
-          var isGoneUp = rect.top < 0;
-          var isGoneDown = rect.bottom > (window.innerHeight || document.documentElement.clientHeight);
+          var isGoneUp = rect.top < offset;
+          var isGoneDown = rect.bottom > (windowHeight - offset);
 
           return {
+            offset: offset,
             isOutOfView: isGoneDown || isGoneUp,
             isGoneUp: isGoneUp,
             isGoneDown: isGoneDown
           };
         }
 
+        function addSpacingAfterScroll (offset) {
+          if (window.scrollY) {
+            $window.scrollBy(0, offset);
+          }
+        }
+
         $scope.$watch('rowCtrl.rowItem.active', function (newValue) {
           if (!newValue){
             return;
           }
-          var rowOutOfViewInfo = getRowOutOfViewInfo(element);
-          if (rowOutOfViewInfo.isOutOfView) {
-            element.scrollIntoView(rowOutOfViewInfo.isGoneUp);
+          var scrollInfo = getRowOutOfViewInfo(element, 2);
+          if (scrollInfo.isOutOfView) {
+            element.scrollIntoView(scrollInfo.isGoneUp);
+            addSpacingAfterScroll(scrollInfo.isGoneDown ? scrollInfo.offset : -scrollInfo.offset);
           }
         });
       }
