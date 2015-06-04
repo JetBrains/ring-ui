@@ -30,6 +30,10 @@
     font-weight: normal;
   }
 
+  & &__menu-item_active {
+    color: $ring-text-color;
+  }
+
   @include ring-clearfix();
   @include ring-font();
 }
