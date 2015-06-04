@@ -363,6 +363,8 @@ angular.module('Ring.table', ['Ring.table.toolbar', 'Ring.react-ng', 'Ring.place
       scope: true,
       template: require('./table-ng__column.html'),
       link: function (scope, iElement, iAttrs) {
+        var element = iElement[0];
+
         scope.isLimited = angular.isDefined(iAttrs.limited);
         scope.isUnlimited = angular.isDefined(iAttrs.unlimited);
         scope.isAvatar = angular.isDefined(iAttrs.avatar);
@@ -371,6 +373,20 @@ angular.module('Ring.table', ['Ring.table.toolbar', 'Ring.react-ng', 'Ring.place
         scope.isGray = angular.isDefined(iAttrs.gray);
         scope.isPullRight = angular.isDefined(iAttrs.pullRight);
         scope.isPullLeft = angular.isDefined(iAttrs.pullLeft);
+
+        var adjustUnlimitedColumnWidths = function () {
+          var unlimitedColumnsCount = element.parentNode.querySelectorAll('.ring-table__column[unlimited]').length;
+          if (unlimitedColumnsCount > 1) {
+            element.style.width = (100 / unlimitedColumnsCount).toFixed() + '%';
+          }
+        };
+
+        var activate = function () {
+          if (scope.isUnlimited) {
+            adjustUnlimitedColumnWidths();
+          }
+        };
+        activate();
       }
     };
   })
