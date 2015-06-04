@@ -415,12 +415,9 @@ angular.module('Ring.table', ['Ring.table.toolbar', 'Ring.react-ng', 'Ring.place
           }
         };
 
-        var activate = function () {
-          if (scope.isUnlimited) {
-            adjustUnlimitedColumnWidths();
-          }
-        };
-        activate();
+        if (scope.isUnlimited) {
+          adjustUnlimitedColumnWidths();
+        }
       }
     };
   })
