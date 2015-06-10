@@ -12,6 +12,7 @@ var isNumber = require('mout/lang/isNumber');
 var deepEquals = require('mout/lang/deepEquals');
 
 var Caret = require('caret/caret');
+var ContentEditable = require('contenteditable/contenteditable');
 var NgModelMixin = require('ngmodel/ngmodel');
 var PopupMenu = require('../popup-menu/popup-menu');
 var Icon = require('../icon/icon');
@@ -281,12 +282,6 @@ var QueryAssist = React.createClass({
     if (typeof props.query === 'string' && props.query !== this.immediateState.query) {
       this.immediateState.query = props.query;
       this.setState({query: props.query, placeholderEnabled: !!props.query}, props.query ? this.requestStyleRanges : noop);
-    }
-  },
-
-  componentDidUpdate: function (prevProps, prevState) {
-    if (this.state.query !== prevState.query || this.state.styleRanges !== prevState.styleRanges) {
-      this.setFocus();
     }
   },
 
@@ -717,17 +712,18 @@ var QueryAssist = React.createClass({
 
     var query = this.state.query && React.renderComponentToStaticMarkup(
         <span>{this.state.query.split('').map(this.renderLetter)}</span>
-      ) || '';
+      );
 
     return (
       <div className="ring-query-assist"
         onMouseDown={this.trackInputMouseState}
         onMouseUp={this.trackInputMouseState}
         >
-        <div
+        <ContentEditable
           className={inputClasses} ref="input"
-          contentEditable={!this.props.disabled}
-          dangerouslySetInnerHTML={{__html: query}}
+          disabled={this.props.disabled}
+          dangerousHTML={query}
+          onComponentUpdate={this.setFocus}
 
           onBlur={this.handleFocusChange}
           onClick={this.handleCaretMove}
@@ -737,7 +733,7 @@ var QueryAssist = React.createClass({
           onKeyPress={this.handleEnter}
           onKeyUp={this.handleCaretMove}
 
-          spellCheck="false"></div>
+          spellCheck="false" />
 
         {renderPlaceholder && <span
           className="ring-query-assist__placeholder"
