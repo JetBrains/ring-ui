@@ -387,26 +387,26 @@ var QueryAssist = React.createClass({
 
   handleResponse: function (params) {
     var deferred = when.defer();
-    var state = {
-      loading: false
-    };
 
     if ((params.query === this.immediateState.query || this.immediateState.query === undefined) &&
       (params.caret === this.immediateState.caret || this.immediateState.caret === undefined)) {
       deferred.resolve(params.suggestions);
 
-      state.query = params.query;
-      state.placeholderEnabled = !params.query;
+      var state = {
+        loading: false,
+        placeholderEnabled: !params.query,
+        query: params.query
+      };
 
       // Do not update deep equal styleRanges to simplify shouldComponentUpdate check
       if (!deepEquals(this.state.styleRanges, params.styleRanges)) {
         state.styleRanges = params.styleRanges;
       }
+
+      this.setState(state);
     } else {
       deferred.reject(new Error('Current and response queries mismatch'));
     }
-
-    this.setState(state);
 
     return deferred.promise;
   },
