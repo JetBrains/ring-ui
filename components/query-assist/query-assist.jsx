@@ -478,7 +478,7 @@ var QueryAssist = React.createClass({
   },
 
   sendRequest: function (params) {
-    var dataPromise = when(this.props.dataSource(params)).delay(1000);
+    var dataPromise = when(this.props.dataSource(params));
 
     // Close popup after timeout between long requests
     dataPromise.
