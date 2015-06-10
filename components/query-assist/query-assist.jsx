@@ -281,7 +281,7 @@ var QueryAssist = React.createClass({
 
     if (typeof props.query === 'string' && props.query !== this.immediateState.query) {
       this.immediateState.query = props.query;
-      this.setState({query: props.query, placeholderEnabled: !!props.query}, props.query ? this.requestStyleRanges : noop);
+      this.setState({query: props.query, placeholderEnabled: !props.query}, props.query ? this.requestStyleRanges : noop);
     }
   },
 
