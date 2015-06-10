@@ -33,6 +33,10 @@ var ShortcutsMixin = {
     }
   },
 
+  setShortcutsEnabled: function (flag) {
+    this.toggleShortcuts($.extend({}, this.props, {shortcuts: !!flag}));
+  },
+
   shortcutsEnabled: function() {
     return shortcuts.hasScope(this.shortcutsScope);
   },

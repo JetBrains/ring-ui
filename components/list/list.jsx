@@ -5,6 +5,7 @@
 
 var React = require('react/addons');
 var mixIn = require('mout/object/mixIn');
+var arrayFind = require('mout/array/find');
 var debounce = require('mout/function/debounce');
 
 var ShortcutsMixin = require('shortcuts/shortcuts__mixin');
@@ -446,6 +447,10 @@ var List = React.createClass({
     if (item.type === Type.LINK && isKeyboardEvent) {
       window.location.href = this.refs['item' + this.state.activeIndex].getDOMNode().href;
     }
+  },
+
+  getFirst: function () {
+    return arrayFind(this.props.data, {type: Type.ITEM});
   },
 
   getSelected: function () {
