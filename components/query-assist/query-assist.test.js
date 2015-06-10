@@ -10,7 +10,6 @@ describe('QueryAssist', function () {
 
   var testQuery = 'oooooooooooo';
   var testQueryLength = testQuery.length;
-  var testFocus = true;
 
   var suggestions = [{
     prefix: 'login: ',
@@ -78,7 +77,7 @@ describe('QueryAssist', function () {
 
     it('should set state props to state on init', function () {
       this.queryAssist.state.query.should.equal(testQuery);
-      this.queryAssist.state.focus.should.equal(testFocus);
+      this.queryAssist.state.placeholderEnabled.should.equal(!testQuery);
     });
 
     it('should not set other props to state on init', function () {
@@ -104,20 +103,26 @@ describe('QueryAssist', function () {
       });
 
       this.queryAssist.state.query.should.equal('update');
-      this.queryAssist.state.caret.should.equal(2);
-      this.queryAssist.state.focus.should.equal(false);
+    });
+
+    it('should set state props to immediateState on update', function () {
+      this.queryAssist.setProps({
+        query: 'update',
+        caret: 2,
+        focus: false
+      });
+
+      this.queryAssist.immediateState.query.should.equal('update');
+      this.queryAssist.immediateState.caret.should.equal(2);
+      this.queryAssist.immediateState.focus.should.equal(false);
     });
 
     it('should not set undefined state props to state on update', function () {
       this.queryAssist.setProps({
-        query: undefined,
-        caret: undefined,
-        focus: undefined
+        query: undefined
       });
 
       this.queryAssist.state.query.should.equal(testQuery);
-      this.queryAssist.state.caret.should.equal(testQueryLength);
-      this.queryAssist.state.focus.should.equal(testFocus);
     });
 
     it('should not set caret with query on update', function () {
@@ -126,7 +131,8 @@ describe('QueryAssist', function () {
       });
 
       this.queryAssist.state.query.should.equal('update');
-      this.queryAssist.state.caret.should.equal(testQueryLength);
+      this.queryAssist.immediateState.query.should.equal('update');
+      this.queryAssist.immediateState.caret.should.equal(testQueryLength);
     });
   });
 
@@ -263,40 +269,27 @@ describe('QueryAssist', function () {
 
   describe('suggestions', function () {
     it('should not create popup when no suggestions provided', function () {
-      this.queryAssist.renderPopup();
+      this.queryAssist.renderPopup([]);
 
       should.not.exist(this.queryAssist._popup);
     });
 
     it('should create popup when suggestions provided', function () {
-      this.queryAssist.setState({
-        suggestions: suggestions
-      });
-      this.queryAssist.renderPopup();
+      this.queryAssist.renderPopup(suggestions);
 
       this.queryAssist._popup.should.exist;
       this.queryAssist._popup.refs.List.should.exist;
     });
 
     it('should close popup with after zero suggestions provided', function () {
-      this.queryAssist.setState({
-        suggestions: suggestions
-      });
-      this.queryAssist.renderPopup();
-
-      this.queryAssist.setState({
-        suggestions: []
-      });
-      this.queryAssist.renderPopup();
+      this.queryAssist.renderPopup(suggestions);
+      this.queryAssist.renderPopup([]);
 
       this.queryAssist._popup.isVisible().should.be.false;
     });
 
     it('should create popup with proper suggestions', function () {
-      this.queryAssist.setState({
-        suggestions: suggestions
-      });
-      this.queryAssist.renderPopup();
+      this.queryAssist.renderPopup(suggestions);
 
       var list = $(this.queryAssist._popup.refs.List.getDOMNode());
 
@@ -309,8 +302,7 @@ describe('QueryAssist', function () {
 
   describe('completion', function() {
     var completeQuery = 'test';
-    var competeCaret = completeQuery.length;
-    var middleCaret = competeCaret / 2;
+    var middleCaret = completeQuery.length / 2;
 
     function getSuggestionText(suggestion) {
       return (
@@ -321,26 +313,20 @@ describe('QueryAssist', function () {
     }
 
     it('should complete by tab in the end of phrase', function () {
-      this.queryAssist.setState({
-        query: completeQuery,
-        caret: competeCaret,
-        suggestions: suggestions,
-        suggestionsQuery: completeQuery
+      this.queryAssist.setProps({
+        query: completeQuery
       });
-      this.queryAssist.renderPopup();
+      this.queryAssist.renderPopup(suggestions);
 
       simulateKeypress(null, 9); // press tab
       $(this.queryAssist.refs.input.getDOMNode()).text().should.equal(getSuggestionText(suggestions[0]));
     });
 
     it('should complete selected suggestion by enter in the end of phrase', function () {
-      this.queryAssist.setState({
-        query: completeQuery,
-        caret: competeCaret,
-        suggestions: suggestions,
-        suggestionsQuery: completeQuery
+      this.queryAssist.setProps({
+        query: completeQuery
       });
-      this.queryAssist.renderPopup();
+      this.queryAssist.renderPopup(suggestions);
 
       simulateKeypress(null, 40); // press down
       simulateKeypress(null, 13); // press enter
@@ -348,26 +334,22 @@ describe('QueryAssist', function () {
     });
 
     it('should complete by tab in the middle of phrase', function () {
-      this.queryAssist.setState({
+      this.queryAssist.setProps({
         query: completeQuery,
-        caret: middleCaret,
-        suggestions: suggestions,
-        suggestionsQuery: completeQuery
+        caret: middleCaret
       });
-      this.queryAssist.renderPopup();
+      this.queryAssist.renderPopup(suggestions);
 
       simulateKeypress(null, 9); // press tab
       $(this.queryAssist.refs.input.getDOMNode()).text().should.equal(getSuggestionText(suggestions[0]));
     });
 
     it('should complete selected suggestion by enter in the middle of phrase', function () {
-      this.queryAssist.setState({
+      this.queryAssist.setProps({
         query: completeQuery,
-        caret: middleCaret,
-        suggestions: suggestions,
-        suggestionsQuery: completeQuery
+        caret: middleCaret
       });
-      this.queryAssist.renderPopup();
+      this.queryAssist.renderPopup(suggestions);
 
       simulateKeypress(null, 40); // press down
       simulateKeypress(null, 13); // press enter
@@ -375,13 +357,11 @@ describe('QueryAssist', function () {
     });
 
     it('should complete selected suggestion by tab in the middle of phrase', function () {
-      this.queryAssist.setState({
+      this.queryAssist.setProps({
         query: completeQuery,
-        caret: middleCaret,
-        suggestions: suggestions,
-        suggestionsQuery: completeQuery
+        caret: middleCaret
       });
-      this.queryAssist.renderPopup();
+      this.queryAssist.renderPopup(suggestions);
 
       simulateKeypress(null, 40); // press down
       simulateKeypress(null, 40); // press down
