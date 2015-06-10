@@ -78,7 +78,6 @@ describe('QueryAssist', function () {
 
     it('should set state props to state on init', function () {
       this.queryAssist.state.query.should.equal(testQuery);
-      this.queryAssist.state.caret.should.equal(testQueryLength);
       this.queryAssist.state.focus.should.equal(testFocus);
     });
 
