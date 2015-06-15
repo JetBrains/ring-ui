@@ -2,6 +2,7 @@ var when = require('when');
 var deepEquals = require('mout/lang/deepEquals');
 
 var DEFAULT_COOKIE_NAME = 'localStorage';
+var DEFAULT_SESSION_COOKIE_NAME = 'sessionStorage';
 var DEFAULT_CHECK_DELAY = 3000;
 var COOKIE_EXPIRES = 365;
 
@@ -20,9 +21,11 @@ var FallbackStorage = function (config) {
   }
 
   config = config || {};
-  this.cookieName = config.cookieName || DEFAULT_COOKIE_NAME;
+  var session = config.type === 'session';
+
+  this.cookieName = config.cookieName || (session ? DEFAULT_SESSION_COOKIE_NAME : DEFAULT_COOKIE_NAME);
   this.checkDelay = config.checkDelay || DEFAULT_CHECK_DELAY;
-  this.expires = config.type === 'session' ? COOKIE_EXPIRES : null;
+  this.expires = session ? COOKIE_EXPIRES : null;
 };
 
 /**
