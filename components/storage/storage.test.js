@@ -207,13 +207,18 @@ describe('Storage', function () {
   describe('Local', function () {
     beforeEach(function () {
       localStorage.clear();
+      sessionStorage.clear();
     });
 
     var Storage = require('./storage__local');
     var MockedStorage = require('imports?window=mocked-storage!./storage__local');
     var storage = new Storage();
+    var storageSession = new Storage({
+      type: 'session'
+    });
 
     testStorage(storage);
+    testStorage(storageSession);
     testStorageEvents(new MockedStorage());
 
     describe('specific', function () {
@@ -255,8 +260,14 @@ describe('Storage', function () {
       cookieName: cookieName,
       checkDelay: 200
     });
+    var storageSession = new FallbackStorage({
+      cookieName: cookieName,
+      checkDelay: 200,
+      type: 'session'
+    });
 
     testStorage(storage);
+    testStorage(storageSession);
     testStorageEvents(storage);
   });
 
