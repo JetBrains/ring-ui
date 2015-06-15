@@ -3,11 +3,14 @@ var deepEquals = require('mout/lang/deepEquals');
 
 var DEFAULT_COOKIE_NAME = 'localStorage';
 var DEFAULT_CHECK_DELAY = 3000;
+var COOKIE_EXPIRES = 365;
 
 /**
  * @prop {string} cookieName
  *
  * @param {{cookieName: string}} config
+ * @param {{checkDelay: number}} config
+ * @param {{type: string}} config
  * @return {FallbackStorage}
  * @constructor
  */
@@ -16,8 +19,10 @@ var FallbackStorage = function (config) {
     return new FallbackStorage(config);
   }
 
-  this.cookieName = config && config.cookieName || DEFAULT_COOKIE_NAME;
-  this.checkDelay = config && config.checkDelay || DEFAULT_CHECK_DELAY;
+  config = config || {};
+  this.cookieName = config.cookieName || DEFAULT_COOKIE_NAME;
+  this.checkDelay = config.checkDelay || DEFAULT_CHECK_DELAY;
+  this.expires = config.type === 'session' ? COOKIE_EXPIRES : null;
 };
 
 /**
@@ -93,7 +98,7 @@ FallbackStorage.prototype._write = function (data) {
   var self = this;
   return when.promise(function (resolve) {
     var stringData = encodeURIComponent(JSON.stringify(data));
-    FallbackStorage._createCookie(self.cookieName, stringData === '{}' ? '' : stringData, 365);
+    FallbackStorage._createCookie(self.cookieName, stringData === '{}' ? '' : stringData, self.expires);
     return resolve(data);
   });
 };

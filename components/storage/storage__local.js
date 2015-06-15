@@ -16,12 +16,15 @@ var safePromise = function (resolver) {
 
 /**
  * @return {LocalStorage}
+ * @param {{type: string}} config Set to session to use sessionStorage
  * @constructor
  */
-var LocalStorage = function () {
+var LocalStorage = function (config) {
   if (!(this instanceof LocalStorage)) {
-    return new LocalStorage();
+    return new LocalStorage(config);
   }
+
+  this.storageType = config && config.type === 'session' ? 'sessionStorage' : 'localStorage';
 };
 
 /**
@@ -29,8 +32,10 @@ var LocalStorage = function () {
  * @return {Promise}
  */
 LocalStorage.prototype.get = function (name) {
+  var storageType = this.storageType;
+
   return safePromise(function (resolve) {
-    var value = window.localStorage.getItem(name);
+    var value = window[storageType].getItem(name);
 
     resolve(when.attempt(JSON.parse, value).orElse(value));
   });
@@ -42,8 +47,10 @@ LocalStorage.prototype.get = function (name) {
  * @return {Promise}
  */
 LocalStorage.prototype.set = function (name, value) {
+  var storageType = this.storageType;
+
   return safePromise(function (resolve) {
-    window.localStorage.setItem(name, JSON.stringify(value));
+    window[storageType].setItem(name, JSON.stringify(value));
     resolve(value);
   });
 };
@@ -53,9 +60,11 @@ LocalStorage.prototype.set = function (name, value) {
  * @return {Promise}
  */
 LocalStorage.prototype.remove = function (name) {
+  var storageType = this.storageType;
+
   return safePromise(function (resolve) {
-    if (window.localStorage.hasOwnProperty(name)) {
-      window.localStorage.removeItem(name);
+    if (window[storageType].hasOwnProperty(name)) {
+      window[storageType].removeItem(name);
     }
     resolve();
   });
@@ -66,13 +75,15 @@ LocalStorage.prototype.remove = function (name) {
  * @return {Promise}
  */
 LocalStorage.prototype.each = function (callback) {
+  var storageType = this.storageType;
+
   return safePromise(function (resolve) {
     var promises = [];
     var value;
 
-    for (var item in window.localStorage) {
-      if (window.localStorage.hasOwnProperty(item)) {
-        value = window.localStorage.getItem(item);
+    for (var item in window[storageType]) {
+      if (window[storageType].hasOwnProperty(item)) {
+        value = window[storageType].getItem(item);
         promises.push(
           when.attempt(JSON.parse, value).
             orElse(value).
@@ -91,8 +102,6 @@ LocalStorage.prototype.each = function (callback) {
  */
 LocalStorage.prototype.on = function (name, callback) {
   function handleStorage(e) {
-    e = e || window.event;
-
     if (e.key === name) {
       when.attempt(JSON.parse, e.newValue).
         orElse(e.newValue).
