@@ -102,6 +102,8 @@ LocalStorage.prototype.each = function (callback) {
  */
 LocalStorage.prototype.on = function (name, callback) {
   function handleStorage(e) {
+    e = e || window.event;
+
     if (e.key === name) {
       when.attempt(JSON.parse, e.newValue).
         orElse(e.newValue).
