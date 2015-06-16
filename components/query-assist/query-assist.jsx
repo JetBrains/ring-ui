@@ -261,21 +261,27 @@ var QueryAssist = React.createClass({
   },
 
   componentWillReceiveProps: function (props) {
+    var setFocus;
     this.setupRequestHandler(props);
 
     if (typeof props.focus === 'boolean') {
       this.setShortcutsEnabled(props.focus);
-      this.immediateState.focus = props.focus;
 
       if (props.focus === false && this.immediateState.focus === true) {
         this.blurInput();
       } else if (props.focus === true && this.immediateState.focus === false) {
-        this.setFocus();
+        setFocus = true;
       }
+
+      this.immediateState.focus = props.focus;
     }
 
     if (typeof props.caret === 'number') {
       this.immediateState.caret = props.caret;
+      setFocus = true;
+    }
+
+    if (setFocus) {
       this.setFocus();
     }
 
@@ -423,6 +429,7 @@ var QueryAssist = React.createClass({
       return;
     }
 
+    var currentCaret = this.immediateState.caret;
     var suggestion = data.data;
     var prefix = suggestion.prefix || '';
     var suffix = suggestion.suffix || '';
@@ -443,12 +450,20 @@ var QueryAssist = React.createClass({
     var focusState = {focus: true};
     this.props.onFocusChange(focusState);
 
+    if (state.query !== this.immediateState.query) {
+      this.setState({
+        placeholderEnabled: !state.query,
+        query: state.query
+      });
+    }
+
     this.immediateState = mixIn(state, focusState);
+
+    if (this.immediateState.caret !== currentCaret) {
+      this.setFocus();
+    }
+
     this.closePopup();
-    this.setState({
-      placeholderEnabled: !state.query,
-      query: state.query
-    });
     this.requestData();
   },
 
