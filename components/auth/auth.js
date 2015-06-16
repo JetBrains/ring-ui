@@ -534,7 +534,7 @@ Auth.prototype._canValidateAgainstUser = function () {
 
 /**
  * Check by error code if token should be refreshed
- * * @param {string} error
+ * @param {string} error
  * @return {boolean}
  */
 Auth.shouldRefreshToken = function (error) {
