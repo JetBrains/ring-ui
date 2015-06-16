@@ -1,4 +1,5 @@
 var Auth = require('auth/auth');
+var pick = require('mout/object/pick');
 
 /* global angular: false */
 var authModule = angular.module('Ring.auth', []);
@@ -51,13 +52,13 @@ authModule.provider('auth', ['$httpProvider', function ($httpProvider) {
     auth = new Auth(configCopy);
   };
 
-  $httpProvider.interceptors.push(['auth', function (authInstance) {
+  $httpProvider.interceptors.push(['$q', '$injector', 'auth', function ($q, $injector, authInstance) {
     var urlEndsWith = function(config, suffix) {
       return config && config.url && config.url.indexOf(suffix) === config.url.length - suffix.length;
     };
 
     return {
-      'request': function (config) {
+      request: function (config) {
         if (!authInstance || urlEndsWith(config, '.html')) {
           // Don't intercept angular template requests
           return config;
@@ -70,6 +71,20 @@ authModule.provider('auth', ['$httpProvider', function ($httpProvider) {
             config.headers['Authorization'] = 'Bearer ' + accessToken;
             return config;
           });
+      },
+      responseError: function (rejection) {
+        if (authInstance && !urlEndsWith(rejection.config, '.html')
+          && rejection.data != null && Auth.shouldRefreshToken(rejection.data.error)) {
+
+          // Use $injector to avoid circular dependency
+          var $http = $injector.get('$http');
+
+          return authInstance.auth._loadTokenInBackground().then(function () {
+            return $http(pick(rejection.config, ['data', 'method', 'params', 'url']));
+          });
+        }
+
+        return $q.reject(rejection);
       }
     };
   }]);
