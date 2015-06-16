@@ -533,6 +533,17 @@ Auth.prototype._canValidateAgainstUser = function () {
 };
 
 /**
+ * Check by error code if token should be refreshed
+ * * @param {string} error
+ * @return {boolean}
+ */
+Auth.shouldRefreshToken = function (error) {
+  return error === 'invalid_grant' ||
+    error === 'invalid_request' ||
+    error === 'invalid_token';
+};
+
+/**
  * Check scopes
  * @param {StoredToken} storedToken
  * @return {Promise.<StoredToken>}
@@ -556,7 +567,7 @@ Auth.prototype._validateAgainstUser = function (storedToken) {
           return {};
         }).
         then(function (response) {
-          if (errorResponse.status === 401 || response.error === 'invalid_grant' || response.error === 'invalid_request') {
+          if (errorResponse.status === 401 || Auth.shouldRefreshToken(response.error)) {
             // Token expired
             return Auth._authRequiredReject(response.error || errorResponse.message);
           }
