@@ -98,8 +98,11 @@ var noop = function() {};
            clear="true"
            x-data-source="ctrl.source(query, caret, omitSuggestions)"
            glass="true"
+           focus="ctrl.focus"
            query="ctrl.query"
            on-apply="ctrl.save(query)"
+           on-change="ctrl.change(query)"
+           on-focus-change="ctrl.focusChange(focus)"
            placeholder="{{ placeholder }}"
            hint="{{ 'Press ⇥ to complete first item' }}"
            hint-on-selection="{{ 'Press ↩ to complete selected item' }}"></div>
@@ -127,11 +130,30 @@ var noop = function() {};
          })
          .controller('testCtrl', function($http, $scope) {
            var ctrl = this;
-           ctrl.query = 'ctrl';
+           ctrl.query = 'query';
+           ctrl.focus = true;
 
            ctrl.save = function(query) {
              ctrl.query = query;
              $scope.$apply();
+           };
+
+           function updateScope(name, value) {
+             if (ctrl[name] !== value) {
+               ctrl[name] = value;
+
+               if (!$scope.$root.$$phase) {
+                 $scope.$apply();
+               }
+             }
+           }
+
+           ctrl.change = function (query) {
+             updateScope('query', query);
+           };
+
+           ctrl.focusChange = function (focus) {
+             updateScope('focus', focus);
            };
 
            ctrl.source = function (query, caret, omitSuggestions) {
@@ -344,6 +366,10 @@ var QueryAssist = React.createClass({
       focus: true
     };
 
+    if (this.immediateState.query === props.query) {
+      return;
+    }
+
     var currentQueryIsEmpty = this.immediateState.query === '';
     var newQueryIsEmpty = props.query === '';
 
@@ -351,8 +377,8 @@ var QueryAssist = React.createClass({
       this.setState({placeholderEnabled: newQueryIsEmpty});
     }
 
-    this.props.onChange(props);
     this.immediateState = props;
+    this.props.onChange(props);
     this.requestData();
   },
 
