@@ -399,24 +399,6 @@ describe('QueryAssist', function () {
       });
     });
 
-    it('should call onChange', function () {
-      var onChange = this.sinon.stub();
-      var newQuery = 'qwerty';
-
-      this.queryAssist.setProps({
-        query: newQuery,
-        onChange: onChange
-      });
-
-      // Browser events simulation don't work
-      this.queryAssist.handleInput();
-
-      onChange.should.have.been.calledWithMatch({
-        query: newQuery,
-        caret: newQuery.length
-      });
-    });
-
     it('should call onClear', function () {
       var onClear = this.sinon.stub();
       this.queryAssist.setProps({
