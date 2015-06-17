@@ -3,6 +3,7 @@ var gemini = require('gemini');
 gemini.suite('Select', function () {
   gemini.suite('Input based select', function (child) {
     child
+      .skip('firefox')
       .setUrl('/example-simple-input-based-select')
       .setCaptureElements('.ring-select', '.ring-popup')
       .capture('selectPopup', function (actions, find) {
