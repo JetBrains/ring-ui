@@ -269,16 +269,25 @@ Auth.prototype.requestToken = function () {
   return this._initDeferred.promise.then(function () {
     return self._getValidatedToken([Auth._validateExistence, Auth._validateExpiration, self._validateScopes.bind(self)]).
       otherwise(function () {
-        return self._loadTokenInBackground();
-      }).
-      otherwise(function (e) {
-        return self._requestBuilder.prepareAuthRequest().
-          then(function (authRequest) {
-            self._redirectCurrentPage(authRequest.url);
-            return Auth._authRequiredReject(e.message);
-          });
+        return self.forceTokenUpdate();
       });
   });
+};
+
+/**
+ * Get new token in background or redirect to login page.
+ * @return {Promise.<string>}
+ */
+Auth.prototype.forceTokenUpdate = function () {
+  var self = this;
+  return this._loadTokenInBackground().
+    otherwise(function (e) {
+      return self._requestBuilder.prepareAuthRequest().
+        then(function (authRequest) {
+          self._redirectCurrentPage(authRequest.url);
+          return Auth._authRequiredReject(e.message);
+        });
+    });
 };
 
 /**
