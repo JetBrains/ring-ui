@@ -484,6 +484,7 @@ describe('Auth', function () {
 
     beforeEach(function () {
       this.sinon.stub(Auth.prototype, '_redirectCurrentPage');
+      this.sinon.stub(Auth.prototype, 'getApi').returns(when({id: 'APIuser'}));
       this.sinon.stub(AuthRequestBuilder, '_uuid').returns('unique');
       auth._initDeferred = when.defer();
       auth._initDeferred.resolve();
@@ -510,6 +511,20 @@ describe('Auth', function () {
           Auth.prototype._redirectFrame.should.have.been.calledWithMatch(sinon.match.any, 'api/rest/oauth2/auth?response_type=token&' +
             'state=unique&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub&request_credentials=skip&client_id=1-1-1-1-1&scope=0-0-0-0-0%20youtrack');
           Auth.prototype._redirectCurrentPage.should.not.have.been.called;
+          return accessToken;
+        }).should.eventually.be.equal('token');
+    });
+
+    it('should reload page', function () {
+      auth.user = {id: 'initUser'};
+      this.sinon.stub(Auth.prototype, '_redirectFrame', function () {
+        auth._storage.saveToken({access_token: 'token', expires: Auth._epoch() + 60 * 60, scopes: ['0-0-0-0-0']});
+      });
+      return auth.requestToken().
+        then(function (accessToken) {
+          Auth.prototype._redirectFrame.should.have.been.calledWithMatch(sinon.match.any, 'api/rest/oauth2/auth?response_type=token&' +
+            'state=unique&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub&request_credentials=skip&client_id=1-1-1-1-1&scope=0-0-0-0-0%20youtrack');
+          Auth.prototype._redirectCurrentPage.should.have.been.calledWith(window.location.href);
           return accessToken;
         }).should.eventually.be.equal('token');
     });
