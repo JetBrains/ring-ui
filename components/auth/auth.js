@@ -281,6 +281,17 @@ Auth.prototype.requestToken = function () {
 Auth.prototype.forceTokenUpdate = function () {
   var self = this;
   return this._loadTokenInBackground().
+    then(function (accessToken) {
+      return self.getApi(Auth.API_PROFILE_PATH, accessToken, self.config.userParams).
+        then(function (user) {
+          if (user && self.user && self.user.id !== user.id) {
+            // Reload page if user has been changed after background refresh
+            self._redirectCurrentPage(window.location.href);
+          }
+
+          return accessToken;
+        });
+    }).
     otherwise(function (e) {
       return self._requestBuilder.prepareAuthRequest().
         then(function (authRequest) {
