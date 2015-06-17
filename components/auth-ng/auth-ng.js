@@ -79,7 +79,7 @@ authModule.provider('auth', ['$httpProvider', function ($httpProvider) {
           // Use $injector to avoid circular dependency
           var $http = $injector.get('$http');
 
-          return authInstance.auth._loadTokenInBackground().then(function () {
+          return authInstance.auth.forceTokenUpdate().then(function () {
             return $http(pick(rejection.config, ['data', 'method', 'params', 'url']));
           });
         }
