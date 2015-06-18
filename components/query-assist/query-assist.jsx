@@ -94,6 +94,8 @@ var noop = function() {};
    <example name="QueryAssist in Angular">
      <file name="index.html">
        <div ng-app="test" ng-controller="testCtrl as ctrl">
+         <p>{{ ctrl.query }}</p>
+
          <div react="QueryAssist"
            clear="true"
            x-data-source="ctrl.source(query, caret, omitSuggestions)"
@@ -107,7 +109,7 @@ var noop = function() {};
            hint="{{ 'Press ⇥ to complete first item' }}"
            hint-on-selection="{{ 'Press ↩ to complete selected item' }}"></div>
 
-         <p>{{ ctrl.query }}</p>
+         <p ng-repeat="query in ctrl.queries track by $index">{{ query }}</p>
        </div>
      </file>
 
@@ -130,11 +132,12 @@ var noop = function() {};
          })
          .controller('testCtrl', function($http, $scope) {
            var ctrl = this;
+           ctrl.queries = [];
            ctrl.query = 'query';
            ctrl.focus = true;
 
            ctrl.save = function(query) {
-             ctrl.query = query;
+             ctrl.queries.unshift(query);
              $scope.$apply();
            };
 
