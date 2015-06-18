@@ -237,7 +237,7 @@ var QueryAssist = React.createClass({
 
   componentDidMount: function () {
     this.immediateState = {
-      query: this.props.query,
+      query: this.props.query || '',
       caret: isNumber(this.props.caret) ? this.props.caret : this.props.query && this.props.query.length,
       focus: this.props.focus
     };
