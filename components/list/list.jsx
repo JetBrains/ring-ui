@@ -555,7 +555,7 @@ var List = React.createClass({
             }
 
             // Probably unique enough key
-            props.key = props.key || props.type + props.label;
+            props.key = props.key || props.type + (props.label || props.description);
 
             props.active = (index === this.state.activeIndex);
             props.onMouseOver = this.hoverHandler.bind(this, index);
