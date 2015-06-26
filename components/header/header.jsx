@@ -354,7 +354,7 @@ var Header = React.createClass({
         cutEdge: false,
         corner: Popup.PopupProps.Corner.BOTTOM_RIGHT,
         /* eslint-disable no-bitwise */
-        direction: Popup.PopupProps.Direction.RIGTH | Popup.PopupProps.Direction.DOWN,
+        direction: Popup.PopupProps.Direction.LEFT | Popup.PopupProps.Direction.DOWN,
         /* eslint-enable no-bitwise */
         onClose: function() {
           this.refs['services'].setOpened(false);
