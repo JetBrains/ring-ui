@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Generator: Adobe Illustrator 14.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 43363)  -->
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg version="1.1" id="Layer_1" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns"
+<svg version="1.1"
 	 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="32px" height="32px"
 	 viewBox="0 0 32 32" enable-background="new 0 0 32 32" xml:space="preserve">
 <title>chart_area_3</title>
-<description>Created with Sketch (http://www.bohemiancoding.com/sketch)</description>
-<g id="Statistics" sketch:type="MSPage">
-	<path id="chart_area_3" sketch:type="MSShapeGroup" d="M0,28.509L5.331,18.15l4.812,4.155l8.73-4.531l6.111,3.854L32,13.62v14.891
+<g id="Statistics">
+	<path id="chart_area_3" d="M0,28.509L5.331,18.15l4.812,4.155l8.73-4.531l6.111,3.854L32,13.62v14.891
 		L0,28.509L0,28.509z M0.417,25.829l4.73-9.187l4.994,4.531l9-4.531l5.831,3.521l7.026-8.174V3.692l-7.794,10.078l-7.027-6.699
 		l-6.009,8.23l-9.301-4.303L0.417,25.829z"/>
 </g>
