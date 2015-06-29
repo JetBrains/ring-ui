@@ -38,6 +38,7 @@ var Size = {
   Size32: 32,
   Size48: 48,
   Size64: 64,
+  Size96: 96,
   Size128: 128
 };
 
