@@ -315,9 +315,14 @@
   &.ring-btn-toolbar_block {
     display: block;
   }
+
+  & > &__label {
+    font-size: $ring-font-size;
+  }
 }
 
 .ring-btn-toolbar > .ring-btn,
+.ring-btn-toolbar > .ring-btn-toolbar__label,
 .ring-btn-toolbar > .ring-button-group {
   margin-right: 16px;
 
