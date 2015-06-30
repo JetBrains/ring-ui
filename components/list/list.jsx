@@ -27,7 +27,8 @@ var Type = {
   LINK: 1,
   ITEM: 2,
   HINT: 3,
-  CUSTOM: 4
+  CUSTOM: 4,
+  TITLE: 5
 };
 
 var Dimension = {
@@ -154,6 +155,26 @@ var ListHint = React.createClass({
   }
 });
 
+/**
+ * @constructor
+ * @extends {ReactComponent}
+ */
+var ListTitle = React.createClass({
+  /** @override */
+  render: function () {
+    var classes = React.addons.classSet({
+      'ring-list__title': true
+    });
+
+    return (
+      <span className="ring-list__title">
+        <div className="ring-list__description">{this.props.description}</div>
+        <span className="ring-list__title-text">{this.props.label}</span>
+      </span>
+    );
+  }
+});
+
 var ListMixin = {
   statics: {
     ListProps: {
@@ -272,8 +293,12 @@ var ListMixin = {
 
        var listData = [
          {'type': List.ListProps.Type.SEPARATOR, 'description': 'First separator'},
-         {'label': 'Item', 'type': List.ListProps.Type.ITEM},
-         {'type': List.ListProps.Type.SEPARATOR, 'description': 'Second sep'}
+         {'label': 'Item 1', 'type': List.ListProps.Type.ITEM},
+         {'type': List.ListProps.Type.SEPARATOR, 'description': 'Second sep'},
+         {'label': 'Item 2', 'type': List.ListProps.Type.ITEM},
+         {'type': List.ListProps.Type.TITLE, 'label': 'Group title', 'description': 'With description'},
+         {'label': 'Item 3', 'type': List.ListProps.Type.ITEM, 'description': 'Foo bar'},
+         {'label': 'Item 4', 'type': List.ListProps.Type.ITEM, 'description': 'Item description'},
        ];
 
        React.renderComponent(List({
@@ -580,6 +605,9 @@ var List = React.createClass({
                 break;
               case Type.CUSTOM:
                 element = ListCustom;
+                break;
+              case Type.TITLE:
+                element = ListTitle;
                 break;
               default:
                 throw new Error('Unknown menu element type: ' + props.type);
