@@ -5,8 +5,8 @@
  * @param { {
  *   permission: {key: string},
  *   global: boolean?,
- *   spaces: {id: string}[]?
- * }[] } cachedPermissions
+ *   projects: {id: string}[]?
+ * }[] } permissions
  * @param {function} namesConverter a function, which maps a server-side permission name to client-side permission name
  * @return {object} permission cache
  * @private
@@ -23,7 +23,7 @@ var PermissionCache = function (permissions, namesConverter) {
 
     permissionCache[key] = {
       global: permission.global,
-      spaceIdSet: PermissionCache._toSpaceIdSet(permission.spaces)
+      spaceIdSet: PermissionCache._toProjectIdSet(permission.projects)
     };
   });
 
@@ -32,18 +32,18 @@ var PermissionCache = function (permissions, namesConverter) {
 };
 
 /**
- * Convert an array of spaces to a set of space ids.
+ * Convert an array of projects to a set of space ids.
  *
- * @param {{id: string}=} spaces
+ * @param {{id: string}[]=} projects
  * @return {object} a set of space ids
  * @private
  */
-PermissionCache._toSpaceIdSet = function (spaces) {
+PermissionCache._toProjectIdSet = function (projects) {
   var spaceIdSet = null;
-  if (spaces) {
+  if (projects) {
     spaceIdSet = {};
-    for (var i = 0; i < spaces.length; i++) {
-      spaceIdSet[spaces[i].id] = true;
+    for (var i = 0; i < projects.length; i++) {
+      spaceIdSet[projects[i].id] = true;
     }
   }
   return spaceIdSet;
