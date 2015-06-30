@@ -3,6 +3,28 @@ describe('Permissions', function () {
   var Permissions = require('./permissions');
   var PermissionCache = require('./permissions__cache');
 
+  /**
+   * @param id
+   * @returns {{id: *}}
+   */
+  var createSpace = function (id) {
+    return {
+      id: id
+    };
+  };
+
+
+  /**
+   * @param {string} key
+   * @param {Array} spaces
+   * @param {boolean=} isGlobal
+   * @returns {{permission: {key: *}, projects: *, global: *}}
+   */
+  var createPermission = function (key, spaces, isGlobal) {
+    return {
+      permission: {key: key}, projects: spaces, global: isGlobal
+    };
+  };
 
   describe('construction', function () {
     var auth = new Auth({serverUri: ''});
@@ -31,8 +53,8 @@ describe('Permissions', function () {
       }).to.throw(Error, 'Parameter auth is required');
     });
 
-    describe('construction with defined namesConverter', function() {
-      var converter = function(input) {
+    describe('construction with defined namesConverter', function () {
+      var converter = function (input) {
         return input.toLowerCase();
       };
 
@@ -54,11 +76,11 @@ describe('Permissions', function () {
 
   describe('cache', function () {
     var permissionCache = new PermissionCache([
-      {permission: {key: 'jetbrains.jetpass.space-read'}, global: true},
-      {permission: {key: 'jetbrains.jetpass.space-update'}, spaces: [
-        {id: '123'}
-      ]},
-      {permission: {key: 'jetbrains.upsource.permission.project.admin'}, global: true}
+      createPermission('jetbrains.jetpass.space-read', null, true),
+      createPermission('jetbrains.jetpass.space-update', [
+        createSpace('123')
+      ]),
+      createPermission('jetbrains.upsource.permission.project.admin', null, true)
     ], Permissions.getDefaultNamesConverter('jetbrains.jetpass.'));
 
     it('should not permit unlisted permission', function () {
@@ -113,7 +135,7 @@ describe('Permissions', function () {
         permissionCache.has('!a | !space-read').should.be.true;
       });
 
-      it('should support negation with defined space-id', function() {
+      it('should support negation with defined space-id', function () {
         permissionCache.has('!space-read', '123').should.be.false;
         permissionCache.has('!space-update', '123').should.be.false;
         permissionCache.has('!space-update', '456').should.be.true;
@@ -155,17 +177,17 @@ describe('Permissions', function () {
       });
     });
 
-    describe('cache with defined permissions converter', function() {
+    describe('cache with defined permissions converter', function () {
       var namesConverter = function (key) {
         var splittedKey = key.split('.');
         return splittedKey[splittedKey.length - 1].toLowerCase().replace(/\_/g, '-');
       };
       var permissionCacheWithConverter = new PermissionCache([
-        {permission: {key: 'jetbrains.jetpass.project-read'}, global: true},
-        {permission: {key: 'JetBrains.YouTrack.UPDATE_NOT_OWN_WORK_ITEM'}, spaces: [
-          {id: '123'}
-        ]},
-        {permission: {key: 'jetbrains.upsource.permission.project.admin'}, global: true}
+        createPermission('jetbrains.jetpass.project-read', null, true),
+        createPermission('JetBrains.YouTrack.UPDATE_NOT_OWN_WORK_ITEM', [
+          createSpace('123')
+        ]),
+        createPermission('jetbrains.upsource.permission.project.admin', null, true)
       ], namesConverter);
 
       it('should not permit unexisting permission', function () {
@@ -197,11 +219,11 @@ describe('Permissions', function () {
 
     var permissions = new Permissions(new Auth({serverUri: ''}));
     var permissionCache = new PermissionCache([
-      {permission: {key: 'jetbrains.jetpass.space-read'}, global: true},
-      {permission: {key: 'jetbrains.jetpass.space-update'}, spaces: [
-        {id: '123'}
-      ]},
-      {permission: {key: 'jetbrains.upsource.permission.project.admin'}, global: true}
+      createPermission('jetbrains.jetpass.space-read', null, true),
+      createPermission('jetbrains.jetpass.space-update', [
+        createSpace('123')
+      ]),
+      createPermission('jetbrains.upsource.permission.project.admin', null, true)
     ], Permissions.getDefaultNamesConverter('jetbrains.jetpass.'));
     permissions._promise = when.resolve(permissionCache);
 
