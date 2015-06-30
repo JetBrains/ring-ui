@@ -209,7 +209,7 @@ var QueryAssist = React.createClass({
     return {
       query: this.props.query,
       placeholderEnabled: !this.props.query,
-      shortcuts: this.props.focus
+      shortcuts: true
     };
   },
 
@@ -245,6 +245,7 @@ var QueryAssist = React.createClass({
       focus: this.props.focus
     };
     this.setupRequestHandler(this.props);
+    this.setShortcutsEnabled(this.props.focus);
     this.caret = new Caret(this.refs.input.getDOMNode());
 
     this.requestStyleRanges().
