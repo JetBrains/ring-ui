@@ -151,3 +151,19 @@
     visibility: hidden;
   }
 }
+
+.ring-list__title {
+  display: block;
+
+  margin-top: 10px;
+  margin-bottom: 6px;
+  padding: $ring-unit/2 $ring-unit*2 0 $ring-unit*2;
+
+  &-text {
+    font-size: 12px;
+    color: $ring-dark-gray-color;
+    text-transform: uppercase;
+    text-align: left;
+    letter-spacing: 1.5px;
+  }
+}
