@@ -68,6 +68,14 @@ describe('List', function () {
       $(getFirstListItem()).should.have.class('ring-list__separator');
     });
 
+    it('should render title', function () {
+      list.setProps({'data': [
+        {'type': List.ListProps.Type.TITLE, label: 'Foo', description: 'Bar'}
+      ]});
+
+      $(getFirstListItem()).text().should.be.equal('BarFoo');
+    });
+
     it('should render span if link without href', function () {
       list.setProps({'data': [
         {'label': 'Hello!', 'type': List.ListProps.Type.LINK}
