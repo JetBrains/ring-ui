@@ -67,7 +67,7 @@ Permissions.prototype.load = function () {
   var self = this;
   this._promise = this._auth.requestToken().then(function (accessToken) {
     var params = {
-      fields: 'permission/key,global,spaces(id)',
+      fields: 'permission/key,global,projects(id)',
       query: self.query
     };
     return self._auth.getApi(API_PERMISSION_CACHE_PATH, accessToken, params).
