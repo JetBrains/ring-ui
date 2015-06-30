@@ -162,10 +162,6 @@ var ListHint = React.createClass({
 var ListTitle = React.createClass({
   /** @override */
   render: function () {
-    var classes = React.addons.classSet({
-      'ring-list__title': true
-    });
-
     return (
       <span className="ring-list__title">
         <div className="ring-list__description">{this.props.description}</div>
