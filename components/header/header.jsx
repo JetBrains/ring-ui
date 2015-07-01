@@ -443,8 +443,8 @@ var Header = React.createClass({
         headerClassName.getClassName('user-menu-item', 'login'), true));
 
     var menuItems = Global.createObject(
-        MenuItemType.SETTINGS, (<HeaderItem key="settings" ref="settings" glyph="cog1" href={this.props.settingsLink} onOpen={this.props.onSettingsOpen} onClose={this.props.onSettingsClose} />),
-        MenuItemType.HELP, (<HeaderItem key="help" ref="help" glyph="help" href={this.props.helpLink} onOpen={this.props.onHelpOpen} onClose={this.props.onHelpClose} />),
+        MenuItemType.SETTINGS, (<HeaderItem key="settings" ref="settings" glyph="cog1" href={this.props.settingsLink} onOpen={this.props.onSettingsOpen} onClose={this.props.onSettingsClose} title="Settings" />),
+        MenuItemType.HELP, (<HeaderItem key="help" ref="help" glyph="help" href={this.props.helpLink} onOpen={this.props.onHelpOpen} onClose={this.props.onHelpClose} title="Help" />),
         MenuItemType.SERVICES, (<HeaderItem key="services" ref="services" glyph="services" onOpen={this._onServicesOpen} onClose={this._onServicesClose} title="Services" />),
         MenuItemType.USER_MENU, (<HeaderItem key="userMenu" ref="userMenu" glyph="user1" onOpen={this.props.onUserMenuOpen} onClose={this.props.onUserMenuClose} />),
         MenuItemType.LOGIN, (<div key="loginButton" ref="loginButton" className={loginClassName}><Button modifier={Button.Modifiers.BLUE} onClick={this.props.onLoginClick}>{this.props.translationsDict.login}</Button></div>));
