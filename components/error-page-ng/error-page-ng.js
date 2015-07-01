@@ -138,11 +138,13 @@ angular.module('Ring.error-page', [
           };
         }],
         link: function (scope, iElement) {
+          iElement.addClass('error-page');
+
           scope.$watch('applicationError', function(newValue) {
             if (newValue) {
-              iElement.addClass('error-page');
+              iElement.addClass('error-page_enabled');
             } else {
-              iElement.removeClass('error-page');
+              iElement.removeClass('error-page_enabled');
             }
           });
         }
