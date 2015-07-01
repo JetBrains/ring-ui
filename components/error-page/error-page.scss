@@ -1,6 +1,6 @@
 @import "../global/global";
 
-// Pseuso-element should present to avoid icons disappearance on its toggle
+// Pseudo-element should be present to avoid icons disappearance on its toggle
 // See https://youtrack.jetbrains.com/issue/RG-755
 .error-page:before {
   content: '';
