@@ -1,12 +1,16 @@
 @import "../global/global";
 
+// Pseuso-element should present to avoid icons disappearance on its toggle
+// See https://youtrack.jetbrains.com/issue/RG-755
 .error-page:before {
   content: '';
   display: block;
   position: absolute;
   height: 100%;
   width: 100%;
+}
 
+.error-page_enabled:before {
   background: url('error-page.gif');
   opacity: 0.06;
 }
