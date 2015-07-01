@@ -109,7 +109,7 @@ var HeaderItem = React.createClass({
           fitImageIntoSquare(pic, pic.width, pic.height);
         }}
                                              src={this.state.picture}
-                                             title={this.state.title} />
+                                             title={this.state.title || this.props.title} />
     </span>);
   },
 
@@ -122,7 +122,7 @@ var HeaderItem = React.createClass({
       color={this.state.opened ? 'blue' : 'gray'}
       glyph={this.props.glyph}
       size={Icon.Size.Size18}
-      title={this.state.title} />);
+      title={this.state.title || this.props.title} />);
   },
 
   /**
