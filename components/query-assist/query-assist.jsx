@@ -27,7 +27,7 @@ require('../input/input.scss');
 
 // Use for IE11 and down to 9
 var impotentIE = document.documentMode <= 11;  // TODO Proper browser detection?
-var mutationEvents = 'DOMCharacterDataModified DOMNodeInserted DOMNodeRemoved DOMSubtreeModified';
+var mutationEvent = 'DOMSubtreeModified';
 
 var INPUT_BORDER_WIDTH = 1;
 var POPUP_COMPENSATION = INPUT_BORDER_WIDTH +
@@ -257,7 +257,7 @@ var QueryAssist = React.createClass({
 
   attachMutationEvents: function() {
     if (impotentIE) {
-      $(this.refs.input.getDOMNode()).on(mutationEvents, debounce(this.handleInput, 0));
+      $(this.refs.input.getDOMNode()).on(mutationEvent, this.handleInput);
     }
   },
 
@@ -282,7 +282,7 @@ var QueryAssist = React.createClass({
     }
 
     if (impotentIE) {
-      $(this.refs.input.getDOMNode()).off(mutationEvents);
+      $(this.refs.input.getDOMNode()).off(mutationEvent);
     }
   },
 
