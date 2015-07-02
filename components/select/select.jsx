@@ -152,10 +152,10 @@ var Type = {
      }), document.getElementById('demo'))
      .setProps({
       add: {
-        prefix: 'Add name',
-        callback: function(value) {
-          console.log('Add', value);
-        }
+        prefix: 'Add name'
+      },
+      onAdd: function(value) {
+        console.log('Add', value);
       },
       data: data,
       selected: data[49],
