@@ -35,8 +35,8 @@ var PopupMenu = require('popup-menu/popup-menu');
         var ctrl = this;
 
         ctrl.items = [
-          {displayName: 'Value is 1', key: 1},
-          {displayName: 'Value is 2', key: 2}
+          {displayName: 'Value is 1', key: 1, className: 'customClass'},
+          {displayName: 'Value is 2', key: 2, icon: 'http://icon.com/icon.png'}
         ];
 
         ctrl.promiseSrc = function(){
@@ -104,6 +104,8 @@ angular.module('Ring.dropdown', [])
               description: item.description,
               type: getItemType(item),
               href: item.url ? item.url : null,
+              className: item.className || '',
+              icon: item.icon,
               onClick: function () {
                 $scope.$apply(function () {
                   if ($scope.onItemSelect) {
