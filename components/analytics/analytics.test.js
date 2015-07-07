@@ -199,14 +199,14 @@ describe('analytics singleton', function() {
       });
 
       describe('flushing restriction', function() {
-        it('flashing should be allowed on second step', function () {
+        it('flushing should be allowed on second step', function () {
           var counter = 0;
-          var flashingIsAllowedOnSecondCheck = function() {
+          var flushingIsAllowedOnSecondCheck = function() {
             ++counter;
             return counter === 2;
           };
 
-          var customPlugin = new AnalyticsCustomPlugin(send, false, 10000, flashingIsAllowedOnSecondCheck);
+          var customPlugin = new AnalyticsCustomPlugin(send, false, 10000, flushingIsAllowedOnSecondCheck);
           analytics.config([customPlugin]);
 
           analytics.trackEvent('test-category', 'test-action');
