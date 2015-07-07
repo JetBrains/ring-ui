@@ -197,6 +197,30 @@ describe('analytics singleton', function() {
         }
         ]);
       });
+
+      describe('flushing restriction', function() {
+        it('flashing should be allowed on second step', function () {
+          var counter = 0;
+          var flashingIsAllowedOnSecondCheck = function() {
+            ++counter;
+            return counter === 2;
+          };
+
+          var customPlugin = new AnalyticsCustomPlugin(send, false, 10000, flashingIsAllowedOnSecondCheck);
+          analytics.config([customPlugin]);
+
+          analytics.trackEvent('test-category', 'test-action');
+          clock.tick(10500);
+
+          send.should.not.called;
+          clock.tick(10500);
+
+          send.should.calledWith([{
+            category: 'test-category',
+            action: 'test-action'
+          }]);
+        });
+      });
     });
     describe('#disabled', function() {
       beforeEach(function() {

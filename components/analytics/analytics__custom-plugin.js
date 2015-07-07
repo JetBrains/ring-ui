@@ -1,10 +1,10 @@
 var AnalyticsCustomPluginUtils = require('./analytics__custom-plugin-utils');
 
-var AnalyticsCustomPlugin = function (send, isDevelopment, flushInterval) {
+var AnalyticsCustomPlugin = function (send, isDevelopment, flushInterval, flashingIsAllowed) {
   this._data = [];
   var self = this;
   this._flush = function () {
-    if (self._data.length > 0) {
+    if (self._data.length > 0 && (!flashingIsAllowed || flashingIsAllowed())) {
       send(self._data);
       self._data = [];
     }
