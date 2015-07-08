@@ -36,7 +36,7 @@ describe('analytics singleton', function() {
       window.ga = this.sinon.spy();
       gaPlugin.trackPageView('some-path');
 
-      window.ga.should.calledWith('send', 'pageview', 'some-path');
+      window.ga.should.have.been.calledWith('send', 'pageview', 'some-path');
 
       window.ga = rememberGA;
     });
@@ -74,7 +74,7 @@ describe('analytics singleton', function() {
         analytics.trackEvent('test-category', 'test-action');
         clock.tick(10500);
 
-        send.should.calledWith([{
+        send.should.have.been.calledWith([{
           category: 'test-category',
           action: 'test-action'
         }]);
@@ -84,7 +84,7 @@ describe('analytics singleton', function() {
         analytics.trackShortcutEvent('test-category', 'test-action');
         clock.tick(10500);
 
-        send.should.calledWith([{
+        send.should.have.been.calledWith([{
           category: 'test-category',
           action: 'test-action'
         }, {
@@ -113,7 +113,7 @@ describe('analytics singleton', function() {
               action: entity[it]
             });
           });
-          send.should.calledWith(trackedData);
+          send.should.have.been.calledWith(trackedData);
         });
 
         it('should not send any data if no properties requested', function() {
@@ -124,7 +124,7 @@ describe('analytics singleton', function() {
           analytics.trackEntityProperties('sample-entity', entity, []);
           clock.tick(10500);
 
-          send.should.not.called;
+          send.should.not.have.been.called;
         });
 
         it('should not throw error if there are no some properties', function() {
@@ -135,7 +135,7 @@ describe('analytics singleton', function() {
           analytics.trackEntityProperties('entity', entity, ['param1', 'unexisting-property']);
           clock.tick(10500);
 
-          send.should.calledWith([{
+          send.should.have.been.calledWith([{
             category: 'entity_param1',
             action: 'first'
           }, {
@@ -161,7 +161,7 @@ describe('analytics singleton', function() {
           analytics.trackEntityProperties('entity', entity, trackedProperies);
           clock.tick(10500);
 
-          send.should.calledWith([{
+          send.should.have.been.calledWith([{
             category: 'entity_subsubproperty',
             action: 'subsubproperty-value'
           }, {
@@ -175,14 +175,14 @@ describe('analytics singleton', function() {
         analytics.trackPageView('test-page');
         clock.tick(10500);
 
-        send.should.called;
+        send.should.have.been.called;
       });
 
       it('should send request to statistics server multiple times', function() {
         //first loop
         analytics.trackPageView('test-page');
         clock.tick(10500);
-        send.should.called;
+        send.should.have.been.called;
 
         //second loop
         analytics.trackEvent('test-category', 'test-event');
@@ -212,10 +212,10 @@ describe('analytics singleton', function() {
           analytics.trackEvent('test-category', 'test-action');
           clock.tick(10500);
 
-          send.should.not.called;
+          send.should.not.have.been.called;
           clock.tick(10500);
 
-          send.should.calledWith([{
+          send.should.have.been.calledWith([{
             category: 'test-category',
             action: 'test-action'
           }]);
@@ -231,7 +231,7 @@ describe('analytics singleton', function() {
         analytics.trackEvent('test-category', 'test-action');
         clock.tick(10500);
 
-        send.should.not.called;
+        send.should.not.have.been.called;
       });
     });
   });
