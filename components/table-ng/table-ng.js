@@ -69,6 +69,22 @@ require('../react-ng/react-ng')({
     </file>
   </example>
 
+<example name="Table-ng-no-selection">
+  <file name="index.html">
+    <div ng-app="Ring.table" ng-init="itemsArray = ['first', 'second', 'third', 'fourth']">
+      <rg-table items="itemsArray" disable-selection="true">
+        <rg-table-row row-item="item" ng-repeat="item in itemsArray">
+          <rg-table-column>{{item}}</rg-table-column>
+        </rg-table-row>
+      </rg-table>
+    </div>
+  </file>
+  <file name="index.js" webpack="true">
+    require('angular/angular.min.js');
+    require('table-ng/table-ng');
+  </file>
+</example>
+
 <example name="Table-ng-with-sidebar">
   <file name="index.html">
     <h3>Scroll down to see the effect</h2>
@@ -283,24 +299,29 @@ angular.module('Ring.table', ['Ring.table.toolbar', 'Ring.react-ng', 'Ring.place
         var self = this;
 
         self.setSelection = function (selection) {
+          if (!selection) {
+            return;
+          }
           self.selection = selection;
+          $scope.$watch('rowCtrl.rowItem.checked', function (newValue) {
+            if (newValue !== undefined) {
+              self.selection.triggerSelectionChanged(self.rowItem);
+            }
+          });
         };
 
         self.setActiveItem = function (item) {
-          item && self.selection.activateItem(item);
+          item && self.selection && self.selection.activateItem(item);
         };
 
         self.hasCheckedItems = function () {
+          if (self.selection) {
+            return false;
+          }
           //TODO: cache this operation if perfomance issue exists
           var checkedItems = self.selection.getCheckedItems();
           return checkedItems && checkedItems.length > 0;
         };
-
-        $scope.$watch('rowCtrl.rowItem.checked', function (newValue) {
-          if (newValue !== undefined) {
-            self.selection.triggerSelectionChanged(self.rowItem);
-          }
-        });
 
         function getRowOutOfViewInfo(el, offsetInRows) {
           var rect = el.getBoundingClientRect();
