@@ -121,6 +121,20 @@ angular.module('Ring.select.options', [])
     };
 
     Options.prototype.getOptions = function (query) {
+      if (!query) {
+        if (!this._cachedEmptyQueryOptions) {
+          this._cachedEmptyQueryOptions = this.doGetOptions(query);
+        }
+        return this._cachedEmptyQueryOptions;
+      } else {
+        return this.doGetOptions(query);
+      }
+    };
+
+    /**
+     * @private
+     */
+    Options.prototype.doGetOptions = function (query) {
       return this.datasourceGetter(this.scope, {query: query});
     };
 
