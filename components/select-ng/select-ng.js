@@ -334,6 +334,13 @@ angular.module('Ring.select', ['Ring.select.options'])
           ctrl.ngModelCtrl = ngModelCtrl;
         };
 
+        /**
+         * @param {Array} options
+         */
+        function memorizeOptions(options) {
+          ctrl.loadedOptions = options;
+        }
+
         ctrl.syncSelectToNgModel = function (selectedValue) {
           var valueOf = function(option) {
             if (option && option.originalModel) {
@@ -356,7 +363,7 @@ angular.module('Ring.select', ['Ring.select.options'])
 
         ctrl.convertNgModelToSelect = function(model) {
           var convertItem = function (modelValue) {
-            var item = ctrl.optionsParser.getOptionByValue(modelValue);
+            var item = ctrl.optionsParser.getOptionByValue(modelValue, ctrl.loadedOptions || []);
 
             /**
              * NOTE:
@@ -400,6 +407,8 @@ angular.module('Ring.select', ['Ring.select.options'])
           });
 
           ctrl.getOptions(query).then(function (results) {
+            memorizeOptions(results);
+
             var items = map(results.data || results, ctrl.convertNgModelToSelect);
             ctrl.selectInstance.setProps({
               data: items,
@@ -460,6 +469,8 @@ angular.module('Ring.select', ['Ring.select.options'])
          * @param {value} value Previous value of options
          */
         function optionsWatcher(newValue, value) {
+          memorizeOptions(newValue);
+
           if (newValue === value) {
             return;
           }
