@@ -33,7 +33,7 @@ describe('SelectNg', function () {
     scope.items = angular.copy(fakeItems);
     scope.selectedItem = scope.items[2];
 
-    compileTemplate('<rg-select options="item as item.name for item in items track by item.id" ng-model="selectedItem"></rg-select>');
+    compileTemplate('<rg-select options="item.name for item in items track by item.id" ng-model="selectedItem"></rg-select>');
   }));
 
   describe('DOM', function () {
@@ -46,7 +46,7 @@ describe('SelectNg', function () {
     });
 
     it('Should not render select if type=dropdown', function () {
-      compileTemplate('<rg-select options="item as item.name for item in items track by item.id" ng-model="selectedItem" type="dropdown"></rg-select>');
+      compileTemplate('<rg-select options="item.name for item in items track by item.id" ng-model="selectedItem" type="dropdown"></rg-select>');
 
       element.should.not.have.descendants('.ring-select');
     });
@@ -59,14 +59,14 @@ describe('SelectNg', function () {
 
     it('Should extend passed config', function () {
       scope.config = {someField: 'test'};
-      compileTemplate('<rg-select options="item as item.name for item in items track by item.id" ng-model="selectedItem" config="config"></rg-select>');
+      compileTemplate('<rg-select options="item.name for item in items track by item.id" ng-model="selectedItem" config="config"></rg-select>');
 
       ctrl.config.someField.should.equal('test');
     });
 
     it('Should work without ng-model', function () {
       var initDirective = function () {
-        compileTemplate('<rg-select options="item as item.name for item in items track by item.id"></rg-select>');
+        compileTemplate('<rg-select options="item.name for item in items track by item.id"></rg-select>');
       };
       initDirective.should.not.throw;
     });
@@ -129,6 +129,56 @@ describe('SelectNg', function () {
       ctrl.config.selected.selectedLabel.should.equal('Formatted label');
     });
 
+    it('Should support description customization', function () {
+      scope.selectedItem.testField = 'test';
+      compileTemplate('<rg-select options="item.name describe as item.testField for item in items track by item.id" ng-model="selectedItem"></rg-select>');
+
+      ctrl.config.selected.description.should.equal('test');
+    });
+
+    it('Should support description and selected label customization together', function () {
+      scope.selectedItem.selectText = 'test';
+      scope.selectedItem.descriptionText = 'description';
+      compileTemplate('<rg-select options="item.name select as item.selectText describe as item.descriptionText for item in items track by item.id" ng-model="selectedItem"></rg-select>');
+
+      ctrl.config.selected.selectedLabel.should.equal(scope.selectedItem.selectText);
+      ctrl.config.selected.description.should.equal(scope.selectedItem.descriptionText);
+    });
+
+    it('Should not call get optoin by value for description customization', function () {
+      scope.selectedItem.descriptionText = 'description';
+
+      element = $compile('<rg-select options="item.name describe as item.descriptionText for item in items track by item.id" ng-model="selectedItem"></rg-select>')(scope);
+      ctrl = element.controller('rgSelect');
+      this.sinon.spy(ctrl.optionsParser, 'getOptions');
+      scope.$digest();
+
+      ctrl.optionsParser.getOptions.should.not.called;
+    });
+
+    it('Should not call get optoin by value for select label customization', function () {
+      scope.selectedItem.selectText = 'Test';
+
+      element = $compile('<rg-select options="item.name select as item.descriptionText for item in items track by item.id" ng-model="selectedItem"></rg-select>')(scope);
+      ctrl = element.controller('rgSelect');
+      this.sinon.spy(ctrl.optionsParser, 'getOptions');
+      scope.$digest();
+
+      ctrl.optionsParser.getOptions.should.not.called;
+    });
+
+    it('Should not call get option by value for description and selected label customization together', function () {
+      scope.selectedItem.selectText = 'test';
+      scope.selectedItem.descriptionText = 'description';
+
+      element = $compile('<rg-select options="item.name select as item.selectText describe as item.descriptionText for item in items track by item.id" ng-model="selectedItem"></rg-select>')(scope);
+      ctrl = element.controller('rgSelect');
+      this.sinon.spy(ctrl.optionsParser, 'getOptions');
+      scope.$digest();
+
+      ctrl.optionsParser.getOptions.should.not.called;
+    });
+
     it('Should save original model in select items', function () {
       ctrl.loadOptionsToSelect();
       scope.$digest();
@@ -170,13 +220,13 @@ describe('SelectNg', function () {
     it('If externalFilter enabled should provide custom filter.fn which should always return true', function () {
       scope.dataSource = this.sinon.stub().returns(fakeItems);
 
-      compileTemplate('<rg-select options="item as item.name for item in items track by item.id" external-filter="true" ng-model="selectedItem"></rg-select>');
+      compileTemplate('<rg-select options="item.name for item in items track by item.id" external-filter="true" ng-model="selectedItem"></rg-select>');
 
       ctrl.filter.fn().should.be.true;
     });
 
     it('Should be disabled if disabled', function () {
-      compileTemplate('<rg-select options="item as item.name for item in items track by item.id" ng-model="selectedItem" disabled="true"></rg-select>');
+      compileTemplate('<rg-select options="item.name for item in items track by item.id" ng-model="selectedItem" disabled="true"></rg-select>');
 
       $(element[0]).should.have.descendants('.ring-select_disabled');
     });
@@ -219,7 +269,7 @@ describe('SelectNg', function () {
     });
 
     it('Should support labeling item', function () {
-      compileTemplate('<rg-select options="item as item.name for item in items track by item.id" ng-model="selectedItem"></rg-select>');
+      compileTemplate('<rg-select options="item.name for item in items track by item.id" ng-model="selectedItem"></rg-select>');
       ctrl.selectInstance.state.selected.label.should.equal(fakeItems[2].name);
     });
 
@@ -285,9 +335,34 @@ describe('SelectNg', function () {
       scope.options = [optionMock];
       scope.selectedOption = optionMock.value;
 
-      compileTemplate('<rg-select ng-model="selectedOption" options="item.value as item.label for item in options"></rg-select>');
+      compileTemplate('<rg-select ng-model="selectedOption" options="item.value as item.label for item in options" lazy="false"></rg-select>');
 
       ctrl.selectInstance.props.selected.label.should.equal(optionMock.label);
+    });
+
+    it('Should call only once data source function for primitive ng-model', function () {
+      var createOptionMock = function (value) {
+        return {
+          value: value,
+          label: 'label ' + value
+        };
+      };
+
+      scope.options = [
+        createOptionMock(1),
+        createOptionMock(2),
+        createOptionMock(3),
+        createOptionMock(4)
+      ];
+
+      scope.selectedOption = scope.options[0];
+      scope.getOptions = this.sinon.stub().returns(scope.options);
+
+      compileTemplate('<rg-select ng-model="selectedOption" options="item.value as item.label for item in getOptions()"></rg-select>');
+      ctrl.loadOptionsToSelect('');
+      scope.$digest();
+
+      scope.getOptions.should.been.calledOnce;
     });
 
     it('Should correct update select if options have  "track by" with "for" expressions without "as"', function () {
@@ -333,7 +408,7 @@ describe('SelectNg', function () {
       scope.selectedOption = optionMock.value;
 
       var compile = function () {
-        compileTemplate('<rg-select ng-model="selectedOption" options="item.value as item.label for item in options"></rg-select>');
+        compileTemplate('<rg-select ng-model="selectedOption" options="item.value as item.label for item in options" lazy="false"></rg-select>');
       };
 
       compile.should.throw(Error);
