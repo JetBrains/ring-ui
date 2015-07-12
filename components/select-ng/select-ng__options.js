@@ -29,7 +29,7 @@ angular.module('Ring.select.options', [])
       var match;
       if (!(match = optionsString.match(OPTIONS_REGEXP))) {
         throw new Error('Bad rgSelect expression format. Expected: [{item}] [[as] item.text] [select as item.selectLabel]' +
-        ' [describe as {item.description}] [for] {item} in {items|dataSource(query)} [track by item.id], Received: ' + optionsString);
+          ' [describe as {item.description}] [for] {item} in {items|dataSource(query)} [track by item.id], Received: ' + optionsString);
       }
 
       /**
@@ -47,7 +47,7 @@ angular.module('Ring.select.options', [])
       this.trackByGetter = match[MATCHES.TRACK] && $parse(match[MATCHES.TRACK]);
     };
 
-    Options.prototype.getProperty = function(option, getter) {
+    Options.prototype.getProperty = function (option, getter) {
       if (getter) {
         var locals = {};
         locals[this.optionVariableName] = option;
@@ -59,7 +59,7 @@ angular.module('Ring.select.options', [])
      * @param {Object} option The item from options collection
      * @return {any} The option value
      */
-    Options.prototype.getValue = function(option) {
+    Options.prototype.getValue = function (option) {
       if (!this.hasItemGetter) {
         return option;
       }
@@ -71,15 +71,16 @@ angular.module('Ring.select.options', [])
 
     /**
      * @param {any} value The option value
+     * @param {Array} options The list of options
      * @return {Object|undefined} The option object
      */
-    Options.prototype.getOptionByValue = function(value) {
+    Options.prototype.getOptionByValue = function (value, options) {
 
       /**
        * @param {any} it
        * @return {string} The string representation of the value
        */
-      var toString = function(it) {
+      var toString = function (it) {
         return isObject(it) ? JSON.stringify(it) : String(it);
       };
 
@@ -87,7 +88,7 @@ angular.module('Ring.select.options', [])
         return value;
       }
 
-      var matchedOptions = filter(this.getOptions(''), function(option) {
+      var matchedOptions = filter(options, function (option) {
         var optionValue = this.getValue(option);
 
         if (isObject(value)) {
@@ -121,22 +122,9 @@ angular.module('Ring.select.options', [])
     };
 
     Options.prototype.getOptions = function (query) {
-      if (!query) {
-        if (!this._cachedEmptyQueryOptions) {
-          this._cachedEmptyQueryOptions = this.doGetOptions(query);
-        }
-        return this._cachedEmptyQueryOptions;
-      } else {
-        return this.doGetOptions(query);
-      }
-    };
-
-    /**
-     * @private
-     */
-    Options.prototype.doGetOptions = function (query) {
       return this.datasourceGetter(this.scope, {query: query});
     };
+
 
     return Options;
   });
