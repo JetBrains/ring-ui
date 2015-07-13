@@ -298,16 +298,19 @@ angular.module('Ring.table', ['Ring.table.toolbar', 'Ring.react-ng', 'Ring.place
         var element = $element[0];
         var self = this;
 
+        var watchRowCheckFlag;
         self.setSelection = function (selection) {
           if (!selection) {
             return;
           }
           self.selection = selection;
-          $scope.$watch('rowCtrl.rowItem.checked', function (newValue) {
-            if (newValue !== undefined) {
-              self.selection.triggerSelectionChanged(self.rowItem);
-            }
-          });
+          if (!watchRowCheckFlag) {
+            watchRowCheckFlag = $scope.$watch('rowCtrl.rowItem.checked', function (newValue) {
+              if (newValue !== undefined) {
+                self.selection.triggerSelectionChanged(self.rowItem);
+              }
+            });
+          }
         };
 
         self.setActiveItem = function (item) {
