@@ -168,7 +168,7 @@ require('./select-ng__options');
     <file name="index.html">
       <h4>Multiple select</h4>
       <div ng-app="test" ng-controller="testCtrl as ctrl">
-        <rg-select ng-model="ctrl.selectedItems" options="item in ctrl.options" label="Select item" config="ctrl.selectConfig"></rg-select>
+        <rg-select ng-model="ctrl.selectedItems" options="item in ctrl.options" label="Select item" multiple="true"></rg-select>
         <div>Selected items: {{ctrl.selectedItems | json}}</div>
         <button ng-click="ctrl.selectedItems.splice(0, 1)">Deselect first item</button>
         <button ng-click="ctrl.options.splice(0, 1)">Remove first option</button>
@@ -180,10 +180,6 @@ require('./select-ng__options');
 
       angular.module('test', ['Ring.select']).controller('testCtrl', function() {
       var ctrl = this;
-
-      ctrl.selectConfig = {
-        multiple: true,
-      };
 
       ctrl.options = [
         {key: 1, label: '11111'},
@@ -263,13 +259,14 @@ angular.module('Ring.select', ['Ring.select.options'])
        * `item.text select as item.fullText describe as item.fullDescription for item in items track by item.id`
        * `item as item.text select as makeFullText(item) for item in items`
        * Where:
-       * `as` - label of item in select list
+       * `as` - what object will be set to ng-model
        * `select as` - label for selected item to display in button
        * `describe as` - description of item to display in list
        * `for item in items`, `for item in dataSource(query)` - data source or array
        * `track by item.id` - field to use as key for list
        * @property {Boolean} scope.externalFilter - whether or not select use options function as filter.
        * "filter" property scope.should not be passed in that case.
+       * @property {Boolean} scope.multiple - If true then you can select more then one value
        * @property {Function} scope.onSelect - callback to call on items selecting.
        * Receives "selected" property (<rg-select on-select='doSomethingWith(selected)'>)
        * @property {Function} scope.onDeselect - callback to call on item deselecting.
@@ -296,6 +293,7 @@ angular.module('Ring.select', ['Ring.select.options'])
         selectedLabel: '@',
         externalFilter: '=',
         filter: '=?',
+        multiple: '=?',
         clear: '=?',
         onSelect: '&',
         onDeselect: '&',
@@ -499,6 +497,7 @@ angular.module('Ring.select', ['Ring.select.options'])
             label: ctrl.label,
             selectedLabel: ctrl.selectedLabel,
             filter: ctrl.filter,
+            multiple: ctrl.multiple,
             clear: ctrl.clear,
             type: getSelectType(),
             loadingMessage: ctrl.loadingMessage,
