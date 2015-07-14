@@ -249,7 +249,10 @@ var Select = React.createClass({
       onDeselect: function() {},  // multi
       onChange: function() {},    // multi
 
-      onAdd: function() {}        // search string as first argument
+      onAdd: function() {},       // search string as first argument
+
+      onDone: function() {},
+      onReset: function() {}
     };
   },
 
@@ -258,7 +261,7 @@ var Select = React.createClass({
       data: [],
       selected: (this.props.multiple ? [] : null),
       filterString: null,
-      shorcuts: false,
+      shortcuts: false,
       popupShortcuts: false,
       hint: null
     };
@@ -267,12 +270,33 @@ var Select = React.createClass({
   getShortcutsProps: function () {
     return {
       map: {
-        'enter': this._inputShortcutHandler,
+        'enter': this._onEnter,
+        'esc': this._onEsc,
         'up': this._inputShortcutHandler,
         'down': this._inputShortcutHandler
       },
       scope: generateUniqueId()
     };
+  },
+
+  _onEnter: function() {
+      this.props.onDone();
+  },
+
+  _onEsc: function() {
+      if (this.props.multiple || !this.props.getInitial) return;
+
+      var selected = {
+        key: Math.random(),
+        label: this.props.getInitial()
+      };
+
+      this.setState({
+        selected: selected
+      }, function() {
+        this.props.onChange(selected);
+        this.props.onReset();
+      });
   },
 
   _inputShortcutHandler: function() {
@@ -602,14 +626,14 @@ var Select = React.createClass({
   _inputFocused: false,
   _focusHandler: function() {
     this.setState({
-      shorcuts: true,
+      shortcuts: true,
       focused: true
     });
   },
 
   _blurHandler: function() {
     this.setState({
-      shorcuts: false,
+      shortcuts: false,
       focused: false
     });
   },
