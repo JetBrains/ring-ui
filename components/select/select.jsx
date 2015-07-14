@@ -280,23 +280,25 @@ var Select = React.createClass({
   },
 
   _onEnter: function() {
-      this.props.onDone();
+    this.props.onDone();
   },
 
   _onEsc: function() {
-      if (this.props.multiple || !this.props.getInitial) return;
+    if (this.props.multiple || !this.props.getInitial) {
+      return;
+    }
 
-      var selected = {
-        key: Math.random(),
-        label: this.props.getInitial()
-      };
+    var selected = {
+      key: Math.random(),
+      label: this.props.getInitial()
+    };
 
-      this.setState({
-        selected: selected
-      }, function() {
-        this.props.onChange(selected);
-        this.props.onReset();
-      });
+    this.setState({
+      selected: selected
+    }, function() {
+      this.props.onChange(selected);
+      this.props.onReset();
+    });
   },
 
   _inputShortcutHandler: function() {
