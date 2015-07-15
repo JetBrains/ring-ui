@@ -106,7 +106,7 @@ angular.module('Ring.select.options', [])
     };
 
     Options.prototype.getKey = function (option) {
-      return this.getProperty(option, this.trackByGetter) || option[defaultKeyField];
+      return this.getProperty(option, this.trackByGetter) || option[defaultKeyField] || option;
     };
 
     Options.prototype.getLabel = function (option) {
