@@ -173,8 +173,34 @@ var ListTitle = React.createClass({
   }
 });
 
+var DEFAULT_ITEM_TYPE = Type.ITEM;
+
+/**
+ * @param {Type} listItemType
+ * @param {Object} item list item
+ */
+var isItemType = function(listItemType, item) {
+  if (contains(Type, item.type)) {
+    return item.type === listItemType;
+  }
+
+  /**
+   * If item does not have property rgItemType then by default
+   * it has Type.ITEM. This need for correct work select when items does not
+   * have peroperty rgItemType. In previous realization select set to item
+   * property `type` but I don't want move this knowledge to select component.
+   * I think this is better place.
+   */
+  if (!item.hasOwnProperty('rgItemType') && listItemType === DEFAULT_ITEM_TYPE) {
+    return true;
+  }
+
+  return item.rgItemType === listItemType;
+};
+
 var ListMixin = {
   statics: {
+    isItemType: isItemType,
     ListProps: {
       Type: Type,
       Dimension: Dimension
@@ -611,7 +637,7 @@ var List = React.createClass({
       <div className={classes} onMouseMove={this.mouseHandler}>
         <div className="ring-list__i" ref="inner" onScroll={this.scrollHandler} style={innerStyles}>
           {this.props.data.map(function (item, index) {
-            var props = mixIn({'rgItemType': Type.ITEM}, item);
+            var props = mixIn({'rgItemType': DEFAULT_ITEM_TYPE}, item);
             if (props.url) {
               props.href = props.url;
             }

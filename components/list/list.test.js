@@ -3,6 +3,7 @@ describe('List', function () {
   var React = require('react/addons');
   var List = require('./list');
   var list;
+  var Type = List.ListProps.Type;
 
   var getFirstListItem = function () {
     return list.refs.inner.getDOMNode().firstChild;
@@ -15,6 +16,29 @@ describe('List', function () {
   it('should be empty by default', function () {
     list.refs.inner.getDOMNode().tagName.toLowerCase().should.equal('div');
     list.refs.inner.getDOMNode().hasChildNodes().should.equal(false);
+  });
+
+  it('should check type of item', function() {
+    var itemMock = {
+      rgItemType: Type.SEPARATOR
+    };
+
+    List.isItemType(Type.SEPARATOR, itemMock).should.been.equal(true);
+  });
+
+  it('should support deprecated property `type`', function() {
+    var itemMock = {
+      type: Type.SEPARATOR
+    };
+
+    List.isItemType(Type.SEPARATOR, itemMock).should.been.equal(true);
+  });
+
+  it('by default item has type equal ITEM', function() {
+    var itemMock = {};
+
+    List.isItemType(Type.ITEM, itemMock).should.been.equal(true);
+    List.isItemType(Type.SEPARATOR, itemMock).should.been.equal(false);
   });
 
   describe('should render items', function() {
