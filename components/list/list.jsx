@@ -5,7 +5,9 @@
 
 var React = require('react/addons');
 var mixIn = require('mout/object/mixIn');
+var contains = require('mout/object/contains');
 var arrayFind = require('mout/array/find');
+var map = require('mout/array/map');
 var debounce = require('mout/function/debounce');
 
 var ShortcutsMixin = require('shortcuts/shortcuts__mixin');
@@ -210,11 +212,11 @@ var ListMixin = {
        var List = require('list/list');
 
        var listData = [
-        {'label': 'One', 'type': List.ListProps.Type.ITEM},
-        {'label': 'Two', 'type': List.ListProps.Type.ITEM},
-        {'label': 'Three', 'type': List.ListProps.Type.ITEM},
-        {'label': 'Four', 'type': List.ListProps.Type.ITEM},
-        {'label': 'Five', 'type': List.ListProps.Type.ITEM}
+        {'label': 'One',   'rgItemType': List.ListProps.Type.ITEM},
+        {'label': 'Two',   'rgItemType': List.ListProps.Type.ITEM},
+        {'label': 'Three', 'rgItemType': List.ListProps.Type.ITEM},
+        {'label': 'Four',  'rgItemType': List.ListProps.Type.ITEM},
+        {'label': 'Five',  'rgItemType': List.ListProps.Type.ITEM}
        ];
 
        React.renderComponent(List({
@@ -235,11 +237,11 @@ var ListMixin = {
        var List = require('list/list');
 
        var listData = [
-        {'label': 'One', 'type': List.ListProps.Type.ITEM},
-        {'label': 'Two', 'type': List.ListProps.Type.ITEM},
-        {'label': 'Active as default', 'type': List.ListProps.Type.ITEM},
-        {'label': 'Four', 'type': List.ListProps.Type.ITEM},
-        {'label': 'Five', 'type': List.ListProps.Type.ITEM}
+        {'label': 'One',               'rgItemType': List.ListProps.Type.ITEM},
+        {'label': 'Two',               'rgItemType': List.ListProps.Type.ITEM},
+        {'label': 'Active as default', 'rgItemType': List.ListProps.Type.ITEM},
+        {'label': 'Four',              'rgItemType': List.ListProps.Type.ITEM},
+        {'label': 'Five',              'rgItemType': List.ListProps.Type.ITEM}
        ];
 
        React.renderComponent(List({
@@ -261,11 +263,11 @@ var ListMixin = {
        var List = require('list/list');
 
        var listData = [
-        {'label': 'One', 'type': List.ListProps.Type.ITEM},
-        {'label': 'Two', 'type': List.ListProps.Type.ITEM},
-        {'label': 'Active as default', 'type': List.ListProps.Type.ITEM},
-        {'label': 'Four', 'type': List.ListProps.Type.ITEM},
-        {'label': 'Five', 'type': List.ListProps.Type.ITEM}
+        {'label': 'One',               'rgItemType': List.ListProps.Type.ITEM},
+        {'label': 'Two',               'rgItemType': List.ListProps.Type.ITEM},
+        {'label': 'Active as default', 'rgItemType': List.ListProps.Type.ITEM},
+        {'label': 'Four',              'rgItemType': List.ListProps.Type.ITEM},
+        {'label': 'Five',              'rgItemType': List.ListProps.Type.ITEM}
        ];
 
        React.renderComponent(List({
@@ -288,13 +290,13 @@ var ListMixin = {
        var List = require('list/list');
 
        var listData = [
-         {'type': List.ListProps.Type.SEPARATOR, 'description': 'First separator'},
-         {'label': 'Item 1', 'type': List.ListProps.Type.ITEM},
-         {'type': List.ListProps.Type.SEPARATOR, 'description': 'Second sep'},
-         {'label': 'Item 2', 'type': List.ListProps.Type.ITEM},
-         {'type': List.ListProps.Type.TITLE, 'label': 'Group title', 'description': 'With description'},
-         {'label': 'Item 3', 'type': List.ListProps.Type.ITEM, 'description': 'Foo bar'},
-         {'label': 'Item 4', 'type': List.ListProps.Type.ITEM, 'description': 'Item description'},
+         {                   'rgItemType': List.ListProps.Type.SEPARATOR, 'description': 'First separator'},
+         {'label': 'Item 1', 'rgItemType': List.ListProps.Type.ITEM},
+         {                   'rgItemType': List.ListProps.Type.SEPARATOR, 'description': 'Second sep'},
+         {'label': 'Item 2', 'rgItemType': List.ListProps.Type.ITEM},
+         {                   'rgItemType': List.ListProps.Type.TITLE, 'label': 'Group title', 'description': 'With description'},
+         {'label': 'Item 3', 'rgItemType': List.ListProps.Type.ITEM, 'description': 'Foo bar'},
+         {'label': 'Item 4', 'rgItemType': List.ListProps.Type.ITEM, 'description': 'Item description'},
        ];
 
        React.renderComponent(List({
@@ -315,10 +317,10 @@ var ListMixin = {
       var List = require('list/list');
 
       var listData = [
-        {label: 'Some item', key: '1', 'type': List.ListProps.Type.ITEM, icon: 'http://joomlasocial.ru/jomsocial/images/content/arrowchat/icon(2).png'},
-        {label: 'Some item', key: '2', 'type': List.ListProps.Type.ITEM, description: 'Test item', icon: 'http://gruzimfile.ru/files/russia-flag-icon.png'},
+        {label: 'Some item', key: '1', 'rgItemType': List.ListProps.Type.ITEM, icon: 'http://joomlasocial.ru/jomsocial/images/content/arrowchat/icon(2).png'},
+        {label: 'Some item', key: '2', 'rgItemType': List.ListProps.Type.ITEM, description: 'Test item', icon: 'http://gruzimfile.ru/files/russia-flag-icon.png'},
         //Link doesn't support icons
-        {label: 'Some item', key: '3', 'type': List.ListProps.Type.LINK, description: 'Test item', icon: 'http://www.thg.ru/forum/images/icons/icon6.gif'}
+        {label: 'Some item', key: '3', 'rgItemType': List.ListProps.Type.LINK, description: 'Test item', icon: 'http://www.thg.ru/forum/images/icons/icon6.gif'}
       ];
 
       React.renderComponent(List({
@@ -327,6 +329,31 @@ var ListMixin = {
         onSelect: console.log.bind(console)
     }), document.getElementById('list'));
     </file>
+  </example>
+
+  <example name="List should support deprecated item.type">
+   <file name="index.html">
+     <div id='list'></div>
+   </file>
+
+   <file name="index.js" webpack="true">
+     var React = require('react');
+     var List = require('list/list');
+
+     var listData = [
+      {'label': 'One',   'type': List.ListProps.Type.ITEM},
+      {'label': 'Two',   'type': List.ListProps.Type.ITEM},
+      {'label': 'Three', 'type': List.ListProps.Type.ITEM},
+      {'label': 'Four',  'type': List.ListProps.Type.ITEM},
+      {'label': 'Five',  'type': List.ListProps.Type.ITEM}
+     ];
+
+     React.renderComponent(List({
+         data: listData,
+         shortcuts: true,
+         onSelect: console.log.bind(console)
+       }), document.getElementById('list'));
+   </file>
   </example>
 */
 var List = React.createClass({
@@ -370,7 +397,7 @@ var List = React.createClass({
   },
 
   isActivatable: function(item) {
-    return !(item.type === Type.HINT || item.type === Type.SEPARATOR || item.disabled);
+    return !(item.rgItemType === Type.HINT || item.rgItemType === Type.SEPARATOR || item.disabled);
   },
 
   hoverHandler: function (index) {
@@ -465,13 +492,13 @@ var List = React.createClass({
       this.props.onSelect(item);
     }
 
-    if (item.type === Type.LINK && isKeyboardEvent) {
+    if (item.rgItemType === Type.LINK && isKeyboardEvent) {
       window.location.href = this.refs['item' + this.state.activeIndex].getDOMNode().href;
     }
   },
 
   getFirst: function () {
-    return arrayFind(this.props.data, {type: Type.ITEM});
+    return arrayFind(this.props.data, {rgItemType: Type.ITEM});
   },
 
   getSelected: function () {
@@ -490,7 +517,24 @@ var List = React.createClass({
   },
 
   componentWillReceiveProps: function (props) {
+
+    /**
+     * TODO(maksimrv): Remove this code when migrate to rgItemType.
+     * Convert old item.type to item.rgItemType
+     * @param {Object} listItem
+     * @return {Object} listItem
+     */
+    var normalizeListItemType = function(listItem) {
+      if (contains(Type, listItem.type)) {
+        listItem.rgItemType = listItem.type;
+      }
+
+      return listItem;
+    };
+
     if (props.data) {
+      props.data = map(props.data, normalizeListItemType);
+
       this.checkActivatableItems(props.data);
 
       var activeIndex = null;
@@ -567,16 +611,16 @@ var List = React.createClass({
       <div className={classes} onMouseMove={this.mouseHandler}>
         <div className="ring-list__i" ref="inner" onScroll={this.scrollHandler} style={innerStyles}>
           {this.props.data.map(function (item, index) {
-            var props = mixIn({'type': Type.ITEM}, item);
+            var props = mixIn({'rgItemType': Type.ITEM}, item);
             if (props.url) {
               props.href = props.url;
             }
             if (props.href) {
-              props.type = Type.LINK;
+              props.rgItemType = Type.LINK;
             }
 
             // Probably unique enough key
-            props.key = props.key || props.type + (props.label || props.description);
+            props.key = props.key || props.rgItemType + (props.label || props.description);
 
             props.active = (index === this.state.activeIndex);
             props.onMouseOver = this.hoverHandler.bind(this, index);
@@ -589,7 +633,7 @@ var List = React.createClass({
             }.bind(this);
 
             var element;
-            switch (props.type) {
+            switch (props.rgItemType) {
               case Type.SEPARATOR:
                 element = ListSeparator;
                 break;
@@ -606,7 +650,7 @@ var List = React.createClass({
                 element = ListTitle;
                 break;
               default:
-                throw new Error('Unknown menu element type: ' + props.type);
+                throw new Error('Unknown menu element type: ' + props.rgItemType);
             }
             return element(props, null);
           }.bind(this))}
