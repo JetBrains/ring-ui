@@ -37,6 +37,23 @@ var Type = {
  * @mixes {Popup.Mixin}
  * @extends {ReactComponent}
  * @example
+ <example name="Select with model that have type field">
+   <file name="index.html">
+     <div id="demo"></div>
+   </file>
+   <file name="index.js" webpack="true">
+     var React = require('react');
+     var Select = require('select/select');
+
+     React.renderComponent(Select({filter: true}), document.getElementById('demo'))
+     .setProps({data: [
+        {'label': 'One', 'key': '1', 'type': 'user'},
+        {'label': 'Group', 'key': '2', 'type': 'user'},
+        {'label': 'Three', 'key': '3', 'type': 'user'}
+      ], selected: {'label': 'Group', 'key': '2', 'type': 'user'}});
+    </file>
+ </example>
+
  <example name="Disabled select">
    <file name="index.html">
      <div id="demo1"></div>
@@ -439,20 +456,16 @@ var Select = React.createClass({
 
     var check = this.props.filter.fn || function(itemToCheck, checkString) {
       // by default, skip separators and hints
-      if (itemToCheck.type === List.ListProps.Type.SEPARATOR || itemToCheck.type === List.ListProps.Type.HINT) {
+      if (List.isItemType(List.ListProps.Type.SEPARATOR, itemToCheck) || List.isItemType(List.ListProps.Type.HINT, itemToCheck)) {
         return true;
-      } else {
-        return itemToCheck.label.match(new RegExp(checkString, 'ig'));
       }
+
+      return itemToCheck.label.match(new RegExp(checkString, 'ig'));
     };
 
     for (var i = 0; i < this.props.data.length; i++) {
       var item = this.props.data[i];
       if (filterString === '' || check(item, filterString, this.props.data)) {
-        if (item.type === undefined) {
-          item.type = List.ListProps.Type.ITEM;
-        }
-
         exactMatch = (item.label === filterString);
 
         if (this.props.multiple && !this.props.multiple.removeSelectedItems) {
@@ -545,7 +558,10 @@ var Select = React.createClass({
   },
 
   _listSelectHandler: function(selected) {
-    if ((selected.type !== List.ListProps.Type.ITEM && selected.type !== List.ListProps.Type.CUSTOM) || selected.disabled) {
+    var isItem = List.isItemType.bind(null, List.ListProps.Type.ITEM);
+    var isCustomItem = List.isItemType.bind(null, List.ListProps.Type.CUSTOM);
+
+    if ((!isItem(selected) && !isCustomItem(selected)) || selected.disabled) {
       return;
     }
 
