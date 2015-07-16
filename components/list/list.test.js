@@ -105,7 +105,7 @@ describe('List', function () {
 
       expect(function () {
         list.setProps({'data': [
-          {'label': 'Hello!', 'type': 'none'}
+          {'label': 'Hello!', 'rgItemType': 'none'}
         ]});
 
         $(getFirstListItem()).should.have.class('ring-link');
