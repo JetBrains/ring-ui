@@ -173,12 +173,6 @@ describe('Select(react)', function () {
   });
 
   describe('getListItems', function () {
-    it('Should set item type as button by default', function () {
-      this.select.setProps({data: [{key: 1, label: '1test'}]});
-      this.select.getListItems('');
-      this.select.props.data[0].type.should.equal(List.ListProps.Type.ITEM);
-    });
-
     it('Should filter items by label', function () {
       var filtered = this.select.getListItems('test3');
       filtered.length.should.equal(1);
