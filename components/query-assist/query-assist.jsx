@@ -227,7 +227,10 @@ var QueryAssist = React.createClass({
       map: {
         'enter': this.handleComplete,
         'ctrl+space': this.handleCtrlSpace,
-        'tab': this.handleTab
+        'tab': this.handleTab,
+        'right': noop,
+        'left': noop,
+        'space': noop
       },
       scope: generateUniqueId()
     };
