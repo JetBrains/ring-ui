@@ -7,7 +7,16 @@ var Popup = require('popup/popup');
 var List = require('list/list');
 var Input = require('input/input');
 
+var ShortcutsMixin = require('shortcuts/shortcuts__mixin');
+
+var Global = require('global/global');
+var generateUniqueId = Global.getUIDGenerator('ring-select-popup-');
+
+function noop() {}
+
 var SelectPopup = React.createClass({
+  mixins: [ShortcutsMixin],
+
   getDefaultProps: function() {
     return {
       data: [],
@@ -63,6 +72,33 @@ var SelectPopup = React.createClass({
     });
   },
 
+  _focusHandler: function() {
+    this.setState({
+      shortcuts: true
+    });
+  },
+
+  _blurHandler: function() {
+    this.setState({
+      shortcuts: false
+    });
+  },
+
+  getShortcutsProps: function () {
+    return {
+      map: {
+        'right': noop,
+        'left': noop,
+        'up': noop,
+        'down': noop,
+        'shift+up': noop,
+        'shift+down': noop,
+        'space': noop
+      },
+      scope: generateUniqueId()
+    };
+  },
+
   remove: function () {
     this.refs.popup.remove();
   },
@@ -77,6 +113,8 @@ var SelectPopup = React.createClass({
         <Input ref="filter" className="ring-js-shortcuts ring-input_filter-popup"
                placeholder={this.props.filter.placeholder || ''}
                onInput={this.props.onFilter}
+               onFocus={this._focusHandler}
+               onBlur={this._blurHandler}
           />
       </div>);
     }
