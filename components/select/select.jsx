@@ -21,6 +21,7 @@ var ShortcutsMixin = require('shortcuts/shortcuts__mixin');
 var Global = require('global/global');
 var generateUniqueId = Global.getUIDGenerator('ring-select-');
 
+function noop() {}
 
 /**
  * @enum {number}
@@ -257,19 +258,19 @@ var Select = React.createClass({
 
       shortcuts: false,
 
-      onBeforeOpen: function() {},
-      onOpen: function() {},
-      onClose: function() {},
-      onFilter: function() {},    // search string as first argument
+      onBeforeOpen: noop,
+      onOpen: noop,
+      onClose: noop,
+      onFilter: noop,       // search string as first argument
 
-      onSelect: function() {},    // single + multi
-      onDeselect: function() {},  // multi
-      onChange: function() {},    // multi
+      onSelect: noop,       // single + multi
+      onDeselect: noop,     // multi
+      onChange: noop,       // multi
 
-      onAdd: function() {},       // search string as first argument
+      onAdd: noop,          // search string as first argument
 
-      onDone: function() {},
-      onReset: function() {}
+      onDone: noop,
+      onReset: noop
     };
   },
 
@@ -290,7 +291,12 @@ var Select = React.createClass({
         'enter': this._onEnter,
         'esc': this._onEsc,
         'up': this._inputShortcutHandler,
-        'down': this._inputShortcutHandler
+        'down': this._inputShortcutHandler,
+        'right': noop,
+        'left': noop,
+        'shift+up': noop,
+        'shift+down': noop,
+        'space': noop
       },
       scope: generateUniqueId()
     };
@@ -388,7 +394,6 @@ var Select = React.createClass({
           minWidth={this.props.minWidth}
           filter={this.isInputMode() ? false : this.props.filter} // disable popup filter in INPUT mode
           anchorElement={this.props.targetElement || this.getDOMNode()}
-          shortcuts={true}
           onClose={this._onClose}
           onSelect={this._listSelectHandler}
           onFilter={this._filterChangeHandler} />);
