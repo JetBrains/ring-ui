@@ -96,7 +96,7 @@
   "dependencies": {
     "angular-elastic": "2.3.5",
     "autoprefixer-loader": "1.0.0",
-    "bowser": "0.7.2",
+    "bowser": "0.7.3",
     "codemirror": "4.11.0",
     "css-loader": "0.9.1",
     "exports-loader": "0.6.2",
