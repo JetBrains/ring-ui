@@ -12,7 +12,8 @@
 
             <div class="error-message__section" ng-if="links">
                 <span ng-repeat="link in links">
-                  <a class="ring-link" ng-attr-target="{{link.target}}" ng-href="{{link.href}}">{{link.text}}</a>{{$last ? '' : ','}}
+                  <a class="ring-link" ng-if="link.target" ng-href="{{link.href}}" target="{{link.target}}">{{link.text}}</a><a
+                  class="ring-link" ng-if="!link.target" ng-href="{{link.href}}">{{link.text}}</a>{{$last ? '' : ','}}
                 </span>
             </div>
         </div>
