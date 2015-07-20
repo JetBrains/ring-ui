@@ -23,12 +23,12 @@
                       ng-attr-placeholder="{{ placeholder }}"
                       ng-keydown="inputKey($event)"></textarea>
       <button ng-show="form.input.$dirty && form.input.$valid"
-              class="ring-btn ring-btn_blue ring-form__update-text__button"
+              class="ring-btn ring-btn_blue ring-form__update-text-button"
               ng-click="changed($event)">
         {{wording.save}}
       </button>
       <button ng-show="done" disabled
-              class="ring-btn ring-form__update-text__button">
+              class="ring-btn ring-form__update-text-button">
         {{wording.saved}}
       </button>
       <div ng-if="form.input.$dirty && initial !== item[field]" rg-error-bubble="form.input"></div>
