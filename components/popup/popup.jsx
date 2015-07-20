@@ -115,10 +115,11 @@ var PopupMixin = {
 
   /** @override */
   componentDidMount: function () {
+    this.JQueryNode = $(this.getDOMNode());
+
     if (!this.props.hidden) {
       this._setListenersEnabled(true);
     }
-
     this._checkDisplay();
   },
 
@@ -277,11 +278,11 @@ var PopupMixin = {
     /* eslint-disable no-bitwise */
     if (this.isMounted()) {
       if (props.direction & Direction.UP) {
-        top -= $(this.getDOMNode()).height();
+        top -= this.JQueryNode.height();
       }
 
       if (props.direction & Direction.LEFT) {
-        left -= $(this.getDOMNode()).width();
+        left -= this.JQueryNode.width();
       }
     }
     /* eslint-enable no-bitwise */
@@ -336,12 +337,12 @@ var PopupMixin = {
         styles.top = sidePadding;
       }
 
-      var horizontalDiff = $(document).width() - (styles.left + $(this.getDOMNode()).outerWidth());
+      var horizontalDiff = $(document).width() - (styles.left + this.JQueryNode.outerWidth());
       if (horizontalDiff < sidePadding) {
         styles.left = styles.left + horizontalDiff - sidePadding;
       }
 
-      var vericalDiff = $(document).height() - (styles.top + $(this.getDOMNode()).outerHeight());
+      var vericalDiff = $(document).height() - (styles.top + this.JQueryNode.outerHeight());
       if (vericalDiff < sidePadding) {
         styles.top = styles.top + vericalDiff - sidePadding;
       }
