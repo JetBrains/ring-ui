@@ -115,7 +115,7 @@ var PopupMixin = {
 
   /** @override */
   componentDidMount: function () {
-    this.JQueryNode = $(this.getDOMNode());
+    this.$element = $(this.getDOMNode());
 
     if (!this.props.hidden) {
       this._setListenersEnabled(true);
@@ -278,11 +278,11 @@ var PopupMixin = {
     /* eslint-disable no-bitwise */
     if (this.isMounted()) {
       if (props.direction & Direction.UP) {
-        top -= this.JQueryNode.height();
+        top -= this.$element.height();
       }
 
       if (props.direction & Direction.LEFT) {
-        left -= this.JQueryNode.width();
+        left -= this.$element.width();
       }
     }
     /* eslint-enable no-bitwise */
@@ -337,12 +337,12 @@ var PopupMixin = {
         styles.top = sidePadding;
       }
 
-      var horizontalDiff = $(document).width() - (styles.left + this.JQueryNode.outerWidth());
+      var horizontalDiff = $(document).width() - (styles.left + this.$element.outerWidth());
       if (horizontalDiff < sidePadding) {
         styles.left = styles.left + horizontalDiff - sidePadding;
       }
 
-      var vericalDiff = $(document).height() - (styles.top + this.JQueryNode.outerHeight());
+      var vericalDiff = $(document).height() - (styles.top + this.$element.outerHeight());
       if (vericalDiff < sidePadding) {
         styles.top = styles.top + vericalDiff - sidePadding;
       }
