@@ -12,7 +12,7 @@ angular.module('Ring.confirm', ['Ring.dialog']).
       // We need this because dialog uses ngInclude
       $templateCache.put(TEMPLATE_PATH, require('./confirm-ng.html'));
 
-      return function (message, description, actionTitle, cancelTitle) {
+      return function (message, description, actionTitle, cancelTitle, cancelIsDefault) {
         var defer = $q.defer();
 
         dialog.show({
@@ -24,7 +24,7 @@ angular.module('Ring.confirm', ['Ring.dialog']).
           buttons: [
             {
               'label': (actionTitle || 'Ok'),
-              'default': true,
+              'default': !cancelIsDefault,
               'close': false,
               'action': function () {
                 defer.resolve();
@@ -34,6 +34,7 @@ angular.module('Ring.confirm', ['Ring.dialog']).
             },
             {
               'label': (cancelTitle || 'Cancel'),
+              'default': !!cancelIsDefault,
               'action': function () {
                 defer.reject();
                 dialog.hide();
