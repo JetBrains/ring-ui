@@ -113,9 +113,11 @@ require('./select-ng__options');
           var ctrl = this;
 
           ctrl.options = [
-            {key: 1, label: '11111'},
-            {key: 2, label: '22222'},
-            {key: 3, label: '33333'}
+            {key: 1, label: '1'},
+            {key: 2, label: '2'},
+            {key: 3, label: '3'},
+            {key: 4, label: '4'},
+            {key: 5, label: '5'}
           ];
 
           ctrl.selectedItem = ctrl.options[1];
@@ -126,7 +128,7 @@ require('./select-ng__options');
               defer.resolve(ctrl.options.filter(function(op) {
                  return query ? op.label === query : true;
               }));
-            }, 1000);
+            }, 1000 * Math.random());
             return defer.promise;
           };
       });
@@ -395,16 +397,22 @@ angular.module('Ring.select', ['Ring.select.options'])
           return ctrl.selectType || $attrs.type;
         }
 
+        var lastQuery = null;
         ctrl.getOptions = function (query) {
           return $q.when(ctrl.optionsParser.getOptions(query));
         };
 
         ctrl.loadOptionsToSelect = function(query) {
+          lastQuery = query;
           ctrl.selectInstance.setProps({
             loading: getType() !== 'suggest'
           });
 
           ctrl.getOptions(query).then(function (results) {
+            if (query !== lastQuery) {
+              return; // skip results if query is not match
+            }
+
             memorizeOptions(results);
 
             var items = map(results.data || results, ctrl.convertNgModelToSelect);
