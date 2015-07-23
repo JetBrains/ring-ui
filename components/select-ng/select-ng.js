@@ -410,7 +410,7 @@ angular.module('Ring.select', ['Ring.select.options'])
 
           ctrl.getOptions(query).then(function (results) {
             if (query !== lastQuery) {
-              return; // skip results if query is not match
+              return; // skip results if query doesn't match
             }
 
             memorizeOptions(results);
