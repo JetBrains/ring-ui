@@ -25,7 +25,7 @@ describe('Popup', function () {
 
   it('should be closed by pressing esc', function() {
     var popup = TestUtils.renderIntoDocument(new Popup(null));
-
+    popup.show();
     simulateKeypress(null, 27); // Esc
 
     popup.isMounted().should.be.false;
