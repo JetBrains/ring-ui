@@ -90,7 +90,7 @@ var PopupMixin = {
 
   getDefaultProps: function () {
     return {
-      shortcuts: true,
+      shortcuts: false,
       hidden: false,
       autoRemove: true,
       cutEdge: true,
