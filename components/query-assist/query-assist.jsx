@@ -242,11 +242,14 @@ var QueryAssist = React.createClass({
   },
 
   componentDidMount: function () {
+    var query = this.props.query || '';
+
     this.immediateState = {
-      query: this.props.query || '',
-      caret: isNumber(this.props.caret) ? this.props.caret : this.props.query && this.props.query.length,
+      query: query,
+      caret: isNumber(this.props.caret) ? this.props.caret : query.length,
       focus: this.props.focus
     };
+
     this.setupRequestHandler(this.props);
     this.setShortcutsEnabled(this.props.focus);
     this.caret = new Caret(this.refs.input.getDOMNode());
