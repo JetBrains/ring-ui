@@ -19,11 +19,12 @@ describe('analytics singleton', function() {
   describe('ga plugin', function() {
     var gaPlugin;
     beforeEach(function() {
-      gaPlugin = new AnalyticsGAPlugin();
+      delete window.ga;
+      gaPlugin = new AnalyticsGAPlugin('SOME-ID');
     });
 
     it('should init ga', function() {
-      expect(window.ga).should.exist;
+      expect(window.ga).to.be.defined;
     });
 
     it('should export interface', function() {
@@ -52,6 +53,20 @@ describe('analytics singleton', function() {
       });
 
       window.ga = rememberGA;
+    });
+  });
+
+  describe('ga plugin with no key and in non-development mode', function() {
+    var gaPlugin;
+    beforeEach(function() {
+      delete window.ga;
+      gaPlugin = new AnalyticsGAPlugin();
+    });
+
+    it('should not init ga', function() {
+      expect(window.ga).to.be.undefined;
+      expect(gaPlugin.trackEvent).to.be.function;
+      expect(gaPlugin.trackPageView).to.be.function;
     });
   });
 
