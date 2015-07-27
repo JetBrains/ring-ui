@@ -22,11 +22,21 @@ describe('Alerts', function() {
 
   describe('adding alerts', function() {
     it('should add alert', function() {
-      component.add('Child element');
+      component._addElement('Child element.', Alerts.Type.MESSAGE, when.defer());
 
-      component.state.childElements.should.be.an.instanceof(Array);
-      component.state.childElements.length.should.equal(1);
+      return component.animationPromise.then(function () {
+        return component.state.childElements.should.have.length(1);
+      });
     });
+
+    it('should add alert with React component child', function() {
+      component._addElement(React.DOM.a(null, React.DOM.b(null, 'Composite element')), Alerts.Type.MESSAGE, when.defer());
+
+      return component.animationPromise.then(function () {
+        return component.state.childElements.should.have.length(1);
+      });
+    });
+
 
     it('should return deferred object', function() {
       var added = component.add('Child element');
@@ -42,25 +52,25 @@ describe('Alerts', function() {
 
       var domElement = component.getDOMNode();
       var children = domElement.querySelectorAll('.ring-alert');
-      var textContent = children[0].innerText ? children[0].innerText : children[0].textContent;
-      textContent.should.equal(LAST_TEXT);
+
+      children[0].textContent.should.equal(LAST_TEXT);
     });
   });
 
   describe('removing alerts', function() {
     it('should remove alert', function() {
       component._addElement('Child element.', Alerts.Type.MESSAGE, when.defer());
-      component.remove(0);
-      component.state.childElements.length.should.equal(1);
-      expect(component.state.childElements[0]).to.be.undefined;
+      component.remove(component.state.childElements[0]);
+
+      component.state.childElements.should.have.length(0);
     });
 
     it('should remove alert by clicking on close button', function() {
       component._addElement('Child element.', Alerts.Type.MESSAGE, when.defer());
       var clickElement = component.getDOMNode().querySelector('.ring-alert__close');
       React.addons.TestUtils.Simulate.click(clickElement, {});
-      component.state.childElements.length.should.equal(1);
-      expect(component.state.childElements[0]).to.be.undefined;
+
+      component.state.childElements.should.have.length(0);
     });
 
     it('should not remove alert by calling close() method of alert component', function() {
