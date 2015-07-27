@@ -3,7 +3,10 @@
  * @param {string?} gaId Google analytics id (should be undefined in development)
  * @constructor
  */
-var AnalyticsGAPlugin = function (gaId) {
+var AnalyticsGAPlugin = function (gaId, isDevelopment) {
+  if (!gaId && !isDevelopment) {
+    return;
+  }
   /* eslint-disable */
   (function (i, s, o, g, r, a, m) {
     i.GoogleAnalyticsObject = r;
