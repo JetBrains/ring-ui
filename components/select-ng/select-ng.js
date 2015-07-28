@@ -6,6 +6,7 @@ var isUndefined = require('mout/lang/isUndefined');
 
 var Select = require('select/select');
 require('./select-ng__options');
+require('message-bundle-ng/message-bundle-ng');
 
 /**
  * @name Select Ng
@@ -236,7 +237,7 @@ require('./select-ng__options');
     </example>
  */
 /* global angular: false */
-angular.module('Ring.select', ['Ring.select.options'])
+angular.module('Ring.select', ['Ring.select.options', 'Ring.message-bundle'])
   .directive('rgSelect', function () {
 
     var types = {
@@ -315,7 +316,7 @@ angular.module('Ring.select', ['Ring.select.options'])
 
         rgSelectCtrl.setNgModelCtrl(ngModelCtrl);
       },
-      controller: function ($q, $scope, $element, $attrs, SelectOptions) {
+      controller: function ($q, $scope, $element, $attrs, SelectOptions, RingMessageBundle) {
         /*eslint-disable consistent-this*/
         var ctrl = this;
         /*eslint-enable consistent-this*/
@@ -502,14 +503,14 @@ angular.module('Ring.select', ['Ring.select.options'])
 
           ctrl.config = angular.extend({}, {
             selected: ctrl.convertNgModelToSelect(ctrl.ngModel),
-            label: ctrl.label,
+            label: ctrl.label || RingMessageBundle.select_label(),
             selectedLabel: ctrl.selectedLabel,
             filter: ctrl.filter,
             multiple: ctrl.multiple,
             clear: ctrl.clear,
             type: getSelectType(),
-            loadingMessage: ctrl.loadingMessage,
-            notFoundMessage: ctrl.notFoundMessage,
+            loadingMessage: ctrl.loadingMessage || RingMessageBundle.select_loading(),
+            notFoundMessage: ctrl.notFoundMessage || RingMessageBundle.select_options_not_found(),
             targetElement: getType() === 'dropdown' ? $element[0] : null,
             onBeforeOpen: function () {
               $scope.$evalAsync(function () {
