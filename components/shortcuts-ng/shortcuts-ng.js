@@ -92,6 +92,10 @@ angular.module('Ring.shortcuts', [])
             next = back ? $scope.zones[$scope.zones.length - 1] : $scope.zones[0];
           }
 
+          if (!next) {
+            next = $scope.zones[0];
+          }
+
           // Skip invisible zones
           if (next && !next.element.is(':visible')) {
             next = getNext(next, back);
