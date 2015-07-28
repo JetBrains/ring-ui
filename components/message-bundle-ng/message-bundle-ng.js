@@ -102,5 +102,14 @@ angular.module('Ring.message-bundle', [])
       this.errorpage_500msg = function() {
         return i18n('Despite our best efforts, the server is not working properly.');
       };
+      this.select_options_not_found = function () {
+        return i18n('No options found');
+      };
+      this.select_loading = function () {
+        return i18n('Loading...');
+      };
+      this.select_label = function () {
+        return i18n('Please select option');
+      };
     }
   ]);
