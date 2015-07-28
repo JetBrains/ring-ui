@@ -273,7 +273,7 @@ angular.module('Ring.select', ['Ring.select.options', 'Ring.message-bundle'])
        * @property {Function} scope.onSelect - callback to call on items selecting.
        * Receives "selected" property (<rg-select on-select='doSomethingWith(selected)'>)
        * @property {Function} scope.onDeselect - callback to call on item deselecting.
-       * Receives "deselected" property (<rg-select on-select='doSomethingWith(deselected)'>)
+       * Receives "deselected" property (<rg-select on-deselect='doSomethingWith(deselected)'>)
        * @property {Function} scope.onOpen - callback to call on select popup opening
        * @property {Function} scope.onClose - callback to call on select popup closing
        * @property {Function} scope.onChange - callback to call on selected items change.
@@ -534,7 +534,7 @@ angular.module('Ring.select', ['Ring.select.options', 'Ring.message-bundle'])
             },
             onDeselect: function (item) {
               $scope.$evalAsync(function () {
-                ctrl.onDeselect({selected: item});
+                ctrl.onDeselect({deselected: item});
               });
             },
             onChange: function (selected) {
