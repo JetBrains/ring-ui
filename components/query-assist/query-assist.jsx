@@ -476,7 +476,7 @@ var QueryAssist = React.createClass({
     };
 
     if (replace) {
-      state.query += this.immediateState.query.substr(suggestion.completionEnd + suffix.length);
+      state.query += this.immediateState.query.substr(suggestion.completionEnd);
     } else {
       state.query += this.immediateState.query.substr(this.immediateState.caret);
     }
