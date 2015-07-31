@@ -218,8 +218,6 @@ describe('SelectNg', function () {
     });
 
     it('If externalFilter enabled should provide custom filter.fn which should always return true', function () {
-      scope.dataSource = this.sinon.stub().returns(fakeItems);
-
       compileTemplate('<rg-select options="item.name for item in items track by item.id" external-filter="true" ng-model="selectedItem"></rg-select>');
 
       ctrl.filter.fn().should.be.true;
@@ -248,6 +246,35 @@ describe('SelectNg', function () {
       var stringValue = 'str-value';
       ctrl.convertNgModelToSelect(stringValue);
       angular.extend.should.been.calledWith(this.sinon.match({}), null);
+    });
+
+    it('Should use select-type if defined', function () {
+      compileTemplate('<button rg-select="" options="itemvar in items track by itemvar.id" select-type="dropdown" type="submit"></button>');
+
+      ctrl.selectInstance.props.type.should.equal(Select.Type.CUSTOM);
+    });
+
+    it('Should use "multiple" attribute and provide it to select', function () {
+      compileTemplate('<rg-select options="item.name for item in items track by item.id" multiple="true" ng-model="selectedItem"></rg-select>');
+
+      ctrl.selectInstance.props.multiple.should.be.true;
+    });
+
+    it('Should watch "multiple" and update select after change', function () {
+      scope.selectMultiple = false;
+      compileTemplate('<rg-select options="item.name for item in items track by item.id" multiple="selectMultiple" ng-model="selectedItem"></rg-select>');
+
+      scope.selectMultiple = true;
+      scope.$digest();
+      ctrl.selectInstance.props.multiple.should.be.true;
+    });
+
+    it('Should return deselected item', function () {
+      scope.selectedItem = scope.items[1];
+      ctrl.config.onDeselect({originalModel: fakeItems[1]});
+      scope.$digest();
+
+      ctrl.selectInstance.props.selected.label.should.equal(fakeItems[1].name);
     });
   });
 
@@ -418,20 +445,6 @@ describe('SelectNg', function () {
       compileTemplate('<rg-select options="itemvar in items track by itemvar.id"></rg-select>');
 
       ctrl.optionsParser.optionVariableName.should.be.equal('itemvar');
-    });
-
-    it('Should use select-type if defined', function () {
-      compileTemplate('<button rg-select="" options="itemvar in items track by itemvar.id" select-type="dropdown" type="submit"></button>');
-
-      ctrl.selectInstance.props.type.should.equal(Select.Type.CUSTOM);
-    });
-
-    it('Should return deselected item', function () {
-      scope.selectedItem = scope.items[1];
-      ctrl.config.onDeselect({originalModel: fakeItems[1]});
-      scope.$digest();
-
-      ctrl.selectInstance.props.selected.label.should.equal(fakeItems[1].name);
     });
   });
 });

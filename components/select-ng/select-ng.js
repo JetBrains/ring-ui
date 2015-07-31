@@ -453,6 +453,14 @@ angular.module('Ring.select', ['Ring.select.options', 'Ring.message-bundle'])
           });
         }
 
+        function syncMultiple() {
+          $scope.$watch(function () {
+            return ctrl.multiple;
+          }, function () {
+            ctrl.selectInstance.setProps({multiple: ctrl.multiple});
+          });
+        }
+
         function attachDropdownIfNeeded() {
           if (getType() === 'dropdown') {
             element.addEventListener('click', function () {
@@ -500,7 +508,6 @@ angular.module('Ring.select', ['Ring.select.options', 'Ring.message-bundle'])
               return ctrl.optionsParser.getOptions(ctrl.query);
             }, optionsWatcher, true);
           }
-
           ctrl.config = angular.extend({}, {
             selected: ctrl.convertNgModelToSelect(ctrl.ngModel),
             label: ctrl.label || RingMessageBundle.select_label(),
@@ -566,6 +573,7 @@ angular.module('Ring.select', ['Ring.select.options', 'Ring.message-bundle'])
           ctrl.selectInstance = React.renderComponent(new Select(ctrl.config), container);
           syncNgModelToSelect();
           syncDisabled();
+          syncMultiple();
           attachDropdownIfNeeded();
           listenToRouteChanges();
         }
