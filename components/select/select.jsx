@@ -330,6 +330,14 @@ var Select = React.createClass({
     }
   },
 
+  _handleMultipleToggling: function (multiple) {
+    var empty = multiple ? [] : null;
+    this.setState({selected: empty});
+    this._rebuildMultipleMap(empty, multiple);
+
+    this.props.onChange(empty);
+  },
+
   componentWillMount: function() {
     // set selected element if provided during init
     if (this.props.selected) {
@@ -342,7 +350,7 @@ var Select = React.createClass({
 
   componentDidMount: function() {
     this._createPopup();
-    this._rebuildMultipleMap(this.state.selected);
+    this._rebuildMultipleMap(this.state.selected, this.props.multiple);
   },
 
   componentWillUnmount: function () {
@@ -353,11 +361,13 @@ var Select = React.createClass({
 
   componentWillReceiveProps: function(newProps) {
     if (newProps.selected) {
-      this._rebuildMultipleMap(newProps.selected);
       this.setState({
         selected: newProps.selected,
         selectedIndex: this._getSelectedIndex(newProps.selected, (newProps.data ? newProps.data : this.props.data))
       });
+    }
+    if (newProps.multiple !== this.props.multiple) {
+      this._handleMultipleToggling(newProps.multiple);
     }
   },
 
@@ -553,8 +563,8 @@ var Select = React.createClass({
 
   _multipleMap: {},
 
-  _rebuildMultipleMap: function(selected) {
-    if (selected && this.props.multiple) {
+  _rebuildMultipleMap: function(selected, multiple) {
+    if (selected && multiple) {
       this._multipleMap = {};
       for (var i = 0; i < selected.length; i++) {
         this._multipleMap[selected[i].key] = true;
