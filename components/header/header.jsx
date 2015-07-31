@@ -25,7 +25,7 @@ var headerClassName = new ClassName('ring-header');
  * @const
  * @type {RegExp}
  */
-var CUSTOM_ICON_SERVICE_REGEXP = /teamcity|upsource|youtrack/i;
+var CUSTOM_ICON_SERVICE_REGEXP = /^teamcity|upsource|youtrack|hub|vcs hosting$/i;
 
 /**
  * Takes an item, decides, whether it is a known JetBrains service
@@ -40,9 +40,14 @@ var getServiceLogo = function(item) {
   // Remove after logos update
   var detectedService = CUSTOM_ICON_SERVICE_REGEXP.exec(item.applicationName);
   if (detectedService) {
+    var serviceGlyph = detectedService[0].
+      toLowerCase().
+      replace('hub', 'ring').
+      replace(' ', '-');
+
     return (
-      <Icon size={Icon.Size.Size64}
-            glyph={detectedService[0].toLowerCase() + '-monochrome'}
+      <Icon size={Icon.Size.Size48}
+            glyph={serviceGlyph + '-monochrome'}
             className={className + '_monochrome ' + className} />
     );
   }
