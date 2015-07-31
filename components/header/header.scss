@@ -187,7 +187,7 @@
   background-size: contain;
   background-repeat: no-repeat;
 
-  margin: $ring-unit * 2 0;
+  margin: $ring-unit * 2 0 $ring-unit + 1;
 
   // Workaround for ring-icon
   &_monochrome {
