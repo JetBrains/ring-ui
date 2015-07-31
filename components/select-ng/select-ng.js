@@ -171,10 +171,11 @@ require('message-bundle-ng/message-bundle-ng');
     <file name="index.html">
       <h4>Multiple select</h4>
       <div ng-app="test" ng-controller="testCtrl as ctrl">
-        <rg-select ng-model="ctrl.selectedItems" options="item in ctrl.options" label="Select item" multiple="true"></rg-select>
+        <rg-select ng-model="ctrl.selectedItems" options="item in ctrl.options" label="Select item" multiple="ctrl.multiple"></rg-select>
         <div>Selected items: {{ctrl.selectedItems | json}}</div>
         <button ng-click="ctrl.selectedItems.splice(0, 1)">Deselect first item</button>
         <button ng-click="ctrl.options.splice(0, 1)">Remove first option</button>
+        <button ng-click="ctrl.multiple = !ctrl.multiple">Toggle multiple</button>
       </div>
     </file>
     <file name="index.js" webpack="true">
@@ -183,6 +184,7 @@ require('message-bundle-ng/message-bundle-ng');
 
       angular.module('test', ['Ring.select']).controller('testCtrl', function() {
       var ctrl = this;
+      ctrl.multiple = true;
 
       ctrl.options = [
         {key: 1, label: '11111'},
