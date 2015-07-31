@@ -334,8 +334,6 @@ var Select = React.createClass({
     var empty = multiple ? [] : null;
     this.setState({selected: empty});
     this._rebuildMultipleMap(empty, multiple);
-
-    this.props.onChange(empty);
   },
 
   componentWillMount: function() {
