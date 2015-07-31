@@ -116,8 +116,9 @@
 .ring-header__services {
   background: linear-gradient(#24353d, #4a565c);
 
+  line-height: 10px; // Eliminate gap between clicable blocks rows
   max-width: $ring-unit * 50 + 2;
-  padding: $ring-unit * 4 $ring-unit * 4 0;
+  padding: $ring-unit * 4 $ring-unit * 4 $ring-unit * 3;
 }
 
 .ring-header__services-item {
@@ -125,7 +126,6 @@
   display: inline-block;
   height: $ring-unit * 14;
   width: $ring-unit * 14;
-  margin-bottom: $ring-unit;
 
   overflow-x: hidden;
   text-align: center;
@@ -162,32 +162,36 @@
 .ring-header__services-line {
   height: 1px;
   background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.3), transparent);
-  margin: $ring-unit 0 $ring-unit * 2;
+  margin: $ring-unit * 4 0 $ring-unit * 2;
 }
 
-.ring-header__services-stacked,
-.ring-header__services-stacked:visited {
+.ring-header__services-stacked {
   display: inline-block;
-  color: $ring-gray-color;
   width: 100%;
   margin-bottom: $ring-unit * 2;
   line-height: $ring-unit * 2;
+
+  &, &:visited {
+    color: $ring-gray-color;
+  }
+  &:last-child {
+    margin-bottom: -$ring-unit * 3;
+  }
 }
 
 .ring-header__services-logo {
-  width: $ring-unit * 8;
-  height: $ring-unit * 8;
+  width: $ring-unit * 6;
+  height: $ring-unit * 6;
 
   display: inline-block;
   background-size: contain;
   background-repeat: no-repeat;
 
-  fill: #fff;
-  padding-bottom: $ring-unit;
+  margin: $ring-unit * 2 0;
 
   // Workaround for ring-icon
   &_monochrome {
-    padding-bottom: $ring-unit + 3;
+    padding-bottom: 3px;
   }
 }
 
