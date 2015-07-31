@@ -121,7 +121,11 @@ var initializeTemplate = function() {
      <file name="index.scss">
        .ring-icon {
          margin: 8px;
-         padding: 8px;
+         //padding: 8px;
+
+         background: #CCC;
+         width: 32px;
+         height: 32px;
 
          &[class*=monochrome] {
            background: #24353D;
