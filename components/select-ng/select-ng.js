@@ -459,7 +459,9 @@ angular.module('Ring.select', ['Ring.select.options', 'Ring.message-bundle'])
           $scope.$watch(function () {
             return ctrl.multiple;
           }, function () {
-            ctrl.selectInstance.setProps({multiple: ctrl.multiple});
+            if (angular.isDefined(ctrl.multiple)) {
+              ctrl.selectInstance.setProps({multiple: ctrl.multiple});
+            }
           });
         }
 
