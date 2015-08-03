@@ -332,7 +332,9 @@ var Select = React.createClass({
 
   _handleMultipleToggling: function (multiple) {
     var empty = multiple ? [] : null;
-    this.setState({selected: empty});
+    this.setState({selected: empty}, function() {
+      this.props.onChange(empty);
+    });
     this._rebuildMultipleMap(empty, multiple);
   },
 
