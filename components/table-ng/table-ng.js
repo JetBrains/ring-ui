@@ -369,12 +369,14 @@ angular.module('Ring.table', ['Ring.table.toolbar', 'Ring.react-ng', 'Ring.place
       transclude: true,
       require: '^rgTableRow',
       replace: true,
-      template: '<td class="ring-table__selector ring-table__column_selector" ng-class="{\'ring-table__column\': !isEmbedded}"><div react="Checkbox" ng-model="rowItem.checked"/></td>',
+      template: '<td class="ring-table__selector ring-table__column_selector" ng-class="{\'ring-table__column\': !isEmbedded}"><div react="Checkbox" ng-model="getRowItem().checked"/></td>',
       link: function (scope, iElement, iAttrs, rowCtrl) {
         /**
-         * Saving rowItem to use it as ng-model for checkbox
+         * rowItem getter to use it as ng-model for checkbox
          */
-        scope.rowItem = rowCtrl.rowItem;
+        scope.getRowItem = function () {
+          return rowCtrl.rowItem;
+        };
         scope.isEmbedded = angular.isDefined(iAttrs.embedded);
       }
     };
