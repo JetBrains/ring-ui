@@ -138,6 +138,11 @@ var MenuItemsSequence = [
       });
 
       // Render youtrack header to DOM. Help link leads to Yandex.
+      // You are also able to add a custom logotype into a Header via
+      // logotype: {
+      //   url: 'http://myLogo.png',
+      //   title: 'Custom Logo'
+      // }
       var header = React.renderComponent(new Header({
         helpLink: 'http://www.yandex.ru',
         logo: 'youtrack',
@@ -207,6 +212,7 @@ var Header = React.createClass({
           MenuItemType.LOGIN, false),
       helpLink: null,
       logo: '',
+      logotype: null,
       menu: '',
       profilePopupData: null,
       rightMenu: '',
@@ -377,16 +383,40 @@ var Header = React.createClass({
    * @private
    */
   _getLogo: function() {
+    var getLogoContent = function() {
+      if (!this.props.logotype) {
+        return <Icon size={Icon.Size.Size32} glyph={this.props.logo}/>;
+      }
+
+      var logoUrl = '';
+      var logoTitle = '';
+
+      if (typeof this.props.logotype === 'string') {
+        logoUrl = this.props.logotype;
+      }
+      if (typeof this.props.logotype === 'object') {
+        logoUrl = this.props.logotype.url || '';
+        logoTitle = this.props.logotype.title || '';
+      }
+
+      return logoUrl ? React.DOM.img({
+        className: 'ring-header__logo__custom-image',
+        src: logoUrl,
+        title: logoTitle,
+        alt: ''
+      }) : null;
+    }.bind(this);
+
     // todo(igor.alexeenko): This check treats as valid only components
     // created by React.createClass(). If an already existing component such as
     // React.DOM.img is passed, it won't work.
     if (this.props.logo && typeof this.props.logo.setState !== 'undefined' &&
-        typeof this.props.logo.render !== 'undefined') {
+      typeof this.props.logo.render !== 'undefined') {
       return this.props.logo;
     }
 
     return (
-      <a href={this.props.rootUrl || urlUtils.getBaseURI() || '/'}><Icon size={Icon.Size.Size32} glyph={this.props.logo} /></a>
+      <a href={this.props.rootUrl || urlUtils.getBaseURI() || '/'}>{getLogoContent()}</a>
     );
   },
 
