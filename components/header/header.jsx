@@ -399,12 +399,12 @@ var Header = React.createClass({
         logoTitle = this.props.logotype.title || '';
       }
 
-      return logoUrl ? React.DOM.img({
+      return React.DOM.img({
         className: 'ring-header__logo__custom-image',
         src: logoUrl,
         title: logoTitle,
         alt: ''
-      }) : null;
+      });
     }.bind(this);
 
     // todo(igor.alexeenko): This check treats as valid only components
