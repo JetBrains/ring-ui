@@ -138,14 +138,11 @@ var MenuItemsSequence = [
       });
 
       // Render youtrack header to DOM. Help link leads to Yandex.
-      // You are also able to add a custom logotype into a Header via
-      // logotype: {
-      //   url: 'http://myLogo.png',
-      //   title: 'Custom Logo'
-      // }
+      // It's possible add a custom logotype into a Header via `logoUrl` parameter
       var header = React.renderComponent(new Header({
         helpLink: 'http://www.yandex.ru',
         logo: 'youtrack',
+        logoTitle: 'YouTrack',
         menu: [
           Link({href: '#'}, 'Projects'),
           Link({href: '#'}, 'Dashboard')
@@ -212,7 +209,8 @@ var Header = React.createClass({
           MenuItemType.LOGIN, false),
       helpLink: null,
       logo: '',
-      logotype: null,
+      logoUrl: null,
+      logoTitle: null,
       menu: '',
       profilePopupData: null,
       rightMenu: '',
@@ -384,27 +382,18 @@ var Header = React.createClass({
    */
   _getLogo: function() {
     var getLogoContent = function() {
-      if (!this.props.logotype) {
-        return <Icon size={Icon.Size.Size32} glyph={this.props.logo}/>;
+      var logoTitle = this.props.logoTitle || '';
+
+      if (this.props.logoUrl) {
+        return (
+          <img src={this.props.logoUrl}
+               className='ring-header__logo__custom-image'
+               title={logoTitle}
+               alt={logoTitle} />
+        );
       }
 
-      var logoUrl = '';
-      var logoTitle = '';
-
-      if (typeof this.props.logotype === 'string') {
-        logoUrl = this.props.logotype;
-      }
-      if (typeof this.props.logotype === 'object') {
-        logoUrl = this.props.logotype.url || '';
-        logoTitle = this.props.logotype.title || '';
-      }
-
-      return React.DOM.img({
-        className: 'ring-header__logo__custom-image',
-        src: logoUrl,
-        title: logoTitle,
-        alt: ''
-      });
+      return <Icon size={Icon.Size.Size32} glyph={this.props.logo} title={logoTitle} />;
     }.bind(this);
 
     // todo(igor.alexeenko): This check treats as valid only components
