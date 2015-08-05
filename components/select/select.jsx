@@ -448,7 +448,9 @@ var Select = React.createClass({
     this._popup.hide();
 
     setTimeout(function () {
-      this.getDOMNode().focus();
+      if (this.isMounted()) {
+        this.getDOMNode().focus();
+      }
     }.bind(this), 0);
   },
 
