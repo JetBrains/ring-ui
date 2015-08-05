@@ -42,7 +42,8 @@ angular.module('Ring.dialog', []).
 
         function applyDefaultHandler(isTextAreaShortcut) {
           return function (event) {
-            if ($(event.target).is('textarea') !== isTextAreaShortcut) {
+            var $target = $(event.target);
+            if ($target.is('textarea') !== isTextAreaShortcut || $target.is('button')) {
               return;
             }
 
