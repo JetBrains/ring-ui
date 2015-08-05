@@ -446,6 +446,10 @@ var Select = React.createClass({
   _hidePopup: function() {
     this._popup.isVisible() && this.props.onClose();
     this._popup.hide();
+
+    setTimeout(function () {
+      this.getDOMNode().focus();
+    }.bind(this), 0);
   },
 
   addHandler: function() {
