@@ -21,10 +21,12 @@ var PermissionCache = function (permissions, namesConverter) {
       key = namesConverter(key);
     }
 
-    permissionCache[key] = {
-      global: permission.global,
-      spaceIdSet: PermissionCache._toProjectIdSet(permission.projects)
-    };
+    if (key) {
+      permissionCache[key] = {
+        global: permission.global,
+        spaceIdSet: PermissionCache._toProjectIdSet(permission.projects)
+      };
+    }
   });
 
   this.namesConverter = namesConverter || function(){};
