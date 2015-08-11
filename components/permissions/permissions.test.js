@@ -218,13 +218,21 @@ describe('Permissions', function () {
     var when = require('when');
 
     var permissions = new Permissions(new Auth({serverUri: ''}));
+    var permissionKeysDefaultConverter = Permissions.getDefaultNamesConverter('jetbrains.jetpass.');
+    var permissionKeysTestConverter = function(key) {
+      if (key === 'not-defined-key') {
+        return undefined;
+      }
+      return permissionKeysDefaultConverter(key);
+    };
     var permissionCache = new PermissionCache([
       createPermission('jetbrains.jetpass.space-read', null, true),
       createPermission('jetbrains.jetpass.space-update', [
         createSpace('123')
       ]),
-      createPermission('jetbrains.upsource.permission.project.admin', null, true)
-    ], Permissions.getDefaultNamesConverter('jetbrains.jetpass.'));
+      createPermission('jetbrains.upsource.permission.project.admin', null, true),
+      createPermission('not-defined-key', null, true)
+    ], permissionKeysTestConverter);
     permissions._promise = when.resolve(permissionCache);
 
     it('should resolve to true for given permission', function () {
@@ -264,6 +272,14 @@ describe('Permissions', function () {
       return permissions.bindVariable(scope, 'canUpdateSpace', 'space-update', '456').
         then(function () {
           scope.canUpdateSpace.should.be.false;
+        });
+    });
+
+    it('permission cache should not contain permissions with key undefined', function () {
+      var scope = {};
+      return permissions.bindVariable(scope, 'canUpdateSomething', 'undefined').
+        then(function () {
+          scope.canUpdateSomething.should.be.false;
         });
     });
   });
