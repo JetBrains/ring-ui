@@ -6,8 +6,8 @@ var isGather = process.argv.indexOf('--gather') !== -1;
 var isTeamcity = process.argv.indexOf('--teamcity') !== -1;
 
 function getDocsiteUrl() {
-  var OSHostname = require('os').hostname();
-  var fullHostname = OSHostname.indexOf('.') !== -1 ? OSHostname : OSHostname + '.labs.intellij.net';
+  var hostname = require('os').hostname();
+  var fullHostname = hostname.indexOf('.') !== -1 ? hostname : hostname + '.labs.intellij.net';
   return fullHostname + ':9999';
 }
 
