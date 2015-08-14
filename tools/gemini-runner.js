@@ -1,6 +1,8 @@
 /* eslint-env node */
 var Gemini = require('gemini/api');
 var geminiTeamcityPlugin = require('gemini-teamcity');
+var http = require('http');
+var when = require('when');
 
 var isGather = process.argv.indexOf('--gather') !== -1;
 var isTeamcity = process.argv.indexOf('--teamcity') !== -1;
@@ -41,34 +43,47 @@ function handleGeminiError(error) {
    * And then call exit with error code instead
    */
   var exit = process.exit;
-  process.on('exit', function() {
+  process.on('exit', function () {
     exit(4);
   });
 
   throw error;
 }
 
+function checkUrlAvailability(url) {
+  return when.promise(function (resolve, reject) {
+    http.get('http://' + url, resolve).on('error', reject);
+  });
+}
+
 var files = getFilesFromArguments();
 
-if (isGather) {
-  if (files.length > 1) {
-    throw new Error('You should gather only 1 file at time, received: ' + files.join(','));
-  }
-  gemini.gather(files, {})
-    .then(function (res) {
-      console.log('Gather done', res);
-    })
-    .fail(handleGeminiError);
-
-} else {
-  gemini.test(files, {
-    reporters: ['html']
-  })
-    .then(function (res) {
-      console.log('Test done', res);
-      if (res.failed || res.errored) {
-        throw new Error('Not all tests passed successfully');
+checkUrlAvailability(docsiteUrl)
+  .then(function () {
+    if (isGather) {
+      if (files.length > 1) {
+        throw new Error('You should gather only 1 file at time, received: ' + files.join(','));
       }
-    })
-    .fail(handleGeminiError);
-}
+      gemini.gather(files, {})
+        .then(function (res) {
+          console.log('Gather done', res);
+        })
+        .fail(handleGeminiError);
+
+    } else {
+      gemini.test(files, {
+        reporters: ['html']
+      })
+        .then(function (res) {
+          console.log('Test done', res);
+          if (res.failed || res.errored) {
+            throw new Error('Not all tests passed successfully');
+          }
+        })
+        .fail(handleGeminiError);
+    }
+  })
+  .catch(function (err) {
+    console.error('URL "%s" is not available (%s).' +
+      ' Did you forget to run "npm start" before gemini test?', docsiteUrl, err.code);
+  });
