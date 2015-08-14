@@ -1,4 +1,4 @@
-<div class="ring-dialog__wrapper" ng-class="{'active': active}">
+<div class="ring-dialog__wrapper" ng-class="{ 'active': active, 'ring-dialog__wrapper_inline': inSidebar }">
   <div class="ring-dialog__container">
     <div class="ring-dialog__header"
          ng-show="title">
@@ -28,6 +28,6 @@
       </button>
     </div>
   </div>
-  <div class="ring-dialog__layer">
+  <div class="ring-dialog__layer" ng-if="!inSidebar">
   </div>
 </div>

@@ -81,8 +81,27 @@ angular.module('Ring.sidebar', ['Ring.react-ng', 'Ring.place-under'])
       scope: {
         show: '=',
         placeUnderSibling: '@',
-        topOffset: '=?'
-      }
+        topOffset: '=?',
+        dialogIsActive: '=?'
+      },
+      controller: ['$scope', function ($scope) {
+        $scope.showed = $scope.show;
+
+        // dialog has been opened — open sidebar
+        $scope.$watch('dialogIsActive', function () {
+          if ($scope.dialogIsActive) {
+            $scope.show = true;
+          } else if (!$scope.showed) {
+            $scope.show = false;
+          }
+        });
+
+        $scope.$watch('show', function () {
+          if (!$scope.dialogIsActive) {
+            $scope.showed = $scope.show;
+          }
+        });
+      }]
     };
   })
   .directive('rgSidebarToggleButton', [function () {
@@ -91,7 +110,8 @@ angular.module('Ring.sidebar', ['Ring.react-ng', 'Ring.place-under'])
       restrict: 'E',
       transclude: true,
       scope: {
-        model: '='
+        model: '=',
+        dialogIsActive: '=?'
       },
       template: require('./sidebar-ng__button.html')
     };
