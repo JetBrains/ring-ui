@@ -65,7 +65,11 @@ promisedClickModule.directive('rgPromisedClick', function ($parse) {
         } else {
           promise = callback($event);
           if (promise) {
+            // Do not use $evalAsync here. This code should be invoked in the same animation frame
+            // otherwise a button may be "pressed" twice – by click and with class change.
+            /* eslint-disable angular/ng_no_private_call */
             if (!$scope.$root.$$phase) {
+            /* eslint-enable angular/ng_no_private_call */
               $scope.$apply(doIt);
             } else {
               doIt();
