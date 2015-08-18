@@ -46,22 +46,30 @@ promisedClickModule.directive('rgPromisedClick', function ($parse) {
     restrict: 'A',
     controller: function ($scope, $element) {
       var active = false;
+      var promise;
+
+      function doIt() {
+        active = true;
+        $element.addClass('ring-btn_active');
+        promise.finally(function () {
+          active = false;
+          $element.removeClass('ring-btn_active');
+        });
+      }
+
       this.onPromisedClick = function (callback, $event) {
         if (active) {
           if ($event) {
             $event.preventDefault();
           }
         } else {
-          var promise = callback($event);
+          promise = callback($event);
           if (promise) {
-            $scope.$apply(function () {
-              active = true;
-              $element.addClass('ring-btn_active');
-              promise.finally(function () {
-                active = false;
-                $element.removeClass('ring-btn_active');
-              });
-            });
+            if (!$scope.$root.$$phase) {
+              $scope.$apply(doIt);
+            } else {
+              doIt();
+            }
           }
         }
       };
