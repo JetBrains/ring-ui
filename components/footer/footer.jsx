@@ -72,13 +72,18 @@ var FooterLine = React.createClass({
     var children = {};
     var renderItem = function(item, idx) {
       // Item is string
-      if (!(item.label)) {
+      if (!(item.label) && !React.isValidComponent(item)) {
         item = {label: item};
       }
       var element = (item.copyright ? copyright(item.copyright) : '') + item.label;
       if (item.url) {
         element = <a className="ring-link" href={item.url} title={item.title}>{element}</a>;
       }
+
+      if (React.isValidComponent(item)) {
+        element = item;
+      }
+
       return {
         id: item.label + '-' + idx,
         element: element
