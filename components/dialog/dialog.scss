@@ -164,6 +164,7 @@
 
   cursor: move;
   text-align: center;
+  user-select: none;
 }
 
 .ring-dialog__header__close-icon {
@@ -211,7 +212,8 @@
 
     text-align: left;
 
-    cursor: default;
+    cursor: text;
+    user-select: text;
   }
 
   .ring-dialog__content {
