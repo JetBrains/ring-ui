@@ -9,7 +9,7 @@ describe('Checkbox', function () {
   var checkbox;
 
   beforeEach(function () {
-    checkbox = renderIntoDocument(new Checkbox());
+    checkbox = renderIntoDocument(React.createElement(Checkbox));
   });
 
   it('should create component', function () {
@@ -25,7 +25,7 @@ describe('Checkbox', function () {
   });
 
   it('should generate unique id', function () {
-    var secondCheckboxId = renderIntoDocument(new Checkbox()).getInputDOMNode().getAttribute('id');
+    var secondCheckboxId = renderIntoDocument(React.createElement(Checkbox)).getInputDOMNode().getAttribute('id');
     $(checkbox.getInputDOMNode()).should.not.have.id(secondCheckboxId);
   });
 

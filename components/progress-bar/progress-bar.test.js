@@ -7,7 +7,7 @@ describe('ProgressBar', function() {
   var ProgressBar = require('./progress-bar');
 
   beforeEach(function() {
-    this.progress = React.addons.TestUtils.renderIntoDocument(new ProgressBar());
+    this.progress = React.addons.TestUtils.renderIntoDocument(React.createElement(ProgressBar));
   });
 
   it('should create component', function() {

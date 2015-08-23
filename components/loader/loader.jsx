@@ -1,6 +1,7 @@
-/** @jsx React.DOM */
-
 var React = require('react');
+var classNames = require('classnames');
+var mixIn = require('mout/object/mixIn');
+
 require('./loader.scss');
 
 /**
@@ -18,7 +19,10 @@ require('./loader.scss');
        var React = require('react');
        var Loader = require('loader/loader');
 
-      React.renderComponent(Loader(), document.getElementById('loader'));
+      React.render(
+        React.createElement(Loader),
+        document.getElementById('loader')
+      );
      </file>
    </example>
 
@@ -32,9 +36,9 @@ require('./loader.scss');
        var React = require('react');
        var Loader = require('loader/loader.jsx');
 
-       React.renderComponent(Loader({
-                modifier: Loader.Modifier.INLINE
-              }), document.getElementById('loader-inline'));
+       React.render(React.createElement(Loader, {
+         modifier: Loader.Modifier.INLINE
+       }), document.getElementById('loader-inline'));
      </file>
    </example>
  */
@@ -51,14 +55,22 @@ var Loader = React.createClass({
       INLINE: 'ring-loader_inline'
     }
   },
+
   getDefaultProps: function() {
     return {
       modifier: ''
     };
   },
+
   render: function() {
-    return this.transferPropsTo(React.DOM.div({
-      className: 'ring-loader ' + this.props.modifier
+    var classes = classNames(
+      'ring-loader',
+      this.props.modifier,
+      this.props.className
+    );
+
+    return React.DOM.div(mixIn({}, this.props, {
+      className: classes
     }));
   }
 });

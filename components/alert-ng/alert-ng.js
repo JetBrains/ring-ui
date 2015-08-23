@@ -4,7 +4,7 @@
  */
 /* global angular: false */
 
-var React = require('react/addons');
+var React = require('react');
 
 angular.module('Ring.alert', []).provider('alert', function() {
   var ReactAlert = require('../alert/alert');
@@ -17,7 +17,7 @@ angular.module('Ring.alert', []).provider('alert', function() {
       containerElement = angular.element('<div>');
       angular.element(document.body.childNodes[0]).after(containerElement);
     }
-    container = React.renderComponent(new ReactAlerts(), containerElement[0]);
+    container = React.render(React.createElement(ReactAlerts), containerElement[0]);
   }
 
   function setDefaultTTL(ttl) {

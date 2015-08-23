@@ -1,9 +1,6 @@
-/**
- * @jsx React.DOM
- */
-
 require('./button-group.scss');
 var React = require('react');
+var classNames = require('classnames');
 
 /**
  * @name Button Group
@@ -23,20 +20,27 @@ var React = require('react');
       var Button = require('button/button.jsx');
       var ButtonGroup = require('button-group/button-group.jsx');
 
-      React.renderComponent(ButtonGroup(null,
-              Button(null, '1st button'),
-              Button(null, '2nd button'),
-              Button(null, '3rd button')), document.getElementById('button-group'));
+      React.render(
+        React.createElement(
+          ButtonGroup,
+          null,
+          React.createElement(Button, null, '1st button'),
+          React.createElement(Button, null, '2nd button'),
+          React.createElement(Button, null, '3rd button')
+        ),
+        document.getElementById('button-group')
+      );
     </file>
   </example>
  */
 var ButtonGroup = React.createClass({
   render: function () {
-    return this.transferPropsTo(
-      <div className="ring-button-group">
+    var classes = classNames('ring-button-group', this.props.className);
+    return (
+      <div {...this.props} className={classes}>
         {this.props.children}
       </div>
-      );
+    );
   }
 });
 

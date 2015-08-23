@@ -1,7 +1,6 @@
 /**
  * @fileoverview Cross-service universal header.
  * @author igor.alexeenko@jetbrains.com (Igor Alekseenko)
- * @jsx React.DOM
  */
 
 require('./header.scss');
@@ -10,8 +9,9 @@ var ClassName = require('class-name/class-name');
 var Global = require('global/global');
 var Icon = require('icon/icon');
 var Popup = require('popup/popup');
-var React = require('react/addons');
+var React = require('react');
 var urlUtils = require('url-utils/url-utils');
+var classNames = require('classnames');
 
 var HeaderItem = require('./header__item');
 
@@ -54,7 +54,7 @@ var getServiceLogo = function(item) {
 
   if (item.iconUrl) {
     return (
-      <span className={className} style={{'background-image': 'url(' + item.iconUrl + ')'}}></span>
+      <span className={className} style={{'backgroundImage': 'url(' + item.iconUrl + ')'}}></span>
     );
   }
 
@@ -139,13 +139,13 @@ var MenuItemsSequence = [
 
       // Render youtrack header to DOM. Help link leads to Yandex.
       // It's possible add a custom logotype into a Header via `logoUrl` parameter
-      var header = React.renderComponent(new Header({
+      var header = React.render(React.createElement(Header, {
         helpLink: 'http://www.yandex.ru',
         logo: 'youtrack',
         logoTitle: 'YouTrack',
         menu: [
-          Link({href: '#'}, 'Projects'),
-          Link({href: '#'}, 'Dashboard')
+          React.createElement(Link, {href: '#'}, 'Projects'),
+          React.createElement(Link, {href: '#'}, 'Dashboard')
         ]
       }), document.getElementById('header-container'));
 
@@ -153,14 +153,13 @@ var MenuItemsSequence = [
       header.setProps({
         onSettingsOpen: function() {
           popupContainer = document.querySelector('.popup-container');
-          popup = React.renderComponent(
-            new Popup({
-              anchorElement: header.refs['settings'].getDOMNode(),
-              onClose: function() {
-                header.refs['settings'].setOpened(false);
-              }
-            }, React.DOM.div(null, 'Popup content')),
-            popupContainer)
+          popup = React.render(React.createElement(Popup, {
+            anchorElement: header.refs['settings'].getDOMNode(),
+            onClose: function() {
+              header.refs['settings'].setOpened(false);
+            }
+          }, React.DOM.div(null, 'Popup content')),
+          popupContainer)
         },
 
         onSettingsClose: function() {
@@ -211,7 +210,7 @@ var Header = React.createClass({
       logo: '',
       logoUrl: null,
       logoTitle: null,
-      menu: '',
+      menu: [],
       profilePopupData: null,
       rightMenu: '',
       rootUrl: null,
@@ -238,17 +237,19 @@ var Header = React.createClass({
 
     return (<div className={headerClassName.getClassName()}>
       <div className={headerClassName.getElement('logo')}>{this._getLogo()}</div>
-      <div className={headerClassName.getElement('menu')}>{React.Children.map(this.props.menu, function(item) {
-        var className = item.props.className && item.props.className.split(' ') || [];
+      <div className={headerClassName.getElement('menu')}>{
+        React.Children.map(this.props.menu, function(item) {
+          var className = item.props.className && item.props.className.split(' ') || [];
 
-        if (className.indexOf(menuItemClassName) === -1) {
-          className.push(menuItemClassName);
-        }
+          if (className.indexOf(menuItemClassName) === -1) {
+            className.push(menuItemClassName);
+          }
 
-        item.props.className = className.join(' ');
+          item.props.className = className.join(' '); // What is it?
 
-        return item;
-      })}</div>
+          return item;
+        })
+      }</div>
       {this._getRightMenu()}
     </div>);
   },
@@ -290,7 +291,7 @@ var Header = React.createClass({
    * @private
    */
   _getLinkElement: function(href, isActive, className, children) {
-    var fullClassName = React.addons.classSet(Global.createObject(
+    var fullClassName = classNames(Global.createObject(
       className, true,
       headerClassName.getClassName('services-current'), isActive,
       headerClassName.getClassName('services-link'), !isActive));
@@ -356,7 +357,7 @@ var Header = React.createClass({
    */
   _setServicesPopupShown: function(show) {
     if (show) {
-      this._servicesPopup = Popup.renderComponent(new Popup({
+      this._servicesPopup = Popup.render(React.createElement(Popup, {
         anchorElement: this.refs['services'].getDOMNode(),
         autoRemove: true,
         className: headerClassName.getClassName('services'),
@@ -413,24 +414,13 @@ var Header = React.createClass({
    * @return {ReactComponent}
    * @private
    */
-  _getMenu: function() {
-    if (this.props.menu) {
-      return /** @type {ReactComponent} */ this.transferPropsTo(this.props.menu);
-    }
-
-    return '';
-  },
-
-  /**
-   * @return {ReactComponent}
-   * @private
-   */
   _getRightMenu: function() {
     if (this.props.rightMenu) {
+      // TODO
       return /** @type {ReactComponent} */ this.transferPropsTo(this.props.rightMenu);
     }
 
-    var extraElementClassName = React.addons.classSet(Global.createObject(
+    var extraElementClassName = classNames(Global.createObject(
         headerClassName.getElement('user-menu-extra'), true,
         headerClassName.getElement('user-menu-item'), true));
 
@@ -462,7 +452,7 @@ var Header = React.createClass({
    * @return {Array.<ReactComponent>}
    */
   getMenuItems: function() {
-    var loginClassName = React.addons.classSet(Global.createObject(
+    var loginClassName = classNames(Global.createObject(
         headerClassName.getElement('user-menu-item'), true,
         headerClassName.getClassName('user-menu-item', 'login'), true));
 

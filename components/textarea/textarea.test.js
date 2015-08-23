@@ -4,7 +4,7 @@ describe('Textarea', function () {
   var component;
 
   beforeEach(function () {
-    component = React.addons.TestUtils.renderIntoDocument(new Textarea());
+    component = React.addons.TestUtils.renderIntoDocument(React.createElement(Textarea));
   });
 
   it('should create component', function () {

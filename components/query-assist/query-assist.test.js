@@ -1,4 +1,5 @@
 var renderIntoDocument = require('render-into-document');
+var React = require('react/addons');
 
 describe('QueryAssist', function () {
   var browser = require('bowser').browser;
@@ -62,7 +63,7 @@ describe('QueryAssist', function () {
   }];
 
   beforeEach(function () {
-    this.queryAssist = renderIntoDocument(new QueryAssist({
+    this.queryAssist = renderIntoDocument(React.createElement(QueryAssist, {
       query: testQuery,
       focus: true,
       dataSource: this.sinon.stub().returns({})

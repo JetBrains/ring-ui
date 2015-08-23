@@ -1,22 +1,13 @@
 /**
  * @fileoverview Ring Footer.
- * @jsx React.DOM
  */
-
-require('./footer.scss');
-require('link/link.scss');
 
 var React = require('react');
 var isArray = require('mout/lang/isArray');
+var classNames = require('classnames');
 
-/**
- * @enum {string}
- */
-var Position = {
-  LEFT: 'left',
-  CENTER: 'center',
-  RIGHT: 'right'
-};
+require('./footer.scss');
+require('link/link.scss');
 
 /**
  * @constructor
@@ -28,13 +19,14 @@ var FooterColumn = React.createClass({
   },
 
   render: function () {
+    var classes = classNames('ring-footer__column', 'ring-footer__column_' + this.props.position);
     return (
-      <div className={['ring-footer__column', 'ring-footer__column_' + this.props.position].join(' ')}>
+      <div className={classes}>
         <ul className="ring-footer__column__i">
           {this.props.children}
         </ul>
       </div>
-      );
+    );
   }
 });
 
@@ -45,7 +37,6 @@ var FooterColumn = React.createClass({
  */
 var copyright = function(year) {
   var currentYear = (new Date()).getUTCFullYear();
-
   var ret = '© ';
 
   if (year >= currentYear) {
@@ -68,19 +59,22 @@ var FooterLine = React.createClass({
       React.PropTypes.array
     ])
   },
+
   render: function () {
     var children = {};
-    var renderItem = function(item, idx) {
+
+    function renderItem(item, idx) {
       // Item is string
-      if (!(item.label) && !React.isValidComponent(item)) {
+      if (!(item.label) && !React.isValidElement(item)) {
         item = {label: item};
       }
+
       var element = (item.copyright ? copyright(item.copyright) : '') + item.label;
       if (item.url) {
         element = <a className="ring-link" href={item.url} title={item.title}>{element}</a>;
       }
 
-      if (React.isValidComponent(item)) {
+      if (React.isValidElement(item)) {
         element = item;
       }
 
@@ -88,7 +82,8 @@ var FooterLine = React.createClass({
         id: item.label + '-' + idx,
         element: element
       };
-    };
+    }
+
     if (isArray(this.props.item)) {
       this.props.item.map(renderItem).forEach(function(it) {
         children[it.id] = it.element;
@@ -97,11 +92,12 @@ var FooterLine = React.createClass({
       var renderedItem = renderItem(this.props.item, 0);
       children[renderedItem.id] = renderedItem.element;
     }
+
     return (
       <li className="ring-footer__line">
         {children}
       </li>
-      );
+    );
   }
 });
 
@@ -134,21 +130,23 @@ var FooterLine = React.createClass({
    <file name="index.js" webpack="true">
    var React = require('react');
    var Footer = require('footer/footer.jsx');
-   React.renderComponent(
-   Footer({
-        className: 'stuff',
-        left: [
-          [{url: 'http://www.jetbrains.com/teamcity/?fromServer', label: 'TeamCity'}, ' by JetBrains'],
-          'Enterprise 8.0.2 EAP (build 27448)'
-        ],
-        center: [
-          [{copyright: 2000, label: ' JetBrains'}, ' · All rights reserved'],
-          {url: 'http://teamcity.jetbrains.com/showAgreement.html', label: 'License agreement', title: 'READ ME!'}
-        ],
-        right: [
-          {url: 'http://www.jetbrains.com/teamcity/feedback?source=footer&version=8.0.3%20(build%2027531)&build=27531&mode=ent', label: 'Feedback'}
-        ]
-      }), document.getElementById('footer'));
+
+   React.render(
+     React.createElement(Footer, {
+       className: 'stuff',
+       left: [
+         [{url: 'http://www.jetbrains.com/teamcity/?fromserver', label: 'TeamCity'}, ' by JetBrains'],
+         'Enterprise 8.0.2 EAP (build 27448)'
+       ],
+       center: [
+         [{copyright: 2000, label: ' JetBrains'}, ' · All rights reserved'],
+         {url: 'http://teamcity.jetbrains.com/showagreement.html', label: 'License agreement', title: 'read me!'}
+       ],
+       right: [
+         {url: 'http://www.jetbrains.com/teamcity/feedback?source=footer&version=8.0.3%20(build%2027531)&build=27531&mode=ent', label: 'Feedback'}
+       ]
+     }
+   ), document.getElementById('footer'));
    </file>
    </example>
  */
@@ -162,20 +160,31 @@ var Footer = React.createClass({
   },
 
   render: function () {
-    var content = function(elements, position) {
-      return elements ? <FooterColumn key={position} position={position}>{elements.map(function(item, idx) {
-        return <FooterLine key={idx} item={item} />;
-      })}</FooterColumn> : false;
-    };
+    function content(elements, position) {
+      if (!elements) {
+        return false;
+      }
+
+      return (
+        <FooterColumn key={position} position={position}>{
+          elements.map(function(item, idx) {
+            return <FooterLine key={idx} item={item} />;
+          })
+        }</FooterColumn>
+      );
+    }
+
+    var classes = classNames('ring-footer', this.props.className);
 
     return (
-      //TODO: pass classname property
-      <div className={['ring-footer'].concat([this.props.className] || []).join(' ')}>
-        {[content(this.props.left, Position.LEFT),
-          content(this.props.center, Position.CENTER),
-          content(this.props.right, Position.RIGHT)]}
-      </div>
-      );
+      <div className={classes}>{
+        [
+          content(this.props.left, 'left'),
+          content(this.props.center, 'center'),
+          content(this.props.right, 'right')
+        ]
+      }</div>
+    );
   }
 });
 

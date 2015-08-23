@@ -1,3 +1,4 @@
+var React = require('react');
 var Popup = require('popup/popup');
 require('./tooltip-ng.scss');
 
@@ -61,7 +62,7 @@ angular.module('Ring.tooltip', [])
       this.popup = null;
 
       this.displayTooltip = function () {
-        this.popup = this.popup || Popup.renderComponent(new Popup({
+        this.popup = this.popup || Popup.render(React.createElement(Popup, {
           anchorElement: element,
           maxHeight: 400,
           className: 'ring-tooltip-ng',

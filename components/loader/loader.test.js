@@ -6,7 +6,7 @@ describe('Loader', function () {
   var loader;
 
   beforeEach(function () {
-    loader = TestUtils.renderIntoDocument(new Loader());
+    loader = TestUtils.renderIntoDocument(React.createElement(Loader));
   });
 
   it('should create component', function () {

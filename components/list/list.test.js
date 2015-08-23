@@ -10,7 +10,7 @@ describe('List', function () {
   };
 
   beforeEach(function() {
-    list = React.addons.TestUtils.renderIntoDocument(new List());
+    list = React.addons.TestUtils.renderIntoDocument(React.createElement(List));
   });
 
   it('should be empty by default', function () {
