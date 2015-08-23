@@ -1,6 +1,5 @@
 /**
  * @fileoverview Select options popup
- * @jsx React.DOM
  */
 var React = require('react');
 var Popup = require('popup/popup');

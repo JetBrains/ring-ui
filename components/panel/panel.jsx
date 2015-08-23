@@ -1,19 +1,17 @@
 /**
  * @fileoverview Panel.
  * @author igor.alexeenko@jetbrains.com (Igor Alexeenko)
- * @jsx React.DOM
  */
 
+var React = require('react');
+var classNames = require('classnames');
 require('./panel.scss');
-var React = require('react/addons');
-
 
 /**
  * @const
  * @type {string}
  */
 var BASE_CLASS = 'ring-panel';
-
 
 /**
  * @enum {string}
@@ -23,8 +21,6 @@ var Modifier = {
   NONE: '',
   TRANSPARENT: 'transparent'
 };
-
-
 
 /**
  * @constructor
@@ -47,15 +43,17 @@ var Panel = React.createClass({
     var additionalClassName = '';
 
     if (this.props['modifier'] !== Modifier.NONE) {
-      additionalClassName = [BASE_CLASS, this.props['modifier']].join('_');
+      additionalClassName = BASE_CLASS + '_' + this.props['modifier'];
     }
-    var classList = [BASE_CLASS, additionalClassName].join(' ');
 
-    return this.transferPropsTo(<div className={classList}>
-      {this.props.children}
-    </div>);
+    var classes = classNames(BASE_CLASS + ' ' + additionalClassName, this.props.className);
+
+    return (
+      <div {...this.props} className={classes}>
+        {this.props.children}
+      </div>
+    );
   }
 });
-
 
 module.exports = Panel;

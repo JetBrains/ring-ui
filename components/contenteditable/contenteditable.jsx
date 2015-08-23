@@ -1,6 +1,5 @@
 /**
  * @fileoverview ContentEditable component
- * @jsx React.DOM
  */
 
 var React = require('react');
@@ -22,7 +21,7 @@ var React = require('react');
        var ContentEditable = require('contenteditable/contenteditable');
        var container = document.getElementById('contenteditable');
 
-       React.renderComponent(ContentEditable({
+       React.render(React.createElement(ContentEditable, {
          className: 'ring-input',
          dangerousHTML: 'text <b>bold text</b> text'}), container);
      </file>
@@ -54,8 +53,8 @@ var ContentEditable = React.createClass({
   },
 
   render: function () {
-    return this.transferPropsTo(
-      <div contentEditable={!this.props.disabled}
+    return (
+      <div {...this.props} contentEditable={!this.props.disabled}
            dangerouslySetInnerHTML={{__html: this.props.dangerousHTML || ''}}></div>
     );
   }

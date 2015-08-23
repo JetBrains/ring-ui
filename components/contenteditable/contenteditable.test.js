@@ -7,7 +7,7 @@ describe('ContentEditable', function () {
   beforeEach(function () {
     stub = this.sinon.stub();
 
-    component = React.addons.TestUtils.renderIntoDocument(new ContentEditable({
+    component = React.addons.TestUtils.renderIntoDocument(React.createElement(ContentEditable, {
       className: 'test',
       onComponentUpdate: stub,
       dangerousHTML: '<b>bold</b>'

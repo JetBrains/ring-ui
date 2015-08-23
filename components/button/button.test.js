@@ -5,7 +5,7 @@ describe('Button', function () {
   var Button = require('./button');
 
   beforeEach(function () {
-    this.button = TestUtils.renderIntoDocument(new Button());
+    this.button = TestUtils.renderIntoDocument(React.createElement(Button));
   });
 
   it('should create component', function () {

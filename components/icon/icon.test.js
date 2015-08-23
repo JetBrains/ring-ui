@@ -5,7 +5,7 @@ describe('Icon', function () {
   var Icon = require('./icon');
 
   beforeEach(function () {
-    this.icon = TestUtils.renderIntoDocument(new Icon({
+    this.icon = TestUtils.renderIntoDocument(React.createElement(Icon, {
       glyph: 'expand'
     }));
   });

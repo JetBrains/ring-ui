@@ -1,7 +1,6 @@
 /**
  * @fileoverview Stack of alerts at the top of the page.
  * @author igor.alexeenko@jetbrains.com (Igor Alexeenko)
- * @jsx React.DOM
  */
 
 require('./alert.scss');
@@ -15,20 +14,17 @@ var when = require('when');
  */
 var _containerClone = null;
 
-
 /**
  * @type {CSSStyleSheet}
  * @private
  */
 var _stylesheet = null;
 
-
 /**
  * @type {number}
  * @private
  */
 var _gap = null;
-
 
 /**
  * @name Alerts
@@ -45,7 +41,7 @@ var _gap = null;
        var React = require('react');
        var Alerts = require('alert/alerts');
 
-       var alertsContainer = React.renderComponent(Alerts(null),
+       var alertsContainer = React.render(React.createElement(Alerts),
            document.getElementById('alerts-container'));
 
        alertsContainer.add('Test message');
@@ -134,7 +130,7 @@ var Alerts = React.createClass({
 
     this._cleanupStyles();
 
-    var alertToAppend = React.renderComponent(new Alert(lastAddedElement), _containerClone);
+    var alertToAppend = React.render(React.createElement(Alert, lastAddedElement), _containerClone);
     var heightToCompensate = alertToAppend.getDOMNode().offsetHeight;
 
     // todo(igor.alexeenko): Merge vertical animation to element's height with animation from Header.
@@ -241,7 +237,6 @@ var Alerts = React.createClass({
     }
   }
 });
-
 
 /** @type {Alerts} */
 module.exports = Alerts;

@@ -3,14 +3,14 @@
  * Can also be used to display a stack of messages. In this case
  * use {@link Alerts}.
  * @author igor.alexeenko@jetbrains.com (Igor Alekseenko)
- * @jsx React.DOM
  */
 
-require('./alert.scss');
 var Global = require('global/global');
 var Icon = require('icon/icon');
-var React = require('react/addons');
+var React = require('react');
+var classNames = require('classnames');
 
+require('./alert.scss');
 
 /**
  * List of available types of alert.
@@ -23,7 +23,6 @@ var Type = {
   WARNING: 'warning'
 };
 
-
 /**
  * Lookup table of alert type to icon modifier.
  * @type {Object.<Type, string>}
@@ -32,7 +31,6 @@ var TypeToIconModifier = Global.createObject(
     Type.ERROR, 'exception',
     Type.SUCCESS, 'ok',
     Type.WARNING, 'warning');
-
 
 /**
  * Lookup table of alert type to icon color.
@@ -43,14 +41,11 @@ var TypeToIconColor = Global.createObject(
     Type.SUCCESS, Icon.Color.GREEN,
     Type.WARNING, Icon.Color.ORANGE);
 
-
 /**
  * @const
  * @type {string}
  */
 var BASE_CLASS = 'ring-alert';
-
-
 
 /**
  * @constructor
@@ -66,7 +61,7 @@ var BASE_CLASS = 'ring-alert';
        var React = require('react');
        var Alert = require('alert/alert');
 
-       var alert = React.renderComponent(Alert({
+       var alert = React.render(React.createElement(Alert, {
          caption: 'Sample alert',
          closeable: true,
          type: Alert.Type.SUCCESS
@@ -130,7 +125,7 @@ var Alert = React.createClass({
   render: function() {
     var modifiedClassName = [BASE_CLASS, this.props.type].join('_');
 
-    var classes = React.addons.classSet(Global.createObject(
+    var classes = classNames(Global.createObject(
         BASE_CLASS, true,
         modifiedClassName, true,
         'ring-alert_inline', this.props.inline));
@@ -138,9 +133,11 @@ var Alert = React.createClass({
     return (<div className={classes}>
       {this._getIcon()}
       {this._getCaption()}
-      {this.props.closeable ?
-          (<Icon className="ring-alert__close" glyph="close" size={Icon.Size.Size16} onClick={this._handleCloseClick} />) :
-          ''}
+      {
+        this.props.closeable ?
+        <Icon className="ring-alert__close" glyph="close" size={Icon.Size.Size16} onClick={this._handleCloseClick} /> :
+        ''
+      }
     </div>);
   },
 
@@ -207,7 +204,6 @@ var Alert = React.createClass({
     return '';
   }
 });
-
 
 /** @type {Alert} */
 module.exports = Alert;

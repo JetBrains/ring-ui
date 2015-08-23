@@ -1,11 +1,10 @@
-/** @jsx React.DOM */
-
 require('./checkbox.scss');
 var React = require('react');
 var Global = require('global/global');
 var Icon = require('icon/icon');
 var NgModelMixin = require('ngmodel/ngmodel');
 var ReactPropTypes = React.PropTypes;
+var classNames = require('classnames');
 
 /**
  * @const
@@ -53,32 +52,37 @@ var generateUniqueId = Global.getUIDGenerator(ID_PREFIX);
    var React = require('react');
    var Checkbox = require('checkbox/checkbox.jsx');
 
-   React.renderComponent(Checkbox(), document.getElementById('checkbox'));
+   React.render(React.createElement(Checkbox), document.getElementById('checkbox'));
 
-   React.renderComponent(Checkbox({
-             checked: true
-           }), document.getElementById('checkbox-selected'));
-   React.renderComponent(Checkbox({
-             checked: true,
-             disabled: true,
-             label: 'This checkbox is disabled'
-           }), document.getElementById('checkbox-disabled'));
-    React.renderComponent(Checkbox({
-             checked: true,
-             label: 'This checkbox is inside div with large line-heigth.'
-           }), document.getElementById('checkbox-in-large-line-height-div'));
-    React.renderComponent(Checkbox({
-             checked: true,
-             label: 'This checkbox is inside div with small line-heigth.'
-           }), document.getElementById('checkbox-in-small-line-height-div'));
-    React.renderComponent(Checkbox({
-             checked: true,
-             label: 'This checkbox is inside div with large font-size.'
-           }), document.getElementById('checkbox-in-large-font-div'));
-    React.renderComponent(Checkbox({
-             checked: true,
-             label: 'This checkbox is inside div with small font-size.'
-           }), document.getElementById('checkbox-in-small-font-div'));
+   React.render(React.createElement(Checkbox, {
+     checked: true
+   }), document.getElementById('checkbox-selected'));
+
+   React.render(React.createElement(Checkbox, {
+     checked: true,
+     disabled: true,
+     label: 'This checkbox is disabled'
+   }), document.getElementById('checkbox-disabled'));
+
+   React.render(React.createElement(Checkbox, {
+     checked: true,
+     label: 'This checkbox is inside div with large line-heigth.'
+   }), document.getElementById('checkbox-in-large-line-height-div'));
+
+   React.render(React.createElement(Checkbox, {
+     checked: true,
+     label: 'This checkbox is inside div with small line-heigth.'
+   }), document.getElementById('checkbox-in-small-line-height-div'));
+
+   React.render(React.createElement(Checkbox, {
+     checked: true,
+     label: 'This checkbox is inside div with large font-size.'
+   }), document.getElementById('checkbox-in-large-font-div'));
+
+   React.render(React.createElement(Checkbox, {
+     checked: true,
+     label: 'This checkbox is inside div with small font-size.'
+   }), document.getElementById('checkbox-in-small-font-div'));
    </file>
    </example>
  */
@@ -90,6 +94,7 @@ var Checkbox = React.createClass({
   statics: {
     ngModelStateField: ngModelStateField
   },
+
   propTypes: {
     name: ReactPropTypes.string,
 
@@ -130,23 +135,30 @@ var Checkbox = React.createClass({
     return this.refs.input.getDOMNode();
   },
 
-  inputChange: function() {
+  inputChange: function(e) {
     this.setState({
-      checked: this.getInputDOMNode().checked
+      checked: e.target.checked
     });
   },
 
   render: function () {
     var id = this.props.id || this.state.id;
+
     var checkStyle = {
       display: this.state.checked ? 'block' : 'none'
     };
+
     var disabledState = this.state.disabled ? 'disabled' : '';
+
+    var classes = classNames(
+      'ring-checkbox__input',
+      this.props.className
+    );
 
     return (
       <label className="ring-checkbox" htmlFor={id}>
         <span className="ring-checkbox__input-wrapper">
-          {this.transferPropsTo(<input ref="input" disabledState onChange={this.inputChange} type="checkbox" className="ring-checkbox__input" id={id} />)}
+          <input {...this.props} ref="input" disabledState onChange={this.inputChange} type="checkbox" className={classes} id={id} checked={this.state.checked}/>
           <span className="ring-checkbox__icon">
             <Icon glyph="check" color="black" size={Icon.Size.Size16} className="ring-checkbox__icon__image" style={checkStyle} />
           </span>

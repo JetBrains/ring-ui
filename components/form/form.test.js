@@ -3,11 +3,9 @@
  * @author igor.alexeenko@jetbrains.com (Igor Alexeenko)
  */
 
-
 var Form = require('./form');
 var FormGroup = require('./form__group');
 var React = require('react/addons');
-
 
 /**
  * @param {Object} params
@@ -16,13 +14,12 @@ var React = require('react/addons');
 var renderComponentToDOM = function (params) {
   var element = document.createElement('div');
 
-  return React.renderComponent(new Form(params,
-        new FormGroup({ name: 'checkbox', type: 'checkbox', defaultChecked: true }),
-        new FormGroup({ name: 'input', type: 'input', defaultValue: '', required: true }),
-        new FormGroup({ name: 'secondInput', type: 'email', defalutValue: '', required: true })),
+  return React.render(React.createElement(Form, params,
+        React.createElement(FormGroup, { name: 'checkbox', type: 'checkbox', defaultChecked: true }),
+        React.createElement(FormGroup, { name: 'input', type: 'input', defaultValue: '', required: true }),
+        React.createElement(FormGroup, { name: 'secondInput', type: 'email', defalutValue: '', required: true })),
     element);
 };
-
 
 describe('Form', function () {
   it('should render Form correctly', function () {

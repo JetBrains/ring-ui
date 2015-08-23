@@ -1,3 +1,4 @@
+var React = require('react');
 var PopupMenu = require('popup-menu/popup-menu');
 
 /**
@@ -126,7 +127,7 @@ angular.module('Ring.dropdown', [])
           if (angular.isArray(items) && items.length) {
             config.data = convertItemsForPopup(items);
             if (!popupMenuInstance) {
-              popupMenuInstance = PopupMenu.renderComponent(new PopupMenu(config));
+              popupMenuInstance = PopupMenu.render(React.createElement(PopupMenu, config));
             } else {
               popupMenuInstance.setProps(config);
             }

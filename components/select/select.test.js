@@ -14,7 +14,7 @@ describe('Select(react)', function () {
   ];
 
   beforeEach(function () {
-    this.select = renderIntoDocument(new Select({
+    this.select = renderIntoDocument(React.createElement(Select, {
       data: testData,
       selected: testData[0],
       filter: true
@@ -265,7 +265,7 @@ describe('Select(react)', function () {
     beforeEach(function () {
       selectedArray = testData.slice(0, 2);
 
-      this.select = renderIntoDocument(new Select({
+      this.select = renderIntoDocument(React.createElement(Select, {
         data: testData,
         selected: selectedArray,
         filter: true,
