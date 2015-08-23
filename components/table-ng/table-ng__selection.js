@@ -1,8 +1,4 @@
-var filter = require('mout/array/filter');
-/*global find:true*/
-var find = require('mout/array/find');
-var forEach = require('mout/array/forEach');
-var indexOf = require('mout/array/indexOf');
+require('babel/polyfill');
 var deepMixIn = require('mout/object/deepMixIn');
 
 /**
@@ -21,22 +17,26 @@ deepMixIn(Selection.prototype, {
   activateItem: function (item) {
     this.clearActivity();
     item.active = true;
-    this.emitEvent('rgTable:activateItem', item, indexOf(this.items, item));
+    this.emitEvent('rgTable:activateItem', item, this.items.indexOf(item));
   },
   getActiveItem: function () {
-    return find(this.items, function (item) {
+    if (!this.items) {
+      return undefined;
+    }
+
+    return this.items.find(function (item) {
       return item.active;
     });
   },
   getActiveItemIndex: function () {
-    return indexOf(this.items, this.getActiveItem());
+    return this.items.indexOf(this.getActiveItem());
   },
   setActiveItemIndex: function (index) {
     var item = this.items[index];
     this.activateItem(item);
   },
   activateNextItem: function () {
-    var index = indexOf(this.items, this.getActiveItem());
+    var index = this.items.indexOf(this.getActiveItem());
     if (index >= 0 && index < this.items.length - 1) {
       var newActiveItem = this.items[index + 1];
       this.activateItem(newActiveItem);
@@ -46,7 +46,7 @@ deepMixIn(Selection.prototype, {
     }
   },
   activatePreviousItem: function () {
-    var activeItemIndex = indexOf(this.items, this.getActiveItem());
+    var activeItemIndex = this.items.indexOf(this.getActiveItem());
     if (activeItemIndex > 0 && activeItemIndex <= this.items.length - 1) {
       var newActiveItem = this.items[activeItemIndex - 1];
       this.activateItem(newActiveItem);
@@ -56,7 +56,7 @@ deepMixIn(Selection.prototype, {
     }
   },
   clearSelection: function () {
-    forEach(this.items, function (item) {
+    this.items.forEach(function (item) {
       item.checked = false;
     });
   },
@@ -83,7 +83,7 @@ deepMixIn(Selection.prototype, {
     this.emitEvent('rgTable:selectionChanged', item);
   },
   getCheckedItems: function () {
-    return filter(this.items, function (item) {
+    return this.items.filter(function (item) {
       return item.checked;
     });
   }

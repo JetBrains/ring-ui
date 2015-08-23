@@ -2,12 +2,10 @@
  * @fileoverview Query Assist
  */
 
+require('babel/polyfill');
 var React = require('react');
-var $ = require('jquery');
 var when = require('when');
 var debounce = require('mout/function/debounce');
-var mixIn = require('mout/object/mixIn');
-var isNumber = require('mout/lang/isNumber');
 var deepEquals = require('mout/lang/deepEquals');
 var classNames = require('classnames');
 
@@ -246,7 +244,7 @@ var QueryAssist = React.createClass({
 
     this.immediateState = {
       query: query,
-      caret: isNumber(this.props.caret) ? this.props.caret : query.length,
+      caret: Number.isFinite(this.props.caret) ? this.props.caret : query.length,
       focus: this.props.focus
     };
 
@@ -263,7 +261,7 @@ var QueryAssist = React.createClass({
 
   attachMutationEvents: function() {
     if (impotentIE) {
-      $(this.refs.input.getDOMNode()).on(mutationEvent, this.handleInput);
+      this.refs.input.getDOMNode().addEventListener(mutationEvent, this.handleInput);
     }
   },
 
@@ -288,7 +286,7 @@ var QueryAssist = React.createClass({
     }
 
     if (impotentIE) {
-      $(this.refs.input.getDOMNode()).off(mutationEvent);
+      this.refs.input.getDOMNode().removeEventListener(mutationEvent, this.handleInput);
     }
   },
 
@@ -371,7 +369,7 @@ var QueryAssist = React.createClass({
 
   handleInput: function () {
     var props = {
-      query: $(this.refs.input.getDOMNode()).text().replace(/\s/g, ' '),
+      query: this.refs.input.getDOMNode().textContent.replace(/\s/g, ' '),
       caret: this.caret.getPosition(),
       focus: true
     };
@@ -493,7 +491,7 @@ var QueryAssist = React.createClass({
       });
     }
 
-    this.immediateState = mixIn(state, focusState);
+    this.immediateState = Object.assign(state, focusState);
 
     if (this.immediateState.caret !== currentCaret) {
       this.setFocus();

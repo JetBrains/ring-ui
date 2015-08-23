@@ -1,6 +1,6 @@
+require('babel/polyfill');
 var React = require('react');
 var classNames = require('classnames');
-var mixIn = require('mout/object/mixIn');
 
 require('./loader.scss');
 
@@ -69,7 +69,7 @@ var Loader = React.createClass({
       this.props.className
     );
 
-    return React.DOM.div(mixIn({}, this.props, {
+    return React.DOM.div(Object.assign({}, this.props, {
       className: classes
     }));
   }

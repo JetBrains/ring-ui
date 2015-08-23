@@ -5,8 +5,8 @@
 
 /* global angular: false */
 
+require('babel/polyfill');
 var React = require('react');
-var mixIn = require('mout/object/mixIn');
 
 var reactModule = angular.module('Ring.react-ng', []);
 
@@ -34,7 +34,7 @@ reactModule.service('ringComponents', function () {
  * @param componentsMap
  */
 function registerComponents(componentsMap) {
-  mixIn(ringComponents, componentsMap);
+  Object.assign(ringComponents, componentsMap);
 }
 
 function getComponentIfExist(name){
