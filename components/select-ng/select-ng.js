@@ -574,7 +574,7 @@ angular.module('Ring.select', ['Ring.select.options', 'Ring.message-bundle'])
           var container = document.createElement('span');
           element.appendChild(container);
 
-          ctrl.selectInstance = React.renderComponent(new Select(ctrl.config), container);
+          ctrl.selectInstance = React.render(React.createElement(Select, ctrl.config), container);
           syncNgModelToSelect();
           syncDisabled();
           syncMultiple();

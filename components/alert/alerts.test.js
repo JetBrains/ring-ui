@@ -12,7 +12,7 @@ describe('Alerts', function() {
   var component;
 
   beforeEach(function() {
-    component = React.addons.TestUtils.renderIntoDocument(new Alerts(null));
+    component = React.addons.TestUtils.renderIntoDocument(React.createElement(Alerts, null));
   });
 
   it('should render alerts component', function() {

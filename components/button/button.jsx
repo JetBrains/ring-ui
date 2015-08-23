@@ -1,11 +1,8 @@
-/**
- * @jsx React.DOM
- */
-
 require('./button.scss');
 
 var React = require('react');
 var ReactPropTypes = React.PropTypes;
+var classNames = require('classnames');
 
 /**
  * @enum {string}
@@ -40,31 +37,31 @@ var Modifiers = {
        var React = require('react');
        var Button = require('button/button.jsx');
 
-       React.renderComponent(Button({
-                    modifier: Button.Modifiers.DEFAULT
-                  }, 'Default Button'), document.getElementById('button'));
-       React.renderComponent(Button({
-                    modifier: Button.Modifiers.BLUE
-                  }, 'Blue Button'), document.getElementById('button-blue'));
-       React.renderComponent(Button({
-                    modifier: Button.Modifiers.PRIMARY
-                  }, 'Primary Button'), document.getElementById('button-primary'));
+       React.render(React.createElement(Button, {
+         modifier: Button.Modifiers.DEFAULT
+       }, 'Default Button'), document.getElementById('button'));
+
+       React.render(React.createElement(Button, {
+         modifier: Button.Modifiers.BLUE
+       }, 'Blue Button'), document.getElementById('button-blue'));
+
+       React.render(React.createElement(Button, {
+         modifier: Button.Modifiers.PRIMARY
+       }, 'Primary Button'), document.getElementById('button-primary'));
      </file>
    </example>
  */
 var Button = React.createClass({
   statics: {
-   Modifiers: Modifiers
+    Modifiers: Modifiers
   },
 
   propTypes: {
-
     /**
      * Button modifiers
      * @see Modifiers
      */
     modifier: ReactPropTypes.string,
-
 
     /**
      * Custom classes
@@ -79,13 +76,14 @@ var Button = React.createClass({
   },
 
   render: function () {
-    var className = [
+    var classes = classNames(
       'ring-btn',
-      'ring-btn_' + this.props.modifier
-    ].join(' ');
+      'ring-btn_' + this.props.modifier,
+      this.props.className
+    );
 
-    return this.transferPropsTo(
-      <button className={className}>
+    return (
+      <button {...this.props} className={classes}>
         {this.props.children}
       </button>
     );

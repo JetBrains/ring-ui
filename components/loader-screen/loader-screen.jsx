@@ -1,5 +1,3 @@
-/** @jsx React.DOM */
-
 var React = require('react');
 var Loader = require('../loader/loader');
 require('./loader-screen.scss');
@@ -19,7 +17,10 @@ require('./loader-screen.scss');
        var React = require('react');
        var LoaderScreen = require('loader-screen/loader-screen');
 
-       React.renderComponent(LoaderScreen(), document.getElementById('loader-screen'));
+       React.render(
+         React.createElement(LoaderScreen),
+         document.getElementById('loader-screen')
+       );
      </file>
    </example>
  */

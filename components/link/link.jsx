@@ -1,6 +1,5 @@
-/** @jsx React.DOM */
-
 var React = require('react');
+var classNames = require('classnames');
 require('./link.scss');
 
 /**
@@ -17,13 +16,16 @@ require('./link.scss');
        var React = require('react');
        var Link = require('link/link');
 
-       React.renderComponent(Link({href: "#hash"}, 'Link text'), document.getElementById('link'));
+       React.render(
+         React.createElement(Link, {href: "#hash"}, 'Link text'), document.getElementById('link')
+       );
      </file>
    </example>
  */
 var Link = React.createClass({
   render: function() {
-    return this.transferPropsTo(<a className="ring-link">{this.props.children}</a>);
+    var classes = classNames('ring-link', this.props.className);
+    return <a {...this.props} className={classes}>{this.props.children}</a>;
   }
 });
 

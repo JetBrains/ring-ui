@@ -31,7 +31,7 @@ function renderIntoDocument(instance, callback) {
 
   var componentNode = document.createElement('div');
   containerNode.appendChild(componentNode);
-  componentNode.__component = React.renderComponent(instance, componentNode, callback);
+  componentNode.__component = React.render(instance, componentNode, callback);
   return componentNode.__component;
 }
 

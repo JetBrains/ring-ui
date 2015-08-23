@@ -1,6 +1,5 @@
 /**
  * @fileoverview Query Assist
- * @jsx React.DOM
  */
 
 var React = require('react');
@@ -10,6 +9,7 @@ var debounce = require('mout/function/debounce');
 var mixIn = require('mout/object/mixIn');
 var isNumber = require('mout/lang/isNumber');
 var deepEquals = require('mout/lang/deepEquals');
+var classNames = require('classnames');
 
 var Caret = require('caret/caret');
 var ContentEditable = require('contenteditable/contenteditable');
@@ -66,8 +66,8 @@ var noop = function() {};
         });
 
        auth.init().then(function() {
-         React.renderComponent(
-           QueryAssist({
+         React.render(
+           React.createElement(QueryAssist, {
              query: 'test',
              placeholder: 'placeholder',
              popupClassName: 'popupClassNameTest',
@@ -623,7 +623,7 @@ var QueryAssist = React.createClass({
     var renderedSuggestions = this.renderSuggestions(suggestions);
 
     if (!this._popup || !this._popup.isMounted()) {
-      this._popup = PopupMenu.renderComponent(
+      this._popup = PopupMenu.render(
         <PopupMenu
           anchorElement={this.getDOMNode()}
           autoRemove={false} // required to prevent popup unmount on Esc
@@ -731,7 +731,7 @@ var QueryAssist = React.createClass({
   renderLetter: function (letter, index) {
     // \u00a0 === &nbsp;
     var letterValue = letter === ' ' ? '\u00a0' : letter;
-    // Despite warning we don't need key here because of renderComponentToStaticMarkup
+    // Despite warning we don't need key here because of renderToStaticMarkup
     return <span className={this.getLetterClass(index)}>{letterValue}</span>;
   },
 
@@ -753,7 +753,7 @@ var QueryAssist = React.createClass({
     var renderGlass = this.props.glass && !this.state.loading;
     var renderGlassOrLoader = this.props.glass || this.state.loading;
 
-    var inputClasses = React.addons.classSet({
+    var inputClasses = classNames({
       'ring-query-assist__input ring-input ring-js-shortcuts': true,
       'ring-query-assist__input_gap': renderGlassOrLoader !== renderClear &&
         (renderGlassOrLoader || renderClear),
@@ -761,7 +761,7 @@ var QueryAssist = React.createClass({
       'ring-input_disabled': this.props.disabled
     });
 
-    var query = this.state.query && React.renderComponentToStaticMarkup(
+    var query = this.state.query && React.renderToStaticMarkup(
         <span>{this.state.query.split('').map(this.renderLetter)}</span>
       );
 
@@ -771,7 +771,8 @@ var QueryAssist = React.createClass({
         onMouseUp={this.trackInputMouseState}
         >
         <ContentEditable
-          className={inputClasses} ref="input"
+          className={inputClasses}
+          ref="input"
           disabled={this.props.disabled}
           dangerousHTML={query}
           onComponentUpdate={this.setFocus}

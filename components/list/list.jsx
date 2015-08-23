@@ -1,14 +1,14 @@
 /**
  * @fileoverview Item List.
- * @jsx React.DOM
  */
 
-var React = require('react/addons');
+var React = require('react');
 var mixIn = require('mout/object/mixIn');
 var contains = require('mout/object/contains');
 var arrayFind = require('mout/array/find');
 var map = require('mout/array/map');
 var debounce = require('mout/function/debounce');
+var classNames = require('classnames');
 
 var ShortcutsMixin = require('shortcuts/shortcuts__mixin');
 var Global = require('global/global');
@@ -46,7 +46,7 @@ var Dimension = {
 var ListSeparator = React.createClass({
   /** @override */
   render: function () {
-    var classes = React.addons.classSet({
+    var classes = classNames({
       'ring-list__separator': true,
       'ring-list__separator_empty': !this.props.description
     });
@@ -76,21 +76,21 @@ var ListItem = React.createClass({
 
   /** @override */
   render: function () {
-    var classes = React.addons.classSet({
+    var classes = classNames({
       'ring-list__item': true,
       'ring-list__item_action': !this.props.disabled,
       'ring-list__item_active': this.props.active && !this.props.disabled
-    });
+    }, this.props.className);
 
     var style = {
-      'padding-left': ((+this.props.level || 0) * 8 + 16) + 'px'
+      'paddingLeft': ((+this.props.level || 0) * 8 + 16) + 'px'
     };
 
-    return this.transferPropsTo(
-      <span className={classes} style={style}>
+    return (
+      <span {...this.props} className={classes} style={style}>
         {this.getCheckbox()}
         {this.props.icon &&
-          <div className="ring-list__icon" style={{'background-image': 'url("' + this.props.icon + '")'}}></div>}
+          <div className="ring-list__icon" style={{'backgroundImage': 'url("' + this.props.icon + '")'}}></div>}
         {this.props.description &&
           <div className="ring-list__description">{this.props.description}</div>}
         {this.props.label}
@@ -113,14 +113,14 @@ var ListCustom = React.createClass({
 
   /** @override */
   render: function () {
-    var classes = React.addons.classSet({
+    var classes = classNames({
       'ring-list__item': true,
       'ring-list__item_action': true,
       'ring-list__item_active': this.props.active
-    });
+    }, this.props.className);
 
-    return this.transferPropsTo(
-      <span className={classes}>
+    return (
+      <span {...this.props} className={classes}>
         {this.props.template}
       </span>
     );
@@ -134,15 +134,14 @@ var ListCustom = React.createClass({
 var ListLink = React.createClass({
   /** @override */
   render: function () {
-    var classes = React.addons.classSet({
+    var classes = classNames({
       'ring-list__item': true,
       'ring-link': true,
       'ring-link_focus': this.props.active && this.props.scrolling
     });
 
     var el = this.props.href ? React.DOM.a : React.DOM.span;
-    return this.
-      transferPropsTo(el({className: classes}, this.props.label));
+    return el(mixIn({}, this.props, {className: classes}), this.props.label);
   }
 });
 
@@ -245,11 +244,11 @@ var ListMixin = {
         {'label': 'Five',  'rgItemType': List.ListProps.Type.ITEM}
        ];
 
-       React.renderComponent(List({
-           data: listData,
-           shortcuts: true,
-           onSelect: console.log.bind(console)
-         }), document.getElementById('list'));
+       React.render(React.createElement(List, {
+         data: listData,
+         shortcuts: true,
+         onSelect: console.log.bind(console)
+       }), document.getElementById('list'));
      </file>
    </example>
 
@@ -270,12 +269,12 @@ var ListMixin = {
         {'label': 'Five',              'rgItemType': List.ListProps.Type.ITEM}
        ];
 
-       React.renderComponent(List({
-           data: listData,
-           shortcuts: true,
-           onSelect: console.log.bind(console),
-           activeIndex: 2
-         }), document.getElementById('list'));
+       React.render(React.createElement(List, {
+         data: listData,
+         shortcuts: true,
+         onSelect: console.log.bind(console),
+         activeIndex: 2
+       }), document.getElementById('list'));
      </file>
    </example>
 
@@ -296,7 +295,7 @@ var ListMixin = {
         {'label': 'Five',              'rgItemType': List.ListProps.Type.ITEM}
        ];
 
-       React.renderComponent(List({
+       React.render(React.createElement(List, {
          shortcuts: true,
          onSelect: console.log.bind(console),
        }), document.getElementById('list')).setProps({
@@ -325,11 +324,11 @@ var ListMixin = {
          {'label': 'Item 4', 'rgItemType': List.ListProps.Type.ITEM, 'description': 'Item description'},
        ];
 
-       React.renderComponent(List({
-                 data: listData,
-                 shortcuts: true,
-                 onSelect: console.log.bind(console)
-               }), document.getElementById('list'));
+       React.render(React.createElement(List, {
+         data: listData,
+         shortcuts: true,
+         onSelect: console.log.bind(console)
+       }), document.getElementById('list'));
      </file>
    </example>
 
@@ -349,11 +348,11 @@ var ListMixin = {
         {label: 'Some item', key: '3', 'rgItemType': List.ListProps.Type.LINK, description: 'Test item', icon: 'http://www.thg.ru/forum/images/icons/icon6.gif'}
       ];
 
-      React.renderComponent(List({
+      React.render(React.createElement(List, {
         data: listData,
         shortcuts: true,
         onSelect: console.log.bind(console)
-    }), document.getElementById('list'));
+      }), document.getElementById('list'));
     </file>
   </example>
 
@@ -374,11 +373,11 @@ var ListMixin = {
       {'label': 'Five',  'type': List.ListProps.Type.ITEM}
      ];
 
-     React.renderComponent(List({
-         data: listData,
-         shortcuts: true,
-         onSelect: console.log.bind(console)
-       }), document.getElementById('list'));
+     React.render(React.createElement(List, {
+       data: listData,
+       shortcuts: true,
+       onSelect: console.log.bind(console)
+     }), document.getElementById('list'));
    </file>
   </example>
 */
@@ -628,7 +627,7 @@ var List = React.createClass({
     if (this.props.maxHeight) {
       innerStyles.maxHeight = this.props.maxHeight - Dimension.ITEM_HEIGHT - Dimension.INNER_PADDING;
     }
-    var classes = React.addons.classSet({
+    var classes = classNames({
       'ring-list': true,
       'ring-list_scrolling': this.state.scrolling
     });
@@ -678,7 +677,7 @@ var List = React.createClass({
               default:
                 throw new Error('Unknown menu element type: ' + props.rgItemType);
             }
-            return element(props, null);
+            return React.createElement(element, props, null);
           }.bind(this))}
         </div>
         {hint && <ListHint key={this.props.hint + Type.ITEM} label={hint} />}

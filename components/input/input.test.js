@@ -4,7 +4,7 @@ describe('Input', function () {
   var component;
 
   beforeEach(function () {
-    component = React.addons.TestUtils.renderIntoDocument(new Input());
+    component = React.addons.TestUtils.renderIntoDocument(React.createElement(Input));
   });
 
   it('should create component', function () {

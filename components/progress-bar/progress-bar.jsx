@@ -1,14 +1,14 @@
 /**
- * @jsx React.DOM
  * @author igor.alexeenko@jetbrains.com (Igor Alekseenko)
  * @fileoverview component represents the progress of a task.
  * (like HTML5 progress tag).
  */
 
-require('./progress-bar.scss');
-
 var React = require('react');
 var ReactPropTypes = React.PropTypes;
+var classNames = require('classnames');
+
+require('./progress-bar.scss');
 
 /**
  * @name Progress Bar
@@ -19,27 +19,27 @@ var ReactPropTypes = React.PropTypes;
     <file name="index.html">
       <div id='progress-bar'></div>
     </file>
+
     <file name="index.js" webpack="true">
       var React = require('react');
       var ProgressBar = require('progress-bar/progress-bar');
 
-      var progressBar = React.renderComponent(ProgressBar({
-          value: 0
-        }), document.getElementById('progress-bar'));
+      var progressBar = React.render(React.createElement(ProgressBar, {
+        value: 0
+      }), document.getElementById('progress-bar'));
 
-      setInterval(function updateProgress(){
-          var currentValue = progressBar.props.value;
+      setInterval(function updateProgress() {
+        var currentValue = progressBar.props.value;
 
-          progressBar.setProps({
-            value: (currentValue >=1 ? 0 : currentValue + 0.1)
-          });
+        progressBar.setProps({
+          value: (currentValue >=1 ? 0 : currentValue + 0.1)
+        });
       }, 500);
     </file>
    </example>
  */
 var ProgressBar = React.createClass({
   propTypes: {
-
     /**
      * ring-progress-bar_global  - Progress bar on top of the screen.
      * Should be placed directly inside body, will be positioned right below .ring-header
@@ -85,17 +85,20 @@ var ProgressBar = React.createClass({
       width: this.props.value ? this._progressValueToPercents(this.props.value) + '%' : ''
     };
 
-    return this.transferPropsTo(
-      <div className='ring-progress-bar'
-          ref="progressbarWrapper">
+    var classes = classNames('ring-progress-bar', this.props.className);
+
+    return (
+      <div {...this.props} className={classes} ref="progressbarWrapper">
         <div className="ring-progress-bar__i"
             ref="progressbar"
             role="progressbar"
             aria-valuenow={this.props.value}
             aria-valuemin={0}
             aria-valuemax={this.props.max}
-            style={progress} />
-      </div>);
+            style={progress}
+        />
+      </div>
+    );
   }
 });
 
