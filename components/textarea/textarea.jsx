@@ -1,8 +1,5 @@
-/**
- * @jsx React.DOM
- */
-
-var React = require('react/addons');
+var React = require('react');
+var classNames = require('classnames');
 require('./textarea.scss');
 
 /**
@@ -20,18 +17,15 @@ require('./textarea.scss');
        var React = require('react');
        var Textarea = require('textarea/textarea');
 
-       React.renderComponent(Textarea(), document.getElementById('textarea'));
+       React.render(React.createElement(Textarea), document.getElementById('textarea'));
      </file>
    </example>
  *
  */
 var Textarea = React.createClass({
   render: function () {
-    return this.transferPropsTo(
-      <textarea
-        className="ring-textarea"
-      />
-    );
+    var classes = classNames('ring-textarea', this.props.className);
+    return <textarea {...this.props} className={classes}/>;
   }
 });
 

@@ -3,13 +3,13 @@
  * it's enough to mix this code into component and then add method
  * ```getInternalContent```.
  * @author igor.alexeenko
- * @jsx React.DOM
  */
 
 require('./popup.scss');
 var $ = require('jquery');
 var React = require('react');
 var Global = require('global/global');
+var classNames = require('classnames');
 
 var generateUniqueId = Global.getUIDGenerator('ring-popup-');
 var ShortcutsMixin = require('shortcuts/shortcuts__mixin');
@@ -56,29 +56,29 @@ var PopupMixin = {
       Dimension: Dimension
     },
 
-    /** @override */
-    propTypes: {
-      anchorElement: React.PropTypes.object,
-      className: React.PropTypes.string,
-      maxHeight: React.PropTypes.oneOfType([
-        React.PropTypes.string,
-        React.PropTypes.number
-      ]),
-      left: React.PropTypes.number,
-      top: React.PropTypes.number
-    },
-
     /**
      * @static
      * @param {ReactComponent} component
      * @return {HTMLElement}
      */
-    renderComponent: function (component) {
+    render: function (component) {
       var container = document.createElement('div');
       document.body.appendChild(container);
 
-      return React.renderComponent(component, container);
+      return React.render(component, container);
     }
+  },
+
+  /** @override */
+  propTypes: {
+    anchorElement: React.PropTypes.object,
+    className: React.PropTypes.string,
+    maxHeight: React.PropTypes.oneOfType([
+      React.PropTypes.string,
+      React.PropTypes.number
+    ]),
+    left: React.PropTypes.number,
+    top: React.PropTypes.number
   },
 
   getInitialState: function () {
@@ -134,8 +134,13 @@ var PopupMixin = {
 
   /** @override */
   render: function () {
-    return this.transferPropsTo(
-      <div className={this.getClassName()} style={this._getStyles()}>
+    var classes = classNames({
+      'ring-popup': true,
+      'ring-popup_bound': this.props.cutEdge
+    }, this.props.className);
+
+    return (
+      <div {...this.props} className={classes} style={this._getStyles()}>
         {this.getInternalContent()}
       </div>
     );
@@ -369,21 +374,6 @@ var PopupMixin = {
     }
 
     return styles;
-  },
-
-  /**
-   * @return {string}
-   */
-  getClassName: function () {
-    var classNames = [];
-
-    classNames.push('ring-popup');
-
-    if (this.props.cutEdge) {
-      classNames.push('ring-popup_bound');
-    }
-
-    return classNames.concat(this.props.className || []).join(' ');
   }
 };
 
@@ -410,23 +400,23 @@ var PopupMixin = {
 
  var container = React.DOM.span(null, 'Hello world!');
 
- var popup = Popup.renderComponent(Popup({
-        anchorElement: document.getElementById('target1'),
-        corner: Popup.PopupProps.Corner.TOP_LEFT,
-        autoRemove: false
-      }, [container]));
+ var popup = Popup.render(React.createElement(Popup, {
+   anchorElement: document.getElementById('target1'),
+   corner: Popup.PopupProps.Corner.TOP_LEFT,
+   autoRemove: false
+ }, [container]));
 
- var popup2 = Popup.renderComponent(Popup({
-        anchorElement: document.getElementById('target2'),
-        corner: Popup.PopupProps.Corner.TOP_RIGHT,
-        autoRemove: false
-      }, [container]));
+ var popup2 = Popup.render(React.createElement(Popup, {
+   anchorElement: document.getElementById('target2'),
+   corner: Popup.PopupProps.Corner.TOP_RIGHT,
+   autoRemove: false
+ }, [container]));
 
- var popup3 = Popup.renderComponent(Popup({
-        anchorElement: document.getElementById('target3'),
-        corner: Popup.PopupProps.Corner.BOTTOM_LEFT,
-        autoRemove: false
-      }, [container]));
+ var popup3 = Popup.render(React.createElement(Popup, {
+   anchorElement: document.getElementById('target3'),
+   corner: Popup.PopupProps.Corner.BOTTOM_LEFT,
+   autoRemove: false
+ }, [container]));
 
  document.getElementById('switch3').onclick = function() {
   setTimeout(function() {
@@ -434,11 +424,11 @@ var PopupMixin = {
   }, 1);
  };
 
- var popup4 = Popup.renderComponent(Popup({
-        anchorElement: document.getElementById('target4'),
-        corner: Popup.PopupProps.Corner.BOTTOM_RIGHT,
-        autoRemove: false
-      }, [container]));
+ var popup4 = Popup.render(React.createElement(Popup, {
+   anchorElement: document.getElementById('target4'),
+   corner: Popup.PopupProps.Corner.BOTTOM_RIGHT,
+   autoRemove: false
+ }, [container]));
  </file>
  </example>
  */

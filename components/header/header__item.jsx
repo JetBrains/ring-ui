@@ -1,12 +1,12 @@
 /**
  * @fileOverview HeaderItem subcomponent
- * @jsx React.DOM
  */
 
 var React = require('react');
 var Global = require('global/global');
 var Icon = require('icon/icon');
 var ClassName = require('class-name/class-name');
+var classNames = require('classnames');
 
 /**
  * Fits a rectangular image into a square container. Sets the smaller side of an image
@@ -62,22 +62,27 @@ var HeaderItem = React.createClass({
   },
 
   render: function () {
-    var className = React.addons.classSet(Global.createObject(
-      itemClassName.getClassName(), true,
-      itemClassName.getClassName(null, 'icon'), true,
-      itemClassName.getClassName(this.props.glyph), true,
-      'ring-icon_loading', this.state.loading));
+    var classes = classNames(
+      Global.createObject(
+        itemClassName.getClassName(), true,
+        itemClassName.getClassName(null, 'icon'), true,
+        itemClassName.getClassName(this.props.glyph), true,
+        'ring-icon_loading', this.state.loading
+      ),
+      this.props.className
+    );
 
     // NB! Wrapping span is needed because otherwise selenium tests couldn't
     // trigger the click on the <SVG /> element.
     var iconElement = this.state.picture ? this._getImage() : this._getIcon();
-    var menuElement = (<span className={className} onClick={this._handleClick} title={this.state.title}>
-      {this.props.href ?
-        (<a href={this.props.href}>{this.transferPropsTo(iconElement)}</a>) :
-        this.transferPropsTo(iconElement)}
-    </span>);
 
-    return this.transferPropsTo(menuElement);
+    return (
+      <span {...this.props} className={classes} onClick={this._handleClick} title={this.state.title}>
+        {
+          this.props.href ? <a href={this.props.href}>{iconElement}</a> : iconElement
+        }
+      </span>
+    );
   },
 
   /**
@@ -98,19 +103,29 @@ var HeaderItem = React.createClass({
    */
   _getImage: function() {
     var baseClass = new ClassName('ring-icon');
-    var className = React.addons.classSet(Global.createObject(
-      baseClass.getClassName(), true,
-      baseClass.getModifier('24'), true,
-      baseClass.getModifier(this.props.glyph), true));
 
-    return (<span className={className}><img className={baseClass.getElement('pic')}
-                                             onLoad={function(evt) {
-          var pic = evt.target;
-          fitImageIntoSquare(pic, pic.width, pic.height);
-        }}
-                                             src={this.state.picture}
-                                             title={this.state.title || this.props.title} />
-    </span>);
+    var classes = classNames(
+      Global.createObject(
+        baseClass.getClassName(), true,
+        baseClass.getModifier('24'), true,
+        baseClass.getModifier(this.props.glyph), true
+      ),
+      this.props.className
+    );
+
+    return (
+      <span {...this.props} className={classes}>
+        <img
+          className={baseClass.getElement('pic')}
+          onLoad={function(evt) {
+            var pic = evt.target;
+            fitImageIntoSquare(pic, pic.width, pic.height);
+          }}
+          src={this.state.picture}
+          title={this.state.title || this.props.title}
+        />
+      </span>
+    );
   },
 
   /**
@@ -118,11 +133,14 @@ var HeaderItem = React.createClass({
    * @private
    */
   _getIcon: function() {
-    return (<Icon
-      color={this.state.opened ? 'blue' : 'gray'}
-      glyph={this.props.glyph}
-      size={Icon.Size.Size18}
-      title={this.state.title || this.props.title} />);
+    return (
+      <Icon {...this.props}
+        color={this.state.opened ? 'blue' : 'gray'}
+        glyph={this.props.glyph}
+        size={Icon.Size.Size18}
+        title={this.state.title || this.props.title}
+      />
+    );
   },
 
   /**

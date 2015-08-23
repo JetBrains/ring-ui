@@ -1,7 +1,6 @@
 /**
  * @fileoverview Form component.
  * @author igor.alexeenko@jetbrains.com (Igor Alexeenko)
- * @jsx React.DOM
  */
 
 require('./form.scss');

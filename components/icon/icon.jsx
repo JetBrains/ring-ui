@@ -2,15 +2,14 @@
  * @fileoverview SVG icons component.
  * @author igor.alexeenko@jetbrains.com (Igor Alekseenko)
  * @author alexander.anisimov@jetbrains.com (Alexander Anisimov)
- * @jsx React.DOM
  */
 
 require('./icon.scss');
 var ClassName = require('class-name/class-name');
 var Global = require('global/global');
-var React = require('react/addons');
+var React = require('react');
 var iconUrl = require('./icon__url');
-
+var classNames = require('classnames');
 
 /**
  * Commonly used icon colors.
@@ -25,7 +24,6 @@ var Color = {
   RED: 'red',
   WHITE: 'white'
 };
-
 
 /**
  * @enum {number}
@@ -42,7 +40,6 @@ var Size = {
   Size128: 128
 };
 
-
 /**
  * @const
  * @type {string}
@@ -54,13 +51,11 @@ var BASE_CLASS = 'ring-icon';
  */
 var baseClass = new ClassName(BASE_CLASS);
 
-
 /**
  * @type {Element}
  * @private
  */
 var _templateElement = null;
-
 
 /**
  * This is imperative that template element was first on the page.
@@ -68,21 +63,20 @@ var _templateElement = null;
  * stop working.
  * @static
  */
-var checkTemplatePositioning = function() {
+function checkTemplatePositioning() {
   if (!_templateElement || !_templateElement.previousElementSibling) {
     return;
   }
 
   document.body.insertBefore(_templateElement, document.body.childNodes[0]);
-};
-
+}
 
 /**
  * Inserts an SVG template into the document so icons could use links to those
  * elements.
  * @static
  */
-var initializeTemplate = function() {
+function initializeTemplate() {
   if (_templateElement) {
     return;
   }
@@ -97,8 +91,7 @@ var initializeTemplate = function() {
   _templateElement.id = baseClass.getElement('template');
 
   checkTemplatePositioning();
-};
-
+}
 
 /**
  * @name Icon
@@ -134,29 +127,29 @@ var initializeTemplate = function() {
        var React = require('react');
        var Icon = require('icon/icon');
 
-       React.renderComponent(Icon({
+       React.render(React.createElement(Icon, {
          className: 'additional-class',
          color: 'orange',
          glyph: 'ok',
          size: Icon.Size.Size32
        }), document.getElementById('icon-container'));
 
-       React.renderComponent(Icon({
+       React.render(React.createElement(Icon, {
          glyph: 'distribution',
          size: Icon.Size.Size32
        }), document.getElementById('icon-distribution'));
 
-       React.renderComponent(Icon({
+       React.render(React.createElement(Icon, {
          glyph: 'pencil',
          size: Icon.Size.Size16
        }), document.getElementById('icon-16-pencil'));
 
-       React.renderComponent(Icon({
+       React.render(React.createElement(Icon, {
          glyph: 'pencil',
          size: Icon.Size.Size14
        }), document.getElementById('icon-14-pencil'));
 
-       var getIconNames = function(){
+       function getIconNames(){
           var symbolsContainer = document.getElementById('ring-icon__template');
           var symbols = symbolsContainer.querySelectorAll('symbol');
           return Array.prototype.map.call(symbols, function(symbolElement){
@@ -166,9 +159,9 @@ var initializeTemplate = function() {
 
        var icons = getIconNames();
 
-       React.renderComponent(React.DOM.div({
+       React.render(React.DOM.div({
          children: icons.map(function (icon) {
-           return Icon({
+           return React.createElement(Icon, {
              glyph: icon,
              title: icon
            });
@@ -202,18 +195,24 @@ var Icon = React.createClass({
   },
 
   render: function () {
-    var classList = React.addons.classSet(Global.createObject(
+    var classes = classNames(
+      Global.createObject(
         this.props.baseClass.getModifier(this.props.size), true,
         this.props.baseClass.getModifier(this.props.color), !!this.props.color,
         this.props.baseClass.getModifier(this.props.glyph), !!this.props.glyph,
-        this.props.baseClass.getClassName(), true));
+        this.props.baseClass.getClassName(), true
+      ),
+      this.props.className
+    );
 
     var xlinkHref = '#' + this.props.baseClass.getModifier(this.props.glyph);
     xlinkHref = iconUrl.resolve(xlinkHref);
 
-    return (this.transferPropsTo(<span className={classList}>
-      <svg className={this.props.baseClass.getElement('i')} title={this.props.title} dangerouslySetInnerHTML={{__html: '<use xlink:href="' + xlinkHref + '"></use>'}}/>
-    </span>));
+    return (
+      <span {...this.props} className={classes}>
+        <svg className={this.props.baseClass.getElement('i')} title={this.props.title} dangerouslySetInnerHTML={{__html: '<use xlink:href="' + xlinkHref + '"></use>'}}/>
+      </span>
+    );
   },
 
   componentDidMount: function() {

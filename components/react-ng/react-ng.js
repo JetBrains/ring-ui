@@ -5,7 +5,7 @@
 
 /* global angular: false */
 
-var React = require('react/addons');
+var React = require('react');
 var mixIn = require('mout/object/mixIn');
 
 var reactModule = angular.module('Ring.react-ng', []);
@@ -42,15 +42,13 @@ function getComponentIfExist(name){
 
   if (!ComponentClass) {
     throw new Error('Component ' + name + ' is not registered');
-  } else if (!React.isValidClass(ComponentClass)) {
-    throw new Error('Property ' + name + ' is not valid component');
   }
 
   return ComponentClass;
 }
 
 function renderAndRemoveOnDestroy(ComponentClass, iElement, props){
-  var component = React.renderComponent(new ComponentClass(props), iElement[0]);
+  var component = React.render(React.createElement(ComponentClass, props), iElement[0]);
   iElement.on('$destroy', function () {
     React.unmountComponentAtNode(iElement[0]);
   });

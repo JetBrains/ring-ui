@@ -1,11 +1,9 @@
 /**
  * @fileoverview Select
- * @jsx React.DOM
  */
 
-require('./select.scss');
-
 var React = require('react');
+var classNames = require('classnames');
 var Popup = require('popup/popup');
 var SelectPopup = require('./select__popup');
 var List = require('list/list');
@@ -20,6 +18,8 @@ var ShortcutsMixin = require('shortcuts/shortcuts__mixin');
 
 var Global = require('global/global');
 var generateUniqueId = Global.getUIDGenerator('ring-select-');
+
+require('./select.scss');
 
 function noop() {}
 
@@ -46,13 +46,13 @@ var Type = {
      var React = require('react');
      var Select = require('select/select');
 
-     React.renderComponent(Select({filter: true}), document.getElementById('demo'))
+     React.render(React.createElement(Select, {filter: true}), document.getElementById('demo'))
      .setProps({data: [
-        {'label': 'One', 'key': '1', 'type': 'user'},
-        {'label': 'Group', 'key': '2', 'type': 'user'},
-        {'label': 'Three', 'key': '3', 'type': 'user'}
-      ], selected: {'label': 'Group', 'key': '2', 'type': 'user'}});
-    </file>
+       {'label': 'One', 'key': '1', 'type': 'user'},
+       {'label': 'Group', 'key': '2', 'type': 'user'},
+       {'label': 'Three', 'key': '3', 'type': 'user'}
+     ], selected: {'label': 'Group', 'key': '2', 'type': 'user'}});
+   </file>
  </example>
 
  <example name="Disabled select">
@@ -64,8 +64,8 @@ var Type = {
      var React = require('react');
      var Select = require('select/select');
 
-     React.renderComponent(Select({disabled: true, loading: true}), document.getElementById('demo1'));
-     React.renderComponent(Select({disabled: true, loading: true, type: Select.Type.INPUT}), document.getElementById('demo2'));
+     React.render(React.createElement(Select, {disabled: true, loading: true}), document.getElementById('demo1'));
+     React.render(React.createElement(Select, {disabled: true, loading: true, type: Select.Type.INPUT}), document.getElementById('demo2'));
    </file>
  </example>
 
@@ -82,7 +82,7 @@ var Type = {
        data.push({'label': 'Item ' + i, 'key': i});
      }
 
-     React.renderComponent(Select({
+     React.render(React.createElement(Select, {
        type: Select.Type.INPUT
      }), document.getElementById('demo'))
      .setProps({data: data});
@@ -102,7 +102,7 @@ var Type = {
        data.push({'label': 'Item ' + i, 'key': i});
      }
 
-     React.renderComponent(Select({
+     React.render(React.createElement(Select, {
        type: Select.Type.INPUT,
        allowAny: true,
        hideArrow: true,
@@ -120,14 +120,14 @@ var Type = {
    var React = require('react');
    var Select = require('select/select');
 
-   React.renderComponent(Select({filter: true}), document.getElementById('demo'))
+   React.render(React.createElement(Select, {filter: true}), document.getElementById('demo'))
    .setProps({data: [
-      {'label': 'One', 'key': '1'},
-      {'label': 'Two', 'key': '2', disabled: true},
-        {'label': 'Two One', 'key': '2.1', level: 1},
-        {'label': 'Two Two', 'key': '2.2', level: 1},
-      {'label': 'Three', 'key': '3'}
-    ]});
+     {'label': 'One', 'key': '1'},
+     {'label': 'Two', 'key': '2', disabled: true},
+     {'label': 'Two One', 'key': '2.1', level: 1},
+     {'label': 'Two Two', 'key': '2.2', level: 1},
+     {'label': 'Three', 'key': '3'}
+   ]});
  </file>
  </example>
 
@@ -139,13 +139,13 @@ var Type = {
      var React = require('react');
      var Select = require('select/select');
 
-     React.renderComponent(Select({filter: true, loading: true}), document.getElementById('demo'))
+     React.render(React.createElement(Select, {filter: true, loading: true}), document.getElementById('demo'))
      .setProps({data: [
-        {'label': 'One', 'key': '1'},
-        {'label': 'Group', 'key': '2'},
-        {'label': 'Three', 'key': '3'}
-      ], selected: {'label': 'Group', 'key': '2'}});
-    </file>
+       {'label': 'One', 'key': '1'},
+       {'label': 'Group', 'key': '2'},
+       {'label': 'Three', 'key': '3'}
+     ], selected: {'label': 'Group', 'key': '2'}});
+   </file>
  </example>
 
 
@@ -162,24 +162,24 @@ var Type = {
        data.push({'label': 'Item long long long long long  long long long label ' + i, 'key': i});
      }
 
-     React.renderComponent(Select({
+     React.render(React.createElement(Select, {
        filter: {
          placeholder: 'Select me',
          value: 'One'
        }
-     }), document.getElementById('demo'))
+     }),document.getElementById('demo'))
      .setProps({
-      add: {
-        prefix: 'Add name'
-      },
-      onAdd: function(value) {
-        console.log('Add', value);
-      },
-      data: data,
-      selected: data[49],
-      'onSelect': function(selected) {
-        console.log('onSelect, selected item:', selected);
-      }});
+       add: {
+         prefix: 'Add name'
+       },
+       onAdd: function(value) {
+         console.log('Add', value);
+       },
+       data: data,
+       selected: data[49],
+       'onSelect': function(selected) {
+         console.log('onSelect, selected item:', selected);
+       }});
    </file>
  </example>
 
@@ -192,7 +192,7 @@ var Type = {
      var React = require('react');
      var Select = require('select/select');
 
-     React.renderComponent(Select({
+     React.render(React.createElement(Select, {
        filter: true,
        add: {
          prefix: 'Add some item'
@@ -398,7 +398,7 @@ var Select = React.createClass({
   _popup: null,
   _createPopup: function() {
     if (!this._popup) {
-      this._popup = Popup.renderComponent(
+      this._popup = Popup.render(
         <SelectPopup
           maxHeight={this.props.maxHeight}
           minWidth={this.props.minWidth}
@@ -739,7 +739,7 @@ var Select = React.createClass({
     }
 
     if (this.state.selected && this.state.selected.icon) {
-      icons.push(<span className="ring-select__selected-icon" style={{'background-image': 'url("' + this.state.selected.icon + '")'}}></span>);
+      icons.push(<span className="ring-select__selected-icon" style={{'backgroundImage': 'url("' + this.state.selected.icon + '")'}}></span>);
     }
 
     if (!this.props.hideArrow) {
@@ -750,7 +750,7 @@ var Select = React.createClass({
   },
 
   render: function () {
-    var buttonCS = React.addons.classSet({
+    var buttonCS = classNames({
       'ring-select': true,
       'ring-select_disabled': this.props.disabled,
       'ring-select_input-mode': this.isInputMode(),
@@ -761,13 +761,13 @@ var Select = React.createClass({
     var icons = this._getIcons();
 
     var style = {
-      'padding-right': 8 + icons.length * 16
+      'paddingRight': 8 + icons.length * 16
     };
 
     var iconsNode = <span className="ring-select__icons">{icons}</span>;
 
     if (this.isInputMode()) {
-      var inputCS = React.addons.classSet({
+      var inputCS = classNames({
         'ring-js-shortcuts': true,
         'ring-input_disabled': this.props.disabled
       });

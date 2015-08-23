@@ -6,7 +6,7 @@ describe('Link', function () {
   var link;
 
   beforeEach(function () {
-    link = TestUtils.renderIntoDocument(new Link());
+    link = TestUtils.renderIntoDocument(React.createElement(Link));
   });
 
   it('should create component', function () {

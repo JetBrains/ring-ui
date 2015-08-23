@@ -4,7 +4,7 @@ describe('PopupMenu', function () {
   var popup;
 
   beforeEach(function() {
-    popup = React.addons.TestUtils.renderIntoDocument(new PopupMenu());
+    popup = React.addons.TestUtils.renderIntoDocument(React.createElement(PopupMenu));
   });
 
   it('should create component', function () {

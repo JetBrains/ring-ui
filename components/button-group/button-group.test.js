@@ -5,7 +5,7 @@ describe('ButtonGroup', function () {
   var button;
 
   beforeEach(function () {
-    button = TestUtils.renderIntoDocument(new ButtonGroup());
+    button = TestUtils.renderIntoDocument(React.createElement(ButtonGroup));
   });
 
   it('should create component', function () {

@@ -2,12 +2,11 @@
  * @fileoverview Input or group of inputs. Encapsulates markup. Shows error
  * message on blur.
  * @author igor.alexeenko@jetbrains.com (Igor Alexeenko)
- * @jsx React.DOM
  */
 var Checkbox = require('../checkbox/checkbox');
 var Input = require('../input/input');
 var React = require('react');
-
+var classNames = require('classnames');
 
 /**
  * @enum {string}
@@ -17,7 +16,6 @@ var FormType = {
   INPUT: 'input',
   RADIO: 'radio'
 };
-
 
 
 /**
@@ -97,7 +95,7 @@ var FormGroup = React.createClass({
    * @private
    */
   _getInputElement: function() {
-    var className = React.addons.classSet({
+    var classes = classNames({
       'ring-form__group': true,
       'ring-form__group_error': this.state['errorMessage'],
       'ring-form__group_error-shown': this.state['errorMessage'] && this.state['showError'] && this.state['hasFocus'],
@@ -107,16 +105,16 @@ var FormGroup = React.createClass({
     switch (this.props.type) {
       case FormType.CHECKBOX:
         if (this.props['short']) {
-          return (<div className={className}>
-            {this.transferPropsTo(<Checkbox />)}
+          return (<div className={classes}>
+            <Checkbox {...this.props}/>
             <div className="ring-form__control">
               <label className="ring-form__label" htmlFor={this.props['id']}>{this.props['label']}</label>
             </div>
           </div>);
         } else {
-          return (<div className={className}>
+          return (<div className={classes}>
             <div className="ring-form__control">
-              {this.transferPropsTo(<Checkbox />)}
+              <Checkbox {...this.props}/>
               <label className="ring-form__label ring-form__label_checkbox" htmlFor={this.props['id']}>{this.props['label']}</label>
             </div>
           </div>);
@@ -124,15 +122,15 @@ var FormGroup = React.createClass({
         break;
 
       default:
-        var inputClassName = React.addons.classSet({
+        var inputClasses = classNames({
           'ring-input': true,
           'ring-input_error': this.state['errorMessage']
-        });
+        }, this.props.className);
 
-        return (<div className={className}>
+        return (<div className={classes}>
           <label className="ring-form__label" htmlFor={this.props.id}>{this.props.label}</label>
           <div className="ring-form__control">
-            {this.transferPropsTo(<Input className={inputClassName} onBlur={this._handleBlur} onFocus={this._handleFocus} />)}
+            <Input {...this.props} className={inputClasses} onBlur={this._handleBlur} onFocus={this._handleFocus} />
             <div className="ring-input__error-bubble">{this.state['errorMessage']}</div>
           </div>
         </div>);

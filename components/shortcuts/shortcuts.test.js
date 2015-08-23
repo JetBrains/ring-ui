@@ -246,7 +246,7 @@ describe('Shortcuts', function () {
 
     function createСomponent(props, callback) {
       var TestClass = createСlass();
-      component = renderIntoDocument(new TestClass(props), callback);
+      component = renderIntoDocument(React.createElement(TestClass, props), callback);
     }
 
     function createСomponentWithSubComponent(props, callback) {
@@ -257,21 +257,22 @@ describe('Shortcuts', function () {
         scope: scope2,
         map: subKeyMap
       });
+
       var TestClass = createСlass(null, function render() {
-        return subComponent({
+        return React.createElement(subComponent, {
           ref: 'subComponent',
           shortcuts: this.props.shortcuts
         }, null);
       });
 
-      component = renderIntoDocument(new TestClass(props), callback);
+      component = renderIntoDocument(React.createElement(TestClass, props), callback);
     }
 
     it('should throw with wrong config', function () {
       function createWrongComponent() {
         var TestClass = createСlass({});
 
-        renderIntoDocument(new TestClass({
+        renderIntoDocument(React.createElement(TestClass, {
           shortcuts: true
         }));
       }

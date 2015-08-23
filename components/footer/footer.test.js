@@ -5,7 +5,7 @@ describe('Footer', function () {
   var footer;
 
   beforeEach(function () {
-    footer = React.addons.TestUtils.renderIntoDocument(new Footer());
+    footer = React.addons.TestUtils.renderIntoDocument(React.createElement(Footer));
   });
 
   it('should create component', function () {
