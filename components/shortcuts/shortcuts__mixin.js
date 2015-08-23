@@ -1,4 +1,4 @@
-var $ = require('jquery');
+require('babel/polyfill');
 var shortcuts = require('shortcuts/shortcuts');
 
 /**
@@ -34,7 +34,7 @@ var ShortcutsMixin = {
   },
 
   setShortcutsEnabled: function (flag) {
-    this.toggleShortcuts($.extend({}, this.props, {shortcuts: !!flag}));
+    this.toggleShortcuts(Object.assign({}, this.props, {shortcuts: !!flag}));
   },
 
   shortcutsEnabled: function() {
@@ -48,7 +48,7 @@ var ShortcutsMixin = {
 
   /** @override */
   componentWillUpdate: function(props, state) {
-    this.toggleShortcuts($.extend({}, props, state));
+    this.toggleShortcuts(Object.assign({}, props, state));
   },
 
   /** @override */

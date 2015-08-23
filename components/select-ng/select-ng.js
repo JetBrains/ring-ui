@@ -1,8 +1,5 @@
+require('babel/polyfill');
 var React = require('react');
-
-var map = require('mout/array/map');
-var isArray = require('mout/lang/isArray');
-var isUndefined = require('mout/lang/isUndefined');
 
 var Select = require('select/select');
 require('./select-ng__options');
@@ -354,7 +351,7 @@ angular.module('Ring.select', ['Ring.select.options', 'Ring.message-bundle'])
           };
 
           if (ctrl.ngModelCtrl) {
-            if (isArray(selectedValue)) {
+            if (Array.isArray(selectedValue)) {
               ctrl.ngModelCtrl.$setViewValue(selectedValue.map(valueOf));
             } else if (selectedValue && selectedValue.originalModel) {
               ctrl.ngModelCtrl.$setViewValue(valueOf(selectedValue));
@@ -373,7 +370,7 @@ angular.module('Ring.select', ['Ring.select.options', 'Ring.message-bundle'])
              * If ng-model does not exist in list of options
              * for example when lazy fetch data from the server
              */
-            if (isUndefined(item)) {
+            if (item === undefined) {
               item = modelValue;
             }
 
@@ -387,7 +384,7 @@ angular.module('Ring.select', ['Ring.select.options', 'Ring.message-bundle'])
           };
 
           if (model) {
-            if (isArray(model)) {
+            if (Array.isArray(model)) {
               return model.map(convertItem);
             } else {
               return convertItem(model);
@@ -418,7 +415,7 @@ angular.module('Ring.select', ['Ring.select.options', 'Ring.message-bundle'])
 
             memorizeOptions(results);
 
-            var items = map(results.data || results, ctrl.convertNgModelToSelect);
+            var items = (results.data || results).map(ctrl.convertNgModelToSelect);
             ctrl.selectInstance.setProps({
               data: items,
               loading: false
