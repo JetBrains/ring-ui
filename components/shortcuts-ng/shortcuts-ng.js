@@ -1,4 +1,4 @@
-var $ = require('jquery');
+require('babel/polyfill');
 var shortcutsInstance = require('shortcuts/shortcuts');
 
   /* global angular: false */
@@ -33,7 +33,7 @@ angular.module('Ring.shortcuts', [])
             throw new Error('Shortcut mode ' + name + ' is not declared');
           }
 
-          $.each(mode, function(index, key) {
+          mode.forEach(function(key) {
             var handler = handlers[key.action];
 
             if (!angular.isFunction(handler)) {
@@ -81,7 +81,7 @@ angular.module('Ring.shortcuts', [])
         var self = this;
 
         var getNext = function(current, back) {
-          var position = current && $.inArray(current, $scope.zones);
+          var position = current && $scope.zones.indexOf(current);
           var next;
 
           if (position >= 0) {
@@ -142,7 +142,7 @@ angular.module('Ring.shortcuts', [])
           }
 
           if (action === 'main') {
-            $.each($scope.zones, function(index, zone) {
+            $scope.zones.forEach(function(zone, index) {
               if (shortcuts.isMainMode(zone.name)) {
                 next = $scope.zones[index];
 
@@ -169,10 +169,10 @@ angular.module('Ring.shortcuts', [])
         };
 
         self.sort = function() {
-          var orderedElements = $('[rg-shortcuts]');
+          var orderedElements = document.querySelectorAll('[rg-shortcuts]');
 
-          $.each($scope.zones, function(index, zone) {
-            zone.order = $.inArray(zone.element[0], orderedElements);
+          $scope.zones.forEach(function(zone) {
+            zone.order = Array.from(orderedElements).indexOf(zone.element[0]);
           });
 
           $scope.zones.sort(function(a, b) {
@@ -190,7 +190,7 @@ angular.module('Ring.shortcuts', [])
           shortcutsInstance.spliceScope(zone.scope);
           shortcutsInstance.unbindScope(zone.scope);
 
-          var position = $.inArray(zone, $scope.zones);
+          var position = $scope.zones.indexOf(zone);
 
           if (position !== -1) {
             $scope.zones.splice(position, 1);

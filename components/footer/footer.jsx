@@ -3,7 +3,6 @@
  */
 
 var React = require('react');
-var isArray = require('mout/lang/isArray');
 var classNames = require('classnames');
 
 require('./footer.scss');
@@ -84,7 +83,7 @@ var FooterLine = React.createClass({
       };
     }
 
-    if (isArray(this.props.item)) {
+    if (Array.isArray(this.props.item)) {
       this.props.item.map(renderItem).forEach(function(it) {
         children[it.id] = it.element;
       });

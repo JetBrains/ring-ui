@@ -1,5 +1,5 @@
+require('babel/polyfill');
 var when = require('when');
-var mixIn = require('mout/object/mixIn');
 
 var PopupMenu = require('popup-menu/popup-menu');
 
@@ -77,7 +77,7 @@ HeaderHelper.setServicesList = function(header, auth, params) {
  * @return {Promise}
  */
 HeaderHelper.setUserMenu = function(header, auth, translationsDict) {
-  translationsDict = mixIn({
+  translationsDict = Object.assign({
     logout: 'Log out',
     profile: 'Profile'
   }, translationsDict);

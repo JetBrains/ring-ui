@@ -2,11 +2,9 @@
  * @fileoverview Item List.
  */
 
+require('babel/polyfill');
 var React = require('react');
-var mixIn = require('mout/object/mixIn');
 var contains = require('mout/object/contains');
-var arrayFind = require('mout/array/find');
-var map = require('mout/array/map');
 var debounce = require('mout/function/debounce');
 var classNames = require('classnames');
 
@@ -141,7 +139,7 @@ var ListLink = React.createClass({
     });
 
     var el = this.props.href ? React.DOM.a : React.DOM.span;
-    return el(mixIn({}, this.props, {className: classes}), this.props.label);
+    return el(Object.assign({}, this.props, {className: classes}), this.props.label);
   }
 });
 
@@ -523,7 +521,9 @@ var List = React.createClass({
   },
 
   getFirst: function () {
-    return arrayFind(this.props.data, {rgItemType: Type.ITEM});
+    return this.props.data.find(function (item) {
+      return item.rgItemType === Type.ITEM;
+    });
   },
 
   getSelected: function () {
@@ -558,7 +558,7 @@ var List = React.createClass({
     };
 
     if (props.data) {
-      props.data = map(props.data, normalizeListItemType);
+      props.data = props.data.map(normalizeListItemType);
 
       this.checkActivatableItems(props.data);
 
@@ -636,7 +636,7 @@ var List = React.createClass({
       <div className={classes} onMouseMove={this.mouseHandler}>
         <div className="ring-list__i" ref="inner" onScroll={this.scrollHandler} style={innerStyles}>
           {this.props.data.map(function (item, index) {
-            var props = mixIn({'rgItemType': DEFAULT_ITEM_TYPE}, item);
+            var props = Object.assign({'rgItemType': DEFAULT_ITEM_TYPE}, item);
             if (props.url) {
               props.href = props.url;
             }
