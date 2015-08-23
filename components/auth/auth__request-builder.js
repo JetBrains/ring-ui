@@ -1,5 +1,4 @@
-/* eslint-disable google-camelcase/google-camelcase */
-var mixIn = require('mout/object/mixIn');
+require('babel/polyfill');
 var guid = require('mout/random/guid');
 
 /**
@@ -31,7 +30,8 @@ AuthRequestBuilder.prototype.prepareAuthRequest = function (extraParams, extraSt
     return encodeURIComponent(scope);
   });
 
-  var request = mixIn({
+  /* eslint-disable google-camelcase/google-camelcase */
+  var request = Object.assign({
     response_type: 'token',
     state: stateId,
     redirect_uri: this.config.redirect_uri,
@@ -39,10 +39,11 @@ AuthRequestBuilder.prototype.prepareAuthRequest = function (extraParams, extraSt
     client_id: this.config.client_id,
     scope: scopes.join(' ')
   }, extraParams || {});
+  /* eslint-enable google-camelcase/google-camelcase */
 
   var authURL = AuthRequestBuilder.encodeURL(this.config.authorization, request);
 
-  var state = mixIn({
+  var state = Object.assign({
     restoreLocation: window.location.href,
     scopes: this.config.scopes
   }, extraState || {});

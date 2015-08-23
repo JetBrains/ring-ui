@@ -1,9 +1,8 @@
 /* eslint-disable google-camelcase/google-camelcase */
+require('babel/polyfill');
 var whatWgFetch = require('whatwg-fetch').fetch;
 var when = require('when');
-var contains = require('mout/array/contains');
 var union = require('mout/array/union');
-var mixIn = require('mout/object/mixIn');
 
 var AuthStorage = require('./auth__storage');
 var AuthResponseParser = require('./auth__response-parser');
@@ -89,7 +88,7 @@ var Auth = function (config) {
     throw new Error('Property serverUri is required');
   }
 
-  this.config = mixIn({}, Auth.DEFAULT_CONFIG, config);
+  this.config = Object.assign({}, Auth.DEFAULT_CONFIG, config);
 
   var serverUriLength = this.config.serverUri.length;
   if (serverUriLength > 0 && this.config.serverUri.charAt(serverUriLength - 1) !== '/') {
@@ -100,7 +99,7 @@ var Auth = function (config) {
     fields: union(Auth.DEFAULT_CONFIG.userFields, config.userFields).join(',')
   };
 
-  if (!contains(this.config.scope, Auth.DEFAULT_CONFIG.client_id)) {
+  if (!this.config.scope.includes(Auth.DEFAULT_CONFIG.client_id)) {
     this.config.scope.push(Auth.DEFAULT_CONFIG.client_id);
   }
 
@@ -376,7 +375,7 @@ Auth.prototype.logout = function (requestParams) {
 
   return this._storage.wipeToken().
     then(function () {
-      return self._requestBuilder.prepareAuthRequest(mixIn({request_credentials: 'required'}, requestParams));
+      return self._requestBuilder.prepareAuthRequest(Object.assign({request_credentials: 'required'}, requestParams));
     }).
     then(function (authRequest) {
       self._redirectCurrentPage(authRequest.url);
@@ -532,8 +531,8 @@ Auth._validateExpiration = function (storedToken) {
 Auth.prototype._validateScopes = function (storedToken) {
   for (var i = 0; i < this.config.scope.length; i++) {
     var scope = this.config.scope[i];
-    var isRequired = !contains(this.config.optionalScopes, scope);
-    if (isRequired && !contains(storedToken.scopes, scope)) {
+    var isRequired = !this.config.optionalScopes || !this.config.optionalScopes.includes(scope);
+    if (isRequired && !storedToken.scopes.includes(scope)) {
       return Auth._authRequiredReject('Token doesn\'t match required scopes');
     }
   }

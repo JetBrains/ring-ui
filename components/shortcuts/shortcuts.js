@@ -1,3 +1,4 @@
+require('babel/polyfill');
 var $ = require('jquery');
 var mousetrap = require('mousetrap');
 
@@ -59,9 +60,9 @@ Shortcuts.prototype.bind = function (params) {
     params.scope = this.ROOT_SCOPE;
   }
 
-  if ($.isArray(params.key)) {
+  if (Array.isArray(params.key)) {
     for (var i = 0; i < params.key.length; i++) {
-      this.bind($.extend({}, params, {key: params.key[i]}));
+      this.bind(Object.assign({}, params, {key: params.key[i]}));
     }
 
     return;
@@ -93,7 +94,7 @@ Shortcuts.prototype.bindMap = function (map, options) {
 
   for (var key in map) {
     if (map.hasOwnProperty(key)) {
-      this.bind($.extend({}, options || {}, {key: key, handler: map[key]}));
+      this.bind(Object.assign({}, options || {}, {key: key, handler: map[key]}));
     }
   }
 };
@@ -107,12 +108,12 @@ Shortcuts.prototype.getScope = function () {
 };
 
 Shortcuts.prototype.hasScope = function (scope) {
-  return $.inArray(scope, this._scopeChain) !== -1;
+  return this._scopeChain.indexOf(scope) !== -1;
 };
 
 Shortcuts.prototype.pushScope = function (scope) {
   if (scope) {
-    var position = $.inArray(scope, this._scopeChain);
+    var position = this._scopeChain.indexOf(scope);
 
     if (position !== -1) {
       this._scopeChain.splice(position, 1);
@@ -124,7 +125,7 @@ Shortcuts.prototype.pushScope = function (scope) {
 
 Shortcuts.prototype.popScope = function (scope) {
   if (scope) {
-    var position = $.inArray(scope, this._scopeChain);
+    var position = this._scopeChain.indexOf(scope);
 
     if (position !== -1) {
       return this._scopeChain.splice(position, this._scopeChain.length - 1);
@@ -134,7 +135,7 @@ Shortcuts.prototype.popScope = function (scope) {
 
 Shortcuts.prototype.spliceScope = function (scope) {
   if (scope) {
-    var position = $.inArray(scope, this._scopeChain);
+    var position = this._scopeChain.indexOf(scope);
 
     if (position !== -1) {
       this._scopeChain.splice(position, 1);
@@ -148,7 +149,7 @@ Shortcuts.prototype.setScope = function (scope) {
       scope = [scope];
     }
 
-    if (!$.isArray(scope)) {
+    if (!Array.isArray(scope)) {
       return;
     }
 

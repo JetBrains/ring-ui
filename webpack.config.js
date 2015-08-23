@@ -53,6 +53,11 @@ module.exports = {
         test: /\.jsx$/,
         loaders: ['jsx']
       },
+      {
+        test: /\.jsx$/,
+        loader: 'babel-loader',
+        query: {stage: 0}
+      },
       { test: /(-ng)(\\|\/)\S*(-ng|-ng__)\S*\.html$/, loader: 'html-loader' },
       //images loader
       { test: /\.png$/, loader: 'url-loader?limit=10000' },

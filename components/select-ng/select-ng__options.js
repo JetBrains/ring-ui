@@ -1,7 +1,5 @@
 var isObject = require('mout/lang/isObject');
 var deepEquals = require('mout/object/deepMatches');
-var isUndefined = require('mout/lang/isUndefined');
-var filter = require('mout/array/filter');
 
 var OPTIONS_REGEXP = /^\s*(.*?)(?:\s+as\s+(.*?))?(?:\s+select\s+as\s+(.*?))?(?:\s+describe\sas\s+(.*?))?(?:\s+for\s+)?([\$\w]+)\s+in\s+(.*?)(?:\s+track\sby\s+(.*?))?$/;
 
@@ -66,7 +64,7 @@ angular.module('Ring.select.options', [])
 
       var value = this.getProperty(option, this.itemGetter);
 
-      return isUndefined(value) ? option : value;
+      return value === undefined ? option : value;
     };
 
     /**
@@ -88,7 +86,7 @@ angular.module('Ring.select.options', [])
         return value;
       }
 
-      var matchedOptions = filter(options, function (option) {
+      var matchedOptions = options.filter(function (option) {
         var optionValue = this.getValue(option);
 
         if (isObject(value)) {
