@@ -1,4 +1,5 @@
 /*global angular*/
+require('dom4');
 var debounce = require('mout/function/debounce');
 
 /**
@@ -25,7 +26,7 @@ angular.module('Ring.table.toolbar', [])
          * Use plain DOM functions without any jquery. Should work with IE8+
          */
         var element = iElement[0];
-        var controlsContainer = element.querySelector('.ring-table__toolbar-controls');
+        var controlsContainer = element.query('.ring-table__toolbar-controls');
 
         /**
          * Makes toolbar sticky

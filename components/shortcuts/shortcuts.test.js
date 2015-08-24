@@ -121,7 +121,7 @@ describe('Shortcuts', function () {
       noop2.should.have.been.called;
     });
 
-    it('filter should prevent handler run', function () {
+    it('should prevent handler run', function () {
       var stop = sinon.stub().returns(true);
 
       shortcuts.setFilter(stop);

@@ -51,10 +51,6 @@ module.exports = {
       //jsx loader
       {
         test: /\.jsx$/,
-        loaders: ['jsx']
-      },
-      {
-        test: /\.jsx$/,
         loader: 'babel-loader',
         query: {stage: 0}
       },
