@@ -1,9 +1,9 @@
 /* global angular: false */
-
-require('dialog/dialog.scss');
-
+require('dom4');
 var shortcuts = require('shortcuts/shortcuts');
 var $ = require('jquery');
+
+require('dialog/dialog.scss');
 
 var dialogMixin = {
   /**
@@ -62,6 +62,7 @@ var dialogMixin = {
 
     return dialogScope.promise.promise;
   },
+
   /**
    * Hides dialog
    */
@@ -83,14 +84,17 @@ var dialogMixin = {
       }
     }
   },
+
   'done': function () {
     this.dialogScope.promise.resolve();
     this.hide();
   },
+
   'reset': function () {
     this.dialogScope.promise.reject();
     this.hide();
   },
+
   'register': function (scope) {
     this.dialogScope = scope;
 
@@ -107,20 +111,22 @@ var dialogMixin = {
       }
     }.bind(this));
   },
+
   'unregister': function () {
     delete this.dialogScope;
   },
+
   applyDefaultHandler: function (isTextAreaShortcut) {
     var scope = this.dialogScope;
 
     return function (event) {
-      var $target = $(event.target);
-      if ($target.is('textarea') !== isTextAreaShortcut || $target.is('button')) {
+      if (event.target.matches('textarea') !== isTextAreaShortcut || event.target.matches('button')) {
         return;
       }
 
       event.stopPropagation();
       event.preventDefault();
+
       if (scope.dialogForm.$valid) {
         scope.buttons.every(function (button) {
           if (button['default']) {
@@ -249,7 +255,7 @@ angular.module('Ring.dialog', []).
               iDocument.off('mousemove.' + scope.DIALOG_NAMESPACE);
             });
 
-          iWindow.on('resize', function() {
+          window.addEventListener('resize', function() {
             setPosition();
           });
         });
@@ -260,7 +266,7 @@ angular.module('Ring.dialog', []).
         };
 
         iDocument.on('focusin.' + scope.DIALOG_NAMESPACE, function (e) {
-          if (!$.contains(iElement[0], e.target) && $(e.target).hasClass('ring-popup')) {
+          if (!iElement[0].contains(e.target) && e.target.classList.contains('ring-popup')) {
             e.preventDefault();
             focusFirst();
           }
@@ -269,6 +275,7 @@ angular.module('Ring.dialog', []).
         scope.$on('$includeContentLoaded', function () {
           $timeout(focusFirst);
         });
+
         scope.$on('$destroy', function () {
           iDocument.off('.' + scope.DIALOG_NAMESPACE);
         });

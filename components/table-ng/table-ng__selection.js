@@ -14,11 +14,13 @@ deepMixIn(Selection.prototype, {
   setItems: function (items) {
     this.items = items;
   },
+
   activateItem: function (item) {
     this.clearActivity();
     item.active = true;
     this.emitEvent('rgTable:activateItem', item, this.items.indexOf(item));
   },
+
   getActiveItem: function () {
     if (!this.items) {
       return undefined;
@@ -28,13 +30,16 @@ deepMixIn(Selection.prototype, {
       return item.active;
     });
   },
+
   getActiveItemIndex: function () {
     return this.items.indexOf(this.getActiveItem());
   },
+
   setActiveItemIndex: function (index) {
     var item = this.items[index];
     this.activateItem(item);
   },
+
   activateNextItem: function () {
     var index = this.items.indexOf(this.getActiveItem());
     if (index >= 0 && index < this.items.length - 1) {
@@ -45,6 +50,7 @@ deepMixIn(Selection.prototype, {
       this.clearActivity();
     }
   },
+
   activatePreviousItem: function () {
     var activeItemIndex = this.items.indexOf(this.getActiveItem());
     if (activeItemIndex > 0 && activeItemIndex <= this.items.length - 1) {
@@ -55,11 +61,13 @@ deepMixIn(Selection.prototype, {
       this.clearActivity();
     }
   },
+
   clearSelection: function () {
     this.items.forEach(function (item) {
       item.checked = false;
     });
   },
+
   clearActivity: function () {
     var activeItem = this.getActiveItem();
     if (activeItem) {
@@ -67,21 +75,30 @@ deepMixIn(Selection.prototype, {
     }
     this.emitEvent('rgTable:activateItem', null);
   },
+
   checkItem: function (item) {
-    item.checked = true;
-    this.triggerSelectionChanged(item);
+    if (item) {
+      item.checked = true;
+      this.triggerSelectionChanged(item);
+    }
   },
+
   uncheckItem: function (item) {
-    item.checked = false;
-    this.triggerSelectionChanged(item);
+    if (item) {
+      item.checked = false;
+      this.triggerSelectionChanged(item);
+    }
   },
+
   toggleCheck: function (item) {
     item.checked = !item.checked;
     this.triggerSelectionChanged(item);
   },
+
   triggerSelectionChanged: function (item) {
     this.emitEvent('rgTable:selectionChanged', item);
   },
+
   getCheckedItems: function () {
     return this.items.filter(function (item) {
       return item.checked;
