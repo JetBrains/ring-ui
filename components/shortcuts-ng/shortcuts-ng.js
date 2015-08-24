@@ -1,7 +1,8 @@
 require('babel/polyfill');
+require('dom4');
 var shortcutsInstance = require('shortcuts/shortcuts');
 
-  /* global angular: false */
+/* global angular: false */
 angular.module('Ring.shortcuts', [])
   .provider('shortcuts', [function () {
     var modes = {};
@@ -169,10 +170,10 @@ angular.module('Ring.shortcuts', [])
         };
 
         self.sort = function() {
-          var orderedElements = document.querySelectorAll('[rg-shortcuts]');
+          var orderedElements = document.queryAll('[rg-shortcuts]');
 
           $scope.zones.forEach(function(zone) {
-            zone.order = Array.from(orderedElements).indexOf(zone.element[0]);
+            zone.order = orderedElements.indexOf(zone.element[0]);
           });
 
           $scope.zones.sort(function(a, b) {

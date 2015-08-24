@@ -3,10 +3,13 @@
  * message on blur.
  * @author igor.alexeenko@jetbrains.com (Igor Alexeenko)
  */
-var Checkbox = require('../checkbox/checkbox');
-var Input = require('../input/input');
+
+require('dom4');
 var React = require('react');
 var classNames = require('classnames');
+
+var Checkbox = require('../checkbox/checkbox');
+var Input = require('../input/input');
 
 /**
  * @enum {string}
@@ -52,7 +55,7 @@ var FormGroup = React.createClass({
     // TODO Refactor or remove component
     /* eslint-disable react/no-did-mount-set-state */
     this.setState({
-      'inputElement': this.getDOMNode().querySelector('input')
+      'inputElement': this.getDOMNode().query('input')
     });
     /* eslint-enable react/no-did-mount-set-state */
   },

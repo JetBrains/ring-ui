@@ -1,12 +1,15 @@
-require('../table/table.scss');
+require('dom4');
+var debounce = require('mout/function/debounce');
+
 var TableSelection = require('./table-ng__selection');
 require('./table-ng__toolbar');
 require('../place-under-ng/place-under-ng');
-var debounce = require('mout/function/debounce');
 
 require('../react-ng/react-ng')({
   Checkbox: require('../checkbox/checkbox.jsx')
 });
+
+require('../table/table.scss');
 
 /*global angular*/
 
@@ -219,11 +222,11 @@ angular.module('Ring.table', ['Ring.table.toolbar', 'Ring.react-ng', 'Ring.place
           scope.stickToSelector = '.ring-table__toolbar';
         }
 
-        var scrollableHeader = element.querySelector('.ring-table__header:not(.ring-table__header_sticky)');
-        var fixedHeader = element.querySelector('.ring-table__header_sticky');
+        var scrollableHeader = element.query('.ring-table__header:not(.ring-table__header_sticky)');
+        var fixedHeader = element.query('.ring-table__header_sticky');
 
         var toolbarFixed = function () {
-          return stickToElement.querySelector('.' + TOOLBAR_FIXED_CLASSNAME) !== null;
+          return stickToElement.query('.' + TOOLBAR_FIXED_CLASSNAME) !== null;
         };
 
         /**
@@ -231,10 +234,10 @@ angular.module('Ring.table', ['Ring.table.toolbar', 'Ring.react-ng', 'Ring.place
          */
         var resizeFixedHeader = debounce(function() {
           fixedHeader.style.width = scrollableHeader.offsetWidth + 'px';
-          var titles = fixedHeader.querySelectorAll('.ring-table__title');
+          var titles = fixedHeader.queryAll('.ring-table__title');
 
           Array.prototype.forEach.call(titles, function(titleElement, index){
-            var targetHeaderTitle = scrollableHeader.querySelectorAll('.ring-table__title')[index];
+            var targetHeaderTitle = scrollableHeader.queryAll('.ring-table__title')[index];
             titleElement.style.width = $window.getComputedStyle(targetHeaderTitle).width;
           });
 
@@ -435,7 +438,7 @@ angular.module('Ring.table', ['Ring.table.toolbar', 'Ring.react-ng', 'Ring.place
         scope.isPullLeft = angular.isDefined(iAttrs.pullLeft);
 
         var adjustUnlimitedColumnWidths = function () {
-          var unlimitedColumnsCount = element.parentNode.querySelectorAll('.ring-table__column[unlimited]').length;
+          var unlimitedColumnsCount = element.parentNode.queryAll('.ring-table__column[unlimited]').length;
           if (unlimitedColumnsCount > 1) {
             element.style.width = (100 / unlimitedColumnsCount).toFixed() + '%';
           }
