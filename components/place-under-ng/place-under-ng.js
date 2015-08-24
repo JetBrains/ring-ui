@@ -3,8 +3,9 @@
  * attribute will manually positioned under provided element. Target element
  * position should be 'absolute'
  */
-var debounce = require('mout/function/debounce');
 
+require('dom4');
+var debounce = require('mout/function/debounce');
 
 /**
  * @name Place Under Ng
@@ -167,7 +168,7 @@ angular.module('Ring.place-under', [])
     return function getClosestElementWithCommonParent(currentElement, selector) {
       var parent = currentElement.parentNode;
       if (parent) {
-        return parent.querySelector(selector) || getClosestElementWithCommonParent(parent, selector);
+        return parent.query(selector) || getClosestElementWithCommonParent(parent, selector);
       } else {
         return null;
       }

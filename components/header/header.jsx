@@ -3,17 +3,20 @@
  * @author igor.alexeenko@jetbrains.com (Igor Alekseenko)
  */
 
-require('./header.scss');
+require('dom4');
+var React = require('react');
+var classNames = require('classnames');
+
 var Button = require('button/button');
 var ClassName = require('class-name/class-name');
 var Global = require('global/global');
 var Icon = require('icon/icon');
 var Popup = require('popup/popup');
-var React = require('react');
 var urlUtils = require('url-utils/url-utils');
-var classNames = require('classnames');
 
 var HeaderItem = require('./header__item');
+
+require('./header.scss');
 
 /**
  * @type {ClassName}
@@ -438,14 +441,14 @@ var Header = React.createClass({
    * @return {Element}
    */
   getExtraElement: function() {
-    return this.getDOMNode().querySelector('.' + headerClassName.getElement('user-menu-extra'));
+    return this.getDOMNode().query('.' + headerClassName.getElement('user-menu-extra'));
   },
 
   /**
    * @return {Element}
    */
   getMenuElement: function() {
-    return this.getDOMNode().querySelector('.' + headerClassName.getElement('menu'));
+    return this.getDOMNode().query('.' + headerClassName.getElement('menu'));
   },
 
   /**

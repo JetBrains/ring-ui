@@ -3,13 +3,14 @@
  * @author igor.alexeenko@jetbrains.com (Igor Alexeenko)
  */
 
-require('./form.scss');
+require('dom4');
 var Global = require('global/global');
 var every = require('mout/collection/every');
 var map = require('mout/collection/map');
 var forEach = require('mout/collection/forEach');
 var React = require('react/addons');
 
+require('./form.scss');
 
 
 /**
@@ -119,11 +120,11 @@ var DependencyFunction = {
 
     while (parent !== null && !chain) {
       var childrenOfParent = getSubtree(depsTree, parent);
-      parentElement = formElement.querySelector('[name=' + parent + ']');
+      parentElement = formElement.query('[name=' + parent + ']');
 
       /* eslint-disable no-loop-func */
       parentElement.checked = every(childrenOfParent, function(childTree, child) {
-        var currentChildElement = formElement.querySelector('[name=' + child + ']');
+        var currentChildElement = formElement.query('[name=' + child + ']');
         return currentChildElement.checked;
       });
       /* eslint-enable no-loop-func */
@@ -245,7 +246,7 @@ var Form = React.createClass({
   /** @protected */
   checkDependencies: function() {
     if (!this.state['fieldsOrder']) {
-      var inputElements = this.getDOMNode().querySelectorAll('input');
+      var inputElements = this.getDOMNode().queryAll('input');
       var fieldsOrder = map(inputElements, function(inputElement) {
         if (this.state['deps'][inputElement.name]) {
           return inputElement.name;
@@ -341,12 +342,12 @@ var Form = React.createClass({
       var dependencyFunction = DependencyTypeToFn[dependencyType];
 
       var analyzedDeps = dfsVisitor(depsTree, {}, sequence, function(vertice, tree) {
-        var verticeElement = formElement.querySelector('[name=' + vertice + ']');
+        var verticeElement = formElement.query('[name=' + vertice + ']');
         var dependencies = [];
 
         if (tree) {
           forEach(tree, function(subtree, child) {
-            var childElement = formElement.querySelector('[name=' + child + ']');
+            var childElement = formElement.query('[name=' + child + ']');
             dependencies.push(function(chain) {
               dependencyFunction.call(this, verticeElement, childElement, formElement, chain, depsTree);
               if (subtree) {
@@ -381,7 +382,7 @@ var Form = React.createClass({
    */
   getValidationDependentFields: function() {
     var fieldsToValidate = [];
-    var submitButton = this.getDOMNode().querySelector('[type=submit]');
+    var submitButton = this.getDOMNode().query('[type=submit]');
 
     forEach(this.refs, function(ref) {
       if (typeof ref.checkValidity !== 'undefined') {

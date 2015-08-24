@@ -197,16 +197,16 @@ var PopupMixin = {
     if (enable && !self._listenersEnabled) {
       setTimeout(function () {
         self._listenersEnabled = true;
-        $(window).on('resize', self.onWindowResize_);
-        $(document).on('click', self.onDocumentClick_);
+        window.addEventListener('resize', self.onWindowResize_);
+        document.addEventListener('click', self.onDocumentClick_);
       }, 0);
 
       return;
     }
 
     if (!enable && self._listenersEnabled){
-      $(window).off('resize', self.onWindowResize_);
-      $(document).off('click', self.onDocumentClick_);
+      window.removeEventListener('resize', self.onWindowResize_);
+      document.removeEventListener('click', self.onDocumentClick_);
       self._listenersEnabled = false;
     }
   },

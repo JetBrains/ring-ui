@@ -1,5 +1,5 @@
 require('babel/polyfill');
-var $ = require('jquery');
+require('dom4');
 var mousetrap = require('mousetrap');
 
 /**
@@ -164,15 +164,13 @@ Shortcuts.prototype.hasKey = function (key, scope) {
 };
 
 Shortcuts.prototype._defaultFilter = function (e, element/*, key*/) {
-  var $element = $(element);
-
   // if the element or its parents have the class "ring-js-shortcuts" then no need to stop
-  if ($element.is(ALLOW_SHORTCUTS_SELECTOR) || $element.closest(ALLOW_SHORTCUTS_SELECTOR).length) {
+  if (element === document || element.matches(ALLOW_SHORTCUTS_SELECTOR) || element.closest(ALLOW_SHORTCUTS_SELECTOR)) {
     return false;
   }
 
   // stop for input, select, and textarea
-  return $element.is(':input:not(:button)') || (element.contentEditable && element.contentEditable === 'true');
+  return element.matches('input,select,textarea') || (element.contentEditable && element.contentEditable === 'true');
 };
 
 Shortcuts.prototype.setFilter = function (fn) {
