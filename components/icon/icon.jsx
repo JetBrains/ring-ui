@@ -196,8 +196,7 @@ var Icon = React.createClass({
       className: '',
       color: Color.DEFAULT,
       glyph: '',
-      size: Size.Size32,
-      title: ''
+      size: Size.Size32
     };
   },
 
@@ -212,7 +211,7 @@ var Icon = React.createClass({
     xlinkHref = iconUrl.resolve(xlinkHref);
 
     return (this.transferPropsTo(<span className={classList}>
-      <svg className={this.props.baseClass.getElement('i')} title={this.props.title} dangerouslySetInnerHTML={{__html: '<use xlink:href="' + xlinkHref + '"></use>'}}/>
+      <svg className={this.props.baseClass.getElement('i')} dangerouslySetInnerHTML={{__html: '<use xlink:href="' + xlinkHref + '"></use>'}}/>
     </span>));
   },
 
