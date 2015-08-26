@@ -590,7 +590,9 @@ var Select = React.createClass({
       this.setState({
         selected: selected
       }, function() {
-        this.filterValue(this.isInputMode() && !this.props.hideSelected ? this._getItemLabel(selected) : '');
+        var newFilterValue = this.isInputMode() && !this.props.hideSelected ? this._getItemLabel(selected) : '';
+        this.filterValue(newFilterValue);
+        this.props.onFilter(newFilterValue);
         this.props.onSelect(selected);
         this.props.onChange(selected);
         this._hidePopup();
