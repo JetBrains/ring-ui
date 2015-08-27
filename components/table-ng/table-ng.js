@@ -376,10 +376,11 @@ angular.module('Ring.table', ['Ring.table.toolbar', 'Ring.react-ng', 'Ring.place
         });
 
         scope.onChange = function(newValue) {
-          tableCtrl.items.forEach(function(item) {
-            item.checked = newValue;
+          scope.$evalAsync(function() {
+            tableCtrl.items.forEach(function(item) {
+              item.checked = newValue;
+            });
           });
-          scope.$apply();
         };
       }
     };
