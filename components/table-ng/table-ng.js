@@ -186,13 +186,19 @@ angular.module('Ring.table', ['Ring.table.toolbar', 'Ring.react-ng', 'Ring.place
         /**
          * Updating items when data is initiated or updated
          */
+        var watchListener = function (result) {
+          if (result){
+            self.selection.setItems(self.items);
+          }
+        };
+
+        $scope.$watch(function () {
+          return self.items;
+        }, watchListener);
+
         $scope.$watch(function () {
           return self.items && self.items.length;
-        }, function (newItems) {
-          if (newItems){
-            self.selection.setItems(newItems);
-          }
-        }, true);
+        }, watchListener);
 
       }
     };
@@ -370,10 +376,12 @@ angular.module('Ring.table', ['Ring.table.toolbar', 'Ring.react-ng', 'Ring.place
         scope.allChecked = false;
 
         function recheckSelection() {
-          if (tableCtrl.items) {
+          if (tableCtrl.items && tableCtrl.items.length) {
             scope.allChecked = tableCtrl.items.every(function (item) {
               return item.checked;
             });
+          } else {
+            scope.allChecked = false;
           }
         }
 
