@@ -131,8 +131,11 @@ var Checkbox = React.createClass({
   },
 
   inputChange: function() {
+    var newValue = this.getInputDOMNode().checked;
     this.setState({
-      checked: this.getInputDOMNode().checked
+      checked: newValue
+    }, function() {
+      this.props.onChange && this.props.onChange(newValue);
     });
   },
 

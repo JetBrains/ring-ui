@@ -360,6 +360,30 @@ angular.module('Ring.table', ['Ring.table.toolbar', 'Ring.react-ng', 'Ring.place
       }
     };
   })
+  .directive('rgTableHeaderCheckbox', function () {
+    return {
+      restrict: 'E',
+      require: '^rgTable',
+      replace: true,
+      template: '<div react="Checkbox" on-change="onChange" class="ring-table__header-checkbox" ng-model="allChecked"/>',
+      link: function (scope, iElement, iAttrs, tableCtrl) {
+        scope.allChecked = false;
+
+        scope.$on('rgTable:selectionChanged', function() {
+          scope.allChecked = tableCtrl.items.every(function(item) {
+            return item.checked;
+          });
+        });
+
+        scope.onChange = function(newValue) {
+          tableCtrl.items.forEach(function(item) {
+            item.checked = newValue;
+          });
+          scope.$apply();
+        };
+      }
+    };
+  })
   /**
    * A checkbox cell for table. Uses rg-table-row parent directive as model hoster
    */
