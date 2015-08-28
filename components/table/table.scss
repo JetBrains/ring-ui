@@ -68,6 +68,11 @@
 
 .ring-table__title_nested {
   padding-left: $ring-unit*5;
+
+  // fix header checkbox position in nested table
+  & .ring-table__header-checkbox {
+    left: -26px;
+  }
 }
 
 .ring-table__toggle {
