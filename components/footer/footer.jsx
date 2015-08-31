@@ -7,6 +7,7 @@ require('./footer.scss');
 require('link/link.scss');
 
 var React = require('react');
+var Link = require('link/link');
 var isArray = require('mout/lang/isArray');
 
 /**
@@ -69,39 +70,27 @@ var FooterLine = React.createClass({
     ])
   },
   render: function () {
-    var children = {};
+    var items = isArray(this.props.item) ? this.props.item : [this.props.item];
+
     var renderItem = function(item, idx) {
-      // Item is string
-      if (!(item.label) && !React.isValidComponent(item)) {
-        item = {label: item};
-      }
-      var element = (item.copyright ? copyright(item.copyright) : '') + item.label;
-      if (item.url) {
-        element = <a className="ring-link" href={item.url} title={item.title}>{element}</a>;
-      }
-
       if (React.isValidComponent(item)) {
-        element = item;
+        return item;
       }
 
-      return {
-        id: item.label + '-' + idx,
-        element: element
-      };
+      var element = (item.copyright ? copyright(item.copyright) : '') + (item.label || item);
+
+      if (item.url) {
+        return <Link href={item.url} title={item.title}>{element}</Link>;
+      }
+
+      return element;
     };
-    if (isArray(this.props.item)) {
-      this.props.item.map(renderItem).forEach(function(it) {
-        children[it.id] = it.element;
-      });
-    } else {
-      var renderedItem = renderItem(this.props.item, 0);
-      children[renderedItem.id] = renderedItem.element;
-    }
+
     return (
       <li className="ring-footer__line">
-        {children}
+        {items.map(renderItem)}
       </li>
-      );
+    );
   }
 });
 
