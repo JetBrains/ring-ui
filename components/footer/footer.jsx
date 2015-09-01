@@ -72,7 +72,7 @@ var FooterLine = React.createClass({
   render: function () {
     var items = isArray(this.props.item) ? this.props.item : [this.props.item];
 
-    var renderItem = function(item, idx) {
+    var renderItem = function(item) {
       if (React.isValidComponent(item)) {
         return item;
       }
