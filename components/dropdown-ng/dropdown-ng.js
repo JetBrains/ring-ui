@@ -127,7 +127,7 @@ angular.module('Ring.dropdown', [])
           if (angular.isArray(items) && items.length) {
             config.data = convertItemsForPopup(items);
             if (!popupMenuInstance) {
-              popupMenuInstance = PopupMenu.render(React.createElement(PopupMenu, config));
+              popupMenuInstance = PopupMenu.renderPopup(React.createElement(PopupMenu, config));
             } else {
               popupMenuInstance.setProps(config);
             }

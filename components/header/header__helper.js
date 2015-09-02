@@ -116,7 +116,7 @@ HeaderHelper.setUserMenu = function(header, auth, translationsDict) {
       profilePopupData: popupData,
 
       onUserMenuOpen: function() {
-        popup = PopupMenu.render(new PopupMenu({
+        popup = PopupMenu.renderPopup(new PopupMenu({
           anchorElement: header.refs['userMenu'].getDOMNode(),
           corner: PopupMenu.PopupProps.Corner.BOTTOM_RIGHT,
           data: header.props.profilePopupData,
