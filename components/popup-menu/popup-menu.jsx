@@ -24,7 +24,7 @@ var List = require('list/list');
        var React = require('react');
        var PopupMenu = require('popup-menu/popup-menu');
 
-       var popupMenu = PopupMenu.render(React.createElement(PopupMenu, {
+       var popupMenu = PopupMenu.renderPopup(React.createElement(PopupMenu, {
          anchorElement: document.getElementById('popup'),
          corner: PopupMenu.PopupProps.Corner.TOP_LEFT,
          classNames: ['additional', 'class', 'names']

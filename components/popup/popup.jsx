@@ -61,7 +61,7 @@ var PopupMixin = {
      * @param {ReactComponent} component
      * @return {HTMLElement}
      */
-    render: function (component) {
+    renderPopup: function (component) {
       var container = document.createElement('div');
       document.body.appendChild(container);
 
@@ -400,19 +400,19 @@ var PopupMixin = {
 
  var container = React.DOM.span(null, 'Hello world!');
 
- var popup = Popup.render(React.createElement(Popup, {
+ var popup = Popup.renderPopup(React.createElement(Popup, {
    anchorElement: document.getElementById('target1'),
    corner: Popup.PopupProps.Corner.TOP_LEFT,
    autoRemove: false
  }, [container]));
 
- var popup2 = Popup.render(React.createElement(Popup, {
+ var popup2 = Popup.renderPopup(React.createElement(Popup, {
    anchorElement: document.getElementById('target2'),
    corner: Popup.PopupProps.Corner.TOP_RIGHT,
    autoRemove: false
  }, [container]));
 
- var popup3 = Popup.render(React.createElement(Popup, {
+ var popup3 = Popup.renderPopup(React.createElement(Popup, {
    anchorElement: document.getElementById('target3'),
    corner: Popup.PopupProps.Corner.BOTTOM_LEFT,
    autoRemove: false
@@ -424,7 +424,7 @@ var PopupMixin = {
   }, 1);
  };
 
- var popup4 = Popup.render(React.createElement(Popup, {
+ var popup4 = Popup.renderPopup(React.createElement(Popup, {
    anchorElement: document.getElementById('target4'),
    corner: Popup.PopupProps.Corner.BOTTOM_RIGHT,
    autoRemove: false

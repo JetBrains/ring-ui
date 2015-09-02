@@ -360,7 +360,7 @@ var Header = React.createClass({
    */
   _setServicesPopupShown: function(show) {
     if (show) {
-      this._servicesPopup = Popup.render(React.createElement(Popup, {
+      this._servicesPopup = Popup.renderPopup(React.createElement(Popup, {
         anchorElement: this.refs['services'].getDOMNode(),
         autoRemove: true,
         className: headerClassName.getClassName('services'),
