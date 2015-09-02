@@ -398,7 +398,7 @@ var Select = React.createClass({
   _popup: null,
   _createPopup: function() {
     if (!this._popup) {
-      this._popup = Popup.render(
+      this._popup = Popup.renderPopup(
         <SelectPopup
           maxHeight={this.props.maxHeight}
           minWidth={this.props.minWidth}

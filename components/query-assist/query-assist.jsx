@@ -250,7 +250,6 @@ var QueryAssist = React.createClass({
 
     this.setupRequestHandler(this.props);
     this.setShortcutsEnabled(this.props.focus);
-    this.caret = new Caret(this.refs.input.getDOMNode());
 
     this.requestStyleRanges().
       catch(this.setFocus).
@@ -261,7 +260,7 @@ var QueryAssist = React.createClass({
 
   attachMutationEvents: function() {
     if (impotentIE) {
-      this.refs.input.getDOMNode().addEventListener(mutationEvent, this.handleInput);
+      this.input.addEventListener(mutationEvent, this.handleInput);
     }
   },
 
@@ -286,7 +285,7 @@ var QueryAssist = React.createClass({
     }
 
     if (impotentIE) {
-      this.refs.input.getDOMNode().removeEventListener(mutationEvent, this.handleInput);
+      this.input.removeEventListener(mutationEvent, this.handleInput);
     }
   },
 
@@ -334,11 +333,10 @@ var QueryAssist = React.createClass({
   },
 
   scrollInput: function () {
-    var input = this.refs.input.getDOMNode();
     var caretOffset = this.caret.getOffset();
 
-    if (input.clientWidth !== input.scrollWidth && caretOffset > input.clientWidth) {
-      input.scrollLeft = input.scrollLeft + caretOffset;
+    if (this.input.clientWidth !== this.input.scrollWidth && caretOffset > this.input.clientWidth) {
+      this.input.scrollLeft = this.input.scrollLeft + caretOffset;
     }
   },
 
@@ -369,7 +367,7 @@ var QueryAssist = React.createClass({
 
   handleInput: function () {
     var props = {
-      query: this.refs.input.getDOMNode().textContent.replace(/\s/g, ' '),
+      query: this.input.textContent.replace(/\s/g, ' '),
       caret: this.caret.getPosition(),
       focus: true
     };
@@ -548,7 +546,6 @@ var QueryAssist = React.createClass({
   },
 
   getPopupOffset: function (suggestions) {
-    var input = this.refs.input.getDOMNode();
     // First suggestion should be enough?
     var suggestion = suggestions && suggestions[0];
 
@@ -557,13 +554,13 @@ var QueryAssist = React.createClass({
       suggestion.completionStart !== suggestion.completionEnd &&
       suggestion.completionStart;
 
-    var completionStartNode = input.firstChild &&
+    var completionStartNode = this.input.firstChild &&
       suggestion.completionStart !== false &&
       suggestion.completionStart != null &&
-      input.firstChild.childNodes[completionStart];
+      this.input.firstChild.childNodes[completionStart];
 
     var offset = completionStartNode &&
-      (completionStartNode.getBoundingClientRect().right - input.getBoundingClientRect().left);
+      (completionStartNode.getBoundingClientRect().right - this.input.getBoundingClientRect().left);
 
     if (!offset) {
       var caret = this.caret.getOffset();
@@ -623,7 +620,7 @@ var QueryAssist = React.createClass({
     if (!this._popup || !this._popup.isMounted()) {
       this._popup = PopupMenu.render(
         <PopupMenu
-          anchorElement={this.getDOMNode()}
+          anchorElement={React.findDOMNode(this)}
           autoRemove={false} // required to prevent popup unmount on Esc
           className={this.props.popupClassName}
           corner={PopupMenu.PopupProps.Corner.BOTTOM_LEFT}
@@ -744,6 +741,15 @@ var QueryAssist = React.createClass({
       props.glass !== this.props.glass;
   },
 
+  refInput: function (node) {
+    if (!node) {
+      return;
+    }
+
+    this.input = React.findDOMNode(node);
+    this.caret = new Caret(this.input);
+  },
+
   /** @override */
   render: function () {
     var renderPlaceholder = !!this.props.placeholder && this.state.placeholderEnabled;
@@ -759,6 +765,7 @@ var QueryAssist = React.createClass({
       'ring-input_disabled': this.props.disabled
     });
 
+    // TODO: Move to ContentEditable
     var query = this.state.query && React.renderToStaticMarkup(
         <span>{this.state.query.split('').map(this.renderLetter)}</span>
       );
@@ -770,7 +777,7 @@ var QueryAssist = React.createClass({
         >
         <ContentEditable
           className={inputClasses}
-          ref="input"
+          ref={this.refInput}
           disabled={this.props.disabled}
           dangerousHTML={query}
           onComponentUpdate={this.setFocus}
@@ -787,7 +794,6 @@ var QueryAssist = React.createClass({
 
         {renderPlaceholder && <span
           className="ring-query-assist__placeholder"
-          ref="placeholder"
           onClick={this.handleCaretMove}>
           {this.props.placeholder}
         </span>}
@@ -796,11 +802,9 @@ var QueryAssist = React.createClass({
           color="gray"
           glyph="search"
           onClick={this.handleApply}
-          ref="glass"
           size={Icon.Size.Size16} />}
         {this.state.loading && <div
-          className="ring-query-assist__icon ring-query-assist__icon_loader"
-          ref="loader">
+          className="ring-query-assist__icon ring-query-assist__icon_loader">
           <Loader modifier={Loader.Modifier.INLINE} />
         </div>}
         {renderClear && <Icon
@@ -808,7 +812,6 @@ var QueryAssist = React.createClass({
           color="gray"
           glyph="close"
           onClick={this.clearQuery}
-          ref="clear"
           size={Icon.Size.Size16} />}
       </div>
     );
