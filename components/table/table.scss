@@ -299,3 +299,28 @@
   z-index: $ring-fixed-z-index;
   width: auto;
 }
+
+.table__pager {
+  margin: 4*$ring-unit 4*$ring-unit;
+}
+
+.table__pager-links {
+  margin-bottom: 2*$ring-unit;
+}
+
+.table__pager-link {
+  display: inline-block;
+
+  &:first-child {
+    margin-right: 4*$ring-unit;
+  }
+}
+
+.table__pager-select {
+  float: right;
+  display: inline-block;
+
+  &  .ring-btn.ring-select {
+    width: auto;
+  }
+}
