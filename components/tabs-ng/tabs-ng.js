@@ -22,6 +22,27 @@ require('../tabs/tabs.scss');
        require('tabs-ng/tabs-ng');
      </file>
    </example>
+
+   <example name="Tabs-ng with custom title content">
+     <file name="index.html">
+     <div ng-app="Ring.tabs">
+       <rg-tabs class="container container_tabs">
+        <div><!-- Div can be used for ng-repeat tabs -->
+           <rg-tabs-pane-title>Here is <i>custom</i> tab's <b>title</b></rg-tabs-pane-title>
+           <rg-tabs-pane x-title="foo" tab-id="do-not-forget-id">Tab content</rg-tabs-pane>
+        </div>
+        <div>
+          <rg-tabs-pane x-title="Usual tab" counter="666">usual tab content</rg-tabs-pane>
+        </div>
+       </rg-tabs>
+     </div>
+     </file>
+     <file name="index.js" webpack="true">
+       require('angular/angular.min.js');
+       require('angular-route/angular-route.min.js');
+       require('tabs-ng/tabs-ng');
+     </file>
+   </example>
  */
 
 angular.module('Ring.tabs', ['ngRoute']).
@@ -128,8 +149,24 @@ angular.module('Ring.tabs', ['ngRoute']).
       template: require('./tabs-ng.html'),
       replace: true
     };
-  }]).
-  directive('rgTabsPane', function () {
+  }])
+  .directive('rgTabsTabTitle', function () {
+    return {
+      template: '<span>{{pane.title}}</span>',
+      replace: true,
+      scope: {
+        pane: '='
+      },
+      link: function (scope, iElement) {
+        var angularElement = angular.element(iElement[0]);
+
+        if (scope.pane.customTabTitleElement) {
+          angularElement.replaceWith(scope.pane.customTabTitleElement);
+        }
+      }
+    };
+  })
+  .directive('rgTabsPane', function () {
     return {
       require: '^rgTabs',
       restrict: 'E',
@@ -142,6 +179,12 @@ angular.module('Ring.tabs', ['ngRoute']).
       },
       link: function (scope, element, attrs, tabsCtrl) {
         scope.tabId = scope.tabId || scope.title.toLowerCase();
+
+        var previousSibling = element[0].previousElementSibling;
+        if (previousSibling && previousSibling.nodeName.toLowerCase() === 'rg-tabs-pane-title') {
+          scope.customTabTitleElement = previousSibling;
+        }
+
         tabsCtrl.addPane(scope);
       },
       template: '<div class="ring-tabs__content" ng-class="{\'ring-tabs__content_active\':selected}" ng-if="selected" ng-transclude></div>'
