@@ -48,6 +48,7 @@ require('../tabs/tabs.scss');
      <file name="index.html">
      <div ng-app="Ring.tabs">
        <rg-tabs class="container container_tabs">
+         <rg-tabs-pane x-title="Tab with very very long name 1">content 1</rg-tabs-pane>
          <rg-tabs-pane x-title="Tab with very very long name 2">content 2</rg-tabs-pane>
          <rg-tabs-pane x-title="Tab with very very long name 3">content 3</rg-tabs-pane>
          <rg-tabs-pane x-title="Tab with very very long name 1">content 1</rg-tabs-pane>
@@ -56,7 +57,6 @@ require('../tabs/tabs.scss');
          <rg-tabs-pane x-title="Tab with very very long name 6">content 6</rg-tabs-pane>
          <rg-tabs-pane x-title="Tab with very very long name 7">content 7</rg-tabs-pane>
          <rg-tabs-pane x-title="Tab with very very long name 8">content 8</rg-tabs-pane>
-         <rg-tabs-pane x-title="Tab with very very long name 9">content 9</rg-tabs-pane>
        </rg-tabs>
      </div>
      </file>
@@ -211,5 +211,30 @@ angular.module('Ring.tabs', ['ngRoute']).
         tabsCtrl.addPane(scope);
       },
       template: '<div class="ring-tabs__content" ng-class="{\'ring-tabs__content_active\':selected}" ng-if="selected" ng-transclude></div>'
+    };
+  })
+  .directive('rgTabsScrollHandler', function () {
+    return {
+      restrict: 'A',
+      link: function (scope, iElement) {
+        var element = iElement[0];
+        var currentLeft = null;
+
+        element.addEventListener('mousewheel', function (e) {
+          var elementWidth = element.offsetWidth;
+          var elementScrollableWidth = element.scrollWidth;
+          var newLeft = currentLeft + e.wheelDeltaX;
+
+          if (newLeft >= 0) {
+            newLeft = 0;
+          }
+          if (newLeft <= elementWidth - elementScrollableWidth) {
+            newLeft = elementWidth - elementScrollableWidth;
+          }
+
+          currentLeft = newLeft;
+          element.style.left = newLeft + 'px';
+        });
+      }
     };
   });
