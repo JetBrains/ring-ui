@@ -1,6 +1,8 @@
-var React = require('react');
-var classNames = require('classnames');
-require('./textarea.scss');
+import React from 'react';
+import classNames from 'classnames';
+import RingComponent from 'ring-component/ring-component';
+import factory from 'factory-decorator/factory-decorator';
+import './textarea.scss';
 
 /**
  * @name Textarea
@@ -9,24 +11,24 @@ require('./textarea.scss');
  * @example
    <example name="Textarea">
      <file name="index.html">
-        <div id="textarea">
-        </div>
+       <div id="textarea"></div>
      </file>
 
      <file name="index.js" webpack="true">
-       var React = require('react');
+       var render = require('react-dom').render;
        var Textarea = require('textarea/textarea');
 
-       React.render(React.createElement(Textarea), document.getElementById('textarea'));
+       render(
+         Textarea.factory(),
+         document.getElementById('textarea')
+       );
      </file>
    </example>
- *
  */
-var Textarea = React.createClass({
-  render: function () {
-    var classes = classNames('ring-textarea', this.props.className);
+@factory
+export default class Textarea extends RingComponent {
+  render() {
+    let classes = classNames('ring-textarea', this.props.className);
     return <textarea {...this.props} className={classes}/>;
   }
-});
-
-module.exports = Textarea;
+}

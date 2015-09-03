@@ -1,89 +1,87 @@
 /**
  * @fileoverview Select options popup
  */
-var React = require('react');
-var Popup = require('popup/popup');
-var List = require('list/list');
-var Input = require('input/input');
 
-var ShortcutsMixin = require('shortcuts/shortcuts__mixin');
+import React from 'react';
+import { findDOMNode } from 'react-dom';
+import mixin from 'react-mixin';
+import RingComponent from 'ring-component/ring-component';
+import factory from 'factory-decorator/factory-decorator';
+import Popup from 'popup/popup';
+import List from 'list/list';
+import Input from 'input/input';
+import ShortcutsMixin from 'shortcuts/shortcuts__mixin';
+import Global from 'global/global';
 
-var Global = require('global/global');
-var generateUniqueId = Global.getUIDGenerator('ring-select-popup-');
+const generateUniqueId = Global.getUIDGenerator('ring-select-popup-');
 
-function noop() {}
+const noop = () => {};
 
-var SelectPopup = React.createClass({
-  mixins: [ShortcutsMixin],
+@factory
+@mixin.decorate(ShortcutsMixin)
+export default class SelectPopup extends RingComponent {
+  static defaultProps = {
+    data: [],
+    activeIndex: null,
+    toolbar: null,
+    filter: false, // can be boolean or an object with "value" and "placeholder" properties
+    message: null,
+    anchorElement: null,
+    maxHeight: 250,
+    minWidth: 'target',
+    onSelect: function() {},
+    onClose: function() {},
+    onFilter: function() {}
+  };
 
-  getDefaultProps: function() {
-    return {
-      data: [],
-      activeIndex: null,
-      toolbar: null,
-      filter: false, // can be boolean or an object with "value" and "placeholder" properties
-      message: null,
-      anchorElement: null,
-      maxHeight: 250,
-      minWidth: 'target',
-      onSelect: function() {},
-      onClose: function() {},
-      onFilter: function() {}
-    };
-  },
+  state = {
+    popupShortcuts: false
+  };
 
-  getInitialState: function() {
-    return {
-      popupShortcuts: false
-    };
-  },
-
-  componentDidMount: function() {
+  componentDidMount() {
     if (this.refs.filter) {
       if (this.props.filter.value) {
-        this.refs.filter.getDOMNode().value = this.props.filter.value;
+        findDOMNode(this.refs.filter).value = this.props.filter.value;
       }
       this.focusFilter();
     }
-  },
+  }
 
-  focusFilter: function() {
+  focusFilter() {
     if (this.refs.filter) {
-      this.refs.filter.getDOMNode().focus();
+      findDOMNode(this.refs.filter).focus();
     }
-  },
+  }
 
-  show: function() {
-    this.refs.popup.show(function() {
-      this.focusFilter();
-    }.bind(this));
+  show() {
+    this.refs.popup.show(() => this.focusFilter());
 
     this.setState({
       popupShortcuts: true
     });
-  },
+  }
 
-  hide: function() {
+  hide() {
     this.refs.popup.hide();
 
     this.setState({
       popupShortcuts: false
     });
-  },
+  }
 
-  _focusHandler: function() {
+  _focusHandler() {
     this.setState({
       shortcuts: true
     });
-  },
+  }
 
-  _blurHandler: function() {
+  _blurHandler() {
     this.setState({
       shortcuts: false
     });
-  },
+  }
 
-  getShortcutsProps: function () {
+  getShortcutsProps() {
     return {
       map: {
         'right': noop,
@@ -96,50 +94,56 @@ var SelectPopup = React.createClass({
       },
       scope: generateUniqueId()
     };
-  },
+  }
 
-  remove: function () {
+  remove() {
     this.refs.popup.remove();
-  },
+  }
 
-  isVisible: function() {
+  isVisible() {
     return this.refs.popup.isVisible();
-  },
+  }
 
-  getFilter: function() {
+  getFilter() {
     if (this.props.filter) {
-      return (<div className="ring-popup__filter-wrapper">
-        <Input ref="filter" className="ring-js-shortcuts ring-input_filter-popup"
-               placeholder={this.props.filter.placeholder || ''}
-               onInput={this.props.onFilter}
-               onFocus={this._focusHandler}
-               onBlur={this._blurHandler}
+      return (
+        <div className="ring-popup__filter-wrapper">
+          <Input
+            ref="filter"
+            className="ring-js-shortcuts ring-input_filter-popup"
+            placeholder={this.props.filter.placeholder || ''}
+            onInput={::this.props.onFilter}
+            onFocus={::this._focusHandler}
+            onBlur={::this._blurHandler}
           />
-      </div>);
+        </div>
+      );
     }
-  },
+  }
 
-  getMessage: function() {
+  getMessage() {
     if (this.props.message) {
       return <div className="ring-select__message">{this.props.message}</div>;
     }
-  },
+  }
 
-  getList: function() {
+  getList() {
     if (this.props.data.length) {
-      return (<List
-        maxHeight={this.props.maxHeight}
-        data={this.props.data}
-        activeIndex={this.props.activeIndex}
-        restoreActiveIndex={true}
-        activateSingleItem={true}
-        onSelect={this.props.onSelect}
-        shortcuts={this.state.popupShortcuts}
-        />);
+      return (
+        <List
+          maxHeight={this.props.maxHeight}
+          data={this.props.data}
+          activeIndex={this.props.activeIndex}
+          restoreActiveIndex={true}
+          activateSingleItem={true}
+          onSelect={::this.props.onSelect}
+          shortcuts={this.state.popupShortcuts}
+        />
+      );
     }
-  },
+  }
 
-  render: function() {
+  render() {
     return (<Popup
       ref="popup"
       hidden={true}
@@ -149,13 +153,11 @@ var SelectPopup = React.createClass({
       autoRemove={false}
       minWidth={this.props.minWidth}
       shortcuts={this.state.popupShortcuts}
-      onClose={this.props.onClose}>
+      onClose={::this.props.onClose}>
       {this.getFilter()}
       {this.getList()}
       {this.getMessage()}
       {this.props.toolbar}
     </Popup>);
   }
-});
-
-module.exports = SelectPopup;
+}
