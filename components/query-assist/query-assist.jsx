@@ -2,37 +2,42 @@
  * @fileoverview Query Assist
  */
 
-require('babel/polyfill');
-var React = require('react');
-var when = require('when');
-var debounce = require('mout/function/debounce');
-var deepEquals = require('mout/lang/deepEquals');
-var classNames = require('classnames');
+import 'babel/polyfill';
+import React, { PropTypes, DOM, createClass } from 'react';
+import { findDOMNode } from 'react-dom';
+import { renderToStaticMarkup } from 'react-dom/server';
+import mixin from 'react-mixin';
+import when from 'when';
+import debounce from 'mout/function/debounce';
+import deepEquals from 'mout/lang/deepEquals';
+import classNames from 'classnames';
 
-var Caret = require('caret/caret');
-var ContentEditable = require('contenteditable/contenteditable');
-var NgModelMixin = require('ngmodel/ngmodel');
-var PopupMenu = require('../popup-menu/popup-menu');
-var Icon = require('../icon/icon');
-var Loader = require('../loader/loader');
-var ShortcutsMixin = require('shortcuts/shortcuts__mixin');
-var Global = require('global/global');
+import RingComponent from 'ring-component/ring-component';
+import factory from 'factory-decorator/factory-decorator';
+import Caret from 'caret/caret';
+import ContentEditable from 'contenteditable/contenteditable';
+import NgModelMixin from 'ngmodel/ngmodel';
+import PopupMenu from '../popup-menu/popup-menu';
+import Icon from '../icon/icon';
+import Loader from '../loader/loader';
+import ShortcutsMixin from 'shortcuts/shortcuts__mixin';
+import Global from 'global/global';
 
-var generateUniqueId = Global.getUIDGenerator('ring-query-assist-');
+import './query-assist.scss';
+import '../input/input.scss';
 
-require('./query-assist.scss');
-require('../input/input.scss');
+const generateUniqueId = Global.getUIDGenerator('ring-query-assist-');
 
 // Use for IE11 and down to 9
-var impotentIE = document.documentMode <= 11;  // TODO Proper browser detection?
-var mutationEvent = 'DOMSubtreeModified';
+const impotentIE = document.documentMode <= 11;  // TODO Proper browser detection?
+const mutationEvent = 'DOMSubtreeModified';
 
-var INPUT_BORDER_WIDTH = 1;
-var POPUP_COMPENSATION = INPUT_BORDER_WIDTH +
+const INPUT_BORDER_WIDTH = 1;
+const POPUP_COMPENSATION = INPUT_BORDER_WIDTH +
   PopupMenu.ListProps.Dimension.ITEM_PADDING +
   PopupMenu.PopupProps.Dimension.BORDER_WIDTH;
 
-var noop = function() {};
+const noop = function() {};
 
 /**
  * @name QueryAssist
@@ -47,7 +52,7 @@ var noop = function() {};
      </file>
 
      <file name="index.js" webpack="true">
-       var React = require('react');
+       var render = require('react-dom').render;
        var QueryAssist = require('query-assist/query-assist');
        var Auth = require('auth/auth');
 
@@ -64,8 +69,8 @@ var noop = function() {};
         });
 
        auth.init().then(function() {
-         React.render(
-           React.createElement(QueryAssist, {
+         render(
+           QueryAssist.factory({
              query: 'test',
              placeholder: 'placeholder',
              popupClassName: 'popupClassNameTest',
@@ -175,72 +180,70 @@ var noop = function() {};
      </file>
    </example>
  */
-var ngModelStateField = {query: true, caret: true};
-var QueryAssist = React.createClass({
-  mixins: [ShortcutsMixin, NgModelMixin],
-  ngModelStateField: ngModelStateField,
-  statics: {
-    ngModelStateField: ngModelStateField
-  },
+const ngModelStateField = {query: true, caret: true};
+
+@factory
+@mixin.decorate(ShortcutsMixin)
+@mixin.decorate(ngModelStateField)
+export default class QueryAssist extends RingComponent {
+  static ngModelStateField = ngModelStateField;
 
   /** @override */
-  propTypes: {
-    caret: React.PropTypes.number,
-    className: React.PropTypes.string,
-    popupClassName: React.PropTypes.string,
-    dataSource: React.PropTypes.func.isRequired,
-    delay: React.PropTypes.number,
-    disabled: React.PropTypes.bool,
-    focus: React.PropTypes.bool,
-    hint: React.PropTypes.string,
-    hintOnSelection: React.PropTypes.string,
-    glass: React.PropTypes.bool,
-    placeholder: React.PropTypes.string,
-    onApply: React.PropTypes.func,
-    onChange: React.PropTypes.func,
-    onClear: React.PropTypes.func,
-    onFocusChange: React.PropTypes.func,
-    query: React.PropTypes.string
-  },
+  static propTypes = {
+    caret: PropTypes.number,
+    className: PropTypes.string,
+    popupClassName: PropTypes.string,
+    dataSource: PropTypes.func.isRequired,
+    delay: PropTypes.number,
+    disabled: PropTypes.bool,
+    focus: PropTypes.bool,
+    hint: PropTypes.string,
+    hintOnSelection: PropTypes.string,
+    glass: PropTypes.bool,
+    placeholder: PropTypes.string,
+    onApply: PropTypes.func,
+    onChange: PropTypes.func,
+    onClear: PropTypes.func,
+    onFocusChange: PropTypes.func,
+    query: PropTypes.string
+  };
 
-  getInitialState: function () {
-    return {
-      query: this.props.query,
-      placeholderEnabled: !this.props.query,
-      shortcuts: true
-    };
-  },
+  static defaultProps = {
+    onApply: noop,
+    onChange: noop,
+    onClear: noop,
+    onFocusChange: noop
+  };
 
-  getDefaultProps: function () {
-    return {
-      onApply: noop,
-      onChange: noop,
-      onClear: noop,
-      onFocusChange: noop
-    };
-  },
+  state = {
+    query: this.props.query,
+    placeholderEnabled: !this.props.query,
+    shortcuts: true
+  };
 
-  getShortcutsProps: function () {
+  ngModelStateField = ngModelStateField;
+
+  getShortcutsProps() {
     return {
       map: {
-        'enter': this.handleComplete,
-        'ctrl+space': this.handleCtrlSpace,
-        'tab': this.handleTab,
+        'enter': ::this.handleComplete,
+        'ctrl+space': ::this.handleCtrlSpace,
+        'tab': ::this.handleTab,
         'right': noop,
         'left': noop,
         'space': noop
       },
       scope: generateUniqueId()
     };
-  },
+  }
 
   // See http://stackoverflow.com/questions/12353247/force-contenteditable-div-to-stop-accepting-input-after-it-loses-focus-under-web
-  blurInput: function () {
+  blurInput() {
     window.getSelection().removeAllRanges();
-  },
+  }
 
-  componentDidMount: function () {
-    var query = this.props.query || '';
+  componentDidMount() {
+    let query = this.props.query || '';
 
     this.immediateState = {
       query: query,
@@ -252,45 +255,45 @@ var QueryAssist = React.createClass({
     this.setShortcutsEnabled(this.props.focus);
 
     this.requestStyleRanges().
-      catch(this.setFocus).
+      catch(::this.setFocus).
       /* For some reason one more tick before attachMutationEvents is required */
       delay(0).
-      finally(this.attachMutationEvents);
-  },
+      finally(::this.attachMutationEvents);
+  }
 
-  attachMutationEvents: function() {
+  attachMutationEvents() {
     if (impotentIE) {
-      this.input.addEventListener(mutationEvent, this.handleInput);
+      this.input.addEventListener(mutationEvent, ::this.handleInput);
     }
-  },
+  }
 
   /**
    * Optionally setup request data delay. For each component create separate instance of
    * delayed function.
    * This may help reduce the load on the server if the user quickly inputs data
    */
-  setupRequestHandler: function (props) {
+  setupRequestHandler(props) {
     if ((this.requestData === this.requestHandler) === Boolean(props.delay)) {
       if (typeof props.delay === 'number') {
         this.requestData = debounce(this.requestData, props.delay);
       } else {
-        this.requestData = this.requestHandler;
+        this.requestData = ::this.requestHandler;
       }
     }
-  },
+  }
 
-  componentWillUnmount: function () {
+  componentWillUnmount() {
     if (this._popup) {
       this._popup.remove();
     }
 
     if (impotentIE) {
-      this.input.removeEventListener(mutationEvent, this.handleInput);
+      this.input.removeEventListener(mutationEvent, ::this.handleInput);
     }
-  },
+  }
 
-  componentWillReceiveProps: function (props) {
-    var setFocus;
+  componentWillReceiveProps(props) {
+    let setFocus;
     this.setupRequestHandler(props);
 
     if (typeof props.focus === 'boolean') {
@@ -318,35 +321,36 @@ var QueryAssist = React.createClass({
       this.immediateState.query = props.query;
       this.setState({query: props.query, placeholderEnabled: !props.query}, props.query ? this.requestStyleRanges : noop);
     }
-  },
+  }
 
-  setFocus: function () {
-    var queryLength = this.immediateState.query != null && this.immediateState.query.length;
-    var newCaretPosition = this.immediateState.caret < queryLength ? this.immediateState.caret : queryLength;
-    var currentCaretPosition = this.caret.getPosition({avoidFocus: true});
+  setFocus() {
+    let queryLength = this.immediateState.query != null && this.immediateState.query.length;
+    let newCaretPosition = this.immediateState.caret < queryLength ? this.immediateState.caret : queryLength;
+    let currentCaretPosition = this.caret.getPosition({avoidFocus: true});
 
     if (this.immediateState.focus && !this.props.disabled && currentCaretPosition !== -1) {
       // Set to end of field value if newCaretPosition is inappropriate
       this.caret.setPosition(newCaretPosition >= 0 ? newCaretPosition : -1);
       this.scrollInput();
     }
-  },
+  }
 
-  scrollInput: function () {
-    var caretOffset = this.caret.getOffset();
+  scrollInput() {
+    let caretOffset = this.caret.getOffset();
 
     if (this.input.clientWidth !== this.input.scrollWidth && caretOffset > this.input.clientWidth) {
       this.input.scrollLeft = this.input.scrollLeft + caretOffset;
     }
-  },
+  }
 
-  handleFocusChange: function (e) {
+  handleFocusChange(e) {
     // otherwise it's blur and false
-    var focus = e.type === 'focus';
+    let focus = e.type === 'focus';
 
     // Track mouse state to avoid focus loss on clicks on icons.
     // Doesn't handle really edge cases like shift+tab while mouse button is pressed.
-    if (!this.isMounted() || (!focus && this.mouseIsDownOnInput)) {
+    //if (!this.isMounted() || (!focus && this.mouseIsDownOnInput)) {
+    if (!findDOMNode(this) || (!focus && this.mouseIsDownOnInput)) {
       return;
     }
 
@@ -363,10 +367,10 @@ var QueryAssist = React.createClass({
 
     this.props.onFocusChange({focus: focus});
     this.setShortcutsEnabled(focus);
-  },
+  }
 
-  handleInput: function () {
-    var props = {
+  handleInput() {
+    let props = {
       query: this.input.textContent.replace(/\s/g, ' '),
       caret: this.caret.getPosition(),
       focus: true
@@ -376,8 +380,8 @@ var QueryAssist = React.createClass({
       return;
     }
 
-    var currentQueryIsEmpty = this.immediateState.query === '';
-    var newQueryIsEmpty = props.query === '';
+    let currentQueryIsEmpty = this.immediateState.query === '';
+    let newQueryIsEmpty = props.query === '';
 
     if (newQueryIsEmpty !== currentQueryIsEmpty) {
       this.setState({placeholderEnabled: newQueryIsEmpty});
@@ -386,18 +390,18 @@ var QueryAssist = React.createClass({
     this.immediateState = props;
     this.props.onChange(props);
     this.requestData();
-  },
+  }
 
   // It's necessary to prevent new element creation before any other hooks
-  handleEnter: function (e) {
+  handleEnter(e) {
     if (e.key === 'Enter') {
       e.preventDefault();
     }
-  },
+  }
 
-  handleTab: function (e) {
-    var list = this._popup && this._popup.refs.List;
-    var suggestion = list && (list.getSelected() || list.getFirst());
+  handleTab(e) {
+    let list = this._popup && this._popup.refs.List;
+    let suggestion = list && (list.getSelected() || list.getFirst());
 
     if (suggestion && this._popup && this._popup.isVisible()) {
       e.preventDefault();
@@ -410,27 +414,27 @@ var QueryAssist = React.createClass({
     }
 
     return true;
-  },
+  }
 
-  handleCaretMove: function (e) {
-    var caret = this.caret.getPosition();
-    var popupHidden = (!this._popup || !this._popup.isVisible()) && e.type === 'click';
+  handleCaretMove(e) {
+    let caret = this.caret.getPosition();
+    let popupHidden = (!this._popup || !this._popup.isVisible()) && e.type === 'click';
 
     if (!this.props.disabled && (caret !== this.immediateState.caret || popupHidden)) {
       this.immediateState.caret = caret;
       this.scrollInput();
       this.requestData();
     }
-  },
+  }
 
-  handleResponse: function (params) {
-    var deferred = when.defer();
+  handleResponse(params) {
+    let deferred = when.defer();
 
     if ((params.query === this.immediateState.query || this.immediateState.query === undefined) &&
       (params.caret === this.immediateState.caret || this.immediateState.caret === undefined)) {
       deferred.resolve(params.suggestions);
 
-      var state = {
+      let state = {
         loading: false,
         placeholderEnabled: !params.query,
         query: params.query
@@ -447,26 +451,26 @@ var QueryAssist = React.createClass({
     }
 
     return deferred.promise;
-  },
+  }
 
-  handleApply: function () {
+  handleApply() {
     this.closePopup();
     return this.props.onApply(this.immediateState);
-  },
+  }
 
-  handleComplete: function (data, replace) {
+  handleComplete(data, replace) {
     if (!data || !data.data) {
       this.handleApply();
 
       return;
     }
 
-    var currentCaret = this.immediateState.caret;
-    var suggestion = data.data;
-    var prefix = suggestion.prefix || '';
-    var suffix = suggestion.suffix || '';
+    let currentCaret = this.immediateState.caret;
+    let suggestion = data.data;
+    let prefix = suggestion.prefix || '';
+    let suffix = suggestion.suffix || '';
 
-    var state = {
+    let state = {
       caret: suggestion.caret,
       query: this.immediateState.query.substr(0, suggestion.completionStart) + prefix + suggestion.option + suffix
     };
@@ -479,7 +483,7 @@ var QueryAssist = React.createClass({
 
     this.props.onChange(state);
 
-    var focusState = {focus: true};
+    let focusState = {focus: true};
     this.props.onFocusChange(focusState);
 
     if (state.query !== this.immediateState.query) {
@@ -497,9 +501,9 @@ var QueryAssist = React.createClass({
 
     this.closePopup();
     this.requestData();
-  },
+  }
 
-  requestStyleRanges: function () {
+  requestStyleRanges() {
     if (!this.immediateState.query) {
       return when.reject(new Error('Query is empty'));
     }
@@ -509,23 +513,23 @@ var QueryAssist = React.createClass({
       caret: this.immediateState.caret,
       omitSuggestions: true
     })
-      .then(this.handleResponse)
+      .then(::this.handleResponse)
       .catch(noop);
-  },
+  }
 
-  requestHandler: function () {
+  requestHandler() {
     if (this.props.disabled) {
       return;
     }
 
     this.sendRequest(this.immediateState).
-      then(this.handleResponse).
-      then(this.renderPopup).
+      then(::this.handleResponse).
+      then(::this.renderPopup).
       catch(noop);
-  },
+  }
 
-  sendRequest: function (params) {
-    var dataPromise = when(this.props.dataSource(params));
+  sendRequest(params) {
+    let dataPromise = when(this.props.dataSource(params));
 
     // Close popup after timeout between long requests
     dataPromise.
@@ -543,27 +547,27 @@ var QueryAssist = React.createClass({
       catch(noop);
 
     return dataPromise;
-  },
+  }
 
-  getPopupOffset: function (suggestions) {
+  getPopupOffset(suggestions) {
     // First suggestion should be enough?
-    var suggestion = suggestions && suggestions[0];
+    let suggestion = suggestions && suggestions[0];
 
     // Check of suggestion begins not from the end
-    var completionStart = suggestion &&
+    let completionStart = suggestion &&
       suggestion.completionStart !== suggestion.completionEnd &&
       suggestion.completionStart;
 
-    var completionStartNode = this.input.firstChild &&
+    let completionStartNode = this.input.firstChild &&
       suggestion.completionStart !== false &&
       suggestion.completionStart != null &&
       this.input.firstChild.childNodes[completionStart];
 
-    var offset = completionStartNode &&
+    let offset = completionStartNode &&
       (completionStartNode.getBoundingClientRect().right - this.input.getBoundingClientRect().left);
 
     if (!offset) {
-      var caret = this.caret.getOffset();
+      let caret = this.caret.getOffset();
 
       // Do not compensate caret in the beginning of field
       if (caret === 0) {
@@ -574,53 +578,49 @@ var QueryAssist = React.createClass({
     }
 
     return offset - POPUP_COMPENSATION;
-  },
+  }
 
   // TODO Move to renderLeter and simplify
-  getLetterClass: function (index) {
-    var LETTER_CLASS = 'ring-query-assist__letter';
+  getLetterClass(index) {
+    let LETTER_CLASS = 'ring-query-assist__letter';
 
     return this.state.styleRanges &&
       this.state.styleRanges.
-        filter(function (item) {
-          return item.start <= index && item.start + item.length > index;
-        }).
-        map(function (item) {
-          return LETTER_CLASS + '_' + item.style.replace('_', '-');
-        }).
+        filter(item => item.start <= index && item.start + item.length > index).
+        map(item => LETTER_CLASS + '_' + item.style.replace('_', '-')).
         concat(LETTER_CLASS).
         join(' ') ||
       LETTER_CLASS;
-  },
+  }
 
-  handleCtrlSpace: function (e) {
+  handleCtrlSpace(e) {
     e.preventDefault();
 
     if (!this._popup || !this._popup.isVisible()) {
       this.requestData();
     }
-  },
+  }
 
-  trackPopupMouseState: function (e) {
+  trackPopupMouseState(e) {
     this.mouseIsDownOnPopup = e.type === 'mousedown';
-  },
+  }
 
-  trackInputMouseState: function (e) {
+  trackInputMouseState(e) {
     this.mouseIsDownOnInput = e.type === 'mousedown';
-  },
+  }
 
-  renderPopup: function (suggestions) {
+  renderPopup(suggestions) {
     if (!suggestions.length) {
       this.closePopup();
       return;
     }
 
-    var renderedSuggestions = this.renderSuggestions(suggestions);
+    let renderedSuggestions = this.renderSuggestions(suggestions);
 
     if (!this._popup || !this._popup.isMounted()) {
       this._popup = PopupMenu.render(
         <PopupMenu
-          anchorElement={React.findDOMNode(this)}
+          anchorElement={findDOMNode(this)}
           autoRemove={false} // required to prevent popup unmount on Esc
           className={this.props.popupClassName}
           corner={PopupMenu.PopupProps.Corner.BOTTOM_LEFT}
@@ -629,14 +629,14 @@ var QueryAssist = React.createClass({
           hintOnSelection={this.props.hintOnSelection}
           left={this.getPopupOffset(suggestions)}
           maxHeight="screen"
-          onMouseDown={this.trackPopupMouseState}
-          onMouseUp={this.trackPopupMouseState}
-          onSelect={this.handleComplete}
+          onMouseDown={::this.trackPopupMouseState}
+          onMouseUp={::this.trackPopupMouseState}
+          onSelect={::this.handleComplete}
           shortcuts={true}
         />
       );
     } else {
-      this._popup.setProps({
+      this._popup.rerender({
         data: renderedSuggestions,
         hint: this.props.hint,
         hintOnSelection: this.props.hintOnSelection,
@@ -644,16 +644,16 @@ var QueryAssist = React.createClass({
       });
       this._popup.show();
     }
-  },
+  }
 
-  closePopup: function () {
+  closePopup() {
     if (this._popup) {
       this._popup.close();
     }
-  },
+  }
 
-  clearQuery: function () {
-    var state = {
+  clearQuery() {
+    let state = {
       caret: 0,
       query: '',
       focus: true
@@ -668,13 +668,13 @@ var QueryAssist = React.createClass({
       placeholderEnabled: true,
       loading: false
     });
-  },
+  }
 
-  renderSuggestions: function (suggestions) {
-    var renderedSuggestions = [];
+  renderSuggestions(suggestions) {
+    let renderedSuggestions = [];
 
-    suggestions.forEach(function (suggestion, index, arr) {
-      var prevSuggestion = arr[index - 1] && arr[index - 1].group;
+    suggestions.forEach((suggestion, index, arr) => {
+      let prevSuggestion = arr[index - 1] && arr[index - 1].group;
 
       if (prevSuggestion !== suggestion.group) {
 
@@ -685,10 +685,10 @@ var QueryAssist = React.createClass({
         });
       }
 
-      var label;
-      var option;
-      var before = false;
-      var after = false;
+      let label;
+      let option;
+      let before = false;
+      let after = false;
       if (suggestion.matchingStart !== suggestion.matchingEnd) {
         before = suggestion.option.substring(0, suggestion.matchingStart);
         option = <span className="ring-list__highlight">{suggestion.option.substring(suggestion.matchingStart, suggestion.matchingEnd)}</span>;
@@ -697,12 +697,12 @@ var QueryAssist = React.createClass({
         option = suggestion.option;
       }
 
-      var prefix = !!suggestion.prefix && <span className="ring-list__service">{suggestion.prefix}</span>;
-      var suffix = !!suggestion.suffix && <span className="ring-list__service">{suggestion.suffix}</span>;
+      let prefix = !!suggestion.prefix && <span className="ring-list__service">{suggestion.prefix}</span>;
+      let suffix = !!suggestion.suffix && <span className="ring-list__service">{suggestion.suffix}</span>;
 
-      label = React.DOM.span(null, prefix, before, option, after, suffix);
+      label = DOM.span(null, prefix, before, option, after, suffix);
 
-      var item = {
+      let item = {
         key: suggestion.prefix + suggestion.option + suggestion.suffix + suggestion.group + suggestion.description,
         label: label,
         type: PopupMenu.ListProps.Type.ITEM,
@@ -721,16 +721,16 @@ var QueryAssist = React.createClass({
     });
 
     return renderedSuggestions;
-  },
+  }
 
-  renderLetter: function (letter, index) {
+  renderLetter(letter, index) {
     // \u00a0 === &nbsp;
-    var letterValue = letter === ' ' ? '\u00a0' : letter;
+    let letterValue = letter === ' ' ? '\u00a0' : letter;
     // Despite warning we don't need key here because of renderToStaticMarkup
     return <span className={this.getLetterClass(index)}>{letterValue}</span>;
-  },
+  }
 
-  shouldComponentUpdate: function (props, state) {
+  shouldComponentUpdate(props, state) {
     return state.query !== this.state.query ||
       state.loading !== this.state.loading ||
       state.styleRanges !== this.state.styleRanges ||
@@ -739,25 +739,25 @@ var QueryAssist = React.createClass({
       props.disabled !== this.props.disabled ||
       props.clear !== this.props.clear ||
       props.glass !== this.props.glass;
-  },
+  }
 
-  refInput: function (node) {
+  refInput(node) {
     if (!node) {
       return;
     }
 
-    this.input = React.findDOMNode(node);
+    this.input = findDOMNode(node);
     this.caret = new Caret(this.input);
-  },
+  }
 
   /** @override */
-  render: function () {
-    var renderPlaceholder = !!this.props.placeholder && this.state.placeholderEnabled;
-    var renderClear = this.props.clear && !!this.state.query;
-    var renderGlass = this.props.glass && !this.state.loading;
-    var renderGlassOrLoader = this.props.glass || this.state.loading;
+  render() {
+    let renderPlaceholder = !!this.props.placeholder && this.state.placeholderEnabled;
+    let renderClear = this.props.clear && !!this.state.query;
+    let renderGlass = this.props.glass && !this.state.loading;
+    let renderGlassOrLoader = this.props.glass || this.state.loading;
 
-    var inputClasses = classNames({
+    let inputClasses = classNames({
       'ring-query-assist__input ring-input ring-js-shortcuts': true,
       'ring-query-assist__input_gap': renderGlassOrLoader !== renderClear &&
         (renderGlassOrLoader || renderClear),
@@ -766,42 +766,42 @@ var QueryAssist = React.createClass({
     });
 
     // TODO: Move to ContentEditable
-    var query = this.state.query && React.renderToStaticMarkup(
-        <span>{this.state.query.split('').map(this.renderLetter)}</span>
+    let query = this.state.query && renderToStaticMarkup(
+        <span>{this.state.query.split('').map(::this.renderLetter)}</span>
       );
 
     return (
       <div className="ring-query-assist"
-        onMouseDown={this.trackInputMouseState}
-        onMouseUp={this.trackInputMouseState}
+        onMouseDown={::this.trackInputMouseState}
+        onMouseUp={::this.trackInputMouseState}
         >
         <ContentEditable
           className={inputClasses}
-          ref={this.refInput}
+          ref={::this.refInput}
           disabled={this.props.disabled}
           dangerousHTML={query}
-          onComponentUpdate={this.setFocus}
+          onComponentUpdate={::this.setFocus}
 
-          onBlur={this.handleFocusChange}
-          onClick={this.handleCaretMove}
-          onFocus={this.handleFocusChange}
-          onInput={this.handleInput}
-          onKeyDown={this.handleEnter}
-          onKeyPress={this.handleEnter}
-          onKeyUp={this.handleCaretMove}
+          onBlur={::this.handleFocusChange}
+          onClick={::this.handleCaretMove}
+          onFocus={::this.handleFocusChange}
+          onInput={::this.handleInput}
+          onKeyDown={::this.handleEnter}
+          onKeyPress={::this.handleEnter}
+          onKeyUp={::this.handleCaretMove}
 
           spellCheck="false" />
 
         {renderPlaceholder && <span
           className="ring-query-assist__placeholder"
-          onClick={this.handleCaretMove}>
+          onClick={::this.handleCaretMove}>
           {this.props.placeholder}
         </span>}
         {renderGlass && <Icon
           className="ring-query-assist__icon"
           color="gray"
           glyph="search"
-          onClick={this.handleApply}
+          onClick={::this.handleApply}
           size={Icon.Size.Size16} />}
         {this.state.loading && <div
           className="ring-query-assist__icon ring-query-assist__icon_loader">
@@ -811,11 +811,9 @@ var QueryAssist = React.createClass({
           className="ring-query-assist__icon ring-query-assist__icon_clear"
           color="gray"
           glyph="close"
-          onClick={this.clearQuery}
+          onClick={::this.clearQuery}
           size={Icon.Size.Size16} />}
       </div>
     );
   }
-});
-
-module.exports = QueryAssist;
+}

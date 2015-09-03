@@ -3,28 +3,14 @@
  * @author igor.alexeenko@jetbrains.com (Igor Alexeenko)
  */
 
-require('./alert.scss');
-var Alert = require('./alert');
-var React = require('react/addons');
-var when = require('when');
-
-/**
- * @type {Element}
- * @private
- */
-var _containerClone = null;
-
-/**
- * @type {CSSStyleSheet}
- * @private
- */
-var _stylesheet = null;
-
-/**
- * @type {number}
- * @private
- */
-var _gap = null;
+import React, { createElement, Children } from 'react';
+import { render, findDOMNode, unmountComponentAtNode } from 'react-dom';
+import CSSTransitionGroup from 'react-addons-css-transition-group';
+import when from 'when';
+import RingComponent from 'ring-component/ring-component';
+import factory from 'factory-decorator/factory-decorator';
+import Alert from './alert';
+import './alert.scss';
 
 /**
  * @name Alerts
@@ -38,11 +24,10 @@ var _gap = null;
      </file>
 
      <file name="index.js" webpack="true">
-       var React = require('react');
+       var render = require('react-dom').render;
        var Alerts = require('alert/alerts');
 
-       var alertsContainer = React.render(React.createElement(Alerts),
-           document.getElementById('alerts-container'));
+       var alertsContainer = render(Alerts.factory(), document.getElementById('alerts-container'));
 
        alertsContainer.add('Test message');
        alertsContainer.add('Another test message', Alerts.Type.MESSAGE, 1000);
@@ -50,33 +35,48 @@ var _gap = null;
      </file>
    </example>
  */
-var Alerts = React.createClass({
-  statics: {
-    Type: Alert.Type
-  },
+@factory
+export default class Alerts extends RingComponent {
+  static Type = Alert.Type;
 
   /** @override */
-  getInitialState: function() {
-    return {
-      /** @type {Array.<Object>} */
-      childElements: [],
+  state = {
+    /** @type {Array.<Object>} */
+    childElements: [],
 
-      /**
-       * Remove handler on close alert.
-       * @type {?function(AlertInstance):undefined}
-       */
-      onRemove: null
-    };
-  },
+    /**
+     * Remove handler on close alert.
+     * @type {?function(AlertInstance):undefined}
+     */
+    onRemove: null
+  };
+
+  /**
+   * @type {Element}
+   * @private
+   */
+  _containerClone = null;
+
+  /**
+   * @type {CSSStyleSheet}
+   * @private
+   */
+  _stylesheet = null;
+
+  /**
+   * @type {number}
+   * @private
+   */
+  _gap = null;
 
   /** @override */
-  render: function() {
+  render() {
     if (!this.state.childElements) {
       this._getChildElements();
     }
 
     return (<div className="ring-alerts">
-      <React.addons.CSSTransitionGroup transitionName="alert">
+      <CSSTransitionGroup transitionName="alert">
         {this.state.childElements.reverse().map(function(child, i) {
           return (
             <Alert
@@ -85,78 +85,78 @@ var Alerts = React.createClass({
               closeable={true}
               inline={false}
               key={child.key}
-              onCloseClick={function() {
-                this.remove(child);
-              }.bind(this)}
+              onCloseClick={() => this.remove(child)}
               ref={'alert-' + i}
               type={child.type} />
           );
         }, this)}
-      </React.addons.CSSTransitionGroup>
+      </CSSTransitionGroup>
     </div>);
-  },
+  }
 
-  componentDidMount: function() {
+  componentDidMount() {
     this.animationPromise = when();
-  },
+  }
 
-  componentWillUpdate: function(nextProps, nextState) {
-    if (_gap === null) {
-      var computedStyle = window.getComputedStyle(this.getDOMNode());
-      _gap = parseInt(computedStyle.paddingTop, 10);
+  componentWillUpdate(nextProps, nextState) {
+    let node = findDOMNode(this);
+
+    if (this._gap === null) {
+      let computedStyle = window.getComputedStyle(node);
+      this._gap = parseInt(computedStyle.paddingTop, 10);
     }
 
-    var childElements = nextState.childElements;
-    var lastAddedElement = childElements[childElements.length - 1];
+    let childElements = nextState.childElements;
+    let lastAddedElement = childElements[childElements.length - 1];
 
-    if (!_containerClone) {
-      _containerClone = this.getDOMNode().cloneNode(false);
-      _containerClone.style.visibility = 'hidden';
-      _containerClone.style.top = '-900em';
-      document.body.appendChild(_containerClone);
+    if (!this._containerClone) {
+      this._containerClone = node.cloneNode(false);
+      this._containerClone.style.visibility = 'hidden';
+      this._containerClone.style.top = '-900em';
+      document.body.appendChild(this._containerClone);
     }
 
-    if (!_stylesheet) {
+    if (!this._stylesheet) {
       /**
        * @type {HTMLStyleElement}
        */
-      var styleElement = document.createElement('style');
+      let styleElement = document.createElement('style');
       styleElement.type = 'text/css';
       styleElement.appendChild(document.createTextNode(''));
       document.body.appendChild(styleElement);
 
-      _stylesheet = styleElement.sheet;
+      this._stylesheet = styleElement.sheet;
     }
 
     this._cleanupStyles();
 
-    var alertToAppend = React.render(React.createElement(Alert, lastAddedElement), _containerClone);
-    var heightToCompensate = alertToAppend.getDOMNode().offsetHeight;
+    let alertToAppend = render(createElement(Alert, lastAddedElement), this._containerClone);
+    let heightToCompensate = findDOMNode(alertToAppend).offsetHeight;
 
     // todo(igor.alexeenko): Merge vertical animation to element's height with animation from Header.
-    _stylesheet.insertRule('.alert-enter { margin-top: -' + (heightToCompensate + _gap) + 'px }', 0);
+    this._stylesheet.insertRule('.alert-enter { margin-top: -' + (heightToCompensate + this._gap) + 'px }', 0);
 
-    React.unmountComponentAtNode(_containerClone);
-  },
+    unmountComponentAtNode(this._containerClone);
+  }
 
-  componentWillUnmount: function() {
+  componentWillUnmount() {
     this._cleanupStyles();
 
-    document.body.removeChild(_containerClone);
-    document.body.removeChild(_stylesheet.ownerNode);
-  },
+    this._containerClone.remove();
+    this._stylesheet.ownerNode.remove();
+  }
 
   /**
    * @private
    */
-  _getChildElements: function() {
-    var children = [];
-    React.Children.forEach(this.props.children, function(child) {
+  _getChildElements() {
+    let children = [];
+    Children.forEach(this.props.children, function(child) {
       children.push(child);
     });
 
     this.setState({ 'childElements': children });
-  },
+  }
 
   /**
    * Creates a Deferred and enqueues it.
@@ -165,17 +165,16 @@ var Alerts = React.createClass({
    * @param {number=} timeout
    * @return {Deferred}
    */
-  add: function(caption, type, timeout) {
-    var animationDeferred = when.defer();
+  add(caption, type, timeout) {
+    let animationDeferred = when.defer();
 
-    this.animationPromise = this.animationPromise.then(function () {
+    this.animationPromise = this.animationPromise.then(() => {
       this._addElement(caption, type, animationDeferred, timeout);
-
       return animationDeferred.promise;
-    }.bind(this));
+    });
 
     return animationDeferred;
-  },
+  }
 
   /**
    * @param {ReactComponent|string} caption
@@ -184,11 +183,11 @@ var Alerts = React.createClass({
    * @param {number=} timeout
    * @private
    */
-  _addElement: function(caption, type, animationDeferred, timeout) {
-    var childElements = this.state.childElements.slice(0);
-    var captionText = typeof caption === 'string' ? caption : 'composite';
+  _addElement(caption, type, animationDeferred, timeout) {
+    let childElements = this.state.childElements.slice(0);
+    let captionText = typeof caption === 'string' ? caption : 'composite';
 
-    var element = {
+    let element = {
       animationDeferred: animationDeferred,
       caption: caption,
       key: captionText + type + Date.now(),
@@ -201,18 +200,16 @@ var Alerts = React.createClass({
     });
 
     if (timeout) {
-      setTimeout(function() {
-        this.remove(element);
-      }.bind(this), timeout);
+      setTimeout(() => this.remove(element), timeout);
     }
-  },
+  }
 
   /**
    * @param {Object} element
    */
-  remove: function(element) {
-    var childElements = this.state.childElements.slice(0);
-    var elementIndex = childElements.indexOf(element);
+  remove(element) {
+    let childElements = this.state.childElements.slice(0);
+    let elementIndex = childElements.indexOf(element);
 
     if (elementIndex === -1) {
       return;
@@ -226,17 +223,14 @@ var Alerts = React.createClass({
     this.setState({
       childElements: childElements
     });
-  },
+  }
 
   /**
    * @private
    */
-  _cleanupStyles: function() {
-    while (_stylesheet.cssRules.length) {
-      _stylesheet.deleteRule(0);
+  _cleanupStyles() {
+    while (this._stylesheet.cssRules.length) {
+      this._stylesheet.deleteRule(0);
     }
   }
-});
-
-/** @type {Alerts} */
-module.exports = Alerts;
+}
