@@ -111,5 +111,20 @@ angular.module('Ring.message-bundle', [])
       this.select_label = function () {
         return i18n('Please select option');
       };
+      this.previous_page = function () {
+        return i18n('previous');
+      };
+      this.next_page = function () {
+        return i18n('next page');
+      };
+      this.first_page = function () {
+        return i18n('First page');
+      };
+      this.last_page = function () {
+        return i18n('Last page');
+      };
+      this.items_per_page = function () {
+        return i18n('per page');
+      };
     }
   ]);

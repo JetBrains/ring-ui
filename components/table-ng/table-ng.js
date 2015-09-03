@@ -497,7 +497,7 @@ angular.module('Ring.table', ['Ring.table.toolbar', 'Ring.react-ng', 'Ring.place
 /**
  * Pagination
  */
-  .directive('rgTablePager', ['$location', 'i18n', function($location, i18n) {
+  .directive('rgTablePager', ['$location', 'RingMessageBundle', function($location, RingMessageBundle) {
     return {
       restrict: 'E',
       template: require('./table-ng__pager.html'),
@@ -516,6 +516,11 @@ angular.module('Ring.table', ['Ring.table.toolbar', 'Ring.react-ng', 'Ring.place
           scope.maxPages++;
         }
 
+        scope.nextPageText = RingMessageBundle.next_page();
+        scope.previousPageText = RingMessageBundle.previous_page();
+        scope.firstPageText = RingMessageBundle.first_page();
+        scope.lastPageText = RingMessageBundle.last_page();
+
         var openPageAfterInit = $location.search()['page'];
 
         scope.calculatePageClass = function(pageNum) {
@@ -528,7 +533,7 @@ angular.module('Ring.table', ['Ring.table.toolbar', 'Ring.react-ng', 'Ring.place
         };
 
         scope.getTopOptionLabel = function(itemsPerPage) {
-          return itemsPerPage + i18n(' per page');
+          return itemsPerPage + ' ' + RingMessageBundle.items_per_page();
         };
 
         scope.$watchGroup(['skip', 'total', 'top'], function() {
