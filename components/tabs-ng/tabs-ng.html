@@ -2,7 +2,7 @@
   <div class="ring-tabs__tabs" ng-class="tabsClass">
     <div ng-repeat="pane in panes" ng-click="control.select(pane)"
          ng-class="{active:pane.selected, 'ring-tabs__btn_focus': focus && pane.selected}"
-         class="ring-tabs__btn">{{pane.title}}<span
+         class="ring-tabs__btn"><rg-tabs-tab-title pane="pane"></rg-tabs-tab-title><span
       class="ring-tabs__btn__counter" ng-show="pane.counter !== undefined">{{ pane.counter }}</span>
     </div>
   </div>
