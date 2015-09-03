@@ -4,7 +4,7 @@
  */
 /* global angular: false */
 
-var React = require('react');
+var render = require('react-dom').render;
 
 angular.module('Ring.alert', []).provider('alert', function() {
   var ReactAlert = require('../alert/alert');
@@ -17,7 +17,7 @@ angular.module('Ring.alert', []).provider('alert', function() {
       containerElement = angular.element('<div>');
       angular.element(document.body.childNodes[0]).after(containerElement);
     }
-    container = React.render(React.createElement(ReactAlerts), containerElement[0]);
+    container = render(ReactAlerts.factory(), containerElement[0]);
   }
 
   function setDefaultTTL(ttl) {
@@ -56,7 +56,7 @@ angular.module('Ring.alert', []).provider('alert', function() {
     if (!container) {
       init();
     }
-    container.setProps({
+    container.rerender({
       onRemove: removeCallback
     });
   }

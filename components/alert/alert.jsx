@@ -5,18 +5,21 @@
  * @author igor.alexeenko@jetbrains.com (Igor Alekseenko)
  */
 
-var Global = require('global/global');
-var Icon = require('icon/icon');
-var React = require('react');
-var classNames = require('classnames');
+import React from 'react';
+import { findDOMNode, unmountComponentAtNode } from 'react-dom';
+import classNames from 'classnames';
+import RingComponent from 'ring-component/ring-component';
+import factory from 'factory-decorator/factory-decorator';
+import Global from 'global/global';
+import Icon from 'icon/icon';
 
-require('./alert.scss');
+import './alert.scss';
 
 /**
  * List of available types of alert.
  * @enum {string}
  */
-var Type = {
+const Type = {
   ERROR: 'error',
   MESSAGE: 'message',
   SUCCESS: 'success',
@@ -27,7 +30,7 @@ var Type = {
  * Lookup table of alert type to icon modifier.
  * @type {Object.<Type, string>}
  */
-var TypeToIconModifier = Global.createObject(
+const TypeToIconModifier = Global.createObject(
     Type.ERROR, 'exception',
     Type.SUCCESS, 'ok',
     Type.WARNING, 'warning');
@@ -36,7 +39,7 @@ var TypeToIconModifier = Global.createObject(
  * Lookup table of alert type to icon color.
  * @type {Object.<Type, Icon.Color>}
  */
-var TypeToIconColor = Global.createObject(
+const TypeToIconColor = Global.createObject(
     Type.ERROR, Icon.Color.RED,
     Type.SUCCESS, Icon.Color.GREEN,
     Type.WARNING, Icon.Color.ORANGE);
@@ -45,7 +48,7 @@ var TypeToIconColor = Global.createObject(
  * @const
  * @type {string}
  */
-var BASE_CLASS = 'ring-alert';
+const BASE_CLASS = 'ring-alert';
 
 /**
  * @constructor
@@ -58,10 +61,10 @@ var BASE_CLASS = 'ring-alert';
      </file>
 
      <file name="index.js" webpack="true">
-       var React = require('react');
+       var render = require('react-dom').render;
        var Alert = require('alert/alert');
 
-       var alert = React.render(React.createElement(Alert, {
+       var alert = render(Alert.factory({
          caption: 'Sample alert',
          closeable: true,
          type: Alert.Type.SUCCESS
@@ -69,66 +72,66 @@ var BASE_CLASS = 'ring-alert';
      </file>
    </example>
  */
-var Alert = React.createClass({
-  statics: {
-    Type: Type
-  },
+@factory
+export default class Alert extends RingComponent {
+  static Type = Type;
 
   /** @override */
-  getDefaultProps: function() {
-    return {
-      /** @type {Deferred} */
-      animationDeferred: null,
+  static defaultProps = {
+    /** @type {Deferred} */
+    animationDeferred: null,
 
-      /** @type {ReactComponent|string} */
-      caption: null,
+    /** @type {ReactComponent|string} */
+    caption: null,
 
-      /** @type {boolean} */
-      closeable: false,
+    /** @type {boolean} */
+    closeable: false,
 
-      /**
-       * Whether component is rendered inside {@code Alerts} container
-       * or separately. Sometimes alerts are used to show messages
-       * contextually.
-       * @type {boolean}
-       */
-      inline: true,
+    /**
+     * Whether component is rendered inside {@code Alerts} container
+     * or separately. Sometimes alerts are used to show messages
+     * contextually.
+     * @type {boolean}
+     */
+    inline: true,
 
-      /**
-       * Click handler on close element.
-       * @type {?function(SyntheticMouseEvent):undefined}
-       */
-      onCloseClick: null,
+    /**
+     * Click handler on close element.
+     * @type {?function(SyntheticMouseEvent):undefined}
+     */
+    onCloseClick: null,
 
-      /** @type {Type} */
-      type: Type.MESSAGE
-    };
-  },
+    /** @type {Type} */
+    type: Type.MESSAGE
+  };
 
   /** @override */
-  componentDidMount: function() {
+  componentDidMount() {
     if (this.props.animationDeferred) {
       if (typeof TransitionEvent === 'undefined') {
         this.props.animationDeferred.resolve(this);
       }
 
-      this.getDOMNode().addEventListener('transitionend', this._handleTransitionEnd);
+      findDOMNode(this).addEventListener('transitionend', this._handleTransitionEnd);
     }
-  },
+  }
 
   /** @override */
-  componentWillUnmount: function() {
-    this.getDOMNode().removeEventListener('transitionend', this._handleTransitionEnd);
-  },
+  componentWillUnmount() {
+    findDOMNode(this).removeEventListener('transitionend', this._handleTransitionEnd);
+  }
 
   /** @override */
-  render: function() {
-    var modifiedClassName = [BASE_CLASS, this.props.type].join('_');
+  render() {
+    let modifiedClassName = [BASE_CLASS, this.props.type].join('_');
 
-    var classes = classNames(Global.createObject(
+    let classes = classNames(
+      Global.createObject(
         BASE_CLASS, true,
         modifiedClassName, true,
-        'ring-alert_inline', this.props.inline));
+        'ring-alert_inline',
+      this.props.inline)
+    );
 
     return (<div className={classes}>
       {this._getIcon()}
@@ -139,59 +142,59 @@ var Alert = React.createClass({
         ''
       }
     </div>);
-  },
+  }
 
   /**
    * Removes component from DOM.
    * @throws {Error} Throws an error if component rendered as a part of alerts
    * stack being deleted by this method.
    */
-  close: function() {
+  close() {
     if (this.props.inline) {
-      React.unmountComponentAtNode(this.getDOMNode().parentNode);
+      unmountComponentAtNode(findDOMNode(this).parentNode);
       return;
     }
 
     throw new Error('Removal of Alert by itself isn\'t possible ' +
         'if it has been rendered as a part of Alerts. ' +
         'Use Alerts.prototype.remove(index:number) instead.');
-  },
+  }
 
   /**
    * @private
    */
-  _handleTransitionEnd: function() {
+  _handleTransitionEnd = () => {
     if (this.props.animationDeferred) {
-      this.getDOMNode().removeEventListener('transitionend', this._handleTransitionEnd);
+      findDOMNode(this).removeEventListener('transitionend', this._handleTransitionEnd);
       this.props.animationDeferred.resolve(this);
     }
-  },
+  }
 
   /**
    * @param {SyntheticEvent} evt
    * @private
    */
-  _handleCloseClick: function(evt) {
+  _handleCloseClick = evt => {
     if (this.props.inline) {
       this.close();
     } else {
       this.props.onCloseClick(evt);
     }
-  },
+  }
 
   /**
    * @private
    */
-  _getCaption: function() {
+  _getCaption() {
     return (<span className="ring-alert__caption">{this.props.caption}</span>);
-  },
+  }
 
   /**
    * @private
    * @return {XML|string}
    */
-  _getIcon: function() {
-    var iconModifier = TypeToIconModifier[this.props.type];
+  _getIcon() {
+    let iconModifier = TypeToIconModifier[this.props.type];
 
     if (iconModifier) {
       return (<Icon
@@ -203,7 +206,4 @@ var Alert = React.createClass({
 
     return '';
   }
-});
-
-/** @type {Alert} */
-module.exports = Alert;
+}

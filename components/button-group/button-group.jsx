@@ -1,6 +1,8 @@
-require('./button-group.scss');
-var React = require('react');
-var classNames = require('classnames');
+import React from 'react';
+import classNames from 'classnames';
+import RingComponent from 'ring-component/ring-component';
+import factory from 'factory-decorator/factory-decorator';
+import './button-group.scss';
 
 /**
  * @name Button Group
@@ -16,32 +18,27 @@ var classNames = require('classnames');
     </file>
 
     <file name="index.js" webpack="true">
-      var React = require('react');
+      var render = require('react-dom').render;
       var Button = require('button/button.jsx');
       var ButtonGroup = require('button-group/button-group.jsx');
 
-      React.render(
-        React.createElement(
-          ButtonGroup,
-          null,
-          React.createElement(Button, null, '1st button'),
-          React.createElement(Button, null, '2nd button'),
-          React.createElement(Button, null, '3rd button')
-        ),
-        document.getElementById('button-group')
-      );
+      render(ButtonGroup.factory(
+        null,
+        Button.factory(null, '1st button'),
+        Button.factory(null, '2nd button'),
+        Button.factory(null, '3rd button')
+      ), document.getElementById('button-group'));
     </file>
   </example>
  */
-var ButtonGroup = React.createClass({
-  render: function () {
-    var classes = classNames('ring-button-group', this.props.className);
+@factory
+export default class ButtonGroup extends RingComponent {
+  render() {
+    let classes = classNames('ring-button-group', this.props.className);
     return (
       <div {...this.props} className={classes}>
         {this.props.children}
       </div>
     );
   }
-});
-
-module.exports = ButtonGroup;
+}

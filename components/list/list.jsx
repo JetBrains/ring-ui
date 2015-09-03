@@ -2,22 +2,25 @@
  * @fileoverview Item List.
  */
 
-require('babel/polyfill');
-var React = require('react');
-var contains = require('mout/object/contains');
-var debounce = require('mout/function/debounce');
-var classNames = require('classnames');
+import 'babel/polyfill';
+import React, { PropTypes, createElement, DOM } from 'react';
+import { findDOMNode } from 'react-dom';
+import mixin from 'react-mixin';
+import classNames from 'classnames';
+import contains from 'mout/object/contains';
+import debounce from 'mout/function/debounce';
 
-var ShortcutsMixin = require('shortcuts/shortcuts__mixin');
-var Global = require('global/global');
-var Icon = require('icon/icon');
+import RingComponent from 'ring-component/ring-component';
+import factory from 'factory-decorator/factory-decorator';
+import ShortcutsMixin from 'shortcuts/shortcuts__mixin';
+import Global from 'global/global';
+import Icon from 'icon/icon';
+
+import './list.scss';
+// We have to use require instead of SCSS import for now to avoid double imports
+import '../link/link.scss';
 
 var generateUniqueId = Global.getUIDGenerator('ring-list-');
-
-require('./list.scss');
-
-// We have to use require instead of SCSS import for now to avoid double imports
-require('../link/link.scss');
 
 /**
  * @enum {number}
@@ -41,9 +44,9 @@ var Dimension = {
  * @constructor
  * @extends {ReactComponent}
  */
-var ListSeparator = React.createClass({
+class ListSeparator extends RingComponent {
   /** @override */
-  render: function () {
+  render() {
     var classes = classNames({
       'ring-list__separator': true,
       'ring-list__separator_empty': !this.props.description
@@ -53,27 +56,27 @@ var ListSeparator = React.createClass({
       <span className={classes}>{this.props.description}</span>
       );
   }
-});
+}
 
 /**
  * @constructor
  * @extends {ReactComponent}
  */
-var ListItem = React.createClass({
+class ListItem extends RingComponent {
   /** @override */
-  getDefaultProps: function () {
-    return {active: false};
-  },
+  static defaultProps = {
+    active: false
+  };
 
-  getCheckbox: function() {
+  getCheckbox() {
     if (this.props.checkbox !== undefined) {
       var cn = 'ring-list__checkbox' + (this.props.checkbox ? '' : ' ring-list__checkbox_hidden');
       return (<Icon className={cn} glyph="check" size={Icon.Size.Size18}/>);
     }
-  },
+  }
 
   /** @override */
-  render: function () {
+  render() {
     var classes = classNames({
       'ring-list__item': true,
       'ring-list__item_action': !this.props.disabled,
@@ -95,22 +98,20 @@ var ListItem = React.createClass({
       </span>
     );
   }
-});
+}
 
 /**
  * @constructor
  * @extends {ReactComponent}
  */
-var ListCustom = React.createClass({
+class ListCustom extends RingComponent {
   /** @override */
-  getDefaultProps: function () {
-    return {
-      active: false
-    };
-  },
+  static defaultProps = {
+    active: false
+  };
 
   /** @override */
-  render: function () {
+  render() {
     var classes = classNames({
       'ring-list__item': true,
       'ring-list__item_action': true,
@@ -123,44 +124,44 @@ var ListCustom = React.createClass({
       </span>
     );
   }
-});
+}
 
 /**
  * @constructor
  * @extends {ReactComponent}
  */
-var ListLink = React.createClass({
+class ListLink extends RingComponent {
   /** @override */
-  render: function () {
+  render() {
     var classes = classNames({
       'ring-list__item': true,
       'ring-link': true,
       'ring-link_focus': this.props.active && this.props.scrolling
     });
 
-    var el = this.props.href ? React.DOM.a : React.DOM.span;
+    var el = this.props.href ? DOM.a : DOM.span;
     return el(Object.assign({}, this.props, {className: classes}), this.props.label);
   }
-});
+}
 
 /**
  * @constructor
  * @extends {ReactComponent}
  */
-var ListHint = React.createClass({
+class ListHint extends RingComponent {
   /** @override */
-  render: function () {
+  render() {
     return <span className="ring-list__item ring-list__item_hint">{this.props.label}</span>;
   }
-});
+}
 
 /**
  * @constructor
  * @extends {ReactComponent}
  */
-var ListTitle = React.createClass({
+class ListTitle extends RingComponent {
   /** @override */
-  render: function () {
+  render() {
     return (
       <span className="ring-list__title">
         <div className="ring-list__description">{this.props.description}</div>
@@ -168,7 +169,7 @@ var ListTitle = React.createClass({
       </span>
     );
   }
-});
+}
 
 var DEFAULT_ITEM_TYPE = Type.ITEM;
 
@@ -204,19 +205,20 @@ var ListMixin = {
     }
   },
 
-  propTypes: {
-    className: React.PropTypes.string,
-    hint: React.PropTypes.string,
-    hintOnSelection: React.PropTypes.string,
-    data: React.PropTypes.arrayOf(React.PropTypes.object),
-    maxHeight: React.PropTypes.oneOfType([
-      React.PropTypes.string,
-      React.PropTypes.number
+  // Temporarily disabled due to https://github.com/brigand/react-mixin/blob/master/index.js#L101
+  /*propTypes: {
+    className: PropTypes.string,
+    hint: PropTypes.string,
+    hintOnSelection: PropTypes.string,
+    data: PropTypes.arrayOf(PropTypes.object),
+    maxHeight: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.number
     ]),
-    shortcuts: React.PropTypes.bool,
-    onSelect: React.PropTypes.func,
-    visible: React.PropTypes.bool
-  }
+    shortcuts: PropTypes.bool,
+    onSelect: PropTypes.func,
+    visible: PropTypes.bool
+  }*/
 };
 
 /**
@@ -231,7 +233,7 @@ var ListMixin = {
      </file>
 
      <file name="index.js" webpack="true">
-       var React = require('react');
+       var render = require('react-dom').render;
        var List = require('list/list');
 
        var listData = [
@@ -242,7 +244,7 @@ var ListMixin = {
         {'label': 'Five',  'rgItemType': List.ListProps.Type.ITEM}
        ];
 
-       React.render(React.createElement(List, {
+       render(List.factory({
          data: listData,
          shortcuts: true,
          onSelect: console.log.bind(console)
@@ -256,7 +258,7 @@ var ListMixin = {
      </file>
 
      <file name="index.js" webpack="true">
-       var React = require('react');
+       var render = require('react-dom').render;
        var List = require('list/list');
 
        var listData = [
@@ -267,7 +269,7 @@ var ListMixin = {
         {'label': 'Five',              'rgItemType': List.ListProps.Type.ITEM}
        ];
 
-       React.render(React.createElement(List, {
+       render(List.factory({
          data: listData,
          shortcuts: true,
          onSelect: console.log.bind(console),
@@ -282,7 +284,7 @@ var ListMixin = {
      </file>
 
      <file name="index.js" webpack="true">
-       var React = require('react');
+       var render = require('react-dom').render;
        var List = require('list/list');
 
        var listData = [
@@ -293,13 +295,12 @@ var ListMixin = {
         {'label': 'Five',              'rgItemType': List.ListProps.Type.ITEM}
        ];
 
-       React.render(React.createElement(List, {
+       render(List.factory({
+         data: listData,
+         activeIndex: 2,
          shortcuts: true,
          onSelect: console.log.bind(console),
-       }), document.getElementById('list')).setProps({
-         data: listData,
-         activeIndex: 2
-       });
+       }), document.getElementById('list'));
      </file>
    </example>
 
@@ -309,7 +310,7 @@ var ListMixin = {
      </file>
 
      <file name="index.js" webpack="true">
-       var React = require('react');
+       var render = require('react-dom').render;
        var List = require('list/list');
 
        var listData = [
@@ -322,7 +323,7 @@ var ListMixin = {
          {'label': 'Item 4', 'rgItemType': List.ListProps.Type.ITEM, 'description': 'Item description'},
        ];
 
-       React.render(React.createElement(List, {
+       render(List.factory({
          data: listData,
          shortcuts: true,
          onSelect: console.log.bind(console)
@@ -336,7 +337,7 @@ var ListMixin = {
     </file>
 
     <file name="index.js" webpack="true">
-      var React = require('react');
+      var render = require('react-dom').render;
       var List = require('list/list');
 
       var listData = [
@@ -346,7 +347,7 @@ var ListMixin = {
         {label: 'Some item', key: '3', 'rgItemType': List.ListProps.Type.LINK, description: 'Test item', icon: 'http://www.thg.ru/forum/images/icons/icon6.gif'}
       ];
 
-      React.render(React.createElement(List, {
+      render(List.factory({
         data: listData,
         shortcuts: true,
         onSelect: console.log.bind(console)
@@ -360,7 +361,7 @@ var ListMixin = {
    </file>
 
    <file name="index.js" webpack="true">
-     var React = require('react');
+     var render = require('react-dom').render;
      var List = require('list/list');
 
      var listData = [
@@ -371,7 +372,7 @@ var ListMixin = {
       {'label': 'Five',  'type': List.ListProps.Type.ITEM}
      ];
 
-     React.render(React.createElement(List, {
+     render(List.factory({
        data: listData,
        shortcuts: true,
        onSelect: console.log.bind(console)
@@ -379,37 +380,32 @@ var ListMixin = {
    </file>
   </example>
 */
-var List = React.createClass({
-  mixins: [ShortcutsMixin, ListMixin],
+@factory
+@mixin.decorate(ListMixin)
+@mixin.decorate(ShortcutsMixin)
+export default class List extends RingComponent {
+  static Mixin = ListMixin;
 
-  statics: {
-    Mixin: ListMixin
-  },
+  static defaultProps = {
+    data: [],
+    restoreActiveIndex: false,  // restore active item using its "key" property
+    activateSingleItem: false,  // if there is only one item, activate it
+    onSelect: function() {},
+    shortcuts: false
+  };
 
-  getDefaultProps: function () {
-    return {
-      data: [],
-      restoreActiveIndex: false,  // restore active item using its "key" property
-      activateSingleItem: false,  // if there is only one item, activate it
-      onSelect: function() {},
-      shortcuts: false
-    };
-  },
+  state = {
+    activeIndex: null,
+    activeItem: null
+  };
 
-  getInitialState: function () {
-    return {
-      activeIndex: null,
-      activeItem: null
-    };
-  },
+  _activatableItems = false;
 
-  _activatableItems: false,
-
-  haveActivatableItems: function() {
+  haveActivatableItems() {
     return this._activatableItems;
-  },
+  }
 
-  checkActivatableItems: function(items) {
+  checkActivatableItems(items) {
     this._activatableItems = false;
     for (var i = 0; i < items.length; i++) {
       if (this.isActivatable(items[i])) {
@@ -417,21 +413,21 @@ var List = React.createClass({
         return;
       }
     }
-  },
+  }
 
-  isActivatable: function(item) {
+  isActivatable(item) {
     return !(item.rgItemType === Type.HINT || item.rgItemType === Type.SEPARATOR || item.disabled);
-  },
+  }
 
-  hoverHandler: function (index) {
+  hoverHandler(index) {
     this.ignoreAutoscroll = true;
     this.setState({
       activeIndex: index,
       activeItem: this.props.data[index]
     });
-  },
+  }
 
-  upHandler: function (e) {
+  upHandler(e) {
     var index = this.state.activeIndex;
     var newIndex;
 
@@ -441,10 +437,10 @@ var List = React.createClass({
       newIndex = index - 1;
     }
 
-    this.moveHandler(newIndex, this.upHandler, e);
-  },
+    this.moveHandler(newIndex, ::this.upHandler, e);
+  }
 
-  downHandler: function (e) {
+  downHandler(e) {
     var index = this.state.activeIndex;
     var newIndex;
 
@@ -454,10 +450,10 @@ var List = React.createClass({
       newIndex = index + 1;
     }
 
-    this.moveHandler(newIndex, this.downHandler, e);
-  },
+    this.moveHandler(newIndex, ::this.downHandler, e);
+  }
 
-  moveHandler: function (index, retryCallback, e) {
+  moveHandler(index, retryCallback, e) {
     if (this.props.data.length === 0 || !this.haveActivatableItems()) {
       return;
     } else if (this.props.data.length === 1) {
@@ -475,27 +471,27 @@ var List = React.createClass({
 
       e.preventDefault();
     });
-  },
+  }
 
-  scrollToIndex: function(index) {
-    var innerContainer = this.refs.inner.getDOMNode();
+  scrollToIndex(index) {
+    var innerContainer = findDOMNode(this.refs.inner);
 
     if (innerContainer.scrollHeight !== innerContainer.clientHeight) {
       innerContainer.scrollTop = index * Dimension.ITEM_HEIGHT - Math.floor(this.props.maxHeight / 2);
 
       this.scrollEndHandler();
     }
-  },
+  }
 
-  mouseHandler: function() {
+  mouseHandler() {
     this.setState({scrolling: false});
-  },
+  }
 
-  scrollHandler: function() {
+  scrollHandler() {
     this.setState({scrolling: true}, this.scrollEndHandler);
-  },
+  }
 
-  enterHandler: function () {
+  enterHandler() {
     if (this.state.activeIndex !== null) {
       this.setState({scrolling: false}, function () {
         this.selectHandler(this.props.data[this.state.activeIndex], true);
@@ -504,9 +500,9 @@ var List = React.createClass({
     } else {
       return true;  // propagate event to, e.g., QueryAssist
     }
-  },
+  }
 
-  selectHandler: function(item, isKeyboardEvent) {
+  selectHandler(item, isKeyboardEvent) {
     if (typeof item.onClick === 'function') {
       item.onClick.apply(item, arguments);
     }
@@ -516,21 +512,21 @@ var List = React.createClass({
     }
 
     if (item.rgItemType === Type.LINK && isKeyboardEvent) {
-      window.location.href = this.refs['item' + this.state.activeIndex].getDOMNode().href;
+      window.location.href = findDOMNode(this.refs['item' + this.state.activeIndex]).href;
     }
-  },
+  }
 
-  getFirst: function () {
+  getFirst() {
     return this.props.data.find(function (item) {
       return item.rgItemType === Type.ITEM;
     });
-  },
+  }
 
-  getSelected: function () {
+  getSelected () {
     return this.props.data[this.state.activeIndex];
-  },
+  }
 
-  componentWillMount: function() {
+  componentWillMount() {
     this.checkActivatableItems(this.props.data);
 
     if (this.props.activeIndex && this.props.data[this.props.activeIndex]) {
@@ -539,9 +535,9 @@ var List = React.createClass({
         activeItem: this.props.data[this.props.activeIndex]
       });
     }
-  },
+  }
 
-  componentWillReceiveProps: function (props) {
+  componentWillReceiveProps(props) {
 
     /**
      * TODO(maksimrv): Remove this code when migrate to rgItemType.
@@ -558,7 +554,8 @@ var List = React.createClass({
     };
 
     if (props.data) {
-      props.data = props.data.map(normalizeListItemType);
+      //TODO починить (воспроизводится в popup-menu и select)
+      //props.data = props.data.map(normalizeListItemType);
 
       this.checkActivatableItems(props.data);
 
@@ -587,41 +584,39 @@ var List = React.createClass({
         activeItem: activeItem
       });
     }
-  },
+  }
 
-  componentDidMount: function() {
-    var self = this;
-
-    this.scrollEndHandler = debounce(function() {
-      self.setState({scrolling: false});
+  componentDidMount() {
+    this.scrollEndHandler = debounce(() => {
+      this.setState({scrolling: false});
     }, 150);
     this.autoscroll();
-  },
+  }
 
-  componentDidUpdate: function() {
+  componentDidUpdate() {
     this.autoscroll();
-  },
+  }
 
-  autoscroll: function() {
+  autoscroll() {
     if (this.state.activeIndex && !this.ignoreAutoscroll) {
       this.scrollToIndex(this.state.activeIndex);
       this.ignoreAutoscroll = false;
     }
-  },
+  }
 
-  getShortcutsProps: function () {
+  getShortcutsProps() {
     return {
       map: {
-        up: this.upHandler,
-        down: this.downHandler,
-        enter: this.enterHandler
+        up: ::this.upHandler,
+        down: ::this.downHandler,
+        enter: ::this.enterHandler
       },
       scope: generateUniqueId()
     };
-  },
+  }
 
   /** @override */
-  render: function () {
+  render() {
     var hint = this.getSelected() && this.props.hintOnSelection || this.props.hint;
     var innerStyles = {};
     if (this.props.maxHeight) {
@@ -633,9 +628,9 @@ var List = React.createClass({
     });
 
     return (
-      <div className={classes} onMouseMove={this.mouseHandler}>
-        <div className="ring-list__i" ref="inner" onScroll={this.scrollHandler} style={innerStyles}>
-          {this.props.data.map(function (item, index) {
+      <div className={classes} onMouseMove={::this.mouseHandler}>
+        <div className="ring-list__i" ref="inner" onScroll={::this.scrollHandler} style={innerStyles}>
+          {this.props.data.map((item, index) => {
             var props = Object.assign({'rgItemType': DEFAULT_ITEM_TYPE}, item);
             if (props.url) {
               props.href = props.url;
@@ -653,9 +648,9 @@ var List = React.createClass({
             props.scrolling = this.state.scrolling;
             props.ref = 'item' + index;
 
-            props.onClick = function () {
+            props.onClick = () => {
               this.selectHandler(item);
-            }.bind(this);
+            };
 
             var element;
             switch (props.rgItemType) {
@@ -677,13 +672,11 @@ var List = React.createClass({
               default:
                 throw new Error('Unknown menu element type: ' + props.rgItemType);
             }
-            return React.createElement(element, props, null);
-          }.bind(this))}
+            return createElement(element, props, null);
+          })}
         </div>
         {hint && <ListHint key={this.props.hint + Type.ITEM} label={hint} />}
       </div>
     );
   }
-});
-
-module.exports = List;
+}

@@ -2,7 +2,9 @@
  * @fileoverview ContentEditable component
  */
 
-var React = require('react');
+import React from 'react';
+import RingComponent from 'ring-component/ring-component';
+import factory from 'factory-decorator/factory-decorator';
 
 /**
  * @name ContentEditable
@@ -17,47 +19,44 @@ var React = require('react');
      <file name="index.js" webpack="true">
        require('input/input.scss');
 
-       var React = require('react');
+       var render = require('react-dom').render;
        var ContentEditable = require('contenteditable/contenteditable');
-       var container = document.getElementById('contenteditable');
 
-       React.render(React.createElement(ContentEditable, {
+       render(ContentEditable.factory({
          className: 'ring-input',
-         dangerousHTML: 'text <b>bold text</b> text'}), container);
+         dangerousHTML: 'text <b>bold text</b> text'}
+        ), document.getElementById('contenteditable'));
      </file>
    </example>
  */
-var ContentEditable = React.createClass({
+@factory
+export default class ContentEditable extends RingComponent {
   /** @override */
-  propTypes: {
+  static propTypes = {
     dangerousHTML: React.PropTypes.string,
     disabled: React.PropTypes.bool,
     componentDidUpdate: React.PropTypes.func
-  },
+  };
 
-  getDefaultProps: function () {
-    return {
-      dangerousHTML: '',
-      disabled: false,
-      onComponentUpdate: function() {}
-    };
-  },
+  static defaultProps = {
+    dangerousHTML: '',
+    disabled: false,
+    onComponentUpdate: function() {}
+  };
 
-  componentDidUpdate: function (prevProps, prevState) {
+  componentDidUpdate(prevProps, prevState) {
     this.props.onComponentUpdate(prevProps, prevState);
-  },
+  }
 
-  shouldComponentUpdate: function (nextProps) {
+  shouldComponentUpdate(nextProps) {
     return nextProps.disabled !== this.props.disabled ||
       nextProps.dangerousHTML !== this.props.dangerousHTML;
-  },
+  }
 
-  render: function () {
+  render() {
     return (
       <div {...this.props} contentEditable={!this.props.disabled}
            dangerouslySetInnerHTML={{__html: this.props.dangerousHTML || ''}}></div>
     );
   }
-});
-
-module.exports = ContentEditable;
+}

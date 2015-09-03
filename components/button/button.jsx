@@ -1,14 +1,14 @@
-require('./button.scss');
-
-var React = require('react');
-var ReactPropTypes = React.PropTypes;
-var classNames = require('classnames');
+import React, { PropTypes } from 'react';
+import classNames from 'classnames';
+import RingComponent from 'ring-component/ring-component';
+import factory from 'factory-decorator/factory-decorator';
+import './button.scss';
 
 /**
  * @enum {string}
  * @see ***REMOVED***
  */
-var Modifiers = {
+const Modifiers = {
   DEFAULT: 'default',
   BLUE: 'blue',
   BLACK: 'black',
@@ -34,49 +34,52 @@ var Modifiers = {
      </file>
 
      <file name="index.js" webpack="true">
-       var React = require('react');
+       var render = require('react-dom').render;
        var Button = require('button/button.jsx');
 
-       React.render(React.createElement(Button, {
+       render(Button.factory({
          modifier: Button.Modifiers.DEFAULT
        }, 'Default Button'), document.getElementById('button'));
 
-       React.render(React.createElement(Button, {
+       render(Button.factory({
          modifier: Button.Modifiers.BLUE
        }, 'Blue Button'), document.getElementById('button-blue'));
 
-       React.render(React.createElement(Button, {
+       render(Button.factory({
          modifier: Button.Modifiers.PRIMARY
        }, 'Primary Button'), document.getElementById('button-primary'));
      </file>
    </example>
  */
-var Button = React.createClass({
-  statics: {
-    Modifiers: Modifiers
-  },
+@factory
+export default class Button extends RingComponent {
+  static get Modifiers() {
+    return Modifiers;
+  }
 
-  propTypes: {
-    /**
-     * Button modifiers
-     * @see Modifiers
-     */
-    modifier: ReactPropTypes.string,
+  static get propTypes() {
+    return {
+      /**
+       * Button modifiers
+       * @see Modifiers
+       */
+      modifier: PropTypes.string,
 
-    /**
-     * Custom classes
-     */
-    className: ReactPropTypes.string
-  },
+      /**
+       * Custom classes
+       */
+      className: PropTypes.string
+    }
+  };
 
-  getDefaultProps: function () {
+  static get defaultProps() {
     return {
       modifier: Modifiers.DEFAULT
-    };
-  },
+    }
+  };
 
-  render: function () {
-    var classes = classNames(
+  render() {
+    let classes = classNames(
       'ring-btn',
       'ring-btn_' + this.props.modifier,
       this.props.className
@@ -88,6 +91,4 @@ var Button = React.createClass({
       </button>
     );
   }
-});
-
-module.exports = Button;
+}

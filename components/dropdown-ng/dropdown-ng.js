@@ -129,7 +129,7 @@ angular.module('Ring.dropdown', [])
             if (!popupMenuInstance) {
               popupMenuInstance = PopupMenu.renderPopup(React.createElement(PopupMenu, config));
             } else {
-              popupMenuInstance.setProps(config);
+              popupMenuInstance.rerender(config);
             }
           }
         }

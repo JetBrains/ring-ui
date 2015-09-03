@@ -1,18 +1,20 @@
-require('./checkbox.scss');
-var React = require('react');
-var Global = require('global/global');
-var Icon = require('icon/icon');
-var NgModelMixin = require('ngmodel/ngmodel');
-var ReactPropTypes = React.PropTypes;
-var classNames = require('classnames');
+import React, { PropTypes } from 'react';
+import classNames from 'classnames';
+import RingComponent from 'ring-component/ring-component';
+import factory from 'factory-decorator/factory-decorator';
+import Global from 'global/global';
+import Icon from 'icon/icon';
+import NgModelMixin from 'ngmodel/ngmodel';
+
+import './checkbox.scss';
 
 /**
  * @const
  * @type {string}
  */
-var ID_PREFIX = '\\x0';
+const ID_PREFIX = '\\x0';
 
-var generateUniqueId = Global.getUIDGenerator(ID_PREFIX);
+const generateUniqueId = Global.getUIDGenerator(ID_PREFIX);
 
 /**
  * @name Checkbox
@@ -49,37 +51,41 @@ var generateUniqueId = Global.getUIDGenerator(ID_PREFIX);
    </file>
 
    <file name="index.js" webpack="true">
-   var React = require('react');
-   var Checkbox = require('checkbox/checkbox.jsx');
+   var render = require('react-dom').render;
+   var checkbox = require('checkbox/checkbox.jsx').factory;
 
-   React.render(React.createElement(Checkbox), document.getElementById('checkbox'));
+   render(checkbox(), document.getElementById('checkbox'));
 
-   React.render(React.createElement(Checkbox, {
+   render(checkbox({
      checked: true
    }), document.getElementById('checkbox-selected'));
 
-   React.render(React.createElement(Checkbox, {
+   render(checkbox({
+     checked: true
+   }), document.getElementById('checkbox-selected'));
+
+   render(checkbox({
      checked: true,
      disabled: true,
      label: 'This checkbox is disabled'
    }), document.getElementById('checkbox-disabled'));
 
-   React.render(React.createElement(Checkbox, {
+   render(checkbox({
      checked: true,
      label: 'This checkbox is inside div with large line-heigth.'
    }), document.getElementById('checkbox-in-large-line-height-div'));
 
-   React.render(React.createElement(Checkbox, {
+   render(checkbox({
      checked: true,
      label: 'This checkbox is inside div with small line-heigth.'
    }), document.getElementById('checkbox-in-small-line-height-div'));
 
-   React.render(React.createElement(Checkbox, {
+   render(checkbox({
      checked: true,
      label: 'This checkbox is inside div with large font-size.'
    }), document.getElementById('checkbox-in-large-font-div'));
 
-   React.render(React.createElement(Checkbox, {
+   render(checkbox({
      checked: true,
      label: 'This checkbox is inside div with small font-size.'
    }), document.getElementById('checkbox-in-small-font-div'));
@@ -87,70 +93,71 @@ var generateUniqueId = Global.getUIDGenerator(ID_PREFIX);
    </example>
  */
 
-var ngModelStateField = 'checked';
-var Checkbox = React.createClass({
-  mixins: [NgModelMixin],
-  ngModelStateField: ngModelStateField,
-  statics: {
-    ngModelStateField: ngModelStateField
-  },
+const ngModelStateField = 'checked';
 
-  propTypes: {
-    name: ReactPropTypes.string,
+@factory
+export default class Checkbox extends RingComponent {
+  static ngModelStateField = ngModelStateField;
+
+  static propTypes = {
+    name: PropTypes.string,
 
     /**
      * Add custom class for checkbox
      */
-    className: ReactPropTypes.string,
+    className: PropTypes.string,
 
     /**
      * Set component ID. If user does not pass an ID
      * we generate a unique ID for checkbox to work correctly.
      */
-    id: ReactPropTypes.string
-  },
+    id: PropTypes.string
+  };
 
-  getInitialState: function () {
-    return {
-      id: generateUniqueId(),
-      checked: this.props.checked,
-      disabled: this.props.disabled
-    };
-  },
+  mixins = [NgModelMixin];
 
-  componentWillReceiveProps: function(props) {
+  ngModelStateField = ngModelStateField;
+
+  state = {
+    id: generateUniqueId(),
+    checked: this.props.checked,
+    disabled: this.props.disabled
+  };
+
+  componentWillReceiveProps(props) {
     if (props.checked !== undefined) {
       this.state.checked = !!props.checked;
     }
+
     if (props.disabled !== undefined) {
       this.state.disabled = !!props.disabled;
     }
-  },
+  }
 
   /**
    * Return native input node
    * @return {HTMLElement}
    */
-  getInputDOMNode: function () {
-    return this.refs.input.getDOMNode();
-  },
+  getInputDOMNode() {
+    return this.refs.input;
+  }
 
-  inputChange: function(e) {
+  inputChange(e) {
     this.setState({
       checked: e.target.checked
     });
-  },
+  }
 
-  render: function () {
-    var id = this.props.id || this.state.id;
+  render() {
+    let id = this.props.id || this.state.id;
 
-    var checkStyle = {
+    let checkStyle = {
       display: this.state.checked ? 'block' : 'none'
     };
 
-    var disabledState = this.state.disabled ? 'disabled' : '';
+    let disabledState = this.state.disabled ? 'disabled' : '';
 
-    var classes = classNames(
+    let classes = classNames(
       'ring-checkbox__input',
       this.props.className
     );
@@ -158,7 +165,16 @@ var Checkbox = React.createClass({
     return (
       <label className="ring-checkbox" htmlFor={id}>
         <span className="ring-checkbox__input-wrapper">
-          <input {...this.props} ref="input" disabledState onChange={this.inputChange} type="checkbox" className={classes} id={id} checked={this.state.checked}/>
+          <input
+            {...this.props}
+            ref="input"
+            disabledState
+            onChange={::this.inputChange}
+            type="checkbox"
+            className={classes}
+            id={id}
+            checked={this.state.checked}
+          />
           <span className="ring-checkbox__icon">
             <Icon glyph="check" color="black" size={Icon.Size.Size16} className="ring-checkbox__icon__image" style={checkStyle} />
           </span>
@@ -167,6 +183,4 @@ var Checkbox = React.createClass({
       </label>
     );
   }
-});
-
-module.exports = Checkbox;
+}

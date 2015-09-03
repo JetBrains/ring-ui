@@ -1,5 +1,6 @@
 require('babel/polyfill');
-var React = require('react');
+var render = require('react-dom').render;
+var createElement = require('react').createElement;
 
 var Select = require('select/select');
 require('./select-ng__options');
@@ -221,7 +222,6 @@ require('message-bundle-ng/message-bundle-ng');
       <file name="index.js" webpack="true">
         require('angular/angular.min.js');
         require('select-ng/select-ng');
-        require('form/form');
         require('form-ng/form-ng');
 
         angular.module('test', ['Ring.select', 'Ring.form']).controller('testCtrl', function() {
@@ -320,6 +320,7 @@ angular.module('Ring.select', ['Ring.select.options', 'Ring.message-bundle'])
         var ctrl = this;
         /*eslint-enable consistent-this*/
         var element = $element[0];
+        var container = document.createElement('span');
 
         /**
          * Properties
@@ -404,9 +405,7 @@ angular.module('Ring.select', ['Ring.select.options', 'Ring.message-bundle'])
 
         ctrl.loadOptionsToSelect = function(query) {
           lastQuery = query;
-          ctrl.selectInstance.setProps({
-            loading: getType() !== 'suggest'
-          });
+          ctrl.selectInstance.rerender({loading: getType() !== 'suggest'});
 
           ctrl.getOptions(query).then(function (results) {
             if (query !== lastQuery) {
@@ -416,7 +415,7 @@ angular.module('Ring.select', ['Ring.select.options', 'Ring.message-bundle'])
             memorizeOptions(results);
 
             var items = (results.data || results).map(ctrl.convertNgModelToSelect);
-            ctrl.selectInstance.setProps({
+            ctrl.selectInstance.rerender({
               data: items,
               loading: false
             }, function() {
@@ -425,14 +424,14 @@ angular.module('Ring.select', ['Ring.select.options', 'Ring.message-bundle'])
               }
             });
           }).catch(function () {
-            ctrl.selectInstance.setProps({
+            ctrl.selectInstance.rerender({
               loading: false
             });
           });
         };
 
         function setSelectModel(newValue) {
-          ctrl.selectInstance.setProps({
+          ctrl.selectInstance.rerender({
             selected: newValue ? ctrl.convertNgModelToSelect(newValue) : newValue
           });
         }
@@ -448,7 +447,7 @@ angular.module('Ring.select', ['Ring.select.options', 'Ring.message-bundle'])
 
         function syncDisabled() {
           $attrs.$observe('disabled', function (newValue) {
-            ctrl.selectInstance.setProps({disabled: newValue});
+            ctrl.selectInstance.rerender({disabled: newValue});
           });
         }
 
@@ -457,7 +456,7 @@ angular.module('Ring.select', ['Ring.select.options', 'Ring.message-bundle'])
             return ctrl.multiple;
           }, function () {
             if (angular.isDefined(ctrl.multiple)) {
-              ctrl.selectInstance.setProps({multiple: ctrl.multiple});
+              ctrl.selectInstance.rerender({multiple: ctrl.multiple});
             }
           });
         }
@@ -568,10 +567,9 @@ angular.module('Ring.select', ['Ring.select.options', 'Ring.message-bundle'])
           /**
            * Render select in appended div to save any exist content of directive
            */
-          var container = document.createElement('span');
           element.appendChild(container);
 
-          ctrl.selectInstance = React.render(React.createElement(Select, ctrl.config), container);
+          ctrl.selectInstance = render(createElement(Select, ctrl.config), container);
           syncNgModelToSelect();
           syncDisabled();
           syncMultiple();
