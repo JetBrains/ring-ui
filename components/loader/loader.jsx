@@ -1,8 +1,9 @@
-require('babel/polyfill');
-var React = require('react');
-var classNames = require('classnames');
-
-require('./loader.scss');
+import 'babel/polyfill';
+import React, { DOM } from 'react';
+import classNames from 'classnames';
+import RingComponent from 'ring-component/ring-component';
+import factory from 'factory-decorator/factory-decorator';
+import './loader.scss';
 
 /**
  * @name Loader
@@ -11,16 +12,15 @@ require('./loader.scss');
  * @example
    <example name="Loader">
      <file name="index.html">
-        <div id="loader">
-        </div>
+        <div id="loader"></div>
      </file>
 
      <file name="index.js" webpack="true">
-       var React = require('react');
+       var render = require('react-dom').render;
        var Loader = require('loader/loader');
 
-      React.render(
-        React.createElement(Loader),
+      render(
+        Loader.factory(),
         document.getElementById('loader')
       );
      </file>
@@ -28,51 +28,45 @@ require('./loader.scss');
 
    <example name="Loader Inline">
      <file name="index.html">
-        <div id="loader-inline">
-        </div>
+        <div id="loader-inline"></div>
      </file>
 
      <file name="index.js" webpack="true">
-       var React = require('react');
+       var render = require('react-dom').render;
        var Loader = require('loader/loader.jsx');
 
-       React.render(React.createElement(Loader, {
+       render(Loader.factory({
          modifier: Loader.Modifier.INLINE
        }), document.getElementById('loader-inline'));
      </file>
    </example>
  */
-var Loader = React.createClass({
-  statics: {
+@factory
+export default class Loader extends RingComponent {
+  /**
+   * @enum {number}
+   */
+  static Modifier = {
+
     /**
-     * @enum {number}
+     * A small spinner suited for using inline with body text (12px)
      */
-    Modifier: {
+    INLINE: 'ring-loader_inline'
+  };
 
-      /**
-       * A small spinner suited for using inline with body text (12px)
-       */
-      INLINE: 'ring-loader_inline'
-    }
-  },
+  static defaultProps = {
+    modifier: ''
+  };
 
-  getDefaultProps: function() {
-    return {
-      modifier: ''
-    };
-  },
-
-  render: function() {
-    var classes = classNames(
+  render() {
+    let classes = classNames(
       'ring-loader',
       this.props.modifier,
       this.props.className
     );
 
-    return React.DOM.div(Object.assign({}, this.props, {
+    return DOM.div(Object.assign({}, this.props, {
       className: classes
     }));
   }
-});
-
-module.exports = Loader;
+}

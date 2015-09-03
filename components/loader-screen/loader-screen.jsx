@@ -1,6 +1,8 @@
-var React = require('react');
-var Loader = require('../loader/loader');
-require('./loader-screen.scss');
+import React from 'react';
+import Loader from 'loader/loader';
+import RingComponent from 'ring-component/ring-component';
+import factory from 'factory-decorator/factory-decorator';
+import './loader-screen.scss';
 
 /**
  * @name Loader Screen
@@ -9,29 +11,27 @@ require('./loader-screen.scss');
  * @example
    <example name="Loader Screen">
      <file name="index.html">
-       <div id="loader-screen">
-       </div>
+       <div id="loader-screen"></div>
      </file>
 
      <file name="index.js" webpack="true">
-       var React = require('react');
+       var render = require('react-dom').render;
        var LoaderScreen = require('loader-screen/loader-screen');
 
-       React.render(
-         React.createElement(LoaderScreen),
+       render(
+         LoaderScreen.factory(),
          document.getElementById('loader-screen')
        );
      </file>
    </example>
  */
-var LoaderScreen = React.createClass({
-  render: function() {
+@factory
+export default class LoaderScreen extends RingComponent {
+  render() {
     return (
       <div className="ring-loader-screen">
         <Loader/>
       </div>
     );
   }
-});
-
-module.exports = LoaderScreen;
+}

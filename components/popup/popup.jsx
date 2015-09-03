@@ -5,11 +5,17 @@
  * @author igor.alexeenko
  */
 
-require('./popup.scss');
-var $ = require('jquery');
-var React = require('react');
-var Global = require('global/global');
-var classNames = require('classnames');
+import 'babel/polyfill';
+import React, { PropTypes } from 'react';
+import { render, findDOMNode, unmountComponentAtNode } from 'react-dom';
+import mixin from 'react-mixin';
+import classNames from 'classnames';
+import $ from 'jquery';
+import RingComponent from 'ring-component/ring-component';
+import factory from 'factory-decorator/factory-decorator';
+import Global from 'global/global';
+import './popup.scss';
+import debug from 'debug-decorator/debug-decorator';
 
 var generateUniqueId = Global.getUIDGenerator('ring-popup-');
 var ShortcutsMixin = require('shortcuts/shortcuts__mixin');
@@ -65,12 +71,13 @@ var PopupMixin = {
       var container = document.createElement('div');
       document.body.appendChild(container);
 
-      return React.render(component, container);
+      return render(component, container);
     }
   },
 
+  // Temporarily disabled due to https://github.com/brigand/react-mixin/blob/master/index.js#L101
   /** @override */
-  propTypes: {
+  /*propTypes: {
     anchorElement: React.PropTypes.object,
     className: React.PropTypes.string,
     maxHeight: React.PropTypes.oneOfType([
@@ -79,11 +86,10 @@ var PopupMixin = {
     ]),
     left: React.PropTypes.number,
     top: React.PropTypes.number
-  },
+  },*/
 
   getInitialState: function () {
     return {
-      style: {},
       display: this.props.hidden ? 0 : 1 // 0 - hidden, 1 - display in progress, 2 - visible
     };
   },
@@ -115,7 +121,7 @@ var PopupMixin = {
 
   /** @override */
   componentDidMount: function () {
-    this.$element = $(this.getDOMNode());
+    this.element = findDOMNode(this);
 
     if (!this.props.hidden) {
       this._setListenersEnabled(true);
@@ -192,22 +198,20 @@ var PopupMixin = {
    * @private
    */
   _setListenersEnabled: function(enable) {
-    var self = this;
-
-    if (enable && !self._listenersEnabled) {
-      setTimeout(function () {
-        self._listenersEnabled = true;
-        window.addEventListener('resize', self.onWindowResize_);
-        document.addEventListener('click', self.onDocumentClick_);
+    if (enable && !this._listenersEnabled) {
+      setTimeout(() => {
+        this._listenersEnabled = true;
+        window.addEventListener('resize', ::this.onWindowResize_);
+        document.addEventListener('click', ::this.onDocumentClick_);
       }, 0);
 
       return;
     }
 
-    if (!enable && self._listenersEnabled){
-      window.removeEventListener('resize', self.onWindowResize_);
-      document.removeEventListener('click', self.onDocumentClick_);
-      self._listenersEnabled = false;
+    if (!enable && this._listenersEnabled){
+      window.removeEventListener('resize', ::this.onWindowResize_);
+      document.removeEventListener('click', ::this.onDocumentClick_);
+      this._listenersEnabled = false;
     }
   },
 
@@ -234,12 +238,12 @@ var PopupMixin = {
    * Removes popup from document.
    */
   remove: function () {
-    if (!this.isMounted()) {
+    /*if (!this.isMounted()) {
       return;
-    }
+    }*/
 
-    var parent = this.getDOMNode().parentNode;
-    React.unmountComponentAtNode(parent);
+    var parent = findDOMNode(this).parentNode;
+    unmountComponentAtNode(parent);
 
     if (parent.parentNode) {
       parent.parentNode.removeChild(parent);
@@ -258,7 +262,10 @@ var PopupMixin = {
    * @private
    */
   onDocumentClick_: function (evt) {
-    if (this.isMounted() && !this.getDOMNode().contains(evt.target)) {
+    //TODO починить
+    //if (this.isMounted() && !this.getDOMNode().contains(evt.target)) {
+    let node = findDOMNode(this);
+    if (node && !node.contains(evt.target)) {
       if (!this.props.anchorElement ||
         !this.props.dontCloseOnAnchorClick ||
         !this.props.anchorElement.contains(evt.target)) {
@@ -273,21 +280,21 @@ var PopupMixin = {
    */
   _getStyles: function (props) {
     props = props || this.props;
-    var $anchorElement = $(props.anchorElement || document.body);
+    var anchorElement = (props.anchorElement || document.body);
     var top = props.top;
     var left = props.left;
 
-    var anchorElementOffset = $anchorElement.offset();
+    var anchorElementOffset = $(anchorElement).offset();
     var styles = {};
 
     /* eslint-disable no-bitwise */
-    if (this.isMounted()) {
+    if (this.element) {
       if (props.direction & Direction.UP) {
-        top -= this.$element.height();
+        top -= $(this.element).height();
       }
 
       if (props.direction & Direction.LEFT) {
-        left -= this.$element.width();
+        left -= $(this.element).width();
       }
     }
     /* eslint-enable no-bitwise */
@@ -299,18 +306,18 @@ var PopupMixin = {
         break;
 
       case Corner.TOP_RIGHT:
-        styles.left = anchorElementOffset.left + $anchorElement.outerWidth() + left;
+        styles.left = anchorElementOffset.left + anchorElement.offsetWidth + left;
         styles.top = anchorElementOffset.top + top;
         break;
 
       case Corner.BOTTOM_LEFT:
         styles.left = anchorElementOffset.left + left;
-        styles.top = anchorElementOffset.top + $anchorElement.outerHeight() + top;
+        styles.top = anchorElementOffset.top + anchorElement.offsetHeight + top;
         break;
 
       case Corner.BOTTOM_RIGHT:
-        styles.left = anchorElementOffset.left + $anchorElement.outerWidth() + left;
-        styles.top = anchorElementOffset.top + $anchorElement.outerHeight() + top;
+        styles.left = anchorElementOffset.left + anchorElement.offsetWidth + left;
+        styles.top = anchorElementOffset.top + anchorElement.offsetHeight + top;
         break;
 
       default:
@@ -322,18 +329,18 @@ var PopupMixin = {
     }
 
     if (props.maxHeight === 'screen') {
-      styles.maxHeight = $(window).height() - styles.top - Dimension.MARGIN;
+      styles.maxHeight = window.innerHeight - styles.top - Dimension.MARGIN;
     }
 
     if (props.minWidth === 'target') {
-      styles.minWidth = $anchorElement.outerWidth();
+      styles.minWidth = anchorElement.offsetWidth;
     } else {
       styles.minWidth = props.minWidth;
     }
 
     // automatic position correction -->
     var sidePadding = this.props.sidePadding;
-    if (this.isMounted()) {
+    if (this.element) {
       if (styles.left < sidePadding) {
         styles.left = sidePadding;
       }
@@ -342,12 +349,12 @@ var PopupMixin = {
         styles.top = sidePadding;
       }
 
-      var horizontalDiff = $(document).width() - (styles.left + this.$element.outerWidth());
+      var horizontalDiff = $(document).width() - (styles.left + this.element.offsetWidth);
       if (horizontalDiff < sidePadding) {
         styles.left = styles.left + horizontalDiff - sidePadding;
       }
 
-      var vericalDiff = $(document).height() - (styles.top + this.$element.outerHeight());
+      var vericalDiff = $(document).height() - (styles.top + this.element.offsetHeight);
       if (vericalDiff < sidePadding) {
         styles.top = styles.top + vericalDiff - sidePadding;
       }
@@ -395,28 +402,28 @@ var PopupMixin = {
  </div>
  </file>
  <file name="index.js" webpack="true">
- var React = require('react');
+ var DOM = require('react').DOM;
  var Popup = require('popup/popup');
 
- var container = React.DOM.span(null, 'Hello world!');
+ var container = DOM.span(null, 'Hello world!');
 
- var popup = Popup.renderPopup(React.createElement(Popup, {
+ var popup = Popup.renderPopup(Popup.factory({
    anchorElement: document.getElementById('target1'),
    corner: Popup.PopupProps.Corner.TOP_LEFT,
    autoRemove: false
- }, [container]));
+ }, container));
 
- var popup2 = Popup.renderPopup(React.createElement(Popup, {
+ var popup2 = Popup.renderPopup(Popup.factory({
    anchorElement: document.getElementById('target2'),
    corner: Popup.PopupProps.Corner.TOP_RIGHT,
    autoRemove: false
- }, [container]));
+ }, container));
 
- var popup3 = Popup.renderPopup(React.createElement(Popup, {
+ var popup3 = Popup.renderPopup(Popup.factory({
    anchorElement: document.getElementById('target3'),
    corner: Popup.PopupProps.Corner.BOTTOM_LEFT,
    autoRemove: false
- }, [container]));
+ }, container));
 
  document.getElementById('switch3').onclick = function() {
   setTimeout(function() {
@@ -424,25 +431,21 @@ var PopupMixin = {
   }, 1);
  };
 
- var popup4 = Popup.renderPopup(React.createElement(Popup, {
+ var popup4 = Popup.renderPopup(Popup.factory({
    anchorElement: document.getElementById('target4'),
    corner: Popup.PopupProps.Corner.BOTTOM_RIGHT,
    autoRemove: false
- }, [container]));
+ }, container));
  </file>
  </example>
  */
-var Popup = React.createClass({
-  mixins: [PopupMixin],
-
-  statics: {
-    Mixin: PopupMixin
-  },
+@factory
+@mixin.decorate(PopupMixin)
+export default class Popup extends RingComponent {
+  static Mixin = PopupMixin;
 
   /** @override */
-  getInternalContent: function () {
+  getInternalContent() {
     return this.props.children;
   }
-});
-
-module.exports = Popup;
+}

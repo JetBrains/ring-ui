@@ -2,11 +2,13 @@
  * @fileOverview HeaderItem subcomponent
  */
 
-var React = require('react');
-var Global = require('global/global');
-var Icon = require('icon/icon');
-var ClassName = require('class-name/class-name');
-var classNames = require('classnames');
+import React from 'react';
+import classNames from 'classnames';
+import RingComponent from 'ring-component/ring-component';
+import factory from 'factory-decorator/factory-decorator';
+import Global from 'global/global';
+import Icon from 'icon/icon';
+import ClassName from 'class-name/class-name';
 
 /**
  * Fits a rectangular image into a square container. Sets the smaller side of an image
@@ -16,53 +18,50 @@ var classNames = require('classnames');
  * @param {number} width
  * @param {number} height
  */
-var fitImageIntoSquare = function(image, width, height) {
-  var SIZE = Global.RING_UNIT * 3;
-  var isPortrait = height > width;
-  var dimension = isPortrait ? 'width' : 'height';
-  var margin = isPortrait ? 'margin-top' : 'margin-left';
-  var adjustedSideOriginal = isPortrait ? width : height;
-  var oppositeSideOriginal = isPortrait ? height : width;
+function fitImageIntoSquare(image, width, height) {
+  const SIZE = Global.RING_UNIT * 3;
+  let isPortrait = height > width;
+  let dimension = isPortrait ? 'width' : 'height';
+  let margin = isPortrait ? 'margin-top' : 'margin-left';
+  let adjustedSideOriginal = isPortrait ? width : height;
+  let oppositeSideOriginal = isPortrait ? height : width;
 
-  var oppositeSide = oppositeSideOriginal * SIZE / adjustedSideOriginal;
-  var compensation = -(oppositeSide - SIZE) / 2;
+  let oppositeSide = oppositeSideOriginal * SIZE / adjustedSideOriginal;
+  let compensation = -(oppositeSide - SIZE) / 2;
 
   image.setAttribute(dimension, SIZE.toString());
   image.style[margin] = Math.round(compensation) + 'px';
-};
+}
 
 /**
  * @type {ClassName}
  * @private
  */
-var itemClassName = new ClassName('ring-header__user-menu-item');
+const itemClassName = new ClassName('ring-header__user-menu-item');
 
 /**
  * @constructor
  * @extends {ReactComponent}
  * @private
  */
-var HeaderItem = React.createClass({
-  getDefaultProps: function () {
-    return {
-      glyph: '',
-      href: null,
-      onOpen: null,
-      onClose: null
-    };
-  },
+@factory
+export default class HeaderItem extends RingComponent {
+  static defaultProps = {
+    glyph: '',
+    href: null,
+    onOpen: null,
+    onClose: null
+  };
 
-  getInitialState: function () {
-    return {
-      loading: false,
-      opened: false,
-      picture: null,
-      title: ''
-    };
-  },
+  state = {
+    loading: false,
+    opened: false,
+    picture: null,
+    title: ''
+  };
 
-  render: function () {
-    var classes = classNames(
+  render() {
+    let classes = classNames(
       Global.createObject(
         itemClassName.getClassName(), true,
         itemClassName.getClassName(null, 'icon'), true,
@@ -74,37 +73,37 @@ var HeaderItem = React.createClass({
 
     // NB! Wrapping span is needed because otherwise selenium tests couldn't
     // trigger the click on the <SVG /> element.
-    var iconElement = this.state.picture ? this._getImage() : this._getIcon();
+    let iconElement = this.state.picture ? this._getImage() : this._getIcon();
 
     return (
-      <span {...this.props} className={classes} onClick={this._handleClick} title={this.state.title}>
+      <span {...this.props} className={classes} onClick={::this._handleClick} title={this.state.title}>
         {
           this.props.href ? <a href={this.props.href}>{iconElement}</a> : iconElement
         }
       </span>
     );
-  },
+  }
 
   /**
    * @param {SyntheticMouseEvent} evt
    * @private
    */
-  _handleClick: function(evt) {
+  _handleClick(evt) {
     if (!this.props.href) {
       evt.preventDefault();
 
       this.setOpened(!this.state.opened);
     }
-  },
+  }
 
   /**
    * @return {ReactComponent}
    * @private
    */
-  _getImage: function() {
-    var baseClass = new ClassName('ring-icon');
+  _getImage() {
+    const baseClass = new ClassName('ring-icon');
 
-    var classes = classNames(
+    let classes = classNames(
       Global.createObject(
         baseClass.getClassName(), true,
         baseClass.getModifier('24'), true,
@@ -118,7 +117,7 @@ var HeaderItem = React.createClass({
         <img
           className={baseClass.getElement('pic')}
           onLoad={function(evt) {
-            var pic = evt.target;
+            let pic = evt.target;
             fitImageIntoSquare(pic, pic.width, pic.height);
           }}
           src={this.state.picture}
@@ -126,13 +125,13 @@ var HeaderItem = React.createClass({
         />
       </span>
     );
-  },
+  }
 
   /**
    * @return {ReactComponent}
    * @private
    */
-  _getIcon: function() {
+  _getIcon() {
     return (
       <Icon {...this.props}
         color={this.state.opened ? 'blue' : 'gray'}
@@ -141,12 +140,12 @@ var HeaderItem = React.createClass({
         title={this.state.title || this.props.title}
       />
     );
-  },
+  }
 
   /**
    * @param {boolean} opened
    */
-  setOpened: function (opened) {
+  setOpened(opened) {
     this.setState({opened: opened}, function () {
       if (opened) {
         if (typeof this.props.onOpen === 'function') {
@@ -156,21 +155,19 @@ var HeaderItem = React.createClass({
         this.props.onClose();
       }
     });
-  },
+  }
 
   /**
    * @param {string} title
    */
-  setTitle: function(title) {
+  setTitle(title) {
     this.setState({ title: title });
-  },
+  }
 
   /**
    * @param {boolean} loading
    */
-  setLoading: function(loading) {
+  setLoading(loading) {
     this.setState({ loading: loading });
   }
-});
-
-module.exports = HeaderItem;
+}

@@ -2,22 +2,24 @@
  * @fileoverview Ring Footer.
  */
 
-var React = require('react');
-var classNames = require('classnames');
-
-require('./footer.scss');
-require('link/link.scss');
+import React, { PropTypes, isValidElement } from 'react';
+import classNames from 'classnames';
+import RingComponent from 'ring-component/ring-component';
+import factory from 'factory-decorator/factory-decorator';
+import './footer.scss';
+import 'link/link.scss';
 
 /**
  * @constructor
  * @extends {ReactComponent}
  */
-var FooterColumn = React.createClass({
-  propTypes: {
-    position: React.PropTypes.string
-  },
+@factory
+class FooterColumn extends RingComponent {
+  static propTypes = {
+    position: PropTypes.string
+  };
 
-  render: function () {
+  render() {
     var classes = classNames('ring-footer__column', 'ring-footer__column_' + this.props.position);
     return (
       <div className={classes}>
@@ -27,7 +29,7 @@ var FooterColumn = React.createClass({
       </div>
     );
   }
-});
+}
 
 /**
  * Return copyright string
@@ -51,20 +53,21 @@ var copyright = function(year) {
  * @constructor
  * @extends {ReactComponent}
  */
-var FooterLine = React.createClass({
-  props: {
-    item: React.PropTypes.oneOfType([
-      React.PropTypes.object,
-      React.PropTypes.array
+@factory
+class FooterLine extends RingComponent {
+  props = {
+    item: PropTypes.oneOfType([
+      PropTypes.object,
+      PropTypes.array
     ])
-  },
+  };
 
-  render: function () {
+  render() {
     var children = {};
 
     function renderItem(item, idx) {
       // Item is string
-      if (!(item.label) && !React.isValidElement(item)) {
+      if (!(item.label) && !isValidElement(item)) {
         item = {label: item};
       }
 
@@ -73,7 +76,7 @@ var FooterLine = React.createClass({
         element = <a className="ring-link" href={item.url} title={item.title}>{element}</a>;
       }
 
-      if (React.isValidElement(item)) {
+      if (isValidElement(item)) {
         element = item;
       }
 
@@ -98,7 +101,7 @@ var FooterLine = React.createClass({
       </li>
     );
   }
-});
+}
 
 /**
  * @name Footer
@@ -127,11 +130,11 @@ var FooterLine = React.createClass({
    </div>
    </file>
    <file name="index.js" webpack="true">
-   var React = require('react');
+   var render = require('react-dom').render;
    var Footer = require('footer/footer.jsx');
 
-   React.render(
-     React.createElement(Footer, {
+   render(
+     Footer.factory({
        className: 'stuff',
        left: [
          [{url: 'http://www.jetbrains.com/teamcity/?fromserver', label: 'TeamCity'}, ' by JetBrains'],
@@ -149,16 +152,17 @@ var FooterLine = React.createClass({
    </file>
    </example>
  */
-var Footer = React.createClass({
+@factory
+export default class Footer extends RingComponent {
   /** @override */
-  propTypes: {
-    className: React.PropTypes.string,
-    left: React.PropTypes.array,
-    center: React.PropTypes.array,
-    right: React.PropTypes.array
-  },
+  static propTypes = {
+    className: PropTypes.string,
+    left: PropTypes.array,
+    center: PropTypes.array,
+    right: PropTypes.array
+  };
 
-  render: function () {
+  render() {
     function content(elements, position) {
       if (!elements) {
         return false;
@@ -185,6 +189,4 @@ var Footer = React.createClass({
       }</div>
     );
   }
-});
-
-module.exports = Footer;
+}

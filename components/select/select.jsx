@@ -2,31 +2,33 @@
  * @fileoverview Select
  */
 
-var React = require('react');
-var classNames = require('classnames');
-var Popup = require('popup/popup');
-var SelectPopup = require('./select__popup');
-var List = require('list/list');
-var Input = require('input/input');
-var Icon = require('icon/icon');
-var Button = require('button/button');
-var Loader = require('loader/loader');
-var NgModelMixin = require('ngmodel/ngmodel');
-var ngModelStateField = 'selected';
+import React from 'react';
+import { findDOMNode } from 'react-dom';
+import mixin from 'react-mixin';
+import classNames from 'classnames';
+import RingComponent from 'ring-component/ring-component';
+import factory from 'factory-decorator/factory-decorator';
+import Popup from 'popup/popup';
+import SelectPopup from './select__popup';
+import List from 'list/list';
+import Input from 'input/input';
+import Icon from 'icon/icon';
+import Button from 'button/button';
+import Loader from 'loader/loader';
+import NgModelMixin from 'ngmodel/ngmodel';
+import ShortcutsMixin from 'shortcuts/shortcuts__mixin';
+import Global from 'global/global';
+import './select.scss';
 
-var ShortcutsMixin = require('shortcuts/shortcuts__mixin');
+const ngModelStateField = 'selected';
+const generateUniqueId = Global.getUIDGenerator('ring-select-');
 
-var Global = require('global/global');
-var generateUniqueId = Global.getUIDGenerator('ring-select-');
-
-require('./select.scss');
-
-function noop() {}
+const noop = () => {};
 
 /**
  * @enum {number}
  */
-var Type = {
+const Type = {
   BUTTON: 0,
   INPUT: 1,
   CUSTOM: 2
@@ -43,15 +45,23 @@ var Type = {
      <div id="demo"></div>
    </file>
    <file name="index.js" webpack="true">
-     var React = require('react');
+     var render = require('react-dom').render;
      var Select = require('select/select');
 
-     React.render(React.createElement(Select, {filter: true}), document.getElementById('demo'))
-     .setProps({data: [
-       {'label': 'One', 'key': '1', 'type': 'user'},
-       {'label': 'Group', 'key': '2', 'type': 'user'},
-       {'label': 'Three', 'key': '3', 'type': 'user'}
-     ], selected: {'label': 'Group', 'key': '2', 'type': 'user'}});
+     var props = {
+       filter: true
+     };
+
+     var data = {
+       data: [
+         {'label': 'One', 'key': '1', 'type': 'user'},
+         {'label': 'Group', 'key': '2', 'type': 'user'},
+         {'label': 'Three', 'key': '3', 'type': 'user'}
+       ],
+       selected: {'label': 'Group', 'key': '2', 'type': 'user'}
+     };
+
+     render(Select.factory(props), document.getElementById('demo')).rerender(data);
    </file>
  </example>
 
@@ -61,11 +71,18 @@ var Type = {
      <div id="demo2"></div>
    </file>
    <file name="index.js" webpack="true">
-     var React = require('react');
+     var render = require('react-dom').render;
      var Select = require('select/select');
 
-     React.render(React.createElement(Select, {disabled: true, loading: true}), document.getElementById('demo1'));
-     React.render(React.createElement(Select, {disabled: true, loading: true, type: Select.Type.INPUT}), document.getElementById('demo2'));
+     render(
+       Select.factory({disabled: true, loading: true}),
+       document.getElementById('demo1')
+     );
+
+     render(
+       Select.factory({disabled: true, loading: true, type: Select.Type.INPUT}),
+       document.getElementById('demo2')
+     );
    </file>
  </example>
 
@@ -74,7 +91,7 @@ var Type = {
      <div id="demo"></div>
    </file>
    <file name="index.js" webpack="true">
-     var React = require('react');
+     var render = require('react-dom').render;
      var Select = require('select/select');
 
      var data = [];
@@ -82,10 +99,10 @@ var Type = {
        data.push({'label': 'Item ' + i, 'key': i});
      }
 
-     React.render(React.createElement(Select, {
-       type: Select.Type.INPUT
-     }), document.getElementById('demo'))
-     .setProps({data: data});
+     render(
+       Select.factory({ type: Select.Type.INPUT, data: data }),
+       document.getElementById('demo')
+     );
    </file>
  </example>
 
@@ -94,7 +111,7 @@ var Type = {
      <div id="demo"></div>
    </file>
    <file name="index.js" webpack="true">
-     var React = require('react');
+     var render = require('react-dom').render;
      var Select = require('select/select');
 
      var data = [];
@@ -102,33 +119,35 @@ var Type = {
        data.push({'label': 'Item ' + i, 'key': i});
      }
 
-     React.render(React.createElement(Select, {
+     render(Select.factory({
        type: Select.Type.INPUT,
        allowAny: true,
        hideArrow: true,
-       label: 'Placeholder without arrow'
-     }), document.getElementById('demo'))
-     .setProps({data: data, selected: data[1]});
+       label: 'Placeholder without arrow',
+       data: data, selected: data[1]
+     }), document.getElementById('demo'));
    </file>
  </example>
 
  <example name="Simple select with default filter mode">
- <file name="index.html">
- <div id="demo"></div>
- </file>
- <file name="index.js" webpack="true">
-   var React = require('react');
-   var Select = require('select/select');
+   <file name="index.html">
+     <div id="demo"></div>
+   </file>
+   <file name="index.js" webpack="true">
+     var render = require('react-dom').render;
+     var Select = require('select/select');
 
-   React.render(React.createElement(Select, {filter: true}), document.getElementById('demo'))
-   .setProps({data: [
-     {'label': 'One', 'key': '1'},
-     {'label': 'Two', 'key': '2', disabled: true},
-     {'label': 'Two One', 'key': '2.1', level: 1},
-     {'label': 'Two Two', 'key': '2.2', level: 1},
-     {'label': 'Three', 'key': '3'}
-   ]});
- </file>
+     render(Select.factory({
+       filter: true,
+       data: [
+         {'label': 'One', 'key': '1'},
+         {'label': 'Two', 'key': '2', disabled: true},
+         {'label': 'Two One', 'key': '2.1', level: 1},
+         {'label': 'Two Two', 'key': '2.2', level: 1},
+         {'label': 'Three', 'key': '3'}
+       ]
+     }), document.getElementById('demo'));
+   </file>
  </example>
 
  <example name="Simple select with default filter mode and loading indicator">
@@ -136,25 +155,28 @@ var Type = {
      <div id="demo"></div>
    </file>
    <file name="index.js" webpack="true">
-     var React = require('react');
+     var render = require('react-dom').render;
      var Select = require('select/select');
 
-     React.render(React.createElement(Select, {filter: true, loading: true}), document.getElementById('demo'))
-     .setProps({data: [
-       {'label': 'One', 'key': '1'},
-       {'label': 'Group', 'key': '2'},
-       {'label': 'Three', 'key': '3'}
-     ], selected: {'label': 'Group', 'key': '2'}});
+     render(Select.factory({
+       filter: true,
+       loading: true,
+       data: [
+         {'label': 'One', 'key': '1'},
+         {'label': 'Group', 'key': '2'},
+         {'label': 'Three', 'key': '3'}
+       ],
+       selected: {'label': 'Group', 'key': '2'}
+     }), document.getElementById('demo'));
    </file>
  </example>
-
 
  <example name="Select with customized filter and an 'Add item' button">
    <file name="index.html">
      <div id="demo"></div>
    </file>
    <file name="index.js" webpack="true">
-     var React = require('react');
+     var render = require('react-dom').render;
      var Select = require('select/select');
 
      var data = [];
@@ -162,13 +184,11 @@ var Type = {
        data.push({'label': 'Item long long long long long  long long long label ' + i, 'key': i});
      }
 
-     React.render(React.createElement(Select, {
+     render(Select.factory({
        filter: {
          placeholder: 'Select me',
          value: 'One'
-       }
-     }),document.getElementById('demo'))
-     .setProps({
+       },
        add: {
          prefix: 'Add name'
        },
@@ -179,7 +199,8 @@ var Type = {
        selected: data[49],
        'onSelect': function(selected) {
          console.log('onSelect, selected item:', selected);
-       }});
+       }
+     }), document.getElementById('demo'));
    </file>
  </example>
 
@@ -189,10 +210,10 @@ var Type = {
      <div id="demo"></div>
    </file>
    <file name="index.js" webpack="true">
-     var React = require('react');
+     var render = require('react-dom').render;
      var Select = require('select/select');
 
-     React.render(React.createElement(Select, {
+     render(Select.factory({
        filter: true,
        add: {
          prefix: 'Add some item'
@@ -200,98 +221,102 @@ var Type = {
        multiple: {
          label: 'Change selected items', // override button label if something selected
          removeSelectedItems: false      // remove selected items from the list, useful with "disableLabelSelection" and custom display
-       }, selected: [{'label': 'Two long label', 'key': '2'}]
-     }), document.getElementById('demo'))
-     .setProps({
-        data: [
-          {'label': 'One long label', 'key': '1'},
-          {'label': 'Two long label', 'key': '2'},
-          {'label': 'Three long label', 'key': '3'}
-        ], 'onSelect': function(selected) {
-          console.log('onSelect, selected item:', selected);
-        }, 'onDeselect': function(deselected) {
-          console.log('onDeselect, deselected item:', deselected);
-        }, 'onChange': function(selection) {
-          console.log('onChange, selection:', selection);
-          var items = [];
-          selection.forEach(function(item) {
-            items.push(item.label);
-          });
-          document.getElementById('multipleCustomView').innerHTML = items.join(', ');
-        }});
+       },
+       selected: [{'label': 'Two long label', 'key': '2'}],
+       data: [
+         {'label': 'One long label', 'key': '1'},
+         {'label': 'Two long label', 'key': '2'},
+         {'label': 'Three long label', 'key': '3'}
+       ],
+       onSelect: function(selected) {
+         console.log('onSelect, selected item:', selected);
+       },
+       onDeselect: function(deselected) {
+         console.log('onDeselect, deselected item:', deselected);
+       },
+       onChange: function(selection) {
+         console.log('onChange, selection:', selection);
+         var items = [];
+         selection.forEach(function(item) {
+           items.push(item.label);
+         });
+         document.getElementById('multipleCustomView').innerHTML = items.join(', ');
+       }
+     }), document.getElementById('demo'));
    </file>
  </example>
  */
-var Select = React.createClass({
-  mixins: [ShortcutsMixin, NgModelMixin],
-  ngModelStateField: ngModelStateField,
-  statics: {
-    Type: Type,
-    ngModelStateField: ngModelStateField
-  },
 
-  getDefaultProps: function () {
-    return {
-      data: [],
-      filter: false,   // enable filter (BUTTON or CUSTOM mode)
-      multiple: false, // multiple can be an object - see demo for more information
-      clear: false,    // enable clear button that clears the "selected" state
-      loading: false,  // show loading indicator while data is loading
-      disabled: false, // disable select
+@factory
+@mixin.decorate(ShortcutsMixin)
+@mixin.decorate(NgModelMixin)
+export default class Select extends RingComponent {
+  static Type = Type;
+  static ngModelStateField = ngModelStateField;
 
-      loadingMessage: 'Loading...',
-      notFoundMessage: 'No options found',
+  static defaultProps = {
+    data: [],
+    filter: false,   // enable filter (BUTTON or CUSTOM mode)
+    multiple: false, // multiple can be an object - see demo for more information
+    clear: false,    // enable clear button that clears the "selected" state
+    loading: false,  // show loading indicator while data is loading
+    disabled: false, // disable select
 
-      type: Type.BUTTON,
-      targetElement: null,  // element to bind the popup to (select BUTTON or INPUT by default)
-      hideSelected: false,  // INPUT mode: clears the input after an option is selected (useful when the selection is displayed in some custom way elsewhere)
-      allowAny: false,      // INPUT mode: allows any value to be entered, hides the dropdown icon
-      hideArrow: false,     // hide dropdown arrow icon
+    loadingMessage: 'Loading...',
+    notFoundMessage: 'No options found',
 
-      maxHeight: 250,       // Height of options list, without the filter and 'Add' button
-      minWidth: 'target',   // Popup width
+    type: Type.BUTTON,
+    targetElement: null,  // element to bind the popup to (select BUTTON or INPUT by default)
+    hideSelected: false,  // INPUT mode: clears the input after an option is selected (useful when the selection is displayed in some custom way elsewhere)
+    allowAny: false,      // INPUT mode: allows any value to be entered, hides the dropdown icon
+    hideArrow: false,     // hide dropdown arrow icon
 
-      selected: null,       // current selection (item / array of items)
+    maxHeight: 250,       // Height of options list, without the filter and 'Add' button
+    minWidth: 'target',   // Popup width
 
-      label: 'Please select option',  // BUTTON label or INPUT placeholder (nothing selected)
-      selectedLabel: '',              // BUTTON label or INPUT placeholder (something selected)
+    selected: null,       // current selection (item / array of items)
 
-      shortcuts: false,
+    label: 'Please select option',  // BUTTON label or INPUT placeholder (nothing selected)
+    selectedLabel: '',              // BUTTON label or INPUT placeholder (something selected)
 
-      onBeforeOpen: noop,
-      onOpen: noop,
-      onClose: noop,
-      onFilter: noop,       // search string as first argument
+    shortcuts: false,
 
-      onSelect: noop,       // single + multi
-      onDeselect: noop,     // multi
-      onChange: noop,       // multi
+    onBeforeOpen: noop,
+    onOpen: noop,
+    onClose: noop,
+    onFilter: noop,       // search string as first argument
 
-      onAdd: noop,          // search string as first argument
+    onSelect: noop,       // single + multi
+    onDeselect: noop,     // multi
+    onChange: noop,       // multi
 
-      onDone: noop,
-      onReset: noop
-    };
-  },
+    onAdd: noop,          // search string as first argument
 
-  getInitialState: function() {
-    return {
-      data: [],
-      selected: (this.props.multiple ? [] : null),
-      filterString: null,
-      shortcuts: false,
-      popupShortcuts: false,
-      hint: null
-    };
-  },
+    onDone: noop,
+    onReset: noop
+  };
 
-  getShortcutsProps: function () {
+  state = {
+    data: [],
+    selected: (this.props.multiple ? [] : null),
+    filterString: null,
+    shortcuts: false,
+    popupShortcuts: false,
+    hint: null
+  };
+
+  ngModelStateField = ngModelStateField;
+  _popup = null;
+  _addButton = null;
+  _multipleMap = {};
+
+  getShortcutsProps() {
     return {
       map: {
-        'enter': this._onEnter,
-        'esc': this._onEsc,
-        'up': this._inputShortcutHandler,
-        'down': this._inputShortcutHandler,
+        'enter': ::this._onEnter,
+        'esc': ::this._onEsc,
+        'up': ::this._inputShortcutHandler,
+        'down': ::this._inputShortcutHandler,
         'right': noop,
         'left': noop,
         'shift+up': noop,
@@ -300,18 +325,18 @@ var Select = React.createClass({
       },
       scope: generateUniqueId()
     };
-  },
+  }
 
-  _onEnter: function() {
+  _onEnter() {
     this.props.onDone();
-  },
+  }
 
-  _onEsc: function() {
+  _onEsc() {
     if (this.props.multiple || !this.props.getInitial) {
       return;
     }
 
-    var selected = {
+    let selected = {
       key: Math.random(),
       label: this.props.getInitial()
     };
@@ -322,23 +347,23 @@ var Select = React.createClass({
       this.props.onChange(selected);
       this.props.onReset();
     });
-  },
+  }
 
-  _inputShortcutHandler: function() {
+  _inputShortcutHandler() {
     if (this.state.focused && this._popup && !this._popup.isVisible()) {
       this._clickHandler();
     }
-  },
+  }
 
-  _handleMultipleToggling: function (multiple) {
-    var empty = multiple ? [] : null;
+  _handleMultipleToggling(multiple) {
+    let empty = multiple ? [] : null;
     this.setState({selected: empty}, function() {
       this.props.onChange(empty);
     });
     this._rebuildMultipleMap(empty, multiple);
-  },
+  }
 
-  componentWillMount: function() {
+  componentWillMount() {
     // set selected element if provided during init
     if (this.props.selected) {
       this.setState({
@@ -346,42 +371,43 @@ var Select = React.createClass({
         selectedIndex: this._getSelectedIndex(this.props.selected, this.props.data)
       });
     }
-  },
+  }
 
-  componentDidMount: function() {
+  componentDidMount() {
     this._createPopup();
     this._rebuildMultipleMap(this.state.selected, this.props.multiple);
-  },
+  }
 
-  componentWillUnmount: function () {
+  componentWillUnmount() {
     if (this._popup) {
       this._popup.remove();
     }
-  },
+  }
 
-  componentWillReceiveProps: function(newProps) {
+  componentWillReceiveProps(newProps) {
     if (newProps.selected) {
       this.setState({
         selected: newProps.selected,
         selectedIndex: this._getSelectedIndex(newProps.selected, (newProps.data ? newProps.data : this.props.data))
       });
     }
+
     if (newProps.multiple !== this.props.multiple) {
       this._handleMultipleToggling(newProps.multiple);
     }
-  },
+  }
 
-  componentDidUpdate: function() {
+  componentDidUpdate() {
     this._refreshPopup();
-  },
+  }
 
-  _getSelectedIndex: function(selected, data) {
+  _getSelectedIndex(selected, data) {
     if ((this.props.multiple && !selected.length) || (!this.props.multiple && !selected)) {
       return null;
     }
 
-    for (var i = 0; i < data.length; i++) {
-      var item = data[i];
+    for (let i = 0; i < data.length; i++) {
+      let item = data[i];
 
       if (item.key === undefined) {
         continue;
@@ -393,32 +419,34 @@ var Select = React.createClass({
     }
 
     return null;
-  },
+  }
 
-  _popup: null,
-  _createPopup: function() {
+  _createPopup() {
     if (!this._popup) {
       this._popup = Popup.renderPopup(
         <SelectPopup
           maxHeight={this.props.maxHeight}
           minWidth={this.props.minWidth}
           filter={this.isInputMode() ? false : this.props.filter} // disable popup filter in INPUT mode
-          anchorElement={this.props.targetElement || this.getDOMNode()}
-          onClose={this._onClose}
-          onSelect={this._listSelectHandler}
-          onFilter={this._filterChangeHandler} />);
+          anchorElement={this.props.targetElement || findDOMNode(this)}
+          onClose={::this._onClose}
+          onSelect={::this._listSelectHandler}
+          onFilter={::this._filterChangeHandler}
+        />
+      );
     }
-  },
+  }
 
-  _refreshPopup: function() {
+  _refreshPopup() {
     if (this._popup.isVisible()) {
       this._showPopup();
     }
-  },
+  }
 
-  _showPopup: function() {
-    var data = this.getListItems(this.filterValue());
-    var message = null;
+  _showPopup() {
+    let data = this.getListItems(this.filterValue());
+    let message = null;
+
     if (this.props.loading) {
       message = this.props.loadingMessage;
     } else if (!data.length) {
@@ -432,50 +460,58 @@ var Select = React.createClass({
       return;
     }
 
-    this._popup.setProps({
+    this._popup.rerender({
       data: data,
       toolbar: this.getToolbar(),
       message: message,
       activeIndex: this.state.selectedIndex
-    }, function() {
+    });
+
+    this._popup.forceUpdate(() => {
       !this._popup.isVisible() && this.props.onOpen();
       this._popup.show();
-    }.bind(this));
-  },
+    });
+  }
 
-  _hidePopup: function() {
+  _hidePopup() {
     this._popup.isVisible() && this.props.onClose();
     this._popup.hide();
 
-    setTimeout(function () {
-      if (this.isMounted()) {
-        this.getDOMNode().focus();
+    setTimeout(() => {
+      let node = findDOMNode(this);
+      if (node) {
+        node.focus();
       }
-    }.bind(this), 0);
-  },
+    }, 0);
+  }
 
-  addHandler: function() {
+  addHandler() {
     this.props.onAdd(this.filterValue());
-  },
+  }
 
-  getToolbar: function() {
+  getToolbar() {
     if (this._addButton) {
-      return <div className="ring-select__button" onClick={this.addHandler}><span className="ring-select__button__plus">+</span>{this.props.add.prefix ? this.props.add.prefix + ' ' : ''}<b>{this.filterValue()}</b></div>;
+      return (
+        <div className="ring-select__button" onClick={::this.addHandler}>
+          <span className="ring-select__button__plus">+</span>
+          { this.props.add.prefix ? this.props.add.prefix + ' ' : '' }
+          <b>{this.filterValue()}</b>
+        </div>
+      );
     }
-  },
+  }
 
-  _addButton: null,
-  getListItems: function(filterString) {
+  getListItems(filterString) {
     filterString = filterString.trim();
 
     if (this.isInputMode() && this.state.selected && filterString === this.state.selected.label) {
       filterString = ''; // ignore multiple if it is exactly the selected item
     }
 
-    var filteredData = [];
-    var exactMatch = false;
+    let filteredData = [];
+    let exactMatch = false;
 
-    var check = this.props.filter.fn || function(itemToCheck, checkString) {
+    let check = this.props.filter.fn || function(itemToCheck, checkString) {
       // by default, skip separators and hints
       if (List.isItemType(List.ListProps.Type.SEPARATOR, itemToCheck) || List.isItemType(List.ListProps.Type.HINT, itemToCheck)) {
         return true;
@@ -484,8 +520,8 @@ var Select = React.createClass({
       return itemToCheck.label.match(new RegExp(checkString, 'ig'));
     };
 
-    for (var i = 0; i < this.props.data.length; i++) {
-      var item = this.props.data[i];
+    for (let i = 0; i < this.props.data.length; i++) {
+      let item = this.props.data[i];
       if (filterString === '' || check(item, filterString, this.props.data)) {
         exactMatch = (item.label === filterString);
 
@@ -513,11 +549,11 @@ var Select = React.createClass({
     }
 
     return filteredData;
-  },
+  }
 
-  filterValue: function(setValue) {
+  filterValue(setValue) {
     if (this.isInputMode() || this.props.filter) {
-      var filter = (this.isInputMode() ? this.refs.filter : this._popup.refs.filter).getDOMNode();
+      let filter = findDOMNode(this.isInputMode() ? this.refs.filter : this._popup.refs.filter);
 
       if (typeof setValue === 'string' || typeof setValue === 'number') {
         filter.value = setValue;
@@ -527,18 +563,18 @@ var Select = React.createClass({
     } else {
       return '';
     }
-  },
+  }
 
-  isInputMode: function() {
+  isInputMode() {
     return (this.props.type === Type.INPUT);
-  },
+  }
 
-  isButtonMode: function() {
+  isButtonMode() {
     return (this.props.type === Type.BUTTON);
-  },
+  }
 
-  _clickHandler: function() {
-    if (!this.props.disabled) {
+  _clickHandler() {
+    if (this._popup && !this.props.disabled) {
       if (this._popup.isVisible()) {
         this._hidePopup();
       } else {
@@ -546,13 +582,13 @@ var Select = React.createClass({
         this._showPopup();
       }
     }
-  },
+  }
 
-  _filterChangeHandler: function() {
-    var filterValue = this.filterValue().replace(/^\s+/g, '');
+  _filterChangeHandler() {
+    let filterValue = this.filterValue().replace(/^\s+/g, '');
     this.props.onFilter(filterValue);
     if (this.props.allowAny) {
-      var fakeSelected = {
+      let fakeSelected = {
         key: Math.random(),
         label: filterValue
       };
@@ -565,22 +601,20 @@ var Select = React.createClass({
     }
     !this._popup.isVisible() && this.props.onBeforeOpen();
     this._showPopup();
-  },
+  }
 
-  _multipleMap: {},
-
-  _rebuildMultipleMap: function(selected, multiple) {
+  _rebuildMultipleMap(selected, multiple) {
     if (selected && multiple) {
       this._multipleMap = {};
-      for (var i = 0; i < selected.length; i++) {
+      for (let i = 0; i < selected.length; i++) {
         this._multipleMap[selected[i].key] = true;
       }
     }
-  },
+  }
 
-  _listSelectHandler: function(selected) {
-    var isItem = List.isItemType.bind(null, List.ListProps.Type.ITEM);
-    var isCustomItem = List.isItemType.bind(null, List.ListProps.Type.CUSTOM);
+  _listSelectHandler(selected) {
+    let isItem = List.isItemType.bind(null, List.ListProps.Type.ITEM);
+    let isCustomItem = List.isItemType.bind(null, List.ListProps.Type.CUSTOM);
 
     if ((!isItem(selected) && !isCustomItem(selected)) || selected.disabled) {
       return;
@@ -589,25 +623,25 @@ var Select = React.createClass({
     if (!this.props.multiple) {
       this.setState({
         selected: selected
-      }, function() {
+      }, () => {
         this.filterValue(this.isInputMode() && !this.props.hideSelected ? this._getItemLabel(selected) : '');
         this.props.onSelect(selected);
         this.props.onChange(selected);
         this._hidePopup();
-      }.bind(this));
+      });
     } else {
       if (!selected.key) {
         throw new Error('Multiple selection requires each item to have the "key" property');
       }
 
-      var currentSelection = this.state.selected;
+      let currentSelection = this.state.selected;
       if (!this._multipleMap[selected.key]) {
         this._multipleMap[selected.key] = true;
         currentSelection.push(selected);
         this.props.onSelect && this.props.onSelect(selected);
       } else {
         delete this._multipleMap[selected.key];
-        for (var i = 0; i < currentSelection.length; i++) {
+        for (let i = 0; i < currentSelection.length; i++) {
           if (selected.key === currentSelection[i].key) {
             currentSelection.splice(i, 1);
             break;
@@ -622,18 +656,18 @@ var Select = React.createClass({
         // redraw items
         if (this.props.multiple) {
           // setTimeout solves events order and bubbling issue
-          setTimeout(function() {
+          setTimeout(() => {
             this.isInputMode() && this.clearFilter();
             this._showPopup();
-          }.bind(this), 0);
+          }, 0);
         }
       });
 
       this.props.onChange(currentSelection);
     }
-  },
+  }
 
-  _onClose: function() {
+  _onClose() {
     if (this.isInputMode()) {
       if (!this.props.allowAny) {
         if (this.props.hideSelected || !this.state.selected || this.props.multiple) {
@@ -644,15 +678,15 @@ var Select = React.createClass({
       }
     }
     this._hidePopup();
-  },
+  }
 
-  clearFilter: function() {
+  clearFilter() {
     this.filterValue('');
-  },
+  }
 
-  clear: function() {
-    var self = this;
-    var empty = self.props.multiple ? [] : null;
+  clear() {
+    let self = this;
+    let empty = self.props.multiple ? [] : null;
     self.setState({
       selected: empty
     }, function() {
@@ -660,80 +694,79 @@ var Select = React.createClass({
     });
 
     return false;
-  },
+  }
 
-  _inputFocused: false,
-  _focusHandler: function() {
+  _focusHandler() {
     this.setState({
       shortcuts: true,
       focused: true
     });
-  },
+  }
 
-  _blurHandler: function() {
+  _blurHandler() {
     this.setState({
       shortcuts: false,
       focused: false
     });
-  },
+  }
 
-  _inputShortcutsEnabled: function() {
+  _inputShortcutsEnabled() {
     if (!this._popup || this._popup.isVisible()) {
       return false;
     } else {
       return this.state.focused;
     }
-  },
+  }
 
-  _selectionIsEmpty: function() {
+  _selectionIsEmpty() {
     return (this.props.multiple && !this.state.selected.length) || !this.state.selected;
-  },
+  }
 
-  _getSelectedLabel: function () {
+  _getSelectedLabel() {
     if (this._selectionIsEmpty()) {
       return this.props.label;
     } else {
       return this.props.selectedLabel || this._getSelectedString();
     }
-  },
+  }
 
-  _getButtonLabel: function() {
+  _getButtonLabel() {
     return this._getSelectedLabel();
-  },
+  }
 
-  _getInputPlaceholder: function() {
+  _getInputPlaceholder() {
     if (!this.props.allowAny) {
       return this._getSelectedLabel();
     } else {
       return '';
     }
-  },
+  }
 
-  _getSelectedString: function() {
+  _getSelectedString() {
     if (this.props.multiple) {
-      var labels = [];
-      for (var i = 0; i < this.state.selected.length; i++) {
+      let labels = [];
+      for (let i = 0; i < this.state.selected.length; i++) {
         labels.push(this._getItemLabel(this.state.selected[i]));
       }
       return labels.join(', ');
     } else {
       return this._getItemLabel(this.state.selected);
     }
-  },
+  }
 
-  _getItemLabel: function(item) {
+  _getItemLabel(item) {
     return item.selectedLabel || item.label;
-  },
+  }
 
-  _getIcons: function() {
-    var icons = [];
+  _getIcons() {
+    let icons = [];
 
     if (this.props.loading) {
       icons.push(<Loader modifier={Loader.Modifier.INLINE} />);
     }
 
     if (this.props.clear && this.state.selected) {
-      icons.push(<span className="ring-link" onClick={this.clear}>
+      icons.push(<span className="ring-link" onClick={::this.clear}>
         <Icon glyph="close" size={Icon.Size.Size14}/>
       </span>);
     }
@@ -747,10 +780,10 @@ var Select = React.createClass({
     }
 
     return icons;
-  },
+  }
 
-  render: function () {
-    var buttonCS = classNames({
+  render() {
+    let buttonCS = classNames({
       'ring-select': true,
       'ring-select_disabled': this.props.disabled,
       'ring-select_input-mode': this.isInputMode(),
@@ -758,38 +791,43 @@ var Select = React.createClass({
       'ring-js-shortcuts': true
     });
 
-    var icons = this._getIcons();
+    let icons = this._getIcons();
 
-    var style = {
+    let style = {
       'paddingRight': 8 + icons.length * 16
     };
 
-    var iconsNode = <span className="ring-select__icons">{icons}</span>;
+    let iconsNode = <span className="ring-select__icons">{icons}</span>;
 
     if (this.isInputMode()) {
-      var inputCS = classNames({
+      let inputCS = classNames({
         'ring-js-shortcuts': true,
         'ring-input_disabled': this.props.disabled
       });
 
-      var filterValue = '';
+      let filterValue = '';
       if (this.props.allowAny && this.state.selected) {
         filterValue = this._getItemLabel(this.state.selected);
       }
 
       return (
-        <div onClick={this._clickHandler} className={buttonCS}>
-          <Input ref="filter" disabled={this.props.disabled} value={filterValue} className={inputCS} style={style}
-            onInput={this._filterChangeHandler}
-            onFocus={this._focusHandler}
-            onBlur={this._blurHandler}
+        <div onClick={::this._clickHandler} className={buttonCS}>
+          <Input
+            ref="filter"
+            disabled={this.props.disabled}
+            value={filterValue}
+            className={inputCS}
+            style={style}
+            onInput={::this._filterChangeHandler}
+            onFocus={::this._focusHandler}
+            onBlur={::this._blurHandler}
             shortcuts={this._inputShortcutsEnabled()}
             placeholder={this._getInputPlaceholder()} />
           {iconsNode}
         </div>);
     } else if (this.isButtonMode()) {
       return (
-        <Button type="button" onClick={this._clickHandler} className={buttonCS} style={style} disabled={this.props.disabled}>
+        <Button type="button" onClick={::this._clickHandler} className={buttonCS} style={style} disabled={this.props.disabled}>
           <span className="ring-select__label">{this._getButtonLabel()}</span>
           {iconsNode}
         </Button>);
@@ -797,6 +835,4 @@ var Select = React.createClass({
       return (<span></span>);
     }
   }
-});
-
-module.exports = Select;
+}

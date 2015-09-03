@@ -1,6 +1,8 @@
-var React = require('react');
-var classNames = require('classnames');
-require('./input.scss');
+import React from 'react';
+import classNames from 'classnames';
+import RingComponent from 'ring-component/ring-component';
+import factory from 'factory-decorator/factory-decorator';
+import './input.scss';
 
 /**
  * @name Input
@@ -13,21 +15,20 @@ require('./input.scss');
      </file>
 
      <file name="index.js" webpack="true">
-       var React = require('react');
+       var render = require('react-dom').render;
        var Input = require('input/input');
 
-       React.render(
-         React.createElement(Input),
+       render(
+         Input.factory(),
          document.getElementById('input')
        );
      </file>
    </example>
  */
-var Input = React.createClass({
-  render: function () {
-    var classes = classNames('ring-input', this.props.className);
+@factory
+export default class Input extends RingComponent {
+  render() {
+    let classes = classNames('ring-input', this.props.className);
     return <input {...this.props} className={classes}/>;
   }
-});
-
-module.exports = Input;
+}

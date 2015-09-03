@@ -153,8 +153,8 @@ angular.module('Ring.dialog', []).
       'controller': ['$scope', 'dialog', 'dialogInSidebar', function ($scope, popupDialog, sidebarDialog) {
         var dialog = $scope.inSidebar ? sidebarDialog : popupDialog;
 
-        $scope.$on('$routeChangeSuccess', dialog.hide);
-        $scope.$on('$routeUpdate', dialog.hide);
+        $scope.$on('$routeChangeSuccess', dialog.hide.bind(this));
+        $scope.$on('$routeUpdate', dialog.hide.bind(this));
 
         $scope.done = function () {
           $scope.resetPosition();
@@ -189,7 +189,6 @@ angular.module('Ring.dialog', []).
       }],
       'link': function (scope, iElement) {
         var iDocument = $(document);
-        var iWindow = $(window);
         var iDialogContainer = iElement.find('.ring-dialog__container');
         var iDialogTitle = iElement.find('.ring-dialog__header__title');
         var pageHeight = null;
@@ -200,8 +199,8 @@ angular.module('Ring.dialog', []).
         };
 
         function setPosition(top, left) {
-          pageHeight = iWindow.outerHeight();
-          pageWidth = iWindow.outerWidth();
+          pageHeight = window.innerHeight;
+          pageWidth = window.innerWidth;
 
           if (top === undefined) {
             top = parseInt(iDialogContainer.css('top'), 10);

@@ -2,9 +2,12 @@
  * @fileoverview Popup Menu.
  */
 
-var React = require('react');
-var Popup = require('popup/popup');
-var List = require('list/list');
+import React from 'react';
+import mixin from 'react-mixin';
+import RingComponent from 'ring-component/ring-component';
+import factory from 'factory-decorator/factory-decorator';
+import Popup from 'popup/popup';
+import List from 'list/list';
 
 /**
  * @name Popup Menu
@@ -21,16 +24,10 @@ var List = require('list/list');
      </file>
 
      <file name="index.js" webpack="true">
-       var React = require('react');
+       var render = require('react-dom').render;
        var PopupMenu = require('popup-menu/popup-menu');
 
-       var popupMenu = PopupMenu.renderPopup(React.createElement(PopupMenu, {
-         anchorElement: document.getElementById('popup'),
-         corner: PopupMenu.PopupProps.Corner.TOP_LEFT,
-         classNames: ['additional', 'class', 'names']
-       }, null));
-
-       popupMenu.setProps({data: [
+       var data = [
          {'label': 'One'},
          {'label': 'Two', 'href': 'http://www.jetbrains.com'},
          {'label': 'Three', 'type': PopupMenu.ListProps.Type.ITEM, 'href': 'http://www.jetbrains.com'},
@@ -40,21 +37,27 @@ var List = require('list/list');
          {'type': PopupMenu.ListProps.Type.SEPARATOR, 'description': 'Test group'},
          {'label': '1 Element in group', 'type': PopupMenu.ListProps.Type.ITEM},
          {'label': '2 Element in group', 'type': PopupMenu.ListProps.Type.ITEM}
-       ]});
+       ];
+
+       var popupMenu = PopupMenu.renderPopup(PopupMenu.factory({
+         anchorElement: document.getElementById('popup'),
+         corner: PopupMenu.PopupProps.Corner.TOP_LEFT,
+         classNames: ['additional', 'class', 'names'],
+         data: data
+       }, null));
      </file>
    </example>
  */
-var PopupMenu = React.createClass({
-  mixins: [Popup.Mixin, List.Mixin],
-
-  getDefaultProps: function() {
-    return {
-      data: []
-    };
-  },
+@factory
+@mixin.decorate(Popup.Mixin)
+@mixin.decorate(List.Mixin)
+export default class PopupMenu extends RingComponent {
+  static defaultProps = {
+    data: []
+  };
 
   /** @override */
-  getInternalContent: function () {
+  getInternalContent() {
     return (
       <div>
         <List
@@ -67,6 +70,4 @@ var PopupMenu = React.createClass({
       </div>
     );
   }
-});
-
-module.exports = PopupMenu;
+}

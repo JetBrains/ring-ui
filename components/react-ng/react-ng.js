@@ -5,8 +5,9 @@
 
 /* global angular: false */
 
-require('babel/polyfill');
-var React = require('react');
+import 'babel/polyfill';
+import { createElement, PropTypes } from 'react';
+import { render, unmountComponentAtNode } from 'react-dom';
 
 var reactModule = angular.module('Ring.react-ng', []);
 
@@ -48,9 +49,9 @@ function getComponentIfExist(name){
 }
 
 function renderAndRemoveOnDestroy(ComponentClass, iElement, props){
-  var component = React.render(React.createElement(ComponentClass, props), iElement[0]);
+  var component = render(createElement(ComponentClass, props), iElement[0]);
   iElement.on('$destroy', function () {
-    React.unmountComponentAtNode(iElement[0]);
+    unmountComponentAtNode(iElement[0]);
   });
   return component;
 }
@@ -109,7 +110,7 @@ reactModule.directive(reactDirectiveName, [
 
             var props = {};
             modifyProps(props, name, value);
-            component.setProps(props);
+            component.rerender(props);
           };
         }
 
@@ -124,8 +125,8 @@ reactModule.directive(reactDirectiveName, [
 
             // Check if component expects callback
             var expectsCallback = ComponentClass.propTypes &&
-              (ComponentClass.propTypes[propName] === React.PropTypes.func ||
-              ComponentClass.propTypes[propName] === React.PropTypes.func.isRequired);
+              (ComponentClass.propTypes[propName] === PropTypes.func ||
+              ComponentClass.propTypes[propName] === PropTypes.func.isRequired);
 
             // Parse as expression
             var parsedExpression = !specialDOMAttrName && !interpolated && $parse(value);
