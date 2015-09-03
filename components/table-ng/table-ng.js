@@ -8,6 +8,8 @@ require('../react-ng/react-ng')({
   Checkbox: require('../checkbox/checkbox.jsx')
 });
 
+require('message-bundle-ng/message-bundle-ng');
+
 /*global angular*/
 
 /** @name Table Ng
