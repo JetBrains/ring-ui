@@ -1,12 +1,12 @@
 <div class="ng-cloak table__pager" ng-show="show">
   <div class="table__pager-links">
-    <span class="ring-link table__pager-link" ng-show="selectedPageNum > 1" ng-click="loadPage(selectedPageNum-1)" translate>&larr; previous</span>
-    <span class="ring-link table__pager-link" ng-show="selectedPageNum < totalPages" ng-click="loadPage(selectedPageNum+1)" translate>next page &rarr;</span>
+    <span class="ring-link table__pager-link" ng-show="selectedPageNum > 1" ng-click="loadPage(selectedPageNum-1)">&larr; {{previousPageText}}</span>
+    <span class="ring-link table__pager-link" ng-show="selectedPageNum < totalPages" ng-click="loadPage(selectedPageNum+1)">{{nextPageText}} &rarr;</span>
   </div>
 
   <div class="ring-btn-toolbar">
     <div class="ring-button-group" ng-show="startPage > 1">
-      <button class="ring-btn" ng-click="loadPage(1)" translate>First page</button>
+      <button class="ring-btn" ng-click="loadPage(1)">{{firstPageText}}</button>
     </div>
 
     <div class="ring-button-group">
@@ -16,7 +16,7 @@
     </div>
 
     <div class="ring-button-group" ng-show="endPage < totalPages">
-      <button class="ring-btn" ng-click="loadPage(totalPages)" translate>Last page</button>
+      <button class="ring-btn" ng-click="loadPage(totalPages)">{{lastPageText}}</button>
     </div>
   </div>
 
