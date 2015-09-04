@@ -112,7 +112,7 @@ var PopupMixin = {
   getShortcutsProps: function () {
     return {
       map: {
-        'esc': this.close
+        esc: ::this.close
       },
       scope: generateUniqueId()
     };
