@@ -7,7 +7,6 @@
 import React, { PropTypes } from 'react';
 import classNames from 'classnames';
 import RingComponent from 'ring-component/ring-component';
-import factory from 'factory-decorator/factory-decorator';
 import iconUrl from './icon__url';
 import Global from 'global/global';
 import ClassName from 'class-name/class-name';
@@ -126,7 +125,6 @@ const baseClass = new ClassName('ring-icon');
      </file>
    </example>
  */
-@factory
 export default class Icon extends RingComponent {
   static propTypes = {
     color: PropTypes.string,

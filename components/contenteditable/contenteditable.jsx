@@ -4,7 +4,6 @@
 
 import React from 'react';
 import RingComponent from 'ring-component/ring-component';
-import factory from 'factory-decorator/factory-decorator';
 
 /**
  * @name ContentEditable
@@ -29,7 +28,6 @@ import factory from 'factory-decorator/factory-decorator';
      </file>
    </example>
  */
-@factory
 export default class ContentEditable extends RingComponent {
   /** @override */
   static propTypes = {

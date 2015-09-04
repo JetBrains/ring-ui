@@ -1,7 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
 import RingComponent from 'ring-component/ring-component';
-import factory from 'factory-decorator/factory-decorator';
 import './link.scss';
 
 /**
@@ -25,7 +24,6 @@ import './link.scss';
      </file>
    </example>
  */
-@factory
 export default class Link extends RingComponent {
   render() {
     let classes = classNames('ring-link', this.props.className);

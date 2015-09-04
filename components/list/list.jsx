@@ -11,7 +11,6 @@ import contains from 'mout/object/contains';
 import debounce from 'mout/function/debounce';
 
 import RingComponent from 'ring-component/ring-component';
-import factory from 'factory-decorator/factory-decorator';
 import ShortcutsMixin from 'shortcuts/shortcuts__mixin';
 import Global from 'global/global';
 import Icon from 'icon/icon';
@@ -380,7 +379,6 @@ var ListMixin = {
    </file>
   </example>
 */
-@factory
 @mixin.decorate(ListMixin)
 @mixin.decorate(ShortcutsMixin)
 export default class List extends RingComponent {

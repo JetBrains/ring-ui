@@ -7,7 +7,6 @@ import { findDOMNode } from 'react-dom';
 import mixin from 'react-mixin';
 import classNames from 'classnames';
 import RingComponent from 'ring-component/ring-component';
-import factory from 'factory-decorator/factory-decorator';
 import Popup from 'popup/popup';
 import SelectPopup from './select__popup';
 import List from 'list/list';
@@ -247,7 +246,6 @@ const Type = {
  </example>
  */
 
-@factory
 @mixin.decorate(ShortcutsMixin)
 @mixin.decorate(NgModelMixin)
 export default class Select extends RingComponent {

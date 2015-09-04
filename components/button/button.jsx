@@ -1,7 +1,6 @@
 import React, { PropTypes } from 'react';
 import classNames from 'classnames';
 import RingComponent from 'ring-component/ring-component';
-import factory from 'factory-decorator/factory-decorator';
 import './button.scss';
 
 /**
@@ -51,7 +50,6 @@ const Modifiers = {
      </file>
    </example>
  */
-@factory
 export default class Button extends RingComponent {
   static get Modifiers() {
     return Modifiers;
