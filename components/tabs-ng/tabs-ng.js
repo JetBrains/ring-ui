@@ -39,29 +39,6 @@ require('../tabs/tabs.scss');
        require('tabs-ng/tabs-ng');
      </file>
    </example>
-
-    <example name="Tabs-ng with many tabs">
-     <file name="index.html">
-     <div ng-app="Ring.tabs">
-       <rg-tabs class="container container_tabs">
-         <rg-tabs-pane x-title="Tab with very very long name 2">content 2</rg-tabs-pane>
-         <rg-tabs-pane x-title="Tab with very very long name 3">content 3</rg-tabs-pane>
-         <rg-tabs-pane x-title="Tab with very very long name 1">content 1</rg-tabs-pane>
-         <rg-tabs-pane x-title="Tab with very very long name 4">content 4</rg-tabs-pane>
-         <rg-tabs-pane x-title="Tab with very very long name 5">content 5</rg-tabs-pane>
-         <rg-tabs-pane x-title="Tab with very very long name 6">content 6</rg-tabs-pane>
-         <rg-tabs-pane x-title="Tab with very very long name 7">content 7</rg-tabs-pane>
-         <rg-tabs-pane x-title="Tab with very very long name 8">content 8</rg-tabs-pane>
-         <rg-tabs-pane x-title="Tab with very very long name 9">content 9</rg-tabs-pane>
-       </rg-tabs>
-     </div>
-     </file>
-     <file name="index.js" webpack="true">
-       require('angular/angular.min.js');
-       require('angular-route/angular-route.min.js');
-       require('tabs-ng/tabs-ng');
-     </file>
-   </example>
  */
 
 angular.module('Ring.tabs', ['ngRoute']).
