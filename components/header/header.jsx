@@ -10,7 +10,6 @@ import { findDOMNode } from 'react-dom';
 import classNames from 'classnames';
 
 import RingComponent from 'ring-component/ring-component';
-import factory from 'factory-decorator/factory-decorator';
 import ClassName from 'class-name/class-name';
 import Global from 'global/global';
 import Button from 'button/button';
@@ -201,7 +200,6 @@ const MenuItemsSequence = [
     </file>
   </example>
  */
-@factory
 export default class Header extends RingComponent {
   static MenuItemType = MenuItemType;
 

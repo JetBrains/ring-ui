@@ -12,7 +12,6 @@ import mixin from 'react-mixin';
 import classNames from 'classnames';
 import $ from 'jquery';
 import RingComponent from 'ring-component/ring-component';
-import factory from 'factory-decorator/factory-decorator';
 import Global from 'global/global';
 import './popup.scss';
 import debug from 'debug-decorator/debug-decorator';
@@ -439,7 +438,6 @@ var PopupMixin = {
  </file>
  </example>
  */
-@factory
 @mixin.decorate(PopupMixin)
 export default class Popup extends RingComponent {
   static Mixin = PopupMixin;

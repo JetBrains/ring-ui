@@ -1,7 +1,6 @@
 import React from 'react';
 import Loader from 'loader/loader';
 import RingComponent from 'ring-component/ring-component';
-import factory from 'factory-decorator/factory-decorator';
 import './loader-screen.scss';
 
 /**
@@ -25,7 +24,6 @@ import './loader-screen.scss';
      </file>
    </example>
  */
-@factory
 export default class LoaderScreen extends RingComponent {
   render() {
     return (

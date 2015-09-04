@@ -2,7 +2,6 @@ import 'babel/polyfill';
 import React, { DOM } from 'react';
 import classNames from 'classnames';
 import RingComponent from 'ring-component/ring-component';
-import factory from 'factory-decorator/factory-decorator';
 import './loader.scss';
 
 /**
@@ -41,7 +40,6 @@ import './loader.scss';
      </file>
    </example>
  */
-@factory
 export default class Loader extends RingComponent {
   /**
    * @enum {number}

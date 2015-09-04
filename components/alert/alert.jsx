@@ -9,7 +9,6 @@ import React from 'react';
 import { findDOMNode, unmountComponentAtNode } from 'react-dom';
 import classNames from 'classnames';
 import RingComponent from 'ring-component/ring-component';
-import factory from 'factory-decorator/factory-decorator';
 import Global from 'global/global';
 import Icon from 'icon/icon';
 
@@ -72,7 +71,6 @@ const BASE_CLASS = 'ring-alert';
      </file>
    </example>
  */
-@factory
 export default class Alert extends RingComponent {
   static Type = Type;
 
