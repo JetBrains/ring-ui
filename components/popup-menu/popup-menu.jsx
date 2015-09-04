@@ -5,7 +5,6 @@
 import React from 'react';
 import mixin from 'react-mixin';
 import RingComponent from 'ring-component/ring-component';
-import factory from 'factory-decorator/factory-decorator';
 import Popup from 'popup/popup';
 import List from 'list/list';
 
@@ -48,7 +47,6 @@ import List from 'list/list';
      </file>
    </example>
  */
-@factory
 @mixin.decorate(Popup.Mixin)
 @mixin.decorate(List.Mixin)
 export default class PopupMenu extends RingComponent {

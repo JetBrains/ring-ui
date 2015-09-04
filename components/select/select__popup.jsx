@@ -6,7 +6,6 @@ import React from 'react';
 import { findDOMNode } from 'react-dom';
 import mixin from 'react-mixin';
 import RingComponent from 'ring-component/ring-component';
-import factory from 'factory-decorator/factory-decorator';
 import Popup from 'popup/popup';
 import List from 'list/list';
 import Input from 'input/input';
@@ -17,7 +16,6 @@ const generateUniqueId = Global.getUIDGenerator('ring-select-popup-');
 
 const noop = () => {};
 
-@factory
 @mixin.decorate(ShortcutsMixin)
 export default class SelectPopup extends RingComponent {
   static defaultProps = {

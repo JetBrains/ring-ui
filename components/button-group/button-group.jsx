@@ -1,7 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
 import RingComponent from 'ring-component/ring-component';
-import factory from 'factory-decorator/factory-decorator';
 import './button-group.scss';
 
 /**
@@ -31,7 +30,6 @@ import './button-group.scss';
     </file>
   </example>
  */
-@factory
 export default class ButtonGroup extends RingComponent {
   render() {
     let classes = classNames('ring-button-group', this.props.className);

@@ -7,7 +7,6 @@
 import React, { PropTypes } from 'react';
 import classNames from 'classnames';
 import RingComponent from 'ring-component/ring-component';
-import factory from 'factory-decorator/factory-decorator';
 import './progress-bar.scss';
 
 /**
@@ -36,7 +35,6 @@ import './progress-bar.scss';
      </file>
    </example>
  */
-@factory
 export default class ProgressBar extends RingComponent {
   static propTypes = {
     /**

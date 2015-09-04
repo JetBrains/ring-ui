@@ -8,7 +8,6 @@ import { render, findDOMNode, unmountComponentAtNode } from 'react-dom';
 import CSSTransitionGroup from 'react-addons-css-transition-group';
 import when from 'when';
 import RingComponent from 'ring-component/ring-component';
-import factory from 'factory-decorator/factory-decorator';
 import Alert from './alert';
 import './alert.scss';
 
@@ -35,7 +34,6 @@ import './alert.scss';
      </file>
    </example>
  */
-@factory
 export default class Alerts extends RingComponent {
   static Type = Alert.Type;
 
