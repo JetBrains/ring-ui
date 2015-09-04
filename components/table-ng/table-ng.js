@@ -151,7 +151,7 @@ require('message-bundle-ng/message-bundle-ng');
   </file>
 </example>
 */
-angular.module('Ring.table', ['Ring.table.toolbar', 'Ring.react-ng', 'Ring.place-under'])
+angular.module('Ring.table', ['Ring.table.toolbar', 'Ring.react-ng', 'Ring.place-under', 'Ring.message-bundle'])
   .directive('rgTable', function () {
     return {
       restrict: 'E',
