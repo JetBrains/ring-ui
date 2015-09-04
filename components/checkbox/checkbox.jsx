@@ -132,14 +132,6 @@ export default class Checkbox extends RingComponent {
     }
   }
 
-  /**
-   * Return native input node
-   * @return {HTMLElement}
-   */
-  getInputDOMNode() {
-    return this.refs.input;
-  }
-
   inputChange(e) {
     this.setState({
       checked: e.target.checked

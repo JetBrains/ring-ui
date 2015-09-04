@@ -552,7 +552,7 @@ export default class List extends RingComponent {
     };
 
     if (props.data) {
-      //TODO починить (воспроизводится в popup-menu и select)
+      //TODO починить (см. https://youtrack.jetbrains.com/issue/RG-772)
       //props.data = props.data.map(normalizeListItemType);
 
       this.checkActivatableItems(props.data);
