@@ -1,7 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
 import RingComponent from 'ring-component/ring-component';
-import factory from 'factory-decorator/factory-decorator';
 import './input.scss';
 
 /**
@@ -25,7 +24,6 @@ import './input.scss';
      </file>
    </example>
  */
-@factory
 export default class Input extends RingComponent {
   render() {
     let classes = classNames('ring-input', this.props.className);

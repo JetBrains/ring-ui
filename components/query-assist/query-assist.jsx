@@ -13,7 +13,6 @@ import deepEquals from 'mout/lang/deepEquals';
 import classNames from 'classnames';
 
 import RingComponent from 'ring-component/ring-component';
-import factory from 'factory-decorator/factory-decorator';
 import Caret from 'caret/caret';
 import ContentEditable from 'contenteditable/contenteditable';
 import NgModelMixin from 'ngmodel/ngmodel';
@@ -182,7 +181,6 @@ const noop = function() {};
  */
 const ngModelStateField = {query: true, caret: true};
 
-@factory
 @mixin.decorate(ShortcutsMixin)
 @mixin.decorate(ngModelStateField)
 export default class QueryAssist extends RingComponent {

@@ -1,7 +1,6 @@
 import React, { PropTypes } from 'react';
 import classNames from 'classnames';
 import RingComponent from 'ring-component/ring-component';
-import factory from 'factory-decorator/factory-decorator';
 import Global from 'global/global';
 import Icon from 'icon/icon';
 import NgModelMixin from 'ngmodel/ngmodel';
@@ -95,7 +94,6 @@ const generateUniqueId = Global.getUIDGenerator(ID_PREFIX);
 
 const ngModelStateField = 'checked';
 
-@factory
 export default class Checkbox extends RingComponent {
   static ngModelStateField = ngModelStateField;
 
