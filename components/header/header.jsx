@@ -249,7 +249,7 @@ export default class Header extends RingComponent {
       <div className={headerClassName.getClassName()}>
         <div className={headerClassName.getElement('logo')}>{this._getLogo()}</div>
         <div className={headerClassName.getElement('menu')}>{
-          // TODO починить
+          // TODO починить (изменили интерфейс, но, кажется, это нигде не использовалось, проверить)
           /*Children.map(this.props.menu, function(item) {
             console.log(item);
             item.props.className = classNames(item.props.className, menuItemClassName);
@@ -446,14 +446,14 @@ export default class Header extends RingComponent {
    * @return {Element}
    */
   getExtraElement() {
-    return findDOMNode(this).query('.' + headerClassName.getElement('user-menu-extra'));
+    return this.node.query('.' + headerClassName.getElement('user-menu-extra'));
   }
 
   /**
    * @return {Element}
    */
   getMenuElement() {
-    return findDOMNode(this).query('.' + headerClassName.getElement('menu'));
+    return this.node.query('.' + headerClassName.getElement('menu'));
   }
 
   /**

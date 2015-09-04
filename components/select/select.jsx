@@ -372,6 +372,7 @@ export default class Select extends RingComponent {
   }
 
   componentDidMount() {
+    super.componentDidMount();
     this._createPopup();
     this._rebuildMultipleMap(this.state.selected, this.props.multiple);
   }
@@ -380,6 +381,7 @@ export default class Select extends RingComponent {
     if (this._popup) {
       this._popup.remove();
     }
+    super.componentWillUnmount();
   }
 
   componentWillReceiveProps(newProps) {
@@ -426,7 +428,7 @@ export default class Select extends RingComponent {
           maxHeight={this.props.maxHeight}
           minWidth={this.props.minWidth}
           filter={this.isInputMode() ? false : this.props.filter} // disable popup filter in INPUT mode
-          anchorElement={this.props.targetElement || findDOMNode(this)}
+          anchorElement={this.props.targetElement || this.node}
           onClose={::this._onClose}
           onSelect={::this._listSelectHandler}
           onFilter={::this._filterChangeHandler}
@@ -476,9 +478,8 @@ export default class Select extends RingComponent {
     this._popup.hide();
 
     setTimeout(() => {
-      let node = findDOMNode(this);
-      if (node) {
-        node.focus();
+      if (this.node) {
+        this.node.focus();
       }
     }, 0);
   }

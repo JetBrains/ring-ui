@@ -7,6 +7,16 @@ export default class RingComponent extends Component {
     return createElement(this, ...args);
   }
 
+  node = null;
+
+  componentDidMount() {
+    this.node = findDOMNode(this);
+  }
+
+  componentWillUnmount() {
+    this.node = null;
+  }
+
   rerender(props = {}) {
     let container;
 
