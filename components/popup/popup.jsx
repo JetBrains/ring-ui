@@ -7,7 +7,7 @@
 
 import 'babel/polyfill';
 import React, { PropTypes } from 'react';
-import { render, findDOMNode, unmountComponentAtNode } from 'react-dom';
+import { render, unmountComponentAtNode } from 'react-dom';
 import mixin from 'react-mixin';
 import classNames from 'classnames';
 import $ from 'jquery';
@@ -120,8 +120,6 @@ var PopupMixin = {
 
   /** @override */
   componentDidMount: function () {
-    this.element = findDOMNode(this);
-
     if (!this.props.hidden) {
       this._setListenersEnabled(true);
     }
@@ -237,11 +235,11 @@ var PopupMixin = {
    * Removes popup from document.
    */
   remove: function () {
-    /*if (!this.isMounted()) {
+    if (!this.node) {
       return;
-    }*/
+    }
 
-    var parent = findDOMNode(this).parentNode;
+    var parent = this.node.parentNode;
     unmountComponentAtNode(parent);
 
     if (parent.parentNode) {
@@ -261,15 +259,14 @@ var PopupMixin = {
    * @private
    */
   onDocumentClick_: function (evt) {
-    //TODO починить
-    //if (this.isMounted() && !this.getDOMNode().contains(evt.target)) {
-    let node = findDOMNode(this);
-    if (node && !node.contains(evt.target)) {
-      if (!this.props.anchorElement ||
-        !this.props.dontCloseOnAnchorClick ||
-        !this.props.anchorElement.contains(evt.target)) {
-        this.close(evt);
-      }
+    if (!this.node || this.node.contains(evt.target)) {
+      return;
+    }
+
+    if (!this.props.anchorElement ||
+      !this.props.dontCloseOnAnchorClick ||
+      !this.props.anchorElement.contains(evt.target)) {
+      this.close(evt);
     }
   },
 
@@ -287,13 +284,13 @@ var PopupMixin = {
     var styles = {};
 
     /* eslint-disable no-bitwise */
-    if (this.element) {
+    if (this.node) {
       if (props.direction & Direction.UP) {
-        top -= $(this.element).height();
+        top -= $(this.node).height();
       }
 
       if (props.direction & Direction.LEFT) {
-        left -= $(this.element).width();
+        left -= $(this.node).width();
       }
     }
     /* eslint-enable no-bitwise */
@@ -339,7 +336,7 @@ var PopupMixin = {
 
     // automatic position correction -->
     var sidePadding = this.props.sidePadding;
-    if (this.element) {
+    if (this.node) {
       if (styles.left < sidePadding) {
         styles.left = sidePadding;
       }
@@ -348,12 +345,12 @@ var PopupMixin = {
         styles.top = sidePadding;
       }
 
-      var horizontalDiff = $(document).width() - (styles.left + this.element.offsetWidth);
+      var horizontalDiff = $(document).width() - (styles.left + this.node.offsetWidth);
       if (horizontalDiff < sidePadding) {
         styles.left = styles.left + horizontalDiff - sidePadding;
       }
 
-      var vericalDiff = $(document).height() - (styles.top + this.element.offsetHeight);
+      var vericalDiff = $(document).height() - (styles.top + this.node.offsetHeight);
       if (vericalDiff < sidePadding) {
         styles.top = styles.top + vericalDiff - sidePadding;
       }
