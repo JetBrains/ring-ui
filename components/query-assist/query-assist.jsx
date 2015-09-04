@@ -241,6 +241,8 @@ export default class QueryAssist extends RingComponent {
   }
 
   componentDidMount() {
+    super.componentDidMount();
+
     let query = this.props.query || '';
 
     this.immediateState = {
@@ -288,6 +290,8 @@ export default class QueryAssist extends RingComponent {
     if (impotentIE) {
       this.input.removeEventListener(mutationEvent, ::this.handleInput);
     }
+
+    super.componentWillUnmount();
   }
 
   componentWillReceiveProps(props) {
@@ -347,8 +351,7 @@ export default class QueryAssist extends RingComponent {
 
     // Track mouse state to avoid focus loss on clicks on icons.
     // Doesn't handle really edge cases like shift+tab while mouse button is pressed.
-    //if (!this.isMounted() || (!focus && this.mouseIsDownOnInput)) {
-    if (!findDOMNode(this) || (!focus && this.mouseIsDownOnInput)) {
+    if (!this.node || (!focus && this.mouseIsDownOnInput)) {
       return;
     }
 
@@ -532,8 +535,7 @@ export default class QueryAssist extends RingComponent {
     // Close popup after timeout between long requests
     dataPromise.
       timeout(500).
-      with(this).
-      catch(when.TimeoutError, function() {
+      catch(when.TimeoutError, e => {
         this.setState({
           loading: true
         });
@@ -615,10 +617,10 @@ export default class QueryAssist extends RingComponent {
 
     let renderedSuggestions = this.renderSuggestions(suggestions);
 
-    if (!this._popup || !this._popup.isMounted()) {
-      this._popup = PopupMenu.render(
+    if (!this._popup || !this._popup.node) {
+      this._popup = PopupMenu.renderPopup(
         <PopupMenu
-          anchorElement={findDOMNode(this)}
+          anchorElement={this.node}
           autoRemove={false} // required to prevent popup unmount on Esc
           className={this.props.popupClassName}
           corner={PopupMenu.PopupProps.Corner.BOTTOM_LEFT}
