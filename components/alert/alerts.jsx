@@ -92,11 +92,11 @@ export default class Alerts extends RingComponent {
     </div>);
   }
 
-  componentDidMount() {
+  didMount() {
     this.animationPromise = when();
   }
 
-  componentWillUpdate(nextProps, nextState) {
+  willUpdate(nextProps, nextState) {
     let node = findDOMNode(this);
 
     if (this._gap === null) {
@@ -137,7 +137,7 @@ export default class Alerts extends RingComponent {
     unmountComponentAtNode(this._containerClone);
   }
 
-  componentWillUnmount() {
+  willUnmount() {
     this._cleanupStyles();
 
     this._containerClone.remove();

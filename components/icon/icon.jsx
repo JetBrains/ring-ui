@@ -213,7 +213,7 @@ export default class Icon extends RingComponent {
     );
   }
 
-  componentDidMount() {
+  didMount() {
     Icon.initializeTemplate();
     Icon.checkTemplatePositioning();
   }

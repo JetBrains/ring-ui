@@ -15,16 +15,15 @@ import classNames from 'classnames';
 import RingComponent from 'ring-component/ring-component';
 import Caret from 'caret/caret';
 import ContentEditable from 'contenteditable/contenteditable';
-import NgModelMixin from 'ngmodel/ngmodel';
 import PopupMenu from '../popup-menu/popup-menu';
 import Icon from '../icon/icon';
 import Loader from '../loader/loader';
-import ShortcutsMixin from 'shortcuts/shortcuts__mixin';
 import Global from 'global/global';
 
 import './query-assist.scss';
 import '../input/input.scss';
 
+// TODO will replace with a class name?
 const generateUniqueId = Global.getUIDGenerator('ring-query-assist-');
 
 // Use for IE11 and down to 9
@@ -36,12 +35,13 @@ const POPUP_COMPENSATION = INPUT_BORDER_WIDTH +
   PopupMenu.ListProps.Dimension.ITEM_PADDING +
   PopupMenu.PopupProps.Dimension.BORDER_WIDTH;
 
+const ngModelStateField = {query: true, caret: true};
+
 const noop = function() {};
 
 /**
  * @name QueryAssist
  * @constructor
- * @mixes {ShortcutsMixin}
  * @extends {ReactComponent}
  * @example
    <example name="QueryAssist">
@@ -179,9 +179,6 @@ const noop = function() {};
      </file>
    </example>
  */
-const ngModelStateField = {query: true, caret: true};
-
-@mixin.decorate(ShortcutsMixin)
 @mixin.decorate(ngModelStateField)
 export default class QueryAssist extends RingComponent {
   static ngModelStateField = ngModelStateField;
@@ -240,9 +237,7 @@ export default class QueryAssist extends RingComponent {
     window.getSelection().removeAllRanges();
   }
 
-  componentDidMount() {
-    super.componentDidMount();
-
+  didMount() {
     let query = this.props.query || '';
 
     this.immediateState = {
@@ -282,7 +277,7 @@ export default class QueryAssist extends RingComponent {
     }
   }
 
-  componentWillUnmount() {
+  willUnmount() {
     if (this._popup) {
       this._popup.remove();
     }
@@ -290,11 +285,9 @@ export default class QueryAssist extends RingComponent {
     if (impotentIE) {
       this.input.removeEventListener(mutationEvent, ::this.handleInput);
     }
-
-    super.componentWillUnmount();
   }
 
-  componentWillReceiveProps(props) {
+  willReceiveProps(props) {
     let setFocus;
     this.setupRequestHandler(props);
 
@@ -730,7 +723,7 @@ export default class QueryAssist extends RingComponent {
     return <span className={this.getLetterClass(index)}>{letterValue}</span>;
   }
 
-  shouldComponentUpdate(props, state) {
+  shouldUpdate(props, state) {
     return state.query !== this.state.query ||
       state.loading !== this.state.loading ||
       state.styleRanges !== this.state.styleRanges ||
