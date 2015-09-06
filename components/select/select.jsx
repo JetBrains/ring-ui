@@ -4,7 +4,6 @@
 
 import React from 'react';
 import { findDOMNode } from 'react-dom';
-import mixin from 'react-mixin';
 import classNames from 'classnames';
 import RingComponent from 'ring-component/ring-component';
 import Popup from 'popup/popup';
@@ -14,7 +13,6 @@ import Input from 'input/input';
 import Icon from 'icon/icon';
 import Button from 'button/button';
 import Loader from 'loader/loader';
-import NgModelMixin from 'ngmodel/ngmodel';
 import Global from 'global/global';
 import './select.scss';
 
@@ -244,8 +242,6 @@ const Type = {
    </file>
  </example>
  */
-
-@mixin.decorate(NgModelMixin)
 export default class Select extends RingComponent {
   static Type = Type;
   static ngModelStateField = ngModelStateField;
