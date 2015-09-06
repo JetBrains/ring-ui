@@ -17,9 +17,11 @@ export default function debugDecorate(target) {
 
     if (typeof descriptor.value === 'function') {
       obj[key] = function (...args) {
+        let message = '';
+
         // static method
         if (obj === target) {
-          console.info(`${target.name}.${key}`, [...args]);
+          message = `${target.name}.${key}`;
 
         // own prorotype method
         } else if (this.constructor === obj.constructor) {
@@ -27,17 +29,23 @@ export default function debugDecorate(target) {
           let mixins = (this.constructor.__mixins__ && this.constructor.__mixins__[key]) || [];
 
           if (mixins.length) {
-            console.info(`${this.constructor.name}.prototype.${key} (mixed with ${mixins.map(mixin => mixin.name).join()})`, [...args]);
+            message = `${this.constructor.name}.prototype.${key} (mixed with ${mixins.map(mixin => mixin.name).join()})`;
           } else {
-            console.info(`${this.constructor.name}.prototype.${key}`, [...args]);
+            message = `${this.constructor.name}.prototype.${key}`;
           }
 
         // inherited prorotype method (check if a method has been invoked on the target class)
         } else if (this.constructor === target) {
-          console.info(`${this.constructor.name}.prototype.${key} (inherited from ${obj.constructor.name})`, [...args]);
+          message = `${this.constructor.name}.prototype.${key} (inherited from ${obj.constructor.name})`;
         }
 
-        return this::descriptor.value(...args);
+        let result = this::descriptor.value(...args);
+
+        if (message) {
+          console.info(message, [...args], '=>', result);
+        }
+
+        return result;
       };
     }
   });

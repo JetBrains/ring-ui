@@ -103,8 +103,7 @@ export default class Alert extends RingComponent {
     type: Type.MESSAGE
   };
 
-  /** @override */
-  componentDidMount() {
+  didMount() {
     if (this.props.animationDeferred) {
       if (typeof TransitionEvent === 'undefined') {
         this.props.animationDeferred.resolve(this);
@@ -114,8 +113,7 @@ export default class Alert extends RingComponent {
     }
   }
 
-  /** @override */
-  componentWillUnmount() {
+  willUnmount() {
     findDOMNode(this).removeEventListener('transitionend', this._handleTransitionEnd);
   }
 

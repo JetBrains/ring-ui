@@ -1,4 +1,5 @@
 import React, { PropTypes } from 'react';
+import mixin from 'react-mixin';
 import classNames from 'classnames';
 import RingComponent from 'ring-component/ring-component';
 import Global from 'global/global';
@@ -14,6 +15,8 @@ import './checkbox.scss';
 const ID_PREFIX = '\\x0';
 
 const generateUniqueId = Global.getUIDGenerator(ID_PREFIX);
+
+const ngModelStateField = 'checked';
 
 /**
  * @name Checkbox
@@ -51,49 +54,47 @@ const generateUniqueId = Global.getUIDGenerator(ID_PREFIX);
 
    <file name="index.js" webpack="true">
    var render = require('react-dom').render;
-   var checkbox = require('checkbox/checkbox.jsx').factory;
+   var Checkbox = require('checkbox/checkbox.jsx');
 
-   render(checkbox(), document.getElementById('checkbox'));
+   render(Checkbox.factory(), document.getElementById('checkbox'));
 
-   render(checkbox({
+   render(Checkbox.factory({
      checked: true
    }), document.getElementById('checkbox-selected'));
 
-   render(checkbox({
+   render(Checkbox.factory({
      checked: true
    }), document.getElementById('checkbox-selected'));
 
-   render(checkbox({
+   render(Checkbox.factory({
      checked: true,
      disabled: true,
      label: 'This checkbox is disabled'
    }), document.getElementById('checkbox-disabled'));
 
-   render(checkbox({
+   render(Checkbox.factory({
      checked: true,
      label: 'This checkbox is inside div with large line-heigth.'
    }), document.getElementById('checkbox-in-large-line-height-div'));
 
-   render(checkbox({
+   render(Checkbox.factory({
      checked: true,
      label: 'This checkbox is inside div with small line-heigth.'
    }), document.getElementById('checkbox-in-small-line-height-div'));
 
-   render(checkbox({
+   render(Checkbox.factory({
      checked: true,
      label: 'This checkbox is inside div with large font-size.'
    }), document.getElementById('checkbox-in-large-font-div'));
 
-   render(checkbox({
+   render(Checkbox.factory({
      checked: true,
      label: 'This checkbox is inside div with small font-size.'
    }), document.getElementById('checkbox-in-small-font-div'));
    </file>
    </example>
  */
-
-const ngModelStateField = 'checked';
-
+@mixin.decorate(NgModelMixin)
 export default class Checkbox extends RingComponent {
   static ngModelStateField = ngModelStateField;
 
@@ -112,8 +113,6 @@ export default class Checkbox extends RingComponent {
     id: PropTypes.string
   };
 
-  mixins = [NgModelMixin];
-
   ngModelStateField = ngModelStateField;
 
   state = {
@@ -122,7 +121,7 @@ export default class Checkbox extends RingComponent {
     disabled: this.props.disabled
   };
 
-  componentWillReceiveProps(props) {
+  willReceiveProps(props) {
     if (props.checked !== undefined) {
       this.state.checked = !!props.checked;
     }
