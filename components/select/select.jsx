@@ -15,7 +15,6 @@ import Icon from 'icon/icon';
 import Button from 'button/button';
 import Loader from 'loader/loader';
 import NgModelMixin from 'ngmodel/ngmodel';
-import ShortcutsMixin from 'shortcuts/shortcuts__mixin';
 import Global from 'global/global';
 import './select.scss';
 
@@ -246,7 +245,6 @@ const Type = {
  </example>
  */
 
-@mixin.decorate(ShortcutsMixin)
 @mixin.decorate(NgModelMixin)
 export default class Select extends RingComponent {
   static Type = Type;
@@ -361,7 +359,7 @@ export default class Select extends RingComponent {
     this._rebuildMultipleMap(empty, multiple);
   }
 
-  componentWillMount() {
+  willMount() {
     // set selected element if provided during init
     if (this.props.selected) {
       this.setState({
@@ -371,20 +369,18 @@ export default class Select extends RingComponent {
     }
   }
 
-  componentDidMount() {
-    super.componentDidMount();
+  didMount() {
     this._createPopup();
     this._rebuildMultipleMap(this.state.selected, this.props.multiple);
   }
 
-  componentWillUnmount() {
+  willUnmount() {
     if (this._popup) {
       this._popup.remove();
     }
-    super.componentWillUnmount();
   }
 
-  componentWillReceiveProps(newProps) {
+  willReceiveProps(newProps) {
     if (newProps.selected) {
       this.setState({
         selected: newProps.selected,
@@ -397,7 +393,7 @@ export default class Select extends RingComponent {
     }
   }
 
-  componentDidUpdate() {
+  didUpdate() {
     this._refreshPopup();
   }
 

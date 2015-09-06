@@ -42,6 +42,7 @@ import List from 'list/list';
          anchorElement: document.getElementById('popup'),
          corner: PopupMenu.PopupProps.Corner.TOP_LEFT,
          classNames: ['additional', 'class', 'names'],
+         shortcuts: true,
          data: data
        }, null));
      </file>

@@ -11,7 +11,6 @@ import contains from 'mout/object/contains';
 import debounce from 'mout/function/debounce';
 
 import RingComponent from 'ring-component/ring-component';
-import ShortcutsMixin from 'shortcuts/shortcuts__mixin';
 import Global from 'global/global';
 import Icon from 'icon/icon';
 
@@ -223,7 +222,6 @@ var ListMixin = {
 /**
  * @name List
  * @constructor
- * @mixes {ShortcutsMixin}
  * @extends {ReactComponent}
  * @example
    <example name="List">
@@ -380,7 +378,6 @@ var ListMixin = {
   </example>
 */
 @mixin.decorate(ListMixin)
-@mixin.decorate(ShortcutsMixin)
 export default class List extends RingComponent {
   static Mixin = ListMixin;
 
@@ -524,7 +521,7 @@ export default class List extends RingComponent {
     return this.props.data[this.state.activeIndex];
   }
 
-  componentWillMount() {
+  willMount() {
     this.checkActivatableItems(this.props.data);
 
     if (this.props.activeIndex && this.props.data[this.props.activeIndex]) {
@@ -535,7 +532,7 @@ export default class List extends RingComponent {
     }
   }
 
-  componentWillReceiveProps(props) {
+  willReceiveProps(props) {
 
     /**
      * TODO(maksimrv): Remove this code when migrate to rgItemType.
@@ -584,14 +581,14 @@ export default class List extends RingComponent {
     }
   }
 
-  componentDidMount() {
+  didMount() {
     this.scrollEndHandler = debounce(() => {
       this.setState({scrolling: false});
     }, 150);
     this.autoscroll();
   }
 
-  componentDidUpdate() {
+  didUpdate() {
     this.autoscroll();
   }
 

@@ -42,11 +42,11 @@ export default class ContentEditable extends RingComponent {
     onComponentUpdate: function() {}
   };
 
-  componentDidUpdate(prevProps, prevState) {
+  didUpdate(prevProps, prevState) {
     this.props.onComponentUpdate(prevProps, prevState);
   }
 
-  shouldComponentUpdate(nextProps) {
+  shouldUpdate(nextProps) {
     return nextProps.disabled !== this.props.disabled ||
       nextProps.dangerousHTML !== this.props.dangerousHTML;
   }

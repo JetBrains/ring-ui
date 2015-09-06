@@ -4,19 +4,16 @@
 
 import React from 'react';
 import { findDOMNode } from 'react-dom';
-import mixin from 'react-mixin';
 import RingComponent from 'ring-component/ring-component';
 import Popup from 'popup/popup';
 import List from 'list/list';
 import Input from 'input/input';
-import ShortcutsMixin from 'shortcuts/shortcuts__mixin';
 import Global from 'global/global';
 
 const generateUniqueId = Global.getUIDGenerator('ring-select-popup-');
 
 const noop = () => {};
 
-@mixin.decorate(ShortcutsMixin)
 export default class SelectPopup extends RingComponent {
   static defaultProps = {
     data: [],
@@ -36,7 +33,7 @@ export default class SelectPopup extends RingComponent {
     popupShortcuts: false
   };
 
-  componentDidMount() {
+  didMount() {
     if (this.refs.filter) {
       if (this.props.filter.value) {
         findDOMNode(this.refs.filter).value = this.props.filter.value;

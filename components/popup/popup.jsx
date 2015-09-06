@@ -17,7 +17,6 @@ import './popup.scss';
 import debug from 'debug-decorator/debug-decorator';
 
 var generateUniqueId = Global.getUIDGenerator('ring-popup-');
-var ShortcutsMixin = require('shortcuts/shortcuts__mixin');
 
 /**
  * @enum {number}
@@ -49,11 +48,8 @@ var Dimension = {
 
 /**
  * @mixin {PopupMixin}
- * @mixes {ShortcutsMixin}
  */
 var PopupMixin = {
-  mixins: [ShortcutsMixin],
-
   statics: {
     PopupProps: {
       Corner: Corner,
@@ -118,20 +114,19 @@ var PopupMixin = {
     };
   },
 
-  /** @override */
-  componentDidMount: function () {
+  didMount: function () {
     if (!this.props.hidden) {
       this._setListenersEnabled(true);
     }
     this._checkDisplay();
   },
 
-  componentDidUpdate: function() {
+  didUpdate: function() {
     this._checkDisplay();
   },
 
   /** @override */
-  componentWillUnmount: function () {
+  willUnmount: function () {
     this._setListenersEnabled(false);
   },
 
