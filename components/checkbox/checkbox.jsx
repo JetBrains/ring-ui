@@ -1,10 +1,8 @@
 import React, { PropTypes } from 'react';
-import mixin from 'react-mixin';
 import classNames from 'classnames';
 import RingComponent from 'ring-component/ring-component';
 import Global from 'global/global';
 import Icon from 'icon/icon';
-import NgModelMixin from 'ngmodel/ngmodel';
 
 import './checkbox.scss';
 
@@ -94,7 +92,6 @@ const ngModelStateField = 'checked';
    </file>
    </example>
  */
-@mixin.decorate(NgModelMixin)
 export default class Checkbox extends RingComponent {
   static ngModelStateField = ngModelStateField;
 
