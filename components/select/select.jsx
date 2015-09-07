@@ -536,7 +536,7 @@ var Select = React.createClass({
     }
 
     this._addButton = null;
-    if ((this.props.add && filterString && !exactMatch) || this.props.add.alwaysVisible) {
+    if ((this.props.add && filterString && !exactMatch) || (this.props.add && this.props.add.alwaysVisible)) {
       if (!(this.props.add.regexp && !this.props.add.regexp.test(filterString)) &&
       !(this.props.add.minlength && filterString.length < +this.props.add.minlength) ||
       this.props.add.alwaysVisible) {
