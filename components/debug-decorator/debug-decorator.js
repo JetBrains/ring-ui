@@ -5,7 +5,7 @@ export default function debugDecorate(target) {
 
   let proto = target.prototype;
   while (proto) {
-    // don't touch Object.prorotype
+    // don't touch the Object.prorotype
     if (!Object.getPrototypeOf(proto)) break;
 
     Reflect.ownKeys(proto).forEach(key => key !== 'constructor' && keys.push({ obj: proto, key: key }));
@@ -19,20 +19,13 @@ export default function debugDecorate(target) {
       obj[key] = function (...args) {
         let message = '';
 
-        // static method
+        // a static method
         if (obj === target) {
           message = `${target.name}.${key}`;
 
         // own prorotype method
         } else if (this.constructor === obj.constructor) {
-          // check if a method has been mixed with Mixin
-          let mixins = (this.constructor.__mixins__ && this.constructor.__mixins__[key]) || [];
-
-          if (mixins.length) {
-            message = `${this.constructor.name}.prototype.${key} (mixed with ${mixins.map(mixin => mixin.name).join()})`;
-          } else {
-            message = `${this.constructor.name}.prototype.${key}`;
-          }
+          message = `${this.constructor.name}.prototype.${key}`;
 
         // inherited prorotype method (check if a method has been invoked on the target class)
         } else if (this.constructor === target) {
