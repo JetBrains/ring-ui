@@ -51,13 +51,13 @@ promisedClickModule.directive('rgPromisedClick', function ($parse) {
       function doIt() {
         active = true;
         $element.addClass('ring-btn_active');
-        promise.finally(function () {
+        promise.finally(() => {
           active = false;
           $element.removeClass('ring-btn_active');
         });
       }
 
-      this.onPromisedClick = function (callback, $event) {
+      this.onPromisedClick = (callback, $event) => {
         if (active) {
           if ($event) {
             $event.preventDefault();
@@ -81,7 +81,7 @@ promisedClickModule.directive('rgPromisedClick', function ($parse) {
     link: function (scope, iElement, iAttrs, controller) {
       if (iAttrs.rgPromisedClick) {
         var onClick = $parse(iAttrs.rgPromisedClick);
-        iElement.on('click', controller.onPromisedClick.bind(controller, function ($event) {
+        iElement.on('click', controller.onPromisedClick.bind(controller, $event => {
           return onClick(scope, { '$event': $event });
         }));
       }

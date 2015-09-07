@@ -1,6 +1,6 @@
 /* global angular: false */
 
-require('../tabs/tabs.scss');
+import 'tabs/tabs.scss';
 
 /**
  * @name Tabs
@@ -23,127 +23,128 @@ require('../tabs/tabs.scss');
      </file>
    </example>
  */
+let ringTabsModule = angular.module('Ring.tabs', ['ngRoute']);
 
-angular.module('Ring.tabs', ['ngRoute']).
-  directive('rgTabs', ['$location', '$routeParams', '$rootScope', function ($location, $routeParams, $rootScope) {
-    return {
-      restrict: 'E',
-      transclude: true,
-      scope: {
-        tabParameter: '@',
-        tabsClass: '=',
-        control: '=?',
-        disableLocationChanging: '='
-      },
-      controller: ['$scope', '$attrs', function ($scope) {
-        $scope.panes = [];
-        $scope.current = 0;
+ringTabsModule.directive('rgTabs', function ($location, $routeParams, $rootScope) {
+  return {
+    restrict: 'E',
+    transclude: true,
+    scope: {
+      tabParameter: '@',
+      tabsClass: '=',
+      control: '=?',
+      disableLocationChanging: '='
+    },
+    controller: ['$scope', '$attrs', function ($scope) {
+      $scope.panes = [];
+      $scope.current = 0;
 
-        var getTabParameterName = function () {
-          return $scope.tabParameter || 'tab';
-        };
+      function getTabParameterName() {
+        return $scope.tabParameter || 'tab';
+      }
 
-        var doSelect = function (newPane, skipUrlUpdate) {
-          if (newPane === $scope.panes[$scope.current]) {
-            return;
+      function doSelect(newPane, skipUrlUpdate) {
+        if (newPane === $scope.panes[$scope.current]) {
+          return;
+        }
+
+        if (typeof newPane === 'number') {
+          let panes = $scope.panes.length - 1;
+
+          if (newPane > panes) {
+            newPane = panes;
+          } else if (newPane < 0) {
+            newPane = 0;
           }
 
-          if (typeof newPane === 'number') {
-            var panes = $scope.panes.length - 1;
+          newPane = $scope.panes[newPane];
+        }
 
-            if (newPane > panes) {
-              newPane = panes;
-            } else if (newPane < 0) {
-              newPane = 0;
-            }
-
-            newPane = $scope.panes[newPane];
+        angular.forEach($scope.panes, (pane, index) => {
+          // Update current tab
+          if (pane === newPane || pane.tabId === newPane) {
+            $scope.current = index;
+            newPane = pane;
           }
 
-          angular.forEach($scope.panes, function (pane, index) {
-            // Update current tab
-            if (pane === newPane || pane.tabId === newPane) {
-              $scope.current = index;
-              newPane = pane;
-            }
-
-            // Deselect all selected
-            if (pane.selected) {
-              pane.selected = false;
-            }
-          });
-
-          newPane.selected = true;
-
-          if (!skipUrlUpdate) {
-            $location.search(getTabParameterName(), newPane.tabId);
+          // Deselect all selected
+          if (pane.selected) {
+            pane.selected = false;
           }
-        };
-
-        this.addPane = function (pane) {
-          if ($scope.panes.length === 0 || pane.tabId === $routeParams[getTabParameterName()]) {
-            doSelect(pane, true);
-            $scope.current = $scope.panes.length;
-          }
-          $scope.panes.push(pane);
-        };
-
-        $rootScope.$on('$routeUpdate', function() {
-          doSelect($routeParams[getTabParameterName()] || 0, true);
         });
 
-        // Exposed methods
-        $scope.control = {};
+        newPane.selected = true;
 
-        $scope.control.isLast = function() {
-          return $scope.current === $scope.panes.length - 1;
-        };
+        if (!skipUrlUpdate) {
+          $location.search(getTabParameterName(), newPane.tabId);
+        }
+      }
 
-        $scope.control.isFirst = function() {
-          return $scope.current === 0;
-        };
+      this.addPane = pane => {
+        if ($scope.panes.length === 0 || pane.tabId === $routeParams[getTabParameterName()]) {
+          doSelect(pane, true);
+          $scope.current = $scope.panes.length;
+        }
+        $scope.panes.push(pane);
+      };
 
-        $scope.control.select = function (pane) {
-          doSelect(pane, $scope.disableLocationChanging);
-        };
+      $rootScope.$on('$routeUpdate', () => {
+        doSelect($routeParams[getTabParameterName()] || 0, true);
+      });
 
-        $scope.control.next = function () {
-          doSelect($scope.current + 1, $scope.disableLocationChanging);
-        };
+      // Exposed methods
+      $scope.control = {};
 
-        $scope.control.prev = function () {
-          doSelect($scope.current - 1, $scope.disableLocationChanging);
-        };
+      $scope.control.isLast = () => {
+        return $scope.current === $scope.panes.length - 1;
+      };
 
-        $scope.keyMap = {
-          next: $scope.control.next,
-          prev: $scope.control.prev,
-          focus: function() {
-            $scope.focus = !$scope.focus;
-            return !$scope.focus;
-          }
-        };
+      $scope.control.isFirst = () => {
+        return $scope.current === 0;
+      };
 
-      }],
-      template: require('./tabs-ng.html'),
-      replace: true
-    };
-  }]).
-  directive('rgTabsPane', function () {
-    return {
-      require: '^rgTabs',
-      restrict: 'E',
-      transclude: true,
-      scope: {
-        tabId: '@',
-        title: '@',
-        counter: '@',
-        selected: '=?'
-      },
-      link: function (scope, element, attrs, tabsCtrl) {
-        scope.tabId = scope.tabId || scope.title.toLowerCase();
-        tabsCtrl.addPane(scope);
-      },
-      template: '<div class="ring-tabs__content" ng-class="{\'ring-tabs__content_active\':selected}" ng-if="selected" ng-transclude></div>'
-    };
-  });
+      $scope.control.select = pane => {
+        doSelect(pane, $scope.disableLocationChanging);
+      };
+
+      $scope.control.next = () => {
+        doSelect($scope.current + 1, $scope.disableLocationChanging);
+      };
+
+      $scope.control.prev = () => {
+        doSelect($scope.current - 1, $scope.disableLocationChanging);
+      };
+
+      $scope.keyMap = {
+        next: $scope.control.next,
+        prev: $scope.control.prev,
+        focus: () => {
+          $scope.focus = !$scope.focus;
+          return !$scope.focus;
+        }
+      };
+
+    }],
+    template: require('./tabs-ng.html'),
+    replace: true
+  };
+});
+
+ringTabsModule.directive('rgTabsPane', function () {
+  return {
+    require: '^rgTabs',
+    restrict: 'E',
+    transclude: true,
+    scope: {
+      tabId: '@',
+      title: '@',
+      counter: '@',
+      selected: '=?'
+    },
+    link: function (scope, element, attrs, tabsCtrl) {
+      scope.tabId = scope.tabId || scope.title.toLowerCase();
+      tabsCtrl.addPane(scope);
+    },
+    template: '<div class="ring-tabs__content" ng-class="{\'ring-tabs__content_active\':selected}" ng-if="selected" ng-transclude></div>'
+  };
+});

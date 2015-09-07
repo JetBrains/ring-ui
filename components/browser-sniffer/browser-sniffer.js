@@ -1,16 +1,15 @@
 /**
  * Detecting browsers
  */
-var browserSniffer = {
-  navigator: window.navigator,
-  isFirefox: function() {
+export default class browserSniffer {
+  static navigator =  window.navigator;
+
+  static isFirefox() {
     return browserSniffer.navigator
         .userAgent.toLowerCase().indexOf('firefox') > -1;
-  },
+  }
 
-  isIE: function() {
+  static isIE() {
     return typeof document.documentMode === 'number';
   }
-};
-
-module.exports = browserSniffer;
+}
