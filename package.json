@@ -106,7 +106,7 @@
     "jsx-loader": "0.11.2",
     "mousetrap": "1.4.6",
     "mout": "0.11.0",
-    "ng-annotate-loader": "0.0.6",
+    "ng-annotate-loader": "0.0.10",
     "node-xml-lite": "0.0.3",
     "react": "0.11.2",
     "sass-loader": "0.4.2",
