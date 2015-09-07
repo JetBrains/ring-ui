@@ -76,22 +76,5 @@ describe('TabsNg', function () {
       expect(tab.content.html()).to.contain('Second');
     });
 
-    it('Tab with custom title element', function () {
-      var element = $compile(
-        '<rg-tabs>' +
-        '<rg-tabs-pane-title><span class="custom-title">Custom tab title</span></rg-tabs-pane-title>' +
-        '<rg-tabs-pane tab-id="tabid1">' +
-        'General' +
-        '</rg-tabs-pane>' +
-        '</rg-tabs>'
-      )($rootScope);
-
-      $rootScope.$digest();
-
-      var tab = getActiveTab(element);
-
-      expect(tab.title).to.have.descendants('.custom-title');
-    });
-
   });
 });
