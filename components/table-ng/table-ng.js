@@ -8,6 +8,8 @@ require('../react-ng/react-ng')({
   Checkbox: require('../checkbox/checkbox.jsx')
 });
 
+require('message-bundle-ng/message-bundle-ng');
+
 /*global angular*/
 
 /** @name Table Ng
@@ -149,7 +151,7 @@ require('../react-ng/react-ng')({
   </file>
 </example>
 */
-angular.module('Ring.table', ['Ring.table.toolbar', 'Ring.react-ng', 'Ring.place-under'])
+angular.module('Ring.table', ['Ring.table.toolbar', 'Ring.react-ng', 'Ring.place-under', 'Ring.message-bundle'])
   .directive('rgTable', function () {
     return {
       restrict: 'E',
@@ -174,7 +176,6 @@ angular.module('Ring.table', ['Ring.table.toolbar', 'Ring.react-ng', 'Ring.place
         if (self.disableSelection) {
           return;
         }
-
         /**
          * Create Selection instance first to make sure it is always awailable
          * @type {TableSelection}
@@ -187,13 +188,19 @@ angular.module('Ring.table', ['Ring.table.toolbar', 'Ring.react-ng', 'Ring.place
         /**
          * Updating items when data is initiated or updated
          */
+        var watchListener = function (result) {
+          if (result){
+            self.selection.setItems(self.items);
+          }
+        };
+
         $scope.$watch(function () {
           return self.items;
-        }, function (newItems) {
-          if (newItems){
-            self.selection.setItems(newItems);
-          }
-        });
+        }, watchListener);
+
+        $scope.$watch(function () {
+          return self.items && self.items.length;
+        }, watchListener);
 
       }
     };
@@ -360,6 +367,48 @@ angular.module('Ring.table', ['Ring.table.toolbar', 'Ring.react-ng', 'Ring.place
       }
     };
   })
+  .directive('rgTableHeaderCheckbox', function () {
+    return {
+      restrict: 'E',
+      require: '^rgTable',
+      replace: true,
+      template: '<div react="Checkbox" on-change="onClickChange" class="ring-table__header-checkbox" ng-model="allChecked"/>',
+      link: function (scope, iElement, iAttrs, tableCtrl) {
+        // todo: reduce number of recheckSelection() calls
+        scope.allChecked = false;
+
+        function recheckSelection() {
+          if (tableCtrl.items && tableCtrl.items.length) {
+            scope.allChecked = tableCtrl.items.every(function (item) {
+              return item.checked;
+            });
+          } else {
+            scope.allChecked = false;
+          }
+        }
+
+        function markAllItemsAs(state) {
+          tableCtrl.items.forEach(function (item) {
+            item.checked = state;
+          });
+        }
+
+        scope.$on('rgTable:itemsChanged', function() {
+          if (scope.allChecked) {
+            markAllItemsAs(true);
+          }
+          recheckSelection();
+        });
+        scope.$on('rgTable:selectionChanged', recheckSelection);
+
+        scope.onClickChange = function(newValue) {
+          scope.$evalAsync(function() {
+            markAllItemsAs(newValue);
+          });
+        };
+      }
+    };
+  })
   /**
    * A checkbox cell for table. Uses rg-table-row parent directive as model hoster
    */
@@ -447,6 +496,122 @@ angular.module('Ring.table', ['Ring.table.toolbar', 'Ring.react-ng', 'Ring.place
       }
     };
   })
+/**
+ * Pagination
+ */
+  .directive('rgTablePager', ['$location', 'RingMessageBundle', function($location, RingMessageBundle) {
+    return {
+      restrict: 'E',
+      template: require('./table-ng__pager.html'),
+      scope: {
+        skip: '=',
+        top: '=',
+        total: '=',
+        onPageChange: '&'
+      },
+      replace: true,
+      link: function(scope, element, attrs) {
+        scope.maxPages = attrs.maxPages || 7;
+        scope.selectedPageNum = 1;
+
+        if (scope.maxPages % 2 === 0) {
+          scope.maxPages++;
+        }
+
+        scope.nextPageText = RingMessageBundle.next_page();
+        scope.previousPageText = RingMessageBundle.previous_page();
+        scope.firstPageText = RingMessageBundle.first_page();
+        scope.lastPageText = RingMessageBundle.last_page();
+
+        var openPageAfterInit = $location.search()['page'];
+
+        scope.calculatePageClass = function(pageNum) {
+          var condition = pageNum === scope.selectedPageNum;
+          return {
+            'ring-btn_light-blue': condition,
+            'ring-btn_active': condition,
+            'ring-btn_upper': condition
+          };
+        };
+
+        scope.getTopOptionLabel = function(itemsPerPage) {
+          return itemsPerPage + ' ' + RingMessageBundle.items_per_page();
+        };
+
+        scope.$watchGroup(['skip', 'total', 'top'], function() {
+          scope.show = false;
+          var top = $location.search()['top'] || scope.top;
+          var total = scope.total;
+          var skip = scope.skip;
+
+          scope.top = top;
+          scope.topOptions = [20, 50, 100];
+
+          if (total !== undefined && skip !== undefined && top !== undefined) {
+            if (total > 0 && total > top) {
+              scope.totalPages = parseInt(total / top, 10);
+              scope.show = true;
+              scope.itemsPerPage = top;
+
+              scope.startPage = 1;
+
+              if (scope.maxPages < scope.totalPages) {
+                scope.endPage = scope.maxPages;
+                scope.sideBySidePages = (scope.maxPages - 1) / 2;
+                var freeSpaceLeft = (scope.selectedPageNum - 1) - scope.sideBySidePages;
+                var freeSpaceRight = scope.totalPages - (scope.selectedPageNum + scope.sideBySidePages);
+
+                if (freeSpaceLeft > 0) {
+                  scope.startPage = freeSpaceLeft + 1 + (freeSpaceRight < 0 ? freeSpaceRight : 0);
+                  scope.endPage = scope.startPage + scope.maxPages - 1;
+                } else {
+                  scope.endPage = scope.selectedPageNum + scope.sideBySidePages + (freeSpaceLeft < 0 ? freeSpaceLeft * -1 : 0);
+                }
+              } else {
+                scope.endPage = scope.totalPages;
+              }
+
+              scope.pages = [];
+              for (var i = scope.startPage; i <= scope.endPage; i++) {
+                scope.pages.push(i);
+              }
+
+              scope.loadPage = function(pageNum, firstLoad) {
+                pageNum = parseInt(pageNum, 10);
+                if (pageNum < 1) {
+                  pageNum = 1;
+                } else if (pageNum > scope.totalPages) {
+                  pageNum = scope.totalPages;
+                }
+
+                scope.selectedPageNum = pageNum;
+
+                scope.onPageChange({
+                  pageNum: scope.selectedPageNum,
+                  itemsPerPage: scope.top,
+                  firstLoad: firstLoad
+                });
+
+                $location.search('page', pageNum);
+              };
+
+              scope.topChange = function(newItemsPerPage) {
+                scope.top = newItemsPerPage;
+                $location.search('top', newItemsPerPage);
+                scope.loadPage(1);
+              };
+
+              if (openPageAfterInit) {
+                scope.selectedPageNum = +openPageAfterInit;
+                scope.loadPage(openPageAfterInit, true);
+                openPageAfterInit = null;
+              }
+            }
+          }
+        });
+      }
+    };
+  }])
 /**
  * Class with default hotkeys navigation actions (e.g. select, clear selection, move up/down)
  */
