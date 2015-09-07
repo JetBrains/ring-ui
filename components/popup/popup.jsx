@@ -18,7 +18,7 @@ import debug from 'debug-decorator/debug-decorator';
 /**
  * @enum {number}
  */
-var Corner = {
+const Corner = {
   TOP_LEFT: 0,
   TOP_RIGHT: 1,
   BOTTOM_RIGHT: 2,
@@ -28,7 +28,7 @@ var Corner = {
 /**
  * @enum {number}
  */
-var Direction = {
+const Direction = {
   DOWN: 1,
   RIGHT: 2,
   UP: 4,
@@ -38,7 +38,7 @@ var Direction = {
 /**
  * @enum {number}
  */
-var Dimension = {
+const Dimension = {
   MARGIN: 16,
   BORDER_WIDTH: 1
 };
@@ -46,7 +46,7 @@ var Dimension = {
 /**
  * @mixin {PopupMixin}
  */
-var PopupMixin = {
+let PopupMixin = {
   statics: {
     PopupProps: {
       Corner: Corner,
@@ -60,7 +60,7 @@ var PopupMixin = {
      * @return {HTMLElement}
      */
     renderPopup: function (component) {
-      var container = document.createElement('div');
+      let container = document.createElement('div');
       document.body.appendChild(container);
 
       return render(component, container);
@@ -129,7 +129,7 @@ var PopupMixin = {
 
   /** @override */
   render: function () {
-    var classes = classNames({
+    let classes = classNames({
       'ring-popup': true,
       'ring-popup_bound': this.props.cutEdge
     }, this.props.className);
@@ -145,7 +145,7 @@ var PopupMixin = {
    * Closes popup and optionally removes from document.
    */
   close: function (evt) {
-    var onCloseResult = true;
+    let onCloseResult = true;
 
     if (typeof this.props.onClose === 'function') {
       onCloseResult = this.props.onClose(evt);
@@ -231,7 +231,7 @@ var PopupMixin = {
       return;
     }
 
-    var parent = this.node.parentNode;
+    let parent = this.node.parentNode;
     unmountComponentAtNode(parent);
 
     if (parent.parentNode) {
@@ -268,12 +268,12 @@ var PopupMixin = {
    */
   _getStyles: function (props) {
     props = props || this.props;
-    var anchorElement = (props.anchorElement || document.body);
-    var top = props.top;
-    var left = props.left;
+    let anchorElement = (props.anchorElement || document.body);
+    let top = props.top;
+    let left = props.left;
 
-    var anchorElementOffset = $(anchorElement).offset();
-    var styles = {};
+    let anchorElementOffset = $(anchorElement).offset();
+    let styles = {};
 
     /* eslint-disable no-bitwise */
     if (this.node) {
@@ -327,7 +327,7 @@ var PopupMixin = {
     }
 
     // automatic position correction -->
-    var sidePadding = this.props.sidePadding;
+    let sidePadding = this.props.sidePadding;
     if (this.node) {
       if (styles.left < sidePadding) {
         styles.left = sidePadding;
@@ -337,12 +337,12 @@ var PopupMixin = {
         styles.top = sidePadding;
       }
 
-      var horizontalDiff = $(document).width() - (styles.left + this.node.offsetWidth);
+      let horizontalDiff = $(document).width() - (styles.left + this.node.offsetWidth);
       if (horizontalDiff < sidePadding) {
         styles.left = styles.left + horizontalDiff - sidePadding;
       }
 
-      var vericalDiff = $(document).height() - (styles.top + this.node.offsetHeight);
+      let vericalDiff = $(document).height() - (styles.top + this.node.offsetHeight);
       if (vericalDiff < sidePadding) {
         styles.top = styles.top + vericalDiff - sidePadding;
       }

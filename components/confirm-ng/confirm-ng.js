@@ -1,44 +1,41 @@
 /* global angular: false */
 
-require('dialog-ng/dialog-ng');
+import 'dialog-ng/dialog-ng';
 
-angular.module('Ring.confirm', ['Ring.dialog']).
-  service('confirm', [
-    'dialog',
-    '$q',
-    '$templateCache',
-    function (dialog, $q, $templateCache) {
-      var TEMPLATE_PATH = 'confirm-ng/confirm-ng.html';
-      // We need this because dialog uses ngInclude
-      $templateCache.put(TEMPLATE_PATH, require('./confirm-ng.html'));
+let ringDialog = angular.module('Ring.confirm', ['Ring.dialog']);
 
-      return function (message, description, actionTitle, cancelTitle, cancelIsDefault) {
-        return dialog.show({
-          content: TEMPLATE_PATH,
-          data: {
-            message: (message || ''),
-            description: description
-          },
-          buttons: [
-            {
-              'label': (actionTitle || 'Ok'),
-              'default': !cancelIsDefault,
-              'close': false,
-              'action': function () {
-                dialog.done();
-                return true;
-              }
-            },
-            {
-              'label': (cancelTitle || 'Cancel'),
-              'default': !!cancelIsDefault,
-              'action': function () {
-                dialog.reset();
-                return false;
-              }
-            }
-          ]
-        });
-      };
-    }
-  ]);
+ringDialog.service('confirm', function (dialog, $q, $templateCache) {
+  const TEMPLATE_PATH = 'confirm-ng/confirm-ng.html';
+
+  // We need this because dialog uses ngInclude
+  $templateCache.put(TEMPLATE_PATH, require('./confirm-ng.html'));
+
+  return function (message, description, actionTitle, cancelTitle, cancelIsDefault) {
+    return dialog.show({
+      content: TEMPLATE_PATH,
+      data: {
+        message: (message || ''),
+        description: description
+      },
+      buttons: [
+        {
+          label: (actionTitle || 'Ok'),
+          'default': !cancelIsDefault,
+          close: false,
+          action: () => {
+            dialog.done();
+            return true;
+          }
+        },
+        {
+          label: (cancelTitle || 'Cancel'),
+          'default': !!cancelIsDefault,
+          action: () => {
+            dialog.reset();
+            return false;
+          }
+        }
+      ]
+    });
+  };
+});

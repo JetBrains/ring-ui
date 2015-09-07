@@ -1,14 +1,14 @@
 /**
  * Resolve url for svg icons
  */
-var browser = require('browser-sniffer/browser-sniffer');
+import browser from 'browser-sniffer/browser-sniffer';
 
-module.exports = {
+export default class IconUrl {
 
   /**
    * @return {string} The base url for current page
    */
-  getBaseUrl: function() {
+  static getBaseUrl() {
 
     /**
      * Fix problem with xlink:href attribute and base tag in
@@ -17,31 +17,31 @@ module.exports = {
      * https://github.com/angular/angular.js/issues/8934
      */
     return browser.isFirefox() ? location.href : '';
-  },
+  }
 
   /**
    * @param {string} relUrl The value of xlink:href
    * @return {string} The url relative to base url for current page
    */
-  resolve: function(relUrl) {
+  static resolve(relUrl) {
 
     /**
      * @param {string} url
      * @return {string} url without url fragment
      */
-    var removeUrlFragment = function(url) {
+    function removeUrlFragment(url) {
       return url.replace(/#.*/, '');
-    };
+    }
 
     /**
      * @param {string} url
      * @param {string} urlFragment
      * @return {string} url with url fragment
      */
-    var addUrlFragment = function(url, urlFragment) {
+    function addUrlFragment(url, urlFragment) {
       return removeUrlFragment(url) + urlFragment;
-    };
+    }
 
     return addUrlFragment(this.getBaseUrl(), relUrl);
   }
-};
+}

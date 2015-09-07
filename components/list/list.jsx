@@ -20,7 +20,7 @@ import '../link/link.scss';
 /**
  * @enum {number}
  */
-var Type = {
+const Type = {
   SEPARATOR: 0,
   LINK: 1,
   ITEM: 2,
@@ -29,7 +29,7 @@ var Type = {
   TITLE: 5
 };
 
-var Dimension = {
+const Dimension = {
   ITEM_PADDING: 16,
   ITEM_HEIGHT: 24,
   INNER_PADDING: 8
@@ -42,7 +42,7 @@ var Dimension = {
 class ListSeparator extends RingComponent {
   /** @override */
   render() {
-    var classes = classNames({
+    let classes = classNames({
       'ring-list__separator': true,
       'ring-list__separator_empty': !this.props.description
     });
@@ -65,20 +65,20 @@ class ListItem extends RingComponent {
 
   getCheckbox() {
     if (this.props.checkbox !== undefined) {
-      var cn = 'ring-list__checkbox' + (this.props.checkbox ? '' : ' ring-list__checkbox_hidden');
+      let cn = 'ring-list__checkbox' + (this.props.checkbox ? '' : ' ring-list__checkbox_hidden');
       return (<Icon className={cn} glyph="check" size={Icon.Size.Size18}/>);
     }
   }
 
   /** @override */
   render() {
-    var classes = classNames({
+    let classes = classNames({
       'ring-list__item': true,
       'ring-list__item_action': !this.props.disabled,
       'ring-list__item_active': this.props.active && !this.props.disabled
     }, this.props.className);
 
-    var style = {
+    let style = {
       'paddingLeft': ((+this.props.level || 0) * 8 + 16) + 'px'
     };
 
@@ -107,7 +107,7 @@ class ListCustom extends RingComponent {
 
   /** @override */
   render() {
-    var classes = classNames({
+    let classes = classNames({
       'ring-list__item': true,
       'ring-list__item_action': true,
       'ring-list__item_active': this.props.active
@@ -128,13 +128,13 @@ class ListCustom extends RingComponent {
 class ListLink extends RingComponent {
   /** @override */
   render() {
-    var classes = classNames({
+    let classes = classNames({
       'ring-list__item': true,
       'ring-link': true,
       'ring-link_focus': this.props.active && this.props.scrolling
     });
 
-    var el = this.props.href ? DOM.a : DOM.span;
+    let el = this.props.href ? DOM.a : DOM.span;
     return el(Object.assign({}, this.props, {className: classes}), this.props.label);
   }
 }
@@ -166,13 +166,13 @@ class ListTitle extends RingComponent {
   }
 }
 
-var DEFAULT_ITEM_TYPE = Type.ITEM;
+const DEFAULT_ITEM_TYPE = Type.ITEM;
 
 /**
  * @param {Type} listItemType
  * @param {Object} item list item
  */
-var isItemType = function(listItemType, item) {
+function isItemType(listItemType, item) {
   if (contains(Type, item.type)) {
     return item.type === listItemType;
   }
@@ -191,7 +191,7 @@ var isItemType = function(listItemType, item) {
   return item.rgItemType === listItemType;
 };
 
-var ListMixin = {
+let ListMixin = {
   statics: {
     isItemType: isItemType,
     ListProps: {
@@ -399,7 +399,7 @@ export default class List extends RingComponent {
 
   checkActivatableItems(items) {
     this._activatableItems = false;
-    for (var i = 0; i < items.length; i++) {
+    for (let i = 0; i < items.length; i++) {
       if (this.isActivatable(items[i])) {
         this._activatableItems = true;
         return;
@@ -420,8 +420,8 @@ export default class List extends RingComponent {
   }
 
   upHandler(e) {
-    var index = this.state.activeIndex;
-    var newIndex;
+    let index = this.state.activeIndex;
+    let newIndex;
 
     if (index === null || index === 0) {
       newIndex = this.props.data.length - 1;
@@ -433,8 +433,8 @@ export default class List extends RingComponent {
   }
 
   downHandler(e) {
-    var index = this.state.activeIndex;
-    var newIndex;
+    let index = this.state.activeIndex;
+    let newIndex;
 
     if (index === null || index + 1 === this.props.data.length) {
       newIndex = 0;
@@ -452,7 +452,7 @@ export default class List extends RingComponent {
       index = 0;
     }
 
-    var item = this.props.data[index];
+    let item = this.props.data[index];
     this.setState({activeIndex: index, activeItem: item, scrolling: true}, function() {
       if (!this.isActivatable(item)) {
         retryCallback(e);
@@ -466,7 +466,7 @@ export default class List extends RingComponent {
   }
 
   scrollToIndex(index) {
-    var innerContainer = findDOMNode(this.refs.inner);
+    let innerContainer = findDOMNode(this.refs.inner);
 
     if (innerContainer.scrollHeight !== innerContainer.clientHeight) {
       innerContainer.scrollTop = index * Dimension.ITEM_HEIGHT - Math.floor(this.props.maxHeight / 2);
@@ -537,7 +537,7 @@ export default class List extends RingComponent {
      * @param {Object} listItem
      * @return {Object} listItem
      */
-    var normalizeListItemType = function(listItem) {
+    function normalizeListItemType(listItem) {
       if (contains(Type, listItem.type)) {
         listItem.rgItemType = listItem.type;
       }
@@ -551,11 +551,11 @@ export default class List extends RingComponent {
 
       this.checkActivatableItems(props.data);
 
-      var activeIndex = null;
-      var activeItem = null;
+      let activeIndex = null;
+      let activeItem = null;
 
       if (this.props.restoreActiveIndex && this.state.activeItem && this.state.activeItem.key) {
-        for (var i = 0; i < props.data.length; i++) {
+        for (let i = 0; i < props.data.length; i++) {
           // Restore active index if there is an item with the same "key" property
           if (props.data[i].key !== undefined && props.data[i].key === this.state.activeItem.key) {
             activeIndex = i;
@@ -609,12 +609,12 @@ export default class List extends RingComponent {
 
   /** @override */
   render() {
-    var hint = this.getSelected() && this.props.hintOnSelection || this.props.hint;
-    var innerStyles = {};
+    let hint = this.getSelected() && this.props.hintOnSelection || this.props.hint;
+    let innerStyles = {};
     if (this.props.maxHeight) {
       innerStyles.maxHeight = this.props.maxHeight - Dimension.ITEM_HEIGHT - Dimension.INNER_PADDING;
     }
-    var classes = classNames({
+    let classes = classNames({
       'ring-list': true,
       'ring-list_scrolling': this.state.scrolling
     });
@@ -623,7 +623,7 @@ export default class List extends RingComponent {
       <div className={classes} onMouseMove={::this.mouseHandler}>
         <div className="ring-list__i" ref="inner" onScroll={::this.scrollHandler} style={innerStyles}>
           {this.props.data.map((item, index) => {
-            var props = Object.assign({'rgItemType': DEFAULT_ITEM_TYPE}, item);
+            let props = Object.assign({'rgItemType': DEFAULT_ITEM_TYPE}, item);
             if (props.url) {
               props.href = props.url;
             }
@@ -644,7 +644,7 @@ export default class List extends RingComponent {
               this.selectHandler(item);
             };
 
-            var element;
+            let element;
             switch (props.rgItemType) {
               case Type.SEPARATOR:
                 element = ListSeparator;
