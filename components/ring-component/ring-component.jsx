@@ -1,7 +1,6 @@
 import 'babel/polyfill';
 import { Component, createElement } from 'react';
 import { findDOMNode, render } from 'react-dom';
-import shortcuts from 'shortcuts/shortcuts';
 
 export default class RingComponent extends Component {
   static RING_UNIT = 8;
@@ -17,40 +16,6 @@ export default class RingComponent extends Component {
   }
 
   node = null;
-
-  toggleShortcuts(props) {
-    if (this.getShortcutsProps) {
-      if (props.shortcuts && !this.shortcutsScope) {
-        let shortcutsProps = this.getShortcutsProps();
-
-        if (!shortcutsProps || !shortcutsProps.map || !shortcutsProps.scope) {
-          throw new Error('Shortcuts\' props weren\'t provided');
-        }
-
-        shortcuts.bindMap(shortcutsProps.map, shortcutsProps);
-        shortcuts.pushScope(shortcutsProps.scope);
-        this.shortcutsScope = shortcutsProps.scope;
-
-        return;
-      }
-
-      let hasScope = this.shortcutsEnabled();
-
-      if (props.shortcuts && !hasScope) {
-        shortcuts.pushScope(this.shortcutsScope);
-      } else if (!props.shortcuts && hasScope) {
-        shortcuts.spliceScope(this.shortcutsScope);
-      }
-    }
-  }
-
-  setShortcutsEnabled(flag) {
-    this.toggleShortcuts(Object.assign({}, this.props, {shortcuts: !!flag}));
-  }
-
-  shortcutsEnabled() {
-    return shortcuts.hasScope(this.shortcutsScope);
-  }
 
   rerender(props = {}) {
     let container;
@@ -73,13 +38,10 @@ export default class RingComponent extends Component {
     if (this.willMount) {
       this.willMount();
     }
-
-    this.toggleShortcuts(this.props);
   }
 
   componentDidMount() {
     this.node = findDOMNode(this);
-
     if (this.didMount) {
       this.didMount();
     }
@@ -103,8 +65,6 @@ export default class RingComponent extends Component {
     if (this.willUpdate) {
       this.willUpdate(nextProps, nextState);
     }
-
-    this.toggleShortcuts(Object.assign({}, nextProps, nextState));
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -136,11 +96,6 @@ export default class RingComponent extends Component {
   componentWillUnmount() {
     if (this.willUnmount) {
       this.willUnmount();
-    }
-
-    if (this.shortcutsScope) {
-      shortcuts.unbindScope(this.shortcutsScope);
-      shortcuts.spliceScope(this.shortcutsScope);
     }
 
     this.node = null;

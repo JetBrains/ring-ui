@@ -11,7 +11,7 @@ import { render, unmountComponentAtNode } from 'react-dom';
 import mixin from 'react-mixin';
 import classNames from 'classnames';
 import $ from 'jquery';
-import RingComponent from 'ring-component/ring-component';
+import RingComponentWithShortcuts from 'ring-component/ring-component__with-shortcuts';
 import './popup.scss';
 import debug from 'debug-decorator/debug-decorator';
 
@@ -428,7 +428,7 @@ let PopupMixin = {
  </example>
  */
 @mixin.decorate(PopupMixin)
-export default class Popup extends RingComponent {
+export default class Popup extends RingComponentWithShortcuts {
   static Mixin = PopupMixin;
 
   /** @override */
