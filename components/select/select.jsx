@@ -495,7 +495,7 @@ var Select = React.createClass({
 
   getToolbar: function() {
     if (this._addButton) {
-      return <div className="ring-select__button" onClick={this.addHandler}><span className="ring-select__button__plus">+</span>{this.props.add.prefix ? this.props.add.prefix + ' ' : ''}<b>{this._addButton.label}</b></div>;
+      return <div className="ring-select__button" onClick={this.addHandler}><span className="ring-select__button__plus">+</span>{this.props.add.prefix ? this.props.add.prefix + ' ' : ''}<span>{this._addButton.label}</span></div>;
     }
   },
 
