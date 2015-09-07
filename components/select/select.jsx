@@ -31,7 +31,6 @@ const Type = {
 /**
  * @name Select
  * @constructor
- * @mixes {Popup.Mixin}
  * @extends {ReactComponent}
  * @example
  <example name="Select with model that have type field">

@@ -5,7 +5,6 @@
 import 'babel/polyfill';
 import React, { PropTypes, createElement, DOM } from 'react';
 import { findDOMNode } from 'react-dom';
-import mixin from 'react-mixin';
 import classNames from 'classnames';
 import contains from 'mout/object/contains';
 import debounce from 'mout/function/debounce';
@@ -192,31 +191,6 @@ function isItemType(listItemType, item) {
   return item.rgItemType === listItemType;
 };
 
-let ListMixin = {
-  statics: {
-    isItemType: isItemType,
-    ListProps: {
-      Type: Type,
-      Dimension: Dimension
-    }
-  },
-
-  // Temporarily disabled due to https://github.com/brigand/react-mixin/blob/master/index.js#L101
-  /*propTypes: {
-    className: PropTypes.string,
-    hint: PropTypes.string,
-    hintOnSelection: PropTypes.string,
-    data: PropTypes.arrayOf(PropTypes.object),
-    maxHeight: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.number
-    ]),
-    shortcuts: PropTypes.bool,
-    onSelect: PropTypes.func,
-    visible: PropTypes.bool
-  }*/
-};
-
 /**
  * @name List
  * @constructor
@@ -375,9 +349,27 @@ let ListMixin = {
    </file>
   </example>
 */
-@mixin.decorate(ListMixin)
 export default class List extends RingComponentWithShortcuts {
-  static Mixin = ListMixin;
+  static isItemType = isItemType;
+
+  static ListProps = {
+    Type: Type,
+    Dimension: Dimension
+  };
+
+  static propTypes = {
+    className: PropTypes.string,
+    hint: PropTypes.string,
+    hintOnSelection: PropTypes.string,
+    data: PropTypes.arrayOf(PropTypes.object),
+    maxHeight: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.number
+    ]),
+    shortcuts: PropTypes.bool,
+    onSelect: PropTypes.func,
+    visible: PropTypes.bool
+  };
 
   static defaultProps = {
     data: [],

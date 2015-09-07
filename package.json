@@ -112,7 +112,6 @@
     "react": "0.14.0-beta3",
     "react-addons-css-transition-group": "0.14.0-beta3",
     "react-dom": "0.14.0-beta3",
-    "react-mixin": "1.7.0",
     "sass-loader": "0.4.2",
     "style-loader": "0.8.2",
     "svgo": "0.5.2",
