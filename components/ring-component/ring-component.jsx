@@ -4,8 +4,16 @@ import { findDOMNode, render } from 'react-dom';
 import shortcuts from 'shortcuts/shortcuts';
 
 export default class RingComponent extends Component {
+  static RING_UNIT = 8;
+  static idCounter = 0;
+
   static factory(...args) {
     return createElement(this, ...args);
+  }
+
+  static getUID() {
+    var id = String(this.idCounter++);
+    return this.name + id;
   }
 
   node = null;

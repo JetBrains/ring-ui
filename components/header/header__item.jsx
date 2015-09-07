@@ -5,7 +5,6 @@
 import React from 'react';
 import classNames from 'classnames';
 import RingComponent from 'ring-component/ring-component';
-import Global from 'global/global';
 import Icon from 'icon/icon';
 import ClassName from 'class-name/class-name';
 
@@ -18,7 +17,7 @@ import ClassName from 'class-name/class-name';
  * @param {number} height
  */
 function fitImageIntoSquare(image, width, height) {
-  const SIZE = Global.RING_UNIT * 3;
+  const SIZE = RingComponent.RING_UNIT * 3;
   let isPortrait = height > width;
   let dimension = isPortrait ? 'width' : 'height';
   let margin = isPortrait ? 'margin-top' : 'margin-left';
@@ -60,12 +59,12 @@ export default class HeaderItem extends RingComponent {
 
   render() {
     let classes = classNames(
-      Global.createObject(
-        itemClassName.getClassName(), true,
-        itemClassName.getClassName(null, 'icon'), true,
-        itemClassName.getClassName(this.props.glyph), true,
-        'ring-icon_loading', this.state.loading
-      ),
+      {
+        [itemClassName.getClassName()]: true,
+        [itemClassName.getClassName(null, 'icon')]: true,
+        [itemClassName.getClassName(this.props.glyph)]: true,
+        'ring-icon_loading': this.state.loading
+      },
       this.props.className
     );
 
@@ -102,11 +101,11 @@ export default class HeaderItem extends RingComponent {
     const baseClass = new ClassName('ring-icon');
 
     let classes = classNames(
-      Global.createObject(
-        baseClass.getClassName(), true,
-        baseClass.getModifier('24'), true,
-        baseClass.getModifier(this.props.glyph), true
-      ),
+      {
+        [baseClass.getClassName()]: true,
+        [baseClass.getModifier('24')]: true,
+        [baseClass.getModifier(this.props.glyph)]: true
+      },
       this.props.className
     );
 

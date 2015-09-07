@@ -11,14 +11,11 @@ import contains from 'mout/object/contains';
 import debounce from 'mout/function/debounce';
 
 import RingComponent from 'ring-component/ring-component';
-import Global from 'global/global';
 import Icon from 'icon/icon';
 
 import './list.scss';
 // We have to use require instead of SCSS import for now to avoid double imports
 import '../link/link.scss';
-
-var generateUniqueId = Global.getUIDGenerator('ring-list-');
 
 /**
  * @enum {number}
@@ -606,7 +603,7 @@ export default class List extends RingComponent {
         down: ::this.downHandler,
         enter: ::this.enterHandler
       },
-      scope: generateUniqueId()
+      scope: ::this.constructor.getUID()
     };
   }
 

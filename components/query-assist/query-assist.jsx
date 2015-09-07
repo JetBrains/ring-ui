@@ -18,13 +18,9 @@ import ContentEditable from 'contenteditable/contenteditable';
 import PopupMenu from '../popup-menu/popup-menu';
 import Icon from '../icon/icon';
 import Loader from '../loader/loader';
-import Global from 'global/global';
 
 import './query-assist.scss';
 import '../input/input.scss';
-
-// TODO will replace with a class name?
-const generateUniqueId = Global.getUIDGenerator('ring-query-assist-');
 
 // Use for IE11 and down to 9
 const impotentIE = document.documentMode <= 11;  // TODO Proper browser detection?
@@ -228,7 +224,7 @@ export default class QueryAssist extends RingComponent {
         'left': noop,
         'space': noop
       },
-      scope: generateUniqueId()
+      scope: ::this.constructor.getUID()
     };
   }
 

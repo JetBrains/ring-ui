@@ -9,7 +9,6 @@ import React from 'react';
 import { findDOMNode, unmountComponentAtNode } from 'react-dom';
 import classNames from 'classnames';
 import RingComponent from 'ring-component/ring-component';
-import Global from 'global/global';
 import Icon from 'icon/icon';
 
 import './alert.scss';
@@ -29,19 +28,21 @@ const Type = {
  * Lookup table of alert type to icon modifier.
  * @type {Object.<Type, string>}
  */
-const TypeToIconModifier = Global.createObject(
-    Type.ERROR, 'exception',
-    Type.SUCCESS, 'ok',
-    Type.WARNING, 'warning');
+const TypeToIconModifier = {
+  [Type.ERROR]: 'exception',
+  [Type.SUCCESS]: 'ok',
+  [Type.WARNING]: 'warning'
+};
 
 /**
  * Lookup table of alert type to icon color.
  * @type {Object.<Type, Icon.Color>}
  */
-const TypeToIconColor = Global.createObject(
-    Type.ERROR, Icon.Color.RED,
-    Type.SUCCESS, Icon.Color.GREEN,
-    Type.WARNING, Icon.Color.ORANGE);
+const TypeToIconColor = {
+  [Type.ERROR]: Icon.Color.RED,
+  [Type.SUCCESS]: Icon.Color.GREEN,
+  [Type.WARNING]: Icon.Color.ORANGE
+};
 
 /**
  * @const
@@ -121,13 +122,11 @@ export default class Alert extends RingComponent {
   render() {
     let modifiedClassName = [BASE_CLASS, this.props.type].join('_');
 
-    let classes = classNames(
-      Global.createObject(
-        BASE_CLASS, true,
-        modifiedClassName, true,
-        'ring-alert_inline',
-      this.props.inline)
-    );
+    let classes = classNames({
+      [BASE_CLASS]: true,
+      [modifiedClassName]: true,
+      'ring-alert_inline': this.props.inline
+    });
 
     return (<div className={classes}>
       {this._getIcon()}

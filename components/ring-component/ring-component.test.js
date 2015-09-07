@@ -1,4 +1,4 @@
-var Global = require('./global');
+/*var Global = require('./global');
 
 describe('Global', function() {
   describe('getUIDGenerator', function() {
@@ -12,4 +12,4 @@ describe('Global', function() {
       id0.should.not.equal(id1);
     });
   });
-});
+});*/
