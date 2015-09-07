@@ -13,11 +13,9 @@ import Input from 'input/input';
 import Icon from 'icon/icon';
 import Button from 'button/button';
 import Loader from 'loader/loader';
-import Global from 'global/global';
 import './select.scss';
 
 const ngModelStateField = 'selected';
-const generateUniqueId = Global.getUIDGenerator('ring-select-');
 
 const noop = () => {};
 
@@ -315,7 +313,7 @@ export default class Select extends RingComponent {
         'shift+down': noop,
         'space': noop
       },
-      scope: generateUniqueId()
+      scope: ::this.constructor.getUID()
     };
   }
 

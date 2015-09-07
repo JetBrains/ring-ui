@@ -8,9 +8,6 @@ import RingComponent from 'ring-component/ring-component';
 import Popup from 'popup/popup';
 import List from 'list/list';
 import Input from 'input/input';
-import Global from 'global/global';
-
-const generateUniqueId = Global.getUIDGenerator('ring-select-popup-');
 
 const noop = () => {};
 
@@ -87,7 +84,7 @@ export default class SelectPopup extends RingComponent {
         'shift+down': noop,
         'space': noop
       },
-      scope: generateUniqueId()
+      scope: ::this.constructor.getUID()
     };
   }
 
