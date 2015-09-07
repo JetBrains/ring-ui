@@ -1,0 +1,26 @@
+<div class="ng-cloak table__pager" ng-show="show">
+  <div class="table__pager-links">
+    <span class="ring-link table__pager-link" ng-show="selectedPageNum > 1" ng-click="loadPage(selectedPageNum-1)">&larr; {{previousPageText}}</span>
+    <span class="ring-link table__pager-link" ng-show="selectedPageNum < totalPages" ng-click="loadPage(selectedPageNum+1)">{{nextPageText}} &rarr;</span>
+  </div>
+
+  <div class="ring-btn-toolbar">
+    <div class="ring-button-group" ng-show="startPage > 1">
+      <button class="ring-btn" ng-click="loadPage(1)">{{firstPageText}}</button>
+    </div>
+
+    <div class="ring-button-group">
+      <button class="ring-btn" ng-if="startPage > 1" ng-click="loadPage(startPage-1)">...</button>
+      <button class="ring-btn" ng-class="calculatePageClass(pageNum)" ng-repeat="pageNum in pages" ng-click="loadPage(pageNum)">{{pageNum}}</button>
+      <button class="ring-btn" ng-if="endPage < totalPages" ng-click="loadPage(endPage+1)">...</button>
+    </div>
+
+    <div class="ring-button-group" ng-show="endPage < totalPages">
+      <button class="ring-btn" ng-click="loadPage(totalPages)">{{lastPageText}}</button>
+    </div>
+  </div>
+
+  <rg-select ng-if="topOptions" class="table__pager-select"
+             options="num as getTopOptionLabel(num) num in topOptions"
+             ng-model="top" on-select="topChange(selected.originalModel)"></rg-select>
+</div>

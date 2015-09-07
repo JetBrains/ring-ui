@@ -2,6 +2,8 @@
      rg-place-under="{{placeUnderSibling}}"
      place-top-offset="{{topOffset}}"
      sync-height="true"
-     ng-class="{'ring-sidebar_active': show}"
-     ng-transclude>
+     ng-class="{'ring-sidebar_active': show}">
+
+  <rg-dialog in-sidebar="true" active="dialogIsActive"></rg-dialog>
+  <div class="ring-sidebar__content" ng-transclude ng-if="!dialogIsActive"></div>
 </div>
