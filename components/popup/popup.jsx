@@ -12,11 +12,8 @@ import mixin from 'react-mixin';
 import classNames from 'classnames';
 import $ from 'jquery';
 import RingComponent from 'ring-component/ring-component';
-import Global from 'global/global';
 import './popup.scss';
 import debug from 'debug-decorator/debug-decorator';
-
-var generateUniqueId = Global.getUIDGenerator('ring-popup-');
 
 /**
  * @enum {number}
@@ -110,7 +107,7 @@ var PopupMixin = {
       map: {
         esc: ::this.close
       },
-      scope: generateUniqueId()
+      scope: ::this.constructor.getUID()
     };
   },
 

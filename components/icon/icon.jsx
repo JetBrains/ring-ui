@@ -8,7 +8,6 @@ import React, { PropTypes } from 'react';
 import classNames from 'classnames';
 import RingComponent from 'ring-component/ring-component';
 import iconUrl from './icon__url';
-import Global from 'global/global';
 import ClassName from 'class-name/class-name';
 import './icon.scss';
 
@@ -190,12 +189,12 @@ export default class Icon extends RingComponent {
     let {baseClass, className, size, color, glyph, title} = this.props;
 
     let classes = classNames(
-      Global.createObject(
-        baseClass.getModifier(size), true,
-        baseClass.getModifier(color), !!color,
-        baseClass.getModifier(glyph), !!glyph,
-        baseClass.getClassName(), true
-      ),
+      {
+        [baseClass.getModifier(size)]: true,
+        [baseClass.getModifier(color)]: !!color,
+        [baseClass.getModifier(glyph)]: !!glyph,
+        [baseClass.getClassName()]: true
+      },
       className
     );
 
