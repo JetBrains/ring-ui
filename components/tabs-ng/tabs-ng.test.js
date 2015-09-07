@@ -79,7 +79,7 @@ describe('TabsNg', function () {
     it('Tab with custom title element', function () {
       var element = $compile(
         '<rg-tabs>' +
-        '<rg-tabs-pane-title for-tab-id="tabid1"><span class="custom-title">Custom tab title</span></rg-tabs-pane-title>' +
+        '<rg-tabs-pane-title><span class="custom-title">Custom tab title</span></rg-tabs-pane-title>' +
         '<rg-tabs-pane tab-id="tabid1">' +
         'General' +
         '</rg-tabs-pane>' +
