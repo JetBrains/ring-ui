@@ -5,7 +5,7 @@
 import React from 'react';
 import { findDOMNode } from 'react-dom';
 import classNames from 'classnames';
-import RingComponent from 'ring-component/ring-component';
+import RingComponentWithShortcuts from 'ring-component/ring-component__with-shortcuts';
 import Popup from 'popup/popup';
 import SelectPopup from './select__popup';
 import List from 'list/list';
@@ -240,7 +240,7 @@ const Type = {
    </file>
  </example>
  */
-export default class Select extends RingComponent {
+export default class Select extends RingComponentWithShortcuts {
   static Type = Type;
   static ngModelStateField = ngModelStateField;
 
