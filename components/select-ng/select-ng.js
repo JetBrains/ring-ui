@@ -1,10 +1,10 @@
-require('babel/polyfill');
-var render = require('react-dom').render;
-var createElement = require('react').createElement;
+import 'babel/polyfill';
+import { render } from 'react-dom';
+import { createElement } from 'react';
 
-var Select = require('select/select');
-require('./select-ng__options');
-require('message-bundle-ng/message-bundle-ng');
+import Select from 'select/select';
+import './select-ng__options';
+import 'message-bundle-ng/message-bundle-ng';
 
 /**
  * @name Select Ng
@@ -236,347 +236,348 @@ require('message-bundle-ng/message-bundle-ng');
     </example>
  */
 /* global angular: false */
-angular.module('Ring.select', ['Ring.select.options', 'Ring.message-bundle'])
-  .directive('rgSelect', function () {
+let ringSelectModule = angular.module('Ring.select', ['Ring.select.options', 'Ring.message-bundle']);
 
-    var types = {
-      input: Select.Type.INPUT,
-      button: Select.Type.BUTTON,
-      dropdown: Select.Type.CUSTOM,
-      suggest: Select.Type.INPUT
-    };
+ringSelectModule.directive('rgSelect', function () {
+  const types = {
+    input: Select.Type.INPUT,
+    button: Select.Type.BUTTON,
+    dropdown: Select.Type.CUSTOM,
+    suggest: Select.Type.INPUT
+  };
 
-    return {
-      restrict: 'EA',
+  return {
+    restrict: 'EA',
+    /**
+     * @property {Object} scope
+     * @property {Object} scope.ngModel
+     * @property {String} scope.selectType - select type. Can be "button" (default), "input" or "dropdown"
+     * @property {String} scope.lazy - Load options lazy. Can be "true" (default) or "false"
+     * @property {String} scope.options - query for options. Can look like this:
+     * `item in items`
+     * `item in dataSource(query)`
+     * `item.text for item in items
+     * `item.text for item in items track by item.id`
+     * `item.text select as item.fullText describe as item.fullDescription for item in items track by item.id`
+     * `item as item.text select as makeFullText(item) for item in items`
+     * Where:
+     * `as` - what object will be set to ng-model
+     * `select as` - label for selected item to display in button
+     * `describe as` - description of item to display in list
+     * `for item in items`, `for item in dataSource(query)` - data source or array
+     * `track by item.id` - field to use as key for list
+     * @property {Boolean} scope.externalFilter - whether or not select use options function as filter.
+     * "filter" property scope.should not be passed in that case.
+     * @property {Boolean} scope.multiple - If true then you can select more then one value
+     * @property {Function} scope.onSelect - callback to call on items selecting.
+     * Receives "selected" property (<rg-select on-select='doSomethingWith(selected)'>)
+     * @property {Function} scope.onDeselect - callback to call on item deselecting.
+     * Receives "deselected" property (<rg-select on-deselect='doSomethingWith(deselected)'>)
+     * @property {Function} scope.onOpen - callback to call on select popup opening
+     * @property {Function} scope.onClose - callback to call on select popup closing
+     * @property {Function} scope.onChange - callback to call on selected items change.
+     * Receives "selected" property (<rg-select on-change='doSomethingWith(selected)'>)
+     * @property {String} scope.label - Label to place on empty select button
+     * @property {String} scope.selectedLabel - Label to replace any selected item/items
+     * with constant text on select button
+     * @property {String} scope.notFoundMessage - message to display if no options found
+     * @property {String} scope.loadingMessage - message to display while loading
+     * @property {Object} scope.config - hash to pass to react select component.
+     */
+    scope: {
+      ngModel: '=',
+
+      selectType: '@',
+      lazy: '=?',
+
+      options: '@',
+      label: '@',
+      selectedLabel: '@',
+      externalFilter: '=',
+      filter: '=?',
+      multiple: '=?',
+      clear: '=?',
+      onSelect: '&',
+      onDeselect: '&',
+      onOpen: '&',
+      onClose: '&',
+      onChange: '&',
+      notFoundMessage: '@',
+      loadingMessage: '@',
+      config: '=?'
+    },
+    bindToController: true,
+    controllerAs: 'selectCtrl',
+    require: ['?ngModel', 'rgSelect'],
+    link: function (scope, iElement, iAttrs, ctrls) {
+      let ngModelCtrl = ctrls[0];
+      let rgSelectCtrl = ctrls[1];
+
+      rgSelectCtrl.setNgModelCtrl(ngModelCtrl);
+    },
+    controller: function ($q, $scope, $element, $attrs, SelectOptions, RingMessageBundle) {
+      /*eslint-disable consistent-this*/
+      let ctrl = this;
+      /*eslint-enable consistent-this*/
+      let element = $element[0];
+      let container = document.createElement('span');
+
       /**
-       * @property {Object} scope
-       * @property {Object} scope.ngModel
-       * @property {String} scope.selectType - select type. Can be "button" (default), "input" or "dropdown"
-       * @property {String} scope.lazy - Load options lazy. Can be "true" (default) or "false"
-       * @property {String} scope.options - query for options. Can look like this:
-       * `item in items`
-       * `item in dataSource(query)`
-       * `item.text for item in items
-       * `item.text for item in items track by item.id`
-       * `item.text select as item.fullText describe as item.fullDescription for item in items track by item.id`
-       * `item as item.text select as makeFullText(item) for item in items`
-       * Where:
-       * `as` - what object will be set to ng-model
-       * `select as` - label for selected item to display in button
-       * `describe as` - description of item to display in list
-       * `for item in items`, `for item in dataSource(query)` - data source or array
-       * `track by item.id` - field to use as key for list
-       * @property {Boolean} scope.externalFilter - whether or not select use options function as filter.
-       * "filter" property scope.should not be passed in that case.
-       * @property {Boolean} scope.multiple - If true then you can select more then one value
-       * @property {Function} scope.onSelect - callback to call on items selecting.
-       * Receives "selected" property (<rg-select on-select='doSomethingWith(selected)'>)
-       * @property {Function} scope.onDeselect - callback to call on item deselecting.
-       * Receives "deselected" property (<rg-select on-deselect='doSomethingWith(deselected)'>)
-       * @property {Function} scope.onOpen - callback to call on select popup opening
-       * @property {Function} scope.onClose - callback to call on select popup closing
-       * @property {Function} scope.onChange - callback to call on selected items change.
-       * Receives "selected" property (<rg-select on-change='doSomethingWith(selected)'>)
-       * @property {String} scope.label - Label to place on empty select button
-       * @property {String} scope.selectedLabel - Label to replace any selected item/items
-       * with constant text on select button
-       * @property {String} scope.notFoundMessage - message to display if no options found
-       * @property {String} scope.loadingMessage - message to display while loading
-       * @property {Object} scope.config - hash to pass to react select component.
+       * Properties
        */
-      scope: {
-        ngModel: '=',
+      ctrl.selectInstance = null;
+      ctrl.ngModelCtrl = null;
+      ctrl.query = null;
+      ctrl.optionsParser = new SelectOptions($scope.$parent, ctrl.options);
+      ctrl.lazy = ctrl.hasOwnProperty('lazy') ? ctrl.lazy : true;
 
-        selectType: '@',
-        lazy: '=?',
+      ctrl.setNgModelCtrl = ngModelCtrl => {
+        ctrl.ngModelCtrl = ngModelCtrl;
+      };
 
-        options: '@',
-        label: '@',
-        selectedLabel: '@',
-        externalFilter: '=',
-        filter: '=?',
-        multiple: '=?',
-        clear: '=?',
-        onSelect: '&',
-        onDeselect: '&',
-        onOpen: '&',
-        onClose: '&',
-        onChange: '&',
-        notFoundMessage: '@',
-        loadingMessage: '@',
-        config: '=?'
-      },
-      bindToController: true,
-      controllerAs: 'selectCtrl',
-      require: ['?ngModel', 'rgSelect'],
-      link: function (scope, iElement, iAttrs, ctrls) {
-        var ngModelCtrl = ctrls[0];
-        var rgSelectCtrl = ctrls[1];
+      /**
+       * @param {Array} options
+       */
+      function memorizeOptions(options) {
+        ctrl.loadedOptions = options;
+      }
 
-        rgSelectCtrl.setNgModelCtrl(ngModelCtrl);
-      },
-      controller: function ($q, $scope, $element, $attrs, SelectOptions, RingMessageBundle) {
-        /*eslint-disable consistent-this*/
-        var ctrl = this;
-        /*eslint-enable consistent-this*/
-        var element = $element[0];
-        var container = document.createElement('span');
+      ctrl.syncSelectToNgModel = selectedValue => {
+        function valueOf(option) {
+          if (option && option.originalModel) {
+            option = option.originalModel;
+          }
 
-        /**
-         * Properties
-         */
-        ctrl.selectInstance = null;
-        ctrl.ngModelCtrl = null;
-        ctrl.query = null;
-        ctrl.optionsParser = new SelectOptions($scope.$parent, ctrl.options);
-        ctrl.lazy = ctrl.hasOwnProperty('lazy') ? ctrl.lazy : true;
-
-        ctrl.setNgModelCtrl = function(ngModelCtrl) {
-          ctrl.ngModelCtrl = ngModelCtrl;
-        };
-
-        /**
-         * @param {Array} options
-         */
-        function memorizeOptions(options) {
-          ctrl.loadedOptions = options;
+          return ctrl.optionsParser.getValue(option);
         }
 
-        ctrl.syncSelectToNgModel = function (selectedValue) {
-          var valueOf = function(option) {
-            if (option && option.originalModel) {
-              option = option.originalModel;
+        if (ctrl.ngModelCtrl) {
+          if (Array.isArray(selectedValue)) {
+            ctrl.ngModelCtrl.$setViewValue(selectedValue.map(valueOf));
+          } else if (selectedValue && selectedValue.originalModel) {
+            ctrl.ngModelCtrl.$setViewValue(valueOf(selectedValue));
+          } else {
+            ctrl.ngModelCtrl.$setViewValue(valueOf(selectedValue));
+          }
+        }
+      };
+
+      ctrl.convertNgModelToSelect = model => {
+        function convertItem(modelValue) {
+          let item = ctrl.optionsParser.getOptionByValue(modelValue, ctrl.loadedOptions || []);
+
+          /**
+           * NOTE:
+           * If ng-model does not exist in list of options
+           * for example when lazy fetch data from the server
+           */
+          if (item === undefined) {
+            item = modelValue;
+          }
+
+          return angular.extend({
+            key: ctrl.optionsParser.getKey(item),
+            label: ctrl.optionsParser.getLabel(item),
+            selectedLabel: ctrl.optionsParser.getSelectedLabel(item),
+            description: ctrl.optionsParser.getDescription(item),
+            originalModel: item
+          }, typeof item === 'object' ? item : null);
+        }
+
+        if (model) {
+          if (Array.isArray(model)) {
+            return model.map(convertItem);
+          } else {
+            return convertItem(model);
+          }
+        }
+      };
+
+      function getType() {
+        //$attrs.type as fallback, not recomended to use because of native "type" attribute
+        return ctrl.selectType || $attrs.type;
+      }
+
+      let lastQuery = null;
+      ctrl.getOptions = query => {
+        return $q.when(ctrl.optionsParser.getOptions(query));
+      };
+
+      ctrl.loadOptionsToSelect = query => {
+        lastQuery = query;
+        ctrl.selectInstance.rerender({loading: getType() !== 'suggest'});
+
+        ctrl.getOptions(query).then(results => {
+          if (query !== lastQuery) {
+            return; // skip results if query doesn't match
+          }
+
+          memorizeOptions(results);
+
+          let items = (results.data || results).map(ctrl.convertNgModelToSelect);
+          ctrl.selectInstance.rerender({
+            data: items,
+            loading: false
+          }, () => {
+            if (getType() === 'suggest') {
+              ctrl.selectInstance._showPopup();
             }
+          });
+        }).catch(() => {
+          ctrl.selectInstance.rerender({
+            loading: false
+          });
+        });
+      };
 
-            return ctrl.optionsParser.getValue(option);
-          };
+      function setSelectModel(newValue) {
+        ctrl.selectInstance.rerender({
+          selected: newValue ? ctrl.convertNgModelToSelect(newValue) : newValue
+        });
+      }
 
+      function syncNgModelToSelect() {
+        $scope.$watch(() => {
           if (ctrl.ngModelCtrl) {
-            if (Array.isArray(selectedValue)) {
-              ctrl.ngModelCtrl.$setViewValue(selectedValue.map(valueOf));
-            } else if (selectedValue && selectedValue.originalModel) {
-              ctrl.ngModelCtrl.$setViewValue(valueOf(selectedValue));
-            } else {
-              ctrl.ngModelCtrl.$setViewValue(valueOf(selectedValue));
-            }
+            return ctrl.ngModelCtrl.$modelValue;
           }
-        };
+          return null;
+        }, setSelectModel, true);
+      }
 
-        ctrl.convertNgModelToSelect = function(model) {
-          var convertItem = function (modelValue) {
-            var item = ctrl.optionsParser.getOptionByValue(modelValue, ctrl.loadedOptions || []);
+      function syncDisabled() {
+        $attrs.$observe('disabled', newValue => {
+          ctrl.selectInstance.rerender({disabled: newValue});
+        });
+      }
 
-            /**
-             * NOTE:
-             * If ng-model does not exist in list of options
-             * for example when lazy fetch data from the server
-             */
-            if (item === undefined) {
-              item = modelValue;
-            }
-
-            return angular.extend({
-              key: ctrl.optionsParser.getKey(item),
-              label: ctrl.optionsParser.getLabel(item),
-              selectedLabel: ctrl.optionsParser.getSelectedLabel(item),
-              description: ctrl.optionsParser.getDescription(item),
-              originalModel: item
-            }, typeof item === 'object' ? item : null);
-          };
-
-          if (model) {
-            if (Array.isArray(model)) {
-              return model.map(convertItem);
-            } else {
-              return convertItem(model);
-            }
+      function syncMultiple() {
+        $scope.$watch(() => {
+          return ctrl.multiple;
+        }, () => {
+          if (angular.isDefined(ctrl.multiple)) {
+            ctrl.selectInstance.rerender({multiple: ctrl.multiple});
           }
-        };
+        });
+      }
 
-        function getType() {
-          //$attrs.type as fallback, not recomended to use because of native "type" attribute
-          return ctrl.selectType || $attrs.type;
+      function attachDropdownIfNeeded() {
+        if (getType() === 'dropdown') {
+          element.addEventListener('click', () => {
+            ctrl.selectInstance._clickHandler();
+          });
+        }
+      }
+
+      function listenToRouteChanges() {
+        $scope.$on('$locationChangeSuccess', () => {
+          ctrl.selectInstance._hidePopup();
+        });
+      }
+
+      function getSelectType() {
+        return types[getType()] || types.button;
+      }
+
+      /**
+       * @param {newValue} newValue New value of options
+       * @param {value} value Previous value of options
+       */
+      function optionsWatcher(newValue, value) {
+        memorizeOptions(newValue);
+
+        if (newValue === value) {
+          return;
         }
 
-        var lastQuery = null;
-        ctrl.getOptions = function (query) {
-          return $q.when(ctrl.optionsParser.getOptions(query));
-        };
+        setSelectModel(ctrl.ngModelCtrl.$modelValue);
+      }
 
-        ctrl.loadOptionsToSelect = function(query) {
-          lastQuery = query;
-          ctrl.selectInstance.rerender({loading: getType() !== 'suggest'});
+      function activate() {
+        /**
+         * Provide specific filter function if externalFilter enabled
+         */
+        if (ctrl.externalFilter) {
+          ctrl.filter = {fn: () => {
+            return true;
+          }};
+        }
 
-          ctrl.getOptions(query).then(function (results) {
-            if (query !== lastQuery) {
-              return; // skip results if query doesn't match
-            }
+        if (!ctrl.lazy) {
+          $scope.$watch(() => {
+            return ctrl.optionsParser.getOptions(ctrl.query);
+          }, optionsWatcher, true);
+        }
+        ctrl.config = angular.extend({}, {
+          selected: ctrl.convertNgModelToSelect(ctrl.ngModel),
+          label: ctrl.label || RingMessageBundle.select_label(),
+          selectedLabel: ctrl.selectedLabel,
+          filter: ctrl.filter,
+          multiple: ctrl.multiple,
+          clear: ctrl.clear,
+          type: getSelectType(),
+          loadingMessage: ctrl.loadingMessage || RingMessageBundle.select_loading(),
+          notFoundMessage: ctrl.notFoundMessage || RingMessageBundle.select_options_not_found(),
+          targetElement: getType() === 'dropdown' ? $element[0] : null,
+          onBeforeOpen: () => {
+            $scope.$evalAsync(() => {
+              ctrl.loadOptionsToSelect(ctrl.query);
+            });
+          },
+          onOpen: () => {
+            $scope.$evalAsync(() => {
+              ctrl.onOpen();
+            });
+          },
+          onClose: () => {
+            $scope.$evalAsync(() => {
+              ctrl.onClose();
+            });
+          },
+          onSelect: item => {
+            $scope.$evalAsync(() => {
+              ctrl.onSelect({selected: item});
+            });
+          },
+          onDeselect: item => {
+            $scope.$evalAsync(() => {
+              ctrl.onDeselect({deselected: item});
+            });
+          },
+          onChange: selected => {
+            ctrl.syncSelectToNgModel(selected);
 
-            memorizeOptions(results);
-
-            var items = (results.data || results).map(ctrl.convertNgModelToSelect);
-            ctrl.selectInstance.rerender({
-              data: items,
-              loading: false
-            }, function() {
-              if (getType() === 'suggest') {
-                ctrl.selectInstance._showPopup();
+            $scope.$evalAsync(() => {
+              ctrl.onChange({selected: selected});
+            });
+          },
+          onFilter: query => {
+            $scope.$evalAsync(() => {
+              ctrl.query = query;
+              if (ctrl.externalFilter) {
+                ctrl.loadOptionsToSelect(query);
+              }
+              if (ctrl.onFilter) {
+                ctrl.onFilter(query);
               }
             });
-          }).catch(function () {
-            ctrl.selectInstance.rerender({
-              loading: false
-            });
-          });
-        };
-
-        function setSelectModel(newValue) {
-          ctrl.selectInstance.rerender({
-            selected: newValue ? ctrl.convertNgModelToSelect(newValue) : newValue
-          });
-        }
-
-        function syncNgModelToSelect() {
-          $scope.$watch(function () {
-            if (ctrl.ngModelCtrl) {
-              return ctrl.ngModelCtrl.$modelValue;
-            }
-            return null;
-          }, setSelectModel, true);
-        }
-
-        function syncDisabled() {
-          $attrs.$observe('disabled', function (newValue) {
-            ctrl.selectInstance.rerender({disabled: newValue});
-          });
-        }
-
-        function syncMultiple() {
-          $scope.$watch(function () {
-            return ctrl.multiple;
-          }, function () {
-            if (angular.isDefined(ctrl.multiple)) {
-              ctrl.selectInstance.rerender({multiple: ctrl.multiple});
-            }
-          });
-        }
-
-        function attachDropdownIfNeeded() {
-          if (getType() === 'dropdown') {
-            element.addEventListener('click', function () {
-              ctrl.selectInstance._clickHandler();
-            });
           }
-        }
-
-        function listenToRouteChanges() {
-          $scope.$on('$locationChangeSuccess', function hidePopup() {
-            ctrl.selectInstance._hidePopup();
-          });
-        }
-
-        function getSelectType() {
-          return types[getType()] || types.button;
-        }
+        }, ctrl.config || {});
 
         /**
-         * @param {newValue} newValue New value of options
-         * @param {value} value Previous value of options
+         * Render select in appended div to save any exist content of directive
          */
-        function optionsWatcher(newValue, value) {
-          memorizeOptions(newValue);
+        element.appendChild(container);
 
-          if (newValue === value) {
-            return;
-          }
-
-          setSelectModel(ctrl.ngModelCtrl.$modelValue);
-        }
-
-        function activate() {
-          /**
-           * Provide specific filter function if externalFilter enabled
-           */
-          if (ctrl.externalFilter) {
-            ctrl.filter = {fn: function () {
-              return true;
-            }};
-          }
-
-          if (!ctrl.lazy) {
-            $scope.$watch(function(){
-              return ctrl.optionsParser.getOptions(ctrl.query);
-            }, optionsWatcher, true);
-          }
-          ctrl.config = angular.extend({}, {
-            selected: ctrl.convertNgModelToSelect(ctrl.ngModel),
-            label: ctrl.label || RingMessageBundle.select_label(),
-            selectedLabel: ctrl.selectedLabel,
-            filter: ctrl.filter,
-            multiple: ctrl.multiple,
-            clear: ctrl.clear,
-            type: getSelectType(),
-            loadingMessage: ctrl.loadingMessage || RingMessageBundle.select_loading(),
-            notFoundMessage: ctrl.notFoundMessage || RingMessageBundle.select_options_not_found(),
-            targetElement: getType() === 'dropdown' ? $element[0] : null,
-            onBeforeOpen: function () {
-              $scope.$evalAsync(function () {
-                ctrl.loadOptionsToSelect(ctrl.query);
-              });
-            },
-            onOpen: function () {
-              $scope.$evalAsync(function () {
-                ctrl.onOpen();
-              });
-            },
-            onClose: function () {
-              $scope.$evalAsync(function () {
-                ctrl.onClose();
-              });
-            },
-            onSelect: function (item) {
-              $scope.$evalAsync(function () {
-                ctrl.onSelect({selected: item});
-              });
-            },
-            onDeselect: function (item) {
-              $scope.$evalAsync(function () {
-                ctrl.onDeselect({deselected: item});
-              });
-            },
-            onChange: function (selected) {
-              ctrl.syncSelectToNgModel(selected);
-
-              $scope.$evalAsync(function () {
-                ctrl.onChange({selected: selected});
-              });
-            },
-            onFilter: function (query) {
-              $scope.$evalAsync(function () {
-                ctrl.query = query;
-                if (ctrl.externalFilter) {
-                  ctrl.loadOptionsToSelect(query);
-                }
-                if (ctrl.onFilter) {
-                  ctrl.onFilter(query);
-                }
-              });
-            }
-          }, ctrl.config || {});
-
-          /**
-           * Render select in appended div to save any exist content of directive
-           */
-          element.appendChild(container);
-
-          ctrl.selectInstance = render(createElement(Select, ctrl.config), container);
-          syncNgModelToSelect();
-          syncDisabled();
-          syncMultiple();
-          attachDropdownIfNeeded();
-          listenToRouteChanges();
-        }
-        activate();
+        ctrl.selectInstance = render(createElement(Select, ctrl.config), container);
+        syncNgModelToSelect();
+        syncDisabled();
+        syncMultiple();
+        attachDropdownIfNeeded();
+        listenToRouteChanges();
       }
-    };
-  });
+
+      activate();
+    }
+  };
+});

@@ -1,6 +1,6 @@
-var React = require('react');
-var Popup = require('popup/popup');
-require('./tooltip-ng.scss');
+import { createElement } from 'react';
+import Popup from 'popup/popup';
+import './tooltip-ng.scss';
 
 /**
  * @name Tooltip Ng
@@ -34,51 +34,53 @@ require('./tooltip-ng.scss');
 </example>
 */
 
-var OPEN_CLASS = 'ring-tooltip-ng_open';
+const OPEN_CLASS = 'ring-tooltip-ng_open';
 
 /*global angular*/
-angular.module('Ring.tooltip', [])
-  .directive('rgTooltip', function ($parse, RgTooltipPopup) {
-    return {
-      restrict: 'A',
-      link: function (scope, iElement, iAttrs) {
-        var element = iElement[0];
+let ringTooltipModule = angular.module('Ring.tooltip', []);
 
-        var popupWrapper = new RgTooltipPopup(element, $parse(iAttrs['rgTooltip'])(scope));
+ringTooltipModule.directive('rgTooltip', function ($parse, RgTooltipPopup) {
+  return {
+    restrict: 'A',
+    link: function (scope, iElement, iAttrs) {
+      let element = iElement[0];
+      let popupWrapper = new RgTooltipPopup(element, $parse(iAttrs['rgTooltip'])(scope));
 
-        element.addEventListener('mouseover', function () {
-          popupWrapper.displayTooltip();
-          iElement.addClass(OPEN_CLASS);
-        });
-        element.addEventListener('mouseout', function () {
-          popupWrapper.hideTooltip();
-          iElement.removeClass(OPEN_CLASS);
-        });
-      }
-    };
-  })
-  .factory('RgTooltipPopup', function () {
-    return function (element, template) {
-      this.popup = null;
+      element.addEventListener('mouseover', () => {
+        popupWrapper.displayTooltip();
+        iElement.addClass(OPEN_CLASS);
+      });
 
-      this.displayTooltip = function () {
-        this.popup = this.popup || Popup.renderPopup(React.createElement(Popup, {
-          anchorElement: element,
-          maxHeight: 400,
-          className: 'ring-tooltip-ng',
-          cutEdge: false,
-          onClose: function (evt) {
-            //RG-643 Don't close tooltip when clicking by element with opened tooltip
-            if (evt && element.contains(evt.target)) {
-              return false;
-            }
+      element.addEventListener('mouseout', () => {
+        popupWrapper.hideTooltip();
+        iElement.removeClass(OPEN_CLASS);
+      });
+    }
+  };
+});
+
+ringTooltipModule.factory('RgTooltipPopup', function () {
+  return function (element, template) {
+    this.popup = null;
+
+    this.displayTooltip = () => {
+      this.popup = this.popup || Popup.renderPopup(React.createElement(Popup, {
+        anchorElement: element,
+        maxHeight: 400,
+        className: 'ring-tooltip-ng',
+        cutEdge: false,
+        onClose: evt => {
+          //RG-643 Don't close tooltip when clicking by element with opened tooltip
+          if (evt && element.contains(evt.target)) {
+            return false;
           }
-        }, template));
-      };
-
-      this.hideTooltip = function () {
-        this.popup.close();
-        this.popup = null;
-      };
+        }
+      }, template));
     };
-  });
+
+    this.hideTooltip = () => {
+      this.popup.close();
+      this.popup = null;
+    };
+  };
+});

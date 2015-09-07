@@ -1,11 +1,11 @@
 /* global angular: false */
-require('dom4');
-var shortcuts = require('shortcuts/shortcuts');
-var $ = require('jquery');
+import 'dom4';
+import shortcuts from 'shortcuts/shortcuts';
+import $ from 'jquery';
 
-require('dialog/dialog.scss');
+import 'dialog/dialog.scss';
 
-var dialogMixin = {
+let dialogMixin = {
   /**
    * Shows dialog.
    * @param config Object with following fields: <ul>
@@ -23,8 +23,8 @@ var dialogMixin = {
    * </ul>
    *
    */
-  'show': function (config) {
-    var dialogScope = this.dialogScope;
+  show: function (config) {
+    let dialogScope = this.dialogScope;
 
     if (!dialogScope) {
       if (this.fallbackDialog) {
@@ -66,8 +66,8 @@ var dialogMixin = {
   /**
    * Hides dialog
    */
-  'hide': function () {
-    var dialogScope = this.dialogScope;
+  hide: function () {
+    let dialogScope = this.dialogScope;
 
     if (!dialogScope) {
       if (this.fallbackDialog) {
@@ -85,41 +85,41 @@ var dialogMixin = {
     }
   },
 
-  'done': function () {
+  done: function () {
     this.dialogScope.promise.resolve();
     this.hide();
   },
 
-  'reset': function () {
+  reset: function () {
     this.dialogScope.promise.reject();
     this.hide();
   },
 
-  'register': function (scope) {
+  register: function (scope) {
     this.dialogScope = scope;
 
-    scope.$watch('active', function () {
+    scope.$watch('active', () => {
       if (scope.active) {
         shortcuts.bindMap({
-          'esc': function () {
+          esc: () => {
             scope.reset();
             scope.$apply();
           },
-          'enter': this.applyDefaultHandler(false),
+          enter: this.applyDefaultHandler(false),
           'mod+enter': this.applyDefaultHandler(true)
         }, { scope: scope.DIALOG_NAMESPACE });
       }
-    }.bind(this));
+    });
   },
 
-  'unregister': function () {
+  unregister: function () {
     delete this.dialogScope;
   },
 
   applyDefaultHandler: function (isTextAreaShortcut) {
-    var scope = this.dialogScope;
+    let scope = this.dialogScope;
 
-    return function (event) {
+    return event => {
       if (event.target.matches('textarea') !== isTextAreaShortcut || event.target.matches('button')) {
         return;
       }
@@ -128,7 +128,7 @@ var dialogMixin = {
       event.preventDefault();
 
       if (scope.dialogForm.$valid) {
-        scope.buttons.every(function (button) {
+        scope.buttons.every(button => {
           if (button['default']) {
             scope.action(button);
             scope.$apply();
@@ -140,177 +140,182 @@ var dialogMixin = {
   }
 };
 
-angular.module('Ring.dialog', []).
-  directive('rgDialog', ['$timeout', function ($timeout) {
-    return {
-      'restrict': 'AE',
-      'scope': {
-        'inSidebar': '@?',
-        'active': '=?'
-      },
-      'replace': true,
-      'template': require('./dialog-ng.html'),
-      'controller': ['$scope', 'dialog', 'dialogInSidebar', function ($scope, popupDialog, sidebarDialog) {
-        var dialog = $scope.inSidebar ? sidebarDialog : popupDialog;
+let ringDialogModule = angular.module('Ring.dialog', []);
 
-        $scope.$on('$routeChangeSuccess', dialog.hide.bind(this));
-        $scope.$on('$routeUpdate', dialog.hide.bind(this));
+ringDialogModule.directive('rgDialog', function ($timeout) {
+  return {
+    restrict: 'AE',
+    scope: {
+      inSidebar: '@?',
+      active: '=?'
+    },
+    replace: true,
+    template: require('./dialog-ng.html'),
+    controller: ['$scope', 'dialog', 'dialogInSidebar', function ($scope, popupDialog, sidebarDialog) {
+      let dialog = $scope.inSidebar ? sidebarDialog : popupDialog;
 
-        $scope.done = function () {
-          $scope.resetPosition();
-          dialog.done();
-        };
+      $scope.$on('$routeChangeSuccess', ::dialog.hide);
+      $scope.$on('$routeUpdate', ::dialog.hide);
 
-        $scope.reset = function () {
-          $scope.resetPosition();
-          dialog.reset();
-        };
+      $scope.done = () => {
+        $scope.resetPosition();
+        dialog.done();
+      };
 
-        $scope.action = function (button) {
-          var dontClose = false;
-          if (button.action) {
-            dontClose = button.action($scope.data, button, function (errorMessage) {
-              $scope.error = errorMessage;
-            }, $scope.dialogForm) === false;
-          }
-          if (!dontClose && (button.close !== false)) {
-            $scope.reset();
-          }
-        };
+      $scope.reset = () => {
+        $scope.resetPosition();
+        dialog.reset();
+      }
 
-        this.setTitle = function (title) {
-          $scope.title = title;
-        };
+      $scope.action = button => {
+        let dontClose = false;
 
-        dialog.register($scope);
-        $scope.$on('$destroy', function() {
-          dialog.unregister();
-        });
-      }],
-      'link': function (scope, iElement) {
-        var iDocument = $(document);
-        var iDialogContainer = iElement.find('.ring-dialog__container');
-        var iDialogTitle = iElement.find('.ring-dialog__header__title');
-        var pageHeight = null;
-        var pageWidth = null;
-
-        scope.resetPosition = function() {
-          iDialogContainer.attr('style', null);
-        };
-
-        function setPosition(top, left) {
-          pageHeight = window.innerHeight;
-          pageWidth = window.innerWidth;
-
-          if (top === undefined) {
-            top = parseInt(iDialogContainer.css('top'), 10);
-          }
-          if (left === undefined) {
-            left = parseInt(iDialogContainer.css('left'), 10);
-          }
-
-          var boxShadowSize = 30;
-          var maxTop = pageHeight - iDialogContainer.height() - boxShadowSize;
-          var maxLeft = pageWidth - iDialogContainer.width() - boxShadowSize;
-          if (top > maxTop) {
-            top = maxTop;
-          }
-          if (top < boxShadowSize) {
-            top = boxShadowSize;
-          }
-          if (left > maxLeft) {
-            left = maxLeft;
-          }
-          if (left < boxShadowSize) {
-            left = boxShadowSize;
-          }
-
-          iDialogContainer.css({
-            'top': top + 'px',
-            'left': left + 'px',
-            'margin': '0'
-          });
+        if (button.action) {
+          dontClose = button.action($scope.data, button, errorMessage => {
+            $scope.error = errorMessage;
+          }, $scope.dialogForm) === false;
         }
 
-        iDialogTitle.on('mousedown', function (mousedownEvent) {
-          var titlePos = {
-            top: mousedownEvent.clientY,
-            left: mousedownEvent.clientX
-          };
-          var offsetContainer = iDialogContainer.offset();
-          offsetContainer.top = offsetContainer.top - iDocument.scrollTop();
+        if (!dontClose && (button.close !== false)) {
+          $scope.reset();
+        }
+      };
 
-          // Duct tape for all Ring 1.0 dropdown components inside
-          iElement.trigger('ring.popup-close');
+      this.setTitle = title => $scope.title = title;
 
-          iDocument.
-            on('mousemove.' + scope.DIALOG_NAMESPACE, function (mousemoveEvent) {
-              var top = (offsetContainer.top - (titlePos.top - mousemoveEvent.clientY));
-              var left = (offsetContainer.left - (titlePos.left - mousemoveEvent.clientX));
+      dialog.register($scope);
 
-              setPosition(top, left);
-            }).
-            one('mouseup.' + scope.DIALOG_NAMESPACE, function () {
-              iDocument.off('mousemove.' + scope.DIALOG_NAMESPACE);
-            });
+      $scope.$on('$destroy', () => {
+        dialog.unregister();
+      });
+    }],
+    link: function (scope, iElement) {
+      let iDocument = $(document);
+      let iDialogContainer = iElement.find('.ring-dialog__container');
+      let iDialogTitle = iElement.find('.ring-dialog__header__title');
+      let pageHeight = null;
+      let pageWidth = null;
 
-          window.addEventListener('resize', function() {
-            setPosition();
-          });
+      scope.resetPosition = () => {
+        iDialogContainer.attr('style', null);
+      };
+
+      function setPosition(top, left) {
+        pageHeight = window.innerHeight;
+        pageWidth = window.innerWidth;
+
+        if (top === undefined) {
+          top = parseInt(iDialogContainer.css('top'), 10);
+        }
+        if (left === undefined) {
+          left = parseInt(iDialogContainer.css('left'), 10);
+        }
+
+        let boxShadowSize = 30;
+        let maxTop = pageHeight - iDialogContainer.height() - boxShadowSize;
+        let maxLeft = pageWidth - iDialogContainer.width() - boxShadowSize;
+        if (top > maxTop) {
+          top = maxTop;
+        }
+        if (top < boxShadowSize) {
+          top = boxShadowSize;
+        }
+        if (left > maxLeft) {
+          left = maxLeft;
+        }
+        if (left < boxShadowSize) {
+          left = boxShadowSize;
+        }
+
+        iDialogContainer.css({
+          'top': top + 'px',
+          'left': left + 'px',
+          'margin': '0'
         });
+      }
 
-        // Focus first input
-        var focusFirst = function () {
-          iElement.find(':input,[contentEditable=true]').filter(':visible').first().focus();
+      iDialogTitle.on('mousedown', mousedownEvent => {
+        let titlePos = {
+          top: mousedownEvent.clientY,
+          left: mousedownEvent.clientX
         };
 
-        iDocument.on('focusin.' + scope.DIALOG_NAMESPACE, function (e) {
-          if (!iElement[0].contains(e.target) && e.target.classList.contains('ring-popup')) {
-            e.preventDefault();
-            focusFirst();
-          }
-        });
+        let offsetContainer = iDialogContainer.offset();
+        offsetContainer.top = offsetContainer.top - iDocument.scrollTop();
 
-        scope.$on('$includeContentLoaded', function () {
-          $timeout(focusFirst);
-        });
+        // Duct tape for all Ring 1.0 dropdown components inside
+        iElement.trigger('ring.popup-close');
 
-        scope.$on('$destroy', function () {
-          iDocument.off('.' + scope.DIALOG_NAMESPACE);
-        });
+        iDocument.
+          on('mousemove.' + scope.DIALOG_NAMESPACE, mousemoveEvent => {
+            let top = (offsetContainer.top - (titlePos.top - mousemoveEvent.clientY));
+            let left = (offsetContainer.left - (titlePos.left - mousemoveEvent.clientX));
+            setPosition(top, left);
+          }).
+          one('mouseup.' + scope.DIALOG_NAMESPACE, () => {
+            iDocument.off('mousemove.' + scope.DIALOG_NAMESPACE);
+          });
+
+        window.addEventListener('resize', () => setPosition());
+      });
+
+      // Focus first input
+      function focusFirst() {
+        iElement.find(':input,[contentEditable=true]').filter(':visible').first().focus();
       }
-    };
-  }]).
-  directive('rgDialogTitle', function () {
-    return {
-      'require': '^rgDialog',
-      'link': function (scope, iElement, iAttrs, dialogCtrl) {
-        dialogCtrl.setTitle(iAttrs.rgDialogTitle);
-      }
-    };
-  }).
-  service('dialog', function ($log, $q) {
-    return {
-      DIALOG_NAMESPACE: 'ring-dialog',
-      $log: $log,
-      $q: $q
-    };
-  }).
-  service('dialogInSidebar', function ($log, $q, dialog) {
-    return {
-      fallbackDialog: dialog,
-      DIALOG_NAMESPACE: 'ring-dialog-in-sidebar',
-      $log: $log,
-      $q: $q
-    };
-  }).
-  config(function ($provide) {
-    $provide.decorator('dialog', function ($delegate) {
-      return angular.extend($delegate, dialogMixin);
-    });
-  }).
-  config(function ($provide) {
-    $provide.decorator('dialogInSidebar', function ($delegate) {
-      return angular.extend($delegate, dialogMixin);
-    });
+
+      iDocument.on('focusin.' + scope.DIALOG_NAMESPACE, e => {
+        if (!iElement[0].contains(e.target) && e.target.classList.contains('ring-popup')) {
+          e.preventDefault();
+          focusFirst();
+        }
+      });
+
+      scope.$on('$includeContentLoaded', () => {
+        $timeout(focusFirst);
+      });
+
+      scope.$on('$destroy', () => {
+        iDocument.off('.' + scope.DIALOG_NAMESPACE);
+      });
+    }
+  };
+});
+
+ringDialogModule.directive('rgDialogTitle', function () {
+  return {
+    require: '^rgDialog',
+    link: function (scope, iElement, iAttrs, dialogCtrl) {
+      dialogCtrl.setTitle(iAttrs.rgDialogTitle);
+    }
+  };
+});
+
+ringDialogModule.service('dialog', function ($log, $q) {
+  return {
+    DIALOG_NAMESPACE: 'ring-dialog',
+    $log: $log,
+    $q: $q
+  };
+});
+
+ringDialogModule.service('dialogInSidebar', function ($log, $q, dialog) {
+  return {
+    fallbackDialog: dialog,
+    DIALOG_NAMESPACE: 'ring-dialog-in-sidebar',
+    $log: $log,
+    $q: $q
+  };
+});
+
+ringDialogModule.config($provide => {
+  $provide.decorator('dialog', $delegate => {
+    return angular.extend($delegate, dialogMixin);
   });
+});
+
+ringDialogModule.config($provide => {
+  $provide.decorator('dialogInSidebar', $delegate => {
+    return angular.extend($delegate, dialogMixin);
+  });
+});

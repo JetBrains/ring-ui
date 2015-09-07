@@ -4,13 +4,15 @@
  */
 /* global angular: false */
 
-var render = require('react-dom').render;
+import { render } from 'react-dom';
+import ReactAlert from 'alert/alert';
+import ReactAlerts from 'alert/alerts';
 
-angular.module('Ring.alert', []).provider('alert', function() {
-  var ReactAlert = require('../alert/alert');
-  var ReactAlerts = require('../alert/alerts');
-  var container = null;
-  var defaultTTL = 0; // no ttl, never closed by timeout
+let ringAlertModule = angular.module('Ring.alert', []);
+
+ringAlertModule.provider('alert', function () {
+  let container = null;
+  let defaultTTL = 0; // no ttl, never closed by timeout
 
   function init(containerElement) {
     if (!containerElement) {
@@ -64,7 +66,7 @@ angular.module('Ring.alert', []).provider('alert', function() {
   this.init = init;
   this.setDefaultTTL = setDefaultTTL;
 
-  this.$get = function() {
+  this.$get = function () {
     return {
       error: error,
       warning: warning,

@@ -7,7 +7,7 @@
 import React, { PropTypes } from 'react';
 import classNames from 'classnames';
 import RingComponent from 'ring-component/ring-component';
-import iconUrl from './icon__url';
+import IconUrl from './icon__url';
 import ClassName from 'class-name/class-name';
 import './icon.scss';
 
@@ -199,7 +199,7 @@ export default class Icon extends RingComponent {
     );
 
     let xlinkHref = '#' + baseClass.getModifier(glyph);
-    xlinkHref = iconUrl.resolve(xlinkHref);
+    xlinkHref = IconUrl.resolve(xlinkHref);
 
     return (
       <span {...this.props} className={classes}>

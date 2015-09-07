@@ -18,7 +18,7 @@ class FooterColumn extends RingComponent {
   };
 
   render() {
-    var classes = classNames('ring-footer__column', 'ring-footer__column_' + this.props.position);
+    let classes = classNames('ring-footer__column', 'ring-footer__column_' + this.props.position);
     return (
       <div className={classes}>
         <ul className="ring-footer__column__i">
@@ -34,9 +34,9 @@ class FooterColumn extends RingComponent {
  * @param year {int}
  * @returns {string}
  */
-var copyright = function(year) {
-  var currentYear = (new Date()).getUTCFullYear();
-  var ret = '© ';
+function copyright(year) {
+  let currentYear = (new Date()).getUTCFullYear();
+  let ret = '© ';
 
   if (year >= currentYear) {
     ret += year;
@@ -60,7 +60,7 @@ class FooterLine extends RingComponent {
   };
 
   render() {
-    var children = {};
+    let children = {};
 
     function renderItem(item, idx) {
       // Item is string
@@ -68,7 +68,7 @@ class FooterLine extends RingComponent {
         item = {label: item};
       }
 
-      var element = (item.copyright ? copyright(item.copyright) : '') + item.label;
+      let element = (item.copyright ? copyright(item.copyright) : '') + item.label;
       if (item.url) {
         element = <a className="ring-link" href={item.url} title={item.title}>{element}</a>;
       }
@@ -88,7 +88,7 @@ class FooterLine extends RingComponent {
         children[it.id] = it.element;
       });
     } else {
-      var renderedItem = renderItem(this.props.item, 0);
+      let renderedItem = renderItem(this.props.item, 0);
       children[renderedItem.id] = renderedItem.element;
     }
 
@@ -173,7 +173,7 @@ export default class Footer extends RingComponent {
       );
     }
 
-    var classes = classNames('ring-footer', this.props.className);
+    let classes = classNames('ring-footer', this.props.className);
 
     return (
       <div className={classes}>{

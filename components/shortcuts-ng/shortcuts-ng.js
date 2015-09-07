@@ -1,250 +1,252 @@
-require('babel/polyfill');
-require('dom4');
-var shortcutsInstance = require('shortcuts/shortcuts');
+import 'babel/polyfill';
+import 'dom4';
+import shortcutsInstance from 'shortcuts/shortcuts';
 
 /* global angular: false */
-angular.module('Ring.shortcuts', [])
-  .provider('shortcuts', [function () {
-    var modes = {};
-    var mainModes = {};
-    var reference = [];
+let ringShortcutsModule = angular.module('Ring.shortcuts', []);
 
-    this.mode = function(config) {
-      modes[config.id] = config.shortcuts;
-      mainModes[config.id] = !!config.main;
+ringShortcutsModule.provider('shortcuts', function () {
+  let modes = {};
+  let mainModes = {};
+  let reference = [];
 
-      if (config.title) {
-        reference.push(config);
-      }
-      return this;
-    };
+  this.mode = config => {
+    modes[config.id] = config.shortcuts;
+    mainModes[config.id] = !!config.main;
 
-    this['$get'] = ['$rootScope', function($rootScope) {
-      return {
-        'bind': function(name, handlers, scope) {
-          var mode = modes[name];
+    if (config.title) {
+      reference.push(config);
+    }
 
-          // Nothing to bind
-          if (typeof handlers !== 'object') {
+    return this;
+  };
+
+  this['$get'] = ['$rootScope', function($rootScope) {
+    return {
+      bind: (name, handlers, scope) => {
+        let mode = modes[name];
+
+        // Nothing to bind
+        if (typeof handlers !== 'object') {
+          return;
+        }
+
+        // No declaration
+        if (!mode) {
+          throw new Error('Shortcut mode ' + name + ' is not declared');
+        }
+
+        mode.forEach(key => {
+          let handler = handlers[key.action];
+
+          if (!angular.isFunction(handler)) {
             return;
           }
 
-          // No declaration
-          if (!mode) {
-            throw new Error('Shortcut mode ' + name + ' is not declared');
-          }
-
-          mode.forEach(function(key) {
-            var handler = handlers[key.action];
-
-            if (!angular.isFunction(handler)) {
-              return;
-            }
-
-            shortcutsInstance.bind({
-              key: key.key,
-              scope: scope || name,
-              handler: function() {
-                var ret = handler.apply(handlers, arguments);
-                /*eslint-disable angular/ng_no_private_call*/
-                if (!$rootScope.$$phase) {
-                  $rootScope.$apply();
-                }
-                /*eslint-enable angular/ng_no_private_call */
-                return ret;
+          shortcutsInstance.bind({
+            key: key.key,
+            scope: scope || name,
+            handler: () => {
+              let ret = handler.apply(handlers, arguments);
+              /*eslint-disable angular/ng_no_private_call*/
+              if (!$rootScope.$$phase) {
+                $rootScope.$apply();
               }
-            });
-          });
-        },
-        'triggerAction': function(mode, action) {
-          var actions = modes[mode];
-
-          for (var i = actions.length - 1; i >= 0; i--) {
-            if (actions[i].action === action) {
-              return shortcutsInstance.trigger(actions[i].key[0] || actions[i].key);
+              /*eslint-enable angular/ng_no_private_call */
+              return ret;
             }
+          });
+        });
+      },
+      triggerAction: (mode, action) => {
+        let actions = modes[mode];
+
+        for (let i = actions.length - 1; i >= 0; i--) {
+          if (actions[i].action === action) {
+            return shortcutsInstance.trigger(actions[i].key[0] || actions[i].key);
           }
-        },
-        'isMainMode': function(name) {
-          return mainModes[name];
-        },
-        shortcuts: shortcutsInstance
+        }
+      },
+      isMainMode: name => {
+        return mainModes[name];
+      },
+      shortcuts: shortcutsInstance
+    };
+  }];
+});
+
+ringShortcutsModule.directive('rgShortcutsApp', function () {
+  return {
+    restrict: 'A',
+    controller: function ($scope, $rootScope, $attrs, shortcuts) {
+      $scope.zones = [];
+      $scope.loop = 'shortcutsLoop' in $attrs;
+
+      function getNext(current, back) {
+        let position = current && $scope.zones.indexOf(current);
+        let next;
+
+        if (position >= 0) {
+          next = back ? $scope.zones[position - 1] : $scope.zones[position + 1];
+        }
+
+        if (!next && ($scope.loop || !current)) {
+          next = back ? $scope.zones[$scope.zones.length - 1] : $scope.zones[0];
+        }
+
+        if (!next) {
+          next = $scope.zones[0];
+        }
+
+        // Skip invisible zones
+        if (next && !next.element.is(':visible')) {
+          next = getNext(next, back);
+        }
+
+        return next;
+      }
+
+      this.deselect = () => {
+        $scope.current.onBlur();
+        $scope.current = null;
       };
 
-    }];
-  }])
-  .directive('rgShortcutsApp', [function () {
-    return {
-      restrict: 'A',
-      controller: ['$rootScope', '$scope', '$attrs', 'shortcuts', function ($scope, $rootScope, $attrs, shortcuts) {
-        $scope.zones = [];
-        $scope.loop = 'shortcutsLoop' in $attrs;
-        var self = this;
+      this.select = next => {
+        if ($scope.current === next) {
+          return;
+        }
 
-        var getNext = function(current, back) {
-          var position = current && $scope.zones.indexOf(current);
-          var next;
+        if ($scope.current) {
+          shortcutsInstance.spliceScope($scope.current.scope);
+          this.deselect();
+        }
 
-          if (position >= 0) {
-            next = back ? $scope.zones[position - 1] : $scope.zones[position + 1];
-          }
+        if (!next) {
+          return;
+        }
 
-          if (!next && ($scope.loop || !current)) {
-            next = back ? $scope.zones[$scope.zones.length - 1] : $scope.zones[0];
-          }
+        shortcutsInstance.pushScope(next.scope);
 
-          if (!next) {
-            next = $scope.zones[0];
-          }
+        $scope.current = next;
+      };
 
-          // Skip invisible zones
-          if (next && !next.element.is(':visible')) {
-            next = getNext(next, back);
-          }
+      this.route = (action, e, combo, mode) => {
+        let next;
 
-          return next;
-        };
-
-        self.deselect = function() {
-          $scope.current.onBlur();
-          $scope.current = null;
-        };
-
-        self.select = function(next) {
-          if ($scope.current === next) {
-            return;
-          }
-
-          if ($scope.current) {
-            shortcutsInstance.spliceScope($scope.current.scope);
-            self.deselect();
-          }
-
-          if (!next) {
-            return;
-          }
-
-          shortcutsInstance.pushScope(next.scope);
-
-          $scope.current = next;
-        };
-
-        self.route = function(action, e, combo, mode) {
-          var next;
-
-          // There is nowhere to navigate
-          if (!$scope.zones.length) {
-            return false;
-          }
-
-          // Reset current zone if is not equal current scope
-          if ($scope.current && $scope.current.scope !== shortcutsInstance.getScope().pop()) {
-            self.deselect();
-          }
-
-          if (action === 'main') {
-            $scope.zones.forEach(function(zone, index) {
-              if (shortcuts.isMainMode(zone.name)) {
-                next = $scope.zones[index];
-
-                return false;
-              }
-            });
-          } else {
-            next = getNext($scope.current, action === 'prev');
-          }
-
-          // Select next zone and trigger same combo there
-          if (next) {
-            self.select(next);
-
-            if (shortcutsInstance.hasKey(combo, next.scope)) {
-              shortcutsInstance.trigger(combo);
-            }
-            // Otherwise go back
-          } else {
-            shortcuts.triggerAction(mode, action === 'next' ? 'prev' : 'next');
-          }
-
+        // There is nowhere to navigate
+        if (!$scope.zones.length) {
           return false;
-        };
+        }
 
-        self.sort = function() {
-          var orderedElements = document.queryAll('[rg-shortcuts]');
+        // Reset current zone if is not equal current scope
+        if ($scope.current && $scope.current.scope !== shortcutsInstance.getScope().pop()) {
+          this.deselect();
+        }
 
-          $scope.zones.forEach(function(zone) {
-            zone.order = orderedElements.indexOf(zone.element[0]);
+        if (action === 'main') {
+          $scope.zones.forEach((zone, index) => {
+            if (shortcuts.isMainMode(zone.name)) {
+              next = $scope.zones[index];
+              return false;
+            }
           });
+        } else {
+          next = getNext($scope.current, action === 'prev');
+        }
 
-          $scope.zones.sort(function(a, b) {
-            return a.order - b.order;
-          });
-        };
+        // Select next zone and trigger same combo there
+        if (next) {
+          this.select(next);
 
-        self.setup = function(zone, keys) {
-          shortcuts.bind(zone.name, keys, zone.scope);
-          $scope.zones.push(zone);
-          self.sort();
-        };
-
-        self.destroy = function(zone) {
-          shortcutsInstance.spliceScope(zone.scope);
-          shortcutsInstance.unbindScope(zone.scope);
-
-          var position = $scope.zones.indexOf(zone);
-
-          if (position !== -1) {
-            $scope.zones.splice(position, 1);
+          if (shortcutsInstance.hasKey(combo, next.scope)) {
+            //TODO починить
+            shortcutsInstance.trigger(combo);
           }
-        };
+          // Otherwise go back
+        } else {
+          shortcuts.triggerAction(mode, action === 'next' ? 'prev' : 'next');
+        }
 
-        // Initial setup
-        var keyMap = {
-          next: self.route.bind(self, 'next'),
-          prev: self.route.bind(self, 'prev'),
-          main: self.route.bind(self, 'main')
-        };
+        return false;
+      };
 
-        shortcuts.bind('ring-shortcuts', keyMap);
-        shortcutsInstance.pushScope('ring-shortcuts');
-      }]
-    };
-  }])
-  .directive('rgShortcuts', ['$parse', function ($parse) {
-    return {
-      restrict: 'A',
-      require: ['^rgShortcutsApp'],
-      link: function($scope, iElement, iAttrs, shortcutsCtrl) {
-        // Closest controller
-        var ctrl = shortcutsCtrl[shortcutsCtrl.length - 1];
+      this.sort = () => {
+        let orderedElements = document.queryAll('[rg-shortcuts]');
 
-        var name = iAttrs.rgShortcuts;
-        var map = $scope.$eval(iAttrs.shortcutsMap);
-        var focusGetter = $parse(iAttrs.shortcutsFocus);
-        var blurGetter = $parse(iAttrs.shortcutsBlur);
-
-        var zone = {
-          name: name,
-          scope: name + '-' + $scope.$id,
-          element: iElement,
-          onBlur: blurGetter($scope) || angular.noop
-        };
-
-        $scope.$evalAsync(function () {
-          ctrl.setup(zone, map);
+        $scope.zones.forEach(zone => {
+          zone.order = orderedElements.indexOf(zone.element[0]);
         });
 
-        $scope.$watch(function() {
-          return focusGetter($scope);
-        }, function(current) {
-          if (current) {
-            ctrl.select(zone);
-          }
+        $scope.zones.sort((a, b) => {
+          return a.order - b.order;
         });
+      };
 
-        $scope.$on('$destroy', function() {
-          ctrl.destroy(zone);
-        });
-      }
-    };
-  }]);
+      this.setup = (zone, keys) => {
+        shortcuts.bind(zone.name, keys, zone.scope);
+        $scope.zones.push(zone);
+        this.sort();
+      };
+
+      this.destroy = zone => {
+        shortcutsInstance.spliceScope(zone.scope);
+        shortcutsInstance.unbindScope(zone.scope);
+
+        let position = $scope.zones.indexOf(zone);
+
+        if (position !== -1) {
+          $scope.zones.splice(position, 1);
+        }
+      };
+
+      // Initial setup
+      let keyMap = {
+        next: this.route.bind(this, 'next'),
+        prev: this.route.bind(this, 'prev'),
+        main: this.route.bind(this, 'main')
+      };
+
+      shortcuts.bind('ring-shortcuts', keyMap);
+      shortcutsInstance.pushScope('ring-shortcuts');
+    }
+  };
+});
+
+ringShortcutsModule.directive('rgShortcuts', function ($parse) {
+  return {
+    restrict: 'A',
+    require: ['^rgShortcutsApp'],
+    link: function($scope, iElement, iAttrs, shortcutsCtrl) {
+      // Closest controller
+      let ctrl = shortcutsCtrl[shortcutsCtrl.length - 1];
+
+      let name = iAttrs.rgShortcuts;
+      let map = $scope.$eval(iAttrs.shortcutsMap);
+      let focusGetter = $parse(iAttrs.shortcutsFocus);
+      let blurGetter = $parse(iAttrs.shortcutsBlur);
+
+      let zone = {
+        name: name,
+        scope: name + '-' + $scope.$id,
+        element: iElement,
+        onBlur: blurGetter($scope) || angular.noop
+      };
+
+      $scope.$evalAsync(() => {
+        ctrl.setup(zone, map);
+      });
+
+      $scope.$watch(() => {
+        return focusGetter($scope);
+      }, current => {
+        if (current) {
+          ctrl.select(zone);
+        }
+      });
+
+      $scope.$on('$destroy', () => {
+        ctrl.destroy(zone);
+      });
+    }
+  };
+});
