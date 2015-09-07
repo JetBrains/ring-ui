@@ -4,14 +4,14 @@
 
 import React from 'react';
 import { findDOMNode } from 'react-dom';
-import RingComponent from 'ring-component/ring-component';
+import RingComponentWithShortcuts from 'ring-component/ring-component__with-shortcuts';
 import Popup from 'popup/popup';
 import List from 'list/list';
 import Input from 'input/input';
 
 const noop = () => {};
 
-export default class SelectPopup extends RingComponent {
+export default class SelectPopup extends RingComponentWithShortcuts {
   static defaultProps = {
     data: [],
     activeIndex: null,

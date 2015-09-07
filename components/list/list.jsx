@@ -11,6 +11,7 @@ import contains from 'mout/object/contains';
 import debounce from 'mout/function/debounce';
 
 import RingComponent from 'ring-component/ring-component';
+import RingComponentWithShortcuts from 'ring-component/ring-component__with-shortcuts';
 import Icon from 'icon/icon';
 
 import './list.scss';
@@ -37,7 +38,7 @@ const Dimension = {
 
 /**
  * @constructor
- * @extends {ReactComponent}
+ * @extends {RingComponent}
  */
 class ListSeparator extends RingComponent {
   /** @override */
@@ -375,7 +376,7 @@ let ListMixin = {
   </example>
 */
 @mixin.decorate(ListMixin)
-export default class List extends RingComponent {
+export default class List extends RingComponentWithShortcuts {
   static Mixin = ListMixin;
 
   static defaultProps = {
