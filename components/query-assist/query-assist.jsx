@@ -6,7 +6,6 @@ import 'babel/polyfill';
 import React, { PropTypes, DOM, createClass } from 'react';
 import { findDOMNode } from 'react-dom';
 import { renderToStaticMarkup } from 'react-dom/server';
-import mixin from 'react-mixin';
 import when from 'when';
 import debounce from 'mout/function/debounce';
 import deepEquals from 'mout/lang/deepEquals';
@@ -175,11 +174,11 @@ const noop = function() {};
      </file>
    </example>
  */
-@mixin.decorate(ngModelStateField)
 export default class QueryAssist extends RingComponentWithShortcuts {
+  static query = ngModelStateField.query;
+  static caret = ngModelStateField.caret;
   static ngModelStateField = ngModelStateField;
 
-  /** @override */
   static propTypes = {
     caret: PropTypes.number,
     className: PropTypes.string,
@@ -739,7 +738,6 @@ export default class QueryAssist extends RingComponentWithShortcuts {
     this.caret = new Caret(this.input);
   }
 
-  /** @override */
   render() {
     let renderPlaceholder = !!this.props.placeholder && this.state.placeholderEnabled;
     let renderClear = this.props.clear && !!this.state.query;

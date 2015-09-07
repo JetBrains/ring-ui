@@ -3,7 +3,6 @@
  */
 
 import React from 'react';
-import mixin from 'react-mixin';
 import RingComponentWithShortcuts from 'ring-component/ring-component__with-shortcuts';
 import Popup from 'popup/popup';
 import List from 'list/list';
@@ -11,7 +10,6 @@ import List from 'list/list';
 /**
  * @name Popup Menu
  * @constructor
- * @mixes {Popup.Mixin}
  * @extends {ReactComponent}
  * @example
 
@@ -48,12 +46,9 @@ import List from 'list/list';
      </file>
    </example>
  */
-@mixin.decorate(Popup.Mixin)
-@mixin.decorate(List.Mixin)
-export default class PopupMenu extends RingComponentWithShortcuts {
-  static defaultProps = {
-    data: []
-  };
+export default class PopupMenu extends Popup {
+  static isItemType = List.isItemType;
+  static ListProps = List.ListProps;
 
   /** @override */
   getInternalContent() {

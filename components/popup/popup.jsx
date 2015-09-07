@@ -1,19 +1,15 @@
 /**
- * @fileoverview Scaffolds for ring popup component. To create custom component
- * it's enough to mix this code into component and then add method
- * ```getInternalContent```.
- * @author igor.alexeenko
+ * @fileoverview Popup.
  */
 
 import 'babel/polyfill';
 import React, { PropTypes } from 'react';
 import { render, unmountComponentAtNode } from 'react-dom';
-import mixin from 'react-mixin';
 import classNames from 'classnames';
 import $ from 'jquery';
+
 import RingComponentWithShortcuts from 'ring-component/ring-component__with-shortcuts';
 import './popup.scss';
-import debug from 'debug-decorator/debug-decorator';
 
 /**
  * @enum {number}
@@ -44,32 +40,61 @@ const Dimension = {
 };
 
 /**
- * @mixin {PopupMixin}
+ * @constructor
+ * @name Popup
+ * @extends {ReactComponent}
+ * @example
+
+ <example name="Popup">
+ <file name="index.html">
+ <div>
+ <div id="target1" style="position: absolute; left: 0; top: 0; width: 10px; height: 10px; background-color: red;"></div>
+ <div id="target2" style="position: absolute; right: 0; top: 0; width: 10px; height: 10px; background-color: blue;"></div>
+ <div id="target3" style="position: absolute; left: 0; bottom: 0; width: 10px; height: 10px; background-color: green;"></div>
+ <button id="switch3" style="position: absolute; left: 50px; bottom: 50px;">Show again</button>
+ <div id="target4" style="position: absolute; right: 0; bottom: 0; width: 10px; height: 10px; background-color: orange;"></div>
+ </div>
+ </file>
+ <file name="index.js" webpack="true">
+ var DOM = require('react').DOM;
+ var Popup = require('popup/popup');
+
+ var container = DOM.span(null, 'Hello world!');
+
+ var popup = Popup.renderPopup(Popup.factory({
+   anchorElement: document.getElementById('target1'),
+   corner: Popup.PopupProps.Corner.TOP_LEFT,
+   autoRemove: false
+ }, container));
+
+ var popup2 = Popup.renderPopup(Popup.factory({
+   anchorElement: document.getElementById('target2'),
+   corner: Popup.PopupProps.Corner.TOP_RIGHT,
+   autoRemove: false
+ }, container));
+
+ var popup3 = Popup.renderPopup(Popup.factory({
+   anchorElement: document.getElementById('target3'),
+   corner: Popup.PopupProps.Corner.BOTTOM_LEFT,
+   autoRemove: false
+ }, container));
+
+ document.getElementById('switch3').onclick = function() {
+  setTimeout(function() {
+    popup3.show();
+  }, 1);
+ };
+
+ var popup4 = Popup.renderPopup(Popup.factory({
+   anchorElement: document.getElementById('target4'),
+   corner: Popup.PopupProps.Corner.BOTTOM_RIGHT,
+   autoRemove: false
+ }, container));
+ </file>
+ </example>
  */
-let PopupMixin = {
-  statics: {
-    PopupProps: {
-      Corner: Corner,
-      Direction: Direction,
-      Dimension: Dimension
-    },
-
-    /**
-     * @static
-     * @param {ReactComponent} component
-     * @return {HTMLElement}
-     */
-    renderPopup: function (component) {
-      let container = document.createElement('div');
-      document.body.appendChild(container);
-
-      return render(component, container);
-    }
-  },
-
-  // Temporarily disabled due to https://github.com/brigand/react-mixin/blob/master/index.js#L101
-  /** @override */
-  /*propTypes: {
+export default class Popup extends RingComponentWithShortcuts {
+  static propTypes = {
     anchorElement: React.PropTypes.object,
     className: React.PropTypes.string,
     maxHeight: React.PropTypes.oneOfType([
@@ -78,57 +103,69 @@ let PopupMixin = {
     ]),
     left: React.PropTypes.number,
     top: React.PropTypes.number
-  },*/
+  };
 
-  getInitialState: function () {
-    return {
-      display: this.props.hidden ? 0 : 1 // 0 - hidden, 1 - display in progress, 2 - visible
-    };
-  },
+  static defaultProps = {
+    shortcuts: false,
+    hidden: false,
+    autoRemove: true,
+    cutEdge: true,
+    left: 0,
+    top: 0,
+    corner: Corner.BOTTOM_LEFT,
+    /* eslint-disable no-bitwise */
+    direction: Direction.DOWN | Direction.RIGHT,
+    /* eslint-enable no-bitwise */
+    sidePadding: 8
+  };
 
-  getDefaultProps: function () {
-    return {
-      shortcuts: false,
-      hidden: false,
-      autoRemove: true,
-      cutEdge: true,
-      left: 0,
-      top: 0,
-      corner: Corner.BOTTOM_LEFT,
-      /* eslint-disable no-bitwise */
-      direction: Direction.DOWN | Direction.RIGHT,
-      /* eslint-enable no-bitwise */
-      sidePadding: 8
-    };
-  },
+  static PopupProps = {
+    Corner: Corner,
+    Direction: Direction,
+    Dimension: Dimension
+  };
 
-  getShortcutsProps: function () {
+  /**
+   * @static
+   * @param {ReactComponent} component
+   * @return {HTMLElement}
+   */
+  static renderPopup(component) {
+    let container = document.createElement('div');
+    document.body.appendChild(container);
+
+    return render(component, container);
+  }
+
+  state = {
+    display: this.props.hidden ? 0 : 1 // 0 - hidden, 1 - display in progress, 2 - visible
+  }
+
+  getShortcutsProps() {
     return {
       map: {
         esc: ::this.close
       },
       scope: ::this.constructor.getUID()
     };
-  },
+  }
 
-  didMount: function () {
+  didMount() {
     if (!this.props.hidden) {
       this._setListenersEnabled(true);
     }
     this._checkDisplay();
-  },
+  }
 
-  didUpdate: function() {
+  didUpdate() {
     this._checkDisplay();
-  },
+  }
 
-  /** @override */
-  willUnmount: function () {
+  willUnmount() {
     this._setListenersEnabled(false);
-  },
+  }
 
-  /** @override */
-  render: function () {
+  render() {
     let classes = classNames({
       'ring-popup': true,
       'ring-popup_bound': this.props.cutEdge
@@ -139,12 +176,12 @@ let PopupMixin = {
         {this.getInternalContent()}
       </div>
     );
-  },
+  }
 
   /**
    * Closes popup and optionally removes from document.
    */
-  close: function (evt) {
+  close(evt) {
     let onCloseResult = true;
 
     if (typeof this.props.onClose === 'function') {
@@ -162,71 +199,71 @@ let PopupMixin = {
     }
 
     return onCloseResult;
-  },
+  }
 
-  hide: function(cb) {
+  hide(cb) {
     this.setState({
       display: 0,
       shortcuts: false
     }, cb);
 
     this._setListenersEnabled(false);
-  },
+  }
 
-  show: function(cb) {
+  show(cb) {
     this.setState({
       display: 1,
       shortcuts: true
     }, cb);
 
     this._setListenersEnabled(true);
-  },
+  }
 
   /**
    * @param {boolean} enable
    * @private
    */
-  _setListenersEnabled: function(enable) {
+  _setListenersEnabled(enable) {
     if (enable && !this._listenersEnabled) {
       setTimeout(() => {
         this._listenersEnabled = true;
-        window.addEventListener('resize', ::this.onWindowResize_);
-        document.addEventListener('click', ::this.onDocumentClick_);
+        window.addEventListener('resize', ::this._onWindowResize);
+        document.addEventListener('click', ::this._onDocumentClick);
       }, 0);
 
       return;
     }
 
     if (!enable && this._listenersEnabled){
-      window.removeEventListener('resize', ::this.onWindowResize_);
-      document.removeEventListener('click', ::this.onDocumentClick_);
+      window.removeEventListener('resize', ::this._onWindowResize);
+      document.removeEventListener('click', ::this._onDocumentClick);
       this._listenersEnabled = false;
     }
-  },
+  }
 
   /**
    * @private
    */
-  _checkDisplay: function() {
+  _checkDisplay() {
     if (this.state.display === 1) {
       this.setState({
         display: 2
       });
     }
-  },
+  }
 
   /**
    * Returns visibility state
    * @return {boolean}
    */
-  isVisible: function() {
+  isVisible() {
     return this.state.display > 0;
-  },
+  }
 
   /**
    * Removes popup from document.
    */
-  remove: function () {
+  remove() {
     if (!this.node) {
       return;
     }
@@ -237,20 +274,20 @@ let PopupMixin = {
     if (parent.parentNode) {
       parent.parentNode.removeChild(parent);
     }
-  },
+  }
 
   /**
    * @private
    */
-  onWindowResize_: function (evt) {
+  _onWindowResize(evt) {
     this.close(evt);
-  },
+  }
 
   /**
    * @param {jQuery.Event} evt
    * @private
    */
-  onDocumentClick_: function (evt) {
+  _onDocumentClick(evt) {
     if (!this.node || this.node.contains(evt.target)) {
       return;
     }
@@ -260,13 +297,13 @@ let PopupMixin = {
       !this.props.anchorElement.contains(evt.target)) {
       this.close(evt);
     }
-  },
+  }
 
   /**
    * @return {Object}
    * @private
    */
-  _getStyles: function (props) {
+  _getStyles(props) {
     props = props || this.props;
     let anchorElement = (props.anchorElement || document.body);
     let top = props.top;
@@ -370,68 +407,7 @@ let PopupMixin = {
 
     return styles;
   }
-};
 
-/**
- * @constructor
- * @name Popup
- * @mixes {PopupMixin}
- * @extends {ReactComponent}
- * @example
-
- <example name="Popup">
- <file name="index.html">
- <div>
- <div id="target1" style="position: absolute; left: 0; top: 0; width: 10px; height: 10px; background-color: red;"></div>
- <div id="target2" style="position: absolute; right: 0; top: 0; width: 10px; height: 10px; background-color: blue;"></div>
- <div id="target3" style="position: absolute; left: 0; bottom: 0; width: 10px; height: 10px; background-color: green;"></div>
- <button id="switch3" style="position: absolute; left: 50px; bottom: 50px;">Show again</button>
- <div id="target4" style="position: absolute; right: 0; bottom: 0; width: 10px; height: 10px; background-color: orange;"></div>
- </div>
- </file>
- <file name="index.js" webpack="true">
- var DOM = require('react').DOM;
- var Popup = require('popup/popup');
-
- var container = DOM.span(null, 'Hello world!');
-
- var popup = Popup.renderPopup(Popup.factory({
-   anchorElement: document.getElementById('target1'),
-   corner: Popup.PopupProps.Corner.TOP_LEFT,
-   autoRemove: false
- }, container));
-
- var popup2 = Popup.renderPopup(Popup.factory({
-   anchorElement: document.getElementById('target2'),
-   corner: Popup.PopupProps.Corner.TOP_RIGHT,
-   autoRemove: false
- }, container));
-
- var popup3 = Popup.renderPopup(Popup.factory({
-   anchorElement: document.getElementById('target3'),
-   corner: Popup.PopupProps.Corner.BOTTOM_LEFT,
-   autoRemove: false
- }, container));
-
- document.getElementById('switch3').onclick = function() {
-  setTimeout(function() {
-    popup3.show();
-  }, 1);
- };
-
- var popup4 = Popup.renderPopup(Popup.factory({
-   anchorElement: document.getElementById('target4'),
-   corner: Popup.PopupProps.Corner.BOTTOM_RIGHT,
-   autoRemove: false
- }, container));
- </file>
- </example>
- */
-@mixin.decorate(PopupMixin)
-export default class Popup extends RingComponentWithShortcuts {
-  static Mixin = PopupMixin;
-
-  /** @override */
   getInternalContent() {
     return this.props.children;
   }
