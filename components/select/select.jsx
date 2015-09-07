@@ -166,7 +166,8 @@ var Type = {
        filter: {
          placeholder: 'Select me',
          value: 'One'
-       }
+       },
+       hint: 'Press down to do something'
      }), document.getElementById('demo'))
      .setProps({
       add: {
@@ -289,6 +290,7 @@ var Select = React.createClass({
 
       label: 'Please select option',  // BUTTON label or INPUT placeholder (nothing selected)
       selectedLabel: '',              // BUTTON label or INPUT placeholder (something selected)
+      hint: null,           //A hint text to display under the list
 
       shortcuts: false,
 
@@ -437,6 +439,7 @@ var Select = React.createClass({
           maxHeight={this.props.maxHeight}
           minWidth={this.props.minWidth}
           filter={this.isInputMode() ? false : this.props.filter} // disable popup filter in INPUT mode
+          hint={this.props.hint}
           anchorElement={this.props.targetElement || this.getDOMNode()}
           onClose={this._onClose}
           onSelect={this._listSelectHandler}
