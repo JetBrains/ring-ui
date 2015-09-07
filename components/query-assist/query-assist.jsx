@@ -12,7 +12,7 @@ import debounce from 'mout/function/debounce';
 import deepEquals from 'mout/lang/deepEquals';
 import classNames from 'classnames';
 
-import RingComponent from 'ring-component/ring-component';
+import RingComponentWithShortcuts from 'ring-component/ring-component__with-shortcuts';
 import Caret from 'caret/caret';
 import ContentEditable from 'contenteditable/contenteditable';
 import PopupMenu from '../popup-menu/popup-menu';
@@ -176,7 +176,7 @@ const noop = function() {};
    </example>
  */
 @mixin.decorate(ngModelStateField)
-export default class QueryAssist extends RingComponent {
+export default class QueryAssist extends RingComponentWithShortcuts {
   static ngModelStateField = ngModelStateField;
 
   /** @override */
