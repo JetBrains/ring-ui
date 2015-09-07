@@ -9,13 +9,13 @@ import 'babel/polyfill';
 import { createElement, PropTypes } from 'react';
 import { render, unmountComponentAtNode } from 'react-dom';
 
-var reactModule = angular.module('Ring.react-ng', []);
+let reactModule = angular.module('Ring.react-ng', []);
 
 /**
  * Ring components map
  * @type {{}}
  */
-var ringComponents = {};
+let ringComponents = {};
 
 /**
  * React component getter
@@ -30,16 +30,8 @@ reactModule.service('ringComponents', function () {
   return getComponent;
 });
 
-/**
- * React component register
- * @param componentsMap
- */
-function registerComponents(componentsMap) {
-  Object.assign(ringComponents, componentsMap);
-}
-
 function getComponentIfExist(name){
-  var ComponentClass = getComponent(name);
+  let ComponentClass = getComponent(name);
 
   if (!ComponentClass) {
     throw new Error('Component ' + name + ' is not registered');
@@ -49,126 +41,121 @@ function getComponentIfExist(name){
 }
 
 function renderAndRemoveOnDestroy(ComponentClass, iElement, props){
-  var component = render(createElement(ComponentClass, props), iElement[0]);
-  iElement.on('$destroy', function () {
+  let component = render(createElement(ComponentClass, props), iElement[0]);
+  iElement.on('$destroy', () => {
     unmountComponentAtNode(iElement[0]);
   });
   return component;
 }
 
-module.exports = registerComponents;
-
-var reactDirectiveName = 'react';
-var staticDirectiveName = reactDirectiveName + 'Static';
-var attributeToPassPrefix = 'react';
-var specialDOMAttrs = {
+let reactDirectiveName = 'react';
+let staticDirectiveName = reactDirectiveName + 'Static';
+let attributeToPassPrefix = 'react';
+let specialDOMAttrs = {
   'for': 'htmlFor',
   'class': 'className'
 };
 
-reactModule.directive(reactDirectiveName, [
-  '$parse',
-  function ($parse) {
-    return {
-      restrict: 'A',
-      link: function (scope, iElement, iAttrs) {
-        var component = null;
-        var directiveName = iAttrs[reactDirectiveName];
-        var instanceAttr = 'reactInstance';
+reactModule.directive(reactDirectiveName, ['$parse', function ($parse) {
+  return {
+    restrict: 'A',
+    link: function (scope, iElement, iAttrs) {
+      let component = null;
+      let directiveName = iAttrs[reactDirectiveName];
+      let instanceAttr = 'reactInstance';
 
-        var ComponentClass = getComponentIfExist(directiveName);
-        var directiveProps = {};
+      let ComponentClass = getComponentIfExist(directiveName);
+      let directiveProps = {};
 
-        function modifyProps(props, name, value) {
-          if (name === 'ngModel' && ComponentClass.ngModelStateField) {
-            if (typeof ComponentClass.ngModelStateField === 'object' && typeof value === 'object') {
-              angular.forEach(ComponentClass.ngModelStateField, function (flag, changedPropName) {
-                if (flag && value[changedPropName] !== undefined) {
-                  props[changedPropName] = value[changedPropName];
-                }
-              });
-            } else if (typeof ComponentClass.ngModelStateField === 'string') {
-              props[ComponentClass.ngModelStateField] = value;
-            } else {
-              return;
-            }
+      function modifyProps(props, name, value) {
+        if (name === 'ngModel' && ComponentClass.ngModelStateField) {
+          if (typeof ComponentClass.ngModelStateField === 'object' && typeof value === 'object') {
+            angular.forEach(ComponentClass.ngModelStateField, (flag, changedPropName) => {
+              if (flag && value[changedPropName] !== undefined) {
+                props[changedPropName] = value[changedPropName];
+              }
+            });
+          } else if (typeof ComponentClass.ngModelStateField === 'string') {
+            props[ComponentClass.ngModelStateField] = value;
           } else {
-            props[name] = value;
+            return;
           }
-        }
-
-        function getUpdater(name) {
-          return function updatePropsFromWatch(value, oldValue) {
-            if (!component) {
-              return;
-            }
-
-            // Don't pass undefined on init
-            if (angular.isUndefined(value) && angular.isUndefined(oldValue)) {
-              return;
-            }
-
-            var props = {};
-            modifyProps(props, name, value);
-            component.rerender(props);
-          };
-        }
-
-        angular.forEach(iAttrs, function (value, name) {
-          if (iAttrs.hasOwnProperty(name) && name !== reactDirectiveName && name !== instanceAttr && typeof value === 'string') {
-            // Use React DOM attributes names
-            var specialDOMAttrName = specialDOMAttrs[name];
-            var propName = specialDOMAttrName || name;
-
-            // Detect interpolation
-            var interpolated = iElement[0].getAttribute(iAttrs.$attr[name]) !== value;
-
-            // Check if component expects callback
-            var expectsCallback = ComponentClass.propTypes &&
-              (ComponentClass.propTypes[propName] === PropTypes.func ||
-              ComponentClass.propTypes[propName] === PropTypes.func.isRequired);
-
-            // Parse as expression
-            var parsedExpression = !specialDOMAttrName && !interpolated && $parse(value);
-
-            if (interpolated) {
-              iAttrs.$observe(name, getUpdater(propName));
-            } else if (parsedExpression && expectsCallback) {
-              directiveProps[propName] = function (param) {
-                var locals = typeof param === 'object' ? angular.copy(param) : {};
-                locals.arguments = Array.prototype.slice.call(arguments, 0);
-
-                return parsedExpression(scope, locals);
-              };
-            } else if (parsedExpression) {
-              scope.$watch(parsedExpression, getUpdater(propName), true);
-              modifyProps(directiveProps, propName, parsedExpression(scope));
-            } else {
-              directiveProps[propName] = value;
-            }
-          }
-        });
-
-        if ('ngModel' in iAttrs) {
-          var ngModel = iElement.controller('ngModel');
-          directiveProps['_onModelChange'] = function(value) {
-            ngModel.$setViewValue(value);
-          };
-        }
-
-        component = renderAndRemoveOnDestroy(ComponentClass, iElement, directiveProps);
-
-        if (iAttrs[instanceAttr]) {
-          var instanceProp = $parse(iAttrs[instanceAttr])(scope);
-
-          if (typeof instanceProp === 'string') {
-            scope[instanceProp] = component;
-          }
+        } else {
+          props[name] = value;
         }
       }
-    };
-  }
-])
+
+      function getUpdater(name) {
+        return (value, oldValue) => {
+          if (!component) {
+            return;
+          }
+
+          // Don't pass undefined on init
+          if (angular.isUndefined(value) && angular.isUndefined(oldValue)) {
+            return;
+          }
+
+          let props = {};
+          modifyProps(props, name, value);
+          component.rerender(props);
+        };
+      }
+
+      angular.forEach(iAttrs, (value, name) => {
+        if (iAttrs.hasOwnProperty(name) && name !== reactDirectiveName && name !== instanceAttr && typeof value === 'string') {
+          // Use React DOM attributes names
+          let specialDOMAttrName = specialDOMAttrs[name];
+          let propName = specialDOMAttrName || name;
+
+          // Detect interpolation
+          let interpolated = iElement[0].getAttribute(iAttrs.$attr[name]) !== value;
+
+          // Check if component expects callback
+          let expectsCallback = ComponentClass.propTypes &&
+            (ComponentClass.propTypes[propName] === PropTypes.func ||
+            ComponentClass.propTypes[propName] === PropTypes.func.isRequired);
+
+          // Parse as expression
+          let parsedExpression = !specialDOMAttrName && !interpolated && $parse(value);
+
+          if (interpolated) {
+            iAttrs.$observe(name, getUpdater(propName));
+          } else if (parsedExpression && expectsCallback) {
+            directiveProps[propName] = param => {
+              let locals = typeof param === 'object' ? angular.copy(param) : {};
+              locals.arguments = Array.prototype.slice.call(arguments, 0);
+
+              return parsedExpression(scope, locals);
+            };
+          } else if (parsedExpression) {
+            scope.$watch(parsedExpression, getUpdater(propName), true);
+            modifyProps(directiveProps, propName, parsedExpression(scope));
+          } else {
+            directiveProps[propName] = value;
+          }
+        }
+      });
+
+      if ('ngModel' in iAttrs) {
+        let ngModel = iElement.controller('ngModel');
+        directiveProps['_onModelChange'] = value => {
+          ngModel.$setViewValue(value);
+        };
+      }
+
+      component = renderAndRemoveOnDestroy(ComponentClass, iElement, directiveProps);
+
+      if (iAttrs[instanceAttr]) {
+        let instanceProp = $parse(iAttrs[instanceAttr])(scope);
+
+        if (typeof instanceProp === 'string') {
+          scope[instanceProp] = component;
+        }
+      }
+    }
+  };
+}]);
 
 /**
  * @name React-ng
@@ -192,39 +179,46 @@ reactModule.directive(reactDirectiveName, [
      </file>
    </example>
  */
-  .directive(staticDirectiveName, [
-    '$parse',
-    function ($parse) {
+reactModule.directive(staticDirectiveName, ['$parse', function ($parse) {
+  function getPropertyName(name) {
+    //remove "react-" prefix and uncapitalize first letter
+    let cleanAttrName = name.replace(attributeToPassPrefix, '');
+    let uncapitalizedAttrName = cleanAttrName.charAt(0).toLowerCase() + cleanAttrName.slice(1);
+    // Use React DOM attributes names
+    let specialDOMAttrName = specialDOMAttrs[uncapitalizedAttrName];
+    let propName = specialDOMAttrName || uncapitalizedAttrName;
+    return propName;
+  }
 
-      function getPropertyName(name) {
-        //remove "react-" prefix and uncapitalize first letter
-        var cleanAttrName = name.replace(attributeToPassPrefix, '');
-        var uncapitalizedAttrName = cleanAttrName.charAt(0).toLowerCase() + cleanAttrName.slice(1);
-        // Use React DOM attributes names
-        var specialDOMAttrName = specialDOMAttrs[uncapitalizedAttrName];
-        var propName = specialDOMAttrName || uncapitalizedAttrName;
-        return propName;
-      }
+  return {
+    restrict: 'A',
+    link: function (scope, iElement, iAttrs) {
+      let name = iAttrs[staticDirectiveName];
+      let ComponentClass = getComponentIfExist(name);
+      let props = {};
 
-      return {
-        restrict: 'A',
-        link: function (scope, iElement, iAttrs) {
-          var name = iAttrs[staticDirectiveName];
-
-          var ComponentClass = getComponentIfExist(name);
-
-          var props = {};
-
-          angular.forEach(iAttrs, function (value, attrName) {
-            if (iAttrs.hasOwnProperty(attrName) && attrName !== staticDirectiveName && attrName.indexOf(attributeToPassPrefix) === 0 && typeof value === 'string') {
-              // Parse as expression
-              var parsedExpression = $parse(value);
-              props[getPropertyName(attrName)] = parsedExpression(scope);
-            }
-          });
-
-          renderAndRemoveOnDestroy(ComponentClass, iElement, props);
+      angular.forEach(iAttrs, (value, attrName) => {
+        if (
+          iAttrs.hasOwnProperty(attrName) &&
+          attrName !== staticDirectiveName &&
+          attrName.indexOf(attributeToPassPrefix) === 0 &&
+          typeof value === 'string'
+        ) {
+          // Parse as expression
+          let parsedExpression = $parse(value);
+          props[getPropertyName(attrName)] = parsedExpression(scope);
         }
-      };
+      });
+
+      renderAndRemoveOnDestroy(ComponentClass, iElement, props);
     }
-  ]);
+  };
+}]);
+
+/**
+ * React component register
+ * @param componentsMap
+ */
+export default function registerComponents(componentsMap) {
+  Object.assign(ringComponents, componentsMap);
+}

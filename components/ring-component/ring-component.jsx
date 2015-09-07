@@ -12,7 +12,7 @@ export default class RingComponent extends Component {
   }
 
   static getUID() {
-    var id = String(this.idCounter++);
+    let id = String(this.idCounter++);
     return this.name + id;
   }
 
