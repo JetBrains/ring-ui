@@ -27,9 +27,13 @@ require('../tabs/tabs.scss');
      <file name="index.html">
      <div ng-app="Ring.tabs">
        <rg-tabs class="container container_tabs">
-          <rg-tabs-pane-title for-tab-id="do-not-forget-id">Here is <i>custom</i> tab's <b>title</b></rg-tabs-pane-title>
-          <rg-tabs-pane x-title="foo" tab-id="do-not-forget-id">Tab content</rg-tabs-pane>
+        <div><!-- Div can be used for ng-repeat tabs -->
+           <rg-tabs-pane-title>Here is <i>custom</i> tab's <b>title</b></rg-tabs-pane-title>
+           <rg-tabs-pane x-title="foo" tab-id="do-not-forget-id">Tab content</rg-tabs-pane>
+        </div>
+        <div>
           <rg-tabs-pane x-title="Usual tab" counter="666">usual tab content</rg-tabs-pane>
+        </div>
        </rg-tabs>
      </div>
      </file>
@@ -158,8 +162,6 @@ angular.module('Ring.tabs', ['ngRoute']).
 
         if (scope.pane.customTabTitleElement) {
           angularElement.replaceWith(scope.pane.customTabTitleElement);
-          //Delete link to DOM node to avoid potentially detached node link storing
-          delete scope.pane.customTabTitleElement;
         }
       }
     };
@@ -178,7 +180,10 @@ angular.module('Ring.tabs', ['ngRoute']).
       link: function (scope, element, attrs, tabsCtrl) {
         scope.tabId = scope.tabId || scope.title.toLowerCase();
 
-        scope.customTabTitleElement = element[0].parentNode.querySelector('[for-tab-id="' + scope.tabId + '"]');
+        var previousSibling = element[0].previousElementSibling;
+        if (previousSibling && previousSibling.nodeName.toLowerCase() === 'rg-tabs-pane-title') {
+          scope.customTabTitleElement = previousSibling;
+        }
 
         tabsCtrl.addPane(scope);
       },
