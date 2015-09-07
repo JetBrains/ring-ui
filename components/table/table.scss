@@ -14,6 +14,12 @@
   background-color: #E4E4E4;
 }
 
+.ring-table__header-checkbox {
+  display: inline-block;
+  position: relative;
+  top: 3px;
+}
+
 .ring-table__title {
   display: table-cell;
   position: relative;
@@ -62,6 +68,11 @@
 
 .ring-table__title_nested {
   padding-left: $ring-unit*5;
+
+  // fix header checkbox position in nested table
+  & .ring-table__header-checkbox {
+    left: -26px;
+  }
 }
 
 .ring-table__toggle {
@@ -287,4 +298,29 @@
   //z-index avoid overlaying icons in rows and fixed header
   z-index: $ring-fixed-z-index;
   width: auto;
+}
+
+.table__pager {
+  margin: 4*$ring-unit 4*$ring-unit;
+}
+
+.table__pager-links {
+  margin-bottom: 2*$ring-unit;
+}
+
+.table__pager-link {
+  display: inline-block;
+
+  &:first-child {
+    margin-right: 4*$ring-unit;
+  }
+}
+
+.table__pager-select {
+  float: right;
+  display: inline-block;
+
+  &  .ring-btn.ring-select {
+    width: auto;
+  }
 }

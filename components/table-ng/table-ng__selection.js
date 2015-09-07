@@ -17,6 +17,7 @@ var Selection = function (items, emitEvent) {
 deepMixIn(Selection.prototype, {
   setItems: function (items) {
     this.items = items;
+    this.emitEvent('rgTable:itemsChanged', items);
   },
   activateItem: function (item) {
     this.clearActivity();

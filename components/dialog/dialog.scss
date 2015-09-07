@@ -164,6 +164,7 @@
 
   cursor: move;
   text-align: center;
+  user-select: none;
 }
 
 .ring-dialog__header__close-icon {
@@ -179,5 +180,49 @@
 
   &:hover {
     color: #8C8C8C;
+  }
+}
+
+.ring-dialog__wrapper_inline {
+  position: static;
+  width: auto;
+  margin-bottom: 20px;
+
+  .ring-dialog__container {
+    position: static;
+
+    width: auto;
+    margin: 0;
+
+    border: none;
+    box-shadow: none;
+  }
+
+  .ring-dialog__header {
+    border: none;
+    background-image: none;
+  }
+
+  .ring-dialog__header__title {
+    padding-left: 5*$ring-unit;
+
+    line-height: 6*$ring-unit;
+    font-size: 3*$ring-unit;
+    font-weight: normal;
+
+    text-align: left;
+
+    cursor: text;
+    user-select: text;
+  }
+
+  .ring-dialog__content {
+    padding-left: 5*$ring-unit;
+  }
+
+  .ring-dialog__footer {
+    margin: 0 2.5*$ring-unit;
+    padding-left: 2.5*$ring-unit;
+    padding-right: 2.5*$ring-unit;
   }
 }

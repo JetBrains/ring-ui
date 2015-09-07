@@ -13,9 +13,7 @@ angular.module('Ring.confirm', ['Ring.dialog']).
       $templateCache.put(TEMPLATE_PATH, require('./confirm-ng.html'));
 
       return function (message, description, actionTitle, cancelTitle, cancelIsDefault) {
-        var defer = $q.defer();
-
-        dialog.show({
+        return dialog.show({
           content: TEMPLATE_PATH,
           data: {
             message: (message || ''),
@@ -27,8 +25,7 @@ angular.module('Ring.confirm', ['Ring.dialog']).
               'default': !cancelIsDefault,
               'close': false,
               'action': function () {
-                defer.resolve();
-                dialog.hide();
+                dialog.done();
                 return true;
               }
             },
@@ -36,15 +33,12 @@ angular.module('Ring.confirm', ['Ring.dialog']).
               'label': (cancelTitle || 'Cancel'),
               'default': !!cancelIsDefault,
               'action': function () {
-                defer.reject();
-                dialog.hide();
+                dialog.reset();
                 return false;
               }
             }
           ]
         });
-
-        return defer.promise;
       };
     }
   ]);
