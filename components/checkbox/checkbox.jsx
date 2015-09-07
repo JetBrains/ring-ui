@@ -1,18 +1,9 @@
 import React, { PropTypes } from 'react';
 import classNames from 'classnames';
 import RingComponent from 'ring-component/ring-component';
-import Global from 'global/global';
 import Icon from 'icon/icon';
 
 import './checkbox.scss';
-
-/**
- * @const
- * @type {string}
- */
-const ID_PREFIX = '\\x0';
-
-const generateUniqueId = Global.getUIDGenerator(ID_PREFIX);
 
 const ngModelStateField = 'checked';
 
@@ -113,7 +104,7 @@ export default class Checkbox extends RingComponent {
   ngModelStateField = ngModelStateField;
 
   state = {
-    id: generateUniqueId(),
+    id: this.constructor.getUID(),
     checked: this.props.checked,
     disabled: this.props.disabled
   };

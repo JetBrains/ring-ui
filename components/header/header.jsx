@@ -11,7 +11,6 @@ import classNames from 'classnames';
 
 import RingComponent from 'ring-component/ring-component';
 import ClassName from 'class-name/class-name';
-import Global from 'global/global';
 import Button from 'button/button';
 import Icon from 'icon/icon';
 import Popup from 'popup/popup';
@@ -206,12 +205,13 @@ export default class Header extends RingComponent {
   static HeaderHelper = HeaderHelper;
 
   static defaultProps = {
-    enabledMenuItems: Global.createObject(
-        MenuItemType.SETTINGS, true,
-        MenuItemType.HELP, true,
-        MenuItemType.SERVICES, true,
-        MenuItemType.USER_MENU, true,
-        MenuItemType.LOGIN, false),
+    enabledMenuItems: {
+      [MenuItemType.SETTINGS]: true,
+      [MenuItemType.HELP]: true,
+      [MenuItemType.SERVICES]: true,
+      [MenuItemType.USER_MENU]: true,
+      [MenuItemType.LOGIN]: false
+    },
     helpLink: null,
     logo: '',
     logoUrl: null,
@@ -301,10 +301,11 @@ export default class Header extends RingComponent {
    * @private
    */
   _getLinkElement(href, isActive, className, children) {
-    let fullClassName = classNames(Global.createObject(
-      className, true,
-      headerClassName.getClassName('services-current'), isActive,
-      headerClassName.getClassName('services-link'), !isActive));
+    let fullClassName = classNames({
+      [className]: true,
+      [headerClassName.getClassName('services-current')]: isActive,
+      [headerClassName.getClassName('services-link')]: !isActive
+    });
 
     if (isActive) {
       return DOM.span({
@@ -428,9 +429,10 @@ export default class Header extends RingComponent {
       return /** @type {ReactComponent} */ this.transferPropsTo(this.props.rightMenu);
     }
 
-    let extraElementClassName = classNames(Global.createObject(
-        headerClassName.getElement('user-menu-extra'), true,
-        headerClassName.getElement('user-menu-item'), true));
+    let extraElementClassName = classNames({
+      [headerClassName.getElement('user-menu-extra')]: true,
+      [headerClassName.getElement('user-menu-item')]: true
+    });
 
     return (
       <div className={headerClassName.getElement('right')}>
@@ -460,58 +462,63 @@ export default class Header extends RingComponent {
    * @return {Array.<ReactComponent>}
    */
   getMenuItems() {
-    let loginClassName = classNames(Global.createObject(
-        headerClassName.getElement('user-menu-item'), true,
-        headerClassName.getClassName('user-menu-item', 'login'), true));
+    let loginClassName = classNames({
+      [headerClassName.getElement('user-menu-item')]: true,
+      [headerClassName.getClassName('user-menu-item', 'login')]: true
+    });
 
-    let menuItems = Global.createObject(
-        MenuItemType.SETTINGS, (
-          <HeaderItem
-            key="settings"
-            ref="settings"
-            glyph="cog1"
-            href={this.props.settingsLink}
-            onOpen={::this.props.onSettingsOpen}
-            onClose={::this.props.onSettingsClose}
-            title="Administration"
-          />
-        ),
-        MenuItemType.HELP, (
-          <HeaderItem
-            key="help"
-            ref="help"
-            glyph="help"
-            href={this.props.helpLink}
-            onOpen={::this.props.onHelpOpen}
-            onClose={::this.props.onHelpClose}
-            title="Help"
-          />
-        ),
-        MenuItemType.SERVICES, (
-          <HeaderItem
-            key="services"
-            ref="services"
-            glyph="services"
-            onOpen={::this._onServicesOpen}
-            onClose={::this._onServicesClose}
-            title="Services"
-          />
-        ),
-        MenuItemType.USER_MENU, (
-          <HeaderItem
-            key="userMenu"
-            ref="userMenu"
-            glyph="user1"
-            onOpen={::this.props.onUserMenuOpen}
-            onClose={::this.props.onUserMenuClose}
-          />
-        ),
-        MenuItemType.LOGIN, (
-          <div key="loginButton" ref="loginButton" className={loginClassName}>
-            <Button modifier={Button.Modifiers.BLUE} onClick={::this.props.onLoginClick}>{this.props.translationsDict.login}</Button>
-          </div>
-        )
-    );
+    let menuItems = {
+      [MenuItemType.SETTINGS]: (
+        <HeaderItem
+          key="settings"
+          ref="settings"
+          glyph="cog1"
+          href={this.props.settingsLink}
+          onOpen={::this.props.onSettingsOpen}
+          onClose={::this.props.onSettingsClose}
+          title="Administration"
+        />
+      ),
+
+      [MenuItemType.HELP]: (
+        <HeaderItem
+          key="help"
+          ref="help"
+          glyph="help"
+          href={this.props.helpLink}
+          onOpen={::this.props.onHelpOpen}
+          onClose={::this.props.onHelpClose}
+          title="Help"
+        />
+      ),
+
+      [MenuItemType.SERVICES]: (
+        <HeaderItem
+          key="services"
+          ref="services"
+          glyph="services"
+          onOpen={::this._onServicesOpen}
+          onClose={::this._onServicesClose}
+          title="Services"
+        />
+      ),
+
+      [MenuItemType.USER_MENU]: (
+        <HeaderItem
+          key="userMenu"
+          ref="userMenu"
+          glyph="user1"
+          onOpen={::this.props.onUserMenuOpen}
+          onClose={::this.props.onUserMenuClose}
+        />
+      ),
+
+      [MenuItemType.LOGIN]: (
+        <div key="loginButton" ref="loginButton" className={loginClassName}>
+          <Button modifier={Button.Modifiers.BLUE} onClick={::this.props.onLoginClick}>{this.props.translationsDict.login}</Button>
+        </div>
+      )
+    };
 
     return MenuItemsSequence.map(function(item) {
       if (this.props.enabledMenuItems[item]) {

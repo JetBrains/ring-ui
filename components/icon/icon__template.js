@@ -11,7 +11,6 @@ var path = require('path');
 var svgoPath = path.resolve(__dirname, '..', '..', 'node_modules', '.bin', 'svgo');
 var xml2js = require('xml2js');
 var xml = require('node-xml-lite');
-var Global = require('../global/global');
 var ClassName = require('../class-name/class-name');
 
 var productionMode = process.argv.indexOf('-p') !== -1;
@@ -48,9 +47,10 @@ var TransformStrategy = {
 /**
  * @type {Object.<string, TransformStrategy>}
  */
-var DirectoryToStrategy = Global.createObject(
-    'source', TransformStrategy.ICON,
-    'logos', TransformStrategy.LOGO);
+var DirectoryToStrategy = {
+  'source': TransformStrategy.ICON,
+  'logos': TransformStrategy.LOGO
+};
 
 
 /**
