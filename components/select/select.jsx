@@ -183,6 +183,40 @@ var Type = {
    </file>
  </example>
 
+  <example name="Select with always visible and fixed label 'Add item' button">
+   <file name="index.html">
+     <div id="demo"></div>
+   </file>
+   <file name="index.js" webpack="true">
+     var React = require('react');
+     var Select = require('select/select');
+
+     var data = [];
+     for(var i = 0; i < 10; i++) {
+       data.push({'label': 'Item ' + i, 'key': i});
+     }
+
+     React.renderComponent(Select({
+       filter: {
+         placeholder: 'Select me',
+         value: 'One'
+       }
+     }), document.getElementById('demo'))
+     .setProps({
+      add: {
+        alwaysVisible: true,
+        label: 'Create New Blah Blah'
+      },
+      onAdd: function(value) {
+        console.log('Add', value);
+      },
+      data: data,
+      'onSelect': function(selected) {
+        console.log('onSelect, selected item:', selected);
+      }});
+   </file>
+ </example>
+
  <example name="Multiple-choice select with custom view">
    <file name="index.html">
      <div id="multipleCustomView"></div>
@@ -455,12 +489,13 @@ var Select = React.createClass({
   },
 
   addHandler: function() {
+    this._hidePopup();
     this.props.onAdd(this.filterValue());
   },
 
   getToolbar: function() {
     if (this._addButton) {
-      return <div className="ring-select__button" onClick={this.addHandler}><span className="ring-select__button__plus">+</span>{this.props.add.prefix ? this.props.add.prefix + ' ' : ''}<b>{this.filterValue()}</b></div>;
+      return <div className="ring-select__button" onClick={this.addHandler}><span className="ring-select__button__plus">+</span>{this.props.add.prefix ? this.props.add.prefix + ' ' : ''}<b>{this._addButton.label}</b></div>;
     }
   },
 
@@ -501,13 +536,14 @@ var Select = React.createClass({
     }
 
     this._addButton = null;
-    if (this.props.add && filterString && !exactMatch) {
+    if ((this.props.add && filterString && !exactMatch) || this.props.add.alwaysVisible) {
       if (!(this.props.add.regexp && !this.props.add.regexp.test(filterString)) &&
-      !(this.props.add.minlength && filterString.length < +this.props.add.minlength)) {
+      !(this.props.add.minlength && filterString.length < +this.props.add.minlength) ||
+      this.props.add.alwaysVisible) {
 
         this._addButton = {
           prefix: this.props.add.prefix,
-          label: filterString
+          label: this.props.add.label || filterString
         };
       }
     }
