@@ -1,6 +1,9 @@
 /* eslint-env node */
 var path = require('path');
 
+var componentsPath = path.join(__dirname, 'components');
+var nodeModulesPath = path.join(__dirname, 'node_modules');
+
 // Minimal config for building components
 module.exports = {
   externals: {
@@ -8,62 +11,65 @@ module.exports = {
   },
   resolve: {
     extensions: ['', '.js', '.jsx'],
-    fallback: [
-      path.join(__dirname, 'components')
-    ]
+    fallback: [componentsPath]
   },
   resolveLoader: {
-    fallback: path.join(__dirname, 'node_modules')
+    fallback: [nodeModulesPath]
   },
   module: {
     loaders: [
       {
         test: /\.scss$/,
+        include: componentsPath,
         loaders: [
           'style',
           'css',
+          // TODO Update autoprefixer config and move to postcss-loader
           'autoprefixer?browsers=last 2 versions, safari 5, ie 8, ie 9, opera 12.1, ios 6, android 4',
-          'sass?outputStyle=expanded&includePaths[]=' + (path.resolve(__dirname, './components'))
+          'sass?outputStyle=expanded&includePaths[]=' + componentsPath
         ]
       },
       // import plain styles from modules
       // used for codemirror and docsite
       {
-        test: /node_modules.*\.css$/,
+        test: /\.css$/,
+        include: nodeModulesPath,
         loaders: [
           'style',
           'css'
         ]
       },
       // shim whatwg fetch polyfill
+      // TODO Reconsider polyfills https://gist.github.com/darklight721/f2c8d496529738586c68
       {
         test: /whatwg\-fetch(\\|\/)fetch\.js$/,
+        include: nodeModulesPath,
         loaders: [
           'imports?self=>{},Promise=when/es6-shim/Promise.browserify-es6.js',
           'exports?self'
         ]
       },
-      //ng-annotate loader for angular components
+      // ng-annotate loader for angular components
       {
-        test: /(-ng)(\\|\/)\S*(-ng|-ng__)\S*\.js$/,
+        test: /-ng(\\|\/)\S*(-ng|-ng__)\S*\.js$/,
+        include: componentsPath,
         loader: 'ng-annotate'
       },
-      //jsx loader
       {
-        test: /components\/[^\/]+\/.+\.jsx?$/,
+        test: /\.jsx?$/,
+        include: componentsPath,
         loader: 'babel-loader',
         query: {stage: 0}
       },
-      { test: /(-ng)(\\|\/)\S*(-ng|-ng__)\S*\.html$/, loader: 'html-loader' },
-      //images loader
-      { test: /\.png$/, loader: 'url-loader?limit=10000' },
-      { test: /\.gif$/, loader: 'url-loader?limit=10000' },
-      // the url-loader uses DataUrls.
-      // the file-loader emits files.
-      { test: /\.woff$/, loader: 'url-loader?limit=10000&minetype=application/font-woff' },
-      { test: /\.ttf$/, loader: 'file-loader' },
-      { test: /\.eot$/, loader: 'file-loader' },
-      { test: /\.svg$/, loader: 'url-loader?limit=10000' }
+      { test: /-ng(\\|\/)\S*(-ng|-ng__)\S*\.html$/,
+        include: componentsPath,
+        loader: 'html-loader'
+      },
+      // Bundle all gifs
+      { test: /\.gif$/,
+        loader: 'url-loader'
+      }
+
     ]
   },
   // Keep empty plugins list to simplify additions
