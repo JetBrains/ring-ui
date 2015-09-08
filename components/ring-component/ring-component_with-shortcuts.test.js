@@ -10,9 +10,9 @@ describe('Mixin', function () {
       mixins: [ShortcutsMixin],
       getShortcutsProps: function() {
         return props || {
-            scope: scope,
-            map: keyMap
-          };
+          scope: scope,
+          map: keyMap
+        };
       },
       render: render || function() {
         return React.DOM.div({ref: 'subComponent'}, null);
