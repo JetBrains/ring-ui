@@ -4,7 +4,7 @@
 
 import React from 'react';
 import { findDOMNode } from 'react-dom';
-import RingComponentWithShortcuts from 'ring-component/ring-component__with-shortcuts';
+import RingComponentWithShortcuts from 'ring-component/ring-component_with-shortcuts';
 import Popup from 'popup/popup';
 import List from 'list/list';
 import Input from 'input/input';
