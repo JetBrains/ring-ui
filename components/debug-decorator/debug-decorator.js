@@ -5,7 +5,7 @@ export default function debugDecorate(target) {
 
   let proto = target.prototype;
   while (proto) {
-    // don't touch the Object.prorotype
+    // don't touch the Object.prototype
     if (!Object.getPrototypeOf(proto)) break;
 
     Reflect.ownKeys(proto).forEach(key => key !== 'constructor' && keys.push({ obj: proto, key: key }));
@@ -23,11 +23,11 @@ export default function debugDecorate(target) {
         if (obj === target) {
           message = `${target.name}.${key}`;
 
-        // own prorotype method
+        // own prototype method
         } else if (this.constructor === obj.constructor) {
           message = `${this.constructor.name}.prototype.${key}`;
 
-        // inherited prorotype method (check if a method has been invoked on the target class)
+        // inherited prototype method (check if a method has been invoked on the target class)
         } else if (this.constructor === target) {
           message = `${this.constructor.name}.prototype.${key} (inherited from ${obj.constructor.name})`;
         }

@@ -3,13 +3,15 @@ import RingComponent from 'ring-component/ring-component';
 import shortcuts from 'shortcuts/shortcuts';
 
 export default class RingComponentWithShortcuts extends RingComponent {
+  static letOverrideLifecycleMethods = true;
+
   toggleShortcuts(props) {
     if (this.getShortcutsProps) {
       if (props.shortcuts && !this.shortcutsScope) {
         let shortcutsProps = this.getShortcutsProps();
 
         if (!shortcutsProps || !shortcutsProps.map || !shortcutsProps.scope) {
-          throw new Error('Shortcuts\' props weren\'t provided');
+          throw new Error(`Shortcuts' props weren't provided`);
         }
 
         shortcuts.bindMap(shortcutsProps.map, shortcutsProps);
