@@ -1,7 +1,7 @@
 require('../sidebar/sidebar.scss');
 require('../place-under-ng/place-under-ng');
 require('../react-ng/react-ng')({
-  Icon: require('../icon/icon.jsx')
+  Icon: require('../icon/icon')
 });
 
 /**

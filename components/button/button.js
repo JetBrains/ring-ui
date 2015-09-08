@@ -34,7 +34,7 @@ const Modifiers = {
 
      <file name="index.js" webpack="true">
        var render = require('react-dom').render;
-       var Button = require('button/button.jsx');
+       var Button = require('button/button');
 
        render(Button.factory({
          modifier: Button.Modifiers.DEFAULT

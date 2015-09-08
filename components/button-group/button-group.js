@@ -18,8 +18,8 @@ import './button-group.scss';
 
     <file name="index.js" webpack="true">
       var render = require('react-dom').render;
-      var Button = require('button/button.jsx');
-      var ButtonGroup = require('button-group/button-group.jsx');
+      var Button = require('button/button');
+      var ButtonGroup = require('button-group/button-group');
 
       render(ButtonGroup.factory(
         null,

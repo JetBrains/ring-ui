@@ -43,7 +43,7 @@ const ngModelStateField = 'checked';
 
    <file name="index.js" webpack="true">
    var render = require('react-dom').render;
-   var Checkbox = require('checkbox/checkbox.jsx');
+   var Checkbox = require('checkbox/checkbox');
 
    render(Checkbox.factory(), document.getElementById('checkbox'));
 
