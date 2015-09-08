@@ -32,7 +32,7 @@ import './loader.scss';
 
      <file name="index.js" webpack="true">
        var render = require('react-dom').render;
-       var Loader = require('loader/loader.jsx');
+       var Loader = require('loader/loader');
 
        render(Loader.factory({
          modifier: Loader.Modifier.INLINE

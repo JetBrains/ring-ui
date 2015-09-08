@@ -3,6 +3,7 @@ var path = require('path');
 
 var componentsPath = path.join(__dirname, 'components');
 var nodeModulesPath = path.join(__dirname, 'node_modules');
+var docsPath = [path.join(__dirname, 'docs'), path.join(__dirname, 'site')];
 
 // Minimal config for building components
 module.exports = {
@@ -10,7 +11,6 @@ module.exports = {
     'jquery': 'jQuery'
   },
   resolve: {
-    extensions: ['', '.js', '.jsx'],
     fallback: [componentsPath]
   },
   resolveLoader: {
@@ -20,7 +20,7 @@ module.exports = {
     loaders: [
       {
         test: /\.scss$/,
-        include: componentsPath,
+        include: docsPath.concat(componentsPath),
         loaders: [
           'style',
           'css',
@@ -56,7 +56,7 @@ module.exports = {
         loader: 'ng-annotate'
       },
       {
-        test: /\.jsx?$/,
+        test: /\.js$/,
         include: componentsPath,
         loader: 'babel-loader',
         query: {stage: 0}
@@ -69,7 +69,6 @@ module.exports = {
       { test: /\.gif$/,
         loader: 'url-loader'
       }
-
     ]
   },
   // Keep empty plugins list to simplify additions

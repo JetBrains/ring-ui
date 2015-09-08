@@ -3,14 +3,13 @@
   "version": "2.2.0",
   "description": "JetBrains UI library",
   "config": {
-    "eslint-ext": ".js,.jsx",
     "eslint-report": "eslint-report.xml",
     "port": 9999,
     "version": "minor"
   },
   "files": [
     "ring-upsource.js",
-    "components/**/*.{jsx,js,scss,png,gif,svg,ttf,woff,eof,html}",
+    "components/**/*.{js,scss,png,gif,svg,ttf,woff,eof,html}",
     "webpack.config.js"
   ],
   "main": "webpack.config.js",
@@ -22,10 +21,10 @@
     "build-upsource": "webpack tools/ring-upsource.js ring-upsource.js --output-library=ring --bail --optimize-dedupe --optimize-minimize --optimize-occurence-order --define process.env.NODE_ENV=\"'production'\"",
     "build": "node tools/metalsmith.js",
     "start": "node tools/metalsmith.js --server",
-    "lint": "eslint --ext $npm_package_config_eslint_ext .",
-    "lint-hook": "eslint --ext $npm_package_config_eslint_ext $ESLINT_HOOK_FILES",
+    "lint": "eslint .",
+    "lint-hook": "eslint $ESLINT_HOOK_FILES",
     "prelint-ci": "npm run lint",
-    "lint-ci": "eslint --ext $npm_package_config_eslint_ext --format jslint-xml . > $npm_package_config_eslint_report",
+    "lint-ci": "eslint --format jslint-xml . > $npm_package_config_eslint_report",
     "postlint-ci": "node tools/message-import-reports",
     "test-ci": "node node_modules/karma/bin/karma start karma-ci.conf.js",
     "prebuild-ci": "npm run lint-ci && npm run test-ci",
@@ -104,7 +103,6 @@
     "file-loader": "0.8.1",
     "html-loader": "0.2.3",
     "imports-loader": "0.6.3",
-    "jsx-loader": "0.11.2",
     "mousetrap": "1.4.6",
     "mout": "0.11.0",
     "ng-annotate-loader": "0.0.6",
