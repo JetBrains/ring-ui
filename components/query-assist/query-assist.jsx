@@ -11,7 +11,7 @@ import debounce from 'mout/function/debounce';
 import deepEquals from 'mout/lang/deepEquals';
 import classNames from 'classnames';
 
-import RingComponentWithShortcuts from 'ring-component/ring-component__with-shortcuts';
+import RingComponentWithShortcuts from 'ring-component/ring-component_with-shortcuts';
 import Caret from 'caret/caret';
 import ContentEditable from 'contenteditable/contenteditable';
 import PopupMenu from '../popup-menu/popup-menu';

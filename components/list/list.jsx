@@ -10,7 +10,7 @@ import contains from 'mout/object/contains';
 import debounce from 'mout/function/debounce';
 
 import RingComponent from 'ring-component/ring-component';
-import RingComponentWithShortcuts from 'ring-component/ring-component__with-shortcuts';
+import RingComponentWithShortcuts from 'ring-component/ring-component_with-shortcuts';
 import Icon from 'icon/icon';
 
 import './list.scss';

@@ -5,7 +5,7 @@
 import React from 'react';
 import { findDOMNode } from 'react-dom';
 import classNames from 'classnames';
-import RingComponentWithShortcuts from 'ring-component/ring-component__with-shortcuts';
+import RingComponentWithShortcuts from 'ring-component/ring-component_with-shortcuts';
 import Popup from 'popup/popup';
 import SelectPopup from './select__popup';
 import List from 'list/list';
