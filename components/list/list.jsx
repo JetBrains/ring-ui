@@ -424,7 +424,10 @@ var List = React.createClass({
   },
 
   isActivatable: function(item) {
-    return !(item.rgItemType === Type.HINT || item.rgItemType === Type.SEPARATOR || item.disabled);
+    return !(item.rgItemType === Type.HINT ||
+    item.rgItemType === Type.SEPARATOR ||
+    item.rgItemType === Type.TITLE ||
+    item.disabled);
   },
 
   hoverHandler: function (index) {
