@@ -5,7 +5,7 @@ var path = require('path');
 var wallabyWebpack = require('wallaby-webpack');
 var webpackConfig = require('./webpack.config');
 
-module.exports = function (w) {
+module.exports = function (wallaby) {
 
   /**
    * Patch webpack config
@@ -13,13 +13,20 @@ module.exports = function (w) {
 
   webpackConfig.plugins.push(new webpack.NormalModuleReplacementPlugin(/\.scss$/, path.resolve('./', './tools/empty-module.js')));
 
-  // removing jsx-loader, we will use babel preprocessor instead, it's more performant
-  webpackConfig.module.loaders = webpackConfig.module.loaders.filter(function(l){
-    return l.loader !== 'jsx-loader';
-  });
+  webpackConfig.module.loaders = webpackConfig.module.loaders
+    // removing include because wallaby runs code from own cache dir (wallaby.projectCacheDir)
+    .map(function (loader) {
+      delete loader.include;
+
+      return loader;
+    })
+    // removing babel-loader, we will use babel preprocessor instead, it's more performant
+    .filter(function(loader){
+      return loader.loader !== 'babel-loader';
+    });
 
   // fallback to wallaby cache, not to the local folder
-  webpackConfig.resolve.fallback = [path.join(w.projectCacheDir, 'components')];
+  webpackConfig.resolve.fallback = [path.join(wallaby.projectCacheDir, 'components')];
 
   // not required for wallaby.js
   delete webpackConfig.devtool;
@@ -71,7 +78,6 @@ module.exports = function (w) {
         instrument: false,
         load: false
       },
-      {pattern: 'components/global/global.js', instrument: false, load: false},
       {
         pattern: 'components/class-name/class-name.js',
         instrument: false,
@@ -89,13 +95,8 @@ module.exports = function (w) {
 
     testFramework: 'mocha@2.0.1',
 
-    preprocessors: {
-      '**/*.jsx': function(file){
-        return require('babel').transform(file.content, {
-          sourceMap: true,
-          optional: ['reactCompat']
-        });
-      }
+    compilers: {
+      '**/*.js': wallaby.compilers.babel({ babel: require('babel'), stage: 0 })
     },
 
     postprocessor: wallabyPostprocessor,
