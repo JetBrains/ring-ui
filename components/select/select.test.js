@@ -157,7 +157,7 @@ describe('Select(react)', function () {
       $(this.select.getDOMNode()).should.have.descendants('.ring-select__icons');
     });
 
-    describe('Add button', function () {
+    describe('Bottom toolbar', function () {
       it('Should not add "Add" button if enabled but filter query is empty', function () {
         this.select.setProps({add: true});
         this.select.filterValue = this.sinon.stub().returns('');
@@ -189,6 +189,25 @@ describe('Select(react)', function () {
         var $addButton = $(this.select._popup.getDOMNode()).find('.ring-select__button');
 
         $addButton.text().should.contain('Add Something');
+      });
+
+      it('Should add hint if specified', function () {
+        this.select.setProps({
+          hint: 'blah blah'
+        });
+        this.select._showPopup();
+        $(this.select._popup.getDOMNode()).should.have.descendants('.ring-list__item_hint');
+      });
+
+      it('Hint should be placed under "add" button', function () {
+        this.select.setProps({
+          add: true,
+          hint: 'blah blah'
+        });
+        this.select._showPopup();
+        var $addButton = $(this.select._popup.getDOMNode()).find('.ring-select__button');
+        var $hint = $addButton.next('.ring-list__item_hint');
+        $hint.should.be.defined;
       });
     });
   });

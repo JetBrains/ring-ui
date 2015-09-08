@@ -9,6 +9,7 @@ var React = require('react');
 var Popup = require('popup/popup');
 var SelectPopup = require('./select__popup');
 var List = require('list/list');
+var ListHint = List.ListHint;
 var Input = require('input/input');
 var Icon = require('icon/icon');
 var Button = require('button/button');
@@ -496,10 +497,16 @@ var Select = React.createClass({
     this.props.onAdd(this.filterValue());
   },
 
-  getToolbar: function() {
-    if (this._addButton) {
-      return <div className="ring-select__button" onClick={this.addHandler}><span className="ring-select__button__plus">+</span>{this.props.add.prefix ? this.props.add.prefix + ' ' : ''}<span>{this._addButton.label}</span></div>;
-    }
+  getToolbar: function () {
+    return (<div>
+      {this._addButton ?
+        <div className="ring-select__button" onClick={this.addHandler}>
+          <span
+            className="ring-select__button__plus">+</span>{this.props.add.prefix ? this.props.add.prefix + ' ' : ''}<span>{this._addButton.label}</span>
+        </div> : null}
+      {this.props.hint ? <ListHint key={this.props.hint + Type.ITEM}
+                                   label={this.props.hint}/> : null}
+    </div>);
   },
 
   _addButton: null,
