@@ -3,8 +3,19 @@ import { Component, createElement } from 'react';
 import { findDOMNode, render } from 'react-dom';
 
 export default class RingComponent extends Component {
+  static letOverrideLifecycleMethods = false;
   static RING_UNIT = 8;
   static idCounter = 0;
+
+  static lifecycleMethods = {
+    componentWillMount: 'willMount',
+    componentDidMount: 'didMount',
+    componentWillReceiveProps: 'willReceiveProps',
+    shouldComponentUpdate: 'shouldUpdate',
+    componentWillUpdate: 'willUpdate',
+    componentDidUpdate: 'didUpdate',
+    componentWillUnmount: 'willUnmount'
+  };
 
   static factory(...args) {
     return createElement(this, ...args);
@@ -16,6 +27,18 @@ export default class RingComponent extends Component {
   }
 
   node = null;
+
+  constructor(...props) {
+    super(...props);
+
+    if (!this.constructor.letOverrideLifecycleMethods) {
+      Object.keys(this.constructor.lifecycleMethods).forEach(key => {
+        if (this[key] !== RingComponent.prototype[key]) {
+          throw new Error(`You shouldn't override the lifecycle methods from RingComponent, use short (without "component" prefix) alternative instead. "${this.constructor.lifecycleMethods[key]}" instead of "${key}" for example.`);
+        }
+      });
+    }
+  }
 
   rerender(props = {}) {
     let container;
