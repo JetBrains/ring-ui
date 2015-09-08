@@ -24,7 +24,6 @@ var SelectPopup = React.createClass({
       toolbar: null,
       filter: false, // can be boolean or an object with "value" and "placeholder" properties
       message: null,
-      hint: null,
       anchorElement: null,
       maxHeight: 250,
       minWidth: 'target',
@@ -131,7 +130,6 @@ var SelectPopup = React.createClass({
     if (this.props.data.length) {
       return (<List
         maxHeight={this.props.maxHeight}
-        hint={this.props.hint}
         data={this.props.data}
         activeIndex={this.props.activeIndex}
         restoreActiveIndex={true}
