@@ -6,7 +6,7 @@ import './table-ng__toolbar';
 import 'place-under-ng/place-under-ng';
 
 import ReactNg from 'react-ng/react-ng';
-import Checkbox from 'checkbox/checkbox.jsx';
+import Checkbox from 'checkbox/checkbox';
 
 import 'table/table.scss';
 
