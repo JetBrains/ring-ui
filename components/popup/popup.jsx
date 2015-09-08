@@ -8,7 +8,7 @@ import { render, unmountComponentAtNode } from 'react-dom';
 import classNames from 'classnames';
 import $ from 'jquery';
 
-import RingComponentWithShortcuts from 'ring-component/ring-component__with-shortcuts';
+import RingComponentWithShortcuts from 'ring-component/ring-component_with-shortcuts';
 import './popup.scss';
 
 /**
