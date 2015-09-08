@@ -5,7 +5,6 @@ var TableSelection = require('./table-ng__selection');
 var $ = require('jquery');
 
 describe('TableNg', function () {
-
   var scope;
   var directiveController;
   var element;

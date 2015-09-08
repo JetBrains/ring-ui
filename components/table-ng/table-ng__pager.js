@@ -27,7 +27,7 @@ angular.module('Ring.table.pager', ['Ring.message-bundle'])
         scope.firstPageText = RingMessageBundle.first_page();
         scope.lastPageText = RingMessageBundle.last_page();
 
-        var openPageAfterInit = $location.search()['page'];
+        var openPageAfterInit = $location.search()['page'] || (Math.floor(scope.skip / scope.top) + 1);
 
         scope.calculatePageClass = function(pageNum) {
           var condition = pageNum === scope.selectedPageNum;
@@ -78,7 +78,7 @@ angular.module('Ring.table.pager', ['Ring.message-bundle'])
 
           if (total !== undefined && skip !== undefined && top !== undefined) {
             if (total > 0 && total > top) {
-              scope.totalPages = parseInt(total / top, 10);
+              scope.totalPages = Math.ceil(total / top);
               scope.show = true;
               scope.itemsPerPage = top;
 
