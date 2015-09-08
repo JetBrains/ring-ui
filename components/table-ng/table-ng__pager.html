@@ -1,26 +1,26 @@
-<div class="ng-cloak table__pager" ng-show="show">
+<div anchor-id="table-pager" class="ng-cloak table__pager" ng-show="show">
   <div class="table__pager-links">
-    <span class="ring-link table__pager-link" ng-show="selectedPageNum > 1" ng-click="loadPage(selectedPageNum-1)">&larr; {{previousPageText}}</span>
-    <span class="ring-link table__pager-link" ng-show="selectedPageNum < totalPages" ng-click="loadPage(selectedPageNum+1)">{{nextPageText}} &rarr;</span>
+    <span anchor-id="table-pager-prev" class="ring-link table__pager-link" ng-show="selectedPageNum > 1" ng-click="loadPage(selectedPageNum-1)">&larr; {{previousPageText}}</span>
+    <span anchor-id="table-pager-next" class="ring-link table__pager-link" ng-show="selectedPageNum < totalPages" ng-click="loadPage(selectedPageNum+1)">{{nextPageText}} &rarr;</span>
   </div>
 
   <div class="ring-btn-toolbar">
     <div class="ring-button-group" ng-show="startPage > 1">
-      <button class="ring-btn" ng-click="loadPage(1)">{{firstPageText}}</button>
+      <button anchor-id="table-pager-first" class="ring-btn" ng-click="loadPage(1)">{{firstPageText}}</button>
     </div>
 
     <div class="ring-button-group">
-      <button class="ring-btn" ng-if="startPage > 1" ng-click="loadPage(startPage-1)">...</button>
-      <button class="ring-btn" ng-class="calculatePageClass(pageNum)" ng-repeat="pageNum in pages" ng-click="loadPage(pageNum)">{{pageNum}}</button>
-      <button class="ring-btn" ng-if="endPage < totalPages" ng-click="loadPage(endPage+1)">...</button>
+      <button anchor-id="table-pager-back" class="ring-btn" ng-if="startPage > 1" ng-click="loadPage(startPage-1)">...</button>
+      <button anchor-id="table-pager-page" class="ring-btn" ng-class="calculatePageClass(pageNum)" ng-repeat="pageNum in pages" ng-click="loadPage(pageNum)">{{pageNum}}</button>
+      <button anchor-id="table-pager-more" class="ring-btn" ng-if="endPage < totalPages" ng-click="loadPage(endPage+1)">...</button>
     </div>
 
     <div class="ring-button-group" ng-show="endPage < totalPages">
-      <button class="ring-btn" ng-click="loadPage(totalPages)">{{lastPageText}}</button>
+      <button anchor-id="table-pager-last" class="ring-btn" ng-click="loadPage(totalPages)">{{lastPageText}}</button>
     </div>
   </div>
 
-  <rg-select ng-if="topOptions" class="table__pager-select"
+  <rg-select anchor-id="table-pager-pages-select" ng-if="topOptions" class="table__pager-select"
              options="num as getTopOptionLabel(num) num in topOptions"
              ng-model="top" on-select="topChange(selected.originalModel)"></rg-select>
 </div>
