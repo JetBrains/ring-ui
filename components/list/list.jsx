@@ -204,7 +204,8 @@ var ListMixin = {
     ListProps: {
       Type: Type,
       Dimension: Dimension
-    }
+    },
+    ListHint: ListHint
   },
 
   propTypes: {
