@@ -1,0 +1,16 @@
+<div class="ring-save-field" ng-form="autoSaveWrapperForm">
+  <span class="ring-save-field__content"></span>
+  <div rg-error-bubble="autoSaveWrapperForm"></div>
+  <span class="ring-save-field__button">
+    <button ng-show="autoSaveWrapperForm.$dirty && autoSaveWrapperForm.$valid"
+            class="ring-btn ring-btn_blue"
+            ng-click="changed($event)">
+      {{wording.save}}
+    </button>
+    <button ng-show="done"
+            disabled
+            class="ring-btn">
+      {{wording.saved}}
+    </button>
+  </span>
+</div>
