@@ -52,7 +52,6 @@ export default class RingComponent extends Component {
     }
 
     let newProps = Object.assign({}, this.props, props);
-    console.log(newProps);
     return render(createElement(this.constructor, newProps), container);
   }
 
