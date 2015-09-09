@@ -21,40 +21,35 @@ describe('Alert', function() {
         var alertComponent = React.addons.TestUtils.renderIntoDocument(
             React.createElement(Alert, { 'caption': 'Test element', 'type': Alert.Type.MESSAGE }));
 
-        var alertElement = alertComponent.getDOMNode();
-        $(alertElement).should.have.class('ring-alert_message');
+        $(alertComponent.node).should.have.class('ring-alert_message');
       });
 
       it('should render an error', function() {
         var alertComponent = React.addons.TestUtils.renderIntoDocument(
             React.createElement(Alert, { 'caption': 'Test element', 'type': Alert.Type.ERROR }));
 
-        var alertElement = alertComponent.getDOMNode();
-        $(alertElement).should.have.class('ring-alert_error');
+        $(alertComponent.node).should.have.class('ring-alert_error');
       });
 
       it('should render a warning', function() {
         var alertComponent = React.addons.TestUtils.renderIntoDocument(
             React.createElement(Alert, { 'caption': 'Test element', 'type': Alert.Type.WARNING }));
 
-        var alertElement = alertComponent.getDOMNode();
-        $(alertElement).should.have.class('ring-alert_warning');
+        $(alertComponent.node).should.have.class('ring-alert_warning');
       });
 
       it('should render a success message', function() {
         var alertComponent = React.addons.TestUtils.renderIntoDocument(
             React.createElement(Alert, { 'caption': 'Test element', 'type': Alert.Type.SUCCESS }));
 
-        var alertElement = alertComponent.getDOMNode();
-        $(alertElement).should.have.class('ring-alert_success');
+        $(alertComponent.node).should.have.class('ring-alert_success');
       });
 
       it('should render a message if type is not passed', function() {
         var alertComponent = React.addons.TestUtils.renderIntoDocument(
             React.createElement(Alert, { 'caption': 'Test element' }));
 
-        var alertElement = alertComponent.getDOMNode();
-        $(alertElement).should.have.class('ring-alert_message');
+        $(alertComponent.node).should.have.class('ring-alert_message');
       });
     });
 
@@ -63,7 +58,7 @@ describe('Alert', function() {
         var alertComponent = React.addons.TestUtils.renderIntoDocument(
             React.createElement(Alert, { caption: 'Test element', closeable: true }));
 
-        var alertElement = alertComponent.getDOMNode();
+        var alertElement = alertComponent.node;
         var closeElement = alertElement.querySelector('.ring-alert__close');
 
         closeElement.should.not.be.null;
@@ -73,15 +68,12 @@ describe('Alert', function() {
         var alertComponent = React.addons.TestUtils.renderIntoDocument(
             React.createElement(Alert, { caption: 'Test element', closeable: true }));
 
-        var alertElement = alertComponent.getDOMNode();
+        var alertElement = alertComponent.node;
         var closeElement = alertElement.querySelector('.ring-alert__close');
 
         React.addons.TestUtils.Simulate.click(closeElement);
 
-        var isMounted = alertComponent.isMounted();
-        if (typeof isMounted !== 'undefined') {
-          isMounted.should.be.false;
-        }
+        should.not.exist(alertElement.node);
       });
     });
   });

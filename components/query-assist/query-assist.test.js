@@ -142,8 +142,8 @@ describe('QueryAssist', function () {
     var LETTER_CLASS = 'ring-query-assist__letter';
 
     it('should render letters', function () {
-      $(this.queryAssist.refs.input.getDOMNode()).should.have.descendants('.' + LETTER_CLASS);
-      $(this.queryAssist.refs.input.getDOMNode()).find('.' + LETTER_CLASS).should.have.length(testQueryLength);
+      $(this.queryAssist.input).should.have.descendants('.' + LETTER_CLASS);
+      $(this.queryAssist.input).find('.' + LETTER_CLASS).should.have.length(testQueryLength);
     });
 
 
@@ -152,14 +152,14 @@ describe('QueryAssist', function () {
         query: ''
       });
 
-      $(this.queryAssist.refs.input.getDOMNode()).should.be.empty;
+      $(this.queryAssist.input).should.be.empty;
     });
 
     it('should render nothing on falsy query', function () {
       this.queryAssist.state.query = null;
       this.queryAssist.forceUpdate();
 
-      $(this.queryAssist.refs.input.getDOMNode()).should.be.empty;
+      $(this.queryAssist.input).should.be.empty;
     });
 
     it('Shouldnt make duplicate requests for styleRanges on initiating if query is provided', function () {
@@ -178,7 +178,7 @@ describe('QueryAssist', function () {
       });
 
       this.queryAssist.refs.placeholder.should.exist;
-      $(this.queryAssist.refs.placeholder.getDOMNode()).should.have.text('plz');
+      $(this.queryAssist.input).should.have.text('plz');
     });
 
     it('should not render placeholder when disabled on empty query', function () {
@@ -199,7 +199,7 @@ describe('QueryAssist', function () {
         ]
       });
 
-      var letters = $(this.queryAssist.refs.input.getDOMNode()).find('.' + LETTER_CLASS);
+      var letters = $(this.queryAssist.input).find('.' + LETTER_CLASS);
 
       letters.eq(0).should.have.class(LETTER_CLASS + '_text');
       letters.eq(1).should.have.class(LETTER_CLASS + '_field-value');
@@ -213,8 +213,8 @@ describe('QueryAssist', function () {
         disabled: true
       });
 
-      $(this.queryAssist.refs.input.getDOMNode()).should.have.attr('contenteditable', 'false');
-      $(this.queryAssist.refs.input.getDOMNode()).should.have.class('ring-input_disabled');
+      $(this.queryAssist.input).should.have.attr('contenteditable', 'false');
+      $(this.queryAssist.input).should.have.class('ring-input_disabled');
     });
 
     it('should render glass when enabled', function () {
@@ -292,7 +292,7 @@ describe('QueryAssist', function () {
     it('should create popup with proper suggestions', function () {
       this.queryAssist.renderPopup(suggestions);
 
-      var list = $(this.queryAssist._popup.refs.List.getDOMNode());
+      var list = $(React.findDOMNode(this.queryAssist._popup.refs.List));
 
       list.find('.ring-list__item').should.have.length(suggestions.length);
       list.find('.ring-list__highlight').should.have.length(suggestions.length);
@@ -320,7 +320,7 @@ describe('QueryAssist', function () {
       this.queryAssist.renderPopup(suggestions);
 
       simulateKeypress(null, 9); // press tab
-      $(this.queryAssist.refs.input.getDOMNode()).text().should.equal(getSuggestionText(suggestions[0]));
+      $(this.queryAssist.input).text().should.equal(getSuggestionText(suggestions[0]));
     });
 
     it('should complete selected suggestion by enter in the end of phrase', function () {
@@ -331,7 +331,7 @@ describe('QueryAssist', function () {
 
       simulateKeypress(null, 40); // press down
       simulateKeypress(null, 13); // press enter
-      $(this.queryAssist.refs.input.getDOMNode()).text().should.equal(getSuggestionText(suggestions[0]));
+      $(this.queryAssist.input).text().should.equal(getSuggestionText(suggestions[0]));
     });
 
     it('should complete by tab in the middle of phrase', function () {
@@ -342,7 +342,7 @@ describe('QueryAssist', function () {
       this.queryAssist.renderPopup(suggestions);
 
       simulateKeypress(null, 9); // press tab
-      $(this.queryAssist.refs.input.getDOMNode()).text().should.equal(getSuggestionText(suggestions[0]));
+      $(this.queryAssist.input).text().should.equal(getSuggestionText(suggestions[0]));
     });
 
     it('should complete selected suggestion by enter in the middle of phrase', function () {
@@ -354,11 +354,11 @@ describe('QueryAssist', function () {
 
       simulateKeypress(null, 40); // press down
       simulateKeypress(null, 13); // press enter
-      $(this.queryAssist.refs.input.getDOMNode()).text().should.equal(getSuggestionText(suggestions[0]) + completeQuery.substring(middleCaret));
+      $(this.queryAssist.input).text().should.equal(getSuggestionText(suggestions[0]) + completeQuery.substring(middleCaret));
     });
 
     it('should complete selected suggestion by tab in the middle of phrase', function () {
-      this.queryAssist.setProps({
+      this.queryAssist.rerender({
         query: completeQuery,
         caret: middleCaret
       });
@@ -368,7 +368,7 @@ describe('QueryAssist', function () {
       simulateKeypress(null, 40); // press down
       simulateKeypress(null, 40); // press down
       simulateKeypress(null, 9); // press tab
-      $(this.queryAssist.refs.input.getDOMNode()).text().should.equal(getSuggestionText(suggestions[2]));
+      $(this.queryAssist.input).text().should.equal(getSuggestionText(suggestions[2]));
     });
   });
 
@@ -393,7 +393,7 @@ describe('QueryAssist', function () {
         onApply: onApply
       });
 
-      TestUtils.Simulate.click(this.queryAssist.refs.glass.getDOMNode());
+      TestUtils.Simulate.click(this.queryAssist.input);
       onApply.should.have.been.calledWithMatch({
         query: testQuery,
         caret: testQueryLength
@@ -402,12 +402,12 @@ describe('QueryAssist', function () {
 
     it('should call onClear', function () {
       var onClear = this.sinon.stub();
-      this.queryAssist.setProps({
+      this.queryAssist.rerender({
         clear: true,
         onClear: onClear
       });
 
-      TestUtils.Simulate.click(this.queryAssist.refs.clear.getDOMNode());
+      TestUtils.Simulate.click(this.queryAssist.refs.clear.node);
       onClear.should.have.been.calledWithExactly();
     });
 

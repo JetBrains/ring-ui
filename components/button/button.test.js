@@ -13,20 +13,20 @@ describe('Button', function () {
   });
 
   it('should set theme', function () {
-    this.button.setProps({
+    this.button.rerender({
       modifier: Button.Modifiers.BLUE
     });
 
-    $(this.button.getDOMNode()).should.have.class('ring-btn_blue');
+    $(this.button.node).should.have.class('ring-btn_blue');
   });
 
   it('should set custom class', function () {
     var CUSTOM_CLASS = 'test';
 
-    this.button.setProps({
+    this.button.rerender({
       className: CUSTOM_CLASS
     });
 
-    $(this.button.getDOMNode()).should.have.class(CUSTOM_CLASS);
+    $(this.button.node).should.have.class(CUSTOM_CLASS);
   });
 });

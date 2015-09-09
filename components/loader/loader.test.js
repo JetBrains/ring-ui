@@ -14,18 +14,18 @@ describe('Loader', function () {
   });
 
   it('should add custom class', function () {
-    loader.setProps({
+    loader.rerender({
       className: 'test'
     });
 
-    $(loader.getDOMNode()).should.have.class('test');
+    $(loader.node).should.have.class('test');
   });
 
   it('should create inline loader', function () {
-    loader.setProps({
+    loader.rerender({
       modifier: Loader.Modifier.INLINE
     });
 
-    $(loader.getDOMNode()).should.have.class(Loader.Modifier.INLINE);
+    $(loader.node).should.have.class(Loader.Modifier.INLINE);
   });
 });
