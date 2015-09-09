@@ -13,35 +13,35 @@ describe('Footer', function () {
   });
 
   it('should be empty by default', function () {
-    footer.getDOMNode().tagName.toLowerCase().should.equal('div');
-    $(footer.getDOMNode()).should.be.empty;
+    footer.node.tagName.toLowerCase().should.equal('div');
+    $(footer.node).should.be.empty;
   });
 
   describe('should render items', function () {
 
     it('should add given class', function () {
-      footer.setProps({'className': 'myClass'});
+      footer.rerender({'className': 'myClass'});
 
-      $(footer.getDOMNode()).should.have.class('myClass');
+      $(footer.node).should.have.class('myClass');
     });
 
     it('add left column one line', function () {
-      footer.setProps({'left': ['One Line']});
+      footer.rerender({'left': ['One Line']});
 
-      $(footer.getDOMNode()).should.contain('One Line');
-      $(footer.getDOMNode()).find('li').should.not.be.empty;
-      $(footer.getDOMNode()).find('li').length.should.equal(1);
+      $(footer.node).should.contain('One Line');
+      $(footer.node).find('li').should.not.be.empty;
+      $(footer.node).find('li').length.should.equal(1);
     });
 
     it('add left column two lines', function () {
-      footer.setProps({'left': ['One Line', 'Second Line']});
+      footer.rerender({'left': ['One Line', 'Second Line']});
 
-      $(footer.getDOMNode()).find('li').should.not.be.empty;
-      $(footer.getDOMNode()).find('li').length.should.equal(2);
+      $(footer.node).find('li').should.not.be.empty;
+      $(footer.node).find('li').length.should.equal(2);
     });
 
     it('add three columns two lines', function () {
-      footer.setProps({
+      footer.rerender({
         'left': ['One Line', 'Second Line'],
         'center': ['One Line', 'Second Line'],
         'right': ['One Line', 'Second Line']
@@ -51,7 +51,7 @@ describe('Footer', function () {
         lines.length.should.equal(count);
       }
 
-      var root = $(footer.getDOMNode());
+      var root = $(footer.node);
       var ul = root.find('ul');
       ul.length.should.equal(3);
 
@@ -63,23 +63,23 @@ describe('Footer', function () {
   });
 
   it('should render copyright', function () {
-    footer.setProps({
+    footer.rerender({
       'left': [
         {'copyright': 2010, 'label': ' JetBrains'}
       ]
     });
 
-    $(footer.getDOMNode()).find('li').text().should.contain('© 2010—' + (new Date()).getFullYear() + ' JetBrains');
+    $(footer.node).find('li').text().should.contain('© 2010—' + (new Date()).getFullYear() + ' JetBrains');
   });
 
   it('should render link', function () {
-    footer.setProps({
+    footer.rerender({
       'left': [
         {'url': 'http://jetbrains.com', 'label': 'JetBrains', 'title': 'JetBrains Official Site'}
       ]
     });
 
-    var link = $(footer.getDOMNode()).find('a');
+    var link = $(footer.node).find('a');
     link.should.not.be.empty;
     link.text().should.equal('JetBrains');
     link.prop('href').should.equal('http://jetbrains.com/');

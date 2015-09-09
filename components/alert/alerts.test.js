@@ -17,7 +17,7 @@ describe('Alerts', function() {
 
   it('should render alerts component', function() {
     component.should.be.defined;
-    component.getDOMNode().should.be.an.instanceof(HTMLElement);
+    component.node.should.be.an.instanceof(HTMLElement);
   });
 
   describe('adding alerts', function() {
@@ -50,7 +50,7 @@ describe('Alerts', function() {
       component._addElement('First', Alerts.Type.MESSAGE, when.defer());
       component._addElement(LAST_TEXT, Alerts.Type.MESSAGE, when.defer());
 
-      var domElement = component.getDOMNode();
+      var domElement = component.node;
       var children = domElement.querySelectorAll('.ring-alert');
 
       children[0].textContent.should.equal(LAST_TEXT);
@@ -67,7 +67,7 @@ describe('Alerts', function() {
 
     it('should remove alert by clicking on close button', function() {
       component._addElement('Child element.', Alerts.Type.MESSAGE, when.defer());
-      var clickElement = component.getDOMNode().querySelector('.ring-alert__close');
+      var clickElement = component.node.querySelector('.ring-alert__close');
       React.addons.TestUtils.Simulate.click(clickElement, {});
 
       component.state.childElements.should.have.length(0);

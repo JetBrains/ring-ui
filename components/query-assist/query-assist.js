@@ -796,6 +796,7 @@ export default class QueryAssist extends RingComponentWithShortcuts {
         </div>}
         {renderClear && <Icon
           className="ring-query-assist__icon ring-query-assist__icon_clear"
+          ref="clear"
           color="gray"
           glyph="close"
           onClick={::this.clearQuery}

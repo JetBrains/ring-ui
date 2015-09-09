@@ -19,20 +19,20 @@ describe('ContentEditable', function () {
   });
 
   it('should pass other properties', function () {
-    component.getDOMNode().className.should.equal('test');
+    component.node.className.should.equal('test');
   });
 
 
   it('should dangerously set html', function () {
-    component.getDOMNode().innerHTML.should.equal('<b>bold</b>');
+    component.node.innerHTML.should.equal('<b>bold</b>');
   });
 
   it('should reander only on html / disabled change', function () {
-    component.setProps({
+    component.rerender({
       disabled: true
     });
 
-    component.setProps({
+    component.rerender({
       dangerousHTML: ''
     });
 
@@ -40,7 +40,7 @@ describe('ContentEditable', function () {
   });
 
   it('should not render on other props change', function () {
-    component.setProps({
+    component.rerender({
       className: 'testtest'
     });
 

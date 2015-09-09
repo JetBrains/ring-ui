@@ -30,14 +30,14 @@ describe('tooltipNg', function(){
 
   it('Should set ring-tooltip-ng class for popup', function () {
     popupWrapper.displayTooltip();
-    var $popup = $(popupWrapper.popup.getDOMNode());
+    var $popup = $(popupWrapper.popup.node);
 
     $popup.should.have.class('ring-tooltip-ng');
   });
 
   it('Should display message inside', function () {
     popupWrapper.displayTooltip();
-    var text = popupWrapper.popup.getDOMNode().textContent;
+    var text = popupWrapper.popup.node.textContent;
 
     text.should.be.equal(INNER_TEXT);
   });

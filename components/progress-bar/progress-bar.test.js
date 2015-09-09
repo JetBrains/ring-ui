@@ -22,7 +22,7 @@ describe('ProgressBar', function() {
 
   describe('client interaction with progress bar API', function() {
     it('should set max value for progress bar', function() {
-      this.progress.setProps({
+      this.progress.rerender({
         max: 100
       });
 
@@ -30,7 +30,7 @@ describe('ProgressBar', function() {
     });
 
     it('should set progress task value', function() {
-      this.progress.setProps({
+      this.progress.rerender({
         value: 0.5
       });
 
@@ -38,7 +38,7 @@ describe('ProgressBar', function() {
     });
 
     it('should set additional classes(modifiers) to the component', function() {
-      this.progress.setProps({
+      this.progress.rerender({
         className: 'ring-progress-bar_global'
       });
 
@@ -56,7 +56,7 @@ describe('ProgressBar', function() {
     });
 
     it('should update max value in DOM', function() {
-      this.progress.setProps({
+      this.progress.rerender({
         max: 100
       });
 
@@ -64,7 +64,7 @@ describe('ProgressBar', function() {
     });
 
     it('should update progress value in DOM', function() {
-      this.progress.setProps({
+      this.progress.rerender({
         value: 0.5
       });
 
@@ -73,7 +73,7 @@ describe('ProgressBar', function() {
     });
 
     it('should set width equal 100% if progress value more than max value', function() {
-      this.progress.setProps({
+      this.progress.rerender({
         max: 1.0,
         value: 10
       });
@@ -82,7 +82,7 @@ describe('ProgressBar', function() {
     });
 
     it('should not set width if value is not a number', function() {
-      this.progress.setProps({
+      this.progress.rerender({
         value: null
       });
 
