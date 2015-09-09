@@ -1,4 +1,4 @@
-import { createElement } from 'react';
+import React, { createElement } from 'react';
 import Popup from 'popup/popup';
 import './tooltip-ng.scss';
 

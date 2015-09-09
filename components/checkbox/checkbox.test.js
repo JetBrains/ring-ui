@@ -9,7 +9,7 @@ describe('Checkbox', function () {
   var checkbox;
 
   beforeEach(function () {
-    checkbox = renderIntoDocument(React.createElement(Checkbox));
+    checkbox = TestUtils.renderIntoDocument(React.createElement(Checkbox));
   });
 
   it('should create component', function () {
@@ -17,75 +17,75 @@ describe('Checkbox', function () {
   });
 
   it('should render checkbox', function () {
-    $(checkbox.getInputDOMNode()).should.have.prop('type', 'checkbox');
+    $(checkbox.refs.input).should.have.prop('type', 'checkbox');
   });
 
   it('should generate id if not passed', function () {
-    $(checkbox.getInputDOMNode()).prop('id').should.exist;
+    $(checkbox.node).prop('id').should.exist;
   });
 
   it('should generate unique id', function () {
-    var secondCheckboxId = renderIntoDocument(React.createElement(Checkbox)).getInputDOMNode().getAttribute('id');
-    $(checkbox.getInputDOMNode()).should.not.have.id(secondCheckboxId);
+    var secondCheckboxId = renderIntoDocument(React.createElement(Checkbox)).node.getAttribute('id');
+    $(checkbox.node).should.not.have.id(secondCheckboxId);
   });
 
   it('should set custom id', function () {
-    checkbox.setProps({
+    checkbox.rerender({
       id: 'test'
     });
 
-    $(checkbox.getInputDOMNode()).should.have.id('test');
+    $(checkbox.refs.input).should.have.id('test');
   });
 
   it('should set name', function () {
-    checkbox.setProps({
+    checkbox.rerender({
       name: 'test'
     });
 
-    $(checkbox.getInputDOMNode()).should.have.prop('name', 'test');
+    $(checkbox.refs.input).should.have.prop('name', 'test');
   });
 
   it('should call handler for click event', function () {
     var clickHandler = sinon.stub();
 
-    checkbox.setProps({
+    checkbox.rerender({
       onClick: clickHandler
     });
 
-    TestUtils.Simulate.click(checkbox.getInputDOMNode());
+    TestUtils.Simulate.click(checkbox.refs.input);
     clickHandler.should.have.been.called;
   });
 
   it('should not call handler on change event if disabled', function () {
     var inputChange = sinon.stub();
 
-    checkbox.setProps({
+    checkbox.rerender({
       disabled: true,
       inputChange: inputChange
     });
 
-    TestUtils.Simulate.click(checkbox.getInputDOMNode());
+    TestUtils.Simulate.click(checkbox.node);
     inputChange.should.have.not.been.called;
   });
 
   it('should be unchecked by default', function () {
-    $(checkbox.getInputDOMNode()).should.not.be.checked;
+    $(checkbox.node).should.not.be.checked;
   });
 
   it('should check control', function () {
-    checkbox.setProps({
+    checkbox.rerender({
       checked: true
     });
 
-    $(checkbox.getInputDOMNode()).should.be.checked;
+    $(checkbox.refs.input).should.be.checked;
   });
 
   it('should be disabled', function () {
-    checkbox.setProps({
+    checkbox.rerender({
       disabled: true
     });
 
-    $(checkbox.getInputDOMNode()).should.be.disabled;
+    $(checkbox.refs.input).should.be.disabled;
   });
 
   it('should check control on change event', function () {
@@ -95,14 +95,14 @@ describe('Checkbox', function () {
       }
     };
 
-    TestUtils.Simulate.change(checkbox.refs.input.getDOMNode(), eventMock);
+    TestUtils.Simulate.change(checkbox.refs.input, eventMock);
 
-    $(checkbox.getInputDOMNode()).should.be.checked;
+    $(checkbox.refs.input).should.be.checked;
   });
 
   it('should connect label with input by id', function () {
-    var inputId = checkbox.refs.input.getDOMNode().getAttribute('id');
-    var forId = checkbox.getDOMNode().getAttribute('for');
+    var inputId = checkbox.refs.input.getAttribute('id');
+    var forId = checkbox.node.getAttribute('for');
 
     expect(inputId).eq(forId);
   });

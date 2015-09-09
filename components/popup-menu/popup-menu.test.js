@@ -19,7 +19,7 @@ describe('PopupMenu', function () {
   });
 
   it('should pass params to List', function () {
-    popup.setProps({'data': [
+    popup.rerender({'data': [
       {}
     ]});
 

@@ -14,10 +14,10 @@ describe('Link', function () {
   });
 
   it('should add custom class', function () {
-    link.setProps({
+    link.rerender({
       className: 'test'
     });
 
-    $(link.getDOMNode()).should.have.class('test');
+    $(link.node).should.have.class('test');
   });
 });
