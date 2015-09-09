@@ -498,7 +498,7 @@ var Select = React.createClass({
   },
 
   getToolbar: function () {
-    return (<div>
+    return (<div className="ring-select__toolbar">
       {this._addButton ?
         <div className="ring-select__button" onClick={this.addHandler}>
           <span
