@@ -288,7 +288,7 @@ export default class Popup extends RingComponentWithShortcuts {
    * @private
    */
   _onDocumentClick(evt) {
-    if (!this.node || this.node.contains(evt.target)) {
+    if (!this.node || this.node.contains(evt.target) || !this._listenersEnabled) {
       return;
     }
 

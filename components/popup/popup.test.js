@@ -1,8 +1,11 @@
-var $ = require('jquery');
-var React = require('react/addons');
-var renderIntoDocument = require('render-into-document');
-var Popup = require('./popup');
-var simulateKeypress = require('simulate-keypress');
+import $ from 'jquery';
+import React from 'react';
+
+import renderIntoDocument from 'render-into-document';
+import simulateKeypress from 'simulate-keypress';
+import TestUtils from 'react-addons-test-utils';
+
+import Popup from './popup';
 
 describe('Popup', function () {
 
@@ -84,7 +87,7 @@ describe('Popup', function () {
 
     it('shouldn\'t be closed by click outside the element after hide', function(done) {
       var onClose = this.sinon.stub();
-      var popup = renderIntoDocument(React.createElement(Popup, {
+      var popup = TestUtils.renderIntoDocument(React.createElement(Popup, {
         onClose: onClose
       }));
 
@@ -169,14 +172,15 @@ describe('Popup', function () {
     });
 
     it('Should support minWidth = target', function () {
-      var element = $('<div style="width: 50px; padding-left: 20px;"></div>');
+      var $element = $('<div style="width: 50px; padding-left: 20px;"></div>').appendTo('body');
 
       var popup = renderIntoDocument(React.createElement(Popup, {
         minWidth: 'target',
-        anchorElement: element[0]
+        anchorElement: $element[0]
       }));
 
       parseInt(popup.node.style.minWidth, 10).should.equal(70);
+      $element.remove();
     });
 
     it('Should support minWidth = some number in pixels', function () {

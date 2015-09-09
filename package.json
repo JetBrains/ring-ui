@@ -109,6 +109,7 @@
     "node-xml-lite": "0.0.3",
     "react": "0.14.0-beta3",
     "react-addons-css-transition-group": "0.14.0-beta3",
+    "react-addons-test-utils": "0.14.0-beta3",
     "react-dom": "0.14.0-beta3",
     "sass-loader": "0.4.2",
     "style-loader": "0.8.2",

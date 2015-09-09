@@ -4,7 +4,7 @@ var React = require('react/addons');
 var $ = require('jquery');
 var renderIntoDocument = require('render-into-document');
 
-describe('Select(react)', function () {
+describe('Select', function () {
 
   var testData = [
     {key: 1, label: 'first1', type: List.ListProps.Type.ITEM},
@@ -17,6 +17,8 @@ describe('Select(react)', function () {
     this.select = renderIntoDocument(React.createElement(Select, {
       data: testData,
       selected: testData[0],
+      onChange: this.sinon.spy(),
+      onFilter: this.sinon.spy(),
       filter: true
     }));
   });
@@ -61,6 +63,7 @@ describe('Select(react)', function () {
 
   it('Should call onChange on clearing', function () {
     this.select.clear();
+    console.log(this.select.props.onChange);
     this.select.props.onChange.should.been.called.once;
     this.select.props.onChange.should.been.called.calledWith(null);
   });
@@ -87,14 +90,14 @@ describe('Select(react)', function () {
   //});
 
   it('Should not open popup if disabled', function () {
-    this.select._showPopup = sinon.spy();
+    this.select._showPopup = this.sinon.spy();
     this.select.rerender({disabled: true});
     this.select._clickHandler();
     this.select._showPopup.should.not.been.called;
   });
 
   it('Should close popup on click if it is already open', function () {
-    this.select._hidePopup = sinon.spy();
+    this.select._hidePopup = this.sinon.spy();
     this.select._showPopup();
     this.select._clickHandler();
     this.select._hidePopup.should.been.called;
@@ -222,7 +225,7 @@ describe('Select(react)', function () {
   });
 
   describe('Filtering', function () {
-    it('Should call onFilter on input changes', function () {;
+    it('Should call onFilter on input changes', function () {
       React.addons.TestUtils.Simulate.input(this.select._popup.refs.filter.node);
       this.select.props.onFilter.should.been.called;
     });
@@ -260,6 +263,7 @@ describe('Select(react)', function () {
 
   describe('Multiple', function () {
     var selectedArray;
+
     beforeEach(function () {
       selectedArray = testData.slice(0, 2);
 
@@ -268,7 +272,7 @@ describe('Select(react)', function () {
         selected: selectedArray,
         filter: true,
         multiple: true,
-        onChange: sinon.spy()
+        onChange: this.sinon.spy()
       }));
 
       /**
@@ -328,7 +332,7 @@ describe('Select(react)', function () {
       });
 
       it('Should not close popup on selecting', function () {
-        this.select._hidePopup = sinon.spy();
+        this.select._hidePopup = this.sinon.spy();
         this.select._listSelectHandler(testData[3]);
         this.select._hidePopup.should.not.been.called;
       });
@@ -354,7 +358,7 @@ describe('Select(react)', function () {
 
   describe('On selecting', function () {
     it('Should not react on selecting disabled element', function () {
-      this.select.setState = sinon.spy();
+      this.select.setState = this.sinon.spy();
 
       this.select._listSelectHandler({
         key: 1,
@@ -366,7 +370,7 @@ describe('Select(react)', function () {
     });
 
     it('Should not react on selecting separator', function () {
-      this.select.setState = sinon.spy();
+      this.select.setState = this.sinon.spy();
 
       this.select._listSelectHandler({
         key: 1,
@@ -378,7 +382,7 @@ describe('Select(react)', function () {
     });
 
     it('Should react on selecting custom item', function () {
-      this.select.setState = sinon.spy();
+      this.select.setState = this.sinon.spy();
 
       this.select._listSelectHandler({
         key: 1,
@@ -411,7 +415,7 @@ describe('Select(react)', function () {
     });
 
     it('Should hide popup on selecting', function () {
-      this.select._hidePopup = sinon.spy();
+      this.select._hidePopup = this.sinon.spy();
       this.select._listSelectHandler(testData[1]);
       this.select._hidePopup.should.been.calledOnce;
     });
