@@ -13,7 +13,7 @@ mocha.suite.afterEach(function() {
   }
 
   while ((firstChild = containerNode.firstChild)) {
-    if (firstChild.__component && firstChild.__component.isMounted()) {
+    if (firstChild.__component && firstChild.__component.node) {
       React.unmountComponentAtNode(firstChild);
     }
 

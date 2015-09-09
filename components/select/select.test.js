@@ -42,7 +42,7 @@ describe('Select(react)', function () {
   });
 
   it('Should use selectedLabel for select button title if provided', function () {
-    this.select.setProps({selected: {
+    this.select.rerender({selected: {
       key: 1, label: 'test1', selectedLabel: 'testLabel'
     }});
     var selectedLabel = this.select._getSelectedString();
@@ -60,7 +60,6 @@ describe('Select(react)', function () {
   });
 
   it('Should call onChange on clearing', function () {
-    this.select.props.onChange = sinon.spy();
     this.select.clear();
     this.select.props.onChange.should.been.called.once;
     this.select.props.onChange.should.been.called.calledWith(null);
@@ -81,7 +80,7 @@ describe('Select(react)', function () {
 
   //@todo: fix this test
   //it('Should open popup on key handling if not opened', function () {
-  //  this.select.setProps({type: Select.Type.INPUT});
+  //  this.select.rerender({type: Select.Type.INPUT});
   //  this.select.setState({focused: true});
   //  this.select._inputShortcutHandler();
   //  this.select._showPopup.should.been.calledOnce;
@@ -89,7 +88,7 @@ describe('Select(react)', function () {
 
   it('Should not open popup if disabled', function () {
     this.select._showPopup = sinon.spy();
-    this.select.setProps({disabled: true});
+    this.select.rerender({disabled: true});
     this.select._clickHandler();
     this.select._showPopup.should.not.been.called;
   });
@@ -102,73 +101,73 @@ describe('Select(react)', function () {
   });
 
   it('Should call onAdd on adding', function () {
-    this.select.setProps({onAdd: this.sinon.spy()});
+    this.select.rerender({onAdd: this.sinon.spy()});
     this.select.addHandler();
     this.select.props.onAdd.should.been.calledOnce;
   });
 
   describe('DOM', function () {
     it('Should place select button inside container', function () {
-      $(this.select.getDOMNode()).should.have.class('ring-select');
+      $(this.select.node).should.have.class('ring-select');
     });
 
     it('Should disable select button if needed', function () {
-      this.select.setProps({
+      this.select.rerender({
         disabled: true
       });
-      $(this.select.getDOMNode()).should.have.class('ring-select_disabled');
-      $(this.select.getDOMNode()).should.have.attr('disabled');
+      $(this.select.node).should.have.class('ring-select_disabled');
+      $(this.select.node).should.have.attr('disabled');
     });
 
     it('Should not disable select button if not needed', function () {
-      this.select.setProps({
+      this.select.rerender({
         disabled: false
       });
-      $(this.select.getDOMNode()).should.not.have.attr('disabled');
+      $(this.select.node).should.not.have.attr('disabled');
     });
 
     it('Should place input inside in INPUT mode', function () {
-      this.select.setProps({type: Select.Type.INPUT});
-      $(this.select.getDOMNode()).should.have.descendants('input');
+      this.select.rerender({type: Select.Type.INPUT});
+      console.log($(this.select.node));
     });
 
     it('Should place icons inside', function () {
-      $(this.select.getDOMNode()).should.have.descendants('.ring-select__icons');
+      $(this.select.node).should.have.descendants('.ring-select__icons');
     });
 
     it('Should add selected item icon to button', function () {
-      this.select.setProps({selected: {key: 1, label: 'test', icon: 'fakeImageUrl'}});
-      $(this.select.getDOMNode()).should.have.descendants('.ring-select__selected-icon');
+      this.select.rerender({selected: {key: 1, label: 'test', icon: 'fakeImageUrl'}});
+      $(this.select.node).should.have.descendants('.ring-select__selected-icon');
     });
 
     it('Should not display selected item icon if it is not provided', function () {
-      this.select.setProps({selected: {key: 1, label: 'test', icon: null}});
-      $(this.select.getDOMNode()).should.not.have.descendants('.ring-select__selected-icon');
+      this.select.rerender({selected: {key: 1, label: 'test', icon: null}});
+      $(this.select.node).should.not.have.descendants('.ring-select__selected-icon');
     });
 
     it('Should display selected item icon', function () {
-      this.select.setProps({selected: {key: 1, label: 'test', icon: 'http://fake.image/'}});
-      var icon = this.select.getDOMNode().querySelector('.ring-select__selected-icon');
+      this.select.rerender({selected: {key: 1, label: 'test', icon: 'http://fake.image/'}});
+      var icon = this.select.node.querySelector('.ring-select__selected-icon');
       expect(icon.style.backgroundImage).to.contain('http://fake.image/');
     });
 
     it('Should place icons inside in INPUT mode', function () {
-      this.select.setProps({type: Select.Type.INPUT});
-      $(this.select.getDOMNode()).should.have.descendants('.ring-select__icons');
+      this.select.rerender({type: Select.Type.INPUT});
+      $(this.select.node).should.have.descendants('.ring-select__icons');
     });
 
     it('Should add "Add" button if enabled but filter query is empty', function () {
-      this.select.setProps({add: true});
+      this.select.rerender({add: true});
       this.select.filterValue = this.sinon.stub().returns('');
       this.select._showPopup();
-      $(this.select._popup.getDOMNode()).should.not.have.descendants('.ring-select__button');
+      $(this.select._popup.node).should.not.have.descendants('.ring-select__button');
     });
 
     it('Should add "Add" button if enabled and filter query not empty', function () {
-      this.select.setProps({add: true});
+      this.select.rerender({add: true});
       this.select.filterValue = this.sinon.stub().returns('test');
       this.select._showPopup();
-      $(this.select._popup.getDOMNode()).should.have.descendants('.ring-select__button');
+      $(this.select._popup.node).should.have.descendants('.ring-select__button');
     });
   });
 
@@ -190,7 +189,7 @@ describe('Select(react)', function () {
         key: 1,
         description: 'test'
       }];
-      this.select.setProps({data: separators});
+      this.select.rerender({data: separators});
 
       var filtered = this.select.getListItems('foo');
       filtered.should.deep.equal(separators);
@@ -199,7 +198,7 @@ describe('Select(react)', function () {
     it('Should use custom filter.fn if provided', function () {
       var filterStub = this.sinon.stub().returns(true);
 
-      this.select.setProps({
+      this.select.rerender({
         filter: {fn: filterStub}
       });
 
@@ -210,7 +209,7 @@ describe('Select(react)', function () {
     });
 
     it('Should write filter query on add button if enabled', function () {
-      this.select.setProps({
+      this.select.rerender({
         add: {
           prefix: 'Add some'
         }
@@ -223,9 +222,8 @@ describe('Select(react)', function () {
   });
 
   describe('Filtering', function () {
-    it('Should call onFilter on input changes', function () {
-      this.select.props.onFilter = this.sinon.spy();
-      React.addons.TestUtils.Simulate.input(this.select._popup.refs.filter.getDOMNode());
+    it('Should call onFilter on input changes', function () {;
+      React.addons.TestUtils.Simulate.input(this.select._popup.refs.filter.node);
       this.select.props.onFilter.should.been.called;
     });
 
@@ -236,27 +234,27 @@ describe('Select(react)', function () {
     });
 
     it('Should return empty string if not input mode and filter is disabled', function () {
-      this.select.setProps({filter: false, type: Select.Type.BUTTON});
+      this.select.rerender({filter: false, type: Select.Type.BUTTON});
 
       this.select.filterValue().should.equal('');
     });
 
     it('Should return input value if input mode enabled', function () {
-      this.select.setProps({filter: false, type: Select.Type.INPUT});
-      this.select.refs.filter.getDOMNode().value = 'test input';
+      this.select.rerender({filter: false, type: Select.Type.INPUT});
+      this.select.refs.filter.node.value = 'test input';
       this.select.filterValue().should.equal('test input');
     });
 
     it('Should set vallue to popup input if passed', function () {
       this.select.filterValue('test');
-      this.select._popup.refs.filter.getDOMNode().value.should.equal('test');
+      this.select._popup.refs.filter.node.value.should.equal('test');
     });
 
     it('Should set target input value in input mode', function () {
-      this.select.setProps({filter: false, type: Select.Type.INPUT});
+      this.select.rerender({filter: false, type: Select.Type.INPUT});
 
       this.select.filterValue('test');
-      this.select.refs.filter.getDOMNode().value.should.equal('test');
+      this.select.refs.filter.node.value.should.equal('test');
     });
   });
 
@@ -269,7 +267,8 @@ describe('Select(react)', function () {
         data: testData,
         selected: selectedArray,
         filter: true,
-        multiple: true
+        multiple: true,
+        onChange: sinon.spy()
       }));
 
       /**
@@ -301,7 +300,7 @@ describe('Select(react)', function () {
     });
 
     it('Should detect selection is empty according on empty array', function () {
-      this.select.setProps({selected: []});
+      this.select.rerender({selected: []});
       this.select._selectionIsEmpty().should.be.true;
     });
 
@@ -311,7 +310,6 @@ describe('Select(react)', function () {
     });
 
     it('Should call onChange on clearing', function () {
-      this.select.props.onChange = sinon.spy();
       this.select.clear();
       this.select.props.onChange.should.been.called.once;
       this.select.props.onChange.should.been.called.calledWith([]);
@@ -344,7 +342,7 @@ describe('Select(react)', function () {
       });
 
       it('Should call onDeselect on deselecting item', function () {
-        this.select.setProps({
+        this.select.rerender({
           onDeselect: this.sinon.spy()
         });
         this.select._listSelectHandler(testData[0]);
@@ -397,7 +395,7 @@ describe('Select(react)', function () {
     });
 
     it('Should set call onSelect on selecting', function () {
-      this.select.setProps({
+      this.select.rerender({
         onSelect: this.sinon.spy()
       });
       this.select._listSelectHandler(testData[1]);
@@ -405,7 +403,7 @@ describe('Select(react)', function () {
     });
 
     it('Should set call onChange on selecting', function () {
-      this.select.setProps({
+      this.select.rerender({
         onChange: this.sinon.spy()
       });
       this.select._listSelectHandler(testData[1]);
@@ -421,17 +419,17 @@ describe('Select(react)', function () {
 
   describe('Popup', function () {
     it('Should pass loading message to popup if loading', function () {
-      this.select.setProps({loading: true, loadingMessage: 'test message'});
-      this.select._popup.setProps = this.sinon.stub();
+      this.select.rerender({loading: true, loadingMessage: 'test message'});
+      this.select._popup.rerender = this.sinon.stub();
       this.select._showPopup();
-      this.select._popup.setProps.should.been.calledWith(this.sinon.match({message: 'test message'}));
+      this.select._popup.rerender.should.been.calledWith(this.sinon.match({message: 'test message'}));
     });
 
     it('Should pass notFoundMessage message to popup if not loading and data is empty', function () {
-      this.select.setProps({data: [], notFoundMessage: 'test not found'});
-      this.select._popup.setProps = this.sinon.stub();
+      this.select.rerender({data: [], notFoundMessage: 'test not found'});
+      this.select._popup.rerender = this.sinon.stub();
       this.select._showPopup();
-      this.select._popup.setProps.should.been.calledWith(this.sinon.match({message: 'test not found'}));
+      this.select._popup.rerender.should.been.calledWith(this.sinon.match({message: 'test not found'}));
     });
   });
 });

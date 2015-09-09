@@ -1,16 +1,17 @@
+import RingComponent from 'ring-component/ring-component';
+import React from 'react';
+
 require('angular/angular');
 require('angular-mocks/angular-mocks');
 
 describe('ReactNg', function () {
-  var React = require('react/addons');
-
   var registerComponents = require('./react-ng');
 
   var $scope;
   var $compile;
   var EmptyComponent = React.createClass({
     render: function() {
-      return React.DOM.div();
+      return  React.createElement('div');
     }
   });
 
@@ -26,12 +27,12 @@ describe('ReactNg', function () {
 
   //common checker for properties passing
   function checkPropertyPassingForTemplate(template, propname, propalue){
-    var TestPropsComponent = React.createClass({
-      render: function() {
+    class TestPropsComponent extends RingComponent {
+      render() {
         expect(this.props[propname]).to.equal(propalue);
-        return React.DOM.div();
+        return React.createElement('div');
       }
-    });
+    }
 
     registerComponents({
       TestPropsComponent: TestPropsComponent

@@ -1,51 +1,33 @@
 var $ = require('jquery');
 var React = require('react/addons');
-var TestUtils = React.addons.TestUtils;
+var renderIntoDocument = require('render-into-document');
 var Popup = require('./popup');
 var simulateKeypress = require('simulate-keypress');
 
 describe('Popup', function () {
 
   it('should create component', function () {
-    var popup = TestUtils.renderIntoDocument(React.createElement(Popup, null));
+    var popup = renderIntoDocument(React.createElement(Popup, null));
     popup.should.exist;
   });
 
-  it('should create react class, based on popup mixin', function() {
-    var popupChild = React.createClass({
-      mixins: [Popup.Mixin],
-      getInternalContent: function() {
-        return React.DOM.div(null, 'Child');
-      }
-    });
-
-    popupChild.should.exist;
-    popupChild.PopupProps.Corner.should.exist;
-  });
-
   it('should be closed by pressing esc', function() {
-    var popup = TestUtils.renderIntoDocument(React.createElement(Popup, null));
+    var popup = renderIntoDocument(React.createElement(Popup, null));
     popup.show();
     simulateKeypress(null, 27); // Esc
 
-    var isMounted = popup.isMounted();
-    if (typeof isMounted !== 'undefined') {
-      popup.isMounted().should.be.false;
-    }
+    should.not.exist(popup.node);
   });
 
   it('should be closed by resizing window', function(done) {
-    var popup = TestUtils.renderIntoDocument(React.createElement(Popup, null));
+    var popup = renderIntoDocument(React.createElement(Popup, null));
     var evt = document.createEvent('Event');
     evt.initEvent('resize', true, false);
 
     setTimeout(function () {
       window.dispatchEvent(evt);
 
-      var isMounted = popup.isMounted();
-      if (typeof isMounted !== 'undefined') {
-        popup.isMounted().should.be.false;
-      }
+      should.not.exist(popup.node)
 
       done();
     });
@@ -57,7 +39,7 @@ describe('Popup', function () {
 
     it('should be closed by click outside the element', function(done) {
       var onClose = this.sinon.stub();
-      var popup = TestUtils.renderIntoDocument(React.createElement(Popup, {
+      var popup = renderIntoDocument(React.createElement(Popup, {
         onClose: onClose
       }));
 
@@ -66,10 +48,7 @@ describe('Popup', function () {
 
         onClose.should.have.been.called;
 
-        var isMounted = popup.isMounted();
-        if (typeof isMounted !== 'undefined') {
-          popup.isMounted().should.be.false;
-        }
+        should.not.exist(popup.node);
 
         done();
       });
@@ -78,7 +57,7 @@ describe('Popup', function () {
     it('should pass event to onClose callback when closing by clicking by document', function(done) {
       var onCloseStub = this.sinon.stub();
       var sinon = this.sinon;
-      TestUtils.renderIntoDocument(React.createElement(Popup, {
+      renderIntoDocument(React.createElement(Popup, {
         onClose: onCloseStub
       }));
 
@@ -91,7 +70,7 @@ describe('Popup', function () {
 
     it('should not close popup if popup hidden', function(done) {
       var onCloseStub = this.sinon.stub();
-      TestUtils.renderIntoDocument(React.createElement(Popup, {
+      renderIntoDocument(React.createElement(Popup, {
         hidden: true,
         onClose: onCloseStub
       }));
@@ -105,7 +84,7 @@ describe('Popup', function () {
 
     it('shouldn\'t be closed by click outside the element after hide', function(done) {
       var onClose = this.sinon.stub();
-      var popup = TestUtils.renderIntoDocument(React.createElement(Popup, {
+      var popup = renderIntoDocument(React.createElement(Popup, {
         onClose: onClose
       }));
 
@@ -120,7 +99,7 @@ describe('Popup', function () {
 
     it('shouldn\'t be closed by click outside the element after show', function(done) {
       var onClose = this.sinon.stub();
-      var popup = TestUtils.renderIntoDocument(React.createElement(Popup, {
+      var popup = renderIntoDocument(React.createElement(Popup, {
         onClose: onClose
       }));
       popup.hide();
@@ -135,12 +114,12 @@ describe('Popup', function () {
     });
 
     it('shouldn\'n t be closed by click inside the element', function(done) {
-      var popup = TestUtils.renderIntoDocument(React.createElement(Popup, null));
+      var popup = renderIntoDocument(React.createElement(Popup, null));
 
       setTimeout(function () {
-        popup.getDOMNode().dispatchEvent(evt);
+        popup.node.dispatchEvent(evt);
 
-        popup.isMounted().should.be.true;
+        popup.node.should.exist;
         done();
       });
     });
@@ -161,11 +140,11 @@ describe('Popup', function () {
 
       popup.show();
 
-      var popupElement = popup.getDOMNode();
+      var popupElement = popup.node;
       var elementOffset = element.offset();
 
       parseInt(popupElement.style.left, 10).should.equal(elementOffset.left);
-      parseInt(popupElement.style.top, 10).should.equal(elementOffset.top - $(popup.getDOMNode()).height());
+      parseInt(popupElement.style.top, 10).should.equal(elementOffset.top - $(popup.node).height());
     });
 
     it('bottom-left corner', function() {
@@ -182,7 +161,7 @@ describe('Popup', function () {
 
       popup.show();
 
-      var popupElement = popup.getDOMNode();
+      var popupElement = popup.node;
       var elementOffset = element.offset();
 
       parseInt(popupElement.style.left, 10).should.equal(elementOffset.left);
@@ -192,18 +171,18 @@ describe('Popup', function () {
     it('Should support minWidth = target', function () {
       var element = $('<div style="width: 50px; padding-left: 20px;"></div>');
 
-      var popup = TestUtils.renderIntoDocument(React.createElement(Popup, {
+      var popup = renderIntoDocument(React.createElement(Popup, {
         minWidth: 'target',
         anchorElement: element[0]
       }));
 
-      parseInt(popup.getDOMNode().style.minWidth, 10).should.equal(70);
+      parseInt(popup.node.style.minWidth, 10).should.equal(70);
     });
 
     it('Should support minWidth = some number in pixels', function () {
-      var popup = TestUtils.renderIntoDocument(React.createElement(Popup, {minWidth: '345'}));
+      var popup = renderIntoDocument(React.createElement(Popup, {minWidth: '345'}));
 
-      parseInt(popup.getDOMNode().style.minWidth, 10).should.equal(345);
+      parseInt(popup.node.style.minWidth, 10).should.equal(345);
     });
   });
 });
