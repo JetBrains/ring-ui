@@ -93,7 +93,7 @@ export default class Alerts extends RingComponent {
   }
 
   didMount() {
-    this.animationPromise = when();
+    this.animationPromise = Promise.resolve();
   }
 
   willUpdate(nextProps, nextState) {
