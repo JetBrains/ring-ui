@@ -498,6 +498,11 @@ var Select = React.createClass({
   },
 
   getToolbar: function () {
+    var isToolbarHasElements = this._addButton || this.props.hint;
+    if (!isToolbarHasElements) {
+      return null;
+    }
+
     return (<div className="ring-select__toolbar">
       {this._addButton ?
         <div className="ring-select__button" onClick={this.addHandler}>
