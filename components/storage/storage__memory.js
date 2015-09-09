@@ -1,5 +1,3 @@
-var when = require('when');
-
 var DEFAULT_SPACE_NAME = 'memoryStorage';
 
 /**
@@ -25,7 +23,8 @@ MemoryStorage._storage = {};
  * @return {Promise}
  */
 MemoryStorage.prototype.get = function(key) {
-  return when(key in this.space ? this.space[key] : null);
+  let value = key in this.space ? this.space[key] : null;
+  return value instanceof Promise ? value : Promise.resolve(value);
 };
 
 /**
@@ -34,22 +33,20 @@ MemoryStorage.prototype.get = function(key) {
  * @return {Promise}
  */
 MemoryStorage.prototype.set = function(key, value) {
-  var space = this.space;
-
   if (key) {
-    if (value != null) {
+    if (value !== null) {
       // We should store objects copies
-      return when.attempt(JSON.stringify, value).then(function (string) {
+      return new Promise(resolve => resolve(JSON.stringify(value))).then(string => {
         var result = JSON.parse(string);
-        space[key] = result;
+        this.space[key] = result;
         return result;
       });
     } else {
-      delete space[key];
+      delete this.space[key];
     }
   }
 
-  return when(value);
+  return Promise.resolve(value);
 };
 
 /**
@@ -67,7 +64,7 @@ MemoryStorage.prototype.remove = function(key) {
  */
 MemoryStorage.prototype.each = function(callback) {
   if (typeof callback !== 'function') {
-    return when.reject(new Error('Callback is not a function'));
+    return Promise.reject(new Error('Callback is not a function'));
   }
 
   var promises = [];
@@ -76,7 +73,7 @@ MemoryStorage.prototype.each = function(callback) {
       promises.push(callback(key, this.space[key]));
     }
   }
-  return when.all(promises);
+  return Promise.all(promises);
 };
 
 module.exports = MemoryStorage;
