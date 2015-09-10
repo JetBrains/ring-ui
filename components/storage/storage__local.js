@@ -35,9 +35,10 @@ LocalStorage.prototype.get = function (name) {
   return safePromise(resolve => {
     var value = window[storageType].getItem(name);
     try {
-      value = JSON.parse(value);
-    } catch (e) {}
-    resolve(value);
+      resolve(JSON.parse(value));
+    } catch (e) {
+      resolve(value);
+    }
   });
 };
 
@@ -77,11 +78,10 @@ LocalStorage.prototype.each = function (callback) {
 
   return safePromise(function (resolve) {
     var promises = [];
-    var value;
 
     for (var item in window[storageType]) {
       if (window[storageType].hasOwnProperty(item)) {
-        value = window[storageType].getItem(item);
+        let value = window[storageType].getItem(item);
         try {
           value = JSON.parse(value);
         } catch (e) {}
@@ -104,11 +104,11 @@ LocalStorage.prototype.on = function (name, callback) {
     e = e || window.event;
 
     if (e.key === name) {
-      let value = e.newValue;
       try {
-        value = JSON.parse(value);
-      } catch (e) {}
-      callback(value);
+        callback(JSON.parse(e.newValue));
+      } catch (err) {
+        callback(e.newValue);
+      }
     }
   }
 
