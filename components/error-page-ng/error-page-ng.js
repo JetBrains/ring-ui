@@ -52,7 +52,7 @@ angular.module('Ring.error-page', [
   'Ring.message-bundle'
 ])
 
-  .provider('errorPageConfiguration', [function () {
+  .provider('errorPageConfiguration', function () {
     var pageConfiguration = {};
     /**
      * @param {Object} config
@@ -83,9 +83,9 @@ angular.module('Ring.error-page', [
         links: links || []
       };
     }];
-  }])
+  })
 
-  .factory('getErrorPagePresentation', ['RingMessageBundle', function(RingMessageBundle) {
+  .factory('getErrorPagePresentation', function(RingMessageBundle) {
     var presentationModels = {
       '404': {
         status: 404,
@@ -126,17 +126,17 @@ angular.module('Ring.error-page', [
         description: error.message
       }, presentationModels['default']);
     };
-  }])
+  })
 
   .directive('rgErrorPageBackground', [
     function() {
       return {
         restrict: 'A',
-        controller: ['$scope', function($scope) {
+        controller: function($scope) {
           this.setApplicationError = function (applicationError) {
             $scope.applicationError = applicationError;
           };
-        }],
+        },
         link: function (scope, iElement) {
           iElement.addClass('error-page');
 

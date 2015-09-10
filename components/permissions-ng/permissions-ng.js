@@ -24,7 +24,7 @@ var permissionsModule = angular.module('Ring.permissions', ['Ring.auth']);
  *
  * @requires auth
  */
-permissionsModule.provider('userPermissions', [function () {
+permissionsModule.provider('userPermissions', function () {
   /**
    * @type {{
    *   serviceId: string?,
@@ -43,15 +43,15 @@ permissionsModule.provider('userPermissions', [function () {
     _config = config;
   };
 
-  this.$get = ['auth', '$q', function (auth, $q) {
+  this.$get = function (auth, $q) {
     var permissions = new Permissions(auth.auth, _config);
     // Override load to execute in $digest
     permissions.load = function () {
       return $q.when(Permissions.prototype.load.apply(this));
     };
     return permissions;
-  }];
-}]);
+  };
+});
 
 var registerPermission = function (element) {
   var somePermissionsCtrl = element.controller('rgSomePermissions');
@@ -132,10 +132,7 @@ permissionsModule.directive('rgPermission', [
  * @requires $animate
  * @requires userPermissions
  */
-permissionsModule.directive('rgPermissionIf', [
-  '$animate',
-  'userPermissions',
-  function ($animate, userPermissions) {
+permissionsModule.directive('rgPermissionIf', function ($animate, userPermissions) {
     return {
       transclude: 'element',
       priority: 600,
@@ -176,7 +173,7 @@ permissionsModule.directive('rgPermissionIf', [
       }
     };
   }
-]);
+);
 
 /**
  * @ngdoc directive
@@ -210,7 +207,7 @@ permissionsModule.directive('rgSomePermissions', [
       scope: {
         'rgSomePermissions': '='
       },
-      controller: ['$scope', function ($scope) {
+      controller: function ($scope) {
         var permissions = [];
         $scope.rgSomePermissions = false;
 
@@ -235,7 +232,7 @@ permissionsModule.directive('rgSomePermissions', [
             checkPermissions();
           };
         };
-      }]
+      }
     };
   }
 ]);
