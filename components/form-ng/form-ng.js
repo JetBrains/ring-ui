@@ -10,7 +10,7 @@ angular.module('Ring.form', ['Ring.message-bundle']).
  *
  * Where form.name is a reference to angularJS form input
  */
-  directive('rgErrorBubble', ['RingMessageBundle', function (RingMessageBundle) {
+  directive('rgErrorBubble', function (RingMessageBundle) {
     return {
       scope: {
         'errorBubble': '&rgErrorBubble'
@@ -51,12 +51,12 @@ angular.module('Ring.form', ['Ring.message-bundle']).
         };
       }
     };
-  }]).
+  }).
 /**
  * <input name="confirm" type="password" rg-equal-value="data.password" ng-model="data.confirm">
  * Constraint to be user for confirm password fields.
  */
-  directive('rgEqualValue', [function () {
+  directive('rgEqualValue', function () {
     return {
       require: 'ngModel',
       link: function (scope, iElement, iAttrs, ngModelCtrl) {
@@ -77,13 +77,13 @@ angular.module('Ring.form', ['Ring.message-bundle']).
         });
       }
     };
-  }]).
+  }).
 /**
  * <input name="name" required type="text" ng-class="form.name | rgInputClass:submitted" ng-model="name">
  *
  * Is intended to be used for the value of ng-class. Accepts a reference to an angularJS form input
  */
-  filter('rgInputClass', [function () {
+  filter('rgInputClass', function () {
     return function (input, submitted) {
       return {
         'ring-input': true,
@@ -91,13 +91,13 @@ angular.module('Ring.form', ['Ring.message-bundle']).
         'ring-input_correct': !input.$invalid && (input.$dirty || submitted)
       };
     };
-  }])
+  })
 /**
  * <form rg-form-autofill-fix ...>
  *
  * Fixes Chrome bug: https://github.com/angular/angular.js/issues/1460
  */
-  .directive('rgFormAutofillFix', ['$timeout', function ($timeout) {
+  .directive('rgFormAutofillFix', function ($timeout) {
     return {
       require: '?form',
       priority: 10,
@@ -134,4 +134,4 @@ angular.module('Ring.form', ['Ring.message-bundle']).
         }
       }
     };
-  }]);
+  });

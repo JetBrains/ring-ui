@@ -40,7 +40,7 @@ require('react-ng/react-ng')({
  */
 
 angular.module('Ring.breadcrumb', ['Ring.react-ng']).
-  directive('rgBreadcrumb', [function () {
+  directive('rgBreadcrumb', function () {
     return {
       template: require('./breadcrumb-ng.html'),
       replace: true,
@@ -52,4 +52,4 @@ angular.module('Ring.breadcrumb', ['Ring.react-ng']).
         onClick: '&'
       }
     };
-  }]);
+  });

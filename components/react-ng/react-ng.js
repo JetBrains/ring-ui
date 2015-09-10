@@ -56,7 +56,7 @@ let specialDOMAttrs = {
   'class': 'className'
 };
 
-reactModule.directive(reactDirectiveName, ['$parse', function ($parse) {
+reactModule.directive(reactDirectiveName, function ($parse) {
   return {
     restrict: 'A',
     link: function (scope, iElement, iAttrs) {
@@ -155,7 +155,7 @@ reactModule.directive(reactDirectiveName, ['$parse', function ($parse) {
       }
     }
   };
-}]);
+});
 
 /**
  * @name React-ng
@@ -179,7 +179,7 @@ reactModule.directive(reactDirectiveName, ['$parse', function ($parse) {
      </file>
    </example>
  */
-reactModule.directive(staticDirectiveName, ['$parse', function ($parse) {
+reactModule.directive(staticDirectiveName, function ($parse) {
   function getPropertyName(name) {
     //remove "react-" prefix and uncapitalize first letter
     let cleanAttrName = name.replace(attributeToPassPrefix, '');
@@ -213,7 +213,7 @@ reactModule.directive(staticDirectiveName, ['$parse', function ($parse) {
       renderAndRemoveOnDestroy(ComponentClass, iElement, props);
     }
   };
-}]);
+});
 
 /**
  * React component register

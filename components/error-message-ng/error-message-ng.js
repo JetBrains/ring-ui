@@ -15,7 +15,7 @@ require('react-ng/react-ng')({
  */
 
 angular.module('Ring.error-message', ['Ring.react-ng']).
-  directive('rgErrorMessage', [function () {
+  directive('rgErrorMessage', function () {
     return {
       replace: true,
       transclude: true,
@@ -28,4 +28,4 @@ angular.module('Ring.error-message', ['Ring.react-ng']).
         icon: '@'
       }
     };
-  }]);
+  });
