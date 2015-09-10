@@ -53,7 +53,7 @@ var analyticsModule = angular.module('Ring.analytics', []);
  * @name analyticsProvider
  * @description configures analytics with plugins
  */
-analyticsModule.provider('analytics', [function() {
+analyticsModule.provider('analytics', function() {
   var configPlugins = [];
   /**
    * @param plugins
@@ -62,7 +62,7 @@ analyticsModule.provider('analytics', [function() {
     configPlugins = plugins;
   };
 
-  this.$get = ['$log', '$injector', function($log, $injector) {
+  this.$get = function($log, $injector) {
     var loadedPlugins = [];
     for (var i = 0; i < configPlugins.length; ++i) {
       if (typeof configPlugins[i] === 'string') {
@@ -79,8 +79,8 @@ analyticsModule.provider('analytics', [function() {
     }
     analyticsInstance.config(loadedPlugins);
     return analyticsInstance;
-  }];
-}]);
+  };
+});
 
 analyticsModule.constant('AnalyticsGAPlugin', require('analytics/analytics__ga-plugin'));
 
@@ -89,13 +89,13 @@ analyticsModule.constant('AnalyticsCustomPlugin', require('analytics/analytics__
 /**
  * Enable page tracking
  */
-analyticsModule.run(['$rootScope', 'analytics', function($rootScope, analytics) {
+analyticsModule.run(function($rootScope, analytics) {
   $rootScope.$on('$routeChangeSuccess', function(evt, current) {
     if (current && current.$$route && current.$$route.originalPath) {
       analytics.trackPageView(current.$$route.originalPath);
     }
   });
-}]);
+});
 
 /**
  *  @ngdoc directive

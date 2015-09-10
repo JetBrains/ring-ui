@@ -13,7 +13,7 @@ var debounce = require('mout/function/debounce');
  */
 
 angular.module('Ring.table.toolbar', [])
-  .directive('rgTableToolbar', ['$window', '$document', function ($window, $document) {
+  .directive('rgTableToolbar', function ($window, $document) {
     var DEBOUNCE_INTERVAL = 10;
 
     return {
@@ -86,4 +86,4 @@ angular.module('Ring.table.toolbar', [])
         }
       }
     };
-  }]);
+  });
