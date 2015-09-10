@@ -516,7 +516,7 @@ export default class QueryAssist extends RingComponentWithShortcuts {
 
   sendRequest(params) {
     let value = this.props.dataSource(params);
-    let dataPromise = value instanceof Promise ? value : Promise.resolve(value);
+    let dataPromise = Promise.resolve(value);
 
     // Close popup after timeout between long requests
     let timeout = window.setTimeout(() => {

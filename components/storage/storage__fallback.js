@@ -180,11 +180,7 @@ FallbackStorage.prototype.on = function (key, calback) {
         calback(newValue);
       }
 
-      if (!value instanceof Promise) {
-        value = Promise.resolve(value);
-      }
-
-      value.then(() => window.setTimeout(checkForChange, self.checkDelay));
+      Promise.resolve(value).then(() => window.setTimeout(checkForChange, self.checkDelay));
     });
   }
 

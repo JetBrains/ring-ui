@@ -24,7 +24,7 @@ MemoryStorage._storage = {};
  */
 MemoryStorage.prototype.get = function(key) {
   let value = key in this.space ? this.space[key] : null;
-  return value instanceof Promise ? value : Promise.resolve(value);
+  return Promise.resolve(value);
 };
 
 /**

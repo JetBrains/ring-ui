@@ -565,7 +565,7 @@ Auth.shouldRefreshToken = function (error) {
  */
 Auth.prototype._validateAgainstUser = function (storedToken) {
   if (!this._canValidateAgainstUser()) {
-    return storedToken instanceof Promise ? storedToken : Promise.resolve(storedToken);
+    return Promise.resolve(storedToken);
   }
 
   return this.getApi(Auth.API_PROFILE_PATH, storedToken.access_token, this.config.userParams)
