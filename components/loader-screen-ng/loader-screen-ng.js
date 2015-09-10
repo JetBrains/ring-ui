@@ -19,10 +19,7 @@ require('loader/loader.scss');
  */
 
 angular.module('Ring.loader-screen', []).
-  service('loaderScreen', [
-    '$timeout',
-    '$rootScope',
-    function ($timeout, $rootScope) {
+  service('loaderScreen', function ($timeout, $rootScope) {
       var self = this;
       var initialLoading;
       var loadingFailed = false;
@@ -77,8 +74,8 @@ angular.module('Ring.loader-screen', []).
         }
       });
     }
-  ]).
-  directive('rgLoaderScreen', [function () {
+  )
+  .directive('rgLoaderScreen', function () {
     return {
       restrict: 'A',
       scope: {
@@ -86,4 +83,4 @@ angular.module('Ring.loader-screen', []).
       },
       template: require('./loader-screen-ng.html')
     };
-  }]);
+  });

@@ -21,7 +21,7 @@ ringShortcutsModule.provider('shortcuts', function () {
     return this;
   };
 
-  this['$get'] = ['$rootScope', function($rootScope) {
+  this['$get'] = function($rootScope) {
     return {
       bind: (name, handlers, scope) => {
         let mode = modes[name];
@@ -72,7 +72,7 @@ ringShortcutsModule.provider('shortcuts', function () {
       },
       shortcuts: shortcutsInstance
     };
-  }];
+  };
 });
 
 ringShortcutsModule.directive('rgShortcutsApp', function () {

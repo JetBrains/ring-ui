@@ -54,7 +54,7 @@ angular.module('Ring.avatar-editor', ['Ring.message-bundle', 'Ring.alert', 'Ring
         },
         template: require('./avatar-editor-ng.html'),
         transclude: true,
-        controller: ['$scope', '$attrs', 'RingMessageBundle', 'alert', function ($scope, $attrs, RingMessageBundle, alert) {
+        controller: function ($scope, $attrs, RingMessageBundle, alert) {
           var fileInput;
 
           function setLang() {
@@ -129,7 +129,7 @@ angular.module('Ring.avatar-editor', ['Ring.message-bundle', 'Ring.alert', 'Ring
               $scope.model = data;
             }
           };
-        }]
+        }
       };
     }
   ).

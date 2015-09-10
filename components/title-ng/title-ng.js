@@ -1,14 +1,14 @@
 /* global angular: false */
 
 angular.module('Ring.title', []).
-  directive('rgPageTitle', [function () {
+  directive('rgPageTitle', function () {
     return {
       scope: {
         'rgPageTitle': '@',
         'noTitle': '@',
         'delimiter': '@'
       },
-      controller: ['$rootScope', '$scope', '$element', 'pageTitle', '$injector', function ($rootScope, $scope, $element, pageTitle, $injector) {
+      controller: function ($rootScope, $scope, $element, pageTitle, $injector) {
         pageTitle.setDelimiter($scope.delimiter);
 
         // Get title prefix from title element
@@ -29,10 +29,10 @@ angular.module('Ring.title', []).
             pageTitle.addElement(title || $scope.noTitle);
           }
         });
-      }]
+      }
     };
-  }]).
-  service('pageTitle', ['$window', '$interpolate', function ($window, $interpolate) {
+  }).
+  service('pageTitle', function ($window, $interpolate) {
     var delimiter = ' | ';
     var current = $window.document.title;
 
@@ -81,4 +81,4 @@ angular.module('Ring.title', []).
       }
     };
 
-  }]);
+  });
