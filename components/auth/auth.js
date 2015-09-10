@@ -193,9 +193,7 @@ Auth.prototype.init = function () {
     .catch(error => {
       if (error.stateId) {
         return self._storage.getState(error.stateId)
-          .catch(() => {
-            return Promise.reject(error);
-          })
+          .catch(() => Promise.reject(error))
           .then(state => {
             if (state && state.nonRedirect) {
               state.error = error;
