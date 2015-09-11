@@ -167,24 +167,23 @@ FallbackStorage.prototype.each = function (callback) {
  * @return {Function}
  */
 FallbackStorage.prototype.on = function (key, calback) {
-  var self = this;
   var stop = false;
 
-  function checkForChange(value) {
-    self.get(key).then(function (newValue) {
+  const checkForChange = oldValue => {
+    this.get(key).then(newValue => {
       if (stop) {
         return;
       }
 
-      if (!deepEquals(value, newValue)) {
+      if (!deepEquals(oldValue, newValue)) {
         calback(newValue);
       }
 
-      Promise.resolve(value).then(() => window.setTimeout(checkForChange, self.checkDelay));
+      window.setTimeout(() => checkForChange(oldValue), this.checkDelay);
     });
-  }
+  };
 
-  self.get(key).then(checkForChange);
+  this.get(key).then(checkForChange);
 
   return function () {
     stop = true;

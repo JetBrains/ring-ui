@@ -1,4 +1,3 @@
-var when = require('when');
 var noop = function () {};
 
 function testStorage(storage) {
@@ -131,7 +130,7 @@ function testStorage(storage) {
   });
 }
 
-function testStorageEvents(storage) {
+function  testStorageEvents(storage) {
   describe('events', function () {
     var stop;
 
@@ -142,7 +141,7 @@ function testStorageEvents(storage) {
     it('on after set should be fired', function () {
       var testEvent = 'testKey';
 
-      var change = when.promise(function (resolve) {
+      var change = new Promise(function (resolve) {
         stop = storage.on(testEvent, resolve);
       });
 
@@ -155,7 +154,7 @@ function testStorageEvents(storage) {
       var testEvent = 'testKey2';
       var testValue = 'testValue';
 
-      var change = when.promise(function (resolve) {
+      var change = new Promise(function (resolve) {
         stop = storage.on(testEvent, resolve);
       });
 
@@ -169,7 +168,7 @@ function testStorageEvents(storage) {
       var testValue = 'testValue';
 
       var change = storage.set(testEvent, testValue).then(function () {
-        return when.promise(function (resolve) {
+        return new Promise(function (resolve) {
           stop = storage.on(testEvent, resolve);
 
           storage.remove(testEvent);
@@ -179,26 +178,30 @@ function testStorageEvents(storage) {
       return change.should.become(null);
     });
 
-    it('on after set with other key shouldn\'t be fired', function () {
-      var change = when.promise(function (resolve) {
-        stop = storage.on('testKey4', resolve);
-      });
+    it('on after set with other key shouldn\'t be fired', function (done) {
+      var spy = this.sinon.stub();
+
+      stop = storage.on('testKey4', spy);
       storage.set('testWrong', 'testValue');
 
-      return change.timeout(300).should.be.rejected;
+      setTimeout(function () {
+        spy.should.not.have.been.called;
+        done();
+      }, 300);
     });
 
-    it('stop should stop', function () {
+    it('stop should stop', function (done) {
+      var spy = this.sinon.spy();
+
       var testEvent = 'testKey5';
-
-      var change = when.promise(function (resolve) {
-        stop = storage.on(testEvent, resolve);
-        stop();
-      });
-
+      stop = storage.on(testEvent, spy);
+      stop();
       storage.set(testEvent, 'testValue');
 
-      return change.timeout(300).should.be.rejected;
+      setTimeout(function () {
+        spy.should.not.have.been.called;
+        done();
+      }, 300);
     });
   });
 }
