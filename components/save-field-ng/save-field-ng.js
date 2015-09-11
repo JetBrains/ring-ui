@@ -90,7 +90,8 @@ angular.module('Ring.save-field', [
   .directive('rgSaveField', [
     'RingMessageBundle',
     '$timeout',
-    function (RingMessageBundle, $timeout) {
+    '$q',
+    function (RingMessageBundle, $timeout, $q) {
       var ESCAPE_KEY_CODE = 27;
       var ENTER_KEY_CODE = 13;
 
@@ -131,9 +132,7 @@ angular.module('Ring.save-field', [
 
           scope.changed = function () {
             var saveResult = scope.onSave(scope.item, scope.field);
-            if (saveResult && saveResult.then) {
-              saveResult.then(success);
-            }
+            $q.when(saveResult).then(success);
           };
 
           var inputKey = function ($event) {
