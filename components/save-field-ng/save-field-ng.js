@@ -134,7 +134,6 @@ angular.module('Ring.save-field', [
           };
 
           var inputKey = function ($event) {
-            console.log('scope.autoSaveWrapperForm', scope.autoSaveWrapperForm);
             if ($event.keyCode === 27) {
               // Esc
               if (scope.autoSaveWrapperForm.$dirty) {
