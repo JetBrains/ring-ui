@@ -121,7 +121,7 @@ angular.module('Ring.save-field', [
 
           var success = function () {
             scope.initial = scope.item[scope.field];
-            scope.autoSaveWrapperForm.$setPristine();
+            scope.saveFieldForm.$setPristine();
 
             scope.done = true;
 
@@ -138,9 +138,9 @@ angular.module('Ring.save-field', [
           var inputKey = function ($event) {
             if ($event.keyCode === ESCAPE_KEY_CODE) {
               // Esc
-              if (scope.autoSaveWrapperForm.$dirty) {
+              if (scope.saveFieldForm.$dirty) {
                 scope.item[scope.field] = scope.initial;
-                scope.autoSaveWrapperForm.$setPristine();
+                scope.saveFieldForm.$setPristine();
                 scope.$apply();
               }
               $event.stopPropagation();
@@ -150,7 +150,7 @@ angular.module('Ring.save-field', [
             //TODO: in multiline mode Enter should work without ctrl or meta
             if ($event.keyCode === ENTER_KEY_CODE && ($event.ctrlKey || $event.metaKey)) {
               // Enter
-              if (scope.autoSaveWrapperForm.$dirty && scope.autoSaveWrapperForm.$valid) {
+              if (scope.saveFieldForm.$dirty && scope.saveFieldForm.$valid) {
                 scope.changed();
               }
               $event.stopPropagation();
