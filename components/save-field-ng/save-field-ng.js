@@ -91,6 +91,9 @@ angular.module('Ring.save-field', [
     'RingMessageBundle',
     '$timeout',
     function (RingMessageBundle, $timeout) {
+      var ESCAPE_KEY_CODE = 27;
+      var ENTER_KEY_CODE = 13;
+
       return {
         restrict: 'E',
         transclude: true,
@@ -134,7 +137,7 @@ angular.module('Ring.save-field', [
           };
 
           var inputKey = function ($event) {
-            if ($event.keyCode === 27) {
+            if ($event.keyCode === ESCAPE_KEY_CODE) {
               // Esc
               if (scope.autoSaveWrapperForm.$dirty) {
                 scope.item[scope.field] = scope.initial;
@@ -143,7 +146,10 @@ angular.module('Ring.save-field', [
               }
               $event.stopPropagation();
               $event.preventDefault();
-            } else if ($event.keyCode === 13 && ($event.ctrlKey || $event.metaKey || !scope.isMultiLine())) {
+              return;
+            }
+            //TODO: in multiline mode Enter should work without ctrl or meta
+            if ($event.keyCode === ENTER_KEY_CODE && ($event.ctrlKey || $event.metaKey)) {
               // Enter
               if (scope.autoSaveWrapperForm.$dirty && scope.autoSaveWrapperForm.$valid) {
                 scope.changed();
@@ -163,7 +169,7 @@ angular.module('Ring.save-field', [
                 }
               }
             });
-            //todo: why does it returns nothing in example (but is working in youtrack)?
+            //TODO: why does it return nothing in example (but is working in youtrack)?
             //var placeholder = iElem.find('.ring-save-field__content');
             var placeholder = angular.element(iElem.children()[0]).children()[0];
             angular.element(placeholder).append(clone);
