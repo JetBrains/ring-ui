@@ -1,8 +1,8 @@
-<div class="ring-save-field" ng-form="autoSaveWrapperForm">
+<div class="ring-save-field" ng-form="saveFieldForm">
   <span class="ring-save-field__content"></span>
-  <div rg-error-bubble="autoSaveWrapperForm"></div>
+  <div rg-error-bubble="saveFieldForm"></div>
   <span class="ring-save-field__button">
-    <button ng-show="autoSaveWrapperForm.$dirty && autoSaveWrapperForm.$valid"
+    <button ng-show="saveFieldForm.$dirty && saveFieldForm.$valid"
             class="ring-btn ring-btn_blue"
             ng-click="changed($event)">
       {{wording.save}}
