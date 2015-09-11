@@ -162,7 +162,8 @@ angular.module('Ring.save-field', [
             angular.forEach(clone, function (node) {
               if (node.tagName) {
                 var tagName = node.tagName.toLowerCase();
-                if (tagName === 'textarea' || tagName === 'input') {
+                if (tagName === 'textarea' || tagName === 'input'
+                  || angular.element(node).hasClass('ring-save-field__input')) {
                   var nodeElem = angular.element(node);
                   nodeElem.bind('keydown', inputKey);
                 }
