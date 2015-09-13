@@ -31,8 +31,7 @@ angular.module('Ring.save-field', [
             </label>
 
             <div class="ring-form__control">
-              <rg-save-field item="data"
-                             field="email"
+              <rg-save-field value="data.email"
                              on-save="save">
                 <input type="text"
                        class="ring-input"
@@ -50,8 +49,7 @@ angular.module('Ring.save-field', [
             </label>
 
             <div class="ring-form__control">
-              <rg-save-field item="data"
-                             field="longText"
+              <rg-save-field value="data.longText"
                              on-save="save">
                 <textarea type="text"
                           class="ring-textarea ring-form__input_long"
@@ -72,14 +70,14 @@ angular.module('Ring.save-field', [
        angular.module('Example.saveField', ['Ring.save-field'])
          .controller('SaveFieldDemoCtrl', function($scope, $q) {
            $scope.data = {
-             email: null,
+             email: 'aa',
              longText: null
            };
 
            var defer = $q.defer();
            defer.resolve();
-           $scope.save = function(item, field) {
-             console.log('Result', item[field]);
+           $scope.save = function() {
+             console.log('data = ', $scope.data);
              return defer.promise;
            };
        });
@@ -95,6 +93,35 @@ angular.module('Ring.save-field', [
       var ESCAPE_KEY_CODE = 27;
       var ENTER_KEY_CODE = 13;
 
+      function setValueByPropertyName(obj, variableName, value) {
+        var nameItems = variableName.split('.');
+        var variable = obj;
+        for (var i = 0; i < nameItems.length; ++i) {
+          if (i < nameItems.length - 1) {
+            if (angular.isObject(variable) && nameItems[i] in variable) {
+              variable = variable[nameItems[i]];
+            } else {
+              break;
+            }
+          } else {
+            variable[nameItems[i]] = value;
+          }
+        }
+      }
+
+      function getValueByPropertyName(obj, propertyName) {
+        var nameItems = propertyName.split('.');
+        var variable = obj;
+        for (var i = 0; i < nameItems.length; ++i) {
+          if (angular.isObject(variable) && nameItems[i] in variable) {
+            variable = variable[nameItems[i]];
+          } else {
+            return undefined;
+          }
+        }
+        return variable;
+      }
+
       return {
         restrict: 'E',
         transclude: true,
@@ -103,24 +130,16 @@ angular.module('Ring.save-field', [
         link: function (scope, iElem, iAttrs, ctrl, transcludeFn) {
           //TODO: support flag multilineMode for hub
           //var multilineMode = iAttrs.multilineMode;
-          scope.field = iAttrs.field;
           scope.onSave = scope.$eval(iAttrs.onSave);
-          scope.$watch(iAttrs.item, function (value) {
-            scope.item = value;
-            scope.initial = (value && value.hasOwnProperty(scope.field)) ? value[scope.field] : undefined;
-          });
-
-          scope.$watch('item.' + scope.field, function (newValue) {
-            /**
-             * Update initial value if field has been changed outside form.input (e.g. new value from rest)
-             */
-            if (angular.isDefined(newValue) && angular.isUndefined(scope.initial)) {
-              scope.initial = newValue;
+          var valueExpression = iAttrs.value;
+          scope.$parent.$watch(valueExpression, function (value) {
+            if (angular.isDefined(value) && scope.saveFieldForm.$pristine) {
+              scope.initial = value;
             }
-          });
+          }, true);
 
           var success = function () {
-            scope.initial = scope.item[scope.field];
+            scope.initial = getValueByPropertyName(scope.$parent, valueExpression);
             scope.saveFieldForm.$setPristine();
 
             scope.done = true;
@@ -131,17 +150,16 @@ angular.module('Ring.save-field', [
           };
 
           scope.changed = function () {
-            var saveResult = scope.onSave(scope.item, scope.field);
-            $q.when(saveResult).then(success);
+            $q.when(scope.onSave()).then(success);
           };
 
           var inputKey = function ($event) {
             if ($event.keyCode === ESCAPE_KEY_CODE) {
               // Esc
               if (scope.saveFieldForm.$dirty) {
-                scope.item[scope.field] = scope.initial;
+                setValueByPropertyName(scope.$parent, valueExpression, scope.initial);
                 scope.saveFieldForm.$setPristine();
-                scope.$apply();
+                scope.$parent.$apply();
               }
               $event.stopPropagation();
               $event.preventDefault();
