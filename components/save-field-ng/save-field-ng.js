@@ -59,6 +59,22 @@ angular.module('Ring.save-field', [
             </div>
           </div>
 
+          <div class="ring-form__group">
+            <label class="ring-form__label">
+              Textarea List Mode
+            </label>
+
+            <div class="ring-form__control">
+              <rg-save-field value="data.longTextList"
+                             multiline="list"
+                             on-save="save">
+                <textarea type="text"
+                          class="ring-textarea"
+                          ng-model="data.longTextList"></textarea>
+              </rg-save-field>
+            </div>
+          </div>
+
         </div>
      </div>
      </file>
@@ -134,6 +150,16 @@ angular.module('Ring.save-field', [
           var valueExpression = iAttrs.value;
 
           function submitChanges() {
+            var success = function () {
+              scope.initial = getValueByPropertyName(scope.$parent, valueExpression);
+              scope.saveFieldForm.$setPristine();
+
+              scope.done = true;
+
+              $timeout(function () {
+                scope.done = false;
+              }, 1000);
+            };
             $q.when(scope.onSave()).then(success);
           }
 
@@ -153,17 +179,6 @@ angular.module('Ring.save-field', [
               escape();
             }
           }, true);
-
-          var success = function () {
-            scope.initial = getValueByPropertyName(scope.$parent, valueExpression);
-            scope.saveFieldForm.$setPristine();
-
-            scope.done = true;
-
-            $timeout(function () {
-              scope.done = false;
-            }, 1000);
-          };
 
           var inputKey = function ($event) {
             if ($event.keyCode === ESCAPE_KEY_CODE) {
