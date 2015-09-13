@@ -132,9 +132,25 @@ angular.module('Ring.save-field', [
           //var multilineMode = iAttrs.multilineMode;
           scope.onSave = scope.$eval(iAttrs.onSave);
           var valueExpression = iAttrs.value;
+
+          function submitChanges() {
+            $q.when(scope.onSave()).then(success);
+          }
+
+          function escape() {
+            setValueByPropertyName(scope.$parent, valueExpression, scope.initial);
+            scope.saveFieldForm.$setPristine();
+            scope.$parent.$apply();
+          }
+
           scope.$parent.$watch(valueExpression, function (value) {
-            if (angular.isDefined(value) && scope.saveFieldForm.$pristine) {
+            if (angular.isUndefined(value)) {
+              return;
+            }
+            if (scope.saveFieldForm.$pristine) {
               scope.initial = value;
+            } else if (scope.initial && angular.equals(scope.initial, value)) {
+              escape();
             }
           }, true);
 
@@ -149,17 +165,10 @@ angular.module('Ring.save-field', [
             }, 1000);
           };
 
-          scope.changed = function () {
-            $q.when(scope.onSave()).then(success);
-          };
-
           var inputKey = function ($event) {
             if ($event.keyCode === ESCAPE_KEY_CODE) {
-              // Esc
               if (scope.saveFieldForm.$dirty) {
-                setValueByPropertyName(scope.$parent, valueExpression, scope.initial);
-                scope.saveFieldForm.$setPristine();
-                scope.$parent.$apply();
+                escape();
               }
               $event.stopPropagation();
               $event.preventDefault();
@@ -167,9 +176,8 @@ angular.module('Ring.save-field', [
             }
             //TODO: in multiline mode Enter should work without ctrl or meta
             if ($event.keyCode === ENTER_KEY_CODE && ($event.ctrlKey || $event.metaKey)) {
-              // Enter
               if (scope.saveFieldForm.$dirty && scope.saveFieldForm.$valid) {
-                scope.changed();
+                submitChanges();
               }
               $event.stopPropagation();
               $event.preventDefault();
