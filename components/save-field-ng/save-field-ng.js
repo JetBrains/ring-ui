@@ -52,7 +52,7 @@ angular.module('Ring.save-field', [
               <rg-save-field value="data.longText"
                              on-save="save">
                 <textarea type="text"
-                          class="ring-textarea ring-form__input_long"
+                          class="ring-textarea ring-form__input ring-form__input_long"
                           ng-required="true"
                           ng-model="data.longText"></textarea>
               </rg-save-field>
@@ -69,9 +69,11 @@ angular.module('Ring.save-field', [
                              multiline="list"
                              on-save="save">
                 <textarea type="text"
-                          class="ring-textarea"
+                          name="myMultilineArea"
+                          class="ring-textarea ring-form__input"
                           ng-model="data.longTextList"></textarea>
               </rg-save-field>
+              <div class="ring-form__control__description">data.longTextList = {{data.longTextList}}</div>
             </div>
           </div>
 
@@ -87,7 +89,8 @@ angular.module('Ring.save-field', [
          .controller('SaveFieldDemoCtrl', function($scope, $q) {
            $scope.data = {
              email: 'aa',
-             longText: null
+             longText: null,
+             longTextList: ['one', 'two', 'three']
            };
 
            var defer = $q.defer();
@@ -108,6 +111,9 @@ angular.module('Ring.save-field', [
     function (RingMessageBundle, $timeout, $q) {
       var ESCAPE_KEY_CODE = 27;
       var ENTER_KEY_CODE = 13;
+      var MULTI_LINE_SPLIT_PATTERN = /(\r\n|\n|\r)/gm;
+      var MULTI_LINE_LIST_MODE = 'list';
+
 
       function setValueByPropertyName(obj, variableName, value) {
         var nameItems = variableName.split('.');
@@ -144,8 +150,7 @@ angular.module('Ring.save-field', [
         template: require('./save-field-ng.html'),
         scope: true,
         link: function (scope, iElem, iAttrs, ctrl, transcludeFn) {
-          //TODO: support flag multilineMode for hub
-          //var multilineMode = iAttrs.multilineMode;
+          var multilineMode = iAttrs.multiline;
           scope.onSave = scope.$eval(iAttrs.onSave);
           var valueExpression = iAttrs.value;
 
@@ -169,6 +174,40 @@ angular.module('Ring.save-field', [
             scope.$parent.$apply();
           }
 
+          function addMultilineProcessig(controlName) {
+            var stopWatch = scope.$watch('saveFieldForm.' + controlName, function (control) {
+              if (!control || !control.$formatters || !control.$parsers) {
+                return;
+              }
+              control.$formatters.push(function (value) {
+                if (!value) {
+                  return value;
+                }
+                if (iAttrs.formatElement) {
+                  value = value.map(function (element) {
+                    return scope.formatElement({element: element});
+                  });
+                }
+                return value.join('\n');
+              });
+              control.$parsers.push(function (value) {
+                var array = value && value.split(MULTI_LINE_SPLIT_PATTERN) || [];
+                var notEmpty = function (val) {
+                  return val && val.trim() && val !== '\n';
+                };
+                array = array.filter(notEmpty);
+                if (iAttrs.parseElement) {
+                  array = array.map(function (element) {
+                    return scope.parseElement({element: element.trim()});
+                  });
+                }
+                return array;
+              });
+
+              stopWatch();
+            });
+          }
+
           scope.$parent.$watch(valueExpression, function (value) {
             if (angular.isUndefined(value)) {
               return;
@@ -189,8 +228,7 @@ angular.module('Ring.save-field', [
               $event.preventDefault();
               return;
             }
-            //TODO: in multiline mode Enter should work without ctrl or meta
-            if ($event.keyCode === ENTER_KEY_CODE && ($event.ctrlKey || $event.metaKey)) {
+            if ($event.keyCode === ENTER_KEY_CODE && ($event.ctrlKey || $event.metaKey || !multilineMode)) {
               if (scope.saveFieldForm.$dirty && scope.saveFieldForm.$valid) {
                 submitChanges();
               }
@@ -207,6 +245,13 @@ angular.module('Ring.save-field', [
                   || angular.element(node).hasClass('ring-save-field__input')) {
                   var nodeElem = angular.element(node);
                   nodeElem.bind('keydown', inputKey);
+                  if (tagName === 'textarea') {
+                    if (angular.isUndefined(multilineMode)) {
+                      multilineMode = true;
+                    } else if (node.name && multilineMode === MULTI_LINE_LIST_MODE) {
+                      addMultilineProcessig(node.name);
+                    }
+                  }
                 }
               }
             });
