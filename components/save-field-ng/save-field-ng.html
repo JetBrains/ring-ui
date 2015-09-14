@@ -1,5 +1,5 @@
 <div class="ring-save-field" ng-form="saveFieldForm">
-  <span class="ring-save-field__content"></span>
+  <span ng-transclude=""></span>
   <div rg-error-bubble="saveFieldForm"></div>
   <span class="ring-save-field__button">
     <button ng-show="saveFieldForm.$dirty && saveFieldForm.$valid"
