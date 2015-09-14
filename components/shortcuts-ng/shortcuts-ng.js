@@ -1,9 +1,10 @@
 import 'babel/polyfill';
 import 'dom4';
 import shortcutsInstance from 'shortcuts/shortcuts';
+import ShortcutHintPopup from './shortcuts-ng__hint';
 
 /* global angular: false */
-let ringShortcutsModule = angular.module('Ring.shortcuts', []);
+let ringShortcutsModule = angular.module('Ring.shortcuts', [ShortcutHintPopup]);
 
 ringShortcutsModule.provider('shortcuts', function () {
   let modes = {};
@@ -70,6 +71,10 @@ ringShortcutsModule.provider('shortcuts', function () {
       isMainMode: name => {
         return mainModes[name];
       },
+      getRegisteredShortcuts: () => {
+        return reference;
+      },
+
       shortcuts: shortcutsInstance
     };
   };
@@ -250,3 +255,5 @@ ringShortcutsModule.directive('rgShortcuts', function ($parse) {
     }
   };
 });
+
+export default ringShortcutsModule.name;
