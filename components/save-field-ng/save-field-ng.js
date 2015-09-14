@@ -108,55 +108,28 @@ angular.module('Ring.save-field', [
     'RingMessageBundle',
     '$timeout',
     '$q',
-    function (RingMessageBundle, $timeout, $q) {
+    '$parse',
+    function (RingMessageBundle, $timeout, $q, $parse) {
       var ESCAPE_KEY_CODE = 27;
       var ENTER_KEY_CODE = 13;
       var MULTI_LINE_SPLIT_PATTERN = /(\r\n|\n|\r)/gm;
       var MULTI_LINE_LIST_MODE = 'list';
-
-
-      function setValueByPropertyName(obj, variableName, value) {
-        var nameItems = variableName.split('.');
-        var variable = obj;
-        for (var i = 0; i < nameItems.length; ++i) {
-          if (i < nameItems.length - 1) {
-            if (angular.isObject(variable) && nameItems[i] in variable) {
-              variable = variable[nameItems[i]];
-            } else {
-              break;
-            }
-          } else {
-            variable[nameItems[i]] = value;
-          }
-        }
-      }
-
-      function getValueByPropertyName(obj, propertyName) {
-        var nameItems = propertyName.split('.');
-        var variable = obj;
-        for (var i = 0; i < nameItems.length; ++i) {
-          if (angular.isObject(variable) && nameItems[i] in variable) {
-            variable = variable[nameItems[i]];
-          } else {
-            return undefined;
-          }
-        }
-        return variable;
-      }
 
       return {
         restrict: 'E',
         transclude: true,
         template: require('./save-field-ng.html'),
         scope: true,
-        link: function (scope, iElem, iAttrs, ctrl, transcludeFn) {
+        link: function (scope, iElem, iAttrs) {
           var multilineMode = iAttrs.multiline;
           scope.onSave = scope.$eval(iAttrs.onSave);
           var valueExpression = iAttrs.value;
+          var getExpressionValue = $parse(valueExpression);
+          var setExpressionValue = getExpressionValue.assign;
 
           function submitChanges() {
             var success = function () {
-              scope.initial = getValueByPropertyName(scope.$parent, valueExpression);
+              scope.initial = getExpressionValue(scope);
               scope.saveFieldForm.$setPristine();
 
               scope.done = true;
@@ -169,9 +142,11 @@ angular.module('Ring.save-field', [
           }
 
           function escape() {
-            setValueByPropertyName(scope.$parent, valueExpression, scope.initial);
+            setExpressionValue(scope, scope.initial ? scope.initial : '');
             scope.saveFieldForm.$setPristine();
-            scope.$parent.$apply();
+            if (!scope['$$phase']) {
+              scope.$apply();
+            }
           }
 
           function addMultilineProcessig(controlName) {
@@ -208,7 +183,7 @@ angular.module('Ring.save-field', [
             });
           }
 
-          scope.$parent.$watch(valueExpression, function (value) {
+          scope.$watch(valueExpression, function (value) {
             if (angular.isUndefined(value)) {
               return;
             }
@@ -237,29 +212,22 @@ angular.module('Ring.save-field', [
             }
           };
 
-          transcludeFn(scope, function (clone) {
-            angular.forEach(clone, function (node) {
-              if (node.tagName) {
-                var tagName = node.tagName.toLowerCase();
-                if (tagName === 'textarea' || tagName === 'input'
-                  || angular.element(node).hasClass('ring-save-field__input')) {
-                  var nodeElem = angular.element(node);
-                  nodeElem.bind('keydown', inputKey);
-                  if (tagName === 'textarea') {
-                    if (angular.isUndefined(multilineMode)) {
-                      multilineMode = true;
-                    } else if (node.name && multilineMode === MULTI_LINE_LIST_MODE) {
-                      addMultilineProcessig(node.name);
-                    }
-                  }
-                }
+          var isTextarea = false;
+          var inputNode = iElem[0].querySelector('input, .ring-save-field__input');
+          if (!inputNode) {
+            inputNode = iElem[0].querySelector('textarea');
+            isTextarea = !!inputNode;
+          }
+          if (inputNode) {
+            angular.element(inputNode).bind('keydown', inputKey);
+            if (isTextarea) {
+              if (!multilineMode) {
+                multilineMode = true;
+              } else if (inputNode.name && multilineMode === MULTI_LINE_LIST_MODE) {
+                addMultilineProcessig(inputNode.name);
               }
-            });
-            //TODO: why does it return nothing in example (but is working in youtrack)?
-            //var placeholder = iElem.find('.ring-save-field__content');
-            var placeholder = angular.element(iElem.children()[0]).children()[0];
-            angular.element(placeholder).append(clone);
-          });
+            }
+          }
 
           scope.wording = {
             save: RingMessageBundle.form_save(),
