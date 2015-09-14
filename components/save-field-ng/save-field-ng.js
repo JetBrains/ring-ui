@@ -219,7 +219,7 @@ angular.module('Ring.save-field', [
             isTextarea = !!inputNode;
           }
           if (inputNode) {
-            angular.element(inputNode).bind('keydown', inputKey);
+            inputNode.addEventListener('keydown', inputKey);
             if (isTextarea) {
               if (!multilineMode) {
                 multilineMode = true;
