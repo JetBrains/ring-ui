@@ -1,0 +1,28 @@
+@import 'global/global';
+
+.shortcuts-ng__hint {
+
+}
+
+.shortcuts-ng__hint-table {
+  width: 100%;
+}
+
+.shortcuts-ng__hint-table-row {
+  height: 21px;
+}
+
+
+.shortcuts-ng__hint-shortcuts-shortcut {
+  text-align: right;
+  padding-right: $ring-unit;
+  width: $ring-unit * 5;
+}
+
+.shortcuts-ng__hint-shortcuts-hint {
+  padding-left: $ring-unit;
+}
+
+.shortcuts-ng__hint-shortcuts-title {
+  font-size: 20px;
+}

@@ -1,0 +1,19 @@
+<div class="shortcuts-ng__hint">
+
+  <table class="shortcuts-ng__hint-table">
+
+    <tbody ng-repeat="mode in data.modes">
+
+      <tr>
+        <td colspan="2">
+          <span class="shortcuts-ng__hint-shortcuts-title">{{mode.title}}</span>
+        </td>
+      </tr>
+      <tr ng-repeat="shortcut in mode.shortcuts" class="shortcuts-ng__hint-table-row">
+        <td class="shortcuts-ng__hint-shortcuts-shortcut">{{shortcut.key | shortcutKeySymbol}}</td>
+        <td class="shortcuts-ng__hint-shortcuts-hint">{{shortcut.title}}</td>
+      </tr>
+    </tbody>
+  </table>
+
+</div>
