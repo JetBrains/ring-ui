@@ -1,10 +1,9 @@
 import 'babel/polyfill';
 import 'dom4';
 import shortcutsInstance from 'shortcuts/shortcuts';
-import ShortcutHintPopup from './shortcuts-ng__hint';
 
 /* global angular: false */
-let ringShortcutsModule = angular.module('Ring.shortcuts', [ShortcutHintPopup]);
+let ringShortcutsModule = angular.module('Ring.shortcuts', []);
 
 ringShortcutsModule.provider('shortcuts', function () {
   let modes = {};
