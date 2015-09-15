@@ -50,7 +50,9 @@ AnalyticsCustomPluginUtils.getUserAgentPresentation = function () {
   sniffr.sniff();
 
   var name = (sniffr.browser.name || 'unknown').toLowerCase();
-  var version = (sniffr.browser.version[0] || 'unknown').split('.')[0];
+  var majorVersion = sniffr.browser.version[0];
+  var version = majorVersion || 'unknown';
+
   return name + '$' + version;
 };
 
