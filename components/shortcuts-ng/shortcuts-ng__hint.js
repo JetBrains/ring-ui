@@ -1,5 +1,6 @@
 import 'dialog-ng/dialog-ng';
 import './shortcuts-ng__hint.scss';
+import BrowserSniffer from '../browser-sniffer/browser-sniffer';
 import HintPopupTpl from './shortcuts-ng__hint.html';
 
 let HintPopupModule = angular.module('Ring.shortcuts.hint-popup', ['Ring.dialog', 'Ring.shortcuts']);
@@ -28,20 +29,42 @@ HintPopupModule.run(($templateCache) => {
     .config(function(shortcutsProvider) {
       shortcutsProvider
         .mode({id: 'some-kind-shortcuts',
-          title: 'Shortcuts Title',
+          title: 'Some Action Related Shortcuts',
           shortcuts: [
             {
               key: 'meta+enter',
               action: 'someAction',
               title: 'Do some action shortcut'
-            },
-            {
+            }, {
               key: 'ctrl+shift+down',
+              action: 'someAction',
+              title: 'Another action shortcut with very very long text description'
+            }, {
+              key: 'ctrl+alt+e',
               action: 'someAction',
               title: 'Another action shortcut'
             }
           ]
-        });
+        })
+        .mode({
+          id: 'some-other-shortcuts',
+          title: 'Shortcuts for other actions',
+          shortcuts: [
+            {
+              key: 'meta+=',
+              action: 'someAction',
+              title: 'Do some action shortcut'
+            }, {
+              key: 'alt+N',
+              action: 'someAction',
+              title: 'Another action shortcut with very very long text description'
+            }, {
+              key: 'shift+left+down',
+              action: 'someAction',
+              title: 'Another action shortcut'
+            }
+          ]
+        })
     })
     .controller('testCtrl', function($timeout, hintPopup) {
       var ctrl = this;
@@ -68,6 +91,7 @@ class HintPopupService {
     this.dialog.show({
       data: {modes},
       title,
+      wideDialog: true,
       content: 'shortcuts-ng__hint-popup.html',
       buttons: [{
         label: 'OK',
@@ -79,20 +103,42 @@ class HintPopupService {
 }
 
 function shortcutKeySymbolFilter(shortcut) {
-  shortcut = shortcut.replace(/\+/ig, ' ');
+  const MAC_OS = BrowserSniffer.isMacOs();
+  const spaceSymbol = MAC_OS ? ' ' : ' + ';
 
-  let symbolsMap = {
+  const macSymbolsMap = {
     enter: '⏎',
     shift: '⇧',
     meta: '⌘',
     alt: '⌥',
     ctrl: '⌃',
+    backspace: '⌫',
+    esc: 'ESC',
 
     left: '←',
     up: '↑',
     right: '→',
     down: '↓'
   };
+
+  const winSymbolsMap = {
+    enter: 'ENTER',
+    shift: 'Shift',
+    meta: 'Ctrl',
+    alt: 'Alt',
+    ctrl: 'Ctrl',
+    backspace: 'BACKSPACE',
+    esc: 'ESC',
+
+    left: 'LEFT',
+    up: 'UP',
+    right: 'RIGHT',
+    down: 'DOWN'
+  };
+
+  const symbolsMap = MAC_OS ? macSymbolsMap : winSymbolsMap;
+
+  shortcut = shortcut.replace(/\+/ig, spaceSymbol);
 
   for (var symbol in symbolsMap) {
     shortcut = shortcut.replace(symbol, symbolsMap[symbol]);

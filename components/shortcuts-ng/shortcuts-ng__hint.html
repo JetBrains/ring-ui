@@ -2,10 +2,11 @@
 
   <table class="shortcuts-ng__hint-table">
 
-    <tbody ng-repeat="mode in data.modes">
+    <tbody ng-repeat="mode in data.modes" class="shortcuts-ng__hint-shortcut-block">
 
-      <tr>
-        <td colspan="2">
+      <tr class="shortcuts-ng__hint-table-title">
+        <td></td>
+        <td>
           <span class="shortcuts-ng__hint-shortcuts-title">{{mode.title}}</span>
         </td>
       </tr>
