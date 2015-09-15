@@ -320,3 +320,5 @@ ringDialogModule.config($provide => {
     return angular.extend($delegate, dialogMixin);
   });
 });
+
+export default ringDialogModule.name;
