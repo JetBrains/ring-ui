@@ -1,7 +1,9 @@
 /**
  * Resolve url for svg icons
  */
-import browser from 'browser-sniffer/browser-sniffer';
+import Sniffr from 'sniffr';
+let sniffr = new Sniffr();
+sniffr.sniff();
 
 export default class IconUrl {
 
@@ -16,7 +18,7 @@ export default class IconUrl {
      * @see https://bugzilla.mozilla.org/show_bug.cgi?id=652991
      * https://github.com/angular/angular.js/issues/8934
      */
-    return browser.isFirefox() ? location.href : '';
+    return sniffr.browser.name === 'firefox' ? location.href : '';
   }
 
   /**
