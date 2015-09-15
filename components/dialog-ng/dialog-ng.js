@@ -49,6 +49,7 @@ let dialogMixin = {
       dialogScope.title = config.title;
       dialogScope.buttons = config.buttons;
       dialogScope.data = config.data || {};
+      dialogScope.wideDialog = config.wideDialog;
       dialogScope.content = config.content;
       dialogScope.description = config.description && config.description.split('\n') || [];
     }

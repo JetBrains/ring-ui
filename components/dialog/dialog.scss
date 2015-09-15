@@ -86,6 +86,10 @@
 
   @include ring-font;
   text-align: left;
+
+  &_wide {
+    width: $ring-unit * 75;
+  }
 }
 
 .ring-dialog__layer {
