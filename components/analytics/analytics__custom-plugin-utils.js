@@ -1,4 +1,4 @@
-var browser = require('bowser').browser;
+import Sniffr from 'sniffr';
 
 var AnalyticsCustomPluginUtils = {};
 /**
@@ -46,8 +46,11 @@ AnalyticsCustomPluginUtils.getScreenWidthPresentation = function() {
 };
 
 AnalyticsCustomPluginUtils.getUserAgentPresentation = function () {
-  var name = (browser.name || 'unknown').toLowerCase();
-  var version = (browser.version || 'unknown').split('.')[0];
+  let sniffr = new Sniffr();
+  sniffr.sniff();
+
+  var name = (sniffr.browser.name || 'unknown').toLowerCase();
+  var version = (sniffr.browser.version[0] || 'unknown').split('.')[0];
   return name + '$' + version;
 };
 

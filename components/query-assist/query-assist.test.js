@@ -1,8 +1,11 @@
 var renderIntoDocument = require('render-into-document');
 var React = require('react/addons');
+import Sniffr from 'sniffr';
 
 describe('QueryAssist', function () {
-  var browser = require('bowser').browser;
+  let sniffr = new Sniffr();
+  sniffr.sniff();
+
   var QueryAssist = require('./query-assist');
   var TestUtils = require('react/lib/ReactTestUtils');
   var $ = require('jquery');
@@ -413,7 +416,7 @@ describe('QueryAssist', function () {
 
     it('should call onFocusChange', function () {
       // Test doesn't work anywhere but Chrome for some reason
-      if (browser !== 'Chrome') {
+      if (sniffr.browser.name !== 'chrome') {
         return;
       }
 
