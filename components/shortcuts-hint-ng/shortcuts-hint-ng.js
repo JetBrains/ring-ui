@@ -1,11 +1,13 @@
-import 'dialog-ng/dialog-ng';
-import './shortcuts-ng__hint.scss';
-import BrowserSniffer from '../browser-sniffer/browser-sniffer';
-import HintPopupTpl from './shortcuts-ng__hint.html';
+import DialogNg from 'dialog-ng/dialog-ng';
+import './shortcuts-hint-ng.scss';
+import ShortcutsNg from '../shortcuts-ng/shortcuts-ng';
+import HintPopupTpl from './shortcuts-hint-ng.html';
+const HintPopupTplFileName = 'shortcuts-ng-hint/shortcuts-ng-hint.html';
+import Sniffr from 'sniffr';
 
-let HintPopupModule = angular.module('Ring.shortcuts.hint-popup', ['Ring.dialog', 'Ring.shortcuts']);
+let HintPopupModule = angular.module('Ring.shortcuts.hint-popup', [DialogNg, ShortcutsNg]);
 HintPopupModule.run(($templateCache) => {
-  $templateCache.put('shortcuts-ng__hint-popup.html', HintPopupTpl);
+  $templateCache.put(HintPopupTplFileName, HintPopupTpl);
 });
 
 
@@ -23,9 +25,9 @@ HintPopupModule.run(($templateCache) => {
   </file>
   <file name="index.js" webpack="true">
     require('angular');
-    require('shortcuts-ng/shortcuts-ng');
+    var ShortcutsHintNg = require('shortcuts-hint-ng/shortcuts-hint-ng');
 
-    angular.module('test', ['Ring.shortcuts.hint-popup', 'Ring.dialog'])
+    angular.module('test', [ShortcutsHintNg])
     .config(function(shortcutsProvider) {
       shortcutsProvider
         .mode({id: 'some-kind-shortcuts',
@@ -92,7 +94,7 @@ class HintPopupService {
       data: {modes},
       title,
       wideDialog: true,
-      content: 'shortcuts-ng__hint-popup.html',
+      content: HintPopupTplFileName,
       buttons: [{
         label: 'OK',
         default: true,
@@ -103,8 +105,11 @@ class HintPopupService {
 }
 
 function shortcutKeySymbolFilter(shortcut) {
-  const MAC_OS = BrowserSniffer.isMacOs();
-  const spaceSymbol = MAC_OS ? ' ' : ' + ';
+  let sniffr = new Sniffr();
+  sniffr.sniff();
+
+  const MAC_OS = sniffr.os.name === 'macos';
+  const KEY_SEPARATOR = MAC_OS ? ' ' : ' + ';
 
   const macSymbolsMap = {
     enter: '⏎',
@@ -138,7 +143,7 @@ function shortcutKeySymbolFilter(shortcut) {
 
   const symbolsMap = MAC_OS ? macSymbolsMap : winSymbolsMap;
 
-  shortcut = shortcut.replace(/\+/ig, spaceSymbol);
+  shortcut = shortcut.replace(/\+/ig, KEY_SEPARATOR);
 
   for (var symbol in symbolsMap) {
     shortcut = shortcut.replace(symbol, symbolsMap[symbol]);

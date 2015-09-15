@@ -12,8 +12,4 @@ export default class browserSniffer {
   static isIE() {
     return typeof document.documentMode === 'number';
   }
-
-  static isMacOs() {
-    return navigator.platform.indexOf('Mac') !== -1;
-  }
 }
