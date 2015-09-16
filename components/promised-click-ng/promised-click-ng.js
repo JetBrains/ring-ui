@@ -39,9 +39,9 @@
 */
 
 /* global angular: false */
-var promisedClickModule = angular.module('Ring.promised-click', []);
+let module = angular.module('Ring.promised-click', []);
 
-promisedClickModule.directive('rgPromisedClick', function ($parse) {
+function rgPromisedClick($parse) {
   return {
     restrict: 'A',
     controller: function ($scope, $element) {
@@ -81,11 +81,15 @@ promisedClickModule.directive('rgPromisedClick', function ($parse) {
     },
     link: function (scope, iElement, iAttrs, controller) {
       if (iAttrs.rgPromisedClick) {
-        var onClick = $parse(iAttrs.rgPromisedClick);
+        let onClick = $parse(iAttrs.rgPromisedClick);
         iElement[0].addEventListener('click', controller.onPromisedClick.bind(controller, $event => {
           return onClick(scope, { '$event': $event });
         }));
       }
     }
   };
-});
+}
+
+module.directive('rgPromisedClick', rgPromisedClick);
+
+export default module.name;

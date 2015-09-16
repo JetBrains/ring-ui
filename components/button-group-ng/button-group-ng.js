@@ -8,9 +8,9 @@ const css = window.getComputedStyle;
 const CLASSNAME_FIRST = 'ring-button-group__first';
 const CLASSNAME_LAST = 'ring-button-group__last';
 
-let ringButtonGroupModule = angular.module('Ring.button-group', []);
+let module = angular.module('Ring.button-group', []);
 
-ringButtonGroupModule.directive('rgButtonGroup', function () {
+function rgButtonGroup() {
   return {
     restrict: 'A',
     link: function ($scope, iElement) {
@@ -30,4 +30,8 @@ ringButtonGroupModule.directive('rgButtonGroup', function () {
       });
     }
   };
-});
+}
+
+module.directive('rgButtonGroup', rgButtonGroup);
+
+export default module.name;
