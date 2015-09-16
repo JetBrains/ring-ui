@@ -143,9 +143,9 @@ let dialogMixin = {
   }
 };
 
-let ringDialogModule = angular.module('Ring.dialog', []);
+let module = angular.module('Ring.dialog', []);
 
-ringDialogModule.directive('rgDialog', function ($timeout) {
+function rgDialog($timeout) {
   return {
     restrict: 'AE',
     scope: {
@@ -297,44 +297,49 @@ ringDialogModule.directive('rgDialog', function ($timeout) {
       });
     }
   };
-});
+}
 
-ringDialogModule.directive('rgDialogTitle', function () {
+function rgDialogTitle() {
   return {
     require: '^rgDialog',
     link: function (scope, iElement, iAttrs, dialogCtrl) {
       dialogCtrl.setTitle(iAttrs.rgDialogTitle);
     }
   };
-});
+}
 
-ringDialogModule.service('dialog', function ($log, $q) {
+function dialog($log, $q) {
   return {
     DIALOG_NAMESPACE: 'ring-dialog',
     $log: $log,
     $q: $q
   };
-});
+}
 
-ringDialogModule.service('dialogInSidebar', function ($log, $q, dialog) {
+function dialogInSidebar($log, $q, dialog) {
   return {
     fallbackDialog: dialog,
     DIALOG_NAMESPACE: 'ring-dialog-in-sidebar',
     $log: $log,
     $q: $q
   };
-});
+}
 
-ringDialogModule.config($provide => {
+module.directive('rgDialog', rgDialog);
+module.directive('rgDialogTitle', rgDialogTitle);
+module.service('dialog', dialog);
+module.service('dialogInSidebar', dialogInSidebar);
+
+module.config($provide => {
   $provide.decorator('dialog', $delegate => {
     return angular.extend($delegate, dialogMixin);
   });
 });
 
-ringDialogModule.config($provide => {
+module.config($provide => {
   $provide.decorator('dialogInSidebar', $delegate => {
     return angular.extend($delegate, dialogMixin);
   });
 });
 
-export default ringDialogModule.name;
+export default module.name;

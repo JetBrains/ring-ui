@@ -8,9 +8,9 @@ import { render } from 'react-dom';
 import ReactAlert from 'alert/alert';
 import ReactAlerts from 'alert/alerts';
 
-let ringAlertModule = angular.module('Ring.alert', []);
+let module = angular.module('Ring.alert', []);
 
-ringAlertModule.provider('alert', function () {
+function alert() {
   let container = null;
   let defaultTTL = 0; // no ttl, never closed by timeout
 
@@ -77,4 +77,8 @@ ringAlertModule.provider('alert', function () {
       DOM: ReactAlert.DOM
     };
   };
-});
+}
+
+module.provider('alert', alert);
+
+export default module.name;
