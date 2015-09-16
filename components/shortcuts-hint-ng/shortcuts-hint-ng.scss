@@ -1,23 +1,23 @@
 @import 'global/global';
 
-.shortcuts-ng-hint {
+.shortcuts-hint {
   margin-bottom: $ring-unit * 2;
 }
 
-.shortcuts-ng-hint__popup-header {
+.shortcuts-hint__popup-header {
   padding-left: $ring-unit;
 }
 
-.shortcuts-ng-hint__table {
+.shortcuts-hint__table {
   border-collapse: collapse;
   width: 100%;
 }
 
-.shortcuts-ng-hint__shortcuts-column {
+.shortcuts-hint__shortcuts-column {
   min-width: $ring-unit * 4;
 }
 
-.shortcuts-ng-hint__shortcut-block {
+.shortcuts-hint__shortcut-block {
   //Spacing between shortcuts block
   &::before {
     content: '';
@@ -26,18 +26,18 @@
   }
 }
 
-.shortcuts-ng-hint__search-input-wrapper {
+.shortcuts-hint__search-input-wrapper {
   position: relative;
   width: $ring-unit * 30;
 }
 
-.shortcuts-ng-hint__search-input {
+.shortcuts-hint__search-input {
   &.ring-input {
     padding-right: $ring-unit * 3;
   }
 }
 
-.shortcuts-ng-hint__search-icon {
+.shortcuts-hint__search-icon {
   position: absolute;
   top: 0;
   right: 0;
@@ -50,15 +50,15 @@
   user-select: none;
 }
 
-.shortcuts-ng-hint__table-row {
+.shortcuts-hint__table-row {
   height: 21px;
 }
 
-.shortcuts-ng-hint__table-title {
+.shortcuts-hint__table-title {
   height: $ring-unit * 5;
 }
 
-.shortcuts-ng-hint__shortcuts-shortcut {
+.shortcuts-hint__shortcut {
   padding-right: $ring-unit;
   max-width: $ring-unit * 15;
 
@@ -67,11 +67,11 @@
   white-space: nowrap;
 }
 
-.shortcuts-ng-hint__shortcuts-hint {
+.shortcuts-hint__hint {
   padding-left: $ring-unit;
 }
 
-.shortcuts-ng-hint__shortcuts-title {
+.shortcuts-hint__shortcuts-title {
   padding-left: $ring-unit;
   font-size: 20px;
 }
