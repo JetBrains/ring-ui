@@ -8,7 +8,7 @@ import Icon from 'icon/icon';
 import ReactNg from 'react-ng/react-ng';
 ReactNg({Icon});
 
-const HintPopupTplFileName = 'shortcuts-ng-hint/shortcuts-ng-hint.html';
+const HintPopupTplFileName = 'shortcuts-hint/shortcuts-hint.html';
 
 let HintPopupModule = angular.module('Ring.shortcuts.hint-popup', [DialogNg, ShortcutsNg, 'Ring.react-ng']);
 HintPopupModule.run(($templateCache) => {
