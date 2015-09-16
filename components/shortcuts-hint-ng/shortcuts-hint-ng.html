@@ -1,18 +1,29 @@
-<div class="shortcuts-ng__hint">
+<div class="shortcuts-ng-hint">
 
-  <table class="shortcuts-ng__hint-table">
+  <table class="shortcuts-ng-hint__table">
 
-    <tbody ng-repeat="mode in data.modes" class="shortcuts-ng__hint-shortcut-block">
-
-      <tr class="shortcuts-ng__hint-table-title">
-        <td></td>
-        <td>
-          <span class="shortcuts-ng__hint-shortcuts-title">{{mode.title}}</span>
+    <tbody>
+      <tr>
+        <td class="shortcuts-ng-hint__shortcuts-column"></td>
+        <td class="shortcuts-ng-hint__popup-header">
+          <span>
+            <input class="ring-input shortcuts-ng-hint__search-input" placeholder="Search" ng-model="data.searchText" autofocus/>
+          </span>
         </td>
       </tr>
-      <tr ng-repeat="shortcut in mode.shortcuts" class="shortcuts-ng__hint-table-row">
-        <td class="shortcuts-ng__hint-shortcuts-shortcut">{{shortcut.key | shortcutKeySymbol}}</td>
-        <td class="shortcuts-ng__hint-shortcuts-hint">{{shortcut.title}}</td>
+    </tbody>
+
+    <tbody ng-repeat="mode in data.modes" class="shortcuts-ng-hint__shortcut-block">
+
+      <tr class="shortcuts-ng-hint__table-title">
+        <td></td>
+        <td>
+          <span class="shortcuts-ng-hint__shortcuts-title">{{mode.title}}</span>
+        </td>
+      </tr>
+      <tr ng-repeat="shortcut in mode.shortcuts | shortcutSearch:data.searchText" class="shortcuts-ng-hint__table-row">
+        <td class="shortcuts-ng-hint__shortcuts-shortcut">{{shortcut.key | shortcutKeySymbol}}</td>
+        <td class="shortcuts-ng-hint__shortcuts-hint">{{shortcut.title}}</td>
       </tr>
     </tbody>
   </table>
