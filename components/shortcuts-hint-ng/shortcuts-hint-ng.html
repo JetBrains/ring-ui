@@ -1,30 +1,30 @@
-<div class="shortcuts-ng-hint">
+<div class="shortcuts-hint">
 
-  <table class="shortcuts-ng-hint__table">
+  <table class="shortcuts-hint__table">
 
     <tbody>
       <tr>
-        <td class="shortcuts-ng-hint__shortcuts-column"></td>
-        <td class="shortcuts-ng-hint__popup-header">
-          <div class="shortcuts-ng-hint__search-input-wrapper">
-            <input class="ring-input shortcuts-ng-hint__search-input" placeholder="Search" ng-model="data.searchText" autofocus/>
-            <span class="shortcuts-ng-hint__search-icon" react-static="Icon" react-glyph="'search'" react-size="16"></span>
+        <td class="shortcuts-hint__shortcuts-column"></td>
+        <td class="shortcuts-hint__popup-header">
+          <div class="shortcuts-hint__search-input-wrapper">
+            <input class="ring-input shortcuts-hint__search-input" placeholder="Search" ng-model="data.searchText" autofocus/>
+            <span class="shortcuts-hint__search-icon" react-static="Icon" react-glyph="'search'" react-size="16"></span>
           </div>
         </td>
       </tr>
     </tbody>
 
-    <tbody ng-repeat="mode in data.modes" class="shortcuts-ng-hint__shortcut-block">
+    <tbody ng-repeat="mode in data.modes" class="shortcuts-hint__shortcut-block">
 
-      <tr class="shortcuts-ng-hint__table-title">
+      <tr class="shortcuts-hint__table-title">
         <td></td>
         <td>
-          <span class="shortcuts-ng-hint__shortcuts-title">{{mode.title}}</span>
+          <span class="shortcuts-hint__shortcuts-title">{{mode.title}}</span>
         </td>
       </tr>
-      <tr ng-repeat="shortcut in mode.shortcuts | shortcutSearch:data.searchText" class="shortcuts-ng-hint__table-row">
-        <td class="shortcuts-ng-hint__shortcuts-shortcut">{{shortcut.key | shortcutKeySymbol}}</td>
-        <td class="shortcuts-ng-hint__shortcuts-hint">{{shortcut.title}}</td>
+      <tr ng-repeat="shortcut in mode.shortcuts | shortcutSearch:data.searchText" class="shortcuts-hint__table-row">
+        <td class="shortcuts-hint__shortcut">{{shortcut.key | shortcutKeySymbol}}</td>
+        <td class="shortcuts-hint__hint">{{shortcut.title}}</td>
       </tr>
     </tbody>
   </table>
