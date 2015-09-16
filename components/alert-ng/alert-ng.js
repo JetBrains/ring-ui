@@ -66,6 +66,7 @@ ringAlertModule.provider('alert', function () {
   this.init = init;
   this.setDefaultTTL = setDefaultTTL;
 
+  /*@ngInject*/
   this.$get = function () {
     return {
       error: error,

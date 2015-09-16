@@ -89,7 +89,8 @@ authModule.provider('auth', ['$httpProvider', function ($httpProvider) {
     };
   }]);
 
-  this.$get = ['$injector', '$log', '$sniffer', function ($injector, $log, $sniffer) {
+  /*@ngInject*/
+  this.$get = function ($injector, $log, $sniffer) {
     // Do not try to init anything without config
     if (!auth) {
       $log.warn('Auth wasn\'t initialized');
@@ -141,7 +142,7 @@ authModule.provider('auth', ['$httpProvider', function ($httpProvider) {
       logout: auth.logout.bind(auth),
       promise: authInitPromise
     };
-  }];
+  };
 }]);
 
 module.exports = authModule;
