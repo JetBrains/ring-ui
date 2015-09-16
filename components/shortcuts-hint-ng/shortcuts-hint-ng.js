@@ -1,5 +1,6 @@
 import DialogNg from 'dialog-ng/dialog-ng';
 import './shortcuts-hint-ng.scss';
+import 'input/input.scss';
 import ShortcutsNg from '../shortcuts-ng/shortcuts-ng';
 import HintPopupTpl from './shortcuts-hint-ng.html';
 const HintPopupTplFileName = 'shortcuts-ng-hint/shortcuts-ng-hint.html';
@@ -40,7 +41,7 @@ HintPopupModule.run(($templateCache) => {
             }, {
               key: 'ctrl+shift+down',
               action: 'someAction',
-              title: 'Another action shortcut with very very long text description'
+              title: 'Another action shortcut with very very very very very very very very very very long text description'
             }, {
               key: 'ctrl+alt+e',
               action: 'someAction',
@@ -82,7 +83,7 @@ HintPopupModule.run(($templateCache) => {
 */
 
 class HintPopupService {
-  constructor(dialog, shortcuts) {
+  constructor(dialog, shortcuts, shortcutSearchFilter) {
     this.dialog = dialog;
     this.shortcuts = shortcuts;
   }
@@ -151,7 +152,20 @@ function shortcutKeySymbolFilter(shortcut) {
   return shortcut;
 }
 
+function shortcutSearchFilter(shortcuts, query = '') {
+  return (shortcuts || []).filter(shortcut => {
+    let keysPresentation = shortcutKeySymbolFilter(shortcut.key);
+
+    let keyMatches = shortcut.key.toLowerCase().indexOf(query.toLowerCase()) !== -1;
+    let titleMatches = shortcut.title.toLowerCase().indexOf(query.toLowerCase()) !== -1;
+    let presentationMatches = keysPresentation.toLowerCase().indexOf(query.toLowerCase()) !== -1;
+
+    return keyMatches || titleMatches || presentationMatches;
+  });
+}
+
 HintPopupModule.service('hintPopup', HintPopupService);
 HintPopupModule.filter('shortcutKeySymbol', () => shortcutKeySymbolFilter);
+HintPopupModule.filter('shortcutSearch', () => shortcutSearchFilter);
 
 export default HintPopupModule.name;
