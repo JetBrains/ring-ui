@@ -2,6 +2,8 @@ import 'babel/polyfill';
 import 'dom4';
 import shortcutsInstance from 'shortcuts/shortcuts';
 
+const css = window.getComputedStyle;
+
 /* global angular: false */
 let ringShortcutsModule = angular.module('Ring.shortcuts', []);
 
@@ -104,7 +106,7 @@ ringShortcutsModule.directive('rgShortcutsApp', function () {
         }
 
         // Skip invisible zones
-        if (next && !next.element.is(':visible')) {
+        if (next && (!document.contains(next.element) || css(next.element).display === 'none')) {
           next = getNext(next, back);
         }
 
@@ -179,7 +181,7 @@ ringShortcutsModule.directive('rgShortcutsApp', function () {
         let orderedElements = document.queryAll('[rg-shortcuts]');
 
         $scope.zones.forEach(zone => {
-          zone.order = orderedElements.indexOf(zone.element[0]);
+          zone.order = orderedElements.indexOf(zone.element);
         });
 
         $scope.zones.sort((a, b) => {
@@ -233,7 +235,7 @@ ringShortcutsModule.directive('rgShortcuts', function ($parse) {
       let zone = {
         name: name,
         scope: name + '-' + $scope.$id,
-        element: iElement,
+        element: iElement[0],
         onBlur: blurGetter($scope) || angular.noop
       };
 

@@ -70,6 +70,7 @@ ringDropdownModule.directive('rgDropdown', function () {
       onItemSelect: '='
     },
     controller: function ($scope, $element) {
+      let element = $element[0];
       let popupMenuInstance = null;
       let ITEM_TYPES = {
         LINK: 1,
@@ -77,13 +78,13 @@ ringDropdownModule.directive('rgDropdown', function () {
       };
 
       let config = angular.extend({}, {
-        anchorElement: $element[0],
+        anchorElement: element,
         autoRemove: false,
         cutEdge: false,
         hidden: true,
         top: 2,
         onClose: () => {
-          $element.removeClass(OPEN_POPUP_CLASS_NAME);
+          element.classList.remove(OPEN_POPUP_CLASS_NAME);
         }
       }, $scope.config() || {});
 
@@ -97,7 +98,7 @@ ringDropdownModule.directive('rgDropdown', function () {
 
       function convertItemsForPopup(items) {
         items = items || [];
-        if ($element.attr('items-passthru') !== undefined) {
+        if (element.getAttribute('items-passthru')) {
           return items;
         }
 
@@ -143,7 +144,7 @@ ringDropdownModule.directive('rgDropdown', function () {
         }, true);
       }
 
-      $element.on('click', () => {
+      element.addEventListener('click', () => {
         if (!popupMenuInstance && typeof itemsSrc === 'function') {
           let promise = itemsSrc();
           if (promise.then) {
@@ -158,7 +159,7 @@ ringDropdownModule.directive('rgDropdown', function () {
           popupMenuInstance.show();
         }
 
-        $element.addClass(OPEN_POPUP_CLASS_NAME);
+        element.classList.add(OPEN_POPUP_CLASS_NAME);
       });
 
       /**

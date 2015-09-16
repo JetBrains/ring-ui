@@ -26,7 +26,7 @@
       return {
         require: 'rgPromisedClick',
         link: function (scope, iElement, iAttrs, rgPromisedClick) {
-          iElement.on('click', function ($event) {
+          iElement[0].addEventListener('click', function ($event) {
             rgPromisedClick.onPromisedClick(function ($event) {
               return $timeout(angular.noop, 1000);
             }, $event);
@@ -45,15 +45,16 @@ promisedClickModule.directive('rgPromisedClick', function ($parse) {
   return {
     restrict: 'A',
     controller: function ($scope, $element) {
-      var active = false;
-      var promise;
+      let element = $element[0];
+      let active = false;
+      let promise;
 
       function doIt() {
         active = true;
-        $element.addClass('ring-btn_active');
+        element.classList.add('ring-btn_active');
         promise.finally(() => {
           active = false;
-          $element.removeClass('ring-btn_active');
+          element.classList.remove('ring-btn_active');
         });
       }
 
@@ -81,7 +82,7 @@ promisedClickModule.directive('rgPromisedClick', function ($parse) {
     link: function (scope, iElement, iAttrs, controller) {
       if (iAttrs.rgPromisedClick) {
         var onClick = $parse(iAttrs.rgPromisedClick);
-        iElement.on('click', controller.onPromisedClick.bind(controller, $event => {
+        iElement[0].addEventListener('click', controller.onPromisedClick.bind(controller, $event => {
           return onClick(scope, { '$event': $event });
         }));
       }

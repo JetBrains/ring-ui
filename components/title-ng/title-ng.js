@@ -9,10 +9,12 @@ angular.module('Ring.title', []).
         'delimiter': '@'
       },
       controller: function ($rootScope, $scope, $element, pageTitle, $injector) {
+        let element = $element[0];
+
         pageTitle.setDelimiter($scope.delimiter);
 
         // Get title prefix from title element
-        var elementText = $element.text();
+        var elementText = element.textContent;
 
         // Set page title on route change
         $rootScope.$on('$routeChangeSuccess', function (event, current) {
@@ -32,13 +34,13 @@ angular.module('Ring.title', []).
       }
     };
   }).
-  service('pageTitle', function ($window, $interpolate) {
+  service('pageTitle', function ($interpolate) {
     var delimiter = ' | ';
-    var current = $window.document.title;
+    var current = document.title;
 
     var setTitle = function (text) {
       current = text && $interpolate(text)();
-      $window.document.title = current;
+      document.title = current;
     };
 
     var prepend = function (element) {

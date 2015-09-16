@@ -12,6 +12,8 @@ import 'table/table.scss';
 
 ReactNg(Checkbox);
 
+const css = window.getComputedStyle;
+
 /*global angular*/
 
 /** @name Table Ng
@@ -201,7 +203,7 @@ ringTableModule.directive('rgTable', function () {
   };
 });
 
-ringTableModule.directive('rgTableHeader', function ($window, getClosestElementWithCommonParent) {
+ringTableModule.directive('rgTableHeader', function (getClosestElementWithCommonParent) {
   const HEADER_RESIZE_DEBOUNCE = 50;
   const HEADER_SCROLL_DEBOUNCE = 10;
   const TOOLBAR_FIXED_CLASSNAME = 'ring-table__toolbar-controls_fixed';
@@ -238,7 +240,7 @@ ringTableModule.directive('rgTableHeader', function ($window, getClosestElementW
 
         Array.prototype.forEach.call(titles, (titleElement, index) => {
           let targetHeaderTitle = scrollableHeader.queryAll('.ring-table__title')[index];
-          titleElement.style.width = $window.getComputedStyle(targetHeaderTitle).width;
+          titleElement.style.width = css(targetHeaderTitle).width;
         });
 
       }, HEADER_RESIZE_DEBOUNCE, true);
@@ -260,8 +262,8 @@ ringTableModule.directive('rgTableHeader', function ($window, getClosestElementW
 
       function startSticking() {
         scope.$evalAsync(() => {
-          $window.addEventListener('resize', resizeFixedHeader);
-          $window.addEventListener('scroll', scrollListener);
+          window.addEventListener('resize', resizeFixedHeader);
+          window.addEventListener('scroll', scrollListener);
         });
       }
 
@@ -299,7 +301,7 @@ ringTableModule.directive('rgTableRow', function () {
     },
     controllerAs: 'rowCtrl',
     bindToController: true,
-    controller: function ($window, $scope, $element) {
+    controller: function ($scope, $element) {
       let element = $element[0];
 
       let watchRowCheckFlag;
@@ -350,7 +352,7 @@ ringTableModule.directive('rgTableRow', function () {
 
       function addSpacingAfterScroll(offset) {
         if (window.scrollY) {
-          $window.scrollBy(0, offset);
+          window.scrollBy(0, offset);
         }
       }
 
