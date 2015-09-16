@@ -13,7 +13,7 @@ var debounce = require('mout/function/debounce');
  */
 
 angular.module('Ring.table.toolbar', [])
-  .directive('rgTableToolbar', function ($window, $document) {
+  .directive('rgTableToolbar', function () {
     var DEBOUNCE_INTERVAL = 10;
 
     return {
@@ -27,61 +27,31 @@ angular.module('Ring.table.toolbar', [])
          */
         var element = iElement[0];
         var controlsContainer = element.query('.ring-table__toolbar-controls');
-
-        /**
-         * Makes toolbar sticky
-         * @param toolbarControls - controls DOM node
-         */
-        var makeToolbarFixed = function (toolbarControls) {
-          if (toolbarControls.classList) {
-            toolbarControls.classList.add('ring-table__toolbar-controls_fixed');
-          } else {
-            toolbarControls.className += ' ' + 'ring-table__toolbar-controls_fixed';
-          }
-        };
-
-        /**
-         * Makes toolbar free (not sticky)
-         * @param toolbarControls - controls DOM node
-         */
-        var freeToolbar = function (toolbarControls) {
-          if (toolbarControls.classList) {
-            toolbarControls.classList.remove('ring-table__toolbar-controls_fixed');
-          } else {
-            toolbarControls.className = controlsContainer.className.replace('ring-table__toolbar-controls_fixed', '');
-          }
-        };
-
         var savedToolbarTop;
 
         var toolbarScrollListener = debounce(function () {
-
-          var scrolledTop = ($document[0].documentElement && $document[0].documentElement.scrollTop) || $document[0].body.scrollTop;
-
+          var scrolledTop = (document.documentElement && document.documentElement.scrollTop) || document.body.scrollTop;
           var elementTop = element.getBoundingClientRect().top + scrolledTop;
-
           var toolbarTop = savedToolbarTop || elementTop;
 
           if (scrolledTop > toolbarTop && !savedToolbarTop) {
             //save height to style to prevent collapsing after fixing controls
             element.style.height = element.offsetHeight + 'px';
             savedToolbarTop = toolbarTop;
-
-            makeToolbarFixed(controlsContainer);
+            controlsContainer.classList.add('ring-table__toolbar-controls_fixed');
           } else if (scrolledTop <= toolbarTop && savedToolbarTop >= 0) {
             savedToolbarTop = null;
             element.style.height = null;
-
-            freeToolbar(controlsContainer);
+            controlsContainer.classList.remove('ring-table__toolbar-controls_fixed');
           }
         }, DEBOUNCE_INTERVAL);
 
         //Stick toolbar if sticking is enabled
         if (attrs.stick !== undefined) {
-          $window.addEventListener('scroll', toolbarScrollListener);
+          window.addEventListener('scroll', toolbarScrollListener);
 
           scope.$on('$destroy', function () {
-            $window.removeEventListener('scroll', toolbarScrollListener);
+            window.removeEventListener('scroll', toolbarScrollListener);
           });
         }
       }
