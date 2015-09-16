@@ -1,12 +1,16 @@
+import Sniffr from 'sniffr';
 import DialogNg from 'dialog-ng/dialog-ng';
 import './shortcuts-hint-ng.scss';
 import 'input/input.scss';
 import ShortcutsNg from '../shortcuts-ng/shortcuts-ng';
 import HintPopupTpl from './shortcuts-hint-ng.html';
-const HintPopupTplFileName = 'shortcuts-ng-hint/shortcuts-ng-hint.html';
-import Sniffr from 'sniffr';
+import Icon from 'icon/icon';
+import ReactNg from 'react-ng/react-ng';
+ReactNg({Icon});
 
-let HintPopupModule = angular.module('Ring.shortcuts.hint-popup', [DialogNg, ShortcutsNg]);
+const HintPopupTplFileName = 'shortcuts-ng-hint/shortcuts-ng-hint.html';
+
+let HintPopupModule = angular.module('Ring.shortcuts.hint-popup', [DialogNg, ShortcutsNg, 'Ring.react-ng']);
 HintPopupModule.run(($templateCache) => {
   $templateCache.put(HintPopupTplFileName, HintPopupTpl);
 });
