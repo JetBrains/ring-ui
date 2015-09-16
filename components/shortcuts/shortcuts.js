@@ -170,6 +170,7 @@ class Shortcuts {
 
   reset() {
     this._scopes = {};
+    this.setScope();
     mousetrap.reset();
   }
 }
