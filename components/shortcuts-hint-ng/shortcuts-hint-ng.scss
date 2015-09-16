@@ -26,10 +26,28 @@
   }
 }
 
+.shortcuts-ng-hint__search-input-wrapper {
+  position: relative;
+  width: $ring-unit * 30;
+}
+
 .shortcuts-ng-hint__search-input {
   &.ring-input {
-    width: $ring-unit * 30;
+    padding-right: $ring-unit * 3;
   }
+}
+
+.shortcuts-ng-hint__search-icon {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: $ring-unit*2;
+  width: $ring-unit*2;
+
+  padding: 3px 4px 3px 5px;
+
+  color: $ring-gray-color;
+  user-select: none;
 }
 
 .shortcuts-ng-hint__table-row {
