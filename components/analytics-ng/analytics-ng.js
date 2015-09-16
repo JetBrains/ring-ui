@@ -62,6 +62,7 @@ analyticsModule.provider('analytics', function() {
     configPlugins = plugins;
   };
 
+  /*@ngInject*/
   this.$get = function($log, $injector) {
     var loadedPlugins = [];
     for (var i = 0; i < configPlugins.length; ++i) {

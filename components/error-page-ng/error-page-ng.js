@@ -62,7 +62,8 @@ angular.module('Ring.error-page', [
     this.config = function (config) {
       pageConfiguration = config;
     };
-    this.$get = ['$injector', '$log', function ($injector, $log) {
+    /*@ngInject*/
+    this.$get = function ($injector, $log) {
       var loadFactory = function(factoryName) {
         try {
           return $injector.get(factoryName);
@@ -82,7 +83,7 @@ angular.module('Ring.error-page', [
         responseToMessageConverter: responseToMessageConverter || angular.noop,
         links: links || []
       };
-    }];
+    };
   })
 
   .factory('getErrorPagePresentation', function(RingMessageBundle) {

@@ -43,6 +43,7 @@ permissionsModule.provider('userPermissions', function () {
     _config = config;
   };
 
+  /*@ngInject*/
   this.$get = function (auth, $q) {
     var permissions = new Permissions(auth.auth, _config);
     // Override load to execute in $digest
