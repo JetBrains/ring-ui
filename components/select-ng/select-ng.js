@@ -518,7 +518,7 @@ ringSelectModule.directive('rgSelect', function () {
           type: getSelectType(),
           loadingMessage: ctrl.loadingMessage || RingMessageBundle.select_loading(),
           notFoundMessage: ctrl.notFoundMessage || RingMessageBundle.select_options_not_found(),
-          targetElement: getType() === 'dropdown' ? $element[0] : null,
+          targetElement: getType() === 'dropdown' ? element : null,
           onBeforeOpen: () => {
             $scope.$evalAsync(() => {
               ctrl.loadOptionsToSelect(ctrl.query);

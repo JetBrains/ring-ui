@@ -87,7 +87,7 @@ angular.module('Ring.place-under', [])
  * rg-place-under=".some-selector" = selector to point target element
  * place-top-offset="1" = offset in pixels
  */
-  .directive('rgPlaceUnder', function ($window, $document, getClosestElementWithCommonParent) {
+  .directive('rgPlaceUnder', function (getClosestElementWithCommonParent) {
     var DEBOUNCE_INTERVAL = 10;
 
     return {
@@ -108,7 +108,7 @@ angular.module('Ring.place-under', [])
         var syncPositionWith = function (syncWithElement) {
 
           var sidebarScrollListener = debounce(function () {
-            var scrolledTop = ($document[0].documentElement && $document[0].documentElement.scrollTop) || $document[0].body.scrollTop;
+            var scrolledTop = (document.documentElement && document.documentElement.scrollTop) || document.body.scrollTop;
 
             var syncedElementHeight = syncWithElement.offsetHeight;
             var syncedElementOffsetTop = syncWithElement.getBoundingClientRect().top + scrolledTop;
@@ -130,10 +130,10 @@ angular.module('Ring.place-under', [])
 
           sidebarScrollListener();
 
-          $window.addEventListener('scroll', sidebarScrollListener);
+          window.addEventListener('scroll', sidebarScrollListener);
 
           scope.$on('$destroy', function () {
-            $window.removeEventListener('scroll', sidebarScrollListener);
+            window.removeEventListener('scroll', sidebarScrollListener);
           });
 
           scope.$watch('show', sidebarScrollListener);

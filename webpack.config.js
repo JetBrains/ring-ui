@@ -7,9 +7,6 @@ var docsPath = [path.join(__dirname, 'docs'), path.join(__dirname, 'site')];
 
 // Minimal config for building components
 module.exports = {
-  externals: {
-    'jquery': 'jQuery'
-  },
   resolve: {
     fallback: [componentsPath]
   },

@@ -7,9 +7,13 @@ import React, { createElement, Children } from 'react';
 import { render, findDOMNode, unmountComponentAtNode } from 'react-dom';
 import CSSTransitionGroup from 'react-addons-css-transition-group';
 import when from 'when';
+
 import RingComponent from 'ring-component/ring-component';
 import Alert from './alert';
+
 import './alert.scss';
+
+const css = window.getComputedStyle;
 
 /**
  * @name Alerts
@@ -100,7 +104,7 @@ export default class Alerts extends RingComponent {
     let node = findDOMNode(this);
 
     if (this._gap === null) {
-      let computedStyle = window.getComputedStyle(node);
+      let computedStyle = css(node);
       this._gap = parseInt(computedStyle.paddingTop, 10);
     }
 

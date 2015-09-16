@@ -28,7 +28,6 @@ angular.module('Ring.avatar-editor', ['Ring.message-bundle', 'Ring.alert', 'Ring
        </div>
      </file>
      <file name="index.js" webpack="true">
-       window.jQuery = require('jquery');
        require('angular');
        require('avatar-editor-ng/avatar-editor-ng');
 
@@ -86,7 +85,7 @@ angular.module('Ring.avatar-editor', ['Ring.message-bundle', 'Ring.alert', 'Ring
 
           this.registerFileInput = function (input) {
             fileInput = input;
-            fileInput.on('change', function (event) {
+            fileInput.addEventListener('change', function (event) {
               var imageFileSelected = false;
               for (var i = 0; i < event.target.files.length; i++) {
                 var file = event.target.files[i];
@@ -110,11 +109,13 @@ angular.module('Ring.avatar-editor', ['Ring.message-bundle', 'Ring.alert', 'Ring
             if (!FileReader) {
               alert.error(RingMessageBundle.avatareditor_nosupport());
             } else {
-              fileInput.on('click.avatar-editor', function (event) {
-                event.stopPropagation();
-              });
-              fileInput.click();
-              fileInput.off('click.avatar-editor');
+              function onClick(e) {
+                e.stopPropagation();
+              }
+
+              fileInput.addEventListener('click', onClick);
+              fileInput.dispatchEvent(new MouseEvent('click'));
+              fileInput.removeEventListener('click', onClick);
             }
           };
 
@@ -138,7 +139,7 @@ angular.module('Ring.avatar-editor', ['Ring.message-bundle', 'Ring.alert', 'Ring
       restrict: 'A',
       require: '^rgAvatarEditor',
       link: function (scope, iElement, iAttrs, avatarEditorCtrl) {
-        avatarEditorCtrl.registerFileInput(iElement);
+        avatarEditorCtrl.registerFileInput(iElement[0]);
       }
     };
   });
