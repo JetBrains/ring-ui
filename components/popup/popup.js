@@ -6,7 +6,6 @@ import 'babel/polyfill';
 import React, { PropTypes } from 'react';
 import { render, unmountComponentAtNode } from 'react-dom';
 import classNames from 'classnames';
-import $ from 'jquery';
 
 import RingComponentWithShortcuts from 'ring-component/ring-component_with-shortcuts';
 import './popup.scss';
@@ -305,44 +304,46 @@ export default class Popup extends RingComponentWithShortcuts {
    */
   _getStyles(props) {
     props = props || this.props;
-    let anchorElement = (props.anchorElement || document.body);
     let top = props.top;
     let left = props.left;
 
-    let anchorElementOffset = $(anchorElement).offset();
     let styles = {};
+
+    let anchor = (props.anchorElement || document.body).getBoundingClientRect();
+    let anchorLeft = anchor.left + document.body.scrollLeft;
+    let anchorTop = anchor.top + document.body.scrollTop;
 
     /* eslint-disable no-bitwise */
     if (this.node) {
       if (props.direction & Direction.UP) {
-        top -= $(this.node).height();
+        top -= this.node.clientHeight;
       }
 
       if (props.direction & Direction.LEFT) {
-        left -= $(this.node).width();
+        left -= this.node.clientWidth;
       }
     }
     /* eslint-enable no-bitwise */
 
     switch (props.corner) {
       case Corner.TOP_LEFT:
-        styles.left = anchorElementOffset.left + left;
-        styles.top = anchorElementOffset.top + top;
+        styles.left = anchorLeft + left;
+        styles.top = anchorTop + top;
         break;
 
       case Corner.TOP_RIGHT:
-        styles.left = anchorElementOffset.left + anchorElement.offsetWidth + left;
-        styles.top = anchorElementOffset.top + top;
+        styles.left = anchorLeft + anchor.width + left;
+        styles.top = anchorTop + top;
         break;
 
       case Corner.BOTTOM_LEFT:
-        styles.left = anchorElementOffset.left + left;
-        styles.top = anchorElementOffset.top + anchorElement.offsetHeight + top;
+        styles.left = anchorLeft + left;
+        styles.top = anchorTop + anchor.height + top;
         break;
 
       case Corner.BOTTOM_RIGHT:
-        styles.left = anchorElementOffset.left + anchorElement.offsetWidth + left;
-        styles.top = anchorElementOffset.top + anchorElement.offsetHeight + top;
+        styles.left = anchorLeft + anchor.width + left;
+        styles.top = anchorTop + anchor.height + top;
         break;
 
       default:
@@ -358,7 +359,7 @@ export default class Popup extends RingComponentWithShortcuts {
     }
 
     if (props.minWidth === 'target') {
-      styles.minWidth = anchorElement.offsetWidth;
+      styles.minWidth = anchor.width;
     } else {
       styles.minWidth = props.minWidth;
     }
@@ -374,12 +375,12 @@ export default class Popup extends RingComponentWithShortcuts {
         styles.top = sidePadding;
       }
 
-      let horizontalDiff = $(document).width() - (styles.left + this.node.offsetWidth);
+      let horizontalDiff = document.body.scrollWidth - styles.left - this.node.offsetWidth;
       if (horizontalDiff < sidePadding) {
         styles.left = styles.left + horizontalDiff - sidePadding;
       }
 
-      let vericalDiff = $(document).height() - (styles.top + this.node.offsetHeight);
+      let vericalDiff = document.body.scrollHeight - styles.top - this.node.offsetHeight;
       if (vericalDiff < sidePadding) {
         styles.top = styles.top + vericalDiff - sidePadding;
       }

@@ -16,7 +16,6 @@ ringButtonGroupModule.directive('rgButtonGroup', function () {
     link: function ($scope, iElement) {
       $scope.$watchCollection(() => {
         // For $watchCollection it should be Array, not jQuery collection
-        //return iElement.children(':visible').slice(0);
         return Array.from(iElement[0].children).filter(node => css(node).display !== 'none');
       }, (newVisible, oldVisible) => {
         if (oldVisible && oldVisible.length) {

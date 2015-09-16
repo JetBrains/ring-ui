@@ -1,5 +1,6 @@
 require('auth-ng/auth-ng');
 var Permissions = require('../permissions/permissions');
+require('./permissions-ng.scss');
 
 /* global angular: false */
 var permissionsModule = angular.module('Ring.permissions', ['Ring.auth']);
@@ -87,23 +88,23 @@ permissionsModule.directive('rgPermission', [
   'userPermissions',
   function (userPermissions) {
     return {
-      controller: ['$scope', '$element', '$attrs', function ($scope, $element, $attrs) {
+      controller: function ($scope, $element, $attrs) {
+        let element = $element[0];
         //noinspection JSPotentiallyInvalidUsageOfThis
         this.permitted = false;
 
-        $element.hide();
+        element.classList.add('ring-permission-hide');
 
-        var self = this;
         userPermissions.check($attrs.rgPermission, $scope.$eval($attrs.inSpace)).
-          then(function (permitted) {
-            self.permitted = permitted;
+          then(permitted => {
+            this.permitted = permitted;
             if (permitted) {
-              $element.show();
+              element.classList.remove('ring-permission-hide');
             }
             return permitted;
           }).
           then(registerPermission($element));
-      }]
+      }
     };
   }
 ]);

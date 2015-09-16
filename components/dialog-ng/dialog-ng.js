@@ -1,9 +1,11 @@
 /* global angular: false */
+import 'babel/polyfill';
 import 'dom4';
 import shortcuts from 'shortcuts/shortcuts';
-import $ from 'jquery';
 
 import 'dialog/dialog.scss';
+
+const css = window.getComputedStyle;
 
 let dialogMixin = {
   /**
@@ -191,93 +193,107 @@ ringDialogModule.directive('rgDialog', function ($timeout) {
       });
     }],
     link: function (scope, iElement) {
-      let iDocument = $(document);
-      let iDialogContainer = iElement.find('.ring-dialog__container');
-      let iDialogTitle = iElement.find('.ring-dialog__header__title');
+      let node = iElement[0];
+      let dialogContainer = node.query('.ring-dialog__container');
+      let dialogTitle = node.query('.ring-dialog__header__title');
       let pageHeight = null;
       let pageWidth = null;
-
-      scope.resetPosition = () => {
-        iDialogContainer.attr('style', null);
-      };
 
       function setPosition(top, left) {
         pageHeight = window.innerHeight;
         pageWidth = window.innerWidth;
 
         if (top === undefined) {
-          top = parseInt(iDialogContainer.css('top'), 10);
+          top = parseInt(css(dialogContainer).top, 10);
         }
         if (left === undefined) {
-          left = parseInt(iDialogContainer.css('left'), 10);
+          left = parseInt(css(dialogContainer).left, 10);
         }
 
-        let boxShadowSize = 30;
-        let maxTop = pageHeight - iDialogContainer.height() - boxShadowSize;
-        let maxLeft = pageWidth - iDialogContainer.width() - boxShadowSize;
+        let clearance = 10;
+        let maxTop = pageHeight - dialogContainer.clientHeight - clearance;
+        let maxLeft = pageWidth - dialogContainer.clientWidth - clearance;
         if (top > maxTop) {
           top = maxTop;
         }
-        if (top < boxShadowSize) {
-          top = boxShadowSize;
+        if (top < clearance) {
+          top = clearance;
         }
         if (left > maxLeft) {
           left = maxLeft;
         }
-        if (left < boxShadowSize) {
-          left = boxShadowSize;
+        if (left < clearance) {
+          left = clearance;
         }
 
-        iDialogContainer.css({
-          'top': top + 'px',
-          'left': left + 'px',
-          'margin': '0'
+        Object.assign(dialogContainer.style, {
+          top: top + 'px',
+          left: left + 'px',
+          margin: '0'
         });
       }
 
-      iDialogTitle.on('mousedown', mousedownEvent => {
-        let titlePos = {
-          top: mousedownEvent.clientY,
-          left: mousedownEvent.clientX
+      let titlePos = {};
+      let offsetContainer = {};
+
+      function onMousedown(e) {
+        titlePos = {
+          top: e.clientY,
+          left: e.clientX
         };
 
-        let offsetContainer = iDialogContainer.offset();
-        offsetContainer.top = offsetContainer.top - iDocument.scrollTop();
+        offsetContainer = dialogContainer.getBoundingClientRect();
 
         // Duct tape for all Ring 1.0 dropdown components inside
-        iElement.trigger('ring.popup-close');
+        node.dispatchEvent(new CustomEvent('ring.popup-close'));
 
-        iDocument.
-          on('mousemove.' + scope.DIALOG_NAMESPACE, mousemoveEvent => {
-            let top = (offsetContainer.top - (titlePos.top - mousemoveEvent.clientY));
-            let left = (offsetContainer.left - (titlePos.left - mousemoveEvent.clientX));
-            setPosition(top, left);
-          }).
-          one('mouseup.' + scope.DIALOG_NAMESPACE, () => {
-            iDocument.off('mousemove.' + scope.DIALOG_NAMESPACE);
-          });
-
-        window.addEventListener('resize', () => setPosition());
-      });
+        document.addEventListener('mousemove', onMousemove);
+        document.addEventListener('mouseup', onMouseup);
+        window.addEventListener('resize', setPosition);
+      }
 
       // Focus first input
       function focusFirst() {
-        iElement.find(':input,[contentEditable=true]').filter(':visible').first().focus();
+        let controls = node.queryAll('input,select,textarea,*[contentEditable=true]').filter(node => css(node).display !== 'none');
+        if (controls.length) {
+          controls[0].focus();
+        }
       }
 
-      iDocument.on('focusin.' + scope.DIALOG_NAMESPACE, e => {
-        if (!iElement[0].contains(e.target) && e.target.classList.contains('ring-popup')) {
+      function onMousemove(e) {
+        e.preventDefault();
+        let top = offsetContainer.top - titlePos.top + e.clientY;
+        let left = offsetContainer.left - titlePos.left + e.clientX;
+        setPosition(top, left);
+      }
+
+      function onMouseup() {
+        titlePos = {};
+        offsetContainer = {};
+        document.removeEventListener('mousemove', onMousemove);
+        document.removeEventListener('mouseup', onMouseup);
+        window.removeEventListener('resize', setPosition);
+      }
+
+      function onFocusin(e) {
+        if (!node.contains(e.target) && e.target.classList.contains('ring-popup')) {
           e.preventDefault();
           focusFirst();
         }
-      });
+      }
 
-      scope.$on('$includeContentLoaded', () => {
-        $timeout(focusFirst);
-      });
+      scope.resetPosition = () => dialogContainer.removeAttribute('style');
+
+      dialogTitle.addEventListener('mousedown', onMousedown);
+      document.addEventListener('focusin', onFocusin);
+      scope.$on('$includeContentLoaded', () => $timeout(focusFirst));
 
       scope.$on('$destroy', () => {
-        iDocument.off('.' + scope.DIALOG_NAMESPACE);
+        dialogTitle.removeEventListener('mousedown', onMousedown);
+        document.removeEventListener('mousemove', onMousemove);
+        document.removeEventListener('mouseup', onMouseup);
+        document.removeEventListener('focusin', onFocusin);
+        window.removeEventListener('resize', setPosition);
       });
     }
   };

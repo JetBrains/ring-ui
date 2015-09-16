@@ -1,7 +1,8 @@
 /* global angular: false */
 
-require('input/input.scss');
+require('babel/polyfill');
 require('message-bundle-ng/message-bundle-ng.js');
+require('input/input.scss');
 
 angular.module('Ring.form', ['Ring.message-bundle']).
 /**
@@ -21,8 +22,7 @@ angular.module('Ring.form', ['Ring.message-bundle']).
         scope.style = {};
         var element;
         var tagName;
-        // Avoid using jQuery here to keep it away from Hub Auth Forms
-        var siblings = Array.prototype.slice.call(iElement.parent().children());
+        var siblings = Array.from(iElement[0].parentNode.children);
 
         for (var i = 0; i < siblings.length; i++) {
           tagName = siblings[i].tagName.toLowerCase();
@@ -60,19 +60,20 @@ angular.module('Ring.form', ['Ring.message-bundle']).
     return {
       require: 'ngModel',
       link: function (scope, iElement, iAttrs, ngModelCtrl) {
+        let element = iElement[0];
 
         function assertEqual(thisValue, thatValue) {
           ngModelCtrl.$setValidity('equalvalue', thisValue === thatValue);
         }
 
         scope.$watch(iAttrs.rgEqualValue, function (value) {
-          assertEqual(iElement.val(), value);
+          assertEqual(element.value, value);
         });
 
-        iElement.on('keyup', function () {
+        element.addEventListener('keyup', function () {
           var thatValue = scope.$eval(iAttrs.rgEqualValue);
           scope.$apply(function () {
-            assertEqual(iElement.val(), thatValue);
+            assertEqual(element.value, thatValue);
           });
         });
       }

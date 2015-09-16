@@ -48,12 +48,12 @@ ringTooltipModule.directive('rgTooltip', function ($parse, RgTooltipPopup) {
 
       element.addEventListener('mouseover', () => {
         popupWrapper.displayTooltip();
-        iElement.addClass(OPEN_CLASS);
+        element.classList.add(OPEN_CLASS);
       });
 
       element.addEventListener('mouseout', () => {
         popupWrapper.hideTooltip();
-        iElement.removeClass(OPEN_CLASS);
+        element.classList.remove(OPEN_CLASS);
       });
     }
   };
