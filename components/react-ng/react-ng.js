@@ -55,8 +55,8 @@ let specialDOMAttrs = {
   'for': 'htmlFor',
   'class': 'className'
 };
-
 reactModule.directive(reactDirectiveName, function ($parse) {
+  'ngInject';
   return {
     restrict: 'A',
     link: function (scope, iElement, iAttrs) {
@@ -180,6 +180,7 @@ reactModule.directive(reactDirectiveName, function ($parse) {
    </example>
  */
 reactModule.directive(staticDirectiveName, function ($parse) {
+  'ngInject';
   function getPropertyName(name) {
     //remove "react-" prefix and uncapitalize first letter
     let cleanAttrName = name.replace(attributeToPassPrefix, '');

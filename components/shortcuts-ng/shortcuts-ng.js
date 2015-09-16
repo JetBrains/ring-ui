@@ -21,6 +21,7 @@ ringShortcutsModule.provider('shortcuts', function () {
     return this;
   };
 
+  /*@ngInject*/
   this['$get'] = function($rootScope) {
     return {
       bind: (name, handlers, scope) => {
