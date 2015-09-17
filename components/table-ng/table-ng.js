@@ -93,6 +93,8 @@ require('../react-ng/react-ng')({
                   top-offset="1">
         <div class="ring-sidebar__title">Here is sidebar content</div>
         <div class="ring-sidebar__section">{{ctrl.selection.getActiveItem().name}}</div>
+        <rg-select options="item.name for item in ctrl.itemsArray track by item.name"></rg-select>
+
       </rg-sidebar>
 
       <rg-table-toolbar stick class="some-toolbar">
@@ -127,9 +129,10 @@ require('../react-ng/react-ng')({
   <file name="index.js" webpack="true">
     require('angular/angular.min.js');
     require('table-ng/table-ng');
+    require('select-ng/select-ng');
     require('sidebar-ng/sidebar-ng');
 
-    angular.module('test', ['Ring.table', 'Ring.sidebar']).controller('tableExample', function ($timeout, $scope) {
+    angular.module('test', ['Ring.table', 'Ring.sidebar', 'Ring.select']).controller('tableExample', function ($timeout, $scope) {
     var ctrl = this;
 
     ctrl.isShowSideBar = true;
