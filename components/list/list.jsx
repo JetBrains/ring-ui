@@ -498,6 +498,10 @@ var List = React.createClass({
     this.setState({scrolling: false});
   },
 
+  clearSelection: function () {
+    this.setState({activeIndex: null});
+  },
+
   scrollHandler: function() {
     this.setState({scrolling: true}, this.scrollEndHandler);
   },
@@ -638,7 +642,7 @@ var List = React.createClass({
     });
 
     return (
-      <div className={classes} onMouseMove={this.mouseHandler}>
+      <div className={classes} onMouseMove={this.mouseHandler} onMouseOut={this.clearSelection}>
         <div className="ring-list__i" ref="inner" onScroll={this.scrollHandler} style={innerStyles}>
           {this.props.data.map(function (item, index) {
             var props = mixIn({'rgItemType': DEFAULT_ITEM_TYPE}, item);
