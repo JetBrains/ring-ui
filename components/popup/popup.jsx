@@ -262,6 +262,15 @@ var PopupMixin = {
     }
   },
 
+  _getOffset: function ($anchorElement) {
+    var isInlined = this.isMounted() && this.getDOMNode().parentNode.parentNode !== document.body;
+    if (isInlined) {
+      return $anchorElement.position();
+    } else {
+      return $anchorElement.offset();
+    }
+  },
+
   /**
    * @return {Object}
    * @private
@@ -272,7 +281,7 @@ var PopupMixin = {
     var top = props.top;
     var left = props.left;
 
-    var anchorElementOffset = $anchorElement.offset();
+    var anchorElementOffset = this._getOffset($anchorElement)
     var styles = {};
 
     /* eslint-disable no-bitwise */
