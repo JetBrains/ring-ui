@@ -395,18 +395,35 @@ var Select = React.createClass({
     return null;
   },
 
+  closestFixedParent: function(currentElement) {
+    var parent = currentElement.parentNode;
+    var style = window.getComputedStyle(parent);
+    if (parent && style && style.position === 'fixed') {
+      return parent;
+    }
+
+    if (parent) {
+      return this.closestFixedParent(parent);
+    }
+
+    return null;
+  },
+
   _popup: null,
   _createPopup: function() {
     if (!this._popup) {
-      this._popup = Popup.renderComponent(
-        <SelectPopup
-          maxHeight={this.props.maxHeight}
-          minWidth={this.props.minWidth}
-          filter={this.isInputMode() ? false : this.props.filter} // disable popup filter in INPUT mode
-          anchorElement={this.props.targetElement || this.getDOMNode()}
-          onClose={this._onClose}
-          onSelect={this._listSelectHandler}
-          onFilter={this._filterChangeHandler} />);
+      var wrapper = document.createElement('div');
+      var container = this.closestFixedParent(this.getDOMNode()) || document.body;
+      container.appendChild(wrapper);
+
+      this._popup = React.renderComponent(<SelectPopup
+        maxHeight={this.props.maxHeight}
+        minWidth={this.props.minWidth}
+        filter={this.isInputMode() ? false : this.props.filter} // disable popup filter in INPUT mode
+        anchorElement={this.props.targetElement || this.getDOMNode()}
+        onClose={this._onClose}
+        onSelect={this._listSelectHandler}
+        onFilter={this._filterChangeHandler}/>, wrapper);
     }
   },
 
