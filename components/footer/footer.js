@@ -3,6 +3,7 @@
  */
 
 import React, { PropTypes, isValidElement } from 'react';
+import createFragment from 'react-addons-create-fragment';
 import classNames from 'classnames';
 import RingComponent from 'ring-component/ring-component';
 import './footer.scss';
@@ -94,7 +95,7 @@ class FooterLine extends RingComponent {
 
     return (
       <li className="ring-footer__line">
-        {children}
+        {createFragment(children)}
       </li>
     );
   }
