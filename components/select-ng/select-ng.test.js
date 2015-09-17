@@ -289,7 +289,7 @@ describe('SelectNg', function () {
 
     it('Should support "item for item in items"', function () {
       scope.items = [{key: 1, label: 'test1'}];
-      compileTemplate('<rg-select options="item for item in items" ng-model="selectedItem"></rg-select>');
+      compileTemplate('<rg-select options="item as item.label for item in items" ng-model="selectedItem"></rg-select>');
       ctrl.config.onBeforeOpen();
       scope.$digest();
       ctrl.selectInstance.props.data[0].key.should.equal(scope.items[0].key);
