@@ -7,143 +7,7 @@ import 'dialog/dialog.scss';
 
 const css = window.getComputedStyle;
 
-let dialogMixin = {
-  /**
-   * Shows dialog.
-   * @param config Object with following fields: <ul>
-   *   <li>title — [required String] title of the dialog</li>
-   *   <li>content — [required String] path to an angularJS template that will be rendered as a body of the dialog</li>
-   *   <li>data — [optional Object, default {}] an object that is copied to the scope of the dialog content under the name 'data'</li>
-   *   <li>buttons — [required Array] collection of objects representing buttons in the footer of the dialog.
-   *   Following fields are available for every button: <ul>
-   *     <li>label — [required String] a text on a button</li>
-   *     <li>default — [optional Boolean, default false] if true then button is highlighted as default and acts on Enter key press</li>
-   *     <li>close — [optional Boolean, default true] if true then click on the button closes the dialog unless action of the button returned false</li>
-   *     <li>action — [optional function(data, button, errorCallback(errorMessage))] is executed on button click. If returns false then window shouldn't be closed</li>
-   *     <li>Also any field may be added to the button and later read in action function</li>
-   *   </ul></li>
-   * </ul>
-   *
-   */
-  show: function (config) {
-    let dialogScope = this.dialogScope;
-
-    if (!dialogScope) {
-      if (this.fallbackDialog) {
-        return this.fallbackDialog.show(config);
-      } else {
-        this.$log.error('No dialog directive is found');
-        return this.$q.reject();
-      }
-    }
-
-    if (dialogScope.active) {
-      this.reset();
-    }
-
-    // Clear dialog errors
-    dialogScope.error = null;
-    if (dialogScope.dialogForm) {
-      dialogScope.dialogForm.$setPristine();
-    }
-
-    if (config) {
-      dialogScope.title = config.title;
-      dialogScope.buttons = config.buttons;
-      dialogScope.data = config.data || {};
-      dialogScope.wideDialog = config.wideDialog;
-      dialogScope.content = config.content;
-      dialogScope.description = config.description && config.description.split('\n') || [];
-    }
-
-    dialogScope.currentShortcutsScope = shortcuts.getScope();
-    dialogScope.DIALOG_NAMESPACE = this.DIALOG_NAMESPACE;
-    shortcuts.setScope(this.DIALOG_NAMESPACE);
-
-    dialogScope.active = true;
-    dialogScope.promise = this.$q.defer();
-
-    return dialogScope.promise.promise;
-  },
-
-  /**
-   * Hides dialog
-   */
-  hide: function () {
-    let dialogScope = this.dialogScope;
-
-    if (!dialogScope) {
-      if (this.fallbackDialog) {
-        return this.fallbackDialog.hide();
-      }
-    } else {
-      dialogScope.active = false;
-      dialogScope.content = '';
-
-      delete dialogScope.DIALOG_NAMESPACE;
-
-      if (shortcuts.getScope().pop() === this.DIALOG_NAMESPACE) {
-        shortcuts.setScope(dialogScope.currentShortcutsScope);
-      }
-    }
-  },
-
-  done: function () {
-    this.dialogScope.promise.resolve();
-    this.hide();
-  },
-
-  reset: function () {
-    this.dialogScope.promise.reject();
-    this.hide();
-  },
-
-  register: function (scope) {
-    this.dialogScope = scope;
-
-    scope.$watch('active', () => {
-      if (scope.active) {
-        shortcuts.bindMap({
-          esc: () => {
-            scope.reset();
-            scope.$apply();
-          },
-          enter: this.applyDefaultHandler(false),
-          'mod+enter': this.applyDefaultHandler(true)
-        }, { scope: scope.DIALOG_NAMESPACE });
-      }
-    });
-  },
-
-  unregister: function () {
-    delete this.dialogScope;
-  },
-
-  applyDefaultHandler: function (isTextAreaShortcut) {
-    let scope = this.dialogScope;
-
-    return event => {
-      if (event.target.matches('textarea') !== isTextAreaShortcut || event.target.matches('button')) {
-        return;
-      }
-
-      event.stopPropagation();
-      event.preventDefault();
-
-      if (scope.dialogForm.$valid) {
-        scope.buttons.every(button => {
-          if (button['default']) {
-            scope.action(button);
-            scope.$apply();
-            return false;
-          }
-        });
-      }
-    };
-  }
-};
-
-let module = angular.module('Ring.dialog', []);
+const module = angular.module('Ring.dialog', []);
 
 function rgDialog($timeout) {
   return {
@@ -308,38 +172,142 @@ function rgDialogTitle() {
   };
 }
 
-function dialog($log, $q) {
-  return {
-    DIALOG_NAMESPACE: 'ring-dialog',
-    $log: $log,
-    $q: $q
-  };
+class Dialog {
+  DIALOG_NAMESPACE = 'ring-dialog';
+  fallbackDialog = null;
+
+  constructor($log, $q) {
+    this.$log = $log;
+    this.$q = $q;
+  }
+
+  show(config) {
+    let dialogScope = this.dialogScope;
+
+    if (!dialogScope) {
+      if (this.fallbackDialog) {
+        return this.fallbackDialog.show(config);
+      } else {
+        this.$log.error('No dialog directive is found');
+        return this.$q.reject();
+      }
+    }
+
+    if (dialogScope.active) {
+      this.reset();
+    }
+
+    // Clear dialog errors
+    dialogScope.error = null;
+    if (dialogScope.dialogForm) {
+      dialogScope.dialogForm.$setPristine();
+    }
+
+    if (config) {
+      dialogScope.title = config.title;
+      dialogScope.buttons = config.buttons;
+      dialogScope.data = config.data || {};
+      dialogScope.wideDialog = config.wideDialog;
+      dialogScope.content = config.content;
+      dialogScope.description = config.description && config.description.split('\n') || [];
+    }
+
+    dialogScope.currentShortcutsScope = shortcuts.getScope();
+    dialogScope.DIALOG_NAMESPACE = this.DIALOG_NAMESPACE;
+    shortcuts.setScope(this.DIALOG_NAMESPACE);
+
+    dialogScope.active = true;
+    dialogScope.promise = this.$q.defer();
+
+    return dialogScope.promise.promise;
+  }
+
+  hide() {
+    let dialogScope = this.dialogScope;
+
+    if (!dialogScope) {
+      if (this.fallbackDialog) {
+        return this.fallbackDialog.hide();
+      }
+    } else {
+      dialogScope.active = false;
+      dialogScope.content = '';
+
+      delete dialogScope.DIALOG_NAMESPACE;
+
+      if (shortcuts.getScope().pop() === this.DIALOG_NAMESPACE) {
+        shortcuts.setScope(dialogScope.currentShortcutsScope);
+      }
+    }
+  }
+
+  done() {
+    this.dialogScope.promise.resolve();
+    this.hide();
+  }
+
+  reset() {
+    this.dialogScope.promise.reject();
+    this.hide();
+  }
+
+  register(scope) {
+    this.dialogScope = scope;
+
+    scope.$watch('active', () => {
+      if (scope.active) {
+        shortcuts.bindMap({
+          esc: () => {
+            scope.reset();
+            scope.$apply();
+          },
+          enter: this.applyDefaultHandler(false),
+          'mod+enter': this.applyDefaultHandler(true)
+        }, { scope: scope.DIALOG_NAMESPACE });
+      }
+    });
+  }
+
+  unregister() {
+    delete this.dialogScope;
+  }
+
+  applyDefaultHandler(isTextAreaShortcut) {
+    let scope = this.dialogScope;
+
+    return event => {
+      if (event.target.matches('textarea') !== isTextAreaShortcut || event.target.matches('button')) {
+        return;
+      }
+
+      event.stopPropagation();
+      event.preventDefault();
+
+      if (scope.dialogForm.$valid) {
+        scope.buttons.every(button => {
+          if (button['default']) {
+            scope.action(button);
+            scope.$apply();
+            return false;
+          }
+        });
+      }
+    };
+  }
 }
 
-function dialogInSidebar($log, $q, dialog) {
-  return {
-    fallbackDialog: dialog,
-    DIALOG_NAMESPACE: 'ring-dialog-in-sidebar',
-    $log: $log,
-    $q: $q
-  };
+class DialogInSidebar extends Dialog {
+  DIALOG_NAMESPACE = 'ring-dialog-in-sidebar';
+
+  constructor($log, $q, dialog) {
+    super($log, $q);
+    this.fallbackDialog = dialog;
+  }
 }
 
 module.directive('rgDialog', rgDialog);
 module.directive('rgDialogTitle', rgDialogTitle);
-module.service('dialog', dialog);
-module.service('dialogInSidebar', dialogInSidebar);
-
-module.config($provide => {
-  $provide.decorator('dialog', $delegate => {
-    return angular.extend($delegate, dialogMixin);
-  });
-});
-
-module.config($provide => {
-  $provide.decorator('dialogInSidebar', $delegate => {
-    return angular.extend($delegate, dialogMixin);
-  });
-});
+module.service('dialog', Dialog);
+module.service('dialogInSidebar', DialogInSidebar);
 
 export default module.name;
