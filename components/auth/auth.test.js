@@ -50,7 +50,7 @@ describe('Auth', function () {
       var auth = new Auth(config);
 
       auth.config.userParams.should.deep.equal({
-        fields: 'guest,id,profile/avatar/url,name,profile/email'
+        fields: 'guest,id,name,profile/avatar/url,profile/email'
       });
     });
 

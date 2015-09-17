@@ -6,7 +6,6 @@ import 'babel/polyfill';
 import React, { PropTypes, createElement, DOM } from 'react';
 import { findDOMNode } from 'react-dom';
 import classNames from 'classnames';
-import contains from 'mout/object/contains';
 import debounce from 'mout/function/debounce';
 
 import RingComponent from 'ring-component/ring-component';
@@ -173,7 +172,7 @@ const DEFAULT_ITEM_TYPE = Type.ITEM;
  * @param {Object} item list item
  */
 function isItemType(listItemType, item) {
-  if (contains(Type, item.type)) {
+  if (Object.keys(Type).some(key => Type[key] === item.type)) {
     return item.type === listItemType;
   }
 
@@ -531,7 +530,7 @@ export default class List extends RingComponentWithShortcuts {
      * @return {Object} listItem
      */
     function normalizeListItemType(listItem) {
-      if (contains(Type, listItem.type)) {
+      if (Object.keys(Type).some(key => Type[key] === listItem.type)) {
         listItem.rgItemType = listItem.type;
       }
 
