@@ -2,7 +2,6 @@
 require('babel/polyfill');
 var whatWgFetch = require('whatwg-fetch').fetch;
 var when = require('when');
-var union = require('mout/array/union');
 
 var AuthStorage = require('./auth__storage');
 var AuthResponseParser = require('./auth__response-parser');
@@ -84,9 +83,12 @@ var Auth = function (config) {
   if (!config) {
     throw new Error('Config is required');
   }
+
   if (config.serverUri == null) {
     throw new Error('Property serverUri is required');
   }
+
+  config.userFields = config.userFields || [];
 
   this.config = Object.assign({}, Auth.DEFAULT_CONFIG, config);
 
@@ -96,7 +98,7 @@ var Auth = function (config) {
   }
 
   this.config.userParams = {
-    fields: union(Auth.DEFAULT_CONFIG.userFields, config.userFields).join(',')
+    fields: [...new Set(Auth.DEFAULT_CONFIG.userFields.concat(config.userFields))].join()
   };
 
   if (!this.config.scope.includes(Auth.DEFAULT_CONFIG.client_id)) {
