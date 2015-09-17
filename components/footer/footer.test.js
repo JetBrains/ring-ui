@@ -14,7 +14,7 @@ describe('Footer', function () {
 
   it('should be empty by default', function () {
     footer.node.tagName.toLowerCase().should.equal('div');
-    $(footer.node).should.be.empty;
+    footer.node.innerHTML.should.be.empty;
   });
 
   describe('should render items', function () {
@@ -28,7 +28,7 @@ describe('Footer', function () {
     it('add left column one line', function () {
       footer.rerender({'left': ['One Line']});
 
-      $(footer.node).should.contain('One Line');
+      footer.node.textContent.should.equal('One Line');
       $(footer.node).find('li').should.not.be.empty;
       $(footer.node).find('li').length.should.equal(1);
     });
