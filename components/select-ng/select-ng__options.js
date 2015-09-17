@@ -1,4 +1,3 @@
-var isObject = require('mout/lang/isObject');
 var deepEquals = require('mout/object/deepMatches');
 
 var OPTIONS_REGEXP = /^\s*(.*?)(?:\s+as\s+(.*?))?(?:\s+select\s+as\s+(.*?))?(?:\s+describe\sas\s+(.*?))?(?:\s+for\s+)?([\$\w]+)\s+in\s+(.*?)(?:\s+track\sby\s+(.*?))?$/;
@@ -79,7 +78,7 @@ angular.module('Ring.select.options', [])
        * @return {string} The string representation of the value
        */
       var toString = function (it) {
-        return isObject(it) ? JSON.stringify(it) : String(it);
+        return typeof it === 'object' ? JSON.stringify(it) : String(it);
       };
 
       if (!this.hasItemGetter) {
@@ -89,7 +88,7 @@ angular.module('Ring.select.options', [])
       var matchedOptions = options.filter(function (option) {
         var optionValue = this.getValue(option);
 
-        if (isObject(value)) {
+        if (typeof value === 'object') {
           return deepEquals(optionValue, value);
         }
 
