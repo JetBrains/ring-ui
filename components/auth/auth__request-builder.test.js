@@ -2,7 +2,6 @@
 describe('Auth', function () {
   describe('AuthRequestBuilder', function () {
     var AuthRequestBuilder = require('./auth__request-builder');
-    var when = require('when');
 
     describe('encodeURL', function () {
       it('should build URL correctly', function () {
@@ -45,7 +44,7 @@ describe('Auth', function () {
       beforeEach(function () {
         this.sinon.stub(AuthRequestBuilder, '_uuid').returns('unique');
         this.sinon.stub(AuthRequestBuilder.prototype, '_saveState', function () {
-          return when.resolve();
+          return Promise.resolve();
         });
       });
 

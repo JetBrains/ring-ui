@@ -98,7 +98,7 @@ describe('Auth', function () {
         });
 
         return limitedAuthStorage.saveState(stateId, state).
-          delay(70).
+          then(() => new Promise(resolve => setTimeout(resolve, 70))).
           then(function () {
             return limitedAuthStorage.cleanStates().then(function () {
               return localStorage;
@@ -164,24 +164,26 @@ describe('Auth', function () {
         });
       });
 
-      it('onTokenChange should have been triggered', function () {
+      it('onTokenChange should have been triggered', function (done) {
         var spy = this.sinon.spy();
         mockedAuthStorage.onTokenChange(spy);
+        mockedAuthStorage.saveToken(token);
 
-        return mockedAuthStorage.saveToken(token).
-          then(function () {
-            spy.should.have.been.calledOnce;
-          }).should.be.fulfilled;
+        setTimeout(function () {
+          spy.should.have.been.calledOnce;
+          done();
+        }, 0);
       });
 
-      it('onStateChange should have been triggered', function () {
+      it('onStateChange should have been triggered', function (done) {
         var spy = this.sinon.spy();
         mockedAuthStorage.onStateChange(stateId, spy);
+        mockedAuthStorage.saveState(stateId, {});
 
-        return mockedAuthStorage.saveState(stateId, {}).
-          then(function () {
-            spy.should.have.been.calledOnce;
-          }).should.be.fulfilled;
+        setTimeout(function () {
+          spy.should.have.been.calledOnce;
+          done();
+        }, 0);
       });
     });
   });
