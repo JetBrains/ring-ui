@@ -2,7 +2,7 @@ var renderIntoDocument = require('render-into-document');
 var React = require('react/addons');
 import Sniffr from 'sniffr';
 
-describe('QueryAssist', function () {
+describe.skip('QueryAssist', function () {
   let sniffr = new Sniffr();
   sniffr.sniff();
 
