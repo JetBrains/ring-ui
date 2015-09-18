@@ -199,7 +199,7 @@ angular.module('Ring.save-field', [
               $event.stopPropagation();
               $event.preventDefault();
             }
-          };
+          }
 
           scope.$watch(valueExpression, function (value) {
             if (angular.isUndefined(value)) {
