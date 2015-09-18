@@ -24,6 +24,7 @@ var SelectPopup = React.createClass({
       toolbar: null,
       filter: false, // can be boolean or an object with "value" and "placeholder" properties
       message: null,
+      container: null,
       anchorElement: null,
       maxHeight: 250,
       minWidth: 'target',
@@ -147,6 +148,7 @@ var SelectPopup = React.createClass({
       cutEdge={false}
       dontCloseOnAnchorClick={true}
       anchorElement={this.props.anchorElement}
+      container={this.props.container}
       autoRemove={false}
       minWidth={this.props.minWidth}
       shortcuts={this.state.popupShortcuts}

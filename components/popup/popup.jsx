@@ -59,6 +59,7 @@ var PopupMixin = {
     /** @override */
     propTypes: {
       anchorElement: React.PropTypes.object,
+      container: React.PropTypes.object,
       className: React.PropTypes.string,
       maxHeight: React.PropTypes.oneOfType([
         React.PropTypes.string,
@@ -69,15 +70,50 @@ var PopupMixin = {
     },
 
     /**
+     * Finds and returns closest DOM node with position=fixed or null
+     * @param currentElement
+     * @returns {DOMNode|null}
+     */
+    closestFixedParent: function(currentElement) {
+      if (!currentElement) {
+        return null;
+      }
+
+      if (currentElement === document.body) {
+        return null;
+      }
+
+      var parent = currentElement.parentNode;
+
+      if (parent) {
+        var style = window.getComputedStyle(parent);
+        if (style && style.position === 'fixed') {
+          return parent;
+        }
+        return this.closestFixedParent(parent);
+      }
+
+      return null;
+    },
+
+    /**
      * @static
      * @param {ReactComponent} component
+     * @param {anchorElement} DOM node for popup placing
+     * Places popup wrapper into closest fixed DOM node if anchorElement is specified -
+     * useful for placing popup into sidebar.
      * @return {HTMLElement}
      */
-    renderComponent: function (component) {
-      var container = document.createElement('div');
-      document.body.appendChild(container);
+    renderComponent: function (component, anchorElement) {
+      var wrapperElement = document.createElement('div');
 
-      return React.renderComponent(component, container);
+      var container = this.closestFixedParent(anchorElement) || document.body;
+      container.appendChild(wrapperElement);
+
+      var popupInstance = React.renderComponent(component, wrapperElement);
+
+      popupInstance.setProps({container: container});
+      return popupInstance;
     }
   },
 
@@ -263,8 +299,8 @@ var PopupMixin = {
   },
 
   _getOffset: function ($anchorElement) {
-    var isInlined = this.isMounted() && this.getDOMNode().parentNode.parentNode !== document.body;
-    if (isInlined) {
+    var placedIncideFixedElement = this.props.container && this.props.container !== document.body;
+    if (placedIncideFixedElement) {
       return $anchorElement.position();
     } else {
       return $anchorElement.offset();
@@ -281,7 +317,7 @@ var PopupMixin = {
     var top = props.top;
     var left = props.left;
 
-    var anchorElementOffset = this._getOffset($anchorElement)
+    var anchorElementOffset = this._getOffset($anchorElement);
     var styles = {};
 
     /* eslint-disable no-bitwise */
