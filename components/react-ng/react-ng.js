@@ -116,6 +116,10 @@ reactModule.directive(reactDirectiveName, [
         }
 
         angular.forEach(iAttrs, function (value, name) {
+          if (name.indexOf('ng') === 0) {
+            return;
+          }
+
           if (iAttrs.hasOwnProperty(name) && name !== reactDirectiveName && name !== instanceAttr && typeof value === 'string') {
             // Use React DOM attributes names
             var specialDOMAttrName = specialDOMAttrs[name];
