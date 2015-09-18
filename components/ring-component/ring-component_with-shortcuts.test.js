@@ -35,7 +35,7 @@ describe('RingComponentWithShortcuts', function () {
       }
 
       render() {
-        return null;
+        return <div/>;
       }
     }
 
@@ -77,7 +77,7 @@ describe('RingComponentWithShortcuts', function () {
         }
 
         render() {
-          return null;
+          return <div/>;
         }
       }
 
@@ -90,6 +90,7 @@ describe('RingComponentWithShortcuts', function () {
   });
 
   it('should not activate shortcuts without param', function () {
+    shortcuts.reset();
     renderIntoDocument(React.createElement(this.TestComponent));
 
     shortcuts.getScope().should.be.empty;
