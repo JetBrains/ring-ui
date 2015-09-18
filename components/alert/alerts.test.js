@@ -4,7 +4,8 @@
  */
 
 var Alerts = require('./alerts');
-var React = require('react/addons');
+var React = require('react');
+var TestUtils = require('react-addons-test-utils');
 var when = require('when');
 
 describe('Alerts', function() {
@@ -12,7 +13,7 @@ describe('Alerts', function() {
   var component;
 
   beforeEach(function() {
-    component = React.addons.TestUtils.renderIntoDocument(React.createElement(Alerts, null));
+    component = TestUtils.renderIntoDocument(React.createElement(Alerts, null));
   });
 
   it('should render alerts component', function() {
@@ -68,7 +69,7 @@ describe('Alerts', function() {
     it('should remove alert by clicking on close button', function() {
       component._addElement('Child element.', Alerts.Type.MESSAGE, when.defer());
       var clickElement = component.node.querySelector('.ring-alert__close');
-      React.addons.TestUtils.Simulate.click(clickElement, {});
+      TestUtils.Simulate.click(clickElement, {});
 
       component.state.childElements.should.have.length(0);
     });

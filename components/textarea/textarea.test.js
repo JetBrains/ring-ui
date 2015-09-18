@@ -1,13 +1,14 @@
 describe('Textarea', function () {
-  var React = require('react/addons');
+  var React = require('react');
+  var TestUtils = require('react-addons-test-utils');
   var Textarea = require('./textarea');
   var component;
 
   beforeEach(function () {
-    component = React.addons.TestUtils.renderIntoDocument(React.createElement(Textarea));
+    component = TestUtils.renderIntoDocument(React.createElement(Textarea));
   });
 
   it('should create component', function () {
-    React.addons.TestUtils.isCompositeComponentWithType(component, Textarea).should.be.true;
+    TestUtils.isCompositeComponentWithType(component, Textarea).should.be.true;
   });
 });

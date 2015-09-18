@@ -1,7 +1,7 @@
 describe('Button', function () {
   var $ = require('jquery');
-  var React = require('react/addons');
-  var TestUtils = React.addons.TestUtils;
+  var React = require('react');
+  var TestUtils = require('react-addons-test-utils');
   var Button = require('./button');
 
   beforeEach(function () {

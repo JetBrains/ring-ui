@@ -1,5 +1,6 @@
 describe('ContentEditable', function () {
-  var React = require('react/addons');
+  var React = require('react');
+  var TestUtils = require('react-addons-test-utils');
   var ContentEditable = require('./contenteditable');
   var stub;
   var component;
@@ -7,7 +8,7 @@ describe('ContentEditable', function () {
   beforeEach(function () {
     stub = this.sinon.stub();
 
-    component = React.addons.TestUtils.renderIntoDocument(React.createElement(ContentEditable, {
+    component = TestUtils.renderIntoDocument(React.createElement(ContentEditable, {
       className: 'test',
       onComponentUpdate: stub,
       dangerousHTML: '<b>bold</b>'
@@ -15,7 +16,7 @@ describe('ContentEditable', function () {
   });
 
   it('should create component', function () {
-    React.addons.TestUtils.isCompositeComponentWithType(component, ContentEditable).should.be.true;
+    TestUtils.isCompositeComponentWithType(component, ContentEditable).should.be.true;
   });
 
   it('should pass other properties', function () {
