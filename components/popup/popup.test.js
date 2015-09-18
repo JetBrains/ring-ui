@@ -44,6 +44,20 @@ describe('Popup', function () {
     });
   });
 
+  it('should save passed container', function() {
+    var fixedContainer = document.createElement('div');
+    fixedContainer.style.position = 'fixed';
+    var anchor = document.createElement('div');
+    $(fixedContainer).append(anchor);
+    $('body').append(fixedContainer);
+
+    var popup = Popup.renderComponent(new Popup({
+      anchorElement: anchor
+    }), anchor);
+
+    popup.props.container.should.be.equal(fixedContainer);
+  });
+
   describe('close by click', function() {
     var evt = document.createEvent('MouseEvent');
     evt.initEvent('click', true, false);
