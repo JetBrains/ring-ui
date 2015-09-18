@@ -219,6 +219,7 @@ var ListMixin = {
     ]),
     shortcuts: React.PropTypes.bool,
     onSelect: React.PropTypes.func,
+    onMouseOut: React.PropTypes.func,
     visible: React.PropTypes.bool
   }
 };
@@ -396,6 +397,7 @@ var List = React.createClass({
       restoreActiveIndex: false,  // restore active item using its "key" property
       activateSingleItem: false,  // if there is only one item, activate it
       onSelect: function() {},
+      onMouseOut: function() {},
       shortcuts: false
     };
   },
@@ -498,10 +500,6 @@ var List = React.createClass({
     this.setState({scrolling: false});
   },
 
-  clearSelection: function () {
-    this.setState({activeIndex: null});
-  },
-
   scrollHandler: function() {
     this.setState({scrolling: true}, this.scrollEndHandler);
   },
@@ -537,6 +535,10 @@ var List = React.createClass({
 
   getSelected: function () {
     return this.props.data[this.state.activeIndex];
+  },
+
+  clearSelected: function () {
+    this.setState({activeIndex: null});
   },
 
   componentWillMount: function() {
@@ -642,7 +644,7 @@ var List = React.createClass({
     });
 
     return (
-      <div className={classes} onMouseMove={this.mouseHandler} onMouseOut={this.clearSelection}>
+      <div className={classes} onMouseMove={this.mouseHandler} onMouseOut={this.props.onMouseOut}>
         <div className="ring-list__i" ref="inner" onScroll={this.scrollHandler} style={innerStyles}>
           {this.props.data.map(function (item, index) {
             var props = mixIn({'rgItemType': DEFAULT_ITEM_TYPE}, item);
