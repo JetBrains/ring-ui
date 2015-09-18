@@ -144,7 +144,7 @@ angular.module('Ring.save-field', [
           function escape() {
             setExpressionValue(scope, scope.initial ? scope.initial : '');
             scope.saveFieldForm.$setPristine();
-            if (!scope['$$phase']) {
+            if (!scope.$$phase) { // eslint-disable-line angular/ng_no_private_call
               scope.$apply();
             }
           }
@@ -183,18 +183,7 @@ angular.module('Ring.save-field', [
             });
           }
 
-          scope.$watch(valueExpression, function (value) {
-            if (angular.isUndefined(value)) {
-              return;
-            }
-            if (scope.saveFieldForm.$pristine) {
-              scope.initial = value;
-            } else if (scope.initial && angular.equals(scope.initial, value)) {
-              escape();
-            }
-          }, true);
-
-          var inputKey = function ($event) {
+          function inputKey($event) {
             if ($event.keyCode === ESCAPE_KEY_CODE) {
               if (scope.saveFieldForm.$dirty) {
                 escape();
@@ -211,6 +200,17 @@ angular.module('Ring.save-field', [
               $event.preventDefault();
             }
           };
+
+          scope.$watch(valueExpression, function (value) {
+            if (angular.isUndefined(value)) {
+              return;
+            }
+            if (scope.saveFieldForm.$pristine) {
+              scope.initial = value;
+            } else if (scope.initial && angular.equals(scope.initial, value)) {
+              escape();
+            }
+          }, true);
 
           var isTextarea = false;
           var inputNode = iElem[0].querySelector('input, .ring-save-field__input');
