@@ -101,8 +101,6 @@ LocalStorage.prototype.each = function (callback) {
  */
 LocalStorage.prototype.on = function (name, callback) {
   function handleStorage(e) {
-    e = e || window.event;
-
     if (e.key === name) {
       try {
         callback(JSON.parse(e.newValue));
@@ -112,18 +110,10 @@ LocalStorage.prototype.on = function (name, callback) {
     }
   }
 
-  if (window.addEventListener) {
-    window.addEventListener('storage', handleStorage, false);
-  } else {
-    window.attachEvent('onstorage', handleStorage);
-  }
+  window.addEventListener('storage', handleStorage, false);
 
   return function () {
-    if (window.removeEventListener) {
-      window.removeEventListener('storage', handleStorage, false);
-    } else {
-      window.detachEvent('onstorage', handleStorage);
-    }
+    window.removeEventListener('storage', handleStorage, false);
   };
 };
 
