@@ -1,7 +1,6 @@
 /* eslint-disable google-camelcase/google-camelcase */
 require('babel/polyfill');
 var whatWgFetch = require('whatwg-fetch').fetch;
-var when = require('when');
 var union = require('mout/array/union');
 
 var AuthStorage = require('./auth__storage');
@@ -120,7 +119,11 @@ var Auth = function (config) {
     scopes: this.config.scope
   }, this._storage);
 
-  this._initDeferred = when.defer();
+  this._initDeferred = {};
+  this._initDeferred.promise = new Promise((resolve, reject) => {
+    this._initDeferred.resolve = resolve;
+    this._initDeferred.reject = reject;
+  });
 };
 
 
@@ -655,29 +658,36 @@ Auth.prototype._createHiddenFrame = function () {
  * promise is rejected if no token was got after {@link Auth.BACKGROUND_TIMEOUT} ms.
  */
 Auth.prototype._loadTokenInBackground = function () {
-  if (this._backgroundDefer) {
-    return this._backgroundDefer.promise;
+  if (this._backgroundPromise) {
+    return this._backgroundPromise;
   }
 
-  var self = this;
-  this._backgroundDefer = when.defer();
-  this._backgroundDefer.promise.ensure(function () {
-    self._backgroundDefer = null;
-  });
+  const resetPromise = () => {
+    this._backgroundPromise = null;
+  };
 
-  var iframe = this._createHiddenFrame();
+  this._backgroundPromise = new Promise((resolve, reject) => {
+    console.log('_backgroundPromise');
+    const iframe = this._createHiddenFrame();
 
-  // TODO Remove after "redirect: false" is default, i.e. after Hub 1.0 everywhere
-  var backgroundMode = this.config.redirect ? 'skip' : 'silent';
+    // TODO Remove after "redirect: false" is default, i.e. after Hub 1.0 everywhere
+    const backgroundMode = this.config.redirect ? 'skip' : 'silent';
 
-  return this._requestBuilder.prepareAuthRequest({request_credentials: backgroundMode}, {nonRedirect: true}).
-    then(function (authRequest) {
-      var cleanRunned;
+    this._requestBuilder.prepareAuthRequest({request_credentials: backgroundMode}, {nonRedirect: true}).
+    then(authRequest => {
+      console.log(authRequest,777);
+      let cleanRunned;
+
+      const timeout = setTimeout(() => {
+        reject(new Error('Auth Timeout'));
+        cleanUp();
+      }, Auth.BACKGROUND_TIMEOUT);
 
       function cleanUp() {
         if (cleanRunned) {
           return;
         }
+        clearTimeout(timeout);
         cleanRunned = true;
         /* eslint-disable no-use-before-define */
         removeStateListener();
@@ -686,26 +696,30 @@ Auth.prototype._loadTokenInBackground = function () {
         window.document.body.removeChild(iframe);
       }
 
-      var removeTokenListener = self._storage.onTokenChange(function (token) {
+      let removeTokenListener = this._storage.onTokenChange(function (token) {
+        console.log('token');
         if (token !== null) {
           cleanUp();
-          self._backgroundDefer.resolve(token.access_token);
+          resolve(token.access_token);
         }
       });
 
-      var removeStateListener = self._storage.onStateChange(authRequest.stateId, function (state) {
+      let removeStateListener = this._storage.onStateChange(authRequest.stateId, function (state) {
         if (state && state.error) {
           cleanUp();
-          self._backgroundDefer.reject(new AuthResponseParser.AuthError(state));
+          reject(new AuthResponseParser.AuthError(state));
         }
       });
 
-      self._redirectFrame(iframe, authRequest.url);
-
-      return self._backgroundDefer.promise.
-        timeout(Auth.BACKGROUND_TIMEOUT).
-        finally(cleanUp);
+      this._redirectFrame(iframe, authRequest.url);
     });
+  });
+
+  this._backgroundPromise.
+  then(resetPromise).
+  catch(resetPromise);
+
+  return this._backgroundPromise;
 };
 /**
  * Sets location hash

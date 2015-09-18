@@ -6,7 +6,6 @@
 import React, { createElement, Children } from 'react';
 import { render, findDOMNode, unmountComponentAtNode } from 'react-dom';
 import CSSTransitionGroup from 'react-addons-css-transition-group';
-import when from 'when';
 import RingComponent from 'ring-component/ring-component';
 import Alert from './alert';
 import './alert.scss';
@@ -78,7 +77,7 @@ export default class Alerts extends RingComponent {
         {this.state.childElements.reverse().map(function(child, i) {
           return (
             <Alert
-              animationDeferred={child.animationDeferred}
+              animationResolver={child.animationResolver}
               caption={child.caption}
               closeable={true}
               inline={false}
@@ -164,29 +163,31 @@ export default class Alerts extends RingComponent {
    * @return {Deferred}
    */
   add(caption, type, timeout) {
-    let animationDeferred = when.defer();
-
-    this.animationPromise = this.animationPromise.then(() => {
-      this._addElement(caption, type, animationDeferred, timeout);
-      return animationDeferred.promise;
+    let animationPromise = new Promise((resolve) => {
+      console.log('animationPromise1',animationPromise);
+      this.animationPromise = this.animationPromise.then(() => {
+        this._addElement(caption, type, resolve, timeout);
+        console.log('animationPromise2',animationPromise);
+        return animationPromise;
+      })
     });
 
-    return animationDeferred;
+    return animationPromise;
   }
 
   /**
    * @param {ReactComponent|string} caption
    * @param {Alert.Type=} type
-   * @param {Deferred} animationDeferred
+   * @param {Deferred} animationResolver
    * @param {number=} timeout
    * @private
    */
-  _addElement(caption, type, animationDeferred, timeout) {
+  _addElement(caption, type, animationResolver, timeout) {
     let childElements = this.state.childElements.slice(0);
     let captionText = typeof caption === 'string' ? caption : 'composite';
 
     let element = {
-      animationDeferred: animationDeferred,
+      animationResolver: animationResolver,
       caption: caption,
       key: captionText + type + Date.now(),
       type: type

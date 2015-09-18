@@ -215,8 +215,6 @@ describe('Permissions', function () {
   });
 
   describe('check and bind variable', function () {
-    var when = require('when');
-
     var permissions = new Permissions(new Auth({serverUri: ''}));
     var permissionKeysDefaultConverter = Permissions.getDefaultNamesConverter('jetbrains.jetpass.');
     var permissionKeysTestConverter = function(key) {
@@ -233,7 +231,7 @@ describe('Permissions', function () {
       createPermission('jetbrains.upsource.permission.project.admin', null, true),
       createPermission('not-defined-key', null, true)
     ], permissionKeysTestConverter);
-    permissions._promise = when.resolve(permissionCache);
+    permissions._promise = Promise.resolve(permissionCache);
 
     it('should resolve to true for given permission', function () {
       return permissions.check('space-read').should.eventually.be.true;
