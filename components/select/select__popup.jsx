@@ -104,6 +104,10 @@ var SelectPopup = React.createClass({
     this.refs.popup.remove();
   },
 
+  listOnMouseOut: function () {
+    this.refs.list.clearSelected();
+  },
+
   isVisible: function() {
     return this.refs.popup.isVisible();
   },
@@ -133,9 +137,11 @@ var SelectPopup = React.createClass({
         maxHeight={this.props.maxHeight}
         data={this.props.data}
         activeIndex={this.props.activeIndex}
+        ref="list"
         restoreActiveIndex={true}
         activateSingleItem={true}
         onSelect={this.props.onSelect}
+        onMouseOut={this.listOnMouseOut}
         shortcuts={this.state.popupShortcuts}
         />);
     }
