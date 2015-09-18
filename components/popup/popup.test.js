@@ -1,5 +1,6 @@
 import $ from 'jquery';
 import React from 'react';
+import ReactDOM from 'react-dom';
 
 import renderIntoDocument from 'render-into-document';
 import simulateKeypress from 'simulate-keypress';
@@ -136,7 +137,7 @@ describe('Popup', function () {
       var container = document.createElement('div');
       $('body').append(container);
 
-      var popup = React.render(React.createElement(Popup, {
+      var popup = ReactDOM.render(React.createElement(Popup, {
         corner: Popup.PopupProps.Corner.TOP_LEFT,
         anchorElement: element[0]
       }), container);
@@ -157,7 +158,7 @@ describe('Popup', function () {
       var container = document.createElement('div');
       $('body').append(container);
 
-      var popup = React.render(React.createElement(Popup, {
+      var popup = ReactDOM.render(React.createElement(Popup, {
         corner: Popup.PopupProps.Corner.BOTTOM_LEFT,
         anchorElement: element[0]
       }), container);

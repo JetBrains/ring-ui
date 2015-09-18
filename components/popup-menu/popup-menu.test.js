@@ -1,10 +1,12 @@
 describe('PopupMenu', function () {
-  var React = require('react/addons');
+  var React = require('react');
+  var ReactDOM = require('react-dom');
+  var TestUtils = require('react-addons-test-utils');
   var PopupMenu = require('./popup-menu');
   var popup;
 
   beforeEach(function() {
-    popup = React.addons.TestUtils.renderIntoDocument(React.createElement(PopupMenu));
+    popup = TestUtils.renderIntoDocument(React.createElement(PopupMenu));
   });
 
   it('should create component', function () {
@@ -15,7 +17,7 @@ describe('PopupMenu', function () {
     popup.refs.List.should.exist;
 
     // We need it to maintain compatibility between Popup Menu and List
-    popup.refs.List.refs.inner.getDOMNode().hasChildNodes().should.be.false;
+    ReactDOM.findDOMNode(popup.refs.List.refs.inner).hasChildNodes().should.be.false;
   });
 
   it('should pass params to List', function () {
@@ -23,6 +25,6 @@ describe('PopupMenu', function () {
       {}
     ]});
 
-    popup.refs.List.refs.inner.getDOMNode().hasChildNodes().should.be.true;
+    ReactDOM.findDOMNode(popup.refs.List.refs.inner).hasChildNodes().should.be.true;
   });
 });
