@@ -40,11 +40,11 @@ export default class RingComponent extends Component {
     }
   }
 
-  rerender(props = {}) {
+  rerender(props = {}, callback) {
     let container;
 
     try {
-      container = findDOMNode(this).parentNode;
+      container = this.node.parentNode;
     } finally {
       if (!container) {
         throw new Error(`${this.constructor.name} component isn't mounted`);
@@ -52,7 +52,7 @@ export default class RingComponent extends Component {
     }
 
     let newProps = Object.assign({}, this.props, props);
-    return render(createElement(this.constructor, newProps), container);
+    return render(createElement(this.constructor, newProps), container, callback);
   }
 
   // React Lifecycle Methods
