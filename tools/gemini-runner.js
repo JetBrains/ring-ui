@@ -1,4 +1,5 @@
 /* eslint-env node */
+require('babel/polyfill');
 var Gemini = require('gemini/api');
 var geminiTeamcityPlugin = require('gemini-teamcity');
 var http = require('http');

@@ -1,8 +1,6 @@
-var when = require('when');
-
 var safePromise = function (resolver) {
-  return when.promise(resolver).
-    otherwise(function (e) {
+  return new Promise(resolver)
+    .catch(e => {
       if (e && e.name === 'NS_ERROR_FILE_CORRUPTED') {
         /* eslint-disable no-alert */
         window.alert('Sorry, it looks like your browser storage is corrupted. ' +
@@ -10,7 +8,7 @@ var safePromise = function (resolver) {
         ' and setting time range to "Everything". This will remove the corrupted browser storage across all sites.');
         /* eslint-enable no-alert */
       }
-      return when.reject(e);
+      return Promise.reject(e);
     });
 };
 
@@ -34,10 +32,13 @@ var LocalStorage = function (config) {
 LocalStorage.prototype.get = function (name) {
   var storageType = this.storageType;
 
-  return safePromise(function (resolve) {
+  return safePromise(resolve => {
     var value = window[storageType].getItem(name);
-
-    resolve(when.attempt(JSON.parse, value).orElse(value));
+    try {
+      resolve(JSON.parse(value));
+    } catch (e) {
+      resolve(value);
+    }
   });
 };
 
@@ -47,10 +48,8 @@ LocalStorage.prototype.get = function (name) {
  * @return {Promise}
  */
 LocalStorage.prototype.set = function (name, value) {
-  var storageType = this.storageType;
-
-  return safePromise(function (resolve) {
-    window[storageType].setItem(name, JSON.stringify(value));
+  return safePromise(resolve => {
+    window[this.storageType].setItem(name, JSON.stringify(value));
     resolve(value);
   });
 };
@@ -79,19 +78,19 @@ LocalStorage.prototype.each = function (callback) {
 
   return safePromise(function (resolve) {
     var promises = [];
-    var value;
 
     for (var item in window[storageType]) {
       if (window[storageType].hasOwnProperty(item)) {
-        value = window[storageType].getItem(item);
-        promises.push(
-          when.attempt(JSON.parse, value).
-            orElse(value).
-            fold(callback, item)
-        );
+        let value = window[storageType].getItem(item);
+        try {
+          value = JSON.parse(value);
+        } catch (e) {}
+
+        promises.push(Promise.resolve(callback(item, value)));
       }
     }
-    resolve(when.all(promises));
+
+    resolve(Promise.all(promises));
   });
 };
 
@@ -105,9 +104,11 @@ LocalStorage.prototype.on = function (name, callback) {
     e = e || window.event;
 
     if (e.key === name) {
-      when.attempt(JSON.parse, e.newValue).
-        orElse(e.newValue).
-        then(callback);
+      try {
+        callback(JSON.parse(e.newValue));
+      } catch (err) {
+        callback(e.newValue);
+      }
     }
   }
 
