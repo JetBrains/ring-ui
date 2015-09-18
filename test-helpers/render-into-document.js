@@ -1,4 +1,4 @@
-var React = require('react/addons');
+var ReactDOM = require('react-dom');
 
 var containerNode;
 /**
@@ -14,7 +14,7 @@ mocha.suite.afterEach(function() {
 
   while ((firstChild = containerNode.firstChild)) {
     if (firstChild.__component && firstChild.__component.node) {
-      React.unmountComponentAtNode(firstChild);
+      ReactDOM.unmountComponentAtNode(firstChild);
     }
 
     firstChild.__component = null;
@@ -31,7 +31,7 @@ function renderIntoDocument(instance, callback) {
 
   var componentNode = document.createElement('div');
   containerNode.appendChild(componentNode);
-  componentNode.__component = React.render(instance, componentNode, callback);
+  componentNode.__component = ReactDOM.render(instance, componentNode, callback);
   return componentNode.__component;
 }
 

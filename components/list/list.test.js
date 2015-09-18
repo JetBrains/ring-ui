@@ -1,16 +1,18 @@
 describe('List', function () {
   var $ = require('jquery');
-  var React = require('react/addons');
+  var React = require('react');
+  var ReactDOM = require('react-dom');
+  var TestUtils = require('react-addons-test-utils');
   var List = require('./list');
   var list;
   var Type = List.ListProps.Type;
 
   var getFirstListItem = function () {
-    return React.findDOMNode(list.refs.inner).firstChild;
+    return ReactDOM.findDOMNode(list.refs.inner).firstChild;
   };
 
   beforeEach(function() {
-    list = React.addons.TestUtils.renderIntoDocument(React.createElement(List));
+    list = TestUtils.renderIntoDocument(React.createElement(List));
   });
 
   it('should be empty by default', function () {
@@ -145,7 +147,7 @@ describe('List', function () {
         {'label': 'Hello!', 'onClick': clicked}
       ]});
 
-      React.addons.TestUtils.Simulate.click(getFirstListItem());
+      TestUtils.Simulate.click(getFirstListItem());
       clicked.should.have.been.called;
     });
   });

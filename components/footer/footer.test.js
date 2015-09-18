@@ -1,11 +1,12 @@
 describe('Footer', function () {
   var $ = require('jquery');
-  var React = require('react/addons');
+  var React = require('react');
+  var TestUtils = require('react-addons-test-utils');
   var Footer = require('./footer');
   var footer;
 
   beforeEach(function () {
-    footer = React.addons.TestUtils.renderIntoDocument(React.createElement(Footer));
+    footer = TestUtils.renderIntoDocument(React.createElement(Footer));
   });
 
   it('should create component', function () {
