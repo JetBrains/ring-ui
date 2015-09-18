@@ -115,9 +115,8 @@ reactModule.directive(reactDirectiveName, [
           };
         }
 
-        var propsToSkip = ['ngModel', 'ngChange'];
         angular.forEach(iAttrs, function (value, name) {
-          if (propsToSkip.indexOf(name) !== -1) {
+          if (name.indexOf('ng') === 0) {
             return;
           }
 
