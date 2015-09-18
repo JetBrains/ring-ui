@@ -45,7 +45,7 @@ module.exports = {
         test: /whatwg\-fetch(\\|\/)fetch\.js$/,
         include: nodeModulesPath,
         loaders: [
-          'imports?self=>{},Promise=when/es6-shim/Promise.browserify-es6.js',
+          'imports?self=>{},Promise=babel-runtime/node_modules/core-js/es6/promise',
           'exports?self'
         ]
       },

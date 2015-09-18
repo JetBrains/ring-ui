@@ -130,7 +130,7 @@ function testStorage(storage) {
   });
 }
 
-function  testStorageEvents(storage) {
+function testStorageEvents(storage) {
   describe('events', function () {
     var stop;
 
@@ -165,17 +165,28 @@ function  testStorageEvents(storage) {
 
     it('on after remove should be fired with null', function () {
       var testEvent = 'testKey3';
-      var testValue = 'testValue';
+      var testValue = 'test2Value';
 
-      var change = storage.set(testEvent, testValue).then(function () {
-        return new Promise(function (resolve) {
-          stop = storage.on(testEvent, resolve);
+      // Set test value and wait for it
+      storage.set(testEvent, testValue);
 
-          storage.remove(testEvent);
+      return new Promise(function (resolve) {
+        var stopSetListening = storage.on(testEvent, function () {
+          resolve(stopSetListening);
         });
-      });
+      }).then(function (stopSetListening) {
+        stopSetListening();
 
-      return change.should.become(null);
+        // Set up listening for test target change
+        var change = new Promise(function (resolve) {
+          stop = storage.on(testEvent, resolve);
+        });
+
+        // Trigger target remove action
+        storage.remove(testEvent);
+
+        return change;
+      }).should.become(null);
     });
 
     it('on after set with other key shouldn\'t be fired', function (done) {
