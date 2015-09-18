@@ -115,7 +115,12 @@ reactModule.directive(reactDirectiveName, [
           };
         }
 
+        var propsToSkip = ['ngModel', 'ngChange'];
         angular.forEach(iAttrs, function (value, name) {
+          if (propsToSkip.indexOf(name) !== -1) {
+            return;
+          }
+
           if (iAttrs.hasOwnProperty(name) && name !== reactDirectiveName && name !== instanceAttr && typeof value === 'string') {
             // Use React DOM attributes names
             var specialDOMAttrName = specialDOMAttrs[name];
