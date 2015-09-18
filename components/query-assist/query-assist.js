@@ -246,8 +246,8 @@ export default class QueryAssist extends RingComponentWithShortcuts {
     this.requestStyleRanges().
       catch(::this.setFocus).
       /* For some reason one more tick before attachMutationEvents is required */
-      delay(0).
-      finally(::this.attachMutationEvents);
+      then(() => new Promise(resolve => setTimeout(resolve, 0))).
+      then(::this.attachMutationEvents);
   }
 
   attachMutationEvents() {

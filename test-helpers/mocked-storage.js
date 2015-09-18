@@ -41,7 +41,9 @@ function MockedStorage() {
       url: '/'
     });
 
-    window.dispatchEvent(storageEvent);
+    setTimeout(function () {
+      window.dispatchEvent(storageEvent);
+    }, 0)
   }
 
   Object.defineProperty(storage, 'getItem', mixIn({
@@ -75,6 +77,7 @@ function MockedStorage() {
 
       var stringKey = String(key);
       dispatchEvent(stringKey, null);
+      console.log('removeItem', stringKey);
       delete storage[stringKey];
     }
   }, defaultProps));

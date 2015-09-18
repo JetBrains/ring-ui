@@ -105,9 +105,9 @@ export default class Alert extends RingComponent {
   };
 
   didMount() {
-    if (this.props.animationDeferred) {
+    if (this.props.animationResolver) {
       if (typeof TransitionEvent === 'undefined') {
-        this.props.animationDeferred.resolve(this);
+        this.props.animationResolver(this);
       }
 
       findDOMNode(this).addEventListener('transitionend', this._handleTransitionEnd);
@@ -159,9 +159,9 @@ export default class Alert extends RingComponent {
    * @private
    */
   _handleTransitionEnd = () => {
-    if (this.props.animationDeferred) {
+    if (this.props.animationResolver) {
       findDOMNode(this).removeEventListener('transitionend', this._handleTransitionEnd);
-      this.props.animationDeferred.resolve(this);
+      this.props.animationResolver(this);
     }
   }
 
