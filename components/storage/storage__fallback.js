@@ -1,4 +1,3 @@
-var when = require('when');
 var deepEquals = require('mout/lang/deepEquals');
 
 var DEFAULT_COOKIE_NAME = 'localStorage';
@@ -83,13 +82,10 @@ FallbackStorage._readCookie = function (name) {
  * @private
  */
 FallbackStorage.prototype._read = function () {
-  var self = this;
-  return when.promise(function (resolve) {
-    var rawData = FallbackStorage._readCookie(self.cookieName);
+  return new Promise(resolve => {
+    var rawData = FallbackStorage._readCookie(this.cookieName);
     resolve(JSON.parse(decodeURIComponent(rawData)));
-  }).otherwise(function () {
-    return {};
-  });
+  }).catch(() => ({}));
 };
 
 /**
@@ -98,10 +94,9 @@ FallbackStorage.prototype._read = function () {
  * @private
  */
 FallbackStorage.prototype._write = function (data) {
-  var self = this;
-  return when.promise(function (resolve) {
+  return new Promise(resolve => {
     var stringData = encodeURIComponent(JSON.stringify(data));
-    FallbackStorage._createCookie(self.cookieName, stringData === '{}' ? '' : stringData, self.expires);
+    FallbackStorage._createCookie(this.cookieName, stringData === '{}' ? '' : stringData, this.expires);
     return resolve(data);
   });
 };
@@ -152,7 +147,7 @@ FallbackStorage.prototype.remove = function (key) {
  */
 FallbackStorage.prototype.each = function (callback) {
   if (typeof callback !== 'function') {
-    return when.reject(new Error('Callback is not a function'));
+    return Promise.reject(new Error('Callback is not a function'));
   }
 
   return this._read().then(function (data) {
@@ -162,7 +157,7 @@ FallbackStorage.prototype.each = function (callback) {
         promises.push(callback(key, data[key]));
       }
     }
-    return when.all(promises);
+    return Promise.all(promises);
   });
 };
 
@@ -172,24 +167,23 @@ FallbackStorage.prototype.each = function (callback) {
  * @return {Function}
  */
 FallbackStorage.prototype.on = function (key, calback) {
-  var self = this;
   var stop = false;
 
-  function checkForChange(value) {
-    self.get(key).then(function (newValue) {
+  const checkForChange = oldValue => {
+    this.get(key).then(newValue => {
       if (stop) {
         return;
       }
 
-      if (!deepEquals(value, newValue)) {
+      if (!deepEquals(oldValue, newValue)) {
         calback(newValue);
       }
 
-      when(value).delay(self.checkDelay).then(checkForChange);
+      window.setTimeout(() => checkForChange(oldValue), this.checkDelay);
     });
-  }
+  };
 
-  self.get(key).then(checkForChange);
+  this.get(key).then(checkForChange);
 
   return function () {
     stop = true;
