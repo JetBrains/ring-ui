@@ -78,7 +78,7 @@ export default class Alerts extends RingComponent {
     }
 
     return (<div className="ring-alerts">
-      <CSSTransitionGroup transitionName="alert">
+      <CSSTransitionGroup transitionName="alert" transitionEnterTimeout={1000} transitionLeaveTimeout={1000}>
         {this.state.childElements.reverse().map(function(child, i) {
           return (
             <Alert

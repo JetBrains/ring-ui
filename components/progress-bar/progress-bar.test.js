@@ -3,11 +3,13 @@
  */
 describe('ProgressBar', function() {
   var $ = require('jquery');
-  var React = require('react/addons');
+  var React = require('react');
+  var ReactDOM = require('react-dom');
+  var TestUtils = require('react-addons-test-utils');
   var ProgressBar = require('./progress-bar');
 
   beforeEach(function() {
-    this.progress = React.addons.TestUtils.renderIntoDocument(React.createElement(ProgressBar));
+    this.progress = TestUtils.renderIntoDocument(React.createElement(ProgressBar));
   });
 
   it('should create component', function() {
@@ -42,7 +44,7 @@ describe('ProgressBar', function() {
         className: 'ring-progress-bar_global'
       });
 
-      $(this.progress.refs.progressbarWrapper.getDOMNode()).should.have.class('ring-progress-bar_global');
+      $(ReactDOM.findDOMNode(this.progress.refs.progressbarWrapper)).should.have.class('ring-progress-bar_global');
     });
   });
 
@@ -52,7 +54,7 @@ describe('ProgressBar', function() {
    */
   describe('#render', function() {
     it('should set min value to equal zero', function() {
-      $(this.progress.refs.progressbar.getDOMNode()).should.have.attr('aria-valuemin', '0');
+      $(ReactDOM.findDOMNode(this.progress.refs.progressbar)).should.have.attr('aria-valuemin', '0');
     });
 
     it('should update max value in DOM', function() {
@@ -60,7 +62,7 @@ describe('ProgressBar', function() {
         max: 100
       });
 
-      $(this.progress.refs.progressbar.getDOMNode()).should.have.attr('aria-valuemax', '100');
+      $(ReactDOM.findDOMNode(this.progress.refs.progressbar)).should.have.attr('aria-valuemax', '100');
     });
 
     it('should update progress value in DOM', function() {
@@ -68,8 +70,8 @@ describe('ProgressBar', function() {
         value: 0.5
       });
 
-      $(this.progress.refs.progressbar.getDOMNode()).should.have.attr('aria-valuenow', '0.5');
-      $(this.progress.refs.progressbar.getDOMNode()).should.have.attr('style').match(/width: 50%;/);
+      $(ReactDOM.findDOMNode(this.progress.refs.progressbar)).should.have.attr('aria-valuenow', '0.5');
+      $(ReactDOM.findDOMNode(this.progress.refs.progressbar)).should.have.attr('style').match(/width: 50%;/);
     });
 
     it('should set width equal 100% if progress value more than max value', function() {
@@ -78,7 +80,7 @@ describe('ProgressBar', function() {
         value: 10
       });
 
-      $(this.progress.refs.progressbar.getDOMNode()).should.have.attr('style').match(/width: 100%;/);
+      $(ReactDOM.findDOMNode(this.progress.refs.progressbar)).should.have.attr('style').match(/width: 100%;/);
     });
 
     it('should not set width if value is not a number', function() {
@@ -86,7 +88,7 @@ describe('ProgressBar', function() {
         value: null
       });
 
-      $(this.progress.refs.progressbar.getDOMNode()).should.have.attr('style').match(/^(width:;)?$/);
+      $(ReactDOM.findDOMNode(this.progress.refs.progressbar)).should.have.attr('style').match(/^(width:;)?$/);
     });
   });
 });

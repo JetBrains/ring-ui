@@ -1,5 +1,6 @@
 var renderIntoDocument = require('render-into-document');
-var React = require('react/addons');
+var React = require('react');
+var ReactDOM = require('react-dom');
 import Sniffr from 'sniffr';
 
 describe.skip('QueryAssist', function () {
@@ -295,7 +296,7 @@ describe.skip('QueryAssist', function () {
     it('should create popup with proper suggestions', function () {
       this.queryAssist.renderPopup(suggestions);
 
-      var list = $(React.findDOMNode(this.queryAssist._popup.refs.List));
+      var list = $(ReactDOM.findDOMNode(this.queryAssist._popup.refs.List));
 
       list.find('.ring-list__item').should.have.length(suggestions.length);
       list.find('.ring-list__highlight').should.have.length(suggestions.length);

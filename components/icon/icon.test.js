@@ -1,7 +1,7 @@
 describe('Icon', function () {
   var $ = require('jquery');
-  var React = require('react/addons');
-  var TestUtils = React.addons.TestUtils;
+  var React = require('react');
+  var TestUtils = require('react-addons-test-utils');
   var Icon = require('./icon');
 
   beforeEach(function () {

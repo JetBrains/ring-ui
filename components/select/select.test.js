@@ -1,11 +1,11 @@
 var Select = require('./select');
 var List = require('list/list');
-var React = require('react/addons');
+var React = require('react');
+var TestUtils = require('react-addons-test-utils');
 var $ = require('jquery');
 var renderIntoDocument = require('render-into-document');
 
 describe('Select', function () {
-
   var testData = [
     {key: 1, label: 'first1', type: List.ListProps.Type.ITEM},
     {key: 2, label: 'test2', type: List.ListProps.Type.ITEM},
@@ -63,7 +63,6 @@ describe('Select', function () {
 
   it('Should call onChange on clearing', function () {
     this.select.clear();
-    console.log(this.select.props.onChange);
     this.select.props.onChange.should.been.called.once;
     this.select.props.onChange.should.been.called.calledWith(null);
   });
@@ -131,7 +130,6 @@ describe('Select', function () {
 
     it('Should place input inside in INPUT mode', function () {
       this.select.rerender({type: Select.Type.INPUT});
-      console.log($(this.select.node));
     });
 
     it('Should place icons inside', function () {
@@ -226,7 +224,7 @@ describe('Select', function () {
 
   describe('Filtering', function () {
     it('Should call onFilter on input changes', function () {
-      React.addons.TestUtils.Simulate.input(this.select._popup.refs.filter.node);
+      TestUtils.Simulate.input(this.select._popup.refs.filter.node);
       this.select.props.onFilter.should.been.called;
     });
 
