@@ -6,7 +6,6 @@ import 'babel/polyfill';
 import React, { PropTypes, DOM, createClass } from 'react';
 import { findDOMNode } from 'react-dom';
 import { renderToStaticMarkup } from 'react-dom/server';
-import when from 'when';
 import debounce from 'mout/function/debounce';
 import deepEquals from 'mout/lang/deepEquals';
 import classNames from 'classnames';
@@ -247,8 +246,8 @@ export default class QueryAssist extends RingComponentWithShortcuts {
     this.requestStyleRanges().
       catch(::this.setFocus).
       /* For some reason one more tick before attachMutationEvents is required */
-      delay(0).
-      finally(::this.attachMutationEvents);
+      then(() => new Promise(resolve => setTimeout(resolve, 0))).
+      then(::this.attachMutationEvents);
   }
 
   attachMutationEvents() {
@@ -417,29 +416,27 @@ export default class QueryAssist extends RingComponentWithShortcuts {
   }
 
   handleResponse(params) {
-    let deferred = when.defer();
+    return new Promise((resolve, reject) => {
+      if ((params.query === this.immediateState.query || this.immediateState.query === undefined) &&
+        (params.caret === this.immediateState.caret || this.immediateState.caret === undefined)) {
+        resolve(params.suggestions);
 
-    if ((params.query === this.immediateState.query || this.immediateState.query === undefined) &&
-      (params.caret === this.immediateState.caret || this.immediateState.caret === undefined)) {
-      deferred.resolve(params.suggestions);
+        let state = {
+          loading: false,
+          placeholderEnabled: !params.query,
+          query: params.query
+        };
 
-      let state = {
-        loading: false,
-        placeholderEnabled: !params.query,
-        query: params.query
-      };
+        // Do not update deep equal styleRanges to simplify shouldComponentUpdate check
+        if (!deepEquals(this.state.styleRanges, params.styleRanges)) {
+          state.styleRanges = params.styleRanges;
+        }
 
-      // Do not update deep equal styleRanges to simplify shouldComponentUpdate check
-      if (!deepEquals(this.state.styleRanges, params.styleRanges)) {
-        state.styleRanges = params.styleRanges;
+        this.setState(state);
+      } else {
+        reject(new Error('Current and response queries mismatch'));
       }
-
-      this.setState(state);
-    } else {
-      deferred.reject(new Error('Current and response queries mismatch'));
-    }
-
-    return deferred.promise;
+    });
   }
 
   handleApply() {
@@ -494,7 +491,7 @@ export default class QueryAssist extends RingComponentWithShortcuts {
 
   requestStyleRanges() {
     if (!this.immediateState.query) {
-      return when.reject(new Error('Query is empty'));
+      return Promise.reject(new Error('Query is empty'));
     }
 
     return this.sendRequest({
@@ -518,21 +515,21 @@ export default class QueryAssist extends RingComponentWithShortcuts {
   }
 
   sendRequest(params) {
-    let dataPromise = when(this.props.dataSource(params));
+    let value = this.props.dataSource(params);
+    let dataPromise = Promise.resolve(value);
 
     // Close popup after timeout between long requests
-    dataPromise.
-      timeout(500).
-      catch(when.TimeoutError, e => {
-        this.setState({
-          loading: true
-        });
+    let timeout = window.setTimeout(() => {
+      this.setState({
+        loading: true
+      });
 
-        if (params.query === this.immediateState.query) {
-          this.closePopup();
-        }
-      }).
-      catch(noop);
+      if (params.query === this.immediateState.query) {
+        this.closePopup();
+      }
+    }, 500);
+
+    dataPromise.then(() => window.clearTimeout(timeout));
 
     return dataPromise;
   }

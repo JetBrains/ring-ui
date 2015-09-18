@@ -1,6 +1,5 @@
 import 'babel/polyfill';
 import { findDOMNode } from 'react-dom';
-import when from 'when';
 import PopupMenu from 'popup-menu/popup-menu';
 
 /**
@@ -19,14 +18,8 @@ export default class HeaderHelper {
 
     header.rerender({
       clientId: header.props.clientId || auth.config.client_id,
-
-      onServicesOpen: function() {
-        header.refs['services'].setLoading(true);
-      },
-
-      onServicesClose: function() {
-        header.refs['services'].setLoading(false);
-      }
+      onServicesOpen: () => header.refs['services'].setLoading(true),
+      onServicesClose: () => header.refs['services'].setLoading(false)
     });
 
     function setServicesList(services) {
@@ -46,9 +39,9 @@ export default class HeaderHelper {
       }
     }
 
-    return auth.requestToken().then(function(token) {
+    return auth.requestToken().then(token => {
       auth.getApi('services/header' + fields, token, params).
-        catch(function (error) {
+        catch(error => {
           // Fallback to old API
           if (error.response.status === 404) {
             function filterVerifiedServices(response) {
@@ -56,14 +49,13 @@ export default class HeaderHelper {
                 return response;
               }
 
-              return response.services.filter(function (service) {
-                return service.verified === true;
-              });
-            };
+              return response.services.filter(service => service.verified === true);
+            }
+
             return auth.getApi('services' + fields + ',verified', token, params).then(filterVerifiedServices);
           }
 
-          return when.reject(error);
+          return Promise.reject(error);
         }).
         then(setServicesList);
     });
@@ -83,7 +75,7 @@ export default class HeaderHelper {
 
     let popup = null;
 
-    return auth.requestUser().then(function(response) {
+    return auth.requestUser().then(response => {
       if (response.guest) {
         HeaderHelper._renderLoginButton(header, auth);
         return;
@@ -105,16 +97,14 @@ export default class HeaderHelper {
         {
           label: translationsDict.logout,
           type: PopupMenu.ListProps.Type.LINK,
-          onClick: function() {
-            auth.logout();
-          }
+          onClick: () => auth.logout()
         }
       ];
 
       header.rerender({
         profilePopupData: popupData,
 
-        onUserMenuOpen: function() {
+        onUserMenuOpen: () => {
           popup = PopupMenu.renderPopup(PopupMenu.factory({
             anchorElement: findDOMNode(header.refs['userMenu']),
             corner: PopupMenu.PopupProps.Corner.BOTTOM_RIGHT,
@@ -122,22 +112,19 @@ export default class HeaderHelper {
             /* eslint-disable no-bitwise */
             direction: PopupMenu.PopupProps.Direction.DOWN | PopupMenu.PopupProps.Direction.LEFT,
             /* eslint-enable no-bitwise */
-            onClose: function() {
-              header.refs['userMenu'].setOpened(false);
-            }
+            onClose: () => header.refs['userMenu'].setOpened(false)
           }));
         },
 
-        onUserMenuClose: function() {
+        onUserMenuClose: () => {
           popup.remove();
           popup = null;
         }
       });
-    }, function (error) {
+    }, error => {
       // Show login button when something went wrong
       HeaderHelper._renderLoginButton(header, auth);
-
-      return when.reject(error);
+      return Promise.reject(error);
     });
   }
 
@@ -151,12 +138,10 @@ export default class HeaderHelper {
     header.setMenuItemEnabled(header.constructor.MenuItemType.LOGIN, true);
 
     header.rerender({
-      onLoginClick: function() {
-        // NB! Doesn't look obvious, but guest is also a user, so to show him
-        // the login form we need to log out him first. I believe this is
-        // a temporary measure.
-        auth.logout();
-      }
+      // NB! Doesn't look obvious, but guest is also a user, so to show him
+      // the login form we need to log out him first. I believe this is
+      // a temporary measure.
+      onLoginClick: () => auth.logout()
     });
   }
 }

@@ -1,5 +1,4 @@
 var Storage = require('storage/storage');
-var when = require('when');
 
 /**
  * @typedef {{
@@ -67,19 +66,14 @@ AuthStorage.prototype.onStateChange = function(stateKey, fn) {
  * @param {boolean=} dontCleanAndRetryOnFail If falsy then remove all stored states and try again to save state
  */
 AuthStorage.prototype.saveState = function (id, state, dontCleanAndRetryOnFail) {
-  var self = this;
-
   state.created = Date.now();
 
   return this._stateStorage.set(this.stateKeyPrefix + id, state)
-    .otherwise(function (e) {
+    .catch(e => {
       if (!dontCleanAndRetryOnFail) {
-        return self.cleanStates().
-          then(function () {
-            self.saveState(id, state, true);
-          });
+        return this.cleanStates().then(() => this.saveState(id, state, true));
       } else {
-        return when.reject(e);
+        return Promise.reject(e);
       }
     });
 };
@@ -137,7 +131,7 @@ AuthStorage.prototype.cleanStates = function (removeStateId) {
         self._stateStorage.remove(state.key);
       });
 
-      return removalPromises.length && when.all(removalPromises);
+      return removalPromises.length && Promise.all(removalPromises);
     }
   });
 };
@@ -149,15 +143,14 @@ AuthStorage.prototype.cleanStates = function (removeStateId) {
  * @return {Promise.<StoredState>}
  */
 AuthStorage.prototype.getState = function (id) {
-  var self = this;
-  return this._stateStorage.get(this.stateKeyPrefix + id).
-    then(function (result) {
-      return self.cleanStates(id).then(function () {
+  return this._stateStorage.get(this.stateKeyPrefix + id)
+    .then(result => {
+      return this.cleanStates(id).then(() => {
         return result;
       });
-    }, function (e) {
-      return self.cleanStates(id).then(function () {
-        return when.reject(e);
+    }, e => {
+      return this.cleanStates(id).then(() => {
+        return Promise.reject(e);
       });
     });
 };
