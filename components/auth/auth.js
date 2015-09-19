@@ -669,7 +669,6 @@ Auth.prototype._loadTokenInBackground = function () {
   };
 
   this._backgroundPromise = new Promise((resolve, reject) => {
-    console.log('_backgroundPromise');
     const iframe = this._createHiddenFrame();
 
     // TODO Remove after "redirect: false" is default, i.e. after Hub 1.0 everywhere
@@ -677,7 +676,6 @@ Auth.prototype._loadTokenInBackground = function () {
 
     this._requestBuilder.prepareAuthRequest({request_credentials: backgroundMode}, {nonRedirect: true}).
     then(authRequest => {
-      console.log(authRequest,777);
       let cleanRunned;
 
       const timeout = setTimeout(() => {
@@ -699,7 +697,6 @@ Auth.prototype._loadTokenInBackground = function () {
       }
 
       let removeTokenListener = this._storage.onTokenChange(function (token) {
-        console.log('token');
         if (token !== null) {
           cleanUp();
           resolve(token.access_token);

@@ -375,12 +375,12 @@ export default class Popup extends RingComponentWithShortcuts {
         styles.top = sidePadding;
       }
 
-      let horizontalDiff = document.body.scrollWidth - styles.left - this.node.offsetWidth;
+      let horizontalDiff = document.documentElement.clientWidth - styles.left - this.node.offsetWidth;
       if (horizontalDiff < sidePadding) {
         styles.left = styles.left + horizontalDiff - sidePadding;
       }
 
-      let vericalDiff = document.body.scrollHeight - styles.top - this.node.offsetHeight;
+      let vericalDiff = document.documentElement.clientHeight - styles.top - this.node.offsetHeight;
       if (vericalDiff < sidePadding) {
         styles.top = styles.top + vericalDiff - sidePadding;
       }
