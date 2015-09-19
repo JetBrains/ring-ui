@@ -167,10 +167,8 @@ export default class Alerts extends RingComponent {
    */
   add(caption, type, timeout) {
     let animationPromise = new Promise((resolve) => {
-      console.log('animationPromise1',animationPromise);
       this.animationPromise = this.animationPromise.then(() => {
         this._addElement(caption, type, resolve, timeout);
-        console.log('animationPromise2',animationPromise);
         return animationPromise;
       })
     });

@@ -77,7 +77,6 @@ function MockedStorage() {
 
       var stringKey = String(key);
       dispatchEvent(stringKey, null);
-      console.log('removeItem', stringKey);
       delete storage[stringKey];
     }
   }, defaultProps));

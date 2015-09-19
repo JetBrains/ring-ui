@@ -750,21 +750,23 @@ export default class Select extends RingComponentWithShortcuts {
     let icons = [];
 
     if (this.props.loading) {
-      icons.push(<Loader modifier={Loader.Modifier.INLINE} />);
+      icons.push(<Loader modifier={Loader.Modifier.INLINE} key="loader" />);
     }
 
     if (this.props.clear && this.state.selected) {
-      icons.push(<span className="ring-link" onClick={::this.clear}>
+      icons.push(<span className="ring-link" onClick={::this.clear} key="close">
         <Icon glyph="close" size={Icon.Size.Size14}/>
       </span>);
     }
 
     if (this.state.selected && this.state.selected.icon) {
-      icons.push(<span className="ring-select__selected-icon" style={{'backgroundImage': 'url("' + this.state.selected.icon + '")'}}></span>);
+      icons.push(
+          <span className="ring-select__selected-icon" style={{'backgroundImage': 'url("' + this.state.selected.icon + '")'}} key="selected"></span>
+      );
     }
 
     if (!this.props.hideArrow) {
-      icons.push(<Icon glyph="caret-down" size={Icon.Size.Size16} />);
+      icons.push(<Icon glyph="caret-down" size={Icon.Size.Size16} key="hide"/>);
     }
 
     return icons;
