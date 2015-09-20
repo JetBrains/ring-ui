@@ -83,9 +83,18 @@ var PopupMixin = {
         return null;
       }
 
+      /**
+       * Should be used to skip not valid DOM nodes like #document-fragment
+       * @param node
+       * @returns {boolean} is Element
+       */
+      function validDomElement(node) {
+        return node instanceof Element;
+      }
+
       var parent = currentElement.parentNode;
 
-      if (parent) {
+      if (parent && validDomElement(parent)) {
         var style = window.getComputedStyle(parent);
         if (style && style.position === 'fixed') {
           return parent;
