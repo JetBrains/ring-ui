@@ -117,7 +117,7 @@ reactModule.directive(reactDirectiveName, [
         }
 
         angular.forEach(iAttrs, function (value, name) {
-          if (name.indexOf('ng') === 0) {
+          if (name.indexOf('ng') === 0 && name !== 'ngModel') {
             return;
           }
 
