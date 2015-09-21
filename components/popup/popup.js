@@ -124,15 +124,55 @@ export default class Popup extends RingComponentWithShortcuts {
   };
 
   /**
+   * Finds and returns closest DOM node with position=fixed or null
+   * @param currentElement
+   * @returns {DOMNode|null}
+   */
+  static closestFixedParent(currentElement) {
+    if (!currentElement || currentElement === document.body) {
+      return null;
+    }
+
+    /**
+     * Should be used to skip not valid DOM nodes like #document-fragment
+     * @param node
+     * @returns {boolean} is Element
+     */
+    function validDomElement(node) {
+      return node instanceof Element;
+    }
+
+    let parent = currentElement.parentNode;
+
+    if (parent && validDomElement(parent)) {
+      let style = window.getComputedStyle(parent);
+      if (style && style.position === 'fixed') {
+        return parent;
+      }
+      return this.closestFixedParent(parent);
+    }
+
+    return null;
+  }
+
+  /**
    * @static
    * @param {ReactComponent} component
+   * @param {HTMLElement} anchorElement DOM node for popup placing
+   * Places popup wrapper into closest fixed DOM node if anchorElement is specified -
+   * useful for placing popup into sidebar.
    * @return {HTMLElement}
    */
-  static renderPopup(component) {
-    let container = document.createElement('div');
-    document.body.appendChild(container);
+  static renderPopup(component, anchorElement) {
+    let wrapperElement = document.createElement('div');
 
-    return render(component, container);
+    let container = this.closestFixedParent(anchorElement) || document.body;
+    container.appendChild(wrapperElement);
+
+    let popupInstance = render(component, wrapperElement);
+
+    popupInstance.rerender({container: container});
+    return popupInstance;
   }
 
   state = {
@@ -297,6 +337,20 @@ export default class Popup extends RingComponentWithShortcuts {
     }
   }
 
+  getElementOffset(element) {
+    var elementRect = element.getBoundingClientRect();
+
+    if (this.props.container) {
+      var containerRect = this.props.container.getBoundingClientRect();
+      return {
+        left: elementRect.left - containerRect.left,
+        top: elementRect.top - containerRect.top
+      };
+    }
+
+    return elementRect;
+  }
+
   /**
    * @return {Object}
    * @private
@@ -308,7 +362,7 @@ export default class Popup extends RingComponentWithShortcuts {
 
     let styles = {};
 
-    let anchor = (props.anchorElement || document.body).getBoundingClientRect();
+    let anchor = this.getElementOffset(props.anchorElement || document.body);
     let anchorLeft = anchor.left + document.body.scrollLeft;
     let anchorTop = anchor.top + document.body.scrollTop;
 

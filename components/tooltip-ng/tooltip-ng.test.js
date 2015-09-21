@@ -18,7 +18,9 @@ describe('tooltipNg', function(){
   }));
 
   beforeEach(function () {
+    var container = document.createElement('div');
     element = document.createElement('div');
+    container.appendChild(element);
     popupWrapper = new RgTooltipPopup(element, INNER_TEXT);
   });
 

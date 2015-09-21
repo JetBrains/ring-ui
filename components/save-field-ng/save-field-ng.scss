@@ -1,0 +1,19 @@
+@import "../global/global";
+
+.ring-save-field {
+  font-size: 0;
+  line-height: 0;
+
+  &__button {
+    margin-left: $ring-unit;
+
+    .ring-btn {
+      vertical-align: top;
+    }
+  }
+
+  .ring-input__error-bubble {
+    left: initial;
+    margin-left: 2px;
+  }
+}

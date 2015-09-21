@@ -43,6 +43,18 @@ describe('List', function () {
     List.isItemType(Type.SEPARATOR, itemMock).should.been.equal(false);
   });
 
+  it('should deselect item', function() {
+    list.setProps({'data': [
+      {}
+    ],
+      activeIndex: 0});
+
+    list.clearSelected();
+
+    expect(list.getSelected()).to.be.undefined;
+  });
+
+
   describe('should render items', function() {
     it('should render for empty element', function () {
       list.rerender({'data': [
