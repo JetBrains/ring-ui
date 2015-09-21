@@ -44,7 +44,7 @@ describe('List', function () {
   });
 
   it('should deselect item', function() {
-    list.setProps({'data': [
+    list.rerender({'data': [
       {}
     ],
       activeIndex: 0});
