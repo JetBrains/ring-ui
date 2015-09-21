@@ -14,7 +14,7 @@ var safePromise = function (resolver) {
 
 /**
  * @return {LocalStorage}
- * @param {{type: string}} config Set to session to use sessionStorage
+ * @param {{type: string}} config Set to "session" to use sessionStorage
  * @constructor
  */
 var LocalStorage = function (config) {
