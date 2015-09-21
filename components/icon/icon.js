@@ -150,9 +150,9 @@ export default class Icon extends RingComponent {
   static _templateElement = null;
 
   /**
-   * This is imperative that template element was first on the page.
-   * If something else inserted before it in some browsers icons might
-   * stop working.
+   * It is imperative that template element is the first one on the page.
+   * If something else gets inserted before it, some browsers will stop
+   * displaying the icons.
    * @static
    */
   static checkTemplatePositioning() {
