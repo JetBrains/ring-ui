@@ -338,14 +338,12 @@ export default class Popup extends RingComponentWithShortcuts {
   }
 
   getElementOffset(element) {
-    var elementRect = element.getBoundingClientRect();
+    let elementRect = element.getBoundingClientRect();
 
     if (this.props.container) {
-      var containerRect = this.props.container.getBoundingClientRect();
-      return {
-        left: elementRect.left - containerRect.left,
-        top: elementRect.top - containerRect.top
-      };
+      const containerRect = this.props.container.getBoundingClientRect();
+      elementRect.left = elementRect.left - containerRect.left;
+      elementRect.top = elementRect.top - containerRect.top;
     }
 
     return elementRect;
