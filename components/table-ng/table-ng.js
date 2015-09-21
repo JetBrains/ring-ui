@@ -10,7 +10,7 @@ import Checkbox from 'checkbox/checkbox';
 
 import 'table/table.scss';
 
-ReactNg(Checkbox);
+ReactNg({Checkbox});
 
 const css = window.getComputedStyle;
 
