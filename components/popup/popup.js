@@ -134,7 +134,7 @@ export default class Popup extends RingComponentWithShortcuts {
     }
 
     /**
-     * Should be used to skip not valid DOM nodes like #document-fragment
+     * Test node type. Used to skip unsuitable DOM nodes like #document-fragment
      * @param node
      * @returns {boolean} is Element
      */
