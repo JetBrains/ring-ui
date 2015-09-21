@@ -63,7 +63,7 @@ describe('ReactNg', function () {
     });
   });
 
-  describe.only('react directive with ngmodel', function () {
+  describe('react directive with ngmodel', function () {
     it('should pass ng-model to ng-model state property', function () {
 
       $scope.defaultCheckboxState = true;
