@@ -63,6 +63,19 @@ describe('ReactNg', function () {
     });
   });
 
+  describe.only('react directive with ngmodel', function () {
+    it('should pass ng-model to ng-model state property', function () {
+
+      $scope.defaultCheckboxState = true;
+      $scope.instanceFieldName = 'componentInstance';
+
+      $compile('<div react="Checkbox" ng-model="defaultCheckboxState" react-instance="instanceFieldName"></div>')($scope);
+      $scope.$digest();
+
+      expect($scope.componentInstance.state.checked).to.be.true;
+    });
+  });
+
   describe('react-static directive', function () {
     it('react-static should transfer props to react component instance', function () {
       checkPropertyPassingForTemplate('<div react-static="TestPropsComponent" react-testprop="\'test\'"></div>', 'testprop', 'test');
