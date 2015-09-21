@@ -321,9 +321,16 @@ Auth.prototype.getSecure = function (absoluteUrl, accessToken, params) {
     then(function (response) {
       // Simulate $.ajax behavior
       // @see https://github.com/github/fetch#success-and-error-handlers
-      if (response.status >= 200 && response.status < 300) {
+      if (response && response.status >= 200 && response.status < 300) {
         return response.json();
       } else {
+        // Strange case case found it the wild
+        // @see https://youtrack.jetbrains.com/issue/JT-31942
+        response = response || {
+          status: 0,
+          statusText: 'Network request failed'
+        };
+
         var error = new Error('' + response.status + ' ' + response.statusText);
         error.response = response;
         error.status = response.status;
