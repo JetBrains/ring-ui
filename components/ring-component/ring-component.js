@@ -1,4 +1,3 @@
-import 'babel/polyfill';
 import { Component, createElement } from 'react';
 import { findDOMNode, render } from 'react-dom';
 

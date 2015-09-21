@@ -1,6 +1,5 @@
 /* global angular: false */
 
-require('babel/polyfill');
 require('message-bundle-ng/message-bundle-ng.js');
 require('input/input.scss');
 
