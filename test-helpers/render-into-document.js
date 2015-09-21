@@ -26,7 +26,7 @@ mocha.suite.afterEach(function() {
 function renderIntoDocument(instance, callback) {
   if (!containerNode) {
     containerNode = document.createElement('div');
-    document.documentElement.appendChild(containerNode);
+    document.body.appendChild(containerNode);
   }
 
   var componentNode = document.createElement('div');

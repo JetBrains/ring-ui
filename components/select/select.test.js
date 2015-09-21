@@ -157,18 +157,58 @@ describe('Select', function () {
       $(this.select.node).should.have.descendants('.ring-select__icons');
     });
 
-    it('Should add "Add" button if enabled but filter query is empty', function () {
-      this.select.rerender({add: true});
-      this.select.filterValue = this.sinon.stub().returns('');
-      this.select._showPopup();
-      $(this.select._popup.node).should.not.have.descendants('.ring-select__button');
-    });
+    describe('Bottom toolbar', function () {
+      it('Should not add "Add" button if enabled but filter query is empty', function () {
+        this.select.rerender({add: true});
+        this.select.filterValue = this.sinon.stub().returns('');
+        this.select._showPopup();
+        $(this.select._popup.node).should.not.have.descendants('.ring-select__button');
+      });
 
-    it('Should add "Add" button if enabled and filter query not empty', function () {
-      this.select.rerender({add: true});
-      this.select.filterValue = this.sinon.stub().returns('test');
-      this.select._showPopup();
-      $(this.select._popup.node).should.have.descendants('.ring-select__button');
+      it('Should add "Add" button if enabled and filter query not empty', function () {
+        this.select.rerender({add: true});
+        this.select.filterValue = this.sinon.stub().returns('test');
+        this.select._showPopup();
+        $(this.select._popup.node).should.have.descendants('.ring-select__button');
+      });
+
+      it('Should add "Add" button if alwaysVisible is set', function () {
+        this.select.rerender({add: {
+          alwaysVisible: true
+        }});
+        this.select._showPopup();
+        $(this.select._popup.node).should.have.descendants('.ring-select__button');
+      });
+
+      it('Should place label instead filterValue to "Add" button if alwaysVisible is set', function () {
+        this.select.rerender({add: {
+          alwaysVisible: true,
+          label: 'Add Something'
+        }});
+        this.select._showPopup();
+        var $addButton = $(this.select._popup.node).find('.ring-select__button');
+
+        $addButton.text().should.contain('Add Something');
+      });
+
+      it('Should add hint if specified', function () {
+        this.select.rerender({
+          hint: 'blah blah'
+        });
+        this.select._showPopup();
+        $(this.select._popup.node).should.have.descendants('.ring-list__item_hint');
+      });
+
+      it('Hint should be placed under "add" button', function () {
+        this.select.rerender({
+          add: true,
+          hint: 'blah blah'
+        });
+        this.select._showPopup();
+        var $addButton = $(this.select._popup.node).find('.ring-select__button');
+        var $hint = $addButton.next('.ring-list__item_hint');
+        $hint.should.be.defined;
+      });
     });
   });
 

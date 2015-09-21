@@ -120,8 +120,14 @@ export default class Checkbox extends RingComponent {
   }
 
   inputChange(e) {
+    let newValue = this.node.checked;
+
     this.setState({
-      checked: e.target.checked
+      checked: newValue
+    }, function() {
+      if (this.props.onChange) {
+        this.props.onChange(newValue);
+      }
     });
   }
 

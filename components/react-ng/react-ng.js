@@ -103,6 +103,10 @@ function reactNgDirective($parse) {
       }
 
       angular.forEach(iAttrs, (value, name) => {
+        if (name.indexOf('ng') === 0 && name !== 'ngModel') {
+          return;
+        }
+
         if (iAttrs.hasOwnProperty(name) && name !== reactDirectiveName && name !== instanceAttr && typeof value === 'string') {
           // Use React DOM attributes names
           let specialDOMAttrName = specialDOMAttrs[name];
