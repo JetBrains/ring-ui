@@ -144,7 +144,7 @@ ringShortcutsModule.directive('rgShortcutsApp', function () {
           return false;
         }
 
-        // Reset current zone if is not equal current scope
+        // Reset current zone if it's not equal to the current scope
         if ($scope.current && $scope.current.scope !== shortcutsInstance.getScope().pop()) {
           this.deselect();
         }

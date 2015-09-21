@@ -393,7 +393,7 @@ ringSelectModule.directive('rgSelect', function () {
       };
 
       function getType() {
-        //$attrs.type as fallback, not recomended to use because of native "type" attribute
+        //$attrs.type as fallback, not recommended to use because of native "type" attribute
         return ctrl.selectType || $attrs.type;
       }
 
@@ -494,7 +494,7 @@ ringSelectModule.directive('rgSelect', function () {
 
       function activate() {
         /**
-         * Provide specific filter function if externalFilter enabled
+         * Provide specific filter function if externalFilter is enabled
          */
         if (ctrl.externalFilter) {
           ctrl.filter = {fn: () => {
@@ -564,7 +564,7 @@ ringSelectModule.directive('rgSelect', function () {
         }, ctrl.config || {});
 
         /**
-         * Render select in appended div to save any exist content of directive
+         * Render select in appended div to save any existing content of the directive
          */
         element.appendChild(container);
 
