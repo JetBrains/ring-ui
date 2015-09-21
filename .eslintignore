@@ -2,4 +2,3 @@ dist
 docs
 templates
 gemini-report
-test-helpers/phantomjs-shims.js
