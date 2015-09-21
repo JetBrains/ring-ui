@@ -307,13 +307,18 @@ var PopupMixin = {
     }
   },
 
-  _getOffset: function ($anchorElement) {
-    var placedIncideFixedElement = this.props.container && this.props.container !== document.body;
-    if (placedIncideFixedElement) {
-      return $anchorElement.position();
-    } else {
-      return $anchorElement.offset();
+  getElementOffset: function(element) {
+    var elementRect = element.getBoundingClientRect();
+
+    if (this.props.container) {
+      var containerRect = this.props.container.getBoundingClientRect();
+      return {
+        left: elementRect.left - containerRect.left,
+        top: elementRect.top - containerRect.top
+      };
     }
+
+    return elementRect;
   },
 
   /**
@@ -326,7 +331,7 @@ var PopupMixin = {
     var top = props.top;
     var left = props.left;
 
-    var anchorElementOffset = this._getOffset($anchorElement);
+    var anchorElementOffset = this.getElementOffset($anchorElement[0]);
     var styles = {};
 
     /* eslint-disable no-bitwise */
