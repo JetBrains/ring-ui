@@ -474,8 +474,8 @@ export default class Header extends RingComponent {
           ref="settings"
           glyph="cog1"
           href={this.props.settingsLink}
-          onOpen={::this.props.onSettingsOpen}
-          onClose={::this.props.onSettingsClose}
+          onOpen={this.props.onSettingsOpen}
+          onClose={this.props.onSettingsClose}
           title="Administration"
         />
       ),
@@ -486,8 +486,8 @@ export default class Header extends RingComponent {
           ref="help"
           glyph="help"
           href={this.props.helpLink}
-          onOpen={::this.props.onHelpOpen}
-          onClose={::this.props.onHelpClose}
+          onOpen={this.props.onHelpOpen}
+          onClose={this.props.onHelpClose}
           title="Help"
         />
       ),
@@ -508,14 +508,14 @@ export default class Header extends RingComponent {
           key="userMenu"
           ref="userMenu"
           glyph="user1"
-          onOpen={::this.props.onUserMenuOpen}
-          onClose={::this.props.onUserMenuClose}
+          onOpen={this.props.onUserMenuOpen}
+          onClose={this.props.onUserMenuClose}
         />
       ),
 
       [MenuItemType.LOGIN]: (
         <div key="loginButton" ref="loginButton" className={loginClassName}>
-          <Button modifier={Button.Modifiers.BLUE} onClick={::this.props.onLoginClick}>{this.props.translationsDict.login}</Button>
+          <Button modifier={Button.Modifiers.BLUE} onClick={this.props.onLoginClick}>{this.props.translationsDict.login}</Button>
         </div>
       )
     };
