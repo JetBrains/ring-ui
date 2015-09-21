@@ -1,5 +1,4 @@
 /* global angular: false */
-import 'babel/polyfill';
 import 'dom4';
 import 'button-group/button-group.scss';
 

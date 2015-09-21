@@ -52,7 +52,7 @@ function handleGeminiError(error) {
 }
 
 function checkUrlAvailability(url) {
-  return when.promise(function (resolve, reject) {
+  return new Promise(function (resolve, reject) {
     http.get('http://' + url, resolve).on('error', reject);
   });
 }

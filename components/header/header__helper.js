@@ -1,4 +1,3 @@
-import 'babel/polyfill';
 import { findDOMNode } from 'react-dom';
 import PopupMenu from 'popup-menu/popup-menu';
 

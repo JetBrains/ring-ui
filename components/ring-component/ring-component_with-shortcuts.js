@@ -1,4 +1,3 @@
-import 'babel/polyfill';
 import RingComponent from 'ring-component/ring-component';
 import shortcuts from 'shortcuts/shortcuts';
 

@@ -1,6 +1,6 @@
 /* eslint-disable google-camelcase/google-camelcase */
-require('babel/polyfill');
-var whatWgFetch = require('whatwg-fetch').fetch;
+
+import 'core-js/modules/es7.array.includes';
 
 var AuthStorage = require('./auth__storage');
 var AuthResponseParser = require('./auth__response-parser');
@@ -311,7 +311,7 @@ Auth.prototype.forceTokenUpdate = function () {
 Auth.prototype.getSecure = function (absoluteUrl, accessToken, params) {
   var url = AuthRequestBuilder.encodeURL(absoluteUrl, params);
 
-  return whatWgFetch(url, {
+  return fetch(url, {
     headers: {
       'Authorization': 'Bearer ' + accessToken,
       'Accept': 'application/json'

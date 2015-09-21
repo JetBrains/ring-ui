@@ -1,4 +1,3 @@
-require('babel/polyfill');
 var guid = require('mout/random/guid');
 
 /**

@@ -2,7 +2,6 @@
  * @fileoverview Popup.
  */
 
-import 'babel/polyfill';
 import React, { PropTypes } from 'react';
 import { render, unmountComponentAtNode } from 'react-dom';
 import classNames from 'classnames';
