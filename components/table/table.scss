@@ -310,9 +310,10 @@
 
 .table__pager-link {
   display: inline-block;
+  margin-right: 4*$ring-unit;
 
-  &:first-child {
-    margin-right: 4*$ring-unit;
+  &_disabled {
+    color: $ring-dark-gray-color;
   }
 }
 
