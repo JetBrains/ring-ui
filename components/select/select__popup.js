@@ -19,6 +19,7 @@ export default class SelectPopup extends RingComponentWithShortcuts {
     filter: false, // can be boolean or an object with "value" and "placeholder" properties
     message: null,
     anchorElement: null,
+    container: null,
     maxHeight: 250,
     minWidth: 'target',
     onSelect: function() {},
@@ -142,6 +143,7 @@ export default class SelectPopup extends RingComponentWithShortcuts {
       cutEdge={false}
       dontCloseOnAnchorClick={true}
       anchorElement={this.props.anchorElement}
+      container={this.props.container}
       autoRemove={false}
       minWidth={this.props.minWidth}
       shortcuts={this.state.popupShortcuts}

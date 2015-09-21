@@ -190,6 +190,30 @@ function isItemType(listItemType, item) {
   return item.rgItemType === listItemType;
 };
 
+var ListMixin = {
+  statics: {
+    isItemType: isItemType,
+    ListProps: {
+      Type: Type,
+      Dimension: Dimension
+    }
+  },
+
+  propTypes: {
+    className: React.PropTypes.string,
+    hint: React.PropTypes.string,
+    hintOnSelection: React.PropTypes.string,
+    data: React.PropTypes.arrayOf(React.PropTypes.object),
+    maxHeight: React.PropTypes.oneOfType([
+      React.PropTypes.string,
+      React.PropTypes.number
+    ]),
+    shortcuts: React.PropTypes.bool,
+    onSelect: React.PropTypes.func,
+    visible: React.PropTypes.bool
+  }
+};
+
 /**
  * @name List
  * @constructor
@@ -366,6 +390,7 @@ export default class List extends RingComponentWithShortcuts {
       PropTypes.number
     ]),
     shortcuts: PropTypes.bool,
+    onMouseOut: React.PropTypes.func,
     onSelect: PropTypes.func,
     visible: PropTypes.bool
   };
@@ -374,6 +399,7 @@ export default class List extends RingComponentWithShortcuts {
     data: [],
     restoreActiveIndex: false,  // restore active item using its "key" property
     activateSingleItem: false,  // if there is only one item, activate it
+    onMouseOut: function() {},
     onSelect: function() {},
     shortcuts: false
   };
@@ -400,7 +426,10 @@ export default class List extends RingComponentWithShortcuts {
   }
 
   isActivatable(item) {
-    return !(item.rgItemType === Type.HINT || item.rgItemType === Type.SEPARATOR || item.disabled);
+    return !(item.rgItemType === Type.HINT ||
+    item.rgItemType === Type.SEPARATOR ||
+    item.rgItemType === Type.TITLE ||
+    item.disabled);
   }
 
   hoverHandler(index) {
@@ -510,6 +539,10 @@ export default class List extends RingComponentWithShortcuts {
     return this.props.data[this.state.activeIndex];
   }
 
+  clearSelected () {
+    this.setState({activeIndex: null});
+  }
+
   willMount() {
     this.checkActivatableItems(this.props.data);
 
@@ -612,7 +645,9 @@ export default class List extends RingComponentWithShortcuts {
     });
 
     return (
-      <div className={classes} onMouseMove={::this.mouseHandler}>
+      <div className={classes}
+           onMouseMove={::this.mouseHandler}
+           onMouseOut={this.props.onMouseOut}>
         <div className="ring-list__i" ref="inner" onScroll={::this.scrollHandler} style={innerStyles}>
           {this.props.data.map((item, index) => {
             let props = Object.assign({'rgItemType': DEFAULT_ITEM_TYPE}, item);
