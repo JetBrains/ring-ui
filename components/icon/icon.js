@@ -136,8 +136,7 @@ export default class Icon extends RingComponent {
     className: '',
     color: Color.DEFAULT,
     glyph: '',
-    size: Size.Size32,
-    title: ''
+    size: Size.Size32
   });
 
   static Color = Color;
@@ -205,7 +204,6 @@ export default class Icon extends RingComponent {
       <span {...this.props} className={classes}>
         <svg
           className={baseClass.getElement('i')}
-          title={title}
           dangerouslySetInnerHTML={{__html: '<use xlink:href="' + xlinkHref + '"></use>'}}
         />
       </span>
