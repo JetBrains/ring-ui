@@ -104,7 +104,7 @@ export default class SelectPopup extends RingComponentWithShortcuts {
             ref="filter"
             className="ring-js-shortcuts ring-input_filter-popup"
             placeholder={this.props.filter.placeholder || ''}
-            onInput={::this.props.onFilter}
+            onInput={this.props.onFilter}
             onFocus={::this._focusHandler}
             onBlur={::this._blurHandler}
           />
@@ -128,7 +128,7 @@ export default class SelectPopup extends RingComponentWithShortcuts {
           activeIndex={this.props.activeIndex}
           restoreActiveIndex={true}
           activateSingleItem={true}
-          onSelect={::this.props.onSelect}
+          onSelect={this.props.onSelect}
           shortcuts={this.state.popupShortcuts}
         />
       );
@@ -145,7 +145,7 @@ export default class SelectPopup extends RingComponentWithShortcuts {
       autoRemove={false}
       minWidth={this.props.minWidth}
       shortcuts={this.state.popupShortcuts}
-      onClose={::this.props.onClose}>
+      onClose={this.props.onClose}>
       {this.getFilter()}
       {this.getList()}
       {this.getMessage()}
