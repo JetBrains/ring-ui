@@ -1,7 +1,6 @@
 /**
- * @fileoverview Alert. Can be used to display messages, shown inline in context.
- * Can also be used to display a stack of messages. In this case
- * use {@link Alerts}.
+ * @fileoverview Alert. Can be used to display notifications, shown inline in context.
+ * Can also be used to display a stack of notifications. In this case use {@link Alerts}.
  * @author igor.alexeenko@jetbrains.com (Igor Alekseenko)
  */
 
@@ -14,7 +13,7 @@ import Icon from 'icon/icon';
 import './alert.scss';
 
 /**
- * List of available types of alert.
+ * List of available alert types.
  * @enum {string}
  */
 const Type = {

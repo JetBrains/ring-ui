@@ -36,7 +36,7 @@ export default class Caret {
   }
 
   /**
-   * Get caret position in symbols
+   * Get caret position index
    * @param {Object} [params]
    * @param {boolean} params.avoidFocus
    * @return {number}
@@ -82,7 +82,7 @@ export default class Caret {
   }
 
   /**
-   * Set caret position in symbols
+   * Set caret position index
    * @param  {number} position
    * @return {number}
    */
