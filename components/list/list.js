@@ -177,11 +177,8 @@ function isItemType(listItemType, item) {
   }
 
   /**
-   * If item does not have property rgItemType then by default
-   * it has Type.ITEM. This need for correct work select when items does not
-   * have peroperty rgItemType. In previous realization select set to item
-   * property `type` but I don't want move this knowledge to select component.
-   * I think this is better place.
+   * If an item does not have rgItemType set, then by default
+   * it has a type of Type.ITEM. This is needed for the select to work correctly.
    */
   if (!item.hasOwnProperty('rgItemType') && listItemType === DEFAULT_ITEM_TYPE) {
     return true;

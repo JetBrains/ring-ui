@@ -20,7 +20,7 @@ var AuthResponseParser = function () {
 
 /**
  * Check if the hash contains an access token.
- * And if it does return auth response. Otherwise return undefined.
+ * If it does, return auth response. Otherwise return undefined.
  * Always clears a hash part of the URL.
  *
  * @throws {Error} if auth server returned an error
