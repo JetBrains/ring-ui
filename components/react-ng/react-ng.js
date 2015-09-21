@@ -5,7 +5,6 @@
 
 /* global angular: false */
 
-import 'babel/polyfill';
 import { createElement, PropTypes } from 'react';
 import { render, unmountComponentAtNode } from 'react-dom';
 

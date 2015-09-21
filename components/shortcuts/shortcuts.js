@@ -1,4 +1,3 @@
-import 'babel/polyfill';
 import 'dom4';
 import mousetrap from 'mousetrap';
 

@@ -1,4 +1,5 @@
-require('babel/polyfill');
+import 'core-js/modules/es6.array.find';
+
 var deepMixIn = require('mout/object/deepMixIn');
 
 /**

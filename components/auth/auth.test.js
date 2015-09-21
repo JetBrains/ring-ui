@@ -1,5 +1,4 @@
 /* eslint-disable google-camelcase/google-camelcase */
-require('babel/polyfill');
 describe('Auth', function () {
   var Auth = require('./auth');
   var AuthRequestBuilder = require('./auth__request-builder');

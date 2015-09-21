@@ -1,5 +1,6 @@
 /* eslint-env node */
 var path = require('path');
+var webpack = require('webpack');
 
 var componentsPath = path.join(__dirname, 'components');
 var nodeModulesPath = path.join(__dirname, 'node_modules');
@@ -26,24 +27,13 @@ module.exports = {
           'sass?outputStyle=expanded&includePaths[]=' + componentsPath
         ]
       },
-      // import plain styles from modules
-      // used for codemirror and docsite
+      // import plain styles from modules for docsite
       {
         test: /\.css$/,
         include: nodeModulesPath,
         loaders: [
           'style',
           'css'
-        ]
-      },
-      // shim whatwg fetch polyfill
-      // TODO Reconsider polyfills https://gist.github.com/darklight721/f2c8d496529738586c68
-      {
-        test: /whatwg\-fetch(\\|\/)fetch\.js$/,
-        include: nodeModulesPath,
-        loaders: [
-          'imports?self=>{},Promise=babel-runtime/node_modules/core-js/es6/promise',
-          'exports?self'
         ]
       },
       // ng-annotate loader for angular components
@@ -55,8 +45,7 @@ module.exports = {
       {
         test: /\.js$/,
         include: componentsPath,
-        loader: 'babel-loader',
-        query: {stage: 0}
+        loader: 'babel-loader'
       },
       { test: /-ng(\\|\/)\S*(-ng|-ng__)\S*\.html$/,
         include: componentsPath,
@@ -68,6 +57,10 @@ module.exports = {
       }
     ]
   },
-  // Keep empty plugins list to simplify additions
-  plugins: []
+  plugins: [
+    new webpack.ProvidePlugin({
+      'Promise': 'core-js/es6/promise',
+      'fetch': 'exports?self.fetch!whatwg-fetch'
+    })
+  ]
 };

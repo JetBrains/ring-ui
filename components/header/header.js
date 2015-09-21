@@ -3,7 +3,6 @@
  * @author igor.alexeenko@jetbrains.com (Igor Alekseenko)
  */
 
-import 'babel/polyfill';
 import 'dom4';
 import React, { createElement, Children, DOM } from 'react';
 import { findDOMNode } from 'react-dom';
