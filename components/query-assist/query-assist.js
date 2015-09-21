@@ -2,7 +2,6 @@
  * @fileoverview Query Assist
  */
 
-import 'babel/polyfill';
 import React, { PropTypes, DOM, createClass } from 'react';
 import { findDOMNode } from 'react-dom';
 import { renderToStaticMarkup } from 'react-dom/server';

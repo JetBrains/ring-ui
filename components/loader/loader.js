@@ -1,4 +1,3 @@
-import 'babel/polyfill';
 import React, { DOM } from 'react';
 import classNames from 'classnames';
 import RingComponent from 'ring-component/ring-component';

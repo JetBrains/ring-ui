@@ -1,9 +1,14 @@
 /* eslint-env node */
 
-var webpack = require('webpack');
+var fs = require('fs');
 var path = require('path');
+
+var webpack = require('webpack');
 var wallabyWebpack = require('wallaby-webpack');
 var webpackConfig = require('./webpack.config');
+
+var babelConfig = JSON.parse(fs.readFileSync('./.babelrc'));
+babelConfig.babel = require('babel');
 
 module.exports = function (wallaby) {
 
@@ -96,7 +101,7 @@ module.exports = function (wallaby) {
     testFramework: 'mocha@2.0.1',
 
     compilers: {
-      '**/*.js': wallaby.compilers.babel({ babel: require('babel'), stage: 0 })
+      '**/*.js': wallaby.compilers.babel(babelConfig)
     },
 
     postprocessor: wallabyPostprocessor,

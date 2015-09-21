@@ -2,7 +2,7 @@
  * @fileoverview Item List.
  */
 
-import 'babel/polyfill';
+import 'core-js/modules/es6.array.find';
 import React, { PropTypes, createElement, DOM } from 'react';
 import { findDOMNode } from 'react-dom';
 import classNames from 'classnames';
