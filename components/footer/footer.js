@@ -3,11 +3,10 @@
  */
 
 import React, { PropTypes, isValidElement } from 'react';
-import createFragment from 'react-addons-create-fragment';
 import classNames from 'classnames';
 import RingComponent from 'ring-component/ring-component';
+import Link from 'link/link';
 import './footer.scss';
-import 'link/link.scss';
 
 /**
  * @constructor
@@ -61,41 +60,25 @@ class FooterLine extends RingComponent {
   };
 
   render() {
-    let children = {};
+    let items = isArray(this.props.item) ? this.props.item : [this.props.item];
 
-    function renderItem(item, idx) {
-      // Item is string
-      if (!(item.label) && !isValidElement(item)) {
-        item = {label: item};
-      }
-
-      let element = (item.copyright ? copyright(item.copyright) : '') + item.label;
-      if (item.url) {
-        element = <a className="ring-link" href={item.url} title={item.title}>{element}</a>;
-      }
-
+    let renderItem = function(item) {
       if (isValidElement(item)) {
-        element = item;
+        return item;
       }
 
-      return {
-        id: item.label + '-' + idx,
-        element: element
-      };
-    }
+      let element = (item.copyright ? copyright(item.copyright) : '') + (item.label || item);
 
-    if (Array.isArray(this.props.item)) {
-      this.props.item.map(renderItem).forEach(function(it) {
-        children[it.id] = it.element;
-      });
-    } else {
-      let renderedItem = renderItem(this.props.item, 0);
-      children[renderedItem.id] = renderedItem.element;
-    }
+      if (item.url) {
+        return <Link href={item.url} title={item.title}>{element}</Link>;
+      }
+
+      return element;
+    };
 
     return (
       <li className="ring-footer__line">
-        {createFragment(children)}
+        {items.map(renderItem)}   1
       </li>
     );
   }
