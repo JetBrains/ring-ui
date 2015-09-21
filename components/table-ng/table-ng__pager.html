@@ -1,7 +1,11 @@
 <div anchor-id="table-pager" class="ng-cloak table__pager" ng-show="show">
   <div class="table__pager-links">
-    <span anchor-id="table-pager-prev" class="ring-link table__pager-link" ng-show="selectedPageNum > 1" ng-click="loadPage(selectedPageNum-1)">&larr; {{previousPageText}}</span>
-    <span anchor-id="table-pager-next" class="ring-link table__pager-link" ng-show="selectedPageNum < totalPages" ng-click="loadPage(selectedPageNum+1)">{{nextPageText}} &rarr;</span>
+    <span anchor-id="table-pager-prev" class="table__pager-link"
+          ng-class="{'ring-link': selectedPageNum > 1, 'table__pager-link_disabled': selectedPageNum <= 1}"
+          ng-click="selectedPageNum > 1 && loadPage(selectedPageNum-1)">&larr; {{previousPageText}}</span>
+    <span anchor-id="table-pager-next" class="ring-link table__pager-link"
+          ng-class="{'ring-link': selectedPageNum < totalPages, 'table__pager-link_disabled': selectedPageNum >= totalPages}"
+          ng-click="selectedPageNum < totalPages && loadPage(selectedPageNum+1)">{{nextPageText}} &rarr;</span>
   </div>
 
   <div class="ring-btn-toolbar">
