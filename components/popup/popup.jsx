@@ -75,11 +75,7 @@ var PopupMixin = {
      * @returns {DOMNode|null}
      */
     closestFixedParent: function(currentElement) {
-      if (!currentElement) {
-        return null;
-      }
-
-      if (currentElement === document.body) {
+      if (!currentElement || currentElement === document.body) {
         return null;
       }
 
