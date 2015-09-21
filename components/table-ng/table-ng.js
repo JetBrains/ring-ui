@@ -99,6 +99,8 @@ const css = window.getComputedStyle;
                   top-offset="1">
         <div class="ring-sidebar__title">Here is sidebar content</div>
         <div class="ring-sidebar__section">{{ctrl.selection.getActiveItem().name}}</div>
+        <rg-select options="item.name for item in ctrl.itemsArray track by item.name"></rg-select>
+
       </rg-sidebar>
 
       <rg-table-toolbar stick class="some-toolbar">
@@ -133,9 +135,10 @@ const css = window.getComputedStyle;
   <file name="index.js" webpack="true">
     require('angular/angular.min.js');
     require('table-ng/table-ng');
+    require('select-ng/select-ng');
     require('sidebar-ng/sidebar-ng');
 
-    angular.module('test', ['Ring.table', 'Ring.sidebar']).controller('tableExample', function ($timeout, $scope) {
+    angular.module('test', ['Ring.table', 'Ring.sidebar', 'Ring.select']).controller('tableExample', function ($timeout, $scope) {
     var ctrl = this;
 
     ctrl.isShowSideBar = true;
@@ -365,6 +368,49 @@ ringTableModule.directive('rgTableRow', function () {
           }
         }
       });
+    }
+  };
+});
+
+ringTableModule.directive('rgTableHeaderCheckbox', function () {
+  return {
+    restrict: 'E',
+    require: '^rgTable',
+    replace: true,
+    template: '<div react="Checkbox" on-change="onClickChange" class="ring-table__header-checkbox" ng-model="allChecked"/>',
+    link: function (scope, iElement, iAttrs, tableCtrl) {
+      // todo: reduce number of recheckSelection() calls
+      scope.allChecked = false;
+
+      function recheckSelection() {
+        if (tableCtrl.items && tableCtrl.items.length) {
+          scope.allChecked = tableCtrl.items.every(function (item) {
+            return item.checked;
+          });
+        } else {
+          scope.allChecked = false;
+        }
+      }
+
+      function markAllItemsAs(state) {
+        tableCtrl.items.forEach(function (item) {
+          item.checked = state;
+        });
+      }
+
+      scope.$on('rgTable:itemsChanged', function() {
+        if (scope.allChecked) {
+          markAllItemsAs(true);
+        }
+        recheckSelection();
+      });
+      scope.$on('rgTable:selectionChanged', recheckSelection);
+
+      scope.onClickChange = function(newValue) {
+        scope.$evalAsync(function() {
+          markAllItemsAs(newValue);
+        });
+      };
     }
   };
 });
