@@ -20,7 +20,7 @@ let noop = () => {};
  * @prop {boolean=true} config.redirect — use redirects instead of loading token in the background. TODO set to false after Hub 1.0 is released.
  * @prop {string[]} config.scope
  * @prop {string[]} config.optionalScopes
- * @prop {boolean} config.cleanHash - whether or not location.hash will be cleaned after authorization completes.
+ * @prop {boolean} config.cleanHash - whether or not location.hash will be cleaned after authorization is completed.
  * Should be set to false in angular > 1.2.26 apps to prevent infinite redirect in Firefox
  * @prop {User?} user
  * @prop {string[]} config.userFields List of users fields to be returned by auth.requestUser (default list is used in Header.HeaderHelper)
@@ -251,7 +251,7 @@ Auth.prototype.init = function () {
 };
 
 /**
- * Check token if it is valid by all conditions
+ * Check token validity against all conditions.
  * @returns {Promise.<string>}
  */
 Auth.prototype.validateToken = function() {
@@ -323,7 +323,7 @@ Auth.prototype.getSecure = function (absoluteUrl, accessToken, params) {
       if (response && response.status >= 200 && response.status < 300) {
         return response.json();
       } else {
-        // Strange case case found it the wild
+        // Strange case case found in the wild
         // @see https://youtrack.jetbrains.com/issue/JT-31942
         response = response || {
           status: 0,
@@ -339,7 +339,7 @@ Auth.prototype.getSecure = function (absoluteUrl, accessToken, params) {
 };
 
 /**
- * Makes GET request to the relative API url. For example to fetch all services call:
+ * Makes GET request to the relative API URL. For example, to fetch all services call:
  *  getApi('services', token, params)
  *
  * @param {string} relativeURI a URI relative to config.serverUri REST endpoint to make the GET request to
@@ -634,7 +634,7 @@ Auth.prototype._redirectCurrentPage = function (url) {
 };
 
 /**
- * Redirects the given iframe to the given url
+ * Redirects the given iframe to the given URL
  * @param {HTMLIFrameElement} iframe
  * @param {string} url
  * @private
@@ -661,10 +661,10 @@ Auth.prototype._createHiddenFrame = function () {
 };
 
 /**
- * Refreshes access token in iFrame.
+ * Refreshes access token in iframe.
  *
  * @return {Promise.<string>} promise that is resolved to access token when it is loaded in a background iframe. The
- * promise is rejected if no token was got after {@link Auth.BACKGROUND_TIMEOUT} ms.
+ * promise is rejected if no token was received after {@link Auth.BACKGROUND_TIMEOUT} ms.
  */
 Auth.prototype._loadTokenInBackground = function () {
   if (this._backgroundPromise) {

@@ -6,7 +6,7 @@ import './button-group.scss';
 /**
  * @name Button Group
  * @constructor
- * @description Joins buttons into one component
+ * @description Combines several buttons into a group
  * @extends {ReactComponent}
  * @example
   <example name="Button Group">
