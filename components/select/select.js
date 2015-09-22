@@ -326,8 +326,7 @@ export default class Select extends RingComponentWithShortcuts {
     selected: (this.props.multiple ? [] : null),
     filterString: null,
     shortcuts: false,
-    popupShortcuts: false,
-    hint: null
+    popupShortcuts: false
   };
 
   ngModelStateField = ngModelStateField;
@@ -453,7 +452,6 @@ export default class Select extends RingComponentWithShortcuts {
           maxHeight={this.props.maxHeight}
           minWidth={this.props.minWidth}
           filter={this.isInputMode() ? false : this.props.filter} // disable popup filter in INPUT mode
-          hint={this.props.hint}
           anchorElement={this.props.targetElement || this.node}
           onClose={::this._onClose}
           onSelect={::this._listSelectHandler}
@@ -521,14 +519,23 @@ export default class Select extends RingComponentWithShortcuts {
       return null;
     }
 
-    return (<div className="ring-select__toolbar">
-      {this._addButton ?
-        <div className="ring-select__button" onClick={::this.addHandler}>
-          <span
-            className="ring-select__button__plus">+</span>{this.props.add.prefix ? this.props.add.prefix + ' ' : ''}<span>{this._addButton.label}</span>
-        </div> : null}
-      {this.props.hint ? <ListHint key={this.props.hint + Type.ITEM}
-                                   label={this.props.hint}/> : null}
+    let hint = null;
+    let addButton = null;
+
+    if (this.props.hint){
+      hint = <ListHint key={this.props.hint + Type.ITEM} label={this.props.hint}/>;
+    }
+
+    if (this._addButton){
+      addButton = (<div className="ring-select__button" onClick={::this.addHandler}>
+            <span className="ring-select__button__plus">+</span>{this.props.add.prefix ? this.props.add.prefix + ' ' : ''}<span>{this._addButton.label}</span>
+        </div>);
+    }
+
+    return (
+      <div className="ring-select__toolbar">
+      {addButton}
+      {hint}
     </div>);
   }
 
