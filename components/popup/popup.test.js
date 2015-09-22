@@ -1,6 +1,6 @@
 import $ from 'jquery';
-import React from 'react';
-import ReactDOM from 'react-dom';
+import { createElement } from 'react';
+import { render } from 'react-dom';
 
 import renderIntoDocument from 'render-into-document';
 import simulateKeypress from 'simulate-keypress';
@@ -11,12 +11,12 @@ import Popup from './popup';
 describe('Popup', function () {
 
   it('should create component', function () {
-    var popup = renderIntoDocument(React.createElement(Popup, null));
+    var popup = renderIntoDocument(createElement(Popup, null));
     popup.should.exist;
   });
 
   it('should be closed by pressing esc', function() {
-    var popup = renderIntoDocument(React.createElement(Popup, null));
+    var popup = renderIntoDocument(createElement(Popup, null));
     popup.show();
     simulateKeypress(null, 27); // Esc
 
@@ -24,7 +24,7 @@ describe('Popup', function () {
   });
 
   it('should be closed by resizing window', function(done) {
-    var popup = renderIntoDocument(React.createElement(Popup, null));
+    var popup = renderIntoDocument(createElement(Popup, null));
     var evt = document.createEvent('Event');
     evt.initEvent('resize', true, false);
 
@@ -44,7 +44,7 @@ describe('Popup', function () {
     $(fixedContainer).append(anchor);
     $('body').append(fixedContainer);
 
-    var popup = Popup.renderPopup(new Popup({
+    var popup = Popup.renderPopup(createElement(Popup, {
       anchorElement: anchor
     }), anchor);
 
@@ -57,7 +57,7 @@ describe('Popup', function () {
 
     it('should be closed by click outside the element', function(done) {
       var onClose = this.sinon.stub();
-      var popup = renderIntoDocument(React.createElement(Popup, {
+      var popup = renderIntoDocument(createElement(Popup, {
         onClose: onClose
       }));
 
@@ -75,7 +75,7 @@ describe('Popup', function () {
     it('should pass event to onClose callback when closing by clicking by document', function(done) {
       var onCloseStub = this.sinon.stub();
       var sinon = this.sinon;
-      renderIntoDocument(React.createElement(Popup, {
+      renderIntoDocument(createElement(Popup, {
         onClose: onCloseStub
       }));
 
@@ -88,7 +88,7 @@ describe('Popup', function () {
 
     it('should not close popup if popup hidden', function(done) {
       var onCloseStub = this.sinon.stub();
-      renderIntoDocument(React.createElement(Popup, {
+      renderIntoDocument(createElement(Popup, {
         hidden: true,
         onClose: onCloseStub
       }));
@@ -102,7 +102,7 @@ describe('Popup', function () {
 
     it('shouldn\'t be closed by click outside the element after hide', function(done) {
       var onClose = this.sinon.stub();
-      var popup = TestUtils.renderIntoDocument(React.createElement(Popup, {
+      var popup = TestUtils.renderIntoDocument(createElement(Popup, {
         onClose: onClose
       }));
 
@@ -117,7 +117,7 @@ describe('Popup', function () {
 
     it('shouldn\'t be closed by click outside the element after show', function(done) {
       var onClose = this.sinon.stub();
-      var popup = renderIntoDocument(React.createElement(Popup, {
+      var popup = renderIntoDocument(createElement(Popup, {
         onClose: onClose
       }));
       popup.hide();
@@ -132,7 +132,7 @@ describe('Popup', function () {
     });
 
     it('shouldn\'n t be closed by click inside the element', function(done) {
-      var popup = renderIntoDocument(React.createElement(Popup, null));
+      var popup = renderIntoDocument(createElement(Popup, null));
 
       setTimeout(function () {
         popup.node.dispatchEvent(evt);
@@ -151,7 +151,7 @@ describe('Popup', function () {
       var container = document.createElement('div');
       $('body').append(container);
 
-      var popup = ReactDOM.render(React.createElement(Popup, {
+      var popup = render(createElement(Popup, {
         corner: Popup.PopupProps.Corner.TOP_LEFT,
         anchorElement: element[0]
       }), container);
@@ -172,7 +172,7 @@ describe('Popup', function () {
       var container = document.createElement('div');
       $('body').append(container);
 
-      var popup = ReactDOM.render(React.createElement(Popup, {
+      var popup = render(createElement(Popup, {
         corner: Popup.PopupProps.Corner.BOTTOM_LEFT,
         anchorElement: element[0]
       }), container);
@@ -189,7 +189,7 @@ describe('Popup', function () {
     it('Should support minWidth = target', function () {
       var $element = $('<div style="width: 50px; padding-left: 20px;"></div>').appendTo('body');
 
-      var popup = renderIntoDocument(React.createElement(Popup, {
+      var popup = renderIntoDocument(createElement(Popup, {
         minWidth: 'target',
         anchorElement: $element[0]
       }));
@@ -199,7 +199,7 @@ describe('Popup', function () {
     });
 
     it('Should support minWidth = some number in pixels', function () {
-      var popup = renderIntoDocument(React.createElement(Popup, {minWidth: '345'}));
+      var popup = renderIntoDocument(createElement(Popup, {minWidth: '345'}));
 
       parseInt(popup.node.style.minWidth, 10).should.equal(345);
     });
