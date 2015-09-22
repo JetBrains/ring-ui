@@ -1,7 +1,6 @@
 import 'dom4';
+import { getStyles } from 'dom/dom';
 import shortcutsInstance from 'shortcuts/shortcuts';
-
-const css = window.getComputedStyle;
 
 /* global angular: false */
 let ringShortcutsModule = angular.module('Ring.shortcuts', []);
@@ -105,7 +104,7 @@ ringShortcutsModule.directive('rgShortcutsApp', function () {
         }
 
         // Skip invisible zones
-        if (next && (!document.contains(next.element) || css(next.element).display === 'none')) {
+        if (next && (!document.contains(next.element) || getStyles(next.element).display === 'none')) {
           next = getNext(next, back);
         }
 

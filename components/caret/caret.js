@@ -1,3 +1,5 @@
+import { getRect } from 'dom/dom';
+
 /**
  * @name Caret
  * @description Caret utils. Ported from jquery-caret
@@ -44,10 +46,6 @@ export default class Caret {
   getPosition(params) {
     params = params || {};
 
-    if (!window.getSelection) {
-      return 0;
-    }
-
     if (this.isContentEditable) {
       if (!params.avoidFocus) {
         this.focus();
@@ -92,10 +90,6 @@ export default class Caret {
       position = value.length;
     }
 
-    if (!window.getSelection) {
-      return -1;
-    }
-
     if (this.isContentEditable) {
       this.focus();
 
@@ -119,25 +113,16 @@ export default class Caret {
     var offset = 0;
     var range;
 
-    if (!window.getSelection) {
-      return offset;
-    }
-
-    var selection = window.getSelection();
-
     try {
       // Both statements may throw
-      range = selection.getRangeAt(0).cloneRange();
+      range = window.getSelection().getRangeAt(0).cloneRange();
       range.setStart(range.startContainer, range.startOffset - 1);
     } catch (e) {
       return offset;
     }
 
     if (range && range.endOffset !== 0 && range.toString() !== '') {
-      var targetRect = this.target.getBoundingClientRect();
-      var caretRect = range.getBoundingClientRect();
-
-      offset = caretRect.right - targetRect.left - (range.startContainer.offsetLeft || 0);
+      offset = getRect(range).right - getRect(this.target).left - (range.startContainer.offsetLeft || 0);
     }
 
     return offset;

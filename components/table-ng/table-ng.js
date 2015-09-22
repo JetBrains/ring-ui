@@ -1,6 +1,8 @@
 import 'dom4';
 import debounce from 'mout/function/debounce';
 
+import { getStyles, getRect } from 'dom/dom';
+
 import TableSelection from './table-ng__selection';
 import './table-ng__toolbar';
 import 'place-under-ng/place-under-ng';
@@ -11,8 +13,6 @@ import Checkbox from 'checkbox/checkbox';
 import 'table/table.scss';
 
 ReactNg({Checkbox});
-
-const css = window.getComputedStyle;
 
 /*global angular*/
 
@@ -243,7 +243,7 @@ ringTableModule.directive('rgTableHeader', function (getClosestElementWithCommon
 
         Array.prototype.forEach.call(titles, (titleElement, index) => {
           let targetHeaderTitle = scrollableHeader.queryAll('.ring-table__title')[index];
-          titleElement.style.width = css(targetHeaderTitle).width;
+          titleElement.style.width = getStyles(targetHeaderTitle).width;
         });
 
       }, HEADER_RESIZE_DEBOUNCE, true);
@@ -338,7 +338,7 @@ ringTableModule.directive('rgTableRow', function () {
       };
 
       function getRowOutOfViewInfo(el, offsetInRows) {
-        let rect = el.getBoundingClientRect();
+        let rect = getRect(el);
         let offset = rect.height * offsetInRows;
         let windowHeight = window.innerHeight || document.documentElement.clientHeight;
 
