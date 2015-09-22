@@ -7,6 +7,8 @@ import { render, unmountComponentAtNode } from 'react-dom';
 import classNames from 'classnames';
 
 import RingComponentWithShortcuts from 'ring-component/ring-component_with-shortcuts';
+import { getStyles, isMounted, getRect } from 'dom/dom';
+
 import './popup.scss';
 
 /**
@@ -145,7 +147,7 @@ export default class Popup extends RingComponentWithShortcuts {
     let parent = currentElement.parentNode;
 
     if (parent && validDomElement(parent)) {
-      let style = window.getComputedStyle(parent);
+      let style = getStyles(parent);
       if (style && style.position === 'fixed') {
         return parent;
       }
@@ -338,10 +340,10 @@ export default class Popup extends RingComponentWithShortcuts {
   }
 
   getElementOffset(element) {
-    let elementRect = Object.assign({}, element.getBoundingClientRect());
+    let elementRect = getRect(element);
 
     if (this.props.container) {
-      const containerRect = this.props.container.getBoundingClientRect();
+      let containerRect = getRect(this.props.container);
       elementRect.left = elementRect.left - containerRect.left;
       elementRect.top = elementRect.top - containerRect.top;
     }
@@ -353,14 +355,19 @@ export default class Popup extends RingComponentWithShortcuts {
    * @return {Object}
    * @private
    */
-  _getStyles(props) {
-    props = props || this.props;
+  _getStyles() {
+    let props = this.props;
     let top = props.top;
     let left = props.left;
 
     let styles = {};
 
-    let anchor = this.getElementOffset(props.anchorElement || document.body);
+    let anchorElement = document.body;
+    if (isMounted(props.anchorElement)) {
+      anchorElement = props.anchorElement;
+    }
+
+    let anchor = this.getElementOffset(anchorElement);
     let anchorLeft = anchor.left + document.body.scrollLeft;
     let anchorTop = anchor.top + document.body.scrollTop;
 

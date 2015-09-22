@@ -9,7 +9,6 @@ import TestUtils from 'react-addons-test-utils';
 import Popup from './popup';
 
 describe('Popup', function () {
-
   it('should create component', function () {
     var popup = renderIntoDocument(createElement(Popup, null));
     popup.should.exist;

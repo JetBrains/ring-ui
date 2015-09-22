@@ -6,12 +6,12 @@
 import React, { createElement, Children } from 'react';
 import { render, findDOMNode, unmountComponentAtNode } from 'react-dom';
 import CSSTransitionGroup from 'react-addons-css-transition-group';
+
 import RingComponent from 'ring-component/ring-component';
+import { getStyles, isMounted } from 'dom/dom';
 import Alert from './alert';
 
 import './alert.scss';
-
-const css = window.getComputedStyle;
 
 /**
  * @name Alerts
@@ -99,18 +99,15 @@ export default class Alerts extends RingComponent {
   }
 
   willUpdate(nextProps, nextState) {
-    let node = findDOMNode(this);
-
-    if (this._gap === null) {
-      let computedStyle = css(node);
-      this._gap = parseInt(computedStyle.paddingTop, 10);
+    if (this._gap === null && isMounted(this.node)) {
+      this._gap = parseInt(getStyles(this.node).paddingTop, 10);
     }
 
     let childElements = nextState.childElements;
     let lastAddedElement = childElements[childElements.length - 1];
 
     if (!this._containerClone) {
-      this._containerClone = node.cloneNode(false);
+      this._containerClone = this.node.cloneNode(false);
       this._containerClone.style.visibility = 'hidden';
       this._containerClone.style.top = '-900em';
       document.body.appendChild(this._containerClone);
