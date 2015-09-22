@@ -31,7 +31,7 @@ describe('Popup', function () {
     setTimeout(function () {
       window.dispatchEvent(evt);
 
-      should.not.exist(popup.node)
+      should.not.exist(popup.node);
 
       done();
     });
