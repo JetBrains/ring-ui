@@ -2,13 +2,17 @@ import React from 'react';
 import $  from 'jquery';
 
 import renderIntoDocument from 'render-into-document';
-import TestUtils from 'react-addons-test-utils';
+import { Simulate } from 'react-addons-test-utils';
 
 import Checkbox  from './checkbox';
 
 describe('Checkbox', function () {
   beforeEach(function () {
-    this.checkbox = renderIntoDocument(React.createElement(Checkbox));
+    this.checkbox = renderIntoDocument(React.createElement(Checkbox, {
+      onChange: () => {
+        this.onChange && this.onChange();
+      }
+    }));
   });
 
   it('should create component', function () {
@@ -51,7 +55,7 @@ describe('Checkbox', function () {
       onClick: clickHandler
     });
 
-    TestUtils.Simulate.click(this.checkbox.refs.input);
+    Simulate.click(this.checkbox.refs.input);
     clickHandler.should.have.been.called;
   });
 
@@ -63,7 +67,7 @@ describe('Checkbox', function () {
       inputChange: inputChange
     });
 
-    TestUtils.Simulate.click(this.checkbox.node);
+    Simulate.click(this.checkbox.node);
     inputChange.should.have.not.been.called;
   });
 
@@ -88,14 +92,13 @@ describe('Checkbox', function () {
   });
 
   it('should check control on change event', function () {
-    var eventMock = {
+    const eventMock = {
       target: {
         checked: true
       }
     };
 
-    TestUtils.Simulate.change(this.checkbox.refs.input, eventMock);
-
+    Simulate.change(this.checkbox.refs.input, eventMock);
     $(this.checkbox.refs.input).should.be.checked;
   });
 
