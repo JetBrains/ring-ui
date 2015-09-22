@@ -401,6 +401,8 @@ export default class List extends RingComponentWithShortcuts {
     shortcuts: false
   };
 
+  static ListHint = ListHint;
+
   state = {
     activeIndex: null,
     activeItem: null
