@@ -1,8 +1,7 @@
 /* global angular: false */
 import 'dom4';
+import { getStyles } from 'dom/dom';
 import 'button-group/button-group.scss';
-
-const css = window.getComputedStyle;
 
 const CLASSNAME_FIRST = 'ring-button-group__first';
 const CLASSNAME_LAST = 'ring-button-group__last';
@@ -15,7 +14,7 @@ function rgButtonGroup() {
     link: function ($scope, iElement) {
       $scope.$watchCollection(() => {
         // For $watchCollection it should be Array, not jQuery collection
-        return Array.from(iElement[0].children).filter(node => css(node).display !== 'none');
+        return Array.from(iElement[0].children).filter(node => getStyles(node).display !== 'none');
       }, (newVisible, oldVisible) => {
         if (oldVisible && oldVisible.length) {
           oldVisible[0].classList.remove(CLASSNAME_FIRST);

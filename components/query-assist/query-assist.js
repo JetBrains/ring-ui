@@ -9,6 +9,7 @@ import debounce from 'mout/function/debounce';
 import deepEquals from 'mout/lang/deepEquals';
 import classNames from 'classnames';
 
+import { getRect } from 'dom/dom';
 import RingComponentWithShortcuts from 'ring-component/ring-component_with-shortcuts';
 import Caret from 'caret/caret';
 import ContentEditable from 'contenteditable/contenteditable';
@@ -548,7 +549,7 @@ export default class QueryAssist extends RingComponentWithShortcuts {
       this.input.firstChild.childNodes[completionStart];
 
     let offset = completionStartNode &&
-      (completionStartNode.getBoundingClientRect().right - this.input.getBoundingClientRect().left);
+      (getRect(completionStartNode).right - getRect(this.input).left);
 
     if (!offset) {
       let caret = this.caret.getOffset();

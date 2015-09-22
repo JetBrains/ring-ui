@@ -1,10 +1,9 @@
 /* global angular: false */
 import 'dom4';
+import { getStyles, getRect } from 'dom/dom';
 import shortcuts from 'shortcuts/shortcuts';
 
 import 'dialog/dialog.scss';
-
-const css = window.getComputedStyle;
 
 const module = angular.module('Ring.dialog', []);
 
@@ -67,10 +66,10 @@ function rgDialog($timeout) {
         pageWidth = window.innerWidth;
 
         if (top === undefined) {
-          top = parseInt(css(dialogContainer).top, 10);
+          top = parseInt(getStyles(dialogContainer).top, 10);
         }
         if (left === undefined) {
-          left = parseInt(css(dialogContainer).left, 10);
+          left = parseInt(getStyles(dialogContainer).left, 10);
         }
 
         let clearance = 10;
@@ -105,7 +104,7 @@ function rgDialog($timeout) {
           left: e.clientX
         };
 
-        offsetContainer = dialogContainer.getBoundingClientRect();
+        offsetContainer = getRect(dialogContainer);
 
         // Duct tape for all Ring 1.0 dropdown components inside
         node.dispatchEvent(new CustomEvent('ring.popup-close'));
@@ -117,7 +116,7 @@ function rgDialog($timeout) {
 
       // Focus first input
       function focusFirst() {
-        let controls = node.queryAll('input,select,textarea,*[contentEditable=true]').filter(node => css(node).display !== 'none');
+        let controls = node.queryAll('input,select,textarea,*[contentEditable=true]').filter(node => getStyles(node).display !== 'none');
         if (controls.length) {
           controls[0].focus();
         }
