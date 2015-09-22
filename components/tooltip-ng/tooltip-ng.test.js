@@ -53,5 +53,4 @@ describe('tooltipNg', function(){
 
     popup.close.should.been.called;
   });
-
 });
