@@ -44,7 +44,7 @@ describe('Popup', function () {
     $(fixedContainer).append(anchor);
     $('body').append(fixedContainer);
 
-    var popup = Popup.renderComponent(new Popup({
+    var popup = Popup.renderPopup(new Popup({
       anchorElement: anchor
     }), anchor);
 
