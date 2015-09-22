@@ -7,6 +7,7 @@ import classNames from 'classnames';
 import RingComponent from 'ring-component/ring-component';
 import Link from 'link/link';
 import './footer.scss';
+import isArray from 'mout/lang/isArray';
 
 /**
  * @constructor
@@ -78,7 +79,7 @@ class FooterLine extends RingComponent {
 
     return (
       <li className="ring-footer__line">
-        {items.map(renderItem)}   1
+        {items.map(renderItem)}
       </li>
     );
   }
