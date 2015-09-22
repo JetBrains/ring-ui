@@ -29,7 +29,7 @@ describe('Checkbox', function () {
   });
 
   it('should set custom id', function () {
-    this. checkbox.rerender({
+    this.checkbox.rerender({
       id: 'test'
     });
 
@@ -37,7 +37,7 @@ describe('Checkbox', function () {
   });
 
   it('should set name', function () {
-    this. checkbox.rerender({
+    this.checkbox.rerender({
       name: 'test'
     });
 
@@ -47,7 +47,7 @@ describe('Checkbox', function () {
   it('should call handler for click event', function () {
     var clickHandler = sinon.stub();
 
-    this. checkbox.rerender({
+    this.checkbox.rerender({
       onClick: clickHandler
     });
 
@@ -58,7 +58,7 @@ describe('Checkbox', function () {
   it('should not call handler on change event if disabled', function () {
     var inputChange = sinon.stub();
 
-    this. checkbox.rerender({
+    this.checkbox.rerender({
       disabled: true,
       inputChange: inputChange
     });
@@ -72,7 +72,7 @@ describe('Checkbox', function () {
   });
 
   it('should check control', function () {
-    this. checkbox.rerender({
+    this.checkbox.rerender({
       checked: true
     });
 
@@ -80,7 +80,7 @@ describe('Checkbox', function () {
   });
 
   it('should be disabled', function () {
-    this. checkbox.rerender({
+    this.checkbox.rerender({
       disabled: true
     });
 
