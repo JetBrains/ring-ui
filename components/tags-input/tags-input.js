@@ -90,9 +90,20 @@ export default class TagsInput extends RingComponentWithShortcuts {
     }
   }
 
+  addTag(tag) {
+    let tags = this.state.tags;
+    tags.push(tag);
+
+    this.setState({tags});
+  }
+
   onRemoveTag(tagToRemove) {
     let tags = this.state.tags.filter(tag => tag !== tagToRemove);
     this.setState({tags});
+  }
+
+  focusOnSelect() {
+    this.refs.select.refs.filter.node.focus();
   }
 
   willMount() {
@@ -111,9 +122,14 @@ export default class TagsInput extends RingComponentWithShortcuts {
   }
 
   render() {
-    return (<div className="tags-input">
+    return (<div className="tags-input" onClick={::this.focusOnSelect}>
       {this.getTags()}
-      <Select type={Select.Type.INPUT} data={[]} label=""/>
+      <Select
+        ref="select"
+        type={Select.Type.INPUT}
+        data={[{key: 1, label: 'test1'}, {key: 2, label: 'test2'}]}
+        onSelect={::this.addTag}
+        label=""/>
     </div>)
   }
 }
