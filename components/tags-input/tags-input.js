@@ -21,7 +21,13 @@ import './tags-input.scss';
       tags: [
         {key: 'test1', label: 'test1'},
         {key: 'test2', label: 'test2'}
-      ]
+      ],
+      dataSource: function() {
+        return Promise.resolve([
+          {key: 'test3', label: 'test3'},
+          {key: 'test4', label: 'test4'}
+        ]);
+      }
     };
 
     render(TagsInput.factory(props), document.getElementById('demo'));
@@ -33,7 +39,7 @@ import './tags-input.scss';
     <div ng-app="test-tags-app" ng-controller="testCtrl">
       <div><span>tags = {{tagsArray}}</span></div>
       <a href ng-click="addTag()">Add tag</a>
-      <span react="TagsInput" ng-model="tagsArray"></span>
+      <span react="TagsInput" ng-model="tagsArray" x-data-source="suggestionsSource()"></span>
     </div>
   </file>
   <file name="index.js" webpack="true">
@@ -43,11 +49,18 @@ import './tags-input.scss';
     });
 
     angular.module('test-tags-app', ['Ring.react-ng'])
-      .controller('testCtrl', function($scope) {
+      .controller('testCtrl', function($q, $scope) {
         $scope.tagsArray = [
           {key: 'test1', label: 'test1'},
           {key: 'test2', label: 'test2'}
         ];
+
+        $scope.suggestionsSource = function() {
+          return $q.when([
+            {key: 'test3', label: 'test3'},
+            {key: 'test4', label: 'test4'}
+          ]);
+        };
 
         $scope.addTag = function() {
           $scope.tagsArray.push({key: Math.random().toFixed(3), label: Math.random().toFixed(3)})
@@ -60,13 +73,13 @@ import './tags-input.scss';
 export default class TagsInput extends RingComponentWithShortcuts {
   static propTypes = {
     tags: React.PropTypes.array,
-    completeDataSource: React.PropTypes.func,
+    dataSource: React.PropTypes.func,
     onRemoveTags: React.PropTypes.func,
     tagFormatter: React.PropTypes.func
   };
 
   static defaultProps = {
-    completeDataSource: null,
+    dataSource: null,
     onRemoveTags: () => {},
     tagFormatter: tag => {
       return {
@@ -78,7 +91,8 @@ export default class TagsInput extends RingComponentWithShortcuts {
   };
 
   state = {
-    tags: []
+    tags: [],
+    suggestions: []
   };
 
   static ngModelStateField = 'tags';
@@ -91,10 +105,9 @@ export default class TagsInput extends RingComponentWithShortcuts {
   }
 
   addTag(tag) {
-    let tags = this.state.tags;
-    tags.push(tag);
-
+    let tags = this.state.tags.concat([tag]);
     this.setState({tags});
+    this.refs.select.clear();
   }
 
   onRemoveTag(tagToRemove) {
@@ -104,6 +117,13 @@ export default class TagsInput extends RingComponentWithShortcuts {
 
   focusOnSelect() {
     this.refs.select.refs.filter.node.focus();
+  }
+
+  selectOnFilter() {
+    this.props.dataSource()
+      .then(suggestions => {
+        this.setState({suggestions});
+      })
   }
 
   willMount() {
@@ -124,11 +144,11 @@ export default class TagsInput extends RingComponentWithShortcuts {
   render() {
     return (<div className="tags-input" onClick={::this.focusOnSelect}>
       {this.getTags()}
-      <Select
-        ref="select"
+      <Select ref="select"
         type={Select.Type.INPUT}
-        data={[{key: 1, label: 'test1'}, {key: 2, label: 'test2'}]}
+        data={this.state.suggestions}
         onSelect={::this.addTag}
+        onFilter={::this.selectOnFilter}
         label=""/>
     </div>)
   }
