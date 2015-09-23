@@ -203,7 +203,7 @@ const Type = {
      <div id="demo"></div>
    </file>
    <file name="index.js" webpack="true">
-     var React = require('react');
+     var render = require('react-dom').render;
      var Select = require('select/select');
 
      var data = [];
@@ -211,24 +211,23 @@ const Type = {
        data.push({'label': 'Item ' + i, 'key': i});
      }
 
-     React.renderComponent(Select({
+     render(Select.factory({
        filter: {
          placeholder: 'Select me',
          value: 'One'
+       },
+       add: {
+         alwaysVisible: true,
+         label: 'Create New Blah Blah'
+       },
+       onAdd: function(value) {
+         console.log('Add', value);
+       },
+       data: data,
+       'onSelect': function(selected) {
+         console.log('onSelect, selected item:', selected);
        }
-     }), document.getElementById('demo'))
-     .setProps({
-      add: {
-        alwaysVisible: true,
-        label: 'Create New Blah Blah'
-      },
-      onAdd: function(value) {
-        console.log('Add', value);
-      },
-      data: data,
-      'onSelect': function(selected) {
-        console.log('onSelect, selected item:', selected);
-      }});
+     }), document.getElementById('demo'));
    </file>
  </example>
 
