@@ -1,4 +1,5 @@
 import React from 'react';
+import RingComponent from 'ring-component/ring-component';
 import RingComponentWithShortcuts from 'ring-component/ring-component_with-shortcuts';
 import Select from 'select/select';
 import Tag from './tags-input__tag';
@@ -68,6 +69,32 @@ import './tags-input.scss';
       });
   </file>
  </example>
+
+  <example name="Custom tag component">
+   <file name="index.html">
+    <div id="demo"></div>
+   </file>
+   <file name="index.js" webpack="true">
+    var render = require('react-dom').render;
+    var TagsInput = require('tags-input/tags-input');
+    var TagWithIcon = require('tags-input/tags-input__tag').TagWithIcon;
+
+    var props = {
+      tags: [
+        {key: 'test1', label: 'test1', iconName: 'group'},
+        {key: 'test2', label: 'test2'}
+      ],
+      dataSource: function() {
+        return [
+          {key: 'test3', label: 'test3'},
+          {key: 'test4', label: 'test4', icon: 'frown'}
+        ];
+      },
+      customTagComponent: TagWithIcon
+    };
+    render(TagsInput.factory(props), document.getElementById('demo'));
+   </file>
+ </example>
 */
 
 export default class TagsInput extends RingComponentWithShortcuts {
@@ -75,19 +102,13 @@ export default class TagsInput extends RingComponentWithShortcuts {
     tags: React.PropTypes.array,
     dataSource: React.PropTypes.func,
     onRemoveTags: React.PropTypes.func,
-    tagFormatter: React.PropTypes.func
+    customTagComponent: React.PropTypes.func
   };
 
   static defaultProps = {
     dataSource: null,
     onRemoveTags: () => {},
-    tagFormatter: tag => {
-      return {
-        key: tag.key,
-        label: tag.label,
-        tag: tag
-      };
-    }
+    customTagComponent: null
   };
 
   state = {
@@ -120,10 +141,10 @@ export default class TagsInput extends RingComponentWithShortcuts {
   }
 
   selectOnFilter() {
-    this.props.dataSource()
+    Promise.resolve(this.props.dataSource())
       .then(suggestions => {
         this.setState({suggestions});
-      })
+      });
   }
 
   willMount() {
@@ -134,16 +155,14 @@ export default class TagsInput extends RingComponentWithShortcuts {
     this.updateStateFromProps(props);
   }
 
-  getTags() {
-    return this.state.tags.map((tag) => {
-      let formattedTag = this.props.tagFormatter(tag);
-      return <Tag key={formattedTag.key} onRemove={() => this.onRemoveTag(tag)}>{formattedTag.label}</Tag>
-    });
+  renderTag(tag) {
+    let TagComponent = this.props.customTagComponent || Tag;
+    return <TagComponent {...tag} onRemove={() => this.onRemoveTag(tag)}>{tag.label}</TagComponent>
   }
 
   render() {
     return (<div className="tags-input" onClick={::this.focusOnSelect}>
-      {this.getTags()}
+      {this.state.tags.map(::this.renderTag)}
       <Select ref="select"
         type={Select.Type.INPUT}
         data={this.state.suggestions}
