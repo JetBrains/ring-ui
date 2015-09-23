@@ -56,6 +56,7 @@ angular.module('Ring.avatar-editor', ['Ring.message-bundle', 'Ring.alert', 'Ring
         transclude: true,
         controller: ['$scope', '$attrs', 'RingMessageBundle', 'alert', function ($scope, $attrs, RingMessageBundle, alert) {
           var fileInput;
+          $scope.pencilIcon = require('icon/source/pencil.svg');
 
           function setLang() {
             $scope.deleteMessage = RingMessageBundle.avatareditor_delete();
