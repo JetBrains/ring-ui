@@ -81,13 +81,13 @@ import './tags-input.scss';
 
     var props = {
       tags: [
-        {key: 'test1', label: 'test1', iconName: 'group'},
+        {key: 'test1', label: 'test1', rgTagIcon: 'group'},
         {key: 'test2', label: 'test2'}
       ],
       dataSource: function() {
         return [
-          {key: 'test3', label: 'test3'},
-          {key: 'test4', label: 'test4', icon: 'frown'}
+          {key: 'test3', label: 'test3', rgTagIcon: 'bug'},
+          {key: 'test4', label: 'test4', rgTagIcon: 'frown', icon: 'frown'}
         ];
       },
       customTagComponent: TagWithIcon
