@@ -386,12 +386,14 @@ angular.module('Ring.select', ['Ring.select.options', 'Ring.message-bundle'])
             }, typeof item === 'object' ? item : null);
           };
 
-          if (model) {
+          if (model !== undefined && model !== null) {
             if (isArray(model)) {
               return model.map(convertItem);
             } else {
               return convertItem(model);
             }
+          } else {
+            return model;
           }
         };
 
@@ -436,7 +438,7 @@ angular.module('Ring.select', ['Ring.select.options', 'Ring.message-bundle'])
 
         function setSelectModel(newValue) {
           ctrl.selectInstance.setProps({
-            selected: newValue ? ctrl.convertNgModelToSelect(newValue) : newValue
+            selected: ctrl.convertNgModelToSelect(newValue)
           });
         }
 
