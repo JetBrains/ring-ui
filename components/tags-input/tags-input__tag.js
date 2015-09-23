@@ -22,20 +22,15 @@ export default class Tag extends RingComponent {
   }
 }
 
-export class TagWithIcon extends RingComponent {
+export class TagWithIcon extends Tag {
   static propTypes = {
-    onRemove: React.PropTypes.func,
-    iconName: React.PropTypes.string
-  };
-
-  static defaultProps = {
-    onRemove: () => {}
+    rgTagIcon: React.PropTypes.string
   };
 
   render() {
     return (<span className="tags-input__tag">
-      {this.props.iconName ? <Icon className="tags-input__tag-icon"
-            glyph={this.props.iconName}
+      {this.props.rgTagIcon ? <Icon className="tags-input__tag-icon"
+            glyph={this.props.rgTagIcon}
             size={Icon.Size.Size12}/> : null}
       <span>{this.props.children}</span>
       <Icon onClick={this.props.onRemove}
