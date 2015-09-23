@@ -1,0 +1,35 @@
+@import "../global/global";
+
+.tags-input {
+  background-color: #FFF;
+  border: 1px solid $ring-gray-color;
+  overflow: hidden;
+  padding-left: $ring-unit / 2;
+  padding-top: $ring-unit / 2;
+
+  & .ring-input {
+    border: none;
+  }
+
+  & .ring-select__icons {
+    display: none;
+  }
+}
+
+.tags-input__tag {
+  display: inline-block;
+  margin-right: $ring-unit / 2;
+  margin-bottom: $ring-unit / 2;
+  padding: 0 $ring-unit / 2;
+
+  background-color: $ring-gray-color;
+  border-radius: 2px;
+  border: 1px solid $ring-gray-color;
+}
+
+.tags-input__tag-remove {
+  padding-left:$ring-unit / 2;
+  color: $ring-text-color;
+
+  @include ring-vertical-compensation();
+}
