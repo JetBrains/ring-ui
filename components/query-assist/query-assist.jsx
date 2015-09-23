@@ -24,6 +24,8 @@ var generateUniqueId = Global.getUIDGenerator('ring-query-assist-');
 
 require('./query-assist.scss');
 require('../input/input.scss');
+var closeIcon = require('icon/source/close.svg');
+var searchIcon = require('icon/source/search.svg');
 
 // Use for IE11 and down to 9
 var impotentIE = document.documentMode <= 11;  // TODO Proper browser detection?
@@ -60,7 +62,7 @@ var noop = function() {};
        };
 
        var auth = new Auth({
-          serverUri: '***REMOVED***/',
+          serverUri: 'http://localhost:8080/jetpass/',
           request_credentials: 'skip',
           redirect_uri: window.location.href.split('#')[0]
         });
@@ -795,7 +797,7 @@ var QueryAssist = React.createClass({
         {renderGlass && <Icon
           className="ring-query-assist__icon"
           color="gray"
-          glyph="search"
+          glyph={searchIcon}
           onClick={this.handleApply}
           ref="glass"
           size={Icon.Size.Size16} />}
@@ -807,7 +809,7 @@ var QueryAssist = React.createClass({
         {renderClear && <Icon
           className="ring-query-assist__icon ring-query-assist__icon_clear"
           color="gray"
-          glyph="close"
+          glyph={closeIcon}
           onClick={this.clearQuery}
           ref="clear"
           size={Icon.Size.Size16} />}

@@ -25,7 +25,14 @@ var headerClassName = new ClassName('ring-header');
  * @const
  * @type {RegExp}
  */
-var CUSTOM_ICON_SERVICE_REGEXP = /^teamcity|upsource|youtrack|hub|vcs hosting$/i;
+var CUSTOM_ICON_SERVICE_REGEXP = /^teamcity|upsource|youtrack|hub$/i;
+
+var PRUDUCTS_LOGOS = {
+  hub: require('jetbrains-logos/hub/hub.svg'),
+  teamcity: require('jetbrains-logos/teamcity/teamcity.svg'),
+  upsource: require('jetbrains-logos/upsource/upsource.svg'),
+  youtrack: require('jetbrains-logos/youtrack/youtrack.svg')
+};
 
 /**
  * Takes an item, decides, whether it is a known JetBrains service
@@ -40,15 +47,12 @@ var getServiceLogo = function(item) {
   // Remove after logos update
   var detectedService = CUSTOM_ICON_SERVICE_REGEXP.exec(item.applicationName);
   if (detectedService) {
-    var serviceGlyph = detectedService[0].
-      toLowerCase().
-      replace('hub', 'ring').
-      replace(' ', '-');
+    var serviceGlyph = PRUDUCTS_LOGOS[detectedService[0].toLowerCase()];
 
     return (
       <Icon size={Icon.Size.Size48}
-            glyph={serviceGlyph + '-monochrome'}
-            className={className + '_monochrome ' + className} />
+            glyph={serviceGlyph}
+            className={className} />
     );
   }
 
@@ -132,7 +136,7 @@ var MenuItemsSequence = [
       var popup, popupContainer;
 
       var auth = new Auth({
-        serverUri: '***REMOVED***/',
+        serverUri: 'http://localhost:8080/jetpass/',
         request_credentials: 'skip',
         redirect_uri: window.location.href.split('#')[0]
       });
@@ -393,7 +397,7 @@ var Header = React.createClass({
         );
       }
 
-      return <Icon size={Icon.Size.Size32} glyph={this.props.logo} title={logoTitle} />;
+      return <Icon size={Icon.Size.Size32} glyph={PRUDUCTS_LOGOS[this.props.logo] || this.props.logo} title={logoTitle} />;
     }.bind(this);
 
     // todo(igor.alexeenko): This check treats as valid only components
@@ -467,10 +471,10 @@ var Header = React.createClass({
         headerClassName.getClassName('user-menu-item', 'login'), true));
 
     var menuItems = Global.createObject(
-        MenuItemType.SETTINGS, (<HeaderItem key="settings" ref="settings" glyph="cog1" href={this.props.settingsLink} onOpen={this.props.onSettingsOpen} onClose={this.props.onSettingsClose} title="Administration" />),
-        MenuItemType.HELP, (<HeaderItem key="help" ref="help" glyph="help" href={this.props.helpLink} onOpen={this.props.onHelpOpen} onClose={this.props.onHelpClose} title="Help" />),
-        MenuItemType.SERVICES, (<HeaderItem key="services" ref="services" glyph="services" onOpen={this._onServicesOpen} onClose={this._onServicesClose} title="Services" />),
-        MenuItemType.USER_MENU, (<HeaderItem key="userMenu" ref="userMenu" glyph="user1" onOpen={this.props.onUserMenuOpen} onClose={this.props.onUserMenuClose} />),
+        MenuItemType.SETTINGS, (<HeaderItem key="settings" ref="settings" glyph={require('icon/source/cog.svg')} href={this.props.settingsLink} onOpen={this.props.onSettingsOpen} onClose={this.props.onSettingsClose} title="Administration" />),
+        MenuItemType.HELP, (<HeaderItem key="help" ref="help" glyph={require('icon/source/help.svg')} href={this.props.helpLink} onOpen={this.props.onHelpOpen} onClose={this.props.onHelpClose} title="Help" />),
+        MenuItemType.SERVICES, (<HeaderItem key="services" ref="services" glyph={require('icon/source/services.svg')} onOpen={this._onServicesOpen} onClose={this._onServicesClose} title="Services" />),
+        MenuItemType.USER_MENU, (<HeaderItem key="userMenu" ref="userMenu" glyph={require('icon/source/user1.svg')} onOpen={this.props.onUserMenuOpen} onClose={this.props.onUserMenuClose} />),
         MenuItemType.LOGIN, (<div key="loginButton" ref="loginButton" className={loginClassName}><Button modifier={Button.Modifiers.BLUE} onClick={this.props.onLoginClick}>{this.props.translationsDict.login}</Button></div>));
 
     return MenuItemsSequence.map(function(item) {

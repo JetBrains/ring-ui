@@ -119,8 +119,8 @@
   margin-right: $ring-unit*3;
 }
 
-.ring-header__services {
-  background: linear-gradient(#24353d, #4a565c);
+.ring-header__services.ring-header__services {
+  background-color: #000;
 
   line-height: 10px; // Eliminate gap between clicable blocks rows
   max-width: $ring-unit * 50 + 2;
@@ -178,7 +178,7 @@
   line-height: $ring-unit * 2;
 
   &, &:visited {
-    color: $ring-gray-color;
+    color: $ring-dark-gray-color;
   }
   &:last-child {
     margin-bottom: -$ring-unit * 3;

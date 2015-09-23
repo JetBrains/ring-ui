@@ -3,20 +3,8 @@
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 width="32px" height="32px" viewBox="0 0 32 32" enable-background="new 0 0 32 32" xml:space="preserve">
-<g>
-	<g>
-		<g>
-			<defs>
-				<rect id="SVGID_1_" x="-0.001" width="32" height="32"/>
-			</defs>
-			<clipPath id="SVGID_2_">
-				<use xlink:href="#SVGID_1_"  overflow="visible"/>
-			</clipPath>
-			<path clip-path="url(#SVGID_2_)" d="M1.776,30.223V9.164l5.548-5.127l6.288,13.361l5.101-6.726l8.115,12.703l-4.44-1.274
+			<path d="M1.776,30.223V9.164l5.548-5.127l6.288,13.361l5.101-6.726l8.115,12.703l-4.44-1.274
 				c-0.65-0.188-1.313,0.187-1.498,0.828c-0.186,0.643,0.187,1.312,0.827,1.496l8.933,2.566l1.338-9.057
 				c0.097-0.66-0.361-1.276-1.021-1.373c-0.062-0.008-0.119-0.014-0.18-0.014c-0.588,0-1.105,0.434-1.194,1.034l-0.674,4.565
 				L18.883,6.443l-4.782,6.307L8.099,0L1.776,5.848V0h-1.777v32h32v-1.777H1.776z"/>
-		</g>
-	</g>
-</g>
 </svg>
