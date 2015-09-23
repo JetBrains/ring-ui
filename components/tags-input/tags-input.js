@@ -141,7 +141,7 @@ export default class TagsInput extends RingComponentWithShortcuts {
   }
 
   selectOnFilter() {
-    Promise.resolve(this.props.dataSource())
+    return Promise.resolve(this.props.dataSource())
       .then(suggestions => {
         this.setState({suggestions});
       });
@@ -157,7 +157,7 @@ export default class TagsInput extends RingComponentWithShortcuts {
 
   renderTag(tag) {
     let TagComponent = this.props.customTagComponent || Tag;
-    return <TagComponent {...tag} onRemove={() => this.onRemoveTag(tag)}>{tag.label}</TagComponent>
+    return <TagComponent {...tag} onRemove={() => this.onRemoveTag(tag)}>{tag.label}</TagComponent>;
   }
 
   render() {
