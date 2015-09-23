@@ -1,7 +1,6 @@
 import { isMounted, getStyles, getRect } from './dom';
 
-function create(tag) {
-  tag = tag || 'div';
+function create(tag = 'div') {
   return document.createElement(tag);
 }
 
@@ -15,13 +14,13 @@ describe('DOM', () => {
       let element = create();
       prepend(element);
 
-      expect(isMounted(element)).to.equal(true);
+      isMounted(element).should.equal(true);
     });
 
     it('should return false for an element that\'s not attached to DOM', () => {
       let element = create();
 
-      expect(isMounted(element)).to.equal(false);
+      isMounted(element).should.equal(false);
     });
 
     // Doesn't work in PhantomJS
@@ -29,13 +28,13 @@ describe('DOM', () => {
       let textNode = document.createTextNode('Lorem ipsum dolor sit amet.')
       prepend(textNode);
 
-      expect(isMounted(textNode)).to.equal(true);
+      isMounted(textNode).should.equal(true);
     });*/
 
     it('should return false for textNode that\'s not attached to DOM', () => {
       let textNode = document.createTextNode('Lorem ipsum dolor sit amet.')
 
-      expect(isMounted(textNode)).to.equal(false);
+      isMounted(textNode).should.equal(false);
     });
   });
 
@@ -45,7 +44,7 @@ describe('DOM', () => {
       prepend(element);
       element.setAttribute('style', 'width: 100px;');
 
-      expect(getStyles(element).width).to.equal('100px');
+      getStyles(element).width.should.equal('100px');
     });
 
     it('should return css-property that has been set via style-attribute', () => {
@@ -53,7 +52,7 @@ describe('DOM', () => {
       prepend(element);
       element.style.width = '100px';
 
-      expect(getStyles(element).width).to.equal('100px');
+      getStyles(element).width.should.equal('100px');
     });
 
     it('should return css-property that has been set before mounting the node', () => {
@@ -61,7 +60,7 @@ describe('DOM', () => {
       element.style.width = '100px';
       prepend(element);
 
-      expect(getStyles(element).width).to.equal('100px');
+      getStyles(element).width.should.equal('100px');
     });
 
     // Doesn't work in Firefox and IE
@@ -69,7 +68,7 @@ describe('DOM', () => {
       let element = create();
       element.style.width = '100px';
 
-      expect(getStyles(element).width).to.equal('');
+      getStyles(element).width.should.equal('');
     });*/
   });
 
@@ -81,14 +80,14 @@ describe('DOM', () => {
       prepend(element);
       element.setAttribute('style', style);
 
-      expect(getRect(element)).to.deep.equal({ top: 14, right: 124, bottom: 124, left: 14, width: 110, height: 110 });
+      getRect(element).should.deep.equal({ top: 14, right: 124, bottom: 124, left: 14, width: 110, height: 110 });
     });
 
     it('should return DOMRect-like stub for unmounting element', () => {
       let element = create();
       element.setAttribute('style', style);
 
-      expect(getRect(element)).to.deep.equal({ top: 0, right: 0, bottom: 0, left: 0, width: 0, height: 0 });
+      getRect(element).should.deep.equal({ top: 0, right: 0, bottom: 0, left: 0, width: 0, height: 0 });
     });
 
     // Doesn't work in IE
@@ -103,7 +102,7 @@ describe('DOM', () => {
 
       console.log(getRect(range));
 
-      expect(getRect(range)).to.deep.equal({ top: 8, right: 936, bottom: 8, left: 8, width: 928, height: 0 });
+      getRect(range).should.deep.equal({ top: 8, right: 936, bottom: 8, left: 8, width: 928, height: 0 });
     });*/
   });
 });
