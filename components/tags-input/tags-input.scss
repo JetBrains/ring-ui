@@ -1,5 +1,7 @@
 @import "../global/global";
 
+$tag-background-color: #E6E6E6;
+
 .tags-input {
   background-color: #FFF;
   border: 1px solid $ring-gray-color;
@@ -20,14 +22,20 @@
   margin-right: $ring-unit / 2;
   padding: 0 $ring-unit / 2;
 
-  background-color: $ring-gray-color;
+  background-color: $tag-background-color;
   border-radius: 2px;
-  border: 1px solid $ring-gray-color;
+  border: 1px solid $tag-background-color;
 }
 
 .tags-input__tag-remove {
   padding-left:$ring-unit / 2;
-  color: $ring-text-color;
+  color: $ring-dark-gray-color;
 
   @include ring-vertical-compensation();
+}
+
+.tags-input__tag-icon {
+  padding-right: $ring-unit / 2;
+  color: $ring-dark-gray-color;
+  @include ring-vertical-compensation(-1px);
 }
