@@ -15,6 +15,7 @@ require('./tooltip-ng.scss');
   </file>
   <file name="index.js" webpack="true">
     require('./foo.scss');
+    require('icon/source/help.svg');
     require('angular/angular.min.js');
     require('react-ng/react-ng')({
       Icon: require('icon/icon')
