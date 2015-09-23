@@ -88,7 +88,9 @@ var dialogMixin = {
     this.hide();
   },
   'reset': function () {
-    this.dialogScope.promise.reject();
+    if (this.dialogScope.promise) {
+      this.dialogScope.promise.reject();
+    }
     this.hide();
   },
   'register': function (scope) {
@@ -104,6 +106,8 @@ var dialogMixin = {
           'enter': this.applyDefaultHandler(false),
           'mod+enter': this.applyDefaultHandler(true)
         }, { scope: scope.DIALOG_NAMESPACE });
+      } else {
+        scope.reset();
       }
     }.bind(this));
   },
