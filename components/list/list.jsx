@@ -588,7 +588,7 @@ var List = React.createClass({
       } else if (this.props.activateSingleItem && props.data.length === 1 && this.isActivatable(props.data[0])) {
         activeIndex = 0;
         activeItem = props.data[0];
-      } else if (props.activeIndex && props.data[props.activeIndex]) {
+      } else if (props.activeIndex !== null && props.activeIndex !== undefined && props.data[props.activeIndex]) {
         activeIndex = props.activeIndex;
         activeItem = props.data[props.activeIndex];
       }
