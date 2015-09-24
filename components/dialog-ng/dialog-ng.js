@@ -245,7 +245,9 @@ class Dialog {
   }
 
   reset() {
-    this.dialogScope.promise.reject();
+    if (this.dialogScope.promise) {
+      this.dialogScope.promise.reject();
+    }
     this.hide();
   }
 
@@ -262,6 +264,8 @@ class Dialog {
           enter: this.applyDefaultHandler(false),
           'mod+enter': this.applyDefaultHandler(true)
         }, { scope: scope.DIALOG_NAMESPACE });
+      } else {
+        scope.reset();
       }
     });
   }
