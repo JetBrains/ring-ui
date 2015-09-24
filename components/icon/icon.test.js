@@ -3,10 +3,11 @@ describe('Icon', function () {
   var React = require('react/addons');
   var TestUtils = React.addons.TestUtils;
   var Icon = require('./icon');
+  var expandIcon = require('icon/source/expand.svg');
 
   beforeEach(function () {
     this.icon = TestUtils.renderIntoDocument(new Icon({
-      glyph: 'expand'
+      glyph: expandIcon
     }));
   });
 
@@ -16,7 +17,7 @@ describe('Icon', function () {
 
   it('should render passed glyph', function() {
     $(this.icon.getDOMNode()).attr('class').should.contain('ring-icon_expand');
-    $(this.icon.getDOMNode()).find('use').attr('xlink:href').should.contain('#ring-icon_expand');
+    $(this.icon.getDOMNode()).find('use').attr('xlink:href').should.contain('#expand');
   });
 
   it('should rerender component if we change icon', function () {
