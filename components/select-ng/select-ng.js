@@ -383,7 +383,7 @@ ringSelectModule.directive('rgSelect', function () {
           }, typeof item === 'object' ? item : null);
         }
 
-        if (model) {
+        if (model !== undefined && model !== null) {
           if (Array.isArray(model)) {
             return model.map(convertItem);
           } else {
@@ -431,7 +431,7 @@ ringSelectModule.directive('rgSelect', function () {
 
       function setSelectModel(newValue) {
         ctrl.selectInstance.rerender({
-          selected: newValue ? ctrl.convertNgModelToSelect(newValue) : newValue
+          selected: ctrl.convertNgModelToSelect(newValue)
         });
       }
 

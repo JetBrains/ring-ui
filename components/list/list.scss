@@ -171,3 +171,13 @@
     letter-spacing: 1.5px;
   }
 }
+
+.ring-list__fade {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: $ring-unit * 2;
+
+  pointer-events: none;
+  background: linear-gradient(rgba(255,255,255,0), rgba(255,255,255,0.7), #FFF);
+}
