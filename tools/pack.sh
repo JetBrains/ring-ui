@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 version=$(npm version $npm_package_config_version) &&
 echo $version &&
 rm -rf package &&
