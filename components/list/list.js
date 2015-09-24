@@ -578,7 +578,7 @@ export default class List extends RingComponentWithShortcuts {
       let activeIndex = null;
       let activeItem = null;
 
-      if (this.props.restoreActiveIndex && this.state.activeItem && this.state.activeItem.key) {
+      if (this.props.restoreActiveIndex && this.state.activeItem && this.state.activeItem.key !== undefined && this.state.activeItem.key !== null) {
         for (let i = 0; i < props.data.length; i++) {
           // Restore active index if there is an item with the same "key" property
           if (props.data[i].key !== undefined && props.data[i].key === this.state.activeItem.key) {
@@ -590,7 +590,7 @@ export default class List extends RingComponentWithShortcuts {
       } else if (this.props.activateSingleItem && props.data.length === 1 && this.isActivatable(props.data[0])) {
         activeIndex = 0;
         activeItem = props.data[0];
-      } else if (props.activeIndex && props.data[props.activeIndex]) {
+      } else if (props.activeIndex !== null && props.activeIndex !== undefined && props.data[props.activeIndex]) {
         activeIndex = props.activeIndex;
         activeItem = props.data[props.activeIndex];
       }
@@ -611,6 +611,13 @@ export default class List extends RingComponentWithShortcuts {
 
   didUpdate() {
     this.autoscroll();
+  }
+
+  hasOverflow() {
+    if (this.refs.inner && this.refs.inner.node) {
+      var container = this.refs.inner.node;
+      return container.scrollHeight > container.clientHeight;
+    }
   }
 
   autoscroll() {
@@ -693,6 +700,7 @@ export default class List extends RingComponentWithShortcuts {
             return createElement(element, props, null);
           })}
         </div>
+        {this.hasOverflow() && <div className='ring-list__fade'/>}
         {hint && <ListHint key={this.props.hint + Type.ITEM} label={hint} />}
       </div>
     );

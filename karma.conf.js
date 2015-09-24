@@ -1,4 +1,5 @@
 /* eslint-env node */
+/* eslint-disable google-camelcase/google-camelcase */
 var path = require('path');
 
 function generateConfig(karma) {
@@ -27,7 +28,7 @@ function generateConfig(karma) {
 
 
     // frameworks to use
-    frameworks: ['mocha', 'chai', 'chai-as-promised', 'chai-jquery', 'sinon-chai', 'phantomjs-shim'],
+    frameworks: ['mocha', 'chai', 'chai-as-promised', 'chai-jquery', 'sinon-chai'],
 
     files: [
       'node_modules/jquery/dist/jquery.js',
@@ -86,7 +87,7 @@ function generateConfig(karma) {
     // - Safari (only Mac)
     // - PhantomJS — only installed
     // - IE (only Windows)
-    browsers: ['PhantomJS'],
+    browsers: ['HeadlessNodeWebkit'],
 
     // Custom Chrome launcher for CI use
     customLaunchers: {
@@ -119,6 +120,15 @@ function generateConfig(karma) {
         config: webdriverConfig,
         testName: testName,
         browserName: 'chrome'
+      },
+      HeadlessNodeWebkit: {
+        base: 'NodeWebkit',
+        options: {
+          window: {
+            show: false,
+            show_in_taskbar: false
+          }
+        }
       }
     },
 
