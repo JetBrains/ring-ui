@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import TagsInput from './tags-input';
-import {TagWithIcon} from './tags-input__tag';
+import {TagWithIcon} from 'tag/tag';
 import renderIntoDocument from 'render-into-document';
 import $ from 'jquery';
 
@@ -14,11 +14,11 @@ describe('TagsInput', function() {
 
   describe('DOM', function () {
     it('should render tags', function() {
-      $(this.tagsInput.node).should.have.descendants('.tags-input__tag');
+      $(this.tagsInput.node).should.have.descendants('.ring-tag');
     });
 
     it('should render passed label inside tags', function() {
-      this.tagsInput.node.querySelector('.tags-input__tag').textContent.should.be.equal('test1');
+      this.tagsInput.node.querySelector('.ring-tag').textContent.should.be.equal('test1');
     });
 
     it('should render select in input mode', function() {
@@ -39,7 +39,7 @@ describe('TagsInput', function() {
         customTagComponent: TagWithIcon
       });
 
-      $(this.tagsInput.node).should.have.descendants('.tags-input__tag-icon')
+      $(this.tagsInput.node).should.have.descendants('.ring-tag__icon')
     });
 
     it('Should use passed className', function () {
