@@ -1,5 +1,5 @@
 /* eslint-disable google-camelcase/google-camelcase */
-describe('Auth', function () {
+describe.skip('Auth', function () {
   var Auth = require('./auth');
   var AuthRequestBuilder = require('./auth__request-builder');
   var AuthResponseParser = require('./auth__response-parser');
