@@ -3,7 +3,6 @@ require('babel/polyfill');
 var Gemini = require('gemini/api');
 var geminiTeamcityPlugin = require('gemini-teamcity');
 var http = require('http');
-var when = require('when');
 
 var isGather = process.argv.indexOf('--gather') !== -1;
 var isTeamcity = process.argv.indexOf('--teamcity') !== -1;
