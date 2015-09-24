@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import RingComponent from 'ring-component/ring-component';
 import RingComponentWithShortcuts from 'ring-component/ring-component_with-shortcuts';
 import Select from 'select/select';
-import Tag from './tags-input__tag';
+import Tag from 'tag/tag';
 import './tags-input.scss';
 
 /**
@@ -80,7 +80,7 @@ import './tags-input.scss';
    <file name="index.js" webpack="true">
     var render = require('react-dom').render;
     var TagsInput = require('tags-input/tags-input');
-    var TagWithIcon = require('tags-input/tags-input__tag').TagWithIcon;
+    var TagWithIcon = require('tag/tag').TagWithIcon;
 
     var props = {
       tags: [
@@ -174,7 +174,7 @@ export default class TagsInput extends RingComponentWithShortcuts {
   }
 
   render() {
-    let classes = classNames('tags-input', this.props.className);
+    let classes = classNames('ring-tags-input', this.props.className);
 
     return (<div className={classes} onClick={::this.clickHandler}>
       {this.state.tags.map(::this.renderTag)}
