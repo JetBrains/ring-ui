@@ -1,10 +1,12 @@
 @import "../global/global";
 
+$tags-input-padding: $ring-unit / 2;
+
 .ring-tags-input {
   background-color: #FFF;
   border: 1px solid $ring-gray-color;
   overflow: hidden;
-  padding: $ring-unit / 2;
+  padding: $tags-input-padding $tags-input-padding 0 $tags-input-padding;
 
   & .ring-input {
     border: none;
