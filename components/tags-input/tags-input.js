@@ -84,7 +84,7 @@ import './tags-input.scss';
         {key: 'test1', label: 'test1', rgTagIcon: 'group'},
         {key: 'test2', label: 'test2'}
       ],
-      dataSource: function() {
+      dataSource: function(query) {
         return [
           {key: 'test3', label: 'test3', rgTagIcon: 'bug'},
           {key: 'test4', label: 'test4', rgTagIcon: 'frown', icon: 'frown'}
@@ -100,6 +100,10 @@ import './tags-input.scss';
 export default class TagsInput extends RingComponentWithShortcuts {
   static propTypes = {
     tags: React.PropTypes.array,
+    /**
+     * Datasource should return array(or promise) of suggestions.
+     * Each suggestion should contain key and label fields
+     */
     dataSource: React.PropTypes.func,
     onRemoveTags: React.PropTypes.func,
     customTagComponent: React.PropTypes.func
@@ -140,11 +144,15 @@ export default class TagsInput extends RingComponentWithShortcuts {
     this.refs.select.refs.filter.node.focus();
   }
 
-  selectOnFilter() {
-    return Promise.resolve(this.props.dataSource())
-      .then(suggestions => {
-        this.setState({suggestions});
-      });
+  filterExistTags(suggestions) {
+    let tagsMap = new Map(this.state.tags.map(tag => [tag.key, tag]));
+    return suggestions.filter(suggestion => !tagsMap.has(suggestion.key));
+  }
+
+  selectOnFilter(query) {
+    return Promise.resolve(this.props.dataSource(query))
+      .then(::this.filterExistTags)
+      .then(suggestions => this.setState({suggestions}));
   }
 
   willMount() {
@@ -167,6 +175,9 @@ export default class TagsInput extends RingComponentWithShortcuts {
         type={Select.Type.INPUT}
         data={this.state.suggestions}
         onSelect={::this.addTag}
+        filter={{
+          fn: () => true
+        }}
         onFilter={::this.selectOnFilter}
         label=""/>
     </div>)
