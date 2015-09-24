@@ -5,6 +5,7 @@ $tag-background-color: #E6E6E6;
 .ring-tag {
   display: inline-block;
   margin-right: $ring-unit / 2;
+  margin-bottom: $ring-unit / 2;
   padding: 0 $ring-unit / 2;
 
   background-color: $tag-background-color;
