@@ -6,6 +6,7 @@ import RingComponentWithShortcuts from 'ring-component/ring-component_with-short
 import Select from 'select/select';
 import Tag from 'tag/tag';
 import './tags-input.scss';
+import last from 'mout/array/last';
 
 /**
  * @name Tags Input
@@ -105,7 +106,9 @@ export default class TagsInput extends RingComponentWithShortcuts {
     tags: React.PropTypes.array,
     /**
      * Datasource should return array(or promise) of suggestions.
-     * Each suggestion should contain key and label fields
+     * Each suggestion should contain key and label fields.
+     * DataSource should handle caching and responce racing (when later request
+     * responded earlier) by himself.
      */
     dataSource: React.PropTypes.func,
     onRemoveTags: React.PropTypes.func,
@@ -120,11 +123,21 @@ export default class TagsInput extends RingComponentWithShortcuts {
 
   state = {
     tags: [],
-    suggestions: []
+    suggestions: [],
+    shortcuts: true
   };
 
   static ngModelStateField = 'tags';
   ngModelStateField = TagsInput.ngModelStateField;
+
+  getShortcutsProps() {
+    return {
+      map: {
+        backspace: (...args) => this.handleBackspace(...args)
+      },
+      scope: () => this.constructor.getUID()
+    };
+  }
 
   updateStateFromProps(props) {
     if (props.tags) {
@@ -144,9 +157,20 @@ export default class TagsInput extends RingComponentWithShortcuts {
     this.setState({tags});
   }
 
+  handleBackspace() {
+    let currentInputValue =  this._inputNode.value;
+    if (!currentInputValue) {
+      this.onRemoveTag(last(this.state.tags));
+    }
+  }
+
+  get _inputNode() {
+    return this.refs.select.refs.filter.node;
+  }
+
   clickHandler() {
     this.loadSuggestions();
-    this.refs.select.refs.filter.node.focus();
+    this._inputNode.focus();
   }
 
   filterExistTags(suggestions) {
@@ -174,7 +198,7 @@ export default class TagsInput extends RingComponentWithShortcuts {
   }
 
   render() {
-    let classes = classNames('ring-tags-input', this.props.className);
+    let classes = classNames('ring-js-shortcuts', 'ring-tags-input', this.props.className);
 
     return (<div className={classes} onClick={::this.clickHandler}>
       {this.state.tags.map(::this.renderTag)}
