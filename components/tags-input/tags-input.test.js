@@ -53,6 +53,21 @@ describe('TagsInput', function() {
     this.tagsInput.state.tags.should.be.empty;
   });
 
+
+  it('Should clear selected value after adding tag', function () {
+    this.sinon.spy(this.tagsInput.refs.select ,'clear');
+    this.tagsInput.addTag({key: 2, label: 'test2'});
+
+    this.tagsInput.refs.select.clear.should.have.been.called;
+  });
+
+  it('Should clear select input after adding tag', function () {
+    this.sinon.spy(this.tagsInput.refs.select ,'filterValue');
+    this.tagsInput.addTag({key: 2, label: 'test2'});
+
+    this.tagsInput.refs.select.filterValue.should.have.been.calledWith('');
+  });
+
   it('Should copy tags to state on receiving props', function () {
     let newTags = [{key: 4, label: 'test5'}];
 
@@ -68,7 +83,7 @@ describe('TagsInput', function() {
     this.tagsInput.rerender({dataSource});
 
     this.sinon.spy(this.tagsInput, 'setState');
-    this.tagsInput.selectOnFilter().then(() => {
+    this.tagsInput.loadSuggestions().then(() => {
       this.tagsInput.setState.should.have.been.calledWith({tags: suggestions});
     });
   });
@@ -76,7 +91,7 @@ describe('TagsInput', function() {
   it('Should call datasource with query entered', function () {
     let dataSource = this.sinon.spy(() => Promise.resolve([]));
     this.tagsInput.rerender({dataSource});
-    this.tagsInput.selectOnFilter('testquery');
+    this.tagsInput.loadSuggestions('testquery');
 
     dataSource.should.have.been.calledWith('testquery');
   });
