@@ -71,6 +71,7 @@
     "karma-chrome-launcher": "0.1.7",
     "karma-firefox-launcher": "0.1.4",
     "karma-mocha": "0.1.10",
+    "karma-nodewebkit-launcher": "0.0.12",
     "karma-teamcity-reporter": "0.1.2",
     "karma-webdriver-launcher": "1.0.1",
     "karma-webpack": "1.5.0",
