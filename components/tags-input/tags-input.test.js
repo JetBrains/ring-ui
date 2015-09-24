@@ -72,4 +72,21 @@ describe('TagsInput', function() {
       this.tagsInput.setState.should.have.been.calledWith({tags: suggestions});
     });
   });
+
+  it('Should call datasource with query entered', function () {
+    let dataSource = this.sinon.spy(() => Promise.resolve([]));
+    this.tagsInput.rerender({dataSource});
+    this.tagsInput.selectOnFilter('testquery');
+
+    dataSource.should.have.been.calledWith('testquery');
+  });
+
+  it('Should drop exist tags from suggestions by key', function () {
+    let notAddedSuggestions = this.tagsInput.filterExistTags([
+      {key: 1, label: 'test1'},
+      {key: 2, label: 'test2'}
+    ]);
+
+    notAddedSuggestions.should.be.deep.equal([{key: 2, label: 'test2'}]);
+  });
 });
