@@ -41,6 +41,13 @@ describe('TagsInput', function() {
 
       $(this.tagsInput.node).should.have.descendants('.tags-input__tag-icon')
     });
+
+    it('Should use passed className', function () {
+      this.tagsInput.rerender({
+        className: 'test-class'
+      });
+      $(this.tagsInput.node).should.have.class('test-class');
+    });
   });
 
   it('Should add tag', function () {
