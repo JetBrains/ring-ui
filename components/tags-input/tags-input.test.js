@@ -111,4 +111,20 @@ describe('TagsInput', function() {
 
     notAddedSuggestions.should.be.deep.equal([{key: 2, label: 'test2'}]);
   });
+
+  it('Should remove last tag on pressing backspace if input is empty', function () {
+    this.sinon.spy(this.tagsInput, 'onRemoveTag');
+    this.tagsInput._inputNode.value = '';
+    this.tagsInput.handleBackspace();
+
+    this.tagsInput.onRemoveTag.should.have.been.calledWith(fakeTags[0]);
+  });
+
+  it('Should not tag on pressing backspace if input is not empty', function () {
+    this.sinon.spy(this.tagsInput, 'onRemoveTag');
+    this.tagsInput._inputNode.value = 'entered value';
+    this.tagsInput.handleBackspace();
+
+    this.tagsInput.onRemoveTag.should.not.have.been.called;
+  });
 });
