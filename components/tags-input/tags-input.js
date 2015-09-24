@@ -133,6 +133,7 @@ export default class TagsInput extends RingComponentWithShortcuts {
     let tags = this.state.tags.concat([tag]);
     this.setState({tags});
     this.refs.select.clear();
+    this.refs.select.filterValue('');
   }
 
   onRemoveTag(tagToRemove) {
@@ -140,7 +141,8 @@ export default class TagsInput extends RingComponentWithShortcuts {
     this.setState({tags});
   }
 
-  focusOnSelect() {
+  clickHandler() {
+    this.loadSuggestions();
     this.refs.select.refs.filter.node.focus();
   }
 
@@ -149,7 +151,7 @@ export default class TagsInput extends RingComponentWithShortcuts {
     return suggestions.filter(suggestion => !tagsMap.has(suggestion.key));
   }
 
-  selectOnFilter(query) {
+  loadSuggestions(query) {
     return Promise.resolve(this.props.dataSource(query))
       .then(::this.filterExistTags)
       .then(suggestions => this.setState({suggestions}));
@@ -169,7 +171,7 @@ export default class TagsInput extends RingComponentWithShortcuts {
   }
 
   render() {
-    return (<div className="tags-input" onClick={::this.focusOnSelect}>
+    return (<div className="tags-input" onClick={::this.clickHandler}>
       {this.state.tags.map(::this.renderTag)}
       <Select ref="select"
         type={Select.Type.INPUT}
@@ -178,7 +180,7 @@ export default class TagsInput extends RingComponentWithShortcuts {
         filter={{
           fn: () => true
         }}
-        onFilter={::this.selectOnFilter}
+        onFilter={::this.loadSuggestions}
         label=""/>
     </div>)
   }

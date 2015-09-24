@@ -848,7 +848,7 @@ export default class Select extends RingComponentWithShortcuts {
         'ring-input_disabled': this.props.disabled
       });
 
-      let filterValue = this.refs.filter ? this.refs.filter.value : '';
+      let filterValue;
       if (this.props.allowAny && this.state.selected) {
         filterValue = this._getItemLabel(this.state.selected);
       }
