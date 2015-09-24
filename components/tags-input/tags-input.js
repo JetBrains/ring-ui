@@ -1,4 +1,6 @@
 import React from 'react';
+import classNames from 'classnames';
+
 import RingComponent from 'ring-component/ring-component';
 import RingComponentWithShortcuts from 'ring-component/ring-component_with-shortcuts';
 import Select from 'select/select';
@@ -19,6 +21,7 @@ import './tags-input.scss';
     var TagsInput = require('tags-input/tags-input');
 
     var props = {
+      className: 'test-additional-class',
       tags: [
         {key: 'test1', label: 'test1'},
         {key: 'test2', label: 'test2'}
@@ -171,7 +174,9 @@ export default class TagsInput extends RingComponentWithShortcuts {
   }
 
   render() {
-    return (<div className="tags-input" onClick={::this.clickHandler}>
+    let classes = classNames('tags-input', this.props.className);
+
+    return (<div className={classes} onClick={::this.clickHandler}>
       {this.state.tags.map(::this.renderTag)}
       <Select ref="select"
         type={Select.Type.INPUT}
