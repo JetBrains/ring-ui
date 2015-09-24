@@ -613,6 +613,13 @@ var List = React.createClass({
     this.autoscroll();
   },
 
+  hasOverflow: function () {
+    if (this.refs.inner) {
+      var container = this.refs.inner.getDOMNode();
+      return container.scrollHeight > container.clientHeight;
+    }
+  },
+
   autoscroll: function() {
     if (this.state.activeIndex && !this.ignoreAutoscroll) {
       this.scrollToIndex(this.state.activeIndex);
@@ -691,6 +698,7 @@ var List = React.createClass({
             return element(props, null);
           }.bind(this))}
         </div>
+        {this.hasOverflow() && <div className='ring-list__fade'/>}
         {hint && <ListHint key={this.props.hint + Type.ITEM} label={hint} />}
       </div>
     );
