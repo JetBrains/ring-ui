@@ -42,9 +42,9 @@ import last from 'mout/array/last';
  <example name="Simple tags input via react-ng">
   <file name="index.html">
     <div ng-app="test-tags-app" ng-controller="testCtrl">
-      <div><span>tags = {{tagsArray}}</span></div>
-      <a href ng-click="addTag()">Add tag</a>
+      <a href class="ring-link" ng-click="addTag()">Add a tag</a>
       <span react="TagsInput" ng-model="tagsArray" x-data-source="suggestionsSource()"></span>
+      <div><span>tags = {{tagsArray}}</span></div>
     </div>
   </file>
   <file name="index.js" webpack="true">
