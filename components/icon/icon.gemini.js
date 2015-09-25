@@ -9,10 +9,4 @@ gemini.suite('Icon', function(parent) {
       .setCaptureElements('#some-icons')
       .capture('some icons');
   });
-
-  gemini.suite('All icons', function (child) {
-    child
-      .setCaptureElements('#all-icons')
-      .capture('all icons');
-  });
 });

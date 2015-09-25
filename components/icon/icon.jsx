@@ -56,54 +56,15 @@ var baseClass = new ClassName(BASE_CLASS);
 
 
 /**
- * @type {Element}
- * @private
- */
-var _templateElement = null;
-
-
-/**
- * This is imperative that template element was first on the page.
- * If something else inserted before it in some browsers icons might
- * stop working.
- * @static
- */
-var checkTemplatePositioning = function() {
-  if (!_templateElement || !_templateElement.previousElementSibling) {
-    return;
-  }
-
-  document.body.insertBefore(_templateElement, document.body.childNodes[0]);
-};
-
-
-/**
  * Inserts an SVG template into the document so icons could use links to those
  * elements.
  * @static
  */
-var initializeTemplate = function() {
-  if (_templateElement) {
-    return;
-  }
-
-  var templateText = require('val?cacheable=true!./icon__template.js');
-  var domParser = new DOMParser();
-  var templateDoc = domParser.parseFromString(templateText, 'image/svg+xml');
-  _templateElement = templateDoc.documentElement;
-
-  document.body.insertBefore(_templateElement, document.body.childNodes[0]);
-  _templateElement.style.display = 'none';
-  _templateElement.id = baseClass.getElement('template');
-
-  checkTemplatePositioning();
-};
-
 
 /**
  * @name Icon
  * @constructor
- * @description Icon component
+ * @description Icon component settings
  * @extends {ReactComponent}
  * @example
    <example name="Icon">
@@ -114,73 +75,80 @@ var initializeTemplate = function() {
            <span id="icon-16-pencil"></span>
            <span id="icon-14-pencil"></span>
         </div>
-        <h3>All available icons are listed below. Place cursor over the icon to see it's name</h3>
-        <div id="all-icons"></div>
      </file>
 
      <file name="index.scss">
        .ring-icon {
          margin: 8px;
          padding: 8px;
-
-         &[class*=monochrome] {
-           background: #24353D;
-         }
        }
      </file>
 
      <file name="index.js" webpack="true">
-       var Icon = require('./index.scss');
+       require('./index.scss');
        var React = require('react');
        var Icon = require('icon/icon');
 
        React.renderComponent(Icon({
          className: 'additional-class',
          color: 'orange',
-         glyph: 'ok',
+         glyph: require('icon/source/ok.svg'),
          size: Icon.Size.Size32
        }), document.getElementById('icon-container'));
 
        React.renderComponent(Icon({
-         glyph: 'distribution',
+         glyph: require('icon/source/distribution.svg'),
          size: Icon.Size.Size32
        }), document.getElementById('icon-distribution'));
 
        React.renderComponent(Icon({
-         glyph: 'pencil',
+         glyph: require('icon/source/pencil.svg'),
          size: Icon.Size.Size16
        }), document.getElementById('icon-16-pencil'));
 
        React.renderComponent(Icon({
-         glyph: 'pencil',
+         glyph: require('icon/source/pencil.svg'),
          size: Icon.Size.Size14
        }), document.getElementById('icon-14-pencil'));
-
-       var getIconNames = function(){
-          var symbolsContainer = document.getElementById('ring-icon__template');
-          var symbols = symbolsContainer.querySelectorAll('symbol');
-          return Array.prototype.map.call(symbols, function(symbolElement){
-            return symbolElement.id.replace('ring-icon_', '');
-          });
-       }
-
-       var icons = getIconNames();
-
-       React.renderComponent(React.DOM.div({
-         children: icons.map(function (icon) {
-           return Icon({
-             glyph: icon,
-             title: icon
-           });
-         })
-       }), document.getElementById('all-icons'));
      </file>
    </example>
+
+ * @example
+   <example name="Icons list">
+     <file name="index.html">
+       <h3>All available icons are listed below. Place cursor over the icon to see it's name</h3>
+       <div id="all-icons"></div>
+     </file>
+
+     <file name="index.scss">
+     .ring-icon {
+             margin: 8px;
+             padding: 8px;
+           }
+     </file>
+
+     <file name="index.js" webpack="true">
+       require('./index.scss');
+       var React = require('react');
+       var Icon = require('icon/icon');
+
+       var icons = require.context('icon/source', false, /\.svg$/);
+
+       React.renderComponent(React.DOM.div({
+               children: icons.keys().map(icons).map(function (icon) {
+                 return Icon({
+                   glyph: icon,
+                   title: icon
+                 });
+               })
+             }), document.getElementById('all-icons'));
+     </file>
+   </example>
+
  */
 var Icon = React.createClass({
   statics: {
     Color: Color,
-    initializeTemplate: initializeTemplate,
     Size: Size
   },
 
@@ -207,17 +175,11 @@ var Icon = React.createClass({
         this.props.baseClass.getModifier(this.props.glyph), !!this.props.glyph,
         this.props.baseClass.getClassName(), true));
 
-    var xlinkHref = '#' + this.props.baseClass.getModifier(this.props.glyph);
-    xlinkHref = iconUrl.resolve(xlinkHref);
+    var xlinkHref = iconUrl.resolve('#' + this.props.glyph);
 
     return (this.transferPropsTo(<span className={classList}>
       <svg className={this.props.baseClass.getElement('i')} dangerouslySetInnerHTML={{__html: '<use xlink:href="' + xlinkHref + '"></use>'}}/>
     </span>));
-  },
-
-  componentDidMount: function() {
-    initializeTemplate();
-    checkTemplatePositioning();
   }
 });
 
