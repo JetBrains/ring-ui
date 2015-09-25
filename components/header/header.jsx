@@ -136,7 +136,7 @@ var MenuItemsSequence = [
       var popup, popupContainer;
 
       var auth = new Auth({
-        serverUri: 'http://localhost:8080/jetpass/',
+        serverUri: '***REMOVED***/',
         request_credentials: 'skip',
         redirect_uri: window.location.href.split('#')[0]
       });
