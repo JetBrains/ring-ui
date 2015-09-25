@@ -16,9 +16,6 @@ var Button = require('button/button');
 var Loader = require('loader/loader');
 var NgModelMixin = require('ngmodel/ngmodel');
 var ngModelStateField = 'selected';
-var closeIcon = require('icon/source/close.svg');
-var caretDownIcon = require('icon/source/caret-down.svg');
-
 var ShortcutsMixin = require('shortcuts/shortcuts__mixin');
 
 var Global = require('global/global');
@@ -790,7 +787,7 @@ var Select = React.createClass({
 
     if (this.props.clear && this.state.selected) {
       icons.push(<span className="ring-link" onClick={this.clear}>
-        <Icon glyph={closeIcon} size={Icon.Size.Size14}/>
+        <Icon glyph={require('icon/source/close.svg')} size={Icon.Size.Size14}/>
       </span>);
     }
 
@@ -799,7 +796,7 @@ var Select = React.createClass({
     }
 
     if (!this.props.hideArrow) {
-      icons.push(<Icon glyph={caretDownIcon} size={Icon.Size.Size16} />);
+      icons.push(<Icon glyph={require('icon/source/caret-down.svg')} size={Icon.Size.Size16} />);
     }
 
     return icons;
