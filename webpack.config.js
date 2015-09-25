@@ -1,5 +1,9 @@
 /* eslint-env node */
 var path = require('path');
+var iconPath = [
+  path.join(__dirname, 'components/icon/source'),
+  path.join(__dirname, 'node_modules/jetbrains-logos')
+];
 
 // Minimal config for building components
 module.exports = {
@@ -17,6 +21,14 @@ module.exports = {
   },
   module: {
     loaders: [
+      {
+        test: /\.svg$/,
+        loaders: [
+          'svg-sprite',
+          'svgo'
+        ],
+        include: iconPath
+      },
       {
         test: /\.scss$/,
         loaders: [
@@ -62,7 +74,7 @@ module.exports = {
       { test: /\.woff$/, loader: 'url-loader?limit=10000&minetype=application/font-woff' },
       { test: /\.ttf$/, loader: 'file-loader' },
       { test: /\.eot$/, loader: 'file-loader' },
-      { test: /\.svg$/, loader: 'url-loader?limit=10000' }
+      { test: /\.svg$/, loader: 'url-loader?limit=10000', exclude: iconPath }
     ]
   },
   // Keep empty plugins list to simplify additions

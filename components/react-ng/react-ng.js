@@ -191,6 +191,7 @@ reactModule.directive(reactDirectiveName, [
 
      <file name="index.js" webpack="true">
        require('angular/angular.min.js');
+       require('icon/source/pencil.svg');
        require('react-ng/react-ng')({
          Icon: require('icon/icon')
        });
