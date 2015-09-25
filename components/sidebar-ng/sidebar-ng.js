@@ -3,6 +3,9 @@ require('../place-under-ng/place-under-ng');
 require('../react-ng/react-ng')({
   Icon: require('../icon/icon.jsx')
 });
+require('icon/source/chevron-left.svg');
+require('icon/source/chevron-right.svg');
+
 
 /**
  * @name Sidebar Ng
