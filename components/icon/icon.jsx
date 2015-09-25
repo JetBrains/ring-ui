@@ -64,7 +64,7 @@ var baseClass = new ClassName(BASE_CLASS);
 /**
  * @name Icon
  * @constructor
- * @description Icon component
+ * @description Icon component settings
  * @extends {ReactComponent}
  * @example
    <example name="Icon">
@@ -75,27 +75,19 @@ var baseClass = new ClassName(BASE_CLASS);
            <span id="icon-16-pencil"></span>
            <span id="icon-14-pencil"></span>
         </div>
-        <h3>All available icons are listed below. Place cursor over the icon to see it's name</h3>
-        <div id="all-icons"></div>
      </file>
 
      <file name="index.scss">
        .ring-icon {
          margin: 8px;
          padding: 8px;
-
-         &[class*=monochrome] {
-           background: #24353D;
-         }
        }
      </file>
 
      <file name="index.js" webpack="true">
-       var Icon = require('./index.scss');
+       require('./index.scss');
        var React = require('react');
        var Icon = require('icon/icon');
-
-       window.ok = require('icon/source/ok.svg');
 
        React.renderComponent(Icon({
          className: 'additional-class',
@@ -118,19 +110,41 @@ var baseClass = new ClassName(BASE_CLASS);
          glyph: require('icon/source/pencil.svg'),
          size: Icon.Size.Size14
        }), document.getElementById('icon-14-pencil'));
+     </file>
+   </example>
+
+ * @example
+   <example name="Icons list">
+     <file name="index.html">
+       <h3>All available icons are listed below. Place cursor over the icon to see it's name</h3>
+       <div id="all-icons"></div>
+     </file>
+
+     <file name="index.scss">
+     .ring-icon {
+             margin: 8px;
+             padding: 8px;
+           }
+     </file>
+
+     <file name="index.js" webpack="true">
+       require('./index.scss');
+       var React = require('react');
+       var Icon = require('icon/icon');
 
        var icons = require.context('icon/source', false, /\.svg$/);
 
        React.renderComponent(React.DOM.div({
-         children: icons.keys().map(icons).map(function (icon) {
-           return Icon({
-             glyph: icon,
-             title: icon
-           });
-         })
-       }), document.getElementById('all-icons'));
+               children: icons.keys().map(icons).map(function (icon) {
+                 return Icon({
+                   glyph: icon,
+                   title: icon
+                 });
+               })
+             }), document.getElementById('all-icons'));
      </file>
    </example>
+
  */
 var Icon = React.createClass({
   statics: {
