@@ -13,8 +13,6 @@ var debounce = require('mout/function/debounce');
 var ShortcutsMixin = require('shortcuts/shortcuts__mixin');
 var Global = require('global/global');
 var Icon = require('icon/icon');
-var checkIcon = require('icon/source/check.svg');
-
 var generateUniqueId = Global.getUIDGenerator('ring-list-');
 
 require('./list.scss');
@@ -71,7 +69,7 @@ var ListItem = React.createClass({
   getCheckbox: function() {
     if (this.props.checkbox !== undefined) {
       var cn = 'ring-list__checkbox' + (this.props.checkbox ? '' : ' ring-list__checkbox_hidden');
-      return (<Icon className={cn} glyph={checkIcon} size={Icon.Size.Size18}/>);
+      return (<Icon className={cn} glyph={require('icon/source/check.svg')} size={Icon.Size.Size18}/>);
     }
   },
 

@@ -90,6 +90,10 @@ angular.module('Ring.sidebar', ['Ring.react-ng', 'Ring.place-under'])
   })
   .directive('rgSidebarToggleButton', [function () {
     return {
+      controller: function ($scope) {
+        $scope.chevronLeftIcon = require('icon/source/chevron-left.svg');
+        $scope.chevronRightIcon = require('icon/source/chevron-right.svg');
+      },
       replace: true,
       restrict: 'E',
       transclude: true,
