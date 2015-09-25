@@ -6,7 +6,6 @@ var Global = require('global/global');
 var Icon = require('icon/icon');
 var NgModelMixin = require('ngmodel/ngmodel');
 var ReactPropTypes = React.PropTypes;
-var checkIcon = require('icon/source/check.svg');
 
 /**
  * @const
@@ -152,7 +151,7 @@ var Checkbox = React.createClass({
         <span className="ring-checkbox__input-wrapper">
           {this.transferPropsTo(<input ref="input" disabledState onChange={this.inputChange} type="checkbox" className="ring-checkbox__input" id={id} />)}
           <span className="ring-checkbox__icon">
-            <Icon glyph={checkIcon} color="black" size={Icon.Size.Size16} className="ring-checkbox__icon__image" style={checkStyle} />
+            <Icon glyph={require('icon/source/check.svg')} color="black" size={Icon.Size.Size16} className="ring-checkbox__icon__image" style={checkStyle} />
           </span>
         </span>
         <span className="ring-checkbox__label">{this.props.label}</span>
