@@ -121,10 +121,10 @@ var baseClass = new ClassName(BASE_CLASS);
      </file>
 
      <file name="index.scss">
-     .ring-icon {
-             margin: 8px;
-             padding: 8px;
-           }
+       .ring-icon {
+         margin: 8px;
+         padding: 8px;
+       }
      </file>
 
      <file name="index.js" webpack="true">
@@ -142,6 +142,38 @@ var baseClass = new ClassName(BASE_CLASS);
                  });
                })
              }), document.getElementById('all-icons'));
+     </file>
+   </example>
+
+ * @example
+   <example name="JB logos list">
+     <file name="index.html">
+       <div id="logos"></div>
+     </file>
+
+     <file name="index.scss">
+       .ring-icon {
+         margin: 8px;
+         padding: 8px;
+       }
+     </file>
+
+     <file name="index.js" webpack="true">
+     require('./index.scss');
+     var React = require('react');
+     var Icon = require('icon/icon');
+
+     var logos = require.context('jetbrains-logos', true, /\.svg$/);
+
+     React.renderComponent(React.DOM.div({
+       children: logos.keys().map(logos).map(function (icon) {
+         return Icon({
+           glyph: icon,
+           title: icon,
+           size: Icon.Size.Size128
+         });
+       })
+     }), document.getElementById('logos'));
      </file>
    </example>
 
