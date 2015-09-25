@@ -9,6 +9,7 @@
 require('./alert.scss');
 var Global = require('global/global');
 var Icon = require('icon/icon');
+var closeIcon = require('icon/source/close.svg');
 var React = require('react/addons');
 
 
@@ -29,9 +30,9 @@ var Type = {
  * @type {Object.<Type, string>}
  */
 var TypeToIconModifier = Global.createObject(
-    Type.ERROR, 'exception',
-    Type.SUCCESS, 'ok',
-    Type.WARNING, 'warning');
+    Type.ERROR, require('icon/source/exception.svg'),
+    Type.SUCCESS, require('icon/source/ok.svg'),
+    Type.WARNING, require('icon/source/warning.svg'));
 
 
 /**
@@ -139,7 +140,7 @@ var Alert = React.createClass({
       {this._getIcon()}
       {this._getCaption()}
       {this.props.closeable ?
-          (<Icon className="ring-alert__close" glyph="close" size={Icon.Size.Size16} onClick={this._handleCloseClick} />) :
+          (<Icon className="ring-alert__close" glyph={closeIcon} size={Icon.Size.Size16} onClick={this._handleCloseClick} />) :
           ''}
     </div>);
   },
