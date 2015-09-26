@@ -65,7 +65,7 @@ module.exports = {
         test: /\.jsx$/,
         loaders: ['jsx']
       },
-      { test: /(-ng)(\\|\/)\S*(-ng|-ng__)\S*\.html$/, loader: 'html-loader' },
+      { test: /(-ng)(\\|\/)\S*(-ng|-ng__)\S*\.html$/, loader: 'html?attrs=span:react-value-glyph div:react-value-glyph' },
       //images loader
       { test: /\.png$/, loader: 'url-loader?limit=10000' },
       { test: /\.gif$/, loader: 'url-loader?limit=10000' },

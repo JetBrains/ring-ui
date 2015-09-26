@@ -6,7 +6,7 @@
     <img class="ring-avatar-editor__img" ng-src="{{ model }}" ng-show="model">
     <img class="ring-avatar-editor__img" ng-src="{{ default }}"
          ng-show="!model && default" ng-click="!ngDisabled && controls.select()">
-    <span react-static="Icon" react-size="14" react-glyph="pencilIcon" class="ring-avatar-editor__icon" ng-if="!ngDisabled"></span>
+    <span react-static="Icon" react-size="14" react-value-glyph="../icon/source/pencil.svg" class="ring-avatar-editor__icon" ng-if="!ngDisabled"></span>
   </div>
   <input class="ring-avatar-editor__file-input" rg-avatar-editor-file-input type="file" ng-model="fileInput" accept="image/*" ng-if="!ngDisabled">
   <button class="ring-btn ring-btn_delayed-action" ng-disabled="ngDisabled"
