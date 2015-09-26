@@ -1,11 +1,9 @@
 require('../sidebar/sidebar.scss');
+require('../button/button.scss');
 require('../place-under-ng/place-under-ng');
 require('../react-ng/react-ng')({
   Icon: require('../icon/icon.jsx')
 });
-require('icon/source/chevron-left.svg');
-require('icon/source/chevron-right.svg');
-
 
 /**
  * @name Sidebar Ng
@@ -90,10 +88,6 @@ angular.module('Ring.sidebar', ['Ring.react-ng', 'Ring.place-under'])
   })
   .directive('rgSidebarToggleButton', [function () {
     return {
-      controller: function ($scope) {
-        $scope.chevronLeftIcon = require('icon/source/chevron-left.svg');
-        $scope.chevronRightIcon = require('icon/source/chevron-right.svg');
-      },
       replace: true,
       restrict: 'E',
       transclude: true,
