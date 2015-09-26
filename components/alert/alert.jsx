@@ -9,7 +9,6 @@
 require('./alert.scss');
 var Global = require('global/global');
 var Icon = require('icon/icon');
-var closeIcon = require('icon/source/close.svg');
 var React = require('react/addons');
 
 
@@ -140,7 +139,7 @@ var Alert = React.createClass({
       {this._getIcon()}
       {this._getCaption()}
       {this.props.closeable ?
-          (<Icon className="ring-alert__close" glyph={closeIcon} size={Icon.Size.Size16} onClick={this._handleCloseClick} />) :
+          (<Icon className="ring-alert__close" glyph={require('icon/source/close.svg')} size={Icon.Size.Size16} onClick={this._handleCloseClick} />) :
           ''}
     </div>);
   },
