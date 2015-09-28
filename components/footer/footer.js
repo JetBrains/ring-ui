@@ -71,7 +71,7 @@ class FooterLine extends RingComponent {
       let element = (item.copyright ? copyright(item.copyright) : '') + (item.label || item);
 
       if (item.url) {
-        return <Link href={item.url} title={item.title}>{element}</Link>;
+        return <Link href={item.url} title={item.title} key={item.url + item.title}>{element}</Link>;
       }
 
       return element;
