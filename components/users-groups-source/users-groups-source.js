@@ -2,9 +2,16 @@ import List from 'list/list';
 
 const SEARCH_MAX = 42;
 
+let defaultOptions =  {
+  GroupsTitle: 'Groups',
+  UsersTitle: 'Users',
+  getPluralForUserCount: count => ''
+};
+
 export default class UsersGroupsSource {
-  constructor(Auth) {
+  constructor(Auth, options) {
     this.Auth = Auth;
+    this.options = options || defaultOptions;
   }
 
   makeRequest(relativeUrl, params) {
@@ -42,29 +49,31 @@ export default class UsersGroupsSource {
         let usersAndGroups = [{
           rgItemType: List.ListProps.Type.SEPARATOR,
           key: 1,
-          description: 'Groups'
+          description: this.options.GroupsTitle
         }];
 
         usersAndGroups = usersAndGroups.concat(groups.map(group => {
-          group.key = group.id;
-          group.label = group.name;
-          group.description = `${group.userCount} users`;
-          return group;
+          return Object.assign(user, {
+            key: group.id,
+            label: group.name,
+            description: this.options.getPluralForUserCount(group.userCount)
+          });
         }));
 
         usersAndGroups.push({
           rgItemType: List.ListProps.Type.SEPARATOR,
           key: 2,
-          description: 'Users'
+          description: this.options.UsersTitle
         });
 
         usersAndGroups = usersAndGroups.concat(users
           .map((user) => {
-            user.label = user.name;
-            user.isUser = true;
-            user.icon = user.avatar.url;
-            user.description = user.login;
-            return user;
+            return Object.assign(user, {
+              key: user.id,
+              label: user.name,
+              icon: user.avatar.url,
+              description: user.login
+            });
           }));
 
         return usersAndGroups;
