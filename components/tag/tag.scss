@@ -15,9 +15,7 @@ $tag-background-color: #E6E6E6;
 
 .ring-tag__remove {
   padding-left:$ring-unit / 2;
-  &.ring-link {
-    color: $ring-dark-gray-color;
-  }
+  color: $ring-dark-gray-color;
 
   @include ring-vertical-compensation();
 }
