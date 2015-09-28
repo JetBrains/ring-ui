@@ -53,7 +53,7 @@ export default class UsersGroupsSource {
         }];
 
         usersAndGroups = usersAndGroups.concat(groups.map(group => {
-          return Object.assign(user, {
+          return Object.assign(groups, {
             key: group.id,
             label: group.name,
             description: this.options.getPluralForUserCount(group.userCount)
