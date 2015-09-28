@@ -204,7 +204,6 @@ var Icon = React.createClass({
     var classList = React.addons.classSet(Global.createObject(
         this.props.baseClass.getModifier(this.props.size), true,
         this.props.baseClass.getModifier(this.props.color), !!this.props.color,
-        this.props.baseClass.getModifier(this.props.glyph), !!this.props.glyph,
         this.props.baseClass.getClassName(), true));
 
     return (this.transferPropsTo(<span className={classList}>
