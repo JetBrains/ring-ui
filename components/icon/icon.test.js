@@ -4,7 +4,6 @@ describe('Icon', function () {
   var TestUtils = React.addons.TestUtils;
   var Icon = require('./icon');
   var expandIcon = require('icon/source/expand.svg');
-  var collapseIcon = require('icon/source/collapse.svg');
 
   beforeEach(function () {
     this.icon = TestUtils.renderIntoDocument(new Icon({
@@ -18,12 +17,6 @@ describe('Icon', function () {
 
   it('should render passed glyph', function() {
     $(this.icon.getDOMNode()).find('use').attr('xlink:href').should.contain(expandIcon);
-  });
-
-  it('should rerender component if we change icon', function () {
-    this.icon.setProps({ glyph: collapseIcon });
-
-    $(this.icon.getDOMNode()).find('use').attr('xlink:href').should.contain(collapseIcon);
   });
 
   it('should set size 16', function () {
