@@ -9,6 +9,7 @@ find .\
   -regex './README.md' -or \
   -regex './ring-upsource.js' -or \
   -regex './webpack.config.js' -or \
+  -regex './.babelrc' -or \
   -regex './components/.*/.*.jsx' -or \
   -regex './components/.*/.*.js' -or \
   -regex './components/.*/.*.scss' -or \
