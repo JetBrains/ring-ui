@@ -106,7 +106,7 @@ describe('TagsInput', function() {
     this.tagsInput.rerender({dataSource});
     this.tagsInput.loadSuggestions('testquery');
 
-    dataSource.should.have.been.calledWith('testquery');
+    dataSource.should.have.been.calledWith({query: 'testquery'});
   });
 
   it('Should drop exist tags from suggestions by key', function () {
