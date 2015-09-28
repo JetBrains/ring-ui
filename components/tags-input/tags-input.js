@@ -6,7 +6,6 @@ import RingComponentWithShortcuts from 'ring-component/ring-component_with-short
 import Select from 'select/select';
 import Tag from 'tag/tag';
 import './tags-input.scss';
-import last from 'mout/array/last';
 
 /**
  * @name Tags Input
@@ -74,14 +73,13 @@ import last from 'mout/array/last';
   </file>
  </example>
 
-  <example name="Custom tag component">
+  <example name="TagsInput with icons">
    <file name="index.html">
     <div id="demo"></div>
    </file>
    <file name="index.js" webpack="true">
     var render = require('react-dom').render;
     var TagsInput = require('tags-input/tags-input');
-    var TagWithIcon = require('tag/tag').TagWithIcon;
 
     var props = {
       tags: [
@@ -93,8 +91,7 @@ import last from 'mout/array/last';
           {key: 'test3', label: 'test3', rgTagIcon: 'bug'},
           {key: 'test4', label: 'test4', rgTagIcon: 'frown', icon: 'frown'}
         ];
-      },
-      customTagComponent: TagWithIcon
+      }
     };
     render(TagsInput.factory(props), document.getElementById('demo'));
    </file>
@@ -160,7 +157,8 @@ export default class TagsInput extends RingComponentWithShortcuts {
   handleBackspace() {
     let currentInputValue =  this._inputNode.value;
     if (!currentInputValue) {
-      this.onRemoveTag(last(this.state.tags));
+      let tagsLength = this.state.tags.length;
+      this.onRemoveTag(this.state.tags[tagsLength-1]);
     }
   }
 

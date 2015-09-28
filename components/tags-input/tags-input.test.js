@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import TagsInput from './tags-input';
-import {TagWithIcon} from 'tag/tag';
 import renderIntoDocument from 'render-into-document';
 import $ from 'jquery';
+import RingComponent from 'ring-component/ring-component';
 
 describe('TagsInput', function() {
   let fakeTags = [{key: 1, label: 'test1'}];
@@ -34,12 +34,18 @@ describe('TagsInput', function() {
     });
 
     it('should render custom tag', function () {
+      class CustomTag extends RingComponent {
+        render() {
+          return (<span className="custom-tag">{this.props.children}</span>);
+        }
+      }
+
       this.tagsInput.rerender({
         tags: [{key: 1, label: 'test3', rgTagIcon: 'bug'}],
-        customTagComponent: TagWithIcon
+        customTagComponent: CustomTag
       });
 
-      $(this.tagsInput.node).should.have.descendants('.ring-tag__icon')
+      $(this.tagsInput.node).should.have.descendants('.custom-tag')
     });
 
     it('Should use passed className', function () {
