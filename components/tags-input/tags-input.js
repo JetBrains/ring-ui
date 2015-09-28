@@ -177,7 +177,7 @@ export default class TagsInput extends RingComponentWithShortcuts {
   }
 
   loadSuggestions(query) {
-    return Promise.resolve(this.props.dataSource(query))
+    return Promise.resolve(this.props.dataSource({query}))
       .then(::this.filterExistTags)
       .then(suggestions => this.setState({suggestions}));
   }
