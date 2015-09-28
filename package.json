@@ -117,7 +117,7 @@
     "react-addons-css-transition-group": "0.14.0-rc1",
     "react-addons-test-utils": "0.14.0-rc1",
     "react-dom": "0.14.0-rc1",
-    "sass-loader": "0.4.2",
+    "sass-loader": "2.0.1",
     "sniffr": "0.1.1",
     "style-loader": "0.8.2",
     "svgo": "0.5.2",
