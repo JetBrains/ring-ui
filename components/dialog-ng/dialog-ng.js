@@ -151,8 +151,8 @@ angular.module('Ring.dialog', []).
       'controller': ['$scope', 'dialog', 'dialogInSidebar', function ($scope, popupDialog, sidebarDialog) {
         var dialog = $scope.inSidebar ? sidebarDialog : popupDialog;
 
-        $scope.$on('$routeChangeSuccess', dialog.hide);
-        $scope.$on('$routeUpdate', dialog.hide);
+        $scope.$on('$routeChangeSuccess', dialog.hide.bind(dialog));
+        $scope.$on('$routeUpdate', dialog.hide.bind(dialog));
 
         $scope.done = function () {
           $scope.resetPosition();
