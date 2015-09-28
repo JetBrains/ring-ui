@@ -88,8 +88,8 @@ describe('TagsInput', function() {
     this.tagsInput.state.tags.should.be.deep.equal(newTags);
   });
 
-  it.skip('Should call datasource and set suggestions returned', function () {
-    let suggestions = [{key: 1, label: 'suggestion 1'}];
+  it('Should call datasource and set suggestions returned', function (done) {
+    let suggestions = [{key: 14, label: 'suggestion 14'}];
 
     let dataSource = this.sinon.spy(() => Promise.resolve(suggestions));
 
@@ -97,14 +97,15 @@ describe('TagsInput', function() {
 
     this.sinon.spy(this.tagsInput, 'setState');
     this.tagsInput.loadSuggestions().then(() => {
-      this.tagsInput.setState.should.have.been.calledWith({tags: suggestions});
+      this.tagsInput.state.suggestions.should.deep.equal(suggestions);
+      done();
     });
   });
 
-  it('Should call datasource with query entered', function () {
+  it('Should call datasource with query entered', function (done) {
     let dataSource = this.sinon.spy(() => Promise.resolve([]));
     this.tagsInput.rerender({dataSource});
-    this.tagsInput.loadSuggestions('testquery');
+    this.tagsInput.loadSuggestions('testquery').then(done);
 
     dataSource.should.have.been.calledWith({query: 'testquery'});
   });
