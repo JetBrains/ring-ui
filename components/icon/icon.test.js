@@ -20,8 +20,7 @@ describe('Icon', function () {
     $(this.icon.getDOMNode()).find('use').attr('xlink:href').should.contain(expandIcon);
   });
 
-  // Doesn't work with Phantomjs
-  it.skip('should rerender component if we change icon', function () {
+  it('should rerender component if we change icon', function () {
     this.icon.setProps({ glyph: collapseIcon });
 
     $(this.icon.getDOMNode()).find('use').attr('xlink:href').should.contain(collapseIcon);
