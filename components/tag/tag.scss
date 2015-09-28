@@ -13,7 +13,7 @@ $tag-background-color: #E6E6E6;
   border: 1px solid $tag-background-color;
 }
 
-.ring-tag__remove {
+.ring-tag__remove.ring-tag__remove {
   padding-left:$ring-unit / 2;
   color: $ring-dark-gray-color;
 
