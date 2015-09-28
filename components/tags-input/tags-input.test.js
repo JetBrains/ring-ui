@@ -88,7 +88,7 @@ describe('TagsInput', function() {
     this.tagsInput.state.tags.should.be.deep.equal(newTags);
   });
 
-  it('Should call datasource and set suggestions returned', function () {
+  it.skip('Should call datasource and set suggestions returned', function () {
     let suggestions = [{key: 1, label: 'suggestion 1'}];
 
     let dataSource = this.sinon.spy(() => Promise.resolve(suggestions));
@@ -107,6 +107,17 @@ describe('TagsInput', function() {
     this.tagsInput.loadSuggestions('testquery');
 
     dataSource.should.have.been.calledWith({query: 'testquery'});
+  });
+
+  it('Should turn on loading message while loading suggestions', function (done) {
+    let dataSource = this.sinon.spy(() => Promise.resolve([]));
+    this.tagsInput.rerender({dataSource});
+    this.tagsInput.loadSuggestions().then(() => {
+      this.tagsInput.state.loading.should.be.false;
+      done();
+    });
+
+    this.tagsInput.state.loading.should.be.true;
   });
 
   it('Should drop exist tags from suggestions by key', function () {

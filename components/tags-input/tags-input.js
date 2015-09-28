@@ -121,7 +121,8 @@ export default class TagsInput extends RingComponentWithShortcuts {
   state = {
     tags: [],
     suggestions: [],
-    shortcuts: true
+    shortcuts: true,
+    loading: false
   };
 
   static ngModelStateField = 'tags';
@@ -177,9 +178,10 @@ export default class TagsInput extends RingComponentWithShortcuts {
   }
 
   loadSuggestions(query) {
+    this.setState({loading: true});
     return Promise.resolve(this.props.dataSource({query}))
       .then(::this.filterExistTags)
-      .then(suggestions => this.setState({suggestions}));
+      .then(suggestions => this.setState({suggestions, loading: false}));
   }
 
   willMount() {
@@ -207,6 +209,7 @@ export default class TagsInput extends RingComponentWithShortcuts {
         filter={{
           fn: () => true
         }}
+        loading={this.state.loading}
         onFilter={::this.loadSuggestions}
         label=""/>
     </div>)
