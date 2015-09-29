@@ -64,6 +64,80 @@ describe('UsersGroupsSource', function () {
           $top: sinon.match.number
         });
         done();
-      })
+      });
+  });
+
+  it('Should convert users to list model', function (done) {
+    fakeAuth.getApi = this.sinon.stub();
+    fakeAuth.getApi.onFirstCall().returns(Promise.resolve({users: [{
+      id: 1,
+      name: 'test user',
+      login: 'testUser',
+      avatar: {url: 'http://test.com.url'}
+    }]}));
+
+    fakeAuth.getApi.onSecondCall().returns(Promise.resolve({}));
+
+    let source = new UsersGroupsSource(fakeAuth);
+
+    source.getForList()
+      .then((dataForList) => {
+        dataForList.should.contain({
+          id: 1,
+          login: 'testUser',
+          avatar: {url: 'http://test.com.url'},
+          name: 'test user',
+          key: 1,
+          label: 'test user',
+          description: 'testUser',
+          icon: 'http://test.com.url'
+        });
+        done();
+      });
+  });
+
+  it('Should convert usergroups to list model', function (done) {
+    fakeAuth.getApi = this.sinon.stub();
+    fakeAuth.getApi.onFirstCall().returns(Promise.resolve({}));
+    fakeAuth.getApi.onSecondCall().returns({usergroups: [{
+      id: 1,
+      name: 'test group',
+      userCount: 123
+    }]});
+
+    let source = new UsersGroupsSource(fakeAuth);
+
+    source.getForList()
+      .then((dataForList) => {
+        dataForList.should.contain({
+          id: 1,
+          key: 1,
+          name: 'test group',
+          label: 'test group',
+          description: '',
+          userCount: 123
+        });
+        done();
+      });
+  });
+
+  it('Should support userCount plural formatter', function (done) {
+    fakeAuth.getApi = this.sinon.stub();
+    fakeAuth.getApi.onFirstCall().returns(Promise.resolve({}));
+    fakeAuth.getApi.onSecondCall().returns({usergroups: [{
+      id: 1,
+      name: 'test group',
+      userCount: 123
+    }]});
+
+    let source = new UsersGroupsSource(fakeAuth, {
+      getPluralForUserCount: (count) => `${count} text`
+    });
+
+    source.getForList()
+      .then((dataForList) => {
+        dataForList[1].description.should.equal('123 text');
+        done();
+      });
   });
 });
