@@ -11,7 +11,7 @@ let defaultOptions =  {
 export default class UsersGroupsSource {
   constructor(Auth, options) {
     this.Auth = Auth;
-    this.options = options || defaultOptions;
+    this.options = Object.assign({}, defaultOptions, options);
   }
 
   makeRequest(relativeUrl, params) {
@@ -53,7 +53,7 @@ export default class UsersGroupsSource {
         }];
 
         usersAndGroups = usersAndGroups.concat(groups.map(group => {
-          return Object.assign(groups, {
+          return Object.assign(group, {
             key: group.id,
             label: group.name,
             description: this.options.getPluralForUserCount(group.userCount)
