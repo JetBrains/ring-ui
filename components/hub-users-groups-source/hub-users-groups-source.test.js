@@ -3,7 +3,7 @@ import HubUsersGroupsSource from './hub-users-groups-source';
 describe('HubUsersGroupsSource', function () {
   let fakeAuth;
   const TOP = 20;
-  const TOP_ALL = 100000;
+  const TOP_ALL = 10000;
 
   beforeEach(function () {
     fakeAuth = {
