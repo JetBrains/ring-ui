@@ -2,7 +2,8 @@ import HubUsersGroupsSource from './hub-users-groups-source';
 
 describe('HubUsersGroupsSource', function () {
   let fakeAuth;
-  let TOP = 42;
+  const TOP = 20;
+  const TOP_ALL = 100000;
 
   beforeEach(function () {
     fakeAuth = {
@@ -44,27 +45,40 @@ describe('HubUsersGroupsSource', function () {
     source.getGroups()
       .then(() => {
         fakeAuth.getApi.should.have.been.calledWith('usergroups', 'testToken', {
-          query: '',
           fields: 'id,name,userCount',
           orderBy: 'name',
-          $top: TOP
+          $top: TOP_ALL
         });
         done();
       })
   });
 
-  it('Should construct query for groups', function (done) {
+  it('Should cache request for groups', function (done) {
+    fakeAuth.getApi = this.sinon.stub().returns(Promise.resolve({}));
+
     let source = new HubUsersGroupsSource(fakeAuth);
-    source.getGroups('nam')
+    source.getGroups();
+    source.getGroups();
+    source.getGroups()
       .then(() => {
-        fakeAuth.getApi.should.have.been.calledWith(sinon.match.string, sinon.match.string, {
-          query: 'nam* or nam',
-          fields: sinon.match.string,
-          orderBy: sinon.match.string,
-          $top: sinon.match.number
-        });
+        fakeAuth.getApi.should.have.been.called.once;
         done();
       });
+  });
+
+  it('Should clear cache after interval provided', function (done) {
+    fakeAuth.getApi = this.sinon.stub().returns(Promise.resolve({}));
+    let clock = this.sinon.useFakeTimers();
+    let source = new HubUsersGroupsSource(fakeAuth, {cacheExpireTime: 1000});
+
+    source.getGroups();
+    clock.tick(2000);
+    source.getGroups()
+      .then(() => {
+        fakeAuth.getApi.should.have.been.called.twice;
+        done();
+      });
+
   });
 
   it('Should convert users to list model', function (done) {
