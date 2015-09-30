@@ -1,4 +1,4 @@
-export const getStyles = window.getComputedStyle;
+export const getStyles = ::window.getComputedStyle;
 
 export const isMounted = ::document.documentElement.contains;
 
