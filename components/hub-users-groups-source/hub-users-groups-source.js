@@ -9,14 +9,14 @@ let defaultOptions =  {
 };
 
 export default class HubUsersGroupsSource {
-  constructor(Auth, options) {
-    this.Auth = Auth;
+  constructor(auth, options) {
+    this.auth = auth;
     this.options = Object.assign({}, defaultOptions, options);
   }
 
   makeRequest(relativeUrl, params) {
-    return this.Auth.requestToken()
-      .then(token => this.Auth.getApi(relativeUrl, token, params));
+    return this.auth.requestToken()
+      .then(token => this.auth.getApi(relativeUrl, token, params));
   }
 
   getUsers(filter) {
