@@ -38,7 +38,16 @@ export default class HubUsersGroupsSource {
     return Promise.resolve(cache.content);
   }
 
-  getUsers(filter) {
+  static prepareFilter(filter) {
+    if (filter && filter.indexOf(' ') !== -1) {
+      return '{' + filter + '}'
+    }
+    return filter;
+  }
+
+  getUsers(filter = '') {
+    filter = HubUsersGroupsSource.prepareFilter(filter);
+
     return this.makeRequest('users', {
       query: filter ? `nameStartsWith: ${filter} or loginStartsWith: ${filter}` : '',
       fields: 'id,name,login,avatar/url',
