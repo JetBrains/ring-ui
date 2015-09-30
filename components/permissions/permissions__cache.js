@@ -33,6 +33,8 @@ var PermissionCache = function (permissions, namesConverter) {
   this.permissionCache = permissionCache;
 };
 
+PermissionCache.GLOBAL_SPACE_ID = 'global';
+
 /**
  * Convert an array of projects to a set of space ids.
  *
