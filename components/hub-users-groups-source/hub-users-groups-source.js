@@ -8,7 +8,7 @@ let defaultOptions =  {
   getPluralForUserCount: count => ''
 };
 
-export default class UsersGroupsSource {
+export default class HubUsersGroupsSource {
   constructor(Auth, options) {
     this.Auth = Auth;
     this.options = Object.assign({}, defaultOptions, options);
