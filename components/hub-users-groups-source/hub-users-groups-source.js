@@ -1,17 +1,24 @@
 import List from 'list/list';
 
-const SEARCH_MAX = 42;
+const TOP_ALL = 10000;
 
 let defaultOptions =  {
   GroupsTitle: 'Groups',
   UsersTitle: 'Users',
-  getPluralForUserCount: count => ''
+  getPluralForUserCount: count => '',
+  searchMax: 20,
+  cacheExpireTime: 60/*sec*/ * 1000
 };
 
 export default class HubUsersGroupsSource {
   constructor(auth, options) {
     this.auth = auth;
     this.options = Object.assign({}, defaultOptions, options);
+
+    this.groupsCache = {
+      content: null,
+      validUntil: 0
+    };
   }
 
   makeRequest(relativeUrl, params) {
@@ -19,24 +26,40 @@ export default class HubUsersGroupsSource {
       .then(token => this.auth.getApi(relativeUrl, token, params));
   }
 
+  makeCachedRequest(cache, ...args) {
+    if (Date.now() > cache.validUntil) {
+      return this.makeRequest(...args)
+        .then(res => {
+          cache.content = res;
+          cache.validUntil = Date.now() +  + this.options.cacheExpireTime;
+          return res;
+        });
+    }
+    return Promise.resolve(cache.content);
+  }
+
   getUsers(filter) {
     return this.makeRequest('users', {
       query: filter ? `nameStartsWith: ${filter} or loginStartsWith: ${filter}` : '',
       fields: 'id,name,login,avatar/url',
       orderBy: 'name',
-      $top: SEARCH_MAX
+      $top: this.options.searchMax
     })
       .then(response => response.users || [])
   }
 
-  getGroups(filter) {
-    return this.makeRequest('usergroups', {
-      query: filter ? `${filter}* or ${filter}` : '',
+  getGroups(filter = '') {
+    return this.makeCachedRequest(this.groupsCache, 'usergroups', {
       fields: 'id,name,userCount',
       orderBy: 'name',
-      $top: SEARCH_MAX
+      $top: TOP_ALL
     })
       .then(response => response.usergroups || [])
+      .then(groups => {
+        return groups.filter(group => {
+          return group.name.toLowerCase().indexOf(filter.toLowerCase()) !== -1;
+        });
+      });
   }
 
   getUserAndGroups(filter) {
