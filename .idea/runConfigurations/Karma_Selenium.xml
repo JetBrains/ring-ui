@@ -1,5 +1,6 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="Karma Selenium" type="JavaScriptTestRunnerKarma" factoryName="Karma" config-file="$PROJECT_DIR$/karma.conf.js" browsers="wdFirefox,wdChrome,wdIE11">
+    <karma-package-dir value="" />
     <envs />
     <method />
   </configuration>
