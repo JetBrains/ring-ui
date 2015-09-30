@@ -1,6 +1,6 @@
 import HubUsersGroupsSource from './hub-users-groups-source';
 
-describe('UsersGroupsSource', function () {
+describe('HubUsersGroupsSource', function () {
   let fakeAuth;
   let TOP = 42;
 
