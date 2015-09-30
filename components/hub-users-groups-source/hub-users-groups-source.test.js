@@ -23,7 +23,7 @@ describe('HubUsersGroupsSource', function () {
           $top: TOP
         });
         done();
-      })
+      });
   });
 
   it('Should construct correct query for users', function (done) {
@@ -37,7 +37,17 @@ describe('HubUsersGroupsSource', function () {
           $top: sinon.match.number
         });
         done();
-      })
+      });
+  });
+
+  it('Should not wrap name with braces if filter is one word', function () {
+    let sameFilter = HubUsersGroupsSource.prepareFilter('oneword');
+    sameFilter.should.equal('oneword');
+  });
+
+  it('Should wrap name with braces if filter has spaces', function () {
+    let wrappedFilter = HubUsersGroupsSource.prepareFilter('two words');
+    wrappedFilter.should.equal('{two words}');
   });
 
   it('Should make request for groups', function (done) {
@@ -50,7 +60,7 @@ describe('HubUsersGroupsSource', function () {
           $top: TOP_ALL
         });
         done();
-      })
+      });
   });
 
   it('Should cache request for groups', function (done) {
