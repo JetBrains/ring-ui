@@ -168,7 +168,7 @@ export default class TagsInput extends RingComponentWithShortcuts {
   }
 
   clickHandler() {
-    this.loadSuggestions();
+    this.loadSuggestions(this._inputNode.value);
     this._inputNode.focus();
   }
 
