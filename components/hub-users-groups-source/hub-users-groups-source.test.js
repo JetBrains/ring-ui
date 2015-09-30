@@ -1,4 +1,4 @@
-import UsersGroupsSource from './users-groups-source';
+import HubUsersGroupsSource from './hub-users-groups-source';
 
 describe('UsersGroupsSource', function () {
   let fakeAuth;
@@ -12,7 +12,7 @@ describe('UsersGroupsSource', function () {
   });
 
   it('Should make request for users', function (done) {
-    let source = new UsersGroupsSource(fakeAuth);
+    let source = new HubUsersGroupsSource(fakeAuth);
     source.getUsers()
       .then(() => {
         fakeAuth.getApi.should.have.been.calledWith('users', 'testToken', {
@@ -26,7 +26,7 @@ describe('UsersGroupsSource', function () {
   });
 
   it('Should construct correct query for users', function (done) {
-    let source = new UsersGroupsSource(fakeAuth);
+    let source = new HubUsersGroupsSource(fakeAuth);
     source.getUsers('nam')
       .then(() => {
         fakeAuth.getApi.should.have.been.calledWith(sinon.match.string, sinon.match.string, {
@@ -40,7 +40,7 @@ describe('UsersGroupsSource', function () {
   });
 
   it('Should make request for groups', function (done) {
-    let source = new UsersGroupsSource(fakeAuth);
+    let source = new HubUsersGroupsSource(fakeAuth);
     source.getGroups()
       .then(() => {
         fakeAuth.getApi.should.have.been.calledWith('usergroups', 'testToken', {
@@ -54,7 +54,7 @@ describe('UsersGroupsSource', function () {
   });
 
   it('Should construct query for groups', function (done) {
-    let source = new UsersGroupsSource(fakeAuth);
+    let source = new HubUsersGroupsSource(fakeAuth);
     source.getGroups('nam')
       .then(() => {
         fakeAuth.getApi.should.have.been.calledWith(sinon.match.string, sinon.match.string, {
@@ -78,7 +78,7 @@ describe('UsersGroupsSource', function () {
 
     fakeAuth.getApi.onSecondCall().returns(Promise.resolve({}));
 
-    let source = new UsersGroupsSource(fakeAuth);
+    let source = new HubUsersGroupsSource(fakeAuth);
 
     source.getForList()
       .then((dataForList) => {
@@ -105,7 +105,7 @@ describe('UsersGroupsSource', function () {
       userCount: 123
     }]});
 
-    let source = new UsersGroupsSource(fakeAuth);
+    let source = new HubUsersGroupsSource(fakeAuth);
 
     source.getForList()
       .then((dataForList) => {
@@ -130,7 +130,7 @@ describe('UsersGroupsSource', function () {
       userCount: 123
     }]});
 
-    let source = new UsersGroupsSource(fakeAuth, {
+    let source = new HubUsersGroupsSource(fakeAuth, {
       getPluralForUserCount: (count) => `${count} text`
     });
 
