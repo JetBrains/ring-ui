@@ -12,9 +12,9 @@ describe('HubUsersGroupsSource', function () {
     }
   });
 
-  it('Should make request for users', function (done) {
+  it('Should make request for users', function () {
     let source = new HubUsersGroupsSource(fakeAuth);
-    source.getUsers()
+    return source.getUsers()
       .then(() => {
         fakeAuth.getApi.should.have.been.calledWith('users', 'testToken', {
           query: '',
@@ -22,13 +22,12 @@ describe('HubUsersGroupsSource', function () {
           orderBy: 'name',
           $top: TOP
         });
-        done();
       });
   });
 
-  it('Should construct correct query for users', function (done) {
+  it('Should construct correct query for users', function () {
     let source = new HubUsersGroupsSource(fakeAuth);
-    source.getUsers('nam')
+    return source.getUsers('nam')
       .then(() => {
         fakeAuth.getApi.should.have.been.calledWith(sinon.match.string, sinon.match.string, {
           query: 'nameStartsWith: nam or loginStartsWith: nam',
@@ -36,7 +35,6 @@ describe('HubUsersGroupsSource', function () {
           orderBy: sinon.match.string,
           $top: sinon.match.number
         });
-        done();
       });
   });
 
@@ -50,48 +48,45 @@ describe('HubUsersGroupsSource', function () {
     wrappedFilter.should.equal('{two words}');
   });
 
-  it('Should make request for groups', function (done) {
+  it('Should make request for groups', function () {
     let source = new HubUsersGroupsSource(fakeAuth);
-    source.getGroups()
+    return source.getGroups()
       .then(() => {
         fakeAuth.getApi.should.have.been.calledWith('usergroups', 'testToken', {
           fields: 'id,name,userCount',
           orderBy: 'name',
           $top: TOP_ALL
         });
-        done();
       });
   });
 
-  it('Should cache request for groups', function (done) {
+  it('Should cache request for groups', function () {
     fakeAuth.getApi = this.sinon.stub().returns(Promise.resolve({}));
 
     let source = new HubUsersGroupsSource(fakeAuth);
     source.getGroups();
     source.getGroups();
-    source.getGroups()
+    return source.getGroups()
       .then(() => {
         fakeAuth.getApi.should.have.been.called.once;
-        done();
       });
   });
 
-  it('Should clear cache after interval provided', function (done) {
+  it('Should clear cache after interval provided', function () {
     fakeAuth.getApi = this.sinon.stub().returns(Promise.resolve({}));
     let clock = this.sinon.useFakeTimers();
     let source = new HubUsersGroupsSource(fakeAuth, {cacheExpireTime: 1000});
 
     source.getGroups();
     clock.tick(2000);
-    source.getGroups()
+    return source.getGroups()
       .then(() => {
         fakeAuth.getApi.should.have.been.called.twice;
-        done();
       });
 
   });
 
-  it('Should convert users to list model', function (done) {
+  it('Should convert users to list model', function () {
     fakeAuth.getApi = this.sinon.stub();
     fakeAuth.getApi.onFirstCall().returns(Promise.resolve({users: [{
       id: 1,
@@ -104,7 +99,7 @@ describe('HubUsersGroupsSource', function () {
 
     let source = new HubUsersGroupsSource(fakeAuth);
 
-    source.getForList()
+    return source.getForList()
       .then((dataForList) => {
         dataForList.should.contain({
           id: 1,
@@ -116,11 +111,10 @@ describe('HubUsersGroupsSource', function () {
           description: 'testUser',
           icon: 'http://test.com.url'
         });
-        done();
       });
   });
 
-  it('Should convert usergroups to list model', function (done) {
+  it('Should convert usergroups to list model', function () {
     fakeAuth.getApi = this.sinon.stub();
     fakeAuth.getApi.onFirstCall().returns(Promise.resolve({}));
     fakeAuth.getApi.onSecondCall().returns({usergroups: [{
@@ -131,7 +125,7 @@ describe('HubUsersGroupsSource', function () {
 
     let source = new HubUsersGroupsSource(fakeAuth);
 
-    source.getForList()
+    return source.getForList()
       .then((dataForList) => {
         dataForList.should.contain({
           id: 1,
@@ -141,11 +135,10 @@ describe('HubUsersGroupsSource', function () {
           description: '',
           userCount: 123
         });
-        done();
       });
   });
 
-  it('Should support userCount plural formatter', function (done) {
+  it('Should support userCount plural formatter', function () {
     fakeAuth.getApi = this.sinon.stub();
     fakeAuth.getApi.onFirstCall().returns(Promise.resolve({}));
     fakeAuth.getApi.onSecondCall().returns({usergroups: [{
@@ -158,10 +151,9 @@ describe('HubUsersGroupsSource', function () {
       getPluralForUserCount: (count) => `${count} text`
     });
 
-    source.getForList()
+    return source.getForList()
       .then((dataForList) => {
         dataForList[1].description.should.equal('123 text');
-        done();
       });
   });
 });

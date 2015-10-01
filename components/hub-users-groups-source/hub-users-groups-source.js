@@ -63,9 +63,8 @@ export default class HubUsersGroupsSource {
       orderBy: 'name',
       $top: TOP_ALL
     })
-      .then(response => response.usergroups || [])
-      .then(groups => {
-        return groups.filter(group => {
+      .then(({usergroups = []}) => {
+        return usergroups.filter(group => {
           return group.name.toLowerCase().indexOf(filter.toLowerCase()) !== -1;
         });
       });
