@@ -51,7 +51,14 @@ export default class Caret {
         this.focus();
       }
 
-      var range1 = window.getSelection().getRangeAt(0);
+      var selection = window.getSelection();
+
+      // Opera 12 check
+      if (!selection.rangeCount) {
+        return 0;
+      }
+
+      var range1 = selection.getRangeAt(0);
 
       if (range1.startOffset !== range1.endOffset) {
         return -1;
