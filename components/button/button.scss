@@ -55,13 +55,6 @@
   @include ring-font();
 
   display: inline-block;
-  // IE 7
-  @media screen\9 {
-    & {
-      display: inline;
-      zoom: 1;
-    }
-  }
 
   width: auto;
   height: $ring-unit*3;

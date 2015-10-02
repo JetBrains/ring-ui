@@ -51,13 +51,11 @@
 
   border-radius: 50%;
   border: solid 1px #D8D8D8;
-  border: none\9; // IE 6+
   border-left-color: #F00;
 
-  animation: rotating 0.7s linear infinite, colors 6s linear infinite;
-
   font-size: 0;
-  font-size: 13px\9; // IE 6+
+
+  animation: rotating 0.7s linear infinite, colors 6s linear infinite;
 }
 
 @media screen and (min-width:0\0) {
