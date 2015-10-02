@@ -109,13 +109,15 @@ export default class TagsInput extends RingComponentWithShortcuts {
      */
     dataSource: React.PropTypes.func,
     onRemoveTags: React.PropTypes.func,
-    customTagComponent: React.PropTypes.func
+    customTagComponent: React.PropTypes.func,
+    maxPopupHeight: React.PropTypes.number
   };
 
   static defaultProps = {
     dataSource: null,
     onRemoveTags: () => {},
-    customTagComponent: null
+    customTagComponent: null,
+    maxPopupHeight: 500
   };
 
   state = {
@@ -210,6 +212,7 @@ export default class TagsInput extends RingComponentWithShortcuts {
         filter={{
           fn: () => true
         }}
+        maxHeight={this.props.maxPopupHeight}
         loading={this.state.loading}
         onFilter={::this.loadSuggestions}
         label=""/>
