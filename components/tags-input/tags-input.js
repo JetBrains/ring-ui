@@ -125,7 +125,7 @@ export default class TagsInput extends RingComponentWithShortcuts {
     tags: [],
     suggestions: [],
     shortcuts: true,
-    loading: false
+    loading: true
   };
 
   static ngModelStateField = 'tags';
