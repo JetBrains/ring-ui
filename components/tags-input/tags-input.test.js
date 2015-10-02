@@ -88,7 +88,7 @@ describe('TagsInput', function() {
     this.tagsInput.state.tags.should.be.deep.equal(newTags);
   });
 
-  it('Should call datasource and set suggestions returned', function (done) {
+  it('Should call datasource and set suggestions returned', function () {
     let suggestions = [{key: 14, label: 'suggestion 14'}];
 
     let dataSource = this.sinon.spy(() => Promise.resolve(suggestions));
@@ -96,26 +96,28 @@ describe('TagsInput', function() {
     this.tagsInput.rerender({dataSource});
 
     this.sinon.spy(this.tagsInput, 'setState');
-    this.tagsInput.loadSuggestions().then(() => {
+    return this.tagsInput.loadSuggestions().then(() => {
       this.tagsInput.state.suggestions.should.deep.equal(suggestions);
-      done();
     });
   });
 
-  it('Should call datasource with query entered', function (done) {
+  it('Should call datasource with query entered', function () {
     let dataSource = this.sinon.spy(() => Promise.resolve([]));
     this.tagsInput.rerender({dataSource});
-    this.tagsInput.loadSuggestions('testquery').then(done);
+    this.tagsInput.loadSuggestions('testquery');
 
     dataSource.should.have.been.calledWith({query: 'testquery'});
   });
 
-  it('Should turn on loading message while loading suggestions', function (done) {
+  it('Should turn on loading message immidiatelly after initialization', function () {
+    this.tagsInput.state.loading.should.be.true;
+  });
+
+  it('Should turn on loading message while loading suggestions', function () {
     let dataSource = this.sinon.spy(() => Promise.resolve([]));
     this.tagsInput.rerender({dataSource});
-    this.tagsInput.loadSuggestions().then(() => {
+    return this.tagsInput.loadSuggestions().then(() => {
       this.tagsInput.state.loading.should.be.false;
-      done();
     });
 
     this.tagsInput.state.loading.should.be.true;
