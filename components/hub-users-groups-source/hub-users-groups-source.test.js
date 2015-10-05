@@ -1,21 +1,20 @@
 import HubUsersGroupsSource, {TOP_ALL} from './hub-users-groups-source';
 
 describe('HubUsersGroupsSource', function () {
-  let fakeAuth;
   const TOP = 20;
 
   beforeEach(function () {
-    fakeAuth = {
+    this.fakeAuth = {
       requestToken: this.sinon.stub().returns(Promise.resolve('testToken')),
       getApi: this.sinon.stub().returns(Promise.resolve({}))
     }
   });
 
   it('Should make request for users', function () {
-    let source = new HubUsersGroupsSource(fakeAuth);
+    let source = new HubUsersGroupsSource(this.fakeAuth);
     return source.getUsers()
       .then(() => {
-        fakeAuth.getApi.should.have.been.calledWith('users', 'testToken', {
+        this.fakeAuth.getApi.should.have.been.calledWith('users', 'testToken', {
           query: '',
           fields: 'id,name,login,profile/avatar/url',
           orderBy: 'name',
@@ -25,10 +24,10 @@ describe('HubUsersGroupsSource', function () {
   });
 
   it('Should construct correct query for users', function () {
-    let source = new HubUsersGroupsSource(fakeAuth);
+    let source = new HubUsersGroupsSource(this.fakeAuth);
     return source.getUsers('nam')
       .then(() => {
-        fakeAuth.getApi.should.have.been.calledWith(sinon.match.string, sinon.match.string, {
+        this.fakeAuth.getApi.should.have.been.calledWith(sinon.match.string, sinon.match.string, {
           query: 'nameStartsWith: nam or loginStartsWith: nam',
           fields: sinon.match.string,
           orderBy: sinon.match.string,
@@ -48,10 +47,10 @@ describe('HubUsersGroupsSource', function () {
   });
 
   it('Should make request for groups', function () {
-    let source = new HubUsersGroupsSource(fakeAuth);
+    let source = new HubUsersGroupsSource(this.fakeAuth);
     return source.getGroups()
       .then(() => {
-        fakeAuth.getApi.should.have.been.calledWith('usergroups', 'testToken', {
+        this.fakeAuth.getApi.should.have.been.calledWith('usergroups', 'testToken', {
           fields: 'id,name,userCount',
           orderBy: 'name',
           $top: TOP_ALL
@@ -60,43 +59,43 @@ describe('HubUsersGroupsSource', function () {
   });
 
   it('Should cache request for groups', function () {
-    fakeAuth.getApi = this.sinon.stub().returns(Promise.resolve({}));
+    this.fakeAuth.getApi = this.sinon.stub().returns(Promise.resolve({}));
 
-    let source = new HubUsersGroupsSource(fakeAuth);
+    let source = new HubUsersGroupsSource(this.fakeAuth);
     source.getGroups();
     source.getGroups();
     return source.getGroups()
       .then(() => {
-        fakeAuth.getApi.should.have.been.called.once;
+        this.fakeAuth.getApi.should.have.been.called.once;
       });
   });
 
   it('Should clear cache after interval provided', function () {
-    fakeAuth.getApi = this.sinon.stub().returns(Promise.resolve({}));
+    this.fakeAuth.getApi = this.sinon.stub().returns(Promise.resolve({}));
     let clock = this.sinon.useFakeTimers();
-    let source = new HubUsersGroupsSource(fakeAuth, {cacheExpireTime: 1000});
+    let source = new HubUsersGroupsSource(this.fakeAuth, {cacheExpireTime: 1000});
 
     source.getGroups();
     clock.tick(2000);
     return source.getGroups()
       .then(() => {
-        fakeAuth.getApi.should.have.been.called.twice;
+        this.fakeAuth.getApi.should.have.been.called.twice;
       });
 
   });
 
   it('Should convert users to list model', function () {
-    fakeAuth.getApi = this.sinon.stub();
-    fakeAuth.getApi.onFirstCall().returns(Promise.resolve({users: [{
+    this.fakeAuth.getApi = this.sinon.stub();
+    this.fakeAuth.getApi.onFirstCall().returns(Promise.resolve({users: [{
       id: 1,
       name: 'test user',
       login: 'testUser',
       profile: {avatar: {url: 'http://test.com.url'}}
     }]}));
 
-    fakeAuth.getApi.onSecondCall().returns(Promise.resolve({}));
+    this.fakeAuth.getApi.onSecondCall().returns(Promise.resolve({}));
 
-    let source = new HubUsersGroupsSource(fakeAuth);
+    let source = new HubUsersGroupsSource(this.fakeAuth);
 
     return source.getForList()
       .then((dataForList) => {
@@ -114,15 +113,15 @@ describe('HubUsersGroupsSource', function () {
   });
 
   it('Should convert usergroups to list model', function () {
-    fakeAuth.getApi = this.sinon.stub();
-    fakeAuth.getApi.onFirstCall().returns(Promise.resolve({}));
-    fakeAuth.getApi.onSecondCall().returns({usergroups: [{
+    this.fakeAuth.getApi = this.sinon.stub();
+    this.fakeAuth.getApi.onFirstCall().returns(Promise.resolve({}));
+    this.fakeAuth.getApi.onSecondCall().returns({usergroups: [{
       id: 1,
       name: 'test group',
       userCount: 123
     }]});
 
-    let source = new HubUsersGroupsSource(fakeAuth);
+    let source = new HubUsersGroupsSource(this.fakeAuth);
 
     return source.getForList()
       .then((dataForList) => {
@@ -138,15 +137,15 @@ describe('HubUsersGroupsSource', function () {
   });
 
   it('Should support userCount plural formatter', function () {
-    fakeAuth.getApi = this.sinon.stub();
-    fakeAuth.getApi.onFirstCall().returns(Promise.resolve({}));
-    fakeAuth.getApi.onSecondCall().returns({usergroups: [{
+    this.fakeAuth.getApi = this.sinon.stub();
+    this.fakeAuth.getApi.onFirstCall().returns(Promise.resolve({}));
+    this.fakeAuth.getApi.onSecondCall().returns({usergroups: [{
       id: 1,
       name: 'test group',
       userCount: 123
     }]});
 
-    let source = new HubUsersGroupsSource(fakeAuth, {
+    let source = new HubUsersGroupsSource(this.fakeAuth, {
       getPluralForUserCount: (count) => `${count} text`
     });
 
