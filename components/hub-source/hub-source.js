@@ -108,7 +108,13 @@ export default class HubSource {
     this.filterFn = filterFn || this.getDefaultFilterFn(query);
 
     if (this.isClientSideSearch === null) {
-      return this.sideDetectionRequest(params);
+      return this.sideDetectionRequest(params)
+        .then((res) => {
+          if (!this.isClientSideSearch) {
+            return this.doServerSideSearch(params);
+          }
+          return res;
+        })
     }
 
     if (this.isClientSideSearch) {
