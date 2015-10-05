@@ -53,7 +53,6 @@ export default class Caret {
 
       var selection = window.getSelection();
 
-      // Opera 12 check
       if (!selection.rangeCount) {
         return 0;
       }
