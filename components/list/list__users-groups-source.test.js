@@ -10,17 +10,20 @@ describe('ListUsersGroupsSource', function () {
   });
 
   it('Should convert users to list model', function () {
-    this.fakeAuth.getApi = this.sinon.stub();
-    this.fakeAuth.getApi.onFirstCall().returns(Promise.resolve({users: [{
+    let source = new ListUsersGroupsSource(this.fakeAuth);
+
+    this.sinon.stub(source, 'getUsers').returns(Promise.resolve([{
       id: 1,
       name: 'test user',
       login: 'testUser',
       profile: {avatar: {url: 'http://test.com.url'}}
-    }]}));
+    }]));
 
-    this.fakeAuth.getApi.onSecondCall().returns(Promise.resolve({}));
-
-    let source = new ListUsersGroupsSource(this.fakeAuth);
+    this.sinon.stub(source, 'getGroups').returns(Promise.resolve([{
+      id: 1,
+      name: 'test group',
+      userCount: 123
+    }]));
 
     return source.getForList()
       .then((dataForList) => {
@@ -38,15 +41,19 @@ describe('ListUsersGroupsSource', function () {
   });
 
   it('Should convert usergroups to list model', function () {
-    this.fakeAuth.getApi = this.sinon.stub();
-    this.fakeAuth.getApi.onFirstCall().returns(Promise.resolve({}));
-    this.fakeAuth.getApi.onSecondCall().returns({usergroups: [{
+    let source = new ListUsersGroupsSource(this.fakeAuth);
+
+    this.sinon.stub(source, 'getUsers').returns(Promise.resolve([{
+      id: 1,
+      name: 'test user',
+      profile: {avatar: {url: 'http://test.com.url'}}
+    }]));
+
+    this.sinon.stub(source, 'getGroups').returns(Promise.resolve([{
       id: 1,
       name: 'test group',
       userCount: 123
-    }]});
-
-    let source = new ListUsersGroupsSource(this.fakeAuth);
+    }]));
 
     return source.getForList()
       .then((dataForList) => {
@@ -62,17 +69,21 @@ describe('ListUsersGroupsSource', function () {
   });
 
   it('Should support userCount plural formatter', function () {
-    this.fakeAuth.getApi = this.sinon.stub();
-    this.fakeAuth.getApi.onFirstCall().returns(Promise.resolve({}));
-    this.fakeAuth.getApi.onSecondCall().returns({usergroups: [{
-      id: 1,
-      name: 'test group',
-      userCount: 123
-    }]});
-
     let source = new ListUsersGroupsSource(this.fakeAuth, {
       getPluralForUserCount: (count) => `${count} text`
     });
+
+    this.sinon.stub(source, 'getUsers').returns(Promise.resolve([{
+      id: 1,
+      name: 'test user',
+      profile: {avatar: {url: 'http://test.com.url'}}
+    }]));
+
+    this.sinon.stub(source, 'getGroups').returns(Promise.resolve([{
+      id: 1,
+      name: 'test group',
+      userCount: 123
+    }]));
 
     return source.getForList()
       .then((dataForList) => {
