@@ -145,7 +145,7 @@ describe('HubSource', function () {
 
     it('Should do side detection request first', function () {
       let source = new HubSource(this.fakeAuth, 'testItems');
-      source.sideDetectionRequest = this.sinon.stub();
+      source.sideDetectionRequest = this.sinon.stub().returns(Promise.resolve({total: 20, testItems: []}))
 
       source.get('testQuery', {testParams: 'test'});
 
