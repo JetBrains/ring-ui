@@ -1,5 +1,5 @@
 
-const TOP_ALL = -1;
+export const TOP_ALL = -1;
 
 const defaultOptions = {
   searchMax: 20,
