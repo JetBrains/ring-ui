@@ -1,7 +1,9 @@
-import HubUsersGroupsSource, {TOP_ALL} from './hub-users-groups-source';
+import HubUsersGroupsSource from './hub-users-groups-source';
+import {TOP_ALL} from 'hub-source/hub-source';
 
 describe('HubUsersGroupsSource', function () {
   const TOP = 20;
+  const TOP_THESHOLD = 100;
 
   beforeEach(function () {
     this.fakeAuth = {
@@ -18,7 +20,7 @@ describe('HubUsersGroupsSource', function () {
           query: '',
           fields: 'id,name,login,profile/avatar/url',
           orderBy: 'name',
-          $top: TOP
+          $top: TOP_ALL
         });
       });
   });
@@ -37,12 +39,12 @@ describe('HubUsersGroupsSource', function () {
   });
 
   it('Should not wrap name with braces if filter is one word', function () {
-    let sameFilter = HubUsersGroupsSource.prepareFilter('oneword');
+    let sameFilter = HubUsersGroupsSource.prepareQuery('oneword');
     sameFilter.should.equal('oneword');
   });
 
   it('Should wrap name with braces if filter has spaces', function () {
-    let wrappedFilter = HubUsersGroupsSource.prepareFilter('two words');
+    let wrappedFilter = HubUsersGroupsSource.prepareQuery('two words');
     wrappedFilter.should.equal('{two words}');
   });
 
