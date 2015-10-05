@@ -1,6 +1,6 @@
 import List from 'list/list';
 
-const TOP_ALL = 10000;
+export const TOP_ALL = -1;
 
 let defaultOptions =  {
   GroupsTitle: 'Groups',
@@ -50,7 +50,7 @@ export default class HubUsersGroupsSource {
 
     return this.makeRequest('users', {
       query: filter ? `nameStartsWith: ${filter} or loginStartsWith: ${filter}` : '',
-      fields: 'id,name,login,avatar/url',
+      fields: 'id,name,login,profile/avatar/url',
       orderBy: 'name',
       $top: this.options.searchMax
     })
@@ -77,37 +77,36 @@ export default class HubUsersGroupsSource {
   getForList(filter) {
     return this.getUserAndGroups(filter)
       .then(([users, groups]) => {
-        let usersAndGroups = [{
+        let groupsTitle = {
           rgItemType: List.ListProps.Type.SEPARATOR,
           key: 1,
           description: this.options.GroupsTitle
-        }];
+        };
 
-        usersAndGroups = usersAndGroups.concat(groups.map(group => {
+        let groupsForList = groups.map(group => {
           return Object.assign(group, {
             key: group.id,
             label: group.name,
             description: this.options.getPluralForUserCount(group.userCount)
           });
-        }));
+        });
 
-        usersAndGroups.push({
+        let usersTitle = {
           rgItemType: List.ListProps.Type.SEPARATOR,
           key: 2,
           description: this.options.UsersTitle
+        };
+
+        let usersForList = users.map((user) => {
+          return Object.assign(user, {
+            key: user.id,
+            label: user.name,
+            icon: user.profile.avatar.url,
+            description: user.login
+          });
         });
 
-        usersAndGroups = usersAndGroups.concat(users
-          .map((user) => {
-            return Object.assign(user, {
-              key: user.id,
-              label: user.name,
-              icon: user.avatar.url,
-              description: user.login
-            });
-          }));
-
-        return usersAndGroups;
+        return [groupsTitle, ...groupsForList, usersTitle, ...usersForList];
       });
   }
 }

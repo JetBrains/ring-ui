@@ -1,9 +1,8 @@
-import HubUsersGroupsSource from './hub-users-groups-source';
+import HubUsersGroupsSource, {TOP_ALL} from './hub-users-groups-source';
 
 describe('HubUsersGroupsSource', function () {
   let fakeAuth;
   const TOP = 20;
-  const TOP_ALL = 10000;
 
   beforeEach(function () {
     fakeAuth = {
@@ -18,7 +17,7 @@ describe('HubUsersGroupsSource', function () {
       .then(() => {
         fakeAuth.getApi.should.have.been.calledWith('users', 'testToken', {
           query: '',
-          fields: 'id,name,login,avatar/url',
+          fields: 'id,name,login,profile/avatar/url',
           orderBy: 'name',
           $top: TOP
         });
@@ -92,7 +91,7 @@ describe('HubUsersGroupsSource', function () {
       id: 1,
       name: 'test user',
       login: 'testUser',
-      avatar: {url: 'http://test.com.url'}
+      profile: {avatar: {url: 'http://test.com.url'}}
     }]}));
 
     fakeAuth.getApi.onSecondCall().returns(Promise.resolve({}));
@@ -104,7 +103,7 @@ describe('HubUsersGroupsSource', function () {
         dataForList.should.contain({
           id: 1,
           login: 'testUser',
-          avatar: {url: 'http://test.com.url'},
+          profile: {avatar: {url: 'http://test.com.url'}},
           name: 'test user',
           key: 1,
           label: 'test user',
