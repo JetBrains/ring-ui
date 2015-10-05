@@ -3,7 +3,7 @@ import {TOP_ALL} from 'hub-source/hub-source';
 
 describe('HubUsersGroupsSource', function () {
   const TOP = 20;
-  const TOP_THESHOLD = 100;
+  const TOP_THESHOLD = 200;
 
   beforeEach(function () {
     this.fakeAuth = {
@@ -18,9 +18,9 @@ describe('HubUsersGroupsSource', function () {
       .then(() => {
         this.fakeAuth.getApi.should.have.been.calledWith('users', 'testToken', {
           query: '',
-          fields: 'id,name,login,profile/avatar/url',
+          fields: 'id,name,login,total,profile/avatar/url',
           orderBy: 'name',
-          $top: TOP_ALL
+          $top: TOP_THESHOLD
         });
       });
   });
@@ -53,9 +53,10 @@ describe('HubUsersGroupsSource', function () {
     return source.getGroups()
       .then(() => {
         this.fakeAuth.getApi.should.have.been.calledWith('usergroups', 'testToken', {
-          fields: 'id,name,userCount',
+          fields: 'id,name,total,userCount',
           orderBy: 'name',
-          $top: TOP_ALL
+          $top: TOP_THESHOLD,
+          query: ''
         });
       });
   });
