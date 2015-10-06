@@ -33,6 +33,7 @@
 
 .shortcuts-hint__search-input {
   &.ring-input {
+    width: 100% !important; //TODO: drop when .ring-form .ring.input will drop importance too
     padding-right: $ring-unit * 3;
   }
 }
