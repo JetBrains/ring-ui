@@ -52,19 +52,22 @@
 }
 
 .shortcuts-hint__table-row {
-  height: 21px;
+  vertical-align: baseline;
 }
 
 .shortcuts-hint__table-title {
   height: $ring-unit * 5;
 }
 
-.shortcuts-hint__shortcut {
+.shortcuts-hint__shortcut-cell {
   padding-right: $ring-unit;
+  padding-bottom: $ring-unit;
   max-width: $ring-unit * 15;
 
   text-align: right;
-  vertical-align: top;
+}
+
+.shortcuts-hint__shortcut {
   white-space: nowrap;
 }
 
