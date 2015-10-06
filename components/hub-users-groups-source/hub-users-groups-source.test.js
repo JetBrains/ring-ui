@@ -2,8 +2,6 @@ import HubUsersGroupsSource from './hub-users-groups-source';
 import {TOP_ALL} from 'hub-source/hub-source';
 
 describe('HubUsersGroupsSource', function () {
-  const TOP = 20;
-  const TOP_THESHOLD = 200;
 
   beforeEach(function () {
     this.fakeAuth = {
@@ -14,26 +12,28 @@ describe('HubUsersGroupsSource', function () {
 
   it('Should make request for users', function () {
     let source = new HubUsersGroupsSource(this.fakeAuth);
+    this.sinon.stub(source.usersSource, 'get').returns(Promise.resolve([]));
+
     return source.getUsers()
       .then(() => {
-        this.fakeAuth.getApi.should.have.been.calledWith('users', 'testToken', {
+        source.usersSource.get.should.have.been.calledWith('', {
           query: '',
           fields: 'id,name,login,total,profile/avatar/url',
-          orderBy: 'name',
-          $top: TOP_THESHOLD
+          orderBy: 'name'
         });
       });
   });
 
   it('Should construct correct query for users', function () {
     let source = new HubUsersGroupsSource(this.fakeAuth);
+    this.sinon.stub(source.usersSource, 'get').returns(Promise.resolve([]));
+
     return source.getUsers('nam')
       .then(() => {
-        this.fakeAuth.getApi.should.have.been.calledWith(sinon.match.string, sinon.match.string, {
+        source.usersSource.get.should.have.been.calledWith('nam', {
           query: 'nameStartsWith: nam or loginStartsWith: nam',
           fields: sinon.match.string,
-          orderBy: sinon.match.string,
-          $top: sinon.match.number
+          orderBy: sinon.match.string
         });
       });
   });
@@ -50,19 +50,20 @@ describe('HubUsersGroupsSource', function () {
 
   it('Should make request for groups', function () {
     let source = new HubUsersGroupsSource(this.fakeAuth);
+    this.sinon.stub(source.groupsSource, 'get').returns(Promise.resolve([]));
+
     return source.getGroups()
       .then(() => {
-        this.fakeAuth.getApi.should.have.been.calledWith('usergroups', 'testToken', {
+        source.groupsSource.get.should.have.been.calledWith('', {
           fields: 'id,name,total,userCount',
           orderBy: 'name',
-          $top: TOP_THESHOLD,
           query: ''
         });
       });
   });
 
   it('Should cache request for groups', function () {
-    this.fakeAuth.getApi = this.sinon.stub().returns(Promise.resolve({}));
+    this.fakeAuth.getApi = this.sinon.stub().returns(Promise.resolve({total: 1, usergroups: []}));
 
     let source = new HubUsersGroupsSource(this.fakeAuth);
     source.getGroups();
@@ -74,7 +75,7 @@ describe('HubUsersGroupsSource', function () {
   });
 
   it('Should clear cache after interval provided', function () {
-    this.fakeAuth.getApi = this.sinon.stub().returns(Promise.resolve({}));
+    this.fakeAuth.getApi = this.sinon.stub().returns(Promise.resolve({total: 1, usergroups: []}));
     let clock = this.sinon.useFakeTimers();
     let source = new HubUsersGroupsSource(this.fakeAuth, {cacheExpireTime: 1000});
 

@@ -31,7 +31,7 @@ class HubSourceCache {
 
 /**
  * HubSource designed to speed search requests for small installations.
- * If there is less items then searchSideThreshold, it uses clientside filtering
+ * If there is less than "searchSideThreshold" items, it uses clientside filtering
  * cached results to rapidly increase search speed. Useful for autocompletions and
  * select data source.
  */
@@ -88,6 +88,11 @@ export default class HubSource {
     return this.makeCachedRequest(HubSource.mergeParams(params, {$top: this.options.searchSideThreshold}))
       .then(res => {
         this.isClientSideSearch = this.checkIsClientSideSearch(res);
+
+        if (!this.isClientSideSearch) {
+          return this.doServerSideSearch(params);
+        }
+
         return res;
       })
       .then(res => this.processResults(res));
@@ -108,13 +113,7 @@ export default class HubSource {
     this.filterFn = filterFn || this.getDefaultFilterFn(query);
 
     if (this.isClientSideSearch === null) {
-      return this.sideDetectionRequest(params)
-        .then((res) => {
-          if (!this.isClientSideSearch) {
-            return this.doServerSideSearch(params);
-          }
-          return res;
-        })
+      return this.sideDetectionRequest(params);
     }
 
     if (this.isClientSideSearch) {
