@@ -23,7 +23,13 @@
         </td>
       </tr>
       <tr ng-repeat="shortcut in mode.shortcuts | shortcutSearch:data.searchText" class="shortcuts-hint__table-row">
-        <td class="shortcuts-hint__shortcut">{{shortcut.key | shortcutKeySymbol}}</td>
+        <td class="shortcuts-hint__shortcut">
+          <span ng-if="shortcut.key.join" ng-repeat="key in shortcut.key">
+            <span>{{key | shortcutKeySymbol}}</span>
+            <span ng-if="!$last" class="shortcuts-hint__key-spacer"></span>
+          </span>
+          <span ng-if="!shortcut.key.join">{{shortcut.key | shortcutKeySymbol}}</span>
+        </td>
         <td class="shortcuts-hint__hint">{{shortcut.title}}</td>
       </tr>
     </tbody>

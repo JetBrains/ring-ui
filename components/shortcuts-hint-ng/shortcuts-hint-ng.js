@@ -47,9 +47,9 @@ HintPopupModule.run(($templateCache) => {
               action: 'someAction',
               title: 'Another action shortcut with very very very very very very very very very very long text description'
             }, {
-              key: 'ctrl+alt+e',
+              key: ['ctrl+alt+e', 'shift+down+u'],
               action: 'someAction',
-              title: 'Another action shortcut'
+              title: 'Another action shortcut with multiple keys'
             }
           ]
         })
@@ -158,9 +158,10 @@ function shortcutKeySymbolFilter(shortcut) {
 
 function shortcutSearchFilter(shortcuts, query = '') {
   return (shortcuts || []).filter(shortcut => {
-    let keysPresentation = shortcutKeySymbolFilter(shortcut.key);
+    let key = shortcut.key.join ? shortcut.key.join(' ') : shortcut.key;
+    let keysPresentation = shortcutKeySymbolFilter(key);
 
-    let keyMatches = shortcut.key.toLowerCase().indexOf(query.toLowerCase()) !== -1;
+    let keyMatches = key.toLowerCase().indexOf(query.toLowerCase()) !== -1;
     let titleMatches = shortcut.title.toLowerCase().indexOf(query.toLowerCase()) !== -1;
     let presentationMatches = keysPresentation.toLowerCase().indexOf(query.toLowerCase()) !== -1;
 
