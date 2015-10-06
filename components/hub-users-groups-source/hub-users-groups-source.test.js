@@ -17,35 +17,23 @@ describe('HubUsersGroupsSource', function () {
     return source.getUsers()
       .then(() => {
         source.usersSource.get.should.have.been.calledWith('', {
-          query: '',
           fields: 'id,name,login,total,profile/avatar/url',
           orderBy: 'name'
         });
       });
   });
 
-  it('Should construct correct query for users', function () {
+  it('Should pass query for users', function () {
     let source = new HubUsersGroupsSource(this.fakeAuth);
     this.sinon.stub(source.usersSource, 'get').returns(Promise.resolve([]));
 
     return source.getUsers('nam')
       .then(() => {
         source.usersSource.get.should.have.been.calledWith('nam', {
-          query: 'nameStartsWith: nam or loginStartsWith: nam',
           fields: sinon.match.string,
           orderBy: sinon.match.string
         });
       });
-  });
-
-  it('Should not wrap name with braces if filter is one word', function () {
-    let sameFilter = HubUsersGroupsSource.prepareQuery('oneword');
-    sameFilter.should.equal('oneword');
-  });
-
-  it('Should wrap name with braces if filter has spaces', function () {
-    let wrappedFilter = HubUsersGroupsSource.prepareQuery('two words');
-    wrappedFilter.should.equal('{two words}');
   });
 
   it('Should make request for groups', function () {
@@ -56,8 +44,7 @@ describe('HubUsersGroupsSource', function () {
       .then(() => {
         source.groupsSource.get.should.have.been.calledWith('', {
           fields: 'id,name,total,userCount',
-          orderBy: 'name',
-          query: ''
+          orderBy: 'name'
         });
       });
   });

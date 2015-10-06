@@ -127,10 +127,35 @@ describe('HubSource', function () {
     }));
 
 
-    return source.doServerSideSearch()
+    return source.doServerSideSearch({}, 'test-query')
       .then(() => {
-        source.makeRequest.should.have.been.calledWith({$top: 142})
+        source.makeRequest.should.have.been.calledWith({
+          $top: 142,
+          query: sinon.match.string
+        });
       });
+  });
+
+  it('Should produce empty query if no filter string provided', function () {
+    let source = new HubSource(this.fakeAuth, 'testItems');
+    source.formatQuery('').should.equal('');
+  });
+
+  it('Should construct default query', function () {
+    let source = new HubSource(this.fakeAuth, 'testItems');
+    source.formatQuery('foo').should.equal('foo or foo*');
+  });
+
+  it('Should construct multiword query', function () {
+    let source = new HubSource(this.fakeAuth, 'testItems');
+    source.formatQuery('foo bar').should.equal('{foo bar} or {foo bar}*');
+  });
+
+  it('Should support custom queryFormatter', function () {
+    let source = new HubSource(this.fakeAuth, 'testItems', {
+      queryFormatter: (query) => `${query} custom format`
+    });
+    source.formatQuery('foo').should.equal('foo custom format');
   });
 
   describe('Public interface', function () {
@@ -145,31 +170,31 @@ describe('HubSource', function () {
 
     it('Should do side detection request first', function () {
       let source = new HubSource(this.fakeAuth, 'testItems');
-      source.sideDetectionRequest = this.sinon.stub().returns(Promise.resolve({total: 20, testItems: []}))
+      source.sideDetectionRequest = this.sinon.stub().returns(Promise.resolve({total: 20, testItems: []}));
 
       source.get('testQuery', {testParams: 'test'});
 
-      source.sideDetectionRequest.should.have.been.calledWith({testParams: 'test'})
+      source.sideDetectionRequest.should.have.been.calledWith({testParams: 'test'}, 'testQuery')
     });
 
     it('Should do clientside filtering if previously detected', function () {
       let source = new HubSource(this.fakeAuth, 'testItems');
-      source.doClientSideSearch = this.sinon.stub();
+      source.doClientSideSearch = this.sinon.stub().returns(Promise.resolve({total: 20, testItems: []}));
       source.isClientSideSearch = true;
 
       source.get('testQuery', {testParams: 'test'});
 
-      source.doClientSideSearch.should.have.been.calledWith({testParams: 'test'})
+      source.doClientSideSearch.should.have.been.calledWith({testParams: 'test'});
     });
 
     it('Should do serverside filtering if previously detected', function () {
       let source = new HubSource(this.fakeAuth, 'testItems');
-      source.doServerSideSearch = this.sinon.stub();
+      source.doServerSideSearch = this.sinon.stub().returns(Promise.resolve({total: 20, testItems: []}));
       source.isClientSideSearch = false;
 
       source.get('testQuery', {testParams: 'test'});
 
-      source.doServerSideSearch.should.have.been.calledWith({testParams: 'test'})
+      source.doServerSideSearch.should.have.been.calledWith({testParams: 'test'}, 'testQuery');
     });
   });
 });
