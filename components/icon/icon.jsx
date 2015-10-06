@@ -9,6 +9,7 @@ require('./icon.scss');
 var ClassName = require('class-name/class-name');
 var Global = require('global/global');
 var React = require('react/addons');
+var iconUrl = require('./icon__url');
 
 /**
  * Commonly used icon colors.
@@ -35,6 +36,7 @@ var Size = {
   Size18: 18,
   Size32: 32,
   Size48: 48,
+  Size40: 40,
   Size64: 64,
   Size96: 96,
   Size128: 128
@@ -146,8 +148,6 @@ var baseClass = new ClassName(BASE_CLASS);
  * @example
    <example name="JB logos list">
      <file name="index.html">
-       <!-- Logos should work with base tag present -->
-       <base href="/">
        <div id="logos"></div>
      </file>
 
@@ -206,8 +206,10 @@ var Icon = React.createClass({
         this.props.baseClass.getModifier(this.props.color), !!this.props.color,
         this.props.baseClass.getClassName(), true));
 
+    var xlinkHref = iconUrl.resolve(this.props.glyph);
+
     return (this.transferPropsTo(<span className={classList}>
-      <svg className={this.props.baseClass.getElement('i')} dangerouslySetInnerHTML={{__html: '<use xlink:href="' + this.props.glyph + '"></use>'}}/>
+      <svg className={this.props.baseClass.getElement('i')} dangerouslySetInnerHTML={{__html: '<use xlink:href="' + xlinkHref + '"></use>'}}/>
     </span>));
   }
 });
