@@ -45,11 +45,10 @@
 
 .ring-header__logo {
   margin: 0 $ring-unit * 4;
-  @include ring-vertical-compensation(-1px);
 
   &__custom-image {
     display: inline-block;
-    height: $ring-unit * 4;
+    height: $ring-unit * 5;
     vertical-align: middle;
   }
 }
