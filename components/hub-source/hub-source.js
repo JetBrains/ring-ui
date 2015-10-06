@@ -4,7 +4,8 @@ export const TOP_ALL = -1;
 const defaultOptions = {
   searchMax: 20,
   cacheExpireTime: 60/*sec*/ * 1000,
-  searchSideThreshold: 100
+  searchSideThreshold: 100,
+  queryFormatter: (query) => `${query} or ${query}*`
 };
 
 class HubSourceCache {
@@ -75,6 +76,26 @@ export default class HubSource {
     return (it) => it.name.toLowerCase().indexOf(query.toLowerCase()) !== -1;
   }
 
+  static wrapQuery(query) {
+    if (query && query.indexOf(' ') !== -1) {
+      return '{' + query + '}'
+    }
+    return query;
+  }
+
+  formatQuery(query) {
+    return query ? this.options.queryFormatter(HubSource.wrapQuery(query)) : '';
+  }
+
+  static validateInputParams(params) {
+    if (params.top) {
+      throw new Error('HubSource: params.top should not be filled, configure "options.searchMax" instead');
+    }
+    if (params.query) {
+      throw new Error('HubSource: params.query should not be filled, configure "options.queryFormatter" instead');
+    }
+  }
+
   processResults(res) {
     let items = res[this.relativeUrl];
 
@@ -84,42 +105,48 @@ export default class HubSource {
     return items;
   }
 
-  sideDetectionRequest(params) {
+  sideDetectionRequest(params, query) {
     return this.makeCachedRequest(HubSource.mergeParams(params, {$top: this.options.searchSideThreshold}))
       .then(res => {
         this.isClientSideSearch = this.checkIsClientSideSearch(res);
 
         if (!this.isClientSideSearch) {
-          return this.doServerSideSearch(params);
+          return this.doServerSideSearch(params, query);
         }
 
         return res;
-      })
-      .then(res => this.processResults(res));
+      });
   }
 
   doClientSideSearch(params) {
-    return this.makeCachedRequest(HubSource.mergeParams(params, {$top: TOP_ALL}))
-      .then(res => this.processResults(res));
+    return this.makeCachedRequest(HubSource.mergeParams(params, {$top: TOP_ALL}));
   }
 
-  doServerSideSearch(params) {
-    return this.makeRequest(HubSource.mergeParams(params, {$top: this.options.searchMax}))
-      .then(res => this.processResults(res));
+  doServerSideSearch(params, query) {
+    return this.makeRequest(HubSource.mergeParams(params, {
+      query: this.formatQuery(query),
+      $top: this.options.searchMax
+    }));
   }
 
-  get(query, params, filterFn) {
-
-    this.filterFn = filterFn || this.getDefaultFilterFn(query);
-
+  getValueFromSuitableSource(query, params) {
     if (this.isClientSideSearch === null) {
-      return this.sideDetectionRequest(params);
+      return this.sideDetectionRequest(params, query);
     }
 
     if (this.isClientSideSearch) {
       return this.doClientSideSearch(params);
     }
 
-    return this.doServerSideSearch(params);
+    return this.doServerSideSearch(params, query);
+  }
+
+  get(query, params, filterFn) {
+    HubSource.validateInputParams(params);
+
+    this.filterFn = filterFn || this.getDefaultFilterFn(query);
+
+    return this.getValueFromSuitableSource(query, params)
+      .then(res => this.processResults(res));
   }
 }

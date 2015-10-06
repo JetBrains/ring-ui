@@ -14,22 +14,21 @@ export default class HubUsersGroupsSource {
     this.auth = auth;
     this.options = Object.assign({}, defaultOptions, options);
 
-    this.usersSource = new HubSource(auth, 'users', this.options);
-    this.groupsSource = new HubSource(auth, 'usergroups', this.options);
-  }
-
-  static prepareQuery(query) {
-    if (query && query.indexOf(' ') !== -1) {
-      return '{' + query + '}'
-    }
-    return query;
+    this.usersSource = new HubSource(auth, 'users', {
+      searchMax: this.options.searchMax,
+      cacheExpireTime: 60/*sec*/ * 1000,
+      searchSideThreshold: 100,
+      queryFormatter: (query) => `nameStartsWith: ${query} or loginStartsWith: ${query}`
+    });
+    this.groupsSource = new HubSource(auth, 'usergroups', {
+      searchMax: this.options.searchMax,
+      cacheExpireTime: 60/*sec*/ * 1000,
+      searchSideThreshold: 100
+    });
   }
 
   getUsers(query = '') {
-    query = HubUsersGroupsSource.prepareQuery(query);
-
     return this.usersSource.get(query, {
-      query: query ? `nameStartsWith: ${query} or loginStartsWith: ${query}` : '',
       fields: 'id,name,login,total,profile/avatar/url',
       orderBy: 'name'
     });
@@ -37,7 +36,6 @@ export default class HubUsersGroupsSource {
 
   getGroups(query = '') {
     return this.groupsSource.get(query, {
-      query: query ? `${query} or ${query}*` : '',
       fields: 'id,name,total,userCount',
       orderBy: 'name'
     });
