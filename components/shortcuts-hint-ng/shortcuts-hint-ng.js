@@ -94,9 +94,10 @@ class HintPopupService {
 
   show(title) {
     let modes = this.shortcuts.getRegisteredShortcuts();
+    let isArray = (it) => angular.isArray(it);
 
     this.dialog.show({
-      data: {modes},
+      data: {modes, isArray},
       title,
       wideDialog: true,
       content: HintPopupTplFileName,
