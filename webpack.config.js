@@ -24,7 +24,7 @@ module.exports = {
       {
         test: /\.svg$/,
         loaders: [
-          'svg-sprite',
+          'svg-sprite?angularBaseWorkaround',
           'svgo'
         ],
         include: iconPath
