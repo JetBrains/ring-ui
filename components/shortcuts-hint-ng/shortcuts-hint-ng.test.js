@@ -94,5 +94,13 @@ describe('Shortcuts ng hint', function() {
 
       filtered.length.should.be.equal(2);
     });
+
+    it('Should support multiple keys', function() {
+      let filtered = shortcutSearchFilter([
+        {key: ['shift+left+up', 'shift+left+up'], title: 'combination first'}
+      ], 'combination');
+
+      filtered.length.should.be.equal(1);
+    });
   });
 });
