@@ -482,14 +482,16 @@ var Select = React.createClass({
   },
 
   _hidePopup: function() {
-    this._popup.isVisible() && this.props.onClose();
-    this._popup.hide();
-
+    var isVisisbleOnHide = this._popup.isVisible();
     setTimeout(function () {
-      if (this.isMounted()) {
+      if (this.isMounted() && isVisisbleOnHide) {
         this.getDOMNode().focus();
       }
     }.bind(this), 0);
+
+    isVisisbleOnHide && this.props.onClose();
+
+    this._popup.hide();
   },
 
   addHandler: function() {
