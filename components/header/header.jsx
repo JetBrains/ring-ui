@@ -397,7 +397,7 @@ var Header = React.createClass({
         );
       }
 
-      return <Icon size={Icon.Size.Size32} glyph={PRUDUCTS_LOGOS[this.props.logo] || this.props.logo} title={logoTitle} />;
+      return <Icon size={Icon.Size.Size40} glyph={PRUDUCTS_LOGOS[this.props.logo] || this.props.logo} title={logoTitle} />;
     }.bind(this);
 
     // todo(igor.alexeenko): This check treats as valid only components
