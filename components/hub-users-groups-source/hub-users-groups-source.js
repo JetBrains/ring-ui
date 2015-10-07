@@ -5,7 +5,6 @@ let defaultOptions =  {
   UsersTitle: 'Users',
   getPluralForUserCount: count => '',
   searchMax: 20,
-  cacheExpireTime: 60/*sec*/ * 1000,
   searchSideThreshold: 200
 };
 
@@ -16,13 +15,11 @@ export default class HubUsersGroupsSource {
 
     this.usersSource = new HubSource(auth, 'users', {
       searchMax: this.options.searchMax,
-      cacheExpireTime: 60/*sec*/ * 1000,
       searchSideThreshold: 100,
       queryFormatter: (query) => `nameStartsWith: ${query} or loginStartsWith: ${query}`
     });
     this.groupsSource = new HubSource(auth, 'usergroups', {
       searchMax: this.options.searchMax,
-      cacheExpireTime: 60/*sec*/ * 1000,
       searchSideThreshold: 100
     });
   }

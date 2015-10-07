@@ -60,18 +60,4 @@ describe('HubUsersGroupsSource', function () {
         this.fakeAuth.getApi.should.have.been.called.once;
       });
   });
-
-  it('Should clear cache after interval provided', function () {
-    this.fakeAuth.getApi = this.sinon.stub().returns(Promise.resolve({total: 1, usergroups: []}));
-    let clock = this.sinon.useFakeTimers();
-    let source = new HubUsersGroupsSource(this.fakeAuth, {cacheExpireTime: 1000});
-
-    source.getGroups();
-    clock.tick(2000);
-    return source.getGroups()
-      .then(() => {
-        this.fakeAuth.getApi.should.have.been.called.twice;
-      });
-
-  });
 });
