@@ -26,19 +26,9 @@ describe('HubSource', function () {
       });
   });
 
-  it('Should make cached request if outdated', function () {
+  it('Should not make cached request if data is already requested', function () {
     let source = new HubSource(this.fakeAuth, 'test');
-    this.sinon.stub(source.cache, 'valid').returns(true);
-
-    return source.makeCachedRequest({test: 'foo'})
-      .then(() => {
-        this.fakeAuth.getApi.should.have.been.calledWith('test', 'testToken', {test: 'foo'});
-      });
-  });
-
-  it('Should not make cached request if valid', function () {
-    let source = new HubSource(this.fakeAuth, 'test');
-    this.sinon.stub(source.cache, 'valid').returns(false);
+    source.storedData = {};
 
     return source.makeCachedRequest({test: 'foo'})
       .then(() => {
