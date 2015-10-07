@@ -7,7 +7,7 @@ require('scrollbar/scrollbar.scss');
 require('tabs/tabs.scss');
 
 module.exports = {
-    libs: {
+  libs: {
     React: require('react'),
     ReactDOM: require('react-dom'),
     classnames: require('classnames')
