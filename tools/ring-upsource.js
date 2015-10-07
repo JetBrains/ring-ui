@@ -1,6 +1,10 @@
 // Ring 2.0 bundle for Upsource
 
-window.React = require('react');
+window.ring = {
+  React: require('react'),
+  ReactDOM: require('react-dom'),
+  classnames: require('classnames')
+};
 
 // CSS-only components. Upsource has its own JS implementations of those.
 require('button-group/button-group.scss');
