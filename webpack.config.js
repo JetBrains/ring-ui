@@ -4,7 +4,11 @@ var webpack = require('webpack');
 
 var componentsPath = path.join(__dirname, 'components');
 var nodeModulesPath = path.join(__dirname, 'node_modules');
-var docsPath = [path.join(__dirname, 'docs'), path.join(__dirname, 'site')];
+var buildPath = [
+  componentsPath,
+  path.join(__dirname, 'docs'),
+  path.join(__dirname, 'site')
+];
 var iconPath = [
   path.join(__dirname, 'components/icon/source'),
   path.join(__dirname, 'node_modules/jetbrains-logos')
@@ -30,7 +34,7 @@ module.exports = {
       },
       {
         test: /\.scss$/,
-        include: docsPath.concat(componentsPath),
+        include: buildPath,
         loaders: [
           'style',
           'css',
@@ -56,7 +60,7 @@ module.exports = {
       },
       {
         test: /\.js$/,
-        include: componentsPath,
+        include: buildPath,
         loader: 'babel-loader'
       },
       { test: /-ng(\\|\/)\S*(-ng|-ng__)\S*\.html$/,
