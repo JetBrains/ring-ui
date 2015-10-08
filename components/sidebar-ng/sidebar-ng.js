@@ -1,4 +1,5 @@
 require('../sidebar/sidebar.scss');
+require('../button/button.scss');
 require('../place-under-ng/place-under-ng');
 require('../react-ng/react-ng')({
   Icon: require('../icon/icon')
