@@ -28,9 +28,9 @@ const Type = {
  * @type {Object.<Type, string>}
  */
 const TypeToIconModifier = {
-  [Type.ERROR]: 'exception',
-  [Type.SUCCESS]: 'ok',
-  [Type.WARNING]: 'warning'
+  [Type.ERROR]: require('icon/source/exception.svg'),
+  [Type.SUCCESS]: require('icon/source/ok.svg'),
+  [Type.WARNING]: require('icon/source/warning.svg')
 };
 
 /**
@@ -132,7 +132,7 @@ export default class Alert extends RingComponent {
       {this._getCaption()}
       {
         this.props.closeable ?
-        <Icon className="ring-alert__close" glyph="close" size={Icon.Size.Size16} onClick={this._handleCloseClick} /> :
+        <Icon className="ring-alert__close" glyph={require('icon/source/close.svg')} size={Icon.Size.Size16} onClick={this._handleCloseClick} /> :
         ''
       }
     </div>);

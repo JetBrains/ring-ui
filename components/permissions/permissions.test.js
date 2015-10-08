@@ -94,6 +94,11 @@ describe('Permissions', function () {
       permissionCache.has('space-read', '456').should.be.true;
     });
 
+    it('should work for spaceId "global"', function() {
+      permissionCache.has('space-read', PermissionCache.GLOBAL_SPACE_ID).should.be.true;
+      permissionCache.has('space-update', PermissionCache.GLOBAL_SPACE_ID).should.be.false;
+    });
+
     it('should permit if user has permission in space', function () {
       permissionCache.has('space-update').should.be.true;
       permissionCache.has('space-update', '123').should.be.true;

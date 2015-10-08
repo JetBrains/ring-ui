@@ -34,6 +34,7 @@ const Size = {
   Size16: 16,
   Size18: 18,
   Size32: 32,
+  Size40: 40,
   Size48: 48,
   Size64: 64,
   Size96: 96,
@@ -59,18 +60,12 @@ const baseClass = new ClassName('ring-icon');
            <span id="icon-16-pencil"></span>
            <span id="icon-14-pencil"></span>
         </div>
-        <h3>All available icons are listed below. Place cursor over the icon to see it's name</h3>
-        <div id="all-icons"></div>
      </file>
 
      <file name="index.scss">
        .ring-icon {
          margin: 8px;
          padding: 8px;
-
-         &[class*=monochrome] {
-           background: #24353D;
-         }
        }
      </file>
 
@@ -78,7 +73,6 @@ const baseClass = new ClassName('ring-icon');
        require('./index.scss');
 
        var render = require('react-dom').render;
-       var DOM = require('react').DOM;
        var Icon = require('icon/icon');
 
        render(Icon.factory({
@@ -102,19 +96,32 @@ const baseClass = new ClassName('ring-icon');
          glyph: 'pencil',
          size: Icon.Size.Size14
        }), document.getElementById('icon-14-pencil'));
+     </file>
+   </example>
 
-       function getIconNames(){
-          var symbolsContainer = document.getElementById('ring-icon__template');
-          var symbols = symbolsContainer.querySelectorAll('symbol');
-          return Array.prototype.map.call(symbols, function(symbolElement){
-            return symbolElement.id.replace('ring-icon_', '');
-          });
+   * @example
+   <example name="Icons list">
+     <file name="index.html">
+       <h3>All available icons are listed below. Place cursor over the icon to see it's name</h3>
+       <div id="all-icons"></div>
+     </file>
+
+     <file name="index.scss">
+       .ring-icon {
+         margin: 8px;
+         padding: 8px;
        }
+     </file>
 
-       var icons = getIconNames();
+     <file name="index.js" webpack="true">
+       require('./index.scss');
+       import {render, createElement} from 'react-dom';
+       import Icon from 'icon/icon';
 
-       render(DOM.div({
-         children: icons.map(function (icon) {
+       var icons = require.context('icon/source', false, /\.svg$/);
+
+       render(createElement('div', {
+         children: icons.keys().map(icons).map(function (icon) {
            return Icon.factory({
              glyph: icon,
              title: icon
@@ -123,6 +130,39 @@ const baseClass = new ClassName('ring-icon');
        }), document.getElementById('all-icons'));
      </file>
    </example>
+
+   * @example
+   <example name="JB logos list">
+   <file name="index.html">
+     <div id="logos"></div>
+   </file>
+
+   <file name="index.scss">
+     .ring-icon {
+       margin: 8px;
+       padding: 8px;
+     }
+   </file>
+
+   <file name="index.js" webpack="true">
+     require('./index.scss');
+     import {render, createElement} from 'react-dom';
+     import Icon from 'icon/icon';
+
+     var logos = require.context('jetbrains-logos', true, /\.svg$/);
+
+     render(createElement('div', {
+       children: logos.keys().map(logos).map(function (icon) {
+         return Icon({
+           glyph: icon,
+           title: icon,
+           size: Icon.Size.Size128
+         });
+       })
+     }), document.getElementById('logos'));
+   </file>
+   </example>
+
  */
 export default class Icon extends RingComponent {
   static propTypes = {
@@ -142,48 +182,6 @@ export default class Icon extends RingComponent {
   static Color = Color;
   static Size = Size;
 
-  /**
-   * @type {Element}
-   * @private
-   */
-  static _templateElement = null;
-
-  /**
-   * It is imperative that template element is the first one on the page.
-   * If something else gets inserted before it, some browsers will stop
-   * displaying the icons.
-   * @static
-   */
-  static checkTemplatePositioning() {
-    if (!Icon._templateElement || !Icon._templateElement.previousElementSibling) {
-      return;
-    }
-
-    document.body.insertBefore(Icon._templateElement, document.body.childNodes[0]);
-  }
-
-  /**
-   * Inserts an SVG template into the document so icons could use links to those
-   * elements.
-   * @static
-   */
-  static initializeTemplate() {
-    if (Icon._templateElement) {
-      return;
-    }
-
-    let templateText = require('val?cacheable=true!./icon__template.js');
-    let domParser = new DOMParser();
-    let templateDoc = domParser.parseFromString(templateText, 'image/svg+xml');
-    Icon._templateElement = templateDoc.documentElement;
-
-    document.body.insertBefore(Icon._templateElement, document.body.childNodes[0]);
-    Icon._templateElement.style.display = 'none';
-    Icon._templateElement.id = baseClass.getElement('template');
-
-    Icon.checkTemplatePositioning();
-  }
-
   render() {
     let {baseClass, className, size, color, glyph, title} = this.props;
 
@@ -197,8 +195,7 @@ export default class Icon extends RingComponent {
       className
     );
 
-    let xlinkHref = '#' + baseClass.getModifier(glyph);
-    xlinkHref = IconUrl.resolve(xlinkHref);
+    const xlinkHref = IconUrl.resolve(glyph);
 
     return (
       <span {...this.props} className={classes}>
@@ -208,10 +205,5 @@ export default class Icon extends RingComponent {
         />
       </span>
     );
-  }
-
-  didMount() {
-    Icon.initializeTemplate();
-    Icon.checkTemplatePositioning();
   }
 }

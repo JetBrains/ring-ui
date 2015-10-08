@@ -1,5 +1,6 @@
 require('auth-ng/auth-ng');
 var Permissions = require('../permissions/permissions');
+var PermissionsCache = require('../permissions/permissions__cache');
 require('./permissions-ng.scss');
 
 /* global angular: false */
@@ -77,6 +78,9 @@ var registerPermission = function (element) {
        <div rg-permission="space-read">
          Is visible if user has permission 'read-space' at least in one space.
        </div>
+       <div rg-permission="space-read" in-global>
+         Is visible if user has permission 'read-space' at space "global".
+       </div>
      </file>
    </example>
  *
@@ -94,8 +98,8 @@ permissionsModule.directive('rgPermission', [
         this.permitted = false;
 
         element.classList.add('ring-permission-hide');
-
-        userPermissions.check($attrs.rgPermission, $scope.$eval($attrs.inSpace)).
+        const spaceId = $attrs.hasOwnProperty('inGlobal') ? PermissionsCache.GLOBAL_SPACE_ID : $scope.$eval($attrs.inSpace);
+        userPermissions.check($attrs.rgPermission, spaceId).
           then(permitted => {
             this.permitted = permitted;
             if (permitted) {
@@ -126,6 +130,9 @@ permissionsModule.directive('rgPermission', [
        <div rg-permission-if="space-read">
          Is transcluded if user has permission 'read-space' at least in one space.
        </div>
+       <div rg-permission-if="space-read" in-global>
+         Is transcluded if user has permission 'read-space' at space "global".
+       </div>
      </file>
    </example>
  *
@@ -145,7 +152,8 @@ permissionsModule.directive('rgPermissionIf', function ($animate, userPermission
         var block;
         var childScope;
 
-        userPermissions.check(iAttrs.rgPermissionIf, scope.$eval(iAttrs.inSpace)).
+        var spaceId = iAttrs.hasOwnProperty('inGlobal') ? PermissionsCache.GLOBAL_SPACE_ID : scope.$eval(iAttrs.inSpace);
+        userPermissions.check(iAttrs.rgPermissionIf, spaceId).
           then(function (permitted) {
             if (permitted) {
               if (!childScope) {
@@ -188,11 +196,11 @@ permissionsModule.directive('rgPermissionIf', function ($animate, userPermission
  * @example
    <example name="somePermissions directive">
      <file name="index.html">
-       <div some-permissions="atLeastOneNestedDivIsShown" ng-show="atLeastOneNestedDivIsShown">
-         <div permission-if="space-read" in-space="0-0-0-0-0">
+       <div rg-some-permissions="atLeastOneNestedDivIsShown" ng-show="atLeastOneNestedDivIsShown">
+         <div rg-permission-if="space-read" in-space="0-0-0-0-0">
            Is transcluded if user has permission 'read-space' in space 0-0-0-0-0.
          </div>
-         <div permission-if="space-read">
+         <div rg-permission-if="space-read">
            Is transcluded if user has permission 'read-space' at least in one space.
          </div>
        </div>

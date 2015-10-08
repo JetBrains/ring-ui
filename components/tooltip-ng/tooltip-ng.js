@@ -9,20 +9,19 @@ import './tooltip-ng.scss';
 <example name="tooltip-ng">
   <file name="index.html">
     <div class="tooltip-example" ng-app='tooltip-test'>
-      Some text that needs explain
-      <span rg-tooltip="'Test message'"
-          react-static="Icon" react-glyph="'help'" react-size="16" react-class="'ring-tooltip-ng__hint-icon'"></span>
+      Some text that needs explanation
+      <span ng-controller="testController" rg-tooltip="'Test message'"
+          react-static="Icon" react-value-glyph="../icon/source/help" react-size="16" react-class="'ring-tooltip-ng__hint-icon'"></span>
     </div>
   </file>
   <file name="index.js" webpack="true">
     require('./foo.scss');
+    require('icon/source/help.svg');
     require('angular/angular.min.js');
     require('react-ng/react-ng')({
       Icon: require('icon/icon')
     });
     require('tooltip-ng/tooltip-ng');
-
-    angular.module('tooltip-test', ['Ring.react-ng', 'Ring.tooltip']);
   </file>
   <file name="foo.scss">
     @import 'global/global';
