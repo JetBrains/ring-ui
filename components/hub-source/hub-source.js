@@ -3,32 +3,9 @@ export const TOP_ALL = -1;
 
 const defaultOptions = {
   searchMax: 20,
-  cacheExpireTime: 60/*sec*/ * 1000,
   searchSideThreshold: 100,
   queryFormatter: (query) => `${query} or ${query}*`
 };
-
-class HubSourceCache {
-  constructor(expireTime) {
-    this.expireTime = expireTime;
-    this.validUntil = 0;
-    this.value = null;
-  }
-
-  valid() {
-    return Date.now() > this.validUntil;
-  }
-
-  setValue(value) {
-    this.value = value;
-    this.validUntil = Date.now() + this.expireTime;
-  }
-
-  getValue() {
-    return this.value;
-  }
-}
-
 
 /**
  * HubSource designed to speed search requests for small installations.
@@ -43,7 +20,7 @@ export default class HubSource {
     this.options = Object.assign({}, defaultOptions, options);
 
 
-    this.cache = new HubSourceCache(this.options.expireTime);
+    this.storedData = null;
     this.isClientSideSearch = null;
     this.filterFn = null;
   }
@@ -54,14 +31,14 @@ export default class HubSource {
   }
 
   makeCachedRequest(params) {
-    if (this.cache.valid()) {
-      return this.makeRequest(params)
-        .then(res => {
-          this.cache.setValue(res);
-          return res;
-        });
+    if (this.storedData) {
+      return Promise.resolve(this.storedData);
     }
-    return Promise.resolve(this.cache.getValue());
+    return this.makeRequest(params)
+      .then(res => {
+        this.storedData = res;
+        return res;
+      });
   }
 
   static mergeParams(params, toMerge) {
