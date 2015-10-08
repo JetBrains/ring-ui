@@ -50,6 +50,7 @@ function renderAndRemoveOnDestroy(ComponentClass, iElement, props){
 let reactDirectiveName = 'react';
 let staticDirectiveName = reactDirectiveName + 'Static';
 let attributeToPassPrefix = 'react';
+let attributeToPassByValuePrefix = 'reactValue';
 let specialDOMAttrs = {
   'for': 'htmlFor',
   'class': 'className'
@@ -171,12 +172,13 @@ function reactNgDirective($parse) {
    <example name="React-ng">
      <file name="index.html">
        <div ng-app="Ring.react-ng">
-         <span react="Icon" glyph="'pencil'" size="64"></span>
+         <span react-static="Icon" react-value-glyph="../icon/source/pancil.svg" size="64"></span>
        </div>
      </file>
 
      <file name="index.js" webpack="true">
        require('angular/angular.min.js');
+       require('icon/source/pencil.svg');
        require('react-ng/react-ng')({
          Icon: require('icon/icon')
        });
@@ -186,9 +188,9 @@ function reactNgDirective($parse) {
 
 /*@ngInject*/
 function reactStatigNgDirective($parse) {
-  function getPropertyName(name) {
+  function getPropertyName(name, prefix) {
     //remove "react-" prefix and uncapitalize first letter
-    let cleanAttrName = name.replace(attributeToPassPrefix, '');
+    let cleanAttrName = name.replace(prefix, '');
     let uncapitalizedAttrName = cleanAttrName.charAt(0).toLowerCase() + cleanAttrName.slice(1);
     // Use React DOM attributes names
     let specialDOMAttrName = specialDOMAttrs[uncapitalizedAttrName];
@@ -204,15 +206,13 @@ function reactStatigNgDirective($parse) {
       let props = {};
 
       angular.forEach(iAttrs, (value, attrName) => {
-        if (
-          iAttrs.hasOwnProperty(attrName) &&
-          attrName !== staticDirectiveName &&
-          attrName.indexOf(attributeToPassPrefix) === 0 &&
-          typeof value === 'string'
-        ) {
+        if (iAttrs.hasOwnProperty(attrName) && attrName !== staticDirectiveName) {
+          if (attrName.indexOf(attributeToPassByValuePrefix) === 0) {
+            props[getPropertyName(attrName, attributeToPassByValuePrefix)] = value;
           // Parse as expression
-          let parsedExpression = $parse(value);
-          props[getPropertyName(attrName)] = parsedExpression(scope);
+          } else if (attrName.indexOf(attributeToPassPrefix) === 0 && typeof value === 'string') {
+            props[getPropertyName(attrName, attributeToPassPrefix)] = $parse(value)(scope);
+          }
         }
       });
 

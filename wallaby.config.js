@@ -49,6 +49,7 @@ module.exports = function (wallaby) {
     files: [
       // test helpers
       {pattern: 'node_modules/jquery/dist/jquery.js', instrument: false},
+      {pattern: 'node_modules/karma-phantomjs-shim/shim.js', instrument: false},
       {pattern: 'test-helpers/mocha-globals.js', instrument: false},
 
       // test frameworks

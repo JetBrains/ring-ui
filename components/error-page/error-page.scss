@@ -1,6 +1,7 @@
 @import "../global/global";
 
-// Pseudo-element should be present to avoid icons disappearance on its toggle
+// Using a pseudo-element rather than the element itself to prevent
+// SVG icons from disappearing when the class name is toggled
 // See https://youtrack.jetbrains.com/issue/RG-755
 .error-page:before {
   content: '';

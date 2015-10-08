@@ -32,7 +32,14 @@ const headerClassName = new ClassName('ring-header');
  * @const
  * @type {RegExp}
  */
-const CUSTOM_ICON_SERVICE_REGEXP = /^teamcity|upsource|youtrack|hub|vcs hosting$/i;
+var CUSTOM_ICON_SERVICE_REGEXP = /^teamcity|upsource|youtrack|hub$/i;
+
+var PRUDUCTS_LOGOS = {
+  hub: require('jetbrains-logos/hub/hub.svg'),
+  teamcity: require('jetbrains-logos/teamcity/teamcity.svg'),
+  upsource: require('jetbrains-logos/upsource/upsource.svg'),
+  youtrack: require('jetbrains-logos/youtrack/youtrack.svg')
+};
 
 /**
  * Takes an item, decides, whether it is a known JetBrains service
@@ -47,15 +54,12 @@ function getServiceLogo(item) {
   // Remove after logos update
   let detectedService = CUSTOM_ICON_SERVICE_REGEXP.exec(item.applicationName);
   if (detectedService) {
-    let serviceGlyph = detectedService[0].
-      toLowerCase().
-      replace('hub', 'ring').
-      replace(' ', '-');
+    var serviceGlyph = PRUDUCTS_LOGOS[detectedService[0].toLowerCase()];
 
     return (
       <Icon size={Icon.Size.Size48}
-            glyph={serviceGlyph + '-monochrome'}
-            className={className + '_monochrome ' + className} />
+            glyph={serviceGlyph}
+            className={className} />
     );
   }
 
@@ -402,7 +406,7 @@ export default class Header extends RingComponent {
         );
       }
 
-      return <Icon size={Icon.Size.Size32} glyph={this.props.logo} title={logoTitle} />;
+      return <Icon size={Icon.Size.Size40} glyph={PRUDUCTS_LOGOS[this.props.logo] || this.props.logo} title={logoTitle} />;
     };
 
     // todo(igor.alexeenko): This check treats as valid only components
@@ -471,7 +475,7 @@ export default class Header extends RingComponent {
         <HeaderItem
           key="settings"
           ref="settings"
-          glyph="cog1"
+          glyph={require('icon/source/cog.svg')}
           href={this.props.settingsLink}
           onOpen={this.props.onSettingsOpen}
           onClose={this.props.onSettingsClose}
@@ -483,7 +487,7 @@ export default class Header extends RingComponent {
         <HeaderItem
           key="help"
           ref="help"
-          glyph="help"
+          glyph={require('icon/source/help.svg')}
           href={this.props.helpLink}
           onOpen={this.props.onHelpOpen}
           onClose={this.props.onHelpClose}
@@ -495,7 +499,7 @@ export default class Header extends RingComponent {
         <HeaderItem
           key="services"
           ref="services"
-          glyph="services"
+          glyph={require('icon/source/services.svg')}
           onOpen={::this._onServicesOpen}
           onClose={::this._onServicesClose}
           title="Services"
@@ -506,7 +510,7 @@ export default class Header extends RingComponent {
         <HeaderItem
           key="userMenu"
           ref="userMenu"
-          glyph="user1"
+          glyph={require('icon/source/user1.svg')}
           onOpen={this.props.onUserMenuOpen}
           onClose={this.props.onUserMenuClose}
         />
