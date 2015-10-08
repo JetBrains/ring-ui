@@ -1,12 +1,11 @@
 describe('Icon', function () {
   var $ = require('jquery');
-  var React = require('react');
   var TestUtils = require('react-addons-test-utils');
   var Icon = require('./icon');
   var expandIcon = require('icon/source/expand.svg');
 
   beforeEach(function () {
-    this.icon = TestUtils.renderIntoDocument(new Icon({
+    this.icon = TestUtils.renderIntoDocument(Icon.factory({
       glyph: expandIcon
     }));
   });
