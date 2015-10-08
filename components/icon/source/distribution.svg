@@ -10,8 +10,8 @@
 	<text transform="matrix(1 0 0 1 7.166 -24.5)" display="inline" font-family="'Helvetica-Bold'" font-size="6.1578">The Noun Project</text>
 	<text transform="matrix(1 0 0 1 8.2861 -19.7002)" display="inline" font-family="'Helvetica-Bold'" font-size="4">Icon Template</text>
 	<text transform="matrix(1 0 0 1 -178.5 10.5)" display="inline" font-family="'Helvetica-Bold'" font-size="6.1578">Reminders</text>
-	<line display="inline" fill="none" stroke="#FFFFFF" stroke-miterlimit="10" x1="8" y1="-14.5" x2="18" y2="-14.5"/>
-	<line display="inline" fill="none" stroke="#FFFFFF" stroke-miterlimit="10" x1="-179" y1="16.5" x2="-162" y2="16.5"/>
+	<line display="inline" stroke="#FFFFFF" stroke-miterlimit="10" x1="8" y1="-14.5" x2="18" y2="-14.5"/>
+	<line display="inline" stroke="#FFFFFF" stroke-miterlimit="10" x1="-179" y1="16.5" x2="-162" y2="16.5"/>
 	<g display="inline">
 		<g>
 			<g>
@@ -22,7 +22,7 @@
 			</g>
 		</g>
 	</g>
-	<rect x="-179" y="58" display="inline" fill="none" width="35" height="32.5"/>
+	<rect x="-179" y="58" display="inline" width="35" height="32.5"/>
 	<text transform="matrix(1 0 0 1 -179 60.1572)" display="inline" font-family="'Helvetica-Bold'" font-size="3">Strokes</text>
 	<text transform="matrix(1 0 0 1 -179 65.1572)" display="inline" font-family="'Helvetica'" font-size="2.4">Try to keep strokes at 4px</text>
 	<text transform="matrix(1 0 0 1 -179 70.1572)" display="inline" font-family="'Helvetica'" font-size="2.4">Minimum stroke weight is 2px</text>
@@ -30,17 +30,17 @@
 	<text transform="matrix(1 0 0 1 -179 77.6572)" display="inline" font-family="'Helvetica'" font-size="2.4">numbers: 6px, 8px etc.</text>
 	<text transform="matrix(1 0 0 1 -179 82.1572)" display="inline" font-family="'Helvetica-Bold'" font-size="2.4">Remember to expand strokes </text>
 	<text transform="matrix(1 0 0 1 -179 85.1572)" display="inline" font-family="'Helvetica-Bold'" font-size="2.4">before saving as an SVG </text>
-	<rect x="-136.5" y="58" display="inline" fill="none" width="35" height="32.5"/>
+	<rect x="-136.5" y="58" display="inline" width="35" height="32.5"/>
 	<text transform="matrix(1 0 0 1 -136.5 60.1572)" display="inline" font-family="'Helvetica-Bold'" font-size="3">Size</text>
 	<text transform="matrix(1 0 0 1 -136.5 65.1572)" display="inline" font-family="'Helvetica'" font-size="2.4">Cannot be wider or taller than </text>
 	<text transform="matrix(1 0 0 1 -136.5 68.6572)" display="inline" font-family="'Helvetica'" font-size="2.4">100px (artboard size)</text>
 	<text transform="matrix(1 0 0 1 -136.5 73.6572)" display="inline" font-family="'Helvetica'" font-size="2.4">Scale your icon to fill as much of </text>
 	<text transform="matrix(1 0 0 1 -136.5 76.6572)" display="inline" font-family="'Helvetica'" font-size="2.4">the artboard as possible</text>
-	<rect x="-94" y="58" display="inline" fill="none" width="35" height="32.5"/>
+	<rect x="-94" y="58" display="inline" width="35" height="32.5"/>
 	<text transform="matrix(1 0 0 1 -94 60.1572)" display="inline" font-family="'Helvetica-Bold'" font-size="3">Ungroup</text>
 	<text transform="matrix(1 0 0 1 -94 65.1572)" display="inline" font-family="'Helvetica'" font-size="2.4">If your design has more than one </text>
 	<text transform="matrix(1 0 0 1 -94 68.1572)" display="inline" font-family="'Helvetica'" font-size="2.4">shape, make sure to ungroup</text>
-	<rect x="-50" y="58" display="inline" fill="none" width="35" height="32.5"/>
+	<rect x="-50" y="58" display="inline" width="35" height="32.5"/>
 	<text transform="matrix(1 0 0 1 -50 60.1572)" display="inline" font-family="'Helvetica-Bold'" font-size="3">Save as</text>
 	<text transform="matrix(1 0 0 1 -50 65.1572)" display="inline" font-family="'Helvetica'" font-size="2.4">Save as .SVG and make sure </text>
 	<text transform="matrix(1 0 0 1 -50 68.1572)" display="inline" font-family="'Helvetica'" font-size="2.4">“Use Artboards” is checked</text>

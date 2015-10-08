@@ -65,7 +65,7 @@ class ListItem extends RingComponent {
   getCheckbox() {
     if (this.props.checkbox !== undefined) {
       let cn = 'ring-list__checkbox' + (this.props.checkbox ? '' : ' ring-list__checkbox_hidden');
-      return (<Icon className={cn} glyph="check" size={Icon.Size.Size18}/>);
+      return (<Icon className={cn} glyph={require('icon/source/check.svg')} size={Icon.Size.Size18}/>);
     }
   }
 

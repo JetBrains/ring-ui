@@ -77,6 +77,23 @@ angular.module('Ring.save-field', [
             </div>
           </div>
 
+          <div class="ring-form__group">
+            <label class="ring-form__label">
+              Number
+            </label>
+
+            <div class="ring-form__control">
+              <rg-save-field value="data.num"
+                             on-save="save">
+                <input type="number"
+                       max="10"
+                       class="ring-input"
+                       ng-model="data.num">
+              </rg-save-field>
+            <div>
+          </div>
+        </div>
+
         </div>
      </div>
      </file>
@@ -90,7 +107,8 @@ angular.module('Ring.save-field', [
            $scope.data = {
              email: 'aa',
              longText: null,
-             longTextList: ['one', 'two', 'three']
+             longTextList: ['one', 'two', 'three'],
+             num: 10
            };
 
            var defer = $q.defer();
