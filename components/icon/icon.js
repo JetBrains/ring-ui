@@ -78,22 +78,22 @@ const baseClass = new ClassName('ring-icon');
        render(Icon.factory({
          className: 'additional-class',
          color: 'orange',
-         glyph: 'ok',
+         glyph: require('icon/source/ok.svg'),
          size: Icon.Size.Size32
        }), document.getElementById('icon-container'));
 
        render(Icon.factory({
-         glyph: 'distribution',
+         glyph: require('icon/source/distribution.svg'),
          size: Icon.Size.Size32
        }), document.getElementById('icon-distribution'));
 
        render(Icon.factory({
-         glyph: 'pencil',
+         glyph: require('icon/source/pencil.svg'),
          size: Icon.Size.Size16
        }), document.getElementById('icon-16-pencil'));
 
        render(Icon.factory({
-         glyph: 'pencil',
+         glyph: require('icon/source/pencil.svg'),
          size: Icon.Size.Size14
        }), document.getElementById('icon-14-pencil'));
      </file>
@@ -115,7 +115,8 @@ const baseClass = new ClassName('ring-icon');
 
      <file name="index.js" webpack="true">
        require('./index.scss');
-       import {render, createElement} from 'react-dom';
+       import {render} from 'react-dom';
+       import {createElement} from 'react';
        import Icon from 'icon/icon';
 
        var icons = require.context('icon/source', false, /\.svg$/);
@@ -146,14 +147,15 @@ const baseClass = new ClassName('ring-icon');
 
    <file name="index.js" webpack="true">
      require('./index.scss');
-     import {render, createElement} from 'react-dom';
+     import {render} from 'react-dom';
+     import {createElement} from 'react';
      import Icon from 'icon/icon';
 
      var logos = require.context('jetbrains-logos', true, /\.svg$/);
 
      render(createElement('div', {
        children: logos.keys().map(logos).map(function (icon) {
-         return Icon({
+         return Icon.factory({
            glyph: icon,
            title: icon,
            size: Icon.Size.Size128
