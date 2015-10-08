@@ -16,7 +16,6 @@ module.exports = {
     Auth: require('auth/auth'),
     Button: require('button/button'),
     Footer: require('footer/footer'),
-    Global: require('global/global'),
     Header: require('header/header'),
     Popup: require('popup/popup'),
     PopupMenu: require('popup-menu/popup-menu'),
