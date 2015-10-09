@@ -62,6 +62,24 @@
   display: inline-block;
   line-height: 1.2;
   user-select: none;
+
+  &_inactive {
+    color: $ring-gray-color;
+  }
+
+  &_active {
+    color: $ring-blue-color;
+  }
+}
+
+.ring-header__menu-item-cog {
+  color: $ring-gray-color;
+  transition: transform 0.3s ease-out;
+  transform: rotate(0deg);
+
+  &_rotated {
+    transform: rotate(60deg);
+  }
 }
 
 .ring-header__menu-item {
@@ -80,18 +98,13 @@
   cursor: pointer;
 
   .ring-icon {
-    fill: $ring-gray-color;
     padding: $ring-unit;
   }
 
   &:hover {
     .ring-icon {
-      fill: $ring-link-hover-color;
+      color: $ring-link-hover-color;
     }
-  }
-
-  .ring-icon_blue {
-    fill: $ring-blue-color;
   }
 
   .ring-icon_24 {
