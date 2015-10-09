@@ -47,7 +47,9 @@ export default class HeaderItem extends RingComponent {
     glyph: '',
     href: null,
     onOpen: null,
-    onClose: null
+    onClose: null,
+    activeClassName: 'ring-header__user-menu-item_active',
+    inactiveClassName: 'ring-header__user-menu-item_inactive'
   };
 
   state = {
@@ -131,7 +133,7 @@ export default class HeaderItem extends RingComponent {
   _getIcon() {
     return (
       <Icon {...this.props}
-        color={this.state.opened ? 'blue' : 'gray'}
+        className={this.state.opened ? this.props.activeClassName : this.props.inactiveClassName}
         glyph={this.props.glyph}
         size={Icon.Size.Size18}
         title={this.state.title || this.props.title}

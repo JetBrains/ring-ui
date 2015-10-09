@@ -479,6 +479,8 @@ export default class Header extends RingComponent {
           href={this.props.settingsLink}
           onOpen={this.props.onSettingsOpen}
           onClose={this.props.onSettingsClose}
+          inactiveClassName="ring-header__menu-item-cog"
+          activeClassName="ring-header__menu-item-cog ring-header__menu-item-cog_rotated"
           title="Administration"
         />
       ),
