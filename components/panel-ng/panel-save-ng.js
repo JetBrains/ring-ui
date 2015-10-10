@@ -31,7 +31,7 @@ angular.module('Ring.panel-save', [])
       template: '<div class="ring-panel ring-panel-save" ng-transclude></div>',
       link: function(scope, element) {
         var STICKY_CSS_CLASS_NAME = 'ring-panel-save_sticky';
-        var panelInitials = {};
+        var panelInitialRect;
         var isPinned;
 
         /**
@@ -46,10 +46,7 @@ angular.module('Ring.panel-save', [])
          * Save panel initial rects and left margin for further use
          */
         var savePanelInitialRect = function() {
-          panelInitials = {
-            rect: panel.getBoundingClientRect(),
-            marginLeft: panel.style.marginLeft
-          };
+          panelInitialRect = panel.getBoundingClientRect();
         };
 
         var getWindowHeight = function() {
@@ -90,7 +87,7 @@ angular.module('Ring.panel-save', [])
           if (currentPanelBottomPos > getWindowHeight() && !isPinned) {
             stick();
 
-          } else if (isPinned && currentPanelBottomPos + getDocumentScrollTop() >= panelInitials.rect.bottom) {
+          } else if (isPinned && currentPanelBottomPos + getDocumentScrollTop() >= panelInitialRect.bottom) {
             unstick();
           }
         };
