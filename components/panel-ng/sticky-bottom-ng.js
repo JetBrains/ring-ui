@@ -2,7 +2,7 @@ require('./sticky-bottom-ng.scss');
 var debounce = require('mout/function/debounce');
 
 /**
- * @name Sticky save panel
+ * @name Sticky bottom panel
  * @description Should stick panel at the bottom of the page
  *              if it's out of the browser viewport
  * @example
