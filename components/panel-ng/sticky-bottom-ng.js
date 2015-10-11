@@ -1,4 +1,4 @@
-require('./panel-save.scss');
+require('./sticky-bottom-ng.scss');
 var debounce = require('mout/function/debounce');
 
 /**
@@ -13,25 +13,22 @@ var debounce = require('mout/function/debounce');
        <textarea rows="150" class="ring-textarea ring-form__input ring-form__input_long" ></textarea>
      </div>
    </div>
-   <rg-save-panel>
+   <div class="ring-panel" rg-sticky-bottom rg-sticky-bottom-class="customCssClass">
      <button class="ring-btn ring-btn_blue">Save</button>
      <button class="ring-btn"Revert</button>
-   </rg-save-panel>
+   </div>
  </example>
  */
 
 /* global angular:false */
-angular.module('Ring.panel-save', [])
+angular.module('Ring.sticky-bottom', [])
 
-  .directive('rgPanelSave', function() {
+  .directive('rgStickyBottom', function() {
     return {
-      restrict: 'E',
-      transclude: true,
-      replace: true,
-      template: '<div class="ring-panel ring-panel-save" ng-transclude></div>',
-      link: function(scope, element) {
-        var STICKY_CSS_CLASS_NAME = 'ring-panel-save_sticky';
-        var panelInitialRect;
+      link: function(scope, element, attrs) {
+        var STICKY_CSS_CLASS_NAME = 'ring-sticky-bottom';
+        var customCssClassOnStick = attrs.rgStickyBottomClass;
+        var panelInitialBottomPos;
         var isPinned;
 
         /**
@@ -45,8 +42,8 @@ angular.module('Ring.panel-save', [])
         /**
          * Save panel initial rects and left margin for further use
          */
-        var savePanelInitialRect = function() {
-          panelInitialRect = panel.getBoundingClientRect();
+        var savePanelInitialBottomPos = function() {
+          panelInitialBottomPos = panel.getBoundingClientRect().bottom;
         };
 
         var getWindowHeight = function() {
@@ -58,23 +55,41 @@ angular.module('Ring.panel-save', [])
         };
 
         /**
+         * @param {String} className
+         */
+        var addCssClass = function(className) {
+          if (className) {
+            if (isClassListSupported) {
+              panel.classList.add(className);
+            } else {
+              panel.className += ' ' + className;
+            }
+          }
+        };
+
+        /**
+         * @param {String} className
+         */
+        var removeCssClass = function(className) {
+          if (isClassListSupported) {
+            panel.classList.remove(className);
+          } else {
+            panel.className = panel.className.replace(className, '');
+          }
+        };
+
+        /**
          * Pin panel at the bottom of the page
          */
         var stick = function() {
-          if (isClassListSupported) {
-            panel.classList.add(STICKY_CSS_CLASS_NAME);
-          } else {
-            panel.className += ' ' + STICKY_CSS_CLASS_NAME;
-          }
+          addCssClass(STICKY_CSS_CLASS_NAME);
+          addCssClass(customCssClassOnStick);
           isPinned = true;
         };
 
         var unstick = function() {
-          if (isClassListSupported) {
-            panel.classList.remove(STICKY_CSS_CLASS_NAME);
-          } else {
-            panel.className = panel.className.replace(STICKY_CSS_CLASS_NAME, '');
-          }
+          removeCssClass(STICKY_CSS_CLASS_NAME);
+          removeCssClass(customCssClassOnStick);
           isPinned = false;
         };
 
@@ -87,18 +102,15 @@ angular.module('Ring.panel-save', [])
           if (currentPanelBottomPos > getWindowHeight() && !isPinned) {
             stick();
 
-          } else if (isPinned && currentPanelBottomPos + getDocumentScrollTop() >= panelInitialRect.bottom) {
+          } else if (isPinned && currentPanelBottomPos + getDocumentScrollTop() >= panelInitialBottomPos) {
             unstick();
           }
         };
 
-        /**
-         * Set scroll listener
-         * @type Function
-         */
-        var scrollListener = debounce(checkPanelPosition, 10);
 
         var init = function() {
+          var scrollListener = debounce(checkPanelPosition, 10);
+
           /**
            * Wait until all content on the page is loaded
            */
@@ -111,7 +123,7 @@ angular.module('Ring.panel-save', [])
               window.removeEventListener('resize', checkPanelPosition);
             });
 
-            savePanelInitialRect();
+            savePanelInitialBottomPos();
             checkPanelPosition();
           });
         };
