@@ -39,7 +39,7 @@ angular.module('Ring.docked-panel', [])
   .directive('rgDockedPanel', function() {
     return {
       link: function(scope, element, attrs) {
-        var STICKY_CSS_CLASS_NAME = 'ring-docked-panel';
+        var CSS_CLASS_NAME = 'ring-docked-panel';
         var customCssClassOnStick = attrs.rgDockedPanelClass;
         var panelInitialBottomPos;
         var isPinned;
@@ -95,13 +95,13 @@ angular.module('Ring.docked-panel', [])
          * Pin panel at the bottom of the page
          */
         var stick = function() {
-          addCssClass(STICKY_CSS_CLASS_NAME);
+          addCssClass(CSS_CLASS_NAME);
           addCssClass(customCssClassOnStick);
           isPinned = true;
         };
 
         var unstick = function() {
-          removeCssClass(STICKY_CSS_CLASS_NAME);
+          removeCssClass(CSS_CLASS_NAME);
           removeCssClass(customCssClassOnStick);
           isPinned = false;
         };
@@ -119,7 +119,6 @@ angular.module('Ring.docked-panel', [])
             unstick();
           }
         };
-
 
         var init = function() {
           var scrollListener = debounce(checkPanelPosition, 10);
