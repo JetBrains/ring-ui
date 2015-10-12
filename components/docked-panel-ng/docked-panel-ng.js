@@ -1,4 +1,4 @@
-require('./sticky-bottom-ng.scss');
+require('./docked-panel-ng.scss');
 var debounce = require('mout/function/debounce');
 
 /**
@@ -20,7 +20,7 @@ var debounce = require('mout/function/debounce');
  </file>
  <file name="index.js" webpack="true">
    require('angular/angular.min.js');
-   require('panel-ng/sticky-bottom-ng.scss');
+   require('docked-panel-ng/docked-docked-panel-ng.scss');
    var debounce = require('mout/function/debounce');
  </file>
  </example>
