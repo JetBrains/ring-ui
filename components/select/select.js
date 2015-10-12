@@ -497,11 +497,16 @@ export default class Select extends RingComponentWithShortcuts {
   }
 
   _hidePopup() {
-    this._popup.isVisible() && this.props.onClose();
+    let isVisible = this._popup.isVisible();
+
+    if (isVisible) {
+      this.props.onClose();
+    }
+
     this._popup.hide();
 
     setTimeout(() => {
-      if (this.node) {
+      if (this.node && isVisible) {
         this.node.focus();
       }
     }, 0);
