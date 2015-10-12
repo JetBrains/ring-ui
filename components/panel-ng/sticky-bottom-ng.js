@@ -17,6 +17,12 @@ var debounce = require('mout/function/debounce');
      <button class="ring-btn ring-btn_blue">Save</button>
      <button class="ring-btn"Revert</button>
    </div>
+ </file>
+ <file name="index.js" webpack="true">
+   require('angular/angular.min.js');
+   require('panel-ng/sticky-bottom-ng.scss');
+   var debounce = require('mout/function/debounce');
+ </file>
  </example>
  */
 
