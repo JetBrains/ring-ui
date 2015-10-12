@@ -2,7 +2,7 @@ require('./docked-panel-ng.scss');
 var debounce = require('mout/function/debounce');
 
 /**
- * @name Sticky bottom panel
+ * @name Docked panel
  * @description Should stick panel at the bottom of the page
  *              if it's out of the browser viewport
  * @example
@@ -13,7 +13,7 @@ var debounce = require('mout/function/debounce');
        <textarea rows="150" class="ring-textarea ring-form__input ring-form__input_long" ></textarea>
      </div>
    </div>
-   <div class="ring-panel" rg-sticky-bottom rg-sticky-bottom-class="customCssClass">
+   <div class="ring-panel" rg-docked-panel rg-docked-panel-class="customCssClass">
      <button class="ring-btn ring-btn_blue">Save</button>
      <button class="ring-btn"Revert</button>
    </div>
@@ -27,13 +27,13 @@ var debounce = require('mout/function/debounce');
  */
 
 /* global angular:false */
-angular.module('Ring.sticky-bottom', [])
+angular.module('Ring.docked-panel', [])
 
-  .directive('rgStickyBottom', function() {
+  .directive('rgDockedPanel', function() {
     return {
       link: function(scope, element, attrs) {
-        var STICKY_CSS_CLASS_NAME = 'ring-sticky-bottom';
-        var customCssClassOnStick = attrs.rgStickyBottomClass;
+        var STICKY_CSS_CLASS_NAME = 'ring-docked-panel';
+        var customCssClassOnStick = attrs.rgDockedPanelClass;
         var panelInitialBottomPos;
         var isPinned;
 
