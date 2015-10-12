@@ -2,28 +2,35 @@ require('./docked-panel-ng.scss');
 var debounce = require('mout/function/debounce');
 
 /**
- * @name Docked panel
+ * @name Docked panel ng
  * @description Should stick panel at the bottom of the page
  *              if it's out of the browser viewport
  * @example
- <file name="index.html">
-   <div class="ring-form__group">
-     <label class="ring-form__label">Description</label>
-     <div class="ring-form__control">
-       <textarea rows="150" class="ring-textarea ring-form__input ring-form__input_long" ></textarea>
-     </div>
-   </div>
-   <div class="ring-panel" rg-docked-panel rg-docked-panel-class="customCssClass">
-     <button class="ring-btn ring-btn_blue">Save</button>
-     <button class="ring-btn"Revert</button>
-   </div>
- </file>
- <file name="index.js" webpack="true">
-   require('angular/angular.min.js');
-   require('docked-panel-ng/docked-docked-panel-ng.scss');
-   var debounce = require('mout/function/debounce');
- </file>
- </example>
+ * <example name="Docked panel ng">
+  <file name="index.html">
+  <div ng-app='DockedPanelExample'>
+    <div>
+      <textarea placeholder="Add description" rows="70" cols="100"></textarea>
+    </div>
+    <div class="ring-panel" rg-docked-panel rg-docked-panel-class="customCssClass">
+      <button class="ring-btn ring-btn_blue">Save</button>
+      <button class="ring-btn"Revert>Cancel</button>
+    </div>
+    <br/>
+    <div>
+      <textarea placeholder="Add steps" rows="10" cols="50"></textarea>
+    </div>
+  </div>
+  </file>
+  <file name="index.js" webpack="true">
+    require('angular/angular.min.js');
+    require('button/button.scss');
+    require('panel/panel.scss');
+    require('docked-panel-ng/docked-panel-ng');
+    var debounce = require('mout/function/debounce');
+    angular.module('DockedPanelExample', ['Ring.docked-panel']);
+  </file>
+  </example>
  */
 
 /* global angular:false */
