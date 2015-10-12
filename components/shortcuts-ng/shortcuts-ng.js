@@ -48,7 +48,7 @@ ringShortcutsModule.provider('shortcuts', function () {
             key: key.key,
             scope: scope || name,
             handler: (...args) => {
-              let ret = handler.call(handlers, ...args);
+              let ret = handler(...args);
               /*eslint-disable angular/ng_no_private_call*/
               if (!$rootScope.$$phase) {
                 $rootScope.$apply();
