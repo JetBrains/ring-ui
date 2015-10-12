@@ -2,38 +2,45 @@ require('./docked-panel-ng.scss');
 var debounce = require('mout/function/debounce');
 
 /**
- * @name Sticky bottom panel
+ * @name Docked panel ng
  * @description Should stick panel at the bottom of the page
  *              if it's out of the browser viewport
  * @example
- <file name="index.html">
-   <div class="ring-form__group">
-     <label class="ring-form__label">Description</label>
-     <div class="ring-form__control">
-       <textarea rows="150" class="ring-textarea ring-form__input ring-form__input_long" ></textarea>
-     </div>
-   </div>
-   <div class="ring-panel" rg-sticky-bottom rg-sticky-bottom-class="customCssClass">
-     <button class="ring-btn ring-btn_blue">Save</button>
-     <button class="ring-btn"Revert</button>
-   </div>
- </file>
- <file name="index.js" webpack="true">
-   require('angular/angular.min.js');
-   require('docked-panel-ng/docked-docked-panel-ng.scss');
-   var debounce = require('mout/function/debounce');
- </file>
- </example>
+ * <example name="Docked panel ng">
+  <file name="index.html">
+  <div ng-app='DockedPanelExample'>
+    <div>
+      <textarea placeholder="Add description" rows="70" cols="100"></textarea>
+    </div>
+    <div class="ring-panel" rg-docked-panel rg-docked-panel-class="customCssClass">
+      <button class="ring-btn ring-btn_blue">Save</button>
+      <button class="ring-btn"Revert>Cancel</button>
+    </div>
+    <br/>
+    <div>
+      <textarea placeholder="Add steps" rows="10" cols="50"></textarea>
+    </div>
+  </div>
+  </file>
+  <file name="index.js" webpack="true">
+    require('angular/angular.min.js');
+    require('button/button.scss');
+    require('panel/panel.scss');
+    require('docked-panel-ng/docked-panel-ng');
+    var debounce = require('mout/function/debounce');
+    angular.module('DockedPanelExample', ['Ring.docked-panel']);
+  </file>
+  </example>
  */
 
 /* global angular:false */
-angular.module('Ring.sticky-bottom', [])
+angular.module('Ring.docked-panel', [])
 
-  .directive('rgStickyBottom', function() {
+  .directive('rgDockedPanel', function() {
     return {
       link: function(scope, element, attrs) {
-        var STICKY_CSS_CLASS_NAME = 'ring-sticky-bottom';
-        var customCssClassOnStick = attrs.rgStickyBottomClass;
+        var CSS_CLASS_NAME = 'ring-docked-panel';
+        var customCssClassOnStick = attrs.rgDockedPanelClass;
         var panelInitialBottomPos;
         var isPinned;
 
@@ -88,13 +95,13 @@ angular.module('Ring.sticky-bottom', [])
          * Pin panel at the bottom of the page
          */
         var stick = function() {
-          addCssClass(STICKY_CSS_CLASS_NAME);
+          addCssClass(CSS_CLASS_NAME);
           addCssClass(customCssClassOnStick);
           isPinned = true;
         };
 
         var unstick = function() {
-          removeCssClass(STICKY_CSS_CLASS_NAME);
+          removeCssClass(CSS_CLASS_NAME);
           removeCssClass(customCssClassOnStick);
           isPinned = false;
         };
@@ -112,7 +119,6 @@ angular.module('Ring.sticky-bottom', [])
             unstick();
           }
         };
-
 
         var init = function() {
           var scrollListener = debounce(checkPanelPosition, 10);
