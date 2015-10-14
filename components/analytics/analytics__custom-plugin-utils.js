@@ -2,15 +2,18 @@ var browser = require('bowser').browser;
 
 var AnalyticsCustomPluginUtils = {};
 /**
- * Statistics server does not accept strings with dots and undefined values
- * @param str
- * @returns str, where dots are replaced with '_'
+ * Statistics server does not accept strings with some symbols and undefined values
+ * @param value
+ * @param isCategory
+ * @returns string, where prohibitted symbols are replaced with '_'
  */
-AnalyticsCustomPluginUtils.reformatString = function (str) {
-  if (typeof str === 'string') {
-    return str.replace(/\./g, '_');
-  }
-  return String(str);
+AnalyticsCustomPluginUtils.reformatString = function (value, isCategory) {
+  var str = String(value);
+  /**
+   * Category also cannot contain symbol '/' (but action can)
+   */
+  var regexp = isCategory ? /[\.:;!@#^&*()\{}\[\]?,%=+\\\/]+/g : /[\.:;!@#^&*()\{}\[\]?,%=+\\]+/g;
+  return str.replace(regexp, '_');
 };
 
 AnalyticsCustomPluginUtils.getPageViewDurationPresentation = function (duration) {
