@@ -33,9 +33,9 @@ AnalyticsCustomPlugin.prototype.trackPageView = function (path) {
   this._trackPageViewAdditionalInfo(path);
   this._processEvent('ring-page', path);
   this._processEvent('ring-navigator_user-agent', AnalyticsCustomPluginUtils.getUserAgentPresentation());
-  this._processEvent('ring-navigator_platform', navigator.platform);
-  this._processEvent('ring-navigator_lang', navigator.language);
-  this._processEvent('ring-device-pixel-ratio', String(window.devicePixelRatio));
+  this._processEvent('ring-navigator_platform', AnalyticsCustomPluginUtils.npeSaveLowerCase(navigator.platform));
+  this._processEvent('ring-navigator_lang', AnalyticsCustomPluginUtils.npeSaveLowerCase(navigator.language));
+  this._processEvent('ring-device-pixel-ratio', AnalyticsCustomPluginUtils.getDevicePixelRatioPresentation());
   this._processEvent('ring-screen-width', AnalyticsCustomPluginUtils.getScreenWidthPresentation());
 };
 
