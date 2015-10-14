@@ -27,7 +27,6 @@ var debounce = require('mout/function/debounce');
     require('button/button.scss');
     require('panel/panel.scss');
     require('docked-panel-ng/docked-panel-ng');
-    var debounce = require('mout/function/debounce');
     angular.module('DockedPanelExample', ['Ring.docked-panel']);
   </file>
   </example>
