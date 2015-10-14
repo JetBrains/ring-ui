@@ -45,10 +45,21 @@ AnalyticsCustomPluginUtils.getScreenWidthPresentation = function() {
   return '[1200px;inf)';
 };
 
+AnalyticsCustomPluginUtils.npeSaveLowerCase = function (val) {
+  return (val || 'unknown').toLowerCase();
+};
+
 AnalyticsCustomPluginUtils.getUserAgentPresentation = function () {
-  var name = (browser.name || 'unknown').toLowerCase();
+  var name = AnalyticsCustomPluginUtils.npeSaveLowerCase(browser.name);
   var version = (browser.version || 'unknown').split('.')[0];
   return name + '$' + version;
+};
+
+AnalyticsCustomPluginUtils.getDevicePixelRatioPresentation = function () {
+  if (!window.devicePixelRatio || !window.devicePixelRatio.toFixed) {
+    return 'unknown';
+  }
+  return String(window.devicePixelRatio.toFixed(1));
 };
 
 module.exports = AnalyticsCustomPluginUtils;
