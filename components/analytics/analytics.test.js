@@ -104,7 +104,7 @@ describe('analytics singleton', function() {
           action: 'test-action'
         }, {
           category: 'ring-shortcut',
-          action: 'test-category:test-action'
+          action: 'test-category$test-action'
         }]);
       });
 
