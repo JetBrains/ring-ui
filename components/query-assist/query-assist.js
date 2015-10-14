@@ -595,7 +595,7 @@ export default class QueryAssist extends RingComponentWithShortcuts {
   }
 
   renderPopup(suggestions) {
-    if (!suggestions.length) {
+    if (!suggestions.length || !this.node) {
       this.closePopup();
       return;
     }
