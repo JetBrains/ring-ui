@@ -1,5 +1,5 @@
-import HubUsersGroupsSource from './hub-users-groups-source';
-import {TOP_ALL} from 'hub-source/hub-source';
+import HubSourceUsersGroups from './hub-source__users-groups';
+import {TOP_ALL} from './hub-source';
 
 describe('HubUsersGroupsSource', function () {
 
@@ -11,7 +11,7 @@ describe('HubUsersGroupsSource', function () {
   });
 
   it('Should make request for users', function () {
-    let source = new HubUsersGroupsSource(this.fakeAuth);
+    let source = new HubSourceUsersGroups(this.fakeAuth);
     this.sinon.stub(source.usersSource, 'get').returns(Promise.resolve([]));
 
     return source.getUsers()
@@ -24,7 +24,7 @@ describe('HubUsersGroupsSource', function () {
   });
 
   it('Should pass query for users', function () {
-    let source = new HubUsersGroupsSource(this.fakeAuth);
+    let source = new HubSourceUsersGroups(this.fakeAuth);
     this.sinon.stub(source.usersSource, 'get').returns(Promise.resolve([]));
 
     return source.getUsers('nam')
@@ -37,7 +37,7 @@ describe('HubUsersGroupsSource', function () {
   });
 
   it('Should make request for groups', function () {
-    let source = new HubUsersGroupsSource(this.fakeAuth);
+    let source = new HubSourceUsersGroups(this.fakeAuth);
     this.sinon.stub(source.groupsSource, 'get').returns(Promise.resolve([]));
 
     return source.getGroups()
@@ -52,7 +52,7 @@ describe('HubUsersGroupsSource', function () {
   it('Should cache request for groups', function () {
     this.fakeAuth.getApi = this.sinon.stub().returns(Promise.resolve({total: 1, usergroups: []}));
 
-    let source = new HubUsersGroupsSource(this.fakeAuth);
+    let source = new HubSourceUsersGroups(this.fakeAuth);
     source.getGroups();
     source.getGroups();
     return source.getGroups()
