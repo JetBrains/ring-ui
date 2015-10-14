@@ -95,6 +95,29 @@ describe('analytics singleton', function() {
         }]);
       });
 
+      it('should remove prohibited symbols', function() {
+        analytics.trackEvent('t/\\est-c,ate:gory*?', 't/\\est-a,ct:ion*?');
+        clock.tick(10500);
+
+        send.should.have.been.calledWith([{
+          category: 't_est-c_ate_gory_',
+          action: 't/_est-a_ct_ion_'
+        }]);
+      });
+
+      it('should track event with additional information', function() {
+        analytics.trackEvent('test-category', 'test-action', {type: 'test-type'});
+        clock.tick(10500);
+
+        send.should.have.been.calledWith([{
+          category: 'test-category',
+          action: 'test-action'
+        }, {
+          category: 'test-category',
+          action: 'test-action__type$test-type'
+        }]);
+      });
+
       it('should send two events to statistics server on tracking shortcut event', function() {
         analytics.trackShortcutEvent('test-category', 'test-action');
         clock.tick(10500);
