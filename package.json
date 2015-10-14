@@ -122,7 +122,7 @@
     "sass-loader": "2.0.1",
     "sniffr": "0.1.1",
     "style-loader": "0.8.2",
-    "svg-sprite-loader": "0.0.10",
+    "svg-sprite-loader": "0.0.11",
     "svgo": "0.5.6",
     "svgo-loader": "1.1.0",
     "url-loader": "0.5.5",
