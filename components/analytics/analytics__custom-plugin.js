@@ -53,14 +53,16 @@ AnalyticsCustomPlugin.prototype._processEvent = function (category, action) {
   if (!this._hasSendSchedule && this._flush) {
     this._initSendSchedule();
   }
+  category = AnalyticsCustomPluginUtils.reformatString(category, true);
+  action = AnalyticsCustomPluginUtils.reformatString(action);
   if (this._isDevelopment) {
     /* eslint-disable no-console*/
     console.log('TRACKING DATA = ', category, action);
     /* eslint-enable no-console*/
   }
   this._data.push({
-    category: AnalyticsCustomPluginUtils.reformatString(category),
-    action: AnalyticsCustomPluginUtils.reformatString(action)
+    category: category,
+    action: action
   });
 };
 
