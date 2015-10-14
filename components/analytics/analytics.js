@@ -43,7 +43,7 @@ Analytics.prototype.trackEvent = function (category, action, /* optional */ addi
 
 Analytics.prototype.trackShortcutEvent = function (category, action, /* optional */ additionalData) {
   this.trackEvent(category, action, additionalData);
-  this.trackEvent('ring-shortcut', category + ':' + action, additionalData);
+  this.trackEvent('ring-shortcut', category + '$' + action, additionalData);
 };
 
 Analytics.prototype.trackEntityProperties = function(entityName, entity, propertiesNames, /* optional */ additionalData) {
