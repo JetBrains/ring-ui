@@ -74,7 +74,7 @@ export default class HubSource {
   }
 
   processResults(res) {
-    let items = res[this.relativeUrl];
+    let items = res[this.relativeUrl] || [];
 
     if (this.isClientSideSearch) {
       return items.filter(it => this.filterFn(it)).slice(0, this.options.searchMax);
