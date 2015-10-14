@@ -35,9 +35,12 @@ Analytics.prototype.trackPageView = function (path) {
 };
 
 Analytics.prototype.trackEvent = function (category, action, /* optional */ additionalData) {
-  var subcategory = action + this._buildSuffix(additionalData);
+  var subaction = additionalData ? action + this._buildSuffix(additionalData) : null;
   this._plugins.forEach(function(plugin) {
-    plugin.trackEvent(category, subcategory);
+    plugin.trackEvent(category, action);
+    if (subaction) {
+      plugin.trackEvent(category, subaction);
+    }
   });
 };
 
@@ -75,7 +78,7 @@ Analytics.prototype._buildSuffix = function(additionalData) {
   var suffix = '';
   for (var key in additionalData) {
     if (additionalData.hasOwnProperty(key)) {
-      suffix += ',' + key + '=' + additionalData[key];
+      suffix += '__' + key + '$' + additionalData[key];
     }
   }
   return suffix;
