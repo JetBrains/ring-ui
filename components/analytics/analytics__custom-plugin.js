@@ -20,10 +20,6 @@ var AnalyticsCustomPlugin = function (send, isDevelopment, flushInterval, checkF
 
 AnalyticsCustomPlugin.prototype.trackEvent = function (category, action) {
   this._processEvent(category, action);
-  /**
-   * Save last user action to track 'pageview-last-action'
-   */
-  this._lastUserEventPresentation = category + '$' + action;
 };
 
 AnalyticsCustomPlugin.prototype.trackPageView = function (path) {
@@ -69,7 +65,6 @@ AnalyticsCustomPlugin.prototype._processEvent = function (category, action) {
 AnalyticsCustomPlugin.prototype._trackPageViewAdditionalInfo = function (newPagePath) {
   var currentTime = (new Date()).getTime();
   if (this._lastPagePath) {
-    this._processEvent('ring-pageview-last-action_' + this._lastPagePath, this._lastUserEventPresentation || 'left-with-no-action');
     if (this._lastPageViewTime) {
       var duration = AnalyticsCustomPluginUtils.getPageViewDurationPresentation(currentTime - this._lastPageViewTime);
       this._processEvent('ring-pageview-duration_' + this._lastPagePath, duration);
@@ -77,7 +72,6 @@ AnalyticsCustomPlugin.prototype._trackPageViewAdditionalInfo = function (newPage
   }
   this._lastPageViewTime = currentTime;
   this._lastPagePath = newPagePath;
-  this._lastUserEventPresentation = undefined;
 };
 
 module.exports = AnalyticsCustomPlugin;
