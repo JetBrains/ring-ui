@@ -73,6 +73,16 @@ describe('HubSource', function () {
     res.should.deep.equal([{name: 'not test query'}, {name: 'contain testQuery'}]);
   });
 
+  it('Should return empty array if result field is not presented (no results)', function () {
+    let source = new HubSource(this.fakeAuth, 'testItems');
+    source.isClientSideSearch = false;
+    source.filterFn = source.getDefaultFilterFn('testQuery');
+
+    let res = source.processResults({});
+
+    res.should.deep.equal([]);
+  });
+
   it('Should detect clientside filtering if total is smaller than threshold', function () {
     this.fakeAuth.getApi = this.sinon.stub().returns(Promise.resolve({total: 10, testItems: []}));
 
