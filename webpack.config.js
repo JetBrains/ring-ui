@@ -28,7 +28,7 @@ module.exports = {
         test: /\.svg$/,
         loaders: [
           'svg-sprite?angularBaseWorkaround',
-          'svgo'
+          'svgo?useConfig=RingSVGOConfig'
         ],
         include: iconPath
       },
@@ -78,5 +78,42 @@ module.exports = {
       'Promise': 'core-js/es6/promise',
       'fetch': 'exports?self.fetch!whatwg-fetch'
     })
-  ]
+  ],
+  // Keep empty plugins list to simplify additions
+  plugins: [],
+  RingSVGOConfig: {
+    full: true, // We have to set full list plugins to make configuration work
+    // Deafult list of plugins
+    plugins: [
+      'convertStyleToAttrs', // Should be first in list
+      {removeUselessStrokeAndFill: {fill: false}}, // Disable black fill removal
+      'removeDoctype',
+      'removeXMLProcInst',
+      'removeComments',
+      'removeMetadata',
+      'removeEditorsNSData',
+      'cleanupAttrs',
+      'cleanupIDs',
+      'removeUselessDefs',
+      'cleanupNumericValues',
+      'cleanupListOfValues',
+      'convertColors',
+      'removeUnknownsAndDefaults',
+      'removeNonInheritableGroupAttrs',
+      'cleanupEnableBackground',
+      'removeHiddenElems',
+      'removeEmptyText',
+      'convertShapeToPath',
+      'moveElemsAttrsToGroup',
+      'moveGroupAttrsToElems',
+      'collapseGroups',
+      'convertPathData',
+      'convertTransform',
+      'removeEmptyAttrs',
+      'removeEmptyContainers',
+      'mergePaths',
+      'removeUnusedNS',
+      'removeDesc'
+    ]
+  }
 };
