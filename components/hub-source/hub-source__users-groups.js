@@ -1,4 +1,4 @@
-import HubSource from 'hub-source/hub-source';
+import HubSource from './hub-source';
 
 let defaultOptions =  {
   GroupsTitle: 'Groups',
@@ -8,7 +8,7 @@ let defaultOptions =  {
   searchSideThreshold: 200
 };
 
-export default class HubUsersGroupsSource {
+export default class HubSourceUsersGroups {
   constructor(auth, options) {
     this.auth = auth;
     this.options = Object.assign({}, defaultOptions, options);

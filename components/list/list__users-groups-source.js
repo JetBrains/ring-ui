@@ -1,7 +1,7 @@
 import List from 'list/list';
-import HubUsersGroupsSource from 'hub-users-groups-source/hub-users-groups-source';
+import HubSourceUsersGroups from 'hub-source/hub-source__users-groups';
 
-export default class ListUsersGroupsSource extends HubUsersGroupsSource {
+export default class ListUsersGroupsSource extends HubSourceUsersGroups {
   getForList(query) {
     return this.getUserAndGroups(query)
       .then(([users, groups]) => {
