@@ -78,6 +78,12 @@ describe('SelectNg', function () {
       ctrl.selectInstance.props.selected.label.should.equal(newLabel);
     });
 
+    it('Should clear selected item on ngModel clearing', function () {
+      scope.selectedItem = null;
+      scope.$digest();
+      expect(ctrl.selectInstance.props.selected).to.be.null;
+    });
+
     it('Should not get options on on initialization', function () {
       ctrl.selectInstance.props.data.length.should.equal(0);
     });

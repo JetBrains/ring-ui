@@ -67,6 +67,11 @@ describe('Select', function () {
     this.select.props.onChange.should.been.called.calledWith(null);
   });
 
+  it('Should clear selected when rerendering with no selected item', function () {
+    this.select.rerender({selected: null});
+    expect(this.select.state.selected).to.be.null;
+  });
+
   it('Should handle UP, DOWN and ENTER shortcuts', function () {
     var shortcuts = this.select.getShortcutsProps();
     shortcuts.map.enter.should.be.defined;
