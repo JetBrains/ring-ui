@@ -79,8 +79,6 @@ module.exports = {
       'fetch': 'exports?self.fetch!whatwg-fetch'
     })
   ],
-  // Keep empty plugins list to simplify additions
-  plugins: [],
   RingSVGOConfig: {
     full: true, // We have to set full list plugins to make configuration work
     // Deafult list of plugins
