@@ -362,6 +362,11 @@ describe('Select', function () {
       this.select.props.onChange.should.been.called.calledWith([]);
     });
 
+    it('Should clear selected when rerendering with no selected item in multiple mode', function () {
+      this.select.rerender({selected: null});
+      this.select.state.selected.should.deep.equal([]);
+    });
+
     describe('On selecting', function () {
       it('Should add item to multiple map on selecting item', function () {
         this.select._listSelectHandler(testData[3]);
