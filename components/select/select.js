@@ -36,6 +36,7 @@ const Type = {
  <example name="Select with model that have type field">
    <file name="index.html">
      <div id="demo"></div>
+     <button id="clear">Clear selected</button>
    </file>
    <file name="index.js" webpack="true">
      var render = require('react-dom').render;
@@ -54,7 +55,12 @@ const Type = {
        selected: {'label': 'Group', 'key': '2', 'type': 'user'}
      };
 
-     render(Select.factory(props), document.getElementById('demo')).rerender(data);
+     var select = render(Select.factory(props), document.getElementById('demo'))
+     select.rerender(data);
+
+     document.getElementById('clear').addEventListener('click', function() {
+      select.rerender({selected: null});
+     });
    </file>
  </example>
 
@@ -408,7 +414,7 @@ export default class Select extends RingComponentWithShortcuts {
   }
 
   willReceiveProps(newProps) {
-    if (newProps.selected) {
+    if ('selected' in newProps) {
       this.setState({
         selected: newProps.selected,
         selectedIndex: this._getSelectedIndex(newProps.selected, (newProps.data ? newProps.data : this.props.data))
