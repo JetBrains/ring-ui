@@ -385,7 +385,7 @@ export default class Select extends RingComponentWithShortcuts {
   }
 
   _handleMultipleToggling(multiple) {
-    let empty = multiple ? [] : null;
+    let empty = Select._getEmptyValue(multiple);
     this.setState({selected: empty}, function() {
       this.props.onChange(empty);
     });
@@ -415,9 +415,10 @@ export default class Select extends RingComponentWithShortcuts {
 
   willReceiveProps(newProps) {
     if ('selected' in newProps) {
+      let selected = newProps.selected ? newProps.selected : Select._getEmptyValue(this.props.multiple);
       this.setState({
-        selected: newProps.selected,
-        selectedIndex: this._getSelectedIndex(newProps.selected, (newProps.data ? newProps.data : this.props.data))
+        selected: selected,
+        selectedIndex: this._getSelectedIndex(selected, (newProps.data ? newProps.data : this.props.data))
       });
     }
 
@@ -428,6 +429,10 @@ export default class Select extends RingComponentWithShortcuts {
 
   didUpdate() {
     this._refreshPopup();
+  }
+
+  static _getEmptyValue(multiple) {
+    return multiple ? [] : null;
   }
 
   _getSelectedIndex(selected, data) {
@@ -737,7 +742,7 @@ export default class Select extends RingComponentWithShortcuts {
 
   clear() {
     let self = this;
-    let empty = self.props.multiple ? [] : null;
+    let empty = Select._getEmptyValue(self.props.multiple);
     self.setState({
       selected: empty
     }, function() {
