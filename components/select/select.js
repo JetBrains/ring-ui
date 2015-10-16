@@ -823,7 +823,7 @@ export default class Select extends RingComponentWithShortcuts {
 
     if (this.props.clear && this.state.selected) {
       icons.push(<span className="ring-link" onClick={::this.clear} key="close">
-        <Icon glyph={require('icon/source/close.svg')} size={Icon.Size.Size14}/>
+        <Icon glyph={require('jetbrains-icons/close.svg')} size={Icon.Size.Size14}/>
       </span>);
     }
 
@@ -834,7 +834,7 @@ export default class Select extends RingComponentWithShortcuts {
     }
 
     if (!this.props.hideArrow) {
-      icons.push(<Icon glyph={require('icon/source/caret-down.svg')} size={Icon.Size.Size16} key="hide"/>);
+      icons.push(<Icon glyph={require('jetbrains-icons/caret-down.svg')} size={Icon.Size.Size16} key="hide"/>);
     }
 
     return icons;

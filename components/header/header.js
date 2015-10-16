@@ -475,7 +475,7 @@ export default class Header extends RingComponent {
         <HeaderItem
           key="settings"
           ref="settings"
-          glyph={require('icon/source/cog.svg')}
+          glyph={require('jetbrains-icons/cog.svg')}
           href={this.props.settingsLink}
           onOpen={this.props.onSettingsOpen}
           onClose={this.props.onSettingsClose}
@@ -489,7 +489,7 @@ export default class Header extends RingComponent {
         <HeaderItem
           key="help"
           ref="help"
-          glyph={require('icon/source/help.svg')}
+          glyph={require('jetbrains-icons/help.svg')}
           href={this.props.helpLink}
           onOpen={this.props.onHelpOpen}
           onClose={this.props.onHelpClose}
@@ -501,7 +501,7 @@ export default class Header extends RingComponent {
         <HeaderItem
           key="services"
           ref="services"
-          glyph={require('icon/source/services.svg')}
+          glyph={require('jetbrains-icons/services.svg')}
           onOpen={::this._onServicesOpen}
           onClose={::this._onServicesClose}
           title="Services"
@@ -512,7 +512,7 @@ export default class Header extends RingComponent {
         <HeaderItem
           key="userMenu"
           ref="userMenu"
-          glyph={require('icon/source/user1.svg')}
+          glyph={require('jetbrains-icons/user1.svg')}
           onOpen={this.props.onUserMenuOpen}
           onClose={this.props.onUserMenuClose}
         />
