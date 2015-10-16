@@ -1,9 +1,6 @@
 import HubSource from './hub-source';
 
 let defaultOptions =  {
-  GroupsTitle: 'Groups',
-  UsersTitle: 'Users',
-  getPluralForUserCount: count => '',
   searchMax: 20,
   searchSideThreshold: 200
 };
