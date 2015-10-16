@@ -9,10 +9,6 @@ var buildPath = [
   path.join(__dirname, 'docs'),
   path.join(__dirname, 'site')
 ];
-var iconPath = [
-  path.join(__dirname, 'components/icon/source'),
-  path.join(__dirname, 'node_modules/jetbrains-logos')
-];
 
 // Minimal config for building components
 module.exports = {
@@ -30,7 +26,7 @@ module.exports = {
           'svg-sprite?angularBaseWorkaround',
           'svgo?useConfig=RingSVGOConfig'
         ],
-        include: iconPath
+        include: [require('jetbrains-logos'), require('jetbrains-icons')]
       },
       {
         test: /\.scss$/,

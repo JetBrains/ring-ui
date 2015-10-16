@@ -2,7 +2,7 @@ describe('Icon', function () {
   var $ = require('jquery');
   var TestUtils = require('react-addons-test-utils');
   var Icon = require('./icon');
-  var expandIcon = require('icon/source/expand.svg');
+  var expandIcon = require('jetbrains-icons/expand.svg');
 
   beforeEach(function () {
     this.icon = TestUtils.renderIntoDocument(Icon.factory({

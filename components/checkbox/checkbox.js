@@ -159,7 +159,7 @@ export default class Checkbox extends RingComponent {
             checked={this.state.checked}
           />
           <span className="ring-checkbox__icon">
-            <Icon glyph={require('icon/source/check.svg')} color="black" size={Icon.Size.Size16} className="ring-checkbox__icon__image" style={checkStyle} />
+            <Icon glyph={require('jetbrains-icons/check.svg')} color="black" size={Icon.Size.Size16} className="ring-checkbox__icon__image" style={checkStyle} />
           </span>
         </span>
         <span className="ring-checkbox__label">{this.props.label}</span>

@@ -171,16 +171,19 @@ function reactNgDirective($parse) {
  * @example
    <example name="React-ng">
      <file name="index.html">
-       <div ng-app="Ring.react-ng">
-         <span react-static="Icon" react-value-glyph="../icon/source/pancil.svg" size="64"></span>
+       <div ng-app="react-ng-test">
+         <span ng-controller="testController" react-static="Icon" react-glyph="icon" size="64"></span>
        </div>
      </file>
 
      <file name="index.js" webpack="true">
        require('angular/angular.min.js');
-       require('icon/source/pencil.svg');
        require('react-ng/react-ng')({
          Icon: require('icon/icon')
+       });
+
+       angular.module('react-ng-test', ['Ring.react-ng']).controller('testController', ($scope) => {
+         $scope.icon = require('jetbrains-icons/pencil.svg');;
        });
      </file>
    </example>
