@@ -784,7 +784,7 @@ export default class QueryAssist extends RingComponentWithShortcuts {
         {renderGlass && <Icon
           className="ring-query-assist__icon"
           color="gray"
-          glyph={require('icon/source/search.svg')}
+          glyph={require('jetbrains-icons/search.svg')}
           onClick={::this.handleApply}
           size={Icon.Size.Size16} />}
         {this.state.loading && <div
@@ -795,7 +795,7 @@ export default class QueryAssist extends RingComponentWithShortcuts {
           className="ring-query-assist__icon ring-query-assist__icon_clear"
           ref="clear"
           color="gray"
-          glyph={require('icon/source/close.svg')}
+          glyph={require('jetbrains-icons/close.svg')}
           onClick={::this.clearQuery}
           size={Icon.Size.Size16} />}
       </div>

@@ -78,22 +78,22 @@ const baseClass = new ClassName('ring-icon');
        render(Icon.factory({
          className: 'additional-class',
          color: 'orange',
-         glyph: require('icon/source/ok.svg'),
+         glyph: require('jetbrains-icons/ok.svg'),
          size: Icon.Size.Size32
        }), document.getElementById('icon-container'));
 
        render(Icon.factory({
-         glyph: require('icon/source/distribution.svg'),
+         glyph: require('jetbrains-icons/distribution.svg'),
          size: Icon.Size.Size32
        }), document.getElementById('icon-distribution'));
 
        render(Icon.factory({
-         glyph: require('icon/source/pencil.svg'),
+         glyph: require('jetbrains-icons/pencil.svg'),
          size: Icon.Size.Size16
        }), document.getElementById('icon-16-pencil'));
 
        render(Icon.factory({
-         glyph: require('icon/source/pencil.svg'),
+         glyph: require('jetbrains-icons/pencil.svg'),
          size: Icon.Size.Size14
        }), document.getElementById('icon-14-pencil'));
      </file>
@@ -119,7 +119,7 @@ const baseClass = new ClassName('ring-icon');
        import {createElement} from 'react';
        import Icon from 'icon/icon';
 
-       var icons = require.context('icon/source', false, /\.svg$/);
+       var icons = require.context('jetbrains-icons', false, /\.svg$/);
 
        render(createElement('div', {
          children: icons.keys().map(icons).map(function (icon) {
