@@ -147,8 +147,8 @@ describe('analytics singleton', function() {
           var trackedData = [];
           trackedProperties.forEach(function(it) {
             trackedData.push({
-              category: 'sample-entity_' + it,
-              action: entity[it]
+              category: 'sample-entity',
+              action: it + '__' + entity[it]
             });
           });
           send.should.have.been.calledWith(trackedData);
@@ -174,11 +174,11 @@ describe('analytics singleton', function() {
           clock.tick(10500);
 
           send.should.have.been.calledWith([{
-            category: 'entity_param1',
-            action: 'first'
+            category: 'entity',
+            action: 'param1__first'
           }, {
-            category: 'entity_unexisting-property',
-            action: 'no-value'
+            category: 'entity',
+            action: 'unexisting-property__no-value'
           }]);
         });
 
@@ -200,11 +200,11 @@ describe('analytics singleton', function() {
           clock.tick(10500);
 
           send.should.have.been.calledWith([{
-            category: 'entity_subsubproperty',
-            action: 'subsubproperty-value'
+            category: 'entity',
+            action: 'property-subproperty2-subsubproperty__subsubproperty-value'
           }, {
-            category: 'entity_unexisting',
-            action: 'no-value'
+            category: 'entity',
+            action: 'propery-subproperty3-unexisting__no-value'
           }]);
         });
       });
