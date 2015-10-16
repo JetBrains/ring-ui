@@ -53,15 +53,8 @@ export default class HubSource {
     return (it) => it.name.toLowerCase().indexOf(query.toLowerCase()) !== -1;
   }
 
-  static wrapQuery(query) {
-    if (query && query.indexOf(' ') !== -1) {
-      return '{' + query + '}'
-    }
-    return query;
-  }
-
   formatQuery(query) {
-    return query ? this.options.queryFormatter(HubSource.wrapQuery(query)) : '';
+    return query ? this.options.queryFormatter(query) : '';
   }
 
   static validateInputParams(params) {
