@@ -26,7 +26,7 @@ export default class HubSourceUsersGroups {
 
   static wrapMultiwordQuery(query) {
     if (query && query.indexOf(' ') !== -1) {
-      return '{' + query + '}'
+      return `{${query}}`
     }
     return query;
   }
