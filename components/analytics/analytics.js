@@ -67,7 +67,8 @@ Analytics.prototype.trackEntityProperties = function(entityName, entity, propert
     if (typeof value === 'string') {
       value = value.toLowerCase().replace(/[\._]+/g, '-');
     }
-    this.trackEvent(entityName + '_' + keys[keys.length - 1], value, additionalData);
+    var resultAction = keys.join('-') + '__' + value;
+    this.trackEvent(entityName, resultAction, additionalData);
   }
 };
 
