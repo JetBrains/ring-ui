@@ -80,16 +80,19 @@ import './tags-input.scss';
    <file name="index.js" webpack="true">
     var render = require('react-dom').render;
     var TagsInput = require('tags-input/tags-input');
+    var GroupIcon = require('jetbrains-icons/group.svg');
+    var BugIcon = require('jetbrains-icons/bug.svg');
+    var FrownIcon = require('jetbrains-icons/frown.svg');
 
     var props = {
       tags: [
-        {key: 'test1', label: 'test1', rgTagIcon: 'group'},
+        {key: 'test1', label: 'test1', rgTagIcon: GroupIcon},
         {key: 'test2', label: 'test2'}
       ],
       dataSource: function(query) {
         return [
-          {key: 'test3', label: 'test3', rgTagIcon: 'bug'},
-          {key: 'test4', label: 'test4', rgTagIcon: 'frown', icon: 'frown'}
+          {key: 'test3', label: 'test3', rgTagIcon: BugIcon},
+          {key: 'test4', label: 'test4', rgTagIcon: FrownIcon, icon: FrownIcon}
         ];
       }
     };
