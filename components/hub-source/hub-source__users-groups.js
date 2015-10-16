@@ -16,12 +16,19 @@ export default class HubSourceUsersGroups {
     this.usersSource = new HubSource(auth, 'users', {
       searchMax: this.options.searchMax,
       searchSideThreshold: 100,
-      queryFormatter: (query) => `nameStartsWith: ${query} or loginStartsWith: ${query}`
+      queryFormatter: (query) => `nameStartsWith: ${HubSourceUsersGroups.wrapMultiwordQuery(query)} or loginStartsWith: ${HubSourceUsersGroups.wrapMultiwordQuery(query)}`
     });
     this.groupsSource = new HubSource(auth, 'usergroups', {
       searchMax: this.options.searchMax,
       searchSideThreshold: 100
     });
+  }
+
+  static wrapMultiwordQuery(query) {
+    if (query && query.indexOf(' ') !== -1) {
+      return '{' + query + '}'
+    }
+    return query;
   }
 
   getUsers(query = '') {
