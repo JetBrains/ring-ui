@@ -24,12 +24,12 @@ describe('DOM', () => {
     });
 
     // Doesn't work in PhantomJS
-    /*it('should return true for textNode attached to DOM', () => {
+    it('should return true for textNode attached to DOM', () => {
       let textNode = document.createTextNode('Lorem ipsum dolor sit amet.')
       prepend(textNode);
 
       isMounted(textNode).should.equal(true);
-    });*/
+    });
 
     it('should return false for textNode that\'s not attached to DOM', () => {
       let textNode = document.createTextNode('Lorem ipsum dolor sit amet.')
@@ -64,12 +64,12 @@ describe('DOM', () => {
     });
 
     // Doesn't work in Firefox and IE
-    /*it('shouldn\'t return css-property for the unmount node', () => {
+    it('shouldn\'t return css-property for the unmount node', () => {
       let element = create();
       element.style.width = '100px';
 
       getStyles(element).width.should.equal('');
-    });*/
+    });
   });
 
   describe('getRect', () => {
@@ -91,7 +91,7 @@ describe('DOM', () => {
     });
 
     // Doesn't work in IE
-    /*it('should return DOMRect-like object for a range', () => {
+    it('should return DOMRect-like object for a range', () => {
       let element = create();
       element.setAttribute('style', style);
       prepend(element);
@@ -103,6 +103,6 @@ describe('DOM', () => {
       console.log(getRect(range));
 
       getRect(range).should.deep.equal({ top: 8, right: 936, bottom: 8, left: 8, width: 928, height: 0 });
-    });*/
+    });
   });
 });

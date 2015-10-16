@@ -3,7 +3,7 @@ var React = require('react');
 var ReactDOM = require('react-dom');
 import Sniffr from 'sniffr';
 
-describe.skip('QueryAssist', function () {
+describe('QueryAssist', function () {
   let sniffr = new Sniffr();
   sniffr.sniff();
 
