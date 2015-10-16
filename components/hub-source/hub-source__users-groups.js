@@ -15,12 +15,12 @@ export default class HubSourceUsersGroups {
 
     this.usersSource = new HubSource(auth, 'users', {
       searchMax: this.options.searchMax,
-      searchSideThreshold: 100,
+      searchSideThreshold: this.options.searchSideThreshold,
       queryFormatter: (query) => `nameStartsWith: ${HubSourceUsersGroups.wrapMultiwordQuery(query)} or loginStartsWith: ${HubSourceUsersGroups.wrapMultiwordQuery(query)}`
     });
     this.groupsSource = new HubSource(auth, 'usergroups', {
       searchMax: this.options.searchMax,
-      searchSideThreshold: 100
+      searchSideThreshold: this.options.searchSideThreshold
     });
   }
 
