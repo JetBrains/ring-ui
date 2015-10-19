@@ -64,6 +64,7 @@ $ring-input-width: $ring-unit*25;
 .ring-form_rows {
   & .ring-form__label {
     float: none;
+    max-width: none;
   }
 
   & .ring-form__control {
