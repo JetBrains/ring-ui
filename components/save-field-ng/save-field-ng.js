@@ -251,6 +251,8 @@ angular.module('Ring.save-field', [
             save: RingMessageBundle.form_save(),
             saved: RingMessageBundle.form_saved()
           };
+
+          scope.submitChanges = submitChanges;
         }
       };
     }
