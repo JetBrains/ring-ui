@@ -4,7 +4,7 @@
   <span class="ring-save-field__button">
     <button ng-show="saveFieldForm.$dirty && saveFieldForm.$valid"
             class="ring-btn ring-btn_blue"
-            ng-click="changed($event)">
+            ng-click="submitChanges($event)">
       {{wording.save}}
     </button>
     <button ng-show="done"
