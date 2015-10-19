@@ -20,10 +20,6 @@ var AnalyticsCustomPlugin = function (send, isDevelopment, flushInterval, checkF
 
 AnalyticsCustomPlugin.prototype.trackEvent = function (category, action) {
   this._processEvent(category, action);
-  /**
-   * Save last user action to track 'pageview-last-action'
-   */
-  this._lastUserEventPresentation = category + '$' + action;
 };
 
 AnalyticsCustomPlugin.prototype.trackPageView = function (path) {
@@ -33,9 +29,9 @@ AnalyticsCustomPlugin.prototype.trackPageView = function (path) {
   this._trackPageViewAdditionalInfo(path);
   this._processEvent('ring-page', path);
   this._processEvent('ring-navigator_user-agent', AnalyticsCustomPluginUtils.getUserAgentPresentation());
-  this._processEvent('ring-navigator_platform', navigator.platform);
-  this._processEvent('ring-navigator_lang', navigator.language);
-  this._processEvent('ring-device-pixel-ratio', String(window.devicePixelRatio));
+  this._processEvent('ring-navigator_platform', AnalyticsCustomPluginUtils.npeSaveLowerCase(navigator.platform));
+  this._processEvent('ring-navigator_lang', AnalyticsCustomPluginUtils.npeSaveLowerCase(navigator.language));
+  this._processEvent('ring-device-pixel-ratio', AnalyticsCustomPluginUtils.getDevicePixelRatioPresentation());
   this._processEvent('ring-screen-width', AnalyticsCustomPluginUtils.getScreenWidthPresentation());
 };
 
@@ -53,21 +49,22 @@ AnalyticsCustomPlugin.prototype._processEvent = function (category, action) {
   if (!this._hasSendSchedule && this._flush) {
     this._initSendSchedule();
   }
+  category = AnalyticsCustomPluginUtils.reformatString(category, true);
+  action = AnalyticsCustomPluginUtils.reformatString(action);
   if (this._isDevelopment) {
     /* eslint-disable no-console*/
     console.log('TRACKING DATA = ', category, action);
     /* eslint-enable no-console*/
   }
   this._data.push({
-    category: AnalyticsCustomPluginUtils.reformatString(category),
-    action: AnalyticsCustomPluginUtils.reformatString(action)
+    category: category,
+    action: action
   });
 };
 
 AnalyticsCustomPlugin.prototype._trackPageViewAdditionalInfo = function (newPagePath) {
   var currentTime = (new Date()).getTime();
   if (this._lastPagePath) {
-    this._processEvent('ring-pageview-last-action_' + this._lastPagePath, this._lastUserEventPresentation || 'left-with-no-action');
     if (this._lastPageViewTime) {
       var duration = AnalyticsCustomPluginUtils.getPageViewDurationPresentation(currentTime - this._lastPageViewTime);
       this._processEvent('ring-pageview-duration_' + this._lastPagePath, duration);
@@ -75,7 +72,6 @@ AnalyticsCustomPlugin.prototype._trackPageViewAdditionalInfo = function (newPage
   }
   this._lastPageViewTime = currentTime;
   this._lastPagePath = newPagePath;
-  this._lastUserEventPresentation = undefined;
 };
 
 module.exports = AnalyticsCustomPlugin;
