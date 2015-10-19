@@ -164,6 +164,54 @@ import 'message-bundle-ng/message-bundle-ng';
     </file>
   </example>
 
+   <example name="Select-ng-inside-dialog">
+    <file name="index.html">
+      <div ng-app="test" ng-controller="testCtrl as ctrl">
+        <div>
+          <h1>Text content to make scroll</h1>
+          <div id="textContent"></div>
+        <rg-dialog></rg-dialog>
+      </div>
+    </file>
+    <file name="index.js" webpack="true">
+      require('angular/angular.min.js');
+      require('select-ng/select-ng');
+      require('dialog-ng/dialog-ng');
+
+      function fillScrollableContent() {
+        var html = '<h2>Text to scroll</h2>';
+        for (var i = 0; i < 100; i++) {
+          html += 'Text<br/>'
+        }
+        document.getElementById('textContent').innerHTML = html;
+      }
+
+      fillScrollableContent();
+
+      angular.module('test', ['Ring.select', 'Ring.dialog'])
+      .run(function($templateCache) {
+        $templateCache.put('test-tpl.html', '<rg-select ng-model="data.selectedItem" options="item in data.options"></rg-select>');
+      })
+      .controller('testCtrl', function($timeout, dialog) {
+        var data = {
+          options: [
+            {key: 1, label: '11111'},
+            {key: 2, label: '22222'}
+          ]
+        }
+
+        $timeout(function(){
+          dialog.show({
+            title: 'Select in dialog demo',
+            description: 'Select popup should not scroll with background page content',
+            data: data,
+            content: 'test-tpl.html'
+          });
+        }, 100);
+      });
+    </file>
+  </example>
+
   <example name="Select-ng-multiple">
     <file name="index.html">
       <h4>Multiple select</h4>
