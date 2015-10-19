@@ -90,11 +90,25 @@ angular.module('Ring.save-field', [
                        class="ring-input"
                        ng-model="data.num">
               </rg-save-field>
-            <div>
+            </div>
+          </div>
+
+          <div class="ring-form__group">
+            <label class="ring-form__label">
+              Rejected Save
+            </label>
+
+            <div class="ring-form__control">
+              <rg-save-field value="data.email"
+                             on-save="invalidSave">
+                  <input type="text"
+                         class="ring-input"
+                         ng-model="data.email">
+              </rg-save-field>
+            </div>
           </div>
         </div>
 
-        </div>
      </div>
      </file>
      <file name="index.js" webpack="true">
@@ -117,6 +131,13 @@ angular.module('Ring.save-field', [
              console.log('data = ', $scope.data);
              return defer.promise;
            };
+
+           var rejectDefer = $q.defer();
+           rejectDefer.reject('Simple Error!');
+           $scope.invalidSave = function() {
+             console.log('data = ', $scope.data);
+             return rejectDefer.promise;
+           };
        });
      </file>
  </example>
@@ -132,6 +153,9 @@ angular.module('Ring.save-field', [
       var ENTER_KEY_CODE = 13;
       var MULTI_LINE_SPLIT_PATTERN = /(\r\n|\n|\r)/gm;
       var MULTI_LINE_LIST_MODE = 'list';
+      var CUSTOM_ERROR_ID = 'custom-error';
+      var ERROR_DESCRIPTION = 'error_description';
+      var ERROR_DEVELOPER_MSG = 'error_developer_message';
 
       return {
         restrict: 'E',
@@ -156,11 +180,27 @@ angular.module('Ring.save-field', [
                 scope.done = false;
               }, 1000);
             };
-            $q.when(scope.onSave()).then(success);
+
+            var error = function(err) {
+              var message;
+              if (typeof err === 'string') {
+                message = err;
+              } else if (typeof err === 'object') {
+                message = err[ERROR_DESCRIPTION] || err[ERROR_DEVELOPER_MSG];
+              }
+              scope.saveFieldForm.$setValidity(CUSTOM_ERROR_ID, false, {
+                message: message
+              });
+            };
+
+            var submitPromise = $q.when(scope.onSave());
+            submitPromise.then(success);
+            submitPromise['catch'](error);
           }
 
           function escape() {
             setExpressionValue(scope, scope.initial ? scope.initial : '');
+            scope.saveFieldForm.$setValidity(CUSTOM_ERROR_ID, true);
             scope.saveFieldForm.$setPristine();
             if (!scope.$$phase) { // eslint-disable-line angular/ng_no_private_call
               scope.$apply();
