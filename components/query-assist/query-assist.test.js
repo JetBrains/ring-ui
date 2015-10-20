@@ -101,7 +101,7 @@ describe('QueryAssist', function () {
     });
 
     it('should set state props to state on update', function () {
-      this.queryAssist.setProps({
+      this.queryAssist.rerender({
         query: 'update',
         caret: 2,
         focus: false
@@ -111,7 +111,7 @@ describe('QueryAssist', function () {
     });
 
     it('should set state props to immediateState on update', function () {
-      this.queryAssist.setProps({
+      this.queryAssist.rerender({
         query: 'update',
         caret: 2,
         focus: false
@@ -123,7 +123,7 @@ describe('QueryAssist', function () {
     });
 
     it('should not set undefined state props to state on update', function () {
-      this.queryAssist.setProps({
+      this.queryAssist.rerender({
         query: undefined
       });
 
@@ -131,7 +131,7 @@ describe('QueryAssist', function () {
     });
 
     it('should not set caret with query on update', function () {
-      this.queryAssist.setProps({
+      this.queryAssist.rerender({
         query: 'update'
       });
 
@@ -152,7 +152,7 @@ describe('QueryAssist', function () {
 
 
     it('should render nothing on empty query', function () {
-      this.queryAssist.setProps({
+      this.queryAssist.rerender({
         query: ''
       });
 
@@ -167,16 +167,16 @@ describe('QueryAssist', function () {
     });
 
     it('Shouldnt make duplicate requests for styleRanges on initiating if query is provided', function () {
-      //Emulate multiple setProps when rendering component with react-ng
-      this.queryAssist.setProps({});
-      this.queryAssist.setProps({});
-      this.queryAssist.setProps({});
+      //Emulate multiple rerender when rendering component with react-ng
+      this.queryAssist.rerender({});
+      this.queryAssist.rerender({});
+      this.queryAssist.rerender({});
 
       this.queryAssist.props.dataSource.should.have.been.calledOnce;
     });
 
     it('should render placeholder when enabled on empty query', function () {
-      this.queryAssist.setProps({
+      this.queryAssist.rerender({
         query: '',
         placeholder: 'plz'
       });
@@ -186,7 +186,7 @@ describe('QueryAssist', function () {
     });
 
     it('should not render placeholder when disabled on empty query', function () {
-      this.queryAssist.setProps({
+      this.queryAssist.rerender({
         query: ''
       });
 
@@ -194,7 +194,7 @@ describe('QueryAssist', function () {
     });
 
     it('should render with colors', function () {
-      this.queryAssist.setState({
+      this.queryAssist.rerender({
         styleRanges: [
           {start: 0, length: 1, style: 'text'},
           {start: 1, length: 1, style: 'field_value'},
@@ -213,7 +213,7 @@ describe('QueryAssist', function () {
 
 
     it('should disable field when component disabled', function () {
-      this.queryAssist.setProps({
+      this.queryAssist.rerender({
         disabled: true
       });
 
@@ -222,7 +222,7 @@ describe('QueryAssist', function () {
     });
 
     it('should render glass when enabled', function () {
-      this.queryAssist.setProps({
+      this.queryAssist.rerender({
         glass: true
       });
 
@@ -230,7 +230,7 @@ describe('QueryAssist', function () {
     });
 
     it('should not render glass when disabled', function () {
-      this.queryAssist.setProps({
+      this.queryAssist.rerender({
         glass: false
       });
 
@@ -238,7 +238,7 @@ describe('QueryAssist', function () {
     });
 
     it('should render clear when enabled', function () {
-      this.queryAssist.setProps({
+      this.queryAssist.rerender({
         clear: true
       });
 
@@ -246,7 +246,7 @@ describe('QueryAssist', function () {
     });
 
     it('should not render clear when disabled', function () {
-      this.queryAssist.setProps({
+      this.queryAssist.rerender({
         clear: false
       });
 
@@ -254,7 +254,7 @@ describe('QueryAssist', function () {
     });
 
     it('should not render clear when query is empty', function () {
-      this.queryAssist.setProps({
+      this.queryAssist.rerender({
         clear: true,
         query: ''
       });
@@ -264,7 +264,7 @@ describe('QueryAssist', function () {
 
     it('should show loader on long request', function() {
       this.queryAssist.props.dataSource.reset();
-      this.queryAssist.setState({
+      this.queryAssist.rerender({
         loading: true
       });
 
@@ -318,7 +318,7 @@ describe('QueryAssist', function () {
     }
 
     it('should complete by tab in the end of phrase', function () {
-      this.queryAssist.setProps({
+      this.queryAssist.rerender({
         query: completeQuery
       });
       this.queryAssist.renderPopup(suggestions);
@@ -328,7 +328,7 @@ describe('QueryAssist', function () {
     });
 
     it('should complete selected suggestion by enter in the end of phrase', function () {
-      this.queryAssist.setProps({
+      this.queryAssist.rerender({
         query: completeQuery
       });
       this.queryAssist.renderPopup(suggestions);
@@ -339,7 +339,7 @@ describe('QueryAssist', function () {
     });
 
     it('should complete by tab in the middle of phrase', function () {
-      this.queryAssist.setProps({
+      this.queryAssist.rerender({
         query: completeQuery,
         caret: middleCaret
       });
@@ -350,7 +350,7 @@ describe('QueryAssist', function () {
     });
 
     it('should complete selected suggestion by enter in the middle of phrase', function () {
-      this.queryAssist.setProps({
+      this.queryAssist.rerender({
         query: completeQuery,
         caret: middleCaret
       });
@@ -379,7 +379,7 @@ describe('QueryAssist', function () {
   describe('callbacks', function () {
     it('should call onApply', function () {
       var onApply = this.sinon.stub();
-      this.queryAssist.setProps({
+      this.queryAssist.rerender({
         onApply: onApply
       });
 
@@ -392,7 +392,7 @@ describe('QueryAssist', function () {
 
     it('should call onApply from glass', function () {
       var onApply = this.sinon.stub();
-      this.queryAssist.setProps({
+      this.queryAssist.rerender({
         glass: true,
         onApply: onApply
       });
@@ -423,11 +423,11 @@ describe('QueryAssist', function () {
 
       var onFocusChange = this.sinon.stub();
 
-      this.queryAssist.setProps({
+      this.queryAssist.rerender({
         onFocusChange: onFocusChange
       });
 
-      this.queryAssist.setProps({
+      this.queryAssist.rerender({
         focus: false
       });
 
@@ -442,7 +442,7 @@ describe('QueryAssist', function () {
 
     it('should batch requests', function() {
       this.queryAssist.props.dataSource.reset();
-      this.queryAssist.setProps({
+      this.queryAssist.rerender({
         delay: 100
       });
 
