@@ -59,6 +59,7 @@ const baseClass = new ClassName('ring-icon');
            <span id="icon-distribution"></span>
            <span id="icon-16-pencil"></span>
            <span id="icon-14-pencil"></span>
+           <span id="icon-custom-search-error"></span>
         </div>
      </file>
 
@@ -96,6 +97,12 @@ const baseClass = new ClassName('ring-icon');
          glyph: require('jetbrains-icons/pencil.svg'),
          size: Icon.Size.Size14
        }), document.getElementById('icon-14-pencil'));
+
+       render(Icon.factory({
+         glyph: require('jetbrains-icons/search-error.svg'),
+         height: 80,
+         width: 100
+       }), document.getElementById('icon-custom-search-error'));
      </file>
    </example>
 
@@ -185,17 +192,21 @@ export default class Icon extends RingComponent {
   static Size = Size;
 
   render() {
-    let {baseClass, className, size, color, glyph, title} = this.props;
+    let {baseClass, className, size, color, glyph, width, height} = this.props;
 
     let classes = classNames(
       {
         [baseClass.getModifier(size)]: true,
         [baseClass.getModifier(color)]: !!color,
-        [baseClass.getModifier(glyph)]: !!glyph,
         [baseClass.getClassName()]: true
       },
       className
     );
+
+    const style = width || height ? {width, height} : {
+      width: size,
+      height: size
+    };
 
     const xlinkHref = IconUrl.resolve(glyph);
 
@@ -203,6 +214,7 @@ export default class Icon extends RingComponent {
       <span {...this.props} className={classes}>
         <svg
           className={baseClass.getElement('i')}
+          style={style}
           dangerouslySetInnerHTML={{__html: '<use xlink:href="' + xlinkHref + '"></use>'}}
         />
       </span>
