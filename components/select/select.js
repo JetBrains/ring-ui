@@ -457,17 +457,18 @@ export default class Select extends RingComponentWithShortcuts {
 
   _createPopup() {
     if (!this._popup) {
+      let anchorElement = this.props.targetElement || this.node;
+
       this._popup = Popup.renderPopup(
         <SelectPopup
           maxHeight={this.props.maxHeight}
           minWidth={this.props.minWidth}
           filter={this.isInputMode() ? false : this.props.filter} // disable popup filter in INPUT mode
-          anchorElement={this.props.targetElement || this.node}
+          anchorElement={anchorElement}
           onClose={::this._onClose}
           onSelect={::this._listSelectHandler}
           onFilter={::this._filterChangeHandler}
-        />
-      );
+        />, anchorElement);
     }
   }
 

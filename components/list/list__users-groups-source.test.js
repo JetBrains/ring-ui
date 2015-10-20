@@ -90,4 +90,34 @@ describe('ListUsersGroupsSource', function () {
         dataForList[1].description.should.equal('123 text');
       });
   });
+
+  it('Should display "No users" title if no users found', function () {
+    let source = new ListUsersGroupsSource(this.fakeAuth, {});
+
+    this.sinon.stub(source, 'getUsers').returns(Promise.resolve([]));
+
+    this.sinon.stub(source, 'getGroups').returns(Promise.resolve([{id: 1, name: 'test group'}]));
+
+    return source.getForList()
+      .then((dataForList) => {
+        dataForList[2].description.should.equal('No users');
+      });
+  });
+
+  it('Should display "No groups" title if no groups found', function () {
+    let source = new ListUsersGroupsSource(this.fakeAuth, {});
+
+    this.sinon.stub(source, 'getUsers').returns(Promise.resolve([{
+      id: 1,
+      name: 'test user',
+      profile: {avatar: {url: 'http://test.com.url'}}
+    }]));
+
+    this.sinon.stub(source, 'getGroups').returns(Promise.resolve([]));
+
+    return source.getForList()
+      .then((dataForList) => {
+        dataForList[0].description.should.equal('No groups');
+      });
+  });
 });

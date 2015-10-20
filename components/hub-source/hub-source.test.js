@@ -148,7 +148,7 @@ describe('HubSource', function () {
 
   it('Should construct multiword query', function () {
     let source = new HubSource(this.fakeAuth, 'testItems');
-    source.formatQuery('foo bar').should.equal('{foo bar} or {foo bar}*');
+    source.formatQuery('foo bar').should.equal('foo bar or foo bar*');
   });
 
   it('Should support custom queryFormatter', function () {
