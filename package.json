@@ -78,8 +78,8 @@
     "karma-nodewebkit-launcher": "0.0.12",
     "karma-nyan-reporter": "0.2.2",
     "karma-osx-reporter": "0.2.0",
-    "karma-teamcity-reporter": "0.2.1",
     "karma-phantomjs-shim": "1.1.1",
+    "karma-teamcity-reporter": "0.2.1",
     "karma-webdriver-launcher": "1.0.4",
     "karma-webpack": "1.7.0",
     "metalsmith": "1.5.0",
@@ -95,6 +95,7 @@
     "serve-static": "1.9.2",
     "slug": "0.8.0",
     "wallaby-webpack": "0.0.7",
+    "webpack-config-merger": "0.0.3",
     "webpack-dev-server": "1.11.0"
   },
   "dependencies": {
