@@ -71,7 +71,6 @@ describe('Auth', function () {
         }).should.eventually.have.keys(['stateunique2']);
       });
 
-      // SOMETIMES broken in Firefox
       it.skip('should clean state by quota', function () {
         var limitedAuthStorage = new AuthStorage({
           stateKeyPrefix: 'state',

@@ -10,6 +10,10 @@ function prepend(node) {
 
 describe('DOM', () => {
   describe('isMounted', () => {
+    it('should return true for the document', () => {
+      isMounted(document).should.equal(true);
+    });
+
     it('should return true for an element attached to DOM', () => {
       let element = create();
       prepend(element);
@@ -23,16 +27,15 @@ describe('DOM', () => {
       isMounted(element).should.equal(false);
     });
 
-    // Doesn't work in PhantomJS
-    /*it('should return true for textNode attached to DOM', () => {
-      let textNode = document.createTextNode('Lorem ipsum dolor sit amet.')
+    it('should return true for textNode attached to DOM', () => {
+      let textNode = document.createTextNode('Lorem ipsum dolor sit amet.');
       prepend(textNode);
 
       isMounted(textNode).should.equal(true);
-    });*/
+    });
 
     it('should return false for textNode that\'s not attached to DOM', () => {
-      let textNode = document.createTextNode('Lorem ipsum dolor sit amet.')
+      let textNode = document.createTextNode('Lorem ipsum dolor sit amet.');
 
       isMounted(textNode).should.equal(false);
     });
@@ -62,14 +65,6 @@ describe('DOM', () => {
 
       getStyles(element).width.should.equal('100px');
     });
-
-    // Doesn't work in Firefox and IE
-    /*it('shouldn\'t return css-property for the unmount node', () => {
-      let element = create();
-      element.style.width = '100px';
-
-      getStyles(element).width.should.equal('');
-    });*/
   });
 
   describe('getRect', () => {
@@ -90,19 +85,11 @@ describe('DOM', () => {
       getRect(element).should.deep.equal({ top: 0, right: 0, bottom: 0, left: 0, width: 0, height: 0 });
     });
 
-    // Doesn't work in IE
-    /*it('should return DOMRect-like object for a range', () => {
-      let element = create();
-      element.setAttribute('style', style);
-      prepend(element);
-
+    it('should return DOMRect-like object for a range', () => {
       let range = document.createRange();
-      range.setStartBefore(document.body);
-      range.setEndAfter(document.body);
+      range.selectNode(document.body);
 
-      console.log(getRect(range));
-
-      getRect(range).should.deep.equal({ top: 8, right: 936, bottom: 8, left: 8, width: 928, height: 0 });
-    });*/
+      getRect(range).should.have.all.keys(['top', 'right', 'bottom', 'left', 'width', 'height']);
+    });
   });
 });
