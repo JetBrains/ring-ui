@@ -86,13 +86,13 @@ describe('Select', function () {
     secondTimeScope.should.not.be.equal(firstTimeScope);
   });
 
-  //@todo: fix this test
-  //it('Should open popup on key handling if not opened', function () {
-  //  this.select.rerender({type: Select.Type.INPUT});
-  //  this.select.setState({focused: true});
-  //  this.select._inputShortcutHandler();
-  //  this.select._showPopup.should.been.calledOnce;
-  //});
+  it('Should open popup on key handling if not opened', function () {
+    this.select._showPopup = this.sinon.spy();
+    this.select.rerender({type: Select.Type.INPUT});
+    this.select.setState({focused: true});
+    this.select._inputShortcutHandler();
+    this.select._showPopup.should.been.calledOnce;
+  });
 
   it('Should not open popup if disabled', function () {
     this.select._showPopup = this.sinon.spy();

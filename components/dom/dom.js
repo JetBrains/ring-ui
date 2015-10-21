@@ -1,6 +1,12 @@
 export const getStyles = ::window.getComputedStyle;
 
-export const isMounted = ::document.documentElement.contains;
+export function isMounted(node) {
+  if (node === document) {
+    return true;
+  }
+
+  return node instanceof Node && document.documentElement.contains(node.parentNode);
+}
 
 const rectStub = { top: 0, right: 0, bottom: 0, left: 0, width: 0, height: 0 };
 
