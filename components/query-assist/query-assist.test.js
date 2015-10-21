@@ -1,17 +1,17 @@
-var renderIntoDocument = require('render-into-document');
-var React = require('react');
-var ReactDOM = require('react-dom');
+import React from 'react';
+import $ from 'jquery';
+
+import QueryAssist from './query-assist';
+
+import { findDOMNode } from 'react-dom';
+import { Simulate } from 'react-addons-test-utils';
+import renderIntoDocument from 'render-into-document';
+import simulateKeypress from 'simulate-keypress';
 import Sniffr from 'sniffr';
 
 describe('QueryAssist', function () {
   let sniffr = new Sniffr();
   sniffr.sniff();
-
-  var QueryAssist = require('./query-assist');
-  var TestUtils = require('react/lib/ReactTestUtils');
-  var $ = require('jquery');
-
-  var simulateKeypress = require('simulate-keypress');
 
   var testQuery = 'oooooooooooo';
   var testQueryLength = testQuery.length;
@@ -279,7 +279,7 @@ describe('QueryAssist', function () {
       should.not.exist(this.queryAssist.refs.clear);
     });
 
-    it('should show loader on long request', function() {
+    it('should show loader on long request', function () {
       this.renderQueryAssist();
       this.queryAssist.setState({
         loading: true
@@ -321,7 +321,7 @@ describe('QueryAssist', function () {
 
       this.queryAssist.renderPopup(suggestions);
 
-      var list = $(ReactDOM.findDOMNode(this.queryAssist._popup.refs.List));
+      var list = $(findDOMNode(this.queryAssist._popup.refs.List));
 
       list.find('.ring-list__item').should.have.length(suggestions.length);
       list.find('.ring-list__highlight').should.have.length(suggestions.length);
@@ -330,7 +330,7 @@ describe('QueryAssist', function () {
 
   });
 
-  describe('completion', function() {
+  describe('completion', function () {
     var completeQuery = 'test';
     var middleCaret = completeQuery.length / 2;
 
@@ -425,7 +425,7 @@ describe('QueryAssist', function () {
         onApply: onApply
       });
 
-      TestUtils.Simulate.click(this.queryAssist.refs.glass.node);
+      Simulate.click(this.queryAssist.refs.glass.node);
       onApply.should.have.been.calledWithMatch({
         query: testQuery,
         caret: testQueryLength
@@ -439,7 +439,7 @@ describe('QueryAssist', function () {
         onClear: onClear
       });
 
-      TestUtils.Simulate.click(this.queryAssist.refs.clear.node);
+      Simulate.click(this.queryAssist.refs.clear.node);
       onClear.should.have.been.calledWithExactly();
     });
 
@@ -452,23 +452,21 @@ describe('QueryAssist', function () {
       var onFocusChange = this.sinon.stub();
 
       this.renderQueryAssist({
+        focus: false,
         onFocusChange: onFocusChange
       });
 
-      this.queryAssist.rerender({
-        focus: false
-      });
-
+      Simulate.click(this.queryAssist.input);
       onFocusChange.should.have.been.calledOnce;
     });
   });
 
-  describe('request data', function() {
-    beforeEach(function() {
+  describe('request data', function () {
+    beforeEach(function () {
       this.timeout = this.sinon.useFakeTimers();
     });
 
-    it('should batch requests', function(done) {
+    it('should batch requests', function (done) {
       this.renderQueryAssist();
       this.queryAssist.rerender({
         delay: 100
