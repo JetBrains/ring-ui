@@ -123,6 +123,7 @@ new Metalsmith(path.resolve(__dirname, '..'))
       debug: isServer,
       output: {
         path: path.resolve(__dirname, '..', 'docs', 'assets'),
+        pathinfo: isServer,
         filename: '[name].js',
         publicPath: publicPath // serve HMR update json's properly
       },
