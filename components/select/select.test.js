@@ -87,6 +87,7 @@ describe('Select', function () {
   });
 
   it('Should open popup on key handling if not opened', function () {
+    this.select._showPopup = this.sinon.spy();
     this.select.rerender({type: Select.Type.INPUT});
     this.select.setState({focused: true});
     this.select._inputShortcutHandler();
