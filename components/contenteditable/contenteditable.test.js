@@ -1,50 +1,48 @@
+import React from 'react';
+import ContentEditable from './contenteditable';
+import {renderIntoDocument, isCompositeComponentWithType} from 'react-addons-test-utils';
+
 describe('ContentEditable', function () {
-  var React = require('react');
-  var TestUtils = require('react-addons-test-utils');
-  var ContentEditable = require('./contenteditable');
-  var stub;
-  var component;
-
   beforeEach(function () {
-    stub = this.sinon.stub();
+    this.stub = this.sinon.stub();
 
-    component = TestUtils.renderIntoDocument(React.createElement(ContentEditable, {
+    this.component = renderIntoDocument(React.createElement(ContentEditable, {
       className: 'test',
-      onComponentUpdate: stub,
-      dangerousHTML: '<b>bold</b>'
-    }));
+      onComponentUpdate: this.stub
+
+    }, <b>bold</b>));
   });
 
   it('should create component', function () {
-    TestUtils.isCompositeComponentWithType(component, ContentEditable).should.be.true;
+    isCompositeComponentWithType(this.component, ContentEditable).should.be.true;
   });
 
   it('should pass other properties', function () {
-    component.node.className.should.equal('test');
+    this.component.node.className.should.equal('test');
   });
 
 
   it('should dangerously set html', function () {
-    component.node.innerHTML.should.equal('<b>bold</b>');
+    this.component.node.innerHTML.should.equal('<b>bold</b>');
   });
 
   it('should reander only on html / disabled change', function () {
-    component.rerender({
+    this.component.rerender({
       disabled: true
     });
 
-    component.rerender({
-      dangerousHTML: ''
+    this.component.rerender({
+      children: <span></span>
     });
 
-    stub.should.have.been.called.twice;
+    this.stub.should.have.been.called.twice;
   });
 
   it('should not render on other props change', function () {
-    component.rerender({
+    this.component.rerender({
       className: 'testtest'
     });
 
-    stub.should.not.have.been.called;
+    this.stub.should.not.have.been.called;
   });
 });
