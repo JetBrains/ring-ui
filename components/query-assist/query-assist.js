@@ -4,7 +4,6 @@
 
 import React, { PropTypes, DOM, createClass } from 'react';
 import { findDOMNode } from 'react-dom';
-import { renderToStaticMarkup } from 'react-dom/server';
 import debounce from 'mout/function/debounce';
 import deepEquals from 'mout/lang/deepEquals';
 import classNames from 'classnames';
@@ -210,6 +209,12 @@ export default class QueryAssist extends RingComponentWithShortcuts {
     shortcuts: true
   };
 
+  constructor(...props) {
+    super(...props);
+
+    this.boundRequestHandler = ::this.requestHandler;
+  }
+
   ngModelStateField = ngModelStateField;
 
   getShortcutsProps() {
@@ -262,11 +267,11 @@ export default class QueryAssist extends RingComponentWithShortcuts {
    * This may help reduce the load on the server if the user quickly inputs data
    */
   setupRequestHandler(props) {
-    if ((this.requestData === this.requestHandler) === Boolean(props.delay)) {
+    if ((this.requestData === this.boundRequestHandler) === Boolean(props.delay)) {
       if (typeof props.delay === 'number') {
-        this.requestData = debounce(this.requestData, props.delay);
+        this.requestData = debounce(this.boundRequestHandler, props.delay);
       } else {
-        this.requestData = ::this.requestHandler;
+        this.requestData = this.boundRequestHandler;
       }
     }
   }
@@ -666,7 +671,7 @@ export default class QueryAssist extends RingComponentWithShortcuts {
         renderedSuggestions.push({
           key: suggestion.option + suggestion.group + PopupMenu.ListProps.Type.SEPARATOR,
           description: suggestion.group,
-          type: PopupMenu.ListProps.Type.SEPARATOR
+          rgItemType: PopupMenu.ListProps.Type.SEPARATOR
         });
       }
 
@@ -690,7 +695,7 @@ export default class QueryAssist extends RingComponentWithShortcuts {
       let item = {
         key: suggestion.prefix + suggestion.option + suggestion.suffix + suggestion.group + suggestion.description,
         label: label,
-        type: PopupMenu.ListProps.Type.ITEM,
+        rgItemType: PopupMenu.ListProps.Type.ITEM,
         data: suggestion
       };
 
@@ -749,11 +754,6 @@ export default class QueryAssist extends RingComponentWithShortcuts {
       'ring-input_disabled': this.props.disabled
     });
 
-    // TODO: Move to ContentEditable
-    let query = this.state.query && renderToStaticMarkup(
-        <span>{this.state.query.split('').map(::this.renderLetter)}</span>
-      );
-
     return (
       <div className="ring-query-assist"
         onMouseDown={::this.trackInputMouseState}
@@ -763,7 +763,6 @@ export default class QueryAssist extends RingComponentWithShortcuts {
           className={inputClasses}
           ref={::this.refInput}
           disabled={this.props.disabled}
-          dangerousHTML={query}
           onComponentUpdate={::this.setFocus}
 
           onBlur={::this.handleFocusChange}
@@ -774,21 +773,24 @@ export default class QueryAssist extends RingComponentWithShortcuts {
           onKeyPress={::this.handleEnter}
           onKeyUp={::this.handleCaretMove}
 
-          spellCheck="false" />
+          spellCheck="false">{this.state.query && <span>{this.state.query.split('').map(::this.renderLetter)}</span>}</ContentEditable>
 
         {renderPlaceholder && <span
           className="ring-query-assist__placeholder"
+          ref="placeholder"
           onClick={::this.handleCaretMove}>
           {this.props.placeholder}
         </span>}
         {renderGlass && <Icon
           className="ring-query-assist__icon"
+          ref="glass"
           color="gray"
           glyph={require('jetbrains-icons/search.svg')}
           onClick={::this.handleApply}
           size={Icon.Size.Size16} />}
         {this.state.loading && <div
-          className="ring-query-assist__icon ring-query-assist__icon_loader">
+          className="ring-query-assist__icon ring-query-assist__icon_loader"
+          ref="loader">
           <Loader modifier={Loader.Modifier.INLINE} />
         </div>}
         {renderClear && <Icon
