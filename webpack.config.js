@@ -71,7 +71,6 @@ module.exports = {
   },
   plugins: [
     new webpack.ProvidePlugin({
-      'Promise': 'core-js/es6/promise',
       'fetch': 'exports?self.fetch!whatwg-fetch'
     })
   ],
