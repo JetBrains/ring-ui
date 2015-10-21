@@ -1,5 +1,3 @@
-'use strict';
-
 export const getStyles = ::window.getComputedStyle;
 
 export function isMounted(node) {
