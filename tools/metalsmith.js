@@ -19,6 +19,7 @@ var filepath = require('metalsmith-filepath');
 var replace = require('metalsmith-text-replace');
 
 var webpack = require('webpack');
+var webpackConfigMerger = require('webpack-config-merger');
 var WebpackDevServer = require('webpack-dev-server');
 var webpackConfig = require('../webpack.config');
 var AnyBarWebpackPlugin = require('anybar-webpack');
@@ -110,7 +111,7 @@ new Metalsmith(path.resolve(__dirname, '..'))
     var port = process.env.npm_package_config_port || require('../package.json').config.port;
     var serverUrl = 'http://localhost:' + port;
 
-    mixIn(webpackConfig, {
+    webpackConfig = webpackConfigMerger(webpackConfig, {
       context: path.resolve(__dirname, '..'),
       entry: {
         index: './site/'
