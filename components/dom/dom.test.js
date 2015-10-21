@@ -1,5 +1,4 @@
 import { isMounted, getStyles, getRect } from './dom';
-import Sniffr from 'sniffr';
 
 function create(tag = 'div') {
   return document.createElement(tag);
@@ -10,10 +9,11 @@ function prepend(node) {
 }
 
 describe('DOM', () => {
-  let sniffr = new Sniffr();
-  sniffr.sniff();
-
   describe('isMounted', () => {
+    it('should return true for the document', () => {
+      isMounted(document).should.equal(true);
+    });
+
     it('should return true for an element attached to DOM', () => {
       let element = create();
       prepend(element);
@@ -65,13 +65,6 @@ describe('DOM', () => {
 
       getStyles(element).width.should.equal('100px');
     });
-
-    it('shouldn\'t return css-property for the unmount node', () => {
-      let element = create();
-      element.style.width = '100px';
-
-      getStyles(element).width.should.equal('');
-    });
   });
 
   describe('getRect', () => {
@@ -93,20 +86,10 @@ describe('DOM', () => {
     });
 
     it('should return DOMRect-like object for a range', () => {
-      // Doesn't work in IE
-      if (sniffr.browser.name === 'ie') {
-        return;
-      }
-
-      let element = create();
-      element.setAttribute('style', style);
-      prepend(element);
-
       let range = document.createRange();
-      range.setStartBefore(element);
-      range.setEndAfter(element);
+      range.selectNode(document.body);
 
-      getRect(range).should.deep.equal({ top: 14, right: 124, bottom: 124, left: 14, width: 110, height: 110 });
+      getRect(range).should.have.all.keys(['top', 'right', 'bottom', 'left', 'width', 'height']);
     });
   });
 });
