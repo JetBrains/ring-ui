@@ -90,11 +90,25 @@ angular.module('Ring.save-field', [
                        class="ring-input"
                        ng-model="data.num">
               </rg-save-field>
-            <div>
+            </div>
+          </div>
+
+          <div class="ring-form__group">
+            <label class="ring-form__label">
+              Rejected Save
+            </label>
+
+            <div class="ring-form__control">
+              <rg-save-field value="data.someText"
+                             on-save="invalidSave">
+                  <input type="text"
+                         class="ring-input"
+                         ng-model="data.someText">
+              </rg-save-field>
+            </div>
           </div>
         </div>
 
-        </div>
      </div>
      </file>
      <file name="index.js" webpack="true">
@@ -108,7 +122,8 @@ angular.module('Ring.save-field', [
              email: 'aa',
              longText: null,
              longTextList: ['one', 'two', 'three'],
-             num: 10
+             num: 10,
+             someText: 'some text'
            };
 
            var defer = $q.defer();
@@ -116,6 +131,14 @@ angular.module('Ring.save-field', [
            $scope.save = function() {
              console.log('data = ', $scope.data);
              return defer.promise;
+           };
+
+           $scope.invalidSave = function(currentValue) {
+             if (currentValue.length < 7) {
+               return $q.reject('Length of the string must be greater than 7! >> ' + currentValue);
+             } else {
+               return true;
+             }
            };
        });
      </file>
@@ -132,6 +155,9 @@ angular.module('Ring.save-field', [
       var ENTER_KEY_CODE = 13;
       var MULTI_LINE_SPLIT_PATTERN = /(\r\n|\n|\r)/gm;
       var MULTI_LINE_LIST_MODE = 'list';
+      var CUSTOM_ERROR_ID = 'customError';
+      var ERROR_DESCRIPTION = 'error_description';
+      var ERROR_DEVELOPER_MSG = 'error_developer_message';
 
       return {
         restrict: 'E',
@@ -144,6 +170,10 @@ angular.module('Ring.save-field', [
           var valueExpression = iAttrs.value;
           var getExpressionValue = $parse(valueExpression);
           var setExpressionValue = getExpressionValue.assign;
+          var customError = {
+            message: ''
+          };
+          var blurTimeout = null;
 
           function submitChanges() {
             var success = function () {
@@ -156,15 +186,32 @@ angular.module('Ring.save-field', [
                 scope.done = false;
               }, 1000);
             };
-            $q.when(scope.onSave()).then(success);
+
+            var error = function(err) {
+              var message;
+              if (typeof err === 'string') {
+                message = err;
+              } else if (typeof err === 'object') {
+                message = err[ERROR_DESCRIPTION] || err[ERROR_DEVELOPER_MSG];
+              }
+
+              customError.message = message;
+              scope.saveFieldForm.$setValidity(CUSTOM_ERROR_ID, false, customError);
+            };
+
+            scope.cancelBlur();
+
+            var submitPromise = $q.when(scope.onSave(getExpressionValue(scope)));
+            submitPromise.then(success);
+            submitPromise['catch'](error);
           }
 
-          function escape() {
-            setExpressionValue(scope, scope.initial ? scope.initial : '');
-            scope.saveFieldForm.$setPristine();
-            if (!scope.$$phase) { // eslint-disable-line angular/ng_no_private_call
-              scope.$apply();
-            }
+          function resetValue() {
+            scope.$evalAsync(function() {
+              setExpressionValue(scope, scope.initial ? scope.initial : '');
+              scope.saveFieldForm.$setValidity(CUSTOM_ERROR_ID, true, customError);
+              scope.saveFieldForm.$setPristine();
+            });
           }
 
           function addMultilineProcessig(controlName) {
@@ -201,10 +248,16 @@ angular.module('Ring.save-field', [
             });
           }
 
+          function inputBlur() {
+            blurTimeout = $timeout(function() {
+              resetValue();
+            }, 100);
+          }
+
           function inputKey($event) {
             if ($event.keyCode === ESCAPE_KEY_CODE) {
               if (scope.saveFieldForm.$dirty) {
-                escape();
+                resetValue();
               }
               $event.stopPropagation();
               $event.preventDefault();
@@ -219,15 +272,23 @@ angular.module('Ring.save-field', [
             }
           }
 
+          scope.cancelBlur = function() {
+            $timeout(function() {
+              if (blurTimeout) {
+                $timeout.cancel(blurTimeout);
+                blurTimeout = null;
+              }
+            }, 10);
+          };
+
           scope.$watch(valueExpression, function (value) {
-            if (angular.isUndefined(value)) {
-              return;
-            }
             if (scope.saveFieldForm.$pristine) {
               scope.initial = value;
             } else if (scope.initial && angular.equals(scope.initial, value)) {
-              escape();
+              resetValue();
             }
+
+            scope.saveFieldForm.$setValidity(CUSTOM_ERROR_ID, true, customError);
           }, true);
 
           var isTextarea = false;
@@ -238,6 +299,8 @@ angular.module('Ring.save-field', [
           }
           if (inputNode) {
             inputNode.addEventListener('keydown', inputKey);
+            inputNode.addEventListener('blur', inputBlur);
+
             if (isTextarea) {
               if (!multilineMode) {
                 multilineMode = true;
@@ -251,6 +314,8 @@ angular.module('Ring.save-field', [
             save: RingMessageBundle.form_save(),
             saved: RingMessageBundle.form_saved()
           };
+
+          scope.submitChanges = submitChanges;
         }
       };
     }
