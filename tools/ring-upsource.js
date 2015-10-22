@@ -22,5 +22,15 @@ module.exports = {
     PopupMenu: require('popup-menu/popup-menu'),
     QueryAssist: require('query-assist/query-assist'),
     Select: require('select/select')
+  },
+  icons: {
+    add: require('jetbrains-icons/add.svg'),
+    added: require('jetbrains-icons/added.svg'),
+    check: require('jetbrains-icons/check.svg'),
+    modified: require('jetbrains-icons/modified.svg'),
+    removed: require('jetbrains-icons/removed.svg'),
+    renamed: require('jetbrains-icons/renamed.svg'),
+    stamp: require('jetbrain-icons/stamp.svg'),
+    'stamp-o': require('jetbrains-icons/stamp-o.svg')
   }
 };
