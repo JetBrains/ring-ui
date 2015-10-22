@@ -18,6 +18,7 @@ module.exports = {
     Button: require('button/button'),
     Footer: require('footer/footer'),
     Header: require('header/header'),
+    Icon: require('icon/icon'),
     Popup: require('popup/popup'),
     PopupMenu: require('popup-menu/popup-menu'),
     QueryAssist: require('query-assist/query-assist'),
