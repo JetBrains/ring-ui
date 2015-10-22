@@ -35,15 +35,18 @@ Analytics.prototype.trackPageView = function (path) {
 };
 
 Analytics.prototype.trackEvent = function (category, action, /* optional */ additionalData) {
-  var subcategory = action + this._buildSuffix(additionalData);
+  var subaction = additionalData ? action + this._buildSuffix(additionalData) : null;
   this._plugins.forEach(function(plugin) {
-    plugin.trackEvent(category, subcategory);
+    plugin.trackEvent(category, action);
+    if (subaction) {
+      plugin.trackEvent(category, subaction);
+    }
   });
 };
 
 Analytics.prototype.trackShortcutEvent = function (category, action, /* optional */ additionalData) {
   this.trackEvent(category, action, additionalData);
-  this.trackEvent('ring-shortcut', category + ':' + action, additionalData);
+  this.trackEvent('ring-shortcut', category + '$' + action, additionalData);
 };
 
 Analytics.prototype.trackEntityProperties = function(entityName, entity, propertiesNames, /* optional */ additionalData) {
@@ -64,7 +67,8 @@ Analytics.prototype.trackEntityProperties = function(entityName, entity, propert
     if (typeof value === 'string') {
       value = value.toLowerCase().replace(/[\._]+/g, '-');
     }
-    this.trackEvent(entityName + '_' + keys[keys.length - 1], value, additionalData);
+    var resultAction = keys.join('-') + '__' + value;
+    this.trackEvent(entityName, resultAction, additionalData);
   }
 };
 
@@ -75,7 +79,7 @@ Analytics.prototype._buildSuffix = function(additionalData) {
   var suffix = '';
   for (var key in additionalData) {
     if (additionalData.hasOwnProperty(key)) {
-      suffix += ',' + key + '=' + additionalData[key];
+      suffix += '__' + key + '$' + additionalData[key];
     }
   }
   return suffix;
