@@ -609,7 +609,7 @@ describe.skip('Auth', function () {
       this.sinon.server.respondWith('http://localhost:8080/api/rest/users/me', '{"name": "user"}');
     });
 
-    it('getSecure should return promise with resonse object', function () {
+    it('getSecure should return promise with response object', function () {
       var response = auth.getSecure('http://localhost:6666/users/me', 'token');
       this.sinon.server.respond();
 
@@ -662,7 +662,7 @@ describe.skip('Auth', function () {
       });
     });
 
-    it('getApi should return promise with resonse object', function () {
+    it('getApi should return promise with response object', function () {
       var response = auth.getApi('users/me', 'token');
       this.sinon.server.respond();
 
