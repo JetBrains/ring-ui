@@ -3,7 +3,7 @@ import Sniffr from 'sniffr';
 const sniffr = new Sniffr();
 sniffr.sniff();
 
-describe.only('Auth', function () {
+describe('Auth', function () {
   var Auth = require('./auth');
   var AuthRequestBuilder = require('./auth__request-builder');
   var AuthResponseParser = require('./auth__response-parser');
