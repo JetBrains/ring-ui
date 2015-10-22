@@ -95,6 +95,29 @@ describe('analytics singleton', function() {
         }]);
       });
 
+      it('should remove prohibited symbols', function() {
+        analytics.trackEvent('t/\\est-c,ate:gory*?', 't/\\est-a,ct:ion*?');
+        clock.tick(10500);
+
+        send.should.have.been.calledWith([{
+          category: 't_est-c_ate_gory_',
+          action: 't/_est-a_ct_ion_'
+        }]);
+      });
+
+      it('should track event with additional information', function() {
+        analytics.trackEvent('test-category', 'test-action', {type: 'test-type'});
+        clock.tick(10500);
+
+        send.should.have.been.calledWith([{
+          category: 'test-category',
+          action: 'test-action'
+        }, {
+          category: 'test-category',
+          action: 'test-action__type$test-type'
+        }]);
+      });
+
       it('should send two events to statistics server on tracking shortcut event', function() {
         analytics.trackShortcutEvent('test-category', 'test-action');
         clock.tick(10500);
@@ -104,7 +127,7 @@ describe('analytics singleton', function() {
           action: 'test-action'
         }, {
           category: 'ring-shortcut',
-          action: 'test-category:test-action'
+          action: 'test-category$test-action'
         }]);
       });
 
@@ -124,8 +147,8 @@ describe('analytics singleton', function() {
           var trackedData = [];
           trackedProperties.forEach(function(it) {
             trackedData.push({
-              category: 'sample-entity_' + it,
-              action: entity[it]
+              category: 'sample-entity',
+              action: it + '__' + entity[it]
             });
           });
           send.should.have.been.calledWith(trackedData);
@@ -151,11 +174,11 @@ describe('analytics singleton', function() {
           clock.tick(10500);
 
           send.should.have.been.calledWith([{
-            category: 'entity_param1',
-            action: 'first'
+            category: 'entity',
+            action: 'param1__first'
           }, {
-            category: 'entity_unexisting-property',
-            action: 'no-value'
+            category: 'entity',
+            action: 'unexisting-property__no-value'
           }]);
         });
 
@@ -177,11 +200,11 @@ describe('analytics singleton', function() {
           clock.tick(10500);
 
           send.should.have.been.calledWith([{
-            category: 'entity_subsubproperty',
-            action: 'subsubproperty-value'
+            category: 'entity',
+            action: 'property-subproperty2-subsubproperty__subsubproperty-value'
           }, {
-            category: 'entity_unexisting',
-            action: 'no-value'
+            category: 'entity',
+            action: 'propery-subproperty3-unexisting__no-value'
           }]);
         });
       });
