@@ -442,23 +442,6 @@ describe('QueryAssist', function () {
       Simulate.click(this.queryAssist.refs.clear.node);
       onClear.should.have.been.calledWithExactly();
     });
-
-    it('should call onFocusChange', function () {
-      // Test doesn't work anywhere but Chrome for some reason
-      if (sniffr.browser.name !== 'chrome') {
-        return;
-      }
-
-      var onFocusChange = this.sinon.stub();
-
-      this.renderQueryAssist({
-        focus: false,
-        onFocusChange: onFocusChange
-      });
-
-      Simulate.click(this.queryAssist.input);
-      onFocusChange.should.have.been.calledOnce;
-    });
   });
 
   describe('request data', function () {
