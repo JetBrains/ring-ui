@@ -45,8 +45,16 @@ angular.module('Ring.form', ['Ring.message-bundle']).
         });
 
         scope.msg = function (id, viewValue) {
-          id = 'form_' + id;
-          return RingMessageBundle[id] && RingMessageBundle[id](viewValue);
+          var messageBundleId = 'form_' + id;
+          if (RingMessageBundle.hasOwnProperty(messageBundleId)) {
+            return RingMessageBundle[messageBundleId](viewValue);
+          }
+          var formErrors = (scope.errorBubble().$error && scope.errorBubble().$error[id]) || [];
+          for (var j = 0; j < formErrors.length; ++j) {
+            if (formErrors[j] && formErrors[j].message) {
+              return formErrors[j].message;
+            }
+          }
         };
       }
     };
