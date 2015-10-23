@@ -14,7 +14,9 @@ function attach(node) {
 afterEach(() => {
   let node;
   while (node = nodes.pop()) {
-    node.remove();
+    if (node.parentNode) {
+      node.parentNode.removeChild(node);
+    }
   }
 });
 
