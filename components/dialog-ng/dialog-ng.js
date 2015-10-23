@@ -283,7 +283,13 @@ angular.module('Ring.dialog', []).
     return {
       'require': '^rgDialog',
       'link': function (scope, iElement, iAttrs, dialogCtrl) {
-        dialogCtrl.setTitle(iAttrs.rgDialogTitle);
+        var title = iAttrs.rgDialogTitle;
+        dialogCtrl.setTitle(title);
+        scope.$watch('title', function(newDialogTitle) {
+          if (!newDialogTitle) {
+            dialogCtrl.setTitle(title);
+          }
+        });
       }
     };
   }).
