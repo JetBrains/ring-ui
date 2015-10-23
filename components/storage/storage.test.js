@@ -198,7 +198,7 @@ function testStorageEvents(storage) {
       setTimeout(function () {
         spy.should.not.have.been.called;
         done();
-      }, 300);
+      }, 0);
     });
 
     it('stop should stop', function (done) {
@@ -212,7 +212,7 @@ function testStorageEvents(storage) {
       setTimeout(function () {
         spy.should.not.have.been.called;
         done();
-      }, 300);
+      }, 0);
     });
   });
 }

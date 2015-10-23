@@ -81,6 +81,8 @@ describe('Alerts', function() {
     });
 
     it('should remove alert after timeout', function(done) {
+      this.sinon.useFakeTimers();
+
       var TIMEOUT = 100;
       component._addElement('Child element.', Alerts.Type.MESSAGE, noop, TIMEOUT);
 
@@ -92,6 +94,8 @@ describe('Alerts', function() {
         expect(component.state.childElements[0]).to.be.undefined;
         done();
       }, TIMEOUT);
+
+      this.sinon.clock.tick(200);
     });
   });
 });

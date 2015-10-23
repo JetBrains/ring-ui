@@ -445,11 +445,9 @@ describe('QueryAssist', function () {
   });
 
   describe('request data', function () {
-    beforeEach(function () {
-      this.timeout = this.sinon.useFakeTimers();
-    });
+    it('should batch requests', function () {
+      this.sinon.useFakeTimers();
 
-    it('should batch requests', function (done) {
       this.renderQueryAssist();
       this.queryAssist.rerender({
         delay: 100
@@ -459,10 +457,9 @@ describe('QueryAssist', function () {
         this.queryAssist.requestData();
         this.queryAssist.requestData();
         this.queryAssist.requestData();
-        this.timeout.tick(4000);
+        this.sinon.clock.tick(400);
 
         this.queryAssist.props.dataSource.should.have.been.calledOnce;
-        done();
       });
 
     });
