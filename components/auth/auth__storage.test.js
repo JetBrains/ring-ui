@@ -79,7 +79,7 @@ describe('Auth', function () {
       it('should clean state by quota', function () {
         // Looks like weird race condition in Fx
         if (sniffr.browser.name === 'firefox') {
-          this.skip();
+          return undefined;
         }
 
         var limitedAuthStorage = new AuthStorage({
