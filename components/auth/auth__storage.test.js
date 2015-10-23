@@ -1,4 +1,9 @@
 /* eslint-disable google-camelcase/google-camelcase */
+import Sniffr from 'sniffr';
+const sniffr = new Sniffr();
+sniffr.sniff();
+
+
 describe('Auth', function () {
   describe('AuthStorage', function () {
     var Auth = require('./auth');
@@ -71,7 +76,12 @@ describe('Auth', function () {
         }).should.eventually.have.keys(['stateunique2']);
       });
 
-      it.skip('should clean state by quota', function () {
+      it('should clean state by quota', function () {
+        // Looks like weird race condition in Fx
+        if (sniffr.browser.name === 'firefox') {
+          return undefined;
+        }
+
         var limitedAuthStorage = new AuthStorage({
           stateKeyPrefix: 'state',
           tokenKey: 'token',
