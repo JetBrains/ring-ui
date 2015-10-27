@@ -112,7 +112,7 @@
     "html-loader": "0.2.3",
     "imports-loader": "0.6.3",
     "jetbrains-icons": "1.0.2",
-    "jetbrains-logos": "0.0.12",
+    "jetbrains-logos": "0.0.13",
     "mousetrap": "1.4.6",
     "mout": "0.11.0",
     "ng-annotate-loader": "0.0.6",

@@ -9,7 +9,7 @@
 
   color: #6E6E6E;
   text-align: center;
-  font-size: 11px !important;
+  font-size: $ring-font-size-smaller !important;
   @include ring-font();
 
   &.ring-footer_floating {
@@ -35,8 +35,6 @@
 }
 
 .ring-footer__column_left {
-  left: 0; // IE 7
-
   text-align: left;
 }
 

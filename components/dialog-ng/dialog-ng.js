@@ -165,7 +165,13 @@ function rgDialogTitle() {
   return {
     require: '^rgDialog',
     link: function (scope, iElement, iAttrs, dialogCtrl) {
-      dialogCtrl.setTitle(iAttrs.rgDialogTitle);
+      let title = iAttrs.rgDialogTitle;
+      dialogCtrl.setTitle(title);
+      scope.$watch('title', newDialogTitle => {
+        if (!newDialogTitle) {
+          dialogCtrl.setTitle(title);
+        }
+      });
     }
   };
 }

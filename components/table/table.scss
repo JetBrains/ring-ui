@@ -28,7 +28,7 @@
   text-align: left;
   line-height: 23px;
   white-space: nowrap;
-  font-size: 11px;
+  font-size: $ring-font-size-smaller;
   font-weight: normal;
 
   color: $ring-text-color;
@@ -277,7 +277,7 @@
 
 .ring-table__description {
   margin-left: $ring-unit;
-  font-size: 11px;
+  font-size: $ring-font-size-smaller;
   color: #6E6E6E;
 }
 

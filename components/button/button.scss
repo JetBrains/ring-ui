@@ -65,7 +65,7 @@
   border: solid 1px #B4B4B4;
   border-radius: $ring-border-radius;
 
-  font-size: 11px;
+  font-size: $ring-font-size-smaller;
   line-height: 22px;
   text-decoration: none;
   color: #282828;
@@ -97,13 +97,8 @@
     position: relative;
     border-radius: $ring-border-radius;
     box-shadow: 0 0 0 2px $ring-outline-color;
+    outline: none;
     z-index: 2;
-
-    outline: 1px dotted #666; // IE 8-
-
-    :root & {
-      outline: none;
-    }
   }
 
   .ring-icon {
