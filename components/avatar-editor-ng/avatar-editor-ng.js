@@ -105,14 +105,14 @@ function rgAvatarEditor() {
 
       $scope.controls = {};
 
+      function onClick(e) {
+        e.stopPropagation();
+      }
+
       $scope.controls.select = () => {
         if (!FileReader) {
           alert.error(RingMessageBundle.avatareditor_nosupport());
         } else {
-          function onClick(e) {
-            e.stopPropagation();
-          }
-
           fileInput.addEventListener('click', onClick);
           fileInput.dispatchEvent(new MouseEvent('click'));
           fileInput.removeEventListener('click', onClick);

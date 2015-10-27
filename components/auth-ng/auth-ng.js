@@ -68,7 +68,7 @@ authModule.provider('auth', ['$httpProvider', function ($httpProvider) {
             return authInstance.auth.requestToken();
           }).
           then(function (accessToken) {
-            config.headers['Authorization'] = 'Bearer ' + accessToken;
+            config.headers.Authorization = 'Bearer ' + accessToken;
             return config;
           });
       },
