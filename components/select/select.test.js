@@ -495,6 +495,18 @@ describe('Select', function () {
       }));
 
       Popup.renderPopup.should.have.been.calledWith(sinon.match(Object), target);
-    })
+    });
+
+    it('Should handle onMouseOut', function () {
+      this.sinon.spy(this.select.refs.list, 'clearSelected');
+
+      this.select = renderIntoDocument(React.createElement(Select, {
+        data: testData,
+        targetElement: document.createElement('div')
+      }));
+      this.select.refs.list.props.onMouseOut();
+
+      this.select.refs.list.clearSelected.should.been.called;
+    });
   });
 });
