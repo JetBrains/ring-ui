@@ -54,23 +54,23 @@ module.exports = function (wallaby) {
 
       // test frameworks
       {
-        pattern: 'node_modules/karma-chai-plugins/node_modules/sinon/pkg/sinon.js',
+        pattern: 'node_modules/sinon/pkg/sinon.js',
         instrument: false
       },
       {
-        pattern: 'node_modules/karma-chai-plugins/node_modules/chai/chai.js',
+        pattern: 'node_modules/chai/chai.js',
         instrument: false
       },
       {
-        pattern: 'node_modules/karma-chai-plugins/node_modules/chai-as-promised/lib/chai-as-promised.js',
+        pattern: 'node_modules/chai-as-promised/lib/chai-as-promised.js',
         instrument: false
       },
       {
-        pattern: 'node_modules/karma-chai-plugins/node_modules/chai-jquery/chai-jquery.js',
+        pattern: 'node_modules/chai-jquery/chai-jquery.js',
         instrument: false
       },
       {
-        pattern: 'node_modules/karma-chai-plugins/node_modules/sinon-chai/lib/sinon-chai.js',
+        pattern: 'node_modules/sinon-chai/lib/sinon-chai.js',
         instrument: false
       },
       {

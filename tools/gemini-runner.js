@@ -1,4 +1,6 @@
 /* eslint-env node */
+/* eslint-disable no-console*/
+
 require('babel/polyfill');
 var Gemini = require('gemini/api');
 var geminiTeamcityPlugin = require('gemini-teamcity');
