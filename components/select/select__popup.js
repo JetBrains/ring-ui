@@ -93,6 +93,10 @@ export default class SelectPopup extends RingComponentWithShortcuts {
     this.refs.popup.remove();
   }
 
+  listOnMouseOut() {
+    this.refs.list.clearSelected();
+  }
+
   isVisible() {
     return this.refs.popup.isVisible();
   }
@@ -127,9 +131,11 @@ export default class SelectPopup extends RingComponentWithShortcuts {
           maxHeight={this.props.maxHeight}
           data={this.props.data}
           activeIndex={this.props.activeIndex}
+          ref="list"
           restoreActiveIndex={true}
           activateSingleItem={true}
           onSelect={this.props.onSelect}
+          onMouseOut={::this.listOnMouseOut}
           shortcuts={this.state.popupShortcuts}
         />
       );
