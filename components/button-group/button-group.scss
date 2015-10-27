@@ -22,13 +22,6 @@
 
 .ring-button-group {
   display: inline-block;
-  // IE 7
-  @media screen\9 {
-    & {
-      display: inline;
-      zoom: 1;
-    }
-  }
   position: relative;
   max-height: 3*$ring-unit;
 
