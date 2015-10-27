@@ -68,13 +68,13 @@ export default class Button extends RingComponent {
        */
       className: PropTypes.string
     }
-  };
+  }
 
   static get defaultProps() {
     return {
       modifier: Modifiers.DEFAULT
     }
-  };
+  }
 
   render() {
     let classes = classNames(

@@ -34,7 +34,7 @@ describe('ClassName', function() {
   });
 
   it('getClassName() with both arguments should return valid BEM-name', function() {
-    className.getClassName('element', 'modifier').should.equal(BASE_CLASS + '__element' + '_modifier');
+    className.getClassName('element', 'modifier').should.equal(BASE_CLASS + '__element_modifier');
   });
 
   describe('shortcuts', function() {
