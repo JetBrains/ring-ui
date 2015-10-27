@@ -1,4 +1,5 @@
 /* eslint-env node */
+/* eslint-disable no-console*/
 var path = require('path');
 var fs = require('fs');
 var chalk = require('chalk');

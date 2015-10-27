@@ -1,7 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import RingComponent from 'ring-component/ring-component';
 import RingComponentWithShortcuts from 'ring-component/ring-component_with-shortcuts';
 import Select from 'select/select';
 import Tag from 'tag/tag';
@@ -162,7 +161,7 @@ export default class TagsInput extends RingComponentWithShortcuts {
   }
 
   handleBackspace() {
-    let currentInputValue =  this._inputNode.value;
+    let currentInputValue = this._inputNode.value;
     if (!currentInputValue) {
       let tagsLength = this.state.tags.length;
       this.onRemoveTag(this.state.tags[tagsLength-1]);

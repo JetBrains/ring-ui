@@ -48,7 +48,7 @@ ringTooltipModule.directive('rgTooltip', function ($parse, RgTooltipPopup) {
     restrict: 'A',
     link: function (scope, iElement, iAttrs) {
       let element = iElement[0];
-      let popupWrapper = new RgTooltipPopup(element, $parse(iAttrs['rgTooltip'])(scope));
+      let popupWrapper = new RgTooltipPopup(element, $parse(iAttrs.rgTooltip)(scope));
 
       element.addEventListener('mouseover', () => {
         popupWrapper.displayTooltip();
@@ -68,7 +68,7 @@ ringTooltipModule.factory('RgTooltipPopup', function () {
     this.popup = null;
 
     this.displayTooltip = () => {
-      this.popup = this.popup || Popup.renderPopup(React.createElement(Popup, {
+      this.popup = this.popup || Popup.renderPopup(createElement(Popup, {
         anchorElement: element,
         maxHeight: 400,
         className: 'ring-tooltip-ng',

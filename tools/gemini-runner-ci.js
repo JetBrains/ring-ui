@@ -1,4 +1,6 @@
 /* eslint-env node */
+/* eslint-disable no-console*/
+
 var exec = require('child_process').exec;
 var finalhandler = require('finalhandler');
 var http = require('http');

@@ -116,11 +116,11 @@ describe('TagsInput', function() {
   it('Should turn on loading message while loading suggestions', function () {
     let dataSource = this.sinon.spy(() => Promise.resolve([]));
     this.tagsInput.rerender({dataSource});
+    this.tagsInput.state.loading.should.be.true;
+
     return this.tagsInput.loadSuggestions().then(() => {
       this.tagsInput.state.loading.should.be.false;
     });
-
-    this.tagsInput.state.loading.should.be.true;
   });
 
   it('Should drop exist tags from suggestions by key', function () {
