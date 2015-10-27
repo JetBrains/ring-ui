@@ -90,7 +90,7 @@ $ring-input-width: $ring-unit*25;
 
 .ring-form__control__description {
   padding-top: $ring-unit;
-  font-size: 11px;
+  font-size: $ring-font-size-smaller;
   line-height: 16px !important;
   color: $ring-dark-gray-color;
   display: block;

@@ -34,9 +34,9 @@
   display: block;
 
   text-align: center;
-  font-family: 'Helvetica Neue', Arial, sans-serif;
-  font-size: 14px;
-  color: black;
+
+  @include ring-font(14px);
+
   margin-top: 15%;
   line-height: 2.5*$ring-unit;
 
