@@ -41,9 +41,6 @@
   }
 }
 
-// IE nested (or sequence) animation issue (no workarounds):
-// https://connect.microsoft.com/IE/feedback/details/941104/ie-11-bug-with-nested-css-animations-upon-display-of-previously-hidden-parent
-
 .ring-loader {
   width: 3 * $ring-unit;
   height: 3 * $ring-unit;
@@ -51,29 +48,11 @@
 
   border-radius: 50%;
   border: solid 1px #D8D8D8;
-  border: none\9; // IE 6+
   border-left-color: #F00;
 
   animation: rotating 0.7s linear infinite, colors 6s linear infinite;
 
   font-size: 0;
-  font-size: 13px\9; // IE 6+
-}
-
-@media screen and (min-width:0\0) {
-  .ring-loader {
-    width: 3 * $ring-unit;
-    height: 3 * $ring-unit;
-    margin: $ring-unit*2 auto;
-
-    border-radius: 50%;
-    border: solid 1px #D8D8D8;
-    border-left-color: #F00;
-
-    font-size: 0;
-
-    animation: rotating 0.7s linear infinite, colors 6s linear infinite;
-  }
 }
 
 .ring-loader_inline {

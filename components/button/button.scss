@@ -55,14 +55,6 @@
   @include ring-font();
 
   display: inline-block;
-  // IE 7
-  @media screen\9 {
-    & {
-      display: inline;
-      zoom: 1;
-    }
-  }
-
   width: auto;
   height: $ring-unit*3;
   box-sizing: border-box;
@@ -104,13 +96,8 @@
     position: relative;
     border-radius: $ring-border-radius;
     box-shadow: 0 0 0 2px $ring-outline-color;
+    outline: none;
     z-index: 2;
-
-    outline: 1px dotted #666; // IE 8-
-
-    :root & {
-      outline: none;
-    }
   }
 
   .ring-icon {
