@@ -29,6 +29,7 @@ $ring-checkbox-size: 13px;
   margin: 0;
 
   & + .ring-checkbox__icon {
+    position: relative;
     display: inline-block;
     width: 11px;
     height: 11px;
