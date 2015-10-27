@@ -27,7 +27,7 @@
 
   color: #ADADAD;
   @include ring-font;
-  font-size: 11px;
+  font-size: $ring-font-size-smaller;
   text-align: right;
 
   &:first-child {
@@ -86,7 +86,7 @@
 
 // Redefine :last-child
 .ring-list__item_hint.ring-list__item_hint {
-  font-size: 11px;
+  font-size: $ring-font-size-smaller;
   background-color: #FFF5CD;
   border-top: 1px solid #E5DCB8;
   margin-bottom: 0;
@@ -113,7 +113,7 @@
 
   color: #ADADAD;
   @include ring-font;
-  font-size: 11px;
+  font-size: $ring-font-size-smaller;
 
   .ring-list__item_active & {
     color: #FFF;

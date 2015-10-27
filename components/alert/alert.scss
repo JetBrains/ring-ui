@@ -1,36 +1,41 @@
 @import "../global/global";
 
 .ring-alerts {
-  left: 0;
   overflow: visible;
-  pointer-events: none;
+
   position: fixed;
-  right: 0;
   top: 0;
+  right: 0;
+  left: 0;
+
+  pointer-events: none;
   z-index: $ring-alert-z-index;
 
   .ring-alert {
-    box-shadow: 0 0 8px rgba(0, 0, 0, 0.15);
     width: $ring-unit * 55;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.15);
     text-align: left;
   }
 }
 
 .ring-alert {
-  background: #FFF;
+  @include ring-font();
+
+  box-sizing: border-box;
+  position: relative;
+  min-height: $ring-unit * 5;
+
+  margin: $ring-unit auto;
+  padding: 0 $ring-unit*2;
   border: solid 1px $ring-border-color;
   border-radius: $ring-border-radius;
-  box-sizing: border-box;
+
+  background: #FFF;
   font-size: $ring-font-size;
   line-height: $ring-unit * 5;
-  margin: $ring-unit auto;
-  min-height: $ring-unit * 5;
-  padding: 0 $ring-unit*2;
-  pointer-events: initial;
-  position: relative;
   white-space: nowrap;
 
-  @include ring-font();
+  pointer-events: initial;
 
   &.ring-alert_inline {
     margin: $ring-unit;
@@ -43,29 +48,32 @@
 }
 
 .ring-icon.ring-alert__icon {
+  @include ring-vertical-compensation(-1px);
+
   display: inline-block;
   height: 40px;
-  line-height: 40px;
   margin-right: $ring-unit;
-  vertical-align: top;
 
-  @include ring-vertical-compensation(-1px);
+  line-height: 40px;
+  vertical-align: top;
 }
 
 .ring-alert__caption {
   display: inline-block;
-  line-height: 1.2;
   margin: $ring-unit*1.5 $ring-unit*4 $ring-unit*1.5 0;
+
+  line-height: 20px;
   vertical-align: middle;
   white-space: normal;
 }
 
 .ring-icon.ring-alert__close {
-  fill: $ring-gray-color;
-  cursor: pointer;
-  padding: 0 $ring-unit;
   position: absolute;
   right: 0;
+  padding: 0 $ring-unit;
+
+  fill: $ring-gray-color;
+  cursor: pointer;
 
   &:hover {
     fill: $ring-link-hover-color;
