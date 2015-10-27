@@ -104,7 +104,7 @@
     "file-loader": "0.8.1",
     "html-loader": "0.2.3",
     "imports-loader": "0.6.3",
-    "jetbrains-logos": "0.0.9",
+    "jetbrains-logos": "0.0.13",
     "jsx-loader": "0.11.2",
     "mousetrap": "1.4.6",
     "mout": "0.11.0",
