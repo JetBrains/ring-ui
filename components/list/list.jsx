@@ -254,7 +254,7 @@ var ListMixin = {
      </file>
    </example>
 
-   <example name="List2">
+   <example name="List2-with-hint">
      <file name="index.html">
        <div id='list'></div>
      </file>
@@ -275,7 +275,8 @@ var ListMixin = {
            data: listData,
            shortcuts: true,
            onSelect: console.log.bind(console),
-           activeIndex: 2
+           activeIndex: 2,
+           hint: 'test hint message'
          }), document.getElementById('list'));
      </file>
    </example>
