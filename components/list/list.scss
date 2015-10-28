@@ -1,9 +1,11 @@
 @import '../global/global';
 
+$list-spacing: $ring-unit / 2;
+
 .ring-list {
   position: relative;
 
-  padding-top: $ring-unit/2 + 1;
+  padding-top: $list-spacing;
   z-index: 1;
 
   line-height: normal;
@@ -56,7 +58,7 @@
   white-space: nowrap;
 
   &:last-child {
-    margin-bottom: 3px;
+    margin-bottom: $list-spacing;
   }
 
   &_error {
