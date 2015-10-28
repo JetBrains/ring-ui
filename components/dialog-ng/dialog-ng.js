@@ -4,6 +4,7 @@ require('dialog/dialog.scss');
 
 var shortcuts = require('shortcuts/shortcuts');
 var $ = require('jquery');
+var BODY_MODAL_CLASS = 'ring-dialog-modal';
 
 var dialogMixin = {
   /**
@@ -33,6 +34,10 @@ var dialogMixin = {
         this.$log.error('No dialog directive is found');
         return this.$q.reject();
       }
+    }
+
+    if (!dialogScope.inSidebar) {
+      angular.element(document.body).addClass(BODY_MODAL_CLASS);
     }
 
     if (dialogScope.active) {
@@ -73,6 +78,10 @@ var dialogMixin = {
         return this.fallbackDialog.hide();
       }
     } else {
+      if (!dialogScope.inSidebar) {
+        angular.element(document.body).removeClass(BODY_MODAL_CLASS);
+      }
+
       dialogScope.active = false;
       dialogScope.content = '';
 
