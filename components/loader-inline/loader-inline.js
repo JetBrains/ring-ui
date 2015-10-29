@@ -1,4 +1,4 @@
-import React, { DOM } from 'react';
+import React from 'react';
 import classNames from 'classnames';
 import RingComponent from 'ring-component/ring-component';
 import './loader-inline.scss';
@@ -22,8 +22,6 @@ import './loader-inline.scss';
    </example>
  */
 
-const INLINE = 'ring-loader_inline';
-
 export default class LoaderInline extends RingComponent {
   render() {
     let classes = classNames(
@@ -31,8 +29,11 @@ export default class LoaderInline extends RingComponent {
       this.props.className
     );
 
-    return DOM.div(Object.assign({}, this.props, {
-      className: classes
-    }));
+    return (
+      <div
+        {...this.props}
+        className={classes}
+      />
+    );
   }
 }

@@ -717,7 +717,12 @@ export default class QueryAssist extends RingComponentWithShortcuts {
     // \u00a0 === &nbsp;
     let letterValue = letter === ' ' ? '\u00a0' : letter;
     // Despite warning we don't need key here because of renderToStaticMarkup
-    return <span key={index + letter} className={this.getLetterClass(index)}>{letterValue}</span>;
+    return (
+      <span
+        className={this.getLetterClass(index)}
+        key={index + letter}
+      >{letterValue}</span>
+    );
   }
 
   shouldUpdate(props, state) {

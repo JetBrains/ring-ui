@@ -1,4 +1,4 @@
-import React, { DOM } from 'react';
+import React from 'react';
 import RingComponent from 'ring-component/ring-component';
 import './loader.scss';
 
@@ -202,7 +202,7 @@ export default class Loader extends RingComponent {
     this.nextTick();
     this.calculateNextCoordinates();
     this.calculateNextRadius();
-    this.particles.forEach((particle) => particle.step());
+    this.particles.forEach(particle => particle.step());
 
     this.particles.push(new Particle({
       x: this.x,
@@ -219,14 +219,14 @@ export default class Loader extends RingComponent {
   draw() {
     this.ctx.clearRect(0, 0, this.width, this.height);
     this.removeDeadParticles();
-    this.particles.forEach((particle) => particle.draw(this.ctx));
+    this.particles.forEach(particle => particle.draw(this.ctx));
   }
 
   loop() {
     this.step();
     this.draw();
     window.requestAnimationFrame(() => this.loop());
-  };
+  }
 
   render() {
     return (
