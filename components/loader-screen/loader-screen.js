@@ -1,10 +1,10 @@
 import React from 'react';
-import Loader from 'loader/loader';
+import LoaderInline from '../loader-inline/loader-inline';
 import RingComponent from 'ring-component/ring-component';
 import './loader-screen.scss';
 
 /**
- * @name Loader Screen
+ * @name LoaderInline Screen
  * @constructor
  * @extends {ReactComponent}
  * @example
@@ -28,7 +28,7 @@ export default class LoaderScreen extends RingComponent {
   render() {
     return (
       <div className="ring-loader-screen">
-        <Loader/>
+        <LoaderInline/>
       </div>
     );
   }
