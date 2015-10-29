@@ -117,7 +117,6 @@ export default class Loader extends RingComponent {
 
   didMount() {
     this.setCanvasSize();
-    this.ctx = this.refs.canvas.getContext('2d');
 
     this.height = this.props.size;
     this.width = this.props.size;
