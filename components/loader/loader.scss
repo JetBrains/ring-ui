@@ -7,5 +7,6 @@
 }
 
 .ring-loader__canvas {
+  pointer-events: none;
   animation:spin 36s linear infinite;
 }
