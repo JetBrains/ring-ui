@@ -18,10 +18,37 @@ describe('Loader', function () {
   });
 
   it('Should set canvas size from passed size', function () {
+    this.sinon.stub(Loader, 'getPixelRatio').returns(1);
     this.loader = TestUtils.renderIntoDocument(React.createElement(Loader, {size: 42}));
 
     this.loader.refs.canvas.height.should.equal(42);
     this.loader.refs.canvas.width.should.equal(42);
+  });
+
+  it('Should double canvas size on HDPI devices', function () {
+    this.sinon.stub(Loader, 'getPixelRatio').returns(2);
+    this.loader = TestUtils.renderIntoDocument(React.createElement(Loader, {size: 42}));
+
+    this.loader.refs.canvas.height.should.equal(84);
+    this.loader.refs.canvas.width.should.equal(84);
+  });
+
+  it('Should fixate canvas CSS size with style to avoid scaling on HDPI devices', function () {
+    this.sinon.stub(Loader, 'getPixelRatio').returns(2);
+    this.loader = TestUtils.renderIntoDocument(React.createElement(Loader, {size: 42}));
+
+    this.loader.refs.canvas.style.height.should.equal('42px');
+    this.loader.refs.canvas.style.width.should.equal('42px');
+  });
+
+  it('Should scale canvas on HDPI devices to make visible image size the same as on normal screens', function () {
+    this.sinon.stub(Loader, 'getPixelRatio').returns(2);
+    this.loader = TestUtils.renderIntoDocument(React.createElement(Loader));
+    this.sinon.spy(this.loader.ctx, 'scale');
+
+    this.loader.setCanvasSize();
+
+    this.loader.ctx.scale.should.have.been.calledWith(2, 2);
   });
 
   it('Should revert direction on reaching top limit', function () {
