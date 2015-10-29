@@ -10,17 +10,28 @@ import './loader.scss';
  * @example
  <example name="Loader">
    <file name="index.html">
-     <div id="loader1" style="display: inline-block;"></div>
-     <!--<div id="loader2" style="background-color: black; display: inline-block;"></div>-->
+     <div id="loader1" class="loader-container"></div>
+     <div id="loader2" class="loader-container loader-container_black"></div>
    </file>
 
    <file name="index.js" webpack="true">
+     require('./index.scss');
      var render = require('react-dom').render;
      var Loader = require('loader/loader');
 
      render(Loader.factory(), document.getElementById('loader1'));
 
-     //render(Loader.factory(), document.getElementById('loader2'));
+     render(Loader.factory(), document.getElementById('loader2'));
+   </file>
+   <file name="index.scss">
+    .loader-container {
+      display: inline-block;
+      padding: 60px;
+
+      &_black {
+        background-color: black;
+      }
+    }
    </file>
  </example>
  */
