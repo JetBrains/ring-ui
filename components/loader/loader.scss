@@ -1,0 +1,11 @@
+@import "../global/global";
+
+@keyframes spin {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.ring-loader__canvas {
+  animation:spin 36s linear infinite;
+}
