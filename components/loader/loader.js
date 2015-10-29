@@ -1,5 +1,4 @@
 import React, { DOM } from 'react';
-import classNames from 'classnames';
 import RingComponent from 'ring-component/ring-component';
 import './loader.scss';
 
@@ -76,7 +75,7 @@ export default class Loader extends RingComponent {
       {r: 88, g: 72, b: 224},   //#5848F4
       {r: 37, g: 183, b: 255},  //#25B7FF
       {r: 89, g: 189, b: 0},    //#59BD00
-      {r: 251, g: 172, b: 2},   //#fbac02
+      {r: 251, g: 172, b: 2},   //#FBAC02
       {r: 227, g: 37, b: 129}   //#E32581
     ]
   };
@@ -204,7 +203,7 @@ export default class Loader extends RingComponent {
   loop() {
     this.step();
     this.draw();
-    requestAnimationFrame(() => this.loop());
+    window.requestAnimationFrame(() => this.loop());
   };
 
   render() {
