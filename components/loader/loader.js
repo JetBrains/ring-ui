@@ -121,10 +121,12 @@ export default class Loader extends RingComponent {
   }
 
   handleLimits(coord, radius, speed, limit) {
-    if (coord + (radius*2) >= limit) {
-      return -this.baseSpeed + (Math.random(this.baseSpeed) - this.baseSpeed/2);
-    } else if (coord <= 1) {
-      return this.baseSpeed + (Math.random(this.baseSpeed) - this.baseSpeed/2);
+    let randomizedSpeedChange = Math.random(this.baseSpeed) - this.baseSpeed/2;
+
+    if (coord + (radius * 2) + this.baseSpeed >= limit) {
+      return -(this.baseSpeed + randomizedSpeedChange);
+    } else if (coord <= this.baseSpeed) {
+      return this.baseSpeed + randomizedSpeedChange;
     }
     return speed;
   }

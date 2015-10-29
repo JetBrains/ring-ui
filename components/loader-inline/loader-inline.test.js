@@ -20,12 +20,4 @@ describe('LoaderInline', function () {
 
     $(loader.node).should.have.class('test');
   });
-
-  it('should create inline loader', function () {
-    loader.rerender({
-      modifier: LoaderInline.Modifier.INLINE
-    });
-
-    $(loader.node).should.have.class(LoaderInline.Modifier.INLINE);
-  });
 });
