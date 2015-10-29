@@ -63,9 +63,12 @@ var dialogMixin = {
     shortcuts.setScope(this.DIALOG_NAMESPACE);
 
     dialogScope.active = true;
-    dialogScope.promise = this.$q.defer();
+    dialogScope.defer = this.$q.defer();
 
-    return dialogScope.promise.promise;
+    return dialogScope.defer.promise;
+  },
+  'update': function (config) {
+    angular.extend(this.dialogScope, config);
   },
   /**
    * Hides dialog
@@ -93,12 +96,12 @@ var dialogMixin = {
     }
   },
   'done': function () {
-    this.dialogScope.promise.resolve();
+    this.dialogScope.defer.resolve();
     this.hide();
   },
   'reset': function () {
-    if (this.dialogScope.promise) {
-      this.dialogScope.promise.reject();
+    if (this.dialogScope.defer) {
+      this.dialogScope.defer.reject();
     }
     this.hide();
   },
