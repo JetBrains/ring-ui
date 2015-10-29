@@ -92,9 +92,31 @@ export default class Loader extends RingComponent {
     }
   }
 
+  static getPixelRatio() {
+    return 'devicePixelRatio' in window ? window.devicePixelRatio : 1;
+  }
+
+  setCanvasSize() {
+    let pixelRatio = Loader.getPixelRatio();
+    let canvasSize = this.props.size * pixelRatio;
+
+    this.refs.canvas.width = canvasSize;
+    this.refs.canvas.height = canvasSize;
+
+    //Fixate canvas physical size to avoid real size scaling
+    this.refs.canvas.style.width = `${this.props.size}px`;
+    this.refs.canvas.style.height = `${this.props.size}px`;
+
+    this.ctx = this.refs.canvas.getContext('2d');
+
+    //Scale on HDPI displays
+    if (pixelRatio > 1) {
+      this.ctx.scale(pixelRatio, pixelRatio);
+    }
+  }
+
   didMount() {
-    this.refs.canvas.width = this.props.size;
-    this.refs.canvas.height = this.props.size;
+    this.setCanvasSize();
     this.ctx = this.refs.canvas.getContext('2d');
 
     this.height = this.props.size;
