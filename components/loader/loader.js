@@ -59,7 +59,7 @@ class Particle {
 
   draw(ctx) {
     let alpha = this.life >= 0 ? this.life : 0;
-    ctx.fillStyle = ctx.strokeStyle = `rgba(${this.color.r}, ${this.color.g}, ${this.color.b}, ${alpha}`;
+    ctx.fillStyle = `rgba(${this.color.r}, ${this.color.g}, ${this.color.b}, ${alpha})`;
 
     ctx.beginPath();
     ctx.arc(this.x + this.radius, this.y + this.radius, this.radius, 0, Math.PI * 2);
@@ -165,7 +165,7 @@ export default class Loader extends RingComponent {
     return Loader.calculateGradient(currentColor, nextColor, this.tick/this.colorChangeTick);
   }
 
-  step() {
+  nextTick() {
     this.tick++;
 
     if (this.tick > this.colorChangeTick) {
@@ -175,7 +175,10 @@ export default class Loader extends RingComponent {
         this.colorIndex = 0;
       }
     }
+  }
 
+  step() {
+    this.nextTick();
     this.calculateNextCoordinates();
     this.calculateNextRadius();
     this.particles.forEach((particle) => particle.step());
