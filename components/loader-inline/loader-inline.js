@@ -17,9 +17,7 @@ import './loader-inline.scss';
        var render = require('react-dom').render;
        var Loader = require('loader-inline/loader-inline');
 
-       render(Loader.factory({
-         modifier: Loader.Modifier.INLINE
-       }), document.getElementById('loader-inline'));
+       render(Loader.factory(), document.getElementById('loader-inline'));
      </file>
    </example>
  */
@@ -27,25 +25,9 @@ import './loader-inline.scss';
 const INLINE = 'ring-loader_inline';
 
 export default class LoaderInline extends RingComponent {
-  /**
-   * @enum {number}
-   */
-  static Modifier = {
-
-    /**
-     * A small spinner suited for using inline with body text (12px)
-     */
-    INLINE: INLINE
-  };
-
-  static defaultProps = {
-    modifier: INLINE
-  };
-
   render() {
     let classes = classNames(
-      'ring-loader',
-      this.props.modifier,
+      'ring-loader-inline',
       this.props.className
     );
 

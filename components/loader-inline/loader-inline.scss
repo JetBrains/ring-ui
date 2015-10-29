@@ -41,10 +41,16 @@
   }
 }
 
-.ring-loader {
-  width: 3 * $ring-unit;
-  height: 3 * $ring-unit;
-  margin: $ring-unit*2 auto;
+.ring-loader-inline {
+  display: inline-block;
+  position: relative;
+
+  top: 1px;
+
+  width: 12px;
+  height: 12px;
+
+  margin: 0;
 
   border-radius: 50%;
   border: solid 1px #D8D8D8;
@@ -53,17 +59,6 @@
   animation: rotating 0.7s linear infinite, colors 6s linear infinite;
 
   font-size: 0;
-}
 
-.ring-loader_inline {
   box-sizing: border-box;
-
-  position: relative;
-  top: 1px;
-
-  display: inline-block;
-  width: 12px;
-  height: 12px;
-
-  margin: 0;
 }
