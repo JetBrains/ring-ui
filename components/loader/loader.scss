@@ -1,6 +1,6 @@
 @import "../global/global";
 
-@keyframes spin {
+@keyframes rotation-keyframes {
   100% {
     transform: rotate(360deg);
   }
@@ -8,5 +8,5 @@
 
 .ring-loader__canvas {
   pointer-events: none;
-  animation:spin 36s linear infinite;
+  animation: rotation-keyframes 36s linear infinite;
 }
