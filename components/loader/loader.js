@@ -156,7 +156,7 @@ export default class Loader extends RingComponent {
     }
   }
 
-  calculateNextColor() {
+  getNextColor() {
     let colors = this.props.colors;
 
     let currentColor = colors[this.colorIndex];
@@ -170,7 +170,10 @@ export default class Loader extends RingComponent {
 
     if (this.tick > this.colorChangeTick) {
       this.tick = 0;
-      this.colorIndex = this.props.colors.length >= this.colorIndex+2 ? this.colorIndex + 1 : 0;
+      this.colorIndex++;
+      if (this.colorIndex > this.props.colors.length - 1) {
+        this.colorIndex = 0;
+      }
     }
 
     this.calculateNextCoordinates();
@@ -181,7 +184,7 @@ export default class Loader extends RingComponent {
       x: this.x,
       y: this.y,
       radius: this.radius,
-      color: this.calculateNextColor()
+      color: this.getNextColor()
     }));
   }
 
