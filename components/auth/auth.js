@@ -1,4 +1,4 @@
-/* eslint-disable google-camelcase/google-camelcase */
+/* eslint-disable camelcase */
 
 import 'core-js/modules/es7.array.includes';
 
