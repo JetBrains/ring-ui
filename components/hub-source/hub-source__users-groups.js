@@ -1,6 +1,6 @@
 import HubSource from './hub-source';
 
-let defaultOptions =  {
+let defaultOptions = {
   searchMax: 20,
   searchSideThreshold: 200
 };
@@ -13,7 +13,7 @@ export default class HubSourceUsersGroups {
     this.usersSource = new HubSource(auth, 'users', {
       searchMax: this.options.searchMax,
       searchSideThreshold: this.options.searchSideThreshold,
-      queryFormatter: (query) => `nameStartsWith: ${HubSourceUsersGroups.wrapMultiwordQuery(query)} or loginStartsWith: ${HubSourceUsersGroups.wrapMultiwordQuery(query)}`
+      queryFormatter: query => `nameStartsWith: ${HubSourceUsersGroups.wrapMultiwordQuery(query)} or loginStartsWith: ${HubSourceUsersGroups.wrapMultiwordQuery(query)}`
     });
     this.groupsSource = new HubSource(auth, 'usergroups', {
       searchMax: this.options.searchMax,
@@ -23,7 +23,7 @@ export default class HubSourceUsersGroups {
 
   static wrapMultiwordQuery(query) {
     if (query && query.indexOf(' ') !== -1) {
-      return `{${query}}`
+      return `{${query}}`;
     }
     return query;
   }

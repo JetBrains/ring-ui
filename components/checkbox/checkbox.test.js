@@ -1,10 +1,10 @@
 import React from 'react';
-import $  from 'jquery';
+import $ from 'jquery';
 
 import renderIntoDocument from 'render-into-document';
-import { Simulate } from 'react-addons-test-utils';
+import {Simulate} from 'react-addons-test-utils';
 
-import Checkbox  from './checkbox';
+import Checkbox from './checkbox';
 
 describe('Checkbox', function () {
   beforeEach(function () {

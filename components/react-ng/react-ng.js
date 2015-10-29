@@ -5,8 +5,8 @@
 
 /* global angular: false */
 
-import { createElement, PropTypes } from 'react';
-import { render, unmountComponentAtNode } from 'react-dom';
+import {createElement, PropTypes} from 'react';
+import {render, unmountComponentAtNode} from 'react-dom';
 
 let reactModule = angular.module('Ring.react-ng', []);
 
@@ -29,7 +29,7 @@ reactModule.service('ringComponents', function () {
   return getComponent;
 });
 
-function getComponentIfExist(name){
+function getComponentIfExist(name) {
   let ComponentClass = getComponent(name);
 
   if (!ComponentClass) {
@@ -39,7 +39,7 @@ function getComponentIfExist(name){
   return ComponentClass;
 }
 
-function renderAndRemoveOnDestroy(ComponentClass, iElement, props){
+function renderAndRemoveOnDestroy(ComponentClass, iElement, props) {
   let component = render(createElement(ComponentClass, props), iElement[0]);
   iElement.on('$destroy', () => {
     unmountComponentAtNode(iElement[0]);
@@ -52,8 +52,8 @@ let staticDirectiveName = reactDirectiveName + 'Static';
 let attributeToPassPrefix = 'react';
 let attributeToPassByValuePrefix = 'reactValue';
 let specialDOMAttrs = {
-  'for': 'htmlFor',
-  'class': 'className'
+  for: 'htmlFor',
+  class: 'className'
 };
 
 /*@ngInject*/
@@ -144,7 +144,7 @@ function reactNgDirective($parse) {
 
       if ('ngModel' in iAttrs) {
         let ngModel = iElement.controller('ngModel');
-        directiveProps['_onModelChange'] = value => {
+        directiveProps._onModelChange = value => {
           ngModel.$setViewValue(value);
         };
       }

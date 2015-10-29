@@ -16,6 +16,7 @@
           </value>
         </option>
         <option name="RIGHT_MARGIN" value="80" />
+        <option name="HTML_ALIGN_ATTRIBUTES" value="false" />
         <XML>
           <option name="XML_LEGACY_SETTINGS_IMPORTED" value="true" />
         </XML>
@@ -75,4 +76,3 @@
     <option name="USE_PER_PROJECT_SETTINGS" value="true" />
   </component>
 </project>
-

@@ -1,6 +1,6 @@
 var gemini = require('gemini');
 
-gemini.suite('Checkbox', function(parent) {
+gemini.suite('Checkbox', function (parent) {
   parent.setUrl('/example-checkbox/');
 
   gemini.suite('Base checkboxes', function (child) {

@@ -1,5 +1,4 @@
 import HubSourceUsersGroups from './hub-source__users-groups';
-import {TOP_ALL} from './hub-source';
 
 describe('HubUsersGroupsSource', function () {
 
@@ -7,7 +6,7 @@ describe('HubUsersGroupsSource', function () {
     this.fakeAuth = {
       requestToken: this.sinon.stub().returns(Promise.resolve('testToken')),
       getApi: this.sinon.stub().returns(Promise.resolve({}))
-    }
+    };
   });
 
   it('Should pass searchSideThreshold to HubSource', function () {

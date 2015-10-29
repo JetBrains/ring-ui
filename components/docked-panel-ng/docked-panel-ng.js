@@ -35,9 +35,9 @@ var debounce = require('mout/function/debounce');
 /* global angular:false */
 angular.module('Ring.docked-panel', [])
 
-  .directive('rgDockedPanel', function() {
+  .directive('rgDockedPanel', function () {
     return {
-      link: function(scope, element, attrs) {
+      link: function (scope, element, attrs) {
         var CSS_CLASS_NAME = 'ring-docked-panel';
         var customCssClassOnStick = attrs.rgDockedPanelClass;
         var panelInitialBottomPos;
@@ -54,22 +54,22 @@ angular.module('Ring.docked-panel', [])
         /**
          * Save panel initial rects and left margin for further use
          */
-        var savePanelInitialBottomPos = function() {
+        var savePanelInitialBottomPos = function () {
           panelInitialBottomPos = panel.getBoundingClientRect().bottom;
         };
 
-        var getWindowHeight = function() {
+        var getWindowHeight = function () {
           return window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
         };
 
-        var getDocumentScrollTop = function() {
+        var getDocumentScrollTop = function () {
           return (document.documentElement && document.documentElement.scrollTop) || document.body.scrollTop;
         };
 
         /**
          * @param {String} className
          */
-        var addCssClass = function(className) {
+        var addCssClass = function (className) {
           if (className) {
             if (isClassListSupported) {
               panel.classList.add(className);
@@ -82,7 +82,7 @@ angular.module('Ring.docked-panel', [])
         /**
          * @param {String} className
          */
-        var removeCssClass = function(className) {
+        var removeCssClass = function (className) {
           if (isClassListSupported) {
             panel.classList.remove(className);
           } else {
@@ -93,13 +93,13 @@ angular.module('Ring.docked-panel', [])
         /**
          * Pin panel at the bottom of the page
          */
-        var stick = function() {
+        var stick = function () {
           addCssClass(CSS_CLASS_NAME);
           addCssClass(customCssClassOnStick);
           isPinned = true;
         };
 
-        var unstick = function() {
+        var unstick = function () {
           removeCssClass(CSS_CLASS_NAME);
           removeCssClass(customCssClassOnStick);
           isPinned = false;
@@ -108,7 +108,7 @@ angular.module('Ring.docked-panel', [])
         /**
          * Check panel position
          */
-        var checkPanelPosition = function() {
+        var checkPanelPosition = function () {
           var currentPanelBottomPos = panel.getBoundingClientRect().bottom;
 
           if (currentPanelBottomPos > getWindowHeight() && !isPinned) {
@@ -119,17 +119,17 @@ angular.module('Ring.docked-panel', [])
           }
         };
 
-        var init = function() {
+        var init = function () {
           var scrollListener = debounce(checkPanelPosition, 10);
 
           /**
            * Wait until all content on the page is loaded
            */
-          scope.$applyAsync(function() {
+          scope.$applyAsync(function () {
             window.addEventListener('scroll', scrollListener);
             window.addEventListener('resize', checkPanelPosition);
 
-            scope.$on('$destroy', function() {
+            scope.$on('$destroy', function () {
               window.removeEventListener('scroll', scrollListener);
               window.removeEventListener('resize', checkPanelPosition);
             });

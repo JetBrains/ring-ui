@@ -29,14 +29,14 @@ Analytics.prototype.track = function (rawTrackingData, /* optional */ additional
 };
 
 Analytics.prototype.trackPageView = function (path) {
-  this._plugins.forEach(function(plugin) {
+  this._plugins.forEach(function (plugin) {
     plugin.trackPageView(path);
   });
 };
 
 Analytics.prototype.trackEvent = function (category, action, /* optional */ additionalData) {
   var subaction = additionalData ? action + this._buildSuffix(additionalData) : null;
-  this._plugins.forEach(function(plugin) {
+  this._plugins.forEach(function (plugin) {
     plugin.trackEvent(category, action);
     if (subaction) {
       plugin.trackEvent(category, subaction);
@@ -49,7 +49,7 @@ Analytics.prototype.trackShortcutEvent = function (category, action, /* optional
   this.trackEvent('ring-shortcut', category + '$' + action, additionalData);
 };
 
-Analytics.prototype.trackEntityProperties = function(entityName, entity, propertiesNames, /* optional */ additionalData) {
+Analytics.prototype.trackEntityProperties = function (entityName, entity, propertiesNames, /* optional */ additionalData) {
   for (var i = 0; i < propertiesNames.length; ++i) {
     var value = entity;
     var keys = propertiesNames[i].split('.');
@@ -72,7 +72,7 @@ Analytics.prototype.trackEntityProperties = function(entityName, entity, propert
   }
 };
 
-Analytics.prototype._buildSuffix = function(additionalData) {
+Analytics.prototype._buildSuffix = function (additionalData) {
   if (!additionalData) {
     return '';
   }

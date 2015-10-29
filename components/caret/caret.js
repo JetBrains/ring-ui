@@ -1,4 +1,4 @@
-import { getRect } from 'dom/dom';
+import {getRect} from 'dom/dom';
 
 /**
  * @name Caret
@@ -95,6 +95,7 @@ export default class Caret {
       try {
         window.getSelection().collapse(this.target.firstChild || this.target, position);
       } catch (e) {
+        // Do nothing
       }
 
     } else {
