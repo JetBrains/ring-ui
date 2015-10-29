@@ -164,7 +164,7 @@ export default class TagsInput extends RingComponentWithShortcuts {
     let currentInputValue = this._inputNode.value;
     if (!currentInputValue) {
       let tagsLength = this.state.tags.length;
-      this.onRemoveTag(this.state.tags[tagsLength-1]);
+      this.onRemoveTag(this.state.tags[tagsLength - 1]);
     }
   }
 
@@ -188,7 +188,7 @@ export default class TagsInput extends RingComponentWithShortcuts {
       .then(::this.filterExistTags)
       .then(suggestions => {
         if (this.node) {
-          this.setState({suggestions: suggestions, loading: false})
+          this.setState({suggestions: suggestions, loading: false});
         }
       })
       .catch(() => this.setState({loading: false}));
@@ -204,15 +204,24 @@ export default class TagsInput extends RingComponentWithShortcuts {
 
   renderTag(tag) {
     let TagComponent = this.props.customTagComponent || Tag;
-    return <TagComponent {...tag} onRemove={() => this.onRemoveTag(tag)}>{tag.label}</TagComponent>;
+    return (
+      <TagComponent
+        {...tag}
+        onRemove={() => this.onRemoveTag(tag)}
+      >{tag.label}</TagComponent>);
   }
 
   render() {
     let classes = classNames('ring-js-shortcuts', 'ring-tags-input', this.props.className);
 
-    return (<div className={classes} onClick={::this.clickHandler}>
+    return (
+      <div
+        className={classes}
+        onClick={::this.clickHandler}
+      >
       {this.state.tags.map(::this.renderTag)}
-      <Select ref="select"
+      <Select
+        ref="select"
         type={Select.Type.INPUT}
         label={this.props.placeholder}
         data={this.state.suggestions}
@@ -222,7 +231,8 @@ export default class TagsInput extends RingComponentWithShortcuts {
         }}
         maxHeight={this.props.maxPopupHeight}
         loading={this.state.loading}
-        onFilter={::this.loadSuggestions}/>
-    </div>)
+        onFilter={::this.loadSuggestions}
+      />
+    </div>);
   }
 }

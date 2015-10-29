@@ -2,7 +2,7 @@
  * @fileoverview Ring Footer.
  */
 
-import React, { PropTypes, isValidElement } from 'react';
+import React, {PropTypes, isValidElement} from 'react';
 import classNames from 'classnames';
 import RingComponent from 'ring-component/ring-component';
 import Link from 'link/link';
@@ -46,7 +46,7 @@ function copyright(year) {
   }
 
   return ret;
-};
+}
 
 /**
  * @constructor
@@ -63,7 +63,7 @@ class FooterLine extends RingComponent {
   render() {
     let items = isArray(this.props.item) ? this.props.item : [this.props.item];
 
-    let renderItem = function(item) {
+    let renderItem = function (item) {
       if (isValidElement(item)) {
         return item;
       }
@@ -71,7 +71,13 @@ class FooterLine extends RingComponent {
       let element = (item.copyright ? copyright(item.copyright) : '') + (item.label || item);
 
       if (item.url) {
-        return <Link href={item.url} title={item.title} key={item.url + item.title}>{element}</Link>;
+        return (
+          <Link
+            href={item.url}
+            key={item.url + item.title}
+            title={item.title}
+          >{element}</Link>
+        );
       }
 
       return element;
@@ -150,9 +156,17 @@ export default class Footer extends RingComponent {
       }
 
       return (
-        <FooterColumn key={position} position={position}>{
-          elements.map(function(item, idx) {
-            return <FooterLine key={idx} item={item} />;
+        <FooterColumn
+          key={position}
+          position={position}
+        >{
+          elements.map(function (item, idx) {
+            return (
+              <FooterLine
+                key={idx}
+                item={item}
+              />
+            );
           })
         }</FooterColumn>
       );

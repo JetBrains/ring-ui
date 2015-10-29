@@ -25,7 +25,7 @@ var AnalyticsGAPlugin = function (gaId, isDevelopment) {
    */
   var key = gaId || 'UA-57284711-1';
   /* global ga */
-  ga('create', key, (!gaId ? {'cookieDomain': 'none'} : {}));
+  ga('create', key, (!gaId ? {cookieDomain: 'none'} : {}));
 };
 
 AnalyticsGAPlugin.prototype.trackEvent = function (category, action) {

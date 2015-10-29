@@ -1,5 +1,5 @@
 import 'dom4';
-import { getStyles } from 'dom/dom';
+import {getStyles} from 'dom/dom';
 import shortcutsInstance from 'shortcuts/shortcuts';
 
 /* global angular: false */
@@ -22,7 +22,7 @@ ringShortcutsModule.provider('shortcuts', function () {
   };
 
   /*@ngInject*/
-  this['$get'] = function($rootScope) {
+  this.$get = function ($rootScope) {
     return {
       bind: (name, handlers, scope) => {
         let mode = modes[name];
@@ -221,7 +221,7 @@ ringShortcutsModule.directive('rgShortcuts', function ($parse) {
   return {
     restrict: 'A',
     require: ['^rgShortcutsApp'],
-    link: function($scope, iElement, iAttrs, shortcutsCtrl) {
+    link: function ($scope, iElement, iAttrs, shortcutsCtrl) {
       // Closest controller
       let ctrl = shortcutsCtrl[shortcutsCtrl.length - 1];
 

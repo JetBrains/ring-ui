@@ -1,5 +1,18 @@
-import { findDOMNode } from 'react-dom';
+import {findDOMNode} from 'react-dom';
 import PopupMenu from 'popup-menu/popup-menu';
+
+/**
+ * filters out non-verified services
+ * @param response
+ * @returns {*}
+ */
+function filterVerifiedServices(response) {
+  if (!response || !response.services || !response.services.length) {
+    return response;
+  }
+
+  return response.services.filter(service => service.verified === true);
+}
 
 /**
  * @namespace
@@ -17,8 +30,8 @@ export default class HeaderHelper {
 
     header.rerender({
       clientId: header.props.clientId || auth.config.client_id,
-      onServicesOpen: () => header.refs['services'].setLoading(true),
-      onServicesClose: () => header.refs['services'].setLoading(false)
+      onServicesOpen: () => header.refs.services.setLoading(true),
+      onServicesClose: () => header.refs.services.setLoading(false)
     });
 
     function setServicesList(services) {
@@ -29,9 +42,9 @@ export default class HeaderHelper {
         });
         header.setServicesList(services);
 
-        if (header.refs['services'].state.loading) {
-          header.refs['services'].setOpened(true);
-          header.refs['services'].setLoading(false);
+        if (header.refs.services.state.loading) {
+          header.refs.services.setOpened(true);
+          header.refs.services.setLoading(false);
         }
       } else {
         header.setMenuItemEnabled(header.constructor.MenuItemType.SERVICES, false);
@@ -43,14 +56,6 @@ export default class HeaderHelper {
         catch(error => {
           // Fallback to old API
           if (error.response.status === 404) {
-            function filterVerifiedServices(response) {
-              if (!response || !response.services || !response.services.length) {
-                return response;
-              }
-
-              return response.services.filter(service => service.verified === true);
-            }
-
             return auth.getApi('services' + fields + ',verified', token, params).then(filterVerifiedServices);
           }
 
@@ -84,7 +89,7 @@ export default class HeaderHelper {
         header.setProfilePicture(response.profile.avatar.url);
       }
 
-      header.refs['userMenu'].setTitle(response.name);
+      header.refs.userMenu.setTitle(response.name);
 
       let popupData = [
         {
@@ -105,13 +110,11 @@ export default class HeaderHelper {
 
         onUserMenuOpen: () => {
           popup = PopupMenu.renderPopup(PopupMenu.factory({
-            anchorElement: findDOMNode(header.refs['userMenu']),
+            anchorElement: findDOMNode(header.refs.userMenu),
             corner: PopupMenu.PopupProps.Corner.BOTTOM_RIGHT,
             data: header.props.profilePopupData,
-            /* eslint-disable no-bitwise */
             direction: PopupMenu.PopupProps.Direction.DOWN | PopupMenu.PopupProps.Direction.LEFT,
-            /* eslint-enable no-bitwise */
-            onClose: () => header.refs['userMenu'].setOpened(false)
+            onClose: () => header.refs.userMenu.setOpened(false)
           }));
         },
 

@@ -4,8 +4,8 @@
  */
 
 import 'dom4';
-import React, { createElement, Children, DOM } from 'react';
-import { findDOMNode } from 'react-dom';
+import React, {createElement, DOM} from 'react';
+import {findDOMNode} from 'react-dom';
 import classNames from 'classnames';
 
 import RingComponent from 'ring-component/ring-component';
@@ -57,20 +57,25 @@ function getServiceLogo(item) {
     var serviceGlyph = PRUDUCTS_LOGOS[detectedService[0].toLowerCase()];
 
     return (
-      <Icon size={Icon.Size.Size48}
-            glyph={serviceGlyph}
-            className={className} />
+      <Icon
+        className={className}
+        glyph={serviceGlyph}
+        size={Icon.Size.Size48}
+      />
     );
   }
 
   if (item.iconUrl) {
     return (
-      <span className={className} style={{'backgroundImage': 'url(' + item.iconUrl + ')'}}></span>
+      <span
+        className={className}
+        style={{backgroundImage: `url(${item.iconUrl})`}}
+      />
     );
   }
 
   return null;
-};
+}
 
 /**
  * Sorts items by name and applicationName
@@ -84,7 +89,7 @@ function sortServices(itemA, itemB) {
 
   return aApplicationName.localeCompare(bApplicationName) ||
          itemA.name.localeCompare(itemB.name);
-};
+}
 
 /**
  * @enum {string}
@@ -258,7 +263,7 @@ export default class Header extends RingComponent {
             item.props.className = classNames(item.props.className, menuItemClassName);
             return item;
           })*/
-          this.props.menu.map(({ component, props, children }) => {
+          this.props.menu.map(({component, props, children}) => {
             props = Object.assign({}, props, {className: classNames(props.className, menuItemClassName)});
             return component.factory(props, children);
           })
@@ -335,7 +340,7 @@ export default class Header extends RingComponent {
 
     this.props.servicesList.
       sort(sortServices).
-      forEach(function(item) {
+      forEach(function (item) {
         if (!item.homeUrl) {
           return;
         }
@@ -372,15 +377,13 @@ export default class Header extends RingComponent {
   _setServicesPopupShown(show) {
     if (show) {
       this._servicesPopup = Popup.renderPopup(createElement(Popup, {
-        anchorElement: findDOMNode(this.refs['services']),
+        anchorElement: findDOMNode(this.refs.services),
         autoRemove: true,
         className: headerClassName.getClassName('services'),
         cutEdge: false,
         corner: Popup.PopupProps.Corner.BOTTOM_RIGHT,
-        /* eslint-disable no-bitwise */
         direction: Popup.PopupProps.Direction.LEFT | Popup.PopupProps.Direction.DOWN,
-        /* eslint-enable no-bitwise */
-        onClose: () => this.refs['services'].setOpened(false),
+        onClose: () => this.refs.services.setOpened(false),
         sidePadding: 32
       }, this._getPopupContent()));
     } else {
@@ -399,14 +402,22 @@ export default class Header extends RingComponent {
 
       if (this.props.logoUrl) {
         return (
-          <img src={this.props.logoUrl}
-               className='ring-header__logo__custom-image'
-               title={logoTitle}
-               alt={logoTitle} />
+          <img
+            alt={logoTitle}
+            className="ring-header__logo__custom-image"
+            src={this.props.logoUrl}
+            title={logoTitle}
+          />
         );
       }
 
-      return <Icon size={Icon.Size.Size40} glyph={PRUDUCTS_LOGOS[this.props.logo] || this.props.logo} title={logoTitle} />;
+      return (
+        <Icon
+          glyph={PRUDUCTS_LOGOS[this.props.logo] || this.props.logo}
+          title={logoTitle}
+          size={Icon.Size.Size40}
+        />
+      );
     };
 
     // todo(igor.alexeenko): This check treats as valid only components
@@ -519,13 +530,20 @@ export default class Header extends RingComponent {
       ),
 
       [MenuItemType.LOGIN]: (
-        <div key="loginButton" ref="loginButton" className={loginClassName}>
-          <Button modifier={Button.Modifiers.BLUE} onClick={this.props.onLoginClick}>{this.props.translationsDict.login}</Button>
+        <div
+          className={loginClassName}
+          key="loginButton"
+          ref="loginButton"
+        >
+          <Button
+            modifier={Button.Modifiers.BLUE}
+            onClick={this.props.onLoginClick}
+          >{this.props.translationsDict.login}</Button>
         </div>
       )
     };
 
-    return MenuItemsSequence.map(function(item) {
+    return MenuItemsSequence.map(function (item) {
       if (this.props.enabledMenuItems[item]) {
         return menuItems[item];
       }
@@ -536,14 +554,14 @@ export default class Header extends RingComponent {
    * @return {ReactComponent}
    */
   getUserMenu() {
-    return this.refs['userMenu'];
+    return this.refs.userMenu;
   }
 
   /**
    * @return {ReactComponent}
    */
   getSettings() {
-    return this.refs['settings'];
+    return this.refs.settings;
   }
 
   /**
@@ -551,8 +569,8 @@ export default class Header extends RingComponent {
    * @param {string} src
    */
   setProfilePicture(src) {
-    if (this.refs['userMenu']) {
-      this.refs['userMenu'].setState({ picture: src });
+    if (this.refs.userMenu) {
+      this.refs.userMenu.setState({picture: src});
     }
   }
 
@@ -560,14 +578,14 @@ export default class Header extends RingComponent {
    * @param {string} href
    */
   setSettingsLink(href) {
-    this.rerender({ settingsLink: href });
+    this.rerender({settingsLink: href});
   }
 
   /**
    * @param {Array.<Object>} services
    */
   setServicesList(services) {
-    this.rerender({ servicesList: services });
+    this.rerender({servicesList: services});
   }
 
   /**
@@ -581,7 +599,7 @@ export default class Header extends RingComponent {
 
     if (enabledMenuItems[itemKey] !== enabled) {
       enabledMenuItems[itemKey] = enabled;
-      this.rerender({ enabledMenuItems: enabledMenuItems }, callback);
+      this.rerender({enabledMenuItems: enabledMenuItems}, callback);
     }
   }
 }

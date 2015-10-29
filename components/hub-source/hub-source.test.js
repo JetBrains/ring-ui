@@ -6,7 +6,7 @@ describe('HubSource', function () {
     this.fakeAuth = {
       requestToken: this.sinon.stub().returns(Promise.resolve('testToken')),
       getApi: this.sinon.stub().returns(Promise.resolve({}))
-    }
+    };
   });
 
   it('Should initalize', function () {
@@ -115,7 +115,7 @@ describe('HubSource', function () {
 
     return source.doClientSideSearch()
       .then(() => {
-        source.makeCachedRequest.should.have.been.calledWith({$top: -1})
+        source.makeCachedRequest.should.have.been.calledWith({$top: -1});
       });
   });
 
@@ -153,7 +153,7 @@ describe('HubSource', function () {
 
   it('Should support custom queryFormatter', function () {
     let source = new HubSource(this.fakeAuth, 'testItems', {
-      queryFormatter: (query) => `${query} custom format`
+      queryFormatter: query => `${query} custom format`
     });
     source.formatQuery('foo').should.equal('foo custom format');
   });
@@ -174,7 +174,7 @@ describe('HubSource', function () {
 
       source.get('testQuery', {testParams: 'test'});
 
-      source.sideDetectionRequest.should.have.been.calledWith({testParams: 'test'}, 'testQuery')
+      source.sideDetectionRequest.should.have.been.calledWith({testParams: 'test'}, 'testQuery');
     });
 
     it('Should do clientside filtering if previously detected', function () {

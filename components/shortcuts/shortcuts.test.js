@@ -12,7 +12,7 @@ describe('Shortcuts', function () {
     simulateKeypress(key, 65);
   }
 
-  beforeEach(function() {
+  beforeEach(function () {
     shortcuts.reset();
     shortcuts.setScope();
     shortcuts.setFilter();
@@ -23,13 +23,13 @@ describe('Shortcuts', function () {
 
   describe('bind', function () {
     it('should throw without a handler', function () {
-      expect(function() {
+      expect(function () {
         shortcuts.bind();
       }).to.throw(Error, 'Shortcut handler should exist');
     });
 
     it('should throw without a key', function () {
-      expect(function() {
+      expect(function () {
         shortcuts.bind({handler: sinon.stub()});
       }).to.throw(Error, 'Shortcut key should exist');
     });
@@ -57,14 +57,14 @@ describe('Shortcuts', function () {
 
   describe('bindMap', function () {
     it('should throw without a map', function () {
-      expect(function() {
+      expect(function () {
         shortcuts.bindMap();
       }).to.throw(Error, 'Shortcuts map shouldn\'t be empty');
     });
 
     it('should throw with wrong handler', function () {
-      expect(function() {
-        shortcuts.bindMap({'a': {}});
+      expect(function () {
+        shortcuts.bindMap({a: {}});
       }).to.throw(Error, 'Shortcut handler should exist');
     });
 

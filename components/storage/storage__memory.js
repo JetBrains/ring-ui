@@ -7,7 +7,7 @@ var DEFAULT_SPACE_NAME = 'memoryStorage';
  * @return {MemoryStorage}
  * @constructor
  */
-var MemoryStorage = function(config) {
+var MemoryStorage = function (config) {
   if (!(this instanceof MemoryStorage)) {
     return new MemoryStorage(config);
   }
@@ -22,7 +22,7 @@ MemoryStorage._storage = {};
  * @param {string} key
  * @return {Promise}
  */
-MemoryStorage.prototype.get = function(key) {
+MemoryStorage.prototype.get = function (key) {
   let value = key in this.space ? this.space[key] : null;
   return Promise.resolve(value);
 };
@@ -32,7 +32,7 @@ MemoryStorage.prototype.get = function(key) {
  * @param {object} value
  * @return {Promise}
  */
-MemoryStorage.prototype.set = function(key, value) {
+MemoryStorage.prototype.set = function (key, value) {
   if (key) {
     if (value !== null) {
       // We should store objects copies
@@ -53,7 +53,7 @@ MemoryStorage.prototype.set = function(key, value) {
  * @param {string} key
  * @return {Promise}
  */
-MemoryStorage.prototype.remove = function(key) {
+MemoryStorage.prototype.remove = function (key) {
   return this.set(key, null);
 };
 
@@ -62,7 +62,7 @@ MemoryStorage.prototype.remove = function(key) {
  * @param {function(string, object)} callback
  * @return {Promise}
  */
-MemoryStorage.prototype.each = function(callback) {
+MemoryStorage.prototype.each = function (callback) {
   if (typeof callback !== 'function') {
     return Promise.reject(new Error('Callback is not a function'));
   }

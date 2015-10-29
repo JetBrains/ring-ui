@@ -9,7 +9,7 @@ let module = angular.module('Ring.message-bundle', []);
  * Empty i18n function. If project supports localization, it should decorate i18n
  * with translating function
  */
-function ringI18n() {
+function emptyI18n() {
   return function (str) {
     return str;
   };
@@ -130,7 +130,7 @@ function RingMessageBundle(ringI18n) {
 /* eslint-enable google-camelcase/google-camelcase */
 }
 
-module.factory('ringI18n', ringI18n);
+module.factory('ringI18n', emptyI18n);
 module.service('RingMessageBundle', RingMessageBundle);
 
 export default module.name;

@@ -84,7 +84,9 @@ LocalStorage.prototype.each = function (callback) {
         let value = window[storageType].getItem(item);
         try {
           value = JSON.parse(value);
-        } catch (e) {}
+        } catch (e) {
+          // Do nothing
+        }
 
         promises.push(Promise.resolve(callback(item, value)));
       }

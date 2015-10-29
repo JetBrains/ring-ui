@@ -4,7 +4,7 @@
  * @author alexander.anisimov@jetbrains.com (Alexander Anisimov)
  */
 
-import React, { PropTypes } from 'react';
+import React, {PropTypes} from 'react';
 import classNames from 'classnames';
 import RingComponent from 'ring-component/ring-component';
 import IconUrl from './icon__url';
@@ -40,11 +40,6 @@ const Size = {
   Size96: 96,
   Size128: 128
 };
-
-/**
- * @type {ClassName}
- */
-const baseClass = new ClassName('ring-icon');
 
 /**
  * @name Icon
@@ -181,7 +176,7 @@ export default class Icon extends RingComponent {
   };
 
   static defaultProps = ({
-    baseClass: baseClass,
+    baseClass: new ClassName('ring-icon'),
     className: '',
     color: Color.DEFAULT,
     glyph: '',
@@ -211,7 +206,10 @@ export default class Icon extends RingComponent {
     const xlinkHref = IconUrl.resolve(glyph);
 
     return (
-      <span {...this.props} className={classes}>
+      <span
+        {...this.props}
+        className={classes}
+      >
         <svg
           className={baseClass.getElement('i')}
           style={style}

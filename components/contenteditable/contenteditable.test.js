@@ -10,7 +10,7 @@ describe('ContentEditable', function () {
       className: 'test',
       onComponentUpdate: this.stub
 
-    }, <b>bold</b>));
+    }, <b>{'bold'}</b>));
   });
 
   it('should create component', function () {
@@ -32,7 +32,7 @@ describe('ContentEditable', function () {
     });
 
     this.component.rerender({
-      children: <span></span>
+      children: <span />
     });
 
     this.stub.should.have.been.called.twice;

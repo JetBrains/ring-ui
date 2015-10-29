@@ -14,7 +14,7 @@
 var PermissionCache = function (permissions, namesConverter) {
   var permissionCache = {};
 
-  permissions.forEach(function(permission) {
+  permissions.forEach(function (permission) {
     var key = permission.permission.key;
 
     if (namesConverter) {
@@ -29,7 +29,7 @@ var PermissionCache = function (permissions, namesConverter) {
     }
   });
 
-  this.namesConverter = namesConverter || function(){};
+  this.namesConverter = namesConverter || function () {};
   this.permissionCache = permissionCache;
 };
 

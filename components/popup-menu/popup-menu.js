@@ -3,7 +3,6 @@
  */
 
 import React from 'react';
-import RingComponentWithShortcuts from 'ring-component/ring-component_with-shortcuts';
 import Popup from 'popup/popup';
 import List from 'list/list';
 

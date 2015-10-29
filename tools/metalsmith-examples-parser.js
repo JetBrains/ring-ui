@@ -10,7 +10,7 @@ var FILE_REGEX = /<file([^>]*)>([\S\s]+?)<\/file>/g;
 
 function extractAttributes(attributeText) {
   var attributes = {};
-  attributeText.replace(ATTRIBUTE_REGEX, function(match, prop, val1, val2){
+  attributeText.replace(ATTRIBUTE_REGEX, function (match, prop, val1, val2) {
     attributes[prop] = val1 || val2;
   });
   return attributes;
@@ -18,7 +18,7 @@ function extractAttributes(attributeText) {
 
 function extractFiles(exampleText) {
   var files = [];
-  exampleText.replace(FILE_REGEX, function(match, attributesText, contents) {
+  exampleText.replace(FILE_REGEX, function (match, attributesText, contents) {
     var file = extractAttributes(attributesText);
     if (!file.name) {
       throw new Error('Missing name attribute in file: ' + match);
