@@ -1,5 +1,4 @@
 {
-//  "extends": "eslint:recommended",
   "parser": "babel-eslint",
   "rules": {
     // Possible Errors
@@ -117,7 +116,7 @@
     "array-bracket-spacing": 2,
     "block-spacing": 2,
     "brace-style": [2, "1tbs"],
-    "camelcase": 0, // using google-camelcase instead !!!
+    "camelcase": 2,
     "comma-spacing": [2, {"before": false, "after": true}],
     "comma-style": [2, "last"],
     "computed-property-spacing": 2,
@@ -231,7 +230,6 @@
 //    "angular/no-services": 0,
 //    "mocha/no-exclusive-tests": 2,
 //    "filenames/filenames": [2, "^[a-z-_.]+$"],
-//    "google-camelcase/google-camelcase": 2,
     "react/display-name": [2, { "acceptTranspilerName": true }],
     "react/forbid-prop-types": 0,
     "react/jsx-boolean-value": [2, "always"],
@@ -275,7 +273,6 @@
   "plugins": [
 //    "angular",
 //    "filenames",
-//    "google-camelcase",
 //    "mocha",
     "react"
   ]
