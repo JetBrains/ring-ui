@@ -64,7 +64,7 @@ new Metalsmith(path.resolve(__dirname, '..'))
   .use(replace({
     '{**/,}*.md': {
       find: /[A-Z]+-\d+/g,
-      replace: function(match, offset, string) {
+      replace: function (match, offset, string) {
         // Do not replace parts of links
         // like `[RG-640](https://youtrack.jetbrains.com/issue/RG-640)`
         var lookBehind = string.charAt(offset - 1);
@@ -118,7 +118,7 @@ new Metalsmith(path.resolve(__dirname, '..'))
         index: './site/'
       },
       externals: {
-        'jquery': false
+        jquery: false
       },
       devtool: isServer ? 'eval' : '#source-map',
       debug: isServer,
@@ -136,11 +136,11 @@ new Metalsmith(path.resolve(__dirname, '..'))
         function () {
           var timeMeasureMessage = chalk.blue('Compilation finished in');
 
-          this.plugin('compile', function() {
+          this.plugin('compile', function () {
             console.time(timeMeasureMessage);
             console.log(chalk.green('Compilation started...', (new Date()).toTimeString()));
           });
-          this.plugin('done', function(stats) {
+          this.plugin('done', function (stats) {
             if (stats.hasErrors) {
               console.error(chalk.red(stats.toJson().errors.join('\n')));
             }
@@ -184,10 +184,10 @@ new Metalsmith(path.resolve(__dirname, '..'))
         publicPath: publicPath,
         quiet: true
       }).listen(port, function () {
-          console.log('Server started on ' + serverUrl);
-        });
+        console.log('Server started on ' + serverUrl);
+      });
     } else {
-      compiler.run(function(compileErr) {
+      compiler.run(function (compileErr) {
         if (compileErr) {
           throw compileErr;
         }

@@ -154,7 +154,7 @@ describe('Auth', function () {
     });
 
     it('should resolve to access token when user is returned', function () {
-      var token = { access_token: 'token' };
+      var token = {access_token: 'token'};
       Auth.prototype.getApi.returns(Promise.resolve({login: 'user'}));
       return auth._validateAgainstUser(token).
         then(function (validToken) {
@@ -165,7 +165,7 @@ describe('Auth', function () {
     });
 
     it('should not validate user when CORS is disabled', function () {
-      var token = { access_token: 'token' };
+      var token = {access_token: 'token'};
       Auth.HAS_CORS = false;
 
       return auth._validateAgainstUser(token).
@@ -178,7 +178,7 @@ describe('Auth', function () {
 
 
     it('should reject with redirect if 401 response recieved', function () {
-      var token = { access_token: 'token' };
+      var token = {access_token: 'token'};
       Auth.prototype.getApi.returns(Promise.reject({
         status: 401,
         response: {
@@ -192,7 +192,7 @@ describe('Auth', function () {
     });
 
     it('should reject with redirect if invalid_grant response recieved', function () {
-      var token = { access_token: 'token' };
+      var token = {access_token: 'token'};
       Auth.prototype.getApi.returns(Promise.reject({
         response: {
           json: function () {
@@ -205,7 +205,7 @@ describe('Auth', function () {
     });
 
     it('should reject with redirect if invalid_grant response recieved', function () {
-      var token = { access_token: 'token' };
+      var token = {access_token: 'token'};
       Auth.prototype.getApi.returns(Promise.reject({
         response: {
           json: function () {
@@ -218,7 +218,7 @@ describe('Auth', function () {
     });
 
     it('should reject with redirect if 401 response without json recieved', function () {
-      var token = { access_token: 'token' };
+      var token = {access_token: 'token'};
       Auth.prototype.getApi.returns(Promise.reject({
         status: 401,
         message: '403 Forbidden',
@@ -601,7 +601,7 @@ describe('Auth', function () {
     });
   });
 
-  describe('getSecure and getApi', function() {
+  describe('getSecure and getApi', function () {
     var auth = new Auth({
       serverUri: 'http://localhost:8080'
     });
@@ -647,8 +647,8 @@ describe('Auth', function () {
 
       return response.then(function () {
         server.requests[0].requestHeaders.should.deep.equal({
-          'authorization': 'Bearer token',
-          'accept': 'application/json'
+          authorization: 'Bearer token',
+          accept: 'application/json'
         });
       });
     });
@@ -674,7 +674,7 @@ describe('Auth', function () {
     });
   });
 
-  describe('logout', function() {
+  describe('logout', function () {
     var auth = new Auth({
       serverUri: '',
       redirect_uri: 'http://localhost:8080/hub',
@@ -699,7 +699,7 @@ describe('Auth', function () {
         then(function (storedToken) {
           expect(storedToken).to.be.null;
           return auth._storage.getState('unique');
-        }).then(function(state) {
+        }).then(function (state) {
           state.should.contain.all.keys({
             restoreLocation: window.location.href,
             scopes: ['0-0-0-0-0', 'youtrack']
@@ -720,7 +720,7 @@ describe('Auth', function () {
     });
   });
 
-  describe('TokenValidationError', function() {
+  describe('TokenValidationError', function () {
     it('should be cool', function () {
       expect(function () {
         throw new Auth.TokenValidationError('message');

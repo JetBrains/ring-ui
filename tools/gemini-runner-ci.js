@@ -26,7 +26,7 @@ function runGeminiTestsOnServer(server) {
 }
 
 function runServer() {
-  var serve = serveStatic('docs', {'index': ['index.html']});
+  var serve = serveStatic('docs', {index: ['index.html']});
 
   console.log('Starting static server on 9999 port');
 

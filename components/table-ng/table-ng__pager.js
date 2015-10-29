@@ -2,7 +2,7 @@
 require('message-bundle-ng/message-bundle-ng');
 
 angular.module('Ring.table.pager', ['Ring.message-bundle'])
-  .directive('rgTablePager', ['$location', 'RingMessageBundle', function($location, RingMessageBundle) {
+  .directive('rgTablePager', ['$location', 'RingMessageBundle', function ($location, RingMessageBundle) {
     return {
       restrict: 'E',
       template: require('./table-ng__pager.html'),
@@ -13,7 +13,7 @@ angular.module('Ring.table.pager', ['Ring.message-bundle'])
         onPageChange: '&'
       },
       replace: true,
-      link: function(scope, element, attrs) {
+      link: function (scope, element, attrs) {
         var defaultMaxPagesToShow = 7;
         scope.maxPages = attrs.maxPages || defaultMaxPagesToShow;
         scope.selectedPageNum = 1;
@@ -27,9 +27,9 @@ angular.module('Ring.table.pager', ['Ring.message-bundle'])
         scope.firstPageText = RingMessageBundle.first_page();
         scope.lastPageText = RingMessageBundle.last_page();
 
-        var openPageAfterInit = $location.search()['page'] || (Math.floor(scope.skip / scope.top) + 1);
+        var openPageAfterInit = $location.search().page || (Math.floor(scope.skip / scope.top) + 1);
 
-        scope.calculatePageClass = function(pageNum) {
+        scope.calculatePageClass = function (pageNum) {
           var condition = pageNum === scope.selectedPageNum;
           return {
             'ring-btn_light-blue': condition,
@@ -38,11 +38,11 @@ angular.module('Ring.table.pager', ['Ring.message-bundle'])
           };
         };
 
-        scope.getTopOptionLabel = function(itemsPerPage) {
+        scope.getTopOptionLabel = function (itemsPerPage) {
           return itemsPerPage + ' ' + RingMessageBundle.items_per_page();
         };
 
-        scope.loadPage = function(pageNum, firstLoad) {
+        scope.loadPage = function (pageNum, firstLoad) {
           pageNum = parseInt(pageNum, 10);
           if (pageNum < 1) {
             pageNum = 1;
@@ -61,15 +61,15 @@ angular.module('Ring.table.pager', ['Ring.message-bundle'])
           $location.search('page', pageNum);
         };
 
-        scope.topChange = function(newItemsPerPage) {
+        scope.topChange = function (newItemsPerPage) {
           scope.top = newItemsPerPage;
           $location.search('top', newItemsPerPage);
           scope.loadPage(1);
         };
 
-        scope.$watchGroup(['skip', 'total', 'top'], function() {
+        scope.$watchGroup(['skip', 'total', 'top'], function () {
           scope.show = false;
-          var top = $location.search()['top'] || +scope.top;
+          var top = $location.search().top || +scope.top;
           var total = scope.total;
           var skip = scope.skip;
 

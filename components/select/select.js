@@ -3,12 +3,12 @@
  */
 
 import React from 'react';
-import { findDOMNode } from 'react-dom';
+import {findDOMNode} from 'react-dom';
 import classNames from 'classnames';
 import RingComponentWithShortcuts from 'ring-component/ring-component_with-shortcuts';
 import Popup from 'popup/popup';
 import SelectPopup from './select__popup';
-import List, { ListHint } from 'list/list';
+import List, {ListHint} from 'list/list';
 import Input from 'input/input';
 import Icon from 'icon/icon';
 import Button from 'button/button';
@@ -342,15 +342,15 @@ export default class Select extends RingComponentWithShortcuts {
   getShortcutsProps() {
     return {
       map: {
-        'enter': ::this._onEnter,
-        'esc': ::this._onEsc,
-        'up': ::this._inputShortcutHandler,
-        'down': ::this._inputShortcutHandler,
-        'right': noop,
-        'left': noop,
+        enter: ::this._onEnter,
+        esc: ::this._onEsc,
+        up: ::this._inputShortcutHandler,
+        down: ::this._inputShortcutHandler,
+        right: noop,
+        left: noop,
         'shift+up': noop,
         'shift+down': noop,
-        'space': noop
+        space: noop
       },
       scope: ::this.constructor.getUID()
     };
@@ -372,7 +372,7 @@ export default class Select extends RingComponentWithShortcuts {
 
     this.setState({
       selected: selected
-    }, function() {
+    }, function () {
       this.props.onChange(selected);
       this.props.onReset();
     });
@@ -386,7 +386,7 @@ export default class Select extends RingComponentWithShortcuts {
 
   _handleMultipleToggling(multiple) {
     let empty = Select._getEmptyValue(multiple);
-    this.setState({selected: empty}, function() {
+    this.setState({selected: empty}, function () {
       this.props.onChange(empty);
     });
     this._rebuildMultipleMap(empty, multiple);
@@ -538,13 +538,22 @@ export default class Select extends RingComponentWithShortcuts {
     let hint = null;
     let addButton = null;
 
-    if (this.props.hint){
-      hint = <ListHint key={this.props.hint + Type.ITEM} label={this.props.hint}/>;
+    if (this.props.hint) {
+      hint = (
+        <ListHint
+          key={this.props.hint + Type.ITEM}
+          label={this.props.hint}
+        />
+      );
     }
 
-    if (this._addButton){
-      addButton = (<div className="ring-select__button" onClick={::this.addHandler}>
-            <span className="ring-select__button__plus">+</span>{this.props.add.prefix ? this.props.add.prefix + ' ' : ''}<span>{this._addButton.label}</span>
+    if (this._addButton) {
+      addButton = (
+        <div
+          className="ring-select__button"
+          onClick={::this.addHandler}
+        >
+            <span className="ring-select__button__plus">{'+'}</span>{this.props.add.prefix ? this.props.add.prefix + ' ' : ''}<span>{this._addButton.label}</span>
         </div>);
     }
 
@@ -565,7 +574,7 @@ export default class Select extends RingComponentWithShortcuts {
     let filteredData = [];
     let exactMatch = false;
 
-    let check = this.props.filter.fn || function(itemToCheck, checkString) {
+    let check = this.props.filter.fn || function (itemToCheck, checkString) {
       // by default, skip separators and hints
       if (List.isItemType(List.ListProps.Type.SEPARATOR, itemToCheck) || List.isItemType(List.ListProps.Type.HINT, itemToCheck)) {
         return true;
@@ -649,7 +658,7 @@ export default class Select extends RingComponentWithShortcuts {
       };
       this.setState({
         selected: filterValue === '' ? null : fakeSelected
-      }, function() {
+      }, function () {
         this.props.onSelect(fakeSelected);
         this.props.onChange(fakeSelected);
       });
@@ -709,7 +718,7 @@ export default class Select extends RingComponentWithShortcuts {
 
       this.setState({
         selected: currentSelection
-      }, function() {
+      }, function () {
         // redraw items
         if (this.props.multiple) {
           // setTimeout solves events order and bubbling issue
@@ -746,7 +755,7 @@ export default class Select extends RingComponentWithShortcuts {
     let empty = Select._getEmptyValue(self.props.multiple);
     self.setState({
       selected: empty
-    }, function() {
+    }, function () {
       self.props.onChange(empty);
     });
 
@@ -819,23 +828,46 @@ export default class Select extends RingComponentWithShortcuts {
     let icons = [];
 
     if (this.props.loading) {
-      icons.push(<Loader modifier={Loader.Modifier.INLINE} key="loader" />);
+      icons.push(
+        <Loader
+          key="loader"
+          modifier={Loader.Modifier.INLINE}
+        />
+      );
     }
 
     if (this.props.clear && this.state.selected) {
-      icons.push(<span className="ring-link" onClick={::this.clear} key="close">
-        <Icon glyph={require('jetbrains-icons/close.svg')} size={Icon.Size.Size14}/>
+      icons.push(
+        <span
+          className="ring-link"
+          key="close"
+          onClick={::this.clear}
+        >
+        <Icon
+          glyph={require('jetbrains-icons/close.svg')}
+          size={Icon.Size.Size14}
+        />
       </span>);
     }
 
     if (this.state.selected && this.state.selected.icon) {
       icons.push(
-          <span className="ring-select__selected-icon" style={{'backgroundImage': 'url("' + this.state.selected.icon + '")'}} key="selected"></span>
+        <span
+          className="ring-select__selected-icon"
+          key="selected"
+          style={{backgroundImage: `url(${this.state.selected.icon})`}}
+        />
       );
     }
 
     if (!this.props.hideArrow) {
-      icons.push(<Icon glyph={require('jetbrains-icons/caret-down.svg')} size={Icon.Size.Size16} key="hide"/>);
+      icons.push(
+        <Icon
+          glyph={require('jetbrains-icons/caret-down.svg')}
+          key="hide"
+          size={Icon.Size.Size16}
+        />
+      );
     }
 
     return icons;
@@ -853,7 +885,7 @@ export default class Select extends RingComponentWithShortcuts {
     let icons = this._getIcons();
 
     let style = {
-      'paddingRight': 8 + icons.length * 16
+      paddingRight: 8 + icons.length * 16
     };
 
     let iconsNode = <span className="ring-select__icons">{icons}</span>;
@@ -870,7 +902,10 @@ export default class Select extends RingComponentWithShortcuts {
       }
 
       return (
-        <div onClick={::this._clickHandler} className={buttonCS}>
+        <div
+          className={buttonCS}
+          onClick={::this._clickHandler}
+        >
           <Input
             ref="filter"
             disabled={this.props.disabled}
@@ -881,17 +916,26 @@ export default class Select extends RingComponentWithShortcuts {
             onFocus={::this._focusHandler}
             onBlur={::this._blurHandler}
             shortcuts={this._inputShortcutsEnabled()}
-            placeholder={this._getInputPlaceholder()} />
+            placeholder={this._getInputPlaceholder()}
+          />
           {iconsNode}
-        </div>);
+        </div>
+      );
     } else if (this.isButtonMode()) {
       return (
-        <Button type="button" onClick={::this._clickHandler} className={buttonCS} style={style} disabled={this.props.disabled}>
+        <Button
+          className={buttonCS}
+          disabled={this.props.disabled}
+          onClick={::this._clickHandler}
+          style={style}
+          type="button"
+        >
           <span className="ring-select__label">{this._getButtonLabel()}</span>
           {iconsNode}
-        </Button>);
+        </Button>
+      );
     } else {
-      return (<span></span>);
+      return <span />;
     }
   }
 }

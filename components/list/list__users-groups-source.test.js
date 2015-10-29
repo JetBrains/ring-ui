@@ -6,7 +6,7 @@ describe('ListUsersGroupsSource', function () {
     this.fakeAuth = {
       requestToken: this.sinon.stub().returns(Promise.resolve('testToken')),
       getApi: this.sinon.stub().returns(Promise.resolve({}))
-    }
+    };
   });
 
   it('Should convert users to list model', function () {
@@ -26,7 +26,7 @@ describe('ListUsersGroupsSource', function () {
     }]));
 
     return source.getForList()
-      .then((dataForList) => {
+      .then(dataForList => {
         dataForList.should.contain({
           id: 1,
           login: 'testUser',
@@ -56,7 +56,7 @@ describe('ListUsersGroupsSource', function () {
     }]));
 
     return source.getForList()
-      .then((dataForList) => {
+      .then(dataForList => {
         dataForList.should.contain({
           id: 1,
           key: 1,
@@ -70,7 +70,7 @@ describe('ListUsersGroupsSource', function () {
 
   it('Should support userCount plural formatter', function () {
     let source = new ListUsersGroupsSource(this.fakeAuth, {
-      getPluralForUserCount: (count) => `${count} text`
+      getPluralForUserCount: count => `${count} text`
     });
 
     this.sinon.stub(source, 'getUsers').returns(Promise.resolve([{
@@ -86,7 +86,7 @@ describe('ListUsersGroupsSource', function () {
     }]));
 
     return source.getForList()
-      .then((dataForList) => {
+      .then(dataForList => {
         dataForList[1].description.should.equal('123 text');
       });
   });
@@ -99,7 +99,7 @@ describe('ListUsersGroupsSource', function () {
     this.sinon.stub(source, 'getGroups').returns(Promise.resolve([{id: 1, name: 'test group'}]));
 
     return source.getForList()
-      .then((dataForList) => {
+      .then(dataForList => {
         dataForList[2].description.should.equal('No users');
       });
   });
@@ -116,7 +116,7 @@ describe('ListUsersGroupsSource', function () {
     this.sinon.stub(source, 'getGroups').returns(Promise.resolve([]));
 
     return source.getForList()
-      .then((dataForList) => {
+      .then(dataForList => {
         dataForList[0].description.should.equal('No groups');
       });
   });

@@ -1,6 +1,6 @@
 import $ from 'jquery';
-import { createElement } from 'react';
-import { render } from 'react-dom';
+import {createElement} from 'react';
+import {render} from 'react-dom';
 
 import renderIntoDocument from 'render-into-document';
 import simulateKeypress from 'simulate-keypress';
@@ -14,7 +14,7 @@ describe('Popup', function () {
     popup.should.exist;
   });
 
-  it('should be closed by pressing esc', function() {
+  it('should be closed by pressing esc', function () {
     var popup = renderIntoDocument(createElement(Popup, null));
     popup.show();
     simulateKeypress(null, 27); // Esc
@@ -22,7 +22,7 @@ describe('Popup', function () {
     should.not.exist(popup.node);
   });
 
-  it('should be closed by resizing window', function(done) {
+  it('should be closed by resizing window', function (done) {
     var popup = renderIntoDocument(createElement(Popup, null));
     var evt = document.createEvent('Event');
     evt.initEvent('resize', true, false);
@@ -36,7 +36,7 @@ describe('Popup', function () {
     });
   });
 
-  it('should save passed container', function() {
+  it('should save passed container', function () {
     var fixedContainer = document.createElement('div');
     fixedContainer.style.position = 'fixed';
     var anchor = document.createElement('div');
@@ -50,11 +50,11 @@ describe('Popup', function () {
     popup.props.container.should.be.equal(fixedContainer);
   });
 
-  describe('close by click', function() {
+  describe('close by click', function () {
     var evt = document.createEvent('MouseEvent');
     evt.initEvent('click', true, false);
 
-    it('should be closed by click outside the element', function(done) {
+    it('should be closed by click outside the element', function (done) {
       var onClose = this.sinon.stub();
       var popup = renderIntoDocument(createElement(Popup, {
         onClose: onClose
@@ -71,7 +71,7 @@ describe('Popup', function () {
       });
     });
 
-    it('should pass event to onClose callback when closing by clicking by document', function(done) {
+    it('should pass event to onClose callback when closing by clicking by document', function (done) {
       var onCloseStub = this.sinon.stub();
       var sinon = this.sinon;
       renderIntoDocument(createElement(Popup, {
@@ -80,12 +80,12 @@ describe('Popup', function () {
 
       setTimeout(function () {
         document.body.dispatchEvent(evt);
-        onCloseStub.should.have.been.calledWith(sinon.match({type: 'click' }));
+        onCloseStub.should.have.been.calledWith(sinon.match({type: 'click'}));
         done();
       });
     });
 
-    it('should not close popup if popup hidden', function(done) {
+    it('should not close popup if popup hidden', function (done) {
       var onCloseStub = this.sinon.stub();
       renderIntoDocument(createElement(Popup, {
         hidden: true,
@@ -99,7 +99,7 @@ describe('Popup', function () {
       });
     });
 
-    it('shouldn\'t be closed by click outside the element after hide', function(done) {
+    it('shouldn\'t be closed by click outside the element after hide', function (done) {
       var onClose = this.sinon.stub();
       var popup = TestUtils.renderIntoDocument(createElement(Popup, {
         onClose: onClose
@@ -114,7 +114,7 @@ describe('Popup', function () {
       });
     });
 
-    it('shouldn\'t be closed by click outside the element after show', function(done) {
+    it('shouldn\'t be closed by click outside the element after show', function (done) {
       var onClose = this.sinon.stub();
       var popup = renderIntoDocument(createElement(Popup, {
         onClose: onClose
@@ -130,7 +130,7 @@ describe('Popup', function () {
       });
     });
 
-    it('shouldn\'n t be closed by click inside the element', function(done) {
+    it('shouldn\'n t be closed by click inside the element', function (done) {
       var popup = renderIntoDocument(createElement(Popup, null));
 
       setTimeout(function () {
@@ -142,8 +142,8 @@ describe('Popup', function () {
     });
   });
 
-  describe('positioning', function() {
-    it('top-left corner', function() {
+  describe('positioning', function () {
+    it('top-left corner', function () {
       var element = $('<div style="position: absolute; top: 10px; left: 15px; width: 50px; height: 50px;"></div>');
       $('body').append(element);
 
@@ -164,7 +164,7 @@ describe('Popup', function () {
       parseInt(popupElement.style.top, 10).should.equal(elementOffset.top - $(popup.node).height());
     });
 
-    it('bottom-left corner', function() {
+    it('bottom-left corner', function () {
       var element = $('<div style="position: absolute; top: 10px; left: 15px; width: 50px; height: 50px;"></div>');
       $('body').append(element);
 

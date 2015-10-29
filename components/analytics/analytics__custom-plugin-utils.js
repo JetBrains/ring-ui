@@ -16,8 +16,8 @@ AnalyticsCustomPluginUtils.reformatString = function (value, isCategory) {
   return str.replace(regexp, '_');
 };
 
-AnalyticsCustomPluginUtils.getPageViewDurationPresentation = function (duration) {
-  duration = duration / 1000;
+AnalyticsCustomPluginUtils.getPageViewDurationPresentation = function (durationMs) {
+  const duration = durationMs / 1000;
   if (duration > 3600) {
     return 'more-than-hour';
   }
@@ -35,7 +35,7 @@ AnalyticsCustomPluginUtils.getPageViewDurationPresentation = function (duration)
   return 'less-than-' + roundedDuration + '-sec';
 };
 
-AnalyticsCustomPluginUtils.getScreenWidthPresentation = function() {
+AnalyticsCustomPluginUtils.getScreenWidthPresentation = function () {
   /**
    * Sizes were taken from bootstrap's grid (xs, sm, md, lg)
    */

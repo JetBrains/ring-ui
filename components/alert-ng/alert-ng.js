@@ -4,7 +4,7 @@
  */
 /* global angular: false */
 
-import { render } from 'react-dom';
+import {render} from 'react-dom';
 import ReactAlert from 'alert/alert';
 import ReactAlerts from 'alert/alerts';
 
@@ -54,7 +54,7 @@ function alert() {
     return _add(text, ReactAlert.Type.SUCCESS, ttl);
   }
 
-  function setRemoveCallback(removeCallback){
+  function setRemoveCallback(removeCallback) {
     if (!container) {
       init();
     }

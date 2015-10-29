@@ -187,7 +187,7 @@ angular.module('Ring.save-field', [
               }, 1000);
             };
 
-            var error = function(err) {
+            var error = function (err) {
               var message;
               if (typeof err === 'string') {
                 message = err;
@@ -203,11 +203,11 @@ angular.module('Ring.save-field', [
 
             var submitPromise = $q.when(scope.onSave(getExpressionValue(scope)));
             submitPromise.then(success);
-            submitPromise['catch'](error);
+            submitPromise.catch(error);
           }
 
           function resetValue() {
-            scope.$evalAsync(function() {
+            scope.$evalAsync(function () {
               setExpressionValue(scope, scope.initial ? scope.initial : '');
               scope.saveFieldForm.$setValidity(CUSTOM_ERROR_ID, true, customError);
               scope.saveFieldForm.$setPristine();
@@ -249,7 +249,7 @@ angular.module('Ring.save-field', [
           }
 
           function inputBlur() {
-            blurTimeout = $timeout(function() {
+            blurTimeout = $timeout(function () {
               resetValue();
             }, 100);
           }
@@ -272,8 +272,8 @@ angular.module('Ring.save-field', [
             }
           }
 
-          scope.cancelBlur = function() {
-            $timeout(function() {
+          scope.cancelBlur = function () {
+            $timeout(function () {
               if (blurTimeout) {
                 $timeout.cancel(blurTimeout);
                 blurTimeout = null;
