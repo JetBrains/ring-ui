@@ -684,7 +684,24 @@ Auth.prototype._loadTokenInBackground = function () {
     this._requestBuilder.prepareAuthRequest({request_credentials: backgroundMode}, {nonRedirect: true}).
     then(authRequest => {
       let cleanRunned;
-      let timeout;
+
+      function cleanUp() {
+        if (cleanRunned) {
+          return;
+        }
+        cleanRunned = true;
+        /* eslint-disable no-use-before-define */
+        clearTimeout(timeout);
+        removeStateListener();
+        removeTokenListener();
+        /* eslint-enable no-use-before-define */
+        window.document.body.removeChild(iframe);
+      }
+
+      let timeout = setTimeout(() => {
+        reject(new Error('Auth Timeout'));
+        cleanUp();
+      }, Auth.BACKGROUND_TIMEOUT);
 
       let removeTokenListener = this._storage.onTokenChange(function (token) {
         if (token !== null) {
@@ -701,22 +718,6 @@ Auth.prototype._loadTokenInBackground = function () {
       });
 
       this._redirectFrame(iframe, authRequest.url);
-
-      function cleanUp() {
-        if (cleanRunned) {
-          return;
-        }
-        clearTimeout(timeout);
-        cleanRunned = true;
-        removeStateListener();
-        removeTokenListener();
-        window.document.body.removeChild(iframe);
-      }
-
-      timeout = setTimeout(() => {
-        reject(new Error('Auth Timeout'));
-        cleanUp();
-      }, Auth.BACKGROUND_TIMEOUT);
     });
   });
 
