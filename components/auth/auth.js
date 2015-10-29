@@ -1,4 +1,4 @@
-/* eslint-disable google-camelcase/google-camelcase */
+/* eslint-disable camelcase */
 
 import 'core-js/modules/es7.array.includes';
 
@@ -254,7 +254,7 @@ Auth.prototype.init = function () {
  * Check token validity against all conditions.
  * @returns {Promise.<string>}
  */
-Auth.prototype.validateToken = function() {
+Auth.prototype.validateToken = function () {
   return this._getValidatedToken([
     Auth._validateExistence,
     Auth._validateExpiration,
@@ -313,8 +313,8 @@ Auth.prototype.getSecure = function (absoluteUrl, accessToken, params) {
 
   return fetch(url, {
     headers: {
-      'Authorization': 'Bearer ' + accessToken,
-      'Accept': 'application/json'
+      Authorization: 'Bearer ' + accessToken,
+      Accept: 'application/json'
     }
   }).
     then(function (response) {
@@ -685,23 +685,23 @@ Auth.prototype._loadTokenInBackground = function () {
     then(authRequest => {
       let cleanRunned;
 
-      const timeout = setTimeout(() => {
-        reject(new Error('Auth Timeout'));
-        cleanUp();
-      }, Auth.BACKGROUND_TIMEOUT);
-
       function cleanUp() {
         if (cleanRunned) {
           return;
         }
-        clearTimeout(timeout);
         cleanRunned = true;
         /* eslint-disable no-use-before-define */
+        clearTimeout(timeout);
         removeStateListener();
         removeTokenListener();
         /* eslint-enable no-use-before-define */
         window.document.body.removeChild(iframe);
       }
+
+      let timeout = setTimeout(() => {
+        reject(new Error('Auth Timeout'));
+        cleanUp();
+      }, Auth.BACKGROUND_TIMEOUT);
 
       let removeTokenListener = this._storage.onTokenChange(function (token) {
         if (token !== null) {

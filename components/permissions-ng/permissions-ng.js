@@ -142,18 +142,18 @@ permissionsModule.directive('rgPermission', [
  * @requires userPermissions
  */
 permissionsModule.directive('rgPermissionIf', function ($animate, userPermissions) {
-    return {
-      transclude: 'element',
-      priority: 600,
-      terminal: true,
-      restrict: 'A',
-      require: '^?rgSomePermissions',
-      link: function (scope, iElement, iAttrs, somePermittedCtrl, $transclude) {
-        var block;
-        var childScope;
+  return {
+    transclude: 'element',
+    priority: 600,
+    terminal: true,
+    restrict: 'A',
+    require: '^?rgSomePermissions',
+    link: function (scope, iElement, iAttrs, somePermittedCtrl, $transclude) {
+      var block;
+      var childScope;
 
-        var spaceId = iAttrs.hasOwnProperty('inGlobal') ? PermissionsCache.GLOBAL_SPACE_ID : scope.$eval(iAttrs.inSpace);
-        userPermissions.check(iAttrs.rgPermissionIf, spaceId).
+      var spaceId = iAttrs.hasOwnProperty('inGlobal') ? PermissionsCache.GLOBAL_SPACE_ID : scope.$eval(iAttrs.inSpace);
+      userPermissions.check(iAttrs.rgPermissionIf, spaceId).
           then(function (permitted) {
             if (permitted) {
               if (!childScope) {
@@ -180,9 +180,9 @@ permissionsModule.directive('rgPermissionIf', function ($animate, userPermission
             }
           }).
           then(registerPermission(iElement));
-      }
-    };
-  }
+    }
+  };
+}
 );
 
 /**
@@ -215,7 +215,7 @@ permissionsModule.directive('rgSomePermissions', [
   function () {
     return {
       scope: {
-        'rgSomePermissions': '='
+        rgSomePermissions: '='
       },
       controller: function ($scope) {
         var permissions = [];

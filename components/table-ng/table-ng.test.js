@@ -192,11 +192,11 @@ describe('TableNg', function () {
     describe('Default table navigation actions', function () {
       var SelectionNavigateActions = require('./table-ng__selection-navigate-actions');
       var navigateActions;
-      beforeEach(function() {
+      beforeEach(function () {
         navigateActions = new SelectionNavigateActions();
       });
 
-      it('should export interface', function() {
+      it('should export interface', function () {
         expect(navigateActions.setSelection).to.be.defined;
         expect(navigateActions.moveUp).to.be.defined;
         expect(navigateActions.moveDown).to.be.defined;
@@ -207,7 +207,7 @@ describe('TableNg', function () {
         expect(navigateActions.clearSelection).to.be.defined;
       });
 
-      it('should do nothing if selection is not put', function() {
+      it('should do nothing if selection is not put', function () {
         expect(navigateActions.moveUp()).to.be.false;
         expect(navigateActions.moveDown()).to.be.false;
         expect(navigateActions.reset()).to.be.false;
@@ -217,12 +217,12 @@ describe('TableNg', function () {
         expect(navigateActions.clearSelection()).to.be.false;
       });
 
-      describe('Default table navigation actions\' methods', function() {
-        beforeEach(function() {
+      describe('Default table navigation actions\' methods', function () {
+        beforeEach(function () {
           navigateActions.setSelection(selection);
         });
 
-        it('should select next item', function() {
+        it('should select next item', function () {
           navigateActions.setSelection(selection);
           selection.activateItem(fakeData.items[1]);
 
@@ -230,7 +230,7 @@ describe('TableNg', function () {
           expect(selection.getActiveItemIndex()).to.equals(2);
         });
 
-        it('should select prev item', function() {
+        it('should select prev item', function () {
           navigateActions.setSelection(selection);
           selection.activateItem(fakeData.items[1]);
 
@@ -238,7 +238,7 @@ describe('TableNg', function () {
           expect(selection.getActiveItemIndex()).to.equals(0);
         });
 
-        it('should clear selection', function() {
+        it('should clear selection', function () {
           navigateActions.setSelection(selection);
           selection.activateItem(fakeData.items[1]);
           selection.checkItem(fakeData.items[1]);
@@ -247,7 +247,7 @@ describe('TableNg', function () {
           expect(selection.getCheckedItems().length).to.equals(0);
         });
 
-        it('should select current', function() {
+        it('should select current', function () {
           navigateActions.setSelection(selection);
           selection.activateItem(fakeData.items[1]);
 
@@ -257,7 +257,7 @@ describe('TableNg', function () {
           expect(result[0]).to.equals(fakeData.items[1]);
         });
 
-        it('should select up', function() {
+        it('should select up', function () {
           navigateActions.setSelection(selection);
           selection.activateItem(fakeData.items[2]);
           selection.checkItem(fakeData.items[2]);
@@ -267,7 +267,7 @@ describe('TableNg', function () {
           expect(selection.getActiveItemIndex()).to.equals(1);
         });
 
-        it('should select down', function() {
+        it('should select down', function () {
           navigateActions.setSelection(selection);
           selection.activateItem(fakeData.items[2]);
 
@@ -278,7 +278,7 @@ describe('TableNg', function () {
           expect(selection.getActiveItemIndex()).to.equals(3);
         });
 
-        it('should select down multiple times', function() {
+        it('should select down multiple times', function () {
           navigateActions.setSelection(selection);
           selection.activateItem(fakeData.items[1]);
 

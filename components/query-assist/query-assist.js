@@ -2,13 +2,13 @@
  * @fileoverview Query Assist
  */
 
-import React, { PropTypes, DOM, createClass } from 'react';
-import { findDOMNode } from 'react-dom';
+import React, {PropTypes, DOM} from 'react';
+import {findDOMNode} from 'react-dom';
 import debounce from 'mout/function/debounce';
 import deepEquals from 'mout/lang/deepEquals';
 import classNames from 'classnames';
 
-import { getRect } from 'dom/dom';
+import {getRect} from 'dom/dom';
 import RingComponentWithShortcuts from 'ring-component/ring-component_with-shortcuts';
 import Caret from 'caret/caret';
 import ContentEditable from 'contenteditable/contenteditable';
@@ -30,7 +30,7 @@ const POPUP_COMPENSATION = INPUT_BORDER_WIDTH +
 
 const ngModelStateField = {query: true, caret: true};
 
-const noop = function() {};
+const noop = function () {};
 
 /**
  * @name QueryAssist
@@ -220,12 +220,12 @@ export default class QueryAssist extends RingComponentWithShortcuts {
   getShortcutsProps() {
     return {
       map: {
-        'enter': ::this.handleComplete,
+        enter: ::this.handleComplete,
         'ctrl+space': ::this.handleCtrlSpace,
-        'tab': ::this.handleTab,
-        'right': noop,
-        'left': noop,
-        'space': noop
+        tab: ::this.handleTab,
+        right: noop,
+        left: noop,
+        space: noop
       },
       scope: ::this.constructor.getUID()
     };
@@ -755,10 +755,11 @@ export default class QueryAssist extends RingComponentWithShortcuts {
     });
 
     return (
-      <div className="ring-query-assist"
+      <div
+        className="ring-query-assist"
         onMouseDown={::this.trackInputMouseState}
         onMouseUp={::this.trackInputMouseState}
-        >
+      >
         <ContentEditable
           className={inputClasses}
           ref={::this.refInput}
@@ -773,33 +774,42 @@ export default class QueryAssist extends RingComponentWithShortcuts {
           onKeyPress={::this.handleEnter}
           onKeyUp={::this.handleCaretMove}
 
-          spellCheck="false">{this.state.query && <span>{this.state.query.split('').map(::this.renderLetter)}</span>}</ContentEditable>
+          spellCheck="false"
+        >{this.state.query && <span>{this.state.query.split('').map(::this.renderLetter)}</span>}</ContentEditable>
 
-        {renderPlaceholder && <span
+        {renderPlaceholder &&
+        <span
           className="ring-query-assist__placeholder"
           ref="placeholder"
-          onClick={::this.handleCaretMove}>
+          onClick={::this.handleCaretMove}
+        >
           {this.props.placeholder}
         </span>}
-        {renderGlass && <Icon
+        {renderGlass &&
+        <Icon
           className="ring-query-assist__icon"
           ref="glass"
           color="gray"
           glyph={require('jetbrains-icons/search.svg')}
           onClick={::this.handleApply}
-          size={Icon.Size.Size16} />}
-        {this.state.loading && <div
+          size={Icon.Size.Size16}
+        />}
+        {this.state.loading &&
+        <div
           className="ring-query-assist__icon ring-query-assist__icon_loader"
-          ref="loader">
+          ref="loader"
+        >
           <LoaderInline/>
         </div>}
-        {renderClear && <Icon
+        {renderClear &&
+        <Icon
           className="ring-query-assist__icon ring-query-assist__icon_clear"
           ref="clear"
           color="gray"
           glyph={require('jetbrains-icons/close.svg')}
           onClick={::this.clearQuery}
-          size={Icon.Size.Size16} />}
+          size={Icon.Size.Size16}
+        />}
       </div>
     );
   }

@@ -7,12 +7,12 @@ import RingComponentWithShortcuts from './ring-component_with-shortcuts';
 import shortcuts from 'shortcuts/shortcuts';
 
 describe('RingComponentWithShortcuts', function () {
-  var component;
+  //var component;
   var noop = sinon.spy();
-  var noop2;
+  //var noop2;
   var key = 'a';
   var scope = 'scope scope scope';
-  var scope2 = 'scope2 scope2 scope2';
+  //var scope2 = 'scope2 scope2 scope2';
   var keyMap = {};
   keyMap[key] = noop;
 

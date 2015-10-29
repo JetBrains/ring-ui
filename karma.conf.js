@@ -1,5 +1,5 @@
 /* eslint-env node */
-/* eslint-disable google-camelcase/google-camelcase */
+/* eslint-disable camelcase */
 var path = require('path');
 
 function generateConfig(karma) {

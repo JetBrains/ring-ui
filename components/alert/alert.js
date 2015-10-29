@@ -5,7 +5,7 @@
  */
 
 import React from 'react';
-import { findDOMNode, unmountComponentAtNode } from 'react-dom';
+import {findDOMNode, unmountComponentAtNode} from 'react-dom';
 import classNames from 'classnames';
 import RingComponent from 'ring-component/ring-component';
 import Icon from 'icon/icon';
@@ -131,9 +131,16 @@ export default class Alert extends RingComponent {
       {this._getIcon()}
       {this._getCaption()}
       {
-        this.props.closeable ?
-        <Icon className="ring-alert__close" glyph={require('jetbrains-icons/close.svg')} size={Icon.Size.Size16} onClick={this._handleCloseClick} /> :
-        ''
+        this.props.closeable
+        ? (
+          <Icon
+            className="ring-alert__close"
+            glyph={require('jetbrains-icons/close.svg')}
+            onClick={this._handleCloseClick}
+            size={Icon.Size.Size16}
+          />
+        )
+        : ''
       }
     </div>);
   }
@@ -191,11 +198,14 @@ export default class Alert extends RingComponent {
     let iconModifier = TypeToIconModifier[this.props.type];
 
     if (iconModifier) {
-      return (<Icon
+      return (
+        <Icon
           className="ring-alert__icon"
           color={TypeToIconColor[this.props.type] || Icon.Color.DEFAULT}
           glyph={iconModifier}
-          size={Icon.Size.Size16} />);
+          size={Icon.Size.Size16}
+        />
+        );
     }
 
     return '';

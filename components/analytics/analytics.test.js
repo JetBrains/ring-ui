@@ -1,14 +1,14 @@
-describe('analytics singleton', function() {
+describe('analytics singleton', function () {
   var analytics = require('./analytics');
   var AnalyticsGAPlugin = require('./analytics__ga-plugin');
   var AnalyticsCustomPlugin = require('./analytics__custom-plugin');
   var Analytics = analytics.constructor;
 
-  it('should be created', function() {
+  it('should be created', function () {
     expect(analytics).should.exist;
   });
 
-  it('should export correct interface', function() {
+  it('should export correct interface', function () {
     expect(analytics.trackPageView).should.exist;
     expect(analytics.trackEvent).should.exist;
     expect(analytics.trackShortcutEvent).should.exist;
@@ -16,23 +16,23 @@ describe('analytics singleton', function() {
     expect(analytics.track).should.exist;
   });
 
-  describe('ga plugin', function() {
+  describe('ga plugin', function () {
     var gaPlugin;
-    beforeEach(function() {
+    beforeEach(function () {
       delete window.ga;
       gaPlugin = new AnalyticsGAPlugin('SOME-ID');
     });
 
-    it('should init ga', function() {
+    it('should init ga', function () {
       expect(window.ga).to.be.defined;
     });
 
-    it('should export interface', function() {
+    it('should export interface', function () {
       expect(gaPlugin.trackPageView).should.exist;
       expect(gaPlugin.trackEvent).should.exist;
     });
 
-    it('should send pageview event', function() {
+    it('should send pageview event', function () {
       var rememberGA = window.ga;
       window.ga = this.sinon.spy();
       gaPlugin.trackPageView('some-path');
@@ -42,7 +42,7 @@ describe('analytics singleton', function() {
       window.ga = rememberGA;
     });
 
-    it('should send action event', function() {
+    it('should send action event', function () {
       var rememberGA = window.ga;
       window.ga = this.sinon.spy();
       gaPlugin.trackEvent('some-category', 'some-action');
@@ -56,36 +56,36 @@ describe('analytics singleton', function() {
     });
   });
 
-  describe('ga plugin with no key and in non-development mode', function() {
+  describe('ga plugin with no key and in non-development mode', function () {
     var gaPlugin;
-    beforeEach(function() {
+    beforeEach(function () {
       delete window.ga;
       gaPlugin = new AnalyticsGAPlugin();
     });
 
-    it('should not init ga', function() {
+    it('should not init ga', function () {
       expect(window.ga).to.be.undefined;
       expect(gaPlugin.trackEvent).to.be.function;
       expect(gaPlugin.trackPageView).to.be.function;
     });
   });
 
-  describe('tracking events', function() {
+  describe('tracking events', function () {
     var send;
     var clock;
-    beforeEach(function() {
+    beforeEach(function () {
       send = this.sinon.spy();
       clock = this.sinon.useFakeTimers();
       analytics = new Analytics();
     });
 
-    describe('#enabled', function() {
-      beforeEach(function() {
+    describe('#enabled', function () {
+      beforeEach(function () {
         var customPlugin = new AnalyticsCustomPlugin(send);
         analytics.config([customPlugin]);
       });
 
-      it('should send request to statistics server on tracking event', function() {
+      it('should send request to statistics server on tracking event', function () {
         analytics.trackEvent('test-category', 'test-action');
         clock.tick(10500);
 
@@ -95,7 +95,7 @@ describe('analytics singleton', function() {
         }]);
       });
 
-      it('should remove prohibited symbols', function() {
+      it('should remove prohibited symbols', function () {
         analytics.trackEvent('t/\\est-c,ate:gory*?', 't/\\est-a,ct:ion*?');
         clock.tick(10500);
 
@@ -105,7 +105,7 @@ describe('analytics singleton', function() {
         }]);
       });
 
-      it('should track event with additional information', function() {
+      it('should track event with additional information', function () {
         analytics.trackEvent('test-category', 'test-action', {type: 'test-type'});
         clock.tick(10500);
 
@@ -118,7 +118,7 @@ describe('analytics singleton', function() {
         }]);
       });
 
-      it('should send two events to statistics server on tracking shortcut event', function() {
+      it('should send two events to statistics server on tracking shortcut event', function () {
         analytics.trackShortcutEvent('test-category', 'test-action');
         clock.tick(10500);
 
@@ -131,8 +131,8 @@ describe('analytics singleton', function() {
         }]);
       });
 
-      describe('trackEntityProperties', function() {
-        it('should send all enumerated properties to statistics server on tracking entity', function() {
+      describe('trackEntityProperties', function () {
+        it('should send all enumerated properties to statistics server on tracking entity', function () {
           var entity = {
             param1: 'first',
             param2: 'second',
@@ -145,7 +145,7 @@ describe('analytics singleton', function() {
           clock.tick(10500);
 
           var trackedData = [];
-          trackedProperties.forEach(function(it) {
+          trackedProperties.forEach(function (it) {
             trackedData.push({
               category: 'sample-entity',
               action: it + '__' + entity[it]
@@ -154,7 +154,7 @@ describe('analytics singleton', function() {
           send.should.have.been.calledWith(trackedData);
         });
 
-        it('should not send any data if no properties requested', function() {
+        it('should not send any data if no properties requested', function () {
           var entity = {
             param1: 'first',
             param2: 'second'
@@ -165,7 +165,7 @@ describe('analytics singleton', function() {
           send.should.not.have.been.called;
         });
 
-        it('should not throw error if there are no some properties', function() {
+        it('should not throw error if there are no some properties', function () {
           var entity = {
             param1: 'first',
             param2: 'second'
@@ -182,7 +182,7 @@ describe('analytics singleton', function() {
           }]);
         });
 
-        it('should work with subproperties', function() {
+        it('should work with subproperties', function () {
           var entity = {
             property: {
               subproperty1: 'subproperty1-value',
@@ -209,14 +209,14 @@ describe('analytics singleton', function() {
         });
       });
 
-      it('should send request to statistics server on page view', function() {
+      it('should send request to statistics server on page view', function () {
         analytics.trackPageView('test-page');
         clock.tick(10500);
 
         send.should.have.been.called;
       });
 
-      it('should send request to statistics server multiple times', function() {
+      it('should send request to statistics server multiple times', function () {
         //first loop
         analytics.trackPageView('test-page');
         clock.tick(10500);
@@ -236,10 +236,10 @@ describe('analytics singleton', function() {
         ]);
       });
 
-      describe('flushing restriction', function() {
+      describe('flushing restriction', function () {
         it('flushing should be allowed on second step', function () {
           var counter = 0;
-          var flushingIsAllowedOnSecondCheck = function() {
+          var flushingIsAllowedOnSecondCheck = function () {
             ++counter;
             return counter === 2;
           };
@@ -260,12 +260,12 @@ describe('analytics singleton', function() {
         });
       });
     });
-    describe('#disabled', function() {
-      beforeEach(function() {
+    describe('#disabled', function () {
+      beforeEach(function () {
         analytics.config([]);
       });
 
-      it('should not send request to statistics server', function() {
+      it('should not send request to statistics server', function () {
         analytics.trackEvent('test-category', 'test-action');
         clock.tick(10500);
 

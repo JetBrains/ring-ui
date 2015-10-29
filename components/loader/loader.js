@@ -229,6 +229,11 @@ export default class Loader extends RingComponent {
   };
 
   render() {
-    return <canvas ref="canvas" className="ring-loader__canvas"/>;
+    return (
+      <canvas
+        ref="canvas"
+        className="ring-loader__canvas"
+      />
+    );
   }
 }

@@ -5,7 +5,7 @@ import renderIntoDocument from 'render-into-document';
 import $ from 'jquery';
 import RingComponent from 'ring-component/ring-component';
 
-describe('TagsInput', function() {
+describe('TagsInput', function () {
   let fakeTags = [{key: 1, label: 'test1'}];
 
   beforeEach(function () {
@@ -13,15 +13,15 @@ describe('TagsInput', function() {
   });
 
   describe('DOM', function () {
-    it('should render tags', function() {
+    it('should render tags', function () {
       $(this.tagsInput.node).should.have.descendants('.ring-tag');
     });
 
-    it('should render passed label inside tags', function() {
+    it('should render passed label inside tags', function () {
       this.tagsInput.node.querySelector('.ring-tag').textContent.should.be.equal('test1');
     });
 
-    it('should render select in input mode', function() {
+    it('should render select in input mode', function () {
       $(this.tagsInput.node).should.have.descendants('.ring-select_input-mode');
     });
 
@@ -45,7 +45,7 @@ describe('TagsInput', function() {
         customTagComponent: CustomTag
       });
 
-      $(this.tagsInput.node).should.have.descendants('.custom-tag')
+      $(this.tagsInput.node).should.have.descendants('.custom-tag');
     });
 
     it('Should use passed className', function () {
@@ -68,14 +68,14 @@ describe('TagsInput', function() {
 
 
   it('Should clear selected value after adding tag', function () {
-    this.sinon.spy(this.tagsInput.refs.select ,'clear');
+    this.sinon.spy(this.tagsInput.refs.select, 'clear');
     this.tagsInput.addTag({key: 2, label: 'test2'});
 
     this.tagsInput.refs.select.clear.should.have.been.called;
   });
 
   it('Should clear select input after adding tag', function () {
-    this.sinon.spy(this.tagsInput.refs.select ,'filterValue');
+    this.sinon.spy(this.tagsInput.refs.select, 'filterValue');
     this.tagsInput.addTag({key: 2, label: 'test2'});
 
     this.tagsInput.refs.select.filterValue.should.have.been.calledWith('');
@@ -116,11 +116,11 @@ describe('TagsInput', function() {
   it('Should turn on loading message while loading suggestions', function () {
     let dataSource = this.sinon.spy(() => Promise.resolve([]));
     this.tagsInput.rerender({dataSource});
+    this.tagsInput.state.loading.should.be.true;
+
     return this.tagsInput.loadSuggestions().then(() => {
       this.tagsInput.state.loading.should.be.false;
     });
-
-    this.tagsInput.state.loading.should.be.true;
   });
 
   it('Should drop exist tags from suggestions by key', function () {

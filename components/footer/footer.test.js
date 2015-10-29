@@ -21,20 +21,20 @@ describe('Footer', function () {
   describe('should render items', function () {
 
     it('should add given class', function () {
-      footer.rerender({'className': 'myClass'});
+      footer.rerender({className: 'myClass'});
 
       $(footer.node).should.have.class('myClass');
     });
 
     it('add left column one line', function () {
-      footer.rerender({'left': ['One Line']});
+      footer.rerender({left: ['One Line']});
       footer.node.textContent.should.equal('One Line');
       $(footer.node).find('li').should.not.be.empty;
       $(footer.node).find('li').length.should.equal(1);
     });
 
     it('add left column two lines', function () {
-      footer.rerender({'left': ['One Line', 'Second Line']});
+      footer.rerender({left: ['One Line', 'Second Line']});
 
       $(footer.node).find('li').should.not.be.empty;
       $(footer.node).find('li').length.should.equal(2);
@@ -42,9 +42,9 @@ describe('Footer', function () {
 
     it('add three columns two lines', function () {
       footer.rerender({
-        'left': ['One Line', 'Second Line'],
-        'center': ['One Line', 'Second Line'],
-        'right': ['One Line', 'Second Line']
+        left: ['One Line', 'Second Line'],
+        center: ['One Line', 'Second Line'],
+        right: ['One Line', 'Second Line']
       });
       function assertLines(lines, count) {
         lines.should.not.be.empty;
@@ -64,8 +64,8 @@ describe('Footer', function () {
 
   it('should render copyright', function () {
     footer.rerender({
-      'left': [
-        {'copyright': 2010, 'label': ' JetBrains'}
+      left: [
+        {copyright: 2010, label: ' JetBrains'}
       ]
     });
 
@@ -74,8 +74,8 @@ describe('Footer', function () {
 
   it('should render link', function () {
     footer.rerender({
-      'left': [
-        {'url': 'http://jetbrains.com', 'label': 'JetBrains', 'title': 'JetBrains Official Site'}
+      left: [
+        {url: 'http://jetbrains.com', label: 'JetBrains', title: 'JetBrains Official Site'}
       ]
     });
 

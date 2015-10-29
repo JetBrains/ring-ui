@@ -75,11 +75,12 @@ export default class HeaderItem extends RingComponent {
     let iconElement = this.state.picture ? this._getImage() : this._getIcon();
 
     return (
-      <span {...this.props} className={classes} onClick={::this._handleClick} title={this.state.title}>
-        {
-          this.props.href ? <a href={this.props.href}>{iconElement}</a> : iconElement
-        }
-      </span>
+      <span
+        {...this.props}
+        className={classes}
+        onClick={::this._handleClick}
+        title={this.state.title}
+      >{this.props.href ? <a href={this.props.href}>{iconElement}</a> : iconElement}</span>
     );
   }
 
@@ -112,10 +113,13 @@ export default class HeaderItem extends RingComponent {
     );
 
     return (
-      <span {...this.props} className={classes}>
+      <span
+        {...this.props}
+        className={classes}
+      >
         <img
           className={baseClass.getElement('pic')}
-          onLoad={function(evt) {
+          onLoad={function (evt) {
             let pic = evt.target;
             fitImageIntoSquare(pic, pic.width, pic.height);
           }}
@@ -160,13 +164,13 @@ export default class HeaderItem extends RingComponent {
    * @param {string} title
    */
   setTitle(title) {
-    this.setState({ title: title });
+    this.setState({title: title});
   }
 
   /**
    * @param {boolean} loading
    */
   setLoading(loading) {
-    this.setState({ loading: loading });
+    this.setState({loading: loading});
   }
 }
