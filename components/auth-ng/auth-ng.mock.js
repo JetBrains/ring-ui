@@ -3,21 +3,21 @@
  * It need now because permission does not work without auth.
  * But we can not stub correct auth component and should mock all provider
  */
-var AuthProviderMock = function() {
-  this.$get = function($q) {
+var AuthProviderMock = function () {
+  this.$get = function ($q) {
     var defer = $q.defer();
     defer.resolve([]);
 
     return {
       auth: {
-        requestToken: function() {
+        requestToken: function () {
           return defer.promise;
         },
         /** @deprecated */
-        getSecure: function() {
+        getSecure: function () {
           return defer.promise;
         },
-        getApi: function() {
+        getApi: function () {
           return defer.promise;
         }
       },

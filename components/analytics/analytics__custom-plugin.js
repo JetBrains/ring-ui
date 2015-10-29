@@ -4,7 +4,7 @@ var AnalyticsCustomPlugin = function (send, isDevelopment, flushInterval, checkF
   this._data = [];
   var self = this;
   if (typeof checkFlushingAllowed !== 'function') {
-    checkFlushingAllowed = function() {
+    checkFlushingAllowed = function () {
       return true;
     };
   }

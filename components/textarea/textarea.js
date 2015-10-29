@@ -27,6 +27,11 @@ import './textarea.scss';
 export default class Textarea extends RingComponent {
   render() {
     let classes = classNames('ring-textarea', this.props.className);
-    return <textarea {...this.props} className={classes}/>;
+    return (
+      <textarea
+        {...this.props}
+        className={classes}
+      />
+    );
   }
 }

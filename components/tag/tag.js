@@ -16,14 +16,20 @@ export default class Tag extends RingComponent {
 
   render() {
     return (<span className="ring-tag">
-      {this.props.rgTagIcon ? <Icon className="ring-tag__icon"
-            glyph={this.props.rgTagIcon}
-            size={Icon.Size.Size12}/> : null}
+      {this.props.rgTagIcon ? (
+        <Icon
+          className="ring-tag__icon"
+          glyph={this.props.rgTagIcon}
+          size={Icon.Size.Size12}
+        />
+      ) : null}
       <span>{this.props.children}</span>
-      <Icon onClick={this.props.onRemove}
-            className="ring-tag__remove ring-link"
-            glyph={CloseIcon}
-            size={Icon.Size.Size12}/>
+      <Icon
+        className="ring-tag__remove ring-link"
+        glyph={CloseIcon}
+        onClick={this.props.onRemove}
+        size={Icon.Size.Size12}
+      />
     </span>);
   }
 }

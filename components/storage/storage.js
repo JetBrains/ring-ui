@@ -13,7 +13,7 @@ try {
   var temp = 'testStorage';
   localStorage.setItem(temp, temp);
   localStorage.removeItem(temp);
-} catch(e) {
+} catch (e) {
   Storage = FallbackStorage;
 }
 

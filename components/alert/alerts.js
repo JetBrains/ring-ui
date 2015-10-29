@@ -3,12 +3,12 @@
  * @author igor.alexeenko@jetbrains.com (Igor Alexeenko)
  */
 
-import React, { createElement, Children } from 'react';
-import { render, findDOMNode, unmountComponentAtNode } from 'react-dom';
+import React, {createElement, Children} from 'react';
+import {render, findDOMNode, unmountComponentAtNode} from 'react-dom';
 import CSSTransitionGroup from 'react-addons-css-transition-group';
 
 import RingComponent from 'ring-component/ring-component';
-import { getStyles, isMounted } from 'dom/dom';
+import {getStyles, isMounted} from 'dom/dom';
 import Alert from './alert';
 
 import './alert.scss';
@@ -76,8 +76,12 @@ export default class Alerts extends RingComponent {
     }
 
     return (<div className="ring-alerts">
-      <CSSTransitionGroup transitionName="alert" transitionEnterTimeout={1000} transitionLeaveTimeout={1000}>
-        {this.state.childElements.reverse().map(function(child, i) {
+      <CSSTransitionGroup
+        transitionName="alert"
+        transitionEnterTimeout={1000}
+        transitionLeaveTimeout={1000}
+      >
+        {this.state.childElements.reverse().map(function (child, i) {
           return (
             <Alert
               animationResolver={child.animationResolver}
@@ -87,7 +91,8 @@ export default class Alerts extends RingComponent {
               key={child.key}
               onCloseClick={() => this.remove(child)}
               ref={'alert-' + i}
-              type={child.type} />
+              type={child.type}
+            />
           );
         }, this)}
       </CSSTransitionGroup>
@@ -148,11 +153,11 @@ export default class Alerts extends RingComponent {
    */
   _getChildElements() {
     let children = [];
-    Children.forEach(this.props.children, function(child) {
+    Children.forEach(this.props.children, function (child) {
       children.push(child);
     });
 
-    this.setState({ 'childElements': children });
+    this.setState({childElements: children});
   }
 
   /**
@@ -163,11 +168,11 @@ export default class Alerts extends RingComponent {
    * @return {Deferred}
    */
   add(caption, type, timeout) {
-    let animationPromise = new Promise((resolve) => {
+    let animationPromise = new Promise(resolve => {
       this.animationPromise = this.animationPromise.then(() => {
         this._addElement(caption, type, resolve, timeout);
         return animationPromise;
-      })
+      });
     });
 
     return animationPromise;
@@ -212,7 +217,7 @@ export default class Alerts extends RingComponent {
       return;
     }
 
-    if (this.props.onRemove){
+    if (this.props.onRemove) {
       this.props.onRemove(element);
     }
 

@@ -43,7 +43,7 @@ function MockedStorage() {
 
     setTimeout(function () {
       window.dispatchEvent(storageEvent);
-    }, 0)
+    }, 0);
   }
 
   Object.defineProperty(storage, 'getItem', mixIn({

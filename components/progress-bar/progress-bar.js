@@ -4,7 +4,7 @@
  * (like HTML5 progress tag).
  */
 
-import React, { PropTypes } from 'react';
+import React, {PropTypes} from 'react';
 import classNames from 'classnames';
 import RingComponent from 'ring-component/ring-component';
 import './progress-bar.scss';
@@ -83,14 +83,19 @@ export default class ProgressBar extends RingComponent {
     let classes = classNames('ring-progress-bar', this.props.className);
 
     return (
-      <div {...this.props} className={classes} ref="progressbarWrapper">
-        <div className="ring-progress-bar__i"
-            ref="progressbar"
-            role="progressbar"
-            aria-valuenow={this.props.value}
-            aria-valuemin={0}
-            aria-valuemax={this.props.max}
-            style={progress}
+      <div
+        {...this.props}
+        className={classes}
+        ref="progressbarWrapper"
+      >
+        <div
+          className="ring-progress-bar__i"
+          ref="progressbar"
+          role="progressbar"
+          aria-valuenow={this.props.value}
+          aria-valuemin={0}
+          aria-valuemax={this.props.max}
+          style={progress}
         />
       </div>
     );

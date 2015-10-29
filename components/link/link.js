@@ -27,6 +27,11 @@ import './link.scss';
 export default class Link extends RingComponent {
   render() {
     let classes = classNames('ring-link', this.props.className);
-    return <a {...this.props} className={classes}>{this.props.children}</a>;
+    return (
+      <a
+        {...this.props}
+        className={classes}
+      >{this.props.children}</a>
+    );
   }
 }

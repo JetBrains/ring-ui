@@ -59,19 +59,20 @@ module.exports = {
         include: buildPath,
         loader: 'babel-loader'
       },
-      { test: /-ng(\\|\/)\S*(-ng|-ng__)\S*\.html$/,
+      {
+        test: /-ng(\\|\/)\S*(-ng|-ng__)\S*\.html$/,
         include: componentsPath,
         loader: 'html-loader'
       },
       // Bundle all gifs
-      { test: /\.gif$/,
+      {test: /\.gif$/,
         loader: 'url-loader'
       }
     ]
   },
   plugins: [
     new webpack.ProvidePlugin({
-      'fetch': 'exports?self.fetch!whatwg-fetch'
+      fetch: 'exports?self.fetch!whatwg-fetch'
     })
   ],
   RingSVGOConfig: {

@@ -1,6 +1,6 @@
 /* global angular: false */
 import 'dom4';
-import { getStyles, getRect } from 'dom/dom';
+import {getStyles, getRect} from 'dom/dom';
 import shortcuts from 'shortcuts/shortcuts';
 
 import 'dialog/dialog.scss';
@@ -30,7 +30,7 @@ function rgDialog($timeout) {
       $scope.reset = () => {
         $scope.resetPosition();
         dialog.reset();
-      }
+      };
 
       $scope.action = button => {
         let dontClose = false;
@@ -98,25 +98,9 @@ function rgDialog($timeout) {
       let titlePos = {};
       let offsetContainer = {};
 
-      function onMousedown(e) {
-        titlePos = {
-          top: e.clientY,
-          left: e.clientX
-        };
-
-        offsetContainer = getRect(dialogContainer);
-
-        // Duct tape for all Ring 1.0 dropdown components inside
-        node.dispatchEvent(new CustomEvent('ring.popup-close'));
-
-        document.addEventListener('mousemove', onMousemove);
-        document.addEventListener('mouseup', onMouseup);
-        window.addEventListener('resize', setPosition);
-      }
-
       // Focus first input
       function focusFirst() {
-        let controls = node.queryAll('input,select,textarea,*[contentEditable=true]').filter(node => getStyles(node).display !== 'none');
+        let controls = node.queryAll('input,select,textarea,*[contentEditable=true]').filter(inputNode => getStyles(inputNode).display !== 'none');
         if (controls.length) {
           controls[0].focus();
         }
@@ -135,6 +119,22 @@ function rgDialog($timeout) {
         document.removeEventListener('mousemove', onMousemove);
         document.removeEventListener('mouseup', onMouseup);
         window.removeEventListener('resize', setPosition);
+      }
+
+      function onMousedown(e) {
+        titlePos = {
+          top: e.clientY,
+          left: e.clientX
+        };
+
+        offsetContainer = getRect(dialogContainer);
+
+        // Duct tape for all Ring 1.0 dropdown components inside
+        node.dispatchEvent(new CustomEvent('ring.popup-close'));
+
+        document.addEventListener('mousemove', onMousemove);
+        document.addEventListener('mouseup', onMouseup);
+        window.addEventListener('resize', setPosition);
       }
 
       function onFocusin(e) {
@@ -263,7 +263,7 @@ class Dialog {
           },
           enter: this.applyDefaultHandler(false),
           'mod+enter': this.applyDefaultHandler(true)
-        }, { scope: scope.DIALOG_NAMESPACE });
+        }, {scope: scope.DIALOG_NAMESPACE});
       } else {
         scope.reset();
       }
@@ -287,7 +287,7 @@ class Dialog {
 
       if (scope.dialogForm.$valid) {
         scope.buttons.every(button => {
-          if (button['default']) {
+          if (button.default) {
             scope.action(button);
             scope.$apply();
             return false;

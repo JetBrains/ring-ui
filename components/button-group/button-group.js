@@ -34,7 +34,10 @@ export default class ButtonGroup extends RingComponent {
   render() {
     let classes = classNames('ring-button-group', this.props.className);
     return (
-      <div {...this.props} className={classes}>
+      <div
+        {...this.props}
+        className={classes}
+      >
         {this.props.children}
       </div>
     );

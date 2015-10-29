@@ -34,7 +34,7 @@
     /// Best Practices
     "accessor-pairs": 2,
     "block-scoped-var": 2,
-    "complexity": [1, 5],
+    "complexity": [0, 5], // to be enabled
     "consistent-return": 2,
     "curly": [2, "all"],
     "default-case": 2,
@@ -71,7 +71,7 @@
     "no-octal-escape": 2,
     "no-octal": 2,
     "no-param-reassign": 0, // to be enabled
-    "no-process-env": 2,
+    "no-process-env": 0,
     "no-proto": 2,
     "no-redeclare": 2,
     "no-return-assign": 2,
@@ -104,8 +104,8 @@
     "no-unused-vars": 2,
     "no-use-before-define": 2,
     /// Node.js and CommonJS
-    "callback-return": 2,
-    "global-require": 2,
+    "callback-return": 0,
+    "global-require": 0,
     "handle-callback-err": 2,
     "no-mixed-requires": 2,
     "no-new-require": 2,
@@ -124,42 +124,42 @@
     "consistent-this": [2, "self"],
     "eol-last": 2,
     "func-names": 0, // to be enabled
-    "func-style": [2, "declaration"], // to be enabled
+    "func-style": 0, // to be enabled
     "id-length": 0,
     "id-match": 2,
     "indent": [2, 2, {"SwitchCase": 1}],
     "jsx-quotes": [2, "prefer-double"],
     "key-spacing": 2,
     "linebreak-style": 2,
-    "lines-around-comment": 2,
-    "max-nested-callbacks": [2, 3],
+    "lines-around-comment": 0,
+    "max-nested-callbacks": 0, // useless, only function with name call
     "new-cap": 2,
     "new-parens": 2,
-    "newline-after-var": 2,
+    "newline-after-var": 0,
     "no-array-constructor": 2,
-    "no-continue": 2,
+    "no-continue": 0,
     "no-inline-comments": 0,
     "no-lonely-if": 2,
     "no-mixed-spaces-and-tabs": 2,
     "no-multiple-empty-lines": 2,
-    "no-negated-condition": 2,
+    "no-negated-condition": 0,
     "no-nested-ternary": 2,
     "no-new-object": 2,
     "no-restricted-syntax": 2,
     "no-spaced-func": 2,
     "no-ternary": 0,
     "no-trailing-spaces": 2,
-    "no-underscore-dangle": 2,
+    "no-underscore-dangle": 0,
     "no-unneeded-ternary": 2,
     "object-curly-spacing": 2,
-    "one-var": 2,
-    "operator-assignment": 2,
+    "one-var": [2, "never"],
+    "operator-assignment": [2, "always"],
     "operator-linebreak": 2,
-    "padded-blocks": [2, "never"],
+    "padded-blocks": 0,
     "quote-props": [2, "as-needed"],
     "quotes": [2, "single"],
-    "require-jsdoc": 2,
-    "semi-spacing": [2, { "before": true, "after": false }],
+    "require-jsdoc": 0,
+    "semi-spacing": [2, { "before": false, "after": true }],
     "semi": [2, "always"],
     "sort-vars": 0,
     "space-after-keywords": [2, "always"],
@@ -170,7 +170,7 @@
     "space-infix-ops": 2,
     "space-return-throw-case": 2,
     "space-unary-ops": [2, { "words": true, "nonwords": false }],
-    "spaced-comment": 2,
+    "spaced-comment": 0,
     "wrap-regex": 0,
     /// ECMAScript 6
     "arrow-parens": [2, "as-needed"],
@@ -183,41 +183,12 @@
     "no-this-before-super": 2,
     "no-var": 0, // to be enabled
     "object-shorthand": 0, // to be enabled
-    "prefer-arrow-callback": 2,
-    "prefer-const": 2,
-    "prefer-reflect": 2,
+    "prefer-arrow-callback": 0, // to be enabled
+    "prefer-const":  0, // to be enabled
+    "prefer-reflect":  0, // to be enabled
     "prefer-spread": 2,
-    "prefer-template": 2,
+    "prefer-template": 0, // to be enabled
     "require-yield": 2,
-    /// Legacy
-    "max-depth": 0,
-    "max-len": 0,
-    "max-params": 0,
-    "max-statements": 0,
-    "no-bitwise": 2,
-    "no-plusplus": 0,
-
-
-//    // Stylistic rules
-//    "quotes": [2, "single"],
-//    "strict": [2, "never"],
-//    "indent": [2, 2, {"SwitchCase": 1}],
-//    "brace-style": [2, "1tbs"],
-//    "comma-style": [2, "last"],
-//    "camelcase": 0, // using google-camelcase instead
-//    "space-in-parens": [2, "never"],
-//    "space-after-keywords": [2, "always"],
-//    "space-before-function-parentheses": [0, {"anonymous": "always", "named": "never"}], // to be enabled
-//    // Enforce off-by-defaults
-//    "consistent-this": [2, "self"],
-//    "no-bitwise": 2,
-//    "no-lonely-if": 2,
-//    "no-nested-ternary": 2,
-//    "no-void": 2,
-//    "radix": 2,
-//    "no-throw-literal": 2,
-//    "wrap-iife": 2,
-    // Plugins
 //    "angular/ng_angularelement": 0,
 //    "angular/ng_controller_name": 0,
 //    "angular/ng_definedundefined": 0,
@@ -261,18 +232,34 @@
 //    "mocha/no-exclusive-tests": 2,
 //    "filenames/filenames": [2, "^[a-z-_.]+$"],
 //    "google-camelcase/google-camelcase": 2,
-//    "react/display-name": 0,
-//    "react/jsx-quotes": [0, "double"],
-//    "react/jsx-no-undef": 2,
-//    "react/jsx-uses-react": 2,
-//    "react/jsx-uses-vars": 2,
-//    "react/no-did-mount-set-state": 2,
-//    "react/no-did-update-set-state": 2,
-//    "react/no-multi-comp": 0,
-//    "react/prop-types": 0,
-//    "react/react-in-jsx-scope": 2,
-//    "react/self-closing-comp": 2,
-//    "react/wrap-multilines": 2
+    "react/display-name": [2, { "acceptTranspilerName": true }],
+    "react/forbid-prop-types": 0,
+    "react/jsx-boolean-value": [2, "always"],
+    "react/jsx-closing-bracket-location": [2, "tag-aligned"],
+    "react/jsx-curly-spacing": [2, "never"],
+    "react/jsx-indent-props": [2, 2],
+    "react/jsx-max-props-per-line": [2, 1],
+    "react/jsx-no-duplicate-props": 2,
+    "react/jsx-no-literals": 2,
+    "react/jsx-no-undef": 2,
+    "react/jsx-sort-prop-types": 0,
+    "react/jsx-sort-props": 0,
+    "react/jsx-uses-react": 2,
+    "react/jsx-uses-vars": 2,
+    "react/no-danger": 0,
+    "react/no-did-mount-set-state": 2,
+    "react/no-did-update-set-state": 2,
+    "react/no-direct-mutation-state": 2,
+    "react/no-multi-comp": 0, // to be enabled
+    "react/no-set-state": 0,
+    "react/no-unknown-property": 2,
+    "react/prefer-es6-class": 2,
+    "react/prop-types": 0, // to be enabled
+    "react/react-in-jsx-scope": 2,
+    "react/require-extension": 0,
+    "react/self-closing-comp": 2,
+    "react/sort-comp": 0,
+    "react/wrap-multilines": 2
   },
   "env": {
     "browser": true,
@@ -290,6 +277,6 @@
 //    "filenames",
 //    "google-camelcase",
 //    "mocha",
-//    "react"
+    "react"
   ]
 }

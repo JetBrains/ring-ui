@@ -3,8 +3,8 @@ import $ from 'jquery';
 
 import QueryAssist from './query-assist';
 
-import { findDOMNode } from 'react-dom';
-import { Simulate } from 'react-addons-test-utils';
+import {findDOMNode} from 'react-dom';
+import {Simulate} from 'react-addons-test-utils';
 import renderIntoDocument from 'render-into-document';
 import simulateKeypress from 'simulate-keypress';
 import Sniffr from 'sniffr';
@@ -73,7 +73,7 @@ describe('QueryAssist', function () {
         focus: true,
         dataSource: this.sinon.stub().returns({})
       }, params)));
-    }
+    };
   });
 
   describe('props to state passing', function () {

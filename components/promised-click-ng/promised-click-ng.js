@@ -83,7 +83,7 @@ function rgPromisedClick($parse) {
       if (iAttrs.rgPromisedClick) {
         let onClick = $parse(iAttrs.rgPromisedClick);
         iElement[0].addEventListener('click', controller.onPromisedClick.bind(controller, $event => {
-          return onClick(scope, { '$event': $event });
+          return onClick(scope, {$event: $event});
         }));
       }
     }

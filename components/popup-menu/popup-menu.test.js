@@ -5,7 +5,7 @@ describe('PopupMenu', function () {
   var PopupMenu = require('./popup-menu');
   var popup;
 
-  beforeEach(function() {
+  beforeEach(function () {
     popup = TestUtils.renderIntoDocument(React.createElement(PopupMenu));
   });
 
@@ -21,7 +21,7 @@ describe('PopupMenu', function () {
   });
 
   it('should pass params to List', function () {
-    popup.rerender({'data': [
+    popup.rerender({data: [
       {}
     ]});
 

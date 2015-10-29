@@ -53,17 +53,17 @@ var analyticsModule = angular.module('Ring.analytics', []);
  * @name analyticsProvider
  * @description configures analytics with plugins
  */
-analyticsModule.provider('analytics', function() {
+analyticsModule.provider('analytics', function () {
   var configPlugins = [];
   /**
    * @param plugins
    */
-  this.plugins = function(plugins) {
+  this.plugins = function (plugins) {
     configPlugins = plugins;
   };
 
   /*@ngInject*/
-  this.$get = function($log, $injector) {
+  this.$get = function ($log, $injector) {
     var loadedPlugins = [];
     for (var i = 0; i < configPlugins.length; ++i) {
       if (typeof configPlugins[i] === 'string') {
@@ -90,8 +90,8 @@ analyticsModule.constant('AnalyticsCustomPlugin', require('analytics/analytics__
 /**
  * Enable page tracking
  */
-analyticsModule.run(function($rootScope, analytics) {
-  $rootScope.$on('$routeChangeSuccess', function(evt, current) {
+analyticsModule.run(function ($rootScope, analytics) {
+  $rootScope.$on('$routeChangeSuccess', function (evt, current) {
     if (current && current.$$route && current.$$route.originalPath) {
       analytics.trackPageView(current.$$route.originalPath);
     }
@@ -109,14 +109,14 @@ analyticsModule.run(function($rootScope, analytics) {
  */
 analyticsModule.directive('rgAnalytics', [
   'analytics',
-  function(analytics) {
+  function (analytics) {
     return {
       restrict: 'A',
       replace: false,
 
-      link: function($scope, elem) {
+      link: function ($scope, elem) {
         var eventType = elem.attr('rg-analytics-on') || 'click';
-        angular.element(elem).bind(eventType, function() {
+        angular.element(elem).bind(eventType, function () {
           analytics.track(elem.attr('rg-analytics'));
         });
       }
