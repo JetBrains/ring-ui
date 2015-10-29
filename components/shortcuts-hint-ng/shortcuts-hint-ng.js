@@ -1,5 +1,4 @@
 import Sniffr from 'sniffr';
-import angular from 'angular/angular';
 
 import DialogNg from 'dialog-ng/dialog-ng';
 import './shortcuts-hint-ng.scss';
@@ -12,6 +11,7 @@ reactNg({Icon});
 
 const HintPopupTplFileName = 'shortcuts-hint/shortcuts-hint.html';
 
+/* global angular:false */
 let HintPopupModule = angular.module('Ring.shortcuts.hint-popup', [DialogNg, ShortcutsNg, 'Ring.react-ng']);
 HintPopupModule.run($templateCache => {
   $templateCache.put(HintPopupTplFileName, HintPopupTpl);
@@ -153,7 +153,7 @@ function shortcutKeySymbolFilter(shortcut) {
 
   return shortcut.
     split(/\+/g).
-    map(symbol => symbolsMap[symbol]).
+    map(symbol => symbolsMap[symbol] || symbol).
     join(KEY_SEPARATOR);
 }
 
