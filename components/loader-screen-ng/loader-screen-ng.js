@@ -2,6 +2,10 @@
 
 require('loader-screen/loader-screen.scss');
 require('loader/loader.scss');
+require('react-ng/react-ng')({
+  Loader: require('loader/loader')
+});
+
 
 /**
  * Loader service

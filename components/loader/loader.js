@@ -36,6 +36,8 @@ import './loader.scss';
  </example>
  */
 
+const INITIAL_TICKS = 100;
+
 class Particle {
   constructor({x, y, radius, color}) {
     this.radius = radius;
@@ -113,11 +115,18 @@ export default class Loader extends RingComponent {
     this.y = 0;
     this.radius = 8;
     this.hSpeed = 1.5;
-    this.vSpeed = 1;
+    this.vSpeed = 0.5;
     this.radiusSpeed = 0.05;
     this.tick = 0;
 
+    this.prepareInitialState(INITIAL_TICKS);
     this.loop();
+  }
+
+  prepareInitialState(ticks) {
+    for (var i=0; i < ticks; i++) {
+      this.step();
+    }
   }
 
   handleLimits(coord, radius, speed, limit) {
@@ -153,19 +162,20 @@ export default class Loader extends RingComponent {
     let currentColor = colors[this.colorIndex];
     let nextColor = colors[this.colorIndex + 1] || colors[0];
 
-    return Loader.calculateGradient(currentColor, nextColor, this.tick/40);
+    return Loader.calculateGradient(currentColor, nextColor, this.tick/this.colorChangeTick);
   }
 
   step() {
     this.tick++;
 
-    if (this.tick > 40) {
+    if (this.tick > this.colorChangeTick) {
       this.tick = 0;
       this.colorIndex = this.props.colors.length >= this.colorIndex+2 ? this.colorIndex + 1 : 0;
     }
 
     this.calculateNextCoordinates();
     this.calculateNextRadius();
+    this.particles.forEach((particle) => particle.step());
 
     this.particles.push(new Particle({
       x: this.x,
@@ -179,15 +189,10 @@ export default class Loader extends RingComponent {
     this.particles = this.particles.filter(it => it.isAlive());
   }
 
-  drawParticle(particle) {
-    particle.step();
-    particle.draw(this.ctx);
-  }
-
   draw() {
     this.ctx.clearRect(0, 0, this.width, this.height);
     this.removeDeadParticles();
-    this.particles.forEach((particle) => this.drawParticle(particle));
+    this.particles.forEach((particle) => particle.draw(this.ctx));
   }
 
   loop() {
