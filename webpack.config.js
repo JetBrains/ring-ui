@@ -10,21 +10,22 @@ var buildPath = [
   path.join(__dirname, 'site')
 ];
 
+function resolveLoader(loader) {
+  return require.resolve(loader + '-loader');
+}
+
 // Minimal config for building components
 module.exports = {
   resolve: {
     fallback: [componentsPath]
-  },
-  resolveLoader: {
-    fallback: [nodeModulesPath]
   },
   module: {
     loaders: [
       {
         test: /\.svg$/,
         loaders: [
-          'svg-sprite?angularBaseWorkaround',
-          'svgo?useConfig=RingSVGOConfig'
+          resolveLoader('svg-sprite') + '?angularBaseWorkaround',
+          resolveLoader('svgo') + '?useConfig=RingSVGOConfig'
         ],
         include: [require('jetbrains-logos'), require('jetbrains-icons')]
       },
@@ -32,11 +33,11 @@ module.exports = {
         test: /\.scss$/,
         include: buildPath,
         loaders: [
-          'style',
-          'css',
+          resolveLoader('style'),
+          resolveLoader('css'),
           // TODO Update autoprefixer config and move to postcss-loader
-          'autoprefixer?browsers=last 2 versions, safari 5, ie 8, ie 9, opera 12.1, ios 6, android 4',
-          'sass?outputStyle=expanded&includePaths[]=' + componentsPath
+          resolveLoader('autoprefixer') + '?browsers=last 2 versions, safari 5, ie 8, ie 9, opera 12.1, ios 6, android 4',
+          resolveLoader('sass') + '?outputStyle=expanded&includePaths[]=' + componentsPath
         ]
       },
       // import plain styles from modules for docsite
@@ -44,29 +45,30 @@ module.exports = {
         test: /\.css$/,
         include: nodeModulesPath,
         loaders: [
-          'style',
-          'css'
+          resolveLoader('style'),
+          resolveLoader('css')
         ]
       },
       // ng-annotate loader for angular components
       {
         test: /-ng(\\|\/)\S*(-ng|-ng__)\S*\.js$/,
         include: componentsPath,
-        loader: 'ng-annotate'
+        loader: resolveLoader('ng-annotate')
       },
       {
         test: /\.js$/,
         include: buildPath,
-        loader: 'babel-loader'
+        loader: resolveLoader('babel')
       },
       {
         test: /-ng(\\|\/)\S*(-ng|-ng__)\S*\.html$/,
         include: componentsPath,
-        loader: 'html-loader'
+        loader: resolveLoader('html')
       },
-      // Bundle all gifs
-      {test: /\.gif$/,
-        loader: 'url-loader'
+      {
+        test: /\.gif$/,
+        include: componentsPath,
+        loader: resolveLoader('url')
       }
     ]
   },
@@ -75,6 +77,7 @@ module.exports = {
       fetch: 'exports?self.fetch!whatwg-fetch'
     })
   ],
+  // We have to share this config because SVG breaks with different configs in one process
   RingSVGOConfig: {
     full: true, // We have to set full list plugins to make configuration work
     // Deafult list of plugins
