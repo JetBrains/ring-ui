@@ -40,8 +40,8 @@ angular.module('Ring.form', ['Ring.message-bundle']).
         }, function(active) {
           scope.active = active;
 
-          if (active && element && element.length) {
-            scope.style.left = element.outerWidth() + 2;
+          if (active && element) {
+            scope.style.left = element.offsetWidth + 2;
           }
         });
 
