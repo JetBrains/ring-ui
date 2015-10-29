@@ -1,14 +1,14 @@
 import List from 'list/list';
 import HubSourceUsersGroups from 'hub-source/hub-source__users-groups';
 
-let defaultOptions =  {
+let defaultOptions = {
   GroupsTitle: 'Groups',
   NoGroupsTitle: 'No groups',
 
   UsersTitle: 'Users',
   NoUsersTitle: 'No users',
 
-  getPluralForUserCount: count => ''
+  getPluralForUserCount: () => ''
 };
 
 export default class ListUsersGroupsSource extends HubSourceUsersGroups {
@@ -49,7 +49,7 @@ export default class ListUsersGroupsSource extends HubSourceUsersGroups {
           description: this.getUsersSectionTitle(users)
         };
 
-        let usersForList = users.map((user) => {
+        let usersForList = users.map(user => {
           return Object.assign(user, {
             key: user.id,
             label: user.name,

@@ -4,7 +4,7 @@ export const TOP_ALL = -1;
 const defaultOptions = {
   searchMax: 20,
   searchSideThreshold: 100,
-  queryFormatter: (query) => `${query} or ${query}*`
+  queryFormatter: query => `${query} or ${query}*`
 };
 
 /**
@@ -50,7 +50,7 @@ export default class HubSource {
   }
 
   getDefaultFilterFn(query) {
-    return (it) => it.name.toLowerCase().indexOf(query.toLowerCase()) !== -1;
+    return it => it.name.toLowerCase().indexOf(query.toLowerCase()) !== -1;
   }
 
   formatQuery(query) {

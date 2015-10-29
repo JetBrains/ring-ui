@@ -47,21 +47,21 @@ describe('DropdownNg', function () {
     expect(directiveScope.getPopupMenuInstance().props.data[0].label).to.equal(scope.items[0].name);
   });
 
-  it('should show popup', function() {
+  it('should show popup', function () {
     element.click();
     scope.$digest();
 
     expect(directiveScope.getPopupMenuInstance().isVisible()).to.equal(true);
   });
 
-  it('should add dropdown-ng_open class to mark target as opened', function() {
+  it('should add dropdown-ng_open class to mark target as opened', function () {
     element.click();
     scope.$digest();
 
     expect(element).to.has.class('dropdown-ng_open');
   });
 
-  it('should add dropdown-ng_open class to mark target as opened', function() {
+  it('should add dropdown-ng_open class to mark target as opened', function () {
     element.click();
     scope.$digest();
 
@@ -70,7 +70,7 @@ describe('DropdownNg', function () {
     expect(element).to.not.has.class('dropdown-ng_open');
   });
 
-  it('should defer popup render until items is loaded', inject(function($q) {
+  it('should defer popup render until items is loaded', inject(function ($q) {
     scope.items = $q.defer();
     scope.$digest();
     expect(directiveScope.getPopupMenuInstance()).not.to.be.defined;
@@ -81,13 +81,13 @@ describe('DropdownNg', function () {
     expect(directiveScope.getPopupMenuInstance()).to.be.defined;
   }));
 
-  it('should not throw error if items is not defined but we show popup', function() {
+  it('should not throw error if items is not defined but we show popup', function () {
     scope.items = null;
     element = $compile('<i class="ring-btn" rg-dropdown items="items"></i>')(scope);
     scope.$digest();
     directiveScope = element.isolateScope();
 
-    expect(function() {
+    expect(function () {
       element.click();
       scope.$digest();
     }).to.not.throw(Error);

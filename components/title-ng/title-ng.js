@@ -4,9 +4,9 @@ angular.module('Ring.title', []).
   directive('rgPageTitle', function () {
     return {
       scope: {
-        'rgPageTitle': '@',
-        'noTitle': '@',
-        'delimiter': '@'
+        rgPageTitle: '@',
+        noTitle: '@',
+        delimiter: '@'
       },
       controller: function ($rootScope, $scope, $element, pageTitle, $injector) {
         let element = $element[0];

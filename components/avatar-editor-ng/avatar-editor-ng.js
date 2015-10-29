@@ -7,7 +7,7 @@ import Icon from 'icon/icon';
 import 'avatar-editor/avatar-editor.scss';
 import 'button/button.scss';
 
-reactNg({ Icon: Icon });
+reactNg({Icon: Icon});
 
 let module = angular.module('Ring.avatar-editor', [messageBundleNg, alertNg, 'Ring.react-ng']);
 
@@ -47,7 +47,7 @@ function rgAvatarEditor() {
     scope: {
       model: '=ngModel',
       onSelect: '&',
-      'default': '@',
+      default: '@',
       ngDisabled: '='
     },
     template: require('./avatar-editor-ng.html'),

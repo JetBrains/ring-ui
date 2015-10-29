@@ -3,7 +3,7 @@ require('angular-mocks/angular-mocks');
 require('angular-route/angular-route');
 require('./error-page-ng');
 
-describe('ErrorPageNg', function() {
+describe('ErrorPageNg', function () {
   beforeEach(
     window.module('Ring.error-page',
     function ($provide) {
@@ -12,15 +12,15 @@ describe('ErrorPageNg', function() {
   );
 
   /* global inject */
-  it('should define module', inject(function() {
+  it('should define module', inject(function () {
     expect(window.angular.module('Ring.error-page')).should.exist;
   }));
 
-  it('should define factory errorPageConfiguration', inject(function(errorPageConfiguration) {
+  it('should define factory errorPageConfiguration', inject(function (errorPageConfiguration) {
     expect(errorPageConfiguration).should.exist;
   }));
 
-  it('should compile directive to content if no errors', inject(function($rootScope, $compile) {
+  it('should compile directive to content if no errors', inject(function ($rootScope, $compile) {
     var elem = window.angular.element('<div rg-error-page><div class="content">Hello!</div></div>');
     elem = $compile(elem)($rootScope);
     $rootScope.$digest();

@@ -9,21 +9,21 @@ var TestUtils = require('react-addons-test-utils');
 
 function noop() {}
 
-describe('Alerts', function() {
+describe('Alerts', function () {
   /** @type {Alerts} */
   var component;
 
-  beforeEach(function() {
+  beforeEach(function () {
     component = TestUtils.renderIntoDocument(React.createElement(Alerts, null));
   });
 
-  it('should render alerts component', function() {
+  it('should render alerts component', function () {
     component.should.be.defined;
     component.node.should.be.an.instanceof(HTMLElement);
   });
 
-  describe('adding alerts', function() {
-    it('should add alert', function() {
+  describe('adding alerts', function () {
+    it('should add alert', function () {
       component._addElement('Child element.', Alerts.Type.MESSAGE, noop);
 
       return component.animationPromise.then(function () {
@@ -31,7 +31,7 @@ describe('Alerts', function() {
       });
     });
 
-    it('should add alert with React component child', function() {
+    it('should add alert with React component child', function () {
       component._addElement(React.DOM.a(null, React.DOM.b(null, 'Composite element')), Alerts.Type.MESSAGE, noop);
 
       return component.animationPromise.then(function () {
@@ -40,12 +40,12 @@ describe('Alerts', function() {
     });
 
 
-    it('should return deferred object', function() {
+    it('should return deferred object', function () {
       var added = component.add('Child element');
       added.should.be.instanceof(Promise);
     });
 
-    it('should render alerts in a reversed order. Last added alerts goes first.', function() {
+    it('should render alerts in a reversed order. Last added alerts goes first.', function () {
       var LAST_TEXT = 'Last component';
 
       component._addElement('First', Alerts.Type.MESSAGE, noop);
@@ -58,15 +58,15 @@ describe('Alerts', function() {
     });
   });
 
-  describe('removing alerts', function() {
-    it('should remove alert', function() {
+  describe('removing alerts', function () {
+    it('should remove alert', function () {
       component._addElement('Child element.', Alerts.Type.MESSAGE, noop);
       component.remove(component.state.childElements[0]);
 
       component.state.childElements.should.have.length(0);
     });
 
-    it('should remove alert by clicking on close button', function() {
+    it('should remove alert by clicking on close button', function () {
       component._addElement('Child element.', Alerts.Type.MESSAGE, noop);
       var clickElement = component.node.querySelector('.ring-alert__close');
       TestUtils.Simulate.click(clickElement, {});
@@ -74,13 +74,13 @@ describe('Alerts', function() {
       component.state.childElements.should.have.length(0);
     });
 
-    it('should not remove alert by calling close() method of alert component', function() {
+    it('should not remove alert by calling close() method of alert component', function () {
       component._addElement('Child element.', Alerts.Type.MESSAGE, noop);
       var addedComponent = component.refs['alert-0'];
       expect(addedComponent.close).to.throw(Error);
     });
 
-    it('should remove alert after timeout', function(done) {
+    it('should remove alert after timeout', function (done) {
       this.sinon.useFakeTimers();
 
       var TIMEOUT = 100;
@@ -89,7 +89,7 @@ describe('Alerts', function() {
       // Before timeout component exists.
       component.state.childElements.should.not.be.undefined;
 
-      setTimeout(function() {
+      setTimeout(function () {
         // After timeout component is deleted.
         expect(component.state.childElements[0]).to.be.undefined;
         done();

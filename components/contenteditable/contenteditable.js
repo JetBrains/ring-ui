@@ -3,7 +3,7 @@
  */
 
 import React from 'react';
-import { renderToStaticMarkup } from 'react-dom/server';
+import {renderToStaticMarkup} from 'react-dom/server';
 import RingComponent from 'ring-component/ring-component';
 
 /**
@@ -38,7 +38,7 @@ export default class ContentEditable extends RingComponent {
 
   static defaultProps = {
     disabled: false,
-    onComponentUpdate: function() {}
+    onComponentUpdate: function () {}
   };
 
   state = {};
@@ -69,9 +69,11 @@ export default class ContentEditable extends RingComponent {
     const {children, ...props} = this.props;
 
     return (
-      <div {...props}
+      <div
+        {...props}
         contentEditable={!this.props.disabled}
-        dangerouslySetInnerHTML={this.state}></div>
+        dangerouslySetInnerHTML={this.state}
+      />
     );
   }
 }

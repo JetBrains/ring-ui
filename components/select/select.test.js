@@ -495,6 +495,6 @@ describe('Select', function () {
       }));
 
       Popup.renderPopup.should.have.been.calledWith(sinon.match(Object), target);
-    })
+    });
   });
 });

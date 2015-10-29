@@ -2,7 +2,7 @@
 var merge = require('mout/object/merge');
 var generateConfig = require('./karma.conf.js');
 
-module.exports = function(karma) {
+module.exports = function (karma) {
   var config = merge(generateConfig(karma), {
     singleRun: false,
     //browsers: ['HeadlessNodeWebkit'],

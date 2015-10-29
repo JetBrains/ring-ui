@@ -9,13 +9,13 @@ describe('TabsNg', function () {
   var $rootScope;
   var $compile;
 
-  var getActiveTab = function(element) {
+  var getActiveTab = function (element) {
     var el = $(element);
     var active = el.find('.active');
     var container = el.find('div.ring-tabs__container');
     return {
-      'title': active,
-      'content': container
+      title: active,
+      content: container
     };
   };
 

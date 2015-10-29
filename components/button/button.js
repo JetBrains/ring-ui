@@ -1,4 +1,4 @@
-import React, { PropTypes } from 'react';
+import React, {PropTypes} from 'react';
 import classNames from 'classnames';
 import RingComponent from 'ring-component/ring-component';
 import './button.scss';
@@ -67,13 +67,13 @@ export default class Button extends RingComponent {
        * Custom classes
        */
       className: PropTypes.string
-    }
+    };
   }
 
   static get defaultProps() {
     return {
       modifier: Modifiers.DEFAULT
-    }
+    };
   }
 
   render() {
@@ -84,7 +84,10 @@ export default class Button extends RingComponent {
     );
 
     return (
-      <button {...this.props} className={classes}>
+      <button
+        {...this.props}
+        className={classes}
+      >
         {this.props.children}
       </button>
     );

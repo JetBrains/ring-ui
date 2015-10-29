@@ -26,7 +26,7 @@ module.exports = function (wallaby) {
       return loader;
     })
     // removing babel-loader, we will use babel preprocessor instead, it's more performant
-    .filter(function(loader){
+    .filter(function (loader) {
       return loader.loader !== 'babel-loader';
     });
 

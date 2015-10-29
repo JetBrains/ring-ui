@@ -3,7 +3,7 @@
  */
 
 import React from 'react';
-import { findDOMNode } from 'react-dom';
+import {findDOMNode} from 'react-dom';
 import RingComponentWithShortcuts from 'ring-component/ring-component_with-shortcuts';
 import Popup from 'popup/popup';
 import List from 'list/list';
@@ -22,9 +22,9 @@ export default class SelectPopup extends RingComponentWithShortcuts {
     container: null,
     maxHeight: 250,
     minWidth: 'target',
-    onSelect: function() {},
-    onClose: function() {},
-    onFilter: function() {}
+    onSelect: function () {},
+    onClose: function () {},
+    onFilter: function () {}
   };
 
   state = {
@@ -77,13 +77,13 @@ export default class SelectPopup extends RingComponentWithShortcuts {
   getShortcutsProps() {
     return {
       map: {
-        'right': noop,
-        'left': noop,
-        'up': noop,
-        'down': noop,
+        right: noop,
+        left: noop,
+        up: noop,
+        down: noop,
         'shift+up': noop,
         'shift+down': noop,
-        'space': noop
+        space: noop
       },
       scope: ::this.constructor.getUID()
     };
@@ -137,21 +137,24 @@ export default class SelectPopup extends RingComponentWithShortcuts {
   }
 
   render() {
-    return (<Popup
-      ref="popup"
-      hidden={true}
-      cutEdge={false}
-      dontCloseOnAnchorClick={true}
-      anchorElement={this.props.anchorElement}
-      container={this.props.container}
-      autoRemove={false}
-      minWidth={this.props.minWidth}
-      shortcuts={this.state.popupShortcuts}
-      onClose={this.props.onClose}>
-      {this.getFilter()}
-      {this.getList()}
-      {this.getMessage()}
-      {this.props.toolbar}
-    </Popup>);
+    return (
+      <Popup
+        ref="popup"
+        hidden={true}
+        cutEdge={false}
+        dontCloseOnAnchorClick={true}
+        anchorElement={this.props.anchorElement}
+        container={this.props.container}
+        autoRemove={false}
+        minWidth={this.props.minWidth}
+        shortcuts={this.state.popupShortcuts}
+        onClose={this.props.onClose}
+      >
+        {this.getFilter()}
+        {this.getList()}
+        {this.getMessage()}
+        {this.props.toolbar}
+      </Popup>
+    );
   }
 }
