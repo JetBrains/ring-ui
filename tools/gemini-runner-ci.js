@@ -1,4 +1,6 @@
 /* eslint-env node */
+/* eslint-disable no-console*/
+
 var exec = require('child_process').exec;
 var finalhandler = require('finalhandler');
 var http = require('http');
@@ -24,7 +26,7 @@ function runGeminiTestsOnServer(server) {
 }
 
 function runServer() {
-  var serve = serveStatic('docs', {'index': ['index.html']});
+  var serve = serveStatic('docs', {index: ['index.html']});
 
   console.log('Starting static server on 9999 port');
 

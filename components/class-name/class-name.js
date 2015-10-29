@@ -8,7 +8,7 @@
  * @param {string} baseName
  * @constructor
  */
-var ClassName = function(baseName) {
+var ClassName = function (baseName) {
   this.setBaseName(baseName);
 };
 
@@ -17,7 +17,7 @@ var ClassName = function(baseName) {
  * @param {string=} modifier
  * @return {string}
  */
-ClassName.prototype.getClassName = function(element, modifier) {
+ClassName.prototype.getClassName = function (element, modifier) {
   var className = this.baseName;
 
   if (element) {
@@ -34,7 +34,7 @@ ClassName.prototype.getClassName = function(element, modifier) {
  * @param {string} element
  * @return {string}
  */
-ClassName.prototype.getElement = function(element) {
+ClassName.prototype.getElement = function (element) {
   return this.getClassName(element);
 };
 
@@ -42,14 +42,14 @@ ClassName.prototype.getElement = function(element) {
  * @param {string} modifier
  * @return {string}
  */
-ClassName.prototype.getModifier = function(modifier) {
+ClassName.prototype.getModifier = function (modifier) {
   return this.getClassName(undefined, modifier);
 };
 
 /**
  * @param {string} baseName
  */
-ClassName.prototype.setBaseName = function(baseName) {
+ClassName.prototype.setBaseName = function (baseName) {
   this.baseName = baseName;
 };
 

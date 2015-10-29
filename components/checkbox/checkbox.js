@@ -1,4 +1,4 @@
-import React, { PropTypes } from 'react';
+import React, {PropTypes} from 'react';
 import classNames from 'classnames';
 import RingComponent from 'ring-component/ring-component';
 import Icon from 'icon/icon';
@@ -124,7 +124,7 @@ export default class Checkbox extends RingComponent {
 
     this.setState({
       checked: newValue
-    }, function() {
+    }, () => {
       if (this.props.onChange) {
         this.props.onChange(newValue);
       }
@@ -138,20 +138,21 @@ export default class Checkbox extends RingComponent {
       display: this.state.checked ? 'block' : 'none'
     };
 
-    let disabledState = this.state.disabled ? 'disabled' : '';
-
     let classes = classNames(
       'ring-checkbox__input',
       this.props.className
     );
 
     return (
-      <label className="ring-checkbox" htmlFor={id}>
+      <label
+        className="ring-checkbox"
+        htmlFor={id}
+      >
         <span className="ring-checkbox__input-wrapper">
           <input
             {...this.props}
             ref="input"
-            disabledState
+            disabled={this.state.disabled}
             onChange={::this.inputChange}
             type="checkbox"
             className={classes}
@@ -159,7 +160,13 @@ export default class Checkbox extends RingComponent {
             checked={this.state.checked}
           />
           <span className="ring-checkbox__icon">
-            <Icon glyph={require('jetbrains-icons/check.svg')} color="black" size={Icon.Size.Size16} className="ring-checkbox__icon__image" style={checkStyle} />
+            <Icon
+              className="ring-checkbox__icon__image"
+              color="black"
+              glyph={require('jetbrains-icons/check.svg')}
+              size={Icon.Size.Size16}
+              style={checkStyle}
+            />
           </span>
         </span>
         <span className="ring-checkbox__label">{this.props.label}</span>

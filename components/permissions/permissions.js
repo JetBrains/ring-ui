@@ -44,7 +44,7 @@ var Permissions = function (auth, config) {
  * @param {string} prefix
  * @returns {Function}
  */
-Permissions.getDefaultNamesConverter = function(prefix) {
+Permissions.getDefaultNamesConverter = function (prefix) {
   return function (storedName) {
     return storedName.indexOf(prefix) !== 0 ? storedName : storedName.substr(prefix.length);
   };

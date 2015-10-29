@@ -1,17 +1,19 @@
 import Sniffr from 'sniffr';
+
 import DialogNg from 'dialog-ng/dialog-ng';
 import './shortcuts-hint-ng.scss';
 import 'input/input.scss';
 import ShortcutsNg from '../shortcuts-ng/shortcuts-ng';
 import HintPopupTpl from './shortcuts-hint-ng.html';
 import Icon from 'icon/icon';
-import ReactNg from 'react-ng/react-ng';
-ReactNg({Icon});
+import reactNg from 'react-ng/react-ng';
+reactNg({Icon});
 
 const HintPopupTplFileName = 'shortcuts-hint/shortcuts-hint.html';
 
+/* global angular:false */
 let HintPopupModule = angular.module('Ring.shortcuts.hint-popup', [DialogNg, ShortcutsNg, 'Ring.react-ng']);
-HintPopupModule.run(($templateCache) => {
+HintPopupModule.run($templateCache => {
   $templateCache.put(HintPopupTplFileName, HintPopupTpl);
 });
 
@@ -87,14 +89,14 @@ HintPopupModule.run(($templateCache) => {
 */
 
 class HintPopupService {
-  constructor(dialog, shortcuts, shortcutSearchFilter) {
+  constructor(dialog, shortcuts) {
     this.dialog = dialog;
     this.shortcuts = shortcuts;
   }
 
   show(title) {
     let modes = this.shortcuts.getRegisteredShortcuts();
-    let isArray = (it) => angular.isArray(it);
+    let isArray = it => Array.isArray(it);
 
     this.dialog.show({
       data: {modes, isArray},
@@ -149,12 +151,10 @@ function shortcutKeySymbolFilter(shortcut) {
 
   const symbolsMap = MAC_OS ? macSymbolsMap : winSymbolsMap;
 
-  shortcut = shortcut.replace(/\+/ig, KEY_SEPARATOR);
-
-  for (var symbol in symbolsMap) {
-    shortcut = shortcut.replace(symbol, symbolsMap[symbol]);
-  }
-  return shortcut;
+  return shortcut.
+    split(/\+/g).
+    map(symbol => symbolsMap[symbol] || symbol).
+    join(KEY_SEPARATOR);
 }
 
 function shortcutSearchFilter(shortcuts, query = '') {

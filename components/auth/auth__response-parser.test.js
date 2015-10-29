@@ -1,4 +1,4 @@
-/* eslint-disable google-camelcase/google-camelcase */
+/* eslint-disable camelcase */
 describe('Auth', function () {
   describe('AuthResponseParser', function () {
     describe('parseQueryString', function () {

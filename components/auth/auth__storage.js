@@ -44,7 +44,7 @@ var AuthStorage = function (config) {
  * @param {function(string)} fn Token change listener
  * @return {function()} remove listener function
  */
-AuthStorage.prototype.onTokenChange = function(fn) {
+AuthStorage.prototype.onTokenChange = function (fn) {
   return this._tokenStorage.on(this.tokenKey, fn);
 };
 
@@ -54,7 +54,7 @@ AuthStorage.prototype.onTokenChange = function(fn) {
  * @param {function(string)} fn State change listener
  * @return {function()} remove listener function
  */
-AuthStorage.prototype.onStateChange = function(stateKey, fn) {
+AuthStorage.prototype.onStateChange = function (stateKey, fn) {
   return this._stateStorage.on(this.stateKeyPrefix + stateKey, fn);
 };
 
@@ -106,7 +106,7 @@ AuthStorage.prototype.cleanStates = function (removeStateId) {
         size: JSON.stringify(state).length
       };
     }
-  }).then(function(removalResult) {
+  }).then(function (removalResult) {
     var currentStates = removalResult.filter(function (state) {
       return state;
     });
@@ -116,7 +116,7 @@ AuthStorage.prototype.cleanStates = function (removeStateId) {
     }, 0);
 
     if (stateStorageSize > self.stateQuota) {
-      currentStates.sort(function(a, b) {
+      currentStates.sort(function (a, b) {
         return a.created > b.created;
       });
 

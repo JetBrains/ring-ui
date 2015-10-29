@@ -1,6 +1,6 @@
 var gemini = require('gemini');
 
-gemini.suite('Icon', function(parent) {
+gemini.suite('Icon', function (parent) {
   parent.setUrl('/example-icon/');
   parent.setTolerance(4); //Increase tolerance to avoid wrong render artifacts detecting
 

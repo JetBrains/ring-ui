@@ -1,6 +1,6 @@
 /* global angular: false */
 import 'dom4';
-import { getStyles } from 'dom/dom';
+import {getStyles} from 'dom/dom';
 import 'button-group/button-group.scss';
 
 const CLASSNAME_FIRST = 'ring-button-group__first';

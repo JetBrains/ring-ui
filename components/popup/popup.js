@@ -2,12 +2,12 @@
  * @fileoverview Popup.
  */
 
-import React, { PropTypes } from 'react';
-import { render, unmountComponentAtNode } from 'react-dom';
+import React, {PropTypes} from 'react';
+import {render, unmountComponentAtNode} from 'react-dom';
 import classNames from 'classnames';
 
 import RingComponentWithShortcuts from 'ring-component/ring-component_with-shortcuts';
-import { getStyles, isMounted, getRect } from 'dom/dom';
+import {getStyles, isMounted, getRect} from 'dom/dom';
 
 import './popup.scss';
 
@@ -95,14 +95,14 @@ const Dimension = {
  */
 export default class Popup extends RingComponentWithShortcuts {
   static propTypes = {
-    anchorElement: React.PropTypes.object,
-    className: React.PropTypes.string,
-    maxHeight: React.PropTypes.oneOfType([
-      React.PropTypes.string,
-      React.PropTypes.number
+    anchorElement: PropTypes.object,
+    className: PropTypes.string,
+    maxHeight: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.number
     ]),
-    left: React.PropTypes.number,
-    top: React.PropTypes.number
+    left: PropTypes.number,
+    top: PropTypes.number
   };
 
   static defaultProps = {
@@ -113,9 +113,7 @@ export default class Popup extends RingComponentWithShortcuts {
     left: 0,
     top: 0,
     corner: Corner.BOTTOM_LEFT,
-    /* eslint-disable no-bitwise */
     direction: Direction.DOWN | Direction.RIGHT,
-    /* eslint-enable no-bitwise */
     sidePadding: 8
   };
 
@@ -179,7 +177,7 @@ export default class Popup extends RingComponentWithShortcuts {
 
   state = {
     display: this.props.hidden ? 0 : 1 // 0 - hidden, 1 - display in progress, 2 - visible
-  }
+  };
 
   getShortcutsProps() {
     return {
@@ -212,7 +210,11 @@ export default class Popup extends RingComponentWithShortcuts {
     }, this.props.className);
 
     return (
-      <div {...this.props} className={classes} style={this._getStyles()}>
+      <div
+        {...this.props}
+        className={classes}
+        style={this._getStyles()}
+      >
         {this.getInternalContent()}
       </div>
     );
@@ -274,7 +276,7 @@ export default class Popup extends RingComponentWithShortcuts {
       return;
     }
 
-    if (!enable && this._listenersEnabled){
+    if (!enable && this._listenersEnabled) {
       window.removeEventListener('resize', ::this._onWindowResize);
       document.removeEventListener('click', ::this._onDocumentClick);
       this._listenersEnabled = false;
@@ -344,8 +346,8 @@ export default class Popup extends RingComponentWithShortcuts {
 
     if (this.props.container) {
       let containerRect = getRect(this.props.container);
-      elementRect.left = elementRect.left - containerRect.left;
-      elementRect.top = elementRect.top - containerRect.top;
+      elementRect.left -= containerRect.left;
+      elementRect.top -= containerRect.top;
     }
 
     return elementRect;
@@ -458,6 +460,7 @@ export default class Popup extends RingComponentWithShortcuts {
         styles.display = 'block';
         styles.visibility = 'hidden';
         break;
+      default:
       case 2:
         styles.display = 'block';
         styles.visibility = 'visible';

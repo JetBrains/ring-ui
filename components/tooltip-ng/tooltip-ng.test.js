@@ -5,7 +5,7 @@ var $ = require('jquery');
 require('./tooltip-ng');
 /* global inject, angular */
 
-describe('tooltipNg', function(){
+describe('tooltipNg', function () {
   var RgTooltipPopup;
   var element;
   var popupWrapper;
