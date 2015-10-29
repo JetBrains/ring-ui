@@ -1,10 +1,10 @@
 import ShortcutsNgHint from './shortcuts-hint-ng';
 import Sniffr from 'sniffr';
 
-import angular from 'angular/angular';
 import 'angular-mocks/angular-mocks';
 
 describe('Shortcuts ng hint', function () {
+  /* global angular:false */
   beforeEach(angular.mock.module(ShortcutsNgHint));
 
   describe('shortcut key symbol filter', function () {
