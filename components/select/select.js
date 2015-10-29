@@ -12,7 +12,7 @@ import List, { ListHint } from 'list/list';
 import Input from 'input/input';
 import Icon from 'icon/icon';
 import Button from 'button/button';
-import Loader from 'loader/loader';
+import LoaderInline from '../loader-inline/loader-inline';
 import './select.scss';
 
 const ngModelStateField = 'selected';
@@ -819,7 +819,7 @@ export default class Select extends RingComponentWithShortcuts {
     let icons = [];
 
     if (this.props.loading) {
-      icons.push(<Loader modifier={Loader.Modifier.INLINE} key="loader" />);
+      icons.push(<LoaderInline key="loader" />);
     }
 
     if (this.props.clear && this.state.selected) {

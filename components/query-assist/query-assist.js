@@ -14,7 +14,7 @@ import Caret from 'caret/caret';
 import ContentEditable from 'contenteditable/contenteditable';
 import PopupMenu from '../popup-menu/popup-menu';
 import Icon from '../icon/icon';
-import Loader from '../loader/loader';
+import LoaderInline from '../loader-inline/loader-inline';
 
 import './query-assist.scss';
 import '../input/input.scss';
@@ -791,7 +791,7 @@ export default class QueryAssist extends RingComponentWithShortcuts {
         {this.state.loading && <div
           className="ring-query-assist__icon ring-query-assist__icon_loader"
           ref="loader">
-          <Loader modifier={Loader.Modifier.INLINE} />
+          <LoaderInline/>
         </div>}
         {renderClear && <Icon
           className="ring-query-assist__icon ring-query-assist__icon_clear"

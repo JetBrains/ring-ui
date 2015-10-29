@@ -6,6 +6,10 @@ order: 2
 
 See the “breaking change” commits [in Upsource](https://upsource.jetbrains.com/ring-ui/view?query=path:%20%7B%2A%2Fbreaking-changes.md%7D%20and%20not%20%22Wording%22).  
 
+### 29-10-2015: Loader renamed to LoaderInline to give place for brand new Loader.
+
+LoaderInline is inline by default and shouldn't be used as big loader any more.
+
 ### 22-05-2015: "user2" icon duplicate removed
 
 ### 06-05-2015: Unused filtering functionality removed from `popup-menu` (RG-700) 
