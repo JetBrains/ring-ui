@@ -1,4 +1,4 @@
-/* eslint-disable google-camelcase/google-camelcase */
+/* eslint-disable camelcase */
 import Sniffr from 'sniffr';
 const sniffr = new Sniffr();
 sniffr.sniff();

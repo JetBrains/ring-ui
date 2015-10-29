@@ -13,7 +13,7 @@ angular.module('Ring.form', ['Ring.message-bundle']).
   directive('rgErrorBubble', function (RingMessageBundle) {
     return {
       scope: {
-        'errorBubble': '&rgErrorBubble'
+        errorBubble: '&rgErrorBubble'
       },
       replace: true,
       template: require('./form-ng__error-bubble.html'),
@@ -32,11 +32,11 @@ angular.module('Ring.form', ['Ring.message-bundle']).
           }
         }
 
-        scope.$watch(function() {
+        scope.$watch(function () {
           var result = scope.errorBubble();
 
           return result.$invalid && result.$dirty;
-        }, function(active) {
+        }, function (active) {
           scope.active = active;
 
           if (active && element && element.length) {

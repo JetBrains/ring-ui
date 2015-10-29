@@ -94,7 +94,7 @@ describe('Permissions', function () {
       permissionCache.has('space-read', '456').should.be.true;
     });
 
-    it('should work for spaceId "global"', function() {
+    it('should work for spaceId "global"', function () {
       permissionCache.has('space-read', PermissionCache.GLOBAL_SPACE_ID).should.be.true;
       permissionCache.has('space-update', PermissionCache.GLOBAL_SPACE_ID).should.be.false;
     });
@@ -212,7 +212,7 @@ describe('Permissions', function () {
         permissionCacheWithConverter.has('update-not-own-work-item', '123').should.be.true;
       });
 
-      it('should allow use original key for test permission', function() {
+      it('should allow use original key for test permission', function () {
         permissionCacheWithConverter.has('jetbrains.jetpass.project-read').should.be.true;
         permissionCacheWithConverter.has('JetBrains.YouTrack.UPDATE_NOT_OWN_WORK_ITEM').should.be.true;
       });
@@ -222,7 +222,7 @@ describe('Permissions', function () {
   describe('check and bind variable', function () {
     var permissions = new Permissions(new Auth({serverUri: ''}));
     var permissionKeysDefaultConverter = Permissions.getDefaultNamesConverter('jetbrains.jetpass.');
-    var permissionKeysTestConverter = function(key) {
+    var permissionKeysTestConverter = function (key) {
       if (key === 'not-defined-key') {
         return undefined;
       }

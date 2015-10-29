@@ -1,5 +1,5 @@
-import { Component, createElement } from 'react';
-import { findDOMNode, render } from 'react-dom';
+import {Component, createElement} from 'react';
+import {findDOMNode, render} from 'react-dom';
 
 export default class RingComponent extends Component {
   static letOverrideLifecycleMethods = false;

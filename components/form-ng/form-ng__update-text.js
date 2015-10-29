@@ -80,7 +80,7 @@ angular.module('Ring.form')
           // Generate random string
           scope.inputId = Math.random().toString(36).substring(2);
           scope.initial = scope.item[scope.field];
-          scope.$watch('item.' + scope.field, function(newValue) {
+          scope.$watch('item.' + scope.field, function (newValue) {
             /**
              * Update initial value if field has been changed outside form.input (e.g. new value from rest)
              */

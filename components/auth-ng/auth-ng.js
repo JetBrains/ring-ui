@@ -53,7 +53,7 @@ authModule.provider('auth', ['$httpProvider', function ($httpProvider) {
   };
 
   $httpProvider.interceptors.push(['$q', '$injector', 'auth', function ($q, $injector, authInstance) {
-    var urlEndsWith = function(config, suffix) {
+    var urlEndsWith = function (config, suffix) {
       return config && config.url && config.url.indexOf(suffix) === config.url.length - suffix.length;
     };
 
@@ -68,13 +68,13 @@ authModule.provider('auth', ['$httpProvider', function ($httpProvider) {
             return authInstance.auth.requestToken();
           }).
           then(function (accessToken) {
-            config.headers['Authorization'] = 'Bearer ' + accessToken;
+            config.headers.Authorization = 'Bearer ' + accessToken;
             return config;
           });
       },
       responseError: function (rejection) {
-        if (authInstance && !urlEndsWith(rejection.config, '.html')
-          && rejection.data != null && Auth.shouldRefreshToken(rejection.data.error)) {
+        if (authInstance && !urlEndsWith(rejection.config, '.html') &&
+          rejection.data != null && Auth.shouldRefreshToken(rejection.data.error)) {
 
           // Use $injector to avoid circular dependency
           var $http = $injector.get('$http');

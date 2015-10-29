@@ -1,5 +1,5 @@
-import { render } from 'react-dom';
-import { createElement } from 'react';
+import {render} from 'react-dom';
+import {createElement} from 'react';
 
 import Select from 'select/select';
 import './select-ng__options';

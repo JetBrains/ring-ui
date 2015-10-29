@@ -11,7 +11,7 @@ describe('List', function () {
     return ReactDOM.findDOMNode(list.refs.inner).firstChild;
   };
 
-  beforeEach(function() {
+  beforeEach(function () {
     list = TestUtils.renderIntoDocument(React.createElement(List));
   });
 
@@ -20,7 +20,7 @@ describe('List', function () {
     list.refs.inner.hasChildNodes().should.equal(false);
   });
 
-  it('should check type of item', function() {
+  it('should check type of item', function () {
     var itemMock = {
       rgItemType: Type.SEPARATOR
     };
@@ -28,7 +28,7 @@ describe('List', function () {
     List.isItemType(Type.SEPARATOR, itemMock).should.been.equal(true);
   });
 
-  it('should support deprecated property `type`', function() {
+  it('should support deprecated property `type`', function () {
     var itemMock = {
       type: Type.SEPARATOR
     };
@@ -36,15 +36,15 @@ describe('List', function () {
     List.isItemType(Type.SEPARATOR, itemMock).should.been.equal(true);
   });
 
-  it('by default item has type equal ITEM', function() {
+  it('by default item has type equal ITEM', function () {
     var itemMock = {};
 
     List.isItemType(Type.ITEM, itemMock).should.been.equal(true);
     List.isItemType(Type.SEPARATOR, itemMock).should.been.equal(false);
   });
 
-  it('should deselect item', function() {
-    list.rerender({'data': [
+  it('should deselect item', function () {
+    list.rerender({data: [
       {}
     ],
       activeIndex: 0});
@@ -55,9 +55,9 @@ describe('List', function () {
   });
 
 
-  describe('should render items', function() {
+  describe('should render items', function () {
     it('should render for empty element', function () {
-      list.rerender({'data': [
+      list.rerender({data: [
         {}
       ]});
 
@@ -66,8 +66,8 @@ describe('List', function () {
     });
 
     it('should render list item if type is not definded', function () {
-      list.rerender({'data': [
-        {'label': 'Hello!'}
+      list.rerender({data: [
+        {label: 'Hello!'}
       ]});
 
       $(getFirstListItem()).should.have.class('ring-list__item');
@@ -77,8 +77,8 @@ describe('List', function () {
     });
 
     it('should render a if href defined', function () {
-      list.rerender({'data': [
-        {'label': 'Hello!', 'href': 'http://www.jetbrains.com'}
+      list.rerender({data: [
+        {label: 'Hello!', href: 'http://www.jetbrains.com'}
       ]});
 
       $(getFirstListItem()).should.have.class('ring-link');
@@ -88,8 +88,8 @@ describe('List', function () {
     });
 
     it('should render a if url defined', function () {
-      list.rerender({'data': [
-        {'label': 'Hello!', 'url': 'http://www.jetbrains.com'}
+      list.rerender({data: [
+        {label: 'Hello!', url: 'http://www.jetbrains.com'}
       ]});
 
       $(getFirstListItem()).should.have.class('ring-link');
@@ -99,24 +99,24 @@ describe('List', function () {
     });
 
     it('should render separator', function () {
-      list.rerender({'data': [
-        {'rgItemType': List.ListProps.Type.SEPARATOR}
+      list.rerender({data: [
+        {rgItemType: List.ListProps.Type.SEPARATOR}
       ]});
 
       $(getFirstListItem()).should.have.class('ring-list__separator');
     });
 
     it('should render title', function () {
-      list.rerender({'data': [
-        {'type': List.ListProps.Type.TITLE, label: 'Foo', description: 'Bar'}
+      list.rerender({data: [
+        {type: List.ListProps.Type.TITLE, label: 'Foo', description: 'Bar'}
       ]});
 
       $(getFirstListItem()).text().should.be.equal('BarFoo');
     });
 
     it('should render span if link without href', function () {
-      list.rerender({'data': [
-        {'label': 'Hello!', 'rgItemType': List.ListProps.Type.LINK}
+      list.rerender({data: [
+        {label: 'Hello!', rgItemType: List.ListProps.Type.LINK}
       ]});
 
       $(getFirstListItem()).should.have.class('ring-link');
@@ -125,15 +125,15 @@ describe('List', function () {
     });
 
     it('should not render icon if not provided', function () {
-      list.rerender({'data': [
-        {'label': 'Hello!', 'type': List.ListProps.Type.ITEM}
+      list.rerender({data: [
+        {label: 'Hello!', type: List.ListProps.Type.ITEM}
       ]});
       $(getFirstListItem()).should.not.have.descendants('.ring-list__icon');
     });
 
     it('should render icon if provided', function () {
-      list.rerender({'data': [
-        {'label': 'Hello!', icon: 'http://some.url/', 'type': List.ListProps.Type.ITEM}
+      list.rerender({data: [
+        {label: 'Hello!', icon: 'http://some.url/', type: List.ListProps.Type.ITEM}
       ]});
       var icon = getFirstListItem().querySelector('.ring-list__icon');
       expect(icon.style.backgroundImage).to.contain('http://some.url');
@@ -142,8 +142,8 @@ describe('List', function () {
     it('should throw error on unknown type', function () {
 
       expect(function () {
-        list.rerender({'data': [
-          {'label': 'Hello!', 'rgItemType': 'none'}
+        list.rerender({data: [
+          {label: 'Hello!', rgItemType: 'none'}
         ]});
 
         $(getFirstListItem()).should.have.class('ring-link');
@@ -155,8 +155,8 @@ describe('List', function () {
     it('should handle click', function () {
       var clicked = sinon.stub();
 
-      list.rerender({'data': [
-        {'label': 'Hello!', 'onClick': clicked}
+      list.rerender({data: [
+        {label: 'Hello!', onClick: clicked}
       ]});
 
       TestUtils.Simulate.click(getFirstListItem());

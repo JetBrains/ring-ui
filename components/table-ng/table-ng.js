@@ -1,18 +1,18 @@
 import 'dom4';
 import debounce from 'mout/function/debounce';
 
-import { getStyles, getRect } from 'dom/dom';
+import {getStyles, getRect} from 'dom/dom';
 
 import TableSelection from './table-ng__selection';
 import './table-ng__toolbar';
 import 'place-under-ng/place-under-ng';
 
-import ReactNg from 'react-ng/react-ng';
+import reactNg from 'react-ng/react-ng';
 import Checkbox from 'checkbox/checkbox';
 
 import 'table/table.scss';
 
-ReactNg({Checkbox});
+reactNg({Checkbox});
 
 /*global angular*/
 
@@ -198,7 +198,7 @@ ringTableModule.directive('rgTable', function () {
       $scope.$watch(() => {
         return this.items;
       }, newItems => {
-        if (newItems){
+        if (newItems) {
           this.selection.setItems(newItems);
         }
       });
@@ -398,7 +398,7 @@ ringTableModule.directive('rgTableHeaderCheckbox', function () {
         });
       }
 
-      scope.$on('rgTable:itemsChanged', function() {
+      scope.$on('rgTable:itemsChanged', function () {
         if (scope.allChecked) {
           markAllItemsAs(true);
         }
@@ -406,8 +406,8 @@ ringTableModule.directive('rgTableHeaderCheckbox', function () {
       });
       scope.$on('rgTable:selectionChanged', recheckSelection);
 
-      scope.onClickChange = function(newValue) {
-        scope.$evalAsync(function() {
+      scope.onClickChange = function (newValue) {
+        scope.$evalAsync(function () {
           markAllItemsAs(newValue);
         });
       };

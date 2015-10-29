@@ -1,4 +1,4 @@
-import { isMounted, getStyles, getRect } from './dom';
+import {isMounted, getStyles, getRect} from './dom';
 
 let nodes = [];
 
@@ -13,7 +13,7 @@ function attach(node) {
 
 afterEach(() => {
   let node;
-  while (node = nodes.pop()) {
+  while ((node = nodes.pop())) {
     if (node.parentNode) {
       node.parentNode.removeChild(node);
     }
@@ -77,14 +77,14 @@ describe('DOM', () => {
       let element = attach(create());
       element.setAttribute('style', style);
 
-      getRect(element).should.deep.equal({ top: 14, right: 124, bottom: 124, left: 14, width: 110, height: 110 });
+      getRect(element).should.deep.equal({top: 14, right: 124, bottom: 124, left: 14, width: 110, height: 110});
     });
 
     it('should return DOMRect-like stub for unmounting element', () => {
       let element = create();
       element.setAttribute('style', style);
 
-      getRect(element).should.deep.equal({ top: 0, right: 0, bottom: 0, left: 0, width: 0, height: 0 });
+      getRect(element).should.deep.equal({top: 0, right: 0, bottom: 0, left: 0, width: 0, height: 0});
     });
 
     it('should return DOMRect-like object for a range', () => {

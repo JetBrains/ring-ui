@@ -64,7 +64,7 @@ angular.module('Ring.error-page', [
     };
     /*@ngInject*/
     this.$get = function ($injector, $log) {
-      var loadFactory = function(factoryName) {
+      var loadFactory = function (factoryName) {
         try {
           return $injector.get(factoryName);
         } catch (err) {
@@ -86,54 +86,54 @@ angular.module('Ring.error-page', [
     };
   })
 
-  .factory('getErrorPagePresentation', function(RingMessageBundle) {
+  .factory('getErrorPagePresentation', function (RingMessageBundle) {
     var presentationModels = {
-      '404': {
+      404: {
         status: 404,
         title: RingMessageBundle.errorpage_404(),
         description: RingMessageBundle.errorpage_404msg(),
         icon: 'frown'
       },
-      '403': {
+      403: {
         status: 403,
         title: RingMessageBundle.errorpage_403(),
         description: RingMessageBundle.errorpage_403msg(),
         icon: 'permission'
       },
-      '500': {
+      500: {
         status: 500,
         title: RingMessageBundle.errorpage_500(),
         description: RingMessageBundle.errorpage_500msg(),
         icon: 'frown'
       },
-      '0': {
+      0: {
         status: RingMessageBundle.errorpage_disconnected(),
         title: RingMessageBundle.errorpage_disconnectedmsg(),
         description: RingMessageBundle.errorpage_offline(),
         icon: 'frown'
       },
-      'default': {
+      default: {
         title: RingMessageBundle.errorpage_seriouslywrong(),
         icon: 'frown'
       }
     };
 
-    return function(error) {
+    return function (error) {
       if (error.status in presentationModels) {
         return presentationModels[error.status];
       }
       return angular.extend({
         status: error.status,
         description: error.message
-      }, presentationModels['default']);
+      }, presentationModels.default);
     };
   })
 
   .directive('rgErrorPageBackground', [
-    function() {
+    function () {
       return {
         restrict: 'A',
-        controller: function($scope) {
+        controller: function ($scope) {
           this.setApplicationError = function (applicationError) {
             $scope.applicationError = applicationError;
           };
@@ -142,7 +142,7 @@ angular.module('Ring.error-page', [
           let element = iElement[0];
           element.classList.add('error-page');
 
-          scope.$watch('applicationError', function(newValue) {
+          scope.$watch('applicationError', function (newValue) {
             if (newValue) {
               element.classList.add('error-page_enabled');
             } else {
@@ -169,7 +169,7 @@ angular.module('Ring.error-page', [
         var df = $q.defer();
         var promise = errorSource && (errorSource.$promise || errorSource.promise);
         if (promise) {
-          promise['catch'](function(errorResponse) {
+          promise.catch(function (errorResponse) {
             $log.debug('Navigation: errorSource ' + errorPageParameterPresentation + ' not permitted, status: ' + status);
             df.reject({
               status: errorResponse && errorResponse.status,
@@ -177,7 +177,7 @@ angular.module('Ring.error-page', [
             });
             return errorResponse;
           });
-          promise.then(function(data) {
+          promise.then(function (data) {
             df.resolve();
             return data;
           });
@@ -214,7 +214,7 @@ angular.module('Ring.error-page', [
         link: function (scope, iElement, iAttrs, errorPageBackgroundCtrl, transclude) {
 
           function handleError(error) {
-            transclude(scope, function() {
+            transclude(scope, function () {
               scope.error = getErrorPagePresentation(error);
               scope.links = errorPageConfiguration.links;
 
@@ -235,12 +235,12 @@ angular.module('Ring.error-page', [
           }
 
           function handleSuccess() {
-            transclude(scope, function(clone) {
+            transclude(scope, function (clone) {
               iElement.append(clone);
             });
           }
 
-          getRoutingPermissionPromise().then(function() {
+          getRoutingPermissionPromise().then(function () {
             var errorSource = scope.$eval(iAttrs.rgErrorPage);
             if (errorSource && errorSource.error) {
               handleError(errorSource.error);

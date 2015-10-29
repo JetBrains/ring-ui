@@ -1,107 +1,46 @@
 {
   "parser": "babel-eslint",
+  "extends": [
+    "jetbrains",
+    "jetbrains/bem",
+    "jetbrains/es6",
+    "jetbrains/node",
+    "jetbrains/react",
+    "jetbrains/nullified-angular",
+    "jetbrains/test"
+  ],
   "rules": {
-    // Stylistic rules
-    "quotes": [2, "single"],
-    "strict": [2, "never"],
-    "indent": [2, 2, {"SwitchCase": 1}],
-    "brace-style": [2, "1tbs"],
-    "comma-style": [2, "last"],
-    "camelcase": 0, // using google-camelcase instead
-    "space-in-parens": [2, "never"],
-    "space-after-keywords": [2, "always"],
-    "space-before-function-parentheses": [0, {"anonymous": "always", "named": "never"}], // to be enabled
-    // Enforce off-by-defaults
-    "consistent-return": 2,
-    "consistent-this": [2, "self"],
-    "no-bitwise": 2,
-    "no-lonely-if": 2,
-    "no-nested-ternary": 2,
-    "no-void": 2,
-    "radix": 2,
-    "no-throw-literal": 2,
-    "valid-jsdoc": 0, // to be enabled
-    "wrap-iife": 2,
-    // Relax on-by-defaults
-    "dot-notation": 0,
-    "no-underscore-dangle": 0,
-    "no-unused-expressions": 0,
-    // Plugins
-    "angular/ng_angularelement": 0,
-    "angular/ng_controller_name": 0,
-    "angular/ng_definedundefined": 0,
-    "angular/directive-name": [2, "rg"],
-    "angular/ng_document_service": 0,
-    "angular/ng_empty_controller": 0,
-    "angular/ng_filter_name": 0,
-    "angular/ng_interval_service": 0,
-    "angular/ng_json_functions": 0,
-    "angular/ng_on_watch": 2,
-    "angular/ng_no_digest": 0,
-    "angular/ng_timeout_service": 0,
-    "angular/ng_typecheck_array": 0,
-    "angular/ng_typecheck_boolean": 0,
-    "angular/ng_typecheck_date": 0,
-    "angular/ng_typecheck_function": 0,
-    "angular/ng_typecheck_number": 0,
-    "angular/ng_typecheck_object": 0,
-    "angular/ng_typecheck_regexp": 0,
-    "angular/ng_typecheck_string": 0,
-    "angular/ng_window_service": 0,
-    "angular/log": 0,
-    "angular/no-private-call": 0,
-    "angular/on-watch": 0,
-    "angular/ng_on_watch": 0,
-    "angular/window-service": 0,
-    "angular/module-getter": 0,
-    "angular/document-service": 0,
-    "angular/angularelement": 0,
-    "angular/json-functions": 0,
-    "angular/module-setter": 0,
-    "angular/definedundefined": 0,
-    "angular/typecheck-array": 0,
-    "angular/typecheck-string": 0,
-    "angular/typecheck-function": 0,
-    "angular/typecheck-object": 0,
-    "angular/timeout-service": 0,
-    "angular/typecheck-number": 0,
-    "angular/di": 0,
-    "angular/interval-service": 0,
-    "angular/no-services": 0,
-    "mocha/no-exclusive-tests": 2,
-    "filenames/filenames": [2, "^[a-z-_.]+$"],
-    "google-camelcase/google-camelcase": 2,
-    "one-variable-per-var/one-variable-per-var": 2,
-    "react/display-name": 0,
-    "react/jsx-quotes": [0, "double"],
-    "react/jsx-no-undef": 2,
-    "react/jsx-uses-react": 2,
-    "react/jsx-uses-vars": 2,
-    "react/no-did-mount-set-state": 2,
-    "react/no-did-update-set-state": 2,
+    //
+    // Rules to be enabled
+    //
+
+    // Possible Errors
+    "valid-jsdoc": 0,
+    // Best Practices
+    "complexity": [0, 5],
+    "dot-location": [0, "object"],
+    "no-magic-numbers": 0,
+    "no-param-reassign": 0,
+    "vars-on-top": 0,
+    // Stylistic Issues
+    "func-names": 0,
+    "func-style": 0,
+    // ECMAScript 6
+    "no-var": 0,
+    "object-shorthand": 0,
+    "prefer-arrow-callback": 0,
+    "prefer-const":  0,
+    "prefer-reflect":  0,
+    "prefer-template": 0,
+    // React
     "react/no-multi-comp": 0,
     "react/prop-types": 0,
-    "react/react-in-jsx-scope": 2,
-    "react/self-closing-comp": 2,
-    "react/wrap-multilines": 2
-  },
-  "env": {
-    "browser": true,
-    "mocha": true
-  },
-  "globals": {
-    "expect": false,
-    "sinon": false,
-    "should": false,
-    "require": false,
-    "module": false
-  },
-  "plugins": [
-    "angular",
-    "filenames",
-    "google-camelcase",
-    "mocha",
-    "one-variable-per-var",
-    "react"
-  ]
+
+    //
+    // Custom configuration
+    //
+
+    // Angular
+    "angular/directive-name": [2, "rg"]
+  }
 }

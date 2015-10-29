@@ -3,8 +3,8 @@
  */
 
 import 'core-js/modules/es6.array.find';
-import React, { PropTypes, createElement, DOM } from 'react';
-import { findDOMNode } from 'react-dom';
+import React, {PropTypes, createElement, DOM} from 'react';
+import {findDOMNode} from 'react-dom';
 import classNames from 'classnames';
 import debounce from 'mout/function/debounce';
 
@@ -65,7 +65,13 @@ class ListItem extends RingComponent {
   getCheckbox() {
     if (this.props.checkbox !== undefined) {
       let cn = 'ring-list__checkbox' + (this.props.checkbox ? '' : ' ring-list__checkbox_hidden');
-      return (<Icon className={cn} glyph={require('jetbrains-icons/check.svg')} size={Icon.Size.Size18}/>);
+      return (
+        <Icon
+          className={cn}
+          glyph={require('jetbrains-icons/check.svg')}
+          size={Icon.Size.Size18}
+        />
+      );
     }
   }
 
@@ -78,14 +84,21 @@ class ListItem extends RingComponent {
     }, this.props.className);
 
     let style = {
-      'paddingLeft': ((+this.props.level || 0) * 8 + 16) + 'px'
+      paddingLeft: ((+this.props.level || 0) * 8 + 16) + 'px'
     };
 
     return (
-      <span {...this.props} className={classes} style={style}>
+      <span
+        {...this.props}
+        className={classes}
+        style={style}
+      >
         {this.getCheckbox()}
         {this.props.icon &&
-          <div className="ring-list__icon" style={{'backgroundImage': 'url("' + this.props.icon + '")'}}></div>}
+          <div
+            className="ring-list__icon"
+            style={{backgroundImage: 'url("' + this.props.icon + '")'}}
+          />}
         {this.props.description &&
           <div className="ring-list__description">{this.props.description}</div>}
         {this.props.label}
@@ -113,7 +126,10 @@ class ListCustom extends RingComponent {
     }, this.props.className);
 
     return (
-      <span {...this.props} className={classes}>
+      <span
+        {...this.props}
+        className={classes}
+      >
         {this.props.template}
       </span>
     );
@@ -185,31 +201,7 @@ function isItemType(listItemType, item) {
   }
 
   return item.rgItemType === listItemType;
-};
-
-var ListMixin = {
-  statics: {
-    isItemType: isItemType,
-    ListProps: {
-      Type: Type,
-      Dimension: Dimension
-    }
-  },
-
-  propTypes: {
-    className: React.PropTypes.string,
-    hint: React.PropTypes.string,
-    hintOnSelection: React.PropTypes.string,
-    data: React.PropTypes.arrayOf(React.PropTypes.object),
-    maxHeight: React.PropTypes.oneOfType([
-      React.PropTypes.string,
-      React.PropTypes.number
-    ]),
-    shortcuts: React.PropTypes.bool,
-    onSelect: React.PropTypes.func,
-    visible: React.PropTypes.bool
-  }
-};
+}
 
 /**
  * @name List
@@ -397,8 +389,8 @@ export default class List extends RingComponentWithShortcuts {
     data: [],
     restoreActiveIndex: false,  // restore active item using its "key" property
     activateSingleItem: false,  // if there is only one item, activate it
-    onMouseOut: function() {},
-    onSelect: function() {},
+    onMouseOut: function () {},
+    onSelect: function () {},
     shortcuts: false
   };
 
@@ -474,7 +466,7 @@ export default class List extends RingComponentWithShortcuts {
     }
 
     let item = this.props.data[index];
-    this.setState({activeIndex: index, activeItem: item, scrolling: true}, function() {
+    this.setState({activeIndex: index, activeItem: item, scrolling: true}, function () {
       if (!this.isActivatable(item)) {
         retryCallback(e);
         return;
@@ -517,7 +509,7 @@ export default class List extends RingComponentWithShortcuts {
 
   selectHandler(item, isKeyboardEvent) {
     if (typeof item.onClick === 'function') {
-      item.onClick.apply(item, arguments);
+      item.onClick(...arguments);
     }
 
     if (typeof this.props.onSelect === 'function') {
@@ -535,11 +527,11 @@ export default class List extends RingComponentWithShortcuts {
     });
   }
 
-  getSelected () {
+  getSelected() {
     return this.props.data[this.state.activeIndex];
   }
 
-  clearSelected () {
+  clearSelected() {
     this.setState({activeIndex: null});
   }
 
@@ -562,13 +554,13 @@ export default class List extends RingComponentWithShortcuts {
      * @param {Object} listItem
      * @return {Object} listItem
      */
-    function normalizeListItemType(listItem) {
-      if (Object.keys(Type).some(key => Type[key] === listItem.type)) {
-        listItem.rgItemType = listItem.type;
-      }
-
-      return listItem;
-    };
+    // function normalizeListItemType(listItem) {
+    //   if (Object.keys(Type).some(key => Type[key] === listItem.type)) {
+    //     listItem.rgItemType = listItem.type;
+    //   }
+    //
+    //   return listItem;
+    // }
 
     if (props.data) {
       //TODO починить (см. https://youtrack.jetbrains.com/issue/RG-772)
@@ -653,11 +645,17 @@ export default class List extends RingComponentWithShortcuts {
 
     return (
       <div className={classes}
-           onMouseMove={::this.mouseHandler}
-           onMouseOut={this.props.onMouseOut}>
-        <div className="ring-list__i" ref="inner" onScroll={::this.scrollHandler} style={innerStyles}>
+        onMouseMove={::this.mouseHandler}
+        onMouseOut={this.props.onMouseOut}
+      >
+        <div
+          className="ring-list__i"
+          onScroll={::this.scrollHandler}
+          ref="inner"
+          style={innerStyles}
+        >
           {this.props.data.map((item, index) => {
-            let props = Object.assign({'rgItemType': DEFAULT_ITEM_TYPE}, item);
+            let props = Object.assign({rgItemType: DEFAULT_ITEM_TYPE}, item);
             if (props.url) {
               props.href = props.url;
             }
@@ -701,8 +699,12 @@ export default class List extends RingComponentWithShortcuts {
             return createElement(element, props, null);
           })}
         </div>
-        {this.hasOverflow() && <div className='ring-list__fade'/>}
-        {hint && <ListHint key={this.props.hint + Type.ITEM} label={hint} />}
+        {this.hasOverflow() && <div className="ring-list__fade" />}
+        {hint &&
+          <ListHint
+            key={this.props.hint + Type.ITEM}
+            label={hint}
+          />}
       </div>
     );
   }

@@ -9,13 +9,11 @@ describe('ReactNg', function () {
 
   var $scope;
   var $compile;
-  var EmptyComponent = React.createClass({
-    render: function() {
-      return  React.createElement('div');
-    }
-  });
+  var EmptyComponent = () => {
+    return <div />;
+  };
 
-  registerComponents({EmptyComponent: EmptyComponent});
+  registerComponents({EmptyComponent});
 
   beforeEach(window.module('Ring.react-ng'));
 
@@ -26,11 +24,11 @@ describe('ReactNg', function () {
   }));
 
   //common checker for properties passing
-  function checkPropertyPassingForTemplate(template, propname, propalue){
+  function checkPropertyPassingForTemplate(template, propname, propalue) {
     class TestPropsComponent extends RingComponent {
       render() {
         expect(this.props[propname]).to.equal(propalue);
-        return React.createElement('div');
+        return <div />;
       }
     }
 

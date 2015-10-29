@@ -20,7 +20,7 @@ ringDialog.service('confirm', function (dialog, $q, $templateCache) {
       buttons: [
         {
           label: (actionTitle || 'Ok'),
-          'default': !cancelIsDefault,
+          default: !cancelIsDefault,
           close: false,
           action: () => {
             dialog.done();
@@ -29,7 +29,7 @@ ringDialog.service('confirm', function (dialog, $q, $templateCache) {
         },
         {
           label: (cancelTitle || 'Cancel'),
-          'default': !!cancelIsDefault,
+          default: !!cancelIsDefault,
           action: () => {
             dialog.reset();
             return false;
