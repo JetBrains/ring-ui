@@ -4,49 +4,49 @@ $palette-grey-text: #444;
 $palette-array: // [(background, text)]
 
   // Brightness 1
+  #e6e6e6	#888888,
   #e6f6cf	#4da400,
   #d8f7f3	#45818e,
   #e0f1fb	#3d85c6,
   #fce5f1	#dc5766,
   #ffee9c	#b45f06,
   #f7e9c1	#b45f06,
-  #e6e6e6	#888888,
 
   // Brightness 2
+  #bababa	$palette-grey-text,
   #b7e281	$palette-grey-text,
   #92e1d5	$palette-grey-text,
   #a6e0fc	$palette-grey-text,
   #ffc8ea	$palette-grey-text,
   #fed74a	$palette-grey-text,
   #e0c378	$palette-grey-text,
-  #bababa	$palette-grey-text,
 
   // Brightness 3
+  #878787	$palette-white-text,
   #7dbd36	$palette-white-text,
   #25beb2	$palette-white-text,
   #42a3df	$palette-white-text,
   #ff7bc3	$palette-white-text,
   #ff7123	$palette-white-text,
   #ce6700	$palette-white-text,
-  #878787	$palette-white-text,
 
   // Brightness 4
+  #4d4d4d	$palette-white-text,
   #409600	$palette-white-text,
   #2f9890	$palette-white-text,
   #0070e4	$palette-white-text,
   #dc0083	$palette-white-text,
   #e30000	$palette-white-text,
   #8d5100	$palette-white-text,
-  #4d4d4d	$palette-white-text,
 
   // Brightness 5
+  #1a1a1a	$palette-white-text,
   #246512	$palette-white-text,
   #00665e	$palette-white-text,
   #0050a1	$palette-white-text,
   #900052	$palette-white-text,
   #8e1600	$palette-white-text,
-  #553000	$palette-white-text,
-  #1a1a1a	$palette-white-text;
+  #553000	$palette-white-text;
 
 @mixin add-palette-colors {
   $i: 0;
