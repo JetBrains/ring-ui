@@ -28,7 +28,7 @@ export default class LoaderScreen extends RingComponent {
   render() {
     return (
       <div className="ring-loader-screen">
-        <Loader className="loader-screen__loader"/>
+        <Loader className="ring-loader-screen__loader"/>
       </div>
     );
   }
