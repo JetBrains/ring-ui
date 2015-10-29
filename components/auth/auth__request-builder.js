@@ -29,7 +29,7 @@ AuthRequestBuilder.prototype.prepareAuthRequest = function (extraParams, extraSt
     return encodeURIComponent(scope);
   });
 
-  /* eslint-disable google-camelcase/google-camelcase */
+  /* eslint-disable camelcase */
   var request = Object.assign({
     response_type: 'token',
     state: stateId,
@@ -38,7 +38,7 @@ AuthRequestBuilder.prototype.prepareAuthRequest = function (extraParams, extraSt
     client_id: this.config.client_id,
     scope: scopes.join(' ')
   }, extraParams || {});
-  /* eslint-enable google-camelcase/google-camelcase */
+  /* eslint-enable camelcase */
 
   var authURL = AuthRequestBuilder.encodeURL(this.config.authorization, request);
 

@@ -18,7 +18,7 @@ function emptyI18n() {
 function RingMessageBundle(ringI18n) {
   var i18n = ringI18n;
 
-/* eslint-disable google-camelcase/google-camelcase */
+/* eslint-disable camelcase */
   this.form_required = function () {
     return i18n('Value is required');
   };
@@ -127,7 +127,7 @@ function RingMessageBundle(ringI18n) {
   this.items_per_page = function () {
     return i18n('per page');
   };
-/* eslint-enable google-camelcase/google-camelcase */
+/* eslint-enable camelcase */
 }
 
 module.factory('ringI18n', emptyI18n);
