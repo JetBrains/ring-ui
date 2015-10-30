@@ -19,7 +19,7 @@ import 'message-bundle-ng/message-bundle-ng';
     </div>
   </file>
   <file name="index.js" webpack="true">
-    require('angular/angular.min.js');
+    require('angular');
     require('select-ng/select-ng');
 
     angular.module('test', ['Ring.select']).controller('testCtrl', function() {
@@ -44,7 +44,7 @@ import 'message-bundle-ng/message-bundle-ng';
     </div>
   </file>
   <file name="index.js" webpack="true">
-    require('angular/angular.min.js');
+    require('angular');
     require('select-ng/select-ng');
 
     angular.module('test', ['Ring.select']).controller('testCtrl', function() {
@@ -75,7 +75,7 @@ import 'message-bundle-ng/message-bundle-ng';
     </div>
   </file>
   <file name="index.js" webpack="true">
-    require('angular/angular.min.js');
+    require('angular');
     require('select-ng/select-ng');
 
     angular.module('test', ['Ring.select']).controller('testCtrl', function($timeout) {
@@ -104,7 +104,7 @@ import 'message-bundle-ng/message-bundle-ng';
      </div>
    </file>
    <file name="index.js" webpack="true">
-     require('angular/angular.min.js');
+     require('angular');
      require('select-ng/select-ng');
 
      angular.module('test', ['Ring.select']).controller('testCtrl', function($timeout, $q) {
@@ -142,7 +142,7 @@ import 'message-bundle-ng/message-bundle-ng';
       </div>
     </file>
     <file name="index.js" webpack="true">
-      require('angular/angular.min.js');
+      require('angular');
       require('select-ng/select-ng');
 
       angular.module('test', ['Ring.select']).controller('testCtrl', function() {
@@ -174,7 +174,7 @@ import 'message-bundle-ng/message-bundle-ng';
       </div>
     </file>
     <file name="index.js" webpack="true">
-      require('angular/angular.min.js');
+      require('angular');
       require('select-ng/select-ng');
       require('dialog-ng/dialog-ng');
 
@@ -224,7 +224,7 @@ import 'message-bundle-ng/message-bundle-ng';
       </div>
     </file>
     <file name="index.js" webpack="true">
-      require('angular/angular.min.js');
+      require('angular');
       require('select-ng/select-ng');
 
       angular.module('test', ['Ring.select']).controller('testCtrl', function() {
@@ -267,7 +267,7 @@ import 'message-bundle-ng/message-bundle-ng';
 
       </file>
       <file name="index.js" webpack="true">
-        require('angular/angular.min.js');
+        require('angular');
         require('select-ng/select-ng');
         require('form-ng/form-ng');
 

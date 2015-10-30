@@ -112,7 +112,7 @@ angular.module('Ring.save-field', [
      </div>
      </file>
      <file name="index.js" webpack="true">
-       require('angular/angular.min.js');
+       require('angular');
        require('save-field-ng/save-field-ng');
        require('textarea/textarea.scss');
 
