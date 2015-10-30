@@ -1,5 +1,5 @@
-require('angular/angular');
-require('angular-mocks/angular-mocks');
+require('angular');
+require('angular-mocks');
 require('./table-ng');
 var TableSelection = require('./table-ng__selection');
 var $ = require('jquery');

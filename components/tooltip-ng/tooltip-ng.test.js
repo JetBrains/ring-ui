@@ -1,5 +1,5 @@
-require('angular/angular');
-require('angular-mocks/angular-mocks');
+require('angular');
+require('angular-mocks');
 var $ = require('jquery');
 
 require('./tooltip-ng');
