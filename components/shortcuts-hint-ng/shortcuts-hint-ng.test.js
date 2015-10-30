@@ -1,7 +1,7 @@
 import ShortcutsNgHint from './shortcuts-hint-ng';
 import Sniffr from 'sniffr';
 
-import 'angular-mocks/angular-mocks';
+import 'angular-mocks';
 
 describe('Shortcuts ng hint', function () {
   /* global angular:false */

@@ -1,5 +1,5 @@
-require('angular/angular');
-require('angular-mocks/angular-mocks');
+require('angular');
+require('angular-mocks');
 require('./analytics-ng');
 
 describe('Ring.analytics', function () {

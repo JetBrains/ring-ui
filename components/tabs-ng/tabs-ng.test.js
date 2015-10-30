@@ -1,6 +1,6 @@
-require('angular/angular');
-require('angular-route/angular-route');
-require('angular-mocks/angular-mocks');
+require('angular');
+require('angular-route');
+require('angular-mocks');
 require('./tabs-ng');
 var $ = require('jquery');
 

@@ -1,8 +1,8 @@
 import RingComponent from 'ring-component/ring-component';
 import React from 'react';
 
-require('angular/angular');
-require('angular-mocks/angular-mocks');
+require('angular');
+require('angular-mocks');
 
 describe('ReactNg', function () {
   var registerComponents = require('./react-ng');
