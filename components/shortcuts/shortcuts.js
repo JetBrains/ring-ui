@@ -19,7 +19,7 @@ class Shortcuts {
       currentScope = this._scopes[this._scopeChain[i]];
 
       if (currentScope && currentScope[key]) {
-        let ret = currentScope[key](e, key, this._scopeChain[i]);
+        const ret = currentScope[key](e, key, this._scopeChain[i]);
 
         // Fall down in chain when returning true
         if (ret !== true) {
@@ -78,7 +78,7 @@ class Shortcuts {
       throw new Error('Shortcuts map shouldn\'t be empty');
     }
 
-    for (let key in map) {
+    for (const key in map) {
       if (map.hasOwnProperty(key)) {
         this.bind(Object.assign({}, options || {}, {key: key, handler: map[key]}));
       }
@@ -99,7 +99,7 @@ class Shortcuts {
 
   pushScope(scope) {
     if (scope) {
-      let position = this._scopeChain.indexOf(scope);
+      const position = this._scopeChain.indexOf(scope);
 
       if (position !== -1) {
         this._scopeChain.splice(position, 1);
@@ -111,7 +111,7 @@ class Shortcuts {
 
   popScope(scope) {
     if (scope) {
-      let position = this._scopeChain.indexOf(scope);
+      const position = this._scopeChain.indexOf(scope);
 
       if (position !== -1) {
         return this._scopeChain.splice(position, this._scopeChain.length - 1);
@@ -121,7 +121,7 @@ class Shortcuts {
 
   spliceScope(scope) {
     if (scope) {
-      let position = this._scopeChain.indexOf(scope);
+      const position = this._scopeChain.indexOf(scope);
 
       if (position !== -1) {
         this._scopeChain.splice(position, 1);

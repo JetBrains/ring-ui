@@ -8,13 +8,13 @@
 import {createElement, PropTypes} from 'react';
 import {render, unmountComponentAtNode} from 'react-dom';
 
-let reactModule = angular.module('Ring.react-ng', []);
+const reactModule = angular.module('Ring.react-ng', []);
 
 /**
  * Ring components map
  * @type {{}}
  */
-let ringComponents = {};
+const ringComponents = {};
 
 /**
  * React component getter
@@ -30,7 +30,7 @@ reactModule.service('ringComponents', function () {
 });
 
 function getComponentIfExist(name) {
-  let ComponentClass = getComponent(name);
+  const ComponentClass = getComponent(name);
 
   if (!ComponentClass) {
     throw new Error('Component ' + name + ' is not registered');
@@ -40,18 +40,18 @@ function getComponentIfExist(name) {
 }
 
 function renderAndRemoveOnDestroy(ComponentClass, iElement, props) {
-  let component = render(createElement(ComponentClass, props), iElement[0]);
+  const component = render(createElement(ComponentClass, props), iElement[0]);
   iElement.on('$destroy', () => {
     unmountComponentAtNode(iElement[0]);
   });
   return component;
 }
 
-let reactDirectiveName = 'react';
-let staticDirectiveName = reactDirectiveName + 'Static';
-let attributeToPassPrefix = 'react';
-let attributeToPassByValuePrefix = 'reactValue';
-let specialDOMAttrs = {
+const reactDirectiveName = 'react';
+const staticDirectiveName = reactDirectiveName + 'Static';
+const attributeToPassPrefix = 'react';
+const attributeToPassByValuePrefix = 'reactValue';
+const specialDOMAttrs = {
   for: 'htmlFor',
   class: 'className'
 };
@@ -62,11 +62,11 @@ function reactNgDirective($parse) {
     restrict: 'A',
     link: function (scope, iElement, iAttrs) {
       let component = null;
-      let directiveName = iAttrs[reactDirectiveName];
-      let instanceAttr = 'reactInstance';
+      const directiveName = iAttrs[reactDirectiveName];
+      const instanceAttr = 'reactInstance';
 
-      let ComponentClass = getComponentIfExist(directiveName);
-      let directiveProps = {};
+      const ComponentClass = getComponentIfExist(directiveName);
+      const directiveProps = {};
 
       function modifyProps(props, name, value) {
         if (name === 'ngModel' && ComponentClass.ngModelStateField) {
@@ -97,7 +97,7 @@ function reactNgDirective($parse) {
             return;
           }
 
-          let props = {};
+          const props = {};
           modifyProps(props, name, value);
           component.rerender(props);
         };
@@ -110,25 +110,25 @@ function reactNgDirective($parse) {
 
         if (iAttrs.hasOwnProperty(name) && name !== reactDirectiveName && name !== instanceAttr && typeof value === 'string') {
           // Use React DOM attributes names
-          let specialDOMAttrName = specialDOMAttrs[name];
-          let propName = specialDOMAttrName || name;
+          const specialDOMAttrName = specialDOMAttrs[name];
+          const propName = specialDOMAttrName || name;
 
           // Detect interpolation
-          let interpolated = iElement[0].getAttribute(iAttrs.$attr[name]) !== value;
+          const interpolated = iElement[0].getAttribute(iAttrs.$attr[name]) !== value;
 
           // Check if component expects callback
-          let expectsCallback = ComponentClass.propTypes &&
+          const expectsCallback = ComponentClass.propTypes &&
             (ComponentClass.propTypes[propName] === PropTypes.func ||
             ComponentClass.propTypes[propName] === PropTypes.func.isRequired);
 
           // Parse as expression
-          let parsedExpression = !specialDOMAttrName && !interpolated && $parse(value);
+          const parsedExpression = !specialDOMAttrName && !interpolated && $parse(value);
 
           if (interpolated) {
             iAttrs.$observe(name, getUpdater(propName));
           } else if (parsedExpression && expectsCallback) {
             directiveProps[propName] = param => {
-              let locals = typeof param === 'object' ? angular.copy(param) : {};
+              const locals = typeof param === 'object' ? angular.copy(param) : {};
               locals.arguments = Array.prototype.slice.call(arguments, 0);
 
               return parsedExpression(scope, locals);
@@ -143,7 +143,7 @@ function reactNgDirective($parse) {
       });
 
       if ('ngModel' in iAttrs) {
-        let ngModel = iElement.controller('ngModel');
+        const ngModel = iElement.controller('ngModel');
         directiveProps._onModelChange = value => {
           ngModel.$setViewValue(value);
         };
@@ -152,7 +152,7 @@ function reactNgDirective($parse) {
       component = renderAndRemoveOnDestroy(ComponentClass, iElement, directiveProps);
 
       if (iAttrs[instanceAttr]) {
-        let instanceProp = $parse(iAttrs[instanceAttr])(scope);
+        const instanceProp = $parse(iAttrs[instanceAttr])(scope);
 
         if (typeof instanceProp === 'string') {
           scope[instanceProp] = component;
@@ -193,20 +193,20 @@ function reactNgDirective($parse) {
 function reactStatigNgDirective($parse) {
   function getPropertyName(name, prefix) {
     //remove "react-" prefix and uncapitalize first letter
-    let cleanAttrName = name.replace(prefix, '');
-    let uncapitalizedAttrName = cleanAttrName.charAt(0).toLowerCase() + cleanAttrName.slice(1);
+    const cleanAttrName = name.replace(prefix, '');
+    const uncapitalizedAttrName = cleanAttrName.charAt(0).toLowerCase() + cleanAttrName.slice(1);
     // Use React DOM attributes names
-    let specialDOMAttrName = specialDOMAttrs[uncapitalizedAttrName];
-    let propName = specialDOMAttrName || uncapitalizedAttrName;
+    const specialDOMAttrName = specialDOMAttrs[uncapitalizedAttrName];
+    const propName = specialDOMAttrName || uncapitalizedAttrName;
     return propName;
   }
 
   return {
     restrict: 'A',
     link: function (scope, iElement, iAttrs) {
-      let name = iAttrs[staticDirectiveName];
-      let ComponentClass = getComponentIfExist(name);
-      let props = {};
+      const name = iAttrs[staticDirectiveName];
+      const ComponentClass = getComponentIfExist(name);
+      const props = {};
 
       angular.forEach(iAttrs, (value, attrName) => {
         if (iAttrs.hasOwnProperty(attrName) && attrName !== staticDirectiveName) {

@@ -1,6 +1,6 @@
 import HubSource from './hub-source';
 
-let defaultOptions = {
+const defaultOptions = {
   searchMax: 20,
   searchSideThreshold: 200
 };

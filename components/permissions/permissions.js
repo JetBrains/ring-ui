@@ -1,11 +1,11 @@
-var PermissionCache = require('./permissions__cache');
+const PermissionCache = require('./permissions__cache');
 
 /**
  * @example
  * <code>
- *   var permissions = new Permissions(auth, {prefix: 'jetbrains.jetpass.', serviceId: auth.serviceId})
+ *   const permissions = new Permissions(auth, {prefix: 'jetbrains.jetpass.', serviceId: auth.serviceId})
  *   permissions.load().then(function (p) {
- *     var canReadUser = p.has('read-user');
+ *     const canReadUser = p.has('read-user');
  *     ...
  *   });
  *
@@ -25,7 +25,7 @@ var PermissionCache = require('./permissions__cache');
  * <code>serviceId</code> if provided then permissions only for the service are loaded.
  * @constructor
  */
-var Permissions = function (auth, config) {
+function Permissions(auth, config) {
   config = config || {};
   this.query = config.serviceId && ('service: {' + config.serviceId + '}');
   this.namesConverter = config.prefix ? Permissions.getDefaultNamesConverter(config.prefix) : config.namesConverter;
@@ -36,7 +36,7 @@ var Permissions = function (auth, config) {
 
   this._auth = auth;
   this._promise = null;
-};
+}
 
 /**
  * Returns function, which cuts off prefix from server-side permission name
@@ -53,7 +53,7 @@ Permissions.getDefaultNamesConverter = function (prefix) {
 /**
  * @const {string}
  */
-var API_PERMISSION_CACHE_PATH = 'permissions/cache';
+const API_PERMISSION_CACHE_PATH = 'permissions/cache';
 
 /**
  * Loads logged-in user permissions.
@@ -64,15 +64,15 @@ Permissions.prototype.load = function () {
     return this._promise;
   }
 
-  var self = this;
-  this._promise = this._auth.requestToken().then(function (accessToken) {
-    var params = {
+  this._promise = this._auth.requestToken().then(accessToken => {
+    const params = {
       fields: 'permission/key,global,projects(id)',
-      query: self.query
+      query: this.query
     };
-    return self._auth.getApi(API_PERMISSION_CACHE_PATH, accessToken, params).
-      then(function (cachedPermissions) {
-        return new PermissionCache(cachedPermissions, self.namesConverter);
+
+    return this._auth.getApi(API_PERMISSION_CACHE_PATH, accessToken, params).
+      then(cachedPermissions => {
+        return new PermissionCache(cachedPermissions, this.namesConverter);
       });
   });
 

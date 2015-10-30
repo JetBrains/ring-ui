@@ -1,4 +1,4 @@
-var gemini = require('gemini');
+import gemini from 'gemini';
 
 gemini.suite('Alert', function (suite) {
   suite

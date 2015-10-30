@@ -1,7 +1,6 @@
 import ListUsersGroupsSource from './list__users-groups-source';
 
 describe('ListUsersGroupsSource', function () {
-
   beforeEach(function () {
     this.fakeAuth = {
       requestToken: this.sinon.stub().returns(Promise.resolve('testToken')),
@@ -10,7 +9,7 @@ describe('ListUsersGroupsSource', function () {
   });
 
   it('Should convert users to list model', function () {
-    let source = new ListUsersGroupsSource(this.fakeAuth);
+    const source = new ListUsersGroupsSource(this.fakeAuth);
 
     this.sinon.stub(source, 'getUsers').returns(Promise.resolve([{
       id: 1,
@@ -41,7 +40,7 @@ describe('ListUsersGroupsSource', function () {
   });
 
   it('Should convert usergroups to list model', function () {
-    let source = new ListUsersGroupsSource(this.fakeAuth);
+    const source = new ListUsersGroupsSource(this.fakeAuth);
 
     this.sinon.stub(source, 'getUsers').returns(Promise.resolve([{
       id: 1,
@@ -69,7 +68,7 @@ describe('ListUsersGroupsSource', function () {
   });
 
   it('Should support userCount plural formatter', function () {
-    let source = new ListUsersGroupsSource(this.fakeAuth, {
+    const source = new ListUsersGroupsSource(this.fakeAuth, {
       getPluralForUserCount: count => `${count} text`
     });
 
@@ -92,7 +91,7 @@ describe('ListUsersGroupsSource', function () {
   });
 
   it('Should display "No users" title if no users found', function () {
-    let source = new ListUsersGroupsSource(this.fakeAuth, {});
+    const source = new ListUsersGroupsSource(this.fakeAuth, {});
 
     this.sinon.stub(source, 'getUsers').returns(Promise.resolve([]));
 
@@ -105,7 +104,7 @@ describe('ListUsersGroupsSource', function () {
   });
 
   it('Should display "No groups" title if no groups found', function () {
-    let source = new ListUsersGroupsSource(this.fakeAuth, {});
+    const source = new ListUsersGroupsSource(this.fakeAuth, {});
 
     this.sinon.stub(source, 'getUsers').returns(Promise.resolve([{
       id: 1,

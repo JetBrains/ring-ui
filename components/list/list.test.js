@@ -1,15 +1,16 @@
-describe('List', function () {
-  var $ = require('jquery');
-  var React = require('react');
-  var ReactDOM = require('react-dom');
-  var TestUtils = require('react-addons-test-utils');
-  var List = require('./list');
-  var list;
-  var Type = List.ListProps.Type;
+import $ from 'jquery';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import TestUtils from 'react-addons-test-utils';
+import List from './list';
 
-  var getFirstListItem = function () {
+describe('List', function () {
+  const Type = List.ListProps.Type;
+  let list;
+
+  function getFirstListItem() {
     return ReactDOM.findDOMNode(list.refs.inner).firstChild;
-  };
+  }
 
   beforeEach(function () {
     list = TestUtils.renderIntoDocument(React.createElement(List));
@@ -21,7 +22,7 @@ describe('List', function () {
   });
 
   it('should check type of item', function () {
-    var itemMock = {
+    const itemMock = {
       rgItemType: Type.SEPARATOR
     };
 
@@ -29,7 +30,7 @@ describe('List', function () {
   });
 
   it('should support deprecated property `type`', function () {
-    var itemMock = {
+    const itemMock = {
       type: Type.SEPARATOR
     };
 
@@ -37,7 +38,7 @@ describe('List', function () {
   });
 
   it('by default item has type equal ITEM', function () {
-    var itemMock = {};
+    const itemMock = {};
 
     List.isItemType(Type.ITEM, itemMock).should.been.equal(true);
     List.isItemType(Type.SEPARATOR, itemMock).should.been.equal(false);
@@ -135,7 +136,7 @@ describe('List', function () {
       list.rerender({data: [
         {label: 'Hello!', icon: 'http://some.url/', type: List.ListProps.Type.ITEM}
       ]});
-      var icon = getFirstListItem().querySelector('.ring-list__icon');
+      const icon = getFirstListItem().querySelector('.ring-list__icon');
       expect(icon.style.backgroundImage).to.contain('http://some.url');
     });
 
@@ -153,7 +154,7 @@ describe('List', function () {
     });
 
     it('should handle click', function () {
-      var clicked = sinon.stub();
+      const clicked = sinon.stub();
 
       list.rerender({data: [
         {label: 'Hello!', onClick: clicked}

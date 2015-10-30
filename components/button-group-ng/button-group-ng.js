@@ -6,7 +6,7 @@ import '../button-group/button-group.scss';
 const CLASSNAME_FIRST = 'ring-button-group__first';
 const CLASSNAME_LAST = 'ring-button-group__last';
 
-let module = angular.module('Ring.button-group', []);
+const module = angular.module('Ring.button-group', []);
 
 function rgButtonGroup() {
   return {

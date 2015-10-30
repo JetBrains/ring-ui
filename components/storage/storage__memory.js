@@ -1,4 +1,4 @@
-var DEFAULT_SPACE_NAME = 'memoryStorage';
+const DEFAULT_SPACE_NAME = 'memoryStorage';
 
 /**
  * @prop {string} spaceName
@@ -7,14 +7,14 @@ var DEFAULT_SPACE_NAME = 'memoryStorage';
  * @return {MemoryStorage}
  * @constructor
  */
-var MemoryStorage = function (config) {
+function MemoryStorage(config) {
   if (!(this instanceof MemoryStorage)) {
     return new MemoryStorage(config);
   }
 
-  var spaceName = config && config.spaceName || DEFAULT_SPACE_NAME;
+  const spaceName = config && config.spaceName || DEFAULT_SPACE_NAME;
   this.space = MemoryStorage._storage[spaceName] || (MemoryStorage._storage[spaceName] = {});
-};
+}
 
 MemoryStorage._storage = {};
 
@@ -23,7 +23,7 @@ MemoryStorage._storage = {};
  * @return {Promise}
  */
 MemoryStorage.prototype.get = function (key) {
-  let value = key in this.space ? this.space[key] : null;
+  const value = key in this.space ? this.space[key] : null;
   return Promise.resolve(value);
 };
 
@@ -37,7 +37,7 @@ MemoryStorage.prototype.set = function (key, value) {
     if (value !== null) {
       // We should store objects copies
       return new Promise(resolve => resolve(JSON.stringify(value))).then(string => {
-        var result = JSON.parse(string);
+        const result = JSON.parse(string);
         this.space[key] = result;
         return result;
       });
@@ -67,8 +67,8 @@ MemoryStorage.prototype.each = function (callback) {
     return Promise.reject(new Error('Callback is not a function'));
   }
 
-  var promises = [];
-  for (var key in this.space) {
+  const promises = [];
+  for (const key in this.space) {
     if (this.space.hasOwnProperty(key)) {
       promises.push(callback(key, this.space[key]));
     }

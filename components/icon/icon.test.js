@@ -1,9 +1,9 @@
-describe('Icon', function () {
-  var $ = require('jquery');
-  var TestUtils = require('react-addons-test-utils');
-  var Icon = require('./icon');
-  var expandIcon = require('jetbrains-icons/expand.svg');
+import $ from 'jquery';
+import TestUtils from 'react-addons-test-utils';
+import Icon from './icon';
+import expandIcon from 'jetbrains-icons/expand.svg';
 
+describe('Icon', function () {
   beforeEach(function () {
     this.icon = TestUtils.renderIntoDocument(Icon.factory({
       glyph: expandIcon
@@ -40,7 +40,7 @@ describe('Icon', function () {
   });
 
   it('should set custom class', function () {
-    var CUSTOM_CSS_CLASS = 'my-icon';
+    const CUSTOM_CSS_CLASS = 'my-icon';
 
     this.icon.rerender({className: CUSTOM_CSS_CLASS});
     $(this.icon.node).attr('class').should.contain(CUSTOM_CSS_CLASS);

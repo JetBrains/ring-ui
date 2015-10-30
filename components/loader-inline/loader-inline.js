@@ -24,7 +24,7 @@ import './loader-inline.scss';
 
 export default class LoaderInline extends RingComponent {
   render() {
-    let classes = classNames(
+    const classes = classNames(
       'ring-loader-inline',
       this.props.className
     );

@@ -3,12 +3,12 @@ import {getStyles} from '../dom/dom';
 import shortcutsInstance from '../shortcuts/shortcuts';
 
 /* global angular: false */
-let ringShortcutsModule = angular.module('Ring.shortcuts', []);
+const ringShortcutsModule = angular.module('Ring.shortcuts', []);
 
 ringShortcutsModule.provider('shortcuts', function () {
-  let modes = {};
-  let mainModes = {};
-  let reference = [];
+  const modes = {};
+  const mainModes = {};
+  const reference = [];
 
   this.mode = config => {
     modes[config.id] = config.shortcuts;
@@ -25,7 +25,7 @@ ringShortcutsModule.provider('shortcuts', function () {
   this.$get = function ($rootScope) {
     return {
       bind: (name, handlers, scope) => {
-        let mode = modes[name];
+        const mode = modes[name];
 
         // Nothing to bind
         if (typeof handlers !== 'object') {
@@ -38,7 +38,7 @@ ringShortcutsModule.provider('shortcuts', function () {
         }
 
         mode.forEach(key => {
-          let handler = handlers[key.action];
+          const handler = handlers[key.action];
 
           if (!angular.isFunction(handler)) {
             return;
@@ -48,7 +48,7 @@ ringShortcutsModule.provider('shortcuts', function () {
             key: key.key,
             scope: scope || name,
             handler: (...args) => {
-              let ret = handler(...args);
+              const ret = handler(...args);
               /*eslint-disable angular/ng_no_private_call*/
               if (!$rootScope.$$phase) {
                 $rootScope.$apply();
@@ -60,7 +60,7 @@ ringShortcutsModule.provider('shortcuts', function () {
         });
       },
       triggerAction: (mode, action) => {
-        let actions = modes[mode];
+        const actions = modes[mode];
 
         for (let i = actions.length - 1; i >= 0; i--) {
           if (actions[i].action === action) {
@@ -88,7 +88,7 @@ ringShortcutsModule.directive('rgShortcutsApp', function () {
       $scope.loop = 'shortcutsLoop' in $attrs;
 
       function getNext(current, back) {
-        let position = current && $scope.zones.indexOf(current);
+        const position = current && $scope.zones.indexOf(current);
         let next;
 
         if (position >= 0) {
@@ -176,7 +176,7 @@ ringShortcutsModule.directive('rgShortcutsApp', function () {
       };
 
       this.sort = () => {
-        let orderedElements = document.queryAll('[rg-shortcuts]');
+        const orderedElements = document.queryAll('[rg-shortcuts]');
 
         $scope.zones.forEach(zone => {
           zone.order = orderedElements.indexOf(zone.element);
@@ -197,7 +197,7 @@ ringShortcutsModule.directive('rgShortcutsApp', function () {
         shortcutsInstance.spliceScope(zone.scope);
         shortcutsInstance.unbindScope(zone.scope);
 
-        let position = $scope.zones.indexOf(zone);
+        const position = $scope.zones.indexOf(zone);
 
         if (position !== -1) {
           $scope.zones.splice(position, 1);
@@ -205,7 +205,7 @@ ringShortcutsModule.directive('rgShortcutsApp', function () {
       };
 
       // Initial setup
-      let keyMap = {
+      const keyMap = {
         next: this.route.bind(this, 'next'),
         prev: this.route.bind(this, 'prev'),
         main: this.route.bind(this, 'main')
@@ -223,14 +223,14 @@ ringShortcutsModule.directive('rgShortcuts', function ($parse) {
     require: ['^rgShortcutsApp'],
     link: function ($scope, iElement, iAttrs, shortcutsCtrl) {
       // Closest controller
-      let ctrl = shortcutsCtrl[shortcutsCtrl.length - 1];
+      const ctrl = shortcutsCtrl[shortcutsCtrl.length - 1];
 
-      let name = iAttrs.rgShortcuts;
-      let map = $scope.$eval(iAttrs.shortcutsMap);
-      let focusGetter = $parse(iAttrs.shortcutsFocus);
-      let blurGetter = $parse(iAttrs.shortcutsBlur);
+      const name = iAttrs.rgShortcuts;
+      const map = $scope.$eval(iAttrs.shortcutsMap);
+      const focusGetter = $parse(iAttrs.shortcutsFocus);
+      const blurGetter = $parse(iAttrs.shortcutsBlur);
 
-      let zone = {
+      const zone = {
         name: name,
         scope: name + '-' + $scope.$id,
         element: iElement[0],

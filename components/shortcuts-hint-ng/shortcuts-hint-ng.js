@@ -1,18 +1,20 @@
 import Sniffr from 'sniffr';
 
 import DialogNg from '../dialog-ng/dialog-ng';
-import './shortcuts-hint-ng.scss';
-import '../input/input.scss';
 import ShortcutsNg from '../shortcuts-ng/shortcuts-ng';
 import HintPopupTpl from './shortcuts-hint-ng.html';
 import Icon from '../icon/icon';
 import reactNg from '../react-ng/react-ng';
+
+import './shortcuts-hint-ng.scss';
+import '../input/input.scss';
+
 reactNg({Icon});
 
 const HintPopupTplFileName = 'ring-ui/components/shortcuts-hint/shortcuts-hint.html';
 
 /* global angular:false */
-let HintPopupModule = angular.module('Ring.shortcuts.hint-popup', [DialogNg, ShortcutsNg, 'Ring.react-ng']);
+const HintPopupModule = angular.module('Ring.shortcuts.hint-popup', [DialogNg, ShortcutsNg, 'Ring.react-ng']);
 HintPopupModule.run($templateCache => {
   $templateCache.put(HintPopupTplFileName, HintPopupTpl);
 });
@@ -95,8 +97,8 @@ class HintPopupService {
   }
 
   show(title) {
-    let modes = this.shortcuts.getRegisteredShortcuts();
-    let isArray = it => Array.isArray(it);
+    const modes = this.shortcuts.getRegisteredShortcuts();
+    const isArray = it => Array.isArray(it);
 
     this.dialog.show({
       data: {modes, isArray},
@@ -113,7 +115,7 @@ class HintPopupService {
 }
 
 function shortcutKeySymbolFilter(shortcut) {
-  let sniffr = new Sniffr();
+  const sniffr = new Sniffr();
   sniffr.sniff();
 
   const MAC_OS = sniffr.os.name === 'macos';
@@ -159,12 +161,12 @@ function shortcutKeySymbolFilter(shortcut) {
 
 function shortcutSearchFilter(shortcuts, query = '') {
   return (shortcuts || []).filter(shortcut => {
-    let key = shortcut.key.join ? shortcut.key.join(' ') : shortcut.key;
-    let keysPresentation = shortcutKeySymbolFilter(key);
+    const key = shortcut.key.join ? shortcut.key.join(' ') : shortcut.key;
+    const keysPresentation = shortcutKeySymbolFilter(key);
 
-    let keyMatches = key.toLowerCase().indexOf(query.toLowerCase()) !== -1;
-    let titleMatches = shortcut.title.toLowerCase().indexOf(query.toLowerCase()) !== -1;
-    let presentationMatches = keysPresentation.toLowerCase().indexOf(query.toLowerCase()) !== -1;
+    const keyMatches = key.toLowerCase().indexOf(query.toLowerCase()) !== -1;
+    const titleMatches = shortcut.title.toLowerCase().indexOf(query.toLowerCase()) !== -1;
+    const presentationMatches = keysPresentation.toLowerCase().indexOf(query.toLowerCase()) !== -1;
 
     return keyMatches || titleMatches || presentationMatches;
   });

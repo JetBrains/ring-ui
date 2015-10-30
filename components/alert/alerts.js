@@ -108,8 +108,8 @@ export default class Alerts extends RingComponent {
       this._gap = parseInt(getStyles(this.node).paddingTop, 10);
     }
 
-    let childElements = nextState.childElements;
-    let lastAddedElement = childElements[childElements.length - 1];
+    const childElements = nextState.childElements;
+    const lastAddedElement = childElements[childElements.length - 1];
 
     if (!this._containerClone) {
       this._containerClone = this.node.cloneNode(false);
@@ -122,7 +122,7 @@ export default class Alerts extends RingComponent {
       /**
        * @type {HTMLStyleElement}
        */
-      let styleElement = document.createElement('style');
+      const styleElement = document.createElement('style');
       styleElement.type = 'text/css';
       styleElement.appendChild(document.createTextNode(''));
       document.body.appendChild(styleElement);
@@ -132,8 +132,8 @@ export default class Alerts extends RingComponent {
 
     this._cleanupStyles();
 
-    let alertToAppend = render(createElement(Alert, lastAddedElement), this._containerClone);
-    let heightToCompensate = findDOMNode(alertToAppend).offsetHeight;
+    const alertToAppend = render(createElement(Alert, lastAddedElement), this._containerClone);
+    const heightToCompensate = findDOMNode(alertToAppend).offsetHeight;
 
     // todo(igor.alexeenko): Merge vertical animation to element's height with animation from Header.
     this._stylesheet.insertRule('.alert-enter { margin-top: -' + (heightToCompensate + this._gap) + 'px }', 0);
@@ -152,7 +152,7 @@ export default class Alerts extends RingComponent {
    * @private
    */
   _getChildElements() {
-    let children = [];
+    const children = [];
     Children.forEach(this.props.children, function (child) {
       children.push(child);
     });
@@ -168,7 +168,7 @@ export default class Alerts extends RingComponent {
    * @return {Deferred}
    */
   add(caption, type, timeout) {
-    let animationPromise = new Promise(resolve => {
+    const animationPromise = new Promise(resolve => {
       this.animationPromise = this.animationPromise.then(() => {
         this._addElement(caption, type, resolve, timeout);
         return animationPromise;
@@ -186,10 +186,10 @@ export default class Alerts extends RingComponent {
    * @private
    */
   _addElement(caption, type, animationResolver, timeout) {
-    let childElements = this.state.childElements.slice(0);
-    let captionText = typeof caption === 'string' ? caption : 'composite';
+    const childElements = this.state.childElements.slice(0);
+    const captionText = typeof caption === 'string' ? caption : 'composite';
 
-    let element = {
+    const element = {
       animationResolver: animationResolver,
       caption: caption,
       key: captionText + type + Date.now(),
@@ -210,8 +210,8 @@ export default class Alerts extends RingComponent {
    * @param {Object} element
    */
   remove(element) {
-    let childElements = this.state.childElements.slice(0);
-    let elementIndex = childElements.indexOf(element);
+    const childElements = this.state.childElements.slice(0);
+    const elementIndex = childElements.indexOf(element);
 
     if (elementIndex === -1) {
       return;

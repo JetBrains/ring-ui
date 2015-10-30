@@ -6,7 +6,7 @@ import $ from 'jquery';
 import RingComponent from '../ring-component/ring-component';
 
 describe('TagsInput', function () {
-  let fakeTags = [{key: 1, label: 'test1'}];
+  const fakeTags = [{key: 1, label: 'test1'}];
 
   beforeEach(function () {
     this.tagsInput = renderIntoDocument(React.createElement(TagsInput, {tags: fakeTags}));
@@ -26,8 +26,8 @@ describe('TagsInput', function () {
     });
 
     it('should render tag', function () {
-      let renderedTag = this.tagsInput.renderTag(fakeTags[0]);
-      let containerEl = document.createElement('div');
+      const renderedTag = this.tagsInput.renderTag(fakeTags[0]);
+      const containerEl = document.createElement('div');
       ReactDOM.render(renderedTag, containerEl);
 
       containerEl.textContent.should.be.equal(fakeTags[0].label);
@@ -82,16 +82,16 @@ describe('TagsInput', function () {
   });
 
   it('Should copy tags to state on receiving props', function () {
-    let newTags = [{key: 4, label: 'test5'}];
+    const newTags = [{key: 4, label: 'test5'}];
 
     this.tagsInput.updateStateFromProps({tags: newTags});
     this.tagsInput.state.tags.should.be.deep.equal(newTags);
   });
 
   it('Should call datasource and set suggestions returned', function () {
-    let suggestions = [{key: 14, label: 'suggestion 14'}];
+    const suggestions = [{key: 14, label: 'suggestion 14'}];
 
-    let dataSource = this.sinon.spy(() => Promise.resolve(suggestions));
+    const dataSource = this.sinon.spy(() => Promise.resolve(suggestions));
 
     this.tagsInput.rerender({dataSource});
 
@@ -102,7 +102,7 @@ describe('TagsInput', function () {
   });
 
   it('Should call datasource with query entered', function () {
-    let dataSource = this.sinon.spy(() => Promise.resolve([]));
+    const dataSource = this.sinon.spy(() => Promise.resolve([]));
     this.tagsInput.rerender({dataSource});
     this.tagsInput.loadSuggestions('testquery');
 
@@ -114,7 +114,7 @@ describe('TagsInput', function () {
   });
 
   it('Should turn on loading message while loading suggestions', function () {
-    let dataSource = this.sinon.spy(() => Promise.resolve([]));
+    const dataSource = this.sinon.spy(() => Promise.resolve([]));
     this.tagsInput.rerender({dataSource});
     this.tagsInput.state.loading.should.be.true;
 
@@ -124,7 +124,7 @@ describe('TagsInput', function () {
   });
 
   it('Should drop exist tags from suggestions by key', function () {
-    let notAddedSuggestions = this.tagsInput.filterExistTags([
+    const notAddedSuggestions = this.tagsInput.filterExistTags([
       {key: 1, label: 'test1'},
       {key: 2, label: 'test2'}
     ]);

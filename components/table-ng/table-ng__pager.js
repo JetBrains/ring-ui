@@ -1,5 +1,5 @@
 /*global angular*/
-require('../message-bundle-ng/message-bundle-ng');
+import '../message-bundle-ng/message-bundle-ng';
 
 angular.module('Ring.table.pager', ['Ring.message-bundle'])
   .directive('rgTablePager', ['$location', 'RingMessageBundle', function ($location, RingMessageBundle) {
@@ -14,7 +14,7 @@ angular.module('Ring.table.pager', ['Ring.message-bundle'])
       },
       replace: true,
       link: function (scope, element, attrs) {
-        var defaultMaxPagesToShow = 7;
+        const defaultMaxPagesToShow = 7;
         scope.maxPages = attrs.maxPages || defaultMaxPagesToShow;
         scope.selectedPageNum = 1;
 
@@ -27,10 +27,10 @@ angular.module('Ring.table.pager', ['Ring.message-bundle'])
         scope.firstPageText = RingMessageBundle.first_page();
         scope.lastPageText = RingMessageBundle.last_page();
 
-        var openPageAfterInit = $location.search().page || (Math.floor(scope.skip / scope.top) + 1);
+        let openPageAfterInit = $location.search().page || (Math.floor(scope.skip / scope.top) + 1);
 
         scope.calculatePageClass = function (pageNum) {
-          var condition = pageNum === scope.selectedPageNum;
+          const condition = pageNum === scope.selectedPageNum;
           return {
             'ring-btn_light-blue': condition,
             'ring-btn_active': condition,
@@ -69,9 +69,9 @@ angular.module('Ring.table.pager', ['Ring.message-bundle'])
 
         scope.$watchGroup(['skip', 'total', 'top'], function () {
           scope.show = false;
-          var top = $location.search().top || +scope.top;
-          var total = scope.total;
-          var skip = scope.skip;
+          const top = $location.search().top || +scope.top;
+          const total = scope.total;
+          const skip = scope.skip;
 
           scope.top = top;
           scope.topOptions = [20, 50, 100];
@@ -87,8 +87,8 @@ angular.module('Ring.table.pager', ['Ring.message-bundle'])
               if (scope.maxPages < scope.totalPages) {
                 scope.endPage = scope.maxPages;
                 scope.sideBySidePages = (scope.maxPages - 1) / 2;
-                var freeSpaceLeft = (scope.selectedPageNum - 1) - scope.sideBySidePages;
-                var freeSpaceRight = scope.totalPages - (scope.selectedPageNum + scope.sideBySidePages);
+                const freeSpaceLeft = (scope.selectedPageNum - 1) - scope.sideBySidePages;
+                const freeSpaceRight = scope.totalPages - (scope.selectedPageNum + scope.sideBySidePages);
 
                 if (freeSpaceLeft > 0) {
                   scope.startPage = freeSpaceLeft + 1 + (freeSpaceRight < 0 ? freeSpaceRight : 0);
@@ -101,7 +101,7 @@ angular.module('Ring.table.pager', ['Ring.message-bundle'])
               }
 
               scope.pages = [];
-              for (var i = scope.startPage; i <= scope.endPage; i++) {
+              for (let i = scope.startPage; i <= scope.endPage; i++) {
                 scope.pages.push(i);
               }
 

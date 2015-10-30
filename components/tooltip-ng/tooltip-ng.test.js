@@ -1,15 +1,14 @@
-require('angular');
-require('angular-mocks');
-var $ = require('jquery');
-
-require('./tooltip-ng');
 /* global inject, angular */
+import 'angular';
+import 'angular-mocks';
+import $ from 'jquery';
+import'./tooltip-ng';
 
 describe('tooltipNg', function () {
-  var RgTooltipPopup;
-  var element;
-  var popupWrapper;
-  var INNER_TEXT = 'test foo';
+  const INNER_TEXT = 'test foo';
+  let RgTooltipPopup;
+  let element;
+  let popupWrapper;
 
   beforeEach(angular.mock.module('Ring.tooltip'));
 
@@ -18,7 +17,7 @@ describe('tooltipNg', function () {
   }));
 
   beforeEach(function () {
-    var container = document.createElement('div');
+    const container = document.createElement('div');
     element = document.createElement('div');
     container.appendChild(element);
     popupWrapper = new RgTooltipPopup(element, INNER_TEXT);
@@ -32,20 +31,20 @@ describe('tooltipNg', function () {
 
   it('Should set ring-tooltip-ng class for popup', function () {
     popupWrapper.displayTooltip();
-    var $popup = $(popupWrapper.popup.node);
+    const $popup = $(popupWrapper.popup.node);
 
     $popup.should.have.class('ring-tooltip-ng');
   });
 
   it('Should display message inside', function () {
     popupWrapper.displayTooltip();
-    var text = popupWrapper.popup.node.textContent;
+    const text = popupWrapper.popup.node.textContent;
 
     text.should.be.equal(INNER_TEXT);
   });
 
   it('Should close popup', function () {
-    var popup = popupWrapper.popup = {
+    const popup = popupWrapper.popup = {
       close: this.sinon.spy()
     };
 

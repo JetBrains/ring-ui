@@ -1,8 +1,9 @@
+import React from 'react';
+import TestUtils from 'react-addons-test-utils';
+import Input from './input';
+
 describe('Input', function () {
-  var React = require('react');
-  var TestUtils = require('react-addons-test-utils');
-  var Input = require('./input');
-  var component;
+  let component;
 
   beforeEach(function () {
     component = TestUtils.renderIntoDocument(React.createElement(Input));

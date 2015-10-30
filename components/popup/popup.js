@@ -142,10 +142,10 @@ export default class Popup extends RingComponentWithShortcuts {
       return node instanceof Element;
     }
 
-    let parent = currentElement.parentNode;
+    const parent = currentElement.parentNode;
 
     if (parent && validDomElement(parent)) {
-      let style = getStyles(parent);
+      const style = getStyles(parent);
       if (style && style.position === 'fixed') {
         return parent;
       }
@@ -164,12 +164,12 @@ export default class Popup extends RingComponentWithShortcuts {
    * @return {HTMLElement}
    */
   static renderPopup(component, anchorElement) {
-    let wrapperElement = document.createElement('div');
+    const wrapperElement = document.createElement('div');
 
-    let container = this.closestFixedParent(anchorElement) || document.body;
+    const container = this.closestFixedParent(anchorElement) || document.body;
     container.appendChild(wrapperElement);
 
-    let popupInstance = render(component, wrapperElement);
+    const popupInstance = render(component, wrapperElement);
 
     popupInstance.rerender({container: container});
     return popupInstance;
@@ -204,7 +204,7 @@ export default class Popup extends RingComponentWithShortcuts {
   }
 
   render() {
-    let classes = classNames({
+    const classes = classNames({
       'ring-popup': true,
       'ring-popup_bound': this.props.cutEdge
     }, this.props.className);
@@ -310,7 +310,7 @@ export default class Popup extends RingComponentWithShortcuts {
       return;
     }
 
-    let parent = this.node.parentNode;
+    const parent = this.node.parentNode;
     unmountComponentAtNode(parent);
 
     if (parent.parentNode) {
@@ -342,10 +342,10 @@ export default class Popup extends RingComponentWithShortcuts {
   }
 
   getElementOffset(element) {
-    let elementRect = getRect(element);
+    const elementRect = getRect(element);
 
     if (this.props.container) {
-      let containerRect = getRect(this.props.container);
+      const containerRect = getRect(this.props.container);
       elementRect.left -= containerRect.left;
       elementRect.top -= containerRect.top;
     }
@@ -358,20 +358,20 @@ export default class Popup extends RingComponentWithShortcuts {
    * @private
    */
   _getStyles() {
-    let props = this.props;
+    const props = this.props;
+    const styles = {};
+
     let top = props.top;
     let left = props.left;
-
-    let styles = {};
 
     let anchorElement = document.body;
     if (isMounted(props.anchorElement)) {
       anchorElement = props.anchorElement;
     }
 
-    let anchor = this.getElementOffset(anchorElement);
-    let anchorLeft = anchor.left + document.body.scrollLeft;
-    let anchorTop = anchor.top + document.body.scrollTop;
+    const anchor = this.getElementOffset(anchorElement);
+    const anchorLeft = anchor.left + document.body.scrollLeft;
+    const anchorTop = anchor.top + document.body.scrollTop;
 
     /* eslint-disable no-bitwise */
     if (this.node) {
@@ -425,7 +425,7 @@ export default class Popup extends RingComponentWithShortcuts {
     }
 
     // automatic position correction -->
-    let sidePadding = this.props.sidePadding;
+    const sidePadding = this.props.sidePadding;
     if (this.node) {
       if (styles.left < sidePadding) {
         styles.left = sidePadding;
@@ -435,12 +435,12 @@ export default class Popup extends RingComponentWithShortcuts {
         styles.top = sidePadding;
       }
 
-      let horizontalDiff = document.documentElement.clientWidth - styles.left - this.node.offsetWidth;
+      const horizontalDiff = document.documentElement.clientWidth - styles.left - this.node.offsetWidth;
       if (horizontalDiff < sidePadding) {
         styles.left = styles.left + horizontalDiff - sidePadding;
       }
 
-      let vericalDiff = document.documentElement.clientHeight - styles.top - this.node.offsetHeight;
+      const vericalDiff = document.documentElement.clientHeight - styles.top - this.node.offsetHeight;
       if (vericalDiff < sidePadding) {
         styles.top = styles.top + vericalDiff - sidePadding;
       }

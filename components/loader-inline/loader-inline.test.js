@@ -1,9 +1,10 @@
+import React from 'react';
+import TestUtils from 'react-addons-test-utils';
+import LoaderInline from './loader-inline';
+import $ from 'jquery';
+
 describe('LoaderInline', function () {
-  var React = require('react');
-  var TestUtils = require('react-addons-test-utils');
-  var LoaderInline = require('./loader-inline');
-  var $ = require('jquery');
-  var loader;
+  let loader;
 
   beforeEach(function () {
     loader = TestUtils.renderIntoDocument(React.createElement(LoaderInline));

@@ -21,7 +21,7 @@ export default class RingComponent extends Component {
   }
 
   static getUID() {
-    let id = String(this.idCounter++);
+    const id = String(this.idCounter++);
     return this.name + id;
   }
 
@@ -50,7 +50,7 @@ export default class RingComponent extends Component {
       }
     }
 
-    let newProps = Object.assign({}, this.props, props);
+    const newProps = Object.assign({}, this.props, props);
     return render(createElement(this.constructor, newProps), container, callback);
   }
 
@@ -101,7 +101,7 @@ export default class RingComponent extends Component {
           data = this.state[this.ngModelStateField];
         } else if (typeof this.ngModelStateField === 'object') {
           data = {};
-          for (let stateFieldName in this.state) {
+          for (const stateFieldName in this.state) {
             if (this.state.hasOwnProperty(stateFieldName) && this.ngModelStateField[stateFieldName]) {
               data[stateFieldName] = this.state[stateFieldName];
             }

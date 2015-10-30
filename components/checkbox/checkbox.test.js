@@ -28,7 +28,7 @@ describe('Checkbox', function () {
   });
 
   it('should generate unique id', function () {
-    var secondCheckboxId = renderIntoDocument(React.createElement(Checkbox)).node.getAttribute('id');
+    const secondCheckboxId = renderIntoDocument(React.createElement(Checkbox)).node.getAttribute('id');
     $(this.checkbox.node).should.not.have.id(secondCheckboxId);
   });
 
@@ -49,7 +49,7 @@ describe('Checkbox', function () {
   });
 
   it('should call handler for click event', function () {
-    var clickHandler = sinon.stub();
+    const clickHandler = sinon.stub();
 
     this.checkbox.rerender({
       onClick: clickHandler
@@ -60,7 +60,7 @@ describe('Checkbox', function () {
   });
 
   it('should not call handler on change event if disabled', function () {
-    var inputChange = sinon.stub();
+    const inputChange = sinon.stub();
 
     this.checkbox.rerender({
       disabled: true,
@@ -103,8 +103,8 @@ describe('Checkbox', function () {
   });
 
   it('should connect label with input by id', function () {
-    var inputId = this.checkbox.refs.input.getAttribute('id');
-    var forId = this.checkbox.node.getAttribute('for');
+    const inputId = this.checkbox.refs.input.getAttribute('id');
+    const forId = this.checkbox.node.getAttribute('for');
 
     expect(inputId).eq(forId);
   });

@@ -1,5 +1,5 @@
-require('./docked-panel-ng.scss');
-var debounce = require('mout/function/debounce');
+import debounce from 'mout/function/debounce';
+import './docked-panel-ng.scss';
 
 /**
  * @name Docked panel ng
@@ -38,38 +38,38 @@ angular.module('Ring.docked-panel', [])
   .directive('rgDockedPanel', function () {
     return {
       link: function (scope, element, attrs) {
-        var CSS_CLASS_NAME = 'ring-docked-panel';
-        var customCssClassOnStick = attrs.rgDockedPanelClass;
-        var panelInitialBottomPos;
-        var isPinned;
+        const CSS_CLASS_NAME = 'ring-docked-panel';
+        const customCssClassOnStick = attrs.rgDockedPanelClass;
+        let panelInitialBottomPos;
+        let isPinned;
 
         /**
          * Sticky container
          * @type {Element} panel
          */
-        var panel = element[0];
+        const panel = element[0];
 
-        var isClassListSupported = angular.isDefined(panel.classList);
+        const isClassListSupported = angular.isDefined(panel.classList);
 
         /**
          * Save panel initial rects and left margin for further use
          */
-        var savePanelInitialBottomPos = function () {
+        function savePanelInitialBottomPos() {
           panelInitialBottomPos = panel.getBoundingClientRect().bottom;
-        };
+        }
 
-        var getWindowHeight = function () {
+        function getWindowHeight() {
           return window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
-        };
+        }
 
-        var getDocumentScrollTop = function () {
+        function getDocumentScrollTop() {
           return (document.documentElement && document.documentElement.scrollTop) || document.body.scrollTop;
-        };
+        }
 
         /**
          * @param {String} className
          */
-        var addCssClass = function (className) {
+        function addCssClass(className) {
           if (className) {
             if (isClassListSupported) {
               panel.classList.add(className);
@@ -77,39 +77,39 @@ angular.module('Ring.docked-panel', [])
               panel.className += ' ' + className;
             }
           }
-        };
+        }
 
         /**
          * @param {String} className
          */
-        var removeCssClass = function (className) {
+        function removeCssClass(className) {
           if (isClassListSupported) {
             panel.classList.remove(className);
           } else {
             panel.className = panel.className.replace(className, '');
           }
-        };
+        }
 
         /**
          * Pin panel at the bottom of the page
          */
-        var stick = function () {
+        function stick() {
           addCssClass(CSS_CLASS_NAME);
           addCssClass(customCssClassOnStick);
           isPinned = true;
-        };
+        }
 
-        var unstick = function () {
+        function unstick() {
           removeCssClass(CSS_CLASS_NAME);
           removeCssClass(customCssClassOnStick);
           isPinned = false;
-        };
+        }
 
         /**
          * Check panel position
          */
-        var checkPanelPosition = function () {
-          var currentPanelBottomPos = panel.getBoundingClientRect().bottom;
+        function checkPanelPosition() {
+          const currentPanelBottomPos = panel.getBoundingClientRect().bottom;
 
           if (currentPanelBottomPos > getWindowHeight() && !isPinned) {
             stick();
@@ -117,10 +117,10 @@ angular.module('Ring.docked-panel', [])
           } else if (isPinned && currentPanelBottomPos + getDocumentScrollTop() >= panelInitialBottomPos) {
             unstick();
           }
-        };
+        }
 
-        var init = function () {
-          var scrollListener = debounce(checkPanelPosition, 10);
+        function init() {
+          const scrollListener = debounce(checkPanelPosition, 10);
 
           /**
            * Wait until all content on the page is loaded
@@ -137,7 +137,7 @@ angular.module('Ring.docked-panel', [])
             savePanelInitialBottomPos();
             checkPanelPosition();
           });
-        };
+        }
 
         init();
       }

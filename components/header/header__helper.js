@@ -26,7 +26,7 @@ export default class HeaderHelper {
    * @return {Promise}
    */
   static setServicesList(header, auth, params) {
-    let fields = '?fields=id,name,applicationName,homeUrl,iconUrl';
+    const fields = '?fields=id,name,applicationName,homeUrl,iconUrl';
 
     header.rerender({
       clientId: header.props.clientId || auth.config.client_id,
@@ -91,7 +91,7 @@ export default class HeaderHelper {
 
       header.refs.userMenu.setTitle(response.name);
 
-      let popupData = [
+      const popupData = [
         {
           label: translationsDict.profile,
           type: PopupMenu.ListProps.Type.LINK,

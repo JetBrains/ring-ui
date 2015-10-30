@@ -1,23 +1,22 @@
-require('angular');
-require('angular-route');
-require('angular-mocks');
-require('./tabs-ng');
-var $ = require('jquery');
+import 'angular';
+import 'angular-route';
+import 'angular-mocks';
+import './tabs-ng';
+import $ from 'jquery';
 
 describe('TabsNg', function () {
+  let $rootScope;
+  let $compile;
 
-  var $rootScope;
-  var $compile;
-
-  var getActiveTab = function (element) {
-    var el = $(element);
-    var active = el.find('.active');
-    var container = el.find('div.ring-tabs__container');
+  function getActiveTab(element) {
+    const el = $(element);
+    const active = el.find('.active');
+    const container = el.find('div.ring-tabs__container');
     return {
       title: active,
       content: container
     };
-  };
+  }
 
   beforeEach(window.module('Ring.tabs'));
 
@@ -29,7 +28,7 @@ describe('TabsNg', function () {
 
   describe('DOM', function () {
     it('Empty tabs', function () {
-      var element = $compile(
+      const element = $compile(
         '<rg-tabs>' +
         '</rg-tabs>'
       )($rootScope);
@@ -40,7 +39,7 @@ describe('TabsNg', function () {
     });
 
     it('One tab', function () {
-      var element = $compile(
+      const element = $compile(
         '<rg-tabs>' +
         '<rg-tabs-pane x-title="General">' +
         'General' +
@@ -49,14 +48,14 @@ describe('TabsNg', function () {
       )($rootScope);
 
       $rootScope.$digest();
-      var tab = getActiveTab(element);
+      const tab = getActiveTab(element);
 
       expect(tab.title.contents().first().text()).to.be.equal('General');
       expect(tab.content.html()).to.contain('General');
     });
 
     it('Two tabs', function () {
-      var element = $compile(
+      const element = $compile(
         '<rg-tabs>' +
         '<rg-tabs-pane x-title="General">' +
         'General' +
@@ -70,7 +69,7 @@ describe('TabsNg', function () {
 
       $rootScope.$digest();
 
-      var tab = getActiveTab(element);
+      const tab = getActiveTab(element);
 
       expect(tab.title.contents().first().text()).to.be.equal('Second');
       expect(tab.content.html()).to.contain('Second');
