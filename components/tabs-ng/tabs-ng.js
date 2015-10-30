@@ -23,7 +23,7 @@ import '../tabs/tabs.scss';
      </file>
    </example>
  */
-let ringTabsModule = angular.module('Ring.tabs', ['ngRoute']);
+const ringTabsModule = angular.module('Ring.tabs', ['ngRoute']);
 
 ringTabsModule.directive('rgTabs', function ($location, $routeParams, $rootScope) {
   return {
@@ -49,7 +49,7 @@ ringTabsModule.directive('rgTabs', function ($location, $routeParams, $rootScope
         }
 
         if (typeof newPane === 'number') {
-          let panes = $scope.panes.length - 1;
+          const panes = $scope.panes.length - 1;
 
           if (newPane > panes) {
             newPane = panes;

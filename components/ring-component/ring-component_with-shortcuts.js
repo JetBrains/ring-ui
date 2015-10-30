@@ -7,7 +7,7 @@ export default class RingComponentWithShortcuts extends RingComponent {
   toggleShortcuts(props) {
     if (this.getShortcutsProps) {
       if (props.shortcuts && !this.shortcutsScope) {
-        let shortcutsProps = this.getShortcutsProps();
+        const shortcutsProps = this.getShortcutsProps();
 
         if (!shortcutsProps || !shortcutsProps.map || !shortcutsProps.scope) {
           throw new Error(`Shortcuts' props weren't provided`);
@@ -20,7 +20,7 @@ export default class RingComponentWithShortcuts extends RingComponent {
         return;
       }
 
-      let hasScope = this.shortcutsEnabled();
+      const hasScope = this.shortcutsEnabled();
 
       if (props.shortcuts && !hasScope) {
         shortcuts.pushScope(this.shortcutsScope);

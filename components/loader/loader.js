@@ -61,7 +61,7 @@ class Particle {
   }
 
   draw(ctx) {
-    let alpha = this.life >= 0 ? this.life : 0;
+    const alpha = this.life >= 0 ? this.life : 0;
     ctx.fillStyle = `rgba(${this.color.r}, ${this.color.g}, ${this.color.b}, ${alpha})`;
 
     ctx.beginPath();
@@ -85,7 +85,7 @@ export default class Loader extends RingComponent {
   };
 
   static calculateGradient(startColor, stopColor, position) {
-    let calculateChannelValue = (a, b) => {
+    const calculateChannelValue = (a, b) => {
       return a + Math.round((b - a) * position);
     };
 
@@ -101,8 +101,8 @@ export default class Loader extends RingComponent {
   }
 
   setCanvasSize() {
-    let pixelRatio = Loader.getPixelRatio();
-    let canvasSize = this.props.size * pixelRatio;
+    const pixelRatio = Loader.getPixelRatio();
+    const canvasSize = this.props.size * pixelRatio;
 
     this.refs.canvas.width = canvasSize;
     this.refs.canvas.height = canvasSize;
@@ -148,13 +148,13 @@ export default class Loader extends RingComponent {
   }
 
   prepareInitialState(ticks) {
-    for (var i = 0; i < ticks; i++) {
+    for (let i = 0; i < ticks; i++) {
       this.step();
     }
   }
 
   handleLimits(coord, radius, speed, limit) {
-    let randomizedSpeedChange = Math.random(this.baseSpeed) - this.baseSpeed / 2;
+    const randomizedSpeedChange = Math.random(this.baseSpeed) - this.baseSpeed / 2;
 
     if (coord + (radius * 2) + this.baseSpeed >= limit) {
       return -(this.baseSpeed + randomizedSpeedChange);
@@ -181,10 +181,10 @@ export default class Loader extends RingComponent {
   }
 
   getNextColor() {
-    let colors = this.props.colors;
+    const colors = this.props.colors;
 
-    let currentColor = colors[this.colorIndex];
-    let nextColor = colors[this.colorIndex + 1] || colors[0];
+    const currentColor = colors[this.colorIndex];
+    const nextColor = colors[this.colorIndex + 1] || colors[0];
 
     return Loader.calculateGradient(currentColor, nextColor, this.tick / this.colorChangeTick);
   }

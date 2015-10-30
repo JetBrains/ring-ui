@@ -1,15 +1,15 @@
 /* eslint-disable camelcase */
+import Auth from './auth';
+import AuthRequestBuilder from './auth__request-builder';
+import AuthResponseParser from './auth__response-parser';
+import AuthStorage from './auth__storage';
+import MockedStorage from 'imports?window=mocked-storage!../storage/storage__local';
 import Sniffr from 'sniffr';
+
 const sniffr = new Sniffr();
 sniffr.sniff();
 
 describe('Auth', function () {
-  var Auth = require('./auth');
-  var AuthRequestBuilder = require('./auth__request-builder');
-  var AuthResponseParser = require('./auth__response-parser');
-  var AuthStorage = require('./auth__storage');
-  var MockedStorage = require('imports?window=mocked-storage!../storage/storage__local');
-
   describe('construction', function () {
     it('should require provide config', function () {
       expect(function () {
@@ -36,21 +36,22 @@ describe('Auth', function () {
     });
 
     it('should merge passed config with default config', function () {
-      var config = {
+      const config = {
         serverUri: 'http://localhost/'
       };
-      var auth = new Auth(config);
+
+      const auth = new Auth(config);
 
       auth.config.serverUri.should.equal(config.serverUri);
       auth.config.should.contain.keys(Object.keys(Auth.DEFAULT_CONFIG));
     });
 
     it('should set config.userParams with proper fields property', function () {
-      var config = {
+      const config = {
         serverUri: 'http://localhost/',
         userFields: ['name', 'profile/email']
       };
-      var auth = new Auth(config);
+      const auth = new Auth(config);
 
       auth.config.userParams.should.deep.equal({
         fields: 'guest,id,name,profile/avatar/url,profile/email'
@@ -67,7 +68,7 @@ describe('Auth', function () {
   });
 
   describe('getValidatedToken', function () {
-    var auth = new Auth({
+    const auth = new Auth({
       serverUri: '',
       scopes: ['0-0-0-0-0', 'youtrack'],
       optionalScopes: ['youtrack']
@@ -135,14 +136,14 @@ describe('Auth', function () {
   });
 
   describe('validateAgainstUser', function () {
-    var auth = new Auth({
+    const auth = new Auth({
       serverUri: 'http://server',
       redirect_uri: 'http://client',
       scopes: ['0-0-0-0-0', 'youtrack'],
       optionalScopes: ['youtrack']
     });
 
-    var hasCors = Auth.HAS_CORS;
+    const hasCors = Auth.HAS_CORS;
 
     beforeEach(function () {
       Auth.HAS_CORS = true;
@@ -154,7 +155,7 @@ describe('Auth', function () {
     });
 
     it('should resolve to access token when user is returned', function () {
-      var token = {access_token: 'token'};
+      const token = {access_token: 'token'};
       Auth.prototype.getApi.returns(Promise.resolve({login: 'user'}));
       return auth._validateAgainstUser(token).
         then(function (validToken) {
@@ -165,7 +166,7 @@ describe('Auth', function () {
     });
 
     it('should not validate user when CORS is disabled', function () {
-      var token = {access_token: 'token'};
+      const token = {access_token: 'token'};
       Auth.HAS_CORS = false;
 
       return auth._validateAgainstUser(token).
@@ -178,7 +179,7 @@ describe('Auth', function () {
 
 
     it('should reject with redirect if 401 response recieved', function () {
-      var token = {access_token: 'token'};
+      const token = {access_token: 'token'};
       Auth.prototype.getApi.returns(Promise.reject({
         status: 401,
         response: {
@@ -192,7 +193,7 @@ describe('Auth', function () {
     });
 
     it('should reject with redirect if invalid_grant response recieved', function () {
-      var token = {access_token: 'token'};
+      const token = {access_token: 'token'};
       Auth.prototype.getApi.returns(Promise.reject({
         response: {
           json: function () {
@@ -205,7 +206,7 @@ describe('Auth', function () {
     });
 
     it('should reject with redirect if invalid_grant response recieved', function () {
-      var token = {access_token: 'token'};
+      const token = {access_token: 'token'};
       Auth.prototype.getApi.returns(Promise.reject({
         response: {
           json: function () {
@@ -218,7 +219,7 @@ describe('Auth', function () {
     });
 
     it('should reject with redirect if 401 response without json recieved', function () {
-      var token = {access_token: 'token'};
+      const token = {access_token: 'token'};
       Auth.prototype.getApi.returns(Promise.reject({
         status: 401,
         message: '403 Forbidden',
@@ -234,7 +235,7 @@ describe('Auth', function () {
   });
 
   describe('init', function () {
-    var auth = new Auth({
+    let auth = new Auth({
       serverUri: '',
       redirect: true,
       redirect_uri: 'http://localhost:8080/hub',
@@ -261,7 +262,8 @@ describe('Auth', function () {
     });
 
     it('should fetch auth response from query parameters', function () {
-      var frozenTime = Auth._epoch();
+      const frozenTime = Auth._epoch();
+
       this.sinon.stub(AuthResponseParser.prototype, 'getLocation').returns('http://localhost:8080/hub#access_token=2YotnFZFEjr1zCsicMWpAA&state=xyz&token_type=example&expires_in=3600');
       this.sinon.stub(Auth, '_epoch').returns(frozenTime);
 
@@ -391,7 +393,7 @@ describe('Auth', function () {
   });
 
   describe('background init', function () {
-    var auth;
+    let auth;
 
     beforeEach(function () {
       this.sinon.stub(Auth.prototype, '_getValidatedToken').returns(Promise.reject({authRedirect: true}));
@@ -551,7 +553,7 @@ describe('Auth', function () {
   });
 
   describe('requestUser', function () {
-    var auth;
+    let auth;
 
     beforeEach(function () {
       auth = new Auth({
@@ -602,7 +604,7 @@ describe('Auth', function () {
   });
 
   describe('getSecure and getApi', function () {
-    var auth = new Auth({
+    const auth = new Auth({
       serverUri: 'http://localhost:8080'
     });
 
@@ -614,23 +616,23 @@ describe('Auth', function () {
     });
 
     it('getSecure should return promise with response object', function () {
-      var response = auth.getSecure('http://localhost:6666/users/me', 'token');
+      const response = auth.getSecure('http://localhost:6666/users/me', 'token');
       this.sinon.server.respond();
 
       return response.should.become({name: 'user'});
     });
 
     it('getSecure should reject promise for non-200 response codes', function () {
-      var response = auth.getSecure('http://localhost:404', 'token');
-      var server = this.sinon.server;
+      const response = auth.getSecure('http://localhost:404', 'token');
+      const server = this.sinon.server;
       server.respond();
 
       return response.should.have.been.rejected;
     });
 
     it('getSecure should reject promise with error and response for non-200 response codes', function () {
-      var response = auth.getSecure('http://localhost:500', 'token');
-      var server = this.sinon.server;
+      const response = auth.getSecure('http://localhost:500', 'token');
+      const server = this.sinon.server;
       server.respond();
 
       return response.catch(function (error) {
@@ -641,8 +643,8 @@ describe('Auth', function () {
     });
 
     it('getSecure should set headers', function () {
-      var response = auth.getSecure('http://localhost:6666/users/me', 'token');
-      var server = this.sinon.server;
+      const response = auth.getSecure('http://localhost:6666/users/me', 'token');
+      const server = this.sinon.server;
       server.respond();
 
       return response.then(function () {
@@ -654,11 +656,11 @@ describe('Auth', function () {
     });
 
     it('getSecure should pass params', function () {
-      var response = auth.getSecure('http://localhost:6666/users/me', 'token', {
+      const response = auth.getSecure('http://localhost:6666/users/me', 'token', {
         fields: 'one,two',
         $top: '2'
       });
-      var server = this.sinon.server;
+      const server = this.sinon.server;
       server.respond();
 
       return response.catch(function () {
@@ -667,7 +669,7 @@ describe('Auth', function () {
     });
 
     it('getApi should return promise with response object', function () {
-      var response = auth.getApi('users/me', 'token');
+      const response = auth.getApi('users/me', 'token');
       this.sinon.server.respond();
 
       return response.should.become({name: 'user'});
@@ -675,7 +677,7 @@ describe('Auth', function () {
   });
 
   describe('logout', function () {
-    var auth = new Auth({
+    const auth = new Auth({
       serverUri: '',
       redirect_uri: 'http://localhost:8080/hub',
       client_id: '1-1-1-1-1',

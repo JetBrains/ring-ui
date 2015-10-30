@@ -3,13 +3,13 @@
  * @author igor.alexeenko (Igor Alekseyenko)
  */
 
-var $ = require('jquery');
-var urlUtils = require('../url-utils/url-utils');
+import $ from 'jquery';
+import urlUtils from '../url-utils/url-utils';
 
 describe('urlUtils', function () {
   describe('fixUrl', function () {
-    var baseTag;
-    var baseUrl;
+    let baseTag;
+    let baseUrl;
 
     beforeEach(function () {
       baseTag = $('<base href="/some/base/url/">');

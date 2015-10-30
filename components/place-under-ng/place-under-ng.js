@@ -4,8 +4,8 @@
  * position should be 'absolute'
  */
 
-require('dom4');
-var debounce = require('mout/function/debounce');
+import 'dom4';
+import debounce from 'mout/function/debounce';
 
 /**
  * @name Place Under Ng
@@ -41,9 +41,9 @@ var debounce = require('mout/function/debounce');
     require('ring-ui/components/place-under-ng/place-under-ng');
 
     window.addEventListener('scroll', function(){
-      var target = document.querySelector('.target-element');
+      const target = document.querySelector('.target-element');
 
-      var scrolledTop = (document.documentElement && document.documentElement.scrollTop) || document.body.scrollTop;
+      const scrolledTop = (document.documentElement && document.documentElement.scrollTop) || document.body.scrollTop;
       if (scrolledTop > 30) {
         target.style.position = 'fixed';
       } else {
@@ -88,7 +88,7 @@ angular.module('Ring.place-under', [])
  * place-top-offset="1" = offset in pixels
  */
   .directive('rgPlaceUnder', function (getClosestElementWithCommonParent) {
-    var DEBOUNCE_INTERVAL = 10;
+    const DEBOUNCE_INTERVAL = 10;
 
     return {
       restrict: 'A',
@@ -96,26 +96,25 @@ angular.module('Ring.place-under', [])
         /**
          * Use plain JS to make sidebar stickable
          */
-        var element = iElement[0];
+        const element = iElement[0];
 
-        var topOffset = parseInt(iAttrs.placeTopOffset, 10) || 0;
-        var syncHeight = iAttrs.syncHeight;
+        const topOffset = parseInt(iAttrs.placeTopOffset, 10) || 0;
+        const syncHeight = iAttrs.syncHeight;
 
         /**
          * Syncing sidebar position with other element bottom
          * @param syncWithElement - DOM node to sync with
          */
-        var syncPositionWith = function (syncWithElement) {
+        function syncPositionWith(syncWithElement) {
+          const sidebarScrollListener = debounce(() => {
+            const scrolledTop = (document.documentElement && document.documentElement.scrollTop) || document.body.scrollTop;
 
-          var sidebarScrollListener = debounce(function () {
-            var scrolledTop = (document.documentElement && document.documentElement.scrollTop) || document.body.scrollTop;
+            const syncedElementHeight = syncWithElement.offsetHeight;
+            const syncedElementOffsetTop = syncWithElement.getBoundingClientRect().top + scrolledTop;
 
-            var syncedElementHeight = syncWithElement.offsetHeight;
-            var syncedElementOffsetTop = syncWithElement.getBoundingClientRect().top + scrolledTop;
+            const bottom = syncedElementOffsetTop + syncedElementHeight;
 
-            var bottom = syncedElementOffsetTop + syncedElementHeight;
-
-            var margin = Math.max(bottom - scrolledTop, syncedElementHeight);
+            const margin = Math.max(bottom - scrolledTop, syncedElementHeight);
 
             element.style.marginTop = margin + topOffset + 'px';
 
@@ -129,20 +128,15 @@ angular.module('Ring.place-under', [])
           }, DEBOUNCE_INTERVAL);
 
           sidebarScrollListener();
-
           window.addEventListener('scroll', sidebarScrollListener);
-
-          scope.$on('$destroy', function () {
-            window.removeEventListener('scroll', sidebarScrollListener);
-          });
-
+          scope.$on('$destroy', () => window.removeEventListener('scroll', sidebarScrollListener));
           scope.$watch('show', sidebarScrollListener);
-        };
+        }
 
-        var startSyncing = function (placeUnderSelector) {
+        function startSyncing(placeUnderSelector) {
           if (placeUnderSelector) {
             scope.$evalAsync(function sync() {
-              var syncWith = getClosestElementWithCommonParent(element, placeUnderSelector);
+              const syncWith = getClosestElementWithCommonParent(element, placeUnderSelector);
 
               if (syncWith) {
                 syncPositionWith(syncWith);
@@ -151,7 +145,7 @@ angular.module('Ring.place-under', [])
               }
             });
           }
-        };
+        }
 
         iAttrs.$observe('rgPlaceUnder', startSyncing);
 
@@ -166,7 +160,7 @@ angular.module('Ring.place-under', [])
  */
   .factory('getClosestElementWithCommonParent', function () {
     return function getClosestElementWithCommonParent(currentElement, selector) {
-      var parent = currentElement.parentNode;
+      const parent = currentElement.parentNode;
       if (parent) {
         return parent.query(selector) || getClosestElementWithCommonParent(parent, selector);
       } else {

@@ -8,7 +8,7 @@ import {render} from 'react-dom';
 import ReactAlert from '../alert/alert';
 import ReactAlerts from '../alert/alerts';
 
-let module = angular.module('Ring.alert', []);
+const module = angular.module('Ring.alert', []);
 
 function alert() {
   let container = null;

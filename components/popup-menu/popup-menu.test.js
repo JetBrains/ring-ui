@@ -1,9 +1,10 @@
+import React from 'react';
+import ReactDOM from 'react-dom';
+import TestUtils from 'react-addons-test-utils';
+import PopupMenu from './popup-menu';
+
 describe('PopupMenu', function () {
-  var React = require('react');
-  var ReactDOM = require('react-dom');
-  var TestUtils = require('react-addons-test-utils');
-  var PopupMenu = require('./popup-menu');
-  var popup;
+  let popup;
 
   beforeEach(function () {
     popup = TestUtils.renderIntoDocument(React.createElement(PopupMenu));

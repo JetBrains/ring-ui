@@ -32,7 +32,7 @@ import './button-group.scss';
  */
 export default class ButtonGroup extends RingComponent {
   render() {
-    let classes = classNames('ring-button-group', this.props.className);
+    const classes = classNames('ring-button-group', this.props.className);
     return (
       <div
         {...this.props}

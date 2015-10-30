@@ -1,12 +1,11 @@
-require('angular');
-require('angular-mocks');
-require('./sidebar-ng');
+import 'angular';
+import 'angular-mocks';
+import './sidebar-ng';
 
 describe('SidebarNg', function () {
-
-  var scope;
-  var element;
-  var $compile;
+  let scope;
+  let element;
+  let $compile;
 
   beforeEach(window.module('Ring.sidebar'));
 

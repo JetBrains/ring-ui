@@ -1,18 +1,17 @@
-describe('Permissions', function () {
-  var Auth = require('../auth/auth');
-  var Permissions = require('./permissions');
-  var PermissionCache = require('./permissions__cache');
+import Auth from '../auth/auth';
+import Permissions from './permissions';
+import PermissionCache from './permissions__cache';
 
+describe('Permissions', function () {
   /**
    * @param id
    * @returns {{id: *}}
    */
-  var createSpace = function (id) {
+  function createSpace(id) {
     return {
       id: id
     };
-  };
-
+  }
 
   /**
    * @param {string} key
@@ -20,14 +19,14 @@ describe('Permissions', function () {
    * @param {boolean=} isGlobal
    * @returns {{permission: {key: *}, projects: *, global: *}}
    */
-  var createPermission = function (key, spaces, isGlobal) {
+  function createPermission(key, spaces, isGlobal) {
     return {
       permission: {key: key}, projects: spaces, global: isGlobal
     };
-  };
+  }
 
   describe('construction', function () {
-    var auth = new Auth({serverUri: ''});
+    const auth = new Auth({serverUri: ''});
 
     it('shouldn\'t build query if no spaceId provided', function () {
       expect(new Permissions(auth).query).to.equal(undefined);
@@ -42,7 +41,7 @@ describe('Permissions', function () {
     });
 
     it('should create namesConverter for prefix', function () {
-      var permissions = new Permissions(auth, {prefix: 'jetbrains.jetpass.'});
+      const permissions = new Permissions(auth, {prefix: 'jetbrains.jetpass.'});
       expect(permissions.namesConverter).not.to.equal(undefined);
       expect(permissions.namesConverter('jetbrains.jetpass.project-read')).to.equal('project-read');
     });
@@ -54,20 +53,20 @@ describe('Permissions', function () {
     });
 
     describe('construction with defined namesConverter', function () {
-      var converter = function (input) {
+      function converter(input) {
         return input.toLowerCase();
-      };
+      }
 
       it('should pass permission names converter', function () {
         expect(new Permissions(auth, {namesConverter: converter}).namesConverter).to.equal(converter);
       });
 
       it('should use default permission names converter if prefix defined', function () {
-        var args = {
+        const args = {
           namesConverter: converter,
           prefix: 'jetbrains.jetpass.'
         };
-        var permissions = new Permissions(auth, args);
+        const permissions = new Permissions(auth, args);
         expect(permissions.namesConverter).not.to.equal(undefined);
         expect(permissions.namesConverter('jetbrains.jetpass.project-read')).to.equal('project-read');
       });
@@ -75,7 +74,7 @@ describe('Permissions', function () {
   });
 
   describe('cache', function () {
-    var permissionCache = new PermissionCache([
+    const permissionCache = new PermissionCache([
       createPermission('jetbrains.jetpass.space-read', null, true),
       createPermission('jetbrains.jetpass.space-update', [
         createSpace('123')
@@ -183,11 +182,12 @@ describe('Permissions', function () {
     });
 
     describe('cache with defined permissions converter', function () {
-      var namesConverter = function (key) {
-        var splittedKey = key.split('.');
+      function namesConverter(key) {
+        const splittedKey = key.split('.');
         return splittedKey[splittedKey.length - 1].toLowerCase().replace(/\_/g, '-');
-      };
-      var permissionCacheWithConverter = new PermissionCache([
+      }
+
+      const permissionCacheWithConverter = new PermissionCache([
         createPermission('jetbrains.jetpass.project-read', null, true),
         createPermission('JetBrains.YouTrack.UPDATE_NOT_OWN_WORK_ITEM', [
           createSpace('123')
@@ -220,15 +220,17 @@ describe('Permissions', function () {
   });
 
   describe('check and bind variable', function () {
-    var permissions = new Permissions(new Auth({serverUri: ''}));
-    var permissionKeysDefaultConverter = Permissions.getDefaultNamesConverter('jetbrains.jetpass.');
-    var permissionKeysTestConverter = function (key) {
+    const permissions = new Permissions(new Auth({serverUri: ''}));
+    const permissionKeysDefaultConverter = Permissions.getDefaultNamesConverter('jetbrains.jetpass.');
+
+    function permissionKeysTestConverter(key) {
       if (key === 'not-defined-key') {
         return undefined;
       }
       return permissionKeysDefaultConverter(key);
-    };
-    var permissionCache = new PermissionCache([
+    }
+
+    const permissionCache = new PermissionCache([
       createPermission('jetbrains.jetpass.space-read', null, true),
       createPermission('jetbrains.jetpass.space-update', [
         createSpace('123')
@@ -247,7 +249,7 @@ describe('Permissions', function () {
     });
 
     it('should bind variable to true for given permission', function () {
-      var scope = {};
+      const scope = {};
       return permissions.bindVariable(scope, 'canReadSpace', 'space-read').
         then(function () {
           scope.canReadSpace.should.be.true;
@@ -255,7 +257,7 @@ describe('Permissions', function () {
     });
 
     it('should bind variable to true for given permission in space', function () {
-      var scope = {};
+      const scope = {};
       return permissions.bindVariable(scope, 'canUpdateSpace', 'space-update', '123').
         then(function () {
           scope.canUpdateSpace.should.be.true;
@@ -263,7 +265,7 @@ describe('Permissions', function () {
     });
 
     it('should bind variable to false for absent permission', function () {
-      var scope = {};
+      const scope = {};
       return permissions.bindVariable(scope, 'canReadRole', 'role-read').
         then(function () {
           scope.canReadRole.should.be.false;
@@ -271,7 +273,7 @@ describe('Permissions', function () {
     });
 
     it('should bind variable to false for absent permission in space', function () {
-      var scope = {};
+      const scope = {};
       return permissions.bindVariable(scope, 'canUpdateSpace', 'space-update', '456').
         then(function () {
           scope.canUpdateSpace.should.be.false;
@@ -279,7 +281,7 @@ describe('Permissions', function () {
     });
 
     it('permission cache should not contain permissions with key undefined', function () {
-      var scope = {};
+      const scope = {};
       return permissions.bindVariable(scope, 'canUpdateSomething', 'undefined').
         then(function () {
           scope.canUpdateSomething.should.be.false;

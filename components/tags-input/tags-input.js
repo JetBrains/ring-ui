@@ -149,21 +149,21 @@ export default class TagsInput extends RingComponentWithShortcuts {
   }
 
   addTag(tag) {
-    let tags = this.state.tags.concat([tag]);
+    const tags = this.state.tags.concat([tag]);
     this.setState({tags});
     this.refs.select.clear();
     this.refs.select.filterValue('');
   }
 
   onRemoveTag(tagToRemove) {
-    let tags = this.state.tags.filter(tag => tag !== tagToRemove);
+    const tags = this.state.tags.filter(tag => tag !== tagToRemove);
     this.setState({tags});
   }
 
   handleBackspace() {
-    let currentInputValue = this._inputNode.value;
+    const currentInputValue = this._inputNode.value;
     if (!currentInputValue) {
-      let tagsLength = this.state.tags.length;
+      const tagsLength = this.state.tags.length;
       this.onRemoveTag(this.state.tags[tagsLength - 1]);
     }
   }
@@ -178,7 +178,7 @@ export default class TagsInput extends RingComponentWithShortcuts {
   }
 
   filterExistTags(suggestions) {
-    let tagsMap = new Map(this.state.tags.map(tag => [tag.key, tag]));
+    const tagsMap = new Map(this.state.tags.map(tag => [tag.key, tag]));
     return suggestions.filter(suggestion => !tagsMap.has(suggestion.key));
   }
 
@@ -203,7 +203,7 @@ export default class TagsInput extends RingComponentWithShortcuts {
   }
 
   renderTag(tag) {
-    let TagComponent = this.props.customTagComponent || Tag;
+    const TagComponent = this.props.customTagComponent || Tag;
     return (
       <TagComponent
         {...tag}
@@ -212,7 +212,7 @@ export default class TagsInput extends RingComponentWithShortcuts {
   }
 
   render() {
-    let classes = classNames('ring-js-shortcuts', 'ring-tags-input', this.props.className);
+    const classes = classNames('ring-js-shortcuts', 'ring-tags-input', this.props.className);
 
     return (
       <div

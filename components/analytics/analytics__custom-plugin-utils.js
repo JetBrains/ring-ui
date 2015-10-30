@@ -1,6 +1,7 @@
 import Sniffr from 'sniffr';
 
-var AnalyticsCustomPluginUtils = {};
+const AnalyticsCustomPluginUtils = {};
+
 /**
  * Statistics server does not accept strings with some symbols and undefined values
  * @param value
@@ -8,11 +9,11 @@ var AnalyticsCustomPluginUtils = {};
  * @returns string, where prohibitted symbols are replaced with '_'
  */
 AnalyticsCustomPluginUtils.reformatString = function (value, isCategory) {
-  var str = String(value);
+  const str = String(value);
   /**
    * Category also cannot contain symbol '/' (but action can)
    */
-  var regexp = isCategory ? /[\.:;!@#^&*()\{}\[\]?,%=+\\\/]+/g : /[\.:;!@#^&*()\{}\[\]?,%=+\\]+/g;
+  const regexp = isCategory ? /[\.:;!@#^&*()\{}\[\]?,%=+\\\/]+/g : /[\.:;!@#^&*()\{}\[\]?,%=+\\]+/g;
   return str.replace(regexp, '_');
 };
 
@@ -21,6 +22,7 @@ AnalyticsCustomPluginUtils.getPageViewDurationPresentation = function (durationM
   if (duration > 3600) {
     return 'more-than-hour';
   }
+
   /**
    * rounded duration possible values:
    * less than 1 second: [0, 1)
@@ -30,8 +32,9 @@ AnalyticsCustomPluginUtils.getPageViewDurationPresentation = function (durationM
    * ....
    * n - less than 2^(n + 1) seconds
    */
-  var roundedDuration = Math.floor(Math.pow(2, Math.floor(Math.log2(duration)) + 1));
+  let roundedDuration = Math.floor(Math.pow(2, Math.floor(Math.log2(duration)) + 1));
   roundedDuration = (roundedDuration > 0) ? roundedDuration : 1;
+
   return 'less-than-' + roundedDuration + '-sec';
 };
 
@@ -39,8 +42,8 @@ AnalyticsCustomPluginUtils.getScreenWidthPresentation = function () {
   /**
    * Sizes were taken from bootstrap's grid (xs, sm, md, lg)
    */
-  var sizes = [0, 768, 992, 1200];
-  for (var i = 1; i < sizes.length; ++i) {
+  const sizes = [0, 768, 992, 1200];
+  for (let i = 1; i < sizes.length; ++i) {
     if (window.innerWidth < sizes[i]) {
       return '[' + sizes[i - 1] + 'px;' + sizes[i] + 'px)';
     }
@@ -53,12 +56,12 @@ AnalyticsCustomPluginUtils.npeSaveLowerCase = function (val) {
 };
 
 AnalyticsCustomPluginUtils.getUserAgentPresentation = function () {
-  let sniffr = new Sniffr();
+  const sniffr = new Sniffr();
   sniffr.sniff();
 
-  var name = AnalyticsCustomPluginUtils.npeSaveLowerCase(sniffr.browser.name || 'unknown');
-  var majorVersion = sniffr.browser.version[0];
-  var version = majorVersion || 'unknown';
+  const name = AnalyticsCustomPluginUtils.npeSaveLowerCase(sniffr.browser.name || 'unknown');
+  const majorVersion = sniffr.browser.version[0];
+  const version = majorVersion || 'unknown';
 
   return name + '$' + version;
 };

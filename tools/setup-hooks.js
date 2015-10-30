@@ -1,6 +1,7 @@
 /* eslint-env node */
 /* eslint-disable no-process-exit */
 /* eslint-disable no-console*/
+/* eslint-disable no-var*/
 
 /**
  * Pre-commit hook. Helps to detect linting issue before commit

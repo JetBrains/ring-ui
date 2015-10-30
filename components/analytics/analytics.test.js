@@ -1,9 +1,10 @@
-describe('analytics singleton', function () {
-  var analytics = require('./analytics');
-  var AnalyticsGAPlugin = require('./analytics__ga-plugin');
-  var AnalyticsCustomPlugin = require('./analytics__custom-plugin');
-  var Analytics = analytics.constructor;
+import analytics from './analytics';
+import AnalyticsGAPlugin from './analytics__ga-plugin';
+import AnalyticsCustomPlugin from './analytics__custom-plugin';
 
+const Analytics = analytics.constructor;
+
+describe('analytics singleton', function () {
   it('should be created', function () {
     expect(analytics).should.exist;
   });
@@ -17,7 +18,8 @@ describe('analytics singleton', function () {
   });
 
   describe('ga plugin', function () {
-    var gaPlugin;
+    let gaPlugin;
+
     beforeEach(function () {
       delete window.ga;
       gaPlugin = new AnalyticsGAPlugin('SOME-ID');
@@ -33,7 +35,7 @@ describe('analytics singleton', function () {
     });
 
     it('should send pageview event', function () {
-      var rememberGA = window.ga;
+      const rememberGA = window.ga;
       window.ga = this.sinon.spy();
       gaPlugin.trackPageView('some-path');
 
@@ -43,7 +45,7 @@ describe('analytics singleton', function () {
     });
 
     it('should send action event', function () {
-      var rememberGA = window.ga;
+      const rememberGA = window.ga;
       window.ga = this.sinon.spy();
       gaPlugin.trackEvent('some-category', 'some-action');
 
@@ -57,7 +59,8 @@ describe('analytics singleton', function () {
   });
 
   describe('ga plugin with no key and in non-development mode', function () {
-    var gaPlugin;
+    let gaPlugin;
+
     beforeEach(function () {
       delete window.ga;
       gaPlugin = new AnalyticsGAPlugin();
@@ -71,8 +74,9 @@ describe('analytics singleton', function () {
   });
 
   describe('tracking events', function () {
-    var send;
-    var clock;
+    let send;
+    let clock;
+
     beforeEach(function () {
       send = this.sinon.spy();
       clock = this.sinon.useFakeTimers();
@@ -81,7 +85,7 @@ describe('analytics singleton', function () {
 
     describe('#enabled', function () {
       beforeEach(function () {
-        var customPlugin = new AnalyticsCustomPlugin(send);
+        const customPlugin = new AnalyticsCustomPlugin(send);
         analytics.config([customPlugin]);
       });
 
@@ -133,18 +137,18 @@ describe('analytics singleton', function () {
 
       describe('trackEntityProperties', function () {
         it('should send all enumerated properties to statistics server on tracking entity', function () {
-          var entity = {
+          const entity = {
             param1: 'first',
             param2: 'second',
             param3: 'third',
             param4: 'fourth',
             param5: 'should-be-ignored'
           };
-          var trackedProperties = ['param1', 'param2', 'param3', 'param4'];
+          const trackedProperties = ['param1', 'param2', 'param3', 'param4'];
           analytics.trackEntityProperties('sample-entity', entity, trackedProperties);
           clock.tick(10500);
 
-          var trackedData = [];
+          const trackedData = [];
           trackedProperties.forEach(function (it) {
             trackedData.push({
               category: 'sample-entity',
@@ -155,7 +159,7 @@ describe('analytics singleton', function () {
         });
 
         it('should not send any data if no properties requested', function () {
-          var entity = {
+          const entity = {
             param1: 'first',
             param2: 'second'
           };
@@ -166,7 +170,7 @@ describe('analytics singleton', function () {
         });
 
         it('should not throw error if there are no some properties', function () {
-          var entity = {
+          const entity = {
             param1: 'first',
             param2: 'second'
           };
@@ -183,7 +187,7 @@ describe('analytics singleton', function () {
         });
 
         it('should work with subproperties', function () {
-          var entity = {
+          const entity = {
             property: {
               subproperty1: 'subproperty1-value',
               subproperty2: {
@@ -192,7 +196,7 @@ describe('analytics singleton', function () {
             },
             param2: 'second'
           };
-          var trackedProperies = [
+          const trackedProperies = [
             'property.subproperty2.subsubproperty',
             'propery.subproperty3.unexisting'
           ];
@@ -238,13 +242,13 @@ describe('analytics singleton', function () {
 
       describe('flushing restriction', function () {
         it('flushing should be allowed on second step', function () {
-          var counter = 0;
-          var flushingIsAllowedOnSecondCheck = function () {
+          let counter = 0;
+          function flushingIsAllowedOnSecondCheck() {
             ++counter;
             return counter === 2;
-          };
+          }
 
-          var customPlugin = new AnalyticsCustomPlugin(send, false, 10000, flushingIsAllowedOnSecondCheck);
+          const customPlugin = new AnalyticsCustomPlugin(send, false, 10000, flushingIsAllowedOnSecondCheck);
           analytics.config([customPlugin]);
 
           analytics.trackEvent('test-category', 'test-action');

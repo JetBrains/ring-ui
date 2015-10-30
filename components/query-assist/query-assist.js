@@ -30,7 +30,7 @@ const POPUP_COMPENSATION = INPUT_BORDER_WIDTH +
 
 const ngModelStateField = {query: true, caret: true};
 
-const noop = function () {};
+function noop() {}
 
 /**
  * @name QueryAssist
@@ -237,7 +237,7 @@ export default class QueryAssist extends RingComponentWithShortcuts {
   }
 
   didMount() {
-    let query = this.props.query || '';
+    const query = this.props.query || '';
 
     this.immediateState = {
       query: query,
@@ -318,9 +318,9 @@ export default class QueryAssist extends RingComponentWithShortcuts {
   }
 
   setFocus() {
-    let queryLength = this.immediateState.query != null && this.immediateState.query.length;
-    let newCaretPosition = this.immediateState.caret < queryLength ? this.immediateState.caret : queryLength;
-    let currentCaretPosition = this.caret.getPosition({avoidFocus: true});
+    const queryLength = this.immediateState.query != null && this.immediateState.query.length;
+    const newCaretPosition = this.immediateState.caret < queryLength ? this.immediateState.caret : queryLength;
+    const currentCaretPosition = this.caret.getPosition({avoidFocus: true});
 
     if (this.immediateState.focus && !this.props.disabled && currentCaretPosition !== -1) {
       // Set to end of field value if newCaretPosition is inappropriate
@@ -330,7 +330,7 @@ export default class QueryAssist extends RingComponentWithShortcuts {
   }
 
   scrollInput() {
-    let caretOffset = this.caret.getOffset();
+    const caretOffset = this.caret.getOffset();
 
     if (this.input.clientWidth !== this.input.scrollWidth && caretOffset > this.input.clientWidth) {
       this.input.scrollLeft = this.input.scrollLeft + caretOffset;
@@ -339,7 +339,7 @@ export default class QueryAssist extends RingComponentWithShortcuts {
 
   handleFocusChange(e) {
     // otherwise it's blur and false
-    let focus = e.type === 'focus';
+    const focus = e.type === 'focus';
 
     // Track mouse state to avoid focus loss on clicks on icons.
     // Doesn't handle really edge cases like shift+tab while mouse button is pressed.
@@ -363,7 +363,7 @@ export default class QueryAssist extends RingComponentWithShortcuts {
   }
 
   handleInput() {
-    let props = {
+    const props = {
       query: this.input.textContent.replace(/\s/g, ' '),
       caret: this.caret.getPosition(),
       focus: true
@@ -373,8 +373,8 @@ export default class QueryAssist extends RingComponentWithShortcuts {
       return;
     }
 
-    let currentQueryIsEmpty = this.immediateState.query === '';
-    let newQueryIsEmpty = props.query === '';
+    const currentQueryIsEmpty = this.immediateState.query === '';
+    const newQueryIsEmpty = props.query === '';
 
     if (newQueryIsEmpty !== currentQueryIsEmpty) {
       this.setState({placeholderEnabled: newQueryIsEmpty});
@@ -393,8 +393,8 @@ export default class QueryAssist extends RingComponentWithShortcuts {
   }
 
   handleTab(e) {
-    let list = this._popup && this._popup.refs.List;
-    let suggestion = list && (list.getSelected() || list.getFirst());
+    const list = this._popup && this._popup.refs.List;
+    const suggestion = list && (list.getSelected() || list.getFirst());
 
     if (suggestion && this._popup && this._popup.isVisible()) {
       e.preventDefault();
@@ -410,8 +410,8 @@ export default class QueryAssist extends RingComponentWithShortcuts {
   }
 
   handleCaretMove(e) {
-    let caret = this.caret.getPosition();
-    let popupHidden = (!this._popup || !this._popup.isVisible()) && e.type === 'click';
+    const caret = this.caret.getPosition();
+    const popupHidden = (!this._popup || !this._popup.isVisible()) && e.type === 'click';
 
     if (!this.props.disabled && (caret !== this.immediateState.caret || popupHidden)) {
       this.immediateState.caret = caret;
@@ -426,7 +426,7 @@ export default class QueryAssist extends RingComponentWithShortcuts {
         (params.caret === this.immediateState.caret || this.immediateState.caret === undefined)) {
         resolve(params.suggestions);
 
-        let state = {
+        const state = {
           loading: false,
           placeholderEnabled: !params.query,
           query: params.query
@@ -456,12 +456,12 @@ export default class QueryAssist extends RingComponentWithShortcuts {
       return;
     }
 
-    let currentCaret = this.immediateState.caret;
-    let suggestion = data.data;
-    let prefix = suggestion.prefix || '';
-    let suffix = suggestion.suffix || '';
+    const currentCaret = this.immediateState.caret;
+    const suggestion = data.data;
+    const prefix = suggestion.prefix || '';
+    const suffix = suggestion.suffix || '';
 
-    let state = {
+    const state = {
       caret: suggestion.caret,
       query: this.immediateState.query.substr(0, suggestion.completionStart) + prefix + suggestion.option + suffix
     };
@@ -474,7 +474,7 @@ export default class QueryAssist extends RingComponentWithShortcuts {
 
     this.props.onChange(state);
 
-    let focusState = {focus: true};
+    const focusState = {focus: true};
     this.props.onFocusChange(focusState);
 
     if (state.query !== this.immediateState.query) {
@@ -520,11 +520,11 @@ export default class QueryAssist extends RingComponentWithShortcuts {
   }
 
   sendRequest(params) {
-    let value = this.props.dataSource(params);
-    let dataPromise = Promise.resolve(value);
+    const value = this.props.dataSource(params);
+    const dataPromise = Promise.resolve(value);
 
     // Close popup after timeout between long requests
-    let timeout = window.setTimeout(() => {
+    const timeout = window.setTimeout(() => {
       this.setState({
         loading: true
       });
@@ -541,14 +541,14 @@ export default class QueryAssist extends RingComponentWithShortcuts {
 
   getPopupOffset(suggestions) {
     // First suggestion should be enough?
-    let suggestion = suggestions && suggestions[0];
+    const suggestion = suggestions && suggestions[0];
 
     // Check of suggestion begins not from the end
-    let completionStart = suggestion &&
+    const completionStart = suggestion &&
       suggestion.completionStart !== suggestion.completionEnd &&
       suggestion.completionStart;
 
-    let completionStartNode = this.input.firstChild &&
+    const completionStartNode = this.input.firstChild &&
       suggestion.completionStart !== false &&
       suggestion.completionStart != null &&
       this.input.firstChild.childNodes[completionStart];
@@ -557,7 +557,7 @@ export default class QueryAssist extends RingComponentWithShortcuts {
       (getRect(completionStartNode).right - getRect(this.input).left);
 
     if (!offset) {
-      let caret = this.caret.getOffset();
+      const caret = this.caret.getOffset();
 
       // Do not compensate caret in the beginning of field
       if (caret === 0) {
@@ -572,7 +572,7 @@ export default class QueryAssist extends RingComponentWithShortcuts {
 
   // TODO Move to renderLeter and simplify
   getLetterClass(index) {
-    let LETTER_CLASS = 'ring-query-assist__letter';
+    const LETTER_CLASS = 'ring-query-assist__letter';
 
     return this.state.styleRanges &&
       this.state.styleRanges.
@@ -605,7 +605,7 @@ export default class QueryAssist extends RingComponentWithShortcuts {
       return;
     }
 
-    let renderedSuggestions = this.renderSuggestions(suggestions);
+    const renderedSuggestions = this.renderSuggestions(suggestions);
 
     if (!this._popup || !this._popup.node) {
       this._popup = PopupMenu.renderPopup(
@@ -643,7 +643,7 @@ export default class QueryAssist extends RingComponentWithShortcuts {
   }
 
   clearQuery() {
-    let state = {
+    const state = {
       caret: 0,
       query: '',
       focus: true
@@ -661,10 +661,10 @@ export default class QueryAssist extends RingComponentWithShortcuts {
   }
 
   renderSuggestions(suggestions) {
-    let renderedSuggestions = [];
+    const renderedSuggestions = [];
 
     suggestions.forEach((suggestion, index, arr) => {
-      let prevSuggestion = arr[index - 1] && arr[index - 1].group;
+      const prevSuggestion = arr[index - 1] && arr[index - 1].group;
 
       if (prevSuggestion !== suggestion.group) {
 
@@ -679,6 +679,7 @@ export default class QueryAssist extends RingComponentWithShortcuts {
       let option;
       let before = false;
       let after = false;
+
       if (suggestion.matchingStart !== suggestion.matchingEnd) {
         before = suggestion.option.substring(0, suggestion.matchingStart);
         option = <span className="ring-list__highlight">{suggestion.option.substring(suggestion.matchingStart, suggestion.matchingEnd)}</span>;
@@ -687,12 +688,12 @@ export default class QueryAssist extends RingComponentWithShortcuts {
         option = suggestion.option;
       }
 
-      let prefix = !!suggestion.prefix && <span className="ring-list__service">{suggestion.prefix}</span>;
-      let suffix = !!suggestion.suffix && <span className="ring-list__service">{suggestion.suffix}</span>;
+      const prefix = !!suggestion.prefix && <span className="ring-list__service">{suggestion.prefix}</span>;
+      const suffix = !!suggestion.suffix && <span className="ring-list__service">{suggestion.suffix}</span>;
 
       label = DOM.span(null, prefix, before, option, after, suffix);
 
-      let item = {
+      const item = {
         key: suggestion.prefix + suggestion.option + suggestion.suffix + suggestion.group + suggestion.description,
         label: label,
         rgItemType: PopupMenu.ListProps.Type.ITEM,
@@ -715,7 +716,7 @@ export default class QueryAssist extends RingComponentWithShortcuts {
 
   renderLetter(letter, index) {
     // \u00a0 === &nbsp;
-    let letterValue = letter === ' ' ? '\u00a0' : letter;
+    const letterValue = letter === ' ' ? '\u00a0' : letter;
     // Despite warning we don't need key here because of renderToStaticMarkup
     return (
       <span
@@ -746,12 +747,12 @@ export default class QueryAssist extends RingComponentWithShortcuts {
   }
 
   render() {
-    let renderPlaceholder = !!this.props.placeholder && this.state.placeholderEnabled;
-    let renderClear = this.props.clear && !!this.state.query;
-    let renderGlass = this.props.glass && !this.state.loading;
-    let renderGlassOrLoader = this.props.glass || this.state.loading;
+    const renderPlaceholder = !!this.props.placeholder && this.state.placeholderEnabled;
+    const renderClear = this.props.clear && !!this.state.query;
+    const renderGlass = this.props.glass && !this.state.loading;
+    const renderGlassOrLoader = this.props.glass || this.state.loading;
 
-    let inputClasses = classNames({
+    const inputClasses = classNames({
       'ring-query-assist__input ring-input ring-js-shortcuts': true,
       'ring-query-assist__input_gap': renderGlassOrLoader !== renderClear &&
         (renderGlassOrLoader || renderClear),

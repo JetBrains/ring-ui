@@ -2,7 +2,8 @@
  * Resolve url for svg icons
  */
 import Sniffr from 'sniffr';
-let sniffr = new Sniffr();
+
+const sniffr = new Sniffr();
 sniffr.sniff();
 
 export default class IconUrl {

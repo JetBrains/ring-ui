@@ -10,13 +10,13 @@ import simulateKeypress from 'simulate-keypress';
 import Sniffr from 'sniffr';
 
 describe('QueryAssist', function () {
-  let sniffr = new Sniffr();
+  const sniffr = new Sniffr();
   sniffr.sniff();
 
-  var testQuery = 'oooooooooooo';
-  var testQueryLength = testQuery.length;
+  const testQuery = 'oooooooooooo';
+  const testQueryLength = testQuery.length;
 
-  var suggestions = [{
+  const suggestions = [{
     prefix: 'login: ',
     option: 'test',
     suffix: ' ',
@@ -154,7 +154,7 @@ describe('QueryAssist', function () {
 
 
   describe('rendering', function () {
-    var LETTER_CLASS = 'ring-query-assist__letter';
+    const LETTER_CLASS = 'ring-query-assist__letter';
 
     it('should render letters', function () {
       this.renderQueryAssist();
@@ -220,7 +220,7 @@ describe('QueryAssist', function () {
         ]
       });
 
-      var letters = $(this.queryAssist.input).find('.' + LETTER_CLASS);
+      const letters = $(this.queryAssist.input).find('.' + LETTER_CLASS);
 
       letters.eq(0).should.have.class(LETTER_CLASS + '_text');
       letters.eq(1).should.have.class(LETTER_CLASS + '_field-value');
@@ -321,7 +321,7 @@ describe('QueryAssist', function () {
 
       this.queryAssist.renderPopup(suggestions);
 
-      var list = $(findDOMNode(this.queryAssist._popup.refs.List));
+      const list = $(findDOMNode(this.queryAssist._popup.refs.List));
 
       list.find('.ring-list__item').should.have.length(suggestions.length);
       list.find('.ring-list__highlight').should.have.length(suggestions.length);
@@ -331,8 +331,8 @@ describe('QueryAssist', function () {
   });
 
   describe('completion', function () {
-    var completeQuery = 'test';
-    var middleCaret = completeQuery.length / 2;
+    const completeQuery = 'test';
+    const middleCaret = completeQuery.length / 2;
 
     function getSuggestionText(suggestion) {
       return (
@@ -406,7 +406,7 @@ describe('QueryAssist', function () {
 
   describe('callbacks', function () {
     it('should call onApply', function () {
-      var onApply = this.sinon.stub();
+      const onApply = this.sinon.stub();
       this.renderQueryAssist({
         onApply: onApply
       });
@@ -419,7 +419,7 @@ describe('QueryAssist', function () {
     });
 
     it('should call onApply from glass', function () {
-      var onApply = this.sinon.stub();
+      const onApply = this.sinon.stub();
       this.renderQueryAssist({
         glass: true,
         onApply: onApply
@@ -433,7 +433,7 @@ describe('QueryAssist', function () {
     });
 
     it('should call onClear', function () {
-      var onClear = this.sinon.stub();
+      const onClear = this.sinon.stub();
       this.renderQueryAssist({
         clear: true,
         onClear: onClear

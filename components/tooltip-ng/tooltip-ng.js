@@ -39,14 +39,14 @@ import './tooltip-ng.scss';
 const OPEN_CLASS = 'ring-tooltip-ng_open';
 
 /*global angular*/
-let ringTooltipModule = angular.module('Ring.tooltip', []);
+const ringTooltipModule = angular.module('Ring.tooltip', []);
 
 ringTooltipModule.directive('rgTooltip', function ($parse, RgTooltipPopup) {
   return {
     restrict: 'A',
     link: function (scope, iElement, iAttrs) {
-      let element = iElement[0];
-      let popupWrapper = new RgTooltipPopup(element, $parse(iAttrs.rgTooltip)(scope));
+      const element = iElement[0];
+      const popupWrapper = new RgTooltipPopup(element, $parse(iAttrs.rgTooltip)(scope));
 
       element.addEventListener('mouseover', () => {
         popupWrapper.displayTooltip();

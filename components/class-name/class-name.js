@@ -8,9 +8,9 @@
  * @param {string} baseName
  * @constructor
  */
-var ClassName = function (baseName) {
+function ClassName(baseName) {
   this.setBaseName(baseName);
-};
+}
 
 /**
  * @param {string=} element
@@ -18,7 +18,7 @@ var ClassName = function (baseName) {
  * @return {string}
  */
 ClassName.prototype.getClassName = function (element, modifier) {
-  var className = this.baseName;
+  let className = this.baseName;
 
   if (element) {
     className += '__' + element;

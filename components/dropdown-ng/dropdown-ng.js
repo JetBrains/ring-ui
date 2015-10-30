@@ -55,7 +55,7 @@ import PopupMenu from '../popup-menu/popup-menu';
 */
 
 /* globals angular */
-let ringDropdownModule = angular.module('Ring.dropdown', []);
+const ringDropdownModule = angular.module('Ring.dropdown', []);
 
 ringDropdownModule.directive('rgDropdown', function () {
   const OPEN_POPUP_CLASS_NAME = 'dropdown-ng_open';
@@ -70,14 +70,15 @@ ringDropdownModule.directive('rgDropdown', function () {
       onItemSelect: '='
     },
     controller: function ($scope, $element) {
-      let element = $element[0];
-      let popupMenuInstance = null;
-      let ITEM_TYPES = {
+      const element = $element[0];
+      const ITEM_TYPES = {
         LINK: 1,
         ITEM: 2
       };
 
-      let config = angular.extend({}, {
+      let popupMenuInstance = null;
+
+      const config = angular.extend({}, {
         anchorElement: element,
         autoRemove: false,
         cutEdge: false,
@@ -90,9 +91,11 @@ ringDropdownModule.directive('rgDropdown', function () {
 
       function getItemType(item) {
         let type = angular.isDefined(item.type) ? item.type : ITEM_TYPES.ITEM;
+
         if (item.url || item.type === 'link') {
           type = ITEM_TYPES.LINK;
         }
+
         return type;
       }
 
@@ -120,6 +123,7 @@ ringDropdownModule.directive('rgDropdown', function () {
                   item.onSelect.apply(item);
                 }
               });
+
               popupMenuInstance.hide();
             }
           };
@@ -129,6 +133,7 @@ ringDropdownModule.directive('rgDropdown', function () {
       function setItems(items) {
         if (angular.isArray(items) && items.length) {
           config.data = convertItemsForPopup(items);
+
           if (!popupMenuInstance) {
             popupMenuInstance = PopupMenu.renderPopup(createElement(PopupMenu, config));
           } else {
@@ -137,7 +142,7 @@ ringDropdownModule.directive('rgDropdown', function () {
         }
       }
 
-      let itemsSrc = $scope.itemsSrc();
+      const itemsSrc = $scope.itemsSrc();
       if (typeof itemsSrc !== 'function') {
         $scope.$watch('items', items => {
           setItems(items);
@@ -146,7 +151,7 @@ ringDropdownModule.directive('rgDropdown', function () {
 
       element.addEventListener('click', () => {
         if (!popupMenuInstance && typeof itemsSrc === 'function') {
-          let promise = itemsSrc();
+          const promise = itemsSrc();
           if (promise.then) {
             promise.then(items => {
               setItems(items);

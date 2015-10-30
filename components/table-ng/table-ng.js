@@ -158,7 +158,7 @@ reactNg({Checkbox});
   </file>
 </example>
 */
-let ringTableModule = angular.module('Ring.table', ['Ring.table.toolbar', 'Ring.react-ng', 'Ring.place-under']);
+const ringTableModule = angular.module('Ring.table', ['Ring.table.toolbar', 'Ring.react-ng', 'Ring.place-under']);
 
 ringTableModule.directive('rgTable', function () {
   return {
@@ -217,7 +217,7 @@ ringTableModule.directive('rgTableHeader', function (getClosestElementWithCommon
     transclude: true,
     replace: true,
     link: function (scope, iElement, iAttrs) {
-      let element = iElement[0];
+      const element = iElement[0];
       let stickToElement = null;
 
       scope.stickToSelector = iAttrs.stickTo;
@@ -227,22 +227,22 @@ ringTableModule.directive('rgTableHeader', function (getClosestElementWithCommon
         scope.stickToSelector = '.ring-table__toolbar';
       }
 
-      let scrollableHeader = element.query('.ring-table__header:not(.ring-table__header_sticky)');
-      let fixedHeader = element.query('.ring-table__header_sticky');
+      const scrollableHeader = element.query('.ring-table__header:not(.ring-table__header_sticky)');
+      const fixedHeader = element.query('.ring-table__header_sticky');
 
-      let toolbarFixed = () => {
+      const toolbarFixed = () => {
         return stickToElement.query('.' + TOOLBAR_FIXED_CLASSNAME) !== null;
       };
 
       /**
        * Sync header columns width with real table
        */
-      let resizeFixedHeader = debounce(() => {
+      const resizeFixedHeader = debounce(() => {
         fixedHeader.style.width = scrollableHeader.offsetWidth + 'px';
-        let titles = fixedHeader.queryAll('.ring-table__title');
+        const titles = fixedHeader.queryAll('.ring-table__title');
 
         Array.prototype.forEach.call(titles, (titleElement, index) => {
-          let targetHeaderTitle = scrollableHeader.queryAll('.ring-table__title')[index];
+          const targetHeaderTitle = scrollableHeader.queryAll('.ring-table__title')[index];
           titleElement.style.width = getStyles(targetHeaderTitle).width;
         });
 
@@ -251,7 +251,7 @@ ringTableModule.directive('rgTableHeader', function (getClosestElementWithCommon
       /**
        * Toggle headers on scroll. Also resize header columns with some big interval
        */
-      let scrollListener = debounce(() => {
+      const scrollListener = debounce(() => {
         if (toolbarFixed()) {
           fixedHeader.style.display = 'block';
           scrollableHeader.style.visibility = 'hidden';
@@ -298,14 +298,14 @@ ringTableModule.directive('rgTableRow', function () {
       rowItem: '='
     },
     link: function (scope, iElement, iAttrs, ctrls) {
-      let rgTableCtrl = ctrls[0];
-      let rgTableRowCtrl = ctrls[1];
+      const rgTableCtrl = ctrls[0];
+      const rgTableRowCtrl = ctrls[1];
       rgTableRowCtrl.setSelection(rgTableCtrl.selection);
     },
     controllerAs: 'rowCtrl',
     bindToController: true,
     controller: function ($scope, $element) {
-      let element = $element[0];
+      const element = $element[0];
 
       let watchRowCheckFlag;
       this.setSelection = selection => {
@@ -333,17 +333,17 @@ ringTableModule.directive('rgTableRow', function () {
           return false;
         }
         //TODO: cache this operation if perfomance issue exists
-        let checkedItems = this.selection.getCheckedItems();
+        const checkedItems = this.selection.getCheckedItems();
         return checkedItems && checkedItems.length > 0;
       };
 
       function getRowOutOfViewInfo(el, offsetInRows) {
-        let rect = getRect(el);
-        let offset = rect.height * offsetInRows;
-        let windowHeight = window.innerHeight || document.documentElement.clientHeight;
+        const rect = getRect(el);
+        const offset = rect.height * offsetInRows;
+        const windowHeight = window.innerHeight || document.documentElement.clientHeight;
 
-        let isGoneUp = rect.top < offset;
-        let isGoneDown = rect.bottom > (windowHeight - offset);
+        const isGoneUp = rect.top < offset;
+        const isGoneDown = rect.bottom > (windowHeight - offset);
 
         return {
           offset: offset,
@@ -361,7 +361,7 @@ ringTableModule.directive('rgTableRow', function () {
 
       $scope.$on('rgTable:activateItem', (e, item) => {
         if (item === this.rowItem) {
-          let scrollInfo = getRowOutOfViewInfo(element, 2);
+          const scrollInfo = getRowOutOfViewInfo(element, 2);
           if (scrollInfo.isOutOfView) {
             element.scrollIntoView(scrollInfo.isGoneUp);
             addSpacingAfterScroll(scrollInfo.isGoneDown ? scrollInfo.offset : -scrollInfo.offset);
@@ -480,7 +480,7 @@ ringTableModule.directive('rgTableColumn', function () {
     scope: true,
     template: require('./table-ng__column.html'),
     link: function (scope, iElement, iAttrs) {
-      let element = iElement[0];
+      const element = iElement[0];
 
       scope.isLimited = angular.isDefined(iAttrs.limited);
       scope.isUnlimited = angular.isDefined(iAttrs.unlimited);
@@ -492,7 +492,7 @@ ringTableModule.directive('rgTableColumn', function () {
       scope.isPullLeft = angular.isDefined(iAttrs.pullLeft);
 
       function adjustUnlimitedColumnWidths() {
-        let unlimitedColumnsCount = element.parentNode.queryAll('.ring-table__column[unlimited]').length;
+        const unlimitedColumnsCount = element.parentNode.queryAll('.ring-table__column[unlimited]').length;
         if (unlimitedColumnsCount > 1) {
           element.style.width = (100 / unlimitedColumnsCount).toFixed() + '%';
         }

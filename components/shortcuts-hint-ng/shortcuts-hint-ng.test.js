@@ -61,20 +61,20 @@ describe('Shortcuts ng hint', function () {
     }));
 
     it('Should not filter if query is empty', function () {
-      let filtered = shortcutSearchFilter(fakeShortcuts, undefined);
+      const filtered = shortcutSearchFilter(fakeShortcuts, undefined);
 
       filtered.should.be.deep.equal(fakeShortcuts);
     });
 
     it('Should search by shortcut title', function () {
-      let filtered = shortcutSearchFilter(fakeShortcuts, 'second');
+      const filtered = shortcutSearchFilter(fakeShortcuts, 'second');
 
       filtered.length.should.be.equal(1);
       filtered[0].should.be.equal(fakeShortcuts[1]);
     });
 
     it('Should search by shortcut key', function () {
-      let filtered = shortcutSearchFilter(fakeShortcuts, 'down');
+      const filtered = shortcutSearchFilter(fakeShortcuts, 'down');
 
       filtered.length.should.be.equal(1);
       filtered[0].should.be.equal(fakeShortcuts[2]);
@@ -84,20 +84,20 @@ describe('Shortcuts ng hint', function () {
       this.sinon.stub(Sniffr.prototype, 'sniff', function () {
         this.os = {name: 'macos'};
       });
-      let filtered = shortcutSearchFilter(fakeShortcuts, '⌥');
+      const filtered = shortcutSearchFilter(fakeShortcuts, '⌥');
 
       filtered.length.should.be.equal(1);
       filtered[0].should.be.equal(fakeShortcuts[2]);
     });
 
     it('Should find multiple results', function () {
-      let filtered = shortcutSearchFilter(fakeShortcuts, 'combination');
+      const filtered = shortcutSearchFilter(fakeShortcuts, 'combination');
 
       filtered.length.should.be.equal(2);
     });
 
     it('Should support multiple keys', function () {
-      let filtered = shortcutSearchFilter([
+      const filtered = shortcutSearchFilter([
         {key: ['shift+left+up', 'shift+left+up'], title: 'combination first'}
       ], 'combination');
 

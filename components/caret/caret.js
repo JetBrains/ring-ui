@@ -51,19 +51,19 @@ export default class Caret {
         this.focus();
       }
 
-      var selection = window.getSelection();
+      const selection = window.getSelection();
 
       if (!selection.rangeCount) {
         return 0;
       }
 
-      var range1 = selection.getRangeAt(0);
+      const range1 = selection.getRangeAt(0);
 
       if (range1.startOffset !== range1.endOffset) {
         return -1;
       }
 
-      var range2 = range1.cloneRange();
+      const range2 = range1.cloneRange();
 
       range2.selectNodeContents(this.target);
       range2.setEnd(range1.endContainer, range1.endOffset);
@@ -85,7 +85,7 @@ export default class Caret {
    */
   setPosition(position) {
     if (position === -1) {
-      var value = this.isContentEditable ? this.target.textContent : this.constructor.normalizeNewlines(this.target.value);
+      const value = this.isContentEditable ? this.target.textContent : this.constructor.normalizeNewlines(this.target.value);
       position = value.length;
     }
 
@@ -110,8 +110,8 @@ export default class Caret {
    * @return {number}
    */
   getOffset() {
-    var offset = 0;
-    var range;
+    let offset = 0;
+    let range;
 
     try {
       // Both statements may throw

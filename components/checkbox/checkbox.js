@@ -132,13 +132,13 @@ export default class Checkbox extends RingComponent {
   }
 
   render() {
-    let id = this.props.id || this.state.id;
+    const id = this.props.id || this.state.id;
 
-    let checkStyle = {
+    const checkStyle = {
       display: this.state.checked ? 'block' : 'none'
     };
 
-    let classes = classNames(
+    const classes = classNames(
       'ring-checkbox__input',
       this.props.className
     );

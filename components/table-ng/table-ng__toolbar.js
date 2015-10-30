@@ -1,6 +1,6 @@
 /*global angular*/
-require('dom4');
-var debounce = require('mout/function/debounce');
+import 'dom4';
+import debounce from 'mout/function/debounce';
 
 /**
  * Sticky toolbar, mostly for tables, but can be used elsewhere too.
@@ -14,7 +14,7 @@ var debounce = require('mout/function/debounce');
 
 angular.module('Ring.table.toolbar', [])
   .directive('rgTableToolbar', function () {
-    var DEBOUNCE_INTERVAL = 10;
+    const DEBOUNCE_INTERVAL = 10;
 
     return {
       restrict: 'E',
@@ -25,14 +25,14 @@ angular.module('Ring.table.toolbar', [])
         /**
          * Use plain DOM functions without any jquery. Should work with IE8+
          */
-        var element = iElement[0];
-        var controlsContainer = element.query('.ring-table__toolbar-controls');
-        var savedToolbarTop;
+        const element = iElement[0];
+        const controlsContainer = element.query('.ring-table__toolbar-controls');
+        let savedToolbarTop;
 
-        var toolbarScrollListener = debounce(function () {
-          var scrolledTop = (document.documentElement && document.documentElement.scrollTop) || document.body.scrollTop;
-          var elementTop = element.getBoundingClientRect().top + scrolledTop;
-          var toolbarTop = savedToolbarTop || elementTop;
+        const toolbarScrollListener = debounce(function () {
+          const scrolledTop = (document.documentElement && document.documentElement.scrollTop) || document.body.scrollTop;
+          const elementTop = element.getBoundingClientRect().top + scrolledTop;
+          const toolbarTop = savedToolbarTop || elementTop;
 
           if (scrolledTop > toolbarTop && !savedToolbarTop) {
             //save height to style to prevent collapsing after fixing controls

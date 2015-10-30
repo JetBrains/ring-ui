@@ -1,7 +1,8 @@
 /* eslint-disable camelcase */
+import AuthRequestBuilder from './auth__request-builder';
+
 describe('Auth', function () {
   describe('AuthRequestBuilder', function () {
-    var AuthRequestBuilder = require('./auth__request-builder');
 
     describe('encodeURL', function () {
       it('should build URL correctly', function () {
@@ -34,7 +35,7 @@ describe('Auth', function () {
     });
 
     describe('prepareAuthRequest', function () {
-      var config = {
+      const config = {
         authorization: 'https://sso.jetbrains.com/auth',
         redirect_uri: 'http://localhost:8080',
         request_credentials: 'default',
@@ -49,8 +50,8 @@ describe('Auth', function () {
       });
 
       it('should return correct URL', function () {
-        var builder = new AuthRequestBuilder(config);
-        var expected = 'https://sso.jetbrains.com/auth?response_type=token&' +
+        const builder = new AuthRequestBuilder(config);
+        const expected = 'https://sso.jetbrains.com/auth?response_type=token&' +
           'state=unique&redirect_uri=http%3A%2F%2Flocalhost%3A8080&request_credentials=default&client_id=0-0-0-0-0&scope=youtrack%20teamcity%20vcs%2520settings';
         return builder.prepareAuthRequest().should.become({
           url: expected,
@@ -60,7 +61,7 @@ describe('Auth', function () {
       });
 
       it('should save state', function () {
-        var builder = new AuthRequestBuilder(config);
+        const builder = new AuthRequestBuilder(config);
         return builder.prepareAuthRequest().
           then(function () {
             AuthRequestBuilder.prototype._saveState.should.have.been.calledWith('unique', {
@@ -71,7 +72,7 @@ describe('Auth', function () {
       });
 
       it('should save extra state', function () {
-        var builder = new AuthRequestBuilder(config);
+        const builder = new AuthRequestBuilder(config);
         return builder.prepareAuthRequest(null, {nonRedirect: true}).
           then(function () {
             AuthRequestBuilder.prototype._saveState.should.have.been.calledWith('unique', {
@@ -84,8 +85,8 @@ describe('Auth', function () {
 
 
       it('should return correct URL with extra parameters', function () {
-        var builder = new AuthRequestBuilder(config);
-        var expected = 'https://sso.jetbrains.com/auth?response_type=token&state=unique&' +
+        const builder = new AuthRequestBuilder(config);
+        const expected = 'https://sso.jetbrains.com/auth?response_type=token&state=unique&' +
           'redirect_uri=http%3A%2F%2Flocalhost%3A8080&request_credentials=required&' +
           'client_id=0-0-0-0-0&scope=youtrack%20teamcity%20vcs%2520settings';
         return builder.prepareAuthRequest({request_credentials: 'required'}).should.become({

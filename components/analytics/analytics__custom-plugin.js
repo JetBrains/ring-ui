@@ -1,22 +1,24 @@
-var AnalyticsCustomPluginUtils = require('./analytics__custom-plugin-utils');
+import AnalyticsCustomPluginUtils from'./analytics__custom-plugin-utils';
 
-var AnalyticsCustomPlugin = function (send, isDevelopment, flushInterval, checkFlushingAllowed) {
+function AnalyticsCustomPlugin(send, isDevelopment, flushInterval, checkFlushingAllowed) {
   this._data = [];
-  var self = this;
+
   if (typeof checkFlushingAllowed !== 'function') {
     checkFlushingAllowed = function () {
       return true;
     };
   }
-  this._flush = function () {
-    if (self._data.length > 0 && checkFlushingAllowed()) {
-      send(self._data);
-      self._data = [];
+
+  this._flush = () => {
+    if (this._data.length > 0 && checkFlushingAllowed()) {
+      send(this._data);
+      this._data = [];
     }
   };
+
   this._isDevelopment = isDevelopment;
   this._flushInterval = flushInterval || 10000;
-};
+}
 
 AnalyticsCustomPlugin.prototype.trackEvent = function (category, action) {
   this._processEvent(category, action);
@@ -26,6 +28,7 @@ AnalyticsCustomPlugin.prototype.trackPageView = function (path) {
   if (this._lastPagePath === path) {
     return;
   }
+
   this._trackPageViewAdditionalInfo(path);
   this._processEvent('ring-page', path);
   this._processEvent('ring-navigator_user-agent', AnalyticsCustomPluginUtils.getUserAgentPresentation());
@@ -36,12 +39,12 @@ AnalyticsCustomPlugin.prototype.trackPageView = function (path) {
 };
 
 AnalyticsCustomPlugin.prototype._initSendSchedule = function () {
-  var self = this;
-  window.addEventListener('beforeunload', function () {
-    self._trackPageViewAdditionalInfo();
-    return self._flush();
+  window.addEventListener('beforeunload', () => {
+    this._trackPageViewAdditionalInfo();
+    return this._flush();
   });
-  setInterval(self._flush, self._flushInterval);
+
+  setInterval(this._flush, this._flushInterval);
   this._hasSendSchedule = true;
 };
 
@@ -63,10 +66,10 @@ AnalyticsCustomPlugin.prototype._processEvent = function (category, action) {
 };
 
 AnalyticsCustomPlugin.prototype._trackPageViewAdditionalInfo = function (newPagePath) {
-  var currentTime = (new Date()).getTime();
+  const currentTime = (new Date()).getTime();
   if (this._lastPagePath) {
     if (this._lastPageViewTime) {
-      var duration = AnalyticsCustomPluginUtils.getPageViewDurationPresentation(currentTime - this._lastPageViewTime);
+      const duration = AnalyticsCustomPluginUtils.getPageViewDurationPresentation(currentTime - this._lastPageViewTime);
       this._processEvent('ring-pageview-duration_' + this._lastPagePath, duration);
     }
   }

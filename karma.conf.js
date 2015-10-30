@@ -1,9 +1,11 @@
 /* eslint-env node */
 /* eslint-disable camelcase */
+/* eslint-disable no-var*/
+
 var path = require('path');
 
 function generateConfig(karma) {
-  var prepareWbpackConf = function (webpackConf) {
+  function prepareWbpackConf(webpackConf) {
     webpackConf.devtool = 'eval';
     webpackConf.output = {};
     webpackConf.entry = {};
@@ -12,7 +14,7 @@ function generateConfig(karma) {
     webpackConf.resolve.root = path.join(__dirname, 'test-helpers');
 
     return webpackConf;
-  };
+  }
 
   var webdriverConfig = {
     hostname: '***REMOVED***',

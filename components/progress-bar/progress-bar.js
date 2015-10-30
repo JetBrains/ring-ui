@@ -71,16 +71,16 @@ export default class ProgressBar extends RingComponent {
    * @private
    */
   _progressValueToPercents(value) {
-    let percents = (value * 100) / this.props.max;
+    const percents = (value * 100) / this.props.max;
     return percents > 100 ? 100 : percents;
   }
 
   render() {
-    let progress = {
+    const progress = {
       width: this.props.value ? this._progressValueToPercents(this.props.value) + '%' : ''
     };
 
-    let classes = classNames('ring-progress-bar', this.props.className);
+    const classes = classNames('ring-progress-bar', this.props.className);
 
     return (
       <div

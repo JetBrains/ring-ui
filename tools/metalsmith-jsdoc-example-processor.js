@@ -1,4 +1,6 @@
 /* eslint-env node */
+/* eslint-disable no-var*/
+
 var path = require('path');
 
 var filter = require('mout/array/filter');
