@@ -1,7 +1,7 @@
 import React, {PropTypes} from 'react';
 import classNames from 'classnames';
-import RingComponent from 'ring-component/ring-component';
-import Icon from 'icon/icon';
+import RingComponent from '../ring-component/ring-component';
+import Icon from '../icon/icon';
 
 import './checkbox.scss';
 
@@ -43,7 +43,7 @@ const ngModelStateField = 'checked';
 
    <file name="index.js" webpack="true">
    var render = require('react-dom').render;
-   var Checkbox = require('checkbox/checkbox');
+   var Checkbox = require('ring-ui/components/checkbox/checkbox');
 
    render(Checkbox.factory(), document.getElementById('checkbox'));
 

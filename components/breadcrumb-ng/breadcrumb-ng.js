@@ -1,10 +1,10 @@
 /* global angular: false */
 
-require('breadcrumb/breadcrumb.scss');
-require('link/link.scss');
+require('../breadcrumb/breadcrumb.scss');
+require('../link/link.scss');
 
-require('react-ng/react-ng')({
-  Icon: require('icon/icon')
+require('../react-ng/react-ng')({
+  Icon: require('../icon/icon')
 });
 
 /**
@@ -25,7 +25,7 @@ require('react-ng/react-ng')({
      </file>
      <file name="index.js" webpack="true">
        require('angular');
-       require('breadcrumb-ng/breadcrumb-ng');
+       require('ring-ui/components/breadcrumb-ng/breadcrumb-ng');
 
        angular.module('Example.breadcrumb', ['Ring.breadcrumb'])
          .controller('DemoCtrl', [

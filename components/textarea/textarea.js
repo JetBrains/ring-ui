@@ -1,6 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
-import RingComponent from 'ring-component/ring-component';
+import RingComponent from '../ring-component/ring-component';
 import './textarea.scss';
 
 /**
@@ -15,7 +15,7 @@ import './textarea.scss';
 
      <file name="index.js" webpack="true">
        var render = require('react-dom').render;
-       var Textarea = require('textarea/textarea');
+       var Textarea = require('ring-ui/components/textarea/textarea');
 
        render(
          Textarea.factory(),

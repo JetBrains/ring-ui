@@ -24,9 +24,9 @@ var debounce = require('mout/function/debounce');
   </file>
   <file name="index.js" webpack="true">
     require('angular');
-    require('button/button.scss');
-    require('panel/panel.scss');
-    require('docked-panel-ng/docked-panel-ng');
+    require('ring-ui/components/button/button.scss');
+    require('ring-ui/components/panel/panel.scss');
+    require('ring-ui/components/docked-panel-ng/docked-panel-ng');
     angular.module('DockedPanelExample', ['Ring.docked-panel']);
   </file>
   </example>

@@ -4,8 +4,8 @@
 
 import React, {PropTypes, isValidElement} from 'react';
 import classNames from 'classnames';
-import RingComponent from 'ring-component/ring-component';
-import Link from 'link/link';
+import RingComponent from '../ring-component/ring-component';
+import Link from '../link/link';
 import './footer.scss';
 import isArray from 'mout/lang/isArray';
 
@@ -119,7 +119,7 @@ class FooterLine extends RingComponent {
    </file>
    <file name="index.js" webpack="true">
    var render = require('react-dom').render;
-   var Footer = require('footer/footer');
+   var Footer = require('ring-ui/components/footer/footer');
 
    render(
      Footer.factory({

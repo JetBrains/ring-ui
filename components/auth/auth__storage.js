@@ -1,4 +1,4 @@
-var Storage = require('storage/storage');
+var Storage = require('../storage/storage');
 
 /**
  * @typedef {{

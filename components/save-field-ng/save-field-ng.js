@@ -1,11 +1,11 @@
 /* global angular: false */
 
-require('form/form.scss');
-require('button/button.scss');
-require('save-field-ng/save-field-ng.scss');
+require('../form/form.scss');
+require('../button/button.scss');
+require('../save-field-ng/save-field-ng.scss');
 
-require('message-bundle-ng/message-bundle-ng');
-require('form-ng/form-ng');
+require('../message-bundle-ng/message-bundle-ng');
+require('../form-ng/form-ng');
 
 angular.module('Ring.save-field', [
   'Ring.message-bundle',
@@ -113,8 +113,8 @@ angular.module('Ring.save-field', [
      </file>
      <file name="index.js" webpack="true">
        require('angular');
-       require('save-field-ng/save-field-ng');
-       require('textarea/textarea.scss');
+       require('ring-ui/components/save-field-ng/save-field-ng');
+       require('ring-ui/components/textarea/textarea.scss');
 
        angular.module('Example.saveField', ['Ring.save-field'])
          .controller('SaveFieldDemoCtrl', function($scope, $q) {

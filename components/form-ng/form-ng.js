@@ -1,7 +1,7 @@
 /* global angular: false */
 
-require('message-bundle-ng/message-bundle-ng.js');
-require('input/input.scss');
+require('../message-bundle-ng/message-bundle-ng.js');
+require('../input/input.scss');
 
 angular.module('Ring.form', ['Ring.message-bundle']).
 /**

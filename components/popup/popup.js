@@ -6,8 +6,8 @@ import React, {PropTypes} from 'react';
 import {render, unmountComponentAtNode} from 'react-dom';
 import classNames from 'classnames';
 
-import RingComponentWithShortcuts from 'ring-component/ring-component_with-shortcuts';
-import {getStyles, isMounted, getRect} from 'dom/dom';
+import RingComponentWithShortcuts from '../ring-component/ring-component_with-shortcuts';
+import {getStyles, isMounted, getRect} from '../dom/dom';
 
 import './popup.scss';
 
@@ -57,7 +57,7 @@ const Dimension = {
  </file>
  <file name="index.js" webpack="true">
  var DOM = require('react').DOM;
- var Popup = require('popup/popup');
+ var Popup = require('ring-ui/components/popup/popup');
 
  var container = DOM.span(null, 'Hello world!');
 

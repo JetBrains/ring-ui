@@ -1,6 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
-import RingComponent from 'ring-component/ring-component';
+import RingComponent from '../ring-component/ring-component';
 import './button-group.scss';
 
 /**
@@ -18,8 +18,8 @@ import './button-group.scss';
 
     <file name="index.js" webpack="true">
       var render = require('react-dom').render;
-      var Button = require('button/button');
-      var ButtonGroup = require('button-group/button-group');
+      var Button = require('ring-ui/components/button/button');
+      var ButtonGroup = require('ring-ui/components/button-group/button-group');
 
       render(ButtonGroup.factory(
         null,

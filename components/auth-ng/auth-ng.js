@@ -1,4 +1,4 @@
-var Auth = require('auth/auth');
+var Auth = require('../auth/auth');
 var pick = require('mout/object/pick');
 
 /* global angular: false */
@@ -14,7 +14,7 @@ var authModule = angular.module('Ring.auth', []);
     </file>
     <file name="index.js" webpack="true">
       require('angular');
-      require('analytics-ng/analytics-ng');
+      require('ring-ui/components/analytics-ng/analytics-ng');
 
       angular.config(["authProvider", function (authProvider) {
         authProvider.config({

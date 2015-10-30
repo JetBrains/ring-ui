@@ -4,7 +4,7 @@
 
 import React from 'react';
 import {renderToStaticMarkup} from 'react-dom/server';
-import RingComponent from 'ring-component/ring-component';
+import RingComponent from '../ring-component/ring-component';
 
 /**
  * @name ContentEditable
@@ -17,11 +17,11 @@ import RingComponent from 'ring-component/ring-component';
      </file>
 
      <file name="index.js" webpack="true">
-       require('input/input.scss');
+       require('ring-ui/components/input/input.scss');
        var render = require('react-dom').render;
        var React = require('react');
 
-       var ContentEditable = require('contenteditable/contenteditable');
+       var ContentEditable = require('ring-ui/components/contenteditable/contenteditable');
 
        render(ContentEditable.factory({className: 'ring-input'},
          <span>text <b>bold text</b> text</span>

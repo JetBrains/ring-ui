@@ -10,9 +10,9 @@
     </div>
   </file>
   <file name="index.js" webpack="true">
-    require('button/button.scss');
+    require('ring-ui/components/button/button.scss');
     require('angular');
-    require('promised-click-ng/promised-click-ng');
+    require('ring-ui/components/promised-click-ng/promised-click-ng');
 
     var buttonTestModule = angular.module('button-test', ['Ring.promised-click']);
 

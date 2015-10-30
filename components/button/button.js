@@ -1,6 +1,6 @@
 import React, {PropTypes} from 'react';
 import classNames from 'classnames';
-import RingComponent from 'ring-component/ring-component';
+import RingComponent from '../ring-component/ring-component';
 import './button.scss';
 
 /**
@@ -34,7 +34,7 @@ const Modifiers = {
 
      <file name="index.js" webpack="true">
        var render = require('react-dom').render;
-       var Button = require('button/button');
+       var Button = require('ring-ui/components/button/button');
 
        render(Button.factory({
          modifier: Button.Modifiers.DEFAULT

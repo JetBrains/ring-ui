@@ -19,8 +19,8 @@
 
      </file>
        <file name="index.js" webpack="true">
-          require('old-browsers-message/old-browsers-message.scss');
-          require('old-browsers-message/old-browsers-message');
+          require('ring-ui/components/old-browsers-message/old-browsers-message.scss');
+          require('ring-ui/components/old-browsers-message/old-browsers-message');
 
           //Triggering error to imitate unsupported browser
           Object.futureMethodWhichIsNotExistInThisBrowser();

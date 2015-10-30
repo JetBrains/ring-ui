@@ -49,13 +49,13 @@ echo 'registry = http://registry.npmjs.org' >> .npmrc
 `require` the components there. 
 
 ```
-require('react-ng/react-ng')({
-  QueryAssist: require('query-assist/query-assist'),
-  Footer: require('footer/footer')
+require('ring-ui/components/react-ng/react-ng')({
+  QueryAssist: require('ring-ui/components/query-assist/query-assist'),
+  Footer: require('ring-ui/components/footer/footer')
 });
 
-require('auth-ng/auth-ng');
-require('shortcuts-ng/shortcuts-ng');
+require('ring-ui/components/auth-ng/auth-ng');
+require('ring-ui/components/shortcuts-ng/shortcuts-ng');
 ```
 
 5. Create `webpack.config.js` with the following contents (example):
@@ -63,7 +63,7 @@ require('shortcuts-ng/shortcuts-ng');
 ```
 var webpackConfigMerger = require('webpack-config-merger');
 
-var webpackOptions = webpackConfigMerger(require('ring-ui/webpack.config'), {
+var webpackOptions = webpackConfigMerger(require('ring-ui'), {
   entry: 'src/entry.js', // your entry point for webpack
   output: {
     path: 'path/to/dist',

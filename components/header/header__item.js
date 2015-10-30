@@ -4,9 +4,9 @@
 
 import React from 'react';
 import classNames from 'classnames';
-import RingComponent from 'ring-component/ring-component';
-import Icon from 'icon/icon';
-import ClassName from 'class-name/class-name';
+import RingComponent from '../ring-component/ring-component';
+import Icon from '../icon/icon';
+import ClassName from '../class-name/class-name';
 
 /**
  * Fits a rectangular image into a square container. Sets the smaller side of an image

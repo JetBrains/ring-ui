@@ -1,6 +1,6 @@
 /* global angular: false */
 
-import 'tabs/tabs.scss';
+import '../tabs/tabs.scss';
 
 /**
  * @name Tabs
@@ -19,7 +19,7 @@ import 'tabs/tabs.scss';
      <file name="index.js" webpack="true">
        require('angular');
        require('angular-route');
-       require('tabs-ng/tabs-ng');
+       require('ring-ui/components/tabs-ng/tabs-ng');
      </file>
    </example>
  */

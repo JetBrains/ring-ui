@@ -2,7 +2,7 @@
  * Note: this script is a self running script. You should include it in your browser directly
  * It starts detecting unhandled errors when loaded.
  * When your app is loaded and you want to stop detecting,
- * call require('old-browsers-message/old-browsers-message__stop')();
+ * call require('ring-ui/components/old-browsers-message/old-browsers-message__stop')();
  */
 (function () {
   var smileChanges = 0;

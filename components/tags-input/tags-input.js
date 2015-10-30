@@ -1,9 +1,9 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import RingComponentWithShortcuts from 'ring-component/ring-component_with-shortcuts';
-import Select from 'select/select';
-import Tag from 'tag/tag';
+import RingComponentWithShortcuts from '../ring-component/ring-component_with-shortcuts';
+import Select from '../select/select';
+import Tag from '../tag/tag';
 import './tags-input.scss';
 
 /**
@@ -17,7 +17,7 @@ import './tags-input.scss';
    </file>
    <file name="index.js" webpack="true">
     var render = require('react-dom').render;
-    var TagsInput = require('tags-input/tags-input');
+    var TagsInput = require('ring-ui/components/tags-input/tags-input');
 
     var props = {
       className: 'test-additional-class',
@@ -47,8 +47,8 @@ import './tags-input.scss';
   </file>
   <file name="index.js" webpack="true">
     require('angular');
-    require('react-ng/react-ng')({
-      TagsInput: require('tags-input/tags-input')
+    require('ring-ui/components/react-ng/react-ng')({
+      TagsInput: require('ring-ui/components/tags-input/tags-input')
     });
 
     angular.module('test-tags-app', ['Ring.react-ng'])
@@ -78,7 +78,7 @@ import './tags-input.scss';
    </file>
    <file name="index.js" webpack="true">
     var render = require('react-dom').render;
-    var TagsInput = require('tags-input/tags-input');
+    var TagsInput = require('ring-ui/components/tags-input/tags-input');
     var GroupIcon = require('jetbrains-icons/group.svg');
     var BugIcon = require('jetbrains-icons/bug.svg');
     var FrownIcon = require('jetbrains-icons/frown.svg');
