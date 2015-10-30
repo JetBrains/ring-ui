@@ -1,5 +1,5 @@
 import {createElement} from 'react';
-import Popup from 'popup/popup';
+import Popup from '../popup/popup';
 import './tooltip-ng.scss';
 
 /**
@@ -18,10 +18,10 @@ import './tooltip-ng.scss';
   <file name="index.js" webpack="true">
     require('./index.scss');
     require('angular');
-    require('react-ng/react-ng')({
-      Icon: require('icon/icon')
+    require('ring-ui/components/react-ng/react-ng')({
+      Icon: require('ring-ui/components/icon/icon')
     });
-    require('tooltip-ng/tooltip-ng');
+    require('ring-ui/components/tooltip-ng/tooltip-ng');
 
     angular.module('tooltip-test', ['Ring.react-ng', 'Ring.tooltip']).controller('testController', ($scope) => {
       $scope.icon = require('jetbrains-icons/help.svg');

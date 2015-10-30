@@ -38,7 +38,7 @@ var debounce = require('mout/function/debounce');
   <file name="index.js" webpack="true">
     require('./example.scss');
     require('angular');
-    require('place-under-ng/place-under-ng');
+    require('ring-ui/components/place-under-ng/place-under-ng');
 
     window.addEventListener('scroll', function(){
       var target = document.querySelector('.target-element');

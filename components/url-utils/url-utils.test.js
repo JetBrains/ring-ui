@@ -4,7 +4,7 @@
  */
 
 var $ = require('jquery');
-var urlUtils = require('url-utils/url-utils');
+var urlUtils = require('../url-utils/url-utils');
 
 describe('urlUtils', function () {
   describe('fixUrl', function () {

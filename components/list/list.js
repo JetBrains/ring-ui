@@ -8,9 +8,9 @@ import {findDOMNode} from 'react-dom';
 import classNames from 'classnames';
 import debounce from 'mout/function/debounce';
 
-import RingComponent from 'ring-component/ring-component';
-import RingComponentWithShortcuts from 'ring-component/ring-component_with-shortcuts';
-import Icon from 'icon/icon';
+import RingComponent from '../ring-component/ring-component';
+import RingComponentWithShortcuts from '../ring-component/ring-component_with-shortcuts';
+import Icon from '../icon/icon';
 
 import './list.scss';
 // We have to use require instead of SCSS import for now to avoid double imports
@@ -215,7 +215,7 @@ function isItemType(listItemType, item) {
 
      <file name="index.js" webpack="true">
        var render = require('react-dom').render;
-       var List = require('list/list');
+       var List = require('ring-ui/components/list/list');
 
        var listData = [
         {'label': 'One',   'rgItemType': List.ListProps.Type.ITEM},
@@ -240,7 +240,7 @@ function isItemType(listItemType, item) {
 
      <file name="index.js" webpack="true">
        var render = require('react-dom').render;
-       var List = require('list/list');
+       var List = require('ring-ui/components/list/list');
 
        var listData = [
         {'label': 'One',               'rgItemType': List.ListProps.Type.ITEM},
@@ -267,7 +267,7 @@ function isItemType(listItemType, item) {
 
      <file name="index.js" webpack="true">
        var render = require('react-dom').render;
-       var List = require('list/list');
+       var List = require('ring-ui/components/list/list');
 
        var listData = [
         {'label': 'One',               'rgItemType': List.ListProps.Type.ITEM},
@@ -293,7 +293,7 @@ function isItemType(listItemType, item) {
 
      <file name="index.js" webpack="true">
        var render = require('react-dom').render;
-       var List = require('list/list');
+       var List = require('ring-ui/components/list/list');
 
        var listData = [
          {                   'rgItemType': List.ListProps.Type.SEPARATOR, 'description': 'First separator'},
@@ -320,7 +320,7 @@ function isItemType(listItemType, item) {
 
     <file name="index.js" webpack="true">
       var render = require('react-dom').render;
-      var List = require('list/list');
+      var List = require('ring-ui/components/list/list');
 
       var listData = [
         {label: 'Some item', key: '1', 'rgItemType': List.ListProps.Type.ITEM, icon: 'http://joomlasocial.ru/jomsocial/images/content/arrowchat/icon(2).png'},
@@ -344,7 +344,7 @@ function isItemType(listItemType, item) {
 
    <file name="index.js" webpack="true">
      var render = require('react-dom').render;
-     var List = require('list/list');
+     var List = require('ring-ui/components/list/list');
 
      var listData = [
       {'label': 'One',   'type': List.ListProps.Type.ITEM},

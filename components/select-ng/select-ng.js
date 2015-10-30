@@ -1,9 +1,9 @@
 import {render} from 'react-dom';
 import {createElement} from 'react';
 
-import Select from 'select/select';
+import Select from '../select/select';
 import './select-ng__options';
-import 'message-bundle-ng/message-bundle-ng';
+import '../message-bundle-ng/message-bundle-ng';
 
 /**
  * @name Select Ng
@@ -20,7 +20,7 @@ import 'message-bundle-ng/message-bundle-ng';
   </file>
   <file name="index.js" webpack="true">
     require('angular');
-    require('select-ng/select-ng');
+    require('ring-ui/components/select-ng/select-ng');
 
     angular.module('test', ['Ring.select']).controller('testCtrl', function() {
       var ctrl = this;
@@ -45,7 +45,7 @@ import 'message-bundle-ng/message-bundle-ng';
   </file>
   <file name="index.js" webpack="true">
     require('angular');
-    require('select-ng/select-ng');
+    require('ring-ui/components/select-ng/select-ng');
 
     angular.module('test', ['Ring.select']).controller('testCtrl', function() {
       var ctrl = this;
@@ -76,7 +76,7 @@ import 'message-bundle-ng/message-bundle-ng';
   </file>
   <file name="index.js" webpack="true">
     require('angular');
-    require('select-ng/select-ng');
+    require('ring-ui/components/select-ng/select-ng');
 
     angular.module('test', ['Ring.select']).controller('testCtrl', function($timeout) {
       var ctrl = this;
@@ -105,7 +105,7 @@ import 'message-bundle-ng/message-bundle-ng';
    </file>
    <file name="index.js" webpack="true">
      require('angular');
-     require('select-ng/select-ng');
+     require('ring-ui/components/select-ng/select-ng');
 
      angular.module('test', ['Ring.select']).controller('testCtrl', function($timeout, $q) {
           var ctrl = this;
@@ -143,7 +143,7 @@ import 'message-bundle-ng/message-bundle-ng';
     </file>
     <file name="index.js" webpack="true">
       require('angular');
-      require('select-ng/select-ng');
+      require('ring-ui/components/select-ng/select-ng');
 
       angular.module('test', ['Ring.select']).controller('testCtrl', function() {
       var ctrl = this;
@@ -175,8 +175,8 @@ import 'message-bundle-ng/message-bundle-ng';
     </file>
     <file name="index.js" webpack="true">
       require('angular');
-      require('select-ng/select-ng');
-      require('dialog-ng/dialog-ng');
+      require('ring-ui/components/select-ng/select-ng');
+      require('ring-ui/components/dialog-ng/dialog-ng');
 
       function fillScrollableContent() {
         var html = '<h2>Text to scroll</h2>';
@@ -225,7 +225,7 @@ import 'message-bundle-ng/message-bundle-ng';
     </file>
     <file name="index.js" webpack="true">
       require('angular');
-      require('select-ng/select-ng');
+      require('ring-ui/components/select-ng/select-ng');
 
       angular.module('test', ['Ring.select']).controller('testCtrl', function() {
       var ctrl = this;
@@ -268,8 +268,8 @@ import 'message-bundle-ng/message-bundle-ng';
       </file>
       <file name="index.js" webpack="true">
         require('angular');
-        require('select-ng/select-ng');
-        require('form-ng/form-ng');
+        require('ring-ui/components/select-ng/select-ng');
+        require('ring-ui/components/form-ng/form-ng');
 
         angular.module('test', ['Ring.select', 'Ring.form']).controller('testCtrl', function() {
         var ctrl = this;

@@ -7,8 +7,8 @@ import React, {createElement, Children} from 'react';
 import {render, findDOMNode, unmountComponentAtNode} from 'react-dom';
 import CSSTransitionGroup from 'react-addons-css-transition-group';
 
-import RingComponent from 'ring-component/ring-component';
-import {getStyles, isMounted} from 'dom/dom';
+import RingComponent from '../ring-component/ring-component';
+import {getStyles, isMounted} from '../dom/dom';
 import Alert from './alert';
 
 import './alert.scss';
@@ -26,7 +26,7 @@ import './alert.scss';
 
      <file name="index.js" webpack="true">
        var render = require('react-dom').render;
-       var Alerts = require('alert/alerts');
+       var Alerts = require('ring-ui/components/alert/alerts');
 
        var alertsContainer = render(Alerts.factory(), document.getElementById('alerts-container'));
 

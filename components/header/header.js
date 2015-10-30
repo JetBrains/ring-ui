@@ -8,12 +8,12 @@ import React, {createElement, DOM} from 'react';
 import {findDOMNode} from 'react-dom';
 import classNames from 'classnames';
 
-import RingComponent from 'ring-component/ring-component';
-import ClassName from 'class-name/class-name';
-import Button from 'button/button';
-import Icon from 'icon/icon';
-import Popup from 'popup/popup';
-import urlUtils from 'url-utils/url-utils';
+import RingComponent from '../ring-component/ring-component';
+import ClassName from '../class-name/class-name';
+import Button from '../button/button';
+import Icon from '../icon/icon';
+import Popup from '../popup/popup';
+import urlUtils from '../url-utils/url-utils';
 
 import HeaderItem from './header__item';
 import HeaderHelper from './header__helper';
@@ -141,10 +141,10 @@ const MenuItemsSequence = [
       require('./index.scss');
       var React = require('react');
       var ReactDOM = require('react-dom');
-      var Header = require('header/header');
-      var Popup = require('popup/popup');
-      var Auth = require('auth/auth');
-      var Link = require('link/link');
+      var Header = require('ring-ui/components/header/header');
+      var Popup = require('ring-ui/components/popup/popup');
+      var Auth = require('ring-ui/components/auth/auth');
+      var Link = require('ring-ui/components/link/link');
 
       var popup, popupContainer;
 

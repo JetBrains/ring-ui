@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import TagsInput from './tags-input';
 import renderIntoDocument from 'render-into-document';
 import $ from 'jquery';
-import RingComponent from 'ring-component/ring-component';
+import RingComponent from '../ring-component/ring-component';
 
 describe('TagsInput', function () {
   let fakeTags = [{key: 1, label: 'test1'}];

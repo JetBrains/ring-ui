@@ -1,5 +1,5 @@
-import List from 'list/list';
-import HubSourceUsersGroups from 'hub-source/hub-source__users-groups';
+import List from '../list/list';
+import HubSourceUsersGroups from '../hub-source/hub-source__users-groups';
 
 let defaultOptions = {
   GroupsTitle: 'Groups',
