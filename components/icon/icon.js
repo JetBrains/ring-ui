@@ -213,9 +213,10 @@ export default class Icon extends RingComponent {
         <svg
           className={baseClass.getElement('i')}
           style={style}
-          dangerouslySetInnerHTML={{__html: '<use xlink:href="' + xlinkHref + '"></use>'}}
-        />
+        >
+          <use xlinkHref={xlinkHref}/>
+        </svg>
       </span>
-    );
+  );
   }
 }
