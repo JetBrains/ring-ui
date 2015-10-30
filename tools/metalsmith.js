@@ -20,7 +20,7 @@ var replace = require('metalsmith-text-replace');
 
 var webpack = require('webpack');
 var WebpackDevServer = require('webpack-dev-server');
-var webpackConfig = require('../webpack-site.config');
+var webpackConfig = require('../webpack-docs.config.js');
 var publicPath = '/assets/';
 
 new Metalsmith(path.resolve(__dirname, '..'))
