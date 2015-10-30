@@ -7,7 +7,6 @@ import classNames from 'classnames';
 import RingComponent from '../ring-component/ring-component';
 import Link from '../link/link';
 import './footer.scss';
-import isArray from 'mout/lang/isArray';
 
 /**
  * @constructor
@@ -61,7 +60,7 @@ class FooterLine extends RingComponent {
   };
 
   render() {
-    let items = isArray(this.props.item) ? this.props.item : [this.props.item];
+    let items = Array.isArray(this.props.item) ? this.props.item : [this.props.item];
 
     let renderItem = function (item) {
       if (isValidElement(item)) {
