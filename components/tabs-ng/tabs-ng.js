@@ -18,7 +18,7 @@ import 'tabs/tabs.scss';
      </file>
      <file name="index.js" webpack="true">
        require('angular');
-       require('angular-route/angular-route.min.js');
+       require('angular-route');
        require('tabs-ng/tabs-ng');
      </file>
    </example>

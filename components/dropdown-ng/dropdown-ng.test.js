@@ -1,5 +1,5 @@
-require('angular/angular');
-require('angular-mocks/angular-mocks');
+require('angular');
+require('angular-mocks');
 require('./dropdown-ng');
 
 describe('DropdownNg', function () {
