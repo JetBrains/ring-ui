@@ -93,7 +93,7 @@ export default class Loader extends RingComponent {
       r: calculateChannelValue(startColor.r, stopColor.r),
       g: calculateChannelValue(startColor.g, stopColor.g),
       b: calculateChannelValue(startColor.b, stopColor.b)
-    }
+    };
   }
 
   static getPixelRatio() {
@@ -148,13 +148,13 @@ export default class Loader extends RingComponent {
   }
 
   prepareInitialState(ticks) {
-    for (var i=0; i < ticks; i++) {
+    for (var i = 0; i < ticks; i++) {
       this.step();
     }
   }
 
   handleLimits(coord, radius, speed, limit) {
-    let randomizedSpeedChange = Math.random(this.baseSpeed) - this.baseSpeed/2;
+    let randomizedSpeedChange = Math.random(this.baseSpeed) - this.baseSpeed / 2;
 
     if (coord + (radius * 2) + this.baseSpeed >= limit) {
       return -(this.baseSpeed + randomizedSpeedChange);
@@ -186,7 +186,7 @@ export default class Loader extends RingComponent {
     let currentColor = colors[this.colorIndex];
     let nextColor = colors[this.colorIndex + 1] || colors[0];
 
-    return Loader.calculateGradient(currentColor, nextColor, this.tick/this.colorChangeTick);
+    return Loader.calculateGradient(currentColor, nextColor, this.tick / this.colorChangeTick);
   }
 
   nextTick() {
