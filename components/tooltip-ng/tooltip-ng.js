@@ -16,7 +16,7 @@ import './tooltip-ng.scss';
   </file>
 
   <file name="index.js" webpack="true">
-    require('./foo.scss');
+    require('./index.scss');
     require('angular/angular.min.js');
     require('react-ng/react-ng')({
       Icon: require('icon/icon')
@@ -28,11 +28,9 @@ import './tooltip-ng.scss';
     });
   </file>
 
-  <file name="foo.scss">
-    @import 'global/global';
-
+  <file name="index.scss">
     .tooltip-example {
-      margin: $ring-unit*2;
+      margin: 16px;
     }
   </file>
 </example>
