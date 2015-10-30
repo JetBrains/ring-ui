@@ -19,6 +19,8 @@ module.exports = {
     Footer: require('footer/footer'),
     Header: require('header/header'),
     Icon: require('icon/icon'),
+    Loader: require('loader/loader'),
+    LoaderInline: require('loader-inline/loader-inline'),
     Popup: require('popup/popup'),
     PopupMenu: require('popup-menu/popup-menu'),
     QueryAssist: require('query-assist/query-assist'),
