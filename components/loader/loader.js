@@ -19,9 +19,9 @@ import {getPixelRatio} from '../dom/dom';
      var render = require('react-dom').render;
      var Loader = require('ring-ui/components/loader/loader');
 
-     render(Loader.factory(), document.getElementById('loader1'));
+     render(Loader.factory({message: 'Loading...'}), document.getElementById('loader1'));
 
-     render(Loader.factory(), document.getElementById('loader2'));
+     render(Loader.factory({message: 'Loading...'}), document.getElementById('loader2'));
    </file>
    <file name="index.scss">
     .loader-container {
@@ -29,6 +29,10 @@ import {getPixelRatio} from '../dom/dom';
 
       &_black {
         background-color: black;
+
+        & .ring-loader__text {
+          color: #FFF;
+        }
       }
     }
    </file>
@@ -227,13 +231,20 @@ export default class Loader extends RingComponent {
     window.requestAnimationFrame(() => this.loop());
   }
 
+  _renderText() {
+    if (this.props.message) {
+      return <div className="ring-loader__text">{this.props.message}</div>;
+    }
+  }
+
   render() {
     return (
-      <canvas
-        ref="canvas"
-        {...this.props}
-        className="ring-loader__canvas"
-      />
+      <div {...this.props}>
+        <canvas
+          ref="canvas"
+          className="ring-loader__canvas"/>
+        {this._renderText()}
+      </div>
     );
   }
 }

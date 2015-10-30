@@ -13,3 +13,8 @@
   pointer-events: none;
   animation: rotation-keyframes 36s linear infinite;
 }
+
+.ring-loader__text {
+  text-align: center;
+  @include ring-font();
+}
