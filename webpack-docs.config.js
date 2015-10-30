@@ -69,7 +69,7 @@ module.exports = webpackConfigMerger(webpackConfig, {
     new webpack.NoErrorsPlugin(),
     new AnyBarWebpackPlugin(),
     /** Build progress informer */
-      function () {
+    function () {
       var timeMeasureMessage = chalk.blue('Compilation finished in');
 
       this.plugin('compile', function () {

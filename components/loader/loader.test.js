@@ -9,7 +9,7 @@ describe('Loader', function () {
   });
 
   it('Should calculate gradient', function () {
-    let middleColor = Loader.calculateGradient({r:0, g:0, b:0}, {r:255, g:255, b:255}, 0.5);
+    let middleColor = Loader.calculateGradient({r: 0, g: 0, b: 0}, {r: 255, g: 255, b: 255}, 0.5);
     middleColor.should.deep.equal({r: 128, g: 128, b: 128});
   });
 
@@ -52,7 +52,7 @@ describe('Loader', function () {
   });
 
   it('Should revert direction on reaching top limit', function () {
-    this.sinon.stub(Math, 'random').returns(this.loader.baseSpeed/2);
+    this.sinon.stub(Math, 'random').returns(this.loader.baseSpeed / 2);
 
     let oldSpeed = this.loader.baseSpeed;
     let newSpeed = this.loader.handleLimits(95, 8, oldSpeed, 100);
@@ -60,7 +60,7 @@ describe('Loader', function () {
   });
 
   it('Should revert direction on reaching zero limit', function () {
-    this.sinon.stub(Math, 'random').returns(this.loader.baseSpeed/2);
+    this.sinon.stub(Math, 'random').returns(this.loader.baseSpeed / 2);
 
     let oldSpeed = -this.loader.baseSpeed;
     let newSpeed = this.loader.handleLimits(0, 8, oldSpeed, 100);
