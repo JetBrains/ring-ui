@@ -24,7 +24,7 @@ require('../react-ng/react-ng')({
         </div>
      </file>
        <file name="index.js" webpack="true">
-         require('angular/angular.min.js');
+         require('angular');
          require('sidebar-ng/sidebar-ng');
        </file>
    </example>
@@ -47,7 +47,7 @@ require('../react-ng/react-ng')({
 
      </file>
        <file name="index.js" webpack="true">
-         require('angular/angular.min.js');
+         require('angular');
          require('sidebar-ng/sidebar-ng');
         require('select-ng/select-ng');
 

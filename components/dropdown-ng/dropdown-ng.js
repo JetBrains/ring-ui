@@ -28,7 +28,7 @@ import PopupMenu from 'popup-menu/popup-menu';
   </file>
   <file name="index.js" webpack="true">
     require('button/button.scss');
-    require('angular/angular.min.js');
+    require('angular');
     require('dropdown-ng/dropdown-ng');
 
     angular.module('dropTest', ['Ring.dropdown'])

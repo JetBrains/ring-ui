@@ -13,7 +13,7 @@ var authModule = angular.module('Ring.auth', []);
       <div id="example"></div>
     </file>
     <file name="index.js" webpack="true">
-      require('angular/angular.min.js');
+      require('angular');
       require('analytics-ng/analytics-ng');
 
       angular.config(["authProvider", function (authProvider) {

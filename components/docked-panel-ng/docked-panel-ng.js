@@ -23,7 +23,7 @@ var debounce = require('mout/function/debounce');
   </div>
   </file>
   <file name="index.js" webpack="true">
-    require('angular/angular.min.js');
+    require('angular');
     require('button/button.scss');
     require('panel/panel.scss');
     require('docked-panel-ng/docked-panel-ng');

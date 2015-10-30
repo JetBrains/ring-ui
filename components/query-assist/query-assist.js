@@ -109,7 +109,7 @@ const noop = function () {};
      </file>
 
      <file name="index.js" webpack="true">
-       require('angular/angular.min.js');
+       require('angular');
        require('auth-ng/auth-ng');
        require('react-ng/react-ng')({
         QueryAssist: require('query-assist/query-assist')

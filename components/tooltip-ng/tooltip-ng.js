@@ -17,7 +17,7 @@ import './tooltip-ng.scss';
 
   <file name="index.js" webpack="true">
     require('./index.scss');
-    require('angular/angular.min.js');
+    require('angular');
     require('react-ng/react-ng')({
       Icon: require('icon/icon')
     });

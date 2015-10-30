@@ -7,45 +7,45 @@ var analyticsInstance = require('analytics/analytics');
  * @example
  * <example name="Analytics">
  *   <file name="index.js" webpack="true">
- *     require('angular/angular.min.js');
- *     require('analytics-ng/analytics-ng');
- *
- *      angular.module('Example.analyticsDemo', ['Ring.analytics'])
- *        .config([
- *          'analyticsProvider',
- *          'AnalyticsCustomPlugin',
- *          'AnalyticsGAPlugin',
- *          function(analyticsProvider, AnalyticsCustomPlugin, AnalyticsGAPlugin) {
- *            var analyticsEnabled = true;
- *            if (analyticsEnabled) {
- *              var isDevelopment = true;
- *              var customPlugin = new AnalyticsCustomPlugin(function(data) {
- *                console.log('Here you can send data to server', data);
- *              }, isDevelopment, 600);
- *              var gaId; // = 'GA-XXXXX-ID';
- *              analyticsProvider.plugins([
- *                customPlugin //, new AnalyticsGAPlugin(gaId)
- *              ]);
- *            }
- *          }
- *        ])
- *
- *        .controller('TrackEventDemoCtrl', [
- *          'analytics',
- *          function(analytics) {
- *            analytics.trackEvent('track-event-demo', 'show');
- *          }
- *        ]);
- *   </file>
- *   <file name="index.html">
- *     <div ng-app="Example.analyticsDemo">
- *      <a href="" rg-analytics="overview:view-doc">Link-with-on-click-analytic</a>
- *      <a href="" rg-analytics="overview:view-doc" rg-analytics-on="mouseover">Link-with-on-mouseover-analytic</a>
- *      <div ng-controller="TrackEventDemoCtrl"></div>
- *     </div>
- *   </file>
- * </example>
- */
+       require('angular');
+       require('analytics-ng/analytics-ng');
+
+        angular.module('Example.analyticsDemo', ['Ring.analytics'])
+          .config([
+            'analyticsProvider',
+            'AnalyticsCustomPlugin',
+            'AnalyticsGAPlugin',
+            function(analyticsProvider, AnalyticsCustomPlugin, AnalyticsGAPlugin) {
+              var analyticsEnabled = true;
+              if (analyticsEnabled) {
+                var isDevelopment = true;
+                var customPlugin = new AnalyticsCustomPlugin(function(data) {
+                  console.log('Here you can send data to server', data);
+                }, isDevelopment, 600);
+                var gaId; // = 'GA-XXXXX-ID';
+                analyticsProvider.plugins([
+                  customPlugin //, new AnalyticsGAPlugin(gaId)
+                ]);
+              }
+            }
+          ])
+
+          .controller('TrackEventDemoCtrl', [
+            'analytics',
+            function(analytics) {
+              analytics.trackEvent('track-event-demo', 'show');
+            }
+          ]);
+     </file>
+     <file name="index.html">
+       <div ng-app="Example.analyticsDemo">
+        <a href="" rg-analytics="overview:view-doc">Link-with-on-click-analytic</a>
+        <a href="" rg-analytics="overview:view-doc" rg-analytics-on="mouseover">Link-with-on-mouseover-analytic</a>
+        <div ng-controller="TrackEventDemoCtrl"></div>
+       </div>
+     </file>
+   </example>
+*/
 /* global angular: false */
 var analyticsModule = angular.module('Ring.analytics', []);
 
