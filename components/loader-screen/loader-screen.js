@@ -51,7 +51,10 @@ export default class LoaderScreen extends RingComponent {
 
     return (
       <div className="ring-loader-screen">
-        <Loader {...this.props} className={classes}/>
+        <Loader
+          {...this.props}
+          className={classes}
+        />
       </div>
     );
   }
