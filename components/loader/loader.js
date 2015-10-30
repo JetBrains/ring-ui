@@ -92,8 +92,12 @@ export default class Loader extends RingComponent {
     }
   }
 
+  static getPixelRatio() {
+    return getPixelRatio();
+  }
+
   setCanvasSize() {
-    let pixelRatio = getPixelRatio();
+    let pixelRatio = Loader.getPixelRatio();
     let canvasSize = this.props.size * pixelRatio;
 
     this.refs.canvas.width = canvasSize;
