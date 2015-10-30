@@ -1,10 +1,11 @@
-require('../auth-ng/auth-ng');
-var Permissions = require('../permissions/permissions');
-var PermissionsCache = require('../permissions/permissions__cache');
-require('./permissions-ng.scss');
+import '../auth-ng/auth-ng';
+import Permissions from '../permissions/permissions';
+import PermissionsCache from '../permissions/permissions__cache';
+
+import './permissions-ng.scss';
 
 /* global angular: false */
-var permissionsModule = angular.module('Ring.permissions', ['Ring.auth']);
+const permissionsModule = angular.module('Ring.permissions', ['Ring.auth']);
 
 /**
  * @ngdoc object
@@ -33,7 +34,7 @@ permissionsModule.provider('userPermissions', function () {
    *   prefix: string?
    * }}
    */
-  var _config = {};
+  let _config = {};
 
   /**
    * @param {{
@@ -47,7 +48,7 @@ permissionsModule.provider('userPermissions', function () {
 
   /*@ngInject*/
   this.$get = function (auth, $q) {
-    var permissions = new Permissions(auth.auth, _config);
+    const permissions = new Permissions(auth.auth, _config);
     // Override load to execute in $digest
     permissions.load = function () {
       return $q.when(Permissions.prototype.load.apply(this));
@@ -56,10 +57,10 @@ permissionsModule.provider('userPermissions', function () {
   };
 });
 
-var registerPermission = function (element) {
-  var somePermissionsCtrl = element.controller('rgSomePermissions');
+function registerPermission(element) {
+  const somePermissionsCtrl = element.controller('rgSomePermissions');
   return somePermissionsCtrl && somePermissionsCtrl.registerPermission() || angular.noop;
-};
+}
 
 /**
  * @ngdoc directive
@@ -93,7 +94,8 @@ permissionsModule.directive('rgPermission', [
   function (userPermissions) {
     return {
       controller: function ($scope, $element, $attrs) {
-        let element = $element[0];
+        const element = $element[0];
+
         //noinspection JSPotentiallyInvalidUsageOfThis
         this.permitted = false;
 
@@ -149,10 +151,11 @@ permissionsModule.directive('rgPermissionIf', function ($animate, userPermission
     restrict: 'A',
     require: '^?rgSomePermissions',
     link: function (scope, iElement, iAttrs, somePermittedCtrl, $transclude) {
-      var block;
-      var childScope;
+      let block;
+      let childScope;
 
-      var spaceId = iAttrs.hasOwnProperty('inGlobal') ? PermissionsCache.GLOBAL_SPACE_ID : scope.$eval(iAttrs.inSpace);
+      const spaceId = iAttrs.hasOwnProperty('inGlobal') ? PermissionsCache.GLOBAL_SPACE_ID : scope.$eval(iAttrs.inSpace);
+
       userPermissions.check(iAttrs.rgPermissionIf, spaceId).
           then(function (permitted) {
             if (permitted) {
@@ -218,11 +221,11 @@ permissionsModule.directive('rgSomePermissions', [
         rgSomePermissions: '='
       },
       controller: function ($scope) {
-        var permissions = [];
+        const permissions = [];
         $scope.rgSomePermissions = false;
 
-        var checkPermissions = function () {
-          for (var i = permissions.length - 1; i >= 0; i--) {
+        function checkPermissions() {
+          for (let i = permissions.length - 1; i >= 0; i--) {
             if (permissions[i].permitted) {
               $scope.rgSomePermissions = true;
               return;
@@ -230,11 +233,11 @@ permissionsModule.directive('rgSomePermissions', [
           }
 
           $scope.rgSomePermissions = false;
-        };
+        }
 
         //noinspection JSPotentiallyInvalidUsageOfThis
         this.registerPermission = function () {
-          var permission = {permitted: false};
+          const permission = {permitted: false};
           permissions.push(permission);
 
           return function (permitted) {

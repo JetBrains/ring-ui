@@ -1,11 +1,12 @@
 /* eslint-env node */
 /* eslint-disable no-console*/
+/* eslint-disable no-var*/
+
 var path = require('path');
 var fs = require('fs');
 var mixIn = require('mout/object/mixIn');
 
 var isServer = process.argv.indexOf('--server') !== -1;
-var noop = function noop() {};
 
 var Metalsmith = require('metalsmith');
 var markdown = require('metalsmith-markdown');
@@ -22,6 +23,8 @@ var webpack = require('webpack');
 var WebpackDevServer = require('webpack-dev-server');
 var webpackConfig = require('../webpack-docs.config.js');
 var publicPath = '/assets/';
+
+function noop() {}
 
 new Metalsmith(path.resolve(__dirname, '..'))
   .source('./components')

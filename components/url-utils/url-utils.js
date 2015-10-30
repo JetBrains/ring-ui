@@ -23,7 +23,7 @@ export default class urlUtils {
    * @return {string|undefined}
    */
   static getBaseURI() {
-    let baseElement = document.getElementsByTagName('base')[0];
+    const baseElement = document.getElementsByTagName('base')[0];
     return baseElement ? baseElement.href : undefined;
   }
 
@@ -31,8 +31,8 @@ export default class urlUtils {
    * @return {string}
    */
   static getAbsoluteBaseURL() {
-    let baseUrl = urlUtils.getBaseURI();
-    let host = window.location.protocol + '//' + window.location.host;
+    const baseUrl = urlUtils.getBaseURI();
+    const host = window.location.protocol + '//' + window.location.host;
 
     let uri;
     if (baseUrl) {
@@ -50,7 +50,7 @@ export default class urlUtils {
    * @returns {string|undefined}
    */
   static getOrigin(url) {
-    let matches = url.match(urlUtils.ORIGIN_PATTERN);
+    const matches = url.match(urlUtils.ORIGIN_PATTERN);
 
     if (matches) {
       return matches[0];
@@ -66,7 +66,7 @@ export default class urlUtils {
    */
   static fixUrl(url) {
     if (url.indexOf('http://') === -1 && url.indexOf('https://') === -1 && url.indexOf('/') !== 0) {
-      let baseUrl = urlUtils.getBaseURI();
+      const baseUrl = urlUtils.getBaseURI();
       if (baseUrl) {
         url = baseUrl + url;
       }

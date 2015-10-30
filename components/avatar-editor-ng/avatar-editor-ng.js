@@ -9,7 +9,7 @@ import '../button/button.scss';
 
 reactNg({Icon: Icon});
 
-let module = angular.module('Ring.avatar-editor', [messageBundleNg, alertNg, 'Ring.react-ng']);
+const module = angular.module('Ring.avatar-editor', [messageBundleNg, alertNg, 'Ring.react-ng']);
 
 /**
  * @name Avatar Editor Ng
@@ -69,8 +69,8 @@ function rgAvatarEditor() {
 
       function createFileLoadListener(file) {
         return readEvent => {
-          let data = readEvent.target.result;
-          let result = $scope.onSelect({name: file.name, data: data});
+          const data = readEvent.target.result;
+          const result = $scope.onSelect({name: file.name, data: data});
           if (result && result.then) {
             result.then(() => {
               $scope.model = data;
@@ -88,10 +88,10 @@ function rgAvatarEditor() {
         fileInput.addEventListener('change', e => {
           let imageFileSelected = false;
           for (let i = 0; i < e.target.files.length; i++) {
-            let file = e.target.files[i];
+            const file = e.target.files[i];
             if (file.type.indexOf('image/') === 0) {
               imageFileSelected = true;
-              let reader = new FileReader();
+              const reader = new FileReader();
               reader.onload = createFileLoadListener(file);
               reader.readAsDataURL(file);
               break;
@@ -120,8 +120,8 @@ function rgAvatarEditor() {
       };
 
       $scope.controls.remove = () => {
-        let data = '';
-        let result = $scope.onSelect({name: data, data: data});
+        const data = '';
+        const result = $scope.onSelect({name: data, data: data});
         if (result && result.then) {
           result.then(() => {
             $scope.model = data;

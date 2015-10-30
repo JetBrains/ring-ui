@@ -1,4 +1,4 @@
-var Caret = require('./caret');
+import Caret from './caret';
 
 describe('Caret', function () {
   beforeEach(function () {
@@ -26,7 +26,7 @@ describe('Caret', function () {
     });
 
     it('Get of selection should return -1', function () {
-      var range = document.createRange();
+      const range = document.createRange();
       range.setStart(this.target, 0);
       range.setEnd(this.target, 1);
       window.getSelection().addRange(range);

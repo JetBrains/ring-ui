@@ -1,9 +1,10 @@
+import $ from 'jquery';
+import React from 'react';
+import TestUtils from 'react-addons-test-utils';
+import Footer from './footer';
+
 describe('Footer', function () {
-  var $ = require('jquery');
-  var React = require('react');
-  var TestUtils = require('react-addons-test-utils');
-  var Footer = require('./footer');
-  var footer;
+  let footer;
 
   beforeEach(function () {
     footer = TestUtils.renderIntoDocument(React.createElement(Footer));
@@ -51,8 +52,8 @@ describe('Footer', function () {
         lines.length.should.equal(count);
       }
 
-      var root = $(footer.node);
-      var ul = root.find('ul');
+      const root = $(footer.node);
+      const ul = root.find('ul');
       ul.length.should.equal(3);
 
       assertLines(ul.eq(0).find('li'), 2);
@@ -79,7 +80,7 @@ describe('Footer', function () {
       ]
     });
 
-    var link = $(footer.node).find('a');
+    const link = $(footer.node).find('a');
     link.should.not.be.empty;
     link.text().should.equal('JetBrains');
     link.prop('href').should.equal('http://jetbrains.com/');

@@ -283,7 +283,7 @@ import '../message-bundle-ng/message-bundle-ng';
     </example>
  */
 /* global angular: false */
-let ringSelectModule = angular.module('Ring.select', ['Ring.select.options', 'Ring.message-bundle']);
+const ringSelectModule = angular.module('Ring.select', ['Ring.select.options', 'Ring.message-bundle']);
 
 ringSelectModule.directive('rgSelect', function () {
   const types = {
@@ -357,17 +357,17 @@ ringSelectModule.directive('rgSelect', function () {
     controllerAs: 'selectCtrl',
     require: ['?ngModel', 'rgSelect'],
     link: function (scope, iElement, iAttrs, ctrls) {
-      let ngModelCtrl = ctrls[0];
-      let rgSelectCtrl = ctrls[1];
+      const ngModelCtrl = ctrls[0];
+      const rgSelectCtrl = ctrls[1];
 
       rgSelectCtrl.setNgModelCtrl(ngModelCtrl);
     },
     controller: function ($q, $scope, $element, $attrs, SelectOptions, RingMessageBundle) {
       /*eslint-disable consistent-this*/
-      let ctrl = this;
+      const ctrl = this;
       /*eslint-enable consistent-this*/
-      let element = $element[0];
-      let container = document.createElement('span');
+      const element = $element[0];
+      const container = document.createElement('span');
 
       /**
        * Properties
@@ -461,7 +461,7 @@ ringSelectModule.directive('rgSelect', function () {
 
           memorizeOptions(results);
 
-          let items = (results.data || results).map(ctrl.convertNgModelToSelect);
+          const items = (results.data || results).map(ctrl.convertNgModelToSelect);
           ctrl.selectInstance.rerender({
             data: items,
             loading: false

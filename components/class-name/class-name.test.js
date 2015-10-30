@@ -3,11 +3,11 @@
  * @author igor.alexeenko (Igor Alekseyenko)
  */
 
-var ClassName = require('./class-name');
+import ClassName from './class-name';
 
 describe('ClassName', function () {
-  var className;
-  var BASE_CLASS = 'base-class';
+  const BASE_CLASS = 'base-class';
+  let className;
 
   beforeEach(function () {
     className = new ClassName(BASE_CLASS);

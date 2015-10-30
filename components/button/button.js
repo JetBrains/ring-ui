@@ -77,7 +77,7 @@ export default class Button extends RingComponent {
   }
 
   render() {
-    let classes = classNames(
+    const classes = classNames(
       'ring-btn',
       'ring-btn_' + this.props.modifier,
       this.props.className

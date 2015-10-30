@@ -1,13 +1,13 @@
-var Select = require('./select');
-var List = require('../list/list');
-var Popup = require('../popup/popup');
-var React = require('react');
-var TestUtils = require('react-addons-test-utils');
-var $ = require('jquery');
-var renderIntoDocument = require('render-into-document');
+const Select = require('./select');
+const List = require('../list/list');
+const Popup = require('../popup/popup');
+const React = require('react');
+const TestUtils = require('react-addons-test-utils');
+const $ = require('jquery');
+const renderIntoDocument = require('render-into-document');
 
 describe('Select', function () {
-  var testData = [
+  const testData = [
     {key: 1, label: 'first1', type: List.ListProps.Type.ITEM},
     {key: 2, label: 'test2', type: List.ListProps.Type.ITEM},
     {key: 3, label: 'test3', type: List.ListProps.Type.ITEM},
@@ -40,7 +40,7 @@ describe('Select', function () {
   });
 
   it('Should compute selected index', function () {
-    var selectedIndex = this.select._getSelectedIndex(testData[2], testData);
+    const selectedIndex = this.select._getSelectedIndex(testData[2], testData);
     selectedIndex.should.equal(2);
   });
 
@@ -48,12 +48,12 @@ describe('Select', function () {
     this.select.rerender({selected: {
       key: 1, label: 'test1', selectedLabel: 'testLabel'
     }});
-    var selectedLabel = this.select._getSelectedString();
+    const selectedLabel = this.select._getSelectedString();
     selectedLabel.should.equal('testLabel');
   });
 
   it('Should use label for select button title', function () {
-    var selectedLabel = this.select._getSelectedString();
+    const selectedLabel = this.select._getSelectedString();
     selectedLabel.should.equal('first1');
   });
 
@@ -74,15 +74,15 @@ describe('Select', function () {
   });
 
   it('Should handle UP, DOWN and ENTER shortcuts', function () {
-    var shortcuts = this.select.getShortcutsProps();
+    const shortcuts = this.select.getShortcutsProps();
     shortcuts.map.enter.should.be.defined;
     shortcuts.map.up.should.be.defined;
     shortcuts.map.down.should.be.defined;
   });
 
   it('Should generate unique scope for shortcuts', function () {
-    var firstTimeScope = this.select.getShortcutsProps().scope;
-    var secondTimeScope = this.select.getShortcutsProps().scope;
+    const firstTimeScope = this.select.getShortcutsProps().scope;
+    const secondTimeScope = this.select.getShortcutsProps().scope;
     secondTimeScope.should.not.be.equal(firstTimeScope);
   });
 
@@ -154,7 +154,7 @@ describe('Select', function () {
 
     it('Should display selected item icon', function () {
       this.select.rerender({selected: {key: 1, label: 'test', icon: 'http://fake.image/'}});
-      var icon = this.select.node.querySelector('.ring-select__selected-icon');
+      const icon = this.select.node.querySelector('.ring-select__selected-icon');
       expect(icon.style.backgroundImage).to.contain('http://fake.image/');
     });
 
@@ -192,7 +192,7 @@ describe('Select', function () {
           label: 'Add Something'
         }});
         this.select._showPopup();
-        var $addButton = $(this.select._popup.node).find('.ring-select__button');
+        const $addButton = $(this.select._popup.node).find('.ring-select__button');
 
         $addButton.text().should.contain('Add Something');
       });
@@ -211,8 +211,8 @@ describe('Select', function () {
           hint: 'blah blah'
         });
         this.select._showPopup();
-        var $addButton = $(this.select._popup.node).find('.ring-select__button');
-        var $hint = $addButton.next('.ring-list__item_hint');
+        const $addButton = $(this.select._popup.node).find('.ring-select__button');
+        const $hint = $addButton.next('.ring-list__item_hint');
         $hint.should.be.defined;
       });
     });
@@ -220,36 +220,36 @@ describe('Select', function () {
 
   describe('getListItems', function () {
     it('Should filter items by label', function () {
-      var filtered = this.select.getListItems('test3');
+      const filtered = this.select.getListItems('test3');
       filtered.length.should.equal(1);
       filtered[0].label.should.equal('test3');
     });
 
     it('Should filter items by part of label', function () {
-      var filtered = this.select.getListItems('test');
+      const filtered = this.select.getListItems('test');
       filtered.length.should.equal(2);
     });
 
     it('Should not filter separators', function () {
-      var separators = [{
+      const separators = [{
         type: List.ListProps.Type.SEPARATOR,
         key: 1,
         description: 'test'
       }];
       this.select.rerender({data: separators});
 
-      var filtered = this.select.getListItems('foo');
+      const filtered = this.select.getListItems('foo');
       filtered.should.deep.equal(separators);
     });
 
     it('Should use custom filter.fn if provided', function () {
-      var filterStub = this.sinon.stub().returns(true);
+      const filterStub = this.sinon.stub().returns(true);
 
       this.select.rerender({
         filter: {fn: filterStub}
       });
 
-      var filtered = this.select.getListItems('test3');
+      const filtered = this.select.getListItems('test3');
 
       filtered.length.should.equal(testData.length);
       filterStub.should.have.callCount(4);
@@ -306,7 +306,7 @@ describe('Select', function () {
   });
 
   describe('Multiple', function () {
-    var selectedArray;
+    let selectedArray;
 
     beforeEach(function () {
       selectedArray = testData.slice(0, 2);
@@ -339,7 +339,7 @@ describe('Select', function () {
     });
 
     it('Should construct label from selected array', function () {
-      var selectedLabel = this.select._getSelectedString();
+      const selectedLabel = this.select._getSelectedString();
       selectedLabel.should.equal('first1, test2');
     });
 
@@ -375,7 +375,7 @@ describe('Select', function () {
       });
 
       it('Should add item to selected on selecting item', function () {
-        var lengthBefore = selectedArray.length;
+        const lengthBefore = selectedArray.length;
         this.select._listSelectHandler(testData[3]);
         this.select.state.selected.length.should.equal(lengthBefore + 1);
       });
@@ -389,7 +389,7 @@ describe('Select', function () {
 
     describe('On deselecting', function () {
       it('Should remove item from selected on deselecting', function () {
-        var lengthBefore = selectedArray.length;
+        const lengthBefore = selectedArray.length;
         this.select._listSelectHandler(testData[0]);
         this.select.state.selected.length.should.equal(lengthBefore - 1);
       });
@@ -487,7 +487,7 @@ describe('Select', function () {
 
     it('Should render popup with anchor to allow detecting fixed containers', function () {
       this.sinon.spy(Popup, 'renderPopup');
-      let target = document.createElement('div');
+      const target = document.createElement('div');
 
       this.select = renderIntoDocument(React.createElement(Select, {
         data: testData,

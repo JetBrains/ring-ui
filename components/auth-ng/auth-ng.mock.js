@@ -3,9 +3,9 @@
  * It need now because permission does not work without auth.
  * But we can not stub correct auth component and should mock all provider
  */
-var AuthProviderMock = function () {
+function AuthProviderMock() {
   this.$get = function ($q) {
-    var defer = $q.defer();
+    const defer = $q.defer();
     defer.resolve([]);
 
     return {
@@ -24,6 +24,6 @@ var AuthProviderMock = function () {
       promise: defer.promise
     };
   };
-};
+}
 
 module.exports = AuthProviderMock;

@@ -1,12 +1,12 @@
-var simulateKeypress = require('simulate-keypress');
-var shortcuts = require('./shortcuts');
+import simulateKeypress from 'simulate-keypress';
+import shortcuts from './shortcuts';
 
 describe('Shortcuts', function () {
-  var noop;
-  var noop2;
-  var key = 'a';
-  var key2 = 'b';
-  var scope = 'scope scope scope';
+  const key = 'a';
+  const key2 = 'b';
+  const scope = 'scope scope scope';
+  let noop;
+  let noop2;
 
   function trigger() {
     simulateKeypress(key, 65);
@@ -47,7 +47,7 @@ describe('Shortcuts', function () {
     });
 
     it('should bind array of keys', function () {
-      var keys = [key, key2];
+      const keys = [key, key2];
       shortcuts.bind({key: keys, handler: noop});
 
       shortcuts._scopes[shortcuts.ROOT_SCOPE][key].should.equal(noop);
@@ -69,7 +69,7 @@ describe('Shortcuts', function () {
     });
 
     it('should bind map of keys to root scope', function () {
-      var keys = {};
+      const keys = {};
       keys[key] = noop;
       keys[key2] = noop2;
       shortcuts.bindMap(keys);
@@ -79,7 +79,7 @@ describe('Shortcuts', function () {
     });
 
     it('should bind map of keys to custom scope', function () {
-      var keys = {};
+      const keys = {};
       keys[key] = noop;
       keys[key2] = noop2;
       shortcuts.bindMap(keys, {scope: scope});
@@ -119,7 +119,7 @@ describe('Shortcuts', function () {
     });
 
     it('should prevent handler run', function () {
-      var stop = sinon.stub().returns(true);
+      const stop = sinon.stub().returns(true);
 
       shortcuts.setFilter(stop);
       shortcuts.bind({key: key, handler: noop});
@@ -162,7 +162,7 @@ describe('Shortcuts', function () {
     });
 
     it('should fall trough scopes when returning true', function () {
-      var fallthrough = sinon.stub().returns(true);
+      const fallthrough = sinon.stub().returns(true);
 
       shortcuts.bind({key: key, handler: noop});
       shortcuts.bind({key: key, scope: scope, handler: fallthrough});
@@ -176,16 +176,16 @@ describe('Shortcuts', function () {
   });
 
   describe('scope chain operations', function () {
-    var scope1 = 'a';
-    var scope2 = 'bb';
-    var scope3 = 'ccc';
+    const scope1 = 'a';
+    const scope2 = 'bb';
+    const scope3 = 'ccc';
 
     it('emptified scope chain be equal to default', function () {
       shortcuts.getScope().should.deep.equal([]);
     });
 
     it('setScope should set full scope chain by string name', function () {
-      var myscope = 'aaaa';
+      const myscope = 'aaaa';
       shortcuts.setScope(myscope);
 
       shortcuts.getScope().should.deep.equal([myscope]);

@@ -11,11 +11,11 @@
  * @return {object} permission cache
  * @private
  */
-var PermissionCache = function (permissions, namesConverter) {
-  var permissionCache = {};
+function PermissionCache(permissions, namesConverter) {
+  const permissionCache = {};
 
   permissions.forEach(function (permission) {
-    var key = permission.permission.key;
+    let key = permission.permission.key;
 
     if (namesConverter) {
       key = namesConverter(key);
@@ -31,7 +31,7 @@ var PermissionCache = function (permissions, namesConverter) {
 
   this.namesConverter = namesConverter || function () {};
   this.permissionCache = permissionCache;
-};
+}
 
 PermissionCache.GLOBAL_SPACE_ID = 'global';
 
@@ -43,13 +43,15 @@ PermissionCache.GLOBAL_SPACE_ID = 'global';
  * @private
  */
 PermissionCache._toProjectIdSet = function (projects) {
-  var spaceIdSet = null;
+  let spaceIdSet = null;
+
   if (projects) {
     spaceIdSet = {};
-    for (var i = 0; i < projects.length; i++) {
+    for (let i = 0; i < projects.length; i++) {
       spaceIdSet[projects[i].id] = true;
     }
   }
+
   return spaceIdSet;
 };
 
@@ -63,7 +65,7 @@ PermissionCache._toProjectIdSet = function (projects) {
  * @return {boolean}
  */
 PermissionCache.prototype.has = function (permissions, spaceId) {
-  var lexems = this.lex(permissions);
+  const lexems = this.lex(permissions);
   if (lexems.length === 0) {
     return true;
   }
@@ -82,10 +84,12 @@ PermissionCache.prototype.has = function (permissions, spaceId) {
  * @return {string[]}
  */
 PermissionCache.prototype.lex = function (query) {
-  var lexems = [];
+  const lexems = [];
+
   if (query) {
-    var currentIdentifier = '';
-    for (var i = 0; i < query.length; i++) {
+    let currentIdentifier = '';
+
+    for (let i = 0; i < query.length; i++) {
       switch (query.charAt(i)) {
         case ' ':
         case '\t':
@@ -116,10 +120,12 @@ PermissionCache.prototype.lex = function (query) {
           break;
       }
     }
+
     if (currentIdentifier) {
       lexems.push(currentIdentifier);
     }
   }
+
   return lexems;
 };
 
@@ -137,7 +143,7 @@ PermissionCache.prototype.lex = function (query) {
  * @return {boolean}
  */
 PermissionCache.prototype.or = function (lexems, spaceId) {
-  var result = this.and(lexems, spaceId);
+  let result = this.and(lexems, spaceId);
 
   while (lexems.length > 0 && lexems[0] !== ')') {
     // Expect '|'
@@ -157,7 +163,7 @@ PermissionCache.prototype.or = function (lexems, spaceId) {
  * @return {boolean}
  */
 PermissionCache.prototype.and = function (lexems, spaceId) {
-  var result = this.not(lexems, spaceId);
+  let result = this.not(lexems, spaceId);
 
   while (lexems.length > 0 && lexems[0] !== ')' && lexems[0] !== '|') {
     // Expect optional '&'
@@ -177,12 +183,15 @@ PermissionCache.prototype.and = function (lexems, spaceId) {
  * @return {boolean}
  */
 PermissionCache.prototype.not = function (lexems, spaceId) {
-  var notCounter = 0;
+  let notCounter = 0;
+
   while (lexems.length > 0 && lexems[0] === '!') {
     ++notCounter;
     lexems.shift();
   }
-  var result = this.term(lexems, spaceId);
+
+  const result = this.term(lexems, spaceId);
+
   return (notCounter % 2 === 0) ? result : !result;
 };
 
@@ -195,8 +204,10 @@ PermissionCache.prototype.term = function (lexems, spaceId) {
   if (lexems.length === 0) {
     throw new Error('Operand was expected');
   }
-  var t = lexems.shift();
-  var result;
+
+  const t = lexems.shift();
+  let result;
+
   // Nested paranthesized expression
   if (t === '(') {
     result = this.or(lexems, spaceId);
@@ -207,6 +218,7 @@ PermissionCache.prototype.term = function (lexems, spaceId) {
   } else {
     result = this.testPermission(t, spaceId);
   }
+
   return result;
 };
 
@@ -216,9 +228,9 @@ PermissionCache.prototype.term = function (lexems, spaceId) {
  * @return {boolean}
  */
 PermissionCache.prototype.testPermission = function (permissionName, spaceId) {
-  var permissionCache = this.permissionCache;
+  const permissionCache = this.permissionCache;
 
-  var cachedPermission = permissionCache[permissionName] || permissionCache[this.namesConverter(permissionName)];
+  const cachedPermission = permissionCache[permissionName] || permissionCache[this.namesConverter(permissionName)];
 
   // Hasn't the permission in any space
   if (!cachedPermission) {

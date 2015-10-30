@@ -1,18 +1,18 @@
 /* eslint-disable camelcase */
+import Auth from './auth';
+import AuthStorage from './auth__storage';
 import Sniffr from 'sniffr';
+
 const sniffr = new Sniffr();
 sniffr.sniff();
 
-
 describe('Auth', function () {
   describe('AuthStorage', function () {
-    var Auth = require('./auth');
-    var AuthStorage = require('./auth__storage');
-    var authStorage = new AuthStorage({
+    const authStorage = new AuthStorage({
       stateKeyPrefix: 'state',
       tokenKey: 'token'
     });
-    var stateId = 'unique';
+    const stateId = 'unique';
 
     afterEach(function () {
       localStorage.clear();
@@ -28,7 +28,7 @@ describe('Auth', function () {
     });
 
     describe('getState', function () {
-      var state = {
+      const state = {
         restoreLocation: 'http://localhost:8080/hub#hash',
         scopes: ['0-0-0-0-0']
       };
@@ -55,7 +55,7 @@ describe('Auth', function () {
     });
 
     describe('cleanStates', function () {
-      var state = {
+      const state = {
         restoreLocation: 'http://localhost:8080/hub#hash',
         scopes: ['0-0-0-0-0']
       };
@@ -82,7 +82,7 @@ describe('Auth', function () {
           return undefined;
         }
 
-        var limitedAuthStorage = new AuthStorage({
+        const limitedAuthStorage = new AuthStorage({
           stateKeyPrefix: 'state',
           tokenKey: 'token',
           stateQuota: 200
@@ -101,7 +101,7 @@ describe('Auth', function () {
       });
 
       it('should clean state by TTL', function () {
-        var limitedAuthStorage = new AuthStorage({
+        const limitedAuthStorage = new AuthStorage({
           stateKeyPrefix: 'state',
           tokenKey: 'token',
           stateTTL: 10
@@ -117,7 +117,7 @@ describe('Auth', function () {
       });
     });
 
-    var token = {
+    const token = {
       access_token: 'silver-bullet',
       scopes: ['0-0-0-0-0'],
       expires: Auth._epoch() + 40 * 60
@@ -163,8 +163,8 @@ describe('Auth', function () {
     });
 
     describe('events', function () {
-      var MockedStorage = require('imports?window=mocked-storage!../storage/storage__local');
-      var mockedAuthStorage;
+      const MockedStorage = require('imports?window=mocked-storage!../storage/storage__local');
+      let mockedAuthStorage;
 
       beforeEach(function () {
         mockedAuthStorage = new AuthStorage({
@@ -175,7 +175,7 @@ describe('Auth', function () {
       });
 
       it('onTokenChange should have been triggered', function (done) {
-        var spy = this.sinon.spy();
+        const spy = this.sinon.spy();
         mockedAuthStorage.onTokenChange(spy);
         mockedAuthStorage.saveToken(token);
 
@@ -186,7 +186,7 @@ describe('Auth', function () {
       });
 
       it('onStateChange should have been triggered', function (done) {
-        var spy = this.sinon.spy();
+        const spy = this.sinon.spy();
         mockedAuthStorage.onStateChange(stateId, spy);
         mockedAuthStorage.saveState(stateId, {});
 

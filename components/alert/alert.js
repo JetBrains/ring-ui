@@ -119,9 +119,9 @@ export default class Alert extends RingComponent {
 
   /** @override */
   render() {
-    let modifiedClassName = [BASE_CLASS, this.props.type].join('_');
+    const modifiedClassName = [BASE_CLASS, this.props.type].join('_');
 
-    let classes = classNames({
+    const classes = classNames({
       [BASE_CLASS]: true,
       [modifiedClassName]: true,
       'ring-alert_inline': this.props.inline
@@ -195,7 +195,7 @@ export default class Alert extends RingComponent {
    * @return {XML|string}
    */
   _getIcon() {
-    let iconModifier = TypeToIconModifier[this.props.type];
+    const iconModifier = TypeToIconModifier[this.props.type];
 
     if (iconModifier) {
       return (

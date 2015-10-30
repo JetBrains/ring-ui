@@ -3,13 +3,12 @@ import Loader from './loader';
 import TestUtils from 'react-addons-test-utils';
 
 describe('Loader', function () {
-
   beforeEach(function () {
     this.loader = TestUtils.renderIntoDocument(React.createElement(Loader));
   });
 
   it('Should calculate gradient', function () {
-    let middleColor = Loader.calculateGradient({r: 0, g: 0, b: 0}, {r: 255, g: 255, b: 255}, 0.5);
+    const middleColor = Loader.calculateGradient({r: 0, g: 0, b: 0}, {r: 255, g: 255, b: 255}, 0.5);
     middleColor.should.deep.equal({r: 128, g: 128, b: 128});
   });
 
@@ -54,16 +53,16 @@ describe('Loader', function () {
   it('Should revert direction on reaching top limit', function () {
     this.sinon.stub(Math, 'random').returns(this.loader.baseSpeed / 2);
 
-    let oldSpeed = this.loader.baseSpeed;
-    let newSpeed = this.loader.handleLimits(95, 8, oldSpeed, 100);
+    const oldSpeed = this.loader.baseSpeed;
+    const newSpeed = this.loader.handleLimits(95, 8, oldSpeed, 100);
     newSpeed.should.equal(-this.loader.baseSpeed);
   });
 
   it('Should revert direction on reaching zero limit', function () {
     this.sinon.stub(Math, 'random').returns(this.loader.baseSpeed / 2);
 
-    let oldSpeed = -this.loader.baseSpeed;
-    let newSpeed = this.loader.handleLimits(0, 8, oldSpeed, 100);
+    const oldSpeed = -this.loader.baseSpeed;
+    const newSpeed = this.loader.handleLimits(0, 8, oldSpeed, 100);
     newSpeed.should.equal(this.loader.baseSpeed);
   });
 
@@ -148,7 +147,7 @@ describe('Loader', function () {
   });
 
   it('Should call step for each particle to allow it to update its live points', function () {
-    let stepSpy = this.sinon.spy();
+    const stepSpy = this.sinon.spy();
     this.loader.particles = [{step: stepSpy}];
 
     this.loader.step();
@@ -183,7 +182,7 @@ describe('Loader', function () {
   });
 
   it('Should call draw for each particle', function () {
-    let drawSpy = this.sinon.spy();
+    const drawSpy = this.sinon.spy();
     this.loader.particles = [{draw: drawSpy, isAlive: () => true}];
 
     this.loader.draw();

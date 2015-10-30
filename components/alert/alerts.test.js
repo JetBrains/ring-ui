@@ -3,15 +3,15 @@
  * @author igor.alexeenko@jetbrains.com (Igor Alexeenko)
  */
 
-var Alerts = require('./alerts');
-var React = require('react');
-var TestUtils = require('react-addons-test-utils');
+import Alerts from './alerts';
+import React from 'react';
+import TestUtils from 'react-addons-test-utils';
 
 function noop() {}
 
 describe('Alerts', function () {
   /** @type {Alerts} */
-  var component;
+  let component;
 
   beforeEach(function () {
     component = TestUtils.renderIntoDocument(React.createElement(Alerts, null));
@@ -41,18 +41,18 @@ describe('Alerts', function () {
 
 
     it('should return deferred object', function () {
-      var added = component.add('Child element');
+      const added = component.add('Child element');
       added.should.be.instanceof(Promise);
     });
 
     it('should render alerts in a reversed order. Last added alerts goes first.', function () {
-      var LAST_TEXT = 'Last component';
+      const LAST_TEXT = 'Last component';
 
       component._addElement('First', Alerts.Type.MESSAGE, noop);
       component._addElement(LAST_TEXT, Alerts.Type.MESSAGE, noop);
 
-      var domElement = component.node;
-      var children = domElement.querySelectorAll('.ring-alert');
+      const domElement = component.node;
+      const children = domElement.querySelectorAll('.ring-alert');
 
       children[0].textContent.should.equal(LAST_TEXT);
     });
@@ -68,7 +68,7 @@ describe('Alerts', function () {
 
     it('should remove alert by clicking on close button', function () {
       component._addElement('Child element.', Alerts.Type.MESSAGE, noop);
-      var clickElement = component.node.querySelector('.ring-alert__close');
+      const clickElement = component.node.querySelector('.ring-alert__close');
       TestUtils.Simulate.click(clickElement, {});
 
       component.state.childElements.should.have.length(0);
@@ -76,14 +76,14 @@ describe('Alerts', function () {
 
     it('should not remove alert by calling close() method of alert component', function () {
       component._addElement('Child element.', Alerts.Type.MESSAGE, noop);
-      var addedComponent = component.refs['alert-0'];
+      const addedComponent = component.refs['alert-0'];
       expect(addedComponent.close).to.throw(Error);
     });
 
     it('should remove alert after timeout', function (done) {
       this.sinon.useFakeTimers();
 
-      var TIMEOUT = 100;
+      const TIMEOUT = 100;
       component._addElement('Child element.', Alerts.Type.MESSAGE, noop, TIMEOUT);
 
       // Before timeout component exists.

@@ -1,4 +1,4 @@
-var Storage = require('../storage/storage');
+import Storage from '../storage/storage';
 
 /**
  * @typedef {{
@@ -15,20 +15,20 @@ var Storage = require('../storage/storage');
  * }} StoredState
  */
 
-var DEFAULT_STATE_QUOTA = 102400; // 100 kb ~~ 200 tabs with big scopes list
-var DEFAULT_STATE_TTL = 1000 * 60 * 60 * 24 * 3; // nobody will need auth state after 3 days
+const DEFAULT_STATE_QUOTA = 102400; // 100 kb ~~ 200 tabs with big scopes list
+const DEFAULT_STATE_TTL = 1000 * 60 * 60 * 24 * 3; // nobody will need auth state after 3 days
 
 /**
  * Custom storage for Auth
  * @constructor
  * @param {{stateKeyPrefix: string, tokenKey: string, onTokenRemove: Function}} config
  */
-var AuthStorage = function (config) {
+function AuthStorage(config) {
   this.stateKeyPrefix = config.stateKeyPrefix;
   this.tokenKey = config.tokenKey;
   this.stateTTL = config.stateTTL || DEFAULT_STATE_TTL;
 
-  var StorageConstructor = config.storage || Storage;
+  const StorageConstructor = config.storage || Storage;
   this.stateQuota = Math.min(config.stateQuota || DEFAULT_STATE_QUOTA, StorageConstructor.QUOTA || Infinity);
 
   this._stateStorage = new StorageConstructor({
@@ -37,7 +37,7 @@ var AuthStorage = function (config) {
   this._tokenStorage = new StorageConstructor({
     cookieName: 'ring-token'
   });
-};
+}
 
 /**
  * Add token change listener
@@ -84,19 +84,18 @@ AuthStorage.prototype.saveState = function (id, state, dontCleanAndRetryOnFail) 
  * @return {Promise} promise that is resolved when OLD states [and some selected] are removed
  */
 AuthStorage.prototype.cleanStates = function (removeStateId) {
-  var self = this;
-  var now = Date.now();
+  const now = Date.now();
 
-  return this._stateStorage.each(function (key, state) {
+  return this._stateStorage.each((key, state) => {
     // Remove requested state
-    if (key === self.stateKeyPrefix + removeStateId) {
-      return self._stateStorage.remove(key);
+    if (key === this.stateKeyPrefix + removeStateId) {
+      return this._stateStorage.remove(key);
     }
 
-    if (key.indexOf(self.stateKeyPrefix) === 0) {
+    if (key.indexOf(this.stateKeyPrefix) === 0) {
       // Clean old states
-      if (state.created + self.stateTTL < now) {
-        return self._stateStorage.remove(key);
+      if (state.created + this.stateTTL < now) {
+        return this._stateStorage.remove(key);
       }
 
       // Data to clean up due quota
@@ -106,29 +105,29 @@ AuthStorage.prototype.cleanStates = function (removeStateId) {
         size: JSON.stringify(state).length
       };
     }
-  }).then(function (removalResult) {
-    var currentStates = removalResult.filter(function (state) {
+  }).then(removalResult => {
+    const currentStates = removalResult.filter(state => {
       return state;
     });
 
-    var stateStorageSize = currentStates.reduce(function (overallSize, state) {
+    let stateStorageSize = currentStates.reduce((overallSize, state) => {
       return state.size + overallSize;
     }, 0);
 
-    if (stateStorageSize > self.stateQuota) {
-      currentStates.sort(function (a, b) {
+    if (stateStorageSize > this.stateQuota) {
+      currentStates.sort((a, b) => {
         return a.created > b.created;
       });
 
-      var removalPromises = currentStates.filter(function (state) {
-        if (stateStorageSize > self.stateQuota) {
+      const removalPromises = currentStates.filter(state => {
+        if (stateStorageSize > this.stateQuota) {
           stateStorageSize -= state.size;
           return true;
         }
 
         return false;
-      }).map(function (state) {
-        self._stateStorage.remove(state.key);
+      }).map(state => {
+        this._stateStorage.remove(state.key);
       });
 
       return removalPromises.length && Promise.all(removalPromises);

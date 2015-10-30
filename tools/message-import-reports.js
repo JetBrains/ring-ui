@@ -1,5 +1,6 @@
 /* eslint-env node */
 /* eslint-disable no-console*/
+/* eslint-disable no-var*/
 
 var pkgConfig = require('../package.json');
 

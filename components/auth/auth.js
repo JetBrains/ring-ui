@@ -2,12 +2,12 @@
 
 import 'core-js/modules/es7.array.includes';
 
-var AuthStorage = require('./auth__storage');
-var AuthResponseParser = require('./auth__response-parser');
-var AuthRequestBuilder = require('./auth__request-builder');
-var urlUtils = require('../url-utils/url-utils');
+const AuthStorage = require('./auth__storage');
+const AuthResponseParser = require('./auth__response-parser');
+const AuthRequestBuilder = require('./auth__request-builder');
+const urlUtils = require('../url-utils/url-utils');
 
-let noop = () => {};
+function noop() {}
 
 /**
  * @constructor
@@ -44,12 +44,12 @@ let noop = () => {};
      </file>
 
      <file name="index.js" webpack="true">
-       var Auth = require('ring-ui/components/auth/auth');
+       const Auth = require('ring-ui/components/auth/auth');
 
-       var log = function(title) {
+       const log = function(title) {
          return function(obj) {
-           var titleElem = document.createElement('h3');
-           var jsonElem = document.createElement('div');
+           const titleElem = document.createElement('h3');
+           const jsonElem = document.createElement('div');
 
            titleElem.innerHTML = title;
            jsonElem.innerHTML = JSON.stringify(obj);
@@ -59,7 +59,7 @@ let noop = () => {};
          };
        };
 
-       var auth = new Auth({
+       const auth = new Auth({
          serverUri: '***REMOVED***/',
          request_credentials: 'skip',
          redirect_uri: window.location.href.split('#')[0]
@@ -79,7 +79,7 @@ let noop = () => {};
      </file>
    </example>
  */
-var Auth = function (config) {
+function Auth(config) {
   if (!config) {
     throw new Error('Config is required');
   }
@@ -92,7 +92,7 @@ var Auth = function (config) {
 
   this.config = Object.assign({}, Auth.DEFAULT_CONFIG, config);
 
-  var serverUriLength = this.config.serverUri.length;
+  const serverUriLength = this.config.serverUri.length;
   if (serverUriLength > 0 && this.config.serverUri.charAt(serverUriLength - 1) !== '/') {
     this.config.serverUri += '/';
   }
@@ -126,7 +126,7 @@ var Auth = function (config) {
     this._initDeferred.resolve = resolve;
     this._initDeferred.reject = reject;
   });
-};
+}
 
 
 /**
@@ -178,18 +178,16 @@ Auth.HAS_CORS = 'withCredentials' in new XMLHttpRequest();
  * that should be restored after returning back from auth server.
  */
 Auth.prototype.init = function () {
-  var self = this;
-
-  this._storage.onTokenChange(function (token) {
+  this._storage.onTokenChange(token => {
     if (token === null) {
-      self.logout();
+      this.logout();
     }
   });
 
   function sendRedirect(error) {
-    return self._requestBuilder.prepareAuthRequest().
-      then(function (authRequest) {
-        self._redirectCurrentPage(authRequest.url);
+    return this._requestBuilder.prepareAuthRequest().
+      then(authRequest => {
+        this._redirectCurrentPage(authRequest.url);
         return Promise.reject(error);
       });
   }
@@ -197,12 +195,12 @@ Auth.prototype.init = function () {
   return this._checkForAuthResponse()
     .catch(error => {
       if (error.stateId) {
-        return self._storage.getState(error.stateId)
+        return this._storage.getState(error.stateId)
           .catch(() => Promise.reject(error))
           .then(state => {
             if (state && state.nonRedirect) {
               state.error = error;
-              self._storage.saveState(error.stateId, state);
+              this._storage.saveState(error.stateId, state);
               return new Promise(noop);
             }
 
@@ -212,39 +210,39 @@ Auth.prototype.init = function () {
 
       return Promise.reject(error);
     }).
-    then(function (state) {
+    then(state => {
       // Return endless promise in background to avoid service start
       if (state && state.nonRedirect) {
         return new Promise(noop);
       }
 
       // Check if there is a valid token
-      return self.validateToken().
-        then(function (/*accessToken*/) {
+      return this.validateToken().
+        then((/*accessToken*/) => {
           // Access token appears to be valid.
           // We may resolve restoreLocation URL now
-          self._initDeferred.resolve(state && state.restoreLocation);
+          this._initDeferred.resolve(state && state.restoreLocation);
           return state && state.restoreLocation;
-        }, function (error) {
+        }, error => {
           // TODO Remove after "redirect: false" is default, i.e. after Hub 1.0 everywhere
-          var shouldRedirect = self.config.redirect && self.config.redirect !== 'background-unsafe';
+          const shouldRedirect = this.config.redirect && this.config.redirect !== 'background-unsafe';
 
           // Redirect flow
           if (error.authRedirect && shouldRedirect) {
-            return sendRedirect(error);
+            return this::sendRedirect(error);
           }
 
           // Background flow
           if (error.authRedirect && !shouldRedirect) {
-            return self._loadTokenInBackground().
-              then(self.validateToken.bind(self)).
-              then(function () {
-                self._initDeferred.resolve();
+            return this._loadTokenInBackground().
+              then(this.validateToken.bind(this)).
+              then(() => {
+                this._initDeferred.resolve();
               }).
-              catch(sendRedirect); // Fallback to redirect flow
+              catch(this::sendRedirect); // Fallback to redirect flow
           }
 
-          self._initDeferred.reject(error);
+          this._initDeferred.reject(error);
           return Promise.reject(error);
         });
     });
@@ -309,7 +307,7 @@ Auth.prototype.forceTokenUpdate = function () {
  * @return {Promise} promise from fetch request
  */
 Auth.prototype.getSecure = function (absoluteUrl, accessToken, params) {
-  var url = AuthRequestBuilder.encodeURL(absoluteUrl, params);
+  const url = AuthRequestBuilder.encodeURL(absoluteUrl, params);
 
   return fetch(url, {
     headers: {
@@ -330,7 +328,7 @@ Auth.prototype.getSecure = function (absoluteUrl, accessToken, params) {
           statusText: 'Network request failed'
         };
 
-        var error = new Error('' + response.status + ' ' + response.statusText);
+        const error = new Error('' + response.status + ' ' + response.statusText);
         error.response = response;
         error.status = response.status;
         return Promise.reject(error);
@@ -359,16 +357,15 @@ Auth.prototype.requestUser = function () {
     return Promise.resolve(this.user);
   }
 
-  var self = this;
   return this.requestToken().
-    then(function (accessToken) {
-      if (self.user) {
-        return self.user;
+    then(accessToken => {
+      if (this.user) {
+        return this.user;
       }
 
-      return self.getApi(Auth.API_PROFILE_PATH, accessToken, self.config.userParams).
-        then(function (user) {
-          self.user = user;
+      return this.getApi(Auth.API_PROFILE_PATH, accessToken, this.config.userParams).
+        then(user => {
+          this.user = user;
           return user;
         });
     });
@@ -378,14 +375,12 @@ Auth.prototype.requestUser = function () {
  * Wipe accessToken and redirect to auth page with required authorization
  */
 Auth.prototype.logout = function (requestParams) {
-  var self = this;
-
   return this._storage.wipeToken().
-    then(function () {
-      return self._requestBuilder.prepareAuthRequest(Object.assign({request_credentials: 'required'}, requestParams));
+    then(() => {
+      return this._requestBuilder.prepareAuthRequest(Object.assign({request_credentials: 'required'}, requestParams));
     }).
-    then(function (authRequest) {
-      self._redirectCurrentPage(authRequest.url);
+    then(authRequest => {
+      this._redirectCurrentPage(authRequest.url);
     });
 };
 
@@ -408,38 +403,37 @@ Auth._epoch = function () {
  * @private
  */
 Auth.prototype._checkForAuthResponse = function () {
-  var self = this;
-  return new Promise(function (resolve) {
+  return new Promise(resolve => {
     // getAuthResponseURL may throw an exception. Wrap it with promise to handle it gently.
-    var response = self._responseParser.getAuthResponseFromURL();
+    const response = this._responseParser.getAuthResponseFromURL();
 
-    if (response && self.config.cleanHash) {
-      self.setHash('');
+    if (response && this.config.cleanHash) {
+      this.setHash('');
     }
     resolve(response);
   }).then(
     /**
      * @param {AuthResponse} authResponse
      */
-    function (authResponse) {
+    authResponse => {
       if (!authResponse) {
         return undefined;
       }
 
-      var statePromise = authResponse.state ? self._storage.getState(authResponse.state) : Promise.resolve({});
+      const statePromise = authResponse.state ? this._storage.getState(authResponse.state) : Promise.resolve({});
       return statePromise.then(
         /**
          * @param {StoredState=} state
          * @return {Promise.<string>}
          */
-        function (state) {
+        state => {
           state = state || {};
-          var config = self.config;
+          const config = this.config;
 
           /**
            * @type {string[]}
            */
-          var scopes;
+          let scopes;
           if (authResponse.scope) {
             scopes = authResponse.scope.split(' ');
           } else if (state.scopes) {
@@ -453,19 +447,19 @@ Auth.prototype._checkForAuthResponse = function () {
           /**
            * @type {number}
            */
-          var expiresIn;
+          let expiresIn;
           if (authResponse.expires_in) {
             expiresIn = parseInt(authResponse.expires_in, 10);
           } else {
             expiresIn = config.default_expires_in;
           }
-          var expries = Auth._epoch() + expiresIn;
+          const expries = Auth._epoch() + expiresIn;
 
-          return self._storage.saveToken({
+          return this._storage.saveToken({
             access_token: authResponse.access_token,
             scopes: scopes,
             expires: expries
-          }).then(function () {
+          }).then(() => {
             return state;
           });
         });
@@ -496,7 +490,7 @@ Auth.TokenValidationError.prototype.name = 'TokenValidationError';
  * @private
  */
 Auth._authRequiredReject = function (message, cause) {
-  var error = new Auth.TokenValidationError(message, cause);
+  const error = new Auth.TokenValidationError(message, cause);
   return Promise.reject(error);
 };
 
@@ -521,7 +515,7 @@ Auth._validateExistence = function (storedToken) {
  * @private
  */
 Auth._validateExpiration = function (storedToken) {
-  var now = Auth._epoch();
+  const now = Auth._epoch();
   if (storedToken.expires && storedToken.expires < (now + Auth.REFRESH_BEFORE)) {
     return Auth._authRequiredReject('Token expired');
   } else {
@@ -536,9 +530,9 @@ Auth._validateExpiration = function (storedToken) {
  * @private
  */
 Auth.prototype._validateScopes = function (storedToken) {
-  for (var i = 0; i < this.config.scope.length; i++) {
-    var scope = this.config.scope[i];
-    var isRequired = !this.config.optionalScopes || !this.config.optionalScopes.includes(scope);
+  for (let i = 0; i < this.config.scope.length; i++) {
+    const scope = this.config.scope[i];
+    const isRequired = !this.config.optionalScopes || !this.config.optionalScopes.includes(scope);
     if (isRequired && !storedToken.scopes.includes(scope)) {
       return Auth._authRequiredReject('Token doesn\'t match required scopes');
     }
@@ -552,8 +546,8 @@ Auth.prototype._validateScopes = function (storedToken) {
  * @private
  */
 Auth.prototype._canValidateAgainstUser = function () {
-  var clientOrigin = urlUtils.getOrigin(this.config.redirect_uri);
-  var serverOrigin = urlUtils.getOrigin(this.config.serverUri);
+  const clientOrigin = urlUtils.getOrigin(this.config.redirect_uri);
+  const serverOrigin = urlUtils.getOrigin(this.config.serverUri);
 
   return clientOrigin === serverOrigin || Auth.HAS_CORS;
 };
@@ -615,13 +609,13 @@ Auth.prototype._validateAgainstUser = function (storedToken) {
  * @private
  */
 Auth.prototype._getValidatedToken = function (validators) {
-  var tokenPromise = this._storage.getToken();
-  for (var i = 0; i < validators.length; i++) {
+  let tokenPromise = this._storage.getToken();
+
+  for (let i = 0; i < validators.length; i++) {
     tokenPromise = tokenPromise.then(validators[i]);
   }
-  return tokenPromise.then(function (storedToken) {
-    return storedToken.access_token;
-  });
+
+  return tokenPromise.then(storedToken => storedToken.access_token);
 };
 
 /**
@@ -649,7 +643,7 @@ Auth.prototype._redirectFrame = function (iframe, url) {
  * @private
  */
 Auth.prototype._createHiddenFrame = function () {
-  var iframe = document.createElement('iframe');
+  const iframe = document.createElement('iframe');
 
   iframe.style.border = iframe.style.width = iframe.style.height = '0px';
   iframe.style.visibility = 'hidden';
@@ -698,19 +692,19 @@ Auth.prototype._loadTokenInBackground = function () {
         window.document.body.removeChild(iframe);
       }
 
-      let timeout = setTimeout(() => {
+      const timeout = setTimeout(() => {
         reject(new Error('Auth Timeout'));
         cleanUp();
       }, Auth.BACKGROUND_TIMEOUT);
 
-      let removeTokenListener = this._storage.onTokenChange(function (token) {
+      const removeTokenListener = this._storage.onTokenChange(function (token) {
         if (token !== null) {
           cleanUp();
           resolve(token.access_token);
         }
       });
 
-      let removeStateListener = this._storage.onStateChange(authRequest.stateId, function (state) {
+      const removeStateListener = this._storage.onStateChange(authRequest.stateId, function (state) {
         if (state && state.error) {
           cleanUp();
           reject(new AuthResponseParser.AuthError(state));
@@ -737,7 +731,7 @@ Auth.prototype.setHash = function (hash) {
     // a record in history.
     // NB! URL to redirect is formed manually because baseURI could be messed up
     // in which case it's not obvious where redirect will lead.
-    var cleanedUrl = [
+    const cleanedUrl = [
       window.location.pathname,
       window.location.search
     ].join('');

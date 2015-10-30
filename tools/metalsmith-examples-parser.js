@@ -2,6 +2,9 @@
  * <example> tags parser, inspired by dgeni examples parser
  * https://github.com/angular/dgeni-packages/blob/master/examples/processors/examples-parse.js
  * */
+/* eslint-env node */
+/* eslint-disable no-var*/
+
 var omit = require('mout/object/omit');
 
 var EXAMPLE_REGEX = /<example([^>]*)>([\S\s]+?)<\/example>/g;

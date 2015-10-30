@@ -42,7 +42,7 @@ import classNames from 'classnames';
  */
 export default class LoaderScreen extends RingComponent {
   render() {
-    let classes = classNames(
+    const classes = classNames(
       'ring-loader-screen__loader',
       {
         'ring-loader-screen__loader_without-spacings': !this.props.message

@@ -1,18 +1,17 @@
-require('angular');
-require('angular-mocks');
-require('./select-ng');
-var $ = require('jquery');
-var Select = require('../select/select');
-
 /* global inject, angular */
 
-describe('SelectNg', function () {
+import 'angular';
+import 'angular-mocks';
+import './select-ng';
+import $ from 'jquery';
+import Select from '../select/select';
 
-  var scope;
-  var element;
-  var ctrl;
-  var $compile;
-  var fakeItems = [
+describe('SelectNg', function () {
+  let scope;
+  let element;
+  let ctrl;
+  let $compile;
+  const fakeItems = [
     {id: 1, name: '11'},
     {id: 2, name: '22'},
     {id: 3, name: '33'}
@@ -20,11 +19,11 @@ describe('SelectNg', function () {
 
   beforeEach(window.module('Ring.select'));
 
-  var compileTemplate = function (template) {
+  function compileTemplate(template) {
     element = $compile(template)(scope);
     ctrl = element.controller('rgSelect');
     scope.$digest();
-  };
+  }
 
   beforeEach(inject(function ($rootScope, _$compile_) {
     scope = $rootScope.$new();
@@ -65,14 +64,14 @@ describe('SelectNg', function () {
     });
 
     it('Should work without ng-model', function () {
-      var initDirective = function () {
+      function initDirective() {
         compileTemplate('<rg-select options="item.name for item in items track by item.id"></rg-select>');
-      };
+      }
       initDirective.should.not.throw;
     });
 
     it('Should update selected item on ngModel updates', function () {
-      var newLabel = 'Some new label';
+      const newLabel = 'Some new label';
       scope.selectedItem.name = newLabel;
       scope.$digest();
       ctrl.selectInstance.props.selected.label.should.equal(newLabel);
@@ -243,13 +242,13 @@ describe('SelectNg', function () {
     });
 
     it('Should extend select model with properties from ng model', function () {
-      var selectModel = ctrl.convertNgModelToSelect({ext: 'test'});
+      const selectModel = ctrl.convertNgModelToSelect({ext: 'test'});
       selectModel.ext.should.equal('test');
     });
 
     it('Should not try to extend select model with string', function () {
       this.sinon.spy(angular, 'extend');
-      var stringValue = 'str-value';
+      const stringValue = 'str-value';
       ctrl.convertNgModelToSelect(stringValue);
       angular.extend.should.been.calledWith(this.sinon.match({}), null);
     });
@@ -353,7 +352,7 @@ describe('SelectNg', function () {
     });
 
     it('Should support custom property for ng-model', function () {
-      var optionMock = {value: 1, label: 'label'};
+      const optionMock = {value: 1, label: 'label'};
       scope.options = [optionMock];
       scope.selectedOption = null;
 
@@ -364,7 +363,7 @@ describe('SelectNg', function () {
     });
 
     it('Should update select if we pass custom ng-model', function () {
-      var optionMock = {value: 1, label: 'label'};
+      const optionMock = {value: 1, label: 'label'};
       scope.options = [optionMock];
       scope.selectedOption = optionMock.value;
 
@@ -374,12 +373,12 @@ describe('SelectNg', function () {
     });
 
     it('Should call only once data source function for primitive ng-model', function () {
-      var createOptionMock = function (value) {
+      function createOptionMock(value) {
         return {
           value: value,
           label: 'label ' + value
         };
-      };
+      }
 
       scope.options = [
         createOptionMock(1),
@@ -436,13 +435,13 @@ describe('SelectNg', function () {
     });
 
     it('Should throw exception if we have two options with same ng-model value', function () {
-      var optionMock = {value: 1, label: 'label'};
+      const optionMock = {value: 1, label: 'label'};
       scope.options = [optionMock, optionMock];
       scope.selectedOption = optionMock.value;
 
-      var compile = function () {
+      function compile() {
         compileTemplate('<rg-select ng-model="selectedOption" options="item.value as item.label for item in options" lazy="false"></rg-select>');
-      };
+      }
 
       compile.should.throw(Error);
     });

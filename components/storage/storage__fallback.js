@@ -1,9 +1,9 @@
-var deepEquals = require('mout/lang/deepEquals');
+import deepEquals from 'mout/lang/deepEquals';
 
-var DEFAULT_COOKIE_NAME = 'localStorage';
-var DEFAULT_SESSION_COOKIE_NAME = 'sessionStorage';
-var DEFAULT_CHECK_DELAY = 3000;
-var COOKIE_EXPIRES = 365;
+const DEFAULT_COOKIE_NAME = 'localStorage';
+const DEFAULT_SESSION_COOKIE_NAME = 'sessionStorage';
+const DEFAULT_CHECK_DELAY = 3000;
+const COOKIE_EXPIRES = 365;
 
 /**
  * @prop {string} cookieName
@@ -14,18 +14,18 @@ var COOKIE_EXPIRES = 365;
  * @return {FallbackStorage}
  * @constructor
  */
-var FallbackStorage = function (config) {
+function FallbackStorage(config) {
   if (!(this instanceof FallbackStorage)) {
     return new FallbackStorage(config);
   }
 
   config = config || {};
-  var session = config.type === 'session';
+  const session = config.type === 'session';
 
   this.cookieName = config.cookieName || (session ? DEFAULT_SESSION_COOKIE_NAME : DEFAULT_COOKIE_NAME);
   this.checkDelay = config.checkDelay || DEFAULT_CHECK_DELAY;
   this.expires = session ? COOKIE_EXPIRES : null;
-};
+}
 
 /**
  * Maximum storage size
@@ -41,8 +41,8 @@ FallbackStorage.QUOTA = 4093;
  * @private
  */
 FallbackStorage._createCookie = function (name, value, days) {
-  var date;
-  var expires;
+  let date;
+  let expires;
 
   if (days) {
     date = new Date();
@@ -61,11 +61,11 @@ FallbackStorage._createCookie = function (name, value, days) {
  * @private
  */
 FallbackStorage._readCookie = function (name) {
-  var nameEQ = name + '=';
-  var cookies = document.cookie.split(';');
+  const nameEQ = name + '=';
+  const cookies = document.cookie.split(';');
 
-  var cookie;
-  for (var i = 0; i < cookies.length; i++) {
+  let cookie;
+  for (let i = 0; i < cookies.length; i++) {
     cookie = cookies[i];
     while (cookie.charAt(0) === ' ') {
       cookie = cookie.substring(1, cookie.length);
@@ -83,7 +83,7 @@ FallbackStorage._readCookie = function (name) {
  */
 FallbackStorage.prototype._read = function () {
   return new Promise(resolve => {
-    var rawData = FallbackStorage._readCookie(this.cookieName);
+    const rawData = FallbackStorage._readCookie(this.cookieName);
     resolve(JSON.parse(decodeURIComponent(rawData)));
   }).catch(() => ({}));
 };
@@ -95,7 +95,7 @@ FallbackStorage.prototype._read = function () {
  */
 FallbackStorage.prototype._write = function (data) {
   return new Promise(resolve => {
-    var stringData = encodeURIComponent(JSON.stringify(data));
+    const stringData = encodeURIComponent(JSON.stringify(data));
     FallbackStorage._createCookie(this.cookieName, stringData === '{}' ? '' : stringData, this.expires);
     return resolve(data);
   });
@@ -117,9 +117,7 @@ FallbackStorage.prototype.get = function (key) {
  * @return {Promise}
  */
 FallbackStorage.prototype.set = function (key, value) {
-  var self = this;
-
-  return this._read().then(function (data) {
+  return this._read().then(data => {
     if (key) {
       if (value != null) {
         data[key] = value;
@@ -128,7 +126,7 @@ FallbackStorage.prototype.set = function (key, value) {
       }
     }
 
-    return self._write(data);
+    return this._write(data);
   });
 };
 
@@ -151,8 +149,8 @@ FallbackStorage.prototype.each = function (callback) {
   }
 
   return this._read().then(function (data) {
-    var promises = [];
-    for (var key in data) {
+    const promises = [];
+    for (const key in data) {
       if (data.hasOwnProperty(key)) {
         promises.push(callback(key, data[key]));
       }
@@ -167,7 +165,7 @@ FallbackStorage.prototype.each = function (callback) {
  * @return {Function}
  */
 FallbackStorage.prototype.on = function (key, calback) {
-  var stop = false;
+  let stop = false;
 
   const checkForChange = oldValue => {
     this.get(key).then(newValue => {

@@ -14,9 +14,9 @@
  *
  * @constructor
  */
-var AuthResponseParser = function () {
+function AuthResponseParser() {
   this._authResponse = this.readAuthResponseFromURL();
-};
+}
 
 /**
  * Check if the hash contains an access token.
@@ -71,7 +71,7 @@ AuthResponseParser.prototype.readAuthResponseFromURL = function () {
  */
 AuthResponseParser.prototype.getHash = function () {
   // Because of stupid Firefox bug — https://bugzilla.mozilla.org/show_bug.cgi?id=483304
-  var location = this.getLocation();
+  const location = this.getLocation();
   return location && location.replace(/^[^#]*#?/, '');
 };
 
@@ -97,16 +97,18 @@ AuthResponseParser.parseQueryString = function (queryString) {
     return {};
   }
 
-  var queryParameterPairRE = /([^&;=]+)=?([^&;]*)/g;
-  var decode = function (s) {
-    return decodeURIComponent(s.replace(/\+/g, ' '));
-  };
+  const queryParameterPairRE = /([^&;=]+)=?([^&;]*)/g;
+  const urlParams = {};
 
-  var urlParams = {};
-  var matchedQueryPair;
+  function decode(s) {
+    return decodeURIComponent(s.replace(/\+/g, ' '));
+  }
+
+  let matchedQueryPair;
   while ((matchedQueryPair = queryParameterPairRE.exec(queryString)) != null) {
     urlParams[decode(matchedQueryPair[1])] = decode(matchedQueryPair[2]);
   }
+
   return urlParams;
 };
 

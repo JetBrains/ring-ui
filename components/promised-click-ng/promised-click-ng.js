@@ -39,13 +39,13 @@
 */
 
 /* global angular: false */
-let module = angular.module('Ring.promised-click', []);
+const module = angular.module('Ring.promised-click', []);
 
 function rgPromisedClick($parse) {
   return {
     restrict: 'A',
     controller: function ($scope, $element) {
-      let element = $element[0];
+      const element = $element[0];
       let active = false;
       let promise;
 
@@ -81,7 +81,8 @@ function rgPromisedClick($parse) {
     },
     link: function (scope, iElement, iAttrs, controller) {
       if (iAttrs.rgPromisedClick) {
-        let onClick = $parse(iAttrs.rgPromisedClick);
+        const onClick = $parse(iAttrs.rgPromisedClick);
+
         iElement[0].addEventListener('click', controller.onPromisedClick.bind(controller, $event => {
           return onClick(scope, {$event: $event});
         }));

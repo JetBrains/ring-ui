@@ -18,14 +18,14 @@ import ClassName from '../class-name/class-name';
  */
 function fitImageIntoSquare(image, width, height) {
   const SIZE = RingComponent.RING_UNIT * 3;
-  let isPortrait = height > width;
-  let dimension = isPortrait ? 'width' : 'height';
-  let margin = isPortrait ? 'margin-top' : 'margin-left';
-  let adjustedSideOriginal = isPortrait ? width : height;
-  let oppositeSideOriginal = isPortrait ? height : width;
+  const isPortrait = height > width;
+  const dimension = isPortrait ? 'width' : 'height';
+  const margin = isPortrait ? 'margin-top' : 'margin-left';
+  const adjustedSideOriginal = isPortrait ? width : height;
+  const oppositeSideOriginal = isPortrait ? height : width;
 
-  let oppositeSide = oppositeSideOriginal * SIZE / adjustedSideOriginal;
-  let compensation = -(oppositeSide - SIZE) / 2;
+  const oppositeSide = oppositeSideOriginal * SIZE / adjustedSideOriginal;
+  const compensation = -(oppositeSide - SIZE) / 2;
 
   image.setAttribute(dimension, SIZE.toString());
   image.style[margin] = Math.round(compensation) + 'px';
@@ -60,7 +60,7 @@ export default class HeaderItem extends RingComponent {
   };
 
   render() {
-    let classes = classNames(
+    const classes = classNames(
       {
         [itemClassName.getClassName()]: true,
         [itemClassName.getClassName(null, 'icon')]: true,
@@ -72,7 +72,7 @@ export default class HeaderItem extends RingComponent {
 
     // NB! Wrapping span is needed because otherwise selenium tests couldn't
     // trigger the click on the <SVG /> element.
-    let iconElement = this.state.picture ? this._getImage() : this._getIcon();
+    const iconElement = this.state.picture ? this._getImage() : this._getIcon();
 
     return (
       <span
@@ -103,7 +103,7 @@ export default class HeaderItem extends RingComponent {
   _getImage() {
     const baseClass = new ClassName('ring-icon');
 
-    let classes = classNames(
+    const classes = classNames(
       {
         [baseClass.getClassName()]: true,
         [baseClass.getModifier('24')]: true,
@@ -120,7 +120,7 @@ export default class HeaderItem extends RingComponent {
         <img
           className={baseClass.getElement('pic')}
           onLoad={function (evt) {
-            let pic = evt.target;
+            const pic = evt.target;
             fitImageIntoSquare(pic, pic.width, pic.height);
           }}
           src={this.state.picture}

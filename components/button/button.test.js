@@ -1,9 +1,9 @@
-describe('Button', function () {
-  var $ = require('jquery');
-  var React = require('react');
-  var TestUtils = require('react-addons-test-utils');
-  var Button = require('./button');
+import $ from 'jquery';
+import React from 'react';
+import TestUtils from 'react-addons-test-utils';
+import Button from './button';
 
+describe('Button', function () {
   beforeEach(function () {
     this.button = TestUtils.renderIntoDocument(React.createElement(Button));
   });
@@ -21,7 +21,7 @@ describe('Button', function () {
   });
 
   it('should set custom class', function () {
-    var CUSTOM_CLASS = 'test';
+    const CUSTOM_CLASS = 'test';
 
     this.button.rerender({
       className: CUSTOM_CLASS

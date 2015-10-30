@@ -1,6 +1,6 @@
-var Analytics = function () {
+function Analytics() {
   this._plugins = [];
-};
+}
 
 /**
  * @param plugins [{{
@@ -16,15 +16,18 @@ Analytics.prototype.track = function (rawTrackingData, /* optional */ additional
   if (!rawTrackingData) {
     return;
   }
-  var splitIdx = rawTrackingData.indexOf(':');
+
+  let splitIdx = rawTrackingData.indexOf(':');
   if (splitIdx < 0) {
     splitIdx = rawTrackingData.indexOf('_');
   }
   if (splitIdx < 0) {
     splitIdx = rawTrackingData.length;
   }
-  var category = rawTrackingData.substr(0, splitIdx);
-  var subcategory = rawTrackingData.substr(splitIdx + 1);
+
+  const category = rawTrackingData.substr(0, splitIdx);
+  const subcategory = rawTrackingData.substr(splitIdx + 1);
+
   this.trackEvent(category, subcategory, additionalData);
 };
 
@@ -35,7 +38,7 @@ Analytics.prototype.trackPageView = function (path) {
 };
 
 Analytics.prototype.trackEvent = function (category, action, /* optional */ additionalData) {
-  var subaction = additionalData ? action + this._buildSuffix(additionalData) : null;
+  const subaction = additionalData ? action + this._buildSuffix(additionalData) : null;
   this._plugins.forEach(function (plugin) {
     plugin.trackEvent(category, action);
     if (subaction) {
@@ -50,13 +53,15 @@ Analytics.prototype.trackShortcutEvent = function (category, action, /* optional
 };
 
 Analytics.prototype.trackEntityProperties = function (entityName, entity, propertiesNames, /* optional */ additionalData) {
-  for (var i = 0; i < propertiesNames.length; ++i) {
-    var value = entity;
-    var keys = propertiesNames[i].split('.');
+  for (let i = 0; i < propertiesNames.length; ++i) {
+    const keys = propertiesNames[i].split('.');
+    let value = entity;
+
     if (!keys.length) {
       continue;
     }
-    for (var j = 0; j < keys.length; ++j) {
+
+    for (let j = 0; j < keys.length; ++j) {
       if (value.hasOwnProperty(keys[j])) {
         value = value[keys[j]];
       } else {
@@ -64,10 +69,12 @@ Analytics.prototype.trackEntityProperties = function (entityName, entity, proper
         break;
       }
     }
+
     if (typeof value === 'string') {
       value = value.toLowerCase().replace(/[\._]+/g, '-');
     }
-    var resultAction = keys.join('-') + '__' + value;
+
+    const resultAction = keys.join('-') + '__' + value;
     this.trackEvent(entityName, resultAction, additionalData);
   }
 };
@@ -76,13 +83,16 @@ Analytics.prototype._buildSuffix = function (additionalData) {
   if (!additionalData) {
     return '';
   }
-  var suffix = '';
-  for (var key in additionalData) {
+
+  let suffix = '';
+  let key;
+  for (key in additionalData) {
     if (additionalData.hasOwnProperty(key)) {
       suffix += '__' + key + '$' + additionalData[key];
     }
   }
+
   return suffix;
 };
 
-module.exports = new Analytics();
+export default new Analytics();

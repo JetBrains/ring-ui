@@ -1,7 +1,7 @@
 import List from '../list/list';
 import HubSourceUsersGroups from '../hub-source/hub-source__users-groups';
 
-let defaultOptions = {
+const defaultOptions = {
   GroupsTitle: 'Groups',
   NoGroupsTitle: 'No groups',
 
@@ -29,13 +29,13 @@ export default class ListUsersGroupsSource extends HubSourceUsersGroups {
   getForList(query) {
     return this.getUserAndGroups(query)
       .then(([users, groups]) => {
-        let groupsTitle = {
+        const groupsTitle = {
           rgItemType: List.ListProps.Type.SEPARATOR,
           key: 1,
           description: this.getGroupsSectionTitle(groups)
         };
 
-        let groupsForList = groups.map(group => {
+        const groupsForList = groups.map(group => {
           return Object.assign(group, {
             key: group.id,
             label: group.name,
@@ -43,13 +43,13 @@ export default class ListUsersGroupsSource extends HubSourceUsersGroups {
           });
         });
 
-        let usersTitle = {
+        const usersTitle = {
           rgItemType: List.ListProps.Type.SEPARATOR,
           key: 2,
           description: this.getUsersSectionTitle(users)
         };
 
-        let usersForList = users.map(user => {
+        const usersForList = users.map(user => {
           return Object.assign(user, {
             key: user.id,
             label: user.name,

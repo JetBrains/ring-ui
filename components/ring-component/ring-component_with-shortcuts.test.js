@@ -7,13 +7,13 @@ import RingComponentWithShortcuts from './ring-component_with-shortcuts';
 import shortcuts from '../shortcuts/shortcuts';
 
 describe('RingComponentWithShortcuts', function () {
-  //var component;
-  var noop = sinon.spy();
-  //var noop2;
-  var key = 'a';
-  var scope = 'scope scope scope';
-  //var scope2 = 'scope2 scope2 scope2';
-  var keyMap = {};
+  //const component;
+  const noop = sinon.spy();
+  //const noop2;
+  const key = 'a';
+  const scope = 'scope scope scope';
+  //const scope2 = 'scope2 scope2 scope2';
+  const keyMap = {};
   keyMap[key] = noop;
 
   function trigger() {
@@ -46,20 +46,20 @@ describe('RingComponentWithShortcuts', function () {
   });
 
   //function createСomponent(props, callback) {
-  //  var TestClass = createСlass();
+  //  const TestClass = createСlass();
   //  component = renderIntoDocument(React.createElement(TestClass, props), callback);
   //}
   //
   //function createСomponentWithSubComponent(props, callback) {
-  //  var subKeyMap = {};
+  //  const subKeyMap = {};
   //  subKeyMap[key] = noop2;
   //
-  //  var subComponent = createСlass({
+  //  const subComponent = createСlass({
   //    scope: scope2,
   //    map: subKeyMap
   //  });
   //
-  //  var TestClass = createСlass(null, function render() {
+  //  const TestClass = createСlass(null, function render() {
   //    return React.createElement(subComponent, {
   //      ref: 'subComponent',
   //      shortcuts: this.props.shortcuts
@@ -97,7 +97,7 @@ describe('RingComponentWithShortcuts', function () {
   });
 
   it('shorcutsEnabled should reflect shortcuts disabled state', function () {
-    var component = renderIntoDocument(React.createElement(this.TestComponent));
+    const component = renderIntoDocument(React.createElement(this.TestComponent));
 
     component.shortcutsEnabled().should.be.false;
   });

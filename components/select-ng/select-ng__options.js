@@ -1,8 +1,8 @@
-var deepEquals = require('mout/object/deepMatches');
+import deepEquals from 'mout/object/deepMatches';
 
-var OPTIONS_REGEXP = /^\s*(.*?)(?:\s+as\s+(.*?))?(?:\s+select\s+as\s+(.*?))?(?:\s+describe\sas\s+(.*?))?(?:\s+for\s+)?([\$\w]+)\s+in\s+(.*?)(?:\s+track\sby\s+(.*?))?$/;
+const OPTIONS_REGEXP = /^\s*(.*?)(?:\s+as\s+(.*?))?(?:\s+select\s+as\s+(.*?))?(?:\s+describe\sas\s+(.*?))?(?:\s+for\s+)?([\$\w]+)\s+in\s+(.*?)(?:\s+track\sby\s+(.*?))?$/;
 
-var MATCHES = {
+const MATCHES = {
   ITEM: 1,
   LABEL: 2,
   SELECTED_LABEL: 3,
@@ -12,18 +12,18 @@ var MATCHES = {
   TRACK: 7
 };
 
-var defaultKeyField = 'key';
-var defaultLabelField = 'label';
-var defaultSelectedLabelField = 'selectedLabel';
-var defaultDescriptionField = 'description';
+const defaultKeyField = 'key';
+const defaultLabelField = 'label';
+const defaultSelectedLabelField = 'selectedLabel';
+const defaultDescriptionField = 'description';
 
 /* global angular: false */
 angular.module('Ring.select.options', [])
   .factory('SelectOptions', function ($parse) {
-    var Options = function (scope, optionsString) {
+    function Options(scope, optionsString) {
       this.scope = scope;
 
-      var match;
+      let match;
       if (!(match = optionsString.match(OPTIONS_REGEXP))) {
         throw new Error('Bad rgSelect expression format. Expected: [{item}] [[as] item.text] [select as item.selectLabel]' +
           ' [describe as {item.description}] [for] {item} in {items|dataSource(query)} [track by item.id], Received: ' + optionsString);
@@ -42,11 +42,11 @@ angular.module('Ring.select.options', [])
       this.optionVariableName = match[MATCHES.OPTION];
       this.datasourceGetter = $parse(match[MATCHES.ITEMS]);
       this.trackByGetter = match[MATCHES.TRACK] && $parse(match[MATCHES.TRACK]);
-    };
+    }
 
     Options.prototype.getProperty = function (option, getter) {
       if (getter) {
-        var locals = {};
+        const locals = {};
         locals[this.optionVariableName] = option;
         return getter.apply(this, [this.scope, locals]);
       }
@@ -61,7 +61,7 @@ angular.module('Ring.select.options', [])
         return option;
       }
 
-      var value = this.getProperty(option, this.itemGetter);
+      const value = this.getProperty(option, this.itemGetter);
 
       return value === undefined ? option : value;
     };
@@ -77,16 +77,16 @@ angular.module('Ring.select.options', [])
        * @param {any} it
        * @return {string} The string representation of the value
        */
-      var toString = function (it) {
+      function toString(it) {
         return typeof it === 'object' ? JSON.stringify(it) : String(it);
-      };
+      }
 
       if (!this.hasItemGetter) {
         return value;
       }
 
-      var matchedOptions = options.filter(function (option) {
-        var optionValue = this.getValue(option);
+      const matchedOptions = options.filter(function (option) {
+        const optionValue = this.getValue(option);
 
         if (typeof value === 'object') {
           return deepEquals(optionValue, value);

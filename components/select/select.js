@@ -39,14 +39,14 @@ const Type = {
      <button id="clear">Clear selected</button>
    </file>
    <file name="index.js" webpack="true">
-     var render = require('react-dom').render;
-     var Select = require('ring-ui/components/select/select');
+     const render = require('react-dom').render;
+     const Select = require('ring-ui/components/select/select');
 
-     var props = {
+     const props = {
        filter: true
      };
 
-     var data = {
+     const data = {
        data: [
          {'label': 'One', 'key': '1', 'type': 'user'},
          {'label': 'Group', 'key': '2', 'type': 'user'},
@@ -55,7 +55,7 @@ const Type = {
        selected: {'label': 'Group', 'key': '2', 'type': 'user'}
      };
 
-     var select = render(Select.factory(props), document.getElementById('demo'))
+     const select = render(Select.factory(props), document.getElementById('demo'))
      select.rerender(data);
 
      document.getElementById('clear').addEventListener('click', function() {
@@ -70,8 +70,8 @@ const Type = {
      <div id="demo2"></div>
    </file>
    <file name="index.js" webpack="true">
-     var render = require('react-dom').render;
-     var Select = require('ring-ui/components/select/select');
+     const render = require('react-dom').render;
+     const Select = require('ring-ui/components/select/select');
 
      render(
        Select.factory({disabled: true, loading: true}),
@@ -90,11 +90,11 @@ const Type = {
      <div id="demo"></div>
    </file>
    <file name="index.js" webpack="true">
-     var render = require('react-dom').render;
-     var Select = require('ring-ui/components/select/select');
+     const render = require('react-dom').render;
+     const Select = require('ring-ui/components/select/select');
 
-     var data = [];
-     for(var i = 0; i < 20; i++) {
+     const data = [];
+     for(let i = 0; i < 20; i++) {
        data.push({'label': 'Item ' + i, 'key': i});
      }
 
@@ -110,11 +110,11 @@ const Type = {
      <div id="demo"></div>
    </file>
    <file name="index.js" webpack="true">
-     var render = require('react-dom').render;
-     var Select = require('ring-ui/components/select/select');
+     const render = require('react-dom').render;
+     const Select = require('ring-ui/components/select/select');
 
-     var data = [];
-     for(var i = 0; i < 20; i++) {
+     const data = [];
+     for(let i = 0; i < 20; i++) {
        data.push({'label': 'Item ' + i, 'key': i});
      }
 
@@ -133,8 +133,8 @@ const Type = {
      <div id="demo"></div>
    </file>
    <file name="index.js" webpack="true">
-     var render = require('react-dom').render;
-     var Select = require('ring-ui/components/select/select');
+     const render = require('react-dom').render;
+     const Select = require('ring-ui/components/select/select');
 
      render(Select.factory({
        filter: true,
@@ -154,8 +154,8 @@ const Type = {
      <div id="demo"></div>
    </file>
    <file name="index.js" webpack="true">
-     var render = require('react-dom').render;
-     var Select = require('ring-ui/components/select/select');
+     const render = require('react-dom').render;
+     const Select = require('ring-ui/components/select/select');
 
      render(Select.factory({
        filter: true,
@@ -175,11 +175,11 @@ const Type = {
      <div id="demo"></div>
    </file>
    <file name="index.js" webpack="true">
-     var render = require('react-dom').render;
-     var Select = require('ring-ui/components/select/select');
+     const render = require('react-dom').render;
+     const Select = require('ring-ui/components/select/select');
 
-     var data = [];
-     for(var i = 0; i < 100; i++) {
+     const data = [];
+     for(let i = 0; i < 100; i++) {
        data.push({'label': 'Item long long long long long  long long long label ' + i, 'key': i});
      }
 
@@ -209,11 +209,11 @@ const Type = {
      <div id="demo"></div>
    </file>
    <file name="index.js" webpack="true">
-     var render = require('react-dom').render;
-     var Select = require('ring-ui/components/select/select');
+     const render = require('react-dom').render;
+     const Select = require('ring-ui/components/select/select');
 
-     var data = [];
-     for(var i = 0; i < 10; i++) {
+     const data = [];
+     for(let i = 0; i < 10; i++) {
        data.push({'label': 'Item ' + i, 'key': i});
      }
 
@@ -243,8 +243,8 @@ const Type = {
      <div id="demo"></div>
    </file>
    <file name="index.js" webpack="true">
-     var render = require('react-dom').render;
-     var Select = require('ring-ui/components/select/select');
+     const render = require('react-dom').render;
+     const Select = require('ring-ui/components/select/select');
 
      render(Select.factory({
        filter: true,
@@ -269,7 +269,7 @@ const Type = {
        },
        onChange: function(selection) {
          console.log('onChange, selection:', selection);
-         var items = [];
+         const items = [];
          selection.forEach(function(item) {
            items.push(item.label);
          });
@@ -365,7 +365,7 @@ export default class Select extends RingComponentWithShortcuts {
       return;
     }
 
-    let selected = {
+    const selected = {
       key: Math.random(),
       label: this.props.getInitial()
     };
@@ -385,7 +385,7 @@ export default class Select extends RingComponentWithShortcuts {
   }
 
   _handleMultipleToggling(multiple) {
-    let empty = Select._getEmptyValue(multiple);
+    const empty = Select._getEmptyValue(multiple);
     this.setState({selected: empty}, function () {
       this.props.onChange(empty);
     });
@@ -415,7 +415,7 @@ export default class Select extends RingComponentWithShortcuts {
 
   willReceiveProps(newProps) {
     if ('selected' in newProps) {
-      let selected = newProps.selected ? newProps.selected : Select._getEmptyValue(this.props.multiple);
+      const selected = newProps.selected ? newProps.selected : Select._getEmptyValue(this.props.multiple);
       this.setState({
         selected: selected,
         selectedIndex: this._getSelectedIndex(selected, (newProps.data ? newProps.data : this.props.data))
@@ -441,7 +441,7 @@ export default class Select extends RingComponentWithShortcuts {
     }
 
     for (let i = 0; i < data.length; i++) {
-      let item = data[i];
+      const item = data[i];
 
       if (item.key === undefined) {
         continue;
@@ -457,7 +457,7 @@ export default class Select extends RingComponentWithShortcuts {
 
   _createPopup() {
     if (!this._popup) {
-      let anchorElement = this.props.targetElement || this.node;
+      const anchorElement = this.props.targetElement || this.node;
 
       this._popup = Popup.renderPopup(
         <SelectPopup
@@ -479,7 +479,7 @@ export default class Select extends RingComponentWithShortcuts {
   }
 
   _showPopup() {
-    let data = this.getListItems(this.filterValue());
+    const data = this.getListItems(this.filterValue());
     let message = null;
 
     if (this.props.loading) {
@@ -509,7 +509,7 @@ export default class Select extends RingComponentWithShortcuts {
   }
 
   _hidePopup() {
-    let isVisible = this._popup.isVisible();
+    const isVisible = this._popup.isVisible();
 
     if (isVisible) {
       this.props.onClose();
@@ -530,7 +530,7 @@ export default class Select extends RingComponentWithShortcuts {
   }
 
   getToolbar() {
-    var isToolbarHasElements = this._addButton || this.props.hint;
+    const isToolbarHasElements = this._addButton || this.props.hint;
     if (!isToolbarHasElements) {
       return null;
     }
@@ -571,10 +571,10 @@ export default class Select extends RingComponentWithShortcuts {
       filterString = ''; // ignore multiple if it is exactly the selected item
     }
 
-    let filteredData = [];
+    const filteredData = [];
     let exactMatch = false;
 
-    let check = this.props.filter.fn || function (itemToCheck, checkString) {
+    const check = this.props.filter.fn || function (itemToCheck, checkString) {
       // by default, skip separators and hints
       if (List.isItemType(List.ListProps.Type.SEPARATOR, itemToCheck) || List.isItemType(List.ListProps.Type.HINT, itemToCheck)) {
         return true;
@@ -584,7 +584,7 @@ export default class Select extends RingComponentWithShortcuts {
     };
 
     for (let i = 0; i < this.props.data.length; i++) {
-      let item = this.props.data[i];
+      const item = this.props.data[i];
       if (filterString === '' || check(item, filterString, this.props.data)) {
         exactMatch = (item.label === filterString);
 
@@ -617,7 +617,7 @@ export default class Select extends RingComponentWithShortcuts {
 
   filterValue(setValue) {
     if (this.isInputMode() || this.props.filter) {
-      let filter = findDOMNode(this.isInputMode() ? this.refs.filter : this._popup.refs.filter);
+      const filter = findDOMNode(this.isInputMode() ? this.refs.filter : this._popup.refs.filter);
 
       if (typeof setValue === 'string' || typeof setValue === 'number') {
         filter.value = setValue;
@@ -649,10 +649,10 @@ export default class Select extends RingComponentWithShortcuts {
   }
 
   _filterChangeHandler() {
-    let filterValue = this.filterValue().replace(/^\s+/g, '');
+    const filterValue = this.filterValue().replace(/^\s+/g, '');
     this.props.onFilter(filterValue);
     if (this.props.allowAny) {
-      let fakeSelected = {
+      const fakeSelected = {
         key: Math.random(),
         label: filterValue
       };
@@ -677,8 +677,8 @@ export default class Select extends RingComponentWithShortcuts {
   }
 
   _listSelectHandler(selected) {
-    let isItem = List.isItemType.bind(null, List.ListProps.Type.ITEM);
-    let isCustomItem = List.isItemType.bind(null, List.ListProps.Type.CUSTOM);
+    const isItem = List.isItemType.bind(null, List.ListProps.Type.ITEM);
+    const isCustomItem = List.isItemType.bind(null, List.ListProps.Type.CUSTOM);
 
     if ((!isItem(selected) && !isCustomItem(selected)) || selected.disabled) {
       return;
@@ -688,7 +688,7 @@ export default class Select extends RingComponentWithShortcuts {
       this.setState({
         selected: selected
       }, () => {
-        let newFilterValue = this.isInputMode() && !this.props.hideSelected ? this._getItemLabel(selected) : '';
+        const newFilterValue = this.isInputMode() && !this.props.hideSelected ? this._getItemLabel(selected) : '';
         this.filterValue(newFilterValue);
         this.props.onFilter(newFilterValue);
         this.props.onSelect(selected);
@@ -700,7 +700,7 @@ export default class Select extends RingComponentWithShortcuts {
         throw new Error('Multiple selection requires each item to have the "key" property');
       }
 
-      let currentSelection = this.state.selected;
+      const currentSelection = this.state.selected;
       if (!this._multipleMap[selected.key]) {
         this._multipleMap[selected.key] = true;
         currentSelection.push(selected);
@@ -751,12 +751,12 @@ export default class Select extends RingComponentWithShortcuts {
   }
 
   clear() {
-    let self = this;
-    let empty = Select._getEmptyValue(self.props.multiple);
-    self.setState({
+    const empty = Select._getEmptyValue(this.props.multiple);
+
+    this.setState({
       selected: empty
-    }, function () {
-      self.props.onChange(empty);
+    }, () => {
+      this.props.onChange(empty);
     });
 
     return false;
@@ -810,7 +810,7 @@ export default class Select extends RingComponentWithShortcuts {
 
   _getSelectedString() {
     if (this.props.multiple) {
-      let labels = [];
+      const labels = [];
       for (let i = 0; i < this.state.selected.length; i++) {
         labels.push(this._getItemLabel(this.state.selected[i]));
       }
@@ -825,7 +825,7 @@ export default class Select extends RingComponentWithShortcuts {
   }
 
   _getIcons() {
-    let icons = [];
+    const icons = [];
 
     if (this.props.loading) {
       icons.push(<LoaderInline key="loader" />);
@@ -869,7 +869,7 @@ export default class Select extends RingComponentWithShortcuts {
   }
 
   render() {
-    let buttonCS = classNames({
+    const buttonCS = classNames({
       'ring-select': true,
       'ring-select_disabled': this.props.disabled,
       'ring-select_input-mode': this.isInputMode(),
@@ -877,16 +877,16 @@ export default class Select extends RingComponentWithShortcuts {
       'ring-js-shortcuts': true
     });
 
-    let icons = this._getIcons();
+    const icons = this._getIcons();
 
-    let style = {
+    const style = {
       paddingRight: 8 + icons.length * 16
     };
 
-    let iconsNode = <span className="ring-select__icons">{icons}</span>;
+    const iconsNode = <span className="ring-select__icons">{icons}</span>;
 
     if (this.isInputMode()) {
-      let inputCS = classNames({
+      const inputCS = classNames({
         'ring-js-shortcuts': true,
         'ring-input_disabled': this.props.disabled
       });

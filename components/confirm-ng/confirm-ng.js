@@ -2,7 +2,7 @@
 
 import '../dialog-ng/dialog-ng';
 
-let ringDialog = angular.module('Ring.confirm', ['Ring.dialog']);
+const ringDialog = angular.module('Ring.confirm', ['Ring.dialog']);
 
 ringDialog.service('confirm', function (dialog, $q, $templateCache) {
   const TEMPLATE_PATH = 'ring-ui/components/confirm-ng/confirm-ng.html';

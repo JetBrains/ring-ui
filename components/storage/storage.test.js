@@ -1,4 +1,4 @@
-var noop = function () {};
+function noop() {}
 
 function testStorage(storage) {
   describe('set', function () {
@@ -15,7 +15,7 @@ function testStorage(storage) {
     });
 
     it('should fail on wrong input (e.g. on circular objects)', function () {
-      var circular = {};
+      const circular = {};
       circular.circular = circular;
 
       return storage.set('circular', circular).should.be.rejected;
@@ -23,7 +23,7 @@ function testStorage(storage) {
   });
 
   describe('get', function () {
-    var test = {a: 666};
+    const test = {a: 666};
 
     it('should get items', function () {
       return storage.set('test2', {a: 666}).
@@ -85,7 +85,7 @@ function testStorage(storage) {
     });
 
     it('should iterate over items', function () {
-      var iterator = sinon.stub();
+      const iterator = sinon.stub();
       return storage.set('test', 'value').
         then(function () {
           return storage.each(iterator);
@@ -96,7 +96,7 @@ function testStorage(storage) {
     });
 
     it('should not iterate without items', function () {
-      var iterator = sinon.stub();
+      const iterator = sinon.stub();
       return storage.each(iterator).
         then(function () {
           iterator.should.not.been.called;
@@ -104,7 +104,7 @@ function testStorage(storage) {
     });
 
     it('should iterate over all items', function () {
-      var iterator = sinon.stub();
+      const iterator = sinon.stub();
       return storage.set('test1', '').
         then(function () {
           return storage.set('test2', '');
@@ -132,16 +132,16 @@ function testStorage(storage) {
 
 function testStorageEvents(storage) {
   describe('events', function () {
-    var stop;
+    let stop;
 
-    afterEach(function () {
+    afterEach(() => {
       stop();
     });
 
     it('on after set should be fired', function () {
-      var testEvent = 'testKey';
+      const testEvent = 'testKey';
 
-      var change = new Promise(function (resolve) {
+      const change = new Promise(function (resolve) {
         stop = storage.on(testEvent, resolve);
       });
 
@@ -151,10 +151,10 @@ function testStorageEvents(storage) {
     });
 
     it('on after set should be fired with correct value', function () {
-      var testEvent = 'testKey2';
-      var testValue = 'testValue';
+      const testEvent = 'testKey2';
+      const testValue = 'testValue';
 
-      var change = new Promise(function (resolve) {
+      const change = new Promise(function (resolve) {
         stop = storage.on(testEvent, resolve);
       });
 
@@ -164,21 +164,21 @@ function testStorageEvents(storage) {
     });
 
     it('on after remove should be fired with null', function () {
-      var testEvent = 'testKey3';
-      var testValue = 'test2Value';
+      const testEvent = 'testKey3';
+      const testValue = 'test2Value';
 
       // Set test value and wait for it
       storage.set(testEvent, testValue);
 
       return new Promise(function (resolve) {
-        var stopSetListening = storage.on(testEvent, function () {
+        const stopSetListening = storage.on(testEvent, function () {
           resolve(stopSetListening);
         });
       }).then(function (stopSetListening) {
         stopSetListening();
 
         // Set up listening for test target change
-        var change = new Promise(function (resolve) {
+        const change = new Promise(function (resolve) {
           stop = storage.on(testEvent, resolve);
         });
 
@@ -190,7 +190,7 @@ function testStorageEvents(storage) {
     });
 
     it('on after set with other key shouldn\'t be fired', function (done) {
-      var spy = this.sinon.stub();
+      const spy = this.sinon.stub();
 
       stop = storage.on('testKey4', spy);
       storage.set('testWrong', 'testValue');
@@ -202,9 +202,9 @@ function testStorageEvents(storage) {
     });
 
     it('stop should stop', function (done) {
-      var spy = this.sinon.spy();
+      const spy = this.sinon.spy();
 
-      var testEvent = 'testKey5';
+      const testEvent = 'testKey5';
       stop = storage.on(testEvent, spy);
       stop();
       storage.set(testEvent, 'testValue');
@@ -224,10 +224,10 @@ describe('Storage', function () {
       sessionStorage.clear();
     });
 
-    var Storage = require('./storage__local');
-    var MockedStorage = require('imports?window=mocked-storage!./storage__local');
-    var storage = new Storage();
-    var storageSession = new Storage({
+    const Storage = require('./storage__local');
+    const MockedStorage = require('imports?window=mocked-storage!./storage__local');
+    const storage = new Storage();
+    const storageSession = new Storage({
       type: 'session'
     });
 
@@ -249,7 +249,7 @@ describe('Storage', function () {
       });
 
       it('should iterate over items with non-parseable values', function () {
-        var iterator = sinon.stub();
+        const iterator = sinon.stub();
         return storage.set('test', 'value').
           then(function () {
             return storage.each(iterator);
@@ -263,18 +263,20 @@ describe('Storage', function () {
 
 
   describe('Fallback', function () {
-    var cookieName = 'testCookie';
+    const cookieName = 'testCookie';
 
     beforeEach(function () {
       document.cookie = cookieName + '=;';
     });
 
-    var FallbackStorage = require('./storage__fallback');
-    var storage = new FallbackStorage({
+    const FallbackStorage = require('./storage__fallback');
+
+    const storage = new FallbackStorage({
       cookieName: cookieName,
       checkDelay: 200
     });
-    var storageSession = new FallbackStorage({
+
+    const storageSession = new FallbackStorage({
       cookieName: cookieName,
       checkDelay: 200,
       type: 'session'
@@ -286,13 +288,12 @@ describe('Storage', function () {
   });
 
   describe('Memory', function () {
-    var spaceName = 'testSpace';
-
-    var MemoryStorage = require('./storage__memory');
+    const spaceName = 'testSpace';
+    const MemoryStorage = require('./storage__memory');
 
     beforeEach(function () {
-      var storage = MemoryStorage._storage[spaceName];
-      for (var key in storage) {
+      const storage = MemoryStorage._storage[spaceName];
+      for (const key in storage) {
         if (storage.hasOwnProperty(key)) {
           delete storage[key];
         }
