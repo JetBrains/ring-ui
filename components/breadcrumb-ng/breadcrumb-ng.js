@@ -24,7 +24,7 @@ require('react-ng/react-ng')({
        </div>
      </file>
      <file name="index.js" webpack="true">
-       require('angular/angular.min.js');
+       require('angular');
        require('breadcrumb-ng/breadcrumb-ng');
 
        angular.module('Example.breadcrumb', ['Ring.breadcrumb'])

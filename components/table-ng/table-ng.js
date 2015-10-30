@@ -48,7 +48,7 @@ reactNg({Checkbox});
       </div>
     </file>
     <file name="index.js" webpack="true">
-      require('angular/angular.min.js');
+      require('angular');
       require('table-ng/table-ng');
 
       angular.module('test', ['Ring.table']).controller('tableExample', function ($scope) {
@@ -86,7 +86,7 @@ reactNg({Checkbox});
     </div>
   </file>
   <file name="index.js" webpack="true">
-    require('angular/angular.min.js');
+    require('angular');
     require('table-ng/table-ng');
   </file>
 </example>
@@ -133,7 +133,7 @@ reactNg({Checkbox});
     </div>
   </file>
   <file name="index.js" webpack="true">
-    require('angular/angular.min.js');
+    require('angular');
     require('table-ng/table-ng');
     require('select-ng/select-ng');
     require('sidebar-ng/sidebar-ng');

@@ -46,7 +46,7 @@ import './tags-input.scss';
     </div>
   </file>
   <file name="index.js" webpack="true">
-    require('angular/angular.min.js');
+    require('angular');
     require('react-ng/react-ng')({
       TagsInput: require('tags-input/tags-input')
     });

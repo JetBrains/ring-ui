@@ -34,7 +34,7 @@ angular.module('Ring.form')
     </div>
    </file>
    <file name="index.js" webpack="true">
-     require('angular/angular.min.js');
+     require('angular');
      require('form-ng/form-ng__update-text');
 
      angular.module('Example.form', ['Ring.form'])
