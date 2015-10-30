@@ -24,8 +24,7 @@ import './loader.scss';
    </file>
    <file name="index.scss">
     .loader-container {
-      display: inline-block;
-      padding: 60px;
+      padding: 32px;
 
       &_black {
         background-color: black;
@@ -231,6 +230,7 @@ export default class Loader extends RingComponent {
     return (
       <canvas
         ref="canvas"
+        {...this.props}
         className="ring-loader__canvas"
       />
     );

@@ -7,6 +7,9 @@
 }
 
 .ring-loader__canvas {
+  display: block;
+  margin: $ring-unit*2 auto;
+
   pointer-events: none;
   animation: rotation-keyframes 36s linear infinite;
 }

@@ -10,6 +10,11 @@
     display: inline-block;
   }
 
+  .ring-loader__canvas {
+    display: inline-block;
+    margin: 0;
+  }
+
   &:before {
     content: '';
     display: inline-block;
