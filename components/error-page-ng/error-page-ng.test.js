@@ -7,7 +7,7 @@ describe('ErrorPageNg', function () {
   beforeEach(
     window.module('Ring.error-page',
     function ($provide) {
-      $provide.provider('auth', require('auth-ng/auth-ng.mock'));
+      $provide.provider('auth', require('../auth-ng/auth-ng.mock'));
     })
   );
 

@@ -7,7 +7,7 @@ var debounce = require('mout/function/debounce');
  * @example
  * <example>
      <rg-table-toolbar stick>
-        <ng-include src="'project-list/project-list__toolbar.tpl.html'"></ng-include>
+        <ng-include src="'ring-ui/components/project-list/project-list__toolbar.tpl.html'"></ng-include>
      </rg-table-toolbar>
    </example>
  */

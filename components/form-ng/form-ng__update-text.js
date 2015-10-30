@@ -1,9 +1,9 @@
 /* global angular: false */
-require('form-ng/form-ng');
-require('form/form.scss');
-require('form-ng/form-ng.scss');
-require('button/button.scss');
-require('message-bundle-ng/message-bundle-ng.js');
+require('../form-ng/form-ng');
+require('../form/form.scss');
+require('../form-ng/form-ng.scss');
+require('../button/button.scss');
+require('../message-bundle-ng/message-bundle-ng.js');
 
 angular.module('Ring.form')
 
@@ -35,7 +35,7 @@ angular.module('Ring.form')
    </file>
    <file name="index.js" webpack="true">
      require('angular');
-     require('form-ng/form-ng__update-text');
+     require('ring-ui/components/form-ng/form-ng__update-text');
 
      angular.module('Example.form', ['Ring.form'])
       .controller('UpdateTextDemoCtrl', function($scope) {

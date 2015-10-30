@@ -1,11 +1,11 @@
 /* global angular: false */
-import messageBundleNg from 'message-bundle-ng/message-bundle-ng';
-import alertNg from 'alert-ng/alert-ng';
-import reactNg from 'react-ng/react-ng';
-import Icon from 'icon/icon';
+import messageBundleNg from '../message-bundle-ng/message-bundle-ng';
+import alertNg from '../alert-ng/alert-ng';
+import reactNg from '../react-ng/react-ng';
+import Icon from '../icon/icon';
 
-import 'avatar-editor/avatar-editor.scss';
-import 'button/button.scss';
+import '../avatar-editor/avatar-editor.scss';
+import '../button/button.scss';
 
 reactNg({Icon: Icon});
 
@@ -29,7 +29,7 @@ let module = angular.module('Ring.avatar-editor', [messageBundleNg, alertNg, 'Ri
      </file>
      <file name="index.js" webpack="true">
        require('angular');
-       require('avatar-editor-ng/avatar-editor-ng');
+       require('ring-ui/components/avatar-editor-ng/avatar-editor-ng');
 
        angular.module('test', ['Ring.avatar-editor']).controller('testCtrl', function() {
           var ctrl = this;

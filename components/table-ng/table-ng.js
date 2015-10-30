@@ -1,16 +1,16 @@
 import 'dom4';
 import debounce from 'mout/function/debounce';
 
-import {getStyles, getRect} from 'dom/dom';
+import {getStyles, getRect} from '../dom/dom';
 
 import TableSelection from './table-ng__selection';
 import './table-ng__toolbar';
-import 'place-under-ng/place-under-ng';
+import '../place-under-ng/place-under-ng';
 
-import reactNg from 'react-ng/react-ng';
-import Checkbox from 'checkbox/checkbox';
+import reactNg from '../react-ng/react-ng';
+import Checkbox from '../checkbox/checkbox';
 
-import 'table/table.scss';
+import '../table/table.scss';
 
 reactNg({Checkbox});
 
@@ -49,7 +49,7 @@ reactNg({Checkbox});
     </file>
     <file name="index.js" webpack="true">
       require('angular');
-      require('table-ng/table-ng');
+      require('ring-ui/components/table-ng/table-ng');
 
       angular.module('test', ['Ring.table']).controller('tableExample', function ($scope) {
         var ctrl = this;
@@ -87,7 +87,7 @@ reactNg({Checkbox});
   </file>
   <file name="index.js" webpack="true">
     require('angular');
-    require('table-ng/table-ng');
+    require('ring-ui/components/table-ng/table-ng');
   </file>
 </example>
 
@@ -134,9 +134,9 @@ reactNg({Checkbox});
   </file>
   <file name="index.js" webpack="true">
     require('angular');
-    require('table-ng/table-ng');
-    require('select-ng/select-ng');
-    require('sidebar-ng/sidebar-ng');
+    require('ring-ui/components/table-ng/table-ng');
+    require('ring-ui/components/select-ng/select-ng');
+    require('ring-ui/components/sidebar-ng/sidebar-ng');
 
     angular.module('test', ['Ring.table', 'Ring.sidebar', 'Ring.select']).controller('tableExample', function ($timeout, $scope) {
     var ctrl = this;

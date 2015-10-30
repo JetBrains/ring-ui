@@ -178,8 +178,8 @@ function reactNgDirective($parse) {
 
      <file name="index.js" webpack="true">
        require('angular');
-       require('react-ng/react-ng')({
-         Icon: require('icon/icon')
+       require('ring-ui/components/react-ng/react-ng')({
+         Icon: require('ring-ui/components/icon/icon')
        });
 
        angular.module('react-ng-test', ['Ring.react-ng']).controller('testController', ($scope) => {

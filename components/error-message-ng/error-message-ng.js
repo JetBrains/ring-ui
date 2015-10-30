@@ -2,8 +2,8 @@
 
 require('../error-message-ng/error-message-ng.scss');
 
-require('react-ng/react-ng')({
-  Icon: require('icon/icon')
+require('../react-ng/react-ng')({
+  Icon: require('../icon/icon')
 });
 
 /**

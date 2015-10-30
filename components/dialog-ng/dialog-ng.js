@@ -1,9 +1,9 @@
 /* global angular: false */
 import 'dom4';
-import {getStyles, getRect} from 'dom/dom';
-import shortcuts from 'shortcuts/shortcuts';
+import {getStyles, getRect} from '../dom/dom';
+import shortcuts from '../shortcuts/shortcuts';
 
-import 'dialog/dialog.scss';
+import '../dialog/dialog.scss';
 
 const module = angular.module('Ring.dialog', []);
 

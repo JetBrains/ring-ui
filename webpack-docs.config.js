@@ -23,6 +23,11 @@ module.exports = webpackConfigMerger(webpackConfig, {
   externals: {
     jquery: false
   },
+  resolve: {
+    alias: {
+      'ring-ui': __dirname
+    }
+  },
   module: {
     loaders: [
       {

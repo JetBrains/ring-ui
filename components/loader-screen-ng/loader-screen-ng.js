@@ -1,9 +1,9 @@
 /* global angular: false */
 
-require('loader-screen/loader-screen.scss');
-require('loader/loader.scss');
-require('react-ng/react-ng')({
-  Loader: require('loader/loader')
+require('../loader-screen/loader-screen.scss');
+require('../loader/loader.scss');
+require('../react-ng/react-ng')({
+  Loader: require('../loader/loader')
 });
 
 

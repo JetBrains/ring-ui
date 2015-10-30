@@ -1,6 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
-import RingComponent from 'ring-component/ring-component';
+import RingComponent from '../ring-component/ring-component';
 import './link.scss';
 
 /**
@@ -15,7 +15,7 @@ import './link.scss';
 
      <file name="index.js" webpack="true">
        var render = require('react-dom').render;
-       var Link = require('link/link');
+       var Link = require('ring-ui/components/link/link');
 
        render(
          Link.factory({href: "#hash"}, 'Link text'),

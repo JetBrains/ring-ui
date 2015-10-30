@@ -1,6 +1,6 @@
 import React from 'react';
-import RingComponent from 'ring-component/ring-component';
-import Icon from 'icon/icon';
+import RingComponent from '../ring-component/ring-component';
+import Icon from '../icon/icon';
 import './tag.scss';
 import CloseIcon from 'jetbrains-icons/close.svg';
 

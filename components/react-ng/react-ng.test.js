@@ -1,4 +1,4 @@
-import RingComponent from 'ring-component/ring-component';
+import RingComponent from '../ring-component/ring-component';
 import React from 'react';
 
 require('angular');

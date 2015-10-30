@@ -8,10 +8,10 @@ import debounce from 'mout/function/debounce';
 import deepEquals from 'mout/lang/deepEquals';
 import classNames from 'classnames';
 
-import {getRect} from 'dom/dom';
-import RingComponentWithShortcuts from 'ring-component/ring-component_with-shortcuts';
-import Caret from 'caret/caret';
-import ContentEditable from 'contenteditable/contenteditable';
+import {getRect} from '../dom/dom';
+import RingComponentWithShortcuts from '../ring-component/ring-component_with-shortcuts';
+import Caret from '../caret/caret';
+import ContentEditable from '../contenteditable/contenteditable';
 import PopupMenu from '../popup-menu/popup-menu';
 import Icon from '../icon/icon';
 import LoaderInline from '../loader-inline/loader-inline';
@@ -45,8 +45,8 @@ const noop = function () {};
 
      <file name="index.js" webpack="true">
        var render = require('react-dom').render;
-       var QueryAssist = require('query-assist/query-assist');
-       var Auth = require('auth/auth');
+       var QueryAssist = require('ring-ui/components/query-assist/query-assist');
+       var Auth = require('ring-ui/components/auth/auth');
 
        var log = function(obj) {
          var div = document.createElement('div');
@@ -110,9 +110,9 @@ const noop = function () {};
 
      <file name="index.js" webpack="true">
        require('angular');
-       require('auth-ng/auth-ng');
-       require('react-ng/react-ng')({
-        QueryAssist: require('query-assist/query-assist')
+       require('ring-ui/components/auth-ng/auth-ng');
+       require('ring-ui/components/react-ng/react-ng')({
+        QueryAssist: require('ring-ui/components/query-assist/query-assist')
        });
 
        var hubUri = '***REMOVED***/';

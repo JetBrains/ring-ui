@@ -1,5 +1,5 @@
 import {findDOMNode} from 'react-dom';
-import PopupMenu from 'popup-menu/popup-menu';
+import PopupMenu from '../popup-menu/popup-menu';
 
 /**
  * filters out non-verified services

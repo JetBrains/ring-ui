@@ -2,7 +2,7 @@ require('angular');
 require('angular-mocks');
 require('./select-ng');
 var $ = require('jquery');
-var Select = require('select/select');
+var Select = require('../select/select');
 
 /* global inject, angular */
 

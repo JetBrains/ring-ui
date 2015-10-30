@@ -1,6 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
-import RingComponent from 'ring-component/ring-component';
+import RingComponent from '../ring-component/ring-component';
 import './loader-inline.scss';
 
 /**
@@ -15,7 +15,7 @@ import './loader-inline.scss';
 
      <file name="index.js" webpack="true">
        var render = require('react-dom').render;
-       var Loader = require('loader-inline/loader-inline');
+       var Loader = require('ring-ui/components/loader-inline/loader-inline');
 
        render(Loader.factory(), document.getElementById('loader-inline'));
      </file>
