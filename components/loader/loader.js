@@ -124,7 +124,7 @@ export default class Loader extends RingComponent {
     this.particles = [];
 
     //Configuration
-    this.baseSpeed = 1.5;
+    this.baseSpeed = 1.0;
     this.colorIndex = 0;
     this.maxRadius = 12;
     this.minRadius = 6;
