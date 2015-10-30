@@ -3,12 +3,6 @@ var path = require('path');
 var webpack = require('webpack');
 
 var componentsPath = path.join(__dirname, 'components');
-var nodeModulesPath = path.join(__dirname, 'node_modules');
-var buildPath = [
-  componentsPath,
-  path.join(__dirname, 'docs'),
-  path.join(__dirname, 'site')
-];
 
 function resolveLoader(loader) {
   return require.resolve(loader + '-loader');
@@ -31,22 +25,13 @@ module.exports = {
       },
       {
         test: /\.scss$/,
-        include: buildPath,
+        include: componentsPath,
         loaders: [
           resolveLoader('style'),
           resolveLoader('css'),
           // TODO Update autoprefixer config and move to postcss-loader
           resolveLoader('autoprefixer') + '?browsers=last 2 versions, safari 5, ie 8, ie 9, opera 12.1, ios 6, android 4',
           resolveLoader('sass') + '?outputStyle=expanded&includePaths[]=' + componentsPath
-        ]
-      },
-      // import plain styles from modules for docsite
-      {
-        test: /\.css$/,
-        include: nodeModulesPath,
-        loaders: [
-          resolveLoader('style'),
-          resolveLoader('css')
         ]
       },
       // ng-annotate loader for angular components
@@ -57,7 +42,7 @@ module.exports = {
       },
       {
         test: /\.js$/,
-        include: buildPath,
+        include: componentsPath,
         loader: resolveLoader('babel')
       },
       {
