@@ -8,6 +8,7 @@ function generateConfig(karma) {
     webpackConf.output = {};
     webpackConf.entry = {};
     webpackConf.cache = {};
+    webpackConf.resolve = {};
     webpackConf.resolve.root = path.join(__dirname, 'test-helpers');
 
     return webpackConf;
