@@ -1,6 +1,6 @@
-require('angular/angular');
-require('angular-mocks/angular-mocks');
-require('angular-route/angular-route');
+require('angular');
+require('angular-mocks');
+require('angular-route');
 require('./error-page-ng');
 
 describe('ErrorPageNg', function () {

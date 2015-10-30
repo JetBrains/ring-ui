@@ -1,8 +1,8 @@
 /*global inject*/
 /*global angular*/
 
-require('angular/angular');
-require('angular-mocks/angular-mocks');
+require('angular');
+require('angular-mocks');
 require('./table-ng__pager');
 var $ = require('jquery');
 
