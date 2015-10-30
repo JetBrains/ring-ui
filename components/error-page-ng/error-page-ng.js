@@ -20,7 +20,7 @@ require('../message-bundle-ng/message-bundle-ng');
    <file name="index.js" webpack="true">
       require('angular');
       require('angular-route');
-      require('error-page-ng/error-page-ng');
+      require('ring-ui/components/error-page-ng/error-page-ng');
 
       angular.module('Ring.auth', [])
         .provider('auth', function() {

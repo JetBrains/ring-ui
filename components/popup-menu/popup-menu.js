@@ -3,8 +3,8 @@
  */
 
 import React from 'react';
-import Popup from 'popup/popup';
-import List from 'list/list';
+import Popup from '../popup/popup';
+import List from '../list/list';
 
 /**
  * @name Popup Menu
@@ -21,7 +21,7 @@ import List from 'list/list';
 
      <file name="index.js" webpack="true">
        var render = require('react-dom').render;
-       var PopupMenu = require('popup-menu/popup-menu');
+       var PopupMenu = require('ring-ui/components/popup-menu/popup-menu');
 
        var data = [
          {'label': 'One'},

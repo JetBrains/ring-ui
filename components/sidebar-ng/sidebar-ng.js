@@ -25,7 +25,7 @@ require('../react-ng/react-ng')({
      </file>
        <file name="index.js" webpack="true">
          require('angular');
-         require('sidebar-ng/sidebar-ng');
+         require('ring-ui/components/sidebar-ng/sidebar-ng');
        </file>
    </example>
 
@@ -48,8 +48,8 @@ require('../react-ng/react-ng')({
      </file>
        <file name="index.js" webpack="true">
          require('angular');
-         require('sidebar-ng/sidebar-ng');
-        require('select-ng/select-ng');
+         require('ring-ui/components/sidebar-ng/sidebar-ng');
+         require('ring-ui/components/select-ng/select-ng');
 
  angular.module('foo', ['Ring.sidebar', 'Ring.select']);
 

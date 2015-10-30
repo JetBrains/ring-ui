@@ -4,7 +4,7 @@ import renderIntoDocument from 'render-into-document';
 import simulateKeypress from 'simulate-keypress';
 
 import RingComponentWithShortcuts from './ring-component_with-shortcuts';
-import shortcuts from 'shortcuts/shortcuts';
+import shortcuts from '../shortcuts/shortcuts';
 
 describe('RingComponentWithShortcuts', function () {
   //var component;

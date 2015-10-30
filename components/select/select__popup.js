@@ -4,10 +4,10 @@
 
 import React from 'react';
 import {findDOMNode} from 'react-dom';
-import RingComponentWithShortcuts from 'ring-component/ring-component_with-shortcuts';
-import Popup from 'popup/popup';
-import List from 'list/list';
-import Input from 'input/input';
+import RingComponentWithShortcuts from '../ring-component/ring-component_with-shortcuts';
+import Popup from '../popup/popup';
+import List from '../list/list';
+import Input from '../input/input';
 
 const noop = () => {};
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
-import RingComponent from 'ring-component/ring-component';
+import RingComponent from '../ring-component/ring-component';
 import './input.scss';
 
 /**
@@ -15,7 +15,7 @@ import './input.scss';
 
      <file name="index.js" webpack="true">
        var render = require('react-dom').render;
-       var Input = require('input/input');
+       var Input = require('ring-ui/components/input/input');
 
        render(
          Input.factory(),

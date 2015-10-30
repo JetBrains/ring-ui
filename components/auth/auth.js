@@ -5,7 +5,7 @@ import 'core-js/modules/es7.array.includes';
 var AuthStorage = require('./auth__storage');
 var AuthResponseParser = require('./auth__response-parser');
 var AuthRequestBuilder = require('./auth__request-builder');
-var urlUtils = require('url-utils/url-utils');
+var urlUtils = require('../url-utils/url-utils');
 
 let noop = () => {};
 
@@ -44,7 +44,7 @@ let noop = () => {};
      </file>
 
      <file name="index.js" webpack="true">
-       var Auth = require('auth/auth');
+       var Auth = require('ring-ui/components/auth/auth');
 
        var log = function(title) {
          return function(obj) {

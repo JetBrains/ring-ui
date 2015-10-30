@@ -7,8 +7,8 @@
 import React from 'react';
 import {findDOMNode, unmountComponentAtNode} from 'react-dom';
 import classNames from 'classnames';
-import RingComponent from 'ring-component/ring-component';
-import Icon from 'icon/icon';
+import RingComponent from '../ring-component/ring-component';
+import Icon from '../icon/icon';
 
 import './alert.scss';
 
@@ -61,7 +61,7 @@ const BASE_CLASS = 'ring-alert';
 
      <file name="index.js" webpack="true">
        var render = require('react-dom').render;
-       var Alert = require('alert/alert');
+       var Alert = require('ring-ui/components/alert/alert');
 
        var alert = render(Alert.factory({
          caption: 'Sample alert',

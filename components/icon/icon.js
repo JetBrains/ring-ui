@@ -6,9 +6,9 @@
 
 import React, {PropTypes} from 'react';
 import classNames from 'classnames';
-import RingComponent from 'ring-component/ring-component';
+import RingComponent from '../ring-component/ring-component';
 import IconUrl from './icon__url';
-import ClassName from 'class-name/class-name';
+import ClassName from '../class-name/class-name';
 import './icon.scss';
 
 /**
@@ -69,7 +69,7 @@ const Size = {
        require('./index.scss');
 
        var render = require('react-dom').render;
-       var Icon = require('icon/icon');
+       var Icon = require('ring-ui/components/icon/icon');
 
        render(Icon.factory({
          className: 'additional-class',
@@ -119,7 +119,7 @@ const Size = {
        require('./index.scss');
        import {render} from 'react-dom';
        import {createElement} from 'react';
-       import Icon from 'icon/icon';
+       import Icon from 'ring-ui/components/icon/icon';
 
        var icons = require.context('jetbrains-icons', false, /\.svg$/);
 
@@ -151,7 +151,7 @@ const Size = {
      require('./index.scss');
      import {render} from 'react-dom';
      import {createElement} from 'react';
-     import Icon from 'icon/icon';
+     import Icon from 'ring-ui/components/icon/icon';
 
      var logos = require.context('jetbrains-logos', true, /\.svg$/);
 

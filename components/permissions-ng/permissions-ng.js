@@ -1,4 +1,4 @@
-require('auth-ng/auth-ng');
+require('../auth-ng/auth-ng');
 var Permissions = require('../permissions/permissions');
 var PermissionsCache = require('../permissions/permissions__cache');
 require('./permissions-ng.scss');

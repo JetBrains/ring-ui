@@ -1,5 +1,5 @@
 import React from 'react';
-import RingComponent from 'ring-component/ring-component';
+import RingComponent from '../ring-component/ring-component';
 import './loader.scss';
 
 /**
@@ -16,7 +16,7 @@ import './loader.scss';
    <file name="index.js" webpack="true">
      require('./index.scss');
      var render = require('react-dom').render;
-     var Loader = require('loader/loader');
+     var Loader = require('ring-ui/components/loader/loader');
 
      render(Loader.factory(), document.getElementById('loader1'));
 

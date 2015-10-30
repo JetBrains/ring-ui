@@ -1,4 +1,4 @@
-var analyticsInstance = require('analytics/analytics');
+var analyticsInstance = require('../analytics/analytics');
 
 /**
  * @ngdoc module
@@ -8,7 +8,7 @@ var analyticsInstance = require('analytics/analytics');
  * <example name="Analytics">
  *   <file name="index.js" webpack="true">
        require('angular');
-       require('analytics-ng/analytics-ng');
+       require('ring-ui/components/analytics-ng/analytics-ng');
 
         angular.module('Example.analyticsDemo', ['Ring.analytics'])
           .config([
@@ -83,9 +83,9 @@ analyticsModule.provider('analytics', function () {
   };
 });
 
-analyticsModule.constant('AnalyticsGAPlugin', require('analytics/analytics__ga-plugin'));
+analyticsModule.constant('AnalyticsGAPlugin', require('../analytics/analytics__ga-plugin'));
 
-analyticsModule.constant('AnalyticsCustomPlugin', require('analytics/analytics__custom-plugin'));
+analyticsModule.constant('AnalyticsCustomPlugin', require('../analytics/analytics__custom-plugin'));
 
 /**
  * Enable page tracking

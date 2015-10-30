@@ -6,7 +6,7 @@
 
 import React, {PropTypes} from 'react';
 import classNames from 'classnames';
-import RingComponent from 'ring-component/ring-component';
+import RingComponent from '../ring-component/ring-component';
 import './progress-bar.scss';
 
 /**
@@ -21,7 +21,7 @@ import './progress-bar.scss';
 
      <file name="index.js" webpack="true">
        var render = require('react-dom').render;
-       var ProgressBar = require('progress-bar/progress-bar');
+       var ProgressBar = require('ring-ui/components/progress-bar/progress-bar');
 
        var progressBar = render(
          ProgressBar.factory({ value: 0 }),

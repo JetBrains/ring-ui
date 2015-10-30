@@ -1,15 +1,15 @@
 import Sniffr from 'sniffr';
 
-import DialogNg from 'dialog-ng/dialog-ng';
+import DialogNg from '../dialog-ng/dialog-ng';
 import './shortcuts-hint-ng.scss';
-import 'input/input.scss';
+import '../input/input.scss';
 import ShortcutsNg from '../shortcuts-ng/shortcuts-ng';
 import HintPopupTpl from './shortcuts-hint-ng.html';
-import Icon from 'icon/icon';
-import reactNg from 'react-ng/react-ng';
+import Icon from '../icon/icon';
+import reactNg from '../react-ng/react-ng';
 reactNg({Icon});
 
-const HintPopupTplFileName = 'shortcuts-hint/shortcuts-hint.html';
+const HintPopupTplFileName = 'ring-ui/components/shortcuts-hint/shortcuts-hint.html';
 
 /* global angular:false */
 let HintPopupModule = angular.module('Ring.shortcuts.hint-popup', [DialogNg, ShortcutsNg, 'Ring.react-ng']);
@@ -32,7 +32,7 @@ HintPopupModule.run($templateCache => {
   </file>
   <file name="index.js" webpack="true">
     require('angular');
-    var ShortcutsHintNg = require('shortcuts-hint-ng/shortcuts-hint-ng');
+    var ShortcutsHintNg = require('ring-ui/components/shortcuts-hint-ng/shortcuts-hint-ng');
 
     angular.module('test', [ShortcutsHintNg])
     .config(function(shortcutsProvider) {

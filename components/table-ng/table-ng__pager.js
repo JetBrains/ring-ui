@@ -1,5 +1,5 @@
 /*global angular*/
-require('message-bundle-ng/message-bundle-ng');
+require('../message-bundle-ng/message-bundle-ng');
 
 angular.module('Ring.table.pager', ['Ring.message-bundle'])
   .directive('rgTablePager', ['$location', 'RingMessageBundle', function ($location, RingMessageBundle) {

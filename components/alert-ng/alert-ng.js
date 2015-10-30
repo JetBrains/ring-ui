@@ -5,8 +5,8 @@
 /* global angular: false */
 
 import {render} from 'react-dom';
-import ReactAlert from 'alert/alert';
-import ReactAlerts from 'alert/alerts';
+import ReactAlert from '../alert/alert';
+import ReactAlerts from '../alert/alerts';
 
 let module = angular.module('Ring.alert', []);
 

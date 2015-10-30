@@ -1,5 +1,5 @@
 import {createElement} from 'react';
-import PopupMenu from 'popup-menu/popup-menu';
+import PopupMenu from '../popup-menu/popup-menu';
 
 /**
  * @name Dropdown Ng
@@ -27,9 +27,9 @@ import PopupMenu from 'popup-menu/popup-menu';
     </div>
   </file>
   <file name="index.js" webpack="true">
-    require('button/button.scss');
+    require('ring-ui/components/button/button.scss');
     require('angular');
-    require('dropdown-ng/dropdown-ng');
+    require('ring-ui/components/dropdown-ng/dropdown-ng');
 
     angular.module('dropTest', ['Ring.dropdown'])
       .controller('testController', function($q, $scope){

@@ -1,11 +1,11 @@
 // Ring 2.0 bundle for Upsource
 
 // CSS-only components. Upsource has its own JS implementations of those.
-require('button-group/button-group.scss');
-require('checkbox/checkbox.scss');
-require('error-page/error-page.scss');
-require('scrollbar/scrollbar.scss');
-require('tabs/tabs.scss');
+require('../components/button-group/button-group.scss');
+require('../components/checkbox/checkbox.scss');
+require('../components/error-page/error-page.scss');
+require('../components/scrollbar/scrollbar.scss');
+require('../components/tabs/tabs.scss');
 
 module.exports = {
   libs: {
@@ -14,17 +14,17 @@ module.exports = {
     classnames: require('classnames')
   },
   components: {
-    Auth: require('auth/auth'),
-    Button: require('button/button'),
-    Footer: require('footer/footer'),
-    Header: require('header/header'),
-    Icon: require('icon/icon'),
-    Loader: require('loader/loader'),
-    LoaderInline: require('loader-inline/loader-inline'),
-    Popup: require('popup/popup'),
-    PopupMenu: require('popup-menu/popup-menu'),
-    QueryAssist: require('query-assist/query-assist'),
-    Select: require('select/select')
+    Auth: require('../components/auth/auth'),
+    Button: require('../components/button/button'),
+    Footer: require('../components/footer/footer'),
+    Header: require('../components/header/header'),
+    Icon: require('../components/icon/icon'),
+    Loader: require('../components/loader/loader'),
+    LoaderInline: require('../components/loader-inline/loader-inline'),
+    Popup: require('../components/popup/popup'),
+    PopupMenu: require('../components/popup-menu/popup-menu'),
+    QueryAssist: require('../components/query-assist/query-assist'),
+    Select: require('../components/select/select')
   },
   icons: {
     add: require('jetbrains-icons/add.svg'),

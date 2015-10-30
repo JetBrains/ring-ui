@@ -5,13 +5,13 @@
 import React from 'react';
 import {findDOMNode} from 'react-dom';
 import classNames from 'classnames';
-import RingComponentWithShortcuts from 'ring-component/ring-component_with-shortcuts';
-import Popup from 'popup/popup';
+import RingComponentWithShortcuts from '../ring-component/ring-component_with-shortcuts';
+import Popup from '../popup/popup';
 import SelectPopup from './select__popup';
-import List, {ListHint} from 'list/list';
-import Input from 'input/input';
-import Icon from 'icon/icon';
-import Button from 'button/button';
+import List, {ListHint} from '../list/list';
+import Input from '../input/input';
+import Icon from '../icon/icon';
+import Button from '../button/button';
 import LoaderInline from '../loader-inline/loader-inline';
 import './select.scss';
 
@@ -40,7 +40,7 @@ const Type = {
    </file>
    <file name="index.js" webpack="true">
      var render = require('react-dom').render;
-     var Select = require('select/select');
+     var Select = require('ring-ui/components/select/select');
 
      var props = {
        filter: true
@@ -71,7 +71,7 @@ const Type = {
    </file>
    <file name="index.js" webpack="true">
      var render = require('react-dom').render;
-     var Select = require('select/select');
+     var Select = require('ring-ui/components/select/select');
 
      render(
        Select.factory({disabled: true, loading: true}),
@@ -91,7 +91,7 @@ const Type = {
    </file>
    <file name="index.js" webpack="true">
      var render = require('react-dom').render;
-     var Select = require('select/select');
+     var Select = require('ring-ui/components/select/select');
 
      var data = [];
      for(var i = 0; i < 20; i++) {
@@ -111,7 +111,7 @@ const Type = {
    </file>
    <file name="index.js" webpack="true">
      var render = require('react-dom').render;
-     var Select = require('select/select');
+     var Select = require('ring-ui/components/select/select');
 
      var data = [];
      for(var i = 0; i < 20; i++) {
@@ -134,7 +134,7 @@ const Type = {
    </file>
    <file name="index.js" webpack="true">
      var render = require('react-dom').render;
-     var Select = require('select/select');
+     var Select = require('ring-ui/components/select/select');
 
      render(Select.factory({
        filter: true,
@@ -155,7 +155,7 @@ const Type = {
    </file>
    <file name="index.js" webpack="true">
      var render = require('react-dom').render;
-     var Select = require('select/select');
+     var Select = require('ring-ui/components/select/select');
 
      render(Select.factory({
        filter: true,
@@ -176,7 +176,7 @@ const Type = {
    </file>
    <file name="index.js" webpack="true">
      var render = require('react-dom').render;
-     var Select = require('select/select');
+     var Select = require('ring-ui/components/select/select');
 
      var data = [];
      for(var i = 0; i < 100; i++) {
@@ -210,7 +210,7 @@ const Type = {
    </file>
    <file name="index.js" webpack="true">
      var render = require('react-dom').render;
-     var Select = require('select/select');
+     var Select = require('ring-ui/components/select/select');
 
      var data = [];
      for(var i = 0; i < 10; i++) {
@@ -244,7 +244,7 @@ const Type = {
    </file>
    <file name="index.js" webpack="true">
      var render = require('react-dom').render;
-     var Select = require('select/select');
+     var Select = require('ring-ui/components/select/select');
 
      render(Select.factory({
        filter: true,
