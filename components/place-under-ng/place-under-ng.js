@@ -37,7 +37,7 @@ var debounce = require('mout/function/debounce');
   </file>
   <file name="index.js" webpack="true">
     require('./example.scss');
-    require('angular/angular.min.js');
+    require('angular');
     require('place-under-ng/place-under-ng');
 
     window.addEventListener('scroll', function(){

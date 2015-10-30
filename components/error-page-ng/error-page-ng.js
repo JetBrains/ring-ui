@@ -18,7 +18,7 @@ require('../message-bundle-ng/message-bundle-ng');
     </div>
    </file>
    <file name="index.js" webpack="true">
-      require('angular/angular.min.js');
+      require('angular');
       require('angular-route/angular-route.min.js');
       require('error-page-ng/error-page-ng');
 
