@@ -1,6 +1,6 @@
 {
   "name": "ring-ui",
-  "version": "2.2.0",
+  "version": "2.3.0",
   "description": "JetBrains UI library",
   "config": {
     "eslint-report": "eslint-report.xml",
