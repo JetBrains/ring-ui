@@ -1,6 +1,7 @@
 import React from 'react';
 import RingComponent from '../ring-component/ring-component';
 import './loader.scss';
+import {getPixelRatio} from '../dom/dom';
 
 /**
  * @name Loader
@@ -91,12 +92,8 @@ export default class Loader extends RingComponent {
     }
   }
 
-  static getPixelRatio() {
-    return 'devicePixelRatio' in window ? window.devicePixelRatio : 1;
-  }
-
   setCanvasSize() {
-    let pixelRatio = Loader.getPixelRatio();
+    let pixelRatio = getPixelRatio();
     let canvasSize = this.props.size * pixelRatio;
 
     this.refs.canvas.width = canvasSize;

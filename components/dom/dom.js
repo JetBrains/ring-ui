@@ -18,3 +18,7 @@ export function getRect(node) {
     return Object.assign({}, rectStub);
   }
 }
+
+export function getPixelRatio() {
+  return 'devicePixelRatio' in window ? window.devicePixelRatio : 1;
+}
