@@ -3,7 +3,7 @@
  */
 
 module.exports = function () {
-  var oldBrowsersMessageNode = document.getElementById('ring-old-browsers-message');
+  const oldBrowsersMessageNode = document.getElementById('ring-old-browsers-message');
 
   if (oldBrowsersMessageNode.remove) {
     oldBrowsersMessageNode.remove();

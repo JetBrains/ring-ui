@@ -1,3 +1,5 @@
+/* eslint-disable no-var*/
+
 var mixIn = require('mout/object/mixIn');
 
 /* global window:true */
@@ -11,10 +13,10 @@ var window = mixIn({}, sinon.EventTarget);
  * Custom event
  * @constructor
  */
-var StorageEvent = function StorageEvent(type, customData, target) {
+function StorageEvent(type, customData, target) {
   this.initEvent(type, false, false, target);
   mixIn(this, customData);
-};
+}
 
 StorageEvent.prototype = new sinon.Event();
 

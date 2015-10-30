@@ -32,9 +32,9 @@ const headerClassName = new ClassName('ring-header');
  * @const
  * @type {RegExp}
  */
-var CUSTOM_ICON_SERVICE_REGEXP = /^teamcity|upsource|youtrack|hub$/i;
+const CUSTOM_ICON_SERVICE_REGEXP = /^teamcity|upsource|youtrack|hub$/i;
 
-var PRUDUCTS_LOGOS = {
+const PRUDUCTS_LOGOS = {
   hub: require('jetbrains-logos/hub/hub.svg'),
   teamcity: require('jetbrains-logos/teamcity/teamcity.svg'),
   upsource: require('jetbrains-logos/upsource/upsource.svg'),
@@ -49,12 +49,12 @@ var PRUDUCTS_LOGOS = {
  * @return {?string}
  */
 function getServiceLogo(item) {
-  let className = headerClassName.getElement('services-logo');
+  const className = headerClassName.getElement('services-logo');
 
   // Remove after logos update
-  let detectedService = CUSTOM_ICON_SERVICE_REGEXP.exec(item.applicationName);
+  const detectedService = CUSTOM_ICON_SERVICE_REGEXP.exec(item.applicationName);
   if (detectedService) {
-    var serviceGlyph = PRUDUCTS_LOGOS[detectedService[0].toLowerCase()];
+    const serviceGlyph = PRUDUCTS_LOGOS[detectedService[0].toLowerCase()];
 
     return (
       <Icon
@@ -84,8 +84,8 @@ function getServiceLogo(item) {
  * @return {boolean}
  */
 function sortServices(itemA, itemB) {
-  let aApplicationName = itemA.applicationName || '';
-  let bApplicationName = itemB.applicationName || '';
+  const aApplicationName = itemA.applicationName || '';
+  const bApplicationName = itemB.applicationName || '';
 
   return aApplicationName.localeCompare(bApplicationName) ||
          itemA.name.localeCompare(itemB.name);
@@ -251,7 +251,7 @@ export default class Header extends RingComponent {
   };
 
   render() {
-    let menuItemClassName = headerClassName.getElement('menu-item');
+    const menuItemClassName = headerClassName.getElement('menu-item');
 
     return (
       <div className={headerClassName.getClassName()}>
@@ -309,7 +309,7 @@ export default class Header extends RingComponent {
    * @private
    */
   _getLinkElement(href, isActive, className, children) {
-    let fullClassName = classNames({
+    const fullClassName = classNames({
       [className]: true,
       [headerClassName.getClassName('services-current')]: isActive,
       [headerClassName.getClassName('services-link')]: !isActive
@@ -334,9 +334,9 @@ export default class Header extends RingComponent {
    * @private
    */
   _getPopupContent() {
-    let iconsList = [];
-    let linksList = [];
-    let baseUrl = (this.props.rootUrl || urlUtils.getAbsoluteBaseURL()).replace(urlUtils.ENDING_SLASH_PATTERN, '');
+    const iconsList = [];
+    const linksList = [];
+    const baseUrl = (this.props.rootUrl || urlUtils.getAbsoluteBaseURL()).replace(urlUtils.ENDING_SLASH_PATTERN, '');
 
     this.props.servicesList.
       sort(sortServices).
@@ -345,8 +345,8 @@ export default class Header extends RingComponent {
           return;
         }
 
-        let isActive = item.id === this.props.clientId || item.homeUrl.replace(urlUtils.ENDING_SLASH_PATTERN, '') === baseUrl;
-        let serviceLogo = getServiceLogo(item);
+        const isActive = item.id === this.props.clientId || item.homeUrl.replace(urlUtils.ENDING_SLASH_PATTERN, '') === baseUrl;
+        const serviceLogo = getServiceLogo(item);
 
         if (serviceLogo) {
           iconsList.push(this._getLinkElement(item.homeUrl, isActive, headerClassName.getElement('services-item'), [
@@ -398,7 +398,7 @@ export default class Header extends RingComponent {
    */
   _getLogo() {
     const getLogoContent = () => {
-      let logoTitle = this.props.logoTitle || '';
+      const logoTitle = this.props.logoTitle || '';
 
       if (this.props.logoUrl) {
         return (
@@ -443,7 +443,7 @@ export default class Header extends RingComponent {
       return /** @type {ReactComponent} */ this.transferPropsTo(this.props.rightMenu);
     }
 
-    let extraElementClassName = classNames({
+    const extraElementClassName = classNames({
       [headerClassName.getElement('user-menu-extra')]: true,
       [headerClassName.getElement('user-menu-item')]: true
     });
@@ -476,12 +476,12 @@ export default class Header extends RingComponent {
    * @return {Array.<ReactComponent>}
    */
   getMenuItems() {
-    let loginClassName = classNames({
+    const loginClassName = classNames({
       [headerClassName.getElement('user-menu-item')]: true,
       [headerClassName.getClassName('user-menu-item', 'login')]: true
     });
 
-    let menuItems = {
+    const menuItems = {
       [MenuItemType.SETTINGS]: (
         <HeaderItem
           key="settings"
@@ -595,7 +595,7 @@ export default class Header extends RingComponent {
    */
   setMenuItemEnabled(itemKey, enabled, callback) {
     enabled = !!enabled;
-    let enabledMenuItems = this.props.enabledMenuItems;
+    const enabledMenuItems = this.props.enabledMenuItems;
 
     if (enabledMenuItems[itemKey] !== enabled) {
       enabledMenuItems[itemKey] = enabled;

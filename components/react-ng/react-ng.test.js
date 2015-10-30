@@ -1,17 +1,17 @@
-import RingComponent from '../ring-component/ring-component';
+import 'angular';
+import 'angular-mocks';
 import React from 'react';
-
-require('angular');
-require('angular-mocks');
+import RingComponent from '../ring-component/ring-component';
 
 describe('ReactNg', function () {
-  var registerComponents = require('./react-ng');
+  const registerComponents = require('./react-ng');
 
-  var $scope;
-  var $compile;
-  var EmptyComponent = () => {
+  let $scope;
+  let $compile;
+
+  function EmptyComponent() {
     return <div />;
-  };
+  }
 
   registerComponents({EmptyComponent});
 
@@ -51,8 +51,7 @@ describe('ReactNg', function () {
       checkPropertyPassingForTemplate('<div react="TestPropsComponent" from-scope="fromScope"></div>', 'fromScope', 'fromScopeProperty');
     });
 
-    it('should write component instance in provided scope variable', function () {
-
+    it('should write component instance in provided scope constiable', function () {
       $scope.instanceFieldName = 'componentInstance';
 
       $compile('<div react="EmptyComponent" react-instance="instanceFieldName"></div>')($scope);

@@ -1,16 +1,16 @@
 /*global inject*/
 /*global angular*/
 
-require('angular');
-require('angular-mocks');
-require('./table-ng__pager');
-var $ = require('jquery');
+import 'angular';
+import 'angular-mocks';
+import './table-ng__pager';
+import $ from 'jquery';
 
 describe('TableNg Pager', function () {
-  var scope;
-  var $compile;
-  var element;
-  var $location;
+  let scope;
+  let $compile;
+  let element;
+  let $location;
 
   function createPager(total, top, skip) {
     element = $compile('<rg-table-pager total="' + total + '" top="' + top + '" skip="' + skip + '"></rg-table-pager>')(scope);
@@ -22,7 +22,7 @@ describe('TableNg Pager', function () {
   beforeEach(inject(function ($injector) {
     $location = $injector.get('$location');
     $compile = $injector.get('$compile');
-    var $rootScope = $injector.get('$rootScope');
+    const $rootScope = $injector.get('$rootScope');
 
     scope = $rootScope.$new();
   }));

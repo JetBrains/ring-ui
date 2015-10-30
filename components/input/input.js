@@ -26,7 +26,7 @@ import './input.scss';
  */
 export default class Input extends RingComponent {
   render() {
-    let classes = classNames('ring-input', this.props.className);
+    const classes = classNames('ring-input', this.props.className);
     return (
       <input
         {...this.props}

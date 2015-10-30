@@ -3,7 +3,7 @@
  * @param {string?} gaId Google analytics id (should be undefined in development)
  * @constructor
  */
-var AnalyticsGAPlugin = function (gaId, isDevelopment) {
+function AnalyticsGAPlugin(gaId, isDevelopment) {
   if (!gaId && !isDevelopment) {
     return;
   }
@@ -23,14 +23,14 @@ var AnalyticsGAPlugin = function (gaId, isDevelopment) {
   /**
    * UA-57284711-1 - ga key for development purpose
    */
-  var key = gaId || 'UA-57284711-1';
+  const key = gaId || 'UA-57284711-1';
   /* global ga */
   ga('create', key, (!gaId ? {cookieDomain: 'none'} : {}));
-};
+}
 
 AnalyticsGAPlugin.prototype.trackEvent = function (category, action) {
   if (window.ga) {
-    var eventOptions = {
+    const eventOptions = {
       eventCategory: category,
       eventAction: action
     };

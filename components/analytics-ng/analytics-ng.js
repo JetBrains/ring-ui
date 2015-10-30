@@ -1,4 +1,4 @@
-var analyticsInstance = require('../analytics/analytics');
+import analyticsInstance from '../analytics/analytics';
 
 /**
  * @ngdoc module
@@ -16,13 +16,13 @@ var analyticsInstance = require('../analytics/analytics');
             'AnalyticsCustomPlugin',
             'AnalyticsGAPlugin',
             function(analyticsProvider, AnalyticsCustomPlugin, AnalyticsGAPlugin) {
-              var analyticsEnabled = true;
+              const analyticsEnabled = true;
               if (analyticsEnabled) {
-                var isDevelopment = true;
-                var customPlugin = new AnalyticsCustomPlugin(function(data) {
+                const isDevelopment = true;
+                const customPlugin = new AnalyticsCustomPlugin(function(data) {
                   console.log('Here you can send data to server', data);
                 }, isDevelopment, 600);
-                var gaId; // = 'GA-XXXXX-ID';
+                const gaId; // = 'GA-XXXXX-ID';
                 analyticsProvider.plugins([
                   customPlugin //, new AnalyticsGAPlugin(gaId)
                 ]);
@@ -47,14 +47,14 @@ var analyticsInstance = require('../analytics/analytics');
    </example>
 */
 /* global angular: false */
-var analyticsModule = angular.module('Ring.analytics', []);
+const analyticsModule = angular.module('Ring.analytics', []);
 
 /**
  * @name analyticsProvider
  * @description configures analytics with plugins
  */
 analyticsModule.provider('analytics', function () {
-  var configPlugins = [];
+  let configPlugins = [];
   /**
    * @param plugins
    */
@@ -64,11 +64,11 @@ analyticsModule.provider('analytics', function () {
 
   /*@ngInject*/
   this.$get = function ($log, $injector) {
-    var loadedPlugins = [];
-    for (var i = 0; i < configPlugins.length; ++i) {
+    const loadedPlugins = [];
+    for (let i = 0; i < configPlugins.length; ++i) {
       if (typeof configPlugins[i] === 'string') {
         try {
-          var plugin = $injector.get(configPlugins[i]);
+          const plugin = $injector.get(configPlugins[i]);
           loadedPlugins.push(plugin);
           $log.debug('analytics: loaded plugin ' + configPlugins[i]);
         } catch (err) {
@@ -115,7 +115,7 @@ analyticsModule.directive('rgAnalytics', [
       replace: false,
 
       link: function ($scope, elem) {
-        var eventType = elem.attr('rg-analytics-on') || 'click';
+        const eventType = elem.attr('rg-analytics-on') || 'click';
         angular.element(elem).bind(eventType, function () {
           analytics.track(elem.attr('rg-analytics'));
         });

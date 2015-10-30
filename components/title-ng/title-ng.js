@@ -9,16 +9,16 @@ angular.module('Ring.title', []).
         delimiter: '@'
       },
       controller: function ($rootScope, $scope, $element, pageTitle, $injector) {
-        let element = $element[0];
+        const element = $element[0];
 
         pageTitle.setDelimiter($scope.delimiter);
 
         // Get title prefix from title element
-        var elementText = element.textContent;
+        const elementText = element.textContent;
 
         // Set page title on route change
         $rootScope.$on('$routeChangeSuccess', function (event, current) {
-          var title = current.$$route && current.$$route.title;
+          let title = current.$$route && current.$$route.title;
 
           pageTitle.setCurrent($scope.rgPageTitle || elementText);
 
@@ -35,52 +35,48 @@ angular.module('Ring.title', []).
     };
   }).
   service('pageTitle', function ($interpolate) {
-    var delimiter = ' | ';
-    var current = document.title;
+    let delimiter = ' | ';
+    let current = document.title;
 
-    var setTitle = function (text) {
+    function setTitle(text) {
       current = text && $interpolate(text)();
       document.title = current;
-    };
+    }
 
-    var prepend = function (element) {
+    function prepend(element) {
       setTitle(current ? element + delimiter + current : element);
-    };
+    }
 
-    var replaceFirst = function (element) {
-      var titleElements = current.split(delimiter);
+    function replaceFirst(element) {
+      const titleElements = current.split(delimiter);
       titleElements[0] = element;
 
       setTitle(titleElements.join(delimiter));
-    };
-    var self = this;
+    }
 
-    this.setDelimiter = function (newDelimiter) {
+    this.setDelimiter = newDelimiter => {
       delimiter = newDelimiter || delimiter;
     };
 
-    this.setCurrent = function (newBase) {
-      current = newBase;
-    };
+    this.setCurrent = newBase => current = newBase;
 
-    this.addElement = function (element, fieldName) {
+    this.addElement = (element, fieldName) => {
       if (element.$promise) {
         element.$promise.then(function (Data) {
-          self.addElement(Data[fieldName || 'name']);
+          this.addElement(Data[fieldName || 'name']);
         });
       } else {
         prepend(fieldName ? element[fieldName] : element);
       }
     };
 
-    this.updateElement = function (element, fieldName) {
+    this.updateElement = (element, fieldName) => {
       if (element.$promise) {
         element.$promise.then(function (Data) {
-          self.updateElement(Data[fieldName || 'name']);
+          this.updateElement(Data[fieldName || 'name']);
         });
       } else {
         replaceFirst(fieldName ? element[fieldName] : element);
       }
     };
-
   });

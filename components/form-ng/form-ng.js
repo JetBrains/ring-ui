@@ -1,7 +1,7 @@
 /* global angular: false */
 
-require('../message-bundle-ng/message-bundle-ng.js');
-require('../input/input.scss');
+import '../message-bundle-ng/message-bundle-ng.js';
+import '../input/input.scss';
 
 angular.module('Ring.form', ['Ring.message-bundle']).
 /**
@@ -19,11 +19,12 @@ angular.module('Ring.form', ['Ring.message-bundle']).
       template: require('./form-ng__error-bubble.html'),
       link: function (scope, iElement) {
         scope.style = {};
-        var element;
-        var tagName;
-        var siblings = Array.from(iElement[0].parentNode.children);
 
-        for (var i = 0; i < siblings.length; i++) {
+        const siblings = Array.from(iElement[0].parentNode.children);
+        let element;
+        let tagName;
+
+        for (let i = 0; i < siblings.length; i++) {
           tagName = siblings[i].tagName.toLowerCase();
 
           if (tagName === 'input' || tagName === 'textarea') {
@@ -33,7 +34,7 @@ angular.module('Ring.form', ['Ring.message-bundle']).
         }
 
         scope.$watch(function () {
-          var result = scope.errorBubble();
+          const result = scope.errorBubble();
 
           return result.$invalid && result.$dirty;
         }, function (active) {
@@ -45,12 +46,13 @@ angular.module('Ring.form', ['Ring.message-bundle']).
         });
 
         scope.msg = function (id, viewValue) {
-          var messageBundleId = 'form_' + id;
+          const messageBundleId = 'form_' + id;
           if (RingMessageBundle.hasOwnProperty(messageBundleId)) {
             return RingMessageBundle[messageBundleId](viewValue);
           }
-          var formErrors = (scope.errorBubble().$error && scope.errorBubble().$error[id]) || [];
-          for (var j = 0; j < formErrors.length; ++j) {
+
+          const formErrors = (scope.errorBubble().$error && scope.errorBubble().$error[id]) || [];
+          for (let j = 0; j < formErrors.length; ++j) {
             if (formErrors[j] && formErrors[j].message) {
               return formErrors[j].message;
             }
@@ -67,7 +69,7 @@ angular.module('Ring.form', ['Ring.message-bundle']).
     return {
       require: 'ngModel',
       link: function (scope, iElement, iAttrs, ngModelCtrl) {
-        let element = iElement[0];
+        const element = iElement[0];
 
         function assertEqual(thisValue, thatValue) {
           ngModelCtrl.$setValidity('equalvalue', thisValue === thatValue);
@@ -78,7 +80,7 @@ angular.module('Ring.form', ['Ring.message-bundle']).
         });
 
         element.addEventListener('keyup', function () {
-          var thatValue = scope.$eval(iAttrs.rgEqualValue);
+          const thatValue = scope.$eval(iAttrs.rgEqualValue);
           scope.$apply(function () {
             assertEqual(element.value, thatValue);
           });
@@ -111,17 +113,17 @@ angular.module('Ring.form', ['Ring.message-bundle']).
       priority: 10,
       link: function ($scope, element, attrs, form) {
         if (form) {
-          var promise;
-          var count = 0;
+          let promise;
+          let count = 0;
 
           (function poll() {
-            var filled;
+            let filled;
 
             angular.forEach(element.find('input'), function (elem) {
-              var $elem = angular.element(elem);
-              var controller = $elem.controller('ngModel');
-              var val = $elem.val();
-              var type = $elem.attr('type');
+              const $elem = angular.element(elem);
+              const controller = $elem.controller('ngModel');
+              const val = $elem.val();
+              const type = $elem.attr('type');
 
               if (controller && val && type !== 'checkbox' && type !== 'radio') {
                 controller.$setViewValue(val);

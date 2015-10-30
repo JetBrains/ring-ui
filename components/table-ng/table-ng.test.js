@@ -1,15 +1,15 @@
-require('angular');
-require('angular-mocks');
-require('./table-ng');
-var TableSelection = require('./table-ng__selection');
-var $ = require('jquery');
+import 'angular';
+import 'angular-mocks';
+import './table-ng';
+import TableSelection from './table-ng__selection';
+import $ from 'jquery';
 
 describe('TableNg', function () {
-  var scope;
-  var directiveController;
-  var element;
-  var $compile;
-  var fakeData = {
+  let scope;
+  let directiveController;
+  let element;
+  let $compile;
+  const fakeData = {
     items: [],
     loadMore: function () {}
   };
@@ -52,7 +52,7 @@ describe('TableNg', function () {
     });
 
     it('Should place all items inside table', function () {
-      var $rows = $('.ring-table__row', element);
+      const $rows = $('.ring-table__row', element);
       expect($rows.length).to.equal(fakeData.items.length);
     });
 
@@ -69,7 +69,7 @@ describe('TableNg', function () {
       )(scope);
       scope.$digest();
 
-      var $columns = $('.ring-table__row:first .ring-table__column', element);
+      const $columns = $('.ring-table__row:first .ring-table__column', element);
       $columns.get(0).style.width.should.be.equal('33%');
       $columns.get(1).style.width.should.be.equal('33%');
     });
@@ -77,8 +77,8 @@ describe('TableNg', function () {
 
 
   describe('Selection', function () {
-    var selection;
-    var fakeEvent = {};
+    let selection;
+    const fakeEvent = {};
 
     beforeEach(function () {
       fakeEvent.emitEvent = sinon.stub();
@@ -162,7 +162,7 @@ describe('TableNg', function () {
       it('Should return all checked items', function () {
         fakeData.items[1].checked = true;
         fakeData.items[3].checked = true;
-        var checkedItems = selection.getCheckedItems();
+        const checkedItems = selection.getCheckedItems();
 
         expect(checkedItems.length).to.equal(2);
         expect(checkedItems[0]).to.equal(fakeData.items[1]);
@@ -190,8 +190,8 @@ describe('TableNg', function () {
     });
 
     describe('Default table navigation actions', function () {
-      var SelectionNavigateActions = require('./table-ng__selection-navigate-actions');
-      var navigateActions;
+      const SelectionNavigateActions = require('./table-ng__selection-navigate-actions');
+      let navigateActions;
       beforeEach(function () {
         navigateActions = new SelectionNavigateActions();
       });
@@ -252,7 +252,7 @@ describe('TableNg', function () {
           selection.activateItem(fakeData.items[1]);
 
           navigateActions.selectCurrent();
-          var result = selection.getCheckedItems();
+          const result = selection.getCheckedItems();
           expect(result.length).to.equals(1);
           expect(result[0]).to.equals(fakeData.items[1]);
         });
@@ -272,7 +272,7 @@ describe('TableNg', function () {
           selection.activateItem(fakeData.items[2]);
 
           navigateActions.selectDown();
-          var result = selection.getCheckedItems();
+          const result = selection.getCheckedItems();
           expect(result.length).to.equals(1);
           expect(result[0]).to.equals(fakeData.items[2]);
           expect(selection.getActiveItemIndex()).to.equals(3);
@@ -284,7 +284,7 @@ describe('TableNg', function () {
 
           navigateActions.selectDown();
           navigateActions.selectDown();
-          var result = selection.getCheckedItems();
+          const result = selection.getCheckedItems();
           expect(result.length).to.equals(2);
           expect(result[0]).to.equals(fakeData.items[1]);
           expect(result[1]).to.equals(fakeData.items[2]);

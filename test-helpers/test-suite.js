@@ -1,3 +1,5 @@
+/* eslint-disable no-var*/
+
 var testsContext = require.context('../components', true, /\.test\.js$/);
 
 // Always use polyfill in tests to go through Sinin's fake XHR

@@ -1,8 +1,9 @@
+import React from 'react';
+import TestUtils from 'react-addons-test-utils';
+import Textarea from './textarea';
+
 describe('Textarea', function () {
-  var React = require('react');
-  var TestUtils = require('react-addons-test-utils');
-  var Textarea = require('./textarea');
-  var component;
+  let component;
 
   beforeEach(function () {
     component = TestUtils.renderIntoDocument(React.createElement(Textarea));

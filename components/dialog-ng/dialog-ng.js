@@ -17,7 +17,7 @@ function rgDialog($timeout) {
     replace: true,
     template: require('./dialog-ng.html'),
     controller: ['$scope', 'dialog', 'dialogInSidebar', function ($scope, popupDialog, sidebarDialog) {
-      let dialog = $scope.inSidebar ? sidebarDialog : popupDialog;
+      const dialog = $scope.inSidebar ? sidebarDialog : popupDialog;
 
       $scope.$on('$routeChangeSuccess', ::dialog.hide);
       $scope.$on('$routeUpdate', ::dialog.hide);
@@ -55,9 +55,9 @@ function rgDialog($timeout) {
       });
     }],
     link: function (scope, iElement) {
-      let node = iElement[0];
-      let dialogContainer = node.query('.ring-dialog__container');
-      let dialogTitle = node.query('.ring-dialog__header__title');
+      const node = iElement[0];
+      const dialogContainer = node.query('.ring-dialog__container');
+      const dialogTitle = node.query('.ring-dialog__header__title');
       let pageHeight = null;
       let pageWidth = null;
 
@@ -72,9 +72,9 @@ function rgDialog($timeout) {
           left = parseInt(getStyles(dialogContainer).left, 10);
         }
 
-        let clearance = 10;
-        let maxTop = pageHeight - dialogContainer.clientHeight - clearance;
-        let maxLeft = pageWidth - dialogContainer.clientWidth - clearance;
+        const clearance = 10;
+        const maxTop = pageHeight - dialogContainer.clientHeight - clearance;
+        const maxLeft = pageWidth - dialogContainer.clientWidth - clearance;
         if (top > maxTop) {
           top = maxTop;
         }
@@ -100,7 +100,7 @@ function rgDialog($timeout) {
 
       // Focus first input
       function focusFirst() {
-        let controls = node.queryAll('input,select,textarea,*[contentEditable=true]').filter(inputNode => getStyles(inputNode).display !== 'none');
+        const controls = node.queryAll('input,select,textarea,*[contentEditable=true]').filter(inputNode => getStyles(inputNode).display !== 'none');
         if (controls.length) {
           controls[0].focus();
         }
@@ -108,8 +108,8 @@ function rgDialog($timeout) {
 
       function onMousemove(e) {
         e.preventDefault();
-        let top = offsetContainer.top - titlePos.top + e.clientY;
-        let left = offsetContainer.left - titlePos.left + e.clientX;
+        const top = offsetContainer.top - titlePos.top + e.clientY;
+        const left = offsetContainer.left - titlePos.left + e.clientX;
         setPosition(top, left);
       }
 
@@ -165,7 +165,7 @@ function rgDialogTitle() {
   return {
     require: '^rgDialog',
     link: function (scope, iElement, iAttrs, dialogCtrl) {
-      let title = iAttrs.rgDialogTitle;
+      const title = iAttrs.rgDialogTitle;
       dialogCtrl.setTitle(title);
       scope.$watch('title', newDialogTitle => {
         if (!newDialogTitle) {
@@ -186,7 +186,7 @@ class Dialog {
   }
 
   show(config) {
-    let dialogScope = this.dialogScope;
+    const dialogScope = this.dialogScope;
 
     if (!dialogScope) {
       if (this.fallbackDialog) {
@@ -227,7 +227,7 @@ class Dialog {
   }
 
   hide() {
-    let dialogScope = this.dialogScope;
+    const dialogScope = this.dialogScope;
 
     if (!dialogScope) {
       if (this.fallbackDialog) {
@@ -281,7 +281,7 @@ class Dialog {
   }
 
   applyDefaultHandler(isTextAreaShortcut) {
-    let scope = this.dialogScope;
+    const scope = this.dialogScope;
 
     return event => {
       if (event.target.matches('textarea') !== isTextAreaShortcut || event.target.matches('button')) {

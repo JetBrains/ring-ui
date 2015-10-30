@@ -1,6 +1,7 @@
+import iconUrl from './icon__url';
+
 describe('icon__url.test', function () {
-  var iconUrl = require('./icon__url');
-  var baseUrl = 'http://example.com/';
+  const baseUrl = 'http://example.com/';
 
   beforeEach(function () {
     this.sinon.stub(iconUrl, 'getBaseUrl')

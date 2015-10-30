@@ -187,9 +187,9 @@ export default class Icon extends RingComponent {
   static Size = Size;
 
   render() {
-    let {baseClass, className, size, color, glyph, width, height} = this.props;
+    const {baseClass, className, size, color, glyph, width, height} = this.props;
 
-    let classes = classNames(
+    const classes = classNames(
       {
         [baseClass.getModifier(size)]: true,
         [baseClass.getModifier(color)]: !!color,

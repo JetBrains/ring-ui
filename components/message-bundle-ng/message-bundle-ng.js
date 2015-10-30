@@ -3,7 +3,7 @@
  * This service is used by directive to correctly show messages.
  * You can decorate this service to provide your own localized messages.
  */
-let module = angular.module('Ring.message-bundle', []);
+const module = angular.module('Ring.message-bundle', []);
 
 /**
  * Empty i18n function. If project supports localization, it should decorate i18n
@@ -16,7 +16,7 @@ function emptyI18n() {
 }
 
 function RingMessageBundle(ringI18n) {
-  var i18n = ringI18n;
+  const i18n = ringI18n;
 
 /* eslint-disable camelcase */
   this.form_required = function () {

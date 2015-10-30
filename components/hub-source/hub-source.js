@@ -1,4 +1,3 @@
-
 export const TOP_ALL = -1;
 
 const defaultOptions = {
@@ -67,7 +66,7 @@ export default class HubSource {
   }
 
   processResults(res) {
-    let items = res[this.relativeUrl] || [];
+    const items = res[this.relativeUrl] || [];
 
     if (this.isClientSideSearch) {
       return items.filter(it => this.filterFn(it)).slice(0, this.options.searchMax);

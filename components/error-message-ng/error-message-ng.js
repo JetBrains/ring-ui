@@ -1,10 +1,11 @@
 /* global angular: false */
 
-require('../error-message-ng/error-message-ng.scss');
+import reactNg from '../react-ng/react-ng';
+import Icon from '../icon/icon';
 
-require('../react-ng/react-ng')({
-  Icon: require('../icon/icon')
-});
+import '../error-message-ng/error-message-ng.scss';
+
+reactNg(Icon);
 
 /**
  * A block for displaying error messages

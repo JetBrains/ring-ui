@@ -1,3 +1,5 @@
+/* eslint-disable no-var*/
+
 var ReactDOM = require('react-dom');
 
 var containerNode;

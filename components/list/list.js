@@ -41,7 +41,7 @@ const Dimension = {
 class ListSeparator extends RingComponent {
   /** @override */
   render() {
-    let classes = classNames({
+    const classes = classNames({
       'ring-list__separator': true,
       'ring-list__separator_empty': !this.props.description
     });
@@ -64,7 +64,7 @@ class ListItem extends RingComponent {
 
   getCheckbox() {
     if (this.props.checkbox !== undefined) {
-      let cn = 'ring-list__checkbox' + (this.props.checkbox ? '' : ' ring-list__checkbox_hidden');
+      const cn = 'ring-list__checkbox' + (this.props.checkbox ? '' : ' ring-list__checkbox_hidden');
       return (
         <Icon
           className={cn}
@@ -77,13 +77,13 @@ class ListItem extends RingComponent {
 
   /** @override */
   render() {
-    let classes = classNames({
+    const classes = classNames({
       'ring-list__item': true,
       'ring-list__item_action': !this.props.disabled,
       'ring-list__item_active': this.props.active && !this.props.disabled
     }, this.props.className);
 
-    let style = {
+    const style = {
       paddingLeft: ((+this.props.level || 0) * 8 + 16) + 'px'
     };
 
@@ -119,7 +119,7 @@ class ListCustom extends RingComponent {
 
   /** @override */
   render() {
-    let classes = classNames({
+    const classes = classNames({
       'ring-list__item': true,
       'ring-list__item_action': true,
       'ring-list__item_active': this.props.active
@@ -143,13 +143,13 @@ class ListCustom extends RingComponent {
 class ListLink extends RingComponent {
   /** @override */
   render() {
-    let classes = classNames({
+    const classes = classNames({
       'ring-list__item': true,
       'ring-link': true,
       'ring-link_focus': this.props.active && this.props.scrolling
     });
 
-    let el = this.props.href ? DOM.a : DOM.span;
+    const el = this.props.href ? DOM.a : DOM.span;
     return el(Object.assign({}, this.props, {className: classes}), this.props.label);
   }
 }
@@ -433,7 +433,7 @@ export default class List extends RingComponentWithShortcuts {
   }
 
   upHandler(e) {
-    let index = this.state.activeIndex;
+    const index = this.state.activeIndex;
     let newIndex;
 
     if (index === null || index === 0) {
@@ -446,7 +446,7 @@ export default class List extends RingComponentWithShortcuts {
   }
 
   downHandler(e) {
-    let index = this.state.activeIndex;
+    const index = this.state.activeIndex;
     let newIndex;
 
     if (index === null || index + 1 === this.props.data.length) {
@@ -465,7 +465,7 @@ export default class List extends RingComponentWithShortcuts {
       index = 0;
     }
 
-    let item = this.props.data[index];
+    const item = this.props.data[index];
     this.setState({activeIndex: index, activeItem: item, scrolling: true}, function () {
       if (!this.isActivatable(item)) {
         retryCallback(e);
@@ -479,7 +479,7 @@ export default class List extends RingComponentWithShortcuts {
   }
 
   scrollToIndex(index) {
-    let innerContainer = findDOMNode(this.refs.inner);
+    const innerContainer = findDOMNode(this.refs.inner);
 
     if (innerContainer.scrollHeight !== innerContainer.clientHeight) {
       innerContainer.scrollTop = index * Dimension.ITEM_HEIGHT - Math.floor(this.props.maxHeight / 2);
@@ -608,7 +608,7 @@ export default class List extends RingComponentWithShortcuts {
 
   hasOverflow() {
     if (this.refs.inner && this.refs.inner.node) {
-      var container = this.refs.inner.node;
+      const container = this.refs.inner.node;
       return container.scrollHeight > container.clientHeight;
     }
   }
@@ -633,12 +633,12 @@ export default class List extends RingComponentWithShortcuts {
 
   /** @override */
   render() {
-    let hint = this.getSelected() && this.props.hintOnSelection || this.props.hint;
-    let innerStyles = {};
+    const hint = this.getSelected() && this.props.hintOnSelection || this.props.hint;
+    const innerStyles = {};
     if (this.props.maxHeight) {
       innerStyles.maxHeight = this.props.maxHeight - Dimension.ITEM_HEIGHT - Dimension.INNER_PADDING;
     }
-    let classes = classNames({
+    const classes = classNames({
       'ring-list': true,
       'ring-list_scrolling': this.state.scrolling
     });
@@ -655,7 +655,7 @@ export default class List extends RingComponentWithShortcuts {
           style={innerStyles}
         >
           {this.props.data.map((item, index) => {
-            let props = Object.assign({rgItemType: DEFAULT_ITEM_TYPE}, item);
+            const props = Object.assign({rgItemType: DEFAULT_ITEM_TYPE}, item);
             if (props.url) {
               props.href = props.url;
             }

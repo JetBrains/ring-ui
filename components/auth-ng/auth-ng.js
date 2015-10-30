@@ -1,8 +1,8 @@
-var Auth = require('../auth/auth');
-var pick = require('mout/object/pick');
+import Auth from '../auth/auth';
+import pick from 'mout/object/pick';
 
 /* global angular: false */
-var authModule = angular.module('Ring.auth', []);
+const authModule = angular.module('Ring.auth', []);
 
 /**
  * @name Auth Ng
@@ -30,11 +30,11 @@ authModule.provider('auth', ['$httpProvider', function ($httpProvider) {
   /**
    * @type Auth
    */
-  var auth;
+  let auth;
   /**
    * @type {{cleanHash: boolean}} config
    */
-  var defaultConfig = {
+  const defaultConfig = {
     cleanHash: false //prevents infinite redirect on angular>1.2.26
   };
 
@@ -48,14 +48,14 @@ authModule.provider('auth', ['$httpProvider', function ($httpProvider) {
    * }} config
    */
   this.config = function (config) {
-    var configCopy = angular.extend({}, defaultConfig, config);
+    const configCopy = angular.extend({}, defaultConfig, config);
     auth = new Auth(configCopy);
   };
 
   $httpProvider.interceptors.push(['$q', '$injector', 'auth', function ($q, $injector, authInstance) {
-    var urlEndsWith = function (config, suffix) {
+    function urlEndsWith(config, suffix) {
       return config && config.url && config.url.indexOf(suffix) === config.url.length - suffix.length;
-    };
+    }
 
     return {
       request: function (config) {
@@ -77,7 +77,7 @@ authModule.provider('auth', ['$httpProvider', function ($httpProvider) {
           rejection.data != null && Auth.shouldRefreshToken(rejection.data.error)) {
 
           // Use $injector to avoid circular dependency
-          var $http = $injector.get('$http');
+          const $http = $injector.get('$http');
 
           return authInstance.auth.forceTokenUpdate().then(function () {
             return $http(pick(rejection.config, ['data', 'method', 'params', 'url']));
@@ -100,23 +100,23 @@ authModule.provider('auth', ['$httpProvider', function ($httpProvider) {
     /**
      * @type Promise.<string>
      */
-    var authInitPromise = auth.init();
+    const authInitPromise = auth.init();
 
     /**
      * @param {string?} restoreLocationURL
      */
-    var restoreLocation = function (restoreLocationURL) {
+    function restoreLocation(restoreLocationURL) {
       if (restoreLocationURL) {
-        var baseURI = auth.config.redirect_uri;
+        const bases = document.getElementsByTagName('base');
+        let baseURI = auth.config.redirect_uri;
 
-        var bases = document.getElementsByTagName('base');
         if (bases.length > 0) {
           baseURI = bases[0].href;
         }
 
         if (restoreLocationURL.indexOf(baseURI) === 0) {
-          var relativeURI = restoreLocationURL.substr(baseURI.length);
-          var $location = $injector.get('$location');
+          const $location = $injector.get('$location');
+          let relativeURI = restoreLocationURL.substr(baseURI.length);
 
           // We have to turn url with hash to simple relative url in HashbangInHtml5 mode
           // And there is no other and documented way to detect that mode
@@ -128,7 +128,8 @@ authModule.provider('auth', ['$httpProvider', function ($httpProvider) {
           $location.url(relativeURI).replace();
         }
       }
-    };
+    }
+
     authInitPromise.then(restoreLocation, function (e) {
       if (!e.authRedirect) {
         $log.error(e);

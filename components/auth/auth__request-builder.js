@@ -1,4 +1,4 @@
-var guid = require('mout/random/guid');
+import guid from 'mout/random/guid';
 
 /**
  * @param {{
@@ -11,10 +11,10 @@ var guid = require('mout/random/guid');
  * @param {AuthStorage} storage
  * @constructor
  */
-var AuthRequestBuilder = function (config, storage) {
+function AuthRequestBuilder(config, storage) {
   this.config = config;
   this.storage = storage;
-};
+}
 
 /**
  * Save the state and build auth server redirect URL.
@@ -24,13 +24,13 @@ var AuthRequestBuilder = function (config, storage) {
  * @return {Promise.<string>} promise that is resolved to authURL
  */
 AuthRequestBuilder.prototype.prepareAuthRequest = function (extraParams, extraState) {
-  var stateId = AuthRequestBuilder._uuid();
-  var scopes = this.config.scopes.map(function (scope) {
+  const stateId = AuthRequestBuilder._uuid();
+  const scopes = this.config.scopes.map(function (scope) {
     return encodeURIComponent(scope);
   });
 
   /* eslint-disable camelcase */
-  var request = Object.assign({
+  const request = Object.assign({
     response_type: 'token',
     state: stateId,
     redirect_uri: this.config.redirect_uri,
@@ -40,9 +40,9 @@ AuthRequestBuilder.prototype.prepareAuthRequest = function (extraParams, extraSt
   }, extraParams || {});
   /* eslint-enable camelcase */
 
-  var authURL = AuthRequestBuilder.encodeURL(this.config.authorization, request);
+  const authURL = AuthRequestBuilder.encodeURL(this.config.authorization, request);
 
-  var state = Object.assign({
+  const state = Object.assign({
     restoreLocation: window.location.href,
     scopes: this.config.scopes
   }, extraState || {});
@@ -75,15 +75,18 @@ AuthRequestBuilder._uuid = guid;
  * Each property in the params is added to the URL as query string parameters
  */
 AuthRequestBuilder.encodeURL = function (url, params) {
-  var res = url;
-  var k;
-  var i = 0;
-  var firstSeparator = (url.indexOf('?') === -1) ? '?' : '&';
+  const firstSeparator = (url.indexOf('?') === -1) ? '?' : '&';
+
+  let res = url;
+  let k;
+  let i = 0;
+
   for (k in params) {
     if (params.hasOwnProperty(k) && params[k] != null) {
       res += (i++ === 0 ? firstSeparator : '&') + encodeURIComponent(k) + '=' + encodeURIComponent(params[k]);
     }
   }
+
   return res;
 };
 

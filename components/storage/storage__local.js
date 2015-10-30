@@ -1,4 +1,4 @@
-var safePromise = function (resolver) {
+function safePromise(resolver) {
   return new Promise(resolver)
     .catch(e => {
       if (e && e.name === 'NS_ERROR_FILE_CORRUPTED') {
@@ -10,30 +10,30 @@ var safePromise = function (resolver) {
       }
       return Promise.reject(e);
     });
-};
+}
 
 /**
  * @return {LocalStorage}
  * @param {{type: string}} config Set to "session" to use sessionStorage
  * @constructor
  */
-var LocalStorage = function (config) {
+function LocalStorage(config) {
   if (!(this instanceof LocalStorage)) {
     return new LocalStorage(config);
   }
 
   this.storageType = config && config.type === 'session' ? 'sessionStorage' : 'localStorage';
-};
+}
 
 /**
  * @param {string} name
  * @return {Promise}
  */
 LocalStorage.prototype.get = function (name) {
-  var storageType = this.storageType;
+  const storageType = this.storageType;
 
   return safePromise(resolve => {
-    var value = window[storageType].getItem(name);
+    const value = window[storageType].getItem(name);
     try {
       resolve(JSON.parse(value));
     } catch (e) {
@@ -59,7 +59,7 @@ LocalStorage.prototype.set = function (name, value) {
  * @return {Promise}
  */
 LocalStorage.prototype.remove = function (name) {
-  var storageType = this.storageType;
+  const storageType = this.storageType;
 
   return safePromise(function (resolve) {
     if (window[storageType].hasOwnProperty(name)) {
@@ -74,12 +74,12 @@ LocalStorage.prototype.remove = function (name) {
  * @return {Promise}
  */
 LocalStorage.prototype.each = function (callback) {
-  var storageType = this.storageType;
+  const storageType = this.storageType;
 
   return safePromise(function (resolve) {
-    var promises = [];
+    const promises = [];
 
-    for (var item in window[storageType]) {
+    for (const item in window[storageType]) {
       if (window[storageType].hasOwnProperty(item)) {
         let value = window[storageType].getItem(item);
         try {

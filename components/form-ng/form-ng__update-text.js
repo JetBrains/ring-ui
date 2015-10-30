@@ -1,9 +1,10 @@
 /* global angular: false */
-require('../form-ng/form-ng');
-require('../form/form.scss');
-require('../form-ng/form-ng.scss');
-require('../button/button.scss');
-require('../message-bundle-ng/message-bundle-ng.js');
+import '../message-bundle-ng/message-bundle-ng.js';
+
+import '../form-ng/form-ng';
+import '../form/form.scss';
+import '../form-ng/form-ng.scss';
+import '../button/button.scss';
 
 angular.module('Ring.form')
 
@@ -55,7 +56,7 @@ angular.module('Ring.form')
     '$timeout',
     'RingMessageBundle',
     function ($timeout, RingMessageBundle) {
-      var multiLineSplitPattern = /(\r\n|\n|\r)/gm;
+      const multiLineSplitPattern = /(\r\n|\n|\r)/gm;
 
       return {
         replace: true,
@@ -94,7 +95,7 @@ angular.module('Ring.form')
 
           // Special formatting and parsing for array values
           if (scope.isMultiLine() === 'list') {
-            var stopWatch = scope.$watch('form.input', function (input) {
+            const stopWatch = scope.$watch('form.input', function (input) {
               if (input) {
                 input.$formatters.push(function (value) {
                   if (!value) {
@@ -107,13 +108,16 @@ angular.module('Ring.form')
                   }
                   return value.join('\n');
                 });
+
                 input.$parsers.push(function (value) {
-                  var array = value && value.split(multiLineSplitPattern) || [];
-                  var notEmpty = function (val) {
+                  let array = value && value.split(multiLineSplitPattern) || [];
+
+                  function notEmpty(val) {
                     return val && val.trim();
-                  };
+                  }
+
                   if (iAttrs.parseElement) {
-                    array = array.filter(notEmpty).map(function (element) {
+                    array = array.filter(notEmpty).map(element => {
                       return scope.parseElement({element: element.trim()});
                     });
                   }
@@ -125,7 +129,7 @@ angular.module('Ring.form')
             });
           }
 
-          var success = function () {
+          function success() {
             scope.initial = scope.item[scope.field];
             scope.form.$setPristine();
 
@@ -134,7 +138,7 @@ angular.module('Ring.form')
             $timeout(function () {
               scope.done = false;
             }, 1000);
-          };
+          }
 
           scope.changed = function () {
             scope.onSave(scope.item, scope.field, success, angular.noop);

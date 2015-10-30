@@ -1,15 +1,14 @@
 import 'core-js/modules/es6.array.find';
-
-var deepMixIn = require('mout/object/deepMixIn');
+import deepMixIn from 'mout/object/deepMixIn';
 
 /**
  * Selection module, catches all selection and activation operations and triggers events
  */
 
-var Selection = function (items, emitEvent) {
+function Selection(items, emitEvent) {
   this.items = items;
   this.emitEvent = emitEvent;
-};
+}
 
 deepMixIn(Selection.prototype, {
   setItems: function (items) {
@@ -38,14 +37,14 @@ deepMixIn(Selection.prototype, {
   },
 
   setActiveItemIndex: function (index) {
-    var item = this.items[index];
+    const item = this.items[index];
     this.activateItem(item);
   },
 
   activateNextItem: function () {
-    var index = this.items.indexOf(this.getActiveItem());
+    const index = this.items.indexOf(this.getActiveItem());
     if (index >= 0 && index < this.items.length - 1) {
-      var newActiveItem = this.items[index + 1];
+      const newActiveItem = this.items[index + 1];
       this.activateItem(newActiveItem);
       return newActiveItem;
     } else {
@@ -54,9 +53,9 @@ deepMixIn(Selection.prototype, {
   },
 
   activatePreviousItem: function () {
-    var activeItemIndex = this.items.indexOf(this.getActiveItem());
+    const activeItemIndex = this.items.indexOf(this.getActiveItem());
     if (activeItemIndex > 0 && activeItemIndex <= this.items.length - 1) {
-      var newActiveItem = this.items[activeItemIndex - 1];
+      const newActiveItem = this.items[activeItemIndex - 1];
       this.activateItem(newActiveItem);
       return newActiveItem;
     } else {
@@ -71,7 +70,7 @@ deepMixIn(Selection.prototype, {
   },
 
   clearActivity: function () {
-    var activeItem = this.getActiveItem();
+    const activeItem = this.getActiveItem();
     if (activeItem) {
       activeItem.active = false;
     }

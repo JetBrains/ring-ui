@@ -126,7 +126,7 @@ angular.module('Ring.save-field', [
              someText: 'some text'
            };
 
-           var defer = $q.defer();
+           const defer = $q.defer();
            defer.resolve();
            $scope.save = function() {
              console.log('data = ', $scope.data);
@@ -151,13 +151,13 @@ angular.module('Ring.save-field', [
     '$q',
     '$parse',
     function (RingMessageBundle, $timeout, $q, $parse) {
-      var ESCAPE_KEY_CODE = 27;
-      var ENTER_KEY_CODE = 13;
-      var MULTI_LINE_SPLIT_PATTERN = /(\r\n|\n|\r)/gm;
-      var MULTI_LINE_LIST_MODE = 'list';
-      var CUSTOM_ERROR_ID = 'customError';
-      var ERROR_DESCRIPTION = 'error_description';
-      var ERROR_DEVELOPER_MSG = 'error_developer_message';
+      const ESCAPE_KEY_CODE = 27;
+      const ENTER_KEY_CODE = 13;
+      const MULTI_LINE_SPLIT_PATTERN = /(\r\n|\n|\r)/gm;
+      const MULTI_LINE_LIST_MODE = 'list';
+      const CUSTOM_ERROR_ID = 'customError';
+      const ERROR_DESCRIPTION = 'error_description';
+      const ERROR_DEVELOPER_MSG = 'error_developer_message';
 
       return {
         restrict: 'E',
@@ -165,18 +165,20 @@ angular.module('Ring.save-field', [
         template: require('./save-field-ng.html'),
         scope: true,
         link: function (scope, iElem, iAttrs) {
-          var multilineMode = iAttrs.multiline;
-          scope.onSave = scope.$eval(iAttrs.onSave);
-          var valueExpression = iAttrs.value;
-          var getExpressionValue = $parse(valueExpression);
-          var setExpressionValue = getExpressionValue.assign;
-          var customError = {
+          const valueExpression = iAttrs.value;
+          const getExpressionValue = $parse(valueExpression);
+          const setExpressionValue = getExpressionValue.assign;
+          const customError = {
             message: ''
           };
-          var blurTimeout = null;
+
+          let multilineMode = iAttrs.multiline;
+          let blurTimeout = null;
+
+          scope.onSave = scope.$eval(iAttrs.onSave);
 
           function submitChanges() {
-            var success = function () {
+            function success() {
               scope.initial = getExpressionValue(scope);
               scope.saveFieldForm.$setPristine();
 
@@ -185,10 +187,10 @@ angular.module('Ring.save-field', [
               $timeout(function () {
                 scope.done = false;
               }, 1000);
-            };
+            }
 
-            var error = function (err) {
-              var message;
+            function error(err) {
+              let message;
               if (typeof err === 'string') {
                 message = err;
               } else if (typeof err === 'object') {
@@ -197,11 +199,11 @@ angular.module('Ring.save-field', [
 
               customError.message = message;
               scope.saveFieldForm.$setValidity(CUSTOM_ERROR_ID, false, customError);
-            };
+            }
 
             scope.cancelBlur();
 
-            var submitPromise = $q.when(scope.onSave(getExpressionValue(scope)));
+            const submitPromise = $q.when(scope.onSave(getExpressionValue(scope)));
             submitPromise.then(success);
             submitPromise.catch(error);
           }
@@ -215,10 +217,11 @@ angular.module('Ring.save-field', [
           }
 
           function addMultilineProcessig(controlName) {
-            var stopWatch = scope.$watch('saveFieldForm.' + controlName, function (control) {
+            const stopWatch = scope.$watch('saveFieldForm.' + controlName, function (control) {
               if (!control || !control.$formatters || !control.$parsers) {
                 return;
               }
+
               control.$formatters.push(function (value) {
                 if (!value) {
                   return value;
@@ -230,17 +233,22 @@ angular.module('Ring.save-field', [
                 }
                 return value.join('\n');
               });
+
               control.$parsers.push(function (value) {
-                var array = value && value.split(MULTI_LINE_SPLIT_PATTERN) || [];
-                var notEmpty = function (val) {
+                let array = value && value.split(MULTI_LINE_SPLIT_PATTERN) || [];
+
+                function notEmpty(val) {
                   return val && val.trim() && val !== '\n';
-                };
+                }
+
                 array = array.filter(notEmpty);
+
                 if (iAttrs.parseElement) {
                   array = array.map(function (element) {
                     return scope.parseElement({element: element.trim()});
                   });
                 }
+
                 return array;
               });
 
@@ -249,7 +257,7 @@ angular.module('Ring.save-field', [
           }
 
           function inputBlur() {
-            blurTimeout = $timeout(function () {
+            blurTimeout = $timeout(() => {
               resetValue();
             }, 100);
           }
@@ -291,12 +299,14 @@ angular.module('Ring.save-field', [
             scope.saveFieldForm.$setValidity(CUSTOM_ERROR_ID, true, customError);
           }, true);
 
-          var isTextarea = false;
-          var inputNode = iElem[0].querySelector('input, .ring-save-field__input');
+          let isTextarea = false;
+          let inputNode = iElem[0].querySelector('input, .ring-save-field__input');
+
           if (!inputNode) {
             inputNode = iElem[0].querySelector('textarea');
             isTextarea = !!inputNode;
           }
+
           if (inputNode) {
             inputNode.addEventListener('keydown', inputKey);
             inputNode.addEventListener('blur', inputBlur);

@@ -1,9 +1,12 @@
-require('../sidebar/sidebar.scss');
-require('../button/button.scss');
-require('../place-under-ng/place-under-ng');
-require('../react-ng/react-ng')({
-  Icon: require('../icon/icon')
-});
+import '../place-under-ng/place-under-ng';
+
+import reactNg from '../react-ng/react-ng';
+import Icon from '../icon/icon';
+
+import '../sidebar/sidebar.scss';
+import '../button/button.scss';
+
+reactNg(Icon);
 
 /**
  * @name Sidebar Ng

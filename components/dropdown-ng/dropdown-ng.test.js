@@ -1,14 +1,13 @@
-require('angular');
-require('angular-mocks');
-require('./dropdown-ng');
+import 'angular';
+import 'angular-mocks';
+import './dropdown-ng';
 
 describe('DropdownNg', function () {
-
-  var scope;
-  var directiveScope;
-  var element;
-  var itemsMock;
-  var $compile;
+  let scope;
+  let directiveScope;
+  let element;
+  let itemsMock;
+  let $compile;
 
   beforeEach(window.module('Ring.dropdown'));
 

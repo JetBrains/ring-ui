@@ -1,9 +1,10 @@
+import React from 'react';
+import TestUtils from 'react-addons-test-utils';
+import Link from './link';
+import $ from 'jquery';
+
 describe('Link', function () {
-  var React = require('react');
-  var TestUtils = require('react-addons-test-utils');
-  var Link = require('./link');
-  var $ = require('jquery');
-  var link;
+  let link;
 
   beforeEach(function () {
     link = TestUtils.renderIntoDocument(React.createElement(Link));

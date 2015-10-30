@@ -1,13 +1,13 @@
 /**
  * Describe using progress bar
  */
-describe('ProgressBar', function () {
-  var $ = require('jquery');
-  var React = require('react');
-  var ReactDOM = require('react-dom');
-  var TestUtils = require('react-addons-test-utils');
-  var ProgressBar = require('./progress-bar');
+import $ from 'jquery';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import TestUtils from 'react-addons-test-utils';
+import ProgressBar from './progress-bar';
 
+describe('ProgressBar', function () {
   beforeEach(function () {
     this.progress = TestUtils.renderIntoDocument(React.createElement(ProgressBar));
   });
