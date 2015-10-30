@@ -51,7 +51,7 @@ var debounce = require('mout/function/debounce');
       }
     });
   </file>
-  <file name="example.scss" webpack="true">
+  <file name="example.scss">
     .place-under {
       position: fixed;
       top: 0;
