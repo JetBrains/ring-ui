@@ -242,7 +242,8 @@ export default class Loader extends RingComponent {
       <div {...this.props}>
         <canvas
           ref="canvas"
-          className="ring-loader__canvas"/>
+          className="ring-loader__canvas"
+        />
         {this._renderText()}
       </div>
     );
