@@ -10,9 +10,6 @@ function resolveLoader(loader) {
 
 // Minimal config for building components
 module.exports = {
-  resolve: {
-    fallback: [componentsPath]
-  },
   module: {
     loaders: [
       {
