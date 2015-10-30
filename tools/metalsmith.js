@@ -2,7 +2,6 @@
 /* eslint-disable no-console*/
 var path = require('path');
 var fs = require('fs');
-var chalk = require('chalk');
 var mixIn = require('mout/object/mixIn');
 
 var isServer = process.argv.indexOf('--server') !== -1;
@@ -20,11 +19,8 @@ var filepath = require('metalsmith-filepath');
 var replace = require('metalsmith-text-replace');
 
 var webpack = require('webpack');
-var webpackConfigMerger = require('webpack-config-merger');
 var WebpackDevServer = require('webpack-dev-server');
-var webpackConfig = require('../webpack.config');
-var AnyBarWebpackPlugin = require('anybar-webpack');
-
+var webpackConfig = require('../webpack-site.config');
 var publicPath = '/assets/';
 
 new Metalsmith(path.resolve(__dirname, '..'))
@@ -112,44 +108,6 @@ new Metalsmith(path.resolve(__dirname, '..'))
     var port = process.env.npm_package_config_port || require('../package.json').config.port;
     var serverUrl = 'http://localhost:' + port;
 
-    webpackConfig = webpackConfigMerger(webpackConfig, {
-      context: path.resolve(__dirname, '..'),
-      entry: {
-        index: './site/'
-      },
-      externals: {
-        jquery: false
-      },
-      devtool: isServer ? 'eval' : '#source-map',
-      debug: isServer,
-      output: {
-        path: path.resolve(__dirname, '..', 'docs', 'assets'),
-        pathinfo: isServer,
-        filename: '[name].js',
-        publicPath: publicPath // serve HMR update json's properly
-      },
-      plugins: isServer ? [
-        new webpack.HotModuleReplacementPlugin(),
-        new webpack.NoErrorsPlugin(),
-        new AnyBarWebpackPlugin(),
-        /** Build progress informer */
-        function () {
-          var timeMeasureMessage = chalk.blue('Compilation finished in');
-
-          this.plugin('compile', function () {
-            console.time(timeMeasureMessage);
-            console.log(chalk.green('Compilation started...', (new Date()).toTimeString()));
-          });
-          this.plugin('done', function (stats) {
-            if (stats.hasErrors) {
-              console.error(chalk.red(stats.toJson().errors.join('\n')));
-            }
-            console.timeEnd(timeMeasureMessage);
-          });
-        }
-      ] : []
-    });
-
     Object.keys(files).forEach(function (fileName) {
       var file = files[fileName];
 
@@ -165,12 +123,6 @@ new Metalsmith(path.resolve(__dirname, '..'))
 
       entries.forEach(function (entryName) {
         webpackConfig.entry[entryName] = webpackClient.concat(webpackConfig.entry[entryName]);
-      });
-
-      webpackConfig.module.loaders.forEach(function (loader) {
-        if (loader.loaders && loader.loaders.indexOf('jsx') !== -1) {
-          loader.loaders.unshift('react-hot');
-        }
       });
     }
 
