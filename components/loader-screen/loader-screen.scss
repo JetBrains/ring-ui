@@ -8,11 +8,10 @@
 
   .ring-loader-screen__loader {
     display: inline-block;
-  }
 
-  .ring-loader__canvas {
-    display: inline-block;
-    margin: 0;
+    &_without-spacings .ring-loader__canvas {
+      margin: 0;
+    }
   }
 
   &:before {
