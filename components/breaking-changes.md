@@ -6,31 +6,29 @@ order: 2
 
 See the “breaking change” commits [in Upsource](https://upsource.jetbrains.com/ring-ui/view?query=path:%20%7B%2A%2Fbreaking-changes.md%7D%20and%20not%20%22Wording%22).  
 
-### 30-10-2015: Ring UI's webpack.config.js doesn't provide loaders for users' code anymore                        
+### 30-10-2015: webpack.config.js does not provide loaders for applications' code anymore, you will need to set up all the necessary loaders in your project configuration.
 
-So you should setup all appropriate loaders in your project's config.   
+### 30-10-2015: Icons are now loaded using [svg-sprite-loader](https://github.com/kisenka/svg-sprite-loader). They were also moved to a separate package (RG-550, RG-834)                        
 
-### 30-10-2015: Icons are loaded trough [svg-sprite-loader](https://github.com/kisenka/svg-sprite-loader) and moved to separate package (RG-550, RG-834)                        
-
-Icon's glyph property now accepts url from loader instead of id, e.g. `<Icon glyph={require('jetbrains-icons/add.svg')}>`. 
+Icon's `glyph` property now accepts URL from loader instead of ID, e.g. `<Icon glyph={require('jetbrains-icons/add.svg')}>`. 
 
 ### 30-10-2015: Migration to ES6, React 0.14 and Babel (RG-361, RG-420)                        
 
-Also jQuery, when.js and mout is not used anymore. See [detailed description](http://ring-ui.github.io/migration-to-2.3.0.html).
+jQuery, when.js, and mout are not used anymore. See the detailed [migration guide](http://ring-ui.github.io/migration-to-2.3.0.html).
 
-### 30-10-2015: Components now should be addressed by full path                        
+### 30-10-2015: Components should be addressed by full path                        
 
 E.g. you should use import `ring-ui/components/react-ng/react-ng` instead of `react-ng/react-ng`.
 
-### 29-10-2015: Loader renamed to LoaderInline to give place for brand new Loader.
+### 29-10-2015: Loader was renamed to LoaderInline to give place to the brand new Loader.
 
-LoaderInline is inline by default and shouldn't be used as big loader any more.
+LoaderInline is `display: inline-block` by default and shouldn't be used as the main loader anymore.
 
 ### 22-05-2015: "user2" icon duplicate removed
 
 ### 06-05-2015: Unused filtering functionality removed from `popup-menu` (RG-700) 
 
-`filter` property doesn't have sense anymore 
+`filter` property doesn't make sense anymore 
 
 ### 06-05-2015: `form-ng__update-text` is no more required in `form-ng` (part of RG-676) 
 
