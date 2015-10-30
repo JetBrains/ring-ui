@@ -6,9 +6,21 @@ order: 2
 
 See the “breaking change” commits [in Upsource](https://upsource.jetbrains.com/ring-ui/view?query=path:%20%7B%2A%2Fbreaking-changes.md%7D%20and%20not%20%22Wording%22).  
 
+### 30-10-2015: Ring UI's webpack.config.js doesn't provide loaders for users' code anymore                        
+
+So you should setup all appropriate loaders in your project's config.   
+
+### 30-10-2015: Icons are loaded trough [svg-sprite-loader](https://github.com/kisenka/svg-sprite-loader) and moved to separate package (RG-550, RG-834)                        
+
+Icon's glyph property now accepts url from loader instead of id, e.g. `<Icon glyph={require('jetbrains-icons/add.svg')}>`. 
+
+### 30-10-2015: Migration to ES6, React 0.14 and Babel (RG-361, RG-420)                        
+
+Also jQuery, when.js and mout is not used anymore. See [detailed description](http://ring-ui.github.io/migration-to-2.3.0.html).
+
 ### 30-10-2015: Components now should be addressed by full path                        
 
-E.g. you should use import `ring-ui/components/react-ng/react-ng` instead of `react-ng/react-ng`
+E.g. you should use import `ring-ui/components/react-ng/react-ng` instead of `react-ng/react-ng`.
 
 ### 29-10-2015: Loader renamed to LoaderInline to give place for brand new Loader.
 
