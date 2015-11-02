@@ -159,7 +159,6 @@ ringShortcutsModule.directive('rgShortcutsApp', function () {
           this.select(next);
 
           if (shortcutsInstance.hasKey(combo, next.scope)) {
-            //TODO починить
             shortcutsInstance.trigger(combo);
           }
           // Otherwise go back

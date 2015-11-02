@@ -39,14 +39,14 @@ const Type = {
      <button id="clear">Clear selected</button>
    </file>
    <file name="index.js" webpack="true">
-     const render = require('react-dom').render;
-     const Select = require('ring-ui/components/select/select');
+     var render = require('react-dom').render;
+     var Select = require('ring-ui/components/select/select');
 
-     const props = {
+     var props = {
        filter: true
      };
 
-     const data = {
+     var data = {
        data: [
          {'label': 'One', 'key': '1', 'type': 'user'},
          {'label': 'Group', 'key': '2', 'type': 'user'},
@@ -55,7 +55,7 @@ const Type = {
        selected: {'label': 'Group', 'key': '2', 'type': 'user'}
      };
 
-     const select = render(Select.factory(props), document.getElementById('demo'))
+     var select = render(Select.factory(props), document.getElementById('demo'))
      select.rerender(data);
 
      document.getElementById('clear').addEventListener('click', function() {
@@ -70,8 +70,8 @@ const Type = {
      <div id="demo2"></div>
    </file>
    <file name="index.js" webpack="true">
-     const render = require('react-dom').render;
-     const Select = require('ring-ui/components/select/select');
+     var render = require('react-dom').render;
+     var Select = require('ring-ui/components/select/select');
 
      render(
        Select.factory({disabled: true, loading: true}),
@@ -90,10 +90,10 @@ const Type = {
      <div id="demo"></div>
    </file>
    <file name="index.js" webpack="true">
-     const render = require('react-dom').render;
-     const Select = require('ring-ui/components/select/select');
+     var render = require('react-dom').render;
+     var Select = require('ring-ui/components/select/select');
 
-     const data = [];
+     var data = [];
      for(let i = 0; i < 20; i++) {
        data.push({'label': 'Item ' + i, 'key': i});
      }
@@ -110,10 +110,10 @@ const Type = {
      <div id="demo"></div>
    </file>
    <file name="index.js" webpack="true">
-     const render = require('react-dom').render;
-     const Select = require('ring-ui/components/select/select');
+     var render = require('react-dom').render;
+     var Select = require('ring-ui/components/select/select');
 
-     const data = [];
+     var data = [];
      for(let i = 0; i < 20; i++) {
        data.push({'label': 'Item ' + i, 'key': i});
      }
@@ -133,8 +133,8 @@ const Type = {
      <div id="demo"></div>
    </file>
    <file name="index.js" webpack="true">
-     const render = require('react-dom').render;
-     const Select = require('ring-ui/components/select/select');
+     var render = require('react-dom').render;
+     var Select = require('ring-ui/components/select/select');
 
      render(Select.factory({
        filter: true,
@@ -154,8 +154,8 @@ const Type = {
      <div id="demo"></div>
    </file>
    <file name="index.js" webpack="true">
-     const render = require('react-dom').render;
-     const Select = require('ring-ui/components/select/select');
+     var render = require('react-dom').render;
+     var Select = require('ring-ui/components/select/select');
 
      render(Select.factory({
        filter: true,
@@ -175,10 +175,10 @@ const Type = {
      <div id="demo"></div>
    </file>
    <file name="index.js" webpack="true">
-     const render = require('react-dom').render;
-     const Select = require('ring-ui/components/select/select');
+     var render = require('react-dom').render;
+     var Select = require('ring-ui/components/select/select');
 
-     const data = [];
+     var data = [];
      for(let i = 0; i < 100; i++) {
        data.push({'label': 'Item long long long long long  long long long label ' + i, 'key': i});
      }
@@ -209,10 +209,10 @@ const Type = {
      <div id="demo"></div>
    </file>
    <file name="index.js" webpack="true">
-     const render = require('react-dom').render;
-     const Select = require('ring-ui/components/select/select');
+     var render = require('react-dom').render;
+     var Select = require('ring-ui/components/select/select');
 
-     const data = [];
+     var data = [];
      for(let i = 0; i < 10; i++) {
        data.push({'label': 'Item ' + i, 'key': i});
      }
@@ -243,8 +243,8 @@ const Type = {
      <div id="demo"></div>
    </file>
    <file name="index.js" webpack="true">
-     const render = require('react-dom').render;
-     const Select = require('ring-ui/components/select/select');
+     var render = require('react-dom').render;
+     var Select = require('ring-ui/components/select/select');
 
      render(Select.factory({
        filter: true,
@@ -269,7 +269,7 @@ const Type = {
        },
        onChange: function(selection) {
          console.log('onChange, selection:', selection);
-         const items = [];
+         var items = [];
          selection.forEach(function(item) {
            items.push(item.label);
          });
