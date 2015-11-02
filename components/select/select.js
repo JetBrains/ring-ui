@@ -17,7 +17,7 @@ import './select.scss';
 
 const ngModelStateField = 'selected';
 
-const noop = () => {};
+function noop() {}
 
 /**
  * @enum {number}

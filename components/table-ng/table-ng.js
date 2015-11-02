@@ -196,9 +196,7 @@ module.directive('rgTable', function () {
       /**
        * Updating items when data is initiated or updated
        */
-      $scope.$watch(() => {
-        return this.items;
-      }, newItems => {
+      $scope.$watch(() => this.items, newItems => {
         if (newItems) {
           this.selection.setItems(newItems);
         }
@@ -231,9 +229,7 @@ module.directive('rgTableHeader', function (getClosestElementWithCommonParent) {
       const scrollableHeader = element.query('.ring-table__header:not(.ring-table__header_sticky)');
       const fixedHeader = element.query('.ring-table__header_sticky');
 
-      const toolbarFixed = () => {
-        return stickToElement.query('.' + TOOLBAR_FIXED_CLASSNAME) !== null;
-      };
+      const toolbarFixed = () => stickToElement.query('.' + TOOLBAR_FIXED_CLASSNAME) !== null;
 
       /**
        * Sync header columns width with real table
@@ -430,9 +426,7 @@ module.directive('rgTableCheckboxCell', function () {
       /**
        * rowItem getter to use it as ng-model for checkbox
        */
-      scope.getRowItem = () => {
-        return rowCtrl.rowItem;
-      };
+      scope.getRowItem = () => rowCtrl.rowItem;
       scope.isEmbedded = angular.isDefined(iAttrs.embedded);
     }
   };

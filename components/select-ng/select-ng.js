@@ -446,9 +446,7 @@ ringSelectModule.directive('rgSelect', function () {
       }
 
       let lastQuery = null;
-      ctrl.getOptions = query => {
-        return $q.when(ctrl.optionsParser.getOptions(query));
-      };
+      ctrl.getOptions = query => $q.when(ctrl.optionsParser.getOptions(query));
 
       ctrl.loadOptionsToSelect = query => {
         lastQuery = query;
@@ -499,9 +497,7 @@ ringSelectModule.directive('rgSelect', function () {
       }
 
       function syncMultiple() {
-        $scope.$watch(() => {
-          return ctrl.multiple;
-        }, () => {
+        $scope.$watch(() => ctrl.multiple, () => {
           if (angular.isDefined(ctrl.multiple)) {
             ctrl.selectInstance.rerender({multiple: ctrl.multiple});
           }
@@ -545,16 +541,13 @@ ringSelectModule.directive('rgSelect', function () {
          * Provide specific filter function if externalFilter is enabled
          */
         if (ctrl.externalFilter) {
-          ctrl.filter = {fn: () => {
-            return true;
-          }};
+          ctrl.filter = {fn: () => true};
         }
 
         if (!ctrl.lazy) {
-          $scope.$watch(() => {
-            return ctrl.optionsParser.getOptions(ctrl.query);
-          }, optionsWatcher, true);
+          $scope.$watch(() => ctrl.optionsParser.getOptions(ctrl.query), optionsWatcher, true);
         }
+
         ctrl.config = angular.extend({}, {
           selected: ctrl.convertNgModelToSelect(ctrl.ngModel),
           label: ctrl.label || RingMessageBundle.select_label(),

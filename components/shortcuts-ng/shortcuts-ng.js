@@ -68,13 +68,8 @@ ringShortcutsModule.provider('shortcuts', function () {
           }
         }
       },
-      isMainMode: name => {
-        return mainModes[name];
-      },
-      getRegisteredShortcuts: () => {
-        return reference;
-      },
-
+      isMainMode: name => mainModes[name],
+      getRegisteredShortcuts: () => reference,
       shortcuts: shortcutsInstance
     };
   };
@@ -182,9 +177,7 @@ ringShortcutsModule.directive('rgShortcutsApp', function () {
           zone.order = orderedElements.indexOf(zone.element);
         });
 
-        $scope.zones.sort((a, b) => {
-          return a.order - b.order;
-        });
+        $scope.zones.sort((a, b) => a.order - b.order);
       };
 
       this.setup = (zone, keys) => {
@@ -241,9 +234,7 @@ ringShortcutsModule.directive('rgShortcuts', function ($parse) {
         ctrl.setup(zone, map);
       });
 
-      $scope.$watch(() => {
-        return focusGetter($scope);
-      }, current => {
+      $scope.$watch(() => focusGetter($scope), current => {
         if (current) {
           ctrl.select(zone);
         }
