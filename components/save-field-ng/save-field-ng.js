@@ -126,7 +126,7 @@ const module = angular.module('Ring.save-field', [
              someText: 'some text'
            };
 
-           const defer = $q.defer();
+           var defer = $q.defer();
            defer.resolve();
            $scope.save = function() {
              console.log('data = ', $scope.data);

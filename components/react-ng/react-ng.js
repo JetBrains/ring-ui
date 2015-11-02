@@ -127,9 +127,9 @@ function reactNgDirective($parse) {
           if (interpolated) {
             iAttrs.$observe(name, getUpdater(propName));
           } else if (parsedExpression && expectsCallback) {
-            directiveProps[propName] = param => {
+            directiveProps[propName] = (param, ...rest) => {
               const locals = typeof param === 'object' ? angular.copy(param) : {};
-              locals.arguments = Array.from(arguments);
+              locals.arguments = [param, ...rest];
 
               return parsedExpression(scope, locals);
             };

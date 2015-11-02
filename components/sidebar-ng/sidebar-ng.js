@@ -6,7 +6,7 @@ import Icon from '../icon/icon';
 import '../sidebar/sidebar.scss';
 import '../button/button.scss';
 
-reactNg(Icon);
+reactNg({Icon});
 
 /**
  * @name Sidebar Ng
@@ -48,13 +48,13 @@ reactNg(Icon);
       </div>
       <div id="content-after"></div>
 
-     </file>
-       <file name="index.js" webpack="true">
-         require('angular');
-         require('ring-ui/components/sidebar-ng/sidebar-ng');
-         require('ring-ui/components/select-ng/select-ng');
+    </file>
+      <file name="index.js" webpack="true">
+        require('angular');
+        require('ring-ui/components/sidebar-ng/sidebar-ng');
+        require('ring-ui/components/select-ng/select-ng');
 
- angular.module('foo', ['Ring.sidebar', 'Ring.select']);
+        angular.module('foo', ['Ring.sidebar', 'Ring.select']);
 
         var bigContent = document.getElementById('big-content');
         var after = document.getElementById('content-after');
