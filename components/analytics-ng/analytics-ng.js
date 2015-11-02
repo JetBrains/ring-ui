@@ -18,13 +18,13 @@ import AnalyticsCustomPlugin from '../analytics/analytics__custom-plugin';
             'AnalyticsCustomPlugin',
             'AnalyticsGAPlugin',
             function(analyticsProvider, AnalyticsCustomPlugin, AnalyticsGAPlugin) {
-              const analyticsEnabled = true;
+              var analyticsEnabled = true;
               if (analyticsEnabled) {
-                const isDevelopment = true;
-                const customPlugin = new AnalyticsCustomPlugin(function(data) {
+                var isDevelopment = true;
+                var customPlugin = new AnalyticsCustomPlugin(function(data) {
                   console.log('Here you can send data to server', data);
                 }, isDevelopment, 600);
-                const gaId; // = 'GA-XXXXX-ID';
+                var gaId; // = 'GA-XXXXX-ID';
                 analyticsProvider.plugins([
                   customPlugin //, new AnalyticsGAPlugin(gaId)
                 ]);
