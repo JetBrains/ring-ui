@@ -1,4 +1,7 @@
-import gemini from 'gemini';
+/* eslint-disable no-var */
+/* eslint-disable modules/no-cjs */
+
+var gemini = require('gemini');
 
 gemini.suite('Old-browser-message', function (suite) {
   suite
