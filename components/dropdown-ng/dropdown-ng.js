@@ -120,7 +120,7 @@ ringDropdownModule.directive('rgDropdown', function () {
                 }
 
                 if (item.onSelect) {
-                  item.onSelect.apply(item);
+                  item.onSelect();
                 }
               });
 

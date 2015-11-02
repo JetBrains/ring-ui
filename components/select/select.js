@@ -706,7 +706,7 @@ export default class Select extends RingComponentWithShortcuts {
         currentSelection.push(selected);
         this.props.onSelect && this.props.onSelect(selected);
       } else {
-        delete this._multipleMap[selected.key];
+        Reflect.deleteProperty(this._multipleMap, selected.key);
         for (let i = 0; i < currentSelection.length; i++) {
           if (selected.key === currentSelection[i].key) {
             currentSelection.splice(i, 1);

@@ -1,4 +1,5 @@
 /* eslint-disable no-var */
+/* eslint-disable prefer-reflect */
 /* eslint-disable modules/no-cjs */
 
 var mixIn = require('mout/object/mixIn');

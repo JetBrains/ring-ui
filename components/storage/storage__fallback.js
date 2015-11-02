@@ -122,7 +122,7 @@ FallbackStorage.prototype.set = function (key, value) {
       if (value != null) {
         data[key] = value;
       } else {
-        delete data[key];
+        Reflect.deleteProperty(data, key);
       }
     }
 
