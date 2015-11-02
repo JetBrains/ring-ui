@@ -295,7 +295,7 @@ describe('Storage', function () {
       const storage = MemoryStorage._storage[spaceName];
       for (const key in storage) {
         if (storage.hasOwnProperty(key)) {
-          delete storage[key];
+          Reflect.deleteProperty(storage, key);
         }
       }
     });

@@ -42,7 +42,7 @@ MemoryStorage.prototype.set = function (key, value) {
         return result;
       });
     } else {
-      delete this.space[key];
+      Reflect.deleteProperty(this.space, key);
     }
   }
 

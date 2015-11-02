@@ -237,7 +237,7 @@ class Dialog {
       dialogScope.active = false;
       dialogScope.content = '';
 
-      delete dialogScope.DIALOG_NAMESPACE;
+      Reflect.deleteProperty(dialogScope, 'DIALOG_NAMESPACE');
 
       if (shortcuts.getScope().pop() === this.DIALOG_NAMESPACE) {
         shortcuts.setScope(dialogScope.currentShortcutsScope);
@@ -277,7 +277,7 @@ class Dialog {
   }
 
   unregister() {
-    delete this.dialogScope;
+    Reflect.deleteProperty(this, 'dialogScope');
   }
 
   applyDefaultHandler(isTextAreaShortcut) {

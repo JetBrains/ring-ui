@@ -242,7 +242,7 @@ module.directive('rgTableHeader', function (getClosestElementWithCommonParent) {
         fixedHeader.style.width = scrollableHeader.offsetWidth + 'px';
         const titles = fixedHeader.queryAll('.ring-table__title');
 
-        Array.prototype.forEach.call(titles, (titleElement, index) => {
+        titles.forEach((titleElement, index) => {
           const targetHeaderTitle = scrollableHeader.queryAll('.ring-table__title')[index];
           titleElement.style.width = getStyles(targetHeaderTitle).width;
         });

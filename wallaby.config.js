@@ -1,5 +1,6 @@
 /* eslint-env node */
 /* eslint-disable no-var */
+/* eslint-disable prefer-reflect */
 /* eslint-disable modules/no-cjs */
 
 var fs = require('fs');
