@@ -257,12 +257,6 @@ export default class Header extends RingComponent {
       <div className={headerClassName.getClassName()}>
         <div className={headerClassName.getElement('logo')}>{this._getLogo()}</div>
         <div className={headerClassName.getElement('menu')}>{
-          // TODO починить (изменили интерфейс, но, кажется, это нигде не использовалось, проверить)
-          /*Children.map(this.props.menu, function(item) {
-            console.log(item);
-            item.props.className = classNames(item.props.className, menuItemClassName);
-            return item;
-          })*/
           this.props.menu.map(({component, props, children}) => {
             props = Object.assign({}, props, {className: classNames(props.className, menuItemClassName)});
             return component.factory(props, children);
@@ -439,7 +433,7 @@ export default class Header extends RingComponent {
    */
   _getRightMenu() {
     if (this.props.rightMenu) {
-      //TODO починить
+      //TODO investigate
       return /** @type {ReactComponent} */ this.transferPropsTo(this.props.rightMenu);
     }
 

@@ -563,7 +563,7 @@ export default class List extends RingComponentWithShortcuts {
     // }
 
     if (props.data) {
-      //TODO починить (см. https://youtrack.jetbrains.com/issue/RG-772)
+      //TODO investigate (см. https://youtrack.jetbrains.com/issue/RG-772)
       //props.data = props.data.map(normalizeListItemType);
 
       this.checkActivatableItems(props.data);

@@ -5,7 +5,7 @@ import Icon from '../icon/icon';
 
 import '../error-message-ng/error-message-ng.scss';
 
-reactNg(Icon);
+reactNg({Icon});
 
 /**
  * A block for displaying error messages

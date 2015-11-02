@@ -41,9 +41,9 @@ import debounce from 'mout/function/debounce';
     require('ring-ui/components/place-under-ng/place-under-ng');
 
     window.addEventListener('scroll', function(){
-      const target = document.querySelector('.target-element');
+      var target = document.querySelector('.target-element');
 
-      const scrolledTop = (document.documentElement && document.documentElement.scrollTop) || document.body.scrollTop;
+      var scrolledTop = (document.documentElement && document.documentElement.scrollTop) || document.body.scrollTop;
       if (scrolledTop > 30) {
         target.style.position = 'fixed';
       } else {

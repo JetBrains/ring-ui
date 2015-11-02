@@ -6,7 +6,7 @@ import Icon from '../icon/icon';
 import '../breadcrumb/breadcrumb.scss';
 import '../link/link.scss';
 
-reactNg(Icon);
+reactNg({Icon});
 
 /**
    * @name Breadcrumb Ng

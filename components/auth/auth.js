@@ -44,12 +44,12 @@ function noop() {}
      </file>
 
      <file name="index.js" webpack="true">
-       const Auth = require('ring-ui/components/auth/auth');
+       var Auth = require('ring-ui/components/auth/auth');
 
-       const log = function(title) {
+       var log = function(title) {
          return function(obj) {
-           const titleElem = document.createElement('h3');
-           const jsonElem = document.createElement('div');
+           var titleElem = document.createElement('h3');
+           var jsonElem = document.createElement('div');
 
            titleElem.innerHTML = title;
            jsonElem.innerHTML = JSON.stringify(obj);
@@ -59,7 +59,7 @@ function noop() {}
          };
        };
 
-       const auth = new Auth({
+       var auth = new Auth({
          serverUri: '***REMOVED***/',
          request_credentials: 'skip',
          redirect_uri: window.location.href.split('#')[0]
