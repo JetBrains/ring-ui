@@ -11,7 +11,7 @@ import guid from 'mout/random/guid';
  * @param {AuthStorage} storage
  * @constructor
  */
-function AuthRequestBuilder(config, storage) {
+export default function AuthRequestBuilder(config, storage) {
   this.config = config;
   this.storage = storage;
 }
@@ -89,5 +89,3 @@ AuthRequestBuilder.encodeURL = function (url, params) {
 
   return res;
 };
-
-module.exports = AuthRequestBuilder;

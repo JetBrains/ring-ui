@@ -1,5 +1,3 @@
-export const TOP_ALL = -1;
-
 const defaultOptions = {
   searchMax: 20,
   searchSideThreshold: 100,
@@ -13,6 +11,8 @@ const defaultOptions = {
  * select data source.
  */
 export default class HubSource {
+  static TOP_ALL = -1;
+
   constructor(auth, relativeUrl, options) {
     this.auth = auth;
     this.relativeUrl = relativeUrl;
@@ -88,7 +88,7 @@ export default class HubSource {
   }
 
   doClientSideSearch(params) {
-    return this.makeCachedRequest(HubSource.mergeParams(params, {$top: TOP_ALL}));
+    return this.makeCachedRequest(HubSource.mergeParams(params, {$top: this.constructor.TOP_ALL}));
   }
 
   doServerSideSearch(params, query) {

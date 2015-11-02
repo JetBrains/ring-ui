@@ -73,4 +73,4 @@ AnalyticsCustomPluginUtils.getDevicePixelRatioPresentation = function () {
   return String(window.devicePixelRatio.toFixed(1));
 };
 
-module.exports = AnalyticsCustomPluginUtils;
+export default AnalyticsCustomPluginUtils;

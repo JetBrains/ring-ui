@@ -3,7 +3,8 @@ import debounce from 'mout/function/debounce';
 
 import {getStyles, getRect} from '../dom/dom';
 
-import TableSelection from './table-ng__selection';
+import Selection from './table-ng__selection';
+import SelectionNavigateActions from './table-ng__selection-navigate-actions';
 import './table-ng__toolbar';
 import '../place-under-ng/place-under-ng';
 
@@ -158,9 +159,9 @@ reactNg({Checkbox});
   </file>
 </example>
 */
-const ringTableModule = angular.module('Ring.table', ['Ring.table.toolbar', 'Ring.react-ng', 'Ring.place-under']);
+const module = angular.module('Ring.table', ['Ring.table.toolbar', 'Ring.react-ng', 'Ring.place-under']);
 
-ringTableModule.directive('rgTable', function () {
+module.directive('rgTable', function () {
   return {
     restrict: 'E',
     transclude: true,
@@ -169,7 +170,7 @@ ringTableModule.directive('rgTable', function () {
     /**
      *{{
      *   items: array, items of table
-     *   selection: {TableSelection}?, a selection object link can be provided to use it outside the table
+     *   selection: {Selection}?, a selection object link can be provided to use it outside the table
      * }}
      */
     scope: {
@@ -185,9 +186,9 @@ ringTableModule.directive('rgTable', function () {
 
       /**
        * Create Selection instance first to make sure it is always awailable
-       * @type {TableSelection}
+       * @type {Selection}
        */
-      this.selection = new TableSelection(this.items, (name, item, index) => {
+      this.selection = new Selection(this.items, (name, item, index) => {
         $scope.$emit(name, item, index);
         $scope.$broadcast(name, item, index);
       });
@@ -206,7 +207,7 @@ ringTableModule.directive('rgTable', function () {
   };
 });
 
-ringTableModule.directive('rgTableHeader', function (getClosestElementWithCommonParent) {
+module.directive('rgTableHeader', function (getClosestElementWithCommonParent) {
   const HEADER_RESIZE_DEBOUNCE = 50;
   const HEADER_SCROLL_DEBOUNCE = 10;
   const TOOLBAR_FIXED_CLASSNAME = 'ring-table__toolbar-controls_fixed';
@@ -278,7 +279,7 @@ ringTableModule.directive('rgTableHeader', function (getClosestElementWithCommon
   };
 });
 
-ringTableModule.directive('rgTableBody', function () {
+module.directive('rgTableBody', function () {
   return {
     restrict: 'E',
     template: '<tbody ng-transclude></tbody>',
@@ -287,7 +288,7 @@ ringTableModule.directive('rgTableBody', function () {
   };
 });
 
-ringTableModule.directive('rgTableRow', function () {
+module.directive('rgTableRow', function () {
   return {
     template: require('./table-ng__row.html'),
     restrict: 'E',
@@ -372,7 +373,7 @@ ringTableModule.directive('rgTableRow', function () {
   };
 });
 
-ringTableModule.directive('rgTableHeaderCheckbox', function () {
+module.directive('rgTableHeaderCheckbox', function () {
   return {
     restrict: 'E',
     require: '^rgTable',
@@ -418,7 +419,7 @@ ringTableModule.directive('rgTableHeaderCheckbox', function () {
 /**
  * A checkbox cell for table. Uses rg-table-row parent directive as model hoster
  */
-ringTableModule.directive('rgTableCheckboxCell', function () {
+module.directive('rgTableCheckboxCell', function () {
   return {
     restrict: 'E',
     transclude: true,
@@ -444,7 +445,7 @@ ringTableModule.directive('rgTableCheckboxCell', function () {
     active: makes title more bolder
   }}
  */
-ringTableModule.directive('rgTableTitle', function () {
+module.directive('rgTableTitle', function () {
   return {
     restrict: 'E',
     transclude: true,
@@ -472,7 +473,7 @@ ringTableModule.directive('rgTableTitle', function () {
     avatar: for columns contains avatar
   }}
  */
-ringTableModule.directive('rgTableColumn', function () {
+module.directive('rgTableColumn', function () {
   return {
     restrict: 'E',
     transclude: true,
@@ -508,4 +509,6 @@ ringTableModule.directive('rgTableColumn', function () {
 /**
  * Class with default hotkeys navigation actions (e.g. select, clear selection, move up/down)
  */
-ringTableModule.constant('SelectionNavigateActions', require('./table-ng__selection-navigate-actions'));
+module.constant('SelectionNavigateActions', SelectionNavigateActions);
+
+export default module.name;

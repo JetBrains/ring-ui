@@ -29,6 +29,7 @@
     "prefer-arrow-callback": 0,
     "prefer-reflect":  0,
     "prefer-template": 0,
+    "modules/no-exports-typo": 0,
     // React
     "react/no-multi-comp": 0,
     "react/prop-types": 0,

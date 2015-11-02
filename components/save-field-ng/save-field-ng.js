@@ -1,13 +1,13 @@
 /* global angular: false */
 
-require('../form/form.scss');
-require('../button/button.scss');
-require('../save-field-ng/save-field-ng.scss');
+import '../form/form.scss';
+import '../button/button.scss';
+import '../save-field-ng/save-field-ng.scss';
 
-require('../message-bundle-ng/message-bundle-ng');
-require('../form-ng/form-ng');
+import '../message-bundle-ng/message-bundle-ng';
+import '../form-ng/form-ng';
 
-angular.module('Ring.save-field', [
+const module = angular.module('Ring.save-field', [
   'Ring.message-bundle',
 
 /**
@@ -330,3 +330,5 @@ angular.module('Ring.save-field', [
       };
     }
   ]);
+
+export default module.name;

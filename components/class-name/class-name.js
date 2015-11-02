@@ -53,4 +53,4 @@ ClassName.prototype.setBaseName = function (baseName) {
   this.baseName = baseName;
 };
 
-module.exports = ClassName;
+export default ClassName;
