@@ -129,7 +129,7 @@ function reactNgDirective($parse) {
           } else if (parsedExpression && expectsCallback) {
             directiveProps[propName] = param => {
               const locals = typeof param === 'object' ? angular.copy(param) : {};
-              locals.arguments = Array.prototype.slice.call(arguments, 0);
+              locals.arguments = Array.from(arguments);
 
               return parsedExpression(scope, locals);
             };

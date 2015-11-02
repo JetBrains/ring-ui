@@ -48,7 +48,7 @@ angular.module('Ring.select.options', [])
       if (getter) {
         const locals = {};
         locals[this.optionVariableName] = option;
-        return getter.apply(this, [this.scope, locals]);
+        return this::getter(this.scope, locals);
       }
     };
 

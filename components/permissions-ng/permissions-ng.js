@@ -51,7 +51,7 @@ module.provider('userPermissions', function () {
     const permissions = new Permissions(auth.auth, _config);
     // Override load to execute in $digest
     permissions.load = function () {
-      return $q.when(Permissions.prototype.load.apply(this));
+      return $q.when(this::Permissions.prototype.load());
     };
     return permissions;
   };

@@ -21,7 +21,7 @@ describe('analytics singleton', function () {
     let gaPlugin;
 
     beforeEach(function () {
-      delete window.ga;
+      Reflect.deleteProperty(window, 'ga');
       gaPlugin = new AnalyticsGAPlugin('SOME-ID');
     });
 
@@ -62,7 +62,7 @@ describe('analytics singleton', function () {
     let gaPlugin;
 
     beforeEach(function () {
-      delete window.ga;
+      Reflect.deleteProperty(window, 'ga');
       gaPlugin = new AnalyticsGAPlugin();
     });
 
