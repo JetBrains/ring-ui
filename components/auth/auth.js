@@ -229,7 +229,7 @@ Auth.prototype.init = function () {
           }
 
           // Background flow
-          if (error.authRedirect && !shouldRedirect) {
+          if (error.authRedirect && !self.config.redirect) {
             return self._loadTokenInBackground().
               then(self.validateToken.bind(self)).
               then(function () {
