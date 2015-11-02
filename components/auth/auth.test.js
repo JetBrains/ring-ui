@@ -499,9 +499,7 @@ describe('Auth', function () {
 
     it('should resolve to access token if there is a valid one', function () {
       return this.auth._storage.saveToken({access_token: 'token', expires: Auth._epoch() + 60 * 60, scopes: ['0-0-0-0-0']}).
-        then(() => {
-          return this.auth.requestToken();
-        }).
+        then(() => this.auth.requestToken()).
         should.eventually.be.equal('token');
     });
 

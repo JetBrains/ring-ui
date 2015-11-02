@@ -95,13 +95,9 @@ ringTabsModule.directive('rgTabs', function ($location, $routeParams, $rootScope
       // Exposed methods
       $scope.control = {};
 
-      $scope.control.isLast = () => {
-        return $scope.current === $scope.panes.length - 1;
-      };
+      $scope.control.isLast = () => $scope.current === $scope.panes.length - 1;
 
-      $scope.control.isFirst = () => {
-        return $scope.current === 0;
-      };
+      $scope.control.isFirst = () => $scope.current === 0;
 
       $scope.control.select = pane => {
         doSelect(pane, $scope.disableLocationChanging);

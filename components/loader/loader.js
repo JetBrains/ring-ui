@@ -85,9 +85,7 @@ export default class Loader extends RingComponent {
   };
 
   static calculateGradient(startColor, stopColor, position) {
-    const calculateChannelValue = (a, b) => {
-      return a + Math.round((b - a) * position);
-    };
+    const calculateChannelValue = (a, b) => a + Math.round((b - a) * position);
 
     return {
       r: calculateChannelValue(startColor.r, stopColor.r),

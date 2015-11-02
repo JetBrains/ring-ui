@@ -35,13 +35,11 @@ export default class ListUsersGroupsSource extends HubSourceUsersGroups {
           description: this.getGroupsSectionTitle(groups)
         };
 
-        const groupsForList = groups.map(group => {
-          return Object.assign(group, {
-            key: group.id,
-            label: group.name,
-            description: this.listSourceOptions.getPluralForUserCount(group.userCount)
-          });
-        });
+        const groupsForList = groups.map(group => Object.assign(group, {
+          key: group.id,
+          label: group.name,
+          description: this.listSourceOptions.getPluralForUserCount(group.userCount)
+        }));
 
         const usersTitle = {
           rgItemType: List.ListProps.Type.SEPARATOR,
@@ -49,14 +47,12 @@ export default class ListUsersGroupsSource extends HubSourceUsersGroups {
           description: this.getUsersSectionTitle(users)
         };
 
-        const usersForList = users.map(user => {
-          return Object.assign(user, {
-            key: user.id,
-            label: user.name,
-            icon: user.profile.avatar.url,
-            description: user.login
-          });
-        });
+        const usersForList = users.map(user => Object.assign(user, {
+          key: user.id,
+          label: user.name,
+          icon: user.profile.avatar.url,
+          description: user.login
+        }));
 
         return [groupsTitle, ...groupsForList, usersTitle, ...usersForList];
       });

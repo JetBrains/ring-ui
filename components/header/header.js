@@ -20,7 +20,7 @@ import HeaderHelper from './header__helper';
 
 import './header.scss';
 
-const noop = () => {};
+function noop() {}
 
 /**
  * @type {ClassName}

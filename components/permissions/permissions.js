@@ -71,9 +71,7 @@ Permissions.prototype.load = function () {
     };
 
     return this._auth.getApi(API_PERMISSION_CACHE_PATH, accessToken, params).
-      then(cachedPermissions => {
-        return new PermissionCache(cachedPermissions, this.namesConverter);
-      });
+      then(cachedPermissions => new PermissionCache(cachedPermissions, this.namesConverter));
   });
 
   return this._promise;
