@@ -17,7 +17,7 @@ function safePromise(resolver) {
  * @param {{type: string}} config Set to "session" to use sessionStorage
  * @constructor
  */
-function LocalStorage(config) {
+export default function LocalStorage(config) {
   if (!(this instanceof LocalStorage)) {
     return new LocalStorage(config);
   }
@@ -118,5 +118,3 @@ LocalStorage.prototype.on = function (name, callback) {
     window.removeEventListener('storage', handleStorage, false);
   };
 };
-
-module.exports = LocalStorage;

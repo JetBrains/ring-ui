@@ -1,4 +1,4 @@
-const PermissionCache = require('./permissions__cache');
+import PermissionCache from './permissions__cache';
 
 /**
  * @example
@@ -25,7 +25,7 @@ const PermissionCache = require('./permissions__cache');
  * <code>serviceId</code> if provided then permissions only for the service are loaded.
  * @constructor
  */
-function Permissions(auth, config) {
+export default function Permissions(auth, config) {
   config = config || {};
   this.query = config.serviceId && ('service: {' + config.serviceId + '}');
   this.namesConverter = config.prefix ? Permissions.getDefaultNamesConverter(config.prefix) : config.namesConverter;
@@ -121,5 +121,3 @@ Permissions.prototype.bindVariable = function (object, propertyName, permissions
       return permitted;
     });
 };
-
-module.exports = Permissions;

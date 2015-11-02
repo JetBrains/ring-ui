@@ -2,7 +2,7 @@ import Auth from '../auth/auth';
 import pick from 'mout/object/pick';
 
 /* global angular: false */
-const authModule = angular.module('Ring.auth', []);
+const module = angular.module('Ring.auth', []);
 
 /**
  * @name Auth Ng
@@ -26,7 +26,7 @@ const authModule = angular.module('Ring.auth', []);
     </file>
   </example>
  */
-authModule.provider('auth', ['$httpProvider', function ($httpProvider) {
+module.provider('auth', ['$httpProvider', function ($httpProvider) {
   /**
    * @type Auth
    */
@@ -146,4 +146,4 @@ authModule.provider('auth', ['$httpProvider', function ($httpProvider) {
   };
 }]);
 
-module.exports = authModule;
+export default module.name;

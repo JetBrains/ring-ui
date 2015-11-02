@@ -2,10 +2,10 @@
 
 import 'core-js/modules/es7.array.includes';
 
-const AuthStorage = require('./auth__storage');
-const AuthResponseParser = require('./auth__response-parser');
-const AuthRequestBuilder = require('./auth__request-builder');
-const urlUtils = require('../url-utils/url-utils');
+import AuthStorage from './auth__storage';
+import AuthResponseParser from './auth__response-parser';
+import AuthRequestBuilder from './auth__request-builder';
+import urlUtils from '../url-utils/url-utils';
 
 function noop() {}
 
@@ -79,7 +79,7 @@ function noop() {}
      </file>
    </example>
  */
-function Auth(config) {
+export default function Auth(config) {
   if (!config) {
     throw new Error('Config is required');
   }
@@ -741,5 +741,3 @@ Auth.prototype.setHash = function (hash) {
     window.location.hash = hash;
   }
 };
-
-module.exports = Auth;

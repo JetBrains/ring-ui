@@ -3,7 +3,8 @@
  * https://github.com/angular/dgeni-packages/blob/master/examples/processors/examples-parse.js
  * */
 /* eslint-env node */
-/* eslint-disable no-var*/
+/* eslint-disable no-var */
+/* eslint-disable modules/no-cjs */
 
 var omit = require('mout/object/omit');
 

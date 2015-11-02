@@ -7,7 +7,7 @@ const DEFAULT_SPACE_NAME = 'memoryStorage';
  * @return {MemoryStorage}
  * @constructor
  */
-function MemoryStorage(config) {
+export default function MemoryStorage(config) {
   if (!(this instanceof MemoryStorage)) {
     return new MemoryStorage(config);
   }
@@ -75,5 +75,3 @@ MemoryStorage.prototype.each = function (callback) {
   }
   return Promise.all(promises);
 };
-
-module.exports = MemoryStorage;
