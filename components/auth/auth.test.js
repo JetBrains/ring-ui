@@ -509,7 +509,7 @@ describe('Auth', function () {
       return auth.requestToken().
         then(function (accessToken) {
           Auth.prototype._redirectFrame.should.have.been.calledWithMatch(sinon.match.any, 'api/rest/oauth2/auth?response_type=token&' +
-            'state=unique&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub&request_credentials=skip&client_id=1-1-1-1-1&scope=0-0-0-0-0%20youtrack');
+            'state=unique&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub&request_credentials=silent&client_id=1-1-1-1-1&scope=0-0-0-0-0%20youtrack');
           Auth.prototype._redirectCurrentPage.should.not.have.been.called;
           return accessToken;
         }).should.eventually.be.equal('token');
@@ -523,7 +523,7 @@ describe('Auth', function () {
       return auth.requestToken().
         then(function (accessToken) {
           Auth.prototype._redirectFrame.should.have.been.calledWithMatch(sinon.match.any, 'api/rest/oauth2/auth?response_type=token&' +
-            'state=unique&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub&request_credentials=skip&client_id=1-1-1-1-1&scope=0-0-0-0-0%20youtrack');
+            'state=unique&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub&request_credentials=silent&client_id=1-1-1-1-1&scope=0-0-0-0-0%20youtrack');
           Auth.prototype._redirectCurrentPage.should.have.been.calledWith(window.location.href);
           return accessToken;
         }).should.eventually.be.equal('token');
@@ -535,7 +535,7 @@ describe('Auth', function () {
       return auth.requestToken().
         otherwise(function (reject) {
           Auth.prototype._redirectFrame.should.have.been.calledWithMatch(sinon.match.any, 'api/rest/oauth2/auth?response_type=token&' +
-          'state=unique&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub&request_credentials=skip&client_id=1-1-1-1-1&scope=0-0-0-0-0%20youtrack');
+          'state=unique&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub&request_credentials=silent&client_id=1-1-1-1-1&scope=0-0-0-0-0%20youtrack');
           Auth.prototype._redirectCurrentPage.should.have.been.calledWith('api/rest/oauth2/auth?response_type=token&' +
           'state=unique&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub&request_credentials=default&client_id=1-1-1-1-1&scope=0-0-0-0-0%20youtrack');
 
