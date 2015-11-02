@@ -3,7 +3,7 @@
  * @param {string?} gaId Google analytics id (should be undefined in development)
  * @constructor
  */
-function AnalyticsGAPlugin(gaId, isDevelopment) {
+export default function AnalyticsGAPlugin(gaId, isDevelopment) {
   if (!gaId && !isDevelopment) {
     return;
   }
@@ -43,5 +43,3 @@ AnalyticsGAPlugin.prototype.trackPageView = function (path) {
     ga('send', 'pageview', path);
   }
 };
-
-module.exports = AnalyticsGAPlugin;

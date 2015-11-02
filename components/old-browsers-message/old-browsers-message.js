@@ -11,9 +11,10 @@
   var previousWindowErrorHandler;
 
   function changeSmileClickListener(event) {
-    smileChanges++;
-
     var eyes = ['O', 'o', '-', '>', '<'];
+    var target = event.target || event.srcElement;
+
+    smileChanges++;
 
     function rand(min, max) {
       return Math.round((Math.random() * (max - min))) + min;
@@ -31,7 +32,6 @@
       return '{{ (' + getRandomEye() + '_' + getRandomEye() + ') }}';
     }
 
-    var target = event.target || event.srcElement;
     target.innerHTML = getRandomSmile();
   }
 

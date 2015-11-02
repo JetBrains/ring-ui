@@ -1,29 +1,27 @@
-import deepMixIn from 'mout/object/deepMixIn';
-
 /**
  * Class with default hotkey actions (e.g. select, clear selection, move up/down)
  * @param {Selection?} tableSelection selection associated with rg-table
  * (if tableSelection is not defined, use method setSelection to configure instance)
  */
-function SelectionNavigateActions(tableSelection) {
-  this._selection = tableSelection;
-  this._addSelectionMode = null;
-}
-
-deepMixIn(SelectionNavigateActions.prototype, {
-  setSelection: function (tableSelection) {
+export default class SelectionNavigateActions {
+  constructor(tableSelection) {
     this._selection = tableSelection;
-  },
+    this._addSelectionMode = null;
+  }
 
-  moveUp: function () {
+  setSelection(tableSelection) {
+    this._selection = tableSelection;
+  }
+
+  moveUp() {
     if (!this._selection) {
       return false;
     }
     const activeItem = this._selection.activatePreviousItem();
     return !activeItem;
-  },
+  }
 
-  moveDown: function () {
+  moveDown() {
     if (this._selection) {
       const activeItem = this._selection.activateNextItem();
       if (!activeItem) {
@@ -31,30 +29,30 @@ deepMixIn(SelectionNavigateActions.prototype, {
       }
     }
     return false;
-  },
+  }
 
-  reset: function () {
+  reset() {
     this._addSelectionMode = null;
     return !!this._selection;
-  },
+  }
 
-  selectUp: function () {
+  selectUp() {
     if (!this._selection) {
       return false;
     }
     this._changeCheckedItemsArray();
     return this.moveUp();
-  },
+  }
 
-  selectDown: function () {
+  selectDown() {
     if (!this._selection) {
       return false;
     }
     this._changeCheckedItemsArray();
     return this.moveDown();
-  },
+  }
 
-  selectCurrent: function () {
+  selectCurrent() {
     if (!this._selection) {
       return false;
     }
@@ -65,9 +63,9 @@ deepMixIn(SelectionNavigateActions.prototype, {
       this._selection.toggleCheck(activeItem);
       return false;
     }
-  },
+  }
 
-  clearSelection: function () {
+  clearSelection() {
     if (!this._selection) {
       return false;
     }
@@ -85,9 +83,9 @@ deepMixIn(SelectionNavigateActions.prototype, {
       this._selection.clearActivity();
       return true;
     }
-  },
+  }
 
-  _changeCheckedItemsArray: function () {
+  _changeCheckedItemsArray() {
     if (!this._selection) {
       return false;
     }
@@ -97,6 +95,4 @@ deepMixIn(SelectionNavigateActions.prototype, {
     }
     this._selection[this._addSelectionMode](activeItem);
   }
-});
-
-module.exports = SelectionNavigateActions;
+}

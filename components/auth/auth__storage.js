@@ -23,7 +23,7 @@ const DEFAULT_STATE_TTL = 1000 * 60 * 60 * 24 * 3; // nobody will need auth stat
  * @constructor
  * @param {{stateKeyPrefix: string, tokenKey: string, onTokenRemove: Function}} config
  */
-function AuthStorage(config) {
+export default function AuthStorage(config) {
   this.stateKeyPrefix = config.stateKeyPrefix;
   this.tokenKey = config.tokenKey;
   this.stateTTL = config.stateTTL || DEFAULT_STATE_TTL;
@@ -176,5 +176,3 @@ AuthStorage.prototype.getToken = function () {
 AuthStorage.prototype.wipeToken = function () {
   return this._tokenStorage.remove(this.tokenKey);
 };
-
-module.exports = AuthStorage;

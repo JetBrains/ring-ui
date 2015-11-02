@@ -1,6 +1,6 @@
 import AnalyticsCustomPluginUtils from'./analytics__custom-plugin-utils';
 
-function AnalyticsCustomPlugin(send, isDevelopment, flushInterval, checkFlushingAllowed) {
+export default function AnalyticsCustomPlugin(send, isDevelopment, flushInterval, checkFlushingAllowed) {
   this._data = [];
 
   if (typeof checkFlushingAllowed !== 'function') {
@@ -76,5 +76,3 @@ AnalyticsCustomPlugin.prototype._trackPageViewAdditionalInfo = function (newPage
   this._lastPageViewTime = currentTime;
   this._lastPagePath = newPagePath;
 };
-
-module.exports = AnalyticsCustomPlugin;

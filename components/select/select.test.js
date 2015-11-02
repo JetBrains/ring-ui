@@ -1,10 +1,10 @@
-const Select = require('./select');
-const List = require('../list/list');
-const Popup = require('../popup/popup');
-const React = require('react');
-const TestUtils = require('react-addons-test-utils');
-const $ = require('jquery');
-const renderIntoDocument = require('render-into-document');
+import Select from './select';
+import List from '../list/list';
+import Popup from '../popup/popup';
+import React from 'react';
+import TestUtils from 'react-addons-test-utils';
+import $ from 'jquery';
+import renderIntoDocument from 'render-into-document';
 
 describe('Select', function () {
   const testData = [

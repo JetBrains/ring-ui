@@ -1,4 +1,6 @@
 import analyticsInstance from '../analytics/analytics';
+import AnalyticsGAPlugin from '../analytics/analytics__ga-plugin';
+import AnalyticsCustomPlugin from '../analytics/analytics__custom-plugin';
 
 /**
  * @ngdoc module
@@ -47,13 +49,13 @@ import analyticsInstance from '../analytics/analytics';
    </example>
 */
 /* global angular: false */
-const analyticsModule = angular.module('Ring.analytics', []);
+const module = angular.module('Ring.analytics', []);
 
 /**
  * @name analyticsProvider
  * @description configures analytics with plugins
  */
-analyticsModule.provider('analytics', function () {
+module.provider('analytics', function () {
   let configPlugins = [];
   /**
    * @param plugins
@@ -83,14 +85,13 @@ analyticsModule.provider('analytics', function () {
   };
 });
 
-analyticsModule.constant('AnalyticsGAPlugin', require('../analytics/analytics__ga-plugin'));
-
-analyticsModule.constant('AnalyticsCustomPlugin', require('../analytics/analytics__custom-plugin'));
+module.constant('AnalyticsGAPlugin', AnalyticsGAPlugin);
+module.constant('AnalyticsCustomPlugin', AnalyticsCustomPlugin);
 
 /**
  * Enable page tracking
  */
-analyticsModule.run(function ($rootScope, analytics) {
+module.run(function ($rootScope, analytics) {
   $rootScope.$on('$routeChangeSuccess', function (evt, current) {
     if (current && current.$$route && current.$$route.originalPath) {
       analytics.trackPageView(current.$$route.originalPath);
@@ -107,7 +108,7 @@ analyticsModule.run(function ($rootScope, analytics) {
  *  user action, specified via attribute `rg-analytics-on` (e.g. rg-analytics-on='mouseover' means that analytics will be sent on mouseover,
  *  rg-analytics-on='click' - on click). If there is no attribute rg-analytics-on, the default value 'click' is used.
  */
-analyticsModule.directive('rgAnalytics', [
+module.directive('rgAnalytics', [
   'analytics',
   function (analytics) {
     return {
@@ -124,4 +125,4 @@ analyticsModule.directive('rgAnalytics', [
   }
 ]);
 
-module.exports = analyticsModule;
+export default module.name;

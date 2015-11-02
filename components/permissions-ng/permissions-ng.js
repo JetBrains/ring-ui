@@ -5,7 +5,7 @@ import PermissionsCache from '../permissions/permissions__cache';
 import './permissions-ng.scss';
 
 /* global angular: false */
-const permissionsModule = angular.module('Ring.permissions', ['Ring.auth']);
+const module = angular.module('Ring.permissions', ['Ring.auth']);
 
 /**
  * @ngdoc object
@@ -27,7 +27,7 @@ const permissionsModule = angular.module('Ring.permissions', ['Ring.auth']);
  *
  * @requires auth
  */
-permissionsModule.provider('userPermissions', function () {
+module.provider('userPermissions', function () {
   /**
    * @type {{
    *   serviceId: string?,
@@ -89,7 +89,7 @@ function registerPermission(element) {
  * @element ANY
  * @requires userPermissions
  */
-permissionsModule.directive('rgPermission', [
+module.directive('rgPermission', [
   'userPermissions',
   function (userPermissions) {
     return {
@@ -143,7 +143,7 @@ permissionsModule.directive('rgPermission', [
  * @requires $animate
  * @requires userPermissions
  */
-permissionsModule.directive('rgPermissionIf', function ($animate, userPermissions) {
+module.directive('rgPermissionIf', function ($animate, userPermissions) {
   return {
     transclude: 'element',
     priority: 600,
@@ -214,7 +214,7 @@ permissionsModule.directive('rgPermissionIf', function ($animate, userPermission
  * @restrict A
  * @element ANY
  */
-permissionsModule.directive('rgSomePermissions', [
+module.directive('rgSomePermissions', [
   function () {
     return {
       scope: {
@@ -250,4 +250,4 @@ permissionsModule.directive('rgSomePermissions', [
   }
 ]);
 
-module.exports = permissionsModule;
+export default module.name;
