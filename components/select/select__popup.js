@@ -9,7 +9,7 @@ import Popup from '../popup/popup';
 import List from '../list/list';
 import Input from '../input/input';
 
-const noop = () => {};
+function noop() {}
 
 export default class SelectPopup extends RingComponentWithShortcuts {
   static defaultProps = {

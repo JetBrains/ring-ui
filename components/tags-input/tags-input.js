@@ -118,7 +118,7 @@ export default class TagsInput extends RingComponentWithShortcuts {
 
   static defaultProps = {
     dataSource: null,
-    onRemoveTags: () => {},
+    onRemoveTags: () => { /* do nothing */ },
     customTagComponent: null,
     maxPopupHeight: 500
   };

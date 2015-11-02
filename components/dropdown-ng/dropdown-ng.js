@@ -105,29 +105,27 @@ ringDropdownModule.directive('rgDropdown', function () {
           return items;
         }
 
-        return items.map(item => {
-          return {
-            label: item[$scope.labelField] || item.label || item,
-            description: item.description,
-            type: getItemType(item),
-            href: item.url ? item.url : null,
-            className: item.className || '',
-            icon: item.icon,
-            onClick: () => {
-              $scope.$apply(() => {
-                if ($scope.onItemSelect) {
-                  $scope.onItemSelect(item);
-                }
+        return items.map(item => ({
+          label: item[$scope.labelField] || item.label || item,
+          description: item.description,
+          type: getItemType(item),
+          href: item.url ? item.url : null,
+          className: item.className || '',
+          icon: item.icon,
+          onClick: () => {
+            $scope.$apply(() => {
+              if ($scope.onItemSelect) {
+                $scope.onItemSelect(item);
+              }
 
-                if (item.onSelect) {
-                  item.onSelect();
-                }
-              });
+              if (item.onSelect) {
+                item.onSelect();
+              }
+            });
 
-              popupMenuInstance.hide();
-            }
-          };
-        });
+            popupMenuInstance.hide();
+          }
+        }));
       }
 
       function setItems(items) {
@@ -171,9 +169,7 @@ ringDropdownModule.directive('rgDropdown', function () {
        * Export popupMenuInstance to check its state in tests
        * @returns {PopupMenu}
        */
-      $scope.getPopupMenuInstance = () => {
-        return popupMenuInstance;
-      };
+      $scope.getPopupMenuInstance = () => popupMenuInstance;
     }
   };
 });

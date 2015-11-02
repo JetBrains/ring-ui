@@ -106,18 +106,12 @@ AuthStorage.prototype.cleanStates = function (removeStateId) {
       };
     }
   }).then(removalResult => {
-    const currentStates = removalResult.filter(state => {
-      return state;
-    });
+    const currentStates = removalResult.filter(state => state);
 
-    let stateStorageSize = currentStates.reduce((overallSize, state) => {
-      return state.size + overallSize;
-    }, 0);
+    let stateStorageSize = currentStates.reduce((overallSize, state) => state.size + overallSize, 0);
 
     if (stateStorageSize > this.stateQuota) {
-      currentStates.sort((a, b) => {
-        return a.created > b.created;
-      });
+      currentStates.sort((a, b) => a.created > b.created);
 
       const removalPromises = currentStates.filter(state => {
         if (stateStorageSize > this.stateQuota) {
@@ -143,15 +137,10 @@ AuthStorage.prototype.cleanStates = function (removeStateId) {
  */
 AuthStorage.prototype.getState = function (id) {
   return this._stateStorage.get(this.stateKeyPrefix + id)
-    .then(result => {
-      return this.cleanStates(id).then(() => {
-        return result;
-      });
-    }, e => {
-      return this.cleanStates(id).then(() => {
-        return Promise.reject(e);
-      });
-    });
+    .then(
+      result => this.cleanStates(id).then(() => result),
+      e => this.cleanStates(id).then(() => Promise.reject(e))
+    );
 };
 
 /**
