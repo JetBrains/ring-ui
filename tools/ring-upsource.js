@@ -1,3 +1,5 @@
+/* eslint-disable modules/no-cjs */
+
 // Ring 2.0 bundle for Upsource
 
 // CSS-only components. Upsource has its own JS implementations of those.

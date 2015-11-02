@@ -11,7 +11,7 @@
  * @return {object} permission cache
  * @private
  */
-function PermissionCache(permissions, namesConverter) {
+export default function PermissionCache(permissions, namesConverter) {
   const permissionCache = {};
 
   permissions.forEach(function (permission) {
@@ -248,5 +248,3 @@ PermissionCache.prototype.testPermission = function (permissionName, spaceId) {
     return true;
   }
 };
-
-module.exports = PermissionCache;

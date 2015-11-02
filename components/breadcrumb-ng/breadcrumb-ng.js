@@ -1,11 +1,12 @@
 /* global angular: false */
 
-require('../breadcrumb/breadcrumb.scss');
-require('../link/link.scss');
+import reactNg from '../react-ng/react-ng';
+import Icon from '../icon/icon';
 
-require('../react-ng/react-ng')({
-  Icon: require('../icon/icon')
-});
+import '../breadcrumb/breadcrumb.scss';
+import '../link/link.scss';
+
+reactNg(Icon);
 
 /**
    * @name Breadcrumb Ng
@@ -39,17 +40,20 @@ require('../react-ng/react-ng')({
    </example>
  */
 
-angular.module('Ring.breadcrumb', ['Ring.react-ng']).
-  directive('rgBreadcrumb', function () {
-    return {
-      template: require('./breadcrumb-ng.html'),
-      replace: true,
-      transclude: true,
-      restrict: 'E',
-      scope: {
-        label: '@',
-        link: '@',
-        onClick: '&'
-      }
-    };
-  });
+const module = angular.module('Ring.breadcrumb', ['Ring.react-ng']);
+
+module.directive('rgBreadcrumb', function () {
+  return {
+    template: require('./breadcrumb-ng.html'),
+    replace: true,
+    transclude: true,
+    restrict: 'E',
+    scope: {
+      label: '@',
+      link: '@',
+      onClick: '&'
+    }
+  };
+});
+
+export default module.name;

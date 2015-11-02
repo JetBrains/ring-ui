@@ -17,4 +17,4 @@ try {
   Storage = FallbackStorage;
 }
 
-module.exports = Storage;
+export default Storage;

@@ -1,4 +1,5 @@
-/* eslint-disable no-var*/
+/* eslint-disable no-var */
+/* eslint-disable modules/no-cjs */
 
 var keyEvent = require('imports?window=>{}!exports?window.KeyEvent!mousetrap/tests/libs/key-event');
 

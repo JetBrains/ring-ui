@@ -14,7 +14,7 @@
  *
  * @constructor
  */
-function AuthResponseParser() {
+export default function AuthResponseParser() {
   this._authResponse = this.readAuthResponseFromURL();
 }
 
@@ -122,5 +122,3 @@ AuthResponseParser.AuthError = function AuthError(authResponse) {
 AuthResponseParser.AuthError.prototype = Object.create(Error.prototype);
 AuthResponseParser.AuthError.prototype.name = 'AuthError';
 AuthResponseParser.AuthError.prototype.constructor = AuthResponseParser.AuthError;
-
-module.exports = AuthResponseParser;

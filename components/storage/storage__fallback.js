@@ -14,7 +14,7 @@ const COOKIE_EXPIRES = 365;
  * @return {FallbackStorage}
  * @constructor
  */
-function FallbackStorage(config) {
+export default function FallbackStorage(config) {
   if (!(this instanceof FallbackStorage)) {
     return new FallbackStorage(config);
   }
@@ -187,5 +187,3 @@ FallbackStorage.prototype.on = function (key, calback) {
     stop = true;
   };
 };
-
-module.exports = FallbackStorage;
