@@ -19,7 +19,7 @@ var urlUtils = require('url-utils/url-utils');
  * @prop {string} config.serverUri
  * @prop {string} config.redirect_uri
  * @prop {string} config.client_id
- * @prop {boolean=true} config.redirect — use redirects instead of loading token in the background. TODO set to false after Hub 1.0 is released.
+ * @prop {boolean=false} config.redirect — use redirects instead of loading token in the background.
  * @prop {string[]} config.scope
  * @prop {string[]} config.optionalScopes
  * @prop {boolean} config.cleanHash - whether or not location.hash will be cleaned after authorization completes.
@@ -130,7 +130,7 @@ var Auth = function (config) {
 Auth.DEFAULT_CONFIG = {
   client_id: '0-0-0-0-0',
   redirect_uri: urlUtils.getAbsoluteBaseURL(),
-  redirect: true,
+  redirect: false,
   request_credentials: 'default',
   scope: [],
   userFields: ['guest', 'id', 'name', 'profile/avatar/url'],
@@ -223,11 +223,8 @@ Auth.prototype.init = function () {
           self._initDeferred.resolve(state && state.restoreLocation);
           return state && state.restoreLocation;
         }, function (error) {
-          // TODO Remove after "redirect: false" is default, i.e. after Hub 1.0 everywhere
-          var shouldRedirect = self.config.redirect && self.config.redirect !== 'background-unsafe';
-
           // Redirect flow
-          if (error.authRedirect && shouldRedirect) {
+          if (error.authRedirect && self.config.redirect) {
             return sendRedirect(error);
           }
 
@@ -324,7 +321,7 @@ Auth.prototype.getSecure = function (absoluteUrl, accessToken, params) {
       if (response && response.status >= 200 && response.status < 300) {
         return response.json();
       } else {
-        // Strange case case found it the wild
+        // Strange case found in the wild
         // @see https://youtrack.jetbrains.com/issue/JT-31942
         response = response || {
           status: 0,
@@ -684,10 +681,7 @@ Auth.prototype._loadTokenInBackground = function () {
 
   var iframe = this._createHiddenFrame();
 
-  // TODO Remove after "redirect: false" is default, i.e. after Hub 1.0 everywhere
-  var backgroundMode = this.config.redirect ? 'skip' : 'silent';
-
-  return this._requestBuilder.prepareAuthRequest({request_credentials: backgroundMode}, {nonRedirect: true}).
+  return this._requestBuilder.prepareAuthRequest({request_credentials: 'silent'}, {nonRedirect: true}).
     then(function (authRequest) {
       var cleanRunned;
 
