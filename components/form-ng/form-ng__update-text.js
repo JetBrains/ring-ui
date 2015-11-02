@@ -110,18 +110,15 @@ angular.module('Ring.form')
                 });
 
                 input.$parsers.push(function (value) {
-                  let array = value && value.split(multiLineSplitPattern) || [];
+                  const array = value && value.split(multiLineSplitPattern) || [];
 
-                  function notEmpty(val) {
-                    return val && val.trim();
+                  if (!iAttrs.parseElement) {
+                    return array;
                   }
 
-                  if (iAttrs.parseElement) {
-                    array = array.filter(notEmpty).map(element => {
-                      return scope.parseElement({element: element.trim()});
-                    });
-                  }
-                  return array;
+                  return array
+                    .filter(val => val && val.trim())
+                    .map(val => scope.parseElement({element: val.trim()}));
                 });
 
                 stopWatch();

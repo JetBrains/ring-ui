@@ -82,10 +82,8 @@ function rgPromisedClick($parse) {
     link: function (scope, iElement, iAttrs, controller) {
       if (iAttrs.rgPromisedClick) {
         const onClick = $parse(iAttrs.rgPromisedClick);
-
-        iElement[0].addEventListener('click', controller.onPromisedClick.bind(controller, $event => {
-          return onClick(scope, {$event: $event});
-        }));
+        const onPromisedClick = controller.onPromisedClick.bind(controller, $event => onClick(scope, {$event}));
+        iElement[0].addEventListener('click', onPromisedClick);
       }
     }
   };

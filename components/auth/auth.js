@@ -266,10 +266,10 @@ Auth.prototype.validateToken = function () {
  * @return {Promise.<string>}
  */
 Auth.prototype.requestToken = function () {
-  return this._initDeferred.promise.then(() => {
-    return this._getValidatedToken([Auth._validateExistence, Auth._validateExpiration, this._validateScopes.bind(this)])
-      .catch(() => this.forceTokenUpdate());
-  });
+  return this._initDeferred.promise.then(() =>
+    this._getValidatedToken([Auth._validateExistence, Auth._validateExpiration, ::this._validateScopes])
+      .catch(() => this.forceTokenUpdate())
+  );
 };
 
 /**
@@ -278,24 +278,21 @@ Auth.prototype.requestToken = function () {
  */
 Auth.prototype.forceTokenUpdate = function () {
   return this._loadTokenInBackground()
-    .then(accessToken => {
-      return this.getApi(Auth.API_PROFILE_PATH, accessToken, this.config.userParams)
-        .then(user => {
-          if (user && this.user && this.user.id !== user.id) {
-            // Reload page if user has been changed after background refresh
-            this._redirectCurrentPage(window.location.href);
-          }
-
-          return accessToken;
-        });
-    })
-    .catch(e => {
-      return this._requestBuilder.prepareAuthRequest()
-        .then(authRequest => {
-          this._redirectCurrentPage(authRequest.url);
-          return Auth._authRequiredReject(e.message);
-        });
-    });
+    .then(accessToken => this.getApi(Auth.API_PROFILE_PATH, accessToken, this.config.userParams)
+      .then(user => {
+        if (user && this.user && this.user.id !== user.id) {
+          // Reload page if user has been changed after background refresh
+          this._redirectCurrentPage(window.location.href);
+        }
+        return accessToken;
+      })
+    )
+    .catch(e => this._requestBuilder.prepareAuthRequest()
+      .then(authRequest => {
+        this._redirectCurrentPage(authRequest.url);
+        return Auth._authRequiredReject(e.message);
+      })
+    );
 };
 
 /**
@@ -374,14 +371,11 @@ Auth.prototype.requestUser = function () {
 /**
  * Wipe accessToken and redirect to auth page with required authorization
  */
-Auth.prototype.logout = function (requestParams) {
+Auth.prototype.logout = function (extraParams) {
+  const requestParams = Object.assign({request_credentials: 'required'}, extraParams);
   return this._storage.wipeToken().
-    then(() => {
-      return this._requestBuilder.prepareAuthRequest(Object.assign({request_credentials: 'required'}, requestParams));
-    }).
-    then(authRequest => {
-      this._redirectCurrentPage(authRequest.url);
-    });
+    then(() => this._requestBuilder.prepareAuthRequest(requestParams)).
+    then(authRequest => this._redirectCurrentPage(authRequest.url));
 };
 
 /**
@@ -453,15 +447,11 @@ Auth.prototype._checkForAuthResponse = function () {
           } else {
             expiresIn = config.default_expires_in;
           }
-          const expries = Auth._epoch() + expiresIn;
 
-          return this._storage.saveToken({
-            access_token: authResponse.access_token,
-            scopes: scopes,
-            expires: expries
-          }).then(() => {
-            return state;
-          });
+          const expires = Auth._epoch() + expiresIn;
+          const access_token = authResponse.access_token;
+
+          return this._storage.saveToken({access_token, scopes, expires}).then(() => state);
         });
     });
 };
@@ -578,20 +568,20 @@ Auth.prototype._validateAgainstUser = function (storedToken) {
     .then(user => {
       this.user = user;
       return storedToken;
-    }, errorResponse => {
-      return errorResponse.response.json()
-        // Skip JSON parsing errors
-        .catch(() => ({}))
-        .then(response => {
-          if (errorResponse.status === 401 || Auth.shouldRefreshToken(response.error)) {
-            // Token expired
-            return Auth._authRequiredReject(response.error || errorResponse.message);
-          }
+    })
+    .catch(errorResponse => errorResponse.response.json()
+      // Skip JSON parsing errors
+      .catch(() => ({}))
+      .then(response => {
+        if (errorResponse.status === 401 || Auth.shouldRefreshToken(response.error)) {
+          // Token expired
+          return Auth._authRequiredReject(response.error || errorResponse.message);
+        }
 
-          // Request unexpectedly failed
-          return Promise.reject(errorResponse);
-        });
-    });
+        // Request unexpectedly failed
+        return Promise.reject(errorResponse);
+      })
+    );
 };
 
 /**

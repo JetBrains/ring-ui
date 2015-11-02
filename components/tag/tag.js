@@ -11,7 +11,7 @@ export default class Tag extends RingComponent {
   };
 
   static defaultProps = {
-    onRemove: () => {}
+    onRemove: () => { /* do nothing */ }
   };
 
   render() {
