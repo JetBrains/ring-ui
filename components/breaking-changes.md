@@ -6,6 +6,12 @@ order: 2
 
 See the “breaking change” commits [in Upsource](https://upsource.jetbrains.com/ring-ui/view?query=path:%20%7B%2A%2Fbreaking-changes.md%7D%20and%20not%20%22Wording%22).  
 
+### 02-11-2015: Auth: Hub 1.0 defaults applied
+
+* `redirect` param in Auth is now `false` by default
+* `redirect` param in Auth hasn't `background-unsafe` value anymore, so it should be removed from project's Auth configs 
+* Background token refresh always uses `request_credentials` mode `silent`
+
 ### 30-10-2015: webpack.config.js does not provide loaders for applications' code anymore, you will need to set up all the necessary loaders in your project configuration.
 
 ### 30-10-2015: Icons are now loaded using [svg-sprite-loader](https://github.com/kisenka/svg-sprite-loader). They were also moved to a separate package (RG-550, RG-834)                        

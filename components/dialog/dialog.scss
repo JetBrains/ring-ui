@@ -230,3 +230,9 @@
     padding-right: 2.5*$ring-unit;
   }
 }
+
+// modifier for BODY
+.ring-dialog-modal {
+  height: 100%;
+  overflow: hidden;
+}
