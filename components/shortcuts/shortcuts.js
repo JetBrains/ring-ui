@@ -6,6 +6,7 @@ class Shortcuts {
   ROOT_SCOPE = 'ROOT';
 
   _scopes = {};
+  trigger = mousetrap.trigger;
 
   constructor() {
     this.setFilter();
