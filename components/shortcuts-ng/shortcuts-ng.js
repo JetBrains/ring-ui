@@ -38,9 +38,7 @@ ringShortcutsModule.provider('shortcuts', function () {
         }
 
         mode.forEach(key => {
-          const handler = handlers[key.action];
-
-          if (!angular.isFunction(handler)) {
+          if (!angular.isFunction(handlers[key.action])) {
             return;
           }
 
@@ -48,7 +46,8 @@ ringShortcutsModule.provider('shortcuts', function () {
             key: key.key,
             scope: scope || name,
             handler: (...args) => {
-              const ret = handler(...args);
+              // TODO Dirty hack ;(
+              const ret = handlers[key.action](...args);
               /*eslint-disable angular/ng_no_private_call*/
               if (!$rootScope.$$phase) {
                 $rootScope.$apply();
