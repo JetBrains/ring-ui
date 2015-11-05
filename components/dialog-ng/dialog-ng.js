@@ -6,6 +6,7 @@ import shortcuts from '../shortcuts/shortcuts';
 import '../dialog/dialog.scss';
 
 const module = angular.module('Ring.dialog', []);
+const BODY_MODAL_CLASS = 'ring-dialog-modal';
 
 function rgDialog($timeout) {
   return {
@@ -197,6 +198,10 @@ class Dialog {
       }
     }
 
+    if (!dialogScope.inSidebar) {
+      angular.element(document.body).addClass(BODY_MODAL_CLASS);
+    }
+
     if (dialogScope.active) {
       this.reset();
     }
@@ -221,9 +226,13 @@ class Dialog {
     shortcuts.setScope(this.DIALOG_NAMESPACE);
 
     dialogScope.active = true;
-    dialogScope.promise = this.$q.defer();
+    dialogScope.defer = this.$q.defer();
 
-    return dialogScope.promise.promise;
+    return dialogScope.defer.promise;
+  }
+
+  update(config) {
+    angular.extend(this.dialogScope, config);
   }
 
   hide() {
@@ -234,6 +243,10 @@ class Dialog {
         return this.fallbackDialog.hide();
       }
     } else {
+      if (!dialogScope.inSidebar) {
+        angular.element(document.body).removeClass(BODY_MODAL_CLASS);
+      }
+
       dialogScope.active = false;
       dialogScope.content = '';
 
@@ -246,13 +259,13 @@ class Dialog {
   }
 
   done() {
-    this.dialogScope.promise.resolve();
+    this.dialogScope.defer.resolve();
     this.hide();
   }
 
   reset() {
-    if (this.dialogScope.promise) {
-      this.dialogScope.promise.reject();
+    if (this.dialogScope.defer) {
+      this.dialogScope.defer.reject();
     }
     this.hide();
   }
