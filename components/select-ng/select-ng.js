@@ -283,9 +283,9 @@ import '../message-bundle-ng/message-bundle-ng';
     </example>
  */
 /* global angular: false */
-const ringSelectModule = angular.module('Ring.select', ['Ring.select.options', 'Ring.message-bundle']);
+const module = angular.module('Ring.select', ['Ring.select.options', 'Ring.message-bundle']);
 
-ringSelectModule.directive('rgSelect', function () {
+module.directive('rgSelect', function () {
   const types = {
     input: Select.Type.INPUT,
     button: Select.Type.BUTTON,
@@ -621,3 +621,5 @@ ringSelectModule.directive('rgSelect', function () {
     }
   };
 });
+
+export default module.name;
