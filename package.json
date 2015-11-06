@@ -35,7 +35,7 @@
     "prerelease-ci-backup": "npm run build-ci && npm version $npm_package_config_version && npm pack -ddd && (tar -tzvf ring-ui-*.tgz | grep webpack.config.js || node tools/message-build-fail)",
     "pack": "tools/pack.sh",
     "prerelease-ci": "npm run build-ci && npm run pack",
-    "release-ci": "npm publish ring-ui-*.tgz"
+    "release-ci": "npm publish -ddd ring-ui-*.tgz"
   },
   "repository": {
     "type": "git",
