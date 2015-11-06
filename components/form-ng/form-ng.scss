@@ -12,6 +12,14 @@
     width: $ring-unit*85 !important;
   }
 
+  .ring-form__update-text-field_middle {
+    width: $ring-unit*50 !important;
+  }
+
+  .ring-form__update-text-field_nowrap {
+    white-space: nowrap;
+  }
+
   .ring-form__update-text-field_high {
     min-height: $ring-unit*6;
     resize: none;
