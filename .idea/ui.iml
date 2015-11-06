@@ -10,9 +10,12 @@
     <orderEntry type="library" scope="PROVIDED" name="sass-stdlib" level="application" />
     <orderEntry type="library" name="Node.js Dependencies for ui" level="project" />
     <orderEntry type="library" name="jQuery-2.0.0" level="application" />
-    <orderEntry type="library" name="Chai" level="project" />
     <orderEntry type="library" name="Node.js v0.10.28 Core Modules" level="application" />
     <orderEntry type="library" name="Node.js v0.10.36 Core Modules" level="application" />
     <orderEntry type="library" name="Node.js v0.12.5 Core Modules" level="application" />
+    <orderEntry type="library" name="mocha-DefinitelyTyped" level="application" />
+    <orderEntry type="library" name="chai-DefinitelyTyped" level="application" />
+    <orderEntry type="library" name="angularjs-DefinitelyTyped" level="application" />
+    <orderEntry type="library" name="react-DefinitelyTyped" level="application" />
   </component>
 </module>
