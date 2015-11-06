@@ -13,15 +13,19 @@
              ng-attr-type="{{ type }}"
              ng-required="!isMultiLine() && ngRequired"
              ng-keydown="inputKey($event)"/>
-            <textarea name="input" ng-attr-id="{{ inputId }}" ng-if="isMultiLine()" msd-elastic="\n"
-                      class="ring-input ring-form__update-text-field ring-form__update-text-field_high"
-                      ng-class="isLong() && 'ring-form__update-text-field_long'"
-                      ng-model="item[field]"
-                      ng-disabled="ngDisabled"
-                      ng-pattern="ngPattern"
-                      ng-required="isMultiLine() && ngRequired"
-                      ng-attr-placeholder="{{ placeholder }}"
-                      ng-keydown="inputKey($event)"></textarea>
+      <textarea name="input" ng-attr-id="{{ inputId }}" ng-if="isMultiLine()" msd-elastic="\n"
+                class="ring-input ring-form__update-text-field ring-form__update-text-field_high"
+                ng-class="{
+                  'ring-form__update-text-field_long': isLong(),
+                  'ring-form__update-text-field_middle': isMiddle(),
+                  'ring-form__update-text-field_nowrap': isNowrap()
+                }"
+                ng-model="item[field]"
+                ng-disabled="ngDisabled"
+                ng-pattern="ngPattern"
+                ng-required="isMultiLine() && ngRequired"
+                ng-attr-placeholder="{{ placeholder }}"
+                ng-keydown="inputKey($event)"></textarea>
       <button ng-show="form.input.$dirty && form.input.$valid"
               class="ring-btn ring-btn_blue ring-form__update-text-button"
               ng-click="changed($event)">

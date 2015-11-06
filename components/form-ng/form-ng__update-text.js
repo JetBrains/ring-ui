@@ -70,6 +70,8 @@ angular.module('Ring.form')
           parseElement: '&',
           formatElement: '&',
           isLong: '&long',
+          isMiddle: '&middle',
+          isNowrap: '&nowrap',
           ngDisabled: '=',
           ngRequired: '=',
           ngPattern: '@',
