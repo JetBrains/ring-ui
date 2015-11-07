@@ -18,7 +18,7 @@ angular.module('Ring.title', []).
 
         // Set page title on route change
         $rootScope.$on('$routeChangeSuccess', function (event, current) {
-          let title = current.$$route && current.$$route.title;
+          let title = current.$$route && current.$$route.title; // eslint-disable-line angular/no-private-call
 
           pageTitle.setCurrent($scope.rgPageTitle || elementText);
 

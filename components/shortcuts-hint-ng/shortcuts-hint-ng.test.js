@@ -1,3 +1,5 @@
+/* eslint-disable angular/no-angular-mock */
+
 import ShortcutsNgHint from './shortcuts-hint-ng';
 import Sniffr from 'sniffr';
 

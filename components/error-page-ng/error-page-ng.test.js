@@ -1,3 +1,5 @@
+/* eslint-disable angular/deferred */
+
 import 'angular';
 import 'angular-mocks';
 import 'angular-route';
@@ -54,7 +56,7 @@ describe('ErrorPageNg', function () {
   );
 
   it('should not show error message for resolved promise',
-    inject(function ($rootScope, $compile, RingMessageBundle, $q) {
+    inject(function ($rootScope, $compile, $q) {
       $rootScope.errorSource = $q.defer();
 
       let elem = window.angular.element('<div rg-error-page="errorSource"><div class="content">Hello!</div></div>');
@@ -114,7 +116,7 @@ describe('ErrorPageNg', function () {
   it('should show 403 page on no routing permissions',
     inject(function ($rootScope, $compile, RingMessageBundle, $q, $route) {
       $route.current = {
-        $$route: {
+        $$route: { // eslint-disable-line angular/no-private-call
           permission: 'hub.low-level'
         }
       };
@@ -136,7 +138,7 @@ describe('ErrorPageNg', function () {
   it('should show 403 page on no routing permissions if argument\'s promise is also rejected',
     inject(function ($rootScope, $compile, RingMessageBundle, $q, $route) {
       $route.current = {
-        $$route: {
+        $$route: { // eslint-disable-line angular/no-private-call
           permission: 'hub.low-level'
         }
       };

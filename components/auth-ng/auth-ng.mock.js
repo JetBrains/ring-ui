@@ -5,23 +5,22 @@
  */
 export default function AuthProviderMock() {
   this.$get = function ($q) {
-    const defer = $q.defer();
-    defer.resolve([]);
+    const promise = $q.resolve([]);
 
     return {
       auth: {
         requestToken: function () {
-          return defer.promise;
+          return promise;
         },
         /** @deprecated */
         getSecure: function () {
-          return defer.promise;
+          return promise;
         },
         getApi: function () {
-          return defer.promise;
+          return promise;
         }
       },
-      promise: defer.promise
+      promise: promise
     };
   };
 }

@@ -92,11 +92,13 @@ module.constant('AnalyticsCustomPlugin', AnalyticsCustomPlugin);
  * Enable page tracking
  */
 module.run(function ($rootScope, analytics) {
+  /* eslint-disable angular/no-private-call */
   $rootScope.$on('$routeChangeSuccess', function (evt, current) {
     if (current && current.$$route && current.$$route.originalPath) {
       analytics.trackPageView(current.$$route.originalPath);
     }
   });
+  /* eslint-enable angular/no-private-call */
 });
 
 /**

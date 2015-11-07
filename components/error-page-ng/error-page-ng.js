@@ -169,47 +169,58 @@ angular.module('Ring.error-page', [
     '$q',
     '$compile',
     function (errorPageConfiguration, $route, userPermissions, $rootScope, $log, getErrorPagePresentation, $q, $compile) {
-
       function getArgumentPromise(errorSource, errorPageParameterPresentation) {
-        const df = $q.defer();
         const promise = errorSource && (errorSource.$promise || errorSource.promise);
+
         if (promise) {
-          promise.catch(function (errorResponse) {
+          let resolve;
+          let reject;
+
+          promise.catch(errorResponse => {
             $log.debug('Navigation: errorSource ' + errorPageParameterPresentation + ' not permitted, status: ' + status);
-            df.reject({
+
+            reject({
               status: errorResponse && errorResponse.status,
               message: errorPageConfiguration.responseToMessageConverter(errorResponse)
             });
+
             return errorResponse;
           });
-          promise.then(function (data) {
-            df.resolve();
+
+          promise.then(data => {
+            resolve();
             return data;
           });
+
+          return $q((...args) => [resolve, reject] = args);
         } else {
-          df.resolve();
+          return $q.resolve();
         }
-        return df.promise;
       }
 
       function getRoutingPermissionPromise() {
-        const df = $q.defer();
+        /* eslint-disable angular/no-private-call */
         if ($route.current && $route.current.$$route && $route.current.$$route.permission) {
           const pagePermission = $route.current.$$route.permission;
+          /* eslint-enable angular/no-private-call */
+
+          let resolve;
+          let reject;
+
           userPermissions.load().then(function (permissionCache) {
             if (!permissionCache.has(pagePermission)) {
               $log.debug('Navigation: no page' + pagePermission + ' permission, status 403');
-              df.reject({status: 403});
+              reject({status: 403});
             } else {
-              df.resolve();
+              resolve();
             }
           });
-        } else {
-          df.resolve();
-        }
-        return df.promise;
-      }
 
+          return $q((...args) => [resolve, reject] = args);
+        } else {
+          return $q.resolve();
+        }
+      }
 
       return {
         replace: true,
