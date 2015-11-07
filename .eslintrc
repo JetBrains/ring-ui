@@ -6,7 +6,7 @@
     "jetbrains/es6",
     "jetbrains/node",
     "jetbrains/react",
-    "jetbrains/nullified-angular",
+    "jetbrains/angular",
     "jetbrains/test"
   ],
   "rules": {
@@ -38,6 +38,7 @@
     //
 
     // Angular
-    "angular/directive-name": [2, "rg"]
+    "angular/directive-name": [2, "rg"],
+    "angular/on-watch": 0
   }
 }
