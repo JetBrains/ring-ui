@@ -121,7 +121,7 @@ module.provider('auth', ['$httpProvider', function ($httpProvider) {
           // We have to turn url with hash to simple relative url in HashbangInHtml5 mode
           // And there is no other and documented way to detect that mode
           // @see http://stackoverflow.com/a/16678065
-          if ($location.$$html5 && !$sniffer.history) {
+          if ($location.$$html5 && !$sniffer.history) { // eslint-disable-line angular/no-private-call
             relativeURI = relativeURI.replace(/^#\//, '');
           }
 

@@ -1,4 +1,6 @@
 /* global inject, angular */
+/* eslint-disable angular/no-angular-mock */
+
 import 'angular';
 import 'angular-mocks';
 import $ from 'jquery';

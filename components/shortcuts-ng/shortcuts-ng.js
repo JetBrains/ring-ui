@@ -48,11 +48,9 @@ ringShortcutsModule.provider('shortcuts', function () {
             handler: (...args) => {
               // TODO Dirty hack ;(
               const ret = handlers[key.action](...args);
-              /*eslint-disable angular/ng_no_private_call*/
-              if (!$rootScope.$$phase) {
+              if (!$rootScope.$$phase) { // eslint-disable-line angular/no-private-call
                 $rootScope.$apply();
               }
-              /*eslint-enable angular/ng_no_private_call */
               return ret;
             }
           });

@@ -68,9 +68,7 @@ function rgPromisedClick($parse) {
           if (promise) {
             // Do not use $evalAsync here. This code should be invoked in the same animation frame
             // otherwise a button may be "pressed" twice – by click and with class change.
-            /* eslint-disable angular/ng_no_private_call */
-            if (!$scope.$root.$$phase) {
-            /* eslint-enable angular/ng_no_private_call */
+            if (!$scope.$root.$$phase) { // eslint-disable-line angular/no-private-call
               $scope.$apply(doIt);
             } else {
               doIt();
