@@ -294,7 +294,6 @@ module.directive('rgSelect', function () {
   };
 
   return {
-    restrict: 'EA',
     /**
      * @property {Object} scope
      * @property {Object} scope.ngModel

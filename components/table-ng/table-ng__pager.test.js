@@ -1,5 +1,6 @@
 /*global inject*/
 /*global angular*/
+/* eslint-disable angular/no-angular-mock */
 
 import 'angular';
 import 'angular-mocks';

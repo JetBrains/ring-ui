@@ -70,7 +70,7 @@ describe('DropdownNg', function () {
   });
 
   it('should defer popup render until items is loaded', inject(function ($q) {
-    scope.items = $q.defer();
+    scope.items = $q.defer(); // eslint-disable-line angular/deferred
     scope.$digest();
     expect(directiveScope.getPopupMenuInstance()).not.to.be.defined;
 
