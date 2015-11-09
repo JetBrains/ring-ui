@@ -46,9 +46,9 @@
   },
   "readmeFilename": "README.md",
   "devDependencies": {
-    "angular": "1.4.5",
-    "angular-mocks": "1.4.5",
-    "angular-route": "1.4.5",
+    "angular": "1.4.7",
+    "angular-mocks": "1.4.7",
+    "angular-route": "1.4.7",
     "anybar-webpack": "1.0.8",
     "babel": "5.8.21",
     "babel-eslint": "4.1.1",
