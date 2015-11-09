@@ -122,7 +122,7 @@
       }
    </file>
    <file name="index.js" webpack="true">
-      require('palette/palette.scss');
+      require('ring-ui/components/palette/palette.scss');
       require('./index.scss');
    </file>
  </example>
