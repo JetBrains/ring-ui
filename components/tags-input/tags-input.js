@@ -37,7 +37,7 @@ import './tags-input.scss';
    </file>
  </example>
 
- <example name="Simple tags input via react-ng">
+  <example name="Async datasource via react-ng">
   <file name="index.html">
     <div ng-app="test-tags-app" ng-controller="testCtrl">
       <a href class="ring-link" ng-click="addTag()">Add a tag</a>
@@ -52,17 +52,19 @@ import './tags-input.scss';
     });
 
     angular.module('test-tags-app', ['Ring.react-ng'])
-      .controller('testCtrl', function($q, $scope) {
-        $scope.tagsArray = [
-          {key: 'test1', label: 'test1'},
-          {key: 'test2', label: 'test2'}
-        ];
+      .controller('testCtrl', function($scope, $timeout) {
+        $scope.tagsArray = [{key: 'test1', label: 'test1'}];
 
         $scope.suggestionsSource = function() {
-          return $q.when([
-            {key: 'test3', label: 'test3'},
-            {key: 'test4', label: 'test4'}
-          ]);
+          return $timeout(function() {
+              return [
+              {key: 'test3', label: 'test3'},
+              {key: 'test4', label: 'test4'},
+              {key: 'test5', label: 'test5'},
+              {key: 'test6', label: 'test6'},
+              {key: 'test7', label: 'test7'}
+            ];
+          }, 400);
         };
 
         $scope.addTag = function() {
