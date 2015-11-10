@@ -90,7 +90,13 @@ with testing infrastructure, webpack build configuration, ES6 support, ESLint an
 
 ## Is Lodash or Underscore available?
 
-Ring UI uses [Moutjs](http://moutjs.com/docs/latest/) as the utility library. 
+Instead of libraries Ring UI uses new features of *ES2015* and beyond provided by [Babel.js](https://babeljs.io) and [core-js](https://github.com/zloirock/core-js/).
+Polyfills `Array.prototype.find` that patch native objects should be imported manually (example: `import 'core-js/modules/es6.array.find';`).
+
+## Is jQuery available?
+
+Instead of jQuery Ring UI uses modern DOM APIs, [DOM 4 polyfill](https://github.com/WebReflection/dom4) (should be imported via `import 'dom4;'`) 
+and some handy helpers located in `dom` component.
 
 
 ## Wallaby support
