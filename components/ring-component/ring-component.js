@@ -27,6 +27,8 @@ export default class RingComponent extends Component {
 
   node = null;
 
+  _propsCache = null;
+
   constructor(...props) {
     super(...props);
 
@@ -50,8 +52,9 @@ export default class RingComponent extends Component {
       }
     }
 
-    const newProps = Object.assign({}, this.props, props);
-    return render(createElement(this.constructor, newProps), container, callback);
+    this._propsCache = Object.assign({}, this.props, this._propsCache, props);
+
+    return render(createElement(this.constructor, this._propsCache), container, callback);
   }
 
   // React Lifecycle Methods
