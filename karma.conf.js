@@ -70,6 +70,7 @@ function generateConfig(karma) {
     coverageReporter: {
       reporters: [
         {type: 'html', dir: 'coverage/'},
+        {type: 'teamcity'},
         {type: 'text-summary'}
       ]
     },
