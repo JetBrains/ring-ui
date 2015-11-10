@@ -24,7 +24,6 @@
     "start": "node tools/metalsmith.js --server",
     "lint": "eslint .",
     "lint-hook": "eslint $ESLINT_HOOK_FILES",
-    "prelint-ci": "npm run lint",
     "lint-ci": "eslint --format jslint-xml . > $npm_package_config_eslint_report",
     "postlint-ci": "node tools/message-import-reports",
     "test-ci": "karma start karma-ci.conf.js",
