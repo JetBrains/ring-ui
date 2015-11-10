@@ -168,10 +168,24 @@ function rgDialogTitle() {
     link: function (scope, iElement, iAttrs, dialogCtrl) {
       const title = iAttrs.rgDialogTitle;
       dialogCtrl.setTitle(title);
-      scope.$watch('title', newDialogTitle => {
-        if (!newDialogTitle) {
-          dialogCtrl.setTitle(title);
-        }
+    }
+  };
+}
+
+function rgDialogContent($compile) {
+  return {
+    link: function (scope, element) {
+      function includeNode() {
+        let node = document.createElement('ng-include');
+        node.setAttribute('src', 'content');
+        return node;
+      }
+
+      scope.$on('dialog.show', function(event, data) {
+        let el = element[0];
+        el.innerHTML = '';
+        el.appendChild(includeNode());
+        $compile(element.contents())(scope);
       });
     }
   };
@@ -227,6 +241,8 @@ class Dialog {
 
     dialogScope.active = true;
     dialogScope.defer = this.$q.defer();
+
+    dialogScope.$broadcast('dialog.show');
 
     return dialogScope.defer.promise;
   }
@@ -328,6 +344,7 @@ class DialogInSidebar extends Dialog {
 
 module.directive('rgDialog', rgDialog);
 module.directive('rgDialogTitle', rgDialogTitle);
+module.directive('rgDialogContent', rgDialogContent);
 module.service('dialog', Dialog);
 module.service('dialogInSidebar', DialogInSidebar);
 
