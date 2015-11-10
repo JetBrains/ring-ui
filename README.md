@@ -76,14 +76,6 @@ module.exports = webpackOptions;
 
 This reads Ring UI configuration and overrides some config params.
 
-6. If you are building your app with webpack, run the build. If you are using grunt, install `grunt-webpack` and configure it like this:
-
-```js
- webpack: {
-      dist: require('./webpack.config.js')
- }
-```
-
 ## Starting a new project with Ring UI
 
 1. Install Yeoman: `npm install yo -g`
