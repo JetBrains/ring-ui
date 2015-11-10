@@ -11,13 +11,6 @@ module.exports = function (karma) {
     // Something is broken in IE9 in hardly debuggable way, so we'll fix it someday
     browsers: ['wdIE11', /*'wdIE9', */'wdFirefox', 'wdChrome'],
     reporters: 'teamcity',
-    coverageReporter: {
-      reporters: [
-        {type: 'html', dir: 'coverage/'},
-        {type: 'teamcity'},
-        {type: 'text-summary'}
-      ]
-    },
     webpackServer: {}
   });
 
