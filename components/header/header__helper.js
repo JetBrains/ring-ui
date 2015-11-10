@@ -94,13 +94,13 @@ export default class HeaderHelper {
       const popupData = [
         {
           label: translationsDict.profile,
-          type: PopupMenu.ListProps.Type.LINK,
+          rgItemType: PopupMenu.ListProps.Type.LINK,
           target: '_self',
           href: [auth.config.serverUri, 'users/', response.id].join('')
         },
         {
           label: translationsDict.logout,
-          type: PopupMenu.ListProps.Type.LINK,
+          rgItemType: PopupMenu.ListProps.Type.LINK,
           onClick: () => auth.logout()
         }
       ];
