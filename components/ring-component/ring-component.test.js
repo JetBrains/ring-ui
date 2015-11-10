@@ -1,7 +1,6 @@
 import RingComponent from './ring-component';
 import renderIntoDocument from 'render-into-document';
 import React from 'react';
-import ReactDom from 'react-dom';
 
 describe('RingComponents', function () {
 
@@ -18,7 +17,7 @@ describe('RingComponents', function () {
   });
 
   it('Should not lose props during multiple rerendering', function () {
-    let [prop1, prop2, test] = ['test', 999, 123];
+    const [prop1, prop2, test] = ['test', 999, 123];
 
     this.componentInstance.rerender({prop1});
     this.componentInstance.rerender({prop2});
@@ -28,7 +27,7 @@ describe('RingComponents', function () {
 
 
   it('Should cache props after rerendering', function () {
-    let [prop1, test] = ['test', 123];
+    const [prop1, test] = ['test', 123];
 
     this.componentInstance.rerender({prop1});
     this.componentInstance._propsCache.should.deep.equal({prop1, test});
