@@ -176,13 +176,13 @@ function rgDialogContent($compile) {
   return {
     link: function (scope, element) {
       function includeNode() {
-        let node = document.createElement('ng-include');
+        const node = document.createElement('ng-include');
         node.setAttribute('src', 'content');
         return node;
       }
 
-      scope.$on('dialog.show', function(event, data) {
-        let el = element[0];
+      scope.$on('dialog.show', () => {
+        const el = element[0];
         el.innerHTML = '';
         el.appendChild(includeNode());
         $compile(element.contents())(scope);
