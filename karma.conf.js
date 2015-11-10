@@ -7,12 +7,20 @@ var path = require('path');
 
 function generateConfig(karma) {
   function prepareWbpackConf(webpackConf) {
-    webpackConf.devtool = 'eval';
+    webpackConf.devtool = 'cheap-source-map';
     webpackConf.output = {};
     webpackConf.entry = {};
     webpackConf.cache = {};
-    webpackConf.resolve = {};
-    webpackConf.resolve.root = path.join(__dirname, 'test-helpers');
+    webpackConf.resolve = {
+      root: path.join(__dirname, 'test-helpers')
+    };
+    webpackConf.module.preLoaders = webpackConf.preLoaders || [];
+    webpackConf.module.preLoaders.push({
+      test: /\.js$/,
+      exclude: /\.test\.js$/,
+      include: path.join(__dirname, 'components'),
+      loader: 'isparta-instrumenter-loader'
+    });
 
     return webpackConf;
   }
@@ -35,14 +43,14 @@ function generateConfig(karma) {
     frameworks: ['mocha', 'chai', 'chai-as-promised', 'chai-jquery', 'sinon-chai'],
 
     files: [
-      'node_modules/jquery/dist/jquery.js',
+      require.resolve('jquery'),
       'test-helpers/mocha-globals.js',
       'test-helpers/test-suite.js'
     ],
 
     // test results reporter to use
     // possible values: 'dots', 'progress', 'junit', 'growl', 'coverage'
-    reporters: ['progress'],
+    reporters: ['progress', 'coverage'],
 
     // list of preprocessors
     preprocessors: {
@@ -57,6 +65,13 @@ function generateConfig(karma) {
       },
       noInfo: true,
       quiet: true
+    },
+
+    coverageReporter: {
+      reporters: [
+        {type: 'html', dir: 'coverage/'},
+        {type: 'text-summary'}
+      ]
     },
 
     // web server port
