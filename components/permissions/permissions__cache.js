@@ -17,7 +17,7 @@ export default class PermissionCache {
   /**
    * Convert an array of projects to a set of space ids.
    *
-   * @param {{id: string}[]=} projects
+   * @param {object[]=} projects
    * @return {object} a set of space ids
    * @private
    */
