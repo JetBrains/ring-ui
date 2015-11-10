@@ -11,6 +11,12 @@ function resolveLoader(loader) {
   return require.resolve(loader + '-loader');
 }
 
+var htmlLoaderOptions = '?' + JSON.stringify({
+  collapseBooleanAttributes: false,
+  attrs: 'span:react-value-glyph',
+  root: require('jetbrains-icons')
+});
+
 // Minimal config for building components
 module.exports = {
   module: {
@@ -48,7 +54,7 @@ module.exports = {
       {
         test: /-ng(\\|\/)\S*(-ng|-ng__)\S*\.html$/,
         include: componentsPath,
-        loader: resolveLoader('html')
+        loader: resolveLoader('html') + htmlLoaderOptions
       },
       {
         test: /\.gif$/,
@@ -66,7 +72,7 @@ module.exports = {
   // We have to share this config because SVG breaks with different configs in one process
   RingSVGOConfig: {
     full: true, // We have to set full list plugins to make configuration work
-    // Deafult list of plugins
+    // Default list of plugins
     plugins: [
       'convertStyleToAttrs', // Should be first in list
       {removeUselessStrokeAndFill: {fill: false}}, // Disable black fill removal
