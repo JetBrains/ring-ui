@@ -18,8 +18,8 @@ const module = angular.module('Ring.auth', []);
 
       angular.config(["authProvider", function (authProvider) {
         authProvider.config({
-          serverUri: "***REMOVED***",
-          client_id: '0-0-0-0-0',
+          serverUri: "https://hub.jetbrains.com",
+          client_id: '81a0bffb-6d0f-4a38-b93a-0a4d1e567698',
           scope: ["0-0-0-0-0"],
         });
       }]);
