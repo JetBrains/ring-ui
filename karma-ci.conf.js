@@ -8,7 +8,7 @@ var generateConfig = require('./karma-base.conf.js');
 module.exports = function (config) {
   var configCI = deepAssign(generateConfig(config), {
     // Something is broken in IE9 in hardly debuggable way, so we'll fix it someday
-    browsers: ['Chrome'],
+    browsers: ['wdIE11', /*'wdIE9', */'wdFirefox', 'wdChrome'],
     coverageReporter: {
       reporters: [
         {type: 'html', dir: 'coverage/'},
@@ -18,6 +18,5 @@ module.exports = function (config) {
     reporters: ['progress', 'coverage']
   });
 
-  require('fs').writeFileSync('cfg.json', JSON.stringify(configCI, null, 2));
   config.set(configCI);
 };
