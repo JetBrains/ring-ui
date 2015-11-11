@@ -41,52 +41,55 @@
 /* global angular: false */
 const module = angular.module('Ring.promised-click', []);
 
-function rgPromisedClick($parse) {
-  return {
-    restrict: 'A',
-    controller: function ($scope, $element) {
-      const element = $element[0];
-      let active = false;
-      let promise;
+class PromisedClickController {
+  constructor($scope, $element, $attrs, $parse) {
+    this.$scope = $scope;
+    this.element = $element[0];
+    this.active = false;
 
-      function doIt() {
-        active = true;
-        element.classList.add('ring-btn_active');
-        promise.finally(() => {
-          active = false;
-          element.classList.remove('ring-btn_active');
-        });
+    if ($attrs.rgPromisedClick) {
+      const onClick = $parse($attrs.rgPromisedClick);
+      const onPromisedClick = this.onPromisedClick.bind(this, $event => onClick($scope, {$event}));
+      this.element.addEventListener('click', onPromisedClick);
+    }
+  }
+
+  onPromisedClick(callback, $event) {
+    if (this.active) {
+      if ($event) {
+        $event.preventDefault();
       }
-
-      this.onPromisedClick = (callback, $event) => {
-        if (active) {
-          if ($event) {
-            $event.preventDefault();
-          }
+    } else {
+      this.promise = callback($event);
+      if (this.promise) {
+        // Do not use $evalAsync here. This code should be invoked in the same animation frame
+        // otherwise a button may be "pressed" twice – by click and with class change.
+        if (!this.$scope.$root.$$phase) { // eslint-disable-line angular/no-private-call
+          this.$scope.$apply(::this.doIt);
         } else {
-          promise = callback($event);
-          if (promise) {
-            // Do not use $evalAsync here. This code should be invoked in the same animation frame
-            // otherwise a button may be "pressed" twice – by click and with class change.
-            if (!$scope.$root.$$phase) { // eslint-disable-line angular/no-private-call
-              $scope.$apply(doIt);
-            } else {
-              doIt();
-            }
-          }
+          this.doIt();
         }
-      };
-    },
-    link: function (scope, iElement, iAttrs, controller) {
-      if (iAttrs.rgPromisedClick) {
-        const onClick = $parse(iAttrs.rgPromisedClick);
-        const onPromisedClick = controller.onPromisedClick.bind(controller, $event => onClick(scope, {$event}));
-        iElement[0].addEventListener('click', onPromisedClick);
       }
     }
+  }
+
+  doIt() {
+    this.active = true;
+    this.element.classList.add('ring-btn_active');
+
+    this.promise.finally(() => {
+      this.active = false;
+      this.element.classList.remove('ring-btn_active');
+    });
+  }
+}
+
+function rgPromisedClickDirective() {
+  return {
+    controller: PromisedClickController
   };
 }
 
-module.directive('rgPromisedClick', rgPromisedClick);
+module.directive('rgPromisedClick', rgPromisedClickDirective);
 
 export default module.name;
