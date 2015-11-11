@@ -87,7 +87,7 @@ module.exports = {
       'cleanupNumericValues',
       'cleanupListOfValues',
       'convertColors',
-      'removeUnknownsAndDefaults',
+      //'removeUnknownsAndDefaults', //commented because of loosing fills in project wizard build
       'removeNonInheritableGroupAttrs',
       'cleanupEnableBackground',
       'removeHiddenElems',
