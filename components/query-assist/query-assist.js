@@ -55,7 +55,8 @@ function noop() {}
        };
 
        var auth = new Auth({
-          serverUri: '***REMOVED***/',
+          serverUri: 'https://hub.jetbrains.com',
+          client_id: '81a0bffb-6d0f-4a38-b93a-0a4d1e567698',
           request_credentials: 'skip',
           redirect_uri: window.location.href.split('#')[0]
         });
@@ -115,7 +116,7 @@ function noop() {}
         QueryAssist: require('ring-ui/components/query-assist/query-assist')
        });
 
-       var hubUri = '***REMOVED***/';
+       var hubUri = 'https://hub.jetbrains.com';
 
        angular.module('test', ['Ring.react-ng', 'Ring.auth'])
          .config(function (authProvider) {

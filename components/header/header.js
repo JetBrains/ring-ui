@@ -149,7 +149,8 @@ const MenuItemsSequence = [
       var popup, popupContainer;
 
       var auth = new Auth({
-        serverUri: '***REMOVED***/',
+        serverUri: 'https://hub.jetbrains.com',
+        client_id: '81a0bffb-6d0f-4a38-b93a-0a4d1e567698',
         request_credentials: 'skip',
         redirect_uri: window.location.href.split('#')[0]
       });
