@@ -15,7 +15,7 @@ module.exports = function (config) {
         {type: 'teamcity'}
       ]
     },
-    reporters: ['progress', 'coverage']
+    reporters: ['teamcity', 'coverage']
   });
 
   config.set(configCI);
