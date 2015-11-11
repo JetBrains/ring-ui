@@ -27,7 +27,7 @@ export default class RingComponent extends Component {
 
   node = null;
 
-  _propsCache = null;
+  _propsCache = {};
 
   constructor(...props) {
     super(...props);
