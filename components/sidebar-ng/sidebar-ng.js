@@ -1,3 +1,5 @@
+/* global angular */
+
 import '../place-under-ng/place-under-ng';
 
 import reactNg from '../react-ng/react-ng';
@@ -69,57 +71,71 @@ reactNg({Icon});
    </example>
  */
 
+const module = angular.module('Ring.sidebar', ['Ring.react-ng', 'Ring.place-under']);
 
-/*global angular*/
-angular.module('Ring.sidebar', ['Ring.react-ng', 'Ring.place-under'])
-  .directive('rgSidebar', function () {
-    return {
-      restrict: 'E',
-      transclude: true,
-      replace: true,
-      template: require('./sidebar-ng.html'),
-      /**
-      * {{
-      *   show: boolean,
-      *   placeUnderSibling: ?string, a selector for an element the sidebar should stick to
-      *   topOffset: ?number, sidebar top offset
-      * }}
-      */
-      scope: {
-        show: '=',
-        placeUnderSibling: '@',
-        topOffset: '=?',
-        dialogIsActive: '=?'
-      },
-      controller: function ($scope) {
-        $scope.showed = $scope.show;
+class SidebarController {
+  constructor($scope) {
+    this.showed = this.show;
 
-        // dialog has been opened — open sidebar
-        $scope.$watch('dialogIsActive', function () {
-          if ($scope.dialogIsActive) {
-            $scope.show = true;
-          } else if (!$scope.showed) {
-            $scope.show = false;
-          }
-        });
-
-        $scope.$watch('show', function () {
-          if (!$scope.dialogIsActive) {
-            $scope.showed = $scope.show;
-          }
-        });
+    // dialog has been opened — open sidebar
+    $scope.$watch(() => this.dialogIsActive, () => {
+      if (this.dialogIsActive) {
+        this.show = true;
+      } else if (!this.showed) {
+        this.show = false;
       }
-    };
-  })
-  .directive('rgSidebarToggleButton', function () {
-    return {
-      replace: true,
-      restrict: 'E',
-      transclude: true,
-      scope: {
-        model: '=',
-        dialogIsActive: '=?'
-      },
-      template: require('./sidebar-ng__button.html')
-    };
-  });
+    });
+
+    $scope.$watch(() => this.show, () => {
+      if (!this.dialogIsActive) {
+        this.showed = this.show;
+      }
+    });
+  }
+}
+
+function rgSidebarDirective() {
+  return {
+    restrict: 'E',
+    transclude: true,
+    replace: true,
+    scope: {},
+    controller: SidebarController,
+    /**
+    * {{
+    *   show: boolean,
+    *   placeUnderSibling: ?string, a selector for an element the sidebar should stick to
+    *   topOffset: ?number, sidebar top offset
+    * }}
+    */
+    bindToController: {
+      show: '=',
+      placeUnderSibling: '@',
+      topOffset: '=?',
+      dialogIsActive: '=?'
+    },
+    template: require('./sidebar-ng.html'),
+    controllerAs: 'sidebar'
+  };
+}
+
+function rgSidebarToggleButtonDirective() {
+  return {
+    restrict: 'E',
+    transclude: true,
+    replace: true,
+    scope: {},
+    controller: function () {},
+    bindToController: {
+      model: '=',
+      dialogIsActive: '=?'
+    },
+    template: require('./sidebar-ng__button.html'),
+    controllerAs: 'button'
+  };
+}
+
+module.directive('rgSidebar', rgSidebarDirective);
+module.directive('rgSidebarToggleButton', rgSidebarToggleButtonDirective);
+
+export default module.name;
