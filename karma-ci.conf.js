@@ -2,17 +2,22 @@
 /* eslint-disable no-var */
 /* eslint-disable modules/no-cjs */
 
-var merge = require('mout/object/merge');
-var generateConfig = require('./karma.conf.js');
+var deepAssign = require('deep-assign');
+var generateConfig = require('./karma-base.conf.js');
 
-module.exports = function (karma) {
-  var config = merge(generateConfig(karma), {
-    action: 'run',
+module.exports = function (config) {
+  var configCI = deepAssign(generateConfig(config), {
     // Something is broken in IE9 in hardly debuggable way, so we'll fix it someday
-    browsers: ['wdIE11', /*'wdIE9', */'wdFirefox', 'wdChrome'],
-    reporters: 'teamcity',
-    webpackServer: {}
+    browsers: ['Chrome'],
+    coverageReporter: {
+      reporters: [
+        {type: 'html', dir: 'coverage/'},
+        {type: 'teamcity'}
+      ]
+    },
+    reporters: ['progress', 'coverage']
   });
 
-  karma.set(config);
+  require('fs').writeFileSync('cfg.json', JSON.stringify(configCI, null, 2));
+  config.set(configCI);
 };

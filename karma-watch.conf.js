@@ -2,18 +2,17 @@
 /* eslint-disable no-var */
 /* eslint-disable modules/no-cjs */
 
-var merge = require('mout/object/merge');
-var generateConfig = require('./karma.conf.js');
+var deepAssign = require('deep-assign');
+var baseConfig = require('./karma-base.conf.js');
 
-module.exports = function (karma) {
-  var config = merge(generateConfig(karma), {
+module.exports = function (config) {
+  var configWatch = deepAssign(baseConfig(config), {
     singleRun: false,
-    //browsers: ['HeadlessNodeWebkit'],
     reporters: ['nyan', 'osx'],
     osxReporter: {
       notificationMode: 'change'
     }
   });
 
-  karma.set(config);
+  config.set(configWatch);
 };
