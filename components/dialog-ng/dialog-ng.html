@@ -1,33 +1,43 @@
-<div class="ring-dialog__wrapper" ng-class="{ 'active': active, 'ring-dialog__wrapper_inline': inSidebar }">
-  <div class="ring-dialog__container" ng-class="{'ring-dialog__container_wide' : wideDialog}">
-    <div class="ring-dialog__header"
-         ng-show="title">
-      <span class="ring-dialog__header__title">{{ title }}</span>
-            <span class="ring-dialog__header__close-icon ring-font-icon ring-btn_ico ring-font-icon_close"
-                  ng-click="close()"></span>
+<div
+  class="ring-dialog__wrapper"
+  ng-class="{ 'active': dialog.active, 'ring-dialog__wrapper_inline': dialog.inSidebar }"
+>
+  <div class="ring-dialog__container" ng-class="{ 'ring-dialog__container_wide' : dialog.wideDialog }">
+    <div class="ring-dialog__header" ng-show="dialog.title">
+      <span class="ring-dialog__header__title">{{ dialog.title }}</span>
+      <span
+        class="ring-dialog__header__close-icon ring-font-icon ring-btn_ico ring-font-icon_close"
+        ng-click="dialog.close()"
+      ></span>
     </div>
-    <form name="dialogForm" class="ring-form ring-js-shortcuts ring-dialog__content" novalidate>
+
+    <form name="dialog.dialogForm" class="ring-form ring-js-shortcuts ring-dialog__content" novalidate>
       <rg-dialog-content></rg-dialog-content>
 
-      <div class="ring-form__group" ng-show="error">
+      <div class="ring-form__group" ng-show="dialog.error">
         <div class="ring-form__control ring-form__control_small">
-          <div class="ring-alert_error">{{ error }}</div>
+          <div class="ring-alert_error">{{ dialog.error }}</div>
         </div>
       </div>
     </form>
+
     <div class="ring-dialog__footer">
-      <div class="ring-dialog__footer__description" ng-show="description && description.length">
-        <div ng-repeat="line in description">{{line}}</div>
+      <div class="ring-dialog__footer__description" ng-show="dialog.description && dialog.description.length">
+        <div ng-repeat="line in dialog.description">{{ line }}</div>
       </div>
 
-      <button ng-repeat="button in buttons"
-              ng-click="action(button)"
-              class="ring-dialog__footer__item ring-btn"
-              ng-class="{'ring-btn_blue': button['default']}"
-              ng-disabled="button.default && dialogForm.$invalid">{{ button.label }}
+      <button
+        ng-repeat="button in dialog.buttons"
+        class="ring-dialog__footer__item ring-btn"
+        ng-class="{'ring-btn_blue': button['default']}"
+        ng-disabled="button.default && dialog.dialogForm.$invalid"
+        ng-click="dialog.action(button)"
+      >
+        {{ button.label }}
       </button>
     </div>
   </div>
-  <div class="ring-dialog__layer" ng-if="!inSidebar">
+
+  <div class="ring-dialog__layer" ng-if="!dialog.inSidebar">
   </div>
 </div>
