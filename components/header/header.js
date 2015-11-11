@@ -165,8 +165,8 @@ const MenuItemsSequence = [
           //Link.factory({href: '#'}, 'Dashboard')
         //]
         menu: [
-          { component: Link, props: {href: '#'}, children: 'Projects' },
-          { component: Link, props: {href: '#'}, children: 'Dashboard' }
+          { component: Link, props: {href: '#', key: 'proj'}, children: 'Projects' },
+          { component: Link, props: {href: '#', key: 'dash'}, children: 'Dashboard' }
         ]
       }), document.getElementById('header-container'));
 
@@ -311,6 +311,7 @@ export default class Header extends RingComponent {
 
     if (isActive) {
       return DOM.span({
+        key: href,
         className: fullClassName
       }, children);
     }
