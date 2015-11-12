@@ -1,8 +1,5 @@
 import {findDOMNode} from 'react-dom';
 import PopupMenu from '../popup-menu/popup-menu';
-import urlUtils from '../url-utils/url-utils';
-
-const TOP_LINE_SERVICES = ['Dashboard', 'Project Wizard'];
 
 /**
  * filters out non-verified services
@@ -149,27 +146,4 @@ export default class HeaderHelper {
       onLoginClick: () => auth.logout()
     });
   }
-
-  /**
-   * Checks if service is opened in browser at the moment
-   * @param rootUrl - root of working application
-   * @param clientId - client id of working application
-   * @param serviceId - id of checking service
-   * @param serviceHomeUrl - home url of checking service
-   * @returns {boolean}
-   */
-  static isActiveService(rootUrl, clientId, serviceId, serviceHomeUrl) {
-    const baseUrl = (rootUrl || urlUtils.getAbsoluteBaseURL()).replace(urlUtils.ENDING_SLASH_PATTERN, '');
-
-    return serviceId === clientId || serviceHomeUrl.replace(urlUtils.ENDING_SLASH_PATTERN, '') === baseUrl;
-  }
-
-  /**
-   * Checks if service should be placed on first line of services list
-   * @param service - service to check
-   */
-  static isTopLineService(service) {
-    return TOP_LINE_SERVICES.indexOf(service.applicationName) !== -1;
-  }
-
 }
