@@ -32,7 +32,8 @@ const headerClassName = new ClassName('ring-header');
  * @const
  * @type {RegExp}
  */
-const CUSTOM_ICON_SERVICE_REGEXP = /^teamcity|upsource|youtrack|hub|dashboard|project\swizard$/i;
+const CUSTOM_ICON_SERVICE_REGEXP = /^teamcity|upsource|youtrack|hub$/i;
+const TOP_LINE_SERVICES_REGEXP = /^dashboard|project\swizard$/i;
 
 const PRUDUCTS_LOGOS = {
   hub: require('jetbrains-logos/hub/hub.svg'),
@@ -55,7 +56,10 @@ function getServiceLogo(item, customClassName) {
   const iconKey = `ItemIcon-${item.id}`;
 
   // Remove after logos update
-  const detectedService = CUSTOM_ICON_SERVICE_REGEXP.exec(item.applicationName);
+  const regularServiceIcon = CUSTOM_ICON_SERVICE_REGEXP.exec(item.applicationName);
+  const topLineServiceIcon = TOP_LINE_SERVICES_REGEXP.exec(item.applicationName);
+  const detectedService = regularServiceIcon || topLineServiceIcon;
+
   if (detectedService) {
     const serviceGlyph = PRUDUCTS_LOGOS[detectedService[0].toLowerCase()];
 
@@ -251,6 +255,28 @@ export default class Header extends RingComponent {
     onUserMenuClose: noop
   };
 
+  /**
+   * Checks if service is opened in browser at the moment
+   * @param rootUrl - root of working application
+   * @param clientId - client id of working application
+   * @param serviceId - id of checking service
+   * @param serviceHomeUrl - home url of checking service
+   * @returns {boolean}
+   */
+  static isActiveService(rootUrl, clientId, serviceId, serviceHomeUrl) {
+    const baseUrl = (rootUrl || urlUtils.getAbsoluteBaseURL()).replace(urlUtils.ENDING_SLASH_PATTERN, '');
+
+    return serviceId === clientId || serviceHomeUrl.replace(urlUtils.ENDING_SLASH_PATTERN, '') === baseUrl;
+  }
+
+  /**
+   * Checks if service should be placed on first line of services list
+   * @param service - service to check
+   */
+  static isTopLineService(service) {
+    return TOP_LINE_SERVICES_REGEXP.test(service.applicationName);
+  }
+
   state = {
     profilePicture: null,
     servicesOpened: false
@@ -331,7 +357,7 @@ export default class Header extends RingComponent {
   }
 
   _renderServiceLinkWithLogo(item, serviceLogo) {
-    const isActive = HeaderHelper.isActiveService(this.props.rootUrl, this.props.clientId, item.id, item.homeUrl);
+    const isActive = Header.isActiveService(this.props.rootUrl, this.props.clientId, item.id, item.homeUrl);
 
     return this._getLinkElement(item.homeUrl, isActive, headerClassName.getElement('services-item'), [
       serviceLogo,
@@ -346,7 +372,7 @@ export default class Header extends RingComponent {
   _getPopupTopLine() {
     return this.props.servicesList
       .sort(sortServices)
-      .filter(HeaderHelper.isTopLineService)
+      .filter(Header.isTopLineService)
       .map(item => this._renderServiceLinkWithLogo(item, getServiceLogo(item, headerClassName.getElement('services-logo_gray'))));
   }
 
@@ -360,7 +386,7 @@ export default class Header extends RingComponent {
 
     this.props.servicesList
       .sort(sortServices)
-      .filter(service => !HeaderHelper.isTopLineService(service))
+      .filter(service => !Header.isTopLineService(service))
       .forEach(function (item) {
         if (!item.homeUrl) {
           return;
@@ -373,7 +399,7 @@ export default class Header extends RingComponent {
           return;
         }
 
-        const isActive = HeaderHelper.isActiveService(this.props.rootUrl, this.props.clientId, item.id, item.homeUrl);
+        const isActive = Header.isActiveService(this.props.rootUrl, this.props.clientId, item.id, item.homeUrl);
 
         linksList.push(
           this._getLinkElement(item.homeUrl, isActive, headerClassName.getElement('services-stacked'), item.name)
