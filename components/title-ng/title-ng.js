@@ -62,7 +62,7 @@ angular.module('Ring.title', []).
 
     this.addElement = (element, fieldName) => {
       if (element.$promise) {
-        element.$promise.then(function (Data) {
+        element.$promise.then(Data => {
           this.addElement(Data[fieldName || 'name']);
         });
       } else {
@@ -72,7 +72,7 @@ angular.module('Ring.title', []).
 
     this.updateElement = (element, fieldName) => {
       if (element.$promise) {
-        element.$promise.then(function (Data) {
+        element.$promise.then(Data => {
           this.updateElement(Data[fieldName || 'name']);
         });
       } else {
