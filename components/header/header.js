@@ -350,7 +350,12 @@ export default class Header extends RingComponent {
         if (serviceLogo) {
           iconsList.push(this._getLinkElement(item.homeUrl, isActive, headerClassName.getElement('services-item'), [
             serviceLogo,
-            <span key={`ItemName-${item.id}`} className={headerClassName.getElement('services-item-text')}>{item.name}</span>
+            <span
+              key={`ItemName-${item.id}`}
+              className={headerClassName.getElement('services-item-text')}
+            >
+              {item.name}
+            </span>
           ]));
 
           return;
