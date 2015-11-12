@@ -32,13 +32,15 @@ const headerClassName = new ClassName('ring-header');
  * @const
  * @type {RegExp}
  */
-const CUSTOM_ICON_SERVICE_REGEXP = /^teamcity|upsource|youtrack|hub$/i;
+const CUSTOM_ICON_SERVICE_REGEXP = /^teamcity|upsource|youtrack|hub|dashboard|project\swizard$/i;
 
 const PRUDUCTS_LOGOS = {
   hub: require('jetbrains-logos/hub/hub.svg'),
   teamcity: require('jetbrains-logos/teamcity/teamcity.svg'),
   upsource: require('jetbrains-logos/upsource/upsource.svg'),
-  youtrack: require('jetbrains-logos/youtrack/youtrack.svg')
+  youtrack: require('jetbrains-logos/youtrack/youtrack.svg'),
+  dashboard: require('jetbrains-icons/gauge.svg'),
+  'project wizard': require('jetbrains-icons/puzzle.svg')
 };
 
 /**
@@ -48,8 +50,8 @@ const PRUDUCTS_LOGOS = {
  * @param {Object} item
  * @return {?string}
  */
-function getServiceLogo(item) {
-  const className = headerClassName.getElement('services-logo');
+function getServiceLogo(item, customClassName) {
+  const className = classNames(headerClassName.getElement('services-logo'), customClassName);
   const iconKey = `ItemIcon-${item.id}`;
 
   // Remove after logos update
@@ -328,6 +330,26 @@ export default class Header extends RingComponent {
     }, children);
   }
 
+  _renderServiceLinkWithLogo(item, serviceLogo) {
+    const isActive = HeaderHelper.isActiveService(this.props.rootUrl, this.props.clientId, item.id, item.homeUrl);
+
+    return this._getLinkElement(item.homeUrl, isActive, headerClassName.getElement('services-item'), [
+      serviceLogo,
+      <span key={`ItemName-${item.id}`}
+        className={headerClassName.getElement('services-item-text')}
+      >
+        {item.name}
+      </span>
+    ]);
+  }
+
+  _getPopupTopLine() {
+    return this.props.servicesList
+      .sort(sortServices)
+      .filter(HeaderHelper.isTopLineService)
+      .map(item => this._renderServiceLinkWithLogo(item, getServiceLogo(item, headerClassName.getElement('services-logo_gray'))));
+  }
+
   /**
    * @return {ReactComponent}
    * @private
@@ -335,31 +357,23 @@ export default class Header extends RingComponent {
   _getPopupContent() {
     const iconsList = [];
     const linksList = [];
-    const baseUrl = (this.props.rootUrl || urlUtils.getAbsoluteBaseURL()).replace(urlUtils.ENDING_SLASH_PATTERN, '');
 
-    this.props.servicesList.
-      sort(sortServices).
-      forEach(function (item) {
+    this.props.servicesList
+      .sort(sortServices)
+      .filter(service => !HeaderHelper.isTopLineService(service))
+      .forEach(function (item) {
         if (!item.homeUrl) {
           return;
         }
 
-        const isActive = item.id === this.props.clientId || item.homeUrl.replace(urlUtils.ENDING_SLASH_PATTERN, '') === baseUrl;
         const serviceLogo = getServiceLogo(item);
 
         if (serviceLogo) {
-          iconsList.push(this._getLinkElement(item.homeUrl, isActive, headerClassName.getElement('services-item'), [
-            serviceLogo,
-            <span
-              key={`ItemName-${item.id}`}
-              className={headerClassName.getElement('services-item-text')}
-            >
-              {item.name}
-            </span>
-          ]));
-
+          iconsList.push(this._renderServiceLinkWithLogo(item, serviceLogo));
           return;
         }
+
+        const isActive = HeaderHelper.isActiveService(this.props.rootUrl, this.props.clientId, item.id, item.homeUrl);
 
         linksList.push(
           this._getLinkElement(item.homeUrl, isActive, headerClassName.getElement('services-stacked'), item.name)
@@ -389,7 +403,10 @@ export default class Header extends RingComponent {
         direction: Popup.PopupProps.Direction.LEFT | Popup.PopupProps.Direction.DOWN,
         onClose: () => this.refs.services.setOpened(false),
         sidePadding: 32
-      }, this._getPopupContent()));
+      }, <div>
+        <div>{this._getPopupTopLine()}</div>
+        <div>{this._getPopupContent()}</div>
+      </div>));
     } else {
       this._servicesPopup.close();
       this._servicesPopup = null;
