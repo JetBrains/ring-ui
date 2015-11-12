@@ -50,6 +50,7 @@ const PRUDUCTS_LOGOS = {
  */
 function getServiceLogo(item) {
   const className = headerClassName.getElement('services-logo');
+  const iconKey = `ItemIcon-${item.id}`;
 
   // Remove after logos update
   const detectedService = CUSTOM_ICON_SERVICE_REGEXP.exec(item.applicationName);
@@ -59,6 +60,7 @@ function getServiceLogo(item) {
     return (
       <Icon
         className={className}
+        key={iconKey}
         glyph={serviceGlyph}
         size={Icon.Size.Size48}
       />
@@ -68,6 +70,7 @@ function getServiceLogo(item) {
   if (item.iconUrl) {
     return (
       <span
+        key={iconKey}
         className={className}
         style={{backgroundImage: `url(${item.iconUrl})`}}
       />
@@ -347,7 +350,7 @@ export default class Header extends RingComponent {
         if (serviceLogo) {
           iconsList.push(this._getLinkElement(item.homeUrl, isActive, headerClassName.getElement('services-item'), [
             serviceLogo,
-            <span className={headerClassName.getElement('services-item-text')}>{item.name}</span>
+            <span key={`ItemName-${item.id}`} className={headerClassName.getElement('services-item-text')}>{item.name}</span>
           ]));
 
           return;
