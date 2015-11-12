@@ -69,6 +69,9 @@ class DialogController {
       this.title = config.title;
       this.buttons = config.buttons;
       this.data = config.data || {};
+      //Fallback for backward compatibility with already exist temlates which uses data directly from scope
+      this.$scope.data = this.data;
+
       this.wideDialog = config.wideDialog;
       this.content = config.content;
       this.description = config.description && config.description.split('\n') || [];
@@ -199,6 +202,9 @@ function rgDialogDirective($timeout) {
     const node = iElement[0];
     const dialogContainer = node.query('.ring-dialog__container');
     const dialogTitle = node.query('.ring-dialog__header__title');
+
+    //Fallback for backward compatibility with already exist temlates which uses data directly from scope
+    scope.dialogForm = dialogCtrl.dialogForm;
 
     let pageHeight = null;
     let pageWidth = null;
