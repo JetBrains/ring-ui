@@ -1,4 +1,4 @@
-import debounce from 'mout/function/debounce';
+import debounce from 'debounce';
 import './docked-panel-ng.scss';
 
 /**
