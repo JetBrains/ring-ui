@@ -1,6 +1,6 @@
 /*global angular*/
 import 'dom4';
-import debounce from 'mout/function/debounce';
+import debounce from 'debounce';
 
 /**
  * Sticky toolbar, mostly for tables, but can be used elsewhere too.
