@@ -1,4 +1,4 @@
-import guid from 'mout/random/guid';
+import uuid from 'simply-uuid';
 
 /**
  * @param {{
@@ -68,7 +68,7 @@ AuthRequestBuilder.prototype._saveState = function (id, storedState) {
 /**
  * @return {string} random string used for state
  */
-AuthRequestBuilder._uuid = guid;
+AuthRequestBuilder._uuid = uuid.generate;
 
 /*
  * Takes a URL as input and a params object.
