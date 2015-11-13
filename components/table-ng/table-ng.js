@@ -1,5 +1,5 @@
 import 'dom4';
-import debounce from 'debounce';
+import debounce from 'mout/function/debounce';
 
 import {getStyles, getRect} from '../dom/dom';
 
