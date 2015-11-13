@@ -1,5 +1,4 @@
 import Auth from '../auth/auth';
-import pick from 'mout/object/pick';
 
 /* global angular: false */
 const module = angular.module('Ring.auth', []);
@@ -78,9 +77,10 @@ module.provider('auth', ['$httpProvider', function ($httpProvider) {
 
           // Use $injector to avoid circular dependency
           const $http = $injector.get('$http');
+          const {data, method, params, url} = rejection.config;
 
           return authInstance.auth.forceTokenUpdate().then(function () {
-            return $http(pick(rejection.config, ['data', 'method', 'params', 'url']));
+            return $http({data, method, params, url});
           });
         }
 
