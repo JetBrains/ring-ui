@@ -6,7 +6,7 @@ import 'core-js/modules/es6.array.find';
 import React, {PropTypes, createElement, DOM} from 'react';
 import {findDOMNode} from 'react-dom';
 import classNames from 'classnames';
-import debounce from 'mout/function/debounce';
+import debounce from 'debounce';
 
 import RingComponent from '../ring-component/ring-component';
 import RingComponentWithShortcuts from '../ring-component/ring-component_with-shortcuts';
