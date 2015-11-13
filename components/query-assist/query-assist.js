@@ -4,7 +4,7 @@
 
 import React, {PropTypes, DOM} from 'react';
 import {findDOMNode} from 'react-dom';
-import debounce from 'debounce';
+import debounce from 'mout/function/debounce';
 import deepEquals from 'mout/lang/deepEquals';
 import classNames from 'classnames';
 
