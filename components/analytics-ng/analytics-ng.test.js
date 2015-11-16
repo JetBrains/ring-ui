@@ -47,30 +47,32 @@ describe('Ring.analytics', function () {
       return elem;
     }
 
+    const click = new CustomEvent('click');
+
     it('should track event for full arguments list', function () {
       const elem = compileTemplate('<a href="#" rg-analytics="some-category:some-event">Link</a>');
-      elem[0].dispatchEvent(new MouseEvent('click'));
+      elem[0].dispatchEvent(click);
 
       analytics.trackEvent.should.calledWith('some-category', 'some-event');
     });
 
     it('should track event (with empty event)', function () {
       const elem = compileTemplate('<a href="#" rg-analytics="some-category">Link</a>');
-      elem[0].dispatchEvent(new MouseEvent('click'));
+      elem[0].dispatchEvent(click);
 
       analytics.trackEvent.should.calledWith('some-category', '');
     });
 
     it('should track event (with empty category)', function () {
       const elem = compileTemplate('<a href="#" rg-analytics=":some-event">Link</a>');
-      elem[0].dispatchEvent(new MouseEvent('click'));
+      elem[0].dispatchEvent(click);
 
       analytics.trackEvent.should.calledWith('', 'some-event');
     });
 
     it('should track event for non-default user action)', function () {
       const elem = compileTemplate('<a href="#" rg-analytics="category:expand" rg-analytics-on="blur">Link</a>');
-      elem[0].dispatchEvent(new MouseEvent('blur'));
+      elem[0].dispatchEvent(new CustomEvent('blur'));
 
       analytics.trackEvent.should.calledWith('category', 'expand');
     });
