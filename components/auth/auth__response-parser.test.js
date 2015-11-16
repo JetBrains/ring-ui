@@ -76,7 +76,7 @@ describe('Auth', function () {
       it('should throw error on error in auth response', function () {
         location = 'http://localhost:8080/hub#error=we+are+in+trouble';
         const parser = new AuthResponseParser();
-        parser.getAuthResponseFromURL.bind(parser).should.throw(AuthResponseParser.AuthError, 'we are in trouble');
+        parser.getAuthResponseFromURL.bind(parser).should.throw(AuthResponseParser.AuthError);
       });
 
       it('should throw error with fields from request', function () {
