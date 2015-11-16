@@ -3,7 +3,6 @@
 import 'angular';
 import 'angular-mocks';
 import './select-ng';
-import $ from 'jquery';
 import Select from '../select/select';
 
 describe('SelectNg', function () {
@@ -38,17 +37,17 @@ describe('SelectNg', function () {
 
   describe('DOM', function () {
     it('Should place container for select inside directive', function () {
-      element.should.have.descendants('span');
+      element[0].should.contain('span');
     });
 
     it('Should render select inside container', function () {
-      element.should.have.descendants('.ring-select');
+      element[0].should.contain('.ring-select');
     });
 
     it('Should not render select if type=dropdown', function () {
       compileTemplate('<rg-select options="item.name for item in items track by item.id" ng-model="selectedItem" type="dropdown"></rg-select>');
 
-      element.should.not.have.descendants('.ring-select');
+      element[0].should.not.contain('.ring-select');
     });
   });
 
@@ -232,7 +231,7 @@ describe('SelectNg', function () {
     it('Should be disabled if disabled', function () {
       compileTemplate('<rg-select options="item.name for item in items track by item.id" ng-model="selectedItem" disabled="true"></rg-select>');
 
-      $(element[0]).should.have.descendants('.ring-select_disabled');
+      element[0].should.contain('.ring-select_disabled');
     });
 
     it('Should hide on route changes ($locationChangeSuccess)', function () {

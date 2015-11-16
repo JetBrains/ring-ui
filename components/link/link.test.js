@@ -1,7 +1,6 @@
 import React from 'react';
 import TestUtils from 'react-addons-test-utils';
 import Link from './link';
-import $ from 'jquery';
 
 describe('Link', function () {
   let link;
@@ -19,6 +18,6 @@ describe('Link', function () {
       className: 'test'
     });
 
-    $(link.node).should.have.class('test');
+    link.node.should.have.class('test');
   });
 });

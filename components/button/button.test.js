@@ -1,4 +1,3 @@
-import $ from 'jquery';
 import React from 'react';
 import TestUtils from 'react-addons-test-utils';
 import Button from './button';
@@ -17,7 +16,7 @@ describe('Button', function () {
       modifier: Button.Modifiers.BLUE
     });
 
-    $(this.button.node).should.have.class('ring-btn_blue');
+    this.button.node.should.have.class('ring-btn_blue');
   });
 
   it('should set custom class', function () {
@@ -27,6 +26,6 @@ describe('Button', function () {
       className: CUSTOM_CLASS
     });
 
-    $(this.button.node).should.have.class(CUSTOM_CLASS);
+    this.button.node.should.have.class(CUSTOM_CLASS);
   });
 });

@@ -47,26 +47,26 @@ describe('DropdownNg', function () {
   });
 
   it('should show popup', function () {
-    element.click();
+    element[0].dispatchEvent(new MouseEvent('click'));
     scope.$digest();
 
     expect(directiveScope.getPopupMenuInstance().isVisible()).to.equal(true);
   });
 
   it('should add dropdown-ng_open class to mark target as opened', function () {
-    element.click();
+    element[0].dispatchEvent(new MouseEvent('click'));
     scope.$digest();
 
-    expect(element).to.has.class('dropdown-ng_open');
+    element[0].should.have.class('dropdown-ng_open');
   });
 
-  it('should add dropdown-ng_open class to mark target as opened', function () {
-    element.click();
+  it('should remove dropdown-ng_open class to unmark target as opened', function () {
+    element[0].dispatchEvent(new MouseEvent('click'));
     scope.$digest();
 
     directiveScope.getPopupMenuInstance().close();
 
-    expect(element).to.not.has.class('dropdown-ng_open');
+    element[0].should.not.have.class('dropdown-ng_open');
   });
 
   it('should defer popup render until items is loaded', inject(function ($q) {
@@ -87,7 +87,7 @@ describe('DropdownNg', function () {
     directiveScope = element.isolateScope();
 
     expect(function () {
-      element.click();
+      element[0].dispatchEvent(new MouseEvent('click'));
       scope.$digest();
     }).to.not.throw(Error);
   });

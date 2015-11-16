@@ -1,20 +1,18 @@
 import 'angular';
 import 'angular-route';
 import 'angular-mocks';
+import 'dom4';
+
 import './tabs-ng';
-import $ from 'jquery';
 
 describe('TabsNg', function () {
   let $rootScope;
   let $compile;
 
   function getActiveTab(element) {
-    const el = $(element);
-    const active = el.find('.active');
-    const container = el.find('div.ring-tabs__container');
     return {
-      title: active,
-      content: container
+      title: element[0].query('.active'),
+      content: element[0].query('div.ring-tabs__container')
     };
   }
 
@@ -35,7 +33,7 @@ describe('TabsNg', function () {
 
       $rootScope.$digest();
 
-      expect($(element).is('div.ring-tabs')).to.be.true;
+      element[0].should.match('div.ring-tabs');
     });
 
     it('One tab', function () {
@@ -50,8 +48,8 @@ describe('TabsNg', function () {
       $rootScope.$digest();
       const tab = getActiveTab(element);
 
-      expect(tab.title.contents().first().text()).to.be.equal('General');
-      expect(tab.content.html()).to.contain('General');
+      tab.title.firstChild.should.contain.text('General');
+      tab.content.should.contain.text('General');
     });
 
     it('Two tabs', function () {
@@ -71,9 +69,8 @@ describe('TabsNg', function () {
 
       const tab = getActiveTab(element);
 
-      expect(tab.title.contents().first().text()).to.be.equal('Second');
-      expect(tab.content.html()).to.contain('Second');
+      tab.title.firstChild.should.contain.text('Second');
+      tab.content.should.contain.text('Second');
     });
-
   });
 });

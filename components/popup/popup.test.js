@@ -1,10 +1,11 @@
-import $ from 'jquery';
 import {createElement} from 'react';
 import {render} from 'react-dom';
+import 'dom4';
 
 import renderIntoDocument from 'render-into-document';
 import simulateKeypress from 'simulate-keypress';
 import TestUtils from 'react-addons-test-utils';
+import {getStyles, getRect} from '../dom/dom';
 
 import Popup from './popup';
 
@@ -40,8 +41,8 @@ describe('Popup', function () {
     const fixedContainer = document.createElement('div');
     fixedContainer.style.position = 'fixed';
     const anchor = document.createElement('div');
-    $(fixedContainer).append(anchor);
-    $('body').append(fixedContainer);
+    fixedContainer.append(anchor);
+    document.body.append(fixedContainer);
 
     const popup = Popup.renderPopup(createElement(Popup, {
       anchorElement: anchor
@@ -144,57 +145,61 @@ describe('Popup', function () {
 
   describe('positioning', function () {
     it('top-left corner', function () {
-      const element = $('<div style="position: absolute; top: 10px; left: 15px; width: 50px; height: 50px;"></div>');
-      $('body').append(element);
+      const element = document.createElement('div');
+      element.setAttribute('style', 'position: absolute; top: 10px; left: 15px; width: 50px; height: 50px;');
+      document.body.append(element);
 
       const container = document.createElement('div');
-      $('body').append(container);
+      document.body.append(container);
 
       const popup = render(createElement(Popup, {
         corner: Popup.PopupProps.Corner.TOP_LEFT,
-        anchorElement: element[0]
+        anchorElement: element
       }), container);
 
       popup.show();
 
       const popupElement = popup.node;
-      const elementOffset = element.offset();
+      const elementOffset = getRect(element);
 
-      parseInt(popupElement.style.left, 10).should.equal(elementOffset.left);
-      parseInt(popupElement.style.top, 10).should.equal(elementOffset.top - $(popup.node).height());
+      parseInt(getStyles(popupElement).left, 10).should.equal(elementOffset.left);
+      parseInt(getStyles(popupElement).top, 10).should.equal(elementOffset.top - popup.node.clientHeight);
     });
 
     it('bottom-left corner', function () {
-      const element = $('<div style="position: absolute; top: 10px; left: 15px; width: 50px; height: 50px;"></div>');
-      $('body').append(element);
+      const element = document.createElement('div');
+      element.setAttribute('style', 'position: absolute; top: 10px; left: 15px; width: 50px; height: 50px;');
+      document.body.append(element);
 
       const container = document.createElement('div');
-      $('body').append(container);
+      document.body.append(container);
 
       const popup = render(createElement(Popup, {
         corner: Popup.PopupProps.Corner.BOTTOM_LEFT,
-        anchorElement: element[0]
+        anchorElement: element
       }), container);
 
       popup.show();
 
       const popupElement = popup.node;
-      const elementOffset = element.offset();
+      const elementOffset = getRect(element);
 
-      parseInt(popupElement.style.left, 10).should.equal(elementOffset.left);
-      parseInt(popupElement.style.top, 10).should.equal(elementOffset.top + element.height());
+      parseInt(getStyles(popupElement).left, 10).should.equal(elementOffset.left);
+      parseInt(getStyles(popupElement).top, 10).should.equal(elementOffset.top + elementOffset.height);
     });
 
     it('Should support minWidth = target', function () {
-      const $element = $('<div style="width: 50px; padding-left: 20px;"></div>').appendTo('body');
+      const element = document.createElement('div');
+      element.setAttribute('style', 'width: 50px; padding-left: 20px;');
+      document.body.append(element);
 
       const popup = renderIntoDocument(createElement(Popup, {
         minWidth: 'target',
-        anchorElement: $element[0]
+        anchorElement: element
       }));
 
-      parseInt(popup.node.style.minWidth, 10).should.equal(70);
-      $element.remove();
+      parseInt(getStyles(popup.node).minWidth, 10).should.equal(70);
+      element.remove();
     });
 
     it('Should support minWidth = some number in pixels', function () {

@@ -41,10 +41,9 @@ module.exports = function (config) {
 
 
     // frameworks to use
-    frameworks: ['mocha', 'chai', 'chai-as-promised', 'chai-jquery', 'sinon-chai'],
+    frameworks: ['mocha', 'chai', 'chai-as-promised', 'chai-dom', 'sinon-chai'],
 
     files: [
-      require.resolve('jquery'),
       'test-helpers/mocha-globals.js',
       'test-helpers/test-suite.js'
     ],

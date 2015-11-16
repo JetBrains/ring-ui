@@ -3,13 +3,11 @@
  * @author igor.alexeenko@jetbrains.com
  */
 
-import Alert from './alert';
 import React from 'react';
 import TestUtils from 'react-addons-test-utils';
+import Alert from './alert';
 
 describe('Alert', function () {
-  const $ = require('jquery');
-
   it('should render', function () {
     const alertComponent = TestUtils.renderIntoDocument(
         React.createElement(Alert, {caption: 'Test element'}));
@@ -22,35 +20,35 @@ describe('Alert', function () {
         const alertComponent = TestUtils.renderIntoDocument(
             React.createElement(Alert, {caption: 'Test element', type: Alert.Type.MESSAGE}));
 
-        $(alertComponent.node).should.have.class('ring-alert_message');
+        alertComponent.node.should.have.class('ring-alert_message');
       });
 
       it('should render an error', function () {
         const alertComponent = TestUtils.renderIntoDocument(
             React.createElement(Alert, {caption: 'Test element', type: Alert.Type.ERROR}));
 
-        $(alertComponent.node).should.have.class('ring-alert_error');
+        alertComponent.node.should.have.class('ring-alert_error');
       });
 
       it('should render a warning', function () {
         const alertComponent = TestUtils.renderIntoDocument(
             React.createElement(Alert, {caption: 'Test element', type: Alert.Type.WARNING}));
 
-        $(alertComponent.node).should.have.class('ring-alert_warning');
+        alertComponent.node.should.have.class('ring-alert_warning');
       });
 
       it('should render a success message', function () {
         const alertComponent = TestUtils.renderIntoDocument(
             React.createElement(Alert, {caption: 'Test element', type: Alert.Type.SUCCESS}));
 
-        $(alertComponent.node).should.have.class('ring-alert_success');
+        alertComponent.node.should.have.class('ring-alert_success');
       });
 
       it('should render a message if type is not passed', function () {
         const alertComponent = TestUtils.renderIntoDocument(
             React.createElement(Alert, {caption: 'Test element'}));
 
-        $(alertComponent.node).should.have.class('ring-alert_message');
+        alertComponent.node.should.have.class('ring-alert_message');
       });
     });
 
