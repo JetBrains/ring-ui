@@ -369,9 +369,17 @@ export default class Popup extends RingComponentWithShortcuts {
       anchorElement = props.anchorElement;
     }
 
+    const isInsideBody = this.props.container === document.body;
+
     const anchor = this.getElementOffset(anchorElement);
-    const anchorLeft = anchor.left + document.body.scrollLeft;
-    const anchorTop = anchor.top + document.body.scrollTop;
+    let anchorLeft = anchor.left;
+    let anchorTop = anchor.top;
+
+    if (isInsideBody) {
+      anchorLeft += document.body.scrollLeft;
+      anchorTop += document.body.scrollTop;
+    }
+
 
     /* eslint-disable no-bitwise */
     if (this.node) {
