@@ -9,6 +9,7 @@
   },
   "files": [
     "ring-upsource.js",
+    "ring-upsource-dev.js",
     "components/**/*.{js,scss,gif,html}",
     "webpack.config.js"
   ],
