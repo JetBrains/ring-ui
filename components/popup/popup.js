@@ -353,6 +353,12 @@ export default class Popup extends RingComponentWithShortcuts {
     return elementRect;
   }
 
+  _getBodyScroll() {
+    return {
+      left: document.body.scrollLeft,
+      top: document.body.scrollTop
+    };
+  }
   /**
    * @return {Object}
    * @private
@@ -376,8 +382,9 @@ export default class Popup extends RingComponentWithShortcuts {
     let anchorTop = anchor.top;
 
     if (isInsideBody) {
-      anchorLeft += document.body.scrollLeft;
-      anchorTop += document.body.scrollTop;
+      const scroll = this._getBodyScroll();
+      anchorLeft += scroll.left;
+      anchorTop += scroll.top;
     }
 
 
