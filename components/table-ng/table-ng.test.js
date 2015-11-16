@@ -180,7 +180,7 @@ describe('TableNg', function () {
 
     describe('Table row', function () {
       it('Should activate item on clicking row', function () {
-        element[0].query('.ring-table__row:nth-child(4)').dispatchEvent(new MouseEvent('click'));
+        element[0].query('.ring-table__row:nth-child(4)').dispatchEvent(new CustomEvent('click'));
         scope.$digest();
 
         expect(directiveController.selection.getActiveItem()).to.equal(fakeData.items[2]);

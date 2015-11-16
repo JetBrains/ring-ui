@@ -114,7 +114,7 @@ function rgAvatarEditor() {
           alert.error(RingMessageBundle.avatareditor_nosupport());
         } else {
           fileInput.addEventListener('click', onClick);
-          fileInput.dispatchEvent(new MouseEvent('click'));
+          fileInput.dispatchEvent(new CustomEvent('click'));
           fileInput.removeEventListener('click', onClick);
         }
       };

@@ -25,11 +25,11 @@ describe('Popup', function () {
 
   it('should be closed by resizing window', function (done) {
     const popup = renderIntoDocument(createElement(Popup, null));
-    const evt = document.createEvent('Event');
-    evt.initEvent('resize', true, false);
+    const resize = document.createEvent('Event');
+    resize.initEvent('resize', true, false);
 
     setTimeout(function () {
-      window.dispatchEvent(evt);
+      window.dispatchEvent(resize);
 
       should.not.exist(popup.node);
 
@@ -71,8 +71,8 @@ describe('Popup', function () {
   });
 
   describe('close by click', function () {
-    const evt = document.createEvent('MouseEvent');
-    evt.initEvent('click', true, false);
+    const click = document.createEvent('MouseEvent');
+    click.initEvent('click', true, false);
 
     it('should be closed by click outside the element', function (done) {
       const onClose = this.sinon.stub();
@@ -81,7 +81,7 @@ describe('Popup', function () {
       }));
 
       setTimeout(function () {
-        document.body.dispatchEvent(evt);
+        document.body.dispatchEvent(click);
 
         onClose.should.have.been.called;
 
@@ -99,7 +99,7 @@ describe('Popup', function () {
       }));
 
       setTimeout(function () {
-        document.body.dispatchEvent(evt);
+        document.body.dispatchEvent(click);
         onCloseStub.should.have.been.calledWith(sinon.match({type: 'click'}));
         done();
       });
@@ -113,7 +113,7 @@ describe('Popup', function () {
       }));
 
       setTimeout(function () {
-        document.body.dispatchEvent(evt);
+        document.body.dispatchEvent(click);
         onCloseStub.should.not.have.been.called;
         done();
       });
@@ -127,7 +127,7 @@ describe('Popup', function () {
 
       setTimeout(function () {
         popup.hide();
-        document.body.dispatchEvent(evt);
+        document.body.dispatchEvent(click);
 
         onClose.should.not.have.been.called;
         done();
@@ -143,7 +143,7 @@ describe('Popup', function () {
       popup.show();
 
       setTimeout(function () {
-        document.body.dispatchEvent(evt);
+        document.body.dispatchEvent(click);
 
         onClose.should.have.been.called;
         done();
@@ -154,7 +154,7 @@ describe('Popup', function () {
       const popup = renderIntoDocument(createElement(Popup, null));
 
       setTimeout(function () {
-        popup.node.dispatchEvent(evt);
+        popup.node.dispatchEvent(click);
 
         popup.node.should.exist;
         done();
