@@ -26,6 +26,8 @@ describe('DropdownNg', function () {
     directiveScope = element.isolateScope();
   }));
 
+  const click = new CustomEvent('click');
+
   it('should pass items', function () {
     expect(directiveScope.items).to.equal(scope.items);
   });
@@ -47,21 +49,21 @@ describe('DropdownNg', function () {
   });
 
   it('should show popup', function () {
-    element[0].dispatchEvent(new MouseEvent('click'));
+    element[0].dispatchEvent(click);
     scope.$digest();
 
     expect(directiveScope.getPopupMenuInstance().isVisible()).to.equal(true);
   });
 
   it('should add dropdown-ng_open class to mark target as opened', function () {
-    element[0].dispatchEvent(new MouseEvent('click'));
+    element[0].dispatchEvent(click);
     scope.$digest();
 
     element[0].should.have.class('dropdown-ng_open');
   });
 
   it('should remove dropdown-ng_open class to unmark target as opened', function () {
-    element[0].dispatchEvent(new MouseEvent('click'));
+    element[0].dispatchEvent(click);
     scope.$digest();
 
     directiveScope.getPopupMenuInstance().close();
@@ -87,7 +89,7 @@ describe('DropdownNg', function () {
     directiveScope = element.isolateScope();
 
     expect(function () {
-      element[0].dispatchEvent(new MouseEvent('click'));
+      element[0].dispatchEvent(click);
       scope.$digest();
     }).to.not.throw(Error);
   });
