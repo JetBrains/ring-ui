@@ -3,7 +3,6 @@
 
 import 'angular';
 import 'angular-mocks';
-import $ from 'jquery';
 import'./tooltip-ng';
 
 describe('tooltipNg', function () {
@@ -33,16 +32,14 @@ describe('tooltipNg', function () {
 
   it('Should set ring-tooltip-ng class for popup', function () {
     popupWrapper.displayTooltip();
-    const $popup = $(popupWrapper.popup.node);
+    const popup = popupWrapper.popup.node;
 
-    $popup.should.have.class('ring-tooltip-ng');
+    popup.should.have.class('ring-tooltip-ng');
   });
 
   it('Should display message inside', function () {
     popupWrapper.displayTooltip();
-    const text = popupWrapper.popup.node.textContent;
-
-    text.should.be.equal(INNER_TEXT);
+    popupWrapper.popup.node.should.have.text(INNER_TEXT);
   });
 
   it('Should close popup', function () {

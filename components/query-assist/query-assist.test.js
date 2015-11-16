@@ -1,5 +1,5 @@
 import React from 'react';
-import $ from 'jquery';
+import 'dom4';
 
 import QueryAssist from './query-assist';
 
@@ -159,8 +159,8 @@ describe('QueryAssist', function () {
     it('should render letters', function () {
       this.renderQueryAssist();
 
-      $(this.queryAssist.input).should.have.descendants('.' + LETTER_CLASS);
-      $(this.queryAssist.input).find('.' + LETTER_CLASS).should.have.length(testQueryLength);
+      this.queryAssist.input.should.contain('.' + LETTER_CLASS);
+      this.queryAssist.input.queryAll('.' + LETTER_CLASS).should.have.length(testQueryLength);
     });
 
 
@@ -197,7 +197,7 @@ describe('QueryAssist', function () {
       });
 
       this.queryAssist.refs.placeholder.should.exist;
-      $(this.queryAssist.refs.placeholder).should.have.text('plz');
+      this.queryAssist.refs.placeholder.should.have.text('plz');
     });
 
     it('should not render placeholder when disabled on empty query', function () {
@@ -220,12 +220,12 @@ describe('QueryAssist', function () {
         ]
       });
 
-      const letters = $(this.queryAssist.input).find('.' + LETTER_CLASS);
+      const letters = this.queryAssist.input.queryAll('.' + LETTER_CLASS);
 
-      letters.eq(0).should.have.class(LETTER_CLASS + '_text');
-      letters.eq(1).should.have.class(LETTER_CLASS + '_field-value');
-      letters.eq(2).should.have.class(LETTER_CLASS + '_field-name');
-      letters.eq(3).should.have.class(LETTER_CLASS + '_operator');
+      letters[0].should.have.class(LETTER_CLASS + '_text');
+      letters[1].should.have.class(LETTER_CLASS + '_field-value');
+      letters[2].should.have.class(LETTER_CLASS + '_field-name');
+      letters[3].should.have.class(LETTER_CLASS + '_operator');
     });
 
 
@@ -234,8 +234,8 @@ describe('QueryAssist', function () {
         disabled: true
       });
 
-      $(this.queryAssist.input).should.have.attr('contenteditable', 'false');
-      $(this.queryAssist.input).should.have.class('ring-input_disabled');
+      this.queryAssist.input.should.have.attr('contenteditable', 'false');
+      this.queryAssist.input.should.have.class('ring-input_disabled');
     });
 
     it('should render glass when enabled', function () {
@@ -321,11 +321,11 @@ describe('QueryAssist', function () {
 
       this.queryAssist.renderPopup(suggestions);
 
-      const list = $(findDOMNode(this.queryAssist._popup.refs.List));
+      const list = findDOMNode(this.queryAssist._popup.refs.List);
 
-      list.find('.ring-list__item').should.have.length(suggestions.length);
-      list.find('.ring-list__highlight').should.have.length(suggestions.length);
-      list.find('.ring-list__service').should.have.length(suggestions.length * 2);
+      list.queryAll('.ring-list__item').should.have.length(suggestions.length);
+      list.queryAll('.ring-list__highlight').should.have.length(suggestions.length);
+      list.queryAll('.ring-list__service').should.have.length(suggestions.length * 2);
     });
 
   });
@@ -350,7 +350,7 @@ describe('QueryAssist', function () {
       this.queryAssist.renderPopup(suggestions);
 
       simulateKeypress(null, 9); // press tab
-      $(this.queryAssist.input).text().should.equal(getSuggestionText(suggestions[0]));
+      this.queryAssist.input.should.have.text(getSuggestionText(suggestions[0]));
     });
 
     it('should complete selected suggestion by enter in the end of phrase', function () {
@@ -362,7 +362,7 @@ describe('QueryAssist', function () {
 
       simulateKeypress(null, 40); // press down
       simulateKeypress(null, 13); // press enter
-      $(this.queryAssist.input).text().should.equal(getSuggestionText(suggestions[0]));
+      this.queryAssist.input.should.have.text(getSuggestionText(suggestions[0]));
     });
 
     it('should complete by tab in the middle of phrase', function () {
@@ -374,7 +374,7 @@ describe('QueryAssist', function () {
       this.queryAssist.renderPopup(suggestions);
 
       simulateKeypress(null, 9); // press tab
-      $(this.queryAssist.input).text().should.equal(getSuggestionText(suggestions[0]));
+      this.queryAssist.input.should.have.text(getSuggestionText(suggestions[0]));
     });
 
     it('should complete selected suggestion by enter in the middle of phrase', function () {
@@ -386,7 +386,7 @@ describe('QueryAssist', function () {
 
       simulateKeypress(null, 40); // press down
       simulateKeypress(null, 13); // press enter
-      $(this.queryAssist.input).text().should.equal(getSuggestionText(suggestions[0]) + completeQuery.substring(middleCaret));
+      this.queryAssist.input.should.have.text(getSuggestionText(suggestions[0]) + completeQuery.substring(middleCaret));
     });
 
     it('should complete selected suggestion by tab in the middle of phrase', function () {
@@ -400,7 +400,7 @@ describe('QueryAssist', function () {
       simulateKeypress(null, 40); // press down
       simulateKeypress(null, 40); // press down
       simulateKeypress(null, 9); // press tab
-      $(this.queryAssist.input).text().should.equal(getSuggestionText(suggestions[2]));
+      this.queryAssist.input.should.have.text(getSuggestionText(suggestions[2]));
     });
   });
 

@@ -3,7 +3,7 @@
  * @author igor.alexeenko (Igor Alekseyenko)
  */
 
-import $ from 'jquery';
+import 'dom4';
 import urlUtils from '../url-utils/url-utils';
 
 describe('urlUtils', function () {
@@ -12,8 +12,9 @@ describe('urlUtils', function () {
     let baseUrl;
 
     beforeEach(function () {
-      baseTag = $('<base href="/some/base/url/">');
-      $(document.head).prepend(baseTag);
+      baseTag = document.createElement('base');
+      baseTag.setAttribute('href', '/some/base/url/');
+      document.head.prepend(baseTag);
       baseUrl = urlUtils.getBaseURI();
     });
 

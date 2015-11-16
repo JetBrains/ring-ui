@@ -23,9 +23,6 @@ module.exports = webpackConfigMerger(webpackConfig, {
   entry: {
     index: './site/'
   },
-  externals: {
-    jquery: false
-  },
   resolve: {
     alias: {
       'ring-ui': __dirname

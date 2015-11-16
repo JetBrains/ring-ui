@@ -20,17 +20,18 @@ describe('SidebarNg', function () {
       '<rg-sidebar show="isShowSidebar" place-under-sibling=".test-sibling">Test sidebar message</rg-sidebar>' +
       '<div class="test-sibling" style="height: 100px;">test</div>' +
     '</div>')(scope);
+
     scope.$digest();
   }));
 
   it('Should be showed if showSidebar = true', function () {
-    element.should.have.descendants('.ring-sidebar_active');
+    element[0].should.contain('.ring-sidebar_active');
   });
 
   it('Should not be showed if showSidebar = false', function () {
     scope.isShowSidebar = false;
     scope.$digest();
 
-    element.should.not.have.descendants('.ring-sidebar_active');
+    element[0].should.not.contain('.ring-sidebar_active');
   });
 });

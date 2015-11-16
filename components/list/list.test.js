@@ -1,4 +1,3 @@
-import $ from 'jquery';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import TestUtils from 'react-addons-test-utils';
@@ -62,7 +61,7 @@ describe('List', function () {
         {}
       ]});
 
-      $(getFirstListItem()).should.have.class('ring-list__item_action');
+      getFirstListItem().should.have.class('ring-list__item_action');
       getFirstListItem().innerHTML.should.equal('');
     });
 
@@ -71,8 +70,8 @@ describe('List', function () {
         {label: 'Hello!'}
       ]});
 
-      $(getFirstListItem()).should.have.class('ring-list__item');
-      $(getFirstListItem()).should.have.class('ring-list__item_action');
+      getFirstListItem().should.have.class('ring-list__item');
+      getFirstListItem().should.have.class('ring-list__item_action');
       // React creates unexpected additional span
       getFirstListItem().firstChild.innerHTML.should.equal('Hello!');
     });
@@ -82,7 +81,7 @@ describe('List', function () {
         {label: 'Hello!', href: 'http://www.jetbrains.com'}
       ]});
 
-      $(getFirstListItem()).should.have.class('ring-link');
+      getFirstListItem().should.have.class('ring-link');
       getFirstListItem().innerHTML.should.equal('Hello!');
       getFirstListItem().tagName.toLowerCase().should.equal('a');
       getFirstListItem().getAttribute('href').should.equal('http://www.jetbrains.com');
@@ -93,7 +92,7 @@ describe('List', function () {
         {label: 'Hello!', url: 'http://www.jetbrains.com'}
       ]});
 
-      $(getFirstListItem()).should.have.class('ring-link');
+      getFirstListItem().should.have.class('ring-link');
       getFirstListItem().innerHTML.should.equal('Hello!');
       getFirstListItem().tagName.toLowerCase().should.equal('a');
       getFirstListItem().getAttribute('href').should.equal('http://www.jetbrains.com');
@@ -104,7 +103,7 @@ describe('List', function () {
         {rgItemType: List.ListProps.Type.SEPARATOR}
       ]});
 
-      $(getFirstListItem()).should.have.class('ring-list__separator');
+      getFirstListItem().should.have.class('ring-list__separator');
     });
 
     it('should render title', function () {
@@ -112,7 +111,7 @@ describe('List', function () {
         {type: List.ListProps.Type.TITLE, label: 'Foo', description: 'Bar'}
       ]});
 
-      $(getFirstListItem()).text().should.be.equal('BarFoo');
+      getFirstListItem().should.have.text('BarFoo');
     });
 
     it('should render span if link without href', function () {
@@ -120,7 +119,7 @@ describe('List', function () {
         {label: 'Hello!', rgItemType: List.ListProps.Type.LINK}
       ]});
 
-      $(getFirstListItem()).should.have.class('ring-link');
+      getFirstListItem().should.have.class('ring-link');
       getFirstListItem().innerHTML.should.equal('Hello!');
       getFirstListItem().tagName.toLowerCase().should.equal('span');
     });
@@ -129,25 +128,26 @@ describe('List', function () {
       list.rerender({data: [
         {label: 'Hello!', type: List.ListProps.Type.ITEM}
       ]});
-      $(getFirstListItem()).should.not.have.descendants('.ring-list__icon');
+
+      getFirstListItem().should.not.contain('.ring-list__icon');
     });
 
     it('should render icon if provided', function () {
       list.rerender({data: [
         {label: 'Hello!', icon: 'http://some.url/', type: List.ListProps.Type.ITEM}
       ]});
+
       const icon = getFirstListItem().querySelector('.ring-list__icon');
       expect(icon.style.backgroundImage).to.contain('http://some.url');
     });
 
     it('should throw error on unknown type', function () {
-
       expect(function () {
         list.rerender({data: [
           {label: 'Hello!', rgItemType: 'none'}
         ]});
 
-        $(getFirstListItem()).should.have.class('ring-link');
+        getFirstListItem().should.have.class('ring-link');
         getFirstListItem().innerHTML.should.equal('Hello!');
         getFirstListItem().tagName.toLowerCase().should.equal('span');
       }).to.throw(Error, 'Unknown menu element type: none');

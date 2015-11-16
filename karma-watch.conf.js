@@ -8,7 +8,7 @@ var baseConfig = require('./karma-base.conf.js');
 module.exports = function (config) {
   var configWatch = deepAssign(baseConfig(config), {
     singleRun: false,
-    reporters: ['nyan', 'osx'],
+    reporters: ['progress', 'osx'],
     osxReporter: {
       notificationMode: 'change'
     }
