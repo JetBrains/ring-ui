@@ -1,7 +1,6 @@
 import React from 'react';
 import TestUtils from 'react-addons-test-utils';
 import LoaderInline from './loader-inline';
-import $ from 'jquery';
 
 describe('LoaderInline', function () {
   let loader;
@@ -19,6 +18,6 @@ describe('LoaderInline', function () {
       className: 'test'
     });
 
-    $(loader.node).should.have.class('test');
+    loader.node.should.have.class('test');
   });
 });

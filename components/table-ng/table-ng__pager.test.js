@@ -5,7 +5,6 @@
 import 'angular';
 import 'angular-mocks';
 import './table-ng__pager';
-import $ from 'jquery';
 
 describe('TableNg Pager', function () {
   let scope;
@@ -36,48 +35,48 @@ describe('TableNg Pager', function () {
 
   it('should render pager without any controls', function () {
     createPager(5, 10, 0);
-    expect($(element).hasClass('ng-hide')).to.be.true;
+    element[0].should.have.class('ng-hide');
   });
 
   it('should render pager without controls', function () {
     createPager(15, 10, 0);
-    expect($(element).hasClass('ng-hide')).to.be.false;
+    element[0].should.not.have.class('ng-hide');
   });
 
   it('should render pager with 2 pages', function () {
     createPager(15, 10, 0);
-    expect($(element).find('[anchor-id="table-pager-page"]').length).to.be.equal(2);
+    element[0].queryAll('[anchor-id="table-pager-page"]').should.have.length(2);
   });
 
   it('should render pager with 5 pages', function () {
     createPager(25, 5, 0);
-    expect($(element).find('[anchor-id="table-pager-page"]').length).to.be.equal(5);
+    element[0].queryAll('[anchor-id="table-pager-page"]').should.have.length(5);
   });
 
   it('should render pager with 7 pages maximum', function () {
     createPager(100, 5, 0);
-    expect($(element).find('[anchor-id="table-pager-page"]').length).to.be.equal(7);
+    element[0].queryAll('[anchor-id="table-pager-page"]').should.have.length(7);
   });
 
   it('first page should be selected as default', function () {
     createPager(100, 5, 0);
-    expect($(element).find('[anchor-id="table-pager-page"]:first-child').hasClass('ring-btn_active')).to.be.true;
+    element[0].query('[anchor-id="table-pager-page"]:first-child').should.have.class('ring-btn_active');
   });
 
   it('third page should be selected as default', function () {
     createPager(100, 5, 10);
-    expect($(element).find('[anchor-id="table-pager-page"]:nth-child(3)').hasClass('ring-btn_active')).to.be.true;
+    element[0].query('[anchor-id="table-pager-page"]:nth-child(3)').should.have.class('ring-btn_active');
   });
 
   it('third page should be selected as default with optional search param', function () {
     $location.search('page', 3);
     createPager(100, 5, 0);
-    expect($(element).find('[anchor-id="table-pager-page"]:nth-child(3)').hasClass('ring-btn_active')).to.be.true;
+    element[0].query('[anchor-id="table-pager-page"]:nth-child(3)').should.have.class('ring-btn_active');
   });
 
   it('change top by optional search param', function () {
     $location.search('top', 10);
     createPager(20, 5, 0);
-    expect($(element).find('[anchor-id="table-pager-page"]').length).to.be.equal(2);
+    element[0].queryAll('[anchor-id="table-pager-page"]').should.have.length(2);
   });
 });

@@ -27,8 +27,8 @@ describe('ErrorPageNg', function () {
     elem = $compile(elem)($rootScope);
     $rootScope.$digest();
 
-    elem.find('.content').text().should.equal('Hello!');
-    elem.find('.error-message').should.not.exist;
+    elem[0].query('.content').should.have.text('Hello!');
+    elem[0].should.not.contain('.error-message');
   }));
 
   it('should compile directive to default error if has empty error',
@@ -37,9 +37,9 @@ describe('ErrorPageNg', function () {
       elem = $compile(elem)($rootScope);
       $rootScope.$digest();
 
-      elem.find('.content').should.not.exist;
-      elem.find('.error-message').should.exist;
-      elem.find('.error-message__title').text().should.equal(RingMessageBundle.errorpage_seriouslywrong());
+      elem[0].should.not.contain('.content');
+      elem[0].should.contain('.error-message');
+      elem[0].query('.error-message__title').should.have.text(RingMessageBundle.errorpage_seriouslywrong());
     })
   );
 
@@ -49,9 +49,9 @@ describe('ErrorPageNg', function () {
       elem = $compile(elem)($rootScope);
       $rootScope.$digest();
 
-      elem.find('.content').should.not.exist;
-      elem.find('.error-message').should.exist;
-      elem.find('.error-message__title').text().should.equal('404: ' + RingMessageBundle.errorpage_404());
+      elem[0].should.not.contain('.content');
+      elem[0].should.contain('.error-message');
+      elem[0].query('.error-message__title').should.have.text('404: ' + RingMessageBundle.errorpage_404());
     })
   );
 
@@ -64,8 +64,8 @@ describe('ErrorPageNg', function () {
       $rootScope.errorSource.resolve();
       $rootScope.$digest();
 
-      elem.find('.content').text().should.equal('Hello!');
-      elem.find('.error-message').should.not.exist;
+      elem[0].query('.content').should.have.text('Hello!');
+      elem[0].should.not.contain('.error-message');
     })
   );
 
@@ -77,9 +77,9 @@ describe('ErrorPageNg', function () {
       $rootScope.errorSource.reject();
       $rootScope.$digest();
 
-      elem.find('.content').should.not.exist;
-      elem.find('.error-message').should.exist;
-      elem.find('.error-message__title').text().should.equal(RingMessageBundle.errorpage_seriouslywrong());
+      elem[0].should.not.contain('.content');
+      elem[0].should.contain('.error-message');
+      elem[0].query('.error-message__title').should.have.text(RingMessageBundle.errorpage_seriouslywrong());
     })
   );
 
@@ -91,9 +91,9 @@ describe('ErrorPageNg', function () {
       $rootScope.errorSource.reject({status: 403});
       $rootScope.$digest();
 
-      elem.find('.content').should.not.exist;
-      elem.find('.error-message').should.exist;
-      elem.find('.error-message__title').text().should.equal('403: ' + RingMessageBundle.errorpage_403());
+      elem[0].should.not.contain('.content');
+      elem[0].should.contain('.error-message');
+      elem[0].query('.error-message__title').should.have.text('403: ' + RingMessageBundle.errorpage_403());
     })
   );
 
@@ -107,9 +107,9 @@ describe('ErrorPageNg', function () {
       df.reject({status: 403});
       $rootScope.$digest();
 
-      elem.find('.content').should.not.exist;
-      elem.find('.error-message').should.exist;
-      elem.find('.error-message__title').text().should.equal('403: ' + RingMessageBundle.errorpage_403());
+      elem[0].should.not.contain('.content');
+      elem[0].should.contain('.error-message');
+      elem[0].query('.error-message__title').should.have.text('403: ' + RingMessageBundle.errorpage_403());
     })
   );
 
@@ -129,9 +129,9 @@ describe('ErrorPageNg', function () {
       df.resolve();
       $rootScope.$digest();
 
-      elem.find('.content').should.not.exist;
-      elem.find('.error-message').should.exist;
-      elem.find('.error-message__title').text().should.equal('403: ' + RingMessageBundle.errorpage_403());
+      elem[0].should.not.contain('.content');
+      elem[0].should.contain('.error-message');
+      elem[0].query('.error-message__title').should.have.text('403: ' + RingMessageBundle.errorpage_403());
     })
   );
 
@@ -151,9 +151,9 @@ describe('ErrorPageNg', function () {
       df.reject({status: 500});
       $rootScope.$digest();
 
-      elem.find('.content').should.not.exist;
-      elem.find('.error-message').should.exist;
-      elem.find('.error-message__title').text().should.equal('403: ' + RingMessageBundle.errorpage_403());
+      elem[0].should.not.contain('.content');
+      elem[0].should.contain('.error-message');
+      elem[0].query('.error-message__title').should.have.text('403: ' + RingMessageBundle.errorpage_403());
     })
   );
 });
