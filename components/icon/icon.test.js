@@ -1,6 +1,7 @@
 import TestUtils from 'react-addons-test-utils';
 import Icon from './icon';
 import expandIcon from 'jetbrains-icons/expand.svg';
+import IconUrl from './icon__url';
 
 describe('Icon', function () {
   beforeEach(function () {
@@ -14,7 +15,7 @@ describe('Icon', function () {
   });
 
   it('should render passed glyph', function () {
-    this.icon.node.query('use').should.have.attr('xlink:href', expandIcon);
+    this.icon.node.query('use').should.have.attr('xlink:href', IconUrl.resolve(expandIcon));
   });
 
   it('should set size 16', function () {
