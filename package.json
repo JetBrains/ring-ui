@@ -74,7 +74,6 @@
     "karma-electron-launcher": "0.0.4-jb",
     "karma-firefox-launcher": "0.1.6",
     "karma-mocha": "0.2.0",
-    "karma-nyan-reporter": "0.2.2",
     "karma-osx-reporter": "0.2.0",
     "karma-phantomjs-shim": "1.1.1",
     "karma-teamcity-reporter": "0.2.1",
