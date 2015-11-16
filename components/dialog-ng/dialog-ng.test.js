@@ -1,4 +1,4 @@
-/* global inject, angular */
+/* global inject */
 
 import 'angular';
 import 'angular-mocks';
@@ -9,7 +9,7 @@ import './dialog-ng';
 describe('DialogNg', function () {
   let scope;
   let element;
-  let ctrl;
+  //let ctrl;
   let service;
   let $compile;
   let $templateCache;
@@ -18,7 +18,7 @@ describe('DialogNg', function () {
 
   function compileTemplate(template) {
     element = $compile(template)(scope);
-    ctrl = element.controller('rgDialog');
+    //ctrl = element.controller('rgDialog');
     scope.$digest();
   }
 
