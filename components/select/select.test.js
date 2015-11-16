@@ -3,7 +3,6 @@ import List from '../list/list';
 import Popup from '../popup/popup';
 import React from 'react';
 import TestUtils from 'react-addons-test-utils';
-import $ from 'jquery';
 import renderIntoDocument from 'render-into-document';
 
 describe('Select', function () {
@@ -116,22 +115,22 @@ describe('Select', function () {
 
   describe('DOM', function () {
     it('Should place select button inside container', function () {
-      $(this.select.node).should.have.class('ring-select');
+      this.select.node.should.have.class('ring-select');
     });
 
     it('Should disable select button if needed', function () {
       this.select.rerender({
         disabled: true
       });
-      $(this.select.node).should.have.class('ring-select_disabled');
-      $(this.select.node).should.have.attr('disabled');
+      this.select.node.should.have.class('ring-select_disabled');
+      this.select.node.should.have.attr('disabled');
     });
 
     it('Should not disable select button if not needed', function () {
       this.select.rerender({
         disabled: false
       });
-      $(this.select.node).should.not.have.attr('disabled');
+      this.select.node.should.not.have.attr('disabled');
     });
 
     it('Should place input inside in INPUT mode', function () {
@@ -139,17 +138,17 @@ describe('Select', function () {
     });
 
     it('Should place icons inside', function () {
-      $(this.select.node).should.have.descendants('.ring-select__icons');
+      this.select.node.should.contain('.ring-select__icons');
     });
 
     it('Should add selected item icon to button', function () {
       this.select.rerender({selected: {key: 1, label: 'test', icon: 'fakeImageUrl'}});
-      $(this.select.node).should.have.descendants('.ring-select__selected-icon');
+      this.select.node.should.contain('.ring-select__selected-icon');
     });
 
     it('Should not display selected item icon if it is not provided', function () {
       this.select.rerender({selected: {key: 1, label: 'test', icon: null}});
-      $(this.select.node).should.not.have.descendants('.ring-select__selected-icon');
+      this.select.node.should.not.contain('.ring-select__selected-icon');
     });
 
     it('Should display selected item icon', function () {
@@ -160,7 +159,7 @@ describe('Select', function () {
 
     it('Should place icons inside in INPUT mode', function () {
       this.select.rerender({type: Select.Type.INPUT});
-      $(this.select.node).should.have.descendants('.ring-select__icons');
+      this.select.node.should.contain('.ring-select__icons');
     });
 
     describe('Bottom toolbar', function () {
@@ -168,14 +167,14 @@ describe('Select', function () {
         this.select.rerender({add: true});
         this.select.filterValue = this.sinon.stub().returns('');
         this.select._showPopup();
-        $(this.select._popup.node).should.not.have.descendants('.ring-select__button');
+        this.select._popup.node.should.not.contain('.ring-select__button');
       });
 
       it('Should add "Add" button if enabled and filter query not empty', function () {
         this.select.rerender({add: true});
         this.select.filterValue = this.sinon.stub().returns('test');
         this.select._showPopup();
-        $(this.select._popup.node).should.have.descendants('.ring-select__button');
+        this.select._popup.node.should.contain('.ring-select__button');
       });
 
       it('Should add "Add" button if alwaysVisible is set', function () {
@@ -183,7 +182,7 @@ describe('Select', function () {
           alwaysVisible: true
         }});
         this.select._showPopup();
-        $(this.select._popup.node).should.have.descendants('.ring-select__button');
+        this.select._popup.node.should.contain('.ring-select__button');
       });
 
       it('Should place label instead filterValue to "Add" button if alwaysVisible is set', function () {
@@ -192,9 +191,9 @@ describe('Select', function () {
           label: 'Add Something'
         }});
         this.select._showPopup();
-        const $addButton = $(this.select._popup.node).find('.ring-select__button');
+        const addButton = this.select._popup.node.query('.ring-select__button');
 
-        $addButton.text().should.contain('Add Something');
+        addButton.should.contain.text('Add Something');
       });
 
       it('Should add hint if specified', function () {
@@ -202,7 +201,7 @@ describe('Select', function () {
           hint: 'blah blah'
         });
         this.select._showPopup();
-        $(this.select._popup.node).should.have.descendants('.ring-list__item_hint');
+        this.select._popup.node.should.contain('.ring-list__item_hint');
       });
 
       it('Hint should be placed under "add" button', function () {
@@ -211,9 +210,9 @@ describe('Select', function () {
           hint: 'blah blah'
         });
         this.select._showPopup();
-        const $addButton = $(this.select._popup.node).find('.ring-select__button');
-        const $hint = $addButton.next('.ring-list__item_hint');
-        $hint.should.be.defined;
+        const hint = this.select._popup.node.queryAll('.ring-list__item_hint');
+
+        hint.should.exist;
       });
     });
   });

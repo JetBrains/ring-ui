@@ -51,7 +51,6 @@ module.exports = function (wallaby) {
   return {
     files: [
       // test helpers
-      {pattern: 'node_modules/jquery/dist/jquery.js', instrument: false},
       {pattern: 'node_modules/karma-phantomjs-shim/shim.js', instrument: false},
       {pattern: 'test-helpers/mocha-globals.js', instrument: false},
 
@@ -69,7 +68,7 @@ module.exports = function (wallaby) {
         instrument: false
       },
       {
-        pattern: 'node_modules/chai-jquery/chai-jquery.js',
+        pattern: 'node_modules/chai-dom/chai-dom.js',
         instrument: false
       },
       {

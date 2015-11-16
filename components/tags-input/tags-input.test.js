@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import TagsInput from './tags-input';
 import renderIntoDocument from 'render-into-document';
-import $ from 'jquery';
 import RingComponent from '../ring-component/ring-component';
 
 describe('TagsInput', function () {
@@ -14,7 +13,7 @@ describe('TagsInput', function () {
 
   describe('DOM', function () {
     it('should render tags', function () {
-      $(this.tagsInput.node).should.have.descendants('.ring-tag');
+      this.tagsInput.node.should.contain('.ring-tag');
     });
 
     it('should render passed label inside tags', function () {
@@ -22,7 +21,7 @@ describe('TagsInput', function () {
     });
 
     it('should render select in input mode', function () {
-      $(this.tagsInput.node).should.have.descendants('.ring-select_input-mode');
+      this.tagsInput.node.should.contain('.ring-select_input-mode');
     });
 
     it('should render tag', function () {
@@ -45,14 +44,14 @@ describe('TagsInput', function () {
         customTagComponent: CustomTag
       });
 
-      $(this.tagsInput.node).should.have.descendants('.custom-tag');
+      this.tagsInput.node.should.contain('.custom-tag');
     });
 
     it('Should use passed className', function () {
       this.tagsInput.rerender({
         className: 'test-class'
       });
-      $(this.tagsInput.node).should.have.class('test-class');
+      this.tagsInput.node.should.have.class('test-class');
     });
   });
 
@@ -110,16 +109,17 @@ describe('TagsInput', function () {
   });
 
   it('Should turn on loading message immidiatelly after initialization', function () {
-    this.tagsInput.state.loading.should.be.true;
+    this.tagsInput.state.should.have.property('loading', true);
   });
 
   it('Should turn on loading message while loading suggestions', function () {
     const dataSource = this.sinon.spy(() => Promise.resolve([]));
     this.tagsInput.rerender({dataSource});
-    this.tagsInput.state.loading.should.be.true;
+
+    this.tagsInput.state.should.have.property('loading', true);
 
     return this.tagsInput.loadSuggestions().then(() => {
-      this.tagsInput.state.loading.should.be.false;
+      this.tagsInput.state.should.have.property('loading', false);
     });
   });
 

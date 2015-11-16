@@ -2,7 +2,6 @@ import 'angular';
 import 'angular-mocks';
 import './table-ng';
 import TableSelection from './table-ng__selection';
-import $ from 'jquery';
 
 describe('TableNg', function () {
   let scope;
@@ -48,12 +47,12 @@ describe('TableNg', function () {
 
   describe('DOM', function () {
     it('Should place table inside', function () {
-      expect(element).to.have.descendants('table');
+      element[0].should.contain('table');
     });
 
     it('Should place all items inside table', function () {
-      const $rows = $('.ring-table__row', element);
-      expect($rows.length).to.equal(fakeData.items.length);
+      const rows = element[0].queryAll('.ring-table__row');
+      rows.should.have.length(fakeData.items.length);
     });
 
     it('Should set correct unlimited columns width', function () {
@@ -69,12 +68,11 @@ describe('TableNg', function () {
       )(scope);
       scope.$digest();
 
-      const $columns = $('.ring-table__row:first .ring-table__column', element);
-      $columns.get(0).style.width.should.be.equal('33%');
-      $columns.get(1).style.width.should.be.equal('33%');
+      const columns = element[0].query('.ring-table__row').queryAll('.ring-table__column');
+      columns[0].style.should.have.property('width', '33%');
+      columns[1].style.should.have.property('width', '33%');
     });
   });
-
 
   describe('Selection', function () {
     let selection;
@@ -182,7 +180,7 @@ describe('TableNg', function () {
 
     describe('Table row', function () {
       it('Should activate item on clicking row', function () {
-        element.find('.ring-table__row:nth-child(4)').click();
+        element[0].query('.ring-table__row:nth-child(4)').dispatchEvent(new MouseEvent('click'));
         scope.$digest();
 
         expect(directiveController.selection.getActiveItem()).to.equal(fakeData.items[2]);

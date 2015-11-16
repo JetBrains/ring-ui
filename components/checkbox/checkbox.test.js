@@ -1,5 +1,4 @@
 import React from 'react';
-import $ from 'jquery';
 
 import renderIntoDocument from 'render-into-document';
 import {Simulate} from 'react-addons-test-utils';
@@ -20,16 +19,16 @@ describe('Checkbox', function () {
   });
 
   it('should render checkbox', function () {
-    $(this.checkbox.refs.input).should.have.prop('type', 'checkbox');
+    this.checkbox.refs.input.should.have.property('type', 'checkbox');
   });
 
   it('should generate id if not passed', function () {
-    $(this.checkbox.node).prop('id').should.exist;
+    this.checkbox.node.should.have.property('id');
   });
 
   it('should generate unique id', function () {
     const secondCheckboxId = renderIntoDocument(React.createElement(Checkbox)).node.getAttribute('id');
-    $(this.checkbox.node).should.not.have.id(secondCheckboxId);
+    this.checkbox.node.should.not.have.id(secondCheckboxId);
   });
 
   it('should set custom id', function () {
@@ -37,7 +36,7 @@ describe('Checkbox', function () {
       id: 'test'
     });
 
-    $(this.checkbox.refs.input).should.have.id('test');
+    this.checkbox.refs.input.should.have.id('test');
   });
 
   it('should set name', function () {
@@ -45,7 +44,7 @@ describe('Checkbox', function () {
       name: 'test'
     });
 
-    $(this.checkbox.refs.input).should.have.prop('name', 'test');
+    this.checkbox.refs.input.should.have.property('name', 'test');
   });
 
   it('should call handler for click event', function () {
@@ -72,7 +71,7 @@ describe('Checkbox', function () {
   });
 
   it('should be unchecked by default', function () {
-    $(this.checkbox.node).should.not.be.checked;
+    this.checkbox.node.should.not.be.checked;
   });
 
   it('should check control', function () {
@@ -80,7 +79,7 @@ describe('Checkbox', function () {
       checked: true
     });
 
-    $(this.checkbox.refs.input).should.be.checked;
+    this.checkbox.refs.input.should.be.checked;
   });
 
   it('should be disabled', function () {
@@ -88,7 +87,7 @@ describe('Checkbox', function () {
       disabled: true
     });
 
-    $(this.checkbox.refs.input).should.be.disabled;
+    this.checkbox.refs.input.should.be.disabled;
   });
 
   it('should check control on change event', function () {
@@ -99,7 +98,7 @@ describe('Checkbox', function () {
     };
 
     Simulate.change(this.checkbox.refs.input, eventMock);
-    $(this.checkbox.refs.input).should.be.checked;
+    this.checkbox.refs.input.should.be.checked;
   });
 
   it('should connect label with input by id', function () {
