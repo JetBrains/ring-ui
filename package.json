@@ -15,7 +15,6 @@
   ],
   "main": "webpack.config.js",
   "scripts": {
-    "eslint-fix": "eslint --format 'node_modules/eslint-friendly-formatter' .",
     "test": "karma start",
     "gemini-test": "node tools/gemini-runner.js --files components/**/*.gemini.js",
     "gemini-test-ci": "node tools/gemini-runner-ci.js",
