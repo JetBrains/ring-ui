@@ -96,7 +96,7 @@ Polyfills like `Array.prototype.find` that patch native objects should be import
 ## Is jQuery available?
 
 Instead of jQuery Ring UI uses modern DOM APIs, [DOM 4 polyfill](https://github.com/WebReflection/dom4) (should be imported via `import 'dom4;'`) 
-and some handy helpers located in `dom` component. `jqLite` is still available for Angular.js components, however its usage is not recommended.
+and some handy helpers located in the `dom` component. `jqLite` is still available for Angular.js components, however, using it is not recommended.
 
 
 ## Wallaby support
