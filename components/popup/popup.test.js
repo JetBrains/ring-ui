@@ -62,8 +62,7 @@ describe('Popup', function () {
       anchorElement: anchor
     }), anchor);
 
-    this.sinon.stub(document.body, 'scrollTop', 100);
-    this.sinon.stub(document.body, 'scrollTop', 100);
+    this.sinon.stub(popup, '_getBodyScroll').returns({left: 100, top: 100});
     this.sinon.stub(popup, 'getElementOffset').returns({left: 123, top: 300, height: 0});
 
     const styles = popup._getStyles();
