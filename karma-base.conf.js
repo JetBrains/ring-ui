@@ -99,7 +99,17 @@ module.exports = function (config) {
 
 
     // Start these browsers
-    browsers: ['HeadlessNodeWebkit'],
+    browsers: ['Electron'],
+
+    electronOpts: {
+      show: false,
+      skipTaskbar: true,
+      height: 1024,
+      width: 768,
+      webPreferences: {
+        pageVisibility: true
+      }
+    },
 
     customLaunchers: {
       // Custom Chrome launcher for CI use
@@ -132,15 +142,6 @@ module.exports = function (config) {
         config: webdriverConfig,
         testName: testName,
         browserName: 'chrome'
-      },
-      HeadlessNodeWebkit: {
-        base: 'NodeWebkit',
-        options: {
-          window: {
-            show: false,
-            show_in_taskbar: false
-          }
-        }
       }
     },
 
