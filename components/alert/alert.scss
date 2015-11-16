@@ -60,6 +60,7 @@
 
 .ring-alert__caption {
   display: inline-block;
+  max-width: ring-unit*46;
   margin: $ring-unit*1.5 $ring-unit*4 $ring-unit*1.5 0;
 
   line-height: 20px;
