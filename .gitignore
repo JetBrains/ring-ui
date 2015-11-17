@@ -20,7 +20,7 @@ docs
 node_modules
 npm-debug.log
 tmp
-./ring*.js
+/ring-upsource*.js
 ring-ui-*.tgz
 
 gemini-report

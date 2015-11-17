@@ -8,6 +8,7 @@
     "version": "minor"
   },
   "files": [
+    ".babelrc",
     "ring-upsource.js",
     "ring-upsource-dev.js",
     "components/**/*.{js,scss,gif,html}",
