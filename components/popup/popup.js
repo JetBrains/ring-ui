@@ -359,6 +359,7 @@ export default class Popup extends RingComponentWithShortcuts {
       top: document.body.scrollTop
     };
   }
+
   /**
    * @return {Object}
    * @private
@@ -375,18 +376,9 @@ export default class Popup extends RingComponentWithShortcuts {
       anchorElement = props.anchorElement;
     }
 
-    const isInsideBody = this.props.container === document.body;
-
     const anchor = this.getElementOffset(anchorElement);
-    let anchorLeft = anchor.left;
-    let anchorTop = anchor.top;
-
-    if (isInsideBody) {
-      const scroll = this._getBodyScroll();
-      anchorLeft += scroll.left;
-      anchorTop += scroll.top;
-    }
-
+    const anchorLeft = anchor.left;
+    const anchorTop = anchor.top;
 
     /* eslint-disable no-bitwise */
     if (this.node) {
@@ -450,12 +442,12 @@ export default class Popup extends RingComponentWithShortcuts {
         styles.top = sidePadding;
       }
 
-      const horizontalDiff = document.documentElement.clientWidth - styles.left - this.node.offsetWidth;
+      const horizontalDiff = document.body.scrollWidth - styles.left - this.node.offsetWidth;
       if (horizontalDiff < sidePadding) {
         styles.left = styles.left + horizontalDiff - sidePadding;
       }
 
-      const vericalDiff = document.documentElement.clientHeight - styles.top - this.node.offsetHeight;
+      const vericalDiff = document.body.scrollHeight - styles.top - this.node.offsetHeight;
       if (vericalDiff < sidePadding) {
         styles.top = styles.top + vericalDiff - sidePadding;
       }
