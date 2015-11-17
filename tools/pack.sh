@@ -8,17 +8,12 @@ find .\
   -regex './package.json' -or \
   -regex './README.md' -or \
   -regex './ring-upsource.js' -or \
+  -regex './ring-upsource-dev.js' -or \
   -regex './webpack.config.js' -or \
   -regex './.babelrc' -or \
-  -regex './components/.*/.*.jsx' -or \
   -regex './components/.*/.*.js' -or \
   -regex './components/.*/.*.scss' -or \
-  -regex './components/.*/.*.png' -or \
   -regex './components/.*/.*.gif' -or \
-  -regex './components/.*/.*.svg' -or \
-  -regex './components/.*/.*.ttf' -or \
-  -regex './components/.*/.*.woff' -or \
-  -regex './components/.*/.*.eof' -or \
   -regex './components/.*/.*.html' \
   | cpio -pdm package &&
 
