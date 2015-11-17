@@ -51,25 +51,6 @@ describe('Popup', function () {
     popup.props.container.should.be.equal(fixedContainer);
   });
 
-  it('should do not add body scroll to popup position if placed inside fixed container', function () {
-    const fixedContainer = document.createElement('div');
-    fixedContainer.style.position = 'fixed';
-    const anchor = document.createElement('div');
-    fixedContainer.append(anchor);
-    document.body.append(fixedContainer);
-
-    const popup = Popup.renderPopup(createElement(Popup, {
-      anchorElement: anchor
-    }), anchor);
-
-    this.sinon.stub(popup, '_getBodyScroll').returns({left: 100, top: 100});
-    this.sinon.stub(popup, 'getElementOffset').returns({left: 123, top: 300, height: 0});
-
-    const styles = popup._getStyles();
-    styles.left.should.equal(123);
-    styles.top.should.equal(300);
-  });
-
   describe('close by click', function () {
     const click = document.createEvent('MouseEvent');
     click.initEvent('click', true, false);
