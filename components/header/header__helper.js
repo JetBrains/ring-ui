@@ -119,8 +119,10 @@ export default class HeaderHelper {
         },
 
         onUserMenuClose: () => {
-          popup.remove();
-          popup = null;
+          if (popup) {
+            popup.remove();
+            popup = null;
+          }
         }
       });
     }, error => {
