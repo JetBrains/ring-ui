@@ -203,7 +203,7 @@ function rgDialogDirective($timeout) {
     const dialogContainer = node.query('.ring-dialog__container');
     const dialogTitle = node.query('.ring-dialog__header__title');
 
-    //Fallback for backward compatibility with already exist temlates which uses data directly from scope
+    //Fallback for backward compatibility with already exist templates which uses data directly from scope
     scope.dialogForm = dialogCtrl.dialogForm;
 
     let pageHeight = null;
@@ -222,8 +222,8 @@ function rgDialogDirective($timeout) {
       }
 
       const clearance = 10;
-      const maxTop = pageHeight - dialogContainer.clientHeight - clearance;
-      const maxLeft = pageWidth - dialogContainer.clientWidth - clearance;
+      const maxTop = pageHeight - dialogContainer.offsetHeight - clearance;
+      const maxLeft = pageWidth - dialogContainer.offsetWidth - clearance;
 
       if (top > maxTop) {
         top = maxTop;
