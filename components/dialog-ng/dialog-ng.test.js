@@ -4,7 +4,7 @@ import 'angular-mocks';
 import 'dom4';
 import simulateKeypress from 'simulate-keypress';
 
-import './dialog-ng';
+import Dialog from './dialog-ng';
 
 describe('DialogNg', function () {
   let service;
@@ -12,7 +12,7 @@ describe('DialogNg', function () {
   let $templateCache;
   let $rootScope;
 
-  beforeEach(window.module('Ring.dialog'));
+  beforeEach(window.module(Dialog));
 
   beforeEach(inject(function (_$rootScope_, _$compile_, _$templateCache_, dialog) {
     $rootScope = _$rootScope_;

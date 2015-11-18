@@ -23,9 +23,9 @@ import '../tabs/tabs.scss';
      </file>
    </example>
  */
-const ringTabsModule = angular.module('Ring.tabs', ['ngRoute']);
+const module = angular.module('Ring.tabs', ['ngRoute']);
 
-ringTabsModule.directive('rgTabs', function ($location, $routeParams, $rootScope) {
+module.directive('rgTabs', function ($location, $routeParams, $rootScope) {
   return {
     restrict: 'E',
     transclude: true,
@@ -126,7 +126,7 @@ ringTabsModule.directive('rgTabs', function ($location, $routeParams, $rootScope
   };
 });
 
-ringTabsModule.directive('rgTabsPane', function () {
+module.directive('rgTabsPane', function () {
   return {
     require: '^rgTabs',
     restrict: 'E',
@@ -144,3 +144,5 @@ ringTabsModule.directive('rgTabsPane', function () {
     template: '<div class="ring-tabs__content" ng-class="{\'ring-tabs__content_active\':selected}" ng-if="selected" ng-transclude></div>'
   };
 });
+
+export default module.name;

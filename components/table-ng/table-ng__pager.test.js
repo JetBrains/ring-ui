@@ -4,7 +4,7 @@
 
 import 'angular';
 import 'angular-mocks';
-import './table-ng__pager';
+import TablePager from './table-ng__pager';
 
 describe('TableNg Pager', function () {
   let scope;
@@ -17,7 +17,7 @@ describe('TableNg Pager', function () {
     scope.$digest();
   }
 
-  beforeEach(angular.mock.module('Ring.table.pager'));
+  beforeEach(angular.mock.module(TablePager));
 
   beforeEach(inject(function ($injector) {
     $location = $injector.get('$location');

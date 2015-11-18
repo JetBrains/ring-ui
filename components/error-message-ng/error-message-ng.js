@@ -15,18 +15,21 @@ reactNg({Icon});
    </rg-error-message>
  */
 
-angular.module('Ring.error-message', ['Ring.react-ng']).
-  directive('rgErrorMessage', function () {
-    return {
-      replace: true,
-      transclude: true,
-      template: require('./error-message-ng.html'),
-      restrict: 'E',
-      scope: {
-        code: '@',
-        message: '@',
-        links: '=',
-        icon: '@'
-      }
-    };
-  });
+const module = angular.module('Ring.error-message', ['Ring.react-ng']);
+
+module.directive('rgErrorMessage', function () {
+  return {
+    replace: true,
+    transclude: true,
+    template: require('./error-message-ng.html'),
+    restrict: 'E',
+    scope: {
+      code: '@',
+      message: '@',
+      links: '=',
+      icon: '@'
+    }
+  };
+});
+
+export default module.name;

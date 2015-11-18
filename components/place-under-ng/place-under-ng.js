@@ -82,89 +82,91 @@ import debounce from 'mout/function/debounce';
 
 
 /* global angular: false */
-angular.module('Ring.place-under', [])
+const module = angular.module('Ring.place-under', []);
 /**
  * rg-place-under=".some-selector" = selector to point target element
  * place-top-offset="1" = offset in pixels
  */
-  .directive('rgPlaceUnder', function (getClosestElementWithCommonParent) {
-    const DEBOUNCE_INTERVAL = 10;
+module.directive('rgPlaceUnder', function (getClosestElementWithCommonParent) {
+  const DEBOUNCE_INTERVAL = 10;
 
-    return {
-      restrict: 'A',
-      link: function (scope, iElement, iAttrs) {
-        /**
-         * Use plain JS to make sidebar stickable
-         */
-        const element = iElement[0];
+  return {
+    restrict: 'A',
+    link: function (scope, iElement, iAttrs) {
+      /**
+       * Use plain JS to make sidebar stickable
+       */
+      const element = iElement[0];
 
-        const topOffset = parseInt(iAttrs.placeTopOffset, 10) || 0;
-        const syncHeight = iAttrs.syncHeight;
+      const topOffset = parseInt(iAttrs.placeTopOffset, 10) || 0;
+      const syncHeight = iAttrs.syncHeight;
 
-        /**
-         * Syncing sidebar position with other element bottom
-         * @param syncWithElement - DOM node to sync with
-         */
-        function syncPositionWith(syncWithElement) {
-          const sidebarScrollListener = debounce(() => {
-            const scrolledTop = (document.documentElement && document.documentElement.scrollTop) || document.body.scrollTop;
+      /**
+       * Syncing sidebar position with other element bottom
+       * @param syncWithElement - DOM node to sync with
+       */
+      function syncPositionWith(syncWithElement) {
+        const sidebarScrollListener = debounce(() => {
+          const scrolledTop = (document.documentElement && document.documentElement.scrollTop) || document.body.scrollTop;
 
-            const syncedElementHeight = syncWithElement.offsetHeight;
-            const syncedElementOffsetTop = syncWithElement.getBoundingClientRect().top + scrolledTop;
+          const syncedElementHeight = syncWithElement.offsetHeight;
+          const syncedElementOffsetTop = syncWithElement.getBoundingClientRect().top + scrolledTop;
 
-            const bottom = syncedElementOffsetTop + syncedElementHeight;
+          const bottom = syncedElementOffsetTop + syncedElementHeight;
 
-            const margin = Math.max(bottom - scrolledTop, syncedElementHeight);
+          const margin = Math.max(bottom - scrolledTop, syncedElementHeight);
 
-            element.style.marginTop = margin + topOffset + 'px';
+          element.style.marginTop = margin + topOffset + 'px';
 
-            if (syncHeight) {
-              /**
-               * Decrease height by margin value to make scroll work properly
-               */
-              element.style.height = 'calc(100% - ' + element.style.marginTop + ')';
-            }
-
-          }, DEBOUNCE_INTERVAL);
-
-          sidebarScrollListener();
-          window.addEventListener('scroll', sidebarScrollListener);
-          scope.$on('$destroy', () => window.removeEventListener('scroll', sidebarScrollListener));
-          scope.$watch('show', sidebarScrollListener);
-        }
-
-        function startSyncing(placeUnderSelector) {
-          if (placeUnderSelector) {
-            scope.$evalAsync(function sync() {
-              const syncWith = getClosestElementWithCommonParent(element, placeUnderSelector);
-
-              if (syncWith) {
-                syncPositionWith(syncWith);
-              } else {
-                throw new Error('rgPlaceUnder cannot find element to sync with.');
-              }
-            });
+          if (syncHeight) {
+            /**
+             * Decrease height by margin value to make scroll work properly
+             */
+            element.style.height = 'calc(100% - ' + element.style.marginTop + ')';
           }
-        }
 
-        iAttrs.$observe('rgPlaceUnder', startSyncing);
+        }, DEBOUNCE_INTERVAL);
 
+        sidebarScrollListener();
+        window.addEventListener('scroll', sidebarScrollListener);
+        scope.$on('$destroy', () => window.removeEventListener('scroll', sidebarScrollListener));
+        scope.$watch('show', sidebarScrollListener);
       }
-    };
-  })
+
+      function startSyncing(placeUnderSelector) {
+        if (placeUnderSelector) {
+          scope.$evalAsync(function sync() {
+            const syncWith = getClosestElementWithCommonParent(element, placeUnderSelector);
+
+            if (syncWith) {
+              syncPositionWith(syncWith);
+            } else {
+              throw new Error('rgPlaceUnder cannot find element to sync with.');
+            }
+          });
+        }
+      }
+
+      iAttrs.$observe('rgPlaceUnder', startSyncing);
+
+    }
+  };
+});
 /**
  * Recursive search for closest syncWith node with shared parent
  * @param currentElement - element to start search from
  * @param selector - selector to find
  * @returns {Node}
  */
-  .factory('getClosestElementWithCommonParent', function () {
-    return function getClosestElementWithCommonParent(currentElement, selector) {
-      const parent = currentElement.parentNode;
-      if (parent) {
-        return parent.query(selector) || getClosestElementWithCommonParent(parent, selector);
-      } else {
-        return null;
-      }
-    };
-  });
+module.factory('getClosestElementWithCommonParent', function () {
+  return function getClosestElementWithCommonParent(currentElement, selector) {
+    const parent = currentElement.parentNode;
+    if (parent) {
+      return parent.query(selector) || getClosestElementWithCommonParent(parent, selector);
+    } else {
+      return null;
+    }
+  };
+});
+
+export default module.name;
