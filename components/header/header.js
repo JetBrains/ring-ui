@@ -150,6 +150,8 @@ const MenuItemsSequence = [
       require('./index.scss');
       var React = require('react');
       var ReactDOM = require('react-dom');
+      var hubConfig = require('ring-ui/site/hub-config');
+
       var Header = require('ring-ui/components/header/header');
       var Popup = require('ring-ui/components/popup/popup');
       var Auth = require('ring-ui/components/auth/auth');
@@ -157,12 +159,7 @@ const MenuItemsSequence = [
 
       var popup, popupContainer;
 
-      var auth = new Auth({
-        serverUri: 'https://hub.jetbrains.com',
-        client_id: '81a0bffb-6d0f-4a38-b93a-0a4d1e567698',
-        request_credentials: 'skip',
-        redirect_uri: window.location.href.split('#')[0]
-      });
+      var auth = new Auth(hubConfig);
 
       // Render youtrack header to DOM. Help link leads to Yandex.
       // It's possible add a custom logotype into a Header via `logoUrl` parameter

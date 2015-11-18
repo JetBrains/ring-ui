@@ -45,6 +45,14 @@ function noop() {}
 
      <file name="index.js" webpack="true">
        var Auth = require('ring-ui/components/auth/auth');
+       var hubConfig = require('ring-ui/site/hub-config');
+       // Example config:
+       // var hubConfig = {
+       //   serverUri: 'https://hub.jetbrains.com/',
+       //   client_id: '81a0bffb-6d0f-4a38-b93a-0a4d1e567698',
+       //   request_credentials: 'skip',
+       //   redirect_uri: window.location.href.split('#')[0]
+       // };
 
        var log = function(title) {
          return function(obj) {
@@ -59,12 +67,7 @@ function noop() {}
          };
        };
 
-       var auth = new Auth({
-         serverUri: 'https://hub.jetbrains.com/',
-         client_id: '81a0bffb-6d0f-4a38-b93a-0a4d1e567698',
-         request_credentials: 'skip',
-         redirect_uri: window.location.href.split('#')[0]
-       });
+       var auth = new Auth(hubConfig);
 
        auth.init().
          then(log('location to restore')).

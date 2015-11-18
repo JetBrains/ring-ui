@@ -5,13 +5,20 @@ html, body {
 }
 
 .app {
-  display: flex;
   font: 13px "Helvetica Neue", Arial, sans-serif;
+}
+
+.app__header {
+  width: 100%;
 }
 
 .app__sidebar {
   margin-top: 32px;
   width: 200px;
+}
+
+.app__main {
+  display: flex;
 }
 
 .app__content {
