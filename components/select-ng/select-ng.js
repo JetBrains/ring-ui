@@ -1,4 +1,4 @@
-import {render} from 'react-dom';
+import {render, unmountComponentAtNode} from 'react-dom';
 import {createElement} from 'react';
 
 import Select from '../select/select';
@@ -517,6 +517,12 @@ module.directive('rgSelect', function () {
         });
       }
 
+      function listenToDestroy() {
+        $element.on('$destroy', () => {
+          unmountComponentAtNode(container);
+        });
+      }
+
       function getSelectType() {
         return types[getType()] || types.button;
       }
@@ -614,6 +620,7 @@ module.directive('rgSelect', function () {
         syncMultiple();
         attachDropdownIfNeeded();
         listenToRouteChanges();
+        listenToDestroy();
       }
 
       activate();
