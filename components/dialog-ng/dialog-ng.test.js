@@ -3,6 +3,7 @@ import 'angular';
 import 'angular-mocks';
 import 'dom4';
 import simulateKeypress from 'simulate-keypress';
+import {getRect} from '../dom/dom';
 
 import Dialog from './dialog-ng';
 
@@ -11,6 +12,7 @@ describe('DialogNg', function () {
   let $compile;
   let $templateCache;
   let $rootScope;
+  let sandbox;
 
   beforeEach(window.module(Dialog));
 
@@ -21,11 +23,24 @@ describe('DialogNg', function () {
     service = dialog;
   }));
 
-  function showPopup(placeholderTemplate, contentTemplate, buttons = [], data = {}, options = {}) {
+  beforeEach(function () {
+    sandbox = document.createElement('div');
+    document.body.append(sandbox);
+  });
+
+  afterEach(function () {
+    $rootScope.$destroy();
+    $templateCache.removeAll();
+    sandbox.remove();
+  });
+
+  function showDialog(placeholderTemplate, contentTemplate, buttons = [], data = {}, options = {}) {
     const scope = $rootScope.$new();
     const $element = $compile(placeholderTemplate)(scope);
     const element = $element[0];
     const ctrl = $element.controller('rgDialog');
+
+    sandbox.append(element);
 
     $templateCache.put('/test.html', contentTemplate);
     const promise = service.show(Object.assign({content: '/test.html', buttons: buttons, data: data}, options));
@@ -37,7 +52,7 @@ describe('DialogNg', function () {
   const click = new CustomEvent('click');
 
   it('should be closed by pressing Esc', function () {
-    const {element} = showPopup(
+    const {element} = showDialog(
       '<rg-dialog></rg-dialog>',
       '<div></div>'
     );
@@ -47,7 +62,7 @@ describe('DialogNg', function () {
   });
 
   it('should be closed via the controller', function () {
-    const {element, ctrl, scope} = showPopup(
+    const {element, ctrl, scope} = showDialog(
       '<rg-dialog></rg-dialog>',
       '<div></div>'
     );
@@ -58,7 +73,7 @@ describe('DialogNg', function () {
   });
 
   it('should be closed via the service', function () {
-    const {element, scope} = showPopup(
+    const {element, scope} = showDialog(
       '<rg-dialog></rg-dialog>',
       '<div></div>'
     );
@@ -69,7 +84,7 @@ describe('DialogNg', function () {
   });
 
   it('should be updated via the controller', function () {
-    const {element, scope, ctrl} = showPopup(
+    const {element, scope, ctrl} = showDialog(
       '<rg-dialog></rg-dialog>',
       '<div class="content">{{dialog.data.prop}}</div>',
       [],
@@ -82,7 +97,7 @@ describe('DialogNg', function () {
   });
 
   it('should be updated via the service', function () {
-    const {element, scope} = showPopup(
+    const {element, scope} = showDialog(
       '<rg-dialog></rg-dialog>',
       '<div class="content">{{dialog.data.prop}}</div>',
       [],
@@ -95,7 +110,7 @@ describe('DialogNg', function () {
   });
 
   it('should broadcast the event after opening', function () {
-    const {scope} = showPopup(
+    const {scope} = showDialog(
       '<rg-dialog></rg-dialog>',
       '<div></div>'
     );
@@ -107,7 +122,7 @@ describe('DialogNg', function () {
   });
 
   it('should return Promise', function () {
-    const {promise} = showPopup(
+    const {promise} = showDialog(
       '<rg-dialog></rg-dialog>',
       '<div></div>'
     );
@@ -117,7 +132,7 @@ describe('DialogNg', function () {
   });
 
   it('should resolve Promise on "done"', function () {
-    const {promise, scope} = showPopup(
+    const {promise, scope} = showDialog(
       '<rg-dialog></rg-dialog>',
       '<div></div>'
     );
@@ -131,7 +146,7 @@ describe('DialogNg', function () {
   });
 
   it('should reject Promise on "reset"', function () {
-    const {promise, scope} = showPopup(
+    const {promise, scope} = showDialog(
       '<rg-dialog></rg-dialog>',
       '<div></div>'
     );
@@ -145,7 +160,7 @@ describe('DialogNg', function () {
   });
 
   it('should have a layer in the "popup" mode', function () {
-    const {element} = showPopup(
+    const {element} = showDialog(
       '<rg-dialog></rg-dialog>',
       '<div></div>'
     );
@@ -154,7 +169,7 @@ describe('DialogNg', function () {
   });
 
   it('should not have a layer in the "sidebar" mode', function () {
-    const {element} = showPopup(
+    const {element} = showDialog(
       '<rg-dialog in-sidebar="true"></rg-dialog>',
       '<div></div>'
     );
@@ -163,7 +178,7 @@ describe('DialogNg', function () {
   });
 
   it('should not be "wide" by default', function () {
-    const {element} = showPopup(
+    const {element} = showDialog(
       '<rg-dialog></rg-dialog>',
       '<div></div>'
     );
@@ -173,7 +188,7 @@ describe('DialogNg', function () {
   });
 
   it('should be "wide" with a corresponding param', function () {
-    const {element} = showPopup(
+    const {element} = showDialog(
       '<rg-dialog></rg-dialog>',
       '<div></div>',
       [],
@@ -187,7 +202,7 @@ describe('DialogNg', function () {
 
   describe('header', function () {
     it('should have a given title', function () {
-      const {element} = showPopup(
+      const {element} = showDialog(
         '<rg-dialog></rg-dialog>',
         '<div rg-dialog-title="{{dialog.data.title}}"></div>',
         [],
@@ -198,7 +213,7 @@ describe('DialogNg', function () {
     });
 
     it('should change title via the controller', function () {
-      const {element, ctrl, scope} = showPopup(
+      const {element, ctrl, scope} = showDialog(
         '<rg-dialog></rg-dialog>',
         '<div rg-dialog-title="{{dialog.data.title}}"></div>',
         [],
@@ -212,13 +227,14 @@ describe('DialogNg', function () {
     });
 
     it('should be draggable', function () {
-      const {element} = showPopup(
+      const {element} = showDialog(
         '<rg-dialog></rg-dialog>',
         '<div></div>'
       );
 
       const container = element.query('.ring-dialog__container');
       const header = element.query('.ring-dialog__header__title');
+      const rect = getRect(container);
 
       const mousedown = new CustomEvent('mousedown');
       const mousemove = new CustomEvent('mousemove');
@@ -238,16 +254,17 @@ describe('DialogNg', function () {
       mousemove.clientY = 200;
       document.dispatchEvent(mousemove);
 
-      container.style.left.should.be.equal('40px');
-      container.style.top.should.be.equal('45px');
+      getRect(container).should.have.property('left').closeTo(rect.left + 40, 0.1);
+      getRect(container).should.have.property('top').closeTo(rect.top + 45, 0.1);
     });
 
     it('should be draggable only inside the draggable zone', function () {
-      const {element} = showPopup(
+      const {element} = showDialog(
         '<rg-dialog></rg-dialog>',
         '<div></div>'
       );
 
+      const viewport = {height: window.innerHeight, width: window.innerWidth};
       const container = element.query('.ring-dialog__container');
       const header = element.query('.ring-dialog__header__title');
 
@@ -259,20 +276,25 @@ describe('DialogNg', function () {
       mousedown.clientY = 105;
       header.dispatchEvent(mousedown);
 
-      mousemove.clientX = 5;
-      mousemove.clientY = 6;
+      mousemove.clientX = -10000;
+      mousemove.clientY = -20000;
+      document.dispatchEvent(mousemove);
+
+      getRect(container).should.contain({left: 10, top: 10});
+
+      mousemove.clientX = 30000;
+      mousemove.clientY = 40000;
       document.dispatchEvent(mousemove);
 
       document.dispatchEvent(mouseup);
 
-      container.style.left.should.be.equal('10px');
-      container.style.top.should.be.equal('10px');
+      getRect(container).should.contain({bottom: viewport.height - 10, right: viewport.width - 10});
     });
   });
 
   describe('form', function () {
     it('should contain a given content', function () {
-      const {element} = showPopup(
+      const {element} = showDialog(
         '<rg-dialog></rg-dialog>',
         '<div class="content"></div>'
       );
@@ -283,7 +305,7 @@ describe('DialogNg', function () {
 
   describe('footer', function () {
     it('should have given buttons', function () {
-      const {element} = showPopup(
+      const {element} = showDialog(
         '<rg-dialog></rg-dialog>',
         '<div></div>',
         [{label: 'Ok', default: true}, {label: 'Cancel'}]
@@ -296,7 +318,7 @@ describe('DialogNg', function () {
     });
 
     it('should have a given "default" button', function () {
-      const {element} = showPopup(
+      const {element} = showDialog(
         '<rg-dialog></rg-dialog>',
         '<div></div>',
         [{label: 'Ok', default: true}]
@@ -306,7 +328,7 @@ describe('DialogNg', function () {
     });
 
     it('should be closed by clicking a button', function () {
-      const {element} = showPopup(
+      const {element} = showDialog(
         '<rg-dialog></rg-dialog>',
         '<div></div>',
         [{label: 'Button'}]
@@ -317,7 +339,7 @@ describe('DialogNg', function () {
     });
 
     it('should not be closed by clicking a button that return "false"', function () {
-      const {element} = showPopup(
+      const {element} = showDialog(
         '<rg-dialog></rg-dialog>',
         '<div></div>',
         [{
@@ -332,7 +354,7 @@ describe('DialogNg', function () {
 
     it('should invoke an "action" callback attached to a button', function () {
       const action = this.sinon.stub();
-      const {element} = showPopup(
+      const {element} = showDialog(
         '<rg-dialog></rg-dialog>',
         '<div></div>',
         [{action: action}]
@@ -344,7 +366,7 @@ describe('DialogNg', function () {
     });
 
     it('should not have a description by default', function () {
-      const {element} = showPopup(
+      const {element} = showDialog(
         '<rg-dialog></rg-dialog>',
         '<div></div>'
       );
@@ -353,7 +375,7 @@ describe('DialogNg', function () {
     });
 
     it('should have a given description', function () {
-      const {element} = showPopup(
+      const {element} = showDialog(
         '<rg-dialog></rg-dialog>',
         '<div></div>',
         [],
