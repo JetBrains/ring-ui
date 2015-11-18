@@ -4,17 +4,17 @@ import '../form/form.scss';
 import '../button/button.scss';
 import '../save-field-ng/save-field-ng.scss';
 
-import '../message-bundle-ng/message-bundle-ng';
-import '../form-ng/form-ng';
+import MessageBundle from '../message-bundle-ng/message-bundle-ng';
+import Form from '../form-ng/form-ng';
 
 const module = angular.module('Ring.save-field', [
-  'Ring.message-bundle',
+  MessageBundle,
 
 /**
  * for error-bubble
  */
-  'Ring.form'
-])
+  Form
+]);
 
 /**
  * @name Save Field Ng
@@ -145,190 +145,190 @@ const module = angular.module('Ring.save-field', [
  </example>
  */
 
-  .directive('rgSaveField', [
-    'RingMessageBundle',
-    '$timeout',
-    '$q',
-    '$parse',
-    function (RingMessageBundle, $timeout, $q, $parse) {
-      const ESCAPE_KEY_CODE = 27;
-      const ENTER_KEY_CODE = 13;
-      const MULTI_LINE_SPLIT_PATTERN = /(\r\n|\n|\r)/gm;
-      const MULTI_LINE_LIST_MODE = 'list';
-      const CUSTOM_ERROR_ID = 'customError';
-      const ERROR_DESCRIPTION = 'error_description';
-      const ERROR_DEVELOPER_MSG = 'error_developer_message';
+module.directive('rgSaveField', [
+  'RingMessageBundle',
+  '$timeout',
+  '$q',
+  '$parse',
+  function (RingMessageBundle, $timeout, $q, $parse) {
+    const ESCAPE_KEY_CODE = 27;
+    const ENTER_KEY_CODE = 13;
+    const MULTI_LINE_SPLIT_PATTERN = /(\r\n|\n|\r)/gm;
+    const MULTI_LINE_LIST_MODE = 'list';
+    const CUSTOM_ERROR_ID = 'customError';
+    const ERROR_DESCRIPTION = 'error_description';
+    const ERROR_DEVELOPER_MSG = 'error_developer_message';
 
-      return {
-        restrict: 'E',
-        transclude: true,
-        template: require('./save-field-ng.html'),
-        scope: true,
-        link: function (scope, iElem, iAttrs) {
-          const valueExpression = iAttrs.value;
-          const getExpressionValue = $parse(valueExpression);
-          const setExpressionValue = getExpressionValue.assign;
-          const customError = {
-            message: ''
-          };
+    return {
+      restrict: 'E',
+      transclude: true,
+      template: require('./save-field-ng.html'),
+      scope: true,
+      link: function (scope, iElem, iAttrs) {
+        const valueExpression = iAttrs.value;
+        const getExpressionValue = $parse(valueExpression);
+        const setExpressionValue = getExpressionValue.assign;
+        const customError = {
+          message: ''
+        };
 
-          let multilineMode = iAttrs.multiline;
-          let blurTimeout = null;
+        let multilineMode = iAttrs.multiline;
+        let blurTimeout = null;
 
-          scope.onSave = scope.$eval(iAttrs.onSave);
+        scope.onSave = scope.$eval(iAttrs.onSave);
 
-          function submitChanges() {
-            function success() {
-              scope.initial = getExpressionValue(scope);
-              scope.saveFieldForm.$setPristine();
+        function submitChanges() {
+          function success() {
+            scope.initial = getExpressionValue(scope);
+            scope.saveFieldForm.$setPristine();
 
-              scope.done = true;
+            scope.done = true;
 
-              $timeout(function () {
-                scope.done = false;
-              }, 1000);
+            $timeout(function () {
+              scope.done = false;
+            }, 1000);
+          }
+
+          function error(err) {
+            let message;
+            if (typeof err === 'string') {
+              message = err;
+            } else if (typeof err === 'object') {
+              message = err[ERROR_DESCRIPTION] || err[ERROR_DEVELOPER_MSG];
             }
 
-            function error(err) {
-              let message;
-              if (typeof err === 'string') {
-                message = err;
-              } else if (typeof err === 'object') {
-                message = err[ERROR_DESCRIPTION] || err[ERROR_DEVELOPER_MSG];
-              }
-
-              customError.message = message;
-              scope.saveFieldForm.$setValidity(CUSTOM_ERROR_ID, false, customError);
-            }
-
-            scope.cancelBlur();
-
-            const submitPromise = $q.when(scope.onSave(getExpressionValue(scope)));
-            submitPromise.then(success);
-            submitPromise.catch(error);
+            customError.message = message;
+            scope.saveFieldForm.$setValidity(CUSTOM_ERROR_ID, false, customError);
           }
 
-          function resetValue() {
-            scope.$evalAsync(function () {
-              setExpressionValue(scope, scope.initial ? scope.initial : '');
-              scope.saveFieldForm.$setValidity(CUSTOM_ERROR_ID, true, customError);
-              scope.saveFieldForm.$setPristine();
-            });
-          }
+          scope.cancelBlur();
 
-          function addMultilineProcessig(controlName) {
-            const stopWatch = scope.$watch('saveFieldForm.' + controlName, function (control) {
-              if (!control || !control.$formatters || !control.$parsers) {
-                return;
-              }
+          const submitPromise = $q.when(scope.onSave(getExpressionValue(scope)));
+          submitPromise.then(success);
+          submitPromise.catch(error);
+        }
 
-              control.$formatters.push(function (value) {
-                if (!value) {
-                  return value;
-                }
-                if (iAttrs.formatElement) {
-                  value = value.map(function (element) {
-                    return scope.formatElement({element: element});
-                  });
-                }
-                return value.join('\n');
-              });
+        function resetValue() {
+          scope.$evalAsync(function () {
+            setExpressionValue(scope, scope.initial ? scope.initial : '');
+            scope.saveFieldForm.$setValidity(CUSTOM_ERROR_ID, true, customError);
+            scope.saveFieldForm.$setPristine();
+          });
+        }
 
-              control.$parsers.push(function (value) {
-                let array = value && value.split(MULTI_LINE_SPLIT_PATTERN) || [];
-
-                function notEmpty(val) {
-                  return val && val.trim() && val !== '\n';
-                }
-
-                array = array.filter(notEmpty);
-
-                if (iAttrs.parseElement) {
-                  array = array.map(function (element) {
-                    return scope.parseElement({element: element.trim()});
-                  });
-                }
-
-                return array;
-              });
-
-              stopWatch();
-            });
-          }
-
-          function inputBlur() {
-            blurTimeout = $timeout(() => {
-              resetValue();
-            }, 100);
-          }
-
-          function inputKey($event) {
-            if ($event.keyCode === ESCAPE_KEY_CODE) {
-              if (scope.saveFieldForm.$dirty) {
-                resetValue();
-              }
-              $event.stopPropagation();
-              $event.preventDefault();
+        function addMultilineProcessig(controlName) {
+          const stopWatch = scope.$watch('saveFieldForm.' + controlName, function (control) {
+            if (!control || !control.$formatters || !control.$parsers) {
               return;
             }
-            if ($event.keyCode === ENTER_KEY_CODE && ($event.ctrlKey || $event.metaKey || !multilineMode)) {
-              if (scope.saveFieldForm.$dirty && scope.saveFieldForm.$valid) {
-                submitChanges();
-              }
-              $event.stopPropagation();
-              $event.preventDefault();
-            }
-          }
 
-          scope.cancelBlur = function () {
-            $timeout(function () {
-              if (blurTimeout) {
-                $timeout.cancel(blurTimeout);
-                blurTimeout = null;
+            control.$formatters.push(function (value) {
+              if (!value) {
+                return value;
               }
-            }, 10);
-          };
+              if (iAttrs.formatElement) {
+                value = value.map(function (element) {
+                  return scope.formatElement({element: element});
+                });
+              }
+              return value.join('\n');
+            });
 
-          scope.$watch(valueExpression, function (value) {
-            if (scope.saveFieldForm.$pristine) {
-              scope.initial = value;
-            } else if (scope.initial && angular.equals(scope.initial, value)) {
+            control.$parsers.push(function (value) {
+              let array = value && value.split(MULTI_LINE_SPLIT_PATTERN) || [];
+
+              function notEmpty(val) {
+                return val && val.trim() && val !== '\n';
+              }
+
+              array = array.filter(notEmpty);
+
+              if (iAttrs.parseElement) {
+                array = array.map(function (element) {
+                  return scope.parseElement({element: element.trim()});
+                });
+              }
+
+              return array;
+            });
+
+            stopWatch();
+          });
+        }
+
+        function inputBlur() {
+          blurTimeout = $timeout(() => {
+            resetValue();
+          }, 100);
+        }
+
+        function inputKey($event) {
+          if ($event.keyCode === ESCAPE_KEY_CODE) {
+            if (scope.saveFieldForm.$dirty) {
               resetValue();
             }
+            $event.stopPropagation();
+            $event.preventDefault();
+            return;
+          }
+          if ($event.keyCode === ENTER_KEY_CODE && ($event.ctrlKey || $event.metaKey || !multilineMode)) {
+            if (scope.saveFieldForm.$dirty && scope.saveFieldForm.$valid) {
+              submitChanges();
+            }
+            $event.stopPropagation();
+            $event.preventDefault();
+          }
+        }
 
-            scope.saveFieldForm.$setValidity(CUSTOM_ERROR_ID, true, customError);
-          }, true);
+        scope.cancelBlur = function () {
+          $timeout(function () {
+            if (blurTimeout) {
+              $timeout.cancel(blurTimeout);
+              blurTimeout = null;
+            }
+          }, 10);
+        };
 
-          let isTextarea = false;
-          let inputNode = iElem[0].querySelector('input, .ring-save-field__input');
-
-          if (!inputNode) {
-            inputNode = iElem[0].querySelector('textarea');
-            isTextarea = !!inputNode;
+        scope.$watch(valueExpression, function (value) {
+          if (scope.saveFieldForm.$pristine) {
+            scope.initial = value;
+          } else if (scope.initial && angular.equals(scope.initial, value)) {
+            resetValue();
           }
 
-          if (inputNode) {
-            inputNode.addEventListener('keydown', inputKey);
-            inputNode.addEventListener('blur', inputBlur);
+          scope.saveFieldForm.$setValidity(CUSTOM_ERROR_ID, true, customError);
+        }, true);
 
-            if (isTextarea) {
-              if (!multilineMode) {
-                multilineMode = true;
-              } else if (inputNode.name && multilineMode === MULTI_LINE_LIST_MODE) {
-                addMultilineProcessig(inputNode.name);
-              }
+        let isTextarea = false;
+        let inputNode = iElem[0].querySelector('input, .ring-save-field__input');
+
+        if (!inputNode) {
+          inputNode = iElem[0].querySelector('textarea');
+          isTextarea = !!inputNode;
+        }
+
+        if (inputNode) {
+          inputNode.addEventListener('keydown', inputKey);
+          inputNode.addEventListener('blur', inputBlur);
+
+          if (isTextarea) {
+            if (!multilineMode) {
+              multilineMode = true;
+            } else if (inputNode.name && multilineMode === MULTI_LINE_LIST_MODE) {
+              addMultilineProcessig(inputNode.name);
             }
           }
-
-          scope.wording = {
-            save: RingMessageBundle.form_save(),
-            saved: RingMessageBundle.form_saved()
-          };
-
-          scope.submitChanges = submitChanges;
         }
-      };
-    }
-  ]);
+
+        scope.wording = {
+          save: RingMessageBundle.form_save(),
+          saved: RingMessageBundle.form_saved()
+        };
+
+        scope.submitChanges = submitChanges;
+      }
+    };
+  }
+]);
 
 export default module.name;

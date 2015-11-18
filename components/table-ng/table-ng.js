@@ -5,10 +5,10 @@ import {getStyles, getRect} from '../dom/dom';
 
 import Selection from './table-ng__selection';
 import SelectionNavigateActions from './table-ng__selection-navigate-actions';
-import './table-ng__toolbar';
-import '../place-under-ng/place-under-ng';
+import TableToolbar from './table-ng__toolbar';
+import PlaceUnder from '../place-under-ng/place-under-ng';
 
-import './table-ng__pager';
+import TablePager from './table-ng__pager';
 
 import reactNg from '../react-ng/react-ng';
 import Checkbox from '../checkbox/checkbox';
@@ -161,7 +161,7 @@ reactNg({Checkbox});
   </file>
 </example>
 */
-const module = angular.module('Ring.table', ['Ring.table.toolbar', 'Ring.table.pager', 'Ring.react-ng', 'Ring.place-under']);
+const module = angular.module('Ring.table', [TableToolbar, TablePager, 'Ring.react-ng', PlaceUnder]);
 
 module.directive('rgTable', function () {
   return {

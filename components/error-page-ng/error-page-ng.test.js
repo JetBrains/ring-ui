@@ -3,7 +3,7 @@
 import 'angular';
 import 'angular-mocks';
 import 'angular-route';
-import './error-page-ng';
+import ErrorPage from './error-page-ng';
 
 describe('ErrorPageNg', function () {
   beforeEach(
@@ -15,7 +15,7 @@ describe('ErrorPageNg', function () {
 
   /* global inject */
   it('should define module', inject(function () {
-    expect(window.angular.module('Ring.error-page')).should.exist;
+    expect(window.angular.module(ErrorPage)).should.exist;
   }));
 
   it('should define factory errorPageConfiguration', inject(function (errorPageConfiguration) {

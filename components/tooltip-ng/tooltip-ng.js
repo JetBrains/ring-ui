@@ -39,9 +39,9 @@ import './tooltip-ng.scss';
 const OPEN_CLASS = 'ring-tooltip-ng_open';
 
 /*global angular*/
-const ringTooltipModule = angular.module('Ring.tooltip', []);
+const name = angular.module('Ring.tooltip', []);
 
-ringTooltipModule.directive('rgTooltip', function ($parse, RgTooltipPopup) {
+name.directive('rgTooltip', function ($parse, RgTooltipPopup) {
   return {
     restrict: 'A',
     link: function (scope, iElement, iAttrs) {
@@ -61,7 +61,7 @@ ringTooltipModule.directive('rgTooltip', function ($parse, RgTooltipPopup) {
   };
 });
 
-ringTooltipModule.factory('RgTooltipPopup', function () {
+name.factory('RgTooltipPopup', function () {
   return function (element, template) {
     this.popup = null;
 
@@ -86,3 +86,5 @@ ringTooltipModule.factory('RgTooltipPopup', function () {
     };
   };
 });
+
+export default name.name;

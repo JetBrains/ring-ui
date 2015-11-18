@@ -1,13 +1,13 @@
 import 'angular';
 import 'angular-mocks';
-import './sidebar-ng';
+import Sidebar from './sidebar-ng';
 
 describe('SidebarNg', function () {
   let scope;
   let element;
   let $compile;
 
-  beforeEach(window.module('Ring.sidebar'));
+  beforeEach(window.module(Sidebar));
 
   /* global inject */
   beforeEach(inject(function ($rootScope, _$compile_) {

@@ -2,7 +2,7 @@
 
 import 'angular';
 import 'angular-mocks';
-import './select-ng';
+import SelectNg from './select-ng';
 import Select from '../select/select';
 
 describe('SelectNg', function () {
@@ -17,7 +17,7 @@ describe('SelectNg', function () {
     {id: 3, name: '33'}
   ];
 
-  beforeEach(window.module('Ring.select'));
+  beforeEach(window.module(SelectNg));
 
   function compileTemplate(template) {
     element = $compile(template)(scope);

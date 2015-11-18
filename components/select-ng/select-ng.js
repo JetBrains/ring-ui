@@ -2,8 +2,8 @@ import {render} from 'react-dom';
 import {createElement} from 'react';
 
 import Select from '../select/select';
-import './select-ng__options';
-import '../message-bundle-ng/message-bundle-ng';
+import SelectNgOptions from './select-ng__options';
+import MessageBundle from '../message-bundle-ng/message-bundle-ng';
 
 /**
  * @name Select Ng
@@ -283,7 +283,7 @@ import '../message-bundle-ng/message-bundle-ng';
     </example>
  */
 /* global angular: false */
-const module = angular.module('Ring.select', ['Ring.select.options', 'Ring.message-bundle']);
+const module = angular.module('Ring.select', [SelectNgOptions, MessageBundle]);
 
 module.directive('rgSelect', function () {
   const types = {
