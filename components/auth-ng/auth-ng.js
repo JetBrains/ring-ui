@@ -3,29 +3,38 @@ import Auth from '../auth/auth';
 /* global angular: false */
 const module = angular.module('Ring.auth', []);
 
-/**
- * @name Auth Ng
- * @description Angular wrapper for Auth
- * @example
- * <example name="Auth Ng">
-    <file name="index.html">
-      <div id="example"></div>
-    </file>
-    <file name="index.js" webpack="true">
-      require('angular');
-      require('ring-ui/components/analytics-ng/analytics-ng');
-
-      angular.config(["authProvider", function (authProvider) {
-        authProvider.config({
-          serverUri: "https://hub.jetbrains.com",
-          client_id: '81a0bffb-6d0f-4a38-b93a-0a4d1e567698',
-          scope: ["0-0-0-0-0"],
-        });
-      }]);
-    </file>
-  </example>
- */
 module.provider('auth', ['$httpProvider', function ($httpProvider) {
+  /**
+   * @name Auth Ng
+   * @description Angular wrapper for Auth
+   * @example
+   * <example name="Auth Ng">
+       <file name="index.html">
+         <div ng-app="test" ng-controller="testCtrl as ctrl">
+            <h3>User info</h3>
+            <pre>{{ ctrl.user | json }}</pre>
+         </div>
+       </file>
+
+       <file name="index.js" webpack="true">
+         var hubConfig = require('ring-ui/site/hub-config');
+
+         require('angular');
+         require('ring-ui/components/auth-ng/auth-ng');
+
+         angular.module('test', ['Ring.auth'])
+           .config(function (authProvider) {
+             authProvider.config(hubConfig);
+           })
+           .controller('testCtrl', function(auth, $q) {
+             var ctrl = this;
+             $q.resolve(auth.requestUser()).then(function(user) {
+              ctrl.user = user;
+             });
+           });
+       </file>
+     </example>
+   */
   /**
    * @type Auth
    */
