@@ -1,14 +1,15 @@
 /* eslint-env node */
 /* eslint-disable no-var */
 /* eslint-disable modules/no-cjs */
+/* eslint-disable camelcase */
 
 var path = require('path');
 var webpack = require('webpack');
-var chalk = require('chalk');
 
 var webpackConfigMerger = require('webpack-config-merger');
 var webpackConfig = require('./webpack.config');
 var AnyBarWebpackPlugin = require('anybar-webpack');
+var progressPlugin = require('./tools/progress-webpack-plugin');
 
 var isServer = process.argv.indexOf('--server') !== -1;
 
@@ -19,7 +20,31 @@ var sitePath = [
 ];
 var publicPath = '/assets/';
 
-module.exports = webpackConfigMerger(webpackConfig, {
+var config = require('./package.json').config;
+
+var hubOptPath = process.argv.indexOf('--hub') + 1;
+var hubOpt = hubOptPath && process.argv[hubOptPath];
+var hub = hubOpt || process.env.npm_package_config_hub || config.hub;
+var hubUri = hub in config.hubs ? config.hubs[hub] : hub;
+
+var productionClientId = '81a0bffb-6d0f-4a38-b93a-0a4d1e567698';
+var useProductionClientId = hubUri === config.hubs.production || hubUri === config.hubs.default;
+
+var hubServerConfig = {
+  serverUri: hubUri,
+  client_id: useProductionClientId ? productionClientId : '0-0-0-0-0',
+  request_credentials: 'skip',
+  redirect_uri: 'http://localhost:' + config.port + '/'
+};
+
+var hubProductionConfig = {
+  serverUri: config.hubs.production,
+  client_id: productionClientId,
+  request_credentials: 'skip',
+  redirect_uri: 'http://ring-ui.github.io'
+};
+
+var docsWebpackConfig = webpackConfigMerger(webpackConfig, {
   entry: {
     index: './site/'
   },
@@ -64,24 +89,20 @@ module.exports = webpackConfigMerger(webpackConfig, {
     filename: '[name].js',
     publicPath: publicPath // serve HMR update json's properly
   },
-  plugins: isServer ? [
+  plugins: [
+    new webpack.DefinePlugin({
+      hubConfig: JSON.stringify(isServer ? hubServerConfig : hubProductionConfig)
+    })
+  ]
+});
+
+if (isServer) {
+  docsWebpackConfig.plugins.push(
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoErrorsPlugin(),
     new AnyBarWebpackPlugin(),
-    /** Build progress informer */
-    function () {
-      var timeMeasureMessage = chalk.blue('Compilation finished in');
+    progressPlugin
+  );
+}
 
-      this.plugin('compile', function () {
-        console.time(timeMeasureMessage);
-        console.log(chalk.green('Compilation started...', (new Date()).toTimeString()));
-      });
-      this.plugin('done', function (stats) {
-        if (stats.hasErrors) {
-          console.error(chalk.red(stats.toJson().errors.join('\n')));
-        }
-        console.timeEnd(timeMeasureMessage);
-      });
-    }
-  ] : []
-});
+module.exports = docsWebpackConfig;
