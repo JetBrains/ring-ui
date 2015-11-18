@@ -69,12 +69,12 @@ class DialogController {
       this.title = config.title;
       this.buttons = config.buttons;
       this.data = config.data || {};
-      //Fallback for backward compatibility with already exist temlates which uses data directly from scope
-      this.$scope.data = this.data;
-
       this.wideDialog = config.wideDialog;
       this.content = config.content;
       this.description = config.description && config.description.split('\n') || [];
+
+      //Fallback for backward compatibility with already exist templates which use data directly from scope
+      this.$scope.data = this.data;
     }
 
     this.currentShortcutsScope = shortcuts.getScope();
@@ -91,7 +91,7 @@ class DialogController {
     });
   }
 
-  update(config) {
+  update(config = {}) {
     Object.assign(this.data, config.data);
   }
 
