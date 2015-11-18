@@ -20,6 +20,24 @@ Lint code: `npm run lint`
 
 Build production files: `npm run build`
 
+#### Custom port
+
+Сhange the port using `npm config set ring-ui:port <port>`
+
+#### Hub uri
+
+You can change Hub server uri using `npm config set ring-ui:hub <hub uri>` or run it with option like `npm start|build -- --hub <hub uri>`.
+
+`<server uri>` should be one of predefined values below or __any uri__.
+
+Predefined values:
+
+  * local: `http://localhost:8080/jetpass`
+  * jar: `http://localhost:8080`
+  * production: `https://hub.jetbrains.com`
+  * default: `***REMOVED***`
+
+
 ## Contributing
 
 1. Install Yeoman: `npm install yo -g`
