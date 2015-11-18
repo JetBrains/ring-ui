@@ -291,7 +291,7 @@ export default class Header extends RingComponent {
         <div className={headerClassName.getElement('menu')}>{
           this.props.menu.map(({component, props, children}) => {
             props = Object.assign({}, props, {className: classNames(props.className, menuItemClassName)});
-            return component.factory(props, children);
+            return createElement(component, props, children);
           })
         }</div>
         {this._getRightMenu()}
