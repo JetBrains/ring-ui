@@ -1,6 +1,6 @@
 import 'angular';
 import 'angular-mocks';
-import './dropdown-ng';
+import Dropdown from './dropdown-ng';
 
 describe('DropdownNg', function () {
   let scope;
@@ -9,7 +9,7 @@ describe('DropdownNg', function () {
   let itemsMock;
   let $compile;
 
-  beforeEach(window.module('Ring.dropdown'));
+  beforeEach(window.module(Dropdown));
 
   /* global inject */
   beforeEach(inject(function ($rootScope, _$compile_) {

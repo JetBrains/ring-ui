@@ -14,8 +14,8 @@ reactNg({Icon});
 const HintPopupTplFileName = 'ring-ui/components/shortcuts-hint/shortcuts-hint.html';
 
 /* global angular:false */
-const HintPopupModule = angular.module('Ring.shortcuts.hint-popup', [DialogNg, ShortcutsNg, 'Ring.react-ng']);
-HintPopupModule.run($templateCache => {
+const module = angular.module('Ring.shortcuts.hint-popup', [DialogNg, ShortcutsNg, 'Ring.react-ng']);
+module.run($templateCache => {
   $templateCache.put(HintPopupTplFileName, HintPopupTpl);
 });
 
@@ -172,8 +172,8 @@ function shortcutSearchFilter(shortcuts, query = '') {
   });
 }
 
-HintPopupModule.service('hintPopup', HintPopupService);
-HintPopupModule.filter('shortcutKeySymbol', () => shortcutKeySymbolFilter);
-HintPopupModule.filter('shortcutSearch', () => shortcutSearchFilter);
+module.service('hintPopup', HintPopupService);
+module.filter('shortcutKeySymbol', () => shortcutKeySymbolFilter);
+module.filter('shortcutSearch', () => shortcutSearchFilter);
 
-export default HintPopupModule.name;
+export default module.name;

@@ -1,9 +1,9 @@
 /* global angular: false */
 
 import '../error-page/error-page.scss';
-import '../error-message-ng/error-message-ng';
-import '../permissions-ng/permissions-ng';
-import '../message-bundle-ng/message-bundle-ng';
+import ErrorMessage from '../error-message-ng/error-message-ng';
+import Permissions from '../permissions-ng/permissions-ng';
+import MessageBundle from '../message-bundle-ng/message-bundle-ng';
 
 /**
  * @name Error Page Ng
@@ -45,228 +45,230 @@ import '../message-bundle-ng/message-bundle-ng';
  </example>
  */
 
-angular.module('Ring.error-page', [
+const module = angular.module('Ring.error-page', [
   'ngRoute',
-  'Ring.error-message',
-  'Ring.permissions',
-  'Ring.message-bundle'
-])
+  ErrorMessage,
+  Permissions,
+  MessageBundle
+]);
 
-  .provider('errorPageConfiguration', function () {
-    let pageConfiguration = {};
+module.provider('errorPageConfiguration', function () {
+  let pageConfiguration = {};
 
-    /**
-     * @param {Object} config
-     * @param {?String} config.responseToMessageConverter - name of converter from response to error message factory
-     * @param {?Array.<String>} config.links - name of factory which should return array of links to show on error page
-     */
-    this.config = function (config) {
-      pageConfiguration = config;
-    };
+  /**
+   * @param {Object} config
+   * @param {?String} config.responseToMessageConverter - name of converter from response to error message factory
+   * @param {?Array.<String>} config.links - name of factory which should return array of links to show on error page
+   */
+  this.config = function (config) {
+    pageConfiguration = config;
+  };
 
-    /*@ngInject*/
-    this.$get = function ($injector, $log) {
-      function loadFactory(factoryName) {
-        try {
-          return $injector.get(factoryName);
-        } catch (err) {
-          $log.debug('errorPageConfiguration: unable to load ' + factoryName);
-        }
+  /*@ngInject*/
+  this.$get = function ($injector, $log) {
+    function loadFactory(factoryName) {
+      try {
+        return $injector.get(factoryName);
+      } catch (err) {
+        $log.debug('errorPageConfiguration: unable to load ' + factoryName);
       }
-
-      let responseToMessageConverter;
-      if (pageConfiguration.responseToMessageConverter) {
-        responseToMessageConverter = loadFactory(pageConfiguration.responseToMessageConverter);
-      }
-
-      let links;
-      if (pageConfiguration.links) {
-        links = loadFactory(pageConfiguration.links);
-      }
-
-      return {
-        responseToMessageConverter: responseToMessageConverter || angular.noop,
-        links: links || []
-      };
-    };
-  })
-
-  .factory('getErrorPagePresentation', function (RingMessageBundle) {
-    const presentationModels = {
-      404: {
-        status: 404,
-        title: RingMessageBundle.errorpage_404(),
-        description: RingMessageBundle.errorpage_404msg(),
-        icon: 'frown'
-      },
-      403: {
-        status: 403,
-        title: RingMessageBundle.errorpage_403(),
-        description: RingMessageBundle.errorpage_403msg(),
-        icon: 'permission'
-      },
-      500: {
-        status: 500,
-        title: RingMessageBundle.errorpage_500(),
-        description: RingMessageBundle.errorpage_500msg(),
-        icon: 'frown'
-      },
-      0: {
-        status: RingMessageBundle.errorpage_disconnected(),
-        title: RingMessageBundle.errorpage_disconnectedmsg(),
-        description: RingMessageBundle.errorpage_offline(),
-        icon: 'frown'
-      },
-      default: {
-        title: RingMessageBundle.errorpage_seriouslywrong(),
-        icon: 'frown'
-      }
-    };
-
-    return function (error) {
-      if (error.status in presentationModels) {
-        return presentationModels[error.status];
-      }
-      return angular.extend({
-        status: error.status,
-        description: error.message
-      }, presentationModels.default);
-    };
-  })
-
-  .directive('rgErrorPageBackground', [
-    function () {
-      return {
-        restrict: 'A',
-        controller: function ($scope) {
-          this.setApplicationError = function (applicationError) {
-            $scope.applicationError = applicationError;
-          };
-        },
-        link: function (scope, iElement) {
-          const element = iElement[0];
-          element.classList.add('error-page');
-
-          scope.$watch('applicationError', function (newValue) {
-            if (newValue) {
-              element.classList.add('error-page_enabled');
-            } else {
-              element.classList.remove('error-page_enabled');
-            }
-          });
-        }
-      };
     }
-  ])
 
-  .directive('rgErrorPage', [
-    'errorPageConfiguration',
-    '$route',
-    'userPermissions',
-    '$rootScope',
-    '$log',
-    'getErrorPagePresentation',
-    '$q',
-    '$compile',
-    function (errorPageConfiguration, $route, userPermissions, $rootScope, $log, getErrorPagePresentation, $q, $compile) {
-      function getArgumentPromise(errorSource, errorPageParameterPresentation) {
-        const promise = errorSource && (errorSource.$promise || errorSource.promise);
+    let responseToMessageConverter;
+    if (pageConfiguration.responseToMessageConverter) {
+      responseToMessageConverter = loadFactory(pageConfiguration.responseToMessageConverter);
+    }
 
-        if (promise) {
-          let resolve;
-          let reject;
+    let links;
+    if (pageConfiguration.links) {
+      links = loadFactory(pageConfiguration.links);
+    }
 
-          promise.catch(errorResponse => {
-            $log.debug('Navigation: errorSource ' + errorPageParameterPresentation + ' not permitted, status: ' + status);
+    return {
+      responseToMessageConverter: responseToMessageConverter || angular.noop,
+      links: links || []
+    };
+  };
+});
 
-            reject({
-              status: errorResponse && errorResponse.status,
-              message: errorPageConfiguration.responseToMessageConverter(errorResponse)
-            });
+module.factory('getErrorPagePresentation', function (RingMessageBundle) {
+  const presentationModels = {
+    404: {
+      status: 404,
+      title: RingMessageBundle.errorpage_404(),
+      description: RingMessageBundle.errorpage_404msg(),
+      icon: 'frown'
+    },
+    403: {
+      status: 403,
+      title: RingMessageBundle.errorpage_403(),
+      description: RingMessageBundle.errorpage_403msg(),
+      icon: 'permission'
+    },
+    500: {
+      status: 500,
+      title: RingMessageBundle.errorpage_500(),
+      description: RingMessageBundle.errorpage_500msg(),
+      icon: 'frown'
+    },
+    0: {
+      status: RingMessageBundle.errorpage_disconnected(),
+      title: RingMessageBundle.errorpage_disconnectedmsg(),
+      description: RingMessageBundle.errorpage_offline(),
+      icon: 'frown'
+    },
+    default: {
+      title: RingMessageBundle.errorpage_seriouslywrong(),
+      icon: 'frown'
+    }
+  };
 
-            return errorResponse;
+  return function (error) {
+    if (error.status in presentationModels) {
+      return presentationModels[error.status];
+    }
+    return angular.extend({
+      status: error.status,
+      description: error.message
+    }, presentationModels.default);
+  };
+});
+
+module.directive('rgErrorPageBackground', [
+  function () {
+    return {
+      restrict: 'A',
+      controller: function ($scope) {
+        this.setApplicationError = function (applicationError) {
+          $scope.applicationError = applicationError;
+        };
+      },
+      link: function (scope, iElement) {
+        const element = iElement[0];
+        element.classList.add('error-page');
+
+        scope.$watch('applicationError', function (newValue) {
+          if (newValue) {
+            element.classList.add('error-page_enabled');
+          } else {
+            element.classList.remove('error-page_enabled');
+          }
+        });
+      }
+    };
+  }
+]);
+
+module.directive('rgErrorPage', [
+  'errorPageConfiguration',
+  '$route',
+  'userPermissions',
+  '$rootScope',
+  '$log',
+  'getErrorPagePresentation',
+  '$q',
+  '$compile',
+  function (errorPageConfiguration, $route, userPermissions, $rootScope, $log, getErrorPagePresentation, $q, $compile) {
+    function getArgumentPromise(errorSource, errorPageParameterPresentation) {
+      const promise = errorSource && (errorSource.$promise || errorSource.promise);
+
+      if (promise) {
+        let resolve;
+        let reject;
+
+        promise.catch(errorResponse => {
+          $log.debug('Navigation: errorSource ' + errorPageParameterPresentation + ' not permitted, status: ' + status);
+
+          reject({
+            status: errorResponse && errorResponse.status,
+            message: errorPageConfiguration.responseToMessageConverter(errorResponse)
           });
 
-          promise.then(data => {
+          return errorResponse;
+        });
+
+        promise.then(data => {
+          resolve();
+          return data;
+        });
+
+        return $q((...args) => [resolve, reject] = args);
+      } else {
+        return $q.resolve();
+      }
+    }
+
+    function getRoutingPermissionPromise() {
+      /* eslint-disable angular/no-private-call */
+      if ($route.current && $route.current.$$route && $route.current.$$route.permission) {
+        const pagePermission = $route.current.$$route.permission;
+        /* eslint-enable angular/no-private-call */
+
+        let resolve;
+        let reject;
+
+        userPermissions.load().then(function (permissionCache) {
+          if (!permissionCache.has(pagePermission)) {
+            $log.debug('Navigation: no page' + pagePermission + ' permission, status 403');
+            reject({status: 403});
+          } else {
             resolve();
-            return data;
-          });
-
-          return $q((...args) => [resolve, reject] = args);
-        } else {
-          return $q.resolve();
-        }
-      }
-
-      function getRoutingPermissionPromise() {
-        /* eslint-disable angular/no-private-call */
-        if ($route.current && $route.current.$$route && $route.current.$$route.permission) {
-          const pagePermission = $route.current.$$route.permission;
-          /* eslint-enable angular/no-private-call */
-
-          let resolve;
-          let reject;
-
-          userPermissions.load().then(function (permissionCache) {
-            if (!permissionCache.has(pagePermission)) {
-              $log.debug('Navigation: no page' + pagePermission + ' permission, status 403');
-              reject({status: 403});
-            } else {
-              resolve();
-            }
-          });
-
-          return $q((...args) => [resolve, reject] = args);
-        } else {
-          return $q.resolve();
-        }
-      }
-
-      return {
-        replace: true,
-        transclude: true,
-        template: '<div></div>',
-        require: '?^rgErrorPageBackground',
-        link: function (scope, iElement, iAttrs, errorPageBackgroundCtrl, transclude) {
-
-          function handleError(error) {
-            transclude(scope, function () {
-              scope.error = getErrorPagePresentation(error);
-              scope.links = errorPageConfiguration.links;
-
-              const template = require('./error-page-ng.html');
-              const el = $compile(angular.element(template))(scope);
-              iElement.append(el);
-              if (errorPageBackgroundCtrl) {
-                errorPageBackgroundCtrl.setApplicationError(true);
-              }
-
-              if (errorPageBackgroundCtrl) {
-                const destroyEvent = (scope === scope.$root) ? '$routeChangeStart' : '$destroy';
-                scope.$on(destroyEvent, function () {
-                  errorPageBackgroundCtrl.setApplicationError(false);
-                });
-              }
-            });
           }
+        });
 
-          function handleSuccess() {
-            transclude(scope, function (clone) {
-              iElement.append(clone);
-            });
-          }
-
-          getRoutingPermissionPromise().then(function () {
-            const errorSource = scope.$eval(iAttrs.rgErrorPage);
-            if (errorSource && errorSource.error) {
-              handleError(errorSource.error);
-              $log.debug('Navigation: errorSource ' + iAttrs.rgErrorPage + ' not permitted, status: ' + status);
-            } else {
-              getArgumentPromise(errorSource, iAttrs.rgErrorPage)
-                .then(handleSuccess, handleError);
-            }
-          }, handleError);
-        }
-      };
+        return $q((...args) => [resolve, reject] = args);
+      } else {
+        return $q.resolve();
+      }
     }
-  ]);
+
+    return {
+      replace: true,
+      transclude: true,
+      template: '<div></div>',
+      require: '?^rgErrorPageBackground',
+      link: function (scope, iElement, iAttrs, errorPageBackgroundCtrl, transclude) {
+
+        function handleError(error) {
+          transclude(scope, function () {
+            scope.error = getErrorPagePresentation(error);
+            scope.links = errorPageConfiguration.links;
+
+            const template = require('./error-page-ng.html');
+            const el = $compile(angular.element(template))(scope);
+            iElement.append(el);
+            if (errorPageBackgroundCtrl) {
+              errorPageBackgroundCtrl.setApplicationError(true);
+            }
+
+            if (errorPageBackgroundCtrl) {
+              const destroyEvent = (scope === scope.$root) ? '$routeChangeStart' : '$destroy';
+              scope.$on(destroyEvent, function () {
+                errorPageBackgroundCtrl.setApplicationError(false);
+              });
+            }
+          });
+        }
+
+        function handleSuccess() {
+          transclude(scope, function (clone) {
+            iElement.append(clone);
+          });
+        }
+
+        getRoutingPermissionPromise().then(function () {
+          const errorSource = scope.$eval(iAttrs.rgErrorPage);
+          if (errorSource && errorSource.error) {
+            handleError(errorSource.error);
+            $log.debug('Navigation: errorSource ' + iAttrs.rgErrorPage + ' not permitted, status: ' + status);
+          } else {
+            getArgumentPromise(errorSource, iAttrs.rgErrorPage)
+              .then(handleSuccess, handleError);
+          }
+        }, handleError);
+      }
+    };
+  }
+]);
+
+export default module.name;

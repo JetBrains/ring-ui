@@ -3,7 +3,7 @@ import 'angular-route';
 import 'angular-mocks';
 import 'dom4';
 
-import './tabs-ng';
+import Tabs from './tabs-ng';
 
 describe('TabsNg', function () {
   let $rootScope;
@@ -16,7 +16,7 @@ describe('TabsNg', function () {
     };
   }
 
-  beforeEach(window.module('Ring.tabs'));
+  beforeEach(window.module(Tabs));
 
   /* global inject */
   beforeEach(inject(function (_$rootScope_, _$compile_) {

@@ -3,7 +3,7 @@
 
 import 'angular';
 import 'angular-mocks';
-import'./tooltip-ng';
+import Tooltip from './tooltip-ng';
 
 describe('tooltipNg', function () {
   const INNER_TEXT = 'test foo';
@@ -11,7 +11,7 @@ describe('tooltipNg', function () {
   let element;
   let popupWrapper;
 
-  beforeEach(angular.mock.module('Ring.tooltip'));
+  beforeEach(angular.mock.module(Tooltip));
 
   beforeEach(inject(function (_RgTooltipPopup_) {
     RgTooltipPopup = _RgTooltipPopup_;

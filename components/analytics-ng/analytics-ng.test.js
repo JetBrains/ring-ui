@@ -2,7 +2,7 @@ import 'angular';
 import 'angular-mocks';
 import 'dom4';
 
-import './analytics-ng';
+import Analytics from './analytics-ng';
 
 describe('Ring.analytics', function () {
   beforeEach(
@@ -16,7 +16,7 @@ describe('Ring.analytics', function () {
 
   /* global inject, angular */
   it('should define module', inject(function () {
-    expect(angular.module('Ring.analytics')).should.exist;
+    expect(angular.module(Analytics)).should.exist;
   }));
 
   it('should export factory', inject(function (analytics) {
