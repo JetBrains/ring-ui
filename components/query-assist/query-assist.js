@@ -45,6 +45,8 @@ function noop() {}
 
      <file name="index.js" webpack="true">
        var render = require('react-dom').render;
+       var hubConfig = require('ring-ui/site/hub-config');
+
        var QueryAssist = require('ring-ui/components/query-assist/query-assist');
        var Auth = require('ring-ui/components/auth/auth');
 
@@ -54,12 +56,7 @@ function noop() {}
          document.getElementById('example').appendChild(div);
        };
 
-       var auth = new Auth({
-          serverUri: 'https://hub.jetbrains.com',
-          client_id: '81a0bffb-6d0f-4a38-b93a-0a4d1e567698',
-          request_credentials: 'skip',
-          redirect_uri: window.location.href.split('#')[0]
-        });
+       var auth = new Auth(hubConfig);
 
        auth.init().then(function() {
          render(
@@ -110,21 +107,17 @@ function noop() {}
      </file>
 
      <file name="index.js" webpack="true">
+       var hubConfig = require('ring-ui/site/hub-config');
+
        require('angular');
        require('ring-ui/components/auth-ng/auth-ng');
        require('ring-ui/components/react-ng/react-ng')({
         QueryAssist: require('ring-ui/components/query-assist/query-assist')
        });
 
-       var hubUri = 'https://hub.jetbrains.com';
-
        angular.module('test', ['Ring.react-ng', 'Ring.auth'])
          .config(function (authProvider) {
-           authProvider.config({
-             serverUri: hubUri,
-             request_credentials: 'skip',
-             redirect_uri: window.location.href.split('#')[0]
-           });
+           authProvider.config(hubConfig);
          })
          .controller('testCtrl', function($http, $scope) {
            var ctrl = this;
@@ -164,7 +157,7 @@ function noop() {}
                }
              };
 
-             return $http.get(hubUri + 'api/rest/users/queryAssist', config).
+             return $http.get(hubConfig.serverUri + '/api/rest/users/queryAssist', config).
                then(function(data) {
                  return data.data;
                });
