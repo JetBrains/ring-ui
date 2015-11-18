@@ -3,6 +3,8 @@ import Loader from './loader';
 import TestUtils from 'react-addons-test-utils';
 
 describe('Loader', function () {
+  function noop() {}
+
   beforeEach(function () {
     this.loader = TestUtils.renderIntoDocument(React.createElement(Loader));
   });
@@ -148,7 +150,7 @@ describe('Loader', function () {
 
   it('Should call step for each particle to allow it to update its live points', function () {
     const stepSpy = this.sinon.spy();
-    this.loader.particles = [{step: stepSpy, draw: () => {}, isAlive: () => true];
+    this.loader.particles = [{step: stepSpy, draw: noop, isAlive: () => true}];
 
     this.loader.step();
     stepSpy.should.have.been.called;
@@ -163,9 +165,9 @@ describe('Loader', function () {
 
   it('Should remove dead particles', function () {
     this.loader.particles = [
-      {isAlive: () => true, step: () => {}, draw: () => {}},
-      {isAlive: () => false, step: () => {}, draw: () => {}},
-      {isAlive: () => true, step: () => {}, draw: () => {}}
+      {isAlive: () => true, step: noop, draw: noop},
+      {isAlive: () => false, step: noop, draw: noop},
+      {isAlive: () => true, step: noop, draw: noop}
     ];
 
     this.loader.removeDeadParticles();
@@ -183,7 +185,7 @@ describe('Loader', function () {
 
   it('Should call draw for each particle', function () {
     const drawSpy = this.sinon.spy();
-    this.loader.particles = [{draw: drawSpy, isAlive: () => true, step: () => {}}];
+    this.loader.particles = [{draw: drawSpy, isAlive: () => true, step: noop}];
 
     this.loader.draw();
     drawSpy.should.have.been.called;
