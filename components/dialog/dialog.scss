@@ -8,7 +8,6 @@
 //    <div class="ring-dialog__container">
 //      <div class="ring-dialog__header">
 //        <span class="ring-dialog__header__title">New space</span>
-//        <span class="ring-dialog__header__close-icon ring-font-icon ring-btn_ico ring-font-icon_close"></span>
 //      </div>
 //      <form class="ring-dialog__content ring-form">
 //        <div class="ring-form__group">
@@ -169,22 +168,6 @@
   cursor: move;
   text-align: center;
   user-select: none;
-}
-
-.ring-dialog__header__close-icon {
-  position: absolute;
-  top: 5px;
-  right: 6px;
-
-  font-size: $ring-font-size;
-
-  cursor: pointer;
-
-  color: #B4B4B4;
-
-  &:hover {
-    color: #8C8C8C;
-  }
 }
 
 .ring-dialog__wrapper_inline {
