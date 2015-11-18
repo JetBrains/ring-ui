@@ -55,9 +55,9 @@ import PopupMenu from '../popup-menu/popup-menu';
 */
 
 /* globals angular */
-const ringDropdownModule = angular.module('Ring.dropdown', []);
+const module = angular.module('Ring.dropdown', []);
 
-ringDropdownModule.directive('rgDropdown', function () {
+module.directive('rgDropdown', function () {
   const OPEN_POPUP_CLASS_NAME = 'dropdown-ng_open';
 
   return {
@@ -173,3 +173,5 @@ ringDropdownModule.directive('rgDropdown', function () {
     }
   };
 });
+
+export default module.name;

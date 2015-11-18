@@ -23,60 +23,62 @@ reactNg({Loader});
  *  }]);
  */
 
-angular.module('Ring.loader-screen', []).
-  service('loaderScreen', function ($timeout, $rootScope) {
-    let initialLoading;
-    let loadingFailed = false;
-    let showLoader;
-    let showLoaderPromise;
+const module = angular.module('Ring.loader-screen', []);
 
-    this.startInitialLoading = () => {
-      initialLoading = true;
+module.service('loaderScreen', function ($timeout, $rootScope) {
+  let initialLoading;
+  let loadingFailed = false;
+  let showLoader;
+  let showLoaderPromise;
 
-      showLoaderPromise = $timeout(() => {
-        this.setVisible(true);
-      }, 1500);
-    };
+  this.startInitialLoading = () => {
+    initialLoading = true;
 
-    $rootScope.isInitialLoading = () => initialLoading;
-    $rootScope.isLoaderVisible = () => showLoader;
-    $rootScope.isLoadingFailed = () => loadingFailed;
+    showLoaderPromise = $timeout(() => {
+      this.setVisible(true);
+    }, 1500);
+  };
 
-    this.stopInitialLoading = () => {
-      if (showLoaderPromise && !showLoaderPromise.$resolved) {
-        $timeout.cancel(showLoaderPromise);
-      }
-      initialLoading = false;
-      this.setVisible(false);
-    };
+  $rootScope.isInitialLoading = () => initialLoading;
+  $rootScope.isLoaderVisible = () => showLoader;
+  $rootScope.isLoadingFailed = () => loadingFailed;
 
-    this.failInitialLoading = error => {
-      this.stopInitialLoading();
-      loadingFailed = true;
-      $rootScope.error = error;
-    };
+  this.stopInitialLoading = () => {
+    if (showLoaderPromise && !showLoaderPromise.$resolved) {
+      $timeout.cancel(showLoaderPromise);
+    }
+    initialLoading = false;
+    this.setVisible(false);
+  };
 
-    this.setVisible = visible => {
-      showLoader = visible;
-    };
+  this.failInitialLoading = error => {
+    this.stopInitialLoading();
+    loadingFailed = true;
+    $rootScope.error = error;
+  };
 
-    $rootScope.$on('$routeChangeSuccess', () => {
-      this.stopInitialLoading();
-    });
+  this.setVisible = visible => {
+    showLoader = visible;
+  };
 
-    $rootScope.$on('$routeChangeError', (event, current, previous, rejection) => {
-      if (!rejection || !(rejection.silent || rejection.authRedirect)) {
-        this.failInitialLoading(rejection);
-      }
-    });
-  }
-  )
-  .directive('rgLoaderScreen', function () {
-    return {
-      restrict: 'A',
-      scope: {
-        rgLoaderScreen: '@'
-      },
-      template: require('./loader-screen-ng.html')
-    };
+  $rootScope.$on('$routeChangeSuccess', () => {
+    this.stopInitialLoading();
   });
+
+  $rootScope.$on('$routeChangeError', (event, current, previous, rejection) => {
+    if (!rejection || !(rejection.silent || rejection.authRedirect)) {
+      this.failInitialLoading(rejection);
+    }
+  });
+});
+module.directive('rgLoaderScreen', function () {
+  return {
+    restrict: 'A',
+    scope: {
+      rgLoaderScreen: '@'
+    },
+    template: require('./loader-screen-ng.html')
+  };
+});
+
+export default module.name;
