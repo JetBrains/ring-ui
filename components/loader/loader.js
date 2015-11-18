@@ -40,6 +40,7 @@ import {getPixelRatio} from '../dom/dom';
  */
 
 const INITIAL_TICKS = 100;
+let renderedLoaders = 0;
 
 class Particle {
   constructor({x, y, radius, color}) {
@@ -72,6 +73,7 @@ class Particle {
 
 export default class Loader extends RingComponent {
   static defaultProps = {
+    enabled: true,
     size: 96,
     colors: [
       {r: 215, g: 60, b: 234},  //#D73CEA
@@ -143,6 +145,12 @@ export default class Loader extends RingComponent {
 
     this.prepareInitialState(INITIAL_TICKS);
     this.loop();
+
+    console.log('mount', ++renderedLoaders);
+  }
+
+  willUnmount() {
+    console.log('unmount', --renderedLoaders);
   }
 
   prepareInitialState(ticks) {
@@ -226,7 +234,9 @@ export default class Loader extends RingComponent {
   loop() {
     this.step();
     this.draw();
-    window.requestAnimationFrame(() => this.loop());
+    if (this.node) {
+      window.requestAnimationFrame(() => this.loop());
+    }
   }
 
   _renderText() {
