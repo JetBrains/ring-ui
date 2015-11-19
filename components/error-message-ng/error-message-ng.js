@@ -1,11 +1,11 @@
 /* global angular: false */
 
-import reactNg from '../react-ng/react-ng';
+import {registerComponents, reactNg} from '../react-ng/react-ng';
 import Icon from '../icon/icon';
 
 import '../error-message-ng/error-message-ng.scss';
 
-reactNg({Icon});
+registerComponents({Icon});
 
 /**
  * A block for displaying error messages
@@ -15,7 +15,7 @@ reactNg({Icon});
    </rg-error-message>
  */
 
-const module = angular.module('Ring.error-message', ['Ring.react-ng']);
+const module = angular.module('Ring.error-message', [reactNg]);
 
 module.directive('rgErrorMessage', function () {
   return {
