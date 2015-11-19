@@ -4,17 +4,17 @@ import DialogNg from '../dialog-ng/dialog-ng';
 import ShortcutsNg from '../shortcuts-ng/shortcuts-ng';
 import HintPopupTpl from './shortcuts-hint-ng.html';
 import Icon from '../icon/icon';
-import reactNg from '../react-ng/react-ng';
+import {registerComponents, reactNg} from '../react-ng/react-ng';
 
 import './shortcuts-hint-ng.scss';
 import '../input/input.scss';
 
-reactNg({Icon});
+registerComponents({Icon});
 
 const HintPopupTplFileName = 'ring-ui/components/shortcuts-hint/shortcuts-hint.html';
 
 /* global angular:false */
-const module = angular.module('Ring.shortcuts.hint-popup', [DialogNg, ShortcutsNg, 'Ring.react-ng']);
+const module = angular.module('Ring.shortcuts.hint-popup', [DialogNg, ShortcutsNg, reactNg]);
 module.run($templateCache => {
   $templateCache.put(HintPopupTplFileName, HintPopupTpl);
 });

@@ -1,12 +1,12 @@
 /* global angular: false */
 
 import Loader from '../loader/loader';
-import reactNg from '../react-ng/react-ng';
+import {registerComponents, reactNg} from '../react-ng/react-ng';
 
 import '../loader-screen/loader-screen.scss';
 import '../loader/loader.scss';
 
-reactNg({Loader});
+registerComponents({Loader});
 
 /**
  * Loader service
@@ -23,7 +23,7 @@ reactNg({Loader});
  *  }]);
  */
 
-const module = angular.module('Ring.loader-screen', []);
+const module = angular.module('Ring.loader-screen', [reactNg]);
 
 module.service('loaderScreen', function ($timeout, $rootScope) {
   let initialLoading;
