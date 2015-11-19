@@ -1,64 +1,105 @@
 @import "../global/global";
 
-// Loader
-//
-// Markup:
-// <div class="ring-loader {$modifiers}">Loading</div>
-//
-// .ring-loader_inline - A small spinner suited for using inline with body text (12px)
-//
-// Styleguide 8.1
+$loader-height: 12px;
+$loader-width: 20px;
 
-@keyframes rotating {
-  100% {
-    transform: rotate(360deg);
-  }
-}
+$ball-size-min: 4px;
+$ball-size-max: 8px;
 
-@keyframes colors {
+@keyframes ball-size {
   0% {
-    border-left-color: #F00;
+    width: $ball-size-min;
+    height: $ball-size-min;
   }
-
-  20% {
-    border-left-color: #FF9800;
-  }
-
-  40% {
-    border-left-color: #FF0;
-  }
-
-  60% {
-    border-left-color: #008000;
-  }
-
-  80% {
-    border-left-color: #00F;
-  }
-
-  100% {
-    border-left-color: #F0F;
+  50% {
+    width: $ball-size-max;
+    height: $ball-size-max;
   }
 }
+
+@keyframes ball-colors {
+  12.5% {
+    background-color: #D73CEA;
+  }
+  25% {
+    background-color: #9135E0;
+  }
+  37.5% {
+    background-color: #5848F4;
+  }
+  50% {
+    background-color: #25B7FF;
+  }
+  62.5% {
+    background-color: #59BD00;
+  }
+  75% {
+    background-color: #FBAC02;
+  }
+  87.5% {
+    background-color: #E32581;
+  }
+  100% {
+    background-color: #D73CEA;
+  }
+}
+
+@keyframes ball-moves {
+  0% {
+    top: 0;
+    left: 0;
+    transform: translate(0, 0);
+  }
+  33% {
+    top: 100%;
+    left: 100%;
+    transform: translate(-100%,-100%);
+  }
+  50% {
+    top: 0;
+    left: 100%;
+    transform: translate(-100%, 0);
+  }
+  83% {
+    top: 100%;
+    left: 0;
+    transform: translate(0, -100%);
+  }
+  100% {
+    top: 0;
+    left: 0;
+    transform: translate(0, 0);
+  }
+}
+
 
 .ring-loader-inline {
   display: inline-block;
   position: relative;
+  width: $loader-width;
+  height: $loader-height;
+}
 
-  top: 1px;
+.ring-loader-inline__ball {
+  position: absolute;
 
-  width: 12px;
-  height: 12px;
+  width: $ball-size-min;
+  height: $ball-size-min;
 
-  margin: 0;
-
+  background-color: #D73CEA;
   border-radius: 50%;
-  border: solid 1px #D8D8D8;
-  border-left-color: #F00;
 
-  animation: rotating 0.7s linear infinite, colors 6s linear infinite;
+  animation: ball-moves 1.2s linear infinite,
+  ball-colors 3s linear infinite,
+  ball-size 2s linear infinite;
 
-  font-size: 0;
+  &_second {
+    opacity: 0.8;
+    animation-delay: 0.3s;
+  }
 
-  box-sizing: border-box;
+  &_third {
+    opacity: 0.6;
+    animation-delay: 0.6s;
+  }
 }
