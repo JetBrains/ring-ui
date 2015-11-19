@@ -475,15 +475,15 @@ module.directive('rgSelect', function () {
       };
 
       function setSelectModel(newValue) {
-        ctrl.selectInstance.rerender({
-          selected: ctrl.convertNgModelToSelect(newValue)
-        });
+        if (ctrl.ngModelCtrl) {
+          ctrl.selectInstance.rerender({
+            selected: ctrl.convertNgModelToSelect(newValue)
+          });
+        }
       }
 
       function syncNgModelToSelect() {
-        if (ctrl.ngModelCtrl) {
-          $scope.$watch(() => ctrl.ngModelCtrl.$modelValue, setSelectModel, true);
-        }
+        $scope.$watch(() => ctrl.ngModelCtrl && ctrl.ngModelCtrl.$modelValue, setSelectModel, true);
       }
 
       function syncDisabled() {
@@ -535,7 +535,9 @@ module.directive('rgSelect', function () {
           return;
         }
 
-        setSelectModel(ctrl.ngModelCtrl.$modelValue);
+        if (ctrl.ngModelCtrl) {
+          setSelectModel(ctrl.ngModelCtrl.$modelValue);
+        }
       }
 
       function activate() {
