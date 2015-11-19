@@ -93,13 +93,16 @@ $ball-size-max: 8px;
   ball-colors 3s linear infinite,
   ball-size 2s linear infinite;
 
+  //Forces animation to start from non-zero point
+  animation-delay: -0.6s;
+
   &_second {
     opacity: 0.8;
-    animation-delay: 0.3s;
+    animation-delay: -0.3s;
   }
 
   &_third {
     opacity: 0.6;
-    animation-delay: 0.6s;
+    animation-delay: unset;
   }
 }
