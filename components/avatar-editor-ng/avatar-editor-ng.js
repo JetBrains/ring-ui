@@ -1,15 +1,15 @@
 /* global angular: false */
 import messageBundleNg from '../message-bundle-ng/message-bundle-ng';
 import alertNg from '../alert-ng/alert-ng';
-import reactNg from '../react-ng/react-ng';
+import {registerComponents, reactNg} from '../react-ng/react-ng';
 import Icon from '../icon/icon';
 
 import '../avatar-editor/avatar-editor.scss';
 import '../button/button.scss';
 
-reactNg({Icon});
+registerComponents({Icon});
 
-const module = angular.module('Ring.avatar-editor', [messageBundleNg, alertNg, 'Ring.react-ng']);
+const module = angular.module('Ring.avatar-editor', [messageBundleNg, alertNg, reactNg]);
 
 /**
  * @name Avatar Editor Ng

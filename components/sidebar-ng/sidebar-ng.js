@@ -2,13 +2,13 @@
 
 import PlaceUnder from '../place-under-ng/place-under-ng';
 
-import reactNg from '../react-ng/react-ng';
+import {registerComponents, reactNg} from '../react-ng/react-ng';
 import Icon from '../icon/icon';
 
 import '../sidebar/sidebar.scss';
 import '../button/button.scss';
 
-reactNg({Icon});
+registerComponents({Icon});
 
 /**
  * @name Sidebar Ng
@@ -71,7 +71,7 @@ reactNg({Icon});
    </example>
  */
 
-const module = angular.module('Ring.sidebar', ['Ring.react-ng', PlaceUnder]);
+const module = angular.module('Ring.sidebar', [reactNg, PlaceUnder]);
 
 class SidebarController {
   constructor($scope) {
