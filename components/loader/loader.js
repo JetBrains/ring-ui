@@ -72,7 +72,7 @@ class Particle {
 
 export default class Loader extends RingComponent {
   static defaultProps = {
-    size: 96,
+    size: 64,
     colors: [
       {r: 215, g: 60, b: 234},  //#D73CEA
       {r: 145, g: 53, b: 224},  //#9135E0
@@ -128,7 +128,7 @@ export default class Loader extends RingComponent {
     //Configuration
     this.baseSpeed = 1.0;
     this.colorIndex = 0;
-    this.maxRadius = 12;
+    this.maxRadius = 10;
     this.minRadius = 6;
     this.colorChangeTick = 40;
 
