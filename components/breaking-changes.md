@@ -6,6 +6,10 @@ order: 2
 
 See the “breaking change” commits [in Upsource](https://upsource.jetbrains.com/ring-ui/view?query=path:%20%7B%2A%2Fbreaking-changes.md%7D%20and%20not%20%22Wording%22).  
 
+### 19-11-2015: LoaderInline was rebuilt. 
+
+Usages should be updated if it is used as a markup. ([see example](loader-inline.html)).
+
 ### 02-11-2015: Auth: Hub 1.0 defaults applied
 
 * `redirect` param in Auth is now `false` by default
