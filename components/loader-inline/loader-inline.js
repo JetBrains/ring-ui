@@ -10,7 +10,9 @@ import './loader-inline.scss';
  * @example
    <example name="Loader Inline">
      <file name="index.html">
-        <div id="loader-inline"></div>
+        <span>some text on top</span>
+        <div>before <span id="loader-inline"></span> some text after</div>
+        <div>some text under loader</div>
      </file>
 
      <file name="index.js" webpack="true">
@@ -33,7 +35,11 @@ export default class LoaderInline extends RingComponent {
       <div
         {...this.props}
         className={classes}
-      />
+      >
+        <div className="ring-loader-inline__ball"></div>
+        <div className="ring-loader-inline__ball ring-loader-inline__ball_second"></div>
+        <div className="ring-loader-inline__ball ring-loader-inline__ball_third"></div>
+      </div>
     );
   }
 }
