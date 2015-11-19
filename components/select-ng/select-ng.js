@@ -480,13 +480,8 @@ module.directive('rgSelect', function () {
         });
       }
 
-      function syncNgModelToSelect() {
-        $scope.$watch(() => {
-          if (ctrl.ngModelCtrl) {
-            return ctrl.ngModelCtrl.$modelValue;
-          }
-          return null;
-        }, setSelectModel, true);
+      if (ctrl.ngModelCtrl) {
+        $scope.$watch(() => ctrl.ngModelCtrl.$modelValue, setSelectModel, true);
       }
 
       function syncDisabled() {
