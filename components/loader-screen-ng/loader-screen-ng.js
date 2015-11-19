@@ -75,7 +75,7 @@ module.directive('rgLoaderScreen', function () {
   return {
     restrict: 'A',
     scope: {
-      rgLoaderScreen: '@'
+      message: '@rgLoaderScreen'
     },
     template: require('./loader-screen-ng.html')
   };
