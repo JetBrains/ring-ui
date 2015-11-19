@@ -344,13 +344,20 @@ export default class Popup extends RingComponentWithShortcuts {
   getElementOffset(element) {
     const elementRect = getRect(element);
 
-    if (this.props.container) {
+    if (this.props.container && this.props.container !== document.body) {
       const containerRect = getRect(this.props.container);
       elementRect.left -= containerRect.left;
       elementRect.top -= containerRect.top;
     }
 
     return elementRect;
+  }
+
+  _getBodyScroll() {
+    return {
+      left: document.body.scrollLeft,
+      top: document.body.scrollTop
+    };
   }
 
   /**
@@ -369,9 +376,17 @@ export default class Popup extends RingComponentWithShortcuts {
       anchorElement = props.anchorElement;
     }
 
+    const isInsideBody = this.props.container === document.body;
+
     const anchor = this.getElementOffset(anchorElement);
-    const anchorLeft = anchor.left;
-    const anchorTop = anchor.top;
+    let anchorLeft = anchor.left;
+    let anchorTop = anchor.top;
+
+    if (isInsideBody) {
+      const scroll = this._getBodyScroll();
+      anchorLeft += scroll.left;
+      anchorTop += scroll.top;
+    }
 
     /* eslint-disable no-bitwise */
     if (this.node) {

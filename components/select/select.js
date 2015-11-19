@@ -35,6 +35,7 @@ const Type = {
  * @example
  <example name="Select with model that have type field">
    <file name="index.html">
+     <p>test</p>
      <div id="demo"></div>
      <button id="clear">Clear selected</button>
    </file>
