@@ -10,12 +10,12 @@ import PlaceUnder from '../place-under-ng/place-under-ng';
 
 import TablePager from './table-ng__pager';
 
-import reactNg from '../react-ng/react-ng';
+import {registerComponents, reactNg} from '../react-ng/react-ng';
 import Checkbox from '../checkbox/checkbox';
 
 import '../table/table.scss';
 
-reactNg({Checkbox});
+registerComponents({Checkbox});
 
 /*global angular*/
 
@@ -161,7 +161,7 @@ reactNg({Checkbox});
   </file>
 </example>
 */
-const module = angular.module('Ring.table', [TableToolbar, TablePager, 'Ring.react-ng', PlaceUnder]);
+const module = angular.module('Ring.table', [TableToolbar, TablePager, reactNg, PlaceUnder]);
 
 module.directive('rgTable', function () {
   return {

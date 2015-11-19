@@ -1,12 +1,12 @@
 /* global angular: false */
 
-import reactNg from '../react-ng/react-ng';
+import {registerComponents, reactNg} from '../react-ng/react-ng';
 import Icon from '../icon/icon';
 
 import '../breadcrumb/breadcrumb.scss';
 import '../link/link.scss';
 
-reactNg({Icon});
+registerComponents({Icon});
 
 /**
    * @name Breadcrumb Ng
@@ -40,7 +40,7 @@ reactNg({Icon});
    </example>
  */
 
-const module = angular.module('Ring.breadcrumb', ['Ring.react-ng']);
+const module = angular.module('Ring.breadcrumb', [reactNg]);
 
 module.directive('rgBreadcrumb', function () {
   return {
