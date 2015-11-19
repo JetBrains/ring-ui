@@ -36,7 +36,7 @@ const header = ReactDOM.render(
 );
 
 auth.init().then(restoreLocation => {
-  if (restoreLocation) {
+  if (restoreLocation && restoreLocation !== window.location) {
     window.location = restoreLocation;
     return;
   }
