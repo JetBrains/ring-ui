@@ -106,7 +106,7 @@ class Options {
   }
 
   getLabel(option) {
-    return this.getProperty(option, this.labelGetter) || option[this.constructor.defaultLabelField];
+    return this.getProperty(option, this.labelGetter) || option[this.constructor.defaultLabelField] || option;
   }
 
   getSelectedLabel(option) {
