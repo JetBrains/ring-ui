@@ -1,6 +1,6 @@
 # Ring UI library
 
-**See the [living style guide](https://hub.jetbrains.com/)**.
+**See the [living style guide](http://ring-ui.github.io)**.
 
 ## Development environment setup
 
