@@ -5,6 +5,8 @@
 
 var path = require('path');
 
+var coverageEnabled = process.argv.indexOf('--coverage') !== -1;
+
 function prepareWbpackConf(webpackConf) {
   webpackConf.devtool = 'eval';
   webpackConf.output = {};
@@ -15,14 +17,24 @@ function prepareWbpackConf(webpackConf) {
   };
 
   webpackConf.module.preLoaders = webpackConf.preLoaders || [];
-  webpackConf.module.preLoaders.push({
-    test: /\.js$/,
-    exclude: /\.test\.js$/,
-    include: path.join(__dirname, 'components'),
-    loader: 'isparta-instrumenter-loader'
-  });
+  if (coverageEnabled) {
+    webpackConf.module.preLoaders.push({
+      test: /\.js$/,
+      exclude: /\.test\.js$/,
+      include: path.join(__dirname, 'components'),
+      loader: 'isparta-instrumenter-loader'
+    });
+  }
 
   return webpackConf;
+}
+
+function getReporters() {
+  var reporters = ['progress'];
+  if (coverageEnabled) {
+    reporters.push('coverage');
+  }
+  return reporters;
 }
 
 module.exports = function (config) {
@@ -50,7 +62,7 @@ module.exports = function (config) {
 
     // test results reporter to use
     // possible values: 'dots', 'progress', 'junit', 'growl', 'coverage'
-    reporters: ['progress', 'coverage'],
+    reporters: getReporters(),
 
     // list of preprocessors
     preprocessors: {
