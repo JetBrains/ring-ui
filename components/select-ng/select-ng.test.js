@@ -286,6 +286,8 @@ describe('SelectNg', function () {
   describe('Options parser', function () {
     it('Should support syntax "item in items"', function () {
       scope.items = [{key: 1, label: 'test1'}];
+      scope.selectedItem = scope.items[0];
+
       compileTemplate('<rg-select options="item in items" ng-model="selectedItem"></rg-select>');
       ctrl.config.onBeforeOpen();
       scope.$digest();
@@ -294,6 +296,7 @@ describe('SelectNg', function () {
 
     it('Should support "item for item in items"', function () {
       scope.items = [{key: 1, label: 'test1'}];
+      scope.selectedItem = scope.items[0];
       compileTemplate('<rg-select options="item as item.label for item in items" ng-model="selectedItem"></rg-select>');
       ctrl.config.onBeforeOpen();
       scope.$digest();
@@ -322,6 +325,8 @@ describe('SelectNg', function () {
     });
 
     it('Should support custom key field with "track by" expression', function () {
+      scope.items = [{id: 1, label: 'test1'}];
+      scope.selectedItem = scope.items[0];
       compileTemplate('<rg-select options="item in items track by item.id" ng-model="selectedItem"></rg-select>');
 
       ctrl.optionsParser.getKey(scope.selectedItem).should.equal(scope.selectedItem.id);
