@@ -388,6 +388,11 @@ module.directive('rgSelect', function () {
         ctrl.loadedOptions = options;
       }
 
+      function getType() {
+        //$attrs.type as fallback, not recommended to use because of native "type" attribute
+        return ctrl.selectType || $attrs.type;
+      }
+
       ctrl.syncSelectToNgModel = selectedValue => {
         function valueOf(option) {
           if (option && option.originalModel) {
@@ -398,7 +403,9 @@ module.directive('rgSelect', function () {
         }
 
         if (ctrl.ngModelCtrl) {
-          if (Array.isArray(selectedValue)) {
+          if (getType() === 'suggest') {
+            ctrl.ngModelCtrl.$setViewValue(selectedValue.label);
+          } else if (Array.isArray(selectedValue)) {
             ctrl.ngModelCtrl.$setViewValue(selectedValue.map(valueOf));
           } else if (selectedValue && selectedValue.originalModel) {
             ctrl.ngModelCtrl.$setViewValue(valueOf(selectedValue));
@@ -438,11 +445,6 @@ module.directive('rgSelect', function () {
           }
         }
       };
-
-      function getType() {
-        //$attrs.type as fallback, not recommended to use because of native "type" attribute
-        return ctrl.selectType || $attrs.type;
-      }
 
       let lastQuery = null;
       ctrl.getOptions = query => $q.when(ctrl.optionsParser.getOptions(query));
@@ -556,6 +558,8 @@ module.directive('rgSelect', function () {
           selected: ctrl.convertNgModelToSelect(ctrl.ngModel),
           label: ctrl.label || RingMessageBundle.select_label(),
           selectedLabel: ctrl.selectedLabel,
+          allowAny: getType() === 'suggest',
+          hideArrow: getType() === 'suggest',
           filter: ctrl.filter,
           multiple: ctrl.multiple,
           clear: ctrl.clear,
