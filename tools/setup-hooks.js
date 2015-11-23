@@ -2,6 +2,7 @@
 /* eslint-disable no-process-exit */
 /* eslint-disable no-console*/
 /* eslint-disable no-var*/
+/* eslint-disable modules/no-cjs*/
 
 /**
  * Pre-commit hook. Helps to detect linting issue before commit
@@ -23,23 +24,17 @@ function preCommit() {
   }
 
   function processFiles(error, stdout) {
-    var pkgConfig = require('../../package.json');
-    var fileRE = new RegExp(pkgConfig.config['eslint-ext'].
-      split(',').
-      map(function escaspeExt(ext) {
-        return '\\' + ext + '$';
-      })
-      .join('|'));
+    var fileRE = /\.js$/;
 
     if (error) {
       throw error;
     }
 
     var files = (stdout || '').
-      split('\n').
-      filter(function (filename) {
-        return (fileRE).test(filename) && fs.existsSync(filename);
-      });
+    split('\n').
+    filter(function (filename) {
+      return (fileRE).test(filename) && fs.existsSync(filename);
+    });
 
     if (files.length === 0) {
       process.exit(0);
@@ -54,27 +49,36 @@ function preCommit() {
 }
 
 /**
- * Available hooks
+ * Hook installer
+ * @param hooks {object} hash with hook name to function
  */
-var hooks = {
-  'pre-commit': preCommit
-};
+function install(hooks) {
+  var fs = require('fs');
+  var path = require('path');
 
-/**
- * Turns function to string
- * @param func
- * @returns {string}
- */
-function wrapHook(func) {
-  return '#!/usr/bin/env node\n\n' + func.toString() + '\n\n' + func.name + '();';
+  /**
+   * Turns function to string
+   * @param func
+   * @returns {string}
+   */
+  function wrapHook(func) {
+    return '#!/usr/bin/env node\n\n' + func.toString() + '\n\n' + func.name + '();';
+  }
+
+  var hooksDirPath = path.resolve(__dirname, '..', '.git', 'hooks');
+  if (!fs.existsSync(hooksDirPath)) {
+    fs.mkdirSync(hooksDirPath);
+  }
+
+  Object.keys(hooks).forEach(function writeHook(hook) {
+    var hookPath = path.resolve(hooksDirPath, hook);
+
+    fs.writeFileSync(hookPath, wrapHook(hooks[hook]));
+    fs.chmodSync(hookPath, '755');
+  });
 }
 
-/**
- * Hook installer
- */
-Object.keys(hooks).forEach(function writeHook(hook) {
-  var path = require('path');
-  var fs = require('fs');
 
-  fs.writeFile(path.resolve(__dirname, '..', '.git', 'hooks', hook), wrapHook(hooks[hook]));
+install({
+  'pre-commit': preCommit
 });
