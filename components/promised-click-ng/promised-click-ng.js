@@ -19,17 +19,15 @@
     buttonTestModule.controller('testController', function($scope, $timeout) {
       $scope.onClick = function () {
         return $timeout(angular.noop, 1000);
-      }
+      };
     });
 
     buttonTestModule.directive('testDirective', ['$timeout', function($timeout) {
       return {
         require: 'rgPromisedClick',
         link: function (scope, iElement, iAttrs, rgPromisedClick) {
-          iElement[0].addEventListener('click', function ($event) {
-            rgPromisedClick.onPromisedClick(function ($event) {
-              return $timeout(angular.noop, 1000);
-            }, $event);
+          rgPromisedClick.onClick(function () {
+            return $timeout(angular.noop, 1000);
           });
         }
       }
@@ -48,32 +46,34 @@ class PromisedClickController {
     this.active = false;
 
     if ($attrs.rgPromisedClick) {
-      const onClick = $parse($attrs.rgPromisedClick);
-      const onPromisedClick = this.onPromisedClick.bind(this, $event => onClick($scope, {$event}));
-      this.element.addEventListener('click', onPromisedClick);
+      this.onClick(e => $parse($attrs.rgPromisedClick)($scope, e));
     }
   }
 
-  onPromisedClick(callback, $event) {
-    if (this.active) {
-      if ($event) {
-        $event.preventDefault();
+  onClick(callback) {
+    this.element.addEventListener('click', e => {
+      if (this.active) {
+        e.preventDefault();
+      } else {
+        this.process(callback, e);
       }
-    } else {
-      this.promise = callback($event);
-      if (this.promise) {
-        // Do not use $evalAsync here. This code should be invoked in the same animation frame
-        // otherwise a button may be "pressed" twice – by click and with class change.
-        if (!this.$scope.$root.$$phase) { // eslint-disable-line angular/no-private-call
-          this.$scope.$apply(::this.doIt);
-        } else {
-          this.doIt();
-        }
+    });
+  }
+
+  process(callback, e) {
+    this.promise = callback(e);
+    if (this.promise) {
+      // Do not use $evalAsync here. This code should be invoked in the same animation frame
+      // otherwise a button may be "pressed" twice – by click and with class change.
+      if (!this.$scope.$root.$$phase) { // eslint-disable-line angular/no-private-call
+        this.$scope.$apply(::this.activate);
+      } else {
+        this.activate();
       }
     }
   }
 
-  doIt() {
+  activate() {
     this.active = true;
     this.element.classList.add('ring-btn_active');
 
