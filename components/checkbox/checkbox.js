@@ -104,7 +104,7 @@ export default class Checkbox extends RingComponent {
   ngModelStateField = ngModelStateField;
 
   state = {
-    id: this.constructor.getUID(),
+    id: this.constructor.getUID('ring-checkbox-'),
     checked: this.props.checked,
     disabled: this.props.disabled
   };
