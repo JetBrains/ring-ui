@@ -8,6 +8,7 @@ import RingComponentWithShortcuts from '../ring-component/ring-component_with-sh
 import Popup from '../popup/popup';
 import List from '../list/list';
 import Input from '../input/input';
+import LoaderInline from '../loader-inline/loader-inline';
 
 function noop() {}
 
@@ -21,6 +22,7 @@ export default class SelectPopup extends RingComponentWithShortcuts {
     anchorElement: null,
     container: null,
     maxHeight: 250,
+    loading: false,
     minWidth: 'target',
     onSelect: function () {},
     onClose: function () {},
@@ -118,10 +120,12 @@ export default class SelectPopup extends RingComponentWithShortcuts {
     }
   }
 
-  getMessage() {
-    if (this.props.message) {
-      return <div className="ring-select__message">{this.props.message}</div>;
-    }
+  getBottomLine() {
+    return (<div>
+      {this.props.loading && <LoaderInline/>}
+
+      {this.props.message && <div className="ring-select__message">{this.props.message}</div>}
+    </div>);
   }
 
   getList() {
@@ -158,7 +162,7 @@ export default class SelectPopup extends RingComponentWithShortcuts {
       >
         {this.getFilter()}
         {this.getList()}
-        {this.getMessage()}
+        {this.getBottomLine()}
         {this.props.toolbar}
       </Popup>
     );
