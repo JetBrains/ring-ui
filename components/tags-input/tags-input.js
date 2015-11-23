@@ -140,7 +140,7 @@ export default class TagsInput extends RingComponentWithShortcuts {
       map: {
         backspace: (...args) => this.handleBackspace(...args)
       },
-      scope: () => this.constructor.getUID()
+      scope: () => this.constructor.getUID('ring-tags-input-')
     };
   }
 
