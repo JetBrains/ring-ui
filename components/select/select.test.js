@@ -470,11 +470,11 @@ describe('Select', function () {
   });
 
   describe('Popup', function () {
-    it('Should pass loading message to popup if loading', function () {
+    it('Should pass loading message and indicator to popup if loading', function () {
       this.select.rerender({loading: true, loadingMessage: 'test message'});
       this.select._popup.rerender = this.sinon.stub();
       this.select._showPopup();
-      this.select._popup.rerender.should.been.calledWith(this.sinon.match({message: 'test message'}));
+      this.select._popup.rerender.should.been.calledWith(this.sinon.match({message: 'test message', loading: true}));
     });
 
     it('Should pass notFoundMessage message to popup if not loading and data is empty', function () {
