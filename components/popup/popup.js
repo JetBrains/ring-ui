@@ -184,7 +184,7 @@ export default class Popup extends RingComponentWithShortcuts {
       map: {
         esc: ::this.close
       },
-      scope: ::this.constructor.getUID()
+      scope: ::this.constructor.getUID('ring-popup-')
     };
   }
 

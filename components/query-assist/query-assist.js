@@ -221,7 +221,7 @@ export default class QueryAssist extends RingComponentWithShortcuts {
         left: noop,
         space: noop
       },
-      scope: ::this.constructor.getUID()
+      scope: ::this.constructor.getUID('ring-query-assist-')
     };
   }
 

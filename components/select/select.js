@@ -352,7 +352,7 @@ export default class Select extends RingComponentWithShortcuts {
         'shift+down': noop,
         space: noop
       },
-      scope: ::this.constructor.getUID()
+      scope: ::this.constructor.getUID('ring-select-')
     };
   }
 
