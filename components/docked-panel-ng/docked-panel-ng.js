@@ -7,29 +7,29 @@ import './docked-panel-ng.scss';
  *              if it's out of the browser viewport
  * @example
  * <example name="Docked panel ng">
-  <file name="index.html">
-  <div ng-app='DockedPanelExample'>
-    <div>
-      <textarea placeholder="Add description" rows="70" cols="100"></textarea>
-    </div>
-    <div class="ring-panel" rg-docked-panel rg-docked-panel-class="customCssClass">
-      <button class="ring-btn ring-btn_blue">Save</button>
-      <button class="ring-btn"Revert>Cancel</button>
-    </div>
-    <br/>
-    <div>
-      <textarea placeholder="Add steps" rows="10" cols="50"></textarea>
-    </div>
-  </div>
-  </file>
-  <file name="index.js" webpack="true">
-    require('angular');
-    require('ring-ui/components/button/button.scss');
-    require('ring-ui/components/panel/panel.scss');
-    require('ring-ui/components/docked-panel-ng/docked-panel-ng');
-    angular.module('DockedPanelExample', ['Ring.docked-panel']);
-  </file>
-  </example>
+ <file name="index.html">
+ <div ng-app='DockedPanelExample'>
+ <div>
+ <textarea placeholder="Add description" rows="70" cols="100"></textarea>
+ </div>
+ <div class="ring-panel" rg-docked-panel rg-docked-panel-class="customCssClass">
+ <button class="ring-btn ring-btn_blue">Save</button>
+ <button class="ring-btn"Revert>Cancel</button>
+ </div>
+ <br/>
+ <div>
+ <textarea placeholder="Add steps" rows="10" cols="50"></textarea>
+ </div>
+ </div>
+ </file>
+ <file name="index.js" webpack="true">
+ require('angular');
+ require('ring-ui/components/button/button.scss');
+ require('ring-ui/components/panel/panel.scss');
+ require('ring-ui/components/docked-panel-ng/docked-panel-ng');
+ angular.module('DockedPanelExample', ['Ring.docked-panel']);
+ </file>
+ </example>
  */
 
 /* global angular:false */
@@ -40,7 +40,7 @@ module.directive('rgDockedPanel', function () {
     link: function (scope, element, attrs) {
       const CSS_CLASS_NAME = 'ring-docked-panel';
       const customCssClassOnStick = attrs.rgDockedPanelClass;
-      let panelInitialBottomPos;
+      let panelInitialPos;
       let isPinned;
 
       /**
@@ -51,13 +51,6 @@ module.directive('rgDockedPanel', function () {
 
       const isClassListSupported = angular.isDefined(panel.classList);
 
-      /**
-       * Save panel initial rects and left margin for further use
-       */
-      function savePanelInitialBottomPos() {
-        panelInitialBottomPos = panel.getBoundingClientRect().bottom;
-      }
-
       function getWindowHeight() {
         return window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
       }
@@ -67,15 +60,25 @@ module.directive('rgDockedPanel', function () {
       }
 
       /**
+       * Save panel initial rects and left margin for further use
+       */
+      function savePanelInitialPos() {
+        const panelClientRect = panel.getBoundingClientRect();
+        panelInitialPos = panelClientRect.top + panelClientRect.height + getDocumentScrollTop();
+      }
+
+      /**
        * @param {String} className
        */
       function addCssClass(className) {
-        if (className) {
-          if (isClassListSupported) {
-            panel.classList.add(className);
-          } else {
-            panel.className += ' ' + className;
-          }
+        if (!className) {
+          return;
+        }
+
+        if (isClassListSupported) {
+          panel.classList.add(className);
+        } else {
+          panel.className += ' ' + className;
         }
       }
 
@@ -83,6 +86,10 @@ module.directive('rgDockedPanel', function () {
        * @param {String} className
        */
       function removeCssClass(className) {
+        if (!className) {
+          return;
+        }
+
         if (isClassListSupported) {
           panel.classList.remove(className);
         } else {
@@ -109,12 +116,12 @@ module.directive('rgDockedPanel', function () {
        * Check panel position
        */
       function checkPanelPosition() {
-        const currentPanelBottomPos = panel.getBoundingClientRect().bottom;
+        const currentPanelRect = panel.getBoundingClientRect();
 
-        if (currentPanelBottomPos > getWindowHeight() && !isPinned) {
+        if (currentPanelRect.top + currentPanelRect.height > getWindowHeight() && !isPinned) {
           stick();
 
-        } else if (isPinned && currentPanelBottomPos + getDocumentScrollTop() >= panelInitialBottomPos) {
+        } else if (isPinned && currentPanelRect.top + currentPanelRect.height + getDocumentScrollTop() >= panelInitialPos) {
           unstick();
         }
       }
@@ -134,7 +141,7 @@ module.directive('rgDockedPanel', function () {
             window.removeEventListener('resize', checkPanelPosition);
           });
 
-          savePanelInitialBottomPos();
+          savePanelInitialPos();
           checkPanelPosition();
         });
       }
