@@ -20,9 +20,12 @@ export default class RingComponent extends Component {
     return createElement(this, ...args);
   }
 
-  static getUID() {
+  static getUID(name) {
+    if (!name) {
+      throw Error('Parameter name is required in RingComponent.getUID()');
+    }
     const id = String(this.idCounter++);
-    return this.name + id;
+    return name + id;
   }
 
   node = null;

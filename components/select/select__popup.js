@@ -87,7 +87,7 @@ export default class SelectPopup extends RingComponentWithShortcuts {
         'shift+down': noop,
         space: noop
       },
-      scope: ::this.constructor.getUID()
+      scope: ::this.constructor.getUID('ring-select-popup-')
     };
   }
 

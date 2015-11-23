@@ -627,7 +627,7 @@ export default class List extends RingComponentWithShortcuts {
         down: ::this.downHandler,
         enter: ::this.enterHandler
       },
-      scope: ::this.constructor.getUID()
+      scope: ::this.constructor.getUID('ring-list-')
     };
   }
 
