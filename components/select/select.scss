@@ -17,6 +17,7 @@
   }
 
   &__message {
+    display: inline-block;
     text-align: center;
     padding: 0 2*$ring-unit;
     margin: $ring-unit 0;
