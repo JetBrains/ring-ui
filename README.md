@@ -116,6 +116,10 @@ Polyfills like `Array.prototype.find` that patch native objects should be import
 Instead of jQuery Ring UI uses modern DOM APIs, [DOM 4 polyfill](https://github.com/WebReflection/dom4) (should be imported via `import 'dom4;'`) 
 and some handy helpers located in the `dom` component. `jqLite` is still available for Angular.js components, however, using it is not recommended.
 
+## Pre-commit hook
+
+There is `pre-commit` hook avaiable to prevent commits of files not passing static checks.
+Use `npm run setup-hooks ` to install it.
 
 ## Wallaby support
 

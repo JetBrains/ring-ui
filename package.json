@@ -24,6 +24,7 @@
   "main": "webpack.config.js",
   "scripts": {
     "test": "karma start",
+    "setup-hooks": "node tools/setup-hooks.js",
     "gemini-test": "node tools/gemini-runner.js --files components/**/*.gemini.js",
     "gemini-test-ci": "node tools/gemini-runner-ci.js",
     "gemini-gather": "node tools/gemini-runner.js --gather",
