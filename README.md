@@ -118,8 +118,8 @@ and some handy helpers located in the `dom` component. `jqLite` is still availab
 
 ## Pre-commit hook
 
-There is `pre-commit` hook avaiable to prevent commits of files not passing static checks.
-Use `npm run setup-hooks ` to install it.
+There is a pre-commit hook that runs static analysis checks and rejects the commit if they fail.
+Use `npm run setup-hooks` to install it.
 
 ## Wallaby support
 
