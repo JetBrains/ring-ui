@@ -67,35 +67,17 @@ module.directive('rgDockedPanel', function () {
       }
 
       /**
-       * @param {String} className
-       */
-      function addCssClass(className) {
-        if (className) {
-          panel.classList.add(className);
-        }
-      }
-
-      /**
-       * @param {String} className
-       */
-      function removeCssClass(className) {
-        if (className) {
-          panel.classList.remove(className);
-        }
-      }
-
-      /**
        * Pin panel at the bottom of the page
        */
       function stick() {
-        addCssClass(CSS_CLASS_NAME);
-        addCssClass(customCssClassOnStick);
+        panel.classList.add(CSS_CLASS_NAME);
+        panel.classList.add(customCssClassOnStick);
         isPinned = true;
       }
 
       function unstick() {
-        removeCssClass(CSS_CLASS_NAME);
-        removeCssClass(customCssClassOnStick);
+        panel.classList.remove(CSS_CLASS_NAME);
+        panel.classList.remove(customCssClassOnStick);
         isPinned = false;
       }
 
