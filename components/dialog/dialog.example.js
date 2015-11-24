@@ -20,6 +20,7 @@
            <label class="ring-form__label" for="dialog__name">Name</label>
            <div class="ring-form__control">
              <input id="dialog__name" class="ring-input" type="text">
+             <div class="ring-input__error-bubble active">Wrong value</div>
              <div class="ring-form__control__description">Description</div>
            </div>
          </div>
