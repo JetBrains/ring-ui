@@ -21,7 +21,7 @@
   padding-left: $ring-unit / 2;
   border: 1px solid $ring-gray-color;
   background-color: #FFF;
-  width: 100%;
+  @include ring-input-control-widths();
 
   @include ring-font;
   line-height: 20px;
@@ -37,14 +37,6 @@
 
   &_error {
     border-color: #F00;
-  }
-
-  &_medium {
-    width: 25*$ring-unit;
-  }
-
-  &_long {
-    width: 50*$ring-unit;
   }
 
   &_no-resize {

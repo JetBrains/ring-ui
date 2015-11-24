@@ -5,7 +5,11 @@ $ring-input-width: $ring-unit*25;
 .ring-form {
   @include ring-font;
 
-  &__input, & .ring-select, & .ring-input_wrapper {
+  /**
+   * TODO: remove ring-select from here, if it will use @include ring-input-control-widths
+   * TODO: can "ring-input_wrapper" be removed ?
+   */
+  & .ring-select, & .ring-input_wrapper {
     width: 100% !important;
     margin: 0;
 
