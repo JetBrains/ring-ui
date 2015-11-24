@@ -21,6 +21,7 @@
   padding-left: $ring-unit / 2;
   border: 1px solid $ring-gray-color;
   background-color: #FFF;
+  width: 100%;
 
   @include ring-font;
   line-height: 20px;

@@ -142,6 +142,7 @@ $ring-input-width: $ring-unit*25;
   position: relative;
   min-height: 3 * $ring-unit;
   margin-left: 20 * $ring-unit;
+  max-width: $ring-input-width;
 
   line-height: 3 * $ring-unit;
   vertical-align: top;
