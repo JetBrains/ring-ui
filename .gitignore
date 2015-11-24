@@ -2,7 +2,6 @@
 *.iws
 .idea/workspace.xml
 .idea/dictionaries/*.xml
-.idea/jsLinters/jshint.xml
 .idea/copyright/
 
 # OS
