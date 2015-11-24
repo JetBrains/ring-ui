@@ -248,7 +248,10 @@ $ring-input-width: $ring-unit*25;
   }
 }
 
-.ring-input_long, .ring-select_long {
+/**
+ * TODO: remove this, if ring-select has @ring-input-control-widths
+ */
+.ring-select_long {
   & ~ .ring-input__error-bubble {
     left: 50*$ring-unit + 2;
   }
