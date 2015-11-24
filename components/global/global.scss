@@ -60,6 +60,18 @@ $ring-font-size-smaller: 11px;
   top: $compensation;
 }
 
+@mixin ring-input-control-widths {
+  width: 100%;
+
+  &_medium {
+    width: 25*$ring-unit;
+  }
+
+  &_long {
+    width: 50*$ring-unit;
+  }
+}
+
 // Common z-index-values
 
 // Invisible element is an absolutely positioned element which should be below

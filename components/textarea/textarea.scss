@@ -2,10 +2,10 @@
 
 .ring-textarea {
   box-sizing: border-box;
-  width: 100%;
   margin: 0;
   border: 1px solid $ring-gray-color;
   background-color: #FFF;
+  @include ring-input-control-widths();
 
   @include ring-font;
   font-size: $ring-font-size;
