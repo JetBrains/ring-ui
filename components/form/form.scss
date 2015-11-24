@@ -12,10 +12,6 @@ $ring-input-width: $ring-unit*25;
     &_long {
       width: 2*$ring-input-width !important;
     }
-
-    &_full-width {
-      width: 100% !important;
-    }
   }
 }
 
@@ -146,6 +142,10 @@ $ring-input-width: $ring-unit*25;
 
   line-height: 3 * $ring-unit;
   vertical-align: top;
+
+  &_full-width {
+    max-width: none;
+  }
 }
 
 .ring-form__control_text:after {
