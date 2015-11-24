@@ -1,4 +1,5 @@
 import debounce from 'mout/function/debounce';
+import 'dom4';
 import './docked-panel-ng.scss';
 
 /**
@@ -7,29 +8,29 @@ import './docked-panel-ng.scss';
  *              if it's out of the browser viewport
  * @example
  * <example name="Docked panel ng">
- <file name="index.html">
- <div ng-app='DockedPanelExample'>
- <div>
- <textarea placeholder="Add description" rows="70" cols="100"></textarea>
- </div>
- <div class="ring-panel" rg-docked-panel rg-docked-panel-class="customCssClass">
- <button class="ring-btn ring-btn_blue">Save</button>
- <button class="ring-btn"Revert>Cancel</button>
- </div>
- <br/>
- <div>
- <textarea placeholder="Add steps" rows="10" cols="50"></textarea>
- </div>
- </div>
- </file>
- <file name="index.js" webpack="true">
- require('angular');
- require('ring-ui/components/button/button.scss');
- require('ring-ui/components/panel/panel.scss');
- require('ring-ui/components/docked-panel-ng/docked-panel-ng');
- angular.module('DockedPanelExample', ['Ring.docked-panel']);
- </file>
- </example>
+     <file name="index.html">
+      <div ng-app='DockedPanelExample'>
+        <div>
+          <textarea placeholder="Add description" rows="70" cols="100"></textarea>
+        </div>
+        <div class="ring-panel" rg-docked-panel rg-docked-panel-class="customCssClass">
+          <button class="ring-btn ring-btn_blue">Save</button>
+          <button class="ring-btn"Revert>Cancel</button>
+        </div>
+        <br/>
+        <div>
+          <textarea placeholder="Add steps" rows="10" cols="50"></textarea>
+        </div>
+      </div>
+    </file>
+    <file name="index.js" webpack="true">
+     require('angular');
+     require('ring-ui/components/button/button.scss');
+     require('ring-ui/components/panel/panel.scss');
+     require('ring-ui/components/docked-panel-ng/docked-panel-ng');
+     angular.module('DockedPanelExample', ['Ring.docked-panel']);
+    </file>
+  </example>
  */
 
 /* global angular:false */
@@ -48,8 +49,6 @@ module.directive('rgDockedPanel', function () {
        * @type {Element} panel
        */
       const panel = element[0];
-
-      const isClassListSupported = angular.isDefined(panel.classList);
 
       function getWindowHeight() {
         return window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
@@ -71,14 +70,8 @@ module.directive('rgDockedPanel', function () {
        * @param {String} className
        */
       function addCssClass(className) {
-        if (!className) {
-          return;
-        }
-
-        if (isClassListSupported) {
+        if (className) {
           panel.classList.add(className);
-        } else {
-          panel.className += ' ' + className;
         }
       }
 
@@ -86,14 +79,8 @@ module.directive('rgDockedPanel', function () {
        * @param {String} className
        */
       function removeCssClass(className) {
-        if (!className) {
-          return;
-        }
-
-        if (isClassListSupported) {
+        if (className) {
           panel.classList.remove(className);
-        } else {
-          panel.className = panel.className.replace(className, '');
         }
       }
 
