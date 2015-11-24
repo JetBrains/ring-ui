@@ -4,6 +4,7 @@
  * @example
  <example name="Dialog">
    <file name="index.html">
+     <div ng-app="Example.dialog" ng-controller="DialogExampleCtrl as dialogExampleCtrl">
      <div class="ring-dialog__container">
        <div class="ring-dialog__header">
          <span class="ring-dialog__header__title">New space</span>
@@ -21,6 +22,12 @@
              <input id="dialog__name" class="ring-input" type="text">
            </div>
          </div>
+         <div class="ring-form__group">
+           <label for="ring-form-4" class="ring-form__label">Rg Select in Form</label>
+           <div class="ring-form__control">
+             <rg-select options="item.name for item in dialogExampleCtrl.arr track by item.name"></rg-select>
+           </div>
+         </div>
        </form>
        <div class="ring-dialog__footer">
          <div class="ring-dialog__footer__spacer"></div>
@@ -35,6 +42,15 @@
      require('ring-ui/components/form/form.scss');
      require('ring-ui/components/panel/panel.scss');
      require('ring-ui/components/button/button.scss');
+
+     require('angular/angular');
+     require('ring-ui/components/select-ng/select-ng');
+
+     angular.module('Example.dialog', ['Ring.select'])
+       .controller('DialogExampleCtrl', function() {
+          var dialogExampleCtrl = this;
+          dialogExampleCtrl.arr = [{name: 'Ada'}, {name: 'Nik'}];
+        });
    </file>
  </example>
  */
