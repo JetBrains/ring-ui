@@ -4,7 +4,7 @@
  * @example
  <example name="Form">
    <file name="index.html">
-    <div ng-app="Example.form">
+    <div ng-app="Example.form" style="width: 700px">
      <form class="ring-form" ng-controller="FormExampleCtrl as formExampleCtrl">
        <span class="ring-form__title">Form Title</span>
        <div class="ring-form__group">
@@ -23,19 +23,21 @@
          <label for="ring-form-3" class="ring-form__label">Input with Error</label>
          <div class="ring-form__control">
            <input class="ring-input ring-input_error" id="ring-form-3" type="text">
-           <div class="ring-input__error-bubble active">Wrong value</div>
+           <div class="ring-input__error-bubble active">Error-bubble</div>
          </div>
        </div>
        <div class="ring-form__group">
          <label for="ring-form-4" class="ring-form__label">Long Input</label>
          <div class="ring-form__control">
            <input class="ring-input ring-input_long" id="ring-form-4" type="text">
+           <div class="ring-input__error-bubble active">Error bubble for long control</div>
          </div>
        </div>
        <div class="ring-form__group">
          <label for="ring-form-5" class="ring-form__label">Full-Width Control</label>
          <div class="ring-form__control ring-form__control_full-width">
            <input class="ring-input" id="ring-form-5" type="text">
+           <div class="ring-input__error-bubble active">Error bubble for full-width control</div>
          </div>
        </div>
        <div class="ring-form__group">
@@ -61,6 +63,7 @@
          <label for="ring-form-9" class="ring-form__label">Rg Select in Small</label>
          <div class="ring-form__control ring-form__control_small">
            <rg-select id="ring-form-9" options="item.name for item in formExampleCtrl.arr track by item.name"></rg-select>
+           <div class="ring-input__error-bubble active">Error bubble for control_small</div>
          </div>
        </div>
        <div class="ring-form__group">
