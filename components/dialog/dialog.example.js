@@ -20,12 +20,19 @@
            <label class="ring-form__label" for="dialog__name">Name</label>
            <div class="ring-form__control">
              <input id="dialog__name" class="ring-input" type="text">
+             <div class="ring-form__control__description">Description</div>
            </div>
          </div>
          <div class="ring-form__group">
-           <label for="ring-form-4" class="ring-form__label">Rg Select in Form</label>
+           <label for="rg-select-demo" class="ring-form__label">Rg Select in Form</label>
            <div class="ring-form__control">
-             <rg-select options="item.name for item in dialogExampleCtrl.arr track by item.name"></rg-select>
+             <rg-select options="item.name for item in dialogExampleCtrl.arr track by item.name" id="rg-select-demo"></rg-select>
+           </div>
+         </div>
+         <div class="ring-form__group">
+           <label for="textarea-demo" class="ring-form__label">Textarea in Form</label>
+           <div class="ring-form__control">
+             <textarea id="textarea-demo" class="ring-textarea"></textarea>
            </div>
          </div>
        </form>
@@ -42,6 +49,7 @@
      require('ring-ui/components/form/form.scss');
      require('ring-ui/components/panel/panel.scss');
      require('ring-ui/components/button/button.scss');
+     require('ring-ui/components/textarea/textarea.scss');
 
      require('angular/angular');
      require('ring-ui/components/select-ng/select-ng');
