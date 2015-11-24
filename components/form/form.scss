@@ -6,7 +6,7 @@ $ring-input-width: $ring-unit*25;
   @include ring-font;
 
   &__input, & .ring-select, & .ring-input_wrapper {
-    width: $ring-input-width !important;
+    width: 100% !important;
     margin: 0;
 
     &_long {
