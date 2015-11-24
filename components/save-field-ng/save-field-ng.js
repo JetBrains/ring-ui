@@ -4,6 +4,7 @@ import '../form/form.scss';
 import '../button/button.scss';
 import '../save-field-ng/save-field-ng.scss';
 
+import '../loader-inline/loader-inline';
 import MessageBundle from '../message-bundle-ng/message-bundle-ng';
 import Form from '../form-ng/form-ng';
 
@@ -149,10 +150,7 @@ module.directive('rgSaveField', [
   'RingMessageBundle',
   '$timeout',
   '$q',
-  '$parse',
-  function (RingMessageBundle, $timeout, $q, $parse) {
-    const ESCAPE_KEY_CODE = 27;
-    const ENTER_KEY_CODE = 13;
+  function (RingMessageBundle, $timeout, $q) {
     const MULTI_LINE_SPLIT_PATTERN = /(\r\n|\n|\r)/gm;
     const MULTI_LINE_LIST_MODE = 'list';
     const CUSTOM_ERROR_ID = 'customError';
@@ -160,26 +158,32 @@ module.directive('rgSaveField', [
     const ERROR_DEVELOPER_MSG = 'error_developer_message';
 
     return {
-      restrict: 'E',
       transclude: true,
       template: require('./save-field-ng.html'),
-      scope: true,
+      scope: {
+        value: '=',
+        onSave: '&',
+        afterSave: '&?',
+        validate: '&?',
+        parseElement: '&?',
+        formatElement: '&?',
+        multiline: '@'
+      },
       link: function (scope, iElem, iAttrs) {
-        const valueExpression = iAttrs.value;
-        const getExpressionValue = $parse(valueExpression);
-        const setExpressionValue = getExpressionValue.assign;
         const customError = {
           message: ''
         };
 
-        let multilineMode = iAttrs.multiline;
         let blurTimeout = null;
-
-        scope.onSave = scope.$eval(iAttrs.onSave);
+        let isTextarea = false;
 
         function submitChanges() {
+          if (scope.loading || angular.equals(scope.initial, scope.value)) {
+            return;
+          }
+
           function success() {
-            scope.initial = getExpressionValue(scope);
+            scope.initial = angular.copy(scope.value);
             scope.saveFieldForm.$setPristine();
 
             scope.done = true;
@@ -187,6 +191,12 @@ module.directive('rgSaveField', [
             $timeout(function () {
               scope.done = false;
             }, 1000);
+
+            if (scope.afterSave) {
+              return $q.when(scope.afterSave({
+                value: scope.value
+              }));
+            }
           }
 
           function error(err) {
@@ -203,14 +213,23 @@ module.directive('rgSaveField', [
 
           scope.cancelBlur();
 
-          const submitPromise = $q.when(scope.onSave(getExpressionValue(scope)));
-          submitPromise.then(success);
-          submitPromise.catch(error);
+          scope.loading = true;
+          $q.when(scope.onSave({
+            value: scope.value
+          }))
+            .then(success, error)
+            .then(() => {
+              scope.loading = false;
+            });
         }
 
         function resetValue() {
+          if (scope.loading) {
+            return;
+          }
+
           scope.$evalAsync(function () {
-            setExpressionValue(scope, scope.initial ? scope.initial : '');
+            scope.value = scope.initial ? scope.initial : '';
             scope.saveFieldForm.$setValidity(CUSTOM_ERROR_ID, true, customError);
             scope.saveFieldForm.$setPristine();
           });
@@ -226,6 +245,7 @@ module.directive('rgSaveField', [
               if (!value) {
                 return value;
               }
+
               if (iAttrs.formatElement) {
                 value = value.map(function (element) {
                   return scope.formatElement({element: element});
@@ -256,30 +276,6 @@ module.directive('rgSaveField', [
           });
         }
 
-        function inputBlur() {
-          blurTimeout = $timeout(() => {
-            resetValue();
-          }, 100);
-        }
-
-        function inputKey($event) {
-          if ($event.keyCode === ESCAPE_KEY_CODE) {
-            if (scope.saveFieldForm.$dirty) {
-              resetValue();
-            }
-            $event.stopPropagation();
-            $event.preventDefault();
-            return;
-          }
-          if ($event.keyCode === ENTER_KEY_CODE && ($event.ctrlKey || $event.metaKey || !multilineMode)) {
-            if (scope.saveFieldForm.$dirty && scope.saveFieldForm.$valid) {
-              submitChanges();
-            }
-            $event.stopPropagation();
-            $event.preventDefault();
-          }
-        }
-
         scope.cancelBlur = function () {
           $timeout(function () {
             if (blurTimeout) {
@@ -289,17 +285,32 @@ module.directive('rgSaveField', [
           }, 10);
         };
 
-        scope.$watch(valueExpression, function (value) {
+        scope.$watch('value', function (value) {
+          let promise = null;
           if (scope.saveFieldForm.$pristine) {
             scope.initial = value;
           } else if (scope.initial && angular.equals(scope.initial, value)) {
             resetValue();
+          } else if (scope.validate) {
+            promise = scope.validate({
+              value: scope.value
+            });
           }
 
-          scope.saveFieldForm.$setValidity(CUSTOM_ERROR_ID, true, customError);
+          $q.when(promise)
+            .then(error => {
+              if (error) {
+                return $q.reject(error);
+              } else {
+                customError.message = '';
+                scope.saveFieldForm.$setValidity(CUSTOM_ERROR_ID, true, customError);
+              }
+            }).catch(error => {
+              customError.message = error;
+              scope.saveFieldForm.$setValidity(CUSTOM_ERROR_ID, false, customError);
+            });
         }, true);
 
-        let isTextarea = false;
         let inputNode = iElem[0].querySelector('input, .ring-save-field__input');
 
         if (!inputNode) {
@@ -308,15 +319,20 @@ module.directive('rgSaveField', [
         }
 
         if (inputNode) {
-          inputNode.addEventListener('keydown', inputKey);
-          inputNode.addEventListener('blur', inputBlur);
+          inputNode.addEventListener('focus', () => {
+            scope.$evalAsync(() => {
+              scope.focus = true;
+            });
+          });
 
-          if (isTextarea) {
-            if (!multilineMode) {
-              multilineMode = true;
-            } else if (inputNode.name && multilineMode === MULTI_LINE_LIST_MODE) {
-              addMultilineProcessig(inputNode.name);
-            }
+          inputNode.addEventListener('blur', () => {
+            scope.$evalAsync(() => {
+              scope.focus = false;
+            });
+          });
+
+          if (isTextarea && scope.multiline === MULTI_LINE_LIST_MODE) {
+            addMultilineProcessig(inputNode.name);
           }
         }
 
@@ -325,7 +341,26 @@ module.directive('rgSaveField', [
           saved: RingMessageBundle.form_saved()
         };
 
+        scope.keyMap = {
+          comboSubmit: e => {
+            if (isTextarea) {
+              e.preventDefault();
+              submitChanges();
+            }
+          },
+          submit: e => {
+            if (!isTextarea) {
+              e.preventDefault();
+              submitChanges();
+            }
+          },
+          cancel: resetValue,
+          noop: angular.noop
+        };
+
         scope.submitChanges = submitChanges;
+
+        scope.focus = false;
       }
     };
   }

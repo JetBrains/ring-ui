@@ -3,17 +3,30 @@
 .ring-save-field {
   font-size: 0;
   line-height: 0;
+  display: inline-block;
 
   &__button {
     margin-left: $ring-unit;
+    vertical-align: top;
 
     .ring-btn {
       vertical-align: top;
     }
   }
 
+  &__loader {
+    display: inline-block;
+    vertical-align: top;
+    margin-left: $ring-unit;
+    padding-top: 6px;
+  }
+
   .ring-input__error-bubble {
     left: initial;
     margin-left: 2px;
   }
+}
+
+.ring-form .ring-input.ring-save-field__medium-field {
+  width: $ring-unit*50 !important;
 }
