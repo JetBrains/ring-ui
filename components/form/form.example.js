@@ -6,28 +6,34 @@
    <file name="index.html">
     <div ng-app="Example.form">
      <form class="ring-form" ng-controller="FormExampleCtrl as formExampleCtrl">
-       <span class="ring-form__title">License</span>
+       <span class="ring-form__title">Form Title</span>
        <div class="ring-form__group">
-         <label for="ring-form-1" class="ring-form__label">License User Name</label>
+         <label for="ring-form-1" class="ring-form__label">Simple Input</label>
          <div class="ring-form__control">
            <input class="ring-input" id="ring-form-1" type="text">
          </div>
        </div>
        <div class="ring-form__group">
-         <label for="ring-form-2" class="ring-form__label">License Key</label>
+         <label for="ring-form-2" class="ring-form__label">Medium Input with Error</label>
          <div class="ring-form__control">
            <input class="ring-input ring-input_medium ring-input_error" id="ring-form-2" type="text">
            <div class="ring-input__error-bubble">Wrong value</div>
          </div>
        </div>
        <div class="ring-form__group">
-         <label for="ring-form-3" class="ring-form__label">License Key</label>
+         <label for="ring-form-3" class="ring-form__label">Long input</label>
          <div class="ring-form__control">
            <input class="ring-input ring-input_long" id="ring-form-3" type="text">
          </div>
        </div>
        <div class="ring-form__group">
-         <label for="ring-form-4" class="ring-form__label">Owner</label>
+         <label for="ring-form-4" class="ring-form__label">Full-width control</label>
+         <div class="ring-form__control ring-form__control_full-width">
+           <input class="ring-input" id="ring-form-4" type="text">
+         </div>
+       </div>
+       <div class="ring-form__group">
+         <label for="ring-form-4" class="ring-form__label">Rg Select in Form</label>
          <div class="ring-form__control">
            <rg-select options="item.name for item in formExampleCtrl.arr track by item.name"></rg-select>
          </div>
