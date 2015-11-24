@@ -51,6 +51,24 @@
            <input class="ring-input" id="ring-form-7" type="text">
          </div>
        </div>
+       <div class="ring-form__group">
+         <label for="ring-form-8" class="ring-form__label">Textarea</label>
+         <div class="ring-form__control">
+           <textarea class="ring-textarea" id="ring-form-8"></textarea>
+         </div>
+       </div>
+       <div class="ring-form__group">
+         <label for="ring-form-9" class="ring-form__label">Textarea in Full-Width</label>
+         <div class="ring-form__control ring-form__control_full-width">
+           <textarea class="ring-textarea" id="ring-form-9"></textarea>
+         </div>
+       </div>
+       <div class="ring-form__group">
+         <label for="ring-form-10" class="ring-form__label">Textarea in Small</label>
+         <div class="ring-form__control ring-form__control_small">
+           <textarea class="ring-textarea" id="ring-form-10"></textarea>
+         </div>
+       </div>
        <div class="ring-form__footer">
          <button class="ring-btn_blue ring-btn">Save</button>
          <button class="ring-btn">Cancel</button>
@@ -62,6 +80,7 @@
       require('ring-ui/components/form/form.scss');
       require('ring-ui/components/panel/panel.scss');
       require('ring-ui/components/button/button.scss');
+      require('ring-ui/components/textarea/textarea.scss');
 
       require('angular');
       require('ring-ui/components/select-ng/select-ng');
