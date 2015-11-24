@@ -40,27 +40,27 @@
          </div>
        </div>
        <div class="ring-form__group">
-         <label for="ring-form-6" class="ring-form__label">Rg Select in Small</label>
-         <div class="ring-form__control ring-form__control_small">
-           <rg-select id="ring-form-6" options="item.name for item in formExampleCtrl.arr track by item.name"></rg-select>
-         </div>
-       </div>
-       <div class="ring-form__group">
-         <label for="ring-form-7" class="ring-form__label">Input in Small</label>
-         <div class="ring-form__control ring-form__control_small">
-           <input class="ring-input" id="ring-form-7" type="text">
-         </div>
-       </div>
-       <div class="ring-form__group">
-         <label for="ring-form-8" class="ring-form__label">Textarea</label>
+         <label for="ring-form-6" class="ring-form__label">Textarea</label>
          <div class="ring-form__control">
-           <textarea class="ring-textarea" id="ring-form-8"></textarea>
+           <textarea class="ring-textarea" id="ring-form-6"></textarea>
          </div>
        </div>
        <div class="ring-form__group">
-         <label for="ring-form-9" class="ring-form__label">Textarea in Full-Width</label>
+         <label for="ring-form-7" class="ring-form__label">Textarea in Full-Width</label>
          <div class="ring-form__control ring-form__control_full-width">
-           <textarea class="ring-textarea" id="ring-form-9"></textarea>
+           <textarea class="ring-textarea" id="ring-form-7"></textarea>
+         </div>
+       </div>
+       <div class="ring-form__group">
+         <label for="ring-form-8" class="ring-form__label">Rg Select in Small</label>
+         <div class="ring-form__control ring-form__control_small">
+           <rg-select id="ring-form-8" options="item.name for item in formExampleCtrl.arr track by item.name"></rg-select>
+         </div>
+       </div>
+       <div class="ring-form__group">
+         <label for="ring-form-9" class="ring-form__label">Input in Small</label>
+         <div class="ring-form__control ring-form__control_small">
+           <input class="ring-input" id="ring-form-9" type="text">
          </div>
        </div>
        <div class="ring-form__group">
