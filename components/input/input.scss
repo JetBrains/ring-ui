@@ -15,7 +15,6 @@
 
 .ring-input {
   box-sizing: border-box;
-  width: 100%;
   height: 3*$ring-unit;
   margin: 0;
   padding-right: $ring-unit/ 2;
@@ -39,8 +38,16 @@
     border-color: #F00;
   }
 
+  &_medium {
+    width: 25*$ring-unit;
+  }
+
   &_long {
-    width: 100%;
+    width: 50*$ring-unit !important;
+  }
+
+  &_full-width {
+    width: 100% !important;
   }
 
   &_no-resize {
