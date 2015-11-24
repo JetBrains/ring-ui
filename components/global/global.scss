@@ -63,12 +63,19 @@ $ring-font-size-smaller: 11px;
 @mixin ring-input-control-widths {
   width: 100%;
 
+  @mixin set-fixed-width($width) {
+    width: $width;
+    & ~ .ring-input__error-bubble {
+      left: $width + 2;
+    }
+  }
+
   &_medium {
-    width: 25*$ring-unit;
+    @include set-fixed-width(25*$ring-unit);
   }
 
   &_long {
-    width: 50*$ring-unit;
+    @include set-fixed-width(50*$ring-unit);
   }
 }
 
