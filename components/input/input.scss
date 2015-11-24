@@ -70,7 +70,8 @@
   display: none;
   position: absolute;
   top: 0;
-  left: 25*$ring-unit + 2;
+  left: 25*$ring-unit + 2; // fallback if calc is not supported
+  left: calc(100% + 2px);
   height: 3*$ring-unit;
   padding-right: 2*$ring-unit;
   padding-left: 2*$ring-unit;
