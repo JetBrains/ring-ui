@@ -4,7 +4,8 @@
  * @example
  <example name="Form">
    <file name="index.html">
-     <form class="ring-form">
+    <div ng-app="Example.form">
+     <form class="ring-form" ng-controller="FormExampleCtrl as formExampleCtrl">
        <span class="ring-form__title">License</span>
        <div class="ring-form__group">
          <label for="ring-form-1" class="ring-form__label">License User Name</label>
@@ -15,7 +16,7 @@
        <div class="ring-form__group">
          <label for="ring-form-2" class="ring-form__label">License Key</label>
          <div class="ring-form__control">
-           <input class="ring-input ring-input_error" id="ring-form-2" type="text">
+           <input class="ring-input ring-input_medium ring-input_error" id="ring-form-2" type="text">
            <div class="ring-input__error-bubble">Wrong value</div>
          </div>
        </div>
@@ -23,6 +24,12 @@
          <label for="ring-form-3" class="ring-form__label">License Key</label>
          <div class="ring-form__control">
            <input class="ring-input ring-input_long" id="ring-form-3" type="text">
+         </div>
+       </div>
+       <div class="ring-form__group">
+         <label for="ring-form-4" class="ring-form__label">Owner</label>
+         <div class="ring-form__control">
+           <rg-select options="item.name for item in formExampleCtrl.arr track by item.name"></rg-select>
          </div>
        </div>
        <div class="ring-form__footer">
@@ -36,6 +43,15 @@
       require('ring-ui/components/form/form.scss');
       require('ring-ui/components/panel/panel.scss');
       require('ring-ui/components/button/button.scss');
+
+      require('angular');
+      require('ring-ui/components/select-ng/select-ng');
+
+      angular.module('Example.form', ['Ring.select'])
+        .controller('FormExampleCtrl', function() {
+          var formExampleCtrl = this;
+          formExampleCtrl.arr = [{name: 'Ada'}, {name: 'Nik'}];
+        });
    </file>
  </example>
  */
