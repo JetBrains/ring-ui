@@ -40,7 +40,7 @@ module.directive('rgDockedPanel', function () {
   return {
     link: function (scope, element, attrs) {
       const CSS_CLASS_NAME = 'ring-docked-panel';
-      const customCssClassOnStick = attrs.rgDockedPanelClass;
+      const customCssClassOnStick = attrs.rgDockedPanelClass || '';
       let panelInitialPos;
       let isPinned;
 
