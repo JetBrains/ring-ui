@@ -1,21 +1,12 @@
 @import "../global/global";
 
-$loader-height: 12px;
-$loader-width: 20px;
+$loader-height: 16px;
+$loader-width: 16px;
 
-$ball-size-min: 4px;
-$ball-size-max: 8px;
+$ball-size: 5px;
 
-@keyframes ball-size {
-  0% {
-    width: $ball-size-min;
-    height: $ball-size-min;
-  }
-  50% {
-    width: $ball-size-max;
-    height: $ball-size-max;
-  }
-}
+$loader-center: $loader-height/2 - $ball-size/2;
+$ball-delay: 0.25s;
 
 @keyframes ball-colors {
   12.5% {
@@ -46,29 +37,20 @@ $ball-size-max: 8px;
 
 @keyframes ball-moves {
   0% {
-    top: 0;
-    left: 0;
-    transform: translate(0, 0);
-  }
-  33% {
-    top: 100%;
-    left: 100%;
-    transform: translate(-100%,-100%);
-  }
-  50% {
-    top: 0;
-    left: 100%;
-    transform: translate(-100%, 0);
-  }
-  83% {
-    top: 100%;
-    left: 0;
-    transform: translate(0, -100%);
+    transform: rotate(0deg) translateX(-$loader-center);
   }
   100% {
-    top: 0;
-    left: 0;
-    transform: translate(0, 0);
+    transform: rotate(360deg) translateX(-$loader-center);
+  }
+}
+
+@keyframes loader-rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
   }
 }
 
@@ -78,27 +60,30 @@ $ball-size-max: 8px;
   position: relative;
   width: $loader-width;
   height: $loader-height;
+  transform-origin: center;
+  animation: loader-rotation 2.5s linear infinite;
 }
 
 .ring-loader-inline__ball {
   position: absolute;
+  top: $loader-center;
+  left: $loader-center;
 
-  width: $ball-size-min;
-  height: $ball-size-min;
+  width: $ball-size;
+  height: $ball-size;
 
   background-color: #D73CEA;
   border-radius: 50%;
 
-  animation: ball-moves 1.2s linear infinite,
-  ball-colors 3s linear infinite,
-  ball-size 2s linear infinite;
+  animation: ball-moves 1.2s cubic-bezier(0.480, 0.200, 0.480, 0.800) infinite,
+  ball-colors 3s linear infinite;
 
   //Forces animation to start from non-zero point
-  animation-delay: -0.6s;
+  animation-delay: -$ball-delay;
 
   &_second {
     opacity: 0.8;
-    animation-delay: -0.3s;
+    animation-delay: -$ball-delay*2;
   }
 
   &_third {
