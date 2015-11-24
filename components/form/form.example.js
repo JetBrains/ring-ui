@@ -21,33 +21,34 @@
          </div>
        </div>
        <div class="ring-form__group">
-         <label for="ring-form-3" class="ring-form__label">Long input</label>
+         <label for="ring-form-3" class="ring-form__label">Long Input</label>
          <div class="ring-form__control">
            <input class="ring-input ring-input_long" id="ring-form-3" type="text">
          </div>
        </div>
        <div class="ring-form__group">
-         <label for="ring-form-4" class="ring-form__label">Full-width control</label>
+         <label for="ring-form-4" class="ring-form__label">Full-Width Control</label>
          <div class="ring-form__control ring-form__control_full-width">
            <input class="ring-input" id="ring-form-4" type="text">
          </div>
        </div>
        <div class="ring-form__group">
-         <label for="ring-form-4" class="ring-form__label">Rg Select in Form</label>
+         <label for="ring-form-5" class="ring-form__label">Rg Select in Form</label>
          <div class="ring-form__control">
-           <rg-select options="item.name for item in formExampleCtrl.arr track by item.name"></rg-select>
-         </div>
-       </div>
-       <div class="ring-form__group">
-         <label for="ring-form-5" class="ring-form__label">Rg Select in Small</label>
-         <div class="ring-form__control ring-form__control_small">
            <rg-select id="ring-form-5" options="item.name for item in formExampleCtrl.arr track by item.name"></rg-select>
+           <div class="ring-form__control__description">I am simple description</div>
          </div>
        </div>
        <div class="ring-form__group">
-         <label for="ring-form-6" class="ring-form__label">Input in Small</label>
+         <label for="ring-form-6" class="ring-form__label">Rg Select in Small</label>
          <div class="ring-form__control ring-form__control_small">
-           <input class="ring-input" id="ring-form-6" type="text">
+           <rg-select id="ring-form-6" options="item.name for item in formExampleCtrl.arr track by item.name"></rg-select>
+         </div>
+       </div>
+       <div class="ring-form__group">
+         <label for="ring-form-7" class="ring-form__label">Input in Small</label>
+         <div class="ring-form__control ring-form__control_small">
+           <input class="ring-input" id="ring-form-7" type="text">
          </div>
        </div>
        <div class="ring-form__footer">
