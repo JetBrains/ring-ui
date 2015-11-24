@@ -38,6 +38,18 @@
            <rg-select options="item.name for item in formExampleCtrl.arr track by item.name"></rg-select>
          </div>
        </div>
+       <div class="ring-form__group">
+         <label for="ring-form-5" class="ring-form__label">Rg Select in Small</label>
+         <div class="ring-form__control ring-form__control_small">
+           <rg-select id="ring-form-5" options="item.name for item in formExampleCtrl.arr track by item.name"></rg-select>
+         </div>
+       </div>
+       <div class="ring-form__group">
+         <label for="ring-form-6" class="ring-form__label">Input in Small</label>
+         <div class="ring-form__control ring-form__control_small">
+           <input class="ring-input" id="ring-form-6" type="text">
+         </div>
+       </div>
        <div class="ring-form__footer">
          <button class="ring-btn_blue ring-btn">Save</button>
          <button class="ring-btn">Cancel</button>
