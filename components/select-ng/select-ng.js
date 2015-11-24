@@ -464,10 +464,6 @@ module.directive('rgSelect', function () {
           ctrl.selectInstance.rerender({
             data: items,
             loading: false
-          }, () => {
-            if (getType() === 'suggest') {
-              ctrl.selectInstance._showPopup();
-            }
           });
         }).catch(() => {
           ctrl.selectInstance.rerender({

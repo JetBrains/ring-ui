@@ -108,6 +108,8 @@ module.directive('rgShortcutsApp', function () {
         $scope.current = null;
       };
 
+      this.getCurrent = () => $scope.current;
+
       this.select = next => {
         if ($scope.current === next) {
           return;
@@ -212,10 +214,10 @@ module.directive('rgShortcuts', function ($parse) {
     require: ['^rgShortcutsApp'],
     link: function ($scope, iElement, iAttrs, shortcutsCtrl) {
       // Closest controller
+      let active = false;
       const ctrl = shortcutsCtrl[shortcutsCtrl.length - 1];
 
       const name = iAttrs.rgShortcuts;
-      const map = $scope.$eval(iAttrs.shortcutsMap);
       const focusGetter = $parse(iAttrs.shortcutsFocus);
       const blurGetter = $parse(iAttrs.shortcutsBlur);
 
@@ -227,12 +229,20 @@ module.directive('rgShortcuts', function ($parse) {
       };
 
       $scope.$evalAsync(() => {
-        ctrl.setup(zone, map);
+        ctrl.setup(zone, $scope.$eval(iAttrs.shortcutsMap));
       });
 
-      $scope.$watch(() => focusGetter($scope), current => {
-        if (current) {
+      $scope.$watch(() => focusGetter($scope), focusState => {
+        if (focusState) {
+          active = true;
           ctrl.select(zone);
+        } else if (!focusState && active) {
+          const currentZone = ctrl.getCurrent();
+          active = false;
+          // go to prev shortcuts only if current zone is yours
+          if (currentZone && currentZone.scope === zone.scope) {
+            ctrl.route('prev');
+          }
         }
       });
 
