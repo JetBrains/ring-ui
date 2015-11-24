@@ -358,11 +358,17 @@ export default class Select extends RingComponentWithShortcuts {
 
   _onEnter() {
     this.props.onDone();
+
+    if (!this._popup.isVisible() && this.props.allowAny) {
+      return true;
+    }
   }
 
   _onEsc() {
-    if (this.props.multiple || !this.props.getInitial) {
-      return;
+    if (!this._popup.isVisible() && this.props.allowAny) {
+      return true;
+    } else if (this.props.multiple || !this.props.getInitial) {
+      return false;
     }
 
     const selected = {
