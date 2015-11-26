@@ -8,12 +8,12 @@
           ng-mousedown="cancelBlur()">
     {{wording.save}}
   </button>
+  <button ng-show="done"
+    disabled
+    class="ring-btn ring-save-field__button">
+    {{wording.saved}}
+  </button>
   <span class="ring-save-field__loader" ng-show="loading">
       <span react-static="LoaderInline"></span>
   </span>
-  <button ng-show="done"
-          disabled
-          class="ring-btn ring-save-field__button">
-    {{wording.saved}}
-    </button>
 </div>
