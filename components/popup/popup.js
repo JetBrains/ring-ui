@@ -355,8 +355,8 @@ export default class Popup extends RingComponentWithShortcuts {
 
   _getBodyScroll() {
     return {
-      left: document.body.scrollLeft,
-      top: document.body.scrollTop
+      left: document.documentElement.scrollLeft,
+      top: document.documentElement.scrollTop
     };
   }
 
