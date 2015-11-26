@@ -71,13 +71,17 @@ module.directive('rgDockedPanel', function () {
        */
       function stick() {
         panel.classList.add(CSS_CLASS_NAME);
-        panel.classList.add(customCssClassOnStick);
+        if (customCssClassOnStick) {
+          panel.classList.add(customCssClassOnStick);
+        }
         isPinned = true;
       }
 
       function unstick() {
         panel.classList.remove(CSS_CLASS_NAME);
-        panel.classList.remove(customCssClassOnStick);
+        if (customCssClassOnStick) {
+          panel.classList.remove(customCssClassOnStick);
+        }
         isPinned = false;
       }
 
