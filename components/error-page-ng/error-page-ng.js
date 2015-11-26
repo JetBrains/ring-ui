@@ -5,6 +5,10 @@ import ErrorMessage from '../error-message-ng/error-message-ng';
 import Permissions from '../permissions-ng/permissions-ng';
 import MessageBundle from '../message-bundle-ng/message-bundle-ng';
 
+//Icons
+import FrownIcon from 'jetbrains-icons/frown.svg';
+import PermissionIcon from 'jetbrains-icons/permission.svg';
+
 /**
  * @name Error Page Ng
  * @description Directive for showing error pages (e.g. 404 Not Found)
@@ -97,29 +101,29 @@ module.factory('getErrorPagePresentation', function (RingMessageBundle) {
       status: 404,
       title: RingMessageBundle.errorpage_404(),
       description: RingMessageBundle.errorpage_404msg(),
-      icon: 'frown'
+      icon: FrownIcon
     },
     403: {
       status: 403,
       title: RingMessageBundle.errorpage_403(),
       description: RingMessageBundle.errorpage_403msg(),
-      icon: 'permission'
+      icon: PermissionIcon
     },
     500: {
       status: 500,
       title: RingMessageBundle.errorpage_500(),
       description: RingMessageBundle.errorpage_500msg(),
-      icon: 'frown'
+      icon: FrownIcon
     },
     0: {
       status: RingMessageBundle.errorpage_disconnected(),
       title: RingMessageBundle.errorpage_disconnectedmsg(),
       description: RingMessageBundle.errorpage_offline(),
-      icon: 'frown'
+      icon: FrownIcon
     },
     default: {
       title: RingMessageBundle.errorpage_seriouslywrong(),
-      icon: 'frown'
+      icon: FrownIcon
     }
   };
 
