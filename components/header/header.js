@@ -51,7 +51,7 @@ const PRUDUCTS_LOGOS = {
  * @param {Object} item
  * @return {?string}
  */
-function getServiceLogo(item, customClassName) {
+function getServiceLogo(item, customClassName, iconSize = Icon.Size.Size48) {
   const className = classNames(headerClassName.getElement('services-logo'), customClassName);
   const iconKey = `ItemIcon-${item.id}`;
 
@@ -68,7 +68,7 @@ function getServiceLogo(item, customClassName) {
         className={className}
         key={iconKey}
         glyph={serviceGlyph}
-        size={Icon.Size.Size48}
+        size={iconSize}
       />
     );
   }
@@ -370,7 +370,7 @@ export default class Header extends RingComponent {
     return this.props.servicesList
       .sort(sortServices)
       .filter(Header.isTopLineService)
-      .map(item => this._renderServiceLinkWithLogo(item, getServiceLogo(item, headerClassName.getElement('services-logo_gray'))));
+      .map(item => this._renderServiceLinkWithLogo(item, getServiceLogo(item, headerClassName.getElement('services-logo_top-line'), Icon.Size.Size32)));
   }
 
   /**
