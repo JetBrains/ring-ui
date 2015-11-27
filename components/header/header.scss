@@ -212,7 +212,10 @@
     padding-bottom: 3px;
   }
 
-  &_gray {
+  &_top-line {
+    width: $ring-unit * 4;
+    height: $ring-unit * 4;
+
     color: #666;
   }
 }
