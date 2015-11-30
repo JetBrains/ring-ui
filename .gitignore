@@ -3,6 +3,7 @@
 .idea/workspace.xml
 .idea/dictionaries/*.xml
 .idea/copyright/
+.idea/jsLibraryMappings.xml
 
 # OS
 .DS_Store
