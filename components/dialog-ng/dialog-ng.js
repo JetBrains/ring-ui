@@ -70,7 +70,10 @@ class DialogController {
       this.buttons = config.buttons;
       this.data = config.data || {};
       this.wideDialog = config.wideDialog;
+
       this.content = config.content;
+      this.template = config.template;
+
       this.description = config.description && config.description.split('\n') || [];
 
       //Fallback for backward compatibility with already exist templates which use data directly from scope
@@ -343,27 +346,40 @@ function rgDialogTitleDirective() {
 function rgDialogContentDirective($compile) {
   return {
     link: function (scope, iElement) {
-      function includeNode() {
+      function createIncludeNode() {
         const node = document.createElement('ng-include');
         node.setAttribute('src', 'dialog.content');
+
         return node;
       }
 
-      let includeScope;
+      function createContentNode() {
+        if (angular.isDefined(scope.dialog.content)) {
+          return createIncludeNode();
+        }
+
+        const node = document.createElement('div');
+        node.innerHTML = scope.dialog.template;
+
+        return node;
+      }
+
+      let contentScope;
       scope.$on('dialog.show', () => {
         const element = iElement[0];
 
-        if (includeScope) {
-          includeScope.$destroy();
+        if (contentScope) {
+          contentScope.$destroy();
           while (element.childNodes.length) {
             element.removeChild(element.childNodes[0]);
           }
         }
 
-        const newInclude = includeNode();
-        element.appendChild(newInclude);
-        includeScope = scope.$new();
-        $compile(angular.element(newInclude))(includeScope);
+        const newContentNode = createContentNode();
+        element.appendChild(newContentNode);
+
+        contentScope = scope.$new();
+        $compile(angular.element(newContentNode))(contentScope);
       });
     }
   };
