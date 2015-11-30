@@ -179,6 +179,13 @@ export default class Popup extends RingComponentWithShortcuts {
     display: this.props.hidden ? 0 : 1 // 0 - hidden, 1 - display in progress, 2 - visible
   };
 
+  constructor(...args) {
+    super(...args);
+
+    this._onWindowResize = this._onWindowResize.bind(this);
+    this._onDocumentClick = this._onDocumentClick.bind(this);
+  }
+
   getShortcutsProps() {
     return {
       map: {
@@ -269,16 +276,16 @@ export default class Popup extends RingComponentWithShortcuts {
     if (enable && !this._listenersEnabled) {
       setTimeout(() => {
         this._listenersEnabled = true;
-        window.addEventListener('resize', ::this._onWindowResize);
-        document.addEventListener('click', ::this._onDocumentClick);
+        window.addEventListener('resize', this._onWindowResize);
+        document.addEventListener('click', this._onDocumentClick);
       }, 0);
 
       return;
     }
 
     if (!enable && this._listenersEnabled) {
-      window.removeEventListener('resize', ::this._onWindowResize);
-      document.removeEventListener('click', ::this._onDocumentClick);
+      window.removeEventListener('resize', this._onWindowResize);
+      document.removeEventListener('click', this._onDocumentClick);
       this._listenersEnabled = false;
     }
   }
