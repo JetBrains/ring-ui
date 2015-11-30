@@ -303,11 +303,11 @@ describe('DialogNg', function () {
     });
 
     it('should allow pass custom template as html', function () {
-      let dialogConfig = {
+      const dialogConfig = {
         data: {},
         content: undefined,
         template: '<div class="content"></div>'
-      }
+      };
 
       const {element} = showDialog('<rg-dialog></rg-dialog>', null, null, null, dialogConfig);
 
@@ -315,13 +315,13 @@ describe('DialogNg', function () {
     });
 
     it('should allow use data in template scope', function () {
-      let dialogConfig = {
+      const dialogConfig = {
         data: {
           text: 'Hello World!'
         },
         content: undefined,
         template: '<div class="content">{{data.text}}</div>'
-      }
+      };
 
       const {element} = showDialog('<rg-dialog></rg-dialog>', null, null, null, dialogConfig);
 
