@@ -358,7 +358,7 @@ function rgDialogContentDirective($compile) {
           return createIncludeNode();
         }
 
-        const node = document.createElement('div');
+        const node = document.createElement('span');
         node.innerHTML = scope.dialog.template;
 
         return node;
