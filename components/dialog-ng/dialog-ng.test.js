@@ -301,6 +301,32 @@ describe('DialogNg', function () {
 
       element.query('form').should.contain('.content');
     });
+
+    it('should allow pass custom template as html', function () {
+      let dialogConfig = {
+        data: {},
+        content: undefined,
+        template: '<div class="content"></div>'
+      }
+
+      const {element} = showDialog('<rg-dialog></rg-dialog>', null, null, null, dialogConfig);
+
+      element.query('form').should.contain('.content');
+    });
+
+    it('should allow use data in template scope', function () {
+      let dialogConfig = {
+        data: {
+          text: 'Hello World!'
+        },
+        content: undefined,
+        template: '<div class="content">{{data.text}}</div>'
+      }
+
+      const {element} = showDialog('<rg-dialog></rg-dialog>', null, null, null, dialogConfig);
+
+      element.query('form .content').should.have.html(dialogConfig.data.text);
+    });
   });
 
   describe('footer', function () {
