@@ -232,9 +232,13 @@ module.directive('rgErrorPage', [
       template: '<div></div>',
       require: '?^rgErrorPageBackground',
       link: function (scope, iElement, iAttrs, errorPageBackgroundCtrl, transclude) {
-
         function handleError(error) {
-          transclude(scope, function () {
+          transclude(scope, function (clone) {
+            const cloneWrapper = document.createElement('div');
+            cloneWrapper.className = 'ng-hide';
+            angular.element(cloneWrapper).append(clone);
+            iElement.append(cloneWrapper);
+
             scope.error = getErrorPagePresentation(error);
             scope.links = errorPageConfiguration.links;
 
