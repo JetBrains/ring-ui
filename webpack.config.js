@@ -65,8 +65,7 @@ module.exports = {
   },
   plugins: [
     new webpack.ProvidePlugin({
-      Promise: 'core-js/es6/promise', // required for fetch
-      fetch: 'exports?self.fetch!whatwg-fetch'
+      fetch: 'exports?self.fetch!imports?Promise=core-js/es6/promise!whatwg-fetch'
     })
   ],
   // We have to share this config because SVG breaks with different configs in one process
