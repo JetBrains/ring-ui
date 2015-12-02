@@ -356,6 +356,29 @@ describe('SelectNg', function () {
       ctrl.optionsParser.getSelectedLabel(scope.options[0]).should.equal(scope.options[0].fullText);
     });
 
+    it('Should pass selected to callback', function () {
+      scope.options = [{key: 1, label: 'test'}];
+      const selectedModel = {originalModel: scope.options[0]};
+      scope.callback = this.sinon.spy();
+
+      compileTemplate('<rg-select options="item in options" on-select="callback(selected)"></rg-select>');
+      ctrl.config.onSelect(selectedModel);
+      scope.$digest();
+
+      scope.callback.should.have.been.calledWith(selectedModel);
+    });
+
+    it('Should pass $rgSelectReload to callback', function () {
+      scope.options = [{key: 1, label: 'test'}];
+      scope.callback = this.sinon.spy();
+
+      compileTemplate('<rg-select options="item in options" on-select="callback($rgSelectReload)"></rg-select>');
+      ctrl.config.onSelect();
+      scope.$digest();
+
+      scope.callback.should.have.been.calledWith(sinon.match(Function));
+    });
+
     it('Should support custom property for ng-model', function () {
       const optionMock = {value: 1, label: 'label'};
       scope.options = [optionMock];
