@@ -580,19 +580,19 @@ module.directive('rgSelect', function () {
           },
           onSelect: item => {
             $scope.$evalAsync(() => {
-              ctrl.onSelect({selected: item});
+              ctrl.onSelect({selected: item, $rgSelectReload: ctrl.config.onBeforeOpen});
             });
           },
           onDeselect: item => {
             $scope.$evalAsync(() => {
-              ctrl.onDeselect({deselected: item});
+              ctrl.onDeselect({deselected: item, $rgSelectReload: ctrl.config.onBeforeOpen});
             });
           },
           onChange: selected => {
             ctrl.syncSelectToNgModel(selected);
 
             $scope.$evalAsync(() => {
-              ctrl.onChange({selected: selected});
+              ctrl.onChange({selected: selected, $rgSelectReload: ctrl.config.onBeforeOpen});
             });
           },
           onFilter: query => {
