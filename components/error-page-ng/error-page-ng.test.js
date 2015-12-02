@@ -37,7 +37,6 @@ describe('ErrorPageNg', function () {
       elem = $compile(elem)($rootScope);
       $rootScope.$digest();
 
-      elem[0].should.not.contain('.content');
       elem[0].should.contain('.error-message');
       elem[0].query('.error-message__title').should.have.text(RingMessageBundle.errorpage_seriouslywrong());
     })
@@ -49,7 +48,6 @@ describe('ErrorPageNg', function () {
       elem = $compile(elem)($rootScope);
       $rootScope.$digest();
 
-      elem[0].should.not.contain('.content');
       elem[0].should.contain('.error-message');
       elem[0].query('.error-message__title').should.have.text('404: ' + RingMessageBundle.errorpage_404());
     })
@@ -77,7 +75,6 @@ describe('ErrorPageNg', function () {
       $rootScope.errorSource.reject();
       $rootScope.$digest();
 
-      elem[0].should.not.contain('.content');
       elem[0].should.contain('.error-message');
       elem[0].query('.error-message__title').should.have.text(RingMessageBundle.errorpage_seriouslywrong());
     })
@@ -91,7 +88,6 @@ describe('ErrorPageNg', function () {
       $rootScope.errorSource.reject({status: 403});
       $rootScope.$digest();
 
-      elem[0].should.not.contain('.content');
       elem[0].should.contain('.error-message');
       elem[0].query('.error-message__title').should.have.text('403: ' + RingMessageBundle.errorpage_403());
     })
@@ -107,7 +103,6 @@ describe('ErrorPageNg', function () {
       df.reject({status: 403});
       $rootScope.$digest();
 
-      elem[0].should.not.contain('.content');
       elem[0].should.contain('.error-message');
       elem[0].query('.error-message__title').should.have.text('403: ' + RingMessageBundle.errorpage_403());
     })
@@ -129,7 +124,6 @@ describe('ErrorPageNg', function () {
       df.resolve();
       $rootScope.$digest();
 
-      elem[0].should.not.contain('.content');
       elem[0].should.contain('.error-message');
       elem[0].query('.error-message__title').should.have.text('403: ' + RingMessageBundle.errorpage_403());
     })
@@ -151,7 +145,6 @@ describe('ErrorPageNg', function () {
       df.reject({status: 500});
       $rootScope.$digest();
 
-      elem[0].should.not.contain('.content');
       elem[0].should.contain('.error-message');
       elem[0].query('.error-message__title').should.have.text('403: ' + RingMessageBundle.errorpage_403());
     })
