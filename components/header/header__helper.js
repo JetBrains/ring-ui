@@ -36,6 +36,8 @@ export default class HeaderHelper {
 
     function setServicesList(services) {
       if (services.length) {
+        header.setMenuItemEnabled(header.constructor.MenuItemType.SERVICES, true);
+
         header.rerender({
           onServicesOpen: null,
           onServicesClose: null
