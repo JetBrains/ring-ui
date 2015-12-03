@@ -329,6 +329,7 @@ module.directive('rgSelect', function () {
      * @property {String} scope.notFoundMessage - message to display if no options found
      * @property {String} scope.loadingMessage - message to display while loading
      * @property {Object} scope.config - hash to pass to react select component.
+     * @property {Boolean} scope.configAutoUpdate - should or not config watch for it updates and update select.
      */
     scope: {
       ngModel: '=',
@@ -350,7 +351,8 @@ module.directive('rgSelect', function () {
       onChange: '&',
       notFoundMessage: '@',
       loadingMessage: '@',
-      config: '=?'
+      config: '=?',
+      configAutoUpdate: '='
     },
     bindToController: true,
     controllerAs: 'selectCtrl',
@@ -625,7 +627,9 @@ module.directive('rgSelect', function () {
         syncNgModelToSelect();
         syncDisabled();
         syncMultiple();
-        syncConfig();
+        if (ctrl.configAutoUpdate) {
+          syncConfig();
+        }
         attachDropdownIfNeeded();
         listenToRouteChanges();
         listenToDestroy();
