@@ -281,6 +281,14 @@ describe('SelectNg', function () {
 
       ctrl.selectInstance.props.selected.label.should.equal(fakeItems[1].name);
     });
+
+    it('Should rerender with new config if config changed', function () {
+      this.sinon.spy(ctrl.selectInstance, 'rerender');
+      ctrl.config.add = {label: 'fooo'};
+      scope.$digest();
+
+      ctrl.selectInstance.rerender.should.have.been.calledWith(sinon.match({add: {label: 'fooo'}}));
+    });
   });
 
   describe('Options parser', function () {
