@@ -282,7 +282,9 @@ describe('SelectNg', function () {
       ctrl.selectInstance.props.selected.label.should.equal(fakeItems[1].name);
     });
 
-    it('Should rerender with new config if config changed', function () {
+    it('Should rerender with new config if config changed and autosync enabled', function () {
+      compileTemplate('<rg-select options="item.name for item in items track by item.id" ng-model="selectedItem" config-auto-update="true"></rg-select>');
+
       this.sinon.spy(ctrl.selectInstance, 'rerender');
       ctrl.config.add = {label: 'fooo'};
       scope.$digest();
