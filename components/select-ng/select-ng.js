@@ -498,6 +498,14 @@ module.directive('rgSelect', function () {
         });
       }
 
+      function syncConfig() {
+        $scope.$watchCollection(() => ctrl.config, (config, old) => {
+          if (config !== old) {
+            ctrl.selectInstance.rerender(config);
+          }
+        });
+      }
+
       function attachDropdownIfNeeded() {
         if (getType() === 'dropdown') {
           element.addEventListener('click', () => {
@@ -617,6 +625,7 @@ module.directive('rgSelect', function () {
         syncNgModelToSelect();
         syncDisabled();
         syncMultiple();
+        syncConfig();
         attachDropdownIfNeeded();
         listenToRouteChanges();
         listenToDestroy();
