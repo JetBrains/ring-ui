@@ -52,4 +52,25 @@ describe('urlUtils', function () {
       should.not.exist(urlUtils.getOrigin('http:/'));
     });
   });
+
+  describe('resolveRelative', function () {
+    const baseUrl = 'http://example.com/';
+
+    beforeEach(function () {
+      this.sinon.stub(urlUtils, 'getAbsoluteURL').returns(baseUrl);
+    });
+
+    it('should resolve url fragment relative to the base url when <base> tag is present', function () {
+      this.sinon.stub(urlUtils, 'getBaseURI').returns('uri');
+
+      urlUtils.resolveRelativeURL('#test').should.be.equal('http://example.com/#test');
+    });
+
+    it('should not resolve url fragment relative to the base url when there is no <base> tag', function () {
+      this.sinon.stub(urlUtils, 'getBaseURI').returns();
+
+      urlUtils.resolveRelativeURL('#test').should.be.equal('#test');
+    });
+  });
+
 });
