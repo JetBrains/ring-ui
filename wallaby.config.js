@@ -30,15 +30,15 @@ module.exports = function (wallaby) {
     })
     // removing babel-loader, we will use babel preprocessor instead, it's more performant
     .filter(function (loader) {
-      return loader.loader !== 'babel-loader';
+      return !loader.loader || loader.loader.indexOf('babel-loader') === -1;
     });
 
   // fallback to wallaby cache, not to the local folder
+  webpackConfig.resolve = {};
   webpackConfig.resolve.fallback = [path.join(wallaby.projectCacheDir, 'components')];
 
   // not required for wallaby.js
   delete webpackConfig.devtool;
-
   webpackConfig.output = {};
   webpackConfig.entry = {};
   webpackConfig.cache = {};
@@ -56,39 +56,28 @@ module.exports = function (wallaby) {
 
       // test frameworks
       {
-        pattern: 'node_modules/sinon/pkg/sinon.js',
+        pattern: 'node_modules/karma-chai-plugins/node_modules/sinon/pkg/sinon.js',
         instrument: false
       },
       {
-        pattern: 'node_modules/chai/chai.js',
+        pattern: 'node_modules/karma-chai-plugins/node_modules/chai/chai.js',
         instrument: false
       },
       {
-        pattern: 'node_modules/chai-as-promised/lib/chai-as-promised.js',
+        pattern: 'node_modules/karma-chai-plugins/node_modules/chai-as-promised/lib/chai-as-promised.js',
         instrument: false
       },
       {
-        pattern: 'node_modules/chai-dom/chai-dom.js',
+        pattern: 'node_modules/karma-chai-plugins/chai-dom/chai-dom.js',
         instrument: false
       },
       {
-        pattern: 'node_modules/sinon-chai/lib/sinon-chai.js',
+        pattern: 'node_modules/karma-chai-plugins/node_modules/sinon-chai/lib/sinon-chai.js',
         instrument: false
       },
       {
         pattern: 'node_modules/karma-chai-plugins/chai-adapter.js',
         instrument: false
-      },
-
-      {
-        pattern: 'components/icon/icon__template.js',
-        instrument: false,
-        load: false
-      },
-      {
-        pattern: 'components/class-name/class-name.js',
-        instrument: false,
-        load: false
       },
 
       // files
