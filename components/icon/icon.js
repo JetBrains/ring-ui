@@ -7,7 +7,7 @@
 import React, {PropTypes} from 'react';
 import classNames from 'classnames';
 import RingComponent from '../ring-component/ring-component';
-import IconUrl from './icon__url';
+import urlUtils from '../url-utils/url-utils';
 import ClassName from '../class-name/class-name';
 import './icon.scss';
 
@@ -203,7 +203,7 @@ export default class Icon extends RingComponent {
       height: size
     };
 
-    const xlinkHref = IconUrl.resolve(glyph);
+    const xlinkHref = urlUtils.resolveRelativeURL(glyph);
 
     return (
       <span
