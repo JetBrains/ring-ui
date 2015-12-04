@@ -1,7 +1,7 @@
-/**
- * @fileoverview Helpers to work with URLs.
- * @author igor.alexeenko (Igor Alekseyenko)
- */
+import Sniffr from 'sniffr';
+
+const sniffr = new Sniffr();
+sniffr.sniff();
 
 export default class urlUtils {
   /**
@@ -58,6 +58,13 @@ export default class urlUtils {
   }
 
   /**
+   * @return {string}
+   */
+  static getAbsoluteURL() {
+    return window.location.href.split('#')[0];
+  }
+
+  /**
    * Fixes the URL
    * If the URL is relative and the page contains a <base> TAG, the URL will be converted to absolute
    * <base href="/">: some/path => /some/path
@@ -73,5 +80,18 @@ export default class urlUtils {
     }
 
     return url;
+  }
+
+  /**
+   * Resolve url for svg icons
+   * @param {string} relUrl The value of xlink:href
+   * @return {string} The url relative to base url for current page
+   */
+  static resolveRelativeURL(relUrl) {
+    if (!this.getBaseURI() && sniffr.browser.name !== 'firefox') {
+      return relUrl;
+    }
+
+    return this.getAbsoluteURL() + relUrl;
   }
 }
