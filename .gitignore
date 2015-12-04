@@ -4,6 +4,7 @@
 .idea/dictionaries/*.xml
 .idea/copyright/
 .idea/jsLibraryMappings.xml
+.idea/deployment.xml
 
 # OS
 .DS_Store
