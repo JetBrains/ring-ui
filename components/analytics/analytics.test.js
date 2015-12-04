@@ -74,46 +74,43 @@ describe('analytics singleton', function () {
   });
 
   describe('tracking events', function () {
-    let send;
-    let clock;
-
     beforeEach(function () {
-      send = this.sinon.spy();
-      clock = this.sinon.useFakeTimers();
-      analytics = new Analytics();
+      this.send = this.sinon.spy();
+      this.clock = this.sinon.useFakeTimers();
+      this.analytics = new Analytics();
     });
 
     describe('#enabled', function () {
       beforeEach(function () {
-        const customPlugin = new AnalyticsCustomPlugin(send);
-        analytics.config([customPlugin]);
+        const customPlugin = new AnalyticsCustomPlugin(this.send);
+        this.analytics.config([customPlugin]);
       });
 
       it('should send request to statistics server on tracking event', function () {
-        analytics.trackEvent('test-category', 'test-action');
-        clock.tick(10500);
+        this.analytics.trackEvent('test-category', 'test-action');
+        this.clock.tick(10500);
 
-        send.should.have.been.calledWith([{
+        this.send.should.have.been.calledWith([{
           category: 'test-category',
           action: 'test-action'
         }]);
       });
 
       it('should remove prohibited symbols', function () {
-        analytics.trackEvent('t/\\est-c,ate:gory*?', 't/\\est-a,ct:ion*?');
-        clock.tick(10500);
+        this.analytics.trackEvent('t/\\est-c,ate:gory*?', 't/\\est-a,ct:ion*?');
+        this.clock.tick(10500);
 
-        send.should.have.been.calledWith([{
+        this.send.should.have.been.calledWith([{
           category: 't_est-c_ate_gory_',
           action: 't/_est-a_ct_ion_'
         }]);
       });
 
       it('should track event with additional information', function () {
-        analytics.trackEvent('test-category', 'test-action', {type: 'test-type'});
-        clock.tick(10500);
+        this.analytics.trackEvent('test-category', 'test-action', {type: 'test-type'});
+        this.clock.tick(10500);
 
-        send.should.have.been.calledWith([{
+        this.send.should.have.been.calledWith([{
           category: 'test-category',
           action: 'test-action'
         }, {
@@ -123,10 +120,10 @@ describe('analytics singleton', function () {
       });
 
       it('should send two events to statistics server on tracking shortcut event', function () {
-        analytics.trackShortcutEvent('test-category', 'test-action');
-        clock.tick(10500);
+        this.analytics.trackShortcutEvent('test-category', 'test-action');
+        this.clock.tick(10500);
 
-        send.should.have.been.calledWith([{
+        this.send.should.have.been.calledWith([{
           category: 'test-category',
           action: 'test-action'
         }, {
@@ -145,8 +142,8 @@ describe('analytics singleton', function () {
             param5: 'should-be-ignored'
           };
           const trackedProperties = ['param1', 'param2', 'param3', 'param4'];
-          analytics.trackEntityProperties('sample-entity', entity, trackedProperties);
-          clock.tick(10500);
+          this.analytics.trackEntityProperties('sample-entity', entity, trackedProperties);
+          this.clock.tick(10500);
 
           const trackedData = [];
           trackedProperties.forEach(function (it) {
@@ -155,7 +152,7 @@ describe('analytics singleton', function () {
               action: it + '__' + entity[it]
             });
           });
-          send.should.have.been.calledWith(trackedData);
+          this.send.should.have.been.calledWith(trackedData);
         });
 
         it('should not send any data if no properties requested', function () {
@@ -163,10 +160,10 @@ describe('analytics singleton', function () {
             param1: 'first',
             param2: 'second'
           };
-          analytics.trackEntityProperties('sample-entity', entity, []);
-          clock.tick(10500);
+          this.analytics.trackEntityProperties('sample-entity', entity, []);
+          this.clock.tick(10500);
 
-          send.should.not.have.been.called;
+          this.send.should.not.have.been.called;
         });
 
         it('should not throw error if there are no some properties', function () {
@@ -174,10 +171,10 @@ describe('analytics singleton', function () {
             param1: 'first',
             param2: 'second'
           };
-          analytics.trackEntityProperties('entity', entity, ['param1', 'unexisting-property']);
-          clock.tick(10500);
+          this.analytics.trackEntityProperties('entity', entity, ['param1', 'unexisting-property']);
+          this.clock.tick(10500);
 
-          send.should.have.been.calledWith([{
+          this.send.should.have.been.calledWith([{
             category: 'entity',
             action: 'param1__first'
           }, {
@@ -200,10 +197,10 @@ describe('analytics singleton', function () {
             'property.subproperty2.subsubproperty',
             'propery.subproperty3.unexisting'
           ];
-          analytics.trackEntityProperties('entity', entity, trackedProperies);
-          clock.tick(10500);
+          this.analytics.trackEntityProperties('entity', entity, trackedProperies);
+          this.clock.tick(10500);
 
-          send.should.have.been.calledWith([{
+          this.send.should.have.been.calledWith([{
             category: 'entity',
             action: 'property-subproperty2-subsubproperty__subsubproperty-value'
           }, {
@@ -214,23 +211,23 @@ describe('analytics singleton', function () {
       });
 
       it('should send request to statistics server on page view', function () {
-        analytics.trackPageView('test-page');
-        clock.tick(10500);
+        this.analytics.trackPageView('test-page');
+        this.clock.tick(10500);
 
-        send.should.have.been.called;
+        this.send.should.have.been.called;
       });
 
       it('should send request to statistics server multiple times', function () {
         //first loop
-        analytics.trackPageView('test-page');
-        clock.tick(10500);
-        send.should.have.been.called;
+        this.analytics.trackPageView('test-page');
+        this.clock.tick(10500);
+        this.send.should.have.been.called;
 
         //second loop
-        analytics.trackEvent('test-category', 'test-event');
-        analytics.trackEvent('test-category-2', 'test-event-2');
-        clock.tick(10500);
-        send.should.calledWith([{
+        this.analytics.trackEvent('test-category', 'test-event');
+        this.analytics.trackEvent('test-category-2', 'test-event-2');
+        this.clock.tick(10500);
+        this.send.should.calledWith([{
           category: 'test-category',
           action: 'test-event'
         }, {
@@ -248,16 +245,16 @@ describe('analytics singleton', function () {
             return counter === 2;
           }
 
-          const customPlugin = new AnalyticsCustomPlugin(send, false, 10000, flushingIsAllowedOnSecondCheck);
-          analytics.config([customPlugin]);
+          const customPlugin = new AnalyticsCustomPlugin(this.send, false, 10000, flushingIsAllowedOnSecondCheck);
+          this.analytics.config([customPlugin]);
 
-          analytics.trackEvent('test-category', 'test-action');
-          clock.tick(10500);
+          this.analytics.trackEvent('test-category', 'test-action');
+          this.clock.tick(10500);
 
-          send.should.not.have.been.called;
-          clock.tick(10500);
+          this.send.should.not.have.been.called;
+          this.clock.tick(10500);
 
-          send.should.have.been.calledWith([{
+          this.send.should.have.been.calledWith([{
             category: 'test-category',
             action: 'test-action'
           }]);
@@ -266,14 +263,14 @@ describe('analytics singleton', function () {
     });
     describe('#disabled', function () {
       beforeEach(function () {
-        analytics.config([]);
+        this.analytics.config([]);
       });
 
       it('should not send request to statistics server', function () {
-        analytics.trackEvent('test-category', 'test-action');
-        clock.tick(10500);
+        this.analytics.trackEvent('test-category', 'test-action');
+        this.clock.tick(10500);
 
-        send.should.not.have.been.called;
+        this.send.should.not.have.been.called;
       });
     });
   });
