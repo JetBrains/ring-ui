@@ -182,6 +182,7 @@ export default class QueryAssist extends RingComponentWithShortcuts {
     hint: PropTypes.string,
     hintOnSelection: PropTypes.string,
     glass: PropTypes.bool,
+    loader: PropTypes.bool,
     placeholder: PropTypes.string,
     onApply: PropTypes.func,
     onChange: PropTypes.func,
@@ -728,6 +729,7 @@ export default class QueryAssist extends RingComponentWithShortcuts {
       props.placeholder !== this.props.placeholder ||
       props.disabled !== this.props.disabled ||
       props.clear !== this.props.clear ||
+      props.loader !== this.props.loader ||
       props.glass !== this.props.glass;
   }
 
@@ -743,8 +745,9 @@ export default class QueryAssist extends RingComponentWithShortcuts {
   render() {
     const renderPlaceholder = !!this.props.placeholder && this.state.placeholderEnabled;
     const renderClear = this.props.clear && !!this.state.query;
-    const renderGlass = this.props.glass && !this.state.loading;
-    const renderGlassOrLoader = this.props.glass || this.state.loading;
+    const renderLoader = this.props.loader !== false && this.state.loading;
+    const renderGlass = this.props.glass && !renderLoader;
+    const renderGlassOrLoader = this.props.glass || renderLoader;
 
     const inputClasses = classNames({
       'ring-query-assist__input ring-input ring-js-shortcuts': true,
@@ -794,7 +797,7 @@ export default class QueryAssist extends RingComponentWithShortcuts {
           onClick={::this.handleApply}
           size={Icon.Size.Size16}
         />}
-        {this.state.loading &&
+        {renderLoader &&
         <div
           className="ring-query-assist__icon ring-query-assist__icon_loader"
           ref="loader"
