@@ -88,10 +88,10 @@ export default class urlUtils {
    * @return {string} The url relative to base url for current page
    */
   static resolveRelativeURL(relUrl) {
-    if (!this.getBaseURI() && sniffr.browser.name !== 'firefox') {
-      return relUrl;
+    if (this.getBaseURI() && sniffr.browser.name === 'firefox') {
+      return this.getAbsoluteURL() + relUrl;
     }
 
-    return this.getAbsoluteURL() + relUrl;
+    return relUrl;
   }
 }

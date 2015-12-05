@@ -1,10 +1,10 @@
-/**
- * @fileoverview Test cases for URL helpers.
- * @author igor.alexeenko (Igor Alekseyenko)
- */
-
 import 'dom4';
+
+import Sniffr from 'sniffr';
 import urlUtils from '../url-utils/url-utils';
+
+const sniffr = new Sniffr();
+sniffr.sniff();
 
 describe('urlUtils', function () {
   describe('fixUrl', function () {
@@ -60,10 +60,25 @@ describe('urlUtils', function () {
       this.sinon.stub(urlUtils, 'getAbsoluteURL').returns(baseUrl);
     });
 
-    it('should resolve url fragment relative to the base url when <base> tag is present', function () {
+    it('should resolve url fragment relative to the base url when <base> tag is present in Firefox', function () {
+      if (sniffr.browser.name !== 'firefox') {
+        return;
+      }
+
       this.sinon.stub(urlUtils, 'getBaseURI').returns('uri');
 
       urlUtils.resolveRelativeURL('#test').should.be.equal('http://example.com/#test');
+    });
+
+
+    it('should resolve url fragment relative to the base url when <base> tag is present not in Firefox', function () {
+      if (sniffr.browser.name === 'firefox') {
+        return;
+      }
+
+      this.sinon.stub(urlUtils, 'getBaseURI').returns('uri');
+
+      urlUtils.resolveRelativeURL('#test').should.be.equal('#test');
     });
 
     it('should not resolve url fragment relative to the base url when there is no <base> tag', function () {
