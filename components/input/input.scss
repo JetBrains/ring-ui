@@ -15,13 +15,13 @@
 
 .ring-input {
   box-sizing: border-box;
-  width: 100%;
   height: 3*$ring-unit;
   margin: 0;
   padding-right: $ring-unit/ 2;
   padding-left: $ring-unit / 2;
   border: 1px solid $ring-gray-color;
   background-color: #FFF;
+  @include ring-input-control-widths();
 
   @include ring-font;
   line-height: 20px;
@@ -37,10 +37,6 @@
 
   &_error {
     border-color: #F00;
-  }
-
-  &_long {
-    width: 100%;
   }
 
   &_no-resize {
@@ -74,7 +70,8 @@
   display: none;
   position: absolute;
   top: 0;
-  left: 25*$ring-unit + 2;
+  left: 25*$ring-unit + 2; // fallback if calc is not supported
+  left: calc(100% + 2px);
   height: 3*$ring-unit;
   padding-right: 2*$ring-unit;
   padding-left: 2*$ring-unit;
