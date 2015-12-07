@@ -49,7 +49,7 @@ module.exports = {
       {
         test: /\.js$/,
         include: componentsPath,
-        loader: resolveLoader('babel')
+        loader: resolveLoader('babel') + '?cacheDirectory=true'
       },
       {
         test: /-ng(\\|\/)\S*(-ng|-ng__)\S*\.html$/,
