@@ -8,7 +8,7 @@ import './input.scss';
  * @constructor
  * @extends {ReactComponent}
  * @example
-   <example name="Input">
+   <example name="React input">
      <file name="index.html">
        <div id="input"></div>
      </file>
@@ -21,6 +21,34 @@ import './input.scss';
          Input.factory(),
          document.getElementById('input')
        );
+     </file>
+   </example>
+   <example name="Input sizes">
+     <file name="index.html">
+       <div style="width: 600px">
+         <div class="input-control-wrapper">
+           <input type="number" class="ring-input">
+           <div class="ring-input__error-bubble active">No modifiers (full-width)</div>
+         </div>
+         <div class="input-control-wrapper">
+           <input type="number" class="ring-input ring-input_medium">
+           <div class="ring-input__error-bubble active">Medium</div>
+         </div>
+         <div class="input-control-wrapper">
+           <input type="number" class="ring-input ring-input_long">
+           <div class="ring-input__error-bubble active">Long</div>
+         </div>
+       </div>
+     </file>
+     <file name="style.scss">
+        .input-control-wrapper {
+          position: relative;
+          margin: 16px;
+        }
+     </file>
+     <file name="index.js" webpack="true">
+       require('ring-ui/components/input/input.scss');
+       require('./style.scss');
      </file>
    </example>
  */
