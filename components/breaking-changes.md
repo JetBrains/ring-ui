@@ -1,10 +1,16 @@
-### 07-12-2015: Changes in markup of ring-input, ring-textarea, error-buble and ring-form__control (relates to RG-965).
-
-# If ring-input or ring-textarea is outside of ring-form__control it should have class ring-input_medium (ring-textarea_medium),
-otherwise it will be full-width
-# Class ring-input_full-width moved to ring-form__control_full-width (as ring-input is now always full-width)
+---
+collection: docs
+title: Breaking Changes
+order: 2
+---
 
 See the “breaking change” commits [in Upsource](https://upsource.jetbrains.com/ring-ui/view?query=path:%20%7B%2A%2Fbreaking-changes.md%7D%20and%20not%20%22Wording%22).  
+
+### 07-12-2015: Changes in markup of ring-input, ring-textarea, error-buble and ring-form__control (relates to RG-965).
+
+* If ring-input or ring-textarea is outside of ring-form__control it should have class ring-input_medium (ring-textarea_medium),
+otherwise it will be full-width
+* Class ring-input_full-width moved to ring-form__control_full-width (as ring-input is now always full-width)
 
 ### 19-11-2015: LoaderInline was rebuilt. 
 
