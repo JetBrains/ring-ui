@@ -6,20 +6,20 @@ order: 2
 
 See the “breaking change” commits [in Upsource](https://upsource.jetbrains.com/ring-ui/view?query=path:%20%7B%2A%2Fbreaking-changes.md%7D%20and%20not%20%22Wording%22).  
 
-### 07-12-2015: Changes in markup of ring-input, ring-textarea, error-buble and ring-form__control (relates to RG-965).
+### 07-12-2015: Changes in markup of ring-input, ring-textarea, error-bubble and ring-form__control (RG-965).
 
-* If ring-input or ring-textarea is outside of ring-form__control it should have class ring-input_medium (ring-textarea_medium),
-otherwise it will be full-width
-* Class ring-input_full-width moved to ring-form__control_full-width (as ring-input is now always full-width)
+* If ring-input or ring-textarea is used outside of `ring-form__control`, it should have class `ring-input_medium` (`ring-textarea_medium`),
+otherwise it will have a width of 100%
+* Class `ring-input_full-width` renamed to `ring-form__control_full-width` (as `ring-input` is now full-width by default)
 
-### 19-11-2015: LoaderInline was rebuilt. 
+### 19-11-2015: LoaderInline was reimplemented. 
 
-Usages should be updated if it is used as a markup. ([see example](loader-inline.html)).
+Usages should be updated if you're not using the React component. ([See example](loader-inline.html)).
 
 ### 02-11-2015: Auth: Hub 1.0 defaults applied
 
 * `redirect` param in Auth is now `false` by default
-* `redirect` param in Auth hasn't `background-unsafe` value anymore, so it should be removed from project's Auth configs 
+* `redirect` param in Auth doesn't have the `background-unsafe` value anymore, so it should be removed from project's Auth configs 
 * Background token refresh always uses `request_credentials` mode `silent`
 
 ### 30-10-2015: webpack.config.js does not provide loaders for applications' code anymore, you will need to set up all the necessary loaders in your project configuration.
