@@ -88,9 +88,9 @@ module.directive('rgTabs', function ($location, $routeParams, $rootScope) {
         $scope.panes.push(pane);
       };
 
-      $rootScope.$on('$routeUpdate', () => {
+      $scope.$on('$destroy', $rootScope.$on('$routeUpdate', () => {
         doSelect($routeParams[getTabParameterName()] || 0, true);
-      });
+      }));
 
       // Exposed methods
       $scope.control = {};
