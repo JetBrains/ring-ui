@@ -32,7 +32,7 @@ class Particle {
   }
 }
 
-export default class Loader {
+export default class LoaderCore {
   static defaultProps = {
     size: 64,
     colors: [
@@ -59,7 +59,7 @@ export default class Loader {
   constructor(containerNode, props) {
     this.isRunning = false;
 
-    this.props = Object.assign({}, Loader.defaultProps, props);
+    this.props = Object.assign({}, LoaderCore.defaultProps, props);
     this.renderInNodeAndStart(containerNode);
   }
 
@@ -68,7 +68,7 @@ export default class Loader {
   }
 
   setCanvasSize() {
-    const pixelRatio = Loader.getPixelRatio();
+    const pixelRatio = LoaderCore.getPixelRatio();
     const canvasSize = this.props.size * pixelRatio;
 
     this.canvas.width = canvasSize;
@@ -154,7 +154,7 @@ export default class Loader {
     const currentColor = colors[this.colorIndex];
     const nextColor = colors[this.colorIndex + 1] || colors[0];
 
-    return Loader.calculateGradient(currentColor, nextColor, this.tick / this.colorChangeTick);
+    return LoaderCore.calculateGradient(currentColor, nextColor, this.tick / this.colorChangeTick);
   }
 
   nextTick() {

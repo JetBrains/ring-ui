@@ -1,7 +1,7 @@
 import React from 'react';
 import RingComponent from '../ring-component/ring-component';
 
-import LoaderPlain from './loader__plain';
+import LoaderCore from './loader__core';
 
 /**
  * @name Loader
@@ -42,7 +42,7 @@ import LoaderPlain from './loader__plain';
 export default class Loader extends RingComponent {
 
   didMount() {
-    this.loader = new LoaderPlain(this.refs.loaderContainer);
+    this.loader = new LoaderCore(this.refs.loaderContainer);
   }
 
   willUnmount() {
@@ -52,8 +52,7 @@ export default class Loader extends RingComponent {
 
   render() {
     return (
-      <div {...this.props}
-        ref="loaderContainer"></div>
+      <div ref="loaderContainer"></div>
     );
   }
 }
