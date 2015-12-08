@@ -1,4 +1,6 @@
 @import '../global/global';
+@import "../button/button";
+@import "../form/form";
 
 /**
  * @name Dialog
@@ -48,10 +50,7 @@
    </file>
    <file name="index.js" webpack="true">
      require('ring-ui/components/dialog/dialog.scss');
-     require('ring-ui/components/input/input.scss');
-     require('ring-ui/components/form/form.scss');
      require('ring-ui/components/panel/panel.scss');
-     require('ring-ui/components/button/button.scss');
      require('ring-ui/components/textarea/textarea.scss');
 
      require('angular/angular');
@@ -241,4 +240,10 @@
 .ring-dialog-modal {
   height: 100%;
   overflow: hidden;
+}
+
+// copy from alert.scss
+.ring-alert_error {
+  color: $ring-error-color;
+  word-wrap: break-word;
 }
