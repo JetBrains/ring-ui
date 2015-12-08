@@ -1,6 +1,4 @@
-import React from 'react';
-import LoaderPlain from './loader__plain';
-import TestUtils from 'react-addons-test-utils';
+import LoaderCore from './loader__plain';
 
 describe('Loader', function () {
   function noop() {}
@@ -8,7 +6,7 @@ describe('Loader', function () {
   beforeEach(function () {
     this.createLoader = function (props) {
       this.loaderContainer = document.createElement('div');
-      this.loader = new LoaderPlain(this.loaderContainer, props);
+      this.loader = new LoaderCore(this.loaderContainer, props);
       return this.loader;
     };
 
@@ -16,7 +14,7 @@ describe('Loader', function () {
   });
 
   it('Should calculate gradient', function () {
-    const middleColor = LoaderPlain.calculateGradient({r: 0, g: 0, b: 0}, {r: 255, g: 255, b: 255}, 0.5);
+    const middleColor = LoaderCore.calculateGradient({r: 0, g: 0, b: 0}, {r: 255, g: 255, b: 255}, 0.5);
     middleColor.should.deep.equal({r: 128, g: 128, b: 128});
   });
 
@@ -25,7 +23,7 @@ describe('Loader', function () {
   });
 
   it('Should set canvas size from passed size', function () {
-    this.sinon.stub(LoaderPlain, 'getPixelRatio').returns(1);
+    this.sinon.stub(LoaderCore, 'getPixelRatio').returns(1);
     const loader = this.createLoader({size: 42});
 
     loader.canvas.height.should.equal(42);
@@ -33,7 +31,7 @@ describe('Loader', function () {
   });
 
   it('Should double canvas size on HDPI devices', function () {
-    this.sinon.stub(LoaderPlain, 'getPixelRatio').returns(2);
+    this.sinon.stub(LoaderCore, 'getPixelRatio').returns(2);
     const loader = this.createLoader({size: 42});
 
     loader.canvas.height.should.equal(84);
@@ -41,7 +39,7 @@ describe('Loader', function () {
   });
 
   it('Should fixate canvas CSS size with style to avoid scaling on HDPI devices', function () {
-    this.sinon.stub(LoaderPlain, 'getPixelRatio').returns(2);
+    this.sinon.stub(LoaderCore, 'getPixelRatio').returns(2);
     const loader = this.createLoader({size: 42});
 
     loader.canvas.style.height.should.equal('42px');
@@ -49,7 +47,7 @@ describe('Loader', function () {
   });
 
   it('Should scale canvas on HDPI devices to make visible image size the same as on normal screens', function () {
-    this.sinon.stub(LoaderPlain, 'getPixelRatio').returns(2);
+    this.sinon.stub(LoaderCore, 'getPixelRatio').returns(2);
     const loader = this.createLoader({size: 42});
     this.sinon.spy(loader.ctx, 'scale');
 
@@ -113,11 +111,11 @@ describe('Loader', function () {
   });
 
   it('Should call next color calculation', function () {
-    this.sinon.spy(LoaderPlain, 'calculateGradient');
+    this.sinon.spy(LoaderCore, 'calculateGradient');
     this.loader.colorIndex = 1;
 
     this.loader.getNextColor();
-    LoaderPlain.calculateGradient.should.have.been
+    LoaderCore.calculateGradient.should.have.been
       .calledWith(this.loader.props.colors[1], this.loader.props.colors[2], this.sinon.match(Number));
   });
 
