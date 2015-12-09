@@ -125,12 +125,13 @@ class ListCustom extends RingComponent {
       'ring-list__item_active': this.props.active
     }, this.props.className);
 
+    const template = (typeof this.props.template === 'function') ? this.props.template(this.props) : this.props.template;
     return (
       <span
         {...this.props}
         className={classes}
       >
-        {this.props.template}
+        {template}
       </span>
     );
   }
