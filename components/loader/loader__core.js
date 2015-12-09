@@ -212,7 +212,7 @@ export default class LoaderCore {
     const textNode = document.createElement('div');
     textNode.classList.add('ring-loader__text');
 
-    textNode.textContent = this.props.message ? this.message : '';
+    textNode.textContent = this.props.message ? this.props.message : '';
 
     node.appendChild(this.canvas);
     node.appendChild(textNode);
