@@ -10,6 +10,10 @@ const sniffr = new Sniffr();
 sniffr.sniff();
 
 describe('Auth', function () {
+  if (sniffr.browser.name === 'ie' && sniffr.browser.version[0] < 10) {
+    return;
+  }
+
   describe('construction', function () {
     it('should require provide config', function () {
       expect(function () {
