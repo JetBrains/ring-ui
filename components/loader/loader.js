@@ -42,7 +42,7 @@ import LoaderCore from './loader__core';
 export default class Loader extends RingComponent {
 
   didMount() {
-    this.loader = new LoaderCore(this.refs.loaderContainer);
+    this.loader = new LoaderCore(this.refs.loaderContainer, this.props);
   }
 
   willUnmount() {
@@ -52,7 +52,7 @@ export default class Loader extends RingComponent {
 
   render() {
     return (
-      <div ref="loaderContainer"></div>
+      <div {...this.props} ref="loaderContainer"></div>
     );
   }
 }
