@@ -82,6 +82,11 @@ module.directive('rgTablePager', ['$location', 'RingMessageBundle', function ($l
             scope.show = true;
             scope.itemsPerPage = top;
 
+            if (scope.selectedPageNum > scope.totalPages) {
+              scope.loadPage(scope.totalPages);
+              return;
+            }
+
             scope.startPage = 1;
 
             if (scope.maxPages < scope.totalPages) {
