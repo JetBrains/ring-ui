@@ -106,7 +106,8 @@ class Options {
   }
 
   getLabel(option) {
-    return this.getProperty(option, this.labelGetter) || option[this.constructor.defaultLabelField] || option;
+    const optionStringValue = typeof option === 'string' ? option : null;
+    return this.getProperty(option, this.labelGetter) || option[this.constructor.defaultLabelField] || optionStringValue;
   }
 
   getSelectedLabel(option) {
