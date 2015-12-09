@@ -52,7 +52,10 @@ export default class Loader extends RingComponent {
 
   render() {
     return (
-      <div {...this.props} ref="loaderContainer"></div>
+      <div {...this.props}
+        ref="loaderContainer"
+      >
+      </div>
     );
   }
 }
