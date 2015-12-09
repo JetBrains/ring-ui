@@ -3,6 +3,9 @@
 
 var keyEvent = require('imports?window=>{}!exports?window.KeyEvent!mousetrap/tests/libs/key-event');
 
+// Dirty hack for mousetrap/tests/libs/key-event.js and IE
+document.createEventObject = null;
+
 module.exports = function (char, keyCode) {
   var charCode = char && char.charCodeAt(0) || 0;
 
