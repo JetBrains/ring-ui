@@ -378,6 +378,14 @@ describe('SelectNg', function () {
       scope.callback.should.have.been.calledWith(selectedModel);
     });
 
+    it('Should take just plain option as label if option is string', function () {
+      ctrl.optionsParser.getLabel('test').should.equal('test');
+    });
+
+    it('Should return no label if option is object and no valid label mapping provided', function () {
+      expect(ctrl.optionsParser.getLabel({foo: 'bar'})).to.be.null;
+    });
+
     it('Should pass $rgSelectReload to callback', function () {
       scope.options = [{key: 1, label: 'test'}];
       scope.callback = this.sinon.spy();
