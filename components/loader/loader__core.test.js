@@ -1,4 +1,4 @@
-import LoaderCore from './loader__plain';
+import LoaderCore from './loader__core';
 
 describe('Loader', function () {
   function noop() {}
