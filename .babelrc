@@ -1,6 +1,7 @@
 {
   "stage": 0,
   "optional": [
-    "runtime"
+    "runtime",
+    "spec.protoToAssign" // we use our own patched version of babel-runtime to force this option
   ]
 }
