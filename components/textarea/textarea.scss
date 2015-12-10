@@ -5,7 +5,6 @@
   margin: 0;
   border: 1px solid $ring-gray-color;
   background-color: #FFF;
-  @include ring-input-control-widths();
 
   @include ring-font;
   font-size: $ring-font-size;
@@ -32,3 +31,5 @@
     border-color: #F00;
   }
 }
+
+@include ring-input-control-widths('.ring-textarea');
