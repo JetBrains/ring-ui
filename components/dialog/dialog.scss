@@ -63,6 +63,61 @@
         });
    </file>
  </example>
+
+ <example name="Dialog with control_small">
+   <file name="index.html">
+     <div class="ring-dialog__container">
+       <div class="ring-dialog__header">
+         <span class="ring-dialog__header__title">Dialog with control_small</span>
+       </div>
+       <form class="ring-dialog__content ring-form">
+         <div class="ring-form__group">
+           <label class="ring-form__label" for="dialog__key">Small</label>
+           <div class="ring-form__control ring-form__control_small">
+             <input id="dialog__key" class="ring-input" type="text">
+             <div class="ring-input__error-bubble active">I am tip</div>
+             <div class="ring-form__control__description">
+                There is a small margin before control
+             </div>
+           </div>
+          </div>
+       </form>
+       <div class="ring-dialog__footer">
+         <div class="ring-dialog__footer__spacer"></div>
+         <button class="ring-dialog__footer__item_first ring-dialog__footer__item ring-btn ring-btn_blue">Save</button>
+         <button class="ring-dialog__footer__item ring-btn">Cancel</button>
+       </div>
+     </div>
+   </file>
+   <file name="index.js" webpack="true">
+     require('ring-ui/components/dialog/dialog.scss');
+     require('ring-ui/components/input/input.scss');
+     require('ring-ui/components/form/form.scss');
+     require('ring-ui/components/panel/panel.scss');
+     require('ring-ui/components/button/button.scss');
+   </file>
+ </example>
+
+ <example name="The smalest dialog">
+   <file name="index.html">
+     <div class="ring-dialog__container">
+       <div class="ring-dialog__header">
+         <span class="ring-dialog__header__title">Small</span>
+       </div>
+       <div class="ring-dialog__content">
+          <div style="text-align: center"><b>Hello!</b></div>
+          <div style="text-align: center">I am message</div>
+       </div>
+     </div>
+   </file>
+   <file name="index.js" webpack="true">
+     require('ring-ui/components/dialog/dialog.scss');
+     require('ring-ui/components/input/input.scss');
+     require('ring-ui/components/form/form.scss');
+     require('ring-ui/components/panel/panel.scss');
+     require('ring-ui/components/button/button.scss');
+   </file>
+ </example>
  */
 
 .ring-dialog__wrapper {
@@ -94,8 +149,10 @@
   left: 0;
   right: 0;
 
-  display: block;
-  width: $ring-unit * 50;
+  display: block; // fallback for Safary < 5.0
+  display: inline-table; // It sets container's width to min-width if content is small
+  min-width: $ring-unit * 50;
+  max-width: $ring-unit * 53;
   margin: 0 auto;
   padding: 0;
 
