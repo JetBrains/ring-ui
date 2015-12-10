@@ -21,7 +21,6 @@
   padding-left: $ring-unit / 2;
   border: 1px solid $ring-gray-color;
   background-color: #FFF;
-  @include ring-input-control-widths();
 
   @include ring-font;
   line-height: 20px;
@@ -48,6 +47,8 @@
     width: 100%;
   }
 }
+
+@include ring-input-control-widths('.ring-input');
 
 // Using double selector to enforce specifity, that is hard to express with &
 .ring-input.ring-input:disabled, .ring-input.ring-input_disabled {
