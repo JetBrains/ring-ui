@@ -45,7 +45,8 @@
        <div class="ring-form__group">
          <label for="ring-form-6" class="ring-form__label">Rg Select in Form</label>
          <div class="ring-form__control">
-           <rg-select id="ring-form-6" options="item.name for item in formExampleCtrl.arr track by item.name"></rg-select>
+           <rg-select id="ring-form-6"
+                      options="item.name for item in formExampleCtrl.arr track by item.name"></rg-select>
            <div class="ring-form__control__description">I am simple description</div>
          </div>
        </div>
@@ -56,28 +57,35 @@
          </div>
        </div>
        <div class="ring-form__group">
-         <label for="ring-form-8" class="ring-form__label">Textarea in Full-Width</label>
-         <div class="ring-form__control ring-form__control_full-width">
-           <textarea class="ring-textarea" id="ring-form-8"></textarea>
+         <label for="ring-form-8" class="ring-form__label">Long Textarea</label>
+         <div class="ring-form__control">
+           <textarea class="ring-textarea ring-textarea_long" id="ring-form-8"></textarea>
          </div>
        </div>
        <div class="ring-form__group">
-         <label for="ring-form-9" class="ring-form__label">Rg Select in Small</label>
+         <label for="ring-form-9" class="ring-form__label">Textarea in Full-Width</label>
+         <div class="ring-form__control ring-form__control_full-width">
+           <textarea class="ring-textarea ring-textarea_full-width" id="ring-form-9"></textarea>
+         </div>
+       </div>
+       <div class="ring-form__group">
+         <label for="ring-form-10" class="ring-form__label">Rg Select in Small</label>
          <div class="ring-form__control ring-form__control_small">
-           <rg-select id="ring-form-9" options="item.name for item in formExampleCtrl.arr track by item.name"></rg-select>
+           <rg-select id="ring-form-10"
+                      options="item.name for item in formExampleCtrl.arr track by item.name"></rg-select>
            <div class="ring-input__error-bubble active">Error bubble for control_small</div>
          </div>
        </div>
        <div class="ring-form__group">
-         <label for="ring-form-10" class="ring-form__label">Input in Small</label>
+         <label for="ring-form-11" class="ring-form__label">Input in Small</label>
          <div class="ring-form__control ring-form__control_small">
-           <input class="ring-input" id="ring-form-10" type="text">
+           <input class="ring-input" id="ring-form-11" type="text">
          </div>
        </div>
        <div class="ring-form__group">
-         <label for="ring-form-11" class="ring-form__label">Textarea in Small</label>
+         <label for="ring-form-12" class="ring-form__label">Textarea in Small</label>
          <div class="ring-form__control ring-form__control_small">
-           <textarea class="ring-textarea" id="ring-form-11"></textarea>
+           <textarea class="ring-textarea" id="ring-form-12"></textarea>
          </div>
        </div>
        <div class="ring-form__footer">
@@ -114,7 +122,7 @@ $ring-input-width: $ring-unit*25;
    * TODO: remove ring-select from here, if it will use @include ring-input-control-widths
    * TODO: can "ring-input_wrapper" be removed ?
    */
-  & .ring-select, & .ring-input_wrapper {
+  & .ring-input_wrapper {
     width: 100% !important;
     margin: 0;
 
@@ -247,14 +255,10 @@ $ring-input-width: $ring-unit*25;
   position: relative;
   min-height: 3 * $ring-unit;
   margin-left: 20 * $ring-unit;
-  max-width: $ring-input-width;
+  width: auto;
 
   line-height: 3 * $ring-unit;
   vertical-align: top;
-
-  &_full-width {
-    max-width: none;
-  }
 }
 
 .ring-form__control_text:after {
