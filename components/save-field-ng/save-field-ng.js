@@ -7,6 +7,7 @@ import '../save-field-ng/save-field-ng.scss';
 import '../loader-inline/loader-inline';
 import MessageBundle from '../message-bundle-ng/message-bundle-ng';
 import Form from '../form-ng/form-ng';
+import Shortcuts from '../shortcuts-ng/shortcuts-ng';
 
 import 'dom4';
 
@@ -16,7 +17,8 @@ const module = angular.module('Ring.save-field', [
 /**
  * for error-bubble
  */
-  Form
+  Form,
+  Shortcuts
 ]);
 
 /**
@@ -25,7 +27,7 @@ const module = angular.module('Ring.save-field', [
  * @example
  * <example name="rgSaveField">
      <file name="index.html">
-     <div ng-app="Example.saveField">
+     <div ng-app="Example.saveField" rg-shortcuts-app>
         <div class="ring-form" ng-controller="SaveFieldDemoCtrl">
 
           <div class="ring-form__group">
@@ -120,6 +122,13 @@ const module = angular.module('Ring.save-field', [
        require('ring-ui/components/textarea/textarea.scss');
 
        angular.module('Example.saveField', ['Ring.save-field'])
+         .config(['shortcutsProvider', 'rgSaveFieldShortcutsMode', function(shortcutsProvider, rgSaveFieldShortcutsMode) {
+           shortcutsProvider.mode({
+             id: 'ring-shortcuts',
+             shortcuts: []
+           });
+           shortcutsProvider.mode(rgSaveFieldShortcutsMode);
+         }])
          .controller('SaveFieldDemoCtrl', function($scope, $q) {
            $scope.data = {
              email: 'aa',
@@ -147,6 +156,32 @@ const module = angular.module('Ring.save-field', [
      </file>
  </example>
  */
+
+module.constant('rgSaveFieldShortcutsMode', {
+  id: 'ring-save-field',
+  shortcuts: [
+    {
+      key: 'ctrl+enter',
+      action: 'comboSubmit'
+    },
+    {
+      key: 'enter',
+      action: 'submit'
+    },
+    {
+      key: 'esc',
+      action: 'cancel'
+    },
+    {
+      key: 'up',
+      action: 'noop'
+    },
+    {
+      key: 'down',
+      action: 'noop'
+    }
+  ]
+});
 
 module.directive('rgSaveField', function (RingMessageBundle, $timeout, $q) {
   const MULTI_LINE_SPLIT_PATTERN = /(\r\n|\n|\r)/gm;
