@@ -161,12 +161,13 @@ export default class Popup extends RingComponentWithShortcuts {
    * @param {HTMLElement} anchorElement DOM node for popup placing
    * Places popup wrapper into closest fixed DOM node if anchorElement is specified -
    * useful for placing popup into sidebar.
+   * @param {HTMLElement} containerElement Places popup in specified container
    * @return {HTMLElement}
    */
-  static renderPopup(component, anchorElement) {
+  static renderPopup(component, anchorElement, containerElement) {
     const wrapperElement = document.createElement('div');
 
-    const container = this.closestFixedParent(anchorElement) || document.body;
+    const container = containerElement || this.closestFixedParent(anchorElement) || document.body;
     container.appendChild(wrapperElement);
 
     const popupInstance = render(component, wrapperElement);
