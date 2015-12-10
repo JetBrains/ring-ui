@@ -24,8 +24,7 @@ module.exports = {
       {
         test: /\.svg$/,
         loaders: [
-          resolveLoader('svg-sprite') + '?angularBaseWorkaround',
-          resolveLoader('svgo') + '?useConfig=RingSVGOConfig'
+          resolveLoader('svg-sprite') + '?angularBaseWorkaround'
         ],
         include: [require('jetbrains-logos'), require('jetbrains-icons')]
       },
@@ -67,41 +66,5 @@ module.exports = {
     new webpack.ProvidePlugin({
       fetch: 'exports?self.fetch!imports?Promise=core-js/es6/promise!whatwg-fetch'
     })
-  ],
-  // We have to share this config because SVG breaks with different configs in one process
-  RingSVGOConfig: {
-    full: true, // We have to set full list plugins to make configuration work
-    // Default list of plugins
-    plugins: [
-      'convertStyleToAttrs', // Should be first in list
-      {removeUselessStrokeAndFill: {fill: false}}, // Disable black fill removal
-      'removeDoctype',
-      'removeXMLProcInst',
-      'removeComments',
-      'removeMetadata',
-      'removeEditorsNSData',
-      'cleanupAttrs',
-      'cleanupIDs',
-      'removeUselessDefs',
-      'cleanupNumericValues',
-      'cleanupListOfValues',
-      'convertColors',
-      //'removeUnknownsAndDefaults', //commented because of loosing fills in project wizard build
-      'removeNonInheritableGroupAttrs',
-      'cleanupEnableBackground',
-      'removeHiddenElems',
-      'removeEmptyText',
-      'convertShapeToPath',
-      'moveElemsAttrsToGroup',
-      'moveGroupAttrsToElems',
-      'collapseGroups',
-      'convertPathData',
-      'convertTransform',
-      'removeEmptyAttrs',
-      'removeEmptyContainers',
-      'mergePaths',
-      'removeUnusedNS',
-      'removeDesc'
-    ]
-  }
+  ]
 };
