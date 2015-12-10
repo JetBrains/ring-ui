@@ -86,6 +86,7 @@
     "karma-firefox-launcher": "0.1.6",
     "karma-mocha": "0.2.0",
     "karma-osx-reporter": "0.2.0",
+    "karma-phantomjs-shim": "1.1.1",
     "karma-teamcity-reporter": "0.2.1",
     "karma-webdriver-launcher": "1.0.4",
     "karma-webpack": "1.7.0",
