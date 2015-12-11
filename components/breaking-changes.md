@@ -8,8 +8,8 @@ See the “breaking change” commits [in Upsource](https://upsource.jetbrains.c
 
 ### 11-12-2015: SVGO is not used in Ring UI anymore, its config has been removed  
 
-Packages `jetbrains-icons` (since 1.0.12) and `jetbrains-logos` (since 1.0.5) contain now compressed svg images, so there is no `RingSVGOConfig` in `webpack.config.js` anymore.
-Migration path: update `jetbrains-icons` and `jetbrains-logos`, get rid of SVGO.   
+`jetbrains-icons` (since 1.0.12) and `jetbrains-logos` (since 1.0.5) packages now contain compressed SVG images, so there is no more `RingSVGOConfig` in `webpack.config.js`.
+Migration path: update `jetbrains-icons` and `jetbrains-logos`.   
 
 ### 07-12-2015: Changes in markup of ring-input, ring-textarea, error-bubble and ring-form__control (RG-965).
 
