@@ -80,22 +80,18 @@ describe('Alerts', function () {
       expect(addedComponent.close).to.throw(Error);
     });
 
-    it('should remove alert after timeout', function (done) {
+    it('should remove alert after timeout', function () {
       this.sinon.useFakeTimers();
 
       const TIMEOUT = 100;
       component._addElement('Child element.', Alerts.Type.MESSAGE, noop, TIMEOUT);
 
       // Before timeout component exists.
-      component.state.childElements.should.not.be.undefined;
-
-      setTimeout(function () {
-        // After timeout component is deleted.
-        expect(component.state.childElements[0]).to.be.undefined;
-        done();
-      }, TIMEOUT);
+      component.state.childElements.should.exist;
 
       this.sinon.clock.tick(200);
+
+      should.not.exist(component.state.childElements[0]);
     });
   });
 });
