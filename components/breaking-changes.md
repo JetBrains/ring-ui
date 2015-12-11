@@ -6,6 +6,11 @@ order: 2
 
 See the “breaking change” commits [in Upsource](https://upsource.jetbrains.com/ring-ui/view?query=path:%20%7B%2A%2Fbreaking-changes.md%7D%20and%20not%20%22Wording%22).  
 
+### 11-12-2015: SVGO is not used in Ring UI anymore, its config has been removed  
+
+Packages `jetbrains-icons` (since 1.0.12) and `jetbrains-logos` (since 1.0.5) contain now compressed svg images, so there is no `RingSVGOConfig` in `webpack.config.js` anymore.
+Migration path: update `jetbrains-icons` and `jetbrains-logos`, get rid of SVGO.   
+
 ### 07-12-2015: Changes in markup of ring-input, ring-textarea, error-bubble and ring-form__control (RG-965).
 
 * If ring-input or ring-textarea is used outside of `ring-form__control`, it should have class `ring-input_medium` (`ring-textarea_medium`),
