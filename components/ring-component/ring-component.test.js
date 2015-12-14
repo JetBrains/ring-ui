@@ -33,4 +33,16 @@ describe('RingComponents', function () {
     this.componentInstance._propsCache.should.deep.equal({prop1, test});
   });
 
+  it('Should replace old array prop with new one', function () {
+    const newArrayProp = [3];
+
+    this.componentInstance = renderIntoDocument(React.createElement(CustomComponent, {
+      arrayProp: [1, 2, 3]
+    }));
+
+    this.componentInstance.rerender({arrayProp: newArrayProp});
+
+    this.componentInstance._propsCache.should.deep.equal({arrayProp: newArrayProp});
+  });
+
 });
