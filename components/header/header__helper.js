@@ -3,7 +3,7 @@ import PopupMenu from '../popup-menu/popup-menu';
 
 const LAYOUT = {
   DEFAULT: 'default',
-  SHORT: 'short'
+  COMPACT: 'compact'
 };
 
 /**
@@ -166,7 +166,7 @@ export default class HeaderHelper {
     let layout = HeaderHelper.layout.DEFAULT;
     const windowWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
     if (windowWidth <= 800) {
-      layout = HeaderHelper.layout.SHORT;
+      layout = HeaderHelper.layout.COMPACT;
     }
     return layout;
   }
