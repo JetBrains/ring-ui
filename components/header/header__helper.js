@@ -1,6 +1,11 @@
 import {findDOMNode} from 'react-dom';
 import PopupMenu from '../popup-menu/popup-menu';
 
+const LAYOUT = {
+  DEFAULT: 'default',
+  SHORT: 'short'
+};
+
 /**
  * filters out non-verified services
  * @param response
@@ -18,6 +23,8 @@ function filterVerifiedServices(response) {
  * @namespace
  */
 export default class HeaderHelper {
+  static layout = LAYOUT;
+
   /**
    * @param {Header} header
    * @param {Auth} auth
@@ -149,5 +156,18 @@ export default class HeaderHelper {
       // a temporary measure.
       onLoginClick: () => auth.logout()
     });
+  }
+
+  /**
+   * 800px is a threshold when navigation menu should be transformed into popup-menu
+   * @returns {string}
+   */
+  static getLayoutType() {
+    let layout = HeaderHelper.layout.DEFAULT;
+    const windowWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+    if (windowWidth <= 800) {
+      layout = HeaderHelper.layout.SHORT;
+    }
+    return layout;
   }
 }

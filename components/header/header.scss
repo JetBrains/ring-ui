@@ -41,6 +41,22 @@
 .ring-header__logo,
 .ring-header__menu {
   display: inline-block;
+
+  &__dropdown {
+    display: inline-block;
+    margin-left: $ring-unit/2;
+    margin-right: -$ring-unit ;
+    padding: 1px;
+    border: 1px solid transparent;
+    border-left-color: $ring-gray-color;
+    color: $ring-gray-color;
+    cursor: pointer;
+    user-select: none;
+
+    &:hover {
+      border-color: $ring-gray-color;
+    }
+  }
 }
 
 .ring-header__logo {
@@ -230,5 +246,15 @@
   .ring-icon_help {
     height: 19px;
     width: 19px;
+  }
+}
+
+@media only screen
+and (max-width: 800px) {
+  .ring-header__logo, .ring-header__right {
+    margin-left: $ring-unit * 2;
+  }
+  .ring-header__user-menu-item:last-child {
+    margin-right: 0;
   }
 }
