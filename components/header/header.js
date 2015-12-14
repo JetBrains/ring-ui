@@ -17,6 +17,8 @@ import urlUtils from '../url-utils/url-utils';
 
 import HeaderItem from './header__item';
 import HeaderHelper from './header__helper';
+import PopupMenu from '../popup-menu/popup-menu';
+import debounce from 'mout/function/debounce';
 
 import './header.scss';
 
@@ -108,7 +110,8 @@ const MenuItemType = {
   LOGIN: 'loginButton',
   SETTINGS: 'settings',
   SERVICES: 'services',
-  USER_MENU: 'userMenu'
+  USER_MENU: 'userMenu',
+  NAVIGATION_MENU: 'navigationMenu'
 };
 
 /**
@@ -167,10 +170,6 @@ const MenuItemsSequence = [
         helpLink: 'http://www.yandex.ru',
         logo: 'youtrack',
         logoTitle: 'YouTrack',
-        //menu: [
-          //Link.factory({href: '#'}, 'Projects'),
-          //Link.factory({href: '#'}, 'Dashboard')
-        //]
         menu: [
           { component: Link, props: {href: '#', key: 'proj'}, children: 'Projects' },
           { component: Link, props: {href: '#', key: 'dash'}, children: 'Dashboard' }
@@ -220,6 +219,7 @@ export default class Header extends RingComponent {
   static HeaderHelper = HeaderHelper;
 
   static defaultProps = {
+    layout: HeaderHelper.getLayoutType(),
     enabledMenuItems: {
       [MenuItemType.SETTINGS]: true,
       [MenuItemType.HELP]: true,
@@ -279,25 +279,132 @@ export default class Header extends RingComponent {
     servicesOpened: false
   };
 
-  render() {
+  _setResizeListener() {
+    const updateLayout = () => {
+      const newLayout = HeaderHelper.getLayoutType();
+
+      if (this.props.layout && this.props.layout !== newLayout) {
+        this.rerender({
+          layout: newLayout
+        });
+      }
+    };
+
+    this.debouncdeUpdate = debounce(updateLayout, 50);
+    window.addEventListener('resize', this.debouncdeUpdate);
+  }
+
+  constructor() {
+    super();
+    this._setResizeListener();
+  }
+
+  /**
+   * Default layout with list of navigation items that set via Header API
+   * @private
+   */
+  _getNavigationMenuDefaultLayout() {
     const menuItemClassName = headerClassName.getElement('menu-item');
 
     return (
+      <div className={headerClassName.getElement('menu')}>{
+        this.props.menu.map(({component, props, children}) => {
+          props = Object.assign({}, props, {className: classNames(props.className, menuItemClassName)});
+          return createElement(component, props, children);
+        })
+      }</div>
+    );
+  }
+
+  /**
+   * @returns {Array}
+   * @private
+   */
+  _getMenuPopupData() {
+    const menuItemClassName = headerClassName.getElement('menu-item');
+
+    return this.props.menu.slice(1).map(item => {
+      const classes = classNames(item.props.className || '', menuItemClassName);
+      return {
+        rgItemType: PopupMenu.ListProps.Type.LINK,
+        className: classes,
+        label: item.children,
+        url: item.props.href
+      };
+    });
+  }
+
+  /**
+   * @private
+   */
+  _setNavigationPopupMenu() {
+    if (!this.navigationPopup) {
+      const menuPopupData = this._getMenuPopupData();
+
+      this.navigationPopup = PopupMenu.renderPopup(
+        <PopupMenu
+          anchorElement = {this.refs.navigationMenu.node}
+          autoRemove = {true}
+          className = {this.props.popupClassName}
+          data = {menuPopupData}
+          corner = {Popup.PopupProps.Corner.BOTTOM_LEFT}
+          direction = {Popup.PopupProps.Direction.DOWN}
+          sidePadding = {32}
+        />
+      );
+    }
+  }
+
+  /**
+   * @private
+   */
+  _getNavigationMenuShortLayout() {
+    const firstMenuElement = this.props.menu[0];
+
+    return (
+      <div className={headerClassName.getElement('menu')}>
+        <span>
+          <a className = "ring-link"
+            href = {firstMenuElement.props.url}
+          >{firstMenuElement.children}</a>
+          <Icon
+            ref = {MenuItemType.NAVIGATION_MENU}
+            className = "ring-header__menu__dropdown"
+            glyph = {require('jetbrains-icons/caret-down.svg')}
+            size = {Icon.Size.Size16}
+            onClick = {::this._setNavigationPopupMenu}
+          />
+        </span>
+      </div>
+    );
+  }
+
+  /**
+   * @private
+   */
+  _getNavigationMenu() {
+    if (this.props.layout !== HeaderHelper.layout.DEFAULT &&
+        this.props.menu.length > 1) {
+      return this._getNavigationMenuShortLayout();
+    } else {
+      return this._getNavigationMenuDefaultLayout();
+    }
+  }
+
+  render() {
+    return (
       <div className={headerClassName.getClassName()}>
-        <div className={headerClassName.getElement('logo')}>{this._getLogo()}</div>
-        <div className={headerClassName.getElement('menu')}>{
-          this.props.menu.map(({component, props, children}) => {
-            props = Object.assign({}, props, {className: classNames(props.className, menuItemClassName)});
-            return createElement(component, props, children);
-          })
-        }</div>
+        <div className={headerClassName.getElement('logo')}>
+          {this._getLogo()}
+        </div>
+
+        {this._getNavigationMenu()}
         {this._getRightMenu()}
       </div>
     );
   }
 
   /**
-   * @param {SyntheticEvent} evt
    * @private
    */
   _onServicesOpen() {
