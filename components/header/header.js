@@ -358,7 +358,7 @@ export default class Header extends RingComponent {
   /**
    * @private
    */
-  _getNavigationMenuShortLayout() {
+  _getNavigationMenuCompactLayout() {
     const firstMenuElement = this.props.menu[0];
 
     return (
@@ -385,7 +385,7 @@ export default class Header extends RingComponent {
   _getNavigationMenu() {
     if (this.props.layout !== HeaderHelper.layout.DEFAULT &&
         this.props.menu.length > 1) {
-      return this._getNavigationMenuShortLayout();
+      return this._getNavigationMenuCompactLayout();
     } else {
       return this._getNavigationMenuDefaultLayout();
     }
