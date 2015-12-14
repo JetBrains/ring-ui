@@ -34,10 +34,10 @@ describe('RingComponents', function () {
   });
 
   it('Should replace old array prop with new one', function () {
-    const newArrayProp = [3];
+    const newArrayProp = {foo: 'bar'};
 
     this.componentInstance = renderIntoDocument(React.createElement(CustomComponent, {
-      arrayProp: [1, 2, 3]
+      arrayProp: {test: '123'}
     }));
 
     this.componentInstance.rerender({arrayProp: newArrayProp});
