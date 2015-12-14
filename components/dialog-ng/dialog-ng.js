@@ -69,6 +69,7 @@ class DialogController {
       this.title = config.title;
       this.buttons = config.buttons;
       this.data = config.data || {};
+      this.wideDialog = config.wideDialog;
 
       this.content = config.content;
       this.template = config.template;
