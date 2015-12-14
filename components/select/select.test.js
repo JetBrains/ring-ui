@@ -367,6 +367,11 @@ describe('Select', function () {
       this.select.state.selected.should.deep.equal([]);
     });
 
+    it('Should update selected checkboxes on selected update', function () {
+      this.select.rerender({selected: []});
+      this.select.getListItems(this.select.filterValue())[0].checkbox.should.be.false;
+    });
+
     describe('On selecting', function () {
       it('Should add item to multiple map on selecting item', function () {
         this.select._listSelectHandler(testData[3]);

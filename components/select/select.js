@@ -426,6 +426,7 @@ export default class Select extends RingComponentWithShortcuts {
         selected: selected,
         selectedIndex: this._getSelectedIndex(selected, (newProps.data ? newProps.data : this.props.data))
       });
+      this._rebuildMultipleMap(selected, this.props.multiple);
     }
 
     if (newProps.multiple !== this.props.multiple) {
