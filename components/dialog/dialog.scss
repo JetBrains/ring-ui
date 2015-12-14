@@ -152,7 +152,6 @@
   display: block; // fallback for Safary < 5.0
   display: inline-table; // It sets container's width to min-width if content is small
   min-width: $ring-unit * 50;
-  max-width: $ring-unit * 53;
   margin: 0 auto;
   padding: 0;
 
@@ -164,10 +163,6 @@
 
   @include ring-font;
   text-align: left;
-
-  &_wide {
-    width: $ring-unit * 75;
-  }
 }
 
 .ring-dialog__layer {
