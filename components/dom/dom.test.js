@@ -1,4 +1,8 @@
 import {isMounted, getStyles, getRect} from './dom';
+import Sniffr from 'sniffr';
+
+const sniffr = new Sniffr();
+sniffr.sniff();
 
 const nodes = [];
 
@@ -74,6 +78,10 @@ describe('DOM', () => {
     const style = 'position: absolute; width: 100px; height: 100px; top: 10px; left: 10px; padding: 3px; margin: 4px; border: 2px solid;';
 
     it('should return DOMRect-like object for an element', () => {
+      if (sniffr.browser.name === 'ie' && sniffr.browser.version[0] < 10) {
+        return;
+      }
+
       const element = attach(create());
       element.setAttribute('style', style);
 
