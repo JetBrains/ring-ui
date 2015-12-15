@@ -171,6 +171,8 @@ class DialogController {
 
   update(config = {}) {
     Object.assign(this.data, config.data);
+    Object.assign(this.buttons, config.buttons);
+
   }
 
   hide() {
