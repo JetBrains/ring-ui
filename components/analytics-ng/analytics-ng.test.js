@@ -3,6 +3,10 @@ import 'angular-mocks';
 import 'dom4';
 
 import Analytics from './analytics-ng';
+import Sniffr from 'sniffr';
+
+const sniffr = new Sniffr();
+sniffr.sniff();
 
 describe('Ring.analytics', function () {
   beforeEach(
@@ -30,6 +34,10 @@ describe('Ring.analytics', function () {
   }));
 
   describe('rgAnalytics', function () {
+    if (sniffr.browser.name === 'ie') {
+      return;
+    }
+
     let $rootScope;
     let $compile;
     let analytics;
