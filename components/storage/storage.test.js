@@ -1,8 +1,17 @@
+import Sniffr from 'sniffr';
+
+const sniffr = new Sniffr();
+sniffr.sniff();
+
 function noop() {}
 
 function testStorage(storage) {
   describe('set', function () {
     it('should be fulfilled', function () {
+      if (sniffr.browser.name === 'ie') {
+        return undefined;
+      }
+
       return storage.set('empty', {}).should.be.fulfilled;
     });
 
