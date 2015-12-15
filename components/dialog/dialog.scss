@@ -265,6 +265,8 @@
 
   .ring-dialog__container {
     position: static;
+    display: block;
+    max-width: none;
 
     width: auto;
     margin: 0;
