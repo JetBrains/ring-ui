@@ -50,7 +50,7 @@ export default class ListUsersGroupsSource extends HubSourceUsersGroups {
         const usersForList = users.map(user => Object.assign(user, {
           key: user.id,
           label: user.name,
-          icon: user.profile.avatar.url,
+          icon: user.profile ? user.profile.avatar.url : null,
           description: user.login
         }));
 
