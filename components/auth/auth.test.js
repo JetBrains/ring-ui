@@ -397,6 +397,10 @@ describe('Auth', function () {
   });
 
   describe('background init', function () {
+    if (sniffr.browser.name === 'ie') {
+      return;
+    }
+
     let auth;
 
     beforeEach(function () {
@@ -456,7 +460,7 @@ describe('Auth', function () {
         should.eventually.be.true;
     });
 
-    it('should initiate and fallback to redirect when guest is banned', function () {
+    it('should initiate and fall back to redirect when guest is banned', function () {
       this.sinon.stub(Auth.prototype, '_redirectFrame', function () {
         auth._storage.saveState('unique', {error: {code: 'access_denied'}});
       });
@@ -480,6 +484,10 @@ describe('Auth', function () {
   });
 
   describe('requestToken', function () {
+    if (sniffr.browser.name === 'ie') {
+      return;
+    }
+
     beforeEach(function () {
       this.sinon.stub(Auth.prototype, '_redirectCurrentPage');
       this.sinon.stub(Auth.prototype, 'getApi').returns(Promise.resolve({id: 'APIuser'}));
