@@ -9,42 +9,45 @@
  <example name="Dialog">
    <file name="index.html">
      <div ng-app="Example.dialog" ng-controller="DialogExampleCtrl as dialogExampleCtrl">
-     <div class="ring-dialog__container">
-       <div class="ring-dialog__header">
-         <span class="ring-dialog__header__title">New space</span>
-       </div>
-       <form class="ring-dialog__content ring-form">
-         <div class="ring-form__group">
-           <label class="ring-form__label" for="dialog__key">Key</label>
-           <div class="ring-form__control">
-             <input id="dialog__key" class="ring-input" type="text">
+       <div class="ring-dialog__wrapper active">
+         <div class="ring-dialog__container">
+           <div class="ring-dialog__header">
+             <span class="ring-dialog__header__title">New space</span>
            </div>
-          </div>
-         <div class="ring-form__group">
-           <label class="ring-form__label" for="dialog__name">Name</label>
-           <div class="ring-form__control">
-             <input id="dialog__name" class="ring-input" type="text">
-             <div class="ring-input__error-bubble active">Wrong value</div>
-             <div class="ring-form__control__description">Description</div>
+           <form class="ring-dialog__content ring-form">
+             <div class="ring-form__group">
+               <label class="ring-form__label" for="dialog__key">Key</label>
+               <div class="ring-form__control">
+                 <input id="dialog__key" class="ring-input" type="text">
+               </div>
+              </div>
+             <div class="ring-form__group">
+               <label class="ring-form__label" for="dialog__name">Name</label>
+               <div class="ring-form__control">
+                 <input id="dialog__name" class="ring-input" type="text">
+                 <div class="ring-input__error-bubble active">Wrong value</div>
+                 <div class="ring-form__control__description">Description</div>
+               </div>
+             </div>
+             <div class="ring-form__group">
+               <label for="rg-select-demo" class="ring-form__label">Rg Select in Form</label>
+               <div class="ring-form__control">
+                 <rg-select options="item.name for item in dialogExampleCtrl.arr track by item.name" id="rg-select-demo"></rg-select>
+               </div>
+             </div>
+             <div class="ring-form__group">
+               <label for="textarea-demo" class="ring-form__label">Textarea in Form</label>
+               <div class="ring-form__control">
+                 <textarea id="textarea-demo" class="ring-textarea"></textarea>
+               </div>
+             </div>
+           </form>
+           <div class="ring-dialog__footer">
+             <div class="ring-dialog__footer__spacer"></div>
+             <button class="ring-dialog__footer__item_first ring-dialog__footer__item ring-btn ring-btn_blue">Create space</button>
+             <button class="ring-dialog__footer__item ring-btn">Cancel</button>
            </div>
          </div>
-         <div class="ring-form__group">
-           <label for="rg-select-demo" class="ring-form__label">Rg Select in Form</label>
-           <div class="ring-form__control">
-             <rg-select options="item.name for item in dialogExampleCtrl.arr track by item.name" id="rg-select-demo"></rg-select>
-           </div>
-         </div>
-         <div class="ring-form__group">
-           <label for="textarea-demo" class="ring-form__label">Textarea in Form</label>
-           <div class="ring-form__control">
-             <textarea id="textarea-demo" class="ring-textarea"></textarea>
-           </div>
-         </div>
-       </form>
-       <div class="ring-dialog__footer">
-         <div class="ring-dialog__footer__spacer"></div>
-         <button class="ring-dialog__footer__item_first ring-dialog__footer__item ring-btn ring-btn_blue">Create space</button>
-         <button class="ring-dialog__footer__item ring-btn">Cancel</button>
        </div>
      </div>
    </file>
@@ -66,26 +69,28 @@
 
  <example name="Dialog with control_small">
    <file name="index.html">
-     <div class="ring-dialog__container">
-       <div class="ring-dialog__header">
-         <span class="ring-dialog__header__title">Dialog with control_small</span>
-       </div>
-       <form class="ring-dialog__content ring-form">
-         <div class="ring-form__group">
-           <label class="ring-form__label" for="dialog__key">Small</label>
-           <div class="ring-form__control ring-form__control_small">
-             <input id="dialog__key" class="ring-input" type="text">
-             <div class="ring-input__error-bubble active">I am tip</div>
-             <div class="ring-form__control__description">
-                There is a small margin before control
+     <div class="ring-dialog__wrapper active">
+       <div class="ring-dialog__container">
+         <div class="ring-dialog__header">
+           <span class="ring-dialog__header__title">Dialog with control_small</span>
+         </div>
+         <form class="ring-dialog__content ring-form">
+           <div class="ring-form__group">
+             <label class="ring-form__label" for="dialog__key">Small</label>
+             <div class="ring-form__control ring-form__control_small">
+               <input id="dialog__key" class="ring-input" type="text">
+               <div class="ring-input__error-bubble active">I am tip</div>
+               <div class="ring-form__control__description">
+                  There is a small margin before control
+               </div>
              </div>
-           </div>
-          </div>
-       </form>
-       <div class="ring-dialog__footer">
-         <div class="ring-dialog__footer__spacer"></div>
-         <button class="ring-dialog__footer__item_first ring-dialog__footer__item ring-btn ring-btn_blue">Save</button>
-         <button class="ring-dialog__footer__item ring-btn">Cancel</button>
+            </div>
+         </form>
+         <div class="ring-dialog__footer">
+           <div class="ring-dialog__footer__spacer"></div>
+           <button class="ring-dialog__footer__item_first ring-dialog__footer__item ring-btn ring-btn_blue">Save</button>
+           <button class="ring-dialog__footer__item ring-btn">Cancel</button>
+         </div>
        </div>
      </div>
    </file>
@@ -100,13 +105,15 @@
 
  <example name="The smalest dialog">
    <file name="index.html">
-     <div class="ring-dialog__container">
-       <div class="ring-dialog__header">
-         <span class="ring-dialog__header__title">Small</span>
-       </div>
-       <div class="ring-dialog__content">
-          <div style="text-align: center"><b>Hello!</b></div>
-          <div style="text-align: center">I am message</div>
+     <div class="ring-dialog__wrapper active">
+       <div class="ring-dialog__container">
+         <div class="ring-dialog__header">
+           <span class="ring-dialog__header__title">Small</span>
+         </div>
+         <div class="ring-dialog__content">
+            <div style="text-align: center"><b>Hello!</b></div>
+            <div style="text-align: center">I am message</div>
+         </div>
        </div>
      </div>
    </file>
@@ -132,6 +139,7 @@
   overflow: auto;
 
   width: 100%;
+  height: 100%;
 
   text-align: center;
 
@@ -144,13 +152,15 @@
 .ring-dialog__container {
   z-index: 2;
 
-  position: absolute;
+  position: relative;
   top: 20%;
   left: 0;
   right: 0;
 
-  display: block;
-  width: 400px;
+  display: block; // fallback for Safary < 5.0
+  display: table; // It sets container's width to min-width if content is small
+  min-width: $ring-unit * 50;
+  max-width: $ring-unit * 53;
   margin: 0 auto;
   padding: 0;
 
