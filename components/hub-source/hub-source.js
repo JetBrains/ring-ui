@@ -49,6 +49,9 @@ export default class HubSource {
   }
 
   getDefaultFilterFn(query) {
+    if (!query) {
+      return () => true;
+    }
     return it => it.name.toLowerCase().indexOf(query.toLowerCase()) !== -1;
   }
 
