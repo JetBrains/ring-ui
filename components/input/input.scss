@@ -15,7 +15,6 @@
 
 .ring-input {
   box-sizing: border-box;
-  height: 3*$ring-unit;
   margin: 0;
   padding-right: $ring-unit/ 2;
   padding-left: $ring-unit / 2;
@@ -54,6 +53,14 @@
 .ring-input.ring-input:disabled, .ring-input.ring-input_disabled {
   border-color: #DEDEDE;
   background-color: #F8F8F8;
+}
+
+textarea.ring-input {
+  min-height: 8*$ring_unit;
+}
+
+input.ring-input {
+  height: 3*$ring-unit;
 }
 
 // Input error bubbles
