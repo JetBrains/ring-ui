@@ -3,7 +3,6 @@
 /* eslint-disable modules/no-cjs */
 
 var path = require('path');
-var webpack = require('webpack');
 
 var componentsPath = path.join(__dirname, 'components');
 
@@ -51,6 +50,10 @@ module.exports = {
         loader: resolveLoader('babel') + '?cacheDirectory=true'
       },
       {
+        test: require.resolve('whatwg-fetch'),
+        loader: resolveLoader('imports') + '?Promise=core-js/es6/promise'
+      },
+      {
         test: /-ng(\\|\/)\S*(-ng|-ng__)\S*\.html$/,
         include: componentsPath,
         loader: resolveLoader('html') + htmlLoaderOptions
@@ -61,10 +64,5 @@ module.exports = {
         loader: resolveLoader('url')
       }
     ]
-  },
-  plugins: [
-    new webpack.ProvidePlugin({
-      fetch: 'exports?self.fetch!imports?Promise=core-js/es6/promise!whatwg-fetch'
-    })
-  ]
+  }
 };
