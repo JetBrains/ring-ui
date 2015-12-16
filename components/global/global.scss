@@ -76,7 +76,8 @@ $ring-font-size-smaller: 11px;
     }
   }
 
-  $short-width: 12 * $ring-unit;
+  $xshort-width: 50px;
+  $short-width: 100px;
   $medium-width: 25 * $ring-unit;
   $long-width: 50 * $ring-unit;
 
@@ -84,16 +85,20 @@ $ring-font-size-smaller: 11px;
     @include set-width-in-percents(100%);
   }
 
+  #{$control-class-name}_xshort {
+    @include set-width-in-pixels($xshort-width);
+  }
+
   #{$control-class-name}_short {
-    @include set-width-in-pixels(12*$ring-unit);
+    @include set-width-in-pixels($short-width);
   }
 
   #{$control-class-name}_medium {
-    @include set-width-in-pixels(25*$ring-unit);
+    @include set-width-in-pixels($medium-width);
   }
 
   #{$control-class-name}_long {
-    @include set-width-in-pixels(50*$ring-unit);
+    @include set-width-in-pixels($long-width);
   }
 
   /**
@@ -108,6 +113,10 @@ $ring-font-size-smaller: 11px;
 
     #{$control-class-name} {
       @include set-width-in-pixels($medium-width);
+    }
+
+    #{$control-class-name}_xshort {
+      @include set-width-in-pixels($xshort-width);
     }
 
     #{$control-class-name}_short {
