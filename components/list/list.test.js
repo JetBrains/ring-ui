@@ -163,5 +163,26 @@ describe('List', function () {
       TestUtils.Simulate.click(getFirstListItem());
       clicked.should.have.been.called;
     });
+
+    it('Should support custom elements', function () {
+      list.rerender({data: [
+        {
+          template: React.createElement('span', {}, 'custom item'),
+          rgItemType: List.ListProps.Type.CUSTOM
+        }
+      ]});
+      getFirstListItem().should.contain.text('custom item');
+    });
+
+    it('Should support disable property for custom elements', function () {
+      list.rerender({data: [
+        {
+          template: React.createElement('span', {}, 'custom item'),
+          rgItemType: List.ListProps.Type.CUSTOM,
+          disabled: true
+        }
+      ]});
+      getFirstListItem().should.not.have.class('ring-list__item_action');
+    });
   });
 });
