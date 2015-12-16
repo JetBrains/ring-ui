@@ -19,6 +19,7 @@ module.exports = function (wallaby) {
    * Patch webpack config
    */
 
+  webpackConfig.plugins = webpackConfig.plugins || [];
   webpackConfig.plugins.push(new webpack.NormalModuleReplacementPlugin(/\.scss$/, path.resolve('./', './tools/empty-module.js')));
 
   webpackConfig.module.loaders = webpackConfig.module.loaders
