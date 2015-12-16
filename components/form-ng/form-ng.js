@@ -2,8 +2,9 @@
 
 import MessageBundle from '../message-bundle-ng/message-bundle-ng.js';
 import '../input/input.scss';
+import 'angular-elastic';
 
-const module = angular.module('Ring.form', [MessageBundle]);
+const module = angular.module('Ring.form', [MessageBundle, 'monospaced.elastic']);
 /**
  * <div rg-error-bubble="form.name"></div>
  * @param {object} error-bubble Ng-model for this control
