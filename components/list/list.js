@@ -121,8 +121,8 @@ class ListCustom extends RingComponent {
   render() {
     const classes = classNames({
       'ring-list__item': true,
-      'ring-list__item_action': true,
-      'ring-list__item_active': this.props.active
+      'ring-list__item_action': !this.props.disabled,
+      'ring-list__item_active': this.props.active && !this.props.disabled
     }, this.props.className);
 
     const template = (typeof this.props.template === 'function') ? this.props.template(this.props) : this.props.template;
@@ -248,7 +248,7 @@ function isItemType(listItemType, item) {
         {'label': 'Two',               'rgItemType': List.ListProps.Type.ITEM},
         {'label': 'Active as default', 'rgItemType': List.ListProps.Type.ITEM},
         {'label': 'Four',              'rgItemType': List.ListProps.Type.ITEM},
-        {'label': 'Five',              'rgItemType': List.ListProps.Type.ITEM}
+        {'label': 'Five (disabled)',   'rgItemType': List.ListProps.Type.ITEM, disabled: true}
        ];
 
        render(List.factory({
@@ -354,6 +354,29 @@ function isItemType(listItemType, item) {
       {'label': 'Four',  'type': List.ListProps.Type.ITEM},
       {'label': 'Five',  'type': List.ListProps.Type.ITEM}
      ];
+
+     render(List.factory({
+       data: listData,
+       shortcuts: true,
+       onSelect: console.log.bind(console)
+     }), document.getElementById('list'));
+   </file>
+  </example>
+
+ <example name="List with custom items">
+    <file name="index.html">
+     <div id='list'></div>
+   </file>
+   <file name="index.js" webpack="true">
+     var render = require('react-dom').render;
+     var List = require('ring-ui/components/list/list');
+     var React = require('react');
+
+     var listData = [
+        {key: '1', rgItemType: List.ListProps.Type.CUSTOM, template: React.createElement('span', {}, 'custom item')},
+        {key: '2', rgItemType: List.ListProps.Type.CUSTOM, template: React.createElement('span', {}, 'custom item (disabled)'), disabled: true},
+        {key: '3', rgItemType: List.ListProps.Type.CUSTOM, template: React.createElement('span', {}, 'custom item 3')},
+    ];
 
      render(List.factory({
        data: listData,
