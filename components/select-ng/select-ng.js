@@ -518,7 +518,9 @@ module.directive('rgSelect', function () {
 
       function listenToRouteChanges() {
         $scope.$on('$locationChangeSuccess', () => {
-          ctrl.selectInstance._hidePopup();
+          if (ctrl.selectInstance._popup.isVisible()) {
+            ctrl.selectInstance._hidePopup();
+          }
         });
       }
 
