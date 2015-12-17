@@ -7,11 +7,11 @@ function noop() {}
 
 function testStorage(storage) {
   describe('set', function () {
-    it('should be fulfilled', function () {
-      if (sniffr.browser.name === 'ie') {
-        return undefined;
-      }
+    if (sniffr.browser.name === 'ie') {
+      return undefined;
+    }
 
+    it('should be fulfilled', function () {
       return storage.set('empty', {}).should.be.fulfilled;
     });
 
@@ -269,7 +269,6 @@ describe('Storage', function () {
       });
     });
   });
-
 
   describe('Fallback', function () {
     const cookieName = 'testCookie';
