@@ -31,6 +31,10 @@ import './input.scss';
            <div class="ring-input__error-bubble active">No modifiers (full-width)</div>
          </div>
          <div class="input-control-wrapper">
+           <input type="number" class="ring-input ring-input_xshort">
+           <div class="ring-input__error-bubble active">X Short</div>
+         </div>
+         <div class="input-control-wrapper">
            <input type="number" class="ring-input ring-input_short">
            <div class="ring-input__error-bubble active">Short</div>
          </div>
@@ -62,6 +66,10 @@ import './input.scss';
          <div class="input-control-wrapper">
            <textarea class="ring-input"></textarea>
            <div class="ring-input__error-bubble active">No modifiers (full-width)</div>
+         </div>
+         <div class="input-control-wrapper">
+           <textarea class="ring-input ring-input_xshort"></textarea>
+           <div class="ring-input__error-bubble active">X Short</div>
          </div>
          <div class="input-control-wrapper">
            <textarea class="ring-input ring-input_short"></textarea>
