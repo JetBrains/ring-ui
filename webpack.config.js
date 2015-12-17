@@ -16,53 +16,74 @@ var htmlLoaderOptions = '?' + JSON.stringify({
   root: require('jetbrains-icons')
 });
 
+var svgSpriteLoader = {
+  test: /\.svg$/,
+  loaders: [
+    resolveLoader('svg-sprite') + '?angularBaseWorkaround'
+  ],
+  include: [require('jetbrains-logos'), require('jetbrains-icons')]
+};
+
+var scssLoader = {
+  test: /\.scss$/,
+  include: componentsPath,
+  loaders: [
+    resolveLoader('style'),
+    resolveLoader('css'),
+    // TODO Update autoprefixer config and move to postcss-loader
+    resolveLoader('autoprefixer') + '?browsers=last 2 versions, safari 5, ie 8, ie 9, opera 12.1, ios 6, android 4',
+    resolveLoader('sass') + '?outputStyle=expanded&includePaths[]=' + componentsPath
+  ]
+};
+
+// ng-annotate loader for angular components
+var ngAnnotateLoader = {
+  test: /-ng(\\|\/)\S*(-ng|-ng__)\S*\.js$/,
+  include: componentsPath,
+  loader: resolveLoader('ng-annotate')
+};
+
+var babelLoader = {
+  test: /\.js$/,
+  include: componentsPath,
+  loader: resolveLoader('babel') + '?cacheDirectory=true'
+};
+
+var whatwgLoader = {
+  test: require.resolve('whatwg-fetch'),
+  loader: resolveLoader('imports') + '?Promise=core-js/es6/promise'
+};
+
+var htmlLoader = {
+  test: /-ng(\\|\/)\S*(-ng|-ng__)\S*\.html$/,
+  include: componentsPath,
+  loader: resolveLoader('html') + htmlLoaderOptions
+};
+
+var gifLoader = {
+  test: /\.gif$/,
+  include: componentsPath,
+  loader: resolveLoader('url')
+};
+
 // Minimal config for building components
 module.exports = {
   module: {
     loaders: [
-      {
-        test: /\.svg$/,
-        loaders: [
-          resolveLoader('svg-sprite') + '?angularBaseWorkaround'
-        ],
-        include: [require('jetbrains-logos'), require('jetbrains-icons')]
-      },
-      {
-        test: /\.scss$/,
-        include: componentsPath,
-        loaders: [
-          resolveLoader('style'),
-          resolveLoader('css'),
-          // TODO Update autoprefixer config and move to postcss-loader
-          resolveLoader('autoprefixer') + '?browsers=last 2 versions, safari 5, ie 8, ie 9, opera 12.1, ios 6, android 4',
-          resolveLoader('sass') + '?outputStyle=expanded&includePaths[]=' + componentsPath
-        ]
-      },
-      // ng-annotate loader for angular components
-      {
-        test: /-ng(\\|\/)\S*(-ng|-ng__)\S*\.js$/,
-        include: componentsPath,
-        loader: resolveLoader('ng-annotate')
-      },
-      {
-        test: /\.js$/,
-        include: componentsPath,
-        loader: resolveLoader('babel') + '?cacheDirectory=true'
-      },
-      {
-        test: require.resolve('whatwg-fetch'),
-        loader: resolveLoader('imports') + '?Promise=core-js/es6/promise'
-      },
-      {
-        test: /-ng(\\|\/)\S*(-ng|-ng__)\S*\.html$/,
-        include: componentsPath,
-        loader: resolveLoader('html') + htmlLoaderOptions
-      },
-      {
-        test: /\.gif$/,
-        include: componentsPath,
-        loader: resolveLoader('url')
-      }
+      svgSpriteLoader,
+      scssLoader,
+      ngAnnotateLoader,
+      babelLoader,
+      whatwgLoader,
+      htmlLoader,
+      gifLoader
     ]
-  }
+  },
+  svgSpriteLoader: svgSpriteLoader,
+  scssLoader: scssLoader,
+  ngAnnotateLoader: ngAnnotateLoader,
+  babelLoader: babelLoader,
+  whatwgLoader: whatwgLoader,
+  htmlLoader: htmlLoader,
+  gifLoader: gifLoader
 };
