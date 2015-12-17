@@ -235,10 +235,19 @@ describe('SelectNg', function () {
     });
 
     it('Should hide on route changes ($locationChangeSuccess)', function () {
+      this.sinon.stub(ctrl.selectInstance._popup, 'isVisible').returns(true);
       ctrl.selectInstance._hidePopup = this.sinon.stub();
 
       scope.$broadcast('$locationChangeSuccess');
-      ctrl.selectInstance._hidePopup.should.been.called;
+      ctrl.selectInstance._hidePopup.should.have.been.called;
+    });
+
+    it('Should not try to hide on route changes if not showed ($locationChangeSuccess)', function () {
+      this.sinon.stub(ctrl.selectInstance._popup, 'isVisible').returns(false);
+      ctrl.selectInstance._hidePopup = this.sinon.stub();
+
+      scope.$broadcast('$locationChangeSuccess');
+      ctrl.selectInstance._hidePopup.should.not.have.been.called;
     });
 
     it('Should extend select model with properties from ng model', function () {
