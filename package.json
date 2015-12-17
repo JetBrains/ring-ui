@@ -68,6 +68,7 @@
     "escope": "3.2.0",
     "eslint": "1.8.0",
     "eslint-config-jetbrains": "1.0.11",
+    "exports-loader": "0.6.2",
     "finalhandler": "0.3.5",
     "gemini": "0.11.3",
     "gemini-teamcity": "1.0.1",
