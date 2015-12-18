@@ -23,6 +23,7 @@
 
   @include ring-font;
   line-height: 20px;
+  height: 3*$ring-unit;
 
   &:active, &:focus, &_active, &_focus {
     border-color: $ring-blue-color;
@@ -56,11 +57,8 @@
 }
 
 textarea.ring-input {
+  height: auto;
   min-height: 8*$ring_unit;
-}
-
-input.ring-input {
-  height: 3*$ring-unit;
 }
 
 // Input error bubbles
