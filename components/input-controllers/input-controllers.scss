@@ -1,0 +1,325 @@
+@import "../global/global";
+
+$ring-ctrl-size-xs: 50px;
+$ring-ctrl-size-s: 100px;
+$ring-ctrl-size-md: 200px;
+$ring-ctrl-size-l: 400px;
+
+/**
+ * @name Input Controllers
+ * @example
+ *  <example name="Input controls' sizes">
+     <file name="index.html">
+     <div ng-app="Example.input-controllers" ng-controller="ExampleCtrl as exampleCtrl">
+       <h3 class="example-block">Query Assists</h3>
+       <div class="example-block">
+         <div class="ring-ctrl-wrapper">
+           <div react="QueryAssist"
+                class="ring-ctrl-xs"
+                x-data-source="exampleCtrl.dataSource()"
+                glass="true"
+                placeholder="'XShort'">
+           </div>
+           <div class="ring-bubble active">XShort Query Assist</div>
+         </div>
+         <div class="ring-ctrl-wrapper">
+           <div react="QueryAssist"
+                class="ring-ctrl-s"
+                x-data-source="exampleCtrl.dataSource()"
+                glass="true"
+                placeholder="'Short'">
+           </div>
+           <div class="ring-bubble active">Short Query Assist</div>
+         </div>
+         <div class="ring-ctrl-wrapper">
+           <div react="QueryAssist"
+                class="ring-ctrl-md"
+                x-data-source="exampleCtrl.dataSource()"
+                glass="true"
+                placeholder="'Medium'">
+           </div>
+           <div class="ring-bubble active">Medium Query Assist</div>
+         </div>
+         <div class="ring-ctrl-wrapper">
+           <div react="QueryAssist"
+                class="ring-ctrl-l"
+                x-data-source="exampleCtrl.dataSource()"
+                glass="true"
+                placeholder="'Long'">
+           </div>
+           <div class="ring-bubble active">Long Query Assist</div>
+         </div>
+         <div class="ring-ctrl-wrapper">
+           <div react="QueryAssist"
+                x-data-source="exampleCtrl.dataSource()"
+                glass="true"
+                placeholder="'Full-width'">
+           </div>
+           <div class="ring-bubble active">Full-width Query Assist</div>
+         </div>
+       </div>
+
+       <h3 class="example-block">Rg Selects: Buttons</h3>
+       <div class="example-block">
+         <div class="ring-ctrl-wrapper">
+           <rg-select class="ring-ctrl-xs"
+                      ng-model="exampleCtrl.selected"
+                      options="item in exampleCtrl.options"
+                      label="Select item"></rg-select>
+           <div class="ring-bubble active">XShort Select</div>
+         </div>
+         <div class="ring-ctrl-wrapper">
+           <rg-select class="ring-ctrl-s"
+                      ng-model="exampleCtrl.selected"
+                      options="item in exampleCtrl.options"
+                      label="Select item"></rg-select>
+           <div class="ring-bubble active">Short Select</div>
+         </div>
+         <div class="ring-ctrl-wrapper">
+           <rg-select class="ring-ctrl-md"
+                      ng-model="exampleCtrl.selected"
+                      options="item in exampleCtrl.options"
+                      label="Select item"></rg-select>
+           <div class="ring-bubble active">Medium Select</div>
+         </div>
+         <div class="ring-ctrl-wrapper">
+           <rg-select class="ring-ctrl-l"
+                      ng-model="exampleCtrl.selected"
+                      options="item in exampleCtrl.options"
+                      label="Select item"></rg-select>
+           <div class="ring-bubble active">Long Select</div>
+         </div>
+         <div class="ring-ctrl-wrapper">
+           <rg-select ng-model="exampleCtrl.selected"
+                      options="item in exampleCtrl.options"
+                      label="Select item"></rg-select>
+           <div class="ring-bubble active">Full-width Select</div>
+         </div>
+       </div>
+
+       <h3 class="example-block">Rg Selects: Inputs</h3>
+       <div class="example-block">
+         <div class="ring-ctrl-wrapper">
+           <rg-select class="ring-ctrl-xs"
+                      type="input"
+                      ng-model="exampleCtrl.selected"
+                      options="item in exampleCtrl.options"
+                      label="Select item"></rg-select>
+           <div class="ring-bubble active">XShort Select</div>
+         </div>
+         <div class="ring-ctrl-wrapper">
+           <rg-select class="ring-ctrl-s"
+                      type="input"
+                      ng-model="exampleCtrl.selected"
+                      options="item in exampleCtrl.options"
+                      label="Select item"></rg-select>
+           <div class="ring-bubble active">Short Select</div>
+         </div>
+         <div class="ring-ctrl-wrapper">
+           <rg-select class="ring-ctrl-md"
+                      type="input"
+                      ng-model="exampleCtrl.selected"
+                      options="item in exampleCtrl.options"
+                      label="Select item"></rg-select>
+           <div class="ring-bubble active">Medium Select</div>
+         </div>
+         <div class="ring-ctrl-wrapper">
+           <rg-select class="ring-ctrl-l"
+                      type="input"
+                      ng-model="exampleCtrl.selected"
+                      options="item in exampleCtrl.options"
+                      label="Select item"></rg-select>
+           <div class="ring-bubble active">Long Select</div>
+         </div>
+         <div class="ring-ctrl-wrapper">
+           <rg-select ng-model="exampleCtrl.selected"
+                      type="input"
+                      options="item in exampleCtrl.options"
+                      label="Select item"></rg-select>
+           <div class="ring-bubble active">Full-width Select</div>
+         </div>
+       </div>
+
+       <h3 class="example-block">Inputs</h3>
+       <div class="example-block">
+         <div class="ring-ctrl-wrapper">
+           <input type="number" class="ring-input ring-ctrl-xs">
+           <div class="ring-bubble active">XShort Input</div>
+         </div>
+         <div class="ring-ctrl-wrapper">
+           <input type="number" class="ring-input ring-ctrl-s">
+           <div class="ring-bubble active">Short Input</div>
+         </div>
+         <div class="ring-ctrl-wrapper">
+           <input type="number" class="ring-input ring-ctrl-md">
+           <div class="ring-bubble active">Medium Input</div>
+         </div>
+         <div class="ring-ctrl-wrapper">
+           <input type="number" class="ring-input ring-ctrl-l">
+           <div class="ring-bubble active">Long Input</div>
+         </div>
+         <div class="ring-ctrl-wrapper">
+           <input type="number" class="ring-input">
+           <div class="ring-bubble active">Full-width Input</div>
+         </div>
+       </div>
+
+       <h3 class="example-block">Textareas</h3>
+       <div class="example-block">
+         <div class="ring-ctrl-wrapper">
+           <textarea class="ring-input ring-ctrl-xs"></textarea>
+           <div class="ring-bubble active">XShort Textarea</div>
+         </div>
+         <div class="ring-ctrl-wrapper">
+           <textarea class="ring-input ring-ctrl-s"></textarea>
+           <div class="ring-bubble active">Short Textarea</div>
+         </div>
+         <div class="ring-ctrl-wrapper">
+           <textarea class="ring-input ring-ctrl-md"></textarea>
+           <div class="ring-bubble active">Medium Textarea</div>
+         </div>
+         <div class="ring-ctrl-wrapper">
+           <textarea class="ring-input ring-ctrl-l"></textarea>
+           <div class="ring-bubble active">Long Textarea</div>
+         </div>
+         <div class="ring-ctrl-wrapper">
+           <textarea class="ring-input"></textarea>
+           <div class="ring-bubble active">Full-width Textarea</div>
+         </div>
+       </div>
+
+     </div>
+     </file>
+     <file name="style.scss">
+        .example-block {
+          margin: 16px;
+          max-width: 600px;
+        }
+
+        // This style is suggested to be moved to select.scss after migration period
+        .ring-select {
+          width: 100%;
+        }
+        // This style is suggested to be moved to select.scss after migration period
+        .ring-btn.ring-select {
+          width: 100%;
+        }
+     </file>
+     <file name="index.js" webpack="true">
+       var angular = require('angular');
+       require('ring-ui/components/select-ng/select-ng');
+       require('ring-ui/components/react-ng/react-ng')({
+         QueryAssist: require('ring-ui/components/query-assist/query-assist')
+       });
+       require('ring-ui/components/input-controllers/input-controllers.scss');
+
+       angular.module('Example.input-controllers', [
+         'Ring.react-ng',
+         'Ring.select'
+       ])
+       .controller('ExampleCtrl', [
+         function() {
+           var exampleCtrl = this;
+           exampleCtrl.dataSource = function() {
+             return [];
+           };
+
+           exampleCtrl.options = ['one', 'two', 'three'];
+           exampleCtrl.selected = null;
+         }
+       ]);
+
+       require('./style.scss');
+     </file>
+ *  </example>
+ */
+.ring-ctrl {
+  @mixin set-width-in-pixels($width) {
+    display: inline-block;
+    width: $width;
+    & ~ .ring-bubble {
+      left: $width + 2;
+    }
+  }
+
+  &-xs {
+    @include set-width-in-pixels($ring-ctrl-size-xs);
+  }
+
+  &-s {
+    @include set-width-in-pixels($ring-ctrl-size-s);
+  }
+
+  &-md {
+    @include set-width-in-pixels($ring-ctrl-size-md);
+  }
+
+  &-l {
+    @include set-width-in-pixels($ring-ctrl-size-l);
+  }
+}
+
+// Input error bubbles
+//
+// Markup:
+// <div class="ring-input_wrapper">
+//   <input class="ring-input ring-input_error ring-ctrl-md" type="text">
+//   <div class="ring-bubble active">Wrong value</div>
+// </div>
+//
+// Styleguide 14.2
+.ring-bubble {
+  z-index: 2;
+  box-sizing: border-box;
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 25*$ring-unit + 2; // fallback if calc is not supported
+  left: calc(100% + 2px);
+  height: 3*$ring-unit;
+  padding-right: 2*$ring-unit;
+  padding-left: 2*$ring-unit;
+  line-height: 3*$ring-unit;
+
+  border-radius: $ring-border-radius;
+  border: 1px solid #e5e5e5;
+
+  @include ring-font;
+  white-space: nowrap;
+
+  color: $ring-error-color;
+  background: #FFF;
+  box-shadow: 0 1px 8px 0 rgba(0, 0, 0, 0.15);
+
+  &.active {
+    display: inline-block;
+  }
+
+  &:before {
+    content: '';
+    transform: rotate(45deg);
+    z-index: $ring-invisible-element-z-index;
+
+    position: absolute;
+    top: 7px;
+    left: -5px;
+
+    display: block;
+    width: $ring-unit;
+    height: $ring-unit;
+
+    border: 1px solid $ring-gray-color;
+    border-right: none;
+    border-top: none;
+
+    background: #FFF;
+  }
+}
+
+/**
+ * Is needed for correct displaying of ring-bubble.
+ * Should not be used inside ring-form__controller as it is already relative-wrapper
+ */
+.ring-ctrl-wrapper {
+  position: relative;
+}
