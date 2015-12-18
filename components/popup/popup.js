@@ -114,6 +114,7 @@ export default class Popup extends RingComponentWithShortcuts {
     top: 0,
     corner: Corner.BOTTOM_LEFT,
     direction: Direction.DOWN | Direction.RIGHT,
+    autoPositioning: true,
     sidePadding: 8
   };
 
@@ -448,8 +449,9 @@ export default class Popup extends RingComponentWithShortcuts {
     }
 
     // automatic position correction -->
-    const sidePadding = this.props.sidePadding;
-    if (this.node) {
+    if (this.node && this.props.autoPositioning) {
+      const sidePadding = this.props.sidePadding;
+
       if (styles.left < sidePadding) {
         styles.left = sidePadding;
       }
