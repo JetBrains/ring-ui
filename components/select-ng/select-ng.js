@@ -558,10 +558,6 @@ module.directive('rgSelect', function () {
           ctrl.filter = {fn: () => true};
         }
 
-        if (!ctrl.lazy) {
-          $scope.$watch(() => ctrl.optionsParser.getOptions(ctrl.query), optionsWatcher, true);
-        }
-
         ctrl.config = angular.extend({}, {
           selected: ctrl.convertNgModelToSelect(ctrl.ngModel),
           label: ctrl.label || RingMessageBundle.select_label(),
@@ -626,6 +622,15 @@ module.directive('rgSelect', function () {
         element.appendChild(container);
 
         ctrl.selectInstance = render(createElement(Select, ctrl.config), container);
+
+        if (!ctrl.lazy) {
+          if (!ctrl.optionsParser.datasourceIsFunction) {
+            $scope.$watch(() => ctrl.optionsParser.getOptions(ctrl.query), optionsWatcher, true);
+          } else {
+            ctrl.loadOptionsToSelect(ctrl.query);
+          }
+        }
+
         syncNgModelToSelect();
         syncDisabled();
         syncMultiple();
