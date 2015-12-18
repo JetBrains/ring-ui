@@ -27,9 +27,9 @@ const header = ReactDOM.render(
     menu={[{
       component: 'b',
       props: {
-        key: 'Styguide'
+        key: 'Styleguide'
       },
-      children: 'Styguide'
+      children: 'Styleguide'
     }]}
   />,
   document.query('.app__header')
