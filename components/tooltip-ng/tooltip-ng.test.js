@@ -37,6 +37,13 @@ describe('tooltipNg', function () {
     popup.should.have.class('ring-tooltip-ng');
   });
 
+  it('Should set custom class for popup', function () {
+    popupWrapper.displayTooltip('custom-class');
+    const popup = popupWrapper.popup.node;
+
+    popup.should.have.class('custom-class');
+  });
+
   it('Should display message inside', function () {
     popupWrapper.displayTooltip();
     popupWrapper.popup.node.should.have.text(INNER_TEXT);

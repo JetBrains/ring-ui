@@ -1,4 +1,5 @@
 import {createElement} from 'react';
+import classNames from 'classnames';
 import Popup from '../popup/popup';
 import './tooltip-ng.scss';
 
@@ -49,7 +50,7 @@ name.directive('rgTooltip', function ($parse, RgTooltipPopup) {
       const popupWrapper = new RgTooltipPopup(element, $parse(iAttrs.rgTooltip)(scope));
 
       element.addEventListener('mouseover', () => {
-        popupWrapper.displayTooltip();
+        popupWrapper.displayTooltip(iAttrs.rgTooltipClass);
         element.classList.add(OPEN_CLASS);
       });
 
@@ -65,11 +66,15 @@ name.factory('RgTooltipPopup', function () {
   return function (element, template) {
     this.popup = null;
 
-    this.displayTooltip = () => {
+    this.displayTooltip = customClass => {
+      const classes = classNames({
+        'ring-tooltip-ng': true
+      }, customClass);
+
       this.popup = this.popup || Popup.renderPopup(createElement(Popup, {
         anchorElement: element,
         maxHeight: 400,
-        className: 'ring-tooltip-ng',
+        className: classes,
         cutEdge: false,
         onClose: evt => {
           //RG-643 Don't close tooltip when clicking by element with opened tooltip
