@@ -42,6 +42,7 @@ class Options {
     this.optionVariableName = match[MATCHES.OPTION];
     this.datasourceGetter = $parse(match[MATCHES.ITEMS]);
     this.trackByGetter = match[MATCHES.TRACK] && $parse(match[MATCHES.TRACK]);
+    this.datasourceIsFunction = match[MATCHES.ITEMS].indexOf('(') > 0;
   }
 
   getProperty(option, getter) {
