@@ -37,7 +37,7 @@ import '../dialog/dialog.scss';
          <div class="ring-form__group">
            <label for="textarea-demo" class="ring-form__label">Textarea in Form</label>
            <div class="ring-form__control">
-             <textarea id="textarea-demo" class="ring-textarea"></textarea>
+             <textarea id="textarea-demo" class="ring-input"></textarea>
            </div>
          </div>
        </div>
@@ -49,7 +49,6 @@ import '../dialog/dialog.scss';
    <file name="index.js" webpack="true">
      require('ring-ui/components/dialog/dialog.scss');
      require('ring-ui/components/panel/panel.scss');
-     require('ring-ui/components/textarea/textarea.scss');
 
      require('angular/angular');
      require('ring-ui/components/select-ng/select-ng');
