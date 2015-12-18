@@ -57,7 +57,7 @@ const module = angular.module('Ring.save-field', [
               <rg-save-field value="data.longText"
                              on-save="save">
                 <textarea type="text"
-                          class="ring-textarea ring-form__input ring-form__input_long"
+                          class="ring-input ring-input_long"
                           ng-required="true"
                           ng-model="data.longText"></textarea>
               </rg-save-field>
@@ -75,7 +75,7 @@ const module = angular.module('Ring.save-field', [
                              on-save="save">
                 <textarea type="text"
                           name="myMultilineArea"
-                          class="ring-textarea ring-form__input"
+                          class="ring-input"
                           ng-model="data.longTextList"></textarea>
               </rg-save-field>
               <div class="ring-form__control__description">data.longTextList = {{data.longTextList}}</div>
@@ -92,7 +92,7 @@ const module = angular.module('Ring.save-field', [
                              on-save="save">
                 <input type="number"
                        max="10"
-                       class="ring-input"
+                       class="ring-input ring-input_xshort"
                        ng-model="data.num">
               </rg-save-field>
             </div>
@@ -119,7 +119,6 @@ const module = angular.module('Ring.save-field', [
      <file name="index.js" webpack="true">
        require('angular');
        require('ring-ui/components/save-field-ng/save-field-ng');
-       require('ring-ui/components/textarea/textarea.scss');
 
        angular.module('Example.saveField', ['Ring.save-field'])
          .config(['shortcutsProvider', 'rgSaveFieldShortcutsMode', function(shortcutsProvider, rgSaveFieldShortcutsMode) {
