@@ -6,6 +6,10 @@ order: 2
 
 See the “breaking change” commits [in Upsource](https://upsource.jetbrains.com/ring-ui/view?query=path:%20%7B%2A%2Fbreaking-changes.md%7D%20and%20not%20%22Wording%22).  
 
+### 18-12-2015: Removed component "textarea"
+
+Use css-class "ring-input" instead of "ring-textarea".
+
 ### 11-12-2015: SVGO is not used in Ring UI anymore, its config has been removed  
 
 `jetbrains-icons` (since 1.0.12) and `jetbrains-logos` (since 1.0.5) packages now contain compressed SVG images, so there is no more `RingSVGOConfig` in `webpack.config.js`.

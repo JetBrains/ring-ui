@@ -53,19 +53,19 @@
        <div class="ring-form__group">
          <label for="ring-form-7" class="ring-form__label">Textarea</label>
          <div class="ring-form__control">
-           <textarea class="ring-textarea" id="ring-form-7"></textarea>
+           <textarea class="ring-input" id="ring-form-7"></textarea>
          </div>
        </div>
        <div class="ring-form__group">
          <label for="ring-form-8" class="ring-form__label">Long Textarea</label>
          <div class="ring-form__control">
-           <textarea class="ring-textarea ring-textarea_long" id="ring-form-8"></textarea>
+           <textarea class="ring-input ring-input_long" id="ring-form-8"></textarea>
          </div>
        </div>
        <div class="ring-form__group">
          <label for="ring-form-9" class="ring-form__label">Textarea in Full-Width</label>
          <div class="ring-form__control ring-form__control_full-width">
-           <textarea class="ring-textarea ring-textarea_full-width" id="ring-form-9"></textarea>
+           <textarea class="ring-input ring-input_full-width" id="ring-form-9"></textarea>
          </div>
        </div>
        <div class="ring-form__group">
@@ -85,7 +85,7 @@
        <div class="ring-form__group">
          <label for="ring-form-12" class="ring-form__label">Textarea in Small</label>
          <div class="ring-form__control ring-form__control_small">
-           <textarea class="ring-textarea" id="ring-form-12"></textarea>
+           <textarea class="ring-input" id="ring-form-12"></textarea>
          </div>
        </div>
        <div class="ring-form__footer">
@@ -99,7 +99,6 @@
       require('ring-ui/components/form/form.scss');
       require('ring-ui/components/panel/panel.scss');
       require('ring-ui/components/button/button.scss');
-      require('ring-ui/components/textarea/textarea.scss');
 
       require('angular');
       require('ring-ui/components/select-ng/select-ng');
