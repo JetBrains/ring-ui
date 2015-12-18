@@ -200,7 +200,8 @@ module.directive('rgSaveField', function (RingMessageBundle, $timeout, $q) {
       validate: '&?',
       parseElement: '&?',
       formatElement: '&?',
-      multiline: '@'
+      multiline: '@',
+      savedState: '='
     },
     link: function (scope, iElem, iAttrs, ctrl) {
       const customError = {
@@ -337,6 +338,8 @@ module.directive('rgSaveField', function (RingMessageBundle, $timeout, $q) {
             value: scope.value
           });
         }
+
+        scope.savedState = angular.equals(scope.initial, value);
 
         $q.when(promise)
           .then(error => {
