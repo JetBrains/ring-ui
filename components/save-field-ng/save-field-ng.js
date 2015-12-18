@@ -237,7 +237,8 @@ module.directive('rgSaveField', function (RingMessageBundle, $timeout, $q) {
           if (typeof err === 'string') {
             message = err;
           } else if (typeof err === 'object') {
-            message = err[ERROR_DESCRIPTION] || err[ERROR_DEVELOPER_MSG];
+            const errorData = err.data || err;
+            message = errorData[ERROR_DESCRIPTION] || errorData[ERROR_DEVELOPER_MSG];
           }
 
           customError.message = message;
