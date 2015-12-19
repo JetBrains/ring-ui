@@ -30,11 +30,7 @@ import './tooltip.scss';
  */
 export default class Tooltip extends RingComponent {
   didMount() {
-    console.log('mnt');
     this.node.addEventListener('mouseover', () => {
-      console.log('aover');
-
-
       this.popup = Popup.renderPopup(createElement(Popup, {
         anchorElement: this.node,
         maxHeight: 400,
