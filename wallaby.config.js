@@ -69,7 +69,7 @@ module.exports = function (wallaby) {
         instrument: false
       },
       {
-        pattern: 'node_modules/karma-chai-plugins/chai-dom/chai-dom.js',
+        pattern: 'node_modules/karma-chai-plugins/node_modules/chai-dom/chai-dom.js',
         instrument: false
       },
       {
