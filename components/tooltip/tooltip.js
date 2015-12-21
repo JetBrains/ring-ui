@@ -1,4 +1,4 @@
-import React, {createElement} from 'react';
+import React, {createElement, Children, PropTypes} from 'react';
 
 import Popup from '../popup/popup';
 import RingComponent from '../ring-component/ring-component';
@@ -19,42 +19,95 @@ import './tooltip.scss';
        import React from 'react';
        import {render} from 'react-dom';
 
-       var Tooltip = require('ring-ui/components/tooltip/tooltip');
+       import Tooltip from 'ring-ui/components/tooltip/tooltip';
+       import Button from 'ring-ui/components/button/button';
 
-       render(
-         <Tooltip title="explanation for text that reqires explanation">text that reqires explanation</Tooltip>,
-         document.getElementById('tooltip')
+       const buttonWithTooltip = (
+         <Tooltip title="explanation for button that reqires explanation">
+           <Button>explanation for button that reqires explanation</Button>
+         </Tooltip>
        );
+
+       render(buttonWithTooltip, document.getElementById('tooltip'));
      </file>
    </example>
  */
 export default class Tooltip extends RingComponent {
+  static propTypes = {
+    title: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    popupProps: PropTypes.object
+  };
+
+  static defaultProps = {
+    title: '',
+    popupProps: {}
+  };
+
   didMount() {
-    this.node.addEventListener('mouseover', () => {
-      this.popup = Popup.renderPopup(createElement(Popup, {
+    this.hidePopupHandler = this.hidePopup.bind(this);
+    this.showPopupHandler = this.showPopup.bind(this);
+
+    this.setHandlersEnabled(this.props.title);
+  }
+
+  willUnmount() {
+    this.hidePopup();
+    this.setHandlersEnabled(false);
+  }
+
+  didUpdate(nextProps) {
+    const titleStateHasChanged = Boolean(nextProps.title) === Boolean(this.props.title);
+
+    this.setHandlersEnabled(titleStateHasChanged);
+  }
+
+  setHandlersEnabled(condition) {
+    if (condition) {
+      this.node.addEventListener('mouseover', this.showPopupHandler);
+      this.node.addEventListener('mouseout', this.hidePopupHandler);
+      document.addEventListener('scroll', this.hidePopupHandler);
+    } else {
+      this.node.removeEventListener('mouseover', this.showPopupHandler);
+      this.node.removeEventListener('mouseout', this.hidePopupHandler);
+      document.removeEventListener('scroll', this.hidePopupHandler);
+    }
+  }
+
+  showPopup() {
+    if (!this.props.title) {
+      return;
+    }
+
+    const renderPopup = () => {
+      const props = Object.assign({
         anchorElement: this.node,
         maxHeight: 400,
         className: 'ring-tooltip',
         cutEdge: false,
+        top: 4,
         onClose: evt => {
           //RG-643 Don't close tooltip when clicking by element with opened tooltip
           if (evt && this.node.contains(evt.target)) {
             return false;
           }
         }
-      }, this.props.title));
-    });
+      }, this.props.popupProps);
 
-    this.node.addEventListener('mouseout', () => {
-      this.closePopup();
-    });
+      this.popup = Popup.renderPopup(createElement(Popup, props, this.props.title));
+    };
+
+    const delay = Number(this.props.delay);
+
+    if (!Number.isNaN(delay)) {
+      this.timeout = setTimeout(renderPopup, delay);
+    } else {
+      renderPopup();
+    }
   }
 
-  willUnmount() {
-    this.closePopup();
-  }
+  hidePopup() {
+    clearTimeout(this.timeout);
 
-  closePopup() {
     if (this.popup) {
       this.popup.close();
       this.popup = null;
@@ -64,6 +117,11 @@ export default class Tooltip extends RingComponent {
   render() {
     const {children, title, ...props} = this.props;
 
-    return <span {...props}>{children}</span>;
+    if (Children.count(children) === 1 && typeof children === 'object') {
+      return children;
+    // Autowrapping of text and array children
+    } else {
+      return <span {...props}>{children}</span>;
+    }
   }
 }
