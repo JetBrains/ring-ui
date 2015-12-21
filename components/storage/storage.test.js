@@ -7,10 +7,6 @@ function noop() {}
 
 function testStorage(storage) {
   describe('set', function () {
-    if (sniffr.browser.name === 'ie') {
-      return undefined;
-    }
-
     it('should be fulfilled', function () {
       return storage.set('empty', {}).should.be.fulfilled;
     });
@@ -240,8 +236,11 @@ describe('Storage', function () {
       type: 'session'
     });
 
-    testStorage(storage);
-    testStorage(storageSession);
+    if (sniffr.browser.name !== 'ie' || sniffr.browser.version[0] > 10) {
+      testStorage(storage);
+      testStorage(storageSession);
+    }
+
     testStorageEvents(new MockedStorage());
 
     describe('specific', function () {
