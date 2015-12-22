@@ -1,8 +1,3 @@
-import Sniffr from 'sniffr';
-
-const sniffr = new Sniffr();
-sniffr.sniff();
-
 function noop() {}
 
 function testStorage(storage) {
@@ -236,11 +231,8 @@ describe('Storage', function () {
       type: 'session'
     });
 
-    if (sniffr.browser.name !== 'ie' || sniffr.browser.version[0] > 10) {
-      testStorage(storage);
-      testStorage(storageSession);
-    }
-
+    testStorage(storage);
+    testStorage(storageSession);
     testStorageEvents(new MockedStorage());
 
     describe('specific', function () {
