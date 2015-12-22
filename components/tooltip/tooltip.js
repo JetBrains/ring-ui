@@ -34,8 +34,9 @@ import './tooltip.scss';
  */
 export default class Tooltip extends RingComponent {
   static propTypes = {
-    title: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    popupProps: PropTypes.object
+    delay: PropTypes.number,
+    popupProps: PropTypes.object,
+    title: PropTypes.string
   };
 
   static defaultProps = {
@@ -74,7 +75,9 @@ export default class Tooltip extends RingComponent {
   }
 
   showPopup() {
-    if (!this.props.title) {
+    const {delay, title, popupProps} = this.props;
+
+    if (!title) {
       return;
     }
 
@@ -91,14 +94,12 @@ export default class Tooltip extends RingComponent {
             return false;
           }
         }
-      }, this.props.popupProps);
+      }, popupProps);
 
-      this.popup = Popup.renderPopup(createElement(Popup, props, this.props.title));
+      this.popup = Popup.renderPopup(createElement(Popup, props, title));
     };
 
-    const delay = Number(this.props.delay);
-
-    if (!Number.isNaN(delay)) {
+    if (delay) {
       this.timeout = setTimeout(renderPopup, delay);
     } else {
       renderPopup();
