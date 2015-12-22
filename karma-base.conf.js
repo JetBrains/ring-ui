@@ -164,12 +164,6 @@ module.exports = function (config) {
       }
     },
 
-    client: {
-      mocha: {
-        timeout: 10000
-      }
-    },
-
     hostname: require('os').hostname(),
 
     // If browser does not capture in given timeout [ms], kill it

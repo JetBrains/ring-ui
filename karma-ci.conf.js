@@ -14,7 +14,12 @@ module.exports = function (config) {
         {type: 'teamcity'}
       ]
     },
-    reporters: ['teamcity', 'coverage']
+    reporters: ['teamcity', 'coverage'],
+    client: {
+      mocha: {
+        timeout: 60000
+      }
+    }
   });
 
   config.set(configCI);
