@@ -7,12 +7,8 @@ import {findDOMNode} from 'react-dom';
 import {Simulate} from 'react-addons-test-utils';
 import renderIntoDocument from 'render-into-document';
 import simulateKeypress from 'simulate-keypress';
-import Sniffr from 'sniffr';
 
 describe('QueryAssist', function () {
-  const sniffr = new Sniffr();
-  sniffr.sniff();
-
   const testQuery = 'oooooooooooo';
   const testQueryLength = testQuery.length;
 
