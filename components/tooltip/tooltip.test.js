@@ -1,4 +1,5 @@
 import React from 'react';
+import {unmountComponentAtNode} from 'react-dom';
 import 'dom4';
 
 import {isCompositeComponentWithType, renderIntoDocument} from 'react-addons-test-utils';
@@ -49,7 +50,7 @@ describe('Tooltip', function () {
       const bindEvents = this.sinon.spy(this.tooltip.node, 'removeEventListener');
 
       this.tooltip.rerender({
-        title: false
+        title: ''
       });
 
       bindEvents.should.have.been.called.twice;
@@ -63,7 +64,7 @@ describe('Tooltip', function () {
 
     it('should not render popup when empty title is provided', function () {
       this.tooltip.rerender({
-        title: false
+        title: ''
       });
 
       this.tooltip.showPopup();
@@ -73,7 +74,7 @@ describe('Tooltip', function () {
     it('should render with delay when provided', function () {
       const clock = this.sinon.useFakeTimers();
       this.tooltip.rerender({
-        delay: '100'
+        delay: 100
       });
 
       this.tooltip.showPopup();
@@ -99,7 +100,7 @@ describe('Tooltip', function () {
 
     it('should close popup on unmount', function () {
       this.tooltip.showPopup();
-      React.unmountComponentAtNode(this.tooltip.node.parentNode);
+      unmountComponentAtNode(this.tooltip.node.parentNode);
 
       should.not.exist(this.tooltip.popup);
     });
