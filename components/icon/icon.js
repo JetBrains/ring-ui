@@ -18,7 +18,7 @@ import './icon.scss';
 const Color = {
   BLUE: 'blue',
   DEFAULT: '',
-  GRAY: 'light-gray',
+  GRAY: 'gray',
   GREEN: 'green',
   ORANGE: 'orange',
   RED: 'red',
@@ -50,6 +50,7 @@ const Size = {
    <example name="Icon">
      <file name="index.html">
         <div id="some-icons">
+           <span id="icon-active"></span>
            <span id="icon-container"></span>
            <span id="icon-distribution"></span>
            <span id="icon-16-pencil"></span>
@@ -70,6 +71,17 @@ const Size = {
 
        var render = require('react-dom').render;
        var Icon = require('ring-ui/components/icon/icon');
+
+       render(Icon.factory({
+         glyph: require('jetbrains-icons/distribution.svg'),
+         size: Icon.Size.Size32,
+         activeColor: Icon.Color.BLUE,
+         hoverColor: Icon.Color.ORANGE,
+         size: Icon.Size.Size32,
+         onClick: function() {
+          return new Promise(resolve => setTimeout(resolve, 3000));
+         }
+       }), document.getElementById('icon-active'));
 
        render(Icon.factory({
          className: 'additional-class',
@@ -183,16 +195,19 @@ export default class Icon extends RingComponent {
     size: Size.Size32
   });
 
+  state = {};
+
   static Color = Color;
   static Size = Size;
 
   render() {
-    const {baseClass, className, size, color, glyph, width, height} = this.props;
+    const {baseClass, className, size, color, glyph, width, height, onClick, activeColor, hoverColor, ...otherProps} = this.props;
+    const currentColor = this.state.color || color;
 
     const classes = classNames(
       {
         [baseClass.getModifier(size)]: true,
-        [baseClass.getModifier(color)]: !!color,
+        [baseClass.getModifier(currentColor)]: !!currentColor,
         [baseClass.getClassName()]: true
       },
       className
@@ -204,10 +219,55 @@ export default class Icon extends RingComponent {
     };
 
     const xlinkHref = urlUtils.resolveRelativeURL(glyph);
+    let onIconClick = onClick;
+
+    if (activeColor && typeof onClick === 'function') {
+      onIconClick = (...args) => {
+        this.setState({
+          color: activeColor,
+          isActive: true
+        });
+
+        const promise = Promise.resolve(onClick(...args));
+
+        promise.then(() => {
+          this.setState({
+            color: Color.DEFAULT,
+            isActive: false
+          });
+        });
+
+        return promise;
+      };
+    }
+
+    let onMouseOver;
+    let onMouseOut;
+
+    if (hoverColor && !this.state.isActive) {
+      onMouseOver = () => {
+        this.setState({
+          color: hoverColor,
+          isHovered: true
+        });
+      };
+    }
+
+    if (this.state.isHovered && !this.state.isActive) {
+      onMouseOut = () => {
+        this.setState({
+          color: Color.DEFAULT,
+          isHovered: false
+        });
+      };
+    }
 
     return (
       <span
-        {...this.props}
+        {...otherProps}
+        onClick={onIconClick}
+        onMouseOver={onMouseOver}
+        onMouseOut={onMouseOut}
         className={classes}
       >
         <svg
@@ -217,6 +277,6 @@ export default class Icon extends RingComponent {
           <use xlinkHref={xlinkHref}/>
         </svg>
       </span>
-  );
+    );
   }
 }

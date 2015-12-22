@@ -1,17 +1,17 @@
-import TestUtils from 'react-addons-test-utils';
+import {isCompositeComponentWithType, renderIntoDocument, Simulate} from 'react-addons-test-utils';
 import Icon from './icon';
 import expandIcon from 'jetbrains-icons/expand.svg';
 import urlUtils from '../url-utils/url-utils';
 
 describe('Icon', function () {
   beforeEach(function () {
-    this.icon = TestUtils.renderIntoDocument(Icon.factory({
+    this.icon = renderIntoDocument(Icon.factory({
       glyph: expandIcon
     }));
   });
 
   it('should create component', function () {
-    TestUtils.isCompositeComponentWithType(this.icon, Icon).should.equal(true);
+    isCompositeComponentWithType(this.icon, Icon).should.equal(true);
   });
 
   it('should render passed glyph', function () {
@@ -44,5 +44,81 @@ describe('Icon', function () {
 
     this.icon.rerender({className: CUSTOM_CSS_CLASS});
     this.icon.node.should.have.class(CUSTOM_CSS_CLASS);
+  });
+
+  it('should set active color', function () {
+    this.icon.rerender({
+      activeColor: Icon.Color.GREEN,
+      onClick: () => 'test'
+    });
+
+    Simulate.click(this.icon.node);
+    this.icon.node.should.have.class('ring-icon_green');
+  });
+
+  it('should remove active color after Promise resolve', function () {
+    let resolvePromise;
+    const promise = new Promise(resolve => {
+      resolvePromise = resolve;
+    });
+
+    this.icon.rerender({
+      activeColor: Icon.Color.GREEN,
+      onClick: () => promise
+    });
+
+    Simulate.click(this.icon.node);
+    promise.then(() => {
+      this.icon.node.should.not.have.class('ring-icon_green');
+    });
+    resolvePromise();
+
+    return promise;
+  });
+
+  it('should not set active color without onClick', function () {
+    this.icon.rerender({
+      activeColor: Icon.Color.GREEN
+    });
+
+    Simulate.click(this.icon.node);
+    this.icon.node.should.not.have.class('ring-icon_green');
+  });
+
+  it('should set hover color', function () {
+    this.icon.rerender({
+      hoverColor: Icon.Color.RED
+    });
+
+    Simulate.mouseOver(this.icon.node);
+    this.icon.node.should.have.class('ring-icon_red');
+  });
+
+  it('should set active color after hover', function () {
+    this.icon.rerender({
+      hoverColor: Icon.Color.RED,
+      activeColor: Icon.Color.GREEN,
+      onClick: () => 'test'
+    });
+
+    Simulate.mouseOver(this.icon.node);
+    Simulate.click(this.icon.node);
+
+    this.icon.node.should.have.class('ring-icon_green');
+    this.icon.node.should.not.have.class('ring-icon_red');
+  });
+
+  it('should not set hover color after click', function () {
+    this.icon.rerender({
+      hoverColor: Icon.Color.RED,
+      activeColor: Icon.Color.GREEN,
+      onClick: () => 'test'
+    });
+
+    Simulate.click(this.icon.node);
+    Simulate.mouseOver(this.icon.node);
+
+    this.icon.node.should.have.class('ring-icon_green');
+    this.icon.node.should.not.have.class('ring-icon_red');
   });
 });
