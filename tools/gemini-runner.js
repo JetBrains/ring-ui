@@ -8,6 +8,7 @@ var Gemini = require('gemini/api');
 var geminiTeamcityPlugin = require('gemini-teamcity');
 var http = require('http');
 var chalk = require('chalk');
+var path = require('path');
 
 var isGather = process.argv.indexOf('--gather') !== -1;
 var isTeamcity = process.argv.indexOf('--teamcity') !== -1;
@@ -34,7 +35,7 @@ if (isTeamcity) {
 function getFilesFromArguments() {
   var startIndex = isGather
     ? process.argv.indexOf('--gather')
-    : process.argv.indexOf(__dirname + '/gemini-runner.js');
+    : process.argv.indexOf(path.resolve('./', 'tools/gemini-runner.js'));
 
   if (process.argv.indexOf('--teamcity') !== -1) {
     startIndex = process.argv.indexOf('--teamcity');
@@ -75,7 +76,7 @@ function checkUrlAvailability(url) {
 
 var files = getFilesFromArguments();
 
-console.info(chalk.blue('Failes to run on:'), files);
+console.info(chalk.blue('Files to run on:'), files);
 
 checkUrlAvailability(docsiteUrl)
   .catch(function (err) {
