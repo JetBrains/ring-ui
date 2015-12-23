@@ -70,7 +70,7 @@
     "eslint-config-jetbrains": "1.0.11",
     "exports-loader": "0.6.2",
     "finalhandler": "0.3.5",
-    "gemini": "0.11.3",
+    "gemini": "2.0.2",
     "gemini-teamcity": "1.2.0",
     "github-markdown-css": "2.0.7",
     "handlebars": "2.0.0",
