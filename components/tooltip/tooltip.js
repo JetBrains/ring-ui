@@ -36,7 +36,7 @@ export default class Tooltip extends RingComponent {
   static propTypes = {
     delay: PropTypes.number,
     popupProps: PropTypes.object,
-    title: PropTypes.string
+    title: PropTypes.oneOfType([PropTypes.string, PropTypes.element])
   };
 
   static defaultProps = {
