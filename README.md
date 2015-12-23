@@ -138,4 +138,4 @@ by taking "screenshots" and comparing them to existing reference images. After y
 run `npm run gemini-test` to make sure there are no regressions.
 
 To update the reference images for a certain component (for example, `alert`) run 
-`npm run gemini-gather files components/alert/*.gemini.js`.
+`npm run gemini-gather components/alert/*.gemini.js`.
