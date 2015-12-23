@@ -7,6 +7,7 @@ require('babel/polyfill');
 var Gemini = require('gemini/api');
 var geminiTeamcityPlugin = require('gemini-teamcity');
 var http = require('http');
+var chalk = require('chalk');
 
 var isGather = process.argv.indexOf('--gather') !== -1;
 var isTeamcity = process.argv.indexOf('--teamcity') !== -1;
@@ -18,7 +19,7 @@ function getDocsiteUrl() {
 }
 
 var docsiteUrl = getDocsiteUrl();
-console.log('Docsite url detected: ', docsiteUrl);
+console.log(chalk.blue('Docsite url detected:', docsiteUrl));
 
 var gemini = new Gemini('.gemini.yml', {
   rootUrl: docsiteUrl
@@ -30,16 +31,16 @@ if (isTeamcity) {
 
 function getFilesFromArguments() {
   var startIndex = process.argv.indexOf('files') + 1;
-  if (startIndex === -1) {
-    throw new Error('Parameter "files" is not specified');
+  if (startIndex < 1) {
+    throw new Error('Parameter "files" is not specified. Usage: "npm run gemini-gather files components/select/*.gemini.js"');
   }
   return process.argv.slice(startIndex);
 }
 
 function handleGeminiError(error) {
-  console.error('Error: ' + error.message);
+  console.error(chalk.red('Error:', error.message));
   if (error.advice) {
-    console.error('To fix:', error.advice);
+    console.error(chalk.blue('To fix:', error.advice));
   }
 
   /**
@@ -63,14 +64,23 @@ function checkUrlAvailability(url) {
 var files = getFilesFromArguments();
 
 checkUrlAvailability(docsiteUrl)
+  .catch(function (err) {
+    console.error(chalk.red('URL "%s" is not available (%s).' +
+      ' Did you forget to run "npm start" before gemini test?'), docsiteUrl, err.code);
+    handleGeminiError({message: 'Run "npm start" before'});
+  })
   .then(function () {
     if (isGather) {
+      console.log(chalk.blue('Gathering references for file:', files[0]));
       if (files.length > 1) {
         throw new Error('You should gather only 1 file at time, received: ' + files.join(','));
       }
+      if (files.length === 0) {
+        throw new Error('You did not specify a file to gather. Use "npm run gemini-gather files components/select/*.gemini.js" for example');
+      }
       gemini.gather(files, {})
         .then(function (res) {
-          console.log('Gather done', res);
+          console.log(chalk.green('Gather done'), res);
         })
         .fail(handleGeminiError);
 
@@ -79,15 +89,11 @@ checkUrlAvailability(docsiteUrl)
         reporters: ['html']
       })
         .then(function (res) {
-          console.log('Test done', res);
+          console.log(chalk.green('Test done'), res);
           if (res.failed || res.errored) {
             throw new Error('Not all tests passed successfully');
           }
         })
         .fail(handleGeminiError);
     }
-  })
-  .catch(function (err) {
-    console.error('URL "%s" is not available (%s).' +
-      ' Did you forget to run "npm start" before gemini test?', docsiteUrl, err.code);
   });
