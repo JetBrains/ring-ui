@@ -21,9 +21,11 @@ function getDocsiteUrl() {
 var docsiteUrl = getDocsiteUrl();
 console.log(chalk.blue('Docsite url detected:', docsiteUrl));
 
-var gemini = new Gemini('.gemini.yml', {
-  rootUrl: docsiteUrl
-});
+var gemini = new Gemini('.gemini.yml');
+
+//Update rootUrl using private API since here is no way to do that correctly
+gemini.config._configs.chrome.rootUrl = docsiteUrl;
+gemini.config._configs.firefox.rootUrl = docsiteUrl;
 
 if (isTeamcity) {
   geminiTeamcityPlugin(gemini);
@@ -78,7 +80,7 @@ checkUrlAvailability(docsiteUrl)
       if (files.length === 0) {
         throw new Error('You did not specify a file to gather. Use "npm run gemini-gather files components/select/*.gemini.js" for example');
       }
-      gemini.gather(files, {})
+      gemini.update(files, {})
         .then(function (res) {
           console.log(chalk.green('Gather done'), res);
         })

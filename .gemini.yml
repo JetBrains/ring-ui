@@ -1,11 +1,14 @@
 rootUrl: http://localhost:9999
 gridUrl: ***REMOVED***
-windowSize: 1024x800
 
 browsers:
   chrome:
-    browserName: chrome
-    platform: WINDOWS
+    windowSize: 1024x800
+    desiredCapabilities:
+      browserName: chrome
+      platform: WINDOWS
   firefox:
-    browserName: firefox
-    platform: WINDOWS
+    windowSize: 1024x800
+    desiredCapabilities:
+      browserName: firefox
+      platform: WINDOWS
