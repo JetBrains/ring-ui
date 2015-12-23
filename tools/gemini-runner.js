@@ -32,10 +32,20 @@ if (isTeamcity) {
 }
 
 function getFilesFromArguments() {
-  var startIndex = process.argv.indexOf('files') + 1;
-  if (startIndex < 1) {
-    throw new Error('Parameter "files" is not specified. Usage: "npm run gemini-gather files components/select/*.gemini.js"');
+  var startIndex = isGather
+    ? process.argv.indexOf('--gather')
+    : process.argv.indexOf(__dirname + '/gemini-runner.js');
+
+  if (process.argv.indexOf('--teamcity') !== -1) {
+    startIndex = process.argv.indexOf('--teamcity');
   }
+
+  if (startIndex === -1) {
+    throw new Error('Wrong gemini usage. Check the README.md');
+  }
+
+  startIndex += 1;  //increment to get first file position in arguments array
+
   return process.argv.slice(startIndex);
 }
 
@@ -65,6 +75,8 @@ function checkUrlAvailability(url) {
 
 var files = getFilesFromArguments();
 
+console.info(chalk.blue('Failes to run on:'), files);
+
 checkUrlAvailability(docsiteUrl)
   .catch(function (err) {
     console.error(chalk.red('URL "%s" is not available (%s).' +
@@ -78,7 +90,7 @@ checkUrlAvailability(docsiteUrl)
         throw new Error('You should gather only 1 file at time, received: ' + files.join(','));
       }
       if (files.length === 0) {
-        throw new Error('You did not specify a file to gather. Use "npm run gemini-gather files components/select/*.gemini.js" for example');
+        throw new Error('You did not specify a file to gather. Use "npm run gemini-gather components/select/*.gemini.js" for example');
       }
       gemini.update(files, {})
         .then(function (res) {
