@@ -1,6 +1,43 @@
 /* global angular */
 const module = angular.module('Ring.template', []);
 
+/**
+ * @name Template Ng
+ * @example
+  <example name="Template Ng">
+    <file name="index.html">
+      <div ng-app="Example.template-ng">
+        <rg-template template="'<input/>'"></rg-template>
+      </div>
+    </file>
+    <file name="index.js" webpack="true">
+      require('angular');
+      require('ring-ui/components/template-ng/template-ng');
+
+      angular
+      .module('Example.template-ng', ['Ring.template']);
+    </file>
+  </example>
+
+  <example name="Template Ng 2">
+    <file name="index.html">
+      <div ng-app="Example.template-ng">
+        <rg-template template="template" ng-controller="ExampleCtrl"></rg-template>
+      </div>
+    </file>
+    <file name="index.js" webpack="true">
+      require('angular');
+      require('ring-ui/components/template-ng/template-ng');
+
+      angular
+      .module('Example.template-ng', ['Ring.template'])
+      .controller('ExampleCtrl', function ($scope) {
+        $scope.template = '<button>button</button>';
+      });
+    </file>
+  </example>
+*/
+
 class rgTemplateController {
   constructor($scope, $element, $parse, $compile) {
     this.$scope = $scope;
@@ -23,9 +60,13 @@ class rgTemplateController {
   }
 
   render() {
-    this.element.innerHTML = this.template;
+    const $element = angular.element(this.element);
+
     if (this.template) {
-      this.$compile(this.element.childNodes)(this.$scope);
+      const nodes = this.$compile(this.template)(this.$scope);
+      $element.append(nodes);
+    } else {
+      $element.empty();
     }
   }
 }
