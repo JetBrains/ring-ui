@@ -285,20 +285,4 @@ describe('Storage', function () {
     testStorage(storageSession);
     testStorageEvents(storage);
   });
-
-  describe('Memory', function () {
-    const spaceName = 'testSpace';
-    const MemoryStorage = require('./storage__memory');
-
-    beforeEach(function () {
-      const storage = MemoryStorage._storage[spaceName];
-      for (const key in storage) {
-        if (storage.hasOwnProperty(key)) {
-          Reflect.deleteProperty(storage, key);
-        }
-      }
-    });
-
-    testStorage(new MemoryStorage({spaceName: spaceName}));
-  });
 });
