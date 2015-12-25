@@ -31,6 +31,20 @@ const Direction = {
   LEFT: 8
 };
 
+const OPPOSITE_HORIZONTAL_CORNER = {
+  [Corner.BOTTOM_LEFT]: Corner.BOTTOM_RIGHT,
+  [Corner.BOTTOM_RIGHT]: Corner.BOTTOM_LEFT,
+  [Corner.TOP_RIGHT]: Corner.TOP_LEFT,
+  [Corner.TOP_LEFT]: Corner.TOP_RIGHT
+};
+
+const OPPOSITE_VERTICAL_CORNER = {
+  [Corner.BOTTOM_LEFT]: Corner.TOP_LEFT,
+  [Corner.BOTTOM_RIGHT]: Corner.TOP_RIGHT,
+  [Corner.TOP_RIGHT]: Corner.BOTTOM_RIGHT,
+  [Corner.TOP_LEFT]: Corner.BOTTOM_LEFT
+};
+
 /**
  * @enum {number}
  */
@@ -92,6 +106,53 @@ const Dimension = {
  }, container));
  </file>
  </example>
+
+ <example name="Popup autoposition">
+   <file name="index.html">
+   <div>
+     <div style="position: absolute; top:50%; left: 300px;">Popup should change open direction when reaching window borders</div>
+     <div id="leftSide" style="position: absolute; left: 0; top: 50px;">Left side open popup</div>
+     <div id="rightSide" style="position: absolute; right: 0; top: 50px;">Right side open popup</div>
+     <div id="downSide" style="position: absolute; left: 150px; bottom: 0;">Downside open popup</div>
+     <div id="topSide" style="position: absolute; right: 150px; top: 0;">Upside open popup</div>
+   </div>
+   </file>
+   <file name="index.js" webpack="true">
+   var DOM = require('react').DOM;
+   var Popup = require('ring-ui/components/popup/popup');
+   var Direction = Popup.PopupProps.Direction;
+
+   var container = DOM.span({style: {whiteSpace: 'no-wrap'}}, 'This is popup');
+
+   var popup = Popup.renderPopup(Popup.factory({
+     anchorElement: document.getElementById('leftSide'),
+     corner: Popup.PopupProps.Corner.BOTTOM_LEFT,
+     direction: Direction.LEFT,
+     autoRemove: false
+   }, container));
+
+   var popup2 = Popup.renderPopup(Popup.factory({
+     anchorElement: document.getElementById('rightSide'),
+     corner: Popup.PopupProps.Corner.BOTTOM_RIGHT,
+     direction: Direction.RIGHT,
+     autoRemove: false
+   }, container));
+
+   var popup3 = Popup.renderPopup(Popup.factory({
+     anchorElement: document.getElementById('downSide'),
+     corner: Popup.PopupProps.Corner.BOTTOM_LEFT,
+     direction: Direction.DOWN,
+     autoRemove: false
+   }, container));
+
+   var popup4 = Popup.renderPopup(Popup.factory({
+     anchorElement: document.getElementById('topSide'),
+     corner: Popup.PopupProps.Corner.TOP_LEFT,
+     direction: Direction.UP,
+     autoRemove: false
+   }, container));
+   </file>
+</example>
  */
 export default class Popup extends RingComponentWithShortcuts {
   static propTypes = {
@@ -362,6 +423,71 @@ export default class Popup extends RingComponentWithShortcuts {
     return elementRect;
   }
 
+  _isPopupOverflowsVertically(styles) {
+    if (!this.props.autoPositioning) {
+      return false;
+    }
+    if (styles.top < 0) {
+      return true;
+    }
+    const popupHeight = this.node.clientHeight;
+    const documentHeight = Math.max(document.body.scrollHeight, document.documentElement.clientHeight);
+    const verticalDiff = documentHeight - styles.top - popupHeight;
+
+    if (verticalDiff < this.props.sidePadding) {
+      return true;
+    }
+  }
+
+  _isPopupOverflowsHorizontally(styles) {
+    if (!this.props.autoPositioning) {
+      return false;
+    }
+    if (styles.left < 0) {
+      return true;
+    }
+    const popupWidth = this.node.clientWidth;
+    const documentWidth = Math.max(document.body.scrollWidth, document.documentElement.clientWidth);
+    const horizontalDiff = documentWidth - styles.left - popupWidth;
+
+    if (horizontalDiff < this.props.sidePadding) {
+      return true;
+    }
+  }
+
+  _getPositionStyles(corner, left, top, anchor, anchorLeft, anchorTop) {
+    /* eslint-enable no-bitwise */
+
+    switch (corner) {
+      case Corner.TOP_LEFT:
+        return {
+          left: anchorLeft + left,
+          top: anchorTop + top
+        };
+
+      case Corner.TOP_RIGHT:
+        return {
+          left: anchorLeft + anchor.width + left,
+          top: anchorTop + top
+        };
+
+      case Corner.BOTTOM_LEFT:
+        return {
+          left: anchorLeft + left,
+          top: anchorTop + anchor.height + top
+        };
+
+      case Corner.BOTTOM_RIGHT:
+        return {
+          left: anchorLeft + anchor.width + left,
+          top: anchorTop + anchor.height + top
+        };
+
+      default:
+        throw new Error('Unknown corner type: ' + corner);
+    }
+  }
+
   _getBodyScroll() {
     return {
       left: window.pageXOffset || document.documentElement.scrollLeft,
@@ -374,8 +500,8 @@ export default class Popup extends RingComponentWithShortcuts {
    * @private
    */
   _getStyles() {
+    let styles = {};
     const props = this.props;
-    const styles = {};
 
     let top = props.top;
     let left = props.left;
@@ -406,32 +532,31 @@ export default class Popup extends RingComponentWithShortcuts {
       if (props.direction & Direction.LEFT) {
         left -= this.node.clientWidth;
       }
-    }
-    /* eslint-enable no-bitwise */
 
-    switch (props.corner) {
-      case Corner.TOP_LEFT:
-        styles.left = anchorLeft + left;
-        styles.top = anchorTop + top;
-        break;
+      styles = this._getPositionStyles(props.corner, left, top, anchor, anchorLeft, anchorTop);
 
-      case Corner.TOP_RIGHT:
-        styles.left = anchorLeft + anchor.width + left;
-        styles.top = anchorTop + top;
-        break;
+      if (this._isPopupOverflowsHorizontally(styles)) {
+        if (props.direction & Direction.RIGHT) {
+          left -= this.node.clientWidth;
+        } else if (props.direction & Direction.LEFT) {
+          left += this.node.clientWidth;
+        }
 
-      case Corner.BOTTOM_LEFT:
-        styles.left = anchorLeft + left;
-        styles.top = anchorTop + anchor.height + top;
-        break;
+        const newCorner = OPPOSITE_HORIZONTAL_CORNER[props.corner];
+        styles = this._getPositionStyles(newCorner, left, top, anchor, anchorLeft, anchorTop);
+      }
 
-      case Corner.BOTTOM_RIGHT:
-        styles.left = anchorLeft + anchor.width + left;
-        styles.top = anchorTop + anchor.height + top;
-        break;
+      if (this._isPopupOverflowsVertically(styles)) {
+        if (props.direction & Direction.DOWN) {
+          top -= this.node.clientHeight;
+        } else if (props.direction & Direction.UP) {
+          top += this.node.clientHeight;
+        }
 
-      default:
-        throw new Error('Unknown corner type: ' + props.corner);
+        const newCorner = OPPOSITE_VERTICAL_CORNER[props.corner];
+
+        styles = this._getPositionStyles(newCorner, left, top, anchor, anchorLeft, anchorTop);
+      }
     }
 
     if (typeof props.maxHeight === 'number') {
@@ -447,32 +572,6 @@ export default class Popup extends RingComponentWithShortcuts {
     } else {
       styles.minWidth = props.minWidth;
     }
-
-    // automatic position correction -->
-    if (this.node && this.props.autoPositioning) {
-      const sidePadding = this.props.sidePadding;
-
-      if (styles.left < sidePadding) {
-        styles.left = sidePadding;
-      }
-
-      if (styles.top < sidePadding) {
-        styles.top = sidePadding;
-      }
-      const documentWidth = Math.max(document.body.scrollWidth, document.documentElement.clientWidth);
-      const horizontalDiff = documentWidth - styles.left - this.node.offsetWidth;
-      if (horizontalDiff < sidePadding) {
-        styles.left = styles.left + horizontalDiff - sidePadding;
-      }
-
-      const documentHeight = Math.max(document.body.scrollHeight, document.documentElement.clientHeight);
-      const vericalDiff = documentHeight - styles.top - this.node.offsetHeight;
-
-      if (vericalDiff < sidePadding) {
-        styles.top = styles.top + vericalDiff - sidePadding;
-      }
-    }
-    // automatic position correction <--
 
     switch (this.state.display) {
       case 0:
