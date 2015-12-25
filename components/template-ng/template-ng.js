@@ -2,7 +2,7 @@
 const module = angular.module('Ring.template', []);
 
 class rgTemplateController {
-  constructor($scope, $element, $attrs, $parse, $compile) {
+  constructor($scope, $element, $parse, $compile) {
     this.$scope = $scope;
     this.$parse = $parse;
     this.$compile = $compile;
@@ -12,11 +12,11 @@ class rgTemplateController {
   }
 
   buildTemplate() {
-    const attr = this.element.getAttribute('template');
+    const rawTemplate = this.element.getAttribute('template');
     this.template = '';
 
-    if (attr) {
-      this.template = this.$parse(attr)(this.$scope);
+    if (rawTemplate) {
+      this.template = this.$parse(rawTemplate)(this.$scope);
     }
 
     return this.template;
