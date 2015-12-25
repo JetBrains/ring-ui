@@ -353,7 +353,10 @@ export default class QueryAssist extends RingComponentWithShortcuts {
       this.setFocus();
     }
 
-    this.props.onFocusChange({focus: focus});
+    if (!this.mouseIsDownOnPopup) {
+      this.props.onFocusChange({focus: focus});
+    }
+
     this.setShortcutsEnabled(focus);
   }
 
