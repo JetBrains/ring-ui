@@ -49,7 +49,15 @@ class rgTemplateController {
   }
 
   buildTemplate() {
-    const rawTemplate = this.element.getAttribute('template');
+    const element = this.element;
+    let rawTemplate;
+
+    if (element.tagName === 'RG-TEMPLATE') {
+      rawTemplate = element.getAttribute('template');
+    } else {
+      rawTemplate = element.getAttribute('rg-template');
+    }
+
     this.template = '';
 
     if (rawTemplate) {
@@ -73,7 +81,6 @@ class rgTemplateController {
 
 function rgTemplateDirective() {
   return {
-    restrict: 'E',
     controller: rgTemplateController
   };
 }
