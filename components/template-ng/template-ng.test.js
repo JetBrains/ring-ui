@@ -26,6 +26,18 @@ describe('TemplateNg', function () {
     return {element, ctrl};
   }
 
+  it('should work as an element', function () {
+    const {element} = build('<rg-template template="\'<test></test>\'"></rg-template>');
+
+    element.should.contain('test');
+  });
+
+  it('should work as an attribute', function () {
+    const {element} = build('<div rg-template="\'<test></test>\'"></div>');
+
+    element.should.contain('test');
+  });
+
   it('should render a given template', function () {
     $rootScope.template = '<test></test>';
     const {element} = build('<rg-template template="template"></rg-template>');
