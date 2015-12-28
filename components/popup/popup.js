@@ -72,24 +72,35 @@ const Dimension = {
  <file name="index.js" webpack="true">
  var DOM = require('react').DOM;
  var Popup = require('ring-ui/components/popup/popup');
+ var Direction = Popup.PopupProps.Direction;
 
  var container = DOM.span(null, 'Hello world!');
 
  var popup = Popup.renderPopup(Popup.factory({
    anchorElement: document.getElementById('target1'),
-   corner: Popup.PopupProps.Corner.TOP_LEFT,
+   corner: Popup.PopupProps.Corner.BOTTOM_RIGHT,
+   direction: Direction.DOWN | Direction.RIGHT,
    autoRemove: false
  }, container));
 
  var popup2 = Popup.renderPopup(Popup.factory({
    anchorElement: document.getElementById('target2'),
-   corner: Popup.PopupProps.Corner.TOP_RIGHT,
+   corner: Popup.PopupProps.Corner.BOTTOM_LEFT,
+   direction: Direction.LEFT | Direction.DOWN,
    autoRemove: false
  }, container));
 
  var popup3 = Popup.renderPopup(Popup.factory({
    anchorElement: document.getElementById('target3'),
-   corner: Popup.PopupProps.Corner.BOTTOM_LEFT,
+   corner: Popup.PopupProps.Corner.TOP_RIGHT,
+   direction: Direction.UP | Direction.RIGHT,
+   autoRemove: false
+ }, container));
+
+ var popup4 = Popup.renderPopup(Popup.factory({
+   anchorElement: document.getElementById('target4'),
+   corner: Popup.PopupProps.Corner.TOP_LEFT,
+   direction: Direction.UP | Direction.LEFT,
    autoRemove: false
  }, container));
 
@@ -98,12 +109,6 @@ const Dimension = {
     popup3.show();
   }, 1);
  };
-
- var popup4 = Popup.renderPopup(Popup.factory({
-   anchorElement: document.getElementById('target4'),
-   corner: Popup.PopupProps.Corner.BOTTOM_RIGHT,
-   autoRemove: false
- }, container));
  </file>
  </example>
 
@@ -423,7 +428,7 @@ export default class Popup extends RingComponentWithShortcuts {
     return elementRect;
   }
 
-  _isPopupOverflowsVertically(styles) {
+  _doesPopupOverflowVertically(styles) {
     if (!this.props.autoPositioning) {
       return false;
     }
@@ -439,7 +444,7 @@ export default class Popup extends RingComponentWithShortcuts {
     }
   }
 
-  _isPopupOverflowsHorizontally(styles) {
+  _doesPopupOverflowHorizontally(styles) {
     if (!this.props.autoPositioning) {
       return false;
     }
@@ -535,7 +540,7 @@ export default class Popup extends RingComponentWithShortcuts {
 
       styles = this._getPositionStyles(props.corner, left, top, anchor, anchorLeft, anchorTop);
 
-      if (this._isPopupOverflowsHorizontally(styles)) {
+      if (this._doesPopupOverflowHorizontally(styles)) {
         if (props.direction & Direction.RIGHT) {
           left -= this.node.clientWidth;
         } else if (props.direction & Direction.LEFT) {
@@ -546,7 +551,7 @@ export default class Popup extends RingComponentWithShortcuts {
         styles = this._getPositionStyles(newCorner, left, top, anchor, anchorLeft, anchorTop);
       }
 
-      if (this._isPopupOverflowsVertically(styles)) {
+      if (this._doesPopupOverflowVertically(styles)) {
         if (props.direction & Direction.DOWN) {
           top -= this.node.clientHeight;
         } else if (props.direction & Direction.UP) {
