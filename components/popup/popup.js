@@ -62,100 +62,170 @@ const Dimension = {
  <example name="Popup">
  <file name="index.html">
  <div>
- <div id="target1" style="position: absolute; left: 0; top: 0; width: 10px; height: 10px; background-color: red;"></div>
- <div id="target2" style="position: absolute; right: 0; top: 0; width: 10px; height: 10px; background-color: blue;"></div>
- <div id="target3" style="position: absolute; left: 0; bottom: 0; width: 10px; height: 10px; background-color: green;"></div>
- <button id="switch3" style="position: absolute; left: 50px; bottom: 50px;">Show again</button>
- <div id="target4" style="position: absolute; right: 0; bottom: 0; width: 10px; height: 10px; background-color: orange;"></div>
+ <div id="target1" class="popup-example__anchor popup-example__anchor_left"></div>
+ <div id="target2" class="popup-example__anchor popup-example__anchor_right"></div>
+ <div id="target3" class="popup-example__anchor popup-example__anchor_bottom-left"></div>
+ <button id="switch3" class="popup-example__button">Show again</button>
+ <div id="target4" class="popup-example__anchor popup-example__anchor_bottom-right"></div>
  </div>
  </file>
  <file name="index.js" webpack="true">
- var DOM = require('react').DOM;
- var Popup = require('ring-ui/components/popup/popup');
- var Direction = Popup.PopupProps.Direction;
+   require('./index.scss');
+   var DOM = require('react').DOM;
+   var Popup = require('ring-ui/components/popup/popup');
+   var Direction = Popup.PopupProps.Direction;
 
- var container = DOM.span(null, 'Hello world!');
+   var container = DOM.span(null, 'Hello world!');
 
- var popup = Popup.renderPopup(Popup.factory({
-   anchorElement: document.getElementById('target1'),
-   corner: Popup.PopupProps.Corner.BOTTOM_RIGHT,
-   direction: Direction.DOWN | Direction.RIGHT,
-   autoRemove: false
- }, container));
+   var popup = Popup.renderPopup(Popup.factory({
+     anchorElement: document.getElementById('target1'),
+     corner: Popup.PopupProps.Corner.BOTTOM_RIGHT,
+     direction: Direction.DOWN | Direction.RIGHT,
+     autoRemove: false
+   }, container));
 
- var popup2 = Popup.renderPopup(Popup.factory({
-   anchorElement: document.getElementById('target2'),
-   corner: Popup.PopupProps.Corner.BOTTOM_LEFT,
-   direction: Direction.LEFT | Direction.DOWN,
-   autoRemove: false
- }, container));
+   var popup2 = Popup.renderPopup(Popup.factory({
+     anchorElement: document.getElementById('target2'),
+     corner: Popup.PopupProps.Corner.BOTTOM_LEFT,
+     direction: Direction.LEFT | Direction.DOWN,
+     autoRemove: false
+   }, container));
 
- var popup3 = Popup.renderPopup(Popup.factory({
-   anchorElement: document.getElementById('target3'),
-   corner: Popup.PopupProps.Corner.TOP_RIGHT,
-   direction: Direction.UP | Direction.RIGHT,
-   autoRemove: false
- }, container));
+   var popup3 = Popup.renderPopup(Popup.factory({
+     anchorElement: document.getElementById('target3'),
+     corner: Popup.PopupProps.Corner.TOP_RIGHT,
+     direction: Direction.UP | Direction.RIGHT,
+     autoRemove: false
+   }, container));
 
- var popup4 = Popup.renderPopup(Popup.factory({
-   anchorElement: document.getElementById('target4'),
-   corner: Popup.PopupProps.Corner.TOP_LEFT,
-   direction: Direction.UP | Direction.LEFT,
-   autoRemove: false
- }, container));
+   var popup4 = Popup.renderPopup(Popup.factory({
+     anchorElement: document.getElementById('target4'),
+     corner: Popup.PopupProps.Corner.TOP_LEFT,
+     direction: Direction.UP | Direction.LEFT,
+     autoRemove: false
+   }, container));
 
- document.getElementById('switch3').onclick = function() {
-  setTimeout(function() {
-    popup3.show();
-  }, 1);
- };
+   document.getElementById('switch3').addEventListener('click', function() {
+      setTimeout(function() {
+        popup3.show();
+      }, 1);
+   });
  </file>
+   <file name="index.scss">
+      .popup-example__button {
+        position: absolute;
+        left: 50px;
+        bottom: 50px;
+      }
+
+      .popup-example__anchor {
+        position: absolute;
+        width: 10px;
+        height: 10px;
+
+        &_left {
+          left: 0;
+          top: 0;
+          background-color: red;
+        }
+
+        &_right {
+          right: 0;
+          top: 0;
+          background-color: blue;
+        }
+
+        &_bottom-left {
+          left: 0;
+          bottom: 0;
+          background-color: green;
+        }
+
+        &_bottom-right {
+          right: 0;
+          bottom: 0;
+          background-color: orange;
+        }
+      }
+   </file>
  </example>
 
  <example name="Popup autoposition">
    <file name="index.html">
    <div>
-     <div style="position: absolute; top:50%; left: 300px;">Popup should change open direction when reaching window borders</div>
-     <div id="leftSide" style="position: absolute; left: 0; top: 50px;">Left side open popup</div>
-     <div id="rightSide" style="position: absolute; right: 0; top: 50px;">Right side open popup</div>
-     <div id="downSide" style="position: absolute; left: 150px; bottom: 0;">Downside open popup</div>
-     <div id="topSide" style="position: absolute; right: 150px; top: 0;">Upside open popup</div>
+     <div class="popup-example__message">Popup should change open direction when reaching window borders</div>
+     <div id="leftSide" class="popup-example__anchor popup-example__anchor_left">Left side open popup</div>
+     <div id="rightSide" class="popup-example__anchor popup-example__anchor_right">Right side open popup</div>
+     <div id="downSide" class="popup-example__anchor popup-example__anchor_bottom">Downside open popup</div>
+     <div id="topSide" class="popup-example__anchor popup-example__anchor_top">Upside open popup</div>
    </div>
    </file>
+   <file name="index.scss">
+      .popup-example__message {
+        position: absolute;
+
+        top: 50%;
+        left: 300px;
+      }
+      .popup-example__anchor {
+        position: absolute;
+
+        &_left {
+          left: 0;
+          top: 50px;
+        }
+
+        &_right {
+          right: 0;
+          top: 50px;
+        }
+
+        &_bottom {
+          left: 150px;
+          bottom: 0;
+        }
+
+        &_top {
+          right: 150px;
+          top: 0;
+        }
+      }
+   </file>
    <file name="index.js" webpack="true">
-   var DOM = require('react').DOM;
-   var Popup = require('ring-ui/components/popup/popup');
-   var Direction = Popup.PopupProps.Direction;
+     require('./index.scss');
+     var DOM = require('react').DOM;
+     var Popup = require('ring-ui/components/popup/popup');
+     var Direction = Popup.PopupProps.Direction;
 
-   var container = DOM.span({style: {whiteSpace: 'no-wrap'}}, 'This is popup');
+     var container = DOM.span({style: {whiteSpace: 'no-wrap'}}, 'This is popup');
 
-   var popup = Popup.renderPopup(Popup.factory({
-     anchorElement: document.getElementById('leftSide'),
-     corner: Popup.PopupProps.Corner.BOTTOM_LEFT,
-     direction: Direction.LEFT,
-     autoRemove: false
-   }, container));
+     var popup = Popup.renderPopup(Popup.factory({
+       anchorElement: document.getElementById('leftSide'),
+       corner: Popup.PopupProps.Corner.BOTTOM_LEFT,
+       direction: Direction.LEFT,
+       autoRemove: false
+     }, container));
 
-   var popup2 = Popup.renderPopup(Popup.factory({
-     anchorElement: document.getElementById('rightSide'),
-     corner: Popup.PopupProps.Corner.BOTTOM_RIGHT,
-     direction: Direction.RIGHT,
-     autoRemove: false
-   }, container));
+     var popup2 = Popup.renderPopup(Popup.factory({
+       anchorElement: document.getElementById('rightSide'),
+       corner: Popup.PopupProps.Corner.BOTTOM_RIGHT,
+       direction: Direction.RIGHT,
+       autoRemove: false
+     }, container));
 
-   var popup3 = Popup.renderPopup(Popup.factory({
-     anchorElement: document.getElementById('downSide'),
-     corner: Popup.PopupProps.Corner.BOTTOM_LEFT,
-     direction: Direction.DOWN,
-     autoRemove: false
-   }, container));
+     var popup3 = Popup.renderPopup(Popup.factory({
+       anchorElement: document.getElementById('downSide'),
+       corner: Popup.PopupProps.Corner.BOTTOM_LEFT,
+       direction: Direction.DOWN,
+       autoRemove: false
+     }, container));
 
-   var popup4 = Popup.renderPopup(Popup.factory({
-     anchorElement: document.getElementById('topSide'),
-     corner: Popup.PopupProps.Corner.TOP_LEFT,
-     direction: Direction.UP,
-     autoRemove: false
-   }, container));
+     var popup4 = Popup.renderPopup(Popup.factory({
+       anchorElement: document.getElementById('topSide'),
+       corner: Popup.PopupProps.Corner.TOP_LEFT,
+       direction: Direction.UP,
+       autoRemove: false
+     }, container));
    </file>
 </example>
  */
