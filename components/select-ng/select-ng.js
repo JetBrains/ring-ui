@@ -8,6 +8,22 @@ import MessageBundle from '../message-bundle-ng/message-bundle-ng';
 /**
  * @name Select Ng
  * @description Angular wrapper for React select
+ * Options argument has one of the following forms:
+ * * `label in items`
+ * * `label for item in items`
+ * * `label for item in items track by trackexpr`
+ * * `label select as buttontext describe as description for item in items track by trackexpr`
+ * * `select as label select as buttontext for item in items`
+ *
+ * Where:
+ * * items: an expression which evaluates to a datasource containing data to iterate over. Datasource can be an array or a function that accepts query parameter and returns promise of array filtered by the query.
+ * * item: local variable which will refer to each item in the items.
+ * * label: The result of this expression will be the label for <option> element. The expression will most likely refer to the value variable (e.g. item.name).
+ * * select: The result of this expression will be bound to the model of the parent <select> element. If not specified, select expression will default to item.
+ * * trackexpr: Used when working with an array of objects. The result of this expression will be used to identify the objects in the array. The trackexpr will most likely refer to the item variable (e.g. item.id). With this the selection is preserved even when the options are recreated (e.g. reloaded from the server).
+ * * buttontext: Label for the selected item to be displayed on the button.
+ * * description: Description of an item to display in the option list.
+ *
  * @example
  *
 <example name="Select-ng">
