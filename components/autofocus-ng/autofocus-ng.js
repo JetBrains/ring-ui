@@ -7,11 +7,17 @@
  * @example
  <example name="Autofocus">
  <file name="index.html">
- <div ng-app="Ring.autofocus">
+ <div ng-app="Ring.autofocus" class="test-container">
   <input rg-autofocus="true" placeholder="Should be in focus"/>
  </div>
  </file>
+ <file name="index.scss">
+  .test-container {
+    padding: 8px;
+  }
+ </file>
  <file name="index.js" webpack="true">
+ require('./index.scss');
  require('angular');
  require('ring-ui/components/autofocus-ng/autofocus-ng');
  </file>
@@ -19,11 +25,17 @@
 
   <example name="Autofocus on select">
  <file name="index.html">
-   <div ng-app="testApp" ng-controller="testCtrl">
+   <div ng-app="testApp" ng-controller="testCtrl" class="test-container">
       <rg-select options="item in []" rg-autofocus="true"></rg-select>
    </div>
  </file>
+ <file name="index.scss">
+ .test-container {
+    padding: 8px;
+  }
+ </file>
  <file name="index.js" webpack="true">
+   require('./index.scss');
    require('angular');
    require('ring-ui/components/select-ng/select-ng');
    require('ring-ui/components/autofocus-ng/autofocus-ng');
@@ -35,7 +47,8 @@
  */
 
 const module = angular.module('Ring.autofocus', []);
-const RING_SELECT = '.ring-select';
+const RING_SELECT_SELECTOR = '.ring-select';
+const RING_SELECT = 'rg-select';
 
 module.directive('rgAutofocus', function () {
 
@@ -49,8 +62,8 @@ module.directive('rgAutofocus', function () {
       return;
     }
 
-    if (element.hasAttribute('rg-select') || element.tagName.toLowerCase() === 'rg-select') {
-      focusOnElement(element.querySelector(RING_SELECT));
+    if (element.hasAttribute(RING_SELECT) || element.tagName.toLowerCase() === RING_SELECT) {
+      focusOnElement(element.querySelector(RING_SELECT_SELECTOR));
     }
 
     if (element.focus) {
