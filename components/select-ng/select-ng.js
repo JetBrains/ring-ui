@@ -9,20 +9,28 @@ import MessageBundle from '../message-bundle-ng/message-bundle-ng';
  * @name Select Ng
  * @description Angular wrapper for React select
  * Options argument has one of the following forms:
- * * `label in items`
- * * `label for item in items`
- * * `label for item in items track by trackexpr`
- * * `label select as buttontext describe as description for item in items track by trackexpr`
- * * `select as label select as buttontext for item in items`
+ * * `label *in* items`
+ * * `label *for* item *in* items`
+ * * `label *for* item *in* items *track by* trackexpr`
+ * * `label *select as* buttontext *describe as* description *for* item *in* items *track by* trackexpr`
+ * * `select *as* label *select as* buttontext *for* item *in* items`
  *
  * Where:
- * * items: an expression which evaluates to a datasource containing data to iterate over. Datasource can be an array or a function that accepts query parameter and returns promise of array filtered by the query.
- * * item: local variable which will refer to each item in the items.
- * * label: The result of this expression will be the label for <option> element. The expression will most likely refer to the value variable (e.g. item.name).
- * * select: The result of this expression will be bound to the model of the parent <select> element. If not specified, select expression will default to item.
- * * trackexpr: Used when working with an array of objects. The result of this expression will be used to identify the objects in the array. The trackexpr will most likely refer to the item variable (e.g. item.id). With this the selection is preserved even when the options are recreated (e.g. reloaded from the server).
- * * buttontext: Label for the selected item to be displayed on the button.
- * * description: Description of an item to display in the option list.
+ * * `items`: an expression which evaluates to a datasource containing data to iterate over. Datasource can be an array or a function that accepts query parameter and returns promise of array filtered by the query.
+ * * `item`: local variable which will refer to each item in the items.
+ * * `label`: The result of this expression will be the label for &lt;option&gt; element. The expression will most likely refer to the value variable (e.g. item.name).
+ * * `select`: The result of this expression will be bound to the model of the parent &lt;select&gt; element. If not specified, select expression will default to item.
+ * * `trackexpr`: Used when working with an array of objects. The result of this expression will be used to identify the objects in the array. The trackexpr will most likely refer to the item variable (e.g. item.id). With this the selection is preserved even when the options are recreated (e.g. reloaded from the server).
+ * * `buttontext`: Label for the selected item to be displayed on the button.
+ * * `description`: Description of an item to display in the option list.
+ *
+ * Examples:
+ * * `item in items`
+ * * `item in dataSource(query)`
+ * * `item.text for item in items
+ * * `item.text for item in items track by item.id`
+ * * `item.text select as item.fullText describe as item.fullDescription for item in items track by item.id`
+ * * `item as item.text select as makeFullText(item) for item in items`
  *
  * @example
  *
@@ -315,19 +323,7 @@ module.directive('rgSelect', function () {
      * @property {Object} scope.ngModel
      * @property {String} scope.selectType - select type. Can be "button" (default), "input" or "dropdown"
      * @property {String} scope.lazy - Load options lazy. Can be "true" (default) or "false"
-     * @property {String} scope.options - query for options. Can look like this:
-     * `item in items`
-     * `item in dataSource(query)`
-     * `item.text for item in items
-     * `item.text for item in items track by item.id`
-     * `item.text select as item.fullText describe as item.fullDescription for item in items track by item.id`
-     * `item as item.text select as makeFullText(item) for item in items`
-     * Where:
-     * `as` - what object will be set to ng-model
-     * `select as` - label for selected item to display in button
-     * `describe as` - description of item to display in list
-     * `for item in items`, `for item in dataSource(query)` - data source or array
-     * `track by item.id` - field to use as key for list
+     * @property {String} scope.options - query for options.
      * @property {Boolean} scope.externalFilter - whether or not select use options function as filter.
      * "filter" property scope.should not be passed in that case.
      * @property {Boolean} scope.multiple - If true then you can select more then one value
