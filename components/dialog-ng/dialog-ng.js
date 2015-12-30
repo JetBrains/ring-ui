@@ -332,7 +332,7 @@ function rgDialogDirective($timeout) {
 
     // Focus first input
     function focusFirst() {
-      const controls = node.queryAll('input,select,textarea,*[contentEditable=true]').filter(inputNode => getStyles(inputNode).display !== 'none');
+      const controls = node.queryAll('input,select,button,textarea,*[contentEditable=true]').filter(inputNode => getStyles(inputNode).display !== 'none');
       if (controls.length) {
         controls[0].focus();
       }
