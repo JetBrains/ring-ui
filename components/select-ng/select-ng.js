@@ -9,11 +9,11 @@ import MessageBundle from '../message-bundle-ng/message-bundle-ng';
  * @name Select Ng
  * @description Angular wrapper for React select
  * Options argument has one of the following forms:
- * * `label *in* items`
- * * `label *for* item *in* items`
- * * `label *for* item *in* items *track by* trackexpr`
- * * `label *select as* buttontext *describe as* description *for* item *in* items *track by* trackexpr`
- * * `select *as* label *select as* buttontext *for* item *in* items`
+ * * `label` **`in`** `items`
+ * * `label` **`for`** `item` **`in`** `items`
+ * * `label` **`for`** `item` **`in`** `items` **`track by`** `trackexpr`
+ * * `label` **`select as`** `buttontext` **`describe as`** `description` **`for`** `item` **`in`** `items` **`track by`** `trackexpr`
+ * * `select` **`as`** `label` **`select as`** `buttontext` **`for`** `item` **`in`** `items`
  *
  * Where:
  * * `items`: an expression which evaluates to a datasource containing data to iterate over. Datasource can be an array or a function that accepts query parameter and returns promise of array filtered by the query.
@@ -27,7 +27,7 @@ import MessageBundle from '../message-bundle-ng/message-bundle-ng';
  * Examples:
  * * `item in items`
  * * `item in dataSource(query)`
- * * `item.text for item in items
+ * * `item.text for item in items`
  * * `item.text for item in items track by item.id`
  * * `item.text select as item.fullText describe as item.fullDescription for item in items track by item.id`
  * * `item as item.text select as makeFullText(item) for item in items`
