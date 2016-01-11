@@ -1,9 +1,9 @@
-import {render, unmountComponentAtNode} from 'react-dom';
-import {createElement} from 'react';
+import {unmountComponentAtNode} from 'react-dom';
 
 import Select from '../select/select';
 import SelectNgOptions from './select-ng__options';
 import MessageBundle from '../message-bundle-ng/message-bundle-ng';
+import SelectLazy from './select-lazy';
 
 /**
  * @name Select Ng
@@ -43,6 +43,7 @@ import MessageBundle from '../message-bundle-ng/message-bundle-ng';
 
         <span style="color: gray;">
           Last render time: <span ng-bind="ctrl.renderTime"></span>
+          | selects counts {{ctrl.selects.length || 0}}
         </span>
       </div>
 
@@ -69,7 +70,7 @@ import MessageBundle from '../message-bundle-ng/message-bundle-ng';
 
       ctrl.renderSelects = function() {
         var date = Date.now();
-        var selectsCout = 500;
+        var selectsCout = 1000;
 
         ctrl.selects = (new Array(selectsCout)).join('x').split('x').map(function(id){
           return {
@@ -678,12 +679,12 @@ module.directive('rgSelect', function () {
           }
         }, ctrl.config || {});
 
+        ctrl.selectInstance = new SelectLazy(container, ctrl.config, ctrl, getType());
+
         /**
          * Render select in appended div to save any existing content of the directive
          */
         element.appendChild(container);
-
-        ctrl.selectInstance = render(createElement(Select, ctrl.config), container);
 
         if (!ctrl.lazy) {
           if (!ctrl.optionsParser.datasourceIsFunction) {
