@@ -347,8 +347,7 @@ export default class Header extends RingComponent {
           autoRemove = {true}
           className = {this.props.popupClassName}
           data = {menuPopupData}
-          corner = {Popup.PopupProps.Corner.BOTTOM_LEFT}
-          direction = {Popup.PopupProps.Direction.DOWN}
+          directions = {[PopupMenu.PopupProps.Directions.BOTTOM_LEFT]}
           sidePadding = {32}
         />
       );
@@ -529,8 +528,7 @@ export default class Header extends RingComponent {
         autoRemove: true,
         className: headerClassName.getClassName('services'),
         cutEdge: false,
-        corner: Popup.PopupProps.Corner.BOTTOM_RIGHT,
-        direction: Popup.PopupProps.Direction.LEFT | Popup.PopupProps.Direction.DOWN,
+        directions: [PopupMenu.PopupProps.Directions.BOTTOM_LEFT],
         onClose: () => this.refs.services.setOpened(false),
         sidePadding: 32
       }, <div>
