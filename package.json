@@ -78,7 +78,7 @@
     "isparta-instrumenter-loader": "0.2.1",
     "js-beautify": "1.5.5",
     "jsdoctypeparser": "1.1.4",
-    "karma": "0.13.10",
+    "karma": "0.13.19",
     "karma-chai-plugins": "0.6.1",
     "karma-chrome-launcher": "0.2.0",
     "karma-coverage": "0.5.3",
