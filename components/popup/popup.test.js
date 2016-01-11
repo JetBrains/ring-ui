@@ -188,6 +188,31 @@ describe('Popup', function () {
       parseInt(getStyles(popupElement).top, 10).should.equal(elementOffset.top + elementOffset.height);
     });
 
+    it('should add specified offset', function () {
+      const OFFSET = 10;
+      const element = document.createElement('div');
+      element.setAttribute('style', 'position: absolute; top: 10px; left: 15px; width: 50px; height: 50px;');
+      document.body.append(element);
+
+      const container = document.createElement('div');
+      document.body.append(container);
+
+      const popup = render(createElement(Popup, {
+        directions: [Popup.PopupProps.Directions.BOTTOM_RIGHT],
+        anchorElement: element,
+        left: OFFSET,
+        top: OFFSET
+      }), container);
+
+      popup.show();
+
+      const popupElement = popup.node;
+      const elementOffset = getRect(element);
+
+      parseInt(getStyles(popupElement).left, 10).should.equal(elementOffset.left + OFFSET);
+      parseInt(getStyles(popupElement).top, 10).should.equal(elementOffset.top + elementOffset.height + OFFSET);
+    });
+
     it('Should support minWidth = target', function () {
       const element = document.createElement('div');
       element.setAttribute('style', 'width: 50px; padding-left: 20px;');
