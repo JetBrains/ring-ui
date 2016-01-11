@@ -120,9 +120,8 @@ export default class HeaderHelper {
         onUserMenuOpen: () => {
           popup = PopupMenu.renderPopup(PopupMenu.factory({
             anchorElement: findDOMNode(header.refs.userMenu),
-            corner: PopupMenu.PopupProps.Corner.BOTTOM_RIGHT,
             data: header.props.profilePopupData,
-            direction: PopupMenu.PopupProps.Direction.DOWN | PopupMenu.PopupProps.Direction.LEFT,
+            directions: [PopupMenu.PopupProps.Directions.BOTTOM_LEFT],
             onClose: () => header.refs.userMenu.setOpened(false)
           }));
         },

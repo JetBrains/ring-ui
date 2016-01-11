@@ -37,7 +37,6 @@ import List from '../list/list';
 
        var popupMenu = PopupMenu.renderPopup(PopupMenu.factory({
          anchorElement: document.getElementById('popup'),
-         corner: PopupMenu.PopupProps.Corner.TOP_LEFT,
          classNames: ['additional', 'class', 'names'],
          shortcuts: true,
          data: data
