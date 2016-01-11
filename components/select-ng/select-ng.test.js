@@ -324,14 +324,14 @@ describe('SelectNg', function () {
 
     it('Should support labeling item', function () {
       compileTemplate('<rg-select options="item.name for item in items track by item.id" ng-model="selectedItem"></rg-select>');
-      ctrl.selectInstance.state.selected.label.should.equal(fakeItems[2].name);
+      ctrl.selectInstance.props.selected.label.should.equal(fakeItems[2].name);
     });
 
     it('Should support labeling item simple syntax', function () {
       scope.items = [{key: 1, name: 'test1'}];
       scope.selectedItem = scope.items[0];
       compileTemplate('<rg-select options="item.name for item in items" ng-model="selectedItem"></rg-select>');
-      ctrl.selectInstance.state.selected.label.should.equal('test1');
+      ctrl.selectInstance.props.selected.label.should.equal('test1');
     });
 
     it('Should support function as label', function () {
