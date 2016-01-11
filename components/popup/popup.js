@@ -601,6 +601,14 @@ export default class Popup extends RingComponentWithShortcuts {
       }
     }
 
+    if (props.top) {
+      styles.top += props.top;
+    }
+
+    if (props.left) {
+      styles.left += props.left;
+    }
+
     if (typeof props.maxHeight === 'number') {
       styles.maxHeight = props.maxHeight;
     }
