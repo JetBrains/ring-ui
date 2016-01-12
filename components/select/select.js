@@ -504,6 +504,7 @@ export default class Select extends RingComponentWithShortcuts {
       return;
     }
 
+    const shouldScrollToTop = this._popup.props.data && this._popup.props.data.length && this._popup.props.data.length > data.length;
     this._popup.rerender({
       data: data,
       toolbar: this.getToolbar(),
@@ -511,6 +512,13 @@ export default class Select extends RingComponentWithShortcuts {
       loading: this.props.loading,
       activeIndex: this.state.selectedIndex
     });
+  /**
+   * Number of items in list is usually decreasing after filtering elements in select.
+   * When I filter elements in select I want to see newly filtered result from the beginning. No matter where I was before.
+   */
+    if (shouldScrollToTop) {
+      this._popup.listScrollToIndex(0);
+    }
 
     this._popup.forceUpdate(() => {
       !this._popup.isVisible() && this.props.onOpen();

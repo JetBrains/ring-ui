@@ -90,6 +90,10 @@ export default class SelectPopup extends RingComponentWithShortcuts {
     this.refs.list.clearSelected();
   }
 
+  listScrollToIndex(index) {
+    this.refs.list.scrollToIndex(index);
+  }
+
   isVisible() {
     return this.refs.popup.isVisible();
   }
