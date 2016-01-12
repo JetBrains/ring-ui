@@ -11,39 +11,27 @@ import {getStyles, isMounted, getRect} from '../dom/dom';
 
 import './popup.scss';
 
-/**
- * @enum {number}
- */
-const Corner = {
-  TOP_LEFT: 0,
-  TOP_RIGHT: 1,
-  BOTTOM_RIGHT: 2,
-  BOTTOM_LEFT: 3
+const Directions = {
+  BOTTOM_RIGHT: 'bottom-right',
+  BOTTOM_LEFT: 'bottom-left',
+  TOP_LEFT: 'top-left',
+  TOP_RIGHT: 'top-right',
+  RIGHT_TOP: 'right-top',
+  RIGHT_BOTTOM: 'right-bottom',
+  LEFT_TOP: 'left-top',
+  LEFT_BOTTOM: 'left-bottom'
 };
 
 /**
- * @enum {number}
+ * This directions is default for popup. Suitable directoin will be chosen.
+ * @type {*[]}
  */
-const Direction = {
-  DOWN: 1,
-  RIGHT: 2,
-  UP: 4,
-  LEFT: 8
-};
-
-const OPPOSITE_HORIZONTAL_CORNER = {
-  [Corner.BOTTOM_LEFT]: Corner.BOTTOM_RIGHT,
-  [Corner.BOTTOM_RIGHT]: Corner.BOTTOM_LEFT,
-  [Corner.TOP_RIGHT]: Corner.TOP_LEFT,
-  [Corner.TOP_LEFT]: Corner.TOP_RIGHT
-};
-
-const OPPOSITE_VERTICAL_CORNER = {
-  [Corner.BOTTOM_LEFT]: Corner.TOP_LEFT,
-  [Corner.BOTTOM_RIGHT]: Corner.TOP_RIGHT,
-  [Corner.TOP_RIGHT]: Corner.BOTTOM_RIGHT,
-  [Corner.TOP_LEFT]: Corner.BOTTOM_LEFT
-};
+const DEFAULT_DIRECTIONS = [
+  Directions.BOTTOM_RIGHT, Directions.BOTTOM_LEFT, Directions.TOP_LEFT, Directions.TOP_RIGHT,
+  Directions.RIGHT_TOP, Directions.RIGHT_BOTTOM, Directions.LEFT_TOP, Directions.LEFT_BOTTOM,
+  //Finally use bottom right if can't find other suitable direction
+  Directions.BOTTOM_RIGHT
+];
 
 /**
  * @enum {number}
@@ -73,35 +61,31 @@ const Dimension = {
    require('./index.scss');
    var DOM = require('react').DOM;
    var Popup = require('ring-ui/components/popup/popup');
-   var Direction = Popup.PopupProps.Direction;
+   var Directions = Popup.PopupProps.Directions;
 
-   var container = DOM.span(null, 'Hello world!');
+   var container = DOM.span(null, 'Hello&nbsp;world!');
 
    var popup = Popup.renderPopup(Popup.factory({
      anchorElement: document.getElementById('target1'),
-     corner: Popup.PopupProps.Corner.BOTTOM_RIGHT,
-     direction: Direction.DOWN | Direction.RIGHT,
+     directions: [Directions.BOTTOM_RIGHT],
      autoRemove: false
    }, container));
 
    var popup2 = Popup.renderPopup(Popup.factory({
      anchorElement: document.getElementById('target2'),
-     corner: Popup.PopupProps.Corner.BOTTOM_LEFT,
-     direction: Direction.LEFT | Direction.DOWN,
+     directions: [Directions.BOTTOM_LEFT],
      autoRemove: false
    }, container));
 
    var popup3 = Popup.renderPopup(Popup.factory({
      anchorElement: document.getElementById('target3'),
-     corner: Popup.PopupProps.Corner.TOP_RIGHT,
-     direction: Direction.UP | Direction.RIGHT,
+     directions: [Directions.TOP_RIGHT],
      autoRemove: false
    }, container));
 
    var popup4 = Popup.renderPopup(Popup.factory({
      anchorElement: document.getElementById('target4'),
-     corner: Popup.PopupProps.Corner.TOP_LEFT,
-     direction: Direction.UP | Direction.LEFT,
+     directions: [Directions.TOP_LEFT],
      autoRemove: false
    }, container));
 
@@ -195,35 +179,31 @@ const Dimension = {
      require('./index.scss');
      var DOM = require('react').DOM;
      var Popup = require('ring-ui/components/popup/popup');
-     var Direction = Popup.PopupProps.Direction;
+     var Directions = Popup.PopupProps.Directions;
 
      var container = DOM.span({style: {whiteSpace: 'no-wrap'}}, 'This is popup');
 
      var popup = Popup.renderPopup(Popup.factory({
        anchorElement: document.getElementById('leftSide'),
-       corner: Popup.PopupProps.Corner.BOTTOM_LEFT,
-       direction: Direction.LEFT,
+       directions: [Directions.LEFT_BOTTOM, Directions.RIGHT_BOTTOM],
        autoRemove: false
      }, container));
 
      var popup2 = Popup.renderPopup(Popup.factory({
        anchorElement: document.getElementById('rightSide'),
-       corner: Popup.PopupProps.Corner.BOTTOM_RIGHT,
-       direction: Direction.RIGHT,
+       directions: [Directions.RIGHT_BOTTOM, Directions.LEFT_BOTTOM],
        autoRemove: false
      }, container));
 
      var popup3 = Popup.renderPopup(Popup.factory({
        anchorElement: document.getElementById('downSide'),
-       corner: Popup.PopupProps.Corner.BOTTOM_LEFT,
-       direction: Direction.DOWN,
+       directions: [Directions.BOTTOM_RIGHT, Directions.TOP_LEFT],
        autoRemove: false
      }, container));
 
      var popup4 = Popup.renderPopup(Popup.factory({
        anchorElement: document.getElementById('topSide'),
-       corner: Popup.PopupProps.Corner.TOP_LEFT,
-       direction: Direction.UP,
+       directions: [Directions.TOP_LEFT, Directions.BOTTOM_RIGHT],
        autoRemove: false
      }, container));
    </file>
@@ -237,6 +217,7 @@ export default class Popup extends RingComponentWithShortcuts {
       PropTypes.string,
       PropTypes.number
     ]),
+    directions: PropTypes.array,
     left: PropTypes.number,
     top: PropTypes.number
   };
@@ -248,15 +229,13 @@ export default class Popup extends RingComponentWithShortcuts {
     cutEdge: true,
     left: 0,
     top: 0,
-    corner: Corner.BOTTOM_LEFT,
-    direction: Direction.DOWN | Direction.RIGHT,
+    directions: DEFAULT_DIRECTIONS,
     autoPositioning: true,
     sidePadding: 8
   };
 
   static PopupProps = {
-    Corner: Corner,
-    Direction: Direction,
+    Directions: Directions,
     Dimension: Dimension
   };
 
@@ -530,37 +509,54 @@ export default class Popup extends RingComponentWithShortcuts {
     }
   }
 
-  _getPositionStyles(corner, left, top, anchor, anchorLeft, anchorTop) {
-    /* eslint-enable no-bitwise */
+  _getPositionStyles(direction, anchor, anchorLeft, anchorTop) {
+    const popupWidth = this.node.clientWidth;
+    const popupHeight = this.node.clientHeight;
 
-    switch (corner) {
-      case Corner.TOP_LEFT:
-        return {
-          left: anchorLeft + left,
-          top: anchorTop + top
-        };
+    const anchorBottom = anchorTop + anchor.height;
+    const anchorRight = anchorLeft + anchor.width;
 
-      case Corner.TOP_RIGHT:
-        return {
-          left: anchorLeft + anchor.width + left,
-          top: anchorTop + top
-        };
+    const directionsMatrix = {
+      [Directions.BOTTOM_RIGHT]: {
+        left: anchorLeft,
+        top: anchorBottom
+      },
+      [Directions.BOTTOM_LEFT]: {
+        left: anchorRight - popupWidth,
+        top: anchorBottom
+      },
+      [Directions.TOP_LEFT]: {
+        left: anchorRight - popupWidth,
+        top: anchorTop - popupHeight
+      },
+      [Directions.TOP_RIGHT]: {
+        left: anchorLeft,
+        top: anchorTop - popupHeight
+      },
+      [Directions.LEFT_BOTTOM]: {
+        left: anchorLeft - popupWidth,
+        top: anchorTop
+      },
+      [Directions.LEFT_TOP]: {
+        left: anchorLeft - popupWidth,
+        top: anchorBottom
+      },
+      [Directions.RIGHT_BOTTOM]: {
+        left: anchorRight,
+        top: anchorTop
+      },
+      [Directions.RIGHT_TOP]: {
+        left: anchorRight,
+        top: anchorBottom - popupHeight
+      }
+    };
 
-      case Corner.BOTTOM_LEFT:
-        return {
-          left: anchorLeft + left,
-          top: anchorTop + anchor.height + top
-        };
-
-      case Corner.BOTTOM_RIGHT:
-        return {
-          left: anchorLeft + anchor.width + left,
-          top: anchorTop + anchor.height + top
-        };
-
-      default:
-        throw new Error('Unknown corner type: ' + corner);
+    if (directionsMatrix[direction]) {
+      return directionsMatrix[direction];
     }
+
+    throw new Error(`Unknown popup direction: ${direction}. Use one of this:
+    [${Object.keys(Directions).join(', ')}]`);
   }
 
   _getBodyScroll() {
@@ -577,9 +573,6 @@ export default class Popup extends RingComponentWithShortcuts {
   _getStyles() {
     let styles = {};
     const props = this.props;
-
-    let top = props.top;
-    let left = props.left;
 
     let anchorElement = document.body;
     if (isMounted(props.anchorElement)) {
@@ -598,40 +591,22 @@ export default class Popup extends RingComponentWithShortcuts {
       anchorTop += scroll.top;
     }
 
-    /* eslint-disable no-bitwise */
     if (this.node) {
-      if (props.direction & Direction.UP) {
-        top -= this.node.clientHeight;
-      }
+      for (const direction of props.directions) {
+        styles = this._getPositionStyles(direction, anchor, anchorLeft, anchorTop);
 
-      if (props.direction & Direction.LEFT) {
-        left -= this.node.clientWidth;
-      }
-
-      styles = this._getPositionStyles(props.corner, left, top, anchor, anchorLeft, anchorTop);
-
-      if (this._doesPopupOverflowHorizontally(styles)) {
-        if (props.direction & Direction.RIGHT) {
-          left -= this.node.clientWidth;
-        } else if (props.direction & Direction.LEFT) {
-          left += this.node.clientWidth;
+        if (!this._doesPopupOverflowVertically(styles) && !this._doesPopupOverflowHorizontally(styles)) {
+          break;
         }
-
-        const newCorner = OPPOSITE_HORIZONTAL_CORNER[props.corner];
-        styles = this._getPositionStyles(newCorner, left, top, anchor, anchorLeft, anchorTop);
       }
+    }
 
-      if (this._doesPopupOverflowVertically(styles)) {
-        if (props.direction & Direction.DOWN) {
-          top -= this.node.clientHeight;
-        } else if (props.direction & Direction.UP) {
-          top += this.node.clientHeight;
-        }
+    if (props.top) {
+      styles.top += props.top;
+    }
 
-        const newCorner = OPPOSITE_VERTICAL_CORNER[props.corner];
-
-        styles = this._getPositionStyles(newCorner, left, top, anchor, anchorLeft, anchorTop);
-      }
+    if (props.left) {
+      styles.left += props.left;
     }
 
     if (typeof props.maxHeight === 'number') {

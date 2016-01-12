@@ -5,7 +5,29 @@ order: 2
 ---
 
 See the “breaking change” commits [in Upsource](https://upsource.jetbrains.com/ring-ui/view?query=path:%20%7B%2A%2Fbreaking-changes.md%7D%20and%20not%20%22Wording%22).
-  
+
+### 11-01-2015: Significant Popup API change: "Corner" and "Direction" props replaced with "Directions" array.
+
+To simplify popup usage bitwise API replaced with [BEM-components-like](https://en.bem.info/libs/bem-components/v2.4.0/desktop/popup/#directions-field).
+"Corner" and "Direction" properties dropped, "Directions" array should be used instead. Example:
+Before:
+```
+props: {
+  ...
+  Corner: Popup.PopupProps.Corner.BOTTOM_LEFT,
+  Direction: Popup.PopupProps.Direction.DOWN | Popup.PopupProps.Direction.RIGHT
+  ...
+}
+```
+After:
+```
+props: {
+  ...
+  Directions: Popup.PopupProps.Directions.BOTTOM_RIGHT
+  ...
+}
+```
+
 ### 22-12-2015: Removed component "form-ng__update-text"
 
 Use component rg-save-field instead.

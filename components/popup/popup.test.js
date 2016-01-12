@@ -144,7 +144,7 @@ describe('Popup', function () {
   });
 
   describe('positioning', function () {
-    it('top-left corner', function () {
+    it('top-left direction', function () {
       const element = document.createElement('div');
       element.setAttribute('style', 'position: absolute; top: 10px; left: 15px; width: 50px; height: 50px;');
       document.body.append(element);
@@ -153,7 +153,7 @@ describe('Popup', function () {
       document.body.append(container);
 
       const popup = render(createElement(Popup, {
-        corner: Popup.PopupProps.Corner.TOP_LEFT,
+        directions: [Popup.PopupProps.Directions.TOP_LEFT],
         anchorElement: element
       }), container);
 
@@ -162,11 +162,11 @@ describe('Popup', function () {
       const popupElement = popup.node;
       const elementOffset = getRect(element);
 
-      parseInt(getStyles(popupElement).left, 10).should.equal(elementOffset.left);
+      parseInt(getStyles(popupElement).left, 10).should.equal(elementOffset.left + elementOffset.width - popup.node.clientWidth);
       parseInt(getStyles(popupElement).top, 10).should.equal(elementOffset.top - popup.node.clientHeight);
     });
 
-    it('bottom-left corner', function () {
+    it('bottom-right corner', function () {
       const element = document.createElement('div');
       element.setAttribute('style', 'position: absolute; top: 10px; left: 15px; width: 50px; height: 50px;');
       document.body.append(element);
@@ -175,7 +175,7 @@ describe('Popup', function () {
       document.body.append(container);
 
       const popup = render(createElement(Popup, {
-        corner: Popup.PopupProps.Corner.BOTTOM_LEFT,
+        directions: [Popup.PopupProps.Directions.BOTTOM_RIGHT],
         anchorElement: element
       }), container);
 
@@ -186,6 +186,31 @@ describe('Popup', function () {
 
       parseInt(getStyles(popupElement).left, 10).should.equal(elementOffset.left);
       parseInt(getStyles(popupElement).top, 10).should.equal(elementOffset.top + elementOffset.height);
+    });
+
+    it('should add specified offset', function () {
+      const OFFSET = 10;
+      const element = document.createElement('div');
+      element.setAttribute('style', 'position: absolute; top: 10px; left: 15px; width: 50px; height: 50px;');
+      document.body.append(element);
+
+      const container = document.createElement('div');
+      document.body.append(container);
+
+      const popup = render(createElement(Popup, {
+        directions: [Popup.PopupProps.Directions.BOTTOM_RIGHT],
+        anchorElement: element,
+        left: OFFSET,
+        top: OFFSET
+      }), container);
+
+      popup.show();
+
+      const popupElement = popup.node;
+      const elementOffset = getRect(element);
+
+      parseInt(getStyles(popupElement).left, 10).should.equal(elementOffset.left + OFFSET);
+      parseInt(getStyles(popupElement).top, 10).should.equal(elementOffset.top + elementOffset.height + OFFSET);
     });
 
     it('Should support minWidth = target', function () {
