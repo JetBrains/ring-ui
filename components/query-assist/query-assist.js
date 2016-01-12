@@ -611,7 +611,7 @@ export default class QueryAssist extends RingComponentWithShortcuts {
           anchorElement={this.node}
           autoRemove={false} // required to prevent popup unmount on Esc
           className={this.props.popupClassName}
-          corner={PopupMenu.PopupProps.Corner.BOTTOM_LEFT}
+          directions={[PopupMenu.PopupProps.Directions.BOTTOM_RIGHT, PopupMenu.PopupProps.Directions.TOP_RIGHT]}
           data={renderedSuggestions}
           hint={this.props.hint}
           hintOnSelection={this.props.hintOnSelection}
