@@ -623,8 +623,8 @@ export default class List extends RingComponentWithShortcuts {
 
   didMount() {
     this.scrollEndHandler = debounce(() => {
-      var maxScrollingPositon = Dimension.ITEM_HEIGHT * this.props.data.length - this.props.maxHeight;
-      var currentScrollingPosition = this.node.children[0].scrollTop;
+      const maxScrollingPositon = Dimension.ITEM_HEIGHT * this.props.data.length - this.props.maxHeight;
+      const currentScrollingPosition = this.node.children[0].scrollTop;
       if (currentScrollingPosition >= maxScrollingPositon) {
         this.props.onLoadMore();
       }
