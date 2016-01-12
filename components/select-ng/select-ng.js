@@ -311,8 +311,10 @@ import MessageBundle from '../message-bundle-ng/message-bundle-ng';
 
         <div ng-app="test" ng-controller="testCtrl as ctrl">
            <rg-select ng-model="ctrl.selectedItem"
+                      filter="true"
+                      external-filter="true"
                       with-inf-scroll="true"
-                      options="item as item for item in ctrl.getOptions()"></rg-select>
+                      options="item as item for item in ctrl.getOptions(skip, query)"></rg-select>
         </div>
       </file>
       <file name="index.js" webpack="true">
@@ -323,13 +325,16 @@ import MessageBundle from '../message-bundle-ng/message-bundle-ng';
         angular.module('test', ['Ring.select', 'Ring.form']).controller('testCtrl', function($q, $timeout) {
           var ctrl = this;
 
-          var counter = 0;
           // Result array is increasing after each method call
-          ctrl.getOptions = function() {
-            ++counter;
+          ctrl.getOptions = function(skip, query) {
+            console.log('query = ', query, 'skip = ', skip);
             var arr = [];
-            for (var i = 0; i < counter * 20; ++i) {
-              arr.push(i + '');
+            for (var i = 0; i < skip + 20; ++i) {
+              var labelText = i + '';
+              if (query) {
+                labelText = query + ' ' + labelText;
+              }
+              arr.push(labelText);
             }
             var defer = $q.defer();
             // Timeout is needed to demonstrate loader in rg-select
@@ -445,6 +450,10 @@ module.directive('rgSelect', function () {
         return ctrl.selectType || $attrs.type;
       }
 
+      function getCurrentSkipParameter(query, prevQuery) {
+        return (query === prevQuery && ctrl.loadedOptions) ? ctrl.loadedOptions.length : 0;
+      }
+
       ctrl.syncSelectToNgModel = selectedValue => {
         function valueOf(option) {
           if (option && option.originalModel) {
@@ -499,13 +508,14 @@ module.directive('rgSelect', function () {
       };
 
       let lastQuery = null;
-      ctrl.getOptions = query => $q.when(ctrl.optionsParser.getOptions(query));
+      ctrl.getOptions = (query, skip) => $q.when(ctrl.optionsParser.getOptions(query, skip));
 
       ctrl.loadOptionsToSelect = query => {
+        const skip = getCurrentSkipParameter(query, lastQuery);
         lastQuery = query;
         ctrl.selectInstance.rerender({loading: getType() !== 'suggest'});
 
-        ctrl.getOptions(query).then(results => {
+        ctrl.getOptions(query, skip).then(results => {
           if (query !== lastQuery) {
             return; // skip results if query doesn't match
           }
@@ -683,7 +693,7 @@ module.directive('rgSelect', function () {
 
         if (!ctrl.lazy) {
           if (!ctrl.optionsParser.datasourceIsFunction) {
-            $scope.$watch(() => ctrl.optionsParser.getOptions(ctrl.query), optionsWatcher, true);
+            $scope.$watch(() => ctrl.optionsParser.getOptions(ctrl.query, 0), optionsWatcher, true);
           } else {
             ctrl.loadOptionsToSelect(ctrl.query);
           }
