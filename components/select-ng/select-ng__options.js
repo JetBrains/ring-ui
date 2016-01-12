@@ -119,8 +119,11 @@ class Options {
     return this.getProperty(option, this.descriptionGetter) || option[this.constructor.defaultDescriptionField];
   }
 
-  getOptions(query) {
-    return this.datasourceGetter(this.scope, {query: query});
+  getOptions(query, skip) {
+    return this.datasourceGetter(this.scope, {
+      query: query,
+      skip: skip
+    });
   }
 }
 
