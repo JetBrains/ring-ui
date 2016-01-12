@@ -406,6 +406,7 @@ export default class List extends RingComponentWithShortcuts {
     shortcuts: PropTypes.bool,
     onMouseOut: React.PropTypes.func,
     onSelect: PropTypes.func,
+    onLoadMore: PropTypes.func,
     visible: PropTypes.bool
   };
 
@@ -415,6 +416,7 @@ export default class List extends RingComponentWithShortcuts {
     activateSingleItem: false,  // if there is only one item, activate it
     onMouseOut: function () {},
     onSelect: function () {},
+    onLoadMore: function () {},
     shortcuts: false
   };
 
@@ -621,6 +623,11 @@ export default class List extends RingComponentWithShortcuts {
 
   didMount() {
     this.scrollEndHandler = debounce(() => {
+      var maxScrollingPositon = Dimension.ITEM_HEIGHT * this.props.data.length - this.props.maxHeight;
+      var currentScrollingPosition = this.node.children[0].scrollTop;
+      if (currentScrollingPosition >= maxScrollingPositon) {
+        this.props.onLoadMore();
+      }
       this.setState({scrolling: false});
     }, 150);
     this.autoscroll();

@@ -305,6 +305,43 @@ import MessageBundle from '../message-bundle-ng/message-bundle-ng';
       });
       </file>
     </example>
+    <example name="Select-ng-load-more-on-scroll">
+      <file name="index.html">
+        <h4>Load more elements on scroll</h4>
+
+        <div ng-app="test" ng-controller="testCtrl as ctrl">
+           <rg-select ng-model="ctrl.selectedItem"
+                      with-inf-scroll="true"
+                      options="item as item for item in ctrl.getOptions()"></rg-select>
+        </div>
+      </file>
+      <file name="index.js" webpack="true">
+        require('angular');
+        require('ring-ui/components/select-ng/select-ng');
+        require('ring-ui/components/form-ng/form-ng');
+
+        angular.module('test', ['Ring.select', 'Ring.form']).controller('testCtrl', function($q, $timeout) {
+          var ctrl = this;
+
+          var counter = 0;
+          // Result array is increasing after each method call
+          ctrl.getOptions = function() {
+            ++counter;
+            var arr = [];
+            for (var i = 0; i < counter * 20; ++i) {
+              arr.push(i + '');
+            }
+            var defer = $q.defer();
+            // Timeout is needed to demonstrate loader in rg-select
+            $timeout(function() {
+              defer.resolve(arr);
+            }, 1000);
+            return defer.promise;
+          };
+          ctrl.selectedItem = null;
+        });
+      </file>
+    </example>
  */
 /* global angular: false */
 const module = angular.module('Ring.select', [SelectNgOptions, MessageBundle]);
@@ -348,6 +385,7 @@ module.directive('rgSelect', function () {
 
       selectType: '@',
       lazy: '=?',
+      withInfScroll: '=?',
 
       options: '@',
       label: '@',
@@ -627,6 +665,14 @@ module.directive('rgSelect', function () {
             });
           }
         }, ctrl.config || {});
+
+        if (ctrl.withInfScroll && !ctrl.config.onLoadMore) {
+          ctrl.config.onLoadMore = () => {
+            $scope.$evalAsync(() => {
+              ctrl.loadOptionsToSelect(ctrl.query);
+            });
+          };
+        }
 
         /**
          * Render select in appended div to save any existing content of the directive

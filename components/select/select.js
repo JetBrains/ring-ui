@@ -312,6 +312,7 @@ export default class Select extends RingComponentWithShortcuts {
     shortcuts: false,
 
     onBeforeOpen: noop,
+    onLoadMore: noop,
     onOpen: noop,
     onClose: noop,
     onFilter: noop,       // search string as first argument
@@ -475,6 +476,7 @@ export default class Select extends RingComponentWithShortcuts {
           onClose={::this._onClose}
           onSelect={::this._listSelectHandler}
           onFilter={::this._filterChangeHandler}
+          onLoadMore={::this.props.onLoadMore}
         />, anchorElement);
     }
   }
