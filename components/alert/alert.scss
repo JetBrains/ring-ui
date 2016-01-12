@@ -68,6 +68,11 @@
   white-space: normal;
 }
 
+.ring-alert__loader {
+  top: 3px;
+  margin-right: $ring-unit;
+}
+
 .ring-icon.ring-alert__close {
   position: absolute;
   right: 0;
