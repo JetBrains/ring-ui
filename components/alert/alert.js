@@ -9,6 +9,7 @@ import {findDOMNode, unmountComponentAtNode} from 'react-dom';
 import classNames from 'classnames';
 import RingComponent from '../ring-component/ring-component';
 import Icon from '../icon/icon';
+import Loader from '../loader-inline/loader-inline';
 
 import './alert.scss';
 
@@ -20,7 +21,8 @@ const Type = {
   ERROR: 'error',
   MESSAGE: 'message',
   SUCCESS: 'success',
-  WARNING: 'warning'
+  WARNING: 'warning',
+  LOADING: 'loading'
 };
 
 /**
@@ -206,6 +208,10 @@ export default class Alert extends RingComponent {
           size={Icon.Size.Size16}
         />
         );
+    } else if (this.props.type === Type.LOADING) {
+      return (
+        <Loader className="ring-alert__loader"/>
+      );
     }
 
     return '';

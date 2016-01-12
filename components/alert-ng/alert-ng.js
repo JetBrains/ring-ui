@@ -54,6 +54,10 @@ function alert() {
     return _add(text, ReactAlert.Type.SUCCESS, ttl);
   }
 
+  function loading(text, ttl) {
+    return _add(text, ReactAlert.Type.LOADING, ttl);
+  }
+
   function setRemoveCallback(removeCallback) {
     if (!container) {
       init();
@@ -73,6 +77,7 @@ function alert() {
       warning: warning,
       message: message,
       success: success,
+      loading: loading,
       setRemoveCallback: setRemoveCallback,
       DOM: ReactAlert.DOM
     };
