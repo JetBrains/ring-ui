@@ -63,7 +63,7 @@ const Dimension = {
    var Popup = require('ring-ui/components/popup/popup');
    var Directions = Popup.PopupProps.Directions;
 
-   var container = DOM.span(null, 'Hello&nbsp;world!');
+   var container = DOM.span(null, 'Helloworld!');
 
    var popup = Popup.renderPopup(Popup.factory({
      anchorElement: document.getElementById('target1'),
