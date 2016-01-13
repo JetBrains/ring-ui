@@ -365,6 +365,7 @@ module.directive('rgSelect', function () {
      * @property {Object} scope.ngModel
      * @property {String} scope.selectType - select type. Can be "button" (default), "input" or "dropdown"
      * @property {String} scope.lazy - Load options lazy. Can be "true" (default) or "false"
+     * @property {Boolean} scope.withInfiniteScroll - If true rgSelect calls getOptions with skip parameter when user scrolled list to bottom in order to load next n elements
      * @property {String} scope.options - query for options.
      * @property {Boolean} scope.externalFilter - whether or not select use options function as filter.
      * "filter" property scope.should not be passed in that case.
@@ -390,7 +391,7 @@ module.directive('rgSelect', function () {
 
       selectType: '@',
       lazy: '=?',
-      withInfScroll: '=?',
+      withInfiniteScroll: '=?',
 
       options: '@',
       label: '@',
@@ -676,7 +677,7 @@ module.directive('rgSelect', function () {
           }
         }, ctrl.config || {});
 
-        if (ctrl.withInfScroll && !ctrl.config.onLoadMore) {
+        if (ctrl.withInfiniteScroll && !ctrl.config.onLoadMore) {
           ctrl.config.onLoadMore = () => {
             $scope.$evalAsync(() => {
               ctrl.loadOptionsToSelect(ctrl.query);
