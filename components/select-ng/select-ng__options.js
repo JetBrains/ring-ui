@@ -120,10 +120,7 @@ class Options {
   }
 
   getOptions(query, skip) {
-    return this.datasourceGetter(this.scope, {
-      query: query,
-      skip: skip
-    });
+    return this.datasourceGetter(this.scope, {query, skip});
   }
 }
 
