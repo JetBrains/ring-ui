@@ -37,7 +37,7 @@ const module = angular.module('Ring.save-field', [
 
             <div class="ring-form__control">
               <rg-save-field value="data.email"
-                             on-save="save">
+                             on-save="save()">
                 <input type="text"
                        class="ring-input"
                        ng-required="true"
@@ -55,7 +55,7 @@ const module = angular.module('Ring.save-field', [
 
             <div class="ring-form__control">
               <rg-save-field value="data.longText"
-                             on-save="save">
+                             on-save="save()">
                 <textarea type="text"
                           class="ring-input ring-input_long"
                           ng-required="true"
@@ -72,7 +72,7 @@ const module = angular.module('Ring.save-field', [
             <div class="ring-form__control">
               <rg-save-field value="data.longTextList"
                              multiline="list"
-                             on-save="save">
+                             on-save="save()">
                 <textarea type="text"
                           name="myMultilineArea"
                           class="ring-input"
@@ -89,7 +89,7 @@ const module = angular.module('Ring.save-field', [
 
             <div class="ring-form__control">
               <rg-save-field value="data.num"
-                             on-save="save">
+                             on-save="save()">
                 <input type="number"
                        max="10"
                        class="ring-input ring-input_xshort"
@@ -105,7 +105,7 @@ const module = angular.module('Ring.save-field', [
 
             <div class="ring-form__control">
               <rg-save-field value="data.someText"
-                             on-save="invalidSave">
+                             on-save="invalidSave(value)">
                   <input type="text"
                          class="ring-input"
                          ng-model="data.someText">
