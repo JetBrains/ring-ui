@@ -313,7 +313,7 @@ import MessageBundle from '../message-bundle-ng/message-bundle-ng';
            <rg-select ng-model="ctrl.selectedItem"
                       filter="true"
                       external-filter="true"
-                      with-inf-scroll="true"
+                      with-infinite-scroll="true"
                       options="item as item for item in ctrl.getOptions(skip, query)"></rg-select>
         </div>
       </file>
@@ -324,13 +324,14 @@ import MessageBundle from '../message-bundle-ng/message-bundle-ng';
 
         angular.module('test', ['Ring.select', 'Ring.form']).controller('testCtrl', function($q, $timeout) {
           var ctrl = this;
+          var PAGE_SIZE = 20;
 
           // Result array is increasing after each method call
           ctrl.getOptions = function(skip, query) {
             console.log('query = ', query, 'skip = ', skip);
             var arr = [];
-            for (var i = 0; i < skip + 20; ++i) {
-              var labelText = i + '';
+            for (var i = 0; i < PAGE_SIZE; ++i) {
+              var labelText = (skip + i) + '';
               if (query) {
                 labelText = query + ' ' + labelText;
               }
@@ -396,7 +397,7 @@ module.directive('rgSelect', function () {
       options: '@',
       label: '@',
       selectedLabel: '@',
-      externalFilter: '=',
+      externalFilter: '=?',
       filter: '=?',
       multiple: '=?',
       clear: '=?',
@@ -442,8 +443,13 @@ module.directive('rgSelect', function () {
       /**
        * @param {Array} options
        */
-      function memorizeOptions(options) {
-        ctrl.loadedOptions = options;
+      function memorizeOptions(options, skip) {
+        if (ctrl.loadedOptions && ctrl.loadedOptions.length === skip) {
+          ctrl.loadedOptions = ctrl.loadedOptions.concat(options);
+        } else {
+          ctrl.loadedOptions = options;
+        }
+        return ctrl.loadedOptions;
       }
 
       function getType() {
@@ -521,9 +527,7 @@ module.directive('rgSelect', function () {
             return; // skip results if query doesn't match
           }
 
-          memorizeOptions(results);
-
-          const items = (results.data || results).map(ctrl.convertNgModelToSelect);
+          const items = memorizeOptions(results.data || results, skip).map(ctrl.convertNgModelToSelect);
           ctrl.selectInstance.rerender({
             data: items,
             loading: false
@@ -600,7 +604,7 @@ module.directive('rgSelect', function () {
        * @param {value} value Previous value of options
        */
       function optionsWatcher(newValue, value) {
-        memorizeOptions(newValue);
+        memorizeOptions(newValue, 0);
 
         if (newValue === value) {
           return;
