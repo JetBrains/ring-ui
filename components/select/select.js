@@ -513,7 +513,7 @@ export default class Select extends RingComponentWithShortcuts {
       activeIndex: this.state.selectedIndex
     });
   /**
-   * Number of items in list is usually decreasing after filtering elements in select.
+   * Number of items in list usually decreases after filtering elements in select.
    * When I filter elements in select I want to see newly filtered result from the beginning. No matter where I was before.
    */
     if (shouldScrollToTop) {
