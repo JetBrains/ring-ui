@@ -133,7 +133,7 @@ export default class SelectPopup extends RingComponentWithShortcuts {
           activateSingleItem={true}
           onSelect={this.props.onSelect}
           onMouseOut={::this.listOnMouseOut}
-          onLoadMore={::this.props.onLoadMore}
+          onScrollToBottom={::this.props.onLoadMore}
           shortcuts={this.state.popupShortcuts}
         />
       );
