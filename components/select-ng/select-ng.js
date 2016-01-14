@@ -311,7 +311,6 @@ import MessageBundle from '../message-bundle-ng/message-bundle-ng';
 
         <div ng-app="test" ng-controller="testCtrl as ctrl">
            <rg-select ng-model="ctrl.selectedItem"
-                      filter="true"
                       external-filter="true"
                       with-infinite-scroll="true"
                       options="item as item for item in ctrl.getOptions(skip, query)"></rg-select>
