@@ -12,18 +12,18 @@ import {getStyles, isMounted, getRect} from '../dom/dom';
 import './popup.scss';
 
 const Directions = {
-  BOTTOM_RIGHT: 'bottom-right',
-  BOTTOM_LEFT: 'bottom-left',
-  BOTTOM_CENTER: 'bottom-center',
-  TOP_LEFT: 'top-left',
-  TOP_RIGHT: 'top-right',
-  TOP_CENTER: 'top-center',
-  RIGHT_TOP: 'right-top',
-  RIGHT_BOTTOM: 'right-bottom',
-  RIGHT_CENTER: 'right-center',
-  LEFT_TOP: 'left-top',
-  LEFT_BOTTOM: 'left-bottom',
-  LEFT_CENTER: 'left-center'
+  BOTTOM_RIGHT: 'BOTTOM_RIGHT',
+  BOTTOM_LEFT: 'BOTTOM_LEFT',
+  BOTTOM_CENTER: 'BOTTOM_CENTER',
+  TOP_LEFT: 'TOP_LEFT',
+  TOP_RIGHT: 'TOP_RIGHT',
+  TOP_CENTER: 'TOP_CENTER',
+  RIGHT_TOP: 'RIGHT_TOP',
+  RIGHT_BOTTOM: 'RIGHT_BOTTOM',
+  RIGHT_CENTER: 'RIGHT_CENTER',
+  LEFT_TOP: 'LEFT_TOP',
+  LEFT_BOTTOM: 'LEFT_BOTTOM',
+  LEFT_CENTER: 'LEFT_CENTER'
 };
 
 /**
