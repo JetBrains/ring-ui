@@ -58,6 +58,7 @@ import '../dialog/dialog.scss';
      'Ring.select'
      ]).controller('ExampleCtrl', function(dialog) {
         dialog.show({
+          cssClass: 'custom-css-class',
           title: 'Test',
           template: document.getElementById('dialog-template').innerHTML,
           buttons: [
@@ -144,6 +145,7 @@ class DialogController {
       this.buttons = config.buttons;
       this.data = config.data || {};
       this.wideDialog = config.wideDialog;
+      this.cssClass = config.cssClass || '';
 
       this.content = config.content;
       this.template = config.template;
