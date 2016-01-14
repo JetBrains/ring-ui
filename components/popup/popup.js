@@ -29,7 +29,7 @@ const Directions = {
 const DEFAULT_DIRECTIONS = [
   Directions.BOTTOM_RIGHT, Directions.BOTTOM_LEFT, Directions.TOP_LEFT, Directions.TOP_RIGHT,
   Directions.RIGHT_TOP, Directions.RIGHT_BOTTOM, Directions.LEFT_TOP, Directions.LEFT_BOTTOM,
-  //Finally use bottom right if can't find other suitable direction
+  // Finally fallback to bottom-right if it's not possbile to find any suitable direction
   Directions.BOTTOM_RIGHT
 ];
 
@@ -516,39 +516,20 @@ export default class Popup extends RingComponentWithShortcuts {
     const anchorBottom = anchorTop + anchor.height;
     const anchorRight = anchorLeft + anchor.width;
 
+    const popupLeft = anchorLeft - popupWidth;
+    const popupTop = anchorTop - popupHeight;
+    const popupRightToLeft = anchorRight - popupWidth;
+    const popupBottomToTop = anchorBottom - popupHeight;
+
     const directionsMatrix = {
-      [Directions.BOTTOM_RIGHT]: {
-        left: anchorLeft,
-        top: anchorBottom
-      },
-      [Directions.BOTTOM_LEFT]: {
-        left: anchorRight - popupWidth,
-        top: anchorBottom
-      },
-      [Directions.TOP_LEFT]: {
-        left: anchorRight - popupWidth,
-        top: anchorTop - popupHeight
-      },
-      [Directions.TOP_RIGHT]: {
-        left: anchorLeft,
-        top: anchorTop - popupHeight
-      },
-      [Directions.LEFT_BOTTOM]: {
-        left: anchorLeft - popupWidth,
-        top: anchorTop
-      },
-      [Directions.LEFT_TOP]: {
-        left: anchorLeft - popupWidth,
-        top: anchorBottom
-      },
-      [Directions.RIGHT_BOTTOM]: {
-        left: anchorRight,
-        top: anchorTop
-      },
-      [Directions.RIGHT_TOP]: {
-        left: anchorRight,
-        top: anchorBottom - popupHeight
-      }
+      [Directions.BOTTOM_RIGHT]: {left: anchorLeft, top: anchorBottom},
+      [Directions.BOTTOM_LEFT]: {left: popupRightToLeft, top: anchorBottom},
+      [Directions.TOP_LEFT]: {left: popupRightToLeft, top: popupTop},
+      [Directions.TOP_RIGHT]: {left: anchorLeft, top: popupTop},
+      [Directions.LEFT_BOTTOM]: {left: popupLeft, top: anchorTop},
+      [Directions.LEFT_TOP]: {left: popupLeft, top: popupBottomToTop},
+      [Directions.RIGHT_BOTTOM]: {left: anchorRight, top: anchorTop},
+      [Directions.RIGHT_TOP]: {left: anchorRight, top: popupBottomToTop}
     };
 
     if (directionsMatrix[direction]) {
