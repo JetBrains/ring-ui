@@ -26,7 +26,8 @@ export default class SelectPopup extends RingComponentWithShortcuts {
     minWidth: 'target',
     onSelect: function () {},
     onClose: function () {},
-    onFilter: function () {}
+    onFilter: function () {},
+    onLoadMore: function () {}
   };
 
   state = {
@@ -89,6 +90,10 @@ export default class SelectPopup extends RingComponentWithShortcuts {
     this.refs.list.clearSelected();
   }
 
+  listScrollToIndex(index) {
+    this.refs.list.scrollToIndex(index);
+  }
+
   isVisible() {
     return this.refs.popup.isVisible();
   }
@@ -128,6 +133,7 @@ export default class SelectPopup extends RingComponentWithShortcuts {
           activateSingleItem={true}
           onSelect={this.props.onSelect}
           onMouseOut={::this.listOnMouseOut}
+          onScrollToBottom={::this.props.onLoadMore}
           shortcuts={this.state.popupShortcuts}
         />
       );
