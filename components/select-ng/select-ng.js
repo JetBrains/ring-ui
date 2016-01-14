@@ -305,6 +305,48 @@ import MessageBundle from '../message-bundle-ng/message-bundle-ng';
       });
       </file>
     </example>
+    <example name="Select-ng-load-more-on-scroll">
+      <file name="index.html">
+        <h4>Load more elements on scroll</h4>
+
+        <div ng-app="test" ng-controller="testCtrl as ctrl">
+           <rg-select ng-model="ctrl.selectedItem"
+                      external-filter="true"
+                      with-infinite-scroll="true"
+                      options="item as item for item in ctrl.getOptions(skip, query)"></rg-select>
+        </div>
+      </file>
+      <file name="index.js" webpack="true">
+        require('angular');
+        require('ring-ui/components/select-ng/select-ng');
+        require('ring-ui/components/form-ng/form-ng');
+
+        angular.module('test', ['Ring.select', 'Ring.form']).controller('testCtrl', function($q, $timeout) {
+          var ctrl = this;
+          var PAGE_SIZE = 20;
+
+          // Result array is increasing after each method call
+          ctrl.getOptions = function(skip, query) {
+            console.log('query = ', query, 'skip = ', skip);
+            var arr = [];
+            for (var i = 0; i < PAGE_SIZE; ++i) {
+              var labelText = (skip + i) + '';
+              if (query) {
+                labelText = query + ' ' + labelText;
+              }
+              arr.push(labelText);
+            }
+            var defer = $q.defer();
+            // Timeout is needed to demonstrate loader in rg-select
+            $timeout(function() {
+              defer.resolve(arr);
+            }, 1000);
+            return defer.promise;
+          };
+          ctrl.selectedItem = null;
+        });
+      </file>
+    </example>
  */
 /* global angular: false */
 const module = angular.module('Ring.select', [SelectNgOptions, MessageBundle]);
@@ -323,6 +365,7 @@ module.directive('rgSelect', function () {
      * @property {Object} scope.ngModel
      * @property {String} scope.selectType - select type. Can be "button" (default), "input" or "dropdown"
      * @property {String} scope.lazy - Load options lazy. Can be "true" (default) or "false"
+     * @property {Boolean} scope.withInfiniteScroll - If true rgSelect calls getOptions with skip parameter when user scrolled list to bottom in order to load next n elements
      * @property {String} scope.options - query for options.
      * @property {Boolean} scope.externalFilter - whether or not select use options function as filter.
      * "filter" property scope.should not be passed in that case.
@@ -348,11 +391,12 @@ module.directive('rgSelect', function () {
 
       selectType: '@',
       lazy: '=?',
+      withInfiniteScroll: '=?',
 
       options: '@',
       label: '@',
       selectedLabel: '@',
-      externalFilter: '=',
+      externalFilter: '=?',
       filter: '=?',
       multiple: '=?',
       clear: '=?',
@@ -398,13 +442,22 @@ module.directive('rgSelect', function () {
       /**
        * @param {Array} options
        */
-      function memorizeOptions(options) {
-        ctrl.loadedOptions = options;
+      function memorizeOptions(options, skip) {
+        if (ctrl.loadedOptions && ctrl.loadedOptions.length === skip) {
+          ctrl.loadedOptions = ctrl.loadedOptions.concat(options);
+        } else {
+          ctrl.loadedOptions = options;
+        }
+        return ctrl.loadedOptions;
       }
 
       function getType() {
         //$attrs.type as fallback, not recommended to use because of native "type" attribute
         return ctrl.selectType || $attrs.type;
+      }
+
+      function getCurrentSkipParameter(query, prevQuery) {
+        return (query === prevQuery && ctrl.loadedOptions) ? ctrl.loadedOptions.length : 0;
       }
 
       ctrl.syncSelectToNgModel = selectedValue => {
@@ -461,20 +514,19 @@ module.directive('rgSelect', function () {
       };
 
       let lastQuery = null;
-      ctrl.getOptions = query => $q.when(ctrl.optionsParser.getOptions(query));
+      ctrl.getOptions = (query, skip) => $q.when(ctrl.optionsParser.getOptions(query, skip));
 
       ctrl.loadOptionsToSelect = query => {
+        const skip = getCurrentSkipParameter(query, lastQuery);
         lastQuery = query;
         ctrl.selectInstance.rerender({loading: getType() !== 'suggest'});
 
-        ctrl.getOptions(query).then(results => {
+        ctrl.getOptions(query, skip).then(results => {
           if (query !== lastQuery) {
             return; // skip results if query doesn't match
           }
 
-          memorizeOptions(results);
-
-          const items = (results.data || results).map(ctrl.convertNgModelToSelect);
+          const items = memorizeOptions(results.data || results, skip).map(ctrl.convertNgModelToSelect);
           ctrl.selectInstance.rerender({
             data: items,
             loading: false
@@ -551,7 +603,7 @@ module.directive('rgSelect', function () {
        * @param {value} value Previous value of options
        */
       function optionsWatcher(newValue, value) {
-        memorizeOptions(newValue);
+        memorizeOptions(newValue, 0);
 
         if (newValue === value) {
           return;
@@ -628,6 +680,14 @@ module.directive('rgSelect', function () {
           }
         }, ctrl.config || {});
 
+        if (ctrl.withInfiniteScroll && !ctrl.config.onLoadMore) {
+          ctrl.config.onLoadMore = () => {
+            $scope.$evalAsync(() => {
+              ctrl.loadOptionsToSelect(ctrl.query);
+            });
+          };
+        }
+
         /**
          * Render select in appended div to save any existing content of the directive
          */
@@ -637,7 +697,7 @@ module.directive('rgSelect', function () {
 
         if (!ctrl.lazy) {
           if (!ctrl.optionsParser.datasourceIsFunction) {
-            $scope.$watch(() => ctrl.optionsParser.getOptions(ctrl.query), optionsWatcher, true);
+            $scope.$watch(() => ctrl.optionsParser.getOptions(ctrl.query, 0), optionsWatcher, true);
           } else {
             ctrl.loadOptionsToSelect(ctrl.query);
           }
