@@ -6,10 +6,10 @@ order: 2
 
 See the “breaking change” commits [in Upsource](https://upsource.jetbrains.com/ring-ui/view?query=path:%20%7B%2A%2Fbreaking-changes.md%7D%20and%20not%20%22Wording%22).
 
-### 11-01-2015: Significant Popup API change: "Corner" and "Direction" props replaced with "Directions" array.
+### 11-01-2015: Popup API change: "Corner" and "Direction" props replaced with "Directions" array.
 
-To simplify popup usage bitwise API replaced with [BEM-components-like](https://en.bem.info/libs/bem-components/v2.4.0/desktop/popup/#directions-field).
-"Corner" and "Direction" properties dropped, "Directions" array should be used instead. Example:
+The arcane bitwise API was replaced with a more straightforward [direction specification](https://en.bem.info/libs/bem-components/v2.4.0/desktop/popup/#directions-field).
+"Corner" and "Direction" properties were dropped, "Directions" array was introduced. Example:
 Before:
 ```
 props: {
@@ -28,13 +28,13 @@ props: {
 }
 ```
 
-### 22-12-2015: Removed component "form-ng__update-text"
+### 22-12-2015: "form-ng__update-text" component was removed
 
-Use component rg-save-field instead.
+Please use the `rg-save-field` component instead.
 
-### 18-12-2015: Removed component "textarea"
+### 18-12-2015: "textarea" component was removed
 
-Use css-class "ring-input" instead of "ring-textarea".
+Please use `ring-input` instead.
 
 ### 11-12-2015: SVGO is not used in Ring UI anymore, its config has been removed  
 
