@@ -312,6 +312,7 @@ export default class Select extends RingComponentWithShortcuts {
     shortcuts: false,
 
     onBeforeOpen: noop,
+    onLoadMore: noop,
     onOpen: noop,
     onClose: noop,
     onFilter: noop,       // search string as first argument
@@ -475,6 +476,7 @@ export default class Select extends RingComponentWithShortcuts {
           onClose={::this._onClose}
           onSelect={::this._listSelectHandler}
           onFilter={::this._filterChangeHandler}
+          onLoadMore={::this.props.onLoadMore}
         />, anchorElement);
     }
   }
@@ -502,6 +504,7 @@ export default class Select extends RingComponentWithShortcuts {
       return;
     }
 
+    const shouldScrollToTop = this._popup.props.data && this._popup.props.data.length && this._popup.props.data.length > data.length;
     this._popup.rerender({
       data: data,
       toolbar: this.getToolbar(),
@@ -509,6 +512,13 @@ export default class Select extends RingComponentWithShortcuts {
       loading: this.props.loading,
       activeIndex: this.state.selectedIndex
     });
+  /**
+   * Number of items in list usually decreases after filtering elements in select.
+   * When I filter elements in select I want to see newly filtered result from the beginning. No matter where I was before.
+   */
+    if (shouldScrollToTop) {
+      this._popup.listScrollToIndex(0);
+    }
 
     this._popup.forceUpdate(() => {
       !this._popup.isVisible() && this.props.onOpen();
