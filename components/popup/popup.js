@@ -14,12 +14,16 @@ import './popup.scss';
 const Directions = {
   BOTTOM_RIGHT: 'bottom-right',
   BOTTOM_LEFT: 'bottom-left',
+  BOTTOM_CENTER: 'bottom-center',
   TOP_LEFT: 'top-left',
   TOP_RIGHT: 'top-right',
+  TOP_CENTER: 'top-center',
   RIGHT_TOP: 'right-top',
   RIGHT_BOTTOM: 'right-bottom',
+  RIGHT_CENTER: 'right-center',
   LEFT_TOP: 'left-top',
-  LEFT_BOTTOM: 'left-bottom'
+  LEFT_BOTTOM: 'left-bottom',
+  LEFT_CENTER: 'left-center'
 };
 
 /**
@@ -137,7 +141,8 @@ const Dimension = {
  <example name="Popup autoposition">
    <file name="index.html">
    <div>
-     <div class="popup-example__message">Popup should change open direction when reaching window borders</div>
+     <div id="horizontalCenter" class="popup-example__message">Popup should change open direction when reaching window borders</div>
+     <div id="verticalCenter" class="popup-example__message popup-example__message_vert">Popup should change open direction when reaching window borders</div>
      <div id="leftSide" class="popup-example__anchor popup-example__anchor_left">Left side open popup</div>
      <div id="rightSide" class="popup-example__anchor popup-example__anchor_right">Right side open popup</div>
      <div id="downSide" class="popup-example__anchor popup-example__anchor_bottom">Downside open popup</div>
@@ -150,6 +155,11 @@ const Dimension = {
 
         top: 50%;
         left: 300px;
+
+        &_vert {
+          top: 20%;
+          width: 150px;
+        }
       }
       .popup-example__anchor {
         position: absolute;
@@ -204,6 +214,18 @@ const Dimension = {
      var popup4 = Popup.renderPopup(Popup.factory({
        anchorElement: document.getElementById('topSide'),
        directions: [Directions.TOP_LEFT, Directions.BOTTOM_RIGHT],
+       autoRemove: false
+     }, container));
+
+     var popup5 = Popup.renderPopup(Popup.factory({
+       anchorElement: document.getElementById('horizontalCenter'),
+       directions: [Directions.TOP_CENTER],
+       autoRemove: false
+     }, container));
+
+     var popup6 = Popup.renderPopup(Popup.factory({
+       anchorElement: document.getElementById('verticalCenter'),
+       directions: [Directions.RIGHT_CENTER],
        autoRemove: false
      }, container));
    </file>
@@ -519,17 +541,23 @@ export default class Popup extends RingComponentWithShortcuts {
     const popupLeft = anchorLeft - popupWidth;
     const popupTop = anchorTop - popupHeight;
     const popupRightToLeft = anchorRight - popupWidth;
+    const popupHorizontalCenter = anchorLeft + anchor.width / 2 - popupWidth / 2;
+    const popupVerticalCenter = anchorTop + anchor.height / 2 - popupHeight / 2;
     const popupBottomToTop = anchorBottom - popupHeight;
 
     const directionsMatrix = {
       [Directions.BOTTOM_RIGHT]: {left: anchorLeft, top: anchorBottom},
       [Directions.BOTTOM_LEFT]: {left: popupRightToLeft, top: anchorBottom},
+      [Directions.BOTTOM_CENTER]: {left: popupHorizontalCenter, top: anchorBottom},
       [Directions.TOP_LEFT]: {left: popupRightToLeft, top: popupTop},
       [Directions.TOP_RIGHT]: {left: anchorLeft, top: popupTop},
+      [Directions.TOP_CENTER]: {left: popupHorizontalCenter, top: popupTop},
       [Directions.LEFT_BOTTOM]: {left: popupLeft, top: anchorTop},
       [Directions.LEFT_TOP]: {left: popupLeft, top: popupBottomToTop},
+      [Directions.LEFT_CENTER]: {left: popupLeft, top: popupVerticalCenter},
       [Directions.RIGHT_BOTTOM]: {left: anchorRight, top: anchorTop},
-      [Directions.RIGHT_TOP]: {left: anchorRight, top: popupBottomToTop}
+      [Directions.RIGHT_TOP]: {left: anchorRight, top: popupBottomToTop},
+      [Directions.RIGHT_CENTER]: {left: anchorRight, top: popupVerticalCenter}
     };
 
     if (directionsMatrix[direction]) {
