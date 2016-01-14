@@ -24,7 +24,7 @@ import './tooltip.scss';
 
        const buttonWithTooltip = (
          <Tooltip title="explanation for button that reqires explanation">
-           <Button>explanation for button that reqires explanation</Button>
+           <Button>button that reqiures explanation</Button>
          </Tooltip>
        );
 
@@ -38,6 +38,8 @@ export default class Tooltip extends RingComponent {
     popupProps: PropTypes.object,
     title: PropTypes.oneOfType([PropTypes.string, PropTypes.element])
   };
+
+  static PopupProps = Popup.PopupProps;
 
   static defaultProps = {
     title: '',
