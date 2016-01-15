@@ -3,7 +3,7 @@ import {unmountComponentAtNode} from 'react-dom';
 import Select from '../select/select';
 import SelectNgOptions from './select-ng__options';
 import MessageBundle from '../message-bundle-ng/message-bundle-ng';
-import SelectLazy from './select-lazy';
+import SelectLazy from './select-ng__lazy';
 
 /**
  * @name Select Ng
