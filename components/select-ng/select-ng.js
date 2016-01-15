@@ -1,9 +1,9 @@
-import {render, unmountComponentAtNode} from 'react-dom';
-import {createElement} from 'react';
+import {unmountComponentAtNode} from 'react-dom';
 
 import Select from '../select/select';
 import SelectNgOptions from './select-ng__options';
 import MessageBundle from '../message-bundle-ng/message-bundle-ng';
+import SelectLazy from './select-ng__lazy';
 
 /**
  * @name Select Ng
@@ -34,6 +34,57 @@ import MessageBundle from '../message-bundle-ng/message-bundle-ng';
  *
  * @example
  *
+<example name="Select-ng-performance">
+  <file name="index.html">
+    <div ng-app="test" ng-controller="testCtrl as ctrl">
+      <div style="padding: 8px">
+        <button type="button" ng-click="ctrl.renderSelects()">Render</button>
+        <button type="button" ng-click="ctrl.selects = []">Remove</button>
+
+        <span style="color: gray;">
+          Last render time: <span ng-bind="ctrl.renderTime"></span>
+          | selects counts {{ctrl.selects.length || 0}}
+        </span>
+      </div>
+
+      <rg-select ng-repeat="selectId in ctrl.selects"
+        ng-model="ctrl.selectedItem"
+        options="item.text for item in ctrl.options track by item.id"
+        label="Select item" ng-disabled="ctrl.disabled">
+      </rg-select>
+    </div>
+  </file>
+  <file name="index.js" webpack="true">
+    require('angular');
+    require('ring-ui/components/select-ng/select-ng');
+
+    angular.module('test', ['Ring.select']).controller('testCtrl', function($timeout) {
+      var ctrl = this;
+      ctrl.renderTime = null;
+
+      ctrl.options = [
+        {id: 1, text: '11111'},
+        {id: 2, text: '22222'},
+        {id: 3, text: '33333'}
+      ];
+
+      ctrl.renderSelects = function() {
+        var date = Date.now();
+        var selectsCout = 1000;
+
+        ctrl.selects = (new Array(selectsCout)).join('x').split('x').map(function(id){
+          return {
+            id: id
+          };
+        });
+
+        $timeout(function(){
+          ctrl.renderTime = (Date.now() - date) / 1000 + ' s';
+        }, 16);
+      };
+    });
+  </file>
+</example>
 <example name="Select-ng">
   <file name="index.html">
     <div ng-app="test" ng-controller="testCtrl as ctrl">
@@ -688,12 +739,12 @@ module.directive('rgSelect', function () {
           };
         }
 
+        ctrl.selectInstance = new SelectLazy(container, ctrl.config, ctrl, getType());
+
         /**
          * Render select in appended div to save any existing content of the directive
          */
         element.appendChild(container);
-
-        ctrl.selectInstance = render(createElement(Select, ctrl.config), container);
 
         if (!ctrl.lazy) {
           if (!ctrl.optionsParser.datasourceIsFunction) {
