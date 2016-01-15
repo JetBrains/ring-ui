@@ -29,6 +29,7 @@ module.exports = {
     Select: require('../components/select/select')
   },
   icons: {
+    activity: require('jetbrains-icons/activity.svg'),
     add: require('jetbrains-icons/add.svg'),
     added: require('jetbrains-icons/added.svg'),
     branch: require('jetbrains-icons/branch.svg'),
@@ -37,10 +38,12 @@ module.exports = {
     compare: require('jetbrains-icons/compare.svg'),
     cumulative: require('jetbrains-icons/cumulative.svg'),
     exception: require('jetbrains-icons/exception.svg'),
+    history: require('jetbrains-icons/history.svg'),
     modified: require('jetbrains-icons/modified.svg'),
     removed: require('jetbrains-icons/removed.svg'),
     renamed: require('jetbrains-icons/renamed.svg'),
     stamp: require('jetbrains-icons/stamp.svg'),
-    'stamp-o': require('jetbrains-icons/stamp-o.svg')
+    'stamp-o': require('jetbrains-icons/stamp-o.svg'),
+    treemap: require('jetbrains-icons/treemap.svg')
   }
 };
