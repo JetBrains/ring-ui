@@ -75,6 +75,7 @@ const module = angular.module('Ring.sidebar', [reactNg, PlaceUnder]);
 
 class SidebarController {
   constructor($scope) {
+    this.dialogIsActive = false;
     this.showed = this.show;
 
     // dialog has been opened — open sidebar
