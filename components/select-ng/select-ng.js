@@ -573,8 +573,8 @@ module.directive('rgSelect', function () {
         ctrl.selectInstance.rerender({loading: getType() !== 'suggest'});
 
         ctrl.getOptions(query, skip).then(results => {
-          if (query !== lastQuery) {
-            return; // skip results if query doesn't match
+          if (query !== lastQuery || skip !== getCurrentSkipParameter(query, lastQuery)) {
+            return; // skip results if query doesn't match or if skip is wrong
           }
 
           const items = memorizeOptions(results.data || results, skip).map(ctrl.convertNgModelToSelect);
