@@ -34,7 +34,6 @@ const headerClassName = new ClassName('ring-header');
  * @const
  * @type {RegExp}
  */
-const CUSTOM_ICON_SERVICE_REGEXP = /^teamcity|upsource|youtrack|hub$/i;
 const TOP_LINE_SERVICES_REGEXP = /^dashboard|project\swizard$/i;
 
 const PRUDUCTS_LOGOS = {
@@ -56,14 +55,10 @@ const PRUDUCTS_LOGOS = {
 function getServiceLogo(item, customClassName, iconSize = Icon.Size.Size48) {
   const className = classNames(headerClassName.getElement('services-logo'), customClassName);
   const iconKey = `ItemIcon-${item.id}`;
-
-  // Remove after logos update
-  const regularServiceIcon = CUSTOM_ICON_SERVICE_REGEXP.exec(item.applicationName);
   const topLineServiceIcon = TOP_LINE_SERVICES_REGEXP.exec(item.applicationName);
-  const detectedService = regularServiceIcon || topLineServiceIcon;
 
-  if (detectedService) {
-    const serviceGlyph = PRUDUCTS_LOGOS[detectedService[0].toLowerCase()];
+  if (topLineServiceIcon) {
+    const serviceGlyph = PRUDUCTS_LOGOS[topLineServiceIcon[0].toLowerCase()];
 
     return (
       <Icon
