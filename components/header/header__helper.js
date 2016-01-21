@@ -7,19 +7,6 @@ const LAYOUT = {
 };
 
 /**
- * filters out non-verified services
- * @param response
- * @returns {*}
- */
-function filterVerifiedServices(response) {
-  if (!response || !response.services || !response.services.length) {
-    return response;
-  }
-
-  return response.services.filter(service => service.verified === true);
-}
-
-/**
  * @namespace
  */
 export default class HeaderHelper {
@@ -61,16 +48,7 @@ export default class HeaderHelper {
     }
 
     return auth.requestToken().then(token => {
-      auth.getApi('services/header' + fields, token, params).
-        catch(error => {
-          // Fallback to old API
-          if (error.response.status === 404) {
-            return auth.getApi('services' + fields + ',verified', token, params).then(filterVerifiedServices);
-          }
-
-          return Promise.reject(error);
-        }).
-        then(setServicesList);
+      auth.getApi('services/header' + fields, token, params).then(setServicesList);
     });
   }
 
