@@ -20,36 +20,40 @@ export default class HeaderHelper {
    * @return {Promise}
    */
   static setServicesList(header, auth, params) {
-    const fields = '?fields=id,name,applicationName,homeUrl,iconUrl';
+    const {SERVICES} = header.constructor.MenuItemType;
+    const allFields = 'id,name,applicationName,homeUrl,iconUrl';
+    const countFields = 'key';
 
-    header.rerender({
-      clientId: header.props.clientId || auth.config.client_id,
-      onServicesOpen: () => header.refs.services.setLoading(true),
-      onServicesClose: () => header.refs.services.setLoading(false)
-    });
+    function getServices(fields) {
+      return auth.requestToken().then(token => auth.getApi('services/header?fields=' + fields, token, params));
+    }
 
     function setServicesList(services) {
-      if (services.length) {
-        header.setMenuItemEnabled(header.constructor.MenuItemType.SERVICES, true);
+      // Just in case
+      header.setMenuItemEnabled(SERVICES, services.length > 0);
 
-        header.rerender({
-          onServicesOpen: null,
-          onServicesClose: null
-        });
-        header.setServicesList(services);
+      header.setServicesList(services);
+      header.rerender({
+        onServicesOpen: null,
+        onServicesClose: null
+      });
 
-        if (header.refs.services.state.loading) {
-          header.refs.services.setOpened(true);
-          header.refs.services.setLoading(false);
-        }
-      } else {
-        header.setMenuItemEnabled(header.constructor.MenuItemType.SERVICES, false);
+      if (header.refs.services.state.loading) {
+        header.refs.services.setOpened(true);
+        header.refs.services.setLoading(false);
       }
     }
 
-    return auth.requestToken().then(token => {
-      auth.getApi('services/header' + fields, token, params).then(setServicesList);
+    header.rerender({
+      clientId: header.props.clientId || auth.config.client_id,
+      onServicesOpen: () => {
+        header.refs.services.setLoading(true);
+        getServices(allFields).then(setServicesList);
+      },
+      onServicesClose: () => header.refs.services.setLoading(false)
     });
+
+    getServices(countFields).then(services => header.setMenuItemEnabled(SERVICES, services.length > 0));
   }
 
   /**
