@@ -36,7 +36,7 @@ const headerClassName = new ClassName('ring-header');
  */
 const TOP_LINE_SERVICES_REGEXP = /^dashboard|project\swizard$/i;
 
-const PRUDUCTS_LOGOS = {
+const PRODUCTS_LOGOS = {
   hub: require('jetbrains-logos/hub/hub.svg'),
   teamcity: require('jetbrains-logos/teamcity/teamcity.svg'),
   upsource: require('jetbrains-logos/upsource/upsource.svg'),
@@ -46,8 +46,8 @@ const PRUDUCTS_LOGOS = {
 };
 
 /**
- * Takes an item, decides, whether it is a known JetBrains service
- * and places a link to it to the services menu. Otherwise, returns
+ * Takes an item, decides whether it is a known JetBrains service
+ * and places a link to it in the services menu. Otherwise, returns
  * null.
  * @param {Object} item
  * @return {?string}
@@ -58,7 +58,7 @@ function getServiceLogo(item, customClassName, iconSize = Icon.Size.Size48) {
   const topLineServiceIcon = TOP_LINE_SERVICES_REGEXP.exec(item.applicationName);
 
   if (topLineServiceIcon) {
-    const serviceGlyph = PRUDUCTS_LOGOS[topLineServiceIcon[0].toLowerCase()];
+    const serviceGlyph = PRODUCTS_LOGOS[topLineServiceIcon[0].toLowerCase()];
 
     return (
       <Icon
@@ -562,7 +562,7 @@ export default class Header extends RingComponent {
 
       return (
         <Icon
-          glyph={PRUDUCTS_LOGOS[this.props.logo] || this.props.logo}
+          glyph={PRODUCTS_LOGOS[this.props.logo] || this.props.logo}
           title={logoTitle}
           size={Icon.Size.Size40}
         />
