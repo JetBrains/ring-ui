@@ -37,6 +37,7 @@ module.exports = {
     code: require('jetbrains-icons/code.svg'),
     compare: require('jetbrains-icons/compare.svg'),
     cumulative: require('jetbrains-icons/cumulative.svg'),
+    download: require('jetbrains-icons/download.svg'),
     exception: require('jetbrains-icons/exception.svg'),
     history: require('jetbrains-icons/history.svg'),
     modified: require('jetbrains-icons/modified.svg'),
