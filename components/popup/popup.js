@@ -27,8 +27,8 @@ const Directions = {
 };
 
 /**
- * This directions is default for popup. Suitable directoin will be chosen.
- * @type {*[]}
+ * This directions is default for popup. Suitable direction will be chosen.
+ * @type {Array.<string>}
  */
 const DEFAULT_DIRECTIONS = [
   Directions.BOTTOM_RIGHT, Directions.BOTTOM_LEFT, Directions.TOP_LEFT, Directions.TOP_RIGHT,
