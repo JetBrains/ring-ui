@@ -700,6 +700,7 @@ module.directive('rgSelect', function () {
             $scope.$evalAsync(() => {
               ctrl.onClose();
             });
+            ctrl.loadedOptions = [];
           },
           onSelect: item => {
             $scope.$evalAsync(() => {
