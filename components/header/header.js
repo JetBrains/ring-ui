@@ -505,7 +505,12 @@ export default class Header extends RingComponent {
       }, this);
 
     if (iconsList.length && linksList.length) {
-      return iconsList.concat(<div className={headerClassName.getElement('services-line')}></div>, linksList);
+      return iconsList.concat((
+        <div
+          className={headerClassName.getElement('services-line')}
+          key="separator"
+        ></div>
+      ), linksList);
     }
 
     return iconsList.concat(linksList);
