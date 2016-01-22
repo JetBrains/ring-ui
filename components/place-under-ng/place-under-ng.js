@@ -87,7 +87,7 @@ const module = angular.module('Ring.place-under', []);
  * rg-place-under=".some-selector" = selector to point target element
  * place-top-offset="1" = offset in pixels
  */
-module.directive('rgPlaceUnder', function ($timeout, getClosestElementWithCommonParent) {
+module.directive('rgPlaceUnder', function ($window, getClosestElementWithCommonParent) {
   const DEBOUNCE_INTERVAL = 10;
   const HEIGHT_CHECK_INTERVAL = 50;
 
@@ -110,7 +110,7 @@ module.directive('rgPlaceUnder', function ($timeout, getClosestElementWithCommon
       function waitForNonZeroHeight(element) {
         return new Promise(resolve => {
           function checkElementHeight() {
-            element.offsetHeight === 0 ? $timeout(checkElementHeight, HEIGHT_CHECK_INTERVAL) : resolve();
+            element.offsetHeight === 0 ? $window.setTimeout(checkElementHeight, HEIGHT_CHECK_INTERVAL) : resolve();
           }
 
           checkElementHeight();
