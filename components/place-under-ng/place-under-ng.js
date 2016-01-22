@@ -87,8 +87,9 @@ const module = angular.module('Ring.place-under', []);
  * rg-place-under=".some-selector" = selector to point target element
  * place-top-offset="1" = offset in pixels
  */
-module.directive('rgPlaceUnder', function (getClosestElementWithCommonParent) {
+module.directive('rgPlaceUnder', function ($timeout, getClosestElementWithCommonParent) {
   const DEBOUNCE_INTERVAL = 10;
+  const HEIGHT_CHECK_INTERVAL = 50;
 
   return {
     restrict: 'A',
@@ -100,6 +101,21 @@ module.directive('rgPlaceUnder', function (getClosestElementWithCommonParent) {
 
       const topOffset = parseInt(iAttrs.placeTopOffset, 10) || 0;
       const syncHeight = iAttrs.syncHeight;
+
+      /**
+       * Waits until passed element's height becomes non-zero and then resolves
+       * @param element
+       * @returns {Promise}
+       */
+      function waitForNonZeroHeight(element) {
+        return new Promise(resolve => {
+          function checkElementHeight() {
+            element.offsetHeight === 0 ? $timeout(checkElementHeight, HEIGHT_CHECK_INTERVAL) : resolve();
+          }
+
+          checkElementHeight();
+        });
+      }
 
       /**
        * Syncing sidebar position with other element bottom
@@ -127,7 +143,8 @@ module.directive('rgPlaceUnder', function (getClosestElementWithCommonParent) {
 
         }, DEBOUNCE_INTERVAL);
 
-        sidebarScrollListener();
+        waitForNonZeroHeight(syncWithElement).then(sidebarScrollListener)
+
         window.addEventListener('scroll', sidebarScrollListener);
         scope.$on('$destroy', () => window.removeEventListener('scroll', sidebarScrollListener));
         scope.$watch('show', sidebarScrollListener);
