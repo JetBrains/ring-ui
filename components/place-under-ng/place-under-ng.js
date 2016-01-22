@@ -104,13 +104,13 @@ module.directive('rgPlaceUnder', function ($window, getClosestElementWithCommonP
 
       /**
        * Waits until passed element's height becomes non-zero and then resolves
-       * @param element
+       * @param elementToCheck
        * @returns {Promise}
        */
-      function waitForNonZeroHeight(element) {
+      function waitForNonZeroHeight(elementToCheck) {
         return new Promise(resolve => {
           function checkElementHeight() {
-            element.offsetHeight === 0 ? $window.setTimeout(checkElementHeight, HEIGHT_CHECK_INTERVAL) : resolve();
+            elementToCheck.offsetHeight === 0 ? $window.setTimeout(checkElementHeight, HEIGHT_CHECK_INTERVAL) : resolve();
           }
 
           checkElementHeight();
@@ -143,7 +143,7 @@ module.directive('rgPlaceUnder', function ($window, getClosestElementWithCommonP
 
         }, DEBOUNCE_INTERVAL);
 
-        waitForNonZeroHeight(syncWithElement).then(sidebarScrollListener)
+        waitForNonZeroHeight(syncWithElement).then(sidebarScrollListener);
 
         window.addEventListener('scroll', sidebarScrollListener);
         scope.$on('$destroy', () => window.removeEventListener('scroll', sidebarScrollListener));
