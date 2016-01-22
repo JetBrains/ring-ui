@@ -110,7 +110,11 @@ module.directive('rgPlaceUnder', function ($window, getClosestElementWithCommonP
       function waitForNonZeroHeight(elementToCheck) {
         return new Promise(resolve => {
           function checkElementHeight() {
-            elementToCheck.offsetHeight === 0 ? $window.setTimeout(checkElementHeight, HEIGHT_CHECK_INTERVAL) : resolve();
+            if (elementToCheck.offsetHeight === 0) {
+              $window.setTimeout(checkElementHeight, HEIGHT_CHECK_INTERVAL)
+            } else {
+              resolve();
+            }
           }
 
           checkElementHeight();
