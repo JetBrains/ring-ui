@@ -121,9 +121,12 @@ const Size = {
      </file>
 
      <file name="index.scss">
+       @import '~ring-ui/components/global/global';
+
        .ring-icon {
          margin: 8px;
          padding: 8px;
+         color: $ring-link-color;
        }
      </file>
 
