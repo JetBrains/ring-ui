@@ -5,6 +5,9 @@ import SelectNgOptions from './select-ng__options';
 import MessageBundle from '../message-bundle-ng/message-bundle-ng';
 import SelectLazy from './select-ng__lazy';
 
+import {render} from 'react-dom';
+import {createElement} from 'react';
+
 /**
  * @name Select Ng
  * @description Angular wrapper for React select
@@ -740,7 +743,11 @@ module.directive('rgSelect', function () {
           };
         }
 
-        ctrl.selectInstance = new SelectLazy(container, ctrl.config, ctrl, getType());
+        if (getType() === 'suggest' || getType() === 'input') {
+          ctrl.selectInstance = render(createElement(Select, ctrl.config), container);
+        } else {
+          ctrl.selectInstance = new SelectLazy(container, ctrl.config, ctrl, getType());
+        }
 
         /**
          * Render select in appended div to save any existing content of the directive
