@@ -39,7 +39,7 @@ const module = angular.module('Ring.save-field', [
               <rg-save-field value="data.email"
                              on-save="save()">
                 <input type="text"
-                       class="ring-input"
+                       class="ring-input ring-input-size_md"
                        ng-required="true"
                        ng-pattern="/^[a-zA-Z][a-zA-Z0-9-_\.]*[@][a-zA-Z0-9-_\.]+$/"
                        ng-model="data.email">
@@ -57,7 +57,7 @@ const module = angular.module('Ring.save-field', [
               <rg-save-field value="data.longText"
                              on-save="save()">
                 <textarea type="text"
-                          class="ring-input ring-input_long"
+                          class="ring-input ring-input-size_l"
                           ng-required="true"
                           ng-model="data.longText"></textarea>
               </rg-save-field>
@@ -75,7 +75,7 @@ const module = angular.module('Ring.save-field', [
                              on-save="save()">
                 <textarea type="text"
                           name="myMultilineArea"
-                          class="ring-input"
+                          class="ring-input ring-input-size_md"
                           ng-model="data.longTextList"></textarea>
               </rg-save-field>
               <div class="ring-form__control__description">data.longTextList = {{data.longTextList}}</div>
@@ -92,7 +92,7 @@ const module = angular.module('Ring.save-field', [
                              on-save="save()">
                 <input type="number"
                        max="10"
-                       class="ring-input ring-input_xshort"
+                       class="ring-input ring-input-size_xs"
                        ng-model="data.num">
               </rg-save-field>
             </div>
@@ -107,7 +107,7 @@ const module = angular.module('Ring.save-field', [
               <rg-save-field value="data.someText"
                              on-save="invalidSave(value)">
                   <input type="text"
-                         class="ring-input"
+                         class="ring-input ring-input-size_md"
                          ng-model="data.someText">
               </rg-save-field>
             </div>
@@ -119,6 +119,7 @@ const module = angular.module('Ring.save-field', [
      <file name="index.js" webpack="true">
        require('angular');
        require('ring-ui/components/save-field-ng/save-field-ng');
+       require('ring-ui/components/input-size/input-size.scss');
 
        angular.module('Example.saveField', ['Ring.save-field'])
          .config(['shortcutsProvider', 'rgSaveFieldShortcutsMode', function(shortcutsProvider, rgSaveFieldShortcutsMode) {
@@ -182,7 +183,7 @@ module.constant('rgSaveFieldShortcutsMode', {
   ]
 });
 
-module.directive('rgSaveField', function (RingMessageBundle, $timeout, $q) {
+module.directive('rgSaveField', function (RingMessageBundle, $timeout, $q, $compile) {
   const MULTI_LINE_SPLIT_PATTERN = /(\r\n|\n|\r)/gm;
   const MULTI_LINE_LIST_MODE = 'list';
   const CUSTOM_ERROR_ID = 'customError';
@@ -202,7 +203,19 @@ module.directive('rgSaveField', function (RingMessageBundle, $timeout, $q) {
       formatElement: '&?',
       multiline: '@'
     },
-    link: function (scope, iElem, iAttrs, ctrl) {
+    link: function (scope, iElem, iAttrs, ctrl, transclude) {
+
+      /**
+       * Custom transclude is needed to place error-bubble directly after input controller (not after <span ng-transclude></span> which wrappes input).
+       * Otherwise class ring-error-bubble will be incorrect positioned (css style selector .ring-ctrl-<size> ~ .ring-error-bubble)
+       */
+      transclude(scope, function () {
+        const placeholder = angular.element(iElem[0].querySelector('.ring-save-field__transclude-placeholder'));
+        $compile(angular.element('<div rg-error-bubble="saveFieldForm"></div>'))(scope, function (errorBubble) {
+          placeholder.append(errorBubble);
+        });
+      });
+
       const customError = {
         message: ''
       };

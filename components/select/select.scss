@@ -3,7 +3,7 @@
 .ring-select {
   display: inline-block;
   position: relative;
-  width: 200px;
+  width: 100%;
   color: $ring-text-color;
 
   &_input-mode {
@@ -69,7 +69,7 @@
 
 .ring-btn.ring-select {
   font-size: $ring-font-size;
-  width: 200px;
+  width: 100%;
   text-align: left;
   white-space: nowrap;
 }

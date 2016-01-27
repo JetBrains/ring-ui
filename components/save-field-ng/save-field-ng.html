@@ -1,6 +1,5 @@
 <div class="ring-save-field" ng-form="saveFieldForm" rg-shortcuts="ring-save-field" shortcuts-map="keyMap" shortcuts-focus="focus">
-  <span ng-transclude=""></span>
-  <div rg-error-bubble="saveFieldForm"></div>
+  <span class="ring-save-field__transclude-placeholder" ng-transclude=""></span>
   <button ng-show="saveFieldForm.$dirty && saveFieldForm.$valid"
           ng-disabled="loading"
           class="ring-btn ring-btn_blue ring-save-field__button"
