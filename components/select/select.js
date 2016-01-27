@@ -172,11 +172,12 @@ const Type = {
 
  <example name="Select with customized filter and an 'Add item' button">
    <file name="index.html">
-     <div id="demo"></div>
+     <div id="demo" class="ring-input-size_md"></div>
    </file>
    <file name="index.js" webpack="true">
      var render = require('react-dom').render;
      var Select = require('ring-ui/components/select/select');
+     require('ring-ui/components/input-size/input-size.scss');
 
      var data = [];
      for(let i = 0; i < 100; i++) {

@@ -333,7 +333,7 @@ import {createElement} from 'react';
               <rg-select ng-model="ctrl.item1" options="item as item for item in ctrl.options"
                          label="Select item" required name="requiredSelect"></rg-select>
 
-               <div class="installer-form__error-hint ring-input__error-bubble active" ng-if="testForm.requiredSelect.$invalid">
+               <div class="installer-form__error-hint ring-error-bubble active" ng-if="testForm.requiredSelect.$invalid">
                   Error {{testForm.requiredSelect.$error}}
                </div>
             </div>
