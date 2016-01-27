@@ -24,6 +24,7 @@
   @include ring-font;
   line-height: 20px;
   height: 3*$ring-unit;
+  width: 100%;
 
   &:active, &:focus, &_active, &_focus {
     border-color: $ring-blue-color;
@@ -48,8 +49,6 @@
   }
 }
 
-@include ring-input-control-widths('.ring-input');
-
 // Using double selector to enforce specifity, that is hard to express with &
 .ring-input.ring-input:disabled, .ring-input.ring-input_disabled {
   border-color: #DEDEDE;
@@ -64,12 +63,15 @@ textarea.ring-input {
 // Input error bubbles
 //
 // Markup:
-// <div class="ring-input_wrapper">
+// <div class="ring-form__controller">
 //   <input class="ring-input ring-input_error" type="text">
-//   <div class="ring-input__error-bubble active">Wrong value</div>
+//   <div class="ring-error-bubble active">Wrong value</div>
 // </div>
 //
 // Styleguide 14.2
+/**
+ * TODO: deprecated. Use ring-error-bubble instead
+ */
 .ring-input__error-bubble {
   z-index: 2;
   box-sizing: border-box;

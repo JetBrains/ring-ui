@@ -24,7 +24,7 @@ import '../dialog/dialog.scss';
            <label class="ring-form__label" for="dialog__name">Name</label>
            <div class="ring-form__control">
              <input id="dialog__name" class="ring-input" type="text">
-             <div class="ring-input__error-bubble active">Wrong value</div>
+             <div class="ring-error-bubble active">Wrong value</div>
              <div class="ring-form__control__description">Description</div>
            </div>
          </div>
@@ -49,6 +49,7 @@ import '../dialog/dialog.scss';
    <file name="index.js" webpack="true">
      require('ring-ui/components/dialog/dialog.scss');
      require('ring-ui/components/panel/panel.scss');
+     require('ring-ui/components/input-size/input-size.scss');
 
      require('angular/angular');
      require('ring-ui/components/select-ng/select-ng');

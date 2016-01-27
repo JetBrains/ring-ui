@@ -10,7 +10,7 @@
      <form class="ring-form" ng-controller="FormExampleCtrl as formExampleCtrl">
        <span class="ring-form__title">Form Title</span>
        <div class="ring-form__group">
-         <label for="ring-form-1" class="ring-form__label">Simple Input</label>
+         <label for="ring-form-1" class="ring-form__label">Full-width Input</label>
          <div class="ring-form__control">
            <input class="ring-input" id="ring-form-1" type="text">
          </div>
@@ -18,34 +18,35 @@
        <div class="ring-form__group">
          <label for="ring-form-2" class="ring-form__label">Medium Input</label>
          <div class="ring-form__control">
-           <input class="ring-input ring-input_medium" id="ring-form-2" type="text">
+           <input class="ring-input ring-input-size_md" id="ring-form-2" type="text">
          </div>
        </div>
        <div class="ring-form__group">
-         <label for="ring-form-3" class="ring-form__label">Input with Error</label>
+         <label for="ring-form-3" class="ring-form__label">Medium Error Input</label>
          <div class="ring-form__control">
-           <input class="ring-input ring-input_error" id="ring-form-3" type="text">
-           <div class="ring-input__error-bubble active">Error-bubble</div>
+           <input class="ring-input ring-input_error ring-input-size_md" id="ring-form-3" type="text">
+           <div class="ring-error-bubble active">Error-bubble</div>
          </div>
        </div>
        <div class="ring-form__group">
          <label for="ring-form-4" class="ring-form__label">Long Input</label>
          <div class="ring-form__control">
-           <input class="ring-input ring-input_long" id="ring-form-4" type="text">
-           <div class="ring-input__error-bubble active">Error bubble for long control</div>
+           <input class="ring-input ring-input-size_l" id="ring-form-4" type="text">
+           <div class="ring-error-bubble active">Error bubble for long control</div>
          </div>
        </div>
        <div class="ring-form__group">
          <label for="ring-form-5" class="ring-form__label">Full-Width Control</label>
-         <div class="ring-form__control ring-form__control_full-width">
+         <div class="ring-form__control">
            <input class="ring-input" id="ring-form-5" type="text">
-           <div class="ring-input__error-bubble active">Error bubble for full-width control</div>
+           <div class="ring-error-bubble active">Error bubble for full-width control</div>
          </div>
        </div>
        <div class="ring-form__group">
          <label for="ring-form-6" class="ring-form__label">Rg Select in Form</label>
          <div class="ring-form__control">
            <rg-select id="ring-form-6"
+                      class="ring-input-size_md"
                       options="item.name for item in formExampleCtrl.arr track by item.name"></rg-select>
            <div class="ring-form__control__description">I am simple description</div>
          </div>
@@ -53,39 +54,40 @@
        <div class="ring-form__group">
          <label for="ring-form-7" class="ring-form__label">Textarea</label>
          <div class="ring-form__control">
-           <textarea class="ring-input" id="ring-form-7"></textarea>
+           <textarea class="ring-input ring-input-size_md" id="ring-form-7"></textarea>
          </div>
        </div>
        <div class="ring-form__group">
          <label for="ring-form-8" class="ring-form__label">Long Textarea</label>
          <div class="ring-form__control">
-           <textarea class="ring-input ring-input_long" id="ring-form-8"></textarea>
+           <textarea class="ring-input ring-input-size_l" id="ring-form-8"></textarea>
          </div>
        </div>
        <div class="ring-form__group">
-         <label for="ring-form-9" class="ring-form__label">Textarea in Full-Width</label>
-         <div class="ring-form__control ring-form__control_full-width">
-           <textarea class="ring-input ring-input_full-width" id="ring-form-9"></textarea>
+         <label for="ring-form-9" class="ring-form__label">Full-Width Textarea</label>
+         <div class="ring-form__control">
+           <textarea class="ring-input" id="ring-form-9"></textarea>
          </div>
        </div>
        <div class="ring-form__group">
          <label for="ring-form-10" class="ring-form__label">Rg Select in Small</label>
          <div class="ring-form__control ring-form__control_small">
            <rg-select id="ring-form-10"
+                      class="ring-input-size_md"
                       options="item.name for item in formExampleCtrl.arr track by item.name"></rg-select>
-           <div class="ring-input__error-bubble active">Error bubble for control_small</div>
+           <div class="ring-error-bubble active">Error bubble for control_small</div>
          </div>
        </div>
        <div class="ring-form__group">
          <label for="ring-form-11" class="ring-form__label">Input in Small</label>
          <div class="ring-form__control ring-form__control_small">
-           <input class="ring-input" id="ring-form-11" type="text">
+           <input class="ring-input ring-input-size_md" id="ring-form-11" type="text">
          </div>
        </div>
        <div class="ring-form__group">
          <label for="ring-form-12" class="ring-form__label">Textarea in Small</label>
          <div class="ring-form__control ring-form__control_small">
-           <textarea class="ring-input" id="ring-form-12"></textarea>
+           <textarea class="ring-input ring-input-size_md" id="ring-form-12"></textarea>
          </div>
        </div>
        <div class="ring-form__footer">
@@ -99,6 +101,7 @@
       require('ring-ui/components/form/form.scss');
       require('ring-ui/components/panel/panel.scss');
       require('ring-ui/components/button/button.scss');
+      require('ring-ui/components/input-size/input-size.scss');
 
       require('angular');
       require('ring-ui/components/select-ng/select-ng');
@@ -116,19 +119,6 @@ $ring-input-width: $ring-unit*25;
 
 .ring-form {
   @include ring-font;
-
-  /**
-   * TODO: remove ring-select from here, if it will use @include ring-input-control-widths
-   * TODO: can "ring-input_wrapper" be removed ?
-   */
-  & .ring-input_wrapper {
-    width: 100% !important;
-    margin: 0;
-
-    &_long {
-      width: 2*$ring-input-width !important;
-    }
-  }
 }
 
 .ring-form_white-bg {
@@ -356,11 +346,3 @@ $ring-input-width: $ring-unit*25;
   }
 }
 
-/**
- * TODO: remove this, if ring-select has @ring-input-control-widths
- */
-.ring-select_long {
-  & ~ .ring-input__error-bubble {
-    left: 50*$ring-unit + 2;
-  }
-}
