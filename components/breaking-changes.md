@@ -6,6 +6,28 @@ order: 2
 
 See the “breaking change” commits [in Upsource](https://upsource.jetbrains.com/ring-ui/view?query=path:%20%7B%2A%2Fbreaking-changes.md%7D%20and%20not%20%22Wording%22).
 
+### 28-01-2015: Changes in way to set form control's size
+
+To set form's control size we should use css-classes ring-input-size_<size>, where <size> can be "sx" (50px), "s" (100px), "md" (200px) or "l" (400px).
+Before:
+```
+<div class="ring-form">
+  <input class="ring-input"/>
+  ...
+  <input class="ring-input ring-input_long"/>
+</div>
+```
+After:
+```
+<div class="ring-form">
+  <input class="ring-input ring-input-size_md"/>
+  ...
+  <input class="ring-input ring-input-size_l"/>
+</div>
+```
+
+### 28-01-2015: Css-class .ring-form__error-bubble renamed to .ring-error-bubble
+
 ### 11-01-2015: Popup API change: "Corner" and "Direction" props replaced with "Directions" array.
 
 The arcane bitwise API was replaced with a more straightforward [direction specification](https://en.bem.info/libs/bem-components/v2.4.0/desktop/popup/#directions-field).
