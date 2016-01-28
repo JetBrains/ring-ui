@@ -7,8 +7,8 @@
 //
 // Markup:
 // <div class="ring-panel">
-//  <button class="ring-btn_primary ring-btn">Accept</button>
-//  <button class="ring-btn">Decline</button>
+//  <button class="ring-button_primary ring-button">Accept</button>
+//  <button class="ring-button">Decline</button>
 // </div>
 //
 // Styleguide 18.1
@@ -21,7 +21,7 @@
   background-color: #E9F8FF;
   background-color: rgba(37, 183, 255, 0.1);
 
-  & .ring-btn {
+  & .ring-button {
     margin-right: 2*$ring-unit;
   }
 }

@@ -3,17 +3,11 @@ import classNames from 'classnames';
 import RingComponent from '../ring-component/ring-component';
 import './button.scss';
 
-/**
- * @enum {string}
- * @see ***REMOVED***
- */
 const Modifiers = {
   DEFAULT: 'default',
   BLUE: 'blue',
-  BLACK: 'black',
   PRIMARY: 'primary',
-  PLUS: 'plus',
-  DELAYED_ACTION: 'delayed-action',
+  DELAYED_ACTION: 'delayed',
   DANGER: 'danger'
 };
 
@@ -57,15 +51,7 @@ export default class Button extends RingComponent {
 
   static get propTypes() {
     return {
-      /**
-       * Button modifiers
-       * @see Modifiers
-       */
       modifier: PropTypes.string,
-
-      /**
-       * Custom classes
-       */
       className: PropTypes.string
     };
   }
@@ -78,8 +64,8 @@ export default class Button extends RingComponent {
 
   render() {
     const classes = classNames(
-      'ring-btn',
-      'ring-btn_' + this.props.modifier,
+      'ring-button',
+      'ring-button_' + this.props.modifier,
       this.props.className
     );
 

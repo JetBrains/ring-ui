@@ -4,20 +4,22 @@
  * @example
 <example name="promised-click-ng">
   <file name="index.html">
-    <div class="button-example" ng-app="button-test">
-      <button class="ring-btn" rg-promised-click="onClick()" ng-controller="testController">Simple use</button>
-      <button class="ring-btn" rg-promised-click test-directive>Via the controller</button>
+    <div class="button-example" ng-app="button-test" ng-controller="testController as ctrl">
+      <button class="ring-button" rg-promised-click="ctrl.onClick()">Simple use</button>
+      <button class="ring-button" rg-promised-click test-directive>Via the controller</button>
+      <rg-button rg-promised-click="ctrl.onClick()">Ring button</rg-button>
     </div>
   </file>
   <file name="index.js" webpack="true">
     require('ring-ui/components/button/button.scss');
     require('angular');
     require('ring-ui/components/promised-click-ng/promised-click-ng');
+    require('ring-ui/components/button-ng/button-ng');
 
-    var buttonTestModule = angular.module('button-test', ['Ring.promised-click']);
+    var buttonTestModule = angular.module('button-test', ['Ring.promised-click', 'Ring.button']);
 
     buttonTestModule.controller('testController', function($scope, $timeout) {
-      $scope.onClick = function () {
+      this.onClick = function () {
         return $timeout(angular.noop, 1000);
       };
     });
@@ -75,11 +77,11 @@ class PromisedClickController {
 
   activate() {
     this.active = true;
-    this.element.classList.add('ring-btn_active');
+    this.element.classList.add('ring-button_active');
 
     this.promise.finally(() => {
       this.active = false;
-      this.element.classList.remove('ring-btn_active');
+      this.element.classList.remove('ring-button_active');
     });
   }
 }

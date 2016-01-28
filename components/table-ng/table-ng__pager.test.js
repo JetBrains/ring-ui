@@ -60,18 +60,18 @@ describe('TableNg Pager', function () {
 
   it('first page should be selected as default', function () {
     createPager(100, 5, 0);
-    element[0].query('[anchor-id="table-pager-page"]:first-child').should.have.class('ring-btn_active');
+    element[0].query('[anchor-id="table-pager-page"]:first-child').should.have.class('ring-button_active');
   });
 
   it('third page should be selected as default', function () {
     createPager(100, 5, 10);
-    element[0].query('[anchor-id="table-pager-page"]:nth-child(3)').should.have.class('ring-btn_active');
+    element[0].query('[anchor-id="table-pager-page"]:nth-child(3)').should.have.class('ring-button_active');
   });
 
   it('third page should be selected as default with optional search param', function () {
     $location.search('page', 3);
     createPager(100, 5, 0);
-    element[0].query('[anchor-id="table-pager-page"]:nth-child(3)').should.have.class('ring-btn_active');
+    element[0].query('[anchor-id="table-pager-page"]:nth-child(3)').should.have.class('ring-button_active');
   });
 
   it('change top by optional search param', function () {
