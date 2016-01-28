@@ -8,6 +8,7 @@ import '../loader-inline/loader-inline';
 import MessageBundle from '../message-bundle-ng/message-bundle-ng';
 import Form from '../form-ng/form-ng';
 import Shortcuts from '../shortcuts-ng/shortcuts-ng';
+import Button from '../button-ng/button-ng';
 
 import 'dom4';
 
@@ -18,7 +19,8 @@ const module = angular.module('Ring.save-field', [
  * for error-bubble
  */
   Form,
-  Shortcuts
+  Shortcuts,
+  Button
 ]);
 
 /**

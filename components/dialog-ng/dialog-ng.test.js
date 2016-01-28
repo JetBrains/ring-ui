@@ -350,7 +350,7 @@ describe('DialogNg', function () {
         [{label: 'Ok', default: true}]
       );
 
-      element.query('button').should.have.class('ring-btn_blue');
+      element.query('button').should.have.class('ring-button_blue');
     });
 
     it('should be closed by clicking a button', function () {

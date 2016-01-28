@@ -9,9 +9,20 @@
     <span react-static="Icon" react-size="14" react-value-glyph="/pencil.svg" class="ring-avatar-editor__icon" ng-if="!ngDisabled"></span>
   </div>
   <input class="ring-avatar-editor__file-input" rg-avatar-editor-file-input type="file" ng-model="fileInput" accept="image/*" ng-if="!ngDisabled">
-  <button class="ring-btn ring-btn_delayed-action" ng-disabled="ngDisabled"
-          ng-show="!model && !default" ng-click="controls.select()">{{ addMessage }}</button>
 
-  <button ng-if="model && !ngDisabled" class="ring-btn ring-btn_danger ring-avatar-editor__remove" translate
-          ng-click="controls.remove()">{{ deleteMessage }}</button>
+  <button
+    delayed="true"
+    class="ring-button ring-button_delayed-action"
+    ng-disabled="ngDisabled"
+    ng-show="!model && !default"
+    ng-click="controls.select()"
+  >{{ addMessage }}</button>
+
+  <button
+    ng-if="model && !ngDisabled"
+    class="ring-button ring-button_danger ring-avatar-editor__remove"
+    ng-click="controls.remove()"
+  >
+    <span translate>{{ deleteMessage }}</span>
+  </button>
 </div>

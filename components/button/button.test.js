@@ -16,7 +16,7 @@ describe('Button', function () {
       modifier: Button.Modifiers.BLUE
     });
 
-    this.button.node.should.have.class('ring-btn_blue');
+    this.button.node.should.have.class('ring-button_blue');
   });
 
   it('should set custom class', function () {
