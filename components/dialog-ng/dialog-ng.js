@@ -52,12 +52,11 @@ import '../dialog/dialog.scss';
      require('ring-ui/components/input-size/input-size.scss');
 
      require('angular/angular');
+     require('ring-ui/components/dialog-ng/dialog-ng'),
      require('ring-ui/components/select-ng/select-ng');
 
-     angular.module('Example.dialog', [
-      require('ring-ui/components/dialog-ng/dialog-ng'),
-     'Ring.select'
-     ]).controller('ExampleCtrl', function(dialog) {
+     angular.module('Example.dialog', ['Ring.dialog', 'Ring.select'])
+     .controller('ExampleCtrl', function(dialog) {
         dialog.show({
           cssClass: 'custom-css-class',
           title: 'Test',

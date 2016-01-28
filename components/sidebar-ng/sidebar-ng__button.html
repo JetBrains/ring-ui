@@ -1,19 +1,23 @@
-<button class="ring-btn" ng-click="button.model = !button.model" ng-disabled="button.dialogIsActive">
+<button
+  class="ring-button ring-button_icon"
+  ng-click="button.model = !button.model"
+  ng-disabled="button.dialogIsActive"
+>
   <span
     ng-show="button.model"
-    class="ring-sidebar__toggle-icon"
+    class="ring-button__icon"
     react-static="Icon"
-    react-size="14"
+    react-size="16"
     react-value-glyph="/chevron-right.svg"
   ></span>
 
   <span
     ng-show="!button.model"
-    class="ring-sidebar__toggle-icon"
+    class="ring-button__icon"
     react-static="Icon"
-    react-size="14"
+    react-size="16"
     react-value-glyph="/chevron-left.svg"
   ></span>
 
-  <span ng-transclude></span>
+  <span class="ring-button_content" ng-transclude></span>
 </button>

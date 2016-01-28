@@ -14,8 +14,8 @@ import './docked-panel-ng.scss';
           <textarea placeholder="Add description" rows="70" cols="100"></textarea>
         </div>
         <div class="ring-panel" rg-docked-panel rg-docked-panel-class="customCssClass">
-          <button class="ring-btn ring-btn_blue">Save</button>
-          <button class="ring-btn"Revert>Cancel</button>
+          <button class="ring-button ring-button_blue">Save</button>
+          <button class="ring-button"Revert>Cancel</button>
         </div>
         <br/>
         <div>

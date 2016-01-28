@@ -46,8 +46,8 @@
            </form>
            <div class="ring-dialog__footer">
              <div class="ring-dialog__footer__spacer"></div>
-             <button class="ring-dialog__footer__item_first ring-dialog__footer__item ring-btn ring-btn_blue">Create space</button>
-             <button class="ring-dialog__footer__item ring-btn">Cancel</button>
+             <button class="ring-dialog__footer__item_first ring-dialog__footer__item ring-button ring-button_blue">Create space</button>
+             <button class="ring-dialog__footer__item ring-button">Cancel</button>
            </div>
          </div>
        </div>
@@ -92,8 +92,8 @@
          </form>
          <div class="ring-dialog__footer">
            <div class="ring-dialog__footer__spacer"></div>
-           <button class="ring-dialog__footer__item_first ring-dialog__footer__item ring-btn ring-btn_blue">Save</button>
-           <button class="ring-dialog__footer__item ring-btn">Cancel</button>
+           <button class="ring-dialog__footer__item_first ring-dialog__footer__item ring-button ring-button_blue">Save</button>
+           <button class="ring-dialog__footer__item ring-button">Cancel</button>
          </div>
        </div>
      </div>
@@ -235,7 +235,7 @@
   margin-right: 2*$ring-unit;
 
   //Increase selector specificity when ring buttons used as footer items
-  &.ring-btn {
+  &.ring-button {
     margin-right: 2*$ring-unit;
   }
 }

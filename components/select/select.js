@@ -891,7 +891,7 @@ export default class Select extends RingComponentWithShortcuts {
       'ring-select': true,
       'ring-select_disabled': this.props.disabled,
       'ring-select_input-mode': this.isInputMode(),
-      'ring-btn_disabled': this.props.disabled && !this.isInputMode(),
+      'ring-button_disabled': this.props.disabled && !this.isInputMode(),
       'ring-js-shortcuts': true
     }, this.props.className);
 
