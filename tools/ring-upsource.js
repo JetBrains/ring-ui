@@ -33,6 +33,7 @@ module.exports = {
     add: require('jetbrains-icons/add.svg'),
     added: require('jetbrains-icons/added.svg'),
     branch: require('jetbrains-icons/branch.svg'),
+    bug: require('jetbrains-icons/bug.svg'),
     check: require('jetbrains-icons/check.svg'),
     code: require('jetbrains-icons/code.svg'),
     compare: require('jetbrains-icons/compare.svg'),
@@ -47,6 +48,7 @@ module.exports = {
     renamed: require('jetbrains-icons/renamed.svg'),
     stamp: require('jetbrains-icons/stamp.svg'),
     'stamp-o': require('jetbrains-icons/stamp-o.svg'),
+    trash: require('jetbrains-icons/trash.svg'),
     treemap: require('jetbrains-icons/treemap.svg')
   }
 };
