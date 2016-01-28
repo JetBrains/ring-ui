@@ -12,7 +12,15 @@ import './button-group.scss';
   <example name="Button Group">
     <file name="index.html">
       <div>
-        <span id="button-group"></span>
+        <p>
+          <span id="button-group"></span>
+        </p>
+        <p>
+          <span id="button-group-primary"></span>
+        </p>
+        <p>
+          <span id="button-group-blue"></span>
+        </p>
       </div>
     </file>
 
@@ -27,6 +35,20 @@ import './button-group.scss';
         Button.factory(null, '2nd button'),
         Button.factory(null, '3rd button')
       ), document.getElementById('button-group'));
+
+      render(ButtonGroup.factory(
+        null,
+        Button.factory({ modifier: Button.Modifiers.PRIMARY}, '1st button'),
+        Button.factory({ modifier: Button.Modifiers.PRIMARY}, '2nd button'),
+        Button.factory({ modifier: Button.Modifiers.PRIMARY}, '3rd button')
+      ), document.getElementById('button-group-primary'));
+
+      render(ButtonGroup.factory(
+        null,
+        Button.factory({ modifier: Button.Modifiers.BLUE}, '1st button'),
+        Button.factory({ modifier: Button.Modifiers.BLUE}, '2nd button'),
+        Button.factory({ modifier: Button.Modifiers.BLUE}, '3rd button')
+      ), document.getElementById('button-group-blue'));
     </file>
   </example>
  */

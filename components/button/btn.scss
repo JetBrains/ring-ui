@@ -1,0 +1,359 @@
+@import "../global/global";
+
+@mixin btn-box-shadow($opacity) {
+  box-shadow: inset 0 1px rgba(255, 255, 255, .4), inset 0 0 0 1px rgba(255, 255, 255, $opacity);
+}
+
+@mixin btn-box-shadow-hover($opacity) {
+  box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.2), inset 0 1px rgba(255, 255, 255, .4), inset 0 0 0 1px rgba(255, 255, 255, $opacity);
+}
+
+@mixin btn-box-shadow-active($color) {
+  box-shadow: inset 0 0 1px $color;
+}
+
+@mixin btn-background-image($dark, $light) {
+  background-image: linear-gradient(to top, #{$dark}, #{$light});
+}
+
+@mixin btn-background-image-hover($bottom, $middle, $top) {
+  background-image: linear-gradient(to top, #{$bottom}, #{$middle}, #{$top});
+}
+
+@mixin btn-background-image-active($bottom, $top) {
+  background-image: linear-gradient(to bottom, #{$bottom}, #{$top});
+}
+
+@mixin btn-mixins($opacity) {
+  @include btn-box-shadow($opacity);
+  @include btn-background-image(#EBEBEB, #FFF);
+}
+
+// Buttons
+//
+// Most buttons are based on the .ring-btn class
+//
+// Markup:
+// <button style="margin: 0; margin-right: 20px;" class="ring-btn {$modifiers}">Button Element</button>
+// <button style="margin: 0; margin-right: 20px;" class="ring-btn ring-btn_icon {$modifiers}"><span class="ring-font-icon ring-font-icon_cog"></span></button>
+// <button style="margin: 0; margin-right: 20px;" class="ring-btn {$modifiers}">Dropdown <span class="ring-font-icon ring-btn__last-icon ring-font-icon_caret-down"></span></button>
+//
+// .ring-btn_primary    - Indicates that a button triggers the main action on the page. There should be only one such button per page, for example, "Create Issue".
+// .ring-btn_blue       - Indicates that a button triggers a secondary action on the page. For example, "Save changes" in a modal dialog.
+// .ring-btn_black      - Indicates that a button is black. Should be used on dark backgrounds only!
+// .ring-btn_plus       - Indicates that a button will add something.
+// .ring-btn_delayed-action - Indicates that button's action will be delayed, e.g. because of params request dialog
+// .ring-btn_danger     - Indicates a dangerous action (e.g. delete).
+// :hover               - Hovered state.
+// :disabled            - Disabled state, also available as the `.ring-btn_disabled` class name.
+// :active              - Active state, also available as the `.ring-btn_active` class name.
+// :focus               - Focus state, also available as the `.ring-btn_focus` class name.
+//
+// Styleguide 4.1
+
+.ring-btn {
+  @include ring-font();
+
+  display: inline-block;
+
+  width: auto;
+  height: $ring-unit*3;
+  box-sizing: border-box;
+
+  margin: 0;
+  padding: 0 $ring-unit*2 - 1;
+  border: solid 1px #B4B4B4;
+  border-radius: $ring-border-radius;
+
+  font-size: $ring-font-size-smaller;
+  line-height: 22px;
+  text-decoration: none;
+  color: #282828;
+  cursor: default;
+  outline: 0;
+
+  z-index: 0;
+  @include btn-mixins(0.8);
+
+  &:hover, &.ring-btn_hover {
+    @include btn-box-shadow-hover(0.8);
+    @include btn-background-image(#E1E1E1, #FFF);
+  }
+
+  &:active, &.ring-btn_active {
+    box-shadow: inset 0 1px 0 0 #D3D3D3;
+    background-color: #E4E4E4;
+    background-image: none;
+  }
+
+  &[disabled], &.ring-btn_disabled {
+    &, &:hover, &:active {
+      box-shadow: inset 0 1px rgba(255, 255, 255, 0.4), inset 0 0 0 1px rgba(255, 255, 255, 0.2);
+      @include btn-background-image(#EBEBEB, #FFF);
+    }
+  }
+
+  &:focus, &.ring-btn_focus {
+    position: relative;
+    border-radius: $ring-border-radius;
+    box-shadow: 0 0 0 2px $ring-outline-color;
+    outline: none;
+    z-index: 2;
+  }
+
+  .ring-icon {
+    @include ring-vertical-compensation();
+  }
+
+  .ring-icon {
+    color: $ring-dark-gray-color;
+  }
+}
+
+.ring-btn_disabled,
+.ring-btn:disabled,
+.ring-btn[disabled] {
+  opacity: 0.5;
+  cursor: default;
+  @include btn-mixins(0.8);
+}
+
+@mixin btn-mixins_primary {
+  @include btn-background-image(#FF6600, #FF8620);
+}
+
+.ring-btn_primary {
+  border: solid 1px #BC5600;
+  color: #FFF;
+  background-color: #FF8620;
+  @include btn-box-shadow(0.2);
+  @include btn-mixins_primary;
+
+  &:hover {
+    background-color: #FF6600;
+    @include btn-box-shadow-hover(0.2);
+    @include btn-background-image-hover(#ffb373, #f60 29%, #FF8620);
+  }
+
+  &:active, &.ring-btn_active {
+    background-color: #FF8620;
+    @include btn-background-image-active(#F60, #FF8620);
+    box-shadow: inset 0 1px 1px 0 #D95801;
+  }
+
+  &[disabled], &.ring-btn_disabled {
+    &, &:hover, &:active {
+      box-shadow: inset 0 1px rgba(255, 255, 255, 0.4), inset 0 0 0 1px rgba(255, 255, 255, 0.2);
+      @include btn-mixins_primary;
+    }
+  }
+
+  .ring-icon {
+    color: inherit;
+  }
+}
+
+@mixin btn-mixins_blue {
+  @include btn-background-image(#008FD6, #25B7FF);
+}
+
+.ring-btn_blue {
+  border: solid 1px #0084C5;
+  color: #FFF;
+  background-color: #25B7FF;
+  @include btn-box-shadow(0.2);
+  @include btn-mixins_blue;
+
+  &:hover {
+    background-color: #008FD6;
+    @include btn-box-shadow-hover(0.2);
+    @include btn-background-image-hover(#64CCFF 2%, #008FD6 29%, #25B7FF);
+  }
+
+  &:active, &.ring-btn_active {
+    background-color: #25B7FF;
+    @include btn-background-image-active(#008FD6, #25B7FF);
+    @include btn-box-shadow-active(rgba(0, 0, 0, .2));
+  }
+
+  &[disabled], &.ring-btn_disabled {
+    &, &:hover, &:active {
+      box-shadow: inset 0 1px rgba(255, 255, 255, 0.4), inset 0 0 0 1px rgba(255, 255, 255, 0.2);
+      @include btn-mixins_blue;
+    }
+  }
+
+  .ring-icon {
+    color: inherit;
+  }
+}
+
+.ring-btn_light-blue {
+  border: solid 1px #25b7ff;
+  background-color: #EEF7FF;
+  @include btn-box-shadow(0.2);
+  @include btn-mixins_blue;
+
+  &:active, &.ring-btn_active {
+    background-color: #25B7FF;
+    @include btn-background-image-active(#dbf1ff, #EEF7FF);
+    @include btn-box-shadow-active(rgba(0, 0, 0, .2));
+  }
+
+  .ring-icon {
+    color: inherit;
+  }
+}
+
+@mixin btn-mixins_black {
+  @include btn-background-image(#313131, #3C3C3C);
+}
+
+.ring-btn_black {
+  border: solid 1px rgba(0, 0, 0, 0.5);
+  color: #B4B4B4;
+  background-color: #3C3C3C;
+  box-shadow: inset 0 1px 1px #505050;
+  @include btn-mixins_black;
+
+  &:hover {
+    background-color: #313131;
+    box-shadow: inset 0 1px #505050;
+    @include btn-background-image-hover(#4A4A4A, #313131 24%, #3C3C3C);
+  }
+
+  &:active, &.ring-btn_active {
+    background-color: #3C3C3C;
+    @include btn-background-image-active(#313131, #3C3C3C);
+    @include btn-box-shadow-active(rgba(0, 0, 0, .2));
+  }
+
+  &[disabled], &.ring-btn_disabled {
+    &, &:hover, &:active {
+      box-shadow: none;
+      opacity: 1;
+      color: #808080;
+      @include btn-background-image(#3B3B3B, #373737);
+    }
+  }
+
+  .ring-icon {
+    color: inherit;
+  }
+}
+
+.ring-btn_plus {
+  padding-left: 5px !important;
+
+  &:before {
+    content: '+';
+
+    position: relative;
+    top: 1px;
+    margin-right: 3px;
+
+    font-size: 16px;
+    line-height: 16px;
+  }
+}
+
+.ring-btn_delayed-action {
+  padding-right: $ring-unit*1.5 !important;
+
+  &:after {
+    content: '…';
+  }
+}
+
+.ring-btn_danger {
+  color: $ring-error-color;
+
+  .ring-icon {
+    color: inherit;
+  }
+}
+
+.ring-btn_square:nth-child(n) {
+  width: 4*$ring-unit;
+}
+
+.ring-btn_icon {
+  width: $ring-unit*6;
+  padding: 0;
+}
+
+.ring-btn__dropdown-icon {
+  width: $ring-unit*3;
+}
+
+.ring-btn__last-icon {
+  margin-left: 4px;
+}
+
+.ring-btn__first-icon {
+  margin-right: 4px;
+}
+
+.ring-btn__icon-text {
+  margin-right: $ring-unit;
+}
+
+// Toolbar
+//
+// Markup:
+// <div class="ring-btn-toolbar">
+//   <button class="ring-btn">Button 1</button>
+//   <div class="ring-btn-group">
+//     <button class="ring-btn" disabled>Button 2</button>
+//     <button class="ring-btn">Button 4</button>
+//     <button class="ring-btn">Button 3</button>
+//   </div>
+//   <button class="ring-btn">Button 5</button>
+// </div>
+//
+// Styleguide 4.3
+
+.ring-btn-toolbar {
+  display: inline-block;
+  font-size: 0;
+  white-space: nowrap;
+
+  &.ring-btn-toolbar_block {
+    display: block;
+  }
+
+  &__label {
+    font-size: $ring-font-size;
+  }
+}
+
+.ring-btn-toolbar > .ring-btn,
+.ring-btn-toolbar > .ring-btn-toolbar,
+.ring-btn-toolbar > .ring-btn-toolbar__label,
+.ring-btn-toolbar > .ring-button-group {
+  margin-right: 16px;
+
+  &:last-child {
+    margin-right: 0;
+  }
+}
+
+// Icon-btn
+//
+//Markup:
+//<button class="ring-icon-btn ring-btn"><span class="ring-font-icon ring-font-icon_add"></span></button>
+//
+// Styleguide 4.4
+
+.ring-icon-btn {
+  position: relative;
+  display: inline;
+  width: 2*$ring-unit+1 !important;
+  height: 2*$ring-unit+1 !important;
+  padding: 0 !important;
+
+  font-size: 8px;
+  border-radius: 2*$ring-unit;
+  line-height: 2*$ring-unit;
+  color: #6E6E6E;
+}

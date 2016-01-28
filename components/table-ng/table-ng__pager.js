@@ -32,9 +32,9 @@ module.directive('rgTablePager', ['$location', 'RingMessageBundle', function ($l
       scope.calculatePageClass = function (pageNum) {
         const condition = pageNum === scope.selectedPageNum;
         return {
-          'ring-btn_light-blue': condition,
-          'ring-btn_active': condition,
-          'ring-btn_upper': condition
+          'ring-button_light-blue': condition,
+          'ring-button_active': condition,
+          'ring-button_upper': condition
         };
       };
 

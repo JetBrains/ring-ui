@@ -48,10 +48,6 @@
   }
 
   &__icons {
-    position: absolute;
-    top: 0;
-    right: $ring-unit;
-
     .ring-loader.ring-loader_inline {
       top: 2px;
       margin-right: 2px;
@@ -67,7 +63,15 @@
   }
 }
 
-.ring-btn.ring-select {
+.ring-select:not(.ring-button) {
+  .ring-select__icons {
+    position: absolute;
+    top: 2px;
+    right: $ring-unit;
+  }
+}
+
+.ring-button.ring-select {
   font-size: $ring-font-size;
   width: 100%;
   text-align: left;

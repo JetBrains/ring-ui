@@ -9,7 +9,7 @@ import PopupMenu from '../popup-menu/popup-menu';
 <example name="Dropdown Ng">
   <file name="index.html">
     <div ng-app='dropTest' ng-controller='testController as ctrl'>
-      <button class="ring-btn"
+      <button class="ring-button"
               rg-dropdown
               items="ctrl.items"
               label-field="displayName"
@@ -17,7 +17,7 @@ import PopupMenu from '../popup-menu/popup-menu';
               config="{corner: 2, direction: 8}">
         Do something
       </button>
-      <button class="ring-btn"
+      <button class="ring-button"
               rg-dropdown
               items-src="ctrl.promiseSrc"
               on-item-select="ctrl.onSelect"

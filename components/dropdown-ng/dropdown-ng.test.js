@@ -21,7 +21,7 @@ describe('DropdownNg', function () {
     ];
     scope.items = itemsMock;
 
-    element = $compile('<button class="ring-btn" rg-dropdown items="items" on-item-select="onSelect" label-field="name"></button>')(scope);
+    element = $compile('<button class="ring-button" rg-dropdown items="items" on-item-select="onSelect" label-field="name"></button>')(scope);
     scope.$digest();
     directiveScope = element.isolateScope();
   }));
@@ -84,7 +84,7 @@ describe('DropdownNg', function () {
 
   it('should not throw error if items is not defined but we show popup', function () {
     scope.items = null;
-    element = $compile('<i class="ring-btn" rg-dropdown items="items"></i>')(scope);
+    element = $compile('<i class="ring-button" rg-dropdown items="items"></i>')(scope);
     scope.$digest();
     directiveScope = element.isolateScope();
 

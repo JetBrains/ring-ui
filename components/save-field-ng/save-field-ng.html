@@ -1,18 +1,22 @@
 <div class="ring-save-field" ng-form="saveFieldForm" rg-shortcuts="ring-save-field" shortcuts-map="keyMap" shortcuts-focus="focus">
   <span class="ring-save-field__transclude-placeholder" ng-transclude=""></span>
-  <button ng-show="saveFieldForm.$dirty && saveFieldForm.$valid"
-          ng-disabled="loading"
-          class="ring-btn ring-btn_blue ring-save-field__button"
-          ng-click="submitChanges($event)"
-          ng-mousedown="cancelBlur()">
+
+  <rg-button
+    ng-show="saveFieldForm.$dirty && saveFieldForm.$valid"
+    mode="blue"
+    loader="loading"
+    class="ring-save-field__button"
+    ng-click="submitChanges($event)"
+    ng-mousedown="cancelBlur()"
+  >
     {{wording.save}}
-  </button>
-  <button ng-show="done"
-    disabled
-    class="ring-btn ring-save-field__button">
+  </rg-button>
+
+  <rg-button
+    ng-show="done"
+    ng-disabled="true"
+    class="ring-save-field__button"
+  >
     {{wording.saved}}
-  </button>
-  <span class="ring-save-field__loader" ng-show="loading">
-      <span react-static="LoaderInline"></span>
-  </span>
+  </rg-button>
 </div>
