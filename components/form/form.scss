@@ -137,11 +137,6 @@ $ring-input-width: $ring-unit*25;
   }
 
   & .ring-form__control {
-    & .ring-input {
-      width: 100% !important;
-      box-sizing: border-box;
-    }
-
     margin-left: 0;
     width: 42 * $ring-unit;
   }
