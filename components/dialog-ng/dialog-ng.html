@@ -17,7 +17,7 @@
       </div>
     </form>
 
-    <div class="ring-dialog__footer" ng-if="dialog.description && dialog.description.length || dialog.buttons.length">
+    <div class="ring-dialog__footer" ng-if="dialog.description.length || dialog.buttons.length">
       <div class="ring-dialog__footer__description" ng-if="dialog.description && dialog.description.length">
         <div ng-repeat="line in dialog.description">{{ line }}</div>
       </div>
