@@ -148,7 +148,7 @@ import {createElement} from 'react';
       <rg-select
         ng-model="ctrl.selectedItem"
         lazy="false"
-        options="item.id as item.text for item in ctrl.options"></rg-select>
+        options="item.id as item.text for item in ctrl.options track by item.id"></rg-select>
       <div>Selected item: {{ctrl.selectedItem}}</div>
     </div>
   </file>
@@ -511,7 +511,10 @@ module.directive('rgSelect', function () {
       }
 
       function getCurrentSkipParameter(query, prevQuery) {
-        return (query === prevQuery && ctrl.loadedOptions) ? ctrl.loadedOptions.length : 0;
+        if (!ctrl.withInfiniteScroll || query !== prevQuery || !ctrl.loadedOptions) {
+          return 0;
+        }
+        return ctrl.loadedOptions.length;
       }
 
       ctrl.syncSelectToNgModel = selectedValue => {
