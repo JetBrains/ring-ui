@@ -77,7 +77,7 @@ function reactNgDirective($parse) {
               }
             });
           } else if (typeof ComponentClass.ngModelStateField === 'string') {
-            props[ComponentClass.ngModelStateField] = value;
+            props[ComponentClass.ngModelStateField] = value || ''; // Changes for strings are not applied if value is null or undefined. It always should be string
           } else {
             return;
           }

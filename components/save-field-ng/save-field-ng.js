@@ -112,6 +112,26 @@ const module = angular.module('Ring.save-field', [
               </rg-save-field>
             </div>
           </div>
+
+          <div class="ring-form__group">
+            <label class="ring-form__label">
+              Query Assist
+            </label>
+
+            <div class="ring-form__control">
+              <rg-save-field value="data.query"
+                             on-save="save(value)">
+                <div react="QueryAssist"
+                     class="ring-input-size_l"
+                     x-data-source="queryAssistSource(query, caret, omitSuggestions)"
+                     ng-model="data.query"
+                     placeholder="{{ placeholder }}"
+                     hint="{{ 'Press ⇥ to complete first item' }}"
+                     hint-on-selection="{{ 'Press ↩ to complete selected item' }}"></div>
+              </rg-save-field>
+              <div class="ring-form__control__description">Currently there is a bug with "escape" shortcut</div>
+            </div>
+          </div>
         </div>
 
      </div>
@@ -120,8 +140,12 @@ const module = angular.module('Ring.save-field', [
        require('angular');
        require('ring-ui/components/save-field-ng/save-field-ng');
        require('ring-ui/components/input-size/input-size.scss');
+       require('ring-ui/components/react-ng/react-ng')({
+        QueryAssist: require('ring-ui/components/query-assist/query-assist'),
+        LoaderInline: require('ring-ui/components/loader-inline/loader-inline')
+       });
 
-       angular.module('Example.saveField', ['Ring.save-field'])
+       angular.module('Example.saveField', ['Ring.save-field', 'Ring.react-ng'])
          .config(['shortcutsProvider', 'rgSaveFieldShortcutsMode', function(shortcutsProvider, rgSaveFieldShortcutsMode) {
            shortcutsProvider.mode({
              id: 'ring-shortcuts',
@@ -129,13 +153,14 @@ const module = angular.module('Ring.save-field', [
            });
            shortcutsProvider.mode(rgSaveFieldShortcutsMode);
          }])
-         .controller('SaveFieldDemoCtrl', function($scope, $q) {
+         .controller('SaveFieldDemoCtrl', function($scope, $q, $http) {
            $scope.data = {
              email: 'aa',
              longText: null,
              longTextList: ['one', 'two', 'three'],
              num: 10,
-             someText: 'some text'
+             someText: 'some text',
+             query: 'login: guest'
            };
 
            var defer = $q.defer();
@@ -151,6 +176,22 @@ const module = angular.module('Ring.save-field', [
              } else {
                return true;
              }
+           };
+
+           var hubConfig = require('ring-ui/site/hub-config');
+           $scope.queryAssistSource = function(query, caret, omitSuggestions) {
+             var config = {
+               params: {
+                 fields: 'query,caret,styleRanges' + (omitSuggestions ? '' : ',suggestions'),
+                 query: query,
+                 caret: caret
+               }
+             };
+
+             return $http.get(hubConfig.serverUri + '/api/rest/users/queryAssist', config).
+               then(function(data) {
+                 return data.data;
+               });
            };
        });
      </file>
