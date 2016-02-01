@@ -5,6 +5,7 @@ import RingComponentWithShortcuts from '../ring-component/ring-component_with-sh
 import Select from '../select/select';
 import Tag from '../tag/tag';
 import './tags-input.scss';
+import '../input-size/input-size.scss';
 
 /**
  * @name Tags Input
@@ -227,6 +228,7 @@ export default class TagsInput extends RingComponentWithShortcuts {
         type={Select.Type.INPUT}
         label={this.props.placeholder}
         data={this.state.suggestions}
+        className="ring-input-size_md"
         onSelect={::this.addTag}
         filter={{
           fn: () => true
