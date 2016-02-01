@@ -1,4 +1,8 @@
-/* eslint-disable no-var */
+/* eslint-disable no-var, modules/no-cjs */
+
+var Sniffr = require('sniffr');
+var sniffr = new Sniffr();
+sniffr.sniff();
 
 /**
  * Note: this script is a self running script. You should include it in your browser directly
@@ -16,8 +20,9 @@
       <div id="ring-old-browsers-message" class="ring-old-browsers-message ring-old-browsers-message_hidden">
         <span id="ring-old-browsers-message__smile" class="ring-old-browsers-message__smile">{{ (>_<) }}</span>
         <br/><br/>
-        This version of your browser is not <a href="https://documentation.link">supported</a>.<br/>
-        Try upgrading to the latest stable version.
+        <span id="ring-old-browsers-message__browser-message">This version of your browser is not <a href="https://documentation.link">supported</a>.<br/>
+        Try upgrading to the latest stable version.</span>
+        <span id="ring-old-browsers-message__error-message">Something went seriously wrong.</span>
         <br/><br/>
         <!--[if IE 9]>
           <span>If you use IE9.0 or higher, make sure that compatibility mode is disabled.</span>
@@ -34,6 +39,20 @@
        </file>
    </example>
  */
+
+/*
+The list of versions which (and above) is defenitely supported
+"Browser is unsupported" won't show for this(and above) browsers even
+if js error will occur on application start
+*/
+
+const WHITE_LIST = [
+  {name: 'chrome', major: 43},
+  {name: 'firefox', major: 41},
+  {name: 'safari', major: 8},
+  {name: 'ie', major: 10},
+  {name: 'edge', major: 1}
+];
 
 (function () {
   var smileChanges = 0;
@@ -73,6 +92,22 @@
     }
   }
 
+  function browserInWhiteList() {
+    for (var index in WHITE_LIST) {
+      if (WHITE_LIST.hasOwnProperty(index)) {
+        var browser = WHITE_LIST[index];
+
+        var isNameInWhiteList = browser.name === sniffr.browser.name;
+        var isVersionInWhiteList = browser.major <= sniffr.browser.version[0];
+
+        if (isNameInWhiteList && isVersionInWhiteList) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
   /**
    * Listens to unhandled errors and displays passed node
    */
@@ -94,11 +129,21 @@
 
   function activate() {
     startOldBrowsersDectector(function onDetected() {
-      var oldBrowsersMessageNode = document.getElementById('ring-old-browsers-message');
+      var oldBrowsersMessageContainer = document.getElementById('ring-old-browsers-message');
+      var browserMessage = document.getElementById('ring-old-browsers-message__browser-message');
+      var errorMessage = document.getElementById('ring-old-browsers-message__error-message');
       var smileNode = document.getElementById('ring-old-browsers-message__smile');
 
-      if (oldBrowsersMessageNode) {
-        oldBrowsersMessageNode.style.display = 'block';
+      if (browserInWhiteList()) {
+        browserMessage.style.display = 'none';
+        errorMessage.style.display = 'block';
+      } else {
+        browserMessage.style.display = 'block';
+        errorMessage.style.display = 'none';
+      }
+
+      if (oldBrowsersMessageContainer) {
+        oldBrowsersMessageContainer.style.display = 'block';
       }
 
       if (smileNode) {
