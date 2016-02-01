@@ -28,7 +28,7 @@ const POPUP_COMPENSATION = INPUT_BORDER_WIDTH +
   PopupMenu.ListProps.Dimension.ITEM_PADDING +
   PopupMenu.PopupProps.Dimension.BORDER_WIDTH;
 
-const ngModelStateField = {query: true, caret: true};
+const ngModelStateField = 'query';
 
 function noop() {}
 
@@ -87,22 +87,25 @@ function noop() {}
    <example name="QueryAssist in Angular">
      <file name="index.html">
        <div ng-app="test" ng-controller="testCtrl as ctrl">
-         <p>{{ ctrl.query }}</p>
+         <div ng-form="testForm">
+           <p>{{ ctrl.query || 'no value' }}</p>
+           <p>form is dirty = <strong>{{ testForm.$dirty }}</strong></p>
 
-         <div react="QueryAssist"
-           clear="true"
-           x-data-source="ctrl.source(query, caret, omitSuggestions)"
-           glass="true"
-           focus="ctrl.focus"
-           query="ctrl.query"
-           on-apply="ctrl.save(query)"
-           on-change="ctrl.change(query)"
-           on-focus-change="ctrl.focusChange(focus)"
-           placeholder="{{ placeholder }}"
-           hint="{{ 'Press ⇥ to complete first item' }}"
-           hint-on-selection="{{ 'Press ↩ to complete selected item' }}"></div>
+           <div react="QueryAssist"
+                clear="true"
+                x-data-source="ctrl.source(query, caret, omitSuggestions)"
+                glass="true"
+                focus="ctrl.focus"
+                ng-model="ctrl.query"
+                on-apply="ctrl.save(query)"
+                on-change="ctrl.change(query)"
+                on-focus-change="ctrl.focusChange(focus)"
+                placeholder="{{ placeholder }}"
+                hint="{{ 'Press ⇥ to complete first item' }}"
+                hint-on-selection="{{ 'Press ↩ to complete selected item' }}"></div>
 
-         <p ng-repeat="query in ctrl.queries track by $index">{{ query }}</p>
+           <p ng-repeat="query in ctrl.queries track by $index">{{ query }}</p>
+         </div>
        </div>
      </file>
 
@@ -127,7 +130,9 @@ function noop() {}
 
            ctrl.save = function(query) {
              ctrl.queries.unshift(query);
+             ctrl.query = null;
              $scope.$apply();
+             $scope.testForm.$setPristine(true);
            };
 
            function updateScope(name, value) {
@@ -141,7 +146,7 @@ function noop() {}
            }
 
            ctrl.change = function (query) {
-             updateScope('query', query);
+             console.log('ctrl.change:: Query = ', query);
            };
 
            ctrl.focusChange = function (focus) {
@@ -167,8 +172,6 @@ function noop() {}
    </example>
  */
 export default class QueryAssist extends RingComponentWithShortcuts {
-  static query = ngModelStateField.query;
-  static caret = ngModelStateField.caret;
   static ngModelStateField = ngModelStateField;
 
   static propTypes = {
