@@ -46,15 +46,16 @@ The list of versions which (and above) is defenitely supported
 if js error will occur on application start
 */
 
-var MAJOR_VERSION = 0;
+var MAJOR_VERSION_INDEX = 0;
 
-var WHITE_LIST = [
-  {name: 'chrome', major: 43},
-  {name: 'firefox', major: 41},
-  {name: 'safari', major: 8},
-  {name: 'ie', major: 10},
-  {name: 'edge', major: 1}
-];
+var WHITE_LIST = {
+  chrome: 38,
+  firefox: 34,
+  safari: 7,
+  ie: 10,
+  edge: 1
+};
+
 
 (function () {
   var smileChanges = 0;
@@ -95,19 +96,7 @@ var WHITE_LIST = [
   }
 
   function browserInWhiteList() {
-    for (var index in WHITE_LIST) {
-      if (WHITE_LIST.hasOwnProperty(index)) {
-        var browser = WHITE_LIST[index];
-
-        var isNameInWhiteList = browser.name === sniffr.browser.name;
-        var isVersionInWhiteList = browser.major <= sniffr.browser.version[MAJOR_VERSION];
-
-        if (isNameInWhiteList && isVersionInWhiteList) {
-          return true;
-        }
-      }
-    }
-    return false;
+    return sniffr.browser.version[MAJOR_VERSION_INDEX] >= WHITE_LIST[sniffr.browser.name];
   }
 
   /**
