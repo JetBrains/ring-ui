@@ -38,6 +38,11 @@ describe('Select', function () {
     expect(Select.Type.CUSTOM).to.be.defined;
   });
 
+  it('Should take provided className', function () {
+    this.select.rerender({className: 'foo-bar'});
+    this.select.node.should.have.class('foo-bar');
+  });
+
   it('Should compute selected index', function () {
     const selectedIndex = this.select._getSelectedIndex(testData[2], testData);
     selectedIndex.should.equal(2);
