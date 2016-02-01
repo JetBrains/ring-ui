@@ -46,7 +46,9 @@ The list of versions which (and above) is defenitely supported
 if js error will occur on application start
 */
 
-const WHITE_LIST = [
+var MAJOR_VERSION = 0;
+
+var WHITE_LIST = [
   {name: 'chrome', major: 43},
   {name: 'firefox', major: 41},
   {name: 'safari', major: 8},
@@ -98,7 +100,7 @@ const WHITE_LIST = [
         var browser = WHITE_LIST[index];
 
         var isNameInWhiteList = browser.name === sniffr.browser.name;
-        var isVersionInWhiteList = browser.major <= sniffr.browser.version[0];
+        var isVersionInWhiteList = browser.major <= sniffr.browser.version[MAJOR_VERSION];
 
         if (isNameInWhiteList && isVersionInWhiteList) {
           return true;
