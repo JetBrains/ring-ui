@@ -580,7 +580,10 @@ export default class Popup extends RingComponentWithShortcuts {
    * @private
    */
   _getStyles() {
-    let styles = {};
+    let styles = {
+      top: 0,
+      left: 0
+    };
     const props = this.props;
 
     let anchorElement = document.body;
