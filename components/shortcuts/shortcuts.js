@@ -1,14 +1,15 @@
 import 'dom4';
-import mousetrap from 'mousetrap';
+import Combokeys from 'combokeys';
 
 class Shortcuts {
   ALLOW_SHORTCUTS_SELECTOR = '.ring-js-shortcuts';
   ROOT_SCOPE = 'ROOT';
 
   _scopes = {};
-  trigger = mousetrap.trigger;
 
   constructor() {
+    this.combokeys = new Combokeys(document.documentElement);
+    this.trigger = this.combokeys.trigger;
     this.setFilter();
     this.setScope();
   }
@@ -36,7 +37,7 @@ class Shortcuts {
    * @param params.key {string | Array.<string>) Keys to bind
    * @param params.handler {Function} Events handle
    * @param params.scope {string} Scope (optional)
-   * @param params.type {string} Event type, will be passed to Mousetrap (optional)
+   * @param params.type {string} Event type, will be passed to Combokeys (optional)
    */
   bind(params) {
     if (!(params instanceof Object) || typeof params.handler !== 'function') {
@@ -64,7 +65,7 @@ class Shortcuts {
     }
     this._scopes[params.scope][params.key] = params.handler;
 
-    mousetrap.bind(params.key, ::this._dispatcher, params.type);
+    this.combokeys.bind(params.key, ::this._dispatcher, params.type);
   }
 
   /**
@@ -72,7 +73,7 @@ class Shortcuts {
    *
    * @map {Object) Keys to handlers map
    * @options.scope {string} Scope (optional)
-   * @options.type {string} Event type, will be passed to Mousetrap (optional)
+   * @options.type {string} Event type, will be passed to Combokeys (optional)
    */
   bindMap(map, options) {
     if (!(map instanceof Object)) {
@@ -165,13 +166,13 @@ class Shortcuts {
   }
 
   setFilter(fn) {
-    mousetrap.stopCallback = typeof fn === 'function' ? fn : ::this._defaultFilter;
+    this.combokeys.stopCallback = typeof fn === 'function' ? fn : ::this._defaultFilter;
   }
 
   reset() {
     this._scopes = {};
     this.setScope();
-    mousetrap.reset();
+    this.combokeys.reset();
   }
 }
 
