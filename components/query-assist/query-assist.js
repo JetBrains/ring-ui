@@ -218,6 +218,7 @@ export default class QueryAssist extends RingComponentWithShortcuts {
   getShortcutsProps() {
     return {
       map: {
+        delete: noop,
         enter: ::this.handleComplete,
         'ctrl+space': ::this.handleCtrlSpace,
         tab: ::this.handleTab,
