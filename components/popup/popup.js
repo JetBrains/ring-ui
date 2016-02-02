@@ -370,7 +370,7 @@ export default class Popup extends RingComponentWithShortcuts {
    * Closes popup and optionally removes from document.
    */
   close(evt) {
-    let onCloseResult = true;
+    let onCloseResult;
 
     if (typeof this.props.onClose === 'function') {
       onCloseResult = this.props.onClose(evt);
