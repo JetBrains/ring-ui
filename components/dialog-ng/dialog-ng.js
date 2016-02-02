@@ -187,8 +187,7 @@ class DialogController {
 
     Reflect.deleteProperty(this, 'DIALOG_NAMESPACE');
 
-    //There should be a QueryAssist in a dialog that is focused but no suggest is shown
-    if (shortcuts.getScope().indexOf(this.dialogService.DIALOG_NAMESPACE) > -1) {
+    if (shortcuts.getScope().pop() === this.dialogService.DIALOG_NAMESPACE) {
       shortcuts.setScope(this.currentShortcutsScope);
     }
   }
