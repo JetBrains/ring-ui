@@ -114,6 +114,32 @@ import {createElement} from 'react';
   </file>
 </example>
 
+<example name="Select-ng-as-input">
+  <file name="index.html">
+    <div ng-app="test" ng-controller="testCtrl as ctrl">
+      <rg-select ng-model="ctrl.selectedItem" options="item.text for item in ctrl.options track by item.id" label="Select item" ng-disabled="ctrl.disabled" type="input"></rg-select>
+      <div>Selected item: {{ctrl.selectedItem | json}}</div>
+      <div><button ng-click="ctrl.disabled = true">Disable</button><button ng-click="ctrl.disabled = false">Enable</button></div>
+    </div>
+  </file>
+  <file name="index.js" webpack="true">
+    require('angular');
+    require('ring-ui/components/select-ng/select-ng');
+
+    angular.module('test', ['Ring.select']).controller('testCtrl', function() {
+      var ctrl = this;
+
+      ctrl.options = [
+        {id: 1, text: '11111'},
+        {id: 2, text: '22222'},
+        {id: 3, text: '33333'}
+      ];
+
+      ctrl.selectedItem = ctrl.options[1];
+    });
+  </file>
+</example>
+
 <example name="Select-ng-as-model">
   <file name="index.html">
     <div ng-app="test" ng-controller="testCtrl as ctrl">
