@@ -149,6 +149,27 @@ describe('QueryAssist', function () {
   });
 
 
+  describe('init', function () {
+    it('should create popup when autoOpen', function (done) {
+      this.renderQueryAssist({
+        autoOpen: true,
+        dataSource: params => {
+          params.should.not.have.property('omitSuggestions');
+          done();
+        }
+      });
+    });
+
+    it('should not create popup by default', function (done) {
+      this.renderQueryAssist({
+        dataSource: params => {
+          params.should.have.property('omitSuggestions', true);
+          done();
+        }
+      });
+    });
+  });
+
   describe('rendering', function () {
     const LETTER_CLASS = 'ring-query-assist__letter';
 
