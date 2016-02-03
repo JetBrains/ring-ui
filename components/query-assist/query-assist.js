@@ -248,9 +248,11 @@ export default class QueryAssist extends RingComponentWithShortcuts {
     this.setupRequestHandler(this.props);
     this.setShortcutsEnabled(this.props.focus);
 
-    const request = this.props.autoOpen ? this.requestData() : this.requestStyleRanges();
+    const request = this.props.autoOpen
+      ? this.boundRequestHandler().then(::this.setFocus)
+      : this.requestStyleRanges().catch(::this.setFocus);
+
     request.
-      catch(::this.setFocus).
       /* For some reason one more tick before attachMutationEvents is required */
       then(() => new Promise(resolve => setTimeout(resolve, 0))).
       then(::this.attachMutationEvents);
