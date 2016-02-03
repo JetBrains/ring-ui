@@ -83,16 +83,16 @@ export default class Permissions {
 
   /**
    * Waits till the permission cache is loaded then checks if the current user has the
-   * given permissions in the space with the given id.
+   * given permissions in the project with the given id.
    *
    * @param {string} permissions  space separated list of permissions
-   * @param {string=} spaceId     optional spaceId. If absent the method checks
-   *  if the given permission is granted in any space.
+   * @param {string=} projectId     optional projectId. If absent the method checks
+   *  if the given permission is granted in any project.
    *
    * @return {Promise.<boolean>}
    */
-  check(permissions, spaceId) {
-    return this.load().then(permissionCache => permissionCache.has(permissions, spaceId));
+  check(permissions, projectId) {
+    return this.load().then(permissionCache => permissionCache.has(permissions, projectId));
   }
 
   /**
@@ -107,15 +107,15 @@ export default class Permissions {
    * @param {object} object       an object which property should be bound
    * @param {string} propertyName a name of a property to bind
    * @param {string} permissions  space separated list of permissions
-   * @param {string=} spaceId     optional spaceId. If absent the method checks
-   *  if the given permissions are granted in any space.
+   * @param {string=} projectId     optional projectId. If absent the method checks
+   *  if the given permissions are granted in any project.
    *
    * @return {Promise.<boolean>}
    */
-  bindVariable(object, propertyName, permissions, spaceId) {
+  bindVariable(object, propertyName, permissions, projectId) {
     object[propertyName] = false;
 
-    return this.check(permissions, spaceId).
+    return this.check(permissions, projectId).
       then(permitted => {
         object[propertyName] = permitted;
         return permitted;
