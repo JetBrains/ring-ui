@@ -12,26 +12,26 @@
  * @private
  */
 export default class PermissionCache {
-  static GLOBAL_SPACE_ID = 'global';
+  static GLOBAL_PROJECT_ID = 'global';
 
   /**
-   * Convert an array of projects to a set of space ids.
+   * Convert an array of projects to a set of project ids.
    *
    * @param {object[]=} projects
-   * @return {object} a set of space ids
+   * @return {object} a set of project ids
    * @private
    */
   static _toProjectIdSet(projects) {
-    let spaceIdSet = null;
+    let projectIdSet = null;
 
     if (projects) {
-      spaceIdSet = {};
+      projectIdSet = {};
       for (let i = 0; i < projects.length; i++) {
-        spaceIdSet[projects[i].id] = true;
+        projectIdSet[projects[i].id] = true;
       }
     }
 
-    return spaceIdSet;
+    return projectIdSet;
   }
 
   constructor(permissions, namesConverter) {
@@ -47,7 +47,7 @@ export default class PermissionCache {
       if (key) {
         permissionCache[key] = {
           global: permission.global,
-          spaceIdSet: this.constructor._toProjectIdSet(permission.projects)
+          projectIdSet: this.constructor._toProjectIdSet(permission.projects)
         };
       }
     });
@@ -57,22 +57,22 @@ export default class PermissionCache {
   }
 
   /**
-   * Checks if the current user has the given permissions in the space with the given id.
+   * Checks if the current user has the given permissions in the project with the given id.
    *
    * @param {string} permissions  space separated list of permissions
-   * @param {string=} spaceId     optional spaceId. If absent the method checks
-   *  if the given permission is granted in any space.
+   * @param {string=} projectId     optional projectId. If absent the method checks
+   *  if the given permission is granted in any project.
    *
    * @return {boolean}
    */
-  has(permissions, spaceId) {
+  has(permissions, projectId) {
     const lexems = this.lex(permissions);
     if (lexems.length === 0) {
       return true;
     }
 
     try {
-      return this.or(lexems, spaceId);
+      return this.or(lexems, projectId);
     } catch (e) {
       return false;
     }
@@ -140,18 +140,18 @@ export default class PermissionCache {
 
   /**
    * @param {string[]} lexems
-   * @param {string=} spaceId
+   * @param {string=} projectId
    * @return {boolean}
    */
-  or(lexems, spaceId) {
-    let result = this.and(lexems, spaceId);
+  or(lexems, projectId) {
+    let result = this.and(lexems, projectId);
 
     while (lexems.length > 0 && lexems[0] !== ')') {
       if (lexems.shift() !== '|') {
         throw new Error('Operator \'|\' was expected');
       }
 
-      result = this.and(lexems, spaceId) || result;
+      result = this.and(lexems, projectId) || result;
     }
 
     return result;
@@ -159,11 +159,11 @@ export default class PermissionCache {
 
   /**
    * @param {string[]} lexems
-   * @param {string=} spaceId
+   * @param {string=} projectId
    * @return {boolean}
    */
-  and(lexems, spaceId) {
-    let result = this.not(lexems, spaceId);
+  and(lexems, projectId) {
+    let result = this.not(lexems, projectId);
 
     while (lexems.length > 0 && lexems[0] !== ')' && lexems[0] !== '|') {
       // Expect optional '&'
@@ -171,7 +171,7 @@ export default class PermissionCache {
         lexems.shift();
       }
 
-      result = this.not(lexems, spaceId) && result;
+      result = this.not(lexems, projectId) && result;
     }
 
     return result;
@@ -179,10 +179,10 @@ export default class PermissionCache {
 
   /**
    * @param {string[]} lexems
-   * @param {string=} spaceId
+   * @param {string=} projectId
    * @return {boolean}
    */
-  not(lexems, spaceId) {
+  not(lexems, projectId) {
     let notCounter = 0;
 
     while (lexems.length > 0 && lexems[0] === '!') {
@@ -190,17 +190,17 @@ export default class PermissionCache {
       lexems.shift();
     }
 
-    const result = this.term(lexems, spaceId);
+    const result = this.term(lexems, projectId);
 
     return (notCounter % 2 === 0) ? result : !result;
   }
 
   /**
    * @param {string[]} lexems
-   * @param {string=} spaceId
+   * @param {string=} projectId
    * @return {boolean}
    */
-  term(lexems, spaceId) {
+  term(lexems, projectId) {
     if (lexems.length === 0) {
       throw new Error('Operand was expected');
     }
@@ -210,13 +210,13 @@ export default class PermissionCache {
 
     // Nested paranthesized expression
     if (t === '(') {
-      result = this.or(lexems, spaceId);
+      result = this.or(lexems, projectId);
       // Expect ')'
       if (lexems.shift() !== ')') {
         throw new Error('Operator \')\' was expected');
       }
     } else {
-      result = this.testPermission(t, spaceId);
+      result = this.testPermission(t, projectId);
     }
 
     return result;
@@ -224,26 +224,26 @@ export default class PermissionCache {
 
   /**
    * @param {string} permissionName
-   * @param {string=} spaceId
+   * @param {string=} projectId
    * @return {boolean}
    */
-  testPermission(permissionName, spaceId) {
+  testPermission(permissionName, projectId) {
     const permissionCache = this.permissionCache;
     const cachedPermission = permissionCache[permissionName] || permissionCache[this.namesConverter(permissionName)];
 
-    // Hasn't the permission in any space
+    // Hasn't the permission in any project
     if (!cachedPermission) {
       return false;
     }
 
-    // The permission is global or is given in the global space
+    // The permission is global or is given in the global project
     if (cachedPermission.global) {
       return true;
     }
 
-    if (spaceId) {
-      // if spaceId is specified check that the permission is given in the space
-      return cachedPermission.spaceIdSet && (spaceId in cachedPermission.spaceIdSet);
+    if (projectId) {
+      // if projectId is specified check that the permission is given in the project
+      return cachedPermission.projectIdSet && (projectId in cachedPermission.projectIdSet);
     } else {
       return true;
     }
