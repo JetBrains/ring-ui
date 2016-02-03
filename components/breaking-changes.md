@@ -6,7 +6,23 @@ order: 2
 
 See the “breaking change” commits [in Upsource](https://upsource.jetbrains.com/ring-ui/view?query=path:%20%7B%2A%2Fbreaking-changes.md%7D%20and%20not%20%22Wording%22).
 
-### 28-01-2015: Changed the way form control sizes are set
+### 03-02-2016: `in-space` of directives `rg-permission` and `rg-permission-if` was renamed to `in-project` (RG-750)  
+
+Before:
+```
+<div rg-permission="space-read" in-space="0-0-0-0-0">
+ Is visible if user has permission 'read-space' in space 0-0-0-0-0.
+</div>
+```
+
+After:
+```
+<div rg-permission="project-read" in-project="0-0-0-0-0">
+ Is visible if user has permission 'read-project' in project 0-0-0-0-0.
+</div>
+```
+
+### 28-01-2016: Changed the way form control sizes are set
 
 To set the size of the form controls, use the `ring-input-size_<size>` class, where `<size>` can be "sx" (50px), "s" (100px), "md" (200px) or "l" (400px).
 
@@ -28,9 +44,9 @@ After:
 </div>
 ```
 
-### 28-01-2015: CSS class .ring-form__error-bubble was renamed to .ring-error-bubble
+### 28-01-2016: CSS class .ring-form__error-bubble was renamed to .ring-error-bubble
 
-### 11-01-2015: Popup API change: "Corner" and "Direction" props replaced with "Directions" array.
+### 11-01-2016: Popup API change: "Corner" and "Direction" props replaced with "Directions" array.
 
 The arcane bitwise API was replaced with a more straightforward [direction specification](https://en.bem.info/libs/bem-components/v2.4.0/desktop/popup/#directions-field).
 "Corner" and "Direction" properties were dropped, "Directions" array was introduced. Example:

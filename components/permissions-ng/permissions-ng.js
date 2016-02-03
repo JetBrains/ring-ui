@@ -75,14 +75,14 @@ module.provider('userPermissions', function () {
  * @example
    <example name="rgPermission directive">
      <file name="index.html">
-       <div rg-permission="space-read" in-space="0-0-0-0-0">
-         Is visible if user has permission 'read-space' in space 0-0-0-0-0.
+       <div rg-permission="project-read" in-project="0-0-0-0-0">
+         Is visible if user has permission 'read-project' in project 0-0-0-0-0.
        </div>
-       <div rg-permission="space-read">
-         Is visible if user has permission 'read-space' at least in one space.
+       <div rg-permission="project-read">
+         Is visible if user has permission 'read-project' at least in one project.
        </div>
-       <div rg-permission="space-read" in-global>
-         Is visible if user has permission 'read-space' at space "global".
+       <div rg-permission="project-read" in-global>
+         Is visible if user has permission 'read-project' at project "global".
        </div>
      </file>
    </example>
@@ -101,8 +101,8 @@ module.directive('rgPermission', function (userPermissions) {
 
       element.classList.add('ring-permission-hide');
 
-      const spaceId = $attrs.hasOwnProperty('inGlobal') ? PermissionsCache.GLOBAL_SPACE_ID : $scope.$eval($attrs.inSpace);
-      userPermissions.check($attrs.rgPermission, spaceId).
+      const projectId = $attrs.hasOwnProperty('inGlobal') ? PermissionsCache.GLOBAL_PROJECT_ID : $scope.$eval($attrs.inProject);
+      userPermissions.check($attrs.rgPermission, projectId).
         then(permitted => {
           this.permitted = permitted;
           if (permitted) {
@@ -126,14 +126,14 @@ module.directive('rgPermission', function (userPermissions) {
  * @example
    <example name="rgPermissionIf directive">
      <file name="index.html">
-       <div rg-permission-if="space-read" in-space="0-0-0-0-0">
-         Is transcluded if user has permission 'read-space' in space 0-0-0-0-0.
+       <div rg-permission-if="project-read" in-project="0-0-0-0-0">
+         Is transcluded if user has permission 'read-project' in project 0-0-0-0-0.
        </div>
-       <div rg-permission-if="space-read">
-         Is transcluded if user has permission 'read-space' at least in one space.
+       <div rg-permission-if="project-read">
+         Is transcluded if user has permission 'read-project' at least in one project.
        </div>
-       <div rg-permission-if="space-read" in-global>
-         Is transcluded if user has permission 'read-space' at space "global".
+       <div rg-permission-if="project-read" in-global>
+         Is transcluded if user has permission 'read-project' at project "global".
        </div>
      </file>
    </example>
@@ -154,9 +154,9 @@ module.directive('rgPermissionIf', function ($animate, userPermissions) {
       let block;
       let childScope;
 
-      const spaceId = iAttrs.hasOwnProperty('inGlobal') ? PermissionsCache.GLOBAL_SPACE_ID : scope.$eval(iAttrs.inSpace);
+      const projectId = iAttrs.hasOwnProperty('inGlobal') ? PermissionsCache.GLOBAL_PROJECT_ID : scope.$eval(iAttrs.inProject);
 
-      userPermissions.check(iAttrs.rgPermissionIf, spaceId).
+      userPermissions.check(iAttrs.rgPermissionIf, projectId).
         then(permitted => {
           if (permitted) {
             if (!childScope) {
@@ -199,11 +199,11 @@ module.directive('rgPermissionIf', function ($animate, userPermissions) {
    <example name="somePermissions directive">
      <file name="index.html">
        <div rg-some-permissions="atLeastOneNestedDivIsShown" ng-show="atLeastOneNestedDivIsShown">
-         <div rg-permission-if="space-read" in-space="0-0-0-0-0">
-           Is transcluded if user has permission 'read-space' in space 0-0-0-0-0.
+         <div rg-permission-if="project-read" in-project="0-0-0-0-0">
+           Is transcluded if user has permission 'read-project' in project 0-0-0-0-0.
          </div>
-         <div rg-permission-if="space-read">
-           Is transcluded if user has permission 'read-space' at least in one space.
+         <div rg-permission-if="project-read">
+           Is transcluded if user has permission 'read-project' at least in one project.
          </div>
        </div>
      </file>

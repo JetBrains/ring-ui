@@ -7,7 +7,7 @@ describe('Permissions', function () {
    * @param id
    * @returns {{id: *}}
    */
-  function createSpace(id) {
+  function createProject(id) {
     return {
       id: id
     };
@@ -15,24 +15,24 @@ describe('Permissions', function () {
 
   /**
    * @param {string} key
-   * @param {Array} spaces
+   * @param {Array} projects
    * @param {boolean=} isGlobal
    * @returns {{permission: {key: *}, projects: *, global: *}}
    */
-  function createPermission(key, spaces, isGlobal) {
+  function createPermission(key, projects, isGlobal) {
     return {
-      permission: {key: key}, projects: spaces, global: isGlobal
+      permission: {key: key}, projects: projects, global: isGlobal
     };
   }
 
   describe('construction', function () {
     const auth = new Auth({serverUri: ''});
 
-    it('shouldn\'t build query if no spaceId provided', function () {
+    it('shouldn\'t build query if no projectId provided', function () {
       expect(new Permissions(auth).query).to.equal(undefined);
     });
 
-    it('should build query if spaceId provided', function () {
+    it('should build query if projectId provided', function () {
       expect(new Permissions(auth, {serviceId: '123'}).query).to.equal('service: {123}');
     });
 
@@ -75,9 +75,9 @@ describe('Permissions', function () {
 
   describe('cache', function () {
     const permissionCache = new PermissionCache([
-      createPermission('jetbrains.jetpass.space-read', null, true),
-      createPermission('jetbrains.jetpass.space-update', [
-        createSpace('123')
+      createPermission('jetbrains.jetpass.project-read', null, true),
+      createPermission('jetbrains.jetpass.project-update', [
+        createProject('123')
       ]),
       createPermission('jetbrains.upsource.permission.project.admin', null, true)
     ], Permissions.getDefaultNamesConverter('jetbrains.jetpass.'));
@@ -88,23 +88,23 @@ describe('Permissions', function () {
     });
 
     it('should permit global permission', function () {
-      permissionCache.has('space-read').should.be.true;
-      permissionCache.has('space-read', '123').should.be.true;
-      permissionCache.has('space-read', '456').should.be.true;
+      permissionCache.has('project-read').should.be.true;
+      permissionCache.has('project-read', '123').should.be.true;
+      permissionCache.has('project-read', '456').should.be.true;
     });
 
-    it('should work for spaceId "global"', function () {
-      permissionCache.has('space-read', PermissionCache.GLOBAL_SPACE_ID).should.be.true;
-      permissionCache.has('space-update', PermissionCache.GLOBAL_SPACE_ID).should.be.false;
+    it('should work for projectId "global"', function () {
+      permissionCache.has('project-read', PermissionCache.GLOBAL_PROJECT_ID).should.be.true;
+      permissionCache.has('project-update', PermissionCache.GLOBAL_PROJECT_ID).should.be.false;
     });
 
-    it('should permit if user has permission in space', function () {
-      permissionCache.has('space-update').should.be.true;
-      permissionCache.has('space-update', '123').should.be.true;
+    it('should permit if user has permission in project', function () {
+      permissionCache.has('project-update').should.be.true;
+      permissionCache.has('project-update', '123').should.be.true;
     });
 
-    it('should not permit if user has no permission in space', function () {
-      permissionCache.has('space-update', '456').should.be.false;
+    it('should not permit if user has no permission in project', function () {
+      permissionCache.has('project-update', '456').should.be.false;
     });
 
     it('should match full permission key if it doesn\'t start with the provided prefix', function () {
@@ -112,57 +112,57 @@ describe('Permissions', function () {
     });
 
     it('should permit if user has all permissions', function () {
-      permissionCache.has('space-read space-update', '123').should.be.true;
+      permissionCache.has('project-read project-update', '123').should.be.true;
     });
 
     it('should not permit if user doesn\'t have some permissions', function () {
-      permissionCache.has('space-read space-update', '456').should.be.false;
-      permissionCache.has('space-read role-update').should.be.false;
+      permissionCache.has('project-read project-update', '456').should.be.false;
+      permissionCache.has('project-read role-update').should.be.false;
     });
 
     describe('syntax', function () {
       it('should support disjunction', function () {
-        permissionCache.has('a | space-read').should.be.true;
+        permissionCache.has('a | project-read').should.be.true;
         permissionCache.has('a | b').should.be.false;
       });
 
       it('should support conjunction', function () {
-        permissionCache.has('a & space-read').should.be.false;
-        permissionCache.has('space-read & space-update').should.be.true;
+        permissionCache.has('a & project-read').should.be.false;
+        permissionCache.has('project-read & project-update').should.be.true;
       });
 
       it('should support negation', function () {
-        permissionCache.has('!space-read').should.be.false;
+        permissionCache.has('!project-read').should.be.false;
         permissionCache.has('!a').should.be.true;
-        permissionCache.has('!a & space-read').should.be.true;
-        permissionCache.has('!a & !space-read').should.be.false;
-        permissionCache.has('!a | !space-read').should.be.true;
+        permissionCache.has('!a & project-read').should.be.true;
+        permissionCache.has('!a & !project-read').should.be.false;
+        permissionCache.has('!a | !project-read').should.be.true;
       });
 
-      it('should support negation with defined space-id', function () {
-        permissionCache.has('!space-read', '123').should.be.false;
-        permissionCache.has('!space-update', '123').should.be.false;
-        permissionCache.has('!space-update', '456').should.be.true;
+      it('should support negation with defined project-id', function () {
+        permissionCache.has('!project-read', '123').should.be.false;
+        permissionCache.has('!project-update', '123').should.be.false;
+        permissionCache.has('!project-update', '456').should.be.true;
       });
 
       it('should support parens', function () {
-        permissionCache.has('(((space-read | a))) & (space-update)').should.be.true;
+        permissionCache.has('(((project-read | a))) & (project-update)').should.be.true;
       });
 
       it('should support parens with negations', function () {
-        permissionCache.has('!(space-read)').should.be.false;
+        permissionCache.has('!(project-read)').should.be.false;
         permissionCache.has('!(a)').should.be.true;
-        permissionCache.has('space-read & !(a)').should.be.true;
-        permissionCache.has('!(a | space-read)').should.be.false;
-        permissionCache.has('!(a | !space-read)').should.be.true;
+        permissionCache.has('project-read & !(a)').should.be.true;
+        permissionCache.has('!(a | project-read)').should.be.false;
+        permissionCache.has('!(a | !project-read)').should.be.true;
       });
 
       it('should support multiple negations', function () {
-        permissionCache.has('!!space-read').should.be.true;
+        permissionCache.has('!!project-read').should.be.true;
         permissionCache.has('!!(a)').should.be.false;
         permissionCache.has('!!!a').should.be.true;
-        permissionCache.has('!(!(a | !space-read))').should.be.false;
-        permissionCache.has('!(!(!(a | !space-read)))').should.be.true;
+        permissionCache.has('!(!(a | !project-read))').should.be.false;
+        permissionCache.has('!(!(!(a | !project-read)))').should.be.true;
       });
 
       it('should be true for blank', function () {
@@ -190,7 +190,7 @@ describe('Permissions', function () {
       const permissionCacheWithConverter = new PermissionCache([
         createPermission('jetbrains.jetpass.project-read', null, true),
         createPermission('JetBrains.YouTrack.UPDATE_NOT_OWN_WORK_ITEM', [
-          createSpace('123')
+          createProject('123')
         ]),
         createPermission('jetbrains.upsource.permission.project.admin', null, true)
       ], namesConverter);
@@ -231,9 +231,9 @@ describe('Permissions', function () {
     }
 
     const permissionCache = new PermissionCache([
-      createPermission('jetbrains.jetpass.space-read', null, true),
-      createPermission('jetbrains.jetpass.space-update', [
-        createSpace('123')
+      createPermission('jetbrains.jetpass.project-read', null, true),
+      createPermission('jetbrains.jetpass.project-update', [
+        createProject('123')
       ]),
       createPermission('jetbrains.upsource.permission.project.admin', null, true),
       createPermission('not-defined-key', null, true)
@@ -241,7 +241,7 @@ describe('Permissions', function () {
     permissions._promise = Promise.resolve(permissionCache);
 
     it('should resolve to true for given permission', function () {
-      return permissions.check('space-read').should.eventually.be.true;
+      return permissions.check('project-read').should.eventually.be.true;
     });
 
     it('should resolve to false for absent permission', function () {
@@ -250,17 +250,17 @@ describe('Permissions', function () {
 
     it('should bind variable to true for given permission', function () {
       const scope = {};
-      return permissions.bindVariable(scope, 'canReadSpace', 'space-read').
+      return permissions.bindVariable(scope, 'canReadProject', 'project-read').
         then(function () {
-          scope.canReadSpace.should.be.true;
+          scope.canReadProject.should.be.true;
         });
     });
 
-    it('should bind variable to true for given permission in space', function () {
+    it('should bind variable to true for given permission in project', function () {
       const scope = {};
-      return permissions.bindVariable(scope, 'canUpdateSpace', 'space-update', '123').
+      return permissions.bindVariable(scope, 'canUpdateProject', 'project-update', '123').
         then(function () {
-          scope.canUpdateSpace.should.be.true;
+          scope.canUpdateProject.should.be.true;
         });
     });
 
@@ -272,11 +272,11 @@ describe('Permissions', function () {
         });
     });
 
-    it('should bind variable to false for absent permission in space', function () {
+    it('should bind variable to false for absent permission in project', function () {
       const scope = {};
-      return permissions.bindVariable(scope, 'canUpdateSpace', 'space-update', '456').
+      return permissions.bindVariable(scope, 'canUpdateProject', 'project-update', '456').
         then(function () {
-          scope.canUpdateSpace.should.be.false;
+          scope.canUpdateProject.should.be.false;
         });
     });
 
