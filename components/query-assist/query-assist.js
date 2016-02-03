@@ -175,6 +175,7 @@ export default class QueryAssist extends RingComponentWithShortcuts {
   static ngModelStateField = ngModelStateField;
 
   static propTypes = {
+    autoOpen: PropTypes.bool,
     caret: PropTypes.number,
     className: PropTypes.string,
     popupClassName: PropTypes.string,
@@ -247,7 +248,8 @@ export default class QueryAssist extends RingComponentWithShortcuts {
     this.setupRequestHandler(this.props);
     this.setShortcutsEnabled(this.props.focus);
 
-    this.requestStyleRanges().
+    const request = this.props.autoOpen ? this.requestData() : this.requestStyleRanges();
+    request.
       catch(::this.setFocus).
       /* For some reason one more tick before attachMutationEvents is required */
       then(() => new Promise(resolve => setTimeout(resolve, 0))).
@@ -512,10 +514,10 @@ export default class QueryAssist extends RingComponentWithShortcuts {
 
   requestHandler() {
     if (this.props.disabled) {
-      return;
+      return Promise.reject();
     }
 
-    this.sendRequest(this.immediateState).
+    return this.sendRequest(this.immediateState).
       then(::this.handleResponse).
       then(::this.renderPopup).
       catch(noop);
