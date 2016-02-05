@@ -2,7 +2,6 @@
  * @fileoverview Query Assist
  */
 
-import 'core-js/modules/es6.array.find-index';
 import React, {PropTypes, DOM} from 'react';
 import {findDOMNode} from 'react-dom';
 import debounce from 'mout/function/debounce';
