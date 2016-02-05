@@ -2,6 +2,7 @@
  * @fileoverview Query Assist
  */
 
+import 'core-js/modules/es6.array.find-index';
 import React, {PropTypes, DOM} from 'react';
 import {findDOMNode} from 'react-dom';
 import debounce from 'mout/function/debounce';
@@ -203,6 +204,7 @@ export default class QueryAssist extends RingComponentWithShortcuts {
   };
 
   state = {
+    dirty: !this.props.query,
     query: this.props.query,
     placeholderEnabled: !this.props.query,
     shortcuts: true
@@ -370,6 +372,7 @@ export default class QueryAssist extends RingComponentWithShortcuts {
 
   handleInput() {
     const props = {
+      dirty: true,
       query: this.input.textContent.replace(/\s/g, ' '),
       caret: this.caret.getPosition(),
       focus: true
@@ -433,6 +436,7 @@ export default class QueryAssist extends RingComponentWithShortcuts {
         resolve(params.suggestions);
 
         const state = {
+          dirty: this.immediateState.dirty,
           loading: false,
           placeholderEnabled: !params.query,
           query: params.query
@@ -452,6 +456,8 @@ export default class QueryAssist extends RingComponentWithShortcuts {
 
   handleApply() {
     this.closePopup();
+    this.immediateState.dirty = false;
+    this.setState({dirty: false});
     return this.props.onApply(this.immediateState);
   }
 
@@ -576,19 +582,6 @@ export default class QueryAssist extends RingComponentWithShortcuts {
     return offset - POPUP_COMPENSATION;
   }
 
-  // TODO Move to renderLeter and simplify
-  getLetterClass(index) {
-    const LETTER_CLASS = 'ring-query-assist__letter';
-
-    return this.state.styleRanges &&
-      this.state.styleRanges.
-        filter(item => item.start <= index && item.start + item.length > index).
-        map(item => LETTER_CLASS + '_' + item.style.replace('_', '-')).
-        concat(LETTER_CLASS).
-        join(' ') ||
-      LETTER_CLASS;
-  }
-
   handleCtrlSpace(e) {
     e.preventDefault();
 
@@ -650,6 +643,7 @@ export default class QueryAssist extends RingComponentWithShortcuts {
 
   clearQuery() {
     const state = {
+      dirty: false,
       caret: 0,
       query: '',
       focus: true
@@ -660,6 +654,7 @@ export default class QueryAssist extends RingComponentWithShortcuts {
 
     this.immediateState = state;
     this.setState({
+      dirty: false,
       query: '',
       placeholderEnabled: true,
       loading: false
@@ -720,20 +715,37 @@ export default class QueryAssist extends RingComponentWithShortcuts {
     return renderedSuggestions;
   }
 
-  renderLetter(letter, index) {
+  renderQuery() {
+    const {dirty, styleRanges, query} = this.state;
+    const classes = [];
+    const LETTER_CLASS = 'ring-query-assist__letter';
+    const LETTER_DEFAULT_CLASS = 'ring-query-assist__letter_field-name';
+
+    if (styleRanges && styleRanges.length) {
+      styleRanges.forEach((item, index) => {
+        if (dirty && index === styleRanges.length - 1 && item.style === 'text') {
+          return;
+        }
+        const className = LETTER_CLASS + '_' + item.style.replace('_', '-');
+
+        for (let i = item.start; i < item.start + item.length; i++) {
+          classes[i] = className;
+        }
+      });
+    }
+
     // \u00a0 === &nbsp;
-    const letterValue = letter === ' ' ? '\u00a0' : letter;
-    // Despite warning we don't need key here because of renderToStaticMarkup
-    return (
+    return query.split('').map((letter, index) => (
       <span
-        className={this.getLetterClass(index)}
+        className={classNames([LETTER_CLASS, classes[index] || LETTER_DEFAULT_CLASS])}
         key={index + letter}
-      >{letterValue}</span>
-    );
+      >{letter === ' ' ? '\u00a0' : letter}</span>
+    ));
   }
 
   shouldUpdate(props, state) {
     return state.query !== this.state.query ||
+      state.dirty !== this.state.dirty ||
       state.loading !== this.state.loading ||
       state.styleRanges !== this.state.styleRanges ||
       state.placeholderEnabled !== this.state.placeholderEnabled ||
@@ -789,7 +801,7 @@ export default class QueryAssist extends RingComponentWithShortcuts {
           onKeyUp={::this.handleCaretMove}
 
           spellCheck="false"
-        >{this.state.query && <span>{this.state.query.split('').map(::this.renderLetter)}</span>}</ContentEditable>
+        >{this.state.query && <span>{this.renderQuery()}</span>}</ContentEditable>
 
         {renderPlaceholder &&
         <span
