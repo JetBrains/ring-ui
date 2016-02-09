@@ -187,7 +187,7 @@ class DialogController {
 
     Reflect.deleteProperty(this, 'DIALOG_NAMESPACE');
 
-    if (shortcuts.getScope().pop() === this.dialogService.DIALOG_NAMESPACE) {
+    if (shortcuts.getScope().indexOf(this.dialogService.DIALOG_NAMESPACE) > -1) {
       shortcuts.setScope(this.currentShortcutsScope);
     }
   }
