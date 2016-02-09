@@ -89,7 +89,7 @@
   }
 }
 
-.ring-button_icon .ring-button_content {
+.ring-button_icon .ring-button__content {
   vertical-align: middle;
 }
 
@@ -136,7 +136,7 @@
 }
 
 .ring-button_delayed {
-  .ring-button_content {
+  .ring-button__content {
     &:after {
       content: '…';
     }
