@@ -41,6 +41,7 @@ const Type = {
    <file name="index.js" webpack="true">
      var render = require('react-dom').render;
      var Select = require('ring-ui/components/select/select');
+    require('ring-ui/components/input-size/input-size.scss');
 
      var props = {
        filter: true
@@ -50,8 +51,10 @@ const Type = {
        data: [
          {'label': 'One', 'key': '1', 'type': 'user'},
          {'label': 'Group', 'key': '2', 'type': 'user'},
-         {'label': 'Three', 'key': '3', 'type': 'user'}
+         {'label': 'Three', 'key': '3', 'type': 'user'},
+         {'label': 'With icon', key: 4, icon: 'http://flagpedia.net/data/flags/mini/de.png'}
        ],
+       clear: true,
        selected: {'label': 'Group', 'key': '2', 'type': 'user'}
      };
 
@@ -900,6 +903,8 @@ export default class Select extends RingComponentWithShortcuts {
     const style = {
       paddingRight: 8 + icons.length * 16
     };
+
+    console.log(style.paddingRight);
 
     const iconsNode = <span className="ring-select__icons">{icons}</span>;
 
