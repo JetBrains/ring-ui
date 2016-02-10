@@ -1,10 +1,11 @@
+/* global inject */
+
 import PermissionsNg from './permissions-ng';
 
-describe.only('PermissionsNg', function () {
+describe('PermissionsNg', function () {
 
-  let fakeUserPermissions = {
-    check: () => {
-    }
+  const fakeUserPermissions = {
+    check: () => null
   };
 
   beforeEach(window.module(PermissionsNg, function ($provide) {
