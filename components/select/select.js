@@ -904,8 +904,6 @@ export default class Select extends RingComponentWithShortcuts {
       paddingRight: 8 + icons.length * 16
     };
 
-    console.log(style.paddingRight);
-
     const iconsNode = <span className="ring-select__icons">{icons}</span>;
 
     if (this.isInputMode()) {
