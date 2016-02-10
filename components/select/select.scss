@@ -63,11 +63,14 @@
   }
 }
 
-.ring-select:not(.ring-button) {
+.ring-select {
   .ring-select__icons {
     position: absolute;
-    top: 2px;
     right: $ring-unit;
+  }
+
+  &:not(.ring-button) .ring-select__icons {
+    top: 2px;
   }
 }
 
@@ -84,7 +87,7 @@
   width: $ring-unit*2;
   height: $ring-unit*2;
 
-  vertical-align: text-bottom;
+  vertical-align: middle;
 
   background-size: contain;
   background-repeat: no-repeat;
