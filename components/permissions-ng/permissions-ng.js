@@ -101,8 +101,10 @@ module.directive('rgPermission', function (userPermissions) {
 
       element.classList.add('ring-permission-hide');
 
+      const permission = $scope.$eval($attrs.rgPermission) || $attrs.rgPermission;
       const projectId = $attrs.hasOwnProperty('inGlobal') ? PermissionsCache.GLOBAL_PROJECT_ID : $scope.$eval($attrs.inProject);
-      userPermissions.check($attrs.rgPermission, projectId).
+
+      userPermissions.check(permission, projectId).
         then(permitted => {
           this.permitted = permitted;
           if (permitted) {
