@@ -38,6 +38,7 @@ export default class ListUsersGroupsSource extends HubSourceUsersGroups {
         const groupsForList = groups.map(group => Object.assign(group, {
           key: group.id,
           label: group.name,
+          isUsergroup: true,
           description: this.listSourceOptions.getPluralForUserCount(group.userCount)
         }));
 
@@ -51,6 +52,7 @@ export default class ListUsersGroupsSource extends HubSourceUsersGroups {
           key: user.id,
           label: user.name,
           icon: user.profile ? user.profile.avatar.url : null,
+          isUser: true,
           description: user.login
         }));
 
