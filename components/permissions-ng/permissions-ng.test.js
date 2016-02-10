@@ -49,7 +49,15 @@ describe('PermissionsNg', function () {
       fakeUserPermissions.check.should.have.been.calledWith('some-permission');
     });
 
-    it('Should pass project id as string to userPermission', function () {
+    it('Should pass permission variable to userPermission', function () {
+      this.scope.permissionValue = 'some-permission';
+
+      this.renderDirective('permissionValue');
+
+      fakeUserPermissions.check.should.have.been.calledWith('some-permission');
+    });
+
+    it('Should pass project id as scope value to userPermission', function () {
       this.scope.projectId = 'some-project';
       this.renderDirective('some-permission', 'projectId');
 
