@@ -24,6 +24,14 @@ var svgSpriteLoader = {
   include: [require('jetbrains-logos'), require('jetbrains-icons')]
 };
 
+var svgLoader = {
+  test: /\.svg$/,
+  loaders: [
+    resolveLoader('url') + '?limit=10000'
+  ],
+  include: componentsPath
+};
+
 var scssLoader = {
   test: /\.scss$/,
   include: componentsPath,
@@ -71,6 +79,7 @@ module.exports = {
   module: {
     loaders: [
       svgSpriteLoader,
+      svgLoader,
       scssLoader,
       ngAnnotateLoader,
       babelLoader,
@@ -80,6 +89,7 @@ module.exports = {
     ]
   },
   svgSpriteLoader: svgSpriteLoader,
+  svgLoader: svgLoader,
   scssLoader: scssLoader,
   ngAnnotateLoader: ngAnnotateLoader,
   babelLoader: babelLoader,
