@@ -6,6 +6,7 @@
 require('../components/button-group/button-group.scss');
 require('../components/checkbox/checkbox.scss');
 require('../components/error-page/error-page.scss');
+require('../components/input-size/input-size.scss');
 require('../components/scrollbar/scrollbar.scss');
 require('../components/tabs/tabs.scss');
 
