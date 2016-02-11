@@ -30,7 +30,7 @@
 
   &:after {
     animation: animatedBackground 200ms linear infinite;
-    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='5' height='5'><line x1='0' y1='5' x2='5' y2='0' stroke='rgba(255, 255, 255, 0.5)' /></svg>");
+    background-image: url(../progress-bar/progress-bar.svg);
     background-position: 0 0;
     background-repeat: repeat-x;
     bottom: 0;
