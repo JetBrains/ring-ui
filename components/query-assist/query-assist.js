@@ -428,22 +428,22 @@ export default class QueryAssist extends RingComponentWithShortcuts {
     }
   }
 
-  handleResponse(params) {
+  handleResponse({query = '', caret, styleRanges, suggestions}) {
     return new Promise((resolve, reject) => {
-      if ((params.query === this.immediateState.query || this.immediateState.query === undefined) &&
-        (params.caret === this.immediateState.caret || this.immediateState.caret === undefined)) {
-        resolve(params.suggestions);
+      if ((query === this.immediateState.query || this.immediateState.query === undefined) &&
+        (caret === this.immediateState.caret || this.immediateState.caret === undefined)) {
+        resolve(suggestions);
 
         const state = {
           dirty: this.immediateState.dirty,
           loading: false,
-          placeholderEnabled: !params.query,
-          query: params.query
+          placeholderEnabled: !query,
+          query
         };
 
         // Do not update deep equal styleRanges to simplify shouldComponentUpdate check
-        if (!deepEquals(this.state.styleRanges, params.styleRanges)) {
-          state.styleRanges = params.styleRanges;
+        if (!deepEquals(this.state.styleRanges, styleRanges)) {
+          state.styleRanges = styleRanges;
         }
 
         this.setState(state);
