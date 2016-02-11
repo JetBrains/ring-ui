@@ -33,7 +33,6 @@ describe('ListUsersGroupsSource', function () {
           name: 'test user',
           key: 1,
           label: 'test user',
-          isUser: true,
           description: 'testUser',
           icon: 'http://test.com.url'
         });
@@ -62,7 +61,6 @@ describe('ListUsersGroupsSource', function () {
           key: 1,
           name: 'test group',
           label: 'test group',
-          isUsergroup: true,
           description: '',
           userCount: 123
         });
