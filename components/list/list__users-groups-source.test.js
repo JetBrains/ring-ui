@@ -15,12 +15,14 @@ describe('ListUsersGroupsSource', function () {
       id: 1,
       name: 'test user',
       login: 'testUser',
+      type: 'user',
       profile: {avatar: {url: 'http://test.com.url'}}
     }]));
 
     this.sinon.stub(source, 'getGroups').returns(Promise.resolve([{
       id: 1,
       name: 'test group',
+      type: 'userGroup',
       userCount: 123
     }]));
 
@@ -32,6 +34,7 @@ describe('ListUsersGroupsSource', function () {
           profile: {avatar: {url: 'http://test.com.url'}},
           name: 'test user',
           key: 1,
+          type: 'user',
           label: 'test user',
           description: 'testUser',
           icon: 'http://test.com.url'
@@ -51,6 +54,7 @@ describe('ListUsersGroupsSource', function () {
     this.sinon.stub(source, 'getGroups').returns(Promise.resolve([{
       id: 1,
       name: 'test group',
+      type: 'userGroup',
       userCount: 123
     }]));
 
@@ -61,6 +65,7 @@ describe('ListUsersGroupsSource', function () {
           key: 1,
           name: 'test group',
           label: 'test group',
+          type: 'userGroup',
           description: '',
           userCount: 123
         });
