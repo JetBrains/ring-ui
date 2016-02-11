@@ -1,6 +1,8 @@
 /* global angular */
 
 import 'dom4';
+import 'core-js/modules/es7.array.includes';
+
 import {registerComponents, reactNg} from '../react-ng/react-ng';
 import Icon from '../icon/icon';
 
@@ -23,6 +25,10 @@ class ButtonController {
       $scope.$watch(() => $scope.$eval($attrs[mod]), val => {
         val ? cl.add('ring-button_' + mod) : cl.remove('ring-button_' + mod);
       });
+    });
+
+    $scope.$watch(() => $scope.$eval($attrs.loader), val => {
+      val ? this.element.setAttribute('tabindex', '-1') : this.element.removeAttribute('tabindex');
     });
 
     $attrs.$observe('mode', ::this.updateMode);
