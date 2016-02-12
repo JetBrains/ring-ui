@@ -1,5 +1,4 @@
 @import "../global/global";
-@import "../progress-bar/progress-bar";
 @import "./btn";
 
 @mixin button-background($dark, $light) {
@@ -34,7 +33,7 @@
 
   border: 0;
   border-radius: $ring-border-radius;
-  box-shadow: inset 0 0 0 1px #ccc;
+  box-shadow: inset 0 1px 0 0 #ccc, inset 1px 0 0 0 #ccc, inset -1px 0 0 0 #ccc, inset 0 -1px 0 0 #bfbfbf;
 
   cursor: default;
 
@@ -56,7 +55,7 @@
   &:active:not([disabled]):not(.ring-button_loader),
   &.ring-button_active:not([disabled]):not(.ring-button_loader) {
     background: #e9f8ff;
-    box-shadow: inset 0 0 0 1px #25b7ff, inset 0 0 2px 1px rgba(3, 116, 172, 0.5);
+    box-shadow: inset 0 0 0 1px #25b7ff, inset 0 1px 4px 0 rgba(3, 116, 172, 0.5);
     z-index: 2;
   }
 
@@ -169,7 +168,7 @@
 
   .ring-progress-bar__i:after {
     background-repeat: repeat;
-    background-image: url(../button/button-loader_white.svg);
+    background-image: url(./button-loader_white.svg);
   }
 }
 
@@ -179,6 +178,6 @@
 
 .ring-button_loader.ring-button_default .ring-button__loader {
   .ring-progress-bar__i:after {
-    background-image: url(../button/button-loader_gray.svg);
+    background-image: url(./button-loader_gray.svg);
   }
 }
