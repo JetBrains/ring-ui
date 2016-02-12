@@ -150,6 +150,21 @@ describe('QueryAssist', function () {
 
 
   describe('init', function () {
+    it('requestData should exist', function () {
+      this.renderQueryAssist();
+      this.queryAssist.requestData.should.be.a('function');
+      this.queryAssist.requestData.should.equal(this.queryAssist.boundRequestHandler);
+    });
+
+    it('requestData should be debounced when delay set', function () {
+      this.renderQueryAssist({
+        delay: 0
+      });
+      this.queryAssist.requestData.should.be.a('function');
+      this.queryAssist.requestData.should.not.equal(this.queryAssist.boundRequestHandler);
+    });
+
+
     it('should create popup when autoOpen', function (done) {
       this.renderQueryAssist({
         autoOpen: true,
