@@ -21,10 +21,14 @@ import './button-group.scss';
         <p>
           <span id="button-group-blue"></span>
         </p>
+        <p>
+          <span id="button-group-with-caption"></span>
+        </p>
       </div>
     </file>
 
     <file name="index.js" webpack="true">
+      var React = require('react');
       var render = require('react-dom').render;
       var Button = require('ring-ui/components/button/button');
       var ButtonGroup = require('ring-ui/components/button-group/button-group');
@@ -49,6 +53,13 @@ import './button-group.scss';
         Button.factory({ modifier: Button.Modifiers.BLUE}, '2nd button'),
         Button.factory({ modifier: Button.Modifiers.BLUE}, '3rd button')
       ), document.getElementById('button-group-blue'));
+
+      render(ButtonGroup.factory(
+        null,
+        <span className="ring-button-group__caption">Side:</span>,
+        Button.factory(null, 'Left'),
+        Button.factory(null, 'Right'),
+      ), document.getElementById('button-group-with-caption'));
     </file>
   </example>
  */
