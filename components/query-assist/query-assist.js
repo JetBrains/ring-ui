@@ -271,8 +271,11 @@ export default class QueryAssist extends RingComponentWithShortcuts {
    * This may help reduce the load on the server if the user quickly inputs data
    */
   setupRequestHandler(props) {
-    if ((this.requestData === this.boundRequestHandler) === Boolean(props.delay)) {
-      if (typeof props.delay === 'number') {
+    const needDelay = typeof props.delay === 'number';
+    const hasDelay = this.requestData !== this.boundRequestHandler;
+
+    if (!this.requestData || hasDelay !== needDelay) {
+      if (needDelay) {
         this.requestData = debounce(this.boundRequestHandler, props.delay);
       } else {
         this.requestData = this.boundRequestHandler;
