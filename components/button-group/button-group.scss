@@ -21,3 +21,23 @@
   border-top-right-radius: $ring-border-radius;
   border-bottom-right-radius: $ring-border-radius;
 }
+
+// Caption element preceding the button group
+.ring-button-group__caption {
+  @include ring-font();
+  margin-right: $ring-unit;
+  vertical-align: middle;
+
+  &:empty {
+    margin-right: 0;
+  }
+}
+
+.ring-button-group .ring-button-group__caption + .ring-button {
+  border-top-left-radius: $ring-border-radius;
+  border-bottom-left-radius: $ring-border-radius;
+}
+
+.ring-button-group .ring-button_upper {
+  position: relative;
+}
