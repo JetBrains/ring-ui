@@ -14,6 +14,7 @@ find .\
   -regex './components/.*/.*.js' -or \
   -regex './components/.*/.*.scss' -or \
   -regex './components/.*/.*.gif' -or \
+  -regex './components/.*/.*.svg' -or \
   -regex './components/.*/.*.html' \
   | cpio -pdm package &&
 
