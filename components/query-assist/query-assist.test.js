@@ -245,26 +245,7 @@ describe('QueryAssist', function () {
       letters[3].should.have.class(LETTER_CLASS + '_operator');
     });
 
-    it('should render last text range with field-name style when not applied', function () {
-      this.renderQueryAssist({
-        query: 'a a'
-      });
-
-      this.queryAssist.setState({
-        styleRanges: [
-          {start: 0, length: 1, style: 'text'},
-          {start: 2, length: 1, style: 'text'}
-        ]
-      });
-
-      const letters = this.queryAssist.input.queryAll('.' + LETTER_CLASS);
-
-      letters[0].should.have.class(LETTER_CLASS + '_text');
-      letters[1].should.have.class(LETTER_CLASS + '_field-name');
-      letters[2].should.have.class(LETTER_CLASS + '_text');
-    });
-
-    it('should render last text range with field-name style when applied', function () {
+    it('should render last text range with default style when applied', function () {
       this.renderQueryAssist({
         query: 'a a'
       });
@@ -280,8 +261,27 @@ describe('QueryAssist', function () {
       const letters = this.queryAssist.input.queryAll('.' + LETTER_CLASS);
 
       letters[0].should.have.class(LETTER_CLASS + '_text');
-      letters[1].should.have.class(LETTER_CLASS + '_field-name');
-      letters[2].should.have.class(LETTER_CLASS + '_field-name');
+      letters[1].should.have.class(LETTER_CLASS + '_default');
+      letters[2].should.have.class(LETTER_CLASS + '_default');
+    });
+
+    it('should render last text range with text style when applied', function () {
+      this.renderQueryAssist({
+        query: 'a a'
+      });
+
+      this.queryAssist.setState({
+        styleRanges: [
+          {start: 0, length: 1, style: 'text'},
+          {start: 2, length: 1, style: 'text'}
+        ]
+      });
+
+      const letters = this.queryAssist.input.queryAll('.' + LETTER_CLASS);
+
+      letters[0].should.have.class(LETTER_CLASS + '_text');
+      letters[1].should.have.class(LETTER_CLASS + '_default');
+      letters[2].should.have.class(LETTER_CLASS + '_text');
     });
 
     it('should disable field when component disabled', function () {
