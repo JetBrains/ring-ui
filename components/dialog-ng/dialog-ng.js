@@ -3,6 +3,7 @@ import 'dom4';
 import {getStyles, getRect} from '../dom/dom';
 import shortcuts from '../shortcuts/shortcuts';
 
+import '../button/button.scss';
 import '../dialog/dialog.scss';
 
 /**

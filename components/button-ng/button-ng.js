@@ -6,6 +6,7 @@ import 'core-js/modules/es7.array.includes';
 import {registerComponents, reactNg} from '../react-ng/react-ng';
 import Icon from '../icon/icon';
 
+import '../progress-bar/progress-bar.scss';
 import '../button/button.scss';
 
 registerComponents({Icon});
