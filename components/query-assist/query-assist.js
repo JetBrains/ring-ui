@@ -19,10 +19,6 @@ import LoaderInline from '../loader-inline/loader-inline';
 import './query-assist.scss';
 import '../input/input.scss';
 
-// Use for IE11 and down to 9
-const impotentIE = document.documentMode <= 11;  // TODO Proper browser detection?
-const mutationEvent = 'DOMSubtreeModified';
-
 const INPUT_BORDER_WIDTH = 1;
 const POPUP_COMPENSATION = INPUT_BORDER_WIDTH +
   PopupMenu.ListProps.Dimension.ITEM_PADDING +
@@ -110,15 +106,15 @@ function noop() {}
      </file>
 
      <file name="index.js" webpack="true">
-       var hubConfig = require('ring-ui/site/hub-config');
+       import hubConfig from 'ring-ui/site/hub-config';
 
-       require('angular');
-       require('ring-ui/components/auth-ng/auth-ng');
-       require('ring-ui/components/react-ng/react-ng')({
-        QueryAssist: require('ring-ui/components/query-assist/query-assist')
-       });
+       import angular from 'angular';
+       import authNg from 'ring-ui/components/auth-ng/auth-ng';
+       import {registerComponents, reactNg} from 'ring-ui/components/react-ng/react-ng';
+       import QueryAssist from 'ring-ui/components/query-assist/query-assist';
+       registerComponents({QueryAssist});
 
-       angular.module('test', ['Ring.react-ng', 'Ring.auth'])
+       angular.module('test', [reactNg, authNg])
          .config(function (authProvider) {
            authProvider.config(hubConfig);
          })
@@ -170,6 +166,125 @@ function noop() {}
          });
      </file>
    </example>
+
+   <example name="QueryAssist in Angular query init">
+     <file name="index.html">
+     <div ng-app="test" rg-shortcuts-app rg-shortcuts="test" shortcuts-focus="true" shortcuts-map="ctrl.keys" ng-controller="testCtrl as ctrl">
+       <div ng-show="!ctrl.query">Input something to init Query Assist</div>
+
+       <div ng-if="ctrl.query" react="QueryAssist"
+         auto-open="true"
+         clear="true"
+         x-data-source="ctrl.source(query, caret, omitSuggestions)"
+         glass="true"
+         focus="ctrl.focus"
+         ng-model="ctrl.query"
+         on-apply="ctrl.save(query)"
+         on-change="ctrl.change(query)"
+         on-focus-change="ctrl.focusChange(focus)"
+         placeholder="{{ placeholder }}"
+         hint="{{ 'Press ⇥ to complete first item' }}"
+         hint-on-selection="{{ 'Press ↩ to complete selected item' }}"></div>
+
+       <p ng-repeat="query in ctrl.queries track by $index">{{ query }}</p>
+     </div>
+   </file>
+
+   <file name="index.js" webpack="true">
+     import hubConfig from 'ring-ui/site/hub-config';
+
+     import angular from 'angular';
+     import authNg from 'ring-ui/components/auth-ng/auth-ng';
+     import shortcutsNg from 'ring-ui/components/shortcuts-ng/shortcuts-ng';
+     import {registerComponents, reactNg} from 'ring-ui/components/react-ng/react-ng';
+     import QueryAssist from 'ring-ui/components/query-assist/query-assist';
+     registerComponents({QueryAssist});
+
+     angular.module('test', [reactNg, authNg, shortcutsNg]).
+       config(function (authProvider) {
+         authProvider.config(hubConfig);
+       }).
+       config(function (shortcutsProvider) {
+         shortcutsProvider.
+           mode({
+             id: 'ring-shortcuts',
+             shortcuts: [
+               {
+                 key: 'down',
+                 action: 'next'
+               }, {
+                 key: 'up',
+                 action: 'prev'
+               }, {
+                 key: 'esc',
+                 action: 'main'
+               }
+             ]
+           }).
+           mode({
+             id: 'test',
+             shortcuts: [
+               {
+                 key: 'any-character',
+                 action: 'init'
+               }, {
+                 key: 'esc',
+                 action: 'destroy'
+               }
+             ]
+           });
+       }).
+       controller('testCtrl', function($http, $scope) {
+         var ctrl = this;
+         ctrl.queries = [];
+         ctrl.query = '';
+         ctrl.focus = true;
+         ctrl.keys = {
+          'init': e => {
+            if (!ctrl.query) {
+              e.preventDefault();
+              ctrl.query = String.fromCharCode(e.charCode);
+            }
+          },
+          'destroy': () => {ctrl.query = ''}
+         }
+
+         ctrl.save = function(query) {
+           ctrl.queries.unshift(query);
+           $scope.$apply();
+         };
+
+         function updateScope(name, value) {
+           if (ctrl[name] !== value) {
+             ctrl[name] = value;
+
+             if (!$scope.$root.$$phase) {
+               $scope.$apply();
+             }
+           }
+         }
+
+         ctrl.focusChange = function (focus) {
+           updateScope('focus', focus);
+         };
+
+         ctrl.source = function (query, caret, omitSuggestions) {
+           var config = {
+             params: {
+               fields: 'query,caret,styleRanges' + (omitSuggestions ? '' : ',suggestions'),
+               query: query,
+               caret: caret
+             }
+           };
+
+           return $http.get(hubConfig.serverUri + '/api/rest/users/queryAssist', config).
+             then(function(data) {
+               return data.data;
+             });
+         }
+       });
+ </file>
+ </example>
  */
 export default class QueryAssist extends RingComponentWithShortcuts {
   static ngModelStateField = ngModelStateField;
@@ -249,20 +364,13 @@ export default class QueryAssist extends RingComponentWithShortcuts {
     this.setupRequestHandler(this.props);
     this.setShortcutsEnabled(this.props.focus);
 
-    const request = this.props.autoOpen
-      ? this.boundRequestHandler().then(::this.setFocus)
-      : this.requestStyleRanges().catch(::this.setFocus);
-
-    request.
-      /* For some reason one more tick before attachMutationEvents is required */
-      then(() => new Promise(resolve => setTimeout(resolve, 0))).
-      then(::this.attachMutationEvents);
-  }
-
-  attachMutationEvents() {
-    if (impotentIE) {
-      this.input.addEventListener(mutationEvent, ::this.handleInput);
+    if (this.props.autoOpen) {
+      this.boundRequestHandler();
+    } else {
+      this.requestStyleRanges();
     }
+
+    this.setFocus();
   }
 
   /**
@@ -286,10 +394,6 @@ export default class QueryAssist extends RingComponentWithShortcuts {
   willUnmount() {
     if (this._popup) {
       this._popup.remove();
-    }
-
-    if (impotentIE) {
-      this.input.removeEventListener(mutationEvent, ::this.handleInput);
     }
   }
 
