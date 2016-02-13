@@ -24,11 +24,11 @@ Build production files: `npm run build`
 
 Сhange the port using `npm config set ring-ui:port <port>`
 
-#### Hub uri
+#### Hub URL
 
-You can change Hub server uri using `npm config set ring-ui:hub <hub uri>` or run it with option like `npm start|build -- --hub <hub uri>`.
+You can change the URL of Hub server using `npm config set ring-ui:hub <hub uri>` or provide it as a command line option: `npm start|build -- --hub <hub uri>`.
 
-`<server uri>` should be one of predefined values below or __any uri__.
+`<server uri>` should be either one of predefined values below or __any other URL__.
 
 Predefined values:
 
