@@ -16,6 +16,7 @@ module.directive('rgTablePager', ['$location', 'RingMessageBundle', function ($l
     link: function (scope, element, attrs) {
       const defaultMaxPagesToShow = 7;
       scope.maxPages = attrs.maxPages || defaultMaxPagesToShow;
+      scope.totalPages = 1;
       scope.selectedPageNum = 1;
 
       if (scope.maxPages % 2 === 0) {
@@ -27,7 +28,7 @@ module.directive('rgTablePager', ['$location', 'RingMessageBundle', function ($l
       scope.firstPageText = RingMessageBundle.first_page();
       scope.lastPageText = RingMessageBundle.last_page();
 
-      let openPageAfterInit = $location.search().page || (Math.floor(scope.skip / scope.top) + 1);
+      let openPageAfterInit = parseInt($location.search().page || (Math.floor(scope.skip / scope.top) + 1), 10);
 
       scope.calculatePageClass = function (pageNum) {
         const condition = pageNum === scope.selectedPageNum;
@@ -77,15 +78,17 @@ module.directive('rgTablePager', ['$location', 'RingMessageBundle', function ($l
         scope.topOptions = [20, 50, 100];
 
         if (total !== undefined && skip !== undefined && top !== undefined) {
+          scope.totalPages = Math.ceil(total / top);
+
+          if (scope.selectedPageNum > scope.totalPages) {
+            scope.loadPage(scope.totalPages);
+            return;
+          }
+
           if (total > 0 && total > top) {
-            scope.totalPages = Math.ceil(total / top);
             scope.show = true;
             scope.itemsPerPage = top;
 
-            if (scope.selectedPageNum > scope.totalPages) {
-              scope.loadPage(scope.totalPages);
-              return;
-            }
 
             scope.startPage = 1;
 
@@ -109,12 +112,12 @@ module.directive('rgTablePager', ['$location', 'RingMessageBundle', function ($l
             for (let i = scope.startPage; i <= scope.endPage; i++) {
               scope.pages.push(i);
             }
+          }
 
-            if (openPageAfterInit) {
-              scope.selectedPageNum = +openPageAfterInit;
-              scope.loadPage(openPageAfterInit, true);
-              openPageAfterInit = null;
-            }
+          if (openPageAfterInit) {
+            scope.selectedPageNum = openPageAfterInit;
+            scope.loadPage(openPageAfterInit, true);
+            openPageAfterInit = null;
           }
         }
       });
