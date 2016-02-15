@@ -44,7 +44,6 @@ import '../input-size/input-size.scss';
       <a href class="ring-link" ng-click="addTag()">Add a tag</a>
       <span react="TagsInput" ng-model="tagsArray" x-data-source="suggestionsSource()"></span>
       <div><span>tags = {{tagsArray}}</span></div>
-      <button ng-click="tagsArray = null">Clear</button>
     </div>
   </file>
   <file name="index.js" webpack="true">
@@ -110,7 +109,7 @@ export default class TagsInput extends RingComponentWithShortcuts {
     /**
      * Datasource should return array(or promise) of suggestions.
      * Each suggestion should contain key and label fields.
-     * DataSource should handle caching and response racing (when later request
+     * DataSource should handle caching and responce racing (when later request
      * responded earlier) by himself.
      */
     dataSource: React.PropTypes.func,
@@ -147,9 +146,8 @@ export default class TagsInput extends RingComponentWithShortcuts {
   }
 
   updateStateFromProps(props) {
-    if ('tags' in props) {
-      const tags = props.tags || [];
-      this.setState({tags});
+    if (props.tags) {
+      this.setState({tags: props.tags});
     }
   }
 
