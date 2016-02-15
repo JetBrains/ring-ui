@@ -601,6 +601,8 @@ export default class Popup extends RingComponentWithShortcuts {
       const scroll = this._getBodyScroll();
       anchorLeft += scroll.left;
       anchorTop += scroll.top;
+    } else if (this.props.container) {
+      anchorTop += this.props.container.scrollTop;
     }
 
     if (this.node) {
