@@ -104,6 +104,7 @@ registerComponents({Checkbox});
         <div class="ring-sidebar__section">{{ctrl.selection.getActiveItem().name}}</div>
         <rg-select options="item.name for item in ctrl.itemsArray track by item.name"></rg-select>
 
+        <div react="QueryAssist" ng-model="ctrl.query" x-data-source="ctrl.queryAssistSource(query, caret, omitSuggestions)"></div>
       </rg-sidebar>
 
       <rg-table-toolbar stick class="some-toolbar">
@@ -140,9 +141,15 @@ registerComponents({Checkbox});
     require('ring-ui/components/table-ng/table-ng');
     require('ring-ui/components/select-ng/select-ng');
     require('ring-ui/components/sidebar-ng/sidebar-ng');
+    var reactNg = require('ring-ui/components/react-ng/react-ng');
+    var registerComponents = reactNg.registerComponents;
+    var QueryAssist = require('ring-ui/components/query-assist/query-assist');
+    registerComponents({QueryAssist});
 
-    angular.module('test', ['Ring.table', 'Ring.sidebar', 'Ring.select']).controller('tableExample', function ($timeout, $scope) {
+    angular.module('test', ['Ring.table', 'Ring.sidebar', 'Ring.select', reactNg.reactNg]).controller('tableExample', function ($timeout, $scope) {
     var ctrl = this;
+
+    ctrl.query = 'fooo'
 
     ctrl.isShowSideBar = true;
 
@@ -155,6 +162,27 @@ registerComponents({Checkbox});
         ctrl.itemsArray.push({name: Math.random()});
       }
     }, 500);
+
+    ctrl.queryAssistSource = function(query, caret, omitSuggestions) {
+      return {
+        caret: caret,
+        query: query,
+        styleRanges: omitSuggestions ? [{start: 0, length: 1, style: 'text'}] : [],
+        suggestions: [{
+          prefix: 'login: ',
+          option: 'test',
+          suffix: ' ',
+          description: 'logins',
+          matchingStart: 0,
+          matchingEnd: 4,
+          caret: 2,
+          completionStart: 0,
+          completionEnd: 4,
+          group: 'logins',
+          icon: 'data:uri'
+        }]
+      };
+    };
 
 
   });
