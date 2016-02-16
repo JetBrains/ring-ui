@@ -164,6 +164,18 @@ describe('List', function () {
       clicked.should.have.been.called;
     });
 
+    it('should handle select', function () {
+      const onSelect = sinon.stub();
+
+      list.rerender({
+        onSelect: onSelect,
+        data: [{label: 'Hello!'}]
+      });
+
+      TestUtils.Simulate.click(getFirstListItem());
+      onSelect.should.have.been.called;
+    });
+
     it('Should support custom elements', function () {
       list.rerender({data: [
         {
