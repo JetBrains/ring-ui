@@ -539,7 +539,7 @@ export default class Select extends RingComponentWithShortcuts {
       this._popup.hide();
 
       if (this.node) {
-        let restoreFocusNode = this.node;
+        let restoreFocusNode = this.props.targetElement || this.node;
         if (this.props.type === Type.INPUT) {
           restoreFocusNode = findDOMNode(this.refs.filter);
         }
