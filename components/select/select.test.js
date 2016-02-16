@@ -74,6 +74,11 @@ describe('Select', function () {
     this.select.props.onChange.should.been.called.calledWith(null);
   });
 
+  it('Should pass selected item and event to onChange', function () {
+    this.select._listSelectHandler({item: 'foo'}, {nativeEvent: 'foo'});
+    this.select.props.onChange.should.been.called.calledWith({item: 'foo'}, {nativeEvent: 'foo'});
+  });
+
   it('Should clear selected when rerendering with no selected item', function () {
     this.select.rerender({selected: null});
     expect(this.select.state.selected).to.be.null;
