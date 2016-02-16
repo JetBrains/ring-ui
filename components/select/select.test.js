@@ -4,6 +4,8 @@ import Popup from '../popup/popup';
 import React from 'react';
 import TestUtils from 'react-addons-test-utils';
 import renderIntoDocument from 'render-into-document';
+import RingComponent from '../ring-component/ring-component';
+
 
 describe('Select', function () {
   const testData = [
@@ -504,6 +506,37 @@ describe('Select', function () {
       }));
 
       Popup.renderPopup.should.have.been.calledWith(sinon.match(Object), target);
+    });
+
+    it('Should restore focus on select in button mode after closing popup', function () {
+      this.select = renderIntoDocument(React.createElement(Select, {
+        data: testData,
+        filter: true
+      }));
+
+      this.select._showPopup();
+      this.select._hidePopup();
+      document.activeElement.should.equal(this.select.node);
+    });
+
+    it('Should restore focus on provided target element after closing popup', function () {
+      const targetInput = renderIntoDocument(React.createElement(
+        class extends RingComponent {
+          render() {
+            return <input/>;
+          }
+        }
+      ));
+
+      this.select = renderIntoDocument(React.createElement(Select, {
+        data: testData,
+        filter: true,
+        targetElement: targetInput.node
+      }));
+      this.select._showPopup();
+      this.select._hidePopup();
+
+      document.activeElement.should.equal(targetInput.node);
     });
   });
 });
