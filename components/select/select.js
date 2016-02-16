@@ -369,7 +369,7 @@ export default class Select extends RingComponentWithShortcuts {
     }
   }
 
-  _onEsc() {
+  _onEsc(event) {
     if (!this._popup.isVisible() && this.props.allowAny) {
       return true;
     } else if (this.props.multiple || !this.props.getInitial) {
@@ -384,7 +384,7 @@ export default class Select extends RingComponentWithShortcuts {
     this.setState({
       selected: selected
     }, function () {
-      this.props.onChange(selected);
+      this.props.onChange(selected, event);
       this.props.onReset();
     });
   }
@@ -673,7 +673,7 @@ export default class Select extends RingComponentWithShortcuts {
     }
   }
 
-  _filterChangeHandler() {
+  _filterChangeHandler(event) {
     const filterValue = this.filterValue().replace(/^\s+/g, '');
     this.props.onFilter(filterValue);
     if (this.props.allowAny) {
@@ -684,8 +684,8 @@ export default class Select extends RingComponentWithShortcuts {
       this.setState({
         selected: filterValue === '' ? null : fakeSelected
       }, function () {
-        this.props.onSelect(fakeSelected);
-        this.props.onChange(fakeSelected);
+        this.props.onSelect(fakeSelected, event);
+        this.props.onChange(fakeSelected, event);
       });
     }
     !this._popup.isVisible() && this.props.onBeforeOpen();
@@ -701,7 +701,7 @@ export default class Select extends RingComponentWithShortcuts {
     }
   }
 
-  _listSelectHandler(selected) {
+  _listSelectHandler(selected, event) {
     const isItem = List.isItemType.bind(null, List.ListProps.Type.ITEM);
     const isCustomItem = List.isItemType.bind(null, List.ListProps.Type.CUSTOM);
 
@@ -716,8 +716,8 @@ export default class Select extends RingComponentWithShortcuts {
         const newFilterValue = this.isInputMode() && !this.props.hideSelected ? this._getItemLabel(selected) : '';
         this.filterValue(newFilterValue);
         this.props.onFilter(newFilterValue);
-        this.props.onSelect(selected);
-        this.props.onChange(selected);
+        this.props.onSelect(selected, event);
+        this.props.onChange(selected, event);
         this._hidePopup();
       });
     } else {
@@ -729,7 +729,7 @@ export default class Select extends RingComponentWithShortcuts {
       if (!this._multipleMap[selected.key]) {
         this._multipleMap[selected.key] = true;
         currentSelection.push(selected);
-        this.props.onSelect && this.props.onSelect(selected);
+        this.props.onSelect && this.props.onSelect(selected, event);
       } else {
         Reflect.deleteProperty(this._multipleMap, selected.key);
         for (let i = 0; i < currentSelection.length; i++) {
@@ -754,7 +754,7 @@ export default class Select extends RingComponentWithShortcuts {
         }
       });
 
-      this.props.onChange(currentSelection);
+      this.props.onChange(currentSelection, event);
     }
   }
 
@@ -775,13 +775,13 @@ export default class Select extends RingComponentWithShortcuts {
     this.filterValue('');
   }
 
-  clear() {
+  clear(event) {
     const empty = Select._getEmptyValue(this.props.multiple);
 
     this.setState({
       selected: empty
     }, () => {
-      this.props.onChange(empty);
+      this.props.onChange(empty, event);
     });
 
     return false;
