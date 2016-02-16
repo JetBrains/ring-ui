@@ -56,24 +56,18 @@ describe('Icon', function () {
     this.icon.node.should.have.class('ring-icon_green');
   });
 
-  it('should remove active color after Promise resolve', function () {
-    let resolvePromise;
-    const promise = new Promise(resolve => {
-      resolvePromise = resolve;
-    });
-
+  it('should remove active color after Promise resolve', function (done) {
     this.icon.rerender({
       activeColor: Icon.Color.GREEN,
-      onClick: () => promise
+      onClick: () => 'test'
     });
 
     Simulate.click(this.icon.node);
-    promise.then(() => {
-      this.icon.node.should.not.have.class('ring-icon_green');
-    });
-    resolvePromise();
 
-    return promise;
+    setTimeout(() => {
+      this.icon.node.should.not.have.class('ring-icon_green');
+      done();
+    }, 0);
   });
 
   it('should not set active color without onClick', function () {
