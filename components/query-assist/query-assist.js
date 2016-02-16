@@ -365,9 +365,9 @@ export default class QueryAssist extends RingComponentWithShortcuts {
     this.setShortcutsEnabled(this.props.focus);
 
     if (this.props.autoOpen) {
-      this.boundRequestHandler();
+      this.boundRequestHandler().catch(noop);
     } else {
-      this.requestStyleRanges();
+      this.requestStyleRanges().catch(noop);
     }
 
     this.setFocus();
