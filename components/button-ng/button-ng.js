@@ -77,7 +77,18 @@ function rgButtonDirective() {
   };
 }
 
+function rgButtonLinkDirective() {
+  return {
+    restrict: 'E',
+    transclude: true,
+    replace: true,
+    template: require('./button-link-ng.html'),
+    controller: ButtonController
+  };
+}
+
 module.directive('rgButton', rgButtonDirective);
+module.directive('rgButtonLink', rgButtonLinkDirective);
 
 export default module.name;
 
@@ -128,6 +139,13 @@ export default module.name;
           <rg-button danger="true" disabled="true">Press me</rg-button>
           <rg-button danger="true" loader="true">Press me</rg-button>
           <rg-button danger="true" icon="{{pencil}}"></rg-button>
+        </p>
+
+        <p>
+          <rg-button-link href="/button-link">Press me</rg-button-link>
+          <rg-button-link href="/button-link" disabled="true">Press me</rg-button-link>
+          <rg-button-link href="/button-link" loader="true">Press me</rg-button-link>
+          <rg-button-link href="/button-link" icon="{{pencil}}"></rg-button-link>
         </p>
       </div>
     </file>
