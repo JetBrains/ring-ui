@@ -9,7 +9,7 @@ class Shortcuts {
 
   constructor() {
     this.combokeys = new Combokeys(document.documentElement);
-    this.trigger = this.combokeys.trigger;
+    this.trigger = ::this.combokeys.trigger;
     this.setFilter();
     this.setScope();
   }
