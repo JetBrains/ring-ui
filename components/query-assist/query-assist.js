@@ -726,7 +726,7 @@ export default class QueryAssist extends RingComponentWithShortcuts {
           maxHeight="screen"
           onMouseDown={::this.trackPopupMouseState}
           onMouseUp={::this.trackPopupMouseState}
-          onSelect={::this.handleComplete}
+          onSelect={item => this.handleComplete(item, false)}
           shortcuts={true}
         />,
         this.node

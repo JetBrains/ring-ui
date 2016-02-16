@@ -522,10 +522,15 @@ export default class List extends RingComponentWithShortcuts {
     this.setState({scrolling: true}, this.scrollEndHandler);
   }
 
-  enterHandler() {
+  enterHandler(e) {
     if (this.state.activeIndex !== null) {
       this.setState({scrolling: false}, function () {
-        this.selectHandler(this.props.data[this.state.activeIndex], true);
+        const item = this.props.data[this.state.activeIndex];
+        this.selectHandler(item, e);
+
+        if (item.rgItemType === Type.LINK) {
+          window.location.href = findDOMNode(this.refs['item' + this.state.activeIndex]).href;
+        }
       });
       return false; // do no propagate event
     } else {
@@ -533,17 +538,13 @@ export default class List extends RingComponentWithShortcuts {
     }
   }
 
-  selectHandler(item, isKeyboardEvent) {
-    if (typeof item.onClick === 'function') {
-      item.onClick(...arguments);
+  selectHandler(item, event) {
+    if (item.onClick) {
+      item.onClick(item, event);
     }
 
-    if (typeof this.props.onSelect === 'function') {
-      this.props.onSelect(item);
-    }
-
-    if (item.rgItemType === Type.LINK && isKeyboardEvent) {
-      window.location.href = findDOMNode(this.refs['item' + this.state.activeIndex]).href;
+    if (this.props.onSelect) {
+      this.props.onSelect(item, event);
     }
   }
 
@@ -707,8 +708,8 @@ export default class List extends RingComponentWithShortcuts {
             props.scrolling = this.state.scrolling;
             props.ref = 'item' + index;
 
-            props.onClick = () => {
-              this.selectHandler(item);
+            props.onClick = e => {
+              this.selectHandler(item, e);
             };
 
             let element;
