@@ -22,14 +22,17 @@
   @include button-background(#f0f0f0, #fff);
 
   color: #444;
+  text-decoration: none;
 
   display: inline-block;
   position: relative;
   z-index: 0;
-  vertical-align: middle;
 
+  box-sizing: border-box;
   height: $ring-unit*3;
+  line-height: $ring-unit*3;
   padding: 0 $ring-unit*2;
+  margin: 0;
   outline: 0;
 
   border: 0;
@@ -45,6 +48,7 @@
 
   &[disabled] {
     opacity: 0.5;
+    pointer-events: none;
   }
 
   &:hover:not([disabled]):not(.ring-button_loader) {
@@ -76,21 +80,22 @@
 
 .ring-button_icon .ring-button__icon {
   display: inline-block;
+  line-height: 20px;
+  vertical-align: top;
 }
 
 .ring-button::-moz-focus-inner {
   outline: 0;
   border: 0;
+  padding: 0;
 }
 
 .ring-button_loader {
+  pointer-events: none;
+
   &[disabled] {
     opacity: 1;
   }
-}
-
-.ring-button_icon .ring-button__content {
-  vertical-align: middle;
 }
 
 .ring-button_primary {
