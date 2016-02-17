@@ -49,6 +49,13 @@ describe('PermissionsNg', function () {
       fakeUserPermissions.check.should.have.been.calledWith('some-permission');
     });
 
+    it('Should pass complex permission as string to userPermission', function () {
+      const complexPermission = 'foo | bar & test';
+      this.renderDirective(complexPermission);
+
+      fakeUserPermissions.check.should.have.been.calledWith(complexPermission);
+    });
+
     it('Should pass permission variable to userPermission', function () {
       this.scope.permissionValue = 'some-permission';
 
