@@ -67,7 +67,7 @@ describe('Icon', function () {
     setTimeout(() => {
       this.icon.node.should.not.have.class('ring-icon_green');
       done();
-    }, 0);
+    }, 100); // Haven't found other way to detect re-render in order to support IE10
   });
 
   it('should not set active color without onClick', function () {
