@@ -65,6 +65,21 @@ module.provider('userPermissions', function () {
 });
 
 /**
+ * Tries to evaluate attribute in scope in case that value is placed inside scope's variable.
+ * Returns permission itself on failure
+ */
+module.factory('parsePermissionAttribute', function () {
+  return (permission, $eval) => {
+    let parsed;
+    try {
+      parsed = $eval(permission);
+    } finally {
+      return parsed || permission;
+    }
+  };
+});
+
+/**
  * @ngdoc directive
  * @name permission
  *
@@ -91,7 +106,7 @@ module.provider('userPermissions', function () {
  * @element ANY
  * @requires userPermissions
  */
-module.directive('rgPermission', function (userPermissions) {
+module.directive('rgPermission', function (userPermissions, parsePermissionAttribute) {
   return {
     controller: function ($scope, $element, $attrs) {
       const element = $element[0];
@@ -101,7 +116,8 @@ module.directive('rgPermission', function (userPermissions) {
 
       element.classList.add('ring-permission-hide');
 
-      const permission = $scope.$eval($attrs.rgPermission) || $attrs.rgPermission;
+      const permission = parsePermissionAttribute($attrs.rgPermission, ::$scope.$eval);
+
       const projectId = $attrs.hasOwnProperty('inGlobal') ? PermissionsCache.GLOBAL_PROJECT_ID : $scope.$eval($attrs.inProject);
 
       userPermissions.check(permission, projectId).
@@ -145,7 +161,7 @@ module.directive('rgPermission', function (userPermissions) {
  * @requires $animate
  * @requires userPermissions
  */
-module.directive('rgPermissionIf', function ($animate, userPermissions) {
+module.directive('rgPermissionIf', function ($animate, userPermissions, parsePermissionAttribute) {
   return {
     transclude: 'element',
     priority: 600,
@@ -158,7 +174,9 @@ module.directive('rgPermissionIf', function ($animate, userPermissions) {
 
       const projectId = iAttrs.hasOwnProperty('inGlobal') ? PermissionsCache.GLOBAL_PROJECT_ID : scope.$eval(iAttrs.inProject);
 
-      userPermissions.check(iAttrs.rgPermissionIf, projectId).
+      const permission = parsePermissionAttribute(iAttrs.rgPermissionIf, ::scope.$eval);
+
+      userPermissions.check(permission, projectId).
         then(permitted => {
           if (permitted) {
             if (!childScope) {
