@@ -59,7 +59,7 @@ describe('PermissionsNg', function () {
     it('Should pass permission variable to userPermission', function () {
       this.scope.permissionValue = 'some-permission';
 
-      this.renderDirective('permissionValue');
+      this.renderDirective('{{permissionValue}}');
 
       fakeUserPermissions.check.should.have.been.calledWith('some-permission');
     });
