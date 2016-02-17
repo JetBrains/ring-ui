@@ -476,10 +476,14 @@ export default class QueryAssist extends RingComponentWithShortcuts {
     this.setShortcutsEnabled(focus);
   }
 
+  getQuery() {
+    return this.input.textContent.replace(/\s/g, ' ');
+  }
+
   handleInput() {
     const props = {
       dirty: true,
-      query: this.input.textContent.replace(/\s/g, ' '),
+      query: this.getQuery(),
       caret: this.caret.getPosition(),
       focus: true
     };
@@ -535,10 +539,9 @@ export default class QueryAssist extends RingComponentWithShortcuts {
     }
   }
 
-  handleResponse({query = '', caret, styleRanges, suggestions}) {
+  handleResponse({query = '', caret = 0, styleRanges, suggestions}) {
     return new Promise((resolve, reject) => {
-      if ((query === this.immediateState.query || this.immediateState.query === undefined) &&
-        (caret === this.immediateState.caret || this.immediateState.caret === undefined)) {
+      if (query === this.getQuery() && caret === this.caret.getPosition({avoidFocus: true})) {
         resolve(suggestions);
 
         const state = {
@@ -574,6 +577,7 @@ export default class QueryAssist extends RingComponentWithShortcuts {
       return;
     }
 
+    const query = this.getQuery();
     const currentCaret = this.immediateState.caret;
     const suggestion = data.data;
     const prefix = suggestion.prefix || '';
@@ -581,7 +585,7 @@ export default class QueryAssist extends RingComponentWithShortcuts {
 
     const state = {
       caret: suggestion.caret,
-      query: this.immediateState.query.substr(0, suggestion.completionStart) + prefix + suggestion.option + suffix
+      query: query.substr(0, suggestion.completionStart) + prefix + suggestion.option + suffix
     };
 
     if (replace) {
