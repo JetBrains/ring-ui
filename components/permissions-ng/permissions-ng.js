@@ -65,21 +65,6 @@ module.provider('userPermissions', function () {
 });
 
 /**
- * Tries to evaluate attribute in scope in case that value is placed inside scope's variable.
- * Returns permission itself on failure
- */
-module.factory('parsePermissionAttribute', function () {
-  return (permission, $eval) => {
-    let parsed;
-    try {
-      parsed = $eval(permission);
-    } finally {
-      return parsed || permission;
-    }
-  };
-});
-
-/**
  * @ngdoc directive
  * @name permission
  *
@@ -91,6 +76,9 @@ module.factory('parsePermissionAttribute', function () {
    <example name="rgPermission directive">
      <file name="index.html">
        <div rg-permission="project-read" in-project="0-0-0-0-0">
+         Is visible if user has permission 'read-project' in project 0-0-0-0-0.
+       </div>
+       <div rg-permission="{{scopeVariableName}}" in-project="0-0-0-0-0">
          Is visible if user has permission 'read-project' in project 0-0-0-0-0.
        </div>
        <div rg-permission="project-read">
@@ -106,7 +94,7 @@ module.factory('parsePermissionAttribute', function () {
  * @element ANY
  * @requires userPermissions
  */
-module.directive('rgPermission', function (userPermissions, parsePermissionAttribute) {
+module.directive('rgPermission', function (userPermissions, $interpolate) {
   return {
     controller: function ($scope, $element, $attrs) {
       const element = $element[0];
@@ -116,7 +104,7 @@ module.directive('rgPermission', function (userPermissions, parsePermissionAttri
 
       element.classList.add('ring-permission-hide');
 
-      const permission = parsePermissionAttribute($attrs.rgPermission, ::$scope.$eval);
+      const permission = $interpolate($attrs.rgPermission)($scope);
 
       const projectId = $attrs.hasOwnProperty('inGlobal') ? PermissionsCache.GLOBAL_PROJECT_ID : $scope.$eval($attrs.inProject);
 
@@ -161,7 +149,7 @@ module.directive('rgPermission', function (userPermissions, parsePermissionAttri
  * @requires $animate
  * @requires userPermissions
  */
-module.directive('rgPermissionIf', function ($animate, userPermissions, parsePermissionAttribute) {
+module.directive('rgPermissionIf', function ($animate, userPermissions, $interpolate) {
   return {
     transclude: 'element',
     priority: 600,
@@ -174,7 +162,7 @@ module.directive('rgPermissionIf', function ($animate, userPermissions, parsePer
 
       const projectId = iAttrs.hasOwnProperty('inGlobal') ? PermissionsCache.GLOBAL_PROJECT_ID : scope.$eval(iAttrs.inProject);
 
-      const permission = parsePermissionAttribute(iAttrs.rgPermissionIf, ::scope.$eval);
+      const permission = $interpolate(iAttrs.rgPermissionIf)(scope);
 
       userPermissions.check(permission, projectId).
         then(permitted => {
