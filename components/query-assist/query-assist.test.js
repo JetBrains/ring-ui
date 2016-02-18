@@ -201,7 +201,7 @@ describe('QueryAssist', function () {
         query: ''
       });
 
-      this.queryAssist.input.innerHTML.should.be.empty;
+      this.queryAssist.input.textContent.should.be.empty;
     });
 
     it('should render nothing on falsy query', function () {
@@ -209,7 +209,7 @@ describe('QueryAssist', function () {
         query: null
       });
 
-      this.queryAssist.input.innerHTML.should.be.empty;
+      this.queryAssist.input.textContent.should.be.empty;
     });
 
     it('Shouldnt make duplicate requests for styleRanges on initiating if query is provided', function () {
