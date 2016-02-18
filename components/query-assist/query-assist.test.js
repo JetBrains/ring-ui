@@ -7,10 +7,6 @@ import {findDOMNode} from 'react-dom';
 import {Simulate} from 'react-addons-test-utils';
 import renderIntoDocument from 'render-into-document';
 import simulateKeypress from 'simulate-keypress';
-import Sniffr from 'sniffr';
-
-const sniffr = new Sniffr();
-sniffr.sniff();
 
 describe('QueryAssist', function () {
   const testQuery = 'oooooooooooo';
@@ -201,10 +197,6 @@ describe('QueryAssist', function () {
 
 
     it('should render nothing on empty query', function () {
-      if (sniffr.browser.name === 'ie') {
-        return;
-      }
-
       this.renderQueryAssist({
         query: ''
       });
@@ -213,10 +205,6 @@ describe('QueryAssist', function () {
     });
 
     it('should render nothing on falsy query', function () {
-      if (sniffr.browser.name === 'ie') {
-        return;
-      }
-
       this.renderQueryAssist({
         query: null
       });
