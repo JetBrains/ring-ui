@@ -361,11 +361,13 @@ export default class QueryAssist extends RingComponentWithShortcuts {
       focus: this.props.focus
     };
 
-    this.setupRequestHandler(this.props);
+    this.setupRequestHandler(this.props.delay);
     this.setShortcutsEnabled(this.props.focus);
 
     if (this.props.autoOpen) {
-      this.boundRequestHandler().catch(noop);
+      this.boundRequestHandler().
+        catch(noop).
+        then(::this.setFocus);
     } else {
       this.requestStyleRanges().catch(noop);
     }
@@ -378,13 +380,13 @@ export default class QueryAssist extends RingComponentWithShortcuts {
    * delayed function.
    * This may help reduce the load on the server if the user quickly inputs data
    */
-  setupRequestHandler(props) {
-    const needDelay = typeof props.delay === 'number';
+  setupRequestHandler(delay) {
+    const needDelay = typeof delay === 'number';
     const hasDelay = this.requestData !== this.boundRequestHandler;
 
     if (!this.requestData || hasDelay !== needDelay) {
       if (needDelay) {
-        this.requestData = debounce(this.boundRequestHandler, props.delay);
+        this.requestData = debounce(this.boundRequestHandler, delay);
       } else {
         this.requestData = this.boundRequestHandler;
       }
@@ -397,24 +399,24 @@ export default class QueryAssist extends RingComponentWithShortcuts {
     }
   }
 
-  willReceiveProps(props) {
+  willReceiveProps({caret, delay, focus, query}) {
     let setFocus;
-    this.setupRequestHandler(props);
+    this.setupRequestHandler(delay);
 
-    if (typeof props.focus === 'boolean') {
-      this.setShortcutsEnabled(props.focus);
+    if (typeof focus === 'boolean') {
+      this.setShortcutsEnabled(focus);
 
-      if (props.focus === false && this.immediateState.focus === true) {
+      if (focus === false && this.immediateState.focus === true) {
         this.blurInput();
-      } else if (props.focus === true && this.immediateState.focus === false) {
+      } else if (focus === true && this.immediateState.focus === false) {
         setFocus = true;
       }
 
-      this.immediateState.focus = props.focus;
+      this.immediateState.focus = focus;
     }
 
-    if (typeof props.caret === 'number') {
-      this.immediateState.caret = props.caret;
+    if (typeof caret === 'number') {
+      this.immediateState.caret = caret;
       setFocus = true;
     }
 
@@ -422,9 +424,17 @@ export default class QueryAssist extends RingComponentWithShortcuts {
       this.setFocus();
     }
 
-    if (typeof props.query === 'string' && props.query !== this.immediateState.query) {
-      this.immediateState.query = props.query;
-      this.setState({query: props.query, placeholderEnabled: !props.query}, props.query ? this.requestStyleRanges : noop);
+    if (typeof query === 'string' && query !== this.immediateState.query) {
+      this.immediateState.query = query;
+      let callback = noop;
+
+      if (query && this.props.autoOpen) {
+        callback = this.requestData();
+      } else if (query) {
+        callback = ::this.requestStyleRanges;
+      }
+
+      this.setState({query, placeholderEnabled: !query}, callback);
     }
   }
 
