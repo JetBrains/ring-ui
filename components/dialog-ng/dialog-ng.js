@@ -61,6 +61,9 @@ import '../dialog/dialog.scss';
         dialog.show({
           cssClass: 'custom-css-class',
           title: 'Test',
+          shortcuts: {
+            'ctrl+enter': angular.noop
+          },
           template: document.getElementById('dialog-template').innerHTML,
           buttons: [
             {
@@ -104,14 +107,7 @@ class DialogController {
 
     $scope.$watch(() => this.active, () => {
       if (this.active) {
-        shortcuts.bindMap({
-          esc: () => {
-            this.reset();
-            $scope.$apply();
-          },
-          enter: ::this.applyDefaultHandler(false),
-          'mod+enter': ::this.applyDefaultHandler(true)
-        }, {
+        shortcuts.bindMap(this.getShortcuts(), {
           scope: this.DIALOG_NAMESPACE
         });
       } else {
@@ -120,6 +116,36 @@ class DialogController {
     });
 
     dialogService.register(this);
+  }
+
+  getShortcuts() {
+    const defaultEscHandler = function () {
+      this.reset();
+      this.$scope.$apply();
+    }.bind(this);
+
+    const dialogShortcuts = {
+      esc: defaultEscHandler,
+      enter: ::this.applyDefaultHandler(false),
+      'mod+enter': ::this.applyDefaultHandler(true),
+      'any-character': angular.noop
+    };
+
+    angular.extend(dialogShortcuts, this.shortcuts);
+
+    if (this.shortcuts.esc) {
+      /**
+       * Merge ESC handler
+       * @type {Function} {dialogShortcuts.esc}
+       */
+      const customHandler = dialogShortcuts.esc;
+      dialogShortcuts.esc = function () {
+        customHandler();
+        defaultEscHandler();
+      };
+    }
+
+    return dialogShortcuts;
   }
 
   setTitle(title) {
@@ -147,6 +173,8 @@ class DialogController {
       this.data = config.data || {};
       this.wideDialog = config.wideDialog;
       this.cssClass = config.cssClass || '';
+
+      this.shortcuts = config.shortcuts || {};
 
       this.content = config.content;
       this.template = config.template;
