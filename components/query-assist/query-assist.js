@@ -647,9 +647,11 @@ export default class QueryAssist extends RingComponentWithShortcuts {
 
     // Close popup after timeout between long requests
     const timeout = window.setTimeout(() => {
-      this.setState({
-        loading: true
-      });
+      if (this.node) {
+        this.setState({
+          loading: true
+        });
+      }
 
       if (params.query === this.immediateState.query) {
         this.closePopup();
