@@ -61,6 +61,37 @@ describe('DialogNg', function () {
     element.should.not.have.class('active');
   });
 
+  it('should merge ESC handler and still been closed by pressing Esc', function () {
+    const {element} = showDialog(
+      '<rg-dialog></rg-dialog>',
+      '<div></div>',
+      [],
+      {},
+      {shortcuts: {
+        esc: this.sinon.spy()
+      }}
+    );
+    simulateKeypress(null, 27); // Esc
+
+    element.should.not.have.class('active');
+  });
+
+  it('should call custom handler after pressing ESC', function () {
+    const callback = this.sinon.spy();
+    showDialog(
+      '<rg-dialog></rg-dialog>',
+      '<div></div>',
+      [],
+      {},
+      {shortcuts: {
+        esc: callback
+      }}
+    );
+    simulateKeypress(null, 27); // Esc
+
+    callback.should.have.been.called;
+  });
+
   it('should be closed via the controller', function () {
     const {element, ctrl, scope} = showDialog(
       '<rg-dialog></rg-dialog>',

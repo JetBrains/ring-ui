@@ -132,7 +132,7 @@ class DialogController {
 
     angular.extend(dialogShortcuts, this.shortcuts);
 
-    if (this.shortcuts.esc) {
+    if (this.shortcuts && this.shortcuts.esc) {
       /**
        * Merge ESC handler
        * @type {Function} {dialogShortcuts.esc}
