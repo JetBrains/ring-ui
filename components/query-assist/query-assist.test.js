@@ -67,7 +67,7 @@ describe('QueryAssist', function () {
       this.queryAssist = renderIntoDocument(React.createElement(QueryAssist, Object.assign({
         query: testQuery,
         focus: true,
-        dataSource: this.sinon.stub().returns({})
+        dataSource: this.sinon.spy(({query, caret}) => ({query, caret, suggestions}))
       }, params)));
     };
   });
@@ -417,10 +417,11 @@ describe('QueryAssist', function () {
         query: completeQuery
       });
 
-      this.queryAssist.renderPopup(suggestions);
+      return this.queryAssist.requestData().then(() => {
+        simulateKeypress(null, 9); // press tab
 
-      simulateKeypress(null, 9); // press tab
-      this.queryAssist.input.should.have.text(getSuggestionText(suggestions[0]));
+        this.queryAssist.input.should.have.text(getSuggestionText(suggestions[0]));
+      });
     });
 
     it('should complete selected suggestion by enter in the end of phrase', function () {
@@ -428,11 +429,12 @@ describe('QueryAssist', function () {
         query: completeQuery
       });
 
-      this.queryAssist.renderPopup(suggestions);
+      return this.queryAssist.requestData().then(() => {
+        simulateKeypress(null, 40); // press down
+        simulateKeypress(null, 13); // press enter
 
-      simulateKeypress(null, 40); // press down
-      simulateKeypress(null, 13); // press enter
-      this.queryAssist.input.should.have.text(getSuggestionText(suggestions[0]));
+        this.queryAssist.input.should.have.text(getSuggestionText(suggestions[0]));
+      });
     });
 
     it('should complete by tab in the middle of phrase', function () {
@@ -441,10 +443,11 @@ describe('QueryAssist', function () {
         caret: middleCaret
       });
 
-      this.queryAssist.renderPopup(suggestions);
+      return this.queryAssist.requestData().then(() => {
+        simulateKeypress(null, 9); // press tab
 
-      simulateKeypress(null, 9); // press tab
-      this.queryAssist.input.should.have.text(getSuggestionText(suggestions[0]));
+        this.queryAssist.input.should.have.text(getSuggestionText(suggestions[0]));
+      });
     });
 
     it('should complete selected suggestion by enter in the middle of phrase', function () {
@@ -452,11 +455,13 @@ describe('QueryAssist', function () {
         query: completeQuery,
         caret: middleCaret
       });
-      this.queryAssist.renderPopup(suggestions);
 
-      simulateKeypress(null, 40); // press down
-      simulateKeypress(null, 13); // press enter
-      this.queryAssist.input.should.have.text(getSuggestionText(suggestions[0]) + completeQuery.substring(middleCaret));
+      return this.queryAssist.requestData().then(() => {
+        simulateKeypress(null, 40); // press down
+        simulateKeypress(null, 13); // press enter
+
+        this.queryAssist.input.should.have.text(getSuggestionText(suggestions[0]) + completeQuery.substring(middleCaret));
+      });
     });
 
     it('should complete selected suggestion by tab in the middle of phrase', function () {
@@ -464,13 +469,15 @@ describe('QueryAssist', function () {
         query: completeQuery,
         caret: middleCaret
       });
-      this.queryAssist.renderPopup(suggestions);
 
-      simulateKeypress(null, 40); // press down
-      simulateKeypress(null, 40); // press down
-      simulateKeypress(null, 40); // press down
-      simulateKeypress(null, 9); // press tab
-      this.queryAssist.input.should.have.text(getSuggestionText(suggestions[2]));
+      return this.queryAssist.requestData().then(() => {
+        simulateKeypress(null, 40); // press down
+        simulateKeypress(null, 40); // press down
+        simulateKeypress(null, 40); // press down
+        simulateKeypress(null, 9); // press tab
+
+        this.queryAssist.input.should.have.text(getSuggestionText(suggestions[2]));
+      });
     });
   });
 
