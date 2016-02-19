@@ -527,6 +527,11 @@ export default class QueryAssist extends RingComponentWithShortcuts {
 
     if (suggestion && this._popup && this._popup.isVisible()) {
       e.preventDefault();
+
+      if (this.getQuery() !== this.immediateState.suggestionsQuery) {
+        return false;
+      }
+
       return this.handleComplete(suggestion, true);
     }
 
@@ -560,6 +565,8 @@ export default class QueryAssist extends RingComponentWithShortcuts {
           placeholderEnabled: !query,
           query
         };
+
+        this.immediateState.suggestionsQuery = query;
 
         // Do not update deep equal styleRanges to simplify shouldComponentUpdate check
         if (!deepEquals(this.state.styleRanges, styleRanges)) {
