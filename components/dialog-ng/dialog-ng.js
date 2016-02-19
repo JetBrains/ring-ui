@@ -127,8 +127,7 @@ class DialogController {
     const dialogShortcuts = {
       esc: defaultEscHandler,
       enter: ::this.applyDefaultHandler(false),
-      'mod+enter': ::this.applyDefaultHandler(true),
-      'any-character': angular.noop
+      'mod+enter': ::this.applyDefaultHandler(true)
     };
 
     angular.extend(dialogShortcuts, this.shortcuts);
@@ -140,8 +139,9 @@ class DialogController {
        */
       const customHandler = dialogShortcuts.esc;
       dialogShortcuts.esc = function () {
-        customHandler();
+        const result = customHandler();
         defaultEscHandler();
+        return result;
       };
     }
 
@@ -174,7 +174,7 @@ class DialogController {
       this.wideDialog = config.wideDialog;
       this.cssClass = config.cssClass || '';
 
-      this.shortcuts = config.shortcuts || {};
+      this.shortcuts = config.shortcuts;
 
       this.content = config.content;
       this.template = config.template;
