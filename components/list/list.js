@@ -407,6 +407,7 @@ export default class List extends RingComponentWithShortcuts {
     onMouseOut: React.PropTypes.func,
     onSelect: PropTypes.func,
     onScrollToBottom: PropTypes.func,
+    useMouseUp: PropTypes.bool,
     visible: PropTypes.bool
   };
 
@@ -708,9 +709,13 @@ export default class List extends RingComponentWithShortcuts {
             props.scrolling = this.state.scrolling;
             props.ref = 'item' + index;
 
-            props.onClick = e => {
-              this.selectHandler(item, e);
-            };
+            const selectHander = e => this.selectHandler(item, e);
+
+            if (this.props.useMouseUp) {
+              props.onMouseUp = selectHander;
+            } else {
+              props.onClick = selectHander;
+            }
 
             let element;
             switch (props.rgItemType) {
