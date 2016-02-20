@@ -36,7 +36,7 @@ var defaultStyles = '<style>\n' +
 function createHtml(title, body) {
   return '<!DOCTYPE html>\n' +
     '<html>\n' +
-      '<head><title>' + title + '</title></head>\n' +
+      '<head><meta charset="UTF-8"><title>' + title + '</title></head>\n' +
       '<body>' + body + '</body>\n' +
     '</html>';
 }
