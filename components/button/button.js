@@ -2,6 +2,7 @@ import React, {PropTypes} from 'react';
 import classNames from 'classnames';
 import RingComponent from '../ring-component/ring-component';
 import Icon from '../icon/icon';
+import ProgressBar from '../progress-bar/progress-bar';
 import './button.scss';
 
 /**
@@ -98,18 +99,21 @@ export default class Button extends RingComponent {
       <button
         {...props}
         className={classes}
+        tabIndex={loader ? -1 : 0}
       >
         <span className="ring-button__content">
           {children}
+          {icon && (
+            <span className="ring-button__icon">
+              <Icon
+                glyph={icon}
+                size={iconSize || 16}
+              />
+            </span>
+          )}
         </span>
-        {icon && (
-          <span className="ring-button__icon">
-            <Icon
-              glyph={icon}
-              size={iconSize || 16}
-            />
-          </span>
-        )}
+
+        <ProgressBar className="ring-button__loader"/>
       </button>
     );
   }
