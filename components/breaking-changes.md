@@ -6,7 +6,7 @@ order: 2
 
 See the “breaking change” commits [in Upsource](https://upsource.jetbrains.com/ring-ui/view?query=path:%20%7B%2A%2Fbreaking-changes.md%7D%20and%20not%20%22Wording%22).
 
-### 20-02-2016: `Button.Modifiers` enum has been removed, attributes should used instead    
+### 20-02-2016: `Button.Modifiers` enum was removed, attributes should be used instead    
 
 Before:
 ```
