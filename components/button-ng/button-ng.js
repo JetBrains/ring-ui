@@ -147,6 +147,27 @@ export default module.name;
           <rg-button-link href="/button-link" loader="true">Press me</rg-button-link>
           <rg-button-link href="/button-link" icon="{{pencil}}"></rg-button-link>
         </p>
+
+        <p>
+          <rg-button>
+            <span>Press me</span>
+            <span react-static="Icon" react-size="16" react-value-glyph="{{trash}}"></span>
+          </rg-button>
+          <rg-button>
+            <span react-static="Icon" react-size="16" react-value-glyph="{{trash}}"></span>
+            <span>Press me</span>
+          </rg-button>
+          <rg-button>
+            <span react-static="Icon" react-size="16" react-value-glyph="{{trash}}"></span>
+            <span>Press me</span>
+            <span react-static="Icon" react-size="16" react-value-glyph="{{trash}}"></span>
+          </rg-button>
+          <rg-button>
+            <span>Press me</span>
+            <span react-static="Icon" react-size="16" react-value-glyph="{{trash}}"></span>
+            <span>Press me</span>
+          </rg-button>
+        </p>
       </div>
     </file>
 
