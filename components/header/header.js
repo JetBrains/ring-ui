@@ -685,7 +685,7 @@ export default class Header extends RingComponent {
           ref="loginButton"
         >
           <Button
-            modifier={Button.Modifiers.BLUE}
+            blue={true}
             onClick={this.props.onLoginClick}
           >{this.props.translationsDict.login}</Button>
         </div>
