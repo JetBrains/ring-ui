@@ -71,6 +71,9 @@
 
   .ring-icon {
     color: $ring-dark-gray-color;
+    line-height: $ring-unit;
+    vertical-align: 1px;
+    top: auto;
   }
 }
 
@@ -80,8 +83,6 @@
 
 .ring-button_icon .ring-button__icon {
   display: inline-block;
-  line-height: 20px;
-  vertical-align: top;
 }
 
 .ring-button::-moz-focus-inner {
