@@ -11,12 +11,38 @@ describe('Button', function () {
     TestUtils.isCompositeComponentWithType(this.button, Button).should.equal(true);
   });
 
-  it('should set theme', function () {
+  it('should set _default modifier', function () {
+    this.button.node.should.have.class('ring-button_default');
+  });
+
+  it('should set modifiers', function () {
     this.button.rerender({
-      modifier: Button.Modifiers.BLUE
+      active: true,
+      blue: true,
+      danger: true,
+      delayed: true,
+      loader: true,
+      primary: true,
+      short: true
     });
 
+    this.button.node.should.have.class('ring-button_active');
     this.button.node.should.have.class('ring-button_blue');
+    this.button.node.should.have.class('ring-button_danger');
+    this.button.node.should.have.class('ring-button_delayed');
+    this.button.node.should.have.class('ring-button_loader');
+    this.button.node.should.have.class('ring-button_primary');
+    this.button.node.should.have.class('ring-button_short');
+  });
+
+  it('should add icon', function () {
+    this.button.rerender({
+      icon: '#caret-down'
+    });
+
+    this.button.node.should.have.class('ring-button_icon');
+    this.button.node.should.contain('svg[style*="16"]');
+    this.button.node.should.contain('use[*|href="#caret-down"]');
   });
 
   it('should set custom class', function () {

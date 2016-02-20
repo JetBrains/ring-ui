@@ -1,15 +1,8 @@
 import React, {PropTypes} from 'react';
 import classNames from 'classnames';
 import RingComponent from '../ring-component/ring-component';
+import Icon from '../icon/icon';
 import './button.scss';
-
-const Modifiers = {
-  DEFAULT: 'default',
-  BLUE: 'blue',
-  PRIMARY: 'primary',
-  DELAYED_ACTION: 'delayed',
-  DANGER: 'danger'
-};
 
 /**
  * @name Button
@@ -19,10 +12,9 @@ const Modifiers = {
  * @example
    <example name="Button">
      <file name="index.html">
-       <div>
-         <span id="button"></span>
-         <span id="button-blue"></span>
-         <span id="button-primary"></span>
+       <div id="buttons">
+         <style>#buttons > span {margin: 8px;}</style>
+         <span id="button"></span><span id="button-icon"></span><span id="button-short"></span>
        </div>
      </file>
 
@@ -30,51 +22,94 @@ const Modifiers = {
        var render = require('react-dom').render;
        var Button = require('ring-ui/components/button/button');
 
-       render(Button.factory({
-         modifier: Button.Modifiers.DEFAULT
-       }, 'Default Button'), document.getElementById('button'));
+       render(Button.factory({}, 'Button default'), document.getElementById('button'));
 
        render(Button.factory({
-         modifier: Button.Modifiers.BLUE
-       }, 'Blue Button'), document.getElementById('button-blue'));
+         icon: require('jetbrains-icons/caret-down.svg')
+       }, 'Button icon'), document.getElementById('button-icon'));
 
        render(Button.factory({
-         modifier: Button.Modifiers.PRIMARY
-       }, 'Primary Button'), document.getElementById('button-primary'));
-     </file>
+         short: true,
+       }, '...'), document.getElementById('button-short'));
+
+       var container = document.getElementById('buttons');
+       ['active', 'blue', 'danger', 'delayed', 'loader', 'primary'].forEach(modifier => {
+         var node = document.createElement('span');
+         container.appendChild(node);
+
+         render(Button.factory({
+           [modifier]: true
+         }, 'Button ' + modifier), node);
+       });
+
+   </file>
    </example>
  */
 export default class Button extends RingComponent {
-  static get Modifiers() {
-    return Modifiers;
-  }
+  static propTypes = {
+    active: PropTypes.bool,
+    blue: PropTypes.bool,
+    danger: PropTypes.bool,
+    delayed: PropTypes.bool,
+    loader: PropTypes.bool,
+    primary: PropTypes.bool,
+    short: PropTypes.bool,
 
-  static get propTypes() {
-    return {
-      modifier: PropTypes.string,
-      className: PropTypes.string
-    };
-  }
-
-  static get defaultProps() {
-    return {
-      modifier: Modifiers.DEFAULT
-    };
+    icon: PropTypes.string,
+    iconSize: PropTypes.number,
+    className: PropTypes.string
   }
 
   render() {
+    const {
+      // Modifiers
+      active,
+      blue,
+      danger,
+      delayed,
+      loader,
+      primary,
+      short,
+
+      // Props
+      icon,
+      iconSize,
+      className,
+      children,
+      ...props
+    } = this.props;
+
     const classes = classNames(
       'ring-button',
-      'ring-button_' + this.props.modifier,
-      this.props.className
+      className, {
+        'ring-button_default': !blue && !primary,
+        'ring-button_active': active,
+        'ring-button_blue': blue,
+        'ring-button_danger': danger,
+        'ring-button_delayed': delayed,
+        'ring-button_icon': icon,
+        'ring-button_loader': loader,
+        'ring-button_primary': primary,
+        'ring-button_short': short
+      }
     );
 
     return (
       <button
-        {...this.props}
+        {...props}
         className={classes}
       >
-        {this.props.children}
+        <span className="ring-button__content">
+          {children}
+        </span>
+        {icon && (
+          <span className="ring-button__icon">
+            <Icon
+              glyph={icon}
+              size={iconSize || 16}
+            />
+          </span>
+        )}
       </button>
     );
   }

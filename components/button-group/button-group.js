@@ -42,16 +42,16 @@ import './button-group.scss';
 
       render(ButtonGroup.factory(
         null,
-        Button.factory({ modifier: Button.Modifiers.PRIMARY}, '1st button'),
-        Button.factory({ modifier: Button.Modifiers.PRIMARY}, '2nd button'),
-        Button.factory({ modifier: Button.Modifiers.PRIMARY}, '3rd button')
+        Button.factory({ primary: true }, '1st button'),
+        Button.factory({ primary: true }, '2nd button'),
+        Button.factory({ primary: true }, '3rd button')
       ), document.getElementById('button-group-primary'));
 
       render(ButtonGroup.factory(
         null,
-        Button.factory({ modifier: Button.Modifiers.BLUE}, '1st button'),
-        Button.factory({ modifier: Button.Modifiers.BLUE}, '2nd button'),
-        Button.factory({ modifier: Button.Modifiers.BLUE}, '3rd button')
+        Button.factory({ blue: true }, '1st button'),
+        Button.factory({ blue: true }, '2nd button'),
+        Button.factory({ blue: true }, '3rd button')
       ), document.getElementById('button-group-blue'));
 
       render(ButtonGroup.factory(
