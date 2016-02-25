@@ -429,7 +429,7 @@ export default class QueryAssist extends RingComponentWithShortcuts {
       let callback = noop;
 
       if (query && this.props.autoOpen) {
-        callback = this.requestData();
+        callback = this.requestData;
       } else if (query) {
         callback = ::this.requestStyleRanges;
       }
