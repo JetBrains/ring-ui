@@ -334,6 +334,7 @@ export default class Select extends RingComponentWithShortcuts {
   state = {
     data: [],
     selected: (this.props.multiple ? [] : null),
+    selectedIndex: null,
     filterString: null,
     shortcuts: false,
     popupShortcuts: false
@@ -682,7 +683,8 @@ export default class Select extends RingComponentWithShortcuts {
         label: filterValue
       };
       this.setState({
-        selected: filterValue === '' ? null : fakeSelected
+        selected: filterValue === '' ? null : fakeSelected,
+        selectedIndex: null
       }, function () {
         this.props.onSelect(fakeSelected, event);
         this.props.onChange(fakeSelected, event);
@@ -711,7 +713,8 @@ export default class Select extends RingComponentWithShortcuts {
 
     if (!this.props.multiple) {
       this.setState({
-        selected: selected
+        selected: selected,
+        selectedIndex: this._getSelectedIndex(selected, this.props.data)
       }, () => {
         const newFilterValue = this.isInputMode() && !this.props.hideSelected ? this._getItemLabel(selected) : '';
         this.filterValue(newFilterValue);
@@ -742,7 +745,8 @@ export default class Select extends RingComponentWithShortcuts {
       }
 
       this.setState({
-        selected: currentSelection
+        selected: currentSelection,
+        selectedIndex: this._getSelectedIndex(selected, this.props.data)
       }, function () {
         // redraw items
         if (this.props.multiple) {
@@ -779,7 +783,8 @@ export default class Select extends RingComponentWithShortcuts {
     const empty = Select._getEmptyValue(this.props.multiple);
 
     this.setState({
-      selected: empty
+      selected: empty,
+      selectedIndex: null
     }, () => {
       this.props.onChange(empty, event);
     });
