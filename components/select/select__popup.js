@@ -76,7 +76,8 @@ export default class SelectPopup extends RingComponentWithShortcuts {
         down: noop,
         'shift+up': noop,
         'shift+down': noop,
-        space: noop
+        space: noop,
+        tab: ::this.tabPress
       },
       scope: ::this.constructor.getUID('ring-select-popup-')
     };
@@ -96,6 +97,14 @@ export default class SelectPopup extends RingComponentWithShortcuts {
 
   isVisible() {
     return this.refs.popup.isVisible();
+  }
+
+  tabPress() {
+    const listActiveItem = this.refs.list.state.activeItem;
+    if (listActiveItem) {
+      this.props.onSelect(listActiveItem, new Event('select'));
+    }
+    this.hide();
   }
 
   getFilter() {
