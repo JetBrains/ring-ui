@@ -14,7 +14,7 @@ module.exports = function (config) {
         {type: 'teamcity'}
       ]
     },
-    reporters: ['teamcity', 'coverage'],
+    reporters: ['progress', 'coverage', 'coverage-html-index'],
     client: {
       mocha: {
         timeout: 60000
