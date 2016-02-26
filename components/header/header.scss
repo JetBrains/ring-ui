@@ -166,6 +166,12 @@
   text-overflow: ellipsis;
   line-height: initial;
 
+  // Disable animation in Header in Edge, see https://youtrack.jetbrains.com/issue/RG-928
+  // Supports MS Edge
+  @supports (-ms-accelerator: true) {
+    animation-name: none;
+  }
+
   &:after {
     vertical-align: middle;
     height: $ring-unit * 14;
