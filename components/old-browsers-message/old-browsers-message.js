@@ -1,14 +1,12 @@
-/* eslint-disable no-var, modules/no-cjs */
-
-var Sniffr = require('sniffr');
-var sniffr = new Sniffr();
+import Sniffr from 'sniffr';
+const sniffr = new Sniffr();
 sniffr.sniff();
 
 /**
  * Note: this script is a self running script. You should include it in your browser directly
  * It starts detecting unhandled errors when loaded.
  * When your app is loaded and you want to stop detecting,
- * call require('ring-ui/components/old-browsers-message/old-browsers-message__stop')();
+ * call oldBrowserMessage.stop();
  */
 
 /**
@@ -41,14 +39,14 @@ sniffr.sniff();
  */
 
 /*
-The list of versions which (and above) is defenitely supported
-"Browser is unsupported" won't show for this(and above) browsers even
-if js error will occur on application start
-*/
+ The list of versions which (and above) is defenitely supported
+ "Browser is unsupported" won't show for this(and above) browsers even
+ if js error will occur on application start
+ */
 
-var MAJOR_VERSION_INDEX = 0;
+const MAJOR_VERSION_INDEX = 0;
 
-var WHITE_LIST = {
+const WHITE_LIST = {
   chrome: 38,
   firefox: 34,
   safari: 7,
@@ -57,95 +55,93 @@ var WHITE_LIST = {
 };
 
 
-(function () {
-  var smileChanges = 0;
-  var MAX_SMILE_CHANGES = 50;
-  var previousWindowErrorHandler;
+let smileChanges = 0;
+const MAX_SMILE_CHANGES = 50;
+let previousWindowErrorHandler;
 
-  function changeSmileClickListener(event) {
-    var eyes = ['O', 'o', '-', '>', '<'];
-    var target = event.target || event.srcElement;
+function changeSmileClickListener(event) {
+  const eyes = ['O', 'o', '-', '>', '<'];
+  const target = event.target || event.srcElement;
 
-    smileChanges++;
+  smileChanges++;
 
-    function rand(min, max) {
-      return Math.round((Math.random() * (max - min))) + min;
+  function rand(min, max) {
+    return Math.round((Math.random() * (max - min))) + min;
+  }
+
+  function getRandomEye() {
+    return eyes[rand(0, (eyes.length - 1))];
+  }
+
+  function getRandomSmile() {
+    if (smileChanges >= MAX_SMILE_CHANGES) {
+      return '\\\\ (x_x) //';
     }
 
-    function getRandomEye() {
-      return eyes[rand(0, (eyes.length - 1))];
+    return `{{ (${getRandomEye()}_${getRandomEye()}) }}`;
+  }
+
+  target.innerHTML = getRandomSmile();
+}
+
+function attachSmileClickListener(smileNode) {
+  if (smileNode.addEventListener) {
+    smileNode.addEventListener('click', changeSmileClickListener);
+  } else if (smileNode.attachEvent) {
+    smileNode.attachEvent('onclick', changeSmileClickListener);
+  }
+}
+
+function browserInWhiteList() {
+  return sniffr.browser.version[MAJOR_VERSION_INDEX] >= WHITE_LIST[sniffr.browser.name];
+}
+
+/**
+ * Listens to unhandled errors and displays passed node
+ */
+function startOldBrowsersDectector(onOldBrowserDetected) {
+  previousWindowErrorHandler = window.onerror;
+
+  window.onerror = function oldBrowsersMessageShower(errorMsg, url, lineNumber) {
+    if (onOldBrowserDetected) {
+      onOldBrowserDetected();
     }
 
-    function getRandomSmile() {
-      if (smileChanges >= MAX_SMILE_CHANGES) {
-        return '\\\\ (x_x) //';
-      }
-
-      return '{{ (' + getRandomEye() + '_' + getRandomEye() + ') }}';
+    if (previousWindowErrorHandler) {
+      return previousWindowErrorHandler(errorMsg, url, lineNumber);
     }
 
-    target.innerHTML = getRandomSmile();
+    return false;
+  };
+}
+
+function stopOldBrowserDetector() {
+  window.onerror = previousWindowErrorHandler;
+}
+
+
+//Start javascript error detection
+startOldBrowsersDectector(function onDetected() {
+  const oldBrowsersMessageContainer = document.getElementById('ring-old-browsers-message');
+  const browserMessage = document.getElementById('ring-old-browsers-message__browser-message');
+  const errorMessage = document.getElementById('ring-old-browsers-message__error-message');
+  const smileNode = document.getElementById('ring-old-browsers-message__smile');
+
+  if (browserInWhiteList()) {
+    browserMessage.style.display = 'none';
+    errorMessage.style.display = 'block';
+  } else {
+    browserMessage.style.display = 'block';
+    errorMessage.style.display = 'none';
   }
 
-  function attachSmileClickListener(smileNode) {
-    if (smileNode.addEventListener) {
-      smileNode.addEventListener('click', changeSmileClickListener);
-    } else if (smileNode.attachEvent) {
-      smileNode.attachEvent('onclick', changeSmileClickListener);
-    }
+  if (oldBrowsersMessageContainer) {
+    oldBrowsersMessageContainer.style.display = 'block';
   }
 
-  function browserInWhiteList() {
-    return sniffr.browser.version[MAJOR_VERSION_INDEX] >= WHITE_LIST[sniffr.browser.name];
+  if (smileNode) {
+    attachSmileClickListener(smileNode);
   }
+});
 
-  /**
-   * Listens to unhandled errors and displays passed node
-   */
-  function startOldBrowsersDectector(onOldBrowserDetected) {
-    previousWindowErrorHandler = window.onerror;
-
-    window.onerror = function oldBrowsersMessageShower(errorMsg, url, lineNumber) {
-      if (onOldBrowserDetected) {
-        onOldBrowserDetected();
-      }
-
-      if (previousWindowErrorHandler) {
-        return previousWindowErrorHandler(errorMsg, url, lineNumber);
-      }
-
-      return false;
-    };
-  }
-
-  function activate() {
-    startOldBrowsersDectector(function onDetected() {
-      var oldBrowsersMessageContainer = document.getElementById('ring-old-browsers-message');
-      var browserMessage = document.getElementById('ring-old-browsers-message__browser-message');
-      var errorMessage = document.getElementById('ring-old-browsers-message__error-message');
-      var smileNode = document.getElementById('ring-old-browsers-message__smile');
-
-      if (!oldBrowsersMessageContainer) {
-        return;
-      }
-
-      if (browserInWhiteList()) {
-        browserMessage.style.display = 'none';
-        errorMessage.style.display = 'block';
-      } else {
-        browserMessage.style.display = 'block';
-        errorMessage.style.display = 'none';
-      }
-
-      if (oldBrowsersMessageContainer) {
-        oldBrowsersMessageContainer.style.display = 'block';
-      }
-
-      if (smileNode) {
-        attachSmileClickListener(smileNode);
-      }
-    });
-  }
-
-  activate();
-}());
+export {stopOldBrowserDetector as stop};
