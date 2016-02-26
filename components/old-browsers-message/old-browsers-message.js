@@ -125,6 +125,10 @@ var WHITE_LIST = {
       var errorMessage = document.getElementById('ring-old-browsers-message__error-message');
       var smileNode = document.getElementById('ring-old-browsers-message__smile');
 
+      if (!oldBrowsersMessageContainer) {
+        return;
+      }
+
       if (browserInWhiteList()) {
         browserMessage.style.display = 'none';
         errorMessage.style.display = 'block';
