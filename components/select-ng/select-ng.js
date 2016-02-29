@@ -657,8 +657,14 @@ module.directive('rgSelect', function () {
 
       function attachDropdownIfNeeded() {
         if (getType() === 'dropdown') {
-          element.addEventListener('click', () => {
+          const handler = () => {
             ctrl.selectInstance._clickHandler();
+          };
+          element.addEventListener('click', handler);
+          element.addEventListener('keydown', event => {
+            if (event.keyCode === 13) {//Enter
+              handler();
+            }
           });
         }
       }
