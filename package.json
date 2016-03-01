@@ -99,14 +99,14 @@
     "metalsmith-metallic": "0.3.1",
     "metalsmith-templates": "0.7.0",
     "metalsmith-text-replace": "1.0.1",
-    "metalsmith-watch": "0.2.0",
+    "metalsmith-watch": "1.0.1",
     "mocha": "2.3.3",
     "serve-static": "1.9.2",
     "slug": "0.8.0",
     "wallaby-webpack": "0.0.7",
-    "webpack": "1.12.9",
-    "webpack-config-merger": "0.0.3",
-    "webpack-dev-server": "1.11.0"
+    "webpack": "1.12.14",
+    "webpack-config-merger": "0.0.5",
+    "webpack-dev-server": "1.14.1"
   },
   "dependencies": {
     "angular-elastic": "2.5.1-jb",
