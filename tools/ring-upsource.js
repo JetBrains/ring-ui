@@ -43,6 +43,7 @@ module.exports = {
     download: require('jetbrains-icons/download.svg'),
     exception: require('jetbrains-icons/exception.svg'),
     history: require('jetbrains-icons/history.svg'),
+    info: require('jetbrains-icons/info.svg'),
     like: require('jetbrains-icons/like.svg'),
     modified: require('jetbrains-icons/modified.svg'),
     removed: require('jetbrains-icons/removed.svg'),
