@@ -2,6 +2,7 @@
 import 'dom4';
 import {getStyles, getRect} from '../dom/dom';
 import shortcuts from '../shortcuts/shortcuts';
+import RingButton from '../button-ng/button-ng';
 
 import '../button/button.scss';
 import '../dialog/dialog.scss';
@@ -57,7 +58,7 @@ import '../dialog/dialog.scss';
      require('ring-ui/components/select-ng/select-ng');
 
      angular.module('Example.dialog', ['Ring.dialog', 'Ring.select'])
-     .controller('ExampleCtrl', function(dialog) {
+     .controller('ExampleCtrl', function($q, $timeout, dialog) {
         dialog.show({
           cssClass: 'custom-css-class',
           title: 'Test',
@@ -72,6 +73,12 @@ import '../dialog/dialog.scss';
               action: angular.noop
             },
             {
+              label: 'Long Action',
+              action: function() {
+                return $timeout(angular.noop, 2000);
+              }
+            },
+            {
               label: 'Cancel',
               close: true
             }
@@ -84,7 +91,7 @@ import '../dialog/dialog.scss';
    </file>
  </example>
  */
-const module = angular.module('Ring.dialog', []);
+const module = angular.module('Ring.dialog', [RingButton]);
 
 class DialogController {
   static BODY_MODAL_CLASS = 'ring-dialog-modal';
@@ -233,15 +240,25 @@ class DialogController {
   }
 
   action(button) {
-    let dontClose = false;
 
     if (button.action) {
-      dontClose = button.action(this.data, button, errorMessage => {
+      const actionResult = button.action(this.data, button, errorMessage => {
         this.error = errorMessage;
-      }, this.dialogForm) === false;
-    }
+      }, this.dialogForm);
 
-    if (!dontClose && (button.close !== false)) {
+      button.inProgress = true;
+
+      return this.$q.resolve(actionResult)
+        .then(res => {
+          const dontClose = res === false;
+
+          if (!dontClose && (button.close !== false)) {
+            this.reset();
+          }
+        })
+        .catch(errorMessage => this.error = errorMessage)
+        .finally(() => button.inProgress = false);
+    } else if (button.close !== false) {
       this.reset();
     }
   }

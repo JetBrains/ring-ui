@@ -10,13 +10,15 @@ import Dialog from './dialog-ng';
 describe('DialogNg', function () {
   let service;
   let $compile;
+  let $q;
   let $templateCache;
   let $rootScope;
   let sandbox;
 
   beforeEach(window.module(Dialog));
 
-  beforeEach(inject(function (_$rootScope_, _$compile_, _$templateCache_, dialog) {
+  beforeEach(inject(function (_$q_, _$rootScope_, _$compile_, _$templateCache_, dialog) {
+    $q = _$q_;
     $rootScope = _$rootScope_;
     $compile = _$compile_;
     $templateCache = _$templateCache_;
@@ -370,8 +372,8 @@ describe('DialogNg', function () {
       const buttons = element.queryAll('button');
 
       buttons.should.have.length(2);
-      buttons[0].should.have.text('Ok');
-      buttons[1].should.have.text('Cancel');
+      buttons[0].should.include.text('Ok');
+      buttons[1].should.include.text('Cancel');
     });
 
     it('should have a given "default" button', function () {
@@ -392,7 +394,50 @@ describe('DialogNg', function () {
       );
       element.query('button').dispatchEvent(click);
 
+      $rootScope.$digest();
       element.should.not.have.class('active');
+    });
+
+    it('should be closed if action returns promise and when it resolves', function () {
+      const defer = $q.defer(); //eslint-disable-line
+
+      const {element} = showDialog(
+        '<rg-dialog></rg-dialog>',
+        '<div></div>',
+        [{
+          label: 'Button',
+          action: () => defer.promise
+        }]
+      );
+      element.query('button').dispatchEvent(click);
+
+      $rootScope.$digest();
+      element.should.have.class('active');
+
+      defer.resolve();
+      $rootScope.$digest();
+      element.should.not.have.class('active');
+    });
+
+    it('should not be closed if action returns promise and when it resolves with "false"', function () {
+      const defer = $q.defer(); //eslint-disable-line
+
+      const {element} = showDialog(
+        '<rg-dialog></rg-dialog>',
+        '<div></div>',
+        [{
+          label: 'Button',
+          action: () => defer.promise
+        }]
+      );
+      element.query('button').dispatchEvent(click);
+
+      $rootScope.$digest();
+      element.should.have.class('active');
+
+      defer.resolve(false);
+      $rootScope.$digest();
+      element.should.have.class('active');
     });
 
     it('should not be closed by clicking a button that return "false"', function () {
@@ -405,6 +450,8 @@ describe('DialogNg', function () {
         }]
       );
       element.query('button').dispatchEvent(click);
+
+      $rootScope.$digest();
 
       element.should.have.class('active');
     });
