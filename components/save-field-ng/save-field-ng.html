@@ -5,7 +5,7 @@
     ng-show="saveFieldForm.$dirty && saveFieldForm.$valid"
     mode="blue"
     loader="loading"
-    class="ring-save-field__button"
+    class="ring-save-field__button ng-hide"
     ng-click="submitChanges($event)"
     ng-mousedown="cancelBlur()"
   >
@@ -15,7 +15,7 @@
   <rg-button
     ng-show="done"
     ng-disabled="true"
-    class="ring-save-field__button"
+    class="ring-save-field__button ng-hide"
   >
     {{wording.saved}}
   </rg-button>
