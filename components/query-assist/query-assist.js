@@ -358,7 +358,7 @@ export default class QueryAssist extends RingComponentWithShortcuts {
     this.immediateState = {
       query: query,
       caret: Number.isFinite(this.props.caret) ? this.props.caret : query.length,
-      focus: this.props.focus
+      focus: this.props.autoOpen || this.props.focus
     };
 
     this.setupRequestHandler(this.props.delay);
@@ -461,6 +461,7 @@ export default class QueryAssist extends RingComponentWithShortcuts {
   handleFocusChange(e) {
     // otherwise it's blur and false
     const focus = e.type === 'focus';
+    this.immediateState.focus = focus;
 
     // Track mouse state to avoid focus loss on clicks on icons.
     // Doesn't handle really edge cases like shift+tab while mouse button is pressed.
@@ -556,7 +557,7 @@ export default class QueryAssist extends RingComponentWithShortcuts {
 
   handleResponse({query = '', caret = 0, styleRanges, suggestions}) {
     return new Promise((resolve, reject) => {
-      if (query === this.getQuery() && caret === this.caret.getPosition({avoidFocus: true})) {
+      if (query === this.getQuery() && (caret === this.immediateState.caret || this.immediateState.caret === undefined)) {
         resolve(suggestions);
 
         const state = {
