@@ -30,7 +30,7 @@
     "gemini-gather": "node tools/gemini-runner.js --gather",
     "prebuild-upsource": "webpack tools/ring-upsource.js ring-upsource-dev.js --output-library=ring --bail --optimize-dedupe --optimize-occurence-order",
     "build-upsource": "webpack tools/ring-upsource.js ring-upsource.js --output-library=ring --bail --optimize-dedupe --optimize-minimize --optimize-occurence-order --define process.env.NODE_ENV=\"'production'\"",
-    "build": "node tools/metalsmith.js",
+    "build": "node --max-old-space-size=2000 tools/metalsmith.js",
     "start": "node tools/metalsmith.js --server",
     "lint": "eslint .",
     "lint-hook": "eslint $ESLINT_HOOK_FILES",
