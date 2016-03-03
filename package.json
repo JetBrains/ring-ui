@@ -18,7 +18,7 @@
     ".babelrc",
     "ring-upsource.js",
     "ring-upsource-dev.js",
-    "components/**/*.{js,scss,gif,html}",
+    "components/**/*.{js,scss,gif,html,svg}",
     "webpack.config.js"
   ],
   "main": "webpack.config.js",
