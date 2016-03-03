@@ -8,7 +8,7 @@ describe('List', function () {
   let list;
 
   function getFirstListItem() {
-    return ReactDOM.findDOMNode(list.refs.inner).firstChild;
+    return ReactDOM.findDOMNode(list.refs.inner).childNodes[1];
   }
 
   beforeEach(function () {
@@ -17,7 +17,7 @@ describe('List', function () {
 
   it('should be empty by default', function () {
     list.refs.inner.tagName.toLowerCase().should.equal('div');
-    list.refs.inner.hasChildNodes().should.equal(false);
+    list.refs.inner.childNodes.length.should.equal(2);
   });
 
   it('should check type of item', function () {
