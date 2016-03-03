@@ -6,7 +6,7 @@ import 'core-js/modules/es6.array.find';
 import React, {PropTypes, createElement, DOM} from 'react';
 import {findDOMNode} from 'react-dom';
 import classNames from 'classnames';
-import debounce from 'mout/function/debounce';
+import throttle from 'mout/function/throttle';
 
 import RingComponent from '../ring-component/ring-component';
 import RingComponentWithShortcuts from '../ring-component/ring-component_with-shortcuts';
@@ -31,6 +31,8 @@ const Type = {
 const Dimension = {
   ITEM_PADDING: 16,
   ITEM_HEIGHT: 24,
+  SEPARATOR_HEIGHT: 27,
+  TITLE_HEIGHT: 42,
   INNER_PADDING: 8
 };
 
@@ -218,13 +220,10 @@ function isItemType(listItemType, item) {
        var render = require('react-dom').render;
        var List = require('ring-ui/components/list/list');
 
-       var listData = [
-        {'label': 'One',   'rgItemType': List.ListProps.Type.ITEM},
-        {'label': 'Two',   'rgItemType': List.ListProps.Type.ITEM},
-        {'label': 'Three', 'rgItemType': List.ListProps.Type.ITEM},
-        {'label': 'Four',  'rgItemType': List.ListProps.Type.ITEM},
-        {'label': 'Five',  'rgItemType': List.ListProps.Type.ITEM}
-       ];
+       var listData = [];
+       for (var i = 0; i < 1000; i++) {
+          listData.push({'label': 'Item ' + i, 'rgItemType': List.ListProps.Type.ITEM});
+       }
 
        render(List.factory({
          data: listData,
@@ -418,14 +417,19 @@ export default class List extends RingComponentWithShortcuts {
     onMouseOut: function () {},
     onSelect: function () {},
     onScrollToBottom: function () {},
-    shortcuts: false
+    shortcuts: false,
+    renderOptimization: true
   };
 
   static ListHint = ListHint;
 
   state = {
+    data: [],
     activeIndex: null,
-    activeItem: null
+    activeItem: null,
+    renderOptimizationSkip: 0,
+    renderOptimizationPaddingTop: 0,
+    renderOptimizationPaddingBottom: 0
   };
 
   _activatableItems = false;
@@ -452,7 +456,6 @@ export default class List extends RingComponentWithShortcuts {
   }
 
   hoverHandler(index) {
-    this.ignoreAutoscroll = true;
     this.setState({
       activeIndex: index,
       activeItem: this.props.data[index]
@@ -499,20 +502,9 @@ export default class List extends RingComponentWithShortcuts {
         return;
       }
 
-      this.scrollToIndex(this.state.activeIndex);
-
+      this.recalculateVisibleOptions(true);
       e.preventDefault();
     });
-  }
-
-  scrollToIndex(index) {
-    const innerContainer = findDOMNode(this.refs.inner);
-
-    if (innerContainer.scrollHeight !== innerContainer.clientHeight) {
-      innerContainer.scrollTop = index * Dimension.ITEM_HEIGHT - Math.floor(this.props.maxHeight / 2);
-
-      this.scrollEndHandler();
-    }
   }
 
   mouseHandler() {
@@ -619,12 +611,13 @@ export default class List extends RingComponentWithShortcuts {
       this.setState({
         activeIndex: activeIndex,
         activeItem: activeItem
-      });
+      }, this.recalculateVisibleOptions);
     }
   }
 
   didMount() {
-    this.scrollEndHandler = debounce(() => {
+    // we need throttle instead of debounce to recalculate visible elements when holding UP/DOWN key
+    this.scrollEndHandler = throttle(() => {
       const innerContainer = findDOMNode(this.refs.inner);
       if (innerContainer) {
         const maxScrollingPositon = innerContainer.scrollHeight;
@@ -634,26 +627,113 @@ export default class List extends RingComponentWithShortcuts {
           this.props.onScrollToBottom();
         }
       }
-      this.setState({scrolling: false});
-    }, 150);
-    this.autoscroll();
+      this.setState({scrolling: false}, () => {
+        this.recalculateVisibleOptions(true, true);
+      });
+    }, 100);
+    this.recalculateVisibleOptions();
   }
 
-  didUpdate() {
-    this.autoscroll();
+  cachedSizes = [];
+
+  recalculateVisibleOptions(fast, ignoreFocus) {
+    const buffer = 10; // keep X items above and below of the visisble area
+    const innerContainer = findDOMNode(this.refs.inner);
+
+    if (this.props.renderOptimization && this.props.maxHeight) {
+      const height = this.props.maxHeight;
+
+      // Firstly we should calculate every item size and position
+      if (!fast) {
+        this.cachedSizes = [];
+        for (let i = 0; i < this.props.data.length; i++) {
+          let size;
+          switch (this.props.data[i].rgItemType) {
+            case Type.SEPARATOR:
+              size = Dimension.SEPARATOR_HEIGHT;
+              break;
+            case Type.TITLE:
+              size = Dimension.TITLE_HEIGHT;
+              break;
+            case Type.ITEM:
+            case Type.LINK:
+            default:
+              size = Dimension.ITEM_HEIGHT;
+              break;
+          }
+
+          const begin = this.cachedSizes.length === 0 ? 0 : this.cachedSizes[this.cachedSizes.length - 1].end;
+
+          const dimensions = {
+            begin: begin,
+            end: begin + size
+          };
+
+          this.cachedSizes.push(dimensions);
+        }
+      }
+
+      let startIndex = null;
+      let stopIndex = null;
+
+      let paddingTop = 0;
+      let paddingBottom = 0;
+
+      // Then we move scrollTop near active item if necessary
+      if (!ignoreFocus && this.state.activeIndex) {
+        innerContainer.scrollTop = this.cachedSizes[this.state.activeIndex].begin - parseInt(height / 2, 10);
+      }
+
+      const scrollTop = innerContainer.scrollTop;
+
+      // Then we calculate visible options
+      for (let i = 0; i < this.cachedSizes.length; i++) {
+        const cachedSizeItem = this.cachedSizes[i];
+        if (startIndex === null && cachedSizeItem.begin >= scrollTop) {
+          startIndex = i - buffer;
+          if (startIndex < 0) {
+            startIndex = 0;
+          }
+          paddingTop = this.cachedSizes[startIndex].begin;
+        } else if (stopIndex === null && cachedSizeItem.end > (scrollTop + height)) {
+          const fullHeight = this.cachedSizes[this.cachedSizes.length - 1].end;
+          stopIndex = i + buffer;
+          if (stopIndex >= this.cachedSizes.length) {
+            stopIndex = this.cachedSizes.length - 1;
+          }
+          paddingBottom = fullHeight - this.cachedSizes[stopIndex].begin;
+        }
+
+        if (startIndex !== null && stopIndex !== null) {
+          break;
+        }
+      }
+
+      if (stopIndex === null) {
+        stopIndex = this.cachedSizes.length;
+        paddingBottom = 0;
+      }
+
+      // And splice these elements to state data
+      const optimizedData = this.props.data.slice(startIndex, stopIndex + 1);
+
+      this.setState({
+        renderOptimizationSkip: startIndex,
+        renderOptimizationPaddingTop: paddingTop,
+        renderOptimizationPaddingBottom: paddingBottom,
+        data: optimizedData
+      });
+    } else {
+      this.setState({
+        data: this.props.data
+      });
+    }
   }
 
   hasOverflow() {
     if (this.refs.inner && this.refs.inner.node) {
       const container = this.refs.inner.node;
       return container.scrollHeight > container.clientHeight;
-    }
-  }
-
-  autoscroll() {
-    if (this.state.activeIndex && !this.ignoreAutoscroll) {
-      this.scrollToIndex(this.state.activeIndex);
-      this.ignoreAutoscroll = false;
     }
   }
 
@@ -672,8 +752,12 @@ export default class List extends RingComponentWithShortcuts {
   render() {
     const hint = this.getSelected() && this.props.hintOnSelection || this.props.hint;
     const innerStyles = {};
+    const topPaddingStyles = {};
+    const bottomPaddingStyles = {};
     if (this.props.maxHeight) {
       innerStyles.maxHeight = this.props.maxHeight - Dimension.ITEM_HEIGHT - Dimension.INNER_PADDING;
+      topPaddingStyles.height = this.state.renderOptimizationPaddingTop;
+      bottomPaddingStyles.height = this.state.renderOptimizationPaddingBottom;
     }
     const classes = classNames({
       'ring-list': true,
@@ -691,8 +775,11 @@ export default class List extends RingComponentWithShortcuts {
           ref="inner"
           style={innerStyles}
         >
-          {this.props.data.map((item, index) => {
+          <div style={topPaddingStyles}></div>
+          {this.state.data.map((item, index) => {
             const props = Object.assign({rgItemType: DEFAULT_ITEM_TYPE}, item);
+            const realIndex = this.state.renderOptimizationSkip + index;
+
             if (props.url) {
               props.href = props.url;
             }
@@ -703,8 +790,8 @@ export default class List extends RingComponentWithShortcuts {
             // Probably unique enough key
             props.key = props.key || props.rgItemType + (props.label || props.description);
 
-            props.active = (index === this.state.activeIndex);
-            props.onMouseOver = this.hoverHandler.bind(this, index);
+            props.active = (realIndex === this.state.activeIndex);
+            props.onMouseOver = this.hoverHandler.bind(this, realIndex);
             props.tabIndex = -1;
             props.scrolling = this.state.scrolling;
             props.ref = 'item' + index;
@@ -739,6 +826,7 @@ export default class List extends RingComponentWithShortcuts {
             }
             return createElement(element, props, null);
           })}
+          <div style={bottomPaddingStyles}></div>
         </div>
         {this.hasOverflow() && <div className="ring-list__fade" />}
         {hint &&

@@ -67,6 +67,31 @@ const Type = {
    </file>
  </example>
 
+ <example name="Select with big dataset">
+   <file name="index.html">
+     <div id="demo"></div>
+   </file>
+   <file name="index.js" webpack="true">
+      var render = require('react-dom').render;
+      var Select = require('ring-ui/components/select/select');
+      require('ring-ui/components/input-size/input-size.scss');
+
+      var elementsNum = 100000;
+      var selectedIndex = parseInt(elementsNum / 2);
+      var dataset  = [];
+      for (var i = 0; i < elementsNum; i++) {
+        dataset.push({'label': 'element ' + i, 'key': i, 'type': 'user'});
+      }
+
+      var props = {
+       data: dataset
+      };
+
+      var select = render(Select.factory({filter: true, selected: dataset[selectedIndex]}), document.getElementById('demo'))
+      select.rerender(props);
+   </file>
+ </example>
+
  <example name="Disabled select">
    <file name="index.html">
      <div id="demo1"></div>
