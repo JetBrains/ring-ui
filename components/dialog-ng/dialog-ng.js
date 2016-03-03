@@ -273,7 +273,7 @@ class DialogController {
       event.preventDefault();
 
       if (this.dialogForm.$valid) {
-        this.buttons.every(button => {
+        (this.buttons || []).every(button => {
           if (button.default) {
             this.action(button);
             this.$scope.$apply();
