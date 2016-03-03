@@ -4,6 +4,7 @@
  * @author alexander.anisimov@jetbrains.com (Alexander Anisimov)
  */
 
+import 'core-js/modules/es6.array.find';
 import React, {PropTypes} from 'react';
 import classNames from 'classnames';
 import RingComponent from '../ring-component/ring-component';
@@ -192,6 +193,7 @@ export default class Icon extends RingComponent {
 
   static defaultProps = ({
     baseClass: new ClassName('ring-icon'),
+    activeEvent: 'onClick',
     className: '',
     color: Color.DEFAULT,
     glyph: '',
@@ -204,7 +206,7 @@ export default class Icon extends RingComponent {
   static Size = Size;
 
   render() {
-    const {baseClass, className, size, color, glyph, width, height, onClick, activeColor, hoverColor, ...otherProps} = this.props;
+    const {baseClass, className, size, color, glyph, width, height, activeColor, activeEvent, hoverColor, ...otherProps} = this.props;
     const currentColor = this.state.color || color;
 
     const classes = classNames(
@@ -222,16 +224,16 @@ export default class Icon extends RingComponent {
     };
 
     const xlinkHref = urlUtils.resolveRelativeURL(glyph);
-    let onIconClick = onClick;
+    const activeEventHandler = otherProps[activeEvent];
 
-    if (activeColor && typeof onClick === 'function') {
-      onIconClick = (...args) => {
+    if (activeColor && typeof activeEventHandler === 'function') {
+      otherProps[activeEvent] = (...args) => {
         this.setState({
           color: activeColor,
           isActive: true
         });
 
-        const promise = Promise.resolve(onClick(...args));
+        const promise = Promise.resolve(activeEventHandler(...args));
 
         promise.then(() => {
           this.setState({
@@ -268,7 +270,6 @@ export default class Icon extends RingComponent {
     return (
       <span
         {...otherProps}
-        onClick={onIconClick}
         onMouseOver={onMouseOver}
         onMouseOut={onMouseOut}
         className={classes}
