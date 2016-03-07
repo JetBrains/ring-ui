@@ -12,6 +12,7 @@ import '../button/button.scss';
 registerComponents({Icon});
 
 const module = angular.module('Ring.button', [reactNg]);
+const ORDER_NOT_DEFINED = '-1';
 
 class ButtonController {
   constructor($element, $attrs, $scope, $compile) {
@@ -28,8 +29,19 @@ class ButtonController {
       });
     });
 
+    const tabIndex = this.$attrs.tabindex || ORDER_NOT_DEFINED;
+    if (tabIndex !== ORDER_NOT_DEFINED) {
+      this.element.setAttribute('tabindex', tabIndex);
+    }
+
     $scope.$watch(() => $scope.$eval($attrs.loader), val => {
-      val ? this.element.setAttribute('tabindex', '-1') : this.element.removeAttribute('tabindex');
+      if (val) {
+        this.element.setAttribute('tabindex', ORDER_NOT_DEFINED);
+      } else if (tabIndex !== ORDER_NOT_DEFINED) {
+        this.element.setAttribute('tabindex', tabIndex);
+      } else {
+        this.element.removeAttribute('tabindex');
+      }
     });
 
     $attrs.$observe('mode', ::this.updateMode);
@@ -149,20 +161,20 @@ export default module.name;
         </p>
 
         <p>
-          <rg-button>
+          <rg-button tabindex="1">
             <span>Press me</span>
             <span react-static="Icon" react-size="16" react-value-glyph="{{trash}}"></span>
           </rg-button>
-          <rg-button>
+          <rg-button tabindex="2">
             <span react-static="Icon" react-size="16" react-value-glyph="{{trash}}"></span>
             <span>Press me</span>
           </rg-button>
-          <rg-button>
+          <rg-button tabindex="3">
             <span react-static="Icon" react-size="16" react-value-glyph="{{trash}}"></span>
             <span>Press me</span>
             <span react-static="Icon" react-size="16" react-value-glyph="{{trash}}"></span>
           </rg-button>
-          <rg-button>
+          <rg-button tabindex="4">
             <span>Press me</span>
             <span react-static="Icon" react-size="16" react-value-glyph="{{trash}}"></span>
             <span>Press me</span>
