@@ -634,6 +634,15 @@ export default class List extends RingComponentWithShortcuts {
     this.recalculateVisibleOptions();
   }
 
+  setActiveItem(index) {
+    this.setState({
+      activeIndex: index,
+      activeItem: this.props.data[index]
+    }, () => {
+      this.recalculateVisibleOptions(true);
+    });
+  }
+
   cachedSizes = [];
 
   recalculateVisibleOptions(fast, ignoreFocus) {
