@@ -338,11 +338,13 @@ export default class Popup extends RingComponentWithShortcuts {
     if (!this.props.hidden) {
       this._setListenersEnabled(true);
     }
-    this._checkDisplay();
+    // should be executed after all js routines because of the List render optimizations
+    setTimeout(::this._checkDisplay, 0);
   }
 
   didUpdate() {
-    this._checkDisplay();
+    // should be executed after all js routines because of the List render optimizations
+    setTimeout(::this._checkDisplay, 0);
   }
 
   willUnmount() {
