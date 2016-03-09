@@ -31,7 +31,7 @@
     "prebuild-upsource": "webpack tools/ring-upsource.js ring-upsource-dev.js --output-library=ring --bail --optimize-dedupe --optimize-occurence-order",
     "build-upsource": "webpack tools/ring-upsource.js ring-upsource.js --output-library=ring --bail --optimize-dedupe --optimize-minimize --optimize-occurence-order --define process.env.NODE_ENV=\"'production'\"",
     "build": "node --max-old-space-size=2000 tools/metalsmith.js",
-    "start": "node tools/metalsmith.js --server",
+    "start": "node --max-old-space-size=2000 tools/metalsmith.js --server",
     "lint": "eslint .",
     "lint-hook": "eslint $ESLINT_HOOK_FILES",
     "prelint-ci": "node tools/message-import-reports",
