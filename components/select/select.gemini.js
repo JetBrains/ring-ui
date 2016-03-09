@@ -13,6 +13,7 @@ gemini.suite('Select', function () {
 
   gemini.suite('Select button', function (child) {
     child
+      .skip('firefox') // Temporarily skip
       .setUrl('/example-select-with-customized-filter-and-an-add-item-button')
       .setCaptureElements('.ring-select')
       .capture('button');
