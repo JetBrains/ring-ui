@@ -1,7 +1,9 @@
 /**
  * Resolve url for svg icons
  */
-var browser = require('browser-sniffer/browser-sniffer');
+var Sniffr = require('sniffr');
+var sniffr = new Sniffr();
+sniffr.sniff();
 
 module.exports = {
 
@@ -16,7 +18,11 @@ module.exports = {
      * @see https://bugzilla.mozilla.org/show_bug.cgi?id=652991
      * https://github.com/angular/angular.js/issues/8934
      */
-    return browser.isFirefox() ? location.href : '';
+    if (sniffr.browser.name === 'firefox' || sniffr.browser.name === 'chrome' && sniffr.browser.version[0] >= 49) {
+      return location.href;
+    }
+
+    return '';
   },
 
   /**
