@@ -631,6 +631,9 @@ export default class List extends RingComponentWithShortcuts {
         this.recalculateVisibleOptions(true, true);
       });
     }, 100);
+  }
+
+  componentWillMount() {
     this.recalculateVisibleOptions();
   }
 
