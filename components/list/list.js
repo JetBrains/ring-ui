@@ -692,11 +692,11 @@ export default class List extends RingComponentWithShortcuts {
       let paddingBottom = 0;
 
       // Then we move scrollTop near active item if necessary
-      if (!ignoreFocus && this.state.activeIndex) {
+      if (innerContainer && !ignoreFocus && this.state.activeIndex) {
         innerContainer.scrollTop = this.cachedSizes[this.state.activeIndex].begin - parseInt(height / 2, 10);
       }
 
-      const scrollTop = innerContainer.scrollTop;
+      const scrollTop = innerContainer ? innerContainer.scrollTop : 0;
 
       // Then we calculate visible options
       for (let i = 0; i < this.cachedSizes.length; i++) {
