@@ -515,11 +515,11 @@ export default class List extends RingComponentWithShortcuts {
     this.setState({scrolling: true}, this.scrollEndHandler);
   }
 
-  enterHandler(e) {
+  enterHandler(event) {
     if (this.state.activeIndex !== null) {
       this.setState({scrolling: false}, function () {
         const item = this.props.data[this.state.activeIndex];
-        this.selectHandler(item, e);
+        this.selectHandler({item, event});
 
         if (item.rgItemType === Type.LINK) {
           window.location.href = findDOMNode(this.refs['item' + this.state.activeIndex]).href;
@@ -531,7 +531,7 @@ export default class List extends RingComponentWithShortcuts {
     }
   }
 
-  selectHandler(item, event) {
+  selectHandler({item, event}) {
     if (item.onClick) {
       item.onClick(item, event);
     }
@@ -805,7 +805,7 @@ export default class List extends RingComponentWithShortcuts {
             props.scrolling = this.state.scrolling;
             props.ref = 'item' + index;
 
-            const selectHander = e => this.selectHandler(item, e);
+            const selectHander = event => this.selectHandler({item, event});
 
             if (this.props.useMouseUp) {
               props.onMouseUp = selectHander;
