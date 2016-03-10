@@ -132,7 +132,7 @@
     "simply-uuid": "1.0.1",
     "sniffr": "1.1.4",
     "style-loader": "0.13.0",
-    "svg-sprite-loader": "0.0.17",
+    "svg-sprite-loader": "0.0.18",
     "url-loader": "0.5.5",
     "whatwg-fetch": "0.7.0"
   }
