@@ -115,7 +115,7 @@
     "sass-loader": "3.1.2",
     "sniffr": "1.1.4",
     "style-loader": "0.8.2",
-    "svg-sprite-loader": "0.0.17",
+    "svg-sprite-loader": "0.0.18",
     "svgo": "0.5.6",
     "svgo-loader": "1.1.0",
     "url-loader": "0.5.5",
