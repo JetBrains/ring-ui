@@ -18,7 +18,7 @@ module.exports = {
      * @see https://bugzilla.mozilla.org/show_bug.cgi?id=652991
      * https://github.com/angular/angular.js/issues/8934
      */
-    if (sniffr.browser.name === 'firefox' || sniffr.browser.name === 'chrome' && sniffr.browser.version[0] >= 49) {
+    if (sniffr.browser.name === 'firefox' || sniffr.browser.name === 'edge' || sniffr.browser.name === 'chrome' && sniffr.browser.version[0] >= 49) {
       return location.href;
     }
 
