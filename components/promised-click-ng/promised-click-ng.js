@@ -64,14 +64,15 @@ class PromisedClickController {
 
   process(callback, e) {
     this.promise = callback(e);
+
     if (this.promise) {
-      // Do not use $evalAsync here. This code should be invoked in the same animation frame
-      // otherwise a button may be "pressed" twice – by click and with class change.
-      if (!this.$scope.$root.$$phase) { // eslint-disable-line angular/no-private-call
-        this.$scope.$apply(::this.activate);
-      } else {
-        this.activate();
-      }
+      this.activate();
+    }
+
+    // Do not use $evalAsync here. This code should be invoked in the same animation frame
+    // otherwise a button may be "pressed" twice – by click and with class change.
+    if (!this.$scope.$root.$$phase) { // eslint-disable-line angular/no-private-call
+      this.$scope.$apply();
     }
   }
 
