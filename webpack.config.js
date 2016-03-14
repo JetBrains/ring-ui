@@ -4,7 +4,7 @@
 
 var path = require('path');
 
-var componentsPath = path.join(__dirname, 'components');
+var componentsPath = [path.join(__dirname, 'components')];
 
 function resolveLoader(loader) {
   return require.resolve(loader + '-loader');
@@ -88,6 +88,9 @@ module.exports = {
       gifLoader
     ]
   },
+
+  componentsPath: componentsPath,
+
   svgSpriteLoader: svgSpriteLoader,
   svgLoader: svgLoader,
   scssLoader: scssLoader,
