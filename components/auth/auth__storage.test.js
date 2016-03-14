@@ -101,19 +101,27 @@ describe('Auth', function () {
       });
 
       it('should clean state by TTL', function () {
+        this.sinon.useFakeTimers();
+
         const limitedAuthStorage = new AuthStorage({
           stateKeyPrefix: 'state',
           tokenKey: 'token',
           stateTTL: 10
         });
 
-        return limitedAuthStorage.saveState(stateId, state).
-          then(() => new Promise(resolve => setTimeout(resolve, 70))).
-          then(function () {
-            return limitedAuthStorage.cleanStates().then(function () {
-              return localStorage;
-            });
-          }).should.eventually.be.empty;
+        return limitedAuthStorage.
+          saveState(stateId, state).
+          then(() => new Promise(resolve => {
+            setTimeout(() => {
+              limitedAuthStorage.cleanStates().then(function () {
+                resolve(localStorage);
+              });
+            }, 100);
+
+            this.sinon.clock.tick(200);
+          })
+        ).
+        should.eventually.be.empty;
       });
     });
 
