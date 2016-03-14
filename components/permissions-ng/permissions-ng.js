@@ -1,3 +1,6 @@
+import 'angular';
+import 'angular-mocks';
+
 import '../auth-ng/auth-ng';
 import Permissions from '../permissions/permissions';
 import PermissionsCache from '../permissions/permissions__cache';
@@ -73,22 +76,22 @@ module.provider('userPermissions', function () {
  * on the logged in user permissions. If the user has listed permissions then the DOM tree
  * is shown, otherwise it is hidden.
  * @example
-   <example name="rgPermission directive">
-     <file name="index.html">
-       <div rg-permission="project-read" in-project="0-0-0-0-0">
-         Is visible if user has permission 'read-project' in project 0-0-0-0-0.
-       </div>
-       <div rg-permission="{{scopeVariableName}}" in-project="0-0-0-0-0">
-         Is visible if user has permission 'read-project' in project 0-0-0-0-0.
-       </div>
-       <div rg-permission="project-read">
-         Is visible if user has permission 'read-project' at least in one project.
-       </div>
-       <div rg-permission="project-read" in-global>
-         Is visible if user has permission 'read-project' at project "global".
-       </div>
-     </file>
-   </example>
+ <example name="rgPermission directive">
+ <file name="index.html">
+ <div rg-permission="project-read" in-project="0-0-0-0-0">
+ Is visible if user has permission 'read-project' in project 0-0-0-0-0.
+ </div>
+ <div rg-permission="{{scopeVariableName}}" in-project="0-0-0-0-0">
+ Is visible if user has permission 'read-project' in project 0-0-0-0-0.
+ </div>
+ <div rg-permission="project-read">
+ Is visible if user has permission 'read-project' at least in one project.
+ </div>
+ <div rg-permission="project-read" in-global>
+ Is visible if user has permission 'read-project' at project "global".
+ </div>
+ </file>
+ </example>
  *
  * @restrict A
  * @element ANY
@@ -130,19 +133,19 @@ module.directive('rgPermission', function (userPermissions, $interpolate) {
  * on the logged in user permissions. If the user has listed permissions then the DOM tree
  * is transcluded, otherwise it is not.
  * @example
-   <example name="rgPermissionIf directive">
-     <file name="index.html">
-       <div rg-permission-if="project-read" in-project="0-0-0-0-0">
-         Is transcluded if user has permission 'read-project' in project 0-0-0-0-0.
-       </div>
-       <div rg-permission-if="project-read">
-         Is transcluded if user has permission 'read-project' at least in one project.
-       </div>
-       <div rg-permission-if="project-read" in-global>
-         Is transcluded if user has permission 'read-project' at project "global".
-       </div>
-     </file>
-   </example>
+ <example name="rgPermissionIf directive">
+ <file name="index.html">
+ <div rg-permission-if="project-read" in-project="0-0-0-0-0">
+ Is transcluded if user has permission 'read-project' in project 0-0-0-0-0.
+ </div>
+ <div rg-permission-if="project-read">
+ Is transcluded if user has permission 'read-project' at least in one project.
+ </div>
+ <div rg-permission-if="project-read" in-global>
+ Is transcluded if user has permission 'read-project' at project "global".
+ </div>
+ </file>
+ </example>
  *
  * @restrict A
  * @element ANY
@@ -204,18 +207,18 @@ module.directive('rgPermissionIf', function ($animate, userPermissions, $interpo
  * nested {@link permission} or {@link rgPermissionIf} directive is obtained by the logged in user.
  *
  * @example
-   <example name="somePermissions directive">
-     <file name="index.html">
-       <div rg-some-permissions="atLeastOneNestedDivIsShown" ng-show="atLeastOneNestedDivIsShown">
-         <div rg-permission-if="project-read" in-project="0-0-0-0-0">
-           Is transcluded if user has permission 'read-project' in project 0-0-0-0-0.
-         </div>
-         <div rg-permission-if="project-read">
-           Is transcluded if user has permission 'read-project' at least in one project.
-         </div>
-       </div>
-     </file>
-   </example>
+ <example name="somePermissions directive">
+ <file name="index.html">
+ <div rg-some-permissions="atLeastOneNestedDivIsShown" ng-show="atLeastOneNestedDivIsShown">
+ <div rg-permission-if="project-read" in-project="0-0-0-0-0">
+ Is transcluded if user has permission 'read-project' in project 0-0-0-0-0.
+ </div>
+ <div rg-permission-if="project-read">
+ Is transcluded if user has permission 'read-project' at least in one project.
+ </div>
+ </div>
+ </file>
+ </example>
  *
  * @scope
  * @restrict A
