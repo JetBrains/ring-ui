@@ -1,5 +1,6 @@
 /* eslint-disable angular/deferred */
 
+import 'dom4';
 import 'angular';
 import 'angular-mocks';
 import 'angular-route';

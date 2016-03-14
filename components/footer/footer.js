@@ -2,6 +2,7 @@
  * @fileoverview Ring Footer.
  */
 
+import 'dom4';
 import React, {PropTypes, isValidElement} from 'react';
 import classNames from 'classnames';
 import RingComponent from '../ring-component/ring-component';
@@ -110,18 +111,18 @@ class FooterLine extends RingComponent {
  * @returns {React} react component
  *
  * @example
-   <example name="Footer">
-   <file name="index.html">
-   <div>
-   <div id="footer"></div>
-   </div>
-   </file>
-   <file name="index.js" webpack="true">
-   var render = require('react-dom').render;
-   var Footer = require('ring-ui/components/footer/footer');
+ <example name="Footer">
+ <file name="index.html">
+ <div>
+ <div id="footer"></div>
+ </div>
+ </file>
+ <file name="index.js" webpack="true">
+ var render = require('react-dom').render;
+ var Footer = require('ring-ui/components/footer/footer');
 
-   render(
-     Footer.factory({
+ render(
+ Footer.factory({
        className: 'stuff',
        left: [
          [{url: 'http://www.jetbrains.com/teamcity/?fromserver', label: 'TeamCity'}, ' by JetBrains'],
@@ -135,9 +136,9 @@ class FooterLine extends RingComponent {
          {url: 'http://www.jetbrains.com/teamcity/feedback?source=footer&version=8.0.3%20(build%2027531)&build=27531&mode=ent', label: 'Feedback'}
        ]
      }
-   ), document.getElementById('footer'));
-   </file>
-   </example>
+ ), document.getElementById('footer'));
+ </file>
+ </example>
  */
 export default class Footer extends RingComponent {
   /** @override */
