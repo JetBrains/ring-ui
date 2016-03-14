@@ -1,5 +1,8 @@
 /* global inject */
 import 'dom4';
+import 'angular';
+import 'angular-mocks';
+
 import PromisedClick from './promised-click-ng';
 
 describe('PromisedClickNg', function () {
