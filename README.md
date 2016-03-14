@@ -124,9 +124,12 @@ Use `npm run setup-hooks` to install it.
 ## Wallaby support
 
 To enable the `Wallaby.js` test runner follow these steps:
-
+ 
 1. Download and install the [Wallaby.js plugin](http://wallabyjs.com/) for WebStorm.
-2. Run shared `Wallaby` configuration in WebStorm.
+2. Either 
+  * install node.js 4.2.2 and npm 3.x and rebuild binary dependecies of Ring UI project against in using `npm rebuild`
+  * or replace wallaby's node binary with symlink to your one (greater then 4.2.2) in `~/Library/Caches/WebStorm{version}/wallaby/node_v4.2.2/`
+3. Run shared `Wallaby` configuration in WebStorm.
 
 
 ## Visual regression testing
