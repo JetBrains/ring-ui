@@ -3,6 +3,7 @@
 import ShortcutsNgHint from './shortcuts-hint-ng';
 import Sniffr from 'sniffr';
 
+import 'angular';
 import 'angular-mocks';
 
 describe('Shortcuts ng hint', function () {
