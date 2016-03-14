@@ -2,6 +2,7 @@ import 'angular';
 import 'angular-mocks';
 import React from 'react';
 import RingComponent from '../ring-component/ring-component';
+import Checkbox from '../checkbox/checkbox';
 
 describe('ReactNg', function () {
   const registerComponents = require('./react-ng');
@@ -13,7 +14,7 @@ describe('ReactNg', function () {
     return <div />;
   }
 
-  registerComponents({EmptyComponent});
+  registerComponents({EmptyComponent, Checkbox});
 
   beforeEach(window.module('Ring.react-ng'));
 

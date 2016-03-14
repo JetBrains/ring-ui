@@ -1,6 +1,7 @@
 /* global inject */
 import AutoFocus from './autofocus-ng';
 import RingSelect from '../select-ng/select-ng';
+import 'angular';
 import 'angular-mocks';
 
 describe('Autofocus', function () {
