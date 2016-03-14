@@ -1,41 +1,6 @@
 /* eslint-env node */
-/* eslint-disable camelcase */
 /* eslint-disable no-var */
 /* eslint-disable modules/no-cjs */
-
-var path = require('path');
-
-var coverageEnabled = process.argv.indexOf('--coverage') !== -1;
-
-function prepareWbpackConf(webpackConf) {
-  webpackConf.devtool = 'eval';
-  webpackConf.output = {};
-  webpackConf.entry = {};
-  webpackConf.cache = {};
-  webpackConf.resolve = {
-    root: path.join(__dirname, 'test-helpers')
-  };
-
-  webpackConf.module.preLoaders = webpackConf.preLoaders || [];
-  if (coverageEnabled) {
-    webpackConf.module.preLoaders.push({
-      test: /\.js$/,
-      exclude: /\.test\.js$/,
-      include: path.join(__dirname, 'components'),
-      loader: 'isparta-instrumenter-loader'
-    });
-  }
-
-  return webpackConf;
-}
-
-function getReporters() {
-  var reporters = ['progress'];
-  if (coverageEnabled) {
-    reporters.push('coverage');
-  }
-  return reporters;
-}
 
 module.exports = function (config) {
   var webdriverConfig = {
@@ -62,14 +27,14 @@ module.exports = function (config) {
 
     // test results reporter to use
     // possible values: 'dots', 'progress', 'junit', 'growl', 'coverage'
-    reporters: getReporters(),
+    reporters: ['progress'],
 
     // list of preprocessors
     preprocessors: {
       'test-helpers/test-suite.js': ['webpack']
     },
 
-    webpack: prepareWbpackConf(require('./webpack.config.js')),
+    webpack: require('./webpack-test.config'),
 
     webpackServer: {
       stats: {
