@@ -15,6 +15,7 @@ module.exports = function (config) {
       ]
     },
     reporters: ['teamcity', 'coverage', 'coverage-html-index'],
+    webpack: require('./webpack-test-coverage.config'),
     client: {
       mocha: {
         timeout: 60000
