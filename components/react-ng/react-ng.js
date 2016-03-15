@@ -76,10 +76,8 @@ function reactNgDirective($parse) {
                 props[changedPropName] = value[changedPropName];
               }
             });
-          } else if (typeof ComponentClass.ngModelStateField === 'string') {
-            props[ComponentClass.ngModelStateField] = value || ''; // Changes for strings are not applied if value is null or undefined. It always should be string
           } else {
-            return;
+            props[ComponentClass.ngModelStateField] = value;
           }
         } else {
           props[name] = value;
@@ -108,7 +106,8 @@ function reactNgDirective($parse) {
           return;
         }
 
-        if (iAttrs.hasOwnProperty(name) && name !== reactDirectiveName && name !== instanceAttr && typeof value === 'string') {
+        debugger;
+        if (iAttrs.hasOwnProperty(name) && name !== reactDirectiveName && name !== instanceAttr && typeof value !== 'object') {
           // Use React DOM attributes names
           const specialDOMAttrName = specialDOMAttrs[name];
           const propName = specialDOMAttrName || name;
@@ -122,7 +121,7 @@ function reactNgDirective($parse) {
             ComponentClass.propTypes[propName] === PropTypes.func.isRequired);
 
           // Parse as expression
-          const parsedExpression = !specialDOMAttrName && !interpolated && $parse(value);
+          const parsedExpression = !specialDOMAttrName && !interpolated && (typeof value === 'string') && $parse(value);
 
           if (interpolated) {
             iAttrs.$observe(name, getUpdater(propName));
@@ -232,6 +231,7 @@ function reactStatigNgDirective($parse) {
 
       angular.forEach(iAttrs, (value, attrName) => {
         if (iAttrs.hasOwnProperty(attrName) && attrName !== staticDirectiveName) {
+          debugger;
           if (attrName.indexOf(attributeToPassByValuePrefix) === 0) {
             props[getPropertyName(attrName, attributeToPassByValuePrefix)] = value;
           // Parse as expression
