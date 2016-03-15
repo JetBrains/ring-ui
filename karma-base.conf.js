@@ -94,6 +94,12 @@ module.exports = function (config) {
         base: 'Chrome',
         flags: ['--no-sandbox', '--test-type']
       },
+      wdEdge: {
+        base: 'WebDriver',
+        config: webdriverConfig,
+        testName: testName,
+        browserName: 'MicrosoftEdge'
+      },
       wdIE11: {
         base: 'WebDriver',
         config: webdriverConfig,
