@@ -1,3 +1,4 @@
+import 'dom4';
 import React from 'react';
 import TestUtils from 'react-addons-test-utils';
 import Button from './button';
@@ -42,7 +43,7 @@ describe('Button', function () {
 
     this.button.node.should.have.class('ring-button_icon');
     this.button.node.should.contain('svg[style*="16"]');
-    //this.button.node.should.contain('use[xlink:href="#caret-down"]');
+    this.button.node.query('use').should.have.attribute('xlink:href', '#caret-down');
   });
 
   it('should set custom class', function () {
