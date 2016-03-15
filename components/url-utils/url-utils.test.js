@@ -55,13 +55,16 @@ describe('urlUtils', function () {
 
   describe('resolveRelative', function () {
     const baseUrl = 'http://example.com/';
+    const standardsCompliantRelativeSVG = sniffr.browser.name === 'firefox' ||
+      sniffr.browser.name === 'chrome' && sniffr.browser.version[0] >= 49 ||
+      sniffr.browser.name === 'edge';
 
     beforeEach(function () {
       this.sinon.stub(urlUtils, 'getAbsoluteURL').returns(baseUrl);
     });
 
-    it('should resolve url fragment relative to the base url when <base> tag is present in Firefox', function () {
-      if (sniffr.browser.name !== 'firefox') {
+    it('should resolve url fragment relative to the base url when <base> tag (standarts comlpliant)', function () {
+      if (!standardsCompliantRelativeSVG) {
         return;
       }
 
@@ -71,8 +74,8 @@ describe('urlUtils', function () {
     });
 
 
-    it('should resolve url fragment relative to the base url when <base> tag is present not in Firefox', function () {
-      if (sniffr.browser.name === 'firefox') {
+    it('should resolve url fragment relative to the base url when <base> tag (standarts non-comlpliant)', function () {
+      if (standardsCompliantRelativeSVG) {
         return;
       }
 
