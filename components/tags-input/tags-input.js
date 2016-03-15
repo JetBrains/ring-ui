@@ -41,9 +41,12 @@ import '../input-size/input-size.scss';
   <example name="Async datasource via react-ng">
   <file name="index.html">
     <div ng-app="test-tags-app" ng-controller="testCtrl">
-      <a href class="ring-link" ng-click="addTag()">Add a tag</a>
-      <span react="TagsInput" ng-model="tagsArray" x-data-source="suggestionsSource()"></span>
-      <div><span>tags = {{tagsArray}}</span></div>
+      <div ng-form="form">
+        <a href class="ring-link" ng-click="addTag()">Add a tag</a>
+        <span react="TagsInput" ng-model="tagsArray" x-data-source="suggestionsSource()"></span>
+        <div><span>tags = {{tagsArray}}</span></div>
+        <div><span>$dirty = {{form.$dirty}}</span></div>
+      </div>
     </div>
   </file>
   <file name="index.js" webpack="true">
