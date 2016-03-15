@@ -106,7 +106,6 @@ function reactNgDirective($parse) {
           return;
         }
 
-        debugger;
         if (iAttrs.hasOwnProperty(name) && name !== reactDirectiveName && name !== instanceAttr && typeof value !== 'object') {
           // Use React DOM attributes names
           const specialDOMAttrName = specialDOMAttrs[name];
@@ -231,7 +230,6 @@ function reactStatigNgDirective($parse) {
 
       angular.forEach(iAttrs, (value, attrName) => {
         if (iAttrs.hasOwnProperty(attrName) && attrName !== staticDirectiveName) {
-          debugger;
           if (attrName.indexOf(attributeToPassByValuePrefix) === 0) {
             props[getPropertyName(attrName, attributeToPassByValuePrefix)] = value;
           // Parse as expression
