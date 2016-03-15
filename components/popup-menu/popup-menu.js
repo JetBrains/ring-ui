@@ -7,7 +7,7 @@ import Popup from '../popup/popup';
 import List from '../list/list';
 
 /**
- * @name Popup Menu
+ * @name PopupMenu
  * @constructor
  * @extends {ReactComponent}
  * @example
