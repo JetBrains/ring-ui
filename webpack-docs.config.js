@@ -30,11 +30,12 @@ var hubUri = hub in config.hubs ? config.hubs[hub] : hub;
 var productionClientId = '81a0bffb-6d0f-4a38-b93a-0a4d1e567698';
 var useProductionClientId = hubUri === config.hubs.production || hubUri === config.hubs.default;
 
+var host = process.env.npm_package_config_host || config.host;
 var hubServerConfig = {
   serverUri: hubUri,
   client_id: useProductionClientId ? productionClientId : '0-0-0-0-0',
   request_credentials: 'skip',
-  redirect_uri: 'http://localhost:' + config.port + '/'
+  redirect_uri: 'http://' + host + ':' + config.port + '/'
 };
 
 var hubProductionConfig = {

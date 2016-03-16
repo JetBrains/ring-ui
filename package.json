@@ -12,7 +12,8 @@
       "jar": "http://localhost:8080",
       "default": "***REMOVED***",
       "production": "https://hub.jetbrains.com"
-    }
+    },
+    "host": "localhost"
   },
   "files": [
     ".babelrc",
