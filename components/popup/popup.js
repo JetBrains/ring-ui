@@ -531,7 +531,7 @@ export default class Popup extends RingComponentWithShortcuts {
     }
   }
 
-  _getPositionStyles(direction, anchor, anchorLeft, anchorTop) {
+  _getPositionStyles(anchor, anchorLeft, anchorTop) {
     const popupWidth = this.node.clientWidth;
     const popupHeight = this.node.clientHeight;
 
@@ -545,7 +545,7 @@ export default class Popup extends RingComponentWithShortcuts {
     const popupVerticalCenter = anchorTop + anchor.height / 2 - popupHeight / 2;
     const popupBottomToTop = anchorBottom - popupHeight;
 
-    const directionsMatrix = {
+    return {
       [Directions.BOTTOM_RIGHT]: {left: anchorLeft, top: anchorBottom},
       [Directions.BOTTOM_LEFT]: {left: popupRightToLeft, top: anchorBottom},
       [Directions.BOTTOM_CENTER]: {left: popupHorizontalCenter, top: anchorBottom},
@@ -559,13 +559,6 @@ export default class Popup extends RingComponentWithShortcuts {
       [Directions.RIGHT_TOP]: {left: anchorRight, top: popupBottomToTop},
       [Directions.RIGHT_CENTER]: {left: anchorRight, top: popupVerticalCenter}
     };
-
-    if (directionsMatrix[direction]) {
-      return directionsMatrix[direction];
-    }
-
-    throw new Error(`Unknown popup direction: ${direction}. Use one of this:
-    [${Object.keys(Directions).join(', ')}]`);
   }
 
   _getBodyScroll() {
@@ -603,11 +596,18 @@ export default class Popup extends RingComponentWithShortcuts {
       anchorTop += scroll.top;
     } else if (this.props.container) {
       anchorTop += this.props.container.scrollTop;
+      anchorLeft += this.props.container.scrollLeft;
     }
 
     if (this.node) {
+      const directionsMatrix = this._getPositionStyles(anchor, anchorLeft, anchorTop);
+
       for (const direction of props.directions) {
-        styles = this._getPositionStyles(direction, anchor, anchorLeft, anchorTop);
+        if (directionsMatrix[direction]) {
+          styles = directionsMatrix[direction];
+        } else {
+          throw new Error(`Unknown popup direction: ${direction}. Use one of this: [${Object.keys(Directions).join(', ')}]`);
+        }
 
         if (!this._doesPopupOverflowVertically(styles) && !this._doesPopupOverflowHorizontally(styles)) {
           break;
