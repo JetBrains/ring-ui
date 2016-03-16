@@ -5,6 +5,7 @@
     <scripts>
       <script value="build" />
     </scripts>
+    <node-interpreter value="project" />
     <envs />
     <method />
   </configuration>
