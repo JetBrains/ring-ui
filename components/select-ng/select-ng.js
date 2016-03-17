@@ -8,6 +8,8 @@ import SelectLazy from './select-ng__lazy';
 import {render} from 'react-dom';
 import {createElement} from 'react';
 
+const LOADER_DELAY = 150; // delay to show loader in ms
+
 /**
  * @name Select Ng
  * @description Angular wrapper for React select
@@ -499,7 +501,7 @@ module.directive('rgSelect', function () {
 
       rgSelectCtrl.setNgModelCtrl(ngModelCtrl);
     },
-    controller: function ($q, $scope, $element, $attrs, SelectOptions, RingMessageBundle) {
+    controller: function ($q, $scope, $element, $attrs, $timeout, SelectOptions, RingMessageBundle) {
       /*eslint-disable consistent-this*/
       const ctrl = this;
       /*eslint-enable consistent-this*/
@@ -599,10 +601,15 @@ module.directive('rgSelect', function () {
       let lastQuery = null;
       ctrl.getOptions = (query, skip) => $q.when(ctrl.optionsParser.getOptions(query, skip));
 
+      let loaderDelayTimeout = null;
       ctrl.loadOptionsToSelect = query => {
         const skip = getCurrentSkipParameter(query, lastQuery);
         lastQuery = query;
-        ctrl.selectInstance.rerender({loading: getType() !== 'suggest'});
+
+        $timeout.cancel(loaderDelayTimeout);
+        loaderDelayTimeout = $timeout(() => {
+          ctrl.selectInstance.rerender({loading: getType() !== 'suggest'});
+        }, LOADER_DELAY);
 
         ctrl.getOptions(query, skip).then(results => {
           if (query !== lastQuery) {
@@ -610,11 +617,13 @@ module.directive('rgSelect', function () {
           }
 
           const items = memorizeOptions(results.data || results, skip).map(ctrl.convertNgModelToSelect);
+          $timeout.cancel(loaderDelayTimeout);
           ctrl.selectInstance.rerender({
             data: items,
             loading: false
           });
         }).catch(() => {
+          $timeout.cancel(loaderDelayTimeout);
           ctrl.selectInstance.rerender({
             loading: false
           });
