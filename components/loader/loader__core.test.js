@@ -56,6 +56,16 @@ describe('Loader', function () {
     loader.ctx.scale.should.have.been.calledWith(2, 2);
   });
 
+  it('Should scale canvas on zoomed out devices to avoid image cropping', function () {
+    this.sinon.stub(LoaderCore, 'getPixelRatio').returns(0.5);
+    const loader = this.createLoader({size: 42});
+    this.sinon.spy(loader.ctx, 'scale');
+
+    loader.setCanvasSize();
+
+    loader.ctx.scale.should.have.been.calledWith(0.5, 0.5);
+  });
+
   it('Should start loop on constructing', function () {
     this.loader.isRunning.should.be.true;
   });
