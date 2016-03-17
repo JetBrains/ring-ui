@@ -752,8 +752,7 @@ export default class QueryAssist extends RingComponentWithShortcuts {
           onMouseUp={::this.trackPopupMouseState}
           onSelect={item => this.handleComplete(item, false)}
           shortcuts={true}
-        />,
-        this.node
+        />
       );
     } else {
       this._popup.rerender({

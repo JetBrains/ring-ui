@@ -1,6 +1,5 @@
 import Select from './select';
 import List from '../list/list';
-import Popup from '../popup/popup';
 import React from 'react';
 import TestUtils from 'react-addons-test-utils';
 import renderIntoDocument from 'render-into-document';
@@ -499,18 +498,6 @@ describe('Select', function () {
       this.select._popup.rerender = this.sinon.stub();
       this.select._showPopup();
       this.select._popup.rerender.should.been.calledWith(this.sinon.match({message: 'test not found'}));
-    });
-
-    it('Should render popup with anchor to allow detecting fixed containers', function () {
-      this.sinon.spy(Popup, 'renderPopup');
-      const target = document.createElement('div');
-
-      this.select = renderIntoDocument(React.createElement(Select, {
-        data: testData,
-        targetElement: target
-      }));
-
-      Popup.renderPopup.should.have.been.calledWith(sinon.match(Object), target);
     });
 
     it('Should restore focus on select in button mode after closing popup', function () {
