@@ -507,8 +507,7 @@ export default class Select extends RingComponentWithShortcuts {
           onSelect={::this._listSelectHandler}
           onFilter={::this._filterChangeHandler}
           onLoadMore={::this.props.onLoadMore}
-        />
-      );
+        />, anchorElement);
     }
   }
 
