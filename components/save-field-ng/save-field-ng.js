@@ -226,7 +226,7 @@ module.constant('rgSaveFieldShortcutsMode', {
   ]
 });
 
-module.directive('rgSaveField', function (RingMessageBundle, $timeout, $q, $compile) {
+module.directive('rgSaveField', function (RingMessageBundle, $timeout, $q, $compile, $parse) {
   const MULTI_LINE_SPLIT_PATTERN = /(\r\n|\n|\r)/gm;
   const MULTI_LINE_LIST_MODE = 'list';
   const CUSTOM_ERROR_ID = 'customError';
@@ -461,6 +461,15 @@ module.directive('rgSaveField', function (RingMessageBundle, $timeout, $q, $comp
       scope.submitChanges = submitChanges;
 
       scope.focus = false;
+
+      scope.$on('$destroy', () => {
+        // 1) Bindings already disabled at this moment, so replacing scope.value = ... have no effect
+        // 2) We can't use scope.value.someField because we don't know anything about scope.value, it's passed from outside
+        // 3) Probably we can use controllerAs to add one more object layer (ctrl.value) so the JS linking would work
+        // but errorBuble works with scope only, so there would be a big refactoring at rgSaveField and other components
+        // This is the simplest solution:
+        $parse(iAttrs.value).assign(scope.$parent, scope.initial);
+      });
     },
     controller: function () {
       let onSave = null;
