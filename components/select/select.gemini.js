@@ -8,7 +8,6 @@ gemini.suite('Select', function () {
     child
       .setUrl('/example-simple-input-based-select')
       .setCaptureElements('.ring-select', '.ring-popup')
-      .ignoreElements('.ring-input')
       .capture('selectPopup', function (actions, find) {
         actions.click(find('.ring-input'));
       });
@@ -25,7 +24,6 @@ gemini.suite('Select', function () {
     child
       .setUrl('/example-simple-select-with-default-filter-mode')
       .setCaptureElements('.ring-select', '.ring-popup')
-      .ignoreElements('.ring-input')
       .capture('selectPopup', function (actions, find) {
         actions.click(find('.ring-select'));
         actions.click(find('.ring-popup .ring-input'));
