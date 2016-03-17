@@ -271,23 +271,13 @@ export default class Popup extends RingComponentWithShortcuts {
       return null;
     }
 
-    /**
-     * Test node type. Used to skip unsuitable DOM nodes like #document-fragment
-     * @param node
-     * @returns {boolean} is Element
-     */
-    function validDomElement(node) {
-      return node instanceof Element;
-    }
+    let node = currentElement;
 
-    const parent = currentElement.parentNode;
-
-    if (parent && validDomElement(parent)) {
-      const style = getStyles(parent);
+    while ((node = node.parentNode) && node instanceof Element) {
+      const style = getStyles(node);
       if (style && style.position === 'fixed') {
-        return parent;
+        return node;
       }
-      return this.closestFixedParent(parent);
     }
 
     return null;
@@ -296,21 +286,17 @@ export default class Popup extends RingComponentWithShortcuts {
   /**
    * @static
    * @param {ReactComponent} component
-   * @param {HTMLElement} anchorElement DOM node for popup placing
-   * Places popup wrapper into closest fixed DOM node if anchorElement is specified -
-   * useful for placing popup into sidebar.
-   * @param {HTMLElement} containerElement Places popup in specified container
+   * @param {Function} callback Callback to execute after rendering
    * @return {HTMLElement}
    */
-  static renderPopup(component, anchorElement, containerElement) {
+  static renderPopup(component, callback) {
     const wrapperElement = document.createElement('div');
-
-    const container = containerElement || this.closestFixedParent(anchorElement) || document.body;
+    const container = component.props && this.closestFixedParent(component.props.anchorElement) || document.body;
     container.appendChild(wrapperElement);
 
     const popupInstance = render(component, wrapperElement);
 
-    popupInstance.rerender({container: container});
+    popupInstance.rerender({container: container}, callback);
     return popupInstance;
   }
 

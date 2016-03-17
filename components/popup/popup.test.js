@@ -23,6 +23,11 @@ describe('Popup', function () {
     should.not.exist(popup.node);
   });
 
+  it('should call callback after rendering', function (done) {
+    // Timeout will be exceeded when done isn't called
+    Popup.renderPopup(createElement(Popup, null), done);
+  });
+
   it('should be closed by resizing window', function (done) {
     const popup = renderIntoDocument(createElement(Popup, null));
     const resize = document.createEvent('Event');
@@ -46,7 +51,7 @@ describe('Popup', function () {
 
     const popup = Popup.renderPopup(createElement(Popup, {
       anchorElement: anchor
-    }), anchor);
+    }));
 
     popup.props.container.should.be.equal(fixedContainer);
   });
