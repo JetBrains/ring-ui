@@ -10,6 +10,6 @@ gemini.suite('Icon', function (parent) {
   gemini.suite('Example icons', function (child) {
     child
       .setCaptureElements('#some-icons')
-      .capture('some icons');
+      .capture('some icons', {tolerance: 10}, function () {});
   });
 });
