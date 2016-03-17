@@ -35,7 +35,7 @@ const Type = {
  <example name="Select with model that have type field">
    <file name="index.html">
      <p>test</p>
-     <div id="demo"></div>
+     <div id="demo" style="width: 50%;"></div>
      <button id="clear">Clear selected</button>
    </file>
    <file name="index.js" webpack="true">
@@ -69,7 +69,7 @@ const Type = {
 
  <example name="Select with big dataset">
    <file name="index.html">
-     <div id="demo"></div>
+     <div id="demo" style="width: 50%;"></div>
    </file>
    <file name="index.js" webpack="true">
       var render = require('react-dom').render;
@@ -115,7 +115,7 @@ const Type = {
 
  <example name="Simple input-based select">
    <file name="index.html">
-     <div id="demo"></div>
+     <div id="demo" style="width: 50%;"></div>
    </file>
    <file name="index.js" webpack="true">
      var render = require('react-dom').render;
@@ -135,7 +135,7 @@ const Type = {
 
  <example name="Simple input-based select in suggest-only mode">
    <file name="index.html">
-     <div id="demo"></div>
+     <div id="demo" style="width: 50%;"></div>
    </file>
    <file name="index.js" webpack="true">
      var render = require('react-dom').render;
@@ -158,7 +158,7 @@ const Type = {
 
  <example name="Simple select with default filter mode">
    <file name="index.html">
-     <div id="demo"></div>
+     <div id="demo" style="width: 50%;"></div>
    </file>
    <file name="index.js" webpack="true">
      var render = require('react-dom').render;
@@ -179,7 +179,7 @@ const Type = {
 
  <example name="Simple select with default filter mode and loading indicator">
    <file name="index.html">
-     <div id="demo"></div>
+     <div id="demo" style="width: 50%;"></div>
    </file>
    <file name="index.js" webpack="true">
      var render = require('react-dom').render;
@@ -235,7 +235,7 @@ const Type = {
 
   <example name="Select with always visible and fixed label 'Add item' button">
    <file name="index.html">
-     <div id="demo"></div>
+     <div id="demo" style="width: 50%;"></div>
    </file>
    <file name="index.js" webpack="true">
      var render = require('react-dom').render;
@@ -269,7 +269,7 @@ const Type = {
  <example name="Multiple-choice select with custom view">
    <file name="index.html">
      <div id="multipleCustomView"></div>
-     <div id="demo"></div>
+     <div id="demo" style="width: 50%;"></div>
    </file>
    <file name="index.js" webpack="true">
      var render = require('react-dom').render;
