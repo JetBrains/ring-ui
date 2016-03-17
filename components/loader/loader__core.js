@@ -80,10 +80,7 @@ export default class LoaderCore {
 
     this.ctx = this.canvas.getContext('2d');
 
-    //Scale on HDPI displays
-    if (pixelRatio > 1) {
-      this.ctx.scale(pixelRatio, pixelRatio);
-    }
+    this.ctx.scale(pixelRatio, pixelRatio);
   }
 
   initializeLoader() {
