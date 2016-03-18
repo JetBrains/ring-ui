@@ -48,6 +48,12 @@ import '../dialog/dialog.scss';
      <div rg-dialog=""></div>
      <div  ng-controller="ExampleCtrl"></div>
    </file>
+   <file name="style.scss">
+      .custom-css-class-button-right {
+        float: right;
+        margin: 0 0 0 16px !important;
+      }
+   </file>
    <file name="index.js" webpack="true">
      require('ring-ui/components/dialog/dialog.scss');
      require('ring-ui/components/panel/panel.scss');
@@ -56,6 +62,8 @@ import '../dialog/dialog.scss';
      require('angular/angular');
      require('ring-ui/components/dialog-ng/dialog-ng'),
      require('ring-ui/components/select-ng/select-ng');
+
+     require('./style.scss');
 
      angular.module('Example.dialog', ['Ring.dialog', 'Ring.select'])
      .controller('ExampleCtrl', function($q, $timeout, dialog) {
@@ -73,14 +81,15 @@ import '../dialog/dialog.scss';
               action: angular.noop
             },
             {
+              label: 'Cancel',
+              close: true
+            },
+            {
               label: 'Long Action',
+              cssClasses: 'ring-button_danger custom-css-class-button-right',
               action: function() {
                 return $timeout(angular.noop, 2000);
               }
-            },
-            {
-              label: 'Cancel',
-              close: true
             }
           ]
         });
