@@ -231,10 +231,12 @@
 
 .ring-dialog__footer__item {
   display: inline-block;
-  margin-right: 2*$ring-unit;
+  &:not(:last-child) {
+    margin-right: 2*$ring-unit;
+  }
 
   //Increase selector specificity when ring buttons used as footer items
-  &.ring-button {
+  &.ring-button:not(:last-child) {
     margin-right: 2*$ring-unit;
   }
 }
