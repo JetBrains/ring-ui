@@ -25,7 +25,7 @@
       <rg-button
         ng-repeat="button in dialog.buttons"
         class="ring-dialog__footer__item"
-        ng-class="{'ring-button_blue': button['default']}"
+        ng-class="(button['default'] ? 'ring-button_blue ' : '') + button['cssClasses']"
         ng-disabled="button.default && dialog.dialogForm.$invalid"
         ng-click="dialog.action(button)"
         loader="button.inProgress"
