@@ -51,7 +51,6 @@ import '../dialog/dialog.scss';
    <file name="style.scss">
       .custom-css-class-button-right {
         float: right;
-        margin: 0 0 0 16px !important;
       }
    </file>
    <file name="index.js" webpack="true">
