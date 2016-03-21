@@ -12,6 +12,7 @@ gemini.suite('ButtonNg', function (suite) {
       'p:nth-child(1) .ring-button_loader',
       'p:nth-child(2) .ring-button_loader',
       'p:nth-child(3) .ring-button_loader',
+      'p:nth-child(4) .ring-button_loader',
       'p:nth-child(5) .ring-button_loader',
       'p:nth-child(6) .ring-button_loader'
     )
