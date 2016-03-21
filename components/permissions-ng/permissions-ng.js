@@ -1,5 +1,4 @@
 import 'angular';
-import 'angular-mocks';
 
 import '../auth-ng/auth-ng';
 import Permissions from '../permissions/permissions';
