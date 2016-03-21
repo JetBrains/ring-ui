@@ -3,13 +3,18 @@
 
 var gemini = require('gemini');
 
-gemini.suite('Icon', function (parent) {
-  parent.setUrl('/example-icon/');
-  parent.setTolerance(4); //Increase tolerance to avoid wrong render artifacts detecting
-
-  gemini.suite('Example icons', function (child) {
-    child
+gemini.suite('Icon', function () {
+  gemini.suite('Example icons', function (suite) {
+    suite
+      .setUrl('/example-icon/')
       .setCaptureElements('#some-icons')
-      .capture('some icons', {tolerance: 10}, function () {});
+      .capture('some icons');
+  });
+
+  gemini.suite('All icons', function (suite) {
+    suite
+      .setUrl('/example-icons-list/')
+      .setCaptureElements('#all-icons')
+      .capture('all icons');
   });
 });
