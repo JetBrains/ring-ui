@@ -1,5 +1,8 @@
 /* global inject */
 
+import 'angular';
+import 'angular-mocks';
+
 import PermissionsNg from './permissions-ng';
 
 describe('PermissionsNg', function () {
