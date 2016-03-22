@@ -16,17 +16,46 @@ var isTeamcity = process.argv.indexOf('--teamcity') !== -1;
 function getDocsiteUrl() {
   var hostname = require('os').hostname();
   var fullHostname = hostname.indexOf('.') !== -1 ? hostname : hostname + '.labs.intellij.net';
-  return fullHostname + ':9999';
+  return 'http://' + fullHostname + ':9999';
 }
 
 var docsiteUrl = getDocsiteUrl();
 console.log(chalk.blue('Docsite url detected:', docsiteUrl));
 
-var gemini = new Gemini('.gemini.yml');
+var config = {
+  rootUrl: docsiteUrl,
+  gridUrl: '***REMOVED***',
+  retry: 5,
+  system: {
+    projectRoot: path.resolve(__dirname, '..')
+  },
+  desiredCapabilities: {
+    windowSize: '1024x800',
+    platform: 'WINDOWS'
+  },
+  browsers: {
+    chrome: {
+      windowSize: '1024x800',
+      desiredCapabilities: {
+        browserName: 'chrome'
+      }
+    },
+    firefox: {
+      windowSize: '1024x800',
+      desiredCapabilities: {
+        browserName: 'firefox'
+      }
+    },
+    ie: {
+      windowSize: '1024x800',
+      desiredCapabilities: {
+        browserName: 'internet explorer'
+      }
+    }
+  }
+};
 
-//Update rootUrl using private API since here is no way to do that correctly
-gemini.config._configs.chrome.rootUrl = docsiteUrl;
-gemini.config._configs.firefox.rootUrl = docsiteUrl;
+var gemini = new Gemini(config);
 
 if (isTeamcity) {
   geminiTeamcityPlugin(gemini);
@@ -70,7 +99,7 @@ function handleGeminiError(error) {
 
 function checkUrlAvailability(url) {
   return new Promise(function (resolve, reject) {
-    http.get('http://' + url, resolve).on('error', reject);
+    http.get(url, resolve).on('error', reject);
   });
 }
 

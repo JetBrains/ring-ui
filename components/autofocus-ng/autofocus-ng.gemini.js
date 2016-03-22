@@ -5,9 +5,12 @@ var gemini = require('gemini');
 
 gemini.suite('Autofocus', function (parent) {
   parent.before(function (actions) {
+    // Focus page but not in IE
     actions
       .executeJS(function (window) {
-        window.focus();
+        if (!document.compatMode) {
+          window.focus();
+        }
       });
   });
 

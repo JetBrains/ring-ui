@@ -78,7 +78,6 @@ const Size = {
          size: Icon.Size.Size32,
          activeColor: Icon.Color.BLUE,
          hoverColor: Icon.Color.ORANGE,
-         size: Icon.Size.Size32,
          onClick: function() {
           return new Promise(resolve => setTimeout(resolve, 3000));
          }
