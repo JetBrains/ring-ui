@@ -3,17 +3,7 @@
 
 var gemini = require('gemini');
 
-gemini.suite('Autofocus', function (parent) {
-  parent.before(function (actions) {
-    // Focus page but not in IE
-    actions
-      .executeJS(function (window) {
-        if (!document.compatMode) {
-          window.focus();
-        }
-      });
-  });
-
+gemini.suite('Autofocus', function () {
   gemini.suite('On input', function (child) {
     child
       .setUrl('/example-autofocus')
