@@ -8,7 +8,7 @@
  <example name="Autofocus">
  <file name="index.html">
  <div ng-app="Ring.autofocus" class="test-container">
-  <input rg-autofocus="true" placeholder="Should be in focus"/>
+  <input class="ring-input" rg-autofocus="true" placeholder="Should be in focus"/>
  </div>
  </file>
  <file name="index.scss">
@@ -17,6 +17,7 @@
   }
  </file>
  <file name="index.js" webpack="true">
+ require('ring-ui/components/input/input.scss');
  require('./index.scss');
  require('angular');
  require('ring-ui/components/autofocus-ng/autofocus-ng');
