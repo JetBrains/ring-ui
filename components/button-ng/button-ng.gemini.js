@@ -1,5 +1,6 @@
 /* eslint-disable no-var */
 /* eslint-disable modules/no-cjs */
+/* eslint-disable prefer-reflect */
 
 var gemini = require('gemini');
 
@@ -7,14 +8,12 @@ gemini.suite('ButtonNg', function (suite) {
   suite
     .setUrl('/example-button-ng/')
     .setCaptureElements('body > div')
-    // Only first element in selector is ignored
-    .ignoreElements(
-      'p:nth-child(1) .ring-button_loader',
-      'p:nth-child(2) .ring-button_loader',
-      'p:nth-child(3) .ring-button_loader',
-      'p:nth-child(4) .ring-button_loader',
-      'p:nth-child(5) .ring-button_loader',
-      'p:nth-child(6) .ring-button_loader'
-    )
-    .capture('buttons');
+    .capture('buttons', function (actions) {
+      actions.executeJS(function () {
+        // Disable loading buttons (ignore is too slow on IE)
+        Array.prototype.slice.call(document.querySelectorAll('.ring-button_loader')).forEach(function (node) {
+          node.classList.remove('ring-button_loader');
+        });
+      });
+    });
 });
