@@ -490,7 +490,8 @@ module.directive('rgSelect', function () {
       notFoundMessage: '@',
       loadingMessage: '@',
       config: '=?',
-      configAutoUpdate: '='
+      configAutoUpdate: '=',
+      selectInstance: '=?'
     },
     bindToController: true,
     controllerAs: 'selectCtrl',
