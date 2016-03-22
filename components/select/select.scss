@@ -60,36 +60,39 @@
     display: inline-block;
     overflow: hidden;
     vertical-align: middle;
-  }
-}
 
-.ring-select {
-  .ring-select__icons {
+    // Supports Firefox
+    &, x:-moz-any-link {
+      vertical-align: inherit;
+    }
+  }
+
+  & &__icons {
     position: absolute;
     right: $ring-unit;
   }
 
-  &:not(.ring-button) .ring-select__icons {
+  &:not(.ring-button) &__icons {
     top: 2px;
   }
-}
 
-.ring-button.ring-select {
-  font-size: $ring-font-size;
-  width: 100%;
-  text-align: left;
-  white-space: nowrap;
-}
+  // Redefine .ring-button styles
+  &.ring-select {
+    width: 100%;
+    text-align: left;
+    white-space: nowrap;
+  }
 
-.ring-select__selected-icon {
-  display: inline-block;
-  margin: 0 $ring-unit;
-  width: $ring-unit*2;
-  height: $ring-unit*2;
+  &__selected-icon {
+    display: inline-block;
+    margin: 0 $ring-unit;
+    width: $ring-unit*2;
+    height: $ring-unit*2;
 
-  vertical-align: middle;
+    vertical-align: middle;
 
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
 }
