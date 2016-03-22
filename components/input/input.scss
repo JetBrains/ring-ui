@@ -47,6 +47,15 @@
     min-width: 200px;
     width: 100%;
   }
+
+  &_material {
+    padding-left: 0;
+    padding-right: 0;
+
+    border-top: 0;
+    border-left: 0;
+    border-right: 0;
+  }
 }
 
 // Using double selector to enforce specifity, that is hard to express with &
