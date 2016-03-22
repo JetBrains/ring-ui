@@ -13,6 +13,7 @@ gemini.suite('Autofocus', function () {
 
   gemini.suite('On select', function (child) {
     child
+      .skip('firefox')
       .setUrl('/example-autofocus-on-select')
       .setCaptureElements('.ring-select')
       .capture('autofocused-select');
