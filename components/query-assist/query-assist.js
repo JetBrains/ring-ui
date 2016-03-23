@@ -560,6 +560,11 @@ export default class QueryAssist extends RingComponentWithShortcuts {
       if (query === this.getQuery() && (caret === this.immediateState.caret || this.immediateState.caret === undefined)) {
         resolve(suggestions);
 
+        // Do not setState on unmounted component
+        if (!this.node) {
+          return;
+        }
+
         const state = {
           dirty: this.immediateState.dirty,
           loading: false,
