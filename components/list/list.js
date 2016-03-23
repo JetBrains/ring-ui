@@ -532,8 +532,12 @@ export default class List extends RingComponentWithShortcuts {
   }
 
   selectHandler({item, event}) {
-    if (item.onClick) {
+    if (!this.props.useMouseUp && item.onClick) {
       item.onClick(item, event);
+    }
+
+    if (this.props.useMouseUp && item.onMouseUp) {
+      item.onMouseUp(item, event);
     }
 
     if (this.props.onSelect) {
