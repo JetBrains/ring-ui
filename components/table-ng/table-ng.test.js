@@ -103,7 +103,7 @@ describe('TableNg', function () {
         expect(fakeData.items[2].active).to.be.true;
       });
 
-      it('Should mark item as active on activateItem', function () {
+      it('Should unmark item as active on next item activation', function () {
         selection.activateItem(fakeData.items[2]);
         selection.activateItem(fakeData.items[3]);
         expect(fakeData.items[2].active).to.be.false;
