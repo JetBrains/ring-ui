@@ -99,6 +99,10 @@ export default class Selection {
   }
 
   getCheckedItems() {
+    if (!this.items) {
+      return [];
+    }
+
     return this.items.filter(function (item) {
       return item.checked;
     });
