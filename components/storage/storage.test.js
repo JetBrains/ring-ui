@@ -44,10 +44,6 @@ function testStorage(storage) {
     it('should return null when there is no item', function () {
       return storage.get('test').should.become(null);
     });
-
-    it('should return null when there is no item', function () {
-      return storage.get('test').should.become(null);
-    });
   });
 
   describe('remove', function () {
@@ -231,8 +227,12 @@ describe('Storage', function () {
       type: 'session'
     });
 
-    testStorage(storage);
-    testStorage(storageSession);
+    describe('Long-term', function () {
+      testStorage(storage);
+    });
+    describe('Session', function () {
+      testStorage(storageSession);
+    });
     testStorageEvents(new MockedStorage());
 
     describe('specific', function () {
@@ -280,9 +280,12 @@ describe('Storage', function () {
       checkDelay: 200,
       type: 'session'
     });
-
-    testStorage(storage);
-    testStorage(storageSession);
+    describe('Long-term', function () {
+      testStorage(storage);
+    });
+    describe('Session', function () {
+      testStorage(storageSession);
+    });
     testStorageEvents(storage);
   });
 });
