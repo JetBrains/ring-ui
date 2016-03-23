@@ -3,3 +3,4 @@ dist
 docs
 templates
 gemini-report
+./ring-upsource*.js
