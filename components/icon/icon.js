@@ -227,18 +227,22 @@ export default class Icon extends RingComponent {
 
     if (activeColor && typeof activeEventHandler === 'function') {
       otherProps[activeEvent] = (...args) => {
-        this.setState({
-          color: activeColor,
-          isActive: true
-        });
+        if (this.node) {
+          this.setState({
+            color: activeColor,
+            isActive: true
+          });
+        }
 
         const promise = Promise.resolve(activeEventHandler(...args));
 
         promise.then(() => {
-          this.setState({
-            color: Color.DEFAULT,
-            isActive: false
-          });
+          if (this.node) {
+            this.setState({
+              color: Color.DEFAULT,
+              isActive: false
+            });
+          }
         });
 
         return promise;
