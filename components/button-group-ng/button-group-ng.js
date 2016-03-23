@@ -12,10 +12,15 @@ function rgButtonGroup() {
   return {
     restrict: 'A',
     link: function ($scope, iElement) {
+      const element = iElement[0];
+      const children = Array.from(element.children);
+
       // For $watchCollection it should be Array, not jQuery collection
       $scope.$watchCollection(
-        () => Array.from(iElement[0].children).filter(node => getStyles(node).display !== 'none'),
+        () => children.filter(node => getStyles(node).display !== 'none'),
         (newVisible, oldVisible) => {
+          element.classList.toggle('ng-hide', !newVisible.length);
+
           if (oldVisible && oldVisible.length) {
             oldVisible[0].classList.remove(CLASSNAME_FIRST);
             oldVisible[oldVisible.length - 1].classList.remove(CLASSNAME_LAST);
