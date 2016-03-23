@@ -209,7 +209,7 @@ describe('Auth', function () {
         should.be.rejectedWith(Auth.TokenValidationError, 'invalid_grant');
     });
 
-    it('should reject with redirect if invalid_grant response recieved', function () {
+    it('should reject with redirect if invalid_request response recieved', function () {
       const token = {access_token: 'token'};
       Auth.prototype.getApi.returns(Promise.reject({
         response: {
@@ -711,7 +711,7 @@ describe('Auth', function () {
         });
     });
 
-    it('should clear access token and redirect to logout', function () {
+    it('should pass error message to server', function () {
       return auth.logout({
         message: 'access denied'
       }).
