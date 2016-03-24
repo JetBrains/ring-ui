@@ -287,16 +287,19 @@ export default class Popup extends RingComponentWithShortcuts {
    * @static
    * @param {ReactComponent} component
    * @param {Function} callback Callback to execute after rendering
+   * @param {Object=} params Optional params
+   * @param {Function} params.onRender Callback to run after rendering
+   * @param {HTMLElement} params.container Container to put popup element in
    * @return {HTMLElement}
    */
-  static renderPopup(component, callback) {
+  static renderPopup(component, {onRender, container: customContainer} = {}) {
     const wrapperElement = document.createElement('div');
-    const container = component.props && this.closestFixedParent(component.props.anchorElement) || document.body;
+    const container = customContainer || component.props && this.closestFixedParent(component.props.anchorElement) || document.body;
     container.appendChild(wrapperElement);
 
     const popupInstance = render(component, wrapperElement);
 
-    popupInstance.rerender({container: container}, callback);
+    popupInstance.rerender({container}, onRender);
     return popupInstance;
   }
 
