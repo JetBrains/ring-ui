@@ -25,7 +25,15 @@ describe('Popup', function () {
 
   it('should call callback after rendering', function (done) {
     // Timeout will be exceeded when done isn't called
-    Popup.renderPopup(createElement(Popup, null), done);
+    Popup.renderPopup(createElement(Popup, null), {onRender: done});
+  });
+
+  it('should put popup in custom container if passed', function () {
+    const container = document.createElement('div');
+
+    Popup.renderPopup(createElement(Popup, null), {container});
+
+    container.should.not.be.empty;
   });
 
   it('should be closed by resizing window', function (done) {
