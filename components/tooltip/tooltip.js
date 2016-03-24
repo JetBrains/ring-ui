@@ -92,7 +92,7 @@ export default class Tooltip extends RingComponent {
         top: 4,
         onClose: evt => {
           //RG-643 Don't close tooltip when clicking by element with opened tooltip
-          if (evt && this.node.contains(evt.target)) {
+          if (evt && this.node && this.node.contains(evt.target)) {
             return false;
           }
         }
