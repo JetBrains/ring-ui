@@ -11,7 +11,7 @@ gemini.suite('ButtonNg', function (suite) {
     .capture('buttons', function (actions) {
       actions.executeJS(function () {
         // Disable loading buttons (ignore is too slow on IE)
-        Array.prototype.slice.call(document.querySelectorAll('.ring-button_loader')).forEach(function (node) {
+        Array.prototype.forEach.call(document.querySelectorAll('.ring-button_loader'), function (node) {
           node.classList.remove('ring-button_loader');
         });
       });
