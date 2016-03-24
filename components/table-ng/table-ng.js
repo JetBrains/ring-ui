@@ -31,7 +31,7 @@ registerComponents({Checkbox});
 
       <rg-table items="ctrl.itemsArray" selection="ctrl.selection">
         <rg-table-header>
-          <rg-table-title no-border>Avatar</rg-table-title>
+          <rg-table-title>Avatar</rg-table-title>
           <rg-table-title>Check</rg-table-title>
           <rg-table-title active>Name</rg-table-title>
           <rg-table-title>Groups</rg-table-title>
@@ -116,10 +116,10 @@ registerComponents({Checkbox});
 
       <rg-table items="ctrl.itemsArray" selection="ctrl.selection">
         <rg-table-header class="example__table-header" stick-to=".some-toolbar">
-          <rg-table-title no-border>Avatar</rg-table-title>
+          <rg-table-title>Avatar</rg-table-title>
           <rg-table-title>Check</rg-table-title>
           <rg-table-title active>Name</rg-table-title>
-          <rg-table-title no-border></rg-table-title>
+          <rg-table-title></rg-table-title>
         </rg-table-header>
 
         <rg-table-row row-item="item" ng-repeat="item in ctrl.itemsArray">
@@ -465,7 +465,7 @@ module.directive('rgTableCheckboxCell', function () {
 /**
  * Table title wrapper, receive next attributes:
  * {{
-    noBorder: whether or not title contain right border
+    border: whether or not title contain right border
     active: makes title more bolder
   }}
  */
@@ -480,7 +480,7 @@ module.directive('rgTableTitle', function () {
       /**
        * One time property assigning without watching through isolated scope helps to improve perfomanse
        */
-      scope.isNoBorder = angular.isDefined(iAttrs.noBorder);
+      scope.isBorder = angular.isDefined(iAttrs.border);
       scope.isActive = angular.isDefined(iAttrs.active);
       scope.isPullRight = angular.isDefined(iAttrs.pullRight);
       scope.isAlignRight = angular.isDefined(iAttrs.alignRight);

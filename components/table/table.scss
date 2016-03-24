@@ -50,7 +50,7 @@
   *  but to implement nested items markup without it is next to impossible.
   **/
   &:after {
-    content: '';
+    content: normal;
     display: block;
     position: absolute;
     top: -1px;
@@ -62,8 +62,8 @@
   }
 }
 
-.ring-table__title_noborder:after {
-  content: normal;
+.ring-table__title_border:after {
+  content: '';
 }
 
 .ring-table__title_nested {
