@@ -1,5 +1,3 @@
-import 'angular';
-
 import '../auth-ng/auth-ng';
 import Permissions from '../permissions/permissions';
 import PermissionsCache from '../permissions/permissions__cache';
