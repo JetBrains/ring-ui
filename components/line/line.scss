@@ -20,8 +20,13 @@
   width: 100%;
   height: 1px;
   background-color: #D8D8D8;
+
+  &_separated {
+    margin: $ring-unit*2 0;
+  }
+
+  &_table {
+    background-color: #BEBEBE;
+  }
 }
 
-.ring-line_separated {
-  margin: $ring-unit*2 0;
-}
