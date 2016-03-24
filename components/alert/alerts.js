@@ -22,7 +22,9 @@ import './alert.scss';
    <example name="Alerts">
      <file name="index.html">
        <div id="alerts-container"></div>
-     </file>
+       <button id="create-duplicate">Ceate duplicated message</button>
+       <button id="create-other">Ceate other message</button>
+ </file>
 
      <file name="index.js" webpack="true">
        var render = require('react-dom').render;
@@ -30,9 +32,19 @@ import './alert.scss';
 
        var alertsContainer = render(Alerts.factory(), document.getElementById('alerts-container'));
 
+
        alertsContainer.add('Test message');
+
        alertsContainer.add('Another test message', Alerts.Type.MESSAGE, 1000);
        alertsContainer.add('Test warning', Alerts.Type.WARNING);
+
+       document.getElementById('create-duplicate').onclick = function () {
+          alertsContainer.add('Duplicated message', Alerts.Type.MESSAGE, 5000);
+       }
+
+       document.getElementById('create-other').onclick = function () {
+          alertsContainer.add('Other message' + new Date(), Alerts.Type.MESSAGE, 5000);
+       }
      </file>
    </example>
  */
@@ -81,7 +93,7 @@ export default class Alerts extends RingComponent {
         transitionEnterTimeout={1000}
         transitionLeaveTimeout={1000}
       >
-        {this.state.childElements.reverse().map(function (child, i) {
+        {this.state.childElements.map(function (child, i) {
           return (
             <Alert
               animationResolver={child.animationResolver}
@@ -92,6 +104,7 @@ export default class Alerts extends RingComponent {
               onCloseClick={() => this.remove(child)}
               ref={'alert-' + i}
               type={child.type}
+              count={child.count}
             />
           );
         }, this)}
@@ -154,11 +167,13 @@ export default class Alerts extends RingComponent {
   _getChildElements() {
     const children = [];
     Children.forEach(this.props.children, function (child) {
-      children.push(child);
+      children.unshift(child);
     });
 
     this.setState({childElements: children});
   }
+
+  lastAlert = {};
 
   /**
    * Creates a Deferred and enqueues it.
@@ -170,12 +185,48 @@ export default class Alerts extends RingComponent {
   add(caption, type, timeout) {
     const animationPromise = new Promise(resolve => {
       this.animationPromise = this.animationPromise.then(() => {
-        this._addElement(caption, type, resolve, timeout);
-        return animationPromise;
+        if (this.lastAlert.caption === caption && this.lastAlert.type === type) {
+          this._updateElement(this.lastAlert.key, caption, ++this.lastAlert.count, timeout);
+        } else {
+          const key = this._addElement(caption, type, resolve, timeout);
+
+          this.lastAlert = {
+            caption: caption,
+            type: type,
+            key: key,
+            count: 1
+          };
+
+          return animationPromise;
+        }
       });
     });
 
     return animationPromise;
+  }
+
+  _updateElement(key, caption, count, timeout) {
+    const childElements = this.state.childElements.slice(0);
+
+    for (let i = 0; i < childElements.length; i++) {
+      const element = childElements[i];
+      if (element.key === key) {
+        element.caption = caption;
+        element.count = count;
+
+        if (element.timeout) {
+          clearTimeout(element.timeout);
+        }
+
+        element.timeout = setTimeout(() => this.remove(element), timeout);
+
+        break;
+      }
+    }
+
+    this.setState({
+      childElements: childElements
+    });
   }
 
   /**
@@ -188,22 +239,28 @@ export default class Alerts extends RingComponent {
   _addElement(caption, type, animationResolver, timeout) {
     const childElements = this.state.childElements.slice(0);
     const captionText = typeof caption === 'string' ? caption : 'composite';
+    const key = captionText + type + Date.now();
 
     const element = {
       animationResolver: animationResolver,
       caption: caption,
-      key: captionText + type + Date.now(),
-      type: type
+      key: key,
+      type: type,
+      timeout: null,
+      count: 1
     };
-    childElements.push(element);
+
+    if (timeout) {
+      element.timeout = setTimeout(() => this.remove(element), timeout);
+    }
+
+    childElements.unshift(element);
 
     this.setState({
       childElements: childElements
     });
 
-    if (timeout) {
-      setTimeout(() => this.remove(element), timeout);
-    }
+    return key;
   }
 
   /**
@@ -212,6 +269,10 @@ export default class Alerts extends RingComponent {
   remove(element) {
     const childElements = this.state.childElements.slice(0);
     const elementIndex = childElements.indexOf(element);
+
+    if (element.key === this.lastAlert.key) {
+      this.lastAlert = {};
+    }
 
     if (elementIndex === -1) {
       return;

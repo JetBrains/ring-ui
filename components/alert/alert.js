@@ -12,6 +12,7 @@ import Icon from '../icon/icon';
 import Loader from '../loader-inline/loader-inline';
 
 import './alert.scss';
+import '../badge/badge.scss';
 
 /**
  * List of available alert types.
@@ -189,7 +190,7 @@ export default class Alert extends RingComponent {
    * @private
    */
   _getCaption() {
-    return (<span className="ring-alert__caption">{this.props.caption}</span>);
+    return (<span className="ring-alert__caption">{this.props.caption}{this.props.count > 1 && <span className="ring-badge ring-badge_gray">{this.props.count}</span>}</span>);
   }
 
   /**
