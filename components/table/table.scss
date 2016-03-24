@@ -90,15 +90,6 @@
 
   cursor: pointer;
 
-  .ring-table__row_expanded & {
-    border-bottom: 1px solid #B4B4B4;
-  }
-
-  .ring-table__row_active &,
-  .ring-table__row_checked & {
-    border-color: transparent;
-  }
-
   &:hover {
     color: $ring-text-color;
   }
@@ -188,7 +179,6 @@
 }
 
 .ring-table__column_gap {
-  border-color: #B4B4B4;
   border-right-style: solid;
   padding-left: $ring-unit*2 !important;
 }
