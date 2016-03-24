@@ -14,6 +14,10 @@
   font-size: $ring-font-size-smaller;
 
   vertical-align: middle;
+
+  &_gray {
+    background-color: #F8F8F8;
+  }
 }
 
 .ring-badge_valid {
