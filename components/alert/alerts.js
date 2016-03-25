@@ -186,17 +186,9 @@ export default class Alerts extends RingComponent {
     const animationPromise = new Promise(resolve => {
       this.animationPromise = this.animationPromise.then(() => {
         if (this.lastAlert.caption === caption && this.lastAlert.type === type) {
-          this._updateElement(this.lastAlert.key, caption, ++this.lastAlert.count, timeout);
+          this._updateElement(this.lastAlert, this.lastAlert.count + 1, caption, type, timeout);
         } else {
-          const key = this._addElement(caption, type, resolve, timeout);
-
-          this.lastAlert = {
-            caption: caption,
-            type: type,
-            key: key,
-            count: 1
-          };
-
+          this.lastAlert = this._addElement(caption, type, resolve, timeout);
           return animationPromise;
         }
       });
@@ -205,14 +197,15 @@ export default class Alerts extends RingComponent {
     return animationPromise;
   }
 
-  _updateElement(key, caption, count, timeout) {
+  _updateElement(targetElement, count, caption, type, timeout) {
     const childElements = this.state.childElements.slice(0);
 
     for (let i = 0; i < childElements.length; i++) {
       const element = childElements[i];
-      if (element.key === key) {
+      if (element === targetElement) {
         element.caption = caption;
         element.count = count;
+        element.type = type;
 
         if (element.timeout) {
           clearTimeout(element.timeout);
@@ -260,7 +253,7 @@ export default class Alerts extends RingComponent {
       childElements: childElements
     });
 
-    return key;
+    return element;
   }
 
   /**
@@ -270,7 +263,7 @@ export default class Alerts extends RingComponent {
     const childElements = this.state.childElements.slice(0);
     const elementIndex = childElements.indexOf(element);
 
-    if (element.key === this.lastAlert.key) {
+    if (element === this.lastAlert) {
       this.lastAlert = {};
     }
 
