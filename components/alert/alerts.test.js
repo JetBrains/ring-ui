@@ -7,14 +7,13 @@ import Alerts from './alerts';
 import React from 'react';
 import TestUtils from 'react-addons-test-utils';
 
-function noop() {}
-
 describe('Alerts', function () {
   /** @type {Alerts} */
   let component;
 
   beforeEach(function () {
     component = TestUtils.renderIntoDocument(React.createElement(Alerts, null));
+    window.TransitionEvent = undefined;  // disable waiting for animation (which would never occur)
   });
 
   it('should render alerts component', function () {
@@ -24,7 +23,7 @@ describe('Alerts', function () {
 
   describe('adding alerts', function () {
     it('should add alert', function () {
-      component._addElement('Child element.', Alerts.Type.MESSAGE, noop);
+      component.add('Child element.', Alerts.Type.MESSAGE);
 
       return component.animationPromise.then(function () {
         return component.state.childElements.should.have.length(1);
@@ -32,13 +31,49 @@ describe('Alerts', function () {
     });
 
     it('should add alert with React component child', function () {
-      component._addElement(React.DOM.a(null, React.DOM.b(null, 'Composite element')), Alerts.Type.MESSAGE, noop);
+      component.add(React.DOM.a(null, React.DOM.b(null, 'Composite element')), Alerts.Type.MESSAGE);
 
       return component.animationPromise.then(function () {
         return component.state.childElements.should.have.length(1);
       });
     });
 
+    it('should combine alerts with same text and type', function () {
+      component.add('Child element.', Alerts.Type.MESSAGE);
+      component.add('Child element.', Alerts.Type.MESSAGE);
+      component.add('Child element.', Alerts.Type.MESSAGE);
+
+      return component.animationPromise.then(function () {
+        return component.state.childElements.should.have.length(1);
+      });
+    });
+
+    it('should have proper count in combined alert', function () {
+      component.add('Child element.', Alerts.Type.MESSAGE);
+      component.add('Child element.', Alerts.Type.MESSAGE);
+      component.add('Child element.', Alerts.Type.MESSAGE);
+
+      return component.animationPromise.then(function () {
+        return component.state.childElements[0].count.should.equal(3);
+      });
+    });
+
+    it('should combine alerts with same text and type with last alert only', function () {
+      component.add('Child element.', Alerts.Type.MESSAGE);
+      component.add('Child element.', Alerts.Type.MESSAGE);
+
+      component.add('Child element.', Alerts.Type.ERROR);
+
+      component.add('Child element.', Alerts.Type.MESSAGE);
+      component.add('Child element.', Alerts.Type.MESSAGE);
+      component.add('Child element.', Alerts.Type.MESSAGE);
+
+      return component.animationPromise.then(function () {
+        component.state.childElements.should.have.length(3);
+        component.state.childElements[0].count.should.equal(3); // latest
+        component.state.childElements[2].count.should.equal(2); // oldest
+      });
+    });
 
     it('should return deferred object', function () {
       const added = component.add('Child element');
@@ -48,43 +83,51 @@ describe('Alerts', function () {
     it('should render alerts in a reversed order. Last added alerts goes first.', function () {
       const LAST_TEXT = 'Last component';
 
-      component._addElement('First', Alerts.Type.MESSAGE, noop);
-      component._addElement(LAST_TEXT, Alerts.Type.MESSAGE, noop);
+      component.add('First', Alerts.Type.MESSAGE);
+      component.add(LAST_TEXT, Alerts.Type.MESSAGE);
 
-      const domElement = component.node;
-      const children = domElement.querySelectorAll('.ring-alert');
+      return component.animationPromise.then(function () {
+        const domElement = component.node;
+        const children = domElement.querySelectorAll('.ring-alert');
 
-      children[0].textContent.should.equal(LAST_TEXT);
+        return children[0].textContent.should.equal(LAST_TEXT);
+      });
     });
   });
 
   describe('removing alerts', function () {
     it('should remove alert', function () {
-      component._addElement('Child element.', Alerts.Type.MESSAGE, noop);
+      component.add('Child element.', Alerts.Type.MESSAGE);
       component.remove(component.state.childElements[0]);
 
       component.state.childElements.should.have.length(0);
     });
 
     it('should remove alert by clicking on close button', function () {
-      component._addElement('Child element.', Alerts.Type.MESSAGE, noop);
-      const clickElement = component.node.querySelector('.ring-alert__close');
-      TestUtils.Simulate.click(clickElement, {});
+      component.add('Child element.', Alerts.Type.MESSAGE);
 
-      component.state.childElements.should.have.length(0);
+      return component.animationPromise.then(function () {
+        const clickElement = component.node.querySelector('.ring-alert__close');
+        TestUtils.Simulate.click(clickElement, {});
+
+        return component.state.childElements.should.have.length(0);
+      });
     });
 
     it('should not remove alert by calling close() method of alert component', function () {
-      component._addElement('Child element.', Alerts.Type.MESSAGE, noop);
-      const addedComponent = component.refs['alert-0'];
-      expect(addedComponent.close).to.throw(Error);
+      component.add('Child element.', Alerts.Type.MESSAGE);
+
+      return component.animationPromise.then(function () {
+        const addedComponent = component.refs['alert-0'];
+        return expect(addedComponent.close).to.throw(Error);
+      });
     });
 
     it('should remove alert after timeout', function () {
       this.sinon.useFakeTimers();
 
       const TIMEOUT = 100;
-      component._addElement('Child element.', Alerts.Type.MESSAGE, noop, TIMEOUT);
+      component.add('Child element.', Alerts.Type.MESSAGE, TIMEOUT);
 
       // Before timeout component exists.
       component.state.childElements.should.exist;
