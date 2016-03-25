@@ -18,18 +18,18 @@
   &_gray {
     background-color: #F8F8F8;
   }
-}
 
-.ring-badge_valid {
-  color: #89AF31;
-}
+  &_valid {
+    color: #89AF31;
+  }
 
-.ring-badge_invalid {
-  color: #C3120F;
-}
+  &_invalid {
+    color: #C3120F;
+  }
 
-.ring-badge_disabled {
-  border: none;
-  color: #C3120F;
-  background-color: #EBD9DA;
+  &_disabled {
+    border: none;
+    color: #C3120F;
+    background-color: #EBD9DA;
+  }
 }
