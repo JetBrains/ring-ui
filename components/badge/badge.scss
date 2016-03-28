@@ -14,18 +14,22 @@
   font-size: $ring-font-size-smaller;
 
   vertical-align: middle;
-}
 
-.ring-badge_valid {
-  color: #89AF31;
-}
+  &_gray {
+    background-color: #F8F8F8;
+  }
 
-.ring-badge_invalid {
-  color: #C3120F;
-}
+  &_valid {
+    color: #89AF31;
+  }
 
-.ring-badge_disabled {
-  border: none;
-  color: #C3120F;
-  background-color: #EBD9DA;
+  &_invalid {
+    color: #C3120F;
+  }
+
+  &_disabled {
+    border: none;
+    color: #C3120F;
+    background-color: #EBD9DA;
+  }
 }
