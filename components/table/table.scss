@@ -17,7 +17,7 @@
 .ring-table__header-checkbox {
   display: inline-block;
   position: relative;
-  top: 3px;
+  top: 1px;
 }
 
 .ring-table__title {
@@ -50,7 +50,7 @@
   *  but to implement nested items markup without it is next to impossible.
   **/
   &:after {
-    content: '';
+    content: normal;
     display: block;
     position: absolute;
     top: -1px;
@@ -62,8 +62,8 @@
   }
 }
 
-.ring-table__title_noborder:after {
-  content: normal;
+.ring-table__title_border:after {
+  content: '';
 }
 
 .ring-table__title_nested {
@@ -89,15 +89,6 @@
   font-size: 14px;
 
   cursor: pointer;
-
-  .ring-table__row_expanded & {
-    border-bottom: 1px solid #B4B4B4;
-  }
-
-  .ring-table__row_active &,
-  .ring-table__row_checked & {
-    border-color: transparent;
-  }
 
   &:hover {
     color: $ring-text-color;
@@ -188,7 +179,6 @@
 }
 
 .ring-table__column_gap {
-  border-color: #B4B4B4;
   border-right-style: solid;
   padding-left: $ring-unit*2 !important;
 }
