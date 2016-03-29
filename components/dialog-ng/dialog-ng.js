@@ -233,6 +233,8 @@ class DialogController {
     if (shortcuts.getScope().indexOf(this.dialogService.DIALOG_NAMESPACE) > -1) {
       shortcuts.setScope(this.currentShortcutsScope);
     }
+
+    this.$scope.$broadcast('dialog.hide');
   }
 
   done() {
@@ -478,6 +480,9 @@ function rgDialogTitleDirective() {
 function rgDialogContentDirective($compile) {
   return {
     link: function (scope, iElement) {
+      const element = iElement[0];
+      let contentScope;
+
       function createIncludeNode() {
         const node = document.createElement('ng-include');
         node.setAttribute('src', 'dialog.content');
@@ -496,16 +501,19 @@ function rgDialogContentDirective($compile) {
         return node;
       }
 
-      let contentScope;
-      scope.$on('dialog.show', () => {
-        const element = iElement[0];
-
+      function destroy() {
         if (contentScope) {
           contentScope.$destroy();
           while (element.childNodes.length) {
             element.removeChild(element.childNodes[0]);
           }
         }
+      }
+
+      scope.$on('dialog.hide', destroy);
+
+      scope.$on('dialog.show', () => {
+        destroy();
 
         const newContentNode = createContentNode();
         element.appendChild(newContentNode);
