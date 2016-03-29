@@ -42,7 +42,7 @@
     "prebuild-ci": "npm run lint-ci && npm run test-ci",
     "build-ci": "npm run build-upsource && npm run build",
     "postbuild-ci": "npm run gemini-test-ci",
-    "prerelease-ci": "npm run build-ci && npm version $npm_package_config_version && npm pack",
+    "prerelease-ci": "npm run build-ci && npm version $npm_package_config_version && bundle-dependencies update && npm pack",
     "release-ci": "npm publish ring-ui-*.tgz"
   },
   "repository": {
@@ -60,6 +60,7 @@
     "anybar-webpack": "1.0.8",
     "babel": "5.8.34",
     "babel-eslint": "4.1.1",
+    "bundle-dependencies": "1.0.2",
     "chalk": "0.4.0",
     "deep-assign": "2.0.0",
     "dox": "0.7.1",
