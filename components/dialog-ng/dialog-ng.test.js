@@ -398,6 +398,32 @@ describe('DialogNg', function () {
       element.should.not.have.class('active');
     });
 
+    it('should be closed by outside dialog if closeOnClick===true', function () {
+      const {element} = showDialog(
+        '<rg-dialog></rg-dialog>',
+        '<div></div>',
+        [{label: 'Button'}],
+        {},
+        {closeOnClick: true}
+      );
+      element.query('.ring-dialog__layer').dispatchEvent(click);
+
+      $rootScope.$digest();
+      element.should.not.have.class('active');
+    });
+
+    it('should not be closed by outside dialog if closeOnClick is not set', function () {
+      const {element} = showDialog(
+        '<rg-dialog></rg-dialog>',
+        '<div></div>',
+        [{label: 'Button'}]
+      );
+      element.query('.ring-dialog__layer').dispatchEvent(click);
+
+      $rootScope.$digest();
+      element.should.have.class('active');
+    });
+
     it('should be closed if action returns promise and when it resolves', function () {
       const defer = $q.defer(); //eslint-disable-line
 
