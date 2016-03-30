@@ -72,6 +72,7 @@ import '../dialog/dialog.scss';
           shortcuts: {
             'ctrl+enter': angular.noop
           },
+          closeOnClick: true,
           template: document.getElementById('dialog-template').innerHTML,
           buttons: [
             {
@@ -195,6 +196,7 @@ class DialogController {
       this.template = config.template;
 
       this.description = config.description && config.description.split('\n') || [];
+      this.closeOnClick = config.closeOnClick;
 
       //Fallback for backward compatibility with already exist templates which use data directly from scope
       this.$scope.data = this.data;
