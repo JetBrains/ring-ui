@@ -108,7 +108,7 @@
   },
   "dependencies": {
     "angular-elastic": "2.5.1-jb",
-    "autoprefixer-loader": "1.0.0",
+    "autoprefixer": "6.3.6",
     "babel-loader": "5.3.2",
     "babel-runtime": "5.8.34-jb",
     "classnames": "2.1.3",
@@ -124,6 +124,8 @@
     "mout": "0.11.0",
     "ng-annotate-loader": "0.0.6",
     "node-sass": "3.4.2",
+    "postcss": "5.0.19",
+    "postcss-loader": "0.8.2",
     "react": "0.14.0",
     "react-addons-css-transition-group": "0.14.0",
     "react-addons-test-utils": "0.14.0",

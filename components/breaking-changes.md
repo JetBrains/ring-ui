@@ -6,6 +6,36 @@ order: 2
 
 See the “breaking change” commits [in Upsource](https://upsource.jetbrains.com/ring-ui/view?query=path:%20%7B%2A%2Fbreaking-changes.md%7D%20and%20not%20%22Wording%22).
 
+### 04-04-2016: Browserlist for Autoprefixer now should be configured in target project (RG-963)    
+
+Place [`browserslist`](https://github.com/ai/browserslist#config-file) file in project directory.                              
+Default query is `> 1%, last 2 versions, Firefox ESR` which at the moment renders to:
+
+```
+and_chr 49
+and_uc 9.9
+android 4.4
+chrome 49
+chrome 48
+edge 13
+edge 12
+firefox 45
+firefox 44
+firefox 38
+ie 11
+ie 10
+ie_mob 11
+ie_mob 10
+ios_saf 9.3
+ios_saf 9.0-9.2
+ios_saf 8.1-8.4
+op_mini 5.0-8.0
+opera 36
+opera 35
+safari 9.1
+safari 9 
+```
+
 ### 20-02-2016: `Button.Modifiers` enum was removed, attributes should be used instead    
 
 Before:
