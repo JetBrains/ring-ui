@@ -38,9 +38,23 @@ module.directive('rgTabs', function ($location, $routeParams, $rootScope) {
     controller: ['$scope', '$attrs', function ($scope) {
       $scope.panes = [];
       $scope.current = null;
+      const idsMap = {};
 
       function getTabParameterName() {
         return $scope.tabParameter || 'tab';
+      }
+
+      function getCurrentTabId() {
+        return $routeParams[getTabParameterName()];
+      }
+
+      function getCurrentTab() {
+        const currentTabId = getCurrentTabId();
+        if (currentTabId) {
+          return idsMap[currentTabId];
+        } else {
+          return $scope.panes[0];
+        }
       }
 
       function doSelect(newPane, skipUrlUpdate) {
@@ -65,14 +79,15 @@ module.directive('rgTabs', function ($location, $routeParams, $rootScope) {
 
       this.addPane = pane => {
         $scope.panes.push(pane);
+        idsMap[pane.tabId] = pane;
 
-        if ($scope.panes.length === 1 || pane.tabId === $routeParams[getTabParameterName()]) {
+        if ($scope.panes.length === 1 || pane.tabId === getCurrentTabId()) {
           doSelect(pane, true);
         }
       };
 
       $scope.$on('$destroy', $rootScope.$on('$routeUpdate', () => {
-        doSelect($routeParams[getTabParameterName()] || 0, true);
+        doSelect(getCurrentTab(), true);
       }));
 
       // Exposed methods
