@@ -68,7 +68,7 @@ module.directive('rgTablePager', ['$location', 'RingMessageBundle', function ($l
         scope.loadPage(1);
       };
 
-      scope.$watchGroup(['skip', 'total', 'top'], function () {
+      scope.$watchGroup(['skip', 'total', 'top', 'selectedPageNum'], function () {
         scope.show = false;
         const top = $location.search().top || +scope.top;
         const total = scope.total;
