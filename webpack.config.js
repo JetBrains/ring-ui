@@ -3,6 +3,7 @@
 /* eslint-disable modules/no-cjs */
 
 var path = require('path');
+var autoprefixer = require('autoprefixer');
 
 var componentsPath = [path.join(__dirname, 'components')];
 
@@ -38,8 +39,7 @@ var scssLoader = {
   loaders: [
     resolveLoader('style'),
     resolveLoader('css'),
-    // TODO Update autoprefixer config and move to postcss-loader
-    resolveLoader('autoprefixer') + '?browsers=last 2 versions, safari 5, ie 8, ie 9, opera 12.1, ios 6, android 4',
+    resolveLoader('postcss') + '?pack=ring-ui',
     resolveLoader('sass') + '?outputStyle=expanded&includePaths[]=' + componentsPath
   ]
 };
@@ -89,6 +89,9 @@ module.exports = {
     ]
   },
 
+  postcss: {
+    'ring-ui': [autoprefixer]
+  },
   componentsPath: componentsPath,
 
   svgSpriteLoader: svgSpriteLoader,
