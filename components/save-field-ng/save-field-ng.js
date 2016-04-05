@@ -468,7 +468,9 @@ module.directive('rgSaveField', function (RingMessageBundle, $timeout, $q, $comp
         // 3) Probably we can use controllerAs to add one more object layer (ctrl.value) so the JS linking would work
         // but errorBuble works with scope only, so there would be a big refactoring at rgSaveField and other components
         // This is the simplest solution:
-        $parse(iAttrs.value).assign(scope.$parent, scope.initial);
+        if (iAttrs.value) {
+          $parse(iAttrs.value).assign(scope.$parent, scope.initial);
+        }
       });
     },
     controller: function () {
