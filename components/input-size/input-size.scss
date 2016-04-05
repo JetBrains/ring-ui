@@ -225,28 +225,26 @@ $ring-input-l: 400px;
      </file>
  *  </example>
  */
-.ring-input-size {
-  @mixin set-width-in-pixels($width) {
-    display: inline-block;
-    width: $width;
-    & ~ .ring-error-bubble {
-      left: $width + 2;
-    }
+@mixin set-width-in-pixels($width) {
+  display: inline-block;
+  width: $width;
+  & ~ .ring-error-bubble {
+    left: $width + 2;
   }
+}
 
-  &_xs {
-    @include set-width-in-pixels($ring-input-xs);
-  }
+.ring-input-size_xs.ring-input-size_xs {
+  @include set-width-in-pixels($ring-input-xs);
+}
 
-  &_s {
-    @include set-width-in-pixels($ring-input-s);
-  }
+.ring-input-size_s.ring-input-size_s {
+  @include set-width-in-pixels($ring-input-s);
+}
 
-  &_md {
-    @include set-width-in-pixels($ring-input-md);
-  }
+.ring-input-size_md.ring-input-size_md {
+  @include set-width-in-pixels($ring-input-md);
+}
 
-  &_l {
-    @include set-width-in-pixels($ring-input-l);
-  }
+.ring-input-size_l.ring-input-size_l {
+  @include set-width-in-pixels($ring-input-l);
 }
