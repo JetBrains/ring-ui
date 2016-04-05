@@ -59,7 +59,7 @@ $list-spacing: $ring-unit / 2;
   text-overflow: ellipsis;
   white-space: nowrap;
 
-  &:last-child {
+  &:last-of-type {
     margin-bottom: $list-spacing;
   }
 
