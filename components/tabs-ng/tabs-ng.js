@@ -37,10 +37,24 @@ module.directive('rgTabs', function ($location, $routeParams, $rootScope) {
     },
     controller: ['$scope', '$attrs', function ($scope) {
       $scope.panes = [];
-      $scope.current = 0;
+      $scope.current = null;
+      const idsMap = {};
 
       function getTabParameterName() {
         return $scope.tabParameter || 'tab';
+      }
+
+      function getCurrentTabId() {
+        return $routeParams[getTabParameterName()];
+      }
+
+      function getCurrentTab() {
+        const currentTabId = getCurrentTabId();
+        if (currentTabId) {
+          return idsMap[currentTabId];
+        } else {
+          return $scope.panes[0];
+        }
       }
 
       function doSelect(newPane, skipUrlUpdate) {
@@ -48,48 +62,32 @@ module.directive('rgTabs', function ($location, $routeParams, $rootScope) {
           return;
         }
 
-        if (typeof newPane === 'number') {
-          const panes = $scope.panes.length - 1;
-
-          if (newPane > panes) {
-            newPane = panes;
-          } else if (newPane < 0) {
-            newPane = 0;
-          }
-
-          newPane = $scope.panes[newPane];
-        }
-
         angular.forEach($scope.panes, (pane, index) => {
           // Update current tab
           if (pane === newPane || pane.tabId === newPane) {
             $scope.current = index;
-            newPane = pane;
-          }
+            pane.selected = true;
 
-          // Deselect all selected
-          if (pane.selected) {
+            if (!skipUrlUpdate) {
+              $location.search(getTabParameterName(), newPane.tabId);
+            }
+          } else { // Deselect all other
             pane.selected = false;
           }
         });
-
-        newPane.selected = true;
-
-        if (!skipUrlUpdate) {
-          $location.search(getTabParameterName(), newPane.tabId);
-        }
       }
 
       this.addPane = pane => {
-        if ($scope.panes.length === 0 || pane.tabId === $routeParams[getTabParameterName()]) {
-          doSelect(pane, true);
-          $scope.current = $scope.panes.length;
-        }
         $scope.panes.push(pane);
+        idsMap[pane.tabId] = pane;
+
+        if ($scope.panes.length === 1 || pane.tabId === getCurrentTabId()) {
+          doSelect(pane, true);
+        }
       };
 
       $scope.$on('$destroy', $rootScope.$on('$routeUpdate', () => {
-        doSelect($routeParams[getTabParameterName()] || 0, true);
+        doSelect(getCurrentTab(), true);
       }));
 
       // Exposed methods
@@ -104,11 +102,21 @@ module.directive('rgTabs', function ($location, $routeParams, $rootScope) {
       };
 
       $scope.control.next = () => {
-        doSelect($scope.current + 1, $scope.disableLocationChanging);
+        let next = $scope.current + 1;
+        if (next === $scope.panes.length) {
+          next = $scope.panes.length - 1;
+        }
+
+        doSelect($scope.panes[next], $scope.disableLocationChanging);
       };
 
       $scope.control.prev = () => {
-        doSelect($scope.current - 1, $scope.disableLocationChanging);
+        let prev = $scope.current - 1;
+        if (prev < 0) {
+          prev = 0;
+        }
+
+        doSelect($scope.panes[prev], $scope.disableLocationChanging);
       };
 
       $scope.keyMap = {
