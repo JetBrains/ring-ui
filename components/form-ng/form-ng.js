@@ -5,13 +5,43 @@ import '../input/input.scss';
 import AngularElastic from 'angular-elastic';
 
 const module = angular.module('Ring.form', [MessageBundle, AngularElastic]);
+
+module.factory('getFormErrorMessages', [
+  'RingMessageBundle',
+  function (RingMessageBundle) {
+    function msg(id, formError) {
+      const messageBundleId = 'form_' + id;
+      if (RingMessageBundle.hasOwnProperty(messageBundleId)) {
+        return RingMessageBundle[messageBundleId]();
+      }
+
+      const formErrors = (formError && formError[id]) || [];
+      for (let j = 0; j < formErrors.length; ++j) {
+        if (formErrors[j] && formErrors[j].message) {
+          return formErrors[j].message;
+        }
+      }
+    }
+
+    return function (formErrors) {
+      const errorMessages = [];
+      for (const key in formErrors) {
+        if (formErrors.hasOwnProperty(key) && formErrors[key]) {
+          errorMessages.push(msg(key, formErrors));
+        }
+      }
+      return errorMessages;
+    };
+  }
+]);
+
 /**
  * <div rg-error-bubble="form.name"></div>
  * @param {object} error-bubble Ng-model for this control
  *
  * Where form.name is a reference to angularJS form input
  */
-module.directive('rgErrorBubble', function (RingMessageBundle) {
+module.directive('rgErrorBubble', function (getFormErrorMessages) {
   return {
     scope: {
       errorBubble: '&rgErrorBubble'
@@ -46,19 +76,7 @@ module.directive('rgErrorBubble', function (RingMessageBundle) {
         }
       });
 
-      scope.msg = function (id, viewValue) {
-        const messageBundleId = 'form_' + id;
-        if (RingMessageBundle.hasOwnProperty(messageBundleId)) {
-          return RingMessageBundle[messageBundleId](viewValue);
-        }
-
-        const formErrors = (scope.errorBubble().$error && scope.errorBubble().$error[id]) || [];
-        for (let j = 0; j < formErrors.length; ++j) {
-          if (formErrors[j] && formErrors[j].message) {
-            return formErrors[j].message;
-          }
-        }
-      };
+      scope.getFormErrorMessages = getFormErrorMessages;
     }
   };
 });
