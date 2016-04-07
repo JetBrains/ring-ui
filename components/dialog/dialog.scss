@@ -186,7 +186,7 @@
 .ring-dialog__layer {
   z-index: 1;
 
-  position: absolute;
+  position: fixed;
   top: 0;
   bottom: 0;
   left: 0;
@@ -314,12 +314,6 @@
     padding-left: 2.5*$ring-unit;
     padding-right: 2.5*$ring-unit;
   }
-}
-
-// modifier for BODY
-.ring-dialog-modal {
-  height: 100%;
-  overflow: hidden;
 }
 
 // copy from alert.scss
