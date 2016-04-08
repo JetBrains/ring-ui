@@ -82,12 +82,11 @@ describe('ProgressBar', function () {
       ReactDOM.findDOMNode(this.progress.refs.progressbar).should.have.attr('style').match(/width: 100%;/);
     });
 
-    it('should not set width if value is not a number', function () {
+    it('should not set style if value is not a number', function () {
       this.progress.rerender({
         value: null
       });
-
-      ReactDOM.findDOMNode(this.progress.refs.progressbar).should.have.attr('style').match(/^(width:;)?$/);
+      ReactDOM.findDOMNode(this.progress.refs.progressbar).should.not.have.attr('style');
     });
   });
 });
