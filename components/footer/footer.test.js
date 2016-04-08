@@ -27,10 +27,8 @@ describe('Footer', function () {
 
     it('add left column one line', function () {
       footer.rerender({left: ['One Line']});
-
       footer.node.should.have.text('One Line');
-      footer.node.query('li').should.not.be.empty;
-      footer.node.query('li').should.have.length(1);
+      footer.node.query('li').textContent.should.equal('One Line');
     });
 
     it('add left column two lines', function () {
