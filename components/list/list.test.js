@@ -70,10 +70,7 @@ describe('List', function () {
         {label: 'Hello!'}
       ]});
 
-      getFirstListItem().should.have.class('ring-list__item');
-      getFirstListItem().should.have.class('ring-list__item_action');
-      // React creates unexpected additional span
-      getFirstListItem().firstChild.innerHTML.should.equal('Hello!');
+      ReactDOM.findDOMNode(list.refs.inner).querySelector('.ring-list__item').should.be.defined;
     });
 
     it('should render a if href defined', function () {
