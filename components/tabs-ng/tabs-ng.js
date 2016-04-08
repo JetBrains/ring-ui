@@ -44,25 +44,19 @@ module.directive('rgTabs', function ($location, $routeParams, $rootScope) {
         return $scope.tabParameter || 'tab';
       }
 
-      function getCurrentTabId() {
+      function getTabIdFromUrl() {
         return $routeParams[getTabParameterName()];
       }
 
-      function getCurrentTab() {
-        const currentTabId = getCurrentTabId();
-        if (currentTabId) {
-          return idsMap[currentTabId];
-        } else {
-          return $scope.panes[0];
-        }
-      }
-
       function doSelect(newPane, skipUrlUpdate) {
+
         if (newPane === $scope.panes[$scope.current]) {
           return;
         }
 
-        angular.forEach($scope.panes, (pane, index) => {
+        for (let index = 0; index < $scope.panes.length; index++) {
+          const pane = $scope.panes[index];
+
           // Update current tab
           if (pane === newPane || pane.tabId === newPane) {
             $scope.current = index;
@@ -74,17 +68,26 @@ module.directive('rgTabs', function ($location, $routeParams, $rootScope) {
           } else { // Deselect all other
             pane.selected = false;
           }
-        });
+        }
       }
 
       this.addPane = pane => {
         $scope.panes.push(pane);
         idsMap[pane.tabId] = pane;
 
-        if ($scope.panes.length === 1 || pane.tabId === getCurrentTabId()) {
+        if ($scope.panes.length === 1 || pane.tabId === getTabIdFromUrl()) {
           doSelect(pane, true);
         }
       };
+
+      function getCurrentTab() {
+        const currentTabId = getTabIdFromUrl();
+        if (currentTabId) {
+          return idsMap[currentTabId];
+        } else {
+          return $scope.panes[0];
+        }
+      }
 
       $scope.$on('$destroy', $rootScope.$on('$routeUpdate', () => {
         doSelect(getCurrentTab(), true);
@@ -126,6 +129,25 @@ module.directive('rgTabs', function ($location, $routeParams, $rootScope) {
           $scope.focus = !$scope.focus;
           return !$scope.focus;
         }
+      };
+
+      // for some reason ng-class doesnt work properly on tabs
+      // from time to time several tabs looks like selected despite correct scope state
+      // i think this bug depends on the speed of addPane calls (actually on digests)
+      // and ng-class detection of added and removed classes becomes broken
+      // @maxim.erekhinskiy
+      $scope.tabClass = pane => {
+        let classes = 'ring-tabs__btn';
+
+        if (pane.selected) {
+          classes += ' active';
+        }
+
+        if ($scope.focus && pane.selected) {
+          classes += ' ring-tabs__btn_focus';
+        }
+
+        return classes;
       };
 
     }],
