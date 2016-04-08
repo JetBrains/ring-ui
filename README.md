@@ -126,8 +126,8 @@ Use `npm run setup-hooks` to install it.
 To enable the `Wallaby.js` test runner follow these steps:
  
 1. Download and install the [Wallaby.js plugin](http://wallabyjs.com/) for WebStorm.
-2. Make node.js or symlink to it present at `/usr/local/bin/node`.  
-3. Run shared `Wallaby` configuration in WebStorm.
+2. Make sure Node.js is available at `/usr/local/bin/node`, if not - create a symlink.  
+3. Run the `Wallaby` configuration in WebStorm.
 
 
 ## Visual regression testing
