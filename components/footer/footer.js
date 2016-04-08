@@ -53,10 +53,11 @@ function copyright(year) {
  * @extends {ReactComponent}
  */
 class FooterLine extends RingComponent {
-  props = {
+  static propTypes = {
     item: PropTypes.oneOfType([
       PropTypes.object,
-      PropTypes.array
+      PropTypes.array,
+      PropTypes.string
     ])
   };
 
