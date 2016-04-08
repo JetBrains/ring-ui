@@ -1,10 +1,10 @@
 /* eslint-disable angular/no-angular-mock */
 
-import ShortcutsNgHint from './shortcuts-hint-ng';
-import Sniffr from 'sniffr';
-
 import 'angular';
 import 'angular-mocks';
+
+import ShortcutsNgHint from './shortcuts-hint-ng';
+import Sniffr from 'sniffr';
 
 describe('Shortcuts ng hint', function () {
   /* global angular:false */
