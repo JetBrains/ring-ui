@@ -157,7 +157,7 @@ export default class Checkbox extends RingComponent {
             type="checkbox"
             className={classes}
             id={id}
-            checked={this.state.checked}
+            checked={Boolean(this.state.checked)}
           />
           <span className="ring-checkbox__icon">
             <Icon
