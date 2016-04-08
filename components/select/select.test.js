@@ -486,6 +486,19 @@ describe('Select', function () {
   });
 
   describe('Popup', function () {
+    it('Should pass container to popup', function () {
+      const popupContainer = document.createElement('div');
+
+      const select = renderIntoDocument(React.createElement(Select, {
+        data: testData,
+        selected: testData[0],
+        popupContainer
+      }));
+
+      select._showPopup();
+      select._popup.node.parentNode.parentNode.should.equal(popupContainer);
+    });
+
     it('Should pass loading message and indicator to popup if loading', function () {
       this.select.rerender({loading: true, loadingMessage: 'test message'});
       this.select._popup.rerender = this.sinon.stub();

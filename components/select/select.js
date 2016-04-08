@@ -325,6 +325,7 @@ export default class Select extends RingComponentWithShortcuts {
 
     type: Type.BUTTON,
     targetElement: null,  // element to bind the popup to (select BUTTON or INPUT by default)
+    popupContainer: null, // element to attach popup in
     hideSelected: false,  // INPUT mode: clears the input after an option is selected (useful when the selection is displayed in some custom way elsewhere)
     allowAny: false,      // INPUT mode: allows any value to be entered, hides the dropdown icon
     hideArrow: false,     // hide dropdown arrow icon
@@ -496,6 +497,7 @@ export default class Select extends RingComponentWithShortcuts {
   _createPopup() {
     if (!this._popup) {
       const anchorElement = this.props.targetElement || this.node;
+      const container = this.props.popupContainer;
 
       this._popup = Popup.renderPopup(
         <SelectPopup
@@ -507,7 +509,8 @@ export default class Select extends RingComponentWithShortcuts {
           onSelect={::this._listSelectHandler}
           onFilter={::this._filterChangeHandler}
           onLoadMore={::this.props.onLoadMore}
-        />
+        />,
+        {container}
       );
     }
   }
