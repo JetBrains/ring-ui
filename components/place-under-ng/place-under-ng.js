@@ -152,6 +152,7 @@ module.directive('rgPlaceUnder', function ($window, getClosestElementWithCommonP
         window.addEventListener('scroll', sidebarScrollListener);
         scope.$on('$destroy', () => window.removeEventListener('scroll', sidebarScrollListener));
         scope.$watch('show', sidebarScrollListener);
+        scope.$watch(() => document.documentElement.scrollHeight, sidebarScrollListener);
       }
 
       function startSyncing(placeUnderSelector) {
