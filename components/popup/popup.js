@@ -625,6 +625,7 @@ export default class Popup extends RingComponentWithShortcuts {
     } else {
       styles.minWidth = props.minWidth;
     }
+    styles.minWidth = styles.minWidth && `${styles.minWidth.toString()}px`;
 
     switch (this.state.display) {
       case 0:
