@@ -6,6 +6,7 @@
 
 import 'dom4';
 import debounce from 'mout/function/debounce';
+import ResizeSensor from 'css-element-queries/src/ResizeSensor';
 
 /**
  * @name Place Under Ng
@@ -101,6 +102,7 @@ module.directive('rgPlaceUnder', function ($window, getClosestElementWithCommonP
 
       const topOffset = parseInt(iAttrs.placeTopOffset, 10) || 0;
       const syncHeight = iAttrs.syncHeight;
+      let documentResizeSensor;
 
       /**
        * Waits until passed element's height becomes non-zero and then resolves
@@ -150,9 +152,14 @@ module.directive('rgPlaceUnder', function ($window, getClosestElementWithCommonP
         waitForNonZeroHeight(syncWithElement).then(sidebarScrollListener);
 
         window.addEventListener('scroll', sidebarScrollListener);
-        scope.$on('$destroy', () => window.removeEventListener('scroll', sidebarScrollListener));
         scope.$watch('show', sidebarScrollListener);
-        scope.$watch(() => document.documentElement.scrollHeight, sidebarScrollListener);
+        documentResizeSensor = new ResizeSensor(document.body, sidebarScrollListener);
+
+        scope.$on('$destroy', () => {
+          window.removeEventListener('scroll', sidebarScrollListener);
+          documentResizeSensor.detach();
+          documentResizeSensor = null;
+        });
       }
 
       function startSyncing(placeUnderSelector) {
@@ -170,7 +177,6 @@ module.directive('rgPlaceUnder', function ($window, getClosestElementWithCommonP
       }
 
       iAttrs.$observe('rgPlaceUnder', startSyncing);
-
     }
   };
 });
