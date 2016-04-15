@@ -301,6 +301,8 @@ module.directive('rgTableHeader', function (getClosestElementWithCommonParent) {
         stickToElement = getClosestElementWithCommonParent(element, scope.stickToSelector);
         startSticking();
       }
+
+      scope.$on('rgTable:itemsChanged', scrollListener);
     }
   };
 });
