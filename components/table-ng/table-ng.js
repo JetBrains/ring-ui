@@ -294,6 +294,7 @@ module.directive('rgTableHeader', function (getClosestElementWithCommonParent) {
         scope.$evalAsync(() => {
           window.addEventListener('resize', resizeFixedHeader);
           window.addEventListener('scroll', scrollListener);
+          scope.$on('rgTable:itemsChanged', scrollListener);
         });
       }
 
@@ -301,8 +302,6 @@ module.directive('rgTableHeader', function (getClosestElementWithCommonParent) {
         stickToElement = getClosestElementWithCommonParent(element, scope.stickToSelector);
         startSticking();
       }
-
-      scope.$on('rgTable:itemsChanged', scrollListener);
     }
   };
 });
