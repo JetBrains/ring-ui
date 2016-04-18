@@ -164,7 +164,7 @@ export default class Checkbox extends RingComponent {
               className="ring-checkbox__icon__image"
               color="black"
               glyph={require('jetbrains-icons/check.svg')}
-              size={Icon.Size.Size16}
+              size={Icon.Size.Size18}
               style={checkStyle}
             />
           </span>
