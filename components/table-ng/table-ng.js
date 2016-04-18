@@ -294,6 +294,7 @@ module.directive('rgTableHeader', function (getClosestElementWithCommonParent) {
         scope.$evalAsync(() => {
           window.addEventListener('resize', resizeFixedHeader);
           window.addEventListener('scroll', scrollListener);
+          scope.$on('rgTable:itemsChanged', scrollListener);
         });
       }
 
@@ -352,7 +353,7 @@ module.directive('rgTableRow', function () {
       };
 
       this.setActiveItem = item => {
-        item && this.selection && this.selection.activateItem(item);
+        item && !item.unselectable && this.selection && this.selection.activateItem(item);
       };
 
       this.hasCheckedItems = () => {

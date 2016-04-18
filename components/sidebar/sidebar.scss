@@ -86,6 +86,11 @@
   font-size: $ring-font-size;
   color: $ring-text-color;
   line-height: 3*$ring-unit;
+
+  &_multiline {
+    line-height: normal;
+    padding: 4px 0 5px;
+  }
 }
 
 .ring-sidebar__section-roster {
