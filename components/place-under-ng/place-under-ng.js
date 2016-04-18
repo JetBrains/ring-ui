@@ -102,6 +102,11 @@ module.directive('rgPlaceUnder', function ($window, getClosestElementWithCommonP
 
       const topOffset = parseInt(iAttrs.placeTopOffset, 10) || 0;
       const syncHeight = iAttrs.syncHeight;
+      let syncBottom = [];
+      if (iAttrs.syncBottom) {
+        syncBottom = iAttrs.syncBottom.split(',');
+      }
+
       let documentResizeSensor;
 
       /**
@@ -129,14 +134,15 @@ module.directive('rgPlaceUnder', function ($window, getClosestElementWithCommonP
        */
       function syncPositionWith(syncWithElement) {
         const sidebarScrollListener = debounce(() => {
-          const scrolledTop = (document.documentElement && document.documentElement.scrollTop) || document.body.scrollTop;
+          const documentScrollTop = (document.documentElement && document.documentElement.scrollTop) || document.body.scrollTop;
+          const dcoumentOffsetHeight = (document.documentElement && document.documentElement.offsetHeight) || document.body.offsetHeight;
 
           const syncedElementHeight = syncWithElement.offsetHeight;
-          const syncedElementOffsetTop = syncWithElement.getBoundingClientRect().top + scrolledTop;
+          const syncedElementOffsetTop = syncWithElement.getBoundingClientRect().top + documentScrollTop;
 
           const bottom = syncedElementOffsetTop + syncedElementHeight;
 
-          const margin = Math.max(bottom - scrolledTop, syncedElementHeight);
+          const margin = Math.max(bottom - documentScrollTop, syncedElementHeight);
 
           element.style.marginTop = margin + topOffset + 'px';
 
@@ -144,7 +150,30 @@ module.directive('rgPlaceUnder', function ($window, getClosestElementWithCommonP
             /**
              * Decrease height by margin value to make scroll work properly
              */
-            element.style.height = 'calc(100% - ' + element.style.marginTop + ')';
+            let bottomOffset = 0;
+            if (syncBottom.length) {
+              for (let i = 0; i < syncBottom.length; i++) {
+                const elem = document.querySelector(syncBottom[i]);
+
+                if (elem) {
+                  const boundingRect = elem.getBoundingClientRect();
+
+                  if (boundingRect.top === 0) {
+                    continue;
+                  }
+
+                  const marginTop = parseInt(window.getComputedStyle(elem).getPropertyValue('margin-top'), 10);
+                  bottomOffset = dcoumentOffsetHeight - boundingRect.top + marginTop;
+                  if (bottomOffset < 0) {
+                    bottomOffset = 0;
+                  }
+
+                  break;
+                }
+              }
+            }
+
+            element.style.height = 'calc(100% - ' + (parseInt(element.style.marginTop, 10) + bottomOffset) + 'px)';
           }
 
         }, DEBOUNCE_INTERVAL);

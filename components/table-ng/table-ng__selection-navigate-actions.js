@@ -18,6 +18,11 @@ export default class SelectionNavigateActions {
       return false;
     }
     const activeItem = this._selection.activatePreviousItem();
+
+    if (activeItem && activeItem.unselectable) {
+      return this.moveUp();
+    }
+
     return !activeItem;
   }
 
@@ -26,6 +31,8 @@ export default class SelectionNavigateActions {
       const activeItem = this._selection.activateNextItem();
       if (!activeItem) {
         this._selection.setActiveItemIndex(0);
+      } else if (activeItem.unselectable) {
+        return this.moveDown();
       }
     }
     return false;

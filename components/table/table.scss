@@ -237,6 +237,10 @@
 
   }
 
+  &.ring-table__row_unselectable:hover {
+    background-color: initial;
+  }
+
   &.ring-table__row_checked {
     background-color: #DBEAF2;
   }
