@@ -42,10 +42,11 @@ $ring-checkbox-size: 13px;
 
     & .ring-checkbox__icon__image {
       position: absolute;
-      top: -2px;
+      top: -4px;
       left: -1px;
       width: $ring-checkbox-size;
       height: $ring-checkbox-size;
+      color: #444;
     }
   }
 
