@@ -59,7 +59,7 @@
     text-overflow: ellipsis;
     display: inline-block;
     overflow: hidden;
-    vertical-align: middle;
+    vertical-align: top;
 
     // Supports Firefox
     &, x:-moz-any-link {
