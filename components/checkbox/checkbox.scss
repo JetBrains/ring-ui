@@ -46,23 +46,25 @@ $ring-checkbox-size: 13px;
       left: -1px;
       width: $ring-checkbox-size;
       height: $ring-checkbox-size;
-      color: #444;
     }
+  }
+
+  &:not([disabled]) + .ring-checkbox__icon {
+    color: $ring-text-color;
   }
 
   &[disabled] + .ring-checkbox__icon {
     color: $ring-dark-gray-color;
   }
 
-  &:not([disabled]) + .ring-checkbox__icon:hover {
-    border: 1px solid #FF8620;
-  }
-
   &:checked:not([disabled]) + .ring-checkbox__icon {
     border: 1px solid $ring-blue-color;
   }
 
-  &:focus + .ring-checkbox__icon {
+  &:focus + .ring-checkbox__icon,
+  &:focus:checked + .ring-checkbox__icon,
+  &:hover:not([disabled]) + .ring-checkbox__icon,
+  &:hover:not([disabled]):checked + .ring-checkbox__icon {
     border: 1px solid $ring-link-hover-color;
   }
 }
