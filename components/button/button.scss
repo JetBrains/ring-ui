@@ -2,6 +2,7 @@
 @import "./btn";
 
 @mixin button-background($dark, $light) {
+  background-color: #{$light};
   background-image: linear-gradient(to top, #{$dark}, #{$light});
 }
 
