@@ -44,9 +44,13 @@ class ButtonController {
       }
     });
 
-    $attrs.$observe('mode', ::this.updateMode);
-    $attrs.$observe('icon', ::this.updateIcon);
-    $attrs.$observe('iconSize', ::this.updateIcon);
+    // A dirty workaround for IE9 :(
+    const updateMode = val => setTimeout(this.updateMode.bind(this, val), 0);
+    const updateIcon = val => setTimeout(this.updateIcon.bind(this, val), 0);
+
+    $attrs.$observe('mode', updateMode);
+    $attrs.$observe('icon', updateIcon);
+    $attrs.$observe('iconSize', updateIcon);
   }
 
   updateMode(val) {
