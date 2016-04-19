@@ -231,19 +231,21 @@
 
 .ring-dialog__footer__item {
   display: inline-block;
+  /**
+   * Do not make space using margin-right as it will break spaces between right-sided buttons in dialog's footer
+   */
+
   &:not(:first-child) {
-    /**
-     * Do not make space using margin-right as it will break spaces between right-sided buttons in dialog's footer
-     */
     margin-left: 2*$ring-unit;
   }
 
   //Increase selector specificity when ring buttons used as footer items
-  &.ring-button:not(:first-child) {
-    /**
-     * Do not make space using margin-right as it will break spaces between right-sided buttons in dialog's footer
-     */
+  &.ring-button {
     margin-left: 2*$ring-unit;
+  }
+
+  &.ring-button:first-of-type {
+    margin-left: 0;
   }
 }
 
