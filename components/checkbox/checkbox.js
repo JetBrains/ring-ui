@@ -12,76 +12,77 @@ const ngModelStateField = 'checked';
  * @constructor
  * @extends {ReactComponent}
  * @example
-   <example name="Checkbox">
-   <file name="index.html">
-    <h1>Base Examples</h1>
-    <div id="checkbox-base">
-      <span id="checkbox"></span>
-      <span id="checkbox-selected"></span>
-      <span id="checkbox-disabled"></span>
-    </div>
-    <h1>Examples with outer styles</h1>
-    <div id="checkbox-additional">
-      <div style="line-height: 60px">
-        <span id="checkbox-in-large-line-height-div"></span>
-        <span>This text should be aligned on same line with checkbox label</span>
+  <example name="Checkbox">
+    <file name="index.html">
+      <h1>Base Examples</h1>
+      <div id="checkbox-base">
+        <span id="checkbox"></span>
+        <span id="checkbox-selected"></span>
+        <span id="checkbox-disabled"></span>
       </div>
-      <div style="line-height: 6px;">
-        <span id="checkbox-in-small-line-height-div"></span>
-        <span>This text should be aligned on same line with checkbox label</span>
+
+      <h1>Examples with outer styles</h1>
+      <div id="checkbox-additional">
+        <div style="line-height: 60px">
+          <span id="checkbox-in-large-line-height-div"></span>
+          <span>This text should be aligned on same line with checkbox label</span>
+        </div>
+        <div style="line-height: 6px;">
+          <span id="checkbox-in-small-line-height-div"></span>
+          <span>This text should be aligned on same line with checkbox label</span>
+        </div>
+        <div style="font-size: 40px">
+          <span id="checkbox-in-large-font-div"></span>
+          <span>This text should be aligned on same line with checkbox label</span>
+        </div>
+        <div style="line-height: 6px; font-size: 4px">
+          <span id="checkbox-in-small-font-div"></span>
+          <span>This text should be aligned on same line with checkbox label</span>
+        </div>
       </div>
-      <div style="font-size: 40px">
-        <span id="checkbox-in-large-font-div"></span>
-        <span>This text should be aligned on same line with checkbox label</span>
-      </div>
-      <div style="line-height: 6px; font-size: 4px">
-        <span id="checkbox-in-small-font-div"></span>
-        <span>This text should be aligned on same line with checkbox label</span>
-      </div>
-    </div>
-   </file>
+    </file>
 
-   <file name="index.js" webpack="true">
-   var render = require('react-dom').render;
-   var Checkbox = require('ring-ui/components/checkbox/checkbox');
+    <file name="index.js" webpack="true">
+      var render = require('react-dom').render;
+      var Checkbox = require('ring-ui/components/checkbox/checkbox');
 
-   render(Checkbox.factory(), document.getElementById('checkbox'));
+      render(Checkbox.factory(), document.getElementById('checkbox'));
 
-   render(Checkbox.factory({
-     checked: true
-   }), document.getElementById('checkbox-selected'));
+      render(Checkbox.factory({
+        checked: true
+      }), document.getElementById('checkbox-selected'));
 
-   render(Checkbox.factory({
-     checked: true
-   }), document.getElementById('checkbox-selected'));
+      render(Checkbox.factory({
+        checked: true
+      }), document.getElementById('checkbox-selected'));
 
-   render(Checkbox.factory({
-     checked: true,
-     disabled: true,
-     label: 'This checkbox is disabled'
-   }), document.getElementById('checkbox-disabled'));
+      render(Checkbox.factory({
+        checked: true,
+        disabled: true,
+        label: 'This checkbox is disabled'
+      }), document.getElementById('checkbox-disabled'));
 
-   render(Checkbox.factory({
-     checked: true,
-     label: 'This checkbox is inside div with large line-heigth.'
-   }), document.getElementById('checkbox-in-large-line-height-div'));
+      render(Checkbox.factory({
+        checked: true,
+        label: 'This checkbox is inside div with large line-heigth.'
+      }), document.getElementById('checkbox-in-large-line-height-div'));
 
-   render(Checkbox.factory({
-     checked: true,
-     label: 'This checkbox is inside div with small line-heigth.'
-   }), document.getElementById('checkbox-in-small-line-height-div'));
+      render(Checkbox.factory({
+        checked: true,
+        label: 'This checkbox is inside div with small line-heigth.'
+      }), document.getElementById('checkbox-in-small-line-height-div'));
 
-   render(Checkbox.factory({
-     checked: true,
-     label: 'This checkbox is inside div with large font-size.'
-   }), document.getElementById('checkbox-in-large-font-div'));
+      render(Checkbox.factory({
+        checked: true,
+        label: 'This checkbox is inside div with large font-size.'
+      }), document.getElementById('checkbox-in-large-font-div'));
 
-   render(Checkbox.factory({
-     checked: true,
-     label: 'This checkbox is inside div with small font-size.'
-   }), document.getElementById('checkbox-in-small-font-div'));
-   </file>
-   </example>
+      render(Checkbox.factory({
+        checked: true,
+        label: 'This checkbox is inside div with small font-size.'
+      }), document.getElementById('checkbox-in-small-font-div'));
+    </file>
+  </example>
  */
 export default class Checkbox extends RingComponent {
   static ngModelStateField = ngModelStateField;
