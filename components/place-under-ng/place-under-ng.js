@@ -87,6 +87,8 @@ const module = angular.module('Ring.place-under', []);
 /**
  * rg-place-under=".some-selector" = selector to point target element
  * place-top-offset="1" = offset in pixels
+ * sync-bottom=".some-selector,.some-selector2" = selector to sunc bottom with
+ * listen-to-height-change=".ring-table" = listen to element height change and update position
  */
 module.directive('rgPlaceUnder', function ($window, getClosestElementWithCommonParent) {
   const DEBOUNCE_INTERVAL = 10;
@@ -182,7 +184,9 @@ module.directive('rgPlaceUnder', function ($window, getClosestElementWithCommonP
 
         window.addEventListener('scroll', sidebarScrollListener);
         scope.$watch('show', sidebarScrollListener);
-        documentResizeSensor = new ResizeSensor(document.body, sidebarScrollListener);
+
+        const elementToHeightListening = iAttrs.listenToHeightChange ? document.querySelector(iAttrs.listenToHeightChange) : document.body;
+        documentResizeSensor = new ResizeSensor(elementToHeightListening, sidebarScrollListener);
 
         scope.$on('$destroy', () => {
           window.removeEventListener('scroll', sidebarScrollListener);
