@@ -32,8 +32,16 @@ describe('Permissions', function () {
       expect(new Permissions(auth).query).to.equal(undefined);
     });
 
-    it('should build query if projectId provided', function () {
-      expect(new Permissions(auth, {serviceId: '123'}).query).to.equal('service: {123}');
+    it('should build query if serviceId provided', function () {
+      expect(new Permissions(auth, {serviceId: '123'}).query).to.equal('service:{123}');
+    });
+
+    it('should build query if several services provided', function () {
+      expect(new Permissions(auth, {services: ['0-0-0-0-0', '0-0-0-0-2']}).query).to.equal('service:{0-0-0-0-0} or service:{0-0-0-0-2}');
+    });
+
+    it('should build query if we pass both services and serviceId', function () {
+      expect(new Permissions(auth, {services: ['0-0-0-0-0', '0-0-0-0-2'], serviceId: '345'}).query).to.equal('service:{0-0-0-0-0} or service:{0-0-0-0-2} or service:{345}');
     });
 
     it('should check no namesConverter if no config params', function () {
