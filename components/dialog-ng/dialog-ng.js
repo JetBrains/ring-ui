@@ -429,13 +429,33 @@ function rgDialogDirective($timeout) {
       }
     }
 
-    function preventDocumentScroll(e) {
-      const nodeScrolledToEnd = node.scrollTop === node.scrollHeight - node.offsetHeight;
-      const isTryingScrollDocumentDown = nodeScrolledToEnd && e.deltaY > 0;
-      const isTryingScrollDocumentUp = node.scrollTop === 0 && e.deltaY < 0;
 
-      if (isTryingScrollDocumentDown || isTryingScrollDocumentUp) {
-        e.preventDefault();
+    function preventDocumentScroll(e) {
+      if (!e.path || !e.path.length) {
+        return;
+      }
+
+      for (let i = 0; i < e.path.length; i++) {
+        const target = e.path[i];
+
+        // if we are upper than NODE
+        if (!node.contains(target) && target !== node) {
+          break;
+        }
+
+        const hasScroll = target.scrollHeight && target.scrollHeight > target.offsetHeight;
+        if (!hasScroll) { // skip elements without scroll
+          continue;
+        }
+
+        const scrollDiff = target.scrollTop - (target.scrollHeight - target.offsetHeight);
+        const atTheBegin = target.scrollTop === 0;
+        const atTheEnd = scrollDiff === 0;
+
+        if (atTheEnd && e.deltaY >= 0 || atTheBegin && e.deltaY <= 0) {
+          e.preventDefault();
+          break;
+        }
       }
     }
 
