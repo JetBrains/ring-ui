@@ -32,7 +32,7 @@ export default class Permissions {
   static API_PERMISSION_CACHE_PATH = 'permissions/cache';
 
   constructor(auth, config = {}) {
-    this.query = config.serviceId && ('service: {' + config.serviceId + '}');
+    this.query = Permissions.getPermissionQuery(config.serviceId, config.services);
     this.namesConverter = config.prefix ? Permissions.getDefaultNamesConverter(config.prefix) : config.namesConverter;
 
     if (!auth) {
@@ -57,6 +57,17 @@ export default class Permissions {
         return storedName.substr(prefix.length);
       }
     };
+  }
+
+  static getPermissionQuery(serviceId, services) {
+    if (!serviceId && !services) {
+      return undefined;
+    }
+    services = services || [];
+    if (serviceId) {
+      services.push(serviceId);
+    }
+    return services.map(service => 'service:{' + service + '}').join(' or ');
   }
 
   /**
