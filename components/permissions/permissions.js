@@ -3,7 +3,7 @@ import PermissionCache from './permissions__cache';
 /**
  * @example
  * <code>
- *   const permissions = new Permissions(auth, {prefix: 'jetbrains.jetpass.', serviceId: auth.serviceId})
+ *   const permissions = new Permissions(auth, {prefix: 'jetbrains.jetpass.', services: [auth.serviceId]})
  *   permissions.load().then(function (p) {
  *     const canReadUser = p.has('read-user');
  *     ...
@@ -32,7 +32,7 @@ export default class Permissions {
   static API_PERMISSION_CACHE_PATH = 'permissions/cache';
 
   constructor(auth, config = {}) {
-    this.query = Permissions.getPermissionQuery(config.serviceId, config.services);
+    this.query = Permissions.getPermissionQuery(config.services);
     this.namesConverter = config.prefix ? Permissions.getDefaultNamesConverter(config.prefix) : config.namesConverter;
 
     if (!auth) {
@@ -59,13 +59,9 @@ export default class Permissions {
     };
   }
 
-  static getPermissionQuery(serviceId, services) {
-    if (!serviceId && !services) {
+  static getPermissionQuery(services) {
+    if (!services || !services.length) {
       return undefined;
-    }
-    services = services || [];
-    if (serviceId) {
-      services.push(serviceId);
     }
     return services.map(service => 'service:{' + service + '}').join(' or ');
   }
