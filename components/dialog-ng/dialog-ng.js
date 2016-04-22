@@ -177,14 +177,14 @@ class DialogController {
     const scrollWidth = scrollbarWidth();
     const bodyHasScroll = document.body.scrollHeight > window.innerHeight;
     if (bodyHasScroll && scrollWidth > 0) {
-      this.previousBodyWidh = document.body.style.width;
+      this.previousBodyWidth = document.body.style.width;
       document.body.style.width = 'calc(100% - ' + scrollWidth + 'px)';
     }
   }
 
   resetBodyScrollPrevention() {
     document.body.classList.remove(this.constructor.BODY_MODAL_CLASS);
-    document.body.style.width = this.previousBodyWidh || 'auto';
+    document.body.style.width = this.previousBodyWidth || 'auto';
   }
 
   setTitle(title) {
