@@ -130,6 +130,7 @@
     "react-addons-test-utils": "0.14.0",
     "react-dom": "0.14.0",
     "sass-loader": "3.1.2",
+    "scrollbar-width": "3.1.1",
     "simply-uuid": "1.0.1",
     "sniffr": "1.1.4",
     "style-loader": "0.13.0",
