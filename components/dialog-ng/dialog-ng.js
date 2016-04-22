@@ -106,6 +106,8 @@ import '../dialog/dialog.scss';
 const module = angular.module('Ring.dialog', [RingButton]);
 
 class DialogController {
+  static BODY_MODAL_CLASS = 'ring-dialog-modal';
+
   constructor($scope, $q, dialog, dialogInSidebar) {
     const dialogService = this.inSidebar ? dialogInSidebar : dialog;
 
@@ -170,6 +172,10 @@ class DialogController {
   }
 
   show(config) {
+    if (!this.inSidebar) {
+      document.body.classList.add(this.constructor.BODY_MODAL_CLASS);
+    }
+
     if (this.active) {
       this.reset();
     }
@@ -220,6 +226,10 @@ class DialogController {
   }
 
   hide() {
+    if (!this.inSidebar) {
+      document.body.classList.remove(this.constructor.BODY_MODAL_CLASS);
+    }
+
     this.active = false;
     this.content = '';
 
@@ -429,45 +439,11 @@ function rgDialogDirective($timeout) {
       }
     }
 
-
-    function preventDocumentScroll(e) {
-      if (!e.path || !e.path.length) {
-        return;
-      }
-
-      for (let i = 0; i < e.path.length; i++) {
-        const target = e.path[i];
-
-        const hasScroll = target.scrollHeight && target.scrollHeight > target.offsetHeight;
-
-        if (hasScroll) {
-          const scrollDiff = target.scrollTop - (target.scrollHeight - target.offsetHeight);
-          const atTheBegin = target.scrollTop === 0;
-          const atTheEnd = scrollDiff === 0;
-
-          if (atTheEnd && e.deltaY >= 0 || atTheBegin && e.deltaY <= 0) {
-            e.preventDefault();
-          }
-
-          break;
-        } else if (target !== node) {
-          continue;
-        } else { // no scrolls till NODE
-          e.preventDefault();
-          break;
-        }
-      }
-    }
-
     dialogCtrl.resetPosition = () => dialogContainer.removeAttribute('style');
 
     dialogTitle.addEventListener('mousedown', onMousedown);
     document.addEventListener('focusin', onFocusin);
     scope.$on('$includeContentLoaded', () => $timeout(focusFirst));
-
-    node.addEventListener('mousewheel', preventDocumentScroll);
-    node.addEventListener('DOMMouseScroll', preventDocumentScroll);
-    node.addEventListener('touchmove', preventDocumentScroll);
 
     scope.$on('$destroy', () => {
       dialogTitle.removeEventListener('mousedown', onMousedown);
