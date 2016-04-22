@@ -178,7 +178,7 @@ class DialogController {
     const bodyHasScroll = document.body.scrollHeight > window.innerHeight;
     if (bodyHasScroll && scrollWidth > 0) {
       this.previousBodyWidth = document.body.style.width;
-      document.body.style.width = 'calc(100% - ' + scrollWidth + 'px)';
+      document.body.style.width = `calc(100% - ${scrollWidth}px)`;
     }
   }
 
