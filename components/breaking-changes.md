@@ -36,6 +36,18 @@ safari 9.1
 safari 9 
 ```
 
+### 22-04-2016: Permissions: parameter "config" does not have property config.serviceId, use config.services instead    
+
+Before:
+```
+new Permissions(auth, {serviceId: auth.serviceId})
+```
+
+After:
+```
+new Permissions(auth, {services: [auth.serviceId]})
+```
+
 ### 20-02-2016: `Button.Modifiers` enum was removed, attributes should be used instead    
 
 Before:
