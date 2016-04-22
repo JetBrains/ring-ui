@@ -3,6 +3,7 @@ import 'dom4';
 import {getStyles, getRect} from '../dom/dom';
 import shortcuts from '../shortcuts/shortcuts';
 import RingButton from '../button-ng/button-ng';
+import scrollbarWidth from 'scrollbar-width';
 
 import '../button/button.scss';
 import '../dialog/dialog.scss';
@@ -69,6 +70,7 @@ import '../dialog/dialog.scss';
 
      angular.module('Example.dialog', ['Ring.dialog', 'Ring.select'])
      .controller('ExampleCtrl', function($q, $timeout, dialog) {
+     $timeout(function () {
         dialog.show({
           cssClass: 'custom-css-class',
           title: 'Test',
@@ -96,6 +98,8 @@ import '../dialog/dialog.scss';
             }
           ]
         });
+      }, 500);
+
      }).controller('DialogExampleCtrl', function(dialog) {
         var dialogExampleCtrl = this;
         dialogExampleCtrl.arr = [{name: 'Ada'}, {name: 'Nik'}];
@@ -167,13 +171,28 @@ class DialogController {
     return dialogShortcuts;
   }
 
+  preventBodyScrolling() {
+    document.body.classList.add(this.constructor.BODY_MODAL_CLASS);
+
+    const scrollWidth = scrollbarWidth();
+    const bodyHasScroll = document.body.scrollHeight > window.innerHeight;
+    if (bodyHasScroll && scrollWidth > 0) {
+      document.body.style.width = 'calc(100% - ' + scrollWidth + 'px)';
+    }
+  }
+
+  resetBodyScrollPrevention() {
+    document.body.classList.remove(this.constructor.BODY_MODAL_CLASS);
+    document.body.style.width = 'auto';
+  }
+
   setTitle(title) {
     this.title = title;
   }
 
   show(config) {
     if (!this.inSidebar) {
-      document.body.classList.add(this.constructor.BODY_MODAL_CLASS);
+      this.preventBodyScrolling();
     }
 
     if (this.active) {
@@ -227,7 +246,7 @@ class DialogController {
 
   hide() {
     if (!this.inSidebar) {
-      document.body.classList.remove(this.constructor.BODY_MODAL_CLASS);
+      this.resetBodyScrollPrevention();
     }
 
     this.active = false;
