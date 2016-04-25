@@ -1,0 +1,100 @@
+/* global angular: false */
+
+import 'dom4';
+import urlUtils from '../url-utils/url-utils';
+import {Color, Size} from '../icon/icon__constants';
+import '../icon/icon.scss';
+
+/**
+ * @name Icon Ng
+ * @example
+ * <example name="icon-ng">
+   <file name="index.html">
+     <div ng-app="TestApp" ng-controller="testCtrl">
+       <rg-icon glyph="{{icon}}" size="14"></rg-icon>
+       <rg-icon glyph="{{icon}}"></rg-icon>
+       <rg-icon glyph="{{icon}}" color="ORANGE"></rg-icon>
+       <rg-icon glyph="{{icon}}" color="{{'BLUE'}}" loading="true"></rg-icon>
+       <rg-icon glyph="{{icon}}" size="64"></rg-icon>
+       <rg-icon glyph="{{error}}" height="80" width="100"></rg-icon>
+     </div>
+   </file>
+   <file name="index.js" webpack="true">
+     require('angular');
+     require('ring-ui/components/icon-ng/icon-ng');
+     require('ring-ui/components/button-ng/button-ng');
+     angular.module('TestApp', ['Ring.button', 'Ring.icon']).controller('testCtrl', function($scope) {
+       $scope.icon = require('jetbrains-icons/distribution.svg');
+       $scope.error = require('jetbrains-icons/search-error.svg');
+     });
+   </file>
+ </example>
+ */
+const module = angular.module('Ring.icon', []);
+const CLASS_PREFIX = 'ring-icon_';
+const LOADING_CLASS = CLASS_PREFIX + 'loading';
+const DEFAULT_SIZE = Size.Size32;
+
+function pixelString(number) {
+  return String(number) + 'px';
+}
+
+module.directive('rgIcon', function () {
+  return {
+    restrict: 'E',
+    scope: {
+      glyph: '@',
+      loading: '=?',
+      color: '@?',
+      size: '@?',
+      height: '@?',
+      width: '@?'
+    },
+    template: require('./icon-ng.html'),
+    link: function (scope, iElement, iAttrs) {
+      iAttrs.$addClass('ring-icon');
+
+      scope.resolveGlyph = ::urlUtils.resolveRelativeURL;
+
+      scope.$watch('loading', value => {
+        if (value) {
+          iAttrs.$addClass(LOADING_CLASS);
+        } else {
+          iAttrs.$removeClass(LOADING_CLASS);
+        }
+      });
+
+      scope.$watch(() => scope.color && Color[scope.color] && CLASS_PREFIX + Color[scope.color], (colorClass, prevColorClass) => {
+        if (colorClass) {
+          iAttrs.$addClass(colorClass);
+
+          // Remove previous class, but don't remove initial one
+          if (prevColorClass && prevColorClass !== colorClass) {
+            iAttrs.$removeClass(prevColorClass);
+          }
+        }
+      });
+
+      scope.$watchGroup(['size', 'width', 'height'], ([size, width, height]) => {
+        if (!width && !height) {
+          const sizeString = pixelString(size || DEFAULT_SIZE);
+          scope.style = {
+            width: sizeString,
+            height: sizeString
+          };
+          return;
+        }
+
+        scope.style = {};
+        if (width) {
+          scope.style.width = pixelString(width);
+        }
+        if (height) {
+          scope.style.height = pixelString(height);
+        }
+      });
+    }
+  };
+});
+
+export default module.name;
