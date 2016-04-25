@@ -119,6 +119,8 @@ class DialogController {
     this.$q = $q;
     this.dialogService = dialogService;
 
+    this.previousBodyWidth = null;
+
     $q((resolve, reject) => {
       this.resolve = resolve;
       this.reject = reject;
@@ -184,7 +186,10 @@ class DialogController {
 
   resetBodyScrollPrevention() {
     document.body.classList.remove(this.constructor.BODY_MODAL_CLASS);
-    document.body.style.width = this.previousBodyWidth || 'auto';
+    if (this.previousBodyWidth !== null) {
+      document.body.style.width = this.previousBodyWidth;
+      this.previousBodyWidth = null;
+    }
   }
 
   setTitle(title) {
