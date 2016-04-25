@@ -8,21 +8,29 @@ import {getRect} from '../dom/dom';
 import Dialog from './dialog-ng';
 
 describe('DialogNg', function () {
-  let service;
+  let dialog;
   let $compile;
   let $q;
   let $templateCache;
   let $rootScope;
   let sandbox;
+  let text;
 
-  beforeEach(window.module(Dialog));
+  beforeEach(window.module(
+    Dialog,
+    function ($controllerProvider) {
+      $controllerProvider.register('testCtrl', function () {
+        this.text = text;
+      });
+    }
+  ));
 
-  beforeEach(inject(function (_$q_, _$rootScope_, _$compile_, _$templateCache_, dialog) {
+  beforeEach(inject(function (_$q_, _$rootScope_, _$compile_, _$templateCache_, _dialog_) {
     $q = _$q_;
     $rootScope = _$rootScope_;
     $compile = _$compile_;
     $templateCache = _$templateCache_;
-    service = dialog;
+    dialog = _dialog_;
   }));
 
   beforeEach(function () {
@@ -45,13 +53,152 @@ describe('DialogNg', function () {
     sandbox.append(element);
 
     $templateCache.put('/test.html', contentTemplate);
-    const promise = service.show(Object.assign({content: '/test.html', buttons: buttons, data: data}, options));
+    const promise = dialog.show(Object.assign({
+      content: '/test.html',
+      buttons: buttons,
+      data: data
+    }, options));
     scope.$digest();
 
     return {scope, element, ctrl, promise};
   }
 
   const click = new CustomEvent('click');
+
+  describe('dialog', function () {
+
+    let renderDialog;
+    beforeEach(function () {
+      renderDialog = function (config) {
+        config.content = undefined;
+
+        const element = showDialog('<rg-dialog></rg-dialog>', null, null, null, config).element;
+        $rootScope.$apply();
+        return element;
+      };
+    });
+
+    it('should allow pass custom scope to the template', function () {
+      const $scope = $rootScope.$new();
+      $scope.text = 'Hello';
+
+      const element = renderDialog({
+        scope: $scope,
+        template: '<div class="content">{{text}}</div>'
+      });
+
+      element.query('form .content').should.have.html($scope.text);
+    });
+
+    it('should allow pass custom controller', function () {
+      text = 'Hello';
+
+      const element = renderDialog({
+        template: '<div class="content">{{text}}</div>',
+        controller: ['$scope', function ($scope) {
+          $scope.text = text;
+        }]
+      });
+
+      element.query('form .content').should.have.html(text);
+    });
+
+    it('should allow use controllerAs notation', function () {
+      text = 'Hello';
+
+      const element = renderDialog({
+        template: '<div class="content">{{testCtrl.text}}</div>',
+        controllerAs: 'testCtrl',
+        controller: function () {
+          this.text = text;
+        }
+      });
+
+      element.query('form .content').should.have.html(text);
+    });
+
+    it('should allow pass controller name', function () {
+      text = 'Hello';
+
+      const element = renderDialog({
+        template: '<div class="content">{{testCtrl.text}}</div>',
+        controllerAs: 'testCtrl',
+        controller: 'testCtrl'
+      });
+
+      element.query('form .content').should.have.html(text);
+    });
+
+    it('should allow custom locals dependencies to the controller', function () {
+      text = 'Hello';
+      const greetingService = this.sinon.stub().returns(text);
+
+      const element = renderDialog({
+        template: '<div class="content">{{text}}</div>',
+        locals: {
+          greeting: greetingService
+        },
+        controller: ['$scope', 'greeting', function ($scope, greeting) {
+          $scope.text = greeting();
+        }]
+      });
+
+      element.query('form .content').should.have.html(text);
+    });
+
+    it('should allow pass resolve object', function () {
+      text = 'Hello';
+      const greetingResolver = this.sinon.stub().returns(text);
+
+      const element = renderDialog({
+        template: '<div class="content">{{text}}</div>',
+        resolve: {
+          greeting: greetingResolver
+        },
+        controller: ['$scope', 'greeting', function ($scope, greeting) {
+          $scope.text = greeting;
+        }]
+      });
+
+      element.query('form .content').should.have.html(text);
+    });
+
+    it('should allow pass promise to the resolve', function () {
+      text = 'Hello';
+      const defer = $q.defer(); //eslint-disable-line
+      const greetingResolver = this.sinon.stub().returns(defer.promise);
+
+      defer.resolve(text);
+
+      const element = renderDialog({
+        template: '<div class="content">{{text}}</div>',
+        resolve: {
+          greeting: greetingResolver
+        },
+        controller: ['$scope', 'greeting', function ($scope, greeting) {
+          $scope.text = greeting;
+        }]
+      });
+
+      element.query('form .content').should.have.html(text);
+    });
+
+    it('should allow use old data api in template', function () {
+      const dialogConfig = {
+        data: {
+          text: 'Hello World!'
+        },
+        content: undefined,
+        template: '<div class="content">{{data.text}}</div>'
+      };
+
+      const {element} = showDialog('<rg-dialog></rg-dialog>', null, null, null, dialogConfig);
+      $rootScope.$apply();
+
+      element.query('form .content').should.have.html(dialogConfig.data.text);
+    });
+  });
+
 
   it('should be closed by pressing Esc', function () {
     const {element} = showDialog(
@@ -69,9 +216,11 @@ describe('DialogNg', function () {
       '<div></div>',
       [],
       {},
-      {shortcuts: {
-        esc: this.sinon.spy()
-      }}
+      {
+        shortcuts: {
+          esc: this.sinon.spy()
+        }
+      }
     );
     simulateKeypress(null, 27); // Esc
 
@@ -85,9 +234,11 @@ describe('DialogNg', function () {
       '<div></div>',
       [],
       {},
-      {shortcuts: {
-        esc: callback
-      }}
+      {
+        shortcuts: {
+          esc: callback
+        }
+      }
     );
     simulateKeypress(null, 27); // Esc
 
@@ -105,12 +256,12 @@ describe('DialogNg', function () {
     element.should.not.have.class('active');
   });
 
-  it('should be closed via the service', function () {
+  it('should be closed via the dialog', function () {
     const {element, scope} = showDialog(
       '<rg-dialog></rg-dialog>',
       '<div></div>'
     );
-    service.hide();
+    dialog.hide();
     scope.$digest();
 
     element.should.not.have.class('active');
@@ -129,14 +280,14 @@ describe('DialogNg', function () {
     element.query('.content').should.have.text('qwe');
   });
 
-  it('should be updated via the service', function () {
+  it('should be updated via the dialog', function () {
     const {element, scope} = showDialog(
       '<rg-dialog></rg-dialog>',
       '<div class="content">{{dialog.data.prop}}</div>',
       [],
       {prop: 'asd'}
     );
-    service.update({data: {prop: 'qwe'}});
+    dialog.update({data: {prop: 'qwe'}});
     scope.$digest();
 
     element.query('.content').should.have.text('qwe');
@@ -149,7 +300,7 @@ describe('DialogNg', function () {
     );
     const callback = this.sinon.stub();
     scope.$$childHead.$on('dialog.show', callback); // eslint-disable-line angular/no-private-call
-    service.show();
+    dialog.show();
 
     callback.should.have.been.called;
   });
@@ -172,7 +323,7 @@ describe('DialogNg', function () {
     const callback = this.sinon.stub();
 
     promise.then(callback);
-    service.done();
+    dialog.done();
     scope.$digest();
 
     callback.should.have.been.called;
@@ -186,7 +337,7 @@ describe('DialogNg', function () {
     const callback = this.sinon.stub();
 
     promise.catch(callback);
-    service.reset();
+    dialog.reset();
     scope.$digest();
 
     callback.should.have.been.called;
@@ -321,7 +472,10 @@ describe('DialogNg', function () {
 
       document.dispatchEvent(mouseup);
 
-      getRect(container).should.contain({bottom: viewport.height - 10, right: viewport.width - 10});
+      getRect(container).should.contain({
+        bottom: viewport.height - 10,
+        right: viewport.width - 10
+      });
     });
   });
 
@@ -345,20 +499,6 @@ describe('DialogNg', function () {
       const {element} = showDialog('<rg-dialog></rg-dialog>', null, null, null, dialogConfig);
 
       element.query('form').should.contain('.content');
-    });
-
-    it('should allow use data in template scope', function () {
-      const dialogConfig = {
-        data: {
-          text: 'Hello World!'
-        },
-        content: undefined,
-        template: '<div class="content">{{data.text}}</div>'
-      };
-
-      const {element} = showDialog('<rg-dialog></rg-dialog>', null, null, null, dialogConfig);
-
-      element.query('form .content').should.have.html(dialogConfig.data.text);
     });
   });
 
