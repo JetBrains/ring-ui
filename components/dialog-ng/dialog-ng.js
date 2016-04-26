@@ -15,42 +15,42 @@ import '../dialog/dialog.scss';
  <file name="index.html">
  <div ng-app="Example.dialog" class="very-long-page">
 
- <script type="template" id="dialog-template">
- <div>
- <div class="ring-form__group">
- <label class="ring-form__label" for="dialog__key">Key</label>
- <div class="ring-form__control">
- <input id="dialog__key" class="ring-input" type="text">
- </div>
- </div>
+   <script type="template" id="dialog-template">
+     <div>
+       <div class="ring-form__group">
+         <label class="ring-form__label" for="dialog__key">Key</label>
+         <div class="ring-form__control">
+           <input id="dialog__key" class="ring-input" type="text">
+         </div>
+       </div>
 
- <div class="ring-form__group">
- <label class="ring-form__label" for="dialog__name">Name</label>
- <div class="ring-form__control">
- <input id="dialog__name" class="ring-input" type="text">
- <div class="ring-error-bubble active">Wrong value</div>
- <div class="ring-form__control__description">Description</div>
- </div>
- </div>
+       <div class="ring-form__group">
+         <label class="ring-form__label" for="dialog__name">Name</label>
+         <div class="ring-form__control">
+           <input id="dialog__name" class="ring-input" type="text">
+           <div class="ring-error-bubble active">Wrong value</div>
+           <div class="ring-form__control__description">Description</div>
+         </div>
+       </div>
 
- <div class="ring-form__group">
- <label for="rg-select-demo" class="ring-form__label">Rg Select in Form</label>
- <div class="ring-form__control">
- <rg-select options="item.name for item in dialogExampleCtrl.arr track by item.name" id="rg-select-demo"></rg-select>
- </div>
- </div>
+       <div class="ring-form__group">
+         <label for="rg-select-demo" class="ring-form__label">Rg Select in Form</label>
+         <div class="ring-form__control">
+           <rg-select options="item.name for item in dialogExampleCtrl.arr track by item.name" id="rg-select-demo"></rg-select>
+         </div>
+       </div>
 
- <div class="ring-form__group">
- <label for="textarea-demo" class="ring-form__label">Textarea in Form</label>
- <div class="ring-form__control">
- <textarea id="textarea-demo" class="ring-input"></textarea>
- </div>
- </div>
- </div>
- </script>
+       <div class="ring-form__group">
+         <label for="textarea-demo" class="ring-form__label">Textarea in Form</label>
+         <div class="ring-form__control">
+           <textarea id="textarea-demo" class="ring-input"></textarea>
+         </div>
+       </div>
+     </div>
+   </script>
 
- <div rg-dialog=""></div>
- <div  ng-controller="ExampleCtrl"></div>
+   <div rg-dialog=""></div>
+   <div  ng-controller="ExampleCtrl"></div>
  </file>
  <file name="style.scss">
  .custom-css-class-button-right {
