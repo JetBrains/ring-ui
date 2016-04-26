@@ -61,6 +61,10 @@ $ring-checkbox-size: 13px;
     border: 1px solid $ring-blue-color;
   }
 
+  &:not(:checked) + .ring-checkbox__icon .ring-icon {
+    display: none;
+  }
+
   &:focus + .ring-checkbox__icon,
   &:focus:checked + .ring-checkbox__icon,
   &:hover:not([disabled]) + .ring-checkbox__icon,
