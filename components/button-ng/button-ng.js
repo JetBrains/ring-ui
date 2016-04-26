@@ -3,15 +3,12 @@
 import 'dom4';
 import 'core-js/modules/es7.array.includes';
 
-import {registerComponents, reactNg} from '../react-ng/react-ng';
-import Icon from '../icon/icon';
+import Icon from '../icon-ng/icon-ng';
 
 import '../progress-bar/progress-bar.scss';
 import '../button/button.scss';
 
-registerComponents({Icon});
-
-const module = angular.module('Ring.button', [reactNg]);
+const module = angular.module('Ring.button', [Icon]);
 const ORDER_NOT_DEFINED = '-1';
 
 class ButtonController {
@@ -69,14 +66,12 @@ class ButtonController {
 
     if (glyph) {
       cl.add('ring-button_icon');
-      icon.setAttribute('react-static', 'Icon');
-      icon.setAttribute('react-value-glyph', glyph);
-      icon.setAttribute('react-size', size);
+      icon.setAttribute('glyph', glyph);
+      icon.setAttribute('size', size);
     } else {
       cl.remove('ring-button_icon');
-      icon.removeAttribute('react-static');
-      icon.removeAttribute('react-value-glyph');
-      icon.removeAttribute('react-size');
+      icon.removeAttribute('glyph');
+      icon.removeAttribute('size');
     }
 
     this.$compile(icon)(this.$scope);
@@ -167,20 +162,20 @@ export default module.name;
         <p>
           <rg-button tabindex="1">
             <span>Press me</span>
-            <span react-static="Icon" react-size="16" react-value-glyph="{{trash}}"></span>
+            <rg-icon size="16" glyph="{{trash}}"></rg-icon>
           </rg-button>
           <rg-button tabindex="2">
-            <span react-static="Icon" react-size="16" react-value-glyph="{{trash}}"></span>
+            <rg-icon size="16" glyph="{{trash}}"></rg-icon>
             <span>Press me</span>
           </rg-button>
           <rg-button tabindex="3">
-            <span react-static="Icon" react-size="16" react-value-glyph="{{trash}}"></span>
+            <rg-icon size="16" glyph="{{trash}}"></rg-icon>
             <span>Press me</span>
-            <span react-static="Icon" react-size="16" react-value-glyph="{{trash}}"></span>
+            <rg-icon size="16" glyph="{{trash}}"></rg-icon>
           </rg-button>
           <rg-button tabindex="4">
             <span>Press me</span>
-            <span react-static="Icon" react-size="16" react-value-glyph="{{trash}}"></span>
+            <rg-icon size="16" glyph="{{trash}}"></rg-icon>
             <span>Press me</span>
           </rg-button>
         </p>
@@ -190,8 +185,9 @@ export default module.name;
     <file name="index.js" webpack="true">
       require('angular');
       require('ring-ui/components/button-ng/button-ng');
+      require('ring-ui/components/icon-ng/icon-ng');
 
-      angular.module('test', ['Ring.button']).controller('testCtrl', function($scope) {
+      angular.module('test', ['Ring.button', 'Ring.icon']).controller('testCtrl', function($scope) {
         $scope.pencil = require('jetbrains-icons/pencil.svg');
         $scope.caretDown = require('jetbrains-icons/caret-down.svg');
         $scope.trash = require('jetbrains-icons/trash.svg');
