@@ -116,12 +116,11 @@ const module = angular.module('Ring.dialog', [RingButton]);
 class DialogController {
   static BODY_MODAL_CLASS = 'ring-dialog-modal';
 
-  constructor($scope, $q, dialog, dialogInSidebar, $compile, $rootScope, $injector, $controller) {
+  constructor($scope, $q, dialog, dialogInSidebar, $compile, $injector, $controller) {
     const dialogService = this.inSidebar ? dialogInSidebar : dialog;
 
     this.$scope = $scope;
     this.$compile = $compile;
-    this.$rootScope = $rootScope;
     this.$injector = $injector;
     this.$controller = $controller;
     this.$q = $q;
