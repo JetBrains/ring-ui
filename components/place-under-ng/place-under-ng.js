@@ -8,6 +8,8 @@ import 'dom4';
 import debounce from 'mout/function/debounce';
 import ResizeSensor from 'css-element-queries/src/ResizeSensor';
 
+import {getDocumentScrollTop} from '../dom/dom';
+
 /**
  * @name Place Under Ng
  * @description Sidebar trying to fill the entire right half of its container.
@@ -40,11 +42,12 @@ import ResizeSensor from 'css-element-queries/src/ResizeSensor';
     require('./example.scss');
     require('angular');
     require('ring-ui/components/place-under-ng/place-under-ng');
+    var dom = require('ring-ui/components/dom/dom');
 
     window.addEventListener('scroll', function(){
       var target = document.querySelector('.target-element');
 
-      var scrolledTop = (document.documentElement && document.documentElement.scrollTop) || document.body.scrollTop;
+      var scrolledTop = dom.getDocumentScrollTop();
       if (scrolledTop > 30) {
         target.style.position = 'fixed';
       } else {
@@ -136,7 +139,7 @@ module.directive('rgPlaceUnder', function ($window, getClosestElementWithCommonP
        */
       function syncPositionWith(syncWithElement) {
         const sidebarScrollListener = debounce(() => {
-          const documentScrollTop = (document.documentElement && document.documentElement.scrollTop) || document.body.scrollTop;
+          const documentScrollTop = getDocumentScrollTop();
           const dcoumentOffsetHeight = (document.documentElement && document.documentElement.offsetHeight) || document.body.offsetHeight;
 
           const syncedElementHeight = syncWithElement.offsetHeight;

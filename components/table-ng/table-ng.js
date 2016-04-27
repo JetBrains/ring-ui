@@ -1,7 +1,7 @@
 import 'dom4';
 import debounce from 'mout/function/debounce';
 
-import {getStyles, getRect} from '../dom/dom';
+import {getStyles, getRect, getWindowHeight} from '../dom/dom';
 
 import Selection from './table-ng__selection';
 import SelectionNavigateActions from './table-ng__selection-navigate-actions';
@@ -365,10 +365,9 @@ module.directive('rgTableRow', function () {
       function getRowOutOfViewInfo(el, offsetInRows) {
         const rect = getRect(el);
         const offset = rect.height * offsetInRows;
-        const windowHeight = window.innerHeight || document.documentElement.clientHeight;
 
         const isGoneUp = rect.top < offset;
-        const isGoneDown = rect.bottom > (windowHeight - offset);
+        const isGoneDown = rect.bottom > (getWindowHeight() - offset);
 
         return {
           offset: offset,
