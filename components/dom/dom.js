@@ -22,3 +22,15 @@ export function getRect(node) {
 export function getPixelRatio() {
   return 'devicePixelRatio' in window ? window.devicePixelRatio : 1;
 }
+
+export function getWindowHeight() {
+  return window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+}
+
+export function getDocumentScrollTop() {
+  return (document.documentElement && document.documentElement.scrollTop) || document.body.scrollTop;
+}
+
+export function getDocumentScrollLeft() {
+  return (document.documentElement && document.documentElement.scrollLeft) || document.body.scrollLeft;
+}

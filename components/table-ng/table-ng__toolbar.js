@@ -1,5 +1,8 @@
 /*global angular*/
 import 'dom4';
+
+import {getDocumentScrollTop} from '../dom/dom';
+
 import debounce from 'mout/function/debounce';
 
 /**
@@ -30,7 +33,7 @@ module.directive('rgTableToolbar', function () {
       let savedToolbarTop;
 
       const toolbarScrollListener = debounce(function () {
-        const scrolledTop = (document.documentElement && document.documentElement.scrollTop) || document.body.scrollTop;
+        const scrolledTop = getDocumentScrollTop();
         const elementTop = element.getBoundingClientRect().top + scrolledTop;
         const toolbarTop = savedToolbarTop || elementTop;
 

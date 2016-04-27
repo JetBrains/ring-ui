@@ -7,7 +7,7 @@ import {render, unmountComponentAtNode} from 'react-dom';
 import classNames from 'classnames';
 
 import RingComponentWithShortcuts from '../ring-component/ring-component_with-shortcuts';
-import {getStyles, isMounted, getRect} from '../dom/dom';
+import {getStyles, isMounted, getRect, getDocumentScrollLeft, getDocumentScrollTop} from '../dom/dom';
 
 import './popup.scss';
 
@@ -563,8 +563,8 @@ export default class Popup extends RingComponentWithShortcuts {
 
   _getBodyScroll() {
     return {
-      left: window.pageXOffset || document.documentElement.scrollLeft,
-      top: window.pageYOffset || document.documentElement.scrollTop
+      left: getDocumentScrollLeft(),
+      top: getDocumentScrollTop()
     };
   }
 
