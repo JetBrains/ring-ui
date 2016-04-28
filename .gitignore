@@ -8,10 +8,6 @@
 
 # OS
 .DS_Store
-.sass-cache
-ehthumbs.db
-libpeerconnection.log
-Icon?
 Thumbs.db
 
 # Generated

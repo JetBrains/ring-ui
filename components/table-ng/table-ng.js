@@ -1,7 +1,7 @@
 import 'dom4';
 import debounce from 'mout/function/debounce';
 
-import {getStyles, getRect} from '../dom/dom';
+import {getStyles, getRect, getWindowHeight} from '../dom/dom';
 
 import Selection from './table-ng__selection';
 import SelectionNavigateActions from './table-ng__selection-navigate-actions';
@@ -10,12 +10,9 @@ import PlaceUnder from '../place-under-ng/place-under-ng';
 
 import TablePager from './table-ng__pager';
 
-import {registerComponents, reactNg} from '../react-ng/react-ng';
-import Checkbox from '../checkbox/checkbox';
+import Checkbox from '../checkbox-ng/checkbox-ng';
 
 import '../table/table.scss';
-
-registerComponents({Checkbox});
 
 /*global angular*/
 
@@ -189,7 +186,7 @@ registerComponents({Checkbox});
   </file>
 </example>
 */
-const module = angular.module('Ring.table', [TableToolbar, TablePager, reactNg, PlaceUnder]);
+const module = angular.module('Ring.table', [TableToolbar, TablePager, Checkbox, PlaceUnder]);
 
 module.directive('rgTable', function () {
   return {
@@ -368,10 +365,9 @@ module.directive('rgTableRow', function () {
       function getRowOutOfViewInfo(el, offsetInRows) {
         const rect = getRect(el);
         const offset = rect.height * offsetInRows;
-        const windowHeight = window.innerHeight || document.documentElement.clientHeight;
 
         const isGoneUp = rect.top < offset;
-        const isGoneDown = rect.bottom > (windowHeight - offset);
+        const isGoneDown = rect.bottom > (getWindowHeight() - offset);
 
         return {
           offset: offset,
@@ -405,7 +401,7 @@ module.directive('rgTableHeaderCheckbox', function () {
     restrict: 'E',
     require: '^rgTable',
     replace: true,
-    template: '<div react="Checkbox" on-change="onClickChange" class="ring-table__header-checkbox" ng-model="allChecked"/>',
+    template: '<span class="ring-table__header-checkbox"><rg-checkbox on-click="onClickChange" ng-model="allChecked"/></span>',
     link: function (scope, iElement, iAttrs, tableCtrl) {
       // todo: reduce number of recheckSelection() calls
       scope.allChecked = false;
@@ -452,7 +448,7 @@ module.directive('rgTableCheckboxCell', function () {
     transclude: true,
     require: '^rgTableRow',
     replace: true,
-    template: '<td class="ring-table__selector ring-table__column_selector" ng-class="{\'ring-table__column\': !isEmbedded}"><div react="Checkbox" ng-model="getRowItem().checked"/></td>',
+    template: '<td class="ring-table__selector ring-table__column_selector" ng-class="{\'ring-table__column\': !isEmbedded}"><rg-checkbox ng-model="getRowItem().checked"/></td>',
     link: function (scope, iElement, iAttrs, rowCtrl) {
       /**
        * rowItem getter to use it as ng-model for checkbox
