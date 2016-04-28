@@ -1,5 +1,8 @@
 import debounce from 'mout/function/debounce';
 import 'dom4';
+
+import {getWindowHeight, getDocumentScrollTop} from '../dom/dom';
+
 import './docked-panel-ng.scss';
 
 /**
@@ -49,14 +52,6 @@ module.directive('rgDockedPanel', function () {
        * @type {Element} panel
        */
       const panel = element[0];
-
-      function getWindowHeight() {
-        return window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
-      }
-
-      function getDocumentScrollTop() {
-        return (document.documentElement && document.documentElement.scrollTop) || document.body.scrollTop;
-      }
 
       /**
        * Save panel initial rects and left margin for further use

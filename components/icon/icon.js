@@ -10,37 +10,9 @@ import classNames from 'classnames';
 import RingComponent from '../ring-component/ring-component';
 import urlUtils from '../url-utils/url-utils';
 import ClassName from '../class-name/class-name';
+
+import {Color, Size} from './icon__constants';
 import './icon.scss';
-
-/**
- * Commonly used icon colors.
- * @enum {string}
- */
-const Color = {
-  BLUE: 'blue',
-  DEFAULT: '',
-  GRAY: 'gray',
-  GREEN: 'green',
-  ORANGE: 'orange',
-  RED: 'red',
-  WHITE: 'white'
-};
-
-/**
- * @enum {number}
- */
-const Size = {
-  Size12: 12,
-  Size14: 14,
-  Size16: 16,
-  Size18: 18,
-  Size32: 32,
-  Size40: 40,
-  Size48: 48,
-  Size64: 64,
-  Size96: 96,
-  Size128: 128
-};
 
 /**
  * @name Icon
@@ -210,7 +182,6 @@ export default class Icon extends RingComponent {
 
     const classes = classNames(
       {
-        [baseClass.getModifier(size)]: true,
         [baseClass.getModifier(currentColor)]: !!currentColor,
         [baseClass.getClassName()]: true
       },

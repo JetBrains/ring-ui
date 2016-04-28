@@ -13,7 +13,7 @@ function resolveLoader(loader) {
 
 var htmlLoaderOptions = '?' + JSON.stringify({
   collapseBooleanAttributes: false,
-  attrs: 'span:react-value-glyph',
+  attrs: 'span:react-value-glyph rg-icon:glyph',
   root: require('jetbrains-icons')
 });
 

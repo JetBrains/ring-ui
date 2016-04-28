@@ -101,7 +101,7 @@
     "mocha": "2.3.3",
     "serve-static": "1.9.2",
     "slug": "0.8.0",
-    "wallaby-webpack": "0.0.17",
+    "wallaby-webpack": "0.0.22",
     "webpack": "1.12.14",
     "webpack-config-merger": "0.0.5",
     "webpack-dev-server": "1.14.1"
@@ -132,6 +132,7 @@
     "react-addons-test-utils": "15.0.1",
     "react-dom": "15.0.1",
     "sass-loader": "3.1.2",
+    "scrollbar-width": "3.1.1",
     "simply-uuid": "1.0.1",
     "sniffr": "1.1.4",
     "style-loader": "0.13.0",
