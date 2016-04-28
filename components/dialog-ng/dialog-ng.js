@@ -3,6 +3,7 @@ import 'dom4';
 import {getStyles, getRect} from '../dom/dom';
 import shortcuts from '../shortcuts/shortcuts';
 import RingButton from '../button-ng/button-ng';
+import scrollbarWidth from 'scrollbar-width';
 
 import '../button/button.scss';
 import '../dialog/dialog.scss';
@@ -11,72 +12,77 @@ import '../dialog/dialog.scss';
  * @name Dialog-ng
  * @example
  <example name="Dialog">
-   <file name="index.html">
-     <div ng-app="Example.dialog" class="very-long-page">
+ <file name="index.html">
+ <div ng-app="Example.dialog" class="very-long-page">
 
-     <script type="template" id="dialog-template">
-       <div ng-controller="DialogExampleCtrl as dialogExampleCtrl">
-         <div class="ring-form__group">
-           <label class="ring-form__label" for="dialog__key">Key</label>
-           <div class="ring-form__control">
-             <input id="dialog__key" class="ring-input" type="text">
-           </div>
-         </div>
-         <div class="ring-form__group">
-           <label class="ring-form__label" for="dialog__name">Name</label>
-           <div class="ring-form__control">
-             <input id="dialog__name" class="ring-input" type="text">
-             <div class="ring-error-bubble active">Wrong value</div>
-             <div class="ring-form__control__description">Description</div>
-           </div>
-         </div>
-         <div class="ring-form__group">
-           <label for="rg-select-demo" class="ring-form__label">Rg Select in Form</label>
-           <div class="ring-form__control">
-             <rg-select options="item.name for item in dialogExampleCtrl.arr track by item.name" id="rg-select-demo"></rg-select>
-           </div>
-         </div>
-         <div class="ring-form__group">
-           <label for="textarea-demo" class="ring-form__label">Textarea in Form</label>
-           <div class="ring-form__control">
-             <textarea id="textarea-demo" class="ring-input"></textarea>
-           </div>
+   <script type="template" id="dialog-template">
+     <div>
+       <div class="ring-form__group">
+         <label class="ring-form__label" for="dialog__key">Key</label>
+         <div class="ring-form__control">
+           <input id="dialog__key" class="ring-input" type="text">
          </div>
        </div>
-     </script>
 
-     <div rg-dialog=""></div>
-     <div  ng-controller="ExampleCtrl"></div>
-   </file>
-   <file name="style.scss">
-      .custom-css-class-button-right {
+       <div class="ring-form__group">
+         <label class="ring-form__label" for="dialog__name">Name</label>
+         <div class="ring-form__control">
+           <input id="dialog__name" class="ring-input" type="text">
+           <div class="ring-error-bubble active">Wrong value</div>
+           <div class="ring-form__control__description">Description</div>
+         </div>
+       </div>
+
+       <div class="ring-form__group">
+         <label for="rg-select-demo" class="ring-form__label">Rg Select in Form</label>
+         <div class="ring-form__control">
+           <rg-select options="item.name for item in dialogExampleCtrl.arr track by item.name" id="rg-select-demo"></rg-select>
+         </div>
+       </div>
+
+       <div class="ring-form__group">
+         <label for="textarea-demo" class="ring-form__label">Textarea in Form</label>
+         <div class="ring-form__control">
+           <textarea id="textarea-demo" class="ring-input"></textarea>
+         </div>
+       </div>
+     </div>
+   </script>
+
+   <div rg-dialog=""></div>
+   <div  ng-controller="ExampleCtrl"></div>
+ </file>
+ <file name="style.scss">
+ .custom-css-class-button-right {
         float: right;
       }
-      .very-long-page {
+ .very-long-page {
         height: 2000px;
       }
-   </file>
-   <file name="index.js" webpack="true">
-     require('ring-ui/components/dialog/dialog.scss');
-     require('ring-ui/components/panel/panel.scss');
-     require('ring-ui/components/input-size/input-size.scss');
+ </file>
+ <file name="index.js" webpack="true">
+ require('ring-ui/components/dialog/dialog.scss');
+ require('ring-ui/components/panel/panel.scss');
+ require('ring-ui/components/input-size/input-size.scss');
 
-     require('angular/angular');
-     require('ring-ui/components/dialog-ng/dialog-ng'),
-     require('ring-ui/components/select-ng/select-ng');
+ require('angular/angular');
+ require('ring-ui/components/dialog-ng/dialog-ng'),
+ require('ring-ui/components/select-ng/select-ng');
 
-     require('./style.scss');
+ require('./style.scss');
 
-     angular.module('Example.dialog', ['Ring.dialog', 'Ring.select'])
-     .controller('ExampleCtrl', function($q, $timeout, dialog) {
+ angular.module('Example.dialog', ['Ring.dialog', 'Ring.select'])
+ .controller('ExampleCtrl', function($q, $timeout, dialog) {
+     $timeout(function () {
         dialog.show({
           cssClass: 'custom-css-class',
           title: 'Test',
           shortcuts: {
             'ctrl+enter': angular.noop
           },
-          closeOnClick: true,
           template: document.getElementById('dialog-template').innerHTML,
+          controllerAs: 'dialogExampleCtrl',
+          controller: 'DialogExampleCtrl',
           buttons: [
             {
               label: 'Save',
@@ -96,22 +102,31 @@ import '../dialog/dialog.scss';
             }
           ]
         });
-     }).controller('DialogExampleCtrl', function(dialog) {
+      }, 500);
+
+     }).controller('DialogExampleCtrl', function() {
         var dialogExampleCtrl = this;
         dialogExampleCtrl.arr = [{name: 'Ada'}, {name: 'Nik'}];
       });
-   </file>
+ </file>
  </example>
  */
 const module = angular.module('Ring.dialog', [RingButton]);
 
 class DialogController {
-  constructor($scope, $q, dialog, dialogInSidebar) {
+  static BODY_MODAL_CLASS = 'ring-dialog-modal';
+
+  constructor($scope, $q, dialog, dialogInSidebar, $compile, $injector, $controller) {
     const dialogService = this.inSidebar ? dialogInSidebar : dialog;
 
     this.$scope = $scope;
+    this.$compile = $compile;
+    this.$injector = $injector;
+    this.$controller = $controller;
     this.$q = $q;
     this.dialogService = dialogService;
+
+    this.previousBodyWidth = null;
 
     $q((resolve, reject) => {
       this.resolve = resolve;
@@ -165,11 +180,91 @@ class DialogController {
     return dialogShortcuts;
   }
 
+  preventBodyScrolling() {
+    document.body.classList.add(this.constructor.BODY_MODAL_CLASS);
+
+    const scrollWidth = scrollbarWidth();
+    const bodyHasScroll = document.body.scrollHeight > window.innerHeight;
+    if (bodyHasScroll && scrollWidth > 0) {
+      this.previousBodyWidth = document.body.style.width;
+      document.body.style.width = `calc(100% - ${scrollWidth}px)`;
+    }
+  }
+
+  resetBodyScrollPrevention() {
+    document.body.classList.remove(this.constructor.BODY_MODAL_CLASS);
+    if (this.previousBodyWidth !== null) {
+      document.body.style.width = this.previousBodyWidth;
+      this.previousBodyWidth = null;
+    }
+  }
+
   setTitle(title) {
     this.title = title;
   }
 
+  compileTemplate() {
+    if (this.config.data) {
+      return this.$compile(angular.element(this.template));
+    }
+
+    return this.compile(this.config).then(function (compiledData) {
+      return compiledData.link;
+    });
+  }
+
+  compile(options) {
+    const $q = this.$q;
+    const $controller = this.$controller;
+    const $injector = this.$injector;
+    const $compile = this.$compile;
+    const template = options.template;
+    const controller = options.controller;
+    const controllerAs = options.controllerAs;
+    const resolve = angular.extend({}, options.resolve);
+
+    angular.forEach(resolve, function (value, key) {
+      if (angular.isString(value)) {
+        resolve[key] = $injector.get(value);
+      } else {
+        resolve[key] = $injector.invoke(value);
+      }
+    });
+
+    angular.extend(resolve, options.locals);
+
+    return $q.all(resolve).then(function (locals) {
+      const element = options.element || angular.element('<div>').html(template.trim()).contents();
+      const linkFn = $compile(element);
+
+      return {
+        locals: locals,
+        element: element,
+        link: function (scope) {
+          locals.$scope = scope;
+
+          if (controller) {
+            const invokeCtrl = $controller(controller, locals, true);
+            const ctrl = invokeCtrl();
+
+            element.data('$ngControllerController', ctrl);
+
+            if (controllerAs) {
+              scope[controllerAs] = ctrl;
+            }
+          }
+
+          return linkFn(scope);
+        }
+      };
+    });
+  }
+
   show(config) {
+    if (!this.inSidebar) {
+      this.preventBodyScrolling();
+    }
+
     if (this.active) {
       this.reset();
     }
@@ -191,6 +286,8 @@ class DialogController {
 
       this.content = config.content;
       this.template = config.template;
+
+      this.config = config;
 
       this.description = config.description && config.description.split('\n') || [];
       this.closeOnClick = config.closeOnClick;
@@ -220,6 +317,10 @@ class DialogController {
   }
 
   hide() {
+    if (!this.inSidebar) {
+      this.resetBodyScrollPrevention();
+    }
+
     this.active = false;
     this.content = '';
 
@@ -429,45 +530,11 @@ function rgDialogDirective($timeout) {
       }
     }
 
-
-    function preventDocumentScroll(e) {
-      if (!e.path || !e.path.length) {
-        return;
-      }
-
-      for (let i = 0; i < e.path.length; i++) {
-        const target = e.path[i];
-
-        const hasScroll = target.scrollHeight && target.scrollHeight > target.offsetHeight;
-
-        if (hasScroll) {
-          const scrollDiff = target.scrollTop - (target.scrollHeight - target.offsetHeight);
-          const atTheBegin = target.scrollTop === 0;
-          const atTheEnd = scrollDiff === 0;
-
-          if (atTheEnd && e.deltaY >= 0 || atTheBegin && e.deltaY <= 0) {
-            e.preventDefault();
-          }
-
-          break;
-        } else if (target !== node) {
-          continue;
-        } else { // no scrolls till NODE
-          e.preventDefault();
-          break;
-        }
-      }
-    }
-
     dialogCtrl.resetPosition = () => dialogContainer.removeAttribute('style');
 
     dialogTitle.addEventListener('mousedown', onMousedown);
     document.addEventListener('focusin', onFocusin);
     scope.$on('$includeContentLoaded', () => $timeout(focusFirst));
-
-    node.addEventListener('mousewheel', preventDocumentScroll);
-    node.addEventListener('DOMMouseScroll', preventDocumentScroll);
-    node.addEventListener('touchmove', preventDocumentScroll);
 
     scope.$on('$destroy', () => {
       dialogTitle.removeEventListener('mousedown', onMousedown);
@@ -506,7 +573,7 @@ function rgDialogTitleDirective() {
   };
 }
 
-function rgDialogContentDirective($compile) {
+function rgDialogContentDirective($compile, $q, $rootScope) {
   return {
     link: function (scope, iElement) {
       const element = iElement[0];
@@ -519,15 +586,27 @@ function rgDialogContentDirective($compile) {
         return node;
       }
 
-      function createContentNode() {
+      function compileContent() {
+        contentScope = scope.$new();
+
         if (angular.isDefined(scope.dialog.content)) {
-          return createIncludeNode();
+          return $compile(angular.element(createIncludeNode()))(contentScope)[0];
         }
 
         const node = document.createElement('span');
-        node.innerHTML = scope.dialog.template;
 
-        return node;
+        return $q.when(scope.dialog.compileTemplate(contentScope)).then(function (linkFn) {
+          let templateNode;
+
+          if (scope.dialog.config.data) {
+            templateNode = linkFn(contentScope);
+          } else {
+            templateNode = linkFn(scope.dialog.config.scope || $rootScope.$new());
+          }
+
+          node.appendChild(templateNode[0]);
+          return node;
+        });
       }
 
       function destroy() {
@@ -544,11 +623,9 @@ function rgDialogContentDirective($compile) {
       scope.$on('dialog.show', () => {
         destroy();
 
-        const newContentNode = createContentNode();
-        element.appendChild(newContentNode);
-
-        contentScope = scope.$new();
-        $compile(angular.element(newContentNode))(contentScope);
+        $q.when(compileContent()).then(function (newContentNode) {
+          element.appendChild(newContentNode);
+        });
       });
     }
   };
