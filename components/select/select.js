@@ -92,6 +92,38 @@ const Type = {
    </file>
  </example>
 
+ <example name="Multiple select with description">
+   <file name="index.html">
+     <div id="demo" style="width: 50%;"></div>
+   </file>
+   <file name="index.js" webpack="true">
+     var render = require('react-dom').render;
+     var Select = require('ring-ui/components/select/select');
+     require('ring-ui/components/input-size/input-size.scss');
+
+     var deFlag = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACEAAAAUCAIAAACMMcMmAAAAKklEQVRIx2NgGAWjgAbAh/aI4S7t0agdI9COzx00Rwz/z9Ecjdox8uwAACkGSkKIaGlAAAAAAElFTkSuQmCC';
+     var ruFlag = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAUCAYAAACaq43EAAAAOUlEQVR42u3TUQ0AIAwD0aIGt5OFBtx0mCBNljsD7+uWXwoEDPwPrvKJwJINDDwLvtqZnSwZGHgU3Kx2NIuI4wdUAAAAAElFTkSuQmCC';
+     var icons = [deFlag, ruFlag, undefined];
+
+     var elementsNum = 5;
+     var dataset  = [];
+     for (var i = 0; i < elementsNum; i++) {
+       dataset.push({'label': 'element ' + i, 'key': i, description: 'description ' + i, icon: icons[i % 3]});
+     }
+
+     var props = {
+       data: dataset
+     };
+
+     var select = render(
+     Select.factory(
+       {filter: true, selected: [dataset[0], dataset[3]], multiple: true}),
+       document.getElementById('demo')
+     );
+     select.rerender(props);
+   </file>
+ </example>
+
  <example name="Disabled select">
    <file name="index.html">
      <div id="demo1"></div>

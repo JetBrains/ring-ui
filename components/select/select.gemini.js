@@ -30,4 +30,13 @@ gemini.suite('Select', function () {
       });
   });
 
+  gemini.suite('Multivalue select with options descriptions', function (child) {
+    child
+      .setUrl('/example-multiple-select-with-description')
+      .setCaptureElements('.ring-popup')
+      .capture('selectPopup', function (actions, find) {
+        actions.click(find('.ring-button'));
+      });
+  });
+
 });
