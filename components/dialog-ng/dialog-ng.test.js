@@ -183,6 +183,18 @@ describe('DialogNg', function () {
       element.query('form .content').should.have.html(text);
     });
 
+    it('should render template with more than one root node', function () {
+      const $scope = $rootScope.$new();
+      $scope.text = 'Hello';
+
+      const element = renderDialog({
+        scope: $scope,
+        template: '<div class="content">{{text}}</div><div class="content-2">{{text}}</div>'
+      });
+
+      element.query('form .content-2').should.have.html($scope.text);
+    });
+
     it('should allow use old data api in template', function () {
       const dialogConfig = {
         data: {
