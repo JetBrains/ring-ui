@@ -608,7 +608,7 @@ function rgDialogContentDirective($compile, $q, $rootScope) {
           // XXX(maksimrv): We should put element to directive
           // before link because some directives (shortcuts)
           // depends from global directives (shortcuts-app)
-          element.appendChild(compiledData.element[0]);
+          angular.element(element).append(compiledData.element);
           compiledData.link(templateScope);
         });
       }
