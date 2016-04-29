@@ -27,7 +27,7 @@ export default function ListItem(props) {
           <Icon
             className={classnames({
               'ring-list__checkbox': true,
-              'ring-list__checkbox_hidden': props.checkbox
+              'ring-list__checkbox_hidden': !props.checkbox
             })}
             glyph={require('jetbrains-icons/check.svg')}
             size={Icon.Size.Size18}
