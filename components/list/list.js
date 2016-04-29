@@ -3,18 +3,20 @@
  */
 
 import 'core-js/modules/es6.array.find';
-import React, {PropTypes, createElement, DOM} from 'react';
+import React, {PropTypes, createElement} from 'react';
 import {findDOMNode} from 'react-dom';
-import classNames from 'classnames';
+import classnames from 'classnames';
 import throttle from 'mout/function/throttle';
 
-import RingComponent from '../ring-component/ring-component';
 import RingComponentWithShortcuts from '../ring-component/ring-component_with-shortcuts';
-import Icon from '../icon/icon';
 
 import './list.scss';
-// We have to use require instead of SCSS import for now to avoid double imports
-import '../link/link.scss';
+import ListItem from './list__item';
+import ListCustom from './list__custom';
+import ListLink from './list__link';
+import ListTitle from './list__title';
+import ListSeparator from './list__separator';
+import ListHint from './list__hint';
 
 /**
  * @enum {number}
@@ -35,154 +37,6 @@ const Dimension = {
   TITLE_HEIGHT: 42,
   INNER_PADDING: 8
 };
-
-/**
- * @constructor
- * @extends {RingComponent}
- */
-class ListSeparator extends RingComponent {
-  /** @override */
-  render() {
-    const classes = classNames({
-      'ring-list__separator': true,
-      'ring-list__separator_empty': !this.props.description
-    });
-
-    return (
-      <span className={classes}>{this.props.description}</span>
-      );
-  }
-}
-
-/**
- * @constructor
- * @extends {ReactComponent}
- */
-class ListItem extends RingComponent {
-  /** @override */
-  static defaultProps = {
-    active: false
-  };
-
-  getCheckbox() {
-    if (this.props.checkbox !== undefined) {
-      const cn = 'ring-list__checkbox' + (this.props.checkbox ? '' : ' ring-list__checkbox_hidden');
-      return (
-        <Icon
-          className={cn}
-          glyph={require('jetbrains-icons/check.svg')}
-          size={Icon.Size.Size18}
-        />
-      );
-    }
-  }
-
-  /** @override */
-  render() {
-    const classes = classNames({
-      'ring-list__item': true,
-      'ring-list__item_action': !this.props.disabled,
-      'ring-list__item_active': this.props.active && !this.props.disabled
-    }, this.props.className);
-
-    const style = {
-      paddingLeft: ((+this.props.level || 0) * 8 + 16) + 'px'
-    };
-
-    return (
-      <span
-        {...this.props}
-        className={classes}
-        style={style}
-      >
-        {this.getCheckbox()}
-        {this.props.icon &&
-          <div
-            className="ring-list__icon"
-            style={{backgroundImage: 'url("' + this.props.icon + '")'}}
-          />}
-        {this.props.description &&
-          <div className="ring-list__description">{this.props.description}</div>}
-        {this.props.label}
-      </span>
-    );
-  }
-}
-
-/**
- * @constructor
- * @extends {ReactComponent}
- */
-class ListCustom extends RingComponent {
-  /** @override */
-  static defaultProps = {
-    active: false
-  };
-
-  /** @override */
-  render() {
-    const classes = classNames({
-      'ring-list__item': true,
-      'ring-list__item_action': !this.props.disabled,
-      'ring-list__item_active': this.props.active && !this.props.disabled
-    }, this.props.className);
-
-    const template = (typeof this.props.template === 'function') ? this.props.template(this.props) : this.props.template;
-    return (
-      <span
-        {...this.props}
-        className={classes}
-      >
-        {template}
-      </span>
-    );
-  }
-}
-
-/**
- * @constructor
- * @extends {ReactComponent}
- */
-class ListLink extends RingComponent {
-  /** @override */
-  render() {
-    const classes = classNames({
-      'ring-list__item': true,
-      'ring-link': true,
-      'ring-link_focus': this.props.active && this.props.scrolling
-    });
-
-    const el = this.props.href ? DOM.a : DOM.span;
-    return el(Object.assign({}, this.props, {className: classes}), this.props.label);
-  }
-}
-
-/**
- * @constructor
- * @extends {ReactComponent}
- */
-class ListHint extends RingComponent {
-  /** @override */
-  render() {
-    return <span className="ring-list__item ring-list__item_hint">{this.props.label}</span>;
-  }
-}
-
-/**
- * @constructor
- * @extends {ReactComponent}
- */
-class ListTitle extends RingComponent {
-  /** @override */
-  render() {
-    return (
-      <span className="ring-list__title">
-        <div className="ring-list__description">{this.props.description}</div>
-        <span className="ring-list__title-text">{this.props.label}</span>
-      </span>
-    );
-  }
-}
 
 const DEFAULT_ITEM_TYPE = Type.ITEM;
 
@@ -326,7 +180,8 @@ function isItemType(listItemType, item) {
         {label: 'Some item', key: '1', 'rgItemType': List.ListProps.Type.ITEM, icon: 'http://joomlasocial.ru/jomsocial/images/content/arrowchat/icon(2).png'},
         {label: 'Some item', key: '2', 'rgItemType': List.ListProps.Type.ITEM, description: 'Test item', icon: 'http://gruzimfile.ru/files/russia-flag-icon.png'},
         //Link doesn't support icons
-        {label: 'Some item', key: '3', 'rgItemType': List.ListProps.Type.LINK, description: 'Test item', icon: 'http://www.thg.ru/forum/images/icons/icon6.gif'}
+        {label: 'Some item', key: '3', 'rgItemType': List.ListProps.Type.LINK, description: 'Test item', icon: 'http://www.thg.ru/forum/images/icons/icon6.gif'},
+        {label: 'Some item', key: '4', href: 'http://localhost:9999', description: 'Test item', icon: 'http://www.thg.ru/forum/images/icons/icon6.gif'}
       ];
 
       render(List.factory({
@@ -521,8 +376,8 @@ export default class List extends RingComponentWithShortcuts {
         const item = this.props.data[this.state.activeIndex];
         this.selectHandler({item, event});
 
-        if (item.rgItemType === Type.LINK) {
-          window.location.href = findDOMNode(this.refs['item' + this.state.activeIndex]).href;
+        if (item.href) {
+          window.location.href = item.href;
         }
       });
       return false; // do no propagate event
@@ -775,7 +630,7 @@ export default class List extends RingComponentWithShortcuts {
       topPaddingStyles.height = this.state.renderOptimizationPaddingTop;
       bottomPaddingStyles.height = this.state.renderOptimizationPaddingBottom;
     }
-    const classes = classNames({
+    const classes = classnames({
       'ring-list': true,
       'ring-list_scrolling': this.state.scrolling
     });
@@ -810,7 +665,6 @@ export default class List extends RingComponentWithShortcuts {
             props.onMouseOver = this.hoverHandler.bind(this, realIndex);
             props.tabIndex = -1;
             props.scrolling = this.state.scrolling;
-            props.ref = 'item' + index;
 
             const selectHander = event => this.selectHandler({item, event});
 
