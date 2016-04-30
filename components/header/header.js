@@ -233,7 +233,8 @@ export default class Header extends RingComponent {
     servicesList: null,
     settingsLink: null,
     translationsDict: {
-      login: 'Log in...'
+      login: 'Log in...',
+      help: 'Help'
     },
 
     onHelpOpen: noop,
@@ -653,7 +654,7 @@ export default class Header extends RingComponent {
           href={this.props.helpLink}
           onOpen={this.props.onHelpOpen}
           onClose={this.props.onHelpClose}
-          title="Help"
+          title={this.props.translationsDict.help}
         />
       ),
 
