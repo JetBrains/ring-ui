@@ -1,24 +1,63 @@
 @import '../global/global';
 
-// ring-island
-//
-// Markup:
-//    <div class="ring-island">
-//        <div class="ring-island__content">Content</div>
-//    </div>
-//    <br /><br />
-//    <div class="ring-island">
-//        <div class="ring-island__header">
-//            <span class="ring-island__title">Title</span>
-//            <span class="ring-island__header-button">Button1</span>
-//            <span class="ring-island__header-button">Button2</span>
-//        </div>
-//        <div class="ring-island__content">Content</div>
-//    </div>
-//
-// Styleguide 19.1
+/**
+ * @name Island
+ * @description Ring island markup
+ * @example
+  <example name="Island">
+    <file name="index.html">
+      <div>
+        <div class="ring-island">
+            <div class="ring-island__content">Content</div>
+        </div>
+      </div>
+    </file>
+
+    <file name="index.js" webpack="true">
+      require('ring-ui/components/island/island.scss');
+    </file>
+  </example>
+
+  <example name="Island with header">
+    <file name="index.html">
+      <div>
+        <div class="ring-island">
+          <div class="ring-island__header">
+              <span class="ring-island__title">Title</span>
+          </div>
+          <div class="ring-island__content">Content</div>
+        </div>
+      </div>
+    </file>
+
+    <file name="index.js" webpack="true">
+      require('ring-ui/components/island/island.scss');
+    </file>
+  </example>
+
+  <example name="Island with header and buttons">
+    <file name="index.html">
+      <div>
+        <div class="ring-island">
+          <div class="ring-island__header">
+              <span class="ring-island__title">Title</span>
+              <span class="ring-island__header-button">Button1</span>
+              <span class="ring-island__header-button">Button2</span>
+          </div>
+          <div class="ring-island__content">Content</div>
+        </div>
+      </div>
+    </file>
+
+    <file name="index.js" webpack="true">
+      require('ring-ui/components/island/island.scss');
+    </file>
+  </example>
+*/
 
 .ring-island {
+  @include ring-font;
+
   min-width: $ring-unit*25 - 2;
 
   border: 1px solid;
@@ -45,14 +84,14 @@
 }
 
 .ring-island__header {
-  padding: $ring-unit/2 0 0 $ring-unit;
-  line-height: 17px;
-  font-size: $ring-font-size;
+  min-height: $ring-unit*3 - 2;
+  line-height: $ring-unit*3 - 2;
 
   border-bottom: 1px solid #B4B4B4;
-  border-top-left-radius: 3px;
-  border-top-right-radius: 3px;
-  background: #EBEBEB linear-gradient(to top, #EBEBEB, #FFF);
+  border-top-left-radius: $ring-border-radius;
+  border-top-right-radius: $ring-border-radius;
+
+  background-image: linear-gradient(to top, #EBEBEB, #FFF);
 }
 
 .ring-island__header-btn,
@@ -84,11 +123,12 @@
 }
 
 .ring-island__title {
+  display: block;
+  float: left;
+
   font-weight: bold;
 
   padding: 0 $ring-unit*2;
-
-  color: $ring-text-color;
 }
 
 .ring-island__content {

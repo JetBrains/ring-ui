@@ -205,12 +205,15 @@ class DialogController {
 
   compileTemplate() {
     if (this.config.data) {
-      return this.$compile(angular.element(this.template));
+      const element = angular.element(this.template);
+
+      return {
+        element: element,
+        link: this.$compile(element)
+      };
     }
 
-    return this.compile(this.config).then(function (compiledData) {
-      return compiledData.link;
-    });
+    return this.compile(this.config);
   }
 
   compile(options) {
@@ -586,26 +589,27 @@ function rgDialogContentDirective($compile, $q, $rootScope) {
         return node;
       }
 
+      function isOldDataAPI() {
+        return scope.dialog.config.data;
+      }
+
       function compileContent() {
         contentScope = scope.$new();
 
         if (angular.isDefined(scope.dialog.content)) {
-          return $compile(angular.element(createIncludeNode()))(contentScope)[0];
+          const templateNode = angular.element(createIncludeNode());
+          element.appendChild(templateNode[0]);
+          return $compile(templateNode)(contentScope)[0];
         }
 
-        const node = document.createElement('span');
+        return $q.when(scope.dialog.compileTemplate()).then(function (compiledData) {
+          const templateScope = isOldDataAPI() ? contentScope : (scope.dialog.config.scope || $rootScope.$new());
 
-        return $q.when(scope.dialog.compileTemplate(contentScope)).then(function (linkFn) {
-          let templateNode;
-
-          if (scope.dialog.config.data) {
-            templateNode = linkFn(contentScope);
-          } else {
-            templateNode = linkFn(scope.dialog.config.scope || $rootScope.$new());
-          }
-
-          node.appendChild(templateNode[0]);
-          return node;
+          // XXX(maksimrv): We should put element to directive
+          // before link because some directives (shortcuts)
+          // depends from global directives (shortcuts-app)
+          angular.element(element).append(compiledData.element);
+          compiledData.link(templateScope);
         });
       }
 
@@ -622,10 +626,7 @@ function rgDialogContentDirective($compile, $q, $rootScope) {
 
       scope.$on('dialog.show', () => {
         destroy();
-
-        $q.when(compileContent()).then(function (newContentNode) {
-          element.appendChild(newContentNode);
-        });
+        compileContent();
       });
     }
   };
