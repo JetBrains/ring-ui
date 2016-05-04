@@ -354,7 +354,7 @@ module.directive('rgTableRow', function () {
       };
 
       this.hasCheckedItems = () => {
-        if (this.selection) {
+        if (!this.selection) {
           return false;
         }
         //TODO: cache this operation if perfomance issue exists
