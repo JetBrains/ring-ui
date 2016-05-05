@@ -407,7 +407,8 @@ export default class List extends RingComponentWithShortcuts {
     onSelect: PropTypes.func,
     onScrollToBottom: PropTypes.func,
     useMouseUp: PropTypes.bool,
-    visible: PropTypes.bool
+    visible: PropTypes.bool,
+    disableMoveDownOverflow: PropTypes.bool
   };
 
   static defaultProps = {
@@ -418,7 +419,8 @@ export default class List extends RingComponentWithShortcuts {
     onSelect: function () {},
     onScrollToBottom: function () {},
     shortcuts: false,
-    renderOptimization: true
+    renderOptimization: true,
+    disableMoveDownOverflow: false
   };
 
   static ListHint = ListHint;
@@ -479,8 +481,12 @@ export default class List extends RingComponentWithShortcuts {
     const index = this.state.activeIndex;
     let newIndex;
 
-    if (index === null || index + 1 === this.props.data.length) {
-      newIndex = 0;
+    if ((index === null || index + 1 === this.props.data.length)) {
+      if (!this.props.disableMoveDownOverflow) {
+        newIndex = 0;
+      } else {
+        return;
+      }
     } else {
       newIndex = index + 1;
     }

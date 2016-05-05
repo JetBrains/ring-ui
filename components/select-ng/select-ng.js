@@ -600,6 +600,7 @@ module.directive('rgSelect', function () {
       };
 
       let lastQuery = null;
+      let inProcessQueries = 0;
       ctrl.getOptions = (query, skip) => $q.when(ctrl.optionsParser.getOptions(query, skip));
 
       let loaderDelayTimeout = null;
@@ -612,7 +613,9 @@ module.directive('rgSelect', function () {
           ctrl.selectInstance.rerender({loading: getType() !== 'suggest'});
         }, LOADER_DELAY);
 
+        inProcessQueries++;
         ctrl.getOptions(query, skip).then(results => {
+          inProcessQueries--;
           if (query !== lastQuery) {
             return; // do not process result if its result for other query! ONLY IF QUERY NOT MATCH
           }
@@ -624,6 +627,7 @@ module.directive('rgSelect', function () {
             loading: false
           });
         }).catch(() => {
+          inProcessQueries--;
           $timeout.cancel(loaderDelayTimeout);
           ctrl.selectInstance.rerender({
             loading: false
@@ -783,9 +787,11 @@ module.directive('rgSelect', function () {
 
         if (ctrl.withInfiniteScroll && !ctrl.config.onLoadMore) {
           ctrl.config.onLoadMore = () => {
-            $scope.$evalAsync(() => {
-              ctrl.loadOptionsToSelect(ctrl.query);
-            });
+            if (inProcessQueries === 0) {
+              $scope.$evalAsync(() => {
+                ctrl.loadOptionsToSelect(ctrl.query);
+              });
+            }
           };
         }
 
