@@ -48,7 +48,7 @@ module.directive('rgErrorBubble', function (getFormErrorMessages) {
     },
     replace: true,
     template: require('./form-ng__error-bubble.html'),
-    link: function (scope, iElement) {
+    link: function (scope, iElement, iAttrs) {
       scope.style = {};
 
       const siblings = Array.from(iElement[0].parentNode.children);
@@ -63,6 +63,8 @@ module.directive('rgErrorBubble', function (getFormErrorMessages) {
           break;
         }
       }
+
+      scope.material = iAttrs.material !== undefined;
 
       scope.$watch(function () {
         const result = scope.errorBubble();
