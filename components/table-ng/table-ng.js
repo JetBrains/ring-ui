@@ -401,7 +401,7 @@ module.directive('rgTableHeaderCheckbox', function () {
     restrict: 'E',
     require: '^rgTable',
     replace: true,
-    template: '<span class="ring-table__header-checkbox"><rg-checkbox on-click="onClickChange" ng-model="allChecked"/></span>',
+    template: '<span class="ring-table__header-checkbox"><rg-checkbox ng-click="onClickChange()" ng-model="allChecked"/></span>',
     link: function (scope, iElement, iAttrs, tableCtrl) {
       // todo: reduce number of recheckSelection() calls
       scope.allChecked = false;
@@ -430,9 +430,9 @@ module.directive('rgTableHeaderCheckbox', function () {
       });
       scope.$on('rgTable:selectionChanged', recheckSelection);
 
-      scope.onClickChange = function (newValue) {
+      scope.onClickChange = function () {
         scope.$evalAsync(function () {
-          markAllItemsAs(newValue);
+          markAllItemsAs(scope.allChecked);
         });
       };
     }
