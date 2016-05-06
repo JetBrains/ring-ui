@@ -19,39 +19,39 @@ import '../table/table.scss';
 /** @name Table Ng
  * @description A table component.
  * @example
-<example name="Table-ng">
-  <file name="index.html">
-    <div ng-app="test" ng-controller="tableExample as ctrl">
-      <rg-table-toolbar stick>
-        <div>Some toolbar content. Selected item: {{ctrl.selection.getActiveItem().name}}</div>
-      </rg-table-toolbar>
+ <example name="Table-ng">
+ <file name="index.html">
+ <div ng-app="test" ng-controller="tableExample as ctrl">
+ <rg-table-toolbar stick>
+ <div>Some toolbar content. Selected item: {{ctrl.selection.getActiveItem().name}}</div>
+ </rg-table-toolbar>
 
-      <rg-table items="ctrl.itemsArray" selection="ctrl.selection">
-        <rg-table-header>
-          <rg-table-title>Avatar</rg-table-title>
-          <rg-table-title>Check</rg-table-title>
-          <rg-table-title active>Name</rg-table-title>
-          <rg-table-title>Groups</rg-table-title>
-        </rg-table-header>
+ <rg-table items="ctrl.itemsArray" selection="ctrl.selection">
+ <rg-table-header>
+ <rg-table-title>Avatar</rg-table-title>
+ <rg-table-title>Check</rg-table-title>
+ <rg-table-title active>Name</rg-table-title>
+ <rg-table-title>Groups</rg-table-title>
+ </rg-table-header>
 
-        <rg-table-row row-item="item" ng-repeat="item in ctrl.itemsArray">
-          <rg-table-column avatar>
-            <img ng-if="::item.iconUrl" ng-src="{{ ::item.iconUrl }}" class="ring-table__avatar__img"/>
-          </rg-table-column>
-            <rg-table-checkbox-cell></rg-table-checkbox-cell>
-            <rg-table-column limited>{{ ::item.name }}</rg-table-column>
-             <rg-table-column wide limited>
-                <span class="ring-table__column-list" ng-repeat="subItem in ::item.subList">{{ ::subItem.name }}</span>
-             </rg-table-column>
-          </rg-table-row>
-        </rg-table>
-      </div>
-    </file>
-    <file name="index.js" webpack="true">
-      require('angular');
-      require('ring-ui/components/table-ng/table-ng');
+ <rg-table-row row-item="item" ng-repeat="item in ctrl.itemsArray">
+ <rg-table-column avatar>
+ <img ng-if="::item.iconUrl" ng-src="{{ ::item.iconUrl }}" class="ring-table__avatar__img"/>
+ </rg-table-column>
+ <rg-table-checkbox-cell></rg-table-checkbox-cell>
+ <rg-table-column limited>{{ ::item.name }}</rg-table-column>
+ <rg-table-column wide limited>
+ <span class="ring-table__column-list" ng-repeat="subItem in ::item.subList">{{ ::subItem.name }}</span>
+ </rg-table-column>
+ </rg-table-row>
+ </rg-table>
+ </div>
+ </file>
+ <file name="index.js" webpack="true">
+ require('angular');
+ require('ring-ui/components/table-ng/table-ng');
 
-      angular.module('test', ['Ring.table']).controller('tableExample', function ($scope) {
+ angular.module('test', ['Ring.table']).controller('tableExample', function ($scope) {
         var ctrl = this;
 
         ctrl.itemsArray = [{
@@ -72,78 +72,78 @@ import '../table/table.scss';
         }
 
       });
-    </file>
-  </example>
+ </file>
+ </example>
 
-<example name="Table-ng-no-selection">
-  <file name="index.html">
-    <div ng-app="Ring.table" ng-init="itemsArray = ['first', 'second', 'third', 'fourth']">
-      <rg-table items="itemsArray" disable-selection="true">
-        <rg-table-row row-item="item" ng-repeat="item in itemsArray">
-          <rg-table-column>{{item}}</rg-table-column>
-        </rg-table-row>
-      </rg-table>
-    </div>
-  </file>
-  <file name="index.js" webpack="true">
-    require('angular');
-    require('ring-ui/components/table-ng/table-ng');
-  </file>
-</example>
+ <example name="Table-ng-no-selection">
+ <file name="index.html">
+ <div ng-app="Ring.table" ng-init="itemsArray = ['first', 'second', 'third', 'fourth']">
+ <rg-table items="itemsArray" disable-selection="true">
+ <rg-table-row row-item="item" ng-repeat="item in itemsArray">
+ <rg-table-column>{{item}}</rg-table-column>
+ </rg-table-row>
+ </rg-table>
+ </div>
+ </file>
+ <file name="index.js" webpack="true">
+ require('angular');
+ require('ring-ui/components/table-ng/table-ng');
+ </file>
+ </example>
 
-<example name="Table-ng-with-sidebar">
-  <file name="index.html">
-    <h3>Scroll down to see the effect</h2>
-    <div ng-app="test" ng-controller="tableExample as ctrl">
-      <rg-sidebar show="ctrl.isShowSideBar" place-under-sibling=".some-toolbar"
-                  top-offset="1">
-        <div class="ring-sidebar__title">Here is sidebar content</div>
-        <div class="ring-sidebar__section">{{ctrl.selection.getActiveItem().name}}</div>
-        <rg-select options="item.name for item in ctrl.itemsArray track by item.name"></rg-select>
+ <example name="Table-ng-with-sidebar">
+ <file name="index.html">
+ <h3>Scroll down to see the effect</h2>
+ <div ng-app="test" ng-controller="tableExample as ctrl">
+ <rg-sidebar show="ctrl.isShowSideBar" place-under-sibling=".some-toolbar"
+ top-offset="1">
+ <div class="ring-sidebar__title">Here is sidebar content</div>
+ <div class="ring-sidebar__section">{{ctrl.selection.getActiveItem().name}}</div>
+ <rg-select options="item.name for item in ctrl.itemsArray track by item.name"></rg-select>
 
-        <div react="QueryAssist" ng-model="ctrl.query" x-data-source="ctrl.queryAssistSource(query, caret, omitSuggestions)"></div>
-      </rg-sidebar>
+ <div react="QueryAssist" ng-model="ctrl.query" x-data-source="ctrl.queryAssistSource(query, caret, omitSuggestions)"></div>
+ </rg-sidebar>
 
-      <rg-table-toolbar stick class="some-toolbar">
-        <div>Some toolbar content. Selected
-          item: {{ctrl.selection.getActiveItem().name}}
-          <rg-sidebar-toggle-button model="ctrl.isShowSideBar">Toggle toolbar</hub-expand-table-sidebar>
-        </div>
-      </rg-table-toolbar>
+ <rg-table-toolbar stick class="some-toolbar">
+ <div>Some toolbar content. Selected
+ item: {{ctrl.selection.getActiveItem().name}}
+ <rg-sidebar-toggle-button model="ctrl.isShowSideBar">Toggle toolbar</hub-expand-table-sidebar>
+ </div>
+ </rg-table-toolbar>
 
-      <rg-table items="ctrl.itemsArray" selection="ctrl.selection">
-        <rg-table-header class="example__table-header" stick-to=".some-toolbar">
-          <rg-table-title>Avatar</rg-table-title>
-          <rg-table-title>Check</rg-table-title>
-          <rg-table-title active>Name</rg-table-title>
-          <rg-table-title></rg-table-title>
-        </rg-table-header>
+ <rg-table items="ctrl.itemsArray" selection="ctrl.selection">
+ <rg-table-header class="example__table-header" stick-to=".some-toolbar">
+ <rg-table-title>Avatar</rg-table-title>
+ <rg-table-title>Check</rg-table-title>
+ <rg-table-title active>Name</rg-table-title>
+ <rg-table-title></rg-table-title>
+ </rg-table-header>
 
-        <rg-table-row row-item="item" ng-repeat="item in ctrl.itemsArray">
-          <rg-table-column avatar>
-            <img ng-if="::item.iconUrl" ng-src="{{ ::item.iconUrl }}"
-                 class="ring-table__avatar__img"/>
-          </rg-table-column>
-          <rg-table-checkbox-cell></rg-table-checkbox-cell>
-          <rg-table-column limited>{{::item.name }}</rg-table-column>
-          <rg-table-column>
-            <rg-sidebar-toggle-button ng-show="item.active" model="ctrl.isShowSideBar"></hub-expand-table-sidebar>
-          </rg-table-column>
-        </rg-table-row>
-      </rg-table>
-    </div>
-  </file>
-  <file name="index.js" webpack="true">
-    require('angular');
-    require('ring-ui/components/table-ng/table-ng');
-    require('ring-ui/components/select-ng/select-ng');
-    require('ring-ui/components/sidebar-ng/sidebar-ng');
-    var reactNg = require('ring-ui/components/react-ng/react-ng');
-    var registerComponents = reactNg.registerComponents;
-    var QueryAssist = require('ring-ui/components/query-assist/query-assist');
-    registerComponents({QueryAssist});
+ <rg-table-row row-item="item" ng-repeat="item in ctrl.itemsArray">
+ <rg-table-column avatar>
+ <img ng-if="::item.iconUrl" ng-src="{{ ::item.iconUrl }}"
+ class="ring-table__avatar__img"/>
+ </rg-table-column>
+ <rg-table-checkbox-cell></rg-table-checkbox-cell>
+ <rg-table-column limited>{{::item.name }}</rg-table-column>
+ <rg-table-column>
+ <rg-sidebar-toggle-button ng-show="item.active" model="ctrl.isShowSideBar"></hub-expand-table-sidebar>
+ </rg-table-column>
+ </rg-table-row>
+ </rg-table>
+ </div>
+ </file>
+ <file name="index.js" webpack="true">
+ require('angular');
+ require('ring-ui/components/table-ng/table-ng');
+ require('ring-ui/components/select-ng/select-ng');
+ require('ring-ui/components/sidebar-ng/sidebar-ng');
+ var reactNg = require('ring-ui/components/react-ng/react-ng');
+ var registerComponents = reactNg.registerComponents;
+ var QueryAssist = require('ring-ui/components/query-assist/query-assist');
+ registerComponents({QueryAssist});
 
-    angular.module('test', ['Ring.table', 'Ring.sidebar', 'Ring.select', reactNg.reactNg]).controller('tableExample', function ($timeout, $scope) {
+ angular.module('test', ['Ring.table', 'Ring.sidebar', 'Ring.select', reactNg.reactNg]).controller('tableExample', function ($timeout, $scope) {
     var ctrl = this;
 
     ctrl.query = 'fooo'
@@ -183,9 +183,9 @@ import '../table/table.scss';
 
 
   });
-  </file>
-</example>
-*/
+ </file>
+ </example>
+ */
 const module = angular.module('Ring.table', [TableToolbar, TablePager, Checkbox, PlaceUnder]);
 
 module.directive('rgTable', function () {
@@ -431,9 +431,7 @@ module.directive('rgTableHeaderCheckbox', function () {
       scope.$on('rgTable:selectionChanged', recheckSelection);
 
       scope.onClickChange = function () {
-        scope.$evalAsync(function () {
-          markAllItemsAs(scope.allChecked);
-        });
+        markAllItemsAs(scope.allChecked);
       };
     }
   };
