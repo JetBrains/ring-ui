@@ -10,7 +10,7 @@ export default class RingComponentWithShortcuts extends RingComponent {
         const shortcutsProps = this.getShortcutsProps();
 
         if (!shortcutsProps || !shortcutsProps.map || !shortcutsProps.scope) {
-          throw new Error(`Shortcuts' props weren't provided`);
+          throw new Error('Shortcuts\' props weren\'t provided');
         }
 
         shortcuts.bindMap(shortcutsProps.map, shortcutsProps);

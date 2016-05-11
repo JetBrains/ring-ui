@@ -365,8 +365,12 @@ class DialogController {
             this.reset();
           }
         })
-        .catch(errorMessage => this.error = errorMessage)
-        .finally(() => button.inProgress = false);
+        .catch(errorMessage => {
+          this.error = errorMessage;
+        })
+        .finally(() => {
+          button.inProgress = false;
+        });
     } else if (button.close !== false) {
       this.reset();
     }
