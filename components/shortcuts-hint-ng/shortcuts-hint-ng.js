@@ -128,7 +128,8 @@ function shortcutKeySymbolFilter(shortcut) {
     alt: '⌥',
     ctrl: '⌃',
     backspace: '⌫',
-    esc: 'ESC',
+    esc: 'Esc',
+    tab: 'Tab',
 
     left: '←',
     up: '↑',
@@ -144,6 +145,7 @@ function shortcutKeySymbolFilter(shortcut) {
     ctrl: 'Ctrl',
     backspace: 'Backspace',
     esc: 'Esc',
+    tab: 'Tab',
 
     left: 'Left',
     up: 'Up',
