@@ -137,19 +137,22 @@ function shortcutKeySymbolFilter(shortcut) {
   };
 
   const winSymbolsMap = {
-    enter: 'ENTER',
+    enter: 'Enter',
     shift: 'Shift',
     meta: 'Ctrl',
     alt: 'Alt',
     ctrl: 'Ctrl',
-    backspace: 'BACKSPACE',
-    esc: 'ESC',
+    backspace: 'Backspace',
+    esc: 'Esc',
 
-    left: 'LEFT',
-    up: 'UP',
-    right: 'RIGHT',
-    down: 'DOWN'
+    left: 'Left',
+    up: 'Up',
+    right: 'Right',
+    down: 'Down'
   };
+
+  [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+    .map(number => winSymbolsMap[`f${number}`] = `F${number}`);
 
   const symbolsMap = MAC_OS ? macSymbolsMap : winSymbolsMap;
 
