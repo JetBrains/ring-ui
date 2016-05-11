@@ -677,7 +677,7 @@ module.directive('rgSelect', function () {
           element.addEventListener('click', handler);
           element.addEventListener('keydown', event => {
             const modifier = event.ctrlKey || event.altKey || event.metaKey || event.shiftKey;
-            if (event.keyCode === 13 && !modifier || event.keyCode === 40 || event.keyCode === 32) {//Enter, downkey, spacebar
+            if (event.keyCode === 13 && !modifier || event.keyCode === 40 || event.keyCode === 32) { //Enter, downkey, spacebar
               handler();
             }
           });
