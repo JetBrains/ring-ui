@@ -17,8 +17,6 @@
   },
   "files": [
     ".babelrc",
-    "ring-upsource.js",
-    "ring-upsource-dev.js",
     "components/**/*.{js,scss,gif,html,svg}",
     "webpack.config.js"
   ],
@@ -29,8 +27,6 @@
     "gemini-test": "node tools/gemini-runner.js components/**/*.gemini.js",
     "gemini-test-ci": "node tools/gemini-runner-ci.js",
     "gemini-gather": "node tools/gemini-runner.js --gather",
-    "prebuild-upsource": "webpack tools/ring-upsource.js ring-upsource-dev.js --output-library=ring --bail --optimize-dedupe --optimize-occurence-order",
-    "build-upsource": "webpack tools/ring-upsource.js ring-upsource.js --output-library=ring --bail --optimize-dedupe --optimize-minimize --optimize-occurence-order --define process.env.NODE_ENV=\"'production'\"",
     "build": "node --max-old-space-size=2000 tools/metalsmith.js",
     "start": "node --max-old-space-size=2000 tools/metalsmith.js --server",
     "lint": "eslint .",
@@ -40,8 +36,7 @@
     "test-ci": "karma start karma-ci.conf.js",
     "test-watch": "karma start karma-watch.conf.js",
     "prebuild-ci": "npm run lint-ci && npm run test-ci",
-    "build-ci": "npm run build-upsource && npm run build",
-    "postbuild-ci": "npm run gemini-test-ci",
+    "build-ci": "npm run build && npm run gemini-test-ci",
     "prerelease-ci": "npm run build-ci && npm version $npm_package_config_version && npm pack",
     "release-ci": "npm publish ring-ui-*.tgz"
   },
