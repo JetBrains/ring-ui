@@ -3,7 +3,7 @@
 /* eslint-disable no-var */
 /* eslint-disable modules/no-cjs */
 
-require('babel/polyfill');
+require('babel-polyfill');
 var Gemini = require('gemini/api');
 var geminiTeamcityPlugin = require('gemini-teamcity');
 var http = require('http');

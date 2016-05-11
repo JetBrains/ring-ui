@@ -1,3 +1,5 @@
+/* eslint-disable react/no-multi-comp */
+
 /**
  * @fileoverview Ring Footer.
  */

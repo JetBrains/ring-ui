@@ -10,32 +10,28 @@
     "jetbrains/test"
   ],
   "rules": {
-    //
-    // Rules to be enabled
-    //
-
     // Possible Errors
     "valid-jsdoc": 0,
+
     // Best Practices
     "complexity": [0, 5],
-    "dot-location": [0, "object"],
-    "no-magic-numbers": 0,
-    "no-param-reassign": 0,
+    "consistent-return": 1,
+    "dot-location": [1, "object"],
+    "no-magic-numbers": 1,
+    "no-param-reassign": 1,
     "vars-on-top": 0,
+
     // Stylistic Issues
     "func-names": 0,
-    // ECMAScript 6
-    "object-shorthand": 0,
-    "prefer-arrow-callback": 0,
-    "prefer-template": 0,
-    "modules/no-exports-typo": 0,
-    // React
-    "react/no-multi-comp": 0,
-    "react/prop-types": 0,
 
-    //
-    // Custom configuration
-    //
+    // ECMAScript 6
+    "object-shorthand": 1,
+    "prefer-arrow-callback": 1,
+    "prefer-template": 1,
+    "modules/no-exports-typo": 1,
+
+    // React
+    "react/prop-types": 1,
 
     // Angular
     "angular/directive-name": [2, "rg"],
