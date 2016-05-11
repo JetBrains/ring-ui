@@ -44,8 +44,8 @@ describe('Shortcuts ng hint', function () {
       this.sinon.stub(Sniffr.prototype, 'sniff', function () {
         this.os = {name: 'windows'};
       });
-      shortcutKeySymbolFilter('ctrl+alt+shift+enter+up+down+left+right+backspace')
-        .should.be.equal('Ctrl + Alt + Shift + ENTER + UP + DOWN + LEFT + RIGHT + BACKSPACE');
+      shortcutKeySymbolFilter('ctrl+alt+shift+enter+up+down+left+right+backspace+f4')
+        .should.be.equal('Ctrl + Alt + Shift + Enter + Up + Down + Left + Right + Backspace + F4');
     });
   });
 
