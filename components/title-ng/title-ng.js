@@ -58,7 +58,9 @@ module.service('pageTitle', function ($interpolate) {
     delimiter = newDelimiter || delimiter;
   };
 
-  this.setCurrent = newBase => current = newBase;
+  this.setCurrent = newBase => {
+    current = newBase;
+  };
 
   this.addElement = (element, fieldName) => {
     if (element.$promise) {
