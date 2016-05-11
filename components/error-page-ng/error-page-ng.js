@@ -167,12 +167,11 @@ module.directive('rgErrorPage', [
   'errorPageConfiguration',
   '$route',
   'userPermissions',
-  '$rootScope',
   '$log',
   'getErrorPagePresentation',
   '$q',
   '$compile',
-  function (errorPageConfiguration, $route, userPermissions, $rootScope, $log, getErrorPagePresentation, $q, $compile) {
+  function (errorPageConfiguration, $route, userPermissions, $log, getErrorPagePresentation, $q, $compile) {
     function getArgumentPromise(errorSource, errorPageParameterPresentation) {
       const promise = errorSource && (errorSource.$promise || errorSource.promise);
 
@@ -196,7 +195,9 @@ module.directive('rgErrorPage', [
           return data;
         });
 
-        return $q((...args) => [resolve, reject] = args);
+        return $q((...args) => {
+          [resolve, reject] = args;
+        });
       } else {
         return $q.resolve();
       }
@@ -220,7 +221,9 @@ module.directive('rgErrorPage', [
           }
         });
 
-        return $q((...args) => [resolve, reject] = args);
+        return $q((...args) => {
+          [resolve, reject] = args;
+        });
       } else {
         return $q.resolve();
       }
