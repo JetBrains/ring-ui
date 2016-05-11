@@ -1,3 +1,5 @@
+/* eslint-disable react/no-multi-comp */
+
 import 'angular';
 import 'angular-mocks';
 import React from 'react';
@@ -25,10 +27,10 @@ describe('ReactNg', function () {
   }));
 
   //common checker for properties passing
-  function checkPropertyPassingForTemplate(template, propname, propalue) {
+  function checkPropertyPassingForTemplate(template, propname, propvalue) {
     class TestPropsComponent extends RingComponent {
       render() {
-        expect(this.props[propname]).to.equal(propalue);
+        expect(this.props[propname]).to.equal(propvalue);
         return <div />;
       }
     }

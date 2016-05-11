@@ -1,4 +1,4 @@
-import AnalyticsCustomPluginUtils from'./analytics__custom-plugin-utils';
+import AnalyticsCustomPluginUtils from './analytics__custom-plugin-utils';
 
 export default function AnalyticsCustomPlugin(send, isDevelopment, flushInterval, checkFlushingAllowed) {
   this._data = [];

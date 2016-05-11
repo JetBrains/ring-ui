@@ -118,7 +118,7 @@ export default class Tooltip extends RingComponent {
   }
 
   render() {
-    const {children, title, ...props} = this.props;
+    const {children, title, ...props} = this.props; // eslint-disable-line no-unused-vars
 
     if (Children.count(children) === 1 && typeof children === 'object') {
       return children;
