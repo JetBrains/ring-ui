@@ -811,7 +811,6 @@ export default class QueryAssist extends RingComponentWithShortcuts {
         });
       }
 
-      let label;
       let option;
       let before = false;
       let after = false;
@@ -827,7 +826,7 @@ export default class QueryAssist extends RingComponentWithShortcuts {
       const prefix = !!suggestion.prefix && <span className="ring-list__service">{suggestion.prefix}</span>;
       const suffix = !!suggestion.suffix && <span className="ring-list__service">{suggestion.suffix}</span>;
 
-      label = DOM.span({className: suggestion.className}, prefix, before, option, after, suffix);
+      const label = DOM.span({className: suggestion.className}, prefix, before, option, after, suffix);
 
       const item = {
         key: suggestion.prefix + suggestion.option + suggestion.suffix + suggestion.group + suggestion.description,
