@@ -144,6 +144,7 @@ export default class SelectPopup extends RingComponentWithShortcuts {
           onMouseOut={::this.listOnMouseOut}
           onScrollToBottom={::this.props.onLoadMore}
           shortcuts={this.state.popupShortcuts}
+          disableMoveDownOverflow={this.props.loading}
         />
       );
     }

@@ -55,6 +55,18 @@
 
     background: #FFF;
   }
+
+  &_material {
+    &:before {
+      display: none;
+    }
+
+    padding-left: $ring-unit;
+    box-shadow: none;
+    border: 0;
+    background-color: transparent;
+    background: none;
+  }
 }
 
 /**
