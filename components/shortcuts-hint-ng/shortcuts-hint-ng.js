@@ -151,14 +151,11 @@ function shortcutKeySymbolFilter(shortcut) {
     down: 'Down'
   };
 
-  [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
-    .map(number => winSymbolsMap[`f${number}`] = `F${number}`);
-
   const symbolsMap = MAC_OS ? macSymbolsMap : winSymbolsMap;
 
   return shortcut.
     split(/\+/g).
-    map(symbol => symbolsMap[symbol] || symbol).
+    map(symbol => symbolsMap[symbol] || symbol.toUpperCase()).
     join(KEY_SEPARATOR);
 }
 
