@@ -28,7 +28,7 @@
     "gemini-gather": "node tools/gemini-runner.js --gather",
     "build": "node --max-old-space-size=2000 tools/metalsmith.js",
     "start": "node --max-old-space-size=2000 tools/metalsmith.js --server",
-    "lint": "eslint .",
+    "lint": "eslint --quiet .",
     "lint-hook": "eslint $ESLINT_HOOK_FILES",
     "prelint-ci": "node tools/message-import-reports",
     "lint-ci": "eslint --format jslint-xml . > $npm_package_config_eslint_report",
