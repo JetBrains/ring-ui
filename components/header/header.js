@@ -1,3 +1,5 @@
+/* eslint-disable react/no-multi-comp */
+
 /**
  * @fileoverview Cross-service universal header.
  * @author igor.alexeenko@jetbrains.com (Igor Alekseenko)
