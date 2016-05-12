@@ -22,14 +22,21 @@ describe('Shortcuts ng hint', function () {
       this.sinon.stub(Sniffr.prototype, 'sniff', function () {
         this.os = {name: 'macos'};
       });
-      shortcutKeySymbolFilter('somekey1+somekey2').should.be.equal('somekey1 somekey2');
+      shortcutKeySymbolFilter('S1+S2').should.be.equal('S1 S2');
     });
 
     it('Should replace + with spaces on windows', function () {
       this.sinon.stub(Sniffr.prototype, 'sniff', function () {
         this.os = {name: 'windows'};
       });
-      shortcutKeySymbolFilter('somekey1+somekey2').should.be.equal('somekey1 + somekey2');
+      shortcutKeySymbolFilter('S1+S2').should.be.equal('S1 + S2');
+    });
+
+    it('Should capitalize key if is not in key mapping', function () {
+      this.sinon.stub(Sniffr.prototype, 'sniff', function () {
+        this.os = {name: 'macos'};
+      });
+      shortcutKeySymbolFilter('f2+e').should.be.equal('F2 E');
     });
 
     it('Should replace action keys with symbols on mac', function () {
@@ -44,8 +51,8 @@ describe('Shortcuts ng hint', function () {
       this.sinon.stub(Sniffr.prototype, 'sniff', function () {
         this.os = {name: 'windows'};
       });
-      shortcutKeySymbolFilter('ctrl+alt+shift+enter+up+down+left+right+backspace')
-        .should.be.equal('Ctrl + Alt + Shift + ENTER + UP + DOWN + LEFT + RIGHT + BACKSPACE');
+      shortcutKeySymbolFilter('ctrl+alt+shift+enter+up+down+left+right+backspace+f4')
+        .should.be.equal('Ctrl + Alt + Shift + Enter + Up + Down + Left + Right + Backspace + F4');
     });
   });
 
