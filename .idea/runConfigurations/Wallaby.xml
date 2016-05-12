@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="Wallaby" type="wallaby" factoryName="Wallaby.js" config="$PROJECT_DIR$/wallaby.config.js" node="$USER_HOME$/.nvm/versions/node/v5.5.0/bin/node">
+  <configuration default="false" name="Wallaby" type="wallaby" factoryName="Wallaby.js" config="$PROJECT_DIR$/wallaby.config.js" node="/usr/local/bin/node">
     <method />
   </configuration>
 </component>
