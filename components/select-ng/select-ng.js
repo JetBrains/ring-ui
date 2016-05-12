@@ -7,6 +7,7 @@ import SelectLazy from './select-ng__lazy';
 
 import {render} from 'react-dom';
 import {createElement} from 'react';
+import getEventKey from 'react/lib/getEventKey';
 
 const LOADER_DELAY = 150; // delay to show loader in ms
 
@@ -39,31 +40,31 @@ const LOADER_DELAY = 150; // delay to show loader in ms
  *
  * @example
  *
-<example name="Select-ng-performance">
-  <file name="index.html">
-    <div ng-app="test" ng-controller="testCtrl as ctrl">
-      <div style="padding: 8px">
-        <button type="button" ng-click="ctrl.renderSelects()">Render</button>
-        <button type="button" ng-click="ctrl.selects = []">Remove</button>
+ <example name="Select-ng-performance">
+ <file name="index.html">
+ <div ng-app="test" ng-controller="testCtrl as ctrl">
+ <div style="padding: 8px">
+ <button type="button" ng-click="ctrl.renderSelects()">Render</button>
+ <button type="button" ng-click="ctrl.selects = []">Remove</button>
 
-        <span style="color: gray;">
-          Last render time: <span ng-bind="ctrl.renderTime"></span>
-          | selects counts {{ctrl.selects.length || 0}}
-        </span>
-      </div>
+ <span style="color: gray;">
+ Last render time: <span ng-bind="ctrl.renderTime"></span>
+ | selects counts {{ctrl.selects.length || 0}}
+ </span>
+ </div>
 
-      <rg-select ng-repeat="selectId in ctrl.selects"
-        ng-model="ctrl.selectedItem"
-        options="item.text for item in ctrl.options track by item.id"
-        label="Select item" ng-disabled="ctrl.disabled">
-      </rg-select>
-    </div>
-  </file>
-  <file name="index.js" webpack="true">
-    require('angular');
-    require('ring-ui/components/select-ng/select-ng');
+ <rg-select ng-repeat="selectId in ctrl.selects"
+ ng-model="ctrl.selectedItem"
+ options="item.text for item in ctrl.options track by item.id"
+ label="Select item" ng-disabled="ctrl.disabled">
+ </rg-select>
+ </div>
+ </file>
+ <file name="index.js" webpack="true">
+ require('angular');
+ require('ring-ui/components/select-ng/select-ng');
 
-    angular.module('test', ['Ring.select']).controller('testCtrl', function($timeout) {
+ angular.module('test', ['Ring.select']).controller('testCtrl', function($timeout) {
       var ctrl = this;
       ctrl.renderTime = null;
 
@@ -88,21 +89,21 @@ const LOADER_DELAY = 150; // delay to show loader in ms
         }, 16);
       };
     });
-  </file>
-</example>
-<example name="Select-ng">
-  <file name="index.html">
-    <div ng-app="test" ng-controller="testCtrl as ctrl">
-      <rg-select ng-model="ctrl.selectedItem" options="item.text for item in ctrl.options track by item.id" label="Select item" ng-disabled="ctrl.disabled"></rg-select>
-      <div>Selected item: {{ctrl.selectedItem | json}}</div>
-      <div><button ng-click="ctrl.disabled = true">Disable</button><button ng-click="ctrl.disabled = false">Enable</button></div>
-    </div>
-  </file>
-  <file name="index.js" webpack="true">
-    require('angular');
-    require('ring-ui/components/select-ng/select-ng');
+ </file>
+ </example>
+ <example name="Select-ng">
+ <file name="index.html">
+ <div ng-app="test" ng-controller="testCtrl as ctrl">
+ <rg-select ng-model="ctrl.selectedItem" options="item.text for item in ctrl.options track by item.id" label="Select item" ng-disabled="ctrl.disabled"></rg-select>
+ <div>Selected item: {{ctrl.selectedItem | json}}</div>
+ <div><button ng-click="ctrl.disabled = true">Disable</button><button ng-click="ctrl.disabled = false">Enable</button></div>
+ </div>
+ </file>
+ <file name="index.js" webpack="true">
+ require('angular');
+ require('ring-ui/components/select-ng/select-ng');
 
-    angular.module('test', ['Ring.select']).controller('testCtrl', function() {
+ angular.module('test', ['Ring.select']).controller('testCtrl', function() {
       var ctrl = this;
 
       ctrl.options = [
@@ -113,22 +114,22 @@ const LOADER_DELAY = 150; // delay to show loader in ms
 
       ctrl.selectedItem = ctrl.options[1];
     });
-  </file>
-</example>
+ </file>
+ </example>
 
-<example name="Select-ng-as-input">
-  <file name="index.html">
-    <div ng-app="test" ng-controller="testCtrl as ctrl">
-      <rg-select ng-model="ctrl.selectedItem" options="item.text for item in ctrl.options track by item.id" label="Select item" ng-disabled="ctrl.disabled" type="input"></rg-select>
-      <div>Selected item: {{ctrl.selectedItem | json}}</div>
-      <div><button ng-click="ctrl.disabled = true">Disable</button><button ng-click="ctrl.disabled = false">Enable</button></div>
-    </div>
-  </file>
-  <file name="index.js" webpack="true">
-    require('angular');
-    require('ring-ui/components/select-ng/select-ng');
+ <example name="Select-ng-as-input">
+ <file name="index.html">
+ <div ng-app="test" ng-controller="testCtrl as ctrl">
+ <rg-select ng-model="ctrl.selectedItem" options="item.text for item in ctrl.options track by item.id" label="Select item" ng-disabled="ctrl.disabled" type="input"></rg-select>
+ <div>Selected item: {{ctrl.selectedItem | json}}</div>
+ <div><button ng-click="ctrl.disabled = true">Disable</button><button ng-click="ctrl.disabled = false">Enable</button></div>
+ </div>
+ </file>
+ <file name="index.js" webpack="true">
+ require('angular');
+ require('ring-ui/components/select-ng/select-ng');
 
-    angular.module('test', ['Ring.select']).controller('testCtrl', function() {
+ angular.module('test', ['Ring.select']).controller('testCtrl', function() {
       var ctrl = this;
 
       ctrl.options = [
@@ -139,21 +140,21 @@ const LOADER_DELAY = 150; // delay to show loader in ms
 
       ctrl.selectedItem = ctrl.options[1];
     });
-  </file>
-</example>
+ </file>
+ </example>
 
-<example name="Select-ng-as-model">
-  <file name="index.html">
-    <div ng-app="test" ng-controller="testCtrl as ctrl">
-      <rg-select ng-model="ctrl.selectedItem" options="item.id as item.text for item in ctrl.options track by item.id" label="Select item" ng-disabled="ctrl.disabled"></rg-select>
-      <div>Selected item: {{ctrl.selectedItem}}</div>
-    </div>
-  </file>
-  <file name="index.js" webpack="true">
-    require('angular');
-    require('ring-ui/components/select-ng/select-ng');
+ <example name="Select-ng-as-model">
+ <file name="index.html">
+ <div ng-app="test" ng-controller="testCtrl as ctrl">
+ <rg-select ng-model="ctrl.selectedItem" options="item.id as item.text for item in ctrl.options track by item.id" label="Select item" ng-disabled="ctrl.disabled"></rg-select>
+ <div>Selected item: {{ctrl.selectedItem}}</div>
+ </div>
+ </file>
+ <file name="index.js" webpack="true">
+ require('angular');
+ require('ring-ui/components/select-ng/select-ng');
 
-    angular.module('test', ['Ring.select']).controller('testCtrl', function() {
+ angular.module('test', ['Ring.select']).controller('testCtrl', function() {
       var ctrl = this;
 
       ctrl.options = [
@@ -164,27 +165,27 @@ const LOADER_DELAY = 150; // delay to show loader in ms
 
       ctrl.selectedItem = ctrl.options[1].id;
     });
-  </file>
-</example>
+ </file>
+ </example>
 
-<example name="Select-ng-as-model-lazy">
-  <file name="index.html">
-    <div ng-app="test" ng-controller="testCtrl as ctrl">
-      <p>Be carefully using <b>lazy=false</b> may significantly decrease your performance</p>
-      <p>This case decribe when we take from server ng-model and then asynchronous take options for this model</p>
+ <example name="Select-ng-as-model-lazy">
+ <file name="index.html">
+ <div ng-app="test" ng-controller="testCtrl as ctrl">
+ <p>Be carefully using <b>lazy=false</b> may significantly decrease your performance</p>
+ <p>This case decribe when we take from server ng-model and then asynchronous take options for this model</p>
 
-      <rg-select
-        ng-model="ctrl.selectedItem"
-        lazy="false"
-        options="item.id as item.text for item in ctrl.options track by item.id"></rg-select>
-      <div>Selected item: {{ctrl.selectedItem}}</div>
-    </div>
-  </file>
-  <file name="index.js" webpack="true">
-    require('angular');
-    require('ring-ui/components/select-ng/select-ng');
+ <rg-select
+ ng-model="ctrl.selectedItem"
+ lazy="false"
+ options="item.id as item.text for item in ctrl.options track by item.id"></rg-select>
+ <div>Selected item: {{ctrl.selectedItem}}</div>
+ </div>
+ </file>
+ <file name="index.js" webpack="true">
+ require('angular');
+ require('ring-ui/components/select-ng/select-ng');
 
-    angular.module('test', ['Ring.select']).controller('testCtrl', function($timeout) {
+ angular.module('test', ['Ring.select']).controller('testCtrl', function($timeout) {
       var ctrl = this;
 
       ctrl.selectedItem = 2
@@ -198,22 +199,22 @@ const LOADER_DELAY = 150; // delay to show loader in ms
       }, 1000);
 
     });
-  </file>
-</example>
+ </file>
+ </example>
 
  <example name="Select-ng-promise">
-   <file name="index.html">
-     <h4>Getting items from promise on click with external filtering. (Filter value should be equal to label, not just part)</h4>
-     <div ng-app="test" ng-controller="testCtrl as ctrl">
-      <rg-select ng-model="ctrl.selectedItem" options="item in ctrl.getItems(query)" label="Select item" external-filter="true" loading-message="Hey! I'm loading!"></rg-select>
-      <div>Selected item: {{ctrl.selectedItem | json}}</div>
-     </div>
-   </file>
-   <file name="index.js" webpack="true">
-     require('angular');
-     require('ring-ui/components/select-ng/select-ng');
+ <file name="index.html">
+ <h4>Getting items from promise on click with external filtering. (Filter value should be equal to label, not just part)</h4>
+ <div ng-app="test" ng-controller="testCtrl as ctrl">
+ <rg-select ng-model="ctrl.selectedItem" options="item in ctrl.getItems(query)" label="Select item" external-filter="true" loading-message="Hey! I'm loading!"></rg-select>
+ <div>Selected item: {{ctrl.selectedItem | json}}</div>
+ </div>
+ </file>
+ <file name="index.js" webpack="true">
+ require('angular');
+ require('ring-ui/components/select-ng/select-ng');
 
-     angular.module('test', ['Ring.select']).controller('testCtrl', function($timeout, $q) {
+ angular.module('test', ['Ring.select']).controller('testCtrl', function($timeout, $q) {
           var ctrl = this;
 
           ctrl.options = [
@@ -236,22 +237,22 @@ const LOADER_DELAY = 150; // delay to show loader in ms
             return defer.promise;
           };
       });
-   </file>
+ </file>
  </example>
 
-  <example name="Select-ng-dropdown">
-    <file name="index.html">
-      <h4>Select-ng as dropdown</h4>
-      <div ng-app="test" ng-controller="testCtrl as ctrl">
-        <button rg-select options="item in ctrl.options" select-type="dropdown" filter="true" on-change="ctrl.onSelect(selected)">Click Me &#9660;</button>
-        <ol><li ng-repeat="click in ctrl.clicks track by $index">{{click.label}}</li></ol>
-      </div>
-    </file>
-    <file name="index.js" webpack="true">
-      require('angular');
-      require('ring-ui/components/select-ng/select-ng');
+ <example name="Select-ng-dropdown">
+ <file name="index.html">
+ <h4>Select-ng as dropdown</h4>
+ <div ng-app="test" ng-controller="testCtrl as ctrl">
+ <button rg-select options="item in ctrl.options" select-type="dropdown" filter="true" on-change="ctrl.onSelect(selected)">Click Me &#9660;</button>
+ <ol><li ng-repeat="click in ctrl.clicks track by $index">{{click.label}}</li></ol>
+ </div>
+ </file>
+ <file name="index.js" webpack="true">
+ require('angular');
+ require('ring-ui/components/select-ng/select-ng');
 
-      angular.module('test', ['Ring.select']).controller('testCtrl', function() {
+ angular.module('test', ['Ring.select']).controller('testCtrl', function() {
       var ctrl = this;
 
       ctrl.clicks = [];
@@ -267,24 +268,24 @@ const LOADER_DELAY = 150; // delay to show loader in ms
       };
 
     });
-    </file>
-  </example>
+ </file>
+ </example>
 
-   <example name="Select-ng-inside-dialog">
-    <file name="index.html">
-      <div ng-app="test" ng-controller="testCtrl as ctrl">
-        <div>
-          <h1>Text content to make scroll</h1>
-          <div id="textContent"></div>
-        <rg-dialog></rg-dialog>
-      </div>
-    </file>
-    <file name="index.js" webpack="true">
-      require('angular');
-      require('ring-ui/components/select-ng/select-ng');
-      require('ring-ui/components/dialog-ng/dialog-ng');
+ <example name="Select-ng-inside-dialog">
+ <file name="index.html">
+ <div ng-app="test" ng-controller="testCtrl as ctrl">
+ <div>
+ <h1>Text content to make scroll</h1>
+ <div id="textContent"></div>
+ <rg-dialog></rg-dialog>
+ </div>
+ </file>
+ <file name="index.js" webpack="true">
+ require('angular');
+ require('ring-ui/components/select-ng/select-ng');
+ require('ring-ui/components/dialog-ng/dialog-ng');
 
-      function fillScrollableContent() {
+ function fillScrollableContent() {
         var html = '<h2>Text to scroll</h2>';
         for (var i = 0; i < 100; i++) {
           html += 'Text<br/>'
@@ -292,13 +293,13 @@ const LOADER_DELAY = 150; // delay to show loader in ms
         document.getElementById('textContent').innerHTML = html;
       }
 
-      fillScrollableContent();
+ fillScrollableContent();
 
-      angular.module('test', ['Ring.select', 'Ring.dialog'])
-      .run(function($templateCache) {
+ angular.module('test', ['Ring.select', 'Ring.dialog'])
+ .run(function($templateCache) {
         $templateCache.put('test-tpl.html', '<rg-select ng-model="data.selectedItem" options="item in data.options"></rg-select>');
       })
-      .controller('testCtrl', function($timeout, dialog) {
+ .controller('testCtrl', function($timeout, dialog) {
         var data = {
           options: [
             {key: 1, label: '11111'},
@@ -315,25 +316,25 @@ const LOADER_DELAY = 150; // delay to show loader in ms
           });
         }, 100);
       });
-    </file>
-  </example>
+ </file>
+ </example>
 
-  <example name="Select-ng-multiple">
-    <file name="index.html">
-      <h4>Multiple select</h4>
-      <div ng-app="test" ng-controller="testCtrl as ctrl">
-        <rg-select ng-model="ctrl.selectedItems" options="item in ctrl.options" label="Select item" multiple="ctrl.multiple"></rg-select>
-        <div>Selected items: {{ctrl.selectedItems | json}}</div>
-        <button ng-click="ctrl.selectedItems.splice(0, 1)">Deselect first item</button>
-        <button ng-click="ctrl.options.splice(0, 1)">Remove first option</button>
-        <button ng-click="ctrl.multiple = !ctrl.multiple">Toggle multiple</button>
-      </div>
-    </file>
-    <file name="index.js" webpack="true">
-      require('angular');
-      require('ring-ui/components/select-ng/select-ng');
+ <example name="Select-ng-multiple">
+ <file name="index.html">
+ <h4>Multiple select</h4>
+ <div ng-app="test" ng-controller="testCtrl as ctrl">
+ <rg-select ng-model="ctrl.selectedItems" options="item in ctrl.options" label="Select item" multiple="ctrl.multiple"></rg-select>
+ <div>Selected items: {{ctrl.selectedItems | json}}</div>
+ <button ng-click="ctrl.selectedItems.splice(0, 1)">Deselect first item</button>
+ <button ng-click="ctrl.options.splice(0, 1)">Remove first option</button>
+ <button ng-click="ctrl.multiple = !ctrl.multiple">Toggle multiple</button>
+ </div>
+ </file>
+ <file name="index.js" webpack="true">
+ require('angular');
+ require('ring-ui/components/select-ng/select-ng');
 
-      angular.module('test', ['Ring.select']).controller('testCtrl', function() {
+ angular.module('test', ['Ring.select']).controller('testCtrl', function() {
       var ctrl = this;
       ctrl.multiple = true;
 
@@ -347,37 +348,37 @@ const LOADER_DELAY = 150; // delay to show loader in ms
 
       ctrl.selectedItems = [ctrl.options[1], ctrl.options[2]];
     });
-    </file>
-  </example>
-  <example name="Select-ng-form">
-    <file name="index.html">
-      <h4>Form with validation</h4>
+ </file>
+ </example>
+ <example name="Select-ng-form">
+ <file name="index.html">
+ <h4>Form with validation</h4>
 
-      <div ng-app="test" ng-controller="testCtrl as ctrl">
-        <form name="testForm" class="ring-form ring-form_border" novalidate>
-          <div class="ring-form__wrap">
-            <div class="ring-form__control">
-              <label class="ring-form__label" translate>Required item:</label>
-              <rg-select ng-model="ctrl.item1" options="item as item for item in ctrl.options"
-                         label="Select item" required name="requiredSelect"></rg-select>
+ <div ng-app="test" ng-controller="testCtrl as ctrl">
+ <form name="testForm" class="ring-form ring-form_border" novalidate>
+ <div class="ring-form__wrap">
+ <div class="ring-form__control">
+ <label class="ring-form__label" translate>Required item:</label>
+ <rg-select ng-model="ctrl.item1" options="item as item for item in ctrl.options"
+ label="Select item" required name="requiredSelect"></rg-select>
 
-               <div class="installer-form__error-hint ring-error-bubble active" ng-if="testForm.requiredSelect.$invalid">
-                  Error {{testForm.requiredSelect.$error}}
-               </div>
-            </div>
-            <button ng-disabled="testForm.$invalid">Submit</button>
-            </div>
-            <div>Errors: {{testForm.$error}}</div>
-          </form>
-        </div>
+ <div class="installer-form__error-hint ring-error-bubble active" ng-if="testForm.requiredSelect.$invalid">
+ Error {{testForm.requiredSelect.$error}}
+ </div>
+ </div>
+ <button ng-disabled="testForm.$invalid">Submit</button>
+ </div>
+ <div>Errors: {{testForm.$error}}</div>
+ </form>
+ </div>
 
-      </file>
-      <file name="index.js" webpack="true">
-        require('angular');
-        require('ring-ui/components/select-ng/select-ng');
-        require('ring-ui/components/form-ng/form-ng');
+ </file>
+ <file name="index.js" webpack="true">
+ require('angular');
+ require('ring-ui/components/select-ng/select-ng');
+ require('ring-ui/components/form-ng/form-ng');
 
-        angular.module('test', ['Ring.select', 'Ring.form']).controller('testCtrl', function() {
+ angular.module('test', ['Ring.select', 'Ring.form']).controller('testCtrl', function() {
         var ctrl = this;
 
         //It is not required to use array of strings. Just for example
@@ -385,25 +386,25 @@ const LOADER_DELAY = 150; // delay to show loader in ms
 
         ctrl.selectedItem = null;
       });
-      </file>
-    </example>
-    <example name="Select-ng-load-more-on-scroll">
-      <file name="index.html">
-        <h4>Load more elements on scroll</h4>
+ </file>
+ </example>
+ <example name="Select-ng-load-more-on-scroll">
+ <file name="index.html">
+ <h4>Load more elements on scroll</h4>
 
-        <div ng-app="test" ng-controller="testCtrl as ctrl">
-           <rg-select ng-model="ctrl.selectedItem"
-                      external-filter="true"
-                      with-infinite-scroll="true"
-                      options="item as item for item in ctrl.getOptions(skip, query)"></rg-select>
-        </div>
-      </file>
-      <file name="index.js" webpack="true">
-        require('angular');
-        require('ring-ui/components/select-ng/select-ng');
-        require('ring-ui/components/form-ng/form-ng');
+ <div ng-app="test" ng-controller="testCtrl as ctrl">
+ <rg-select ng-model="ctrl.selectedItem"
+ external-filter="true"
+ with-infinite-scroll="true"
+ options="item as item for item in ctrl.getOptions(skip, query)"></rg-select>
+ </div>
+ </file>
+ <file name="index.js" webpack="true">
+ require('angular');
+ require('ring-ui/components/select-ng/select-ng');
+ require('ring-ui/components/form-ng/form-ng');
 
-        angular.module('test', ['Ring.select', 'Ring.form']).controller('testCtrl', function($q, $timeout) {
+ angular.module('test', ['Ring.select', 'Ring.form']).controller('testCtrl', function($q, $timeout) {
           var ctrl = this;
           var PAGE_SIZE = 20;
 
@@ -427,8 +428,8 @@ const LOADER_DELAY = 150; // delay to show loader in ms
           };
           ctrl.selectedItem = null;
         });
-      </file>
-    </example>
+ </file>
+ </example>
  */
 /* global angular: false */
 const module = angular.module('Ring.select', [SelectNgOptions, MessageBundle]);
@@ -676,8 +677,10 @@ module.directive('rgSelect', function () {
           };
           element.addEventListener('click', handler);
           element.addEventListener('keydown', event => {
+            const key = getEventKey(event);
             const modifier = event.ctrlKey || event.altKey || event.metaKey || event.shiftKey;
-            if (event.keyCode === 13 && !modifier || event.keyCode === 40 || event.keyCode === 32) {//Enter, downkey, spacebar
+
+            if (key === 'Enter' && !modifier || key === 'ArrowDown' || event.keyCode === 'Spacebar') {
               handler();
             }
           });
