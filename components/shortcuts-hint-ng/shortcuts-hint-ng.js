@@ -128,7 +128,8 @@ function shortcutKeySymbolFilter(shortcut) {
     alt: '⌥',
     ctrl: '⌃',
     backspace: '⌫',
-    esc: 'ESC',
+    esc: 'Esc',
+    tab: 'Tab',
 
     left: '←',
     up: '↑',
@@ -137,25 +138,26 @@ function shortcutKeySymbolFilter(shortcut) {
   };
 
   const winSymbolsMap = {
-    enter: 'ENTER',
+    enter: 'Enter',
     shift: 'Shift',
     meta: 'Ctrl',
     alt: 'Alt',
     ctrl: 'Ctrl',
-    backspace: 'BACKSPACE',
-    esc: 'ESC',
+    backspace: 'Backspace',
+    esc: 'Esc',
+    tab: 'Tab',
 
-    left: 'LEFT',
-    up: 'UP',
-    right: 'RIGHT',
-    down: 'DOWN'
+    left: 'Left',
+    up: 'Up',
+    right: 'Right',
+    down: 'Down'
   };
 
   const symbolsMap = MAC_OS ? macSymbolsMap : winSymbolsMap;
 
   return shortcut.
     split(/\+/g).
-    map(symbol => symbolsMap[symbol] || symbol).
+    map(symbol => symbolsMap[symbol] || symbol.toUpperCase()).
     join(KEY_SEPARATOR);
 }
 
