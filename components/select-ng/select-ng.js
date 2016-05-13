@@ -680,7 +680,7 @@ module.directive('rgSelect', function () {
             const key = getEventKey(event);
             const modifier = event.ctrlKey || event.altKey || event.metaKey || event.shiftKey;
 
-            if (key === 'Enter' && !modifier || key === 'ArrowDown' || event.keyCode === 'Spacebar') {
+            if (key === 'Enter' && !modifier || key === 'ArrowDown' || key === ' ') {
               handler();
             }
           });
