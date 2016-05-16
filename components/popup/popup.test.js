@@ -9,13 +9,13 @@ import {getStyles, getRect} from '../dom/dom';
 
 import Popup from './popup';
 
-describe('Popup', function () {
-  it('should create component', function () {
+describe('Popup', () => {
+  it('should create component', () => {
     const popup = renderIntoDocument(createElement(Popup, null));
     popup.should.exist;
   });
 
-  it('should be closed by pressing esc', function () {
+  it('should be closed by pressing esc', () => {
     const popup = renderIntoDocument(createElement(Popup, null));
     popup.show();
     simulateKeypress(null, 27); // Esc
@@ -23,12 +23,12 @@ describe('Popup', function () {
     should.not.exist(popup.node);
   });
 
-  it('should call callback after rendering', function (done) {
+  it('should call callback after rendering', done => {
     // Timeout will be exceeded when done isn't called
     Popup.renderPopup(createElement(Popup, null), {onRender: done});
   });
 
-  it('should put popup in custom container if passed', function () {
+  it('should put popup in custom container if passed', () => {
     const container = document.createElement('div');
 
     Popup.renderPopup(createElement(Popup, null), {container});
@@ -36,12 +36,12 @@ describe('Popup', function () {
     container.should.not.be.empty;
   });
 
-  it('should be closed by resizing window', function (done) {
+  it('should be closed by resizing window', done => {
     const popup = renderIntoDocument(createElement(Popup, null));
     const resize = document.createEvent('Event');
     resize.initEvent('resize', true, false);
 
-    setTimeout(function () {
+    setTimeout(() => {
       window.dispatchEvent(resize);
 
       should.not.exist(popup.node);
@@ -50,7 +50,7 @@ describe('Popup', function () {
     });
   });
 
-  it('should save passed container', function () {
+  it('should save passed container', () => {
     const fixedContainer = document.createElement('div');
     fixedContainer.style.position = 'fixed';
     const anchor = document.createElement('div');
@@ -64,17 +64,17 @@ describe('Popup', function () {
     popup.props.container.should.be.equal(fixedContainer);
   });
 
-  describe('close by click', function () {
+  describe('close by click', () => {
     const click = document.createEvent('MouseEvent');
     click.initEvent('click', true, false);
 
     it('should be closed by click outside the element', function (done) {
       const onClose = this.sinon.stub();
       const popup = renderIntoDocument(createElement(Popup, {
-        onClose: onClose
+        onClose
       }));
 
-      setTimeout(function () {
+      setTimeout(() => {
         document.body.dispatchEvent(click);
 
         onClose.should.have.been.called;
@@ -92,7 +92,7 @@ describe('Popup', function () {
         onClose: onCloseStub
       }));
 
-      setTimeout(function () {
+      setTimeout(() => {
         document.body.dispatchEvent(click);
         onCloseStub.should.have.been.calledWith(sinon.match({type: 'click'}));
         done();
@@ -106,7 +106,7 @@ describe('Popup', function () {
         onClose: onCloseStub
       }));
 
-      setTimeout(function () {
+      setTimeout(() => {
         document.body.dispatchEvent(click);
         onCloseStub.should.not.have.been.called;
         done();
@@ -116,10 +116,10 @@ describe('Popup', function () {
     it('shouldn\'t be closed by click outside the element after hide', function (done) {
       const onClose = this.sinon.stub();
       const popup = TestUtils.renderIntoDocument(createElement(Popup, {
-        onClose: onClose
+        onClose
       }));
 
-      setTimeout(function () {
+      setTimeout(() => {
         popup.hide();
         document.body.dispatchEvent(click);
 
@@ -131,12 +131,12 @@ describe('Popup', function () {
     it('shouldn\'t be closed by click outside the element after show', function (done) {
       const onClose = this.sinon.stub();
       const popup = renderIntoDocument(createElement(Popup, {
-        onClose: onClose
+        onClose
       }));
       popup.hide();
       popup.show();
 
-      setTimeout(function () {
+      setTimeout(() => {
         document.body.dispatchEvent(click);
 
         onClose.should.have.been.called;
@@ -144,10 +144,10 @@ describe('Popup', function () {
       });
     });
 
-    it('shouldn\'n t be closed by click inside the element', function (done) {
+    it('shouldn\'n t be closed by click inside the element', done => {
       const popup = renderIntoDocument(createElement(Popup, null));
 
-      setTimeout(function () {
+      setTimeout(() => {
         popup.node.dispatchEvent(click);
 
         popup.node.should.exist;
@@ -156,8 +156,8 @@ describe('Popup', function () {
     });
   });
 
-  describe('positioning', function () {
-    it('top-left direction', function () {
+  describe('positioning', () => {
+    it('top-left direction', () => {
       const element = document.createElement('div');
       element.setAttribute('style', 'position: absolute; top: 10px; left: 15px; width: 50px; height: 50px;');
       document.body.append(element);
@@ -179,7 +179,7 @@ describe('Popup', function () {
       parseInt(getStyles(popupElement).top, 10).should.equal(elementOffset.top - popup.node.clientHeight);
     });
 
-    it('bottom-right corner', function () {
+    it('bottom-right corner', () => {
       const element = document.createElement('div');
       element.setAttribute('style', 'position: absolute; top: 10px; left: 15px; width: 50px; height: 50px;');
       document.body.append(element);
@@ -201,7 +201,7 @@ describe('Popup', function () {
       parseInt(getStyles(popupElement).top, 10).should.equal(elementOffset.top + elementOffset.height);
     });
 
-    it('should add specified offset', function () {
+    it('should add specified offset', () => {
       const OFFSET = 10;
       const element = document.createElement('div');
       element.setAttribute('style', 'position: absolute; top: 10px; left: 15px; width: 50px; height: 50px;');
@@ -226,7 +226,7 @@ describe('Popup', function () {
       parseInt(getStyles(popupElement).top, 10).should.equal(elementOffset.top + elementOffset.height + OFFSET);
     });
 
-    it('Should support minWidth = target', function () {
+    it('Should support minWidth = target', () => {
       const element = document.createElement('div');
       element.setAttribute('style', 'width: 50px; padding-left: 20px;');
       document.body.append(element);
@@ -240,7 +240,7 @@ describe('Popup', function () {
       element.remove();
     });
 
-    it('Should support minWidth = some number in pixels', function () {
+    it('Should support minWidth = some number in pixels', () => {
       const popup = renderIntoDocument(createElement(Popup, {minWidth: '345'}));
 
       parseInt(popup.node.style.minWidth, 10).should.equal(345);

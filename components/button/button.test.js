@@ -3,7 +3,7 @@ import React from 'react';
 import TestUtils from 'react-addons-test-utils';
 import Button from './button';
 
-describe('Button', function () {
+describe('Button', () => {
   beforeEach(function () {
     this.button = TestUtils.renderIntoDocument(React.createElement(Button));
   });

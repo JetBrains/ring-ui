@@ -4,12 +4,12 @@ import AnalyticsCustomPlugin from './analytics__custom-plugin';
 
 const Analytics = analytics.constructor;
 
-describe('analytics singleton', function () {
-  it('should be created', function () {
+describe('analytics singleton', () => {
+  it('should be created', () => {
     expect(analytics).should.exist;
   });
 
-  it('should export correct interface', function () {
+  it('should export correct interface', () => {
     expect(analytics.trackPageView).should.exist;
     expect(analytics.trackEvent).should.exist;
     expect(analytics.trackShortcutEvent).should.exist;
@@ -17,19 +17,19 @@ describe('analytics singleton', function () {
     expect(analytics.track).should.exist;
   });
 
-  describe('ga plugin', function () {
+  describe('ga plugin', () => {
     let gaPlugin;
 
-    beforeEach(function () {
+    beforeEach(() => {
       Reflect.deleteProperty(window, 'ga');
       gaPlugin = new AnalyticsGAPlugin('SOME-ID');
     });
 
-    it('should init ga', function () {
+    it('should init ga', () => {
       expect(window.ga).to.be.defined;
     });
 
-    it('should export interface', function () {
+    it('should export interface', () => {
       expect(gaPlugin.trackPageView).should.exist;
       expect(gaPlugin.trackEvent).should.exist;
     });
@@ -58,29 +58,29 @@ describe('analytics singleton', function () {
     });
   });
 
-  describe('ga plugin with no key and in non-development mode', function () {
+  describe('ga plugin with no key and in non-development mode', () => {
     let gaPlugin;
 
-    beforeEach(function () {
+    beforeEach(() => {
       Reflect.deleteProperty(window, 'ga');
       gaPlugin = new AnalyticsGAPlugin();
     });
 
-    it('should not init ga', function () {
+    it('should not init ga', () => {
       expect(window.ga).to.be.undefined;
       expect(gaPlugin.trackEvent).to.be.function;
       expect(gaPlugin.trackPageView).to.be.function;
     });
   });
 
-  describe('tracking events', function () {
+  describe('tracking events', () => {
     beforeEach(function () {
       this.send = this.sinon.spy();
       this.clock = this.sinon.useFakeTimers();
       this.analytics = new Analytics();
     });
 
-    describe('#enabled', function () {
+    describe('#enabled', () => {
       beforeEach(function () {
         const customPlugin = new AnalyticsCustomPlugin(this.send);
         this.analytics.config([customPlugin]);
@@ -132,7 +132,7 @@ describe('analytics singleton', function () {
         }]);
       });
 
-      describe('trackEntityProperties', function () {
+      describe('trackEntityProperties', () => {
         it('should send all enumerated properties to statistics server on tracking entity', function () {
           const entity = {
             param1: 'first',
@@ -146,10 +146,10 @@ describe('analytics singleton', function () {
           this.clock.tick(10500);
 
           const trackedData = [];
-          trackedProperties.forEach(function (it) {
+          trackedProperties.forEach(it => {
             trackedData.push({
               category: 'sample-entity',
-              action: it + '__' + entity[it]
+              action: `${it}__${entity[it]}`
             });
           });
           this.send.should.have.been.calledWith(trackedData);
@@ -237,7 +237,7 @@ describe('analytics singleton', function () {
         ]);
       });
 
-      describe('flushing restriction', function () {
+      describe('flushing restriction', () => {
         it('flushing should be allowed on second step', function () {
           let counter = 0;
           function flushingIsAllowedOnSecondCheck() {
@@ -261,7 +261,7 @@ describe('analytics singleton', function () {
         });
       });
     });
-    describe('#disabled', function () {
+    describe('#disabled', () => {
       beforeEach(function () {
         this.analytics.config([]);
       });

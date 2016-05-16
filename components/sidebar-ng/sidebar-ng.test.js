@@ -2,7 +2,7 @@ import 'angular';
 import 'angular-mocks';
 import Sidebar from './sidebar-ng';
 
-describe('SidebarNg', function () {
+describe('SidebarNg', () => {
   let scope;
   let element;
   let $compile;
@@ -10,7 +10,7 @@ describe('SidebarNg', function () {
   beforeEach(window.module(Sidebar));
 
   /* global inject */
-  beforeEach(inject(function ($rootScope, _$compile_) {
+  beforeEach(inject(($rootScope, _$compile_) => {
     scope = $rootScope.$new();
     $compile = _$compile_;
 
@@ -24,11 +24,11 @@ describe('SidebarNg', function () {
     scope.$digest();
   }));
 
-  it('Should be showed if showSidebar = true', function () {
+  it('Should be showed if showSidebar = true', () => {
     element[0].should.contain('.ring-sidebar_active');
   });
 
-  it('Should not be showed if showSidebar = false', function () {
+  it('Should not be showed if showSidebar = false', () => {
     scope.isShowSidebar = false;
     scope.$digest();
 

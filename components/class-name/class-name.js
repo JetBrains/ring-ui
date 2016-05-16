@@ -1,56 +1,32 @@
-/**
- * @fileoverview Wrapper to manipulate BEM classes.
- * @author igor.alexeenko (Igor Alekseyenko)
- */
+class ClassName {
+  constructor(baseName) {
+    this.setBaseName(baseName);
+  }
 
+  getClassName(element, modifier) {
+    let className = this.baseName;
 
-/**
- * @param {string} baseName
- * @constructor
- */
-function ClassName(baseName) {
-  this.setBaseName(baseName);
+    if (element) {
+      className += `__${element}`;
+    }
+    if (modifier) {
+      className += `_${modifier}`;
+    }
+
+    return className;
+  }
+
+  getElement(element) {
+    return this.getClassName(element);
+  }
+
+  getModifier(modifier) {
+    return this.getClassName(undefined, modifier);
+  }
+
+  setBaseName(baseName) {
+    this.baseName = baseName;
+  }
 }
-
-/**
- * @param {string=} element
- * @param {string=} modifier
- * @return {string}
- */
-ClassName.prototype.getClassName = function (element, modifier) {
-  let className = this.baseName;
-
-  if (element) {
-    className += '__' + element;
-  }
-  if (modifier) {
-    className += '_' + modifier;
-  }
-
-  return className;
-};
-
-/**
- * @param {string} element
- * @return {string}
- */
-ClassName.prototype.getElement = function (element) {
-  return this.getClassName(element);
-};
-
-/**
- * @param {string} modifier
- * @return {string}
- */
-ClassName.prototype.getModifier = function (modifier) {
-  return this.getClassName(undefined, modifier);
-};
-
-/**
- * @param {string} baseName
- */
-ClassName.prototype.setBaseName = function (baseName) {
-  this.baseName = baseName;
-};
 
 export default ClassName;

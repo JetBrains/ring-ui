@@ -9,7 +9,7 @@ import Sniffr from 'sniffr';
 const sniffr = new Sniffr();
 sniffr.sniff();
 
-describe('CheckboxNg', function () {
+describe('CheckboxNg', () => {
   let scope;
   let element;
   let iElement;
@@ -19,7 +19,7 @@ describe('CheckboxNg', function () {
   beforeEach(window.module(Checkbox));
 
   /* global inject */
-  beforeEach(inject(function (_$rootScope_, _$compile_) {
+  beforeEach(inject((_$rootScope_, _$compile_) => {
     $compile = _$compile_;
     $rootScope = _$rootScope_;
     scope = $rootScope.$new();
@@ -29,12 +29,12 @@ describe('CheckboxNg', function () {
     scope.$digest();
   }));
 
-  it('should not be checked by default', function () {
+  it('should not be checked by default', () => {
     element.should.not.contain('input:checked');
     should.not.exist(iElement.controller('ngModel').$viewValue);
   });
 
-  it('should have been set checked by click', function () {
+  it('should have been set checked by click', () => {
     if (sniffr.browser.name === 'ie') {
       return;
     }
@@ -46,30 +46,30 @@ describe('CheckboxNg', function () {
     iElement.controller('ngModel').$viewValue.should.be.true;
   });
 
-  it('should have been set checked by ng-model', function () {
+  it('should have been set checked by ng-model', () => {
     scope.checked = true;
     scope.$digest();
     element.should.contain('input:checked');
   });
 
-  it('should have been set disabled by ng-model', function () {
+  it('should have been set disabled by ng-model', () => {
     scope.disabled = true;
     scope.$digest();
     element.should.contain('input:disabled');
   });
 
-  it('label and input should have same ids', function () {
+  it('label and input should have same ids', () => {
     element.query('input').id.should.equal(element.htmlFor);
   });
 
-  it('should not add additional watchers with disabled expression constant', function () {
+  it('should not add additional watchers with disabled expression constant', () => {
     scope = $rootScope.$new();
     element = $compile('<rg-checkbox disabled="true">Checkbox</rg-checkbox>')(scope)[0];
     scope.$digest();
     should.not.exist(scope.$$watchers); // eslint-disable-line angular/no-private-call
   });
 
-  it('should disable input with disabled expression constant', function () {
+  it('should disable input with disabled expression constant', () => {
     scope = $rootScope.$new();
     element = $compile('<rg-checkbox disabled="true">Checkbox</rg-checkbox>')(scope)[0];
     scope.$digest();

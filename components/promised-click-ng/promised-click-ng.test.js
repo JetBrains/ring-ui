@@ -5,7 +5,7 @@ import 'angular-mocks';
 
 import PromisedClick from './promised-click-ng';
 
-describe('PromisedClickNg', function () {
+describe('PromisedClickNg', () => {
   const click = new CustomEvent('click');
   let $rootScope;
   let $compile;
@@ -14,13 +14,13 @@ describe('PromisedClickNg', function () {
 
   beforeEach(window.module(PromisedClick));
 
-  beforeEach(inject(function (_$rootScope_, _$compile_, _$q_) {
+  beforeEach(inject((_$rootScope_, _$compile_, _$q_) => {
     $rootScope = _$rootScope_;
     $compile = _$compile_;
     $q = _$q_;
   }));
 
-  afterEach(function () {
+  afterEach(() => {
     $rootScope.$destroy();
   });
 
@@ -32,33 +32,31 @@ describe('PromisedClickNg', function () {
     const ctrl = $element.controller('rgPromisedClick');
     const promise = {};
 
-    scope.onClick = function () {
-      return $q((resolve, reject) => {
-        promise.resolve = resolve;
-        promise.reject = reject;
-      });
-    };
+    scope.onClick = () => $q((resolve, reject) => {
+      promise.resolve = resolve;
+      promise.reject = reject;
+    });
 
     scope.$digest();
 
     return {element, scope, ctrl, promise};
   }
 
-  describe('automatic mode', function () {
-    it('should not have the "ring-button_active" class by default', function () {
+  describe('automatic mode', () => {
+    it('should not have the "ring-button_active" class by default', () => {
       const {element} = buildPromisedClick(true);
 
       element.should.not.have.class('ring-button_active');
     });
 
-    it('should add the "ring-button_active" class by clicking', function () {
+    it('should add the "ring-button_active" class by clicking', () => {
       const {element} = buildPromisedClick(true);
       element.dispatchEvent(click);
 
       element.should.have.class('ring-button_active');
     });
 
-    it('should remove the "ring-button_active" class by resolving Promise', function () {
+    it('should remove the "ring-button_active" class by resolving Promise', () => {
       const {element, promise, scope} = buildPromisedClick(true);
       element.dispatchEvent(click);
       promise.resolve();
@@ -67,7 +65,7 @@ describe('PromisedClickNg', function () {
       element.should.not.have.class('ring-button_active');
     });
 
-    it('should remove the "ring-button_active" class by rejecting Promise', function () {
+    it('should remove the "ring-button_active" class by rejecting Promise', () => {
       const {element, promise, scope} = buildPromisedClick(true);
       element.dispatchEvent(click);
       promise.reject();
@@ -77,8 +75,8 @@ describe('PromisedClickNg', function () {
     });
   });
 
-  describe('semi-automatic mode', function () {
-    it('should not have the "ring-button_active" class by default', function () {
+  describe('semi-automatic mode', () => {
+    it('should not have the "ring-button_active" class by default', () => {
       const {element} = buildPromisedClick();
 
       element.should.not.have.class('ring-button_active');
@@ -93,7 +91,7 @@ describe('PromisedClickNg', function () {
       callback.should.have.been.called;
     });
 
-    it('should add the "ring-button_active" class by clicking', function () {
+    it('should add the "ring-button_active" class by clicking', () => {
       const {element, ctrl} = buildPromisedClick();
       ctrl.onClick(() => $q(noop));
       element.dispatchEvent(click);
@@ -101,7 +99,7 @@ describe('PromisedClickNg', function () {
       element.should.have.class('ring-button_active');
     });
 
-    it('should remove the "ring-button_active" class by resolving Promise', function () {
+    it('should remove the "ring-button_active" class by resolving Promise', () => {
       const {element, ctrl} = buildPromisedClick();
       ctrl.onClick(() => $q(resolve => {
         resolve();
@@ -111,7 +109,7 @@ describe('PromisedClickNg', function () {
       element.should.not.have.class('ring-button_active');
     });
 
-    it('should remove the "ring-button_active" class by rejecting Promise', function () {
+    it('should remove the "ring-button_active" class by rejecting Promise', () => {
       const {element, ctrl} = buildPromisedClick();
       ctrl.onClick(() => $q((resolve, reject) => {
         reject();
@@ -122,8 +120,8 @@ describe('PromisedClickNg', function () {
     });
   });
 
-  describe('manual mode', function () {
-    it('should not have the "ring-button_active" class by default', function () {
+  describe('manual mode', () => {
+    it('should not have the "ring-button_active" class by default', () => {
       const {element} = buildPromisedClick();
 
       element.should.not.have.class('ring-button_active');
@@ -137,14 +135,14 @@ describe('PromisedClickNg', function () {
       callback.should.have.been.called;
     });
 
-    it('should add the "ring-button_active" class', function () {
+    it('should add the "ring-button_active" class', () => {
       const {element, ctrl} = buildPromisedClick();
       ctrl.process(() => $q(noop));
 
       element.should.have.class('ring-button_active');
     });
 
-    it('should remove the "ring-button_active" class by resolving Promise', function () {
+    it('should remove the "ring-button_active" class by resolving Promise', () => {
       const {element, ctrl} = buildPromisedClick();
       ctrl.process(() => $q(resolve => {
         resolve();
@@ -153,7 +151,7 @@ describe('PromisedClickNg', function () {
       element.should.not.have.class('ring-button_active');
     });
 
-    it('should remove the "ring-button_active" class by rejecting Promise', function () {
+    it('should remove the "ring-button_active" class by rejecting Promise', () => {
       const {element, ctrl} = buildPromisedClick();
       ctrl.process(() => $q((resolve, reject) => {
         reject();

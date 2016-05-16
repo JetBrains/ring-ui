@@ -6,7 +6,7 @@ import ReactDOM from 'react-dom';
 import TestUtils from 'react-addons-test-utils';
 import ProgressBar from './progress-bar';
 
-describe('ProgressBar', function () {
+describe('ProgressBar', () => {
   beforeEach(function () {
     this.progress = TestUtils.renderIntoDocument(React.createElement(ProgressBar));
   });
@@ -15,13 +15,13 @@ describe('ProgressBar', function () {
     this.progress.should.exist;
   });
 
-  describe('default value for attributes', function () {
+  describe('default value for attributes', () => {
     it('should set default value for max attribute', function () {
       this.progress.props.max.should.equal(1.0);
     });
   });
 
-  describe('client interaction with progress bar API', function () {
+  describe('client interaction with progress bar API', () => {
     it('should set max value for progress bar', function () {
       this.progress.rerender({
         max: 100
@@ -51,7 +51,7 @@ describe('ProgressBar', function () {
    * Test internal(DOM) representation of the
    * component's state
    */
-  describe('#render', function () {
+  describe('#render', () => {
     it('should set min value to equal zero', function () {
       ReactDOM.findDOMNode(this.progress.refs.progressbar).should.have.attr('aria-valuemin', '0');
     });

@@ -1,18 +1,19 @@
-/* eslint-env node */
-/* eslint-disable no-var */
+/* eslint-disable no-console */
 /* eslint-disable modules/no-cjs */
+/* eslint-disable strict */
+'use strict';
 
-var chalk = require('chalk');
+const chalk = require('chalk');
 
 module.exports = function progressPlugin() {
-  var timeMeasureMessage = chalk.blue('Compilation finished in');
+  const timeMeasureMessage = chalk.blue('Compilation finished in');
 
-  this.plugin('compile', function () {
+  this.plugin('compile', () => {
     console.time(timeMeasureMessage);
     console.log(chalk.green('Compilation started...', (new Date()).toTimeString()));
   });
 
-  this.plugin('done', function (stats) {
+  this.plugin('done', stats => {
     if (stats.hasErrors) {
       console.error(chalk.red(stats.toJson().errors.join('\n')));
     }

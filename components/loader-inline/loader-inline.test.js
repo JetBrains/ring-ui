@@ -2,18 +2,18 @@ import React from 'react';
 import TestUtils from 'react-addons-test-utils';
 import LoaderInline from './loader-inline';
 
-describe('LoaderInline', function () {
+describe('LoaderInline', () => {
   let loader;
 
-  beforeEach(function () {
+  beforeEach(() => {
     loader = TestUtils.renderIntoDocument(React.createElement(LoaderInline));
   });
 
-  it('should create component', function () {
+  it('should create component', () => {
     TestUtils.isCompositeComponentWithType(loader, LoaderInline).should.be.true;
   });
 
-  it('should add custom class', function () {
+  it('should add custom class', () => {
     loader.rerender({
       className: 'test'
     });

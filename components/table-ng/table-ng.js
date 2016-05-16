@@ -188,51 +188,52 @@ import '../table/table.scss';
 */
 const module = angular.module('Ring.table', [TableToolbar, TablePager, Checkbox, PlaceUnder]);
 
-module.directive('rgTable', function () {
-  return {
-    restrict: 'E',
-    transclude: true,
-    template: require('./table-ng.html'),
-    controllerAs: 'ctrl',
-    /**
-     *{{
-     *   items: array, items of table
-     *   selection: {Selection}?, a selection object link can be provided to use it outside the table
-     * }}
-     */
-    scope: {
-      items: '=',
-      selection: '=?',
-      disableSelection: '@'
-    },
-    bindToController: true,
-    controller: function ($scope) {
-      if (this.disableSelection) {
-        return;
-      }
+module.directive('rgTable', () => ({
+  restrict: 'E',
+  transclude: true,
+  template: require('./table-ng.html'),
+  controllerAs: 'ctrl',
 
-      /**
-       * Create Selection instance first to make sure it is always awailable
-       * @type {Selection}
-       */
-      this.selection = new Selection(this.items, (name, item, index) => {
-        $scope.$emit(name, item, index);
-        $scope.$broadcast(name, item, index);
-      });
+  /**
+   *{{
+   *   items: array, items of table
+   *   selection: {Selection}?, a selection object link can be provided to use it outside the table
+   * }}
+   */
+  scope: {
+    items: '=',
+    selection: '=?',
+    disableSelection: '@'
+  },
 
-      /**
-       * Updating items when data is initiated or updated
-       */
-      $scope.$watch(() => this.items, newItems => {
-        if (newItems) {
-          this.selection.setItems(newItems);
-        }
-      });
+  bindToController: true,
+
+  controller($scope) {
+    if (this.disableSelection) {
+      return;
     }
-  };
-});
 
-module.directive('rgTableHeader', function (getClosestElementWithCommonParent) {
+    /**
+     * Create Selection instance first to make sure it is always awailable
+     * @type {Selection}
+     */
+    this.selection = new Selection(this.items, (name, item, index) => {
+      $scope.$emit(name, item, index);
+      $scope.$broadcast(name, item, index);
+    });
+
+    /**
+     * Updating items when data is initiated or updated
+     */
+    $scope.$watch(() => this.items, newItems => {
+      if (newItems) {
+        this.selection.setItems(newItems);
+      }
+    });
+  }
+}));
+
+module.directive('rgTableHeader', getClosestElementWithCommonParent => {
   const HEADER_RESIZE_DEBOUNCE = 50;
   const HEADER_SCROLL_DEBOUNCE = 10;
   const TOOLBAR_FIXED_CLASSNAME = 'ring-table__toolbar-controls_fixed';
@@ -242,7 +243,7 @@ module.directive('rgTableHeader', function (getClosestElementWithCommonParent) {
     template: require('./table-ng__header.html'),
     transclude: true,
     replace: true,
-    link: function (scope, iElement, iAttrs) {
+    link(scope, iElement, iAttrs) {
       const element = iElement[0];
       let stickToElement = null;
 
@@ -256,13 +257,13 @@ module.directive('rgTableHeader', function (getClosestElementWithCommonParent) {
       const scrollableHeader = element.query('.ring-table__header:not(.ring-table__header_sticky)');
       const fixedHeader = element.query('.ring-table__header_sticky');
 
-      const toolbarFixed = () => stickToElement.query('.' + TOOLBAR_FIXED_CLASSNAME) !== null;
+      const toolbarFixed = () => stickToElement.query(`.${TOOLBAR_FIXED_CLASSNAME}`) !== null;
 
       /**
        * Sync header columns width with real table
        */
       const resizeFixedHeader = debounce(() => {
-        fixedHeader.style.width = scrollableHeader.offsetWidth + 'px';
+        fixedHeader.style.width = `${scrollableHeader.offsetWidth}px`;
         const titles = fixedHeader.queryAll('.ring-table__title');
 
         titles.forEach((titleElement, index) => {
@@ -303,159 +304,155 @@ module.directive('rgTableHeader', function (getClosestElementWithCommonParent) {
   };
 });
 
-module.directive('rgTableBody', function () {
-  return {
-    restrict: 'E',
-    template: '<tbody ng-transclude></tbody>',
-    transclude: true,
-    replace: true
-  };
-});
+module.directive('rgTableBody', () => ({
+  restrict: 'E',
+  template: '<tbody ng-transclude></tbody>',
+  transclude: true,
+  replace: true
+}));
 
-module.directive('rgTableRow', function () {
-  return {
-    template: require('./table-ng__row.html'),
-    restrict: 'E',
-    transclude: true,
-    replace: true,
-    require: ['^rgTable', 'rgTableRow'],
-    scope: {
-      rowItem: '='
-    },
-    link: function (scope, iElement, iAttrs, ctrls) {
-      const rgTableCtrl = ctrls[0];
-      const rgTableRowCtrl = ctrls[1];
-      rgTableRowCtrl.setSelection(rgTableCtrl.selection);
-    },
-    controllerAs: 'rowCtrl',
-    bindToController: true,
-    controller: function ($scope, $element) {
-      const element = $element[0];
+module.directive('rgTableRow', () => ({
+  template: require('./table-ng__row.html'),
+  restrict: 'E',
+  transclude: true,
+  replace: true,
+  require: ['^rgTable', 'rgTableRow'],
 
-      let watchRowCheckFlag;
-      this.setSelection = selection => {
-        if (!selection) {
-          return;
-        }
+  scope: {
+    rowItem: '='
+  },
 
-        this.selection = selection;
+  link(scope, iElement, iAttrs, ctrls) {
+    const rgTableCtrl = ctrls[0];
+    const rgTableRowCtrl = ctrls[1];
+    rgTableRowCtrl.setSelection(rgTableCtrl.selection);
+  },
 
-        if (!watchRowCheckFlag) {
-          watchRowCheckFlag = $scope.$watch('rowCtrl.rowItem.checked', newValue => {
-            if (newValue !== undefined) {
-              this.selection.triggerSelectionChanged(this.rowItem);
-            }
-          });
-        }
-      };
+  controllerAs: 'rowCtrl',
+  bindToController: true,
 
-      this.setActiveItem = item => {
-        item && !item.unselectable && this.selection && this.selection.activateItem(item);
-      };
+  controller($scope, $element) {
+    const element = $element[0];
 
-      this.hasCheckedItems = () => {
-        if (!this.selection) {
-          return false;
-        }
-        //TODO: cache this operation if perfomance issue exists
-        const checkedItems = this.selection.getCheckedItems();
-        return checkedItems && checkedItems.length > 0;
-      };
-
-      function getRowOutOfViewInfo(el, offsetInRows) {
-        const rect = getRect(el);
-        const offset = rect.height * offsetInRows;
-
-        const isGoneUp = rect.top < offset;
-        const isGoneDown = rect.bottom > (getWindowHeight() - offset);
-
-        return {
-          offset: offset,
-          isOutOfView: isGoneDown || isGoneUp,
-          isGoneUp: isGoneUp,
-          isGoneDown: isGoneDown
-        };
+    let watchRowCheckFlag;
+    this.setSelection = selection => {
+      if (!selection) {
+        return;
       }
 
-      function addSpacingAfterScroll(offset) {
-        if (window.scrollY) {
-          window.scrollBy(0, offset);
-        }
-      }
+      this.selection = selection;
 
-      $scope.$on('rgTable:activateItem', (e, item) => {
-        if (item === this.rowItem) {
-          const scrollInfo = getRowOutOfViewInfo(element, 2);
-          if (scrollInfo.isOutOfView) {
-            element.scrollIntoView(scrollInfo.isGoneUp);
-            addSpacingAfterScroll(scrollInfo.isGoneDown ? scrollInfo.offset : -scrollInfo.offset);
+      if (!watchRowCheckFlag) {
+        watchRowCheckFlag = $scope.$watch('rowCtrl.rowItem.checked', newValue => {
+          if (newValue !== undefined) {
+            this.selection.triggerSelectionChanged(this.rowItem);
           }
-        }
-      });
-    }
-  };
-});
-
-module.directive('rgTableHeaderCheckbox', function () {
-  return {
-    restrict: 'E',
-    require: '^rgTable',
-    replace: true,
-    template: '<span class="ring-table__header-checkbox"><rg-checkbox ng-click="onClickChange()" ng-model="allChecked"/></span>',
-    link: function (scope, iElement, iAttrs, tableCtrl) {
-      // todo: reduce number of recheckSelection() calls
-      scope.allChecked = false;
-
-      function recheckSelection() {
-        if (tableCtrl.items && tableCtrl.items.length) {
-          scope.allChecked = tableCtrl.items.every(function (item) {
-            return item.checked;
-          });
-        } else {
-          scope.allChecked = false;
-        }
-      }
-
-      function markAllItemsAs(state) {
-        tableCtrl.items.forEach(function (item) {
-          item.checked = state;
         });
       }
+    };
 
-      scope.$on('rgTable:itemsChanged', function () {
-        if (scope.allChecked) {
-          markAllItemsAs(true);
-        }
-        recheckSelection();
-      });
-      scope.$on('rgTable:selectionChanged', recheckSelection);
+    this.setActiveItem = item => {
+      item && !item.unselectable && this.selection && this.selection.activateItem(item);
+    };
 
-      scope.onClickChange = function () {
-        markAllItemsAs(scope.allChecked);
+    this.hasCheckedItems = () => {
+      if (!this.selection) {
+        return false;
+      }
+      //TODO: cache this operation if perfomance issue exists
+      const checkedItems = this.selection.getCheckedItems();
+      return checkedItems && checkedItems.length > 0;
+    };
+
+    function getRowOutOfViewInfo(el, offsetInRows) {
+      const rect = getRect(el);
+      const offset = rect.height * offsetInRows;
+
+      const isGoneUp = rect.top < offset;
+      const isGoneDown = rect.bottom > (getWindowHeight() - offset);
+
+      return {
+        offset,
+        isOutOfView: isGoneDown || isGoneUp,
+        isGoneUp,
+        isGoneDown
       };
     }
-  };
-});
+
+    function addSpacingAfterScroll(offset) {
+      if (window.scrollY) {
+        window.scrollBy(0, offset);
+      }
+    }
+
+    $scope.$on('rgTable:activateItem', (e, item) => {
+      if (item === this.rowItem) {
+        const scrollInfo = getRowOutOfViewInfo(element, 2);
+        if (scrollInfo.isOutOfView) {
+          element.scrollIntoView(scrollInfo.isGoneUp);
+          addSpacingAfterScroll(scrollInfo.isGoneDown ? scrollInfo.offset : -scrollInfo.offset);
+        }
+      }
+    });
+  }
+}));
+
+module.directive('rgTableHeaderCheckbox', () => ({
+  restrict: 'E',
+  require: '^rgTable',
+  replace: true,
+  template: '<span class="ring-table__header-checkbox"><rg-checkbox ng-click="onClickChange()" ng-model="allChecked"/></span>',
+
+  link(scope, iElement, iAttrs, tableCtrl) {
+    // todo: reduce number of recheckSelection() calls
+    scope.allChecked = false;
+
+    function recheckSelection() {
+      if (tableCtrl.items && tableCtrl.items.length) {
+        scope.allChecked = tableCtrl.items.every(item => item.checked);
+      } else {
+        scope.allChecked = false;
+      }
+    }
+
+    function markAllItemsAs(state) {
+      tableCtrl.items.forEach(item => {
+        item.checked = state;
+      });
+    }
+
+    scope.$on('rgTable:itemsChanged', () => {
+      if (scope.allChecked) {
+        markAllItemsAs(true);
+      }
+      recheckSelection();
+    });
+    scope.$on('rgTable:selectionChanged', recheckSelection);
+
+    scope.onClickChange = () => {
+      markAllItemsAs(scope.allChecked);
+    };
+  }
+}));
 
 /**
  * A checkbox cell for table. Uses rg-table-row parent directive as model hoster
  */
-module.directive('rgTableCheckboxCell', function () {
-  return {
-    restrict: 'E',
-    transclude: true,
-    require: '^rgTableRow',
-    replace: true,
-    template: '<td class="ring-table__selector ring-table__column_selector" ng-class="{\'ring-table__column\': !isEmbedded}"><rg-checkbox ng-model="getRowItem().checked"/></td>',
-    link: function (scope, iElement, iAttrs, rowCtrl) {
-      /**
-       * rowItem getter to use it as ng-model for checkbox
-       */
-      scope.getRowItem = () => rowCtrl.rowItem;
-      scope.isEmbedded = angular.isDefined(iAttrs.embedded);
-    }
-  };
-});
+module.directive('rgTableCheckboxCell', () => ({
+  restrict: 'E',
+  transclude: true,
+  require: '^rgTableRow',
+  replace: true,
+  template: '<td class="ring-table__selector ring-table__column_selector" ng-class="{\'ring-table__column\': !isEmbedded}"><rg-checkbox ng-model="getRowItem().checked"/></td>',
+
+  link(scope, iElement, iAttrs, rowCtrl) {
+    /**
+     * rowItem getter to use it as ng-model for checkbox
+     */
+    scope.getRowItem = () => rowCtrl.rowItem;
+    scope.isEmbedded = angular.isDefined(iAttrs.embedded);
+  }
+}));
 
 /**
  * Table title wrapper, receive next attributes:
@@ -464,25 +461,24 @@ module.directive('rgTableCheckboxCell', function () {
     active: makes title more bolder
   }}
  */
-module.directive('rgTableTitle', function () {
-  return {
-    restrict: 'E',
-    transclude: true,
-    replace: true,
-    scope: true,
-    template: require('./table-ng__title.html'),
-    link: function (scope, iElement, iAttrs) {
-      /**
-       * One time property assigning without watching through isolated scope helps to improve perfomanse
-       */
-      scope.isBorder = angular.isDefined(iAttrs.border);
-      scope.isActive = angular.isDefined(iAttrs.active);
-      scope.isPullRight = angular.isDefined(iAttrs.pullRight);
-      scope.isAlignRight = angular.isDefined(iAttrs.alignRight);
-      scope.isPullLeft = angular.isDefined(iAttrs.pullLeft);
-    }
-  };
-});
+module.directive('rgTableTitle', () => ({
+  restrict: 'E',
+  transclude: true,
+  replace: true,
+  scope: true,
+  template: require('./table-ng__title.html'),
+
+  link(scope, iElement, iAttrs) {
+    /**
+     * One time property assigning without watching through isolated scope helps to improve perfomanse
+     */
+    scope.isBorder = angular.isDefined(iAttrs.border);
+    scope.isActive = angular.isDefined(iAttrs.active);
+    scope.isPullRight = angular.isDefined(iAttrs.pullRight);
+    scope.isAlignRight = angular.isDefined(iAttrs.alignRight);
+    scope.isPullLeft = angular.isDefined(iAttrs.pullLeft);
+  }
+}));
 
 /**
  * Column wrapper, receive next attributes:
@@ -492,38 +488,37 @@ module.directive('rgTableTitle', function () {
     avatar: for columns contains avatar
   }}
  */
-module.directive('rgTableColumn', function () {
-  return {
-    restrict: 'E',
-    transclude: true,
-    replace: true,
-    scope: true,
-    template: require('./table-ng__column.html'),
-    link: function (scope, iElement, iAttrs) {
-      const element = iElement[0];
+module.directive('rgTableColumn', () => ({
+  restrict: 'E',
+  transclude: true,
+  replace: true,
+  scope: true,
+  template: require('./table-ng__column.html'),
 
-      scope.isLimited = angular.isDefined(iAttrs.limited);
-      scope.isUnlimited = angular.isDefined(iAttrs.unlimited);
-      scope.isAvatar = angular.isDefined(iAttrs.avatar);
-      scope.isWide = angular.isDefined(iAttrs.wide);
-      scope.isAlignRight = angular.isDefined(iAttrs.alignRight);
-      scope.isGray = angular.isDefined(iAttrs.gray);
-      scope.isPullRight = angular.isDefined(iAttrs.pullRight);
-      scope.isPullLeft = angular.isDefined(iAttrs.pullLeft);
+  link(scope, iElement, iAttrs) {
+    const element = iElement[0];
 
-      function adjustUnlimitedColumnWidths() {
-        const unlimitedColumnsCount = element.parentNode.queryAll('.ring-table__column[unlimited]').length;
-        if (unlimitedColumnsCount > 1) {
-          element.style.width = (100 / unlimitedColumnsCount).toFixed() + '%';
-        }
-      }
+    scope.isLimited = angular.isDefined(iAttrs.limited);
+    scope.isUnlimited = angular.isDefined(iAttrs.unlimited);
+    scope.isAvatar = angular.isDefined(iAttrs.avatar);
+    scope.isWide = angular.isDefined(iAttrs.wide);
+    scope.isAlignRight = angular.isDefined(iAttrs.alignRight);
+    scope.isGray = angular.isDefined(iAttrs.gray);
+    scope.isPullRight = angular.isDefined(iAttrs.pullRight);
+    scope.isPullLeft = angular.isDefined(iAttrs.pullLeft);
 
-      if (scope.isUnlimited) {
-        adjustUnlimitedColumnWidths();
+    function adjustUnlimitedColumnWidths() {
+      const unlimitedColumnsCount = element.parentNode.queryAll('.ring-table__column[unlimited]').length;
+      if (unlimitedColumnsCount > 1) {
+        element.style.width = `${(100 / unlimitedColumnsCount).toFixed()}%`;
       }
     }
-  };
-});
+
+    if (scope.isUnlimited) {
+      adjustUnlimitedColumnWidths();
+    }
+  }
+}));
 
 /**
  * Class with default hotkeys navigation actions (e.g. select, clear selection, move up/down)

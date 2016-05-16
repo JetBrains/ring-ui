@@ -8,9 +8,9 @@ const module = angular.module('Ring.form', [MessageBundle, AngularElastic]);
 
 module.factory('getFormErrorMessages', [
   'RingMessageBundle',
-  function (RingMessageBundle) {
+  RingMessageBundle => {
     function msg(id, formError) {
-      const messageBundleId = 'form_' + id;
+      const messageBundleId = `form_${id}`;
       if (RingMessageBundle.hasOwnProperty(messageBundleId)) {
         return RingMessageBundle[messageBundleId]();
       }
@@ -23,7 +23,7 @@ module.factory('getFormErrorMessages', [
       }
     }
 
-    return function (formErrors) {
+    return formErrors => {
       const errorMessages = [];
       for (const key in formErrors) {
         if (formErrors.hasOwnProperty(key) && formErrors[key]) {
@@ -41,130 +41,124 @@ module.factory('getFormErrorMessages', [
  *
  * Where form.name is a reference to angularJS form input
  */
-module.directive('rgErrorBubble', function (getFormErrorMessages) {
-  return {
-    scope: {
-      errorBubble: '&rgErrorBubble'
-    },
-    replace: true,
-    template: require('./form-ng__error-bubble.html'),
-    link: function (scope, iElement, iAttrs) {
-      scope.style = {};
+module.directive('rgErrorBubble', getFormErrorMessages => ({
+  scope: {
+    errorBubble: '&rgErrorBubble'
+  },
 
-      const siblings = Array.from(iElement[0].parentNode.children);
-      let element;
-      let tagName;
+  replace: true,
+  template: require('./form-ng__error-bubble.html'),
 
-      for (let i = 0; i < siblings.length; i++) {
-        tagName = siblings[i].tagName.toLowerCase();
+  link(scope, iElement, iAttrs) {
+    scope.style = {};
 
-        if (tagName === 'input' || tagName === 'textarea') {
-          element = siblings[i];
-          break;
-        }
+    const siblings = Array.from(iElement[0].parentNode.children);
+    let element;
+    let tagName;
+
+    for (let i = 0; i < siblings.length; i++) {
+      tagName = siblings[i].tagName.toLowerCase();
+
+      if (tagName === 'input' || tagName === 'textarea') {
+        element = siblings[i];
+        break;
       }
-
-      scope.material = iAttrs.material !== undefined;
-
-      scope.$watch(function () {
-        const result = scope.errorBubble();
-
-        return result.$invalid && result.$dirty;
-      }, function (active) {
-        scope.active = active;
-
-        if (active && element) {
-          scope.style.left = element.offsetWidth + 2;
-        }
-      });
-
-      scope.getFormErrorMessages = getFormErrorMessages;
     }
-  };
-});
+
+    scope.material = iAttrs.material !== undefined;
+
+    scope.$watch(() => {
+      const result = scope.errorBubble();
+
+      return result.$invalid && result.$dirty;
+    }, active => {
+      scope.active = active;
+
+      if (active && element) {
+        scope.style.left = element.offsetWidth + 2;
+      }
+    });
+
+    scope.getFormErrorMessages = getFormErrorMessages;
+  }
+}));
 /**
  * <input name="confirm" type="password" rg-equal-value="data.password" ng-model="data.confirm">
  * Constraint to be user for confirm password fields.
  */
-module.directive('rgEqualValue', function () {
-  return {
-    require: 'ngModel',
-    link: function (scope, iElement, iAttrs, ngModelCtrl) {
-      const element = iElement[0];
+module.directive('rgEqualValue', () => ({
+  require: 'ngModel',
 
-      function assertEqual(thisValue, thatValue) {
-        ngModelCtrl.$setValidity('equalvalue', thisValue === thatValue);
-      }
+  link(scope, iElement, iAttrs, ngModelCtrl) {
+    const element = iElement[0];
 
-      scope.$watch(iAttrs.rgEqualValue, function (value) {
-        assertEqual(element.value, value);
-      });
-
-      element.addEventListener('keyup', function () {
-        const thatValue = scope.$eval(iAttrs.rgEqualValue);
-        scope.$apply(function () {
-          assertEqual(element.value, thatValue);
-        });
-      });
+    function assertEqual(thisValue, thatValue) {
+      ngModelCtrl.$setValidity('equalvalue', thisValue === thatValue);
     }
-  };
-});
+
+    scope.$watch(iAttrs.rgEqualValue, value => {
+      assertEqual(element.value, value);
+    });
+
+    element.addEventListener('keyup', () => {
+      const thatValue = scope.$eval(iAttrs.rgEqualValue);
+      scope.$apply(() => {
+        assertEqual(element.value, thatValue);
+      });
+    });
+  }
+}));
 /**
  * <input name="name" required type="text" ng-class="form.name | rgInputClass:submitted" ng-model="name">
  *
  * Is intended to be used for the value of ng-class. Accepts a reference to an angularJS form input
  */
-module.filter('rgInputClass', function () {
-  return function (input, submitted) {
-    return {
-      'ring-input': true,
-      'ring-input_error': input.$invalid && (input.$dirty || submitted),
-      'ring-input_correct': !input.$invalid && (input.$dirty || submitted)
-    };
-  };
-});
+module.filter('rgInputClass', () => (input, submitted) => ({
+  'ring-input': true,
+  'ring-input_error': input.$invalid && (input.$dirty || submitted),
+  'ring-input_correct': !input.$invalid && (input.$dirty || submitted)
+}));
 /**
  * <form rg-form-autofill-fix ...>
  *
  * Fixes Chrome bug: https://github.com/angular/angular.js/issues/1460
  */
-module.directive('rgFormAutofillFix', function ($timeout) {
-  return {
-    require: '?form',
-    priority: 10,
-    link: function ($scope, element, attrs, form) {
-      if (form) {
-        let promise;
-        let count = 0;
+module.directive('rgFormAutofillFix', $timeout => ({
+  require: '?form',
+  priority: 10,
 
-        (function poll() {
-          let filled;
+  link($scope, element, attrs, form) {
+    if (form) {
+      let promise;
+      let count = 0;
 
-          angular.forEach(element.find('input'), function (elem) {
-            const $elem = angular.element(elem);
-            const controller = $elem.controller('ngModel');
-            const val = $elem.val();
-            const type = $elem.attr('type');
+      (function poll() {
+        let filled;
 
-            if (controller && val && type !== 'checkbox' && type !== 'radio') {
-              controller.$setViewValue(val);
-              filled = true;
-            }
-          });
+        angular.forEach(element.find('input'), elem => {
+          const $elem = angular.element(elem);
+          const controller = $elem.controller('ngModel');
+          const val = $elem.val();
+          const type = $elem.attr('type');
 
-          if (!filled || count < 5) {
-            promise = $timeout(poll, 150);
-            count++;
+          if (controller && val && type !== 'checkbox' && type !== 'radio') {
+            controller.$setViewValue(val);
+            filled = true;
           }
-        }());
-
-        element.on('$destroy', function () {
-          $timeout.cancel(promise);
         });
 
-      }
+        if (!filled || count < 5) {
+          promise = $timeout(poll, 150);
+          count++;
+        }
+      }());
+
+      element.on('$destroy', () => {
+        $timeout.cancel(promise);
+      });
+
     }
-  };
-});
+  }
+}));
 
 export default module.name;

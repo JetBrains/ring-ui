@@ -64,17 +64,17 @@ module.provider('errorPageConfiguration', function () {
    * @param {?String} config.responseToMessageConverter - name of converter from response to error message factory
    * @param {?Array.<String>} config.links - name of factory which should return array of links to show on error page
    */
-  this.config = function (config) {
+  this.config = config => {
     pageConfiguration = config;
   };
 
   /*@ngInject*/
-  this.$get = function ($injector, $log) {
+  this.$get = ($injector, $log) => {
     function loadFactory(factoryName) {
       try {
         return $injector.get(factoryName);
       } catch (err) {
-        $log.debug('errorPageConfiguration: unable to load ' + factoryName);
+        $log.debug(`errorPageConfiguration: unable to load ${factoryName}`);
       }
     }
 
@@ -95,7 +95,7 @@ module.provider('errorPageConfiguration', function () {
   };
 });
 
-module.factory('getErrorPagePresentation', function (RingMessageBundle) {
+module.factory('getErrorPagePresentation', RingMessageBundle => {
   const presentationModels = {
     404: {
       status: 404,
@@ -127,7 +127,7 @@ module.factory('getErrorPagePresentation', function (RingMessageBundle) {
     }
   };
 
-  return function (error) {
+  return error => {
     if (error.status in presentationModels) {
       return presentationModels[error.status];
     }
@@ -139,28 +139,28 @@ module.factory('getErrorPagePresentation', function (RingMessageBundle) {
 });
 
 module.directive('rgErrorPageBackground', [
-  function () {
-    return {
-      restrict: 'A',
-      controller: function ($scope) {
-        this.setApplicationError = function (applicationError) {
-          $scope.applicationError = applicationError;
-        };
-      },
-      link: function (scope, iElement) {
-        const element = iElement[0];
-        element.classList.add('error-page');
+  () => ({
+    restrict: 'A',
 
-        scope.$watch('applicationError', function (newValue) {
-          if (newValue) {
-            element.classList.add('error-page_enabled');
-          } else {
-            element.classList.remove('error-page_enabled');
-          }
-        });
-      }
-    };
-  }
+    controller($scope) {
+      this.setApplicationError = applicationError => {
+        $scope.applicationError = applicationError;
+      };
+    },
+
+    link(scope, iElement) {
+      const element = iElement[0];
+      element.classList.add('error-page');
+
+      scope.$watch('applicationError', newValue => {
+        if (newValue) {
+          element.classList.add('error-page_enabled');
+        } else {
+          element.classList.remove('error-page_enabled');
+        }
+      });
+    }
+  })
 ]);
 
 module.directive('rgErrorPage', [
@@ -171,7 +171,14 @@ module.directive('rgErrorPage', [
   'getErrorPagePresentation',
   '$q',
   '$compile',
-  function (errorPageConfiguration, $route, userPermissions, $log, getErrorPagePresentation, $q, $compile) {
+  (
+    errorPageConfiguration,
+    $route,
+    userPermissions,
+    $log,
+    getErrorPagePresentation,
+    $q,
+    $compile) => {
     function getArgumentPromise(errorSource, errorPageParameterPresentation) {
       const promise = errorSource && (errorSource.$promise || errorSource.promise);
 
@@ -180,7 +187,7 @@ module.directive('rgErrorPage', [
         let reject;
 
         promise.catch(errorResponse => {
-          $log.debug('Navigation: errorSource ' + errorPageParameterPresentation + ' not permitted, status: ' + status);
+          $log.debug(`Navigation: errorSource ${errorPageParameterPresentation} not permitted, status: ${status}`);
 
           reject({
             status: errorResponse && errorResponse.status,
@@ -212,9 +219,9 @@ module.directive('rgErrorPage', [
         let resolve;
         let reject;
 
-        userPermissions.load().then(function (permissionCache) {
+        userPermissions.load().then(permissionCache => {
           if (!permissionCache.has(pagePermission)) {
-            $log.debug('Navigation: no page' + pagePermission + ' permission, status 403');
+            $log.debug(`Navigation: no page${pagePermission} permission, status 403`);
             reject({status: 403});
           } else {
             resolve();
@@ -234,9 +241,9 @@ module.directive('rgErrorPage', [
       transclude: true,
       template: '<div></div>',
       require: '?^rgErrorPageBackground',
-      link: function (scope, iElement, iAttrs, errorPageBackgroundCtrl, transclude) {
+      link(scope, iElement, iAttrs, errorPageBackgroundCtrl, transclude) {
         function handleError(error) {
-          transclude(scope, function (clone) {
+          transclude(scope, clone => {
             const cloneWrapper = document.createElement('div');
             cloneWrapper.className = 'ng-hide';
             angular.element(cloneWrapper).append(clone);
@@ -254,7 +261,7 @@ module.directive('rgErrorPage', [
 
             if (errorPageBackgroundCtrl) {
               const destroyEvent = (scope === scope.$root) ? '$routeChangeStart' : '$destroy';
-              scope.$on(destroyEvent, function () {
+              scope.$on(destroyEvent, () => {
                 errorPageBackgroundCtrl.setApplicationError(false);
               });
             }
@@ -262,16 +269,16 @@ module.directive('rgErrorPage', [
         }
 
         function handleSuccess() {
-          transclude(scope, function (clone) {
+          transclude(scope, clone => {
             iElement.append(clone);
           });
         }
 
-        getRoutingPermissionPromise().then(function () {
+        getRoutingPermissionPromise().then(() => {
           const errorSource = scope.$eval(iAttrs.rgErrorPage);
           if (errorSource && errorSource.error) {
             handleError(errorSource.error);
-            $log.debug('Navigation: errorSource ' + iAttrs.rgErrorPage + ' not permitted, status: ' + status);
+            $log.debug(`Navigation: errorSource ${iAttrs.rgErrorPage} not permitted, status: ${status}`);
           } else {
             getArgumentPromise(errorSource, iAttrs.rgErrorPage)
               .then(handleSuccess, handleError);

@@ -2,36 +2,36 @@ import React from 'react';
 import TestUtils from 'react-addons-test-utils';
 import Footer from './footer';
 
-describe('Footer', function () {
+describe('Footer', () => {
   let footer;
 
-  beforeEach(function () {
+  beforeEach(() => {
     footer = TestUtils.renderIntoDocument(React.createElement(Footer));
   });
 
-  it('should create component', function () {
+  it('should create component', () => {
     footer.should.exist;
   });
 
-  it('should be empty by default', function () {
+  it('should be empty by default', () => {
     footer.node.tagName.toLowerCase().should.equal('div');
     footer.node.innerHTML.should.be.empty;
   });
 
-  describe('should render items', function () {
-    it('should add given class', function () {
+  describe('should render items', () => {
+    it('should add given class', () => {
       footer.rerender({className: 'myClass'});
 
       footer.node.should.have.class('myClass');
     });
 
-    it('add left column one line', function () {
+    it('add left column one line', () => {
       footer.rerender({left: ['One Line']});
       footer.node.should.have.text('One Line');
       footer.node.query('li').textContent.should.equal('One Line');
     });
 
-    it('add left column two lines', function () {
+    it('add left column two lines', () => {
       footer.rerender({left: ['One Line', 'Second Line']});
       const li = footer.node.queryAll('li');
 
@@ -39,7 +39,7 @@ describe('Footer', function () {
       li.should.have.length(2);
     });
 
-    it('add three columns two lines', function () {
+    it('add three columns two lines', () => {
       footer.rerender({
         left: ['One Line', 'Second Line'],
         center: ['One Line', 'Second Line'],
@@ -62,17 +62,17 @@ describe('Footer', function () {
 
   });
 
-  it('should render copyright', function () {
+  it('should render copyright', () => {
     footer.rerender({
       left: [
         {copyright: 2010, label: ' JetBrains'}
       ]
     });
 
-    footer.node.query('li').should.contain.text('© 2010—' + (new Date()).getFullYear() + ' JetBrains');
+    footer.node.query('li').should.contain.text(`© 2010—${(new Date()).getFullYear()} JetBrains`);
   });
 
-  it('should render link', function () {
+  it('should render link', () => {
     footer.rerender({
       left: [
         {url: 'http://jetbrains.com', label: 'JetBrains', title: 'JetBrains Official Site'}

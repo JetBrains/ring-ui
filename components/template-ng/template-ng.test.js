@@ -1,7 +1,7 @@
 /* global inject */
 import Template from './template-ng';
 
-describe('TemplateNg', function () {
+describe('TemplateNg', () => {
   let $compile;
   let $rootScope;
 
@@ -26,26 +26,26 @@ describe('TemplateNg', function () {
     return {element, ctrl};
   }
 
-  it('should work as an element', function () {
+  it('should work as an element', () => {
     const {element} = build('<rg-template template="\'<test></test>\'"></rg-template>');
 
     element.should.contain('test');
   });
 
-  it('should work as an attribute', function () {
+  it('should work as an attribute', () => {
     const {element} = build('<div rg-template="\'<test></test>\'"></div>');
 
     element.should.contain('test');
   });
 
-  it('should render a given template', function () {
+  it('should render a given template', () => {
     $rootScope.template = '<test></test>';
     const {element} = build('<rg-template template="template"></rg-template>');
 
     element.should.contain('test');
   });
 
-  it('should replace a template with a new one', function () {
+  it('should replace a template with a new one', () => {
     $rootScope.template = '<test></test>';
     const {element} = build('<rg-template template="template"></rg-template>');
     element.setAttribute('template', '"<test2></test2>"');
@@ -54,7 +54,7 @@ describe('TemplateNg', function () {
     element.should.contain('test2');
   });
 
-  it('should watch a given template expression', function () {
+  it('should watch a given template expression', () => {
     $rootScope.template = '<test></test>';
     const {element} = build('<rg-template template="template"></rg-template>');
     $rootScope.template = '<test2></test2>';
@@ -63,7 +63,7 @@ describe('TemplateNg', function () {
     element.should.contain('test2');
   });
 
-  it('should watch a parent scope', function () {
+  it('should watch a parent scope', () => {
     $rootScope.template = '<test>{{ id }}</test>';
     $rootScope.id = '123';
     const {element} = build('<rg-template template="template"></rg-template>');
@@ -76,7 +76,7 @@ describe('TemplateNg', function () {
     element.should.contain.text('456');
   });
 
-  it('should work correct with an empty template', function () {
+  it('should work correct with an empty template', () => {
     $rootScope.template = '<test></test>';
     const {element} = build('<rg-template template="template"></rg-template>');
     element.setAttribute('template', '');

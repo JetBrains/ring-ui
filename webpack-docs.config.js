@@ -1,51 +1,51 @@
 /* eslint-env node */
-/* eslint-disable no-var */
 /* eslint-disable modules/no-cjs */
-/* eslint-disable camelcase */
+require('babel-polyfill');
 
-var path = require('path');
-var webpack = require('webpack');
+const path = require('path');
+const webpack = require('webpack');
 
-var webpackConfigMerger = require('webpack-config-merger');
-var webpackConfig = require('./webpack.config');
-var AnyBarWebpackPlugin = require('anybar-webpack');
-var progressPlugin = require('./tools/progress-webpack-plugin');
+const webpackConfigMerger = require('webpack-config-merger');
+const webpackConfig = require('./webpack.config');
+const AnyBarWebpackPlugin = require('anybar-webpack');
+const progressPlugin = require('./tools/progress-webpack-plugin');
 
-var isServer = process.argv.indexOf('--server') !== -1;
+const isServer = process.argv.includes('--server');
 
-var nodeModulesPath = path.join(__dirname, 'node_modules');
-var sitePath = [
+const nodeModulesPath = path.join(__dirname, 'node_modules');
+const sitePath = [
   path.join(__dirname, 'docs'),
   path.join(__dirname, 'site')
 ];
-var publicPath = '/assets/';
+const publicPath = '/assets/';
 
-var config = require('./package.json').config;
+const config = require('./package.json').config;
 
-var hubOptPath = process.argv.indexOf('--hub') + 1;
-var hubOpt = hubOptPath && process.argv[hubOptPath];
-var hub = hubOpt || process.env.npm_package_config_hub || config.hub;
-var hubUri = hub in config.hubs ? config.hubs[hub] : hub;
+const hubOptPath = process.argv.indexOf('--hub') + 1;
+const hubOpt = hubOptPath && process.argv[hubOptPath];
+const hub = hubOpt || process.env.npm_package_config_hub || config.hub;
+const hubUri = hub in config.hubs ? config.hubs[hub] : hub;
 
-var productionClientId = '81a0bffb-6d0f-4a38-b93a-0a4d1e567698';
-var useProductionClientId = hubUri === config.hubs.production || hubUri === config.hubs.default;
+const productionClientId = '81a0bffb-6d0f-4a38-b93a-0a4d1e567698';
+const useProductionClientId = hubUri === config.hubs.production || hubUri === config.hubs.default;
 
-var host = process.env.npm_package_config_host || config.host;
-var hubServerConfig = {
+const host = process.env.npm_package_config_host || config.host;
+
+const hubServerConfig = {
   serverUri: hubUri,
-  client_id: useProductionClientId ? productionClientId : '0-0-0-0-0',
-  request_credentials: 'skip',
-  redirect_uri: 'http://' + host + ':' + config.port + '/'
+  client_id: useProductionClientId ? productionClientId : '0-0-0-0-0', // eslint-disable-line camelcase
+  request_credentials: 'skip', // eslint-disable-line camelcase
+  redirect_uri: `http://${host}:${config.port}/` // eslint-disable-line camelcase
 };
 
-var hubProductionConfig = {
+const hubProductionConfig = {
   serverUri: config.hubs.production,
-  client_id: productionClientId,
-  request_credentials: 'skip',
-  redirect_uri: 'http://ring-ui.github.io'
+  client_id: productionClientId, // eslint-disable-line camelcase
+  request_credentials: 'skip', // eslint-disable-line camelcase
+  redirect_uri: 'http://ring-ui.github.io' // eslint-disable-line camelcase
 };
 
-var docsWebpackConfig = webpackConfigMerger(webpackConfig, {
+const docsWebpackConfig = webpackConfigMerger(webpackConfig, {
   entry: {
     index: './site/'
   },
@@ -87,7 +87,7 @@ var docsWebpackConfig = webpackConfigMerger(webpackConfig, {
     path: path.resolve(__dirname, 'docs', 'assets'),
     pathinfo: isServer,
     filename: '[name].js',
-    publicPath: publicPath // serve HMR update json's properly
+    publicPath // serve HMR update json's properly
   },
   plugins: [
     new webpack.DefinePlugin({
