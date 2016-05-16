@@ -77,11 +77,11 @@ module.run($templateCache => {
           ]
         })
     })
-    .controller('testCtrl', function($timeout, hintPopup) {
+    .controller('testCtrl', function($timeout, rgShortcutsHintPopup) {
       var ctrl = this;
 
       ctrl.showPopup = function() {
-        hintPopup.show('ShortCuts');
+        rgShortcutsHintPopup.show('ShortCuts');
       }
 
       $timeout(ctrl.showPopup, 200);
@@ -174,7 +174,7 @@ function shortcutSearchFilter(shortcuts, query = '') {
   });
 }
 
-module.service('hintPopup', HintPopupService);
+module.service('rgShortcutsHintPopup', HintPopupService);
 module.filter('shortcutKeySymbol', () => shortcutKeySymbolFilter);
 module.filter('shortcutSearch', () => shortcutSearchFilter);
 
