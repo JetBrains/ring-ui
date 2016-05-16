@@ -22,7 +22,7 @@ class ButtonController {
     const cl = this.element.classList;
     modifiers.forEach(mod => {
       $scope.$watch(() => $scope.$eval($attrs[mod]), val => {
-        val ? cl.add('ring-button_' + mod) : cl.remove('ring-button_' + mod);
+        val ? cl.add(`ring-button_${mod}`) : cl.remove(`ring-button_${mod}`);
       });
     });
 
@@ -55,7 +55,7 @@ class ButtonController {
     const mode = ['primary', 'blue'].includes(val) ? val : 'default';
 
     cl.remove('ring-button_default', 'ring-button_primary', 'ring-button_blue');
-    cl.add('ring-button_' + mode);
+    cl.add(`ring-button_${mode}`);
   }
 
   updateIcon() {

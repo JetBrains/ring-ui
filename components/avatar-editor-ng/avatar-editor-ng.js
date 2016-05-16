@@ -52,7 +52,7 @@ function rgAvatarEditor() {
     },
     template: require('./avatar-editor-ng.html'),
     transclude: true,
-    controller: function ($scope, $attrs, RingMessageBundle, alert) {
+    controller($scope, $attrs, RingMessageBundle, alert) {
       let fileInput;
 
       function setLang() {
@@ -70,7 +70,7 @@ function rgAvatarEditor() {
       function createFileLoadListener(file) {
         return readEvent => {
           const data = readEvent.target.result;
-          const result = $scope.onSelect({name: file.name, data: data});
+          const result = $scope.onSelect({name: file.name, data});
           if (result && result.then) {
             result.then(() => {
               $scope.model = data;
@@ -121,7 +121,7 @@ function rgAvatarEditor() {
 
       $scope.controls.remove = () => {
         const data = '';
-        const result = $scope.onSelect({name: data, data: data});
+        const result = $scope.onSelect({name: data, data});
         if (result && result.then) {
           result.then(() => {
             $scope.model = data;
@@ -138,7 +138,7 @@ function rgAvatarEditorFileInput() {
   return {
     restrict: 'A',
     require: '^rgAvatarEditor',
-    link: function (scope, iElement, iAttrs, avatarEditorCtrl) {
+    link(scope, iElement, iAttrs, avatarEditorCtrl) {
       avatarEditorCtrl.registerFileInput(iElement[0]);
     }
   };

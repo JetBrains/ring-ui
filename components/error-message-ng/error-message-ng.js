@@ -17,19 +17,18 @@ registerComponents({Icon});
 
 const module = angular.module('Ring.error-message', [reactNg]);
 
-module.directive('rgErrorMessage', function () {
-  return {
-    replace: true,
-    transclude: true,
-    template: require('./error-message-ng.html'),
-    restrict: 'E',
-    scope: {
-      code: '@',
-      message: '@',
-      links: '=',
-      icon: '@'
-    }
-  };
-});
+module.directive('rgErrorMessage', () => ({
+  replace: true,
+  transclude: true,
+  template: require('./error-message-ng.html'),
+  restrict: 'E',
+
+  scope: {
+    code: '@',
+    message: '@',
+    links: '=',
+    icon: '@'
+  }
+}));
 
 export default module.name;

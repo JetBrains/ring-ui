@@ -1,6 +1,6 @@
 import Caret from './caret';
 
-describe('Caret', function () {
+describe('Caret', () => {
   beforeEach(function () {
     this.target = document.createElement('div');
     this.target.innerHTML = 'this.target = document.createElement(textarea)';
@@ -18,7 +18,7 @@ describe('Caret', function () {
     this.target = null;
   });
 
-  describe('getPosition', function () {
+  describe('getPosition', () => {
     it('Default position should be 0', function () {
       window.getSelection().removeAllRanges();
 
@@ -53,7 +53,7 @@ describe('Caret', function () {
     });
   });
 
-  describe('setPosition', function () {
+  describe('setPosition', () => {
     it('Shouldn\'t change caret position if we don\'t position', function () {
       should.not.exist(this.caret.setPosition());
 
@@ -67,7 +67,7 @@ describe('Caret', function () {
     });
   });
 
-  describe('getOffset', function () {
+  describe('getOffset', () => {
     it('Should get correct zero offset', function () {
       window.getSelection().collapse(this.target.firstChild, 0);
 

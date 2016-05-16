@@ -8,7 +8,7 @@ import {Simulate} from 'react-addons-test-utils';
 import renderIntoDocument from 'render-into-document';
 import simulateKeypress from 'simulate-keypress';
 
-describe('QueryAssist', function () {
+describe('QueryAssist', () => {
   const testQuery = 'oooooooooooo';
   const testQueryLength = testQuery.length;
 
@@ -72,7 +72,7 @@ describe('QueryAssist', function () {
     };
   });
 
-  describe('props to state passing', function () {
+  describe('props to state passing', () => {
     it('should create component', function () {
       this.renderQueryAssist();
 
@@ -149,7 +149,7 @@ describe('QueryAssist', function () {
   });
 
 
-  describe('init', function () {
+  describe('init', () => {
     it('requestData should exist', function () {
       this.renderQueryAssist();
       this.queryAssist.requestData.should.be.a('function');
@@ -185,14 +185,14 @@ describe('QueryAssist', function () {
     });
   });
 
-  describe('rendering', function () {
+  describe('rendering', () => {
     const LETTER_CLASS = 'ring-query-assist__letter';
 
     it('should render letters', function () {
       this.renderQueryAssist();
 
-      this.queryAssist.input.should.contain('.' + LETTER_CLASS);
-      this.queryAssist.input.queryAll('.' + LETTER_CLASS).should.have.length(testQueryLength);
+      this.queryAssist.input.should.contain(`.${LETTER_CLASS}`);
+      this.queryAssist.input.queryAll(`.${LETTER_CLASS}`).should.have.length(testQueryLength);
     });
 
 
@@ -252,12 +252,12 @@ describe('QueryAssist', function () {
         ]
       });
 
-      const letters = this.queryAssist.input.queryAll('.' + LETTER_CLASS);
+      const letters = this.queryAssist.input.queryAll(`.${LETTER_CLASS}`);
 
-      letters[0].should.have.class(LETTER_CLASS + '_text');
-      letters[1].should.have.class(LETTER_CLASS + '_field-value');
-      letters[2].should.have.class(LETTER_CLASS + '_field-name');
-      letters[3].should.have.class(LETTER_CLASS + '_operator');
+      letters[0].should.have.class(`${LETTER_CLASS}_text`);
+      letters[1].should.have.class(`${LETTER_CLASS}_field-value`);
+      letters[2].should.have.class(`${LETTER_CLASS}_field-name`);
+      letters[3].should.have.class(`${LETTER_CLASS}_operator`);
     });
 
     it('should render last text range with default style when applied', function () {
@@ -273,11 +273,11 @@ describe('QueryAssist', function () {
         ]
       });
 
-      const letters = this.queryAssist.input.queryAll('.' + LETTER_CLASS);
+      const letters = this.queryAssist.input.queryAll(`.${LETTER_CLASS}`);
 
-      letters[0].should.have.class(LETTER_CLASS + '_text');
-      letters[1].should.have.class(LETTER_CLASS + '_default');
-      letters[2].should.have.class(LETTER_CLASS + '_default');
+      letters[0].should.have.class(`${LETTER_CLASS}_text`);
+      letters[1].should.have.class(`${LETTER_CLASS}_default`);
+      letters[2].should.have.class(`${LETTER_CLASS}_default`);
     });
 
     it('should render last text range with text style when applied', function () {
@@ -292,11 +292,11 @@ describe('QueryAssist', function () {
         ]
       });
 
-      const letters = this.queryAssist.input.queryAll('.' + LETTER_CLASS);
+      const letters = this.queryAssist.input.queryAll(`.${LETTER_CLASS}`);
 
-      letters[0].should.have.class(LETTER_CLASS + '_text');
-      letters[1].should.have.class(LETTER_CLASS + '_default');
-      letters[2].should.have.class(LETTER_CLASS + '_text');
+      letters[0].should.have.class(`${LETTER_CLASS}_text`);
+      letters[1].should.have.class(`${LETTER_CLASS}_default`);
+      letters[2].should.have.class(`${LETTER_CLASS}_text`);
     });
 
     it('should disable field when component disabled', function () {
@@ -359,7 +359,7 @@ describe('QueryAssist', function () {
     });
   });
 
-  describe('suggestions', function () {
+  describe('suggestions', () => {
     it('should not create popup when no suggestions provided', function () {
       this.renderQueryAssist();
 
@@ -400,7 +400,7 @@ describe('QueryAssist', function () {
 
   });
 
-  describe('completion', function () {
+  describe('completion', () => {
     const completeQuery = 'test';
     const middleCaret = completeQuery.length / 2;
 
@@ -481,11 +481,11 @@ describe('QueryAssist', function () {
     });
   });
 
-  describe('callbacks', function () {
+  describe('callbacks', () => {
     it('should call onApply', function () {
       const onApply = this.sinon.stub();
       this.renderQueryAssist({
-        onApply: onApply
+        onApply
       });
 
       simulateKeypress(null, 13); // press enter
@@ -499,7 +499,7 @@ describe('QueryAssist', function () {
       const onApply = this.sinon.stub();
       this.renderQueryAssist({
         glass: true,
-        onApply: onApply
+        onApply
       });
 
       Simulate.click(this.queryAssist.refs.glass.node);
@@ -513,7 +513,7 @@ describe('QueryAssist', function () {
       const onClear = this.sinon.stub();
       this.renderQueryAssist({
         clear: true,
-        onClear: onClear
+        onClear
       });
 
       Simulate.click(this.queryAssist.refs.clear.node);
@@ -521,7 +521,7 @@ describe('QueryAssist', function () {
     });
   });
 
-  describe('request data', function () {
+  describe('request data', () => {
     it('should batch requests', function () {
       this.sinon.useFakeTimers();
 

@@ -2,14 +2,14 @@ import React from 'react';
 import TestUtils from 'react-addons-test-utils';
 import ButtonGroup from './button-group';
 
-describe('ButtonGroup', function () {
+describe('ButtonGroup', () => {
   let button;
 
-  beforeEach(function () {
+  beforeEach(() => {
     button = TestUtils.renderIntoDocument(React.createElement(ButtonGroup));
   });
 
-  it('should create component', function () {
+  it('should create component', () => {
     TestUtils.isCompositeComponentWithType(button, ButtonGroup).should.equal(true);
   });
 });

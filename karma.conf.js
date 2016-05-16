@@ -1,9 +1,8 @@
 /* eslint-env node */
-/* eslint-disable no-var */
 /* eslint-disable modules/no-cjs */
 
-var baseConfig = require('./karma-base.conf.js');
+const baseConfig = require('./karma-base.conf.js');
 
-module.exports = function (config) {
+module.exports = config => {
   config.set(baseConfig(config));
 };

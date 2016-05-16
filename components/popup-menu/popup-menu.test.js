@@ -3,25 +3,25 @@ import ReactDOM from 'react-dom';
 import TestUtils from 'react-addons-test-utils';
 import PopupMenu from './popup-menu';
 
-describe('PopupMenu', function () {
+describe('PopupMenu', () => {
   let popup;
 
-  beforeEach(function () {
+  beforeEach(() => {
     popup = TestUtils.renderIntoDocument(React.createElement(PopupMenu));
   });
 
-  it('should create component', function () {
+  it('should create component', () => {
     popup.should.exist;
   });
 
-  it('should have List', function () {
+  it('should have List', () => {
     popup.refs.List.should.exist;
 
     // We need it to maintain compatibility between Popup Menu and List
     ReactDOM.findDOMNode(popup.refs.List.refs.inner).childNodes.length.should.equal(2);
   });
 
-  it('should pass params to List', function () {
+  it('should pass params to List', () => {
     popup.rerender({data: [
       {}
     ]});

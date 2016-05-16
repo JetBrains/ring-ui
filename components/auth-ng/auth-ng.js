@@ -55,32 +55,30 @@ module.provider('auth', ['$httpProvider', function ($httpProvider) {
    *   cleanHash: boolean?
    * }} config
    */
-  this.config = function (config) {
+  this.config = config => {
     const configCopy = angular.extend({}, defaultConfig, config);
     auth = new Auth(configCopy);
   };
 
-  $httpProvider.interceptors.push(['$q', '$injector', 'auth', function ($q, $injector, authInstance) {
+  $httpProvider.interceptors.push(['$q', '$injector', 'auth', ($q, $injector, authInstance) => {
     function urlEndsWith(config, suffix) {
       return config && config.url && config.url.indexOf(suffix) === config.url.length - suffix.length;
     }
 
     return {
-      request: function (config) {
+      request(config) {
         if (!authInstance || urlEndsWith(config, '.html')) {
           // Don't intercept angular template requests
           return config;
         }
         return authInstance.promise.
-          then(function () {
-            return authInstance.auth.requestToken();
-          }).
-          then(function (accessToken) {
-            config.headers.Authorization = 'Bearer ' + accessToken;
+          then(() => authInstance.auth.requestToken()).
+          then(accessToken => {
+            config.headers.Authorization = `Bearer ${accessToken}`;
             return config;
           });
       },
-      responseError: function (rejection) {
+      responseError(rejection) {
         if (authInstance && !urlEndsWith(rejection.config, '.html') &&
           rejection.data != null && Auth.shouldRefreshToken(rejection.data.error)) {
 
@@ -88,9 +86,7 @@ module.provider('auth', ['$httpProvider', function ($httpProvider) {
           const $http = $injector.get('$http');
           const {data, method, params, url} = rejection.config;
 
-          return authInstance.auth.forceTokenUpdate().then(function () {
-            return $http({data, method, params, url});
-          });
+          return authInstance.auth.forceTokenUpdate().then(() => $http({data, method, params, url}));
         }
 
         return $q.reject(rejection);
@@ -99,7 +95,7 @@ module.provider('auth', ['$httpProvider', function ($httpProvider) {
   }]);
 
   /*@ngInject*/
-  this.$get = function ($injector, $log, $sniffer) {
+  this.$get = ($injector, $log, $sniffer) => {
     // Do not try to init anything without config
     if (!auth) {
       $log.warn('Auth wasn\'t initialized');
@@ -139,14 +135,14 @@ module.provider('auth', ['$httpProvider', function ($httpProvider) {
       }
     }
 
-    authInitPromise.then(restoreLocation, function (e) {
+    authInitPromise.then(restoreLocation, e => {
       if (!e.authRedirect) {
         $log.error(e);
       }
     });
 
     return {
-      auth: auth,
+      auth,
       requestUser: auth.requestUser.bind(auth),
       clientId: auth.config.client_id,
       logout: auth.logout.bind(auth),

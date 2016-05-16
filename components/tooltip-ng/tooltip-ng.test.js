@@ -5,7 +5,7 @@ import 'angular';
 import 'angular-mocks';
 import Tooltip from './tooltip-ng';
 
-describe('tooltipNg', function () {
+describe('tooltipNg', () => {
   const INNER_TEXT = 'test foo';
   let RgTooltipPopup;
   let element;
@@ -13,38 +13,38 @@ describe('tooltipNg', function () {
 
   beforeEach(angular.mock.module(Tooltip));
 
-  beforeEach(inject(function (_RgTooltipPopup_) {
+  beforeEach(inject(_RgTooltipPopup_ => {
     RgTooltipPopup = _RgTooltipPopup_;
   }));
 
-  beforeEach(function () {
+  beforeEach(() => {
     const container = document.createElement('div');
     element = document.createElement('div');
     container.appendChild(element);
     popupWrapper = new RgTooltipPopup(element, INNER_TEXT);
   });
 
-  it('Should open popup', function () {
+  it('Should open popup', () => {
     popupWrapper.displayTooltip();
 
     popupWrapper.popup.props.hidden.should.be.false;
   });
 
-  it('Should set ring-tooltip-ng class for popup', function () {
+  it('Should set ring-tooltip-ng class for popup', () => {
     popupWrapper.displayTooltip();
     const popup = popupWrapper.popup.node;
 
     popup.should.have.class('ring-tooltip-ng');
   });
 
-  it('Should set custom class for popup', function () {
+  it('Should set custom class for popup', () => {
     popupWrapper.displayTooltip('custom-class');
     const popup = popupWrapper.popup.node;
 
     popup.should.have.class('custom-class');
   });
 
-  it('Should display message inside', function () {
+  it('Should display message inside', () => {
     popupWrapper.displayTooltip();
     popupWrapper.popup.node.should.have.text(INNER_TEXT);
   });

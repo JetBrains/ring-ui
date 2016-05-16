@@ -1,9 +1,6 @@
-/* eslint-disable no-var */
-/* eslint-disable modules/no-cjs */
+import gemini from 'gemini';
 
-var gemini = require('gemini');
-
-gemini.suite('Alert', function (suite) {
+gemini.suite('Alert', suite => {
   suite
     .setUrl('/example-alert/index.html')
     .setCaptureElements('body > div')

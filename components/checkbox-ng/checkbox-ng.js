@@ -33,44 +33,43 @@ const module = angular.module('Ring.checkbox', ['Ring.icon']);
 let idCounter = 0;
 const CHECKBOX_ID_PREFIX = 'rg-checkbox-';
 
-module.directive('rgCheckbox', function ($parse) {
-  return {
-    restrict: 'E',
-    transclude: true,
-    replace: true,
-    template: require('./checkbox-ng.html'),
-    require: ['?ngModel'],
-    link: function (scope, iElement, iAttrs, [ctrl]) {
-      const input = iElement[0].query('.ring-checkbox__input');
+module.directive('rgCheckbox', $parse => ({
+  restrict: 'E',
+  transclude: true,
+  replace: true,
+  template: require('./checkbox-ng.html'),
+  require: ['?ngModel'],
 
-      const id = CHECKBOX_ID_PREFIX + idCounter++;
-      iElement[0].setAttribute('for', id);
-      input.setAttribute('id', id);
+  link(scope, iElement, iAttrs, [ctrl]) {
+    const input = iElement[0].query('.ring-checkbox__input');
 
-      if (iAttrs.disabled) {
-        const disabledGetter = $parse(iAttrs.disabled);
+    const id = CHECKBOX_ID_PREFIX + idCounter++;
+    iElement[0].setAttribute('for', id);
+    input.setAttribute('id', id);
 
-        if (!disabledGetter.constant) {
-          scope.$watch(disabledGetter, disabled => {
-            input.disabled = disabled;
-          });
-        } else {
-          input.disabled = disabledGetter(scope);
-        }
-      }
+    if (iAttrs.disabled) {
+      const disabledGetter = $parse(iAttrs.disabled);
 
-
-      if (ctrl) {
-        angular.element(input).on('click', ev => {
-          ctrl.$setViewValue(input.checked, ev && ev.type);
+      if (!disabledGetter.constant) {
+        scope.$watch(disabledGetter, disabled => {
+          input.disabled = disabled;
         });
-
-        ctrl.$render = () => {
-          input.checked = ctrl.$viewValue;
-        };
+      } else {
+        input.disabled = disabledGetter(scope);
       }
     }
-  };
-});
+
+
+    if (ctrl) {
+      angular.element(input).on('click', ev => {
+        ctrl.$setViewValue(input.checked, ev && ev.type);
+      });
+
+      ctrl.$render = () => {
+        input.checked = ctrl.$viewValue;
+      };
+    }
+  }
+}));
 
 export default module.name;

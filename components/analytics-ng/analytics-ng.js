@@ -60,21 +60,21 @@ module.provider('analytics', function () {
   /**
    * @param plugins
    */
-  this.plugins = function (plugins) {
+  this.plugins = plugins => {
     configPlugins = plugins;
   };
 
   /*@ngInject*/
-  this.$get = function ($log, $injector) {
+  this.$get = ($log, $injector) => {
     const loadedPlugins = [];
     for (let i = 0; i < configPlugins.length; ++i) {
       if (typeof configPlugins[i] === 'string') {
         try {
           const plugin = $injector.get(configPlugins[i]);
           loadedPlugins.push(plugin);
-          $log.debug('analytics: loaded plugin ' + configPlugins[i]);
+          $log.debug(`analytics: loaded plugin ${configPlugins[i]}`);
         } catch (err) {
-          $log.debug('analytics: unable to load factory ' + configPlugins[i]);
+          $log.debug(`analytics: unable to load factory ${configPlugins[i]}`);
         }
       } else {
         loadedPlugins.push(configPlugins[i]);
@@ -91,9 +91,9 @@ module.constant('AnalyticsCustomPlugin', AnalyticsCustomPlugin);
 /**
  * Enable page tracking
  */
-module.run(function ($rootScope, analytics) {
+module.run(($rootScope, analytics) => {
   /* eslint-disable angular/no-private-call */
-  $rootScope.$on('$routeChangeSuccess', function (evt, current) {
+  $rootScope.$on('$routeChangeSuccess', (evt, current) => {
     if (current && current.$$route && current.$$route.originalPath) {
       analytics.trackPageView(current.$$route.originalPath);
     }
@@ -112,19 +112,17 @@ module.run(function ($rootScope, analytics) {
  */
 module.directive('rgAnalytics', [
   'analytics',
-  function (analytics) {
-    return {
-      restrict: 'A',
-      replace: false,
+  analytics => ({
+    restrict: 'A',
+    replace: false,
 
-      link: function ($scope, elem) {
-        const eventType = elem.attr('rg-analytics-on') || 'click';
-        angular.element(elem).bind(eventType, function () {
-          analytics.track(elem.attr('rg-analytics'));
-        });
-      }
-    };
-  }
+    link($scope, elem) {
+      const eventType = elem.attr('rg-analytics-on') || 'click';
+      angular.element(elem).bind(eventType, () => {
+        analytics.track(elem.attr('rg-analytics'));
+      });
+    }
+  })
 ]);
 
 export default module.name;

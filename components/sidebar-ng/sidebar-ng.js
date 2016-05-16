@@ -126,7 +126,7 @@ function rgSidebarToggleButtonDirective() {
     transclude: true,
     replace: true,
     scope: {},
-    controller: function () {},
+    controller() {},
     bindToController: {
       model: '=',
       dialogIsActive: '=?'

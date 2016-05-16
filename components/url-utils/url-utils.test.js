@@ -6,54 +6,54 @@ import urlUtils from '../url-utils/url-utils';
 const sniffr = new Sniffr();
 sniffr.sniff();
 
-describe('urlUtils', function () {
-  describe('fixUrl', function () {
+describe('urlUtils', () => {
+  describe('fixUrl', () => {
     let baseTag;
     let baseUrl;
 
-    beforeEach(function () {
+    beforeEach(() => {
       baseTag = document.createElement('base');
       baseTag.setAttribute('href', '/some/base/url/');
       document.head.prepend(baseTag);
       baseUrl = urlUtils.getBaseURI();
     });
 
-    it('should fix relative url', function () {
-      expect(urlUtils.fixUrl('relative/path')).to.be.equal(baseUrl + 'relative/path');
+    it('should fix relative url', () => {
+      expect(urlUtils.fixUrl('relative/path')).to.be.equal(`${baseUrl}relative/path`);
     });
 
-    it('should not fix absolute url', function () {
+    it('should not fix absolute url', () => {
       expect(urlUtils.fixUrl('/absolute/path')).to.be.equal('/absolute/path');
     });
 
-    it('should not fix absolute url with http', function () {
+    it('should not fix absolute url with http', () => {
       expect(urlUtils.fixUrl('http://simple/path')).to.be.equal('http://simple/path');
     });
 
-    it('should not fix absolute url with https', function () {
+    it('should not fix absolute url with https', () => {
       expect(urlUtils.fixUrl('https://secure/path')).to.be.equal('https://secure/path');
     });
 
-    afterEach(function () {
+    afterEach(() => {
       baseTag.remove();
     });
   });
 
-  describe('getOrigin', function () {
-    it('should return origin for absolute URIs', function () {
+  describe('getOrigin', () => {
+    it('should return origin for absolute URIs', () => {
       urlUtils.getOrigin('https://secure:433/path?q=p#hash').should.equal('https://secure:433');
     });
 
-    it('should return undefined for relative URLs', function () {
+    it('should return undefined for relative URLs', () => {
       should.not.exist(urlUtils.getOrigin('/path:433/path?q=p#hash'));
     });
 
-    it('should return undefined for broken URLs', function () {
+    it('should return undefined for broken URLs', () => {
       should.not.exist(urlUtils.getOrigin('http:/'));
     });
   });
 
-  describe('resolveRelative', function () {
+  describe('resolveRelative', () => {
     const baseUrl = 'http://example.com/';
     const standardsCompliantRelativeSVG = sniffr.browser.name === 'firefox' ||
       sniffr.browser.name === 'chrome' && sniffr.browser.version[0] >= 49 ||

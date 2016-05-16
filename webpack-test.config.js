@@ -1,10 +1,9 @@
 /* eslint-env node */
-/* eslint-disable no-var */
 /* eslint-disable modules/no-cjs */
 
-var path = require('path');
-var config = require('./webpack.config');
-var webpack = require('webpack');
+const path = require('path');
+const config = require('./webpack.config');
+const webpack = require('webpack');
 
 config.resolve = {
   root: path.join(__dirname, 'test-helpers')

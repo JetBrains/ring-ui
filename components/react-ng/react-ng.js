@@ -25,15 +25,13 @@ function getComponent(name) {
   return ringComponents[name];
 }
 
-reactModule.service('ringComponents', function () {
-  return getComponent;
-});
+reactModule.service('ringComponents', () => getComponent);
 
 function getComponentIfExist(name) {
   const ComponentClass = getComponent(name);
 
   if (!ComponentClass) {
-    throw new Error('Component ' + name + ' is not registered');
+    throw new Error(`Component ${name} is not registered`);
   }
 
   return ComponentClass;
@@ -48,7 +46,7 @@ function renderAndRemoveOnDestroy(ComponentClass, iElement, props) {
 }
 
 const reactDirectiveName = 'react';
-const staticDirectiveName = reactDirectiveName + 'Static';
+const staticDirectiveName = `${reactDirectiveName}Static`;
 const attributeToPassPrefix = 'react';
 const attributeToPassByValuePrefix = 'reactValue';
 const specialDOMAttrs = {
@@ -60,7 +58,7 @@ const specialDOMAttrs = {
 function reactNgDirective($parse) {
   return {
     restrict: 'A',
-    link: function (scope, iElement, iAttrs) {
+    link(scope, iElement, iAttrs) {
       let component = null;
       const directiveName = iAttrs[reactDirectiveName];
       const instanceAttr = 'reactInstance';
@@ -223,7 +221,7 @@ function reactStatigNgDirective($parse) {
 
   return {
     restrict: 'A',
-    link: function (scope, iElement, iAttrs) {
+    link(scope, iElement, iAttrs) {
       const name = iAttrs[staticDirectiveName];
       const ComponentClass = getComponentIfExist(name);
       const props = {};

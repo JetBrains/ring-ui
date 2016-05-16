@@ -226,7 +226,7 @@ module.constant('rgSaveFieldShortcutsMode', {
   ]
 });
 
-module.directive('rgSaveField', function (RingMessageBundle, $timeout, $q, $compile, $parse) {
+module.directive('rgSaveField', (RingMessageBundle, $timeout, $q, $compile, $parse) => {
   const MULTI_LINE_SPLIT_PATTERN = /(\r\n|\n|\r)/gm;
   const MULTI_LINE_LIST_MODE = 'list';
   const CUSTOM_ERROR_ID = 'customError';
@@ -246,15 +246,15 @@ module.directive('rgSaveField', function (RingMessageBundle, $timeout, $q, $comp
       formatElement: '&?',
       multiline: '@'
     },
-    link: function (scope, iElem, iAttrs, ctrl, transclude) {
+    link(scope, iElem, iAttrs, ctrl, transclude) {
 
       /**
        * Custom transclude is needed to place error-bubble directly after input controller (not after <span ng-transclude></span> which wrappes input).
        * Otherwise class ring-error-bubble will be incorrect positioned (css style selector .ring-ctrl-<size> ~ .ring-error-bubble)
        */
-      transclude(scope, function () {
+      transclude(scope, () => {
         const placeholder = angular.element(iElem[0].querySelector('.ring-save-field__transclude-placeholder'));
-        $compile(angular.element('<div rg-error-bubble="saveFieldForm"></div>'))(scope, function (errorBubble) {
+        $compile(angular.element('<div rg-error-bubble="saveFieldForm"></div>'))(scope, errorBubble => {
           placeholder.append(errorBubble);
         });
       });
@@ -277,7 +277,7 @@ module.directive('rgSaveField', function (RingMessageBundle, $timeout, $q, $comp
 
           scope.done = true;
 
-          $timeout(function () {
+          $timeout(() => {
             scope.done = false;
           }, 1000);
 
@@ -326,7 +326,7 @@ module.directive('rgSaveField', function (RingMessageBundle, $timeout, $q, $comp
           return;
         }
 
-        scope.$evalAsync(function () {
+        scope.$evalAsync(() => {
           scope.value = scope.initial ? scope.initial : '';
           scope.saveFieldForm.$setValidity(CUSTOM_ERROR_ID, true, customError);
           scope.saveFieldForm.$setPristine();
@@ -334,25 +334,23 @@ module.directive('rgSaveField', function (RingMessageBundle, $timeout, $q, $comp
       }
 
       function addMultilineProcessig(controlName) {
-        const stopWatch = scope.$watch('saveFieldForm.' + controlName, function (control) {
+        const stopWatch = scope.$watch(`saveFieldForm.${controlName}`, control => {
           if (!control || !control.$formatters || !control.$parsers) {
             return;
           }
 
-          control.$formatters.push(function (value) {
+          control.$formatters.push(value => {
             if (!value) {
               return value;
             }
 
             if (iAttrs.formatElement) {
-              value = value.map(function (element) {
-                return scope.formatElement({element: element});
-              });
+              value = value.map(element => scope.formatElement({element}));
             }
             return value.join('\n');
           });
 
-          control.$parsers.push(function (value) {
+          control.$parsers.push(value => {
             let array = value && value.split(MULTI_LINE_SPLIT_PATTERN) || [];
 
             function notEmpty(val) {
@@ -362,9 +360,7 @@ module.directive('rgSaveField', function (RingMessageBundle, $timeout, $q, $comp
             array = array.filter(notEmpty);
 
             if (iAttrs.parseElement) {
-              array = array.map(function (element) {
-                return scope.parseElement({element: element.trim()});
-              });
+              array = array.map(element => scope.parseElement({element: element.trim()}));
             }
 
             return array;
@@ -374,8 +370,8 @@ module.directive('rgSaveField', function (RingMessageBundle, $timeout, $q, $comp
         });
       }
 
-      scope.cancelBlur = function () {
-        $timeout(function () {
+      scope.cancelBlur = () => {
+        $timeout(() => {
           if (blurTimeout) {
             $timeout.cancel(blurTimeout);
             blurTimeout = null;
@@ -383,7 +379,7 @@ module.directive('rgSaveField', function (RingMessageBundle, $timeout, $q, $comp
         }, 10);
       };
 
-      scope.$watch('value', function (value) {
+      scope.$watch('value', value => {
         let promise = null;
         if (scope.saveFieldForm.$pristine) {
           scope.initial = value;
@@ -473,7 +469,7 @@ module.directive('rgSaveField', function (RingMessageBundle, $timeout, $q, $comp
         }
       });
     },
-    controller: function () {
+    controller() {
       let onSave = null;
 
       this.setSave = cb => {

@@ -1,17 +1,14 @@
-/* eslint-disable no-var */
-/* eslint-disable modules/no-cjs */
+import gemini from 'gemini';
 
-var gemini = require('gemini');
-
-gemini.suite('Popup', function () {
-  gemini.suite('Popups', function (child) {
+gemini.suite('Popup', () => {
+  gemini.suite('Popups', child => {
     child
       .setUrl('/example-popup')
       .setCaptureElements(['#target1', '#target2', '#target3', '#target4'])
       .capture('popup-different-directions');
   });
 
-  gemini.suite('Autoposition', function (child) {
+  gemini.suite('Autoposition', child => {
     child
       .setUrl('/example-popup-autoposition/')
       .setCaptureElements(['#leftSide', '#rightSide', '#downSide', '#topSide'])
