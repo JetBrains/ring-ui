@@ -476,8 +476,15 @@ export default class Popup extends RingComponentWithShortcuts {
    * @private
    */
   _onDocumentClick(evt) {
-    if (!this.node || this.node.contains(evt.target) || !this._listenersEnabled) {
+    if (!this.node || !this._listenersEnabled) {
       return;
+    }
+
+    const ringPopups = document.getElementsByClassName('ring-popup');
+    for (let i = 0; i < ringPopups.length; ++i) {
+      if (ringPopups[i].contains(evt.target)) {
+        return;
+      }
     }
 
     if (!this.props.anchorElement ||
