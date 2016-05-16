@@ -12,6 +12,7 @@ import List, {ListHint} from '../list/list';
 import Input from '../input/input';
 import Icon from '../icon/icon';
 import Button from '../button/button';
+import debounce from 'mout/function/debounce';
 import './select.scss';
 
 const ngModelStateField = 'selected';
@@ -364,6 +365,7 @@ export default class Select extends RingComponentWithShortcuts {
 
     maxHeight: 250,       // Height of options list, without the filter and 'Add' button
     minWidth: 'target',   // Popup width
+    debounce: 150,        // debounce filtering
 
     selected: null,       // current selection (item / array of items)
 
@@ -994,7 +996,7 @@ export default class Select extends RingComponentWithShortcuts {
             value={filterValue}
             className={inputCS}
             style={style}
-            onInput={::this._filterChangeHandler}
+            onInput={debounce(::this._filterChangeHandler, this.props.debounce)}
             onChange={noop}
             onFocus={::this._focusHandler}
             onBlur={::this._blurHandler}
