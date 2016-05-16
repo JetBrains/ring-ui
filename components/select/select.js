@@ -429,7 +429,7 @@ export default class Select extends RingComponentWithShortcuts {
   }
 
   _onEsc(event) {
-    if (!this._popup.isVisible() && this.props.allowAny) {
+    if (!this._popup.isVisible()) {
       return true;
     } else if (this.props.multiple || !this.props.getInitial) {
       return false;
