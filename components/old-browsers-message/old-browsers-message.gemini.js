@@ -1,9 +1,6 @@
-/* eslint-disable no-var */
-/* eslint-disable modules/no-cjs */
+import gemini from 'gemini';
 
-var gemini = require('gemini');
-
-gemini.suite('Old-browser-message', function (suite) {
+gemini.suite('Old-browser-message', suite => {
   suite
     .setUrl('/example-old-browsers-message/')
     .setCaptureElements('.ring-old-browsers-message')

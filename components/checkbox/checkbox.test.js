@@ -5,7 +5,7 @@ import {Simulate} from 'react-addons-test-utils';
 
 import Checkbox from './checkbox';
 
-describe('Checkbox', function () {
+describe('Checkbox', () => {
   beforeEach(function () {
     this.checkbox = renderIntoDocument(React.createElement(Checkbox, {
       onChange: () => {
@@ -63,7 +63,7 @@ describe('Checkbox', function () {
 
     this.checkbox.rerender({
       disabled: true,
-      inputChange: inputChange
+      inputChange
     });
 
     Simulate.click(this.checkbox.node);

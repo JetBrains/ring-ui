@@ -1,17 +1,13 @@
-/* eslint-disable no-var */
-/* eslint-disable modules/no-cjs */
-/* eslint-disable prefer-reflect */
+import gemini from 'gemini';
 
-var gemini = require('gemini');
-
-gemini.suite('ButtonNg', function (suite) {
+gemini.suite('ButtonNg', suite => {
   suite
     .setUrl('/example-button-ng/')
     .setCaptureElements('body > div')
-    .capture('buttons', function (actions) {
-      actions.executeJS(function () {
+    .capture('buttons', actions => {
+      actions.executeJS(() => {
         // Disable loading buttons (ignore is too slow on IE)
-        Array.prototype.forEach.call(document.querySelectorAll('.ring-button_loader'), function (node) {
+        Array.prototype.forEach.call(document.querySelectorAll('.ring-button_loader'), node => { // eslint-disable-line prefer-reflect
           node.classList.remove('ring-button_loader');
         });
       });

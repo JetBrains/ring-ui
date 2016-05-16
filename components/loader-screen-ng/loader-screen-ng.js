@@ -71,14 +71,14 @@ module.service('loaderScreen', function ($timeout, $rootScope) {
     }
   });
 });
-module.directive('rgLoaderScreen', function () {
-  return {
-    restrict: 'A',
-    scope: {
-      message: '@rgLoaderScreen'
-    },
-    template: require('./loader-screen-ng.html')
-  };
-});
+module.directive('rgLoaderScreen', () => ({
+  restrict: 'A',
+
+  scope: {
+    message: '@rgLoaderScreen'
+  },
+
+  template: require('./loader-screen-ng.html')
+}));
 
 export default module.name;

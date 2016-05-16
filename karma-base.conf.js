@@ -1,15 +1,14 @@
 /* eslint-env node */
-/* eslint-disable no-var */
 /* eslint-disable modules/no-cjs */
 
-module.exports = function (config) {
-  var webdriverConfig = {
+module.exports = config => {
+  const webdriverConfig = {
     hostname: '***REMOVED***',
     port: 4545
   };
 
-  var buildVersion = process.env.npm_package_config_version || 'dev';
-  var testName = 'Ring UI library Karma unit tests, build #' + buildVersion;
+  const buildVersion = process.env.npm_package_config_version || 'dev';
+  const testName = `Ring UI library Karma unit tests, build #${buildVersion}`;
 
   return {
 
@@ -97,40 +96,40 @@ module.exports = function (config) {
       wdEdge: {
         base: 'WebDriver',
         config: webdriverConfig,
-        testName: testName,
+        testName,
         browserName: 'MicrosoftEdge'
       },
       wdIE11: {
         base: 'WebDriver',
         config: webdriverConfig,
         'x-ua-compatible': 'IE=edge',
-        testName: testName,
+        testName,
         browserName: 'internet explorer'
       },
       wdIE10: {
         base: 'WebDriver',
         config: webdriverConfig,
         'x-ua-compatible': 'IE=EmulateIE10',
-        testName: testName,
+        testName,
         browserName: 'internet explorer'
       },
       wdIE9: {
         base: 'WebDriver',
         config: webdriverConfig,
         'x-ua-compatible': 'IE=EmulateIE9',
-        testName: testName,
+        testName,
         browserName: 'internet explorer'
       },
       wdFirefox: {
         base: 'WebDriver',
         config: webdriverConfig,
-        testName: testName,
+        testName,
         browserName: 'firefox'
       },
       wdChrome: {
         base: 'WebDriver',
         config: webdriverConfig,
-        testName: testName,
+        testName,
         browserName: 'chrome'
       }
     },

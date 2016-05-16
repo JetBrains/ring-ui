@@ -1,6 +1,6 @@
 import HubSource from './hub-source';
 
-describe('HubSource', function () {
+describe('HubSource', () => {
   beforeEach(function () {
     this.fakeAuth = {
       requestToken: this.sinon.stub().returns(Promise.resolve('testToken')),
@@ -13,7 +13,7 @@ describe('HubSource', function () {
     source.should.be.defined;
   });
 
-  it('Should merge objects', function () {
+  it('Should merge objects', () => {
     HubSource.mergeParams({foo: 'bar'}, {test: 'foo'}).should.be.deep.equal({foo: 'bar', test: 'foo'});
   });
 
@@ -157,7 +157,7 @@ describe('HubSource', function () {
     source.formatQuery('foo').should.equal('foo custom format');
   });
 
-  describe('Public interface', function () {
+  describe('Public interface', () => {
     it('Should store filterFn', function () {
       const filterFn = this.sinon.spy();
       const source = new HubSource(this.fakeAuth, 'testItems');

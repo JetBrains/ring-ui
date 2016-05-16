@@ -51,7 +51,7 @@ const module = angular.module('Ring.autofocus', []);
 const RING_SELECT_SELECTOR = '.ring-select';
 const RING_SELECT = 'rg-select';
 
-module.directive('rgAutofocus', function () {
+module.directive('rgAutofocus', () => {
 
   /**
    * Focuses on element itself if it has "focus" method.
@@ -72,7 +72,7 @@ module.directive('rgAutofocus', function () {
     }
   }
 
-  return function (scope, iElement, iAttrs) {
+  return (scope, iElement, iAttrs) => {
     const element = iElement[0];
     scope.$watch(iAttrs.rgAutofocus, newValue => {
       if (newValue) {

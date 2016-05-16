@@ -3,7 +3,7 @@ import Icon from './icon';
 import expandIcon from 'jetbrains-icons/expand.svg';
 import urlUtils from '../url-utils/url-utils';
 
-describe('Icon', function () {
+describe('Icon', () => {
   beforeEach(function () {
     this.icon = renderIntoDocument(Icon.factory({
       glyph: expandIcon

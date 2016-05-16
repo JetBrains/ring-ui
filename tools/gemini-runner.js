@@ -1,28 +1,27 @@
 /* eslint-env node */
 /* eslint-disable no-console */
-/* eslint-disable no-var */
-/* eslint-disable modules/no-cjs */
 
-require('babel-polyfill');
-var Gemini = require('gemini/api');
-var geminiTeamcityPlugin = require('gemini-teamcity');
-var http = require('http');
-var chalk = require('chalk');
-var path = require('path');
+import 'babel-polyfill';
 
-var isGather = process.argv.indexOf('--gather') !== -1;
-var isTeamcity = process.argv.indexOf('--teamcity') !== -1;
+import Gemini from 'gemini/api';
+import geminiTeamcityPlugin from 'gemini-teamcity';
+import http from 'http';
+import chalk from 'chalk';
+import path from 'path';
+
+const isGather = process.argv.includes('--gather');
+const isTeamcity = process.argv.includes('--teamcity');
 
 function getDocsiteUrl() {
-  var hostname = require('os').hostname();
-  var fullHostname = hostname.indexOf('.') !== -1 ? hostname : hostname + '.labs.intellij.net';
-  return 'http://' + fullHostname + ':9999';
+  const hostname = require('os').hostname();
+  const fullHostname = hostname.indexOf('.') !== -1 ? hostname : `${hostname}.labs.intellij.net`;
+  return `http://${fullHostname}:9999`;
 }
 
-var docsiteUrl = getDocsiteUrl();
+const docsiteUrl = getDocsiteUrl();
 console.log(chalk.blue('Docsite url detected:', docsiteUrl));
 
-var config = {
+const config = {
   rootUrl: docsiteUrl,
   gridUrl: '***REMOVED***',
   retry: 5,
@@ -55,14 +54,14 @@ var config = {
   }
 };
 
-var gemini = new Gemini(config);
+const gemini = new Gemini(config);
 
 if (isTeamcity) {
   geminiTeamcityPlugin(gemini);
 }
 
 function getFilesFromArguments() {
-  var startIndex = isGather
+  let startIndex = isGather
     ? process.argv.indexOf('--gather')
     : process.argv.indexOf(path.resolve('./', 'tools/gemini-runner.js'));
 
@@ -89,8 +88,8 @@ function handleGeminiError(error) {
    * #RG-663 Wait for calling process exit (to make all child processes finish)
    * And then call exit with error code instead
    */
-  var exit = process.exit;
-  process.on('exit', function () {
+  const exit = process.exit;
+  process.on('exit', () => {
     exit(4);
   });
 
@@ -98,32 +97,32 @@ function handleGeminiError(error) {
 }
 
 function checkUrlAvailability(url) {
-  return new Promise(function (resolve, reject) {
+  return new Promise((resolve, reject) => {
     http.get(url, resolve).on('error', reject);
   });
 }
 
-var files = getFilesFromArguments();
+const files = getFilesFromArguments();
 
 console.info(chalk.blue('Files to run on:'), files);
 
 checkUrlAvailability(docsiteUrl)
-  .catch(function (err) {
+  .catch(err => {
     console.error(chalk.red('URL "%s" is not available (%s).' +
       ' Did you forget to run "npm start" before gemini test?'), docsiteUrl, err.code);
     handleGeminiError({message: 'Run "npm start" before'});
   })
-  .then(function () {
+  .then(() => {
     if (isGather) {
       console.log(chalk.blue('Gathering references for file:', files[0]));
       if (files.length > 1) {
-        throw new Error('You should gather only 1 file at time, received: ' + files.join(','));
+        throw new Error(`You should gather only 1 file at time, received: ${files.join(',')}`);
       }
       if (files.length === 0) {
         throw new Error('You did not specify a file to gather. Use "npm run gemini-gather components/select/*.gemini.js" for example');
       }
       gemini.update(files, {})
-        .then(function (res) {
+        .then(res => {
           console.log(chalk.green('Gather done'), res);
         })
         .fail(handleGeminiError);
@@ -132,7 +131,7 @@ checkUrlAvailability(docsiteUrl)
       gemini.test(files, {
         reporters: ['html']
       })
-        .then(function (res) {
+        .then(res => {
           console.log(chalk.green('Test done'), res);
           if (res.failed || res.errored) {
             throw new Error('Not all tests passed successfully');

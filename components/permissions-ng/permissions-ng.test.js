@@ -5,17 +5,17 @@ import 'angular-mocks';
 
 import PermissionsNg from './permissions-ng';
 
-describe('PermissionsNg', function () {
+describe('PermissionsNg', () => {
 
   const fakeUserPermissions = {
     check: () => null
   };
 
-  beforeEach(window.module(PermissionsNg, function ($provide) {
+  beforeEach(window.module(PermissionsNg, $provide => {
     $provide.value('userPermissions', fakeUserPermissions);
   }));
 
-  describe('rg-permission', function () {
+  describe('rg-permission', () => {
     beforeEach(inject(function ($q, $rootScope, _$compile_) {
       this.$q = $q;
       this.scope = $rootScope.$new();

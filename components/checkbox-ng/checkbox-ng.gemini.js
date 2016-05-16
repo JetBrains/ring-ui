@@ -1,30 +1,26 @@
-/* eslint-disable no-var */
-/* eslint-disable modules/no-cjs */
-/* eslint-disable prefer-reflect */
+import gemini from 'gemini';
 
-var gemini = require('gemini');
-
-gemini.suite('CheckboxNg', function (parent) {
+gemini.suite('CheckboxNg', parent => {
   parent
     .setUrl('/example-checkbox-ng/')
     .setCaptureElements('p')
     .capture('default')
-    .capture('hovered', function (actions, find) {
+    .capture('hovered', (actions, find) => {
       actions.mouseMove(find('.ring-checkbox'));
     })
-    .capture('checked', function (actions, find) {
+    .capture('checked', (actions, find) => {
       actions.click(find('#checkButton'));
     });
 
-  gemini.suite('disabled', function (child) {
+  gemini.suite('disabled', child => {
     child
-      .capture('disabled', function (actions, find) {
+      .capture('disabled', (actions, find) => {
         actions.click(find('#disableButton'));
       })
-      .capture('hovered', function (actions, find) {
+      .capture('hovered', (actions, find) => {
         actions.mouseMove(find('.ring-checkbox'));
       })
-      .capture('checked-disabled', function (actions, find) {
+      .capture('checked-disabled', (actions, find) => {
         actions.click(find('#checkButton'));
       });
   });

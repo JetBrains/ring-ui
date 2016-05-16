@@ -7,44 +7,44 @@ import React from 'react';
 import TestUtils from 'react-addons-test-utils';
 import Alert from './alert';
 
-describe('Alert', function () {
-  it('should render', function () {
+describe('Alert', () => {
+  it('should render', () => {
     const alertComponent = TestUtils.renderIntoDocument(
         React.createElement(Alert, {caption: 'Test element'}));
     alertComponent.should.be.defined;
   });
 
-  describe('rendering', function () {
-    describe('rendering modes', function () {
-      it('should render a message', function () {
+  describe('rendering', () => {
+    describe('rendering modes', () => {
+      it('should render a message', () => {
         const alertComponent = TestUtils.renderIntoDocument(
             React.createElement(Alert, {caption: 'Test element', type: Alert.Type.MESSAGE}));
 
         alertComponent.node.should.have.class('ring-alert_message');
       });
 
-      it('should render an error', function () {
+      it('should render an error', () => {
         const alertComponent = TestUtils.renderIntoDocument(
             React.createElement(Alert, {caption: 'Test element', type: Alert.Type.ERROR}));
 
         alertComponent.node.should.have.class('ring-alert_error');
       });
 
-      it('should render a warning', function () {
+      it('should render a warning', () => {
         const alertComponent = TestUtils.renderIntoDocument(
             React.createElement(Alert, {caption: 'Test element', type: Alert.Type.WARNING}));
 
         alertComponent.node.should.have.class('ring-alert_warning');
       });
 
-      it('should render a success message', function () {
+      it('should render a success message', () => {
         const alertComponent = TestUtils.renderIntoDocument(
             React.createElement(Alert, {caption: 'Test element', type: Alert.Type.SUCCESS}));
 
         alertComponent.node.should.have.class('ring-alert_success');
       });
 
-      it('should render a message if type is not passed', function () {
+      it('should render a message if type is not passed', () => {
         const alertComponent = TestUtils.renderIntoDocument(
             React.createElement(Alert, {caption: 'Test element'}));
 
@@ -52,8 +52,8 @@ describe('Alert', function () {
       });
     });
 
-    describe('closeable alerts', function () {
-      it('should be closeable if it is defined in options', function () {
+    describe('closeable alerts', () => {
+      it('should be closeable if it is defined in options', () => {
         const alertComponent = TestUtils.renderIntoDocument(
             React.createElement(Alert, {caption: 'Test element', closeable: true}));
 
@@ -63,7 +63,7 @@ describe('Alert', function () {
         closeElement.should.not.be.null;
       });
 
-      it('should be closed on click', function () {
+      it('should be closed on click', () => {
         const alertComponent = TestUtils.renderIntoDocument(
             React.createElement(Alert, {caption: 'Test element', closeable: true}));
 

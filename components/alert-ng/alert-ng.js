@@ -71,17 +71,15 @@ function alert() {
   this.setDefaultTTL = setDefaultTTL;
 
   /*@ngInject*/
-  this.$get = function () {
-    return {
-      error: error,
-      warning: warning,
-      message: message,
-      success: success,
-      loading: loading,
-      setRemoveCallback: setRemoveCallback,
-      DOM: ReactAlert.DOM
-    };
-  };
+  this.$get = () => ({
+    error,
+    warning,
+    message,
+    success,
+    loading,
+    setRemoveCallback,
+    DOM: ReactAlert.DOM
+  });
 }
 
 module.provider('alert', alert);

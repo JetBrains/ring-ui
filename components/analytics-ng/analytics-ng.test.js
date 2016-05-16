@@ -4,10 +4,10 @@ import 'dom4';
 
 import Analytics from './analytics-ng';
 
-describe('Ring.analytics', function () {
+describe('Ring.analytics', () => {
   beforeEach(
     window.module('Ring.analytics',
-      function (analyticsProvider) {
+      analyticsProvider => {
         const send = sinon.stub();
         const AnalyticsCustomPlugin = require('../analytics/analytics__custom-plugin');
         analyticsProvider.plugins([new AnalyticsCustomPlugin(send)]);
@@ -15,21 +15,21 @@ describe('Ring.analytics', function () {
   );
 
   /* global inject, angular */
-  it('should define module', inject(function () {
+  it('should define module', inject(() => {
     expect(angular.module(Analytics)).should.exist;
   }));
 
-  it('should export factory', inject(function (analytics) {
+  it('should export factory', inject(analytics => {
     expect(analytics).should.exist;
   }));
 
-  it('should export correct interface', inject(function (analytics) {
+  it('should export correct interface', inject(analytics => {
     expect(analytics.trackPageView).should.exist;
     expect(analytics.trackEvent).should.exist;
     expect(analytics.track).should.exist;
   }));
 
-  describe('rgAnalytics', function () {
+  describe('rgAnalytics', () => {
     let $rootScope;
     let $compile;
     let analytics;
@@ -49,28 +49,28 @@ describe('Ring.analytics', function () {
 
     const click = new CustomEvent('click');
 
-    it('should track event for full arguments list', function () {
+    it('should track event for full arguments list', () => {
       const elem = compileTemplate('<a href="#" rg-analytics="some-category:some-event">Link</a>');
       elem[0].dispatchEvent(click);
 
       analytics.trackEvent.should.calledWith('some-category', 'some-event');
     });
 
-    it('should track event (with empty event)', function () {
+    it('should track event (with empty event)', () => {
       const elem = compileTemplate('<a href="#" rg-analytics="some-category">Link</a>');
       elem[0].dispatchEvent(click);
 
       analytics.trackEvent.should.calledWith('some-category', '');
     });
 
-    it('should track event (with empty category)', function () {
+    it('should track event (with empty category)', () => {
       const elem = compileTemplate('<a href="#" rg-analytics=":some-event">Link</a>');
       elem[0].dispatchEvent(click);
 
       analytics.trackEvent.should.calledWith('', 'some-event');
     });
 
-    it('should track event for non-default user action)', function () {
+    it('should track event for non-default user action)', () => {
       const elem = compileTemplate('<a href="#" rg-analytics="category:expand" rg-analytics-on="blur">Link</a>');
       elem[0].dispatchEvent(new CustomEvent('blur'));
 
