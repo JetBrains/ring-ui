@@ -7,7 +7,7 @@ import {getRect} from '../dom/dom';
 
 import Dialog from './dialog-ng';
 
-describe('DialogNg', function () {
+describe('DialogNg', () => {
   let dialog;
   let $compile;
   let $q;
@@ -18,14 +18,14 @@ describe('DialogNg', function () {
 
   beforeEach(window.module(
     Dialog,
-    function ($controllerProvider) {
+    $controllerProvider => {
       $controllerProvider.register('testCtrl', function () {
         this.text = text;
       });
     }
   ));
 
-  beforeEach(inject(function (_$q_, _$rootScope_, _$compile_, _$templateCache_, _dialog_) {
+  beforeEach(inject((_$q_, _$rootScope_, _$compile_, _$templateCache_, _dialog_) => {
     $q = _$q_;
     $rootScope = _$rootScope_;
     $compile = _$compile_;
@@ -33,12 +33,12 @@ describe('DialogNg', function () {
     dialog = _dialog_;
   }));
 
-  beforeEach(function () {
+  beforeEach(() => {
     sandbox = document.createElement('div');
     document.body.append(sandbox);
   });
 
-  afterEach(function () {
+  afterEach(() => {
     $rootScope.$destroy();
     $templateCache.removeAll();
     sandbox.remove();
@@ -55,8 +55,8 @@ describe('DialogNg', function () {
     $templateCache.put('/test.html', contentTemplate);
     const promise = dialog.show(Object.assign({
       content: '/test.html',
-      buttons: buttons,
-      data: data
+      buttons,
+      data
     }, options));
     scope.$digest();
 
@@ -65,11 +65,11 @@ describe('DialogNg', function () {
 
   const click = new CustomEvent('click');
 
-  describe('dialog', function () {
+  describe('dialog', () => {
 
     let renderDialog;
-    beforeEach(function () {
-      renderDialog = function (config) {
+    beforeEach(() => {
+      renderDialog = config => {
         config.content = undefined;
 
         const element = showDialog('<rg-dialog></rg-dialog>', null, null, null, config).element;
@@ -78,7 +78,7 @@ describe('DialogNg', function () {
       };
     });
 
-    it('should allow pass custom scope to the template', function () {
+    it('should allow pass custom scope to the template', () => {
       const $scope = $rootScope.$new();
       $scope.text = 'Hello';
 
@@ -90,12 +90,12 @@ describe('DialogNg', function () {
       element.query('form .content').should.have.html($scope.text);
     });
 
-    it('should allow pass custom controller', function () {
+    it('should allow pass custom controller', () => {
       text = 'Hello';
 
       const element = renderDialog({
         template: '<div class="content">{{text}}</div>',
-        controller: ['$scope', function ($scope) {
+        controller: ['$scope', $scope => {
           $scope.text = text;
         }]
       });
@@ -103,13 +103,13 @@ describe('DialogNg', function () {
       element.query('form .content').should.have.html(text);
     });
 
-    it('should allow use controllerAs notation', function () {
+    it('should allow use controllerAs notation', () => {
       text = 'Hello';
 
       const element = renderDialog({
         template: '<div class="content">{{testCtrl.text}}</div>',
         controllerAs: 'testCtrl',
-        controller: function () {
+        controller() {
           this.text = text;
         }
       });
@@ -117,7 +117,7 @@ describe('DialogNg', function () {
       element.query('form .content').should.have.html(text);
     });
 
-    it('should allow pass controller name', function () {
+    it('should allow pass controller name', () => {
       text = 'Hello';
 
       const element = renderDialog({
@@ -138,7 +138,7 @@ describe('DialogNg', function () {
         locals: {
           greeting: greetingService
         },
-        controller: ['$scope', 'greeting', function ($scope, greeting) {
+        controller: ['$scope', 'greeting', ($scope, greeting) => {
           $scope.text = greeting();
         }]
       });
@@ -155,7 +155,7 @@ describe('DialogNg', function () {
         resolve: {
           greeting: greetingResolver
         },
-        controller: ['$scope', 'greeting', function ($scope, greeting) {
+        controller: ['$scope', 'greeting', ($scope, greeting) => {
           $scope.text = greeting;
         }]
       });
@@ -175,7 +175,7 @@ describe('DialogNg', function () {
         resolve: {
           greeting: greetingResolver
         },
-        controller: ['$scope', 'greeting', function ($scope, greeting) {
+        controller: ['$scope', 'greeting', ($scope, greeting) => {
           $scope.text = greeting;
         }]
       });
@@ -183,7 +183,7 @@ describe('DialogNg', function () {
       element.query('form .content').should.have.html(text);
     });
 
-    it('should render template with more than one root node', function () {
+    it('should render template with more than one root node', () => {
       const $scope = $rootScope.$new();
       $scope.text = 'Hello';
 
@@ -195,7 +195,7 @@ describe('DialogNg', function () {
       element.query('form .content-2').should.have.html($scope.text);
     });
 
-    it('should allow use old data api in template', function () {
+    it('should allow use old data api in template', () => {
       const dialogConfig = {
         data: {
           text: 'Hello World!'
@@ -212,7 +212,7 @@ describe('DialogNg', function () {
   });
 
 
-  it('should be closed by pressing Esc', function () {
+  it('should be closed by pressing Esc', () => {
     const {element} = showDialog(
       '<rg-dialog></rg-dialog>',
       '<div></div>'
@@ -257,7 +257,7 @@ describe('DialogNg', function () {
     callback.should.have.been.called;
   });
 
-  it('should be closed via the controller', function () {
+  it('should be closed via the controller', () => {
     const {element, ctrl, scope} = showDialog(
       '<rg-dialog></rg-dialog>',
       '<div></div>'
@@ -268,7 +268,7 @@ describe('DialogNg', function () {
     element.should.not.have.class('active');
   });
 
-  it('should be closed via the dialog', function () {
+  it('should be closed via the dialog', () => {
     const {element, scope} = showDialog(
       '<rg-dialog></rg-dialog>',
       '<div></div>'
@@ -279,7 +279,7 @@ describe('DialogNg', function () {
     element.should.not.have.class('active');
   });
 
-  it('should be updated via the controller', function () {
+  it('should be updated via the controller', () => {
     const {element, scope, ctrl} = showDialog(
       '<rg-dialog></rg-dialog>',
       '<div class="content">{{dialog.data.prop}}</div>',
@@ -292,7 +292,7 @@ describe('DialogNg', function () {
     element.query('.content').should.have.text('qwe');
   });
 
-  it('should be updated via the dialog', function () {
+  it('should be updated via the dialog', () => {
     const {element, scope} = showDialog(
       '<rg-dialog></rg-dialog>',
       '<div class="content">{{dialog.data.prop}}</div>',
@@ -317,7 +317,7 @@ describe('DialogNg', function () {
     callback.should.have.been.called;
   });
 
-  it('should return Promise', function () {
+  it('should return Promise', () => {
     const {promise} = showDialog(
       '<rg-dialog></rg-dialog>',
       '<div></div>'
@@ -355,7 +355,7 @@ describe('DialogNg', function () {
     callback.should.have.been.called;
   });
 
-  it('should have a layer in the "popup" mode', function () {
+  it('should have a layer in the "popup" mode', () => {
     const {element} = showDialog(
       '<rg-dialog></rg-dialog>',
       '<div></div>'
@@ -364,7 +364,7 @@ describe('DialogNg', function () {
     element.should.contain('.ring-dialog__layer');
   });
 
-  it('should not have a layer in the "sidebar" mode', function () {
+  it('should not have a layer in the "sidebar" mode', () => {
     const {element} = showDialog(
       '<rg-dialog in-sidebar="true"></rg-dialog>',
       '<div></div>'
@@ -373,7 +373,7 @@ describe('DialogNg', function () {
     element.should.not.contain('.ring-dialog__layer');
   });
 
-  it('should not be "wide" by default', function () {
+  it('should not be "wide" by default', () => {
     const {element} = showDialog(
       '<rg-dialog></rg-dialog>',
       '<div></div>'
@@ -383,7 +383,7 @@ describe('DialogNg', function () {
     container.should.not.have.class('ring-dialog__container_wide');
   });
 
-  it('should be "wide" with a corresponding param', function () {
+  it('should be "wide" with a corresponding param', () => {
     const {element} = showDialog(
       '<rg-dialog></rg-dialog>',
       '<div></div>',
@@ -396,8 +396,8 @@ describe('DialogNg', function () {
     container.should.have.class('ring-dialog__container_wide');
   });
 
-  describe('header', function () {
-    it('should have a given title', function () {
+  describe('header', () => {
+    it('should have a given title', () => {
       const {element} = showDialog(
         '<rg-dialog></rg-dialog>',
         '<div rg-dialog-title="{{dialog.data.title}}"></div>',
@@ -408,7 +408,7 @@ describe('DialogNg', function () {
       element.query('.ring-dialog__header__title').should.have.text('Dialog Title');
     });
 
-    it('should change title via the controller', function () {
+    it('should change title via the controller', () => {
       const {element, ctrl, scope} = showDialog(
         '<rg-dialog></rg-dialog>',
         '<div rg-dialog-title="{{dialog.data.title}}"></div>',
@@ -422,7 +422,7 @@ describe('DialogNg', function () {
       element.query('.ring-dialog__header__title').should.have.text('New Dialog Title');
     });
 
-    it('should be draggable', function () {
+    it('should be draggable', () => {
       const {element} = showDialog(
         '<rg-dialog></rg-dialog>',
         '<div></div>'
@@ -454,7 +454,7 @@ describe('DialogNg', function () {
       getRect(container).should.have.property('top').closeTo(rect.top + 45, 0.1);
     });
 
-    it('should be draggable only inside the draggable zone', function () {
+    it('should be draggable only inside the draggable zone', () => {
       const {element} = showDialog(
         '<rg-dialog></rg-dialog>',
         '<div></div>'
@@ -491,8 +491,8 @@ describe('DialogNg', function () {
     });
   });
 
-  describe('form', function () {
-    it('should contain a given content', function () {
+  describe('form', () => {
+    it('should contain a given content', () => {
       const {element} = showDialog(
         '<rg-dialog></rg-dialog>',
         '<div class="content"></div>'
@@ -501,7 +501,7 @@ describe('DialogNg', function () {
       element.query('form').should.contain('.content');
     });
 
-    it('should allow pass custom template as html', function () {
+    it('should allow pass custom template as html', () => {
       const dialogConfig = {
         data: {},
         content: undefined,
@@ -514,8 +514,8 @@ describe('DialogNg', function () {
     });
   });
 
-  describe('footer', function () {
-    it('should have given buttons', function () {
+  describe('footer', () => {
+    it('should have given buttons', () => {
       const {element} = showDialog(
         '<rg-dialog></rg-dialog>',
         '<div></div>',
@@ -528,7 +528,7 @@ describe('DialogNg', function () {
       buttons[1].should.include.text('Cancel');
     });
 
-    it('should have a given "default" button', function () {
+    it('should have a given "default" button', () => {
       const {element} = showDialog(
         '<rg-dialog></rg-dialog>',
         '<div></div>',
@@ -538,7 +538,7 @@ describe('DialogNg', function () {
       element.query('button').should.have.class('ring-button_blue');
     });
 
-    it('should be closed by clicking a button', function () {
+    it('should be closed by clicking a button', () => {
       const {element} = showDialog(
         '<rg-dialog></rg-dialog>',
         '<div></div>',
@@ -550,7 +550,7 @@ describe('DialogNg', function () {
       element.should.not.have.class('active');
     });
 
-    it('should be closed by outside dialog if closeOnClick===true', function () {
+    it('should be closed by outside dialog if closeOnClick===true', () => {
       const {element} = showDialog(
         '<rg-dialog></rg-dialog>',
         '<div></div>',
@@ -564,7 +564,7 @@ describe('DialogNg', function () {
       element.should.not.have.class('active');
     });
 
-    it('should not be closed by outside dialog if closeOnClick is not set', function () {
+    it('should not be closed by outside dialog if closeOnClick is not set', () => {
       const {element} = showDialog(
         '<rg-dialog></rg-dialog>',
         '<div></div>',
@@ -576,7 +576,7 @@ describe('DialogNg', function () {
       element.should.have.class('active');
     });
 
-    it('should be closed if action returns promise and when it resolves', function () {
+    it('should be closed if action returns promise and when it resolves', () => {
       const defer = $q.defer(); //eslint-disable-line
 
       const {element} = showDialog(
@@ -597,7 +597,7 @@ describe('DialogNg', function () {
       element.should.not.have.class('active');
     });
 
-    it('should not be closed if action returns promise and when it resolves with "false"', function () {
+    it('should not be closed if action returns promise and when it resolves with "false"', () => {
       const defer = $q.defer(); //eslint-disable-line
 
       const {element} = showDialog(
@@ -618,7 +618,7 @@ describe('DialogNg', function () {
       element.should.have.class('active');
     });
 
-    it('should not be closed by clicking a button that return "false"', function () {
+    it('should not be closed by clicking a button that return "false"', () => {
       const {element} = showDialog(
         '<rg-dialog></rg-dialog>',
         '<div></div>',
@@ -639,7 +639,7 @@ describe('DialogNg', function () {
       const {element} = showDialog(
         '<rg-dialog></rg-dialog>',
         '<div></div>',
-        [{action: action}]
+        [{action}]
       );
       element.query('button').dispatchEvent(click);
 
@@ -647,7 +647,7 @@ describe('DialogNg', function () {
       action.should.have.been.called;
     });
 
-    it('should not have a description by default', function () {
+    it('should not have a description by default', () => {
       const {element} = showDialog(
         '<rg-dialog></rg-dialog>',
         '<div></div>'
@@ -656,7 +656,7 @@ describe('DialogNg', function () {
       element.should.not.contain('.ring-dialog__footer__description');
     });
 
-    it('should have a given description', function () {
+    it('should have a given description', () => {
       const {element} = showDialog(
         '<rg-dialog></rg-dialog>',
         '<div></div>',

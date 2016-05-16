@@ -1,6 +1,6 @@
 import LoaderCore from './loader__core';
 
-describe('Loader', function () {
+describe('Loader', () => {
   function noop() {}
 
   beforeEach(function () {
@@ -13,7 +13,7 @@ describe('Loader', function () {
     this.createLoader({});
   });
 
-  it('Should calculate gradient', function () {
+  it('Should calculate gradient', () => {
     const middleColor = LoaderCore.calculateGradient({r: 0, g: 0, b: 0}, {r: 255, g: 255, b: 255}, 0.5);
     middleColor.should.deep.equal({r: 128, g: 128, b: 128});
   });

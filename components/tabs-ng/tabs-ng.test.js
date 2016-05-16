@@ -5,7 +5,7 @@ import 'dom4';
 
 import Tabs from './tabs-ng';
 
-describe('TabsNg', function () {
+describe('TabsNg', () => {
   let $rootScope;
   let $compile;
 
@@ -19,13 +19,13 @@ describe('TabsNg', function () {
   beforeEach(window.module(Tabs));
 
   /* global inject */
-  beforeEach(inject(function (_$rootScope_, _$compile_) {
+  beforeEach(inject((_$rootScope_, _$compile_) => {
     $rootScope = _$rootScope_;
     $compile = _$compile_;
   }));
 
-  describe('DOM', function () {
-    it('Empty tabs', function () {
+  describe('DOM', () => {
+    it('Empty tabs', () => {
       const element = $compile(
         '<rg-tabs>' +
         '</rg-tabs>'
@@ -36,7 +36,7 @@ describe('TabsNg', function () {
       element[0].should.match('div.ring-tabs');
     });
 
-    it('One tab', function () {
+    it('One tab', () => {
       const element = $compile(
         '<rg-tabs>' +
         '<rg-tabs-pane x-title="General">' +
@@ -52,7 +52,7 @@ describe('TabsNg', function () {
       tab.content.should.contain.text('General');
     });
 
-    it('Two tabs', function () {
+    it('Two tabs', () => {
       const element = $compile(
         '<rg-tabs>' +
         '<rg-tabs-pane x-title="General">' +

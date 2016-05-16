@@ -1,17 +1,13 @@
-/* eslint-disable no-var */
-/* eslint-disable modules/no-cjs */
-/* eslint-disable prefer-reflect */
+import gemini from 'gemini';
 
-var gemini = require('gemini');
-
-gemini.suite('IconNg', function (suite) {
+gemini.suite('IconNg', suite => {
   suite
     .setUrl('/example-icon-ng/')
     .setCaptureElements('body > div')
-    .capture('icons', function (actions) {
-      actions.executeJS(function () {
+    .capture('icons', actions => {
+      actions.executeJS(() => {
         // Disable loading buttons (ignore is too slow on IE)
-        Array.prototype.forEach.call(document.querySelectorAll('.ring-icon_loading'), function (node) {
+        Array.prototype.forEach.call(document.querySelectorAll('.ring-icon_loading'), node => { // eslint-disable-line prefer-reflect
           node.classList.remove('ring-icon_loading');
         });
       });

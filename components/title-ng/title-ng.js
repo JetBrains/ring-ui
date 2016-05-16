@@ -1,39 +1,38 @@
 /* global angular: false */
 
 const module = angular.module('Ring.title', []);
-module.directive('rgPageTitle', function () {
-  return {
-    scope: {
-      rgPageTitle: '@',
-      noTitle: '@',
-      delimiter: '@'
-    },
-    controller: function ($rootScope, $scope, $element, pageTitle, $injector) {
-      const element = $element[0];
+module.directive('rgPageTitle', () => ({
+  scope: {
+    rgPageTitle: '@',
+    noTitle: '@',
+    delimiter: '@'
+  },
 
-      pageTitle.setDelimiter($scope.delimiter);
+  controller($rootScope, $scope, $element, pageTitle, $injector) {
+    const element = $element[0];
 
-      // Get title prefix from title element
-      const elementText = element.textContent;
+    pageTitle.setDelimiter($scope.delimiter);
 
-      // Set page title on route change
-      $rootScope.$on('$routeChangeSuccess', function (event, current) {
-        let title = current.$$route && current.$$route.title; // eslint-disable-line angular/no-private-call
+    // Get title prefix from title element
+    const elementText = element.textContent;
 
-        pageTitle.setCurrent($scope.rgPageTitle || elementText);
+    // Set page title on route change
+    $rootScope.$on('$routeChangeSuccess', (event, current) => {
+      let title = current.$$route && current.$$route.title; // eslint-disable-line angular/no-private-call
 
-        // Use title: false to prevent title change on route
-        if (title !== false) {
-          if (angular.isArray(title) || angular.isFunction(title)) {
-            //Invoke injector
-            title = $injector.invoke(title);
-          }
-          pageTitle.addElement(title || $scope.noTitle);
+      pageTitle.setCurrent($scope.rgPageTitle || elementText);
+
+      // Use title: false to prevent title change on route
+      if (title !== false) {
+        if (angular.isArray(title) || angular.isFunction(title)) {
+          //Invoke injector
+          title = $injector.invoke(title);
         }
-      });
-    }
-  };
-});
+        pageTitle.addElement(title || $scope.noTitle);
+      }
+    });
+  }
+}));
 module.service('pageTitle', function ($interpolate) {
   let delimiter = ' | ';
   let current = document.title;

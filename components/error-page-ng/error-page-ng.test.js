@@ -6,24 +6,24 @@ import 'angular-mocks';
 import 'angular-route';
 import ErrorPage from './error-page-ng';
 
-describe('ErrorPageNg', function () {
+describe('ErrorPageNg', () => {
   beforeEach(
     window.module('Ring.error-page',
-    function ($provide) {
+    $provide => {
       $provide.provider('auth', require('../auth-ng/auth-ng.mock'));
     })
   );
 
   /* global inject */
-  it('should define module', inject(function () {
+  it('should define module', inject(() => {
     expect(window.angular.module(ErrorPage)).should.exist;
   }));
 
-  it('should define factory errorPageConfiguration', inject(function (errorPageConfiguration) {
+  it('should define factory errorPageConfiguration', inject(errorPageConfiguration => {
     expect(errorPageConfiguration).should.exist;
   }));
 
-  it('should compile directive to content if no errors', inject(function ($rootScope, $compile) {
+  it('should compile directive to content if no errors', inject(($rootScope, $compile) => {
     let elem = window.angular.element('<div rg-error-page><div class="content">Hello!</div></div>');
     elem = $compile(elem)($rootScope);
     $rootScope.$digest();
@@ -33,7 +33,7 @@ describe('ErrorPageNg', function () {
   }));
 
   it('should compile directive to default error if has empty error',
-    inject(function ($rootScope, $compile, RingMessageBundle) {
+    inject(($rootScope, $compile, RingMessageBundle) => {
       let elem = window.angular.element('<div rg-error-page="{error: {}}"><div class="content">Hello!</div></div>');
       elem = $compile(elem)($rootScope);
       $rootScope.$digest();
@@ -44,18 +44,18 @@ describe('ErrorPageNg', function () {
   );
 
   it('should show error message for 404',
-    inject(function ($rootScope, $compile, RingMessageBundle) {
+    inject(($rootScope, $compile, RingMessageBundle) => {
       let elem = window.angular.element('<div rg-error-page="{error: {status: 404}}"><div class="content">Hello!</div></div>');
       elem = $compile(elem)($rootScope);
       $rootScope.$digest();
 
       elem[0].should.contain('.error-message');
-      elem[0].query('.error-message__title').should.have.text('404: ' + RingMessageBundle.errorpage_404());
+      elem[0].query('.error-message__title').should.have.text(`404: ${RingMessageBundle.errorpage_404()}`);
     })
   );
 
   it('should not show error message for resolved promise',
-    inject(function ($rootScope, $compile, $q) {
+    inject(($rootScope, $compile, $q) => {
       $rootScope.errorSource = $q.defer();
 
       let elem = window.angular.element('<div rg-error-page="errorSource"><div class="content">Hello!</div></div>');
@@ -69,7 +69,7 @@ describe('ErrorPageNg', function () {
   );
 
   it('should show error message for empty rejected promise',
-    inject(function ($rootScope, $compile, RingMessageBundle, $q) {
+    inject(($rootScope, $compile, RingMessageBundle, $q) => {
       $rootScope.errorSource = $q.defer();
       let elem = window.angular.element('<div rg-error-page="errorSource"><div class="content">Hello!</div></div>');
       elem = $compile(elem)($rootScope);
@@ -82,7 +82,7 @@ describe('ErrorPageNg', function () {
   );
 
   it('should show error message for rejected promise with code 403',
-    inject(function ($rootScope, $compile, RingMessageBundle, $q) {
+    inject(($rootScope, $compile, RingMessageBundle, $q) => {
       $rootScope.errorSource = $q.defer();
       let elem = window.angular.element('<div rg-error-page="errorSource"><div class="content">Hello!</div></div>');
       elem = $compile(elem)($rootScope);
@@ -90,12 +90,12 @@ describe('ErrorPageNg', function () {
       $rootScope.$digest();
 
       elem[0].should.contain('.error-message');
-      elem[0].query('.error-message__title').should.have.text('403: ' + RingMessageBundle.errorpage_403());
+      elem[0].query('.error-message__title').should.have.text(`403: ${RingMessageBundle.errorpage_403()}`);
     })
   );
 
   it('should show error message for rejected resource',
-    inject(function ($rootScope, $compile, RingMessageBundle, $q) {
+    inject(($rootScope, $compile, RingMessageBundle, $q) => {
       const df = $q.defer();
       $rootScope.errorSource = {$promise: df.promise};
 
@@ -105,12 +105,12 @@ describe('ErrorPageNg', function () {
       $rootScope.$digest();
 
       elem[0].should.contain('.error-message');
-      elem[0].query('.error-message__title').should.have.text('403: ' + RingMessageBundle.errorpage_403());
+      elem[0].query('.error-message__title').should.have.text(`403: ${RingMessageBundle.errorpage_403()}`);
     })
   );
 
   it('should show 403 page on no routing permissions',
-    inject(function ($rootScope, $compile, RingMessageBundle, $q, $route) {
+    inject(($rootScope, $compile, RingMessageBundle, $q, $route) => {
       $route.current = {
         $$route: { // eslint-disable-line angular/no-private-call
           permission: 'hub.low-level'
@@ -126,12 +126,12 @@ describe('ErrorPageNg', function () {
       $rootScope.$digest();
 
       elem[0].should.contain('.error-message');
-      elem[0].query('.error-message__title').should.have.text('403: ' + RingMessageBundle.errorpage_403());
+      elem[0].query('.error-message__title').should.have.text(`403: ${RingMessageBundle.errorpage_403()}`);
     })
   );
 
   it('should show 403 page on no routing permissions if argument\'s promise is also rejected',
-    inject(function ($rootScope, $compile, RingMessageBundle, $q, $route) {
+    inject(($rootScope, $compile, RingMessageBundle, $q, $route) => {
       $route.current = {
         $$route: { // eslint-disable-line angular/no-private-call
           permission: 'hub.low-level'
@@ -147,7 +147,7 @@ describe('ErrorPageNg', function () {
       $rootScope.$digest();
 
       elem[0].should.contain('.error-message');
-      elem[0].query('.error-message__title').should.have.text('403: ' + RingMessageBundle.errorpage_403());
+      elem[0].query('.error-message__title').should.have.text(`403: ${RingMessageBundle.errorpage_403()}`);
     })
   );
 });

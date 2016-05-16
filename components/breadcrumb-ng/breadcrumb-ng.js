@@ -42,18 +42,17 @@ registerComponents({Icon});
 
 const module = angular.module('Ring.breadcrumb', [reactNg]);
 
-module.directive('rgBreadcrumb', function () {
-  return {
-    template: require('./breadcrumb-ng.html'),
-    replace: true,
-    transclude: true,
-    restrict: 'E',
-    scope: {
-      label: '@',
-      link: '@',
-      onClick: '&'
-    }
-  };
-});
+module.directive('rgBreadcrumb', () => ({
+  template: require('./breadcrumb-ng.html'),
+  replace: true,
+  transclude: true,
+  restrict: 'E',
+
+  scope: {
+    label: '@',
+    link: '@',
+    onClick: '&'
+  }
+}));
 
 export default module.name;

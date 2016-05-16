@@ -1,17 +1,14 @@
-/* eslint-disable no-var */
-/* eslint-disable modules/no-cjs */
+import gemini from 'gemini';
 
-var gemini = require('gemini');
-
-gemini.suite('Autofocus', function () {
-  gemini.suite('On input', function (child) {
+gemini.suite('Autofocus', () => {
+  gemini.suite('On input', child => {
     child
       .setUrl('/example-autofocus')
       .setCaptureElements('input[rg-autofocus]')
       .capture('autofocused-input');
   });
 
-  gemini.suite('On select', function (child) {
+  gemini.suite('On select', child => {
     child
       .setUrl('/example-autofocus-on-select')
       .setCaptureElements('.ring-select')

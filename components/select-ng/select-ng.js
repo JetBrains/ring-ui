@@ -433,7 +433,7 @@ const LOADER_DELAY = 150; // delay to show loader in ms
 /* global angular: false */
 const module = angular.module('Ring.select', [SelectNgOptions, MessageBundle]);
 
-module.directive('rgSelect', function () {
+module.directive('rgSelect', () => {
   const types = {
     input: Select.Type.INPUT,
     button: Select.Type.BUTTON,
@@ -496,13 +496,13 @@ module.directive('rgSelect', function () {
     bindToController: true,
     controllerAs: 'selectCtrl',
     require: ['?ngModel', 'rgSelect'],
-    link: function (scope, iElement, iAttrs, ctrls) {
+    link(scope, iElement, iAttrs, ctrls) {
       const ngModelCtrl = ctrls[0];
       const rgSelectCtrl = ctrls[1];
 
       rgSelectCtrl.setNgModelCtrl(ngModelCtrl);
     },
-    controller: function ($q, $scope, $element, $attrs, $timeout, SelectOptions, RingMessageBundle) {
+    controller($q, $scope, $element, $attrs, $timeout, SelectOptions, RingMessageBundle) {
       /*eslint-disable consistent-this*/
       const ctrl = this;
       /*eslint-enable consistent-this*/
@@ -769,7 +769,7 @@ module.directive('rgSelect', function () {
             ctrl.syncSelectToNgModel(selected);
 
             $scope.$evalAsync(() => {
-              ctrl.onChange({selected: selected});
+              ctrl.onChange({selected});
             });
           },
           onFilter: query => {

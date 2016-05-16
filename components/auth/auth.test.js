@@ -9,37 +9,31 @@ import Sniffr from 'sniffr';
 const sniffr = new Sniffr();
 sniffr.sniff();
 
-describe('Auth', function () {
+describe('Auth', () => {
   if (sniffr.browser.name === 'ie' && sniffr.browser.version[0] < 10) {
     return;
   }
 
-  describe('construction', function () {
-    it('should require provide config', function () {
-      expect(function () {
-        return new Auth();
-      }).to.throw(Error, 'Config is required');
+  describe('construction', () => {
+    it('should require provide config', () => {
+      expect(() => new Auth()).to.throw(Error, 'Config is required');
     });
 
-    it('should require provide server uri', function () {
-      expect(function () {
-        return new Auth({
-          serverUri: null
-        });
-      }).to.throw(Error, 'Property serverUri is required');
+    it('should require provide server uri', () => {
+      expect(() => new Auth({
+        serverUri: null
+      })).to.throw(Error, 'Property serverUri is required');
 
-      expect(function () {
-        return new Auth({});
-      }).to.throw(Error, 'Property serverUri is required');
+      expect(() => new Auth({})).to.throw(Error, 'Property serverUri is required');
     });
 
-    it('should fix serverUri', function () {
+    it('should fix serverUri', () => {
       expect(new Auth({serverUri: ''}).config.serverUri).to.equal('');
       expect(new Auth({serverUri: 'http://localhost'}).config.serverUri).to.equal('http://localhost/');
       expect(new Auth({serverUri: '.'}).config.serverUri).to.equal('./');
     });
 
-    it('should merge passed config with default config', function () {
+    it('should merge passed config with default config', () => {
       const config = {
         serverUri: 'http://localhost/'
       };
@@ -50,7 +44,7 @@ describe('Auth', function () {
       auth.config.should.contain.keys(Object.keys(Auth.DEFAULT_CONFIG));
     });
 
-    it('should set config.userParams with proper fields property', function () {
+    it('should set config.userParams with proper fields property', () => {
       const config = {
         serverUri: 'http://localhost/',
         userFields: ['name', 'profile/email']
@@ -71,7 +65,7 @@ describe('Auth', function () {
     });
   });
 
-  describe('getValidatedToken', function () {
+  describe('getValidatedToken', () => {
     const auth = new Auth({
       serverUri: '',
       scopes: ['0-0-0-0-0', 'youtrack'],
@@ -82,7 +76,7 @@ describe('Auth', function () {
       this.sinon.stub(AuthStorage.prototype, 'getToken');
     });
 
-    it('should resolve access token when it is valid', function () {
+    it('should resolve access token when it is valid', () => {
       AuthStorage.prototype.getToken.returns(Promise.resolve({
         access_token: 'token',
         expires: Auth._epoch() + 60 * 60,
@@ -92,7 +86,7 @@ describe('Auth', function () {
         should.eventually.be.equal('token');
     });
 
-    it('should resolve access token when token is given for all required scopes', function () {
+    it('should resolve access token when token is given for all required scopes', () => {
       AuthStorage.prototype.getToken.returns(Promise.resolve({
         access_token: 'token',
         expires: Auth._epoch() + 60 * 60,
@@ -102,7 +96,7 @@ describe('Auth', function () {
         should.eventually.be.equal('token');
     });
 
-    it('should reject if access_token is empty', function () {
+    it('should reject if access_token is empty', () => {
       AuthStorage.prototype.getToken.returns(Promise.resolve({
         access_token: null,
         expires: Auth._epoch() + 60 * 60,
@@ -112,13 +106,13 @@ describe('Auth', function () {
         should.be.rejectedWith(Auth.TokenValidationError, 'Token not found');
     });
 
-    it('should reject if there is no token stored', function () {
+    it('should reject if there is no token stored', () => {
       AuthStorage.prototype.getToken.returns(Promise.resolve(null));
       return auth._getValidatedToken([Auth._validateExistence, Auth._validateExpiration, auth._validateScopes.bind(auth)]).
         should.be.rejectedWith(Auth.TokenValidationError, 'Token not found');
     });
 
-    it('should reject if token is expired', function () {
+    it('should reject if token is expired', () => {
       AuthStorage.prototype.getToken.returns(Promise.resolve({
         access_token: 'token',
         expires: Auth._epoch() + 15 * 60,
@@ -128,7 +122,7 @@ describe('Auth', function () {
         should.be.rejectedWith(Auth.TokenValidationError, 'Token expired');
     });
 
-    it('should reject if token scopes don\'t match required scopes', function () {
+    it('should reject if token scopes don\'t match required scopes', () => {
       AuthStorage.prototype.getToken.returns(Promise.resolve({
         access_token: 'token',
         expires: Auth._epoch() + 60 * 60,
@@ -139,7 +133,7 @@ describe('Auth', function () {
     });
   });
 
-  describe('validateAgainstUser', function () {
+  describe('validateAgainstUser', () => {
     const auth = new Auth({
       serverUri: 'http://server',
       redirect_uri: 'http://client',
@@ -154,27 +148,27 @@ describe('Auth', function () {
       this.sinon.stub(Auth.prototype, 'getApi');
     });
 
-    afterEach(function () {
+    afterEach(() => {
       Auth.HAS_CORS = hasCors;
     });
 
-    it('should resolve to access token when user is returned', function () {
+    it('should resolve to access token when user is returned', () => {
       const token = {access_token: 'token'};
       Auth.prototype.getApi.returns(Promise.resolve({login: 'user'}));
       return auth._validateAgainstUser(token).
-        then(function (validToken) {
+        then(validToken => {
           Auth.prototype.getApi.should.have.been.calledWith(Auth.API_PROFILE_PATH, 'token');
           return validToken;
         }).
         should.eventually.be.deep.equal(token);
     });
 
-    it('should not validate user when CORS is disabled', function () {
+    it('should not validate user when CORS is disabled', () => {
       const token = {access_token: 'token'};
       Auth.HAS_CORS = false;
 
       return auth._validateAgainstUser(token).
-        then(function (validToken) {
+        then(validToken => {
           Auth.prototype.getApi.should.not.have.been.called;
           return validToken;
         }).
@@ -182,12 +176,12 @@ describe('Auth', function () {
     });
 
 
-    it('should reject with redirect if 401 response recieved', function () {
+    it('should reject with redirect if 401 response recieved', () => {
       const token = {access_token: 'token'};
       Auth.prototype.getApi.returns(Promise.reject({
         status: 401,
         response: {
-          json: function () {
+          json() {
             return Promise.resolve({error: 'Problem'});
           }
         }
@@ -196,11 +190,11 @@ describe('Auth', function () {
         should.be.rejectedWith(Auth.TokenValidationError, 'Problem');
     });
 
-    it('should reject with redirect if invalid_grant response recieved', function () {
+    it('should reject with redirect if invalid_grant response recieved', () => {
       const token = {access_token: 'token'};
       Auth.prototype.getApi.returns(Promise.reject({
         response: {
-          json: function () {
+          json() {
             return Promise.resolve({error: 'invalid_grant'});
           }
         }
@@ -209,11 +203,11 @@ describe('Auth', function () {
         should.be.rejectedWith(Auth.TokenValidationError, 'invalid_grant');
     });
 
-    it('should reject with redirect if invalid_request response recieved', function () {
+    it('should reject with redirect if invalid_request response recieved', () => {
       const token = {access_token: 'token'};
       Auth.prototype.getApi.returns(Promise.reject({
         response: {
-          json: function () {
+          json() {
             return Promise.resolve({error: 'invalid_request'});
           }
         }
@@ -222,13 +216,13 @@ describe('Auth', function () {
         should.be.rejectedWith(Auth.TokenValidationError, 'invalid_request');
     });
 
-    it('should reject with redirect if 401 response without json recieved', function () {
+    it('should reject with redirect if 401 response without json recieved', () => {
       const token = {access_token: 'token'};
       Auth.prototype.getApi.returns(Promise.reject({
         status: 401,
         message: '403 Forbidden',
         response: {
-          json: function () {
+          json() {
             return Promise.reject();
           }
         }
@@ -238,7 +232,7 @@ describe('Auth', function () {
     });
   });
 
-  describe('init', function () {
+  describe('init', () => {
     let auth = new Auth({
       serverUri: '',
       redirect: true,
@@ -253,17 +247,11 @@ describe('Auth', function () {
       this.sinon.stub(Auth.prototype, 'setHash');
     });
 
-    afterEach(function () {
-      return Promise.all([auth._storage.cleanStates(), auth._storage.wipeToken()]);
-    });
+    afterEach(() => Promise.all([auth._storage.cleanStates(), auth._storage.wipeToken()]));
 
-    it('should resolve to undefined if there is a valid token', function () {
-      return auth._storage.saveToken({access_token: 'token', expires: Auth._epoch() + 60 * 60, scopes: ['0-0-0-0-0']}).
-        then(function () {
-          return auth.init();
-        }).
-        should.eventually.be.undefined;
-    });
+    it('should resolve to undefined if there is a valid token', () => auth._storage.saveToken({access_token: 'token', expires: Auth._epoch() + 60 * 60, scopes: ['0-0-0-0-0']}).
+      then(() => auth.init()).
+      should.eventually.be.undefined);
 
     it('should fetch auth response from query parameters', function () {
       const frozenTime = Auth._epoch();
@@ -279,10 +267,8 @@ describe('Auth', function () {
         optionalScopes: ['youtrack']
       });
       return auth._storage.saveState('xyz', {restoreLocation: 'http://localhost:8080/hub/users', scopes: ['0-0-0-0-0']}).
-        then(function () {
-          return auth.init();
-        }).
-        then(function (restoreLocation) {
+        then(() => auth.init()).
+        then(restoreLocation => {
           restoreLocation.should.be.equal('http://localhost:8080/hub/users');
           return auth._storage.getToken();
         }).
@@ -321,7 +307,7 @@ describe('Auth', function () {
         optionalScopes: ['youtrack']
       });
       return auth.init().
-        catch(function (reject) {
+        catch(reject => {
           Auth.prototype._redirectCurrentPage.should.be.calledWith('api/rest/oauth2/auth?response_type=token&' +
             'state=unique&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub&request_credentials=default&client_id=1-1-1-1-1&scope=0-0-0-0-0%20youtrack');
           return reject.authRedirect;
@@ -340,7 +326,7 @@ describe('Auth', function () {
         cleanHash: true
       });
 
-      return auth.init().catch(function () {
+      return auth.init().catch(() => {
 
         auth.setHash.should.have.been.calledWith('');
       });
@@ -356,7 +342,7 @@ describe('Auth', function () {
         cleanHash: true
       });
 
-      return auth.init().catch(function () {
+      return auth.init().catch(() => {
         auth.setHash.should.not.have.been.called;
       });
     });
@@ -372,7 +358,7 @@ describe('Auth', function () {
         cleanHash: false
       });
 
-      return auth.init().catch(function () {
+      return auth.init().catch(() => {
         auth.setHash.should.not.have.been.called;
       });
 
@@ -389,14 +375,14 @@ describe('Auth', function () {
         request_credentials: 'skip'
       });
       return auth.init().
-        catch(function () {
+        catch(() => {
           Auth.prototype._redirectCurrentPage.should.be.calledWith('api/rest/oauth2/auth?response_type=token&' +
           'state=unique&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub&request_credentials=skip&client_id=0-0-0-0-0&scope=0-0-0-0-0');
         });
     });
   });
 
-  describe('background init', function () {
+  describe('background init', () => {
     let auth;
 
     beforeEach(function () {
@@ -419,12 +405,12 @@ describe('Auth', function () {
     it('should initiate when there is no valid token', function () {
       Auth.prototype._getValidatedToken.onCall(1).returns(Promise.resolve('token'));
 
-      this.sinon.stub(Auth.prototype, '_redirectFrame', function () {
+      this.sinon.stub(Auth.prototype, '_redirectFrame', () => {
         auth._storage.saveToken({access_token: 'token', expires: Auth._epoch() + 60 * 60, scopes: ['0-0-0-0-0']});
       });
 
       return auth.init().
-        then(function () {
+        then(() => {
           Auth.prototype._redirectFrame.should.have.been.calledWithMatch(sinon.match.any, 'api/rest/oauth2/auth?response_type=token&' +
           'state=unique&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub&request_credentials=silent&client_id=1-1-1-1-1&scope=0-0-0-0-0%20youtrack');
 
@@ -435,12 +421,12 @@ describe('Auth', function () {
     });
 
     it('should initiate and fall back to redirect when token check fails', function () {
-      this.sinon.stub(Auth.prototype, '_redirectFrame', function () {
+      this.sinon.stub(Auth.prototype, '_redirectFrame', () => {
         auth._storage.saveToken({access_token: 'token', expires: Auth._epoch() + 60 * 60, scopes: ['0-0-0-0-0']});
       });
 
       return auth.init().
-        catch(function (reject) {
+        catch(reject => {
           // Background loading
           Auth.prototype._redirectFrame.should.have.been.calledWithMatch(sinon.match.any, 'api/rest/oauth2/auth?response_type=token&' +
           'state=unique&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub&request_credentials=silent&client_id=1-1-1-1-1&scope=0-0-0-0-0%20youtrack');
@@ -457,12 +443,12 @@ describe('Auth', function () {
     });
 
     it('should initiate and fall back to redirect when guest is banned', function () {
-      this.sinon.stub(Auth.prototype, '_redirectFrame', function () {
+      this.sinon.stub(Auth.prototype, '_redirectFrame', () => {
         auth._storage.saveState('unique', {error: {code: 'access_denied'}});
       });
 
       return auth.init().
-        catch(function (reject) {
+        catch(reject => {
           // Background loading
           Auth.prototype._redirectFrame.should.have.been.calledWithMatch(sinon.match.any, 'api/rest/oauth2/auth?response_type=token&' +
           'state=unique&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub&request_credentials=silent&client_id=1-1-1-1-1&scope=0-0-0-0-0%20youtrack');
@@ -479,7 +465,7 @@ describe('Auth', function () {
     });
   });
 
-  describe('requestToken', function () {
+  describe('requestToken', () => {
     beforeEach(function () {
       this.sinon.stub(Auth.prototype, '_redirectCurrentPage');
       this.sinon.stub(Auth.prototype, 'getApi').returns(Promise.resolve({id: 'APIuser'}));
@@ -512,7 +498,7 @@ describe('Auth', function () {
         this.auth._storage.saveToken({access_token: 'token', expires: Auth._epoch() + 60 * 60, scopes: ['0-0-0-0-0']});
       });
       return this.auth.requestToken().
-        then(function (accessToken) {
+        then(accessToken => {
           Auth.prototype._redirectFrame.should.have.been.calledWithMatch(sinon.match.any, 'api/rest/oauth2/auth?response_type=token&' +
             'state=unique&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub&request_credentials=silent&client_id=1-1-1-1-1&scope=0-0-0-0-0%20youtrack');
 
@@ -531,7 +517,7 @@ describe('Auth', function () {
         this.auth._storage.saveToken({access_token: 'token', expires: Auth._epoch() + 60 * 60, scopes: ['0-0-0-0-0']});
       });
       return this.auth.requestToken().
-        then(function (accessToken) {
+        then(accessToken => {
           Auth.prototype._redirectFrame.should.have.been.calledWithMatch(sinon.match.any, 'api/rest/oauth2/auth?response_type=token&' +
             'state=unique&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub&request_credentials=silent&client_id=1-1-1-1-1&scope=0-0-0-0-0%20youtrack');
           Auth.prototype._redirectCurrentPage.should.have.been.calledWith(window.location.href);
@@ -543,7 +529,7 @@ describe('Auth', function () {
       Auth.BACKGROUND_TIMEOUT = 100;
       this.sinon.stub(Auth.prototype, '_redirectFrame');
       return this.auth.requestToken().
-        catch(function (reject) {
+        catch(reject => {
           Auth.prototype._redirectFrame.should.have.been.calledWithMatch(sinon.match.any, 'api/rest/oauth2/auth?response_type=token&' +
           'state=unique&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub&request_credentials=silent&client_id=1-1-1-1-1&scope=0-0-0-0-0%20youtrack');
           Auth.prototype._redirectCurrentPage.should.have.been.calledWith('api/rest/oauth2/auth?response_type=token&' +
@@ -554,7 +540,7 @@ describe('Auth', function () {
     });
   });
 
-  describe('requestUser', function () {
+  describe('requestUser', () => {
     let auth;
 
     beforeEach(function () {
@@ -569,13 +555,13 @@ describe('Auth', function () {
       this.sinon.stub(Auth.prototype, 'getApi').returns(Promise.resolve({name: 'APIuser'}));
     });
 
-    it('should return existing user', function () {
+    it('should return existing user', () => {
       auth._initDeferred = {};
       auth._initDeferred.promise = Promise.resolve();
 
       auth.user = {name: 'existingUser'};
 
-      return auth.requestUser().then(function (user) {
+      return auth.requestUser().then(user => {
         Auth.prototype.getApi.should.not.have.been.called;
         return user;
       }).should.eventually.equal(auth.user);
@@ -587,25 +573,25 @@ describe('Auth', function () {
 
       this.sinon.stub(Auth.prototype, 'requestToken').returns(Promise.resolve('token'));
 
-      return auth.requestUser().then(function (user) {
+      return auth.requestUser().then(user => {
         Auth.prototype.getApi.should.have.been.calledOnce;
         Auth.prototype.getApi.should.have.been.calledWithMatch('users/me', 'token', sinon.match({fields: 'guest,id,name,profile/avatar/url'}));
         return user;
       }).should.become({name: 'APIuser'});
     });
 
-    it('should wait user saved during validation', function () {
+    it('should wait user saved during validation', () => {
       auth.init();
       auth._storage.saveToken({access_token: 'token', expires: Auth._epoch() + 60 * 60, scopes: ['0-0-0-0-0']});
 
-      return auth.requestUser().then(function (user) {
+      return auth.requestUser().then(user => {
         Auth.prototype.getApi.should.have.been.calledOnce;
         return user;
       }).should.become({name: 'APIuser'});
     });
   });
 
-  describe('getSecure and getApi', function () {
+  describe('getSecure and getApi', () => {
     const auth = new Auth({
       serverUri: 'http://localhost:8080'
     });
@@ -637,7 +623,7 @@ describe('Auth', function () {
       const server = this.sinon.server;
       server.respond();
 
-      return response.catch(function (error) {
+      return response.catch(error => {
         error.message.should.equal('500 Internal Server Error');
 
         return error.response.json();
@@ -649,7 +635,7 @@ describe('Auth', function () {
       const server = this.sinon.server;
       server.respond();
 
-      return response.then(function () {
+      return response.then(() => {
         server.requests[0].requestHeaders.should.deep.equal({
           authorization: 'Bearer token',
           accept: 'application/json'
@@ -665,7 +651,7 @@ describe('Auth', function () {
       const server = this.sinon.server;
       server.respond();
 
-      return response.catch(function () {
+      return response.catch(() => {
         server.requests[0].url.should.equal('http://localhost:6666/users/me?fields=one%2Ctwo&%24top=2');
       });
     });
@@ -678,7 +664,7 @@ describe('Auth', function () {
     });
   });
 
-  describe('logout', function () {
+  describe('logout', () => {
     const auth = new Auth({
       serverUri: '',
       redirect_uri: 'http://localhost:8080/hub',
@@ -692,41 +678,37 @@ describe('Auth', function () {
       this.sinon.stub(AuthRequestBuilder, '_uuid').returns('unique');
     });
 
-    it('should clear access token and redirect to logout', function () {
-      return auth.logout().
-        then(function () {
-          Auth.prototype._redirectCurrentPage.should.have.been.calledWith('api/rest/oauth2/auth?response_type=token&' +
-            'state=unique&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub&' +
-            'request_credentials=required&client_id=1-1-1-1-1&scope=0-0-0-0-0%20youtrack');
-          return auth._storage.getToken();
-        }).
-        then(function (storedToken) {
-          expect(storedToken).to.be.null;
-          return auth._storage.getState('unique');
-        }).then(function (state) {
-          state.should.contain.all.keys({
-            restoreLocation: window.location.href,
-            scopes: ['0-0-0-0-0', 'youtrack']
-          });
-        });
-    });
-
-    it('should pass error message to server', function () {
-      return auth.logout({
-        message: 'access denied'
+    it('should clear access token and redirect to logout', () => auth.logout().
+      then(() => {
+        Auth.prototype._redirectCurrentPage.should.have.been.calledWith('api/rest/oauth2/auth?response_type=token&' +
+          'state=unique&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub&' +
+          'request_credentials=required&client_id=1-1-1-1-1&scope=0-0-0-0-0%20youtrack');
+        return auth._storage.getToken();
       }).
-        then(function () {
-          Auth.prototype._redirectCurrentPage.should.have.been.calledWith('api/rest/oauth2/auth?response_type=token&' +
-            'state=unique&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub&' +
-            'request_credentials=required&client_id=1-1-1-1-1&scope=0-0-0-0-0%20youtrack&' +
-            'message=access%20denied');
+      then(storedToken => {
+        expect(storedToken).to.be.null;
+        return auth._storage.getState('unique');
+      }).then(state => {
+        state.should.contain.all.keys({
+          restoreLocation: window.location.href,
+          scopes: ['0-0-0-0-0', 'youtrack']
         });
-    });
+      }));
+
+    it('should pass error message to server', () => auth.logout({
+      message: 'access denied'
+    }).
+      then(() => {
+        Auth.prototype._redirectCurrentPage.should.have.been.calledWith('api/rest/oauth2/auth?response_type=token&' +
+          'state=unique&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub&' +
+          'request_credentials=required&client_id=1-1-1-1-1&scope=0-0-0-0-0%20youtrack&' +
+          'message=access%20denied');
+      }));
   });
 
-  describe('TokenValidationError', function () {
-    it('should be cool', function () {
-      expect(function () {
+  describe('TokenValidationError', () => {
+    it('should be cool', () => {
+      expect(() => {
         throw new Auth.TokenValidationError('message');
       }).to.throw(Auth.TokenValidationError, 'message');
     });

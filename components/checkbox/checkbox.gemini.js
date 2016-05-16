@@ -1,18 +1,15 @@
-/* eslint-disable no-var */
-/* eslint-disable modules/no-cjs */
+import gemini from 'gemini';
 
-var gemini = require('gemini');
-
-gemini.suite('Checkbox', function (parent) {
+gemini.suite('Checkbox', parent => {
   parent.setUrl('/example-checkbox/');
 
-  gemini.suite('Base checkboxes', function (child) {
+  gemini.suite('Base checkboxes', child => {
     child
       .setCaptureElements('#checkbox-base')
       .capture('base checkboxes');
   });
 
-  gemini.suite('Additional checkboxes', function (child) {
+  gemini.suite('Additional checkboxes', child => {
     child
       .setCaptureElements('#checkbox-additional')
       .capture('additional checkboxes');

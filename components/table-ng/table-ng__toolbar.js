@@ -16,7 +16,7 @@ import debounce from 'mout/function/debounce';
  */
 
 const module = angular.module('Ring.table.toolbar', []);
-module.directive('rgTableToolbar', function () {
+module.directive('rgTableToolbar', () => {
   const DEBOUNCE_INTERVAL = 10;
 
   return {
@@ -24,7 +24,7 @@ module.directive('rgTableToolbar', function () {
     replace: true,
     transclude: true,
     template: '<div class="ring-table__toolbar"><div class="ring-table__toolbar-controls" ng-transclude></div></div>',
-    link: function (scope, iElement, attrs) {
+    link(scope, iElement, attrs) {
       /**
        * Use plain DOM functions without any jquery. Should work with IE8+
        */
@@ -32,14 +32,14 @@ module.directive('rgTableToolbar', function () {
       const controlsContainer = element.query('.ring-table__toolbar-controls');
       let savedToolbarTop;
 
-      const toolbarScrollListener = debounce(function () {
+      const toolbarScrollListener = debounce(() => {
         const scrolledTop = getDocumentScrollTop();
         const elementTop = element.getBoundingClientRect().top + scrolledTop;
         const toolbarTop = savedToolbarTop || elementTop;
 
         if (scrolledTop > toolbarTop && !savedToolbarTop) {
           //save height to style to prevent collapsing after fixing controls
-          element.style.height = element.offsetHeight + 'px';
+          element.style.height = `${element.offsetHeight}px`;
           savedToolbarTop = toolbarTop;
           controlsContainer.classList.add('ring-table__toolbar-controls_fixed');
         } else if (scrolledTop <= toolbarTop && savedToolbarTop >= 0) {
@@ -53,7 +53,7 @@ module.directive('rgTableToolbar', function () {
       if (attrs.stick !== undefined) {
         window.addEventListener('scroll', toolbarScrollListener);
 
-        scope.$on('$destroy', function () {
+        scope.$on('$destroy', () => {
           window.removeEventListener('scroll', toolbarScrollListener);
         });
       }

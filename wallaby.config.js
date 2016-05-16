@@ -1,12 +1,11 @@
 /* eslint-env node */
-/* eslint-disable no-var */
 /* eslint-disable modules/no-cjs */
 
-var path = require('path');
-var wallabyWebpack = require('wallaby-webpack');
-var webpackConfig = require('./webpack-test.config');
+const path = require('path');
+const wallabyWebpack = require('wallaby-webpack');
+const webpackConfig = require('./webpack-test.config');
 
-module.exports = function (wallaby) {
+module.exports = wallaby => {
   webpackConfig.componentsPath.push(path.join(wallaby.projectCacheDir, 'components'));
 
   return {
@@ -57,7 +56,7 @@ module.exports = function (wallaby) {
 
     postprocessor: wallabyWebpack(webpackConfig),
 
-    bootstrap: function () {
+    bootstrap() {
       // required to trigger tests loading
       window.__moduleBundler.loadTests();
     },

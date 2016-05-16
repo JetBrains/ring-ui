@@ -1,12 +1,11 @@
 /* eslint-env node */
-/* eslint-disable no-var */
 /* eslint-disable modules/no-cjs */
 
-var deepAssign = require('deep-assign');
-var baseConfig = require('./karma-base.conf.js');
+const deepAssign = require('deep-assign');
+const baseConfig = require('./karma-base.conf.js');
 
-module.exports = function (config) {
-  var configWatch = deepAssign(baseConfig(config), {
+module.exports = config => {
+  const configWatch = deepAssign(baseConfig(config), {
     singleRun: false,
     reporters: ['progress', 'osx'],
     osxReporter: {

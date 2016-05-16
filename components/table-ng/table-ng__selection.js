@@ -25,9 +25,7 @@ export default class Selection {
       return undefined;
     }
 
-    return this.items.find(function (item) {
-      return item.active;
-    });
+    return this.items.find(item => item.active);
   }
 
   getActiveItemIndex() {
@@ -62,7 +60,7 @@ export default class Selection {
   }
 
   clearSelection() {
-    this.items.forEach(function (item) {
+    this.items.forEach(item => {
       item.checked = false;
     });
   }
@@ -103,8 +101,6 @@ export default class Selection {
       return [];
     }
 
-    return this.items.filter(function (item) {
-      return item.checked;
-    });
+    return this.items.filter(item => item.checked);
   }
 }

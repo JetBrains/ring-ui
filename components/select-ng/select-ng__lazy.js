@@ -27,9 +27,7 @@ class SelectLazy {
     }
   }
 
-  rerender(props) {
-    props = props || {};
-
+  rerender(props = {}) {
     for (const prop in props) {
       if (props.hasOwnProperty(prop)) {
         if (props[prop] == this.props[prop]) { //eslint-disable-line eqeqeq

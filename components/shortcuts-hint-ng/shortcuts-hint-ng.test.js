@@ -6,11 +6,11 @@ import 'angular-mocks';
 import ShortcutsNgHint from './shortcuts-hint-ng';
 import Sniffr from 'sniffr';
 
-describe('Shortcuts ng hint', function () {
+describe('Shortcuts ng hint', () => {
   /* global angular:false */
   beforeEach(angular.mock.module(ShortcutsNgHint));
 
-  describe('shortcut key symbol filter', function () {
+  describe('shortcut key symbol filter', () => {
     let shortcutKeySymbolFilter;
 
     /* global inject */
@@ -56,7 +56,7 @@ describe('Shortcuts ng hint', function () {
     });
   });
 
-  describe('shortcut search filter', function () {
+  describe('shortcut search filter', () => {
     let shortcutSearchFilter;
     let fakeShortcuts;
 
@@ -70,20 +70,20 @@ describe('Shortcuts ng hint', function () {
       ];
     }));
 
-    it('Should not filter if query is empty', function () {
+    it('Should not filter if query is empty', () => {
       const filtered = shortcutSearchFilter(fakeShortcuts, undefined);
 
       filtered.should.be.deep.equal(fakeShortcuts);
     });
 
-    it('Should search by shortcut title', function () {
+    it('Should search by shortcut title', () => {
       const filtered = shortcutSearchFilter(fakeShortcuts, 'second');
 
       filtered.length.should.be.equal(1);
       filtered[0].should.be.equal(fakeShortcuts[1]);
     });
 
-    it('Should search by shortcut key', function () {
+    it('Should search by shortcut key', () => {
       const filtered = shortcutSearchFilter(fakeShortcuts, 'down');
 
       filtered.length.should.be.equal(1);
@@ -100,13 +100,13 @@ describe('Shortcuts ng hint', function () {
       filtered[0].should.be.equal(fakeShortcuts[2]);
     });
 
-    it('Should find multiple results', function () {
+    it('Should find multiple results', () => {
       const filtered = shortcutSearchFilter(fakeShortcuts, 'combination');
 
       filtered.length.should.be.equal(2);
     });
 
-    it('Should support multiple keys', function () {
+    it('Should support multiple keys', () => {
       const filtered = shortcutSearchFilter([
         {key: ['shift+left+up', 'shift+left+up'], title: 'combination first'}
       ], 'combination');

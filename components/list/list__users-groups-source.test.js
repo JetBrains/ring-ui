@@ -1,6 +1,6 @@
 import ListUsersGroupsSource from './list__users-groups-source';
 
-describe('ListUsersGroupsSource', function () {
+describe('ListUsersGroupsSource', () => {
   beforeEach(function () {
     this.fakeAuth = {
       requestToken: this.sinon.stub().returns(Promise.resolve('testToken')),

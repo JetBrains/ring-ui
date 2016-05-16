@@ -6,77 +6,55 @@ import Sniffr from 'sniffr';
 const sniffr = new Sniffr();
 sniffr.sniff();
 
-describe('Auth', function () {
-  describe('AuthStorage', function () {
+describe('Auth', () => {
+  describe('AuthStorage', () => {
     const authStorage = new AuthStorage({
       stateKeyPrefix: 'state',
       tokenKey: 'token'
     });
     const stateId = 'unique';
 
-    afterEach(function () {
+    afterEach(() => {
       localStorage.clear();
     });
 
-    describe('saveState', function () {
-      it('should be fulfilled', function () {
-        return authStorage.saveState(stateId, {
-          restoreLocation: 'http://localhost:8080/hub#hash',
-          scopes: ['0-0-0-0-0']
-        }).should.be.fulfilled;
-      });
+    describe('saveState', () => {
+      it('should be fulfilled', () => authStorage.saveState(stateId, {
+        restoreLocation: 'http://localhost:8080/hub#hash',
+        scopes: ['0-0-0-0-0']
+      }).should.be.fulfilled);
     });
 
-    describe('getState', function () {
+    describe('getState', () => {
       const state = {
         restoreLocation: 'http://localhost:8080/hub#hash',
         scopes: ['0-0-0-0-0']
       };
-      it('should be get as it was saved', function () {
-        return authStorage.saveState(stateId, state).
-          then(function () {
-            return authStorage.getState(stateId);
-          }).should.become(state);
-      });
+      it('should be get as it was saved', () => authStorage.saveState(stateId, state).
+        then(() => authStorage.getState(stateId)).should.become(state));
 
-      it('should be null if wasn\'t set', function () {
-        return authStorage.getState(stateId).should.become.null;
-      });
+      it('should be null if wasn\'t set', () => authStorage.getState(stateId).should.become.null);
 
-      it('should be null after first get', function () {
-        return authStorage.saveState(stateId, state).
-          then(function () {
-            return authStorage.getState(stateId);
-          }).
-          then(function () {
-            return authStorage.getState(stateId);
-          }).should.eventually.be.null;
-      });
+      it('should be null after first get', () => authStorage.saveState(stateId, state).
+        then(() => authStorage.getState(stateId)).
+        then(() => authStorage.getState(stateId)).should.eventually.be.null);
     });
 
-    describe('cleanStates', function () {
+    describe('cleanStates', () => {
       const state = {
         restoreLocation: 'http://localhost:8080/hub#hash',
         scopes: ['0-0-0-0-0']
       };
 
-      it('should clean state by id', function () {
-        return authStorage.saveState(stateId, {
-          restoreLocation: 'http://localhost:8080/hub#hash',
-          scopes: ['0-0-0-0-0']
-        }).then(function () {
-          return authStorage.saveState('unique2', {
-            restoreLocation: 'http://localhost:8080/hub#hash',
-            scopes: ['0-0-0-0-0', 'youtrack']
-          }).then(function () {
-            return authStorage.cleanStates(stateId).then(function () {
-              return localStorage;
-            });
-          });
-        }).should.eventually.have.keys(['stateunique2']);
-      });
+      it('should clean state by id', () => authStorage.saveState(stateId, {
+        restoreLocation: 'http://localhost:8080/hub#hash',
+        scopes: ['0-0-0-0-0']
+      }).then(() => authStorage.saveState('unique2', {
+        restoreLocation: 'http://localhost:8080/hub#hash',
+        scopes: ['0-0-0-0-0', 'youtrack']
+      }).then(() => authStorage.cleanStates(stateId).then(() => localStorage))).should.eventually.have.keys(['stateunique2']));
 
-      it('should clean state by quota', function () {
+      it('should clean state by quota', () => {
         // Looks like weird race condition in Fx
         if (sniffr.browser.name === 'firefox') {
           return undefined;
@@ -88,16 +66,10 @@ describe('Auth', function () {
           stateQuota: 200
         });
 
-        return limitedAuthStorage.saveState(stateId, state).then(function () {
-          return limitedAuthStorage.saveState('unique2', {
-            restoreLocation: 'http://localhost:8080/hub#hash',
-            scopes: ['0-0-0-0-0', 'youtrack']
-          }).then(function () {
-            return limitedAuthStorage.cleanStates().then(function () {
-              return localStorage;
-            });
-          });
-        }).should.eventually.have.keys(['stateunique2']);
+        return limitedAuthStorage.saveState(stateId, state).then(() => limitedAuthStorage.saveState('unique2', {
+          restoreLocation: 'http://localhost:8080/hub#hash',
+          scopes: ['0-0-0-0-0', 'youtrack']
+        }).then(() => limitedAuthStorage.cleanStates().then(() => localStorage))).should.eventually.have.keys(['stateunique2']);
       });
 
       it('should clean state by TTL', function () {
@@ -113,7 +85,7 @@ describe('Auth', function () {
           saveState(stateId, state).
           then(() => new Promise(resolve => {
             setTimeout(() => {
-              limitedAuthStorage.cleanStates().then(function () {
+              limitedAuthStorage.cleanStates().then(() => {
                 resolve(localStorage);
               });
             }, 100);
@@ -131,50 +103,30 @@ describe('Auth', function () {
       expires: Auth._epoch() + 40 * 60
     };
 
-    describe('saveToken', function () {
-      it('should be fulfilled', function () {
-        return authStorage.saveToken(token).should.be.fulfilled;
-      });
+    describe('saveToken', () => {
+      it('should be fulfilled', () => authStorage.saveToken(token).should.be.fulfilled);
     });
 
-    describe('getToken', function () {
-      it('should be get as it was saved', function () {
-        return authStorage.saveToken(token).
-          then(function () {
-            return authStorage.getToken();
-          }).should.become(token);
-      });
+    describe('getToken', () => {
+      it('should be get as it was saved', () => authStorage.saveToken(token).
+        then(() => authStorage.getToken()).should.become(token));
 
-      it('should be null if wasn\'t saved', function () {
-        return authStorage.getToken().should.become.null;
-      });
+      it('should be null if wasn\'t saved', () => authStorage.getToken().should.become.null);
 
-      it('should be the same after several get', function () {
-        return authStorage.saveToken(token).
-          then(function () {
-            return authStorage.getToken();
-          }).
-          then(function () {
-            return authStorage.getToken();
-          }).should.become(token);
-      });
+      it('should be the same after several get', () => authStorage.saveToken(token).
+        then(() => authStorage.getToken()).
+        then(() => authStorage.getToken()).should.become(token));
 
-      it('should be null after wipe', function () {
-        return authStorage.saveToken(token).
-          then(function () {
-            return authStorage.wipeToken();
-          }).
-          then(function () {
-            return authStorage.getToken();
-          }).should.become.null;
-      });
+      it('should be null after wipe', () => authStorage.saveToken(token).
+        then(() => authStorage.wipeToken()).
+        then(() => authStorage.getToken()).should.become.null);
     });
 
-    describe('events', function () {
+    describe('events', () => {
       const MockedStorage = require('imports?window=mocked-storage!../storage/storage__local');
       let mockedAuthStorage;
 
-      beforeEach(function () {
+      beforeEach(() => {
         mockedAuthStorage = new AuthStorage({
           stateKeyPrefix: 'state',
           tokenKey: 'loltoken',
@@ -187,7 +139,7 @@ describe('Auth', function () {
         mockedAuthStorage.onTokenChange(spy);
         mockedAuthStorage.saveToken(token);
 
-        setTimeout(function () {
+        setTimeout(() => {
           spy.should.have.been.calledOnce;
           done();
         }, 0);
@@ -198,7 +150,7 @@ describe('Auth', function () {
         mockedAuthStorage.onStateChange(stateId, spy);
         mockedAuthStorage.saveState(stateId, {});
 
-        setTimeout(function () {
+        setTimeout(() => {
           spy.should.have.been.calledOnce;
           done();
         }, 0);

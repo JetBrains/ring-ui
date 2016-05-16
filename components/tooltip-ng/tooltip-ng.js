@@ -42,53 +42,50 @@ const OPEN_CLASS = 'ring-tooltip-ng_open';
 /*global angular*/
 const name = angular.module('Ring.tooltip', []);
 
-name.directive('rgTooltip', function ($parse, RgTooltipPopup) {
-  return {
-    restrict: 'A',
-    link: function (scope, iElement, iAttrs) {
-      const element = iElement[0];
-      const popupWrapper = new RgTooltipPopup(element, $parse(iAttrs.rgTooltip)(scope));
+name.directive('rgTooltip', ($parse, RgTooltipPopup) => ({
+  restrict: 'A',
 
-      element.addEventListener('mouseover', () => {
-        popupWrapper.displayTooltip(iAttrs.rgTooltipClass);
-        element.classList.add(OPEN_CLASS);
-      });
+  link(scope, iElement, iAttrs) {
+    const element = iElement[0];
+    const popupWrapper = new RgTooltipPopup(element, $parse(iAttrs.rgTooltip)(scope));
 
-      element.addEventListener('mouseout', () => {
-        popupWrapper.hideTooltip();
-        element.classList.remove(OPEN_CLASS);
-      });
-    }
-  };
-});
+    element.addEventListener('mouseover', () => {
+      popupWrapper.displayTooltip(iAttrs.rgTooltipClass);
+      element.classList.add(OPEN_CLASS);
+    });
 
-name.factory('RgTooltipPopup', function () {
-  return function (element, template) {
-    this.popup = null;
+    element.addEventListener('mouseout', () => {
+      popupWrapper.hideTooltip();
+      element.classList.remove(OPEN_CLASS);
+    });
+  }
+}));
 
-    this.displayTooltip = customClass => {
-      const classes = classNames({
-        'ring-tooltip-ng': true
-      }, customClass);
+name.factory('RgTooltipPopup', () => function (element, template) {
+  this.popup = null;
 
-      this.popup = this.popup || Popup.renderPopup(createElement(Popup, {
-        anchorElement: element,
-        maxHeight: 400,
-        className: classes,
-        cutEdge: false,
-        onClose: evt => {
-          //RG-643 Don't close tooltip when clicking by element with opened tooltip
-          if (evt && element.contains(evt.target)) {
-            return false;
-          }
+  this.displayTooltip = customClass => {
+    const classes = classNames({
+      'ring-tooltip-ng': true
+    }, customClass);
+
+    this.popup = this.popup || Popup.renderPopup(createElement(Popup, {
+      anchorElement: element,
+      maxHeight: 400,
+      className: classes,
+      cutEdge: false,
+      onClose: evt => {
+        //RG-643 Don't close tooltip when clicking by element with opened tooltip
+        if (evt && element.contains(evt.target)) {
+          return false;
         }
-      }, template));
-    };
+      }
+    }, template));
+  };
 
-    this.hideTooltip = () => {
-      this.popup.close();
-      this.popup = null;
-    };
+  this.hideTooltip = () => {
+    this.popup.close();
+    this.popup = null;
   };
 });
 

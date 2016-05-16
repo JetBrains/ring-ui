@@ -93,13 +93,13 @@ const module = angular.module('Ring.place-under', []);
  * sync-bottom=".some-selector,.some-selector2" = selector to sunc bottom with
  * listen-to-height-change=".ring-table" = listen to element height change and update position
  */
-module.directive('rgPlaceUnder', function ($window, getClosestElementWithCommonParent) {
+module.directive('rgPlaceUnder', ($window, getClosestElementWithCommonParent) => {
   const DEBOUNCE_INTERVAL = 10;
   const HEIGHT_CHECK_INTERVAL = 50;
 
   return {
     restrict: 'A',
-    link: function (scope, iElement, iAttrs) {
+    link(scope, iElement, iAttrs) {
       /**
        * Use plain JS to make sidebar stickable
        */
@@ -149,7 +149,7 @@ module.directive('rgPlaceUnder', function ($window, getClosestElementWithCommonP
 
           const margin = Math.max(bottom - documentScrollTop, syncedElementHeight);
 
-          element.style.marginTop = margin + topOffset + 'px';
+          element.style.marginTop = `${margin + topOffset}px`;
 
           if (syncHeight) {
             /**
@@ -178,7 +178,7 @@ module.directive('rgPlaceUnder', function ($window, getClosestElementWithCommonP
               }
             }
 
-            element.style.height = 'calc(100% - ' + (parseInt(element.style.marginTop, 10) + bottomOffset) + 'px)';
+            element.style.height = `calc(100% - ${parseInt(element.style.marginTop, 10) + bottomOffset}px)`;
           }
 
         }, DEBOUNCE_INTERVAL);
@@ -222,15 +222,13 @@ module.directive('rgPlaceUnder', function ($window, getClosestElementWithCommonP
  * @param selector - selector to find
  * @returns {Node}
  */
-module.factory('getClosestElementWithCommonParent', function () {
-  return function getClosestElementWithCommonParent(currentElement, selector) {
-    const parent = currentElement.parentNode;
-    if (parent) {
-      return parent.query(selector) || getClosestElementWithCommonParent(parent, selector);
-    } else {
-      return null;
-    }
-  };
+module.factory('getClosestElementWithCommonParent', () => function getClosestElementWithCommonParent(currentElement, selector) {
+  const parent = currentElement.parentNode;
+  if (parent) {
+    return parent.query(selector) || getClosestElementWithCommonParent(parent, selector);
+  } else {
+    return null;
+  }
 });
 
 export default module.name;

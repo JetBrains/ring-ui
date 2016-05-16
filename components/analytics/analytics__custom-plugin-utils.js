@@ -8,7 +8,7 @@ const AnalyticsCustomPluginUtils = {};
  * @param isCategory
  * @returns string, where prohibitted symbols are replaced with '_'
  */
-AnalyticsCustomPluginUtils.reformatString = function (value, isCategory) {
+AnalyticsCustomPluginUtils.reformatString = (value, isCategory) => {
   const str = String(value);
   /**
    * Category also cannot contain symbol '/' (but action can)
@@ -17,7 +17,7 @@ AnalyticsCustomPluginUtils.reformatString = function (value, isCategory) {
   return str.replace(regexp, '_');
 };
 
-AnalyticsCustomPluginUtils.getPageViewDurationPresentation = function (durationMs) {
+AnalyticsCustomPluginUtils.getPageViewDurationPresentation = durationMs => {
   const duration = durationMs / 1000;
   if (duration > 3600) {
     return 'more-than-hour';
@@ -35,27 +35,25 @@ AnalyticsCustomPluginUtils.getPageViewDurationPresentation = function (durationM
   let roundedDuration = Math.floor(Math.pow(2, Math.floor(Math.log2(duration)) + 1));
   roundedDuration = (roundedDuration > 0) ? roundedDuration : 1;
 
-  return 'less-than-' + roundedDuration + '-sec';
+  return `less-than-${roundedDuration}-sec`;
 };
 
-AnalyticsCustomPluginUtils.getScreenWidthPresentation = function () {
+AnalyticsCustomPluginUtils.getScreenWidthPresentation = () => {
   /**
    * Sizes were taken from bootstrap's grid (xs, sm, md, lg)
    */
   const sizes = [0, 768, 992, 1200];
   for (let i = 1; i < sizes.length; ++i) {
     if (window.innerWidth < sizes[i]) {
-      return '[' + sizes[i - 1] + 'px;' + sizes[i] + 'px)';
+      return `[${sizes[i - 1]}px;${sizes[i]}px)`;
     }
   }
   return '[1200px;inf)';
 };
 
-AnalyticsCustomPluginUtils.npeSaveLowerCase = function (val) {
-  return (val || 'unknown').toLowerCase();
-};
+AnalyticsCustomPluginUtils.npeSaveLowerCase = val => (val || 'unknown').toLowerCase();
 
-AnalyticsCustomPluginUtils.getUserAgentPresentation = function () {
+AnalyticsCustomPluginUtils.getUserAgentPresentation = () => {
   const sniffr = new Sniffr();
   sniffr.sniff();
 
@@ -63,10 +61,10 @@ AnalyticsCustomPluginUtils.getUserAgentPresentation = function () {
   const majorVersion = sniffr.browser.version[0];
   const version = majorVersion || 'unknown';
 
-  return name + '$' + version;
+  return `${name}$${version}`;
 };
 
-AnalyticsCustomPluginUtils.getDevicePixelRatioPresentation = function () {
+AnalyticsCustomPluginUtils.getDevicePixelRatioPresentation = () => {
   if (!window.devicePixelRatio || !window.devicePixelRatio.toFixed) {
     return 'unknown';
   }

@@ -3,17 +3,17 @@ import 'angular-mocks';
 import './table-ng';
 import TableSelection from './table-ng__selection';
 
-describe('TableNg', function () {
+describe('TableNg', () => {
   let scope;
   let directiveController;
   let element;
   let $compile;
   const fakeData = {
     items: [],
-    loadMore: function () {}
+    loadMore() {}
   };
 
-  beforeEach(function () {
+  beforeEach(() => {
     //Restoring items before each test to prevent side effects
     fakeData.items = [
       {id: 1, name: 'test1'},
@@ -26,7 +26,7 @@ describe('TableNg', function () {
   beforeEach(window.module('Ring.table'));
 
   /* global inject */
-  beforeEach(inject(function ($rootScope, _$compile_) {
+  beforeEach(inject(($rootScope, _$compile_) => {
     scope = $rootScope.$new();
     $compile = _$compile_;
 
@@ -45,17 +45,17 @@ describe('TableNg', function () {
     directiveController = element.controller('rgTable');
   }));
 
-  describe('DOM', function () {
-    it('Should place table inside', function () {
+  describe('DOM', () => {
+    it('Should place table inside', () => {
       element[0].should.contain('table');
     });
 
-    it('Should place all items inside table', function () {
+    it('Should place all items inside table', () => {
       const rows = element[0].queryAll('.ring-table__row');
       rows.should.have.length(fakeData.items.length);
     });
 
-    it('Should set correct unlimited columns width', function () {
+    it('Should set correct unlimited columns width', () => {
       element = $compile(
         '<rg-table items="data.items">' +
         '<rg-table-header></rg-table-header>' +
@@ -74,90 +74,90 @@ describe('TableNg', function () {
     });
   });
 
-  describe('Selection', function () {
+  describe('Selection', () => {
     let selection;
     const fakeEvent = {};
 
-    beforeEach(function () {
+    beforeEach(() => {
       fakeEvent.emitEvent = sinon.stub();
       selection = new TableSelection(fakeData.items, fakeEvent.emitEvent.bind(fakeEvent));
     });
 
-    it('Should receive items and store it inside instance', function () {
+    it('Should receive items and store it inside instance', () => {
       expect(selection.items).to.equal(fakeData.items);
     });
 
-    describe('Activation, deactivation, etc', function () {
-      it('Should mark item as active on activateItem', function () {
+    describe('Activation, deactivation, etc', () => {
+      it('Should mark item as active on activateItem', () => {
         selection.activateItem(fakeData.items[1]);
         expect(selection.getActiveItem()).to.equal(fakeData.items[1]);
       });
 
-      it('Should return active item from getActiveItem', function () {
+      it('Should return active item from getActiveItem', () => {
         selection.activateItem(fakeData.items[2]);
         expect(fakeData.items[2].active).to.be.true;
       });
 
-      it('Should clear other active item on activateItem', function () {
+      it('Should clear other active item on activateItem', () => {
         selection.activateItem(fakeData.items[2]);
         expect(fakeData.items[2].active).to.be.true;
       });
 
-      it('Should unmark item as active on next item activation', function () {
+      it('Should unmark item as active on next item activation', () => {
         selection.activateItem(fakeData.items[2]);
         selection.activateItem(fakeData.items[3]);
         expect(fakeData.items[2].active).to.be.false;
         expect(fakeData.items[3].active).to.be.true;
       });
 
-      it('Should move selection down on activateNextItem', function () {
+      it('Should move selection down on activateNextItem', () => {
         selection.activateItem(fakeData.items[2]);
         selection.activateNextItem();
         expect(fakeData.items[3].active).to.be.true;
       });
 
-      it('Should move selection up on activatePreviousItem', function () {
+      it('Should move selection up on activatePreviousItem', () => {
         selection.activateItem(fakeData.items[2]);
         selection.activatePreviousItem();
         expect(fakeData.items[1].active).to.be.true;
       });
 
-      it('Should deactivate active item if first is active and then moving up', function () {
+      it('Should deactivate active item if first is active and then moving up', () => {
         selection.activateItem(fakeData.items[0]);
         selection.activatePreviousItem();
         expect(selection.getActiveItem()).to.be.undefined;
       });
 
-      it('Should trigger rgTable:activateItem event on activation', function () {
+      it('Should trigger rgTable:activateItem event on activation', () => {
         selection.activateItem(fakeData.items[0]);
         expect(fakeEvent.emitEvent).to.have.been.calledWith('rgTable:activateItem', fakeData.items[0]);
       });
 
-      it('Should trigger rgTable:activateItem with empty item on clearActivity', function () {
+      it('Should trigger rgTable:activateItem with empty item on clearActivity', () => {
         selection.clearActivity();
         expect(fakeEvent.emitEvent).to.have.been.calledWith('rgTable:activateItem', null);
       });
     });
 
-    describe('Checking', function () {
-      it('Should check item', function () {
+    describe('Checking', () => {
+      it('Should check item', () => {
         selection.checkItem(fakeData.items[2]);
         expect(fakeData.items[2].checked).to.be.true;
       });
 
-      it('Should uncheck item', function () {
+      it('Should uncheck item', () => {
         fakeData.items[2].checked = true;
         selection.uncheckItem(fakeData.items[2]);
         expect(fakeData.items[2].checked).to.be.false;
       });
 
-      it('Should toggle checking', function () {
+      it('Should toggle checking', () => {
         fakeData.items[2].checked = true;
         selection.toggleCheck(fakeData.items[2]);
         expect(fakeData.items[2].checked).to.be.false;
       });
 
-      it('Should return all checked items', function () {
+      it('Should return all checked items', () => {
         fakeData.items[1].checked = true;
         fakeData.items[3].checked = true;
         const checkedItems = selection.getCheckedItems();
@@ -167,19 +167,19 @@ describe('TableNg', function () {
         expect(checkedItems[1]).to.equal(fakeData.items[3]);
       });
 
-      it('Should trigger rgTable:selectionChanged event on checking', function () {
+      it('Should trigger rgTable:selectionChanged event on checking', () => {
         selection.checkItem(fakeData.items[2]);
         expect(fakeEvent.emitEvent).to.have.been.calledWith('rgTable:selectionChanged');
       });
 
-      it('Should trigger rgTable:selectionChanged event on unchecking', function () {
+      it('Should trigger rgTable:selectionChanged event on unchecking', () => {
         selection.uncheckItem(fakeData.items[2]);
         expect(fakeEvent.emitEvent).to.have.been.calledWith('rgTable:selectionChanged');
       });
     });
 
-    describe('Table row', function () {
-      it('Should activate item on clicking row', function () {
+    describe('Table row', () => {
+      it('Should activate item on clicking row', () => {
         element[0].query('.ring-table__row:nth-child(4)').dispatchEvent(new CustomEvent('click'));
         scope.$digest();
 
@@ -187,14 +187,14 @@ describe('TableNg', function () {
       });
     });
 
-    describe('Default table navigation actions', function () {
+    describe('Default table navigation actions', () => {
       const SelectionNavigateActions = require('./table-ng__selection-navigate-actions');
       let navigateActions;
-      beforeEach(function () {
+      beforeEach(() => {
         navigateActions = new SelectionNavigateActions();
       });
 
-      it('should export interface', function () {
+      it('should export interface', () => {
         expect(navigateActions.setSelection).to.be.defined;
         expect(navigateActions.moveUp).to.be.defined;
         expect(navigateActions.moveDown).to.be.defined;
@@ -205,7 +205,7 @@ describe('TableNg', function () {
         expect(navigateActions.clearSelection).to.be.defined;
       });
 
-      it('should do nothing if selection is not put', function () {
+      it('should do nothing if selection is not put', () => {
         expect(navigateActions.moveUp()).to.be.false;
         expect(navigateActions.moveDown()).to.be.false;
         expect(navigateActions.reset()).to.be.false;
@@ -215,12 +215,12 @@ describe('TableNg', function () {
         expect(navigateActions.clearSelection()).to.be.false;
       });
 
-      describe('Default table navigation actions\' methods', function () {
-        beforeEach(function () {
+      describe('Default table navigation actions\' methods', () => {
+        beforeEach(() => {
           navigateActions.setSelection(selection);
         });
 
-        it('should select next item', function () {
+        it('should select next item', () => {
           navigateActions.setSelection(selection);
           selection.activateItem(fakeData.items[1]);
 
@@ -228,7 +228,7 @@ describe('TableNg', function () {
           expect(selection.getActiveItemIndex()).to.equals(2);
         });
 
-        it('should select prev item', function () {
+        it('should select prev item', () => {
           navigateActions.setSelection(selection);
           selection.activateItem(fakeData.items[1]);
 
@@ -236,7 +236,7 @@ describe('TableNg', function () {
           expect(selection.getActiveItemIndex()).to.equals(0);
         });
 
-        it('should clear selection', function () {
+        it('should clear selection', () => {
           navigateActions.setSelection(selection);
           selection.activateItem(fakeData.items[1]);
           selection.checkItem(fakeData.items[1]);
@@ -245,7 +245,7 @@ describe('TableNg', function () {
           expect(selection.getCheckedItems().length).to.equals(0);
         });
 
-        it('should select current', function () {
+        it('should select current', () => {
           navigateActions.setSelection(selection);
           selection.activateItem(fakeData.items[1]);
 
@@ -255,7 +255,7 @@ describe('TableNg', function () {
           expect(result[0]).to.equals(fakeData.items[1]);
         });
 
-        it('should select up', function () {
+        it('should select up', () => {
           navigateActions.setSelection(selection);
           selection.activateItem(fakeData.items[2]);
           selection.checkItem(fakeData.items[2]);
@@ -265,7 +265,7 @@ describe('TableNg', function () {
           expect(selection.getActiveItemIndex()).to.equals(1);
         });
 
-        it('should select down', function () {
+        it('should select down', () => {
           navigateActions.setSelection(selection);
           selection.activateItem(fakeData.items[2]);
 
@@ -276,7 +276,7 @@ describe('TableNg', function () {
           expect(selection.getActiveItemIndex()).to.equals(3);
         });
 
-        it('should select down multiple times', function () {
+        it('should select down multiple times', () => {
           navigateActions.setSelection(selection);
           selection.activateItem(fakeData.items[1]);
 

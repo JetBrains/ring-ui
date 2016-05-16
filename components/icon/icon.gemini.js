@@ -1,17 +1,14 @@
-/* eslint-disable no-var */
-/* eslint-disable modules/no-cjs */
+import gemini from 'gemini';
 
-var gemini = require('gemini');
-
-gemini.suite('Icon', function () {
-  gemini.suite('Example icons', function (suite) {
+gemini.suite('Icon', () => {
+  gemini.suite('Example icons', suite => {
     suite
       .setUrl('/example-icon/')
       .setCaptureElements('#some-icons')
       .capture('some icons');
   });
 
-  gemini.suite('All icons', function (suite) {
+  gemini.suite('All icons', suite => {
     suite
       .setUrl('/example-icons-list/')
       .setCaptureElements('#all-icons')

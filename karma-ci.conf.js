@@ -1,12 +1,11 @@
 /* eslint-env node */
-/* eslint-disable no-var */
 /* eslint-disable modules/no-cjs */
 
-var deepAssign = require('deep-assign');
-var generateConfig = require('./karma-base.conf.js');
+const deepAssign = require('deep-assign');
+const generateConfig = require('./karma-base.conf.js');
 
-module.exports = function (config) {
-  var configCI = deepAssign(generateConfig(config), {
+module.exports = config => {
+  const configCI = deepAssign(generateConfig(config), {
     browsers: ['wdIE9', 'wdIE10', 'wdIE11', 'wdFirefox', 'wdChrome'],
     coverageReporter: {
       reporters: [

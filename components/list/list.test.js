@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import TestUtils from 'react-addons-test-utils';
 import List from './list';
 
-describe('List', function () {
+describe('List', () => {
   const Type = List.ListProps.Type;
   let list;
 
@@ -11,16 +11,16 @@ describe('List', function () {
     return ReactDOM.findDOMNode(list.refs.inner).childNodes[1];
   }
 
-  beforeEach(function () {
+  beforeEach(() => {
     list = TestUtils.renderIntoDocument(React.createElement(List));
   });
 
-  it('should be empty by default', function () {
+  it('should be empty by default', () => {
     list.refs.inner.tagName.toLowerCase().should.equal('div');
     list.refs.inner.childNodes.length.should.equal(2);
   });
 
-  it('should check type of item', function () {
+  it('should check type of item', () => {
     const itemMock = {
       rgItemType: Type.SEPARATOR
     };
@@ -28,7 +28,7 @@ describe('List', function () {
     List.isItemType(Type.SEPARATOR, itemMock).should.been.equal(true);
   });
 
-  it('should support deprecated property `type`', function () {
+  it('should support deprecated property `type`', () => {
     const itemMock = {
       type: Type.SEPARATOR
     };
@@ -36,14 +36,14 @@ describe('List', function () {
     List.isItemType(Type.SEPARATOR, itemMock).should.been.equal(true);
   });
 
-  it('by default item has type equal ITEM', function () {
+  it('by default item has type equal ITEM', () => {
     const itemMock = {};
 
     List.isItemType(Type.ITEM, itemMock).should.been.equal(true);
     List.isItemType(Type.SEPARATOR, itemMock).should.been.equal(false);
   });
 
-  it('should deselect item', function () {
+  it('should deselect item', () => {
     list.rerender({data: [
       {}
     ],
@@ -55,8 +55,8 @@ describe('List', function () {
   });
 
 
-  describe('should render items', function () {
-    it('should render for empty element', function () {
+  describe('should render items', () => {
+    it('should render for empty element', () => {
       list.rerender({data: [
         {}
       ]});
@@ -65,7 +65,7 @@ describe('List', function () {
       getFirstListItem().innerHTML.should.equal('');
     });
 
-    it('should render list item if type is not definded', function () {
+    it('should render list item if type is not definded', () => {
       list.rerender({data: [
         {label: 'Hello!'}
       ]});
@@ -73,7 +73,7 @@ describe('List', function () {
       ReactDOM.findDOMNode(list.refs.inner).querySelector('.ring-list__item').should.be.defined;
     });
 
-    it('should render a if href defined', function () {
+    it('should render a if href defined', () => {
       list.rerender({data: [
         {label: 'Hello!', href: 'http://www.jetbrains.com'}
       ]});
@@ -84,7 +84,7 @@ describe('List', function () {
       getFirstListItem().getAttribute('href').should.equal('http://www.jetbrains.com');
     });
 
-    it('should render a if url defined', function () {
+    it('should render a if url defined', () => {
       list.rerender({data: [
         {label: 'Hello!', url: 'http://www.jetbrains.com'}
       ]});
@@ -95,7 +95,7 @@ describe('List', function () {
       getFirstListItem().getAttribute('href').should.equal('http://www.jetbrains.com');
     });
 
-    it('should render separator', function () {
+    it('should render separator', () => {
       list.rerender({data: [
         {rgItemType: List.ListProps.Type.SEPARATOR}
       ]});
@@ -103,7 +103,7 @@ describe('List', function () {
       getFirstListItem().should.have.class('ring-list__separator');
     });
 
-    it('should render title', function () {
+    it('should render title', () => {
       list.rerender({data: [
         {type: List.ListProps.Type.TITLE, label: 'Foo', description: 'Bar'}
       ]});
@@ -111,7 +111,7 @@ describe('List', function () {
       getFirstListItem().should.have.text('BarFoo');
     });
 
-    it('should render span if link without href', function () {
+    it('should render span if link without href', () => {
       list.rerender({data: [
         {label: 'Hello!', rgItemType: List.ListProps.Type.LINK}
       ]});
@@ -121,7 +121,7 @@ describe('List', function () {
       getFirstListItem().tagName.toLowerCase().should.equal('span');
     });
 
-    it('should not render icon if not provided', function () {
+    it('should not render icon if not provided', () => {
       list.rerender({data: [
         {label: 'Hello!', type: List.ListProps.Type.ITEM}
       ]});
@@ -129,7 +129,7 @@ describe('List', function () {
       getFirstListItem().should.not.contain('.ring-list__icon');
     });
 
-    it('should render icon if provided', function () {
+    it('should render icon if provided', () => {
       list.rerender({data: [
         {label: 'Hello!', icon: 'http://some.url/', type: List.ListProps.Type.ITEM}
       ]});
@@ -138,8 +138,8 @@ describe('List', function () {
       expect(icon.style.backgroundImage).to.contain('http://some.url');
     });
 
-    it('should throw error on unknown type', function () {
-      expect(function () {
+    it('should throw error on unknown type', () => {
+      expect(() => {
         list.rerender({data: [
           {label: 'Hello!', rgItemType: 'none'}
         ]});
@@ -150,7 +150,7 @@ describe('List', function () {
       }).to.throw(Error, 'Unknown menu element type: none');
     });
 
-    it('should handle click', function () {
+    it('should handle click', () => {
       const clicked = sinon.stub();
 
       list.rerender({data: [
@@ -161,11 +161,11 @@ describe('List', function () {
       clicked.should.have.been.called;
     });
 
-    it('should handle select', function () {
+    it('should handle select', () => {
       const onSelect = sinon.stub();
 
       list.rerender({
-        onSelect: onSelect,
+        onSelect,
         data: [{label: 'Hello!'}]
       });
 
@@ -173,7 +173,7 @@ describe('List', function () {
       onSelect.should.have.been.called;
     });
 
-    it('Should support custom elements', function () {
+    it('Should support custom elements', () => {
       list.rerender({data: [
         {
           template: React.createElement('span', {}, 'custom item'),
@@ -183,7 +183,7 @@ describe('List', function () {
       getFirstListItem().should.contain.text('custom item');
     });
 
-    it('Should support disable property for custom elements', function () {
+    it('Should support disable property for custom elements', () => {
       list.rerender({data: [
         {
           template: React.createElement('span', {}, 'custom item'),
