@@ -7,14 +7,14 @@
         <td class="shortcuts-hint__shortcuts-column"></td>
         <td class="shortcuts-hint__popup-header">
           <div class="shortcuts-hint__search-input-wrapper">
-            <input class="ring-input shortcuts-hint__search-input" placeholder="Search" ng-model="data.searchText" autofocus/>
+            <input class="ring-input shortcuts-hint__search-input" placeholder="Search" ng-model="hintPopupCtrl.searchText" autofocus/>
             <span class="shortcuts-hint__search-icon" react-static="Icon" react-glyph="'search'" react-size="16"></span>
           </div>
         </td>
       </tr>
     </tbody>
 
-    <tbody ng-repeat="mode in data.modes" class="shortcuts-hint__shortcut-block">
+    <tbody ng-repeat="mode in hintPopupCtrl.modes" class="shortcuts-hint__shortcut-block">
 
       <tr class="shortcuts-hint__table-title">
         <td></td>
@@ -22,12 +22,12 @@
           <span class="shortcuts-hint__shortcuts-title">{{mode.title}}</span>
         </td>
       </tr>
-      <tr ng-repeat="shortcut in mode.shortcuts | shortcutSearch:data.searchText" class="shortcuts-hint__table-row">
+      <tr ng-repeat="shortcut in mode.shortcuts | shortcutSearch:hintPopupCtrl.searchText" class="shortcuts-hint__table-row">
         <td class="shortcuts-hint__shortcut-cell">
-          <div class="shortcuts-hint__shortcut" ng-if="data.isArray(shortcut.key)" ng-repeat="key in shortcut.key track by $index">
+          <div class="shortcuts-hint__shortcut" ng-if="hintPopupCtrl.isArray(shortcut.key)" ng-repeat="key in shortcut.key track by $index">
             {{key | shortcutKeySymbol}}
           </div>
-          <span class="shortcuts-hint__shortcut" ng-if="!data.isArray(shortcut.key)">{{shortcut.key | shortcutKeySymbol}}</span>
+          <span class="shortcuts-hint__shortcut" ng-if="!hintPopupCtrl.isArray(shortcut.key)">{{shortcut.key | shortcutKeySymbol}}</span>
         </td>
         <td class="shortcuts-hint__hint">{{shortcut.title}}</td>
       </tr>

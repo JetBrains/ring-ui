@@ -11,13 +11,8 @@ import '../input/input.scss';
 
 registerComponents({Icon});
 
-const HintPopupTplFileName = 'ring-ui/components/shortcuts-hint/shortcuts-hint.html';
-
 /* global angular:false */
 const module = angular.module('Ring.shortcuts.hint-popup', [DialogNg, ShortcutsNg, reactNg]);
-module.run($templateCache => {
-  $templateCache.put(HintPopupTplFileName, HintPopupTpl);
-});
 
 
 /**
@@ -96,20 +91,24 @@ class HintPopupService {
     this.shortcuts = shortcuts;
   }
 
-  show(title) {
-    const modes = this.shortcuts.getRegisteredShortcuts();
-    const isArray = it => Array.isArray(it);
+  show(title, shortcutModes) {
+    const modes = shortcutModes || this.shortcuts.getRegisteredShortcuts();
 
-    this.dialog.show({
-      data: {modes, isArray},
-      title,
+    return this.dialog.show({
+      template: HintPopupTpl,
+      title: title,
+      closeOnClick: true,
       wideDialog: true,
-      content: HintPopupTplFileName,
-      buttons: [{
-        label: 'OK',
-        default: true,
-        action: () => this.dialog.done()
-      }]
+      controllerAs: 'hintPopupCtrl',
+      controller: function () {
+        /*eslint-disable consistent-this*/
+        const ctrl = this;
+        /*eslint-enable consistent-this*/
+
+        ctrl.modes = modes;
+        ctrl.isArray = it => Array.isArray(it);
+        ctrl.searchText = '';
+      }
     });
   }
 }
