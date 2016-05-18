@@ -45,15 +45,6 @@ describe('TemplateNg', () => {
     element.should.contain('test');
   });
 
-  it('should replace a template with a new one', () => {
-    $rootScope.template = '<test></test>';
-    const {element} = build('<rg-template template="template"></rg-template>');
-    element.setAttribute('template', '"<test2></test2>"');
-    $rootScope.$digest();
-
-    element.should.contain('test2');
-  });
-
   it('should watch a given template expression', () => {
     $rootScope.template = '<test></test>';
     const {element} = build('<rg-template template="template"></rg-template>');
@@ -76,12 +67,24 @@ describe('TemplateNg', () => {
     element.should.contain.text('456');
   });
 
-  it('should work correct with an empty template', () => {
+  it('should work correctly with an empty template', () => {
     $rootScope.template = '<test></test>';
     const {element} = build('<rg-template template="template"></rg-template>');
-    element.setAttribute('template', '');
+    $rootScope.template = '';
     $rootScope.$digest();
 
     element.should.be.empty;
+  });
+
+  it('should remove current elements after changing a template expression', () => {
+    $rootScope.template = '<test></test>';
+    const {element} = build('<div><rg-template template="template"></rg-template></div>');
+
+    element.should.contain('test');
+
+    $rootScope.template = '<test2></test2>';
+    $rootScope.$digest();
+
+    element.should.not.contain('test');
   });
 });
