@@ -1,4 +1,7 @@
 /* global angular */
+/* eslint-disable modules/no-exports-typo */
+import {Inject} from 'angular-es6';
+
 const module = angular.module('Ring.template', []);
 
 /**
@@ -38,53 +41,39 @@ const module = angular.module('Ring.template', []);
   </example>
 */
 
-class rgTemplateController {
-  constructor($scope, $element, $parse, $compile) {
-    this.$scope = $scope;
-    this.$parse = $parse;
-    this.$compile = $compile;
-    this.element = $element[0];
+class rgTemplateController extends Inject {
+  static $inject = ['$scope', '$element', '$attrs', '$compile'];
 
-    $scope.$watch(() => this.buildTemplate(), ::this.render);
+  currentScope = null;
+
+  constructor(...args) {
+    super(...args);
+
+    const {$scope, $attrs} = this.$inject;
+    $scope.$watch($attrs.rgTemplate || $attrs.template, ::this.render);
   }
 
-  buildTemplate() {
-    const element = this.element;
-    let rawTemplate;
+  render(template) {
+    const {$scope, $element, $compile} = this.$inject;
 
-    if (element.tagName === 'RG-TEMPLATE') {
-      rawTemplate = element.getAttribute('template');
-    } else {
-      rawTemplate = element.getAttribute('rg-template');
-    }
+    this.cleanup();
 
-    this.template = '';
+    this.currentScope = $scope.$new();
 
-    if (rawTemplate) {
-      this.template = this.$parse(rawTemplate)(this.$scope);
-    }
-
-    return this.template;
+    $element.html(template);
+    $compile($element.contents())(this.currentScope);
   }
 
-  render() {
-    const $element = angular.element(this.element);
-
-    if (this.template) {
-      const nodes = this.$compile(this.template)(this.$scope);
-      $element.append(nodes);
-    } else {
-      $element.empty();
+  cleanup() {
+    if (this.currentScope) {
+      this.currentScope.$destroy();
+      this.currentScope = null;
     }
   }
 }
 
-function rgTemplateDirective() {
-  return {
-    controller: rgTemplateController
-  };
-}
-
-module.directive('rgTemplate', rgTemplateDirective);
+module.directive('rgTemplate', () => ({
+  controller: rgTemplateController
+}));
 
 export default module.name;
