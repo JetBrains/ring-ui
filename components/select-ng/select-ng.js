@@ -7,6 +7,7 @@ import SelectLazy from './select-ng__lazy';
 
 import {render} from 'react-dom';
 import {createElement} from 'react';
+import getEventKey from 'react/lib/getEventKey';
 
 const LOADER_DELAY = 150; // delay to show loader in ms
 
@@ -674,10 +675,19 @@ module.directive('rgSelect', () => {
           const handler = () => {
             ctrl.selectInstance._clickHandler();
           };
+          const nodeName = element.nodeName.toLowerCase();
+          /**
+           * Pressing keys "Enter" or "Space" on button propagates MouseClickEvent.
+           * Due to this extra MouseClickEvent dropdown opens and immediatelly closes again.
+           * It is needed to skip processing of MouseEvent for such nodes.
+           */
+          const skipMouseEnterProcessing = nodeName === 'button' || nodeName === 'input';
           element.addEventListener('click', handler);
           element.addEventListener('keydown', event => {
+            const key = getEventKey(event);
             const modifier = event.ctrlKey || event.altKey || event.metaKey || event.shiftKey;
-            if (event.keyCode === 13 && !modifier || event.keyCode === 40 || event.keyCode === 32) { //Enter, downkey, spacebar
+
+            if ((!skipMouseEnterProcessing && (key === 'Enter' && !modifier || key === ' ')) || key === 'ArrowDown') {
               handler();
             }
           });
