@@ -126,7 +126,7 @@
     "jetbrains-logos": "1.1.31",
     "mout": "0.11.0",
     "ng-annotate-loader": "0.0.6",
-    "node-sass": "3.6.0",
+    "node-sass": "3.7.0",
     "postcss": "5.0.19",
     "postcss-loader": "0.8.2",
     "react": "15.0.1",
