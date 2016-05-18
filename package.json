@@ -52,7 +52,7 @@
     "presets": "jetbrains"
   },
   "devDependencies": {
-    "angular": "1.5.0",
+    "angular": "1.5.5",
     "angular-mocks": "1.5.0",
     "angular-route": "1.5.0",
     "anybar-webpack": "1.0.8",
@@ -108,6 +108,7 @@
   },
   "dependencies": {
     "angular-elastic": "2.5.1-jb",
+    "angular-es6": "3.0.5",
     "autoprefixer": "6.3.6",
     "babel-core": "6.8.0",
     "babel-loader": "6.2.4",
