@@ -1,9 +1,11 @@
 /* global angular: false */
 import 'dom4';
+import {Inject} from 'angular-es6';
+import scrollbarWidth from 'scrollbar-width';
+
 import {getStyles, getRect} from '../dom/dom';
 import shortcuts from '../shortcuts/shortcuts';
 import RingButton from '../button-ng/button-ng';
-import scrollbarWidth from 'scrollbar-width';
 
 import '../button/button.scss';
 import '../dialog/dialog.scss';
@@ -113,19 +115,17 @@ import '../dialog/dialog.scss';
  */
 const module = angular.module('Ring.dialog', [RingButton]);
 
-class DialogController {
+class DialogController extends Inject {
+  static $inject = ['$scope', '$q', 'dialog', 'dialogInSidebar', '$compile', '$injector', '$controller'];
   static BODY_MODAL_CLASS = 'ring-dialog-modal';
 
-  constructor($scope, $q, dialog, dialogInSidebar, $compile, $injector, $controller) {
+  constructor(...args) {
+    super(...args);
+
+    const {dialog, dialogInSidebar, $q, $scope} = this.$inject;
     const dialogService = this.inSidebar ? dialogInSidebar : dialog;
 
-    this.$scope = $scope;
-    this.$compile = $compile;
-    this.$injector = $injector;
-    this.$controller = $controller;
-    this.$q = $q;
     this.dialogService = dialogService;
-
     this.previousBodyWidth = null;
 
     $q((resolve, reject) => {
@@ -153,7 +153,7 @@ class DialogController {
   getShortcuts() {
     const defaultEscHandler = function () {
       this.reset();
-      this.$scope.$apply();
+      this.$inject.$scope.$apply();
     }.bind(this);
 
     const dialogShortcuts = {
@@ -209,7 +209,7 @@ class DialogController {
 
       return {
         element: element,
-        link: this.$compile(element)
+        link: this.$inject.$compile(element)
       };
     }
 
@@ -217,10 +217,7 @@ class DialogController {
   }
 
   compile(options) {
-    const $q = this.$q;
-    const $controller = this.$controller;
-    const $injector = this.$injector;
-    const $compile = this.$compile;
+    const {$q, $controller, $injector, $compile} = this.$inject;
     const template = options.template;
     const controller = options.controller;
     const controllerAs = options.controllerAs;
@@ -264,6 +261,8 @@ class DialogController {
   }
 
   show(config) {
+    const {$q, $scope} = this.$inject;
+
     if (!this.inSidebar) {
       this.preventBodyScrolling();
     }
@@ -296,7 +295,7 @@ class DialogController {
       this.closeOnClick = config.closeOnClick;
 
       //Fallback for backward compatibility with already exist templates which use data directly from scope
-      this.$scope.data = this.data;
+      $scope.data = this.data;
     }
 
     this.currentShortcutsScope = shortcuts.getScope();
@@ -305,9 +304,9 @@ class DialogController {
 
     this.active = true;
 
-    this.$scope.$broadcast('dialog.show');
+    $scope.$broadcast('dialog.show');
 
-    return this.$q((resolve, reject) => {
+    return $q((resolve, reject) => {
       this.resolve = resolve;
       this.reject = reject;
     });
@@ -333,7 +332,7 @@ class DialogController {
       shortcuts.setScope(this.currentShortcutsScope);
     }
 
-    this.$scope.$broadcast('dialog.hide');
+    this.$inject.$scope.$broadcast('dialog.hide');
   }
 
   done() {
@@ -349,7 +348,6 @@ class DialogController {
   }
 
   action(button) {
-
     if (button.action) {
       const actionResult = button.action(this.data, button, errorMessage => {
         this.error = errorMessage;
@@ -357,7 +355,7 @@ class DialogController {
 
       button.inProgress = true;
 
-      return this.$q.resolve(actionResult)
+      return this.$inject.$q.resolve(actionResult)
         .then(res => {
           const dontClose = res === false;
 
@@ -389,7 +387,7 @@ class DialogController {
         (this.buttons || []).every(button => {
           if (button.default) {
             this.action(button);
-            this.$scope.$apply();
+            this.$inject.$scope.$apply();
             return false;
           }
         });
