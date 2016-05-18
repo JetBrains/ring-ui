@@ -17,6 +17,9 @@
         </option>
         <option name="RIGHT_MARGIN" value="80" />
         <option name="HTML_ALIGN_ATTRIBUTES" value="false" />
+        <MultiMarkdownCodeStyleSettings>
+          <option name="RIGHT_MARGIN" value="72" />
+        </MultiMarkdownCodeStyleSettings>
         <XML>
           <option name="XML_LEGACY_SETTINGS_IMPORTED" value="true" />
         </XML>
