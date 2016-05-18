@@ -675,12 +675,19 @@ module.directive('rgSelect', function () {
           const handler = () => {
             ctrl.selectInstance._clickHandler();
           };
+          const nodeName = element.nodeName.toLowerCase();
+          /**
+           * Pressing key "Enter" on button propagates MouseClickEvent.
+           * Due to this extra MouseClickEvent dropdown opens and immediatelly closes again.
+           * It is needed to skip processing of MouseEvent for such nodes.
+           */
+          const skipMouseEnterProcessing = nodeName === 'button' || nodeName === 'input';
           element.addEventListener('click', handler);
           element.addEventListener('keydown', event => {
             const key = getEventKey(event);
             const modifier = event.ctrlKey || event.altKey || event.metaKey || event.shiftKey;
 
-            if (key === 'Enter' && !modifier || key === 'ArrowDown' || key === ' ') {
+            if ((!skipMouseEnterProcessing && (key === 'Enter' && !modifier || key === ' ')) || key === 'ArrowDown') {
               handler();
             }
           });
