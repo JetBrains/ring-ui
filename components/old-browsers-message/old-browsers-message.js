@@ -1,6 +1,4 @@
-import Sniffr from 'sniffr';
-const sniffr = new Sniffr();
-sniffr.sniff();
+import sniffer from '../sniffer/sniffer';
 
 /**
  * Note: this script is a self running script. You should include it in your browser directly
@@ -93,7 +91,7 @@ function attachSmileClickListener(smileNode) {
 }
 
 function browserInWhiteList() {
-  return sniffr.browser.version[MAJOR_VERSION_INDEX] >= WHITE_LIST[sniffr.browser.name];
+  return sniffer.browser.version[MAJOR_VERSION_INDEX] >= WHITE_LIST[sniffer.browser.name];
 }
 
 /**

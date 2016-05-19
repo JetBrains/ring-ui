@@ -1,10 +1,7 @@
 /* eslint-disable camelcase */
 import Auth from './auth';
 import AuthStorage from './auth__storage';
-import Sniffr from 'sniffr';
-
-const sniffr = new Sniffr();
-sniffr.sniff();
+import sniffer from '../sniffer/sniffer';
 
 describe('Auth', () => {
   describe('AuthStorage', () => {
@@ -56,7 +53,7 @@ describe('Auth', () => {
 
       it('should clean state by quota', () => {
         // Looks like weird race condition in Fx
-        if (sniffr.browser.name === 'firefox') {
+        if (sniffer.browser.name === 'firefox') {
           return undefined;
         }
 
