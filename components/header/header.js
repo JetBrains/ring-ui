@@ -307,8 +307,8 @@ export default class Header extends RingComponent {
     return (
       <div className={headerClassName.getElement('menu')}>{
         this.props.menu.map(({component, props, children}) => {
-          props = Object.assign({}, props, {className: classNames(props.className, menuItemClassName)});
-          return createElement(component, props, children);
+          const newProps = Object.assign({}, props, {className: classNames(props.className, menuItemClassName)});
+          return createElement(component, newProps, children);
         })
       }</div>
     );
@@ -746,11 +746,11 @@ export default class Header extends RingComponent {
    * @param {function=} callback
    */
   setMenuItemEnabled(itemKey, enabled, callback) {
-    enabled = !!enabled;
+    const enabledBool = !!enabled;
     const enabledMenuItems = this.props.enabledMenuItems;
 
-    if (enabledMenuItems[itemKey] !== enabled) {
-      enabledMenuItems[itemKey] = enabled;
+    if (enabledMenuItems[itemKey] !== enabledBool) {
+      enabledMenuItems[itemKey] = enabledBool;
       this.rerender({enabledMenuItems: enabledMenuItems}, callback);
     }
   }

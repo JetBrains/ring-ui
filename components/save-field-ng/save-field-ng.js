@@ -344,10 +344,14 @@ module.directive('rgSaveField', (RingMessageBundle, $timeout, $q, $compile, $par
               return value;
             }
 
+            let formattedValue;
             if (iAttrs.formatElement) {
-              value = value.map(element => scope.formatElement({element}));
+              formattedValue = value.map(element => scope.formatElement({element}));
+            } else {
+              formattedValue = value;
             }
-            return value.join('\n');
+
+            return formattedValue.join('\n');
           });
 
           control.$parsers.push(value => {
