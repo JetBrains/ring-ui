@@ -307,6 +307,10 @@ Auth.prototype.forceTokenUpdate = function () {
  */
 Auth.prototype.getSecure = function (absoluteUrl, accessToken, params) {
   const url = AuthRequestBuilder.encodeURL(absoluteUrl, params);
+  const failedResponse = {
+    status: 0,
+    statusText: 'Network request failed'
+  };
 
   return fetch(url, {
     headers: {
@@ -314,19 +318,14 @@ Auth.prototype.getSecure = function (absoluteUrl, accessToken, params) {
       Accept: 'application/json'
     }
   }).
-    then(function (response) {
+    // Empty response — strange case found in the wild
+    // @see https://youtrack.jetbrains.com/issue/JT-31942
+    then(function (response = failedResponse) {
       // Simulate $.ajax behavior
       // @see https://github.com/github/fetch#success-and-error-handlers
       if (response && response.status >= 200 && response.status < 300) {
         return response.json();
       } else {
-        // Strange case found in the wild
-        // @see https://youtrack.jetbrains.com/issue/JT-31942
-        response = response || {
-          status: 0,
-          statusText: 'Network request failed'
-        };
-
         const error = new Error('' + response.status + ' ' + response.statusText);
         error.response = response;
         error.status = response.status;
@@ -422,8 +421,8 @@ Auth.prototype._checkForAuthResponse = function () {
          * @param {StoredState=} state
          * @return {Promise.<string>}
          */
-        state => {
-          state = state || {};
+        storedState => {
+          const state = storedState || {};
           const config = this.config;
 
           /**

@@ -550,7 +550,7 @@ module.directive('rgSelect', () => {
       ctrl.syncSelectToNgModel = selectedValue => {
         function valueOf(option) {
           if (option && option.originalModel) {
-            option = option.originalModel;
+            return ctrl.optionsParser.getValue(option.originalModel);
           }
 
           return ctrl.optionsParser.getValue(option);
@@ -561,8 +561,6 @@ module.directive('rgSelect', () => {
             ctrl.ngModelCtrl.$setViewValue(selectedValue.label);
           } else if (Array.isArray(selectedValue)) {
             ctrl.ngModelCtrl.$setViewValue(selectedValue.map(valueOf));
-          } else if (selectedValue && selectedValue.originalModel) {
-            ctrl.ngModelCtrl.$setViewValue(valueOf(selectedValue));
           } else {
             ctrl.ngModelCtrl.$setViewValue(valueOf(selectedValue));
           }

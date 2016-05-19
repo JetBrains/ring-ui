@@ -447,16 +447,22 @@ function rgDialogDirective($timeout) {
     let pageHeight = null;
     let pageWidth = null;
 
-    function setPosition(top, left) {
+    function setPosition(eventTop, eventLeft) {
       pageHeight = window.innerHeight;
       pageWidth = window.innerWidth;
 
-      if (top === undefined) {
+      let top;
+      if (eventTop === undefined) {
         top = parseInt(getStyles(dialogContainer).top, 10);
+      } else {
+        top = eventTop;
       }
 
-      if (left === undefined) {
+      let left;
+      if (eventLeft === undefined) {
         left = parseInt(getStyles(dialogContainer).left, 10);
+      } else {
+        left = eventLeft;
       }
 
       const clearance = 10;
