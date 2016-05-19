@@ -1,11 +1,6 @@
 /* global angular: false */
 
-const module = angular.module('rgUtil', [])
-  .factory('rgUtil', function (rgCompiler) {
-    return {
-      compiler: rgCompiler
-    };
-  })
+const module = angular.module('Ring.compiler', [])
   .factory('rgCompiler', function ($q, $controller, $injector, $compile) {
 
     // The rgCompiler service is an abstraction of angular's compiler,
