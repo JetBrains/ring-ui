@@ -605,7 +605,7 @@ function rgDialogContentDirective($compile, $q, $rootScope) {
         }
 
         return $q.when(scope.dialog.compileTemplate()).then(function (compiledData) {
-          const templateScope = isOldDataAPI() ? contentScope : (scope.dialog.config.scope || $rootScope.$new());
+          const templateScope = isOldDataAPI() ? contentScope : (scope.dialog.config.scope || contentScope);
 
           // XXX(maksimrv): We should put element to directive
           // before link because some directives (shortcuts)
