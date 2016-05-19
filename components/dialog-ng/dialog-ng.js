@@ -578,7 +578,7 @@ function rgDialogTitleDirective() {
   };
 }
 
-function rgDialogContentDirective($compile, $q, $rootScope) {
+function rgDialogContentDirective($compile, $q) {
   return {
     link: function (scope, iElement) {
       const element = iElement[0];
