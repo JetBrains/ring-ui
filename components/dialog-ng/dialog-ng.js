@@ -3,7 +3,7 @@ import 'dom4';
 import {getStyles, getRect} from '../dom/dom';
 import shortcuts from '../shortcuts/shortcuts';
 import RingButton from '../button-ng/button-ng';
-import rgUtilModuleName from '../util-ng/util-ng';
+import rgCompilerModuleName from '../compiler-ng/compiler-ng';
 import scrollbarWidth from 'scrollbar-width';
 
 import '../button/button.scss';
@@ -112,19 +112,19 @@ import '../dialog/dialog.scss';
  </file>
  </example>
  */
-const module = angular.module('Ring.dialog', [RingButton, rgUtilModuleName]);
+const module = angular.module('Ring.dialog', [RingButton, rgCompilerModuleName]);
 
 class DialogController {
   static BODY_MODAL_CLASS = 'ring-dialog-modal';
 
-  constructor($scope, $q, dialog, dialogInSidebar, $compile, rgUtil) {
+  constructor($scope, $q, dialog, dialogInSidebar, $compile, rgCompiler) {
     const dialogService = this.inSidebar ? dialogInSidebar : dialog;
 
     this.$scope = $scope;
     this.$compile = $compile;
     this.$q = $q;
     this.dialogService = dialogService;
-    this.rgUtil = rgUtil;
+    this.rgCompiler = rgCompiler;
 
     this.previousBodyWidth = null;
 
@@ -213,7 +213,7 @@ class DialogController {
       };
     }
 
-    return this.rgUtil.compiler(this.config);
+    return this.rgCompiler(this.config);
   }
 
   show(config) {
