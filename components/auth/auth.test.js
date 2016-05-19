@@ -4,13 +4,10 @@ import AuthRequestBuilder from './auth__request-builder';
 import AuthResponseParser from './auth__response-parser';
 import AuthStorage from './auth__storage';
 import MockedStorage from 'imports?window=mocked-storage!../storage/storage__local';
-import Sniffr from 'sniffr';
-
-const sniffr = new Sniffr();
-sniffr.sniff();
+import sniffer from '../sniffer/sniffer';
 
 describe('Auth', () => {
-  if (sniffr.browser.name === 'ie' && sniffr.browser.version[0] < 10) {
+  if (sniffer.browser.name === 'ie' && sniffer.browser.version[0] < 10) {
     return;
   }
 
@@ -503,7 +500,7 @@ describe('Auth', () => {
             'state=unique&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub&request_credentials=silent&client_id=1-1-1-1-1&scope=0-0-0-0-0%20youtrack');
 
           // Assert fails in IE for some reason
-          if (sniffr.browser.name !== 'ie') {
+          if (sniffer.browser.name !== 'ie') {
             Auth.prototype._redirectCurrentPage.should.not.have.been.called;
           }
 

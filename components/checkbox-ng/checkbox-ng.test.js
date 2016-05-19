@@ -5,9 +5,7 @@ import 'angular-mocks';
 
 import Checkbox from './checkbox-ng';
 
-import Sniffr from 'sniffr';
-const sniffr = new Sniffr();
-sniffr.sniff();
+import sniffer from '../sniffer/sniffer';
 
 describe('CheckboxNg', () => {
   let scope;
@@ -35,7 +33,7 @@ describe('CheckboxNg', () => {
   });
 
   it('should have been set checked by click', () => {
-    if (sniffr.browser.name === 'ie') {
+    if (sniffer.browser.name === 'ie') {
       return;
     }
 
