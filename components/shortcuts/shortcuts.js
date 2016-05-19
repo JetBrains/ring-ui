@@ -133,15 +133,19 @@ class Shortcuts {
 
   setScope(scope) {
     if (scope) {
+      let scopeChain;
+
       if (typeof scope === 'string') {
-        scope = [scope];
+        scopeChain = [scope];
+      } else {
+        scopeChain = scope;
       }
 
-      if (!Array.isArray(scope)) {
+      if (!Array.isArray(scopeChain)) {
         return;
       }
 
-      this._scopeChain = [this.ROOT_SCOPE].concat(scope);
+      this._scopeChain = [this.ROOT_SCOPE].concat(scopeChain);
     } else {
       this._scopeChain = [this.ROOT_SCOPE];
     }

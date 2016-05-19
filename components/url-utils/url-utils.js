@@ -71,8 +71,9 @@ export default class urlUtils {
   static fixUrl(url) {
     if (url.indexOf('http://') === -1 && url.indexOf('https://') === -1 && url.indexOf('/') !== 0) {
       const baseUrl = urlUtils.getBaseURI();
+
       if (baseUrl) {
-        url = baseUrl + url;
+        return baseUrl + url;
       }
     }
 

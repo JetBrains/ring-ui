@@ -43,8 +43,8 @@ module.directive('rgTablePager', ['$location', 'RingMessageBundle', ($location, 
 
     scope.getTopOptionLabel = itemsPerPage => `${itemsPerPage} ${RingMessageBundle.items_per_page()}`;
 
-    scope.loadPage = (pageNum, firstLoad) => {
-      pageNum = parseInt(pageNum, 10);
+    scope.loadPage = (page, firstLoad) => {
+      let pageNum = parseInt(page, 10);
       if (pageNum < 1) {
         pageNum = 1;
       } else if (pageNum > scope.totalPages) {

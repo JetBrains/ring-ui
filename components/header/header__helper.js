@@ -59,14 +59,14 @@ export default class HeaderHelper {
   /**
    * @param {Header} header
    * @param {Auth} auth
-   * @param {{ logout: string, profile: string }=} translationsDict
+   * @param {{ logout: string, profile: string }=} customTranslationsDict
    * @return {Promise}
    */
-  static setUserMenu(header, auth, translationsDict) {
-    translationsDict = Object.assign({
+  static setUserMenu(header, auth, customTranslationsDict) {
+    const translationsDict = Object.assign({
       logout: 'Log out',
       profile: 'Profile'
-    }, translationsDict);
+    }, customTranslationsDict);
 
     let popup = null;
 

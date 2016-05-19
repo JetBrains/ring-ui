@@ -18,7 +18,6 @@
     "consistent-return": 1,
     "dot-location": [1, "object"],
     "no-magic-numbers": [1, { "ignore": [-1, 0, 1] }],
-    "no-param-reassign": 1,
     "vars-on-top": 0,
 
     // Stylistic Issues

@@ -43,9 +43,7 @@ export default class Caret {
    * @param {boolean} params.avoidFocus
    * @return {number}
    */
-  getPosition(params) {
-    params = params || {};
-
+  getPosition(params = {}) {
     if (this.isContentEditable) {
       if (!params.avoidFocus) {
         this.focus();
@@ -84,25 +82,29 @@ export default class Caret {
    * @return {number}
    */
   setPosition(position) {
+    let correctedPosition;
+
     if (position === -1) {
       const value = this.isContentEditable ? this.target.textContent : this.constructor.normalizeNewlines(this.target.value);
-      position = value.length;
+      correctedPosition = value.length;
+    } else {
+      correctedPosition = position;
     }
 
     if (this.isContentEditable) {
       this.focus();
 
       try {
-        window.getSelection().collapse(this.target.firstChild || this.target, position);
+        window.getSelection().collapse(this.target.firstChild || this.target, correctedPosition);
       } catch (e) {
         // Do nothing
       }
 
     } else {
-      this.target.setSelectionRange(position, position);
+      this.target.setSelectionRange(correctedPosition, correctedPosition);
     }
 
-    return position;
+    return correctedPosition;
   }
 
   /**
