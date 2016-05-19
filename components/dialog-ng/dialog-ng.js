@@ -152,7 +152,7 @@ class DialogController extends Inject {
 
   getShortcuts() {
     const defaultEscHandler = function () {
-      this.reset();
+      this.active = false;
       this.$inject.$scope.$apply();
     }.bind(this);
 
