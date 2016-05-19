@@ -350,14 +350,17 @@ export default class List extends RingComponentWithShortcuts {
   }
 
   moveHandler(index, retryCallback, e) {
+    let correctedIndex;
     if (this.props.data.length === 0 || !this.haveActivatableItems()) {
       return;
     } else if (this.props.data.length === 1) {
-      index = 0;
+      correctedIndex = 0;
+    } else {
+      correctedIndex = index;
     }
 
-    const item = this.props.data[index];
-    this.setState({activeIndex: index, activeItem: item, scrolling: true}, function () {
+    const item = this.props.data[correctedIndex];
+    this.setState({activeIndex: correctedIndex, activeItem: item, scrolling: true}, function () {
       if (!this.isActivatable(item)) {
         retryCallback(e);
         return;

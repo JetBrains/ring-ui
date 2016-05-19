@@ -651,8 +651,8 @@ export default class Select extends RingComponentWithShortcuts {
     </div>);
   }
 
-  getListItems(filterString) {
-    filterString = filterString.trim();
+  getListItems(rawFilterString) {
+    let filterString = rawFilterString.trim();
 
     if (this.isInputMode() && this.state.selected && filterString === this.state.selected.label) {
       filterString = ''; // ignore multiple if it is exactly the selected item

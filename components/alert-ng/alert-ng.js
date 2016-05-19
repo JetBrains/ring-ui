@@ -14,10 +14,13 @@ function alert() {
   let container = null;
   let defaultTTL = 0; // no ttl, never closed by timeout
 
-  function init(containerElement) {
-    if (!containerElement) {
+  function init(customContainer) {
+    let containerElement;
+    if (!customContainer) {
       containerElement = angular.element('<div>');
       angular.element(document.body.childNodes[0]).after(containerElement);
+    } else {
+      containerElement = customContainer;
     }
     container = render(ReactAlerts.factory(), containerElement[0]);
   }
@@ -26,13 +29,9 @@ function alert() {
     defaultTTL = parseInt(ttl, 10);
   }
 
-  function _add(text, type, ttl) {
+  function _add(text, type, ttl = defaultTTL) {
     if (!container) {
       init();
-    }
-
-    if (ttl === undefined) {
-      ttl = defaultTTL;
     }
 
     return container.add(text, type, ttl);

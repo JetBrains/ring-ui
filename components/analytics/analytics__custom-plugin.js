@@ -1,8 +1,9 @@
 import AnalyticsCustomPluginUtils from './analytics__custom-plugin-utils';
 
-export default function AnalyticsCustomPlugin(send, isDevelopment, flushInterval, checkFlushingAllowed) {
+export default function AnalyticsCustomPlugin(send, isDevelopment, flushInterval, flushingAlloweChecker) {
   this._data = [];
 
+  let checkFlushingAllowed = flushingAlloweChecker;
   if (typeof checkFlushingAllowed !== 'function') {
     checkFlushingAllowed = function () {
       return true;
@@ -48,21 +49,16 @@ AnalyticsCustomPlugin.prototype._initSendSchedule = function () {
   this._hasSendSchedule = true;
 };
 
-AnalyticsCustomPlugin.prototype._processEvent = function (category, action) {
+AnalyticsCustomPlugin.prototype._processEvent = function (rawCategory, rawAction) {
   if (!this._hasSendSchedule && this._flush) {
     this._initSendSchedule();
   }
-  category = AnalyticsCustomPluginUtils.reformatString(category, true);
-  action = AnalyticsCustomPluginUtils.reformatString(action);
+  const category = AnalyticsCustomPluginUtils.reformatString(rawCategory, true);
+  const action = AnalyticsCustomPluginUtils.reformatString(rawAction);
   if (this._isDevelopment) {
-    /* eslint-disable no-console*/
-    console.log('TRACKING DATA = ', category, action);
-    /* eslint-enable no-console*/
+    console.log('TRACKING DATA = ', category, action); // eslint-disable-line no-console
   }
-  this._data.push({
-    category: category,
-    action: action
-  });
+  this._data.push({category, action});
 };
 
 AnalyticsCustomPlugin.prototype._trackPageViewAdditionalInfo = function (newPagePath) {
