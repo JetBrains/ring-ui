@@ -209,20 +209,6 @@ describe('DialogNg', function () {
 
       element.query('form .content').should.have.html(dialogConfig.data.text);
     });
-
-    it('should allow keep focus inside dialog', function () {
-      text = 'Hello';
-
-      const element = renderDialog({
-        keepTabFocus: true,
-        template: '<div class="content">{{text}}</div>',
-        controller: ['$scope', function ($scope) {
-          $scope.text = text;
-        }]
-      });
-
-      element.query('tab-trap').should.be;
-    });
   });
 
 
