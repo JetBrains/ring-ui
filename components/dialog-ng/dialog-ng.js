@@ -3,6 +3,7 @@ import 'dom4';
 import {getStyles, getRect} from '../dom/dom';
 import shortcuts from '../shortcuts/shortcuts';
 import RingButton from '../button-ng/button-ng';
+import rgUtilModuleName from '../util-ng/util-ng';
 import scrollbarWidth from 'scrollbar-width';
 
 import '../button/button.scss';
@@ -111,20 +112,19 @@ import '../dialog/dialog.scss';
  </file>
  </example>
  */
-const module = angular.module('Ring.dialog', [RingButton]);
+const module = angular.module('Ring.dialog', [RingButton, rgUtilModuleName]);
 
 class DialogController {
   static BODY_MODAL_CLASS = 'ring-dialog-modal';
 
-  constructor($scope, $q, dialog, dialogInSidebar, $compile, $injector, $controller) {
+  constructor($scope, $q, dialog, dialogInSidebar, $compile, rgUtil) {
     const dialogService = this.inSidebar ? dialogInSidebar : dialog;
 
     this.$scope = $scope;
     this.$compile = $compile;
-    this.$injector = $injector;
-    this.$controller = $controller;
     this.$q = $q;
     this.dialogService = dialogService;
+    this.rgUtil = rgUtil;
 
     this.previousBodyWidth = null;
 
@@ -213,54 +213,7 @@ class DialogController {
       };
     }
 
-    return this.compile(this.config);
-  }
-
-  compile(options) {
-    const $q = this.$q;
-    const $controller = this.$controller;
-    const $injector = this.$injector;
-    const $compile = this.$compile;
-    const template = options.template;
-    const controller = options.controller;
-    const controllerAs = options.controllerAs;
-    const resolve = angular.extend({}, options.resolve);
-
-    angular.forEach(resolve, function (value, key) {
-      if (angular.isString(value)) {
-        resolve[key] = $injector.get(value);
-      } else {
-        resolve[key] = $injector.invoke(value);
-      }
-    });
-
-    angular.extend(resolve, options.locals);
-
-    return $q.all(resolve).then(function (locals) {
-      const element = options.element || angular.element('<div>').html(template.trim()).contents();
-      const linkFn = $compile(element);
-
-      return {
-        locals: locals,
-        element: element,
-        link: function (scope) {
-          locals.$scope = scope;
-
-          if (controller) {
-            const invokeCtrl = $controller(controller, locals, true);
-            const ctrl = invokeCtrl();
-
-            element.data('$ngControllerController', ctrl);
-
-            if (controllerAs) {
-              scope[controllerAs] = ctrl;
-            }
-          }
-
-          return linkFn(scope);
-        }
-      };
-    });
+    return this.rgUtil.compiler(this.config);
   }
 
   show(config) {
