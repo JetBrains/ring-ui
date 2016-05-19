@@ -1,4 +1,4 @@
-import Sniffr from 'sniffr';
+import sniffer from '../sniffer/sniffer';
 
 import DialogNg from '../dialog-ng/dialog-ng';
 import ShortcutsNg from '../shortcuts-ng/shortcuts-ng';
@@ -114,10 +114,7 @@ class HintPopupService {
 }
 
 function shortcutKeySymbolFilter(shortcut) {
-  const sniffr = new Sniffr();
-  sniffr.sniff();
-
-  const MAC_OS = sniffr.os.name === 'macos';
+  const MAC_OS = sniffer.os.name === 'macos';
   const KEY_SEPARATOR = MAC_OS ? ' ' : ' + ';
 
   const macSymbolsMap = {

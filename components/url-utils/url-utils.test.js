@@ -1,10 +1,7 @@
 import 'dom4';
 
-import Sniffr from 'sniffr';
+import sniffer from '../sniffer/sniffer';
 import urlUtils from '../url-utils/url-utils';
-
-const sniffr = new Sniffr();
-sniffr.sniff();
 
 describe('urlUtils', () => {
   describe('fixUrl', () => {
@@ -55,9 +52,9 @@ describe('urlUtils', () => {
 
   describe('resolveRelative', () => {
     const baseUrl = 'http://example.com/';
-    const standardsCompliantRelativeSVG = sniffr.browser.name === 'firefox' ||
-      sniffr.browser.name === 'chrome' && sniffr.browser.version[0] >= 49 ||
-      sniffr.browser.name === 'edge';
+    const standardsCompliantRelativeSVG = sniffer.browser.name === 'firefox' ||
+      sniffer.browser.name === 'chrome' && sniffer.browser.version[0] >= 49 ||
+      sniffer.browser.name === 'edge';
 
     beforeEach(function () {
       this.sinon.stub(urlUtils, 'getAbsoluteURL').returns(baseUrl);
