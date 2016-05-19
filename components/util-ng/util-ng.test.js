@@ -181,13 +181,4 @@ describe('rgUtil', function () {
       compileData.element[0].should.have.html(text);
     });
   });
-
-
-  describe('tabTrap', function () {
-    it('should trap tab', function () {
-      const template = util.trapTab('<div/>');
-
-      template.should.equal('<tab-trap><div/></tab-trap>');
-    });
-  });
 });
