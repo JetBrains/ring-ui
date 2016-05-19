@@ -1,7 +1,4 @@
-import Sniffr from 'sniffr';
-
-const sniffr = new Sniffr();
-sniffr.sniff();
+import sniffer from '../sniffer/sniffer';
 
 export default class urlUtils {
   /**
@@ -88,7 +85,7 @@ export default class urlUtils {
    * @return {string} The url relative to base url for current page
    */
   static resolveRelativeURL(relUrl) {
-    if (this.getBaseURI() && (sniffr.browser.name === 'firefox' || sniffr.browser.name === 'edge' || sniffr.browser.name === 'chrome' && sniffr.browser.version[0] >= 49)) {
+    if (this.getBaseURI() && (sniffer.browser.name === 'firefox' || sniffer.browser.name === 'edge' || sniffer.browser.name === 'chrome' && sniffer.browser.version[0] >= 49)) {
       return this.getAbsoluteURL() + relUrl;
     }
 

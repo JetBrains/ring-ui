@@ -1,4 +1,4 @@
-import Sniffr from 'sniffr';
+import sniffer from '../sniffer/sniffer';
 
 const AnalyticsCustomPluginUtils = {};
 
@@ -54,11 +54,8 @@ AnalyticsCustomPluginUtils.getScreenWidthPresentation = () => {
 AnalyticsCustomPluginUtils.npeSaveLowerCase = val => (val || 'unknown').toLowerCase();
 
 AnalyticsCustomPluginUtils.getUserAgentPresentation = () => {
-  const sniffr = new Sniffr();
-  sniffr.sniff();
-
-  const name = AnalyticsCustomPluginUtils.npeSaveLowerCase(sniffr.browser.name || 'unknown');
-  const majorVersion = sniffr.browser.version[0];
+  const name = AnalyticsCustomPluginUtils.npeSaveLowerCase(sniffer.browser.name || 'unknown');
+  const majorVersion = sniffer.browser.version[0];
   const version = majorVersion || 'unknown';
 
   return `${name}$${version}`;
