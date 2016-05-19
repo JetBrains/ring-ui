@@ -213,7 +213,13 @@ class DialogController {
       };
     }
 
-    return this.rgUtil.compiler(this.config);
+    const template = this.config.keepTabFocus ? this.rgUtil.trapTab(this.config.template) : this.config.template;
+
+    return this.rgUtil.compiler(
+      angular.extend({}, this.config, {
+        template: template
+      })
+    );
   }
 
   show(config) {
