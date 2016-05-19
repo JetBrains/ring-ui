@@ -1,9 +1,17 @@
 /* global angular: false */
 
-const module = angular.module('rgUtil', [])
-  .factory('rgUtil', function (rgCompiler) {
+import angularTabTrap from 'angular-tab-trap';
+
+const module = angular.module('rgUtil', [angularTabTrap.name])
+  .factory('rgUtil', function (rgCompiler, rgWrapToTabTrap) {
     return {
+      trapTab: rgWrapToTabTrap,
       compiler: rgCompiler
+    };
+  })
+  .factory('rgWrapToTabTrap', function () {
+    return function (template) {
+      return '<tab-trap>' + template + '</tab-trap>';
     };
   })
   .factory('rgCompiler', function ($q, $controller, $injector, $compile) {
