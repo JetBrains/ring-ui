@@ -1,14 +1,19 @@
 @import "../global/global";
 
 .ring-progress-bar {
-  background-color: #D8D8D8;
+  background-color: rgba(0, 0, 0, 0.2);
   border-radius: 2px;
   height: $ring-unit/2;
   margin-bottom: $ring-unit/2;
   max-width: 36*$ring-unit;
   overflow: hidden;
   position: relative;
+
+  &_bright {
+    background-color: rgba(255, 255, 255, 0.3);
+  }
 }
+
 
 .ring-progress-bar_global {
   background: transparent;
@@ -29,20 +34,27 @@
   width: 0;
 
   &:after {
-    animation: animatedBackground 200ms linear infinite;
-    background-image: url(./progress-bar.svg);
-    background-position: 0 0;
-    background-repeat: repeat-x;
+    animation: progress-bar 2500ms linear infinite;
+    background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(255, 255, 255, 0.6), rgba(0, 0, 0, 0));
+    background-repeat: no-repeat;
     bottom: 0;
     content: '';
     left: 0;
     position: absolute;
     right: 0;
     top: 0;
+
+    .ring-progress-bar_bright & {
+      background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(255, 255, 255, 0.4), rgba(0, 0, 0, 0));
+    }
   }
 }
 
-@keyframes animatedBackground {
-  from { background-position: 0 0; }
-  to { background-position: -4px 0; }
+@keyframes progress-bar {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(100%);
+  }
 }
