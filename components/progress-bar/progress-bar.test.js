@@ -2,13 +2,13 @@
  * Describe using progress bar
  */
 import React from 'react';
-import ReactDOM from 'react-dom';
-import TestUtils from 'react-addons-test-utils';
+import {findDOMNode} from 'react-dom';
+import {renderIntoDocument} from 'react-addons-test-utils';
 import ProgressBar from './progress-bar';
 
 describe('ProgressBar', () => {
   beforeEach(function () {
-    this.progress = TestUtils.renderIntoDocument(React.createElement(ProgressBar));
+    this.progress = renderIntoDocument(React.createElement(ProgressBar));
   });
 
   it('should create component', function () {
@@ -23,27 +23,46 @@ describe('ProgressBar', () => {
 
   describe('client interaction with progress bar API', () => {
     it('should set max value for progress bar', function () {
+      const MAX = 100;
+
       this.progress.rerender({
-        max: 100
+        max: MAX
       });
 
-      this.progress.props.max.should.equal(100);
+      this.progress.props.max.should.equal(MAX);
     });
 
     it('should set progress task value', function () {
+      const MIDDLE = 0.5;
+
       this.progress.rerender({
-        value: 0.5
+        value: MIDDLE
       });
 
-      this.progress.props.value.should.equal(0.5);
+      this.progress.props.value.should.equal(MIDDLE);
     });
 
     it('should set additional classes(modifiers) to the component', function () {
       this.progress.rerender({
-        className: 'ring-progress-bar_global'
+        className: 'ring-button__loader'
       });
 
-      ReactDOM.findDOMNode(this.progress.refs.progressbarWrapper).should.have.class('ring-progress-bar_global');
+      findDOMNode(this.progress.refs.progressbarWrapper).should.have.class('ring-button__loader');
+    });
+
+    it('should set bright modifier', function () {
+      this.progress.rerender({
+        bright: true
+      });
+      findDOMNode(this.progress.refs.progressbarWrapper).should.have.class('ring-progress-bar_bright');
+    });
+
+    it('should set global modifier', function () {
+      this.progress.rerender({
+        global: true
+      });
+
+      findDOMNode(this.progress.refs.progressbarWrapper).should.have.class('ring-progress-bar_global');
     });
   });
 
@@ -53,7 +72,7 @@ describe('ProgressBar', () => {
    */
   describe('#render', () => {
     it('should set min value to equal zero', function () {
-      ReactDOM.findDOMNode(this.progress.refs.progressbar).should.have.attr('aria-valuemin', '0');
+      findDOMNode(this.progress.refs.progressbar).should.have.attr('aria-valuemin', '0');
     });
 
     it('should update max value in DOM', function () {
@@ -61,7 +80,7 @@ describe('ProgressBar', () => {
         max: 100
       });
 
-      ReactDOM.findDOMNode(this.progress.refs.progressbar).should.have.attr('aria-valuemax', '100');
+      findDOMNode(this.progress.refs.progressbar).should.have.attr('aria-valuemax', '100');
     });
 
     it('should update progress value in DOM', function () {
@@ -69,8 +88,8 @@ describe('ProgressBar', () => {
         value: 0.5
       });
 
-      ReactDOM.findDOMNode(this.progress.refs.progressbar).should.have.attr('aria-valuenow', '0.5');
-      ReactDOM.findDOMNode(this.progress.refs.progressbar).should.have.attr('style').match(/width: 50%;/);
+      findDOMNode(this.progress.refs.progressbar).should.have.attr('aria-valuenow', '0.5');
+      findDOMNode(this.progress.refs.progressbar).should.have.attr('style').match(/width: 50%;/);
     });
 
     it('should set width equal 100% if progress value more than max value', function () {
@@ -79,14 +98,14 @@ describe('ProgressBar', () => {
         value: 10
       });
 
-      ReactDOM.findDOMNode(this.progress.refs.progressbar).should.have.attr('style').match(/width: 100%;/);
+      findDOMNode(this.progress.refs.progressbar).should.have.attr('style').match(/width: 100%;/);
     });
 
     it('should not set style if value is not a number', function () {
       this.progress.rerender({
         value: null
       });
-      ReactDOM.findDOMNode(this.progress.refs.progressbar).should.not.have.attr('style');
+      findDOMNode(this.progress.refs.progressbar).should.not.have.attr('style');
     });
   });
 });

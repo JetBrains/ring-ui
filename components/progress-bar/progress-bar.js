@@ -16,7 +16,11 @@ import './progress-bar.scss';
  * @example
    <example name="progress-bar">
      <file name="index.html">
-       <div id='progress-bar'></div>
+       <div>
+         <div id='progress-bar' style="height: 25px; padding-top: 25px;"></div>
+         <div id='progress-bar-black' style="height: 25px; background: #000; padding-top: 25px;"></div>
+         <div id='progress-bar-gray' style="height: 25px; background: #F0F0F0; padding-top: 25px;"></div>
+       </div>
      </file>
 
      <file name="index.js" webpack="true">
@@ -28,9 +32,23 @@ import './progress-bar.scss';
          document.getElementById('progress-bar')
        );
 
+       var progressBarBlack = render(
+         ProgressBar.factory({ value: 0, bright: true }),
+         document.getElementById('progress-bar-black')
+       );
+
+       var progressBarGray = render(
+         ProgressBar.factory({ value: 0 }),
+         document.getElementById('progress-bar-gray')
+       );
+
        setInterval(function updateProgress() {
-         var currentValue = progressBar.props.value;
-         progressBar.rerender({ value: currentValue >=1 ? 0 : currentValue + 0.1 });
+         const currentValue = progressBar.props.value;
+         const value = currentValue >=1 ? 0 : currentValue + 0.1;
+
+         progressBar.rerender({ value });
+         progressBarBlack.rerender({ value });
+         progressBarGray.rerender({ value });
        }, 500);
      </file>
    </example>
@@ -38,9 +56,21 @@ import './progress-bar.scss';
 export default class ProgressBar extends RingComponent {
   static propTypes = {
     /**
-     * ring-progress-bar_global  - Progress bar on top of the screen.
+     * Mode for dark backgrounds
+     * @type {boolean}
+     */
+    bright: PropTypes.bool,
+
+    /**
+     * Sets class ring-progress-bar_global to position progress bar on top of the screen.
      * Should be placed directly inside body, will be positioned right below .ring-header
      * if placed adjacent to it.
+     * @type {boolean}
+     */
+    global: PropTypes.bool,
+
+    /**
+     * Custom class
      * @type {string}
      */
     className: PropTypes.string,
@@ -67,24 +97,30 @@ export default class ProgressBar extends RingComponent {
 
   /**
    * @param {number} value The progress task value
+   * @param {number} max The maximal value
    * @return {number} The progress task value in percents
    * @private
    */
-  _progressValueToPercents(value) {
-    const percents = (value * 100) / this.props.max;
-    return percents > 100 ? 100 : percents;
+  static toPercent(value, max) {
+    const HUNDRED_PERCENT = 100;
+    const percents = (value * HUNDRED_PERCENT) / max;
+    return percents > HUNDRED_PERCENT ? HUNDRED_PERCENT : percents;
   }
 
   render() {
-    const progress = {
-      width: this.props.value ? this._progressValueToPercents(this.props.value) + '%' : ''
-    };
+    const {bright, className, global, max, value, ...otherProps} = this.props;
 
-    const classes = classNames('ring-progress-bar', this.props.className);
+    const width = value ? `${ProgressBar.toPercent(value, max)}%` : null;
+    const classes = classNames({
+      'ring-progress-bar': true,
+      'ring-progress-bar_bright': bright,
+      'ring-progress-bar_global': global,
+      [className]: !!className
+    });
 
     return (
       <div
-        {...this.props}
+        {...otherProps}
         className={classes}
         ref="progressbarWrapper"
       >
@@ -92,10 +128,10 @@ export default class ProgressBar extends RingComponent {
           className="ring-progress-bar__i"
           ref="progressbar"
           role="progressbar"
-          aria-valuenow={this.props.value}
+          aria-valuenow={value}
           aria-valuemin={0}
-          aria-valuemax={this.props.max}
-          style={progress}
+          aria-valuemax={max}
+          style={{width}}
         />
       </div>
     );
