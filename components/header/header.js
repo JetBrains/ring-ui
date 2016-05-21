@@ -217,6 +217,7 @@ export default class Header extends RingComponent {
 
   static defaultProps = {
     layout: HeaderHelper.getLayoutType(),
+    customItems: [],
     enabledMenuItems: {
       [MenuItemType.SETTINGS]: true,
       [MenuItemType.HELP]: true,
@@ -695,11 +696,17 @@ export default class Header extends RingComponent {
       )
     };
 
-    return MenuItemsSequence.map(function (item) {
-      if (this.props.enabledMenuItems[item]) {
-        return menuItems[item];
-      }
-    }, this);
+    const predefinedItems = MenuItemsSequence.
+      filter(item => this.props.enabledMenuItems[item]).
+      map(item => menuItems[item]);
+
+    const customItems = this.props.customItems.
+      map(item => (
+        <HeaderItem
+          {...item}
+        />));
+
+    return customItems.concat(predefinedItems);
   }
 
   /**

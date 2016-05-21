@@ -149,7 +149,7 @@ export default class HeaderItem extends RingComponent {
    * @param {boolean} opened
    */
   setOpened(opened) {
-    this.setState({opened: opened}, function () {
+    this.setState({opened: opened && this.props.onOpen}, function () {
       if (opened) {
         if (typeof this.props.onOpen === 'function') {
           this.props.onOpen();
