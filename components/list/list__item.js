@@ -55,7 +55,6 @@ export default function ListItem(props) {
           style={{backgroundImage: `url("${props.icon}")`}}
         />
       )}
-      {props.label}
       {props.rightGlyph && (
         <Icon
           className="ring-list__glyph ring-list__glyph_right"
@@ -66,6 +65,7 @@ export default function ListItem(props) {
       {props.description && (
         <div className="ring-list__description">{props.description}</div>
       )}
+      {props.label}
       {props.details && (
         <div className={detailsClasses}>{props.details}</div>
       )}
