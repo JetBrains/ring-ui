@@ -701,6 +701,29 @@ describe('Auth', () => {
           'request_credentials=required&client_id=1-1-1-1-1&scope=0-0-0-0-0%20youtrack&' +
           'message=access%20denied');
       }));
+
+    it('should logout when no onLogout passed', () => auth.logout().should.be.fulfilled);
+
+    it('should fail pass when onLogout returns rejected promise', function () {
+      const onLogout = this.sinon.spy();
+      const logoutAuth = new Auth({
+        serverUri: '',
+        onLogout
+      });
+
+      return logoutAuth.logout().then(() => {
+        onLogout.should.have.been.calledOnce;
+      });
+    });
+
+    it('should fail pass when onLogout returns rejected promise', () => {
+      const logoutAuth = new Auth({
+        serverUri: '',
+        onLogout: () => Promise.reject()
+      });
+
+      return logoutAuth.logout().should.be.rejected;
+    });
   });
 
   describe('TokenValidationError', () => {

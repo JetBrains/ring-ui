@@ -145,6 +145,7 @@ Auth.DEFAULT_CONFIG = {
   scope: [],
   userFields: ['guest', 'id', 'name', 'profile/avatar/url'],
   cleanHash: true,
+  onLogout: () => {},
   default_expires_in: 40 * 60 // 40 mins
 };
 
@@ -374,7 +375,9 @@ Auth.prototype.requestUser = function () {
  */
 Auth.prototype.logout = function (extraParams) {
   const requestParams = Object.assign({request_credentials: 'required'}, extraParams);
-  return this._storage.wipeToken().
+
+  return Promise.resolve(this.config.onLogout()).
+    then(() => this._storage.wipeToken()).
     then(() => this._requestBuilder.prepareAuthRequest(requestParams)).
     then(authRequest => this._redirectCurrentPage(authRequest.url));
 };
