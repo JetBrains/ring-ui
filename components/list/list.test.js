@@ -3,6 +3,9 @@ import ReactDOM from 'react-dom';
 import TestUtils from 'react-addons-test-utils';
 import List from './list';
 
+import okIcon from 'jetbrains-icons/ok.svg';
+const XLINK_NS = 'http://www.w3.org/1999/xlink';
+
 describe('List', () => {
   const Type = List.ListProps.Type;
   let list;
@@ -136,6 +139,22 @@ describe('List', () => {
 
       const icon = getFirstListItem().querySelector('.ring-list__icon');
       expect(icon.style.backgroundImage).to.contain('http://some.url');
+    });
+
+    it('should not render glyph if not provided', () => {
+      list.rerender({data: [
+        {label: 'Hello!', type: List.ListProps.Type.ITEM}
+      ]});
+
+      should.not.exist(getFirstListItem().query('use'));
+    });
+
+    it('should render glyph if provided', () => {
+      list.rerender({data: [
+        {label: 'Hello!', glyph: okIcon, type: List.ListProps.Type.ITEM}
+      ]});
+
+      getFirstListItem().query('use').getAttributeNS(XLINK_NS, 'href').should.equal(okIcon);
     });
 
     it('should throw error on unknown type', () => {
