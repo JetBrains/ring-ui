@@ -670,6 +670,10 @@ module.directive('rgSelect', function () {
         });
       }
 
+      function isSelectPopupOpen() {
+        return ctrl.selectInstance._popup.isVisible();
+      }
+
       function attachDropdownIfNeeded() {
         if (getType() === 'dropdown') {
           const handler = () => {
@@ -688,7 +692,9 @@ module.directive('rgSelect', function () {
             const modifier = event.ctrlKey || event.altKey || event.metaKey || event.shiftKey;
 
             if ((!skipMouseEnterProcessing && (key === 'Enter' && !modifier || key === ' ')) || key === 'ArrowDown') {
-              handler();
+              if (!isSelectPopupOpen()) {
+                handler();
+              }
             }
           });
         }
@@ -696,7 +702,7 @@ module.directive('rgSelect', function () {
 
       function listenToRouteChanges() {
         $scope.$on('$locationChangeSuccess', () => {
-          if (ctrl.selectInstance._popup.isVisible()) {
+          if (isSelectPopupOpen()) {
             ctrl.selectInstance._hidePopup();
           }
         });
