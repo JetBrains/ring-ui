@@ -149,12 +149,14 @@ export default class HeaderItem extends RingComponent {
    * @param {boolean} opened
    */
   setOpened(opened) {
-    this.setState({opened: opened && this.props.onOpen}, function () {
-      if (opened) {
-        if (typeof this.props.onOpen === 'function') {
-          this.props.onOpen();
-        }
-      } else if (typeof this.props.onClose === 'function') {
+    if (!this.props.onOpen && !this.props.onClose) { // It is not a dropdown item
+      return;
+    }
+
+    this.setState({opened}, function () {
+      if (opened && typeof this.props.onOpen === 'function') {
+        this.props.onOpen();
+      } else if (!opened && typeof this.props.onClose === 'function') {
         this.props.onClose();
       }
     });
