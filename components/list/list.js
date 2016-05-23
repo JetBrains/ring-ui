@@ -157,6 +157,8 @@ function isItemType(listItemType, item) {
          {                   'rgItemType': List.ListProps.Type.TITLE, 'label': 'Group title', 'description': 'With description'},
          {'label': 'Item 3', 'rgItemType': List.ListProps.Type.ITEM, 'description': 'Foo bar'},
          {'label': 'Item 4', 'rgItemType': List.ListProps.Type.ITEM, 'description': 'Item description'},
+         {'label': 'Item 5', 'rgItemType': List.ListProps.Type.ITEM, 'description': 'Item description', details: 'Additional details line'},
+         {'label': 'Item 6', 'rgItemType': List.ListProps.Type.ITEM, 'description': 'Item description', details: 'Additional details line, a long long text. And once again, additional details line, a long long text. And once again, additional details line, a long long text. And once again, additional details line, a long long text. And once again, additional details line, a long long text.'},
        ];
 
        render(List.factory({
