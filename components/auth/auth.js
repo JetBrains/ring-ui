@@ -145,7 +145,7 @@ Auth.DEFAULT_CONFIG = {
   scope: [],
   userFields: ['guest', 'id', 'name', 'profile/avatar/url'],
   cleanHash: true,
-  onLogout: () => {},
+  onLogout: noop,
   default_expires_in: 40 * 60 // 40 mins
 };
 
