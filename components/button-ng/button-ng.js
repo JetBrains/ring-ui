@@ -5,7 +5,6 @@ import 'core-js/modules/es7.array.includes';
 
 import Icon from '../icon-ng/icon-ng';
 
-import '../progress-bar/progress-bar.scss';
 import '../button/button.scss';
 
 const module = angular.module('Ring.button', [Icon]);
