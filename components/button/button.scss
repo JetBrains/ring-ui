@@ -163,7 +163,16 @@
   padding: 0;
 }
 
-.ring-progress-bar.ring-button__loader {
+@keyframes button-progress {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-4px);
+  }
+}
+
+.ring-button__loader {
   display: none;
   position: absolute;
   left: 0;
@@ -173,19 +182,25 @@
   margin-bottom: 0;
   max-width: none;
   background-color: transparent;
+  overflow: hidden;
 
-  .ring-progress-bar__i:after {
+  &:after {
+    content: '';
+    bottom: 0;
+    left: 0;
+    position: absolute;
+    right: -4px;
+    top: 0;
+    animation: button-progress 200ms linear infinite;
     background-repeat: repeat;
     background-image: url(./button-loader_white.svg);
   }
-}
 
-.ring-button_loader .ring-button__loader {
-  display: block;
-}
+  .ring-button_loader & {
+    display: block;
+  }
 
-.ring-button_loader.ring-button_default .ring-button__loader {
-  .ring-progress-bar__i:after {
+  .ring-button_loader.ring-button_default & {
     background-image: url(./button-loader_gray.svg);
   }
 }
