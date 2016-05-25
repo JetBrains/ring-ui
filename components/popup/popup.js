@@ -615,8 +615,8 @@ export default class Popup extends RingComponentWithShortcuts {
       return true;
     }
     const popupHeight = this.node.clientHeight;
-    const documentHeight = Math.max(document.body.scrollHeight, document.documentElement.clientHeight);
-    const verticalDiff = documentHeight - styles.top - popupHeight;
+    const windowHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+    const verticalDiff = windowHeight - styles.top - popupHeight;
 
     if (verticalDiff < this.props.sidePadding) {
       return true;
@@ -631,8 +631,8 @@ export default class Popup extends RingComponentWithShortcuts {
       return true;
     }
     const popupWidth = this.node.clientWidth;
-    const documentWidth = Math.max(document.body.scrollWidth, document.documentElement.clientWidth);
-    const horizontalDiff = documentWidth - styles.left - popupWidth;
+    const windowWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+    const horizontalDiff = windowWidth - styles.left - popupWidth;
 
     if (horizontalDiff < this.props.sidePadding) {
       return true;
