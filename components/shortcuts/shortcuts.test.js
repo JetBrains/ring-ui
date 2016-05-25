@@ -12,6 +12,10 @@ describe('Shortcuts', function () {
     simulateKeypress(key, 65);
   }
 
+  function wrapScope(scopeId, options = {}) {
+    return {scopeId, options};
+  }
+
   beforeEach(function () {
     shortcuts.reset();
     shortcuts.setScope();
@@ -37,7 +41,7 @@ describe('Shortcuts', function () {
     it('should bind to root scope', function () {
       shortcuts.bind({key: key, handler: noop});
 
-      shortcuts._scopes[shortcuts.ROOT_SCOPE][key].should.equal(noop);
+      shortcuts._scopes[shortcuts.ROOT_SCOPE.scopeId][key].should.equal(noop);
     });
 
     it('should bind to custom scope', function () {
@@ -50,8 +54,8 @@ describe('Shortcuts', function () {
       const keys = [key, key2];
       shortcuts.bind({key: keys, handler: noop});
 
-      shortcuts._scopes[shortcuts.ROOT_SCOPE][key].should.equal(noop);
-      shortcuts._scopes[shortcuts.ROOT_SCOPE][key2].should.equal(noop);
+      shortcuts._scopes[shortcuts.ROOT_SCOPE.scopeId][key].should.equal(noop);
+      shortcuts._scopes[shortcuts.ROOT_SCOPE.scopeId][key2].should.equal(noop);
     });
   });
 
@@ -74,8 +78,8 @@ describe('Shortcuts', function () {
       keys[key2] = noop2;
       shortcuts.bindMap(keys);
 
-      shortcuts._scopes[shortcuts.ROOT_SCOPE][key].should.equal(noop);
-      shortcuts._scopes[shortcuts.ROOT_SCOPE][key2].should.equal(noop2);
+      shortcuts._scopes[shortcuts.ROOT_SCOPE.scopeId][key].should.equal(noop);
+      shortcuts._scopes[shortcuts.ROOT_SCOPE.scopeId][key2].should.equal(noop2);
     });
 
     it('should bind map of keys to custom scope', function () {
@@ -103,7 +107,7 @@ describe('Shortcuts', function () {
       shortcuts.bind({key: key, scope: scope, handler: noop});
 
       shortcuts.hasKey(key, scope).should.be.true;
-      shortcuts.hasKey(key, shortcuts.ROOT_SCOPE).should.be.false;
+      shortcuts.hasKey(key, shortcuts.ROOT_SCOPE.scopeId).should.be.false;
     });
   });
 
@@ -188,34 +192,40 @@ describe('Shortcuts', function () {
       const myscope = 'aaaa';
       shortcuts.setScope(myscope);
 
-      shortcuts.getScope().should.deep.equal([myscope]);
+      shortcuts.getScope().should.deep.equal([wrapScope(myscope)]);
     });
 
     it('setScope should set full scope chain by array of names', function () {
       shortcuts.setScope([scope1, scope2]);
 
-      shortcuts.getScope().should.deep.equal([scope1, scope2]);
+      shortcuts.getScope().should.deep.equal([wrapScope(scope1), wrapScope(scope2)]);
     });
 
     it('pushScope should add scope to scope chain end', function () {
       shortcuts.setScope(scope1);
       shortcuts.pushScope(scope2);
 
-      shortcuts.getScope().should.deep.equal([scope1, scope2]);
+      shortcuts.getScope().should.deep.equal([wrapScope(scope1), wrapScope(scope2)]);
     });
 
     it('popScope should remove by name scope and next scopes from chain', function () {
       shortcuts.setScope([scope1, scope2, scope3]);
       shortcuts.popScope(scope2);
 
-      shortcuts.getScope().should.deep.equal([scope1]);
+      shortcuts.getScope().should.deep.equal([wrapScope(scope1)]);
     });
 
     it('spliceScope should remove by name scope from chain', function () {
       shortcuts.setScope([scope1, scope2, scope3]);
       shortcuts.spliceScope(scope2);
 
-      shortcuts.getScope().should.deep.equal([scope1, scope3]);
+      shortcuts.getScope().should.deep.equal([wrapScope(scope1), wrapScope(scope3)]);
+    });
+
+    it('should store options passed with scope', function () {
+      shortcuts.pushScope(scope1, {foo: 'bar'});
+
+      shortcuts.getScope().should.deep.equal([wrapScope(scope1, {foo: 'bar'})]);
     });
   });
 });
