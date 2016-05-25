@@ -3,7 +3,10 @@ import Combokeys from 'combokeys';
 
 class Shortcuts {
   ALLOW_SHORTCUTS_SELECTOR = '.ring-js-shortcuts';
-  ROOT_SCOPE = 'ROOT';
+  ROOT_SCOPE = {
+    scopeId: 'ROOT',
+    options: {}
+  };
 
   _scopes = {};
 
@@ -18,10 +21,11 @@ class Shortcuts {
     let currentScope;
 
     for (let i = this._scopeChain.length - 1; i >= 0; i--) {
-      currentScope = this._scopes[this._scopeChain[i]];
+      const currentScopeId = this._scopeChain[i].scopeId;
+      currentScope = this._scopes[currentScopeId];
 
       if (currentScope && currentScope[key]) {
-        const ret = currentScope[key](e, key, this._scopeChain[i]);
+        const ret = currentScope[key](e, key, currentScopeId);
 
         // Fall down in chain when returning true
         if (ret !== true) {
@@ -45,7 +49,7 @@ class Shortcuts {
     }
 
     if (!params.scope) {
-      params.scope = this.ROOT_SCOPE;
+      params.scope = this.ROOT_SCOPE.scopeId;
     }
 
     if (Array.isArray(params.key)) {
@@ -95,25 +99,25 @@ class Shortcuts {
     return this._scopeChain.slice(1);
   }
 
-  hasScope(scope) {
-    return this._scopeChain.indexOf(scope) !== -1;
+  hasScope(scopeId) {
+    return this.indexOfScope(scopeId) !== -1;
   }
 
-  pushScope(scope) {
-    if (scope) {
-      const position = this._scopeChain.indexOf(scope);
+  pushScope(scopeId, options = {}) {
+    if (scopeId) {
+      const position = this.indexOfScope(scopeId);
 
       if (position !== -1) {
         this._scopeChain.splice(position, 1);
       }
 
-      this._scopeChain.push(scope);
+      this._scopeChain.push(this._wrapScope(scopeId, options));
     }
   }
 
-  popScope(scope) {
-    if (scope) {
-      const position = this._scopeChain.indexOf(scope);
+  popScope(scopeId) {
+    if (scopeId) {
+      const position = this.indexOfScope(scopeId);
 
       if (position !== -1) {
         return this._scopeChain.splice(position, this._scopeChain.length - 1);
@@ -121,9 +125,9 @@ class Shortcuts {
     }
   }
 
-  spliceScope(scope) {
-    if (scope) {
-      const position = this._scopeChain.indexOf(scope);
+  spliceScope(scopeId) {
+    if (scopeId) {
+      const position = this.indexOfScope(scopeId);
 
       if (position !== -1) {
         this._scopeChain.splice(position, 1);
@@ -133,18 +137,26 @@ class Shortcuts {
 
   setScope(scope) {
     if (scope) {
-      if (typeof scope === 'string') {
+      if (typeof scope === 'string' || (!Array.isArray(scope) && typeof scope === 'object' && scope !== null)) {
         scope = [scope];
       }
 
       if (!Array.isArray(scope)) {
         return;
       }
+      scope = scope.map(scopeItem => {
+        const isScopeId = typeof scopeItem === 'string';
+        return isScopeId ? this._wrapScope(scopeItem) : scopeItem;
+      });
 
       this._scopeChain = [this.ROOT_SCOPE].concat(scope);
     } else {
       this._scopeChain = [this.ROOT_SCOPE];
     }
+  }
+
+  _wrapScope(scopeId, options = {}) {
+    return {scopeId, options};
   }
 
   hasKey(key, scope) {
@@ -167,6 +179,15 @@ class Shortcuts {
 
   setFilter(fn) {
     this.combokeys.stopCallback = typeof fn === 'function' ? fn : ::this._defaultFilter;
+  }
+
+  indexOfScope(scopeId) {
+    for (let i = this._scopeChain.length - 1; i >= 0; i--) {
+      if (scopeId === this._scopeChain[i].scopeId) {
+        return i;
+      }
+    }
+    return -1;
   }
 
   reset() {
