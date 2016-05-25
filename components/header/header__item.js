@@ -73,10 +73,12 @@ export default class HeaderItem extends RingComponent {
     // NB! Wrapping span is needed because otherwise selenium tests couldn't
     // trigger the click on the <SVG /> element.
     const iconElement = this.state.picture ? this._getImage() : this._getIcon();
+    const testKey = this.props.testKey ? `header-${this.props.testKey}` : null;
 
     return (
       <span
         {...this.props}
+        data-test={testKey}
         className={classes}
         onClick={::this._handleClick}
         title={this.state.title}
