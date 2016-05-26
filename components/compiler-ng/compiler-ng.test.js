@@ -37,7 +37,7 @@ describe('rgCompiler', function () {
 
     compiler({
       template: '<div>{{text}}</div>'
-    }).then(data => compileData = data);
+    }).then(data => (compileData = data));
     runDigest();
 
 
@@ -60,7 +60,7 @@ describe('rgCompiler', function () {
         function (scope) {
           scope.text = text;
         }]
-    }).then(data => compileData = data);
+    }).then(data => (compileData = data));
     runDigest();
 
 
@@ -82,7 +82,7 @@ describe('rgCompiler', function () {
       controller: function () {
         this.text = text;
       }
-    }).then(data => compileData = data);
+    }).then(data => (compileData = data));
     runDigest();
 
 
@@ -108,7 +108,7 @@ describe('rgCompiler', function () {
         'textLocal', function (scope, textLocal) {
           scope.text = textLocal;
         }]
-    }).then(data => compileData = data);
+    }).then(data => (compileData = data));
     runDigest();
 
 
@@ -136,7 +136,7 @@ describe('rgCompiler', function () {
         'textResolve', function (scope, textResolve) {
           scope.text = textResolve;
         }]
-    }).then(data => compileData = data);
+    }).then(data => (compileData = data));
     runDigest();
 
 
@@ -162,7 +162,7 @@ describe('rgCompiler', function () {
       bindToController: true,
       controllerAs: 'myCtrl',
       controller: window.angular.noop
-    }).then(data => compileData = data);
+    }).then(data => (compileData = data));
     runDigest();
 
 
