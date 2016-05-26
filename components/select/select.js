@@ -559,6 +559,7 @@ export default class Select extends RingComponentWithShortcuts {
   _createPopup() {
     if (!this._popup) {
       const anchorElement = this.props.targetElement || this.node;
+      const popupContainer = this.props.popupContainer || null;
 
       this._popup = Popup.renderPopup(
         <SelectPopup
@@ -570,7 +571,7 @@ export default class Select extends RingComponentWithShortcuts {
           onSelect={::this._listSelectHandler}
           onFilter={::this._filterChangeHandler}
           onLoadMore={::this.props.onLoadMore}
-        />, anchorElement);
+        />, anchorElement, popupContainer);
     }
   }
 
