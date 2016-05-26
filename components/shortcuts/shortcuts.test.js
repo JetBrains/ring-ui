@@ -12,6 +12,8 @@ describe('Shortcuts', () => {
     simulateKeypress(key, 65);
   }
 
+  const wrapScope = shortcuts.wrapScope.bind(shortcuts);
+
   beforeEach(() => {
     shortcuts.reset();
     shortcuts.setScope();
@@ -37,7 +39,7 @@ describe('Shortcuts', () => {
     it('should bind to root scope', () => {
       shortcuts.bind({key, handler: noop});
 
-      shortcuts._scopes[shortcuts.ROOT_SCOPE][key].should.equal(noop);
+      shortcuts._scopes[shortcuts.ROOT_SCOPE.scopeId][key].should.equal(noop);
     });
 
     it('should bind to custom scope', () => {
@@ -50,8 +52,8 @@ describe('Shortcuts', () => {
       const keys = [key, key2];
       shortcuts.bind({key: keys, handler: noop});
 
-      shortcuts._scopes[shortcuts.ROOT_SCOPE][key].should.equal(noop);
-      shortcuts._scopes[shortcuts.ROOT_SCOPE][key2].should.equal(noop);
+      shortcuts._scopes[shortcuts.ROOT_SCOPE.scopeId][key].should.equal(noop);
+      shortcuts._scopes[shortcuts.ROOT_SCOPE.scopeId][key2].should.equal(noop);
     });
   });
 
@@ -74,8 +76,8 @@ describe('Shortcuts', () => {
       keys[key2] = noop2;
       shortcuts.bindMap(keys);
 
-      shortcuts._scopes[shortcuts.ROOT_SCOPE][key].should.equal(noop);
-      shortcuts._scopes[shortcuts.ROOT_SCOPE][key2].should.equal(noop2);
+      shortcuts._scopes[shortcuts.ROOT_SCOPE.scopeId][key].should.equal(noop);
+      shortcuts._scopes[shortcuts.ROOT_SCOPE.scopeId][key2].should.equal(noop2);
     });
 
     it('should bind map of keys to custom scope', () => {
@@ -103,7 +105,7 @@ describe('Shortcuts', () => {
       shortcuts.bind({key, scope, handler: noop});
 
       shortcuts.hasKey(key, scope).should.be.true;
-      shortcuts.hasKey(key, shortcuts.ROOT_SCOPE).should.be.false;
+      shortcuts.hasKey(key, shortcuts.ROOT_SCOPE.scopeId).should.be.false;
     });
   });
 
@@ -173,6 +175,31 @@ describe('Shortcuts', () => {
       noop.should.have.been.called;
       fallthrough.should.have.been.called;
     });
+
+    it('should not fall trough modal scope', function () {
+      const fallthrough = sinon.stub().returns(true);
+
+      shortcuts.bind({key: key, handler: noop});
+      shortcuts.bind({key: key, scope: scope, handler: fallthrough});
+
+      shortcuts.pushScope(scope, {modal: true});
+      trigger();
+
+      fallthrough.should.have.been.called;
+      noop.should.not.have.been.called;
+    });
+
+    it('should not fall trough modal scope even if it has no handler for key', function () {
+      const fallthrough = sinon.stub().returns(true);
+
+      shortcuts.bind({key: key, handler: noop});
+      shortcuts.bind({key: key2, scope: scope, handler: fallthrough});
+
+      shortcuts.pushScope(scope, {modal: true});
+      trigger();
+
+      noop.should.not.have.been.called;
+    });
   });
 
   describe('scope chain operations', () => {
@@ -188,34 +215,40 @@ describe('Shortcuts', () => {
       const myscope = 'aaaa';
       shortcuts.setScope(myscope);
 
-      shortcuts.getScope().should.deep.equal([myscope]);
+      shortcuts.getScope().should.deep.equal([wrapScope(myscope)]);
     });
 
     it('setScope should set full scope chain by array of names', () => {
       shortcuts.setScope([scope1, scope2]);
 
-      shortcuts.getScope().should.deep.equal([scope1, scope2]);
+      shortcuts.getScope().should.deep.equal([wrapScope(scope1), wrapScope(scope2)]);
     });
 
     it('pushScope should add scope to scope chain end', () => {
       shortcuts.setScope(scope1);
       shortcuts.pushScope(scope2);
 
-      shortcuts.getScope().should.deep.equal([scope1, scope2]);
+      shortcuts.getScope().should.deep.equal([wrapScope(scope1), wrapScope(scope2)]);
     });
 
     it('popScope should remove by name scope and next scopes from chain', () => {
       shortcuts.setScope([scope1, scope2, scope3]);
       shortcuts.popScope(scope2);
 
-      shortcuts.getScope().should.deep.equal([scope1]);
+      shortcuts.getScope().should.deep.equal([wrapScope(scope1)]);
     });
 
     it('spliceScope should remove by name scope from chain', () => {
       shortcuts.setScope([scope1, scope2, scope3]);
       shortcuts.spliceScope(scope2);
 
-      shortcuts.getScope().should.deep.equal([scope1, scope3]);
+      shortcuts.getScope().should.deep.equal([wrapScope(scope1), wrapScope(scope3)]);
+    });
+
+    it('should store options passed with scope', function () {
+      shortcuts.pushScope(scope1, {foo: 'bar'});
+
+      shortcuts.getScope().should.deep.equal([wrapScope(scope1, {foo: 'bar'})]);
     });
   });
 });
