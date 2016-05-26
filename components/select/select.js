@@ -565,6 +565,7 @@ export default class Select extends RingComponentWithShortcuts {
         <SelectPopup
           maxHeight={this.props.maxHeight}
           minWidth={this.props.minWidth}
+          directions={this.props.directions}
           filter={this.isInputMode() ? false : this.props.filter} // disable popup filter in INPUT mode
           anchorElement={anchorElement}
           onClose={::this._onClose}
