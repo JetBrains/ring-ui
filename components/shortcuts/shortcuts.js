@@ -1,6 +1,6 @@
 import 'dom4';
 import Combokeys from 'combokeys';
-import 'babel/polyfill';
+import 'babel-core/polyfill';
 
 class Shortcuts {
   ALLOW_SHORTCUTS_SELECTOR = '.ring-js-shortcuts';
