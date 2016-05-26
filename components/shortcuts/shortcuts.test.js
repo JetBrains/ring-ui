@@ -175,6 +175,31 @@ describe('Shortcuts', function () {
       noop.should.have.been.called;
       fallthrough.should.have.been.called;
     });
+
+    it('should not fall trough modal scope', function () {
+      const fallthrough = sinon.stub().returns(true);
+
+      shortcuts.bind({key: key, handler: noop});
+      shortcuts.bind({key: key, scope: scope, handler: fallthrough});
+
+      shortcuts.pushScope(scope, {modal: true});
+      trigger();
+
+      fallthrough.should.have.been.called;
+      noop.should.not.have.been.called;
+    });
+
+    it('should not fall trough modal scope even if it has no handler for key', function () {
+      const fallthrough = sinon.stub().returns(true);
+
+      shortcuts.bind({key: key, handler: noop});
+      shortcuts.bind({key: key2, scope: scope, handler: fallthrough});
+
+      shortcuts.pushScope(scope, {modal: true});
+      trigger();
+
+      noop.should.not.have.been.called;
+    });
   });
 
   describe('scope chain operations', function () {
