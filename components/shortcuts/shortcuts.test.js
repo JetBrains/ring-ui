@@ -12,9 +12,7 @@ describe('Shortcuts', function () {
     simulateKeypress(key, 65);
   }
 
-  function wrapScope(scopeId, options = {}) {
-    return {scopeId, options};
-  }
+  const wrapScope = shortcuts.wrapScope.bind(shortcuts);
 
   beforeEach(function () {
     shortcuts.reset();
