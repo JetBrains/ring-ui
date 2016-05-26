@@ -339,6 +339,37 @@ const Type = {
      }), document.getElementById('demo'));
    </file>
  </example>
+
+ <example name="Select as a dropdown without filter">
+ <file name="index.html">
+ <button id="demoButton" style="width: 50%; position: absolute; bottom: 10px; right: 10px">Click me</button>
+ <div id="demo" ></div>
+ <div id="changeResult" ></div>
+ </file>
+ <file name="index.js" webpack="true">
+ var render = require('react-dom').render;
+ var Select = require('ring-ui/components/select/select');
+
+ var data = [];
+ for(let i = 0; i < 20; i++) {
+       data.push({'label': 'Item ' + i, 'key': i});
+     }
+ var select = render(
+    Select.factory({
+       type: 2,
+       data: data,
+       onChange: function(selected) {
+        document.getElementById('changeResult').innerHTML = selected.label;
+       }
+    }),
+    document.getElementById('demo')
+  );
+
+ document.getElementById('demoButton').onclick = function() {
+  select._clickHandler();
+ }
+ </file>
+ </example>
  */
 export default class Select extends RingComponentWithShortcuts {
   static Type = Type;
