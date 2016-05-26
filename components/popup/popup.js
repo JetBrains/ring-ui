@@ -45,6 +45,60 @@ const Dimension = {
   BORDER_WIDTH: 1
 };
 
+class OpenedPopupRegistry {
+
+  _registry = {};
+
+  constructor() {}
+
+  _findNearestParentUid(reactPopupInstance) {
+    let checkingNode = reactPopupInstance.props.anchorElement;
+    while (checkingNode) {
+      const popupUid = checkingNode.getAttribute && checkingNode.getAttribute('data-popup-uid');
+      if (popupUid && this._registry[popupUid]) {
+        return popupUid;
+      }
+      checkingNode = checkingNode.parentNode;
+    }
+  }
+
+  isRegistrated(reactPopupInstance) {
+    return !!this._registry[reactPopupInstance.uid];
+  }
+
+  register(reactPopupInstance) {
+    if (this.isRegistrated(reactPopupInstance)) {
+      return;
+    }
+
+    this._registry[reactPopupInstance.uid] = {
+      instance: reactPopupInstance,
+      childUid: null
+    };
+
+    const parentPopupIdentifier = this._findNearestParentUid(reactPopupInstance);
+    if (parentPopupIdentifier) {
+      this._registry[parentPopupIdentifier].childUid = reactPopupInstance.uid;
+    }
+  }
+
+  unregister(reactPopupInstance) {
+    this._registry[reactPopupInstance.uid] = undefined;
+  }
+
+  getChildren(reactPopupInstance) {
+    const openedChildrenUid = this._registry[reactPopupInstance.uid] && this._registry[reactPopupInstance.uid].childUid;
+    if (openedChildrenUid && this._registry[openedChildrenUid]) {
+      const child = this._registry[openedChildrenUid].instance;
+      return [child].concat(this.getChildren(child));
+    }
+    return [];
+  }
+}
+
+const POPUP_REGISTRY = new OpenedPopupRegistry();
+
+
 /**
  * @constructor
  * @name Popup
@@ -230,6 +284,45 @@ const Dimension = {
      }, container));
    </file>
 </example>
+<example name="Popup in popup">
+   <file name="index.html">
+   <div>
+     <div id="parentPopupAnchor" class="popup-example__message">Parent popup anchor</div>
+   </div>
+   </file>
+   <file name="index.scss">
+      .parent-popup {
+        width: 100px;
+        height: 100px;
+        text-align: center;
+      }
+
+      .child-popup {
+        background-color: red;
+        text-align: center;
+        margin: 8px;
+      }
+   </file>
+   <file name="index.js" webpack="true">
+     require('./index.scss');
+     var DOM = require('react').DOM;
+     var Popup = require('ring-ui/components/popup/popup');
+
+     var parentPopupContent = DOM.div({className: 'parent-popup'}, 'This is parent popup');
+     var childPopupContent = DOM.div({className: 'child-popup'}, 'This is child popup');
+
+     var parentPopup = Popup.renderPopup(Popup.factory({
+       anchorElement: document.getElementById('parentPopupAnchor'),
+       autoRemove: false
+     }, parentPopupContent));
+
+     var childPopup = Popup.renderPopup(Popup.factory({
+       anchorElement: document.getElementsByClassName('parent-popup')[0],
+       autoRemove: false
+     }, childPopupContent));
+
+   </file>
+</example>
  */
 export default class Popup extends RingComponentWithShortcuts {
   static propTypes = {
@@ -310,6 +403,8 @@ export default class Popup extends RingComponentWithShortcuts {
   constructor(...args) {
     super(...args);
 
+    this.uid = this.constructor.getUID('ring-popup-');
+
     this._onWindowResize = this._onWindowResize.bind(this);
     this._onDocumentClick = this._onDocumentClick.bind(this);
   }
@@ -319,7 +414,7 @@ export default class Popup extends RingComponentWithShortcuts {
       map: {
         esc: ::this.close
       },
-      scope: ::this.constructor.getUID('ring-popup-')
+      scope: this.uid
     };
   }
 
@@ -339,6 +434,8 @@ export default class Popup extends RingComponentWithShortcuts {
   }
 
   render() {
+    POPUP_REGISTRY.register(this);
+
     const classes = classNames({
       'ring-popup': true,
       'ring-popup_bound': this.props.cutEdge
@@ -347,6 +444,7 @@ export default class Popup extends RingComponentWithShortcuts {
     return (
       <div
         {...this.props}
+        data-popup-uid={this.uid}
         className={classes}
         style={this._getStyles()}
       >
@@ -374,6 +472,8 @@ export default class Popup extends RingComponentWithShortcuts {
     } else {
       this.hide();
     }
+
+    POPUP_REGISTRY::POPUP_REGISTRY.unregister(this);
 
     return onCloseResult;
   }
@@ -465,15 +565,16 @@ export default class Popup extends RingComponentWithShortcuts {
    * @private
    */
   _onDocumentClick(evt) {
-    if (!this.node || !this._listenersEnabled) {
+    if (!this.node || this.node.contains(evt.target) || !this._listenersEnabled) {
       return;
     }
 
-    const ringPopups = document.getElementsByClassName('ring-popup');
-    for (let i = 0; i < ringPopups.length; ++i) {
-      if (ringPopups[i].contains(evt.target)) {
-        return;
-      }
+    const children = POPUP_REGISTRY.getChildren(this);
+    const clickToChildPopupNode = children.some(
+      childPopup => childPopup.node && childPopup.node.contains(evt.target)
+    );
+    if (clickToChildPopupNode) {
+      return;
     }
 
     if (!this.props.anchorElement ||
@@ -503,8 +604,8 @@ export default class Popup extends RingComponentWithShortcuts {
       return true;
     }
     const popupHeight = this.node.clientHeight;
-    const documentHeight = Math.max(document.body.scrollHeight, document.documentElement.clientHeight);
-    const verticalDiff = documentHeight - styles.top - popupHeight;
+    const windowHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+    const verticalDiff = windowHeight - styles.top - popupHeight;
 
     if (verticalDiff < this.props.sidePadding) {
       return true;
@@ -519,8 +620,8 @@ export default class Popup extends RingComponentWithShortcuts {
       return true;
     }
     const popupWidth = this.node.clientWidth;
-    const documentWidth = Math.max(document.body.scrollWidth, document.documentElement.clientWidth);
-    const horizontalDiff = documentWidth - styles.left - popupWidth;
+    const windowWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+    const horizontalDiff = windowWidth - styles.left - popupWidth;
 
     if (horizontalDiff < this.props.sidePadding) {
       return true;

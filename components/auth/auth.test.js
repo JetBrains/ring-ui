@@ -724,6 +724,29 @@ describe('Auth', () => {
 
       return logoutAuth.logout().should.be.rejected;
     });
+
+    it('should logout when no onLogout passed', () => auth.logout().should.be.fulfilled);
+
+    it('should fail pass when onLogout returns rejected promise', function () {
+      const onLogout = this.sinon.spy();
+      const logoutAuth = new Auth({
+        serverUri: '',
+        onLogout
+      });
+
+      return logoutAuth.logout().then(() => {
+        onLogout.should.have.been.calledOnce;
+      });
+    });
+
+    it('should fail pass when onLogout returns rejected promise', () => {
+      const logoutAuth = new Auth({
+        serverUri: '',
+        onLogout: () => Promise.reject()
+      });
+
+      return logoutAuth.logout().should.be.rejected;
+    });
   });
 
   describe('TokenValidationError', () => {

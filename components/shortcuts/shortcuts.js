@@ -1,9 +1,13 @@
 import 'dom4';
 import Combokeys from 'combokeys';
+import 'babel/polyfill';
 
 class Shortcuts {
   ALLOW_SHORTCUTS_SELECTOR = '.ring-js-shortcuts';
-  ROOT_SCOPE = 'ROOT';
+  ROOT_SCOPE = {
+    scopeId: 'ROOT',
+    options: {}
+  };
 
   _scopes = {};
 
@@ -18,15 +22,20 @@ class Shortcuts {
     let currentScope;
 
     for (let i = this._scopeChain.length - 1; i >= 0; i--) {
-      currentScope = this._scopes[this._scopeChain[i]];
+      const scopeInChain = this._scopeChain[i];
+      currentScope = this._scopes[scopeInChain.scopeId];
 
       if (currentScope && currentScope[key]) {
-        const ret = currentScope[key](e, key, this._scopeChain[i]);
+        const ret = currentScope[key](e, key, scopeInChain.scopeId);
 
         // Fall down in chain when returning true
         if (ret !== true) {
           return ret;
         }
+      }
+
+      if (scopeInChain.options.modal) {
+        return true;
       }
     }
   }
@@ -45,7 +54,7 @@ class Shortcuts {
     }
 
     if (!params.scope) {
-      params.scope = this.ROOT_SCOPE;
+      params.scope = this.ROOT_SCOPE.scopeId;
     }
 
     if (Array.isArray(params.key)) {
@@ -95,25 +104,32 @@ class Shortcuts {
     return this._scopeChain.slice(1);
   }
 
-  hasScope(scope) {
-    return this._scopeChain.indexOf(scope) !== -1;
+  hasScope(scopeId) {
+    return this.indexOfScope(scopeId) !== -1;
   }
 
-  pushScope(scope) {
-    if (scope) {
-      const position = this._scopeChain.indexOf(scope);
+  /**
+   * Adds scope to the chain
+   * @param scopeId id of scope to add
+   * @param options options fo pushing scope
+   * @param options.modal whether should keys fall through this scope or not.
+   * Useful for modals or overlays
+   */
+  pushScope(scopeId, options = {}) {
+    if (scopeId) {
+      const position = this.indexOfScope(scopeId);
 
       if (position !== -1) {
         this._scopeChain.splice(position, 1);
       }
 
-      this._scopeChain.push(scope);
+      this._scopeChain.push(this.wrapScope(scopeId, options));
     }
   }
 
-  popScope(scope) {
-    if (scope) {
-      const position = this._scopeChain.indexOf(scope);
+  popScope(scopeId) {
+    if (scopeId) {
+      const position = this.indexOfScope(scopeId);
 
       if (position !== -1) {
         return this._scopeChain.splice(position, this._scopeChain.length - 1);
@@ -121,9 +137,9 @@ class Shortcuts {
     }
   }
 
-  spliceScope(scope) {
-    if (scope) {
-      const position = this._scopeChain.indexOf(scope);
+  spliceScope(scopeId) {
+    if (scopeId) {
+      const position = this.indexOfScope(scopeId);
 
       if (position !== -1) {
         this._scopeChain.splice(position, 1);
@@ -135,7 +151,7 @@ class Shortcuts {
     if (scope) {
       let scopeChain;
 
-      if (typeof scope === 'string') {
+      if (typeof scope === 'string' || (!Array.isArray(scope) && typeof scope === 'object' && scope !== null)) {
         scopeChain = [scope];
       } else {
         scopeChain = scope;
@@ -144,6 +160,11 @@ class Shortcuts {
       if (!Array.isArray(scopeChain)) {
         return;
       }
+
+      scopeChain = scopeChain.map(scopeItem => {
+        const isScopeId = typeof scopeItem === 'string';
+        return isScopeId ? this.wrapScope(scopeItem) : scopeItem;
+      });
 
       this._scopeChain = [this.ROOT_SCOPE].concat(scopeChain);
     } else {
@@ -171,6 +192,10 @@ class Shortcuts {
 
   setFilter(fn) {
     this.combokeys.stopCallback = typeof fn === 'function' ? fn : ::this._defaultFilter;
+  }
+
+  indexOfScope(scopeId) {
+    return this._scopeChain.findIndex(scope => scope.scopeId === scopeId);
   }
 
   reset() {
