@@ -1,5 +1,6 @@
 import 'dom4';
 import Combokeys from 'combokeys';
+import 'babel/polyfill';
 
 class Shortcuts {
   ALLOW_SHORTCUTS_SELECTOR = '.ring-js-shortcuts';
@@ -111,7 +112,7 @@ class Shortcuts {
         this._scopeChain.splice(position, 1);
       }
 
-      this._scopeChain.push(this._wrapScope(scopeId, options));
+      this._scopeChain.push(this.wrapScope(scopeId, options));
     }
   }
 
@@ -146,7 +147,7 @@ class Shortcuts {
       }
       scope = scope.map(scopeItem => {
         const isScopeId = typeof scopeItem === 'string';
-        return isScopeId ? this._wrapScope(scopeItem) : scopeItem;
+        return isScopeId ? this.wrapScope(scopeItem) : scopeItem;
       });
 
       this._scopeChain = [this.ROOT_SCOPE].concat(scope);
@@ -155,7 +156,7 @@ class Shortcuts {
     }
   }
 
-  _wrapScope(scopeId, options = {}) {
+  wrapScope(scopeId, options = {}) {
     return {scopeId, options};
   }
 
@@ -182,12 +183,7 @@ class Shortcuts {
   }
 
   indexOfScope(scopeId) {
-    for (let i = this._scopeChain.length - 1; i >= 0; i--) {
-      if (scopeId === this._scopeChain[i].scopeId) {
-        return i;
-      }
-    }
-    return -1;
+    return this._scopeChain.findIndex(scope => scope.scopeId === scopeId);
   }
 
   reset() {

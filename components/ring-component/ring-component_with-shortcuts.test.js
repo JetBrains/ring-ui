@@ -107,7 +107,7 @@ describe('RingComponentWithShortcuts', function () {
   });
 
   it('should activate shortcuts on component', function () {
-    shortcuts.getScope().should.deep.equal([{scopeId: scope, options: {}}]);
+    shortcuts.getScope().should.deep.equal([shortcuts.wrapScope(scope)]);
     this.component.shortcutsScope.should.equal(scope);
   });
 
@@ -116,7 +116,7 @@ describe('RingComponentWithShortcuts', function () {
       shortcuts: true
     });
 
-    shortcuts.getScope().should.deep.equal([{scopeId: scope, options: {}}]);
+    shortcuts.getScope().should.deep.equal([shortcuts.wrapScope(scope)]);
     this.component.shortcutsScope.should.equal(scope);
   });
 
