@@ -1,6 +1,6 @@
 import 'dom4';
 import Combokeys from 'combokeys';
-import 'babel/polyfill';
+import 'babel-polyfill';
 
 class Shortcuts {
   ALLOW_SHORTCUTS_SELECTOR = '.ring-js-shortcuts';
@@ -170,6 +170,10 @@ class Shortcuts {
     } else {
       this._scopeChain = [this.ROOT_SCOPE];
     }
+  }
+
+  wrapScope(scopeId, options = {}) {
+    return {scopeId, options};
   }
 
   hasKey(key, scope) {
