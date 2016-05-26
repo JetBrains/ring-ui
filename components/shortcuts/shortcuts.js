@@ -22,16 +22,20 @@ class Shortcuts {
     let currentScope;
 
     for (let i = this._scopeChain.length - 1; i >= 0; i--) {
-      const currentScopeId = this._scopeChain[i].scopeId;
-      currentScope = this._scopes[currentScopeId];
+      const scopeInChain = this._scopeChain[i];
+      currentScope = this._scopes[scopeInChain.scopeId];
 
       if (currentScope && currentScope[key]) {
-        const ret = currentScope[key](e, key, currentScopeId);
+        const ret = currentScope[key](e, key, scopeInChain.scopeId);
 
         // Fall down in chain when returning true
         if (ret !== true) {
           return ret;
         }
+      }
+
+      if (scopeInChain.options.modal) {
+        return true;
       }
     }
   }
@@ -104,6 +108,13 @@ class Shortcuts {
     return this.indexOfScope(scopeId) !== -1;
   }
 
+  /**
+   * Adds scope to the chain
+   * @param scopeId id of scope to add
+   * @param options options fo pushing scope
+   * @param options.modal whether should keys fall through this scope or not.
+   * Useful for modals or overlays
+   */
   pushScope(scopeId, options = {}) {
     if (scopeId) {
       const position = this.indexOfScope(scopeId);
