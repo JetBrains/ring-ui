@@ -6,6 +6,7 @@ import scrollbarWidth from 'scrollbar-width';
 import {getStyles, getRect} from '../dom/dom';
 import shortcuts from '../shortcuts/shortcuts';
 import RingButton from '../button-ng/button-ng';
+import rgCompilerModuleName from '../compiler-ng/compiler-ng';
 
 import '../button/button.scss';
 import '../dialog/dialog.scss';
@@ -113,10 +114,11 @@ import '../dialog/dialog.scss';
  </file>
  </example>
  */
-const module = angular.module('Ring.dialog', [RingButton]);
+const module = angular.module('Ring.dialog', [RingButton, rgCompilerModuleName]);
 
 class DialogController extends Inject {
-  static $inject = ['$scope', '$q', 'dialog', 'dialogInSidebar', '$compile', '$injector', '$controller'];
+  static $inject = ['$scope', '$q', 'dialog', 'dialogInSidebar', '$compile', '$injector', '$controller', 'rgCompiler'];
+
   static BODY_MODAL_CLASS = 'ring-dialog-modal';
 
   constructor(...args) {
@@ -213,51 +215,7 @@ class DialogController extends Inject {
       };
     }
 
-    return this.compile(this.config);
-  }
-
-  compile(options) {
-    const {$q, $controller, $injector, $compile} = this.$inject;
-    const template = options.template;
-    const controller = options.controller;
-    const controllerAs = options.controllerAs;
-    const resolve = angular.extend({}, options.resolve);
-
-    angular.forEach(resolve, function (value, key) {
-      if (angular.isString(value)) {
-        resolve[key] = $injector.get(value);
-      } else {
-        resolve[key] = $injector.invoke(value);
-      }
-    });
-
-    angular.extend(resolve, options.locals);
-
-    return $q.all(resolve).then(function (locals) {
-      const element = options.element || angular.element('<div>').html(template.trim()).contents();
-      const linkFn = $compile(element);
-
-      return {
-        locals: locals,
-        element: element,
-        link: function (scope) {
-          locals.$scope = scope;
-
-          if (controller) {
-            const invokeCtrl = $controller(controller, locals, true);
-            const ctrl = invokeCtrl();
-
-            element.data('$ngControllerController', ctrl);
-
-            if (controllerAs) {
-              scope[controllerAs] = ctrl;
-            }
-          }
-
-          return linkFn(scope);
-        }
-      };
-    });
+    return this.$inject.rgCompiler(this.config);
   }
 
   show(config) {
@@ -328,7 +286,7 @@ class DialogController extends Inject {
 
     Reflect.deleteProperty(this, 'DIALOG_NAMESPACE');
 
-    if (shortcuts.getScope().indexOf(this.dialogService.DIALOG_NAMESPACE) > -1) {
+    if (shortcuts.indexOfScope(this.dialogService.DIALOG_NAMESPACE) > -1) {
       shortcuts.setScope(this.currentShortcutsScope);
     }
 
