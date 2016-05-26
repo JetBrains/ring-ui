@@ -543,5 +543,21 @@ describe('Select', function () {
 
       document.activeElement.should.equal(targetInput.node);
     });
+
+    it('Should put popup in container if specified', function () {
+      const target = document.createElement('div');
+      const container = document.createElement('div');
+      container.appendChild(target);
+
+      this.select = renderIntoDocument(React.createElement(Select, {
+        data: testData,
+        filter: true,
+        targetElement: target,
+        popupContainer: container
+      }));
+      this.select._showPopup();
+
+      container.should.contain('.ring-popup');
+    });
   });
 });
