@@ -27,7 +27,7 @@
   font-size: $ring-font-size;
 
   border-bottom: 1px solid;
-  @include rgba-attribute('border-color', rgba(0, 0, 0, 0.15));
+  border-color: rgba(0, 0, 0, 0.15);
   border-top-left-radius: 3px;
   border-top-right-radius: 3px;
 
@@ -41,7 +41,7 @@
     user-select: none;
 
     border: 1px solid;
-    @include rgba-attribute('border-color', rgba(0, 0, 0, 0.2));
+    border-color: rgba(0, 0, 0, 0.2);
     padding: 0 $ring-unit * 2;
     border-bottom: none;
 
@@ -79,7 +79,7 @@
     padding: 1px $ring-unit * 2 - 2 1px;
     margin-top: 0;
     border: 3px solid;
-    @include rgba-attribute('border-color', $ring-outline-color);
+    border-color: $ring-outline-color;
     border-top-left-radius: 6px;
     border-top-right-radius: 6px;
     border-bottom: none;
