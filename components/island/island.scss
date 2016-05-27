@@ -61,7 +61,7 @@
   min-width: $ring-unit*25 - 2;
 
   border: 1px solid;
-  @include rgba-attribute('border-color', rgba(0, 0, 0, 0.15));
+  border-color: rgba(0, 0, 0, 0.15);
   border-radius: $ring-border-radius;
 
   background-color: #FFF;

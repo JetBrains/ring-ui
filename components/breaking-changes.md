@@ -6,6 +6,20 @@ order: 2
 
 See the “breaking change” commits [in Upsource](https://upsource.jetbrains.com/ring-ui/view?query=path:%20%7B%2A%2Fbreaking-changes.md%7D%20and%20not%20%22Wording%22).
 
+### 27-05-2016: scss-mixin rgba-attribute is removed  
+  
+Use rbga colors without mixin as we don't support IE8- anymore.  
+
+Before:
+```
+  @include rgba-attribute('border-color', rgba(0, 0, 0, 0.15));
+```
+
+After:
+```
+  border-color: rgba(0, 0, 0, 0.15);
+```
+
 ### 04-04-2016: Browserlist for Autoprefixer now should be configured in target project (RG-963)    
 
 Place [`browserslist`](https://github.com/ai/browserslist#config-file) file in project directory.                              
