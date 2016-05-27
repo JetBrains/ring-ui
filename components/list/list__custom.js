@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {PropTypes} from 'react';
 import classnames from 'classnames';
 
 export default function ListCustom(props) {
@@ -14,10 +14,21 @@ export default function ListCustom(props) {
       {...props}
       className={classes}
     >
-        {template}
-      </span>
+      {template}
+    </span>
   );
 }
+
+ListCustom.propTypes = {
+  active: PropTypes.bool,
+  className: PropTypes.string,
+  disabled: PropTypes.bool,
+  template: PropTypes.oneOfType([
+    PropTypes.func,
+    PropTypes.element,
+    PropTypes.string
+  ])
+};
 
 ListCustom.defaultProps = {
   active: false
