@@ -21,13 +21,6 @@ $ring-outline-color: rgba(37, 183, 255, 0.5);
 
 $ring-border-radius: 3px;
 
-@mixin rgba-attribute($attribute, $color, $background: #FFF) {
-  $solid-color: mix(opacify($color, 1), $background, alpha($color) * 100%);
-  #{$attribute}: $solid-color;
-  #{$attribute}: $color;
-}
-
-$ring-fonts-dir: 'fonts/' !default;
 $ring-font-size: 13px;
 $ring-font-size-smaller: 11px;
 
