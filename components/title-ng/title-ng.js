@@ -17,7 +17,7 @@ module.directive('rgPageTitle', () => ({
     const elementText = element.textContent;
 
     // Set page title on route change
-    $rootScope.$on('$routeChangeSuccess', (event, current) => {
+    const off = $rootScope.$on('$routeChangeSuccess', (event, current) => {
       let title = current.$$route && current.$$route.title; // eslint-disable-line angular/no-private-call
 
       pageTitle.setCurrent($scope.rgPageTitle || elementText);
@@ -31,6 +31,8 @@ module.directive('rgPageTitle', () => ({
         pageTitle.addElement(title || $scope.noTitle);
       }
     });
+
+    $scope.$on('$destroy', off);
   }
 }));
 module.service('pageTitle', function ($interpolate) {
