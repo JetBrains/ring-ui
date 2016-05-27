@@ -11,17 +11,17 @@
   ],
   "rules": {
     // Possible Errors
-    "valid-jsdoc": 0,
+    "valid-jsdoc": 1,
 
     // Best Practices
     "complexity": [0, 5],
     "consistent-return": 1,
     "dot-location": [1, "object"],
     "no-magic-numbers": [1, { "ignore": [-1, 0, 1] }],
-    "vars-on-top": 0,
+    "vars-on-top": 1,
 
     // Stylistic Issues
-    "func-names": 0,
+    "func-names": 1,
 
     // ECMAScript 6
     "object-shorthand": 1,
@@ -31,6 +31,6 @@
 
     // Angular
     "angular/directive-name": [2, "rg"],
-    "angular/on-watch": 0
+    "angular/on-watch": 1
   }
 }
