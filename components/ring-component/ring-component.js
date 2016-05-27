@@ -1,4 +1,4 @@
-import {Component, createElement} from 'react';
+import {Component, createElement, PropTypes} from 'react';
 import {findDOMNode, render} from 'react-dom';
 
 export default class RingComponent extends Component {
@@ -15,6 +15,10 @@ export default class RingComponent extends Component {
     componentDidUpdate: 'didUpdate',
     componentWillUnmount: 'willUnmount'
   };
+
+  static propTypes = {
+    _onModelChange: PropTypes.func
+  }
 
   static factory(...args) {
     return createElement(this, ...args);

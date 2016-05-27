@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {PropTypes} from 'react';
 import classnames from 'classnames';
 
 import '../link/link.scss';
@@ -30,3 +30,13 @@ export default function ListLink(props) {
     >{props.label}</span>
   );
 }
+
+ListLink.propTypes = {
+  active: PropTypes.bool,
+  href: PropTypes.string,
+  scrolling: PropTypes.bool,
+  label: PropTypes.oneOfType([
+    PropTypes.element,
+    PropTypes.string
+  ])
+};
