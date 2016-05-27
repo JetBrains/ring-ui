@@ -30,7 +30,6 @@
     "modules/no-exports-typo": 1,
 
     // Angular
-    "angular/directive-name": [2, "rg"],
-    "angular/on-watch": 1
+    "angular/directive-name": [2, "rg"]
   }
 }
