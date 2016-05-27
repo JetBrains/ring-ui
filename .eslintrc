@@ -29,9 +29,6 @@
     "prefer-template": 1,
     "modules/no-exports-typo": 1,
 
-    // React
-    "react/prop-types": 1,
-
     // Angular
     "angular/directive-name": [2, "rg"],
     "angular/on-watch": 0

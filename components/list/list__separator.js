@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {PropTypes} from 'react';
 import classnames from 'classnames';
 
 export default function ListSeparator({description}) {
@@ -11,3 +11,10 @@ export default function ListSeparator({description}) {
     <span className={classes}>{description}</span>
   );
 }
+
+ListSeparator.propTypes = {
+  description: PropTypes.oneOfType([
+    PropTypes.element,
+    PropTypes.string
+  ])
+};
