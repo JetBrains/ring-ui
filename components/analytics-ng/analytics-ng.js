@@ -91,15 +91,14 @@ module.constant('AnalyticsCustomPlugin', AnalyticsCustomPlugin);
 /**
  * Enable page tracking
  */
-module.run(($rootScope, analytics, $scope) => {
-  /* eslint-disable angular/no-private-call */
-  const off = $rootScope.$on('$routeChangeSuccess', (evt, current) => {
+module.run(($rootScope, analytics) => {
+  $rootScope.$on('$routeChangeSuccess', (evt, current) => { // eslint-disable-line angular/on-watch
+    /* eslint-disable angular/no-private-call */
     if (current && current.$$route && current.$$route.originalPath) {
       analytics.trackPageView(current.$$route.originalPath);
     }
+    /* eslint-enable angular/no-private-call */
   });
-  $scope.$on('$destroy', off);
-  /* eslint-enable angular/no-private-call */
 });
 
 /**
