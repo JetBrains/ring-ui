@@ -164,6 +164,8 @@ export default class SelectPopup extends RingComponentWithShortcuts {
         shortcuts={this.state.popupShortcuts}
         onClose={this.props.onClose}
         directions={this.props.directions}
+        top={this.props.top}
+        left={this.props.left}
       >
         {this.getFilter()}
         {this.getList()}
