@@ -1,4 +1,6 @@
+/* eslint-disable func-names */
 /* eslint-disable camelcase */
+
 import Auth from './auth';
 import AuthRequestBuilder from './auth__request-builder';
 import AuthResponseParser from './auth__response-parser';

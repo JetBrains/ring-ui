@@ -1,3 +1,5 @@
+/* eslint-disable func-names */
+
 import 'dom4';
 import React from 'react';
 import TestUtils from 'react-addons-test-utils';

@@ -1,3 +1,5 @@
+/* eslint-disable func-names */
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 import TagsInput from './tags-input';
