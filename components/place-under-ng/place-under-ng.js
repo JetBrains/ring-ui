@@ -86,14 +86,14 @@ import {getDocumentScrollTop} from '../dom/dom';
 
 
 /* global angular: false */
-const module = angular.module('Ring.place-under', []);
+const angularModule = angular.module('Ring.place-under', []);
 /**
  * rg-place-under=".some-selector" = selector to point target element
  * place-top-offset="1" = offset in pixels
  * sync-bottom=".some-selector,.some-selector2" = selector to sunc bottom with
  * listen-to-height-change=".ring-table" = listen to element height change and update position
  */
-module.directive('rgPlaceUnder', ($window, getClosestElementWithCommonParent) => {
+angularModule.directive('rgPlaceUnder', ($window, getClosestElementWithCommonParent) => {
   const DEBOUNCE_INTERVAL = 10;
   const HEIGHT_CHECK_INTERVAL = 50;
 
@@ -222,7 +222,7 @@ module.directive('rgPlaceUnder', ($window, getClosestElementWithCommonParent) =>
  * @param selector - selector to find
  * @returns {Node}
  */
-module.factory('getClosestElementWithCommonParent', () => function getClosestElementWithCommonParent(currentElement, selector) {
+angularModule.factory('getClosestElementWithCommonParent', () => function getClosestElementWithCommonParent(currentElement, selector) {
   const parent = currentElement.parentNode;
   if (parent) {
     return parent.query(selector) || getClosestElementWithCommonParent(parent, selector);
@@ -231,4 +231,4 @@ module.factory('getClosestElementWithCommonParent', () => function getClosestEle
   }
 });
 
-export default module.name;
+export default angularModule.name;

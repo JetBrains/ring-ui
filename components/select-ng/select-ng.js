@@ -432,9 +432,9 @@ const LOADER_DELAY = 150; // delay to show loader in ms
     </example>
  */
 /* global angular: false */
-const module = angular.module('Ring.select', [SelectNgOptions, MessageBundle]);
+const angularModule = angular.module('Ring.select', [SelectNgOptions, MessageBundle]);
 
-module.directive('rgSelect', () => {
+angularModule.directive('rgSelect', () => {
   const types = {
     input: Select.Type.INPUT,
     button: Select.Type.BUTTON,
@@ -844,4 +844,4 @@ module.directive('rgSelect', () => {
   };
 });
 
-export default module.name;
+export default angularModule.name;

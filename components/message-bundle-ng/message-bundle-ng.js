@@ -3,7 +3,7 @@
  * This service is used by directive to correctly show messages.
  * You can decorate this service to provide your own localized messages.
  */
-const module = angular.module('Ring.message-bundle', []);
+const angularModule = angular.module('Ring.message-bundle', []);
 
 /**
  * Empty i18n function. If project supports localization, it should decorate i18n
@@ -56,7 +56,7 @@ function RingMessageBundle(ringI18n) {
 /* eslint-enable camelcase */
 }
 
-module.factory('ringI18n', emptyI18n);
-module.service('RingMessageBundle', RingMessageBundle);
+angularModule.factory('ringI18n', emptyI18n);
+angularModule.service('RingMessageBundle', RingMessageBundle);
 
-export default module.name;
+export default angularModule.name;

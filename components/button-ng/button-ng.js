@@ -7,7 +7,7 @@ import Icon from '../icon-ng/icon-ng';
 
 import '../button/button.scss';
 
-const module = angular.module('Ring.button', [Icon]);
+const angularModule = angular.module('Ring.button', [Icon]);
 const ORDER_NOT_DEFINED = '-1';
 
 class ButtonController {
@@ -97,10 +97,10 @@ function rgButtonLinkDirective() {
   };
 }
 
-module.directive('rgButton', rgButtonDirective);
-module.directive('rgButtonLink', rgButtonLinkDirective);
+angularModule.directive('rgButton', rgButtonDirective);
+angularModule.directive('rgButtonLink', rgButtonLinkDirective);
 
-export default module.name;
+export default angularModule.name;
 
 /**
  * @name Button Ng

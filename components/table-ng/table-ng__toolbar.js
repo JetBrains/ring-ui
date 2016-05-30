@@ -15,8 +15,8 @@ import debounce from 'mout/function/debounce';
    </example>
  */
 
-const module = angular.module('Ring.table.toolbar', []);
-module.directive('rgTableToolbar', () => {
+const angularModule = angular.module('Ring.table.toolbar', []);
+angularModule.directive('rgTableToolbar', () => {
   const DEBOUNCE_INTERVAL = 10;
 
   return {
@@ -61,4 +61,4 @@ module.directive('rgTableToolbar', () => {
   };
 });
 
-export default module.name;
+export default angularModule.name;
