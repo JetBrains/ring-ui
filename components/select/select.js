@@ -667,13 +667,15 @@ export default class Select extends RingComponentWithShortcuts {
     }
 
     if (this._addButton) {
+      const prefix = this.props.add.prefix;
       addButton = (
         <div
           className="ring-select__button"
           onClick={::this.addHandler}
         >
-            <span className="ring-select__button__plus">{'+'}</span>{this.props.add.prefix ? this.props.add.prefix + ' ' : ''}<span>{this._addButton.label}</span>
-        </div>);
+            <span className="ring-select__button__plus">{'+'}</span>{prefix ? `${prefix} ` : ''}<span>{this._addButton.label}</span>
+        </div>
+      );
     }
 
     return (

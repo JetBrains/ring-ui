@@ -21,11 +21,12 @@ class FooterColumn extends RingComponent {
   };
 
   render() {
-    const classes = classNames('ring-footer__column', 'ring-footer__column_' + this.props.position);
+    const {position, children} = this.props;
+    const classes = classNames('ring-footer__column', `ring-footer__column_${position}`);
     return (
       <div className={classes}>
         <ul className="ring-footer__column__i">
-          {this.props.children}
+          {children}
         </ul>
       </div>
     );
@@ -39,12 +40,13 @@ class FooterColumn extends RingComponent {
  */
 function copyright(year) {
   const currentYear = (new Date()).getUTCFullYear();
+  const mdash = '—';
   let ret = '© ';
 
   if (year >= currentYear) {
     ret += year;
   } else {
-    ret += year + '—' + currentYear;
+    ret += year + mdash + currentYear;
   }
 
   return ret;

@@ -75,6 +75,7 @@ AuthRequestBuilder._uuid = uuid.generate;
  * Each property in the params is added to the URL as query string parameters
  */
 AuthRequestBuilder.encodeURL = function (url, params) {
+  const equalsSign = '=';
   const firstSeparator = (url.indexOf('?') === -1) ? '?' : '&';
 
   let res = url;
@@ -83,7 +84,7 @@ AuthRequestBuilder.encodeURL = function (url, params) {
 
   for (k in params) {
     if (params.hasOwnProperty(k) && params[k] != null) {
-      res += (i++ === 0 ? firstSeparator : '&') + encodeURIComponent(k) + '=' + encodeURIComponent(params[k]);
+      res += (i++ === 0 ? firstSeparator : '&') + encodeURIComponent(k) + equalsSign + encodeURIComponent(params[k]);
     }
   }
 
