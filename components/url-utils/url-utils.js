@@ -52,6 +52,8 @@ export default class urlUtils {
     if (matches) {
       return matches[0];
     }
+
+    return undefined;
   }
 
   /**

@@ -38,6 +38,8 @@ class Shortcuts {
         return true;
       }
     }
+
+    return undefined;
   }
 
   /**
@@ -135,6 +137,8 @@ class Shortcuts {
         return this._scopeChain.splice(position, this._scopeChain.length - 1);
       }
     }
+
+    return undefined;
   }
 
   spliceScope(scopeId) {

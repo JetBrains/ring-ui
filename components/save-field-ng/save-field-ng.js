@@ -286,6 +286,8 @@ angularModule.directive('rgSaveField', (RingMessageBundle, $timeout, $q, $compil
               value: scope.value
             }));
           }
+
+          return undefined;
         }
 
         function error(err) {
@@ -402,6 +404,8 @@ angularModule.directive('rgSaveField', (RingMessageBundle, $timeout, $q, $compil
             } else {
               customError.message = '';
               scope.saveFieldForm.$setValidity(CUSTOM_ERROR_ID, true, customError);
+
+              return undefined;
             }
           }).
           catch(error => {

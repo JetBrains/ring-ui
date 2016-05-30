@@ -101,5 +101,7 @@ export default class SelectionNavigateActions {
       this._addSelectionMode = activeItem.checked ? 'uncheckItem' : 'checkItem';
     }
     this._selection[this._addSelectionMode](activeItem);
+
+    return undefined;
   }
 }

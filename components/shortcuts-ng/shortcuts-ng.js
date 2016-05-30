@@ -64,6 +64,8 @@ angularModule.provider('shortcuts', function () {
           return shortcutsInstance.trigger(actions[i].key[0] || actions[i].key);
         }
       }
+
+      return undefined;
     },
 
     isMainMode: name => mainModes[name],
@@ -146,7 +148,6 @@ angularModule.directive('rgShortcutsApp', () => ({
         $scope.zones.forEach((zone, index) => {
           if (shortcuts.isMainMode(zone.name)) {
             next = $scope.zones[index];
-            return false;
           }
         });
       } else {
