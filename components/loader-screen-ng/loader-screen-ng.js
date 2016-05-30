@@ -25,7 +25,7 @@ registerComponents({Loader});
 
 const angularModule = angular.module('Ring.loader-screen', [reactNg]);
 
-angularModule.service('loaderScreen', function ($timeout, $rootScope, $scope) {
+angularModule.service('loaderScreen', function ($timeout, $rootScope) {
   let initialLoading;
   let loadingFailed = false;
   let showLoader;
@@ -61,18 +61,17 @@ angularModule.service('loaderScreen', function ($timeout, $rootScope, $scope) {
     showLoader = visible;
   };
 
-  const offSuccess = $rootScope.$on('$routeChangeSuccess', () => {
+  /* eslint-disable angular/on-watch */
+  $rootScope.$on('$routeChangeSuccess', () => {
     this.stopInitialLoading();
   });
 
-  const offError = $rootScope.$on('$routeChangeError', (event, current, previous, rejection) => {
+  $rootScope.$on('$routeChangeError', (event, current, previous, rejection) => {
     if (!rejection || !(rejection.silent || rejection.authRedirect)) {
       this.failInitialLoading(rejection);
     }
   });
-
-  $scope.$on('destroy', offSuccess);
-  $scope.$on('destroy', offError);
+  /* eslint-enable angular/on-watch */
 });
 
 angularModule.directive('rgLoaderScreen', () => ({
