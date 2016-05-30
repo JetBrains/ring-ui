@@ -35,12 +35,12 @@ export default class FallbackStorage {
     if (days) {
       date = new Date();
       date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-      expires = '; expires=' + date.toGMTString();
+      expires = `; expires=${date.toGMTString()}`;
     } else {
       expires = ';';
     }
 
-    document.cookie = name + '=' + value + expires + '; path=/';
+    document.cookie = `${name}=${value}${expires}; path=/`;
   }
 
   /**
@@ -50,7 +50,7 @@ export default class FallbackStorage {
    * @private
    */
   static _readCookie(name) {
-    const nameEQ = name + '=';
+    const nameEQ = `${name}=`;
     const cookies = document.cookie.split(';');
 
     let cookie;

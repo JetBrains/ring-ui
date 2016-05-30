@@ -66,7 +66,7 @@ AnalyticsCustomPlugin.prototype._trackPageViewAdditionalInfo = function (newPage
   if (this._lastPagePath) {
     if (this._lastPageViewTime) {
       const duration = AnalyticsCustomPluginUtils.getPageViewDurationPresentation(currentTime - this._lastPageViewTime);
-      this._processEvent('ring-pageview-duration_' + this._lastPagePath, duration);
+      this._processEvent(`ring-pageview-duration_${this._lastPagePath}`, duration);
     }
   }
   this._lastPageViewTime = currentTime;

@@ -853,14 +853,14 @@ export default class QueryAssist extends RingComponentWithShortcuts {
     const {dirty, styleRanges, query} = this.state;
     const classes = [];
     const LETTER_CLASS = 'ring-query-assist__letter';
-    const LETTER_DEFAULT_CLASS = LETTER_CLASS + '_default';
+    const LETTER_DEFAULT_CLASS = `${LETTER_CLASS}_default`;
 
     if (styleRanges && styleRanges.length) {
       styleRanges.forEach((item, index) => {
         if (dirty && index === styleRanges.length - 1 && item.style === 'text') {
           return;
         }
-        const className = LETTER_CLASS + '_' + item.style.replace('_', '-');
+        const className = `${LETTER_CLASS}_${item.style.replace('_', '-')}`;
 
         for (let i = item.start; i < item.start + item.length; i++) {
           classes[i] = className;

@@ -63,7 +63,7 @@ export default class Permissions {
     if (!services || !services.length) {
       return undefined;
     }
-    return services.map(service => 'service:{' + service + '}').join(' or ');
+    return services.map(service => `service:{${service}}`).join(' or ');
   }
 
   /**

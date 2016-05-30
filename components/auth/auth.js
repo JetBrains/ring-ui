@@ -38,24 +38,24 @@ function noop() {}
  * }} config
  *
  * @example
-   <example name="Auth">
-     <file name="index.html">
-       <div id="example">
-     </div>
-     </file>
+ <example name="Auth">
+ <file name="index.html">
+ <div id="example">
+ </div>
+ </file>
 
-     <file name="index.js" webpack="true">
-       var Auth = require('ring-ui/components/auth/auth');
-       var hubConfig = require('ring-ui/site/hub-config');
-       // Example config:
-       // var hubConfig = {
+ <file name="index.js" webpack="true">
+ var Auth = require('ring-ui/components/auth/auth');
+ var hubConfig = require('ring-ui/site/hub-config');
+ // Example config:
+ // var hubConfig = {
        //   serverUri: 'https://hub.jetbrains.com/',
        //   client_id: '81a0bffb-6d0f-4a38-b93a-0a4d1e567698',
        //   request_credentials: 'skip',
        //   redirect_uri: window.location.href.split('#')[0]
        // };
 
-       var log = function(title) {
+ var log = function(title) {
          return function(obj) {
            var titleElem = document.createElement('h3');
            var jsonElem = document.createElement('div');
@@ -68,21 +68,21 @@ function noop() {}
          };
        };
 
-       var auth = new Auth(hubConfig);
+ var auth = new Auth(hubConfig);
 
-       auth.init().
-         then(log('location to restore')).
-         then(function() {
+ auth.init().
+ then(log('location to restore')).
+ then(function() {
            return auth.requestToken();
          }).
-         then(log('token')).
-         then(function(token) {
+ then(log('token')).
+ then(function(token) {
            return auth.requestUser();
          }).
-         then(log('user profile data')).
-         catch(log('error'));
-     </file>
-   </example>
+ then(log('user profile data')).
+ catch(log('error'));
+ </file>
+ </example>
  */
 export default function Auth(config) {
   if (!config) {
@@ -97,8 +97,10 @@ export default function Auth(config) {
 
   this.config = Object.assign({}, Auth.DEFAULT_CONFIG, config);
 
-  const serverUriLength = this.config.serverUri.length;
-  if (serverUriLength > 0 && this.config.serverUri.charAt(serverUriLength - 1) !== '/') {
+  const {client_id, redirect, redirect_uri, request_credentials, scope, serverUri} = this.config;
+  const serverUriLength = serverUri.length;
+
+  if (serverUriLength > 0 && serverUri.charAt(serverUriLength - 1) !== '/') {
     this.config.serverUri += '/';
   }
 
@@ -106,24 +108,24 @@ export default function Auth(config) {
     fields: [...new Set(Auth.DEFAULT_CONFIG.userFields.concat(config.userFields))].join()
   };
 
-  if (!this.config.scope.includes(Auth.DEFAULT_CONFIG.client_id)) {
-    this.config.scope.push(Auth.DEFAULT_CONFIG.client_id);
+  if (!scope.includes(Auth.DEFAULT_CONFIG.client_id)) {
+    scope.push(Auth.DEFAULT_CONFIG.client_id);
   }
 
   this._storage = new AuthStorage({
-    stateKeyPrefix: this.config.client_id + '-states-',
-    tokenKey: this.config.client_id + '-token'
+    stateKeyPrefix: `${client_id}-states-`,
+    tokenKey: `${client_id}-token`
   });
 
   this._responseParser = new AuthResponseParser();
 
   this._requestBuilder = new AuthRequestBuilder({
-    authorization: this.config.serverUri + Auth.API_PATH + Auth.API_AUTH_PATH,
-    client_id: this.config.client_id,
-    redirect: this.config.redirect,
-    redirect_uri: this.config.redirect_uri,
-    request_credentials: this.config.request_credentials,
-    scopes: this.config.scope
+    authorization: serverUri + Auth.API_PATH + Auth.API_AUTH_PATH,
+    client_id,
+    redirect,
+    redirect_uri,
+    request_credentials,
+    scopes: scope
   }, this._storage);
 
   this._initDeferred = {};
@@ -315,7 +317,7 @@ Auth.prototype.getSecure = function (absoluteUrl, accessToken, params) {
 
   return fetch(url, {
     headers: {
-      Authorization: 'Bearer ' + accessToken,
+      Authorization: `Bearer ${accessToken}`,
       Accept: 'application/json'
     }
   }).
@@ -327,7 +329,7 @@ Auth.prototype.getSecure = function (absoluteUrl, accessToken, params) {
       if (response && response.status >= 200 && response.status < 300) {
         return response.json();
       } else {
-        const error = new Error('' + response.status + ' ' + response.statusText);
+        const error = new Error(`${response.status} ${response.statusText}`);
         error.response = response;
         error.status = response.status;
         return Promise.reject(error);
@@ -630,7 +632,7 @@ Auth.prototype._redirectCurrentPage = function (url) {
  * @private
  */
 Auth.prototype._redirectFrame = function (iframe, url) {
-  iframe.src = url + '&rnd=' + Math.random();
+  iframe.src = `${url}&rnd=${Math.random()}`;
 };
 
 /**
@@ -730,7 +732,7 @@ Auth.prototype.setHash = function (hash) {
       window.location.search
     ].join('');
 
-    history.replaceState(undefined, undefined, cleanedUrl + '#' + hash);
+    history.replaceState(undefined, undefined, `${cleanedUrl}#${hash}`);
   } else {
     window.location.hash = hash;
   }
