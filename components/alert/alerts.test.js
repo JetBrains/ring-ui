@@ -1,7 +1,4 @@
-/**
- * @fileoverview Tests of alerts stack component.
- * @author igor.alexeenko@jetbrains.com (Igor Alexeenko)
- */
+/* eslint-disable func-names */
 
 import Alerts from './alerts';
 import React from 'react';

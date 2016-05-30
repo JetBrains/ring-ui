@@ -1,3 +1,5 @@
+/* eslint-disable func-names */
+
 import LoaderCore from './loader__core';
 
 describe('Loader', () => {

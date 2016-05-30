@@ -1,3 +1,5 @@
+/* eslint-disable func-names */
+
 import {createElement} from 'react';
 import {render} from 'react-dom';
 import 'dom4';

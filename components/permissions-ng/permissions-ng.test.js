@@ -1,4 +1,5 @@
 /* global inject */
+/* eslint-disable func-names */
 
 import 'angular';
 import 'angular-mocks';

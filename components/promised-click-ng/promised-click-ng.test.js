@@ -1,4 +1,6 @@
 /* global inject */
+/* eslint-disable func-names */
+
 import 'dom4';
 import 'angular';
 import 'angular-mocks';
