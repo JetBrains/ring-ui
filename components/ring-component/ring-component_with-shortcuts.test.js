@@ -89,29 +89,29 @@ describe('RingComponentWithShortcuts', () => {
     createWrongComponent.should.throw(Error);
   });
 
-  it('should not activate shortcuts without param', () => {
+  it('should not activate shortcuts without param', function () {
     shortcuts.reset();
     renderIntoDocument(React.createElement(this.TestComponent));
 
     shortcuts.getScope().should.be.empty;
   });
 
-  it('shorcutsEnabled should reflect shortcuts disabled state', () => {
+  it('shorcutsEnabled should reflect shortcuts disabled state', function () {
     const component = renderIntoDocument(React.createElement(this.TestComponent));
 
     component.shortcutsEnabled().should.be.false;
   });
 
-  it('shorcutsEnabled should reflect shortcuts enabled state', () => {
+  it('shorcutsEnabled should reflect shortcuts enabled state', function () {
     this.component.shortcutsEnabled().should.be.true;
   });
 
-  it('should activate shortcuts on component', () => {
+  it('should activate shortcuts on component', function () {
     shortcuts.getScope().should.deep.equal([shortcuts.wrapScope(scope)]);
     this.component.shortcutsScope.should.equal(scope);
   });
 
-  it('should lazy activate shortcuts', () => {
+  it('should lazy activate shortcuts', function () {
     this.component.rerender({
       shortcuts: true
     });
@@ -120,7 +120,7 @@ describe('RingComponentWithShortcuts', () => {
     this.component.shortcutsScope.should.equal(scope);
   });
 
-  it('should trigger handlers bound on component', () => {
+  it('should trigger handlers bound on component', function () {
     renderIntoDocument(React.createElement(this.TestComponent, {
       shortcuts: true
     }));
@@ -129,7 +129,7 @@ describe('RingComponentWithShortcuts', () => {
     this.stub.should.have.been.called.once;
   });
 
-  it('should disable shortcuts on component', () => {
+  it('should disable shortcuts on component', function () {
     this.component.rerender({
       shortcuts: false
     });
@@ -137,7 +137,7 @@ describe('RingComponentWithShortcuts', () => {
     shortcuts.getScope().should.be.empty;
   });
 
-  it('should not trigger on component with disabled shortcuts', () => {
+  it('should not trigger on component with disabled shortcuts', function () {
     this.component.rerender({
       shortcuts: false
     });
@@ -146,7 +146,7 @@ describe('RingComponentWithShortcuts', () => {
     this.stub.should.not.have.been.called;
   });
   //
-  //it('should trigger on subcomponent which shadows component\'s shortcut', () => {
+  //it('should trigger on subcomponent which shadows component\'s shortcut', function () {
   //  createСomponentWithSubComponent({
   //    shortcuts: true
   //  });
@@ -156,7 +156,7 @@ describe('RingComponentWithShortcuts', () => {
   //  noop2.should.have.been.called;
   //});
   //
-  //it('should disable shortcuts on component and subcomponent', () => {
+  //it('should disable shortcuts on component and subcomponent', function () {
   //  createСomponentWithSubComponent({
   //    shortcuts: true
   //  });
@@ -168,7 +168,7 @@ describe('RingComponentWithShortcuts', () => {
   //  shortcuts.getScope().should.be.empty;
   //});
   //
-  //it('should disable shortcuts on subcomponent', () => {
+  //it('should disable shortcuts on subcomponent', function () {
   //  createСomponentWithSubComponent({
   //    shortcuts: true
   //  });
