@@ -8,7 +8,7 @@ import {render} from 'react-dom';
 import ReactAlert from '../alert/alert';
 import ReactAlerts from '../alert/alerts';
 
-const module = angular.module('Ring.alert', []);
+const angularModule = angular.module('Ring.alert', []);
 
 function alert() {
   let container = null;
@@ -81,6 +81,6 @@ function alert() {
   });
 }
 
-module.provider('alert', alert);
+angularModule.provider('alert', alert);
 
-export default module.name;
+export default angularModule.name;

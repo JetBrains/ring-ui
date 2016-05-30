@@ -49,13 +49,13 @@ import AnalyticsCustomPlugin from '../analytics/analytics__custom-plugin';
    </example>
 */
 /* global angular: false */
-const module = angular.module('Ring.analytics', []);
+const angularModule = angular.module('Ring.analytics', []);
 
 /**
  * @name analyticsProvider
  * @description configures analytics with plugins
  */
-module.provider('analytics', function () {
+angularModule.provider('analytics', function () {
   let configPlugins = [];
   /**
    * @param plugins
@@ -85,13 +85,13 @@ module.provider('analytics', function () {
   };
 });
 
-module.constant('AnalyticsGAPlugin', AnalyticsGAPlugin);
-module.constant('AnalyticsCustomPlugin', AnalyticsCustomPlugin);
+angularModule.constant('AnalyticsGAPlugin', AnalyticsGAPlugin);
+angularModule.constant('AnalyticsCustomPlugin', AnalyticsCustomPlugin);
 
 /**
  * Enable page tracking
  */
-module.run(($rootScope, analytics) => {
+angularModule.run(($rootScope, analytics) => {
   $rootScope.$on('$routeChangeSuccess', (evt, current) => { // eslint-disable-line angular/on-watch
     /* eslint-disable angular/no-private-call */
     if (current && current.$$route && current.$$route.originalPath) {
@@ -110,7 +110,7 @@ module.run(($rootScope, analytics) => {
  *  user action, specified via attribute `rg-analytics-on` (e.g. rg-analytics-on='mouseover' means that analytics will be sent on mouseover,
  *  rg-analytics-on='click' - on click). If there is no attribute rg-analytics-on, the default value 'click' is used.
  */
-module.directive('rgAnalytics', [
+angularModule.directive('rgAnalytics', [
   'analytics',
   analytics => ({
     restrict: 'A',
@@ -125,4 +125,4 @@ module.directive('rgAnalytics', [
   })
 ]);
 
-export default module.name;
+export default angularModule.name;

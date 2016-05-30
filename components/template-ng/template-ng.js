@@ -1,8 +1,7 @@
 /* global angular */
-/* eslint-disable modules/no-exports-typo */
 import {Inject} from 'angular-es6';
 
-const module = angular.module('Ring.template', []);
+const angularModule = angular.module('Ring.template', []);
 
 /**
  * @name Template Ng
@@ -72,8 +71,8 @@ class rgTemplateController extends Inject {
   }
 }
 
-module.directive('rgTemplate', () => ({
+angularModule.directive('rgTemplate', () => ({
   controller: rgTemplateController
 }));
 
-export default module.name;
+export default angularModule.name;

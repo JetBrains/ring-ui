@@ -47,11 +47,11 @@
  </example>
  */
 
-const module = angular.module('Ring.autofocus', []);
+const angularModule = angular.module('Ring.autofocus', []);
 const RING_SELECT_SELECTOR = '.ring-select';
 const RING_SELECT = 'rg-select';
 
-module.directive('rgAutofocus', () => {
+angularModule.directive('rgAutofocus', () => {
 
   /**
    * Focuses on element itself if it has "focus" method.
@@ -82,4 +82,4 @@ module.directive('rgAutofocus', () => {
   };
 });
 
-export default module.name;
+export default angularModule.name;

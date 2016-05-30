@@ -12,7 +12,7 @@ import '../input/input.scss';
 registerComponents({Icon});
 
 /* global angular:false */
-const module = angular.module('Ring.shortcuts.hint-popup', [DialogNg, ShortcutsNg, reactNg]);
+const angularModule = angular.module('Ring.shortcuts.hint-popup', [DialogNg, ShortcutsNg, reactNg]);
 
 
 /**
@@ -170,8 +170,8 @@ function shortcutSearchFilter(shortcuts, query = '') {
   });
 }
 
-module.service('rgShortcutsHintPopup', HintPopupService);
-module.filter('shortcutKeySymbol', () => shortcutKeySymbolFilter);
-module.filter('shortcutSearch', () => shortcutSearchFilter);
+angularModule.service('rgShortcutsHintPopup', HintPopupService);
+angularModule.filter('shortcutKeySymbol', () => shortcutKeySymbolFilter);
+angularModule.filter('shortcutSearch', () => shortcutSearchFilter);
 
-export default module.name;
+export default angularModule.name;
