@@ -18,8 +18,8 @@ describe('HubUsersGroupsSource', () => {
     const source = new HubSourceUsersGroups(this.fakeAuth);
     this.sinon.stub(source.usersSource, 'get').returns(Promise.resolve([]));
 
-    return source.getUsers()
-      .then(() => {
+    return source.getUsers().
+      then(() => {
         source.usersSource.get.should.have.been.calledWith('', {
           fields: 'id,name,login,total,profile/avatar/url',
           orderBy: 'name'
@@ -31,8 +31,8 @@ describe('HubUsersGroupsSource', () => {
     const source = new HubSourceUsersGroups(this.fakeAuth);
     this.sinon.stub(source.usersSource, 'get').returns(Promise.resolve([]));
 
-    return source.getUsers('nam')
-      .then(() => {
+    return source.getUsers('nam').
+      then(() => {
         source.usersSource.get.should.have.been.calledWith('nam', {
           fields: sinon.match.string,
           orderBy: sinon.match.string
@@ -51,8 +51,8 @@ describe('HubUsersGroupsSource', () => {
     const source = new HubSourceUsersGroups(this.fakeAuth);
     this.sinon.stub(source.groupsSource, 'get').returns(Promise.resolve([]));
 
-    return source.getGroups()
-      .then(() => {
+    return source.getGroups().
+      then(() => {
         source.groupsSource.get.should.have.been.calledWith('', {
           fields: 'id,name,total,userCount',
           orderBy: 'name'
@@ -61,13 +61,14 @@ describe('HubUsersGroupsSource', () => {
   });
 
   it('Should cache request for groups', function () {
-    this.fakeAuth.getApi = this.sinon.stub().returns(Promise.resolve({total: 1, usergroups: []}));
+    this.fakeAuth.getApi = this.sinon.stub().
+      returns(Promise.resolve({total: 1, usergroups: []}));
 
     const source = new HubSourceUsersGroups(this.fakeAuth);
     source.getGroups();
     source.getGroups();
-    return source.getGroups()
-      .then(() => {
+    return source.getGroups().
+      then(() => {
         this.fakeAuth.getApi.should.have.been.called.once;
       });
   });

@@ -25,16 +25,16 @@ export default class HubSource {
   }
 
   makeRequest(params) {
-    return this.auth.requestToken()
-      .then(token => this.auth.getApi(this.relativeUrl, token, params));
+    return this.auth.requestToken().
+      then(token => this.auth.getApi(this.relativeUrl, token, params));
   }
 
   makeCachedRequest(params) {
     if (this.storedData) {
       return Promise.resolve(this.storedData);
     }
-    return this.makeRequest(params)
-      .then(res => {
+    return this.makeRequest(params).
+      then(res => {
         this.storedData = res;
         return res;
       });
@@ -72,14 +72,18 @@ export default class HubSource {
     const items = res[this.relativeUrl] || [];
 
     if (this.isClientSideSearch) {
-      return items.filter(it => this.filterFn(it)).slice(0, this.options.searchMax);
+      return items.
+        filter(it => this.filterFn(it)).
+        slice(0, this.options.searchMax);
     }
     return items;
   }
 
   sideDetectionRequest(params, query) {
-    return this.makeCachedRequest(HubSource.mergeParams(params, {$top: this.options.searchSideThreshold}))
-      .then(res => {
+    return this.makeCachedRequest(HubSource.mergeParams(params, {
+      $top: this.options.searchSideThreshold
+    })).
+      then(res => {
         this.isClientSideSearch = this.checkIsClientSideSearch(res);
 
         if (!this.isClientSideSearch) {
@@ -118,7 +122,7 @@ export default class HubSource {
 
     this.filterFn = filterFn || this.getDefaultFilterFn(query);
 
-    return this.getValueFromSuitableSource(query, params)
-      .then(res => this.processResults(res));
+    return this.getValueFromSuitableSource(query, params).
+      then(res => this.processResults(res));
   }
 }

@@ -190,14 +190,14 @@ export default class TagsInput extends RingComponentWithShortcuts {
 
   loadSuggestions(query) {
     this.setState({loading: true});
-    return Promise.resolve(this.props.dataSource({query}))
-      .then(::this.filterExistTags)
-      .then(suggestions => {
+    return Promise.resolve(this.props.dataSource({query})).
+      then(::this.filterExistTags).
+      then(suggestions => {
         if (this.node) {
           this.setState({suggestions: suggestions, loading: false});
         }
-      })
-      .catch(() => this.setState({loading: false}));
+      }).
+      catch(() => this.setState({loading: false}));
   }
 
   willMount() {
@@ -225,21 +225,21 @@ export default class TagsInput extends RingComponentWithShortcuts {
         className={classes}
         onClick={::this.clickHandler}
       >
-      {this.state.tags.map(::this.renderTag)}
-      <Select
-        ref="select"
-        type={Select.Type.INPUT}
-        label={this.props.placeholder}
-        data={this.state.suggestions}
-        className="ring-input-size_md"
-        onSelect={::this.addTag}
-        filter={{
-          fn: () => true
-        }}
-        maxHeight={this.props.maxPopupHeight}
-        loading={this.state.loading}
-        onFilter={::this.loadSuggestions}
-      />
-    </div>);
+        {this.state.tags.map(::this.renderTag)}
+        <Select
+          ref="select"
+          type={Select.Type.INPUT}
+          label={this.props.placeholder}
+          data={this.state.suggestions}
+          className="ring-input-size_md"
+          onSelect={::this.addTag}
+          filter={{
+            fn: () => true
+          }}
+          maxHeight={this.props.maxPopupHeight}
+          loading={this.state.loading}
+          onFilter={::this.loadSuggestions}
+        />
+      </div>);
   }
 }

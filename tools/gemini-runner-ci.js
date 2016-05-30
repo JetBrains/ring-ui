@@ -28,11 +28,12 @@ function runServer() {
 
   console.log('Starting static server on 9999 port');
 
-  return http.createServer((req, res) => {
-    const done = finalhandler(req, res);
-    serve(req, res, done);
-  })
-    .listen(9999);
+  return http.
+    createServer((req, res) => {
+      const done = finalhandler(req, res);
+      serve(req, res, done);
+    }).
+    listen(9999);
 }
 
 runGeminiTestsOnServer(runServer());

@@ -648,9 +648,9 @@ export default class QueryAssist extends RingComponentWithShortcuts {
       query: this.immediateState.query,
       caret: this.immediateState.caret,
       omitSuggestions: true
-    })
-      .then(::this.handleResponse)
-      .catch(noop);
+    }).
+      then(::this.handleResponse).
+      catch(noop);
   }
 
   requestHandler() {

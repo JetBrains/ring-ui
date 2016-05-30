@@ -14,13 +14,14 @@ describe('HubSource', () => {
   });
 
   it('Should merge objects', () => {
-    HubSource.mergeParams({foo: 'bar'}, {test: 'foo'}).should.be.deep.equal({foo: 'bar', test: 'foo'});
+    HubSource.mergeParams({foo: 'bar'}, {test: 'foo'}).
+      should.be.deep.equal({foo: 'bar', test: 'foo'});
   });
 
   it('Should make request', function () {
     const source = new HubSource(this.fakeAuth, 'test');
-    return source.makeRequest({test: 'foo'})
-      .then(() => {
+    return source.makeRequest({test: 'foo'}).
+      then(() => {
         this.fakeAuth.getApi.should.have.been.calledWith('test', 'testToken', {test: 'foo'});
       });
   });
@@ -29,8 +30,8 @@ describe('HubSource', () => {
     const source = new HubSource(this.fakeAuth, 'test');
     source.storedData = {};
 
-    return source.makeCachedRequest({test: 'foo'})
-      .then(() => {
+    return source.makeCachedRequest({test: 'foo'}).
+      then(() => {
         this.fakeAuth.getApi.should.not.have.been.called;
       });
   });
@@ -83,23 +84,25 @@ describe('HubSource', () => {
   });
 
   it('Should detect clientside filtering if total is smaller than threshold', function () {
-    this.fakeAuth.getApi = this.sinon.stub().returns(Promise.resolve({total: 10, testItems: []}));
+    this.fakeAuth.getApi = this.sinon.stub().
+      returns(Promise.resolve({total: 10, testItems: []}));
 
     const source = new HubSource(this.fakeAuth, 'testItems', {searchSideThreshold: 15});
 
-    return source.sideDetectionRequest({})
-      .then(() => {
+    return source.sideDetectionRequest({}).
+      then(() => {
         source.isClientSideSearch.should.be.true;
       });
   });
 
   it('Should detect serverside filtering if total is smaller than threshold', function () {
-    this.fakeAuth.getApi = this.sinon.stub().returns(Promise.resolve({total: 20, testItems: []}));
+    this.fakeAuth.getApi = this.sinon.stub().
+      returns(Promise.resolve({total: 20, testItems: []}));
 
     const source = new HubSource(this.fakeAuth, 'testItems', {searchSideThreshold: 15});
 
-    return source.sideDetectionRequest({})
-      .then(() => {
+    return source.sideDetectionRequest({}).
+      then(() => {
         source.isClientSideSearch.should.be.false;
       });
   });
@@ -112,8 +115,8 @@ describe('HubSource', () => {
     }));
 
 
-    return source.doClientSideSearch()
-      .then(() => {
+    return source.doClientSideSearch().
+      then(() => {
         source.makeCachedRequest.should.have.been.calledWith({$top: -1});
       });
   });
@@ -126,8 +129,8 @@ describe('HubSource', () => {
     }));
 
 
-    return source.doServerSideSearch({}, 'test-query')
-      .then(() => {
+    return source.doServerSideSearch({}, 'test-query').
+      then(() => {
         source.makeRequest.should.have.been.calledWith({
           $top: 142,
           query: sinon.match.string
@@ -169,7 +172,8 @@ describe('HubSource', () => {
 
     it('Should do side detection request first', function () {
       const source = new HubSource(this.fakeAuth, 'testItems');
-      source.sideDetectionRequest = this.sinon.stub().returns(Promise.resolve({total: 20, testItems: []}));
+      source.sideDetectionRequest = this.sinon.stub().
+        returns(Promise.resolve({total: 20, testItems: []}));
 
       source.get('testQuery', {testParams: 'test'});
 
@@ -178,7 +182,8 @@ describe('HubSource', () => {
 
     it('Should do clientside filtering if previously detected', function () {
       const source = new HubSource(this.fakeAuth, 'testItems');
-      source.doClientSideSearch = this.sinon.stub().returns(Promise.resolve({total: 20, testItems: []}));
+      source.doClientSideSearch = this.sinon.stub().
+        returns(Promise.resolve({total: 20, testItems: []}));
       source.isClientSideSearch = true;
 
       source.get('testQuery', {testParams: 'test'});
@@ -188,7 +193,8 @@ describe('HubSource', () => {
 
     it('Should do serverside filtering if previously detected', function () {
       const source = new HubSource(this.fakeAuth, 'testItems');
-      source.doServerSideSearch = this.sinon.stub().returns(Promise.resolve({total: 20, testItems: []}));
+      source.doServerSideSearch = this.sinon.stub().
+        returns(Promise.resolve({total: 20, testItems: []}));
       source.isClientSideSearch = false;
 
       source.get('testQuery', {testParams: 'test'});
