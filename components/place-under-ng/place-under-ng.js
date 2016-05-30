@@ -200,7 +200,7 @@ angularModule.directive('rgPlaceUnder', ($window, getClosestElementWithCommonPar
 
       function startSyncing(placeUnderSelector) {
         if (placeUnderSelector) {
-          scope.$evalAsync(function sync() {
+          scope.$evalAsync(() => {
             const syncWith = getClosestElementWithCommonParent(element, placeUnderSelector);
 
             if (syncWith) {

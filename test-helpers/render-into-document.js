@@ -1,14 +1,16 @@
+/*global mocha*/
 /* eslint-disable no-var */
+/* eslint-disable prefer-arrow-callback */
 /* eslint-disable modules/no-cjs */
 
 var ReactDOM = require('react-dom');
 
 var containerNode;
+
 /**
  * Add after each to top-level suite to be sure that the hook will be called before each test
  */
-/*global mocha*/
-mocha.suite.afterEach(function () {
+mocha.suite.afterEach(function removeContainer() {
   var firstChild;
 
   if (!containerNode || !containerNode.firstChild) {

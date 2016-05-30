@@ -176,7 +176,7 @@ describe('Shortcuts', () => {
       fallthrough.should.have.been.called;
     });
 
-    it('should not fall trough modal scope', function () {
+    it('should not fall trough modal scope', () => {
       const fallthrough = sinon.stub().returns(true);
 
       shortcuts.bind({key, handler: noop});
@@ -189,7 +189,7 @@ describe('Shortcuts', () => {
       noop.should.not.have.been.called;
     });
 
-    it('should not fall trough modal scope even if it has no handler for key', function () {
+    it('should not fall trough modal scope even if it has no handler for key', () => {
       const fallthrough = sinon.stub().returns(true);
 
       shortcuts.bind({key, handler: noop});
@@ -245,7 +245,7 @@ describe('Shortcuts', () => {
       shortcuts.getScope().should.deep.equal([wrapScope(scope1), wrapScope(scope3)]);
     });
 
-    it('should store options passed with scope', function () {
+    it('should store options passed with scope', () => {
       shortcuts.pushScope(scope1, {foo: 'bar'});
 
       shortcuts.getScope().should.deep.equal([wrapScope(scope1, {foo: 'bar'})]);
