@@ -22,7 +22,6 @@
     "func-names": 1,
 
     // ECMAScript 6
-    "object-shorthand": 1,
     "prefer-arrow-callback": 1,
     "prefer-template": 1,
 

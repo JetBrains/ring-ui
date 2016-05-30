@@ -96,7 +96,7 @@ angularModule.provider('userPermissions', function () {
  */
 angularModule.directive('rgPermission', function (userPermissions, $interpolate) {
   return {
-    controller: function ($scope, $element, $attrs) {
+    controller($scope, $element, $attrs) {
       const element = $element[0];
 
       //noinspection JSPotentiallyInvalidUsageOfThis
@@ -156,7 +156,7 @@ angularModule.directive('rgPermissionIf', function ($animate, userPermissions, $
     terminal: true,
     restrict: 'A',
     require: '^?rgSomePermissions',
-    link: function (scope, iElement, iAttrs, somePermittedCtrl, $transclude) {
+    link(scope, iElement, iAttrs, somePermittedCtrl, $transclude) {
       let block;
       let childScope;
 
@@ -226,7 +226,7 @@ angularModule.directive('rgSomePermissions', function () {
     scope: {
       rgSomePermissions: '='
     },
-    controller: function ($scope) {
+    controller($scope) {
       const permissions = [];
       $scope.rgSomePermissions = false;
 

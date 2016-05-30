@@ -217,9 +217,7 @@ export default class Alerts extends RingComponent {
       }
     }
 
-    this.setState({
-      childElements: childElements
-    });
+    this.setState({childElements});
   }
 
   /**
@@ -235,10 +233,10 @@ export default class Alerts extends RingComponent {
     const key = captionText + type + Date.now();
 
     const element = {
-      animationResolver: animationResolver,
-      caption: caption,
-      key: key,
-      type: type,
+      animationResolver,
+      caption,
+      key,
+      type,
       timeout: null,
       count: 1
     };
@@ -249,9 +247,7 @@ export default class Alerts extends RingComponent {
 
     childElements.unshift(element);
 
-    this.setState({
-      childElements: childElements
-    });
+    this.setState({childElements});
 
     return element;
   }
@@ -276,9 +272,7 @@ export default class Alerts extends RingComponent {
     }
 
     childElements.splice(elementIndex, 1);
-    this.setState({
-      childElements: childElements
-    });
+    this.setState({childElements});
   }
 
   /**
