@@ -457,6 +457,8 @@ export default class Select extends RingComponentWithShortcuts {
     if (!this._popup.isVisible() && this.props.allowAny) {
       return true;
     }
+
+    return undefined;
   }
 
   _onEsc(event) {
@@ -475,6 +477,8 @@ export default class Select extends RingComponentWithShortcuts {
       this.props.onChange(selected, event);
       this.props.onReset();
     });
+
+    return undefined;
   }
 
   _inputShortcutHandler() {
@@ -748,6 +752,8 @@ export default class Select extends RingComponentWithShortcuts {
     } else {
       return '';
     }
+
+    return undefined;
   }
 
   isInputMode() {

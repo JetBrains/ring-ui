@@ -330,6 +330,8 @@ class DialogController extends Inject {
     } else if (button.close !== false) {
       this.reset();
     }
+
+    return undefined;
   }
 
   applyDefaultHandler(isTextAreaShortcut) {
@@ -348,6 +350,8 @@ class DialogController extends Inject {
             this.$inject.$scope.$apply();
             return false;
           }
+
+          return undefined;
         });
       }
     };
@@ -370,6 +374,7 @@ class DialogService {
           return this.fallbackDialog[key](...args);
         } else {
           this.$log.error('No dialog directive is found');
+          return undefined;
         }
       }.bind(this);
     });

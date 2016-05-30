@@ -75,6 +75,7 @@ angularModule.provider('errorPageConfiguration', function () {
         return $injector.get(factoryName);
       } catch (err) {
         $log.debug(`errorPageConfiguration: unable to load ${factoryName}`);
+        return undefined;
       }
     }
 

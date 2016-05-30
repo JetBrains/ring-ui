@@ -95,6 +95,8 @@ export default class Tooltip extends RingComponent {
           if (evt && this.node && this.node.contains(evt.target)) {
             return false;
           }
+
+          return undefined;
         }
       }, popupProps);
 

@@ -15,7 +15,6 @@
 
     // Best Practices
     "complexity": [0, 5],
-    "consistent-return": 1,
     "no-magic-numbers": [1, { "ignore": [-1, 0, 1] }],
 
     // Stylistic Issues

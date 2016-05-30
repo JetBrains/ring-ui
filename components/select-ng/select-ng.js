@@ -596,6 +596,8 @@ angularModule.directive('rgSelect', () => {
             return convertItem(model);
           }
         }
+
+        return undefined;
       };
 
       let lastQuery = null;

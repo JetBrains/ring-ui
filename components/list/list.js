@@ -613,6 +613,8 @@ export default class List extends RingComponentWithShortcuts {
       const container = this.refs.inner.node;
       return container.scrollHeight > container.clientHeight;
     }
+
+    return undefined;
   }
 
   getShortcutsProps() {
