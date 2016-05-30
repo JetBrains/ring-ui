@@ -1,3 +1,5 @@
+/* eslint-disable func-names */
+
 import React from 'react';
 
 import renderIntoDocument from 'render-into-document';
