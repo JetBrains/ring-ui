@@ -32,9 +32,9 @@ const angularModule = angular.module('Ring.compiler', []).
         const linkFn = $compile(element);
 
         return {
-          locals: locals,
-          element: element,
-          link: function (scope) {
+          locals,
+          element,
+          link(scope) {
             locals.$scope = scope;
 
             if (controller) {

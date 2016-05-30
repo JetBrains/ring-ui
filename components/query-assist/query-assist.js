@@ -356,7 +356,7 @@ export default class QueryAssist extends RingComponentWithShortcuts {
     const query = this.props.query || '';
 
     this.immediateState = {
-      query: query,
+      query,
       caret: Number.isFinite(this.props.caret) ? this.props.caret : query.length,
       focus: this.props.autoOpen || this.props.focus
     };
@@ -481,7 +481,7 @@ export default class QueryAssist extends RingComponentWithShortcuts {
     }
 
     if (!this.mouseIsDownOnPopup) {
-      this.props.onFocusChange({focus: focus});
+      this.props.onFocusChange({focus});
     }
 
     this.setShortcutsEnabled(focus);
@@ -830,7 +830,7 @@ export default class QueryAssist extends RingComponentWithShortcuts {
 
       const item = {
         key: suggestion.prefix + suggestion.option + suggestion.suffix + suggestion.group + suggestion.description,
-        label: label,
+        label,
         rgItemType: PopupMenu.ListProps.Type.ITEM,
         data: suggestion
       };

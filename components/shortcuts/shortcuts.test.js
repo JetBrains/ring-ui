@@ -179,8 +179,8 @@ describe('Shortcuts', () => {
     it('should not fall trough modal scope', function () {
       const fallthrough = sinon.stub().returns(true);
 
-      shortcuts.bind({key: key, handler: noop});
-      shortcuts.bind({key: key, scope: scope, handler: fallthrough});
+      shortcuts.bind({key, handler: noop});
+      shortcuts.bind({key, scope, handler: fallthrough});
 
       shortcuts.pushScope(scope, {modal: true});
       trigger();
@@ -192,8 +192,8 @@ describe('Shortcuts', () => {
     it('should not fall trough modal scope even if it has no handler for key', function () {
       const fallthrough = sinon.stub().returns(true);
 
-      shortcuts.bind({key: key, handler: noop});
-      shortcuts.bind({key: key2, scope: scope, handler: fallthrough});
+      shortcuts.bind({key, handler: noop});
+      shortcuts.bind({key: key2, scope, handler: fallthrough});
 
       shortcuts.pushScope(scope, {modal: true});
       trigger();

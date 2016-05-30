@@ -471,9 +471,7 @@ export default class Select extends RingComponentWithShortcuts {
       label: this.props.getInitial()
     };
 
-    this.setState({
-      selected: selected
-    }, function () {
+    this.setState({selected}, function () {
       this.props.onChange(selected, event);
       this.props.onReset();
     });
@@ -518,7 +516,7 @@ export default class Select extends RingComponentWithShortcuts {
     if ('selected' in newProps) {
       const selected = newProps.selected ? newProps.selected : Select._getEmptyValue(this.props.multiple);
       this.setState({
-        selected: selected,
+        selected,
         selectedIndex: this._getSelectedIndex(selected, (newProps.data ? newProps.data : this.props.data))
       });
       this._rebuildMultipleMap(selected, this.props.multiple);
@@ -606,9 +604,9 @@ export default class Select extends RingComponentWithShortcuts {
 
     const shouldScrollToTop = this._popup.props.data && this._popup.props.data.length && this._popup.props.data.length > data.length;
     this._popup.rerender({
-      data: data,
+      data,
       toolbar: this.getToolbar(),
-      message: message,
+      message,
       loading: this.props.loading,
       activeIndex: this.state.selectedIndex
     });
@@ -808,7 +806,7 @@ export default class Select extends RingComponentWithShortcuts {
 
     if (!this.props.multiple) {
       this.setState({
-        selected: selected,
+        selected,
         selectedIndex: this._getSelectedIndex(selected, this.props.data)
       }, () => {
         const newFilterValue = this.isInputMode() && !this.props.hideSelected ? this._getItemLabel(selected) : '';

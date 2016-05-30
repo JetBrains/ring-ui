@@ -27,7 +27,7 @@ describe('RingComponentWithShortcuts', function () {
     class TestComponent extends RingComponentWithShortcuts {
       getShortcutsProps() {
         return {
-          scope: scope,
+          scope,
           map: {
             [key]: stub
           }

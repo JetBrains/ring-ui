@@ -35,9 +35,7 @@ describe('ReactNg', function () {
       }
     }
 
-    registerComponents({
-      TestPropsComponent: TestPropsComponent
-    });
+    registerComponents({TestPropsComponent});
 
     $compile(template)($scope);
     $scope.$digest();

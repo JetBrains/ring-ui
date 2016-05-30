@@ -24,10 +24,10 @@ export default class SelectPopup extends RingComponentWithShortcuts {
     maxHeight: 250,
     loading: false,
     minWidth: 'target',
-    onSelect: function () {},
-    onClose: function () {},
-    onFilter: function () {},
-    onLoadMore: function () {}
+    onSelect: noop,
+    onClose: noop,
+    onFilter: noop,
+    onLoadMore: noop
   };
 
   state = {

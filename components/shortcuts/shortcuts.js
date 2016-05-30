@@ -91,7 +91,7 @@ class Shortcuts {
 
     for (const key in map) {
       if (map.hasOwnProperty(key)) {
-        this.bind(Object.assign({}, options || {}, {key: key, handler: map[key]}));
+        this.bind(Object.assign({}, options || {}, {key, handler: map[key]}));
       }
     }
   }
