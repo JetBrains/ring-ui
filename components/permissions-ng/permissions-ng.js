@@ -10,7 +10,7 @@ function registerPermission(element) {
 }
 
 /* global angular: false */
-const module = angular.module('Ring.permissions', ['Ring.auth']);
+const angularModule = angular.module('Ring.permissions', ['Ring.auth']);
 
 /**
  * @ngdoc object
@@ -32,7 +32,7 @@ const module = angular.module('Ring.permissions', ['Ring.auth']);
  *
  * @requires auth
  */
-module.provider('userPermissions', function () {
+angularModule.provider('userPermissions', function () {
   /**
    * @type {{
    *   serviceId: string?,
@@ -94,7 +94,7 @@ module.provider('userPermissions', function () {
  * @element ANY
  * @requires userPermissions
  */
-module.directive('rgPermission', function (userPermissions, $interpolate) {
+angularModule.directive('rgPermission', function (userPermissions, $interpolate) {
   return {
     controller: function ($scope, $element, $attrs) {
       const element = $element[0];
@@ -149,7 +149,7 @@ module.directive('rgPermission', function (userPermissions, $interpolate) {
  * @requires $animate
  * @requires userPermissions
  */
-module.directive('rgPermissionIf', function ($animate, userPermissions, $interpolate) {
+angularModule.directive('rgPermissionIf', function ($animate, userPermissions, $interpolate) {
   return {
     transclude: 'element',
     priority: 600,
@@ -221,7 +221,7 @@ module.directive('rgPermissionIf', function ($animate, userPermissions, $interpo
  * @restrict A
  * @element ANY
  */
-module.directive('rgSomePermissions', function () {
+angularModule.directive('rgSomePermissions', function () {
   return {
     scope: {
       rgSomePermissions: '='
@@ -255,4 +255,4 @@ module.directive('rgSomePermissions', function () {
   };
 });
 
-export default module.name;
+export default angularModule.name;

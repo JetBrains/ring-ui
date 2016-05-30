@@ -1,6 +1,6 @@
 /* global angular: false */
 
-const module = angular.module('Ring.compiler', [])
+const angularModule = angular.module('Ring.compiler', [])
   .factory('rgCompiler', function ($q, $controller, $injector, $compile) {
 
     // The rgCompiler service is an abstraction of angular's compiler,
@@ -59,4 +59,4 @@ const module = angular.module('Ring.compiler', [])
   });
 
 
-export default module.name;
+export default angularModule.name;

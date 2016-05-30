@@ -125,11 +125,11 @@ class Options {
 }
 
 /* global angular: false */
-const module = angular.module('Ring.select.options', []);
+const angularModule = angular.module('Ring.select.options', []);
 
-module.factory('SelectOptions', $parse => {
+angularModule.factory('SelectOptions', $parse => {
   Options.$parse = $parse;
   return Options;
 });
 
-export default module.name;
+export default angularModule.name;

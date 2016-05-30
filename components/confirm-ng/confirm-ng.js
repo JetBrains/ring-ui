@@ -2,9 +2,9 @@
 
 import Dialog from '../dialog-ng/dialog-ng';
 
-const module = angular.module('Ring.confirm', [Dialog]);
+const angularModule = angular.module('Ring.confirm', [Dialog]);
 
-module.service('confirm', (dialog, $templateCache) => {
+angularModule.service('confirm', (dialog, $templateCache) => {
   const TEMPLATE_PATH = 'ring-ui/components/confirm-ng/confirm-ng.html';
 
   // We need this because dialog uses ngInclude
@@ -38,4 +38,4 @@ module.service('confirm', (dialog, $templateCache) => {
   });
 });
 
-export default module.name;
+export default angularModule.name;

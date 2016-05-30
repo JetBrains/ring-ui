@@ -186,9 +186,9 @@ import '../table/table.scss';
   </file>
 </example>
 */
-const module = angular.module('Ring.table', [TableToolbar, TablePager, Checkbox, PlaceUnder]);
+const angularModule = angular.module('Ring.table', [TableToolbar, TablePager, Checkbox, PlaceUnder]);
 
-module.directive('rgTable', () => ({
+angularModule.directive('rgTable', () => ({
   restrict: 'E',
   transclude: true,
   template: require('./table-ng.html'),
@@ -233,7 +233,7 @@ module.directive('rgTable', () => ({
   }
 }));
 
-module.directive('rgTableHeader', getClosestElementWithCommonParent => {
+angularModule.directive('rgTableHeader', getClosestElementWithCommonParent => {
   const HEADER_RESIZE_DEBOUNCE = 50;
   const HEADER_SCROLL_DEBOUNCE = 10;
   const TOOLBAR_FIXED_CLASSNAME = 'ring-table__toolbar-controls_fixed';
@@ -304,14 +304,14 @@ module.directive('rgTableHeader', getClosestElementWithCommonParent => {
   };
 });
 
-module.directive('rgTableBody', () => ({
+angularModule.directive('rgTableBody', () => ({
   restrict: 'E',
   template: '<tbody ng-transclude></tbody>',
   transclude: true,
   replace: true
 }));
 
-module.directive('rgTableRow', () => ({
+angularModule.directive('rgTableRow', () => ({
   template: require('./table-ng__row.html'),
   restrict: 'E',
   transclude: true,
@@ -397,7 +397,7 @@ module.directive('rgTableRow', () => ({
   }
 }));
 
-module.directive('rgTableHeaderCheckbox', () => ({
+angularModule.directive('rgTableHeaderCheckbox', () => ({
   restrict: 'E',
   require: '^rgTable',
   replace: true,
@@ -438,7 +438,7 @@ module.directive('rgTableHeaderCheckbox', () => ({
 /**
  * A checkbox cell for table. Uses rg-table-row parent directive as model hoster
  */
-module.directive('rgTableCheckboxCell', () => ({
+angularModule.directive('rgTableCheckboxCell', () => ({
   restrict: 'E',
   transclude: true,
   require: '^rgTableRow',
@@ -461,7 +461,7 @@ module.directive('rgTableCheckboxCell', () => ({
     active: makes title more bolder
   }}
  */
-module.directive('rgTableTitle', () => ({
+angularModule.directive('rgTableTitle', () => ({
   restrict: 'E',
   transclude: true,
   replace: true,
@@ -488,7 +488,7 @@ module.directive('rgTableTitle', () => ({
     avatar: for columns contains avatar
   }}
  */
-module.directive('rgTableColumn', () => ({
+angularModule.directive('rgTableColumn', () => ({
   restrict: 'E',
   transclude: true,
   replace: true,
@@ -523,6 +523,6 @@ module.directive('rgTableColumn', () => ({
 /**
  * Class with default hotkeys navigation actions (e.g. select, clear selection, move up/down)
  */
-module.constant('SelectionNavigateActions', SelectionNavigateActions);
+angularModule.constant('SelectionNavigateActions', SelectionNavigateActions);
 
-export default module.name;
+export default angularModule.name;

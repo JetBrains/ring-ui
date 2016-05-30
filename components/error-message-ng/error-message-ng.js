@@ -15,9 +15,9 @@ registerComponents({Icon});
    </rg-error-message>
  */
 
-const module = angular.module('Ring.error-message', [reactNg]);
+const angularModule = angular.module('Ring.error-message', [reactNg]);
 
-module.directive('rgErrorMessage', () => ({
+angularModule.directive('rgErrorMessage', () => ({
   replace: true,
   transclude: true,
   template: require('./error-message-ng.html'),
@@ -31,4 +31,4 @@ module.directive('rgErrorMessage', () => ({
   }
 }));
 
-export default module.name;
+export default angularModule.name;

@@ -12,7 +12,7 @@ import Button from '../button-ng/button-ng';
 
 import 'dom4';
 
-const module = angular.module('Ring.save-field', [
+const angularModule = angular.module('Ring.save-field', [
   MessageBundle,
 
 /**
@@ -200,7 +200,7 @@ const module = angular.module('Ring.save-field', [
  </example>
  */
 
-module.constant('rgSaveFieldShortcutsMode', {
+angularModule.constant('rgSaveFieldShortcutsMode', {
   id: 'ring-save-field',
   shortcuts: [
     {
@@ -226,7 +226,7 @@ module.constant('rgSaveFieldShortcutsMode', {
   ]
 });
 
-module.directive('rgSaveField', (RingMessageBundle, $timeout, $q, $compile, $parse) => {
+angularModule.directive('rgSaveField', (RingMessageBundle, $timeout, $q, $compile, $parse) => {
   const MULTI_LINE_SPLIT_PATTERN = /(\r\n|\n|\r)/gm;
   const MULTI_LINE_LIST_MODE = 'list';
   const CUSTOM_ERROR_ID = 'customError';
@@ -485,4 +485,4 @@ module.directive('rgSaveField', (RingMessageBundle, $timeout, $q, $compile, $par
   };
 });
 
-export default module.name;
+export default angularModule.name;

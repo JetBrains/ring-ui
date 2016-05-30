@@ -39,7 +39,7 @@
 */
 
 /* global angular: false */
-const module = angular.module('Ring.promised-click', []);
+const angularModule = angular.module('Ring.promised-click', []);
 
 class PromisedClickController {
   constructor($scope, $element, $attrs, $parse) {
@@ -93,6 +93,6 @@ function rgPromisedClickDirective() {
   };
 }
 
-module.directive('rgPromisedClick', rgPromisedClickDirective);
+angularModule.directive('rgPromisedClick', rgPromisedClickDirective);
 
-export default module.name;
+export default angularModule.name;
