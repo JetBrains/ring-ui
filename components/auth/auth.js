@@ -323,7 +323,7 @@ Auth.prototype.getSecure = function (absoluteUrl, accessToken, params) {
   }).
     // Empty response — strange case found in the wild
     // @see https://youtrack.jetbrains.com/issue/JT-31942
-    then(function (response = failedResponse) {
+    then((response = failedResponse) => {
       // Simulate $.ajax behavior
       // @see https://github.com/github/fetch#success-and-error-handlers
       if (response && response.status >= 200 && response.status < 300) {
@@ -693,14 +693,14 @@ Auth.prototype._loadTokenInBackground = function () {
           cleanUp();
         }, Auth.BACKGROUND_TIMEOUT);
 
-        const removeTokenListener = this._storage.onTokenChange(function (token) {
+        const removeTokenListener = this._storage.onTokenChange(token => {
           if (token !== null) {
             cleanUp();
             resolve(token.access_token);
           }
         });
 
-        const removeStateListener = this._storage.onStateChange(authRequest.stateId, function (state) {
+        const removeStateListener = this._storage.onStateChange(authRequest.stateId, state => {
           if (state && state.error) {
             cleanUp();
             reject(new AuthResponseParser.AuthError(state));

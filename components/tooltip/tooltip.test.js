@@ -7,7 +7,7 @@ import {isCompositeComponentWithType, renderIntoDocument} from 'react-addons-tes
 import Tooltip from './tooltip';
 import Popup from '../popup/popup';
 
-describe('Tooltip', function () {
+describe('Tooltip', () => {
   beforeEach(function () {
     this.tooltip = renderIntoDocument(Tooltip.factory({
       title: 'test tooltip',
@@ -20,13 +20,13 @@ describe('Tooltip', function () {
     isCompositeComponentWithType(this.tooltip, Tooltip).should.be.true;
   });
 
-  describe('Children', function () {
+  describe('Children', () => {
     it('should wrap text children', function () {
       this.tooltip.node.should.have.text('test elem');
       this.tooltip.node.should.match('span');
     });
 
-    it('should pass children as is', function () {
+    it('should pass children as is', () => {
       const tooltip = renderIntoDocument(Tooltip.factory({
         title: 'test tooltip',
         children: <div>{'test div'}</div>
@@ -45,7 +45,7 @@ describe('Tooltip', function () {
     });
   });
 
-  describe('Popup', function () {
+  describe('Popup', () => {
     it('should unbind listeners when empty title is provided', function () {
       const bindEvents = this.sinon.spy(this.tooltip.node, 'removeEventListener');
 
