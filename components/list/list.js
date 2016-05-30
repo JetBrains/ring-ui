@@ -701,7 +701,7 @@ export default class List extends RingComponentWithShortcuts {
                 element = ListTitle;
                 break;
               default:
-                throw new Error('Unknown menu element type: ' + props.rgItemType);
+                throw new Error(`Unknown menu element type: ${props.rgItemType}`);
             }
             return createElement(element, props, null);
           })}

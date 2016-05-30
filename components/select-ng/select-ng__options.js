@@ -26,7 +26,7 @@ class Options {
     let match;
     if (!(match = optionsString.match(this.constructor.OPTIONS_REGEXP))) {
       throw new Error('Bad rgSelect expression format. Expected: [{item}] [[as] item.text] [select as item.selectLabel]' +
-        ' [describe as {item.description}] [for] {item} in {items|dataSource(query)} [track by item.id], Received: ' + optionsString);
+        ` [describe as {item.description}] [for] {item} in {items|dataSource(query)} [track by item.id], Received: ${optionsString}`);
     }
 
     /**
@@ -96,7 +96,7 @@ class Options {
     });
 
     if (matchedOptions.length > 1) {
-      throw new Error('Error(rg-select): You can not have two options with same value(' + toString(value) + ')');
+      throw new Error(`Error(rg-select): You can not have two options with same value(${toString(value)})`);
     }
 
     return matchedOptions[0];

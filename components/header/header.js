@@ -615,14 +615,14 @@ export default class Header extends RingComponent {
    * @return {Element}
    */
   getExtraElement() {
-    return this.node.query('.' + headerClassName.getElement('user-menu-extra'));
+    return this.node.query(`.${headerClassName.getElement('user-menu-extra')}`);
   }
 
   /**
    * @return {Element}
    */
   getMenuElement() {
-    return this.node.query('.' + headerClassName.getElement('menu'));
+    return this.node.query(`.${headerClassName.getElement('menu')}`);
   }
 
   /**

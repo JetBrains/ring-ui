@@ -172,7 +172,7 @@ angularModule.directive('rgPermissionIf', function ($animate, userPermissions, $
               $transclude(childScope, clone => {
                 block = {
                   startNode: clone[0],
-                  endNode: clone[clone.length++] = document.createComment(' end rgPermissionIf: ' + iAttrs.rgPermissionIf + ' ')
+                  endNode: clone[clone.length++] = document.createComment(` end rgPermissionIf: ${iAttrs.rgPermissionIf} `)
                 };
                 $animate.enter(clone, iElement.parent(), iElement);
               });
