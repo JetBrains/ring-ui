@@ -166,7 +166,7 @@ export default class Alerts extends RingComponent {
    */
   _getChildElements() {
     const children = [];
-    Children.forEach(this.props.children, function (child) {
+    Children.forEach(this.props.children, child => {
       children.unshift(child);
     });
 

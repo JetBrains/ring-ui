@@ -413,9 +413,7 @@ export default class List extends RingComponentWithShortcuts {
   }
 
   getFirst() {
-    return this.props.data.find(function (item) {
-      return item.rgItemType === Type.ITEM;
-    });
+    return this.props.data.find(item => item.rgItemType === Type.ITEM);
   }
 
   getSelected() {

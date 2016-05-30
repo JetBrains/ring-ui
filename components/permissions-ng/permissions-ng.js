@@ -94,32 +94,30 @@ angularModule.provider('userPermissions', function () {
  * @element ANY
  * @requires userPermissions
  */
-angularModule.directive('rgPermission', function (userPermissions, $interpolate) {
-  return {
-    controller($scope, $element, $attrs) {
-      const element = $element[0];
+angularModule.directive('rgPermission', (userPermissions, $interpolate) => ({
+  controller($scope, $element, $attrs) {
+    const element = $element[0];
 
-      //noinspection JSPotentiallyInvalidUsageOfThis
-      this.permitted = false;
+    //noinspection JSPotentiallyInvalidUsageOfThis
+    this.permitted = false;
 
-      element.classList.add('ring-permission-hide');
+    element.classList.add('ring-permission-hide');
 
-      const permission = $interpolate($attrs.rgPermission)($scope);
+    const permission = $interpolate($attrs.rgPermission)($scope);
 
-      const projectId = $attrs.hasOwnProperty('inGlobal') ? PermissionsCache.GLOBAL_PROJECT_ID : $scope.$eval($attrs.inProject);
+    const projectId = $attrs.hasOwnProperty('inGlobal') ? PermissionsCache.GLOBAL_PROJECT_ID : $scope.$eval($attrs.inProject);
 
-      userPermissions.check(permission, projectId).
-        then(permitted => {
-          this.permitted = permitted;
-          if (permitted) {
-            element.classList.remove('ring-permission-hide');
-          }
-          return permitted;
-        }).
-        then(registerPermission($element));
-    }
-  };
-});
+    userPermissions.check(permission, projectId).
+      then(permitted => {
+        this.permitted = permitted;
+        if (permitted) {
+          element.classList.remove('ring-permission-hide');
+        }
+        return permitted;
+      }).
+      then(registerPermission($element));
+  }
+}));
 
 /**
  * @ngdoc directive
@@ -149,51 +147,49 @@ angularModule.directive('rgPermission', function (userPermissions, $interpolate)
  * @requires $animate
  * @requires userPermissions
  */
-angularModule.directive('rgPermissionIf', function ($animate, userPermissions, $interpolate) {
-  return {
-    transclude: 'element',
-    priority: 600,
-    terminal: true,
-    restrict: 'A',
-    require: '^?rgSomePermissions',
-    link(scope, iElement, iAttrs, somePermittedCtrl, $transclude) {
-      let block;
-      let childScope;
+angularModule.directive('rgPermissionIf', ($animate, userPermissions, $interpolate) => ({
+  transclude: 'element',
+  priority: 600,
+  terminal: true,
+  restrict: 'A',
+  require: '^?rgSomePermissions',
+  link(scope, iElement, iAttrs, somePermittedCtrl, $transclude) {
+    let block;
+    let childScope;
 
-      const projectId = iAttrs.hasOwnProperty('inGlobal') ? PermissionsCache.GLOBAL_PROJECT_ID : scope.$eval(iAttrs.inProject);
+    const projectId = iAttrs.hasOwnProperty('inGlobal') ? PermissionsCache.GLOBAL_PROJECT_ID : scope.$eval(iAttrs.inProject);
 
-      const permission = $interpolate(iAttrs.rgPermissionIf)(scope);
+    const permission = $interpolate(iAttrs.rgPermissionIf)(scope);
 
-      userPermissions.check(permission, projectId).
-        then(permitted => {
-          if (permitted) {
-            if (!childScope) {
-              childScope = scope.$new();
-              $transclude(childScope, clone => {
-                block = {
-                  startNode: clone[0],
-                  endNode: clone[clone.length++] = document.createComment(` end rgPermissionIf: ${iAttrs.rgPermissionIf} `)
-                };
-                $animate.enter(clone, iElement.parent(), iElement);
-              });
-            }
-          } else {
-            if (childScope) {
-              childScope.$destroy();
-              childScope = null;
-            }
-
-            if (block) {
-              /* global getBlockElements: false */
-              $animate.leave(getBlockElements(block));
-              block = null;
-            }
+    userPermissions.check(permission, projectId).
+      then(permitted => {
+        if (permitted) {
+          if (!childScope) {
+            childScope = scope.$new();
+            $transclude(childScope, clone => {
+              block = {
+                startNode: clone[0],
+                endNode: clone[clone.length++] = document.createComment(` end rgPermissionIf: ${iAttrs.rgPermissionIf} `)
+              };
+              $animate.enter(clone, iElement.parent(), iElement);
+            });
           }
-        }).
-        then(registerPermission(iElement));
-    }
-  };
-});
+        } else {
+          if (childScope) {
+            childScope.$destroy();
+            childScope = null;
+          }
+
+          if (block) {
+            /* global getBlockElements: false */
+            $animate.leave(getBlockElements(block));
+            block = null;
+          }
+        }
+      }).
+      then(registerPermission(iElement));
+  }
+}));
 
 /**
  * @ngdoc directive
@@ -221,38 +217,36 @@ angularModule.directive('rgPermissionIf', function ($animate, userPermissions, $
  * @restrict A
  * @element ANY
  */
-angularModule.directive('rgSomePermissions', function () {
-  return {
-    scope: {
-      rgSomePermissions: '='
-    },
-    controller($scope) {
-      const permissions = [];
-      $scope.rgSomePermissions = false;
+angularModule.directive('rgSomePermissions', () => ({
+  scope: {
+    rgSomePermissions: '='
+  },
+  controller($scope) {
+    const permissions = [];
+    $scope.rgSomePermissions = false;
 
-      function checkPermissions() {
-        for (let i = permissions.length - 1; i >= 0; i--) {
-          if (permissions[i].permitted) {
-            $scope.rgSomePermissions = true;
-            return;
-          }
+    function checkPermissions() {
+      for (let i = permissions.length - 1; i >= 0; i--) {
+        if (permissions[i].permitted) {
+          $scope.rgSomePermissions = true;
+          return;
         }
-
-        $scope.rgSomePermissions = false;
       }
 
-      //noinspection JSPotentiallyInvalidUsageOfThis
-      this.registerPermission = () => {
-        const permission = {permitted: false};
-        permissions.push(permission);
-
-        return permitted => {
-          permission.permitted = permitted;
-          checkPermissions();
-        };
-      };
+      $scope.rgSomePermissions = false;
     }
-  };
-});
+
+    //noinspection JSPotentiallyInvalidUsageOfThis
+    this.registerPermission = () => {
+      const permission = {permitted: false};
+      permissions.push(permission);
+
+      return permitted => {
+        permission.permitted = permitted;
+        checkPermissions();
+      };
+    };
+  }
+}));
 
 export default angularModule.name;

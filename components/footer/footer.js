@@ -164,16 +164,12 @@ export default class Footer extends RingComponent {
         <FooterColumn
           key={position}
           position={position}
-        >{
-          elements.map(function (item, idx) {
-            return (
-              <FooterLine
-                key={idx}
-                item={item}
-              />
-            );
-          })
-        }</FooterColumn>
+        >{elements.map((item, idx) => (
+          <FooterLine
+            key={idx}
+            item={item}
+          />
+        ))}</FooterColumn>
       );
     }
 

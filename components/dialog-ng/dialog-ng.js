@@ -570,7 +570,7 @@ function rgDialogContentDirective($compile, $q) {
         }
 
         return $q.when(scope.dialog.compileTemplate()).
-          then(function (compiledData) {
+          then(compiledData => {
             const templateScope = isOldDataAPI() ? contentScope : (scope.dialog.config.scope || contentScope);
 
             // XXX(maksimrv): We should put element to directive

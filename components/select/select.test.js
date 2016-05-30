@@ -6,7 +6,7 @@ import renderIntoDocument from 'render-into-document';
 import RingComponent from '../ring-component/ring-component';
 
 
-describe('Select', function () {
+describe('Select', () => {
   const testData = [
     {key: 1, label: 'first1', type: List.ListProps.Type.ITEM},
     {key: 2, label: 'test2', type: List.ListProps.Type.ITEM},
@@ -32,7 +32,7 @@ describe('Select', function () {
     expect(this.select.state.selected).to.equal(this.select.props.selected);
   });
 
-  it('Should provide select types', function () {
+  it('Should provide select types', () => {
     expect(Select.Type).to.be.defined;
     expect(Select.Type.BUTTON).to.be.defined;
     expect(Select.Type.INPUT).to.be.defined;
@@ -124,7 +124,7 @@ describe('Select', function () {
     this.select.props.onAdd.should.been.calledOnce;
   });
 
-  describe('DOM', function () {
+  describe('DOM', () => {
     it('Should place select button inside container', function () {
       this.select.node.should.have.class('ring-select');
     });
@@ -173,7 +173,7 @@ describe('Select', function () {
       this.select.node.should.contain('.ring-select__icons');
     });
 
-    describe('Bottom toolbar', function () {
+    describe('Bottom toolbar', () => {
       it('Should not add "Add" button if enabled but filter query is empty', function () {
         this.select.rerender({add: true});
         this.select.filterValue = this.sinon.stub().returns('');
@@ -228,7 +228,7 @@ describe('Select', function () {
     });
   });
 
-  describe('getListItems', function () {
+  describe('getListItems', () => {
     it('Should filter items by label', function () {
       const filtered = this.select.getListItems('test3');
       filtered.length.should.equal(1);
@@ -278,7 +278,7 @@ describe('Select', function () {
     });
   });
 
-  describe('Filtering', function () {
+  describe('Filtering', () => {
     it('Should call onFilter on input changes', function () {
       TestUtils.Simulate.input(this.select._popup.refs.filter.node);
       this.select.props.onFilter.should.been.called;
@@ -315,7 +315,7 @@ describe('Select', function () {
     });
   });
 
-  describe('Multiple', function () {
+  describe('Multiple', () => {
     let selectedArray;
 
     beforeEach(function () {
@@ -383,7 +383,7 @@ describe('Select', function () {
       this.select.getListItems(this.select.filterValue())[0].checkbox.should.be.false;
     });
 
-    describe('On selecting', function () {
+    describe('On selecting', () => {
       it('Should add item to multiple map on selecting item', function () {
         this.select._listSelectHandler(testData[3]);
         this.select._multipleMap['4'].should.be.true;
@@ -402,7 +402,7 @@ describe('Select', function () {
       });
     });
 
-    describe('On deselecting', function () {
+    describe('On deselecting', () => {
       it('Should remove item from selected on deselecting', function () {
         const lengthBefore = selectedArray.length;
         this.select._listSelectHandler(testData[0]);
@@ -420,7 +420,7 @@ describe('Select', function () {
 
   });
 
-  describe('On selecting', function () {
+  describe('On selecting', () => {
     it('Should not react on selecting disabled element', function () {
       this.select.setState = this.sinon.spy();
 
@@ -485,8 +485,8 @@ describe('Select', function () {
     });
   });
 
-  describe('Popup', function () {
-    it('Should pass container to popup', function () {
+  describe('Popup', () => {
+    it('Should pass container to popup', () => {
       const popupContainer = document.createElement('div');
 
       const select = renderIntoDocument(React.createElement(Select, {
