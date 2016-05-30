@@ -105,6 +105,8 @@ AuthStorage.prototype.cleanStates = function (removeStateId) {
         size: JSON.stringify(state).length
       };
     }
+
+    return undefined;
   }).then(removalResult => {
     const currentStates = removalResult.filter(state => state);
 
@@ -126,6 +128,8 @@ AuthStorage.prototype.cleanStates = function (removeStateId) {
 
       return removalPromises.length && Promise.all(removalPromises);
     }
+
+    return undefined;
   });
 };
 

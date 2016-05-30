@@ -79,6 +79,8 @@ name.factory('RgTooltipPopup', () => function (element, template) {
         if (evt && element.contains(evt.target)) {
           return false;
         }
+
+        return undefined;
       }
     }, template));
   };

@@ -120,6 +120,8 @@ export default class SelectPopup extends RingComponentWithShortcuts {
         </div>
       );
     }
+
+    return null;
   }
 
   getBottomLine() {
@@ -148,6 +150,8 @@ export default class SelectPopup extends RingComponentWithShortcuts {
         />
       );
     }
+
+    return null;
   }
 
   render() {
