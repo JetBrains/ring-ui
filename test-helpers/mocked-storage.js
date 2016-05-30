@@ -2,6 +2,7 @@
 /* eslint-disable prefer-reflect */
 /* eslint-disable prefer-arrow-callback */
 /* eslint-disable prefer-template */
+/* eslint-disable object-shorthand */
 /* eslint-disable modules/no-cjs */
 
 var mixIn = require('mout/object/mixIn');
@@ -41,7 +42,7 @@ function MockedStorage() {
 
   function dispatchEvent(key, value) {
     var storageEvent = new StorageEvent('storage', {
-      key,
+      key: key,
       oldValue: storage[key],
       newValue: value,
       url: '/'
