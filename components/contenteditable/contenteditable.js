@@ -6,6 +6,8 @@ import React from 'react';
 import {renderToStaticMarkup} from 'react-dom/server';
 import RingComponent from '../ring-component/ring-component';
 
+function noop() {}
+
 /**
  * @name ContentEditable
  * @constructor
@@ -42,8 +44,8 @@ export default class ContentEditable extends RingComponent {
 
   static defaultProps = {
     disabled: false,
-    onInput: function () {},
-    onComponentUpdate: function () {}
+    onInput: noop,
+    onComponentUpdate: noop
   };
 
   state = {};

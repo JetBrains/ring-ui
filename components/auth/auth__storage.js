@@ -100,7 +100,7 @@ AuthStorage.prototype.cleanStates = function (removeStateId) {
 
       // Data to clean up due quota
       return {
-        key: key,
+        key,
         created: state.created,
         size: JSON.stringify(state).length
       };

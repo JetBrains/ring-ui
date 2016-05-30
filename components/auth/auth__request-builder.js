@@ -50,7 +50,7 @@ AuthRequestBuilder.prototype.prepareAuthRequest = function (extraParams, extraSt
   return this._saveState(stateId, state).then(function () {
     return {
       url: authURL,
-      stateId: stateId
+      stateId
     };
   });
 };

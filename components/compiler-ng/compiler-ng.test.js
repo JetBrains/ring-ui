@@ -79,7 +79,7 @@ describe('rgCompiler', function () {
     compiler({
       template: '<div>{{myCtrl.text}}</div>',
       controllerAs: 'myCtrl',
-      controller: function () {
+      controller() {
         this.text = text;
       }
     }).then(data => (compileData = data));
@@ -127,7 +127,7 @@ describe('rgCompiler', function () {
     compiler({
       template: '<div>{{text}}</div>',
       resolve: {
-        textResolve: function ($q) {
+        textResolve($q) {
           return $q.when(text);
         }
       },
@@ -155,7 +155,7 @@ describe('rgCompiler', function () {
     compiler({
       template: '<div>{{myCtrl.textResolve}}</div>',
       resolve: {
-        textResolve: function ($q) {
+        textResolve($q) {
           return $q.when(text);
         }
       },

@@ -96,11 +96,11 @@ class HintPopupService {
 
     return this.dialog.show({
       template: HintPopupTpl,
-      title: title,
+      title,
       closeOnClick: true,
       wideDialog: true,
       controllerAs: 'hintPopupCtrl',
-      controller: function () {
+      controller() {
         /*eslint-disable consistent-this*/
         const ctrl = this;
         /*eslint-enable consistent-this*/

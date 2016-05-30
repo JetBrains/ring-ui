@@ -350,8 +350,8 @@ export default class Popup extends RingComponentWithShortcuts {
   };
 
   static PopupProps = {
-    Directions: Directions,
-    Dimension: Dimension
+    Directions,
+    Dimension
   };
 
   /**

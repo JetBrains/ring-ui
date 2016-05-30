@@ -51,7 +51,7 @@ angularModule.directive('rgIcon', function () {
       width: '@?'
     },
     template: require('./icon-ng.html'),
-    link: function (scope, iElement, iAttrs) {
+    link(scope, iElement, iAttrs) {
       iAttrs.$addClass('ring-icon');
 
       scope.resolveGlyph = ::urlUtils.resolveRelativeURL;
