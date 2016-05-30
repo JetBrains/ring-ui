@@ -20,7 +20,7 @@ describe('RingComponentWithShortcuts', () => {
     simulateKeypress(key, 65);
   }
 
-  beforeEach(() => {
+  beforeEach(function () {
     const stub = this.stub = this.sinon.stub();
     shortcuts.reset();
 
