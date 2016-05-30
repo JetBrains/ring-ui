@@ -26,8 +26,8 @@ describe('ListUsersGroupsSource', () => {
       userCount: 123
     }]));
 
-    return source.getForList()
-      .then(dataForList => {
+    return source.getForList().
+      then(dataForList => {
         dataForList.should.contain({
           id: 1,
           login: 'testUser',
@@ -58,8 +58,8 @@ describe('ListUsersGroupsSource', () => {
       userCount: 123
     }]));
 
-    return source.getForList()
-      .then(dataForList => {
+    return source.getForList().
+      then(dataForList => {
         dataForList.should.contain({
           id: 1,
           key: 1,
@@ -89,8 +89,8 @@ describe('ListUsersGroupsSource', () => {
       userCount: 123
     }]));
 
-    return source.getForList()
-      .then(dataForList => {
+    return source.getForList().
+      then(dataForList => {
         dataForList[1].description.should.equal('123 text');
       });
   });
@@ -100,10 +100,11 @@ describe('ListUsersGroupsSource', () => {
 
     this.sinon.stub(source, 'getUsers').returns(Promise.resolve([]));
 
-    this.sinon.stub(source, 'getGroups').returns(Promise.resolve([{id: 1, name: 'test group'}]));
+    this.sinon.stub(source, 'getGroups').
+      returns(Promise.resolve([{id: 1, name: 'test group'}]));
 
-    return source.getForList()
-      .then(dataForList => {
+    return source.getForList().
+      then(dataForList => {
         dataForList[2].description.should.equal('No users');
       });
   });
@@ -119,8 +120,8 @@ describe('ListUsersGroupsSource', () => {
 
     this.sinon.stub(source, 'getGroups').returns(Promise.resolve([]));
 
-    return source.getForList()
-      .then(dataForList => {
+    return source.getForList().
+      then(dataForList => {
         dataForList[0].description.should.equal('No groups');
       });
   });

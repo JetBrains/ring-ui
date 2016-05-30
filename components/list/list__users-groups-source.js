@@ -27,8 +27,8 @@ export default class ListUsersGroupsSource extends HubSourceUsersGroups {
   }
 
   getForList(query) {
-    return this.getUserAndGroups(query)
-      .then(([users, groups]) => {
+    return this.getUserAndGroups(query).
+      then(([users, groups]) => {
         const groupsTitle = {
           rgItemType: List.ListProps.Type.SEPARATOR,
           key: 1,

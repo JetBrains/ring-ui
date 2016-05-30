@@ -96,7 +96,7 @@ function sortServices(itemA, itemB) {
   const bApplicationName = itemB.applicationName || '';
 
   return aApplicationName.localeCompare(bApplicationName) ||
-         itemA.name.localeCompare(itemB.name);
+    itemA.name.localeCompare(itemB.name);
 }
 
 /**
@@ -342,12 +342,12 @@ export default class Header extends RingComponent {
 
       this.navigationPopup = PopupMenu.renderPopup(
         <PopupMenu
-          anchorElement = {this.refs.navigationMenu.node}
-          autoRemove = {true}
-          className = {this.props.popupClassName}
-          data = {menuPopupData}
-          directions = {[PopupMenu.PopupProps.Directions.BOTTOM_LEFT]}
-          sidePadding = {32}
+          anchorElement={this.refs.navigationMenu.node}
+          autoRemove={true}
+          className={this.props.popupClassName}
+          data={menuPopupData}
+          directions={[PopupMenu.PopupProps.Directions.BOTTOM_LEFT]}
+          sidePadding={32}
         />
       );
     }
@@ -362,15 +362,15 @@ export default class Header extends RingComponent {
     return (
       <div className={headerClassName.getElement('menu')}>
         <span>
-          <a className = "ring-link"
-            href = {firstMenuElement.props.url}
+          <a className="ring-link"
+            href={firstMenuElement.props.url}
           >{firstMenuElement.children}</a>
           <Icon
-            ref = {MenuItemType.NAVIGATION_MENU}
-            className = "ring-header__menu__dropdown"
-            glyph = {require('jetbrains-icons/caret-down.svg')}
-            size = {Icon.Size.Size16}
-            onClick = {::this._setNavigationPopupMenu}
+            ref={MenuItemType.NAVIGATION_MENU}
+            className="ring-header__menu__dropdown"
+            glyph={require('jetbrains-icons/caret-down.svg')}
+            size={Icon.Size.Size16}
+            onClick={::this._setNavigationPopupMenu}
           />
         </span>
       </div>
@@ -382,7 +382,7 @@ export default class Header extends RingComponent {
    */
   _getNavigationMenu() {
     if (this.props.layout !== HeaderHelper.layout.DEFAULT &&
-        this.props.menu.length > 1) {
+      this.props.menu.length > 1) {
       return this._getNavigationMenuCompactLayout();
     } else {
       return this._getNavigationMenuDefaultLayout();
@@ -472,10 +472,9 @@ export default class Header extends RingComponent {
   }
 
   _getPopupTopLine() {
-    return this.props.servicesList
-      .sort(sortServices)
-      .filter(Header.isTopLineService)
-      .map(item => this._renderServiceLinkWithLogo(item, getServiceLogo(item, headerClassName.getElement('services-logo_top-line'), Icon.Size.Size32)));
+    return this.props.servicesList.sort(sortServices).
+      filter(Header.isTopLineService).
+      map(item => this._renderServiceLinkWithLogo(item, getServiceLogo(item, headerClassName.getElement('services-logo_top-line'), Icon.Size.Size32)));
   }
 
   /**
@@ -486,10 +485,9 @@ export default class Header extends RingComponent {
     const iconsList = [];
     const linksList = [];
 
-    this.props.servicesList
-      .sort(sortServices)
-      .filter(service => !Header.isTopLineService(service))
-      .forEach(function (item) {
+    this.props.servicesList.sort(sortServices).
+      filter(service => !Header.isTopLineService(service)).
+      forEach(function (item) {
         if (!item.homeUrl) {
           return;
         }
@@ -582,7 +580,9 @@ export default class Header extends RingComponent {
     }
 
     return (
-      <a href={this.props.rootUrl || urlUtils.getBaseURI() || '/'}>{getLogoContent()}</a>
+      <a
+        href={this.props.rootUrl || urlUtils.getBaseURI() || '/'}
+      >{getLogoContent()}</a>
     );
   }
 

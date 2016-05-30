@@ -35,14 +35,14 @@ describe('Shortcuts ng hint', () => {
 
     it('Should replace action keys with symbols on mac', function () {
       this.sinon.stub(sniffer, 'os', {name: 'macos'});
-      shortcutKeySymbolFilter('ctrl+alt+shift+enter+up+down+left+right+backspace')
-        .should.be.equal('⌃ ⌥ ⇧ ⏎ ↑ ↓ ← → ⌫');
+      shortcutKeySymbolFilter('ctrl+alt+shift+enter+up+down+left+right+backspace').
+        should.be.equal('⌃ ⌥ ⇧ ⏎ ↑ ↓ ← → ⌫');
     });
 
     it('Should replace action keys with key names on windows', function () {
       this.sinon.stub(sniffer, 'os', {name: 'windows'});
-      shortcutKeySymbolFilter('ctrl+alt+shift+enter+up+down+left+right+backspace+f4')
-        .should.be.equal('Ctrl + Alt + Shift + Enter + Up + Down + Left + Right + Backspace + F4');
+      shortcutKeySymbolFilter('ctrl+alt+shift+enter+up+down+left+right+backspace+f4').
+        should.be.equal('Ctrl + Alt + Shift + Enter + Up + Down + Left + Right + Backspace + F4');
     });
   });
 

@@ -68,8 +68,8 @@ AuthStorage.prototype.onStateChange = function (stateKey, fn) {
 AuthStorage.prototype.saveState = function (id, state, dontCleanAndRetryOnFail) {
   state.created = Date.now();
 
-  return this._stateStorage.set(this.stateKeyPrefix + id, state)
-    .catch(e => {
+  return this._stateStorage.set(this.stateKeyPrefix + id, state).
+    catch(e => {
       if (!dontCleanAndRetryOnFail) {
         return this.cleanStates().then(() => this.saveState(id, state, true));
       } else {
@@ -136,8 +136,8 @@ AuthStorage.prototype.cleanStates = function (removeStateId) {
  * @return {Promise.<StoredState>}
  */
 AuthStorage.prototype.getState = function (id) {
-  return this._stateStorage.get(this.stateKeyPrefix + id)
-    .then(
+  return this._stateStorage.get(this.stateKeyPrefix + id).
+    then(
       result => this.cleanStates(id).then(() => result),
       e => this.cleanStates(id).then(() => Promise.reject(e))
     );

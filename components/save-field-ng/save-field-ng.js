@@ -15,9 +15,9 @@ import 'dom4';
 const angularModule = angular.module('Ring.save-field', [
   MessageBundle,
 
-/**
- * for error-bubble
- */
+  /**
+   * for error-bubble
+   */
   Form,
   Shortcuts,
   Button
@@ -314,9 +314,9 @@ angularModule.directive('rgSaveField', (RingMessageBundle, $timeout, $q, $compil
           }));
         }
 
-        onsave
-          .then(success, error)
-          .then(() => {
+        onsave.
+          then(success, error).
+          then(() => {
             scope.loading = false;
           });
       }
@@ -395,15 +395,16 @@ angularModule.directive('rgSaveField', (RingMessageBundle, $timeout, $q, $compil
           });
         }
 
-        $q.when(promise)
-          .then(error => {
+        $q.when(promise).
+          then(error => {
             if (error) {
               return $q.reject(error);
             } else {
               customError.message = '';
               scope.saveFieldForm.$setValidity(CUSTOM_ERROR_ID, true, customError);
             }
-          }).catch(error => {
+          }).
+          catch(error => {
             customError.message = error;
             scope.saveFieldForm.$setValidity(CUSTOM_ERROR_ID, false, customError);
           });

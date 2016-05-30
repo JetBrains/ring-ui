@@ -171,14 +171,13 @@ angularModule.directive('rgErrorPage', [
   'getErrorPagePresentation',
   '$q',
   '$compile',
-  (
-    errorPageConfiguration,
-    $route,
-    userPermissions,
-    $log,
-    getErrorPagePresentation,
-    $q,
-    $compile) => {
+  (errorPageConfiguration,
+   $route,
+   userPermissions,
+   $log,
+   getErrorPagePresentation,
+   $q,
+   $compile) => {
     function getArgumentPromise(errorSource, errorPageParameterPresentation) {
       const promise = errorSource && (errorSource.$promise || errorSource.promise);
 
@@ -280,8 +279,8 @@ angularModule.directive('rgErrorPage', [
             handleError(errorSource.error);
             $log.debug(`Navigation: errorSource ${iAttrs.rgErrorPage} not permitted, status: ${status}`);
           } else {
-            getArgumentPromise(errorSource, iAttrs.rgErrorPage)
-              .then(handleSuccess, handleError);
+            getArgumentPromise(errorSource, iAttrs.rgErrorPage).
+              then(handleSuccess, handleError);
           }
         }, handleError);
       }

@@ -106,13 +106,13 @@ const files = getFilesFromArguments();
 
 console.info(chalk.blue('Files to run on:'), files);
 
-checkUrlAvailability(docsiteUrl)
-  .catch(err => {
+checkUrlAvailability(docsiteUrl).
+  catch(err => {
     console.error(chalk.red('URL "%s" is not available (%s).' +
       ' Did you forget to run "npm start" before gemini test?'), docsiteUrl, err.code);
     handleGeminiError({message: 'Run "npm start" before'});
-  })
-  .then(() => {
+  }).
+  then(() => {
     if (isGather) {
       console.log(chalk.blue('Gathering references for file:', files[0]));
       if (files.length > 1) {
@@ -121,22 +121,22 @@ checkUrlAvailability(docsiteUrl)
       if (files.length === 0) {
         throw new Error('You did not specify a file to gather. Use "npm run gemini-gather components/select/*.gemini.js" for example');
       }
-      gemini.update(files, {})
-        .then(res => {
+      gemini.update(files, {}).
+        then(res => {
           console.log(chalk.green('Gather done'), res);
-        })
-        .fail(handleGeminiError);
+        }).
+        fail(handleGeminiError);
 
     } else {
       gemini.test(files, {
         reporters: ['html']
-      })
-        .then(res => {
+      }).
+        then(res => {
           console.log(chalk.green('Test done'), res);
           if (res.failed || res.errored) {
             throw new Error('Not all tests passed successfully');
           }
-        })
-        .fail(handleGeminiError);
+        }).
+        fail(handleGeminiError);
     }
   });
