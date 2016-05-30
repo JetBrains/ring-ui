@@ -1,26 +1,26 @@
 import gemini from 'gemini';
 
 gemini.suite('CheckboxNg', parent => {
-  parent
-    .setUrl('/example-checkbox-ng/')
-    .setCaptureElements('p')
-    .capture('default')
-    .capture('hovered', (actions, find) => {
+  parent.
+    setUrl('/example-checkbox-ng/').
+    setCaptureElements('p').
+    capture('default').
+    capture('hovered', (actions, find) => {
       actions.mouseMove(find('.ring-checkbox'));
-    })
-    .capture('checked', (actions, find) => {
+    }).
+    capture('checked', (actions, find) => {
       actions.click(find('#checkButton'));
     });
 
   gemini.suite('disabled', child => {
-    child
-      .capture('disabled', (actions, find) => {
+    child.
+      capture('disabled', (actions, find) => {
         actions.click(find('#disableButton'));
-      })
-      .capture('hovered', (actions, find) => {
+      }).
+      capture('hovered', (actions, find) => {
         actions.mouseMove(find('.ring-checkbox'));
-      })
-      .capture('checked-disabled', (actions, find) => {
+      }).
+      capture('checked-disabled', (actions, find) => {
         actions.click(find('#checkButton'));
       });
   });

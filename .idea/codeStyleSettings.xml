@@ -17,6 +17,9 @@
         </option>
         <option name="RIGHT_MARGIN" value="80" />
         <option name="HTML_ALIGN_ATTRIBUTES" value="false" />
+§        <JSCodeStyleSettings>
+          <option name="CHAINED_CALL_DOT_ON_NEW_LINE" value="false" />
+        </JSCodeStyleSettings>
         <XML>
           <option name="XML_LEGACY_SETTINGS_IMPORTED" value="true" />
         </XML>
@@ -40,8 +43,13 @@
           </indentOptions>
         </codeStyleSettings>
         <codeStyleSettings language="JavaScript">
+          <option name="METHOD_CALL_CHAIN_WRAP" value="5" />
           <option name="KEEP_SIMPLE_BLOCKS_IN_ONE_LINE" value="true" />
           <option name="KEEP_SIMPLE_METHODS_IN_ONE_LINE" value="true" />
+          <option name="IF_BRACE_FORCE" value="3" />
+          <option name="DOWHILE_BRACE_FORCE" value="3" />
+          <option name="WHILE_BRACE_FORCE" value="3" />
+          <option name="FOR_BRACE_FORCE" value="3" />
           <indentOptions>
             <option name="INDENT_SIZE" value="2" />
             <option name="CONTINUATION_INDENT_SIZE" value="2" />

@@ -1,8 +1,8 @@
 import gemini from 'gemini';
 
 gemini.suite('Old-browser-message', suite => {
-  suite
-    .setUrl('/example-old-browsers-message/')
-    .setCaptureElements('.ring-old-browsers-message')
-    .capture('plain');
+  suite.
+    setUrl('/example-old-browsers-message/').
+    setCaptureElements('.ring-old-browsers-message').
+    capture('plain');
 });

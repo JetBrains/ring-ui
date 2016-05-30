@@ -1,7 +1,7 @@
 /* global angular: false */
 
-const angularModule = angular.module('Ring.compiler', [])
-  .factory('rgCompiler', function ($q, $controller, $injector, $compile) {
+const angularModule = angular.module('Ring.compiler', []).
+  factory('rgCompiler', function ($q, $controller, $injector, $compile) {
 
     // The rgCompiler service is an abstraction of angular's compiler,
     // that allows the developer
@@ -26,7 +26,9 @@ const angularModule = angular.module('Ring.compiler', [])
       angular.extend(resolve, options.locals);
 
       return $q.all(resolve).then(function (locals) {
-        const element = options.element || angular.element('<div>').html(template.trim()).contents();
+        const element = options.element || angular.element('<div>').
+            html(template.trim()).
+            contents();
         const linkFn = $compile(element);
 
         return {

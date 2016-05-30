@@ -198,12 +198,12 @@ Auth.prototype.init = function () {
       });
   }
 
-  return this._checkForAuthResponse()
-    .catch(error => {
+  return this._checkForAuthResponse().
+    catch(error => {
       if (error.stateId) {
-        return this._storage.getState(error.stateId)
-          .catch(() => Promise.reject(error))
-          .then(state => {
+        return this._storage.getState(error.stateId).
+          catch(() => Promise.reject(error)).
+          then(state => {
             if (state && state.nonRedirect) {
               state.error = error;
               this._storage.saveState(error.stateId, state);
@@ -270,8 +270,8 @@ Auth.prototype.validateToken = function () {
  */
 Auth.prototype.requestToken = function () {
   return this._initDeferred.promise.then(() =>
-    this._getValidatedToken([Auth._validateExistence, Auth._validateExpiration, ::this._validateScopes])
-      .catch(() => this.forceTokenUpdate())
+    this._getValidatedToken([Auth._validateExistence, Auth._validateExpiration, ::this._validateScopes]).
+      catch(() => this.forceTokenUpdate())
   );
 };
 
@@ -280,18 +280,18 @@ Auth.prototype.requestToken = function () {
  * @return {Promise.<string>}
  */
 Auth.prototype.forceTokenUpdate = function () {
-  return this._loadTokenInBackground()
-    .then(accessToken => this.getApi(Auth.API_PROFILE_PATH, accessToken, this.config.userParams)
-      .then(user => {
+  return this._loadTokenInBackground().
+    then(accessToken => this.getApi(Auth.API_PROFILE_PATH, accessToken, this.config.userParams).
+      then(user => {
         if (user && this.user && this.user.id !== user.id) {
           // Reload page if user has been changed after background refresh
           this._redirectCurrentPage(window.location.href);
         }
         return accessToken;
       })
-    )
-    .catch(e => this._requestBuilder.prepareAuthRequest()
-      .then(authRequest => {
+    ).
+    catch(e => this._requestBuilder.prepareAuthRequest().
+      then(authRequest => {
         this._redirectCurrentPage(authRequest.url);
         return Auth._authRequiredReject(e.message);
       })
@@ -455,7 +455,9 @@ Auth.prototype._checkForAuthResponse = function () {
           const expires = Auth._epoch() + expiresIn;
           const access_token = authResponse.access_token;
 
-          return this._storage.saveToken({access_token, scopes, expires}).then(() => state);
+          return this._storage.
+            saveToken({access_token, scopes, expires}).
+            then(() => state);
         });
     });
 };
@@ -568,15 +570,15 @@ Auth.prototype._validateAgainstUser = function (storedToken) {
     return Promise.resolve(storedToken);
   }
 
-  return this.getApi(Auth.API_PROFILE_PATH, storedToken.access_token, this.config.userParams)
-    .then(user => {
+  return this.getApi(Auth.API_PROFILE_PATH, storedToken.access_token, this.config.userParams).
+    then(user => {
       this.user = user;
       return storedToken;
-    })
-    .catch(errorResponse => errorResponse.response.json()
+    }).
+    catch(errorResponse => errorResponse.response.json().
       // Skip JSON parsing errors
-      .catch(() => ({}))
-      .then(response => {
+      catch(() => ({})).
+      then(response => {
         if (errorResponse.status === 401 || Auth.shouldRefreshToken(response.error)) {
           // Token expired
           return Auth._authRequiredReject(response.error || errorResponse.message);
@@ -666,49 +668,50 @@ Auth.prototype._loadTokenInBackground = function () {
   this._backgroundPromise = new Promise((resolve, reject) => {
     const iframe = this._createHiddenFrame();
 
-    this._requestBuilder.prepareAuthRequest({request_credentials: 'silent'}, {nonRedirect: true}).
-    then(authRequest => {
-      let cleanRunned;
+    this._requestBuilder.
+      prepareAuthRequest({request_credentials: 'silent'}, {nonRedirect: true}).
+      then(authRequest => {
+        let cleanRunned;
 
-      function cleanUp() {
-        if (cleanRunned) {
-          return;
+        function cleanUp() {
+          if (cleanRunned) {
+            return;
+          }
+          cleanRunned = true;
+          /* eslint-disable no-use-before-define */
+          clearTimeout(timeout);
+          removeStateListener();
+          removeTokenListener();
+          /* eslint-enable no-use-before-define */
+          window.document.body.removeChild(iframe);
         }
-        cleanRunned = true;
-        /* eslint-disable no-use-before-define */
-        clearTimeout(timeout);
-        removeStateListener();
-        removeTokenListener();
-        /* eslint-enable no-use-before-define */
-        window.document.body.removeChild(iframe);
-      }
 
-      const timeout = setTimeout(() => {
-        reject(new Error('Auth Timeout'));
-        cleanUp();
-      }, Auth.BACKGROUND_TIMEOUT);
-
-      const removeTokenListener = this._storage.onTokenChange(function (token) {
-        if (token !== null) {
+        const timeout = setTimeout(() => {
+          reject(new Error('Auth Timeout'));
           cleanUp();
-          resolve(token.access_token);
-        }
-      });
+        }, Auth.BACKGROUND_TIMEOUT);
 
-      const removeStateListener = this._storage.onStateChange(authRequest.stateId, function (state) {
-        if (state && state.error) {
-          cleanUp();
-          reject(new AuthResponseParser.AuthError(state));
-        }
-      });
+        const removeTokenListener = this._storage.onTokenChange(function (token) {
+          if (token !== null) {
+            cleanUp();
+            resolve(token.access_token);
+          }
+        });
 
-      this._redirectFrame(iframe, authRequest.url);
-    });
+        const removeStateListener = this._storage.onStateChange(authRequest.stateId, function (state) {
+          if (state && state.error) {
+            cleanUp();
+            reject(new AuthResponseParser.AuthError(state));
+          }
+        });
+
+        this._redirectFrame(iframe, authRequest.url);
+      });
   });
 
   this._backgroundPromise.
-  then(resetPromise).
-  catch(resetPromise);
+    then(resetPromise).
+    catch(resetPromise);
 
   return this._backgroundPromise;
 };
