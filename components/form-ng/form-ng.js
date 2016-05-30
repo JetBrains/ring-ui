@@ -4,9 +4,9 @@ import MessageBundle from '../message-bundle-ng/message-bundle-ng.js';
 import '../input/input.scss';
 import AngularElastic from 'angular-elastic';
 
-const module = angular.module('Ring.form', [MessageBundle, AngularElastic]);
+const angularModule = angular.module('Ring.form', [MessageBundle, AngularElastic]);
 
-module.factory('getFormErrorMessages', [
+angularModule.factory('getFormErrorMessages', [
   'RingMessageBundle',
   RingMessageBundle => {
     function msg(id, formError) {
@@ -41,7 +41,7 @@ module.factory('getFormErrorMessages', [
  *
  * Where form.name is a reference to angularJS form input
  */
-module.directive('rgErrorBubble', getFormErrorMessages => ({
+angularModule.directive('rgErrorBubble', getFormErrorMessages => ({
   scope: {
     errorBubble: '&rgErrorBubble'
   },
@@ -86,7 +86,7 @@ module.directive('rgErrorBubble', getFormErrorMessages => ({
  * <input name="confirm" type="password" rg-equal-value="data.password" ng-model="data.confirm">
  * Constraint to be user for confirm password fields.
  */
-module.directive('rgEqualValue', () => ({
+angularModule.directive('rgEqualValue', () => ({
   require: 'ngModel',
 
   link(scope, iElement, iAttrs, ngModelCtrl) {
@@ -113,7 +113,7 @@ module.directive('rgEqualValue', () => ({
  *
  * Is intended to be used for the value of ng-class. Accepts a reference to an angularJS form input
  */
-module.filter('rgInputClass', () => (input, submitted) => ({
+angularModule.filter('rgInputClass', () => (input, submitted) => ({
   'ring-input': true,
   'ring-input_error': input.$invalid && (input.$dirty || submitted),
   'ring-input_correct': !input.$invalid && (input.$dirty || submitted)
@@ -123,7 +123,7 @@ module.filter('rgInputClass', () => (input, submitted) => ({
  *
  * Fixes Chrome bug: https://github.com/angular/angular.js/issues/1460
  */
-module.directive('rgFormAutofillFix', $timeout => ({
+angularModule.directive('rgFormAutofillFix', $timeout => ({
   require: '?form',
   priority: 10,
 
@@ -161,4 +161,4 @@ module.directive('rgFormAutofillFix', $timeout => ({
   }
 }));
 
-export default module.name;
+export default angularModule.name;

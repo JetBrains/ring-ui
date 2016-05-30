@@ -114,7 +114,7 @@ import '../dialog/dialog.scss';
  </file>
  </example>
  */
-const module = angular.module('Ring.dialog', [RingButton, rgCompilerModuleName]);
+const angularModule = angular.module('Ring.dialog', [RingButton, rgCompilerModuleName]);
 
 class DialogController extends Inject {
   static $inject = ['$scope', '$q', 'dialog', 'dialogInSidebar', '$compile', '$injector', '$controller', 'rgCompiler'];
@@ -598,10 +598,10 @@ function rgDialogContentDirective($compile, $q) {
   };
 }
 
-module.directive('rgDialog', rgDialogDirective);
-module.directive('rgDialogTitle', rgDialogTitleDirective);
-module.directive('rgDialogContent', rgDialogContentDirective);
-module.service('dialog', DialogService);
-module.service('dialogInSidebar', DialogInSidebarService);
+angularModule.directive('rgDialog', rgDialogDirective);
+angularModule.directive('rgDialogTitle', rgDialogTitleDirective);
+angularModule.directive('rgDialogContent', rgDialogContentDirective);
+angularModule.service('dialog', DialogService);
+angularModule.service('dialogInSidebar', DialogInSidebarService);
 
-export default module.name;
+export default angularModule.name;

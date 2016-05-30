@@ -37,9 +37,9 @@ import './docked-panel-ng.scss';
  */
 
 /* global angular:false */
-const module = angular.module('Ring.docked-panel', []);
+const angularModule = angular.module('Ring.docked-panel', []);
 
-module.directive('rgDockedPanel', () => ({
+angularModule.directive('rgDockedPanel', () => ({
   link(scope, element, attrs) {
     const CSS_CLASS_NAME = 'ring-docked-panel';
     const customCssClassOnStick = attrs.rgDockedPanelClass || '';
@@ -117,4 +117,4 @@ module.directive('rgDockedPanel', () => ({
   }
 }));
 
-export default module.name;
+export default angularModule.name;

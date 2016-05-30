@@ -49,14 +49,14 @@ import PermissionIcon from 'jetbrains-icons/permission.svg';
  </example>
  */
 
-const module = angular.module('Ring.error-page', [
+const angularModule = angular.module('Ring.error-page', [
   'ngRoute',
   ErrorMessage,
   Permissions,
   MessageBundle
 ]);
 
-module.provider('errorPageConfiguration', function () {
+angularModule.provider('errorPageConfiguration', function () {
   let pageConfiguration = {};
 
   /**
@@ -95,7 +95,7 @@ module.provider('errorPageConfiguration', function () {
   };
 });
 
-module.factory('getErrorPagePresentation', RingMessageBundle => {
+angularModule.factory('getErrorPagePresentation', RingMessageBundle => {
   const presentationModels = {
     404: {
       status: 404,
@@ -138,7 +138,7 @@ module.factory('getErrorPagePresentation', RingMessageBundle => {
   };
 });
 
-module.directive('rgErrorPageBackground', [
+angularModule.directive('rgErrorPageBackground', [
   () => ({
     restrict: 'A',
 
@@ -163,7 +163,7 @@ module.directive('rgErrorPageBackground', [
   })
 ]);
 
-module.directive('rgErrorPage', [
+angularModule.directive('rgErrorPage', [
   'errorPageConfiguration',
   '$route',
   'userPermissions',
@@ -289,4 +289,4 @@ module.directive('rgErrorPage', [
   }
 ]);
 
-export default module.name;
+export default angularModule.name;

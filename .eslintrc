@@ -27,7 +27,6 @@
     "object-shorthand": 1,
     "prefer-arrow-callback": 1,
     "prefer-template": 1,
-    "modules/no-exports-typo": 1,
 
     // Angular
     "angular/directive-name": [2, "rg"]

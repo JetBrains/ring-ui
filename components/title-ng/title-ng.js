@@ -1,7 +1,7 @@
 /* global angular: false */
 
-const module = angular.module('Ring.title', []);
-module.directive('rgPageTitle', () => ({
+const angularModule = angular.module('Ring.title', []);
+angularModule.directive('rgPageTitle', () => ({
   scope: {
     rgPageTitle: '@',
     noTitle: '@',
@@ -35,7 +35,7 @@ module.directive('rgPageTitle', () => ({
     $scope.$on('$destroy', off);
   }
 }));
-module.service('pageTitle', function ($interpolate) {
+angularModule.service('pageTitle', function ($interpolate) {
   let delimiter = ' | ';
   let current = document.title;
 
@@ -84,4 +84,4 @@ module.service('pageTitle', function ($interpolate) {
   };
 });
 
-export default module.name;
+export default angularModule.name;

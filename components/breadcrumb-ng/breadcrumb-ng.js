@@ -40,9 +40,9 @@ registerComponents({Icon});
    </example>
  */
 
-const module = angular.module('Ring.breadcrumb', [reactNg]);
+const angularModule = angular.module('Ring.breadcrumb', [reactNg]);
 
-module.directive('rgBreadcrumb', () => ({
+angularModule.directive('rgBreadcrumb', () => ({
   template: require('./breadcrumb-ng.html'),
   replace: true,
   transclude: true,
@@ -55,4 +55,4 @@ module.directive('rgBreadcrumb', () => ({
   }
 }));
 
-export default module.name;
+export default angularModule.name;

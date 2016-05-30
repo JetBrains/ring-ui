@@ -23,9 +23,9 @@ registerComponents({Loader});
  *  }]);
  */
 
-const module = angular.module('Ring.loader-screen', [reactNg]);
+const angularModule = angular.module('Ring.loader-screen', [reactNg]);
 
-module.service('loaderScreen', function ($timeout, $rootScope, $scope) {
+angularModule.service('loaderScreen', function ($timeout, $rootScope, $scope) {
   let initialLoading;
   let loadingFailed = false;
   let showLoader;
@@ -75,7 +75,7 @@ module.service('loaderScreen', function ($timeout, $rootScope, $scope) {
   $scope.$on('destroy', offError);
 });
 
-module.directive('rgLoaderScreen', () => ({
+angularModule.directive('rgLoaderScreen', () => ({
   restrict: 'A',
 
   scope: {
@@ -85,4 +85,4 @@ module.directive('rgLoaderScreen', () => ({
   template: require('./loader-screen-ng.html')
 }));
 
-export default module.name;
+export default angularModule.name;

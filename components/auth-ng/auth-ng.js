@@ -1,9 +1,9 @@
 import Auth from '../auth/auth';
 
 /* global angular: false */
-const module = angular.module('Ring.auth', []);
+const angularModule = angular.module('Ring.auth', []);
 
-module.provider('auth', ['$httpProvider', function ($httpProvider) {
+angularModule.provider('auth', ['$httpProvider', function ($httpProvider) {
   /**
    * @name Auth Ng
    * @description Angular wrapper for Auth
@@ -151,4 +151,4 @@ module.provider('auth', ['$httpProvider', function ($httpProvider) {
   };
 }]);
 
-export default module.name;
+export default angularModule.name;

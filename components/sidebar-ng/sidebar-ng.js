@@ -71,7 +71,7 @@ registerComponents({Icon});
    </example>
  */
 
-const module = angular.module('Ring.sidebar', [reactNg, PlaceUnder]);
+const angularModule = angular.module('Ring.sidebar', [reactNg, PlaceUnder]);
 
 class SidebarController {
   constructor($scope) {
@@ -136,7 +136,7 @@ function rgSidebarToggleButtonDirective() {
   };
 }
 
-module.directive('rgSidebar', rgSidebarDirective);
-module.directive('rgSidebarToggleButton', rgSidebarToggleButtonDirective);
+angularModule.directive('rgSidebar', rgSidebarDirective);
+angularModule.directive('rgSidebarToggleButton', rgSidebarToggleButtonDirective);
 
-export default module.name;
+export default angularModule.name;

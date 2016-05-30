@@ -28,12 +28,12 @@ import '../checkbox/checkbox.scss';
      </file>
  </example>
  */
-const module = angular.module('Ring.checkbox', ['Ring.icon']);
+const angularModule = angular.module('Ring.checkbox', ['Ring.icon']);
 
 let idCounter = 0;
 const CHECKBOX_ID_PREFIX = 'rg-checkbox-';
 
-module.directive('rgCheckbox', $parse => ({
+angularModule.directive('rgCheckbox', $parse => ({
   restrict: 'E',
   transclude: true,
   replace: true,
@@ -72,4 +72,4 @@ module.directive('rgCheckbox', $parse => ({
   }
 }));
 
-export default module.name;
+export default angularModule.name;

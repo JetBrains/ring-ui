@@ -30,7 +30,7 @@ import '../icon/icon.scss';
    </file>
  </example>
  */
-const module = angular.module('Ring.icon', []);
+const angularModule = angular.module('Ring.icon', []);
 const CLASS_PREFIX = 'ring-icon_';
 const LOADING_CLASS = CLASS_PREFIX + 'loading';
 const DEFAULT_SIZE = Size.Size32;
@@ -39,7 +39,7 @@ function pixelString(number) {
   return String(number) + 'px';
 }
 
-module.directive('rgIcon', function () {
+angularModule.directive('rgIcon', function () {
   return {
     restrict: 'E',
     scope: {
@@ -97,4 +97,4 @@ module.directive('rgIcon', function () {
   };
 });
 
-export default module.name;
+export default angularModule.name;

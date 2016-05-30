@@ -9,7 +9,7 @@ import '../button/button.scss';
 
 registerComponents({Icon});
 
-const module = angular.module('Ring.avatar-editor', [messageBundleNg, alertNg, reactNg]);
+const angularModule = angular.module('Ring.avatar-editor', [messageBundleNg, alertNg, reactNg]);
 
 /**
  * @name Avatar Editor Ng
@@ -144,7 +144,7 @@ function rgAvatarEditorFileInput() {
   };
 }
 
-module.directive('rgAvatarEditor', rgAvatarEditor);
-module.directive('rgAvatarEditorFileInput', rgAvatarEditorFileInput);
+angularModule.directive('rgAvatarEditor', rgAvatarEditor);
+angularModule.directive('rgAvatarEditorFileInput', rgAvatarEditorFileInput);
 
-export default module.name;
+export default angularModule.name;

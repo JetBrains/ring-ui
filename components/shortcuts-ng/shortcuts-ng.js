@@ -3,9 +3,9 @@ import {getStyles} from '../dom/dom';
 import shortcutsInstance from '../shortcuts/shortcuts';
 
 /* global angular: false */
-const module = angular.module('Ring.shortcuts', []);
+const angularModule = angular.module('Ring.shortcuts', []);
 
-module.provider('shortcuts', function () {
+angularModule.provider('shortcuts', function () {
   const modes = {};
   const mainModes = {};
   const reference = [];
@@ -72,7 +72,7 @@ module.provider('shortcuts', function () {
   });
 });
 
-module.directive('rgShortcutsApp', () => ({
+angularModule.directive('rgShortcutsApp', () => ({
   restrict: 'A',
 
   controller($scope, $rootScope, $attrs, shortcuts) {
@@ -207,7 +207,7 @@ module.directive('rgShortcutsApp', () => ({
   }
 }));
 
-module.directive('rgShortcuts', $parse => ({
+angularModule.directive('rgShortcuts', $parse => ({
   restrict: 'A',
   require: ['^rgShortcutsApp'],
 
@@ -251,4 +251,4 @@ module.directive('rgShortcuts', $parse => ({
   }
 }));
 
-export default module.name;
+export default angularModule.name;
