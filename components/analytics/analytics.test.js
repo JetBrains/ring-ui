@@ -1,3 +1,5 @@
+/* eslint-disable func-names */
+
 import analytics from './analytics';
 import AnalyticsGAPlugin from './analytics__ga-plugin';
 import AnalyticsCustomPlugin from './analytics__custom-plugin';

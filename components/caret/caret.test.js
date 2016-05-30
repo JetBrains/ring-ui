@@ -1,3 +1,5 @@
+/* eslint-disable func-names */
+
 import Caret from './caret';
 
 describe('Caret', () => {

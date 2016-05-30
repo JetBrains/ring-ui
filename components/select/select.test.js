@@ -1,3 +1,5 @@
+/* eslint-disable func-names */
+
 import Select from './select';
 import List from '../list/list';
 import React from 'react';

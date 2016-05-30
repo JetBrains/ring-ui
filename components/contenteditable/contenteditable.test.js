@@ -1,3 +1,5 @@
+/* eslint-disable func-names */
+
 import React from 'react';
 import ContentEditable from './contenteditable';
 import {renderIntoDocument, isCompositeComponentWithType} from 'react-addons-test-utils';

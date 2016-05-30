@@ -1,3 +1,5 @@
+/* eslint-disable func-names */
+
 import ListUsersGroupsSource from './list__users-groups-source';
 
 describe('ListUsersGroupsSource', () => {

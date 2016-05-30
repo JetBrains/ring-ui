@@ -1,3 +1,5 @@
+/* eslint-disable func-names */
+
 import HubSourceUsersGroups from './hub-source__users-groups';
 
 describe('HubUsersGroupsSource', () => {

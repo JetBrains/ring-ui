@@ -1,3 +1,5 @@
+/* eslint-disable func-names */
+
 function noop() {}
 
 function testStorage(storage) {

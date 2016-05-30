@@ -1,3 +1,5 @@
+/* eslint-disable func-names */
+
 import HubSource from './hub-source';
 
 describe('HubSource', () => {

@@ -1,4 +1,6 @@
+/* eslint-disable func-names */
 /* eslint-disable camelcase */
+
 import Auth from './auth';
 import AuthStorage from './auth__storage';
 import sniffer from '../sniffer/sniffer';
