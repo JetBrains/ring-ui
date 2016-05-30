@@ -187,6 +187,7 @@ export default class Alerts extends RingComponent {
       this.animationPromise = this.animationPromise.then(() => {
         if (this.lastAlert.caption === caption && this.lastAlert.type === type) {
           this._updateElement(this.lastAlert, this.lastAlert.count + 1, caption, type, timeout);
+          return undefined;
         } else {
           this.lastAlert = this._addElement(caption, type, resolve, timeout);
           return animationPromise;

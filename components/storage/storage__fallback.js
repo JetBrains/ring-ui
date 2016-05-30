@@ -64,6 +64,8 @@ export default class FallbackStorage {
         return cookie.substring(nameEQ.length, cookie.length);
       }
     }
+
+    return undefined;
   }
 
   constructor(config = {}) {

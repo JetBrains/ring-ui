@@ -60,6 +60,8 @@ class OpenedPopupRegistry {
       }
       checkingNode = checkingNode.parentNode;
     }
+
+    return undefined;
   }
 
   isRegistrated(reactPopupInstance) {
@@ -609,6 +611,8 @@ export default class Popup extends RingComponentWithShortcuts {
     if (verticalDiff < this.props.sidePadding) {
       return true;
     }
+
+    return false;
   }
 
   _doesPopupOverflowHorizontally(styles) {
@@ -624,6 +628,8 @@ export default class Popup extends RingComponentWithShortcuts {
     if (horizontalDiff < this.props.sidePadding) {
       return true;
     }
+
+    return false;
   }
 
   _getPositionStyles(anchor, anchorLeft, anchorTop) {

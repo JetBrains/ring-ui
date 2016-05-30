@@ -45,6 +45,7 @@ export default class Selection {
       return newActiveItem;
     } else {
       this.clearActivity();
+      return undefined;
     }
   }
 
@@ -56,6 +57,7 @@ export default class Selection {
       return newActiveItem;
     } else {
       this.clearActivity();
+      return undefined;
     }
   }
 

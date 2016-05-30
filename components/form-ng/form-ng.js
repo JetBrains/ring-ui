@@ -21,6 +21,8 @@ angularModule.factory('getFormErrorMessages', [
           return formErrors[j].message;
         }
       }
+
+      return undefined;
     }
 
     return formErrors => {
