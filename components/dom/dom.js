@@ -24,7 +24,7 @@ export function getPixelRatio() {
 }
 
 export function getWindowHeight() {
-  return window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+  return window.innerHeight;
 }
 
 export function getDocumentScrollTop() {
