@@ -210,7 +210,7 @@ class DialogController extends Inject {
       const element = angular.element(this.template);
 
       return {
-        element: element,
+        element,
         link: this.$inject.$compile(element)
       };
     }
@@ -525,7 +525,7 @@ function rgDialogDirective($timeout) {
     replace: true,
     template: require('./dialog-ng.html'),
     controllerAs: 'dialog',
-    link: link
+    link
   };
 }
 
@@ -539,13 +539,13 @@ function rgDialogTitleDirective() {
       title: '@rgDialogTitle'
     },
     require: '^rgDialog',
-    link: link
+    link
   };
 }
 
 function rgDialogContentDirective($compile, $q) {
   return {
-    link: function (scope, iElement) {
+    link(scope, iElement) {
       const element = iElement[0];
       let contentScope;
 

@@ -39,6 +39,7 @@ const Dimension = {
 };
 
 const DEFAULT_ITEM_TYPE = Type.ITEM;
+function noop() {}
 
 /**
  * @param {Type} listItemType
@@ -246,8 +247,8 @@ export default class List extends RingComponentWithShortcuts {
   static isItemType = isItemType;
 
   static ListProps = {
-    Type: Type,
-    Dimension: Dimension
+    Type,
+    Dimension
   };
 
   static propTypes = {
@@ -272,9 +273,9 @@ export default class List extends RingComponentWithShortcuts {
     data: [],
     restoreActiveIndex: false,  // restore active item using its "key" property
     activateSingleItem: false,  // if there is only one item, activate it
-    onMouseOut: function () {},
-    onSelect: function () {},
-    onScrollToBottom: function () {},
+    onMouseOut: noop,
+    onSelect: noop,
+    onScrollToBottom: noop,
     shortcuts: false,
     renderOptimization: true,
     disableMoveDownOverflow: false
@@ -478,10 +479,7 @@ export default class List extends RingComponentWithShortcuts {
         activeItem = props.data[props.activeIndex];
       }
 
-      this.setState({
-        activeIndex: activeIndex,
-        activeItem: activeItem
-      }, this.recalculateVisibleOptions);
+      this.setState({activeIndex, activeItem}, this.recalculateVisibleOptions);
     }
   }
 
@@ -547,7 +545,7 @@ export default class List extends RingComponentWithShortcuts {
           const begin = this.cachedSizes.length === 0 ? 0 : this.cachedSizes[this.cachedSizes.length - 1].end;
 
           const dimensions = {
-            begin: begin,
+            begin,
             end: begin + size
           };
 

@@ -168,13 +168,13 @@ export default class HeaderItem extends RingComponent {
    * @param {string} title
    */
   setTitle(title) {
-    this.setState({title: title});
+    this.setState({title});
   }
 
   /**
    * @param {boolean} loading
    */
   setLoading(loading) {
-    this.setState({loading: loading});
+    this.setState({loading});
   }
 }

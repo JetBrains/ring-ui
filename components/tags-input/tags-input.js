@@ -194,7 +194,7 @@ export default class TagsInput extends RingComponentWithShortcuts {
       then(::this.filterExistTags).
       then(suggestions => {
         if (this.node) {
-          this.setState({suggestions: suggestions, loading: false});
+          this.setState({suggestions, loading: false});
         }
       }).
       catch(() => this.setState({loading: false}));

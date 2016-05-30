@@ -451,7 +451,7 @@ export default class Header extends RingComponent {
     }
 
     return DOM.a({
-      href: href,
+      href,
       key: href,
       className: fullClassName,
       target: '_self'
@@ -759,11 +759,11 @@ export default class Header extends RingComponent {
    */
   setMenuItemEnabled(itemKey, enabled, callback) {
     const enabledBool = !!enabled;
-    const enabledMenuItems = this.props.enabledMenuItems;
+    const {enabledMenuItems} = this.props;
 
     if (enabledMenuItems[itemKey] !== enabledBool) {
       enabledMenuItems[itemKey] = enabledBool;
-      this.rerender({enabledMenuItems: enabledMenuItems}, callback);
+      this.rerender({enabledMenuItems}, callback);
     }
   }
 }

@@ -1,5 +1,7 @@
 /* eslint-disable no-var */
 /* eslint-disable prefer-reflect */
+/* eslint-disable prefer-arrow-callback */
+/* eslint-disable prefer-template */
 /* eslint-disable modules/no-cjs */
 
 var mixIn = require('mout/object/mixIn');
@@ -39,19 +41,19 @@ function MockedStorage() {
 
   function dispatchEvent(key, value) {
     var storageEvent = new StorageEvent('storage', {
-      key: key,
+      key,
       oldValue: storage[key],
       newValue: value,
       url: '/'
     });
 
-    setTimeout(function () {
+    setTimeout(function dispatchEventDelayed() {
       window.dispatchEvent(storageEvent);
     }, 0);
   }
 
   Object.defineProperty(storage, 'getItem', mixIn({
-    value: function (key) {
+    value: function getItem(key) {
       if (arguments.length === 0) {
         throw new TypeError('Failed to execute \'getItem\' on \'Storage\': 1 argument required, but only 0 present.');
       }
@@ -60,7 +62,7 @@ function MockedStorage() {
   }, defaultProps));
 
   Object.defineProperty(storage, 'setItem', mixIn({
-    value: function (key, value) {
+    value: function setItem(key, value) {
       var stringKey = String(key);
       var stringValue = String(value);
 
@@ -74,7 +76,7 @@ function MockedStorage() {
   }, defaultProps));
 
   Object.defineProperty(storage, 'removeItem', mixIn({
-    value: function (key) {
+    value: function removeItem(key) {
       var stringKey = String(key);
 
       if (arguments.length === 0) {
@@ -87,7 +89,7 @@ function MockedStorage() {
   }, defaultProps));
 
   Object.defineProperty(storage, 'length', {
-    get: function () {
+    get: function length() {
       return Object.keys(storage).length;
     },
     configurable: false,
@@ -95,8 +97,8 @@ function MockedStorage() {
   });
 
   Object.defineProperty(storage, 'clear', mixIn({
-    value: function () {
-      Object.keys(storage).forEach(function (key) {
+    value: function clear() {
+      Object.keys(storage).forEach(function removeItem(key) {
         storage.removeItem(key);
       });
     }
