@@ -61,12 +61,12 @@ function MockedStorage() {
 
   Object.defineProperty(storage, 'setItem', mixIn({
     value: function (key, value) {
+      var stringKey = String(key);
+      var stringValue = String(value);
+
       if (arguments.length < 2) {
         throw new TypeError('Failed to execute \'setItem\' on \'Storage\': 1 argument required, but only ' + arguments.length + ' present.');
       }
-
-      var stringKey = String(key);
-      var stringValue = String(value);
 
       dispatchEvent(stringKey, stringValue);
       storage[stringKey] = stringValue;
@@ -75,11 +75,12 @@ function MockedStorage() {
 
   Object.defineProperty(storage, 'removeItem', mixIn({
     value: function (key) {
+      var stringKey = String(key);
+
       if (arguments.length === 0) {
         throw new TypeError('Failed to execute \'removeItem\' on \'Storage\': 1 argument required, but only 0 present.');
       }
 
-      var stringKey = String(key);
       dispatchEvent(stringKey, null);
       delete storage[stringKey];
     }
