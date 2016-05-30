@@ -444,8 +444,8 @@ function rgDialogDirective($timeout) {
       }
 
       Object.assign(dialogContainer.style, {
-        top: top + 'px',
-        left: left + 'px',
+        top: `${top}px`,
+        left: `${left}px`,
         margin: '0'
       });
     }

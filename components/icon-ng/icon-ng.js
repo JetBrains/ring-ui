@@ -32,12 +32,8 @@ import '../icon/icon.scss';
  */
 const angularModule = angular.module('Ring.icon', []);
 const CLASS_PREFIX = 'ring-icon_';
-const LOADING_CLASS = CLASS_PREFIX + 'loading';
+const LOADING_CLASS = `${CLASS_PREFIX}loading`;
 const DEFAULT_SIZE = Size.Size32;
-
-function pixelString(number) {
-  return String(number) + 'px';
-}
 
 angularModule.directive('rgIcon', function () {
   return {
@@ -77,7 +73,7 @@ angularModule.directive('rgIcon', function () {
 
       scope.$watchGroup(['size', 'width', 'height'], ([size, width, height]) => {
         if (!width && !height) {
-          const sizeString = pixelString(size || DEFAULT_SIZE);
+          const sizeString = `${size || DEFAULT_SIZE}px`;
           scope.style = {
             width: sizeString,
             height: sizeString
@@ -87,10 +83,10 @@ angularModule.directive('rgIcon', function () {
 
         scope.style = {};
         if (width) {
-          scope.style.width = pixelString(width);
+          scope.style.width = `${width}px`;
         }
         if (height) {
-          scope.style.height = pixelString(height);
+          scope.style.height = `${height}px`;
         }
       });
     }

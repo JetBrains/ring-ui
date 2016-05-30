@@ -29,7 +29,7 @@ export default class urlUtils {
    */
   static getAbsoluteBaseURL() {
     const baseUrl = urlUtils.getBaseURI();
-    const host = window.location.protocol + '//' + window.location.host;
+    const host = `${window.location.protocol}//${window.location.host}`;
 
     let uri;
     if (baseUrl) {

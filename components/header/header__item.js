@@ -28,7 +28,7 @@ function fitImageIntoSquare(image, width, height) {
   const compensation = -(oppositeSide - SIZE) / 2;
 
   image.setAttribute(dimension, SIZE.toString());
-  image.style[margin] = Math.round(compensation) + 'px';
+  image.style[margin] = `${Math.round(compensation)}px`;
 }
 
 /**

@@ -25,7 +25,7 @@ export default class HeaderHelper {
     const countFields = 'key';
 
     function getServices(fields) {
-      return auth.requestToken().then(token => auth.getApi('services/header?fields=' + fields, token, params));
+      return auth.requestToken().then(token => auth.getApi(`services/header?fields=${fields}`, token, params));
     }
 
     function setServicesList(services) {

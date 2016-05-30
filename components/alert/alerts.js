@@ -102,7 +102,7 @@ export default class Alerts extends RingComponent {
               inline={false}
               key={child.key}
               onCloseClick={() => this.remove(child)}
-              ref={'alert-' + i}
+              ref={`alert-${i}`}
               type={child.type}
               count={child.count}
             />
@@ -149,7 +149,7 @@ export default class Alerts extends RingComponent {
     const heightToCompensate = findDOMNode(alertToAppend).offsetHeight;
 
     // todo(igor.alexeenko): Merge vertical animation to element's height with animation from Header.
-    this._stylesheet.insertRule('.alert-enter { margin-top: -' + (heightToCompensate + this._gap) + 'px }', 0);
+    this._stylesheet.insertRule(`.alert-enter { margin-top: -${heightToCompensate + this._gap}px }`, 0);
 
     unmountComponentAtNode(this._containerClone);
   }
