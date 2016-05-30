@@ -2,7 +2,7 @@ import RingComponent from './ring-component';
 import renderIntoDocument from 'render-into-document';
 import React from 'react';
 
-describe('RingComponents', function () {
+describe('RingComponents', () => {
 
   class CustomComponent extends RingComponent {
     render() {

@@ -2,7 +2,7 @@ import React from 'react';
 import ContentEditable from './contenteditable';
 import {renderIntoDocument, isCompositeComponentWithType} from 'react-addons-test-utils';
 
-describe('ContentEditable', function () {
+describe('ContentEditable', () => {
   beforeEach(function () {
     this.stub = this.sinon.stub();
 

@@ -4,14 +4,14 @@ import TagsInput from './tags-input';
 import renderIntoDocument from 'render-into-document';
 import RingComponent from '../ring-component/ring-component';
 
-describe('TagsInput', function () {
+describe('TagsInput', () => {
   const fakeTags = [{key: 1, label: 'test1'}];
 
   beforeEach(function () {
     this.tagsInput = renderIntoDocument(React.createElement(TagsInput, {tags: fakeTags}));
   });
 
-  describe('DOM', function () {
+  describe('DOM', () => {
     it('should render tags', function () {
       this.tagsInput.node.should.contain('.ring-tag');
     });

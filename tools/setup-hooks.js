@@ -66,7 +66,7 @@ function install(hooks) {
     fs.mkdirSync(hooksDirPath);
   }
 
-  Object.keys(hooks).forEach(function writeHook(hook) {
+  Object.keys(hooks).forEach(hook => {
     const hookPath = path.resolve(hooksDirPath, hook);
 
     fs.writeFileSync(hookPath, wrapHook(hooks[hook]));

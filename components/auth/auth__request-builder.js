@@ -25,9 +25,7 @@ export default function AuthRequestBuilder(config, storage) {
  */
 AuthRequestBuilder.prototype.prepareAuthRequest = function (extraParams, extraState) {
   const stateId = AuthRequestBuilder._uuid();
-  const scopes = this.config.scopes.map(function (scope) {
-    return encodeURIComponent(scope);
-  });
+  const scopes = this.config.scopes.map(scope => encodeURIComponent(scope));
 
   /* eslint-disable camelcase */
   const request = Object.assign({
@@ -47,12 +45,10 @@ AuthRequestBuilder.prototype.prepareAuthRequest = function (extraParams, extraSt
     scopes: this.config.scopes
   }, extraState || {});
 
-  return this._saveState(stateId, state).then(function () {
-    return {
-      url: authURL,
-      stateId
-    };
-  });
+  return this._saveState(stateId, state).then(() => ({
+    url: authURL,
+    stateId
+  }));
 };
 
 /**

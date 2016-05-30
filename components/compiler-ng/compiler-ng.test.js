@@ -3,7 +3,7 @@ import 'angular-mocks';
 import utilModuleName from './compiler-ng';
 
 
-describe('rgCompiler', function () {
+describe('rgCompiler', () => {
 
 
   beforeEach(window.module(
@@ -14,9 +14,9 @@ describe('rgCompiler', function () {
   let $rootScope;
   let $scope;
   let runDigest;
-  beforeEach(window.inject(function (_$rootScope_) {
+  beforeEach(window.inject(_$rootScope_ => {
     $rootScope = _$rootScope_;
-    runDigest = function () {
+    runDigest = () => {
       $rootScope.$apply();
     };
 
@@ -25,12 +25,12 @@ describe('rgCompiler', function () {
 
 
   let compiler;
-  beforeEach(window.inject(function (rgCompiler) {
+  beforeEach(window.inject(rgCompiler => {
     compiler = rgCompiler;
   }));
 
 
-  it('should compile template', function () {
+  it('should compile template', () => {
     $scope.text = 'Hello World';
     let compileData = null;
 
@@ -48,7 +48,7 @@ describe('rgCompiler', function () {
   });
 
 
-  it('should allow pass controller', function () {
+  it('should allow pass controller', () => {
     let compileData = null;
     const text = 'Test';
 
@@ -57,7 +57,7 @@ describe('rgCompiler', function () {
       template: '<div>{{text}}</div>',
       controller: [
         '$scope',
-        function (scope) {
+        scope => {
           scope.text = text;
         }]
     }).then(data => (compileData = data));
@@ -71,7 +71,7 @@ describe('rgCompiler', function () {
   });
 
 
-  it('should allow use controllerAs syntaxis', function () {
+  it('should allow use controllerAs syntaxis', () => {
     let compileData = null;
     const text = 'Test';
 
@@ -93,7 +93,7 @@ describe('rgCompiler', function () {
   });
 
 
-  it('should allow pass local dependencies', function () {
+  it('should allow pass local dependencies', () => {
     let compileData = null;
     const text = 'Test';
 
@@ -105,7 +105,7 @@ describe('rgCompiler', function () {
       },
       controller: [
         '$scope',
-        'textLocal', function (scope, textLocal) {
+        'textLocal', (scope, textLocal) => {
           scope.text = textLocal;
         }]
     }).then(data => (compileData = data));
@@ -119,7 +119,7 @@ describe('rgCompiler', function () {
   });
 
 
-  it('should allow pass asychronous dependencies', function () {
+  it('should allow pass asychronous dependencies', () => {
     let compileData = null;
     const text = 'Test';
 
@@ -133,7 +133,7 @@ describe('rgCompiler', function () {
       },
       controller: [
         '$scope',
-        'textResolve', function (scope, textResolve) {
+        'textResolve', (scope, textResolve) => {
           scope.text = textResolve;
         }]
     }).then(data => (compileData = data));
@@ -147,7 +147,7 @@ describe('rgCompiler', function () {
   });
 
 
-  it('should allow use bindToController for resolve and locals', function () {
+  it('should allow use bindToController for resolve and locals', () => {
     let compileData = null;
     const text = 'Test';
 

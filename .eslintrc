@@ -21,9 +21,6 @@
     // Stylistic Issues
     "func-names": 1,
 
-    // ECMAScript 6
-    "prefer-arrow-callback": 1,
-
     // Angular
     "angular/directive-name": [2, "rg"]
   }

@@ -119,7 +119,7 @@ function stopOldBrowserDetector() {
 
 
 //Start javascript error detection
-startOldBrowsersDectector(function onDetected() {
+startOldBrowsersDectector(() => {
   const oldBrowsersMessageContainer = document.getElementById('ring-old-browsers-message');
   const browserMessage = document.getElementById('ring-old-browsers-message__browser-message');
   const errorMessage = document.getElementById('ring-old-browsers-message__error-message');
