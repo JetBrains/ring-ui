@@ -27,12 +27,13 @@ mocha.suite.afterEach(function () {
 });
 
 function renderIntoDocument(instance, callback) {
+  var componentNode = document.createElement('div');
+
   if (!containerNode) {
     containerNode = document.createElement('div');
     document.body.appendChild(containerNode);
   }
 
-  var componentNode = document.createElement('div');
   containerNode.appendChild(componentNode);
   componentNode.__component = ReactDOM.render(instance, componentNode, callback);
   return componentNode.__component;
