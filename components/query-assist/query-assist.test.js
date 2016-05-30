@@ -67,7 +67,11 @@ describe('QueryAssist', () => {
       this.queryAssist = renderIntoDocument(React.createElement(QueryAssist, Object.assign({
         query: testQuery,
         focus: true,
-        dataSource: this.sinon.spy(({query, caret}) => ({query, caret, suggestions}))
+        dataSource: this.sinon.spy(({query, caret}) => ({
+          query,
+          caret,
+          suggestions
+        }))
       }, params)));
     };
   });
@@ -192,7 +196,8 @@ describe('QueryAssist', () => {
       this.renderQueryAssist();
 
       this.queryAssist.input.should.contain(`.${LETTER_CLASS}`);
-      this.queryAssist.input.queryAll(`.${LETTER_CLASS}`).should.have.length(testQueryLength);
+      this.queryAssist.input.queryAll(`.${LETTER_CLASS}`).
+        should.have.length(testQueryLength);
     });
 
 
@@ -392,10 +397,11 @@ describe('QueryAssist', () => {
       this.queryAssist.renderPopup(suggestions);
 
       const list = findDOMNode(this.queryAssist._popup.refs.List);
+      const {length} = suggestions;
 
-      list.queryAll('.ring-list__item').should.have.length(suggestions.length);
-      list.queryAll('.ring-list__highlight').should.have.length(suggestions.length);
-      list.queryAll('.ring-list__service').should.have.length(suggestions.length * 2);
+      list.queryAll('.ring-list__item').should.have.length(length);
+      list.queryAll('.ring-list__highlight').should.have.length(length);
+      list.queryAll('.ring-list__service').should.have.length(length * 2);
     });
 
   });
@@ -404,12 +410,8 @@ describe('QueryAssist', () => {
     const completeQuery = 'test';
     const middleCaret = completeQuery.length / 2;
 
-    function getSuggestionText(suggestion) {
-      return (
-        suggestion.prefix +
-        suggestion.option +
-        suggestion.suffix
-      ).replace(/\s/g, '\u00a0');
+    function getSuggestionText({prefix, option, suffix}) {
+      return (prefix + option + suffix).replace(/\s/g, '\u00a0');
     }
 
     it('should complete by tab in the end of phrase', function () {

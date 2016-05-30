@@ -313,18 +313,18 @@ class DialogController extends Inject {
 
       button.inProgress = true;
 
-      return this.$inject.$q.resolve(actionResult)
-        .then(res => {
+      return this.$inject.$q.resolve(actionResult).
+        then(res => {
           const dontClose = res === false;
 
           if (!dontClose && (button.close !== false)) {
             this.reset();
           }
-        })
-        .catch(errorMessage => {
+        }).
+        catch(errorMessage => {
           this.error = errorMessage;
-        })
-        .finally(() => {
+        }).
+        finally(() => {
           button.inProgress = false;
         });
     } else if (button.close !== false) {
@@ -455,7 +455,8 @@ function rgDialogDirective($timeout) {
 
     // Focus first input
     function focusFirst() {
-      const controls = node.queryAll('input,select,button,textarea,*[contentEditable=true]').filter(inputNode => getStyles(inputNode).display !== 'none');
+      const controls = node.queryAll('input,select,button,textarea,*[contentEditable=true]').
+        filter(inputNode => getStyles(inputNode).display !== 'none');
       if (controls.length) {
         controls[0].focus();
       }
@@ -568,15 +569,16 @@ function rgDialogContentDirective($compile, $q) {
           return $compile(templateNode)(contentScope)[0];
         }
 
-        return $q.when(scope.dialog.compileTemplate()).then(function (compiledData) {
-          const templateScope = isOldDataAPI() ? contentScope : (scope.dialog.config.scope || contentScope);
+        return $q.when(scope.dialog.compileTemplate()).
+          then(function (compiledData) {
+            const templateScope = isOldDataAPI() ? contentScope : (scope.dialog.config.scope || contentScope);
 
-          // XXX(maksimrv): We should put element to directive
-          // before link because some directives (shortcuts)
-          // depends from global directives (shortcuts-app)
-          angular.element(element).append(compiledData.element);
-          compiledData.link(templateScope);
-        });
+            // XXX(maksimrv): We should put element to directive
+            // before link because some directives (shortcuts)
+            // depends from global directives (shortcuts-app)
+            angular.element(element).append(compiledData.element);
+            compiledData.link(templateScope);
+          });
       }
 
       function destroy() {
