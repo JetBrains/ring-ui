@@ -1,10 +1,7 @@
-/* eslint-disable no-var */
-/* eslint-disable modules/no-cjs */
+import {simulate} from 'combokeys/test/lib/key-event';
 
-var keyEvent = require('combokeys/test/lib/key-event');
+export default function (char, keyCode) {
+  const charCode = char && char.charCodeAt(0) || 0;
 
-module.exports = function (char, keyCode) {
-  var charCode = char && char.charCodeAt(0) || 0;
-
-  return keyEvent.simulate(charCode, keyCode || 0);
-};
+  return simulate(charCode, keyCode || 0);
+}

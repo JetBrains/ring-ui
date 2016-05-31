@@ -1,17 +1,14 @@
 /*global mocha*/
-/* eslint-disable no-var */
-/* eslint-disable prefer-arrow-callback */
-/* eslint-disable modules/no-cjs */
 
-var ReactDOM = require('react-dom');
+import {render, unmountComponentAtNode} from 'react-dom';
 
-var containerNode;
+let containerNode;
 
 /**
  * Add after each to top-level suite to be sure that the hook will be called before each test
  */
-mocha.suite.afterEach(function removeContainer() {
-  var firstChild;
+mocha.suite.afterEach(() => {
+  let firstChild;
 
   if (!containerNode || !containerNode.firstChild) {
     return;
@@ -19,7 +16,7 @@ mocha.suite.afterEach(function removeContainer() {
 
   while ((firstChild = containerNode.firstChild)) {
     if (firstChild.__component && firstChild.__component.node) {
-      ReactDOM.unmountComponentAtNode(firstChild);
+      unmountComponentAtNode(firstChild);
     }
 
     firstChild.__component = null;
@@ -28,8 +25,8 @@ mocha.suite.afterEach(function removeContainer() {
 
 });
 
-function renderIntoDocument(instance, callback) {
-  var componentNode = document.createElement('div');
+export default function renderIntoDocument(instance, callback) {
+  const componentNode = document.createElement('div');
 
   if (!containerNode) {
     containerNode = document.createElement('div');
@@ -37,8 +34,7 @@ function renderIntoDocument(instance, callback) {
   }
 
   containerNode.appendChild(componentNode);
-  componentNode.__component = ReactDOM.render(instance, componentNode, callback);
+  componentNode.__component = render(instance, componentNode, callback);
   return componentNode.__component;
 }
 
-module.exports = renderIntoDocument;
