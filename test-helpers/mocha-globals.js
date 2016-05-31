@@ -1,7 +1,7 @@
-beforeEach(function () {
+beforeEach(function createSandbox() {
   this.sinon = sinon.sandbox.create();
 });
 
-afterEach(function () {
+afterEach(function restoreSandbox() {
   this.sinon.restore();
 });
