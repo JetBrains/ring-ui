@@ -5,9 +5,13 @@ const path = require('path');
 const config = require('./webpack.config');
 const webpack = require('webpack');
 
+const helpersPath = path.join(__dirname, 'test-helpers');
+
 config.resolve = {
-  root: path.join(__dirname, 'test-helpers')
+  root: helpersPath
 };
+
+config.babelLoader.include.push(helpersPath);
 
 config.output = {
   devtoolModuleFilenameTemplate: '/[absolute-resource-path]' // For some reason slash in the beginning is required
