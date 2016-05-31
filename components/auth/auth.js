@@ -97,10 +97,10 @@ export default function Auth(config) {
 
   this.config = Object.assign({}, Auth.DEFAULT_CONFIG, config);
 
-  const {client_id, redirect, redirect_uri, request_credentials, scope, serverUri} = this.config;
-  const serverUriLength = serverUri.length;
+  const {client_id, redirect, redirect_uri, request_credentials, scope} = this.config;
+  const serverUriLength = this.config.serverUri.length;
 
-  if (serverUriLength > 0 && serverUri.charAt(serverUriLength - 1) !== '/') {
+  if (serverUriLength > 0 && this.config.serverUri.charAt(serverUriLength - 1) !== '/') {
     this.config.serverUri += '/';
   }
 
@@ -120,7 +120,7 @@ export default function Auth(config) {
   this._responseParser = new AuthResponseParser();
 
   this._requestBuilder = new AuthRequestBuilder({
-    authorization: serverUri + Auth.API_PATH + Auth.API_AUTH_PATH,
+    authorization: this.config.serverUri + Auth.API_PATH + Auth.API_AUTH_PATH,
     client_id,
     redirect,
     redirect_uri,
