@@ -1,26 +1,20 @@
-/* eslint-disable no-var */
-/* eslint-disable prefer-reflect */
-/* eslint-disable prefer-arrow-callback */
-/* eslint-disable prefer-template */
-/* eslint-disable object-shorthand */
-/* eslint-disable modules/no-cjs */
+/* global window:true StorageEvent:true */
 
-var mixIn = require('mout/object/mixIn');
-
-/* global window:true */
 /**
  *  Create window as event target
  */
-var window = mixIn({}, sinon.EventTarget);
+const window = Object.assign({}, sinon.EventTarget);
 
-/* global StorageEvent:true */
 /**
  * Custom event
+ * @param {string} type Event type
+ * @param {Object} customData Custom data
+ * @param {string} target Event target
  * @constructor
  */
 function StorageEvent(type, customData, target) {
   this.initEvent(type, false, false, target);
-  mixIn(this, customData);
+  Object.assign(this, customData);
 }
 
 StorageEvent.prototype = new sinon.Event();
@@ -32,28 +26,28 @@ StorageEvent.prototype.constructor = StorageEvent;
  * @constructor
  */
 function MockedStorage() {
-  var storage = {};
+  const storage = {};
 
-  var defaultProps = {
+  const defaultProps = {
     writable: false,
     configurable: false,
     enumerable: false
   };
 
   function dispatchEvent(key, value) {
-    var storageEvent = new StorageEvent('storage', {
-      key: key,
+    const storageEvent = new StorageEvent('storage', {
+      key,
       oldValue: storage[key],
       newValue: value,
       url: '/'
     });
 
-    setTimeout(function dispatchEventDelayed() {
+    setTimeout(() => {
       window.dispatchEvent(storageEvent);
     }, 0);
   }
 
-  Object.defineProperty(storage, 'getItem', mixIn({
+  Reflect.defineProperty(storage, 'getItem', Object.assign({
     value: function getItem(key) {
       if (arguments.length === 0) {
         throw new TypeError('Failed to execute \'getItem\' on \'Storage\': 1 argument required, but only 0 present.');
@@ -62,13 +56,13 @@ function MockedStorage() {
     }
   }, defaultProps));
 
-  Object.defineProperty(storage, 'setItem', mixIn({
+  Reflect.defineProperty(storage, 'setItem', Object.assign({
     value: function setItem(key, value) {
-      var stringKey = String(key);
-      var stringValue = String(value);
+      const stringKey = String(key);
+      const stringValue = String(value);
 
       if (arguments.length < 2) {
-        throw new TypeError('Failed to execute \'setItem\' on \'Storage\': 1 argument required, but only ' + arguments.length + ' present.');
+        throw new TypeError(`Failed to execute 'setItem' on 'Storage': 1 argument required, but only ${arguments.length} present.`);
       }
 
       dispatchEvent(stringKey, stringValue);
@@ -76,20 +70,20 @@ function MockedStorage() {
     }
   }, defaultProps));
 
-  Object.defineProperty(storage, 'removeItem', mixIn({
+  Reflect.defineProperty(storage, 'removeItem', Object.assign({
     value: function removeItem(key) {
-      var stringKey = String(key);
+      const stringKey = String(key);
 
       if (arguments.length === 0) {
         throw new TypeError('Failed to execute \'removeItem\' on \'Storage\': 1 argument required, but only 0 present.');
       }
 
       dispatchEvent(stringKey, null);
-      delete storage[stringKey];
+      Reflect.deleteProperty(storage, stringKey);
     }
   }, defaultProps));
 
-  Object.defineProperty(storage, 'length', {
+  Reflect.defineProperty(storage, 'length', {
     get: function length() {
       return Object.keys(storage).length;
     },
@@ -97,9 +91,9 @@ function MockedStorage() {
     enumerable: false
   });
 
-  Object.defineProperty(storage, 'clear', mixIn({
+  Reflect.defineProperty(storage, 'clear', Object.assign({
     value: function clear() {
-      Object.keys(storage).forEach(function removeItem(key) {
+      Object.keys(storage).forEach(key => {
         storage.removeItem(key);
       });
     }
@@ -110,4 +104,4 @@ function MockedStorage() {
 
 window.localStorage = new MockedStorage();
 
-module.exports = window;
+export default window;
