@@ -5,6 +5,7 @@
 import React, {PropTypes} from 'react';
 import {render, unmountComponentAtNode} from 'react-dom';
 import classNames from 'classnames';
+import 'dom4';
 
 import RingComponentWithShortcuts from '../ring-component/ring-component_with-shortcuts';
 import {getStyles, isMounted, getRect, getDocumentScrollLeft, getDocumentScrollTop} from '../dom/dom';
@@ -369,8 +370,7 @@ export default class Popup extends RingComponentWithShortcuts {
     let node = currentElement;
 
     while ((node = node.parentNode) && node instanceof Element) {
-      const style = getStyles(node);
-      if (style && style.position === 'fixed') {
+      if (getStyles(node).position === 'fixed' || node.classList.contains('ring-popup-container-mark')) {
         return node;
       }
     }
