@@ -23,7 +23,7 @@ angularModule.directive('rgTableToolbar', () => {
     restrict: 'E',
     replace: true,
     transclude: true,
-    template: '<div class="ring-table__toolbar"><div class="ring-table__toolbar-controls" ng-transclude></div></div>',
+    template: '<div class="ring-table__toolbar"><div class="ring-table__toolbar-controls ring-popup-container-mark" ng-transclude></div></div>',
     link(scope, iElement, attrs) {
       /**
        * Use plain DOM functions without any jquery. Should work with IE8+
