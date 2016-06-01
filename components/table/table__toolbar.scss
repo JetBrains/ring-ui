@@ -6,26 +6,37 @@
 
 .ring-table__toolbar-controls {
   display: block;
+  position: relative;
 
-  margin: 0 $ring-unit*4 0 $ring-unit*4;
+  margin: 0 $ring-unit*4;
   padding: $ring-unit*2 0;
   min-height: $ring-unit * 3;
 
   background: inherit;
   white-space: initial;
 
+  &:before {
+    content: '';
+
+    position: absolute;
+    top: 0;
+    right: -$ring-unit*4;
+    bottom: 0;
+    left: -$ring-unit*4;
+
+    background: inherit;
+  }
+
   &.ring-table__toolbar-controls_fixed {
     z-index: $ring-fixed-z-index + 1;
 
     position: fixed;
     top: 0;
-    left: 0;
     right: 0;
+    left: 0;
+  }
 
-    margin: 0;
-    padding: $ring-unit*2 $ring-unit*4;
-
-
+  &.ring-table__toolbar-controls_fixed:before {
     border-bottom: 1px solid #BEBEBE;
   }
 }
