@@ -52,9 +52,11 @@ describe('Select', () => {
   });
 
   it('Should use selectedLabel for select button title if provided', function () {
-    this.select.rerender({selected: {
-      key: 1, label: 'test1', selectedLabel: 'testLabel'
-    }});
+    this.select.rerender({
+      selected: {
+        key: 1, label: 'test1', selectedLabel: 'testLabel'
+      }
+    });
     const selectedLabel = this.select._getSelectedString();
     selectedLabel.should.equal('testLabel');
   });
@@ -155,7 +157,13 @@ describe('Select', () => {
     });
 
     it('Should add selected item icon to button', function () {
-      this.select.rerender({selected: {key: 1, label: 'test', icon: 'fakeImageUrl'}});
+      this.select.rerender({
+        selected: {
+          key: 1,
+          label: 'test',
+          icon: 'fakeImageUrl'
+        }
+      });
       this.select.node.should.contain('.ring-select__selected-icon');
     });
 
@@ -165,7 +173,13 @@ describe('Select', () => {
     });
 
     it('Should display selected item icon', function () {
-      this.select.rerender({selected: {key: 1, label: 'test', icon: 'http://fake.image/'}});
+      this.select.rerender({
+        selected: {
+          key: 1,
+          label: 'test',
+          icon: 'http://fake.image/'
+        }
+      });
       const icon = this.select.node.querySelector('.ring-select__selected-icon');
       expect(icon.style.backgroundImage).to.contain('http://fake.image/');
     });
@@ -191,18 +205,22 @@ describe('Select', () => {
       });
 
       it('Should add "Add" button if alwaysVisible is set', function () {
-        this.select.rerender({add: {
-          alwaysVisible: true
-        }});
+        this.select.rerender({
+          add: {
+            alwaysVisible: true
+          }
+        });
         this.select._showPopup();
         this.select._popup.node.should.contain('.ring-select__button');
       });
 
       it('Should place label instead filterValue to "Add" button if alwaysVisible is set', function () {
-        this.select.rerender({add: {
-          alwaysVisible: true,
-          label: 'Add Something'
-        }});
+        this.select.rerender({
+          add: {
+            alwaysVisible: true,
+            label: 'Add Something'
+          }
+        });
         this.select._showPopup();
         const addButton = this.select._popup.node.query('.ring-select__button');
 
@@ -505,7 +523,10 @@ describe('Select', () => {
       this.select.rerender({loading: true, loadingMessage: 'test message'});
       this.select._popup.rerender = this.sinon.stub();
       this.select._showPopup();
-      this.select._popup.rerender.should.been.calledWith(this.sinon.match({message: 'test message', loading: true}));
+      this.select._popup.rerender.should.been.calledWith(this.sinon.match({
+        message: 'test message',
+        loading: true
+      }));
     });
 
     it('Should pass notFoundMessage message to popup if not loading and data is empty', function () {
@@ -526,24 +547,37 @@ describe('Select', () => {
       document.activeElement.should.equal(this.select.node);
     });
 
-    it('Should restore focus on provided target element after closing popup', function () {
-      const targetInput = renderIntoDocument(React.createElement(
-        class extends RingComponent {
-          render() {
-            return <input/>;
+    describe('Focus after close', () => {
+      let targetInput = null;
+
+      beforeEach(function () {
+        targetInput = renderIntoDocument(React.createElement(
+          class extends RingComponent {
+            render() {
+              return <input/>;
+            }
           }
-        }
-      ));
+        ));
 
-      this.select = renderIntoDocument(React.createElement(Select, {
-        data: testData,
-        filter: true,
-        targetElement: targetInput.node
-      }));
-      this.select._showPopup();
-      this.select._hidePopup();
+        this.select = renderIntoDocument(React.createElement(Select, {
+          data: testData,
+          filter: true,
+          targetElement: targetInput.node
+        }));
+        this.select._showPopup();
+      });
 
-      document.activeElement.should.equal(targetInput.node);
+      it('Should restore focus on provided target element after closing popup', function () {
+        this.select._hidePopup(true);
+
+        document.activeElement.should.equal(targetInput.node);
+      });
+
+      it('Should not restore focus on provided target element after closing popup', function () {
+        this.select._hidePopup();
+
+        document.activeElement.should.not.equal(targetInput.node);
+      });
     });
 
     it('Should put popup in container if specified', function () {
