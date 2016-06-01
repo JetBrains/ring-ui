@@ -807,7 +807,7 @@ export default class Select extends RingComponentWithShortcuts {
   _listSelectHandler(selected, event) {
     const isItem = List.isItemType.bind(null, List.ListProps.Type.ITEM);
     const isCustomItem = List.isItemType.bind(null, List.ListProps.Type.CUSTOM);
-    const listOnSelectEvent = event && (event.type === 'select' || event.type === 'click');
+    const listOnSelectEvent = event && (event.type === 'keydown' || event.type === 'click');
 
     if ((!isItem(selected) && !isCustomItem(selected)) || selected.disabled) {
       return;
