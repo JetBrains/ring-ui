@@ -808,6 +808,10 @@ export default class Select extends RingComponentWithShortcuts {
     const isItem = List.isItemType.bind(null, List.ListProps.Type.ITEM);
     const isCustomItem = List.isItemType.bind(null, List.ListProps.Type.CUSTOM);
     const listOnSelectEvent = event && (event.type === 'keydown' || event.type === 'click');
+    if (event) {
+      event.preventDefault();
+    }
+
 
     if ((!isItem(selected) && !isCustomItem(selected)) || selected.disabled) {
       return;
