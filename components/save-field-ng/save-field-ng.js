@@ -1,5 +1,5 @@
 /* global angular: false */
-
+import 'dom4';
 import '../form/form.scss';
 import '../button/button.scss';
 import '../save-field-ng/save-field-ng.scss';

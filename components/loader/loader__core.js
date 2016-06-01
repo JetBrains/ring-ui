@@ -1,3 +1,4 @@
+import 'dom4';
 import './loader.scss';
 import {getPixelRatio} from '../dom/dom';
 

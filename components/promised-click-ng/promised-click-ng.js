@@ -1,3 +1,4 @@
+import 'dom4';
 /**
  * @name Promised Click Ng
  * @description Directive for a button active state control
