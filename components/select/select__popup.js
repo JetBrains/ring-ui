@@ -99,10 +99,10 @@ export default class SelectPopup extends RingComponentWithShortcuts {
     return this.refs.popup.isVisible();
   }
 
-  tabPress() {
+  tabPress(event) {
     const listActiveItem = this.refs.list.state.activeItem;
     if (listActiveItem) {
-      this.props.onSelect(listActiveItem, new Event('select'));
+      this.props.onSelect(listActiveItem, event);
     }
     this.hide();
   }
