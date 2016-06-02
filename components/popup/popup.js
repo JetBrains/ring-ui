@@ -119,7 +119,6 @@ const POPUP_REGISTRY = new OpenedPopupRegistry();
  </div>
  </file>
  <file name="index.js" webpack="true">
-   require('./index.scss');
    var DOM = require('react').DOM;
    var Popup = require('ring-ui/components/popup/popup');
    var Directions = Popup.PopupProps.Directions;
@@ -243,7 +242,6 @@ const POPUP_REGISTRY = new OpenedPopupRegistry();
       }
    </file>
    <file name="index.js" webpack="true">
-     require('./index.scss');
      var DOM = require('react').DOM;
      var Popup = require('ring-ui/components/popup/popup');
      var Directions = Popup.PopupProps.Directions;
@@ -307,7 +305,6 @@ const POPUP_REGISTRY = new OpenedPopupRegistry();
       }
    </file>
    <file name="index.js" webpack="true">
-     require('./index.scss');
      var DOM = require('react').DOM;
      var Popup = require('ring-ui/components/popup/popup');
 
