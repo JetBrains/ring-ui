@@ -86,7 +86,7 @@ ListItem.propTypes = {
   description: PropTypes.string,
   glyph: PropTypes.string,
   icon: PropTypes.string,
-  label: PropTypes.string,
+  label: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
   level: PropTypes.number,
   rightGlyph: PropTypes.string
 };
