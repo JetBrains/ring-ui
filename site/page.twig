@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Ring UI - {{ page.name or page.title }}</title>
+{#<link rel="icon" href="assets/favicon.ico">#}
+</head>
+<body>
+<div class="app">
+  <div class="app__header"></div>
+  <script src="{{ publicPath }}docs-app.js"></script>
+
+  <div class="app__main">
+    <div class="app__sidebar">
+      <h3 class="header">Ring UI library</h3>
+
+      <ul class="nav">
+        {% for item in pages %}
+          {% set title = item.name or item.title or item.path %}
+
+          <li class="nav__item">
+            {% if item.path == page.path %}
+              <span class="nav__link _active">{{ title }}</span>
+            {% else %}
+              <a class="nav__link" href="{{ item.path }}">{{ title }}</a>
+            {% endif %}
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+
+    <div class="app__content markdown-body">
+      <h1>{{ page.name or page.title }}</h1>
+
+      {% if page.content %}
+        {{ page.content }}
+      {% endif %}
+
+      {% for section in page.sections if page.sections %}
+        {% if section.description %}
+          {{ section.description | raw }}
+        {% endif %}
+
+        {% for example in section.examples %}
+          <h3 id="{{ example.name | url_encode }}"><a href="#{{ example.name | url_encode }}">{{ example.name }}</a></h3>
+
+          <!-- Iframes -->
+          {% for file in example.files if file.type == 'html' and file.iframe != 'false' and file.render != 'false' %}
+            <div class="markdown-example">
+              <iframe width="100%" height="auto" src="{{ publicPath }}{{ example.path }}" class="markdown-example__frame"></iframe>
+              <a href="{{ publicPath }}{{ example.path }}" class="markdown-example__link" target="_blank" title="Open in new tab">Example</a>
+            </div>
+          {% endfor %}
+
+          <!-- Code examples -->
+          {% for file in example.files if file.type != 'scss' and file.show != 'false' and file.render != 'false' %}
+            <div class="markdown-example-code">
+              <pre><code class="hljs {{ file.type }}" data-lang="{{ file.type }}">{{ file.source | escape }}</code></pre>
+            </div>
+          {% endfor %}
+
+        {% endfor %}
+      {% endfor %}
+
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
