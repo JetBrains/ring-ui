@@ -27,7 +27,7 @@
     "gemini-test-ci": "babel-node tools/gemini-runner-ci.js",
     "gemini-gather": "babel-node tools/gemini-runner.js --gather",
     "build": "node --max-old-space-size=2000 tools/metalsmith.js",
-    "start": "node --max-old-space-size=2000 tools/metalsmith.js --server",
+    "start": "webpack-dev-server --config webpack-docs.config.js --port 9999 --server",
     "lint": "eslint --quiet .",
     "lint-hook": "eslint $ESLINT_HOOK_FILES",
     "prelint-ci": "babel-node tools/message-import-reports",
@@ -68,6 +68,7 @@
     "eslint-config-jetbrains": "2.0.18",
     "eslint-nibble": "2.0.0",
     "exports-loader": "0.6.2",
+    "extract-loader": "0.0.2",
     "finalhandler": "0.3.5",
     "gemini": "2.1.1",
     "gemini-teamcity": "2.1.1",
@@ -105,7 +106,8 @@
     "wallaby-webpack": "0.0.22",
     "webpack": "1.13.0",
     "webpack-config-merger": "0.0.5",
-    "webpack-dev-server": "1.14.1"
+    "webpack-dev-server": "1.14.1",
+    "webpack-docs-plugin": "1.0.3-alpha"
   },
   "dependencies": {
     "angular-elastic": "2.5.1-jb",

@@ -40,13 +40,26 @@ html, body {
 }
 
 /* Replace with ring-link */
-.nav__link, .nav__link:visited {
-  color: #1866C5;
+.nav__link {
+  $color: #1866C5;
+  color: $color;
   text-decoration: none;
+
+  &:visited {
+    color: $color;
+    text-decoration: none;
+  }
+
+  &:hover {
+    color: #FF5A00;
+  }
 }
 
-.nav__link:hover {
-  color: #FF5A00;
+.nav__link._active {
+  color: #000;
+  font-weight: bold;
+  cursor: default;
+
 }
 
 .markdown-body {

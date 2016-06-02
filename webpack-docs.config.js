@@ -10,6 +10,10 @@ const webpackConfig = require('./webpack.config');
 const AnyBarWebpackPlugin = require('anybar-webpack');
 const progressPlugin = require('./tools/progress-webpack-plugin');
 
+const DocsPlugin = require('webpack-docs-plugin');
+const docsPluginSetup = require('./webpack-docs-plugin.setup');
+const assign = require('deep-assign');
+
 const isServer = process.argv.includes('--server');
 
 const nodeModulesPath = path.join(__dirname, 'node_modules');
@@ -17,7 +21,7 @@ const sitePath = [
   path.join(__dirname, 'docs'),
   path.join(__dirname, 'site')
 ];
-const publicPath = '/assets/';
+const publicPath = '/';
 
 const config = require('./package.json').config;
 
@@ -45,9 +49,27 @@ const hubProductionConfig = {
   redirect_uri: 'http://ring-ui.github.io' // eslint-disable-line camelcase
 };
 
+const exampleHtmlLoaderConfig = assign(webpackConfig.htmlLoader);
+exampleHtmlLoaderConfig.test = /\.html$/;
+exampleHtmlLoaderConfig.loaders = [
+  `${require.resolve('file-loader')}?name=docs/[path][name].[ext]/examples/[hash].html`,
+  require.resolve('extract-loader'),
+  webpackConfig.htmlLoader.loader
+];
+delete exampleHtmlLoaderConfig.loader;
+
+// For docs-app entry point
+webpackConfig.babelLoader.include.push(path.resolve(__dirname, 'site'));
+
 const docsWebpackConfig = webpackConfigMerger(webpackConfig, {
   entry: {
-    index: './site/'
+    components: './components/button/index.js',
+    'docs-app': './site/index.js',
+    'docs-markdown': [
+      'index.md',
+      'breaking-changes.md',
+      'migration-to-2.3.0.md'
+    ].map(filename => path.join(__dirname, `components/${filename}`))
   },
   resolve: {
     alias: {
@@ -57,15 +79,15 @@ const docsWebpackConfig = webpackConfigMerger(webpackConfig, {
   module: {
     loaders: [
       {
-        test: /\.scss$/,
-        include: sitePath,
-        loaders: [
-          'style',
-          'css',
-          'postcss?pack=ring-ui',
-          'sass?outputStyle=expanded'
-        ]
+        test: /\.js$/,
+        include: path.resolve(__dirname, 'components'),
+        loader: DocsPlugin.extract({extractor: 'jsdoc'})
       },
+      {
+        test: /\.md$/,
+        loader: DocsPlugin.extract({extractor: 'markdown'})
+      },
+      // For github-markdown-css
       {
         test: /\.css$/,
         include: nodeModulesPath,
@@ -73,11 +95,6 @@ const docsWebpackConfig = webpackConfigMerger(webpackConfig, {
           'style',
           'css'
         ]
-      },
-      {
-        test: /\.js$/,
-        include: sitePath,
-        loader: 'babel'
       }
     ]
   },
@@ -94,11 +111,14 @@ const docsWebpackConfig = webpackConfigMerger(webpackConfig, {
       hubConfig: JSON.stringify(isServer ? hubServerConfig : hubProductionConfig)
     })
   ]
+  .concat(docsPluginSetup({
+    publicPath: publicPath
+  }))
 });
 
 if (isServer) {
   docsWebpackConfig.plugins.push(
-    new webpack.HotModuleReplacementPlugin(),
+    //new webpack.HotModuleReplacementPlugin(),
     new webpack.NoErrorsPlugin(),
     new AnyBarWebpackPlugin(),
     progressPlugin
