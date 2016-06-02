@@ -341,7 +341,9 @@ export default class QueryAssist extends RingComponentWithShortcuts {
         tab: ::this.handleTab,
         right: noop,
         left: noop,
-        space: noop
+        space: noop,
+        home: noop,
+        end: noop
       },
       scope: ::this.constructor.getUID('ring-query-assist-')
     };
