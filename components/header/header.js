@@ -147,7 +147,6 @@ const MenuItemsSequence = [
     </file>
 
     <file name="index.js" webpack="true">
-      require('./index.scss');
       var React = require('react');
       var ReactDOM = require('react-dom');
       var hubConfig = require('ring-ui/site/hub-config');

@@ -40,8 +40,6 @@ import './icon.scss';
      </file>
 
      <file name="index.js" webpack="true">
-       require('./index.scss');
-
        var render = require('react-dom').render;
        var Icon = require('ring-ui/components/icon/icon');
 
@@ -103,7 +101,6 @@ import './icon.scss';
      </file>
 
      <file name="index.js" webpack="true">
-       require('./index.scss');
        import {render} from 'react-dom';
        import {createElement} from 'react';
        import Icon from 'ring-ui/components/icon/icon';
@@ -135,7 +132,6 @@ import './icon.scss';
    </file>
 
    <file name="index.js" webpack="true">
-     require('./index.scss');
      import {render} from 'react-dom';
      import {createElement} from 'react';
      import Icon from 'ring-ui/components/icon/icon';
