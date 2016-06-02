@@ -78,18 +78,16 @@ export default class SelectionNavigateActions {
     }
     const activeItem = this._selection.getActiveItem();
 
-    if (activeItem && this._selection.items.length >= 0) {
-      this._selection.clearSelection();
-      return false;
+    if (activeItem) {
+      if (this._selection.getCheckedItems().length > 0) {
+        this._selection.clearSelection();
+        return false;
+      }
+
+      this._selection.clearActivity();
     }
 
-    if (!activeItem) {
-      this._selection.setActiveItemIndex(0);
-      return false;
-    } else {
-      this._selection.clearActivity();
-      return true;
-    }
+    return true;
   }
 
   _changeCheckedItemsArray() {
