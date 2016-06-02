@@ -1,13 +1,13 @@
 /* eslint-disable camelcase */
+
 /**
- * @typedef {{
- *   access_token: string?,
- *   state: string?,
- *   token_type: string?,
- *   expires_in: string?,
- *   scope: string?,
- *   error: string?
- * }} AuthResponse
+ * @typedef {Object} AuthResponse
+ * @property {string?} access_token
+ * @property {string?} state
+ * @property {string?} token_type
+ * @property {string?} expires_in
+ * @property {string?} scope
+ * @property {string?} error
  */
 
 /**

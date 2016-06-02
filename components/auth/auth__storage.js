@@ -1,18 +1,16 @@
 import Storage from '../storage/storage';
 
 /**
- * @typedef {{
- *   access_token: string,
- *   scopes: string[],
- *   expires: number
- * }} StoredToken
+ * @typedef {Object} StoredToken
+ * @property {string} access_token
+ * @property {string[]} scopes
+ * @property {number} expires
  */
 
 /**
- * @typedef {{
- *   restoreLocation: string,
- *   scopes: string[]
- * }} StoredState
+ * @typefed {Object} StoredState
+ * @property {string} restoreLocation
+ * @property {string[]} scopes
  */
 
 const DEFAULT_STATE_QUOTA = 102400; // 100 kb ~~ 200 tabs with big scopes list
