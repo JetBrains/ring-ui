@@ -8,7 +8,6 @@ const webpack = require('webpack');
 const webpackConfigMerger = require('webpack-config-merger');
 const webpackConfig = require('./webpack.config');
 const AnyBarWebpackPlugin = require('anybar-webpack');
-const progressPlugin = require('./tools/progress-webpack-plugin');
 
 const DocsPlugin = require('webpack-docs-plugin');
 const docsPluginSetup = require('./webpack-docs-plugin.setup');
@@ -126,8 +125,7 @@ if (isServer) {
   docsWebpackConfig.plugins.push(
     //new webpack.HotModuleReplacementPlugin(),
     new webpack.NoErrorsPlugin(),
-    new AnyBarWebpackPlugin(),
-    progressPlugin
+    new AnyBarWebpackPlugin()
   );
 }
 
