@@ -25,13 +25,13 @@ module.exports = function (params) {
     new SourceLastModifiedPlugin(),
     new SourcePackageInfoPlugin(),
     new ExampleCompilerPlugin({
-      filenamePrefix: path.resolve(__dirname, 'components') + '/'
+      filenamePrefix: `${path.resolve(__dirname, 'components')}/`
     }),
 
     new ExamplePagePlugin({
       template: path.resolve(__dirname, 'site/example.twig'),
       context: {
-        publicPath: publicPath
+        publicPath
       }
     }),
 
@@ -39,20 +39,18 @@ module.exports = function (params) {
       template: path.resolve(__dirname, 'site/page.twig'),
       filename: '[name].html',
       context: {
-        publicPath: publicPath
+        publicPath
       }
     }),
 
     {
-      apply: function (compiler) {
-        compiler.plugin('compilation', function (compilation) {
+      apply(compiler) {
+        compiler.plugin('compilation', compilation => {
 
-          compilation.plugin(DocsPlugin.HOOKS.FILTER_EXTRACTED_RESULTS, function (results, done) {
-            var filtered = results.filter(function (result) {
+          compilation.plugin(DocsPlugin.HOOKS.FILTER_EXTRACTED_RESULTS, (results, done) => {
+            var filtered = results.filter(result => {
               if (/\.(js|scss)$/.test(result.source.path)) {
-                var examples = find(result, function (item) {
-                  return item instanceof Example;
-                });
+                const examples = find(result, item => item instanceof Example);
                 return examples.length > 0;
               } else {
                 return true;
