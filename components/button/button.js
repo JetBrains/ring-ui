@@ -1,3 +1,7 @@
+/**
+ * @name Button
+ */
+
 import React, {PropTypes} from 'react';
 import classNames from 'classnames';
 import RingComponent from '../ring-component/ring-component';
@@ -5,7 +9,6 @@ import Icon from '../icon/icon';
 import './button.scss';
 
 /**
- * @name Button
  * @constructor
  * @description Button component
  * @extends {ReactComponent}

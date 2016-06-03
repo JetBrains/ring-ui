@@ -1,9 +1,9 @@
-/* eslint-disable react/no-multi-comp */
-
 /**
+ * @name Header
  * @fileoverview Cross-service universal header.
  * @author igor.alexeenko@jetbrains.com (Igor Alekseenko)
  */
+/* eslint-disable react/no-multi-comp */
 
 import 'dom4';
 import React, {createElement, DOM} from 'react';
@@ -124,7 +124,6 @@ const MenuItemsSequence = [
 
 
 /**
- * @name Header
  * @constructor
  * @extends {ReactComponent}
  * @example
