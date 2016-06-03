@@ -39,7 +39,23 @@ module.exports = function (params) {
       template: path.resolve(__dirname, 'site/page.twig'),
       filename: '[name].html',
       context: {
-        publicPath
+        publicPath,
+        pagesByCategory: function(docs) {
+          var categories = {};
+          var defaultCategory = '';
+
+          docs.forEach(function (page) {
+            var p = page.serialize();
+            var category = (p.category || defaultCategory).toLowerCase();
+            if (!Array.isArray(categories[category])) {
+              categories[category] = [];
+            }
+
+            categories[category].push(p);
+          });
+
+          return categories;
+        }
       }
     }),
 

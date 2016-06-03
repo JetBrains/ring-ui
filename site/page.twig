@@ -12,21 +12,25 @@
 
   <div class="app__main">
     <div class="app__sidebar">
-      <h3 class="header">Ring UI library</h3>
+      <h3 class="header nav__header">Ring UI library <div class="ring-ui-version">{{ page.source.packageInfo.version }}</div></h3>
 
-      <ul class="nav">
-        {% for item in pages %}
-          {% set title = item.name or item.title or item.path %}
+      {% for category, pages in pagesByCategory %}
+        <h4 class="header">{{ category }}</h4>
+        <ul class="nav">
+          {% for item in pages %}
+            {% set title = item.name or item.title or item.path %}
 
-          <li class="nav__item">
-            {% if item.path == page.path %}
-              <span class="nav__link _active">{{ title }}</span>
-            {% else %}
-              <a class="nav__link" href="{{ item.path }}">{{ title }}</a>
-            {% endif %}
-          </li>
-        {% endfor %}
-      </ul>
+            <li class="nav__item">
+              {% if item.path == page.path %}
+                <span class="nav__link _active">{{ title }}</span>
+              {% else %}
+                <a class="nav__link" href="{{ item.path }}">{{ title }}</a>
+              {% endif %}
+            </li>
+          {% endfor %}
+        </ul>
+      {% endfor %}
+
     </div>
 
     <div class="app__content markdown-body">

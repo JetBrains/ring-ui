@@ -107,7 +107,7 @@
     "webpack": "1.13.0",
     "webpack-config-merger": "0.0.5",
     "webpack-dev-server": "1.14.1",
-    "webpack-docs-plugin": "1.0.3-alpha"
+    "webpack-docs-plugin": "1.0.4-alpha"
   },
   "dependencies": {
     "angular-elastic": "2.5.1-jb",
