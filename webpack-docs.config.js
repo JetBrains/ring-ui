@@ -17,10 +17,10 @@ const assign = require('deep-assign');
 const isServer = process.argv.includes('--server');
 
 const nodeModulesPath = path.join(__dirname, 'node_modules');
-const sitePath = [
-  path.join(__dirname, 'docs'),
-  path.join(__dirname, 'site')
-];
+// const sitePath = [
+//   path.join(__dirname, 'docs'),
+//   path.join(__dirname, 'site')
+// ];
 const publicPath = '/';
 
 const config = require('./package.json').config;
@@ -56,7 +56,7 @@ exampleHtmlLoaderConfig.loaders = [
   require.resolve('extract-loader'),
   webpackConfig.htmlLoader.loader
 ];
-delete exampleHtmlLoaderConfig.loader;
+Reflect.deleteProperty(exampleHtmlLoaderConfig, 'loader');
 
 // For docs-app entry point
 webpackConfig.babelLoader.include.push(path.resolve(__dirname, 'site'));
@@ -119,10 +119,7 @@ const docsWebpackConfig = webpackConfigMerger(webpackConfig, {
     new webpack.DefinePlugin({
       hubConfig: JSON.stringify(isServer ? hubServerConfig : hubProductionConfig)
     })
-  ]
-  .concat(docsPluginSetup({
-    publicPath: publicPath
-  }))
+  ].concat(docsPluginSetup({publicPath}))
 });
 
 if (isServer) {
