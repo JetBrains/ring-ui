@@ -1,3 +1,3 @@
 /* global hubConfig */
 
-module.exports = hubConfig;
+export default hubConfig;
