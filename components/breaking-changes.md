@@ -1,6 +1,6 @@
 ---
-collection: docs
 title: Breaking Changes
+category: Docs
 order: 2
 ---
 
