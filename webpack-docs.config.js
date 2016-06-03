@@ -100,6 +100,15 @@ const docsWebpackConfig = webpackConfigMerger(webpackConfig, {
   },
   devtool: isServer ? 'eval' : '#source-map',
   debug: isServer,
+  devServer: {
+    stats: {
+      assets: false,
+      chunks: false,
+      hash: false,
+      children: false,
+      version: false
+    }
+  },
   output: {
     path: path.resolve(__dirname, 'docs', 'assets'),
     pathinfo: isServer,
