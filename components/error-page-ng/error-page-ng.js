@@ -1,5 +1,5 @@
 /* global angular: false */
-
+import 'dom4';
 import '../error-page/error-page.scss';
 import ErrorMessage from '../error-message-ng/error-message-ng';
 import Permissions from '../permissions-ng/permissions-ng';

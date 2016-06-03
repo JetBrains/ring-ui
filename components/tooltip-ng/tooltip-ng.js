@@ -1,3 +1,4 @@
+import 'dom4';
 import {createElement} from 'react';
 import classNames from 'classnames';
 import Popup from '../popup/popup';
