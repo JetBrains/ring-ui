@@ -41,17 +41,30 @@ module.exports = function (params) {
       context: {
         publicPath,
         pagesByCategory: function(docs) {
-          var categories = {};
-          var defaultCategory = '';
+          var categories = {Docs: []};
+          var defaultCategory = 'Components';
 
           docs.forEach(function (page) {
             var p = page.serialize();
-            var category = (p.category || defaultCategory).toLowerCase();
+            var category = (p.category || defaultCategory);
             if (!Array.isArray(categories[category])) {
               categories[category] = [];
             }
 
             categories[category].push(p);
+          });
+
+          Object.keys(categories).forEach(function(category) {
+            categories[category].sort(function (a, b) {
+              const aOrder = typeof a.order !== 'undefined' ? a.order : (a.name || a.title || '');
+              const bOrder = typeof b.order !== 'undefined' ? b.order : (b.name || b.title || '');
+
+              if (aOrder === bOrder) {
+                return 0;
+              }
+
+              return aOrder < bOrder ? -1 : 1;
+            });
           });
 
           return categories;

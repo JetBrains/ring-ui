@@ -1,3 +1,9 @@
+---
+title: Getting Started
+category: Docs 
+order: 1
+---
+
 # Ring UI library
 
 **See the [living style guide](http://ring-ui.github.io)**.

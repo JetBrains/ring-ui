@@ -15,7 +15,10 @@
       <h3 class="header nav__header">Ring UI library <div class="ring-ui-version">{{ page.source.packageInfo.version }}</div></h3>
 
       {% for category, pages in pagesByCategory %}
-        <h4 class="header">{{ category }}</h4>
+        {% if category != 'Docs' %}
+          <h4 class="header">{{ category }}</h4>
+        {% endif %}
+
         <ul class="nav">
           {% for item in pages %}
             {% set title = item.name or item.title or item.path %}

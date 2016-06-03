@@ -1,6 +1,6 @@
 ---
-collection: docs
 title: Introduction
+category: Docs
 order: 0
 ---
 

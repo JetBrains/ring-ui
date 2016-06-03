@@ -1,6 +1,6 @@
 ---
-collection: docs
 title: Migrating to Ring UI 2.3.0
+category: Docs
 order: 3
 ---
 
