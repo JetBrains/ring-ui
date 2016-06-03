@@ -59,7 +59,20 @@ html, body {
   color: #000;
   font-weight: bold;
   cursor: default;
+}
 
+.nav__header {
+  white-space: nowrap;
+}
+
+.ring-ui-version {
+  display: inline-block;
+  border-radius: 5px;
+  padding: 2px 5px;
+  background-color: #ccc;
+  color: #fff;
+  font-size: 12px;
+  font-weight: normal;
 }
 
 .markdown-body {
