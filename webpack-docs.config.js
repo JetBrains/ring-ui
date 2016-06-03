@@ -63,7 +63,7 @@ webpackConfig.babelLoader.include.push(path.resolve(__dirname, 'site'));
 
 const docsWebpackConfig = webpackConfigMerger(webpackConfig, {
   entry: {
-    components: './components/button/index.js',
+    components: './site/components.js',
     'docs-app': './site/index.js',
     'docs-markdown': [
       'index.md',
