@@ -49,7 +49,7 @@
         {% endif %}
 
         {% for example in section.examples %}
-          <h3 id="{{ example.name | url_encode }}"><a href="#{{ example.name | url_encode }}">{{ example.name }}</a></h3>
+          <h3 id="{{ example.name | url_encode }}">{{ example.name }} <a href="#{{ example.name | url_encode }}">#</a></h3>
 
           <!-- Iframes -->
           {% for file in example.files if file.type == 'html' and file.iframe != 'false' and file.render != 'false' %}
