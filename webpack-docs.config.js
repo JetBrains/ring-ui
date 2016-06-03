@@ -16,10 +16,6 @@ const assign = require('deep-assign');
 const isServer = process.argv.includes('--server');
 
 const nodeModulesPath = path.join(__dirname, 'node_modules');
-// const sitePath = [
-//   path.join(__dirname, 'docs'),
-//   path.join(__dirname, 'site')
-// ];
 const publicPath = '/';
 
 const config = require('./package.json').config;
@@ -65,10 +61,11 @@ const docsWebpackConfig = webpackConfigMerger(webpackConfig, {
     components: './site/components.js',
     'docs-app': './site/index.js',
     'docs-markdown': [
-      'index.md',
-      'breaking-changes.md',
-      'migration-to-2.3.0.md'
-    ].map(filename => path.join(__dirname, `components/${filename}`))
+      'README.md',
+      'components/index.md',
+      'components/breaking-changes.md',
+      'components/migration-to-2.3.0.md'
+    ].map(filename => path.join(__dirname, `${filename}`))
   },
   resolve: {
     alias: {
