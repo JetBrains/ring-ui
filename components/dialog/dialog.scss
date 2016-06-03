@@ -185,7 +185,7 @@
   display: block; // fallback for Safary < 5.0
   display: table; // It sets container's width to min-width if content is small
   min-width: $ring-unit * 50;
-  max-width: 100%;
+  max-width: $ring-unit * 53;
   margin: 0 auto;
   padding: 0;
 
@@ -200,6 +200,7 @@
 
   &_wide {
     width: $ring-unit * 75;
+    max-width: $ring-unit * 75;
   }
 }
 
