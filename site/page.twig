@@ -55,7 +55,7 @@
           <!-- Code examples -->
           {% for file in example.files if file.type != 'scss' and file.show != 'false' and file.render != 'false' %}
             <div class="markdown-example-code">
-              <pre><code class="hljs {{ file.type }}" data-lang="{{ file.type }}">{{ file.source | escape }}</code></pre>
+              <pre><code class="language-{{ file.type }}">{{ file.source | escape }}</code></pre>
             </div>
           {% endfor %}
 
