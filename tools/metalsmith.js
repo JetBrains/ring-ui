@@ -137,7 +137,13 @@ new Metalsmith(path.resolve(__dirname, '..')).
         contentBase: path.resolve(__dirname, '..', 'docs'),
         hot: true,
         publicPath,
-        quiet: true
+        stats: {
+          assets: false,
+          chunks: false,
+          hash: false,
+          children: false,
+          version: false
+        }
       }).listen(port, () => {
         console.log(`Server started on ${serverUrl}`);
       });
