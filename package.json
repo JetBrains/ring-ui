@@ -26,7 +26,7 @@
     "gemini-test": "babel-node tools/gemini-runner.js components/**/*.gemini.js",
     "gemini-test-ci": "babel-node tools/gemini-runner-ci.js",
     "gemini-gather": "babel-node tools/gemini-runner.js --gather",
-    "build": "node --max-old-space-size=2000 tools/metalsmith.js",
+    "build": "webpack --config webpack-docs.config.js",
     "start": "webpack-dev-server --config webpack-docs.config.js --port 9999 --server",
     "lint": "eslint --quiet .",
     "lint-hook": "eslint $ESLINT_HOOK_FILES",
