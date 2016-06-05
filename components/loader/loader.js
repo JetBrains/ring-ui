@@ -15,7 +15,6 @@ import LoaderCore from './loader__core';
    </file>
 
    <file name="index.js" webpack="true">
-     require('./index.scss');
      var render = require('react-dom').render;
      var Loader = require('ring-ui/components/loader/loader');
 

@@ -39,7 +39,6 @@ import {getDocumentScrollTop} from '../dom/dom';
     </div>
   </file>
   <file name="index.js" webpack="true">
-    require('./example.scss');
     require('angular');
     require('ring-ui/components/place-under-ng/place-under-ng');
     var dom = require('ring-ui/components/dom/dom');

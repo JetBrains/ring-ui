@@ -72,8 +72,6 @@ import '../dialog/dialog.scss';
  require('ring-ui/components/dialog-ng/dialog-ng'),
  require('ring-ui/components/select-ng/select-ng');
 
- require('./style.scss');
-
  angular.module('Example.dialog', ['Ring.dialog', 'Ring.select'])
  .controller('ExampleCtrl', function($q, $timeout, dialog) {
      $timeout(function () {
