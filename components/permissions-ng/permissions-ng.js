@@ -33,20 +33,20 @@ const angularModule = angular.module('Ring.permissions', ['Ring.auth']);
  *
  * @requires auth
  */
+
+/**
+ * @typedef {Object} permissionsNgConfig
+ * @property {string?} serviceId
+ * @property {string?} prefix
+ */
 angularModule.provider('userPermissions', function () {
   /**
-   * @type {{
-   *   serviceId: string?,
-   *   prefix: string?
-   * }}
+   * @type {permissionsNgConfig}
    */
   let _config = {};
 
   /**
-   * @param {{
-   *   serviceId: string?,
-   *   prefix: string?
-   * }} config
+   * @param {permissionsNgConfig} config
    */
   this.config = config => {
     _config = config;
