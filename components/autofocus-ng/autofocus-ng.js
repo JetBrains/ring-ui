@@ -18,7 +18,6 @@
  </file>
  <file name="index.js" webpack="true">
  require('ring-ui/components/input/input.scss');
- require('./index.scss');
  require('angular');
  require('ring-ui/components/autofocus-ng/autofocus-ng');
  </file>
@@ -36,7 +35,6 @@
   }
  </file>
  <file name="index.js" webpack="true">
-   require('./index.scss');
    require('angular');
    require('ring-ui/components/select-ng/select-ng');
    require('ring-ui/components/autofocus-ng/autofocus-ng');

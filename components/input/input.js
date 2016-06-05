@@ -57,7 +57,6 @@ import './input.scss';
      <file name="index.js" webpack="true">
        require('ring-ui/components/input/input.scss');
        require('ring-ui/components/input-size/input-size.scss');
-       require('./style.scss');
      </file>
    </example>
 
@@ -95,7 +94,6 @@ import './input.scss';
      <file name="index.js" webpack="true">
        require('ring-ui/components/input/input.scss');
        require('ring-ui/components/input-size/input-size.scss');
-       require('./style.scss');
      </file>
    </example>
  */
