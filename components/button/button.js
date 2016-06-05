@@ -12,41 +12,7 @@ import './button.scss';
  * @constructor
  * @description Button component
  * @extends {ReactComponent}
- * @example
-   <example name="Button">
-     <file name="index.html">
-       <div id="buttons">
-         <style>#buttons > span {margin: 8px;}</style>
-         <span id="button"></span><span id="button-icon"></span><span id="button-short"></span>
-       </div>
-     </file>
-
-     <file name="index.js" webpack="true">
-       var render = require('react-dom').render;
-       var Button = require('ring-ui/components/button/button');
-
-       render(Button.factory({}, 'Button default'), document.getElementById('button'));
-
-       render(Button.factory({
-         icon: require('jetbrains-icons/caret-down.svg')
-       }, 'Button icon'), document.getElementById('button-icon'));
-
-       render(Button.factory({
-         short: true,
-       }, '...'), document.getElementById('button-short'));
-
-       var container = document.getElementById('buttons');
-       ['active', 'blue', 'danger', 'delayed', 'loader', 'primary'].forEach(modifier => {
-         var node = document.createElement('span');
-         container.appendChild(node);
-
-         render(Button.factory({
-           [modifier]: true
-         }, 'Button ' + modifier), node);
-       });
-
-   </file>
-   </example>
+ * @example-file ./examples.html
  */
 export default class Button extends RingComponent {
   static propTypes = {
