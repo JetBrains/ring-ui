@@ -65,7 +65,7 @@ const docsWebpackConfig = webpackConfigMerger(webpackConfig, {
   module: {
     loaders: [
       {
-        test: /\.js$/,
+        test: /\.(js|scss)$/,
         include: path.resolve(__dirname, 'components'),
         loader: DocsPlugin.extract({extractor: 'jsdoc'})
       },
