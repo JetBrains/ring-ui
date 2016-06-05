@@ -88,22 +88,6 @@ module.exports = function (params) {
 
             done(null, filtered);
           });
-
-          //compilation.plugin(DocsPlugin.HOOKS.EMIT_RESULTS, function (context, done) {
-          //  var pages = context.plugin.docs;
-          //  var toc = pages.map(function (page) {
-          //    var serialized = page.serialize();
-          //    return {
-          //      id: serialized.path,
-          //      url: publicPath + serialized.path,
-          //      title: serialized.name || serialized.title || serialized.source.path,
-          //      category: serialized.category || serialized.collection
-          //    };
-          //  });
-          //  emitFile(this, 'toc.json', JSON.stringify(toc, null, 2));
-          //
-          //  done();
-          //});
         });
       }
     }
