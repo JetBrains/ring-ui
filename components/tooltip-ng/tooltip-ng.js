@@ -18,7 +18,6 @@ import './tooltip-ng.scss';
   </file>
 
   <file name="index.js" webpack="true">
-    require('./index.scss');
     require('angular');
     require('ring-ui/components/react-ng/react-ng')({
       Icon: require('ring-ui/components/icon/icon')
