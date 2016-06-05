@@ -11,7 +11,6 @@ const AnyBarWebpackPlugin = require('anybar-webpack');
 
 const DocsPlugin = require('webpack-docs-plugin');
 const docsPluginSetup = require('./webpack-docs-plugin.setup');
-const assign = require('deep-assign');
 
 const isServer = process.argv.includes('--server');
 
@@ -44,15 +43,6 @@ const hubProductionConfig = {
   redirect_uri: 'http://ring-ui.github.io' // eslint-disable-line camelcase
 };
 
-const exampleHtmlLoaderConfig = assign(webpackConfig.htmlLoader);
-exampleHtmlLoaderConfig.test = /\.html$/;
-exampleHtmlLoaderConfig.loaders = [
-  `${require.resolve('file-loader')}?name=docs/[path][name].[ext]/examples/[hash].html`,
-  require.resolve('extract-loader'),
-  webpackConfig.htmlLoader.loader
-];
-Reflect.deleteProperty(exampleHtmlLoaderConfig, 'loader');
-
 // For docs-app entry point
 webpackConfig.babelLoader.include.push(path.resolve(__dirname, 'site'));
 
@@ -82,6 +72,15 @@ const docsWebpackConfig = webpackConfigMerger(webpackConfig, {
       {
         test: /\.md$/,
         loader: DocsPlugin.extract({extractor: 'markdown'})
+      },
+      // HTML examples
+      {
+        test: /example\.html$/,
+        loaders: [
+          `${require.resolve('file-loader')}?name=docs/[path][name].[ext]/examples/[hash].html`,
+          require.resolve('extract-loader'),
+          webpackConfig.htmlLoader.loader
+        ]
       },
       // For github-markdown-css
       {
