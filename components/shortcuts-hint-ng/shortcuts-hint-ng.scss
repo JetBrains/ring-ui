@@ -27,11 +27,11 @@
 
 .shortcuts-hint__shortcut-block {
   display: table-row-group;
-  Spacing between shortcuts block
+  //Spacing between shortcuts block
   &:not(:first-child)::before {
     content: '';
     display: block;
-    height: $ring-unit;
+    height: $ring-unit/2;
   }
 }
 
