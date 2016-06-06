@@ -2,15 +2,23 @@
 
 .shortcuts-hint {
   margin-bottom: $ring-unit * 2;
+  margin-top: $ring-unit * 2;
+  width: $ring-unit * 100;
 }
 
 .shortcuts-hint__popup-header {
   padding-left: $ring-unit;
 }
 
+.shortcuts-hint__columns {
+  margin-top: $ring-unit * 3;
+  columns: 2 auto;
+}
+
 .shortcuts-hint__table {
-  border-collapse: collapse;
-  width: 100%;
+  display: table;
+  border-collapse: separate;
+  border-spacing: 0 $ring-unit;
 }
 
 .shortcuts-hint__shortcuts-column {
@@ -18,11 +26,12 @@
 }
 
 .shortcuts-hint__shortcut-block {
-  //Spacing between shortcuts block
-  &::before {
+  display: table-row-group;
+  Spacing between shortcuts block
+  &:not(:first-child)::before {
     content: '';
     display: block;
-    height: $ring-unit * 2;
+    height: $ring-unit;
   }
 }
 
@@ -32,7 +41,7 @@
 }
 
 .shortcuts-hint__search-input {
-  padding-right: $ring-unit * 3;
+
 }
 
 .shortcuts-hint__search-icon {
@@ -49,32 +58,40 @@
 }
 
 .shortcuts-hint__table-row {
-  vertical-align: baseline;
+  display: table-row;
 }
 
 .shortcuts-hint__table-title {
-  height: $ring-unit * 5;
+  display: table-row;
 }
 
 .shortcuts-hint__shortcut-cell {
+  display: table-cell;
   padding-right: $ring-unit;
-  padding-bottom: $ring-unit;
-  max-width: $ring-unit * 15;
+  //padding-bottom: $ring-unit;
+  max-width: $ring-unit * 18;
 
   text-align: right;
 }
 
 .shortcuts-hint__shortcut {
   white-space: nowrap;
+  color: $ring-dark-gray-color;
+  font-family: monospace;
 }
 
 .shortcuts-hint__hint {
+  display: table-cell;
   padding-left: $ring-unit;
 }
 
 .shortcuts-hint__shortcuts-title {
+  display: table-cell;
   padding-left: $ring-unit;
-  font-size: 20px;
+  font-size: 12px;
+  color: $ring-dark-gray-color;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
 }
 
 .shortcuts-hint__key-spacer {

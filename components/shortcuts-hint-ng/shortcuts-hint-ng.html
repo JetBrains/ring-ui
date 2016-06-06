@@ -1,37 +1,37 @@
 <div class="shortcuts-hint">
 
-  <table class="shortcuts-hint__table">
+  <div class="shortcuts-hint__search-input-wrapper">
+    <input class="ring-input shortcuts-hint__search-input" placeholder="Search"
+      ng-model="hintPopupCtrl.searchText" autofocus/>
+    <span class="shortcuts-hint__search-icon" react-static="Icon"
+      react-glyph="hintPopupCtrl.searchIcon" react-size="16"></span>
+  </div>
 
-    <tbody>
-      <tr>
-        <td class="shortcuts-hint__shortcuts-column"></td>
-        <td class="shortcuts-hint__popup-header">
-          <div class="shortcuts-hint__search-input-wrapper">
-            <input class="ring-input shortcuts-hint__search-input" placeholder="Search" ng-model="hintPopupCtrl.searchText" autofocus/>
-            <span class="shortcuts-hint__search-icon" react-static="Icon" react-glyph="'search'" react-size="16"></span>
+  <div class="shortcuts-hint__columns">
+    <div class="shortcuts-hint__table">
+      <div ng-repeat="mode in hintPopupCtrl.modes"
+        class="shortcuts-hint__shortcut-block">
+
+        <div class="shortcuts-hint__table-title">
+          <div class="shortcuts-hint__shortcuts-title"></div>
+          <div class="shortcuts-hint__shortcuts-title">{{mode.title}}</div>
+        </div>
+
+        <div ng-repeat="shortcut in mode.shortcuts | shortcutSearch:hintPopupCtrl.searchText"
+          class="shortcuts-hint__table-row">
+          <div class="shortcuts-hint__shortcut-cell">
+            <div class="shortcuts-hint__shortcut"
+              ng-if="hintPopupCtrl.isArray(shortcut.key)"
+              ng-repeat="key in shortcut.key track by $index">
+              {{key | shortcutKeySymbol}}
+            </div>
+            <span class="shortcuts-hint__shortcut"
+              ng-if="!hintPopupCtrl.isArray(shortcut.key)">{{shortcut.key | shortcutKeySymbol}}</span>
           </div>
-        </td>
-      </tr>
-    </tbody>
-
-    <tbody ng-repeat="mode in hintPopupCtrl.modes" class="shortcuts-hint__shortcut-block">
-
-      <tr class="shortcuts-hint__table-title">
-        <td></td>
-        <td>
-          <span class="shortcuts-hint__shortcuts-title">{{mode.title}}</span>
-        </td>
-      </tr>
-      <tr ng-repeat="shortcut in mode.shortcuts | shortcutSearch:hintPopupCtrl.searchText" class="shortcuts-hint__table-row">
-        <td class="shortcuts-hint__shortcut-cell">
-          <div class="shortcuts-hint__shortcut" ng-if="hintPopupCtrl.isArray(shortcut.key)" ng-repeat="key in shortcut.key track by $index">
-            {{key | shortcutKeySymbol}}
-          </div>
-          <span class="shortcuts-hint__shortcut" ng-if="!hintPopupCtrl.isArray(shortcut.key)">{{shortcut.key | shortcutKeySymbol}}</span>
-        </td>
-        <td class="shortcuts-hint__hint">{{shortcut.title}}</td>
-      </tr>
-    </tbody>
-  </table>
+          <div class="shortcuts-hint__hint">{{shortcut.title}}</div>
+        </div>
+      </div>
+    </div>
+  </div>
 
 </div>
