@@ -44,6 +44,7 @@ export default class ContentEditable extends RingComponent {
 
   static defaultProps = {
     disabled: false,
+    tabIndex: 0,
     onInput: noop,
     onComponentUpdate: noop
   };
