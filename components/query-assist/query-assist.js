@@ -337,6 +337,8 @@ export default class QueryAssist extends RingComponentWithShortcuts {
       map: {
         del: noop,
         enter: ::this.handleComplete,
+        'command+enter': ::this.handleComplete,
+        'ctrl+enter': ::this.handleComplete,
         'ctrl+space': ::this.handleCtrlSpace,
         tab: ::this.handleTab,
         right: noop,
