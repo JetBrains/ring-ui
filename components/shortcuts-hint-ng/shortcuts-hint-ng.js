@@ -2,6 +2,7 @@ import sniffer from '../sniffer/sniffer';
 
 import DialogNg from '../dialog-ng/dialog-ng';
 import ShortcutsNg from '../shortcuts-ng/shortcuts-ng';
+import RingTemplateNg from '../template-ng/template-ng';
 import HintPopupTpl from './shortcuts-hint-ng.html';
 import Icon from '../icon/icon';
 import {registerComponents, reactNg} from '../react-ng/react-ng';
@@ -53,7 +54,7 @@ const winSymbolsMap = {
 };
 
 /* global angular:false */
-const angularModule = angular.module('Ring.shortcuts.hint-popup', [DialogNg, ShortcutsNg, reactNg]);
+const angularModule = angular.module('Ring.shortcuts.hint-popup', [DialogNg, ShortcutsNg, reactNg, RingTemplateNg]);
 
 
 /**
@@ -145,7 +146,14 @@ const angularModule = angular.module('Ring.shortcuts.hint-popup', [DialogNg, Sho
       var ctrl = this;
 
       ctrl.showPopup = function() {
-        rgShortcutsHintPopup.show();
+        rgShortcutsHintPopup.show({
+            tailTemplate: `
+              <div>
+                You can write anything here, this is custom section.
+                You can even create your own footer
+              </div>
+            `
+          });
       }
 
       $timeout(ctrl.showPopup, 200);
@@ -160,12 +168,11 @@ class HintPopupService {
     this.shortcuts = shortcuts;
   }
 
-  show(title, shortcutModes, popupConfig) {
+  show(popupConfig = {}, shortcutModes) {
     const modes = shortcutModes || this.shortcuts.getRegisteredShortcuts();
 
     return this.dialog.show(Object.assign({
       template: HintPopupTpl,
-      title,
       closeOnClick: true,
       autoWidth: true,
       controllerAs: 'hintPopupCtrl',
@@ -180,6 +187,7 @@ class HintPopupService {
 
         ctrl.searchIcon = searchIcon;
         ctrl.modes = modes;
+        ctrl.tailTemplate = popupConfig.tailTemplate;
         ctrl.isArray = it => Array.isArray(it);
         ctrl.searchText = '';
       }
