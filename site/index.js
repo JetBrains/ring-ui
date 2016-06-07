@@ -16,7 +16,7 @@ import Header from 'ring-ui/components/header/header';
 import Auth from 'ring-ui/components/auth/auth';
 
 const beautifyOptions = {
-  indent_size: 2
+  indent_size: 2 // eslint-disable-line camelcase
 };
 
 const beautifyLangMap = {
@@ -26,10 +26,6 @@ const beautifyLangMap = {
   css: 'css',
   scss: 'css'
 };
-
-function arrayFrom(arrayLike) {
-  return Array.prototype.slice.call(arrayLike, 0);
-}
 
 const auth = new Auth(hubConfig);
 const header = ReactDOM.render(
@@ -66,7 +62,7 @@ auth.init().then(restoreLocation => {
 
 document.addEventListener('DOMContentLoaded', () => {
   // Code highlight & beautify
-  arrayFrom(document.querySelectorAll('pre code')).forEach(node => {
+  Array.from(document.querySelectorAll('pre code')).forEach(node => {
     const code = node.textContent;
     let lang = node.hasAttribute('class') ? node.getAttribute('class').match(/language\-([^\s]*)/) : null;
     lang = Array.isArray(lang) ? lang[1] : null;
