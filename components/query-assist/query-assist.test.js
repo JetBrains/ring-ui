@@ -486,13 +486,31 @@ describe('QueryAssist', () => {
   });
 
   describe('callbacks', () => {
+    const ENTER_KEY = 13;
+
+    let onApply;
+    beforeEach(function () {
+      onApply = this.sinon.stub();
+    });
+
     it('should call onApply', function () {
-      const onApply = this.sinon.stub();
       this.renderQueryAssist({
         onApply
       });
 
-      simulateKeypress(null, 13); // press enter
+      simulateKeypress(null, ENTER_KEY);
+      onApply.should.have.been.calledWithMatch({
+        query: testQuery,
+        caret: testQueryLength
+      });
+    });
+
+    it('should call onApply when press ctrl/cmd + enter', function () {
+      this.renderQueryAssist({
+        onApply
+      });
+
+      simulateKeypress(null, ENTER_KEY, ['ctrl']);
       onApply.should.have.been.calledWithMatch({
         query: testQuery,
         caret: testQueryLength
@@ -500,7 +518,6 @@ describe('QueryAssist', () => {
     });
 
     it('should call onApply from glass', function () {
-      const onApply = this.sinon.stub();
       this.renderQueryAssist({
         glass: true,
         onApply

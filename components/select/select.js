@@ -700,6 +700,9 @@ export default class Select extends RingComponentWithShortcuts {
     let exactMatch = false;
 
     const check = this.props.filter.fn || function (itemToCheck, checkString) {
+      if (checkString === '') {
+        return true;
+      }
       // by default, skip separators and hints
       if (List.isItemType(List.ListProps.Type.SEPARATOR, itemToCheck) || List.isItemType(List.ListProps.Type.HINT, itemToCheck)) {
         return true;
@@ -710,7 +713,7 @@ export default class Select extends RingComponentWithShortcuts {
 
     for (let i = 0; i < this.props.data.length; i++) {
       const item = this.props.data[i];
-      if (filterString === '' || check(item, filterString, this.props.data)) {
+      if (check(item, filterString, this.props.data)) {
         exactMatch = (item.label === filterString);
 
         if (this.props.multiple && !this.props.multiple.removeSelectedItems) {
