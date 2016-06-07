@@ -71,7 +71,7 @@ export default class ContentEditable extends RingComponent {
     this.renderStatic(nextProps);
   }
 
-  willUnount() {
+  willUnmount() {
     if (ContentEditable.impotentIE) {
       this.node.removeEventListener(ContentEditable.mutationEvent, this.triggerInput);
     }
