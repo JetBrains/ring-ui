@@ -2,17 +2,59 @@ import sniffer from '../sniffer/sniffer';
 
 import DialogNg from '../dialog-ng/dialog-ng';
 import ShortcutsNg from '../shortcuts-ng/shortcuts-ng';
+import RingTemplateNg from '../template-ng/template-ng';
 import HintPopupTpl from './shortcuts-hint-ng.html';
 import Icon from '../icon/icon';
 import {registerComponents, reactNg} from '../react-ng/react-ng';
 
 import './shortcuts-hint-ng.scss';
 import '../input/input.scss';
+import searchIcon from 'jetbrains-icons/search.svg';
 
 registerComponents({Icon});
 
+const macSymbolsMap = {
+  enter: '⏎',
+  shift: '⇧',
+  meta: '⌘',
+  alt: '⌥',
+  ctrl: '⌃',
+  backspace: '⌫',
+  esc: 'Esc',
+  tab: 'Tab',
+  del: 'Del',
+  home: 'Home',
+  end: 'End',
+  space: 'Space',
+
+  left: '←',
+  up: '↑',
+  right: '→',
+  down: '↓'
+};
+
+const winSymbolsMap = {
+  enter: 'Enter',
+  shift: 'Shift',
+  meta: 'Ctrl',
+  alt: 'Alt',
+  ctrl: 'Ctrl',
+  backspace: 'Backspace',
+  esc: 'Esc',
+  tab: 'Tab',
+  del: 'Del',
+  home: 'Home',
+  end: 'End',
+  space: 'Space',
+
+  left: '←',
+  up: '↑',
+  right: '→',
+  down: '↓'
+};
+
 /* global angular:false */
-const angularModule = angular.module('Ring.shortcuts.hint-popup', [DialogNg, ShortcutsNg, reactNg]);
+const angularModule = angular.module('Ring.shortcuts.hint-popup', [DialogNg, ShortcutsNg, reactNg, RingTemplateNg]);
 
 
 /**
@@ -38,7 +80,7 @@ const angularModule = angular.module('Ring.shortcuts.hint-popup', [DialogNg, Sho
           title: 'Some Action Related Shortcuts',
           shortcuts: [
             {
-              key: 'meta+enter',
+              key: 'meta+enter+home',
               action: 'someAction',
               title: 'Do some action shortcut'
             }, {
@@ -49,6 +91,34 @@ const angularModule = angular.module('Ring.shortcuts.hint-popup', [DialogNg, Sho
               key: ['ctrl+alt+e', 'shift+down+u'],
               action: 'someAction',
               title: 'Another action shortcut with multiple keys'
+            }, {
+              key: ['meta+right+left+end'],
+              action: 'fooBarAction',
+              title: 'Blah blah blah Blah blah blah Blah blah blah Blah blah blahBlah blah blahBlah blah blah'
+            }, {
+              key: ['meta+esc+del+end'],
+              action: 'someAction',
+              title: 'Blah blah'
+            }, {
+              key: ['ctrl+alt+e', 'shift+e+enter'],
+              action: 'someAction',
+              title: 'Fo bar cooo'
+            }, {
+              key: ['shift+down+u'],
+              action: 'someAction',
+              title: 'Another action shortcut with multiple keys'
+            }, {
+              key: ['ctrl+alt+e'],
+              action: 'someAction',
+              title: 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.'
+            }, {
+              key: ['shift+down+u+]'],
+              action: 'someAction',
+              title: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry'
+            }, {
+              key: ['ctrl+alt+right+up+down'],
+              action: 'someAction',
+              title: 'Lorem Ipsum is simply'
             }
           ]
         })
@@ -76,7 +146,14 @@ const angularModule = angular.module('Ring.shortcuts.hint-popup', [DialogNg, Sho
       var ctrl = this;
 
       ctrl.showPopup = function() {
-        rgShortcutsHintPopup.show('ShortCuts');
+        rgShortcutsHintPopup.show({
+            tailTemplate: `
+              <div>
+                You can write anything here, this is custom section.
+                You can even create your own footer
+              </div>
+            `
+          });
       }
 
       $timeout(ctrl.showPopup, 200);
@@ -91,64 +168,36 @@ class HintPopupService {
     this.shortcuts = shortcuts;
   }
 
-  show(title, shortcutModes) {
+  show(popupConfig = {}, shortcutModes) {
     const modes = shortcutModes || this.shortcuts.getRegisteredShortcuts();
 
-    return this.dialog.show({
+    return this.dialog.show(Object.assign({
       template: HintPopupTpl,
-      title,
       closeOnClick: true,
-      wideDialog: true,
+      autoWidth: true,
       controllerAs: 'hintPopupCtrl',
+      buttons: [{
+        label: 'Got it',
+        default: true
+      }],
       controller() {
         /*eslint-disable consistent-this*/
         const ctrl = this;
         /*eslint-enable consistent-this*/
 
+        ctrl.searchIcon = searchIcon;
         ctrl.modes = modes;
+        ctrl.tailTemplate = popupConfig.tailTemplate;
         ctrl.isArray = it => Array.isArray(it);
         ctrl.searchText = '';
       }
-    });
+    }, popupConfig));
   }
 }
 
 function shortcutKeySymbolFilter(shortcut) {
   const MAC_OS = sniffer.os.name === 'macos';
   const KEY_SEPARATOR = MAC_OS ? ' ' : ' + ';
-
-  const macSymbolsMap = {
-    enter: '⏎',
-    shift: '⇧',
-    meta: '⌘',
-    alt: '⌥',
-    ctrl: '⌃',
-    backspace: '⌫',
-    esc: 'Esc',
-    tab: 'Tab',
-
-    left: '←',
-    up: '↑',
-    right: '→',
-    down: '↓'
-  };
-
-  const winSymbolsMap = {
-    enter: 'Enter',
-    shift: 'Shift',
-    meta: 'Ctrl',
-    alt: 'Alt',
-    ctrl: 'Ctrl',
-    backspace: 'Backspace',
-    esc: 'Esc',
-    tab: 'Tab',
-
-    left: 'Left',
-    up: 'Up',
-    right: 'Right',
-    down: 'Down'
-  };
-
   const symbolsMap = MAC_OS ? macSymbolsMap : winSymbolsMap;
 
   return shortcut.
