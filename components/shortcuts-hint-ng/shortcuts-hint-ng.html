@@ -12,7 +12,7 @@
       <div ng-repeat="mode in hintPopupCtrl.modes"
         class="shortcuts-hint__shortcut-block">
 
-        <div class="shortcuts-hint__table-title">
+        <div class="shortcuts-hint__table-title" ng-if="mode.title">
           <div class="shortcuts-hint__shortcuts-title"></div>
           <div class="shortcuts-hint__shortcuts-title">{{mode.title}}</div>
         </div>
@@ -33,5 +33,7 @@
       </div>
     </div>
   </div>
+
+  <div rg-template="hintPopupCtrl.tailTemplate"></div>
 
 </div>
