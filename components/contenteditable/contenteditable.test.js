@@ -2,17 +2,25 @@
 
 import React from 'react';
 import ContentEditable from './contenteditable';
-import {renderIntoDocument, isCompositeComponentWithType} from 'react-addons-test-utils';
+import {
+  renderIntoDocument,
+  isCompositeComponentWithType
+} from 'react-addons-test-utils';
 
 describe('ContentEditable', () => {
   beforeEach(function () {
     this.stub = this.sinon.stub();
 
-    this.component = renderIntoDocument(React.createElement(ContentEditable, {
+    this.renderContentEditable = function (props) {
+      this.component = renderIntoDocument(
+        React.createElement(ContentEditable, props, <b>{'bold'}</b>)
+      );
+    };
+
+    this.renderContentEditable({
       className: 'test',
       onComponentUpdate: this.stub
-
-    }, <b>{'bold'}</b>));
+    });
   });
 
   it('should create component', function () {
@@ -46,5 +54,17 @@ describe('ContentEditable', () => {
     });
 
     this.stub.should.not.have.been.called;
+  });
+
+  it('should set tabindex equal zero by default', function () {
+    this.component.node.getAttribute('tabindex').should.equal('0');
+  });
+
+  it('should allow pass custom tabindex', function () {
+    this.renderContentEditable({
+      tabIndex: -1
+    });
+
+    this.component.node.getAttribute('tabindex').should.equal('-1');
   });
 });
