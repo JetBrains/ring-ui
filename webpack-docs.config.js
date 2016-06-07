@@ -93,7 +93,7 @@ const docsWebpackConfig = webpackConfigMerger(webpackConfig, {
       }
     ]
   },
-  devtool: isServer ? 'eval' : '#source-map',
+  devtool: isServer ? 'eval' : null,
   debug: isServer,
   devServer: {
     stats: {
