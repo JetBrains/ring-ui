@@ -238,6 +238,7 @@ class DialogController extends Inject {
       this.buttons = config.buttons;
       this.data = config.data || {};
       this.wideDialog = config.wideDialog;
+      this.autoWidth = config.autoWidth;
       this.cssClass = config.cssClass || '';
 
       this.shortcuts = config.shortcuts;
