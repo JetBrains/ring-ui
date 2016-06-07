@@ -11,6 +11,7 @@ const AnyBarWebpackPlugin = require('anybar-webpack');
 
 const DocsPlugin = require('webpack-docs-plugin');
 const docsPluginSetup = require('./webpack-docs-plugin.setup');
+const createEntriesList = require('./site/create-entries-list');
 
 const isServer = process.argv.includes('--server');
 
@@ -48,7 +49,7 @@ webpackConfig.babelLoader.include.push(path.resolve(__dirname, 'site'));
 
 const docsWebpackConfig = webpackConfigMerger(webpackConfig, {
   entry: {
-    components: './site/components.js',
+    components: createEntriesList('./components/*'),
     'docs-app': './site/index.js',
     'docs-markdown': [
       'README.md',
