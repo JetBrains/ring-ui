@@ -15,7 +15,7 @@ var SourceLastModifiedPlugin = require('webpack-docs-plugin/lib/plugins/SourceLa
 var SourcePackageInfoPlugin = require('webpack-docs-plugin/lib/plugins/SourcePackageInfoPlugin');
 var MarkdownExtractorPlugin = require('webpack-docs-plugin/lib/plugins/MarkdownExtractorPlugin');
 
-module.exports = function (params) {
+module.exports = params => {
   var publicPath = params.publicPath;
 
   return [
@@ -40,11 +40,11 @@ module.exports = function (params) {
       filename: '[name].html',
       context: {
         publicPath,
-        pagesByCategory: function(docs) {
+        pagesByCategory: docs => {
           var categories = {Docs: []};
           var defaultCategory = 'Components';
 
-          docs.forEach(function (page) {
+          docs.forEach(page => {
             var p = page.serialize();
             var category = (p.category || defaultCategory);
             if (!Array.isArray(categories[category])) {
@@ -54,8 +54,8 @@ module.exports = function (params) {
             categories[category].push(p);
           });
 
-          Object.keys(categories).forEach(function(category) {
-            categories[category].sort(function (a, b) {
+          Object.keys(categories).forEach(category => {
+            categories[category].sort((a, b) => {
               const aOrder = typeof a.order !== 'undefined' ? a.order : (a.name || a.title || '');
               const bOrder = typeof b.order !== 'undefined' ? b.order : (b.name || b.title || '');
 
