@@ -74,6 +74,7 @@
     "gemini": "2.1.1",
     "gemini-teamcity": "2.1.1",
     "github-markdown-css": "2.0.7",
+    "glob": "7.0.3",
     "handlebars": "2.0.0",
     "highlight.js": "8.5.0",
     "isparta-instrumenter-loader": "1.0.0",
