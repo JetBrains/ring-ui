@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LanguageInjectionConfiguration>
+  <injection language="HTML" injector-id="xml">
+    <display-name>HTML example</display-name>
+    <place><![CDATA[xmlTag().withLocalName(string().equalTo("file")).withNamespace(string().equalTo("http://www.w3.org/1999/html"))]]></place>
+    <xpath-condition>@type='html'</xpath-condition>
+  </injection>
+  <injection language="JavaScript" injector-id="xml">
+    <display-name>JavaScript example</display-name>
+    <place><![CDATA[xmlTag().withLocalName(string().equalTo("file"))]]></place>
+    <xpath-condition>@type='js'</xpath-condition>
+  </injection>
+  <injection language="SCSS" injector-id="xml">
+    <display-name>SCSS example</display-name>
+    <place><![CDATA[xmlTag().withLocalName(string().equalTo("file"))]]></place>
+    <xpath-condition>@type='scss'</xpath-condition>
+  </injection>
+</LanguageInjectionConfiguration>
