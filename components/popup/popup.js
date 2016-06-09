@@ -8,14 +8,7 @@ import classNames from 'classnames';
 import 'dom4';
 
 import RingComponentWithShortcuts from '../ring-component/ring-component_with-shortcuts';
-import {
-  getStyles,
-  isMounted,
-  getRect,
-  getDocumentScrollLeft,
-  getDocumentScrollTop,
-  getWindowHeight
-} from '../dom/dom';
+import {getStyles, isMounted, getRect, getDocumentScrollLeft, getDocumentScrollTop, getWindowHeight} from '../dom/dom';
 
 import './popup.scss';
 
@@ -135,51 +128,51 @@ const POPUP_REGISTRY = new OpenedPopupRegistry();
  </div>
  </file>
  <file name="index.js" webpack="true">
- require('./index.scss');
- var DOM = require('react').DOM;
- var Popup = require('ring-ui/components/popup/popup');
- var Directions = Popup.PopupProps.Directions;
+   require('./index.scss');
+   var DOM = require('react').DOM;
+   var Popup = require('ring-ui/components/popup/popup');
+   var Directions = Popup.PopupProps.Directions;
 
- var container = DOM.span(null, 'Helloworld!');
+   var container = DOM.span(null, 'Helloworld!');
 
- var popup = Popup.renderPopup(Popup.factory({
+   var popup = Popup.renderPopup(Popup.factory({
      anchorElement: document.getElementById('target1'),
      directions: [Directions.BOTTOM_RIGHT],
      autoRemove: false
    }, container));
 
- var popup2 = Popup.renderPopup(Popup.factory({
+   var popup2 = Popup.renderPopup(Popup.factory({
      anchorElement: document.getElementById('target2'),
      directions: [Directions.BOTTOM_LEFT],
      autoRemove: false
    }, container));
 
- var popup3 = Popup.renderPopup(Popup.factory({
+   var popup3 = Popup.renderPopup(Popup.factory({
      anchorElement: document.getElementById('target3'),
      directions: [Directions.TOP_RIGHT],
      autoRemove: false
    }, container));
 
- var popup4 = Popup.renderPopup(Popup.factory({
+   var popup4 = Popup.renderPopup(Popup.factory({
      anchorElement: document.getElementById('target4'),
      directions: [Directions.TOP_LEFT],
      autoRemove: false
    }, container));
 
- document.getElementById('switch3').addEventListener('click', function() {
+   document.getElementById('switch3').addEventListener('click', function() {
       setTimeout(function() {
         popup3.show();
       }, 1);
    });
  </file>
- <file name="index.scss">
- .popup-example__button {
+   <file name="index.scss">
+      .popup-example__button {
         position: absolute;
         left: 50px;
         bottom: 50px;
       }
 
- .popup-example__anchor {
+      .popup-example__anchor {
         position: absolute;
         width: 10px;
         height: 10px;
@@ -208,22 +201,22 @@ const POPUP_REGISTRY = new OpenedPopupRegistry();
           background-color: orange;
         }
       }
- </file>
+   </file>
  </example>
 
  <example name="Popup autoposition">
- <file name="index.html">
- <div>
- <div id="horizontalCenter" class="popup-example__message">Popup should change open direction when reaching window borders</div>
- <div id="verticalCenter" class="popup-example__message popup-example__message_vert">Popup should change open direction when reaching window borders</div>
- <div id="leftSide" class="popup-example__anchor popup-example__anchor_left">Left side open popup</div>
- <div id="rightSide" class="popup-example__anchor popup-example__anchor_right">Right side open popup</div>
- <div id="downSide" class="popup-example__anchor popup-example__anchor_bottom">Downside open popup</div>
- <div id="topSide" class="popup-example__anchor popup-example__anchor_top">Upside open popup</div>
- </div>
- </file>
- <file name="index.scss">
- .popup-example__message {
+   <file name="index.html">
+   <div>
+     <div id="horizontalCenter" class="popup-example__message">Popup should change open direction when reaching window borders</div>
+     <div id="verticalCenter" class="popup-example__message popup-example__message_vert">Popup should change open direction when reaching window borders</div>
+     <div id="leftSide" class="popup-example__anchor popup-example__anchor_left">Left side open popup</div>
+     <div id="rightSide" class="popup-example__anchor popup-example__anchor_right">Right side open popup</div>
+     <div id="downSide" class="popup-example__anchor popup-example__anchor_bottom">Downside open popup</div>
+     <div id="topSide" class="popup-example__anchor popup-example__anchor_top">Upside open popup</div>
+   </div>
+   </file>
+   <file name="index.scss">
+      .popup-example__message {
         position: absolute;
 
         top: 50%;
@@ -234,7 +227,7 @@ const POPUP_REGISTRY = new OpenedPopupRegistry();
           width: 150px;
         }
       }
- .popup-example__anchor {
+      .popup-example__anchor {
         position: absolute;
 
         &_left {
@@ -257,91 +250,91 @@ const POPUP_REGISTRY = new OpenedPopupRegistry();
           top: 0;
         }
       }
- </file>
- <file name="index.js" webpack="true">
- require('./index.scss');
- var DOM = require('react').DOM;
- var Popup = require('ring-ui/components/popup/popup');
- var Directions = Popup.PopupProps.Directions;
+   </file>
+   <file name="index.js" webpack="true">
+     require('./index.scss');
+     var DOM = require('react').DOM;
+     var Popup = require('ring-ui/components/popup/popup');
+     var Directions = Popup.PopupProps.Directions;
 
- var container = DOM.span({style: {whiteSpace: 'no-wrap'}}, 'This is popup');
+     var container = DOM.span({style: {whiteSpace: 'no-wrap'}}, 'This is popup');
 
- var popup = Popup.renderPopup(Popup.factory({
+     var popup = Popup.renderPopup(Popup.factory({
        anchorElement: document.getElementById('leftSide'),
        directions: [Directions.LEFT_BOTTOM, Directions.RIGHT_BOTTOM],
        autoRemove: false
      }, container));
 
- var popup2 = Popup.renderPopup(Popup.factory({
+     var popup2 = Popup.renderPopup(Popup.factory({
        anchorElement: document.getElementById('rightSide'),
        directions: [Directions.RIGHT_BOTTOM, Directions.LEFT_BOTTOM],
        autoRemove: false
      }, container));
 
- var popup3 = Popup.renderPopup(Popup.factory({
+     var popup3 = Popup.renderPopup(Popup.factory({
        anchorElement: document.getElementById('downSide'),
        directions: [Directions.BOTTOM_RIGHT, Directions.TOP_LEFT],
        autoRemove: false
      }, container));
 
- var popup4 = Popup.renderPopup(Popup.factory({
+     var popup4 = Popup.renderPopup(Popup.factory({
        anchorElement: document.getElementById('topSide'),
        directions: [Directions.TOP_LEFT, Directions.BOTTOM_RIGHT],
        autoRemove: false
      }, container));
 
- var popup5 = Popup.renderPopup(Popup.factory({
+     var popup5 = Popup.renderPopup(Popup.factory({
        anchorElement: document.getElementById('horizontalCenter'),
        directions: [Directions.TOP_CENTER],
        autoRemove: false
      }, container));
 
- var popup6 = Popup.renderPopup(Popup.factory({
+     var popup6 = Popup.renderPopup(Popup.factory({
        anchorElement: document.getElementById('verticalCenter'),
        directions: [Directions.RIGHT_CENTER],
        autoRemove: false
      }, container));
- </file>
- </example>
- <example name="Popup in popup">
- <file name="index.html">
- <div>
- <div id="parentPopupAnchor" class="popup-example__message">Parent popup anchor</div>
- </div>
- </file>
- <file name="index.scss">
- .parent-popup {
+   </file>
+</example>
+<example name="Popup in popup">
+   <file name="index.html">
+   <div>
+     <div id="parentPopupAnchor" class="popup-example__message">Parent popup anchor</div>
+   </div>
+   </file>
+   <file name="index.scss">
+      .parent-popup {
         width: 100px;
         height: 100px;
         text-align: center;
       }
 
- .child-popup {
+      .child-popup {
         background-color: red;
         text-align: center;
         margin: 8px;
       }
- </file>
- <file name="index.js" webpack="true">
- require('./index.scss');
- var DOM = require('react').DOM;
- var Popup = require('ring-ui/components/popup/popup');
+   </file>
+   <file name="index.js" webpack="true">
+     require('./index.scss');
+     var DOM = require('react').DOM;
+     var Popup = require('ring-ui/components/popup/popup');
 
- var parentPopupContent = DOM.div({className: 'parent-popup'}, 'This is parent popup');
- var childPopupContent = DOM.div({className: 'child-popup'}, 'This is child popup');
+     var parentPopupContent = DOM.div({className: 'parent-popup'}, 'This is parent popup');
+     var childPopupContent = DOM.div({className: 'child-popup'}, 'This is child popup');
 
- var parentPopup = Popup.renderPopup(Popup.factory({
+     var parentPopup = Popup.renderPopup(Popup.factory({
        anchorElement: document.getElementById('parentPopupAnchor'),
        autoRemove: false
      }, parentPopupContent));
 
- var childPopup = Popup.renderPopup(Popup.factory({
+     var childPopup = Popup.renderPopup(Popup.factory({
        anchorElement: document.getElementsByClassName('parent-popup')[0],
        autoRemove: false
      }, childPopupContent));
 
- </file>
- </example>
+   </file>
+</example>
  */
 export default class Popup extends RingComponentWithShortcuts {
   static propTypes = {
@@ -729,8 +722,7 @@ export default class Popup extends RingComponentWithShortcuts {
         if (directionsMatrix[direction]) {
           styles = directionsMatrix[direction];
         } else {
-          throw new Error(`Unknown popup direction: ${direction}. Use one of this: [${Object.keys(Directions).
-            join(', ')}]`);
+          throw new Error(`Unknown popup direction: ${direction}. Use one of this: [${Object.keys(Directions).join(', ')}]`);
         }
 
         if (!this._doesPopupOverflowVertically(styles) && !this._doesPopupOverflowHorizontally(styles)) {
