@@ -86,7 +86,7 @@ class OpenedPopupRegistry {
   }
 
   unregister(reactPopupInstance) {
-    Reflect.deleteProperty(this._registry[reactPopupInstance]);
+    this._registry[reactPopupInstance.uid] = undefined;
   }
 
   getChildren(reactPopupInstance) {
@@ -100,11 +100,16 @@ class OpenedPopupRegistry {
 
   unregisterAll() {
     const unregister = this.unregister.bind(this);
-    Object.keys(this._registry).forEach(registryItem => unregister(registryItem));
+    Object.keys(this._registry).
+      forEach(registryItem => unregister(registryItem));
   }
 
   getAllInstances() {
-    return Object.keys(this._registry).map(registryItemKey => this._registry[registryItemKey].instance);
+    const instances = [];
+    Object.keys(this._registry).
+      filter(key => this._registry[key]).
+      forEach(key => instances.push(this._registry[key].instance));
+    return instances;
   }
 }
 
@@ -594,9 +599,7 @@ export default class Popup extends RingComponentWithShortcuts {
       return;
     }
 
-    if (!this.props.anchorElement ||
-      !this.props.dontCloseOnAnchorClick ||
-      !this.props.anchorElement.contains(evt.target)) {
+    if (!this.props.anchorElement || !this.props.dontCloseOnAnchorClick || !this.props.anchorElement.contains(evt.target)) {
       this.close(evt);
     }
   }
