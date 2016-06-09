@@ -412,12 +412,14 @@ const LOADER_DELAY = 150; // delay to show loader in ms
           ctrl.getOptions = function(skip, query) {
             console.log('query = ', query, 'skip = ', skip);
             var arr = [];
-            for (var i = 0; i < PAGE_SIZE; ++i) {
-              var labelText = (skip + i) + '';
-              if (query) {
-                labelText = query + ' ' + labelText;
+            if (skip < 50) {
+              for (var i = 0; i < PAGE_SIZE; ++i) {
+                var labelText = (skip + i) + '';
+                if (query) {
+                  labelText = query + ' ' + labelText;
+                }
+                arr.push(labelText);
               }
-              arr.push(labelText);
             }
             var defer = $q.defer();
             // Timeout is needed to demonstrate loader in rg-select
@@ -529,6 +531,7 @@ angularModule.directive('rgSelect', () => {
       function memorizeOptions(options, skip) {
         if (ctrl.loadedOptions && ctrl.loadedOptions.length === skip) {
           ctrl.loadedOptions = ctrl.loadedOptions.concat(options);
+          ctrl.stopLoadingNewOptions = options.length === 0 && ctrl.withInfiniteScroll;
         } else {
           ctrl.loadedOptions = options;
         }
@@ -606,6 +609,11 @@ angularModule.directive('rgSelect', () => {
 
       let loaderDelayTimeout = null;
       ctrl.loadOptionsToSelect = query => {
+        if (ctrl.stopLoadingNewOptions && query === lastQuery) {
+          return;
+        }
+
+        ctrl.stopLoadingNewOptions = false;
         const skip = getCurrentSkipParameter(query, lastQuery);
         lastQuery = query;
 
@@ -770,6 +778,7 @@ angularModule.directive('rgSelect', () => {
               ctrl.onClose();
             });
             ctrl.loadedOptions = [];
+            ctrl.stopLoadingNewOptions = false;
           },
           onSelect: item => {
             $scope.$evalAsync(() => {
