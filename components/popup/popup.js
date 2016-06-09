@@ -8,7 +8,7 @@ import classNames from 'classnames';
 import 'dom4';
 
 import RingComponentWithShortcuts from '../ring-component/ring-component_with-shortcuts';
-import {getStyles, isMounted, getRect, getDocumentScrollLeft, getDocumentScrollTop} from '../dom/dom';
+import {getStyles, isMounted, getRect, getDocumentScrollLeft, getDocumentScrollTop, getWindowHeight} from '../dom/dom';
 
 import './popup.scss';
 
@@ -606,7 +606,7 @@ export default class Popup extends RingComponentWithShortcuts {
       return true;
     }
     const popupHeight = this.node.clientHeight;
-    const verticalDiff = window.innerHeight - styles.top - popupHeight;
+    const verticalDiff = getWindowHeight() - styles.top - popupHeight;
 
     if (verticalDiff < this.props.sidePadding) {
       return true;
