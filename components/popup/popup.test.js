@@ -66,6 +66,28 @@ describe('Popup', () => {
     popup.props.container.should.be.equal(fixedContainer);
   });
 
+  it('should remove all popups', done => {
+    const popup1 = renderIntoDocument(createElement(Popup, null));
+    popup1.show();
+
+    const container = document.createElement('div');
+    const anchor = document.createElement('div');
+    container.append(anchor);
+    document.body.append(container);
+
+    const popup2 = Popup.renderPopup(createElement(Popup, {
+      anchorElement: anchor
+    }));
+
+    Popup.removeAllPopups();
+
+    setTimeout(() => {
+      should.not.exist(popup1.node);
+      should.not.exist(popup2.node);
+      done();
+    });
+  });
+
   describe('close by click', () => {
     const click = document.createEvent('MouseEvent');
     click.initEvent('click', true, false);
@@ -177,8 +199,12 @@ describe('Popup', () => {
       const popupElement = popup.node;
       const elementOffset = getRect(element);
 
-      parseInt(getStyles(popupElement).left, 10).should.equal(elementOffset.left + elementOffset.width - popup.node.clientWidth);
-      parseInt(getStyles(popupElement).top, 10).should.equal(elementOffset.top - popup.node.clientHeight);
+      parseInt(getStyles(popupElement).left, 10).
+        should.
+        equal(elementOffset.left + elementOffset.width - popup.node.clientWidth);
+      parseInt(getStyles(popupElement).top, 10).
+        should.
+        equal(elementOffset.top - popup.node.clientHeight);
     });
 
     it('bottom-right corner', () => {
@@ -199,8 +225,12 @@ describe('Popup', () => {
       const popupElement = popup.node;
       const elementOffset = getRect(element);
 
-      parseInt(getStyles(popupElement).left, 10).should.equal(elementOffset.left);
-      parseInt(getStyles(popupElement).top, 10).should.equal(elementOffset.top + elementOffset.height);
+      parseInt(getStyles(popupElement).left, 10).
+        should.
+        equal(elementOffset.left);
+      parseInt(getStyles(popupElement).top, 10).
+        should.
+        equal(elementOffset.top + elementOffset.height);
     });
 
     it('should add specified offset', () => {
@@ -224,8 +254,12 @@ describe('Popup', () => {
       const popupElement = popup.node;
       const elementOffset = getRect(element);
 
-      parseInt(getStyles(popupElement).left, 10).should.equal(elementOffset.left + OFFSET);
-      parseInt(getStyles(popupElement).top, 10).should.equal(elementOffset.top + elementOffset.height + OFFSET);
+      parseInt(getStyles(popupElement).left, 10).
+        should.
+        equal(elementOffset.left + OFFSET);
+      parseInt(getStyles(popupElement).top, 10).
+        should.
+        equal(elementOffset.top + elementOffset.height + OFFSET);
     });
 
     it('Should support minWidth = target', () => {
