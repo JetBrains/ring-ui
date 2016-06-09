@@ -199,12 +199,8 @@ describe('Popup', () => {
       const popupElement = popup.node;
       const elementOffset = getRect(element);
 
-      parseInt(getStyles(popupElement).left, 10).
-        should.
-        equal(elementOffset.left + elementOffset.width - popup.node.clientWidth);
-      parseInt(getStyles(popupElement).top, 10).
-        should.
-        equal(elementOffset.top - popup.node.clientHeight);
+      parseInt(getStyles(popupElement).left, 10).should.equal(elementOffset.left + elementOffset.width - popup.node.clientWidth);
+      parseInt(getStyles(popupElement).top, 10).should.equal(elementOffset.top - popup.node.clientHeight);
     });
 
     it('bottom-right corner', () => {
@@ -225,12 +221,8 @@ describe('Popup', () => {
       const popupElement = popup.node;
       const elementOffset = getRect(element);
 
-      parseInt(getStyles(popupElement).left, 10).
-        should.
-        equal(elementOffset.left);
-      parseInt(getStyles(popupElement).top, 10).
-        should.
-        equal(elementOffset.top + elementOffset.height);
+      parseInt(getStyles(popupElement).left, 10).should.equal(elementOffset.left);
+      parseInt(getStyles(popupElement).top, 10).should.equal(elementOffset.top + elementOffset.height);
     });
 
     it('should add specified offset', () => {
@@ -254,12 +246,8 @@ describe('Popup', () => {
       const popupElement = popup.node;
       const elementOffset = getRect(element);
 
-      parseInt(getStyles(popupElement).left, 10).
-        should.
-        equal(elementOffset.left + OFFSET);
-      parseInt(getStyles(popupElement).top, 10).
-        should.
-        equal(elementOffset.top + elementOffset.height + OFFSET);
+      parseInt(getStyles(popupElement).left, 10).should.equal(elementOffset.left + OFFSET);
+      parseInt(getStyles(popupElement).top, 10).should.equal(elementOffset.top + elementOffset.height + OFFSET);
     });
 
     it('Should support minWidth = target', () => {
