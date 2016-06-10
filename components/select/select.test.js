@@ -6,6 +6,7 @@ import React from 'react';
 import TestUtils from 'react-addons-test-utils';
 import renderIntoDocument from 'render-into-document';
 import RingComponent from '../ring-component/ring-component';
+import simulateKeypress from 'simulate-keypress';
 
 
 describe('Select', () => {
@@ -571,6 +572,19 @@ describe('Select', () => {
         this.select._hidePopup(true);
 
         document.activeElement.should.equal(targetInput.node);
+      });
+
+      it('Should restore focus on provided target element after closing popup with keyboard', () => {
+        const ESC_KEY = 27;
+        simulateKeypress(null, ESC_KEY);
+
+        document.activeElement.should.equal(targetInput.node);
+      });
+
+      it('Should not restore focus on provided target element after closing popup with not keyboard event', () => {
+        TestUtils.Simulate.click(document.body);
+
+        document.activeElement.should.not.equal(targetInput.node);
       });
 
       it('Should not restore focus on provided target element after closing popup', function () {

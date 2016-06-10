@@ -810,11 +810,10 @@ export default class Select extends RingComponentWithShortcuts {
   _listSelectHandler(selected, event) {
     const isItem = List.isItemType.bind(null, List.ListProps.Type.ITEM);
     const isCustomItem = List.isItemType.bind(null, List.ListProps.Type.CUSTOM);
-    const listOnSelectEvent = event && (event.type === 'keydown' || event.type === 'click');
-    if (listOnSelectEvent) {
+    const isSelectItemEvent = event && (event.type === 'select' || event.type === 'keydown');
+    if (isSelectItemEvent) {
       event.preventDefault();
     }
-
 
     if ((!isItem(selected) && !isCustomItem(selected)) || selected.disabled) {
       return;
@@ -830,7 +829,7 @@ export default class Select extends RingComponentWithShortcuts {
         this.props.onFilter(newFilterValue);
         this.props.onSelect(selected, event);
         this.props.onChange(selected, event);
-        this._hidePopup(listOnSelectEvent);
+        this._hidePopup(isSelectItemEvent);
       });
     } else {
       if (!selected.key) {
@@ -871,7 +870,7 @@ export default class Select extends RingComponentWithShortcuts {
     }
   }
 
-  _onClose() {
+  _onClose(event) {
     if (this.isInputMode()) {
       if (!this.props.allowAny) {
         if (this.props.hideSelected || !this.state.selected || this.props.multiple) {
@@ -881,7 +880,9 @@ export default class Select extends RingComponentWithShortcuts {
         }
       }
     }
-    this._hidePopup();
+    // it's necessary to focus anchor on pressing ESC
+    const isKeyboardEvent = event && event.type === 'keydown';
+    this._hidePopup(isKeyboardEvent);
   }
 
   clearFilter() {

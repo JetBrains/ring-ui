@@ -99,10 +99,15 @@ export default class SelectPopup extends RingComponentWithShortcuts {
     return this.refs.popup.isVisible();
   }
 
+  onListSelect(selected) {
+    this.props.onSelect(selected, new Event('select'));
+  }
+
   tabPress(event) {
+    event.preventDefault();
     const listActiveItem = this.refs.list.state.activeItem;
     if (listActiveItem) {
-      this.props.onSelect(listActiveItem, event);
+      this.onListSelect(listActiveItem);
     }
     this.hide();
   }
@@ -142,7 +147,7 @@ export default class SelectPopup extends RingComponentWithShortcuts {
           ref="list"
           restoreActiveIndex={true}
           activateSingleItem={true}
-          onSelect={this.props.onSelect}
+          onSelect={::this.onListSelect}
           onMouseOut={::this.listOnMouseOut}
           onScrollToBottom={::this.props.onLoadMore}
           shortcuts={this.state.popupShortcuts}
