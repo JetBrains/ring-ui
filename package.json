@@ -65,7 +65,7 @@
     "dox": "0.7.1",
     "electron-prebuilt": "0.36.9",
     "escope": "3.2.0",
-    "eslint": "2.9.0",
+    "eslint": "2.11.1",
     "eslint-config-jetbrains": "2.0.18",
     "eslint-nibble": "2.0.0",
     "exports-loader": "0.6.2",
