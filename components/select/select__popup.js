@@ -100,7 +100,16 @@ export default class SelectPopup extends RingComponentWithShortcuts {
   }
 
   onListSelect(selected) {
-    this.props.onSelect(selected, new Event('select'));
+    const getSelectItemEvent = () => {
+      let event;
+      if (document.createEvent) {
+        event = document.createEvent('Event');
+        event.initEvent('select', true, false);
+      }
+      return event;
+    };
+
+    this.props.onSelect(selected, getSelectItemEvent());
   }
 
   tabPress(event) {
@@ -133,7 +142,8 @@ export default class SelectPopup extends RingComponentWithShortcuts {
     return (<div>
       {this.props.loading && <LoaderInline/>}
 
-      {this.props.message && <div className="ring-select__message">{this.props.message}</div>}
+      {this.props.message &&
+      <div className="ring-select__message">{this.props.message}</div>}
     </div>);
   }
 
