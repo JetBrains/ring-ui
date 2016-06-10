@@ -99,17 +99,18 @@ class OpenedPopupRegistry {
   }
 
   unregisterAll() {
-    const unregister = this.unregister.bind(this);
     Object.keys(this._registry).
-      forEach(registryItem => unregister(registryItem));
+      forEach(registryItem => {
+        if (this._registry[registryItem]) {
+          this.unregister(this._registry[registryItem].instance);
+        }
+      });
   }
 
   getAllInstances() {
-    const instances = [];
-    Object.keys(this._registry).
+    return Object.keys(this._registry).
       filter(key => this._registry[key]).
-      forEach(key => instances.push(this._registry[key].instance));
-    return instances;
+      map(key => this._registry[key].instance);
   }
 }
 
@@ -372,8 +373,9 @@ export default class Popup extends RingComponentWithShortcuts {
   };
 
   static removeAllPopups() {
+    const allInstances = POPUP_REGISTRY.getAllInstances();
+    allInstances.forEach(instance => instance.remove());
     POPUP_REGISTRY.unregisterAll();
-    POPUP_REGISTRY.getAllInstances().forEach(instance => instance.remove());
   }
 
   /**
