@@ -609,12 +609,11 @@ export default class List extends RingComponentWithShortcuts {
   }
 
   hasOverflow() {
-    if (this.refs.inner && this.refs.inner.node) {
-      const container = this.refs.inner.node;
-      return container.scrollHeight > container.clientHeight;
+    if (this.refs.inner) {
+      return this.refs.inner.scrollHeight > this.refs.inner.clientHeight;
     }
 
-    return undefined;
+    return false;
   }
 
   getShortcutsProps() {
