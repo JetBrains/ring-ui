@@ -372,9 +372,9 @@ export default class Popup extends RingComponentWithShortcuts {
     Dimension
   };
 
-  static removeAllPopups() {
+  static hideAllPopups() {
     const allInstances = POPUP_REGISTRY.getAllInstances();
-    allInstances.forEach(instance => instance.remove());
+    allInstances.forEach(instance => instance.hide());
     POPUP_REGISTRY.unregisterAll();
   }
 
@@ -501,7 +501,6 @@ export default class Popup extends RingComponentWithShortcuts {
 
     return onCloseResult;
   }
-
   hide(cb) {
     this.setState({
       display: 0,
