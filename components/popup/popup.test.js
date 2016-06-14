@@ -79,11 +79,11 @@ describe('Popup', () => {
       anchorElement: anchor
     }));
 
-    Popup.removeAllPopups();
+    Popup.hideAllPopups();
 
     setTimeout(() => {
-      should.not.exist(popup1.node);
-      should.not.exist(popup2.node);
+      popup1.state.display.should.be.equals(0);
+      popup2.state.display.should.be.equals(0);
       done();
     });
   });
