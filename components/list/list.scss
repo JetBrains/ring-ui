@@ -124,6 +124,12 @@ $list-spacing: $ring-unit / 2;
   }
 }
 
+.ring-list__label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .ring-list__icon {
   display: block;
   float: right;
