@@ -65,7 +65,7 @@ export default function ListItem(props) {
       {props.description && (
         <div className="ring-list__description">{props.description}</div>
       )}
-      {props.label}
+      {props.label && <div className="ring-list__label">{props.label}</div>}
       {props.details && (
         <div className={detailsClasses}>{props.details}</div>
       )}
