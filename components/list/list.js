@@ -633,6 +633,8 @@ export default class List extends RingComponentWithShortcuts {
     const innerStyles = {};
     const topPaddingStyles = {};
     const bottomPaddingStyles = {};
+    const fadeStyles = hint ? {bottom: Dimension.ITEM_HEIGHT} : null;
+
     if (this.props.maxHeight) {
       innerStyles.maxHeight = this.props.maxHeight - Dimension.ITEM_HEIGHT - Dimension.INNER_PADDING;
       topPaddingStyles.height = this.state.renderOptimizationPaddingTop;
@@ -706,7 +708,11 @@ export default class List extends RingComponentWithShortcuts {
           })}
           <div style={bottomPaddingStyles}></div>
         </div>
-        {this.hasOverflow() && <div className="ring-list__fade" />}
+        {this.hasOverflow() &&
+          <div
+            className="ring-list__fade"
+            style={fadeStyles}
+          />}
         {hint &&
           <ListHint
             key={this.props.hint + Type.ITEM}
