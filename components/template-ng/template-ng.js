@@ -59,8 +59,10 @@ class rgTemplateController extends Inject {
 
     this.currentScope = $scope.$new();
 
-    $element.html(template);
-    $compile($element.contents())(this.currentScope);
+    this.currentScope.$evalAsync(() => {
+      $element.html(template);
+      $compile($element.contents())(this.currentScope);
+    });
   }
 
   cleanup() {
