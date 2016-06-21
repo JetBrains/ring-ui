@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {PropTypes} from 'react';
 import classNames from 'classnames';
 import RingComponent from '../ring-component/ring-component';
 import './input.scss';
@@ -100,11 +100,23 @@ import './input.scss';
    </example>
  */
 export default class Input extends RingComponent {
+  static propTypes = {
+    multiline: PropTypes.bool,
+    className: PropTypes.string
+  }
+
   render() {
-    const classes = classNames('ring-input', this.props.className);
-    return (
+    const {className, multiline, ...props} = this.props;
+    const classes = classNames('ring-input', className);
+
+    return multiline ? (
+      <textarea
+        {...props}
+        className={classes}
+      />
+    ) : (
       <input
-        {...this.props}
+        {...props}
         className={classes}
       />
     );
