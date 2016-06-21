@@ -7,20 +7,22 @@ import Tag from '../tag/tag';
 import './tags-input.scss';
 import '../input-size/input-size.scss';
 
+function noop() {}
+
 /**
  * @name Tags Input
  * @constructor
  * @extends {ReactComponent}
  * @example
  <example name="Simple tags input">
-   <file name="index.html">
-    <div id="demo"></div>
-   </file>
-   <file name="index.js" webpack="true">
-    var render = require('react-dom').render;
-    var TagsInput = require('ring-ui/components/tags-input/tags-input');
+ <file name="index.html">
+ <div id="demo"></div>
+ </file>
+ <file name="index.js" webpack="true">
+ var render = require('react-dom').render;
+ var TagsInput = require('ring-ui/components/tags-input/tags-input');
 
-    var props = {
+ var props = {
       className: 'test-additional-class',
       tags: [
         {key: 'test1', label: 'test1'},
@@ -34,29 +36,29 @@ import '../input-size/input-size.scss';
       }
     };
 
-    render(TagsInput.factory(props), document.getElementById('demo'));
-   </file>
+ render(TagsInput.factory(props), document.getElementById('demo'));
+ </file>
  </example>
 
-  <example name="Async datasource via react-ng">
-  <file name="index.html">
-    <div ng-app="test-tags-app" ng-controller="testCtrl">
-      <div ng-form="form">
-        <a href class="ring-link" ng-click="addTag()">Add a tag</a>
-        <span react="TagsInput" ng-model="tagsArray" x-data-source="suggestionsSource()"></span>
-        <div><span>tags = {{tagsArray}}</span></div>
-        <div><span>$dirty = {{form.$dirty}}</span></div>
-      </div>
-    </div>
-  </file>
-  <file name="index.js" webpack="true">
-    require('angular');
-    require('ring-ui/components/react-ng/react-ng')({
+ <example name="Async datasource via react-ng">
+ <file name="index.html">
+ <div ng-app="test-tags-app" ng-controller="testCtrl">
+ <div ng-form="form">
+ <a href class="ring-link" ng-click="addTag()">Add a tag</a>
+ <span react="TagsInput" ng-model="tagsArray" x-data-source="suggestionsSource()"></span>
+ <div><span>tags = {{tagsArray}}</span></div>
+ <div><span>$dirty = {{form.$dirty}}</span></div>
+ </div>
+ </div>
+ </file>
+ <file name="index.js" webpack="true">
+ require('angular');
+ require('ring-ui/components/react-ng/react-ng')({
       TagsInput: require('ring-ui/components/tags-input/tags-input')
     });
 
-    angular.module('test-tags-app', ['Ring.react-ng'])
-      .controller('testCtrl', function($scope, $timeout) {
+ angular.module('test-tags-app', ['Ring.react-ng'])
+ .controller('testCtrl', function($scope, $timeout) {
         $scope.tagsArray = [{key: 'test1', label: 'test1'}];
 
         $scope.suggestionsSource = function() {
@@ -75,21 +77,21 @@ import '../input-size/input-size.scss';
           $scope.tagsArray.push({key: Math.random().toFixed(3), label: Math.random().toFixed(3)})
         };
       });
-  </file>
+ </file>
  </example>
 
-  <example name="TagsInput with icons">
-   <file name="index.html">
-    <div id="demo"></div>
-   </file>
-   <file name="index.js" webpack="true">
-    var render = require('react-dom').render;
-    var TagsInput = require('ring-ui/components/tags-input/tags-input');
-    var GroupIcon = require('jetbrains-icons/group.svg');
-    var BugIcon = require('jetbrains-icons/bug.svg');
-    var FrownIcon = require('jetbrains-icons/frown.svg');
+ <example name="TagsInput with icons">
+ <file name="index.html">
+ <div id="demo"></div>
+ </file>
+ <file name="index.js" webpack="true">
+ var render = require('react-dom').render;
+ var TagsInput = require('ring-ui/components/tags-input/tags-input');
+ var GroupIcon = require('jetbrains-icons/group.svg');
+ var BugIcon = require('jetbrains-icons/bug.svg');
+ var FrownIcon = require('jetbrains-icons/frown.svg');
 
-    var props = {
+ var props = {
       tags: [
         {key: 'test1', label: 'test1', rgTagIcon: GroupIcon},
         {key: 'test2', label: 'test2'}
@@ -101,10 +103,10 @@ import '../input-size/input-size.scss';
         ];
       }
     };
-    render(TagsInput.factory(props), document.getElementById('demo'));
-   </file>
+ render(TagsInput.factory(props), document.getElementById('demo'));
+ </file>
  </example>
-*/
+ */
 
 export default class TagsInput extends RingComponentWithShortcuts {
   static propTypes = {
@@ -116,17 +118,21 @@ export default class TagsInput extends RingComponentWithShortcuts {
      * responded earlier) by himself.
      */
     dataSource: React.PropTypes.func,
-    onRemoveTags: React.PropTypes.func,
+    onRemoveTag: React.PropTypes.func,
+    onAddTag: React.PropTypes.func,
     customTagComponent: React.PropTypes.func,
     maxPopupHeight: React.PropTypes.number,
-    placeholder: React.PropTypes.string
+    placeholder: React.PropTypes.string,
+    canNotBeEmpty: React.PropTypes.bool
   };
 
   static defaultProps = {
     dataSource: null,
-    onRemoveTags: () => { /* do nothing */ },
+    onRemoveTag: noop,
+    onAddTag: noop,
     customTagComponent: null,
-    maxPopupHeight: 500
+    maxPopupHeight: 500,
+    canNotBeEmpty: false
   };
 
   state = {
@@ -159,17 +165,23 @@ export default class TagsInput extends RingComponentWithShortcuts {
     this.setState({tags});
     this.refs.select.clear();
     this.refs.select.filterValue('');
+    this.props.onAddTag({tag});
   }
 
   onRemoveTag(tagToRemove) {
-    const tags = this.state.tags.filter(tag => tag !== tagToRemove);
-    this.setState({tags});
+    return Promise.resolve(this.props.onRemoveTag({tag: tagToRemove})).
+      then(() => {
+        const tags = this.state.tags.filter(tag => tag !== tagToRemove);
+        this.setState({tags});
+        return tags;
+      }, noop);
   }
 
   handleBackspace() {
     const currentInputValue = this._inputNode.value;
     if (!currentInputValue) {
       const tagsLength = this.state.tags.length;
+      this.refs.select._hidePopup(true); // otherwise confirmation may be overlapped by popup
       this.onRemoveTag(this.state.tags[tagsLength - 1]);
     }
   }
@@ -208,24 +220,26 @@ export default class TagsInput extends RingComponentWithShortcuts {
     this.updateStateFromProps(props);
   }
 
-  renderTag(tag) {
+  renderTag(tag, readOnly) {
     const TagComponent = this.props.customTagComponent || Tag;
     return (
       <TagComponent
         {...tag}
+        readOnly={readOnly}
         onRemove={() => this.onRemoveTag(tag)}
       >{tag.label}</TagComponent>);
   }
 
   render() {
     const classes = classNames('ring-js-shortcuts', 'ring-tags-input', this.props.className);
+    const renderTags = () => this.state.tags.map(tag => this.renderTag(tag, this.props.canNotBeEmpty && this.state.tags.length === 1));
 
     return (
       <div
         className={classes}
         onClick={::this.clickHandler}
       >
-        {this.state.tags.map(::this.renderTag)}
+        {renderTags()}
         <Select
           ref="select"
           type={Select.Type.INPUT}
