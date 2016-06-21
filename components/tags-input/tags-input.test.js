@@ -63,8 +63,9 @@ describe('TagsInput', () => {
   });
 
   it('Should remove tag', function () {
-    this.tagsInput.onRemoveTag(fakeTags[0]);
-    this.tagsInput.state.tags.should.be.empty;
+    return this.tagsInput.onRemoveTag(fakeTags[0]).then(() => {
+      this.tagsInput.state.tags.should.be.empty;
+    });
   });
 
 
