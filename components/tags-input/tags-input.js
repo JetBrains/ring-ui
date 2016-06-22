@@ -160,6 +160,10 @@ export default class TagsInput extends RingComponentWithShortcuts {
     }
   }
 
+  focusInput() {
+    this._inputNode.focus();
+  }
+
   addTag(tag) {
     const tags = this.state.tags.concat([tag]);
     this.setState({tags});
@@ -173,8 +177,9 @@ export default class TagsInput extends RingComponentWithShortcuts {
       then(() => {
         const tags = this.state.tags.filter(tag => tag !== tagToRemove);
         this.setState({tags});
+        this.focusInput();
         return tags;
-      }, noop);
+      }, ::this.focusInput);
   }
 
   handleBackspace() {
@@ -192,7 +197,7 @@ export default class TagsInput extends RingComponentWithShortcuts {
 
   clickHandler() {
     this.loadSuggestions(this._inputNode.value);
-    this._inputNode.focus();
+    this.focusInput();
   }
 
   filterExistTags(suggestions) {
