@@ -191,6 +191,8 @@ angularModule.directive('rgPlaceUnder', ($window, getClosestElementWithCommonPar
         const elementToHeightListening = iAttrs.listenToHeightChange ? document.querySelector(iAttrs.listenToHeightChange) : document.body;
         documentResizeSensor = new ResizeSensor(elementToHeightListening, sidebarScrollListener);
 
+        scope.$on('rgPlaceUnder:sync', sidebarScrollListener);
+
         scope.$on('$destroy', () => {
           window.removeEventListener('scroll', sidebarScrollListener);
           documentResizeSensor.detach();
