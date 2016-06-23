@@ -272,6 +272,7 @@ export default class TagsInput extends RingComponentWithShortcuts {
           maxHeight={this.props.maxPopupHeight}
           loading={this.state.loading}
           onFilter={::this.loadSuggestions}
+          onBeforeOpen={::this.loadSuggestions}
         />
       </div>);
   }
