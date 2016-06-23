@@ -2,6 +2,7 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
+import TestUtils from 'react-addons-test-utils';
 import TagsInput from './tags-input';
 import renderIntoDocument from 'render-into-document';
 import RingComponent from '../ring-component/ring-component';
@@ -19,7 +20,11 @@ describe('TagsInput', () => {
     });
 
     it('should render passed label inside tags', function () {
-      this.tagsInput.node.querySelector('.ring-tag').textContent.should.be.equal('test1');
+      this.tagsInput.node.querySelector('.ring-tag').
+        textContent.
+        should.
+        be.
+        equal('test1');
     });
 
     it('should render select in input mode', function () {
@@ -149,5 +154,18 @@ describe('TagsInput', () => {
     this.tagsInput.handleBackspace();
 
     this.tagsInput.onRemoveTag.should.not.have.been.called;
+  });
+
+  it('should enbale shortcuts on input focus', function () {
+    TestUtils.Simulate.focus(this.tagsInput._inputNode);
+
+    this.tagsInput.state.shortcuts.should.be.true;
+  });
+
+  it('should disable shortcuts when input lose focus', function () {
+    TestUtils.Simulate.focus(this.tagsInput._inputNode);
+    TestUtils.Simulate.blur(this.tagsInput._inputNode);
+
+    this.tagsInput.state.shortcuts.should.be.false;
   });
 });
