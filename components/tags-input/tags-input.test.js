@@ -119,7 +119,7 @@ describe('TagsInput', () => {
   it('Should call datasource when arrow down pressed', function () {
     const dataSource = this.sinon.spy(() => Promise.resolve([]));
     this.tagsInput.rerender({dataSource});
-    this.tagsInput.loadSuggestions();
+    this.tagsInput.refs.select.props.onBeforeOpen();
 
     dataSource.should.have.been.calledWith({query: undefined});
   });
