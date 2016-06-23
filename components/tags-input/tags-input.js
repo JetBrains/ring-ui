@@ -138,7 +138,7 @@ export default class TagsInput extends RingComponentWithShortcuts {
   state = {
     tags: [],
     suggestions: [],
-    shortcuts: true,
+    shortcuts: false,
     loading: true
   };
 
@@ -235,6 +235,18 @@ export default class TagsInput extends RingComponentWithShortcuts {
       >{tag.label}</TagComponent>);
   }
 
+  _focusHandler() {
+    this.setState({
+      shortcuts: true
+    });
+  }
+
+  _blurHandler() {
+    this.setState({
+      shortcuts: false
+    });
+  }
+
   render() {
     const classes = classNames('ring-js-shortcuts', 'ring-tags-input', this.props.className);
     const renderTags = () => this.state.tags.map(tag => this.renderTag(tag, this.props.canNotBeEmpty && this.state.tags.length === 1));
@@ -252,6 +264,8 @@ export default class TagsInput extends RingComponentWithShortcuts {
           data={this.state.suggestions}
           className="ring-input-size_md"
           onSelect={::this.addTag}
+          onFocus={::this._focusHandler}
+          onBlur={::this._blurHandler}
           filter={{
             fn: () => true
           }}
