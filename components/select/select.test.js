@@ -317,14 +317,22 @@ describe('Select', () => {
 
   describe('Filtering', () => {
     it('Should call onFilter on input changes', function () {
+      this.select.setState({focused: true});
       TestUtils.Simulate.input(this.select._popup.refs.filter.node);
       this.select.props.onFilter.should.been.called;
     });
 
-    it('Should open popup on input changes', function () {
+    it('Should open popup on input changes if in focus', function () {
+      this.select._showPopup = this.sinon.spy();
+      this.select.setState({focused: true});
+      this.select._filterChangeHandler();
+      this.select._showPopup.should.have.been.called;
+    });
+
+    it('Should not open popup on input changes if not in focus', function () {
       this.select._showPopup = this.sinon.spy();
       this.select._filterChangeHandler();
-      this.select._showPopup.should.been.called;
+      this.select._showPopup.should.not.have.been.called;
     });
 
     it('Should return empty string if not input mode and filter is disabled', function () {

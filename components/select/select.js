@@ -781,6 +781,9 @@ export default class Select extends RingComponentWithShortcuts {
   }
 
   _filterChangeHandler(event) {
+    if (!this.state.focused) {
+      return;
+    }
     const filterValue = this.filterValue().replace(/^\s+/g, '');
     this.props.onFilter(filterValue);
     if (this.props.allowAny) {
