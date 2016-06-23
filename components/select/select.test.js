@@ -23,6 +23,8 @@ describe('Select', () => {
       selected: testData[0],
       onChange: this.sinon.spy(),
       onFilter: this.sinon.spy(),
+      onFocus: this.sinon.spy(),
+      onBlur: this.sinon.spy(),
       filter: true
     }));
   });
@@ -127,6 +129,20 @@ describe('Select', () => {
     this.select.rerender({onAdd: this.sinon.spy()});
     this.select.addHandler();
     this.select.props.onAdd.should.been.calledOnce;
+  });
+
+  it('Should call onFocus on input focus', function () {
+    this.select.rerender({type: Select.Type.INPUT});
+
+    TestUtils.Simulate.focus(this.select.refs.filter.node);
+    this.select.props.onFocus.should.been.called;
+  });
+
+  it('Should call onBlur on input blur', function () {
+    this.select.rerender({type: Select.Type.INPUT});
+
+    TestUtils.Simulate.blur(this.select.refs.filter.node);
+    this.select.props.onBlur.should.been.called;
   });
 
   describe('DOM', () => {

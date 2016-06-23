@@ -409,6 +409,8 @@ export default class Select extends RingComponentWithShortcuts {
     onOpen: noop,
     onClose: noop,
     onFilter: noop,       // search string as first argument
+    onFocus: noop,
+    onBlur: noop,
 
     onSelect: noop,       // single + multi
     onDeselect: noop,     // multi
@@ -903,6 +905,8 @@ export default class Select extends RingComponentWithShortcuts {
   }
 
   _focusHandler() {
+    this.props.onFocus();
+
     this.setState({
       shortcuts: true,
       focused: true
@@ -910,6 +914,8 @@ export default class Select extends RingComponentWithShortcuts {
   }
 
   _blurHandler() {
+    this.props.onBlur();
+
     this.setState({
       shortcuts: false,
       focused: false
