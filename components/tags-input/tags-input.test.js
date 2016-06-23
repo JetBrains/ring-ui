@@ -116,6 +116,14 @@ describe('TagsInput', () => {
     dataSource.should.have.been.calledWith({query: 'testquery'});
   });
 
+  it('Should call datasource when arrow down pressed', function () {
+    const dataSource = this.sinon.spy(() => Promise.resolve([]));
+    this.tagsInput.rerender({dataSource});
+    this.tagsInput.loadSuggestions();
+
+    dataSource.should.have.been.calledWith({query: undefined});
+  });
+
   it('Should turn on loading message immidiatelly after initialization', function () {
     this.tagsInput.state.should.have.property('loading', true);
   });
