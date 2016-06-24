@@ -3,8 +3,8 @@
 
 module.exports = config => {
   const webdriverConfig = {
-    hostname: '172.20.161.215',
-    port: 5555
+    hostname: '***REMOVED***',
+    port: 4545
   };
 
   const buildVersion = process.env.npm_package_config_version || 'dev';
@@ -116,7 +116,7 @@ module.exports = config => {
       wdIE9: {
         base: 'WebDriver',
         config: webdriverConfig,
-        'x-ua-compatible': 'IE=EmulateIE9',
+        'x-ua-compatible': 'IE=edge',
         testName,
         browserName: 'internet explorer'
       },
