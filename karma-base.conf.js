@@ -116,7 +116,7 @@ module.exports = config => {
       wdIE9: {
         base: 'WebDriver',
         config: webdriverConfig,
-        'x-ua-compatible': 'IE=EmulateIE9',
+        'x-ua-compatible': 'IE=edge',
         testName,
         browserName: 'internet explorer'
       },
