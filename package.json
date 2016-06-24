@@ -101,6 +101,7 @@
     "mocha": "2.3.3",
     "serve-static": "1.9.2",
     "slug": "0.8.0",
+    "socket.io": "1.4.6",
     "wallaby-webpack": "0.0.22",
     "webpack": "1.12.14",
     "webpack-config-merger": "0.0.5",
