@@ -323,13 +323,24 @@ describe('Select', () => {
     });
 
     it('Should open popup on input changes if in focus', function () {
+      this.select.rerender({type: Select.Type.INPUT});
       this.select._showPopup = this.sinon.spy();
       this.select.setState({focused: true});
       this.select._filterChangeHandler();
       this.select._showPopup.should.have.been.called;
     });
 
+    it('should filter if not focused but not in input mode', function () {
+      this.select.rerender({type: Select.Type.BUTTON});
+      this.sinon.spy(this.select, 'filterValue');
+      this.select._filterChangeHandler();
+
+      this.select.filterValue.should.have.been.called;
+    });
+
     it('Should not open popup on input changes if not in focus', function () {
+      this.select.rerender({type: Select.Type.INPUT});
+
       this.select._showPopup = this.sinon.spy();
       this.select._filterChangeHandler();
       this.select._showPopup.should.not.have.been.called;
@@ -559,6 +570,13 @@ describe('Select', () => {
       this.select._popup.rerender = this.sinon.stub();
       this.select._showPopup();
       this.select._popup.rerender.should.been.calledWith(this.sinon.match({message: 'test not found'}));
+    });
+
+    it('Should open select dropdown on pressing ENTER', function () {
+      this.sinon.spy(this.select, '_showPopup');
+      TestUtils.Simulate.click(this.select.node);
+
+      this.select._showPopup.should.have.been.called;
     });
 
     it('Should restore focus on select in button mode after closing popup', function () {
