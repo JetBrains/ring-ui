@@ -206,6 +206,13 @@ describe('Select', () => {
       this.select.node.should.contain('.ring-select__icons');
     });
 
+    it('Should open select dropdown on click', function () {
+      this.sinon.spy(this.select, '_showPopup');
+      TestUtils.Simulate.click(this.select.node);
+
+      this.select._showPopup.should.have.been.called;
+    });
+
     describe('Bottom toolbar', () => {
       it('Should not add "Add" button if enabled but filter query is empty', function () {
         this.select.rerender({add: true});
@@ -570,13 +577,6 @@ describe('Select', () => {
       this.select._popup.rerender = this.sinon.stub();
       this.select._showPopup();
       this.select._popup.rerender.should.been.calledWith(this.sinon.match({message: 'test not found'}));
-    });
-
-    it('Should open select dropdown on pressing ENTER', function () {
-      this.sinon.spy(this.select, '_showPopup');
-      TestUtils.Simulate.click(this.select.node);
-
-      this.select._showPopup.should.have.been.called;
     });
 
     it('Should restore focus on select in button mode after closing popup', function () {
