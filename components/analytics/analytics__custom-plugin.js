@@ -58,7 +58,7 @@ AnalyticsCustomPlugin.prototype._processEvent = function (rawCategory, rawAction
   if (this._isDevelopment) {
     console.log('TRACKING DATA = ', category, action); // eslint-disable-line no-console
   }
-  this._data.push({category, action});
+  this._addDataToFlushingPack({category, action});
 };
 
 AnalyticsCustomPlugin.prototype._trackPageViewAdditionalInfo = function (newPagePath) {
@@ -71,4 +71,13 @@ AnalyticsCustomPlugin.prototype._trackPageViewAdditionalInfo = function (newPage
   }
   this._lastPageViewTime = currentTime;
   this._lastPagePath = newPagePath;
+};
+
+AnalyticsCustomPlugin.prototype._addDataToFlushingPack = function (sendingData) {
+  this._data.push(sendingData);
+
+  const flushMaxPackSize = 100;
+  if (this._data.length >= flushMaxPackSize) {
+    this._flush();
+  }
 };
