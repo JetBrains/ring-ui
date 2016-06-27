@@ -83,8 +83,10 @@ describe('analytics singleton', () => {
     });
 
     describe('#enabled', () => {
+
+      let customPlugin;
       beforeEach(function () {
-        const customPlugin = new AnalyticsCustomPlugin(this.send);
+        customPlugin = new AnalyticsCustomPlugin(this.send);
         this.analytics.config([customPlugin]);
       });
 
@@ -96,6 +98,18 @@ describe('analytics singleton', () => {
           category: 'test-category',
           action: 'test-action'
         }]);
+      });
+
+      it('should send request on achiving max pack size', function () {
+        for (let i = 0; i < 99; ++i) {
+          this.analytics.trackEvent(`test-category-${i}`, 'test-action');
+        }
+        expect(customPlugin._data.length).equal(99);
+
+        this.analytics.trackEvent('test-category-100', 'test-action');
+
+        this.send.should.have.been.called;
+        expect(customPlugin._data.length).equal(0);
       });
 
       it('should remove prohibited symbols', function () {
@@ -247,7 +261,7 @@ describe('analytics singleton', () => {
             return counter === 2;
           }
 
-          const customPlugin = new AnalyticsCustomPlugin(this.send, false, 10000, flushingIsAllowedOnSecondCheck);
+          customPlugin = new AnalyticsCustomPlugin(this.send, false, 10000, flushingIsAllowedOnSecondCheck);
           this.analytics.config([customPlugin]);
 
           this.analytics.trackEvent('test-category', 'test-action');
