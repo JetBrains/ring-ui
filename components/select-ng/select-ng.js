@@ -747,7 +747,8 @@ angularModule.directive('rgSelect', () => {
          * Provide specific filter function if externalFilter is enabled
          */
         if (ctrl.externalFilter) {
-          ctrl.filter = {fn: () => true};
+          ctrl.filter = ctrl.filter || {};
+          ctrl.filter.fn = () => true;
         }
 
         ctrl.config = angular.extend({}, {
