@@ -13,6 +13,7 @@ $tag-background-color: #E6E6E6;
   border: 1px solid $tag-background-color;
 
   &_focused {
+    outline: none;
     border-color: $ring-outline-color;
   }
 }
@@ -22,6 +23,10 @@ $tag-background-color: #E6E6E6;
   color: $ring-dark-gray-color;
 
   @include ring-vertical-compensation();
+
+  &:hover{
+    color: $ring-link-hover-color;
+  }
 }
 
 .ring-tag__icon {
