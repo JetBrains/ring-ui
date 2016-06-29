@@ -6,6 +6,18 @@ order: 2
 
 See the “breaking change” commits [in Upsource](https://upsource.jetbrains.com/ring-ui/view?query=path:%20%7B%2A%2Fbreaking-changes.md%7D%20and%20not%20%22Wording%22).
 
+### 29-06-2016: Added suffix "ring-" for constants in palette/palette.scss: 
+
+Before:
+```
+$palette-array, $palette-white-text, $palette-grey-text
+```
+
+After:
+```
+$ring-palette-array, $ring-palette-white-text, $ring-palette-grey-text
+```
+  
 ### 27-05-2016: scss-mixin rgba-attribute is removed  
   
 Use rbga colors without mixin as we don't support IE8- anymore.  
