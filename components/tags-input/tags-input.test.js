@@ -148,32 +148,109 @@ describe('TagsInput', () => {
     notAddedSuggestions.should.be.deep.equal([{key: 2, label: 'test2'}]);
   });
 
-  it('Should remove last tag on pressing backspace if input is empty', function () {
-    this.sinon.spy(this.tagsInput, 'onRemoveTag');
-    this.tagsInput._inputNode.value = '';
-    this.tagsInput.handleBackspace();
-
-    this.tagsInput.onRemoveTag.should.have.been.calledWith(fakeTags[0]);
-  });
-
-  it('Should not tag on pressing backspace if input is not empty', function () {
-    this.sinon.spy(this.tagsInput, 'onRemoveTag');
-    this.tagsInput._inputNode.value = 'entered value';
-    this.tagsInput.handleBackspace();
-
-    this.tagsInput.onRemoveTag.should.not.have.been.called;
-  });
-
   it('should enbale shortcuts on input focus', function () {
-    TestUtils.Simulate.focus(this.tagsInput._inputNode);
+    TestUtils.Simulate.focus(this.tagsInput.getInputNode());
 
     this.tagsInput.state.shortcuts.should.be.true;
   });
 
   it('should disable shortcuts when input lose focus', function () {
-    TestUtils.Simulate.focus(this.tagsInput._inputNode);
-    TestUtils.Simulate.blur(this.tagsInput._inputNode);
+    TestUtils.Simulate.focus(this.tagsInput.getInputNode());
+    TestUtils.Simulate.blur(this.tagsInput.getInputNode());
 
     this.tagsInput.state.shortcuts.should.be.false;
+  });
+
+  describe('Keyboard handling', () => {
+    let getEventMock;
+
+    beforeEach(function () {
+      this.sinon.spy(this.tagsInput, 'onRemoveTag');
+      this.sinon.spy(this.tagsInput, 'selectTag');
+      getEventMock = keyboardKey => Object.assign({
+        key: keyboardKey,
+        preventDefault: this.sinon.spy(),
+        target: {
+          matches: () => true
+        }
+      });
+    });
+
+    it('Should remove last tag on pressing backspace if input is empty', function () {
+      this.tagsInput.getInputNode().value = '';
+      this.tagsInput.handleKeyDown(getEventMock('Backspace'));
+
+      this.tagsInput.onRemoveTag.should.have.been.calledWith(fakeTags[0]);
+    });
+
+    it('Should not tag on pressing backspace if input is not empty', function () {
+      this.tagsInput.getInputNode().value = 'entered value';
+      this.tagsInput.handleKeyDown(getEventMock('Backspace'));
+
+      this.tagsInput.onRemoveTag.should.not.have.been.called;
+    });
+
+    it('should remove tag with DELETE key if tag is focused', function () {
+      this.tagsInput.setState({
+        activeIndex: 0
+      });
+      this.tagsInput.handleKeyDown(getEventMock('Delete'));
+      this.tagsInput.onRemoveTag.should.have.been.calledWith(fakeTags[0]);
+    });
+
+    it('should remove tag with BACKSPACE key if tag is focused', function () {
+      this.tagsInput.rerender({
+        activeIndex: 0
+      });
+      this.tagsInput.handleKeyDown(getEventMock('Backspace'));
+
+      this.tagsInput.onRemoveTag.should.have.been.calledWith(fakeTags[0]);
+    });
+
+    it('should not remove tag with DELETE key if tag is not focused', function () {
+      this.tagsInput.handleKeyDown(getEventMock('Delete'));
+      this.tagsInput.onRemoveTag.should.not.have.been.called;
+    });
+
+    it('should not navigate to the first tag from select input', function () {
+      this.tagsInput.caret = {
+        getPosition: () => 1
+      };
+      this.tagsInput.handleKeyDown(getEventMock('ArrowLeft'));
+
+      this.tagsInput.selectTag.should.not.have.been.called;
+    });
+
+    it('should navigate to the first tag from select input', function () {
+      this.tagsInput.caret = {
+        getPosition: this.sinon.spy()
+      };
+      this.tagsInput.handleKeyDown(getEventMock('ArrowLeft'));
+
+      this.tagsInput.state.activeIndex.should.be.equals(0);
+    });
+
+    it('should navigate to the next tag', function () {
+      this.tagsInput.caret = {
+        getPosition: this.sinon.spy()
+      };
+      fakeTags.push({key: 2, label: 'test2'});
+
+      this.tagsInput.rerender({
+        activeIndex: 0
+      });
+      this.tagsInput.handleKeyDown(getEventMock('ArrowRight'));
+
+      setTimeout(() => this.tagsInput.selectTag.should.been.calledWith(true));
+    });
+
+    it('should navigate to the select input', function () {
+      this.tagsInput.rerender({
+        activeIndex: 0
+      });
+      this.tagsInput.handleKeyDown(getEventMock('ArrowRight'));
+
+      setTimeout(() => this.tagsInput.state.activeIndex.should.be.equals(undefined));
+    });
   });
 });
