@@ -411,6 +411,7 @@ export default class Select extends RingComponentWithShortcuts {
     onFilter: noop,       // search string as first argument
     onFocus: noop,
     onBlur: noop,
+    onKeyDown: noop,
 
     onSelect: noop,       // single + multi
     onDeselect: noop,     // multi
@@ -1065,6 +1066,7 @@ export default class Select extends RingComponentWithShortcuts {
             onBlur={::this._blurHandler}
             shortcuts={this._inputShortcutsEnabled()}
             placeholder={this._getInputPlaceholder()}
+            onKeyDown={::this.props.onKeyDown}
           />
           {iconsNode}
         </div>

@@ -4,6 +4,9 @@ import classNames from 'classnames';
 import RingComponentWithShortcuts from '../ring-component/ring-component_with-shortcuts';
 import Select from '../select/select';
 import Tag from '../tag/tag';
+import Caret from '../caret/caret';
+import getEventKey from 'react/lib/getEventKey';
+
 import './tags-input.scss';
 import '../input-size/input-size.scss';
 
@@ -139,7 +142,8 @@ export default class TagsInput extends RingComponentWithShortcuts {
     tags: [],
     suggestions: [],
     shortcuts: false,
-    loading: true
+    loading: true,
+    activeIndex: 0
   };
 
   static ngModelStateField = 'tags';
@@ -148,20 +152,35 @@ export default class TagsInput extends RingComponentWithShortcuts {
   getShortcutsProps() {
     return {
       map: {
-        backspace: (...args) => this.handleBackspace(...args)
+        backspace: (...args) => this.handleKeyDown(...args),
+        left: ::this.selectTag,
+        right: () => this.selectTag(true)
       },
       scope: () => this.constructor.getUID('ring-tags-input-')
     };
   }
 
+  getInputNode() {
+    if (!this.input) {
+      this.input = this.refs.select.refs.filter.node;
+      this.caret = new Caret(this.input);
+    }
+    return this.input;
+  }
+
+  setActiveIndex(activeIndex) {
+    this.setState({activeIndex});
+  }
+
   updateStateFromProps(props) {
     if (props.tags) {
       this.setState({tags: props.tags});
+      this.setActiveIndex(props.tags.length);
     }
   }
 
   focusInput() {
-    this._inputNode.focus();
+    this.getInputNode().focus();
   }
 
   addTag(tag) {
@@ -170,6 +189,7 @@ export default class TagsInput extends RingComponentWithShortcuts {
     this.refs.select.clear();
     this.refs.select.filterValue('');
     this.props.onAddTag({tag});
+    this.setActiveIndex();
   }
 
   onRemoveTag(tagToRemove) {
@@ -182,21 +202,12 @@ export default class TagsInput extends RingComponentWithShortcuts {
       }, ::this.focusInput);
   }
 
-  handleBackspace() {
-    const currentInputValue = this._inputNode.value;
-    if (!currentInputValue) {
-      const tagsLength = this.state.tags.length;
-      this.refs.select._hidePopup(true); // otherwise confirmation may be overlapped by popup
-      this.onRemoveTag(this.state.tags[tagsLength - 1]);
+  clickHandler(event) {
+    if (!event.target.matches(this.getInputNode().tagName)) {
+      return;
     }
-  }
 
-  get _inputNode() {
-    return this.refs.select.refs.filter.node;
-  }
-
-  clickHandler() {
-    this.loadSuggestions(this._inputNode.value);
+    this.loadSuggestions(this.getInputNode().value);
     this.focusInput();
   }
 
@@ -225,16 +236,6 @@ export default class TagsInput extends RingComponentWithShortcuts {
     this.updateStateFromProps(props);
   }
 
-  renderTag(tag, readOnly) {
-    const TagComponent = this.props.customTagComponent || Tag;
-    return (
-      <TagComponent
-        {...tag}
-        readOnly={readOnly}
-        onRemove={() => this.onRemoveTag(tag)}
-      >{tag.label}</TagComponent>);
-  }
-
   _focusHandler() {
     this.setState({
       shortcuts: true
@@ -247,14 +248,90 @@ export default class TagsInput extends RingComponentWithShortcuts {
     });
   }
 
+  selectTag(moveForward) {
+    const activeIndex = typeof this.state.activeIndex === 'number' ? this.state.activeIndex : this.state.tags.length + 1;
+    let newActiveIndex = activeIndex + (moveForward ? 1 : -1);
+
+    if (newActiveIndex >= this.state.tags.length) {
+      newActiveIndex = this.state.tags.length - 1;
+    } else if (newActiveIndex < 0) {
+      newActiveIndex = 0;
+    }
+
+    if (this.state.activeIndex !== newActiveIndex) {
+      this.setActiveIndex(newActiveIndex);
+    }
+  }
+
+  handleKeyDown(event) {
+    if (this.refs.select._popup.isVisible()) {
+      return true;
+    }
+
+    const key = getEventKey(event);
+    const isInputFocused = () => event.target.matches(this.getInputNode().tagName);
+
+    if (key === 'ArrowLeft') {
+      if (this.caret.getPosition() > 0) {
+        return true;
+      }
+
+      this.selectTag();
+      return false;
+    }
+
+    if (key === 'ArrowRight' && !isInputFocused(event)) {
+      if (this.state.activeIndex === this.state.tags.length - 1) {
+        this.getInputNode().focus();
+        this.setActiveIndex();
+      } else {
+        this.selectTag(true);
+      }
+      return false;
+    }
+
+    if (key === 'Backspace' && !this.getInputNode().value) {
+      event.preventDefault();
+      const tagsLength = this.state.tags.length;
+      this.refs.select._hidePopup(true); // otherwise confirmation may be overlapped by popup
+      this.onRemoveTag(this.state.tags[tagsLength - 1]);
+      return false;
+    }
+
+    if ((key === 'Delete' || key === 'Backspace') && this.state.tags[this.state.activeIndex]) {
+      this.onRemoveTag(this.state.tags[this.state.activeIndex]).
+        then(() => this.selectTag(true));
+      return false;
+    }
+
+    return true;
+  }
+
+  onTagClick(tag) {
+    this.setActiveIndex(this.state.tags.indexOf(tag));
+  }
+
+  renderTag(tag, focusTag, readOnly) {
+    const TagComponent = this.props.customTagComponent || Tag;
+    return (
+      <TagComponent
+        {...tag}
+        readOnly={readOnly}
+        focused={focusTag}
+        onClick={() => this.onTagClick(tag)}
+        onRemove={() => this.onRemoveTag(tag)}
+      >{tag.label}</TagComponent>);
+  }
+
   render() {
     const classes = classNames('ring-js-shortcuts', 'ring-tags-input', this.props.className);
-    const renderTags = () => this.state.tags.map(tag => this.renderTag(tag, this.props.canNotBeEmpty && this.state.tags.length === 1));
+    const renderTags = () => this.state.tags.map((tag, index) => this.renderTag(tag, this.state.activeIndex === index, this.props.canNotBeEmpty && this.state.tags.length === 1));
 
     return (
       <div
         className={classes}
-        onClick={::this.clickHandler}
+        onKeyDown={::this.handleKeyDown}
+        onClick={event => this.clickHandler(event)}
       >
         {renderTags()}
         <Select
@@ -273,6 +350,7 @@ export default class TagsInput extends RingComponentWithShortcuts {
           loading={this.state.loading}
           onFilter={::this.loadSuggestions}
           onBeforeOpen={::this.loadSuggestions}
+          onKeyDown={::this.handleKeyDown}
         />
       </div>);
   }
