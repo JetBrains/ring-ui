@@ -240,6 +240,7 @@ export default class TagsInput extends RingComponentWithShortcuts {
     this.setState({
       shortcuts: true
     });
+    this.setActiveIndex(null);
   }
 
   _blurHandler() {
