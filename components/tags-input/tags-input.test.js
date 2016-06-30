@@ -231,20 +231,6 @@ describe('TagsInput', () => {
       this.tagsInput.state.activeIndex.should.be.equals(0);
     });
 
-    it('should navigate to the next tag', function () {
-      this.tagsInput.caret = {
-        getPosition: this.sinon.spy()
-      };
-      fakeTags.push({key: 2, label: 'test2'});
-
-      this.tagsInput.rerender({
-        activeIndex: 0
-      });
-      this.tagsInput.handleKeyDown(getEventMock('ArrowRight'));
-
-      setTimeout(() => this.tagsInput.state.activeIndex.should.be.equals(1));
-    });
-
     it('should navigate to the select input', function () {
       this.tagsInput.rerender({
         activeIndex: 0
