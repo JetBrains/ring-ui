@@ -174,7 +174,6 @@ describe('TagsInput', () => {
       });
 
       this.sinon.spy(this.tagsInput, 'onRemoveTag');
-      this.sinon.spy(this.tagsInput, 'selectTag');
     });
 
     it('Should remove last tag on pressing backspace if input is empty', function () {
@@ -220,7 +219,7 @@ describe('TagsInput', () => {
       };
       this.tagsInput.handleKeyDown(getEventMock('ArrowLeft'));
 
-      this.tagsInput.selectTag.should.not.have.been.called;
+      setTimeout(() => this.tagsInput.state.activeIndex.should.be.equals(undefined));
     });
 
     it('should navigate to the first tag from select input', function () {
@@ -243,7 +242,7 @@ describe('TagsInput', () => {
       });
       this.tagsInput.handleKeyDown(getEventMock('ArrowRight'));
 
-      setTimeout(() => this.tagsInput.selectTag.should.been.calledWith(true));
+      setTimeout(() => this.tagsInput.state.activeIndex.should.be.equals(1));
     });
 
     it('should navigate to the select input', function () {
