@@ -81,10 +81,12 @@ class PromisedClickController {
     this.active = true;
     this.element.classList.add('ring-button_active');
 
-    this.promise.finally(() => {
+    const done = () => {
       this.active = false;
       this.element.classList.remove('ring-button_active');
-    });
+    };
+
+    this.promise.then(done, done);
   }
 }
 
