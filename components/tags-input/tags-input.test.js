@@ -165,8 +165,6 @@ describe('TagsInput', () => {
     let getEventMock;
 
     beforeEach(function () {
-      this.sinon.spy(this.tagsInput, 'onRemoveTag');
-      this.sinon.spy(this.tagsInput, 'selectTag');
       getEventMock = keyboardKey => Object.assign({
         key: keyboardKey,
         preventDefault: this.sinon.spy(),
@@ -174,6 +172,9 @@ describe('TagsInput', () => {
           matches: () => true
         }
       });
+
+      this.sinon.spy(this.tagsInput, 'onRemoveTag');
+      this.sinon.spy(this.tagsInput, 'selectTag');
     });
 
     it('Should remove last tag on pressing backspace if input is empty', function () {
