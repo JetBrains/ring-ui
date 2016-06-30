@@ -126,7 +126,8 @@ export default class TagsInput extends RingComponentWithShortcuts {
     customTagComponent: React.PropTypes.func,
     maxPopupHeight: React.PropTypes.number,
     placeholder: React.PropTypes.string,
-    canNotBeEmpty: React.PropTypes.bool
+    canNotBeEmpty: React.PropTypes.bool,
+    modalShortcuts: React.PropTypes.bool
   };
 
   static defaultProps = {
@@ -135,7 +136,8 @@ export default class TagsInput extends RingComponentWithShortcuts {
     onAddTag: noop,
     customTagComponent: null,
     maxPopupHeight: 500,
-    canNotBeEmpty: false
+    canNotBeEmpty: false,
+    modalShortcuts: false
   };
 
   state = {
@@ -156,7 +158,10 @@ export default class TagsInput extends RingComponentWithShortcuts {
         left: ::this.selectTag,
         right: () => this.selectTag(true)
       },
-      scope: () => this.constructor.getUID('ring-tags-input-')
+      scope: () => this.constructor.getUID('ring-tags-input-'),
+      options: {
+        modal: this.props.modalShortcuts
+      }
     };
   }
 
@@ -273,7 +278,7 @@ export default class TagsInput extends RingComponentWithShortcuts {
     const isInputFocused = () => event.target.matches(this.getInputNode().tagName);
 
     if (key === 'ArrowLeft') {
-      if (this.caret.getPosition() > 0) {
+      if (this.getInputNode() && this.caret.getPosition() > 0) {
         return true;
       }
 
