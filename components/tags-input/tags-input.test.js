@@ -213,13 +213,14 @@ describe('TagsInput', () => {
     });
 
     it('should not navigate to the first tag from select input', function () {
+      this.sinon.spy(this.tagsInput, 'selectTag');
       this.tagsInput.getInputNode();
       this.tagsInput.caret = {
         getPosition: () => 1
       };
       this.tagsInput.handleKeyDown(getEventMock('ArrowLeft'));
 
-      setTimeout(() => this.tagsInput.state.activeIndex.should.be.equals(undefined));
+      this.tagsInput.selectTag.should.not.have.been.called;
     });
 
     it('should navigate to the first tag from select input', function () {
@@ -232,12 +233,13 @@ describe('TagsInput', () => {
     });
 
     it('should navigate to the select input', function () {
+      this.sinon.spy(this.tagsInput, 'setActiveIndex');
       this.tagsInput.rerender({
         activeIndex: 0
       });
       this.tagsInput.handleKeyDown(getEventMock('ArrowRight'));
 
-      setTimeout(() => this.tagsInput.state.activeIndex.should.be.equals(undefined));
+      this.tagsInput.setActiveIndex.should.not.have.been.calledWith(undefined);
     });
   });
 });
