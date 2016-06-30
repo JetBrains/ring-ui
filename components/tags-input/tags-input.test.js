@@ -213,6 +213,7 @@ describe('TagsInput', () => {
     });
 
     it('should not navigate to the first tag from select input', function () {
+      this.tagsInput.getInputNode();
       this.tagsInput.caret = {
         getPosition: () => 1
       };
