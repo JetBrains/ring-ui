@@ -429,7 +429,8 @@ export default class Select extends RingComponentWithShortcuts {
     selectedIndex: null,
     filterString: null,
     shortcuts: false,
-    popupShortcuts: false
+    popupShortcuts: false,
+    prevFilterValue: ''
   };
 
   ngModelStateField = ngModelStateField;
@@ -785,7 +786,16 @@ export default class Select extends RingComponentWithShortcuts {
     if (this.isInputMode() && !this.state.focused) {
       return;
     }
-    const filterValue = this.filterValue().replace(/^\s+/g, '');
+
+    let filterValue = this.filterValue();
+
+    if (filterValue === this.state.prevFilterValue) {
+      return;
+    }
+
+    this.setState({prevFilterValue: filterValue});
+
+    filterValue = filterValue.replace(/^\s+/g, '');
     this.props.onFilter(filterValue);
     if (this.props.allowAny) {
       const fakeSelected = {
