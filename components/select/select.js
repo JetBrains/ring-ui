@@ -961,7 +961,7 @@ export default class Select extends RingComponentWithShortcuts {
     if (!this.props.allowAny) {
       return this._getSelectedLabel();
     } else {
-      return this.props.filter && this.props.filter.placeholder;
+      return '';
     }
   }
 
