@@ -13,6 +13,8 @@ import LoaderInline from '../loader-inline/loader-inline';
 function noop() {}
 
 export default class SelectPopup extends RingComponentWithShortcuts {
+  isClickingPopup = false; //This flag sets to true while item in popup is clicking
+
   static defaultProps = {
     data: [],
     activeIndex: null,
@@ -34,6 +36,11 @@ export default class SelectPopup extends RingComponentWithShortcuts {
     popupShortcuts: false
   };
 
+  constructor() {
+    super();
+    this.mouseUpHandler = ::this.mouseUpHandler;
+  }
+
   didMount() {
     if (this.refs.filter) {
       if (this.props.filter.value) {
@@ -41,6 +48,12 @@ export default class SelectPopup extends RingComponentWithShortcuts {
       }
       this.focusFilter();
     }
+
+    window.document.addEventListener('mouseup', this.mouseUpHandler);
+  }
+
+  willUnmount() {
+    window.document.removeEventListener('mouseup', this.mouseUpHandler);
   }
 
   focusFilter() {
@@ -89,6 +102,14 @@ export default class SelectPopup extends RingComponentWithShortcuts {
 
   listOnMouseOut() {
     this.refs.list.clearSelected();
+  }
+
+  mouseDownHandler() {
+    this.isClickingPopup = true;
+  }
+
+  mouseUpHandler() {
+    this.isClickingPopup = false;
   }
 
   listScrollToIndex(index) {
@@ -185,6 +206,7 @@ export default class SelectPopup extends RingComponentWithShortcuts {
         directions={this.props.directions}
         top={this.props.top}
         left={this.props.left}
+        onMouseDown={::this.mouseDownHandler}
       >
         {this.getFilter()}
         {this.getList()}
