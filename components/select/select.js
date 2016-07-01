@@ -920,16 +920,13 @@ export default class Select extends RingComponentWithShortcuts {
   _blurHandler() {
     this.props.onBlur();
 
-    if (this._popup && this._popup.isVisible()) {
-      window.setTimeout(() => {
-        this.props.onClose();
-        this._popup.hide();
-      });
-    }
-
     this.setState({
       shortcuts: false,
       focused: false
+    }, () => {
+      if (this._popup && this._popup.isVisible()) {
+        window.setTimeout(() => this._popup.hide());
+      }
     });
   }
 

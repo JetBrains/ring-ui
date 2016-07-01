@@ -146,9 +146,8 @@ describe('Select', () => {
   });
 
   it('Should close popup anyway if input lost focus in INPUT mode', function () {
-    const onClose = this.sinon.stub();
     this.sinon.useFakeTimers();
-    this.select.rerender({type: Select.Type.INPUT, onClose});
+    this.select.rerender({type: Select.Type.INPUT});
     this.select._showPopup();
 
     sinon.stub(this.select._popup, 'hide');
@@ -157,7 +156,6 @@ describe('Select', () => {
     this.sinon.clock.tick();
 
     this.select._popup.hide.should.have.been.called;
-    onClose.should.have.been.called;
   });
 
   describe('DOM', () => {
