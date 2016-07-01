@@ -933,10 +933,6 @@ export default class Select extends RingComponentWithShortcuts {
     this.setState({
       shortcuts: false,
       focused: false
-    }, () => {
-      if (this._popup && this._popup.isVisible()) {
-        window.setTimeout(() => this._popup.hide());
-      }
     });
   }
 
