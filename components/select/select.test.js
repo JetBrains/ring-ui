@@ -337,14 +337,22 @@ describe('Select', () => {
 
   describe('Filtering', () => {
     it('Should call onFilter on input changes', function () {
+      this.select.filterValue = this.sinon.stub().returns('a');
       this.select.setState({focused: true});
       TestUtils.Simulate.input(this.select._popup.refs.filter.node);
       this.select.props.onFilter.should.been.called;
     });
 
+    it('Should save input changes', function () {
+      this.select.filterValue = this.sinon.stub().returns('a');
+      this.select._filterChangeHandler();
+      this.select.state.prevFilterValue.should.equals('a');
+    });
+
     it('Should open popup on input changes if in focus', function () {
       this.select.rerender({type: Select.Type.INPUT});
       this.select._showPopup = this.sinon.spy();
+      this.select.filterValue = this.sinon.stub().returns('a');
       this.select.setState({focused: true});
       this.select._filterChangeHandler();
       this.select._showPopup.should.have.been.called;
