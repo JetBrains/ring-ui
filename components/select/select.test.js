@@ -145,19 +145,6 @@ describe('Select', () => {
     this.select.props.onBlur.should.been.called;
   });
 
-  it('Should close popup anyway if input lost focus in INPUT mode', function () {
-    this.sinon.useFakeTimers();
-    this.select.rerender({type: Select.Type.INPUT});
-    this.select._showPopup();
-
-    sinon.stub(this.select._popup, 'hide');
-    TestUtils.Simulate.blur(this.select.refs.filter.node);
-
-    this.sinon.clock.tick();
-
-    this.select._popup.hide.should.have.been.called;
-  });
-
   describe('DOM', () => {
     it('Should place select button inside container', function () {
       this.select.node.should.have.class('ring-select');
