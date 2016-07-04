@@ -109,6 +109,27 @@ function noop() {}
  render(TagsInput.factory(props), document.getElementById('demo'));
  </file>
  </example>
+
+ <example name="Disabled TagsInput">
+ <file name="index.html">
+ <div id="demo"></div>
+ </file>
+ <file name="index.js" webpack="true">
+ var render = require('react-dom').render;
+ var TagsInput = require('ring-ui/components/tags-input/tags-input');
+
+ var props = {
+      disabled: true,
+      tags: [
+        {key: 'test2', label: 'test2'}
+      ],
+      dataSource: function() {
+        return [];
+      }
+    };
+ render(TagsInput.factory(props), document.getElementById('demo'));
+ </file>
+ </example>
  */
 
 export default class TagsInput extends RingComponentWithShortcuts {
@@ -127,7 +148,8 @@ export default class TagsInput extends RingComponentWithShortcuts {
     maxPopupHeight: React.PropTypes.number,
     placeholder: React.PropTypes.string,
     canNotBeEmpty: React.PropTypes.bool,
-    modalShortcuts: React.PropTypes.bool
+    modalShortcuts: React.PropTypes.bool,
+    disabled: React.PropTypes.bool
   };
 
   static defaultProps = {
@@ -137,7 +159,8 @@ export default class TagsInput extends RingComponentWithShortcuts {
     customTagComponent: null,
     maxPopupHeight: 500,
     canNotBeEmpty: false,
-    modalShortcuts: false
+    modalShortcuts: false,
+    disabled: false
   };
 
   state = {
@@ -288,26 +311,30 @@ export default class TagsInput extends RingComponentWithShortcuts {
 
     if (key === 'ArrowRight' && !isInputFocused(event)) {
       if (this.state.activeIndex === this.state.tags.length - 1) {
-        this.getInputNode().focus();
-        this.setActiveIndex();
+        if (!this.props.disabled) {
+          this.getInputNode().focus();
+          this.setActiveIndex();
+        }
       } else {
         this.selectTag(true);
       }
       return false;
     }
 
-    if (key === 'Backspace' && !this.getInputNode().value) {
-      event.preventDefault();
-      const tagsLength = this.state.tags.length;
-      this.refs.select._hidePopup(true); // otherwise confirmation may be overlapped by popup
-      this.onRemoveTag(this.state.tags[tagsLength - 1]);
-      return false;
-    }
+    if (!this.props.disabled) {
+      if (key === 'Backspace' && !this.getInputNode().value) {
+        event.preventDefault();
+        const tagsLength = this.state.tags.length;
+        this.refs.select._hidePopup(true); // otherwise confirmation may be overlapped by popup
+        this.onRemoveTag(this.state.tags[tagsLength - 1]);
+        return false;
+      }
 
-    if ((key === 'Delete' || key === 'Backspace') && this.state.tags[this.state.activeIndex]) {
-      this.onRemoveTag(this.state.tags[this.state.activeIndex]).
-        then(() => this.selectTag(true));
-      return false;
+      if ((key === 'Delete' || key === 'Backspace') && this.state.tags[this.state.activeIndex]) {
+        this.onRemoveTag(this.state.tags[this.state.activeIndex]).
+          then(() => this.selectTag(true));
+        return false;
+      }
     }
 
     return true;
@@ -331,7 +358,8 @@ export default class TagsInput extends RingComponentWithShortcuts {
 
   render() {
     const classes = classNames('ring-js-shortcuts', 'ring-tags-input', this.props.className);
-    const renderTags = () => this.state.tags.map((tag, index) => this.renderTag(tag, this.state.activeIndex === index, this.props.canNotBeEmpty && this.state.tags.length === 1));
+    const readOnly = this.props.disabled || (this.props.canNotBeEmpty && this.state.tags.length === 1);
+    const renderTags = () => this.state.tags.map((tag, index) => this.renderTag(tag, this.state.activeIndex === index, readOnly));
 
     return (
       <div
@@ -357,6 +385,7 @@ export default class TagsInput extends RingComponentWithShortcuts {
           onFilter={::this.loadSuggestions}
           onBeforeOpen={::this.loadSuggestions}
           onKeyDown={::this.handleKeyDown}
+          disabled={this.props.disabled}
         />
       </div>);
   }
