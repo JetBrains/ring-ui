@@ -21,10 +21,42 @@ export default class Tag extends RingComponent {
     focused: false
   };
 
+  state = {
+    focused: false
+  }
+
+  onDocumentClick(event) {
+    if (this.refs.tag) {
+      this.setState({focused: this.node === event.target});
+    }
+  }
+
+  setDocumentClickListener(setListener) {
+    if (setListener) {
+      document.addEventListener('click', ::this.onDocumentClick);
+    } else {
+      document.removeEventListener('click', ::this.onDocumentClick);
+    }
+  }
+
+  updateStateFromProps(props) {
+    this.setState({focused: props.focused});
+    this.setDocumentClickListener(props.focused);
+  }
+
   didUpdate() {
-    if (this.props.focused) {
+    if (this.state.focused) {
       this.node.focus();
     }
+  }
+
+  willReceiveProps(props) {
+    this.updateStateFromProps(props);
+  }
+
+  willUnmount() {
+    this.setDocumentClickListener(false);
+    this.setState({focused: false});
   }
 
   render() {
@@ -32,7 +64,7 @@ export default class Tag extends RingComponent {
       'ring-tag',
       'ring-js-shortcuts',
       this.props.className, {
-        'ring-tag_focused': this.props.focused
+        'ring-tag_focused': this.state.focused
       }
     );
 
