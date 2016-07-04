@@ -12,13 +12,9 @@ $tag-background-color: #E6E6E6;
   border-radius: 2px;
   border: 1px solid $tag-background-color;
 
-  &:focus {
+  &_focused, &:focus {
     outline: none;
-  }
-
-  &_focused {
-    outline: none;
-    border-color: $ring-outline-color;
+    box-shadow: 0 0 0 2px $ring-outline-color;
   }
 }
 
