@@ -100,6 +100,22 @@ describe('analytics singleton', () => {
         }]);
       });
 
+      it('should support configuration via method config', function () {
+        const flushingFunction = this.sinon.spy();
+        customPlugin.config({
+          send: flushingFunction
+        });
+
+        this.analytics.trackEvent('test-category', 'test-action');
+        this.clock.tick(10500);
+
+        this.send.should.not.have.been.called;
+        flushingFunction.should.have.been.calledWith([{
+          category: 'test-category',
+          action: 'test-action'
+        }]);
+      });
+
       it('should send request on achiving max pack size', function () {
         for (let i = 0; i < 99; ++i) {
           this.analytics.trackEvent(`test-category-${i}`, 'test-action');
@@ -107,6 +123,23 @@ describe('analytics singleton', () => {
         expect(customPlugin._data.length).equal(99);
 
         this.analytics.trackEvent('test-category-100', 'test-action');
+
+        this.send.should.have.been.called;
+        expect(customPlugin._data.length).equal(0);
+      });
+
+      it('should configure max pack size via config', function () {
+        customPlugin.config({
+          send: this.send,
+          flushMaxPackSize: 102
+        });
+
+        for (let i = 0; i < 101; ++i) {
+          this.analytics.trackEvent(`test-category-${i}`, 'test-action');
+        }
+        expect(customPlugin._data.length).equal(101);
+
+        this.analytics.trackEvent('test-category-102', 'test-action');
 
         this.send.should.have.been.called;
         expect(customPlugin._data.length).equal(0);
