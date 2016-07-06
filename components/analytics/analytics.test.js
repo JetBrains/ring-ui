@@ -116,7 +116,7 @@ describe('analytics singleton', () => {
         }]);
       });
 
-      it('should send request on achiving max pack size', function () {
+      it('should send request on achieving max pack size', function () {
         for (let i = 0; i < 99; ++i) {
           this.analytics.trackEvent(`test-category-${i}`, 'test-action');
         }
