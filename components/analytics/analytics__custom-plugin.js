@@ -2,13 +2,13 @@ import AnalyticsCustomPluginUtils from './analytics__custom-plugin-utils';
 
 export default class AnalyticsCustomPlugin {
 
-  constructor(send, isDevelopment, flushInterval, flushingAlloweChecker) {
+  constructor(send, isDevelopment, flushInterval, flushingAllowedChecker) {
     this._data = [];
     this.config({
       send,
       isDevelopment,
       flushInterval,
-      flushingAlloweChecker
+      flushingAllowedChecker
     });
   }
 
@@ -17,11 +17,11 @@ export default class AnalyticsCustomPlugin {
    * @property {function} config.send
    * @property {boolean} config.isDevelopment
    * @property {number} config.flushInterval
-   * @property {function} config.flushingAlloweChecker
+   * @property {function} config.flushingAllowedChecker
    * @property {number} config.flushMaxPackSize
    */
   config(config) {
-    let checkFlushingAllowed = config.flushingAlloweChecker;
+    let checkFlushingAllowed = config.flushingAllowedChecker;
     if (typeof checkFlushingAllowed !== 'function') {
       checkFlushingAllowed = function () {
         return true;
