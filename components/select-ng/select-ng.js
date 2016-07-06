@@ -117,6 +117,41 @@ const LOADER_DELAY = 150; // delay to show loader in ms
   </file>
 </example>
 
+ <example name="Select-ng-in-rg-tabs">
+ <file name="index.html">
+   <div ng-app="test" ng-controller="testCtrl as ctrl">
+     <rg-tabs>
+       <rg-tabs-pane x-title="With select">
+        <div>tab 1</div>
+        <rg-select ng-model="ctrl.selectedItem" config="ctrl.selectConfig"
+          options="item.text for item in ctrl.options track by item.id" label="Select item"></rg-select>
+       </rg-tabs-pane>
+       <rg-tabs-pane x-title="Another tab" counter="7">Tab 2</rg-tabs-pane>
+     </rg-tabs>
+   </div>
+ </file>
+ <file name="index.js" webpack="true">
+  require('angular');
+  require('ring-ui/components/select-ng/select-ng');
+  require('angular-route');
+  require('ring-ui/components/tabs-ng/tabs-ng');
+
+  angular.module('test', ['Ring.select', 'Ring.tabs']).controller('testCtrl', function() {
+    var ctrl = this;
+
+    ctrl.options = [
+      {id: 1, text: '11111'},
+      {id: 2, text: '22222'},
+      {id: 3, text: '33333'}
+    ];
+
+    ctrl.selectConfig= {};
+
+    ctrl.selectedItem = ctrl.options[1];
+  });
+ </file>
+ </example>
+
 <example name="Select-ng-as-input">
   <file name="index.html">
     <div ng-app="test" ng-controller="testCtrl as ctrl">
