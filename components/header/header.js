@@ -154,6 +154,9 @@ const MenuItemsSequence = [
       var Popup = require('ring-ui/components/popup/popup');
       var Auth = require('ring-ui/components/auth/auth');
       var Link = require('ring-ui/components/link/link');
+      var Input = require('ring-ui/components/input/input');
+      var Button = require('ring-ui/components/button/button');
+      var ButtonGroup = require('ring-ui/components/button-group/button-group');
 
       var popup, popupContainer;
 
@@ -167,7 +170,21 @@ const MenuItemsSequence = [
         logoTitle: 'YouTrack',
         menu: [
           { component: Link, props: {href: '#', key: 'proj'}, children: 'Projects' },
-          { component: Link, props: {href: '#', key: 'dash'}, children: 'Dashboard' }
+          { component: Link, props: {href: '#', key: 'dash'}, children: 'Dashboard' },
+          { component: ButtonGroup, props: {key: 'create_issue'}, children: [
+            Button.factory({
+              primary: true
+            }, 'Create Issue'),
+            Button.factory({
+              icon: require('jetbrains-icons/caret-down.svg'),
+              primary: true,
+              short: true
+            })
+          ]},
+        ],
+        rightMenu: [
+          { component: Link, props: {href: '#', key: 'wtn'}, children: 'What\'s new' },
+          { component: Input, props: {key: 'srch'} }
         ]
       }), document.getElementById('header-container'));
 
@@ -203,8 +220,8 @@ const MenuItemsSequence = [
       //header.getMenuElement().appendChild(navigation);
 
       // Insert extra element to right menu.
-      var extraElement = document.createElement('input');
-      header.getExtraElement().appendChild(extraElement);
+      // var extraElement = document.createElement('input');
+      // header.getExtraElement().appendChild(extraElement);
     </file>
   </example>
  */
@@ -227,6 +244,7 @@ export default class Header extends RingComponent {
     logoUrl: null,
     logoTitle: null,
     menu: [],
+    rightMenu: [],
     profilePopupData: null,
     rootUrl: null,
     servicesList: null,
@@ -598,6 +616,12 @@ export default class Header extends RingComponent {
       <div className={headerClassName.getElement('right')}>
         <div className={headerClassName.getElement('user-menu')}>
           <div className={extraElementClassName}></div>
+          {
+            this.props.rightMenu.map(({component, props, children}) => {
+              // props = Object.assign({}, props, {className: extraElementClassName});
+              return (<div className={extraElementClassName}>{createElement(component, props, children)}</div>);
+            })
+          }
           {this.getMenuItems()}
         </div>
       </div>
