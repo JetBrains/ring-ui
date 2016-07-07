@@ -157,6 +157,7 @@ const MenuItemsSequence = [
       var Input = require('ring-ui/components/input/input');
       var Button = require('ring-ui/components/button/button');
       var ButtonGroup = require('ring-ui/components/button-group/button-group');
+      var List = require('ring-ui/components/list/list');
 
       var popup, popupContainer;
 
@@ -189,39 +190,46 @@ const MenuItemsSequence = [
       }), document.getElementById('header-container'));
 
       // Add callbacks for opening and closing settings element.
-      header.rerender({
-        onSettingsOpen: function() {
-          popupContainer = document.querySelector('.popup-container');
-          popup = ReactDOM.render(Popup.factory({
-            anchorElement: ReactDOM.findDOMNode(header.refs['settings']),
-            onClose: function() {
-              header.refs['settings'].setOpened(false);
-            }
-          }, React.DOM.div(null, 'Popup content')),
-          popupContainer)
-        },
-
-        onSettingsClose: function() {
-          if (popup) {
-            ReactDOM.unmountComponentAtNode(popupContainer);
-            popup = null;
-          }
-        }
-      });
+      // header.rerender({
+      //   onSettingsOpen: function() {
+      //     popupContainer = document.querySelector('.popup-container');
+      //     popup = ReactDOM.render(Popup.factory({
+      //       anchorElement: ReactDOM.findDOMNode(header.refs['settings']),
+      //       onClose: function() {
+      //         header.refs['settings'].setOpened(false);
+      //       }
+      //     }, React.DOM.div(null, 'Popup content')),
+      //     popupContainer)
+      //   },
+      //
+      //   onSettingsClose: function() {
+      //     if (popup) {
+      //       ReactDOM.unmountComponentAtNode(popupContainer);
+      //       popup = null;
+      //     }
+      //   }
+      // });
 
       auth.init().then(function () {
         Header.HeaderHelper.setUserMenu(header, auth);
         Header.HeaderHelper.setServicesList(header, auth);
       });
 
-      // Insert navigation, alternate way
-      //var navigation = document.createElement('div');
-      //navigation.innerHTML = 'Navigation';
-      //header.getMenuElement().appendChild(navigation);
+      header.setSettingsMenu([
+         {'label': 'Project Related Settings', 'rgItemType': List.ListProps.Type.TITLE},
+         {'label': 'Custom Fields', href: '#', 'rgItemType': List.ListProps.Type.LINK},
+         {'label': 'Issue Link Types', href: '#', 'rgItemType': List.ListProps.Type.LINK},
+         {'label': 'Notification Templates', href: '#', 'rgItemType': List.ListProps.Type.LINK},
+         {'label': 'Time Tracking', href: '#', 'rgItemType': List.ListProps.Type.LINK},
+         {'label': 'Workflows', href: '#', 'rgItemType': List.ListProps.Type.LINK},
 
-      // Insert extra element to right menu.
-      // var extraElement = document.createElement('input');
-      // header.getExtraElement().appendChild(extraElement);
+         {'label': 'Access Management', 'rgItemType': List.ListProps.Type.TITLE},
+         {'label': 'Users', href: '#', 'rgItemType': List.ListProps.Type.LINK},
+         {'label': 'Groups', href: '#', 'rgItemType': List.ListProps.Type.LINK},
+         {'label': 'Roles', href: '#', 'rgItemType': List.ListProps.Type.LINK},
+         {'label': 'Auth Modules', href: '#', 'rgItemType': List.ListProps.Type.LINK},
+         {'label': 'SAML 2.0', href: '#', 'rgItemType': List.ListProps.Type.LINK},
+      ]);
     </file>
   </example>
  */
@@ -748,6 +756,34 @@ export default class Header extends RingComponent {
    */
   setSettingsLink(href) {
     this.rerender({settingsLink: href});
+  }
+
+  /**
+   * @param {Header} header header instance to be modified
+   * @param {Promise|Object} settingsListData promise that returns list data in format
+   * accepted by PopupMenu.
+   */
+  setSettingsMenu(settingsListData) {
+    let popup = null;
+    this.rerender({
+      onSettingsOpen: () => {
+        Promise.resolve(settingsListData).then(data => {
+          popup = PopupMenu.renderPopup(PopupMenu.factory({
+            anchorElement: findDOMNode(this.refs.settings),
+            data: data,
+            directions: [PopupMenu.PopupProps.Directions.BOTTOM_LEFT],
+            onClose: () => this.refs.settings.setOpened(false)
+          }));
+        });
+      },
+
+      onSettingsClose: () => {
+        if (popup) {
+          popup.remove();
+          popup = null;
+        }
+      }
+    });
   }
 
   /**
