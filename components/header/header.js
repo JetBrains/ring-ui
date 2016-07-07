@@ -228,7 +228,6 @@ export default class Header extends RingComponent {
     logoTitle: null,
     menu: [],
     profilePopupData: null,
-    rightMenu: '',
     rootUrl: null,
     servicesList: null,
     settingsLink: null,
@@ -590,11 +589,6 @@ export default class Header extends RingComponent {
    * @private
    */
   _getRightMenu() {
-    if (this.props.rightMenu) {
-      //TODO investigate
-      return /** @type {ReactComponent} */ this.transferPropsTo(this.props.rightMenu);
-    }
-
     const extraElementClassName = classNames({
       [headerClassName.getElement('user-menu-extra')]: true,
       [headerClassName.getElement('user-menu-item')]: true
