@@ -656,6 +656,8 @@ export default class Header extends RingComponent {
   }
 
   /**
+   * @deprecated It's better to pass correct items to props.rightMenu then to patch
+   * this element
    * @return {Element}
    */
   getExtraElement() {
@@ -663,6 +665,8 @@ export default class Header extends RingComponent {
   }
 
   /**
+   * @deprecated It's better to pass correct items to props.menu then to patch
+   * this element
    * @return {Element}
    */
   getMenuElement() {
