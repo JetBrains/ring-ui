@@ -22,17 +22,18 @@ import List from '../list/list';
      <file name="index.js" webpack="true">
        var render = require('react-dom').render;
        var PopupMenu = require('ring-ui/components/popup-menu/popup-menu');
+       var Button = require('ring-ui/components/button/button');
 
        var data = [
-         {'label': 'One'},
-         {'label': 'Two', 'href': 'http://www.jetbrains.com'},
-         {'label': 'Three', 'type': PopupMenu.ListProps.Type.ITEM, 'href': 'http://www.jetbrains.com'},
-         {'type': PopupMenu.ListProps.Type.SEPARATOR},
-         {'label': 'Four', 'type': PopupMenu.ListProps.Type.LINK},
-         {'label': 'Five', 'type': PopupMenu.ListProps.Type.LINK, 'href': 'http://www.jetbrains.com', 'className': 'test'},
-         {'type': PopupMenu.ListProps.Type.SEPARATOR, 'description': 'Test group'},
-         {'label': '1 Element in group', 'type': PopupMenu.ListProps.Type.ITEM},
-         {'label': '2 Element in group', 'type': PopupMenu.ListProps.Type.ITEM}
+          {'label': 'Item'},
+          {'label': 'Link to jetbrains.com', 'href': 'http://www.jetbrains.com'},
+          {'rgItemType': PopupMenu.ListProps.Type.SEPARATOR},
+          {'rgItemType': PopupMenu.ListProps.Type.LINK, 'label': 'Link Item'},
+          {'rgItemType': PopupMenu.ListProps.Type.LINK, 'label': 'Link Item With Additional Class', 'className': 'test'},
+          {'rgItemType': PopupMenu.ListProps.Type.SEPARATOR, 'description': 'Separator With Description'},
+          {'rgItemType': PopupMenu.ListProps.Type.TITLE, 'label': 'Title'},
+          {'rgItemType': PopupMenu.ListProps.Type.ITEM, 'label': '1 Element in group'},
+          {'rgItemType': PopupMenu.ListProps.Type.ITEM, 'label': '2 Element in group'}
        ];
 
        var popupMenu = PopupMenu.renderPopup(PopupMenu.factory({
