@@ -234,7 +234,9 @@ export default class Header extends RingComponent {
     settingsLink: null,
     translationsDict: {
       login: 'Log in...',
-      help: 'Help'
+      help: 'Help',
+      services: 'Services',
+      settings: 'Administration'
     },
 
     onHelpOpen: noop,
@@ -642,7 +644,7 @@ export default class Header extends RingComponent {
           onClose={this.props.onSettingsClose}
           inactiveClassName="ring-header__menu-item-cog"
           activeClassName="ring-header__menu-item-cog ring-header__menu-item-cog_rotated"
-          title="Administration"
+          title={this.props.translationsDict.settings}
         />
       ),
 
@@ -665,7 +667,7 @@ export default class Header extends RingComponent {
           glyph={require('jetbrains-icons/services.svg')}
           onOpen={::this._onServicesOpen}
           onClose={::this._onServicesClose}
-          title="Services"
+          title={this.props.translationsDict.services}
         />
       ),
 
