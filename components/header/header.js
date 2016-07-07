@@ -808,7 +808,7 @@ export default class Header extends RingComponent {
         Promise.resolve(settingsListData).then(data => {
           popup = PopupMenu.renderPopup(PopupMenu.factory({
             anchorElement: findDOMNode(this.refs.settings),
-            data: data,
+            data,
             directions: [PopupMenu.PopupProps.Directions.BOTTOM_LEFT],
             onClose: () => this.refs.settings.setOpened(false)
           }));
