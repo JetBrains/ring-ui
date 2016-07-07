@@ -126,11 +126,10 @@ const MenuItemsSequence = [
  * @constructor
  * @extends {ReactComponent}
  * @example
-  <example name="Header">
+  <example name="Header with settings popup menu">
     <file name="index.html">
       <div id="header-container"></div>
       <div class="page-content">Page content</div>
-      <div class="popup-container"></div>
     </file>
 
     <file name="index.scss">
@@ -189,27 +188,6 @@ const MenuItemsSequence = [
         ]
       }), document.getElementById('header-container'));
 
-      // Add callbacks for opening and closing settings element.
-      // header.rerender({
-      //   onSettingsOpen: function() {
-      //     popupContainer = document.querySelector('.popup-container');
-      //     popup = ReactDOM.render(Popup.factory({
-      //       anchorElement: ReactDOM.findDOMNode(header.refs['settings']),
-      //       onClose: function() {
-      //         header.refs['settings'].setOpened(false);
-      //       }
-      //     }, React.DOM.div(null, 'Popup content')),
-      //     popupContainer)
-      //   },
-      //
-      //   onSettingsClose: function() {
-      //     if (popup) {
-      //       ReactDOM.unmountComponentAtNode(popupContainer);
-      //       popup = null;
-      //     }
-      //   }
-      // });
-
       auth.init().then(function () {
         Header.HeaderHelper.setUserMenu(header, auth);
         Header.HeaderHelper.setServicesList(header, auth);
@@ -231,6 +209,48 @@ const MenuItemsSequence = [
          {'label': 'SAML 2.0', href: '#', 'rgItemType': List.ListProps.Type.LINK},
       ]);
     </file>
+  </example>
+
+  * @example
+  <example name="Header with settings as link">
+    <file name="index.html">
+      <div id="header-container"></div>
+      <div class="page-content">Page content</div>
+      <div class="popup-container"></div>
+    </file>
+
+    <file name="index.scss">
+      body {
+        background: #e8e8e9;
+      }
+      .page-content {
+        background: #FFF;
+        padding: 32px;
+        height: 300px;
+      }
+    </file>
+
+    <file name="index.js" webpack="true">
+      require('./index.scss');
+      var React = require('react');
+      var ReactDOM = require('react-dom');
+
+      var Header = require('ring-ui/components/header/header');
+      var Link = require('ring-ui/components/link/link');
+
+      // Render youtrack header to DOM. Help link leads to Yandex.
+      // It's possible add a custom logotype into a Header via `logoUrl` parameter
+      var header = ReactDOM.render(Header.factory({
+        helpLink: 'http://www.yandex.ru',
+        logo: 'upsource',
+        logoTitle: 'Upsource',
+        settingsLink: '#settings',
+        menu: [
+          { component: Link, props: {href: '#', key: 'proj'}, children: 'Projects' },
+          { component: Link, props: {href: '#', key: 'dash'}, children: 'Dashboard' }
+        ]
+      }), document.getElementById('header-container'));
+  </file>
   </example>
  */
 export default class Header extends RingComponent {
