@@ -794,22 +794,10 @@ export default class Header extends RingComponent {
         Promise.resolve(settingsListData).then(data => {
           popup = PopupMenu.renderPopup(PopupMenu.factory({
             anchorElement: findDOMNode(this.refs.settings),
-            data: (data || []).map(item => {
-              if (item.href || item.onClick) {
-                const curOnClick = item.onClick;
-                item.onClick = event => {
-                  let result;
-                  if (curOnClick != null) {
-                    result = curOnClick(event);
-                  }
-                  this.refs.settings.setOpened(false);
-                  return result;
-                };
-              }
-              return item;
-            }),
+            data,
             directions: [PopupMenu.PopupProps.Directions.BOTTOM_LEFT],
-            onClose: () => this.refs.settings.setOpened(false)
+            onClose: () => this.refs.settings.setOpened(false),
+            onSelect: () => popup.close()
           }));
         });
       },
