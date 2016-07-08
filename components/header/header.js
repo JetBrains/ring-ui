@@ -139,7 +139,7 @@ const MenuItemsSequence = [
       .page-content {
         background: #FFF;
         padding: 32px;
-        height: 500px;
+        height: 370px;
       }
     </file>
 
@@ -226,7 +226,7 @@ const MenuItemsSequence = [
       .page-content {
         background: #FFF;
         padding: 32px;
-        height: 300px;
+        height: 370px;
       }
     </file>
 
@@ -794,7 +794,20 @@ export default class Header extends RingComponent {
         Promise.resolve(settingsListData).then(data => {
           popup = PopupMenu.renderPopup(PopupMenu.factory({
             anchorElement: findDOMNode(this.refs.settings),
-            data: data,
+            data: (data || []).map(item => {
+              if (item.href || item.onClick) {
+                const curOnClick = item.onClick;
+                item.onClick = event => {
+                  let result;
+                  if (curOnClick != null) {
+                    result = curOnClick(event);
+                  }
+                  this.refs.settings.setOpened(false);
+                  return result;
+                };
+              }
+              return item;
+            }),
             directions: [PopupMenu.PopupProps.Directions.BOTTOM_LEFT],
             onClose: () => this.refs.settings.setOpened(false)
           }));
