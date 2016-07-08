@@ -15,9 +15,11 @@ export default class Selection {
   }
 
   activateItem(item) {
-    this.clearActivity();
-    item.active = true;
-    this.emitEvent('rgTable:activateItem', item, this.items.indexOf(item));
+    if (item && !item.unselectable) {
+      this.clearActivity();
+      item.active = true;
+      this.emitEvent('rgTable:activateItem', item, this.items.indexOf(item));
+    }
   }
 
   getActiveItem() {
@@ -37,10 +39,30 @@ export default class Selection {
     this.activateItem(item);
   }
 
+  findNextActiveItem(startIndex, direction) {
+    const maxIndex = this.items.length - 1;
+
+    if (direction) {
+      for (let i = startIndex + 1; i <= maxIndex; i++) {
+        if (!this.items[i].unselectable) {
+          return this.items[i];
+        }
+      }
+    } else {
+      for (let i = startIndex - 1; i >= 0; i--) {
+        if (!this.items[i].unselectable) {
+          return this.items[i];
+        }
+      }
+    }
+
+    return undefined;
+  }
+
   activateNextItem() {
-    const index = this.items.indexOf(this.getActiveItem());
-    if (index >= 0 && index < this.items.length - 1) {
-      const newActiveItem = this.items[index + 1];
+    const activeItemIndex = this.items.indexOf(this.getActiveItem());
+    if (activeItemIndex >= 0 && activeItemIndex < this.items.length - 1) {
+      const newActiveItem = this.findNextActiveItem(activeItemIndex, 1);
       this.activateItem(newActiveItem);
       return newActiveItem;
     } else {
@@ -52,7 +74,7 @@ export default class Selection {
   activatePreviousItem() {
     const activeItemIndex = this.items.indexOf(this.getActiveItem());
     if (activeItemIndex > 0 && activeItemIndex <= this.items.length - 1) {
-      const newActiveItem = this.items[activeItemIndex - 1];
+      const newActiveItem = this.findNextActiveItem(activeItemIndex, 0);
       this.activateItem(newActiveItem);
       return newActiveItem;
     } else {
@@ -76,7 +98,7 @@ export default class Selection {
   }
 
   checkItem(item) {
-    if (item) {
+    if (item && !item.uncheckable && !item.unselectable) {
       item.checked = true;
       this.triggerSelectionChanged(item);
     }
@@ -90,8 +112,10 @@ export default class Selection {
   }
 
   toggleCheck(item) {
-    item.checked = !item.checked;
-    this.triggerSelectionChanged(item);
+    if (item && !item.uncheckable && !item.unselectable) {
+      item.checked = !item.checked;
+      this.triggerSelectionChanged(item);
+    }
   }
 
   triggerSelectionChanged(item) {
