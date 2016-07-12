@@ -215,7 +215,10 @@ class DialogController extends Inject {
       };
     }
 
-    return this.$inject.rgCompiler(this.config);
+    return this.$inject.rgCompiler(this.config).catch(error => {
+      this.reject(error);
+      return this.$inject.$q.reject(error);
+    });
   }
 
   show(config) {
