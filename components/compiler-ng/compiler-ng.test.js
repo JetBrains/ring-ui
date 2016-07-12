@@ -1,13 +1,13 @@
 import 'angular';
 import 'angular-mocks';
-import utilModuleName from './compiler-ng';
+import compilerModuleName from './compiler-ng';
 
 
 describe('rgCompiler', () => {
 
 
   beforeEach(window.module(
-    utilModuleName
+    compilerModuleName
   ));
 
 
@@ -144,6 +144,21 @@ describe('rgCompiler', () => {
     runDigest();
 
     compileData.element[0].should.have.html(text);
+  });
+
+
+  it('should fail if resolve was not satisfied', () => {
+    const onCompleError = sinon.stub();
+
+    compiler({
+      template: '<div/>',
+      resolve: {
+        rejectedResolve: $q => $q.reject()
+      }
+    }).catch(onCompleError);
+    runDigest();
+
+    onCompleError.should.have.been.called;
   });
 
 
