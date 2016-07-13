@@ -11,9 +11,13 @@ import './tooltip-ng.scss';
 <example name="tooltip-ng">
   <file name="index.html">
     <div class="tooltip-example" ng-app="tooltip-test">
-      Some text that needs explanation
-      <span ng-controller="testController" rg-tooltip="'Test message'"
-          react-static="Icon" react-glyph="icon" react-size="16" react-class="'ring-tooltip-ng__hint-icon'"></span>
+      <div ng-controller="testController">
+        Some text that needs explanation
+        <span rg-tooltip="'Test message'"
+              react-static="Icon" react-glyph="icon" react-size="16" react-class="'ring-tooltip-ng__hint-icon'"></span>
+        <span rg-tooltip="{{testMessageWithQuote}}"
+              react-static="Icon" react-glyph="icon" react-size="16" react-class="'ring-tooltip-ng__hint-icon'"></span>
+      </div>
     </div>
   </file>
 
@@ -27,6 +31,7 @@ import './tooltip-ng.scss';
 
     angular.module('tooltip-test', ['Ring.react-ng', 'Ring.tooltip']).controller('testController', ($scope) => {
       $scope.icon = require('jetbrains-icons/help.svg');
+      $scope.testMessageWithQuote = 'It\'s message with single-quote';
     });
   </file>
 
@@ -43,12 +48,19 @@ const OPEN_CLASS = 'ring-tooltip-ng_open';
 /*global angular*/
 const name = angular.module('Ring.tooltip', []);
 
-name.directive('rgTooltip', ($parse, RgTooltipPopup) => ({
+name.directive('rgTooltip', RgTooltipPopup => ({
   restrict: 'A',
 
   link(scope, iElement, iAttrs) {
     const element = iElement[0];
-    const popupWrapper = new RgTooltipPopup(element, $parse(iAttrs.rgTooltip)(scope));
+    const getTooltipText = () => {
+      try {
+        return scope.$eval(iAttrs.rgTooltip);
+      } catch (err) {
+        return iAttrs.rgTooltip;
+      }
+    };
+    const popupWrapper = new RgTooltipPopup(element, getTooltipText());
 
     element.addEventListener('mouseover', () => {
       popupWrapper.displayTooltip(iAttrs.rgTooltipClass);
