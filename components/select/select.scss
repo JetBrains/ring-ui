@@ -60,11 +60,6 @@
     display: inline-block;
     overflow: hidden;
     vertical-align: top;
-
-    // Supports Firefox
-    &, x:-moz-any-link {
-      vertical-align: inherit;
-    }
   }
 
   & &__icons {
