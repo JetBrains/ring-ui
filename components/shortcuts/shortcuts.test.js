@@ -1,5 +1,6 @@
 import simulateKeypress from 'simulate-keypress';
 import shortcuts from './shortcuts';
+import sniffr from '../sniffer/sniffer';
 
 describe('Shortcuts', () => {
   const key = 'a';
@@ -249,6 +250,38 @@ describe('Shortcuts', () => {
       shortcuts.pushScope(scope1, {foo: 'bar'});
 
       shortcuts.getScope().should.deep.equal([wrapScope(scope1, {foo: 'bar'})]);
+    });
+
+    it('should workaround system windows shortcuts', () => {
+      let eventType;
+      sinon.stub(shortcuts.combokeys, 'bind', (param1, param2, param3) => {
+        eventType = param3;
+      });
+      const sandbox = sinon.sandbox.create();
+      sandbox.stub(sniffr, 'os', {name: 'windows'});
+
+      shortcuts.bind({key: 'shift+ctrl+0', handler: noop});
+
+      eventType.should.equal('keyup');
+
+      shortcuts.combokeys.bind.restore();
+      sandbox.restore();
+    });
+
+    it('should not apply workaround for system windows shortcuts on other operating systems', () => {
+      let eventType;
+      sinon.stub(shortcuts.combokeys, 'bind', (param1, param2, param3) => {
+        eventType = param3;
+      });
+      const sandbox = sinon.sandbox.create();
+      sandbox.stub(sniffr, 'os', {name: 'macos'});
+
+      shortcuts.bind({key: 'shift+ctrl+0', handler: noop});
+
+      expect(eventType).should.not.equal('keyup');
+
+      shortcuts.combokeys.bind.restore();
+      sandbox.restore();
     });
   });
 });
