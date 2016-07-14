@@ -1,6 +1,7 @@
 import 'dom4';
 import Combokeys from 'combokeys';
 import 'core-js/modules/es6.array.find-index';
+import sniffr from '../sniffer/sniffer';
 
 class Shortcuts {
   ALLOW_SHORTCUTS_SELECTOR = '.ring-js-shortcuts';
@@ -76,7 +77,7 @@ class Shortcuts {
     }
     this._scopes[params.scope][params.key] = params.handler;
 
-    this.combokeys.bind(params.key, ::this._dispatcher, params.type);
+    this.combokeys.bind(params.key, ::this._dispatcher, this._getKeyboardEventType(params));
   }
 
   /**
@@ -196,6 +197,19 @@ class Shortcuts {
 
     // stop for input, select, and textarea
     return element.matches('input,select,textarea') || (element.contentEditable && element.contentEditable === 'true');
+  }
+
+  _getKeyboardEventType(params) {
+    if (!params.type && sniffr.os.name === 'windows') {
+      const isSystemShortcut = params.key.match(/ctrl/i) && params.key.match(/shift/i) && params.key.match(/[0-9]/);
+      /**
+       * Windows system shortcuts (ctrl+shift+[0-9] are catched by system on default 'keydown' event. So let's use 'keyup'.
+       */
+      if (isSystemShortcut) {
+        return 'keyup';
+      }
+    }
+    return params.type;
   }
 
   setFilter(fn) {
