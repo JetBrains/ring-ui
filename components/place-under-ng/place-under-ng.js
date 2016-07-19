@@ -64,61 +64,82 @@ import {getDocumentScrollTop} from '../dom/dom';
       background-color: #888;
     }
 
-    .head {
+ .head {
       height: 30px;
     }
 
-    .target-element {
+ .target-element {
       position: static;
       top: 0;
       width: 100%;
       background-color: #CCC;
     }
 
-    .scrollable {
+ .scrollable {
       height: 1000px;
       padding-top: 50px;
       background-color: #EEE;
     }
-  </file>
-</example>
-*/
+ </file>
+ </example>
+ */
 
 
 /* global angular: false */
 const angularModule = angular.module('Ring.place-under', []);
-/**
- * rg-place-under=".some-selector" = selector to point target element
- * place-top-offset="1" = offset in pixels
- * sync-bottom=".some-selector,.some-selector2" = selector to sunc bottom with
- * listen-to-height-change=".ring-table" = listen to element height change and update position
- */
-angularModule.directive('rgPlaceUnder', ($window, getClosestElementWithCommonParent) => {
+angularModule.directive('rgPlaceUnder', ($window, getClosestElementWithCommonParent, rgPlaceUnderHelper) => ({
+  restrict: 'A',
+  link(scope, iElement, iAttrs) {
+    const element = iElement[0];
+    const synchronizer = rgPlaceUnderHelper.createPositionSynchronizer(element, iAttrs, scope);
+
+    function startSyncing(placeUnderSelector) {
+      if (placeUnderSelector) {
+        scope.$evalAsync(() => {
+          const syncWith = getClosestElementWithCommonParent(element, placeUnderSelector);
+
+          if (syncWith) {
+            synchronizer.syncPositionWith(syncWith);
+          } else {
+            throw new Error('rgPlaceUnder cannot find element to sync with.');
+          }
+        });
+      }
+    }
+
+    iAttrs.$observe('rgPlaceUnder', startSyncing);
+  }
+}));
+
+
+angularModule.factory('getClosestElementWithCommonParent', () => function getClosestElementWithCommonParent(currentElement, selector) {
+  const parent = currentElement.parentNode;
+  if (parent) {
+    return parent.query(selector) || getClosestElementWithCommonParent(parent, selector);
+  } else {
+    return null;
+  }
+});
+
+
+angularModule.factory('rgPlaceUnderHelper', $window => {
   const DEBOUNCE_INTERVAL = 10;
   const HEIGHT_CHECK_INTERVAL = 50;
 
   return {
-    restrict: 'A',
-    link(scope, iElement, iAttrs) {
-      /**
-       * Use plain JS to make sidebar stickable
-       */
-      const element = iElement[0];
-
+    DEBOUNCE_INTERVAL,
+    HEIGHT_CHECK_INTERVAL,
+    createPositionSynchronizer: (element, iAttrs, scope) => {
       const topOffset = parseInt(iAttrs.placeTopOffset, 10) || 0;
       const syncHeight = iAttrs.syncHeight;
+
       let syncBottom = [];
+      let removeScrollListener = [];
+
       if (iAttrs.syncBottom) {
         syncBottom = iAttrs.syncBottom.split(',');
       }
 
-      let documentResizeSensor;
-
-      /**
-       * Waits until passed element's height becomes non-zero and then resolves
-       * @param elementToCheck
-       * @returns {Promise}
-       */
       function waitForNonZeroHeight(elementToCheck) {
         return new Promise(resolve => {
           function checkElementHeight() {
@@ -133,104 +154,87 @@ angularModule.directive('rgPlaceUnder', ($window, getClosestElementWithCommonPar
         });
       }
 
-      /**
-       * Syncing sidebar position with other element bottom
-       * @param syncWithElement - DOM node to sync with
-       */
-      function syncPositionWith(syncWithElement) {
-        const sidebarScrollListener = debounce(() => {
-          const documentScrollTop = getDocumentScrollTop();
-          const dcoumentOffsetHeight = (document.documentElement && document.documentElement.offsetHeight) || document.body.offsetHeight;
+      function onScroll(syncElement) {
+        const documentScrollTop = getDocumentScrollTop();
+        const dcoumentOffsetHeight = ($window.document.documentElement && $window.document.documentElement.offsetHeight) || $window.document.body.offsetHeight;
 
-          const syncedElementHeight = syncWithElement.offsetHeight;
-          const syncedElementOffsetTop = syncWithElement.getBoundingClientRect().top + documentScrollTop;
+        const syncedElementHeight = syncElement.offsetHeight;
+        const syncedElementOffsetTop = syncElement.getBoundingClientRect().top + documentScrollTop;
 
-          const bottom = syncedElementOffsetTop + syncedElementHeight;
+        const bottom = syncedElementOffsetTop + syncedElementHeight;
 
-          const margin = Math.max(bottom - documentScrollTop, syncedElementHeight);
+        const margin = Math.max(bottom - documentScrollTop, syncedElementHeight);
 
-          element.style.marginTop = `${margin + topOffset}px`;
+        element.style.marginTop = `${margin + topOffset}px`;
 
-          if (syncHeight) {
-            /**
-             * Decrease height by margin value to make scroll work properly
-             */
-            let bottomOffset = 0;
-            if (syncBottom.length) {
-              for (let i = 0; i < syncBottom.length; i++) {
-                const elem = document.querySelector(syncBottom[i]);
+        if (syncHeight) {
+          /**
+           * Decrease height by margin value to make scroll work properly
+           */
+          let bottomOffset = 0;
+          if (syncBottom.length) {
+            for (let i = 0; i < syncBottom.length; i++) {
+              const elem = $window.document.querySelector(syncBottom[i]);
 
-                if (elem) {
-                  const boundingRect = elem.getBoundingClientRect();
+              if (elem) {
+                const boundingRect = elem.getBoundingClientRect();
 
-                  if (boundingRect.top === 0) {
-                    continue;
-                  }
-
-                  const marginTop = parseInt(window.getComputedStyle(elem).getPropertyValue('margin-top'), 10);
-                  bottomOffset = dcoumentOffsetHeight - boundingRect.top + marginTop;
-                  if (bottomOffset < 0) {
-                    bottomOffset = 0;
-                  }
-
-                  break;
+                if (boundingRect.top === 0) {
+                  continue;
                 }
+
+                const marginTop = parseInt($window.getComputedStyle(elem).
+                  getPropertyValue('margin-top'), 10);
+                bottomOffset = dcoumentOffsetHeight - boundingRect.top + marginTop;
+                if (bottomOffset < 0) {
+                  bottomOffset = 0;
+                }
+
+                break;
               }
             }
-
-            element.style.height = `calc(100% - ${parseInt(element.style.marginTop, 10) + bottomOffset}px)`;
           }
 
-        }, DEBOUNCE_INTERVAL);
-
-        waitForNonZeroHeight(syncWithElement).then(sidebarScrollListener);
-
-        window.addEventListener('scroll', sidebarScrollListener);
-        scope.$watch('show', sidebarScrollListener);
-
-        const elementToHeightListening = iAttrs.listenToHeightChange ? document.querySelector(iAttrs.listenToHeightChange) : document.body;
-        documentResizeSensor = new ResizeSensor(elementToHeightListening, sidebarScrollListener);
-
-        scope.$on('rgPlaceUnder:sync', sidebarScrollListener);
-
-        scope.$on('$destroy', () => {
-          window.removeEventListener('scroll', sidebarScrollListener);
-          documentResizeSensor.detach();
-          documentResizeSensor = null;
-        });
-      }
-
-      function startSyncing(placeUnderSelector) {
-        if (placeUnderSelector) {
-          scope.$evalAsync(() => {
-            const syncWith = getClosestElementWithCommonParent(element, placeUnderSelector);
-
-            if (syncWith) {
-              syncPositionWith(syncWith);
-            } else {
-              throw new Error('rgPlaceUnder cannot find element to sync with.');
-            }
-          });
+          element.style.height = `calc(100% - ${parseInt(element.style.marginTop, 10) + bottomOffset}px)`;
         }
       }
 
-      iAttrs.$observe('rgPlaceUnder', startSyncing);
+      function removeScrollListeners() {
+        removeScrollListener.map(cb => cb());
+        removeScrollListener = [];
+      }
+
+      function syncPositionWith(syncElement) {
+        removeScrollListeners();
+
+        const sidebarScrollListener = debounce(() => this.onScroll(syncElement), DEBOUNCE_INTERVAL);
+
+        this.waitForNonZeroHeight(syncElement).then(sidebarScrollListener);
+
+        $window.addEventListener('scroll', sidebarScrollListener);
+        removeScrollListener.push(() => {
+          $window.removeEventListener('scroll', sidebarScrollListener);
+        });
+
+
+        removeScrollListener.push(scope.$watch('show', sidebarScrollListener));
+        removeScrollListener.push(scope.$on('rgPlaceUnder:sync', sidebarScrollListener));
+
+
+        const elementToHeightListening = iAttrs.listenToHeightChange ? $window.document.querySelector(iAttrs.listenToHeightChange) : $window.document.body;
+        const documentResizeSensor = new ResizeSensor(elementToHeightListening, sidebarScrollListener);
+        removeScrollListener.push(documentResizeSensor.detach.bind(documentResizeSensor));
+      }
+
+      scope.$on('$destroy', removeScrollListeners);
+
+      return {
+        waitForNonZeroHeight,
+        onScroll,
+        syncPositionWith
+      };
     }
   };
-});
-/**
- * Recursive search for closest syncWith node with shared parent
- * @param currentElement - element to start search from
- * @param selector - selector to find
- * @returns {Node}
- */
-angularModule.factory('getClosestElementWithCommonParent', () => function getClosestElementWithCommonParent(currentElement, selector) {
-  const parent = currentElement.parentNode;
-  if (parent) {
-    return parent.query(selector) || getClosestElementWithCommonParent(parent, selector);
-  } else {
-    return null;
-  }
 });
 
 export default angularModule.name;
