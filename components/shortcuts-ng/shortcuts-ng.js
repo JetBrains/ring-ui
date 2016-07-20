@@ -214,8 +214,7 @@ angularModule.directive('rgShortcuts', $parse => ({
 
   link($scope, iElement, iAttrs, shortcutsCtrl) {
     // Closest controller
-    let active = false;
-    const ctrl = shortcutsCtrl[shortcutsCtrl.length - 1];
+    const shortcutsApp = shortcutsCtrl[shortcutsCtrl.length - 1];
 
     const name = iAttrs.rgShortcuts;
     const focusGetter = $parse(iAttrs.shortcutsFocus);
@@ -229,25 +228,17 @@ angularModule.directive('rgShortcuts', $parse => ({
     };
 
     $scope.$evalAsync(() => {
-      ctrl.setup(zone, $scope.$eval(iAttrs.shortcutsMap));
+      shortcutsApp.setup(zone, $scope.$eval(iAttrs.shortcutsMap));
     });
 
     $scope.$watch(() => focusGetter($scope), focusState => {
       if (focusState) {
-        active = true;
-        ctrl.select(zone);
-      } else if (!focusState && active) {
-        const currentZone = ctrl.getCurrent();
-        active = false;
-        // go to prev shortcuts only if current zone is yours
-        if (currentZone && currentZone.scope === zone.scope) {
-          ctrl.route('prev');
-        }
+        shortcutsApp.select(zone);
       }
     });
 
     $scope.$on('$destroy', () => {
-      ctrl.destroy(zone);
+      shortcutsApp.destroy(zone);
     });
   }
 }));
