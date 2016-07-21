@@ -11,6 +11,7 @@ import '../tabs/tabs.scss';
          <rg-tabs class="container container_tabs">
            <rg-tabs-pane x-title="Settings">Settings tab content</rg-tabs-pane>
            <rg-tabs-pane x-title="Access" counter="7">Access tab content</rg-tabs-pane>
+           <rg-tabs-pane x-title="No Access" ng-disabled="true" counter="8">No access tab content</rg-tabs-pane>
            <rg-tabs-pane x-title="Members">Members tab content</rg-tabs-pane>
            <rg-tabs-pane x-title="Members" counter="666">Members 666 tab content</rg-tabs-pane>
          </rg-tabs>
@@ -51,7 +52,7 @@ angularModule.directive('rgTabs', ($location, $routeParams, $rootScope) => ({
 
     function doSelect(newPane, skipUrlUpdate) {
 
-      if (newPane === $scope.panes[$scope.current]) {
+      if (newPane === $scope.panes[$scope.current] || newPane.ngDisabled) {
         return;
       }
 
@@ -70,6 +71,25 @@ angularModule.directive('rgTabs', ($location, $routeParams, $rootScope) => ({
           pane.selected = false;
         }
       }
+    }
+
+    function getNextPaneIndex(reverseOrder) {
+      let next = $scope.current;
+
+      do {
+        next += (reverseOrder ? -1 : 1);
+      } while ($scope.panes[next].ngDisabled && next > -1 && next < $scope.panes.length);
+
+      if (next >= $scope.panes.length) {
+        next = $scope.panes.length - 1;
+      }
+      if (next < 0) {
+        next = 0;
+      }
+      if ($scope.panes[next].ngDisabled) {
+        return $scope.current;
+      }
+      return next;
     }
 
     this.addPane = pane => {
@@ -106,20 +126,12 @@ angularModule.directive('rgTabs', ($location, $routeParams, $rootScope) => ({
     };
 
     $scope.control.next = () => {
-      let next = $scope.current + 1;
-      if (next === $scope.panes.length) {
-        next = $scope.panes.length - 1;
-      }
-
+      const next = getNextPaneIndex();
       doSelect($scope.panes[next], $scope.disableLocationChanging);
     };
 
     $scope.control.prev = () => {
-      let prev = $scope.current - 1;
-      if (prev < 0) {
-        prev = 0;
-      }
-
+      const prev = getNextPaneIndex(true);
       doSelect($scope.panes[prev], $scope.disableLocationChanging);
     };
 
@@ -140,12 +152,14 @@ angularModule.directive('rgTabs', ($location, $routeParams, $rootScope) => ({
     $scope.tabClass = pane => {
       let classes = 'ring-tabs__btn';
 
-      if (pane.selected) {
+      if (pane.ngDisabled) {
+        classes += ' ring-tabs__btn_disabled';
+      } else if (pane.selected) {
         classes += ' active';
-      }
 
-      if ($scope.focus && pane.selected) {
-        classes += ' ring-tabs__btn_focus';
+        if ($scope.focus) {
+          classes += ' ring-tabs__btn_focus';
+        }
       }
 
       return classes;
@@ -166,7 +180,8 @@ angularModule.directive('rgTabsPane', () => ({
     tabId: '@',
     title: '@',
     counter: '@',
-    selected: '=?'
+    selected: '=?',
+    ngDisabled: '=?'
   },
 
   link(scope, element, attrs, tabsCtrl) {
