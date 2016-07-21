@@ -1,0 +1,17 @@
+import gemini from 'gemini';
+
+gemini.suite('TabsNg', suite => {
+  suite.
+    setUrl('/example-tabs-ng/index.html#?tab=access').
+    setCaptureElements('body > div').
+
+    capture('tab-from-route').
+
+    capture('click-on-tab', (actions, find) => {
+      actions.click(find('.ring-tabs__btn:nth-child(4)'));
+    }).
+
+    capture('do-not-switch-to-disabled-tab', (actions, find) => {
+      actions.click(find('.ring-tabs__btn:nth-child(3)'));
+    });
+});
