@@ -19,14 +19,13 @@ import '../tabs/tabs.scss';
      </file>
      <file name="index.js" webpack="true">
        require('angular');
-       require('angular-route');
        require('ring-ui/components/tabs-ng/tabs-ng');
      </file>
    </example>
  */
-const angularModule = angular.module('Ring.tabs', ['ngRoute']);
+const angularModule = angular.module('Ring.tabs', []);
 
-angularModule.directive('rgTabs', ($location, $routeParams, $rootScope) => ({
+angularModule.directive('rgTabs', ($location, $rootScope) => ({
   restrict: 'E',
   transclude: true,
 
@@ -47,7 +46,7 @@ angularModule.directive('rgTabs', ($location, $routeParams, $rootScope) => ({
     }
 
     function getTabIdFromUrl() {
-      return $routeParams[getTabParameterName()];
+      return $location.search()[getTabParameterName()];
     }
 
     function doSelect(newPane, skipUrlUpdate) {
