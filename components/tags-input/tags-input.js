@@ -357,7 +357,13 @@ export default class TagsInput extends RingComponentWithShortcuts {
   }
 
   render() {
-    const classes = classNames('ring-js-shortcuts', 'ring-tags-input', this.props.className);
+    const classes = classNames(
+      'ring-js-shortcuts',
+      'ring-tags-input',
+      {
+        'ring-tags-input_disabled': this.props.disabled
+      },
+      this.props.className);
     const readOnly = this.props.disabled || (this.props.canNotBeEmpty && this.state.tags.length === 1);
     const renderTags = () => this.state.tags.map((tag, index) => this.renderTag(tag, this.state.activeIndex === index, readOnly));
 
