@@ -4,7 +4,7 @@ $ring-unit: 8px;
 
 $ring-text-color: #444;
 
-$ring-link-color:  #1866C5;
+$ring-link-color: #1866C5;
 $ring-link-hover-color: #FF5A00;
 
 $ring-error-color: #C10000;
@@ -52,6 +52,11 @@ $ring-font-size-smaller: 11px;
 @mixin ring-vertical-compensation($compensation: -2px, $position: relative) {
   position: $position;
   top: $compensation;
+}
+
+@mixin ring-input-disabled() {
+  border-color: #DEDEDE;
+  background-color: #F8F8F8;
 }
 
 // Common z-index-values

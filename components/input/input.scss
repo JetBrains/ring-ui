@@ -62,8 +62,7 @@
 
 // Using double selector to enforce specifity, that is hard to express with &
 .ring-input.ring-input:disabled, .ring-input.ring-input_disabled {
-  border-color: #DEDEDE;
-  background-color: #F8F8F8;
+  @include ring-input-disabled;
 }
 
 textarea.ring-input {
