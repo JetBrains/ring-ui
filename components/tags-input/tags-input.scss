@@ -3,10 +3,10 @@
 $tags-input-padding: $ring-unit / 2;
 
 .ring-tags-input {
-  background-color: #FFF;
-  border: 1px solid $ring-gray-color;
   overflow: hidden;
   padding: $tags-input-padding $tags-input-padding 2px $tags-input-padding;
+  border: 1px solid $ring-gray-color;
+  background-color: #FFF;
 
   & .ring-input {
     border: none;
@@ -18,8 +18,8 @@ $tags-input-padding: $ring-unit / 2;
 }
 
 .ring-tags-input.ring-tags-input_disabled {
-  border-color: #DEDEDE;
-  background-color: #F8F8F8;
+  @include ring-input-disabled;
+
   pointer-events: none;
 
   .ring-tag {
