@@ -142,8 +142,8 @@ export default class TagsInput extends RingComponentWithShortcuts {
      * responded earlier) by himself.
      */
     dataSource: React.PropTypes.func,
-    onRemoveTag: React.PropTypes.func,
     onAddTag: React.PropTypes.func,
+    onRemoveTag: React.PropTypes.func,
     customTagComponent: React.PropTypes.func,
     maxPopupHeight: React.PropTypes.number,
     placeholder: React.PropTypes.string,
@@ -153,9 +153,9 @@ export default class TagsInput extends RingComponentWithShortcuts {
   };
 
   static defaultProps = {
-    dataSource: null,
-    onRemoveTag: noop,
+    dataSource: noop,
     onAddTag: noop,
+    onRemoveTag: noop,
     customTagComponent: null,
     maxPopupHeight: 500,
     canNotBeEmpty: false,
@@ -239,7 +239,7 @@ export default class TagsInput extends RingComponentWithShortcuts {
     this.focusInput();
   }
 
-  filterExistTags(suggestions) {
+  filterExistingTags(suggestions) {
     const tagsMap = new Map(this.state.tags.map(tag => [tag.key, tag]));
     return suggestions.filter(suggestion => !tagsMap.has(suggestion.key));
   }
@@ -247,7 +247,7 @@ export default class TagsInput extends RingComponentWithShortcuts {
   loadSuggestions(query) {
     this.setState({loading: true});
     return Promise.resolve(this.props.dataSource({query})).
-      then(::this.filterExistTags).
+      then(::this.filterExistingTags).
       then(suggestions => {
         if (this.node) {
           this.setState({suggestions, loading: false});

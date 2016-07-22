@@ -140,7 +140,7 @@ describe('TagsInput', () => {
   });
 
   it('Should drop exist tags from suggestions by key', function () {
-    const notAddedSuggestions = this.tagsInput.filterExistTags([
+    const notAddedSuggestions = this.tagsInput.filterExistingTags([
       {key: 1, label: 'test1'},
       {key: 2, label: 'test2'}
     ]);
