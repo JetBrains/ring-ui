@@ -16,3 +16,13 @@ $tags-input-padding: $ring-unit / 2;
     display: none;
   }
 }
+
+.ring-tags-input.ring-tags-input_disabled {
+  border-color: #DEDEDE;
+  background-color: #F8F8F8;
+  pointer-events: none;
+
+  .ring-tag {
+    opacity: 0.5;
+  }
+}
