@@ -24,7 +24,7 @@ $tag-background-color: #E6E6E6;
 
   @include ring-vertical-compensation();
 
-  &:hover{
+  &:hover {
     color: $ring-link-hover-color;
   }
 }

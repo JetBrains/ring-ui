@@ -290,9 +290,10 @@
   position: fixed;
   display: none;
   top: 0;
-  //z-index avoid overlaying icons in rows and fixed header
-  z-index: $ring-fixed-z-index;
   width: auto;
+
+  // Set z-index to avoid overlaying icons in rows and fixed header
+  z-index: $ring-fixed-z-index;
 }
 
 .table__pager {

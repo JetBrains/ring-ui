@@ -1,8 +1,8 @@
 @import '../global/global';
 
 .ring-tooltip-ng {
-  padding: $ring-unit;
   max-width: $ring-unit * 50;
+  padding: $ring-unit;
   text-align: left;
 }
 

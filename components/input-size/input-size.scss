@@ -228,6 +228,7 @@ $ring-input-l: 400px;
 @mixin set-width-in-pixels($width) {
   display: inline-block;
   width: $width;
+
   & ~ .ring-error-bubble {
     left: $width + 2;
   }

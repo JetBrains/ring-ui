@@ -182,8 +182,8 @@
   left: 0;
   right: 0;
 
-  display: block; // fallback for Safary < 5.0
-  display: table; // It sets container's width to min-width if content is small
+  display: block; // Fallback for Safari < 5.0
+  display: table; // Sets container's width to min-width if content is narrow
   min-width: $ring-unit * 50;
   max-width: $ring-unit * 53;
   margin: 0 auto;
@@ -264,7 +264,7 @@
     margin-left: 2*$ring-unit;
   }
 
-  //Increase selector specificity when ring buttons used as footer items
+  //Increase selector specificity when ring buttons are used as footer items
   &.ring-button {
     margin-left: 2*$ring-unit;
   }
