@@ -70,8 +70,8 @@
 }
 
 /**
- * Is needed for correct displaying of ring-error-bubble.
- * Should not be used inside ring-form__controller as it is already relative-wrapper
+ * Is needed to correctly display ring-error-bubble.
+ * Not needed inside ring-form__controller as the latter is position: relative already
  */
 .ring-error-bubble-wrapper {
   position: relative;
