@@ -59,6 +59,12 @@ $ring-font-size-smaller: 11px;
   background-color: #F8F8F8;
 }
 
+@mixin ring-ellipsis() {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
 // Common z-index-values
 
 // Invisible element is an absolutely positioned element which should be below
