@@ -22,7 +22,7 @@
   @include ring-font(12px);
   @include button-background(#f0f0f0, #fff);
 
-  color: #444;
+  color: $ring-text-color;
   text-decoration: none;
 
   display: inline-block;
@@ -88,8 +88,8 @@
 
 .ring-button::-moz-focus-inner {
   outline: 0;
-  border: 0;
   padding: 0;
+  border: 0;
 }
 
 .ring-button_loader {
