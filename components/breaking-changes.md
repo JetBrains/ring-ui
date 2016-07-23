@@ -62,6 +62,8 @@ safari 9.1
 safari 9 
 ```
 
+### 17-05-2016: ES6! All existing code was converted, new code should be written in ES6 only.
+
 ### 22-04-2016: Permissions: parameter "config" does not have property config.serviceId, use config.services instead    
 
 Before:
