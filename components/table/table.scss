@@ -194,18 +194,16 @@
 }
 
 .ring-table__column_limited {
-  max-width: 50*$ring-unit;
+  @include ring-ellipsis;
 
-  overflow: hidden;
-  text-overflow: ellipsis;
+  max-width: 50*$ring-unit;
 }
 
 .ring-table__column_unlimited {
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  max-width: 1px;
+  @include ring-ellipsis;
+
   width: 100%;
+  max-width: 1px;
 }
 
 .ring-table__column_narrow {
