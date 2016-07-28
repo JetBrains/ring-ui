@@ -4,9 +4,10 @@ import 'core-js/modules/es6.array.find';
  * Selection class, catches all selection and activation operations and triggers events
  */
 export default class Selection {
-  constructor(items, emitEvent) {
+  constructor(items, emitEvent, singleActiveElementAsSelection = true) {
     this.items = items;
     this.emitEvent = emitEvent;
+    this.singleActiveElementAsSelection = singleActiveElementAsSelection;
   }
 
   setItems(items) {
@@ -84,6 +85,13 @@ export default class Selection {
   }
 
   clearSelection() {
+    this.clearCheckedItems();
+    if (this.singleActiveElementAsSelection) {
+      this.clearActivity();
+    }
+  }
+
+  clearCheckedItems() {
     this.items.forEach(item => {
       item.checked = false;
     });
@@ -128,5 +136,19 @@ export default class Selection {
     }
 
     return this.items.filter(item => item.checked);
+  }
+
+  getSelectedItems() {
+    const checked = this.getCheckedItems();
+    if (!checked.length) {
+      const active = this.getActiveItem();
+      if (active && this.singleActiveElementAsSelection) {
+        return [active];
+      } else {
+        return [];
+      }
+    } else {
+      return checked;
+    }
   }
 }
