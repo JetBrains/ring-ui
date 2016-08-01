@@ -167,7 +167,7 @@ describe('DialogNg', () => {
 
     it('should reject dialog promise on unsatisfied resolve', function () {
       const errorDefer = $q.defer(); //eslint-disable-line
-      const serviceWhichTrhowError = this.sinon.stub().
+      const serviceWhichThrowError = this.sinon.stub().
         returns(errorDefer.promise);
       const onError = this.sinon.stub();
 
@@ -175,7 +175,7 @@ describe('DialogNg', () => {
         content: undefined,
         template: '<div/>',
         resolve: {
-          foo: serviceWhichTrhowError
+          foo: serviceWhichThrowError
         }
       };
 
