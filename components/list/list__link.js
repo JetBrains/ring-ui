@@ -8,35 +8,43 @@ import '../link/link.scss';
  * @extends {ReactComponent}
  */
 export default function ListLink(props) {
+  const {label, active, description, rgItemType, scrolling, url, ...restProps} = props; // eslint-disable-line no-unused-vars
   const classes = classnames({
     'ring-list__item': true,
     'ring-link': true,
-    'ring-link_focus': props.active && props.scrolling
+    'ring-link_focus': active && scrolling
   });
 
   if (props.href) {
     return (
       <a
-        {...props}
+        {...restProps}
         className={classes}
-      >{props.label}</a>
+      >
+        {label}
+      </a>
     );
   }
 
   return (
     <span
-      {...props}
+      {...restProps}
       className={classes}
-    >{props.label}</span>
+    >
+      {label}
+    </span>
   );
 }
 
 ListLink.propTypes = {
   active: PropTypes.bool,
+  description: PropTypes.string,
   href: PropTypes.string,
-  scrolling: PropTypes.bool,
   label: PropTypes.oneOfType([
     PropTypes.element,
     PropTypes.string
-  ])
+  ]),
+  rgItemType: PropTypes.number,
+  scrolling: PropTypes.bool,
+  url: PropTypes.string
 };

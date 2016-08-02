@@ -120,13 +120,13 @@ export default class Tooltip extends RingComponent {
   }
 
   render() {
-    const {children, title, ...props} = this.props; // eslint-disable-line no-unused-vars
+    const {children, title, delay, popupProps, ...restProps} = this.props; // eslint-disable-line no-unused-vars
 
     if (Children.count(children) === 1 && typeof children === 'object') {
       return children;
     // Autowrapping of text and array children
     } else {
-      return <span {...props}>{children}</span>;
+      return <span {...restProps}>{children}</span>;
     }
   }
 }
