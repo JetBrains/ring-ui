@@ -60,29 +60,35 @@ export default class HeaderItem extends RingComponent {
   };
 
   render() {
+    const {className, href, testKey, glyph, onOpen, onClose, activeClassName, inactiveClassName, ...restProps} = this.props; // eslint-disable-line no-unused-vars
     const classes = classNames(
       {
         [itemClassName.getClassName()]: true,
         [itemClassName.getClassName(null, 'icon')]: true,
-        [itemClassName.getClassName(this.props.glyph)]: true,
+        [itemClassName.getClassName(glyph)]: true,
         'ring-icon_loading': this.state.loading
       },
-      this.props.className
+      className
     );
 
     // NB! Wrapping span is needed because otherwise selenium tests couldn't
     // trigger the click on the <SVG /> element.
-    const iconElement = this.state.picture ? this._getImage() : this._getIcon();
-    const testKey = this.props.testKey ? `header-${this.props.testKey}` : null;
+    const iconElement = this.state.picture ? this._getImage(restProps) : this._getIcon(restProps);
+    const dataTest = testKey ? `header-${testKey}` : null;
 
     return (
       <span
-        {...this.props}
-        data-test={testKey}
+        {...restProps}
+        data-test={dataTest}
         className={classes}
         onClick={::this._handleClick}
         title={this.state.title}
-      >{this.props.href ? <a href={this.props.href}>{iconElement}</a> : iconElement}</span>
+      >
+        {href
+          ? <a href={href}>{iconElement}</a>
+          : iconElement
+        }
+      </span>
     );
   }
 
@@ -102,7 +108,7 @@ export default class HeaderItem extends RingComponent {
    * @return {ReactComponent}
    * @private
    */
-  _getImage() {
+  _getImage(restProps) {
     const baseClass = new ClassName('ring-icon');
 
     const classes = classNames(
@@ -116,7 +122,7 @@ export default class HeaderItem extends RingComponent {
 
     return (
       <span
-        {...this.props}
+        {...restProps}
         className={classes}
       >
         <img
@@ -136,9 +142,9 @@ export default class HeaderItem extends RingComponent {
    * @return {ReactComponent}
    * @private
    */
-  _getIcon() {
+  _getIcon(restProps) {
     return (
-      <Icon {...this.props}
+      <Icon {...restProps}
         className={this.state.opened ? this.props.activeClassName : this.props.inactiveClassName}
         glyph={this.props.glyph}
         size={Icon.Size.Size18}
