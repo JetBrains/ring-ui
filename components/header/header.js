@@ -175,11 +175,13 @@ const MenuItemsSequence = [
           { component: Link, props: {href: '#', key: 'dash'}, children: 'Dashboard' },
           { component: ButtonGroup, props: {key: 'create_issue'}, children: [
             Button.factory({
-              primary: true
+              primary: true,
+              key: 'create_issue_1'
             }, 'Create Issue'),
             Button.factory({
               icon: require('jetbrains-icons/caret-down.svg'),
               primary: true,
+              key: 'create_issue_2',
               short: true
             })
           ]},
@@ -649,7 +651,12 @@ export default class Header extends RingComponent {
           <div className={extraElementClassName}></div>
           {
             this.props.rightMenu.map(({component, props, children}) => (
-              <div className={extraElementClassName}>{createElement(component, props, children)}</div>
+              <div
+                className={extraElementClassName}
+                key={props.key}
+              >
+                {createElement(component, props, children)}
+              </div>
             ))
           }
           {this.getMenuItems()}

@@ -177,7 +177,7 @@ export default class Icon extends RingComponent {
   static Size = Size;
 
   render() {
-    const {baseClass, className, size, color, glyph, width, height, activeColor, activeEvent, hoverColor, ...otherProps} = this.props;
+    const {baseClass, className, size, color, glyph, width, height, activeColor, activeEvent, hoverColor, ...restProps} = this.props;
     const currentColor = this.state.color || color;
 
     const classes = classNames(
@@ -194,10 +194,10 @@ export default class Icon extends RingComponent {
     };
 
     const xlinkHref = urlUtils.resolveRelativeURL(glyph);
-    const activeEventHandler = otherProps[activeEvent];
+    const activeEventHandler = restProps[activeEvent];
 
     if (activeColor && typeof activeEventHandler === 'function') {
-      otherProps[activeEvent] = (...args) => {
+      restProps[activeEvent] = (...args) => {
         if (this.node) {
           this.setState({
             color: activeColor,
@@ -243,7 +243,7 @@ export default class Icon extends RingComponent {
 
     return (
       <span
-        {...otherProps}
+        {...restProps}
         onMouseOver={onMouseOver}
         onMouseOut={onMouseOut}
         className={classes}

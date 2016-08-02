@@ -134,6 +134,7 @@ export default class Checkbox extends RingComponent {
 
   render() {
     const id = this.props.id || this.state.id;
+    const {_onModelChange, inputChange, ...restProps} = this.props; // eslint-disable-line no-unused-vars
 
     const checkStyle = {
       display: this.state.checked ? 'block' : 'none'
@@ -151,7 +152,7 @@ export default class Checkbox extends RingComponent {
       >
         <span className="ring-checkbox__input-wrapper">
           <input
-            {...this.props}
+            {...restProps}
             ref="input"
             disabled={this.state.disabled}
             onChange={::this.inputChange}
