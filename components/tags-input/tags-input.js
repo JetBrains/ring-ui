@@ -224,8 +224,10 @@ export default class TagsInput extends RingComponentWithShortcuts {
     return Promise.resolve(this.props.onRemoveTag({tag: tagToRemove})).
       then(() => {
         const tags = this.state.tags.filter(tag => tag !== tagToRemove);
-        this.setState({tags});
-        this.focusInput();
+        if (this.node) {
+          this.setState({tags});
+          this.focusInput();
+        }
         return tags;
       }, ::this.focusInput);
   }

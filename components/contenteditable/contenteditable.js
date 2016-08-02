@@ -88,7 +88,7 @@ export default class ContentEditable extends RingComponent {
   }
 
   render() {
-    const {children, ...props} = this.props; // eslint-disable-line no-unused-vars
+    const {children, onComponentUpdate, ...props} = this.props; // eslint-disable-line no-unused-vars
 
     return (
       <div

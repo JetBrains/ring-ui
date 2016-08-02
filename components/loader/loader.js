@@ -40,7 +40,6 @@ import LoaderCore from './loader__core';
  */
 
 export default class Loader extends RingComponent {
-
   didMount() {
     this.loader = new LoaderCore(this.refs.loaderContainer, this.props);
   }
@@ -49,10 +48,11 @@ export default class Loader extends RingComponent {
     this.loader.destroy();
   }
 
-
   render() {
+    const {message, size, colors, ...restProps} = this.props; // eslint-disable-line no-unused-vars
     return (
-      <div {...this.props}
+      <div
+        {...restProps}
         ref="loaderContainer"
       >
       </div>

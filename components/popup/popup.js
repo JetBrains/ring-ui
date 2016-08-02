@@ -459,7 +459,7 @@ export default class Popup extends RingComponentWithShortcuts {
 
   render() {
     POPUP_REGISTRY.register(this);
-
+    const {onMouseDown, onMouseUp} = this.props;
     const classes = classNames({
       'ring-popup': true,
       'ring-popup_bound': this.props.cutEdge
@@ -467,7 +467,8 @@ export default class Popup extends RingComponentWithShortcuts {
 
     return (
       <div
-        {...this.props}
+        onMouseDown={onMouseDown}
+        onMouseUp={onMouseUp}
         data-popup-uid={this.uid}
         className={classes}
         style={this._getStyles()}

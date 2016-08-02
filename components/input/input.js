@@ -106,7 +106,7 @@ export default class Input extends RingComponent {
   }
 
   render() {
-    const {className, multiline, ...props} = this.props;
+    const {className, multiline, shortcuts, ...props} = this.props; // eslint-disable-line no-unused-vars
     const classes = classNames('ring-input', className);
 
     return multiline ? (
