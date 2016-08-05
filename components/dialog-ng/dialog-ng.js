@@ -256,7 +256,7 @@ class DialogController extends Inject {
       this.description = config.description && config.description.split('\n') || [];
       this.closeOnClick = config.closeOnClick;
 
-      //Fallback for backward compatibility with already exist templates which use data directly from scope
+      // Backward compatibility with existing templates which use data directly from scope
       $scope.data = this.data;
     }
 

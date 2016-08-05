@@ -3,15 +3,15 @@ import sniffer from '../sniffer/sniffer';
 const AnalyticsCustomPluginUtils = {};
 
 /**
- * Statistics server does not accept strings with some symbols and undefined values
+ * Statistics server does not accept undefined values and strings containing certain symbols
  * @param value
  * @param isCategory
- * @returns string, where prohibitted symbols are replaced with '_'
+ * @returns string, where forbidden symbols are replaced with '_'
  */
 AnalyticsCustomPluginUtils.reformatString = (value, isCategory) => {
   const str = String(value);
   /**
-   * Category also cannot contain symbol '/' (but action can)
+   * Category also cannot contain the '/' character (but an action can)
    */
   const regexp = isCategory ? /[\.:;!@#^&*()\{}\[\]?,%=+\\\/]+/g : /[\.:;!@#^&*()\{}\[\]?,%=+\\]+/g;
   return str.replace(regexp, '_');
