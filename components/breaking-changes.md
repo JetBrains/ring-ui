@@ -6,7 +6,7 @@ order: 2
 
 See the “breaking change” commits [in Upsource](https://upsource.jetbrains.com/ring-ui/view?query=path:%20%7B%2A%2Fbreaking-changes.md%7D%20and%20not%20%22Wording%22).
 
-### 29-06-2016: Added suffix "ring-" for constants in palette/palette.scss: 
+### 29-06-2016: Added "ring-" suffix to the constants in palette/palette.scss: 
 
 Before:
 ```
@@ -18,9 +18,9 @@ After:
 $ring-palette-array, $ring-palette-white-text, $ring-palette-grey-text
 ```
   
-### 27-05-2016: scss-mixin rgba-attribute is removed  
+### 27-05-2016: rgba-attribute mixin was removed  
   
-Use rbga colors without mixin as we don't support IE8- anymore.  
+Use rgba colors directly as we no longer support ancient IE versions.  
 
 Before:
 ```
@@ -32,10 +32,10 @@ After:
   border-color: rgba(0, 0, 0, 0.15);
 ```
 
-### 04-04-2016: Browserlist for Autoprefixer now should be configured in target project (RG-963)    
+### 04-04-2016: Browser requirements for Autoprefixer should be specified in the target project (RG-963)    
 
-Place [`browserslist`](https://github.com/ai/browserslist#config-file) file in project directory.                              
-Default query is `> 1%, last 2 versions, Firefox ESR` which at the moment renders to:
+Place a [`browserslist`](https://github.com/ai/browserslist#config-file) file in your project directory.                              
+Default query is `> 1%, last 2 versions, Firefox ESR` which currently resolves to:
 
 ```
 and_chr 49
