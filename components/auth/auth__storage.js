@@ -15,7 +15,7 @@ import Storage from '../storage/storage';
  * }} StoredState
  */
 
-const DEFAULT_STATE_QUOTA = 102400; // 100 kb ~~ 200 tabs with big scopes list
+const DEFAULT_STATE_QUOTA = 102400; // 100 kb ~~ 200 tabs with a large list of scopes
 const DEFAULT_STATE_TTL = 1000 * 60 * 60 * 24 * 3; // nobody will need auth state after 3 days
 
 /**

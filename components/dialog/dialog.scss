@@ -100,7 +100,7 @@
               <label class="ring-form__label" for="dialog__key">Small</label>
               <div class="ring-form__control ring-form__control_small">
                 <input id="dialog__key" class="ring-input ring-input-size_md" type="text">
-                <div class="ring-error-bubble active">I am tip</div>
+                <div class="ring-error-bubble active">I am a tip</div>
                 <div class="ring-form__control__description">
                   There is a small margin before control
                 </div>
@@ -127,7 +127,7 @@
     </file>
   </example>
 
-  <example name="The smalest dialog">
+  <example name="The smallest dialog">
     <file name="index.html">
       <div class="ring-dialog__wrapper active">
         <div class="ring-dialog__container">
@@ -136,7 +136,7 @@
           </div>
           <div class="ring-dialog__content">
             <div style="text-align: center"><b>Hello!</b></div>
-            <div style="text-align: center">I am message</div>
+            <div style="text-align: center">I am a message</div>
           </div>
         </div>
       </div>

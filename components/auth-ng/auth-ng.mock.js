@@ -1,7 +1,7 @@
 /**
  * TODO(maksimrv): Remove this code
- * It need now because permission does not work without auth.
- * But we can not stub correct auth component and should mock all provider
+ * It is currently required because permissions do not work without auth,
+ * but we can't stub the correct auth component and should mock all providers.
  */
 export default function AuthProviderMock() {
   this.$get = $q => {

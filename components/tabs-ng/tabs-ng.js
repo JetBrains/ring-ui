@@ -11,7 +11,7 @@ import '../tabs/tabs.scss';
          <rg-tabs class="container container_tabs">
            <rg-tabs-pane x-title="Settings">Settings tab content</rg-tabs-pane>
            <rg-tabs-pane x-title="Access" counter="7">Access tab content</rg-tabs-pane>
-           <rg-tabs-pane x-title="No Access" ng-disabled="true" counter="8">No access tab content</rg-tabs-pane>
+           <rg-tabs-pane x-title="Disabled" ng-disabled="true" counter="8">Inaccessible tab content</rg-tabs-pane>
            <rg-tabs-pane x-title="Members">Members tab content</rg-tabs-pane>
            <rg-tabs-pane x-title="Members" counter="666">Members 666 tab content</rg-tabs-pane>
          </rg-tabs>
@@ -143,10 +143,10 @@ angularModule.directive('rgTabs', ($location, $rootScope) => ({
       }
     };
 
-    // for some reason ng-class doesnt work properly on tabs
-    // from time to time several tabs looks like selected despite correct scope state
-    // i think this bug depends on the speed of addPane calls (actually on digests)
-    // and ng-class detection of added and removed classes becomes broken
+    // For some reason ng-class doesn't work properly on tabs.
+    // From time to time several tabs look like selected despite correct scope state.
+    // I think this bug depends on the frequency of addPane calls (actually on digests)
+    // and ng-class detection of added and removed classes becomes broken.
     // @maxim.erekhinskiy
     $scope.tabClass = pane => {
       let classes = 'ring-tabs__btn';

@@ -7,7 +7,7 @@ import './docked-panel-ng.scss';
 
 /**
  * @name Docked panel ng
- * @description Should stick panel at the bottom of the page
+ * @description Docks the panel to the bottom of the page
  *              if it's out of the browser viewport
  * @example
  * <example name="Docked panel ng">
@@ -42,12 +42,12 @@ const angularModule = angular.module('Ring.docked-panel', []);
 angularModule.directive('rgDockedPanel', () => ({
   link(scope, element, attrs) {
     const CSS_CLASS_NAME = 'ring-docked-panel';
-    const customCssClassOnStick = attrs.rgDockedPanelClass || '';
-    let panelInitialPos;
-    let isPinned;
+    const dockedPanelClass = attrs.rgDockedPanelClass || '';
+    let initialPos;
+    let isDocked;
 
     /**
-     * Sticky container
+     * Container
      * @type {Element} panel
      */
     const panel = element[0];
@@ -55,28 +55,28 @@ angularModule.directive('rgDockedPanel', () => ({
     /**
      * Save panel initial rects and left margin for further use
      */
-    function savePanelInitialPos() {
+    function saveInitialPos() {
       const panelClientRect = panel.getBoundingClientRect();
-      panelInitialPos = panelClientRect.top + panelClientRect.height + getDocumentScrollTop();
+      initialPos = panelClientRect.top + panelClientRect.height + getDocumentScrollTop();
     }
 
     /**
-     * Pin panel at the bottom of the page
+     * Docks the panel to the bottom of the page
      */
-    function stick() {
+    function dock() {
       panel.classList.add(CSS_CLASS_NAME);
-      if (customCssClassOnStick) {
-        panel.classList.add(customCssClassOnStick);
+      if (dockedPanelClass) {
+        panel.classList.add(dockedPanelClass);
       }
-      isPinned = true;
+      isDocked = true;
     }
 
-    function unstick() {
+    function undock() {
       panel.classList.remove(CSS_CLASS_NAME);
-      if (customCssClassOnStick) {
-        panel.classList.remove(customCssClassOnStick);
+      if (dockedPanelClass) {
+        panel.classList.remove(dockedPanelClass);
       }
-      isPinned = false;
+      isDocked = false;
     }
 
     /**
@@ -85,11 +85,10 @@ angularModule.directive('rgDockedPanel', () => ({
     function checkPanelPosition() {
       const currentPanelRect = panel.getBoundingClientRect();
 
-      if (currentPanelRect.top + currentPanelRect.height > getWindowHeight() && !isPinned) {
-        stick();
-
-      } else if (isPinned && currentPanelRect.top + currentPanelRect.height + getDocumentScrollTop() >= panelInitialPos) {
-        unstick();
+      if (currentPanelRect.top + currentPanelRect.height > getWindowHeight() && !isDocked) {
+        dock();
+      } else if (isDocked && currentPanelRect.top + currentPanelRect.height + getDocumentScrollTop() >= initialPos) {
+        undock();
       }
     }
 
@@ -108,7 +107,7 @@ angularModule.directive('rgDockedPanel', () => ({
           window.removeEventListener('resize', checkPanelPosition);
         });
 
-        savePanelInitialPos();
+        saveInitialPos();
         checkPanelPosition();
       });
     }

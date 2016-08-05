@@ -128,7 +128,7 @@ const MenuItemsSequence = [
  * @constructor
  * @extends {ReactComponent}
  * @example
-  <example name="Header with settings popup menu">
+  <example name="Header with a Settings popup menu">
     <file name="index.html">
       <div id="header-container"></div>
       <div class="page-content">Page content</div>
@@ -164,8 +164,7 @@ const MenuItemsSequence = [
 
       var auth = new Auth(hubConfig);
 
-      // Render youtrack header to DOM. Help link leads to Yandex.
-      // It's possible add a custom logotype into a Header via `logoUrl` parameter
+      // Renders a YouTrack header to the DOM
       var header = ReactDOM.render(Header.factory({
         helpLink: 'http://www.yandex.ru',
         logo: 'youtrack',
@@ -216,7 +215,7 @@ const MenuItemsSequence = [
   </example>
 
   * @example
-  <example name="Header with settings as link">
+  <example name="Basic header">
     <file name="index.html">
       <div id="header-container"></div>
       <div class="page-content">Page content</div>
@@ -242,8 +241,7 @@ const MenuItemsSequence = [
       var Header = require('ring-ui/components/header/header');
       var Link = require('ring-ui/components/link/link');
 
-      // Render youtrack header to DOM. Help link leads to Yandex.
-      // It's possible add a custom logotype into a Header via `logoUrl` parameter
+      // Renders a YouTrack header to the DOM
       var header = ReactDOM.render(Header.factory({
         helpLink: 'http://www.yandex.ru',
         logo: 'upsource',
@@ -301,11 +299,11 @@ export default class Header extends RingComponent {
   };
 
   /**
-   * Checks if service is opened in browser at the moment
-   * @param rootUrl - root of working application
-   * @param clientId - client id of working application
-   * @param serviceId - id of checking service
-   * @param serviceHomeUrl - home url of checking service
+   * Checks if a service is opened in the browser at the moment
+   * @param rootUrl - URL of current application
+   * @param clientId - Client ID of current application
+   * @param serviceId - ID of the service being checked
+   * @param serviceHomeUrl - URL of the service being checked
    * @returns {boolean}
    */
   static isActiveService(rootUrl, clientId, serviceId, serviceHomeUrl) {
@@ -315,7 +313,7 @@ export default class Header extends RingComponent {
   }
 
   /**
-   * Checks if service should be placed on first line of services list
+   * Checks if a service should be placed in the first line of services list
    * @param service - service to check
    */
   static isTopLineService(service) {
@@ -338,8 +336,8 @@ export default class Header extends RingComponent {
       }
     };
 
-    this.debouncdeUpdate = debounce(updateLayout, 50);
-    window.addEventListener('resize', this.debouncdeUpdate);
+    this.debouncedUpdate = debounce(updateLayout, 50);
+    window.addEventListener('resize', this.debouncedUpdate);
   }
 
   constructor() {
@@ -348,7 +346,7 @@ export default class Header extends RingComponent {
   }
 
   /**
-   * Default layout with list of navigation items that set via Header API
+   * Default layout with a list of navigation items set via header API
    * @private
    */
   _getNavigationMenuDefaultLayout() {
@@ -620,8 +618,8 @@ export default class Header extends RingComponent {
       );
     };
 
-    // todo(igor.alexeenko): This check treats as valid only components
-    // created by React.createClass(). If an already existing component such as
+    // todo(igor.alexeenko): This check treats only components created by
+    // React.createClass() as valid. If an already existing component such as
     // React.DOM.img is passed, it won't work.
     if (this.props.logo && typeof this.props.logo.setState !== 'undefined' &&
       typeof this.props.logo.render !== 'undefined') {
@@ -666,7 +664,7 @@ export default class Header extends RingComponent {
   }
 
   /**
-   * @deprecated It's better to pass correct items to props.rightMenu then to patch
+   * @deprecated It's better to pass the required items to props.rightMenu than to patch
    * this element
    * @return {Element}
    */
@@ -675,7 +673,7 @@ export default class Header extends RingComponent {
   }
 
   /**
-   * @deprecated It's better to pass correct items to props.menu then to patch
+   * @deprecated It's better to pass the required items to props.menu than to patch
    * this element
    * @return {Element}
    */
@@ -787,7 +785,7 @@ export default class Header extends RingComponent {
   }
 
   /**
-   * Replaces standard user icon with avatar.
+   * Replaces a default user icon with an avatar.
    * @param {string} src
    */
   setProfilePicture(src) {
@@ -805,7 +803,7 @@ export default class Header extends RingComponent {
 
   /**
    * @param {Header} header header instance to be modified
-   * @param {Promise|Object} settingsListData promise that returns list data in format
+   * @param {Promise|Object} settingsListData promise that returns list data in a format
    * accepted by PopupMenu.
    */
   setSettingsMenu(settingsListData) {

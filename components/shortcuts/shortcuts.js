@@ -44,7 +44,7 @@ class Shortcuts {
   }
 
   /**
-   * Binds handler to shortcut
+   * Binds a handler to a shortcut
    *
    * @param params.key {string | Array.<string>) Keys to bind
    * @param params.handler {Function} Events handle
@@ -81,7 +81,7 @@ class Shortcuts {
   }
 
   /**
-   * Binds map of shortcuts to handlers with common options
+   * Binds a map of shortcuts to handlers with common options
    *
    * @map {Object) Keys to handlers map
    * @options.scope {string} Scope (optional)
@@ -112,10 +112,10 @@ class Shortcuts {
   }
 
   /**
-   * Adds scope to the chain
+   * Adds a scope to the chain
    * @param scopeId id of scope to add
-   * @param options options fo pushing scope
-   * @param options.modal whether should keys fall through this scope or not.
+   * @param options options for pushing scope
+   * @param options.modal whether keys should fall through this scope or not.
    * Useful for modals or overlays
    */
   pushScope(scopeId, options = {}) {

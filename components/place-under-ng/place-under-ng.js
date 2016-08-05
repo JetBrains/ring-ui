@@ -1,6 +1,6 @@
 /**
  * This directive is a helper. Element with rg-place-under=".some-selector"
- * attribute will manually positioned under provided element. Target element
+ * attribute will be manually positioned under the provided element. Target element
  * position should be 'absolute'
  */
 
