@@ -21,10 +21,10 @@ describe('Auth', () => {
     it('should require provide server uri', () => {
       expect(() => new Auth({
         serverUri: null
-      })).to.throw(Error, 'Property serverUri is required');
+      })).to.throw(Error, '\"serverUri\" property is required');
 
       expect(() => new Auth({})).
-        to.throw(Error, 'Property serverUri is required');
+        to.throw(Error, '\"serverUri\" property is required');
     });
 
     it('should fix serverUri', () => {

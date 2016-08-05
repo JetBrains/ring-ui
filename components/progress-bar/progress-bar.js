@@ -56,13 +56,13 @@ import './progress-bar.scss';
 export default class ProgressBar extends RingComponent {
   static propTypes = {
     /**
-     * Mode for dark backgrounds
+     * Dark background mode
      * @type {boolean}
      */
     bright: PropTypes.bool,
 
     /**
-     * Sets class ring-progress-bar_global to position progress bar on top of the screen.
+     * Sets the ring-progress-bar_global class to position the progress bar on top of the screen.
      * Should be placed directly inside body, will be positioned right below .ring-header
      * if placed adjacent to it.
      * @type {boolean}
@@ -76,15 +76,14 @@ export default class ProgressBar extends RingComponent {
     className: PropTypes.string,
 
     /**
-     * A floating point number that specifies how much work the task requires
-     * in total before it can be considered complete. Default value is 1.0.
+     * A floating point number that specifies minimum completion rate for a task to be considered
+     * complete. Default value is 1.0.
      * @type {number}
      */
     max: PropTypes.number,
 
     /**
-     * A floating point number that specifies how much of the
-     * task has been completed
+     * A floating point number that specifies current task completion rate.
      * @type {number}
      */
     value: PropTypes.number
@@ -97,7 +96,7 @@ export default class ProgressBar extends RingComponent {
 
   /**
    * @param {number} value The progress task value
-   * @param {number} max The maximal value
+   * @param {number} max The maximum value
    * @return {number} The progress task value in percents
    * @private
    */

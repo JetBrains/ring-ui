@@ -88,7 +88,7 @@ import './icon.scss';
    * @example
    <example name="Icons list">
      <file name="index.html">
-       <h3>All available icons are listed below. Place cursor over the icon to see it's name</h3>
+       <h3>All available icons are listed below. Place the cursor over an icon to see its name.</h3>
        <div id="all-icons"></div>
      </file>
 

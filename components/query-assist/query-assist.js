@@ -380,9 +380,9 @@ export default class QueryAssist extends RingComponentWithShortcuts {
   }
 
   /**
-   * Optionally setup request data delay. For each component create separate instance of
-   * delayed function.
-   * This may help reduce the load on the server if the user quickly inputs data
+   * Optionally setup data request delay. For each component create a separate
+   * instance of the delayed function. This may help reduce the load on the server
+   * when the user quickly inputs data.
    */
   setupRequestHandler(delay) {
     const needDelay = typeof delay === 'number';
