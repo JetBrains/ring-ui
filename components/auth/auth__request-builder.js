@@ -17,7 +17,7 @@ export default function AuthRequestBuilder(config, storage) {
 }
 
 /**
- * Save the state and build auth server redirect URL.
+ * Save state and build an auth server redirect URL.
  *
  * @param {object=} extraParams additional query parameters for auth request
  * @param {object=} extraState additional state parameters to save

@@ -59,7 +59,7 @@ const angularModule = angular.module('Ring.shortcuts.hint-popup', [DialogNg, Sho
 
 /**
  * @name Shortcuts Ng Hint Popup
- * @description Hint popup with help about registered shortcuts
+ * @description A popup with a listing of registered shortcuts
  * @example
  *
 <example name="Shortcuts-hint-popup">
@@ -149,8 +149,8 @@ const angularModule = angular.module('Ring.shortcuts.hint-popup', [DialogNg, Sho
         rgShortcutsHintPopup.show({
             tailTemplate: `
               <div>
-                You can write anything here, this is custom section.
-                You can even create your own footer
+                You can write anything here, this is a custom section.
+                You can even create your own footer.
               </div>
             `
           });

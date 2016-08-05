@@ -3,7 +3,7 @@
 
 /**
  * @name Autofocus ng
- * @description Focuses on element if condition is true. Supports rg-select as well
+ * @description Sets focus to the element if condition is true. Supports rg-select as well
  * @example
  <example name="Autofocus">
  <file name="index.html">
