@@ -1,4 +1,4 @@
-import sniffer from "../sniffer/sniffer";
+import sniffer from '../sniffer/sniffer';
 
 /**
  * Note: this script does not have any dependencies, you should include it directly.
