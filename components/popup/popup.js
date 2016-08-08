@@ -210,7 +210,7 @@ const POPUP_REGISTRY = new OpenedPopupRegistry();
    </file>
  </example>
 
- <example name="Popup autoposition">
+ <example name="Auto-positioning a popup">
    <file name="index.html">
    <div>
      <div id="horizontalCenter" class="popup-example__message">Popup should change open direction when reaching window borders</div>
@@ -302,7 +302,7 @@ const POPUP_REGISTRY = new OpenedPopupRegistry();
      }, container));
    </file>
 </example>
-<example name="Popup in popup">
+<example name="Popup in a popup">
    <file name="index.html">
    <div>
      <div id="parentPopupAnchor" class="popup-example__message">Parent popup anchor</div>

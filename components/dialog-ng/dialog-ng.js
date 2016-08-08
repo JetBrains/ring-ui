@@ -12,9 +12,9 @@ import '../button/button.scss';
 import '../dialog/dialog.scss';
 
 /**
- * @name Dialog-ng
+ * @name Dialog Ng
  * @example
- <example name="Dialog">
+ <example name="Dialog Ng">
  <file name="index.html">
  <div ng-app="Example.dialog" class="very-long-page">
 

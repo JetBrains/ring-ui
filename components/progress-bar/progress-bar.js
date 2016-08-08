@@ -14,7 +14,7 @@ import './progress-bar.scss';
  * @constructor
  * @extends {ReactComponent}
  * @example
-   <example name="progress-bar">
+   <example name="Progress Bar">
      <file name="index.html">
        <div>
          <div id='progress-bar' style="height: 25px; padding-top: 25px;"></div>

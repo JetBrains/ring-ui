@@ -17,7 +17,7 @@ function noop() {}
  * @constructor
  * @extends {ReactComponent}
  * @example
- <example name="Simple tags input">
+ <example name="Tags Input">
  <file name="index.html">
  <div id="demo"></div>
  </file>
@@ -83,7 +83,7 @@ function noop() {}
  </file>
  </example>
 
- <example name="TagsInput with icons">
+ <example name="Tags Input with icons">
  <file name="index.html">
  <div id="demo"></div>
  </file>
@@ -110,7 +110,7 @@ function noop() {}
  </file>
  </example>
 
- <example name="Disabled TagsInput">
+ <example name="Disabled Tags Input">
  <file name="index.html">
  <div id="demo"></div>
  </file>

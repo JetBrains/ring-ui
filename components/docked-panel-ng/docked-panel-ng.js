@@ -6,11 +6,11 @@ import {getWindowHeight, getDocumentScrollTop} from '../dom/dom';
 import './docked-panel-ng.scss';
 
 /**
- * @name Docked panel ng
+ * @name Docked Panel Ng
  * @description Docks the panel to the bottom of the page
  *              if it's out of the browser viewport
  * @example
- * <example name="Docked panel ng">
+ * <example name="Docked Panel Ng">
      <file name="index.html">
       <div ng-app='DockedPanelExample'>
         <div>

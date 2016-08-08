@@ -8,7 +8,7 @@ import './input.scss';
  * @constructor
  * @extends {ReactComponent}
  * @example
-   <example name="React input">
+   <example name="Input">
      <file name="index.html">
        <div id="input"></div>
      </file>

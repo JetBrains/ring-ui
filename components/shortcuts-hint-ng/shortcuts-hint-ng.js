@@ -62,7 +62,7 @@ const angularModule = angular.module('Ring.shortcuts.hint-popup', [DialogNg, Sho
  * @description A popup with a listing of registered shortcuts
  * @example
  *
-<example name="Shortcuts-hint-popup">
+<example name="Shortcuts Ng Hint Popup">
   <file name="index.html">
     <div ng-app="test" ng-controller="testCtrl as ctrl">
       <button ng-click="ctrl.showPopup()">Show popup</button>
