@@ -13,13 +13,13 @@ import LoaderInline from '../loader-inline/loader-inline';
 function noop() {}
 
 export default class SelectPopup extends RingComponentWithShortcuts {
-  isClickingPopup = false; //This flag sets to true while item in popup is clicking
+  isClickingPopup = false; // This flag is to true while an item in the popup is being clicked
 
   static defaultProps = {
     data: [],
     activeIndex: null,
     toolbar: null,
-    filter: false, // can be boolean or an object with "value" and "placeholder" properties
+    filter: false, // can be either boolean or an object with "value" and "placeholder" properties
     message: null,
     anchorElement: null,
     container: null,
