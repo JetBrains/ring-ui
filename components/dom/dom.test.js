@@ -85,7 +85,7 @@ describe('DOM', () => {
       getRect(element).should.deep.equal({top: 14, right: 124, bottom: 124, left: 14, width: 110, height: 110});
     });
 
-    it('should return DOMRect-like stub for unmounting element', () => {
+    it('should return DOMRect-like stub for unmounted element', () => {
       const element = create();
       element.setAttribute('style', style);
 

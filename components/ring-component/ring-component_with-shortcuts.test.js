@@ -47,21 +47,21 @@ describe('RingComponentWithShortcuts', () => {
     }));
   });
 
-  //function createСomponent(props, callback) {
-  //  const TestClass = createСlass();
+  //function createComponent(props, callback) {
+  //  const TestClass = createClass();
   //  component = renderIntoDocument(React.createElement(TestClass, props), callback);
   //}
   //
-  //function createСomponentWithSubComponent(props, callback) {
+  //function createComponentWithSubComponent(props, callback) {
   //  const subKeyMap = {};
   //  subKeyMap[key] = noop2;
   //
-  //  const subComponent = createСlass({
+  //  const subComponent = createClass({
   //    scope: scope2,
   //    map: subKeyMap
   //  });
   //
-  //  const TestClass = createСlass(null, function render() {
+  //  const TestClass = createClass(null, function render() {
   //    return React.createElement(subComponent, {
   //      ref: 'subComponent',
   //      shortcuts: this.props.shortcuts
@@ -98,13 +98,13 @@ describe('RingComponentWithShortcuts', () => {
     shortcuts.getScope().should.be.empty;
   });
 
-  it('shorcutsEnabled should reflect shortcuts disabled state', function () {
+  it('shortcutsEnabled should reflect shortcuts disabled state', function () {
     const component = renderIntoDocument(React.createElement(this.TestComponent));
 
     component.shortcutsEnabled().should.be.false;
   });
 
-  it('shorcutsEnabled should reflect shortcuts enabled state', function () {
+  it('shortcutsEnabled should reflect shortcuts enabled state', function () {
     this.component.shortcutsEnabled().should.be.true;
   });
 
@@ -149,7 +149,7 @@ describe('RingComponentWithShortcuts', () => {
   });
   //
   //it('should trigger on subcomponent which shadows component\'s shortcut', function () {
-  //  createСomponentWithSubComponent({
+  //  createComponentWithSubComponent({
   //    shortcuts: true
   //  });
   //
@@ -159,7 +159,7 @@ describe('RingComponentWithShortcuts', () => {
   //});
   //
   //it('should disable shortcuts on component and subcomponent', function () {
-  //  createСomponentWithSubComponent({
+  //  createComponentWithSubComponent({
   //    shortcuts: true
   //  });
   //
@@ -171,7 +171,7 @@ describe('RingComponentWithShortcuts', () => {
   //});
   //
   //it('should disable shortcuts on subcomponent', function () {
-  //  createСomponentWithSubComponent({
+  //  createComponentWithSubComponent({
   //    shortcuts: true
   //  });
   //

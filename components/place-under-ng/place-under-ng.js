@@ -156,7 +156,7 @@ angularModule.factory('rgPlaceUnderHelper', $window => {
 
       function onScroll(syncElement) {
         const documentScrollTop = getDocumentScrollTop();
-        const dcoumentOffsetHeight = ($window.document.documentElement && $window.document.documentElement.offsetHeight) || $window.document.body.offsetHeight;
+        const documentOffsetHeight = ($window.document.documentElement && $window.document.documentElement.offsetHeight) || $window.document.body.offsetHeight;
 
         const syncedElementHeight = syncElement.offsetHeight;
         const syncedElementOffsetTop = syncElement.getBoundingClientRect().top + documentScrollTop;
@@ -185,7 +185,7 @@ angularModule.factory('rgPlaceUnderHelper', $window => {
 
                 const marginTop = parseInt($window.getComputedStyle(elem).
                   getPropertyValue('margin-top'), 10);
-                bottomOffset = dcoumentOffsetHeight - boundingRect.top + marginTop;
+                bottomOffset = documentOffsetHeight - boundingRect.top + marginTop;
                 if (bottomOffset < 0) {
                   bottomOffset = 0;
                 }

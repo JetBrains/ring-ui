@@ -207,7 +207,7 @@ const LOADER_DELAY = 150; // delay to show loader in ms
   <file name="index.html">
     <div ng-app="test" ng-controller="testCtrl as ctrl">
       <p>Be carefully using <b>lazy=false</b> may significantly decrease your performance</p>
-      <p>This case decribe when we take from server ng-model and then asynchronous take options for this model</p>
+      <p>This case describe when we take from server ng-model and then asynchronous take options for this model</p>
 
       <rg-select
         ng-model="ctrl.selectedItem"

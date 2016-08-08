@@ -92,7 +92,7 @@ function processSingleExample(example, tagContext, metalsmithContext) {
   });
 
   /**
-   * Preparing content to display with syntax highliting
+   * Preparing content to display with syntax highlighting
    */
   const contents = files.map(file => {
     const content = file.fileContents;

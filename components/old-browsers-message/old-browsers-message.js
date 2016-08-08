@@ -96,7 +96,7 @@ function browserInWhiteList() {
 /**
  * Listens to unhandled errors and displays passed node
  */
-function startOldBrowsersDectector(onOldBrowserDetected) {
+function startOldBrowsersDetector(onOldBrowserDetected) {
   previousWindowErrorHandler = window.onerror;
 
   window.onerror = function oldBrowsersMessageShower(errorMsg, url, lineNumber) {
@@ -118,7 +118,7 @@ function stopOldBrowserDetector() {
 
 
 //Start javascript error detection
-startOldBrowsersDectector(() => {
+startOldBrowsersDetector(() => {
   const oldBrowsersMessageContainer = document.getElementById('ring-old-browsers-message');
   const browserMessage = document.getElementById('ring-old-browsers-message__browser-message');
   const errorMessage = document.getElementById('ring-old-browsers-message__error-message');

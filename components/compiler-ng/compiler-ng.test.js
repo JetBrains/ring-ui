@@ -71,7 +71,7 @@ describe('rgCompiler', () => {
   });
 
 
-  it('should allow use controllerAs syntaxis', () => {
+  it('should allow use controllerAs syntax', () => {
     let compileData = null;
     const text = 'Test';
 
@@ -119,7 +119,7 @@ describe('rgCompiler', () => {
   });
 
 
-  it('should allow pass asychronous dependencies', () => {
+  it('should allow pass asynchronous dependencies', () => {
     let compileData = null;
     const text = 'Test';
 
