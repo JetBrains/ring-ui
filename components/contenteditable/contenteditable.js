@@ -16,6 +16,7 @@ function noop() {}
    <example name="ContentEditable">
      <file name="index.html">
        <div id='contenteditable'></div>
+       <div id='contenteditable-disabled' style="padding-top: 16px;"></div>
      </file>
 
      <file name="index.js" webpack="true">
@@ -28,6 +29,10 @@ function noop() {}
        render(ContentEditable.factory({className: 'ring-input'},
          <span>text <b>bold text</b> text</span>
        ), document.getElementById('contenteditable'));
+
+       render(ContentEditable.factory({className: 'ring-input', disabled: true},
+         <span>text <b>bold text</b> text</span>
+       ), document.getElementById('contenteditable-disabled'));
      </file>
    </example>
  */
