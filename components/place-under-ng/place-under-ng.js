@@ -16,7 +16,7 @@ import {getDocumentScrollTop} from '../dom/dom';
  * To make sidebar have fixed positioning under some other element (e.g. toolbar),
  * a selector for that element should be passed as placeUnderSibling parameter.
  * @example
-<example name="Place-under">
+<example name="Place Under Ng">
   <file name="index.html">
     <div ng-app="Ring.place-under">
 

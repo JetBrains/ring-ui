@@ -7,7 +7,7 @@ import '../checkbox/checkbox.scss';
 /**
  * @name Checkbox Ng
  * @example
- * <example name="checkbox-ng">
+ * <example name="Checkbox Ng">
      <file name="index.html">
        <div ng-app="TestApp">
          <div>Checked: {{checked}}</div>

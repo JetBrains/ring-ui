@@ -34,7 +34,7 @@ registerComponents({Icon});
        </file>
    </example>
 
-   <example name="Sidebar Ng with big content">
+   <example name="Sidebar Ng with a lot of content">
     <file name="index.html">
       <div id="content-before">
         <div>Lorem</div><div>Ipsum</div><div>Lorem</div><div>Lorem</div><div>Lorem</div>

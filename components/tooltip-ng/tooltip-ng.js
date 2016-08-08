@@ -6,9 +6,9 @@ import './tooltip-ng.scss';
 
 /**
  * @name Tooltip Ng
- * @description Directive for tooltips in angular apps
+ * @description Directive for tooltips in AngularJS apps
  * @example
-<example name="tooltip-ng">
+<example name="Tooltip Ng">
   <file name="index.html">
     <div class="tooltip-example" ng-app="tooltip-test">
       <div ng-controller="testController">
