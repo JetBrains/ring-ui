@@ -34,7 +34,7 @@ const Directions = {
 const DEFAULT_DIRECTIONS = [
   Directions.BOTTOM_RIGHT, Directions.BOTTOM_LEFT, Directions.TOP_LEFT, Directions.TOP_RIGHT,
   Directions.RIGHT_TOP, Directions.RIGHT_BOTTOM, Directions.LEFT_TOP, Directions.LEFT_BOTTOM,
-  // Finally fallback to bottom-right if it's not possbile to find any suitable direction
+  // Finally fallback to bottom-right if it's not possible to find any suitable direction
   Directions.BOTTOM_RIGHT
 ];
 
@@ -65,12 +65,12 @@ class OpenedPopupRegistry {
     return undefined;
   }
 
-  isRegistrated(reactPopupInstance) {
+  isRegistered(reactPopupInstance) {
     return !!this._registry[reactPopupInstance.uid];
   }
 
   register(reactPopupInstance) {
-    if (this.isRegistrated(reactPopupInstance)) {
+    if (this.isRegistered(reactPopupInstance)) {
       return;
     }
 

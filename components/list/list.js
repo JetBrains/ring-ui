@@ -486,10 +486,10 @@ export default class List extends RingComponentWithShortcuts {
     this.scrollEndHandler = throttle(() => {
       const innerContainer = findDOMNode(this.refs.inner);
       if (innerContainer) {
-        const maxScrollingPositon = innerContainer.scrollHeight;
+        const maxScrollingPosition = innerContainer.scrollHeight;
         const sensitivity = Dimension.ITEM_HEIGHT / 2;
         const currentScrollingPosition = innerContainer.scrollTop + innerContainer.clientHeight + sensitivity;
-        if (currentScrollingPosition >= maxScrollingPositon) {
+        if (currentScrollingPosition >= maxScrollingPosition) {
           this.props.onScrollToBottom();
         }
       }
@@ -515,7 +515,7 @@ export default class List extends RingComponentWithShortcuts {
   cachedSizes = [];
 
   recalculateVisibleOptions(fast, ignoreFocus) {
-    const buffer = 10; // keep X items above and below of the visisble area
+    const buffer = 10; // keep X items above and below of the visible area
     const innerContainer = findDOMNode(this.refs.inner);
 
     if (this.props.renderOptimization && this.props.maxHeight) {
@@ -676,12 +676,12 @@ export default class List extends RingComponentWithShortcuts {
             props.tabIndex = -1;
             props.scrolling = this.state.scrolling;
 
-            const selectHander = event => this.selectHandler({item, event});
+            const selectHandler = event => this.selectHandler({item, event});
 
             if (this.props.useMouseUp) {
-              props.onMouseUp = selectHander;
+              props.onMouseUp = selectHandler;
             } else {
-              props.onClick = selectHander;
+              props.onClick = selectHandler;
             }
 
             let element;

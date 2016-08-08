@@ -208,7 +208,7 @@ describe('Shortcuts', () => {
     const scope2 = 'bb';
     const scope3 = 'ccc';
 
-    it('emptified scope chain be equal to default', () => {
+    it('empty scope chain should be equal to default', () => {
       shortcuts.getScope().should.deep.equal([]);
     });
 

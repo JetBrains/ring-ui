@@ -36,7 +36,7 @@ describe('ContentEditable', () => {
     this.component.node.innerHTML.should.equal('<b>bold</b>');
   });
 
-  it('should reander only on html / disabled change', function () {
+  it('should render only on html / disabled change', function () {
     this.component.rerender({
       disabled: true
     });

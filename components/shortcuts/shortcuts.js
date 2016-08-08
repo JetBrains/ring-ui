@@ -203,7 +203,7 @@ class Shortcuts {
     if (!params.type && sniffr.os.name === 'windows') {
       const isSystemShortcut = params.key.match(/ctrl/i) && params.key.match(/shift/i) && params.key.match(/[0-9]/);
       /**
-       * Windows system shortcuts (ctrl+shift+[0-9] are catched by system on default 'keydown' event. So let's use 'keyup'.
+       * Windows system shortcuts (ctrl+shift+[0-9] are caught by the OS on 'keydown', so let's use 'keyup'
        */
       if (isSystemShortcut) {
         return 'keyup';

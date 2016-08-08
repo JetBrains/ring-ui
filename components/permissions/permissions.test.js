@@ -185,8 +185,8 @@ describe('Permissions', () => {
 
     describe('cache with defined permissions converter', () => {
       function namesConverter(key) {
-        const splittedKey = key.split('.');
-        return splittedKey[splittedKey.length - 1].toLowerCase().replace(/\_/g, '-');
+        const splitKey = key.split('.');
+        return splitKey[splitKey.length - 1].toLowerCase().replace(/\_/g, '-');
       }
 
       const permissionCacheWithConverter = new PermissionCache([
@@ -197,7 +197,7 @@ describe('Permissions', () => {
         createPermission('jetbrains.upsource.permission.project.admin', null, true)
       ], namesConverter);
 
-      it('should not permit unexisting permission', () => {
+      it('should not permit nonexistent permission', () => {
         permissionCacheWithConverter.has('work-item-update').should.be.false;
         permissionCacheWithConverter.has('JetBrains.YouTrack.UPDATE_WORK_ITEM').should.be.false;
       });
