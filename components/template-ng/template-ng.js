@@ -21,7 +21,7 @@ const angularModule = angular.module('Ring.template', []);
     </file>
   </example>
 
-  <example name="Template Ng 2">
+  <example name="Template Ng #2">
     <file name="index.html">
       <div ng-app="Example.template-ng">
         <rg-template template="template" ng-controller="ExampleCtrl"></rg-template>

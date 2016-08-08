@@ -7,7 +7,7 @@ import AnalyticsCustomPlugin from '../analytics/analytics__custom-plugin';
  * @name Analytics Ng
  *
  * @example
- * <example name="Analytics">
+ * <example name="Analytics Ng">
  *   <file name="index.js" webpack="true">
        require('angular');
        require('ring-ui/components/analytics-ng/analytics-ng');

@@ -19,7 +19,7 @@ import '../table/table.scss';
 /** @name Table Ng
  * @description A table component.
  * @example
-<example name="Table-ng">
+<example name="Table Ng">
   <file name="index.html">
     <div ng-app="test" ng-controller="tableExample as ctrl">
       <rg-table-toolbar stick>
@@ -75,7 +75,7 @@ import '../table/table.scss';
     </file>
   </example>
 
-<example name="Table-ng-no-selection">
+<example name="Table Ng without selection">
   <file name="index.html">
     <div ng-app="Ring.table" ng-init="itemsArray = ['first', 'second', 'third', 'fourth']">
       <rg-table items="itemsArray" disable-selection="true">
@@ -91,7 +91,7 @@ import '../table/table.scss';
   </file>
 </example>
 
-<example name="Table-ng-with-sidebar">
+<example name="Table Ng with sidebar">
   <file name="index.html">
     <h3>Scroll down to see the effect</h2>
     <div ng-app="test" ng-controller="tableExample as ctrl">

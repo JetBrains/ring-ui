@@ -40,7 +40,7 @@ const LOADER_DELAY = 150; // delay to show loader in ms
  *
  * @example
  *
-<example name="Select-ng-performance">
+<example name="Select-ng performance">
   <file name="index.html">
     <div ng-app="test" ng-controller="testCtrl as ctrl">
       <div style="padding: 8px">

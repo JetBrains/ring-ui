@@ -3,9 +3,9 @@
 import '../tabs/tabs.scss';
 
 /**
- * @name Tabs
+ * @name Tabs Ng
  * @example
- * <example name="Tabs-ng">
+ * <example name="Tabs Ng">
      <file name="index.html">
        <div ng-app="Ring.tabs">
          <rg-tabs class="container container_tabs">
