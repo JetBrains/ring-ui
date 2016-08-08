@@ -33,7 +33,7 @@ import './progress-bar.scss';
        );
 
        var progressBarBlack = render(
-         ProgressBar.factory({ value: 0, bright: true }),
+         ProgressBar.factory({ value: 0, light: true }),
          document.getElementById('progress-bar-black')
        );
 
@@ -59,7 +59,7 @@ export default class ProgressBar extends RingComponent {
      * Dark background mode
      * @type {boolean}
      */
-    bright: PropTypes.bool,
+    light: PropTypes.bool,
 
     /**
      * Sets the ring-progress-bar_global class to position the progress bar on top of the screen.
@@ -107,12 +107,12 @@ export default class ProgressBar extends RingComponent {
   }
 
   render() {
-    const {bright, className, global, max, value, ...otherProps} = this.props;
+    const {light, className, global, max, value, ...otherProps} = this.props;
 
     const width = value ? `${ProgressBar.toPercent(value, max)}%` : null;
     const classes = classNames({
       'ring-progress-bar': true,
-      'ring-progress-bar_bright': bright,
+      'ring-progress-bar_light': light,
       'ring-progress-bar_global': global,
       [className]: !!className
     });
