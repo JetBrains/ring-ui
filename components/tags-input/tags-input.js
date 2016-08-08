@@ -138,7 +138,7 @@ export default class TagsInput extends RingComponentWithShortcuts {
     /**
      * Datasource should return array(or promise) of suggestions.
      * Each suggestion should contain key and label fields.
-     * DataSource should handle caching and responce racing (when later request
+     * DataSource should handle caching and response racing (when later request
      * responded earlier) by himself.
      */
     dataSource: React.PropTypes.func,

@@ -177,7 +177,7 @@ describe('Auth', () => {
     });
 
 
-    it('should reject with redirect if 401 response recieved', () => {
+    it('should reject with redirect if 401 response received', () => {
       const token = {access_token: 'token'};
       Auth.prototype.getApi.returns(Promise.reject({
         status: 401,
@@ -191,7 +191,7 @@ describe('Auth', () => {
         should.be.rejectedWith(Auth.TokenValidationError, 'Problem');
     });
 
-    it('should reject with redirect if invalid_grant response recieved', () => {
+    it('should reject with redirect if invalid_grant response received', () => {
       const token = {access_token: 'token'};
       Auth.prototype.getApi.returns(Promise.reject({
         response: {
@@ -204,7 +204,7 @@ describe('Auth', () => {
         should.be.rejectedWith(Auth.TokenValidationError, 'invalid_grant');
     });
 
-    it('should reject with redirect if invalid_request response recieved', () => {
+    it('should reject with redirect if invalid_request response received', () => {
       const token = {access_token: 'token'};
       Auth.prototype.getApi.returns(Promise.reject({
         response: {
@@ -217,7 +217,7 @@ describe('Auth', () => {
         should.be.rejectedWith(Auth.TokenValidationError, 'invalid_request');
     });
 
-    it('should reject with redirect if 401 response without json recieved', () => {
+    it('should reject with redirect if 401 response without json received', () => {
       const token = {access_token: 'token'};
       Auth.prototype.getApi.returns(Promise.reject({
         status: 401,

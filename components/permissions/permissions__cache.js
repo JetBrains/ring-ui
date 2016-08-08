@@ -208,7 +208,7 @@ export default class PermissionCache {
     const t = lexems.shift();
     let result;
 
-    // Nested paranthesized expression
+    // Nested parenthesized expression
     if (t === '(') {
       result = this.or(lexems, projectId);
       // Expect ')'

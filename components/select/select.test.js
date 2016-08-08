@@ -387,7 +387,7 @@ describe('Select', () => {
       this.select.filterValue().should.equal('test input');
     });
 
-    it('Should set vallue to popup input if passed', function () {
+    it('Should set value to popup input if passed', function () {
       this.select.filterValue('test');
       this.select._popup.refs.filter.node.value.should.equal('test');
     });

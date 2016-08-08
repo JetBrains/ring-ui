@@ -673,13 +673,13 @@ Auth.prototype._loadTokenInBackground = function () {
     this._requestBuilder.
       prepareAuthRequest({request_credentials: 'silent'}, {nonRedirect: true}).
       then(authRequest => {
-        let cleanRunned;
+        let cleanRun;
 
         function cleanUp() {
-          if (cleanRunned) {
+          if (cleanRun) {
             return;
           }
-          cleanRunned = true;
+          cleanRun = true;
           /* eslint-disable no-use-before-define */
           clearTimeout(timeout);
           removeStateListener();

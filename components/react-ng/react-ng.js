@@ -210,12 +210,12 @@ function reactNgDirective($parse) {
 /*@ngInject*/
 function reactStatigNgDirective($parse) {
   function getPropertyName(name, prefix) {
-    //remove "react-" prefix and uncapitalize first letter
+    //remove "react-" prefix and lowercase first letter
     const cleanAttrName = name.replace(prefix, '');
-    const uncapitalizedAttrName = cleanAttrName.charAt(0).toLowerCase() + cleanAttrName.slice(1);
+    const lowercaseAttrName = cleanAttrName.charAt(0).toLowerCase() + cleanAttrName.slice(1);
     // Use React DOM attributes names
-    const specialDOMAttrName = specialDOMAttrs[uncapitalizedAttrName];
-    const propName = specialDOMAttrName || uncapitalizedAttrName;
+    const specialDOMAttrName = specialDOMAttrs[lowercaseAttrName];
+    const propName = specialDOMAttrName || lowercaseAttrName;
     return propName;
   }
 

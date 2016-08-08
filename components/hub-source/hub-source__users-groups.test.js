@@ -42,7 +42,7 @@ describe('HubUsersGroupsSource', () => {
       });
   });
 
-  it('Should construct multiword query for users', function () {
+  it('Should construct multi-word query for users', function () {
     const source = new HubSourceUsersGroups(this.fakeAuth);
 
     const formatted = source.usersSource.options.queryFormatter('two words');

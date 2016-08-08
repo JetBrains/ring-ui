@@ -220,7 +220,7 @@ describe('analytics singleton', () => {
             param1: 'first',
             param2: 'second'
           };
-          this.analytics.trackEntityProperties('entity', entity, ['param1', 'unexisting-property']);
+          this.analytics.trackEntityProperties('entity', entity, ['param1', 'nonexistent-property']);
           this.clock.tick(10500);
 
           this.send.should.have.been.calledWith([{
@@ -228,7 +228,7 @@ describe('analytics singleton', () => {
             action: 'param1__first'
           }, {
             category: 'entity',
-            action: 'unexisting-property__no-value'
+            action: 'nonexistent-property__no-value'
           }]);
         });
 
@@ -242,11 +242,11 @@ describe('analytics singleton', () => {
             },
             param2: 'second'
           };
-          const trackedProperies = [
+          const trackedProperties = [
             'property.subproperty2.subsubproperty',
-            'propery.subproperty3.unexisting'
+            'property.subproperty3.nonexistent'
           ];
-          this.analytics.trackEntityProperties('entity', entity, trackedProperies);
+          this.analytics.trackEntityProperties('entity', entity, trackedProperties);
           this.clock.tick(10500);
 
           this.send.should.have.been.calledWith([{
@@ -254,7 +254,7 @@ describe('analytics singleton', () => {
             action: 'property-subproperty2-subsubproperty__subsubproperty-value'
           }, {
             category: 'entity',
-            action: 'propery-subproperty3-unexisting__no-value'
+            action: 'property-subproperty3-unexisting__no-value'
           }]);
         });
       });

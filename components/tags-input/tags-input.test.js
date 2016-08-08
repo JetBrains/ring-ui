@@ -124,7 +124,7 @@ describe('TagsInput', () => {
     dataSource.should.have.been.calledWith({query: undefined});
   });
 
-  it('Should turn on loading message immidiatelly after initialization', function () {
+  it('Should turn on loading message immediately after initialization', function () {
     this.tagsInput.state.should.have.property('loading', true);
   });
 
@@ -139,7 +139,7 @@ describe('TagsInput', () => {
     });
   });
 
-  it('Should drop exist tags from suggestions by key', function () {
+  it('Should drop existing tags from suggestions by key', function () {
     const notAddedSuggestions = this.tagsInput.filterExistingTags([
       {key: 1, label: 'test1'},
       {key: 2, label: 'test2'}
@@ -148,7 +148,7 @@ describe('TagsInput', () => {
     notAddedSuggestions.should.be.deep.equal([{key: 2, label: 'test2'}]);
   });
 
-  it('should enbale shortcuts on input focus', function () {
+  it('should enable shortcuts on input focus', function () {
     TestUtils.Simulate.focus(this.tagsInput.getInputNode());
 
     this.tagsInput.state.shortcuts.should.be.true;

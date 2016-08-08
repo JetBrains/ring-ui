@@ -214,7 +214,7 @@ angularModule.directive('rgTable', () => ({
     }
 
     /**
-     * Create Selection instance first to make sure it is always awailable
+     * Create Selection instance first to make sure it is always available
      * @type {Selection}
      */
     this.selection = new Selection(this.items, (name, item, index) => {
@@ -359,7 +359,7 @@ angularModule.directive('rgTableRow', () => ({
       if (!this.selection) {
         return false;
       }
-      //TODO: cache this operation if perfomance issue exists
+      //TODO: cache this operation if there are performance issues
       const checkedItems = this.selection.getCheckedItems();
       return checkedItems && checkedItems.length > 0;
     };
@@ -436,7 +436,7 @@ angularModule.directive('rgTableHeaderCheckbox', () => ({
 }));
 
 /**
- * A checkbox cell for table. Uses rg-table-row parent directive as model hoster
+ * A checkbox cell for table. Uses rg-table-row parent directive as model host
  */
 angularModule.directive('rgTableCheckboxCell', () => ({
   restrict: 'E',
@@ -470,7 +470,7 @@ angularModule.directive('rgTableTitle', () => ({
 
   link(scope, iElement, iAttrs) {
     /**
-     * One time property assigning without watching through isolated scope helps to improve perfomanse
+     * One time property assigning without watching through isolated scope helps to improve performance
      */
     scope.isBorder = angular.isDefined(iAttrs.border);
     scope.isActive = angular.isDefined(iAttrs.active);

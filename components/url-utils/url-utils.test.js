@@ -62,7 +62,7 @@ describe('urlUtils', () => {
       this.sinon.stub(urlUtils, 'getAbsoluteURL').returns(baseUrl);
     });
 
-    it('should resolve url fragment relative to the base url when <base> tag (standarts comlpliant)', function () {
+    it('should resolve url fragment relative to the base url when <base> tag (standards-comlpliant)', function () {
       if (!standardsCompliantRelativeSVG) {
         return;
       }
@@ -73,7 +73,7 @@ describe('urlUtils', () => {
     });
 
 
-    it('should resolve url fragment relative to the base url when <base> tag (standarts non-comlpliant)', function () {
+    it('should resolve url fragment relative to the base url when <base> tag (not standards-compliant)', function () {
       if (standardsCompliantRelativeSVG) {
         return;
       }
