@@ -61,7 +61,7 @@
 }
 
 // Using double selector to enforce specificity, that is hard to express with &
-.ring-input.ring-input:disabled, .ring-input.ring-input_disabled {
+.ring-input.ring-input:disabled, .ring-input.ring-input[disabled], .ring-input.ring-input_disabled {
   @include ring-input-disabled;
 }
 
