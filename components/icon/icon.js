@@ -122,7 +122,7 @@ import './icon.scss';
    </example>
 
    * @example
-   <example name="JB logos list">
+   <example name="List of JetBrains product logos">
    <file name="index.html">
      <div id="logos"></div>
    </file>

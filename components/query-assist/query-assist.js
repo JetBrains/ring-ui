@@ -80,7 +80,7 @@ function noop() {}
      </file>
    </example>
 
-   <example name="QueryAssist in Angular">
+   <example name="QueryAssist in AngularJS">
      <file name="index.html">
        <div ng-app="test" ng-controller="testCtrl as ctrl">
          <div ng-form="testForm">
@@ -167,7 +167,7 @@ function noop() {}
      </file>
    </example>
 
-   <example name="QueryAssist in Angular query init">
+   <example name="QueryAssist in AngularJS query init">
      <file name="index.html">
      <div ng-app="test" rg-shortcuts-app rg-shortcuts="test" shortcuts-focus="true" shortcuts-map="ctrl.keys" ng-controller="testCtrl as ctrl">
        <div ng-show="!ctrl.query">Input something to init Query Assist</div>

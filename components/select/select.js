@@ -92,7 +92,7 @@ const Type = {
    </file>
  </example>
 
- <example name="Multiple select with description">
+ <example name="Multiple select with a description">
    <file name="index.html">
      <div id="demo" style="width: 50%;"></div>
    </file>
