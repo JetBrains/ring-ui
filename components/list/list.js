@@ -51,8 +51,7 @@ function isItemType(listItemType, item) {
   }
 
   /**
-   * If an item does not have rgItemType set, then by default
-   * it has a type of Type.ITEM. This is needed for the select to work correctly.
+   * If rgItemType is not set, Type.ITEM is used by default.
    */
   if (!item.hasOwnProperty('rgItemType') && listItemType === DEFAULT_ITEM_TYPE) {
     return true;
@@ -294,7 +293,7 @@ export default class List extends RingComponentWithShortcuts {
 
   _activatableItems = false;
 
-  haveActivatableItems() {
+  hasActivatableItems() {
     return this._activatableItems;
   }
 
@@ -354,7 +353,7 @@ export default class List extends RingComponentWithShortcuts {
 
   moveHandler(index, retryCallback, e) {
     let correctedIndex;
-    if (this.props.data.length === 0 || !this.haveActivatableItems()) {
+    if (this.props.data.length === 0 || !this.hasActivatableItems()) {
       return;
     } else if (this.props.data.length === 1) {
       correctedIndex = 0;
@@ -392,9 +391,9 @@ export default class List extends RingComponentWithShortcuts {
           window.location.href = item.href;
         }
       });
-      return false; // do no propagate event
+      return false; // do not propagate event
     } else {
-      return true;  // propagate event to, e.g., QueryAssist
+      return true;  // propagate event to the parent component (e.g., QueryAssist)
     }
   }
 
@@ -452,7 +451,7 @@ export default class List extends RingComponentWithShortcuts {
     // }
 
     if (props.data) {
-      //TODO investigate (см. https://youtrack.jetbrains.com/issue/RG-772)
+      //TODO investigate (https://youtrack.jetbrains.com/issue/RG-772)
       //props.data = props.data.map(normalizeListItemType);
 
       this.checkActivatableItems(props.data);
@@ -482,7 +481,7 @@ export default class List extends RingComponentWithShortcuts {
   }
 
   didMount() {
-    // we need throttle instead of debounce to recalculate visible elements when holding UP/DOWN key
+    // we need to throttle rather than debounce to recalculate visible elements when holding UP/DOWN key
     this.scrollEndHandler = throttle(() => {
       const innerContainer = findDOMNode(this.refs.inner);
       if (innerContainer) {
@@ -521,7 +520,7 @@ export default class List extends RingComponentWithShortcuts {
     if (this.props.renderOptimization && this.props.maxHeight) {
       const height = this.props.maxHeight;
 
-      // Firstly we should calculate every item size and position
+      // Firstly we need to calculate the size and position of every item
       if (!fast) {
         this.cachedSizes = [];
         for (let i = 0; i < this.props.data.length; i++) {
@@ -557,7 +556,7 @@ export default class List extends RingComponentWithShortcuts {
       let paddingTop = 0;
       let paddingBottom = 0;
 
-      // Then we move scrollTop near active item if necessary
+      // Then we move scrollTop to the active item if necessary
       if (innerContainer && !ignoreFocus && this.state.activeIndex !== null) {
         innerContainer.scrollTop = this.cachedSizes[this.state.activeIndex].begin - parseInt(height / 2, 10);
       }
