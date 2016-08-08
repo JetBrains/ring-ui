@@ -254,7 +254,7 @@ describe('analytics singleton', () => {
             action: 'property-subproperty2-subsubproperty__subsubproperty-value'
           }, {
             category: 'entity',
-            action: 'property-subproperty3-unexisting__no-value'
+            action: 'property-subproperty3-nonexistent__no-value'
           }]);
         });
       });
