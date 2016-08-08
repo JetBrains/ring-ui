@@ -28,13 +28,13 @@ const Directions = {
 };
 
 /**
- * This directions is default for popup. Suitable direction will be chosen.
+ * When positioning a popup, directions will be tried in the listed order.
  * @type {Array.<string>}
  */
 const DEFAULT_DIRECTIONS = [
   Directions.BOTTOM_RIGHT, Directions.BOTTOM_LEFT, Directions.TOP_LEFT, Directions.TOP_RIGHT,
   Directions.RIGHT_TOP, Directions.RIGHT_BOTTOM, Directions.LEFT_TOP, Directions.LEFT_BOTTOM,
-  // Finally fallback to bottom-right if it's not possible to find any suitable direction
+  // Fall back to the first option
   Directions.BOTTOM_RIGHT
 ];
 
@@ -379,7 +379,7 @@ export default class Popup extends RingComponentWithShortcuts {
   }
 
   /**
-   * Finds and returns closest DOM node with position=fixed or null
+   * Finds and returns the closest DOM node with position: fixed, or null if none found
    * @param currentElement
    * @returns {DOMNode|null}
    */
@@ -405,7 +405,7 @@ export default class Popup extends RingComponentWithShortcuts {
    * @param {Function} callback Callback to execute after rendering
    * @param {Object=} params Optional params
    * @param {Function} params.onRender Callback to run after rendering
-   * @param {HTMLElement} params.container Container to put popup element in
+   * @param {HTMLElement} params.container Container to put the popup element in
    * @return {HTMLElement}
    */
   static renderPopup(component, {onRender, container: customContainer} = {}) {
@@ -479,7 +479,7 @@ export default class Popup extends RingComponentWithShortcuts {
   }
 
   /**
-   * Closes popup and optionally removes from document.
+   * Closes the popup and (optionally) removes it from the document
    */
   close(evt) {
     let onCloseResult;
@@ -502,6 +502,7 @@ export default class Popup extends RingComponentWithShortcuts {
 
     return onCloseResult;
   }
+
   hide(cb) {
     this.setState({
       display: 0,
@@ -562,7 +563,7 @@ export default class Popup extends RingComponentWithShortcuts {
   }
 
   /**
-   * Removes popup from document.
+   * Removes the popup from the document
    */
   remove() {
     if (!this.node) {
