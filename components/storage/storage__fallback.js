@@ -158,10 +158,10 @@ export default class FallbackStorage {
 
   /**
    * @param {string} key
-   * @param {Function} calback
+   * @param {Function} callback
    * @return {Function}
    */
-  on(key, calback) {
+  on(key, callback) {
     let stop = false;
 
     const checkForChange = oldValue => {
@@ -171,7 +171,7 @@ export default class FallbackStorage {
         }
 
         if (!deepEquals(oldValue, newValue)) {
-          calback(newValue);
+          callback(newValue);
         }
 
         window.setTimeout(() => checkForChange(oldValue), this.checkDelay);

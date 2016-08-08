@@ -42,7 +42,7 @@ function testStorage(storage) {
       then(() => storage.remove('empty')).
       should.be.fulfilled);
 
-    it('should be fulfilled for missing elemnt', () => storage.remove('missing').should.be.fulfilled);
+    it('should be fulfilled for missing element', () => storage.remove('missing').should.be.fulfilled);
   });
 
   describe('each', () => {
