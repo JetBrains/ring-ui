@@ -1,3 +1,6 @@
+/**
+ * @name Table Ng Toolbar
+ */
 /*global angular*/
 import 'dom4';
 

@@ -1,4 +1,5 @@
 /**
+ * @name Icon
  * @fileoverview SVG icons component.
  * @author igor.alexeenko@jetbrains.com (Igor Alekseenko)
  * @author alexander.anisimov@jetbrains.com (Alexander Anisimov)

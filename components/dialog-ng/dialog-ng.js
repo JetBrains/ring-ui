@@ -1,3 +1,6 @@
+/**
+ * @name Dialog Ng
+ */
 /* global angular: false */
 import 'dom4';
 import {Inject} from 'angular-es6';

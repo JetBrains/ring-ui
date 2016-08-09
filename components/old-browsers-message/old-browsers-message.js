@@ -1,3 +1,6 @@
+/**
+ * @name Old Browsers Message
+ */
 import sniffer from '../sniffer/sniffer';
 
 /**

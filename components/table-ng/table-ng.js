@@ -1,3 +1,7 @@
+/**
+ * @name Table Ng
+ */
+
 import 'dom4';
 import debounce from 'mout/function/debounce';
 

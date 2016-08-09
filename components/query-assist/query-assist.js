@@ -1,4 +1,5 @@
 /**
+ * @name Query Assist
  * @fileoverview Query Assist
  */
 

@@ -1,8 +1,8 @@
-/* eslint-disable react/no-multi-comp */
-
 /**
+ * @name Footer
  * @fileoverview Ring Footer.
  */
+/* eslint-disable react/no-multi-comp */
 
 import 'dom4';
 import React, {PropTypes, isValidElement} from 'react';

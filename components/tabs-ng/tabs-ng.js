@@ -1,3 +1,6 @@
+/**
+ * @name Tabs Ng
+ */
 /* global angular: false */
 
 import '../tabs/tabs.scss';
