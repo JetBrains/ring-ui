@@ -2,7 +2,7 @@
 
 import HubSourceUsersGroups from './hub-source__users-groups';
 
-describe('HubUsersGroupsSource', () => {
+describe('Hub Users Groups Source', () => {
   beforeEach(function () {
     this.fakeAuth = {
       requestToken: this.sinon.stub().returns(Promise.resolve('testToken')),

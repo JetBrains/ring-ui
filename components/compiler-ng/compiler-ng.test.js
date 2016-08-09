@@ -3,7 +3,7 @@ import 'angular-mocks';
 import compilerModuleName from './compiler-ng';
 
 
-describe('rgCompiler', () => {
+describe('Compiler Ng', () => {
 
 
   beforeEach(window.module(

@@ -6,7 +6,7 @@ import 'dom4';
 
 import Analytics from './analytics-ng';
 
-describe('Ring.analytics', () => {
+describe('Analytics Ng', () => {
   beforeEach(
     window.module('Ring.analytics',
       analyticsProvider => {

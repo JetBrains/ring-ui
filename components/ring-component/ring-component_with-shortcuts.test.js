@@ -8,7 +8,7 @@ import simulateKeypress from 'simulate-keypress';
 import RingComponentWithShortcuts from './ring-component_with-shortcuts';
 import shortcuts from '../shortcuts/shortcuts';
 
-describe('RingComponentWithShortcuts', () => {
+describe('Ring Component With Shortcuts', () => {
   //const component;
   const noop = sinon.spy();
   //const noop2;
