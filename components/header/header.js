@@ -133,7 +133,7 @@ const MenuItemsSequence = [
       <div class="page-content">Page content</div>
     </file>
 
-    <file name="index.scss">
+    <file name="style.scss">
       body {
         background: #e8e8e9;
       }
@@ -220,7 +220,7 @@ const MenuItemsSequence = [
       <div class="popup-container"></div>
     </file>
 
-    <file name="index.scss">
+    <file name="style.scss">
       body {
         background: #e8e8e9;
       }
@@ -232,7 +232,6 @@ const MenuItemsSequence = [
     </file>
 
     <file name="index.js" webpack="true">
-      require('./index.scss');
       var React = require('react');
       var ReactDOM = require('react-dom');
 
