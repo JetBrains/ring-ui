@@ -6,7 +6,7 @@ import 'angular';
 import 'angular-mocks';
 import Tooltip from './tooltip-ng';
 
-describe('tooltipNg', () => {
+describe('Tooltip Ng', () => {
   const INNER_TEXT = 'test foo';
   let RgTooltipPopup;
   let element;
