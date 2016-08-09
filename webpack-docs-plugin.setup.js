@@ -14,7 +14,7 @@ var ExamplePagePlugin = require('webpack-docs-plugin/lib/plugins/ExamplePagePlug
 var SourceLastModifiedPlugin = require('webpack-docs-plugin/lib/plugins/SourceLastModifiedPlugin');
 var SourcePackageInfoPlugin = require('webpack-docs-plugin/lib/plugins/SourcePackageInfoPlugin');
 var MarkdownExtractorPlugin = require('webpack-docs-plugin/lib/plugins/MarkdownExtractorPlugin');
-var JsDocExtractorPlugin = require('webpack-docs-plugin/lib/plugins/jsDocExtractorPlugin');
+var JsDocExtractorPlugin = require('webpack-docs-plugin/lib/plugins/JsDocExtractorPlugin');
 
 module.exports = params => {
   var publicPath = params.publicPath;
