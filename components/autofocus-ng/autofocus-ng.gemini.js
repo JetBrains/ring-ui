@@ -3,7 +3,7 @@ import gemini from 'gemini';
 gemini.suite('Autofocus', () => {
   gemini.suite('On input', child => {
     child.
-      setUrl('/example-autofocus').
+      setUrl('/example-autofocus-ng').
       setCaptureElements('input[rg-autofocus]').
       capture('autofocused-input');
   });

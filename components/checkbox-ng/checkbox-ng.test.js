@@ -7,7 +7,7 @@ import Checkbox from './checkbox-ng';
 
 import sniffer from '../sniffer/sniffer';
 
-describe('CheckboxNg', () => {
+describe('Checkbox Ng', () => {
   let scope;
   let element;
   let iElement;
