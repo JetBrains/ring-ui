@@ -35,9 +35,9 @@
 
         ctrl.renderSelects = function () {
           var date = Date.now();
-          var selectsCout = 1000;
+          var selectsCount = 1000;
 
-          ctrl.selects = (new Array(selectsCout)).join('x').
+          ctrl.selects = (new Array(selectsCount)).join('x').
             split('x').
             map(function (id) {
               return {

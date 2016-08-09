@@ -209,7 +209,7 @@ function reactNgDirective($parse) {
  */
 
 /*@ngInject*/
-function reactStatigNgDirective($parse) {
+function reactStaticNgDirective($parse) {
   function getPropertyName(name, prefix) {
     //remove "react-" prefix and lowercase first letter
     const cleanAttrName = name.replace(prefix, '');
@@ -245,7 +245,7 @@ function reactStatigNgDirective($parse) {
 
 
 reactModule.directive(reactDirectiveName, reactNgDirective);
-reactModule.directive(staticDirectiveName, reactStatigNgDirective);
+reactModule.directive(staticDirectiveName, reactStaticNgDirective);
 
 /**
  * React component register
