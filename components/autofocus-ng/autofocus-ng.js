@@ -1,5 +1,5 @@
 /**
- * @name Autofocus-ng
+ * @name Autofocus Ng
  */
 /* global angular */
 
