@@ -13,10 +13,10 @@ import sniffer from '../sniffer/sniffer';
  * @name Old Browsers Message
  * @example
   <example name="Old Browsers Message">
-    <file name="index.html">
+    <file type="html">
 
       <div id="ring-old-browsers-message" class="ring-old-browsers-message ring-old-browsers-message_hidden">
-        <span id="ring-old-browsers-message__smile" class="ring-old-browsers-message__smile">{{ (>_<) }}</span>
+        <span id="ring-old-browsers-message__smile" class="ring-old-browsers-message__smile">{{ (&gt;_&lt;) }}</span>
         <br/><br/>
         <span id="ring-old-browsers-message__browser-message">This version of your browser is not <a href="https://documentation.link">supported</a>.<br/>
         Try upgrading to the latest stable version.</span>
@@ -28,13 +28,13 @@ import sniffer from '../sniffer/sniffer';
       </div>
 
      </file>
-       <file name="index.js" webpack="true">
-          require('ring-ui/components/old-browsers-message/old-browsers-message.scss');
-          require('ring-ui/components/old-browsers-message/old-browsers-message');
+     <file type="js">
+        require('ring-ui/components/old-browsers-message/old-browsers-message.scss');
+        require('ring-ui/components/old-browsers-message/old-browsers-message');
 
-          //Trigger an error to imitate an unsupported browser
-          Object.unknownMethodCall();
-       </file>
+        //Trigger an error to imitate an unsupported browser
+        Object.unknownMethodCall();
+     </file>
    </example>
  */
 
