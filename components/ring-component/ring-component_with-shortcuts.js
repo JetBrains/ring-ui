@@ -14,7 +14,7 @@ export default class RingComponentWithShortcuts extends RingComponent {
         }
 
         shortcuts.bindMap(shortcutsProps.map, shortcutsProps);
-        shortcuts.pushScope(shortcutsProps.scope);
+        shortcuts.pushScope(shortcutsProps.scope, shortcutsProps.options);
         this.shortcutsScope = shortcutsProps.scope;
 
         return;

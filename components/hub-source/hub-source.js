@@ -5,9 +5,9 @@ const defaultOptions = {
 };
 
 /**
- * HubSource designed to speed search requests for small installations.
- * If there is less than "searchSideThreshold" items, it uses clientside filtering
- * cached results to rapidly increase search speed. Useful for autocompletions and
+ * HubSource is designed to speed up search requests for small installations.
+ * If there are less than "searchSideThreshold" items, it uses client-side filtering
+ * of cached results to greatly increase search speed. Useful for autocompletions and
  * select data source.
  */
 export default class HubSource {

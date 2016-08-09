@@ -21,7 +21,7 @@ const angularModule = angular.module('Ring.template', []);
     </file>
   </example>
 
-  <example name="Template Ng 2">
+  <example name="Template Ng #2">
     <file name="index.html">
       <div ng-app="Example.template-ng">
         <rg-template template="template" ng-controller="ExampleCtrl"></rg-template>
@@ -59,8 +59,10 @@ class rgTemplateController extends Inject {
 
     this.currentScope = $scope.$new();
 
-    $element.html(template);
-    $compile($element.contents())(this.currentScope);
+    this.currentScope.$evalAsync(() => {
+      $element.html(template);
+      $compile($element.contents())(this.currentScope);
+    });
   }
 
   cleanup() {

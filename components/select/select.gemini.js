@@ -12,14 +12,14 @@ gemini.suite('Select', () => {
 
   gemini.suite('Select button', child => {
     child.
-      setUrl('/example-select-with-customized-filter-and-an-add-item-button').
+      setUrl('/example-select-with-a-customized-filter-and-an-add-item-button').
       setCaptureElements('.ring-select').
       capture('button');
   });
 
   gemini.suite('Select with filter', child => {
     child.
-      setUrl('/example-simple-select-with-default-filter-mode').
+      setUrl('/example-simple-select-with-the-default-filter-mode').
       setCaptureElements('.ring-select', '.ring-popup').
       capture('selectPopup', (actions, find) => {
         actions.click(find('.ring-select'));

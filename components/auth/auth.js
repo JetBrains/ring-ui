@@ -90,7 +90,7 @@ export default function Auth(config) {
   }
 
   if (config.serverUri == null) {
-    throw new Error('Property serverUri is required');
+    throw new Error('\"serverUri\" property is required');
   }
 
   config.userFields = config.userFields || [];
@@ -219,7 +219,7 @@ Auth.prototype.init = function () {
       return Promise.reject(error);
     }).
     then(state => {
-      // Return endless promise in background to avoid service start
+      // Return endless promise in the background to avoid service start
       if (state && state.nonRedirect) {
         return new Promise(noop);
       }
@@ -278,7 +278,7 @@ Auth.prototype.requestToken = function () {
 };
 
 /**
- * Get new token in background or redirect to login page.
+ * Get new token in the background or redirect to the login page.
  * @return {Promise.<string>}
  */
 Auth.prototype.forceTokenUpdate = function () {
@@ -301,10 +301,10 @@ Auth.prototype.forceTokenUpdate = function () {
 };
 
 /**
- * Makes GET request to the given URL with the given access token.
+ * Makes a GET request to the given URL with the given access token.
  *
- * @param {string} absoluteUrl an absolute URI to request with given token
- * @param {string} accessToken access token to use in request
+ * @param {string} absoluteUrl an absolute URI to request with the given token
+ * @param {string} accessToken access token to use in the request
  * @param {object?} params query parameters
  * @return {Promise} promise from fetch request
  */
@@ -338,11 +338,11 @@ Auth.prototype.getSecure = function (absoluteUrl, accessToken, params) {
 };
 
 /**
- * Makes GET request to the relative API URL. For example, to fetch all services call:
+ * Makes a GET request to the relative API URL. For example, to fetch all services call:
  *  getApi('services', token, params)
  *
  * @param {string} relativeURI a URI relative to config.serverUri REST endpoint to make the GET request to
- * @param {string} accessToken access token to use in request
+ * @param {string} accessToken access token to use in the request
  * @param {object?} params query parameters
  * @return {Promise} promise from fetch request
  */
@@ -636,7 +636,7 @@ Auth.prototype._redirectFrame = function (iframe, url) {
 };
 
 /**
- * Creates hidden iframe
+ * Creates a hidden iframe
  * @return {HTMLIFrameElement}
  * @private
  */
@@ -653,9 +653,9 @@ Auth.prototype._createHiddenFrame = function () {
 };
 
 /**
- * Refreshes access token in iframe.
+ * Refreshes the access token in an iframe.
  *
- * @return {Promise.<string>} promise that is resolved to access token when it is loaded in a background iframe. The
+ * @return {Promise.<string>} promise that is resolved to access the token when it is loaded in a background iframe. The
  * promise is rejected if no token was received after {@link Auth.BACKGROUND_TIMEOUT} ms.
  */
 Auth.prototype._loadTokenInBackground = function () {
@@ -673,13 +673,13 @@ Auth.prototype._loadTokenInBackground = function () {
     this._requestBuilder.
       prepareAuthRequest({request_credentials: 'silent'}, {nonRedirect: true}).
       then(authRequest => {
-        let cleanRunned;
+        let cleanRun;
 
         function cleanUp() {
-          if (cleanRunned) {
+          if (cleanRun) {
             return;
           }
-          cleanRunned = true;
+          cleanRun = true;
           /* eslint-disable no-use-before-define */
           clearTimeout(timeout);
           removeStateListener();
@@ -718,14 +718,14 @@ Auth.prototype._loadTokenInBackground = function () {
   return this._backgroundPromise;
 };
 /**
- * Sets location hash
+ * Sets the location hash
  * @param {string} hash
  */
 Auth.prototype.setHash = function (hash) {
   if (history.replaceState) {
     // NB! History.replaceState is used here, because Firefox saves
     // a record in history.
-    // NB! URL to redirect is formed manually because baseURI could be messed up
+    // NB! URL to redirect is formed manually because baseURI could be messed up,
     // in which case it's not obvious where redirect will lead.
     const cleanedUrl = [
       window.location.pathname,

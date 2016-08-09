@@ -8,7 +8,7 @@ import '../icon/icon.scss';
 /**
  * @name Icon Ng
  * @example
- * <example name="icon-ng">
+ * <example name="Icon Ng">
  <file name="index.html">
  <div ng-app="TestApp" ng-controller="testCtrl">
  <rg-icon glyph="{{icon}}" size="14"></rg-icon>

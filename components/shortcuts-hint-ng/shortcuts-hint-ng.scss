@@ -3,7 +3,7 @@
 .shortcuts-hint {
   margin-bottom: $ring-unit * 2;
   margin-top: $ring-unit * 2;
-  width: $ring-unit * 100;
+  width: 900px;
 }
 
 .shortcuts-hint__popup-header {
@@ -68,8 +68,7 @@
 .shortcuts-hint__shortcut-cell {
   display: table-cell;
   padding-right: $ring-unit;
-  //padding-bottom: $ring-unit;
-  max-width: $ring-unit * 18;
+  max-width: $ring-unit * 22;
 
   text-align: right;
 }

@@ -6,7 +6,7 @@ import http from 'http';
 import serveStatic from 'serve-static';
 
 function runGeminiTestsOnServer(server) {
-  console.log('Runing gemini tests');
+  console.log('Running gemini tests');
 
   const geminiProcess = exec('babel-node tools/gemini-runner.js --teamcity components/**/*.gemini.js');
 
@@ -16,9 +16,9 @@ function runGeminiTestsOnServer(server) {
   geminiProcess.on('close', code => {
     server.close();
     if (code) {
-      throw new Error('Tests failed, aborting');
+      throw new Error('Some tests have failed, aborting');
     } else {
-      console.log('Tests finished without errors');
+      console.log('Tests completed without errors');
     }
   });
 }

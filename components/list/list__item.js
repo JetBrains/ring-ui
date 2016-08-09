@@ -11,6 +11,7 @@ const RING_UNIT = 8;
 const DEFAULT_PADDING = 16;
 
 export default function ListItem(props) {
+  const {checkbox, glyph, icon, rightGlyph, description, label, details, active, rgItemType, ...restProps} = props; // eslint-disable-line no-unused-vars
   const classes = classnames({
     'ring-list__item': true,
     'ring-list__item_action': !props.disabled,
@@ -28,46 +29,46 @@ export default function ListItem(props) {
 
   return (
     <span
-      {...props}
+      {...restProps}
       className={classes}
       style={style}
     >
-      {props.checkbox !== undefined && (
+      {checkbox !== undefined && (
         <Icon
           className={classnames({
             'ring-list__glyph': true,
-            'ring-list__glyph_hidden': !props.checkbox
+            'ring-list__glyph_hidden': !checkbox
           })}
           glyph={require('jetbrains-icons/check.svg')}
           size={Icon.Size.Size18}
         />
       )}
-      {props.glyph && (
+      {glyph && (
         <Icon
           className="ring-list__glyph"
-          glyph={props.glyph}
+          glyph={glyph}
           size={Icon.Size.Size18}
         />
       )}
-      {props.icon && (
+      {icon && (
         <div
           className="ring-list__icon"
-          style={{backgroundImage: `url("${props.icon}")`}}
+          style={{backgroundImage: `url("${icon}")`}}
         />
       )}
-      {props.rightGlyph && (
+      {rightGlyph && (
         <Icon
           className="ring-list__glyph ring-list__glyph_right"
-          glyph={props.rightGlyph}
+          glyph={rightGlyph}
           size={Icon.Size.Size18}
         />
       )}
-      {props.description && (
-        <div className="ring-list__description">{props.description}</div>
+      {description && (
+        <div className="ring-list__description">{description}</div>
       )}
-      {props.label}
-      {props.details && (
-        <div className={detailsClasses}>{props.details}</div>
+      {label && <div className="ring-list__label">{label}</div>}
+      {details && (
+        <div className={detailsClasses}>{details}</div>
       )}
       </span>
   );
@@ -88,5 +89,6 @@ ListItem.propTypes = {
   icon: PropTypes.string,
   label: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
   level: PropTypes.number,
+  rgItemType: PropTypes.number,
   rightGlyph: PropTypes.string
 };
