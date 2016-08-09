@@ -36,7 +36,9 @@ module.exports = params => {
       template: path.resolve(__dirname, 'site/example.twig'),
       filename: 'example-[example-name]/index.html',
       exampleNameConverter(exampleName) {
-        return exampleName.toLowerCase().replace(/\s/ig, '-');
+        return exampleName.toLowerCase().
+          replace(/\s/ig, '-').
+          replace(/'/ig, '');
       },
       context: {
         publicPath
