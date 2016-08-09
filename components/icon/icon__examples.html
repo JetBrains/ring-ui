@@ -1,0 +1,130 @@
+<example name="Icon">
+  <file type="html">
+    <div id="some-icons">
+      <span id="icon-active"></span>
+      <span id="icon-container"></span>
+      <span id="icon-distribution"></span>
+      <span id="icon-16-pencil"></span>
+      <span id="icon-14-pencil"></span>
+      <span id="icon-custom-search-error"></span>
+    </div>
+  </file>
+
+  <file type="scss">
+    .ring-icon {
+      margin: 8px;
+      padding: 8px;
+    }
+  </file>
+
+  <file type="js">
+    var render = require('react-dom').render;
+    var Icon = require('ring-ui/components/icon/icon');
+
+    render(Icon.factory({
+      glyph: require('jetbrains-icons/distribution.svg'),
+      size: Icon.Size.Size32,
+      activeColor: Icon.Color.BLUE,
+      hoverColor: Icon.Color.ORANGE,
+      onClick: function () {
+        return new Promise(resolve => setTimeout(resolve, 3000));
+      }
+    }), document.getElementById('icon-active'));
+
+    render(Icon.factory({
+      className: 'additional-class',
+      color: 'orange',
+      glyph: require('jetbrains-icons/ok.svg'),
+      size: Icon.Size.Size32
+    }), document.getElementById('icon-container'));
+
+    render(Icon.factory({
+      glyph: require('jetbrains-icons/distribution.svg'),
+      size: Icon.Size.Size32
+    }), document.getElementById('icon-distribution'));
+
+    render(Icon.factory({
+      glyph: require('jetbrains-icons/pencil.svg'),
+      size: Icon.Size.Size16
+    }), document.getElementById('icon-16-pencil'));
+
+    render(Icon.factory({
+      glyph: require('jetbrains-icons/pencil.svg'),
+      size: Icon.Size.Size14
+    }), document.getElementById('icon-14-pencil'));
+
+    render(Icon.factory({
+      glyph: require('jetbrains-icons/search-error.svg'),
+      height: 80,
+      width: 100
+    }), document.getElementById('icon-custom-search-error'));
+  </file>
+</example>
+
+* @example
+<example name="Icons list">
+  <file type="html">
+    <h3>All available icons are listed below. Place the cursor over an icon to
+      see its name.</h3>
+    <div id="all-icons"></div>
+  </file>
+
+  <file type="scss">
+    @import '~ring-ui/components/global/global';
+
+    .ring-icon {
+      margin: 8px;
+      padding: 8px;
+      color: $ring-link-color;
+    }
+  </file>
+
+  <file type="js">
+    import {render} from 'react-dom';
+    import {createElement} from 'react';
+    import Icon from 'ring-ui/components/icon/icon';
+
+    var icons = require.context('jetbrains-icons', false, /\.svg$/);
+
+    render(createElement('div', {
+      children: icons.keys().map(icons).map(function (icon) {
+        return Icon.factory({
+          glyph: icon,
+          title: icon
+        });
+      })
+    }), document.getElementById('all-icons'));
+  </file>
+</example>
+
+* @example
+<example name="List of JetBrains product logos">
+  <file type="html">
+    <div id="logos"></div>
+  </file>
+
+  <file type="scss">
+    .ring-icon {
+      margin: 8px;
+      padding: 8px;
+    }
+  </file>
+
+  <file type="js">
+    import {render} from 'react-dom';
+    import {createElement} from 'react';
+    import Icon from 'ring-ui/components/icon/icon';
+
+    var logos = require.context('jetbrains-logos', true, /\.svg$/);
+
+    render(createElement('div', {
+      children: logos.keys().map(logos).map(function (icon) {
+        return Icon.factory({
+          glyph: icon,
+          title: icon,
+          size: Icon.Size.Size128
+        });
+      })
+    }), document.getElementById('logos'));
+  </file>
+</example>
