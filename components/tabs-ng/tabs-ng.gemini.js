@@ -1,6 +1,6 @@
 import gemini from 'gemini';
 
-gemini.suite('TabsNg', suite => {
+gemini.suite('Tabs Ng', suite => {
   suite.
     setUrl('/example-tabs-ng/index.html#?tab=access').
     setCaptureElements('body > div').
