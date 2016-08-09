@@ -1,3 +1,6 @@
+/**
+ * @name Sidebar ng
+ */
 /* global angular */
 
 import PlaceUnder from '../place-under-ng/place-under-ng';

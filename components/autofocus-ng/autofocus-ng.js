@@ -1,3 +1,6 @@
+/**
+ * @name Autofocus-ng
+ */
 /* global angular */
 
 

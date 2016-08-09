@@ -1,3 +1,6 @@
+/**
+ * @name Shortcuts Hint Ng
+ */
 import sniffer from '../sniffer/sniffer';
 
 import DialogNg from '../dialog-ng/dialog-ng';

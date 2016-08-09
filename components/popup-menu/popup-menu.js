@@ -1,4 +1,5 @@
 /**
+ * @name Popup Menu
  * @fileoverview Popup Menu.
  */
 

@@ -1,3 +1,6 @@
+/**
+ * @name Auth Ng
+ */
 import Auth from '../auth/auth';
 
 /* global angular: false */

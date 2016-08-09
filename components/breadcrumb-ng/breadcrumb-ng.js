@@ -1,3 +1,6 @@
+/**
+ * @name Breadcrumb Ng
+ */
 /* global angular: false */
 
 import {registerComponents, reactNg} from '../react-ng/react-ng';

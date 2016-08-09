@@ -1,4 +1,5 @@
 /**
+ * @name ContentEditable
  * @fileoverview ContentEditable component
  */
 
