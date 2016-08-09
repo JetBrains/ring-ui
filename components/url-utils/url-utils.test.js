@@ -5,7 +5,7 @@ import 'dom4';
 import sniffer from '../sniffer/sniffer';
 import urlUtils from '../url-utils/url-utils';
 
-describe('urlUtils', () => {
+describe('Url Utils', () => {
   describe('fixUrl', () => {
     let baseTag;
     let baseUrl;

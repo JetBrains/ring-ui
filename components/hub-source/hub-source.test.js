@@ -2,7 +2,7 @@
 
 import HubSource from './hub-source';
 
-describe('HubSource', () => {
+describe('Hub Source', () => {
   beforeEach(function () {
     this.fakeAuth = {
       requestToken: this.sinon.stub().returns(Promise.resolve('testToken')),
