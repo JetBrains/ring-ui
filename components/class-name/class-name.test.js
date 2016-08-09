@@ -5,7 +5,7 @@
 
 import ClassName from './class-name';
 
-describe('ClassName', () => {
+describe('Classname', () => {
   const BASE_CLASS = 'base-class';
   let className;
 

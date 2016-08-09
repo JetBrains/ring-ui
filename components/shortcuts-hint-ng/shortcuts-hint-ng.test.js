@@ -7,7 +7,7 @@ import 'angular-mocks';
 import ShortcutsNgHint from './shortcuts-hint-ng';
 import sniffer from '../sniffer/sniffer';
 
-describe('Shortcuts Ng Hint', () => {
+describe('Shortcuts Hint Ng', () => {
   /* global angular:false */
   beforeEach(angular.mock.module(ShortcutsNgHint));
 

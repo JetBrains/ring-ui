@@ -6,7 +6,7 @@ import 'angular';
 import 'angular-mocks';
 import TablePager from './table-ng__pager';
 
-describe('TableNg Pager', () => {
+describe('Table Ng Pager', () => {
   let scope;
   let $compile;
   let element;
