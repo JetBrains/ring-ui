@@ -1,6 +1,6 @@
 import gemini from 'gemini';
 
-gemini.suite('ButtonNg', suite => {
+gemini.suite('Button Ng', suite => {
   suite.
     setUrl('/example-button-ng/').
     setCaptureElements('body > div').

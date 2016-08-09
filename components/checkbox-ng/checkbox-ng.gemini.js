@@ -1,6 +1,6 @@
 import gemini from 'gemini';
 
-gemini.suite('CheckboxNg', parent => {
+gemini.suite('Checkbox Ng', parent => {
   parent.
     setUrl('/example-checkbox-ng/').
     setCaptureElements('p').

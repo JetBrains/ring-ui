@@ -10,7 +10,7 @@ gemini.suite('Popup', () => {
 
   gemini.suite('Autoposition', child => {
     child.
-      setUrl('/example-popup-autoposition/').
+      setUrl('/example-auto-positioning-a-popup/').
       setCaptureElements(['#leftSide', '#rightSide', '#downSide', '#topSide']).
       capture('popup-autoposition');
   });

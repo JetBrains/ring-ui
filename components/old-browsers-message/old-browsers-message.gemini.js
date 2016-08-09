@@ -1,6 +1,6 @@
 import gemini from 'gemini';
 
-gemini.suite('Old-browser-message', suite => {
+gemini.suite('old-browsers-message', suite => {
   suite.
     setUrl('/example-old-browsers-message/').
     setCaptureElements('.ring-old-browsers-message').

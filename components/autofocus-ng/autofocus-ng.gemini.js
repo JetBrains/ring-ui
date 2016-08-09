@@ -1,14 +1,14 @@
 import gemini from 'gemini';
 
-gemini.suite('Autofocus', () => {
-  gemini.suite('On input', child => {
+gemini.suite('Autofocus Ng', () => {
+  gemini.suite('input', child => {
     child.
-      setUrl('/example-autofocus').
+      setUrl('/example-autofocus-ng').
       setCaptureElements('input[rg-autofocus]').
       capture('autofocused-input');
   });
 
-  gemini.suite('On select', child => {
+  gemini.suite('select', child => {
     child.
       setUrl('/example-autofocus-on-select').
       setCaptureElements('.ring-select').
