@@ -6,7 +6,7 @@ import 'angular-mocks';
 import 'angular-route';
 import ErrorPage from './error-page-ng';
 
-describe('ErrorPageNg', () => {
+describe('Error Page Ng', () => {
   beforeEach(
     window.module('Ring.error-page',
     $provide => {

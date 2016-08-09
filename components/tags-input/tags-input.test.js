@@ -7,7 +7,7 @@ import TagsInput from './tags-input';
 import renderIntoDocument from 'render-into-document';
 import RingComponent from '../ring-component/ring-component';
 
-describe('TagsInput', () => {
+describe('Tags Input', () => {
   const fakeTags = [{key: 1, label: 'test1'}];
 
   beforeEach(function () {

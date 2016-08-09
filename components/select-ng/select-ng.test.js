@@ -6,7 +6,7 @@ import 'angular-mocks';
 import SelectNg from './select-ng';
 import Select from '../select/select';
 
-describe('SelectNg', () => {
+describe('Select Ng', () => {
   let scope;
   let element;
   let ctrl;
