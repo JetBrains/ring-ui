@@ -1,7 +1,7 @@
 /* global inject */
 import Template from './template-ng';
 
-describe('TemplateNg', () => {
+describe('Template Ng', () => {
   let $compile;
   let $rootScope;
 

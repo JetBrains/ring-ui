@@ -2,7 +2,7 @@ import React from 'react';
 import TestUtils from 'react-addons-test-utils';
 import LoaderInline from './loader-inline';
 
-describe('LoaderInline', () => {
+describe('Loader Inline', () => {
   let loader;
 
   beforeEach(() => {

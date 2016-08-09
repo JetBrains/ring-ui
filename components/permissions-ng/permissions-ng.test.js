@@ -6,7 +6,7 @@ import 'angular-mocks';
 
 import PermissionsNg from './permissions-ng';
 
-describe('PermissionsNg', () => {
+describe('Permissions Ng', () => {
 
   const fakeUserPermissions = {
     check: () => null

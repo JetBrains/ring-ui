@@ -2,7 +2,7 @@ import React from 'react';
 import TestUtils from 'react-addons-test-utils';
 import ButtonGroup from './button-group';
 
-describe('ButtonGroup', () => {
+describe('Button Group', () => {
   let button;
 
   beforeEach(() => {

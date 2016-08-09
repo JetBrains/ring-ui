@@ -7,7 +7,7 @@ import 'angular-mocks';
 
 import PromisedClick from './promised-click-ng';
 
-describe('PromisedClickNg', () => {
+describe('Promised Click Ng', () => {
   const click = new CustomEvent('click');
   let $rootScope;
   let $compile;

@@ -9,7 +9,7 @@ import {getRect} from '../dom/dom';
 
 import Dialog from './dialog-ng';
 
-describe('DialogNg', () => {
+describe('Dialog Ng', () => {
   let dialog;
   let $compile;
   let $q;
