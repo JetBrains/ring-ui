@@ -11,8 +11,8 @@ import './button.scss';
 /**
  * @constructor
  * @description Button component
- * @extends {ReactComponent}
- * @example-file ./examples.html
+ * @extends {RingComponent}
+ * @example-file ./button__examples.html
  */
 export default class Button extends RingComponent {
   static propTypes = {
