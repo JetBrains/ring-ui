@@ -27,7 +27,7 @@
     "gemini-test-ci": "babel-node tools/gemini-runner-ci.js",
     "gemini-gather": "babel-node tools/gemini-runner.js --gather",
     "build": "webpack --config webpack-docs.config.js",
-    "start": "webpack-dev-server --config webpack-docs.config.js --port 9999 --server --host 0.0.0.0",
+    "start": "node --max-old-space-size=2000 ./node_modules/.bin/webpack-dev-server --config webpack-docs.config.js --port 9999 --server --host 0.0.0.0",
     "lint": "eslint --quiet .",
     "lint-hook": "eslint $ESLINT_HOOK_FILES",
     "prelint-ci": "babel-node tools/message-import-reports",
