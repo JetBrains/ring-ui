@@ -69,7 +69,7 @@ describe('Alerts', () => {
       added.should.be.instanceof(Promise);
     });
 
-    it('should render alerts in a reversed order. Last added alerts goes first.', () => {
+    it('should render alerts in a reversed order. Last added alert goes first.', () => {
       const LAST_TEXT = 'Last component';
 
       component.add('First', Alerts.Type.MESSAGE);

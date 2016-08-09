@@ -6,6 +6,7 @@ import React from 'react';
 import TestUtils from 'react-addons-test-utils';
 import renderIntoDocument from 'render-into-document';
 import RingComponent from '../ring-component/ring-component';
+import simulateKeypress from 'simulate-keypress';
 
 
 describe('Select', () => {
@@ -22,6 +23,8 @@ describe('Select', () => {
       selected: testData[0],
       onChange: this.sinon.spy(),
       onFilter: this.sinon.spy(),
+      onFocus: this.sinon.spy(),
+      onBlur: this.sinon.spy(),
       filter: true
     }));
   });
@@ -128,6 +131,34 @@ describe('Select', () => {
     this.select.props.onAdd.should.been.calledOnce;
   });
 
+  it('Should call onFocus on input focus', function () {
+    this.select.rerender({type: Select.Type.INPUT});
+
+    TestUtils.Simulate.focus(this.select.refs.filter.node);
+    this.select.props.onFocus.should.been.called;
+  });
+
+  it('Should call onBlur on input blur', function () {
+    this.select.rerender({type: Select.Type.INPUT});
+
+    TestUtils.Simulate.blur(this.select.refs.filter.node);
+    this.select.props.onBlur.should.been.called;
+  });
+
+  it('Should close popup anyway if input lost focus in INPUT mode', function () {
+    this.sinon.useFakeTimers();
+    this.select.rerender({type: Select.Type.INPUT});
+    this.select._showPopup();
+
+    sinon.stub(this.select._popup, 'hide');
+    TestUtils.Simulate.blur(this.select.refs.filter.node);
+
+    this.sinon.clock.tick();
+
+    this.select._popup.hide.should.have.been.called;
+  });
+
+
   describe('DOM', () => {
     it('Should place select button inside container', function () {
       this.select.node.should.have.class('ring-select');
@@ -187,6 +218,13 @@ describe('Select', () => {
     it('Should place icons inside in INPUT mode', function () {
       this.select.rerender({type: Select.Type.INPUT});
       this.select.node.should.contain('.ring-select__icons');
+    });
+
+    it('Should open select dropdown on click', function () {
+      this.sinon.spy(this.select, '_showPopup');
+      TestUtils.Simulate.click(this.select.node);
+
+      this.select._showPopup.should.have.been.called;
     });
 
     describe('Bottom toolbar', () => {
@@ -300,14 +338,41 @@ describe('Select', () => {
 
   describe('Filtering', () => {
     it('Should call onFilter on input changes', function () {
+      this.select.filterValue = this.sinon.stub().returns('a');
+      this.select.setState({focused: true});
       TestUtils.Simulate.input(this.select._popup.refs.filter.node);
       this.select.props.onFilter.should.been.called;
     });
 
-    it('Should open popup on input changes', function () {
+    it('Should save input changes', function () {
+      this.select.filterValue = this.sinon.stub().returns('a');
+      this.select._filterChangeHandler();
+      this.select.state.prevFilterValue.should.equals('a');
+    });
+
+    it('Should open popup on input changes if in focus', function () {
+      this.select.rerender({type: Select.Type.INPUT});
+      this.select._showPopup = this.sinon.spy();
+      this.select.filterValue = this.sinon.stub().returns('a');
+      this.select.setState({focused: true});
+      this.select._filterChangeHandler();
+      this.select._showPopup.should.have.been.called;
+    });
+
+    it('should filter if not focused but not in input mode', function () {
+      this.select.rerender({type: Select.Type.BUTTON});
+      this.sinon.spy(this.select, 'filterValue');
+      this.select._filterChangeHandler();
+
+      this.select.filterValue.should.have.been.called;
+    });
+
+    it('Should not open popup on input changes if not in focus', function () {
+      this.select.rerender({type: Select.Type.INPUT});
+
       this.select._showPopup = this.sinon.spy();
       this.select._filterChangeHandler();
-      this.select._showPopup.should.been.called;
+      this.select._showPopup.should.not.have.been.called;
     });
 
     it('Should return empty string if not input mode and filter is disabled', function () {
@@ -322,7 +387,7 @@ describe('Select', () => {
       this.select.filterValue().should.equal('test input');
     });
 
-    it('Should set vallue to popup input if passed', function () {
+    it('Should set value to popup input if passed', function () {
       this.select.filterValue('test');
       this.select._popup.refs.filter.node.value.should.equal('test');
     });
@@ -571,6 +636,19 @@ describe('Select', () => {
         this.select._hidePopup(true);
 
         document.activeElement.should.equal(targetInput.node);
+      });
+
+      it('Should restore focus on provided target element after closing popup with keyboard', () => {
+        const ESC_KEY = 27;
+        simulateKeypress(null, ESC_KEY);
+
+        document.activeElement.should.equal(targetInput.node);
+      });
+
+      it('Should not restore focus on provided target element after closing popup with not keyboard event', () => {
+        TestUtils.Simulate.click(document.body);
+
+        document.activeElement.should.not.equal(targetInput.node);
       });
 
       it('Should not restore focus on provided target element after closing popup', function () {

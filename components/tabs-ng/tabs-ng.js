@@ -3,14 +3,15 @@
 import '../tabs/tabs.scss';
 
 /**
- * @name Tabs
+ * @name Tabs Ng
  * @example
- * <example name="Tabs-ng">
+ * <example name="Tabs Ng">
      <file name="index.html">
        <div ng-app="Ring.tabs">
          <rg-tabs class="container container_tabs">
            <rg-tabs-pane x-title="Settings">Settings tab content</rg-tabs-pane>
            <rg-tabs-pane x-title="Access" counter="7">Access tab content</rg-tabs-pane>
+           <rg-tabs-pane x-title="Disabled" ng-disabled="true" counter="8">Inaccessible tab content</rg-tabs-pane>
            <rg-tabs-pane x-title="Members">Members tab content</rg-tabs-pane>
            <rg-tabs-pane x-title="Members" counter="666">Members 666 tab content</rg-tabs-pane>
          </rg-tabs>
@@ -18,14 +19,13 @@ import '../tabs/tabs.scss';
      </file>
      <file name="index.js" webpack="true">
        require('angular');
-       require('angular-route');
        require('ring-ui/components/tabs-ng/tabs-ng');
      </file>
    </example>
  */
-const angularModule = angular.module('Ring.tabs', ['ngRoute']);
+const angularModule = angular.module('Ring.tabs', []);
 
-angularModule.directive('rgTabs', ($location, $routeParams, $rootScope) => ({
+angularModule.directive('rgTabs', ($location, $rootScope) => ({
   restrict: 'E',
   transclude: true,
 
@@ -46,12 +46,12 @@ angularModule.directive('rgTabs', ($location, $routeParams, $rootScope) => ({
     }
 
     function getTabIdFromUrl() {
-      return $routeParams[getTabParameterName()];
+      return $location.search()[getTabParameterName()];
     }
 
     function doSelect(newPane, skipUrlUpdate) {
 
-      if (newPane === $scope.panes[$scope.current]) {
+      if (newPane === $scope.panes[$scope.current] || newPane.ngDisabled) {
         return;
       }
 
@@ -70,6 +70,25 @@ angularModule.directive('rgTabs', ($location, $routeParams, $rootScope) => ({
           pane.selected = false;
         }
       }
+    }
+
+    function getNextPaneIndex(reverseOrder) {
+      let next = $scope.current;
+
+      do {
+        next += (reverseOrder ? -1 : 1);
+      } while ($scope.panes[next].ngDisabled && next > -1 && next < $scope.panes.length);
+
+      if (next >= $scope.panes.length) {
+        next = $scope.panes.length - 1;
+      }
+      if (next < 0) {
+        next = 0;
+      }
+      if ($scope.panes[next].ngDisabled) {
+        return $scope.current;
+      }
+      return next;
     }
 
     this.addPane = pane => {
@@ -106,20 +125,12 @@ angularModule.directive('rgTabs', ($location, $routeParams, $rootScope) => ({
     };
 
     $scope.control.next = () => {
-      let next = $scope.current + 1;
-      if (next === $scope.panes.length) {
-        next = $scope.panes.length - 1;
-      }
-
+      const next = getNextPaneIndex();
       doSelect($scope.panes[next], $scope.disableLocationChanging);
     };
 
     $scope.control.prev = () => {
-      let prev = $scope.current - 1;
-      if (prev < 0) {
-        prev = 0;
-      }
-
+      const prev = getNextPaneIndex(true);
       doSelect($scope.panes[prev], $scope.disableLocationChanging);
     };
 
@@ -132,20 +143,22 @@ angularModule.directive('rgTabs', ($location, $routeParams, $rootScope) => ({
       }
     };
 
-    // for some reason ng-class doesnt work properly on tabs
-    // from time to time several tabs looks like selected despite correct scope state
-    // i think this bug depends on the speed of addPane calls (actually on digests)
-    // and ng-class detection of added and removed classes becomes broken
+    // For some reason ng-class doesn't work properly on tabs.
+    // From time to time several tabs look like selected despite correct scope state.
+    // I think this bug depends on the frequency of addPane calls (actually on digests)
+    // and ng-class detection of added and removed classes becomes broken.
     // @maxim.erekhinskiy
     $scope.tabClass = pane => {
       let classes = 'ring-tabs__btn';
 
-      if (pane.selected) {
+      if (pane.ngDisabled) {
+        classes += ' ring-tabs__btn_disabled';
+      } else if (pane.selected) {
         classes += ' active';
-      }
 
-      if ($scope.focus && pane.selected) {
-        classes += ' ring-tabs__btn_focus';
+        if ($scope.focus) {
+          classes += ' ring-tabs__btn_focus';
+        }
       }
 
       return classes;
@@ -166,7 +179,8 @@ angularModule.directive('rgTabsPane', () => ({
     tabId: '@',
     title: '@',
     counter: '@',
-    selected: '=?'
+    selected: '=?',
+    ngDisabled: '=?'
   },
 
   link(scope, element, attrs, tabsCtrl) {

@@ -66,6 +66,28 @@ describe('Popup', () => {
     popup.props.container.should.be.equal(fixedContainer);
   });
 
+  it('should remove all popups', done => {
+    const popup1 = renderIntoDocument(createElement(Popup, null));
+    popup1.show();
+
+    const container = document.createElement('div');
+    const anchor = document.createElement('div');
+    container.append(anchor);
+    document.body.append(container);
+
+    const popup2 = Popup.renderPopup(createElement(Popup, {
+      anchorElement: anchor
+    }));
+
+    Popup.hideAllPopups();
+
+    setTimeout(() => {
+      popup1.state.display.should.be.equals(0);
+      popup2.state.display.should.be.equals(0);
+      done();
+    });
+  });
+
   describe('close by click', () => {
     const click = document.createEvent('MouseEvent');
     click.initEvent('click', true, false);

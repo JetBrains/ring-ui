@@ -80,7 +80,7 @@ function noop() {}
      </file>
    </example>
 
-   <example name="QueryAssist in Angular">
+   <example name="QueryAssist in AngularJS">
      <file name="index.html">
        <div ng-app="test" ng-controller="testCtrl as ctrl">
          <div ng-form="testForm">
@@ -167,7 +167,7 @@ function noop() {}
      </file>
    </example>
 
-   <example name="QueryAssist in Angular query init">
+   <example name="QueryAssist in AngularJS query init">
      <file name="index.html">
      <div ng-app="test" rg-shortcuts-app rg-shortcuts="test" shortcuts-focus="true" shortcuts-map="ctrl.keys" ng-controller="testCtrl as ctrl">
        <div ng-show="!ctrl.query">Input something to init Query Assist</div>
@@ -380,9 +380,9 @@ export default class QueryAssist extends RingComponentWithShortcuts {
   }
 
   /**
-   * Optionally setup request data delay. For each component create separate instance of
-   * delayed function.
-   * This may help reduce the load on the server if the user quickly inputs data
+   * Optionally setup data request delay. For each component create a separate
+   * instance of the delayed function. This may help reduce the load on the server
+   * when the user quickly inputs data.
    */
   setupRequestHandler(delay) {
     const needDelay = typeof delay === 'number';

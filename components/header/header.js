@@ -127,7 +127,93 @@ const MenuItemsSequence = [
  * @constructor
  * @extends {ReactComponent}
  * @example
-  <example name="Header">
+  <example name="Header with a Settings popup menu">
+    <file name="index.html">
+      <div id="header-container"></div>
+      <div class="page-content">Page content</div>
+    </file>
+
+    <file name="index.scss">
+      body {
+        background: #e8e8e9;
+      }
+      .page-content {
+        background: #FFF;
+        padding: 32px;
+        height: 370px;
+      }
+    </file>
+
+    <file name="index.js" webpack="true">
+      var React = require('react');
+      var ReactDOM = require('react-dom');
+      var hubConfig = require('ring-ui/site/hub-config');
+
+      var Header = require('ring-ui/components/header/header');
+      var Popup = require('ring-ui/components/popup/popup');
+      var Auth = require('ring-ui/components/auth/auth');
+      var Link = require('ring-ui/components/link/link');
+      var Input = require('ring-ui/components/input/input');
+      var Button = require('ring-ui/components/button/button');
+      var ButtonGroup = require('ring-ui/components/button-group/button-group');
+      var List = require('ring-ui/components/list/list');
+
+      var popup, popupContainer;
+
+      var auth = new Auth(hubConfig);
+
+      // Renders a YouTrack header to the DOM
+      var header = ReactDOM.render(Header.factory({
+        helpLink: 'http://www.yandex.ru',
+        logo: 'youtrack',
+        logoTitle: 'YouTrack',
+        menu: [
+          { component: Link, props: {href: '#', key: 'proj'}, children: 'Projects' },
+          { component: Link, props: {href: '#', key: 'dash'}, children: 'Dashboard' },
+          { component: ButtonGroup, props: {key: 'create_issue'}, children: [
+            Button.factory({
+              primary: true,
+              key: 'create_issue_1'
+            }, 'Create Issue'),
+            Button.factory({
+              icon: require('jetbrains-icons/caret-down.svg'),
+              primary: true,
+              key: 'create_issue_2',
+              short: true
+            })
+          ]},
+        ],
+        rightMenu: [
+          { component: Link, props: {href: '#', key: 'wtn'}, children: 'What\'s new' },
+          { component: Input, props: {key: 'srch'} }
+        ]
+      }), document.getElementById('header-container'));
+
+      auth.init().then(function () {
+        Header.HeaderHelper.setUserMenu(header, auth);
+        Header.HeaderHelper.setServicesList(header, auth);
+      });
+
+      header.setSettingsMenu([
+         {'label': 'Project Related Settings', 'rgItemType': List.ListProps.Type.TITLE},
+         {'label': 'Custom Fields', href: '#', 'rgItemType': List.ListProps.Type.LINK},
+         {'label': 'Issue Link Types', href: '#', 'rgItemType': List.ListProps.Type.LINK},
+         {'label': 'Notification Templates', href: '#', 'rgItemType': List.ListProps.Type.LINK},
+         {'label': 'Time Tracking', href: '#', 'rgItemType': List.ListProps.Type.LINK},
+         {'label': 'Workflows', href: '#', 'rgItemType': List.ListProps.Type.LINK},
+
+         {'label': 'Access Management', 'rgItemType': List.ListProps.Type.TITLE},
+         {'label': 'Users', href: '#', 'rgItemType': List.ListProps.Type.LINK},
+         {'label': 'Groups', href: '#', 'rgItemType': List.ListProps.Type.LINK},
+         {'label': 'Roles', href: '#', 'rgItemType': List.ListProps.Type.LINK},
+         {'label': 'Auth Modules', href: '#', 'rgItemType': List.ListProps.Type.LINK},
+         {'label': 'SAML 2.0', href: '#', 'rgItemType': List.ListProps.Type.LINK},
+      ]);
+    </file>
+  </example>
+
+  * @example
+  <example name="Basic header">
     <file name="index.html">
       <div id="header-container"></div>
       <div class="page-content">Page content</div>
@@ -141,71 +227,30 @@ const MenuItemsSequence = [
       .page-content {
         background: #FFF;
         padding: 32px;
-        height: 500px;
+        height: 370px;
       }
     </file>
 
     <file name="index.js" webpack="true">
+      require('./index.scss');
       var React = require('react');
       var ReactDOM = require('react-dom');
-      var hubConfig = require('ring-ui/site/hub-config');
 
       var Header = require('ring-ui/components/header/header');
-      var Popup = require('ring-ui/components/popup/popup');
-      var Auth = require('ring-ui/components/auth/auth');
       var Link = require('ring-ui/components/link/link');
 
-      var popup, popupContainer;
-
-      var auth = new Auth(hubConfig);
-
-      // Render youtrack header to DOM. Help link leads to Yandex.
-      // It's possible add a custom logotype into a Header via `logoUrl` parameter
+      // Renders a YouTrack header to the DOM
       var header = ReactDOM.render(Header.factory({
         helpLink: 'http://www.yandex.ru',
-        logo: 'youtrack',
-        logoTitle: 'YouTrack',
+        logo: 'upsource',
+        logoTitle: 'Upsource',
+        settingsLink: '#settings',
         menu: [
           { component: Link, props: {href: '#', key: 'proj'}, children: 'Projects' },
           { component: Link, props: {href: '#', key: 'dash'}, children: 'Dashboard' }
         ]
       }), document.getElementById('header-container'));
-
-      // Add callbacks for opening and closing settings element.
-      header.rerender({
-        onSettingsOpen: function() {
-          popupContainer = document.querySelector('.popup-container');
-          popup = ReactDOM.render(Popup.factory({
-            anchorElement: ReactDOM.findDOMNode(header.refs['settings']),
-            onClose: function() {
-              header.refs['settings'].setOpened(false);
-            }
-          }, React.DOM.div(null, 'Popup content')),
-          popupContainer)
-        },
-
-        onSettingsClose: function() {
-          if (popup) {
-            ReactDOM.unmountComponentAtNode(popupContainer);
-            popup = null;
-          }
-        }
-      });
-
-      auth.init().then(function () {
-        Header.HeaderHelper.setUserMenu(header, auth);
-        Header.HeaderHelper.setServicesList(header, auth);
-      });
-
-      // Insert navigation, alternate way
-      //var navigation = document.createElement('div');
-      //navigation.innerHTML = 'Navigation';
-      //header.getMenuElement().appendChild(navigation);
-
-      // Insert extra element to right menu.
-      var extraElement = document.createElement('input');
-      header.getExtraElement().appendChild(extraElement);
-    </file>
+  </file>
   </example>
  */
 export default class Header extends RingComponent {
@@ -228,14 +273,16 @@ export default class Header extends RingComponent {
     logoUrl: null,
     logoTitle: null,
     menu: [],
+    rightMenu: [],
     profilePopupData: null,
-    rightMenu: '',
     rootUrl: null,
     servicesList: null,
     settingsLink: null,
     translationsDict: {
       login: 'Log in...',
-      help: 'Help'
+      help: 'Help',
+      services: 'Services',
+      settings: 'Administration'
     },
 
     onHelpOpen: noop,
@@ -250,11 +297,11 @@ export default class Header extends RingComponent {
   };
 
   /**
-   * Checks if service is opened in browser at the moment
-   * @param rootUrl - root of working application
-   * @param clientId - client id of working application
-   * @param serviceId - id of checking service
-   * @param serviceHomeUrl - home url of checking service
+   * Checks if a service is opened in the browser at the moment
+   * @param rootUrl - URL of current application
+   * @param clientId - Client ID of current application
+   * @param serviceId - ID of the service being checked
+   * @param serviceHomeUrl - URL of the service being checked
    * @returns {boolean}
    */
   static isActiveService(rootUrl, clientId, serviceId, serviceHomeUrl) {
@@ -264,7 +311,7 @@ export default class Header extends RingComponent {
   }
 
   /**
-   * Checks if service should be placed on first line of services list
+   * Checks if a service should be placed in the first line of services list
    * @param service - service to check
    */
   static isTopLineService(service) {
@@ -287,8 +334,8 @@ export default class Header extends RingComponent {
       }
     };
 
-    this.debouncdeUpdate = debounce(updateLayout, 50);
-    window.addEventListener('resize', this.debouncdeUpdate);
+    this.debouncedUpdate = debounce(updateLayout, 50);
+    window.addEventListener('resize', this.debouncedUpdate);
   }
 
   constructor() {
@@ -297,7 +344,7 @@ export default class Header extends RingComponent {
   }
 
   /**
-   * Default layout with list of navigation items that set via Header API
+   * Default layout with a list of navigation items set via header API
    * @private
    */
   _getNavigationMenuDefaultLayout() {
@@ -569,8 +616,8 @@ export default class Header extends RingComponent {
       );
     };
 
-    // todo(igor.alexeenko): This check treats as valid only components
-    // created by React.createClass(). If an already existing component such as
+    // todo(igor.alexeenko): This check treats only components created by
+    // React.createClass() as valid. If an already existing component such as
     // React.DOM.img is passed, it won't work.
     if (this.props.logo && typeof this.props.logo.setState !== 'undefined' &&
       typeof this.props.logo.render !== 'undefined') {
@@ -589,11 +636,6 @@ export default class Header extends RingComponent {
    * @private
    */
   _getRightMenu() {
-    if (this.props.rightMenu) {
-      //TODO investigate
-      return /** @type {ReactComponent} */ this.transferPropsTo(this.props.rightMenu);
-    }
-
     const extraElementClassName = classNames({
       [headerClassName.getElement('user-menu-extra')]: true,
       [headerClassName.getElement('user-menu-item')]: true
@@ -603,6 +645,16 @@ export default class Header extends RingComponent {
       <div className={headerClassName.getElement('right')}>
         <div className={headerClassName.getElement('user-menu')}>
           <div className={extraElementClassName}></div>
+          {
+            this.props.rightMenu.map(({component, props, children}) => (
+              <div
+                className={extraElementClassName}
+                key={props.key}
+              >
+                {createElement(component, props, children)}
+              </div>
+            ))
+          }
           {this.getMenuItems()}
         </div>
       </div>
@@ -610,6 +662,8 @@ export default class Header extends RingComponent {
   }
 
   /**
+   * @deprecated It's better to pass the required items to props.rightMenu than to patch
+   * this element
    * @return {Element}
    */
   getExtraElement() {
@@ -617,6 +671,8 @@ export default class Header extends RingComponent {
   }
 
   /**
+   * @deprecated It's better to pass the required items to props.menu than to patch
+   * this element
    * @return {Element}
    */
   getMenuElement() {
@@ -644,7 +700,7 @@ export default class Header extends RingComponent {
           onClose={this.props.onSettingsClose}
           inactiveClassName="ring-header__menu-item-cog"
           activeClassName="ring-header__menu-item-cog ring-header__menu-item-cog_rotated"
-          title="Administration"
+          title={this.props.translationsDict.settings}
         />
       ),
 
@@ -669,7 +725,7 @@ export default class Header extends RingComponent {
           glyph={require('jetbrains-icons/services.svg')}
           onOpen={::this._onServicesOpen}
           onClose={::this._onServicesClose}
-          title="Services"
+          title={this.props.translationsDict.services}
         />
       ),
 
@@ -727,7 +783,7 @@ export default class Header extends RingComponent {
   }
 
   /**
-   * Replaces standard user icon with avatar.
+   * Replaces a default user icon with an avatar.
    * @param {string} src
    */
   setProfilePicture(src) {
@@ -741,6 +797,35 @@ export default class Header extends RingComponent {
    */
   setSettingsLink(href) {
     this.rerender({settingsLink: href});
+  }
+
+  /**
+   * @param {Header} header header instance to be modified
+   * @param {Promise|Object} settingsListData promise that returns list data in a format
+   * accepted by PopupMenu.
+   */
+  setSettingsMenu(settingsListData) {
+    let popup = null;
+    this.rerender({
+      onSettingsOpen: () => {
+        Promise.resolve(settingsListData).then(data => {
+          popup = PopupMenu.renderPopup(PopupMenu.factory({
+            anchorElement: findDOMNode(this.refs.settings),
+            data,
+            directions: [PopupMenu.PopupProps.Directions.BOTTOM_LEFT],
+            onClose: () => this.refs.settings.setOpened(false),
+            onSelect: () => popup.close()
+          }));
+        });
+      },
+
+      onSettingsClose: () => {
+        if (popup) {
+          popup.remove();
+          popup = null;
+        }
+      }
+    });
   }
 
   /**

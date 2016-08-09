@@ -11,13 +11,22 @@ $tag-background-color: #E6E6E6;
   background-color: $tag-background-color;
   border-radius: 2px;
   border: 1px solid $tag-background-color;
+
+  &_focused, &:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px $ring-outline-color;
+  }
 }
 
 .ring-tag__remove.ring-tag__remove {
-  padding-left:$ring-unit / 2;
+  padding-left: $ring-unit / 2;
   color: $ring-dark-gray-color;
 
   @include ring-vertical-compensation();
+
+  &:hover {
+    color: $ring-link-hover-color;
+  }
 }
 
 .ring-tag__icon {

@@ -89,7 +89,7 @@ export default class Alert extends RingComponent {
     closeable: false,
 
     /**
-     * Whether component is rendered inside {@code Alerts} container
+     * Whether the component is rendered inside an {@code Alerts} container
      * or separately. Sometimes alerts are used to show messages
      * contextually.
      * @type {boolean}
@@ -149,9 +149,9 @@ export default class Alert extends RingComponent {
   }
 
   /**
-   * Removes component from DOM.
-   * @throws {Error} Throws an error if component rendered as a part of alerts
-   * stack being deleted by this method.
+   * Removes the component from the DOM.
+   * @throws {Error} Throws an error if the component rendered as part of Alerts
+   * stack is being deleted by this method.
    */
   close() {
     if (this.props.inline) {
@@ -159,9 +159,7 @@ export default class Alert extends RingComponent {
       return;
     }
 
-    throw new Error('Removal of Alert by itself isn\'t possible ' +
-        'if it has been rendered as a part of Alerts. ' +
-        'Use Alerts.prototype.remove(index:number) instead.');
+    throw new Error('Use Alerts.prototype.remove(index) to remove an alert.');
   }
 
   /**

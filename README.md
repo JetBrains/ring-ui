@@ -28,7 +28,7 @@ Build production files: `npm run build`
 
 #### Custom port
 
-Сhange the port using `npm config set ring-ui:port <port>`
+Change the port using `npm config set ring-ui:port <port>`
 
 #### Hub URL
 

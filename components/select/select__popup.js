@@ -13,11 +13,13 @@ import LoaderInline from '../loader-inline/loader-inline';
 function noop() {}
 
 export default class SelectPopup extends RingComponentWithShortcuts {
+  isClickingPopup = false; // This flag is to true while an item in the popup is being clicked
+
   static defaultProps = {
     data: [],
     activeIndex: null,
     toolbar: null,
-    filter: false, // can be boolean or an object with "value" and "placeholder" properties
+    filter: false, // can be either boolean or an object with "value" and "placeholder" properties
     message: null,
     anchorElement: null,
     container: null,
@@ -34,6 +36,11 @@ export default class SelectPopup extends RingComponentWithShortcuts {
     popupShortcuts: false
   };
 
+  constructor() {
+    super();
+    this.mouseUpHandler = ::this.mouseUpHandler;
+  }
+
   didMount() {
     if (this.refs.filter) {
       if (this.props.filter.value) {
@@ -41,6 +48,12 @@ export default class SelectPopup extends RingComponentWithShortcuts {
       }
       this.focusFilter();
     }
+
+    window.document.addEventListener('mouseup', this.mouseUpHandler);
+  }
+
+  willUnmount() {
+    window.document.removeEventListener('mouseup', this.mouseUpHandler);
   }
 
   focusFilter() {
@@ -91,18 +104,40 @@ export default class SelectPopup extends RingComponentWithShortcuts {
     this.refs.list.clearSelected();
   }
 
+  mouseDownHandler() {
+    this.isClickingPopup = true;
+  }
+
+  mouseUpHandler() {
+    this.isClickingPopup = false;
+  }
+
   listScrollToIndex(index) {
-    this.refs.list.setActiveItem(index);
+    this.refs.list && this.refs.list.setActiveItem(index);
   }
 
   isVisible() {
     return this.refs.popup.isVisible();
   }
 
+  onListSelect(selected) {
+    const getSelectItemEvent = () => {
+      let event;
+      if (document.createEvent) {
+        event = document.createEvent('Event');
+        event.initEvent('select', true, false);
+      }
+      return event;
+    };
+
+    this.props.onSelect(selected, getSelectItemEvent());
+  }
+
   tabPress(event) {
+    event.preventDefault();
     const listActiveItem = this.refs.list.state.activeItem;
     if (listActiveItem) {
-      this.props.onSelect(listActiveItem, event);
+      this.onListSelect(listActiveItem);
     }
     this.hide();
   }
@@ -128,7 +163,8 @@ export default class SelectPopup extends RingComponentWithShortcuts {
     return (<div>
       {this.props.loading && <LoaderInline/>}
 
-      {this.props.message && <div className="ring-select__message">{this.props.message}</div>}
+      {this.props.message &&
+      <div className="ring-select__message">{this.props.message}</div>}
     </div>);
   }
 
@@ -142,7 +178,7 @@ export default class SelectPopup extends RingComponentWithShortcuts {
           ref="list"
           restoreActiveIndex={true}
           activateSingleItem={true}
-          onSelect={this.props.onSelect}
+          onSelect={::this.onListSelect}
           onMouseOut={::this.listOnMouseOut}
           onScrollToBottom={::this.props.onLoadMore}
           shortcuts={this.state.popupShortcuts}
@@ -170,6 +206,7 @@ export default class SelectPopup extends RingComponentWithShortcuts {
         directions={this.props.directions}
         top={this.props.top}
         left={this.props.left}
+        onMouseDown={::this.mouseDownHandler}
       >
         {this.getFilter()}
         {this.getList()}

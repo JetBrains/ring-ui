@@ -127,7 +127,7 @@ describe('SelectNg', () => {
       ctrl.config.selected.selectedLabel.should.equal('test');
     });
 
-    it('Should support selected formater function', function () {
+    it('Should support selected formatter function', function () {
       scope.formatter = this.sinon.stub().returns('Formatted label');
 
       compileTemplate('<rg-select options="item.name select as formatter(item) for item in items track by item.id" external-filter="true" ng-model="selectedItem"></rg-select>');
@@ -151,7 +151,7 @@ describe('SelectNg', () => {
       ctrl.config.selected.description.should.equal(scope.selectedItem.descriptionText);
     });
 
-    it('Should not call get optoin by value for description customization', function () {
+    it('Should not call get option by value for description customization', function () {
       scope.selectedItem.descriptionText = 'description';
 
       element = $compile('<rg-select options="item.name describe as item.descriptionText for item in items track by item.id" ng-model="selectedItem"></rg-select>')(scope);
@@ -162,7 +162,7 @@ describe('SelectNg', () => {
       ctrl.optionsParser.getOptions.should.not.called;
     });
 
-    it('Should not call get optoin by value for select label customization', function () {
+    it('Should not call get option by value for select label customization', function () {
       scope.selectedItem.selectText = 'Test';
 
       element = $compile('<rg-select options="item.name select as item.descriptionText for item in items track by item.id" ng-model="selectedItem"></rg-select>')(scope);

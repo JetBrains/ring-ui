@@ -24,8 +24,8 @@ $list-spacing: $ring-unit / 2;
 .ring-list__separator {
   display: block;
   border-top: 1px solid #E5E5E5;
-  margin-bottom: 5px;
   margin-top: 5px;
+  margin-bottom: 5px;
   padding: $ring-unit/2 $ring-unit*2 0 $ring-unit*2;
 
   color: #ADADAD;
@@ -34,8 +34,8 @@ $list-spacing: $ring-unit / 2;
   text-align: right;
 
   &:first-child {
+    margin-top: 0;
     padding-top: 0;
-    margin-top: 0px;
     border: none;
   }
 
@@ -45,8 +45,9 @@ $list-spacing: $ring-unit / 2;
 }
 
 .ring-list__item {
+  @include ring-ellipsis;
+
   display: block;
-  overflow: hidden;
   padding: 0 $ring-unit*2;
 
   text-align: left;
@@ -56,8 +57,6 @@ $list-spacing: $ring-unit / 2;
   outline: none;
   vertical-align: bottom;
   text-decoration: none;
-  text-overflow: ellipsis;
-  white-space: nowrap;
 
   &:last-of-type {
     margin-bottom: $list-spacing;
@@ -122,6 +121,10 @@ $list-spacing: $ring-unit / 2;
   .ring-list__item_active & {
     color: #FFF;
   }
+}
+
+.ring-list__label {
+  @include ring-ellipsis;
 }
 
 .ring-list__icon {

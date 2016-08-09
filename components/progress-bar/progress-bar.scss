@@ -9,7 +9,7 @@
   overflow: hidden;
   position: relative;
 
-  &_bright {
+  &_light {
     background-color: rgba(255, 255, 255, 0.3);
   }
 }
@@ -44,7 +44,7 @@
     right: 0;
     top: 0;
 
-    .ring-progress-bar_bright & {
+    .ring-progress-bar_light & {
       background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(255, 255, 255, 0.4), rgba(0, 0, 0, 0));
     }
   }

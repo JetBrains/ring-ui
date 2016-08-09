@@ -8,7 +8,7 @@ import classNames from 'classnames';
 import 'dom4';
 
 import RingComponentWithShortcuts from '../ring-component/ring-component_with-shortcuts';
-import {getStyles, isMounted, getRect, getDocumentScrollLeft, getDocumentScrollTop} from '../dom/dom';
+import {getStyles, isMounted, getRect, getDocumentScrollLeft, getDocumentScrollTop, getWindowHeight} from '../dom/dom';
 
 import './popup.scss';
 
@@ -28,13 +28,13 @@ const Directions = {
 };
 
 /**
- * This directions is default for popup. Suitable direction will be chosen.
+ * When positioning a popup, directions will be tried in the listed order.
  * @type {Array.<string>}
  */
 const DEFAULT_DIRECTIONS = [
   Directions.BOTTOM_RIGHT, Directions.BOTTOM_LEFT, Directions.TOP_LEFT, Directions.TOP_RIGHT,
   Directions.RIGHT_TOP, Directions.RIGHT_BOTTOM, Directions.LEFT_TOP, Directions.LEFT_BOTTOM,
-  // Finally fallback to bottom-right if it's not possbile to find any suitable direction
+  // Fall back to the first option
   Directions.BOTTOM_RIGHT
 ];
 
@@ -65,12 +65,12 @@ class OpenedPopupRegistry {
     return undefined;
   }
 
-  isRegistrated(reactPopupInstance) {
+  isRegistered(reactPopupInstance) {
     return !!this._registry[reactPopupInstance.uid];
   }
 
   register(reactPopupInstance) {
-    if (this.isRegistrated(reactPopupInstance)) {
+    if (this.isRegistered(reactPopupInstance)) {
       return;
     }
 
@@ -96,6 +96,21 @@ class OpenedPopupRegistry {
       return [child].concat(this.getChildren(child));
     }
     return [];
+  }
+
+  unregisterAll() {
+    Object.keys(this._registry).
+      forEach(registryItem => {
+        if (this._registry[registryItem]) {
+          this.unregister(this._registry[registryItem].instance);
+        }
+      });
+  }
+
+  getAllInstances() {
+    return Object.keys(this._registry).
+      filter(key => this._registry[key]).
+      map(key => this._registry[key].instance);
   }
 }
 
@@ -194,7 +209,7 @@ const POPUP_REGISTRY = new OpenedPopupRegistry();
    </file>
  </example>
 
- <example name="Popup autoposition">
+ <example name="Auto-positioning a popup">
    <file name="index.html">
    <div>
      <div id="horizontalCenter" class="popup-example__message">Popup should change open direction when reaching window borders</div>
@@ -285,7 +300,7 @@ const POPUP_REGISTRY = new OpenedPopupRegistry();
      }, container));
    </file>
 </example>
-<example name="Popup in popup">
+<example name="Popup in a popup">
    <file name="index.html">
    <div>
      <div id="parentPopupAnchor" class="popup-example__message">Parent popup anchor</div>
@@ -354,8 +369,14 @@ export default class Popup extends RingComponentWithShortcuts {
     Dimension
   };
 
+  static hideAllPopups() {
+    const allInstances = POPUP_REGISTRY.getAllInstances();
+    allInstances.forEach(instance => instance.hide());
+    POPUP_REGISTRY.unregisterAll();
+  }
+
   /**
-   * Finds and returns closest DOM node with position=fixed or null
+   * Finds and returns the closest DOM node with position: fixed, or null if none found
    * @param currentElement
    * @returns {DOMNode|null}
    */
@@ -381,7 +402,7 @@ export default class Popup extends RingComponentWithShortcuts {
    * @param {Function} callback Callback to execute after rendering
    * @param {Object=} params Optional params
    * @param {Function} params.onRender Callback to run after rendering
-   * @param {HTMLElement} params.container Container to put popup element in
+   * @param {HTMLElement} params.container Container to put the popup element in
    * @return {HTMLElement}
    */
   static renderPopup(component, {onRender, container: customContainer} = {}) {
@@ -406,6 +427,7 @@ export default class Popup extends RingComponentWithShortcuts {
 
     this._onWindowResize = this._onWindowResize.bind(this);
     this._onDocumentClick = this._onDocumentClick.bind(this);
+    this.remove = this.remove.bind(this);
   }
 
   getShortcutsProps() {
@@ -434,7 +456,7 @@ export default class Popup extends RingComponentWithShortcuts {
 
   render() {
     POPUP_REGISTRY.register(this);
-
+    const {onMouseDown, onMouseUp} = this.props;
     const classes = classNames({
       'ring-popup': true,
       'ring-popup_bound': this.props.cutEdge
@@ -442,7 +464,8 @@ export default class Popup extends RingComponentWithShortcuts {
 
     return (
       <div
-        {...this.props}
+        onMouseDown={onMouseDown}
+        onMouseUp={onMouseUp}
         data-popup-uid={this.uid}
         className={classes}
         style={this._getStyles()}
@@ -453,7 +476,7 @@ export default class Popup extends RingComponentWithShortcuts {
   }
 
   /**
-   * Closes popup and optionally removes from document.
+   * Closes the popup and (optionally) removes it from the document
    */
   close(evt) {
     let onCloseResult;
@@ -537,7 +560,7 @@ export default class Popup extends RingComponentWithShortcuts {
   }
 
   /**
-   * Removes popup from document.
+   * Removes the popup from the document
    */
   remove() {
     if (!this.node) {
@@ -576,9 +599,7 @@ export default class Popup extends RingComponentWithShortcuts {
       return;
     }
 
-    if (!this.props.anchorElement ||
-      !this.props.dontCloseOnAnchorClick ||
-      !this.props.anchorElement.contains(evt.target)) {
+    if (!this.props.anchorElement || !this.props.dontCloseOnAnchorClick || !this.props.anchorElement.contains(evt.target)) {
       this.close(evt);
     }
   }
@@ -603,7 +624,7 @@ export default class Popup extends RingComponentWithShortcuts {
       return true;
     }
     const popupHeight = this.node.clientHeight;
-    const verticalDiff = window.innerHeight - styles.top - popupHeight;
+    const verticalDiff = getWindowHeight() - styles.top - popupHeight;
 
     if (verticalDiff < this.props.sidePadding) {
       return true;

@@ -7,7 +7,7 @@ import AnalyticsCustomPlugin from '../analytics/analytics__custom-plugin';
  * @name Analytics Ng
  *
  * @example
- * <example name="Analytics">
+ * <example name="Analytics Ng">
  *   <file name="index.js" webpack="true">
        require('angular');
        require('ring-ui/components/analytics-ng/analytics-ng');
@@ -41,8 +41,8 @@ import AnalyticsCustomPlugin from '../analytics/analytics__custom-plugin';
      </file>
      <file name="index.html">
        <div ng-app="Example.analyticsDemo">
-        <a href="" rg-analytics="overview:view-doc">Link-with-on-click-analytic</a>
-        <a href="" rg-analytics="overview:view-doc" rg-analytics-on="mouseover">Link-with-on-mouseover-analytic</a>
+        <a href="" rg-analytics="overview:view-doc">Link with onclick analytics trigger</a>
+        <a href="" rg-analytics="overview:view-doc" rg-analytics-on="mouseover">Link with onmouseover analytics trigger</a>
         <div ng-controller="TrackEventDemoCtrl"></div>
        </div>
      </file>

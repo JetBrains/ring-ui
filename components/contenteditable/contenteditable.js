@@ -16,6 +16,7 @@ function noop() {}
    <example name="ContentEditable">
      <file name="index.html">
        <div id='contenteditable'></div>
+       <div id='contenteditable-disabled' style="padding-top: 16px;"></div>
      </file>
 
      <file name="index.js" webpack="true">
@@ -28,6 +29,10 @@ function noop() {}
        render(ContentEditable.factory({className: 'ring-input'},
          <span>text <b>bold text</b> text</span>
        ), document.getElementById('contenteditable'));
+
+       render(ContentEditable.factory({className: 'ring-input', disabled: true},
+         <span>text <b>bold text</b> text</span>
+       ), document.getElementById('contenteditable-disabled'));
      </file>
    </example>
  */
@@ -71,7 +76,7 @@ export default class ContentEditable extends RingComponent {
     this.renderStatic(nextProps);
   }
 
-  willUnount() {
+  willUnmount() {
     if (ContentEditable.impotentIE) {
       this.node.removeEventListener(ContentEditable.mutationEvent, this.triggerInput);
     }
@@ -88,7 +93,7 @@ export default class ContentEditable extends RingComponent {
   }
 
   render() {
-    const {children, ...props} = this.props; // eslint-disable-line no-unused-vars
+    const {children, onComponentUpdate, ...props} = this.props; // eslint-disable-line no-unused-vars
 
     return (
       <div

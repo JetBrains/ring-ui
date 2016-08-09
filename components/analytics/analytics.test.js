@@ -83,8 +83,10 @@ describe('analytics singleton', () => {
     });
 
     describe('#enabled', () => {
+
+      let customPlugin;
       beforeEach(function () {
-        const customPlugin = new AnalyticsCustomPlugin(this.send);
+        customPlugin = new AnalyticsCustomPlugin(this.send);
         this.analytics.config([customPlugin]);
       });
 
@@ -96,6 +98,51 @@ describe('analytics singleton', () => {
           category: 'test-category',
           action: 'test-action'
         }]);
+      });
+
+      it('should support configuration via method config', function () {
+        const flushingFunction = this.sinon.spy();
+        customPlugin.config({
+          send: flushingFunction
+        });
+
+        this.analytics.trackEvent('test-category', 'test-action');
+        this.clock.tick(10500);
+
+        this.send.should.not.have.been.called;
+        flushingFunction.should.have.been.calledWith([{
+          category: 'test-category',
+          action: 'test-action'
+        }]);
+      });
+
+      it('should send request on achieving max pack size', function () {
+        for (let i = 0; i < 99; ++i) {
+          this.analytics.trackEvent(`test-category-${i}`, 'test-action');
+        }
+        expect(customPlugin._data.length).equal(99);
+
+        this.analytics.trackEvent('test-category-100', 'test-action');
+
+        this.send.should.have.been.called;
+        expect(customPlugin._data.length).equal(0);
+      });
+
+      it('should configure max pack size via config', function () {
+        customPlugin.config({
+          send: this.send,
+          flushMaxPackSize: 102
+        });
+
+        for (let i = 0; i < 101; ++i) {
+          this.analytics.trackEvent(`test-category-${i}`, 'test-action');
+        }
+        expect(customPlugin._data.length).equal(101);
+
+        this.analytics.trackEvent('test-category-102', 'test-action');
+
+        this.send.should.have.been.called;
+        expect(customPlugin._data.length).equal(0);
       });
 
       it('should remove prohibited symbols', function () {
@@ -173,7 +220,7 @@ describe('analytics singleton', () => {
             param1: 'first',
             param2: 'second'
           };
-          this.analytics.trackEntityProperties('entity', entity, ['param1', 'unexisting-property']);
+          this.analytics.trackEntityProperties('entity', entity, ['param1', 'nonexistent-property']);
           this.clock.tick(10500);
 
           this.send.should.have.been.calledWith([{
@@ -181,7 +228,7 @@ describe('analytics singleton', () => {
             action: 'param1__first'
           }, {
             category: 'entity',
-            action: 'unexisting-property__no-value'
+            action: 'nonexistent-property__no-value'
           }]);
         });
 
@@ -195,11 +242,11 @@ describe('analytics singleton', () => {
             },
             param2: 'second'
           };
-          const trackedProperies = [
+          const trackedProperties = [
             'property.subproperty2.subsubproperty',
-            'propery.subproperty3.unexisting'
+            'property.subproperty3.nonexistent'
           ];
-          this.analytics.trackEntityProperties('entity', entity, trackedProperies);
+          this.analytics.trackEntityProperties('entity', entity, trackedProperties);
           this.clock.tick(10500);
 
           this.send.should.have.been.calledWith([{
@@ -207,7 +254,7 @@ describe('analytics singleton', () => {
             action: 'property-subproperty2-subsubproperty__subsubproperty-value'
           }, {
             category: 'entity',
-            action: 'propery-subproperty3-unexisting__no-value'
+            action: 'property-subproperty3-nonexistent__no-value'
           }]);
         });
       });
@@ -247,7 +294,7 @@ describe('analytics singleton', () => {
             return counter === 2;
           }
 
-          const customPlugin = new AnalyticsCustomPlugin(this.send, false, 10000, flushingIsAllowedOnSecondCheck);
+          customPlugin = new AnalyticsCustomPlugin(this.send, false, 10000, flushingIsAllowedOnSecondCheck);
           this.analytics.config([customPlugin]);
 
           this.analytics.trackEvent('test-category', 'test-action');

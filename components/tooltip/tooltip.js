@@ -10,7 +10,7 @@ import './tooltip.scss';
  * @constructor
  * @extends {ReactComponent}
  * @example
-   <example name="React Tooltip">
+   <example name="Tooltip">
      <file name="index.html">
        <div id="tooltip"></div>
      </file>
@@ -23,8 +23,8 @@ import './tooltip.scss';
        import Button from 'ring-ui/components/button/button';
 
        const buttonWithTooltip = (
-         <Tooltip title="explanation for button that reqires explanation">
-           <Button>button that reqiures explanation</Button>
+         <Tooltip title="Explanation">
+           <Button>Button that requires an explanation</Button>
          </Tooltip>
        );
 
@@ -120,13 +120,13 @@ export default class Tooltip extends RingComponent {
   }
 
   render() {
-    const {children, title, ...props} = this.props; // eslint-disable-line no-unused-vars
+    const {children, title, delay, popupProps, ...restProps} = this.props; // eslint-disable-line no-unused-vars
 
     if (Children.count(children) === 1 && typeof children === 'object') {
       return children;
     // Autowrapping of text and array children
     } else {
-      return <span {...props}>{children}</span>;
+      return <span {...restProps}>{children}</span>;
     }
   }
 }

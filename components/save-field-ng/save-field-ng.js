@@ -335,7 +335,7 @@ angularModule.directive('rgSaveField', (RingMessageBundle, $timeout, $q, $compil
         });
       }
 
-      function addMultilineProcessig(controlName) {
+      function addMultilineProcessing(controlName) {
         const stopWatch = scope.$watch(`saveFieldForm.${controlName}`, control => {
           if (!control || !control.$formatters || !control.$parsers) {
             return;
@@ -437,7 +437,7 @@ angularModule.directive('rgSaveField', (RingMessageBundle, $timeout, $q, $compil
         });
 
         if (isTextarea && scope.multiline === MULTI_LINE_LIST_MODE) {
-          addMultilineProcessig(inputNode.name);
+          addMultilineProcessing(inputNode.name);
         }
       }
 
@@ -471,7 +471,7 @@ angularModule.directive('rgSaveField', (RingMessageBundle, $timeout, $q, $compil
         // 1) Bindings already disabled at this moment, so replacing scope.value = ... have no effect
         // 2) We can't use scope.value.someField because we don't know anything about scope.value, it's passed from outside
         // 3) Probably we can use controllerAs to add one more object layer (ctrl.value) so the JS linking would work
-        // but errorBuble works with scope only, so there would be a big refactoring at rgSaveField and other components
+        // but errorBubble works with scope only, so there would be a big refactoring at rgSaveField and other components
         // This is the simplest solution:
         if (iAttrs.value) {
           $parse(iAttrs.value).assign(scope.$parent, scope.initial);

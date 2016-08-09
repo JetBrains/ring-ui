@@ -32,7 +32,7 @@ const Type = {
  * @constructor
  * @extends {ReactComponent}
  * @example
- <example name="Select with model that have type field">
+ <example name="Select with a filter">
    <file name="index.html">
      <p>test</p>
      <div id="demo" style="width: 50%;"></div>
@@ -67,7 +67,7 @@ const Type = {
    </file>
  </example>
 
- <example name="Select with big dataset">
+ <example name="Select with a large dataset">
    <file name="index.html">
      <div id="demo" style="width: 50%;"></div>
    </file>
@@ -92,7 +92,7 @@ const Type = {
    </file>
  </example>
 
- <example name="Multiple select with description">
+ <example name="Multiple select with a description">
    <file name="index.html">
      <div id="demo" style="width: 50%;"></div>
    </file>
@@ -188,7 +188,7 @@ const Type = {
    </file>
  </example>
 
- <example name="Simple select with default filter mode">
+ <example name="Simple select with the default filter mode">
    <file name="index.html">
      <div id="demo" style="width: 50%;"></div>
    </file>
@@ -209,7 +209,7 @@ const Type = {
    </file>
  </example>
 
- <example name="Simple select with default filter mode and loading indicator">
+ <example name="Simple select with the default filter mode and a loading indicator">
    <file name="index.html">
      <div id="demo" style="width: 50%;"></div>
    </file>
@@ -230,7 +230,7 @@ const Type = {
    </file>
  </example>
 
- <example name="Select with customized filter and an 'Add item' button">
+ <example name="Select with a customized filter and an 'Add item' button">
    <file name="index.html">
      <div id="demo" class="ring-input-size_md"></div>
    </file>
@@ -265,7 +265,7 @@ const Type = {
    </file>
  </example>
 
-  <example name="Select with always visible and fixed label 'Add item' button">
+  <example name="Select with an always visible 'Add item' button">
    <file name="index.html">
      <div id="demo" style="width: 50%;"></div>
    </file>
@@ -380,7 +380,7 @@ export default class Select extends RingComponentWithShortcuts {
     filter: false,   // enable filter (BUTTON or CUSTOM mode)
     multiple: false, // multiple can be an object - see demo for more information
     clear: false,    // enable clear button that clears the "selected" state
-    loading: false,  // show loading indicator while data is loading
+    loading: false,  // show a loading indicator while data is loading
     disabled: false, // disable select
 
     loadingMessage: 'Loading...',
@@ -388,19 +388,19 @@ export default class Select extends RingComponentWithShortcuts {
 
     type: Type.BUTTON,
     targetElement: null,  // element to bind the popup to (select BUTTON or INPUT by default)
-    popupContainer: null, // element to attach popup in
+    popupContainer: null, // element to attach the popup to
     hideSelected: false,  // INPUT mode: clears the input after an option is selected (useful when the selection is displayed in some custom way elsewhere)
     allowAny: false,      // INPUT mode: allows any value to be entered, hides the dropdown icon
     hideArrow: false,     // hide dropdown arrow icon
 
-    maxHeight: 250,       // Height of options list, without the filter and 'Add' button
+    maxHeight: 250,       // height of the options list, without the filter and the 'Add' button
     minWidth: 'target',   // Popup width
 
     selected: null,       // current selection (item / array of items)
 
     label: 'Please select option',  // BUTTON label or INPUT placeholder (nothing selected)
     selectedLabel: '',              // BUTTON label or INPUT placeholder (something selected)
-    hint: null,           //A hint text to display under the list
+    hint: null,           // hint text to display under the list
 
     shortcuts: false,
 
@@ -409,6 +409,9 @@ export default class Select extends RingComponentWithShortcuts {
     onOpen: noop,
     onClose: noop,
     onFilter: noop,       // search string as first argument
+    onFocus: noop,
+    onBlur: noop,
+    onKeyDown: noop,
 
     onSelect: noop,       // single + multi
     onDeselect: noop,     // multi
@@ -426,7 +429,8 @@ export default class Select extends RingComponentWithShortcuts {
     selectedIndex: null,
     filterString: null,
     shortcuts: false,
-    popupShortcuts: false
+    popupShortcuts: false,
+    prevFilterValue: ''
   };
 
   ngModelStateField = ngModelStateField;
@@ -615,8 +619,8 @@ export default class Select extends RingComponentWithShortcuts {
       activeIndex: this.state.selectedIndex
     });
   /**
-   * Number of items in list usually decreases after filtering elements in select.
-   * When I filter elements in select I want to see newly filtered result from the beginning. No matter where I was before.
+   * The number of items in the list usually decreases after filtering.
+   * When items are filtered, results should be displayed to the user starting from the top.
    */
     if (shouldScrollToTop) {
       this._popup.listScrollToIndex(0);
@@ -779,7 +783,19 @@ export default class Select extends RingComponentWithShortcuts {
   }
 
   _filterChangeHandler(event) {
-    const filterValue = this.filterValue().replace(/^\s+/g, '');
+    if (this.isInputMode() && !this.state.focused) {
+      return;
+    }
+
+    let filterValue = this.filterValue();
+
+    if (filterValue === this.state.prevFilterValue) {
+      return;
+    }
+
+    this.setState({prevFilterValue: filterValue});
+
+    filterValue = filterValue.replace(/^\s+/g, '');
     this.props.onFilter(filterValue);
     if (this.props.allowAny) {
       const fakeSelected = {
@@ -810,11 +826,10 @@ export default class Select extends RingComponentWithShortcuts {
   _listSelectHandler(selected, event) {
     const isItem = List.isItemType.bind(null, List.ListProps.Type.ITEM);
     const isCustomItem = List.isItemType.bind(null, List.ListProps.Type.CUSTOM);
-    const listOnSelectEvent = event && (event.type === 'keydown' || event.type === 'click');
-    if (listOnSelectEvent) {
+    const isSelectItemEvent = event && (event.type === 'select' || event.type === 'keydown');
+    if (isSelectItemEvent) {
       event.preventDefault();
     }
-
 
     if ((!isItem(selected) && !isCustomItem(selected)) || selected.disabled) {
       return;
@@ -830,7 +845,7 @@ export default class Select extends RingComponentWithShortcuts {
         this.props.onFilter(newFilterValue);
         this.props.onSelect(selected, event);
         this.props.onChange(selected, event);
-        this._hidePopup(listOnSelectEvent);
+        this._hidePopup(isSelectItemEvent);
       });
     } else {
       if (!selected.key) {
@@ -871,7 +886,7 @@ export default class Select extends RingComponentWithShortcuts {
     }
   }
 
-  _onClose() {
+  _onClose(event) {
     if (this.isInputMode()) {
       if (!this.props.allowAny) {
         if (this.props.hideSelected || !this.state.selected || this.props.multiple) {
@@ -881,7 +896,9 @@ export default class Select extends RingComponentWithShortcuts {
         }
       }
     }
-    this._hidePopup();
+    // it's necessary to focus anchor on pressing ESC
+    const isKeyboardEvent = event && event.type === 'keydown';
+    this._hidePopup(isKeyboardEvent);
   }
 
   clearFilter() {
@@ -902,6 +919,8 @@ export default class Select extends RingComponentWithShortcuts {
   }
 
   _focusHandler() {
+    this.props.onFocus();
+
     this.setState({
       shortcuts: true,
       focused: true
@@ -909,6 +928,15 @@ export default class Select extends RingComponentWithShortcuts {
   }
 
   _blurHandler() {
+    this.props.onBlur();
+
+    if (this._popup && this._popup.isVisible() && !this._popup.isClickingPopup) {
+      window.setTimeout(() => {
+        this.props.onClose();
+        this._popup.hide();
+      });
+    }
+
     this.setState({
       shortcuts: false,
       focused: false
@@ -1048,6 +1076,7 @@ export default class Select extends RingComponentWithShortcuts {
             onBlur={::this._blurHandler}
             shortcuts={this._inputShortcutsEnabled()}
             placeholder={this._getInputPlaceholder()}
+            onKeyDown={::this.props.onKeyDown}
           />
           {iconsNode}
         </div>
