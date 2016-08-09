@@ -5,7 +5,7 @@ import 'dom4';
 
 import Tabs from './tabs-ng';
 
-describe('TabsNg', () => {
+describe('Tabs Ng', () => {
   let $rootScope;
   let $compile;
 
