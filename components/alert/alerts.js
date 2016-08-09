@@ -17,36 +17,8 @@ import './alert.scss';
  * @name Alerts
  * @constructor
  * @description Alerts component
- * @extends {ReactComponent}
- * @example
-   <example name="Alerts">
-     <file name="index.html">
-       <div id="alerts-container"></div>
-       <button id="create-duplicate">Create a duplicated message</button>
-       <button id="create-other">Create another message</button>
- </file>
-
-     <file name="index.js" webpack="true">
-       var render = require('react-dom').render;
-       var Alerts = require('ring-ui/components/alert/alerts');
-
-       var alertsContainer = render(Alerts.factory(), document.getElementById('alerts-container'));
-
-
-       alertsContainer.add('Test message');
-
-       alertsContainer.add('Another test message', Alerts.Type.MESSAGE, 1000);
-       alertsContainer.add('Test warning', Alerts.Type.WARNING);
-
-       document.getElementById('create-duplicate').onclick = function () {
-          alertsContainer.add('Duplicated message', Alerts.Type.MESSAGE, 5000);
-       }
-
-       document.getElementById('create-other').onclick = function () {
-          alertsContainer.add('Another message at ' + new Date(), Alerts.Type.MESSAGE, 5000);
-       }
-     </file>
-   </example>
+ * @extends {RingComponent}
+ * @example-file ./alerts__examples.html
  */
 export default class Alerts extends RingComponent {
   static Type = Alert.Type;
