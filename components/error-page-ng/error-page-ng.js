@@ -1,3 +1,7 @@
+/**
+ * @name Error Page ng
+ */
+
 /* global angular: false */
 import 'dom4';
 import '../error-page/error-page.scss';

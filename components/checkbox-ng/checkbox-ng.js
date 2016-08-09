@@ -1,3 +1,6 @@
+/**
+ * @name Checkbox Ng
+ */
 /* global angular: false */
 
 import '../icon-ng/icon-ng';

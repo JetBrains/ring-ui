@@ -1,4 +1,5 @@
 /**
+ * @name Alert Ng
  * @author maxim.erekhinskiy
  * @fileoverview AngularJS service that provides an interface to React-based Alerts component.
  */

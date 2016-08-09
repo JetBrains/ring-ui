@@ -1,3 +1,6 @@
+/**
+ * @name Avatar Editor Ng
+ */
 /* global angular: false */
 import messageBundleNg from '../message-bundle-ng/message-bundle-ng';
 import alertNg from '../alert-ng/alert-ng';

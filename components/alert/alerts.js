@@ -1,4 +1,5 @@
 /**
+ * @name Alerts
  * @fileoverview Stack of alerts at the top of the page.
  * @author igor.alexeenko@jetbrains.com (Igor Alexeenko)
  */

@@ -1,3 +1,6 @@
+/**
+ * @name Permissions Ng
+ */
 import 'dom4';
 import '../auth-ng/auth-ng';
 import Permissions from '../permissions/permissions';

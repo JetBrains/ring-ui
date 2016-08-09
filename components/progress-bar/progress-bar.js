@@ -1,4 +1,5 @@
 /**
+ * @name Progress Bar
  * @author igor.alexeenko@jetbrains.com (Igor Alekseenko)
  * @fileoverview component represents the progress of a task.
  * (like HTML5 progress tag).

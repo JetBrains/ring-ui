@@ -1,3 +1,6 @@
+/**
+ * @name Auth
+ */
 /* eslint-disable camelcase */
 
 import 'core-js/modules/es7.array.includes';

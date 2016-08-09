@@ -1,3 +1,6 @@
+/**
+ * @name Template Ng
+ */
 /* global angular */
 import {Inject} from 'angular-es6';
 
