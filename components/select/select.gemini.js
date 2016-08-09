@@ -29,7 +29,7 @@ gemini.suite('Select', () => {
 
   gemini.suite('Multivalue select with options descriptions', child => {
     child.
-      setUrl('/example-multiple-select-with-description').
+      setUrl('/example-multiple-select-with-a-description').
       setCaptureElements('.ring-popup').
       capture('selectPopup', (actions, find) => {
         actions.click(find('.ring-button'));

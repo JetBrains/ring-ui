@@ -9,7 +9,7 @@ import warningIcon from 'jetbrains-icons/warning.svg';
 
 const XLINK_NS = 'http://www.w3.org/1999/xlink';
 
-describe('IconNg', () => {
+describe('Icon Ng', () => {
   let scope;
   let element;
   let $compile;
