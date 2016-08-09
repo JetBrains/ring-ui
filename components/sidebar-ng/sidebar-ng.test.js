@@ -2,7 +2,7 @@ import 'angular';
 import 'angular-mocks';
 import Sidebar from './sidebar-ng';
 
-describe('SidebarNg', () => {
+describe('Sidebar Ng', () => {
   let scope;
   let element;
   let $compile;

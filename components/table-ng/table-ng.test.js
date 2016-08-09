@@ -3,7 +3,7 @@ import 'angular-mocks';
 import './table-ng';
 import TableSelection from './table-ng__selection';
 
-describe('TableNg', () => {
+describe('Table Ng', () => {
   let scope;
   let directiveController;
   let element;

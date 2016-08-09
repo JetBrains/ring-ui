@@ -12,7 +12,7 @@ import './tooltip-ng.scss';
   <file name="index.html">
     <div class="tooltip-example" ng-app="tooltip-test">
       <div ng-controller="testController">
-        Some text that needs explanation
+        Some text that needs an explanation
         <span rg-tooltip="'Test message'"
               react-static="Icon" react-glyph="icon" react-size="16" react-class="'ring-tooltip-ng__hint-icon'"></span>
         <span rg-tooltip="{{testMessageWithQuote}}"
@@ -30,7 +30,7 @@ import './tooltip-ng.scss';
 
     angular.module('tooltip-test', ['Ring.react-ng', 'Ring.tooltip']).controller('testController', ($scope) => {
       $scope.icon = require('jetbrains-icons/help.svg');
-      $scope.testMessageWithQuote = 'It\'s message with single-quote';
+      $scope.testMessageWithQuote = 'It\'s a message with a single quotation mark';
     });
   </file>
 

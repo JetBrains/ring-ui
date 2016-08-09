@@ -7,7 +7,7 @@ import 'angular-mocks';
 import AutoFocus from './autofocus-ng';
 import RingSelect from '../select-ng/select-ng';
 
-describe('Autofocus', () => {
+describe('Autofocus Ng', () => {
   let element;
   let $compile;
   let $scope;

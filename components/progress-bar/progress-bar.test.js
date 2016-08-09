@@ -5,7 +5,7 @@ import {findDOMNode} from 'react-dom';
 import {renderIntoDocument} from 'react-addons-test-utils';
 import ProgressBar from './progress-bar';
 
-describe('ProgressBar', () => {
+describe('Progress Bar', () => {
   beforeEach(function () {
     this.progress = renderIntoDocument(React.createElement(ProgressBar));
   });

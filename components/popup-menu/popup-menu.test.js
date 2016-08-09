@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import TestUtils from 'react-addons-test-utils';
 import PopupMenu from './popup-menu';
 
-describe('PopupMenu', () => {
+describe('Popup Menu', () => {
   let popup;
 
   beforeEach(() => {
