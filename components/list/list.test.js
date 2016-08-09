@@ -68,7 +68,7 @@ describe('List', () => {
       getFirstListItem().innerHTML.should.equal('');
     });
 
-    it('should render list item if type is not definded', () => {
+    it('should render list item if type is not defined', () => {
       list.rerender({data: [
         {label: 'Hello!'}
       ]});

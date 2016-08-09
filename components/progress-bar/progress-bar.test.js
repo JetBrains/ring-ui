@@ -49,11 +49,11 @@ describe('ProgressBar', () => {
       findDOMNode(this.progress.refs.progressbarWrapper).should.have.class('ring-button__loader');
     });
 
-    it('should set bright modifier', function () {
+    it('should set light modifier', function () {
       this.progress.rerender({
-        bright: true
+        light: true
       });
-      findDOMNode(this.progress.refs.progressbarWrapper).should.have.class('ring-progress-bar_bright');
+      findDOMNode(this.progress.refs.progressbarWrapper).should.have.class('ring-progress-bar_light');
     });
 
     it('should set global modifier', function () {

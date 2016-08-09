@@ -55,14 +55,14 @@
 }
 
 .ring-sidebar__title {
+  margin: 0;
   padding-left: 5*$ring-unit;
 
   color: #222;
   vertical-align: middle;
-  line-height: 28px;
   font-size: 3*$ring-unit;
   font-weight: normal;
-  margin: 0;
+  line-height: 28px;
 
   & .tag-flag {
     vertical-align: bottom;
@@ -88,8 +88,8 @@
   line-height: 3*$ring-unit;
 
   &_multiline {
-    line-height: normal;
     padding: 4px 0 5px;
+    line-height: normal;
   }
 }
 
@@ -111,7 +111,6 @@
 
 .ring-sidebar__empty {
   margin-top: $ring-unit*2;
-
   text-align: center;
 }
 

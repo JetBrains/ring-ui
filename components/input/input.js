@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {PropTypes} from 'react';
 import classNames from 'classnames';
 import RingComponent from '../ring-component/ring-component';
 import './input.scss';
@@ -8,7 +8,7 @@ import './input.scss';
  * @constructor
  * @extends {ReactComponent}
  * @example
-   <example name="React input">
+   <example name="Input">
      <file name="index.html">
        <div id="input"></div>
      </file>
@@ -98,11 +98,23 @@ import './input.scss';
    </example>
  */
 export default class Input extends RingComponent {
+  static propTypes = {
+    multiline: PropTypes.bool,
+    className: PropTypes.string
+  }
+
   render() {
-    const classes = classNames('ring-input', this.props.className);
-    return (
+    const {className, multiline, shortcuts, ...props} = this.props; // eslint-disable-line no-unused-vars
+    const classes = classNames('ring-input', className);
+
+    return multiline ? (
+      <textarea
+        {...props}
+        className={classes}
+      />
+    ) : (
       <input
-        {...this.props}
+        {...props}
         className={classes}
       />
     );

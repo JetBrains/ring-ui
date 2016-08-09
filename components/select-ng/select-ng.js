@@ -40,7 +40,7 @@ const LOADER_DELAY = 150; // delay to show loader in ms
  *
  * @example
  *
-<example name="Select-ng-performance">
+<example name="Select-ng performance">
   <file name="index.html">
     <div ng-app="test" ng-controller="testCtrl as ctrl">
       <div style="padding: 8px">
@@ -117,6 +117,41 @@ const LOADER_DELAY = 150; // delay to show loader in ms
   </file>
 </example>
 
+ <example name="Select-ng-in-rg-tabs">
+ <file name="index.html">
+   <div ng-app="test" ng-controller="testCtrl as ctrl">
+     <rg-tabs>
+       <rg-tabs-pane x-title="With select">
+        <div>tab 1</div>
+        <rg-select ng-model="ctrl.selectedItem" config="ctrl.selectConfig"
+          options="item.text for item in ctrl.options track by item.id" label="Select item"></rg-select>
+       </rg-tabs-pane>
+       <rg-tabs-pane x-title="Another tab" counter="7">Tab 2</rg-tabs-pane>
+     </rg-tabs>
+   </div>
+ </file>
+ <file name="index.js" webpack="true">
+  require('angular');
+  require('ring-ui/components/select-ng/select-ng');
+  require('angular-route');
+  require('ring-ui/components/tabs-ng/tabs-ng');
+
+  angular.module('test', ['Ring.select', 'Ring.tabs']).controller('testCtrl', function() {
+    var ctrl = this;
+
+    ctrl.options = [
+      {id: 1, text: '11111'},
+      {id: 2, text: '22222'},
+      {id: 3, text: '33333'}
+    ];
+
+    ctrl.selectConfig= {};
+
+    ctrl.selectedItem = ctrl.options[1];
+  });
+ </file>
+ </example>
+
 <example name="Select-ng-as-input">
   <file name="index.html">
     <div ng-app="test" ng-controller="testCtrl as ctrl">
@@ -172,7 +207,7 @@ const LOADER_DELAY = 150; // delay to show loader in ms
   <file name="index.html">
     <div ng-app="test" ng-controller="testCtrl as ctrl">
       <p>Be carefully using <b>lazy=false</b> may significantly decrease your performance</p>
-      <p>This case decribe when we take from server ng-model and then asynchronous take options for this model</p>
+      <p>This case describe when we take from server ng-model and then asynchronous take options for this model</p>
 
       <rg-select
         ng-model="ctrl.selectedItem"
@@ -412,12 +447,14 @@ const LOADER_DELAY = 150; // delay to show loader in ms
           ctrl.getOptions = function(skip, query) {
             console.log('query = ', query, 'skip = ', skip);
             var arr = [];
-            for (var i = 0; i < PAGE_SIZE; ++i) {
-              var labelText = (skip + i) + '';
-              if (query) {
-                labelText = query + ' ' + labelText;
+            if (skip < 50) {
+              for (var i = 0; i < PAGE_SIZE; ++i) {
+                var labelText = (skip + i) + '';
+                if (query) {
+                  labelText = query + ' ' + labelText;
+                }
+                arr.push(labelText);
               }
-              arr.push(labelText);
             }
             var defer = $q.defer();
             // Timeout is needed to demonstrate loader in rg-select
@@ -529,6 +566,7 @@ angularModule.directive('rgSelect', () => {
       function memorizeOptions(options, skip) {
         if (ctrl.loadedOptions && ctrl.loadedOptions.length === skip) {
           ctrl.loadedOptions = ctrl.loadedOptions.concat(options);
+          ctrl.stopLoadingNewOptions = options.length === 0 && ctrl.withInfiniteScroll;
         } else {
           ctrl.loadedOptions = options;
         }
@@ -606,6 +644,11 @@ angularModule.directive('rgSelect', () => {
 
       let loaderDelayTimeout = null;
       ctrl.loadOptionsToSelect = query => {
+        if (ctrl.stopLoadingNewOptions && query === lastQuery) {
+          return;
+        }
+
+        ctrl.stopLoadingNewOptions = false;
         const skip = getCurrentSkipParameter(query, lastQuery);
         lastQuery = query;
 
@@ -739,7 +782,8 @@ angularModule.directive('rgSelect', () => {
          * Provide specific filter function if externalFilter is enabled
          */
         if (ctrl.externalFilter) {
-          ctrl.filter = {fn: () => true};
+          ctrl.filter = ctrl.filter || {};
+          ctrl.filter.fn = () => true;
         }
 
         ctrl.config = angular.extend({}, {
@@ -770,6 +814,7 @@ angularModule.directive('rgSelect', () => {
               ctrl.onClose();
             });
             ctrl.loadedOptions = [];
+            ctrl.stopLoadingNewOptions = false;
           },
           onSelect: item => {
             $scope.$evalAsync(() => {

@@ -1,11 +1,14 @@
 @import "../global/global";
 
+$ring-footer-height: $ring-unit*8;
+
 .ring-footer {
   position: relative;
-  height: $ring-unit*8;
+  height: $ring-footer-height;
   margin: $ring-unit*5 $ring-unit*4 0 $ring-unit*4;
   padding-top: $ring-unit*2;
   border-top: 1px solid #E5E5E5;
+  box-sizing: border-box;
 
   color: #6E6E6E;
   text-align: center;

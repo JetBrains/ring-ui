@@ -1,10 +1,9 @@
 import sniffer from '../sniffer/sniffer';
 
 /**
- * Note: this script is a self running script. You should include it in your browser directly
- * It starts detecting unhandled errors when loaded.
- * When your app is loaded and you want to stop detecting,
- * call oldBrowserMessage.stop();
+ * Note: this script does not have any dependencies, you should include it directly.
+ * Once loaded, it attaches a global error handler. When your app finishes loading you should
+ * probably turn it off by calling oldBrowserMessage.stop();
  */
 
 /**
@@ -21,7 +20,7 @@ import sniffer from '../sniffer/sniffer';
         <span id="ring-old-browsers-message__error-message">Something went seriously wrong.</span>
         <br/><br/>
         <!--[if IE 9]>
-          <span>If you use IE9.0 or higher, make sure that compatibility mode is disabled.</span>
+          <span>When using IE9.0 or higher, make sure that compatibility mode is disabled.</span>
         <![endif]-->
       </div>
 
@@ -30,16 +29,16 @@ import sniffer from '../sniffer/sniffer';
           require('ring-ui/components/old-browsers-message/old-browsers-message.scss');
           require('ring-ui/components/old-browsers-message/old-browsers-message');
 
-          //Triggering error to imitate unsupported browser
-          Object.futureMethodWhichIsNotExistInThisBrowser();
+          //Trigger an error to imitate an unsupported browser
+          Object.unknownMethodCall();
        </file>
    </example>
  */
 
 /*
- The list of versions which (and above) is defenitely supported
- "Browser is unsupported" won't show for this(and above) browsers even
- if js error will occur on application start
+ The list of versions which are definitely supported. "Browser is unsupported"
+ won't be displayed for those and higher versions even when a JS error occurs
+ on application start.
  */
 
 const MAJOR_VERSION_INDEX = 0;
@@ -97,7 +96,7 @@ function browserInWhiteList() {
 /**
  * Listens to unhandled errors and displays passed node
  */
-function startOldBrowsersDectector(onOldBrowserDetected) {
+function startOldBrowsersDetector(onOldBrowserDetected) {
   previousWindowErrorHandler = window.onerror;
 
   window.onerror = function oldBrowsersMessageShower(errorMsg, url, lineNumber) {
@@ -119,7 +118,7 @@ function stopOldBrowserDetector() {
 
 
 //Start javascript error detection
-startOldBrowsersDectector(() => {
+startOldBrowsersDetector(() => {
   const oldBrowsersMessageContainer = document.getElementById('ring-old-browsers-message');
   const browserMessage = document.getElementById('ring-old-browsers-message__browser-message');
   const errorMessage = document.getElementById('ring-old-browsers-message__error-message');

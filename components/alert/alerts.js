@@ -22,8 +22,8 @@ import './alert.scss';
    <example name="Alerts">
      <file name="index.html">
        <div id="alerts-container"></div>
-       <button id="create-duplicate">Ceate duplicated message</button>
-       <button id="create-other">Ceate other message</button>
+       <button id="create-duplicate">Create a duplicated message</button>
+       <button id="create-other">Create another message</button>
  </file>
 
      <file name="index.js" webpack="true">
@@ -43,7 +43,7 @@ import './alert.scss';
        }
 
        document.getElementById('create-other').onclick = function () {
-          alertsContainer.add('Other message' + new Date(), Alerts.Type.MESSAGE, 5000);
+          alertsContainer.add('Another message at ' + new Date(), Alerts.Type.MESSAGE, 5000);
        }
      </file>
    </example>
