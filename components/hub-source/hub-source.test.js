@@ -10,7 +10,7 @@ describe('HubSource', () => {
     };
   });
 
-  it('Should initalize', function () {
+  it('Should initialize', function () {
     const source = new HubSource(this.fakeAuth);
     source.should.be.defined;
   });
@@ -38,12 +38,12 @@ describe('HubSource', () => {
       });
   });
 
-  it('Should detect clientside threshold', function () {
+  it('Should detect client-side threshold', function () {
     const source = new HubSource(this.fakeAuth, 'test', {searchSideThreshold: 142});
     source.checkIsClientSideSearch({total: 143}).should.be.false;
   });
 
-  it('Should detect serverside threshold', function () {
+  it('Should detect server-side threshold', function () {
     const source = new HubSource(this.fakeAuth, 'test', {searchSideThreshold: 142});
     source.checkIsClientSideSearch({total: 142}).should.be.true;
   });
@@ -55,7 +55,7 @@ describe('HubSource', () => {
     defaultFilterFn({name: 'testQuery name'}).should.be.true;
   });
 
-  it('Should filter on clientside while processing results if clientside is used', function () {
+  it('Should filter on client-side while processing results if client-side is used', function () {
     const source = new HubSource(this.fakeAuth, 'testItems');
     source.isClientSideSearch = true;
     source.filterFn = source.getDefaultFilterFn('testQuery');
@@ -65,7 +65,7 @@ describe('HubSource', () => {
     res.should.deep.equal([{name: 'contain testQuery'}]);
   });
 
-  it('Should not filter on clientside if serverside is used', function () {
+  it('Should not filter on client-side if server-side is used', function () {
     const source = new HubSource(this.fakeAuth, 'testItems');
     source.isClientSideSearch = false;
     source.filterFn = source.getDefaultFilterFn('testQuery');
@@ -85,7 +85,7 @@ describe('HubSource', () => {
     res.should.deep.equal([]);
   });
 
-  it('Should detect clientside filtering if total is smaller than threshold', function () {
+  it('Should detect client-side filtering if total is smaller than threshold', function () {
     this.fakeAuth.getApi = this.sinon.stub().
       returns(Promise.resolve({total: 10, testItems: []}));
 
@@ -97,7 +97,7 @@ describe('HubSource', () => {
       });
   });
 
-  it('Should detect serverside filtering if total is smaller than threshold', function () {
+  it('Should detect server-side filtering if total is smaller than threshold', function () {
     this.fakeAuth.getApi = this.sinon.stub().
       returns(Promise.resolve({total: 20, testItems: []}));
 
@@ -109,7 +109,7 @@ describe('HubSource', () => {
       });
   });
 
-  it('Should do cached request and filter on clientside', function () {
+  it('Should do cached request and filter on client-side', function () {
     const source = new HubSource(this.fakeAuth, 'testItems');
     source.makeCachedRequest = this.sinon.stub().returns(Promise.resolve({
       total: 20,
@@ -123,7 +123,7 @@ describe('HubSource', () => {
       });
   });
 
-  it('Should do not cached request to serverside', function () {
+  it('Should do not cached request to server-side', function () {
     const source = new HubSource(this.fakeAuth, 'testItems', {searchMax: 142});
     source.makeRequest = this.sinon.stub().returns(Promise.resolve({
       total: 20,
@@ -150,7 +150,7 @@ describe('HubSource', () => {
     source.formatQuery('foo').should.equal('foo or foo*');
   });
 
-  it('Should construct multiword query', function () {
+  it('Should construct multi-word query', function () {
     const source = new HubSource(this.fakeAuth, 'testItems');
     source.formatQuery('foo bar').should.equal('foo bar or foo bar*');
   });
@@ -182,7 +182,7 @@ describe('HubSource', () => {
       source.sideDetectionRequest.should.have.been.calledWith({testParams: 'test'}, 'testQuery');
     });
 
-    it('Should do clientside filtering if previously detected', function () {
+    it('Should do client-side filtering if previously detected', function () {
       const source = new HubSource(this.fakeAuth, 'testItems');
       source.doClientSideSearch = this.sinon.stub().
         returns(Promise.resolve({total: 20, testItems: []}));
@@ -193,7 +193,7 @@ describe('HubSource', () => {
       source.doClientSideSearch.should.have.been.calledWith({testParams: 'test'});
     });
 
-    it('Should do serverside filtering if previously detected', function () {
+    it('Should do server-side filtering if previously detected', function () {
       const source = new HubSource(this.fakeAuth, 'testItems');
       source.doServerSideSearch = this.sinon.stub().
         returns(Promise.resolve({total: 20, testItems: []}));

@@ -60,10 +60,9 @@
   }
 }
 
-// Using double selector to enforce specifity, that is hard to express with &
-.ring-input.ring-input:disabled, .ring-input.ring-input_disabled {
-  border-color: #DEDEDE;
-  background-color: #F8F8F8;
+// Using double selector to enforce specificity, that is hard to express with &
+.ring-input.ring-input:disabled, .ring-input.ring-input[disabled], .ring-input.ring-input_disabled {
+  @include ring-input-disabled;
 }
 
 textarea.ring-input {

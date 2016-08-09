@@ -1,6 +1,7 @@
 import 'dom4';
 import Combokeys from 'combokeys';
 import 'core-js/modules/es6.array.find-index';
+import sniffr from '../sniffer/sniffer';
 
 class Shortcuts {
   ALLOW_SHORTCUTS_SELECTOR = '.ring-js-shortcuts';
@@ -43,7 +44,7 @@ class Shortcuts {
   }
 
   /**
-   * Binds handler to shortcut
+   * Binds a handler to a shortcut
    *
    * @param params.key {string | Array.<string>) Keys to bind
    * @param params.handler {Function} Events handle
@@ -76,11 +77,11 @@ class Shortcuts {
     }
     this._scopes[params.scope][params.key] = params.handler;
 
-    this.combokeys.bind(params.key, ::this._dispatcher, params.type);
+    this.combokeys.bind(params.key, ::this._dispatcher, this._getKeyboardEventType(params));
   }
 
   /**
-   * Binds map of shortcuts to handlers with common options
+   * Binds a map of shortcuts to handlers with common options
    *
    * @map {Object) Keys to handlers map
    * @options.scope {string} Scope (optional)
@@ -111,10 +112,10 @@ class Shortcuts {
   }
 
   /**
-   * Adds scope to the chain
+   * Adds a scope to the chain
    * @param scopeId id of scope to add
-   * @param options options fo pushing scope
-   * @param options.modal whether should keys fall through this scope or not.
+   * @param options options for pushing scope
+   * @param options.modal whether keys should fall through this scope or not.
    * Useful for modals or overlays
    */
   pushScope(scopeId, options = {}) {
@@ -196,6 +197,19 @@ class Shortcuts {
 
     // stop for input, select, and textarea
     return element.matches('input,select,textarea') || (element.contentEditable && element.contentEditable === 'true');
+  }
+
+  _getKeyboardEventType(params) {
+    if (!params.type && sniffr.os.name === 'windows') {
+      const isSystemShortcut = params.key.match(/ctrl/i) && params.key.match(/shift/i) && params.key.match(/[0-9]/);
+      /**
+       * Windows system shortcuts (ctrl+shift+[0-9] are caught by the OS on 'keydown', so let's use 'keyup'
+       */
+      if (isSystemShortcut) {
+        return 'keyup';
+      }
+    }
+    return params.type;
   }
 
   setFilter(fn) {

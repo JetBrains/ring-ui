@@ -44,7 +44,7 @@ describe('Alert', () => {
         alertComponent.node.should.have.class('ring-alert_success');
       });
 
-      it('should render a message if type is not passed', () => {
+      it('should render a message if no type is specified', () => {
         const alertComponent = TestUtils.renderIntoDocument(
             React.createElement(Alert, {caption: 'Test element'}));
 

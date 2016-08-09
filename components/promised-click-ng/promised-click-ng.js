@@ -3,7 +3,7 @@ import 'dom4';
  * @name Promised Click Ng
  * @description Directive for a button active state control
  * @example
-<example name="promised-click-ng">
+<example name="Promised Click Ng">
   <file name="index.html">
     <div class="button-example" ng-app="button-test" ng-controller="testController as ctrl">
       <button class="ring-button" rg-promised-click="ctrl.onClick()">Simple use</button>
@@ -81,10 +81,12 @@ class PromisedClickController {
     this.active = true;
     this.element.classList.add('ring-button_active');
 
-    this.promise.finally(() => {
+    const done = () => {
       this.active = false;
       this.element.classList.remove('ring-button_active');
-    });
+    };
+
+    this.promise.then(done, done);
   }
 }
 

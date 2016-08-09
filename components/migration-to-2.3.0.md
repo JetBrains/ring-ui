@@ -46,7 +46,7 @@ That will give you some nice helper features.
 Also we have upgraded React itself from 0.11 to 0.14 which brings more important changes.
 
 Key changes:
-* React package was splitted into two: **React** and **ReactDOM**
+* React package was split into two: **React** and **ReactDOM**
 * **renderComponent** method was renamed to **render**
 * Instead of **Component()** we now have to do **React.createElement(Component)**
 * **setProps** was deprecated (you can use our own **rerender** method instead)
@@ -96,7 +96,7 @@ Normally, you SHOULD NOT use native React lifecycle methods. If you try to overr
 If you're absolutely sure you need it, you can disable this check using static property **letOverrideLifecycleMethods**.
 
 ### RingComponentWithShortcuts
-RingComponentWithShortcuts is an additional abstract class inherited from RingCompoent that
+RingComponentWithShortcuts is an additional abstract class inherited from RingComponent that
 provides four new instance methods (and a little bit of dark magic) for using keyboard shortcuts.
 
 * getUID

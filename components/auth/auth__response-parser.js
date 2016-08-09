@@ -21,9 +21,9 @@ export default function AuthResponseParser() {
 /**
  * Check if the hash contains an access token.
  * If it does, return auth response. Otherwise return undefined.
- * Always clears a hash part of the URL.
+ * Always clears the hash part of the URL.
  *
- * @throws {Error} if auth server returned an error
+ * @throws {Error} if the auth server returned an error
  * @return {?AuthResponse}
  */
 AuthResponseParser.prototype.getAuthResponseFromURL = function () {
@@ -32,12 +32,12 @@ AuthResponseParser.prototype.getAuthResponseFromURL = function () {
 
 /**
  * Validates given authResponse.
- * If it contains token - returns token, if error - throws error,
+ * If it contains a token - returns the token, if an error is found - throws the error,
  * otherwise - null
- * Always clears a hash part of the URL.
+ * Always clears the hash part of the URL.
  *
  * @param authResponse {AuthResponse} parsed authResponse
- * @throws {Error} if auth server returned an error
+ * @throws {Error} if the auth server returned an error
  * @return {?AuthResponse}
  */
 AuthResponseParser.prototype.validateAuthResponse = function (authResponse) {
@@ -56,7 +56,7 @@ AuthResponseParser.prototype.validateAuthResponse = function (authResponse) {
 };
 
 /**
- * Reads current accessToken from URL.
+ * Reads the current accessToken from the URL.
  * Doesn't modify URL
  *
  * @return {AuthResponse}
@@ -84,7 +84,7 @@ AuthResponseParser.prototype.getLocation = function () {
 };
 
 /**
- * Parses the queryString into the object.
+ * Parses a queryString into an object.
  * <code>
  *   Auth.parseQueryString("access_token=2YotnFZFEjr1zCsicMWpAA&state=xyz&token_type=example&expires_in=3600");
  *   // is {access_token: "2YotnFZFEjr1zCsicMWpAA", state: "xyz", token_type: "example", expires_in: "3600"}

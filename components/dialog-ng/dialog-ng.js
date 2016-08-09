@@ -12,9 +12,9 @@ import '../button/button.scss';
 import '../dialog/dialog.scss';
 
 /**
- * @name Dialog-ng
+ * @name Dialog Ng
  * @example
- <example name="Dialog">
+ <example name="Dialog Ng">
  <file name="index.html">
  <div ng-app="Example.dialog" class="very-long-page">
 
@@ -213,7 +213,10 @@ class DialogController extends Inject {
       };
     }
 
-    return this.$inject.rgCompiler(this.config);
+    return this.$inject.rgCompiler(this.config).catch(error => {
+      this.reject(error);
+      return this.$inject.$q.reject(error);
+    });
   }
 
   show(config) {
@@ -251,7 +254,7 @@ class DialogController extends Inject {
       this.description = config.description && config.description.split('\n') || [];
       this.closeOnClick = config.closeOnClick;
 
-      //Fallback for backward compatibility with already exist templates which use data directly from scope
+      // Backward compatibility with existing templates which use data directly from scope
       $scope.data = this.data;
     }
 

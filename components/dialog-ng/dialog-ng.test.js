@@ -165,6 +165,32 @@ describe('DialogNg', () => {
       element.query('form .content').should.have.html(text);
     });
 
+    it('should reject dialog promise on unsatisfied resolve', function () {
+      const errorDefer = $q.defer(); //eslint-disable-line
+      const serviceWhichThrowError = this.sinon.stub().
+        returns(errorDefer.promise);
+      const onError = this.sinon.stub();
+
+      const config = {
+        content: undefined,
+        template: '<div/>',
+        resolve: {
+          foo: serviceWhichThrowError
+        }
+      };
+
+      showDialog('<rg-dialog></rg-dialog>', null, null, null, config).
+        promise.
+        catch(onError);
+      $rootScope.$apply();
+
+      errorDefer.reject({});
+      $rootScope.$apply();
+
+      onError.should.have.been.called;
+    });
+
+
     it('should allow pass promise to the resolve', function () {
       text = 'Hello';
       const defer = $q.defer(); //eslint-disable-line

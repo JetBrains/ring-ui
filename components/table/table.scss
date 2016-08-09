@@ -128,6 +128,7 @@
   display: table-cell;
   border-width: 1px;
   border-color: #D8D8D8;
+  border-top-style: solid;
   border-bottom-style: solid;
   border-collapse: collapse;
 
@@ -149,7 +150,7 @@
     border-bottom-color: transparent !important;
   }
 
-  // Combined class is required here for specifity
+  // Combined class is required here for specificity
   &.ring-table__column_toggle {
     width: $ring-unit*2;
     padding: 0;
@@ -193,18 +194,16 @@
 }
 
 .ring-table__column_limited {
-  max-width: 50*$ring-unit;
+  @include ring-ellipsis;
 
-  overflow: hidden;
-  text-overflow: ellipsis;
+  max-width: 50*$ring-unit;
 }
 
 .ring-table__column_unlimited {
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  max-width: 1px;
+  @include ring-ellipsis;
+
   width: 100%;
+  max-width: 1px;
 }
 
 .ring-table__column_narrow {
@@ -247,7 +246,7 @@
   }
 
   &.ring-table__row_active-checked {
-    background-color: #FFF;
+    background-color: #DBEAF2;
   }
 
   &.ring-table__row_active {
@@ -291,13 +290,14 @@
   position: fixed;
   display: none;
   top: 0;
-  //z-index avoid overlaying icons in rows and fixed header
-  z-index: $ring-fixed-z-index;
   width: auto;
+
+  // Set z-index to avoid overlaying icons in rows and fixed header
+  z-index: $ring-fixed-z-index;
 }
 
 .table__pager {
-  margin: 4*$ring-unit 4*$ring-unit;
+  padding: 4*$ring-unit 4*$ring-unit;
 }
 
 .table__pager-links {

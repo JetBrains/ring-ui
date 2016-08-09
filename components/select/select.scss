@@ -18,9 +18,9 @@
 
   &__message {
     display: inline-block;
-    text-align: center;
-    padding: 0 2*$ring-unit;
     margin: $ring-unit 0;
+    padding: 0 2*$ring-unit;
+    text-align: center;
   }
 
   &__toolbar {
@@ -28,9 +28,9 @@
   }
 
   &__button {
-    padding: 0 2*$ring-unit;
     margin-top: $ring-unit/2;
     margin-bottom: $ring-unit;
+    padding: 0 2*$ring-unit;
     text-align: left;
     line-height: 24px;
 
@@ -55,16 +55,11 @@
   }
 
   &__label {
-    width: 100%;
-    text-overflow: ellipsis;
-    display: inline-block;
-    overflow: hidden;
-    vertical-align: top;
+    @include ring-ellipsis;
 
-    // Supports Firefox
-    &, x:-moz-any-link {
-      vertical-align: inherit;
-    }
+    display: inline-block;
+    width: 100%;
+    vertical-align: top;
   }
 
   & &__icons {
@@ -85,9 +80,9 @@
 
   &__selected-icon {
     display: inline-block;
-    margin: 0 $ring-unit;
     width: $ring-unit*2;
     height: $ring-unit*2;
+    margin: 0 $ring-unit;
 
     vertical-align: middle;
 

@@ -2,10 +2,10 @@
 
 
 /**
- * @name Autofocus ng
- * @description Focuses on element if condition is true. Supports rg-select as well
+ * @name Autofocus Ng
+ * @description Sets focus to the element if the condition is true. Supports rg-select as well
  * @example
- <example name="Autofocus">
+ <example name="Autofocus Ng">
  <file name="index.html">
  <div ng-app="Ring.autofocus" class="test-container">
   <input class="ring-input" rg-autofocus="true" placeholder="Should be in focus"/>

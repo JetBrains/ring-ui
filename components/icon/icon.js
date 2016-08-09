@@ -86,7 +86,7 @@ import './icon.scss';
    * @example
    <example name="Icons list">
      <file name="index.html">
-       <h3>All available icons are listed below. Place cursor over the icon to see it's name</h3>
+       <h3>All available icons are listed below. Place the cursor over an icon to see its name.</h3>
        <div id="all-icons"></div>
      </file>
 
@@ -119,7 +119,7 @@ import './icon.scss';
    </example>
 
    * @example
-   <example name="JB logos list">
+   <example name="List of JetBrains product logos">
    <file name="index.html">
      <div id="logos"></div>
    </file>
@@ -173,7 +173,7 @@ export default class Icon extends RingComponent {
   static Size = Size;
 
   render() {
-    const {baseClass, className, size, color, glyph, width, height, activeColor, activeEvent, hoverColor, ...otherProps} = this.props;
+    const {baseClass, className, size, color, glyph, width, height, activeColor, activeEvent, hoverColor, ...restProps} = this.props;
     const currentColor = this.state.color || color;
 
     const classes = classNames(
@@ -190,10 +190,10 @@ export default class Icon extends RingComponent {
     };
 
     const xlinkHref = urlUtils.resolveRelativeURL(glyph);
-    const activeEventHandler = otherProps[activeEvent];
+    const activeEventHandler = restProps[activeEvent];
 
     if (activeColor && typeof activeEventHandler === 'function') {
-      otherProps[activeEvent] = (...args) => {
+      restProps[activeEvent] = (...args) => {
         if (this.node) {
           this.setState({
             color: activeColor,
@@ -239,7 +239,7 @@ export default class Icon extends RingComponent {
 
     return (
       <span
-        {...otherProps}
+        {...restProps}
         onMouseOver={onMouseOver}
         onMouseOut={onMouseOut}
         className={classes}

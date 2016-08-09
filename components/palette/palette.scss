@@ -1,6 +1,6 @@
 /**
  * @name Palette
- * @description Palette is used for tags and custom-fields
+ * @description Palette is used for tags and custom fields
  * @example
  <example name="Palette">
    <file name="index.html">
@@ -8,7 +8,7 @@
       <h4>ColorId</h4>
       <div ng-repeat="i in paletteCtrl.arr5" class="example">
         <div ng-repeat="j in paletteCtrl.arr7"
-             ng-init="colorId = i * 7 + j"
+             ng-init="colorId = i * 7 + j + 1"
              ng-attr-class="ring-palette_color-{{colorId}}">
           Color {{colorId}}
         </div>
@@ -54,10 +54,13 @@
  */
 
 
-$palette-white-text: #FFF;
-$palette-grey-text: #444;
+$ring-palette-white-text: #FFF;
+$ring-palette-grey-text: #444;
 
-$palette-array: // [(background, text)]
+$ring-palette-array: // [(background, text)]
+
+  // No color
+  transparent $ring-palette-grey-text,
 
   // Brightness 1
   #E6E6E6	#888888,
@@ -69,46 +72,46 @@ $palette-array: // [(background, text)]
   #F7E9C1	#B45F06,
 
   // Brightness 2
-  #BABABA	$palette-grey-text,
-  #B7E281	$palette-grey-text,
-  #92E1D5	$palette-grey-text,
-  #A6E0FC	$palette-grey-text,
-  #FFC8EA	$palette-grey-text,
-  #FED74A	$palette-grey-text,
-  #E0C378	$palette-grey-text,
+  #BABABA $ring-palette-grey-text,
+  #B7E281 $ring-palette-grey-text,
+  #92E1D5 $ring-palette-grey-text,
+  #A6E0FC $ring-palette-grey-text,
+  #FFC8EA $ring-palette-grey-text,
+  #FED74A $ring-palette-grey-text,
+  #E0C378 $ring-palette-grey-text,
 
   // Brightness 3
-  #878787	$palette-white-text,
-  #7DBD36	$palette-white-text,
-  #25BEB2	$palette-white-text,
-  #42A3DF	$palette-white-text,
-  #FF7BC3	$palette-white-text,
-  #FF7123	$palette-white-text,
-  #CE6700	$palette-white-text,
+  #878787 $ring-palette-white-text,
+  #7DBD36 $ring-palette-white-text,
+  #25BEB2 $ring-palette-white-text,
+  #42A3DF $ring-palette-white-text,
+  #FF7BC3 $ring-palette-white-text,
+  #FF7123 $ring-palette-white-text,
+  #CE6700 $ring-palette-white-text,
 
   // Brightness 4
-  #4D4D4D	$palette-white-text,
-  #409600	$palette-white-text,
-  #2F9890	$palette-white-text,
-  #0070E4	$palette-white-text,
-  #DC0083	$palette-white-text,
-  #E30000	$palette-white-text,
-  #8D5100	$palette-white-text,
+  #4D4D4D $ring-palette-white-text,
+  #409600 $ring-palette-white-text,
+  #2F9890 $ring-palette-white-text,
+  #0070E4 $ring-palette-white-text,
+  #DC0083 $ring-palette-white-text,
+  #E30000 $ring-palette-white-text,
+  #8D5100 $ring-palette-white-text,
 
   // Brightness 5
-  #1A1A1A	$palette-white-text,
-  #246512	$palette-white-text,
-  #00665E	$palette-white-text,
-  #0050A1	$palette-white-text,
-  #900052	$palette-white-text,
-  #8E1600	$palette-white-text,
-  #553000	$palette-white-text;
+  #1A1A1A $ring-palette-white-text,
+  #246512 $ring-palette-white-text,
+  #00665E $ring-palette-white-text,
+  #0050A1 $ring-palette-white-text,
+  #900052 $ring-palette-white-text,
+  #8E1600 $ring-palette-white-text,
+  #553000 $ring-palette-white-text;
 
-@mixin add-palette-colors {
+@mixin ring-add-palette-colors {
   $i: 0;
   $brightness: 0;
 
-  @each $color in $palette-array {
+  @each $color in $ring-palette-array {
     $background: nth($color, 1);
     $text: nth($color, 2);
 
@@ -117,19 +120,21 @@ $palette-array: // [(background, text)]
       color: $text;
     }
 
-    $tone: $i % 7;
-    &_tone-#{$tone}-#{$brightness} {
-      background-color: $background;
-      color: $text;
-    }
+    @if $i > 0 {
+      $tone: ($i - 1) % 7;
+      &_tone-#{$tone}-#{$brightness} {
+        background-color: $background;
+        color: $text;
+      }
 
-    $i: $i + 1;
-    @if $tone == 6 {
-      $brightness: $brightness + 1;
+      @if $tone == 6 {
+        $brightness: $brightness + 1;
+      }
     }
+    $i: $i + 1;
   }
 }
 
 .ring-palette {
-  @include add-palette-colors();
+  @include ring-add-palette-colors();
 }
