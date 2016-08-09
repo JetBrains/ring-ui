@@ -1,3 +1,6 @@
+/**
+ * @name Button Ng
+ */
 /* global angular */
 
 import 'dom4';

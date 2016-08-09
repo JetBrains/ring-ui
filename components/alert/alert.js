@@ -1,4 +1,5 @@
 /**
+ * @name Alert
  * @fileoverview Alert. Can be used to display notifications, shown inline in context.
  * Can also be used to display a stack of notifications. In this case use {@link Alerts}.
  * @author igor.alexeenko@jetbrains.com (Igor Alekseenko)

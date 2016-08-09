@@ -1,3 +1,6 @@
+/**
+ * @name Icon Ng
+ */
 /* global angular: false */
 
 import 'dom4';

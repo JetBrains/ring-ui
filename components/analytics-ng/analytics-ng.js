@@ -1,9 +1,11 @@
+/**
+ * @name Analytics Ng
+ */
 import analyticsInstance from '../analytics/analytics';
 import AnalyticsGAPlugin from '../analytics/analytics__ga-plugin';
 import AnalyticsCustomPlugin from '../analytics/analytics__custom-plugin';
 
 /**
- * @ngdoc module
  * @name Analytics Ng
  *
  * @example
