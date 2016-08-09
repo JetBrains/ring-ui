@@ -106,7 +106,7 @@ const docsWebpackConfig = webpackConfigMerger(webpackConfig, {
     }
   },
   output: {
-    path: path.resolve(__dirname, 'docs', 'assets'),
+    path: path.resolve(__dirname, 'docs'),
     pathinfo: isServer,
     filename: '[name].js',
     publicPath // serve HMR update json's properly
