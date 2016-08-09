@@ -27,7 +27,7 @@
     "gemini-test-ci": "babel-node tools/gemini-runner-ci.js",
     "gemini-gather": "babel-node tools/gemini-runner.js --gather",
     "build": "webpack --config webpack-docs.config.js",
-    "start": "webpack-dev-server --config webpack-docs.config.js --port 9999 --server",
+    "start": "webpack-dev-server --config webpack-docs.config.js --port 9999 --server --host 0.0.0.0",
     "lint": "eslint --quiet .",
     "lint-hook": "eslint $ESLINT_HOOK_FILES",
     "prelint-ci": "babel-node tools/message-import-reports",
@@ -110,7 +110,7 @@
     "webpack": "1.13.0",
     "webpack-config-merger": "0.0.5",
     "webpack-dev-server": "1.14.1",
-    "webpack-docs-plugin": "1.0.5-alpha"
+    "webpack-docs-plugin": "huston007/webpack-docs-plugin#c7ab682"
   },
   "dependencies": {
     "angular-elastic": "2.5.1-jb",

@@ -14,6 +14,7 @@ var ExamplePagePlugin = require('webpack-docs-plugin/lib/plugins/ExamplePagePlug
 var SourceLastModifiedPlugin = require('webpack-docs-plugin/lib/plugins/SourceLastModifiedPlugin');
 var SourcePackageInfoPlugin = require('webpack-docs-plugin/lib/plugins/SourcePackageInfoPlugin');
 var MarkdownExtractorPlugin = require('webpack-docs-plugin/lib/plugins/MarkdownExtractorPlugin');
+var JsDocExtractorPlugin = require('webpack-docs-plugin/lib/plugins/jsDocExtractorPlugin');
 
 module.exports = params => {
   var publicPath = params.publicPath;
@@ -22,14 +23,21 @@ module.exports = params => {
     new DocsPlugin(),
 
     new MarkdownExtractorPlugin(),
+    new JsDocExtractorPlugin(),
+
     new SourceLastModifiedPlugin(),
     new SourcePackageInfoPlugin(),
+
     new ExampleCompilerPlugin({
       filenamePrefix: `${path.resolve(__dirname, 'components')}/`
     }),
 
     new ExamplePagePlugin({
       template: path.resolve(__dirname, 'site/example.twig'),
+      filename: 'example-[example-name]/index.html',
+      exampleNameConverter(exampleName) {
+        return exampleName.toLowerCase().replace(/\s/ig, '-');
+      },
       context: {
         publicPath
       }
@@ -40,11 +48,11 @@ module.exports = params => {
       filename: '[name].html',
       context: {
         publicPath,
-        pagesByCategory: docs => {
+        pagesByCategory: sources => {
           var categories = {Docs: []};
           var defaultCategory = 'Components';
 
-          docs.forEach(page => {
+          sources.forEach(page => {
             var p = page.serialize();
             var category = (p.category || defaultCategory);
             if (!Array.isArray(categories[category])) {
