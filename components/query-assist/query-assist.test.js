@@ -10,7 +10,7 @@ import {Simulate} from 'react-addons-test-utils';
 import renderIntoDocument from 'render-into-document';
 import simulateKeypress from 'simulate-keypress';
 
-describe('QueryAssist', () => {
+describe('Query Assist', () => {
   const testQuery = 'oooooooooooo';
   const testQueryLength = testQuery.length;
 

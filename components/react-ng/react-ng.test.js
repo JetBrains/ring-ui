@@ -6,7 +6,7 @@ import React from 'react';
 import RingComponent from '../ring-component/ring-component';
 import Checkbox from '../checkbox/checkbox';
 
-describe('ReactNg', () => {
+describe('React Ng', () => {
   const registerComponents = require('./react-ng');
 
   let $scope;

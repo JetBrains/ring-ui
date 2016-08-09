@@ -6,7 +6,7 @@ import AnalyticsCustomPlugin from './analytics__custom-plugin';
 
 const Analytics = analytics.constructor;
 
-describe('analytics singleton', () => {
+describe('Analytics', () => {
   it('should be created', () => {
     expect(analytics).should.exist;
   });

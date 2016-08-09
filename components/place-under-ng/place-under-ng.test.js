@@ -7,7 +7,7 @@ import EventEmitter from 'events';
 import rgPlaceUnder from './place-under-ng';
 
 
-describe('rgPlaceUnder', () => {
+describe('Place Under Ng', () => {
 
 
   beforeEach(window.module(
