@@ -4,7 +4,7 @@ gemini.suite('Popup', () => {
   gemini.suite('Popups', child => {
     child.
       setUrl('/example-popup').
-      setCaptureElements(['#target1', '#target2', '#target3', '#target4']).
+      setCaptureElements(['#top__left', '#top__right', '#bottom__left', '#bottom__right']).
       capture('popup-different-directions');
   });
 
