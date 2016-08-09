@@ -1,6 +1,6 @@
 import gemini from 'gemini';
 
-gemini.suite('IconNg', suite => {
+gemini.suite('Icon Ng', suite => {
   suite.
     setUrl('/example-icon-ng/').
     setCaptureElements('body > div').
