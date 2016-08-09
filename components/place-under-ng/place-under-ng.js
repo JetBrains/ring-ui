@@ -1,5 +1,5 @@
 /**
- * @name Auth
+ * @name Place Under Ng
  * @fileoverview This directive is a helper. Element with rg-place-under=".some-selector"
  * attribute will be manually positioned under the provided element. Target element
  * position should be 'absolute'
