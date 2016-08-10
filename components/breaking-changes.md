@@ -8,16 +8,16 @@ See the “breaking change” commits [in Upsource](https://upsource.jetbrains.c
 
 ### 10-08-2016: Introduced new versioning system
  
-Build number is added to patch, not release part of version to make possible installation of latest Ring UI version with command `npm install ring-ui`. 
+To make Ring UI installable with `npm install ring-ui` we have changed the versioning scheme.  
 
 Before:
 ```
-2.4.0-4995
+2.4.0-4995 (major.minor.patch-build)
 ```
 
 After:
 ```
-2.4.4996
+2.4.4996 (major.minor.build)
 ```
   
 ### 29-06-2016: Added "ring-" suffix to the constants in palette/palette.scss 
