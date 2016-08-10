@@ -16,12 +16,12 @@ import Header from 'ring-ui/components/header/header';
 import Auth from 'ring-ui/components/auth/auth';
 
 const beautifyOptions = {
+  e4x: true, // support JSX
   indent_size: 2 // eslint-disable-line camelcase
 };
 
 const beautifyLangMap = {
   js: 'js',
-  jsx: 'js',
   html: 'html',
   css: 'css',
   scss: 'css'
