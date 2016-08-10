@@ -1,0 +1,117 @@
+<example name="Tags Input">
+  <file type="html">
+    <div id="demo"></div>
+  </file>
+  <file type="js">
+    var render = require('react-dom').render;
+    var TagsInput = require('ring-ui/components/tags-input/tags-input');
+
+    var props = {
+      className: 'test-additional-class',
+      tags: [
+        {key: 'test1', label: 'test1'},
+        {key: 'test2', label: 'test2'}
+      ],
+      dataSource: function () {
+        return Promise.resolve([
+          {key: 'test3', label: 'test3'},
+          {key: 'test4', label: 'test4'}
+        ]);
+      }
+    };
+
+    render(TagsInput.factory(props), document.getElementById('demo'));
+  </file>
+</example>
+
+<example name="Async datasource via react-ng">
+  <file type="html">
+    <div ng-app="test-tags-app" ng-controller="testCtrl">
+      <div ng-form="form">
+        <a href class="ring-link" ng-click="addTag()">Add a tag</a>
+        <span react="TagsInput" ng-model="tagsArray"
+          x-data-source="suggestionsSource()"></span>
+        <div><span>tags = {{tagsArray}}</span></div>
+        <div><span>$dirty = {{form.$dirty}}</span></div>
+      </div>
+    </div>
+  </file>
+  <file type="js">
+    require('angular');
+    require('ring-ui/components/react-ng/react-ng')({
+      TagsInput: require('ring-ui/components/tags-input/tags-input')
+    });
+
+    angular.module('test-tags-app', ['Ring.react-ng']).
+      controller('testCtrl', function ($scope, $timeout) {
+        $scope.tagsArray = [{key: 'test1', label: 'test1'}];
+
+        $scope.suggestionsSource = function () {
+          return $timeout(function () {
+            return [
+              {key: 'test3', label: 'test3'},
+              {key: 'test4', label: 'test4'},
+              {key: 'test5', label: 'test5'},
+              {key: 'test6', label: 'test6'},
+              {key: 'test7', label: 'test7'}
+            ];
+          }, 400);
+        };
+
+        $scope.addTag = function () {
+          $scope.tagsArray.push({
+            key: Math.random().toFixed(3),
+            label: Math.random().toFixed(3)
+          })
+        };
+      });
+  </file>
+</example>
+
+<example name="Tags Input with icons">
+  <file type="html">
+    <div id="demo"></div>
+  </file>
+  <file type="js">
+    var render = require('react-dom').render;
+    var TagsInput = require('ring-ui/components/tags-input/tags-input');
+    var GroupIcon = require('jetbrains-icons/group.svg');
+    var BugIcon = require('jetbrains-icons/bug.svg');
+    var FrownIcon = require('jetbrains-icons/frown.svg');
+
+    var props = {
+      tags: [
+        {key: 'test1', label: 'test1', rgTagIcon: GroupIcon},
+        {key: 'test2', label: 'test2'}
+      ],
+      dataSource: function (query) {
+        return [
+          {key: 'test3', label: 'test3', rgTagIcon: BugIcon},
+          {key: 'test4', label: 'test4', rgTagIcon: FrownIcon, icon: FrownIcon}
+        ];
+      }
+    };
+    render(TagsInput.factory(props), document.getElementById('demo'));
+  </file>
+</example>
+
+<example name="Disabled Tags Input">
+  <file type="html">
+    <div id="demo"></div>
+  </file>
+  <file type="js">
+    var render = require('react-dom').render;
+    var TagsInput = require('ring-ui/components/tags-input/tags-input');
+
+    var props = {
+      disabled: true,
+      tags: [
+        {key: 'test2', label: 'test2'}
+      ],
+      dataSource: function () {
+        return [];
+      }
+    };
+    render(TagsInput.factory(props), document.getElementById('demo'));
+  </file>
+</example>

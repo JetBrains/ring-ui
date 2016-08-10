@@ -1,0 +1,40 @@
+<example name="Progress Bar">
+  <file type="html">
+    <div>
+      <div id='progress-bar' style="height: 25px; padding-top: 25px;"></div>
+      <div id='progress-bar-black'
+        style="height: 25px; background: #000; padding-top: 25px;"></div>
+      <div id='progress-bar-gray'
+        style="height: 25px; background: #F0F0F0; padding-top: 25px;"></div>
+    </div>
+  </file>
+
+  <file type="js">
+    var render = require('react-dom').render;
+    var ProgressBar = require('ring-ui/components/progress-bar/progress-bar');
+
+    var progressBar = render(
+      ProgressBar.factory({value: 0}),
+      document.getElementById('progress-bar')
+    );
+
+    var progressBarBlack = render(
+      ProgressBar.factory({value: 0, light: true}),
+      document.getElementById('progress-bar-black')
+    );
+
+    var progressBarGray = render(
+      ProgressBar.factory({value: 0}),
+      document.getElementById('progress-bar-gray')
+    );
+
+    setInterval(function updateProgress() {
+      const currentValue = progressBar.props.value;
+      const value = currentValue >= 1 ? 0 : currentValue + 0.1;
+
+      progressBar.rerender({value});
+      progressBarBlack.rerender({value});
+      progressBarGray.rerender({value});
+    }, 500);
+  </file>
+</example>
