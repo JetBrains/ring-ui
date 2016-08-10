@@ -10,13 +10,17 @@
   border-radius: 0;
 }
 
-.ring-button-group .ring-button:first-child, .ring-button-group .ring-button-group__first {
+.ring-button-group > .ring-button:first-child,
+.ring-button-group *:first-child .ring-button,
+.ring-button-group .ring-button-group__first {
   margin: 0;
   border-top-left-radius: $ring-border-radius;
   border-bottom-left-radius: $ring-border-radius;
 }
 
-.ring-button-group .ring-button:last-child, .ring-button-group .ring-button-group__last {
+.ring-button-group > .ring-button:last-child,
+.ring-button-group *:last-child .ring-button,
+.ring-button-group .ring-button-group__last {
   border-top-right-radius: $ring-border-radius;
   border-bottom-right-radius: $ring-border-radius;
 }
