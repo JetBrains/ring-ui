@@ -7,45 +7,7 @@
 /**
  * @name Autofocus Ng
  * @description Sets focus to the element if the condition is true. Supports rg-select as well
- * @example
- <example name="Autofocus Ng">
- <file name="index.html">
- <div ng-app="Ring.autofocus" class="test-container">
-  <input class="ring-input" rg-autofocus="true" placeholder="Should be in focus"/>
- </div>
- </file>
- <file name="index.scss">
-  .test-container {
-    padding: 8px;
-  }
- </file>
- <file name="index.js" webpack="true">
- require('ring-ui/components/input/input.scss');
- require('angular');
- require('ring-ui/components/autofocus-ng/autofocus-ng');
- </file>
- </example>
-
-  <example name="Autofocus on select">
- <file name="index.html">
-   <div ng-app="testApp" ng-controller="testCtrl" class="test-container">
-      <rg-select options="item in []" rg-autofocus="true"></rg-select>
-   </div>
- </file>
- <file name="index.scss">
- .test-container {
-    padding: 8px;
-  }
- </file>
- <file name="index.js" webpack="true">
-   require('angular');
-   require('ring-ui/components/select-ng/select-ng');
-   require('ring-ui/components/autofocus-ng/autofocus-ng');
-
-   angular.module('testApp', ['Ring.select', 'Ring.autofocus'])
-    .controller('testCtrl', function($scope) {});
- </file>
- </example>
+ * @example-file ./autofocus-ng__examples.html
  */
 
 const angularModule = angular.module('Ring.autofocus', []);
