@@ -1,45 +1,39 @@
-<example name="Auth">
+<example name="Autofocus Ng">
   <file type="html">
-    <div id="example">
+    <div ng-app="Ring.autofocus" class="test-container">
+      <input class="ring-input" rg-autofocus="true"
+        placeholder="Should be in focus"/>
     </div>
   </file>
-
+  <file type="scss">
+    .test-container {
+      padding: 8px;
+    }
+  </file>
   <file type="js">
-    var Auth = require('ring-ui/components/auth/auth');
-    var hubConfig = require('ring-ui/site/hub-config');
-    // Example config:
-    // var hubConfig = {
-    //   serverUri: 'https://hub.jetbrains.com/',
-    //   client_id: '81a0bffb-6d0f-4a38-b93a-0a4d1e567698',
-    //   request_credentials: 'skip',
-    //   redirect_uri: window.location.href.split('#')[0]
-    // };
+    require('ring-ui/components/input/input.scss');
+    require('angular');
+    require('ring-ui/components/autofocus-ng/autofocus-ng');
+  </file>
+</example>
 
-    var log = function (title) {
-      return function (obj) {
-        var titleElem = document.createElement('h3');
-        var jsonElem = document.createElement('div');
+<example name="Autofocus on select">
+  <file type="html">
+    <div ng-app="testApp" ng-controller="testCtrl" class="test-container">
+      <rg-select options="item in []" rg-autofocus="true"></rg-select>
+    </div>
+  </file>
+  <file type="scss">
+    .test-container {
+      padding: 8px;
+    }
+  </file>
+  <file type="js">
+    require('angular');
+    require('ring-ui/components/select-ng/select-ng');
+    require('ring-ui/components/autofocus-ng/autofocus-ng');
 
-        titleElem.innerHTML = title;
-        jsonElem.innerHTML = JSON.stringify(obj);
-
-        document.getElementById('example').appendChild(titleElem);
-        document.getElementById('example').appendChild(jsonElem);
-      };
-    };
-
-    var auth = new Auth(hubConfig);
-
-    auth.init().
-      then(log('location to restore')).
-      then(function () {
-        return auth.requestToken();
-      }).
-      then(log('token')).
-      then(function (token) {
-        return auth.requestUser();
-      }).
-      then(log('user profile data')).
-      catch(log('error'));
+    angular.module('testApp', ['Ring.select', 'Ring.autofocus']).
+      controller('testCtrl', function ($scope) {});
   </file>
 </example>
