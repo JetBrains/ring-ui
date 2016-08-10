@@ -401,38 +401,33 @@ export default class Popup extends RingComponentWithShortcuts {
     return elementRect;
   }
 
-  _doesPopupOverflowVertically(styles) {
+  _verticalOverflow(styles) {
     if (!this.props.autoPositioning) {
-      return false;
+      return 0;
     }
-    if (styles.top < 0) {
-      return true;
-    }
+    const topOverflow = styles.top < this.props.sidePadding ? Math.abs(styles.top - this.props.sidePadding) : 0;
+
     const popupHeight = this.node.clientHeight;
     const verticalDiff = getWindowHeight() - styles.top - popupHeight;
+    const bottomOverflow = verticalDiff > this.props.sidePadding ? 0 : Math.abs(verticalDiff, this.props.sidePadding);
 
-    if (verticalDiff < this.props.sidePadding) {
-      return true;
-    }
-
-    return false;
+    return topOverflow + bottomOverflow;
   }
 
-  _doesPopupOverflowHorizontally(styles) {
+  _horizontalOverflow(styles) {
     if (!this.props.autoPositioning) {
-      return false;
+      return 0;
     }
     if (styles.left < 0) {
-      return true;
+      return Math.abs(styles.left);
     }
+    const leftOverflow = (styles.left < this.props.sidePadding) ? Math.abs(styles.left - this.props.sidePadding) : 0;
+
     const popupWidth = this.node.clientWidth;
     const horizontalDiff = window.innerWidth - styles.left - popupWidth;
+    const rightOverflow = horizontalDiff > this.props.sidePadding ? 0 : Math.abs(horizontalDiff, this.props.sidePadding);
 
-    if (horizontalDiff < this.props.sidePadding) {
-      return true;
-    }
-
-    return false;
+    return leftOverflow + rightOverflow;
   }
 
   _getPositionStyles(anchor, anchorLeft, anchorTop) {
@@ -506,17 +501,16 @@ export default class Popup extends RingComponentWithShortcuts {
     if (this.node) {
       const directionsMatrix = this._getPositionStyles(anchor, anchorLeft, anchorTop);
 
-      for (const direction of props.directions) {
-        if (directionsMatrix[direction]) {
-          styles = directionsMatrix[direction];
-        } else {
-          throw new Error(`Unknown popup direction: ${direction}. Use one of this: [${Object.keys(Directions).join(', ')}]`);
-        }
+      const directionStylesSortedByIncreasingOverflow = props.directions.
+        filter(direction => directionsMatrix[direction]).
+        map(direction => directionsMatrix[direction]).
+        sort((firstDirectionStyles, secondDirectionStyles) => {
+          const firstDirectionOverflow = this._verticalOverflow(firstDirectionStyles) + this._horizontalOverflow(firstDirectionStyles);
+          const secondDirectionOverflow = this._verticalOverflow(secondDirectionStyles) + this._horizontalOverflow(secondDirectionStyles);
+          return firstDirectionOverflow - secondDirectionOverflow;
+        });
 
-        if (!this._doesPopupOverflowVertically(styles) && !this._doesPopupOverflowHorizontally(styles)) {
-          break;
-        }
-      }
+      styles = directionStylesSortedByIncreasingOverflow[0];
     }
 
     if (props.top) {
