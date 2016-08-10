@@ -5,7 +5,6 @@
   "config": {
     "eslint-report": "eslint-report.xml",
     "port": 9999,
-    "version": "minor",
     "hub": "default",
     "hubs": {
       "local": "http://localhost:8080/jetpass",
@@ -37,8 +36,9 @@
     "test-watch": "karma start karma-watch.conf.js",
     "prebuild-ci": "npm run lint-ci && npm run test-ci",
     "build-ci": "npm run build && npm run gemini-test-ci",
-    "prerelease-ci": "npm run build-ci && npm version $npm_package_config_version && npm pack",
-    "release-ci": "npm publish ring-ui-*.tgz"
+    "prerelease-ci": "npm run build-ci && npm pack",
+    "release-ci": "npm publish ring-ui-*.tgz",
+    "version": "update-version --patch"
   },
   "repository": {
     "type": "git",
@@ -91,6 +91,7 @@
     "mocha": "2.3.3",
     "serve-static": "1.9.2",
     "socket.io": "1.4.6",
+    "update-version": "1.0.1",
     "wallaby-webpack": "0.0.22",
     "webpack": "1.13.0",
     "webpack-config-merger": "0.0.5",
