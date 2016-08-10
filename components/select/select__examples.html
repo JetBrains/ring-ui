@@ -1,8 +1,14 @@
 <example name="Select with a filter">
   <file type="html">
     <p>test</p>
-    <div id="demo" style="width: 50%;"></div>
+    <div id="demo"></div>
     <button id="clear">Clear selected</button>
+  </file>
+  <file type="scss">
+    body {
+      padding: 8px;
+      width: 50%;
+    }
   </file>
   <file type="js">
     var render = require('react-dom').render;
@@ -35,7 +41,13 @@
 
 <example name="Select with a large dataset">
   <file type="html">
-    <div id="demo" style="width: 50%;"></div>
+    <div id="demo"></div>
+  </file>
+  <file type="scss">
+    body {
+      padding: 8px;
+      width: 50%;
+    }
   </file>
   <file type="js">
     var render = require('react-dom').render;
@@ -60,7 +72,13 @@
 
 <example name="Multiple select with a description">
   <file type="html">
-    <div id="demo" style="width: 50%;"></div>
+    <div id="demo"></div>
+  </file>
+  <file type="scss">
+    body {
+      padding: 8px;
+      width: 50%;
+    }
   </file>
   <file type="js">
     var render = require('react-dom').render;
@@ -109,11 +127,17 @@
     document.getElementById('demo2')
     );
   </file>
+  <file type="scss">
+    body {
+      padding: 8px;
+      width: 50%;
+    }
+  </file>
 </example>
 
 <example name="Simple input-based select">
   <file type="html">
-    <div id="demo" style="width: 50%;"></div>
+    <div id="demo"></div>
   </file>
   <file type="js">
     var render = require('react-dom').render;
@@ -129,11 +153,17 @@
     document.getElementById('demo')
     );
   </file>
+  <file type="scss">
+    body {
+      padding: 8px;
+      width: 50%;
+    }
+  </file>
 </example>
 
 <example name="Simple input-based select in suggest-only mode">
   <file type="html">
-    <div id="demo" style="width: 50%;"></div>
+    <div id="demo"></div>
   </file>
   <file type="js">
     var render = require('react-dom').render;
@@ -152,11 +182,17 @@
     data: data, selected: data[1]
     }), document.getElementById('demo'));
   </file>
+  <file type="scss">
+    body {
+      padding: 8px;
+      width: 50%;
+    }
+  </file>
 </example>
 
 <example name="Simple select with the default filter mode">
   <file type="html">
-    <div id="demo" style="width: 50%;"></div>
+    <div id="demo"></div>
   </file>
   <file type="js">
     var render = require('react-dom').render;
@@ -173,11 +209,17 @@
     ]
     }), document.getElementById('demo'));
   </file>
+  <file type="scss">
+    body {
+      padding: 8px;
+      width: 50%;
+    }
+  </file>
 </example>
 
 <example name="Simple select with the default filter mode and a loading indicator">
   <file type="html">
-    <div id="demo" style="width: 50%;"></div>
+    <div id="demo"></div>
   </file>
   <file type="js">
     var render = require('react-dom').render;
@@ -229,11 +271,17 @@
     }
     }), document.getElementById('demo'));
   </file>
+  <file type="scss">
+    body {
+      padding: 8px;
+      width: 50%;
+    }
+  </file>
 </example>
 
 <example name="Select with an always visible 'Add item' button">
   <file type="html">
-    <div id="demo" style="width: 50%;"></div>
+    <div id="demo"></div>
   </file>
   <file type="js">
     var render = require('react-dom').render;
@@ -262,12 +310,18 @@
     }
     }), document.getElementById('demo'));
   </file>
+  <file type="scss">
+    body {
+      padding: 8px;
+      width: 50%;
+    }
+  </file>
 </example>
 
 <example name="Multiple-choice select with custom view">
   <file type="html">
     <div id="multipleCustomView"></div>
-    <div id="demo" style="width: 50%;"></div>
+    <div id="demo"></div>
   </file>
   <file type="js">
     var render = require('react-dom').render;
@@ -304,11 +358,17 @@
     }
     }), document.getElementById('demo'));
   </file>
+  <file type="scss">
+    body {
+      padding: 8px;
+      width: 50%;
+    }
+  </file>
 </example>
 
 <example name="Select as a dropdown without filter">
   <file type="html">
-    <button id="demoButton" style="width: 50%; position: absolute; bottom: 10px; right: 10px">Click me</button>
+    <button id="demoButton">Click me</button>
     <div id="demo" ></div>
     <div id="changeResult" ></div>
   </file>
@@ -333,6 +393,12 @@
 
     document.getElementById('demoButton').onclick = function() {
     select._clickHandler();
+    }
+  </file>
+  <file type="scss">
+    body {
+      padding: 8px;
+      width: 50%;
     }
   </file>
 </example>
