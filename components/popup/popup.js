@@ -409,7 +409,7 @@ export default class Popup extends RingComponentWithShortcuts {
 
     const popupHeight = this.node.clientHeight;
     const verticalDiff = getWindowHeight() - styles.top - popupHeight;
-    const bottomOverflow = verticalDiff > this.props.sidePadding ? 0 : Math.abs(verticalDiff, this.props.sidePadding);
+    const bottomOverflow = verticalDiff < this.props.sidePadding ? Math.abs(verticalDiff, this.props.sidePadding) : 0;
 
     return topOverflow + bottomOverflow;
   }
@@ -425,7 +425,7 @@ export default class Popup extends RingComponentWithShortcuts {
 
     const popupWidth = this.node.clientWidth;
     const horizontalDiff = window.innerWidth - styles.left - popupWidth;
-    const rightOverflow = horizontalDiff > this.props.sidePadding ? 0 : Math.abs(horizontalDiff, this.props.sidePadding);
+    const rightOverflow = horizontalDiff < this.props.sidePadding ? Math.abs(horizontalDiff, this.props.sidePadding) : 0;
 
     return leftOverflow + rightOverflow;
   }
