@@ -401,31 +401,34 @@ export default class Popup extends RingComponentWithShortcuts {
     return elementRect;
   }
 
-  _verticalOverflow(styles) {
+  _verticalOverflow(styles, scrollingCoordinates) {
     if (!this.props.autoPositioning) {
       return 0;
     }
-    const topOverflow = styles.top < this.props.sidePadding ? Math.abs(styles.top - this.props.sidePadding) : 0;
+    const viewPortMinX = scrollingCoordinates.top + this.props.sidePadding;
+    const viewPortMaxX = scrollingCoordinates.top + getWindowHeight() - this.props.sidePadding;
+
+    const topOverflow = styles.top < viewPortMinX ? viewPortMinX - styles.top : 0;
 
     const popupHeight = this.node.clientHeight;
-    const verticalDiff = getWindowHeight() - styles.top - popupHeight;
-    const bottomOverflow = verticalDiff < this.props.sidePadding ? Math.abs(verticalDiff, this.props.sidePadding) : 0;
+    const verticalDiff = viewPortMaxX - styles.top - popupHeight;
+    const bottomOverflow = verticalDiff < 0 ? Math.abs(verticalDiff) : 0;
 
     return topOverflow + bottomOverflow;
   }
 
-  _horizontalOverflow(styles) {
+  _horizontalOverflow(styles, scrollingCoordinates) {
     if (!this.props.autoPositioning) {
       return 0;
     }
-    if (styles.left < 0) {
-      return Math.abs(styles.left);
-    }
-    const leftOverflow = (styles.left < this.props.sidePadding) ? Math.abs(styles.left - this.props.sidePadding) : 0;
+    const viewPortMinY = scrollingCoordinates.left + this.props.sidePadding;
+    const viewPortMaxY = scrollingCoordinates.left + window.innerWidth - this.props.sidePadding;
+
+    const leftOverflow = styles.left < viewPortMinY ? viewPortMinY - styles.left : 0;
 
     const popupWidth = this.node.clientWidth;
-    const horizontalDiff = window.innerWidth - styles.left - popupWidth;
-    const rightOverflow = horizontalDiff < this.props.sidePadding ? Math.abs(horizontalDiff, this.props.sidePadding) : 0;
+    const horizontalDiff = viewPortMaxY - styles.left - popupWidth;
+    const rightOverflow = horizontalDiff < 0 ? Math.abs(horizontalDiff) : 0;
 
     return leftOverflow + rightOverflow;
   }
@@ -460,11 +463,24 @@ export default class Popup extends RingComponentWithShortcuts {
     };
   }
 
-  _getBodyScroll() {
-    return {
-      left: getDocumentScrollLeft(),
-      top: getDocumentScrollTop()
-    };
+  _getScrollingCoordinates() {
+    const isInsideBody = this.props.container === document.body;
+
+    if (isInsideBody) {
+      return {
+        top: getDocumentScrollTop(),
+        left: getDocumentScrollLeft()
+      };
+    }
+    if (this.props.container) {
+      const container = this.props.container;
+      return {
+        top: container.scrollTop,
+        left: container.scrollLeft
+      };
+    }
+
+    return {top: 0, left: 0};
   }
 
   /**
@@ -483,20 +499,10 @@ export default class Popup extends RingComponentWithShortcuts {
       anchorElement = props.anchorElement;
     }
 
-    const isInsideBody = this.props.container === document.body;
-
     const anchor = this.getElementOffset(anchorElement);
-    let anchorLeft = anchor.left;
-    let anchorTop = anchor.top;
-
-    if (isInsideBody) {
-      const scroll = this._getBodyScroll();
-      anchorLeft += scroll.left;
-      anchorTop += scroll.top;
-    } else if (this.props.container) {
-      anchorTop += this.props.container.scrollTop;
-      anchorLeft += this.props.container.scrollLeft;
-    }
+    const scroll = this._getScrollingCoordinates();
+    const anchorLeft = anchor.left + scroll.left;
+    const anchorTop = anchor.top + scroll.top;
 
     if (this.node) {
       const directionsMatrix = this._getPositionStyles(anchor, anchorLeft, anchorTop);
@@ -505,8 +511,8 @@ export default class Popup extends RingComponentWithShortcuts {
         filter(direction => directionsMatrix[direction]).
         map(direction => directionsMatrix[direction]).
         sort((firstDirectionStyles, secondDirectionStyles) => {
-          const firstDirectionOverflow = this._verticalOverflow(firstDirectionStyles) + this._horizontalOverflow(firstDirectionStyles);
-          const secondDirectionOverflow = this._verticalOverflow(secondDirectionStyles) + this._horizontalOverflow(secondDirectionStyles);
+          const firstDirectionOverflow = this._verticalOverflow(firstDirectionStyles, scroll) + this._horizontalOverflow(firstDirectionStyles, scroll);
+          const secondDirectionOverflow = this._verticalOverflow(secondDirectionStyles, scroll) + this._horizontalOverflow(secondDirectionStyles, scroll);
           return firstDirectionOverflow - secondDirectionOverflow;
         });
 
