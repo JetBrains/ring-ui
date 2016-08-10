@@ -13,6 +13,9 @@
       <p>
         <span id="button-group-with-caption"></span>
       </p>
+      <p>
+        <span id="button-group-wrapped"></span>
+      </p>
     </div>
   </file>
 
@@ -22,32 +25,48 @@
     var Button = require('ring-ui/components/button/button');
     var ButtonGroup = require('ring-ui/components/button-group/button-group');
 
-    render(ButtonGroup.factory(
-    null,
-    Button.factory(null, '1st button'),
-    Button.factory(null, '2nd button'),
-    Button.factory(null, '3rd button')
-    ), document.getElementById('button-group'));
+    render(
+    <ButtonGroup>
+      <Button>1st button</Button>
+      <Button>2nd button</Button>
+      <Button>3rd button</Button>
+    </ButtonGroup>
+    ,
+    document.getElementById('button-group'));
 
-    render(ButtonGroup.factory(
-    null,
-    Button.factory({ primary: true }, '1st button'),
-    Button.factory({ primary: true }, '2nd button'),
-    Button.factory({ primary: true }, '3rd button')
-    ), document.getElementById('button-group-primary'));
+    render(
+    <ButtonGroup>
+      <Button primary={true}>1st button</Button>
+      <Button primary={true}>2nd button</Button>
+      <Button primary={true}>3rd button</Button>
+    </ButtonGroup>
+    ,
+    document.getElementById('button-group-primary'));
 
-    render(ButtonGroup.factory(
-    null,
-    Button.factory({ blue: true }, '1st button'),
-    Button.factory({ blue: true }, '2nd button'),
-    Button.factory({ blue: true }, '3rd button')
-    ), document.getElementById('button-group-blue'));
+    render(
+    <ButtonGroup>
+      <Button blue={true}>1st button</Button>
+      <Button blue={true}>2nd button</Button>
+      <Button blue={true}>3rd button</Button>
+    </ButtonGroup>
+    , document.getElementById('button-group-blue'));
 
-    render(ButtonGroup.factory(
-    null,
-    <span className="ring-button-group__caption">Side:</span>,
-    Button.factory(null, 'Left'),
-    Button.factory(null, 'Right'),
-    ), document.getElementById('button-group-with-caption'));
+    render(
+    <ButtonGroup>
+      <span className="ring-button-group__caption">Side:</span>
+      <Button>Left</Button>
+      <Button>Right</Button>
+    </ButtonGroup>
+    , document.getElementById('button-group-with-caption'));
+
+    render(
+    <ButtonGroup>
+      <span><Button>1button</Button></span>
+      <span><Button>2button</Button></span>
+      <span><Button>3button</Button></span>
+    </ButtonGroup>
+    , document.getElementById('button-group-wrapped')
+    );
+
   </file>
 </example>
