@@ -6,7 +6,21 @@ order: 2
 
 See the “breaking change” commits [in Upsource](https://upsource.jetbrains.com/ring-ui/view?query=path:%20%7B%2A%2Fbreaking-changes.md%7D%20and%20not%20%22Wording%22).
 
-### 29-06-2016: Added "ring-" suffix to the constants in palette/palette.scss: 
+### 10-08-2016: Introduced new versioning system
+ 
+Build number is added to patch, not release part of version to make possible installation of latest Ring UI version with command `npm install ring-ui`. 
+
+Before:
+```
+2.4.0-4995
+```
+
+After:
+```
+2.4.4996
+```
+  
+### 29-06-2016: Added "ring-" suffix to the constants in palette/palette.scss 
 
 Before:
 ```
