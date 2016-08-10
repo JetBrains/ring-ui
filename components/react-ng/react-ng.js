@@ -184,7 +184,6 @@ function reactNgDirective($parse) {
    </file>
  </example>
 
- * @example
  <example name="React-ng performance">
    <file name="index.html">
      <div ng-app="react-ng-performance" ng-controller="testController" >

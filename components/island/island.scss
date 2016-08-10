@@ -3,56 +3,7 @@
 /**
  * @name Island
  * @description Ring island markup
- * @example
-  <example name="Island">
-    <file name="index.html">
-      <div>
-        <div class="ring-island">
-            <div class="ring-island__content">Content</div>
-        </div>
-      </div>
-    </file>
-
-    <file name="index.js" webpack="true">
-      require('ring-ui/components/island/island.scss');
-    </file>
-  </example>
-
-  <example name="Island with a header">
-    <file name="index.html">
-      <div>
-        <div class="ring-island">
-          <div class="ring-island__header">
-              <span class="ring-island__title">Title</span>
-          </div>
-          <div class="ring-island__content">Content</div>
-        </div>
-      </div>
-    </file>
-
-    <file name="index.js" webpack="true">
-      require('ring-ui/components/island/island.scss');
-    </file>
-  </example>
-
-  <example name="Island with a header and buttons">
-    <file name="index.html">
-      <div>
-        <div class="ring-island">
-          <div class="ring-island__header">
-              <span class="ring-island__title">Title</span>
-              <span class="ring-island__header-button">Button1</span>
-              <span class="ring-island__header-button">Button2</span>
-          </div>
-          <div class="ring-island__content">Content</div>
-        </div>
-      </div>
-    </file>
-
-    <file name="index.js" webpack="true">
-      require('ring-ui/components/island/island.scss');
-    </file>
-  </example>
+ * @example-file ./island__examples.html
 */
 
 .ring-island {

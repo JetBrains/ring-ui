@@ -1,0 +1,104 @@
+<example name="Dialog Ng">
+  <file type="html">
+    <div ng-app="Example.dialog" class="very-long-page">
+
+      <script type="template" id="dialog-template">
+        <div>
+          <div class="ring-form__group">
+            <label class="ring-form__label" for="dialog__key">Key</label>
+            <div class="ring-form__control">
+              <input id="dialog__key" class="ring-input" type="text">
+            </div>
+          </div>
+
+          <div class="ring-form__group">
+            <label class="ring-form__label" for="dialog__name">Name</label>
+            <div class="ring-form__control">
+              <input id="dialog__name" class="ring-input" type="text">
+              <div class="ring-error-bubble active">Wrong value</div>
+              <div class="ring-form__control__description">Description</div>
+            </div>
+          </div>
+
+          <div class="ring-form__group">
+            <label for="rg-select-demo" class="ring-form__label">Rg Select in
+              Form</label>
+            <div class="ring-form__control">
+              <rg-select
+                options="item.name for item in dialogExampleCtrl.arr track by item.name"
+                id="rg-select-demo"></rg-select>
+            </div>
+          </div>
+
+          <div class="ring-form__group">
+            <label for="textarea-demo" class="ring-form__label">Textarea in
+              Form</label>
+            <div class="ring-form__control">
+              <textarea id="textarea-demo" class="ring-input"></textarea>
+            </div>
+          </div>
+        </div>
+      </script>
+
+      <div rg-dialog=""></div>
+      <div ng-controller="ExampleCtrl"></div>
+    </div>
+  </file>
+  <file type="scss">
+    .custom-css-class-button-right {
+      float: right;
+    }
+
+    .very-long-page {
+      height: 2000px;
+    }
+  </file>
+  <file type="js">
+    require('ring-ui/components/dialog/dialog.scss');
+    require('ring-ui/components/panel/panel.scss');
+    require('ring-ui/components/input-size/input-size.scss');
+
+    require('angular/angular');
+    require('ring-ui/components/dialog-ng/dialog-ng'),
+      require('ring-ui/components/select-ng/select-ng');
+
+    angular.module('Example.dialog', ['Ring.dialog', 'Ring.select']).
+      controller('ExampleCtrl', function ($q, $timeout, dialog) {
+        $timeout(function () {
+          dialog.show({
+            cssClass: 'custom-css-class',
+            title: 'Test',
+            shortcuts: {
+              'ctrl+enter': angular.noop
+            },
+            template: document.getElementById('dialog-template').innerHTML,
+            controllerAs: 'dialogExampleCtrl',
+            controller: 'DialogExampleCtrl',
+            buttons: [
+              {
+                label: 'Save',
+                default: true,
+                action: angular.noop
+              },
+              {
+                label: 'Cancel',
+                close: true
+              },
+              {
+                label: 'Long Action',
+                cssClasses: 'ring-button_danger custom-css-class-button-right',
+                action: function () {
+                  return $timeout(angular.noop, 2000);
+                }
+              }
+            ]
+          });
+        }, 500);
+
+      }).
+      controller('DialogExampleCtrl', function () {
+        var dialogExampleCtrl = this;
+        dialogExampleCtrl.arr = [{name: 'Ada'}, {name: 'Nik'}];
+      });
+  </file>
+</example>

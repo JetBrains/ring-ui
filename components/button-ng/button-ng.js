@@ -10,6 +10,11 @@ import Icon from '../icon-ng/icon-ng';
 
 import '../button/button.scss';
 
+/**
+ * @name Button Ng
+ * @description Button directive
+ * @example-file ./button-ng__examples.html
+ */
 const angularModule = angular.module('Ring.button', [Icon]);
 const ORDER_NOT_DEFINED = '-1';
 
@@ -104,97 +109,3 @@ angularModule.directive('rgButton', rgButtonDirective);
 angularModule.directive('rgButtonLink', rgButtonLinkDirective);
 
 export default angularModule.name;
-
-/**
- * @name Button Ng
- * @description Button directive
- * @example
-  <example name="Button Ng">
-    <file name="index.html">
-      <div ng-app="test" ng-controller="testCtrl">
-        <p>
-          <rg-button>Press me</rg-button>
-          <rg-button>Press me Press me Press me Press me Press me Press me Press me</rg-button>
-          <rg-button disabled="true">Press me</rg-button>
-          <rg-button loader="true">Press me</rg-button>
-          <rg-button delayed="true">Press me</rg-button>
-        </p>
-
-        <p>
-          <rg-button mode="primary">Press me</rg-button>
-          <rg-button mode="primary">Press me Press me Press me Press me Press me Press me Press me</rg-button>
-          <rg-button mode="primary" disabled="true">Press me</rg-button>
-          <rg-button mode="primary" loader="true">Press me</rg-button>
-          <rg-button mode="primary" delayed="true">Press me</rg-button>
-        </p>
-
-        <p>
-          <rg-button mode="blue">Press me</rg-button>
-          <rg-button mode="blue">Press me Press me Press me Press me Press me Press me Press me</rg-button>
-          <rg-button mode="blue" disabled="true">Press me</rg-button>
-          <rg-button mode="blue" loader="true">Press me</rg-button>
-          <rg-button mode="blue" delayed="true">Press me</rg-button>
-        </p>
-
-        <p>
-          <rg-button>Press me</rg-button>
-          <rg-button icon="{{caretDown}}">Press me</rg-button>
-          <rg-button icon="{{trash}}"></rg-button>
-          <rg-button icon="{{trash}}" mode="primary"></rg-button>
-          <rg-button icon="{{trash}}" mode="blue"></rg-button>
-          <rg-button icon="{{merge}}" disabled="true"></rg-button>
-          <rg-button icon="{{pencil}}" loader="true"></rg-button>
-          <rg-button>Press me</rg-button>
-        </p>
-
-        <p>
-          <rg-button danger="true">Press me</rg-button>
-          <rg-button danger="true" disabled="true">Press me</rg-button>
-          <rg-button danger="true" loader="true">Press me</rg-button>
-          <rg-button danger="true" icon="{{pencil}}"></rg-button>
-        </p>
-
-        <p>
-          <rg-button-link href="/button-link">Press me</rg-button-link>
-          <rg-button-link href="/button-link" disabled="true">Press me</rg-button-link>
-          <rg-button-link href="/button-link" loader="true">Press me</rg-button-link>
-          <rg-button-link href="/button-link" icon="{{pencil}}"></rg-button-link>
-        </p>
-
-        <p>
-          <rg-button tabindex="1">
-            <span>Press me</span>
-            <rg-icon size="16" glyph="{{trash}}"></rg-icon>
-          </rg-button>
-          <rg-button tabindex="2">
-            <rg-icon size="16" glyph="{{trash}}"></rg-icon>
-            <span>Press me</span>
-          </rg-button>
-          <rg-button tabindex="3">
-            <rg-icon size="16" glyph="{{trash}}"></rg-icon>
-            <span>Press me</span>
-            <rg-icon size="16" glyph="{{trash}}"></rg-icon>
-          </rg-button>
-          <rg-button tabindex="4">
-            <span>Press me</span>
-            <rg-icon size="16" glyph="{{trash}}"></rg-icon>
-            <span>Press me</span>
-          </rg-button>
-        </p>
-      </div>
-    </file>
-
-    <file name="index.js" webpack="true">
-      require('angular');
-      require('ring-ui/components/button-ng/button-ng');
-      require('ring-ui/components/icon-ng/icon-ng');
-
-      angular.module('test', ['Ring.button', 'Ring.icon']).controller('testCtrl', function($scope) {
-        $scope.pencil = require('jetbrains-icons/pencil.svg');
-        $scope.caretDown = require('jetbrains-icons/caret-down.svg');
-        $scope.trash = require('jetbrains-icons/trash.svg');
-        $scope.merge = require('jetbrains-icons/merge.svg');
-      });
-    </file>
-  </example>
-*/
