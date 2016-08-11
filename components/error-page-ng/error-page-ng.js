@@ -1,5 +1,5 @@
 /**
- * @name Error Page ng
+ * @name Error Page Ng
  */
 
 /* global angular: false */
