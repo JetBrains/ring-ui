@@ -1,5 +1,5 @@
 /**
- * @name Sidebar ng
+ * @name Sidebar Ng
  */
 /* global angular */
 
