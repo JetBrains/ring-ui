@@ -30,7 +30,6 @@
 .ring-button-group__caption {
   @include ring-font();
   margin-right: $ring-unit;
-  vertical-align: sub;
 
   &:empty {
     margin-right: 0;
