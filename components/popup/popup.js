@@ -405,13 +405,13 @@ export default class Popup extends RingComponentWithShortcuts {
     if (!this.props.autoPositioning) {
       return 0;
     }
-    const viewPortMinX = scrollingCoordinates.top + this.props.sidePadding;
-    const viewPortMaxX = scrollingCoordinates.top + getWindowHeight() - this.props.sidePadding;
+    const viewportMinX = scrollingCoordinates.top + this.props.sidePadding;
+    const viewportMaxX = scrollingCoordinates.top + getWindowHeight() - this.props.sidePadding;
 
-    const topOverflow = styles.top < viewPortMinX ? viewPortMinX - styles.top : 0;
+    const topOverflow = styles.top < viewportMinX ? viewportMinX - styles.top : 0;
 
     const popupHeight = this.node.clientHeight;
-    const verticalDiff = viewPortMaxX - styles.top - popupHeight;
+    const verticalDiff = viewportMaxX - styles.top - popupHeight;
     const bottomOverflow = verticalDiff < 0 ? Math.abs(verticalDiff) : 0;
 
     return topOverflow + bottomOverflow;
@@ -421,13 +421,13 @@ export default class Popup extends RingComponentWithShortcuts {
     if (!this.props.autoPositioning) {
       return 0;
     }
-    const viewPortMinY = scrollingCoordinates.left + this.props.sidePadding;
-    const viewPortMaxY = scrollingCoordinates.left + window.innerWidth - this.props.sidePadding;
+    const viewportMinY = scrollingCoordinates.left + this.props.sidePadding;
+    const viewportMaxY = scrollingCoordinates.left + window.innerWidth - this.props.sidePadding;
 
-    const leftOverflow = styles.left < viewPortMinY ? viewPortMinY - styles.left : 0;
+    const leftOverflow = styles.left < viewportMinY ? viewportMinY - styles.left : 0;
 
     const popupWidth = this.node.clientWidth;
-    const horizontalDiff = viewPortMaxY - styles.left - popupWidth;
+    const horizontalDiff = viewportMaxY - styles.left - popupWidth;
     const rightOverflow = horizontalDiff < 0 ? Math.abs(horizontalDiff) : 0;
 
     return leftOverflow + rightOverflow;
