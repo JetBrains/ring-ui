@@ -96,7 +96,7 @@
     "webpack": "1.13.0",
     "webpack-config-merger": "0.0.5",
     "webpack-dev-server": "1.14.1",
-    "webpack-docs-plugin": "1.0.9-alpha-ring-ui"
+    "webpack-docs-plugin": "1.0.9-alpha-ring-ui.4"
   },
   "dependencies": {
     "angular-elastic": "2.5.1-jb",
