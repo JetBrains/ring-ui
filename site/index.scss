@@ -1,3 +1,5 @@
+@import '../components/global/global';
+
 html, body {
   padding: 0;
   margin: 0;
@@ -5,7 +7,7 @@ html, body {
 }
 
 .app {
-  font: 13px "Helvetica Neue", Arial, sans-serif;
+  @include ring-font();
 }
 
 .app__header {
@@ -13,7 +15,7 @@ html, body {
 }
 
 .app__sidebar {
-  margin-top: 32px;
+  margin-top: $ring-unit * 4;
   width: 200px;
 }
 
@@ -26,7 +28,7 @@ html, body {
 }
 
 .header {
-  margin: 0 32px 16px;
+  margin: 0 $ring-unit * 4 $ring-unit * 2;
 }
 
 .nav {
@@ -36,7 +38,7 @@ html, body {
 }
 
 .nav__item {
-  margin: 8px 0;
+  margin: $ring-unit 0;
 }
 
 /* Replace with ring-link */
@@ -99,8 +101,8 @@ html, body {
   right: 0;
   bottom: 7px;
   border: 1px solid #CCC;
-  font-size: 13px;
-  padding: 8px;
+  font-size: $ring-font-size;
+  padding: $ring-unit;
   background: #fff;
 }
 
