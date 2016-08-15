@@ -63,6 +63,8 @@ module.exports = wallaby => {
 
     env: {
       kind: 'electron'
-    }
+    },
+
+    reportConsoleErrorAsError: true
   };
 };
