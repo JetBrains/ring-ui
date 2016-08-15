@@ -1,7 +1,7 @@
 @import '../components/global/global';
 
-body, html {
-  margin: 0;
+body {
+  margin: $ring-unit * 2;
   padding: 0;
 
   @include ring-font();
