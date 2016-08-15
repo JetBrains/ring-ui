@@ -1,15 +1,5 @@
 @import '../global/global';
 
-// Radio button
-//
-// Markup:
-// <input class="ring-radio" type="radio" name="test" checked id="radio-1"/>
-// <label class="ring-radio__label" for="radio-1"></label>
-// <input class="ring-radio ring-radio_black" type="radio" name="test"  id="radio-2"/>
-// <label class="ring-radio__label" for="radio-2"></label>
-//
-// Styleguide 17.1
-
 .ring-radio {
   display: none;
 
@@ -25,6 +15,12 @@
     background: transparent;
     line-height: $ring-unit * 3;
     vertical-align: middle;
+
+    & + .ring-radio__text-label {
+      position: relative;
+      top: 1px;
+      padding-left: $ring-unit;
+    }
   }
 
   &:not([disabled]) + .ring-radio__label:hover {
