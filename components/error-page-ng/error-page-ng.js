@@ -25,6 +25,11 @@ import PermissionIcon from 'jetbrains-icons/permission.svg';
         </div>
     </div>
    </file>
+   <file name="index.scss">
+     body {
+        margin: 0;
+     }
+   </file>
    <file name="index.js" webpack="true">
       require('angular');
       require('angular-route');

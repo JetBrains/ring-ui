@@ -72,6 +72,10 @@
   <file type="scss">
     @import '~ring-ui/components/global/global';
 
+    .icon-example__container {
+      margin-left: -$ring-unit * 2;
+    }
+
     .ring-icon {
       margin: 8px;
       padding: 8px;
@@ -87,6 +91,7 @@
     var icons = require.context('jetbrains-icons', false, /\.svg$/);
 
     render(createElement('div', {
+      className: 'icon-example__container',
       children: icons.keys().map(icons).map(function (icon) {
         return Icon.factory({
           glyph: icon,
