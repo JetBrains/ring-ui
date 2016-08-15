@@ -5,10 +5,13 @@ import {Simulate, renderIntoDocument} from 'react-addons-test-utils';
 
 import RadioItem from './radio__item';
 
-describe('Item', () => {
+describe('Radio Item', () => {
   beforeEach(function () {
     this.radioItem = renderIntoDocument(
-      <RadioItem value="test">
+      <RadioItem
+        checked={false}
+        value="test"
+      >
         {'test'}
       </RadioItem>
     );
