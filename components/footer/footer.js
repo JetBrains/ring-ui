@@ -119,8 +119,13 @@ class FooterLine extends RingComponent {
  <example name="Footer">
  <file name="index.html">
  <div>
- <div id="footer"></div>
+   <div id="footer"></div>
  </div>
+ </file>
+ <file name="index.scss">
+  body {
+    margin: 0;
+  }
  </file>
  <file name="index.js" webpack="true">
  var render = require('react-dom').render;

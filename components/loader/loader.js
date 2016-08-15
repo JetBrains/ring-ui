@@ -23,6 +23,10 @@ import LoaderCore from './loader__core';
      render(Loader.factory({message: 'Loading...'}), document.getElementById('loader2'));
    </file>
    <file name="index.scss">
+     body {
+        margin: 0;
+     }
+
     .loader-container {
       padding: 32px;
 
