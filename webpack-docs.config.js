@@ -51,6 +51,7 @@ const docsWebpackConfig = webpackConfigMerger(webpackConfig, {
   entry: {
     components: createEntriesList('./components/*'),
     'docs-app': './site/index.js',
+    'example-common': './site/example-common.js',
     'docs-markdown': [
       'README.md',
       'components/index.md',
