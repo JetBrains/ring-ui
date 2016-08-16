@@ -59,10 +59,12 @@ angularModule.factory('getClosestElementWithCommonParent', () => function getClo
 
 angularModule.factory('rgPlaceUnderHelper', $window => {
   const DEBOUNCE_INTERVAL = 10;
+  const AFTER_SCROLL_RECHECK_INTERVAL = 50;
   const HEIGHT_CHECK_INTERVAL = 50;
 
   return {
     DEBOUNCE_INTERVAL,
+    AFTER_SCROLL_RECHECK_INTERVAL,
     HEIGHT_CHECK_INTERVAL,
     createPositionSynchronizer: (element, iAttrs, scope) => {
       const topOffset = parseInt(iAttrs.placeTopOffset, 10) || 0;
@@ -142,7 +144,12 @@ angularModule.factory('rgPlaceUnderHelper', $window => {
       function syncPositionWith(syncElement) {
         removeScrollListeners();
 
-        const sidebarScrollListener = debounce(() => this.onScroll(syncElement), DEBOUNCE_INTERVAL);
+        const afterScrollFinishRecheck = debounce(() => this.onScroll(syncElement), AFTER_SCROLL_RECHECK_INTERVAL);
+
+        const sidebarScrollListener = debounce(() => {
+          this.onScroll(syncElement);
+          afterScrollFinishRecheck();
+        }, DEBOUNCE_INTERVAL);
 
         this.waitForNonZeroHeight(syncElement).then(sidebarScrollListener);
 

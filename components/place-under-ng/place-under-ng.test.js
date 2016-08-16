@@ -125,6 +125,18 @@ describe('Place Under Ng', () => {
       synchronizer.onScroll.should.have.been.called;
     });
 
+    it('should call recheck scroll position after some delay after scroll events finich', () => {
+      const BIG_TICK = 500;
+      synchronizer.syncPositionWith(syncElementMock);
+
+      windowEventEmitter.emit('scroll');
+      flushDebounce();
+      windowEventEmitter.emit('scroll');
+      clock.tick(BIG_TICK);
+
+      synchronizer.onScroll.should.have.been.calledThrice;
+    });
+
 
     it('should allow call onScroll manually using scope', () => {
       synchronizer.syncPositionWith(syncElementMock);
