@@ -35,7 +35,7 @@
   line-height: $ring-unit * 5;
   white-space: nowrap;
 
-  pointer-events: initial;
+  pointer-events: auto;
 
   &.ring-alert_inline {
     margin: $ring-unit;
