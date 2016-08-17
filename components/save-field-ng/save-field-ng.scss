@@ -5,19 +5,8 @@
   line-height: 0;
   display: inline-block;
 
-  &__button {
+  &__button.ring-button {
     margin-left: $ring-unit;
     vertical-align: top;
-
-    .ring-button {
-      vertical-align: top;
-    }
-  }
-
-  &__loader {
-    display: inline-block;
-    vertical-align: top;
-    margin-left: $ring-unit;
-    padding-top: 4px;
   }
 }
