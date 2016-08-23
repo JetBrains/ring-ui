@@ -115,11 +115,15 @@ function shortcutSearchFilter(shortcuts, query = '') {
     const key = shortcut.key.join ? shortcut.key.join(' ') : shortcut.key;
     const keysPresentation = shortcutKeySymbolFilter(key);
 
-    const keyMatches = key.toLowerCase().indexOf(query.toLowerCase()) !== -1;
-    const titleMatches = shortcut.title.toLowerCase().indexOf(query.toLowerCase()) !== -1;
-    const presentationMatches = keysPresentation.toLowerCase().indexOf(query.toLowerCase()) !== -1;
+    if (!shortcut.title) {
+      return false;
+    } else {
+      const keyMatches = key.toLowerCase().indexOf(query.toLowerCase()) !== -1;
+      const titleMatches = shortcut.title.toLowerCase().indexOf(query.toLowerCase()) !== -1;
+      const presentationMatches = keysPresentation.toLowerCase().indexOf(query.toLowerCase()) !== -1;
 
-    return keyMatches || titleMatches || presentationMatches;
+      return keyMatches || titleMatches || presentationMatches;
+    }
   });
 }
 
