@@ -33,15 +33,12 @@
   z-index: 2;
 
   position: relative;
-  top: 20%;
-  left: 0;
-  right: 0;
 
   display: block; // Fallback for Safari < 5.0
   display: table; // Sets container's width to min-width if content is narrow
   min-width: $ring-unit * 50;
   max-width: $ring-unit * 53;
-  margin: 0 auto;
+  margin: 10% auto;
   padding: 0;
 
   border: 1px solid #B4B4B4;
