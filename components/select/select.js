@@ -236,6 +236,7 @@ export default class Select extends RingComponentWithShortcuts {
           maxHeight={this.props.maxHeight}
           minWidth={this.props.minWidth}
           directions={this.props.directions}
+          className={this.props.popupClassName}
           top={this.props.top}
           left={this.props.left}
           filter={this.isInputMode() ? false : this.props.filter} // disable popup filter in INPUT mode
