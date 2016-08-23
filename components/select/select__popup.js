@@ -9,6 +9,7 @@ import Popup from '../popup/popup';
 import List from '../list/list';
 import Input from '../input/input';
 import LoaderInline from '../loader-inline/loader-inline';
+import classNames from 'classnames';
 
 function noop() {}
 
@@ -191,11 +192,17 @@ export default class SelectPopup extends RingComponentWithShortcuts {
   }
 
   render() {
+    const classes = classNames(
+      'ring-select-popup',
+      this.props.className
+    );
+
     return (
       <Popup
         ref="popup"
         hidden={true}
         cutEdge={false}
+        className={classes}
         dontCloseOnAnchorClick={true}
         anchorElement={this.props.anchorElement}
         container={this.props.container}
