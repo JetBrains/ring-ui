@@ -87,7 +87,6 @@ angularModule.directive('rgSelect', () => {
 
       options: '@',
       label: '@',
-      popupClass: '=?',
       selectedLabel: '@',
       externalFilter: '=?',
       filter: '=?',
@@ -367,7 +366,7 @@ angularModule.directive('rgSelect', () => {
           hideArrow: getType() === 'suggest',
           filter: ctrl.filter,
           multiple: ctrl.multiple,
-          popupClassName: ctrl.popupClass,
+          popupClassName: $attrs.popupClass,
           clear: ctrl.clear,
           type: getSelectType(),
           loadingMessage: ctrl.loadingMessage || RingMessageBundle.select_loading(),
