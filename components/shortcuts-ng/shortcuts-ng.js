@@ -243,4 +243,24 @@ angularModule.directive('rgShortcuts', $parse => ({
   }
 }));
 
+
+angularModule.directive('rgShortcutsGlobal', shortcuts => ({
+  restrict: 'A',
+
+  link($scope, iElement, iAttrs) {
+    const name = iAttrs.rgShortcutsGlobal;
+    const scope = `${name}-${$scope.$id}`;
+
+    $scope.$evalAsync(() => {
+      shortcuts.bind(name, $scope.$eval(iAttrs.shortcutsMap), scope);
+      shortcutsInstance.pushScope(scope);
+    });
+
+    $scope.$on('$destroy', () => {
+      shortcutsInstance.spliceScope(scope);
+      shortcutsInstance.unbindScope(scope);
+    });
+  }
+}));
+
 export default angularModule.name;
