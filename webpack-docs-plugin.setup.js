@@ -35,11 +35,6 @@ module.exports = params => {
     new ExamplePagePlugin({
       template: path.resolve(__dirname, 'site/example.twig'),
       filename: 'example-[example-name]/index.html',
-      exampleNameConverter(exampleName) {
-        return exampleName.toLowerCase().
-          replace(/\s/ig, '-').
-          replace(/'/ig, '');
-      },
       context: {
         publicPath
       }
