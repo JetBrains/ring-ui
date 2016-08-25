@@ -1,3 +1,14 @@
+/**
+ * @name Footer
+ * @category Components
+ * @description This component defines the page footer.
+ *
+ * A footer consists of three sections, each optional:
+ * - left
+ * - center
+ * - right
+ */
+
 /* eslint-disable react/no-multi-comp */
 
 import 'dom4';
@@ -93,23 +104,13 @@ class FooterLine extends RingComponent {
 }
 
 /**
- * @name Footer
- * @category Components
  * @constructor
  * @extends {ReactComponent}
- * @description
  *
- * This component defines the page footer.
- *
- * A footer consists of three sections, each optional:
- *  - left
- *  - center
- *  - right
- *
- * @param {string[]} className Additional classnames to component
- * @param {Object[]} left Left footer column elements
- * @param {Object[]} center Center footer column elements
- * @param {Object[]} right Right footer column elements
+ * @param {string[]} className Additional classnames to assign to the component
+ * @param {Object[]} left Left column elements
+ * @param {Object[]} center Center column elements
+ * @param {Object[]} right Right column elements
  * @returns {React} react component
  *
  * @example
