@@ -10,6 +10,12 @@ import Icon from '../icon/icon';
 import Button from '../button/button';
 import './select.scss';
 
+/**
+ * @name Select
+ * @category Components
+ * @example-file ./select__examples.html
+ */
+
 const ngModelStateField = 'selected';
 
 function noop() {}
@@ -25,10 +31,8 @@ const Type = {
 
 /**
  * @name Select
- * @category Components
  * @constructor
  * @extends {RingComponentWithShortcuts}
- * @example-file ./select__examples.html
  */
 export default class Select extends RingComponentWithShortcuts {
   static Type = Type;

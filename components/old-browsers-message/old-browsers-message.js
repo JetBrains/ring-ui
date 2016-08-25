@@ -1,48 +1,41 @@
-/**
- * @name Old Browsers Message
- */
 import sniffer from '../sniffer/sniffer';
-
-/**
- * Note: this script does not have any dependencies, you should include it directly.
- * Once loaded, it attaches a global error handler. When your app finishes loading you should
- * probably turn it off by calling oldBrowserMessage.stop();
- */
 
 /**
  * @name Old Browsers Message
  * @category Components
  * @example
-  <example name="Old Browsers Message">
-    <file type="html">
-
-      <div id="ring-old-browsers-message" class="ring-old-browsers-message ring-old-browsers-message_hidden">
-        <span id="ring-old-browsers-message__smile" class="ring-old-browsers-message__smile">{{ (&gt;_&lt;) }}</span>
-        <br/><br/>
-        <span id="ring-old-browsers-message__browser-message">This version of your browser is not <a href="https://documentation.link">supported</a>.<br/>
-        Try upgrading to the latest stable version.</span>
-        <span id="ring-old-browsers-message__error-message">Something went seriously wrong.</span>
-        <br/><br/>
-        <!--[if IE 9]>
-          <span>When using IE9.0 or higher, make sure that compatibility mode is disabled.</span>
-        <![endif]-->
-      </div>
-
-     </file>
-     <file type="js">
+    <example name="Old Browsers Message">
+      <file type="html">
+        <div id="ring-old-browsers-message" class="ring-old-browsers-message ring-old-browsers-message_hidden">
+          <span id="ring-old-browsers-message__smile" class="ring-old-browsers-message__smile">{{ (&gt;_&lt;) }}</span>
+          <br/><br/>
+          <span id="ring-old-browsers-message__browser-message">This version of your browser is not <a href="https://documentation.link">supported</a>.<br/>
+          Try upgrading to the latest stable version.</span>
+          <span id="ring-old-browsers-message__error-message">Something went seriously wrong.</span>
+          <br/><br/>
+          <!--[if IE 9]>
+            <span>When using IE9.0 or higher, make sure that compatibility mode is disabled.</span>
+          <![endif]-->
+        </div>
+      </file>
+      <file type="js">
         require('ring-ui/components/old-browsers-message/old-browsers-message.scss');
         require('ring-ui/components/old-browsers-message/old-browsers-message');
 
         //Trigger an error to imitate an unsupported browser
         Object.unknownMethodCall();
-     </file>
-   </example>
+      </file>
+    </example>
+
+    Note: this script does not have any dependencies, you should include it directly.
+    Once loaded, it attaches a global error handler. When your app finishes loading you should
+    probably turn it off by calling oldBrowserMessage.stop();
  */
 
-/*
- The list of versions which are definitely supported. "Browser is unsupported"
- won't be displayed for those and higher versions even when a JS error occurs
- on application start.
+/**
+  The list of versions which are definitely supported. "Browser is unsupported"
+  won't be displayed for those and higher versions even when a JS error occurs
+  on application start.
  */
 
 const MAJOR_VERSION_INDEX = 0;

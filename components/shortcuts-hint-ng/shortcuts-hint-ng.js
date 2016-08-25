@@ -5,11 +5,18 @@ import ShortcutsNg from '../shortcuts-ng/shortcuts-ng';
 import RingTemplateNg from '../template-ng/template-ng';
 import HintPopupTpl from './shortcuts-hint-ng.html';
 import Icon from '../icon/icon';
-import {registerComponents, reactNg} from '../react-ng/react-ng';
+import {reactNg} from '../react-ng/react-ng';
 
 import './shortcuts-hint-ng.scss';
 import '../input/input.scss';
 import searchIcon from 'jetbrains-icons/search.svg';
+
+/**
+ * @name Shortcuts Ng Hint Popup
+ * @category Angular Components
+ * @description A popup with a listing of registered shortcuts
+ * @example-file ./shortcuts-hint-ng__examples.html
+ */
 
 registerComponents({Icon});
 
@@ -55,14 +62,6 @@ const winSymbolsMap = {
 
 /* global angular:false */
 const angularModule = angular.module('Ring.shortcuts.hint-popup', [DialogNg, ShortcutsNg, reactNg, RingTemplateNg]);
-
-
-/**
- * @name Shortcuts Ng Hint Popup
- * @category Angular Components
- * @description A popup with a listing of registered shortcuts
- * @example-file ./shortcuts-hint-ng__examples.html
-*/
 
 class HintPopupService {
   constructor(dialog, shortcuts) {

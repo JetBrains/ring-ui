@@ -1,5 +1,7 @@
 /**
  * @name Table Ng Toolbar
+ * @category Angular Components
+ * @description Sticky toolbar, mostly for tables, but can be used elsewhere too.
  */
 /*global angular*/
 import 'dom4';
@@ -9,7 +11,6 @@ import {getDocumentScrollTop} from '../dom/dom';
 import debounce from 'mout/function/debounce';
 
 /**
- * Sticky toolbar, mostly for tables, but can be used elsewhere too.
  * @example
  * <example>
      <rg-table-toolbar stick>

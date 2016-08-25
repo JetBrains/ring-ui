@@ -1,4 +1,3 @@
-/* global angular: false */
 import 'dom4';
 import '../error-page/error-page.scss';
 import ErrorMessage from '../error-message-ng/error-message-ng';
@@ -54,7 +53,7 @@ import PermissionIcon from 'jetbrains-icons/permission.svg';
    </file>
  </example>
  */
-
+/* global angular: false */
 const angularModule = angular.module('Ring.error-page', [
   'ngRoute',
   ErrorMessage,

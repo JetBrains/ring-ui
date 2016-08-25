@@ -1,5 +1,3 @@
-/* global angular: false */
-
 import 'dom4';
 import urlUtils from '../url-utils/url-utils';
 import {Color, Size} from '../icon/icon__constants';
@@ -31,6 +29,7 @@ import '../icon/icon.scss';
  </file>
  </example>
  */
+/* global angular: false */
 const angularModule = angular.module('Ring.icon', []);
 const CLASS_PREFIX = 'ring-icon_';
 const LOADING_CLASS = `${CLASS_PREFIX}loading`;
