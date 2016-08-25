@@ -5,6 +5,7 @@ import './loader-inline.scss';
 
 /**
  * @name Loader Inline
+ * @category Components
  * @constructor
  * @extends {ReactComponent}
  * @example

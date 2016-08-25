@@ -1,5 +1,10 @@
 /* global angular: false */
 
+/**
+ * @name Compiler Ng
+ * @category Angular Components
+ */
+
 const angularModule = angular.module('Ring.compiler', []).
   factory('rgCompiler', ($q, $controller, $injector, $compile) => options => {
     const template = options.template;

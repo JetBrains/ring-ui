@@ -52,7 +52,7 @@ module.exports = params => {
         publicPath,
         pagesByCategory: sources => {
           var categories = {Docs: []};
-          var defaultCategory = 'Components';
+          var defaultCategory = 'Uncategorized';
 
           sources.forEach(page => {
             var p = page.serialize();

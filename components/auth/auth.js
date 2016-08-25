@@ -1,6 +1,3 @@
-/**
- * @name Auth
- */
 /* eslint-disable camelcase */
 
 import 'core-js/modules/es7.array.includes';
@@ -10,6 +7,11 @@ import AuthStorage from './auth__storage';
 import AuthResponseParser from './auth__response-parser';
 import AuthRequestBuilder from './auth__request-builder';
 import urlUtils from '../url-utils/url-utils';
+
+/**
+ * @name Auth
+ * @category Components
+ */
 
 function noop() {}
 

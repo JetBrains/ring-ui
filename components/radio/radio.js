@@ -5,6 +5,7 @@ import RadioItem from './radio__item';
 
 /**
  * @name Radio
+ * @category Components
  * @constructor
  * @description Adopted from [react-radio-group](https://github.com/chenglou/react-radio-group)
  * @example

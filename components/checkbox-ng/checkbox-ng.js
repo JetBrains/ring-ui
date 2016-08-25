@@ -1,6 +1,3 @@
-/**
- * @name Checkbox Ng
- */
 /* global angular: false */
 
 import '../icon-ng/icon-ng';
@@ -9,6 +6,7 @@ import '../checkbox/checkbox.scss';
 
 /**
  * @name Checkbox Ng
+ * @category Angular Components
  * @example
  * <example name="Checkbox Ng">
      <file name="index.html">

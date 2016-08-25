@@ -1,6 +1,3 @@
-/**
- * @name Save Field Ng
- */
 /* global angular: false */
 import 'dom4';
 import '../form/form.scss';
@@ -28,6 +25,7 @@ const angularModule = angular.module('Ring.save-field', [
 
 /**
  * @name Save Field Ng
+ * @category Angular Components
  * @description Directive: Wrapper with save button for inputs
  * @example-file ./save-field-ng__examples.html
  */

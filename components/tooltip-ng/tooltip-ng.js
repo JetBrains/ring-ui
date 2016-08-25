@@ -6,6 +6,7 @@ import './tooltip-ng.scss';
 
 /**
  * @name Tooltip Ng
+ * @category Angular Components
  * @description Directive for tooltips in AngularJS apps
  * @example
 <example name="Tooltip Ng">

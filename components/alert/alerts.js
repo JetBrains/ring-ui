@@ -1,9 +1,3 @@
-/**
- * @name Alerts
- * @fileoverview Stack of alerts at the top of the page.
- * @author igor.alexeenko@jetbrains.com (Igor Alexeenko)
- */
-
 import React, {createElement, Children} from 'react';
 import {render, findDOMNode, unmountComponentAtNode} from 'react-dom';
 import CSSTransitionGroup from 'react-addons-css-transition-group';
@@ -17,10 +11,12 @@ import './alert.scss';
 /**
  * @name Alerts
  * @constructor
- * @description Alerts component
+ * @category Components
+ * @description Alerts component displays a stack of alerts on top of the page.
  * @extends {RingComponent}
  * @example-file ./alerts__examples.html
  */
+
 export default class Alerts extends RingComponent {
   static Type = Alert.Type;
 

@@ -1,5 +1,6 @@
 /**
  * @name Permissions Ng
+ * @category Angular Components
  */
 import 'dom4';
 import '../auth-ng/auth-ng';
