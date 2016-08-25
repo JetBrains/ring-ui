@@ -83,7 +83,8 @@ angularModule.directive('rgSelect', () => {
 
       selectType: '@',
       lazy: '=?',
-      withInfiniteScroll: '=?',
+      withInfiniteScroll: '=?', //NB: Deprecated! Use infinite-scroll-pack-size="50" instead
+      infiniteScrollPackSize: '@',
 
       options: '@',
       label: '@',
@@ -118,6 +119,7 @@ angularModule.directive('rgSelect', () => {
       /*eslint-enable consistent-this*/
       const element = $element[0];
       const container = document.createElement('span');
+      const infiniteScrollPackSize = Number(ctrl.infiniteScrollPackSize) || (ctrl.withInfiniteScroll ? 50 : 0);
 
       /**
        * Properties
@@ -136,12 +138,13 @@ angularModule.directive('rgSelect', () => {
        * @param {Array} options
        */
       function memorizeOptions(options, skip) {
-        if (ctrl.loadedOptions && ctrl.loadedOptions.length === skip) {
+        if (ctrl.loadedOptions && skip > 0) {
           ctrl.loadedOptions = ctrl.loadedOptions.concat(options);
-          ctrl.stopLoadingNewOptions = options.length === 0 && ctrl.withInfiniteScroll;
+          ctrl.stopLoadingNewOptions = options.length === 0 && infiniteScrollPackSize;
         } else {
           ctrl.loadedOptions = options;
         }
+        ctrl.lastSkip = skip;
         return ctrl.loadedOptions;
       }
 
@@ -151,10 +154,10 @@ angularModule.directive('rgSelect', () => {
       }
 
       function getCurrentSkipParameter(query, prevQuery) {
-        if (!ctrl.withInfiniteScroll || query !== prevQuery || !ctrl.loadedOptions) {
+        if (!infiniteScrollPackSize || query !== prevQuery || !ctrl.loadedOptions) {
           return 0;
         }
-        return ctrl.loadedOptions.length;
+        return ctrl.lastSkip < 0 ? 0 : ctrl.lastSkip + infiniteScrollPackSize;
       }
 
       ctrl.syncSelectToNgModel = selectedValue => {
@@ -387,6 +390,7 @@ angularModule.directive('rgSelect', () => {
               ctrl.onClose();
             });
             ctrl.loadedOptions = [];
+            ctrl.lastSkip = -1;
             ctrl.stopLoadingNewOptions = false;
           },
           onSelect: item => {
@@ -419,7 +423,7 @@ angularModule.directive('rgSelect', () => {
           }
         }, ctrl.config || {});
 
-        if (ctrl.withInfiniteScroll && !ctrl.config.onLoadMore) {
+        if (infiniteScrollPackSize && !ctrl.config.onLoadMore) {
           ctrl.config.onLoadMore = () => {
             if (inProcessQueries === 0) {
               $scope.$evalAsync(() => {
