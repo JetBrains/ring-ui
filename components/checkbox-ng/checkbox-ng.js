@@ -1,5 +1,3 @@
-/* global angular: false */
-
 import '../icon-ng/icon-ng';
 
 import '../checkbox/checkbox.scss';
@@ -29,6 +27,7 @@ import '../checkbox/checkbox.scss';
      </file>
  </example>
  */
+/* global angular: false */
 const angularModule = angular.module('Ring.checkbox', ['Ring.icon']);
 
 let idCounter = 0;

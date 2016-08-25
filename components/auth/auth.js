@@ -1,5 +1,3 @@
-/* eslint-disable camelcase */
-
 import 'core-js/modules/es7.array.includes';
 import 'whatwg-fetch';
 
@@ -8,16 +6,12 @@ import AuthResponseParser from './auth__response-parser';
 import AuthRequestBuilder from './auth__request-builder';
 import urlUtils from '../url-utils/url-utils';
 
-/**
- * @name Auth
- * @category Components
- */
-
 function noop() {}
 
 /**
- * @constructor
  * @name Auth
+ * @category Components
+ * @constructor
  *
  * @prop {object} config
  * @prop {string} config.serverUri
@@ -44,6 +38,9 @@ function noop() {}
  *
  * @example-file ./auth__examples.html
  */
+
+/* eslint-disable camelcase */
+
 export default function Auth(config) {
   if (!config) {
     throw new Error('Config is required');

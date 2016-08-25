@@ -160,10 +160,10 @@ function reactNgDirective($parse) {
 }
 
 /**
- * @name React-ng
+ * @name React Ng
  * @constructor
  * @description Directive to render React components once without updating and callbacks. Support ng-click, ng-class and other attributes manipulating.
- * <strong>Note: all attributes to pass to react component should have "react-" prefix!</strong>
+ * <strong>Note: the attributes that should be passed to a React component should have a "react-" prefix!</strong>
  * @extends {ReactComponent}
  * @example
  <example name="React-ng">
