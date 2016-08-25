@@ -1,7 +1,3 @@
-/**
- * @name Error Page Ng
- */
-
 /* global angular: false */
 import 'dom4';
 import '../error-page/error-page.scss';
@@ -15,6 +11,7 @@ import PermissionIcon from 'jetbrains-icons/permission.svg';
 
 /**
  * @name Error Page Ng
+ * @category Angular Components
  * @description Directive for showing error pages (e.g. 404 Not Found)
  * @example
  * <example name="Error Page Ng">

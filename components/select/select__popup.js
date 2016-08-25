@@ -1,5 +1,5 @@
 /**
- * @fileoverview Select options popup
+ * @description Select options popup
  */
 
 import React from 'react';

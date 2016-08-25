@@ -6,6 +6,7 @@ import classNames from 'classnames';
 
 /**
  * @name Loader Screen
+ * @category Components
  * @constructor
  * @extends {ReactComponent}
  * @example

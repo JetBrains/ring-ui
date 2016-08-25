@@ -1,6 +1,7 @@
 /**
  * @name Footer
- * @fileoverview Ring Footer.
+ * @category Components
+ * @description Customizable footer
  */
 /* eslint-disable react/no-multi-comp */
 

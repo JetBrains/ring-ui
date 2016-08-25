@@ -1,8 +1,3 @@
-/**
- * @name Select
- * @fileoverview Select
- */
-
 import React from 'react';
 import {findDOMNode} from 'react-dom';
 import classNames from 'classnames';
@@ -30,6 +25,7 @@ const Type = {
 
 /**
  * @name Select
+ * @category Components
  * @constructor
  * @extends {RingComponentWithShortcuts}
  * @example-file ./select__examples.html

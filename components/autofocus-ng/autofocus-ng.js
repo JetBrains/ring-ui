@@ -1,14 +1,10 @@
 /**
  * @name Autofocus Ng
- */
-/* global angular */
-
-
-/**
- * @name Autofocus Ng
+ * @category Angular Components
  * @description Sets focus to the element if the condition is true. Supports rg-select as well
  * @example-file ./autofocus-ng__examples.html
  */
+/* global angular */
 
 const angularModule = angular.module('Ring.autofocus', []);
 const RING_SELECT_SELECTOR = '.ring-select';

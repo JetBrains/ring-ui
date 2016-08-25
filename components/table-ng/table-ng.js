@@ -1,7 +1,3 @@
-/**
- * @name Table Ng
- */
-
 import 'dom4';
 import debounce from 'mout/function/debounce';
 
@@ -20,8 +16,10 @@ import '../table/table.scss';
 
 /*global angular*/
 
-/** @name Table Ng
- * @description A table component.
+/**
+ * @name Table Ng
+ * @category Angular Components
+ * @description A table component
  * @example-file ./table-ng__examples.html
 */
 const angularModule = angular.module('Ring.table', [TableToolbar, TablePager, Checkbox, PlaceUnder]);

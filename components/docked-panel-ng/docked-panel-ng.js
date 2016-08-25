@@ -7,6 +7,7 @@ import './docked-panel-ng.scss';
 
 /**
  * @name Docked Panel Ng
+ * @category Angular Components
  * @description Docks the panel to the bottom of the page
  *              if it's out of the browser viewport
  * @example

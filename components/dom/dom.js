@@ -1,3 +1,8 @@
+/**
+ * @name DOM
+ * @category Utilities
+ */
+
 export const getStyles = ::window.getComputedStyle;
 
 export function isMounted(node) {

@@ -1,6 +1,3 @@
-/**
- * @name Dialog Ng
- */
 /* global angular: false */
 import 'dom4';
 import {Inject} from 'angular-es6';
@@ -16,6 +13,7 @@ import '../dialog/dialog.scss';
 
 /**
  * @name Dialog Ng
+ * @category Angular Components
  * @example-file ./dialog-ng__examples.html
  */
 const angularModule = angular.module('Ring.dialog', [RingButton, rgCompilerModuleName]);

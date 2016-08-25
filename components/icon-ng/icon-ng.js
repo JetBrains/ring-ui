@@ -1,6 +1,3 @@
-/**
- * @name Icon Ng
- */
 /* global angular: false */
 
 import 'dom4';
@@ -10,6 +7,7 @@ import '../icon/icon.scss';
 
 /**
  * @name Icon Ng
+ * @category Angular Components
  * @example
  * <example name="Icon Ng">
  <file name="index.html">

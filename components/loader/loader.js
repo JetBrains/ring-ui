@@ -5,6 +5,7 @@ import LoaderCore from './loader__core';
 
 /**
  * @name Loader
+ * @category Components
  * @constructor
  * @extends {ReactComponent}
  * @example

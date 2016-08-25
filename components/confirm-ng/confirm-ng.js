@@ -2,6 +2,11 @@
 
 import Dialog from '../dialog-ng/dialog-ng';
 
+/**
+ * @name Confirm Ng
+ * @category Angular Components
+ */
+
 const angularModule = angular.module('Ring.confirm', [Dialog]);
 
 angularModule.service('confirm', (dialog, $templateCache) => {
