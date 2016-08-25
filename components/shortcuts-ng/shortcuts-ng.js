@@ -14,7 +14,7 @@ angularModule.provider('shortcuts', function () {
     modes[config.id] = config.shortcuts;
     mainModes[config.id] = !!config.main;
 
-    if (config.title) {
+    if (config.hasOwnProperty('title')) {
       reference.push(config);
     }
 
