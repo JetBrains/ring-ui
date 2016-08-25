@@ -5,7 +5,7 @@ import ShortcutsNg from '../shortcuts-ng/shortcuts-ng';
 import RingTemplateNg from '../template-ng/template-ng';
 import HintPopupTpl from './shortcuts-hint-ng.html';
 import Icon from '../icon/icon';
-import {reactNg} from '../react-ng/react-ng';
+import {reactNg, registerComponents} from '../react-ng/react-ng';
 
 import './shortcuts-hint-ng.scss';
 import '../input/input.scss';
