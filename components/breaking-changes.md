@@ -6,6 +6,24 @@ order: 2
 
 See the “breaking change” commits [in Upsource](https://upsource.jetbrains.com/ring-ui/view?query=path:%20%7B%2A%2Fbreaking-changes.md%7D%20and%20not%20%22Wording%22).
 
+### 25-08-2016: SelectNg requires pack-size in infinite-scroll mode. 
+
+Parameter infiniteScrollPackSize should be same with rest parameter $top in client code. 
+
+Before:
+```
+<rg-select ...
+           with-infinite-scroll="true">
+</rg-select>
+```
+
+After:
+```
+<rg-select ...
+           infinite-scroll-pack-size="50">
+</rg-select>
+```
+
 ### 10-08-2016: Introduced new versioning system
  
 To make Ring UI installable with `npm install ring-ui` we have changed the versioning scheme.  

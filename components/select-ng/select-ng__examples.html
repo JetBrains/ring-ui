@@ -372,6 +372,7 @@
       <rg-select ng-model="ctrl.selectedItem"
         external-filter="true"
         with-infinite-scroll="true"
+        infinite-scroll-pack-size="20"
         options="item as item for item in ctrl.getOptions(skip, query)"></rg-select>
     </div>
   </file>
@@ -391,11 +392,14 @@
           var arr = [];
           if (skip < 50) {
             for (var i = 0; i < PAGE_SIZE; ++i) {
-              var labelText = (skip + i) + '';
+              var labelText = (skip + '-' + i) + '';
               if (query) {
                 labelText = query + ' ' + labelText;
               }
               arr.push(labelText);
+            }
+            if (skip === 0) {
+              arr.unshift('Unexpected option at the beginning');
             }
           }
           var defer = $q.defer();
