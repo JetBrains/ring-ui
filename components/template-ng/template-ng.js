@@ -1,7 +1,4 @@
-/* global angular */
 import {Inject} from 'angular-es6';
-
-const angularModule = angular.module('Ring.template', []);
 
 /**
  * @name Template Ng
@@ -40,6 +37,8 @@ const angularModule = angular.module('Ring.template', []);
     </file>
   </example>
 */
+/* global angular */
+const angularModule = angular.module('Ring.template', []);
 
 class rgTemplateController extends Inject {
   static $inject = ['$scope', '$element', '$attrs', '$compile'];

@@ -14,14 +14,14 @@ import Checkbox from '../checkbox-ng/checkbox-ng';
 
 import '../table/table.scss';
 
-/*global angular*/
-
 /**
  * @name Table Ng
  * @category Angular Components
  * @description A table component
  * @example-file ./table-ng__examples.html
 */
+/*global angular*/
+
 const angularModule = angular.module('Ring.table', [TableToolbar, TablePager, Checkbox, PlaceUnder]);
 
 angularModule.directive('rgTable', () => ({

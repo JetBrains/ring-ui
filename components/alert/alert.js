@@ -11,8 +11,7 @@ import '../badge/badge.scss';
 /**
  * @name Alert
  * @category Components
- * @description An alert can be used to display notifications, shown inline in context.
- * If you want to be able to display a stack of notifications, use {@link Alerts}.
+ * @description An alert can be used to display notifications, shown inline in context. If you want to display a stack of notifications, use **Alerts** instead.
  */
 
 /**

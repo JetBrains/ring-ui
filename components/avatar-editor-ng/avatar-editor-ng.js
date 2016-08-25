@@ -1,4 +1,3 @@
-/* global angular: false */
 import messageBundleNg from '../message-bundle-ng/message-bundle-ng';
 import alertNg from '../alert-ng/alert-ng';
 import {registerComponents, reactNg} from '../react-ng/react-ng';
@@ -42,6 +41,7 @@ const angularModule = angular.module('Ring.avatar-editor', [messageBundleNg, ale
      </file>
    </example>
  */
+/* global angular: false */
 function rgAvatarEditor() {
   return {
     restrict: 'E',

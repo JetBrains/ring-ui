@@ -1,5 +1,3 @@
-/* global angular */
-
 import PlaceUnder from '../place-under-ng/place-under-ng';
 
 import {registerComponents, reactNg} from '../react-ng/react-ng';
@@ -18,6 +16,7 @@ registerComponents({Icon});
  * a selector for that element should be passed as placeUnderSibling parameter.
  * @example-file ./sidebar-ng__examples.html
  */
+/* global angular */
 
 const angularModule = angular.module('Ring.sidebar', [reactNg, PlaceUnder]);
 

@@ -1,8 +1,3 @@
-/**
- * @name Footer
- * @category Components
- * @description Customizable footer
- */
 /* eslint-disable react/no-multi-comp */
 
 import 'dom4';
@@ -99,6 +94,7 @@ class FooterLine extends RingComponent {
 
 /**
  * @name Footer
+ * @category Components
  * @constructor
  * @extends {ReactComponent}
  * @description
